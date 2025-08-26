@@ -31,7 +31,7 @@ class FeatureFlags:
         self._flags = {
             "experimental_colonies": False,
             "adaptive_ai": True,
-            "quantum_processing": False,
+            "qi_processing": False,
             "dream_engine": True,
             "guardian_system": True,
             "feature_flags": True,  # Meta flag

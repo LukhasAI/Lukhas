@@ -17,7 +17,7 @@ class ToneLinter {
     this.violations = [];
     this.warnings = [];
     this.policyManifest = this.loadPolicyManifest();
-    
+
     // Load banned words from policy manifest
     this.bannedWords = this.policyManifest.bannedWords || [
       'guaranteed', 'flawless', 'perfect', 'zero-risk',
@@ -25,7 +25,7 @@ class ToneLinter {
       'revolutionary', 'groundbreaking', 'game-changing',
       'ultimate', 'supreme', 'best-in-class'
     ];
-    
+
     // Load tone limits from manifest
     this.maxPoeticWords = this.policyManifest.tone?.poetic?.maxWords || 40;
     this.maxPlainGrade = this.policyManifest.tone?.plain?.maxGradeLevel || 8.0;
@@ -60,13 +60,13 @@ class ToneLinter {
     console.log('🎭 Scanning for tone policy violations...\n');
 
     const files = this.getFilesToScan();
-    
+
     for (const filePath of files) {
       await this.scanFile(filePath);
     }
 
     this.reportResults();
-    
+
     // Exit with error code if violations found
     if (this.violations.length > 0) {
       process.exit(1);
@@ -75,9 +75,9 @@ class ToneLinter {
 
   getFilesToScan() {
     const files = [];
-    
+
     for (const pattern of this.scanPatterns) {
-      const matches = glob.sync(pattern, { 
+      const matches = glob.sync(pattern, {
         cwd: process.cwd(),
         ignore: ['node_modules/**', '.git/**']
       });
@@ -94,11 +94,11 @@ class ToneLinter {
 
       // Check banned words
       this.checkBannedWords(content, relativePath);
-      
+
       // Check poetic sections for word count and claims
       this.checkPoeticWordCount(content, relativePath);
       this.checkPoeticClaims(content, relativePath);
-      
+
       // Check for missing tone layers
       this.checkToneCompleteness(content, relativePath);
 
@@ -114,10 +114,10 @@ class ToneLinter {
     for (const word of this.bannedWords) {
       const regex = new RegExp(`\\b${word}\\b`, 'gi');
       const matches = [...content.matchAll(regex)];
-      
+
       for (const match of matches) {
         const lineNumber = this.getLineNumber(content, match.index);
-        
+
         this.violations.push({
           file: filePath,
           line: lineNumber,
@@ -132,18 +132,18 @@ class ToneLinter {
 
   checkPoeticWordCount(content, filePath) {
     const wordLimit = this.maxPoeticWords;
-    
+
     for (const pattern of this.poeticPatterns) {
       const matches = [...content.matchAll(pattern)];
-      
+
       for (const match of matches) {
         const poeticContent = match[0];
         const plainText = this.extractPlainText(poeticContent);
         const wordCount = this.countWords(plainText);
-        
+
         if (wordCount > wordLimit) {
           const lineNumber = this.getLineNumber(content, match.index);
-          
+
           this.violations.push({
             file: filePath,
             line: lineNumber,
@@ -198,7 +198,7 @@ class ToneLinter {
 
   async checkReadability(content, filePath) {
     const maxGradeLevel = this.maxPlainGrade;
-    
+
     // Extract plain tone sections
     const plainPatterns = [
       /data-tone=["']plain["'][\s\S]*?<\/(section|div|p)>/gi,
@@ -208,14 +208,14 @@ class ToneLinter {
 
     plainPatterns.forEach(pattern => {
       const matches = [...content.matchAll(pattern)];
-      
+
       for (const match of matches) {
         const plainContent = this.extractPlainText(match[0]);
         const gradeLevel = fkGrade(plainContent);
-        
+
         if (gradeLevel > maxGradeLevel) {
           const lineNumber = this.getLineNumber(content, match.index);
-          
+
           this.violations.push({
             file: filePath,
             line: lineNumber,
@@ -277,7 +277,7 @@ class ToneLinter {
     // Report violations
     if (this.violations.length > 0) {
       console.log(`❌ ${this.violations.length} Tone Violations Found:\n`);
-      
+
       if (violationsByType['banned-word']) {
         console.log('🚫 Banned Words:');
         for (const violation of violationsByType['banned-word']) {
@@ -301,7 +301,7 @@ class ToneLinter {
     // Report warnings
     if (this.warnings.length > 0) {
       console.log(`⚠️  ${this.warnings.length} Tone Warnings:\n`);
-      
+
       for (const warning of this.warnings) {
         console.log(`${warning.file}:${warning.line}`);
         console.log(`  ⚠️  ${warning.message}`);
@@ -316,7 +316,7 @@ class ToneLinter {
       console.log('📋 Summary:');
       console.log(`  Violations: ${this.violations.length}`);
       console.log(`  Warnings: ${this.warnings.length}`);
-      
+
       if (this.violations.length > 0) {
         console.log('\n🚫 Build blocked due to tone violations.');
         console.log('   Fix violations above and re-run.');

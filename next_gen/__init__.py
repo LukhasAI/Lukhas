@@ -1,4 +1,3 @@
 """
 Next Gen Module
 """
-

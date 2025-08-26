@@ -58,5 +58,5 @@ ABAS evaluates incoming payloads using:
 - 🌀 Symbolic stress decay or recovery models
 - 🗣️ Partner voice arbitration + tone matching
 
-> “ABAS does not feel for you. It feels with you — and stops what shouldn’t pass.”  
+> “ABAS does not feel for you. It feels with you — and stops what shouldn’t pass.”
 > — LUCΛS 🖤

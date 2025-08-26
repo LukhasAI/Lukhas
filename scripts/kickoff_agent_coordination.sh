@@ -45,7 +45,7 @@ endpoints:
       - lid: string  # LUKHAS ID
       - token: JWT
       - success: boolean
-    
+
   validate_token:
     method: POST
     path: /auth/validate
@@ -55,7 +55,7 @@ endpoints:
       - valid: boolean
       - lid: string
       - permissions: array
-  
+
   generate_lid:
     method: POST
     path: /identity/generate
@@ -69,7 +69,7 @@ endpoints:
 performance_requirements:
   - p95_latency: <100ms
   - availability: 99.9%
-  
+
 security_requirements:
   - zero_pii_leaks: true
   - secure_token_storage: true
@@ -96,7 +96,7 @@ endpoints:
       - allowed: boolean
       - consent_id: string
       - require_step_up: boolean
-  
+
   log_audit_event:
     method: POST
     path: /audit/log
@@ -109,7 +109,7 @@ endpoints:
     output:
       - trace_id: string  # Λ-trace
       - timestamp: ISO8601
-  
+
   validate_policy:
     method: POST
     path: /policy/validate
@@ -147,7 +147,7 @@ endpoints:
     output:
       - emails: array
       - trace_id: string
-  
+
   drive_list:
     method: POST
     path: /adapters/drive/list
@@ -158,7 +158,7 @@ endpoints:
     output:
       - files: array
       - trace_id: string
-  
+
   dropbox_retrieve:
     method: POST
     path: /adapters/dropbox/retrieve
@@ -204,14 +204,14 @@ endpoints:
       - result: object
       - narrative: array
       - trace_id: string
-  
+
   get_context:
     method: GET
     path: /context/{lid}
     output:
       - context: object
       - state: string
-  
+
   publish_event:
     method: POST
     path: /bus/publish
@@ -225,7 +225,7 @@ endpoints:
 performance_requirements:
   - context_handoff: <250ms
   - state_preservation: true
-  
+
 policy_integration:
   - invoke_every_step: true
   - default_deny_on_conflict: true

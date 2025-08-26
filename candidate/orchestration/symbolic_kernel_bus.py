@@ -21,8 +21,11 @@ from typing import Any, Callable, Optional
 # Import LUKHAS AI branding system for orchestration compliance
 try:
     from lukhas.branding_bridge import (
-        get_brand_voice, validate_output, get_trinity_context,
-        BrandContext, normalize_output_text
+        BrandContext,
+        get_brand_voice,
+        get_trinity_context,
+        normalize_output_text,
+        validate_output,
     )
     BRANDING_AVAILABLE = True
 except ImportError:
@@ -445,21 +448,21 @@ class SymbolicKernelBus:
                 if isinstance(value, str) and len(value) > 10:  # Only brand substantial text
                     # Normalize terminology
                     branded_value = normalize_output_text(value, self._brand_context)
-                    
+
                     # Validate compliance
                     validation = validate_output(branded_value, self._brand_context)
                     if not validation["valid"]:
                         logger.debug(f"Event payload branding issue in {key}: {validation['issues']}")
-                    
+
                     event.payload[key] = branded_value
-            
+
             # Add Trinity Framework context for consciousness and guardian events
-            if any(effect in [SymbolicEffect.AWARENESS_UPDATE, SymbolicEffect.DREAM_TRIGGER, 
-                             SymbolicEffect.ETHICS_CHECK, SymbolicEffect.SAFETY_GATE] 
+            if any(effect in [SymbolicEffect.AWARENESS_UPDATE, SymbolicEffect.DREAM_TRIGGER,
+                             SymbolicEffect.ETHICS_CHECK, SymbolicEffect.SAFETY_GATE]
                    for effect in event.effects):
                 trinity_context = get_trinity_context("balanced")
                 event.payload["trinity_framework"] = trinity_context["framework"]
-                
+
             # Add system signature for external events
             if event.source.startswith("external.") or "api" in event.source:
                 event.payload["system_signature"] = get_brand_voice(

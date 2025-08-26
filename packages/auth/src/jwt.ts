@@ -1,15 +1,15 @@
 /**
  * ΛiD Authentication System - JWT Management
- * 
+ *
  * RS256 JWT issue/verify with JWKS support and key rotation
  * Integrates with LUKHAS Trinity Framework (⚛️🧠🛡️)
  */
 
-import { 
-  JWTPayload, 
-  JWTHeader, 
-  JWKSResponse, 
-  TokenPair, 
+import {
+  JWTPayload,
+  JWTHeader,
+  JWKSResponse,
+  TokenPair,
   TokenVerificationResult,
   JWTOptions,
   RefreshTokenData
@@ -85,19 +85,19 @@ class KeyStore {
     // In a real implementation, use Node.js crypto or Web Crypto API
     const kid = `key_${Date.now()}_${Math.random().toString(36).substring(2)}`;
     const now = Date.now();
-    
+
     // Placeholder for actual key generation
     const keyPair: KeyPair = {
       kid,
       publicKey: `-----BEGIN PUBLIC KEY-----\n${this.generateMockKey('public')}\n-----END PUBLIC KEY-----`,
-      privateKey: `-----BEGIN PRIVATE KEY-----\n${this.generateMockKey('private')}\n-----END PRIVATE KEY-----`,
+      privateKey: `-----BEGIN MOCK PRIVATE KEY-----\n${this.generateMockKey('private')}\n-----END MOCK PRIVATE KEY-----`,
       createdAt: now,
       expiresAt: now + (this.config.keyRotationInterval * 1000),
       algorithm: 'RS256'
     };
 
     this.keys.set(kid, keyPair);
-    
+
     if (!this.activeKeyId) {
       this.activeKeyId = kid;
     }
@@ -157,7 +157,7 @@ class KeyStore {
   cleanupExpiredKeys(): void {
     const now = Date.now();
     const cutoff = now - (7 * 24 * 60 * 60 * 1000); // Keep for 7 days
-    
+
     for (const [kid, key] of this.keys.entries()) {
       if (key.expiresAt < cutoff) {
         this.keys.delete(kid);
@@ -169,7 +169,7 @@ class KeyStore {
   private generateMockKey(type: 'public' | 'private'): string {
     // In production, this would generate actual RSA keys
     const length = type === 'private' ? 1024 : 512;
-    return Array(length).fill(0).map(() => 
+    return Array(length).fill(0).map(() =>
       Math.random().toString(36).charAt(Math.floor(Math.random() * 36))
     ).join('');
   }
@@ -191,10 +191,10 @@ export class JWTManager {
   constructor(config: JWTConfig = DEFAULT_JWT_CONFIG) {
     this.config = config;
     this.keyStore = new KeyStore(config);
-    
+
     // Initialize with a key pair
     this.keyStore.generateKeyPair();
-    
+
     // Setup key rotation
     setInterval(() => {
       this.keyStore.rotateKeysIfNeeded();
@@ -313,7 +313,7 @@ export class JWTManager {
   async verifyToken(token: string): Promise<TokenVerificationResult> {
     try {
       const [headerB64, payloadB64, signatureB64] = token.split('.');
-      
+
       if (!headerB64 || !payloadB64 || !signatureB64) {
         return {
           valid: false,
@@ -358,7 +358,7 @@ export class JWTManager {
 
       // Validate claims
       const now = Math.floor(Date.now() / 1000);
-      
+
       if (payload.exp && now >= payload.exp) {
         return {
           valid: false,
@@ -437,7 +437,7 @@ export class JWTManager {
   extractClaims(token: string): { header: JWTHeader; payload: JWTPayload } | null {
     try {
       const [headerB64, payloadB64] = token.split('.');
-      
+
       const header = JSON.parse(this.base64UrlDecode(headerB64)) as JWTHeader;
       const payload = JSON.parse(this.base64UrlDecode(payloadB64)) as JWTPayload;
 
@@ -453,11 +453,11 @@ export class JWTManager {
     const headerB64 = this.base64UrlEncode(JSON.stringify(header));
     const payloadB64 = this.base64UrlEncode(JSON.stringify(payload));
     const message = `${headerB64}.${payloadB64}`;
-    
+
     // In production, use actual crypto signing
     const signature = await this.signMessage(message, privateKey);
     const signatureB64 = this.base64UrlEncode(signature);
-    
+
     return `${message}.${signatureB64}`;
   }
 
@@ -548,7 +548,7 @@ export async function generateTokenPair(
  */
 export async function verifyToken(token: string): Promise<TokenVerificationResult> {
   const result = await jwtManager.verifyToken(token);
-  
+
   // Check if token is revoked
   if (result.valid && result.payload?.jti) {
     const isRevoked = await jwtManager.isTokenRevoked(result.payload.jti);
@@ -560,7 +560,7 @@ export async function verifyToken(token: string): Promise<TokenVerificationResul
       };
     }
   }
-  
+
   return result;
 }
 
@@ -587,7 +587,7 @@ export async function fetchJWKS(endpoint: string): Promise<JWKSResponse> {
     if (!response.ok) {
       throw new Error(`JWKS fetch failed: ${response.status}`);
     }
-    
+
     return await response.json() as JWKSResponse;
   } catch (error) {
     throw new Error(`Failed to fetch JWKS: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -604,14 +604,14 @@ export function jwtMiddleware(
   return async (request: any, response: any, next: () => void) => {
     try {
       const token = extractToken(request);
-      
+
       if (!token) {
         onVerificationFailed('No token provided');
         return;
       }
 
       const result = await verifyToken(token);
-      
+
       if (!result.valid) {
         onVerificationFailed(result.reason || 'Token verification failed');
         return;
@@ -620,7 +620,7 @@ export function jwtMiddleware(
       // Attach token payload to request
       request.auth = result.payload;
       request.tokenHeader = result.header;
-      
+
       next();
     } catch (error) {
       onVerificationFailed(`JWT middleware error: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -637,7 +637,7 @@ export async function refreshTokens(
 ): Promise<TokenPair | null> {
   try {
     const result = await verifyToken(refreshToken);
-    
+
     if (!result.valid || !result.payload) {
       return null;
     }
@@ -654,7 +654,7 @@ export async function refreshTokens(
 
     // Generate new token pair
     const scopes = result.payload.scope ? result.payload.scope.split(' ') as AuthScope[] : [];
-    
+
     return generateTokenPair(
       result.payload.sub,
       result.payload.tier,

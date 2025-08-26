@@ -74,12 +74,12 @@ class QIWebSession:
 
     session_id: str
     lambda_id: str  # ΛiD# identifier
-    security_level: QuantumSecurityLevel
-    quantum_keypair: dict[str, bytes]
+    security_level: QISecurityLevel
+    qi_keypair: dict[str, bytes]
     session_start: datetime
     last_activity: datetime
     csrf_token: str
-    quantum_nonce: str
+    qi_nonce: str
     encrypted_data: dict[str, Any] = field(default_factory=dict)
 
 
@@ -89,8 +89,8 @@ class QIWebSecurity:
     """
 
     def __init__(self):
-        self.active_sessions: dict[str, QuantumWebSession] = {}
-        self.quantum_random_pool = self._initialize_quantum_random()
+        self.active_sessions: dict[str, QIWebSession] = {}
+        self.qi_random_pool = self._initialize_quantum_random()
 
     def _initialize_quantum_random(self) -> bytes:
         """Initialize quantum random number pool"""
@@ -108,33 +108,33 @@ class QIWebSecurity:
         lambda_id: str,
         user_agent: str,
         ip_address: str,
-        security_level: QuantumSecurityLevel = QuantumSecurityLevel.ENHANCED,
-    ) -> QuantumWebSession:
+        security_level: QISecurityLevel = QISecurityLevel.ENHANCED,
+    ) -> QIWebSession:
         """Create new quantum-secure web session"""
 
         # Generate session ID using quantum entropy
-        session_entropy = self.quantum_random_pool + secrets.token_bytes(32)
+        session_entropy = self.qi_random_pool + secrets.token_bytes(32)
         session_id = hashlib.sha3_256(session_entropy).hexdigest()
 
         # Generate post-quantum keypair for session
-        quantum_keypair = await self._generate_session_keypair()
+        qi_keypair = await self._generate_session_keypair()
 
         # Create quantum CSRF token
         csrf_entropy = session_entropy + lambda_id.encode() + user_agent.encode()
         csrf_token = hashlib.blake2b(csrf_entropy, digest_size=16).hexdigest()
 
         # Generate quantum nonce for requests
-        quantum_nonce = base64.b64encode(secrets.token_bytes(24)).decode()
+        qi_nonce = base64.b64encode(secrets.token_bytes(24)).decode()
 
-        session = QuantumWebSession(
+        session = QIWebSession(
             session_id=session_id,
             lambda_id=lambda_id,
             security_level=security_level,
-            quantum_keypair=quantum_keypair,
+            qi_keypair=qi_keypair,
             session_start=datetime.now(timezone.utc),
             last_activity=datetime.now(timezone.utc),
             csrf_token=csrf_token,
-            quantum_nonce=quantum_nonce,
+            qi_nonce=qi_nonce,
         )
 
         self.active_sessions[session_id] = session
@@ -144,7 +144,7 @@ class QIWebSecurity:
         """Generate post-quantum keypair for session"""
         # Simplified lattice-based key generation (production would use proper PQC)
         private_key = secrets.token_bytes(64)
-        seed = hashlib.sha3_256(private_key + self.quantum_random_pool).digest()
+        seed = hashlib.sha3_256(private_key + self.qi_random_pool).digest()
         public_key = hashlib.sha3_512(seed + b"LUKHAS_PQ_SESSION").digest()
 
         return {"private_key": private_key, "public_key": public_key}
@@ -154,7 +154,7 @@ class QIWebSecurity:
         session_id: str,
         request_data: dict[str, Any],
         csrf_token: str,
-        quantum_signature: Optional[str] = None,
+        qi_signature: Optional[str] = None,
     ) -> bool:
         """Verify quantum-secured web request"""
 
@@ -168,16 +168,16 @@ class QIWebSecurity:
             return False
 
         # Verify quantum signature if provided
-        if quantum_signature:
+        if qi_signature:
             request_hash = hashlib.sha3_256(
                 json.dumps(request_data, sort_keys=True).encode()
             ).digest()
 
             expected_signature = self._generate_quantum_signature(
-                request_hash, session.quantum_keypair["private_key"]
+                request_hash, session.qi_keypair["private_key"]
             )
 
-            if not hmac.compare_digest(quantum_signature, expected_signature):
+            if not hmac.compare_digest(qi_signature, expected_signature):
                 return False
 
         # Update session activity
@@ -190,7 +190,7 @@ class QIWebSecurity:
         """Generate quantum-resistant signature for web requests"""
         nonce = secrets.token_bytes(16)
         signature_data = (
-            private_key + nonce + message_hash + self.quantum_random_pool[:32]
+            private_key + nonce + message_hash + self.qi_random_pool[:32]
         )
         signature = hashlib.sha3_384(signature_data).digest()
         return base64.b64encode(nonce + signature).decode()
@@ -206,7 +206,7 @@ class QIWebSecurity:
         # Serialize and encrypt data
         data_json = json.dumps(data, sort_keys=True)
         encryption_key = hashlib.sha3_256(
-            session.quantum_keypair["private_key"] + session.quantum_nonce.encode()
+            session.qi_keypair["private_key"] + session.qi_nonce.encode()
         ).digest()
 
         # Simple encryption (production would use proper post-quantum encryption)
@@ -226,7 +226,7 @@ class QIWebSecurity:
         # Decrypt data
         encrypted_bytes = base64.b64decode(encrypted_data)
         encryption_key = hashlib.sha3_256(
-            session.quantum_keypair["private_key"] + session.quantum_nonce.encode()
+            session.qi_keypair["private_key"] + session.qi_nonce.encode()
         ).digest()
 
         decrypted = self._xor_encrypt(encrypted_bytes, encryption_key)
@@ -242,7 +242,7 @@ class QIWebSecurity:
         """Get quantum security configuration for web domain"""
         return {
             "domain": domain,
-            "quantum_security": {
+            "qi_security": {
                 "post_quantum_ready": True,
                 "supported_algorithms": [
                     "CRYSTALS-Kyber-768",
@@ -254,13 +254,13 @@ class QIWebSecurity:
             },
             "lambda_id_integration": {
                 "emoji_seed_auth": True,
-                "quantum_identity": True,
+                "qi_identity": True,
                 "biometric_enhancement": True,
             },
             "web_features": {
                 "zero_knowledge_auth": True,
                 "homomorphic_sessions": False,  # Heavy for web
-                "quantum_csrf_protection": True,
+                "qi_csrf_protection": True,
                 "post_quantum_tls": True,
             },
         }
@@ -272,23 +272,23 @@ class QIWebAuthenticator:
     """
 
     def __init__(self):
-        self.security = QuantumWebSecurity()
+        self.security = QIWebSecurity()
         self.identity_cache: dict[str, dict[str, Any]] = {}
 
     async def authenticate_lambda_id(
         self,
         emoji_seed: str,
-        quantum_challenge: Optional[bytes] = None,
+        qi_challenge: Optional[bytes] = None,
         biometric_data: Optional[bytes] = None,
     ) -> dict[str, Any]:
         """Authenticate user with ΛiD quantum identity"""
 
         # Generate ΛiD# from emoji seed (simplified)
-        quantum_hash = hashlib.sha3_256(
-            emoji_seed.encode() + (quantum_challenge or b"") + (biometric_data or b"")
+        qi_hash = hashlib.sha3_256(
+            emoji_seed.encode() + (qi_challenge or b"") + (biometric_data or b"")
         ).digest()
 
-        measurement = int.from_bytes(quantum_hash[:2], "big")
+        measurement = int.from_bytes(qi_hash[:2], "big")
         lambda_id = f"LUKHAS{emoji_seed}#{measurement:04x}"
 
         # Create authentication result
@@ -296,9 +296,9 @@ class QIWebAuthenticator:
             "lambda_id": lambda_id,
             "emoji_seed": emoji_seed,
             "authenticated": True,
-            "quantum_verified": quantum_challenge is not None,
+            "qi_verified": qi_challenge is not None,
             "biometric_verified": biometric_data is not None,
-            "security_level": QuantumSecurityLevel.ENHANCED.value,
+            "security_level": QISecurityLevel.ENHANCED.value,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
@@ -316,27 +316,27 @@ class QIWebAuthenticator:
             lambda_id=lambda_id,
             user_agent=request_info.get("user_agent", ""),
             ip_address=request_info.get("ip_address", ""),
-            security_level=QuantumSecurityLevel.ENHANCED,
+            security_level=QISecurityLevel.ENHANCED,
         )
 
         return {
             "session_id": session.session_id,
             "csrf_token": session.csrf_token,
-            "quantum_nonce": session.quantum_nonce,
+            "qi_nonce": session.qi_nonce,
             "expires_at": (session.session_start.timestamp() + 3600),  # 1 hour
             "security_config": await self.security.get_quantum_web_config("lukhas.ai"),
         }
 
 
 # Factory functions for easy integration
-async def create_quantum_web_security() -> QuantumWebSecurity:
+async def create_quantum_web_security() -> QIWebSecurity:
     """Create quantum web security instance"""
-    return QuantumWebSecurity()
+    return QIWebSecurity()
 
 
-async def create_quantum_web_authenticator() -> QuantumWebAuthenticator:
+async def create_quantum_web_authenticator() -> QIWebAuthenticator:
     """Create quantum web authenticator instance"""
-    return QuantumWebAuthenticator()
+    return QIWebAuthenticator()
 
 
 # Demo function
@@ -350,12 +350,12 @@ async def demo_quantum_web_security():
     # Authenticate with ΛiD
     auth_result = await authenticator.authenticate_lambda_id(
         emoji_seed="🚀🧠⚛️",
-        quantum_challenge=secrets.token_bytes(32),
+        qi_challenge=secrets.token_bytes(32),
         biometric_data=b"fingerprint_hash",
     )
 
     print(f"✅ ΛiD Authentication: {auth_result['lambda_id']}")
-    print(f"🔒 Quantum Verified: {auth_result['quantum_verified']}")
+    print(f"🔒 Quantum Verified: {auth_result['qi_verified']}")
     print(f"🧬 Biometric Verified: {auth_result['biometric_verified']}")
 
     # Create web session
@@ -369,7 +369,7 @@ async def demo_quantum_web_security():
 
     print(f"🌐 Session Created: {session_info['session_id'][:16]}...")
     print(f"🛡️ CSRF Token: {session_info['csrf_token'][:16]}...")
-    print(f"⚛️ Quantum Nonce: {session_info['quantum_nonce'][:16]}...")
+    print(f"⚛️ Quantum Nonce: {session_info['qi_nonce'][:16]}...")
 
     # Test request verification
     security = authenticator.security
@@ -385,11 +385,11 @@ async def demo_quantum_web_security():
     print()
     print("🔬 Quantum Security Features:")
     config = session_info["security_config"]
-    for algo in config["quantum_security"]["supported_algorithms"]:
+    for algo in config["qi_security"]["supported_algorithms"]:
         print(f"   • {algo}")
 
-    print(f"🏆 Security Level: {config['quantum_security']['security_level']}")
-    print(f"⚛️ Post-Quantum Ready: {config['quantum_security']['post_quantum_ready']}")
+    print(f"🏆 Security Level: {config['qi_security']['security_level']}")
+    print(f"⚛️ Post-Quantum Ready: {config['qi_security']['post_quantum_ready']}")
 
 
 if __name__ == "__main__":
@@ -410,7 +410,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": False,
+        "qi_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -429,7 +429,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

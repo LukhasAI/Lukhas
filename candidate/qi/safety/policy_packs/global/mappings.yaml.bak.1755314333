@@ -57,7 +57,7 @@ tasks:
       caps: [fs:read, fs:write]
       fs_paths: [/tmp/**, /Users/*/LOCAL-REPOS/**]
     - kind: mask_pii
-  
+
   self_heal_apply:
     - kind: require_capabilities
       subject_key: user_id
@@ -65,14 +65,14 @@ tasks:
       fs_paths: [/Users/*/LOCAL-REPOS/Lukhas/**]
     - kind: require_change_approval
       proposal_id_key: proposal_id
-  
+
   safety_check:
     - kind: require_fresh_consent
       purpose: safety_analysis
       within_days: 30
     - kind: require_capabilities
       caps: [safety:moderate]
-  
+
   identity_verify:
     - kind: require_fresh_consent
       purpose: identity_verification

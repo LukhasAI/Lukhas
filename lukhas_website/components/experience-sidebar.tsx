@@ -5,9 +5,9 @@ import * as Collapsible from '@radix-ui/react-collapsible'
 import * as Switch from '@radix-ui/react-switch'
 import * as Slider from '@radix-ui/react-slider'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  ChevronLeft, ChevronRight, Mic, Volume2, Sparkles, 
-  Palette, Shapes, Settings, Brain, Zap, Eye, 
+import {
+  ChevronLeft, ChevronRight, Mic, Volume2, Sparkles,
+  Palette, Shapes, Settings, Brain, Zap, Eye,
   SlidersHorizontal, Layers, Network, Cpu, Activity
 } from 'lucide-react'
 
@@ -17,7 +17,7 @@ function toast(title: string, desc?: string) {
   t.className = 'fixed right-4 top-20 z-[100] px-3 py-2 rounded-lg bg-black/80 border border-white/10 text-sm text-white/90 transition-all'
   t.innerHTML = `<div>${title}</div>${desc ? `<div class="text-white/60 text-[11px] mt-0.5">${desc}</div>` : ''}`
   document.body.appendChild(t)
-  setTimeout(() => { 
+  setTimeout(() => {
     t.style.opacity = '0'
     t.style.transform = 'translateY(-6px)'
   }, 2200)
@@ -65,10 +65,10 @@ interface SidebarProps {
   onEncryptKey?: (provider: string, glyph: string) => void
 }
 
-export default function ExperienceSidebar({ 
-  config, 
-  onConfigChange, 
-  apiKeys, 
+export default function ExperienceSidebar({
+  config,
+  onConfigChange,
+  apiKeys,
   onApiKeyChange,
   collapsed,
   onCollapsedChange,
@@ -450,8 +450,8 @@ export default function ExperienceSidebar({
             <select
               value={config.activeModel || 'lukhas'}
               onChange={(e) => onConfigChange('activeModel', e.target.value)}
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg 
-                       text-xs text-white focus:outline-none focus:border-white/20 
+              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg
+                       text-xs text-white focus:outline-none focus:border-white/20
                        focus:bg-white/10 transition-all"
             >
               {availableModels.map(m => (
@@ -503,7 +503,7 @@ export default function ExperienceSidebar({
                   <Switch.Thumb className="block w-5 h-5 bg-white rounded-full transition-transform duration-200 translate-x-0.5 will-change-transform data-[state=checked]:translate-x-[22px]" />
                 </Switch.Root>
               </div>
-              
+
               {/* Color Intensity */}
               <div>
                 <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
@@ -590,7 +590,7 @@ export default function ExperienceSidebar({
                   </div>
                 </div>
               </div>
-              
+
               <div>
                 <label className="text-xs font-medium text-white/60 uppercase tracking-wider">
                   Environment Sync
@@ -654,8 +654,8 @@ export default function ExperienceSidebar({
                   <Collapsible.Trigger className="w-full">
                     <div className={`
                       flex items-center justify-between px-3 py-2 rounded-lg transition-all
-                      ${activeSection === section.id 
-                        ? 'bg-white/10 text-white' 
+                      ${activeSection === section.id
+                        ? 'bg-white/10 text-white'
                         : 'hover:bg-white/5 text-white/60'}
                     `}>
                       <div className="flex items-center gap-3">
@@ -668,7 +668,7 @@ export default function ExperienceSidebar({
                       `} />
                     </div>
                   </Collapsible.Trigger>
-                  
+
                   <Collapsible.Content>
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
@@ -688,8 +688,8 @@ export default function ExperienceSidebar({
         {/* Collapse Toggle */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute left-full top-1/2 -translate-y-1/2 w-10 h-20 
-                   bg-black/60 backdrop-blur-xl border border-white/10 
+          className="absolute left-full top-1/2 -translate-y-1/2 w-10 h-20
+                   bg-black/60 backdrop-blur-xl border border-white/10
                    rounded-r-xl flex items-center justify-center
                    hover:bg-white/10 transition-colors"
           aria-label={isCollapsed ? 'Expand controls' : 'Collapse controls'}

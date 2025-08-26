@@ -29,14 +29,14 @@ There's a **critical directory structure issue** with agent configurations:
 **✅ KEEP in `/docs/agents/` (Documentation only):**
 - `AGENTS.md` - Agent documentation
 - `AGENT_*.md` files - All documentation
-- `CLAUDE_*.md` files - All documentation  
+- `CLAUDE_*.md` files - All documentation
 - `CLAUDE_ARMY/*.md` files - Deployment documentation
 - `CLAUDE_ARMY/coordination/` - Coordination documentation
 - `CLAUDE_ARMY/tasks/` - Task documentation
 
 **🔄 MOVE from `/docs/agents/agents/` to `/agents/`:**
 - All `*.json` config files (25 files)
-- `configs/*.yaml` files (6 files)  
+- `configs/*.yaml` files (6 files)
 - `legacy_configs/` directory
 - `workflows/master-workflow.yaml`
 
@@ -52,12 +52,12 @@ There's a **critical directory structure issue** with agent configurations:
 ├── 📄 AGENT_CONFIGURATION_SUMMARY.md
 ├── 📄 *.json (25 config files)      ← ACTIVE configurations
 ├── 📁 configs/
-│   └── 📄 *.yaml (6 files)          ← ACTIVE configurations  
+│   └── 📄 *.yaml (6 files)          ← ACTIVE configurations
 ├── 📁 legacy_configs/               ← Archive of old configs
 ├── 📁 workflows/
 │   └── 📄 master-workflow.yaml      ← ACTIVE workflow
 ├── 📁 CLAUDE/                       ← ACTIVE Claude deployment
-│   ├── 📄 *.sh deployment scripts   
+│   ├── 📄 *.sh deployment scripts
 │   ├── 📁 workspaces/               ← ACTIVE workspaces
 │   ├── 📁 coordination/             ← ACTIVE coordination
 │   └── 📁 tasks/                    ← ACTIVE task management
@@ -125,7 +125,7 @@ ls -la /agents/*.json
 ls -la /docs/agents/agents/*.json
 ```
 
-### 2. **Active References**  
+### 2. **Active References**
 These files may be actively used:
 - Claude deployment scripts
 - Agent coordination systems
@@ -154,7 +154,7 @@ cp -r /docs/agents /docs/agents.backup
 - Claude Army deployment scripts may fail
 - Active agent workflows may stop functioning
 
-### Medium Risk:  
+### Medium Risk:
 - Documentation links may break
 - Developer confusion about where configs are
 

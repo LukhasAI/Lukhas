@@ -45,7 +45,7 @@ class FallbackReason(Enum):
     DEPENDENCY_UNAVAILABLE = "dependency_unavailable"
     MEMORY_EXHAUSTION = "memory_exhaustion"
     NETWORK_FAILURE = "network_failure"
-    QUANTUM_DECOHERENCE = "quantum_decoherence"
+    QUANTUM_DECOHERENCE = "qi_decoherence"
 
 
 @dataclass
@@ -146,7 +146,7 @@ class BioSymbolicFallbackManager:
                 "threshold_confidence": 0.6,
                 "mapping_confidence": 0.5,
                 "anomaly_confidence": 0.6,
-                "quantum_alignment": 0.4,
+                "qi_alignment": 0.4,
                 "colony_consensus": 0.5,
                 "temporal_stability": 0.6,
             },
@@ -749,7 +749,7 @@ class BioSymbolicFallbackManager:
             threshold_confidence = 0.1
             mapping_confidence = 0.1
             anomaly_confidence = 0.1
-            quantum_alignment = 0.1
+            qi_alignment = 0.1
             colony_consensus = 0.1
             temporal_stability = 0.1
 

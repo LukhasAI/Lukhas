@@ -16,11 +16,11 @@
 3. **Integrate with Your  Code**
    ```python
    from intelligence._intelligence_adapter import IntelligenceManager
-   
+
    # In your  controller
    intelligence = IntelligenceManager()
    await intelligence.initialize()
-   
+
    # Optimize parameters
    optimized = await intelligence.optimize_parameters(
        current_params={'frequency': 1000, 'duty_cycle': 0.5},

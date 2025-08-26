@@ -46,15 +46,18 @@ from typing import Any, Optional
 
 import structlog
 
-# Import core drift tracking implementation
-from lukhas.core.symbolic.drift.symbolic_drift_tracker import DriftPhase, SymbolicDriftTracker
-
 # Import ethical drift sentinel
 from ethics.sentinel.ethical_drift_sentinel import (
     EscalationTier,
     EthicalDriftSentinel,
     EthicalViolation,
     ViolationType,
+)
+
+# Import core drift tracking implementation
+from lukhas.core.symbolic.drift.symbolic_drift_tracker import (
+    DriftPhase,
+    SymbolicDriftTracker,
 )
 
 # Configure structured logging

@@ -127,10 +127,10 @@ class ConsciousnessVector:
 def process_consciousness_data(brainwave_data: np.ndarray) -> ConsciousnessVector:
     """
     Process EEG/biometric data into consciousness vector
-    
+
     Input: 1000x4 array (1000 samples, 4 channels)
     Output: 5D consciousness vector
-    
+
     Uses:
     - Fast Fourier Transform for frequency analysis
     - Welch's method for power spectral density
@@ -248,8 +248,8 @@ POST /api/v1/auth/consciousness
 
 *"Your consciousness is your password, your awareness your authentication, your mind your unbreakable key."*
 
-**Protocol Version**: GTΨ-1.0.0  
-**Last Updated**: 2025-01-01  
+**Protocol Version**: GTΨ-1.0.0
+**Last Updated**: 2025-01-01
 **Classification**: Revolutionary
 
 ---

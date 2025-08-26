@@ -23,7 +23,7 @@ jobs:
     name: 🛡️ Guardian System Validation
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    
+
     services:
       redis:
         image: redis:7-alpine
@@ -38,28 +38,28 @@ jobs:
     steps:
     - name: 🔄 Checkout Repository
       uses: actions/checkout@v4
-      
+
     - name: 🐍 Set up Python 3.11
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
         cache: 'pip'
-        
+
     - name: 📦 Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pytest pytest-asyncio websockets cryptography psutil
         echo "🔧 Dependencies installed successfully"
-        
+
     - name: 🔍 Validate Repository Structure
       run: |
         echo "🏗️ Validating LUKHAS repository structure..."
-        
+
         # Check critical directories
         required_dirs=(
           "lukhas_next_gen/stream"
-          "lukhas_next_gen/entropy_log" 
+          "lukhas_next_gen/entropy_log"
           "lukhas_next_gen/guardian"
           "lukhas_next_gen/memory"
           "lukhas_next_gen/quantum"
@@ -67,7 +67,7 @@ jobs:
           "lukhas_next_gen/security"
           "transmission_bundle"
         )
-        
+
         for dir in "${required_dirs[@]}"; do
           if [[ -d "$dir" ]]; then
             echo "✅ $dir"
@@ -76,7 +76,7 @@ jobs:
             exit 1
           fi
         done
-        
+
         # Check critical files
         required_files=(
           "transmission_bundle/launch_transmission.py"
@@ -85,22 +85,22 @@ jobs:
           "lukhas_next_gen/stream/consciousness_broadcaster.py"
           "lukhas_next_gen/entropy_log/entropy_tracker.py"
         )
-        
+
         for file in "${required_files[@]}"; do
           if [[ -f "$file" ]]; then
             echo "✅ $file"
           else
-            echo "❌ Missing: $file" 
+            echo "❌ Missing: $file"
             exit 1
           fi
         done
-        
+
         echo "🎯 Repository structure validation complete"
 
     - name: 🧬 Initialize Symbolic Environment
       run: |
         echo "⚛️ Initializing LUKHAS symbolic environment..."
-        
+
         # Create consciousness state
         mkdir -p lukhas_next_gen/stream
         cat > lukhas_next_gen/stream/consciousness_state.json << EOF
@@ -113,25 +113,25 @@ jobs:
           "entropy_threshold": $MAX_ENTROPY_THRESHOLD
         }
         EOF
-        
+
         # Initialize entropy log directory
         mkdir -p lukhas_next_gen/entropy_log
-        
+
         # Create Guardian audit directory
         mkdir -p guardian_audit/logs
-        
+
         echo "🌟 Symbolic environment initialized"
-        
+
     - name: 🚀 Launch Transmission System
       id: transmission_launch
       run: |
         echo "🌌 Launching LUKHAS Transmission System..."
-        
+
         # Set environment variables
         export PYTHONPATH="${PYTHONPATH}:$(pwd)"
         export LUKHAS_CI_MODE=true
         export LUKHAS_TIMEOUT=60
-        
+
         # Create launch wrapper for CI
         cat > ci_launch_wrapper.py << 'EOF'
         import asyncio
@@ -141,11 +141,11 @@ jobs:
         import time
         from datetime import datetime
         from pathlib import Path
-        
+
         # Import the transmission launcher
         sys.path.append('transmission_bundle')
         from launch_transmission import LUKHASTransmission
-        
+
         class CITransmissionValidator:
             def __init__(self):
                 self.validation_results = {
@@ -157,63 +157,63 @@ jobs:
                     "total_runtime": 0
                 }
                 self.start_time = time.time()
-                
+
             async def run_validation(self):
                 print("🎯 Starting CI transmission validation...")
-                
+
                 try:
                     # Create transmission instance
                     transmission = LUKHASTransmission()
-                    
+
                     # Override components for CI mode (no actual processes)
                     for component_name in transmission.components:
                         transmission.component_status[component_name] = "ready"
-                    
+
                     # Run abbreviated launch sequence
                     await transmission._preflight_checks()
                     await transmission._initialize_core_systems()
-                    
+
                     # Simulate component startup
                     for component_name in transmission.components:
                         transmission.component_status[component_name] = "running"
                         self.validation_results["components_started"] += 1
                         print(f"✅ Simulated startup: {component_name}")
                         await asyncio.sleep(0.1)  # Brief delay
-                    
+
                     await transmission._verify_system_health()
                     await transmission._activate_guardian_system()
-                    
+
                     # Check Guardian activation
                     guardian_components = ["guardian_sentinel", "entropy_tracker"]
-                    guardian_active = all(transmission.component_status.get(comp) == "running" 
+                    guardian_active = all(transmission.component_status.get(comp) == "running"
                                         for comp in guardian_components)
                     self.validation_results["guardian_active"] = guardian_active
-                    
+
                     if guardian_active:
                         print("🛡️ Guardian System: ACTIVE")
                         # Simulate some glyph sequences
                         test_sequences = ["🔐→🧬→🪷", "🌪️→🌀→🌿", "🚨→🔒→🛡️"]
                         self.validation_results["glyph_sequences"] = test_sequences
                         print(f"🧬 Symbolic sequences validated: {' | '.join(test_sequences)}")
-                    
+
                     self.validation_results["launch_successful"] = True
                     self.validation_results["total_runtime"] = time.time() - self.start_time
-                    
+
                     print("✅ Transmission validation successful")
-                    
+
                 except Exception as e:
                     print(f"❌ Transmission validation failed: {e}")
                     self.validation_results["launch_successful"] = False
                     raise
-                
+
                 finally:
                     # Save validation results
                     with open("ci_validation_results.json", "w") as f:
                         json.dump(self.validation_results, f, indent=2)
-        
+
         async def main():
             validator = CITransmissionValidator()
-            
+
             # Set timeout
             try:
                 await asyncio.wait_for(validator.run_validation(), timeout=60)
@@ -223,53 +223,53 @@ jobs:
                 with open("ci_validation_results.json", "w") as f:
                     json.dump(validator.validation_results, f, indent=2)
                 sys.exit(1)
-        
+
         if __name__ == "__main__":
             asyncio.run(main())
         EOF
-        
+
         # Run the validation
         timeout 90 python ci_launch_wrapper.py
-        
+
         echo "🎯 Transmission launch sequence completed"
 
     - name: 📊 Validate Symbolic Outputs
       run: |
         echo "🧬 Validating symbolic glyph outputs..."
-        
+
         if [[ -f "ci_validation_results.json" ]]; then
           # Parse validation results
           LAUNCH_SUCCESS=$(jq -r '.launch_successful' ci_validation_results.json)
           COMPONENTS_STARTED=$(jq -r '.components_started' ci_validation_results.json)
           GUARDIAN_ACTIVE=$(jq -r '.guardian_active' ci_validation_results.json)
           RUNTIME=$(jq -r '.total_runtime' ci_validation_results.json)
-          
+
           echo "📋 Validation Results:"
           echo "   Launch successful: $LAUNCH_SUCCESS"
           echo "   Components started: $COMPONENTS_STARTED"
           echo "   Guardian active: $GUARDIAN_ACTIVE"
           echo "   Runtime: ${RUNTIME}s"
-          
+
           # Validate glyph sequences
           GLYPH_SEQUENCES=$(jq -r '.glyph_sequences[]' ci_validation_results.json | tr '\n' ' ')
           echo "   Glyph sequences: $GLYPH_SEQUENCES"
-          
+
           # Check success criteria
           if [[ "$LAUNCH_SUCCESS" != "true" ]]; then
             echo "❌ Launch validation failed"
             exit 1
           fi
-          
+
           if [[ "$GUARDIAN_ACTIVE" != "true" ]]; then
             echo "❌ Guardian system not active"
             exit 1
           fi
-          
+
           if (( $(echo "$COMPONENTS_STARTED < 5" | bc -l) )); then
             echo "❌ Insufficient components started"
             exit 1
           fi
-          
+
           echo "✅ All symbolic validations passed"
         else
           echo "❌ Validation results not found"
@@ -279,23 +279,23 @@ jobs:
     - name: 🔒 Hash Stability Verification
       run: |
         echo "🔐 Verifying transmission bundle hash stability..."
-        
+
         # Check if vault_hashes.json exists and is valid
         if [[ -f "transmission_bundle/vault_hashes.json" ]]; then
           # Validate JSON structure
           if jq empty transmission_bundle/vault_hashes.json 2>/dev/null; then
             echo "✅ vault_hashes.json is valid JSON"
-            
+
             # Extract key metrics
             TOTAL_FILES=$(jq -r '.vault_metadata.total_components' transmission_bundle/vault_hashes.json)
             VERIFICATION_TIME=$(jq -r '.integrity_verification.verification_timestamp' transmission_bundle/vault_hashes.json)
             QUANTUM_SIG=$(jq -r '.integrity_verification.quantum_signature' transmission_bundle/vault_hashes.json)
-            
+
             echo "📊 Hash Verification:"
             echo "   Total components: $TOTAL_FILES"
             echo "   Verification time: $VERIFICATION_TIME"
             echo "   Quantum signature: $QUANTUM_SIG"
-            
+
             # Verify quantum signature
             if [[ "$QUANTUM_SIG" == "⚛️🧠🛡️" ]]; then
               echo "✅ Trinity quantum signature verified"
@@ -303,7 +303,7 @@ jobs:
               echo "❌ Invalid quantum signature"
               exit 1
             fi
-            
+
           else
             echo "❌ vault_hashes.json is invalid JSON"
             exit 1
@@ -316,17 +316,17 @@ jobs:
     - name: 🌡️ Entropy Threshold Validation
       run: |
         echo "📈 Validating entropy thresholds..."
-        
+
         # Check if entropy logs were created
         if [[ -d "lukhas_next_gen/entropy_log" ]]; then
           echo "✅ Entropy log directory exists"
-          
+
           # Simulate entropy check
           CURRENT_ENTROPY="0.45"  # Simulated safe value
-          
+
           echo "   Current entropy: $CURRENT_ENTROPY"
           echo "   Threshold: $MAX_ENTROPY_THRESHOLD"
-          
+
           # Compare with threshold using bc for floating point
           if (( $(echo "$CURRENT_ENTROPY > $MAX_ENTROPY_THRESHOLD" | bc -l) )); then
             echo "❌ Entropy threshold exceeded: $CURRENT_ENTROPY > $MAX_ENTROPY_THRESHOLD"
@@ -344,53 +344,53 @@ jobs:
       if: always()
       run: |
         echo "📊 Generating final validation report..."
-        
+
         TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-        
+
         cat > lukhas_validation_report.md << EOF
         # 🌌 LUKHAS Phase 5 Validation Report
-        
-        **Validation Time**: $TIMESTAMP  
-        **Commit**: ${{ github.sha }}  
-        **Branch**: ${{ github.ref_name }}  
-        **Phase**: $LUKHAS_PHASE  
-        
+
+        **Validation Time**: $TIMESTAMP
+        **Commit**: ${{ github.sha }}
+        **Branch**: ${{ github.ref_name }}
+        **Phase**: $LUKHAS_PHASE
+
         ## 🎯 Validation Results
-        
+
         - ✅ Repository structure validation passed
         - ✅ Symbolic environment initialization completed
         - ✅ Transmission launch sequence successful
         - ✅ Guardian system activation verified
         - ✅ Hash stability verification passed
         - ✅ Entropy threshold validation passed
-        
+
         ## 🧬 Symbolic Sequences Validated
-        
+
         - 🔐→🧬→🪷 (Authentication flow)
         - 🌪️→🌀→🌿 (Drift stabilization)
         - 🚨→🔒→🛡️ (Guardian intervention)
-        
+
         ## 🛡️ Guardian System Status
-        
+
         - **Status**: ACTIVE ✅
         - **Components**: All operational
         - **Intervention Rules**: Loaded
         - **Threat Detection**: Enabled
-        
+
         ## 📊 Performance Metrics
-        
+
         - **Launch Time**: < 60 seconds
         - **Component Startup**: 8/8 successful
         - **Memory Usage**: Within limits
         - **Entropy Level**: $CURRENT_ENTROPY (< $MAX_ENTROPY_THRESHOLD)
-        
+
         ---
-        
+
         **Trinity Framework**: ⚛️🧠🛡️ **VALIDATED**
-        
+
         *Transmission validation complete - LUKHAS ready for production*
         EOF
-        
+
         echo "📄 Validation report generated"
         cat lukhas_validation_report.md
 
@@ -411,10 +411,10 @@ jobs:
         echo "=" * 60
         echo "🌌 LUKHAS PHASE 5 VALIDATION COMPLETE"
         echo "=" * 60
-        
+
         if [[ -f "ci_validation_results.json" ]]; then
           LAUNCH_SUCCESS=$(jq -r '.launch_successful' ci_validation_results.json 2>/dev/null || echo "false")
-          
+
           if [[ "$LAUNCH_SUCCESS" == "true" ]]; then
             echo "🎉 ALL VALIDATIONS PASSED"
             echo "✅ LUKHAS Phase 5 ready for production deployment"

@@ -12,7 +12,7 @@
 ║ Welcome to the Reasoning module, where thoughts become insights and questions
 ║ find their answers. This guide will help you harness the power of logical
 ║ thinking, causal understanding, and abstract reasoning in your applications.
-║ 
+║
 ║ Whether you're building an intelligent assistant that needs to understand
 ║ cause and effect, creating a decision support system that requires logical
 ║ rigor, or developing creative applications that benefit from abstract
@@ -90,7 +90,7 @@ result = reasoner.deduce(
 print(f"Answer: {result.answer}")  # Yes
 print(f"Confidence: {result.confidence}")  # 0.95
 print(f"Reasoning: {result.explanation}")
-# Output: "Penguins are birds (given), All birds have wings (given), 
+# Output: "Penguins are birds (given), All birds have wings (given),
 #          Therefore, penguins have wings (modus ponens)"
 ```
 
@@ -419,7 +419,7 @@ feedback = meta.learn_from_result(
 )
 
 print(f"Learning update: {feedback.insight}")
-# "Heuristic approach performed well under pressure. 
+# "Heuristic approach performed well under pressure.
 #  Increasing weight for similar future scenarios."
 ```
 
@@ -530,7 +530,7 @@ implications = deductive_engine.derive_implications(hypotheses)
 
 # Apply induction to refine patterns
 refined_patterns = inductive_engine.refine_from_cases(
-    implications, 
+    implications,
     new_observations
 )
 ```

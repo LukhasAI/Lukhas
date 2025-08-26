@@ -5,8 +5,8 @@ Prepares VIVOX for future quantum computing substrates
 
 from .coherence.qsync_events import (
     EntanglementBridge,
+    QISynchronizer,
     QSyncEvent,
-    QuantumSynchronizer,
     SyncType,
 )
 from .collapse.moral_superposition import (
@@ -16,12 +16,12 @@ from .collapse.moral_superposition import (
     SuperpositionPath,
     SuperpositionResolver,
 )
-from .core.quantum_substrate import (
-    QuantumEnvironment,
-    QuantumNoiseType,
+from .core.qi_substrate import (
+    QIEnvironment,
+    QINoiseType,
     QIState,
     QIStateType,
-    QuantumSubstrate,
+    QISubstrate,
 )
 from .core.qubit_collapse import (
     CollapseField,
@@ -34,30 +34,30 @@ from .integration.vivox_bridge import QIBridgeEvent, VIVOXQIBridge
 
 # Main factory function
 def create_quantum_readiness_system(
-    vivox_interfaces: dict = None, quantum_config: dict = None
-) -> QuantumSubstrate:
+    vivox_interfaces: dict = None, qi_config: dict = None
+) -> QISubstrate:
     """
     Create a complete VIVOX.QREADY system
 
     Args:
         vivox_interfaces: Connections to other VIVOX modules
-        quantum_config: Quantum-specific configuration
+        qi_config: Quantum-specific configuration
 
     Returns:
-        Configured QuantumSubstrate instance
+        Configured QISubstrate instance
     """
-    return QuantumSubstrate(
-        interfaces=vivox_interfaces or {}, config=quantum_config or {}
+    return QISubstrate(
+        interfaces=vivox_interfaces or {}, config=qi_config or {}
     )
 
 
 __all__ = [
     # Core
-    "QuantumSubstrate",
+    "QISubstrate",
     "QIState",
-    "QuantumEnvironment",
+    "QIEnvironment",
     "QIStateType",
-    "QuantumNoiseType",
+    "QINoiseType",
     # Collapse
     "QubitCollapseEngine",
     "CollapseField",
@@ -65,7 +65,7 @@ __all__ = [
     "CollapseType",
     # Coherence
     "QSyncEvent",
-    "QuantumSynchronizer",
+    "QISynchronizer",
     "EntanglementBridge",
     "SyncType",
     # Superposition

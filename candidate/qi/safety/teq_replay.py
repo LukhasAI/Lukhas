@@ -1,10 +1,16 @@
 # path: qi/safety/teq_replay.py
 from __future__ import annotations
-import os, json, glob, hashlib, argparse, textwrap
-from typing import Any, Dict, Optional, Tuple, List
+
+import argparse
 
 # Use original open (avoids recursion if sandbox is active)
 import builtins
+import glob
+import hashlib
+import json
+import os
+from typing import Any, Dict, Optional, Tuple
+
 _ORIG_OPEN = builtins.open
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
@@ -39,7 +45,7 @@ def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
     """Stable hash over the policy pack + overlays (filenames + contents)."""
     h = hashlib.sha256()
     def add_file(fp: str):
-        h.update(fp.encode()); 
+        h.update(fp.encode())
         try:
             with _ORIG_OPEN(fp, "rb") as f: h.update(f.read())
         except Exception:
@@ -125,7 +131,7 @@ def _run_teq(policy_root: str, jurisdiction: Optional[str], task: str, ctx: Dict
 def _pretty_table(d: Dict[str, Any]) -> str:
     allowed = "✅ ALLOWED" if d["replay"]["allowed"] else "❌ BLOCKED"
     lines = [
-        f"# TEQ Replay",
+        "# TEQ Replay",
         f"- Task: `{d['task']}`   Jurisdiction: `{d.get('jurisdiction') or 'global'}`   Context: `{d.get('context') or '-'}`",
         f"- Receipt ID: `{d['receipt_id']}`   Artifact SHA: `{d.get('artifact_sha') or '-'}`",
         f"- Receipt attestation: { '✅ verified' if d.get('receipt_attestation_ok') else ('—' if d.get('receipt_attestation_ok') is None else '❌ failed') }",

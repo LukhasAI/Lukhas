@@ -75,7 +75,7 @@ class LUKHASTransmission:
                 "description": "Adaptive resource management",
                 "dependencies": [],
             },
-            "quantum_glyph_system": {
+            "qi_glyph_system": {
                 "path": self.lukhas_next_gen / "quantum" / "glyph_pairs.py",
                 "description": "Quantum authentication pairs",
                 "dependencies": [],
@@ -378,7 +378,7 @@ class LUKHASTransmission:
                 / len(self.components),
             },
             "trinity_framework": {
-                "identity": "quantum_safe_authentication",
+                "identity": "qi_safe_authentication",
                 "consciousness": "symbolic_streaming_active",
                 "guardian": "autonomous_protection_enabled",
             },

@@ -65,7 +65,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 # Try to import lukhas.consciousness integration
 try:
-    from lukhas.consciousness.core_consciousness.quantum_consciousness_integration import (
+    from lukhas.consciousness.core_consciousness.qi_consciousness_integration import (
         QICreativeConsciousness,
     )
 
@@ -111,7 +111,7 @@ class AdvancedHaikuGenerator:
         self.silent_e = re.compile(r"[^aeiou]e$", re.IGNORECASE)
 
         # Consolidated quantum haiku templates organized by theme and line structure
-        self.quantum_templates = {
+        self.qi_templates = {
             "consciousness": {
                 "line1_5": [
                     "Awareness unfolds",
@@ -390,7 +390,7 @@ class AdvancedHaikuGenerator:
         # Calculate average metrics
         if all_metrics:
             avg_metrics = {
-                "quantum_coherence": sum(m["quantum_coherence"] for m in all_metrics)
+                "qi_coherence": sum(m["qi_coherence"] for m in all_metrics)
                 / len(all_metrics),
                 "consciousness_resonance": sum(
                     m["consciousness_resonance"] for m in all_metrics
@@ -401,7 +401,7 @@ class AdvancedHaikuGenerator:
             }
         else:
             avg_metrics = {
-                "quantum_coherence": 0.0,
+                "qi_coherence": 0.0,
                 "consciousness_resonance": 0.0,
                 "creative_entropy": 0.0,
             }
@@ -416,10 +416,10 @@ class AdvancedHaikuGenerator:
 
     async def _generate_quantum_haiku(self, theme: str, style: str) -> str:
         """Generate base haiku using quantum templates"""
-        if theme not in self.quantum_templates:
+        if theme not in self.qi_templates:
             theme = "consciousness"  # Default fallback
 
-        templates = self.quantum_templates[theme]
+        templates = self.qi_templates[theme]
 
         # Select lines based on style preferences
         line1 = random.choice(templates["line1_5"])
@@ -639,7 +639,7 @@ class AdvancedHaikuGenerator:
         unique_words = len(set(haiku.lower().split()))
 
         # Simple metrics based on structure and content
-        quantum_coherence = (
+        qi_coherence = (
             min(1.0, unique_words / word_count) if word_count > 0 else 0.0
         )
         consciousness_resonance = min(
@@ -648,7 +648,7 @@ class AdvancedHaikuGenerator:
         creative_entropy = min(1.0, (word_count - unique_words) / max(word_count, 1))
 
         return {
-            "quantum_coherence": quantum_coherence,
+            "qi_coherence": qi_coherence,
             "consciousness_resonance": consciousness_resonance,
             "creative_entropy": creative_entropy,
         }
@@ -724,7 +724,7 @@ class AdvancedHaikuGenerator:
 
 # Legacy class aliases for backward compatibility
 class QIHaikuGenerator(AdvancedHaikuGenerator):
-    """Legacy alias for QuantumHaikuGenerator"""
+    """Legacy alias for QIHaikuGenerator"""
 
 
 class NeuroHaikuGenerator(AdvancedHaikuGenerator):
@@ -745,7 +745,7 @@ async def main():
     print(f"Haiku:\n{haiku_result['haiku_text']}")
     print(f"Syllables: {haiku_result['syllable_structure']}")
     print(
-        f"Quantum Coherence: {haiku_result['consciousness_metrics']['quantum_coherence']:.3f}"
+        f"Quantum Coherence: {haiku_result['consciousness_metrics']['qi_coherence']:.3f}"
     )
     print(
         f"Consciousness Resonance: {haiku_result['consciousness_metrics']['consciousness_resonance']:.3f}"
@@ -761,7 +761,7 @@ async def main():
         print(haiku_list[0]["haiku_text"])
 
     print(
-        f"\nAverage Quantum Coherence: {series_result['average_metrics']['quantum_coherence']:.3f}"
+        f"\nAverage Quantum Coherence: {series_result['average_metrics']['qi_coherence']:.3f}"
     )
     print("🎋 Advanced Haiku Generation: COMPLETE")
 
@@ -778,7 +778,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "consciousness_integration": CONSCIOUSNESS_AVAILABLE,

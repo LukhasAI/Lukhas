@@ -162,7 +162,7 @@ class MultiAGIResponse:
 
 # ΛTIER_CONFIG_START
 # {
-#   "module": "quantum.qi_bio_multi_orchestrator",
+#   "module": "qi.qi_bio_multi_orchestrator",
 #   "class_MultiAGIOrchestrator": {
 #     "default_tier": 2,
 #     "methods": {
@@ -1119,7 +1119,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -1138,7 +1138,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

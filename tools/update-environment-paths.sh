@@ -24,7 +24,7 @@ echo -e "\n${BLUE}🔍 Scanning for environment path issues...${NC}"
 update_file_paths() {
     local file_path="$1"
     local description="$2"
-    
+
     if [ -f "$file_path" ]; then
         echo -e "${YELLOW}📝 Updating: $description${NC}"
         sed -i.bak "s|$OLD_PATH_PATTERN|$NEW_PATH_PATTERN|g" "$file_path"
@@ -37,10 +37,10 @@ update_file_paths() {
 # Function to update Python environment references
 update_python_paths() {
     echo -e "\n${BLUE}🐍 Updating Python environment paths...${NC}"
-    
+
     # Current correct Python path
     CORRECT_PYTHON_PATH="$WORKSPACE_ROOT/.venv_test/bin/python"
-    
+
     if [ -f "$CORRECT_PYTHON_PATH" ]; then
         echo -e "${GREEN}✅ Correct Python environment found: $CORRECT_PYTHON_PATH${NC}"
     else
@@ -52,7 +52,7 @@ update_python_paths() {
 # Function to find and report old path references
 find_old_references() {
     echo -e "\n${BLUE}🔍 Scanning for remaining old path references...${NC}"
-    
+
     # Search for old path patterns (excluding backups and archives)
     OLD_REFS=$(grep -r "$OLD_PATH_PATTERN" . \
         --exclude-dir=".git" \
@@ -74,7 +74,7 @@ find_old_references() {
         --include="*.js" \
         --include="*.ts" \
         2>/dev/null | head -20)
-    
+
     if [ -n "$OLD_REFS" ]; then
         echo -e "${YELLOW}⚠️  Found remaining old path references:${NC}"
         echo "$OLD_REFS"

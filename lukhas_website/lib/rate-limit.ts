@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI - Rate Limiting Utility
- * 
+ *
  * In-memory rate limiting for API endpoints
  * In production, use Redis or a dedicated rate limiting service
  */
@@ -32,23 +32,23 @@ export async function rateLimit(options: RateLimitOptions): Promise<RateLimitRes
   const { key, limit, window } = options;
   const now = Date.now();
   const resetTime = now + window;
-  
+
   const existing = rateLimitStore.get(key);
-  
+
   if (!existing || now > existing.resetTime) {
     // No existing entry or window expired - create new entry
     rateLimitStore.set(key, {
       count: 1,
       resetTime
     });
-    
+
     return {
       success: true,
       remaining: limit - 1,
       resetTime
     };
   }
-  
+
   if (existing.count >= limit) {
     // Rate limit exceeded
     return {
@@ -57,11 +57,11 @@ export async function rateLimit(options: RateLimitOptions): Promise<RateLimitRes
       resetTime: existing.resetTime
     };
   }
-  
+
   // Increment count
   existing.count++;
   rateLimitStore.set(key, existing);
-  
+
   return {
     success: true,
     remaining: limit - existing.count,
@@ -74,7 +74,7 @@ export async function rateLimit(options: RateLimitOptions): Promise<RateLimitRes
  */
 export function cleanupRateLimit(): void {
   const now = Date.now();
-  
+
   for (const [key, entry] of rateLimitStore.entries()) {
     if (now > entry.resetTime) {
       rateLimitStore.delete(key);

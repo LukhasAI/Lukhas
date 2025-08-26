@@ -19,7 +19,7 @@ updates:
       - dependency-type: "all"
     # Auto-merge minor and patch updates
     versioning-strategy: "increase"
-    
+
   # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"

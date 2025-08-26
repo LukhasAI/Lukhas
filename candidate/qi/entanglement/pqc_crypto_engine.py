@@ -489,7 +489,7 @@ class PQCCryptoEngine:
             "hash_algorithm": "SHA-3",
             "entropy_bits": 512,
             "key_rotation_hours": self.key_rotation_hours,
-            "transport_security": {"quantum_safe_tls": True},
+            "transport_security": {"qi_safe_tls": True},
             "classical_attack_resistance": {
                 "side_channel_protection": True,
                 "timing_attack_protection": True,
@@ -539,7 +539,7 @@ class PQCCryptoEngine:
             algorithm=hashes.SHA3_256(),
             length=32,
             salt=b"LUKHAS_QS_ENC",
-            info=b"quantum_safe_encryption",
+            info=b"qi_safe_encryption",
             backend=default_backend(),
         )
         encryption_key = enc_hkdf.derive(shared_secret)
@@ -549,7 +549,7 @@ class PQCCryptoEngine:
             algorithm=hashes.SHA3_256(),
             length=32,
             salt=b"LUKHAS_QS_MAC",
-            info=b"quantum_safe_mac",
+            info=b"qi_safe_mac",
             backend=default_backend(),
         )
         mac_key = mac_hkdf.derive(shared_secret)
@@ -588,7 +588,7 @@ class PQCCryptoEngine:
 
         return new_keypair
 
-    def quantum_safe_encrypt(self, plaintext: bytes, key: bytes) -> dict[str, Any]:
+    def qi_safe_encrypt(self, plaintext: bytes, key: bytes) -> dict[str, Any]:
         """
         Encrypt data using quantum-safe symmetric encryption.
 
@@ -615,9 +615,9 @@ class PQCCryptoEngine:
             "timestamp": datetime.now().isoformat(),
         }
 
-    def quantum_safe_decrypt(self, encrypted_data: dict[str, Any], key: bytes) -> bytes:
+    def qi_safe_decrypt(self, encrypted_data: dict[str, Any], key: bytes) -> bytes:
         """
-        Decrypt data encrypted with quantum_safe_encrypt.
+        Decrypt data encrypted with qi_safe_encrypt.
 
         Args:
             encrypted_data: Dictionary from qi_safe_encrypt

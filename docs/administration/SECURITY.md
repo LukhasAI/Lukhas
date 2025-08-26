@@ -37,7 +37,7 @@ We take security seriously. The following versions of LUKHAS AI are currently su
 Our security model is built on Trinity Framework principles:
 
 - **⚛️ Identity Security**: Authentic consciousness preservation and secure identity management
-- **🧠 Consciousness Protection**: Secure processing of sensitive consciousness data  
+- **🧠 Consciousness Protection**: Secure processing of sensitive consciousness data
 - **🛡️ Guardian Systems**: Multi-layered ethical and security safeguards
 
 ### Security Measures
@@ -149,5 +149,5 @@ We appreciate responsible disclosure of security vulnerabilities. Security resea
 
 ---
 
-**Last Updated**: 2025-01-17  
+**Last Updated**: 2025-01-17
 **Security Team**: LUKHAS AI Security Division

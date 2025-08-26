@@ -96,7 +96,7 @@ class SymbolUser(HttpUser):
             "entropy_bits": 256,
             "modalities": ["text", "emoji", "gesture"]
         })
-    
+
     @task
     def colony_consensus(self):
         self.client.post("/api/colony/vote", json={
@@ -116,7 +116,7 @@ class SymbolUser(HttpUser):
 # Multi-tier caching
 class CacheStrategy:
     L1_CACHE = "in_memory"      # 10ms - Hot symbols
-    L2_CACHE = "redis"           # 50ms - User dictionaries  
+    L2_CACHE = "redis"           # 50ms - User dictionaries
     L3_CACHE = "postgresql"      # 200ms - Full history
     COLD_STORAGE = "s3"          # 1s+ - Archives
 ```
@@ -128,13 +128,13 @@ class OptimizedColony:
     async def parallel_consensus(self, proposals: List[Proposal]):
         # Shard colonies by expertise
         expert_colonies = self.shard_by_domain(proposals)
-        
+
         # Parallel voting with circuit breaker
         results = await asyncio.gather(*[
             self.vote_with_timeout(colony, proposal, timeout=0.5)
             for colony, proposal in expert_colonies
         ])
-        
+
         # Byzantine fault tolerant aggregation
         return self.bft_aggregate(results, threshold=0.67)
 ```
@@ -187,7 +187,7 @@ class DifferentialPrivacy:
 # terraform/main.tf
 module "lukhas_cluster" {
   source = "./modules/eks"
-  
+
   cluster_name = "lukhas-production"
   node_groups = {
     colonies = {
@@ -259,7 +259,7 @@ jobs:
           pytest tests/ --cov=lukhas --cov-report=xml
           pytest tests/integration/ --markers=integration
           locust --headless -u 100 -r 10 --run-time 60s
-      
+
   security-scan:
     runs-on: ubuntu-latest
     steps:
@@ -267,7 +267,7 @@ jobs:
         run: snyk test --severity-threshold=high
       - name: SAST with Semgrep
         run: semgrep --config=auto
-      
+
   deploy:
     needs: [test, security-scan]
     runs-on: ubuntu-latest
@@ -295,7 +295,7 @@ class SymbolPatternLearning:
             num_heads=8,
             num_layers=6
         )
-    
+
     async def train_on_user_feedback(self):
         """Continuous learning from user preferences"""
         async for batch in self.get_feedback_stream():
@@ -310,14 +310,14 @@ class EvolvingColony:
     def natural_selection(self):
         """Colonies that make better decisions survive"""
         performance_scores = self.evaluate_all_colonies()
-        
+
         # Top 50% survive
         survivors = self.select_top_performers(performance_scores, 0.5)
-        
+
         # Crossover and mutation
         offspring = self.crossover(survivors)
         mutants = self.mutate(offspring, rate=0.1)
-        
+
         # Replace underperformers
         self.colonies = survivors + offspring + mutants
 ```
@@ -327,7 +327,7 @@ class EvolvingColony:
 // React dashboard for colony monitoring
 const ColonyDashboard: React.FC = () => {
   const { data: colonies } = useQuery(GET_COLONY_METRICS);
-  
+
   return (
     <Grid container>
       <MetricCard title="Active Colonies" value={colonies.active} />

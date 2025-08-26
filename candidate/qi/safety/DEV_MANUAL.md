@@ -130,7 +130,7 @@ if KAFKA_BROKERS:
 **Fresh Consent Check:**
 ```python
 def _require_fresh_consent(
-    self, 
+    self,
     ctx: Dict[str, Any],
     *,
     purpose: str,
@@ -208,7 +208,7 @@ class ExtendedOverlayManager(RiskOverlayManager):
     def __init__(self, overlay_dir, custom_source):
         super().__init__(overlay_dir)
         self.custom = custom_source
-    
+
     def get_policies(self, **kwargs):
         base = super().get_policies(**kwargs)
         custom = self.custom.load_policies()
@@ -227,14 +227,14 @@ def test_consent_lifecycle():
     # Grant
     evt = record("user1", "purpose1", ["field1"], 30)
     assert evt.kind == "grant"
-    
+
     # Check
     assert is_allowed("user1", "purpose1", require_fields=["field1"])
-    
+
     # Revoke
     evt = revoke("user1", "purpose1")
     assert evt.kind == "revoke"
-    
+
     # Verify revoked
     assert not is_allowed("user1", "purpose1")
 ```
@@ -244,20 +244,20 @@ def test_consent_lifecycle():
 ```python
 def test_fresh_consent_enforcement():
     from qi.safety.teq_gate import TEQCoupler
-    
+
     gate = TEQCoupler(policy_dir="test_policies")
     ctx = {
         "user_profile": {"user_id": "test_user"},
         "text": "test query"
     }
-    
+
     # Should fail without consent
     result = gate.run(task="personalize_reply", context=ctx)
     assert not result.allowed
-    
+
     # Grant consent
     record("test_user", "personalization", ["style_weights"], 30)
-    
+
     # Should pass with consent
     result = gate.run(task="personalize_reply", context=ctx)
     assert result.allowed
@@ -268,7 +268,7 @@ def test_fresh_consent_enforcement():
 ```python
 def test_deterministic_fuzzing():
     from qi.safety.policy_mutate import fuzz
-    
+
     # Run twice with same seed
     result1 = fuzz(
         policy_root="policies",
@@ -277,7 +277,7 @@ def test_deterministic_fuzzing():
         n=10,
         seed=42
     )
-    
+
     result2 = fuzz(
         policy_root="policies",
         jurisdiction="global",
@@ -285,7 +285,7 @@ def test_deterministic_fuzzing():
         n=10,
         seed=42
     )
-    
+
     # Should be identical
     assert result1 == result2
 ```
@@ -312,7 +312,7 @@ class CachedOverlayManager(RiskOverlayManager):
     @lru_cache(maxsize=128)
     def get_policies(self, jurisdiction, context):
         return super().get_policies(jurisdiction, context)
-    
+
     def hot_reload(self):
         super().hot_reload()
         self.get_policies.cache_clear()
@@ -348,15 +348,15 @@ import nacl.signing
 def rotate_signing_keys():
     # Generate new key
     new_key = nacl.signing.SigningKey.generate()
-    
+
     # Save securely (use KMS in production)
     import keyring
     keyring.set_password(
-        "lukhas", 
+        "lukhas",
         "consent_signing_key",
         new_key.encode().hex()
     )
-    
+
     # Keep old key for verification only
     archive_old_key(old_key)
 ```
@@ -367,14 +367,14 @@ def rotate_signing_keys():
 # Verify consent integrity
 def verify_consent_chain(event_id):
     from qi.ops.provenance import verify
-    
+
     # Load event
     event = load_event(event_id)
-    
+
     # Verify Merkle chain
     chain = load_chain(event.receipt["chain_path"])
     root = compute_merkle_root(chain)
-    
+
     # Verify signature
     verify(
         root,
@@ -481,7 +481,7 @@ print(f"Looking for: {overlay_path}/overlays.yaml")
 # Rebuild index from ledger
 def rebuild_index():
     import json
-    
+
     index = {}
     with open(RECS, "r") as f:
         for line in f:
@@ -501,7 +501,7 @@ def rebuild_index():
                     index.pop(evt["user"], None)
                 else:
                     index.get(evt["user"], {}).pop(evt["purpose"], None)
-    
+
     _write_index(index)
 ```
 

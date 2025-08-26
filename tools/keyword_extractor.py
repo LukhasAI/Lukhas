@@ -19,7 +19,7 @@ class KeywordExtractor:
         self.keywords = defaultdict(set)
         self.domain_patterns = {
             "bio": re.compile(
-                r"\b(bio|neural|neuro|brain|cognitive|awareness|consciousness|cell|gene|protein|organism|evolution|adaptation|biosignature|quantum.*bio|biometric|neural.*network|cortex|synapse|dendrite|axon|neurotransmitter)\b",
+                r"\b(bio|neural|neuro|brain|cognitive|awareness|consciousness|cell|gene|protein|organism|evolution|adaptation|biosignature|qi.*bio|biometric|neural.*network|cortex|synapse|dendrite|axon|neurotransmitter)\b",
                 re.IGNORECASE,
             ),
             "memory": re.compile(
@@ -35,7 +35,7 @@ class KeywordExtractor:
                 re.IGNORECASE,
             ),
             "quantum": re.compile(
-                r"\b(quantum|qubit|superposition|entanglement|collapse|wave.*function|decoherence|quantum.*field|quantum.*state|quantum.*mechanics|quantum.*computing|quantum.*awareness)\b",
+                r"\b(quantum|qubit|superposition|entanglement|collapse|wave.*function|decoherence|qi.*field|qi.*state|qi.*mechanics|qi.*computing|qi.*awareness)\b",
                 re.IGNORECASE,
             ),
             "symbolic": re.compile(

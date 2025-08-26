@@ -51,16 +51,16 @@ For each module:
 - **Gate 1**: MATRIZ Compliance
   - Validates against `MATRIZ/matriz_node_v1.json`
   - Accepts both schema_ref formats during transition
-  
+
 - **Gate 2**: Import Purity
   - No imports from candidate/quarantine/archive
   - Uses import-linter contracts
-  
+
 - **Gate 3**: Quality Standards
   - Has tests (pytest coverage > 70%)
   - Has docstrings
   - Follows naming conventions
-  
+
 - **Gate 4**: Security & Consent
   - PII linters pass
   - GTΨ-gated for privileged actions

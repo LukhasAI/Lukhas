@@ -5,7 +5,7 @@ Metadata-first Google Drive adapter with file content escalation.
 
 System-wide guardrails applied:
 1. File metadata by default (name, size, modified, sharing)
-2. Content access requires capability token escalation  
+2. Content access requires capability token escalation
 3. All operations verify capability token scopes
 4. Complete audit trail for file operations
 
@@ -45,12 +45,12 @@ class DriveFileMetadata(ResourceMetadata):
 class DriveAdapter(ServiceAdapter):
     """
     Google Drive adapter with metadata-first design.
-    
+
     Metadata operations (long TTL):
     - list_resources: File/folder listings with metadata
     - get_resource_metadata: Detailed file information
     - search_resources: Search by name, type, content
-    
+
     Content operations (short TTL):
     - get_resource_content: Download actual file content
     - put_resource: Upload/update files
@@ -107,7 +107,7 @@ class DriveAdapter(ServiceAdapter):
     ) -> List[DriveFileMetadata]:
         """
         List Drive files/folders with metadata only.
-        
+
         Requires: files.list.metadata scope
         Returns: File metadata without content
         """
@@ -139,7 +139,7 @@ class DriveAdapter(ServiceAdapter):
     ) -> DriveFileMetadata:
         """
         Get detailed file metadata.
-        
+
         Requires: files.read.metadata scope
         Returns: Complete metadata including permissions
         """
@@ -176,7 +176,7 @@ class DriveAdapter(ServiceAdapter):
     ) -> ResourceContent:
         """
         Download actual file content.
-        
+
         Requires: files.read.content scope (escalated capability)
         Returns: File content with metadata
         """
@@ -217,7 +217,7 @@ class DriveAdapter(ServiceAdapter):
     ) -> OperationResult:
         """
         Upload or update file.
-        
+
         Requires: files.write scope
         Returns: Upload result with new file ID
         """
@@ -261,7 +261,7 @@ class DriveAdapter(ServiceAdapter):
     ) -> OperationResult:
         """
         Move file to different folder.
-        
+
         Requires: files.move scope
         Returns: Move operation result
         """
@@ -299,7 +299,7 @@ class DriveAdapter(ServiceAdapter):
     ) -> List[DriveFileMetadata]:
         """
         Search Drive files by name, content, or metadata.
-        
+
         Requires: files.search scope
         Returns: Matching files with metadata only
         """
@@ -331,7 +331,7 @@ class DriveAdapter(ServiceAdapter):
     ) -> str:
         """
         Set up Drive change notifications.
-        
+
         Requires: files.watch scope
         Returns: Watch channel ID
         """
@@ -363,7 +363,7 @@ class DriveAdapter(ServiceAdapter):
     ) -> OperationResult:
         """
         Remove Drive watch channel.
-        
+
         Requires: files.watch scope
         Returns: Unwatch operation result
         """
@@ -488,7 +488,7 @@ File ID: {file_id}
 
 Executive Summary
 -----------------
-This document outlines the proposal for integrating LUKHAS AI capabilities 
+This document outlines the proposal for integrating LUKHAS AI capabilities
 with existing cloud services through a unified consent framework.
 
 Key Features:
@@ -505,7 +505,7 @@ Google Drive, Dropbox, and other cloud providers.
 Implementation Timeline
 -----------------------
 Phase 1: Core adapters (4 weeks)
-Phase 2: Studio integration (2 weeks)  
+Phase 2: Studio integration (2 weeks)
 Phase 3: Testing and deployment (2 weeks)
 
 ---

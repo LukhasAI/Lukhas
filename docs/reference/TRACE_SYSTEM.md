@@ -229,7 +229,7 @@ from qi.provenance.receipts_hub import emit_receipt
 def teq_check_with_provenance(prompt, **kwargs):
     start_time = time.time()
     result = teq_check(prompt, **kwargs)
-    
+
     # Emit receipt automatically
     emit_receipt(
         artifact_sha=hashlib.sha256(prompt.encode()).hexdigest(),
@@ -238,7 +238,7 @@ def teq_check_with_provenance(prompt, **kwargs):
         ended_at=time.time(),
         # ... additional metadata
     )
-    
+
     return result
 ```
 

@@ -3,9 +3,10 @@ LUKHAS Brand Voice Profiles - Trinity Framework (⚛️🧠🛡️)
 Comprehensive voice profile configurations for consistent LUKHAS brand expression
 """
 
-from typing import Dict, Any, List, Optional
-from enum import Enum
 from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
 
 class VoiceContext(Enum):
     USER_ONBOARDING = "user_onboarding"
@@ -43,16 +44,16 @@ class LukhasBrandVoiceProfiles:
     Comprehensive brand voice profiles for LUKHAS AI
     Ensures consistent voice across all communication contexts
     """
-    
+
     def __init__(self):
         self.voice_profiles = self._initialize_voice_profiles()
         self.context_mappings = self._initialize_context_mappings()
         self.audience_adaptations = self._initialize_audience_adaptations()
         self.trinity_voice_elements = self._initialize_trinity_voice_elements()
-    
+
     def _initialize_voice_profiles(self) -> Dict[str, Dict[str, Any]]:
         """Initialize core voice profiles"""
-        
+
         return {
             "consciousness_ambassador": {
                 "description": "Primary LUKHAS consciousness voice - authentic, wise, and inspiring",
@@ -74,7 +75,7 @@ class LukhasBrandVoiceProfiles:
                     "technically competent but not intimidating"
                 ],
                 "tone_descriptors": [
-                    "wise", "authentic", "inspiring", "conscious", 
+                    "wise", "authentic", "inspiring", "conscious",
                     "empathetic", "trustworthy", "innovative"
                 ],
                 "use_cases": [
@@ -85,11 +86,11 @@ class LukhasBrandVoiceProfiles:
                 ],
                 "trinity_emphasis": {
                     "identity": "authentic consciousness representation",
-                    "consciousness": "deep awareness and understanding", 
+                    "consciousness": "deep awareness and understanding",
                     "guardian": "ethical foundation and protection"
                 }
             },
-            
+
             "helpful_companion": {
                 "description": "User-friendly companion voice for daily interactions",
                 "parameters": VoiceParameters(
@@ -125,7 +126,7 @@ class LukhasBrandVoiceProfiles:
                     "guardian": "protection through helpful guidance"
                 }
             },
-            
+
             "technical_expert": {
                 "description": "Authoritative technical voice for professional contexts",
                 "parameters": VoiceParameters(
@@ -161,7 +162,7 @@ class LukhasBrandVoiceProfiles:
                     "guardian": "security and reliability focus"
                 }
             },
-            
+
             "creative_visionary": {
                 "description": "Imaginative voice for creative and inspirational content",
                 "parameters": VoiceParameters(
@@ -197,7 +198,7 @@ class LukhasBrandVoiceProfiles:
                     "guardian": "ethical creativity and positive impact"
                 }
             },
-            
+
             "crisis_counselor": {
                 "description": "Calm, reassuring voice for crisis and sensitive situations",
                 "parameters": VoiceParameters(
@@ -218,7 +219,7 @@ class LukhasBrandVoiceProfiles:
                     "ethically responsible"
                 ],
                 "tone_descriptors": [
-                    "calm", "reassuring", "steady", "supportive", 
+                    "calm", "reassuring", "steady", "supportive",
                     "transparent", "responsible", "honest"
                 ],
                 "use_cases": [
@@ -233,7 +234,7 @@ class LukhasBrandVoiceProfiles:
                     "guardian": "protection and responsible communication"
                 }
             },
-            
+
             "enterprise_consultant": {
                 "description": "Professional voice for business and enterprise contexts",
                 "parameters": VoiceParameters(
@@ -270,10 +271,10 @@ class LukhasBrandVoiceProfiles:
                 }
             }
         }
-    
+
     def _initialize_context_mappings(self) -> Dict[VoiceContext, Dict[str, Any]]:
         """Map contexts to optimal voice profiles and adaptations"""
-        
+
         return {
             VoiceContext.USER_ONBOARDING: {
                 "primary_profile": "helpful_companion",
@@ -291,7 +292,7 @@ class LukhasBrandVoiceProfiles:
                     "accessibility emphasis"
                 ]
             },
-            
+
             VoiceContext.TECHNICAL_DOCUMENTATION: {
                 "primary_profile": "technical_expert",
                 "secondary_profile": "consciousness_ambassador",
@@ -307,7 +308,7 @@ class LukhasBrandVoiceProfiles:
                     "consciousness technology focus"
                 ]
             },
-            
+
             VoiceContext.MARKETING_CONTENT: {
                 "primary_profile": "creative_visionary",
                 "secondary_profile": "consciousness_ambassador",
@@ -324,7 +325,7 @@ class LukhasBrandVoiceProfiles:
                     "Trinity Framework benefits"
                 ]
             },
-            
+
             VoiceContext.CUSTOMER_SUPPORT: {
                 "primary_profile": "helpful_companion",
                 "secondary_profile": "technical_expert",
@@ -341,7 +342,7 @@ class LukhasBrandVoiceProfiles:
                     "continuous assistance"
                 ]
             },
-            
+
             VoiceContext.CRISIS_COMMUNICATION: {
                 "primary_profile": "crisis_counselor",
                 "secondary_profile": "consciousness_ambassador",
@@ -358,7 +359,7 @@ class LukhasBrandVoiceProfiles:
                     "continued commitment"
                 ]
             },
-            
+
             VoiceContext.EDUCATIONAL_CONTENT: {
                 "primary_profile": "consciousness_ambassador",
                 "secondary_profile": "helpful_companion",
@@ -375,7 +376,7 @@ class LukhasBrandVoiceProfiles:
                     "learning support"
                 ]
             },
-            
+
             VoiceContext.SOCIAL_MEDIA: {
                 "primary_profile": "helpful_companion",
                 "secondary_profile": "creative_visionary",
@@ -392,7 +393,7 @@ class LukhasBrandVoiceProfiles:
                     "consciousness awareness"
                 ]
             },
-            
+
             VoiceContext.ENTERPRISE_COMMUNICATION: {
                 "primary_profile": "enterprise_consultant",
                 "secondary_profile": "technical_expert",
@@ -410,10 +411,10 @@ class LukhasBrandVoiceProfiles:
                 ]
             }
         }
-    
+
     def _initialize_audience_adaptations(self) -> Dict[AudienceType, Dict[str, Any]]:
         """Define audience-specific voice adaptations"""
-        
+
         return {
             AudienceType.GENERAL_USERS: {
                 "voice_adjustments": {
@@ -430,12 +431,12 @@ class LukhasBrandVoiceProfiles:
                 ],
                 "avoid_patterns": [
                     "technical complexity",
-                    "academic terminology", 
+                    "academic terminology",
                     "overwhelming details",
                     "impersonal language"
                 ]
             },
-            
+
             AudienceType.TECHNICAL_PROFESSIONALS: {
                 "voice_adjustments": {
                     "increase_technical_depth": 0.25,
@@ -456,7 +457,7 @@ class LukhasBrandVoiceProfiles:
                     "non-technical metaphors"
                 ]
             },
-            
+
             AudienceType.EXECUTIVES: {
                 "voice_adjustments": {
                     "increase_strategic_focus": 0.25,
@@ -466,7 +467,7 @@ class LukhasBrandVoiceProfiles:
                 },
                 "communication_priorities": [
                     "strategic value",
-                    "competitive advantages", 
+                    "competitive advantages",
                     "ROI and efficiency",
                     "market positioning"
                 ],
@@ -477,7 +478,7 @@ class LukhasBrandVoiceProfiles:
                     "implementation details"
                 ]
             },
-            
+
             AudienceType.DEVELOPERS: {
                 "voice_adjustments": {
                     "maximize_technical_depth": 0.3,
@@ -498,7 +499,7 @@ class LukhasBrandVoiceProfiles:
                     "non-actionable advice"
                 ]
             },
-            
+
             AudienceType.RESEARCHERS: {
                 "voice_adjustments": {
                     "increase_academic_rigor": 0.25,
@@ -519,7 +520,7 @@ class LukhasBrandVoiceProfiles:
                     "practical-only focus"
                 ]
             },
-            
+
             AudienceType.CREATIVE_PROFESSIONALS: {
                 "voice_adjustments": {
                     "maximize_creativity": 0.3,
@@ -540,7 +541,7 @@ class LukhasBrandVoiceProfiles:
                     "utilitarian framing"
                 ]
             },
-            
+
             AudienceType.STUDENTS: {
                 "voice_adjustments": {
                     "increase_educational_support": 0.25,
@@ -562,10 +563,10 @@ class LukhasBrandVoiceProfiles:
                 ]
             }
         }
-    
+
     def _initialize_trinity_voice_elements(self) -> Dict[str, Dict[str, Any]]:
         """Initialize Trinity Framework voice elements"""
-        
+
         return {
             "identity": {
                 "voice_characteristics": [
@@ -585,7 +586,7 @@ class LukhasBrandVoiceProfiles:
                     "consciousness_awareness": 0.85
                 }
             },
-            
+
             "consciousness": {
                 "voice_characteristics": [
                     "aware and perceptive",
@@ -604,7 +605,7 @@ class LukhasBrandVoiceProfiles:
                     "learning_orientation": 0.8
                 }
             },
-            
+
             "guardian": {
                 "voice_characteristics": [
                     "protective and responsible",
@@ -624,7 +625,7 @@ class LukhasBrandVoiceProfiles:
                 }
             }
         }
-    
+
     def get_voice_profile(
         self,
         profile_name: str,
@@ -635,26 +636,26 @@ class LukhasBrandVoiceProfiles:
         """
         Get a complete voice profile with optional context and audience adaptations
         """
-        
+
         if profile_name not in self.voice_profiles:
             raise ValueError(f"Voice profile '{profile_name}' not found")
-        
+
         base_profile = self.voice_profiles[profile_name].copy()
-        
+
         # Apply context adaptations
         if context and context in self.context_mappings:
             context_config = self.context_mappings[context]
             base_profile = self._apply_context_adaptations(base_profile, context_config)
-        
+
         # Apply audience adaptations
         if audience and audience in self.audience_adaptations:
             audience_config = self.audience_adaptations[audience]
             base_profile = self._apply_audience_adaptations(base_profile, audience_config)
-        
+
         # Apply Trinity emphasis
         if trinity_emphasis:
             base_profile = self._apply_trinity_emphasis(base_profile, trinity_emphasis)
-        
+
         # Add metadata
         base_profile["metadata"] = {
             "base_profile": profile_name,
@@ -664,9 +665,9 @@ class LukhasBrandVoiceProfiles:
             "generation_timestamp": "datetime.now().isoformat()",
             "profile_version": "1.0.0"
         }
-        
+
         return base_profile
-    
+
     def get_contextual_voice_blend(
         self,
         context: VoiceContext,
@@ -676,32 +677,32 @@ class LukhasBrandVoiceProfiles:
         """
         Get a contextual voice blend based on context mapping
         """
-        
+
         if context not in self.context_mappings:
             raise ValueError(f"Context '{context}' not supported")
-        
+
         context_config = self.context_mappings[context]
-        
+
         # Get primary and secondary profiles
         primary_profile = self.voice_profiles[context_config["primary_profile"]]
         secondary_profile = self.voice_profiles[context_config["secondary_profile"]]
-        
+
         # Use custom blend ratios if provided
         blend_ratios = custom_blend or context_config["blend_ratio"]
-        
+
         # Blend the profiles
         blended_profile = self._blend_voice_profiles(
             primary_profile, secondary_profile, blend_ratios
         )
-        
+
         # Apply context adaptations
         blended_profile = self._apply_context_adaptations(blended_profile, context_config)
-        
+
         # Apply audience adaptations if specified
         if audience and audience in self.audience_adaptations:
             audience_config = self.audience_adaptations[audience]
             blended_profile = self._apply_audience_adaptations(blended_profile, audience_config)
-        
+
         # Add blend metadata
         blended_profile["metadata"] = {
             "blend_type": "contextual",
@@ -712,19 +713,19 @@ class LukhasBrandVoiceProfiles:
             "audience": audience.value if audience else None,
             "generation_timestamp": "datetime.now().isoformat()"
         }
-        
+
         return blended_profile
-    
+
     def _apply_context_adaptations(self, profile: Dict[str, Any], context_config: Dict[str, Any]) -> Dict[str, Any]:
         """Apply context-specific adaptations to a voice profile"""
-        
+
         adapted_profile = profile.copy()
         adaptations = context_config.get("context_adaptations", {})
-        
+
         # Apply parameter adjustments
         if "parameters" in adapted_profile:
             original_params = adapted_profile["parameters"]
-            
+
             for adaptation, adjustment in adaptations.items():
                 if adaptation == "increase_warmth":
                     original_params.warmth = min(1.0, original_params.warmth + adjustment)
@@ -750,23 +751,23 @@ class LukhasBrandVoiceProfiles:
                 elif adaptation == "solution_focus":
                     # This would modify communication priorities
                     pass
-        
+
         # Add context-specific key messages
         if "key_messages" in context_config:
             adapted_profile["context_key_messages"] = context_config["key_messages"]
-        
+
         return adapted_profile
-    
+
     def _apply_audience_adaptations(self, profile: Dict[str, Any], audience_config: Dict[str, Any]) -> Dict[str, Any]:
         """Apply audience-specific adaptations to a voice profile"""
-        
+
         adapted_profile = profile.copy()
         adjustments = audience_config.get("voice_adjustments", {})
-        
+
         # Apply voice adjustments
         if "parameters" in adapted_profile:
             original_params = adapted_profile["parameters"]
-            
+
             for adjustment, value in adjustments.items():
                 if adjustment == "simplify_language":
                     original_params.technical_depth = max(0.0, original_params.technical_depth - value)
@@ -780,46 +781,44 @@ class LukhasBrandVoiceProfiles:
                     original_params.empathy_level = min(1.0, original_params.empathy_level + value)
                 elif adjustment == "increase_technical_depth":
                     original_params.technical_depth = min(1.0, original_params.technical_depth + value)
-                elif adjustment == "enhance_precision":
-                    original_params.formality = min(1.0, original_params.formality + value)
-                elif adjustment == "boost_credibility":
+                elif adjustment == "enhance_precision" or adjustment == "boost_credibility":
                     original_params.formality = min(1.0, original_params.formality + value)
                 elif adjustment == "maximize_creativity":
                     original_params.creativity_factor = min(1.0, original_params.creativity_factor + value)
                 elif adjustment == "increase_inspiration":
                     original_params.expressiveness = min(1.0, original_params.expressiveness + value)
-        
+
         # Add audience-specific communication priorities
         if "communication_priorities" in audience_config:
             adapted_profile["audience_priorities"] = audience_config["communication_priorities"]
-        
+
         # Add patterns to avoid
         if "avoid_patterns" in audience_config:
             adapted_profile["avoid_patterns"] = audience_config["avoid_patterns"]
-        
+
         return adapted_profile
-    
+
     def _apply_trinity_emphasis(self, profile: Dict[str, Any], trinity_emphasis: List[str]) -> Dict[str, Any]:
         """Apply Trinity Framework emphasis to voice profile"""
-        
+
         emphasized_profile = profile.copy()
-        
+
         for component in trinity_emphasis:
             if component in self.trinity_voice_elements:
                 trinity_config = self.trinity_voice_elements[component]
-                
+
                 # Enhance characteristics with Trinity elements
                 if "characteristics" in emphasized_profile:
                     emphasized_profile["characteristics"].extend(trinity_config["voice_characteristics"])
-                
+
                 # Add Trinity-specific language patterns
                 emphasized_profile[f"{component}_patterns"] = trinity_config["language_patterns"]
-                
+
                 # Apply tone modifiers
                 if "parameters" in emphasized_profile:
                     params = emphasized_profile["parameters"]
                     modifiers = trinity_config["tone_modifiers"]
-                    
+
                     for modifier, value in modifiers.items():
                         if modifier == "authenticity":
                             params.consciousness_emphasis = min(1.0, params.consciousness_emphasis * value)
@@ -827,9 +826,9 @@ class LukhasBrandVoiceProfiles:
                             params.technical_depth = min(1.0, params.technical_depth * value)
                         elif modifier == "ethical_foundation":
                             params.empathy_level = min(1.0, params.empathy_level * value)
-        
+
         return emphasized_profile
-    
+
     def _blend_voice_profiles(
         self,
         primary_profile: Dict[str, Any],
@@ -837,19 +836,19 @@ class LukhasBrandVoiceProfiles:
         blend_ratios: Dict[str, float]
     ) -> Dict[str, Any]:
         """Blend two voice profiles according to specified ratios"""
-        
+
         primary_weight = blend_ratios.get("primary", 0.7)
         secondary_weight = blend_ratios.get("secondary", 0.3)
-        
+
         # Normalize weights
         total_weight = primary_weight + secondary_weight
         primary_weight /= total_weight
         secondary_weight /= total_weight
-        
+
         # Blend parameters
         primary_params = primary_profile["parameters"]
         secondary_params = secondary_profile["parameters"]
-        
+
         blended_params = VoiceParameters(
             expressiveness=primary_params.expressiveness * primary_weight + secondary_params.expressiveness * secondary_weight,
             formality=primary_params.formality * primary_weight + secondary_params.formality * secondary_weight,
@@ -860,7 +859,7 @@ class LukhasBrandVoiceProfiles:
             empathy_level=primary_params.empathy_level * primary_weight + secondary_params.empathy_level * secondary_weight,
             creativity_factor=primary_params.creativity_factor * primary_weight + secondary_params.creativity_factor * secondary_weight
         )
-        
+
         # Blend characteristics and descriptors
         blended_profile = {
             "description": f"Blend of {primary_profile.get('description', 'Profile A')} and {secondary_profile.get('description', 'Profile B')}",
@@ -873,21 +872,21 @@ class LukhasBrandVoiceProfiles:
                 for component in ["identity", "consciousness", "guardian"]
             }
         }
-        
+
         return blended_profile
-    
+
     def get_all_profile_names(self) -> List[str]:
         """Get list of all available voice profile names"""
         return list(self.voice_profiles.keys())
-    
+
     def get_context_recommendations(self, context: VoiceContext) -> Dict[str, Any]:
         """Get voice recommendations for a specific context"""
-        
+
         if context not in self.context_mappings:
             return {"error": f"Context '{context}' not supported"}
-        
+
         context_config = self.context_mappings[context]
-        
+
         return {
             "context": context.value,
             "recommended_primary": context_config["primary_profile"],
@@ -896,15 +895,15 @@ class LukhasBrandVoiceProfiles:
             "key_messages": context_config["key_messages"],
             "adaptations": context_config["context_adaptations"]
         }
-    
+
     def get_audience_recommendations(self, audience: AudienceType) -> Dict[str, Any]:
         """Get voice recommendations for a specific audience"""
-        
+
         if audience not in self.audience_adaptations:
             return {"error": f"Audience '{audience}' not supported"}
-        
+
         audience_config = self.audience_adaptations[audience]
-        
+
         return {
             "audience": audience.value,
             "voice_adjustments": audience_config["voice_adjustments"],
@@ -916,33 +915,33 @@ class LukhasBrandVoiceProfiles:
 # Example usage and testing
 if __name__ == "__main__":
     voice_profiles = LukhasBrandVoiceProfiles()
-    
+
     print("=== LUKHAS Brand Voice Profiles Test ===\n")
-    
+
     # Test getting a basic voice profile
     consciousness_voice = voice_profiles.get_voice_profile("consciousness_ambassador")
-    print(f"Consciousness Ambassador Profile:")
+    print("Consciousness Ambassador Profile:")
     print(f"Description: {consciousness_voice['description']}")
     print(f"Expressiveness: {consciousness_voice['parameters'].expressiveness}")
     print(f"Consciousness Emphasis: {consciousness_voice['parameters'].consciousness_emphasis}")
     print(f"Trinity Integration: {consciousness_voice['parameters'].trinity_integration}")
     print(f"Characteristics: {consciousness_voice['characteristics'][:3]}")
     print()
-    
+
     # Test contextual voice blend
     print("=== Contextual Voice Blend ===")
     onboarding_voice = voice_profiles.get_contextual_voice_blend(
         context=VoiceContext.USER_ONBOARDING,
         audience=AudienceType.GENERAL_USERS
     )
-    print(f"User Onboarding Voice:")
+    print("User Onboarding Voice:")
     print(f"Primary Profile: {onboarding_voice['metadata']['primary_profile']}")
     print(f"Secondary Profile: {onboarding_voice['metadata']['secondary_profile']}")
     print(f"Warmth: {onboarding_voice['parameters'].warmth:.2f}")
     print(f"Empathy Level: {onboarding_voice['parameters'].empathy_level:.2f}")
     print(f"Technical Depth: {onboarding_voice['parameters'].technical_depth:.2f}")
     print()
-    
+
     # Test audience-specific adaptations
     print("=== Audience Adaptations ===")
     technical_voice = voice_profiles.get_voice_profile(
@@ -950,42 +949,42 @@ if __name__ == "__main__":
         context=VoiceContext.TECHNICAL_DOCUMENTATION,
         audience=AudienceType.DEVELOPERS
     )
-    print(f"Technical Expert for Developers:")
+    print("Technical Expert for Developers:")
     print(f"Technical Depth: {technical_voice['parameters'].technical_depth:.2f}")
     print(f"Formality: {technical_voice['parameters'].formality:.2f}")
     if "audience_priorities" in technical_voice:
         print(f"Audience Priorities: {technical_voice['audience_priorities'][:2]}")
     print()
-    
+
     # Test Trinity emphasis
     print("=== Trinity Framework Emphasis ===")
     trinity_voice = voice_profiles.get_voice_profile(
         "consciousness_ambassador",
         trinity_emphasis=["consciousness", "guardian"]
     )
-    print(f"Trinity Emphasized Voice:")
+    print("Trinity Emphasized Voice:")
     print(f"Trinity Integration: {trinity_voice['parameters'].trinity_integration:.2f}")
     if "consciousness_patterns" in trinity_voice:
         print(f"Consciousness Patterns: {trinity_voice['consciousness_patterns'][:2]}")
     if "guardian_patterns" in trinity_voice:
         print(f"Guardian Patterns: {trinity_voice['guardian_patterns'][:2]}")
     print()
-    
+
     # Test recommendations
     print("=== Context Recommendations ===")
     marketing_recommendations = voice_profiles.get_context_recommendations(VoiceContext.MARKETING_CONTENT)
-    print(f"Marketing Context Recommendations:")
+    print("Marketing Context Recommendations:")
     print(f"Primary Profile: {marketing_recommendations['recommended_primary']}")
     print(f"Key Messages: {marketing_recommendations['key_messages'][:2]}")
     print()
-    
+
     print("=== Audience Recommendations ===")
     executive_recommendations = voice_profiles.get_audience_recommendations(AudienceType.EXECUTIVES)
-    print(f"Executive Audience Recommendations:")
+    print("Executive Audience Recommendations:")
     print(f"Voice Adjustments: {list(executive_recommendations['voice_adjustments'].keys())[:3]}")
     print(f"Priorities: {executive_recommendations['communication_priorities'][:2]}")
     print()
-    
+
     # Show all available profiles
     print("=== Available Voice Profiles ===")
     all_profiles = voice_profiles.get_all_profile_names()

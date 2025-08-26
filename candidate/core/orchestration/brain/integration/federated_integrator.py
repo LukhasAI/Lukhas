@@ -82,11 +82,11 @@ class FederatedNode:
     capabilities: Set[str] = field(default_factory=set)
     trust_score: float = 1.0
     privacy_level: PrivacyLevel = PrivacyLevel.HIGH
-    quantum_signature: str = ""
+    qi_signature: str = ""
 
     def __post_init__(self):
-        if not self.quantum_signature:
-            self.quantum_signature = self._generate_quantum_signature()
+        if not self.qi_signature:
+            self.qi_signature = self._generate_quantum_signature()
 
     def _generate_quantum_signature(self) -> str:
         """Generate quantum-inspired signature for node identity"""
@@ -104,7 +104,7 @@ class FederatedLearningUpdate:
     privacy_preserving: bool
     ethical_audit_passed: bool
     timestamp: datetime
-    quantum_signature: str
+    qi_signature: str
 
 
 class FederatedLearningIntegration:
@@ -193,13 +193,13 @@ class FederatedLearningIntegration:
             "action": "node_registration",
             "node_id": node_id,
             "timestamp": datetime.now().isoformat(),
-            "quantum_signature": node.quantum_signature,
+            "qi_signature": node.qi_signature,
             "compliance_score": ethical_compliance_score,
         }
         self.audit_trail.append(audit_entry)
 
         logger.info(
-            f"Node {node_id} registered with quantum signature {node.quantum_signature[:8]}"
+            f"Node {node_id} registered with quantum signature {node.qi_signature[:8]}"
         )
         return True
 
@@ -224,7 +224,7 @@ class FederatedLearningIntegration:
             privacy_preserving=True,
             ethical_audit_passed=ethical_passed,
             timestamp=datetime.now(),
-            quantum_signature=self._generate_update_signature(
+            qi_signature=self._generate_update_signature(
                 insight_type, filtered_content
             ),
         )
@@ -244,7 +244,7 @@ class FederatedLearningIntegration:
                 )
 
             logger.info(f"Learning insight shared: {insight_type}")
-            return update.quantum_signature
+            return update.qi_signature
         else:
             logger.warning(f"Learning insight blocked by ethical audit: {insight_type}")
             return ""
@@ -375,7 +375,7 @@ class FederatedLearningIntegration:
         coordination_event = {
             "event_type": "federation_sync",
             "results": sync_results,
-            "quantum_signature": self._generate_coordination_signature(sync_results),
+            "qi_signature": self._generate_coordination_signature(sync_results),
         }
         self.coordination_history.append(coordination_event)
 
@@ -535,7 +535,7 @@ class FederatedLearningIntegration:
         """Process an incoming federation update"""
 
         processed = {
-            "update_id": update.quantum_signature,
+            "update_id": update.qi_signature,
             "source_node": update.source_node_id,
             "type": update.update_type,
             "applied": False,

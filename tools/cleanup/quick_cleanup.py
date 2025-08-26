@@ -38,7 +38,7 @@ def find_duplicate_modules() -> dict:
         ("memory", ["memory", "consciousness/memory", "memory/systems"]),
         ("emotion", ["emotion", "consciousness/emotion", "bio/emotion"]),
         ("dream", ["dream", "consciousness/dream", "creativity/dream"]),
-        ("quantum", ["quantum", "qim", "quantum_computing"]),
+        ("quantum", ["quantum", "qim", "qi_computing"]),
     ]
 
     for module_name, locations in module_patterns:

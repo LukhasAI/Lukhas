@@ -19,9 +19,9 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from lukhas.core.common import get_logger
 from core.interfaces import CoreInterface
 from feedback.user_feedback_system import FeedbackItem
+from lukhas.core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -105,7 +105,7 @@ class AdvancedSecuritySystem(CoreInterface):
         self.verified_sessions: Set[str] = set()
 
         # Quantum-resistant preparation
-        self.quantum_safe_algorithms = ["AES-256", "SHA3-512", "Dilithium"]
+        self.qi_safe_algorithms = ["AES-256", "SHA3-512", "Dilithium"]
 
         # Privacy preservation
         self.anonymization_keys: Dict[str, str] = {}
@@ -747,6 +747,6 @@ class AdvancedSecuritySystem(CoreInterface):
             "encryption": {
                 "algorithm": "AES-256-GCM",
                 "key_rotation": "daily",
-                "quantum_ready": True,
+                "qi_ready": True,
             },
         }

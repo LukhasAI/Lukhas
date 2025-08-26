@@ -58,7 +58,7 @@ from typing import Optional
 
 # Core AGI imports (consolidated logic)
 try:
-    from .attention.quantum_attention import QuantumInspiredAttention
+    from .attention.qi_attention import QIInspiredAttention
     from .compliance.ethical_engine import ComplianceEngine as AGIComplianceEngine
     from .metacognition.orchestrator import MetaCognitiveOrchestrator
     from .reasoning.causal_reasoning_engine import CausalReasoningEngine
@@ -69,7 +69,7 @@ except ImportError:
     SymbolicEngine = None
     MetaCognitiveOrchestrator = None
     AGIComplianceEngine = None
-    QuantumInspiredAttention = None
+    QIInspiredAttention = None
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -107,7 +107,7 @@ class AGICapabilityLevel(Enum):
     INTERMEDIATE = "intermediate"
     ADVANCED = "advanced"
     EXPERT = "expert"
-    QUANTUM_BIOLOGICAL = "quantum_biological"
+    QUANTUM_BIOLOGICAL = "qi_biological"
 
 
 @dataclass
@@ -119,7 +119,7 @@ class AGIResponse:
     capability_level: AGICapabilityLevel
     reasoning_path: list[str]
     metadata: dict[str, Any]
-    quantum_coherence: Optional[float] = None
+    qi_coherence: Optional[float] = None
     tier_info: Optional[dict[str, Any]] = None
     consciousness_state: Optional[str] = None
 
@@ -166,7 +166,7 @@ class AGIBot:
                 SymbolicEngine,
                 MetaCognitiveOrchestrator,
                 AGIComplianceEngine,
-                QuantumInspiredAttention,
+                QIInspiredAttention,
             ]
         ):
             logger.info("🚀 Initializing advanced quantum-biological AGI components")
@@ -190,7 +190,7 @@ class AGIBot:
         """Initialize advanced quantum-biological AGI components"""
         try:
             # Initialize core reasoning engines (consolidated logic)
-            self.attention_mechanism = QuantumInspiredAttention()
+            self.attention_mechanism = QIInspiredAttention()
             self.causal_reasoning = CausalReasoningEngine()
             self.symbolic_engine = SymbolicEngine()
             self.compliance_engine = AGIComplianceEngine()
@@ -261,7 +261,7 @@ class AGIBot:
 
             context = context or {}
             reasoning_path = []
-            quantum_coherence = None
+            qi_coherence = None
 
             if self.advanced_mode and self.orchestrator:
                 # Advanced AGI processing with meta-cognitive orchestration
@@ -272,8 +272,8 @@ class AGIBot:
                     attention_result = await self.attention_mechanism.focus_attention(
                         prompt, context
                     )
-                    reasoning_path.append("quantum_attention_applied")
-                    quantum_coherence = attention_result.get("coherence", 0.8)
+                    reasoning_path.append("qi_attention_applied")
+                    qi_coherence = attention_result.get("coherence", 0.8)
 
                 # Multi-modal reasoning (original logic)
                 if self.symbolic_engine and self.causal_reasoning:
@@ -329,7 +329,7 @@ class AGIBot:
                 confidence=confidence,
                 capability_level=self.capability_level,
                 reasoning_path=reasoning_path,
-                quantum_coherence=quantum_coherence,
+                qi_coherence=qi_coherence,
                 metadata={
                     "session_id": self.session_id,
                     "subsystem_id": self.subsystem_id,
@@ -370,7 +370,7 @@ class AGIBot:
         """Get list of active AGI components"""
         components = []
         if self.attention_mechanism:
-            components.append("quantum_attention")
+            components.append("qi_attention")
         if self.causal_reasoning:
             components.append("causal_reasoning")
         if self.symbolic_engine:
@@ -417,7 +417,7 @@ class AGIBot:
         }
 
         # Adaptive learning - adjust meta-cognitive state
-        if "quantum_attention" in reasoning_path:
+        if "qi_attention" in reasoning_path:
             self.meta_cognitive_state["self_awareness_level"] = min(
                 1.0, self.meta_cognitive_state["self_awareness_level"] + 0.01
             )

@@ -143,7 +143,7 @@ class ThreatPredictor:
             self.governance_factors["validation_rate"] = self.governance_factors.get("validation_rate", 0.5) + 0.1
         else:
             self.governance_factors["validation_rate"] = max(0.0, self.governance_factors.get("validation_rate", 0.5) - 0.2)
-        
+
         # Track intervention effectiveness
         if threat.intervention_triggered and threat.resolved:
             self.governance_factors["intervention_success"] = self.governance_factors.get("intervention_success", 0.5) + 0.1
@@ -635,26 +635,26 @@ class GuardianDashboard(GlyphIntegrationMixin):
         while self.running:
             # Check governance health
             governance_issues = []
-            
+
             if self.current_metrics.ethics_compliance < 0.9:
                 governance_issues.append("ethics_compliance_low")
-            
+
             if self.current_metrics.governance_health < 0.95:
                 governance_issues.append("governance_system_degraded")
-            
+
             if len(self.active_threats) > 3:
                 governance_issues.append("threat_overload")
-            
+
             # Generate governance-specific threats if needed
             if governance_issues and not any(t.type.startswith("governance") for t in self.active_threats):
                 await self._generate_governance_threat(governance_issues[0])
-            
+
             await asyncio.sleep(15.0)  # Check every 15 seconds
 
     async def _generate_governance_threat(self, issue_type: str):
         """Generate governance-specific threat"""
         threat_id = f"GOV-{int(time.time())}"
-        
+
         threat = ThreatEvent(
             id=threat_id,
             type="governance_drift",
@@ -666,10 +666,10 @@ class GuardianDashboard(GlyphIntegrationMixin):
             metadata={"issue_type": issue_type, "governance_validated": True},
             governance_validated=True
         )
-        
+
         self.active_threats.append(threat)
         self.threat_predictor.add_threat(threat)
-        
+
         await self._log_governance_action(
             "governance_threat_generated",
             {"threat_id": threat_id, "issue_type": issue_type}
@@ -764,15 +764,15 @@ class GuardianDashboard(GlyphIntegrationMixin):
             "metadata": metadata,
             "source": "guardian_dashboard"
         }
-        
+
         self.governance_log.append(log_entry)
-        
+
         # Keep only last 1000 entries
         if len(self.governance_log) > 1000:
             self.governance_log = self.governance_log[-1000:]
 
     # Rendering methods continue as before, but with governance view additions...
-    
+
     async def _render_dashboard(self):
         """Render the main dashboard interface with governance view"""
         while self.running:
@@ -853,7 +853,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
         for i, (component, health) in enumerate(trinity_status.items()):
             color = Console.GREEN if health > 0.8 else Console.YELLOW if health > 0.6 else Console.RED
             bar = "█" * int(health * 15) + "░" * (15 - int(health * 15))
-            
+
             print(Console.move_cursor(10 + i, 5), end="")
             print(f"{component}: {color}{bar}{Console.RESET} {health:.1%}", end="")
 
@@ -950,7 +950,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             # Trinity Framework status with governance
             trinity_color = (
                 Console.GREEN
-                if (self.current_metrics.consciousness_stability > 0.8 and 
+                if (self.current_metrics.consciousness_stability > 0.8 and
                     self.current_metrics.governance_health > 0.95)
                 else Console.YELLOW
             )
@@ -964,7 +964,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 else Console.YELLOW if self.current_metrics.governance_health > 0.9
                 else Console.RED
             )
-            
+
             print(Console.move_cursor(7, 5), end="")
             print(f"Governance Health: {gov_color}{self.current_metrics.governance_health:.1%}{Console.RESET}", end="")
 
@@ -974,7 +974,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
                 else Console.YELLOW if self.current_metrics.ethics_compliance > 0.9
                 else Console.RED
             )
-            
+
             print(Console.move_cursor(8, 5), end="")
             print(f"Ethics Compliance: {ethics_color}{self.current_metrics.ethics_compliance:.1%}{Console.RESET}", end="")
 
@@ -1000,9 +1000,9 @@ class GuardianDashboard(GlyphIntegrationMixin):
             # Categorize threats
             governance_threats = [t for t in self.active_threats if t.type in ["governance_drift", "ethics_violation"]]
             system_threats = [t for t in self.active_threats if t.type not in ["governance_drift", "ethics_violation"]]
-            
+
             displayed_threats = governance_threats[:3] + system_threats[:2]  # Prioritize governance threats
-            
+
             for i, threat in enumerate(displayed_threats):
                 config = self.THREAT_CONFIGS.get(threat.type, {})
                 symbol = config.get("symbol", "⚠️")
@@ -1013,10 +1013,10 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
                 print(Console.move_cursor(6 + i, 45), end="")
                 print(Console.CLEAR_LINE, end="")
-                
+
                 # Add governance indicator
                 gov_indicator = "🛡️" if threat.type in ["governance_drift", "ethics_violation"] else ""
-                
+
                 print(f"{color}{symbol}{Console.RESET} {gov_indicator}{threat.id} ", end="")
                 print(
                     f"{Console.RED if threat.severity > 0.7 else Console.YELLOW}{severity_bar}{Console.RESET} ",
@@ -1067,10 +1067,10 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
                 print(Console.move_cursor(15 + i, 45), end="")
                 print(Console.CLEAR_LINE, end="")
-                
+
                 # Add governance indicator for governance threats
                 gov_indicator = "🛡️" if threat_type in ["governance_drift", "ethics_violation"] else ""
-                
+
                 print(
                     f"{color}{symbol}{Console.RESET} {gov_indicator}{threat_type}: {probability:.1%}",
                     end="",
@@ -1124,11 +1124,11 @@ class GuardianDashboard(GlyphIntegrationMixin):
                     await self.resolve_emergency()
 
     # Public API methods for governance integration
-    
+
     def get_governance_summary(self) -> Dict[str, any]:
         """Get governance monitoring summary"""
         governance_threats = [t for t in self.active_threats if t.type in ["governance_drift", "ethics_violation"]]
-        
+
         return {
             "governance_health": self.current_metrics.governance_health,
             "ethics_compliance": self.current_metrics.ethics_compliance,

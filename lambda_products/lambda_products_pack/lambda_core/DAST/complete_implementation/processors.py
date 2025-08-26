@@ -6,13 +6,9 @@ with AI-powered optimization and real-time processing capabilities.
 """
 
 import time
-import asyncio
-from typing import Dict, List, Any, Optional, Set, Tuple
-from dataclasses import dataclass
-from datetime import datetime, timedelta
-import json
-import re
-from collections import defaultdict
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 
 class TaskProcessor:
     """

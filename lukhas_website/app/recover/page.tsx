@@ -42,7 +42,7 @@ export default function RecoverPage() {
   // Backup code validation
   const handleBackupCodeSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     const codes = backupCodes.filter(code => code.trim().length > 0)
     if (codes.length === 0) {
       setError('Please enter at least one backup code')
@@ -61,7 +61,7 @@ export default function RecoverPage() {
       const response = await fetch('/api/auth/recover/backup-codes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           email: email.trim(),
           codes: codes.map(code => code.trim())
         })
@@ -81,7 +81,7 @@ export default function RecoverPage() {
         }
       } else {
         setError(result.error || 'Invalid backup codes')
-        
+
         // Show warning about remaining codes
         if (result.remainingCodes !== undefined) {
           setWarning(`${result.remainingCodes} backup codes remaining`)
@@ -268,7 +268,7 @@ export default function RecoverPage() {
 
                 <div className="space-y-3">
                   <h3 className="text-sm font-medium text-white/80 mb-3">Choose recovery method:</h3>
-                  
+
                   {/* Backup Codes Option */}
                   <button
                     onClick={() => handleMethodSelect('backup-codes')}
@@ -429,8 +429,8 @@ export default function RecoverPage() {
                   Continue to experience
                 </button>
                 <div className="text-center">
-                  <Link 
-                    href="/settings/security" 
+                  <Link
+                    href="/settings/security"
                     className="text-sm text-trinity-consciousness hover:text-trinity-identity transition-colors"
                   >
                     Review security settings

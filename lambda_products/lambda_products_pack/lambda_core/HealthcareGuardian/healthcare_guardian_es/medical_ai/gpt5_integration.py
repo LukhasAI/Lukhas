@@ -4,13 +4,11 @@ GPT-5 Healthcare Integration for LUKHAS Healthcare Guardian
 Advanced medical AI capabilities for Spanish elderly care
 """
 
-import asyncio
 import logging
-import json
-from typing import Dict, Any, List, Optional, Tuple
-from datetime import datetime, timedelta
-from dataclasses import dataclass, asdict
 import os
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -44,17 +42,17 @@ class GPT5HealthcareClient:
     GPT-5 Healthcare Integration Client
     Provides medical AI capabilities with Spanish localization
     """
-    
+
     def __init__(self, config: Dict[str, Any] = None):
         """
         Initialize GPT-5 healthcare client
-        
+
         Args:
             config: Configuration dictionary
         """
         self.config = config or {}
         self.api_key = os.getenv('OPENAI_API_KEY') or self.config.get('api_key')
-        
+
         # Healthcare-specific settings
         self.medical_config = {
             'model': 'gpt-5-healthcare',  # Future GPT-5 healthcare model
@@ -65,19 +63,19 @@ class GPT5HealthcareClient:
             'user_profile': 'elderly',
             'safety_mode': 'maximum'
         }
-        
+
         # Initialize medication database
         self._init_medication_database()
-        
+
         # Initialize symptom checker
         self._init_symptom_checker()
-        
+
         # User context storage
         self.user_context = {}
-        
+
         logger.info("🤖 GPT-5 Healthcare client initialized")
         logger.info(f"Safety mode: {self.medical_config['safety_mode']}")
-    
+
     def _init_medication_database(self):
         """Initialize Spanish medication database"""
         self.medications = {
@@ -123,12 +121,12 @@ class GPT5HealthcareClient:
                 'warnings': ['Máximo 4g al día']
             }
         }
-    
+
     def _init_symptom_checker(self):
         """Initialize symptom checking patterns"""
         self.symptom_patterns = {
             'emergency': {
-                'keywords': ['dolor pecho', 'no puedo respirar', 'mareo fuerte', 
+                'keywords': ['dolor pecho', 'no puedo respirar', 'mareo fuerte',
                             'confusión', 'desmayo', 'sangre', 'caída'],
                 'action': 'call_emergency',
                 'message': 'Síntomas de emergencia detectados. Llamando al 112.'
@@ -144,15 +142,15 @@ class GPT5HealthcareClient:
                 'message': 'Síntomas leves. Considere pedir cita con su médico.'
             }
         }
-    
+
     async def process_health_query(self, query: str, user_context: Dict = None) -> str:
         """
         Process a health query using GPT-5 healthcare capabilities
-        
+
         Args:
             query: User's health question in Spanish
             user_context: Optional user medical context
-            
+
         Returns:
             Medical response in simplified Spanish
         """
@@ -161,52 +159,52 @@ class GPT5HealthcareClient:
             urgency = self._assess_urgency(query)
             if urgency == 'emergency':
                 return await self._handle_emergency_query(query)
-            
+
             # Prepare context for GPT-5
             context = self._prepare_medical_context(query, user_context)
-            
+
             # Simulate GPT-5 API call (replace with actual API when available)
             response = await self._call_gpt5_healthcare(context)
-            
+
             # Simplify medical language for elderly user
             simplified = await self.simplify_medical_language(response)
-            
+
             # Add safety disclaimers
             simplified = self._add_safety_disclaimers(simplified, urgency)
-            
+
             return simplified
-            
+
         except Exception as e:
             logger.error(f"Error processing health query: {e}")
             return (
                 "Perdone, no he podido procesar su consulta. "
                 "Si es urgente, contacte con su médico o llame al 112."
             )
-    
+
     def _assess_urgency(self, query: str) -> str:
         """
         Assess the urgency level of a health query
-        
+
         Args:
             query: Health query text
-            
+
         Returns:
             Urgency level: emergency, urgent, or routine
         """
         query_lower = query.lower()
-        
+
         # Check emergency patterns
         for keyword in self.symptom_patterns['emergency']['keywords']:
             if keyword in query_lower:
                 return 'emergency'
-        
+
         # Check urgent patterns
         for keyword in self.symptom_patterns['urgent']['keywords']:
             if keyword in query_lower:
                 return 'urgent'
-        
+
         return 'routine'
-    
+
     async def _handle_emergency_query(self, query: str) -> str:
         """Handle emergency health queries"""
         return (
@@ -218,7 +216,7 @@ class GPT5HealthcareClient:
             "3. No tome medicinas sin indicación médica\n"
             "4. Tenga su lista de medicamentos a mano"
         )
-    
+
     def _prepare_medical_context(self, query: str, user_context: Dict = None) -> Dict:
         """Prepare context for GPT-5 medical query"""
         context = {
@@ -230,26 +228,26 @@ class GPT5HealthcareClient:
             'medical_context': user_context or {},
             'timestamp': datetime.now().isoformat()
         }
-        
+
         # Add user's medication list if available
         if user_context and 'medications' in user_context:
             context['current_medications'] = user_context['medications']
-        
+
         # Add medical history if available
         if user_context and 'conditions' in user_context:
             context['medical_conditions'] = user_context['conditions']
-        
+
         return context
-    
+
     async def _call_gpt5_healthcare(self, context: Dict) -> str:
         """
         Call GPT-5 Healthcare API (simulated for now)
-        
+
         In production, this would make actual API calls to GPT-5
         """
         # Simulate GPT-5 response based on context
         query = context['query'].lower()
-        
+
         # Simulated responses for common queries
         if 'dolor cabeza' in query:
             return (
@@ -281,14 +279,14 @@ class GPT5HealthcareClient:
                 "Mientras tanto, mantenga sus medicamentos al día y "
                 "siga las indicaciones médicas que ya tiene."
             )
-    
+
     async def simplify_medical_language(self, text: str) -> str:
         """
         Simplify medical language for elderly understanding
-        
+
         Args:
             text: Medical text to simplify
-            
+
         Returns:
             Simplified text in Andalusian Spanish
         """
@@ -314,11 +312,11 @@ class GPT5HealthcareClient:
             'crónico': 'para siempre',
             'agudo': 'de repente'
         }
-        
+
         simplified = text
         for medical, simple in replacements.items():
             simplified = simplified.replace(medical, simple)
-        
+
         # Make sentences shorter and clearer
         sentences = simplified.split('.')
         short_sentences = []
@@ -332,9 +330,9 @@ class GPT5HealthcareClient:
             else:
                 if sentence.strip():
                     short_sentences.append(sentence.strip() + '.')
-        
+
         return ' '.join(short_sentences)
-    
+
     def _add_safety_disclaimers(self, response: str, urgency: str) -> str:
         """Add appropriate safety disclaimers"""
         disclaimers = {
@@ -348,17 +346,17 @@ class GPT5HealthcareClient:
                 "\n\n💡 Consejo: Hable con su médico en la próxima cita."
             )
         }
-        
+
         disclaimer = disclaimers.get(urgency, '')
         return response + disclaimer
-    
+
     async def check_drug_interactions(self, medications: List[str]) -> Dict[str, Any]:
         """
         Check for drug interactions between medications
-        
+
         Args:
             medications: List of medication names
-            
+
         Returns:
             Dictionary with interaction information
         """
@@ -368,7 +366,7 @@ class GPT5HealthcareClient:
             'dangerous': [],
             'recommendations': []
         }
-        
+
         # Check each pair of medications
         for i, med1 in enumerate(medications):
             for med2 in medications[i+1:]:
@@ -379,7 +377,7 @@ class GPT5HealthcareClient:
                         'description': interaction['description'],
                         'action': interaction['action']
                     })
-        
+
         # Add general recommendations
         if interactions['dangerous']:
             interactions['recommendations'].append(
@@ -393,9 +391,9 @@ class GPT5HealthcareClient:
             interactions['recommendations'].append(
                 "✅ No hay interacciones peligrosas conocidas."
             )
-        
+
         return interactions
-    
+
     def _check_interaction_pair(self, med1: str, med2: str) -> Optional[Dict]:
         """Check interaction between two medications"""
         # Known dangerous interactions
@@ -404,14 +402,14 @@ class GPT5HealthcareClient:
             ('metformina', 'alcohol'): 'Riesgo de acidosis láctica',
             ('simvastatina', 'amiodarona'): 'Riesgo de daño muscular'
         }
-        
+
         # Known caution interactions
         caution_pairs = {
             ('enalapril', 'ibuprofeno'): 'Puede reducir efecto antihipertensivo',
             ('omeprazol', 'clopidogrel'): 'Puede reducir efecto antiagregante',
             ('metformina', 'furosemida'): 'Vigilar función renal'
         }
-        
+
         # Check dangerous interactions
         for pair, description in dangerous_pairs.items():
             if (med1.lower() in pair and med2.lower() in pair):
@@ -420,7 +418,7 @@ class GPT5HealthcareClient:
                     'description': description,
                     'action': 'Contacte con su médico inmediatamente'
                 }
-        
+
         # Check caution interactions
         for pair, description in caution_pairs.items():
             if (med1.lower() in pair and med2.lower() in pair):
@@ -429,16 +427,16 @@ class GPT5HealthcareClient:
                     'description': description,
                     'action': 'Coméntelo en su próxima cita'
                 }
-        
+
         return None
-    
+
     async def get_medication_schedule(self, user_id: str = None) -> str:
         """
         Get user's medication schedule
-        
+
         Args:
             user_id: User identifier
-            
+
         Returns:
             Formatted schedule in Spanish
         """
@@ -475,17 +473,17 @@ class GPT5HealthcareClient:
                 taken_today=[False]
             )
         ]
-        
+
         # Format schedule for voice output
         current_hour = datetime.now().hour
-        
+
         if current_hour < 12:
             period = "esta mañana"
         elif current_hour < 20:
             period = "esta tarde"
         else:
             period = "esta noche"
-        
+
         # Find next medication
         next_med = None
         for med in schedule:
@@ -496,7 +494,7 @@ class GPT5HealthcareClient:
                     break
             if next_med:
                 break
-        
+
         if next_med:
             med, time = next_med
             return (
@@ -505,14 +503,14 @@ class GPT5HealthcareClient:
             )
         else:
             return "Ya ha tomado todas las medicinas de hoy. Muy bien hecho."
-    
+
     async def explain_medication(self, query: str) -> str:
         """
         Explain a medication in simple terms
-        
+
         Args:
             query: Query about medication
-            
+
         Returns:
             Simple explanation in Spanish
         """
@@ -522,38 +520,38 @@ class GPT5HealthcareClient:
             if med in query.lower():
                 med_name = med
                 break
-        
+
         if not med_name:
             return (
                 "No he reconocido el nombre de la medicina. "
                 "¿Puede decirme cómo se llama exactamente?"
             )
-        
+
         med_info = self.medications[med_name]
-        
+
         explanation = f"{med_name.capitalize()} es una medicina {med_info['purpose']}. "
         explanation += f"Normalmente se toma {med_info['common_dosage']}. "
-        
+
         if med_info['warnings']:
             explanation += f"Recuerde: {med_info['warnings'][0]}. "
-        
+
         if med_info['side_effects']:
             explanation += (
                 f"Puede causar {', '.join(med_info['side_effects'][:2])}, "
                 "pero no siempre pasa. "
             )
-        
+
         explanation += "Si tiene dudas, pregunte a su médico o farmacéutico."
-        
+
         return explanation
-    
+
     async def generate_health_advice(self, condition: str) -> str:
         """
         Generate health advice for a condition
-        
+
         Args:
             condition: Health condition
-            
+
         Returns:
             Personalized advice in Spanish
         """
@@ -583,11 +581,11 @@ class GPT5HealthcareClient:
                 "5. Tome su medicina para el dolor"
             )
         }
-        
+
         advice = advice_templates.get(
             condition.lower(),
             "Siga las recomendaciones de su médico y mantenga hábitos saludables."
         )
-        
+
         return advice + "\n\nRecuerde: Estos son consejos generales. " \
                        "Siempre siga las indicaciones de su médico."

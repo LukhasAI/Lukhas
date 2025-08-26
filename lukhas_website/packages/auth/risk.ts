@@ -10,7 +10,7 @@ const prisma = new PrismaClient()
 
 export interface RiskFactors {
   deviceTrust: number      // 0-100: known device score
-  geoNovelty: number       // 0-100: location anomaly score  
+  geoNovelty: number       // 0-100: location anomaly score
   velocity: number         // 0-100: action frequency score
   recentResets: number     // Count of recent password/auth resets
   stepUpHistory: number    // Count of recent step-ups
@@ -47,7 +47,7 @@ export async function calculateRisk(context: RiskContext): Promise<{
   const score = computeRiskScore(factors)
   const level = getRiskLevel(score)
   const recommendations = getRecommendations(level, factors)
-  
+
   // Log risk assessment
   await prisma.securityEvent.create({
     data: {
@@ -62,7 +62,7 @@ export async function calculateRisk(context: RiskContext): Promise<{
       }
     }
   })
-  
+
   return { score, level, factors, recommendations }
 }
 
@@ -71,22 +71,22 @@ export async function calculateRisk(context: RiskContext): Promise<{
  */
 async function gatherRiskFactors(context: RiskContext): Promise<RiskFactors> {
   const { userId, ipAddress, userAgent, deviceId } = context
-  
+
   // Device trust score
   const deviceTrust = await calculateDeviceTrust(userId, deviceId, userAgent)
-  
+
   // Geographic novelty
   const geoNovelty = await calculateGeoNovelty(userId, ipAddress)
-  
+
   // Action velocity
   const velocity = await calculateVelocity(userId)
-  
+
   // Recent resets
   const recentResets = await countRecentResets(userId)
-  
+
   // Step-up history
   const stepUpHistory = await countRecentStepUps(userId)
-  
+
   return {
     deviceTrust,
     geoNovelty,
@@ -105,10 +105,10 @@ async function calculateDeviceTrust(
   userAgent?: string
 ): Promise<number> {
   if (!deviceId) return 0
-  
+
   // Check if device has been seen before
   const deviceHash = hashDevice(deviceId, userAgent || '')
-  
+
   // Look for recent successful authentications from this device
   const recentAuths = await prisma.securityEvent.count({
     where: {
@@ -123,7 +123,7 @@ async function calculateDeviceTrust(
       }
     }
   })
-  
+
   // More recent auths = higher trust
   const trustScore = Math.min(100, recentAuths * 10)
   return trustScore
@@ -138,7 +138,7 @@ async function calculateGeoNovelty(
 ): Promise<number> {
   // Get IP geolocation (simplified - use MaxMind or similar in production)
   const geoHash = hashIP(ipAddress)
-  
+
   // Check if this geo has been seen before
   const knownGeos = await prisma.securityEvent.count({
     where: {
@@ -153,7 +153,7 @@ async function calculateGeoNovelty(
       }
     }
   })
-  
+
   // New location = higher novelty score
   if (knownGeos === 0) return 80
   if (knownGeos < 5) return 40
@@ -182,7 +182,7 @@ async function calculateVelocity(userId: string): Promise<number> {
       }
     }
   })
-  
+
   // High velocity = higher risk
   if (recentActions >= 10) return 90
   if (recentActions >= 5) return 60
@@ -231,16 +231,16 @@ function computeRiskScore(factors: RiskFactors): number {
     recentResets: 0.15,
     stepUpHistory: 0.1
   }
-  
+
   let score = 50  // Base score
-  
+
   // Apply weighted factors
   score += factors.deviceTrust * weights.deviceTrust
   score += factors.geoNovelty * weights.geoNovelty
   score += factors.velocity * weights.velocity
   score += factors.recentResets * weights.recentResets * 10  // Scale up
   score += factors.stepUpHistory * weights.stepUpHistory * 5
-  
+
   // Clamp to 0-100
   return Math.max(0, Math.min(100, Math.round(score)))
 }
@@ -260,26 +260,26 @@ function getRiskLevel(score: number): RiskLevel {
  */
 function getRecommendations(level: RiskLevel, factors: RiskFactors): string[] {
   const recommendations: string[] = []
-  
+
   switch (level) {
     case 'low':
       // Passkey only
       recommendations.push('Standard authentication sufficient')
       break
-      
+
     case 'medium':
       // Add one challenge
       recommendations.push('Require additional verification')
       recommendations.push('Use emoji/word challenge')
       break
-      
+
     case 'high':
       // Challenge + OOB
       recommendations.push('Require multi-factor authentication')
       recommendations.push('Send out-of-band confirmation')
       recommendations.push('Notify user of high-risk activity')
       break
-      
+
     case 'critical':
       // Passkey required, no alternatives
       recommendations.push('Require passkey authentication only')
@@ -288,24 +288,24 @@ function getRecommendations(level: RiskLevel, factors: RiskFactors): string[] {
       recommendations.push('Alert security team')
       break
   }
-  
+
   // Specific recommendations based on factors
   if (factors.deviceTrust < 30) {
     recommendations.push('Unknown device - require additional verification')
   }
-  
+
   if (factors.geoNovelty > 70) {
     recommendations.push('New location detected - verify identity')
   }
-  
+
   if (factors.velocity > 50) {
     recommendations.push('High activity rate - possible automation')
   }
-  
+
   if (factors.recentResets > 0) {
     recommendations.push('Recent security changes - heightened monitoring')
   }
-  
+
   return recommendations
 }
 

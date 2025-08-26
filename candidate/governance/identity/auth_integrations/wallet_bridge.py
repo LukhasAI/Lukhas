@@ -8,19 +8,17 @@ Integration Points:
 - identity_manager.py: Identity verification and management
 - symbolic_vault.py: Secure symbolic identity storage
 - wallet_core.py: Wallet-based authentication flows
-- quantum_identity_core.py: QI-enhanced identity operations
+- qi_identity_core.py: QI-enhanced identity operations
 """
 
-import asyncio
-from typing import Dict, Any, Optional, List
 from dataclasses import dataclass
-from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # Planned imports for WALLET integration
 # from lambda_products_pack.lambda_core.WALLET.identity_manager import IdentityManager
-# from lambda_products_pack.lambda_core.WALLET.symbolic_vault import SymbolicVault  
+# from lambda_products_pack.lambda_core.WALLET.symbolic_vault import SymbolicVault
 # from lambda_products_pack.lambda_core.WALLET.wallet_core import WalletCore
-# from lambda_products_pack.lambda_core.WALLET.quantum_identity_core import QIIdentityCore
+# from lambda_products_pack.lambda_core.WALLET.qi_identity_core import QIIdentityCore
 
 @dataclass
 class WalletAuthIntegration:
@@ -34,21 +32,21 @@ class WalletAuthIntegration:
 class AuthWalletBridge:
     """
     Bridge between LUKHAS Auth System and Lambda WALLET Core
-    
+
     Features:
     - Identity verification via WALLET identity_manager
     - Symbolic identity storage via symbolic_vault
     - Wallet-based authentication flows
     - QI-enhanced identity operations
     """
-    
+
     def __init__(self, config: WalletAuthIntegration):
         self.config = config
         self.wallet_core = None
         self.identity_manager = None
         self.symbolic_vault = None
         self.qi_identity_core = None
-        
+
     async def initialize(self) -> Dict[str, Any]:
         """Initialize WALLET integration components"""
         try:
@@ -57,15 +55,15 @@ class AuthWalletBridge:
             # self.identity_manager = IdentityManager()
             # self.symbolic_vault = SymbolicVault()
             # self.qi_identity_core = QIIdentityCore()
-            
+
             return {
                 "status": "ready_for_integration",
                 "wallet_enabled": self.config.wallet_enabled,
                 "components_available": [
                     "identity_manager",
-                    "symbolic_vault", 
+                    "symbolic_vault",
                     "wallet_core",
-                    "quantum_identity_core"
+                    "qi_identity_core"
                 ]
             }
         except Exception as e:
@@ -74,9 +72,9 @@ class AuthWalletBridge:
                 "error": str(e),
                 "note": "WALLET components not yet wired"
             }
-    
+
     async def authenticate_with_wallet(
-        self, 
+        self,
         user_id: str,
         symbolic_credentials: Dict[str, Any]
     ) -> Dict[str, Any]:
@@ -87,10 +85,10 @@ class AuthWalletBridge:
             "method": "wallet_symbolic",
             "status": "pending_wallet_integration"
         }
-    
+
     async def store_auth_symbols(
         self,
-        user_id: str, 
+        user_id: str,
         auth_symbols: List[str]
     ) -> Dict[str, Any]:
         """Store authentication symbols in WALLET symbolic vault"""
@@ -100,7 +98,7 @@ class AuthWalletBridge:
             "vault_location": "pending",
             "status": "pending_wallet_integration"
         }
-    
+
     async def verify_qi_identity(
         self,
         identity_data: Dict[str, Any]
@@ -119,13 +117,13 @@ def create_wallet_bridge(config: Optional[WalletAuthIntegration] = None) -> Auth
     """Create WALLET authentication bridge"""
     if config is None:
         config = WalletAuthIntegration()
-    
+
     return AuthWalletBridge(config)
 
 
 # Export for authentication system
 __all__ = [
     "AuthWalletBridge",
-    "WalletAuthIntegration", 
+    "WalletAuthIntegration",
     "create_wallet_bridge"
 ]

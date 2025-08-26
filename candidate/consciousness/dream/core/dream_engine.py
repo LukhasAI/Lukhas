@@ -37,9 +37,9 @@ from datetime import datetime
 from typing import Any, Optional
 
 try:
-    from qi.quantum_dream_adapter import (
+    from qi.qi_dream_adapter import (
         DreamQuantumConfig,
-        QuantumDreamAdapter,
+        QIDreamAdapter,
     )
 except ImportError:
     # Create placeholders if the modules don't exist
@@ -56,7 +56,7 @@ except ImportError:
 
 
 try:
-    from candidate.core.unified.bio_signals import QuantumBioOscillator
+    from candidate.core.unified.bio_signals import QIBioOscillator
     from candidate.core.unified.integration import UnifiedIntegration
     from candidate.core.unified.orchestration import BioOrchestrator
 except ImportError:
@@ -126,7 +126,7 @@ class EnhancedDreamEngine:
         self.config = config or DreamQuantumConfig()
 
         # Initialize quantum adapter
-        self.quantum_adapter = QuantumDreamAdapter(
+        self.qi_adapter = QIDreamAdapter(
             orchestrator=self.orchestrator, config=self.config
         )
 
@@ -177,7 +177,7 @@ class EnhancedDreamEngine:
 
         try:
             # Start quantum dream processing
-            await self.quantum_adapter.start_dream_cycle(duration_minutes)
+            await self.qi_adapter.start_dream_cycle(duration_minutes)
             self.active = True
 
             # Start dream reflection task
@@ -205,7 +205,7 @@ class EnhancedDreamEngine:
 
         try:
             # Stop quantum-inspired processing
-            await self.quantum_adapter.stop_dream_cycle()
+            await self.qi_adapter.stop_dream_cycle()
 
             # Stop reflection task
             if self.processing_task:
@@ -255,7 +255,7 @@ class EnhancedDreamEngine:
         """Process dreams using superposition-like state"""
         try:
             # Get current quantum-like state
-            q_state = await self.quantum_adapter.get_quantum_like_state()
+            q_state = await self.qi_adapter.get_quantum_like_state()
 
             # Extract dream insights
             if q_state.get("coherence", 0) >= self.config.coherence_threshold:
@@ -297,12 +297,12 @@ class EnhancedDreamEngine:
             The enhanced memory
         """
         # Get quantum-like state
-        q_state = await self.quantum_adapter.get_quantum_like_state()
+        q_state = await self.qi_adapter.get_quantum_like_state()
 
         # Apply quantum enhancement
         enhanced = memory.copy()
-        enhanced["quantum_coherence"] = q_state.get("coherence", 0)
-        enhanced["quantum_entanglement"] = q_state.get("entanglement", 0)
+        enhanced["qi_coherence"] = q_state.get("coherence", 0)
+        enhanced["qi_entanglement"] = q_state.get("entanglement", 0)
 
         # Add enhancement metadata
         enhanced["enhanced_timestamp"] = datetime.utcnow().isoformat()
@@ -355,12 +355,12 @@ class EnhancedDreamEngine:
             logger.error(f"Error consolidating dreams: {e}")
 
     def _extract_dream_insights(
-        self, quantum_like_state: dict[str, Any]
+        self, qi_like_state: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Extract insights from qi dream state
 
         Args:
-            quantum_like_state: Current quantum-like state
+            qi_like_state: Current quantum-like state
 
         Returns:
             List of extracted insights
@@ -369,14 +369,14 @@ class EnhancedDreamEngine:
 
         try:
             # Extract patterns from qi-like state
-            coherence = quantum_like_state.get("coherence", 0)
-            entanglement = quantum_like_state.get("entanglement", 0)
+            coherence = qi_like_state.get("coherence", 0)
+            entanglement = qi_like_state.get("entanglement", 0)
 
             if coherence >= self.config.coherence_threshold:
                 # Create insight from high-coherence state
                 insight = {
                     "timestamp": datetime.utcnow().isoformat(),
-                    "type": "quantum_pattern",
+                    "type": "qi_pattern",
                     "coherence": coherence,
                     "entanglement": entanglement,
                     "confidence": coherence * entanglement,
@@ -447,12 +447,12 @@ class EnhancedDreamEngine:
             dream["metadata"]["last_processed"] = datetime.utcnow().isoformat()
 
             # Get current quantum-like state
-            quantum_like_state = await self.quantum_adapter.get_quantum_like_state()
+            qi_like_state = await self.qi_adapter.get_quantum_like_state()
 
             # Only process if we have good coherence-inspired processing
-            if quantum_like_state["coherence"] >= self.config.coherence_threshold:
+            if qi_like_state["coherence"] >= self.config.coherence_threshold:
                 # Extract dream patterns through quantum-inspired processing
-                processed = await self._process_dream_quantum(dream, quantum_like_state)
+                processed = await self._process_dream_quantum(dream, qi_like_state)
 
                 # Store processed dream
                 await self._store_processed_dream(processed)
@@ -462,7 +462,7 @@ class EnhancedDreamEngine:
 
             else:
                 logger.warning(
-                    f"Insufficient coherence-inspired processing: {quantum_like_state['coherence']:.2f}"
+                    f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}"
                 )
 
         except Exception as e:
@@ -471,13 +471,13 @@ class EnhancedDreamEngine:
             dream["metadata"]["error"] = str(e)
 
     async def _process_dream_quantum(
-        self, dream: dict[str, Any], quantum_like_state: dict
+        self, dream: dict[str, Any], qi_like_state: dict
     ) -> dict:
         """Process dream through quantum layer
 
         Args:
             dream: The dream to process
-            quantum_like_state: Current quantum-like state
+            qi_like_state: Current quantum-like state
 
         Returns:
             Dict: Processed dream with enhanced insights
@@ -490,24 +490,24 @@ class EnhancedDreamEngine:
             emotional = processed.get("emotional_context", {})
 
             # Quantum enhance the emotional context
-            enhanced_emotions = await self.quantum_adapter.enhance_emotional_state(
+            enhanced_emotions = await self.qi_adapter.enhance_emotional_state(
                 emotional
             )
 
             # Get quantum insights
-            insights = quantum_like_state.get("insights", [])
+            insights = qi_like_state.get("insights", [])
 
             # Merge everything into the processed dream
             processed.update(
                 {
                     "state": "consolidated",
                     "emotional_context": enhanced_emotions,
-                    "quantum_insights": insights,
+                    "qi_insights": insights,
                     "metadata": {
                         **processed.get("metadata", {}),
-                        "quantum_like_state": {
-                            "coherence": quantum_like_state["coherence"],
-                            "timestamp": quantum_like_state["timestamp"],
+                        "qi_like_state": {
+                            "coherence": qi_like_state["coherence"],
+                            "timestamp": qi_like_state["timestamp"],
                         },
                         "consolidation_complete": True,
                         "consolidated_at": datetime.utcnow().isoformat(),
@@ -558,7 +558,7 @@ __all__ = ['DreamEngine', 'EnhancedDreamEngine', 'AdvancedDreamEngine', 'SimpleD
 ╠══════════════════════════════════════════════════════════════════════════════
 ║ MODULE HEALTH:
 ║   Status: ACTIVE | Complexity: HIGH | Test Coverage: 75%
-║   Dependencies: asyncio, quantum.quantum_dream_adapter, bio_orchestrator
+║   Dependencies: asyncio, qi.qi_dream_adapter, bio_orchestrator
 ║   Known Issues: Import fallbacks for missing quantum modules
 ║   Performance: O(n) for dream processing, async cycle management
 ║

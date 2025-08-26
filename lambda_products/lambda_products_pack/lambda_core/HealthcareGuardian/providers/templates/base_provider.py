@@ -6,11 +6,11 @@ implementations must extend. It provides common functionality and
 enforces consistent interface across different healthcare systems.
 """
 
-from abc import ABC, abstractmethod
-from typing import Dict, Any, List, Optional, Union
-from datetime import datetime
 import logging
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -36,15 +36,15 @@ class SecurityConfig:
 
 class BaseHealthcareProvider(ABC):
     """Base class for all healthcare provider implementations"""
-    
-    def __init__(self, 
+
+    def __init__(self,
                  provider_config: ProviderConfig,
                  security_config: SecurityConfig):
         """Initialize the healthcare provider interface"""
         self.config = provider_config
         self.security = security_config
         self.initialize_logging()
-    
+
     def initialize_logging(self):
         """Set up provider-specific logging"""
         log_format = (
@@ -52,17 +52,17 @@ class BaseHealthcareProvider(ABC):
             "%(name)s - %(levelname)s - %(message)s"
         )
         logging.basicConfig(format=log_format, level=logging.INFO)
-    
+
     @abstractmethod
     async def initialize(self) -> None:
         """Initialize provider-specific connections and resources"""
         pass
-    
+
     @abstractmethod
     async def validate_credentials(self) -> bool:
         """Validate provider credentials"""
         pass
-    
+
     @abstractmethod
     async def get_patient_record(self,
                                patient_id: str,
@@ -70,7 +70,7 @@ class BaseHealthcareProvider(ABC):
                                ) -> Dict[str, Any]:
         """Retrieve patient records"""
         pass
-    
+
     @abstractmethod
     async def update_patient_record(self,
                                   patient_id: str,
@@ -78,26 +78,26 @@ class BaseHealthcareProvider(ABC):
                                   update_type: str) -> bool:
         """Update patient records"""
         pass
-    
+
     @abstractmethod
     async def verify_coverage(self,
                             patient_id: str,
                             service_code: str) -> Dict[str, Any]:
         """Verify insurance coverage"""
         pass
-    
+
     @abstractmethod
     async def submit_claim(self,
                          claim_data: Dict[str, Any]) -> str:
         """Submit insurance claim"""
         pass
-    
+
     @abstractmethod
     async def get_claim_status(self,
                              claim_id: str) -> Dict[str, Any]:
         """Get status of submitted claim"""
         pass
-    
+
     @abstractmethod
     async def schedule_appointment(self,
                                 patient_id: str,
@@ -105,7 +105,7 @@ class BaseHealthcareProvider(ABC):
                                 appointment_data: Dict[str, Any]) -> str:
         """Schedule a medical appointment"""
         pass
-    
+
     @abstractmethod
     async def get_provider_schedule(self,
                                   provider_id: str,
@@ -113,12 +113,12 @@ class BaseHealthcareProvider(ABC):
                                   end_date: datetime) -> List[Dict[str, Any]]:
         """Get provider's schedule"""
         pass
-    
+
     @abstractmethod
     async def handle_error(self, error: Exception) -> None:
         """Handle provider-specific errors"""
         pass
-    
+
     def log_audit_event(self,
                        event_type: str,
                        user_id: str,
@@ -137,13 +137,13 @@ class BaseHealthcareProvider(ABC):
             "details": details or {}
         }
         logger.info(f"Audit event: {event_data}")
-    
+
     def validate_data(self,
                      data: Dict[str, Any],
                      required_fields: List[str]) -> bool:
         """Validate data against required fields"""
         missing_fields = [
-            field for field in required_fields 
+            field for field in required_fields
             if field not in data or data[field] is None
         ]
         if missing_fields:

@@ -152,7 +152,7 @@ if [ "$WORKSPACE_ROOT" = "/" ]; then
     log_warning "Not in a git repository - hooks won't work without git"
 else
     log_success "Found git repository at: $WORKSPACE_ROOT"
-    
+
     # Check if interactive hook framework exists
     HOOK_FRAMEWORK_PATH="$WORKSPACE_ROOT/tools/git-hooks/interactive-hook-framework.sh"
     if [ -f "$HOOK_FRAMEWORK_PATH" ]; then

@@ -28,11 +28,11 @@ async function getCurrentUserContext(req: NextRequest): Promise<{
 } | null> {
   const token = req.cookies.get('auth-token')?.value;
   if (!token) return null;
-  
+
   try {
     const payload = await verifyJWT(token);
     if (!payload?.sub) return null;
-    
+
     return {
       userId: payload.sub,
       tier: payload.tier || 'T1',
@@ -53,7 +53,7 @@ function parseAlias(alias: string): {
   // Expected format: lid#REALM/ZONE/vN.token-checksum
   const match = alias.match(/^lid#([A-Z]+)\/([A-Z]+)\/v(\d+)\.(.+)$/);
   if (!match) return null;
-  
+
   const [, realm, zone, versionStr, token] = match;
   return {
     realm,
@@ -71,7 +71,7 @@ async function canRotateAlias(userId: string, emergencyRotation: boolean): Promi
 }> {
   const now = new Date();
   const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-  
+
   // Check recent rotations
   const recentRotations = await prisma.aliasRotationHistory.count({
     where: {
@@ -81,10 +81,10 @@ async function canRotateAlias(userId: string, emergencyRotation: boolean): Promi
       }
     }
   });
-  
+
   // Allow more rotations for emergency cases
   const maxDailyRotations = emergencyRotation ? 5 : 3;
-  
+
   if (recentRotations >= maxDailyRotations) {
     const nextAllowed = new Date(now.getTime() + 24 * 60 * 60 * 1000);
     return {
@@ -93,7 +93,7 @@ async function canRotateAlias(userId: string, emergencyRotation: boolean): Promi
       nextAllowedAt: nextAllowed
     };
   }
-  
+
   return { allowed: true };
 }
 
@@ -109,10 +109,10 @@ async function generateRotatedAlias(
 } | null> {
   const parsed = parseAlias(currentAlias);
   if (!parsed) return null;
-  
+
   const newVersion = parsed.version + ALIAS_VERSION_INCREMENT;
   const newToken = generateSecureToken(16); // Generate new secure token
-  
+
   // Build new alias with incremented version
   const newAliasResult = await buildAlias({
     realm: parsed.realm,
@@ -122,7 +122,7 @@ async function generateRotatedAlias(
     version: newVersion,
     customToken: newToken
   });
-  
+
   return {
     newAlias: newAliasResult.aliasDisplay,
     newVersion,
@@ -140,11 +140,11 @@ async function logRotationEvent(
   req: NextRequest,
   emergencyRotation: boolean = false
 ): Promise<void> {
-  const ipAddress = req.headers.get('x-forwarded-for') || 
-                    req.headers.get('x-real-ip') || 
+  const ipAddress = req.headers.get('x-forwarded-for') ||
+                    req.headers.get('x-real-ip') ||
                     req.ip || 'unknown';
   const userAgent = req.headers.get('user-agent') || 'unknown';
-  
+
   await prisma.aliasRotationHistory.create({
     data: {
       id: randomUUID(),
@@ -163,7 +163,7 @@ async function logRotationEvent(
       }
     }
   });
-  
+
   // Log to audit system
   console.log('[ALIAS ROTATION AUDIT]', JSON.stringify({
     event: 'alias_rotated',
@@ -180,16 +180,16 @@ async function logRotationEvent(
 
 /**
  * POST /api/alias/rotate
- * 
+ *
  * Rotates a user's ΛiD alias to a new version
- * 
+ *
  * Body:
  * {
  *   "currentAlias": "lid#LUKHAS/EU/v1.abc123-4def",
  *   "justification": "Security concern - potential compromise",
  *   "emergencyRotation": false
  * }
- * 
+ *
  * Response:
  * {
  *   "success": true,
@@ -215,17 +215,17 @@ export async function POST(req: NextRequest) {
         }))
       });
     }
-    
+
     const { currentAlias, justification, emergencyRotation } = parsed.data;
-    
+
     // Get user context
     const userContext = await getCurrentUserContext(req);
     if (!userContext) {
       return unauthorized('Authentication required');
     }
-    
+
     const { userId, tier, scopes } = userContext;
-    
+
     // Check authorization for alias rotation
     const authResult = hasExtendedScope(
       tier as any,
@@ -240,11 +240,11 @@ export async function POST(req: NextRequest) {
         }
       }
     );
-    
+
     if (!authResult.allowed) {
       return unauthorized(`Insufficient permissions: ${authResult.reason}`);
     }
-    
+
     // Verify user owns the current alias
     const existingAlias = await prisma.lidAlias.findFirst({
       where: {
@@ -253,11 +253,11 @@ export async function POST(req: NextRequest) {
         active: true
       }
     });
-    
+
     if (!existingAlias) {
       return notFound('Alias not found or not owned by user');
     }
-    
+
     // Check rotation eligibility
     const rotationCheck = await canRotateAlias(userId, emergencyRotation);
     if (!rotationCheck.allowed) {
@@ -266,18 +266,18 @@ export async function POST(req: NextRequest) {
         nextAllowedAt: rotationCheck.nextAllowedAt?.toISOString()
       });
     }
-    
+
     // Generate new alias
     const rotationResult = await generateRotatedAlias(currentAlias, userId);
     if (!rotationResult) {
       return badRequest('Failed to generate new alias - invalid current alias format');
     }
-    
+
     const { newAlias, newVersion, realm, zone } = rotationResult;
-    
+
     // Calculate expiry for old alias (24h grace period)
     const gracePeriodEnd = new Date(Date.now() + 24 * 60 * 60 * 1000);
-    
+
     // Database transaction to update aliases
     await prisma.$transaction(async (tx) => {
       // Mark old alias as inactive (but keep for grace period)
@@ -289,7 +289,7 @@ export async function POST(req: NextRequest) {
           expiresAt: gracePeriodEnd
         }
       });
-      
+
       // Create new alias
       await tx.lidAlias.create({
         data: {
@@ -307,7 +307,7 @@ export async function POST(req: NextRequest) {
         }
       });
     });
-    
+
     // Log the rotation event
     await logRotationEvent(
       userId,
@@ -317,7 +317,7 @@ export async function POST(req: NextRequest) {
       req,
       emergencyRotation
     );
-    
+
     // Return success response
     return ok({
       newAlias,
@@ -331,7 +331,7 @@ export async function POST(req: NextRequest) {
         justification
       }
     });
-    
+
   } catch (error) {
     console.error('[ALIAS ROTATION ERROR]', error);
     return softError('Internal server error during alias rotation');
@@ -340,9 +340,9 @@ export async function POST(req: NextRequest) {
 
 /**
  * GET /api/alias/rotate
- * 
+ *
  * Get rotation history and eligibility status
- * 
+ *
  * Response:
  * {
  *   "success": true,
@@ -362,9 +362,9 @@ export async function GET(req: NextRequest) {
     if (!userContext) {
       return unauthorized('Authentication required');
     }
-    
+
     const { userId } = userContext;
-    
+
     // Get current active alias
     const currentAlias = await prisma.lidAlias.findFirst({
       where: {
@@ -375,10 +375,10 @@ export async function GET(req: NextRequest) {
         version: 'desc'
       }
     });
-    
+
     // Check rotation eligibility
     const rotationCheck = await canRotateAlias(userId, false);
-    
+
     // Get recent rotation history
     const recentRotations = await prisma.aliasRotationHistory.findMany({
       where: { userId },
@@ -392,7 +392,7 @@ export async function GET(req: NextRequest) {
         emergencyRotation: true
       }
     });
-    
+
     const now = new Date();
     const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
     const todaysRotations = await prisma.aliasRotationHistory.count({
@@ -401,7 +401,7 @@ export async function GET(req: NextRequest) {
         rotatedAt: { gte: oneDayAgo }
       }
     });
-    
+
     return ok({
       canRotate: rotationCheck.allowed,
       remainingRotations: Math.max(0, 3 - todaysRotations),
@@ -414,7 +414,7 @@ export async function GET(req: NextRequest) {
         emergencyLimit: 5
       }
     });
-    
+
   } catch (error) {
     console.error('[ALIAS ROTATION STATUS ERROR]', error);
     return softError('Internal server error retrieving rotation status');

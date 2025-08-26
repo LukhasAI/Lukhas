@@ -25,9 +25,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, 
-                rgba(0, 0, 17, 1) 0%, 
-                rgba(0, 10, 40, 1) 50%, 
+            background: linear-gradient(to bottom,
+                rgba(0, 0, 17, 1) 0%,
+                rgba(0, 10, 40, 1) 50%,
                 rgba(15, 0, 30, 1) 100%);
         }
 
@@ -164,8 +164,8 @@
         .dream-orb {
             position: absolute;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, 
-                rgba(255, 255, 255, 0.3), 
+            background: radial-gradient(circle at 30% 30%,
+                rgba(255, 255, 255, 0.3),
                 rgba(147, 51, 234, 0.2),
                 transparent);
             filter: blur(2px);
@@ -365,18 +365,18 @@
             draw() {
                 const pulse = Math.sin(this.pulsePhase) * 0.5 + 1;
                 const opacity = this.active ? 0.9 : 0.3;
-                
+
                 // Glow effect
                 const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 5);
                 gradient.addColorStop(0, `rgba(100, 200, 255, ${opacity})`);
                 gradient.addColorStop(0.5, `rgba(147, 51, 234, ${opacity * 0.5})`);
                 gradient.addColorStop(1, 'transparent');
-                
+
                 ctx.fillStyle = gradient;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius * pulse * 5, 0, Math.PI * 2);
                 ctx.fill();
-                
+
                 // Core node
                 ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
                 ctx.beginPath();
@@ -405,18 +405,18 @@
         // Draw connections between nearby nodes
         function drawConnections() {
             const maxDistance = 150;
-            
+
             ctx.strokeStyle = 'rgba(100, 200, 255, 0.1)';
             ctx.lineWidth = 1;
-            
+
             for (let i = 0; i < nodes.length; i++) {
                 for (let j = i + 1; j < nodes.length; j++) {
                     const distance = nodes[i].distanceTo(nodes[j]);
-                    
+
                     if (distance < maxDistance) {
                         const opacity = 1 - (distance / maxDistance);
                         ctx.strokeStyle = `rgba(100, 200, 255, ${opacity * 0.2})`;
-                        
+
                         ctx.beginPath();
                         ctx.moveTo(nodes[i].x, nodes[i].y);
                         ctx.lineTo(nodes[j].x, nodes[j].y);
@@ -431,20 +431,20 @@
             const width = window.innerWidth * 0.8;
             const points = [];
             const samples = 200;
-            
+
             for (let i = 0; i <= samples; i++) {
                 const x = (i / samples) * width;
                 const y = 75 + amplitude * Math.sin((i / samples) * frequency * Math.PI * 2 + phase);
                 points.push(`${x},${y}`);
             }
-            
+
             return `M ${points.join(' L ')}`;
         }
 
         let wavePhase = 0;
         function updateWaves() {
             wavePhase += 0.05;
-            
+
             document.getElementById('deltaWave').setAttribute('d', generateWave(2, 30, wavePhase));
             document.getElementById('thetaWave').setAttribute('d', generateWave(4, 25, wavePhase * 1.5));
             document.getElementById('alphaWave').setAttribute('d', generateWave(8, 20, wavePhase * 2));
@@ -459,7 +459,7 @@
         canvas.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            
+
             // Activate nearby nodes
             nodes.forEach(node => {
                 const dx = node.x - mouseX;
@@ -481,7 +481,7 @@
             flash.style.left = x + 'px';
             flash.style.top = y + 'px';
             document.body.appendChild(flash);
-            
+
             setTimeout(() => flash.remove(), 500);
         }
 
@@ -494,7 +494,7 @@
                     particle.style.top = y + 'px';
                     particle.style.animationDelay = (Math.random() * 0.5) + 's';
                     document.body.appendChild(particle);
-                    
+
                     setTimeout(() => particle.remove(), 8000);
                 }, i * 100);
             }
@@ -528,13 +528,13 @@
             const stageData = sleepStages[stage];
             document.getElementById('stageName').textContent = stageData.name;
             document.getElementById('poetryText').innerHTML = stageData.poetry;
-            
+
             // Update active button
             document.querySelectorAll('.control-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
-            
+
             // Adjust animation speeds based on stage
             const speedMultiplier = {
                 awake: 2,
@@ -543,7 +543,7 @@
                 n3: 0.5,
                 rem: 3
             }[stage];
-            
+
             nodes.forEach(node => {
                 node.vx = (Math.random() - 0.5) * 0.5 * speedMultiplier;
                 node.vy = (Math.random() - 0.5) * 0.5 * speedMultiplier;
@@ -569,16 +569,16 @@
         function animate() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
+
             drawConnections();
-            
+
             nodes.forEach(node => {
                 node.update();
                 node.draw();
             });
-            
+
             updateWaves();
-            
+
             requestAnimationFrame(animate);
         }
 

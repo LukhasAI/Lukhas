@@ -7,7 +7,7 @@ from .identity_core_bridge import IdentityCoreBridge
 from .memory_consciousness_bridge import get_memory_consciousness_bridge
 from .memory_learning_bridge import MemoryLearningBridge, get_memory_learning_bridge
 from .nias_dream_bridge import get_nias_dream_bridge
-from .quantum_memory_bridge import get_quantum_memory_bridge
+from .qi_memory_bridge import get_quantum_memory_bridge
 
 # from .orchestration_core_bridge import OrchestrationCoreBridge
 
@@ -22,7 +22,7 @@ class BridgeRegistry:
             "core_safety": CoreSafetyBridge,
             "memory_consciousness": get_memory_consciousness_bridge,
             "nias_dream": get_nias_dream_bridge,
-            "quantum_memory": get_quantum_memory_bridge,
+            "qi_memory": get_quantum_memory_bridge,
             "memory_learning": get_memory_learning_bridge,
         }
 

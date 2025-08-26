@@ -28,7 +28,7 @@ colors:
       rgb: "16, 185, 129"
       hsl: "160, 84%, 39%"
       usage: "Success states, ethical indicators, safety elements"
-  
+
   # Accent Colors
   accent:
     gold:
@@ -41,7 +41,7 @@ colors:
       rgb: "251, 191, 36"
       hsl: "43, 96%, 56%"
       usage: "Hover states for gold elements"
-  
+
   # Semantic Colors
   semantic:
     success:
@@ -56,7 +56,7 @@ colors:
     info:
       hex: "#0EA5E9"
       rgb: "14, 165, 233"
-  
+
   # Text Colors
   text:
     primary:
@@ -75,7 +75,7 @@ colors:
       hex: "#525252"
       rgb: "82, 82, 82"
       opacity: 0.4
-  
+
   # Background Colors
   background:
     primary:
@@ -90,7 +90,7 @@ colors:
     elevated:
       hex: "#1A1A1A"
       rgb: "26, 26, 26"
-  
+
   # Glass Morphism
   glass:
     light:
@@ -121,7 +121,7 @@ typography:
       - "Inconsolata"
       - "Fira Code"
       - "monospace"
-  
+
   # Font Weights
   weights:
     ultralight: 100
@@ -130,7 +130,7 @@ typography:
     medium: 500
     semibold: 600
     bold: 700
-  
+
   # Type Scale
   scale:
     display:
@@ -213,7 +213,7 @@ layout:
     6xl: "72rem"   # 1152px
     7xl: "80rem"   # 1280px
     full: "100%"
-  
+
   # Breakpoints
   breakpoints:
     sm: "640px"
@@ -221,7 +221,7 @@ layout:
     lg: "1024px"
     xl: "1280px"
     2xl: "1536px"
-  
+
   # Grid System
   grid:
     columns: 12
@@ -240,7 +240,7 @@ borders:
     2xl: "1rem"      # 16px
     3xl: "1.5rem"    # 24px
     full: "9999px"
-  
+
   width:
     none: "0"
     thin: "1px"
@@ -273,7 +273,7 @@ animation:
     easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)"
     bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
     smooth: "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
-  
+
   # Durations
   duration:
     instant: "100ms"
@@ -282,7 +282,7 @@ animation:
     slow: "500ms"
     slower: "700ms"
     slowest: "1000ms"
-  
+
   # Presets
   presets:
     fadeIn:
@@ -340,7 +340,7 @@ components:
       backdropFilter: "blur(24px)"
       border: "1px solid glass.border"
       color: "text.primary"
-  
+
   # Card Variants
   card:
     default:
@@ -359,7 +359,7 @@ components:
       borderRadius: "borders.radius.2xl"
       padding: "spacing.6"
       boxShadow: "shadows.xl"
-  
+
   # Input Fields
   input:
     default:
@@ -388,7 +388,7 @@ accessibility:
       style: "solid"
       width: "2px"
       color: "trinity.consciousness"
-  
+
   # Skip Links
   skipLink:
     background: "trinity.identity"
@@ -396,7 +396,7 @@ accessibility:
     padding: "spacing.2 spacing.4"
     position: "absolute"
     zIndex: 100
-  
+
   # Screen Reader
   srOnly:
     position: "absolute"
@@ -417,7 +417,7 @@ performance:
     cls: 0.1         # Cumulative Layout Shift
     tti: "3.8s"      # Time to Interactive
     fcp: "1.8s"      # First Contentful Paint
-  
+
   budgets:
     javascript: "200KB"
     css: "50KB"

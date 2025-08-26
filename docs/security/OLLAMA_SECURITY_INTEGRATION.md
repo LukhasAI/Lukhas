@@ -235,14 +235,14 @@ self.model = "qwen2.5-coder:1.5b"  # Faster, smaller model
   run: |
     # Install Ollama (Linux)
     curl -fsSL https://ollama.ai/install.sh | sh
-    
+
     # Start Ollama
     ollama serve &
     sleep 5
-    
+
     # Pull model
     ollama pull deepseek-coder:6.7b
-    
+
     # Run security check
     make security-ollama
 ```
@@ -288,5 +288,5 @@ Typical performance on M1 Mac:
 
 ---
 
-**LUKHAS AI Security** - Powered by Local AI 🤖🛡️  
+**LUKHAS AI Security** - Powered by Local AI 🤖🛡️
 *Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian*

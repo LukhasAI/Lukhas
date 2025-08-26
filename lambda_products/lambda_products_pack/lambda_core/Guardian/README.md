@@ -138,7 +138,7 @@ lambda_guardian:
     interval_seconds: 5
     alert_threshold: 0.7
     lambda_enhanced: true
-  
+
   medical:
     ocr_enabled: true
     emergency_protocols: true
@@ -147,13 +147,13 @@ lambda_guardian:
       - clicsalud
       - local_pharmacy
       - λ-health
-  
+
   accessibility:
     vision_assist: true
     cognitive_aid: true
     lambda_enhanced: true
     languages: ["en", "es", "fr", "de"]
-  
+
   security:
     consent_required: true
     audit_logging: true
@@ -174,7 +174,7 @@ lambda_emergency_contacts:
       name: "Lambda Emergency Services"
       phone: "911"
       lambda_enhanced: true
-      
+
   family:
     primary:
       name: "Emergency Contact"

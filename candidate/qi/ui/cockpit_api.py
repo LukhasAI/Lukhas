@@ -1,20 +1,30 @@
 # path: qi/ui/cockpit_api.py
 from __future__ import annotations
-import os, io, json, glob, hashlib, time
-from typing import Optional, List, Dict, Any
-from fastapi import FastAPI, HTTPException, Query, Header
-from fastapi.responses import JSONResponse, FileResponse, HTMLResponse
-from fastapi.staticfiles import StaticFiles
+
+import json
+import os
+import time
+from typing import List, Optional
+
+from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+
+from qi.autonomy.self_healer import apply, approve, list_proposals
 
 # Component imports
 from qi.docs.model_safety_card import generate_card, to_markdown
-from qi.ops.auto_safety_report import generate_report, _mk_markdown, _recent_receipts, _latest_eval
 from qi.learning.adaptive_engine import AdaptiveLearningEngine
 from qi.learning.human_adapt_engine import HumanAdaptEngine
-from qi.autonomy.self_healer import list_proposals, approve, apply
+from qi.metrics.calibration import fit_and_save, reliability_svg
+from qi.ops.auto_safety_report import (
+    _latest_eval,
+    _mk_markdown,
+    _recent_receipts,
+    generate_report,
+)
 from qi.provenance.receipts_api import receipt_neighbors, receipt_sample
-from qi.metrics.calibration import reliability_svg, fit_and_save, load_params
 
 # ---- UI serving (single-file cockpit + friends) ----
 COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")     # /abs/path/to/web/cockpit.html
@@ -23,6 +33,7 @@ APPROVER_UI_PATH = os.environ.get("APPROVER_UI_PATH")   # /abs/path/to/web/appro
 
 # Safe I/O for UI files
 import builtins
+
 _ORIG_OPEN = builtins.open
 
 # Auth
@@ -81,7 +92,7 @@ def get_safety_card_json(
             overlays=overlays,
             jurisdictions=jurs
         )
-        
+
         if include_appendix:
             # Add nightly report as appendix
             try:
@@ -89,14 +100,14 @@ def get_safety_card_json(
                 card["_appendix_nightly_report_md"] = report_md
             except:
                 card["_appendix_nightly_report_md"] = "(appendix generation failed)"
-        
+
         return card
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Safety card JSON generation failed: {str(e)}")
 
 @app.get("/cockpit/safety_card.md")
 def get_safety_card_markdown(
-    model: str = Query("LUKHAS-QI"), 
+    model: str = Query("LUKHAS-QI"),
     version: str = Query("0.9.0"),
     policy_root: str = Query("qi/safety/policy_packs"),
     overlays: Optional[str] = Query("qi/risk"),
@@ -133,9 +144,9 @@ def get_safety_card_pdf(
 
 @app.get("/cockpit/calibration.svg", response_class=HTMLResponse)
 def calibration_svg(
-    task: Optional[str] = Query(None), 
-    width: int = Query(640), 
-    height: int = Query(320), 
+    task: Optional[str] = Query(None),
+    width: int = Query(640),
+    height: int = Query(320),
     token: Optional[str] = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
@@ -150,10 +161,10 @@ def calibration_refit(
     try:
         p = fit_and_save(source_preference=source)
         return JSONResponse({
-            "ok": True, 
-            "source": p.source, 
-            "temperature": p.temperature, 
-            "ece": p.ece, 
+            "ok": True,
+            "source": p.source,
+            "temperature": p.temperature,
+            "ece": p.ece,
             "per_task_temperature": p.per_task_temperature or {},
             "per_task_ece": p.per_task_ece or {}
         })
@@ -394,17 +405,17 @@ def list_all_proposals(
     _check_auth(token)
     try:
         proposals = list_proposals()
-        
+
         # Apply filters
         if status_filter:
             proposals = [p for p in proposals if p.get("status") == status_filter]
         if author_filter:
             proposals = [p for p in proposals if p.get("author", "").startswith(author_filter)]
-        
+
         # Sort by timestamp (newest first) and limit
         proposals.sort(key=lambda x: x.get("ts", 0), reverse=True)
         proposals = proposals[:limit]
-        
+
         # Add proposal source classification
         for p in proposals:
             author = p.get("author", "")
@@ -416,7 +427,7 @@ def list_all_proposals(
                 p["source"] = "self_healing"
             else:
                 p["source"] = "manual"
-        
+
         return {
             "proposals": proposals,
             "count": len(proposals),
@@ -516,9 +527,9 @@ def get_approval_stats(
         proposals = list_proposals()
         now = time.time()
         cutoff = now - (days_back * 24 * 3600)
-        
+
         recent = [p for p in proposals if p.get("ts", 0) >= cutoff]
-        
+
         stats = {
             "total_recent": len(recent),
             "by_status": {},
@@ -527,12 +538,12 @@ def get_approval_stats(
             "avg_approval_time": None,
             "pending_count": 0
         }
-        
+
         approval_times = []
         for p in recent:
             status = p.get("status", "unknown")
             stats["by_status"][status] = stats["by_status"].get(status, 0) + 1
-            
+
             author = p.get("author", "")
             if "adaptive" in author:
                 source = "adaptive"
@@ -543,18 +554,18 @@ def get_approval_stats(
             else:
                 source = "manual"
             stats["by_source"][source] = stats["by_source"].get(source, 0) + 1
-            
+
             risk = p.get("risk", "unknown")
             stats["by_risk"][risk] = stats["by_risk"].get(risk, 0) + 1
-            
+
             if status == "pending":
                 stats["pending_count"] += 1
             elif status == "approved" and p.get("approved_ts") and p.get("ts"):
                 approval_times.append(p["approved_ts"] - p["ts"])
-        
+
         if approval_times:
             stats["avg_approval_time"] = sum(approval_times) / len(approval_times)
-        
+
         return {"stats": stats, "days_back": days_back, "generated_at": time.time()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Stats generation failed: {str(e)}")
@@ -570,28 +581,28 @@ def get_recent_receipts(
     _check_auth(token)
     try:
         receipts = _recent_receipts(limit * 2)  # Get more to allow filtering
-        
+
         if task_filter:
-            receipts = [r for r in receipts if 
+            receipts = [r for r in receipts if
                        (r.get("activity") or {}).get("type", "").find(task_filter) >= 0]
-        
+
         receipts = receipts[:limit]
-        
+
         # Add summary stats
         task_counts = {}
         risk_counts = {}
         latencies = []
-        
+
         for r in receipts:
             task = (r.get("activity") or {}).get("type") or "unknown"
             task_counts[task] = task_counts.get(task, 0) + 1
-            
+
             for rf in r.get("risk_flags", []) or []:
                 risk_counts[rf] = risk_counts.get(rf, 0) + 1
-            
+
             if r.get("latency_ms") is not None:
                 latencies.append(r["latency_ms"])
-        
+
         summary = {
             "total": len(receipts),
             "task_distribution": task_counts,
@@ -599,7 +610,7 @@ def get_recent_receipts(
             "latency_p50": sorted(latencies)[len(latencies)//2] if latencies else None,
             "latency_p95": sorted(latencies)[int(0.95*len(latencies))-1] if latencies else None
         }
-        
+
         return {
             "receipts": receipts,
             "summary": summary,
@@ -617,17 +628,17 @@ def get_receipts_simplified(
     _check_auth(token)
     try:
         receipts = _recent_receipts(limit)
-        
+
         # Transform to match UI expectations
         items = []
         for r in receipts:
             items.append({
                 "id": r.get("id", "unknown"),
-                "task": (r.get("activity") or {}).get("type") or "unknown", 
+                "task": (r.get("activity") or {}).get("type") or "unknown",
                 "latency_ms": r.get("latency_ms"),
                 "risk_flags": r.get("risk_flags", [])
             })
-        
+
         return {"items": items, "count": len(items)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {str(e)}")
@@ -655,7 +666,7 @@ def replay_receipt_json(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Receipt replay failed: {str(e)}")
 
-@app.get("/cockpit/receipts/{receipt_id}/trace.svg")  
+@app.get("/cockpit/receipts/{receipt_id}/trace.svg")
 def get_receipt_trace_svg(
     receipt_id: str,
     policy_root: str = Query("qi/safety/policy_packs"),
@@ -673,7 +684,7 @@ def get_receipt_trace_svg(
           <text x="200" y="110" text-anchor="middle" fill="#3ddc97" font-family="monospace">✓ ALLOWED</text>
           <text x="200" y="140" text-anchor="middle" fill="#8ab4f8" font-family="monospace">Trace visualization requires receipts_api</text>
         </svg>"""
-        
+
         return HTMLResponse(content=svg, media_type="image/svg+xml")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Trace generation failed: {str(e)}")
@@ -723,12 +734,12 @@ def get_feedback_list(
             task_filter=task,
             jurisdiction_filter=jurisdiction
         )
-        
+
         # Compute summary
         if feedback:
             satisfactions = [fc.get("feedback", {}).get("satisfaction", 0.5) for fc in feedback]
             avg_sat = sum(satisfactions) / len(satisfactions)
-            
+
             issue_counts = {}
             for fc in feedback:
                 for issue in fc.get("feedback", {}).get("issues", []):
@@ -736,7 +747,7 @@ def get_feedback_list(
         else:
             avg_sat = None
             issue_counts = {}
-        
+
         return {
             "feedback": feedback,
             "count": len(feedback),
@@ -759,10 +770,10 @@ def get_feedback_clusters(
         from qi.feedback.store import get_store
         store = get_store()
         clusters = store.read_clusters()
-        
+
         if task:
             clusters = [c for c in clusters if c.get("task") == task]
-        
+
         return {
             "clusters": clusters,
             "count": len(clusters),
@@ -781,7 +792,7 @@ def run_feedback_clustering(
         from qi.feedback.triage import get_triage
         triage = get_triage()
         stats = triage.run_triage(limit=limit)
-        
+
         return {
             "status": "completed",
             "stats": stats,
@@ -801,18 +812,18 @@ def promote_feedback_to_proposal(
     try:
         if not fc_id and not cluster_id:
             raise HTTPException(status_code=400, detail="Either fc_id or cluster_id required")
-        
+
         from qi.feedback.proposals import ProposalMapper
         mapper = ProposalMapper()
-        
+
         if cluster_id:
             proposal_id = mapper.promote_cluster(cluster_id, target_file)
         else:
             proposal_id = mapper.promote_feedback_card(fc_id, target_file)
-        
+
         if not proposal_id:
             raise HTTPException(status_code=400, detail="Could not create proposal from feedback")
-        
+
         return {
             "proposal_id": proposal_id,
             "status": "queued",
@@ -833,7 +844,7 @@ def health_check():
         "timestamp": time.time(),
         "components": {
             "safety_card": "available",
-            "nightly_report": "available", 
+            "nightly_report": "available",
             "adaptive_learning": "available",
             "human_adaptation": "available",
             "approvals": "available",
@@ -851,28 +862,28 @@ def get_dashboard_summary(
     try:
         # Latest eval
         latest_eval = _latest_eval()
-        
+
         # Recent receipts summary
         recent_receipts = _recent_receipts(100)
-        
+
         # Proposals summary
         proposals = list_proposals()
         pending_proposals = [p for p in proposals if p.get("status") == "pending"]
-        
+
         # Adaptive learning summary
         try:
             adaptive_engine = AdaptiveLearningEngine()
             adaptive_patterns = adaptive_engine.analyze_performance_patterns(window=500)
         except:
             adaptive_patterns = None
-        
+
         # Human adaptation summary
         try:
             human_engine = HumanAdaptEngine()
             human_patterns = human_engine.analyze_satisfaction_patterns(window=500)
         except:
             human_patterns = None
-        
+
         dashboard = {
             "timestamp": time.time(),
             "evaluation": {
@@ -892,7 +903,7 @@ def get_dashboard_summary(
                 "human_patterns": human_patterns
             }
         }
-        
+
         # Proposal source breakdown
         for p in pending_proposals:
             author = p.get("author", "")
@@ -904,7 +915,7 @@ def get_dashboard_summary(
                 source = "other"
             dashboard["governance"]["proposal_sources"][source] = \
                 dashboard["governance"]["proposal_sources"].get(source, 0) + 1
-        
+
         return {"dashboard": dashboard}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Dashboard generation failed: {str(e)}")

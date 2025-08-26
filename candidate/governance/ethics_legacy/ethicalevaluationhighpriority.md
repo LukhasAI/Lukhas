@@ -142,4 +142,4 @@ graph TD
 
 ---
 
-**This documentation is marked as HIGH PRIORITY for system integrity, compliance, and explainability.** 
+**This documentation is marked as HIGH PRIORITY for system integrity, compliance, and explainability.**

@@ -78,7 +78,7 @@
 
 #### Sprint 1-2 (Critical Security)
 - **Priority 1**: Revoke exposed OpenAI API keys
-- **Priority 1**: Pin all Python dependencies  
+- **Priority 1**: Pin all Python dependencies
 - **Priority 1**: Configure gitleaks pre-commit hooks
 - **Priority 2**: Create CODEOWNERS file
 - **Priority 2**: Implement environment-based secrets
@@ -125,7 +125,7 @@
 
 **Blocking Dependencies**:
 - All security features depend on WebAuthn + ΛID foundation
-- All monitoring features depend on Prometheus infrastructure  
+- All monitoring features depend on Prometheus infrastructure
 - Advanced alignment features depend on policy engine + consent system
 - Performance optimization depends on monitoring baseline
 
@@ -133,7 +133,7 @@
 
 ### Development Team Allocation
 - **Security Engineer**: Q1-Q2 (Secret management, static analysis, policy engine)
-- **Identity Engineer**: Q1-Q2 (WebAuthn, ΛID, OAuth federation)  
+- **Identity Engineer**: Q1-Q2 (WebAuthn, ΛID, OAuth federation)
 - **Platform Engineer**: Q1 (Monitoring, performance, infrastructure)
 - **Frontend Developer**: Q2 (Consent UI, compliance dashboard)
 - **QA Engineer**: Q1-Q2 (Test coverage, security testing, performance testing)

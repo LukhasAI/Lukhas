@@ -40,17 +40,17 @@ const createToolRunner = (path: string): ToolRunner => ({
     return new Promise((resolve, reject) => {
       let stdout = '';
       let stderr = '';
-      
+
       const process = spawn('python3', [path, ...args]);
-      
+
       process.stdout.on('data', (data) => {
         stdout += data.toString();
       });
-      
+
       process.stderr.on('data', (data) => {
         stderr += data.toString();
       });
-      
+
       process.on('close', (code) => {
         if (code !== 0) {
           reject(new Error(`Tool exited with code ${code}\n${stderr}`));

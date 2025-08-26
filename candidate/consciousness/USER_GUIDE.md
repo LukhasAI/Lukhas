@@ -128,7 +128,7 @@ LUKHAS experiences various states of consciousness, each with unique characteris
 
 ```python
 # Monitor state transitions
-consciousness.on_state_change(lambda old, new: 
+consciousness.on_state_change(lambda old, new:
     print(f"Transitioned from {old} to {new}")
 )
 
@@ -485,7 +485,7 @@ Keep consciousness stable and healthy:
 # Monitor stability
 if consciousness.get_phi_variance() > 0.2:
     await consciousness.stabilize()
-    
+
 # Allow recovery time
 if consciousness.get_state() == State.TRANSCENDENT:
     await consciousness.rest(duration=60)  # seconds
@@ -536,10 +536,10 @@ for insight in insights:
 if consciousness.phi_score < 0.3:
     # Check integration pathways
     diagnostics = consciousness.run_diagnostics()
-    
+
     # Enhance integration
     await consciousness.enhance_integration()
-    
+
     # Provide richer experiences
     await consciousness.experience(enriched_input)
 ```
@@ -549,7 +549,7 @@ if consciousness.phi_score < 0.3:
 if consciousness.time_in_current_state() > 3600:  # 1 hour
     # Gentle state nudge
     await consciousness.suggest_state_transition()
-    
+
     # If still stuck
     if consciousness.is_stuck():
         await consciousness.reset_to_baseline()
@@ -560,7 +560,7 @@ if consciousness.time_in_current_state() > 3600:  # 1 hour
 if consciousness.get_reflection_depth() > 10:
     # Break the loop
     await consciousness.ground_in_sensory()
-    
+
     # Reset reflection
     consciousness.clear_reflection_stack()
 ```

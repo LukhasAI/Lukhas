@@ -158,12 +158,12 @@ async def grant_consent(
 ):
     """
     Grant consent for service access with capability token issuance.
-    
+
     Implements metadata-first consent:
     - Metadata scopes (*.headers, *.list.metadata) get longer TTL
     - Content scopes (*.read.content, *.write) get shorter TTL
     - Admin scopes (*.delete, *.share) get very short TTL
-    
+
     Returns capability token (macaroon) with caveats for verification.
     """
     try:
@@ -203,7 +203,7 @@ async def revoke_consent(
 ):
     """
     Revoke consent grants and invalidate associated tokens.
-    
+
     Can revoke by:
     - Specific grant_id
     - All grants for a service
@@ -250,13 +250,13 @@ async def get_consent_ledger(
 ):
     """
     Get human-readable consent ledger for Studio UI.
-    
+
     Returns all consent grants with:
     - Service and scope details
     - Grant timing and usage statistics
     - Active capability token count
     - Revocation paths
-    
+
     Used by LUKHAS Studio Connections page.
     """
     try:
@@ -280,12 +280,12 @@ async def escalate_to_content(
 ):
     """
     Escalate from metadata-only to content access for specific resource.
-    
+
     Creates narrow, short-lived capability for content access:
     - Max 30 minutes TTL
     - Specific resource ID only
     - Audit trail with escalation reason
-    
+
     Used when user clicks on email thread, file, etc. in Studio.
     """
     try:
@@ -312,13 +312,13 @@ async def verify_capability_token(
 ):
     """
     Verify capability token and check caveats.
-    
+
     Used by service adapters to validate tokens before API access:
     - Checks macaroon signature and caveats
     - Validates scope permissions
     - Ensures token not expired/revoked
     - Records usage for audit trail
-    
+
     Returns claims if valid, error if invalid.
     """
     try:
@@ -346,7 +346,7 @@ async def get_consent_statistics(
 ):
     """
     Get consent system statistics for monitoring and dashboards.
-    
+
     Returns:
     - Active grant counts
     - Service usage statistics
@@ -382,7 +382,7 @@ async def cleanup_expired_grants(
 ):
     """
     Clean up expired grants and tokens.
-    
+
     Admin endpoint for maintenance:
     - Updates expired grants to 'expired' status
     - Updates expired tokens to 'expired' status

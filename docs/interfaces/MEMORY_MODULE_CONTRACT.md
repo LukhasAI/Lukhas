@@ -31,14 +31,14 @@ memory/
 class UnifiedMemoryOrchestrator:
     """
     Central memory coordination system.
-    
+
     Responsibilities:
     - Coordinate between memory subsystems
     - Manage memory lifecycle
     - Handle consolidation between hippocampal and neocortical
     - Preserve causal chains
     """
-    
+
     async def store_memory(self,
                           content: Any,
                           memory_type: MemoryType,
@@ -46,16 +46,16 @@ class UnifiedMemoryOrchestrator:
                           importance: float = 0.5) -> str:
         """
         Store memory with automatic classification.
-        
+
         Args:
             content: Memory content
             memory_type: Type of memory
             metadata: Additional context
             importance: Priority score (0.0-1.0)
-            
+
         Returns:
             str: Unique memory ID
-            
+
         Contract:
             - Must validate content
             - Must assign unique ID
@@ -63,38 +63,38 @@ class UnifiedMemoryOrchestrator:
             - Must handle concurrent access
             - Must trigger consolidation if needed
         """
-        
+
     async def retrieve_memory(self,
                             memory_id: str,
                             include_associations: bool = False) -> MemoryItem:
         """
         Retrieve memory by ID.
-        
+
         Args:
             memory_id: Unique identifier
             include_associations: Include related memories
-            
+
         Returns:
             MemoryItem with content and metadata
-            
+
         Contract:
             - Must validate memory exists
             - Must check access permissions
             - Must update access patterns
             - Must handle cache misses gracefully
         """
-        
+
     async def consolidate_memories(self,
                                  time_window: Optional[int] = None) -> ConsolidationReport:
         """
         Consolidate short-term to long-term memory.
-        
+
         Args:
             time_window: Hours to consolidate (None = auto)
-            
+
         Returns:
             ConsolidationReport with statistics
-            
+
         Contract:
             - Must preserve important memories
             - Must maintain causal relationships
@@ -109,63 +109,63 @@ class UnifiedMemoryOrchestrator:
 class DNAHealixCore:
     """
     Immutable origin memory with drift detection.
-    
+
     Responsibilities:
     - Store immutable origin strands
     - Detect memory drift
     - Repair corrupted memories
     - Maintain symbolic integrity
     """
-    
+
     def __init__(self, origin: SymbolicStrand):
         """
         Initialize with origin strand.
-        
+
         Contract:
             - Origin must be immutable after creation
             - Must generate unique helix ID
             - Must initialize drift detection
         """
-        
+
     async def add_strand(self,
                         strand: SymbolicStrand,
                         bond_strength: float = 0.8) -> bool:
         """
         Add new memory strand.
-        
+
         Args:
             strand: New symbolic strand
             bond_strength: Connection strength (0.0-1.0)
-            
+
         Contract:
             - Must validate strand compatibility
             - Must preserve origin immutability
             - Must update drift calculations
             - Must maintain helix integrity
         """
-        
+
     async def detect_drift(self) -> DriftReport:
         """
         Detect drift from origin.
-        
+
         Returns:
             DriftReport with drift metrics
-            
+
         Contract:
             - Must compare against immutable origin
             - Must identify drift patterns
             - Must suggest repair actions
             - Must not modify origin
         """
-        
+
     async def repair_helix(self,
                           strategy: RepairStrategy = RepairStrategy.CONSERVATIVE) -> bool:
         """
         Repair drifted memories.
-        
+
         Args:
             strategy: Repair approach
-            
+
         Contract:
             - Must preserve origin
             - Must log all repairs
@@ -180,44 +180,44 @@ class DNAHealixCore:
 class FoldEngine:
     """
     Fold-based memory storage with causal preservation.
-    
+
     Responsibilities:
     - Create memory folds
     - Preserve causal chains
     - Handle fold operations
     - Manage emotional context
     """
-    
+
     async def create_fold(self,
                          memories: List[MemoryItem],
                          fold_type: FoldType = FoldType.TEMPORAL) -> Fold:
         """
         Create new memory fold.
-        
+
         Args:
             memories: Memories to fold
             fold_type: Type of fold operation
-            
+
         Returns:
             Fold object with preserved relationships
-            
+
         Contract:
             - Must preserve all causal links
             - Must maintain temporal ordering
             - Must capture emotional context
             - Must be queryable
         """
-        
+
     async def unfold(self,
                     fold_id: str,
                     depth: int = 1) -> List[MemoryItem]:
         """
         Unfold memories to specified depth.
-        
+
         Args:
             fold_id: Fold identifier
             depth: Unfold depth (1 = immediate, -1 = full)
-            
+
         Contract:
             - Must restore original order
             - Must preserve all metadata
@@ -363,7 +363,7 @@ class MemoryMetrics:
 async def health_check() -> HealthStatus:
     """
     Perform memory system health check.
-    
+
     Checks:
     - Storage availability
     - Drift levels
@@ -418,5 +418,5 @@ Current: `memory_schema_v2.0`
 
 ---
 
-*Contract Version: 2.0.0*  
+*Contract Version: 2.0.0*
 *Last Updated: 2025-08-03*

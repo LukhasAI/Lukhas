@@ -128,7 +128,7 @@ class ConsentService:
     ) -> Tuple[str, CapabilityToken]:
         """
         Grant consent and issue capability token.
-        
+
         Returns:
             (grant_id, capability_token) tuple
         """
@@ -191,7 +191,7 @@ class ConsentService:
     ) -> int:
         """
         Revoke consent grants and invalidate tokens.
-        
+
         Returns:
             Number of grants revoked
         """
@@ -243,7 +243,7 @@ class ConsentService:
         """
         async with self.db_pool.acquire() as conn:
             query = """
-                SELECT grant_id, service_name, purpose, granted_scopes, 
+                SELECT grant_id, service_name, purpose, granted_scopes,
                        granted_at, expires_at, last_used_at, use_count,
                        status, active_tokens
                 FROM consent.active_grants_summary
@@ -287,7 +287,7 @@ class ConsentService:
     ) -> Dict[str, Any]:
         """
         Verify capability token and check caveats.
-        
+
         Returns:
             Token claims if valid, raises exception if invalid
         """
@@ -457,7 +457,7 @@ class ConsentService:
         token_hash = hashlib.sha256(token_str.encode()).hexdigest()
 
         await conn.execute("""
-            INSERT INTO consent.capability_tokens 
+            INSERT INTO consent.capability_tokens
             (grant_id, token_hash, macaroon_data, scopes, expires_at, client_ip)
             VALUES ($1, $2, $3, $4, $5, $6)
         """, grant_id, token_hash, token_str, scopes, expires_at, client_ip)
@@ -564,7 +564,7 @@ class ConsentService:
     async def _record_token_usage(self, conn, token_id: str, resource_id: Optional[str]):
         """Record token usage for audit trail"""
         await conn.execute("""
-            UPDATE consent.capability_tokens 
+            UPDATE consent.capability_tokens
             SET last_used_at = NOW(), use_count = use_count + 1
             WHERE token_hash = $1
         """, token_id)
@@ -587,7 +587,7 @@ class ConsentService:
         await conn.execute("""
             INSERT INTO consent.audit_log (
                 event_type, user_lid, service_name, grant_id, scopes, purpose,
-                resource_identifier, client_ip, processing_time_ms, success, 
+                resource_identifier, client_ip, processing_time_ms, success,
                 error_message, metadata
             ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         """,

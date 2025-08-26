@@ -415,7 +415,7 @@ class IntegratedSafetySystem:
         self.memory_safety = MemorySafetySystem()
         self.bio_fallback = BioSymbolicFallbackManager()
         self.dashboard_fallback = DashboardFallbackSystem()
-        self.quantum_processor = QuantizedThoughtProcessor()
+        self.qi_processor = QuantizedThoughtProcessor()
 
         # Initialize colonies
         self.colonies = {

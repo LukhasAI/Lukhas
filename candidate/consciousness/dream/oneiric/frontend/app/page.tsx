@@ -3,7 +3,7 @@
  * FILENAME: page.tsx
  * MODULE: frontend.src.app
  * DESCRIPTION: Home page component for Oneiric Core application. Provides the
- *              main interface for dream analysis and Oracle chat integration 
+ *              main interface for dream analysis and Oracle chat integration
  *              for symbolic interpretation.
  * DEPENDENCIES: react, ../components/OracleChat
  * LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
@@ -25,7 +25,7 @@ export default function HomePage() {
           Explore the symbolic depths of your consciousness through AI-guided dream analysis
         </p>
       </div>
-      
+
       <OracleChat />
     </div>
   );

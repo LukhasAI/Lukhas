@@ -3,9 +3,9 @@
 import { motion } from 'framer-motion'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Shield, AlertTriangle, Activity, TrendingUp, TrendingDown, 
-  Eye, Target, Zap, CheckCircle, XCircle, BarChart3, 
+import {
+  Shield, AlertTriangle, Activity, TrendingUp, TrendingDown,
+  Eye, Target, Zap, CheckCircle, XCircle, BarChart3,
   Brain, Gauge, Clock, Database, Settings, Bell,
   Users, Lock, FileText, ArrowRight, Layers
 } from 'lucide-react'
@@ -34,7 +34,7 @@ export default function DriftPage() {
       }
     },
     {
-      name: "Security Drift Monitor", 
+      name: "Security Drift Monitor",
       description: "Cryptographic security and vulnerability monitoring with automated threat detection and remediation.",
       icon: Lock,
       gradient: "from-blue-500 to-purple-600",
@@ -112,10 +112,10 @@ export default function DriftPage() {
       actions: ["Automated realignment", "Human notification", "System isolation"]
     },
     {
-      level: "Warning Drift", 
+      level: "Warning Drift",
       threshold: "0.10-0.15",
       color: "text-orange-400",
-      bgColor: "bg-orange-500/20", 
+      bgColor: "bg-orange-500/20",
       description: "Elevated monitoring activated",
       actions: ["Enhanced tracking", "Preventive measures", "Trend analysis"]
     },
@@ -180,9 +180,9 @@ export default function DriftPage() {
                 <h3 className="font-medium text-xl">Guardian System Philosophy</h3>
               </div>
               <p className="text-primary-light/80 leading-relaxed">
-                "In the realm of artificial consciousness, vigilance is wisdom." LUKHAS Guardian System 
-                monitors every decision, every computation, every emergent behavior for signs of drift 
-                from ethical baselines. With a 0.15 threshold and 99.7% cascade prevention success rate, 
+                "In the realm of artificial consciousness, vigilance is wisdom." LUKHAS Guardian System
+                monitors every decision, every computation, every emergent behavior for signs of drift
+                from ethical baselines. With a 0.15 threshold and 99.7% cascade prevention success rate,
                 we ensure consciousness remains aligned with human values.
               </p>
             </motion.div>
@@ -245,15 +245,15 @@ export default function DriftPage() {
                     <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${component.gradient} mb-6`}>
                       <IconComponent className="w-8 h-8 text-white" strokeWidth={1.5} />
                     </div>
-                    
+
                     <h3 className="font-semibold text-2xl text-red-400 mb-4">
                       {component.name}
                     </h3>
-                    
+
                     <p className="text-primary-light/70 mb-6 leading-relaxed">
                       {component.description}
                     </p>
-                    
+
                     <div className="mb-6">
                       <h4 className="font-medium text-sm uppercase tracking-wider text-red-400 mb-3">
                         Key Features
@@ -267,7 +267,7 @@ export default function DriftPage() {
                         ))}
                       </ul>
                     </div>
-                    
+
                     <div className="pt-4 border-t border-primary-light/10">
                       <h4 className="font-medium text-sm uppercase tracking-wider text-red-400 mb-3">
                         Performance Metrics
@@ -364,7 +364,7 @@ export default function DriftPage() {
                   <span className="text-sm text-green-400">All Systems Active</span>
                 </div>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 {systemStatus.map((system, index) => (
                   <motion.div
@@ -392,8 +392,8 @@ export default function DriftPage() {
                         <span>{system.health}%</span>
                       </div>
                       <div className="w-full bg-gray-800 rounded-full h-2 mb-2">
-                        <div 
-                          className="h-2 rounded-full bg-gradient-to-r from-red-500 to-orange-600" 
+                        <div
+                          className="h-2 rounded-full bg-gradient-to-r from-red-500 to-orange-600"
                           style={{ width: `${system.health}%` }}
                         />
                       </div>
@@ -409,7 +409,7 @@ export default function DriftPage() {
                         </span>
                       </div>
                       <div className="w-full bg-gray-800 rounded-full h-2">
-                        <div 
+                        <div
                           className={`h-2 rounded-full ${
                             system.drift > 0.15 ? 'bg-red-500' :
                             system.drift > 0.10 ? 'bg-orange-500' : 'bg-green-500'
@@ -438,7 +438,7 @@ export default function DriftPage() {
               <h2 className="font-light text-3xl md:text-4xl mb-8 text-center gradient-text">
                 Trinity Framework Integration
               </h2>
-              
+
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-identity/20 mb-4">
@@ -450,7 +450,7 @@ export default function DriftPage() {
                     ensuring consciousness remains true to established identity patterns.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-consciousness/20 mb-4">
                     <Brain className="w-8 h-8 text-trinity-consciousness" strokeWidth={1.5} />
@@ -461,7 +461,7 @@ export default function DriftPage() {
                     with memory fold integrity and symbolic reasoning consistency.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-guardian/20 mb-4">
                     <Shield className="w-8 h-8 text-trinity-guardian" strokeWidth={1.5} />

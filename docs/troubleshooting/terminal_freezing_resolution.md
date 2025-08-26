@@ -1,6 +1,6 @@
 # 🖥️ Terminal Freezing Resolution
 
-**LUKHAS AI Development Environment - Terminal Issue Resolution**  
+**LUKHAS AI Development Environment - Terminal Issue Resolution**
 **Last Updated**: August 25, 2025
 
 ---
@@ -9,7 +9,7 @@
 
 ### **Problem Types**
 1. **VS Code Integrated Terminal Freezing**
-2. **External Terminal Unresponsiveness** 
+2. **External Terminal Unresponsiveness**
 3. **Agent Communication Timeouts**
 4. **Python Environment Hanging**
 

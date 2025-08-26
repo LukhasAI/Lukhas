@@ -21,7 +21,7 @@ mkdir -p lukhas
 # Move major modules (preserving structure)
 MODULES=(
     "core"
-    "consciousness" 
+    "consciousness"
     "memory"
     "governance"
     "emotion"
@@ -122,24 +122,24 @@ if [ -f "$ADAPTER_FILE" ]; then
         -e 's/from memory\.memory_fold/from lukhas.memory.folds.memory_fold/g' \
         -e 's/from memory\./from lukhas.memory./g' \
         "$ADAPTER_FILE"
-    
+
     # Fix consciousness imports
     sed -i.bak3 \
         -e 's/from consciousness\./from lukhas.consciousness./g' \
         "$ADAPTER_FILE"
-    
+
     # Fix governance imports
     sed -i.bak4 \
         -e 's/from governance\.guardian\.guardian_system/from lukhas.governance.guardian_system/g' \
         -e 's/from governance\./from lukhas.governance./g' \
         "$ADAPTER_FILE"
-    
+
     # Fix emotion imports
     sed -i.bak5 \
         -e 's/from emotion\.core\./from lukhas.emotion./g' \
         -e 's/from emotion\./from lukhas.emotion./g' \
         "$ADAPTER_FILE"
-    
+
     echo "✅ Adapter imports fixed"
 fi
 
@@ -167,7 +167,7 @@ Version: 1.0.0
 __version__ = "1.0.0"
 __all__ = [
     "core",
-    "consciousness", 
+    "consciousness",
     "memory",
     "governance",
     "emotion",
@@ -184,7 +184,7 @@ __all__ = [
 # Trinity Framework markers
 TRINITY = {
     "identity": "⚛️",
-    "consciousness": "🧠", 
+    "consciousness": "🧠",
     "guardian": "🛡️"
 }
 EOF

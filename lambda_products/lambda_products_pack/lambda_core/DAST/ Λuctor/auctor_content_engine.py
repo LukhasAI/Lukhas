@@ -210,7 +210,7 @@ class AuctorContentEngine:
             DomainArea.QUANTUM_SECURITY: {
                 "products": [
                     {
-                        "name": "QuantumShield",
+                        "name": "QIShield",
                         "type": "Security Suite",
                         "pricing": "$5000/month",
                         "target": "Financial/Healthcare",

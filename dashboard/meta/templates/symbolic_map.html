@@ -235,7 +235,7 @@
             .trinity-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .trinity-main {
                 font-size: 48px;
                 letter-spacing: 10px;
@@ -256,20 +256,20 @@
             <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 30px;">
                 The foundation of LUKHΛS consciousness and protection
             </p>
-            
+
             <div class="trinity-grid">
                 <div class="trinity-item">
                     <div class="symbol">⚛️</div>
                     <h3>Identity</h3>
                     <p>Core authentication, user management, and quantum-safe security. The atomic foundation of individuality.</p>
                 </div>
-                
+
                 <div class="trinity-item">
                     <div class="symbol">🧠</div>
                     <h3>Consciousness</h3>
                     <p>Awareness, decision-making, and cognitive processing. The thinking, feeling core of the system.</p>
                 </div>
-                
+
                 <div class="trinity-item">
                     <div class="symbol">🛡️</div>
                     <h3>Guardian</h3>
@@ -444,7 +444,7 @@
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-5px) scale(1.02)';
             });
-            
+
             card.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0) scale(1)';
             });
@@ -470,31 +470,31 @@
                 particle.style.borderRadius = '50%';
                 particle.style.pointerEvents = 'none';
                 particle.style.zIndex = '1000';
-                
+
                 const angle = (Math.PI * 2 * i) / 20;
                 const velocity = 2 + Math.random() * 3;
                 const vx = Math.cos(angle) * velocity;
                 const vy = Math.sin(angle) * velocity;
-                
+
                 document.body.appendChild(particle);
-                
+
                 let opacity = 1;
                 const animate = () => {
                     const currentX = parseFloat(particle.style.left);
                     const currentY = parseFloat(particle.style.top);
-                    
+
                     particle.style.left = (currentX + vx) + 'px';
                     particle.style.top = (currentY + vy) + 'px';
                     opacity -= 0.02;
                     particle.style.opacity = opacity;
-                    
+
                     if (opacity > 0) {
                         requestAnimationFrame(animate);
                     } else {
                         particle.remove();
                     }
                 };
-                
+
                 requestAnimationFrame(animate);
             }
         }

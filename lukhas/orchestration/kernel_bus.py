@@ -9,12 +9,14 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from __future__ import annotations
+
+import logging
 import os
 import uuid
-import logging
-from typing import Dict, Any, Optional, Callable, List
-from enum import Enum
 from collections import defaultdict, deque
+from enum import Enum
+from typing import Any, Callable, Dict, List, Optional
+
 from lukhas.observability.matriz_decorators import instrument
 
 logger = logging.getLogger(__name__)
@@ -36,7 +38,7 @@ class KernelBus:
     Simplified kernel bus for event coordination.
     In dry_run mode, events are logged but not dispatched.
     """
-    
+
     def __init__(self, max_history: int = 100):
         """Initialize the kernel bus"""
         self._subscribers: Dict[str, List[Callable]] = defaultdict(list)
@@ -48,7 +50,7 @@ class KernelBus:
         }
         self._active = CONTEXT_BUS_ACTIVE
         logger.info(f"🌀 Kernel Bus initialized (active={self._active})")
-    
+
     @instrument("AWARENESS", label="orchestration:emit", capability="orchestrator:events")
     def emit(
         self,
@@ -63,7 +65,7 @@ class KernelBus:
     ) -> Dict[str, Any]:
         """
         Emit an event to the kernel bus.
-        
+
         Args:
             event: Event type/name
             payload: Event data
@@ -71,12 +73,12 @@ class KernelBus:
             priority: Event priority
             correlation_id: Correlation ID
             mode: "dry_run" or "live"
-            
+
         Returns:
             Event emission result
         """
         event_id = str(uuid.uuid4())
-        
+
         # Create event record
         event_record = {
             "event_id": event_id,
@@ -86,32 +88,32 @@ class KernelBus:
             "priority": priority.value,
             "correlation_id": correlation_id,
         }
-        
+
         # Track in history
         self._event_history.append(event_record)
         self._metrics["events_emitted"] += 1
-        
+
         if mode != "dry_run" and self._active:
             # Dispatch to subscribers
             dispatched = self._dispatch_event(event, event_record)
             self._metrics["events_dispatched"] += dispatched
-            
+
             logger.debug(f"📤 Emitted: {event} from {source} to {dispatched} handlers")
-            
+
             return {
                 "ok": True,
                 "event_id": event_id,
                 "dispatched": dispatched,
                 "mode": "live"
             }
-        
+
         return {
             "ok": True,
             "event_id": event_id,
             "dispatched": 0,
             "mode": "dry_run"
         }
-    
+
     @instrument("DECISION", label="orchestration:subscribe", capability="orchestrator:events")
     def subscribe(
         self,
@@ -123,38 +125,38 @@ class KernelBus:
     ) -> Dict[str, Any]:
         """
         Subscribe to an event type.
-        
+
         Args:
             event: Event type to subscribe to
             callback: Handler function
             mode: "dry_run" or "live"
-            
+
         Returns:
             Subscription result
         """
         if mode != "dry_run" and self._active:
             self._subscribers[event].append(callback)
             logger.debug(f"📥 Subscribed to: {event}")
-            
+
             return {
                 "ok": True,
                 "event": event,
                 "subscribers": len(self._subscribers[event]),
                 "mode": "live"
             }
-        
+
         return {
             "ok": True,
             "event": event,
             "subscribers": 0,
             "mode": "dry_run"
         }
-    
+
     @instrument("AWARENESS", label="orchestration:status", capability="orchestrator:monitor")
     def get_status(self, *, mode: str = "dry_run", **kwargs) -> Dict[str, Any]:
         """
         Get kernel bus status and metrics.
-        
+
         Returns:
             Status information
         """
@@ -166,27 +168,27 @@ class KernelBus:
             "history_size": len(self._event_history),
             "mode": mode
         }
-    
+
     def _dispatch_event(self, event: str, event_record: Dict[str, Any]) -> int:
         """
         Dispatch event to subscribers.
-        
+
         Args:
             event: Event type
             event_record: Full event record
-            
+
         Returns:
             Number of handlers triggered
         """
         handlers = self._subscribers.get(event, [])
-        
+
         for handler in handlers:
             try:
                 handler(event_record)
                 self._metrics["handlers_triggered"] += 1
             except Exception as e:
                 logger.error(f"Handler error for {event}: {e}")
-        
+
         return len(handlers)
 
 
@@ -206,12 +208,12 @@ def get_kernel_bus() -> KernelBus:
 def emit(event: str, payload: Dict[str, Any], *, mode: str = "dry_run", **kwargs) -> Dict[str, Any]:
     """
     Emit an event to the global kernel bus.
-    
+
     Args:
         event: Event type
         payload: Event data
         mode: "dry_run" or "live"
-        
+
     Returns:
         Event emission result
     """
@@ -223,12 +225,12 @@ def emit(event: str, payload: Dict[str, Any], *, mode: str = "dry_run", **kwargs
 def subscribe(event: str, callback: Callable, *, mode: str = "dry_run", **kwargs) -> Dict[str, Any]:
     """
     Subscribe to an event on the global kernel bus.
-    
+
     Args:
         event: Event type
         callback: Handler function
         mode: "dry_run" or "live"
-        
+
     Returns:
         Subscription result
     """

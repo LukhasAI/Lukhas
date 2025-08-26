@@ -64,13 +64,13 @@ import time
 from datetime import datetime
 from typing import Any, Optional
 
-from integrations.elevenlabs import *
-from integrations.openai import *
 from interfaces.voice_interface import *
 from safety.voice_safety_guard import *
 from systems.synthesis import *
 from systems.voice_synthesis import *
 
+from integrations.elevenlabs import *
+from integrations.openai import *
 from lukhas.governance.identity.interface import IdentityClient
 
 # === PRIMARY ORCHESTRATION SERVICE CONTENT ===
@@ -1796,4 +1796,3 @@ if __name__ == "__main__":
 #
 # For archived stub classes and consolidation documentation,
 # see: tech_debt_archive/orchestration_stubs/consolidated_orchestration_stubs.py
-

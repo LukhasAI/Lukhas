@@ -6,61 +6,61 @@
 graph TD
     %% Core module - everything depends on it
     core["core/<br/>Foundation"]
-    
+
     %% First tier - depend only on core
     config["config/<br/>Settings"]
     trace["trace/<br/>Monitoring"]
-    
+
     %% Second tier - basic services
     memory["memory/<br/>Storage"]
     emotion["emotion/<br/>Affect"]
     ethics["ethics/<br/>Governance"]
-    
+
     %% Third tier - complex services
     reasoning["reasoning/<br/>Logic"]
     learning["learning/<br/>Adaptation"]
     identity["identity/<br/>Auth"]
-    
+
     %% Fourth tier - integrative services
     consciousness["consciousness/<br/>Awareness"]
     creativity["creativity/<br/>Expression"]
     quantum["quantum/<br/>Advanced"]
-    
+
     %% Fifth tier - coordination
     orchestration["orchestration/<br/>Coordination"]
     bridge["bridge/<br/>External APIs"]
-    
+
     %% Dependencies
     core --> config
     core --> trace
     core --> memory
     core --> emotion
     core --> ethics
-    
+
     memory --> reasoning
     emotion --> reasoning
     core --> reasoning
-    
+
     memory --> learning
     core --> learning
-    
+
     core --> identity
     quantum --> identity
-    
+
     core --> consciousness
     emotion --> consciousness
     quantum --> consciousness
-    
+
     emotion --> creativity
     quantum --> creativity
     core --> creativity
-    
+
     core --> quantum
-    
+
     core --> orchestration
     reasoning --> orchestration
     consciousness --> orchestration
-    
+
     core --> bridge
     memory --> bridge
     reasoning --> bridge

@@ -12,12 +12,12 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
     private contextWindow: number = 8192; // GPT-OSS context window
     private isModelLoaded: boolean = false;
     private shadowMode: boolean = true;
-    
+
     constructor(private context: vscode.ExtensionContext) {
         this.modelLoader = new ModelLoader();
         this.initializeModel();
     }
-    
+
     private async initializeModel() {
         try {
             // Load GPT-OSS-20b model (requires 16GB RAM)
@@ -29,28 +29,28 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
             vscode.window.showErrorMessage('Failed to load GPT-OSS model. Using fallback.');
         }
     }
-    
+
     async provideInlineCompletionItems(
         document: vscode.TextDocument,
         position: vscode.Position,
         context: vscode.InlineCompletionContext,
         token: vscode.CancellationToken
     ): Promise<vscode.InlineCompletionList> {
-        
+
         if (!this.isModelLoaded) {
             return { items: [] };
         }
-        
+
         // Build context from surrounding code
         const promptContext = await this.buildContext(document, position);
-        
+
         // Create LUKHAS-aware prompt
         const prompt = PromptBuilder.buildCompletionPrompt(promptContext, {
             style: 'lukhas_patterns',
             includeAGIConcepts: true,
             preserveSymbolicNotation: true
         });
-        
+
         try {
             // Generate completion with GPT-OSS
             const completion = await this.modelLoader.generate({
@@ -60,15 +60,15 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
                 stop: ['\n\n', '```'],
                 stream: false
             });
-            
+
             // Parse and format completion
             const formattedCompletion = this.formatCompletion(completion, document, position);
-            
+
             // Shadow mode: compare with existing provider
             if (this.shadowMode) {
                 await this.logShadowComparison(promptContext, completion);
             }
-            
+
             return {
                 items: [{
                     insertText: formattedCompletion,
@@ -80,36 +80,36 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
                     }
                 }]
             };
-            
+
         } catch (error) {
             console.error('GPT-OSS completion error:', error);
             return { items: [] };
         }
     }
-    
+
     private async buildContext(
         document: vscode.TextDocument,
         position: vscode.Position
     ): Promise<CompletionContext> {
         const linePrefix = document.lineAt(position.line).text.substr(0, position.character);
         const lineSuffix = document.lineAt(position.line).text.substr(position.character);
-        
+
         // Get surrounding code context
         const startLine = Math.max(0, position.line - 50);
         const endLine = Math.min(document.lineCount - 1, position.line + 20);
-        
+
         const beforeText = document.getText(new vscode.Range(startLine, 0, position.line, position.character));
         const afterText = document.getText(new vscode.Range(position.line, position.character, endLine, 0));
-        
+
         // Detect LUKHAS-specific patterns
         const isLambdaProduct = this.detectLambdaProduct(document.fileName);
         const isAGIModule = this.detectAGIModule(document.fileName);
-        const isBrainArchitecture = document.getText().includes('MultiBrainSymphony') || 
+        const isBrainArchitecture = document.getText().includes('MultiBrainSymphony') ||
                                     document.getText().includes('SpecializedBrainCore');
-        
+
         // Get related files for better context
         const relatedFiles = await this.getRelatedFiles(document.uri);
-        
+
         return {
             linePrefix,
             lineSuffix,
@@ -124,32 +124,32 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
             symbols: await this.extractSymbols(document)
         };
     }
-    
+
     private detectLambdaProduct(fileName: string): boolean {
-        return fileName.includes('lambda-products') || 
-               fileName.includes('QRG') || 
-               fileName.includes('NIΛS') || 
+        return fileName.includes('lambda-products') ||
+               fileName.includes('QRG') ||
+               fileName.includes('NIΛS') ||
                fileName.includes('ΛBAS') ||
                fileName.includes('DΛST');
     }
-    
+
     private detectAGIModule(fileName: string): boolean {
-        return fileName.includes('brain') || 
-               fileName.includes('consciousness') || 
+        return fileName.includes('brain') ||
+               fileName.includes('consciousness') ||
                fileName.includes('guardian') ||
                fileName.includes('core/') ||
                fileName.includes('agi');
     }
-    
+
     private async getRelatedFiles(uri: vscode.Uri): Promise<string[]> {
         // Get imports and related files for context
         const workspace = vscode.workspace.getWorkspaceFolder(uri);
         if (!workspace) return [];
-        
+
         // Find related files (imports, similar names, etc.)
         const pattern = new vscode.RelativePattern(workspace, '**/*.{py,ts,js}');
         const files = await vscode.workspace.findFiles(pattern, null, 10);
-        
+
         const relatedContent: string[] = [];
         for (const file of files) {
             if (file.toString() !== uri.toString()) {
@@ -157,10 +157,10 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
                 relatedContent.push(doc.getText().substring(0, 500)); // First 500 chars
             }
         }
-        
+
         return relatedContent;
     }
-    
+
     private async extractSymbols(document: vscode.TextDocument): Promise<vscode.DocumentSymbol[]> {
         const symbols = await vscode.commands.executeCommand<vscode.DocumentSymbol[]>(
             'vscode.executeDocumentSymbolProvider',
@@ -168,36 +168,36 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
         );
         return symbols || [];
     }
-    
+
     private formatCompletion(completion: string, document: vscode.TextDocument, position: vscode.Position): string {
         // Format completion based on document type and position
         const indentation = this.detectIndentation(document, position);
-        
+
         // Apply LUKHAS-specific formatting
         let formatted = completion;
-        
+
         // Add proper indentation
         formatted = formatted.split('\n').map(line => indentation + line).join('\n');
-        
+
         // Add symbolic notation if in Lambda products
         if (this.detectLambdaProduct(document.fileName)) {
             formatted = this.addSymbolicNotation(formatted);
         }
-        
+
         // Add logging for AGI modules
         if (this.detectAGIModule(document.fileName)) {
             formatted = this.addAGILogging(formatted);
         }
-        
+
         return formatted;
     }
-    
+
     private detectIndentation(document: vscode.TextDocument, position: vscode.Position): string {
         const line = document.lineAt(position.line).text;
         const match = line.match(/^(\s*)/);
         return match ? match[1] : '';
     }
-    
+
     private addSymbolicNotation(code: string): string {
         // Add Lambda (Λ) symbols where appropriate
         return code
@@ -205,15 +205,15 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
             .replace(/lambda_/g, 'Λ_')
             .replace(/LAMBDA/g, 'Λ');
     }
-    
+
     private addAGILogging(code: string): string {
         // Add appropriate logging for AGI modules
         const lines = code.split('\n');
         const enhancedLines: string[] = [];
-        
+
         for (const line of lines) {
             enhancedLines.push(line);
-            
+
             // Add logging for function definitions
             if (line.includes('def ') && !line.includes('_')) {
                 const funcName = line.match(/def\s+(\w+)/)?.[1];
@@ -223,10 +223,10 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
                 }
             }
         }
-        
+
         return enhancedLines.join('\n');
     }
-    
+
     private async logShadowComparison(context: CompletionContext, completion: string) {
         // Log shadow mode comparison for analysis
         const shadowLog = {
@@ -243,7 +243,7 @@ export class GPTOSSCompletionProvider implements vscode.InlineCompletionItemProv
                 lines: completion.split('\n').length
             }
         };
-        
+
         // Store in experimental results
         const shadowResults = this.context.globalState.get<any[]>('gpt-oss-shadow-results', []);
         shadowResults.push(shadowLog);
@@ -269,58 +269,58 @@ interface CompletionContext {
 export class ModelLoader {
     private model: any;
     private modelPath: string = '';
-    
+
     async loadModel(modelName: string): Promise<void> {
         // In production, this would load the actual GPT-OSS model
         // For now, we'll create a mock that demonstrates the interface
-        
+
         this.modelPath = `/models/${modelName}`;
-        
+
         // Check if Ollama is available for local model
         try {
             const { exec } = require('child_process');
             const util = require('util');
             const execPromise = util.promisify(exec);
-            
+
             // Check if model is available
             const { stdout } = await execPromise(`ollama list | grep ${modelName}`);
             if (!stdout.includes(modelName)) {
                 // Pull the model if not available
                 await execPromise(`ollama pull ${modelName}`);
             }
-            
+
             this.model = modelName;
             console.log(`✅ Loaded ${modelName} via Ollama`);
-            
+
         } catch (error) {
             console.error('Ollama not available, using mock model:', error);
             this.model = 'mock';
         }
     }
-    
+
     async generate(options: GenerateOptions): Promise<string> {
         if (this.model === 'mock') {
             // Return mock completion for testing
             return this.mockGenerate(options);
         }
-        
+
         // Use Ollama for actual generation
         const { exec } = require('child_process');
         const util = require('util');
         const execPromise = util.promisify(exec);
-        
+
         try {
             const prompt = options.prompt.replace(/"/g, '\\"').replace(/\n/g, '\\n');
             const command = `echo "${prompt}" | ollama run ${this.model} --verbose=false`;
             const { stdout } = await execPromise(command, { maxBuffer: 1024 * 1024 * 10 });
-            
+
             return stdout.trim();
         } catch (error) {
             console.error('Generation error:', error);
             return this.mockGenerate(options);
         }
     }
-    
+
     private mockGenerate(options: GenerateOptions): string {
         // Mock generation for testing
         const prompts = {
@@ -329,27 +329,27 @@ export class ModelLoader {
         # Validate input
         if not data:
             raise ValueError("Data cannot be empty")
-        
+
         # Process with AI enhancement
         result = {
             'processed': True,
             'timestamp': datetime.now().isoformat(),
             'confidence': 0.95
         }
-        
+
         logger.info(f"✅ Processing complete: {result}")
         return result`,
-            
+
             typescript: `async processWithGPTOSS(input: string): Promise<ProcessResult> {
         // Enhanced processing with GPT-OSS
         const context = await this.buildContext(input);
-        
+
         const result = await this.model.generate({
             prompt: context,
             temperature: 0.7,
             maxTokens: 500
         });
-        
+
         return {
             success: true,
             output: result,
@@ -357,7 +357,7 @@ export class ModelLoader {
         };
     }`
         };
-        
+
         // Return appropriate mock based on context
         if (options.prompt.includes('python') || options.prompt.includes('def ')) {
             return prompts.python;

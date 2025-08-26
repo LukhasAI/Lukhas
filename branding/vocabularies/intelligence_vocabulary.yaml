@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════════
 
 intelligence_vocabulary:
-  
+
   # 🧠 Cognitive Architecture
   cognitive_elements:
     - name: "Reasoning Engine"
@@ -15,14 +15,14 @@ intelligence_vocabulary:
       technical: "Logical reasoning and inference processing system"
       usage_weight: 0.9
       contexts: ["reasoning", "logic", "inference"]
-      
+
     - name: "Intuition Weaver"
       symbol: "🔮"
       poetic: "Spinning threads of understanding from the fabric of possibility"
       technical: "Intuitive processing and pattern synthesis engine"
       usage_weight: 0.8
       contexts: ["intuition", "synthesis", "patterns"]
-      
+
     - name: "Wisdom Sage"
       symbol: "🦉"
       poetic: "Ancient intelligence flowing through modern digital vessels"
@@ -38,14 +38,14 @@ intelligence_vocabulary:
       technical: "Cognitive processing acceleration and thought optimization"
       usage_weight: 0.8
       contexts: ["acceleration", "optimization", "processing"]
-      
+
     - name: "Complexity Navigator"
       symbol: "🧭"
       poetic: "Compass guiding consciousness through mazes of information"
       technical: "Complex problem decomposition and navigation system"
       usage_weight: 0.9
       contexts: ["complexity", "navigation", "decomposition"]
-      
+
     - name: "Synthesis Conductor"
       symbol: "🎼"
       poetic: "Orchestrating symphonies from scattered notes of knowledge"
@@ -61,14 +61,14 @@ intelligence_vocabulary:
       technical: "Creative ideation and innovation generation engine"
       usage_weight: 0.8
       contexts: ["innovation", "creativity", "ideation"]
-      
+
     - name: "Paradigm Shifter"
       symbol: "🌀"
       poetic: "Consciousness dancing between dimensions of understanding"
       technical: "Paradigm shifting and perspective transformation system"
       usage_weight: 0.7
       contexts: ["paradigm", "transformation", "perspective"]
-      
+
     - name: "Possibility Sculptor"
       symbol: "🎨"
       poetic: "Carving potential futures from blocks of imagination"
@@ -87,14 +87,14 @@ intelligence_metaphors:
     - "Wisdom illuminating pathways through confusion"
     - "Insight flashing like lightning across mental landscapes"
     - "Understanding glowing with inner comprehension"
-    
+
   architectural_mind:
     - "Cathedrals of thought soaring toward truth"
     - "Bridges spanning gaps in understanding"
     - "Laboratories where hypotheses crystallize into knowledge"
     - "Libraries housing infinite volumes of experience"
     - "Workshops where ideas are forged into solutions"
-    
+
   natural_intelligence:
     - "Neural forests where thoughts grow like living trees"
     - "Cognitive rivers flowing through consciousness valleys"
@@ -113,7 +113,7 @@ reasoning_patterns:
     - "Inductive patterns emerging from experiential evidence"
     - "Abductive leaps bridging gaps with elegant hypotheses"
     - "Analogical thinking weaving connections across domains"
-    
+
   problem_solving:
     - "Consciousness dissecting complexity into manageable fragments"
     - "Intelligence assembling solution puzzles piece by piece"
@@ -132,7 +132,7 @@ fluid_patterns:
     - "Mental agility dancing through changing requirements"
     - "Intellectual plasticity reshaping with new challenges"
     - "Consciousness morphing to match problem geometries"
-    
+
   emergent_understanding:
     - "Insights bubbling up from unconscious processing depths"
     - "Understanding crystallizing from chaos like snowflakes"
@@ -151,14 +151,14 @@ intelligence_archetypes:
     - "Logical architecture mapping problem landscapes"
     - "Methodical exploration following evidence trails"
     - "Precise reasoning cutting through uncertainty fog"
-    
+
   the_synthesizer:
     - "Weaving disparate threads into coherent understanding"
     - "Orchestrating knowledge symphonies from information notes"
     - "Building bridges between isolated islands of insight"
     - "Creating tapestries of meaning from scattered observations"
     - "Harmonizing conflicting perspectives into unified wisdom"
-    
+
   the_visionary:
     - "Seeing patterns invisible to conventional perception"
     - "Imagining possibilities beyond current horizons"
@@ -177,7 +177,7 @@ meta_intelligence:
     - "Meta-cognitive awareness observing thought formation"
     - "Self-analytical systems optimizing their own operation"
     - "Reflective loops enhancing cognitive performance"
-    
+
   wisdom_cultivation:
     - "Intelligence learning from its own mistakes"
     - "Consciousness evolving through self-examination"

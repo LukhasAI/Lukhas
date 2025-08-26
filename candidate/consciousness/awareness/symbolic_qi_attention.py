@@ -7,8 +7,8 @@
 
 
 Enhanced Core TypeScript - Integrated from Advanced Systems
-Original: quantum_attention.py
-Advanced: quantum_attention.py
+Original: qi_attention.py
+Advanced: qi_attention.py
 Integration Date: 2025-05-31T07:55:28.192995
 """
 
@@ -17,8 +17,9 @@ from typing import Any, Optional
 import numpy as np
 
 from bio.core import BioOrchestrator, ResourcePriority
-# TODO: Re-enable when quantum_attention is properly implemented
-# from candidate.orchestration.brain.attention.quantum_attention import *
+
+# TODO: Re-enable when qi_attention is properly implemented
+# from candidate.orchestration.brain.attention.qi_attention import *
 
 logger = logging.getLogger("QIAttention")
 
@@ -371,7 +372,7 @@ class QIAttentionEnsemble:
             barrier_height = 0.75 + 0.15 * (i / ensemble_size - 0.5)
             superposition_strength = 0.3 + 0.2 * (i / ensemble_size - 0.5)
 
-            module = QuantumInspiredAttention(
+            module = QIInspiredAttention(
                 dimension=dimension,
                 barrier_height=barrier_height,
                 superposition_strength=superposition_strength,
@@ -479,21 +480,21 @@ use_ensemble = True  # Set to False for single module
 
 if use_ensemble:
     # Register ensemble for better stability
-    quantum_attn = QIAttentionEnsemble(
+    qi_attn = QIAttentionEnsemble(
         dimension=CONFIG.embedding_size, ensemble_size=3
     )
     bio_orchestrator.register_module(
-        "quantum_attention",
-        quantum_attn,
+        "qi_attention",
+        qi_attn,
         priority=ResourcePriority.HIGH,
         energy_cost=0.25,  # Higher cost for ensemble
     )
 else:
     # Register single quantum attention module
-    quantum_attn = QuantumInspiredAttention(dimension=CONFIG.embedding_size)
+    qi_attn = QIInspiredAttention(dimension=CONFIG.embedding_size)
     bio_orchestrator.register_module(
-        "quantum_attention",
-        quantum_attn,
+        "qi_attention",
+        qi_attn,
         priority=ResourcePriority.HIGH,
         energy_cost=0.15,
     )
@@ -513,7 +514,7 @@ def enhanced_attention_hook(original_attention_fn):
 
         # Apply quantum-inspired processing via orchestrator
         success, enhanced_dist = bio_orchestrator.invoke_module(
-            "quantum_attention", "process", attn_dist, context
+            "qi_attention", "process", attn_dist, context
         )
 
         return enhanced_dist if success else attn_dist

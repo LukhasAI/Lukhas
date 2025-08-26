@@ -78,13 +78,13 @@ export default function WhatIsMatada() {
                 COGNITIVE ARCHITECTURE REIMAGINED
               </h3>
               <p className="font-thin text-lg leading-relaxed mb-6">
-                MATADA transforms artificial intelligence by treating every computational moment as a 
-                permanent node in an ever-growing cognitive graph. Unlike traditional AI that processes 
+                MATADA transforms artificial intelligence by treating every computational moment as a
+                permanent node in an ever-growing cognitive graph. Unlike traditional AI that processes
                 and discards, MATADA remembers, learns, and evolves.
               </p>
               <p className="font-thin text-lg leading-relaxed">
-                Each node contains not just data, but context, confidence, emotional valence, and 
-                causal relationships - creating a true cognitive DNA that can be traced, audited, 
+                Each node contains not just data, but context, confidence, emotional valence, and
+                causal relationships - creating a true cognitive DNA that can be traced, audited,
                 and understood.
               </p>
             </div>

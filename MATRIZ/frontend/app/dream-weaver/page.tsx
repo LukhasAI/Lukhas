@@ -8,7 +8,7 @@ import DreamErrorBoundary from '@/components/dream/DreamErrorBoundary'
 // Dynamically import the immersive Dream Weaver
 const ImmersiveDreamWeaver = dynamic(
   () => import('@/components/dream/ImmersiveDreamWeaver'),
-  { 
+  {
     ssr: false,
     loading: () => (
       <div className="min-h-screen bg-black flex items-center justify-center">

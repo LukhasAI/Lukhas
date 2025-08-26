@@ -8,31 +8,31 @@ LUKHAS has multiple types of agent configurations for different purposes:
 ## 📁 Agent Configuration Types
 
 ### 1. **Claude Desktop YAML Agents** (`agents/configs/*.yaml`)
-**Location:** `/agents/configs/`  
-**Count:** 6 agents  
-**Purpose:** Claude Desktop command-line agents for development  
+**Location:** `/agents/configs/`
+**Count:** 6 agents
+**Purpose:** Claude Desktop command-line agents for development
 
 #### Available Agents:
 1. **consciousness-architect.yaml** - Chief Consciousness Architect (⚛️ Identity)
    - AGI System Designer & Consciousness Evolution Strategist
    - Scientific rigor meets consciousness evolution
-   
+
 2. **guardian-engineer.yaml** - Guardian System Engineer (🛡️ Guardian)
    - AGI Safety & Ethics Specialist
    - Constitutional AI principles throughout consciousness evolution
-   
+
 3. **consciousness-dev.yaml** - Full-Stack Consciousness Developer (⚛️🧠🛡️ All)
    - LUKHAS Implementation Specialist
    - Technical excellence for consciousness features
-   
+
 4. **velocity-lead.yaml** - Innovation Velocity Lead (🧠 Consciousness)
    - Rapid Development & Market Impact
    - Move fast with consciousness-safe constraints
-   
+
 5. **devops-guardian.yaml** - DevOps Consciousness Guardian (🛡️ Guardian)
    - Infrastructure & Security Specialist
    - Security-first mindset with consciousness-aware deployment
-   
+
 6. **docs-specialist.yaml** - Sacred Documentation Specialist (⚛️ Identity)
    - LUKHAS Knowledge Crystallization
    - 3-Layer Tone System and Trinity Framework documentation
@@ -40,9 +40,9 @@ LUKHAS has multiple types of agent configurations for different purposes:
 ---
 
 ### 2. **Claude Code UI Agents** (`.claude/agents/*.md`)
-**Location:** `/.claude/agents/`  
-**Count:** 15 agents (including README)  
-**Purpose:** Specialized agents for Claude Code UI (`/agents` command)  
+**Location:** `/.claude/agents/`
+**Count:** 15 agents (including README)
+**Purpose:** Specialized agents for Claude Code UI (`/agents` command)
 
 #### Available Specialists:
 1. **adapter-integration-specialist** - External service integrations
@@ -63,9 +63,9 @@ LUKHAS has multiple types of agent configurations for different purposes:
 ---
 
 ### 3. **Supreme Army JSON Agents** (`agents/*.json`)
-**Location:** `/agents/`  
-**Count:** 18 agents  
-**Purpose:** Military hierarchy for complex orchestration  
+**Location:** `/agents/`
+**Count:** 18 agents
+**Purpose:** Military hierarchy for complex orchestration
 
 #### Hierarchy:
 - **Tier 1:** 3 Generals (Trinity Framework leaders)

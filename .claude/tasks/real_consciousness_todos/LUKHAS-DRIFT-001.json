@@ -15,7 +15,7 @@
   ],
   "assigned_agent": "Guardian System Engineer",
   "complexity": "medium",
-  "estimated_effort": "6-10 hours", 
+  "estimated_effort": "6-10 hours",
   "dependencies": [
     "Drift pattern analysis",
     "Predictive modeling framework",

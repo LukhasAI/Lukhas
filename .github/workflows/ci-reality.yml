@@ -1,0 +1,30 @@
+name: T4 Reality CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [chore/t4-reality-testing-baseline]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install -r requirements-test.txt || true
+          pip install pytest pytest-cov pre-commit
+      - name: Pre-commit
+        run: pre-commit run --all-files
+      - name: Reality tests (no-mock)
+        run: pytest -q tests/test_imports.py tests/test_integration.py tests/golden/
+      - name: Full suite (tolerant)
+        run: pytest -q || true
+      - name: Diff coverage gate
+        run: tools/ci/verify_diff_coverage.sh

@@ -55,7 +55,7 @@ from lukhas.memory.distributed_state_manager import (
     DistributedStateManager,
     MultiNodeStateManager,
 )
-from lukhas.memory.quantum_manager import EnhancedMemoryManager
+from lukhas.memory.qi_manager import EnhancedMemoryManager
 from lukhas.memory.voice_memory_manager import MemoryManager
 
 # Agent 1 Task 6: Golden Helix Memory Mapper integration
@@ -387,7 +387,7 @@ class MemoryHub:
         management_services = [
             ("memory_manager", "MemoryManager"),
             ("enhanced_memory_manager", "EnhancedMemoryManager"),
-            ("quantum_memory_manager", "QIMemoryManager"),
+            ("qi_memory_manager", "QIMemoryManager"),
             ("distributed_state_manager", "DistributedStateManager"),
         ]
 
@@ -649,7 +649,7 @@ class MemoryHub:
                     "memory",
                     {
                         "type": "persistent_storage",
-                        "capabilities": ["folding", "quantum_storage", "distributed"],
+                        "capabilities": ["folding", "qi_storage", "distributed"],
                     },
                 )
                 self.register_service("core_hub", self.core)
@@ -1281,7 +1281,7 @@ class MemoryHub:
                         "retrieve",
                         "analyze_patterns",
                         "modulate_state",
-                        "quantum_enhance",
+                        "qi_enhance",
                     ],
                     "tier_levels": [
                         "LAMBDA_TIER_1",

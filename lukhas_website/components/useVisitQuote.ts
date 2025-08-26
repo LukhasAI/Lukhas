@@ -37,9 +37,9 @@ export function useVisitQuote(): Quote {
     let selectedQuote: Quote
 
     try {
-      // "Once per visit": use sessionStorage  
+      // "Once per visit": use sessionStorage
       const storedQuote = sessionStorage.getItem(STORAGE_KEY)
-      
+
       if (storedQuote) {
         // Find stored quote by ID
         const quoteIndex = CURATED_QUOTES.findIndex((_, i) => i.toString() === storedQuote)
@@ -48,7 +48,7 @@ export function useVisitQuote(): Quote {
         // Deterministic pick that avoids immediate repeat
         const lastVisitQuote = localStorage.getItem(STORAGE_KEY)
         let idx = Math.floor(Math.random() * CURATED_QUOTES.length)
-        
+
         if (lastVisitQuote) {
           const lastIdx = parseInt(lastVisitQuote)
           if (lastIdx === idx) {
@@ -57,8 +57,8 @@ export function useVisitQuote(): Quote {
         }
 
         selectedQuote = CURATED_QUOTES[idx]
-        
-        // Store index for this visit and for cross-visit repeat avoidance  
+
+        // Store index for this visit and for cross-visit repeat avoidance
         sessionStorage.setItem(STORAGE_KEY, idx.toString())
         localStorage.setItem(STORAGE_KEY, idx.toString())
       }

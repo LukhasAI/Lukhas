@@ -2,12 +2,12 @@
 VIVOX.QREADY Core Components
 """
 
-from .quantum_substrate import (
-    QuantumEnvironment,
-    QuantumNoiseType,
+from .qi_substrate import (
+    QIEnvironment,
+    QINoiseType,
     QIState,
     QIStateType,
-    QuantumSubstrate,
+    QISubstrate,
 )
 from .qubit_collapse import (
     CollapseField,
@@ -17,11 +17,11 @@ from .qubit_collapse import (
 )
 
 __all__ = [
-    "QuantumSubstrate",
+    "QISubstrate",
     "QIState",
-    "QuantumEnvironment",
+    "QIEnvironment",
     "QIStateType",
-    "QuantumNoiseType",
+    "QINoiseType",
     "QubitCollapseEngine",
     "CollapseField",
     "ProbabilisticConvergence",

@@ -1,5 +1,5 @@
 openapi: 3.0.3
-info: 
+info:
   title: Lukhas QRG API
   version: 0.1.0
 paths:
@@ -10,12 +10,12 @@ paths:
         required: true
         content:
           application/json:
-            schema: 
+            schema:
               type: object
-              properties: 
-                purpose: 
+              properties:
+                purpose:
                   type: string
-                ttl_ms: 
+                ttl_ms:
                   type: integer
               required: [purpose]
       responses:
@@ -23,13 +23,13 @@ paths:
           description: OK
           content:
             application/json:
-              schema: 
+              schema:
                 type: object
-                properties: 
-                  glyphSvg: 
+                properties:
+                  glyphSvg:
                     type: string
-                  nonce: 
+                  nonce:
                     type: string
-                  traceId: 
+                  traceId:
                     type: string
                 required: [glyphSvg, traceId]

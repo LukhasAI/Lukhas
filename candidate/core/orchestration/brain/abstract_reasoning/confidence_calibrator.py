@@ -34,7 +34,7 @@ class ConfidenceMetrics:
     """Comprehensive confidence metrics"""
 
     bayesian_confidence: float
-    quantum_confidence: float
+    qi_confidence: float
     symbolic_confidence: float
     emotional_confidence: float
     cross_brain_coherence: float
@@ -179,16 +179,16 @@ class QIConfidenceEstimator:
     """Quantum-inspired confidence estimation"""
 
     def __init__(self):
-        self.quantum_like_state_history = []
+        self.qi_like_state_history = []
         self.coherence_threshold = 0.8
 
-    def estimate_confidence(self, quantum_like_state: dict[str, Any]) -> float:
+    def estimate_confidence(self, qi_like_state: dict[str, Any]) -> float:
         """Estimate confidence based on quantum-like state properties"""
 
         # Extract quantum properties
-        coherence = quantum_like_state.get("quantum_coherence_score", 0.5)
-        entanglement = quantum_like_state.get("entanglement_strength", 0.5)
-        superposition_quality = quantum_like_state.get("superposition_quality", 0.5)
+        coherence = qi_like_state.get("qi_coherence_score", 0.5)
+        entanglement = qi_like_state.get("entanglement_strength", 0.5)
+        superposition_quality = qi_like_state.get("superposition_quality", 0.5)
 
         # Calculate quantum confidence metrics
         coherence_confidence = self._calculate_coherence_confidence(coherence)
@@ -198,7 +198,7 @@ class QIConfidenceEstimator:
         )
 
         # Combine quantum confidence components
-        quantum_confidence = np.mean(
+        qi_confidence = np.mean(
             [
                 coherence_confidence,
                 entanglement_confidence,
@@ -206,9 +206,9 @@ class QIConfidenceEstimator:
             ]
         )
 
-        logger.debug(f"Quantum confidence: {quantum_confidence:.3f}")
+        logger.debug(f"Quantum confidence: {qi_confidence:.3f}")
 
-        return quantum_confidence
+        return qi_confidence
 
     def _calculate_coherence_confidence(self, coherence: float) -> float:
         """Calculate confidence based on coherence-inspired processing"""
@@ -537,10 +537,10 @@ class UncertaintyDecomposer:
     ) -> float:
         """Estimate quantum (indeterminacy) uncertainty"""
         # Extract quantum uncertainty from qi-like state information
-        if "quantum_like_state" in reasoning_result:
-            quantum_like_state = reasoning_result["quantum_like_state"]
-            if isinstance(quantum_like_state, dict):
-                coherence = quantum_like_state.get("coherence", 1.0)
+        if "qi_like_state" in reasoning_result:
+            qi_like_state = reasoning_result["qi_like_state"]
+            if isinstance(qi_like_state, dict):
+                coherence = qi_like_state.get("coherence", 1.0)
                 # Higher coherence = lower quantum uncertainty
                 return 1.0 - coherence
 
@@ -642,7 +642,7 @@ class AdvancedConfidenceCalibrator:
 
     def __init__(self):
         self.bayesian_estimator = BayesianConfidenceEstimator()
-        self.quantum_estimator = QuantumConfidenceEstimator()
+        self.qi_estimator = QIConfidenceEstimator()
         self.symbolic_estimator = SymbolicConfidenceEstimator()
         self.emotional_estimator = EmotionalConfidenceEstimator()
         self.uncertainty_decomposer = UncertaintyDecomposer()
@@ -674,7 +674,7 @@ class AdvancedConfidenceCalibrator:
         logger.info("🎯 Performing advanced confidence calibration")
 
         # Extract components for different estimators
-        quantum_like_state = reasoning_result.get("quantum_like_state", {})
+        qi_like_state = reasoning_result.get("qi_like_state", {})
         symbolic_reasoning = reasoning_result.get("symbolic_reasoning", {})
         emotional_signals = reasoning_result.get("emotional_signals", {})
 
@@ -683,8 +683,8 @@ class AdvancedConfidenceCalibrator:
             reasoning_result, context
         )
 
-        quantum_confidence = self.quantum_estimator.estimate_confidence(
-            quantum_like_state
+        qi_confidence = self.qi_estimator.estimate_confidence(
+            qi_like_state
         )
 
         symbolic_confidence = self.symbolic_estimator.estimate_confidence(
@@ -708,7 +708,7 @@ class AdvancedConfidenceCalibrator:
         # Calculate weighted overall confidence
         overall_confidence = (
             self.calibration_weights["bayesian"] * bayesian_confidence
-            + self.calibration_weights["quantum"] * quantum_confidence
+            + self.calibration_weights["quantum"] * qi_confidence
             + self.calibration_weights["symbolic"] * symbolic_confidence
             + self.calibration_weights["emotional"] * emotional_confidence
         )
@@ -716,7 +716,7 @@ class AdvancedConfidenceCalibrator:
         # Calculate meta-confidence (confidence in the confidence estimate)
         meta_confidence = self._calculate_meta_confidence(
             bayesian_confidence,
-            quantum_confidence,
+            qi_confidence,
             symbolic_confidence,
             emotional_confidence,
             cross_brain_coherence,
@@ -728,7 +728,7 @@ class AdvancedConfidenceCalibrator:
         # Create comprehensive confidence metrics
         confidence_metrics = ConfidenceMetrics(
             bayesian_confidence=bayesian_confidence,
-            quantum_confidence=quantum_confidence,
+            qi_confidence=qi_confidence,
             symbolic_confidence=symbolic_confidence,
             emotional_confidence=emotional_confidence,
             cross_brain_coherence=cross_brain_coherence,
@@ -788,7 +788,7 @@ class AdvancedConfidenceCalibrator:
         prediction_confidence = (
             confidence_metrics.bayesian_confidence
             * self.calibration_weights["bayesian"]
-            + confidence_metrics.quantum_confidence
+            + confidence_metrics.qi_confidence
             * self.calibration_weights["quantum"]
             + confidence_metrics.symbolic_confidence
             * self.calibration_weights["symbolic"]

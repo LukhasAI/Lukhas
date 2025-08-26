@@ -4,43 +4,44 @@ TEQ Gate with Provenance Integration
 Automatically generates execution receipts for all policy decisions
 """
 
-import time
 import hashlib
+import time
 import uuid
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
 
-from qi.safety.teq_gate import TEQCoupler, GateResult
 from qi.provenance.receipts_hub import emit_receipt
+from qi.safety.teq_gate import GateResult, TEQCoupler
+
 
 class TEQWithProvenance(TEQCoupler):
     """TEQ Gate enhanced with automatic provenance generation"""
-    
+
     def __init__(self, *args, enable_provenance: bool = True, **kwargs):
         super().__init__(*args, **kwargs)
         self.enable_provenance = enable_provenance
         self.service_name = "lukhas-teq"
-    
+
     def run(self, task: str, context: Dict[str, Any]) -> GateResult:
         """Run TEQ checks and generate provenance receipt"""
-        
+
         # Track execution timing
         start_time = time.time()
         run_id = str(uuid.uuid4())
-        
+
         # Extract relevant context
         user_id = self._extract_user_id(context)
         text_content = context.get("text", "")
-        
+
         # Generate content hash for artifact tracking
         artifact_sha = hashlib.sha256(
             text_content.encode("utf-8") if text_content else b"empty"
         ).hexdigest()
-        
+
         # Run the original TEQ checks
         result = super().run(task, context)
-        
+
         end_time = time.time()
-        
+
         # Generate provenance receipt if enabled
         if self.enable_provenance:
             try:
@@ -54,16 +55,16 @@ class TEQWithProvenance(TEQCoupler):
                     context=context,
                     result=result
                 )
-                
+
                 # Attach receipt ID to result for reference
                 result.provenance_receipt_id = receipt.get("id")
-                
+
             except Exception as e:
                 # Don't fail TEQ if provenance fails
                 print(f"Warning: Provenance generation failed: {e}")
-        
+
         return result
-    
+
     def _extract_user_id(self, context: Dict[str, Any]) -> Optional[str]:
         """Extract user ID from various context formats"""
         # Try common patterns
@@ -74,7 +75,7 @@ class TEQWithProvenance(TEQCoupler):
         if "user" in context:
             return str(context["user"])
         return None
-    
+
     def _generate_receipt(
         self,
         artifact_sha: str,
@@ -87,11 +88,11 @@ class TEQWithProvenance(TEQCoupler):
         result: GateResult
     ) -> Dict[str, Any]:
         """Generate comprehensive provenance receipt"""
-        
+
         # Extract policy-relevant metadata
         jurisdiction = result.jurisdiction
-        ctx_type = context.get("context", None)
-        
+        ctx_type = context.get("context")
+
         # Determine risk flags from TEQ reasons
         risk_flags = []
         if "PII" in str(result.reasons):
@@ -102,15 +103,15 @@ class TEQWithProvenance(TEQCoupler):
             risk_flags.append("budget_exceeded")
         if not result.allowed:
             risk_flags.append("policy_blocked")
-        
+
         # Extract consent/capability references if available
         consent_id = context.get("consent_receipt_id")
         capability_ids = context.get("capability_lease_ids", [])
-        
+
         # Token counts if available
         tokens_in = context.get("tokens_in")
         tokens_out = context.get("tokens_out")
-        
+
         # Generate the receipt
         receipt_data = emit_receipt(
             artifact_sha=artifact_sha,
@@ -141,21 +142,21 @@ class TEQWithProvenance(TEQCoupler):
                 }
             ]
         )
-        
+
         return receipt_data
 
 
 def demo():
     """Demo the provenance-enabled TEQ gate"""
     import os
-    
+
     # Initialize with provenance
     gate = TEQWithProvenance(
         policy_dir=os.path.join(os.path.dirname(__file__), "policy_packs"),
         jurisdiction="global",
         enable_provenance=True
     )
-    
+
     # Test with various contexts
     test_cases = [
         {
@@ -185,42 +186,42 @@ def demo():
             }
         }
     ]
-    
+
     print("=" * 60)
     print("TEQ Gate with Provenance - Demo")
     print("=" * 60)
-    
+
     for i, test in enumerate(test_cases, 1):
         print(f"\nTest {i}: {test['task']}")
         print("-" * 40)
-        
+
         result = gate.run(test["task"], test["context"])
-        
+
         print(f"Allowed: {result.allowed}")
         if not result.allowed:
             print(f"Reasons: {result.reasons}")
-        
+
         if hasattr(result, "provenance_receipt_id"):
             print(f"Receipt ID: {result.provenance_receipt_id}")
-        
+
         # Load and display the receipt
             state_dir = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
             receipt_path = os.path.join(
-                state_dir, 
-                "provenance", 
-                "exec_receipts", 
+                state_dir,
+                "provenance",
+                "exec_receipts",
                 f"{result.provenance_receipt_id}.json"
             )
-            
+
             if os.path.exists(receipt_path):
                 import json
-                with open(receipt_path, 'r') as f:
+                with open(receipt_path) as f:
                     receipt = json.load(f)
                     print(f"  - Task: {receipt['activity']['type']}")
                     print(f"  - Jurisdiction: {receipt['activity']['jurisdiction']}")
                     print(f"  - Risk flags: {receipt['risk_flags']}")
                     print(f"  - Latency: {receipt['latency_ms']}ms")
-    
+
     print("\n" + "=" * 60)
     print("✅ Provenance integration complete!")
     print("All policy decisions now generate cryptographically-sealed receipts.")

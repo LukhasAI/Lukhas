@@ -34,10 +34,10 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://lukhas.ai/docs
 """
 
-from candidate.core.identity.identity_engine import QuantumIdentityEngine
-from candidate.core.integration.governance.__init__ import QuantumEthicsEngine
-from candidate.core.testing.plugin_test_framework import QuantumTestOracle
-from qi.quantum_processing_core import BaseOscillator
+from candidate.core.identity.identity_engine import QIIdentityEngine
+from candidate.core.integration.governance.__init__ import QIEthicsEngine
+from candidate.core.testing.plugin_test_framework import QITestOracle
+from qi.qi_processing_core import BaseOscillator
 from reasoning.symbolic_reasoning import SymbolicEngine
 from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
     MultiverseKnowledgeWeb,
@@ -70,7 +70,7 @@ class QIIntegrationTestSuite:
     def __init__(self):
         self.test_results = {
             "performance_metrics": {},
-            "quantum_fidelity": {},
+            "qi_fidelity": {},
             "energy_efficiency": {},
             "response_times": {},
             "integration_health": {},
@@ -88,13 +88,13 @@ class QIIntegrationTestSuite:
         systems["symbolic"] = SymbolicEngine()
 
         # Initialize Quantum Identity Engine
-        systems["identity"] = QuantumIdentityEngine()
+        systems["identity"] = QIIdentityEngine()
 
         # Initialize Quantum Test Oracle
-        systems["testing"] = QuantumTestOracle()
+        systems["testing"] = QITestOracle()
 
         # Initialize Quantum Ethics Engine
-        systems["governance"] = QuantumEthicsEngine()
+        systems["governance"] = QIEthicsEngine()
 
         # Initialize Quantum Enhanced Oscillator
         systems["quantum"] = BaseOscillator()
@@ -119,7 +119,7 @@ class QIIntegrationTestSuite:
             "test_user_integration", bio_signature=np.random.bytes(32)
         )
 
-        ethics_decision = await systems["governance"].quantum_ethical_reasoning(
+        ethics_decision = await systems["governance"].qi_ethical_reasoning(
             decision_context={
                 "action": "access_sensitive_data",
                 "identity": identity_state["lambda_id"],
@@ -129,7 +129,7 @@ class QIIntegrationTestSuite:
 
         entanglement_correlation = np.abs(
             np.dot(
-                identity_state["quantum_like_state"][:8],  # First 8 dimensions
+                identity_state["qi_like_state"][:8],  # First 8 dimensions
                 ethics_decision["ethical_state"][:8],
             )
         )
@@ -137,7 +137,7 @@ class QIIntegrationTestSuite:
         results["identity_ethics_entanglement"] = entanglement_correlation
 
         # Test Symbolic-Testing entanglement
-        symbolic_reasoning = await systems["symbolic"].quantum_reason(
+        symbolic_reasoning = await systems["symbolic"].qi_reason(
             "What is the optimal test strategy for quantum systems?"
         )
 
@@ -145,19 +145,19 @@ class QIIntegrationTestSuite:
             context={"reasoning": symbolic_reasoning["result"]}
         )
 
-        symbolic_test_correlation = test_predictions["quantum_ml_confidence"]
+        symbolic_test_correlation = test_predictions["qi_ml_confidence"]
         results["symbolic_testing_entanglement"] = symbolic_test_correlation
 
         # Test Knowledge-Quantum entanglement
         await systems["knowledge"].encrypt_and_store(
-            "quantum_optimization_pattern",
+            "qi_optimization_pattern",
             {"frequency": systems["quantum"].base_frequency},
         )
 
-        quantum_coherence = await systems["quantum"].get_quantum_coherence()
+        qi_coherence = await systems["quantum"].get_quantum_coherence()
 
         results["knowledge_quantum_entanglement"] = (
-            quantum_coherence * 0.95
+            qi_coherence * 0.95
         )  # Simulated correlation
 
         end_time = time.perf_counter()
@@ -195,7 +195,7 @@ class QIIntegrationTestSuite:
             # Perform 100 operations
             for i in range(100):
                 if domain == "symbolic":
-                    await system.quantum_reason(f"Test query {i}")
+                    await system.qi_reason(f"Test query {i}")
                 elif domain == "identity":
                     await system.authenticate_lambda_identity(f"test_user_{i}")
                 elif domain == "testing":
@@ -295,13 +295,13 @@ class QIIntegrationTestSuite:
             start_time = time.perf_counter()
 
             if domain == "symbolic":
-                await system.quantum_reason("Critical decision needed")
+                await system.qi_reason("Critical decision needed")
             elif domain == "identity":
                 await system.authenticate_lambda_identity("critical_user")
             elif domain == "testing":
                 await system.run_quantum_test_vector("critical_test", {"urgent": True})
             elif domain == "governance":
-                await system.quantum_ethical_reasoning(
+                await system.qi_ethical_reasoning(
                     {"action": "emergency_access", "priority": "critical"}
                 )
             elif domain == "quantum":
@@ -335,8 +335,8 @@ class QIIntegrationTestSuite:
         for domain, system in systems.items():
             if hasattr(system, "get_quantum_fidelity"):
                 fidelity = await system.get_quantum_fidelity()
-            elif hasattr(system, "quantum_like_state_fidelity"):
-                fidelity = system.quantum_like_state_fidelity()
+            elif hasattr(system, "qi_like_state_fidelity"):
+                fidelity = system.qi_like_state_fidelity()
             else:
                 # Simulate high fidelity for quantum-enhanced systems
                 fidelity = 0.96 + np.random.random() * 0.03  # 96-99% range
@@ -349,7 +349,7 @@ class QIIntegrationTestSuite:
             )
 
         # Calculate overall fidelity
-        fidelities = [results[key] for key in results if "quantum_fidelity" in key]
+        fidelities = [results[key] for key in results if "qi_fidelity" in key]
         results["average_quantum_fidelity"] = np.mean(fidelities)
         results["min_quantum_fidelity"] = min(fidelities)
         results["fidelity_compliance"] = (
@@ -402,7 +402,7 @@ class QIIntegrationTestSuite:
             entanglement_results = await self.test_quantum_entanglement_integration(
                 systems
             )
-            self.test_results["quantum_entanglement"] = entanglement_results
+            self.test_results["qi_entanglement"] = entanglement_results
 
             print("\n" + "=" * 80)
             throughput_results = await self.test_throughput_optimization(systems)
@@ -418,7 +418,7 @@ class QIIntegrationTestSuite:
 
             print("\n" + "=" * 80)
             fidelity_results = await self.test_quantum_fidelity(systems)
-            self.test_results["quantum_fidelity"] = fidelity_results
+            self.test_results["qi_fidelity"] = fidelity_results
 
             print("\n" + "=" * 80)
             compliance_results = await self.test_post_quantum_compliance(systems)
@@ -471,7 +471,7 @@ class QIIntegrationTestSuite:
         )
 
         # Quantum Fidelity
-        avg_fidelity = self.test_results["quantum_fidelity"].get(
+        avg_fidelity = self.test_results["qi_fidelity"].get(
             "average_quantum_fidelity", 0
         )
         fidelity_status = "✅" if avg_fidelity >= 0.95 else "⚠️"
@@ -515,7 +515,7 @@ class QIIntegrationTestSuite:
 @pytest.fixture
 async def integration_suite():
     """Pytest fixture for integration test suite"""
-    return QuantumIntegrationTestSuite()
+    return QIIntegrationTestSuite()
 
 
 @pytest.mark.asyncio
@@ -527,7 +527,7 @@ async def test_quantum_integration_suite(integration_suite):
     assert results["performance_metrics"]["average_improvement_factor"] >= 5.0
     assert results["energy_efficiency"]["average_energy_reduction"] >= 40.0
     assert results["response_times"]["sub_100ms_compliance"] >= 90.0
-    assert results["quantum_fidelity"]["average_quantum_fidelity"] >= 0.95
+    assert results["qi_fidelity"]["average_quantum_fidelity"] >= 0.95
     assert results["compliance_status"]["compliance_percentage"] >= 100.0
 
 
@@ -541,16 +541,16 @@ async def test_quantum_systems_initialization():
     symbolic = SymbolicEngine()
     assert symbolic is not None
 
-    # Test QuantumIdentityEngine initialization
-    identity = QuantumIdentityEngine()
+    # Test QIIdentityEngine initialization
+    identity = QIIdentityEngine()
     assert identity is not None
 
-    # Test QuantumTestOracle initialization
-    testing = QuantumTestOracle()
+    # Test QITestOracle initialization
+    testing = QITestOracle()
     assert testing is not None
 
-    # Test QuantumEthicsEngine initialization
-    governance = QuantumEthicsEngine()
+    # Test QIEthicsEngine initialization
+    governance = QIEthicsEngine()
     assert governance is not None
 
     # Test BaseOscillator initialization
@@ -582,7 +582,7 @@ async def test_quantum_symbolic_reasoning():
         "complexity": 0.5,
     }
 
-    result = await symbolic.quantum_reason(test_input)
+    result = await symbolic.qi_reason(test_input)
 
     assert result is not None
     assert (
@@ -597,7 +597,7 @@ async def test_quantum_identity_creation():
     """Test quantum identity creation and management"""
     print("🆔 Testing Quantum Identity Creation...")
 
-    identity_engine = QuantumIdentityEngine()
+    identity_engine = QIIdentityEngine()
 
     # Test lambda identity creation
     identity_result = await identity_engine.create_lambda_identity(
@@ -607,8 +607,8 @@ async def test_quantum_identity_creation():
     assert identity_result is not None
     assert hasattr(identity_result, "lambda_id") or "lambda_id" in dir(identity_result)
     assert hasattr(
-        identity_result, "quantum_like_state"
-    ) or "quantum_like_state" in dir(identity_result)
+        identity_result, "qi_like_state"
+    ) or "qi_like_state" in dir(identity_result)
 
     print("✅ Quantum identity creation test passed")
 
@@ -618,7 +618,7 @@ async def test_quantum_ethics_reasoning():
     """Test quantum ethics engine decision making"""
     print("⚖️ Testing Quantum Ethics Reasoning...")
 
-    ethics_engine = QuantumEthicsEngine()
+    ethics_engine = QIEthicsEngine()
 
     # Test ethical decision making
     decision_context = {
@@ -646,14 +646,14 @@ async def test_quantum_performance_targets():
 
     # Initialize systems
     symbolic = SymbolicEngine()
-    QuantumIdentityEngine()
-    QuantumEthicsEngine()
+    QIIdentityEngine()
+    QIEthicsEngine()
 
     # Test response time (sub-100ms target)
     test_start = time.perf_counter()
 
     # Simple reasoning test
-    await symbolic.quantum_reason(
+    await symbolic.qi_reason(
         {
             "query": "performance_test",
             "context": {"test_type": "performance", "complexity": 0.1},
@@ -674,7 +674,7 @@ async def test_quantum_performance_targets():
 if __name__ == "__main__":
     # Direct execution
     async def main():
-        suite = QuantumIntegrationTestSuite()
+        suite = QIIntegrationTestSuite()
         await suite.run_comprehensive_integration_test()
 
     asyncio.run(main())
@@ -691,7 +691,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -710,7 +710,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

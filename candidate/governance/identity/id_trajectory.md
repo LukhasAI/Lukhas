@@ -1,5 +1,5 @@
 l_id_trajectory.md
-# LUCΛS ID Trajectory 📍  
+# LUCΛS ID Trajectory 📍
 *Vision, evolution, and advanced access modalities roadmap*
 
 ---
@@ -44,15 +44,15 @@ Lukhas ID login system currently supports:
 ## 🧩 MODULAR ACCESS STRATEGY
 
 - Every user selects their preferred methods:
-  - Emoji/Word story  
-  - Classic grid  
-  - LiDAR gesture unlock  
-  - Face ID / Voice  
+  - Emoji/Word story
+  - Classic grid
+  - LiDAR gesture unlock
+  - Face ID / Voice
   - Emergency symbol or fallback
 
 Users can layer protections and configure login entropy tiers:
-- Basic (Mnemonic)  
-- Advanced (Biometric)  
+- Basic (Mnemonic)
+- Advanced (Biometric)
 - Dynamic (Symbolic + Biometric)
 
 ---
@@ -86,7 +86,7 @@ graph TB
     B --> C7[📸 Face ID / Voice ID]
     B --> C8[✋ LiDAR Pattern Unlock (Future)]
     B --> C9[🧩 Emergency Symbolic Gesture]
-    
+
     C1 --> D[🎚 Tier Assignment]
     C2 --> D
     C3 --> D
@@ -96,7 +96,7 @@ graph TB
     C7 --> D
     C8 --> D
     C9 --> D
-    
+
     D --> E[🔓 Secure Access Granted]
     D --> F[📁 Session Logged (Optional, Tier IV+)]
     D --> G[📜 Compliance Trace Created]
@@ -104,5 +104,3 @@ graph TB
 ```
 
 > *Diagram draft for internal architecture discussion. Final version pending accessibility and language layer overlays.*
-
-

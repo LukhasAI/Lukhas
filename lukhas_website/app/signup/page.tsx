@@ -107,13 +107,13 @@ export default function SignupPage() {
   const [passkeySupported] = useState(() => supportsPasskeys())
   const [userId, setUserId] = useState('')
   const [locale, setLocale] = useState<'en' | 'es'>('en')
-  
+
   const t = UI_TEXT[locale]
 
   // Step 1: Email submission
   const handleEmailSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!email.trim()) {
       setError('Please enter your email address')
       return
@@ -150,7 +150,7 @@ export default function SignupPage() {
   // Step 2: Email verification
   const handleEmailVerification = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!verificationCode.trim()) {
       setError('Please enter the verification code')
       return
@@ -163,7 +163,7 @@ export default function SignupPage() {
       const response = await fetch('/api/auth/signup/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           email: email.trim(),
           code: verificationCode.trim()
         })
@@ -208,7 +208,7 @@ export default function SignupPage() {
       const optionsResponse = await fetch('/api/auth/passkey/register-options', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           userId,
           email,
           displayName: email.split('@')[0]
@@ -325,13 +325,13 @@ export default function SignupPage() {
       />
       <div className="min-h-screen bg-bg-primary flex flex-col">
       {/* Skip to main content link for accessibility */}
-      <a 
-        href="#main-content" 
+      <a
+        href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-trinity-consciousness text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white z-50"
       >
         Skip to main content
       </a>
-      
+
       {/* Header */}
       <header className="flex items-center justify-between p-6" role="banner">
         <Link href="/" className="flex items-center text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-consciousness focus:ring-offset-2 focus:ring-offset-bg-primary rounded">
@@ -380,13 +380,13 @@ export default function SignupPage() {
                 const stepLabels = [t.emailStep, t.verifyStep, t.passkeyStep, t.completeStep]
                 const isComplete = (['email', 'verify'].indexOf(step) > index || step === 'complete') && stepName !== step
                 const isCurrent = step === stepName
-                
+
                 return (
                   <div key={stepName} className="flex items-center">
-                    <div 
+                    <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium ${
                         isCurrent
-                          ? 'bg-trinity-consciousness text-white' 
+                          ? 'bg-trinity-consciousness text-white'
                           : isComplete
                           ? 'bg-trinity-guardian text-white'
                           : 'bg-white/10 text-white/40'
@@ -403,7 +403,7 @@ export default function SignupPage() {
                     {index < 3 && (
                       <div className={`w-8 h-0.5 ${
                         isComplete || (['email', 'verify'].indexOf(step) > index)
-                          ? 'bg-trinity-guardian' 
+                          ? 'bg-trinity-guardian'
                           : 'bg-white/10'
                       }`} aria-hidden="true" />
                     )}
@@ -612,7 +612,7 @@ export default function SignupPage() {
         <TransparencyBox
           locale={locale}
           capabilities={[
-            locale === 'en' 
+            locale === 'en'
               ? "Email verification with secure 6-digit codes"
               : "Verificación de correo con códigos seguros de 6 dígitos",
             locale === 'en'

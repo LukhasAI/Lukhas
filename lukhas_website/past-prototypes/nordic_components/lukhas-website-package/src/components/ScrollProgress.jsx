@@ -22,7 +22,7 @@ const ScrollProgress = () => {
       setProgress(scrollPercent);
 
       // Determine active section
-      const sectionElements = sections.map(section => 
+      const sectionElements = sections.map(section =>
         document.getElementById(section.id) || document.querySelector('.hero-section')
       );
 
@@ -47,10 +47,10 @@ const ScrollProgress = () => {
 
   const handleDotClick = (index) => {
     const section = sections[index];
-    const element = section.id === 'hero' 
+    const element = section.id === 'hero'
       ? document.querySelector('.hero-section')
       : document.getElementById(section.id);
-    
+
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -60,7 +60,7 @@ const ScrollProgress = () => {
     <>
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-1 bg-slate-200/30 z-50">
-        <div 
+        <div
           className="h-full bg-blue-600 transition-all duration-300 ease-out"
           style={{ width: `${progress * 100}%` }}
         />
@@ -83,4 +83,3 @@ const ScrollProgress = () => {
 };
 
 export default ScrollProgress;
-

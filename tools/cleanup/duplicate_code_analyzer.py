@@ -308,7 +308,7 @@ from pathlib import Path
 
 def cleanup_duplicates():
     \"\"\"Remove or consolidate duplicate code\"\"\"
-    
+
     # Duplicate functions to consolidate
     duplicates = {
 """
@@ -317,15 +317,15 @@ def cleanup_duplicates():
         script += f"        '{dup['signature']}': {dup['locations']},\n"
 
     script += """    }
-    
+
     print("🧹 Cleaning up duplicates...")
-    
+
     # TODO: Implement actual consolidation logic
     # For now, just report what would be cleaned
-    
+
     for signature, locations in duplicates.items():
         print(f"  Would consolidate {signature} from {len(locations)} locations")
-    
+
     print("\\n✅ Cleanup analysis complete!")
     print("⚠️  Manual review required before actual deletion")
 

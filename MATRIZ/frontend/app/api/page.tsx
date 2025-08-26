@@ -4,8 +4,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Code, Server, Zap, Shield, Book, ExternalLink, 
+import {
+  Code, Server, Zap, Shield, Book, ExternalLink,
   Brain, Database, Lock, Globe, Terminal, Activity,
   ArrowRight, Copy, CheckCircle, Settings
 } from 'lucide-react'
@@ -23,7 +23,7 @@ export default function APIPage() {
           features: ["Trinity Framework integration", "Memory persistence", "Ethical validation"]
         },
         {
-          method: "GET", 
+          method: "GET",
           path: "/v1/consciousness/state",
           description: "Retrieve current consciousness state and metrics",
           features: ["Real-time status", "Health indicators", "Performance metrics"]
@@ -113,7 +113,7 @@ response = await ai.consciousness.process(
     {
       language: "JavaScript",
       status: "Stable",
-      version: "v1.1.0", 
+      version: "v1.1.0",
       install: "npm install @lukhas/ai",
       docs: "/docs/javascript",
       example: `import { LukhasAI } from '@lukhas/ai';
@@ -204,7 +204,7 @@ response, err := client.Consciousness.Process(ctx, &lukhas.ProcessRequest{
                 Consciousness-aware APIs for building AI applications with Trinity Framework integration,
                 quantum-safe security, and ethical governance.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
                 <Link href="/docs">
                   <motion.button
@@ -491,7 +491,7 @@ response, err := client.Consciousness.Process(ctx, &lukhas.ProcessRequest{
                 Ready to Build with Consciousness?
               </h2>
               <p className="text-lg text-primary-light/70 mb-8 leading-relaxed">
-                Start building AI applications with consciousness-aware processing, 
+                Start building AI applications with consciousness-aware processing,
                 ethical governance, and quantum-safe security.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

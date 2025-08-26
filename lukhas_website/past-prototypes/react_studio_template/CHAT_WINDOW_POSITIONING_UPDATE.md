@@ -8,7 +8,7 @@ Final refinements to the floating chat window positioning and icon organization 
 ### 1. Desktop Containment
 - **Smart Positioning Logic**: Chat window dynamically adjusts its position based on dock visibility
   - When both docks visible: `left: 15rem, right: 13rem`
-  - When only left dock: `left: 15rem, right: 1.5rem`  
+  - When only left dock: `left: 15rem, right: 1.5rem`
   - When only right dock: `left: 1.5rem, right: 13rem`
   - When no docks: `left: 1.5rem, right: 1.5rem`
 - **Smooth Transitions**: 300ms transition on position changes
@@ -20,7 +20,7 @@ The chat window icons are now logically organized into two groups:
 #### Left Side - Chat Modes:
 - **Chat** (MessageSquare): Standard conversation mode
 - **Code** (Code): Code-focused discussions
-- **Text** (Edit): Text editing/document mode  
+- **Text** (Edit): Text editing/document mode
 - **Creative** (Star): Creative/brainstorming mode
 
 #### Right Side - Action Controls:
@@ -45,8 +45,8 @@ The chat window icons are now logically organized into two groups:
 ```jsx
 // Container positioning
 className="fixed bottom-6 z-40"
-style={{ 
-  left: showLeftDock ? '15rem' : '1.5rem', 
+style={{
+  left: showLeftDock ? '15rem' : '1.5rem',
   right: showRightDock ? '13rem' : '1.5rem',
   transition: 'left 300ms, right 300ms'
 }}
@@ -95,7 +95,7 @@ The chat window is now ready for:
 
 The chat window positioning and organization are now finalized with:
 - ✅ Proper desktop containment
-- ✅ Logical icon arrangement  
+- ✅ Logical icon arrangement
 - ✅ Removed unnecessary dock toggles
 - ✅ Professional 3D styling
 - ✅ Smooth responsive behavior

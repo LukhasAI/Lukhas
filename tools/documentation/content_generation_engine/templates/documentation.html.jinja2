@@ -39,7 +39,7 @@
 </head>
 <body>
     <h1 class="{% if config.voice_enabled %}voice-emphasis{% endif %}">{{ sections[0].title }}</h1>
-    
+
     {% if sections[0].content %}
     <div class="module-description">
         {{ sections[0].content }}
@@ -49,7 +49,7 @@
     {% for section in sections %}
     {% if section.section_type == 'class' %}
     <h2 class="{% if config.voice_enabled %}voice-emphasis{% endif %}">{{ section.title }}</h2>
-    
+
     {% if section.content %}
     <div class="class-description">
         {{ section.content }}
@@ -59,7 +59,7 @@
     {% for method in section.subsections %}
     <div class="method">
         <h3 class="{% if config.voice_enabled %}voice-emphasis{% endif %}">{{ method.title }}</h3>
-        
+
         {% if method.content %}
         <div class="method-description">
             {{ method.content }}

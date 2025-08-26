@@ -5,9 +5,9 @@ export type SpendInput = { reason: "mentor_mode"; amount: number };
 const base = process.env.NEXT_PUBLIC_API_BASE || "";
 
 export async function getBalance(): Promise<Balance> {
-  const r = await fetch(`${base}/wallet/balance`, { 
-    cache: "no-store", 
-    credentials: "include" 
+  const r = await fetch(`${base}/wallet/balance`, {
+    cache: "no-store",
+    credentials: "include"
   });
   if (!r.ok) throw new Error("balance_failed");
   return r.json();
@@ -15,8 +15,8 @@ export async function getBalance(): Promise<Balance> {
 
 export async function earn(input: EarnInput): Promise<Balance> {
   const r = await fetch(`${base}/wallet/earn`, {
-    method: "POST", 
-    headers: { "content-type": "application/json" }, 
+    method: "POST",
+    headers: { "content-type": "application/json" },
     credentials: "include",
     body: JSON.stringify(input)
   });
@@ -26,8 +26,8 @@ export async function earn(input: EarnInput): Promise<Balance> {
 
 export async function spend(input: SpendInput): Promise<Balance> {
   const r = await fetch(`${base}/wallet/spend`, {
-    method: "POST", 
-    headers: { "content-type": "application/json" }, 
+    method: "POST",
+    headers: { "content-type": "application/json" },
     credentials: "include",
     body: JSON.stringify(input)
   });

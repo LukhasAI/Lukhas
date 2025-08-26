@@ -62,8 +62,8 @@ export function CustomCursor() {
           <motion.div
             className="absolute inset-0 rounded-full"
             animate={{
-              borderColor: isHovering 
-                ? 'rgba(14, 165, 233, 0.8)' 
+              borderColor: isHovering
+                ? 'rgba(14, 165, 233, 0.8)'
                 : 'rgba(107, 70, 193, 0.5)',
             }}
             transition={{ duration: 0.2 }}

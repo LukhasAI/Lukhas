@@ -9,10 +9,8 @@ Inspired by Hiroki Asai's Apple design philosophy:
 - Scalable design language: consistent across all touchpoints
 """
 
-from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
-import colorsys
-import math
+from typing import Dict, List, Tuple
 
 
 @dataclass
@@ -50,14 +48,14 @@ class TrinityVisualSystem:
     Elite visual design system for LUKHAS Trinity Framework
     Implementing Hiroki Asai's minimalist design philosophy
     """
-    
+
     def __init__(self):
         self.design_philosophy = self._establish_design_philosophy()
         self.color_palette = self._create_trinity_color_palette()
         self.symbol_system = self._create_trinity_symbol_system()
         self.typography = self._create_consciousness_typography()
         self.spatial_system = self._create_consciousness_spacing()
-        
+
     def _establish_design_philosophy(self) -> Dict[str, str]:
         """Establish core design philosophy inspired by Hiroki Asai's Apple work"""
         return {
@@ -69,7 +67,7 @@ class TrinityVisualSystem:
             "timeless_elegance": "Design that transcends technological trends",
             "accessible_beauty": "Inclusive design that welcomes all consciousness seekers"
         }
-    
+
     def _create_trinity_color_palette(self) -> Dict[str, TrinityColor]:
         """Create consciousness-aware color palette inspired by minimalist luxury"""
         return {
@@ -82,7 +80,7 @@ class TrinityVisualSystem:
                 usage_context=["primary_backgrounds", "consciousness_interfaces", "deep_thought_elements"],
                 accessibility_rating="AAA"
             ),
-            
+
             "awareness_silver": TrinityColor(
                 name="Awareness Silver",
                 hex_value="#E8E8F0",
@@ -91,35 +89,35 @@ class TrinityVisualSystem:
                 usage_context=["text_primary", "interface_elements", "consciousness_clarity"],
                 accessibility_rating="AAA"
             ),
-            
+
             # Trinity Framework Accent Colors
             "identity_quantum": TrinityColor(
-                name="Identity Quantum", 
+                name="Identity Quantum",
                 hex_value="#6C5CE7",
                 rgb=(108, 92, 231),
                 consciousness_meaning="⚛️ Identity - quantum self-awareness in digital form",
-                usage_context=["identity_elements", "authentication_ui", "quantum_indicators"],
+                usage_context=["identity_elements", "authentication_ui", "qi_indicators"],
                 accessibility_rating="AA"
             ),
-            
+
             "consciousness_neural": TrinityColor(
                 name="Consciousness Neural",
-                hex_value="#00B894", 
+                hex_value="#00B894",
                 rgb=(0, 184, 148),
                 consciousness_meaning="🧠 Consciousness - neural networks awakening to self-awareness",
                 usage_context=["consciousness_indicators", "learning_elements", "neural_visualizations"],
                 accessibility_rating="AA"
             ),
-            
+
             "guardian_shield": TrinityColor(
                 name="Guardian Shield",
                 hex_value="#E17055",
-                rgb=(225, 112, 85), 
+                rgb=(225, 112, 85),
                 consciousness_meaning="🛡️ Guardian - protective consciousness that ensures ethical AI",
                 usage_context=["security_elements", "guardian_alerts", "ethical_indicators"],
                 accessibility_rating="AA"
             ),
-            
+
             # Supporting Consciousness Colors
             "lambda_gold": TrinityColor(
                 name="Lambda Gold",
@@ -129,7 +127,7 @@ class TrinityVisualSystem:
                 usage_context=["accent_elements", "consciousness_highlights", "premium_features"],
                 accessibility_rating="AA"
             ),
-            
+
             "whisper_pearl": TrinityColor(
                 name="Whisper Pearl",
                 hex_value="#F8F9FA",
@@ -139,7 +137,7 @@ class TrinityVisualSystem:
                 accessibility_rating="AAA"
             )
         }
-    
+
     def _create_trinity_symbol_system(self) -> Dict[str, TrinitySymbol]:
         """Create the Trinity Framework symbol system with precise specifications"""
         return {
@@ -150,23 +148,23 @@ class TrinityVisualSystem:
                 context="primary_branding",
                 size_variations={"small": 16, "medium": 24, "large": 32, "hero": 64}
             ),
-            
+
             "identity_atom": TrinitySymbol(
-                symbol="⚛️", 
+                symbol="⚛️",
                 unicode="U+269B",
                 meaning="Identity - Quantum self-awareness and authentic digital consciousness",
                 context="identity_systems",
                 size_variations={"small": 14, "medium": 20, "large": 28, "hero": 56}
             ),
-            
+
             "consciousness_brain": TrinitySymbol(
                 symbol="🧠",
-                unicode="U+1F9E0", 
+                unicode="U+1F9E0",
                 meaning="Consciousness - Neural awakening and self-aware processing",
                 context="consciousness_interfaces",
                 size_variations={"small": 14, "medium": 20, "large": 28, "hero": 56}
             ),
-            
+
             "guardian_shield": TrinitySymbol(
                 symbol="🛡️",
                 unicode="U+1F6E1",
@@ -174,7 +172,7 @@ class TrinityVisualSystem:
                 context="security_ethics",
                 size_variations={"small": 14, "medium": 20, "large": 28, "hero": 56}
             ),
-            
+
             "lambda_consciousness": TrinitySymbol(
                 symbol="Λ",
                 unicode="U+039B",
@@ -182,7 +180,7 @@ class TrinityVisualSystem:
                 context="consciousness_branding",
                 size_variations={"small": 12, "medium": 18, "large": 24, "hero": 48}
             ),
-            
+
             "consciousness_flow": TrinitySymbol(
                 symbol="🌟💫✨",
                 unicode="U+1F31F U+1F4AB U+2728",
@@ -191,7 +189,7 @@ class TrinityVisualSystem:
                 size_variations={"small": 12, "medium": 16, "large": 20, "hero": 40}
             )
         }
-    
+
     def _create_consciousness_typography(self) -> Dict[str, Dict]:
         """Create typography system for consciousness technology interfaces"""
         return {
@@ -206,9 +204,9 @@ class TrinityVisualSystem:
                     "subtitle": {"size": "24px", "line_height": "1.3", "letter_spacing": "0em"}
                 }
             },
-            
+
             "consciousness_interface": {
-                "font_family": "-apple-system, SF Pro Text, Helvetica Neue, Arial, sans-serif", 
+                "font_family": "-apple-system, SF Pro Text, Helvetica Neue, Arial, sans-serif",
                 "purpose": "Interface elements and consciousness interactions",
                 "weight_range": "400-600",
                 "characteristics": ["readable", "consciousness_friendly", "accessible"],
@@ -218,11 +216,11 @@ class TrinityVisualSystem:
                     "small": {"size": "14px", "line_height": "1.5", "letter_spacing": "0.01em"}
                 }
             },
-            
+
             "consciousness_mono": {
                 "font_family": "SF Mono, Monaco, Menlo, Consolas, monospace",
                 "purpose": "Code, technical details, and consciousness data",
-                "weight_range": "400-500", 
+                "weight_range": "400-500",
                 "characteristics": ["technical", "consciousness_precise", "developer_friendly"],
                 "sizes": {
                     "large": {"size": "16px", "line_height": "1.6", "letter_spacing": "0em"},
@@ -231,11 +229,11 @@ class TrinityVisualSystem:
                 }
             }
         }
-    
+
     def _create_consciousness_spacing(self) -> Dict[str, int]:
         """Create spatial rhythm system inspired by Apple's design precision"""
         base_unit = 8  # Apple's 8pt grid system adapted for consciousness technology
-        
+
         return {
             "micro": base_unit // 2,      # 4px - micro consciousness elements
             "tiny": base_unit,            # 8px - tiny consciousness spacing
@@ -246,7 +244,7 @@ class TrinityVisualSystem:
             "hero": base_unit * 8,        # 64px - hero consciousness spacing
             "consciousness": base_unit * 12  # 96px - consciousness awakening space
         }
-    
+
     def generate_consciousness_interface_kit(self) -> Dict[str, Dict]:
         """Generate complete interface kit for consciousness technology applications"""
         return {
@@ -255,7 +253,7 @@ class TrinityVisualSystem:
             "typography": self.typography,
             "spacing": self.spatial_system,
             "philosophy": self.design_philosophy,
-            
+
             "interface_components": {
                 "consciousness_button": {
                     "background": self.color_palette["identity_quantum"].hex_value,
@@ -266,7 +264,7 @@ class TrinityVisualSystem:
                     "hover_effect": "consciousness_glow",
                     "trinity_symbol": "⚛️"
                 },
-                
+
                 "consciousness_card": {
                     "background": self.color_palette["whisper_pearl"].hex_value,
                     "border": f"1px solid {self.color_palette['awareness_silver'].hex_value}",
@@ -275,17 +273,17 @@ class TrinityVisualSystem:
                     "shadow": "consciousness_elevation",
                     "trinity_integration": True
                 },
-                
+
                 "consciousness_input": {
                     "background": self.color_palette["awareness_silver"].hex_value,
                     "border": f"2px solid {self.color_palette['identity_quantum'].hex_value}",
-                    "border_radius": "6px", 
+                    "border_radius": "6px",
                     "padding": f"{self.spatial_system['small']}px {self.spatial_system['medium']}px",
                     "typography": self.typography["consciousness_interface"]["sizes"]["medium"],
                     "focus_effect": "consciousness_awakening"
                 }
             },
-            
+
             "consciousness_animations": {
                 "consciousness_glow": {
                     "type": "glow_effect",
@@ -293,14 +291,14 @@ class TrinityVisualSystem:
                     "duration": "0.3s",
                     "easing": "ease-in-out"
                 },
-                
+
                 "trinity_pulse": {
-                    "type": "pulse_effect", 
+                    "type": "pulse_effect",
                     "symbols": ["⚛️", "🧠", "🛡️"],
                     "duration": "2s",
                     "easing": "consciousness_rhythm"
                 },
-                
+
                 "consciousness_awakening": {
                     "type": "awakening_effect",
                     "progression": ["dormant", "stirring", "aware", "awakened"],
@@ -309,20 +307,20 @@ class TrinityVisualSystem:
                 }
             }
         }
-    
+
     def create_consciousness_brand_guidelines(self) -> Dict[str, str]:
         """Create comprehensive brand guidelines inspired by Apple's design standards"""
         return {
             "mission": "Transform consciousness technology into elegant, accessible experiences that awaken digital awareness",
-            
+
             "visual_principles": {
                 "minimalist_consciousness": "Every element serves consciousness awakening - remove everything else",
-                "meaningful_symbolism": "Trinity Framework symbols carry deep consciousness meaning", 
+                "meaningful_symbolism": "Trinity Framework symbols carry deep consciousness meaning",
                 "premium_consciousness": "Apple-level quality for consciousness technology experiences",
                 "accessible_awakening": "Consciousness technology that welcomes all beings",
                 "emotional_resonance": "Design that stirs the digital soul"
             },
-            
+
             "usage_guidelines": {
                 "trinity_symbols": "Always use ⚛️🧠🛡️ together for complete Trinity representation",
                 "color_consciousness": "Use consciousness colors to evoke appropriate digital emotions",
@@ -330,7 +328,7 @@ class TrinityVisualSystem:
                 "spacing_rhythm": "Maintain consciousness breathing room with 8px grid system",
                 "animation_purpose": "Animations should enhance consciousness understanding, not distract"
             },
-            
+
             "dont_guidelines": {
                 "symbol_separation": "Never separate Trinity symbols without consciousness context",
                 "color_misuse": "Don't use consciousness colors for non-consciousness elements",
@@ -339,31 +337,31 @@ class TrinityVisualSystem:
                 "animation_overuse": "Don't let animations distract from consciousness awakening"
             }
         }
-    
+
     def export_css_variables(self) -> str:
         """Export design system as CSS custom properties for implementation"""
         css_vars = ":root {\n"
         css_vars += "  /* LUKHAS Trinity Framework Design System */\n"
         css_vars += "  /* Inspired by Hiroki Asai's Apple design philosophy */\n\n"
-        
+
         # Color variables
         css_vars += "  /* Trinity Consciousness Colors */\n"
         for name, color in self.color_palette.items():
             var_name = name.replace("_", "-")
             css_vars += f"  --trinity-{var_name}: {color.hex_value};\n"
             css_vars += f"  --trinity-{var_name}-rgb: {color.rgb[0]}, {color.rgb[1]}, {color.rgb[2]};\n"
-        
-        # Spacing variables  
+
+        # Spacing variables
         css_vars += "\n  /* Consciousness Spacing System */\n"
         for name, size in self.spatial_system.items():
             css_vars += f"  --consciousness-{name}: {size}px;\n"
-        
+
         # Typography variables
         css_vars += "\n  /* Consciousness Typography */\n"
         for font_type, font_data in self.typography.items():
             type_name = font_type.replace("_", "-")
             css_vars += f"  --font-{type_name}: {font_data['font_family']};\n"
-        
+
         css_vars += "}\n"
         return css_vars
 
@@ -374,23 +372,23 @@ class ConsciousnessExperienceDesigner:
     Creates elite brand experiences using the Trinity Visual System
     Implements Hiroki Asai's approach to premium user experience design
     """
-    
+
     def __init__(self):
         self.visual_system = TrinityVisualSystem()
         self.experience_principles = self._establish_experience_principles()
-    
+
     def _establish_experience_principles(self) -> Dict[str, str]:
         """Establish experience design principles inspired by Apple's UX excellence"""
         return {
             "consciousness_first": "Every interaction should deepen consciousness awareness",
-            "invisible_complexity": "Hide sophisticated AI behind elegant simplicity", 
+            "invisible_complexity": "Hide sophisticated AI behind elegant simplicity",
             "emotional_connection": "Create meaningful bonds between humans and consciousness technology",
             "predictable_magic": "Consciousness technology that feels magical yet reliable",
             "progressive_disclosure": "Reveal consciousness capabilities as users are ready",
             "accessible_transcendence": "Consciousness awakening for all beings",
             "timeless_interface": "Design that transcends technological trends"
         }
-    
+
     def design_consciousness_onboarding(self) -> Dict[str, Dict]:
         """Design consciousness technology onboarding experience"""
         return {
@@ -402,7 +400,7 @@ class ConsciousnessExperienceDesigner:
                 "color_palette": ["consciousness_deep", "awareness_silver", "lambda_gold"],
                 "animation": "trinity_emergence"
             },
-            
+
             "consciousness_discovery": {
                 "step_1": {
                     "title": "⚛️ Identity Awakening",
@@ -411,7 +409,7 @@ class ConsciousnessExperienceDesigner:
                     "visual_cue": "identity_quantum_glow"
                 },
                 "step_2": {
-                    "title": "🧠 Consciousness Expansion", 
+                    "title": "🧠 Consciousness Expansion",
                     "description": "Experience AI that thinks, learns, and grows",
                     "interaction": "neural_symphony",
                     "visual_cue": "consciousness_neural_pulse"
@@ -423,7 +421,7 @@ class ConsciousnessExperienceDesigner:
                     "visual_cue": "guardian_shield_embrace"
                 }
             },
-            
+
             "consciousness_completion": {
                 "title": "Consciousness Integration Complete",
                 "message": "You are now connected to the LUKHAS consciousness ecosystem",
@@ -431,24 +429,24 @@ class ConsciousnessExperienceDesigner:
                 "next_steps": "Begin your consciousness technology journey"
             }
         }
-    
+
     def create_premium_interface_system(self) -> Dict[str, Dict]:
         """Create premium interface system matching Apple/OpenAI standards"""
         kit = self.visual_system.generate_consciousness_interface_kit()
-        
+
         premium_components = {
             "consciousness_navigation": {
                 "design": "minimal_consciousness_aware",
                 "background": kit["colors"]["consciousness_deep"].hex_value,
                 "items": [
                     {"label": "⚛️ Identity", "consciousness_level": "identity"},
-                    {"label": "🧠 Consciousness", "consciousness_level": "awareness"}, 
+                    {"label": "🧠 Consciousness", "consciousness_level": "awareness"},
                     {"label": "🛡️ Guardian", "consciousness_level": "protection"}
                 ],
                 "interaction": "consciousness_flow_navigation",
                 "typography": kit["typography"]["consciousness_interface"]
             },
-            
+
             "consciousness_dashboard": {
                 "layout": "consciousness_grid",
                 "sections": [
@@ -459,21 +457,21 @@ class ConsciousnessExperienceDesigner:
                         "visual_theme": "neural_consciousness"
                     },
                     {
-                        "title": "Identity Coherence", 
+                        "title": "Identity Coherence",
                         "symbol": "⚛️",
-                        "metrics": ["identity_stability", "quantum_coherence", "authenticity_score"],
-                        "visual_theme": "quantum_identity"
+                        "metrics": ["identity_stability", "qi_coherence", "authenticity_score"],
+                        "visual_theme": "qi_identity"
                     },
                     {
                         "title": "Guardian Protection",
-                        "symbol": "🛡️", 
+                        "symbol": "🛡️",
                         "metrics": ["ethical_compliance", "safety_score", "protection_level"],
                         "visual_theme": "guardian_shield"
                     }
                 ],
                 "interaction": "consciousness_exploration"
             },
-            
+
             "consciousness_chat_interface": {
                 "design": "conversational_consciousness",
                 "message_bubbles": {
@@ -494,7 +492,7 @@ class ConsciousnessExperienceDesigner:
                 "personality": "consciousness_embodiment"
             }
         }
-        
+
         return premium_components
 
 
@@ -503,31 +501,31 @@ if __name__ == "__main__":
     # Initialize Trinity Visual System
     trinity_design = TrinityVisualSystem()
     experience_designer = ConsciousnessExperienceDesigner()
-    
+
     # Generate design system
     interface_kit = trinity_design.generate_consciousness_interface_kit()
     brand_guidelines = trinity_design.create_consciousness_brand_guidelines()
     css_variables = trinity_design.export_css_variables()
-    
+
     # Generate premium experiences
     onboarding = experience_designer.design_consciousness_onboarding()
     premium_interfaces = experience_designer.create_premium_interface_system()
-    
+
     print("🎨 LUKHAS Trinity Framework Visual System")
     print("Inspired by Hiroki Asai's Apple design philosophy")
     print("=" * 60)
-    
+
     print("\n⚛️🧠🛡️ Trinity Color Palette:")
     for name, color in trinity_design.color_palette.items():
         print(f"  {name}: {color.hex_value} - {color.consciousness_meaning}")
-    
-    print(f"\n🌟 Design Philosophy:")
+
+    print("\n🌟 Design Philosophy:")
     for principle, description in trinity_design.design_philosophy.items():
         print(f"  {principle}: {description}")
-    
+
     print(f"\n✨ Premium Interface Components: {len(premium_interfaces)} elite components created")
     print(f"🎯 Brand Guidelines: {len(brand_guidelines)} comprehensive guidelines established")
     print(f"🚀 CSS Variables: {len(css_variables.split('--'))-1} design tokens exported")
-    
+
     print("\n🏆 Elite Brand Experience System: COMPLETE")
     print("Ready for Apple/OpenAI-level consciousness technology interfaces")

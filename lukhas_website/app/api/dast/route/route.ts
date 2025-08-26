@@ -63,11 +63,11 @@ async function getCurrentUserContext(req: NextRequest): Promise<{
 } | null> {
   const token = req.cookies.get('auth-token')?.value;
   if (!token) return null;
-  
+
   try {
     const payload = await verifyJWT(token);
     if (!payload?.sub) return null;
-    
+
     return {
       userId: payload.sub,
       tier: payload.tier || 'T1',
@@ -80,17 +80,17 @@ async function getCurrentUserContext(req: NextRequest): Promise<{
 
 /**
  * POST /api/dast/route
- * 
+ *
  * Create or update a DAST routing configuration
- * 
+ *
  * This is a stub implementation - the actual DAST system would:
  * 1. Validate the routing configuration
  * 2. Deploy the route to the service mesh
  * 3. Configure load balancing and health checks
  * 4. Set up monitoring and observability
- * 
+ *
  * Body: DastRouteConfig
- * 
+ *
  * Response:
  * {
  *   "success": true,
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
         expectedAvailability: '2025-Q4'
       });
     }
-    
+
     // Parse and validate request body
     const body = await req.json().catch(() => null);
     const parsed = DastRouteSchema.safeParse(body);
@@ -125,17 +125,17 @@ export async function POST(req: NextRequest) {
         }))
       });
     }
-    
+
     const routeConfig = parsed.data;
-    
+
     // Get user context and check authorization
     const userContext = await getCurrentUserContext(req);
     if (!userContext) {
       return unauthorized('Authentication required');
     }
-    
+
     const { userId, tier, scopes } = userContext;
-    
+
     // Check DAST routing permissions
     const authResult = hasExtendedScope(
       tier as any,
@@ -150,15 +150,15 @@ export async function POST(req: NextRequest) {
         }
       }
     );
-    
+
     if (!authResult.allowed) {
       return unauthorized(`Insufficient permissions for DAST routing: ${authResult.reason}`);
     }
-    
+
     // Stub implementation - simulate route deployment
     const routeId = `dast-route-${Date.now()}`;
     const deployedAt = new Date().toISOString();
-    
+
     // In a real implementation, this would:
     // 1. Validate target endpoints are reachable
     // 2. Deploy configuration to service mesh (Istio, Linkerd, etc.)
@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
     // 6. Configure rate limiting policies
     // 7. Set up distributed tracing
     // 8. Update service discovery registry
-    
+
     console.log('[DAST ROUTE STUB]', JSON.stringify({
       event: 'route_configured',
       routeId,
@@ -179,7 +179,7 @@ export async function POST(req: NextRequest) {
       loadBalancing: routeConfig.loadBalancing,
       timestamp: deployedAt
     }));
-    
+
     return ok({
       routeId,
       status: 'deployed',
@@ -206,7 +206,7 @@ export async function POST(req: NextRequest) {
         actualImplementation: 'pending'
       }
     });
-    
+
   } catch (error) {
     console.error('[DAST ROUTE ERROR]', error);
     return badRequest('Internal server error during route configuration');
@@ -215,13 +215,13 @@ export async function POST(req: NextRequest) {
 
 /**
  * GET /api/dast/route
- * 
+ *
  * Retrieve DAST routing configurations and status
- * 
+ *
  * Query params:
  * - service: Filter by service name
  * - status: Filter by deployment status
- * 
+ *
  * Response:
  * {
  *   "success": true,
@@ -243,15 +243,15 @@ export async function GET(req: NextRequest) {
         status: 'in_development'
       });
     }
-    
+
     // Get user context and check authorization
     const userContext = await getCurrentUserContext(req);
     if (!userContext) {
       return unauthorized('Authentication required');
     }
-    
+
     const { tier, scopes } = userContext;
-    
+
     // Check DAST read permissions
     const authResult = hasExtendedScope(
       tier as any,
@@ -262,16 +262,16 @@ export async function GET(req: NextRequest) {
         action: 'read_routes'
       }
     );
-    
+
     if (!authResult.allowed) {
       return unauthorized(`Insufficient permissions: ${authResult.reason}`);
     }
-    
+
     // Parse query parameters
     const { searchParams } = new URL(req.url);
     const serviceFilter = searchParams.get('service');
     const statusFilter = searchParams.get('status');
-    
+
     // Stub data - in real implementation, this would query the service mesh
     const stubRoutes = [
       {
@@ -309,25 +309,25 @@ export async function GET(req: NextRequest) {
         lastHealthCheck: '2025-08-23T10:29:30Z'
       }
     ];
-    
+
     // Apply filters
     let filteredRoutes = stubRoutes;
     if (serviceFilter) {
-      filteredRoutes = filteredRoutes.filter(route => 
+      filteredRoutes = filteredRoutes.filter(route =>
         route.serviceName.includes(serviceFilter)
       );
     }
     if (statusFilter) {
-      filteredRoutes = filteredRoutes.filter(route => 
+      filteredRoutes = filteredRoutes.filter(route =>
         route.status === statusFilter
       );
     }
-    
+
     // Calculate health statistics
     const allEndpoints = stubRoutes.flatMap(route => route.endpoints);
     const healthyEndpoints = allEndpoints.filter(ep => ep.healthy).length;
     const unhealthyEndpoints = allEndpoints.length - healthyEndpoints;
-    
+
     return ok({
       routes: filteredRoutes,
       totalCount: filteredRoutes.length,
@@ -343,7 +343,7 @@ export async function GET(req: NextRequest) {
         }
       }
     });
-    
+
   } catch (error) {
     console.error('[DAST ROUTE GET ERROR]', error);
     return badRequest('Internal server error retrieving routes');
@@ -352,12 +352,12 @@ export async function GET(req: NextRequest) {
 
 /**
  * DELETE /api/dast/route
- * 
+ *
  * Remove a DAST routing configuration
- * 
+ *
  * Query params:
  * - routeId: Route ID to delete
- * 
+ *
  * Response:
  * {
  *   "success": true,
@@ -375,15 +375,15 @@ export async function DELETE(req: NextRequest) {
     if (!dastEnabled) {
       return notImplemented('DAST routing is not yet available');
     }
-    
+
     // Get user context and check authorization
     const userContext = await getCurrentUserContext(req);
     if (!userContext) {
       return unauthorized('Authentication required');
     }
-    
+
     const { userId, tier, scopes } = userContext;
-    
+
     // Check DAST write permissions
     const authResult = hasExtendedScope(
       tier as any,
@@ -394,28 +394,28 @@ export async function DELETE(req: NextRequest) {
         action: 'delete_route'
       }
     );
-    
+
     if (!authResult.allowed) {
       return unauthorized(`Insufficient permissions: ${authResult.reason}`);
     }
-    
+
     const { searchParams } = new URL(req.url);
     const routeId = searchParams.get('routeId');
-    
+
     if (!routeId) {
       return badRequest('routeId parameter required');
     }
-    
+
     // Stub implementation - simulate route deletion
     const deletedAt = new Date().toISOString();
-    
+
     console.log('[DAST ROUTE DELETE STUB]', JSON.stringify({
       event: 'route_deleted',
       routeId,
       userId,
       deletedAt
     }));
-    
+
     return ok({
       routeId,
       status: 'deleted',
@@ -426,7 +426,7 @@ export async function DELETE(req: NextRequest) {
         note: 'Actual route would be removed from service mesh'
       }
     });
-    
+
   } catch (error) {
     console.error('[DAST ROUTE DELETE ERROR]', error);
     return badRequest('Internal server error during route deletion');

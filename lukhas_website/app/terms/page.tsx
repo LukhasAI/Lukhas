@@ -17,13 +17,13 @@ export default function TermsPage() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="font-ultralight text-5xl mb-8">TERMS OF SERVICE</h1>
-            
+
             <div className="space-y-8 font-thin text-text-secondary">
               <section>
                 <h2 className="font-regular text-2xl mb-4 text-text-primary uppercase tracking-wider">Acceptance of Terms</h2>
                 <p>
-                  By accessing or using LUKHAS AI services, you agree to be bound by these Terms of Service 
-                  and all applicable laws and regulations. Our consciousness-powered AI platform operates under 
+                  By accessing or using LUKHAS AI services, you agree to be bound by these Terms of Service
+                  and all applicable laws and regulations. Our consciousness-powered AI platform operates under
                   strict ethical guidelines enforced by our Guardian System.
                 </p>
               </section>
@@ -42,7 +42,7 @@ export default function TermsPage() {
               <section>
                 <h2 className="font-regular text-2xl mb-4 text-text-primary uppercase tracking-wider">Intellectual Property</h2>
                 <p className="mb-4">
-                  All content, features, and functionality of LUKHAS AI are owned by LUKHAS AI Systems 
+                  All content, features, and functionality of LUKHAS AI are owned by LUKHAS AI Systems
                   and are protected by international copyright, trademark, and other intellectual property laws.
                 </p>
                 <p>
@@ -53,8 +53,8 @@ export default function TermsPage() {
               <section>
                 <h2 className="font-regular text-2xl mb-4 text-text-primary uppercase tracking-wider">Limitation of Liability</h2>
                 <p>
-                  LUKHAS AI provides consciousness-powered AI services on an "as is" basis. While our Guardian System 
-                  ensures ethical operations, we cannot guarantee uninterrupted or error-free service. Users acknowledge 
+                  LUKHAS AI provides consciousness-powered AI services on an "as is" basis. While our Guardian System
+                  ensures ethical operations, we cannot guarantee uninterrupted or error-free service. Users acknowledge
                   the experimental nature of consciousness-based AI systems.
                 </p>
               </section>
@@ -75,8 +75,8 @@ export default function TermsPage() {
               <section>
                 <h2 className="font-regular text-2xl mb-4 text-text-primary uppercase tracking-wider">Termination</h2>
                 <p>
-                  We reserve the right to terminate or suspend access to our services immediately, 
-                  without prior notice, for any breach of these Terms of Service or if the Guardian System 
+                  We reserve the right to terminate or suspend access to our services immediately,
+                  without prior notice, for any breach of these Terms of Service or if the Guardian System
                   detects harmful or unethical usage patterns.
                 </p>
               </section>

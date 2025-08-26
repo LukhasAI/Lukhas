@@ -7,7 +7,7 @@
 - **Key Classes**: `MemoryFoldSystem`, `MemoryItem`, `TagInfo`
 - **Connections Needed**:
   - Should be imported by existing memory managers
-  - Should integrate with `features.memory.memory_fold` 
+  - Should integrate with `features.memory.memory_fold`
   - Should connect to `memory.structural_conscience`
 
 ### 2. **hybrid_memory_fold.py**

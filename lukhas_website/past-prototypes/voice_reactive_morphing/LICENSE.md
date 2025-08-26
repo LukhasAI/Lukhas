@@ -39,4 +39,4 @@ modulated by text-to-voice APIs. This adaptation is for educational purposes.
 
 ## Contact
 If you are the original author of the WebGL morphing system, please contact
-for proper attribution and licensing information. 
+for proper attribution and licensing information.

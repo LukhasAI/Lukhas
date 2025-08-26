@@ -25,7 +25,7 @@ class LukhasClient:
     ):
         """
         Initialize LUKHAS client.
-        
+
         Args:
             base_url: Base URL of LUKHAS API
             api_key: Optional API key for authentication
@@ -91,13 +91,13 @@ class LukhasClient:
     ) -> Dict[str, Any]:
         """
         Send a message for completion with optional modulation.
-        
+
         Args:
             message: User message to process
             context: Optional context snippets
             signals: Optional endocrine signals (stress, novelty, etc.)
             safety_mode: Optional override (strict/balanced/creative)
-        
+
         Returns:
             Completion response with audit_id
         """
@@ -123,13 +123,13 @@ class LukhasClient:
     ) -> Dict[str, Any]:
         """
         Submit feedback for an action.
-        
+
         Args:
             target_action_id: ID of the action to rate (audit_id)
             rating: Rating from 1-5
             note: Optional text feedback
             user_id: User identifier
-        
+
         Returns:
             Updated LUT (Look-Up Table) with style adjustments
         """
@@ -159,10 +159,10 @@ class LukhasClient:
     def get_audit(self, audit_id: str) -> Dict[str, Any]:
         """
         Retrieve audit details for a specific action.
-        
+
         Args:
             audit_id: Audit identifier
-        
+
         Returns:
             Audit bundle with signals, params, and explanation
         """
@@ -171,10 +171,10 @@ class LukhasClient:
     def log_audit(self, bundle: Dict[str, Any]) -> Dict[str, Any]:
         """
         Log an audit bundle (for custom integrations).
-        
+
         Args:
             bundle: Audit data with audit_id, signals, params, etc.
-        
+
         Returns:
             Confirmation response
         """
@@ -203,10 +203,10 @@ class LukhasClient:
     def get_admin_summary(self, window_seconds: int = 86400) -> Dict[str, Any]:
         """
         Get admin summary (requires FLAG_ADMIN_DASHBOARD=true).
-        
+
         Args:
             window_seconds: Time window for statistics (default 24h)
-        
+
         Returns:
             Summary with safety modes and tool usage
         """
@@ -216,10 +216,10 @@ class LukhasClient:
     def get_incidents(self, format: str = "json") -> Union[Dict, str]:
         """
         Get security incidents.
-        
+
         Args:
             format: Response format (json or csv)
-        
+
         Returns:
             Incidents data in requested format
         """
@@ -232,7 +232,7 @@ class LukhasClient:
     def set_feature_flag(self, flag_name: str, value: bool) -> None:
         """
         Set a feature flag (local override only).
-        
+
         Note: This only affects the client's view of flags,
         not the server configuration.
         """
@@ -252,12 +252,12 @@ class LukhasClient:
     ) -> List[Dict[str, Any]]:
         """
         Process multiple messages with shared context/signals.
-        
+
         Args:
             messages: List of messages to process
             shared_context: Context shared across all messages
             shared_signals: Signals shared across all messages
-        
+
         Returns:
             List of completion responses
         """

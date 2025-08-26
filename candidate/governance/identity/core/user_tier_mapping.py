@@ -239,7 +239,7 @@ class UserTierMappingService:
             "memory_write": tier.level >= 2,
             "dream_generation": tier.level >= 3,
             "consciousness_access": tier.level >= 3,
-            "quantum_access": tier.level >= 4,
+            "qi_access": tier.level >= 4,
             "admin_access": tier.level >= 4,
             "system_access": tier.level >= 5,
         }
@@ -479,7 +479,7 @@ if __name__ == "__main__":
         f"\ntest_user_tier2 can access memory: {service.check_permission('test_user_tier2', 'memory_access')}"
     )
     print(
-        f"test_user_tier2 can access quantum: {service.check_permission('test_user_tier2', 'quantum_access')}"
+        f"test_user_tier2 can access quantum: {service.check_permission('test_user_tier2', 'qi_access')}"
     )
 
     # Test tier elevation
@@ -488,5 +488,5 @@ if __name__ == "__main__":
         "test_user_tier2", LambdaTier.LAMBDA_TIER_4, "Testing elevation", 5
     )
     print(
-        f"test_user_tier2 can now access quantum: {service.check_permission('test_user_tier2', 'quantum_access')}"
+        f"test_user_tier2 can now access quantum: {service.check_permission('test_user_tier2', 'qi_access')}"
     )

@@ -10,9 +10,9 @@
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ PHILOSOPHICAL FOUNDATION
 ╠═══════════════════════════════════════════════════════════════════════════════
-║ "In nature, the most complex behaviors emerge not from central control, but 
+║ "In nature, the most complex behaviors emerge not from central control, but
 ║ from the spontaneous coordination of autonomous entities. A flock of birds
-║ navigates without a leader, a colony of ants solves problems without a 
+║ navigates without a leader, a colony of ants solves problems without a
 ║ manager. This is the essence of decentralized coordination—intelligence
 ║ that emerges from interaction, not instruction."
 ╚═══════════════════════════════════════════════════════════════════════════════
@@ -26,7 +26,7 @@
 The Decentralized Agent Coordination System revolutionizes how AI agents collaborate. Rather than hard-coded dependencies and rigid workflows, agents:
 
 1. **Broadcast Needs** - Announce tasks to the network
-2. **Discover Capabilities** - Find agents with requisite skills  
+2. **Discover Capabilities** - Find agents with requisite skills
 3. **Form Working Groups** - Self-organize into temporary teams
 4. **Execute Autonomously** - Complete tasks without central control
 5. **Dissolve Gracefully** - Disband when objectives are met
@@ -58,7 +58,7 @@ The Decentralized Agent Coordination System revolutionizes how AI agents collabo
 
 1. **Skill** - A quantified capability with metrics
    ```python
-   Skill(name="data_cleaning", 
+   Skill(name="data_cleaning",
          level=SkillLevel.EXPERT,
          success_rate=0.95,
          avg_completion_time=30.0)
@@ -160,7 +160,7 @@ class DataScienceAgent(AutonomousAgent):
             Skill("visualization", SkillLevel.INTERMEDIATE, 0.88)
         ]
         super().__init__(agent_id, skills)
-    
+
     async def _handle_task_start(self, msg):
         # Custom task handling logic
         task_type = msg.payload.get("task_type")
@@ -191,7 +191,7 @@ task_id = await agent.announce_task(
 ```python
 # Phase 1: Data Preparation
 prep_task = await pm.announce_task(
-    "Prepare dataset", 
+    "Prepare dataset",
     [("etl", SkillLevel.INTERMEDIATE)]
 )
 

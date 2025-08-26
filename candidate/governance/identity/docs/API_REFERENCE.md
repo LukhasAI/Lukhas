@@ -1,7 +1,7 @@
 # LUKHAS ΛiD API Reference
 
-**Version:** 2.0.0  
-**Base URL:** `https://api.lukhas.ai/v2/lambda-id`  
+**Version:** 2.0.0
+**Base URL:** `https://api.lukhas.ai/v2/lambda-id`
 **Last Updated:** July 5, 2025
 
 ---
@@ -204,7 +204,7 @@ Content-Type: application/json
       "tier": 2
     },
     {
-      "user_id": "user124", 
+      "user_id": "user124",
       "tier": 3
     }
   ],

@@ -150,9 +150,9 @@ class StargateIrisLock:
             b"demo_user_iris_pattern", digest_size=64
         ).hexdigest()
 
-        # Generate template for quantum_master
-        templates["quantum_master"] = hashlib.blake2b(
-            b"quantum_master_perfect_iris", digest_size=64
+        # Generate template for qi_master
+        templates["qi_master"] = hashlib.blake2b(
+            b"qi_master_perfect_iris", digest_size=64
         ).hexdigest()
 
         # Additional T5 user
@@ -517,8 +517,8 @@ async def main():
             "description": "Partial match - requires fallback",
         },
         {
-            "user_id": "quantum_master",
-            "iris_data": "quantum_master_perfect_iris",  # Will generate matching hash
+            "user_id": "qi_master",
+            "iris_data": "qi_master_perfect_iris",  # Will generate matching hash
             "consciousness_state": "flow_state",
             "cultural_region": "americas",
             "description": "Quantum master with perfect biometrics",

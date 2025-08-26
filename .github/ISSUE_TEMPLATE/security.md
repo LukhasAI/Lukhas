@@ -9,7 +9,7 @@ assignees: ''
 
 ## ⚠️ **SECURITY NOTICE**
 
-**FOR CRITICAL SECURITY VULNERABILITIES**: 
+**FOR CRITICAL SECURITY VULNERABILITIES**:
 **DO NOT** use this public issue template. Instead, email: security@lukhas.ai
 
 This template is for **non-critical** security improvements and general security discussions only.
@@ -29,7 +29,7 @@ Which area does this security issue relate to:
 
 ### **Trinity Framework Security**
 - [ ] ⚛️ Identity security (authentication, authorization)
-- [ ] 🧠 Consciousness data protection 
+- [ ] 🧠 Consciousness data protection
 - [ ] 🛡️ Guardian system security
 - [ ] Trinity Framework compliance
 
@@ -104,7 +104,7 @@ How important is this security improvement:
 
 This includes:
 - Data breaches or unauthorized access
-- Authentication/authorization bypasses  
+- Authentication/authorization bypasses
 - Injection vulnerabilities
 - Privilege escalation
 - Consciousness data exposure

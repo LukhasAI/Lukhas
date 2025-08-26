@@ -7,7 +7,7 @@ Provides "sign with stroke" interface for time-locked consent.
 System-wide guardrails applied:
 1. GTΨ required for high-risk actions (send_email, cloud.move.files, share_link_public)
 2. Time-locked approvals (≤60s) with visual countdown
-3. Edge-first gesture processing, never transmit raw strokes  
+3. Edge-first gesture processing, never transmit raw strokes
 4. Clear consent UI with action context and risk warnings
 
 ACK GUARDRAILS
@@ -69,7 +69,7 @@ class GestureSubmissionResponse(BaseModel):
 class StudioGTΨHooks:
     """
     Studio UI integration for GTΨ consent workflows.
-    
+
     Provides hooks for:
     - Detecting high-risk actions that need GTΨ approval
     - Showing gesture consent UI with context and warnings
@@ -88,11 +88,11 @@ class StudioGTΨHooks:
     def requires_consent(self, action: str, context: Dict[str, Any] = None) -> bool:
         """
         Check if action requires GTΨ consent.
-        
+
         Args:
             action: Action being attempted
             context: Action context for additional risk assessment
-            
+
         Returns:
             True if GTΨ consent required
         """
@@ -122,10 +122,10 @@ class StudioGTΨHooks:
     async def request_consent_ui(self, request: ConsentUIRequest) -> ConsentUIResponse:
         """
         Generate consent UI for high-risk action.
-        
+
         Args:
             request: Consent UI request
-            
+
         Returns:
             UI configuration with challenge details
         """
@@ -169,11 +169,11 @@ class StudioGTΨHooks:
     ) -> GestureSubmissionResponse:
         """
         Process gesture submission from client.
-        
+
         Args:
             request: Gesture submission
             client_ip: Client IP for audit
-            
+
         Returns:
             Submission result with approval details
         """
@@ -230,13 +230,13 @@ class StudioGTΨHooks:
     ) -> bool:
         """
         Check if action has valid GTΨ approval.
-        
+
         Args:
             lid: Canonical ΛID
             approval_id: GTΨ approval ID
             action: Action being performed
             action_context: Action context
-            
+
         Returns:
             True if action is approved
         """
@@ -390,7 +390,7 @@ async def request_consent_ui(
 ) -> ConsentUIResponse:
     """
     Request consent UI for high-risk action.
-    
+
     Returns UI configuration with challenge details for Studio to render.
     """
     if not hooks.requires_consent(request.action, request.action_context):
@@ -411,7 +411,7 @@ async def submit_gesture(
 ) -> GestureSubmissionResponse:
     """
     Submit gesture for verification.
-    
+
     Processes gesture data (edge-style) and returns approval status.
     """
     try:
@@ -429,7 +429,7 @@ async def submit_gesture(
 async def consent_ui_html():
     """
     Serve consent UI HTML template.
-    
+
     This would be the interactive consent interface with gesture canvas.
     """
     html_content = """
@@ -453,19 +453,19 @@ async def consent_ui_html():
         <div class="consent-container risk-high">
             <h2>🔐 GTΨ Consent Required</h2>
             <p><strong>Action:</strong> <span id="action-description">High-risk action</span></p>
-            
+
             <div class="warnings">
                 <h4>⚠️ Please Review:</h4>
                 <ul id="warnings-list"></ul>
             </div>
-            
+
             <div class="countdown">
                 Time remaining: <span id="countdown">60</span> seconds
             </div>
-            
+
             <p><strong>Complete your gesture to proceed:</strong></p>
             <canvas class="gesture-canvas" id="gesture-canvas" width="460" height="200"></canvas>
-            
+
             <div style="text-align: center; margin-top: 20px;">
                 <button id="submit-btn" onclick="submitGesture()" disabled>
                     Complete Gesture to Approve
@@ -482,46 +482,46 @@ async def consent_ui_html():
             const ctx = canvas.getContext('2d');
             let isDrawing = false;
             let gesturePoints = [];
-            
+
             // Canvas drawing
             canvas.addEventListener('mousedown', startGesture);
-            canvas.addEventListener('mousemove', drawGesture); 
+            canvas.addEventListener('mousemove', drawGesture);
             canvas.addEventListener('mouseup', endGesture);
-            
+
             function startGesture(e) {
                 isDrawing = true;
                 const rect = canvas.getBoundingClientRect();
                 addPoint(e.clientX - rect.left, e.clientY - rect.top);
             }
-            
+
             function drawGesture(e) {
                 if (!isDrawing) return;
-                
+
                 const rect = canvas.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
+
                 ctx.lineWidth = 2;
                 ctx.lineCap = 'round';
                 ctx.strokeStyle = '#ef4444';
-                
+
                 ctx.lineTo(x, y);
                 ctx.stroke();
                 ctx.beginPath();
                 ctx.moveTo(x, y);
-                
+
                 addPoint(x, y);
             }
-            
+
             function endGesture() {
                 isDrawing = false;
                 ctx.beginPath();
-                
+
                 if (gesturePoints.length >= 5) {
                     document.getElementById('submit-btn').disabled = false;
                 }
             }
-            
+
             function addPoint(x, y) {
                 gesturePoints.push({
                     x: x,
@@ -529,33 +529,33 @@ async def consent_ui_html():
                     timestamp: Date.now()
                 });
             }
-            
+
             // Countdown timer
             let timeLeft = 60;
             const countdownEl = document.getElementById('countdown');
-            
+
             const timer = setInterval(() => {
                 timeLeft--;
                 countdownEl.textContent = timeLeft;
-                
+
                 if (timeLeft <= 0) {
                     clearInterval(timer);
                     alert('Time expired. Please try again.');
                     window.close();
                 }
             }, 1000);
-            
+
             // Submit gesture
             async function submitGesture() {
                 if (gesturePoints.length < 5) {
                     alert('Please complete your gesture first.');
                     return;
                 }
-                
+
                 const gestureData = {
                     points: gesturePoints
                 };
-                
+
                 try {
                     // This would submit to /studio/gtpsi/submit-gesture
                     console.log('Submitting gesture data:', gestureData);
@@ -577,7 +577,7 @@ async def consent_ui_html():
 async def demo_consent_flow():
     """
     Demo GTΨ consent flow for development.
-    
+
     Shows how high-risk actions integrate with gesture consent.
     """
     hooks = StudioGTΨHooks()

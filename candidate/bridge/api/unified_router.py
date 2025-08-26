@@ -17,8 +17,11 @@ from candidate.core.common import get_logger
 # Import LUKHAS AI branding system for API responses
 try:
     from lukhas.branding_bridge import (
-        get_brand_voice, validate_output, get_system_signature,
-        BrandContext, normalize_output_text
+        BrandContext,
+        get_brand_voice,
+        get_system_signature,
+        normalize_output_text,
+        validate_output,
     )
     BRANDING_AVAILABLE = True
 except ImportError:
@@ -45,18 +48,18 @@ def apply_api_branding(response_data: dict[str, Any]) -> dict[str, Any]:
     """Apply LUKHAS AI branding to API responses"""
     if not BRANDING_AVAILABLE or not api_brand_context:
         return response_data
-    
+
     try:
         # Add system signature to responses
         if "system" not in response_data:
             response_data["system"] = get_system_signature()
-        
+
         # Apply branding to text content
         for key, value in response_data.items():
             if isinstance(value, str) and len(value) > 10:
                 branded_value = get_brand_voice(value, api_brand_context)
                 response_data[key] = branded_value
-        
+
         return response_data
     except Exception as e:
         logger.warning(f"API branding failed: {e}")
@@ -95,7 +98,7 @@ async def process_request(data: dict[str, Any]):
             return await emotion_processor.process(data)
         else:
             response = {"result": "processed", "type": request_type}
-        
+
         return apply_api_branding(response)
 
     except Exception as e:

@@ -56,13 +56,13 @@ import uuid
 from datetime import datetime
 from typing import Any, Optional
 
+from identity.backend.app.compliance import (
+    ComplianceEngine,  # Sourced from ethical_engine.py via __init__.py
+)
 from lukhas.consciousness.awareness.awareness_engine import (
     ΛAwarenessEngine as BioAwarenessSystem,
 )
 from lukhas.governance.ethics.EthicsGuardian import EthicsGuardian as EthicsCore
-from identity.backend.app.compliance import (
-    ComplianceEngine,  # Sourced from ethical_engine.py via __init__.py
-)
 from lukhas.memory.core_memory.MemoryManager import MemoryManager
 from lukhas.qi.attention.__init__ import DreamEngineMerged as DreamEngine
 

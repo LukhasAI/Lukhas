@@ -28,7 +28,7 @@ echo
 for file in "${demo_files[@]}"; do
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "📄 Analyzing: $file"
-    
+
     # Simple pattern matching logic
     if [[ "$file" == *"AGENTS"* ]]; then
         category="AGENTS"
@@ -36,7 +36,7 @@ for file in "${demo_files[@]}"; do
         confidence="9"
         description="🤖 Agent documentation"
     elif [[ "$file" == "README"* ]]; then
-        category="ARCHITECTURE" 
+        category="ARCHITECTURE"
         destination="docs/architecture/"
         confidence="8"
         description="🏗️ Architecture documentation"
@@ -56,12 +56,12 @@ for file in "${demo_files[@]}"; do
         confidence="3"
         description="📦 Miscellaneous files"
     fi
-    
+
     echo "  🎯 Category: $category (confidence: $confidence/10)"
     echo "  📁 Suggested destination: $destination"
     echo "  📝 Why: $description"
     echo
-    
+
     # Simulate asking for approval
     echo "  What would you like to do?"
     echo "    [y] Move to $destination"
@@ -72,7 +72,7 @@ for file in "${demo_files[@]}"; do
     echo "  → In real script, you would type 'y', 's', 'c', or 'q'"
     echo "  → For demo, let's pretend you chose 'y' (yes)"
     echo
-    
+
     if [[ "$destination" == "REMOVE" ]]; then
         echo "  ✅ Would DELETE: $file"
     else
@@ -86,7 +86,7 @@ echo "🎉 Demo complete!"
 echo
 echo "📊 Summary of what would happen:"
 echo "  📦 Files moved: 3"
-echo "  🗑️  Files deleted: 1" 
+echo "  🗑️  Files deleted: 1"
 echo "  ⏭️  Files skipped: 0"
 echo
 echo "🚀 To run the real interactive version:"

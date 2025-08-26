@@ -9,8 +9,11 @@ multi-agent coordination and Trinity Framework decision making.
 # Import LUKHAS AI branding system for orchestration compliance
 try:
     from lukhas.branding_bridge import (
-        get_brand_voice, get_trinity_context, validate_output,
-        BrandContext, normalize_output_text
+        BrandContext,
+        get_brand_voice,
+        get_trinity_context,
+        normalize_output_text,
+        validate_output,
     )
     ORCHESTRATION_BRANDING_AVAILABLE = True
 except ImportError:
@@ -19,12 +22,12 @@ except ImportError:
 # Import context bus components
 from .context_bus import build_context
 from .kernel_bus import (
-    KernelBus,
+    CONTEXT_BUS_ACTIVE,
     EventPriority,
-    get_kernel_bus,
+    KernelBus,
     emit,
+    get_kernel_bus,
     subscribe,
-    CONTEXT_BUS_ACTIVE
 )
 
 __all__ = [
@@ -38,7 +41,7 @@ __all__ = [
     "CONTEXT_BUS_ACTIVE",
     # Branding integration
     "get_brand_voice",
-    "get_trinity_context", 
+    "get_trinity_context",
     "validate_output",
     "BrandContext",
     "normalize_output_text",

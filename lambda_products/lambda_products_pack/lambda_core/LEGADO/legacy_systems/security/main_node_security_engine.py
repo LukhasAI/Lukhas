@@ -32,10 +32,10 @@ try:
         AdaptiveInterfaceGenerator,
     )
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
+    from voice.speech_processor import SpeechProcessor
 
     # Utils and config
     from core.orchestration.brain.config.settings import load_settings
-    from voice.speech_processor import SpeechProcessor
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

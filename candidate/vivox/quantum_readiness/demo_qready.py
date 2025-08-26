@@ -7,12 +7,12 @@ import asyncio
 
 import numpy as np
 
-from vivox.quantum_readiness import (
+from vivox.qi_readiness import (
     EthicalDimension,
     MoralSuperposition,
     QIStateType,
-    QuantumSubstrate,
-    QuantumSynchronizer,
+    QISubstrate,
+    QISynchronizer,
     QubitCollapseEngine,
     SuperpositionResolver,
     VIVOXQIBridge,
@@ -23,7 +23,7 @@ def demonstrate_quantum_substrate():
     """Demonstrate quantum substrate capabilities"""
     print("\n=== QUANTUM SUBSTRATE DEMONSTRATION ===")
 
-    substrate = QuantumSubstrate()
+    substrate = QISubstrate()
 
     # Create various quantum states
     print("\n1. Creating quantum states...")
@@ -62,7 +62,7 @@ def demonstrate_ethical_collapse():
     """Demonstrate ethical quantum collapse"""
     print("\n\n=== ETHICAL COLLAPSE DEMONSTRATION ===")
 
-    substrate = QuantumSubstrate()
+    substrate = QISubstrate()
     collapse_engine = QubitCollapseEngine(substrate)
 
     # Create moral superposition
@@ -112,7 +112,7 @@ def demonstrate_quantum_synchronization():
     """Demonstrate quantum synchronization"""
     print("\n\n=== QUANTUM SYNCHRONIZATION DEMONSTRATION ===")
 
-    synchronizer = QuantumSynchronizer()
+    synchronizer = QISynchronizer()
 
     # Register agents
     print("\n1. Registering quantum agents...")
@@ -218,7 +218,7 @@ def demonstrate_vivox_integration():
         consciousness_state, ethical_scenario
     )
 
-    print(f"   Quantum enhanced: {result['quantum_enhanced']}")
+    print(f"   Quantum enhanced: {result['qi_enhanced']}")
     print(f"   Confidence: {result['confidence']:.3f}")
 
     # Memory quantum encoding
@@ -227,10 +227,10 @@ def demonstrate_vivox_integration():
 
     emotion = {"valence": 0.5, "arousal": 0.3, "dominance": 0.4}
 
-    mem_result = bridge.quantum_memory_encoding(memory, emotion)
-    print(f"   Quantum enhanced: {mem_result['quantum_enhanced']}")
+    mem_result = bridge.qi_memory_encoding(memory, emotion)
+    print(f"   Quantum enhanced: {mem_result['qi_enhanced']}")
     print(
-        f"   Entanglement strength: {mem_result['quantum_properties']['emotional_entanglement']:.3f}"
+        f"   Entanglement strength: {mem_result['qi_properties']['emotional_entanglement']:.3f}"
     )
 
     # Quantum readiness assessment

@@ -98,7 +98,7 @@ export default function CookiesBanner({ onAccept, onDecline }: CookieBannerProps
   if (!showBanner) return null
 
   return (
-    <div 
+    <div
       className={`fixed bottom-0 left-0 right-0 z-40 transform transition-transform duration-500 ease-out ${
         isVisible ? 'translate-y-0' : 'translate-y-full'
       }`}
@@ -117,7 +117,7 @@ export default function CookiesBanner({ onAccept, onDecline }: CookieBannerProps
                   <p className="text-white text-sm leading-relaxed">
                     We respect your privacy. Choose how we can improve your experience while protecting your data.
                     {!showDetails && (
-                      <button 
+                      <button
                         onClick={() => setShowDetails(true)}
                         className="text-blue-400 hover:text-blue-300 ml-2 underline text-sm"
                       >
@@ -125,7 +125,7 @@ export default function CookiesBanner({ onAccept, onDecline }: CookieBannerProps
                       </button>
                     )}
                   </p>
-                  
+
                   {/* Privacy Points Indicator */}
                   <div className="flex items-center mt-2 space-x-2">
                     <div className="flex items-center space-x-1">

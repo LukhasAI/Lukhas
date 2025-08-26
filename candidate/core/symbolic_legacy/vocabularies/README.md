@@ -66,7 +66,7 @@ VOCABULARY_NAME = {
 
 ### 1. Bio Vocabulary (`bio_vocabulary.py`)
 - **Purpose**: Biometric monitoring and health states
-- **Key Symbols**: 
+- **Key Symbols**:
   - 🫀 Heart/Bio Active
   - 🧬 DNA Analysis
   - 🔐 Biometric Auth
@@ -151,7 +151,7 @@ When creating new vocabularies:
 
 ### Phase 1: Core Vocabularies (Current)
 - ✅ Bio Vocabulary
-- ✅ Dream Vocabulary  
+- ✅ Dream Vocabulary
 - ✅ Identity Vocabulary
 - ✅ Voice Vocabulary
 - ✅ Vision Vocabulary
@@ -203,7 +203,7 @@ class SymbolicLogger:
     def __init__(self, module_name, vocabulary):
         self.module = module_name
         self.vocab = vocabulary
-    
+
     def log_state(self, state_key, message):
         symbol = self.vocab.get(state_key, {}).get("emoji", "📝")
         print(f"{symbol} [{self.module}] {message}")

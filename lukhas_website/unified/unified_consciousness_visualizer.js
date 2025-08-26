@@ -3,14 +3,14 @@
  * ========================================
  * A comprehensive 3D visualization engine that unifies text-to-shape and voice-reactive
  * morphing capabilities with LUKHAS consciousness systems.
- * 
+ *
  * Features:
  * - Text to 3D shape conversion with particle effects
  * - Voice-reactive morphing and animations
  * - Consciousness state visualization
  * - AI-driven shape interpretation
  * - High-performance WebGL rendering with Three.js
- * 
+ *
  * @module UnifiedConsciousnessVisualizer
  * @requires Three.js
  */
@@ -35,7 +35,7 @@
             this.camera = null;
             this.renderer = null;
             this.clock = null;
-            
+
             // Particle systems
             this.particleSystem = null;
             this.particleGeometry = null;
@@ -44,20 +44,20 @@
             this.particleVelocities = null;
             this.particleTargets = null;
             this.particleColors = null;
-            
+
             // Shape morphing
             this.morphEngine = null;
             this.currentShape = 'sphere';
             this.targetShape = 'sphere';
             this.morphProgress = 0;
             this.morphSpeed = 0.02;
-            
+
             // Text rendering
             this.textEngine = null;
             this.textCanvas = null;
             this.textContext = null;
             this.currentText = '';
-            
+
             // Voice analysis
             this.voiceAnalyzer = null;
             this.voiceData = {
@@ -68,7 +68,7 @@
                 intensity: 0,
                 emotion: 'neutral'
             };
-            
+
             // Consciousness state
             this.consciousnessState = {
                 awareness: 0.5,
@@ -82,12 +82,12 @@
                     dominance: 0.5
                 }
             };
-            
+
             // Performance tracking
             this.stats = null;
             this.frameCount = 0;
             this.lastFrameTime = 0;
-            
+
             // Initialize system
             this.initialize();
         }
@@ -107,30 +107,30 @@
                 this.setupCamera();
                 this.setupRenderer();
                 this.setupLighting();
-                
+
                 // Initialize engines
                 this.initializeMorphEngine();
                 this.initializeTextEngine();
                 this.initializeParticleSystem();
-                
+
                 // Setup optional features
                 if (this.config.enableVoice) {
                     await this.initializeVoiceSystem();
                 }
-                
+
                 if (this.config.enableConsciousness) {
                     this.initializeConsciousnessIntegration();
                 }
-                
+
                 // Setup controls and UI
                 this.setupControls();
                 this.setupUI();
-                
+
                 // Start animation loop
                 this.startAnimation();
-                
+
                 console.log('✨ LUKHAS Unified Visualizer initialized successfully');
-                
+
             } catch (error) {
                 console.error('Failed to initialize visualizer:', error);
             }
@@ -152,7 +152,7 @@
         setupCamera() {
             const container = document.getElementById(this.config.containerId);
             const aspect = container ? container.clientWidth / container.clientHeight : window.innerWidth / window.innerHeight;
-            
+
             this.camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
             this.camera.position.set(0, 0, 50);
             this.camera.lookAt(0, 0, 0);
@@ -163,27 +163,27 @@
          */
         setupRenderer() {
             const container = document.getElementById(this.config.containerId);
-            
+
             this.renderer = new THREE.WebGLRenderer({
                 antialias: true,
                 alpha: true,
                 powerPreference: 'high-performance'
             });
-            
+
             const width = container ? container.clientWidth : window.innerWidth;
             const height = container ? container.clientHeight : window.innerHeight;
-            
+
             this.renderer.setSize(width, height);
             this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             this.renderer.shadowMap.enabled = true;
             this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            
+
             if (container) {
                 container.appendChild(this.renderer.domElement);
             } else {
                 document.body.appendChild(this.renderer.domElement);
             }
-            
+
             // Handle resize
             window.addEventListener('resize', () => this.handleResize());
         }
@@ -195,18 +195,18 @@
             // Ambient light
             const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
             this.scene.add(ambientLight);
-            
+
             // Consciousness light (dynamic)
             this.consciousnessLight = new THREE.PointLight(0x00d4ff, 1, 100);
             this.consciousnessLight.position.set(0, 20, 10);
             this.consciousnessLight.castShadow = true;
             this.scene.add(this.consciousnessLight);
-            
+
             // Identity light (pink)
             this.identityLight = new THREE.PointLight(0xff6b9d, 0.8, 80);
             this.identityLight.position.set(-20, 10, 5);
             this.scene.add(this.identityLight);
-            
+
             // Guardian light (purple)
             this.guardianLight = new THREE.PointLight(0x7c3aed, 0.8, 80);
             this.guardianLight.position.set(20, 10, 5);
@@ -218,60 +218,60 @@
          */
         initializeParticleSystem() {
             const count = this.config.particleCount;
-            
+
             // Create geometry
             this.particleGeometry = new THREE.BufferGeometry();
-            
+
             // Position array
             this.particlePositions = new Float32Array(count * 3);
             this.particleVelocities = new Float32Array(count * 3);
             this.particleTargets = new Float32Array(count * 3);
-            
+
             // Color array
             this.particleColors = new Float32Array(count * 3);
-            
+
             // Size array
             const sizes = new Float32Array(count);
-            
+
             // Initialize particles in sphere formation
             for (let i = 0; i < count; i++) {
                 const i3 = i * 3;
-                
+
                 // Random sphere distribution
                 const radius = Math.random() * 20 + 10;
                 const theta = Math.random() * Math.PI * 2;
                 const phi = Math.random() * Math.PI;
-                
+
                 this.particlePositions[i3] = radius * Math.sin(phi) * Math.cos(theta);
                 this.particlePositions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
                 this.particlePositions[i3 + 2] = radius * Math.cos(phi);
-                
+
                 // Copy to targets
                 this.particleTargets[i3] = this.particlePositions[i3];
                 this.particleTargets[i3 + 1] = this.particlePositions[i3 + 1];
                 this.particleTargets[i3 + 2] = this.particlePositions[i3 + 2];
-                
+
                 // Random velocities
                 this.particleVelocities[i3] = (Math.random() - 0.5) * 0.02;
                 this.particleVelocities[i3 + 1] = (Math.random() - 0.5) * 0.02;
                 this.particleVelocities[i3 + 2] = (Math.random() - 0.5) * 0.02;
-                
+
                 // Consciousness-inspired colors
                 const hue = 0.5 + Math.random() * 0.3; // Cyan to purple range
                 const color = new THREE.Color().setHSL(hue, 0.8, 0.6);
                 this.particleColors[i3] = color.r;
                 this.particleColors[i3 + 1] = color.g;
                 this.particleColors[i3 + 2] = color.b;
-                
+
                 // Random sizes
                 sizes[i] = Math.random() * 2 + 0.5;
             }
-            
+
             // Set attributes
             this.particleGeometry.setAttribute('position', new THREE.BufferAttribute(this.particlePositions, 3));
             this.particleGeometry.setAttribute('color', new THREE.BufferAttribute(this.particleColors, 3));
             this.particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-            
+
             // Create material with custom shader
             this.particleMaterial = new THREE.PointsMaterial({
                 size: 1.5,
@@ -282,7 +282,7 @@
                 blending: THREE.AdditiveBlending,
                 depthWrite: false
             });
-            
+
             // Create particle system
             this.particleSystem = new THREE.Points(this.particleGeometry, this.particleMaterial);
             this.scene.add(this.particleSystem);
@@ -362,7 +362,7 @@
                         };
                     }
                 },
-                
+
                 morphTo: (shapeName) => {
                     if (this.morphEngine.shapes[shapeName]) {
                         this.targetShape = shapeName;
@@ -382,37 +382,37 @@
             this.textCanvas.width = 512;
             this.textCanvas.height = 256;
             this.textContext = this.textCanvas.getContext('2d');
-            
+
             this.textEngine = {
                 renderText: (text) => {
                     const ctx = this.textContext;
                     const canvas = this.textCanvas;
-                    
+
                     // Clear canvas
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    
+
                     // Setup text style
                     ctx.fillStyle = 'white';
                     ctx.font = 'bold 48px Inter, sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'middle';
-                    
+
                     // Draw text
                     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-                    
+
                     // Get pixel data
                     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                     const pixels = imageData.data;
-                    
+
                     // Convert to point cloud
                     const points = [];
                     const step = 4; // Sample every 4th pixel
-                    
+
                     for (let y = 0; y < canvas.height; y += step) {
                         for (let x = 0; x < canvas.width; x += step) {
                             const index = (y * canvas.width + x) * 4;
                             const brightness = pixels[index]; // Use red channel
-                            
+
                             if (brightness > 128) {
                                 points.push({
                                     x: (x / canvas.width - 0.5) * 40,
@@ -422,10 +422,10 @@
                             }
                         }
                     }
-                    
+
                     return points;
                 },
-                
+
                 morphToText: (text) => {
                     this.currentText = text;
                     const points = this.textEngine.renderText(text);
@@ -443,24 +443,24 @@
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 const source = audioContext.createMediaStreamSource(stream);
                 const analyser = audioContext.createAnalyser();
-                
+
                 analyser.fftSize = 2048;
                 analyser.smoothingTimeConstant = 0.8;
                 source.connect(analyser);
-                
+
                 this.voiceAnalyzer = {
                     analyser: analyser,
                     dataArray: new Uint8Array(analyser.frequencyBinCount),
                     timeArray: new Uint8Array(analyser.frequencyBinCount),
-                    
+
                     analyze: () => {
                         analyser.getByteFrequencyData(this.voiceAnalyzer.dataArray);
                         analyser.getByteTimeDomainData(this.voiceAnalyzer.timeArray);
-                        
+
                         // Calculate voice metrics
                         const data = this.voiceAnalyzer.dataArray;
                         const timeData = this.voiceAnalyzer.timeArray;
-                        
+
                         // Frequency analysis
                         let sum = 0;
                         let maxFreq = 0;
@@ -468,10 +468,10 @@
                             sum += data[i];
                             if (data[i] > maxFreq) maxFreq = data[i];
                         }
-                        
+
                         this.voiceData.frequency = sum / data.length / 255;
                         this.voiceData.amplitude = maxFreq / 255;
-                        
+
                         // Volume calculation
                         let rms = 0;
                         for (let i = 0; i < timeData.length; i++) {
@@ -479,17 +479,17 @@
                             rms += normalized * normalized;
                         }
                         this.voiceData.volume = Math.sqrt(rms / timeData.length);
-                        
+
                         // Pitch detection (simplified)
                         this.voiceData.pitch = this.detectPitch(data);
-                        
+
                         // Intensity (combination of volume and frequency)
                         this.voiceData.intensity = (this.voiceData.volume + this.voiceData.frequency) / 2;
-                        
+
                         // Emotion detection (simplified)
                         this.voiceData.emotion = this.detectEmotion();
                     },
-                    
+
                     detectPitch: (data) => {
                         // Find dominant frequency bin
                         let maxIndex = 0;
@@ -503,21 +503,21 @@
                         // Normalize to 0-1 range
                         return maxIndex / (data.length / 2);
                     },
-                    
+
                     detectEmotion: () => {
                         const { volume, pitch, frequency } = this.voiceData;
-                        
+
                         if (volume > 0.7 && pitch > 0.6) return 'excited';
                         if (volume < 0.3 && pitch < 0.4) return 'calm';
                         if (frequency > 0.6 && volume > 0.5) return 'happy';
                         if (frequency < 0.4 && volume < 0.4) return 'sad';
-                        
+
                         return 'neutral';
                     }
                 };
-                
+
                 console.log('🎤 Voice system initialized');
-                
+
             } catch (error) {
                 console.warn('Voice input not available:', error);
             }
@@ -541,25 +541,25 @@
                     }
                 };
             }
-            
+
             // Simulate consciousness states if not connected
             this.consciousnessSimulator = {
                 simulate: (deltaTime) => {
                     const time = this.clock.getElapsedTime();
-                    
+
                     // Oscillating awareness
                     this.consciousnessState.awareness = 0.5 + Math.sin(time * 0.5) * 0.3;
-                    
+
                     // Coherence affected by voice
                     if (this.voiceData.intensity > 0) {
                         this.consciousnessState.coherence = Math.min(1, this.consciousnessState.coherence + this.voiceData.intensity * 0.01);
                     } else {
                         this.consciousnessState.coherence *= 0.99; // Decay
                     }
-                    
+
                     // Depth based on complexity
                     this.consciousnessState.depth = 2 + Math.sin(time * 0.3) * 1;
-                    
+
                     // Emotion evolution
                     this.consciousnessState.emotion.valence = 0.5 + Math.sin(time * 0.4) * 0.3;
                     this.consciousnessState.emotion.arousal = this.voiceData.volume;
@@ -574,13 +574,13 @@
         updateParticleTargets(shapeName) {
             const shapeFunction = this.morphEngine.shapes[shapeName];
             if (!shapeFunction) return;
-            
+
             const count = this.config.particleCount;
-            
+
             for (let i = 0; i < count; i++) {
                 const position = shapeFunction(i, count);
                 const i3 = i * 3;
-                
+
                 this.particleTargets[i3] = position.x;
                 this.particleTargets[i3 + 1] = position.y;
                 this.particleTargets[i3 + 2] = position.z;
@@ -593,12 +593,12 @@
         applyTextPoints(points) {
             const count = this.config.particleCount;
             const pointCount = points.length;
-            
+
             if (pointCount === 0) return;
-            
+
             for (let i = 0; i < count; i++) {
                 const i3 = i * 3;
-                
+
                 if (i < pointCount) {
                     // Map particle to text point
                     const point = points[i % pointCount];
@@ -614,7 +614,7 @@
                     this.particleTargets[i3 + 2] = point.z + (Math.random() - 0.5) * offset;
                 }
             }
-            
+
             this.morphProgress = 0;
         }
 
@@ -630,16 +630,16 @@
                 this.controls.minDistance = 20;
                 this.controls.maxDistance = 100;
             }
-            
+
             // Mouse interaction
             this.mouse = new THREE.Vector2();
             this.raycaster = new THREE.Raycaster();
-            
+
             this.renderer.domElement.addEventListener('mousemove', (event) => {
                 const rect = this.renderer.domElement.getBoundingClientRect();
                 this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
                 this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-                
+
                 // Update consciousness attention based on mouse
                 this.consciousnessState.attention = Math.sqrt(this.mouse.x * this.mouse.x + this.mouse.y * this.mouse.y);
             });
@@ -665,10 +665,10 @@
                 font-family: 'Inter', sans-serif;
                 min-width: 300px;
             `;
-            
+
             ui.innerHTML = `
                 <h3 style="margin: 0 0 15px 0; color: #00d4ff;">LUKHAS Consciousness Visualizer</h3>
-                
+
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 5px; font-size: 12px; color: #aaa;">Shape Morph</label>
                     <select id="shape-select" style="width: 100%; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white;">
@@ -681,37 +681,37 @@
                         <option value="galaxy">Galaxy</option>
                     </select>
                 </div>
-                
+
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 5px; font-size: 12px; color: #aaa;">Text Shape</label>
                     <input type="text" id="text-input" placeholder="Enter text..." style="width: 100%; padding: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; color: white;">
                 </div>
-                
+
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 5px; font-size: 12px; color: #aaa;">Morph Speed</label>
                     <input type="range" id="speed-slider" min="0.001" max="0.1" step="0.001" value="0.02" style="width: 100%;">
                 </div>
-                
+
                 <div id="consciousness-display" style="font-size: 11px; color: #aaa; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 10px;">
                     <div>Awareness: <span id="awareness">0.5</span></div>
                     <div>Coherence: <span id="coherence">0.5</span></div>
                     <div>Voice Intensity: <span id="voice-intensity">0</span></div>
                 </div>
             `;
-            
+
             document.body.appendChild(ui);
-            
+
             // Wire up controls
             document.getElementById('shape-select').addEventListener('change', (e) => {
                 this.morphEngine.morphTo(e.target.value);
             });
-            
+
             document.getElementById('text-input').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     this.textEngine.morphToText(e.target.value);
                 }
             });
-            
+
             document.getElementById('speed-slider').addEventListener('input', (e) => {
                 this.morphSpeed = parseFloat(e.target.value);
             });
@@ -722,39 +722,39 @@
          */
         animate() {
             requestAnimationFrame(() => this.animate());
-            
+
             const deltaTime = this.clock.getDelta();
             const elapsedTime = this.clock.getElapsedTime();
-            
+
             // Update voice analysis
             if (this.voiceAnalyzer) {
                 this.voiceAnalyzer.analyze();
             }
-            
+
             // Update consciousness
             if (this.consciousnessConnection) {
                 this.consciousnessConnection.update();
             } else {
                 this.consciousnessSimulator.simulate(deltaTime);
             }
-            
+
             // Update particles
             this.updateParticles(deltaTime, elapsedTime);
-            
+
             // Update lights
             this.updateLights(elapsedTime);
-            
+
             // Update controls
             if (this.controls) {
                 this.controls.update();
             }
-            
+
             // Update UI
             this.updateUI();
-            
+
             // Render
             this.renderer.render(this.scene, this.camera);
-            
+
             this.frameCount++;
         }
 
@@ -764,26 +764,26 @@
         updateParticles(deltaTime, elapsedTime) {
             // Update morph progress
             this.morphProgress = Math.min(1, this.morphProgress + this.morphSpeed);
-            
+
             const positions = this.particleGeometry.attributes.position.array;
             const colors = this.particleGeometry.attributes.color.array;
             const count = this.config.particleCount;
-            
+
             for (let i = 0; i < count; i++) {
                 const i3 = i * 3;
-                
+
                 // Morph to target position
                 const targetX = this.particleTargets[i3];
                 const targetY = this.particleTargets[i3 + 1];
                 const targetZ = this.particleTargets[i3 + 2];
-                
+
                 // Smooth interpolation with easing
                 const t = this.easeInOutCubic(this.morphProgress);
-                
+
                 positions[i3] += (targetX - positions[i3]) * t * 0.1;
                 positions[i3 + 1] += (targetY - positions[i3 + 1]) * t * 0.1;
                 positions[i3 + 2] += (targetZ - positions[i3 + 2]) * t * 0.1;
-                
+
                 // Apply voice influence
                 if (this.voiceData.intensity > 0) {
                     const voiceInfluence = this.voiceData.intensity * 0.5;
@@ -791,31 +791,31 @@
                     positions[i3 + 1] += Math.cos(elapsedTime * 2 + i * 0.01) * voiceInfluence;
                     positions[i3 + 2] += Math.sin(elapsedTime * 3 + i * 0.01) * voiceInfluence;
                 }
-                
+
                 // Apply consciousness influence on colors
                 const hue = 0.5 + this.consciousnessState.awareness * 0.3 + Math.sin(elapsedTime + i * 0.01) * 0.1;
                 const saturation = 0.6 + this.consciousnessState.coherence * 0.4;
                 const lightness = 0.5 + this.voiceData.intensity * 0.3;
-                
+
                 const color = new THREE.Color().setHSL(hue, saturation, lightness);
                 colors[i3] = color.r;
                 colors[i3 + 1] = color.g;
                 colors[i3 + 2] = color.b;
-                
+
                 // Apply velocities with damping
                 this.particleVelocities[i3] *= 0.98;
                 this.particleVelocities[i3 + 1] *= 0.98;
                 this.particleVelocities[i3 + 2] *= 0.98;
-                
+
                 positions[i3] += this.particleVelocities[i3];
                 positions[i3 + 1] += this.particleVelocities[i3 + 1];
                 positions[i3 + 2] += this.particleVelocities[i3 + 2];
             }
-            
+
             // Update geometry
             this.particleGeometry.attributes.position.needsUpdate = true;
             this.particleGeometry.attributes.color.needsUpdate = true;
-            
+
             // Rotate particle system
             this.particleSystem.rotation.y += 0.001;
         }
@@ -827,10 +827,10 @@
             // Consciousness light pulses
             this.consciousnessLight.intensity = 0.8 + Math.sin(elapsedTime * 2) * 0.2 * this.consciousnessState.awareness;
             this.consciousnessLight.color.setHSL(0.5 + this.consciousnessState.coherence * 0.2, 0.8, 0.5);
-            
+
             // Identity light responds to voice
             this.identityLight.intensity = 0.6 + this.voiceData.intensity * 0.4;
-            
+
             // Guardian light stabilizes
             this.guardianLight.intensity = 0.6 + this.consciousnessState.coherence * 0.4;
         }
@@ -843,7 +843,7 @@
                 const awarenessEl = document.getElementById('awareness');
                 const coherenceEl = document.getElementById('coherence');
                 const voiceEl = document.getElementById('voice-intensity');
-                
+
                 if (awarenessEl) awarenessEl.textContent = this.consciousnessState.awareness.toFixed(2);
                 if (coherenceEl) coherenceEl.textContent = this.consciousnessState.coherence.toFixed(2);
                 if (voiceEl) voiceEl.textContent = this.voiceData.intensity.toFixed(2);
@@ -871,7 +871,7 @@
             const container = document.getElementById(this.config.containerId);
             const width = container ? container.clientWidth : window.innerWidth;
             const height = container ? container.clientHeight : window.innerHeight;
-            
+
             this.camera.aspect = width / height;
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(width, height);
@@ -880,7 +880,7 @@
         /**
          * Public API Methods
          */
-        
+
         /**
          * Morph to a named shape
          */
@@ -928,20 +928,20 @@
             if (this.animationId) {
                 cancelAnimationFrame(this.animationId);
             }
-            
+
             // Dispose Three.js resources
             if (this.particleGeometry) this.particleGeometry.dispose();
             if (this.particleMaterial) this.particleMaterial.dispose();
             if (this.renderer) this.renderer.dispose();
-            
+
             // Remove DOM elements
             const ui = document.getElementById('lukhas-unified-ui');
             if (ui) ui.remove();
-            
+
             if (this.renderer && this.renderer.domElement) {
                 this.renderer.domElement.remove();
             }
-            
+
             console.log('LUKHAS Visualizer destroyed');
         }
     }
@@ -950,7 +950,7 @@
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = UnifiedConsciousnessVisualizer;
     }
-    
+
     // Make available globally
     global.UnifiedConsciousnessVisualizer = UnifiedConsciousnessVisualizer;
     global.LUKHASVisualizer = UnifiedConsciousnessVisualizer; // Alias

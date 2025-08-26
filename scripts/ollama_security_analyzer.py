@@ -12,7 +12,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 import aiohttp
 import click
@@ -28,19 +28,19 @@ class Vulnerability:
     description: str
     cve: Optional[str] = None
     fix_version: Optional[str] = None
-    
-    
+
+
 class OllamaSecurityAnalyzer:
     """
     Uses Ollama to analyze and suggest fixes for security vulnerabilities
     """
-    
+
     def __init__(self, ollama_host: str = "http://localhost:11434"):
         self.ollama_host = ollama_host
         self.model = "deepseek-coder:6.7b"  # Best for code analysis
         self.vulnerabilities: List[Vulnerability] = []
         self.fixes: Dict[str, str] = {}
-        
+
     async def check_ollama_available(self) -> bool:
         """Check if Ollama is running and model is available"""
         try:
@@ -49,20 +49,20 @@ class OllamaSecurityAnalyzer:
                 async with session.get(f"{self.ollama_host}/api/tags", timeout=5) as resp:
                     if resp.status != 200:
                         return False
-                    
+
                     data = await resp.json()
                     models = [m["name"] for m in data.get("models", [])]
-                    
+
                     # Check if our preferred model is available
                     if self.model not in models:
                         click.echo(f"⚠️ Model {self.model} not found. Pulling it now...")
                         await self.pull_model()
-                    
+
                     return True
         except Exception as e:
             click.echo(f"❌ Ollama not available: {e}")
             return False
-    
+
     async def pull_model(self):
         """Pull the required model"""
         try:
@@ -70,11 +70,11 @@ class OllamaSecurityAnalyzer:
             click.echo(f"✅ Model {self.model} pulled successfully")
         except subprocess.CalledProcessError:
             click.echo(f"❌ Failed to pull model {self.model}")
-            
+
     def scan_vulnerabilities(self) -> List[Vulnerability]:
         """Scan for vulnerabilities using pip-audit and safety"""
         vulnerabilities = []
-        
+
         # Run pip-audit
         try:
             result = subprocess.run(
@@ -99,7 +99,7 @@ class OllamaSecurityAnalyzer:
                         )
         except (subprocess.CalledProcessError, json.JSONDecodeError, FileNotFoundError):
             click.echo("⚠️ pip-audit not available or failed")
-        
+
         # Run safety check
         try:
             result = subprocess.run(
@@ -123,10 +123,10 @@ class OllamaSecurityAnalyzer:
                     )
         except (subprocess.CalledProcessError, json.JSONDecodeError, FileNotFoundError):
             click.echo("⚠️ safety not available or failed")
-            
+
         self.vulnerabilities = vulnerabilities
         return vulnerabilities
-    
+
     async def analyze_with_ollama(self, vulnerability: Vulnerability) -> str:
         """Use Ollama to analyze a vulnerability and suggest a fix"""
         prompt = f"""You are a security expert analyzing Python package vulnerabilities.
@@ -165,17 +165,17 @@ Format your response as JSON with keys: risk_assessment, fix_command, breaking_c
                         return data.get("response", "")
         except Exception as e:
             return f"Error analyzing: {e}"
-    
+
     async def generate_fix_script(self) -> str:
         """Generate a complete fix script based on all vulnerabilities"""
         if not self.vulnerabilities:
             return ""
-        
+
         vuln_summary = "\n".join([
             f"- {v.package} ({v.severity}): {v.cve or 'No CVE'}"
             for v in self.vulnerabilities[:10]  # Limit to prevent token overflow
         ])
-        
+
         prompt = f"""You are a Python security expert. Generate a safe bash script to fix these vulnerabilities:
 
 {vuln_summary}
@@ -204,23 +204,23 @@ Return ONLY the bash script, no explanations."""
                         return data.get("response", "")
         except Exception as e:
             return f"#!/bin/bash\necho 'Error generating script: {e}'"
-    
+
     async def analyze_all(self) -> Dict:
         """Analyze all vulnerabilities and generate report"""
         if not await self.check_ollama_available():
             return {"error": "Ollama not available"}
-        
+
         vulnerabilities = self.scan_vulnerabilities()
-        
+
         if not vulnerabilities:
             return {
                 "status": "secure",
                 "message": "No vulnerabilities found!",
                 "count": 0
             }
-        
+
         click.echo(f"\n🔍 Found {len(vulnerabilities)} vulnerabilities. Analyzing with Ollama...")
-        
+
         analyses = {}
         for i, vuln in enumerate(vulnerabilities[:5], 1):  # Limit to 5 for speed
             click.echo(f"  Analyzing {i}/{min(5, len(vulnerabilities))}: {vuln.package}...")
@@ -229,9 +229,9 @@ Return ONLY the bash script, no explanations."""
                 analyses[vuln.package] = json.loads(analysis)
             except json.JSONDecodeError:
                 analyses[vuln.package] = {"raw": analysis}
-        
+
         fix_script = await self.generate_fix_script()
-        
+
         return {
             "status": "vulnerable",
             "count": len(vulnerabilities),
@@ -255,26 +255,26 @@ def cli():
 def scan(json_output=False, save_report=None):
     """Scan for vulnerabilities and analyze with Ollama"""
     analyzer = OllamaSecurityAnalyzer()
-    
+
     click.echo("🛡️ LUKHAS Security Analyzer (Ollama-powered)")
     click.echo("=" * 50)
-    
+
     report = asyncio.run(analyzer.analyze_all())
-    
+
     if report.get("status") == "secure":
         click.echo("\n✅ " + report["message"])
         return
-    
+
     if "error" in report:
         click.echo(f"\n❌ {report['error']}")
         click.echo("\n💡 To fix: brew install ollama && ollama serve")
         return
-    
+
     # Display results
     click.echo(f"\n⚠️ Found {report['count']} vulnerabilities:")
     click.echo(f"  🔴 Critical: {report.get('critical', 0)}")
     click.echo(f"  🟠 High: {report.get('high', 0)}")
-    
+
     if report.get("analyses"):
         click.echo("\n📋 Ollama Analysis Results:")
         for pkg, analysis in report["analyses"].items():
@@ -284,17 +284,17 @@ def scan(json_output=False, save_report=None):
                 click.echo(f"    Fix: {analysis.get('fix_command', 'N/A')}")
             else:
                 click.echo(f"    {analysis}")
-    
+
     if save_report:
         report_path = Path(save_report)
         report_path.write_text(json.dumps(report, indent=2))
         click.echo(f"\n💾 Report saved to {save_report}")
-    
+
     if report.get("fix_script"):
         script_path = Path("fix_vulnerabilities.sh")
         script_path.write_text(report["fix_script"])
         script_path.chmod(0o755)
-        click.echo(f"\n🔧 Fix script generated: ./fix_vulnerabilities.sh")
+        click.echo("\n🔧 Fix script generated: ./fix_vulnerabilities.sh")
         click.echo("   Review and run: bash fix_vulnerabilities.sh")
 
 
@@ -302,19 +302,19 @@ def scan(json_output=False, save_report=None):
 def fix():
     """Automatically fix vulnerabilities using Ollama recommendations"""
     analyzer = OllamaSecurityAnalyzer()
-    
+
     click.echo("🔧 Auto-fixing vulnerabilities with Ollama...")
-    
+
     report = asyncio.run(analyzer.analyze_all())
-    
+
     if report.get("status") == "secure":
         click.echo("✅ No vulnerabilities to fix!")
         return
-    
+
     if "error" in report:
         click.echo(f"❌ {report['error']}")
         return
-    
+
     # Execute fix commands
     if report.get("analyses"):
         for pkg, analysis in report["analyses"].items():
@@ -324,7 +324,7 @@ def fix():
                     click.echo(f"\n🔧 Fixing {pkg}: {fix_cmd}")
                     if click.confirm("Execute this command?"):
                         subprocess.run(fix_cmd, shell=True)
-    
+
     click.echo("\n✅ Fix attempt complete. Run 'make security-scan' to verify.")
 
 
@@ -332,27 +332,27 @@ def fix():
 def pre_commit():
     """Pre-commit hook mode - quick security check"""
     analyzer = OllamaSecurityAnalyzer()
-    
+
     # Quick scan without detailed analysis
     vulnerabilities = analyzer.scan_vulnerabilities()
-    
+
     if vulnerabilities:
         critical = [v for v in vulnerabilities if "critical" in v.severity.lower()]
         high = [v for v in vulnerabilities if "high" in v.severity.lower()]
-        
+
         if critical:
             click.echo("\n🔴 CRITICAL vulnerabilities found! Commit blocked.")
             for v in critical:
                 click.echo(f"  - {v.package}: {v.cve or v.description[:50]}")
             click.echo("\nRun 'make security-ollama-fix' to fix automatically")
             sys.exit(1)
-        
+
         if high:
             click.echo("\n🟠 HIGH severity vulnerabilities found:")
             for v in high[:3]:
                 click.echo(f"  - {v.package}: {v.cve or v.description[:50]}")
             click.echo("\nConsider running 'make security-ollama' before pushing")
-    
+
     click.echo("✅ Security check passed")
     sys.exit(0)
 

@@ -52,7 +52,7 @@ function ParticleForm({
     const baseRadius = 3.0
     // Use deterministic RNG for consistent sphere generation
     const rng = mulberry32(seedFromString('sphere-base'))
-    
+
     for (let i = 0; i < count * 3; i += 3) {
       // Uniform sphere distribution using Marsaglia method
       const u1 = rng()
@@ -60,7 +60,7 @@ function ParticleForm({
       const theta = 2 * Math.PI * u1
       const phi = Math.acos(2 * u2 - 1)
       const radius = baseRadius * Math.cbrt(rng()) // Uniform volume distribution
-      
+
       positions[i] = radius * Math.sin(phi) * Math.cos(theta)
       positions[i + 1] = radius * Math.sin(phi) * Math.sin(theta)
       positions[i + 2] = radius * Math.cos(phi)
@@ -74,12 +74,12 @@ function ParticleForm({
     if (!text || text.trim().length === 0) {
       return generateSpherePositions(count)
     }
-    
+
     try {
       // Create seeded RNG for this text
       const seed = seedFromString(text.toUpperCase())
       const rng = mulberry32(seed)
-      
+
       // Use cached glyph sampler with seeded RNG
       return glyphCache.get(text, count, {
         canvasW: 768,
@@ -116,7 +116,7 @@ function ParticleForm({
       const target = glyphText ? generateGlyphPositions(glyphText, particleCount) : generateSpherePositions(particleCount)
       setTargetPositions(target)
       setMorphProgress(0) // Reset morphing
-      
+
       // Trigger legibility hold event for glyph rendering
       if (glyphText && glyphText.trim().length > 0) {
         window.dispatchEvent(new CustomEvent('legibilityHold', {
@@ -133,30 +133,30 @@ function ParticleForm({
     // Voice-reactive parameters
     const voiceIntensity = (voiceData.intensity || 0) * voiceSensitivity
     const voiceFrequency = (voiceData.frequency || 0) * voiceSensitivity
-    
+
     // Slow, controlled rotation
     const rotationSpeed = morphSpeed * 0.3
     particlesRef.current.rotation.y += (rotationSpeed + voiceIntensity * 0.001) * tempo
     particlesRef.current.rotation.x += (rotationSpeed * 0.3 + voiceFrequency * 0.0001) * tempo
-    
+
     // Dynamic particle scaling based on voice
     const baseScale = 1 + Math.sin(state.clock.elapsedTime * 1.5 * tempo) * 0.05
     const voiceScale = voiceIntensity * 0.2
     particlesRef.current.scale.setScalar(baseScale + voiceScale)
-    
+
     // Shape morphing progress
     if (morphProgress < 1) {
       setMorphProgress((prev) => Math.min(1, prev + morphSpeed * 3))
     }
-    
+
     // Update particle positions if we have a points object
     const points = particlesRef.current.children[0] as THREE.Points
     if (points && points.geometry && currentPositions && targetPositions) {
       const positions = points.geometry.attributes.position.array as Float32Array
-      
+
       for (let i = 0; i < positions.length; i += 3) {
         const particleIndex = i / 3
-        
+
         // Get current and target positions
         const currentX = currentPositions[i]
         const currentY = currentPositions[i + 1]
@@ -164,36 +164,36 @@ function ParticleForm({
         const targetX = targetPositions[i]
         const targetY = targetPositions[i + 1]
         const targetZ = targetPositions[i + 2]
-        
+
         // Interpolate between current and target (morphing)
         let x = currentX + (targetX - currentX) * morphProgress
         let y = currentY + (targetY - currentY) * morphProgress
         let z = currentZ + (targetZ - currentZ) * morphProgress
-        
+
         // Voice-reactive particle movement
         const time = state.clock.elapsedTime
         const particlePhase = particleIndex * 0.01
         const waveAmplitude = voiceIntensity * 0.1
-        
+
         x += Math.sin(time * 1.2 + particlePhase) * waveAmplitude
         y += Math.cos(time * 0.8 + particlePhase * 1.5) * waveAmplitude
         z += Math.sin(time * 1.0 + particlePhase * 2) * waveAmplitude
-        
+
         // Frequency-based particle dispersion (deterministic per particle)
         const dispersion = voiceFrequency * 0.0001
         const particleRng = mulberry32(particleIndex + Math.floor(time * 2)) // Time-varying but deterministic
         x += (particleRng() - 0.5) * dispersion
         y += (particleRng() - 0.5) * dispersion
         z += (particleRng() - 0.5) * dispersion
-        
+
         positions[i] = x
         positions[i + 1] = y
         positions[i + 2] = z
       }
-      
+
       points.geometry.attributes.position.needsUpdate = true
     }
-    
+
     // Complete morphing transition
     if (morphProgress >= 1 && targetPositions) {
       setCurrentPositions(targetPositions.slice()) // Update current to target
@@ -204,11 +204,11 @@ function ParticleForm({
   // Advanced dynamic color system with voice reactivity and configuration
   const getParticleColor = () => {
     if (accentColor) return accentColor
-    
+
     const activeStates = Object.entries(trinityState).filter(([_, active]) => active)
     const voiceIntensity = (voiceData.intensity || 0) * voiceSensitivity
     const voiceFrequency = (voiceData.frequency || 0) * voiceSensitivity
-    
+
     // Get base color from Trinity state
     let baseColor = '#ffffff'
     if (activeStates.length === 0) baseColor = '#666666'
@@ -216,21 +216,21 @@ function ParticleForm({
     else {
       const colors: Record<string, string> = {
         identity: '#8b5cf6',     // Purple
-        consciousness: '#3b82f6', // Blue  
+        consciousness: '#3b82f6', // Blue
         guardian: '#22c55e'      // Green
       }
       baseColor = colors[activeStates[0][0]] || '#666666'
     }
-    
+
     const color = new THREE.Color(baseColor)
-    
+
     // Apply voice-reactive color changes if enabled
     if ((window as any).config?.voiceColorReactive && voiceIntensity > 0.05) {
       const hsl = { h: 0, s: 0, l: 0 }
       color.getHSL(hsl)
-      
+
       const colorIntensity = (window as any).config?.colorIntensity || 0.5
-      
+
       // Advanced voice-reactive color transformations
       switch ((window as any).config?.textureStyle || 'smooth') {
         case 'neural':
@@ -238,30 +238,30 @@ function ParticleForm({
           hsl.h = (hsl.h + Math.sin(voiceFrequency * 0.001) * colorIntensity * 0.3) % 1
           hsl.s = Math.min(1, hsl.s + voiceIntensity * colorIntensity * 0.5)
           break
-          
+
         case 'geometric':
           // Geometric: Stepped hue changes
           const steps = Math.floor(voiceFrequency * 0.0001 * 8) * 0.125
           hsl.h = (hsl.h + steps * colorIntensity) % 1
           hsl.s = Math.min(1, hsl.s + (voiceIntensity > 0.5 ? colorIntensity * 0.4 : 0))
           break
-          
+
         case 'ethereal':
           // Ethereal: Subtle, flowing color changes
           hsl.h = (hsl.h + Math.sin(voiceFrequency * 0.0005) * colorIntensity * 0.15) % 1
           hsl.l = Math.min(0.9, hsl.l + Math.cos(voiceIntensity * 5) * colorIntensity * 0.3)
           break
-          
+
         default: // smooth
           // Smooth: Continuous hue rotation with voice
           hsl.h = (hsl.h + voiceFrequency * 0.0002 * colorIntensity) % 1
           hsl.s = Math.min(1, hsl.s + voiceIntensity * colorIntensity * 0.3)
           hsl.l = Math.min(1, hsl.l + voiceIntensity * colorIntensity * 0.2)
       }
-      
+
       color.setHSL(hsl.h, hsl.s, hsl.l)
     }
-    
+
     return color
   }
 
@@ -298,18 +298,18 @@ function ParticleForm({
       // Create or update THREE.Points object
       const geometry = new THREE.BufferGeometry()
       const colors = new Float32Array(particleCount * 3)
-      
+
       // Generate colors for each particle
       for (let i = 0; i < particleCount; i++) {
         const i3 = i * 3
         colors[i3] = 0.0 + (i / particleCount) * 0.3     // R
-        colors[i3 + 1] = 0.8 + (i / particleCount) * 0.2 // G 
+        colors[i3 + 1] = 0.8 + (i / particleCount) * 0.2 // G
         colors[i3 + 2] = 1.0 - (i / particleCount) * 0.2 // B
       }
-      
+
       geometry.setAttribute('position', new THREE.BufferAttribute(currentPositions, 3))
       geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-      
+
       const material = new THREE.PointsMaterial({
         size: 0.15 + morphProgress * 0.05 + (voiceData.intensity || 0) * voiceSensitivity * 0.1,
         transparent: true,
@@ -320,9 +320,9 @@ function ParticleForm({
         alphaTest: 0.001,
         depthWrite: false
       })
-      
+
       const points = new THREE.Points(geometry, material)
-      
+
       // Replace existing object
       if (particlesRef.current.children.length > 0) {
         const oldPoints = particlesRef.current.children[0]
@@ -332,7 +332,7 @@ function ParticleForm({
           particlesRef.current.remove(oldPoints)
         }
       }
-      
+
       particlesRef.current.add(points)
     }
   }, [currentPositions, particleCount, morphProgress, voiceData.intensity, voiceSensitivity])
@@ -344,10 +344,10 @@ function ParticleForm({
   return (
     <>
       {renderMesh}
-      <SimpleParticles 
-        count={particleCount} 
-        size={0.05} 
-        color="#00d4ff" 
+      <SimpleParticles
+        count={particleCount}
+        size={0.05}
+        color="#00d4ff"
         voiceData={voiceData}
         morphSpeed={morphSpeed}
       />
@@ -373,25 +373,25 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
     // Check system preference for reduced motion
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     setPrefersReducedMotion(mediaQuery.matches)
-    
+
     const handleMediaChange = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches)
     }
-    
+
     mediaQuery.addEventListener('change', handleMediaChange)
-    
+
     // Check for calm mode
     const checkCalmMode = () => {
       setIsCalmMode(document.body.classList.contains('calm-mode'))
     }
-    
+
     checkCalmMode()
-    
+
     // Listen for calm mode changes
     const handleCalmModeChange = (e: CustomEvent) => {
       setIsCalmMode(e.detail.enabled)
     }
-    
+
     // Listen for legibility hold events
     const handleLegibilityHold = (e: CustomEvent) => {
       const { text, duration } = e.detail
@@ -400,13 +400,13 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
         setLegibilityHold(prev => ({ ...prev, visible: false }))
       }, duration || 2000)
     }
-    
+
     // Detect optimal render mode based on GPU capability
     setOptimalRenderMode(getOptimalRenderMode())
-    
+
     window.addEventListener('calmModeToggle', handleCalmModeChange as EventListener)
     window.addEventListener('legibilityHold', handleLegibilityHold as EventListener)
-    
+
     return () => {
       mediaQuery.removeEventListener('change', handleMediaChange)
       window.removeEventListener('calmModeToggle', handleCalmModeChange as EventListener)
@@ -421,8 +421,8 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
       const analyserNode = ctx.createAnalyser()
       analyserNode.fftSize = 512 // Increased for better frequency resolution
       analyserNode.smoothingTimeConstant = 0.3
-      
-      navigator.mediaDevices.getUserMedia({ 
+
+      navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
@@ -434,22 +434,22 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           source.connect(analyserNode)
           setAudioContext(ctx)
           setAnalyser(analyserNode)
-          
+
           // Start real-time audio analysis
           const analyzeAudio = () => {
             if (!analyserNode) return
-            
+
             const bufferLength = analyserNode.frequencyBinCount
             const dataArray = new Uint8Array(bufferLength)
             analyserNode.getByteFrequencyData(dataArray)
-            
+
             // Calculate intensity (average amplitude)
             let sum = 0
             for (let i = 0; i < bufferLength; i++) {
               sum += dataArray[i]
             }
             const intensity = sum / bufferLength / 255
-            
+
             // Calculate dominant frequency
             let maxAmplitude = 0
             let dominantFrequency = 0
@@ -459,7 +459,7 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
                 dominantFrequency = i * (ctx.sampleRate / 2) / bufferLength
               }
             }
-            
+
             // Update voice data with real audio analysis
             window.dispatchEvent(new CustomEvent('audioUpdate', {
               detail: {
@@ -468,19 +468,19 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
                 rawData: dataArray
               }
             }))
-            
+
             if (config.micEnabled) {
               animationRef.current = requestAnimationFrame(analyzeAudio)
             }
           }
-          
+
           analyzeAudio()
         })
         .catch(err => {
           console.error('Microphone access denied:', err)
         })
     }
-    
+
     return () => {
       if (audioContext) {
         audioContext.close()
@@ -540,12 +540,12 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           intensity={0.7}
           color="#00d4ff"
         />
-        
+
         {/* Simplified lighting instead of Environment to avoid HDR loading issues */}
         <ambientLight intensity={0.6} />
         <pointLight position={[10, 10, 10]} intensity={0.8} />
         <pointLight position={[-10, -10, -10]} intensity={0.4} color="#00d4ff" />
-        
+
         {/* Enhanced particle form system */}
         <ParticleForm
           voiceData={voiceData}
@@ -558,7 +558,7 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           renderMode={config.renderMode || optimalRenderMode}
           glyphText={config.glyphText}
         />
-        
+
         {/* Camera controls */}
         <OrbitControls
           enablePan={false}
@@ -569,7 +569,7 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           minDistance={8}
         />
       </Canvas>
-      
+
       {/* Status overlay */}
       <div className="absolute top-4 left-4 pointer-events-none">
         <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg px-3 py-2">
@@ -589,7 +589,7 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           </div>
         </div>
       </div>
-      
+
       {/* Legibility hold indicator */}
       {legibilityHold.visible && (
         <div className="absolute top-4 right-4 pointer-events-none">
@@ -603,7 +603,7 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
           </div>
         </div>
       )}
-      
+
       {/* Voice intensity indicator */}
       {config.micEnabled && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none">
@@ -611,7 +611,7 @@ export default function MorphingVisualizer({ config, voiceData }: MorphingVisual
             <div className="flex items-center gap-3">
               <span className="text-xs text-white/60">Voice Intensity</span>
               <div className="w-32 h-1 bg-white/10 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-100"
                   style={{ width: `${voiceData.intensity * 100}%` }}
                 />

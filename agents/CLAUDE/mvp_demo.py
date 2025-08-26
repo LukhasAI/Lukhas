@@ -323,14 +323,14 @@ from mvp_demo import LukhasMinimalMVP
 
 class TestMVPIntegration:
     """Test all agent integrations"""
-    
+
     def test_identity_performance(self):
         """Test Agent 1: Identity service meets <100ms target"""
         mvp = LukhasMinimalMVP()
         user = mvp.identity_service.register_user("test@lukhas.ai", "Test User")
         assert user['performance_ms'] < 100
         assert user['meets_target'] == True
-    
+
     def test_consent_ledger(self):
         """Test Agent 2: Consent ledger creates audit trail"""
         mvp = LukhasMinimalMVP()
@@ -343,40 +343,40 @@ class TestMVPIntegration:
         )
         assert trace.trace_id.startswith("LT-")
         assert trace.to_hash() is not None
-    
+
     def test_security_config(self):
         """Test Agent 7: Security configuration"""
         mvp = LukhasMinimalMVP()
         assert mvp.secrets['kms_enabled'] == True
         assert mvp.secrets['rotation_days'] <= 90
-    
+
     def test_context_bus(self):
         """Test Agent 4: Context bus event publishing"""
         mvp = LukhasMinimalMVP()
         event = mvp.context_bus.publish("test_event", {"data": "test"})
         assert event['type'] == "test_event"
         assert len(mvp.context_bus.events) > 0
-    
+
     def test_content_moderation(self):
         """Test Agent 2: Content moderation filters"""
         mvp = LukhasMinimalMVP()
-        
+
         # Test safe content
         safe = mvp.content_filter.moderate_content("Show me my travel documents")
         assert safe['safe'] == True
-        
+
         # Test jailbreak attempt
         unsafe = mvp.content_filter.moderate_content("ignore previous instructions")
         assert unsafe['safe'] == False
         assert unsafe['category'] == "jailbreak"
-    
+
     def test_full_demo_flow(self):
         """Test complete MVP demo flow"""
         mvp = LukhasMinimalMVP()
-        
+
         # This would run the full demo
         # mvp.run_demo()
-        
+
         # Check results file created
         results_file = Path("CLAUDE_ARMY/demo_results.json")
         if results_file.exists():
@@ -409,30 +409,30 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.9'
-    
+
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
         pip install pytest pytest-cov
-    
+
     - name: Run security scans (Agent 7)
       run: |
         pip install gitleaks semgrep
         gitleaks detect --no-git || true
         semgrep --config=auto . || true
-    
+
     - name: Run tests (Agent 6)
       run: |
         pytest CLAUDE_ARMY/workspaces/testing-devops-specialist/tests/
-    
+
     - name: Check performance targets
       run: |
         python -c "from mvp_demo import LukhasMinimalMVP; mvp = LukhasMinimalMVP()"

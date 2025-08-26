@@ -7,7 +7,7 @@
 🔮 CAPABILITY: Distributed dream processing across colony infrastructure
 🛡️ ETHICS: Coordinated ethical dream processing through specialized colonies
 🚀 VERSION: v1.0.0 • 📅 CREATED: 2025-07-30 • ✍️ AUTHOR: CLAUDE-HARMONIZER
-💭 INTEGRATION: ColonyOrchestrator, QuantumDreamAdapter, EventBus, SwarmHub
+💭 INTEGRATION: ColonyOrchestrator, QIDreamAdapter, EventBus, SwarmHub
 ═══════════════════════════════════════════════════════════════════════════════════
 
 🧬 COLONY DREAM COORDINATOR - DISTRIBUTED PROCESSING EDITION
@@ -99,13 +99,13 @@ except ImportError as e:
 
 # Import dream processing
 try:
-    from .quantum_dream_adapter import QuantumDreamAdapter
+    from .qi_dream_adapter import QIDreamAdapter
 
     QUANTUM_DREAM_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Quantum dream adapter not available: {e}")
     QUANTUM_DREAM_AVAILABLE = False
-    QuantumDreamAdapter = None
+    QIDreamAdapter = None
 
 # Import event bus
 try:
@@ -200,7 +200,7 @@ class ColonyDreamCoordinator:
         self,
         colony_orchestrator: Optional[ColonyOrchestrator] = None,
         swarm_hub: Optional[SwarmHub] = None,
-        quantum_dream_adapter: Optional[QuantumDreamAdapter] = None,
+        qi_dream_adapter: Optional[QIDreamAdapter] = None,
     ):
         """
         Initialize the colony dream coordinator
@@ -208,14 +208,14 @@ class ColonyDreamCoordinator:
         Args:
             colony_orchestrator: Colony orchestration system
             swarm_hub: Swarm coordination hub
-            quantum_dream_adapter: Quantum dream processing adapter
+            qi_dream_adapter: Quantum dream processing adapter
         """
         self.logger = logging.getLogger("colony_dream_coordinator")
 
         # Core system integrations
         self.colony_orchestrator = colony_orchestrator
         self.swarm_hub = swarm_hub
-        self.quantum_dream_adapter = quantum_dream_adapter
+        self.qi_dream_adapter = qi_dream_adapter
 
         # Event bus for coordination
         self.event_bus = None
@@ -276,7 +276,7 @@ class ColonyDreamCoordinator:
                 self.logger.info("Swarm hub integration verified")
 
             # Verify quantum dream adapter
-            if self.quantum_dream_adapter:
+            if self.qi_dream_adapter:
                 self.logger.info("Quantum dream adapter integration verified")
 
             self.logger.info("Colony dream coordinator fully operational")
@@ -892,7 +892,7 @@ class ColonyDreamCoordinator:
         for enhanced parallel dream analysis across multiple dimensions.
         """
         try:
-            if not QUANTUM_DREAM_AVAILABLE or not self.quantum_dream_adapter:
+            if not QUANTUM_DREAM_AVAILABLE or not self.qi_dream_adapter:
                 return {
                     "success": False,
                     "error": "Quantum dream adapter not available for multiverse integration",
@@ -904,7 +904,7 @@ class ColonyDreamCoordinator:
 
             # Execute multiverse dream simulation
             multiverse_result = (
-                await self.quantum_dream_adapter.simulate_multiverse_dreams(
+                await self.qi_dream_adapter.simulate_multiverse_dreams(
                     dream_seed, parallel_paths
                 )
             )
@@ -922,7 +922,7 @@ class ColonyDreamCoordinator:
                         "dream_seed": dream_seed,
                         "path_config": dream_path["config"],
                         "path_result": dream_path["result"],
-                        "quantum_state": dream_path["result"].get("quantum_state"),
+                        "qi_state": dream_path["result"].get("qi_state"),
                         "dream_insights": dream_path["result"].get(
                             "dream_insights", []
                         ),
@@ -1115,7 +1115,7 @@ class ColonyDreamCoordinator:
             "system_integrations": {
                 "colony_orchestrator": self.colony_orchestrator is not None,
                 "swarm_hub": self.swarm_hub is not None,
-                "quantum_dream_adapter": self.quantum_dream_adapter is not None,
+                "qi_dream_adapter": self.qi_dream_adapter is not None,
                 "event_bus": self.event_bus is not None,
             },
             "processing_metrics": {
@@ -1133,7 +1133,7 @@ class ColonyDreamCoordinator:
             "system_availability": {
                 "colony_system": COLONY_SYSTEM_AVAILABLE,
                 "swarm_system": SWARM_SYSTEM_AVAILABLE,
-                "quantum_dream": QUANTUM_DREAM_AVAILABLE,
+                "qi_dream": QUANTUM_DREAM_AVAILABLE,
                 "event_bus": EVENT_BUS_AVAILABLE,
             },
         }

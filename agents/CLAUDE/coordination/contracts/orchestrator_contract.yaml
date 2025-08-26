@@ -18,14 +18,14 @@ endpoints:
       - result: object
       - narrative: array
       - trace_id: string
-  
+
   get_context:
     method: GET
     path: /context/{lid}
     output:
       - context: object
       - state: string
-  
+
   publish_event:
     method: POST
     path: /bus/publish
@@ -39,7 +39,7 @@ endpoints:
 performance_requirements:
   - context_handoff: <250ms
   - state_preservation: true
-  
+
 policy_integration:
   - invoke_every_step: true
   - default_deny_on_conflict: true

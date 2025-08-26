@@ -112,7 +112,7 @@ Consolidated from 124 files:
 - memory/systems/optimized_memory_item.py
 - memory/systems/pin_memory.py
 - memory/systems/pin_memory_cache.py
-- memory/systems/quantum_memory_architecture.py
+- memory/systems/qi_memory_architecture.py
 - memory/systems/recall_handler.py
 - memory/systems/reflection_engine.py
 - memory/systems/replay_system.py

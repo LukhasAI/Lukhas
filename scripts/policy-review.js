@@ -1,4 +1,4 @@
-import fs from 'node:fs'; 
+import fs from 'node:fs';
 import path from 'node:path';
 
 console.log('🔍 Scanning for claims requiring human review...\n');
@@ -18,10 +18,10 @@ const flaggedItems = [];
 
 function scanFile(filePath) {
   if(!fs.existsSync(filePath)) return;
-  
+
   const content = fs.readFileSync(filePath, 'utf8');
   const lines = content.split('\n');
-  
+
   lines.forEach((line, idx) => {
     const match = line.match(claimsToReview);
     if(match) {
@@ -37,14 +37,14 @@ function scanFile(filePath) {
 
 function scanDir(dirPath) {
   if(!fs.existsSync(dirPath)) return;
-  
+
   const items = fs.readdirSync(dirPath);
   for(const item of items) {
     const fullPath = path.join(dirPath, item);
-    
+
     // Skip build artifacts and dependencies
     if(/(node_modules|\.next|\.git|build|dist)/.test(fullPath)) continue;
-    
+
     const stat = fs.statSync(fullPath);
     if(stat.isDirectory()) {
       scanDir(fullPath);
@@ -69,14 +69,14 @@ publicPaths.forEach(p => {
 // Report findings
 if(flaggedItems.length > 0) {
   console.log(`📋 Found ${flaggedItems.length} claims requiring human review:\n`);
-  
+
   // Group by file for easier review
   const byFile = {};
   flaggedItems.forEach(item => {
     if(!byFile[item.file]) byFile[item.file] = [];
     byFile[item.file].push(item);
   });
-  
+
   Object.entries(byFile).forEach(([file, items]) => {
     console.log(`\n📄 ${file}:`);
     items.forEach(item => {
@@ -84,13 +84,13 @@ if(flaggedItems.length > 0) {
       console.log(`   Context: ${item.context}`);
     });
   });
-  
+
   console.log('\n💡 Review Process:');
   console.log('   1. Check if claim is factually accurate');
   console.log('   2. Verify with evidence/metrics if quantitative');
   console.log('   3. Consider replacing with specific, verifiable language');
   console.log('   4. If keeping, document justification in BDR');
-  
+
   // Write review file for tracking
   const reviewFile = {
     timestamp: new Date().toISOString(),
@@ -98,10 +98,10 @@ if(flaggedItems.length > 0) {
     items: flaggedItems,
     status: 'pending_review'
   };
-  
+
   fs.writeFileSync('branding/claims-review.json', JSON.stringify(reviewFile, null, 2));
   console.log('\n📝 Review list saved to: branding/claims-review.json');
-  
+
   // Don't fail CI, just warn
   console.log('\n⚠️  Claims flagged for review - not blocking');
   process.exit(0);

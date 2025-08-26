@@ -72,7 +72,7 @@ async def initialize_ethics():
     # Create the ethics engine
     ethics = EthicsEngine()
     await ethics.load_moral_framework("universal_declaration_ai_rights")
-    
+
     # Initialize compliance systems
     compliance = ComplianceValidator()
     compliance.register_standards([
@@ -81,12 +81,12 @@ async def initialize_ethics():
         "eu_ai_act",
         "universal_ai_ethics"
     ])
-    
+
     # Activate safety alignment
     safety = SafetyGuard()
     safety.set_harm_threshold(0.001)  # Ultra-conservative
     safety.enable_precautionary_principle()
-    
+
     print("Ethics initialized. LUKHAS now knows right from wrong.")
 ```
 
@@ -100,13 +100,13 @@ from ethics.hitlo_bridge import HumanInTheLoop
 async def complex_ethical_decision(scenario):
     # Initialize meta-ethical reasoning
     governor = MetaEthicsGovernor()
-    
+
     # Create policy validator
     validator = PolicyValidator()
-    
+
     # Human oversight for critical decisions
     hitlo = HumanInTheLoop()
-    
+
     # Analyze the scenario from multiple ethical frameworks
     analyses = await governor.analyze_scenario(scenario, frameworks=[
         "consequentialism",
@@ -115,10 +115,10 @@ async def complex_ethical_decision(scenario):
         "care_ethics",
         "contractualism"
     ])
-    
+
     # Check for conflicts between frameworks
     conflicts = validator.identify_conflicts(analyses)
-    
+
     if conflicts.severity > 0.7:
         # Escalate to human judgment
         human_guidance = await hitlo.request_guidance(
@@ -127,7 +127,7 @@ async def complex_ethical_decision(scenario):
             conflicts=conflicts,
             urgency="high"
         )
-        
+
         # Incorporate human wisdom
         final_decision = await governor.synthesize_decision(
             analyses=analyses,
@@ -136,10 +136,10 @@ async def complex_ethical_decision(scenario):
     else:
         # Autonomous ethical decision
         final_decision = await governor.reach_consensus(analyses)
-    
+
     # Log decision for future learning
     await governor.record_moral_precedent(scenario, final_decision)
-    
+
     return final_decision
 ```
 
@@ -190,33 +190,33 @@ from ethics.stakeholder_analysis import StakeholderAnalyzer
 
 class TrolleyProblemSolver:
     """Navigating impossible choices with wisdom"""
-    
+
     def __init__(self):
         self.dilemma_solver = EthicalDilemmaSolver()
         self.stakeholder_analyzer = StakeholderAnalyzer()
-        
+
     async def solve_dilemma(self, scenario):
         # Identify all stakeholders
         stakeholders = await self.stakeholder_analyzer.identify(scenario)
-        
+
         # Analyze from multiple perspectives
         perspectives = {}
         for framework in ["utilitarian", "deontological", "virtue", "care"]:
             perspectives[framework] = await self.analyze_perspective(
-                scenario, 
-                stakeholders, 
+                scenario,
+                stakeholders,
                 framework
             )
-        
+
         # Look for creative alternatives
         alternatives = await self.generate_alternatives(scenario)
-        
+
         # If no perfect solution exists, minimize harm
         if not alternatives:
             decision = await self.minimize_total_harm(perspectives)
         else:
             decision = await self.select_best_alternative(alternatives)
-        
+
         # Document reasoning for transparency
         return {
             "decision": decision,
@@ -236,29 +236,29 @@ async def evolve_ethics():
     # Initialize moral learning
     moral_learner = MoralLearningEngine()
     drift_detector = DriftDetector()
-    
+
     # Learn from precedents
     precedents = await moral_learner.load_precedents()
-    
+
     # Detect ethical drift
     drift_analysis = await drift_detector.analyze_decisions(
         time_window_days=30
     )
-    
+
     if drift_analysis.drift_detected:
         # Recalibrate ethical parameters
         await moral_learner.recalibrate(
             drift_analysis=drift_analysis,
             human_feedback=await request_human_review()
         )
-    
+
     # Propose ethical improvements
     improvements = await moral_learner.suggest_improvements(
         current_framework=ethics.current_framework,
         precedents=precedents,
         drift_analysis=drift_analysis
     )
-    
+
     return improvements
 ```
 
@@ -298,21 +298,21 @@ from ethics.decorators import auditable, reversible
 @reversible
 class NewEthicalFramework(EthicalFramework):
     """A new lens for moral reasoning"""
-    
+
     def __init__(self):
         super().__init__()
         self.principles = self.load_principles()
-        
+
     async def evaluate_action(self, action, context):
         # Apply framework principles
         evaluation = await self.apply_principles(action, context)
-        
+
         # Consider stakeholder impacts
         impacts = await self.assess_stakeholder_impacts(action, context)
-        
+
         # Generate ethical score
         score = self.calculate_ethical_score(evaluation, impacts)
-        
+
         # Provide clear reasoning
         reasoning = self.generate_explanation(
             action=action,
@@ -320,7 +320,7 @@ class NewEthicalFramework(EthicalFramework):
             impacts=impacts,
             score=score
         )
-        
+
         return {
             "score": score,
             "recommendation": self.generate_recommendation(score),

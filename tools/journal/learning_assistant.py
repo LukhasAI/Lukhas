@@ -91,7 +91,7 @@ class LearningAssistant:
             "dream_recall": "Multiverse exploration for learning from unexperienced scenarios",
             "consciousness_level": "Measure of system awareness and self-reflection capability",
             "bio_symbolic_coherence": "Alignment between biological and symbolic processing >100%",
-            "quantum_coherence": "Quantum-inspired parallel processing capabilities",
+            "qi_coherence": "Quantum-inspired parallel processing capabilities",
             "glyph": "Symbolic tokens for cross-module communication",
             "emotional_vector": "Multi-dimensional representation of emotional state",
             "guardian_system": "Ethical oversight and validation system",
@@ -472,7 +472,7 @@ class LearningAssistant:
                         "reason": "Deep dive into memory_fold implementation",
                     }
                 )
-            elif concept == "quantum_coherence":
+            elif concept == "qi_coherence":
                 resources.append(
                     {
                         "type": "internal",

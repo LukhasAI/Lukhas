@@ -15,7 +15,7 @@ from bio.oscillator import PrimeOscillator
 from candidate.core.colonies.base_colony import BaseColony
 from candidate.core.efficient_communication import MessagePriority
 from candidate.core.swarm import SwarmAgent
-from qi.quantum_layer import QIBioOscillator
+from qi.qi_layer import QIBioOscillator
 
 logger = logging.getLogger(__name__)
 
@@ -237,10 +237,10 @@ class QIColony(BaseColony):
     def __init__(self, colony_id: str):
         super().__init__(
             colony_id,
-            capabilities=["quantum_processing", "entanglement", "superposition"],
+            capabilities=["qi_processing", "entanglement", "superposition"],
         )
         self.logger = logging.getLogger(f"{__name__}.{colony_id}")
-        self.quantum_oscillators: dict[str, QIBioOscillator] = {}
+        self.qi_oscillators: dict[str, QIBioOscillator] = {}
         self.entanglement_graph: dict[str, list[str]] = {}
         self.coherence_threshold = 0.3
         self.max_entanglement_distance = 5
@@ -254,11 +254,11 @@ class QIColony(BaseColony):
 
         # Subscribe to quantum events
         self.comm_fabric.subscribe_to_events(
-            "quantum_task_request", self._handle_quantum_request
+            "qi_task_request", self._handle_quantum_request
         )
 
         self.logger.info(
-            f"QuantumColony {self.colony_id} started with quantum capabilities"
+            f"QIColony {self.colony_id} started with quantum capabilities"
         )
 
     async def _initialize_quantum_agents(self, count: int = 5):
@@ -269,9 +269,9 @@ class QIColony(BaseColony):
                 frequency=PrimeOscillator.PRIMES[i % len(PrimeOscillator.PRIMES)]
             )
 
-            agent = QuantumAgent(agent_id, oscillator)
+            agent = QIAgent(agent_id, oscillator)
             self.agents[agent_id] = agent
-            self.quantum_oscillators[agent_id] = oscillator
+            self.qi_oscillators[agent_id] = oscillator
 
         self.logger.info(f"Initialized {count} quantum agents")
 
@@ -289,9 +289,9 @@ class QIColony(BaseColony):
                 ]
             )
 
-            agent = QuantumAgent(agent_id, oscillator)
+            agent = QIAgent(agent_id, oscillator)
             self.agents[agent_id] = agent
-            self.quantum_oscillators[agent_id] = oscillator
+            self.qi_oscillators[agent_id] = oscillator
             agent_ids.append(agent_id)
 
         # Create entanglement
@@ -301,7 +301,7 @@ class QIColony(BaseColony):
 
             # Set entanglement in agent
             agent = self.agents[agent_id]
-            if isinstance(agent, QuantumAgent):
+            if isinstance(agent, QIAgent):
                 await agent._create_entanglement(
                     {
                         "partners": partners,
@@ -320,7 +320,7 @@ class QIColony(BaseColony):
 
         if algorithm == "grover_search":
             return await self._grover_search(params)
-        elif algorithm == "quantum_annealing":
+        elif algorithm == "qi_annealing":
             return await self._quantum_annealing(params)
         elif algorithm == "vqe":  # Variational Quantum Eigensolver
             return await self._vqe_algorithm(params)
@@ -401,7 +401,7 @@ class QIColony(BaseColony):
                         best_cost = current_cost
 
         return {
-            "algorithm": "quantum_annealing",
+            "algorithm": "qi_annealing",
             "best_state": best_state,
             "best_cost": best_cost,
             "final_temperature": temperature_schedule[-1],
@@ -482,9 +482,9 @@ class QIColony(BaseColony):
         agent_tasks = []
 
         for agent_id, agent in self.agents.items():
-            if isinstance(agent, QuantumAgent):
+            if isinstance(agent, QIAgent):
                 task = {
-                    "type": "quantum_compute",
+                    "type": "qi_compute",
                     "algorithm": algorithm,
                     "params": params,
                     "agent_id": agent_id,
@@ -510,7 +510,7 @@ class QIColony(BaseColony):
 
         for agent_id, _partners in self.entanglement_graph.items():
             agent = self.agents.get(agent_id)
-            if isinstance(agent, QuantumAgent):
+            if isinstance(agent, QIAgent):
                 strength = agent.qi_state.entanglement_strength
                 coherence = agent.qi_state.coherence
 
@@ -525,14 +525,14 @@ class QIColony(BaseColony):
         low_coherence_agents = []
 
         for agent_id, agent in self.agents.items():
-            if isinstance(agent, QuantumAgent):
+            if isinstance(agent, QIAgent):
                 if agent.qi_state.coherence < self.coherence_threshold:
                     low_coherence_agents.append(agent_id)
 
         # Re-initialize low coherence agents
         for agent_id in low_coherence_agents:
             agent = self.agents[agent_id]
-            if isinstance(agent, QuantumAgent):
+            if isinstance(agent, QIAgent):
                 # Reset quantum state
                 agent.qi_state = QIState()
 
@@ -667,7 +667,7 @@ class QIColony(BaseColony):
 
             # Send response
             await self.comm_fabric.send_message(
-                message.sender_id, "quantum_result", result, MessagePriority.HIGH
+                message.sender_id, "qi_result", result, MessagePriority.HIGH
             )
         except Exception as e:
             self.logger.error(f"Quantum computation failed: {e}")
@@ -675,7 +675,7 @@ class QIColony(BaseColony):
             error_response = {"error": str(e), "algorithm": algorithm}
 
             await self.comm_fabric.send_message(
-                message.sender_id, "quantum_error", error_response, MessagePriority.HIGH
+                message.sender_id, "qi_error", error_response, MessagePriority.HIGH
             )
 
 
@@ -684,7 +684,7 @@ async def demo_quantum_colony():
     """Demonstrate quantum colony capabilities."""
 
     # Create quantum colony
-    colony = QuantumColony("quantum-research")
+    colony = QIColony("quantum-research")
     await colony.start()
 
     try:
@@ -709,7 +709,7 @@ async def demo_quantum_colony():
             return (x - 3) ** 2 + (y - 4) ** 2
 
         annealing_result = await colony.execute_quantum_algorithm(
-            "quantum_annealing",
+            "qi_annealing",
             {
                 "cost_function": cost_function,
                 "initial_state": {"x": 0, "y": 0},

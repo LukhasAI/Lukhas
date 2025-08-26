@@ -18,7 +18,7 @@ import time
 from pathlib import Path
 from typing import Any, Optional
 
-from qrg_core import ConsciousnessContext, QuantumResonanceGlyph
+from qrg_core import ConsciousnessContext, QIResonanceGlyph
 from system_bridge import (
     LambdaIdIntegration,
     LukhasAccessTier,
@@ -70,8 +70,8 @@ class QRGDemo:
         )
 
         # Initialize QRG systems
-        self.qrg = QuantumResonanceGlyph()
-        self.quantum_entropy = TrueQuantumRandomness()
+        self.qrg = QIResonanceGlyph()
+        self.qi_entropy = TrueQuantumRandomness()
         self.lukhas_bridge = LambdaIdIntegration()
 
         # Demo state
@@ -377,7 +377,7 @@ class QRGDemo:
         # Generate quantum bytes
         entropy_profile = EntropyProfile(
             bits_required=256,
-            quality_level="quantum_grade",
+            quality_level="qi_grade",
             bias_correction=True,
             von_neumann_extraction=True,
             chi_squared_validation=True,
@@ -385,17 +385,17 @@ class QRGDemo:
 
         print("\n🔸 Generating quantum entropy...")
         start_time = time.time()
-        quantum_bytes = self.quantum_entropy.generate_quantum_bytes(32, entropy_profile)
+        qi_bytes = self.qi_entropy.generate_quantum_bytes(32, entropy_profile)
         generation_time = time.time() - start_time
 
         print(
-            f"   ⚛️ Generated {len(quantum_bytes)} quantum bytes in {generation_time:.4f}s"
+            f"   ⚛️ Generated {len(qi_bytes)} quantum bytes in {generation_time:.4f}s"
         )
-        print(f"   📊 Hex representation: {quantum_bytes.hex()}")
+        print(f"   📊 Hex representation: {qi_bytes.hex()}")
 
         # Quality analysis
         print("\n🔸 Entropy quality analysis:")
-        quality_report = self.quantum_entropy.get_entropy_quality_report()
+        quality_report = self.qi_entropy.get_entropy_quality_report()
 
         print(f"   🎯 Entropy source: {quality_report['entropy_source']}")
         print(f"   💾 Pool size: {quality_report['pool_size']} bytes")
@@ -448,7 +448,7 @@ class QRGDemo:
 
         # WΛLLET Integration
         print("\n🔸 WΛLLET Quantum Vault Integration...")
-        vault_permissions = ["identity_storage", "quantum_backup", "cross_device_sync"]
+        vault_permissions = ["identity_storage", "qi_backup", "cross_device_sync"]
 
         wallet_result = self.lukhas_bridge.integrate_with_wallet_vault(
             self.current_identity, vault_permissions
@@ -488,13 +488,13 @@ class QRGDemo:
             identity="demo_holographic",
             spatial_dimensions=3,
             consciousness_layer=self.layer,
-            quantum_entanglement=True,
+            qi_entanglement=True,
         )
 
         print("\n🔸 Holographic QRG Generated:")
         print(f"   📐 Spatial dimensions: {holographic_data['spatial_dimensions']}")
         print(f"   🎭 Consciousness layer: {holographic_data['consciousness_layer']}")
-        print(f"   ⚛️ Quantum entangled: {holographic_data['quantum_entangled']}")
+        print(f"   ⚛️ Quantum entangled: {holographic_data['qi_entangled']}")
 
         projection_matrices = holographic_data["projection_matrices"]
         print(f"   🎬 Projection layers: {len(projection_matrices)}")
@@ -566,7 +566,7 @@ class QRGDemo:
 
         # Entropy quality
         print("\n🔸 Quantum Entropy Quality:")
-        quality_report = self.quantum_entropy.get_entropy_quality_report()
+        quality_report = self.qi_entropy.get_entropy_quality_report()
         print(f"   📊 Source: {quality_report['entropy_source']}")
         print(f"   💾 Pool: {quality_report['pool_size']} bytes")
 
@@ -688,7 +688,7 @@ class QRGDemo:
         """Display QRG glyph information"""
         print("\n📋 QRG Details:")
         print(f"   🔮 Glyph ID: {glyph.glyph_id}")
-        print(f"   ⚛️ Quantum signature: {glyph.quantum_signature[:32]}...")
+        print(f"   ⚛️ Quantum signature: {glyph.qi_signature[:32]}...")
         print(f"   🧠 Consciousness fingerprint: {glyph.consciousness_fingerprint}")
         print(f"   📐 Visual matrix: {glyph.visual_matrix.shape}")
         print(f"   🎬 Animation frames: {len(glyph.animation_frames)}")
@@ -739,12 +739,12 @@ def run_batch_demo(layer: str, security_tier: int):
 
     # Demonstrate quantum entropy
     print("\n🔸 Testing quantum entropy...")
-    quantum_bytes = demo.quantum_entropy.generate_quantum_bytes(16)
-    print(f"   ⚛️ Quantum bytes: {quantum_bytes.hex()}")
+    qi_bytes = demo.qi_entropy.generate_quantum_bytes(16)
+    print(f"   ⚛️ Quantum bytes: {qi_bytes.hex()}")
 
     # Show system status
     print("\n🔸 System status:")
-    quality_report = demo.quantum_entropy.get_entropy_quality_report()
+    quality_report = demo.qi_entropy.get_entropy_quality_report()
     print(f"   📊 Entropy source: {quality_report['entropy_source']}")
     print(f"   💾 Pool size: {quality_report['pool_size']} bytes")
 

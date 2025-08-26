@@ -78,7 +78,7 @@ class GlyphTimelineGenerator:
             "t1_user_001",
             "t3_user_002",
             "t5_user_003",
-            "quantum_master",
+            "qi_master",
             "test_attacker",
         ]
         tiers = ["T1", "T2", "T3", "T4", "T5"]

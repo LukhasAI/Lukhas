@@ -6,14 +6,15 @@ Implements enterprise-grade auto-scaling for 10,000+ concurrent users
 Ensures <50ms p95 latency under variable load conditions
 """
 
-import os
-import yaml
 import json
 import logging
-from typing import Dict, List, Optional, Any, Union
-from dataclasses import dataclass, asdict
+import os
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
+import yaml
 
 logger = logging.getLogger(__name__)
 
@@ -63,24 +64,24 @@ class T4ScalingConfig:
     """T4 Enterprise scaling configuration"""
     environment: str = "production"
     tier: str = "T4_ENTERPRISE_PREMIUM"
-    
+
     # Sam Altman (Scale) requirements
     max_concurrent_users: int = 10000
     target_latency_p95_ms: float = 50.0
     target_latency_p99_ms: float = 100.0
     target_cpu_utilization: float = 70.0
     target_memory_utilization: float = 80.0
-    
+
     # Scaling boundaries
     min_instances: int = 3  # Minimum for high availability
     max_instances: int = 100  # Enterprise scale limit
     default_instances: int = 5
-    
+
     # Enterprise features
     multi_region: bool = True
     predictive_scaling: bool = True
     advanced_monitoring: bool = True
-    
+
     scaling_actions: List[ScalingAction] = None
 
 class T4AutoScalingManager:
@@ -88,24 +89,24 @@ class T4AutoScalingManager:
     T4 Enterprise Premium Auto-Scaling Manager
     Implements Sam Altman (Scale) standards for enterprise deployment
     """
-    
+
     def __init__(self, config: T4ScalingConfig):
         """
         Initialize T4 auto-scaling manager
-        
+
         Args:
             config: T4ScalingConfig with scaling parameters
         """
         self.config = config
-        
+
         if not self.config.scaling_actions:
             self.config.scaling_actions = self._create_default_scaling_actions()
-            
+
         logger.info(f"T4 Auto-Scaling Manager initialized for {config.environment}")
 
     def _create_default_scaling_actions(self) -> List[ScalingAction]:
         """Create default scaling actions for T4 enterprise"""
-        
+
         # Latency-based scaling (Sam Altman priority)
         latency_metric = ScalingMetric(
             name="api_latency_p95",
@@ -117,7 +118,7 @@ class T4AutoScalingManager:
             datapoints_to_alarm=2,
             cooldown_period_seconds=180  # Fast response for latency
         )
-        
+
         latency_action = ScalingAction(
             metric=latency_metric,
             policy=ScalingPolicy.TARGET_TRACKING,
@@ -128,7 +129,7 @@ class T4AutoScalingManager:
             scale_down_increment=1,
             warmup_time_seconds=120  # Fast warmup for latency issues
         )
-        
+
         # CPU utilization scaling
         cpu_metric = ScalingMetric(
             name="cpu_utilization",
@@ -140,7 +141,7 @@ class T4AutoScalingManager:
             datapoints_to_alarm=2,
             cooldown_period_seconds=300
         )
-        
+
         cpu_action = ScalingAction(
             metric=cpu_metric,
             policy=ScalingPolicy.TARGET_TRACKING,
@@ -151,7 +152,7 @@ class T4AutoScalingManager:
             scale_down_increment=1,
             warmup_time_seconds=300
         )
-        
+
         # Memory utilization scaling
         memory_metric = ScalingMetric(
             name="memory_utilization",
@@ -163,7 +164,7 @@ class T4AutoScalingManager:
             datapoints_to_alarm=2,
             cooldown_period_seconds=300
         )
-        
+
         memory_action = ScalingAction(
             metric=memory_metric,
             policy=ScalingPolicy.TARGET_TRACKING,
@@ -174,7 +175,7 @@ class T4AutoScalingManager:
             scale_down_increment=1,
             warmup_time_seconds=300
         )
-        
+
         # Concurrent users scaling (enterprise capacity)
         users_metric = ScalingMetric(
             name="concurrent_users",
@@ -186,7 +187,7 @@ class T4AutoScalingManager:
             datapoints_to_alarm=1,  # Fast response for user load
             cooldown_period_seconds=120
         )
-        
+
         users_action = ScalingAction(
             metric=users_metric,
             policy=ScalingPolicy.PREDICTIVE_SCALING if self.config.predictive_scaling else ScalingPolicy.TARGET_TRACKING,
@@ -197,7 +198,7 @@ class T4AutoScalingManager:
             scale_down_increment=1,
             warmup_time_seconds=180
         )
-        
+
         # Request rate scaling
         rate_metric = ScalingMetric(
             name="request_rate_per_instance",
@@ -209,7 +210,7 @@ class T4AutoScalingManager:
             datapoints_to_alarm=2,
             cooldown_period_seconds=240
         )
-        
+
         rate_action = ScalingAction(
             metric=rate_metric,
             policy=ScalingPolicy.TARGET_TRACKING,
@@ -220,13 +221,13 @@ class T4AutoScalingManager:
             scale_down_increment=1,
             warmup_time_seconds=240
         )
-        
+
         return [latency_action, cpu_action, memory_action, users_action, rate_action]
 
     def generate_kubernetes_config(self) -> Dict[str, Any]:
         """
         Generate Kubernetes Horizontal Pod Autoscaler (HPA) configuration
-        
+
         Returns:
             Kubernetes HPA configuration dictionary
         """
@@ -245,7 +246,7 @@ class T4AutoScalingManager:
             "spec": {
                 "scaleTargetRef": {
                     "apiVersion": "apps/v1",
-                    "kind": "Deployment", 
+                    "kind": "Deployment",
                     "name": "lukhas-ai-deployment"
                 },
                 "minReplicas": self.config.min_instances,
@@ -281,20 +282,20 @@ class T4AutoScalingManager:
                 }
             }
         }
-        
+
         # Add metrics from scaling actions
         for action in self.config.scaling_actions:
             metric_config = self._generate_k8s_metric(action)
             if metric_config:
                 hpa_config["spec"]["metrics"].append(metric_config)
-        
+
         return hpa_config
 
     def _generate_k8s_metric(self, action: ScalingAction) -> Optional[Dict[str, Any]]:
         """Generate Kubernetes metric configuration from scaling action"""
-        
+
         trigger = action.metric.trigger
-        
+
         if trigger == ScalingTrigger.CPU_UTILIZATION:
             return {
                 "type": "Resource",
@@ -306,19 +307,19 @@ class T4AutoScalingManager:
                     }
                 }
             }
-        
+
         elif trigger == ScalingTrigger.MEMORY_UTILIZATION:
             return {
                 "type": "Resource",
                 "resource": {
                     "name": "memory",
                     "target": {
-                        "type": "Utilization", 
+                        "type": "Utilization",
                         "averageUtilization": int(action.metric.target_value)
                     }
                 }
             }
-        
+
         elif trigger == ScalingTrigger.REQUEST_LATENCY:
             return {
                 "type": "Pods",
@@ -332,7 +333,7 @@ class T4AutoScalingManager:
                     }
                 }
             }
-        
+
         elif trigger == ScalingTrigger.REQUEST_RATE:
             return {
                 "type": "Pods",
@@ -346,7 +347,7 @@ class T4AutoScalingManager:
                     }
                 }
             }
-        
+
         elif trigger == ScalingTrigger.CONCURRENT_USERS:
             return {
                 "type": "Object",
@@ -365,13 +366,13 @@ class T4AutoScalingManager:
                     }
                 }
             }
-        
+
         return None
 
     def generate_azure_config(self) -> Dict[str, Any]:
         """
         Generate Azure Container Apps auto-scaling configuration
-        
+
         Returns:
             Azure Container Apps scaling configuration
         """
@@ -400,7 +401,7 @@ class T4AutoScalingManager:
                                     "value": "T4_ENTERPRISE_PREMIUM"
                                 },
                                 {
-                                    "name": "LUKHAS_MAX_CONCURRENT_USERS", 
+                                    "name": "LUKHAS_MAX_CONCURRENT_USERS",
                                     "value": str(self.config.max_concurrent_users)
                                 },
                                 {
@@ -418,20 +419,20 @@ class T4AutoScalingManager:
                 }
             }
         }
-        
+
         # Add scaling rules
         for action in self.config.scaling_actions:
             rule = self._generate_azure_scaling_rule(action)
             if rule:
                 azure_config["properties"]["template"]["scale"]["rules"].append(rule)
-        
+
         return azure_config
 
     def _generate_azure_scaling_rule(self, action: ScalingAction) -> Optional[Dict[str, Any]]:
         """Generate Azure Container Apps scaling rule"""
-        
+
         trigger = action.metric.trigger
-        
+
         if trigger == ScalingTrigger.CPU_UTILIZATION:
             return {
                 "name": "cpu-scaling-rule",
@@ -443,7 +444,7 @@ class T4AutoScalingManager:
                     }
                 }
             }
-        
+
         elif trigger == ScalingTrigger.MEMORY_UTILIZATION:
             return {
                 "name": "memory-scaling-rule",
@@ -455,7 +456,7 @@ class T4AutoScalingManager:
                     }
                 }
             }
-        
+
         elif trigger == ScalingTrigger.REQUEST_RATE:
             return {
                 "name": "http-requests-rule",
@@ -465,13 +466,13 @@ class T4AutoScalingManager:
                     }
                 }
             }
-        
+
         return None
 
     def generate_monitoring_config(self) -> Dict[str, Any]:
         """
         Generate monitoring configuration for auto-scaling
-        
+
         Returns:
             Monitoring configuration dictionary
         """
@@ -482,27 +483,27 @@ class T4AutoScalingManager:
                     "tier": self.config.tier,
                     "environment": self.config.environment
                 },
-                
+
                 "metrics_collection": {
                     "interval_seconds": 30,
                     "retention_days": 90,  # Enterprise retention
                     "export_to_datadog": True,
                     "export_to_prometheus": True
                 },
-                
+
                 "scaling_metrics": [],
-                
+
                 "alerts": {
                     "scaling_events": True,
                     "capacity_warnings": True,
                     "sla_violations": True,
                     "notification_channels": [
                         "datadog",
-                        "sentry", 
+                        "sentry",
                         "pagerduty"
                     ]
                 },
-                
+
                 "dashboards": {
                     "auto_scaling_dashboard": True,
                     "capacity_planning": True,
@@ -510,7 +511,7 @@ class T4AutoScalingManager:
                 }
             }
         }
-        
+
         # Add monitoring for each scaling metric
         for action in self.config.scaling_actions:
             metric_config = {
@@ -525,23 +526,23 @@ class T4AutoScalingManager:
                 "cooldown_seconds": action.metric.cooldown_period_seconds
             }
             monitoring_config["t4_enterprise_monitoring"]["scaling_metrics"].append(metric_config)
-        
+
         return monitoring_config
 
     def export_configurations(self, output_dir: str = "enterprise/deployment") -> Dict[str, str]:
         """
         Export all auto-scaling configurations to files
-        
+
         Args:
             output_dir: Directory to save configuration files
-            
+
         Returns:
             Dictionary mapping configuration type to filename
         """
         os.makedirs(output_dir, exist_ok=True)
-        
+
         exported_files = {}
-        
+
         try:
             # Kubernetes HPA configuration
             k8s_config = self.generate_kubernetes_config()
@@ -549,21 +550,21 @@ class T4AutoScalingManager:
             with open(k8s_file, 'w') as f:
                 yaml.dump(k8s_config, f, default_flow_style=False, indent=2)
             exported_files["kubernetes"] = k8s_file
-            
+
             # Azure Container Apps configuration
             azure_config = self.generate_azure_config()
             azure_file = os.path.join(output_dir, "t4-enterprise-azure-scaling.json")
             with open(azure_file, 'w') as f:
                 json.dump(azure_config, f, indent=2)
             exported_files["azure"] = azure_file
-            
+
             # Monitoring configuration
             monitoring_config = self.generate_monitoring_config()
             monitoring_file = os.path.join(output_dir, "t4-enterprise-monitoring.yaml")
             with open(monitoring_file, 'w') as f:
                 yaml.dump(monitoring_config, f, default_flow_style=False, indent=2)
             exported_files["monitoring"] = monitoring_file
-            
+
             # Summary configuration
             summary = {
                 "t4_enterprise_auto_scaling": {
@@ -580,15 +581,15 @@ class T4AutoScalingManager:
                     "exported_files": exported_files
                 }
             }
-            
+
             summary_file = os.path.join(output_dir, "t4-enterprise-scaling-summary.yaml")
             with open(summary_file, 'w') as f:
                 yaml.dump(summary, f, default_flow_style=False, indent=2)
             exported_files["summary"] = summary_file
-            
+
             logger.info(f"T4 auto-scaling configurations exported to: {output_dir}")
             return exported_files
-            
+
         except Exception as e:
             logger.error(f"Failed to export auto-scaling configurations: {e}")
             return {}
@@ -609,23 +610,23 @@ if __name__ == "__main__":
         predictive_scaling=True,
         advanced_monitoring=True
     )
-    
+
     # Initialize auto-scaling manager
     scaling_manager = T4AutoScalingManager(t4_config)
-    
+
     print("🚀 T4 Enterprise Auto-Scaling Configuration Generator")
     print("   Sam Altman (Scale) Standards Implementation")
     print(f"   Target: {t4_config.max_concurrent_users:,} concurrent users")
     print(f"   Latency: <{t4_config.target_latency_p95_ms}ms p95")
     print(f"   Scaling: {t4_config.min_instances}-{t4_config.max_instances} instances")
     print("")
-    
+
     # Export all configurations
     exported = scaling_manager.export_configurations()
-    
+
     print("📄 Generated Configuration Files:")
     for config_type, filepath in exported.items():
         print(f"   {config_type.capitalize()}: {filepath}")
-    
+
     print("\n✅ T4 Enterprise auto-scaling configurations generated successfully")
     print("   Ready for deployment to Kubernetes or Azure Container Apps")

@@ -5,7 +5,7 @@ system:
   name: "LUKHAS-AGI"
   version: "2.0.0"
   environment: "production"
-  
+
 # Core AGI Settings
 agi:
   self_improvement:
@@ -13,13 +13,13 @@ agi:
     learning_rate: 0.01
     improvement_cycle_minutes: 60
     max_concurrent_goals: 10
-    
+
   autonomous_learning:
     enabled: true
     curiosity_level: 0.7
     risk_tolerance: 0.5
     knowledge_validation_threshold: 0.6
-    
+
   goal_alignment:
     enabled: true
     core_values:
@@ -28,104 +28,104 @@ agi:
       autonomy: 0.8
       justice: 0.9
       transparency: 0.9
-      
+
   consciousness:
     coherence_threshold: 0.7
     awareness_update_hz: 10
     reflection_depth: 5
     stream_enabled: true
     stream_port: 8888
-    
+
 # Performance Settings
 performance:
   max_workers: 16
   batch_size: 32
   cache_size_mb: 2048
-  
+
   optimization:
     jit_compilation: true
     parallel_processing: true
     gpu_acceleration: true
-    
+
 # Memory Configuration
 memory:
   storage_backend: "quantum"
   max_memory_gb: 64
-  
+
   episodic:
     retention_days: 365
     compression_enabled: true
-    
+
   fold_system:
     max_folds: 1000
     fold_threshold: 0.8
-    
+
 # Security Settings
 security:
   encryption:
     algorithm: "AES-256-GCM"
     key_rotation_days: 30
-    
+
   authentication:
     method: "mutual_tls"
     token_expiry_hours: 24
-    
+
   rate_limiting:
     requests_per_minute: 1000
     burst_size: 100
-    
+
   audit:
     enabled: true
     retention_days: 90
-    
+
 # Monitoring & Telemetry
 telemetry:
   enabled: true
-  
+
   metrics:
     retention_hours: 168  # 7 days
     aggregation_interval_seconds: 60
-    
+
   alerts:
     email_enabled: true
     webhook_url: "${ALERT_WEBHOOK_URL}"
-    
+
   exporters:
     - type: "prometheus"
       endpoint: "http://prometheus:9090"
     - type: "cloudwatch"
       region: "us-west-2"
-      
+
 # API Configuration
 api:
   host: "0.0.0.0"
   port: 8080
-  
+
   cors:
     enabled: true
     allowed_origins: ["https://*.lukhas.ai"]
-    
+
   rate_limits:
     dream_generation: 100
     memory_operations: 1000
     consciousness_queries: 500
-    
+
 # Deployment Settings
 deployment:
   replicas: 3
-  
+
   resources:
     cpu_request: "4"
     cpu_limit: "8"
     memory_request: "16Gi"
     memory_limit: "32Gi"
-    
+
   autoscaling:
     enabled: true
     min_replicas: 3
     max_replicas: 10
     target_cpu_utilization: 70
-    
+
   health_checks:
     liveness_probe:
       path: "/health/live"
@@ -133,62 +133,62 @@ deployment:
     readiness_probe:
       path: "/health/ready"
       interval_seconds: 10
-      
+
 # Feature Flags
 features:
   personality_enhancement: true
   quantum_processing: true
   adversarial_learning: true
   emergent_behavior_detection: true
-  
+
 # Logging
 logging:
   level: "INFO"
   format: "json"
-  
+
   outputs:
     - type: "stdout"
     - type: "file"
       path: "/var/log/lukhas/agi.log"
       rotation: "daily"
       retention_days: 30
-      
+
 # Database Configuration
 database:
   type: "postgresql"
-  
+
   connection:
     host: "${DB_HOST}"
     port: 5432
     database: "lukhas_agi"
     ssl_mode: "require"
-    
+
   pool:
     min_connections: 10
     max_connections: 100
-    
+
 # Cache Configuration
 cache:
   type: "redis_cluster"
-  
+
   nodes:
     - "${REDIS_NODE_1}"
     - "${REDIS_NODE_2}"
     - "${REDIS_NODE_3}"
-    
+
   options:
     password: "${REDIS_PASSWORD}"
     ssl: true
-    
+
 # Message Queue
 queue:
   type: "kafka"
-  
+
   brokers:
     - "${KAFKA_BROKER_1}"
     - "${KAFKA_BROKER_2}"
     - "${KAFKA_BROKER_3}"
-    
+
   topics:
     consciousness_stream: "lukhas.consciousness.stream"
     learning_events: "lukhas.learning.events"

@@ -1,4 +1,4 @@
-import fs from 'node:fs'; 
+import fs from 'node:fs';
 import path from 'node:path';
 
 function fkGrade(text){
@@ -11,51 +11,51 @@ function fkGrade(text){
 let fail = false;
 function checkFile(p){
   const t = fs.readFileSync(p,'utf8');
-  
+
   // Poetic blocks  look for data-tone="poetic"
   const poeticBlocks = t.match(/data-tone=["']poetic["'][^>]*>([\s\S]*?)<\/(section|div)>/gi) || [];
   for(const b of poeticBlocks){
     const text = b.replace(/<[^>]+>/g,' ').trim();
     const words = text.split(/\s+/).filter(Boolean).length;
-    if(words>40){ 
-      console.error(`L Poetic >40 words: ${p} (${words} words)`); 
-      fail = true; 
+    if(words>40){
+      console.error(`L Poetic >40 words: ${p} (${words} words)`);
+      fail = true;
     }
-    if(/\b(guarantee[sd]?|perfect|flawless|zero-?risk|endorsed|certified|revolutionary)\b/i.test(b)){ 
-      console.error(`L Poetic contains banned claims: ${p}`); 
-      fail = true; 
+    if(/\b(guarantee[sd]?|perfect|flawless|zero-?risk|endorsed|certified|revolutionary)\b/i.test(b)){
+      console.error(`L Poetic contains banned claims: ${p}`);
+      fail = true;
     }
   }
-  
+
   // Plain blocks  data-tone="plain"
   const plainBlocks = t.match(/data-tone=["']plain["'][^>]*>([\s\S]*?)<\/(section|div)>/gi) || [];
   for(const b of plainBlocks){
     const text = b.replace(/<[^>]+>/g,' ').trim();
     const grade = fkGrade(text);
-    if(grade>8){ 
-      console.error(`L Plain grade ${grade.toFixed(1)} (>8): ${p}`); 
-      fail = true; 
+    if(grade>8){
+      console.error(`L Plain grade ${grade.toFixed(1)} (>8): ${p}`);
+      fail = true;
     }
   }
-  
+
   // Technical blocks  require 'Limits' and 'Dependencies' mentions
   const techBlocks = t.match(/data-tone=["']technical["'][^>]*>([\s\S]*?)<\/(section|div)>/gi) || [];
   for(const b of techBlocks){
-    if(!/limit/i.test(b) || !/dependenc/i.test(b)){ 
-      console.error(`L Technical lacks limits/dependencies: ${p}`); 
-      fail = true; 
+    if(!/limit/i.test(b) || !/dependenc/i.test(b)){
+      console.error(`L Technical lacks limits/dependencies: ${p}`);
+      fail = true;
     }
   }
 }
 
 console.log('Scanning tone compliance...');
 ['branding','lukhas_website','docs'].filter(fs.existsSync).forEach(root=>{
-  (function walk(dir){ 
-    for(const f of fs.readdirSync(dir)){ 
-      const p = path.join(dir,f); 
+  (function walk(dir){
+    for(const f of fs.readdirSync(dir)){
+      const p = path.join(dir,f);
       const st = fs.statSync(p);
       if(st.isDirectory()) {
-        walk(p); 
+        walk(p);
       } else if(/\.(mdx?|tsx?|jsx?|html)$/i.test(p)) {
         checkFile(p);
       }

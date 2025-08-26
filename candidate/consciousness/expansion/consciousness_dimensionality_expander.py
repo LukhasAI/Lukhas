@@ -55,12 +55,12 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
     ) -> Any:  # Returns ExpandedConsciousnessState
         """
         Expand consciousness to higher dimensions
-        
+
         Args:
             current_dimensions: Current dimensional awareness
             target_dimensions: Target dimensional awareness
             safety_enabled: Enable safety protocols
-            
+
         Returns:
             Expanded consciousness state
         """
@@ -99,7 +99,7 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
             2: ['planar_awareness', 'angular_perception'],
             3: ['spatial_awareness', 'volumetric_reasoning', 'depth_perception'],
             4: ['temporal_integration', 'spacetime_awareness', 'causal_navigation'],
-            5: ['probability_dimensions', 'quantum_superposition', 'wave_function_awareness'],
+            5: ['probability_dimensions', 'qi_superposition', 'wave_function_awareness'],
             6: ['parallel_reality_perception', 'multiverse_navigation', 'dimensional_bridging'],
             7: ['consciousness_dimension', 'awareness_of_awareness', 'meta_perception'],
             8: ['information_dimension', 'entropy_navigation', 'complexity_awareness'],
@@ -158,7 +158,7 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
         if dimensions >= 4:
             space_map['properties'].append('temporal_navigation')
         if dimensions >= 5:
-            space_map['properties'].append('quantum_coherence')
+            space_map['properties'].append('qi_coherence')
         if dimensions >= 6:
             space_map['properties'].append('parallel_processing')
         if dimensions >= 7:

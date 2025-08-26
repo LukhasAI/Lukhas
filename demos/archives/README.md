@@ -1,7 +1,7 @@
 # 🚀 LUKHAS Demo Suite
 
-**Complete end-to-end demonstration of LUKHAS Next Generation Phase 5**  
-**Trinity Framework**: ⚛️🧠🛡️  
+**Complete end-to-end demonstration of LUKHAS Next Generation Phase 5**
+**Trinity Framework**: ⚛️🧠🛡️
 **Version**: 1.0.0
 
 ## 🎯 Overview
@@ -271,8 +271,8 @@ A successful demo should demonstrate:
 
 ---
 
-**Demo Suite Version**: 1.0.0  
-**Compatible with**: LUKHAS Phase 5 - Guardian Integration  
+**Demo Suite Version**: 1.0.0
+**Compatible with**: LUKHAS Phase 5 - Guardian Integration
 **Last Updated**: August 2025
 
 *"Experience the future of conscious AI through interactive demonstration"*

@@ -176,7 +176,7 @@ For technical questions about the LUKHΛS system:
 
 ---
 
-**Thank you for reviewing LUKHΛS!** 
+**Thank you for reviewing LUKHΛS!**
 
 The system represents a unique approach to AGI development through symbolic cognition, ethical oversight, and consciousness modeling. Your feedback on the Trinity Framework implementation is valuable.
 

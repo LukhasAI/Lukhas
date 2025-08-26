@@ -3,11 +3,11 @@
 export default function EmptyCanvas() {
   return (
     <div style={{
-      display: "grid", 
-      placeItems: "center", 
-      height: 360, 
-      border: "1px dashed var(--line2)", 
-      borderRadius: 16, 
+      display: "grid",
+      placeItems: "center",
+      height: 360,
+      border: "1px dashed var(--line2)",
+      borderRadius: 16,
       background: "rgba(16,20,29,.35)"
     }}>
       <div style={{ textAlign: "center" }}>

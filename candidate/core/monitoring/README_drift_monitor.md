@@ -151,17 +151,17 @@ config = {
         'cascade_threshold': 0.85,
         'entropy_decay_rate': 0.05
     },
-    
+
     # Ethical monitoring
     'ethical_interval': 0.5,  # seconds
     'violation_retention': 1000,
-    
+
     # Harmonizer settings
     'harmonizer_threshold': 0.2,
-    
+
     # Monitoring settings
     'monitoring_interval': 1.0,  # seconds
-    
+
     # Drift computation weights
     'drift_weights': {
         'symbolic': 0.30,
@@ -170,7 +170,7 @@ config = {
         'temporal': 0.15,
         'entropy': 0.10
     },
-    
+
     # Intervention thresholds
     'intervention_thresholds': {
         'soft': 0.3,
@@ -214,7 +214,7 @@ monitor.collapse_reasoner = collapse_reasoner_instance
 
 ### Event Flow
 
-1. Session state updated → 
+1. Session state updated →
 2. Drift computed across all dimensions →
 3. Alert created if threshold exceeded →
 4. Intervention queued →
@@ -294,7 +294,7 @@ For issues or questions:
 
 ---
 
-**Version**: 1.0.0  
-**Last Updated**: 2025-07-25  
-**Module**: `lukhas.core.monitoring.drift_monitor`  
+**Version**: 1.0.0
+**Last Updated**: 2025-07-25
+**Module**: `lukhas.core.monitoring.drift_monitor`
 **Status**: Production Ready

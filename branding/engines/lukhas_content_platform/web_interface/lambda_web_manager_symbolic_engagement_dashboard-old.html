@@ -848,7 +848,7 @@
         function connectWebSocket() {
             try {
                 ws = new WebSocket('ws://localhost:8765/symbolic-engagement');
-                
+
                 ws.onopen = function() {
                     console.log('Connected to Symbolic Engagement Dashboard');
                 };
@@ -906,7 +906,7 @@
                 </div>
             `;
             timeline.insertBefore(eventElement, timeline.firstChild);
-            
+
             // Keep only last 10 events
             while (timeline.children.length > 10) {
                 timeline.removeChild(timeline.lastChild);
@@ -933,7 +933,7 @@
                 }
             };
             updateEngagementData(newData);
-            
+
             // Update charts with new data
             engagementTimelineChart.data.datasets.forEach(dataset => {
                 dataset.data = generateEngagementData();
@@ -957,7 +957,7 @@
                 { title: "Community Discussion", description: "Ethics framework powered by Trinity Framework (⚛️🧠🛡️) discussion trending" },
                 { title: "Research Breakthrough", description: "New paper citations spike detected" }
             ];
-            
+
             const randomEvent = events[Math.floor(Math.random() * events.length)];
             addTimelineEvent(randomEvent);
         }
@@ -966,10 +966,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeCharts();
             connectWebSocket();
-            
+
             // Simulate real-time updates every 10 seconds
             setInterval(simulateRealtimeUpdates, 10000);
-            
+
             // Simulate metric updates every 5 seconds
             setInterval(() => {
                 const newData = {

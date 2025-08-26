@@ -27,12 +27,12 @@ function isVisibleMatch(src, filename) {
   // - Comments
   // - Variable names or function names
   // - Common phrases like "Technical Specifications", "Technical Support", etc.
-  
+
   // Remove comments to avoid false positives
   const withoutComments = src
     .replace(/\/\*[\s\S]*?\*\//g, '') // Remove block comments
     .replace(/\/\/.*$/gm, '') // Remove line comments
-  
+
   // Look for the words in string literals or JSX text content
   // This is a simple heuristic - check if the words appear in quoted strings
   // or between JSX tags
@@ -42,17 +42,17 @@ function isVisibleMatch(src, filename) {
     // Check for the words in JSX text content (between tags)
     />([^<]*\b(Poetic|Technical|Plain)\b[^<]*)</g,
   ]
-  
+
   for (const pattern of patterns) {
     const matches = withoutComments.matchAll(pattern)
     for (const match of matches) {
       const context = match[0]
       const fullMatch = match[1] || match[0]
-      
+
       // Exclude data-tone, aria-label attributes we're intentionally keeping neutral
       // Also exclude import statements and type definitions
       // And exclude common phrases that aren't tone labels
-      if (!context.includes('data-tone') && 
+      if (!context.includes('data-tone') &&
           !context.includes('aria-label') &&
           !context.includes('import') &&
           !context.includes('export type') &&
@@ -75,7 +75,7 @@ function isVisibleMatch(src, filename) {
       }
     }
   }
-  
+
   return false
 }
 

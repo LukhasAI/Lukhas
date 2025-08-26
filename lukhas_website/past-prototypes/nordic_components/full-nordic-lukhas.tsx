@@ -6,11 +6,11 @@ export default function NordicLukhas() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [currentTier, setCurrentTier] = useState(1);
-  
+
   // Background state
   const [currentImage, setCurrentImage] = useState(0);
   const [imageOpacity, setImageOpacity] = useState(1);
-  
+
   // Cookie consent state
   const [showCookieModal, setShowCookieModal] = useState(true);
   const [cookieState, setCookieState] = useState('initial');
@@ -22,7 +22,7 @@ export default function NordicLukhas() {
   });
   const [cookiePoints, setCookiePoints] = useState(6);
   const [rewardTier, setRewardTier] = useState(3);
-  
+
   // Nature-inspired background images
   const backgroundImages = [
     "https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80", // Nordic mountains
@@ -30,18 +30,18 @@ export default function NordicLukhas() {
     "https://images.unsplash.com/photo-1481262492146-9a13e7b92450?auto=format&fit=crop&q=80", // Dark stone
     "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&q=80"  // Earth landscape
   ];
-  
+
   // Calculate privacy points based on preferences
   useEffect(() => {
     let points = 6; // Start with maximum points
-    
+
     // Subtract points for each cookie type enabled
     if (cookiePreferences.functional) points -= 1;
     if (cookiePreferences.analytics) points -= 2;
     if (cookiePreferences.marketing) points -= 3;
-    
+
     setCookiePoints(points);
-    
+
     // Set reward tier based on privacy points
     if (points >= 6) {
       setRewardTier(3); // Highest tier (most private)
@@ -53,23 +53,23 @@ export default function NordicLukhas() {
       setRewardTier(0); // No reward (least private)
     }
   }, [cookiePreferences]);
-  
+
   // Background image transition
   useEffect(() => {
     const intervalId = setInterval(() => {
       // Fade out
       setImageOpacity(0);
-      
+
       // Change image after fade out
       setTimeout(() => {
         setCurrentImage((prev) => (prev + 1) % backgroundImages.length);
         setImageOpacity(1);
       }, 1000);
     }, 10000);
-    
+
     return () => clearInterval(intervalId);
   }, []);
-  
+
   // Handle login
   const handleLogin = () => {
     if (username && password) {
@@ -78,7 +78,7 @@ export default function NordicLukhas() {
       alert('Please enter credentials');
     }
   };
-  
+
   // Handle logout
   const handleLogout = () => {
     setAuthState('unauthenticated');
@@ -86,28 +86,28 @@ export default function NordicLukhas() {
     setPassword('');
     setCurrentTier(1);
   };
-  
+
   // Handle tier upgrade
   const upgradeTier = () => {
     if (currentTier < 5) {
       setCurrentTier(prev => prev + 1);
     }
   };
-  
+
   // Toggle cookie preference
   const toggleCookiePreference = (type) => {
     if (type === 'essential') return; // Essential cookies cannot be toggled
-    
+
     setCookiePreferences(prev => ({
       ...prev,
       [type]: !prev[type]
     }));
   };
-  
+
   // Submit cookie consent
   const submitCookieConsent = () => {
     setCookieState('rewarded');
-    
+
     // Apply reward based on tier
     if (rewardTier > 0) {
       // If user chose privacy, give them a reward
@@ -119,7 +119,7 @@ export default function NordicLukhas() {
       setShowCookieModal(false);
     }
   };
-  
+
   // Get tier name
   const getTierName = (tier) => {
     switch(tier) {
@@ -131,14 +131,14 @@ export default function NordicLukhas() {
       default: return 'Unknown Tier';
     }
   };
-  
+
   return (
     <div className="min-h-screen overflow-hidden relative font-['Inter',sans-serif] font-extralight">
       {/* Background images with fade transition */}
       <div className="fixed inset-0 z-[-1]">
-        <div 
+        <div
           className="absolute inset-0 transition-opacity duration-1000"
-          style={{ 
+          style={{
             backgroundImage: `url(${backgroundImages[currentImage]})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
@@ -147,7 +147,7 @@ export default function NordicLukhas() {
         />
         <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-filter backdrop-blur-sm" />
       </div>
-      
+
       {/* Main Content */}
       <div className="relative min-h-screen flex flex-col">
         {/* Header */}
@@ -156,9 +156,9 @@ export default function NordicLukhas() {
             <div className="text-white text-2xl tracking-[0.15em] font-extralight">
               LUKHΛS
             </div>
-            
+
             {authState === 'authenticated' && (
-              <button 
+              <button
                 onClick={handleLogout}
                 className="px-6 py-2 border border-white border-opacity-30 rounded-sm text-white text-opacity-80 bg-black bg-opacity-20 hover:bg-opacity-30 backdrop-filter backdrop-blur-md transition-all text-sm font-light tracking-wider"
               >
@@ -167,7 +167,7 @@ export default function NordicLukhas() {
             )}
           </div>
         </header>
-        
+
         {/* Central Content */}
         <main className="flex-1 flex items-center justify-center p-6">
           <div className="max-w-md w-full">
@@ -177,13 +177,13 @@ export default function NordicLukhas() {
                 Λ
               </div>
             </div>
-            
+
             {authState === 'unauthenticated' ? (
               <div className="bg-black bg-opacity-30 backdrop-filter backdrop-blur-md border border-white border-opacity-10 p-8 rounded-sm">
                 <h2 className="text-white text-xl font-extralight tracking-wide mb-8 text-center">
                   IDENTITY ACCESS
                 </h2>
-                
+
                 <div className="space-y-6">
                   <div>
                     <label className="block text-white text-opacity-80 text-sm tracking-wider mb-2">
@@ -197,7 +197,7 @@ export default function NordicLukhas() {
                       placeholder="Enter username"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-white text-opacity-80 text-sm tracking-wider mb-2">
                       PASSWORD
@@ -210,7 +210,7 @@ export default function NordicLukhas() {
                       placeholder="Enter password"
                     />
                   </div>
-                  
+
                   <button
                     onClick={handleLogin}
                     className="w-full bg-white bg-opacity-10 hover:bg-opacity-20 border border-white border-opacity-30 text-white py-3 rounded-sm transition-all tracking-widest text-sm font-light"
@@ -229,29 +229,29 @@ export default function NordicLukhas() {
                     SECURITY TIER {currentTier}
                   </div>
                 </div>
-                
+
                 <div className="space-y-6">
                   <div className="border border-white border-opacity-10 p-4 rounded-sm">
                     <h3 className="text-white text-opacity-80 tracking-wider text-sm mb-4">
                       IDENTITY STATUS
                     </h3>
-                    
+
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="text-white text-opacity-70 text-sm">Security Level</span>
                         <span className="text-white text-sm">{getTierName(currentTier)}</span>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-white text-opacity-70 text-sm">Verification</span>
                         <span className="text-white text-sm">Complete</span>
                       </div>
-                      
+
                       <div className="flex justify-between items-center">
                         <span className="text-white text-opacity-70 text-sm">Session</span>
                         <span className="text-white text-sm">Active</span>
                       </div>
-                      
+
                       {rewardTier >= 2 && (
                         <div className="flex justify-between items-center">
                           <span className="text-white text-opacity-70 text-sm">Extended Time</span>
@@ -260,7 +260,7 @@ export default function NordicLukhas() {
                       )}
                     </div>
                   </div>
-                  
+
                   {currentTier < 5 && (
                     <button
                       onClick={upgradeTier}
@@ -270,7 +270,7 @@ export default function NordicLukhas() {
                     </button>
                   )}
                 </div>
-                
+
                 <div className="mt-8 pt-8 border-t border-white border-opacity-10">
                   <div className="text-white text-opacity-70 text-sm tracking-wider mb-4">
                     CURRENT SECURITY LEVEL
@@ -287,7 +287,7 @@ export default function NordicLukhas() {
             )}
           </div>
         </main>
-        
+
         {/* Footer */}
         <footer className="p-8">
           <div className="max-w-6xl mx-auto text-center">
@@ -297,15 +297,15 @@ export default function NordicLukhas() {
           </div>
         </footer>
       </div>
-      
+
       {/* Cookie Consent Modal */}
       {showCookieModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50 px-4">
-          <div 
+          <div
             className="absolute inset-0 bg-black bg-opacity-70 backdrop-filter backdrop-blur-sm"
             onClick={() => cookieState === 'rewarded' && setShowCookieModal(false)}
           />
-          
+
           <div className="relative max-w-md w-full bg-black bg-opacity-50 backdrop-filter backdrop-blur-lg border border-white border-opacity-20 rounded-sm overflow-hidden">
             {cookieState === 'initial' && (
               <div className="p-8">
@@ -316,14 +316,14 @@ export default function NordicLukhas() {
                   We value your privacy. Unlike most sites, we reward you for protecting your data.
                   Disable optional cookies to unlock enhanced features and experiences.
                 </p>
-                
+
                 <button
                   onClick={() => setCookieState('choosing')}
                   className="w-full bg-white bg-opacity-10 hover:bg-opacity-20 border border-white border-opacity-30 text-white py-3 rounded-sm transition-all tracking-widest text-sm font-light"
                 >
                   CHOOSE PREFERENCES
                 </button>
-                
+
                 <button
                   onClick={() => {
                     setCookiePreferences({
@@ -333,7 +333,7 @@ export default function NordicLukhas() {
                       marketing: false
                     });
                     setCookieState('rewarded');
-                    
+
                     setTimeout(() => setShowCookieModal(false), 3000);
                   }}
                   className="w-full mt-3 bg-transparent hover:bg-white hover:bg-opacity-5 text-white text-opacity-70 py-3 rounded-sm transition-all tracking-wider text-sm font-light"
@@ -342,13 +342,13 @@ export default function NordicLukhas() {
                 </button>
               </div>
             )}
-            
+
             {cookieState === 'choosing' && (
               <div className="p-8">
                 <h2 className="text-white text-xl font-extralight tracking-wide mb-6">
                   SELECT PREFERENCES
                 </h2>
-                
+
                 <div className="space-y-4 mb-8">
                   {/* Essential Cookies - Always on and disabled */}
                   <div className="flex justify-between items-center">
@@ -361,7 +361,7 @@ export default function NordicLukhas() {
                       <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full"></div>
                     </div>
                   </div>
-                  
+
                   {/* Functional Cookies */}
                   <div className="flex justify-between items-center">
                     <div>
@@ -370,7 +370,7 @@ export default function NordicLukhas() {
                         Store preferences and settings (costs 1 privacy point)
                       </div>
                     </div>
-                    <div 
+                    <div
                       className="relative cursor-pointer"
                       onClick={() => toggleCookiePreference('functional')}
                     >
@@ -382,7 +382,7 @@ export default function NordicLukhas() {
                       }`}></div>
                     </div>
                   </div>
-                  
+
                   {/* Analytics Cookies */}
                   <div className="flex justify-between items-center">
                     <div>
@@ -391,7 +391,7 @@ export default function NordicLukhas() {
                         Track how you use our site (costs 2 privacy points)
                       </div>
                     </div>
-                    <div 
+                    <div
                       className="relative cursor-pointer"
                       onClick={() => toggleCookiePreference('analytics')}
                     >
@@ -403,7 +403,7 @@ export default function NordicLukhas() {
                       }`}></div>
                     </div>
                   </div>
-                  
+
                   {/* Marketing Cookies */}
                   <div className="flex justify-between items-center">
                     <div>
@@ -412,7 +412,7 @@ export default function NordicLukhas() {
                         Show personalized content (costs 3 privacy points)
                       </div>
                     </div>
-                    <div 
+                    <div
                       className="relative cursor-pointer"
                       onClick={() => toggleCookiePreference('marketing')}
                     >
@@ -425,23 +425,23 @@ export default function NordicLukhas() {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Reward Display */}
                 <div className="mb-6 border border-white border-opacity-10 rounded-sm p-4">
                   <div className="text-white text-opacity-80 text-sm tracking-wider mb-3">
                     PRIVACY REWARDS
                   </div>
-                  
+
                   <div className="flex items-center mb-3">
                     <div className="flex-1 h-2 bg-white bg-opacity-10 rounded-full overflow-hidden">
-                      <div 
+                      <div
                         className="h-full bg-white bg-opacity-60 transition-all duration-500"
                         style={{ width: `${(cookiePoints / 6) * 100}%` }}
                       ></div>
                     </div>
                     <div className="ml-3 text-white text-sm">{cookiePoints}/6</div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className={`flex items-center ${rewardTier >= 1 ? 'text-white' : 'text-white text-opacity-40'}`}>
                       <div className={`w-3 h-3 rounded-full mr-2 ${
@@ -449,14 +449,14 @@ export default function NordicLukhas() {
                       }`}></div>
                       <div className="text-xs">Enhanced security protocols</div>
                     </div>
-                    
+
                     <div className={`flex items-center ${rewardTier >= 2 ? 'text-white' : 'text-white text-opacity-40'}`}>
                       <div className={`w-3 h-3 rounded-full mr-2 ${
                         rewardTier >= 2 ? 'bg-white' : 'bg-white bg-opacity-20'
                       }`}></div>
                       <div className="text-xs">Faster application performance</div>
                     </div>
-                    
+
                     <div className={`flex items-center ${rewardTier >= 3 ? 'text-white' : 'text-white text-opacity-40'}`}>
                       <div className={`w-3 h-3 rounded-full mr-2 ${
                         rewardTier >= 3 ? 'bg-white' : 'bg-white bg-opacity-20'
@@ -465,7 +465,7 @@ export default function NordicLukhas() {
                     </div>
                   </div>
                 </div>
-                
+
                 <button
                   onClick={submitCookieConsent}
                   className="w-full bg-white bg-opacity-10 hover:bg-opacity-20 border border-white border-opacity-30 text-white py-3 rounded-sm transition-all tracking-widest text-sm font-light"
@@ -474,7 +474,7 @@ export default function NordicLukhas() {
                 </button>
               </div>
             )}
-            
+
             {cookieState === 'rewarded' && (
               <div className="p-8 text-center">
                 <div className="text-6xl mb-3">
@@ -483,14 +483,14 @@ export default function NordicLukhas() {
                   {rewardTier === 2 && "🛡️"}
                   {rewardTier === 3 && "✨"}
                 </div>
-                
+
                 <h2 className="text-white text-xl font-extralight tracking-wide mb-2">
                   {rewardTier === 0 && "STANDARD EXPERIENCE"}
                   {rewardTier === 1 && "ENHANCED SECURITY"}
                   {rewardTier === 2 && "ADVANCED PRIVACY"}
                   {rewardTier === 3 && "MAXIMUM PRIVACY"}
                 </h2>
-                
+
                 <p className="text-white text-opacity-70 text-sm leading-relaxed">
                   {rewardTier === 0 && "Preferences saved. Your experience includes all personalization features."}
                   {rewardTier === 1 && "You've unlocked enhanced security protocols by protecting some of your data."}

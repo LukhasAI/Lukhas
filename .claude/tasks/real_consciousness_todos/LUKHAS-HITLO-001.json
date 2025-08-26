@@ -1,7 +1,7 @@
 {
   "task_id": "LUKHAS-HITLO-001",
   "title": "Human-in-the-Loop Orchestrator - Communication Integration",
-  "priority": "P1", 
+  "priority": "P1",
   "domain": "orchestration",
   "trinity_focus": "🛡️ Guardian",
   "description": "Implement communication systems for human oversight and collaboration",

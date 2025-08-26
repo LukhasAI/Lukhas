@@ -7,14 +7,20 @@ Continuous Evaluation Loop (C-EVAL) for Lukhas.
 """
 
 from __future__ import annotations
-import os, sys, json, time, hashlib, random, signal
+
+import hashlib
+import json
+import os
+import random
+import time
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict
+
 import click
 
 # Prometheus
 try:
-    from prometheus_client import Gauge, Counter, Histogram, start_http_server
+    from prometheus_client import Gauge, Histogram, start_http_server
     _PROM = True
 except Exception:
     _PROM = False
@@ -41,7 +47,7 @@ class CEvalRunner:
         self.suite = self._load_suite()
 
     def _load_suite(self) -> Dict[str, Any]:
-        with open(self.suite_file, "r") as f:
+        with open(self.suite_file) as f:
             s = json.load(f)
         # defaults
         for t in s.get("tasks", []):
@@ -108,7 +114,7 @@ class CEvalRunner:
 
     def drift_check(self, baseline_file: str) -> Dict[str, Any]:
         latest = self._load_latest_eval()
-        with open(baseline_file, "r") as f:
+        with open(baseline_file) as f:
             base = json.load(f)
 
         drift = {}
@@ -136,7 +142,7 @@ class CEvalRunner:
         files = sorted(Path(EVALDIR).glob("eval_*.json"), key=os.path.getmtime, reverse=True)
         if not files:
             raise RuntimeError("No eval runs found")
-        with open(files[0], "r") as f:
+        with open(files[0]) as f:
             return json.load(f)
 
     @staticmethod

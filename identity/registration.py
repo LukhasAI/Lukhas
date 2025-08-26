@@ -4,8 +4,8 @@ Routes to identity_core.py with password hashing and user storage
 """
 
 import hashlib
-import secrets
 import json
+import secrets
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -23,7 +23,7 @@ def _store_user_data(user_id: str, user_data: Dict[str, Any]) -> None:
     # Create users directory if it doesn't exist
     users_dir = Path("data/users")
     users_dir.mkdir(parents=True, exist_ok=True)
-    
+
     # Store user data as JSON file
     user_file = users_dir / f"{user_id}.json"
     with open(user_file, 'w') as f:
@@ -34,11 +34,11 @@ def register_user(
     email: str, password: str, requested_tier: Optional[str] = None
 ) -> Dict[str, Any]:
     """Secure registration function with proper password hashing and user storage"""
-    
+
     # Implement secure password hashing
     salt = secrets.token_bytes(32)
     password_hash = _hash_password(password, salt)
-    
+
     # Implement proper user storage
     user_data = {
         "email": email,
@@ -49,7 +49,7 @@ def register_user(
         "login_attempts": 0,
         "last_login": None
     }
-    
+
     # Store user securely
     user_id = email.split("@")[0].replace(".", "_").lower()
     _store_user_data(user_id, user_data)

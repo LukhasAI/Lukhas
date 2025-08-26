@@ -34,7 +34,7 @@ export function Hero() {
   const [toneLayer, setToneLayer] = useState<ToneLayer>('poetic')
   const controls = useAnimation()
   const { t } = useT()
-  
+
   // Dynamic taglines based on tone layer
   const getTagline = () => {
     switch(toneLayer) {
@@ -53,7 +53,7 @@ export function Hero() {
   useEffect(() => {
     const layers: ToneLayer[] = ['poetic', 'userFriendly', 'academic']
     let currentIndex = 0
-    
+
     const interval = setInterval(() => {
       currentIndex = (currentIndex + 1) % layers.length
       setToneLayer(layers[currentIndex])
@@ -147,8 +147,8 @@ export function Hero() {
               <button
                 onClick={() => setToneLayer('poetic')}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all ${
-                  toneLayer === 'poetic' 
-                    ? 'bg-trinity-identity/20 text-trinity-identity' 
+                  toneLayer === 'poetic'
+                    ? 'bg-trinity-identity/20 text-trinity-identity'
                     : 'text-text-tertiary hover:text-text-secondary'
                 }`}
               >
@@ -158,8 +158,8 @@ export function Hero() {
               <button
                 onClick={() => setToneLayer('userFriendly')}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all ${
-                  toneLayer === 'userFriendly' 
-                    ? 'bg-trinity-consciousness/20 text-trinity-consciousness' 
+                  toneLayer === 'userFriendly'
+                    ? 'bg-trinity-consciousness/20 text-trinity-consciousness'
                     : 'text-text-tertiary hover:text-text-secondary'
                 }`}
               >
@@ -169,8 +169,8 @@ export function Hero() {
               <button
                 onClick={() => setToneLayer('academic')}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all ${
-                  toneLayer === 'academic' 
-                    ? 'bg-trinity-guardian/20 text-trinity-guardian' 
+                  toneLayer === 'academic'
+                    ? 'bg-trinity-guardian/20 text-trinity-guardian'
                     : 'text-text-tertiary hover:text-text-secondary'
                 }`}
               >
@@ -178,7 +178,7 @@ export function Hero() {
                 <span className="text-xs uppercase tracking-wider">Academic</span>
               </button>
             </motion.div>
-            
+
             {/* Animated Tagline */}
             <div className="min-h-[120px] flex items-center justify-center px-6">
               <AnimatePresence mode="wait">

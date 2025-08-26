@@ -407,19 +407,19 @@ Neither party will be liable for delays or failures due to circumstances beyond 
 ## Contact Information
 
 ### General Support
-**Email**: support@lukhas.ai  
+**Email**: support@lukhas.ai
 **Response Time**: 48 hours for general inquiries
 
 ### Legal Questions
-**Email**: legal@lukhas.ai  
+**Email**: legal@lukhas.ai
 **Response Time**: 5 business days for legal matters
 
 ### Technical Support
-**Email**: api-support@lukhas.ai  
+**Email**: api-support@lukhas.ai
 **Response Time**: 24 hours for API and technical issues
 
 ### Business Inquiries
-**Email**: business@lukhas.ai  
+**Email**: business@lukhas.ai
 **Response Time**: 72 hours for partnership and business questions
 
 ---

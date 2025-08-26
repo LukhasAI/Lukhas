@@ -6,15 +6,15 @@ Emits MATRIZ-compliant nodes for external API integration events
 import json
 import time
 import uuid
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class BridgeMatrizAdapter:
     """Adapter to emit MATRIZ nodes for bridge/API integration events"""
-    
+
     SCHEMA_REF = "lukhas://schemas/matriz_node_v1.json"
-    
+
     @staticmethod
     def create_node(
         node_type: str,
@@ -23,7 +23,7 @@ class BridgeMatrizAdapter:
         provenance_extra: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Create a MATRIZ-compliant node for bridge events"""
-        
+
         node = {
             "version": 1,
             "id": f"LT-BRDG-{uuid.uuid4().hex[:8]}",
@@ -47,12 +47,12 @@ class BridgeMatrizAdapter:
                 **(provenance_extra or {})
             }
         }
-        
+
         if labels:
             node["labels"] = labels
-            
+
         return node
-    
+
     @staticmethod
     def emit_api_call(
         api_id: str,
@@ -62,9 +62,9 @@ class BridgeMatrizAdapter:
         success: bool
     ) -> Dict[str, Any]:
         """Emit an external API call event"""
-        
+
         urgency = 0.1 if success else 0.8
-        
+
         return BridgeMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state={
@@ -83,7 +83,7 @@ class BridgeMatrizAdapter:
                 "bridge:api"
             ]
         )
-    
+
     @staticmethod
     def emit_llm_interaction(
         llm_id: str,
@@ -92,7 +92,7 @@ class BridgeMatrizAdapter:
         response_quality: float
     ) -> Dict[str, Any]:
         """Emit an LLM interaction event"""
-        
+
         return BridgeMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -110,7 +110,7 @@ class BridgeMatrizAdapter:
                 "bridge:llm"
             ]
         )
-    
+
     @staticmethod
     def emit_orchestration_event(
         orchestration_id: str,
@@ -119,7 +119,7 @@ class BridgeMatrizAdapter:
         success_rate: float
     ) -> Dict[str, Any]:
         """Emit a multi-service orchestration event"""
-        
+
         return BridgeMatrizAdapter.create_node(
             node_type="CAUSAL",
             state={
@@ -137,7 +137,7 @@ class BridgeMatrizAdapter:
                 "bridge:orchestrate"
             ] + [f"service:{s}" for s in services[:3]]
         )
-    
+
     @staticmethod
     def emit_consensus_event(
         consensus_id: str,
@@ -146,7 +146,7 @@ class BridgeMatrizAdapter:
         final_decision: str
     ) -> Dict[str, Any]:
         """Emit a multi-model consensus event"""
-        
+
         return BridgeMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -164,36 +164,36 @@ class BridgeMatrizAdapter:
                 "bridge:consensus"
             ]
         )
-    
+
     @staticmethod
     def validate_node(node: Dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
-        
+
         for field in required_fields:
             if field not in node:
                 return False
-                
+
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
         for field in required_prov:
             if field not in node.get("provenance", {}):
                 return False
-                
+
         return True
-    
+
     @staticmethod
     def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/bridge")
-            
+
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
-        
+
         with open(filepath, 'w') as f:
             json.dump(node, f, indent=2)
-            
+
         return filepath

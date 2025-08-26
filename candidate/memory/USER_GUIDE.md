@@ -274,7 +274,7 @@ uncertain_memory = quantum_mem.create_superposition([
 ])
 
 # Collapse to specific state when certain
-resolved = quantum_mem.collapse(uncertain_memory, 
+resolved = quantum_mem.collapse(uncertain_memory,
     observation="Found recursion works best")
 ```
 
@@ -288,7 +288,7 @@ memory.enter_dream_state()
 
 # Dreams will:
 # - Strengthen important connections
-# - Discover hidden patterns  
+# - Discover hidden patterns
 # - Prune redundant memories
 # - Generate creative insights
 
@@ -345,7 +345,7 @@ Not all memories are equal:
 # Critical memories
 memory.remember("Core ethical principle discovered", importance=1.0)
 
-# Routine memories  
+# Routine memories
 memory.remember("Regular status check", importance=0.3)
 ```
 
@@ -368,7 +368,7 @@ memory.schedule_dream_consolidation(
 # Check if memory exists
 if not memory.exists(memory_id):
     print("Memory may have been pruned or archived")
-    
+
 # Try broader search
 related = memory.find_similar(approximate_content)
 ```

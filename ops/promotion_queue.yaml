@@ -1,0 +1,17 @@
+order:
+  - module: orchestration
+    owner: Agent01
+  - module: glyph
+    owner: Agent02
+  - module: integration
+    owner: Agent03
+  - module: api
+    owner: Agent04
+  - module: neural
+    owner: Agent05
+  - module: interfaces
+    owner: Agent06
+  - module: monitoring
+    owner: Agent07
+  - module: symbolic
+    owner: Agent08

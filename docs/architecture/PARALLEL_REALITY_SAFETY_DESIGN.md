@@ -133,15 +133,15 @@ async def _detect_hallucinations(self, branch, baseline):
     # 1. Logical consistency
     if has_contradictions(branch.state):
         return HallucinationReport(LOGICAL_INCONSISTENCY, ...)
-    
+
     # 2. Causal integrity
     if violates_causality(branch.causal_chain):
         return HallucinationReport(CAUSAL_VIOLATION, ...)
-    
+
     # 3. Probability bounds
     if branch.probability < 0.001 or branch.probability > 0.999:
         return HallucinationReport(PROBABILITY_ANOMALY, ...)
-    
+
     # 4. Recursive patterns
     if contains_self_reference(branch):
         return HallucinationReport(RECURSIVE_LOOP, ...)
@@ -320,6 +320,6 @@ This framework demonstrates our commitment to responsible AI development and pro
 
 ---
 
-*Document Version: 1.0.0*  
-*Last Updated: 2025-08-03*  
+*Document Version: 1.0.0*
+*Last Updated: 2025-08-03*
 *Classification: Technical Design Document*

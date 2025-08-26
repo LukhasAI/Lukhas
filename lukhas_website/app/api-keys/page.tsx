@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  ChevronLeftIcon, 
-  KeyIcon, 
-  PlusIcon, 
+import {
+  ChevronLeftIcon,
+  KeyIcon,
+  PlusIcon,
   TrashIcon,
   EyeIcon,
   EyeSlashIcon,
@@ -89,16 +89,16 @@ export default function ApiKeysPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [userTier, setUserTier] = useState<string>('')
-  
+
   // API Keys data
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([])
   const [usage, setUsage] = useState<Record<string, ApiKeyUsage>>({})
   const [newlyCreatedKey, setNewlyCreatedKey] = useState<string | null>(null)
-  
+
   // Step-up authentication
   const [stepUpRequired, setStepUpRequired] = useState(false)
   const [stepUpCompleted, setStepUpCompleted] = useState(false)
-  
+
   // Form state
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [keyName, setKeyName] = useState('')
@@ -106,7 +106,7 @@ export default function ApiKeysPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<string>('')
   const [customScopes, setCustomScopes] = useState<string[]>([])
   const [expirationDays, setExpirationDays] = useState<number>(365)
-  
+
   // UI state
   const [visibleKeys, setVisibleKeys] = useState<Set<string>>(new Set())
   const [deletingKey, setDeletingKey] = useState<string | null>(null)
@@ -144,7 +144,7 @@ export default function ApiKeysPage() {
         if (stepUpRes.ok) {
           const stepUpData = await stepUpRes.json()
           setStepUpRequired(stepUpData.required)
-          
+
           if (!stepUpData.required) {
             setStepUpCompleted(true)
             await loadApiKeys()
@@ -226,7 +226,7 @@ export default function ApiKeysPage() {
   // Create API key
   const handleCreateApiKey = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!keyName.trim()) {
       setError('API key name is required')
       return
@@ -368,19 +368,19 @@ export default function ApiKeysPage() {
           <ShieldCheckIcon className="w-16 h-16 text-trinity-guardian mx-auto mb-6" />
           <h1 className="text-2xl font-light text-white mb-4">Step-up Authentication Required</h1>
           <p className="text-white/60 mb-6">
-            API key management requires additional authentication for security. 
+            API key management requires additional authentication for security.
             Please verify your identity to continue.
           </p>
           <div className="space-y-3">
-            <button 
+            <button
               onClick={handleStepUpAuth}
               disabled={loading}
               className="w-full px-6 py-3 bg-trinity-guardian hover:bg-trinity-consciousness transition-colors rounded-lg text-white font-medium disabled:opacity-50"
             >
               {loading ? 'Authenticating...' : 'Authenticate with Passkey'}
             </button>
-            <Link 
-              href="/experience" 
+            <Link
+              href="/experience"
               className="block w-full px-6 py-3 bg-black/40 hover:bg-black/60 transition-colors rounded-lg text-white font-medium"
             >
               Back to Experience
@@ -614,7 +614,7 @@ export default function ApiKeysPage() {
           {showCreateForm && (
             <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-6">
               <h3 className="text-xl font-medium text-white mb-6">Create New API Key</h3>
-              
+
               <form onSubmit={handleCreateApiKey} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>

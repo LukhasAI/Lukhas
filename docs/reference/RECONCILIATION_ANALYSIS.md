@@ -35,7 +35,7 @@ When GPT-5 analyzed your repo, it probably found:
 ### Working Components:
 ```python
 ✅ consciousness/unified/auto_consciousness.py - 11,572 bytes
-✅ consciousness/dream/core/dream_engine.py - 23,131 bytes  
+✅ consciousness/dream/core/dream_engine.py - 23,131 bytes
 ✅ memory/core/ - Multiple working modules
 ✅ governance/guardian_system.py - Imports successfully
 ```
@@ -63,7 +63,7 @@ These are WARNINGS, not failures! The system degrades gracefully.
    ```
 
 2. **The Cascade Effect**:
-   - One missing import (like `ActorRef`) 
+   - One missing import (like `ActorRef`)
    - Causes 10 colonies to fail loading
    - Each colony has 20-50 files
    - Result: 200-500 files become "orphaned"

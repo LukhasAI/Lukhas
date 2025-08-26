@@ -1,7 +1,7 @@
 /**
  * SSO Session Management with Single Logout (SLO) Support
  * Enterprise session lifecycle management for LUKHAS AI ΛiD System
- * 
+ *
  * Supports:
  * - SSO session linking with local sessions
  * - Single Logout (SLO) support for SAML and OIDC
@@ -21,41 +21,41 @@ export interface SSOSession {
   tenantId: string;
   userId: string;
   userEmail: string;
-  
+
   // SSO session details
   ssoSessionId?: string; // IdP session ID
   ssoSessionIndex?: string; // SAML session index
   idToken?: string; // OIDC ID token
   accessToken?: string; // OIDC access token
   refreshToken?: string; // OIDC refresh token
-  
+
   // Provider information
   providerType: 'saml' | 'oidc';
   providerId: string;
   issuer: string;
-  
+
   // Local session linking
   localSessionId: string;
-  
+
   // Timing and lifecycle
   createdAt: Date;
   lastActivityAt: Date;
   expiresAt: Date;
   idpExpiresAt?: Date; // When IdP session expires
-  
+
   // Session state
   status: 'active' | 'expired' | 'terminated' | 'logged_out';
   logoutInitiator?: 'user' | 'idp' | 'admin' | 'timeout' | 'security';
-  
+
   // Security tracking
   ipAddress: string;
   userAgent: string;
   deviceFingerprint?: string;
-  
+
   // Logout URLs and tokens
   logoutUrl?: string;
   logoutToken?: string; // For backchannel logout
-  
+
   // Metadata
   metadata: {
     loginMethod: 'sp_initiated' | 'idp_initiated';
@@ -70,20 +70,20 @@ export interface SLORequest {
   sessionId: string;
   tenantId: string;
   userId: string;
-  
+
   // SLO details
   sloType: 'front_channel' | 'back_channel' | 'admin_initiated';
   initiator: 'user' | 'idp' | 'admin' | 'security' | 'timeout';
-  
+
   // Provider-specific data
   samlLogoutRequest?: string; // Base64 encoded SAML logout request
   oidcLogoutToken?: string; // OIDC logout token
-  
+
   // Processing status
   status: 'pending' | 'in_progress' | 'completed' | 'failed' | 'partial';
   startedAt: Date;
   completedAt?: Date;
-  
+
   // Steps to complete
   steps: Array<{
     type: 'local_logout' | 'idp_logout' | 'session_cleanup' | 'notify_applications';
@@ -91,10 +91,10 @@ export interface SLORequest {
     completedAt?: Date;
     error?: string;
   }>;
-  
+
   // Related sessions (for global logout)
   relatedSessions?: string[];
-  
+
   // Error handling
   errors: string[];
   warnings: string[];
@@ -104,13 +104,13 @@ export interface SessionSyncResult {
   sessionId: string;
   syncType: 'refresh' | 'validate' | 'cleanup';
   success: boolean;
-  
+
   // Sync details
   tokenRefreshed?: boolean;
   sessionExtended?: boolean;
   issuesFound?: string[];
   actionsPerformed?: string[];
-  
+
   timestamp: Date;
 }
 
@@ -251,7 +251,7 @@ export class SSOSessionManager {
       const now = new Date();
 
       // Determine related sessions for global logout
-      const relatedSessions = globalLogout 
+      const relatedSessions = globalLogout
         ? (this.userSessions.get(session.userId) || []).filter(id => id !== sessionId)
         : undefined;
 
@@ -337,7 +337,7 @@ export class SSOSessionManager {
           sessionIndex,
           nameId
         });
-        
+
         // Still return success to IdP
         return { success: true };
       }
@@ -390,7 +390,7 @@ export class SSOSessionManager {
 
       // Validate logout token (simplified - would use proper JWT verification)
       const tokenClaims = await this.validateOIDCLogoutToken(logoutToken, provider);
-      
+
       // Find sessions by user ID or session ID
       const sessions = this.findSessionsByUser(tokenClaims.sub, tenantId);
 
@@ -466,7 +466,7 @@ export class SSOSessionManager {
 
     } catch (error) {
       result.issuesFound = [error instanceof Error ? error.message : 'Unknown error'];
-      
+
       await this.auditLogger.logSecurityEvent('session_token_refresh_failed', {
         sessionId,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -633,7 +633,7 @@ export class SSOSessionManager {
 
   private findSessionBySessionIndex(sessionIndex: string, tenantId: string): SSOSession | null {
     for (const session of this.sessions.values()) {
-      if (session.tenantId === tenantId && 
+      if (session.tenantId === tenantId &&
           session.ssoSessionIndex === sessionIndex &&
           session.status === 'active') {
         return session;
@@ -646,9 +646,9 @@ export class SSOSessionManager {
     const sessionIds = this.userSessions.get(userId) || [];
     return sessionIds
       .map(id => this.sessions.get(id))
-      .filter(session => 
-        session && 
-        session.tenantId === tenantId && 
+      .filter(session =>
+        session &&
+        session.tenantId === tenantId &&
         session.status === 'active'
       ) as SSOSession[];
   }
@@ -677,7 +677,7 @@ export class SSOSessionManager {
     // Session timeout monitoring
     const timeoutMonitor = setInterval(async () => {
       const now = new Date();
-      
+
       for (const [sessionId, session] of this.sessions) {
         if (session.status === 'active' && session.expiresAt < now) {
           await this.initiateSingleLogout(sessionId, 'timeout', 'back_channel');
@@ -690,11 +690,11 @@ export class SSOSessionManager {
     // Token refresh for OIDC sessions
     const tokenRefresh = setInterval(async () => {
       for (const [sessionId, session] of this.sessions) {
-        if (session.status === 'active' && 
+        if (session.status === 'active' &&
             session.providerType === 'oidc' &&
             session.idpExpiresAt &&
             session.idpExpiresAt.getTime() - Date.now() < (5 * 60 * 1000)) { // 5 minutes before expiry
-          
+
           await this.refreshSessionTokens(sessionId);
         }
       }

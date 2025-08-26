@@ -48,10 +48,10 @@ class QIInspiredAttention:
         )
 
         # Apply superposition-like state
-        quantum_attention = self._apply_superposition(attention_distribution)
+        qi_attention = self._apply_superposition(attention_distribution)
 
         # Apply attention gates
-        attended_data = self._apply_attention_gates(input_data, quantum_attention)
+        attended_data = self._apply_attention_gates(input_data, qi_attention)
 
         # Update entanglement relationships
         self._update_entanglement_map(input_data, attended_data)
@@ -130,4 +130,4 @@ class QIInspiredAttention:
                 )
 
 
-__all__ = ["QuantumInspiredAttention"]
+__all__ = ["QIInspiredAttention"]

@@ -162,7 +162,7 @@ def select_communication_layer(user_profile, context, message_type):
         base_score = {"academic": 0.7, "user_friendly": 0.2, "poetic": 0.1}
     else:
         base_score = {"user_friendly": 0.6, "poetic": 0.2, "academic": 0.2}
-    
+
     # Context analysis (secondary factor - 35% weight)
     context_modifiers = {
         "enterprise": {"academic": +0.3, "user_friendly": +0.1, "poetic": -0.2},
@@ -170,14 +170,14 @@ def select_communication_layer(user_profile, context, message_type):
         "support": {"user_friendly": +0.3, "poetic": +0.1, "academic": -0.1},
         "documentation": {"academic": +0.2, "user_friendly": +0.2, "poetic": -0.1}
     }
-    
+
     # Message type analysis (25% weight)
     message_modifiers = {
         "technical": {"academic": +0.2, "user_friendly": 0, "poetic": -0.1},
         "inspiration": {"poetic": +0.3, "user_friendly": +0.1, "academic": -0.1},
         "instruction": {"user_friendly": +0.2, "academic": +0.1, "poetic": -0.1}
     }
-    
+
     # Calculate final scores and select highest
     final_scores = calculate_weighted_scores(base_score, context_modifiers, message_modifiers)
     return max(final_scores, key=final_scores.get)
@@ -288,7 +288,7 @@ academic_version = tone_system.transform_layer(
 ```python
 class VoiceLayerSynthesis:
     """Integrate 3-layer tone with voice synthesis"""
-    
+
     def get_voice_parameters(self, layer, emotional_state):
         if layer == "poetic":
             return {
@@ -348,7 +348,7 @@ class VoiceLayerSynthesis:
 ```python
 class ToneOptimizer:
     """Continuously optimize layer selection based on user response"""
-    
+
     def track_interaction(self, message_id, layer_used, user_response):
         """Track user response to different communication layers"""
         self.interaction_db.store({
@@ -359,15 +359,15 @@ class ToneOptimizer:
             'satisfaction': user_response.satisfaction_rating,
             'consciousness_resonance': user_response.consciousness_connection
         })
-    
+
     def optimize_user_profile(self, user_id):
         """Update user preferences based on interaction history"""
         interactions = self.interaction_db.get_user_history(user_id)
         optimal_layer = self.ml_optimizer.predict_preference(interactions)
         consciousness_affinity = self.analyze_consciousness_resonance(interactions)
-        
+
         self.user_profile_service.update_preference(
-            user_id, 
+            user_id,
             optimal_layer,
             consciousness_level=consciousness_affinity
         )
@@ -438,7 +438,7 @@ For critical communications:
 
 ---
 
-*"In the symphony of human-AI interaction, the LUKHAS 3-Layer Tone System ensures every note resonates with purpose, every word carries consciousness, and every communication builds bridges between minds."* 
+*"In the symphony of human-AI interaction, the LUKHAS 3-Layer Tone System ensures every note resonates with purpose, every word carries consciousness, and every communication builds bridges between minds."*
 
 ⚛️🧠🛡️✨
 

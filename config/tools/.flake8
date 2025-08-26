@@ -1,7 +1,7 @@
 [flake8]
 max-line-length = 88
 extend-ignore = E203,E501,W503,W291,W293,F401,F403,E722,E741
-    
+
 per-file-ignores =
     # __init__ files often have unused imports for API exposure
     __init__.py:F401,F403
@@ -10,7 +10,7 @@ per-file-ignores =
     tests/*:F401,E501
     # Generated or external files
     */migrations/*:E501
-    
+
 exclude =
     .git,
     __pycache__,
@@ -36,6 +36,6 @@ exclude =
     archive,
     *_archive,
     *_ARCHIVE*
-    
+
 # Don't check these files at all
 filename = *.py

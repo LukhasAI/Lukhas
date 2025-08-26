@@ -300,7 +300,7 @@ class UnifiedDreamPipeline:
             "ΛCREATE",
         ]
 
-        quantum_states = [
+        qi_states = [
             "superposition",
             "entanglement",
             "collapse",
@@ -312,7 +312,7 @@ class UnifiedDreamPipeline:
             {
                 "symbolic_elements": {
                     "primary_glyph": random.choice(symbols),
-                    "quantum_state": random.choice(quantum_states),
+                    "qi_state": random.choice(qi_states),
                     "collapse_probability": round(random.uniform(0.3, 0.9), 3),
                     "entanglement_nodes": random.randint(2, 5),
                     "coherence_factor": round(random.uniform(0.6, 0.95), 3),

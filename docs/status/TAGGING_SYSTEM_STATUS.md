@@ -63,13 +63,13 @@ class TagSystem:
     def __init__(self):
         self.tag_registry = {}
         self.tag_hierarchies = {}
-        
+
     def create_tag(self, tag: str, category: str = None):
         """Create and register a new tag"""
-        
+
     def normalize_tag(self, tag: str) -> str:
         """Normalize tag format"""
-        
+
     def get_related_tags(self, tag: str) -> List[str]:
         """Get semantically related tags"""
 ```

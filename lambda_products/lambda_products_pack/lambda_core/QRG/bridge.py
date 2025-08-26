@@ -17,8 +17,8 @@ from typing import Any, Optional
 # Import LUKHAS ecosystem components
 try:
     from lambda_products.NIΛS.emotional_filter import EmotionalFilter
-    from lambda_products.WΛLLET.quantum_identity_core import (
-        QuantumIdentityCore,
+    from lambda_products.WΛLLET.qi_identity_core import (
+        QIIdentityCore,
     )
     from lambda_products.ΛSYMBOLIC.authentication.psi_protocol import (
         PsiProtocol,
@@ -46,7 +46,7 @@ class LukhasAccessTier(Enum):
     TIER_2 = "verified_user"  # Identity verified user
     TIER_3 = "premium_user"  # Premium features access
     TIER_4 = "enterprise_user"  # Enterprise features
-    TIER_5 = "quantum_user"  # Full quantum features
+    TIER_5 = "qi_user"  # Full quantum features
 
 
 @dataclass
@@ -102,14 +102,14 @@ class LambdaIdIntegration:
         if LUKHAS_IMPORTS_AVAILABLE:
             self.lambda_id_protocol = LambdaIdProtocol()
             self.psi_protocol = PsiProtocol()
-            self.quantum_identity_core = QuantumIdentityCore()
+            self.qi_identity_core = QIIdentityCore()
             self.emotional_filter = EmotionalFilter()
             logger.info("✅ LUKHAS ecosystem components loaded")
         else:
             # Mock implementations for development
             self.lambda_id_protocol = self._create_mock_lambda_id()
             self.psi_protocol = self._create_mock_psi_protocol()
-            self.quantum_identity_core = self._create_mock_quantum_core()
+            self.qi_identity_core = self._create_mock_quantum_core()
             self.emotional_filter = self._create_mock_emotional_filter()
             logger.info("🔧 Using mock LUKHAS components for development")
 
@@ -286,16 +286,16 @@ class LambdaIdIntegration:
         """Verify QRG glyph authenticity against identity"""
         verification_result = {
             "valid": False,
-            "quantum_signature_valid": False,
+            "qi_signature_valid": False,
             "temporal_validity": False,
             "consciousness_coherent": False,
         }
 
         # Verify quantum signature
         expected_signature = self._compute_expected_quantum_signature(identity)
-        glyph_signature = glyph_data.get("quantum_signature", "")
+        glyph_signature = glyph_data.get("qi_signature", "")
 
-        verification_result["quantum_signature_valid"] = (
+        verification_result["qi_signature_valid"] = (
             glyph_signature == expected_signature
         )
 
@@ -316,7 +316,7 @@ class LambdaIdIntegration:
         # Overall validity
         verification_result["valid"] = all(
             [
-                verification_result["quantum_signature_valid"],
+                verification_result["qi_signature_valid"],
                 verification_result["temporal_validity"],
                 verification_result.get("consciousness_coherent", True),
             ]
@@ -452,18 +452,18 @@ class LambdaIdIntegration:
             "lambda_id": identity.lambda_id,
             "vault_key": self._generate_vault_key(identity),
             "permissions": vault_permissions,
-            "quantum_secured": True,
+            "qi_secured": True,
         }
 
         # Mock WΛLLET integration
-        if hasattr(self.quantum_identity_core, "create_vault_identity"):
-            vault_result = self.quantum_identity_core.create_vault_identity(
+        if hasattr(self.qi_identity_core, "create_vault_identity"):
+            vault_result = self.qi_identity_core.create_vault_identity(
                 vault_credentials
             )
         else:
             vault_result = {
                 "vault_id": f"VLT-{identity.lambda_id}",
-                "quantum_protection": True,
+                "qi_protection": True,
                 "backup_recovery": True,
             }
 
@@ -501,7 +501,7 @@ class LambdaIdIntegration:
         product_status = {
             "QRG": {"authenticated": True, "last_used": datetime.now().isoformat()},
             "NIΛS": {"consent_active": True, "filtering_enabled": True},
-            "WΛLLET": {"vault_accessible": True, "quantum_secured": True},
+            "WΛLLET": {"vault_accessible": True, "qi_secured": True},
             "ΛBAS": {"attention_tracking": False, "focus_mode": "standard"},
             "DΛST": {"security_active": True, "threat_level": "low"},
             "ΛSYMBOLIC": {

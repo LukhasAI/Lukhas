@@ -6,7 +6,7 @@
 #              and quantum-inspired processing components.
 #              Serves as an #AINTEROP and #ΛBRIDGE point for governance.
 # DEPENDENCIES: structlog, datetime, typing, asyncio, json, pathlib,
-#               ...quantum_processing.quantum_engine,
+#               ...qi_processing.qi_engine,
 #               ..bio_awareness.awareness
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
@@ -26,13 +26,13 @@ from typing import Any, Optional
 # AIMPORT_TODO: Review deep relative imports for robustness.
 # Ensure these components are correctly packaged or accessible.
 try:
-    from ...quantum_processing.quantum_engine import QuantumOscillator
+    from ...qi_processing.qi_engine import QIOscillator
 
     # Assuming EnhancedSystemAwareness is in awareness.py based on previous
     # file structure
     from ..bio_awareness.awareness import EnhancedSystemAwareness
 
-    logger.info("Successfully imported QuantumOscillator and EnhancedSystemAwareness.")
+    logger.info("Successfully imported QIOscillator and EnhancedSystemAwareness.")
 except ImportError as e:
     logger.error(
         "Failed to import critical dependencies for PolicyBoard.",
@@ -42,7 +42,7 @@ except ImportError as e:
     # ΛCAUTION: Core dependencies missing. PolicyBoard will be non-functional.
 
     class QIOscillator:  # type: ignore
-        def quantum_modulate(self, val: float) -> float:
+        def qi_modulate(self, val: float) -> float:
             return val
 
     class EnhancedSystemAwareness:  # type: ignore
@@ -59,48 +59,48 @@ class EnhancedPolicyProposal:
         self,
         proposal_id: str,
         metadata: dict[str, Any],
-        quantum_oscillator: QuantumOscillator,
+        qi_oscillator: QIOscillator,
     ):
         self.logger = logger.bind(proposal_id=proposal_id)
         self.proposal_id = proposal_id
         self.metadata = metadata
-        self.quantum_oscillator = quantum_oscillator
+        self.qi_oscillator = qi_oscillator
         self.timestamp = datetime.now(timezone.utc).isoformat()
 
         self.votes: dict[str, bool] = {}
-        self.quantum_like_states: dict[str, float] = {}
+        self.qi_like_states: dict[str, float] = {}
         # Example: could be based on agent reputation
         self.vote_weights: dict[str, float] = {}
         self.logger.info("EnhancedPolicyProposal initialized.")
 
     def cast_quantum_vote(
-        self, agent: str, vote: bool, quantum_like_state: float
+        self, agent: str, vote: bool, qi_like_state: float
     ) -> None:
         """Cast a quantum-enhanced vote"""
         self.logger.debug(
             "Casting quantum vote",
             agent=agent,
             vote=vote,
-            quantum_like_state=quantum_like_state,
+            qi_like_state=qi_like_state,
         )
         self.votes[agent] = vote
-        self.quantum_like_states[agent] = quantum_like_state
+        self.qi_like_states[agent] = qi_like_state
 
     def compute_quantum_approval(self) -> dict[str, Any]:
         """Compute approval with quantum weighting"""
-        # ΛNOTE: Quantum approval logic uses a quantum_oscillator to modulate vote weights.
-        # The modulation logic within QuantumOscillator is assumed.
+        # ΛNOTE: Quantum approval logic uses a qi_oscillator to modulate vote weights.
+        # The modulation logic within QIOscillator is assumed.
         self.logger.debug("Computing quantum approval.")
         total_weight = 0.0  # Ensure float
         weighted_approvals = 0.0  # Ensure float
 
         for agent, vote_cast in self.votes.items():  # Renamed vote to vote_cast
-            quantum_effect = self.quantum_oscillator.quantum_modulate(
+            qi_effect = self.qi_oscillator.qi_modulate(
                 # Default neutral quantum-like state
-                self.quantum_like_states.get(agent, 0.5)
+                self.qi_like_states.get(agent, 0.5)
             )
             # ΛNOTE: Vote weight combines agent's base weight with quantum effect.
-            weight = self.vote_weights.get(agent, 1.0) * quantum_effect
+            weight = self.vote_weights.get(agent, 1.0) * qi_effect
             total_weight += weight
 
             if vote_cast:  # If True vote
@@ -112,9 +112,9 @@ class EnhancedPolicyProposal:
         result = {
             "approved": approval_ratio >= (2 / 3),
             "approval_ratio": approval_ratio,
-            "quantum_confidence": (
-                sum(self.quantum_like_states.values()) / len(self.quantum_like_states)
-                if self.quantum_like_states
+            "qi_confidence": (
+                sum(self.qi_like_states.values()) / len(self.qi_like_states)
+                if self.qi_like_states
                 else 0.0
             ),
             "total_weighted_votes": total_weight,
@@ -132,7 +132,7 @@ class EnhancedPolicyProposal:
             "metadata_keys": list(self.metadata.keys()),  # For brevity
             "vote_count": len(self.votes),
             "votes_summary": self.votes,  # Consider summarizing if too large
-            "quantum_like_states_summary": self.quantum_like_states,  # Consider summarizing
+            "qi_like_states_summary": self.qi_like_states,  # Consider summarizing
             "approval_status": approval_details,
         }
         self.logger.debug(
@@ -156,13 +156,13 @@ class EnhancedPolicyBoard:
         self.logger = logger.bind(
             board_id=f"policy_board_{datetime.now().strftime('%H%M%S')}"
         )
-        self.quantum_oscillator = QuantumOscillator()
+        self.qi_oscillator = QIOscillator()
         self.awareness = EnhancedSystemAwareness()  # Assumes default init is fine
 
         # ΛSEED: Configuration for governance parameters.
         self.config: dict[str, float] = {
             "min_quorum": 0.66,  # 2/3 majority for approval
-            "quantum_threshold": 0.85,  # Example threshold for quantum-like state influence
+            "qi_threshold": 0.85,  # Example threshold for quantum-like state influence
             "high_risk_threshold": 0.9,  # Example for risk assessment in policy
         }
 
@@ -214,7 +214,7 @@ class EnhancedPolicyBoard:
             )
 
             proposal = EnhancedPolicyProposal(
-                proposal_id, metadata, self.quantum_oscillator
+                proposal_id, metadata, self.qi_oscillator
             )
 
             self.active_proposals[proposal_id] = proposal
@@ -273,20 +273,20 @@ class EnhancedPolicyBoard:
 
             # ΛNOTE: Quantum state for vote is derived from the boolean vote value itself via modulation.
             # This is a simplified model of "quantum-enhanced" voting.
-            quantum_like_state_basis = float(vote)  # True -> 1.0, False -> 0.0
-            quantum_like_state = self.quantum_oscillator.quantum_modulate(
-                quantum_like_state_basis
+            qi_like_state_basis = float(vote)  # True -> 1.0, False -> 0.0
+            qi_like_state = self.qi_oscillator.qi_modulate(
+                qi_like_state_basis
             )
             self.logger.debug(
                 "Quantum state for vote calculated.",
                 proposal_id=proposal_id,
                 agent=agent,
-                basis=quantum_like_state_basis,
-                modulated_state=quantum_like_state,
+                basis=qi_like_state_basis,
+                modulated_state=qi_like_state,
             )
 
             proposal.cast_quantum_vote(
-                agent, vote, quantum_like_state
+                agent, vote, qi_like_state
             )  # Internal logging
 
             status_after_vote = proposal.get_status()  # Internal logging
@@ -297,7 +297,7 @@ class EnhancedPolicyBoard:
                     "proposal_id": proposal_id,
                     "agent": agent,
                     "vote": vote,
-                    "quantum_like_state_used": quantum_like_state,
+                    "qi_like_state_used": qi_like_state,
                     "current_proposal_status": status_after_vote["approval_status"],
                 },
             )
@@ -389,7 +389,7 @@ class EnhancedPolicyBoard:
 # CLASSES: EnhancedPolicyProposal, EnhancedPolicyBoard.
 # DECORATORS: @dataclass (implicitly via EnhancedPolicyProposal if it were a dataclass, but it's a regular class).
 # DEPENDENCIES: structlog, datetime, typing, asyncio, json, pathlib,
-#               ...quantum_processing.quantum_engine.QuantumOscillator,
+#               ...qi_processing.qi_engine.QIOscillator,
 #               ..bio_awareness.awareness.EnhancedSystemAwareness.
 # INTERFACES: Public methods of EnhancedPolicyBoard class.
 # ERROR HANDLING: Logs errors for proposal submission, voting, and event logging.
@@ -403,7 +403,7 @@ class EnhancedPolicyBoard:
 #   await board.cast_vote("PROP001", "AgentSmith", True, context={"reason": "Aligned with core values"})
 #   status = await board.get_proposal_status("PROP001")
 # INTEGRATION NOTES: This module is a key #AINTEROP and #ΛBRIDGE point for governance.
-#                    Relies on `QuantumOscillator` and `EnhancedSystemAwareness` (#AIMPORT_TODO).
+#                    Relies on `QIOscillator` and `EnhancedSystemAwareness` (#AIMPORT_TODO).
 #                    Quantum voting logic is simplified (#ΛNOTE). Log path is hardcoded (#ΛNOTE).
 # MAINTENANCE: Implement actual quantum modulation and awareness feedback.
 #              Make log path and governance thresholds configurable (#ΛSEED).

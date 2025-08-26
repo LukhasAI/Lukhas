@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 🧠 LUKHAS AI Smart File Organization System - SIMPLE VERSION
-# Interactive semantic analysis with approval workflow  
+# Interactive semantic analysis with approval workflow
 # Trinity Framework compliant: ⚛️🧠🛡️
 
 set -e
@@ -27,7 +27,7 @@ analyze_file() {
     local category="MISC"
     local score=3
     local destination="docs/misc"
-    
+
     # Simple pattern matching with confidence scores
     case "$file" in
         *MATADA*|*matada*)
@@ -96,7 +96,7 @@ analyze_file() {
             destination="archive"
             ;;
     esac
-    
+
     echo "$category:$score:$destination"
 }
 
@@ -105,22 +105,22 @@ process_file_interactively() {
     local file="$1"
     local analysis_result
     analysis_result=$(analyze_file "$file")
-    
+
     IFS=':' read -ra result_parts <<< "$analysis_result"
     local category="${result_parts[0]}"
     local score="${result_parts[1]}"
     local destination="${result_parts[2]}"
-    
+
     echo "📄 File: $file"
     echo "🎯 Category: $category (confidence: ${score}/10)"
-    
+
     if [[ "$destination" == "DELETE" ]]; then
         echo "🗑️  Action: DELETE - Temporary/cleanup file"
     else
         echo "📁 Destination: $destination/"
     fi
     echo
-    
+
     # Interactive prompt
     while true; do
         echo "What would you like to do?"
@@ -129,9 +129,9 @@ process_file_interactively() {
         echo "  [c] Choose custom destination"
         echo "  [q] Quit organization"
         echo
-        
+
         read -p "Your choice [y/s/c/q]: " choice
-        
+
         case $choice in
             [Yy]|yes)
                 if [[ "$destination" == "DELETE" ]]; then
@@ -168,27 +168,27 @@ process_file_interactively() {
 # Main interactive loop
 main() {
     show_banner
-    
+
     echo "🎯 Starting Interactive File Organization"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo
     echo "🔍 Scanning root directory for files to organize..."
     echo
-    
+
     # Get list of files to process (simple approach)
     local files
     files=$(find . -maxdepth 1 -type f ! -name ".*" -exec basename {} \; | head -10)
-    
+
     if [[ -z "$files" ]]; then
         echo "No files found to organize."
         return 0
     fi
-    
+
     local file_count
     file_count=$(echo "$files" | wc -l)
     echo "📊 Found $file_count files to analyze (showing first 10)"
     echo
-    
+
     # Process each file interactively
     local processed=0
     while IFS= read -r file; do
@@ -196,15 +196,15 @@ main() {
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Processing: $((processed + 1))/$file_count"
             echo
-            
+
             if ! process_file_interactively "$file"; then
                 break
             fi
-            
+
             ((processed++))
         fi
     done <<< "$files"
-    
+
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "🎉 Interactive organization complete!"
     echo "   Processed: $processed/$file_count files"

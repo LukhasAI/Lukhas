@@ -68,6 +68,7 @@ class AdaptiveAGISystem:
         try:
             # Frontend components
             from learning.meta_learning import MetaLearningSystem
+            from voice.speech_processor import SpeechProcessor
 
             from candidate.core.common.interfaces.ui.adaptive.adaptive_interface_generator import (
                 AdaptiveInterfaceGenerator,
@@ -81,14 +82,13 @@ class AdaptiveAGISystem:
             from candidate.core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
                 NeuroSymbolicEngine,
             )
+            from candidate.orchestration.brain.privacy_manager import PrivacyManager
             from lukhas.governance.identity.core.id_service.identity_manager import (
                 IdentityManager,
             )
 
             # Backend components
             from lukhas.memory.node import Node
-            from candidate.orchestration.brain.privacy_manager import PrivacyManager
-            from voice.speech_processor import SpeechProcessor
 
             self.SpeechProcessor = SpeechProcessor
             self.AdaptiveImageGenerator = AdaptiveImageGenerator

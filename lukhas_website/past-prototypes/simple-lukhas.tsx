@@ -6,12 +6,12 @@ export default function SimpleLukhasSystem() {
   const [currentTier, setCurrentTier] = useState(1); // Tiers 1-5
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
+
   // Handle login form submission
   const handleLogin = (e) => {
     if (e) e.preventDefault();
     setAuthState('authenticating');
-    
+
     // Simulate login process
     setTimeout(() => {
       if (username && password) {
@@ -23,12 +23,12 @@ export default function SimpleLukhasSystem() {
       }
     }, 1000);
   };
-  
+
   // Handle tier upgrade
   const upgradeTier = () => {
     if (currentTier < 5) {
       setAuthState('authenticating');
-      
+
       // Simulate verification process
       setTimeout(() => {
         setCurrentTier(prev => prev + 1);
@@ -36,7 +36,7 @@ export default function SimpleLukhasSystem() {
       }, 1000);
     }
   };
-  
+
   // Handle logout
   const handleLogout = () => {
     setAuthState('unauthenticated');
@@ -44,7 +44,7 @@ export default function SimpleLukhasSystem() {
     setUsername('');
     setPassword('');
   };
-  
+
   // Get tier name
   const getTierName = (tier) => {
     switch(tier) {
@@ -56,7 +56,7 @@ export default function SimpleLukhasSystem() {
       default: return 'Unknown';
     }
   };
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-white p-6">
       {/* Header */}
@@ -65,9 +65,9 @@ export default function SimpleLukhasSystem() {
           <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
             LUKHΛS ΛID
           </div>
-          
+
           {authState === 'authenticated' ? (
-            <button 
+            <button
               onClick={handleLogout}
               className="px-4 py-2 rounded-full border border-white hover:bg-white hover:text-black transition-all"
             >
@@ -78,24 +78,24 @@ export default function SimpleLukhasSystem() {
           )}
         </div>
       </header>
-      
+
       {/* Main Content */}
       <main className="container mx-auto pt-24 flex flex-col items-center">
         {/* Central Lambda Symbol */}
         <div className="text-8xl font-bold my-8 text-center">
           <span className={
-            authState === 'unauthenticated' 
-              ? 'text-blue-500' 
-              : authState === 'authenticating' 
-                ? 'text-yellow-400' 
-                : currentTier === 5 
-                  ? 'text-yellow-300' 
+            authState === 'unauthenticated'
+              ? 'text-blue-500'
+              : authState === 'authenticating'
+                ? 'text-yellow-400'
+                : currentTier === 5
+                  ? 'text-yellow-300'
                   : 'text-purple-500'
           }>
             Λ
           </span>
         </div>
-        
+
         {/* Login Form */}
         {authState === 'unauthenticated' && (
           <div className="w-full max-w-md bg-black bg-opacity-50 rounded-xl p-8 border border-gray-800">
@@ -121,7 +121,7 @@ export default function SimpleLukhasSystem() {
                   placeholder="Enter your password"
                 />
               </div>
-              
+
               <button
                 type="submit"
                 className="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all mt-2"
@@ -131,19 +131,19 @@ export default function SimpleLukhasSystem() {
             </form>
           </div>
         )}
-        
+
         {/* Authenticating State */}
         {authState === 'authenticating' && (
           <div className="w-full max-w-md bg-black bg-opacity-50 rounded-xl p-8 border border-gray-800 text-center">
             <h2 className="text-2xl font-bold mb-4">Verifying Identity</h2>
             <p className="text-gray-300 mb-6">Please wait while we authenticate your credentials...</p>
             <div className="h-2 w-full bg-gray-800 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-blue-500 to-purple-600 animate-pulse" 
+              <div className="h-full bg-gradient-to-r from-blue-500 to-purple-600 animate-pulse"
                    style={{width: '70%'}}></div>
             </div>
           </div>
         )}
-        
+
         {/* Authenticated State */}
         {authState === 'authenticated' && (
           <div className="w-full max-w-2xl bg-black bg-opacity-50 rounded-xl p-8 border border-gray-800">
@@ -152,15 +152,15 @@ export default function SimpleLukhasSystem() {
                 <h2 className="text-2xl font-bold">Welcome, {username}</h2>
                 <div className="mt-2">
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                    currentTier === 5 
-                      ? 'bg-yellow-500 bg-opacity-20 text-yellow-300 border border-yellow-500' 
+                    currentTier === 5
+                      ? 'bg-yellow-500 bg-opacity-20 text-yellow-300 border border-yellow-500'
                       : 'bg-purple-500 bg-opacity-20 text-purple-300 border border-purple-500'
                   }`}>
                     Tier {currentTier} Security
                   </span>
                 </div>
               </div>
-              
+
               {currentTier < 5 && (
                 <button
                   onClick={upgradeTier}
@@ -170,7 +170,7 @@ export default function SimpleLukhasSystem() {
                 </button>
               )}
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-gray-900 bg-opacity-60 rounded-lg p-4 border border-gray-800">
                 <h3 className="text-lg font-semibold mb-3 flex items-center">
@@ -188,7 +188,7 @@ export default function SimpleLukhasSystem() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-gray-900 bg-opacity-60 rounded-lg p-4 border border-gray-800">
                 <h3 className="text-lg font-semibold mb-3 flex items-center">
                   <Lock className="mr-2 text-blue-400" size={20} />
@@ -199,28 +199,28 @@ export default function SimpleLukhasSystem() {
                     <span className="text-gray-400">Password</span>
                     <span className="text-green-400">Verified</span>
                   </div>
-                  
+
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Emoji + Keyword</span>
                     <span className={currentTier >= 2 ? "text-green-400" : "text-gray-500"}>
                       {currentTier >= 2 ? "Verified" : "Not Required"}
                     </span>
                   </div>
-                  
+
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">WebAuthn</span>
                     <span className={currentTier >= 3 ? "text-green-400" : "text-gray-500"}>
                       {currentTier >= 3 ? "Verified" : "Not Required"}
                     </span>
                   </div>
-                  
+
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Biometric ID</span>
                     <span className={currentTier >= 4 ? "text-green-400" : "text-gray-500"}>
                       {currentTier >= 4 ? "Verified" : "Not Required"}
                     </span>
                   </div>
-                  
+
                   <div className="flex justify-between items-center">
                     <span className="text-gray-400">Blockchain</span>
                     <span className={currentTier >= 5 ? "text-green-400" : "text-gray-500"}>
@@ -230,7 +230,7 @@ export default function SimpleLukhasSystem() {
                 </div>
               </div>
             </div>
-            
+
             {/* Current Tier Display */}
             <div className="mt-6 p-4 rounded-lg border border-gray-700 bg-black bg-opacity-30">
               <h3 className="text-xl font-semibold mb-3">
@@ -244,7 +244,7 @@ export default function SimpleLukhasSystem() {
                 {currentTier === 5 && "Supreme security with blockchain attestation and Ed25519 signatures."}
               </p>
             </div>
-            
+
             {/* QR Glyph for Tier 4+ */}
             {currentTier >= 4 && (
               <div className="mt-6 p-6 rounded-lg border border-gray-700 bg-black bg-opacity-30 flex flex-col items-center">
@@ -257,7 +257,7 @@ export default function SimpleLukhasSystem() {
                         // Simple pattern for QR modules
                         const isActive = Math.random() > 0.4;
                         return (
-                          <div 
+                          <div
                             key={i}
                             className={`rounded-sm ${isActive ? 'bg-purple-500' : 'bg-transparent'}`}
                           />
@@ -274,14 +274,14 @@ export default function SimpleLukhasSystem() {
             )}
           </div>
         )}
-        
+
         {/* Feature Overview - Only shown when not logged in */}
         {authState === 'unauthenticated' && (
           <div className="mt-16 max-w-4xl text-center">
             <h2 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
               The Future of Identity Security
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
               <div className="bg-black bg-opacity-50 p-6 rounded-xl border border-gray-800">
                 <div className="w-16 h-16 mx-auto rounded-full bg-blue-900 bg-opacity-30 flex items-center justify-center mb-4">
@@ -292,7 +292,7 @@ export default function SimpleLukhasSystem() {
                   Five progressive security tiers from basic to enterprise-grade blockchain verification.
                 </p>
               </div>
-              
+
               <div className="bg-black bg-opacity-50 p-6 rounded-xl border border-gray-800">
                 <div className="w-16 h-16 mx-auto rounded-full bg-purple-900 bg-opacity-30 flex items-center justify-center mb-4">
                   <Fingerprint size={32} className="text-purple-400" />
@@ -302,7 +302,7 @@ export default function SimpleLukhasSystem() {
                   Advanced verification with Face ID, Voice ID, and emoji-keyword combinations.
                 </p>
               </div>
-              
+
               <div className="bg-black bg-opacity-50 p-6 rounded-xl border border-gray-800">
                 <div className="w-16 h-16 mx-auto rounded-full bg-indigo-900 bg-opacity-30 flex items-center justify-center mb-4">
                   <Globe size={32} className="text-indigo-400" />
@@ -316,7 +316,7 @@ export default function SimpleLukhasSystem() {
           </div>
         )}
       </main>
-      
+
       {/* Footer */}
       <footer className="mt-16 py-8 border-t border-gray-800">
         <div className="container mx-auto text-center text-gray-500 text-sm">

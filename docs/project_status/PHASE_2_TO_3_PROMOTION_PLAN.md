@@ -1,6 +1,6 @@
 # Phase 2→3 Promotion Plan: Three Minimal Slices
 
-## 🎯 Objective 
+## 🎯 Objective
 
 Promote three minimal, working slices into `lukhas/` (accepted lane), each with:
 - Interfaces + builtin safe provider (no network/PII; works in DRY_RUN)
@@ -12,7 +12,7 @@ Promote three minimal, working slices into `lukhas/` (accepted lane), each with:
 
 ### Three Slices:
 1. **Governance → Consent Ledger** (`record_consent`)
-2. **Identity → Passkey Verify** (`verify_passkey`)  
+2. **Identity → Passkey Verify** (`verify_passkey`)
 3. **Orchestration → Context Handoff** (`handoff_context`)
 
 ---
@@ -333,7 +333,7 @@ git push -u origin feature/promote-three-slices
 
 Open three PRs (one per slice) using PR templates:
 - `.github/pull_request_template/consent_ledger.md`
-- `.github/pull_request_template/identity_passkey.md`  
+- `.github/pull_request_template/identity_passkey.md`
 - `.github/pull_request_template/orchestration_context.md`
 
 Each PR must include:
@@ -354,7 +354,7 @@ Each PR must include:
 from lukhas.governance.consent_ledger.registry import register
 
 class CloudConsentProvider:
-    def record(self, entry): 
+    def record(self, entry):
         # Real implementation here
         pass
 

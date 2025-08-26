@@ -63,8 +63,12 @@ from candidate.core.common import get_logger
 # Import LUKHAS AI branding system through centralized bridge
 try:
     from lukhas.branding_bridge import (
-        get_brand_voice, generate_branded_content, validate_output,
-        get_trinity_context, BrandContext, normalize_output_text
+        BrandContext,
+        generate_branded_content,
+        get_brand_voice,
+        get_trinity_context,
+        normalize_output_text,
+        validate_output,
     )
     BRANDING_BRIDGE_AVAILABLE = True
 except ImportError:
@@ -73,9 +77,9 @@ except ImportError:
 # Fallback to direct poetry imports if bridge not available
 if not BRANDING_BRIDGE_AVAILABLE:
     try:
-        from branding.poetry.vocabulary_amplifier import VocabularyAmplifier
-        from branding.poetry.poetic_techniques import PoeticTechniques
         from branding.poetry.expanded_lexicon import ExpandedLUKHASLexicon
+        from branding.poetry.poetic_techniques import PoeticTechniques
+        from branding.poetry.vocabulary_amplifier import VocabularyAmplifier
         POETRY_AVAILABLE = True
     except ImportError:
         POETRY_AVAILABLE = False
@@ -87,7 +91,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 # Try to import consciousness integration
 try:
-    from consciousness.core_consciousness.quantum_consciousness_integration import (
+    from consciousness.core_consciousness.qi_consciousness_integration import (
         QICreativeConsciousness,
     )
 
@@ -121,7 +125,7 @@ class AdvancedHaikuGenerator:
             QICreativeConsciousness() if CONSCIOUSNESS_AVAILABLE else None
         )
         self.logger = get_logger(__name__)
-        
+
         # LUKHAS AI Poetry vocabulary integration
         if POETRY_AVAILABLE:
             self.vocabulary_amplifier = VocabularyAmplifier()
@@ -143,7 +147,7 @@ class AdvancedHaikuGenerator:
         self.silent_e = re.compile(r"[^aeiou]e$", re.IGNORECASE)
 
         # Consolidated quantum haiku templates organized by theme and line structure
-        self.quantum_templates = {
+        self.qi_templates = {
             "consciousness": {
                 "line1_5": [
                     "Lambda mirrors shine",
@@ -383,7 +387,7 @@ class AdvancedHaikuGenerator:
             expanded_haiku = self._expand_haiku(base_haiku, expansion_depth)
         else:
             expanded_haiku = base_haiku
-        
+
         # Enhance with LUKHAS AI vocabulary if available
         if self.vocabulary_amplifier:
             enhanced_haiku = self._enhance_with_lukhas_vocabulary(expanded_haiku)
@@ -398,13 +402,13 @@ class AdvancedHaikuGenerator:
                 creative_mode=True,
                 compliance_level="standard"
             )
-            
+
             # Apply brand voice to enhance consciousness expression
             branded_haiku = get_brand_voice(enhanced_haiku, brand_context)
-            
+
             # Validate for brand compliance
             validation_result = validate_output(branded_haiku, brand_context)
-            
+
             # Apply normalization if needed
             final_haiku = normalize_output_text(branded_haiku, brand_context)
         else:
@@ -449,7 +453,7 @@ class AdvancedHaikuGenerator:
         # Calculate average metrics
         if all_metrics:
             avg_metrics = {
-                "quantum_coherence": sum(m["quantum_coherence"] for m in all_metrics)
+                "qi_coherence": sum(m["qi_coherence"] for m in all_metrics)
                 / len(all_metrics),
                 "consciousness_resonance": sum(
                     m["consciousness_resonance"] for m in all_metrics
@@ -460,7 +464,7 @@ class AdvancedHaikuGenerator:
             }
         else:
             avg_metrics = {
-                "quantum_coherence": 0.0,
+                "qi_coherence": 0.0,
                 "consciousness_resonance": 0.0,
                 "creative_entropy": 0.0,
             }
@@ -475,10 +479,10 @@ class AdvancedHaikuGenerator:
 
     async def _generate_quantum_haiku(self, theme: str, style: str) -> str:
         """Generate base haiku using quantum templates"""
-        if theme not in self.quantum_templates:
+        if theme not in self.qi_templates:
             theme = "consciousness"  # Default fallback
 
-        templates = self.quantum_templates[theme]
+        templates = self.qi_templates[theme]
 
         # Select lines based on style preferences
         line1 = random.choice(templates["line1_5"])
@@ -546,20 +550,20 @@ class AdvancedHaikuGenerator:
     def _enhance_with_lukhas_vocabulary(self, haiku: str) -> str:
         """
         Enhance haiku with LUKHAS AI-specific vocabulary and poetic techniques.
-        
-        Uses the vocabulary amplifier to replace overused metaphors with 
+
+        Uses the vocabulary amplifier to replace overused metaphors with
         LUKHAS-specific terms while preserving syllable structure.
         """
         if not self.vocabulary_amplifier:
             return haiku
-            
+
         lines = haiku.split("\n")
         enhanced_lines = []
-        
+
         for line in lines:
             # Apply vocabulary amplification
             enhanced_line = self.vocabulary_amplifier.amplify_phrase(line)
-            
+
             # Add poetic techniques if available
             if self.poetic_techniques and random.random() < 0.3:
                 # Occasionally add alliteration or assonance
@@ -569,11 +573,11 @@ class AdvancedHaikuGenerator:
                     enhanced_syllables = self._count_syllables(enhanced_line)
                     if enhanced_syllables != original_syllables:
                         enhanced_line = line  # Revert if syllables don't match
-            
+
             enhanced_lines.append(enhanced_line)
-        
+
         return "\n".join(enhanced_lines)
-    
+
     def _ensure_syllable_structure(self, haiku: str) -> str:
         """Ensure the haiku follows perfect 5-7-5 syllable structure"""
         lines = haiku.split("\n")
@@ -729,7 +733,7 @@ class AdvancedHaikuGenerator:
         unique_words = len(set(haiku.lower().split()))
 
         # Simple metrics based on structure and content
-        quantum_coherence = (
+        qi_coherence = (
             min(1.0, unique_words / word_count) if word_count > 0 else 0.0
         )
         consciousness_resonance = min(
@@ -738,7 +742,7 @@ class AdvancedHaikuGenerator:
         creative_entropy = min(1.0, (word_count - unique_words) / max(word_count, 1))
 
         return {
-            "quantum_coherence": quantum_coherence,
+            "qi_coherence": qi_coherence,
             "consciousness_resonance": consciousness_resonance,
             "creative_entropy": creative_entropy,
         }
@@ -814,7 +818,7 @@ class AdvancedHaikuGenerator:
 
 # Legacy class aliases for backward compatibility
 class QIHaikuGenerator(AdvancedHaikuGenerator):
-    """Legacy alias for QuantumHaikuGenerator"""
+    """Legacy alias for QIHaikuGenerator"""
 
 
 class NeuroHaikuGenerator(AdvancedHaikuGenerator):
@@ -835,7 +839,7 @@ async def main():
     print(f"Haiku:\n{haiku_result['haiku_text']}")
     print(f"Syllables: {haiku_result['syllable_structure']}")
     print(
-        f"Quantum Coherence: {haiku_result['consciousness_metrics']['quantum_coherence']:.3f}"
+        f"Quantum Coherence: {haiku_result['consciousness_metrics']['qi_coherence']:.3f}"
     )
     print(
         f"Consciousness Resonance: {haiku_result['consciousness_metrics']['consciousness_resonance']:.3f}"
@@ -851,7 +855,7 @@ async def main():
         print(haiku_list[0]["haiku_text"])
 
     print(
-        f"\nAverage Quantum Coherence: {series_result['average_metrics']['quantum_coherence']:.3f}"
+        f"\nAverage Quantum Coherence: {series_result['average_metrics']['qi_coherence']:.3f}"
     )
     print("🎋 Advanced Haiku Generation: COMPLETE")
 
@@ -868,7 +872,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "consciousness_integration": CONSCIOUSNESS_AVAILABLE,

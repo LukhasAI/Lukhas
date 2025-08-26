@@ -80,7 +80,7 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!validateForm()) return
 
     setIsLoading(true)
@@ -210,8 +210,8 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       autoComplete="email"
                       className={`w-full bg-white/5 border rounded-lg pl-10 pr-4 py-3 font-thin text-sm focus:outline-none focus:ring-2 transition-all ${
-                        errors.email 
-                          ? 'border-red-400 focus:ring-red-400/50' 
+                        errors.email
+                          ? 'border-red-400 focus:ring-red-400/50'
                           : 'border-white/20 focus:ring-trinity-consciousness/50'
                       }`}
                       placeholder="your@email.com"
@@ -239,8 +239,8 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
                       onChange={(e) => handleInputChange('username', e.target.value)}
                       autoComplete="username"
                       className={`w-full bg-white/5 border rounded-lg px-4 py-3 font-thin text-sm focus:outline-none focus:ring-2 transition-all ${
-                        errors.username 
-                          ? 'border-red-400 focus:ring-red-400/50' 
+                        errors.username
+                          ? 'border-red-400 focus:ring-red-400/50'
                           : 'border-white/20 focus:ring-trinity-consciousness/50'
                       }`}
                       placeholder="yourusername"
@@ -269,8 +269,8 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
                       onChange={(e) => handleInputChange('password', e.target.value)}
                       autoComplete="new-password"
                       className={`w-full bg-white/5 border rounded-lg pl-10 pr-12 py-3 font-thin text-sm focus:outline-none focus:ring-2 transition-all ${
-                        errors.password 
-                          ? 'border-red-400 focus:ring-red-400/50' 
+                        errors.password
+                          ? 'border-red-400 focus:ring-red-400/50'
                           : 'border-white/20 focus:ring-trinity-consciousness/50'
                       }`}
                       placeholder="••••••••"
@@ -307,8 +307,8 @@ export default function LukhasIDModal({ isOpen, onClose }: LukhasIDModalProps) {
                         onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
                         autoComplete="new-password"
                         className={`w-full bg-white/5 border rounded-lg pl-10 pr-4 py-3 font-thin text-sm focus:outline-none focus:ring-2 transition-all ${
-                          errors.confirmPassword 
-                            ? 'border-red-400 focus:ring-red-400/50' 
+                          errors.confirmPassword
+                            ? 'border-red-400 focus:ring-red-400/50'
                             : 'border-white/20 focus:ring-trinity-consciousness/50'
                         }`}
                         placeholder="••••••••"

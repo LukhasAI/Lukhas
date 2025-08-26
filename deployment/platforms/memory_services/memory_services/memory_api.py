@@ -72,7 +72,7 @@ class MemoryServicesAPI:
         # Import appropriate backend
         if self.storage_backend == "quantum":
             try:
-                from lukhas.memory.core.quantum_memory_manager import MemoryManager
+                from lukhas.memory.core.qi_memory_manager import MemoryManager
 
                 self._memory_manager = MemoryManager()
                 self._quantum_features = True
@@ -211,7 +211,7 @@ class MemoryServicesAPI:
         return {
             "total_memories": await self._count_memories(),
             "storage_backend": self.storage_backend,
-            "quantum_features": self._quantum_features,
+            "qi_features": self._quantum_features,
             "memory_types": await self._get_type_distribution(),
             "avg_importance": await self._get_avg_importance(),
         }

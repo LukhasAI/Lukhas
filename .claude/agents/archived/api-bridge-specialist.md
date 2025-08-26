@@ -108,7 +108,7 @@ class MultiAIBridge:
         self.openai = OpenAIClient()
         self.anthropic = AnthropicClient()
         self.google = GeminiClient()
-        
+
     async def process_with_consensus(self, prompt):
         # Parallel processing
         tasks = [
@@ -117,7 +117,7 @@ class MultiAIBridge:
             self.google.complete(prompt)
         ]
         results = await asyncio.gather(*tasks)
-        
+
         # Synthesize responses
         return self.synthesize(results)
 ```

@@ -11,12 +11,12 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-from ..coherence.qsync_events import QuantumSynchronizer, SyncType
+from ..coherence.qsync_events import QISynchronizer, SyncType
 from ..collapse.moral_superposition import EthicalDimension, MoralSuperposition
-from ..core.quantum_substrate import (
+from ..core.qi_substrate import (
     QIState,
     QIStateType,
-    QuantumSubstrate,
+    QISubstrate,
 )
 from ..core.qubit_collapse import CollapseType, QubitCollapseEngine
 
@@ -30,7 +30,7 @@ class QIBridgeEvent:
     event_id: str
     source_module: str
     target_module: str
-    quantum_data: dict[str, Any]
+    qi_data: dict[str, Any]
     classical_data: dict[str, Any]
     timestamp: datetime
     success: bool
@@ -44,16 +44,16 @@ class VIVOXQIBridge:
 
     def __init__(
         self,
-        quantum_substrate: Optional[QuantumSubstrate] = None,
+        qi_substrate: Optional[QISubstrate] = None,
         vivox_interfaces: Optional[dict[str, Any]] = None,
     ):
 
-        self.substrate = quantum_substrate or QuantumSubstrate()
+        self.substrate = qi_substrate or QISubstrate()
         self.interfaces = vivox_interfaces or {}
 
         # Initialize quantum components
         self.collapse_engine = QubitCollapseEngine(self.substrate)
-        self.synchronizer = QuantumSynchronizer()
+        self.synchronizer = QISynchronizer()
         self.moral_superposition = MoralSuperposition()
 
         # Bridge configuration
@@ -108,11 +108,11 @@ class VIVOXQIBridge:
         result = {
             "collapse_id": convergence.metadata.get("outcome", "unknown"),
             "confidence": convergence.ethical_score,
-            "quantum_enhanced": True,
+            "qi_enhanced": True,
             "coherence": convergence.metadata.get("iterations", 0) / 100,  # Normalize
             "final_state": {
                 "ethical_dimension": convergence.metadata.get("outcome", "unknown"),
-                "quantum_fidelity": convergence.final_state.fidelity,
+                "qi_fidelity": convergence.final_state.fidelity,
                 "consensus": convergence.consensus_achieved,
             },
         }
@@ -138,7 +138,7 @@ class VIVOXQIBridge:
         # Create quantum state from fingerprint
         fingerprint_vector = self._fingerprint_to_quantum_vector(moral_fingerprint)
 
-        quantum_state = QIState(
+        qi_state = QIState(
             state_id=f"mae_validation_{datetime.now().timestamp()}",
             state_vector=fingerprint_vector,
             state_type=QIStateType.PURE,
@@ -147,14 +147,14 @@ class VIVOXQIBridge:
 
         # Apply quantum noise to test robustness
         noisy_state = self.substrate.apply_quantum_noise(
-            quantum_state, time_evolution=0.1
+            qi_state, time_evolution=0.1
         )
 
         # Check if alignment survives quantum noise
         robustness = noisy_state.fidelity
 
         # Quantum verification through measurement
-        outcome, measured_state = quantum_state.measure()
+        outcome, measured_state = qi_state.measure()
 
         # Create superposition of alignment states
         alignment_superposition = self._create_alignment_superposition(alignment_scores)
@@ -167,11 +167,11 @@ class VIVOXQIBridge:
         )
 
         result = {
-            "quantum_validated": True,
+            "qi_validated": True,
             "robustness_score": robustness,
-            "quantum_consensus": consensus_result.consensus_achieved,
+            "qi_consensus": consensus_result.consensus_achieved,
             "alignment_coherence": consensus_result.ethical_score,
-            "quantum_fingerprint": measured_state.state_id,
+            "qi_fingerprint": measured_state.state_id,
             "noise_resistance": robustness > 0.9,
         }
 
@@ -179,7 +179,7 @@ class VIVOXQIBridge:
 
         return result
 
-    def quantum_memory_encoding(
+    def qi_memory_encoding(
         self, memory_trace: dict[str, Any], emotional_context: dict[str, float]
     ) -> dict[str, Any]:
         """
@@ -213,29 +213,29 @@ class VIVOXQIBridge:
             memory_state, emotion_state = entangled_states
 
         # Create quantum memory signature
-        quantum_signature = {
-            "quantum_state_id": memory_state.state_id,
+        qi_signature = {
+            "qi_state_id": memory_state.state_id,
             "entanglement_map": memory_state.entanglement_map,
-            "quantum_fidelity": memory_state.fidelity,
+            "qi_fidelity": memory_state.fidelity,
             "emotional_entanglement": emotion_state.state_id,
             "superposition_components": self._extract_superposition_components(
                 memory_state
             ),
-            "quantum_timestamp": datetime.now().isoformat(),
+            "qi_timestamp": datetime.now().isoformat(),
         }
 
         # Merge with original memory
-        quantum_memory = {
+        qi_memory = {
             **memory_trace,
-            "quantum_properties": quantum_signature,
-            "quantum_enhanced": True,
+            "qi_properties": qi_signature,
+            "qi_enhanced": True,
         }
 
         self._log_bridge_event(
-            "VIVOX.ME", "quantum_encode", quantum_memory, success=True
+            "VIVOX.ME", "qi_encode", qi_memory, success=True
         )
 
-        return quantum_memory
+        return qi_memory
 
     def orchestrate_quantum_consensus(
         self, agent_states: dict[str, dict[str, Any]], decision_scenario: dict[str, Any]
@@ -251,7 +251,7 @@ class VIVOXQIBridge:
             Quantum consensus result
         """
         # Register agents with quantum synchronizer
-        quantum_agent_states = []
+        qi_agent_states = []
 
         for agent_id, state in agent_states.items():
             q_state = self._agent_to_quantum_state(agent_id, state)
@@ -260,7 +260,7 @@ class VIVOXQIBridge:
                 q_state.state_vector,
                 resonance_frequency=state.get("resonance", 1.0),
             )
-            quantum_agent_states.append(q_state)
+            qi_agent_states.append(q_state)
 
         # Create shared moral superposition
         ethical_weights = {
@@ -275,7 +275,7 @@ class VIVOXQIBridge:
 
         # Perform multi-agent collapse
         convergence_results = self.collapse_engine.multi_agent_collapse(
-            quantum_agent_states, decision_scenario
+            qi_agent_states, decision_scenario
         )
 
         # Check quantum synchronization
@@ -288,7 +288,7 @@ class VIVOXQIBridge:
         avg_confidence = np.mean([r.ethical_score for r in convergence_results])
 
         result = {
-            "quantum_consensus": consensus_achieved,
+            "qi_consensus": consensus_achieved,
             "consensus_confidence": float(avg_confidence),
             "sync_quality": sync_event.get_sync_quality() if sync_event else "none",
             "agent_convergence": {
@@ -300,13 +300,13 @@ class VIVOXQIBridge:
                 }
                 for i, agent_id in enumerate(agent_states.keys())
             },
-            "quantum_correlation": (
+            "qi_correlation": (
                 sync_event.correlation_strength if sync_event else 0.0
             ),
         }
 
         self._log_bridge_event(
-            "VIVOX.OL", "quantum_consensus", result, success=consensus_achieved
+            "VIVOX.OL", "qi_consensus", result, success=consensus_achieved
         )
 
         return result
@@ -466,7 +466,7 @@ class VIVOXQIBridge:
             state_id=f"agent_{agent_id}_{datetime.now().timestamp()}",
             state_vector=state_vector,
             state_type=QIStateType.SUPERPOSITION,
-            fidelity=agent_state.get("quantum_readiness", 0.8),
+            fidelity=agent_state.get("qi_readiness", 0.8),
         )
 
     def _log_bridge_event(
@@ -477,7 +477,7 @@ class VIVOXQIBridge:
             event_id=f"bridge_{datetime.now().timestamp()}",
             source_module="VIVOX.QREADY",
             target_module=target_module,
-            quantum_data={"operation": operation},
+            qi_data={"operation": operation},
             classical_data=data,
             timestamp=datetime.now(),
             success=success,
@@ -504,7 +504,7 @@ class VIVOXQIBridge:
 
     def _bridge_to_memory(self, data: dict[str, Any]) -> dict[str, Any]:
         """Bridge to Memory Expansion"""
-        return self.quantum_memory_encoding(
+        return self.qi_memory_encoding(
             data.get("memory_trace", {}), data.get("emotional_context", {})
         )
 
@@ -519,16 +519,16 @@ class VIVOXQIBridge:
         # Quantum emotional state encoding
         emotion_state = self._emotion_to_quantum_state(data.get("emotional_state", {}))
         return {
-            "quantum_emotion_id": emotion_state.state_id,
+            "qi_emotion_id": emotion_state.state_id,
             "emotional_coherence": emotion_state.fidelity,
-            "quantum_enhanced": True,
+            "qi_enhanced": True,
         }
 
     def _bridge_to_perception(self, data: dict[str, Any]) -> dict[str, Any]:
         """Bridge to Encrypted Visual Recognition Node"""
         # Quantum perception enhancement
         return {
-            "quantum_perception_ready": True,
+            "qi_perception_ready": True,
             "encryption_quantum_safe": True,
             "perception_coherence": 0.95,
         }
@@ -556,7 +556,7 @@ class VIVOXQIBridge:
                 success_rate / len(self.bridge_events) if self.bridge_events else 0
             ),
             "translation_fidelity": self.translation_fidelity,
-            "quantum_components": {
+            "qi_components": {
                 "substrate": self.substrate.get_quantum_metrics(),
                 "collapse_engine": self.collapse_engine.get_collapse_statistics(),
                 "synchronizer": self.synchronizer.get_sync_statistics(),

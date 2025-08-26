@@ -39,7 +39,7 @@ wc -l [file.py]  # Check if substantial (>100 lines)
 ### Step 2: Purpose Assessment
 Check for:
 - [ ] Clear module purpose in docstring
-- [ ] Imports that show integration points  
+- [ ] Imports that show integration points
 - [ ] Classes/functions that do real work
 - [ ] Not just configuration or constants
 - [ ] Not a duplicate/variant of active code
@@ -63,7 +63,7 @@ Let me manually review top candidates from core/ first:
 ```bash
 # consciousness/AGI implementations
 core/agi/consciousness_stream.py
-core/agi/self_improvement.py  
+core/agi/self_improvement.py
 core/agi/autonomous_learning.py
 core/agi/adaptive/meta_learning.py
 
@@ -92,7 +92,7 @@ core/orchestration/brain/personality/creative_personality.py
 core/interfaces/nias/generate_nias_docs.py
 core/interfaces/dashboard/core/dashboard_colony_agent.py
 
-# Monitoring/Observability  
+# Monitoring/Observability
 core/monitoring/drift_monitor.py
 core/distributed_tracing.py
 ```
@@ -122,7 +122,7 @@ For each module, fill this out BEFORE using API credits:
 ### Quick Stats
 - Lines of Code: ___
 - Has Classes: Yes/No
-- Has Tests: Yes/No  
+- Has Tests: Yes/No
 - Last Modified: ___
 
 ### Purpose (from docstring/code)
@@ -187,10 +187,10 @@ For each module, fill this out BEFORE using API credits:
    ```bash
    # Run cheapest model first
    --cheap-first --cascade-models gpt-3.5-turbo,gpt-4
-   
+
    # Get essential info only
    --no-extra-info
-   
+
    # Skip expensive embeddings if not needed
    --no-openai  # for initial assessment
    ```

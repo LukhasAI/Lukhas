@@ -80,7 +80,7 @@
       "common": {
         "title": "Common Issues",
         "email": "Email not received",
-        "expired": "Code has expired", 
+        "expired": "Code has expired",
         "invalid": "Code not working",
         "blocked": "Corporate email blocking"
       },

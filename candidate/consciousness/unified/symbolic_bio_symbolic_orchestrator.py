@@ -48,7 +48,7 @@ class CoherenceMetrics:
     threshold_confidence: float = 0.0
     mapping_confidence: float = 0.0
     anomaly_confidence: float = 0.0
-    quantum_alignment: float = 0.0
+    qi_alignment: float = 0.0
     colony_consensus: float = 0.0
     temporal_stability: float = 0.0
     timestamp: datetime = field(default_factory=datetime.utcnow)
@@ -60,7 +60,7 @@ class ProcessingPipeline:
 
     parallel_processing: bool = True
     consensus_required: bool = True
-    quantum_enhancement: bool = True
+    qi_enhancement: bool = True
     self_healing: bool = True
     adaptive_optimization: bool = True
     coherence_target: float = 0.85
@@ -78,7 +78,7 @@ class BioSymbolicOrchestrator(BaseColony):
             capabilities=[
                 "colony_orchestration",
                 "consensus_integration",
-                "quantum_enhancement",
+                "qi_enhancement",
                 "coherence_optimization",
                 "self_healing",
             ],
@@ -114,7 +114,7 @@ class BioSymbolicOrchestrator(BaseColony):
         }
 
         # Quantum enhancement parameters
-        self.quantum_config = {
+        self.qi_config = {
             "entanglement_strength": 0.8,
             "superposition_threshold": 0.9,
             "coherence_boost_factor": 1.3,
@@ -193,7 +193,7 @@ class BioSymbolicOrchestrator(BaseColony):
             )
 
             # Stage 3: Quantum Enhancement
-            if self.pipeline_config.quantum_enhancement:
+            if self.pipeline_config.qi_enhancement:
                 enhanced_results = await self._apply_quantum_enhancement(
                     integrated_results, bio_data, context
                 )
@@ -411,16 +411,16 @@ class BioSymbolicOrchestrator(BaseColony):
 
             # Apply quantum coherence boost if conditions are met
             if (
-                original_confidence > self.quantum_config["superposition_threshold"]
+                original_confidence > self.qi_config["superposition_threshold"]
                 and enhanced.get("consensus_strength", 0) > 0.8
             ):
 
-                boost_factor = self.quantum_config["coherence_boost_factor"]
+                boost_factor = self.qi_config["coherence_boost_factor"]
                 enhanced["mapping_confidence"] = min(
                     original_confidence * boost_factor, 1.0
                 )
-                enhanced["quantum_enhanced"] = True
-                enhanced["quantum_boost_applied"] = boost_factor
+                enhanced["qi_enhanced"] = True
+                enhanced["qi_boost_applied"] = boost_factor
 
                 logger.debug(
                     f"Quantum boost applied: {original_confidence:.3f} → {enhanced['mapping_confidence']:.3f}"
@@ -429,7 +429,7 @@ class BioSymbolicOrchestrator(BaseColony):
         # Quantum entanglement effects
         if "active_glyphs" in enhanced and len(enhanced["active_glyphs"]) > 1:
             # Strengthen connections between GLYPHs
-            entanglement_strength = self.quantum_config["entanglement_strength"]
+            entanglement_strength = self.qi_config["entanglement_strength"]
 
             # Boost probabilities of related GLYPHs
             if "glyph_probabilities" in enhanced:
@@ -446,12 +446,12 @@ class BioSymbolicOrchestrator(BaseColony):
                         probabilities[glyph2] = min(probabilities[glyph2] + boost, 1.0)
 
                 enhanced["glyph_probabilities"] = probabilities
-                enhanced["quantum_entanglement_applied"] = True
+                enhanced["qi_entanglement_applied"] = True
 
         # Quantum phase alignment
-        if self.quantum_config["phase_alignment"]:
+        if self.qi_config["phase_alignment"]:
             # Align all measurements to optimal quantum phase
-            enhanced["quantum_phase_aligned"] = True
+            enhanced["qi_phase_aligned"] = True
             enhanced["phase_alignment_factor"] = 1.1
 
             # Boost overall coherence through phase alignment
@@ -461,7 +461,7 @@ class BioSymbolicOrchestrator(BaseColony):
         # Quantum superposition handling
         if enhanced.get("consensus_strength", 0) < 0.7:
             # Allow superposition of multiple states when consensus is low
-            enhanced["quantum_superposition_active"] = True
+            enhanced["qi_superposition_active"] = True
             enhanced["superposition_states"] = enhanced.get("active_glyphs", [])
 
         return enhanced
@@ -492,8 +492,8 @@ class BioSymbolicOrchestrator(BaseColony):
             metrics.anomaly_confidence = filtering.get("detection_confidence", 0.0)
 
         # Quantum alignment
-        metrics.quantum_alignment = (
-            1.0 if integrated_results.get("quantum_enhanced") else 0.7
+        metrics.qi_alignment = (
+            1.0 if integrated_results.get("qi_enhanced") else 0.7
         )
 
         # Colony consensus
@@ -508,7 +508,7 @@ class BioSymbolicOrchestrator(BaseColony):
             "threshold_confidence": 0.15,
             "mapping_confidence": 0.25,
             "anomaly_confidence": 0.15,
-            "quantum_alignment": 0.10,
+            "qi_alignment": 0.10,
             "colony_consensus": 0.15,
             "temporal_stability": 0.05,
         }
@@ -518,10 +518,10 @@ class BioSymbolicOrchestrator(BaseColony):
         )
 
         # Apply quantum boost if present
-        if integrated_results.get("quantum_enhanced"):
+        if integrated_results.get("qi_enhanced"):
             metrics.overall_coherence = min(
                 metrics.overall_coherence
-                * integrated_results.get("quantum_boost_applied", 1.0),
+                * integrated_results.get("qi_boost_applied", 1.0),
                 1.0,
             )
 
@@ -594,9 +594,9 @@ class BioSymbolicOrchestrator(BaseColony):
             )
 
         # Quantum healing (if available)
-        if self.quantum_config["entanglement_strength"] > 0.8:
-            healing_actions.append("quantum_healing")
-            healed["quantum_healing_applied"] = True
+        if self.qi_config["entanglement_strength"] > 0.8:
+            healing_actions.append("qi_healing")
+            healed["qi_healing_applied"] = True
 
             # Quantum field healing effect
             for key in ["data_quality", "mapping_confidence", "threshold_confidence"]:
@@ -806,7 +806,7 @@ class BioSymbolicOrchestrator(BaseColony):
         if coherence_metrics.anomaly_confidence < 0.7:
             recommendations.append("Strengthen anomaly detection")
 
-        if coherence_metrics.quantum_alignment < 0.8:
+        if coherence_metrics.qi_alignment < 0.8:
             recommendations.append("Optimize quantum enhancement")
 
         if coherence_metrics.colony_consensus < 0.7:
@@ -883,8 +883,8 @@ class BioSymbolicOrchestrator(BaseColony):
             "quality_assessment": quality,
             "processing_time_ms": result["processing_time_ms"],
             "colonies_involved": len(self.colonies),
-            "quantum_enhanced": result["bio_symbolic_state"].get(
-                "quantum_enhanced", False
+            "qi_enhanced": result["bio_symbolic_state"].get(
+                "qi_enhanced", False
             ),
             "self_healing_applied": result["bio_symbolic_state"].get(
                 "self_healing_activated", False
@@ -920,7 +920,7 @@ class BioSymbolicOrchestrator(BaseColony):
                 else 0.0
             ),
             "consensus_weights": self.consensus_weights,
-            "quantum_config": self.quantum_config,
+            "qi_config": self.qi_config,
             "healing_config": self.healing_config,
             "optimization_state": {
                 "learning_rate": self.optimization_state["learning_rate"],

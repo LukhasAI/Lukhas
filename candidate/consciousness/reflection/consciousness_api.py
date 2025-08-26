@@ -237,7 +237,7 @@ class ConsciousnessPlatformAPI:
             request.use_quantum_reflection
             and self.consciousness_level == ConsciousnessLevel.QUANTUM
         ):
-            result["quantum_insights"] = await self._quantum_reflect(request.topic)
+            result["qi_insights"] = await self._quantum_reflect(request.topic)
 
         return result
 
@@ -383,7 +383,7 @@ class ConsciousnessPlatformAPI:
     async def _quantum_reflect(self, topic: str) -> dict[str, Any]:
         """Perform quantum-enhanced reflection"""
         return {
-            "quantum_coherence": 0.92,
+            "qi_coherence": 0.92,
             "superposition_states": 3,
             "entangled_concepts": ["concept_a", "concept_b"],
         }

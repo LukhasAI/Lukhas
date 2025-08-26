@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUKHAS Universal Adaptive Dashboard</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
-    
+
     <!-- Adaptive CSS that morphs based on system state -->
     <style>
         :root {
@@ -18,11 +18,11 @@
             --warning-color: #f59e0b;
             --error-color: #ef4444;
             --success-color: #10b981;
-            
+
             /* Morphing Properties */
             --morph-duration: 800ms;
             --morph-easing: cubic-bezier(0.4, 0.0, 0.2, 1);
-            
+
             /* Layout Properties */
             --grid-template-columns: repeat(12, 1fr);
             --grid-template-rows: auto 1fr auto;
@@ -30,7 +30,7 @@
             --border-radius: 8px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Trauma Response Color Scheme */
         [data-morph-state="trauma_response"] {
             --primary-color: #dc2626;
@@ -43,7 +43,7 @@
             --success-color: #6ee7b7;
             --morph-duration: 300ms;
         }
-        
+
         /* Ethics Complex Color Scheme */
         [data-morph-state="ethics_complex"] {
             --primary-color: #7c3aed;
@@ -55,7 +55,7 @@
             --error-color: #dc2626;
             --success-color: #059669;
         }
-        
+
         /* High Performance Color Scheme */
         [data-morph-state="high_performance"] {
             --primary-color: #1f2937;
@@ -68,7 +68,7 @@
             --success-color: #10b981;
             --spacing-unit: 0.5rem;
         }
-        
+
         /* Research Mode Color Scheme */
         [data-morph-state="research_mode"] {
             --primary-color: #0891b2;
@@ -81,7 +81,7 @@
             --success-color: #10b981;
             --grid-template-columns: repeat(16, 1fr);
         }
-        
+
         /* Healing Mode Color Scheme */
         [data-morph-state="healing_mode"] {
             --primary-color: #059669;
@@ -93,7 +93,7 @@
             --error-color: #dc2626;
             --success-color: #10b981;
         }
-        
+
         /* Emergency Mode - Critical Override */
         [data-morph-state="emergency_mode"] {
             --primary-color: #991b1b !important;
@@ -104,13 +104,13 @@
             --morph-duration: 100ms !important;
             --spacing-unit: 2rem !important;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
             background: var(--background-color);
@@ -119,7 +119,7 @@
             transition: all var(--morph-duration) var(--morph-easing);
             overflow-x: hidden;
         }
-        
+
         /* Universal Grid Container */
         .dashboard-container {
             display: grid;
@@ -130,7 +130,7 @@
             padding: var(--spacing-unit);
             transition: all var(--morph-duration) var(--morph-easing);
         }
-        
+
         /* Header - Always Visible */
         .dashboard-header {
             grid-column: 1 / -1;
@@ -144,7 +144,7 @@
             align-items: center;
             transition: all var(--morph-duration) var(--morph-easing);
         }
-        
+
         .dashboard-title {
             font-size: 1.5rem;
             font-weight: 700;
@@ -154,14 +154,14 @@
             background-clip: text;
             transition: all var(--morph-duration) var(--morph-easing);
         }
-        
+
         .system-status {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             font-size: 0.9rem;
         }
-        
+
         .status-indicator {
             width: 10px;
             height: 10px;
@@ -170,12 +170,12 @@
             box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
             animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        
+
         /* Dynamic Tab Container */
         .tab-container {
             grid-column: 1 / -1;
@@ -185,7 +185,7 @@
             padding: 0.5rem 0;
             transition: all var(--morph-duration) var(--morph-easing);
         }
-        
+
         .tab {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -197,37 +197,37 @@
             opacity: 0.7;
             transform: translateY(0);
         }
-        
+
         .tab:hover {
             background: rgba(255, 255, 255, 0.2);
             opacity: 1;
         }
-        
+
         .tab.active {
             background: var(--primary-color);
             color: white;
             opacity: 1;
             box-shadow: var(--shadow);
         }
-        
+
         .tab.priority-critical {
             border-color: var(--error-color);
             box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
         }
-        
+
         .tab.priority-high {
             border-color: var(--warning-color);
         }
-        
+
         /* Morphing Tab Animation */
         .tab.morphing-in {
             animation: tabMorphIn 0.5s ease-out;
         }
-        
+
         .tab.morphing-out {
             animation: tabMorphOut 0.3s ease-in;
         }
-        
+
         @keyframes tabMorphIn {
             from {
                 opacity: 0;
@@ -238,7 +238,7 @@
                 transform: translateY(0) scale(1);
             }
         }
-        
+
         @keyframes tabMorphOut {
             from {
                 opacity: 0.7;
@@ -249,7 +249,7 @@
                 transform: translateY(-20px) scale(0.9);
             }
         }
-        
+
         /* Main Content Area */
         .main-content {
             grid-column: 1 / -1;
@@ -258,7 +258,7 @@
             gap: var(--spacing-unit);
             transition: all var(--morph-duration) var(--morph-easing);
         }
-        
+
         /* Widget Cards */
         .widget {
             background: rgba(255, 255, 255, 0.1);
@@ -270,98 +270,98 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .widget:hover {
             background: rgba(255, 255, 255, 0.15);
             box-shadow: var(--shadow);
             transform: translateY(-2px);
         }
-        
+
         .widget-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: var(--spacing-unit);
         }
-        
+
         .widget-title {
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-color);
         }
-        
+
         .widget-status {
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
             font-size: 0.8rem;
             font-weight: 500;
         }
-        
+
         .widget-status.optimal {
             background: rgba(16, 185, 129, 0.2);
             color: var(--success-color);
         }
-        
+
         .widget-status.degraded {
             background: rgba(245, 158, 11, 0.2);
             color: var(--warning-color);
         }
-        
+
         .widget-status.critical {
             background: rgba(239, 68, 68, 0.2);
             color: var(--error-color);
         }
-        
+
         /* Responsive Layout Morphing */
         @media (max-width: 768px) {
             .dashboard-container {
                 grid-template-columns: 1fr;
                 padding: 0.5rem;
             }
-            
+
             .main-content {
                 grid-template-columns: 1fr;
             }
-            
+
             .dashboard-header {
                 flex-direction: column;
                 gap: 0.5rem;
             }
         }
-        
+
         /* Emergency Mode Overrides */
         [data-morph-state="emergency_mode"] .widget {
             border-color: var(--error-color) !important;
             box-shadow: 0 0 20px rgba(220, 38, 38, 0.3) !important;
         }
-        
+
         [data-morph-state="emergency_mode"] .tab.active {
             background: var(--error-color) !important;
             animation: emergency-pulse 1s infinite !important;
         }
-        
+
         @keyframes emergency-pulse {
             0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.5); }
             50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.8); }
         }
-        
+
         /* Performance Mode Optimizations */
         [data-morph-state="high_performance"] * {
             animation-duration: 0.1s !important;
             transition-duration: 0.1s !important;
         }
-        
+
         [data-morph-state="high_performance"] .widget {
             backdrop-filter: none;
             background: rgba(55, 65, 81, 0.8);
         }
-        
+
         /* Loading States */
         .loading {
             opacity: 0.6;
             pointer-events: none;
         }
-        
+
         .loading::after {
             content: '';
             position: absolute;
@@ -375,11 +375,11 @@
             border-radius: 50%;
             animation: spin 1s infinite;
         }
-        
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
+
         /* Connection Status */
         .connection-status {
             position: fixed;
@@ -392,26 +392,26 @@
             z-index: 1000;
             transition: all 0.3s ease;
         }
-        
+
         .connection-status.connected {
             background: rgba(16, 185, 129, 0.2);
             color: var(--success-color);
             border: 1px solid var(--success-color);
         }
-        
+
         .connection-status.disconnected {
             background: rgba(239, 68, 68, 0.2);
             color: var(--error-color);
             border: 1px solid var(--error-color);
             animation: pulse 2s infinite;
         }
-        
+
         .connection-status.reconnecting {
             background: rgba(245, 158, 11, 0.2);
             color: var(--warning-color);
             border: 1px solid var(--warning-color);
         }
-        
+
         /* Accessibility */
         @media (prefers-reduced-motion: reduce) {
             * {
@@ -420,13 +420,13 @@
                 transition-duration: 0.01ms !important;
             }
         }
-        
+
         /* Print Styles */
         @media print {
             .dashboard-container {
                 display: block;
             }
-            
+
             .widget {
                 break-inside: avoid;
                 margin-bottom: 1rem;
@@ -439,7 +439,7 @@
     <div id="connectionStatus" class="connection-status disconnected">
         🔄 Connecting...
     </div>
-    
+
     <!-- Universal Dashboard Container -->
     <div class="dashboard-container">
         <!-- Header -->
@@ -453,18 +453,18 @@
                 <span id="lastUpdate">Updated: --</span>
             </div>
         </header>
-        
+
         <!-- Dynamic Tab Container -->
         <nav class="tab-container" id="tabContainer">
             <!-- Tabs will be dynamically generated -->
         </nav>
-        
+
         <!-- Main Content Area -->
         <main class="main-content" id="mainContent">
             <!-- Content widgets will be dynamically loaded -->
         </main>
     </div>
-    
+
     <!-- JavaScript for Universal Adaptive Dashboard -->
     <script>
         class UniversalAdaptiveDashboard {
@@ -477,68 +477,68 @@
                 this.activeTabs = new Map();
                 this.widgets = new Map();
                 this.lastInteraction = Date.now();
-                
+
                 this.init();
             }
-            
+
             init() {
                 console.log('🧠 Initializing LUKHAS Universal Adaptive Dashboard');
-                
+
                 // Setup WebSocket connection
                 this.connectWebSocket();
-                
+
                 // Setup interaction tracking
                 this.setupInteractionTracking();
-                
+
                 // Setup keyboard shortcuts
                 this.setupKeyboardShortcuts();
-                
+
                 // Setup resize handler
                 window.addEventListener('resize', () => this.handleResize());
-                
+
                 // Setup visibility change handler
                 document.addEventListener('visibilitychange', () => this.handleVisibilityChange());
             }
-            
+
             connectWebSocket() {
                 const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
                 const wsUrl = `${protocol}//${window.location.hostname}:8765/ws/all_streams`;
-                
+
                 try {
                     this.websocket = new WebSocket(wsUrl);
-                    
+
                     this.websocket.onopen = (event) => {
                         console.log('✅ WebSocket connected');
                         this.updateConnectionStatus('connected');
                         this.reconnectAttempts = 0;
                     };
-                    
+
                     this.websocket.onmessage = (event) => {
                         this.handleWebSocketMessage(event);
                     };
-                    
+
                     this.websocket.onclose = (event) => {
                         console.log('❌ WebSocket disconnected');
                         this.updateConnectionStatus('disconnected');
                         this.attemptReconnect();
                     };
-                    
+
                     this.websocket.onerror = (error) => {
                         console.error('🔥 WebSocket error:', error);
                         this.updateConnectionStatus('disconnected');
                     };
-                    
+
                 } catch (error) {
                     console.error('🔥 WebSocket connection failed:', error);
                     this.updateConnectionStatus('disconnected');
                     this.attemptReconnect();
                 }
             }
-            
+
             handleWebSocketMessage(event) {
                 try {
                     const message = JSON.parse(event.data);
-                    
+
                     switch (message.type) {
                         case 'welcome':
                             this.handleWelcomeMessage(message);
@@ -554,32 +554,32 @@
                     console.error('🔥 Error parsing WebSocket message:', error);
                 }
             }
-            
+
             handleWelcomeMessage(message) {
                 console.log('👋 Welcome message received:', message);
                 this.updateConnectionStatus('connected');
-                
+
                 // Request initial dashboard state
                 this.sendMessage({
                     type: 'request_initial_state'
                 });
             }
-            
+
             handleMorphEvent(message) {
                 console.log('🔄 Dashboard morph event:', message);
-                
+
                 const newState = message.new_state;
                 const morphRules = message.morph_rules || {};
                 const activeTabs = message.active_tabs || [];
-                
+
                 // Trigger morphing
                 this.morphToState(newState, morphRules, activeTabs);
             }
-            
+
             handleStreamMessage(message) {
                 const streamType = message.stream_type;
                 const data = message.data;
-                
+
                 switch (streamType) {
                     case 'oracle_metrics':
                         this.updateOracleMetrics(data);
@@ -597,39 +597,39 @@
                         this.handlePredictions(data);
                         break;
                 }
-                
+
                 // Update last update time
-                document.getElementById('lastUpdate').textContent = 
+                document.getElementById('lastUpdate').textContent =
                     `Updated: ${new Date().toLocaleTimeString()}`;
             }
-            
+
             morphToState(newState, morphRules, activeTabs) {
                 console.log(`🔄 Morphing to state: ${newState}`);
-                
+
                 const body = document.body;
                 const oldState = this.currentMorphState;
-                
+
                 // Add morphing class for transition effects
                 body.classList.add('morphing');
-                
+
                 // Update data attribute to trigger CSS changes
                 body.setAttribute('data-morph-state', newState);
                 this.currentMorphState = newState;
-                
+
                 // Update tabs
                 this.updateTabs(activeTabs);
-                
+
                 // Update system status
                 this.updateSystemStatus(newState);
-                
+
                 // Apply specific morph rules
                 this.applyMorphRules(morphRules);
-                
+
                 // Remove morphing class after transition
                 setTimeout(() => {
                     body.classList.remove('morphing');
                 }, parseFloat(getComputedStyle(body).getPropertyValue('--morph-duration')) || 800);
-                
+
                 // Emit morph complete event
                 this.emitEvent('morph_complete', {
                     oldState,
@@ -637,12 +637,12 @@
                     timestamp: Date.now()
                 });
             }
-            
+
             updateTabs(activeTabs) {
                 const tabContainer = document.getElementById('tabContainer');
                 const currentTabs = new Set(Array.from(tabContainer.children).map(tab => tab.dataset.tabId));
                 const newTabs = new Set(activeTabs.map(tab => tab.tab_id));
-                
+
                 // Remove tabs that are no longer active
                 currentTabs.forEach(tabId => {
                     if (!newTabs.has(tabId)) {
@@ -653,7 +653,7 @@
                         }
                     }
                 });
-                
+
                 // Add new tabs
                 activeTabs.forEach((tab, index) => {
                     if (!currentTabs.has(tab.tab_id)) {
@@ -669,7 +669,7 @@
                         }
                     }
                 });
-                
+
                 // Update tab order
                 const sortedTabs = Array.from(tabContainer.children);
                 sortedTabs.sort((a, b) => {
@@ -677,47 +677,47 @@
                     const bTab = activeTabs.find(t => t.tab_id === b.dataset.tabId);
                     return activeTabs.indexOf(aTab) - activeTabs.indexOf(bTab);
                 });
-                
+
                 sortedTabs.forEach(tab => tabContainer.appendChild(tab));
             }
-            
+
             createTabElement(tab) {
                 const tabElement = document.createElement('div');
                 tabElement.classList.add('tab', `priority-${tab.priority.toLowerCase()}`);
                 tabElement.dataset.tabId = tab.tab_id;
                 tabElement.textContent = tab.title;
-                
+
                 tabElement.addEventListener('click', () => {
                     this.selectTab(tab.tab_id);
                 });
-                
+
                 return tabElement;
             }
-            
+
             selectTab(tabId) {
                 // Update active tab
                 document.querySelectorAll('.tab').forEach(tab => {
                     tab.classList.remove('active');
                 });
-                
+
                 const selectedTab = document.querySelector(`[data-tab-id="${tabId}"]`);
                 if (selectedTab) {
                     selectedTab.classList.add('active');
                 }
-                
+
                 // Load tab content
                 this.loadTabContent(tabId);
-                
+
                 // Send interaction event
                 this.sendInteractionEvent('tab_access', {
                     tab_id: tabId,
                     timestamp: Date.now()
                 });
             }
-            
+
             loadTabContent(tabId) {
                 const mainContent = document.getElementById('mainContent');
-                
+
                 // Create placeholder widget for now
                 mainContent.innerHTML = `
                     <div class="widget" style="grid-column: 1 / -1;">
@@ -732,11 +732,11 @@
                     </div>
                 `;
             }
-            
+
             updateSystemStatus(state) {
                 const statusText = document.getElementById('systemStatusText');
                 const statusIndicator = document.getElementById('systemStatusIndicator');
-                
+
                 const statusMap = {
                     'optimal': { text: 'Optimal', color: 'var(--success-color)' },
                     'trauma_response': { text: 'Trauma Response', color: 'var(--error-color)' },
@@ -746,17 +746,17 @@
                     'healing_mode': { text: 'Healing', color: 'var(--success-color)' },
                     'emergency_mode': { text: 'EMERGENCY', color: 'var(--error-color)' }
                 };
-                
+
                 const status = statusMap[state] || statusMap['optimal'];
                 statusText.textContent = status.text;
                 statusIndicator.style.background = status.color;
             }
-            
+
             updateConnectionStatus(status) {
                 const connectionStatus = document.getElementById('connectionStatus');
-                
+
                 connectionStatus.className = `connection-status ${status}`;
-                
+
                 switch (status) {
                     case 'connected':
                         connectionStatus.textContent = '✅ Connected';
@@ -769,29 +769,29 @@
                         break;
                 }
             }
-            
+
             attemptReconnect() {
                 if (this.reconnectAttempts >= this.maxReconnectAttempts) {
                     console.error('🔥 Max reconnect attempts reached');
                     return;
                 }
-                
+
                 this.reconnectAttempts++;
                 this.updateConnectionStatus('reconnecting');
-                
+
                 console.log(`🔄 Reconnect attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts}`);
-                
+
                 setTimeout(() => {
                     this.connectWebSocket();
                 }, this.reconnectDelay * this.reconnectAttempts);
             }
-            
+
             sendMessage(message) {
                 if (this.websocket && this.websocket.readyState === WebSocket.OPEN) {
                     this.websocket.send(JSON.stringify(message));
                 }
             }
-            
+
             sendInteractionEvent(type, data) {
                 this.sendMessage({
                     type: 'dashboard_interaction',
@@ -799,12 +799,12 @@
                     data: data
                 });
             }
-            
+
             setupInteractionTracking() {
                 // Track dwell time
                 let tabStartTime = Date.now();
                 let currentTab = null;
-                
+
                 document.addEventListener('click', (event) => {
                     if (event.target.classList.contains('tab')) {
                         if (currentTab) {
@@ -814,12 +814,12 @@
                                 duration: dwellTime
                             });
                         }
-                        
+
                         currentTab = event.target.dataset.tabId;
                         tabStartTime = Date.now();
                     }
                 });
-                
+
                 // Track user activity
                 ['click', 'keydown', 'mousemove', 'scroll'].forEach(eventType => {
                     document.addEventListener(eventType, () => {
@@ -827,7 +827,7 @@
                     });
                 });
             }
-            
+
             setupKeyboardShortcuts() {
                 document.addEventListener('keydown', (event) => {
                     // Ctrl/Cmd + Number keys for tab switching
@@ -841,7 +841,7 @@
                     }
                 });
             }
-            
+
             handleResize() {
                 // Responsive behavior
                 const width = window.innerWidth;
@@ -851,7 +851,7 @@
                     document.body.classList.remove('mobile');
                 }
             }
-            
+
             handleVisibilityChange() {
                 if (document.hidden) {
                     // Reduce update frequency when tab is hidden
@@ -861,50 +861,50 @@
                     this.sendMessage({ type: 'resume_updates' });
                 }
             }
-            
+
             // Utility methods for updating different sections
             updateOracleMetrics(data) {
                 // Update Oracle-related widgets
                 console.log('🔮 Oracle metrics updated:', data);
             }
-            
+
             updateEthicsSwarm(data) {
-                // Update Ethics-related widgets  
+                // Update Ethics-related widgets
                 console.log('⚖️ Ethics swarm updated:', data);
             }
-            
+
             updateSystemHealth(data) {
                 // Update system health widgets
                 console.log('🏥 System health updated:', data);
             }
-            
+
             updatePerformanceMetrics(data) {
                 // Update performance widgets
                 console.log('📊 Performance metrics updated:', data);
             }
-            
+
             handlePredictions(data) {
                 // Handle predictive insights
                 console.log('🔮 Predictions received:', data);
             }
-            
+
             applyMorphRules(rules) {
                 // Apply specific morphing rules
                 console.log('🎨 Applying morph rules:', rules);
             }
-            
+
             emitEvent(eventType, data) {
                 // Emit custom events for extensibility
                 const event = new CustomEvent(eventType, { detail: data });
                 document.dispatchEvent(event);
             }
         }
-        
+
         // Initialize dashboard when DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
             window.dashboard = new UniversalAdaptiveDashboard();
         });
-        
+
         // Handle page unload
         window.addEventListener('beforeunload', () => {
             if (window.dashboard && window.dashboard.websocket) {

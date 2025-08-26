@@ -9,10 +9,11 @@ from typing import Any
 
 from analysis_tools.audit_decision_embedding_engine import DecisionAuditEngine
 
+from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+
 # from abas.core.abas_engine import ABASEngine
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from ethics.seedra.seedra_core import SEEDRACore
-from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 
 logger = logging.getLogger(__name__)
 
@@ -43,11 +44,11 @@ class ABASIntegrationHub:
         self.arbitration_history = []
 
         # Initialize quantum specialist if available
-        self.quantum_specialist = None
+        self.qi_specialist = None
         if QUANTUM_SPECIALIST_AVAILABLE:
             try:
-                self.quantum_specialist = get_abas_quantum_specialist()
-                if self.quantum_specialist:
+                self.qi_specialist = get_abas_quantum_specialist()
+                if self.qi_specialist:
                     logger.info("ABAS quantum specialist initialized")
             except Exception as e:
                 logger.error(f"Failed to initialize quantum specialist: {e}")
@@ -69,18 +70,18 @@ class ABASIntegrationHub:
         await self.audit_engine.initialize()
 
         # Initialize quantum specialist if available
-        if self.quantum_specialist:
+        if self.qi_specialist:
             try:
-                await self.quantum_specialist.initialize()
+                await self.qi_specialist.initialize()
                 # Register quantum specialist component
                 await self.register_component(
                     "abas_quantum_specialist",
                     "core.neural_architectures.abas.abas_quantum_specialist",
-                    self.quantum_specialist,
+                    self.qi_specialist,
                 )
                 # Register with trio orchestrator
                 await self.trio_orchestrator.register_component(
-                    "abas_quantum_specialist", self.quantum_specialist
+                    "abas_quantum_specialist", self.qi_specialist
                 )
                 logger.info("ABAS quantum specialist fully integrated")
             except Exception as e:
@@ -225,9 +226,9 @@ class ABASIntegrationHub:
             return await self._apply_fairness_adjustments(
                 payload.get("decision", {}), payload.get("bias_analysis", {})
             )
-        elif message_type == "quantum_biological_process":
+        elif message_type == "qi_biological_process":
             return await self.process_quantum_biological(payload)
-        elif message_type == "quantum_ethics_arbitration":
+        elif message_type == "qi_ethics_arbitration":
             return await self.get_quantum_ethics_arbitration(payload)
         else:
             logger.warning(f"Unknown message type: {message_type}")
@@ -793,7 +794,7 @@ class ABASIntegrationHub:
         self, payload: dict[str, Any]
     ) -> dict[str, Any]:
         """Process request using quantum-biological AI"""
-        if not self.quantum_specialist:
+        if not self.qi_specialist:
             return {
                 "error": "Quantum specialist not available",
                 "content": "ABAS quantum biological processing is not available",
@@ -804,7 +805,7 @@ class ABASIntegrationHub:
 
         try:
             # Process with quantum biology
-            result = await self.quantum_specialist.process_quantum_biological(
+            result = await self.qi_specialist.process_quantum_biological(
                 input_text, context
             )
 
@@ -815,7 +816,7 @@ class ABASIntegrationHub:
                     "input": input_text,
                     "result": result,
                     "bio_confidence": result.get("bio_confidence"),
-                    "quantum_coherence": result.get("quantum_coherence"),
+                    "qi_coherence": result.get("qi_coherence"),
                     "capability_level": result.get("capability_level"),
                 },
                 source="abas_quantum_specialist",
@@ -834,13 +835,13 @@ class ABASIntegrationHub:
         self, payload: dict[str, Any]
     ) -> dict[str, Any]:
         """Get quantum tunneling ethical arbitration"""
-        if not self.quantum_specialist:
+        if not self.qi_specialist:
             return {"error": "Quantum specialist not available"}
 
         decision_context = payload.get("decision_context", payload)
 
         try:
-            result = await self.quantum_specialist.get_quantum_ethics_arbitration(
+            result = await self.qi_specialist.get_quantum_ethics_arbitration(
                 decision_context
             )
 
@@ -868,13 +869,13 @@ class ABASIntegrationHub:
         }
 
         # Add quantum specialist status if available
-        if self.quantum_specialist:
-            status["quantum_specialist"] = {
+        if self.qi_specialist:
+            status["qi_specialist"] = {
                 "status": "active",
-                "biological_status": self.quantum_specialist.get_biological_status(),
+                "biological_status": self.qi_specialist.get_biological_status(),
             }
         else:
-            status["quantum_specialist"] = {"status": "not_available"}
+            status["qi_specialist"] = {"status": "not_available"}
 
         return status
 

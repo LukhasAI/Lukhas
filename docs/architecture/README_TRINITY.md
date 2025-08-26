@@ -12,7 +12,7 @@ The system operates through three interconnected layers:
 - GDPR-compliant consent tracking with immutable audit trails
 - Demo access: `reviewer@openai.com` / `demo_password`
 
-### 🧠 Consciousness Layer  
+### 🧠 Consciousness Layer
 - Real-time awareness monitoring and drift detection
 - Symbolic coherence tracking across all outputs
 - Memory fold architecture preserving causal chains
@@ -42,7 +42,7 @@ python symbolic_api.py
 open http://localhost:8000/meta/overview
 
 # Login with demo account
-Email: reviewer@openai.com  
+Email: reviewer@openai.com
 Password: demo_password
 ```
 
@@ -65,7 +65,7 @@ Password: demo_password
 
 ### API Endpoints
 - `/analyze` - Evaluate symbolic ethics
-- `/evaluate` - Diagnose symbolic issues  
+- `/evaluate` - Diagnose symbolic issues
 - `/heal` - Restore Trinity alignment
 - `/api/consciousness/state` - Current awareness metrics
 - `/api/guardian/drift` - Drift monitoring status
@@ -91,7 +91,7 @@ Edit `integration_config.yaml` to adjust:
 ### Meta Metrics
 System performance tracked in `data/meta_metrics.json`:
 - Average drift scores
-- Intervention rates  
+- Intervention rates
 - Risk distribution
 - Trinity health scores
 
@@ -158,7 +158,7 @@ LUKHΛS is designed as a complementary safety layer for language models:
 
 ## 📄 License
 
-Proprietary - LUKHΛS AI Systems  
+Proprietary - LUKHΛS AI Systems
 Contact: team@lukhas.ai
 
 ---

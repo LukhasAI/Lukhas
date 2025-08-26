@@ -597,7 +597,7 @@ async function getMainPanelHtml(
                 <span style="font-size: 24px;">🚀</span>
                 <h1>Interactive Git Hooks</h1>
             </div>
-            
+
             <div class="main-actions">
                 <button class="btn" onclick="runHooks()">
                     <span style="margin-right: 6px;">▶️</span>

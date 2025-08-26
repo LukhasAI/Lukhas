@@ -47,7 +47,7 @@ class LambdaEnvironmentalTrigger:
     last_verified: Optional[datetime] = None
     confidence: float = 0.0
     lambda_signature: str = ""
-    quantum_entangled: bool = False
+    qi_entangled: bool = False
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def __post_init__(self):
@@ -65,7 +65,7 @@ class LambdaVaultMemory:
     lambda_id: str
     environmental_anchors: dict[str, Any]
     lambda_signature: str
-    quantum_protected: bool = False
+    qi_protected: bool = False
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     symbolic_context: dict[str, Any] = field(default_factory=dict)
 
@@ -99,11 +99,11 @@ class LambdaVaultCore:
         self.environmental_triggers: dict[str, LambdaEnvironmentalTrigger] = {}
         self.vault_memories: dict[str, LambdaVaultMemory] = {}
         self.lambda_seeds: dict[str, str] = {}  # Symbolic seeds for recovery
-        self.quantum_entanglements: set[str] = set()  # Quantum-linked vaults
+        self.qi_entanglements: set[str] = set()  # Quantum-linked vaults
 
         # Lambda-specific vault properties
         self.lambda_signature = f"Λ🗋{self.vault_type.name[:3]}"
-        self.quantum_secured = False
+        self.qi_secured = False
         self.guardian_protected = False
 
         # Audit and access logging
@@ -123,7 +123,7 @@ class LambdaVaultCore:
         self,
         trigger_type: str,
         trigger_data: dict[str, Any],
-        quantum_secure: bool = False,
+        qi_secure: bool = False,
     ) -> str:
         """Register Lambda-enhanced environmental trigger for symbolic access"""
         trigger_hash = self._hash_trigger_data(trigger_data)
@@ -134,7 +134,7 @@ class LambdaVaultCore:
             trigger_hash=trigger_hash,
             confidence=0.0,
             lambda_signature=f"Λ{trigger_type.upper()[:2]}🔐",
-            quantum_entangled=quantum_secure,
+            qi_entangled=qi_secure,
         )
 
         self.environmental_triggers[trigger_id] = trigger
@@ -143,7 +143,7 @@ class LambdaVaultCore:
             event_type="lambda_trigger_registered",
             description=f"ΛEnvironmental trigger registered: {trigger_type}",
             severity="info",
-            context={"trigger_id": trigger_id, "quantum_secure": quantum_secure},
+            context={"trigger_id": trigger_id, "qi_secure": qi_secure},
         )
 
         logger.info(
@@ -205,7 +205,7 @@ class LambdaVaultCore:
             lambda_id=self.lambda_id,
             environmental_anchors=self._get_current_lambda_anchors(),
             lambda_signature=f"Λ🔒{access_layer.name[:3]}",
-            quantum_protected=(access_layer.value >= LambdaVaultTier.GUARDIAN.value),
+            qi_protected=(access_layer.value >= LambdaVaultTier.GUARDIAN.value),
             symbolic_context=symbolic_context or {},
         )
 
@@ -306,17 +306,17 @@ class LambdaVaultCore:
             "λ_environmental_triggers_count": len(self.environmental_triggers),
             "λ_vault_memories_count": len(self.vault_memories),
             "λ_lambda_seeds_count": len(self.lambda_seeds),
-            "λ_quantum_entanglements": list(self.quantum_entanglements),
+            "λ_quantum_entanglements": list(self.qi_entanglements),
             "λ_backup_timestamp": datetime.now(timezone.utc).isoformat(),
             "λ_lambda_signature": self.lambda_signature,
-            "λ_quantum_secured": self.quantum_secured,
+            "λ_quantum_secured": self.qi_secured,
             "λ_guardian_protected": self.guardian_protected,
             "λ_symbolic_verification": self._create_lambda_symbolic_verification(
                 symbolic_phrase
             ),
         }
 
-        if include_quantum_state and self.quantum_secured:
+        if include_quantum_state and self.qi_secured:
             backup_data["λ_quantum_state"] = self._export_quantum_state()
 
         self._log_security_event(
@@ -350,11 +350,11 @@ class LambdaVaultCore:
             self.vault_type = LambdaVaultType[backup_data["λ_vault_type"]]
             self.access_layers = backup_data["λ_access_layers"]
             self.lambda_signature = backup_data["λ_lambda_signature"]
-            self.quantum_secured = backup_data.get("λ_quantum_secured", False)
+            self.qi_secured = backup_data.get("λ_quantum_secured", False)
             self.guardian_protected = backup_data.get("λ_guardian_protected", False)
 
             # Restore quantum entanglements
-            self.quantum_entanglements = set(
+            self.qi_entanglements = set(
                 backup_data.get("λ_quantum_entanglements", [])
             )
 
@@ -382,8 +382,8 @@ class LambdaVaultCore:
     def create_quantum_entanglement(self, target_vault_id: str) -> bool:
         """Create quantum entanglement with another Lambda vault"""
         try:
-            self.quantum_entanglements.add(target_vault_id)
-            self.quantum_secured = True
+            self.qi_entanglements.add(target_vault_id)
+            self.qi_secured = True
 
             self._log_security_event(
                 event_type="lambda_quantum_entanglement",
@@ -429,7 +429,7 @@ class LambdaVaultCore:
                     "hash": trigger.trigger_hash,
                     "lambda_signature": trigger.lambda_signature,
                     "confidence": trigger.confidence,
-                    "quantum_entangled": trigger.quantum_entangled,
+                    "qi_entangled": trigger.qi_entangled,
                     "last_verified": trigger.last_verified.isoformat(),
                 }
 
@@ -441,7 +441,7 @@ class LambdaVaultCore:
         return {
             "λ_encrypted": True,
             "λ_vault_encrypted": True,
-            "λ_quantum_protected": self.quantum_secured,
+            "λ_quantum_protected": self.qi_secured,
             "data": data,  # This would actually be encrypted
             "λ_encryption_timestamp": datetime.now(timezone.utc).isoformat(),
         }
@@ -477,12 +477,12 @@ class LambdaVaultCore:
     def _verify_lambda_quantum_layer(self, verification_data: dict[str, Any]) -> bool:
         """Verify Lambda Quantum layer for maximum security operations"""
         return (
-            ("quantum_key" in verification_data or "λ_quantum" in verification_data)
+            ("qi_key" in verification_data or "λ_quantum" in verification_data)
             and (
                 "lambda_signature" in verification_data
                 or "λ_signature" in verification_data
             )
-            and self.quantum_secured
+            and self.qi_secured
         )
 
     def _create_lambda_symbolic_verification(self, phrase: str) -> str:
@@ -504,8 +504,8 @@ class LambdaVaultCore:
     def _export_quantum_state(self) -> dict[str, Any]:
         """Export quantum state for backup (placeholder)"""
         return {
-            "λ_quantum_entanglements": list(self.quantum_entanglements),
-            "λ_quantum_secured": self.quantum_secured,
+            "λ_quantum_entanglements": list(self.qi_entanglements),
+            "λ_quantum_secured": self.qi_secured,
             "λ_coherence_level": 0.95,  # Placeholder
             "λ_export_timestamp": datetime.now(timezone.utc).isoformat(),
         }
@@ -558,8 +558,8 @@ class LambdaVaultCore:
             "λ_environmental_triggers_count": len(self.environmental_triggers),
             "λ_vault_memories_count": len(self.vault_memories),
             "λ_lambda_seeds_count": len(self.lambda_seeds),
-            "λ_quantum_entanglements_count": len(self.quantum_entanglements),
-            "λ_quantum_secured": self.quantum_secured,
+            "λ_quantum_entanglements_count": len(self.qi_entanglements),
+            "λ_quantum_secured": self.qi_secured,
             "λ_guardian_protected": self.guardian_protected,
             "λ_lambda_signature": self.lambda_signature,
             "λ_access_logs_count": len(self.access_log),
@@ -578,7 +578,7 @@ class LambdaVaultCore:
 
         return {
             "λ_vault_security_level": "LAMBDA_ENHANCED",
-            "λ_quantum_protection": self.quantum_secured,
+            "λ_quantum_protection": self.qi_secured,
             "λ_guardian_protection": self.guardian_protected,
             "λ_total_access_attempts": len(self.access_log),
             "λ_recent_security_events": len(recent_events),
@@ -587,7 +587,7 @@ class LambdaVaultCore:
                 for trigger in self.environmental_triggers.values()
                 if trigger.confidence > 0.8
             ),
-            "λ_quantum_entanglements_active": len(self.quantum_entanglements),
+            "λ_quantum_entanglements_active": len(self.qi_entanglements),
             "λ_vault_integrity_score": 0.95,  # Calculated based on various factors
             "λ_lambda_compliance": True,
             "λ_last_security_audit": datetime.now(timezone.utc).isoformat(),

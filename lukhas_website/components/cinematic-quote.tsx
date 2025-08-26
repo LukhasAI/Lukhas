@@ -17,7 +17,7 @@ export default function CinematicQuote({ text, delay = 50, onComplete }: Cinemat
       const timer = setTimeout(() => {
         setVisibleChars(prev => prev + 1)
       }, delay)
-      
+
       return () => clearTimeout(timer)
     } else {
       setIsComplete(true)
@@ -35,7 +35,7 @@ export default function CinematicQuote({ text, delay = 50, onComplete }: Cinemat
 
   return (
     <div className="text-center leading-relaxed max-w-4xl mx-auto">
-      <div className="inline-block" style={{ 
+      <div className="inline-block" style={{
         fontFamily: '"Helvetica Neue", -apple-system, BlinkMacSystemFont, sans-serif',
         fontWeight: 100, // Ultra light
         letterSpacing: '0.02em'
@@ -73,7 +73,7 @@ export default function CinematicQuote({ text, delay = 50, onComplete }: Cinemat
           </span>
         ))}
         {isComplete && (
-          <span 
+          <span
             className="animate-pulse ml-1 opacity-40"
             style={{ fontFamily: '"Helvetica Neue", monospace' }}
           >

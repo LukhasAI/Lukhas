@@ -2,7 +2,7 @@
 
 # LUKHAS ΛiD System Setup Script
 # =============================
-# 
+#
 # Enterprise-grade setup for LUKHAS Lambda Identity management system
 # Automates development environment configuration and deployment preparation
 
@@ -44,11 +44,11 @@ print_header() {
 # Check if Python 3.11+ is available
 check_python() {
     print_status "Checking Python version..."
-    
+
     if command -v python3 &> /dev/null; then
         PYTHON_VERSION=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
         REQUIRED_VERSION="3.11"
-        
+
         if [ "$(printf '%s\n' "$REQUIRED_VERSION" "$PYTHON_VERSION" | sort -V | head -n1)" = "$REQUIRED_VERSION" ]; then
             print_success "Python $PYTHON_VERSION detected"
             PYTHON_CMD="python3"
@@ -65,14 +65,14 @@ check_python() {
 # Create virtual environment
 setup_virtualenv() {
     print_status "Setting up virtual environment..."
-    
+
     if [ ! -d "venv" ]; then
         $PYTHON_CMD -m venv venv
         print_success "Virtual environment created"
     else
         print_warning "Virtual environment already exists"
     fi
-    
+
     # Activate virtual environment
     source venv/bin/activate
     print_success "Virtual environment activated"
@@ -81,20 +81,20 @@ setup_virtualenv() {
 # Install dependencies
 install_dependencies() {
     print_status "Installing dependencies..."
-    
+
     # Upgrade pip first
     pip install --upgrade pip
-    
+
     # Install requirements
     pip install -r requirements.txt
-    
+
     print_success "Dependencies installed successfully"
 }
 
 # Create necessary directories
 create_directories() {
     print_status "Creating directory structure..."
-    
+
     # Create missing directories
     mkdir -p logs
     mkdir -p docs/api
@@ -107,14 +107,14 @@ create_directories() {
     mkdir -p tests/security
     mkdir -p config/environments
     mkdir -p api/auth
-    
+
     print_success "Directory structure created"
 }
 
 # Generate configuration files
 generate_config() {
     print_status "Generating configuration files..."
-    
+
     # Create .env file if it doesn't exist
     if [ ! -f ".env" ]; then
         cat > .env << EOF
@@ -175,7 +175,7 @@ EOF
     else
         print_warning "Environment configuration already exists"
     fi
-    
+
     # Create Docker Compose file
     if [ ! -f "docker-compose.yml" ]; then
         cat > docker-compose.yml << EOF
@@ -220,13 +220,13 @@ EOF
 # Run tests
 run_tests() {
     print_status "Running test suite..."
-    
+
     # Create basic test if tests directory is empty
     if [ ! -f "tests/__init__.py" ]; then
         touch tests/__init__.py
         touch tests/unit/__init__.py
         touch tests/integration/__init__.py
-        
+
         # Create a basic test file
         cat > tests/test_basic.py << EOF
 """
@@ -238,7 +238,7 @@ from datetime import datetime
 
 class TestBasicFunctionality(unittest.TestCase):
     """Basic functionality tests"""
-    
+
     def test_system_imports(self):
         """Test that core modules can be imported"""
         try:
@@ -249,21 +249,21 @@ class TestBasicFunctionality(unittest.TestCase):
             pass
         except ImportError as e:
             self.skipTest(f"Core modules not yet implemented: {e}")
-    
+
     def test_configuration_exists(self):
         """Test that configuration files exist"""
         import os
         self.assertTrue(os.path.exists('.env'), "Environment configuration should exist")
         self.assertTrue(os.path.exists('requirements.txt'), "Requirements file should exist")
         self.assertTrue(os.path.exists('Dockerfile'), "Dockerfile should exist")
-    
+
     def test_directory_structure(self):
         """Test that directory structure is correct"""
         import os
-        
+
         expected_dirs = [
             'core',
-            'core/id_service', 
+            'core/id_service',
             'core/tier',
             'core/trace',
             'core/sing',
@@ -276,7 +276,7 @@ class TestBasicFunctionality(unittest.TestCase):
             'tests',
             'logs'
         ]
-        
+
         for directory in expected_dirs:
             self.assertTrue(os.path.exists(directory), f"Directory {directory} should exist")
 
@@ -284,21 +284,21 @@ if __name__ == '__main__':
     unittest.main()
 EOF
     fi
-    
+
     # Run tests
     if command -v pytest &> /dev/null; then
         pytest tests/ -v
     else
         python -m unittest discover tests/ -v
     fi
-    
+
     print_success "Tests completed"
 }
 
 # Validate system
 validate_system() {
     print_status "Validating system setup..."
-    
+
     # Check if all core files exist
     core_files=(
         "core/id_service/lambd_id_generator.py"
@@ -312,34 +312,34 @@ validate_system() {
         "Dockerfile"
         ".env"
     )
-    
+
     missing_files=()
-    
+
     for file in "${core_files[@]}"; do
         if [ ! -f "$file" ]; then
             missing_files+=("$file")
         fi
     done
-    
+
     if [ ${#missing_files[@]} -eq 0 ]; then
         print_success "All core files present"
     else
         print_warning "Missing files:"
         printf '%s\n' "${missing_files[@]}"
     fi
-    
+
     # Check Python imports (basic syntax validation)
     print_status "Validating Python syntax..."
-    
+
     python_files=(
         "core/id_service/lambd_id_generator.py"
-        "core/id_service/lambd_id_validator.py" 
+        "core/id_service/lambd_id_validator.py"
         "core/id_service/lambd_id_entropy.py"
         "api/routes/lambd_id_routes.py"
         "api/controllers/lambd_id_controller.py"
         "api/__init__.py"
     )
-    
+
     for file in "${python_files[@]}"; do
         if [ -f "$file" ]; then
             if python -m py_compile "$file" 2>/dev/null; then
@@ -387,23 +387,23 @@ print_usage() {
 # Main setup function
 main() {
     print_header
-    
+
     # Check system requirements
     check_python
-    
-    # Setup development environment  
+
+    # Setup development environment
     setup_virtualenv
     install_dependencies
     create_directories
     generate_config
-    
+
     # Validate and test
     validate_system
     run_tests
-    
+
     # Print usage information
     print_usage
-    
+
     print_success "LUKHAS ΛiD System setup completed successfully! 🎉"
 }
 

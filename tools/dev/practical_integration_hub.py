@@ -58,7 +58,9 @@ class PracticalIntegrationHub:
     def _initialize_consciousness_components(self):
         """Initialize consciousness system components"""
         try:
-            from lukhas.consciousness.reflection.consciousness_hub import ConsciousnessHub
+            from lukhas.consciousness.reflection.consciousness_hub import (
+                ConsciousnessHub,
+            )
 
             self.consciousness_hub = ConsciousnessHub()
             self.available_components["consciousness_hub"] = self.consciousness_hub

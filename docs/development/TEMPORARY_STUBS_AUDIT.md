@@ -95,7 +95,7 @@ from lukhas.flags import get_flags, require_feature, when_enabled
 2. **Verify SafetyChecker location** - Find real implementation in governance
 3. **Test ethics integrations** - Ensure colonies work with real components
 
-### Medium Priority  
+### Medium Priority
 1. **Colony syntax errors** - Fix syntax error in `oracle_colony.py`
 2. **ActorRef missing** - Resolve ActorRef import issues in colonies
 3. **Validate all bridges** - Comprehensive testing of bridge functionality

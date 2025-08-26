@@ -3,8 +3,9 @@
 Force LUKHAS AI ΛBot to actually think and heal by bypassing its ultra-conservative mode
 """
 
-import sys
 import subprocess
+import sys
+
 sys.path.append('/Users/A_G_I/Λ')
 
 def force_abot_to_heal():

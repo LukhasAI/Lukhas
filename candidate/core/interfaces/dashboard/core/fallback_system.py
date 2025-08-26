@@ -185,7 +185,7 @@ class DashboardFallbackSystem:
                     "real_time_streaming",
                     "predictive_insights",
                     "cross_colony_coordination",
-                    "quantum_enhancement",
+                    "qi_enhancement",
                     "dream_integration",
                 ],
                 "resource_requirements": {

@@ -5,8 +5,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  ArrowLeft, User, Mail, Phone, MapPin, FileText, 
+import {
+  ArrowLeft, User, Mail, Phone, MapPin, FileText,
   Upload, Send, CheckCircle, Briefcase, Calendar
 } from 'lucide-react'
 
@@ -48,7 +48,7 @@ export default function CareerApplicationPage() {
 
   const positions = [
     'Senior Consciousness Engineer',
-    'AI Ethics Specialist', 
+    'AI Ethics Specialist',
     'Quantum-Bio Algorithm Developer',
     'Full-Stack Platform Engineer',
     'DevOps Engineer',
@@ -121,7 +121,7 @@ export default function CareerApplicationPage() {
                 <ArrowLeft className="w-4 h-4" />
                 <span className="text-sm uppercase tracking-wider">Back to Careers</span>
               </Link>
-              
+
               <h1 className="font-ultralight text-5xl md:text-6xl mb-6">
                 <span className="gradient-text">Join Our Team</span>
               </h1>

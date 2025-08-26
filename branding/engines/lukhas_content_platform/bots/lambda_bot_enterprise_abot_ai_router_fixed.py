@@ -4,13 +4,12 @@ LUKHAS AI ΛBot Multi-AI Router (Fixed Version)
 Intelligent routing between multiple AI services with complete service definitions
 """
 
-import json
 import logging
 import subprocess
-from datetime import datetime
-from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
+from typing import Dict, List, Optional
 
 logger = logging.getLogger("ABotAIRouter")
 
@@ -258,7 +257,7 @@ class ABotIntelligentAIRouter:
 
             best_service_id, best_service = max(suitable_services,
                                                key=lambda x: calculate_balance_score(x[1]))
-            reason = f"Balanced cost/quality/speed optimization"
+            reason = "Balanced cost/quality/speed optimization"
 
         # Estimate cost (rough calculation based on prompt length)
         estimated_tokens = len(prompt) // 4 + 150  # Rough estimate: 4 chars per token + response
@@ -400,7 +399,7 @@ if __name__ == "__main__":
 
     # Show analytics
     analytics = router.get_routing_analytics()
-    print(f"📊 Routing Analytics:")
+    print("📊 Routing Analytics:")
     print(f"Total requests: {analytics['total_requests']}")
 
     # Show status

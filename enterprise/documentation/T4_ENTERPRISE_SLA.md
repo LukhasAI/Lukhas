@@ -1,10 +1,10 @@
 # T4 Enterprise Premium Service Level Agreement
 ## LUKHAS AI Enterprise Deployment
 
-**Document Version**: 1.0.0  
-**Effective Date**: August 25, 2025  
-**Service Tier**: T4 Enterprise Premium  
-**GitHub Student Pack**: Integrated  
+**Document Version**: 1.0.0
+**Effective Date**: August 25, 2025
+**Service Tier**: T4 Enterprise Premium
+**GitHub Student Pack**: Integrated
 
 ---
 
@@ -13,7 +13,7 @@
 This Service Level Agreement (SLA) defines the performance, availability, and support commitments for LUKHAS AI T4 Enterprise Premium tier, implementing the combined standards of:
 
 - **Sam Altman (Scale)**: <50ms p95 latency, 10,000+ concurrent users
-- **Dario Amodei (Safety)**: Constitutional AI with <0.05 drift threshold  
+- **Dario Amodei (Safety)**: Constitutional AI with <0.05 drift threshold
 - **Demis Hassabis (Rigor)**: Statistical significance testing and scientific validation
 
 ## 1. Service Definitions
@@ -46,7 +46,7 @@ A comprehensive AI system providing:
 
 **Calculation Method**: Uptime = (Total Minutes - Downtime Minutes) / Total Minutes × 100
 
-**Exclusions**: 
+**Exclusions**:
 - Scheduled maintenance (maximum 4 hours/month with 72-hour notice)
 - Force majeure events
 - Customer-initiated configuration changes
@@ -268,7 +268,7 @@ Service credits represent the sole and exclusive remedy for any failure to meet 
 
 ### 10.2 Account Management
 - **Technical Account Manager**: tam@lukhas.ai
-- **Customer Success**: success@lukhas.ai  
+- **Customer Success**: success@lukhas.ai
 - **Security Contact**: security@lukhas.ai
 - **Compliance Officer**: compliance@lukhas.ai
 
@@ -302,11 +302,11 @@ Service credits represent the sole and exclusive remedy for any failure to meet 
 
 **Document Signature**
 
-**LUKHAS AI Enterprise Team**  
+**LUKHAS AI Enterprise Team**
 *Effective Date: August 25, 2025*
 
-**Customer Acceptance**  
-*Signature: ___________________    Date: ___________________*  
+**Customer Acceptance**
+*Signature: ___________________    Date: ___________________*
 *Name: _______________________    Title: __________________*
 
 ---

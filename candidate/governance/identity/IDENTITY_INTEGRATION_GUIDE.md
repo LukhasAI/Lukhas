@@ -116,23 +116,23 @@ from lukhas.identity.interface import IdentityClient
 class MyModule:
     def __init__(self):
         self.identity_client = IdentityClient()
-    
+
     def protected_operation(self, user_id: str, data: dict):
         # Verify access
         if not self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_2"):
             return {"error": "Insufficient access"}
-        
+
         # Check consent
         if not self.identity_client.check_consent(user_id, "operation_name"):
             return {"error": "Consent required"}
-        
+
         # Log activity
         self.identity_client.log_activity(
             "protected_operation",
             user_id,
             {"data_size": len(data)}
         )
-        
+
         # Perform operation
         return {"result": process_data(data)}
 ```
@@ -147,7 +147,7 @@ class AdvancedModule:
     def advanced_operation(self, user_id: str, params: dict):
         # Function automatically protected
         return {"status": "success", "data": process_advanced(params)}
-    
+
     @require_identity(required_tier="LAMBDA_TIER_4")
     def admin_operation(self, user_id: str, config: dict):
         # Admin-only operation
@@ -162,25 +162,25 @@ from lukhas.core.identity_integration import IdentityContext, get_identity_clien
 def multi_tier_operation(user_id: str, request: dict):
     client = get_identity_client()
     results = {}
-    
+
     # Basic tier operations
     with IdentityContext(user_id, "LAMBDA_TIER_1") as ctx:
         if ctx.has_access:
             results["basic"] = get_basic_info()
-    
+
     # Advanced tier operations
     with IdentityContext(user_id, "LAMBDA_TIER_3") as ctx:
         if ctx.has_access:
             results["advanced"] = get_advanced_info()
         else:
             results["advanced"] = {"message": "Upgrade to tier 3 for advanced features"}
-    
+
     # Log the access pattern
     if client:
         client.log_activity("multi_tier_access", user_id, {
             "tiers_accessed": list(results.keys())
         })
-    
+
     return results
 ```
 
@@ -203,7 +203,7 @@ class ProtectedService:
             self.identity_client = self._create_fallback_client()
             self.identity_available = False
             logger.warning("Running with fallback identity client")
-    
+
     def _create_fallback_client(self):
         """Create a mock client for development."""
         class FallbackClient:
@@ -213,24 +213,24 @@ class ProtectedService:
                 return True
             def log_activity(self, activity, user_id, metadata):
                 logger.info(f"MOCK_LOG: {activity} by {user_id}")
-        
+
         return FallbackClient()
-    
+
     def process_request(self, user_id: str, request: dict):
         # Always use identity client (real or fallback)
         if not self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_2"):
             return {"error": "Access denied"}
-        
+
         # Process based on user tier
         result = self._process_with_tier_limits(user_id, request)
-        
+
         # Log the activity
         self.identity_client.log_activity(
             "service_request",
             user_id,
             {"request_type": request.get("type")}
         )
-        
+
         return result
 ```
 
@@ -277,7 +277,7 @@ except Exception as e:
 def adaptive_feature(user_id: str, params: dict):
     # Check what tier the user has
     client = get_identity_client()
-    
+
     if client and client.verify_user_access(user_id, "LAMBDA_TIER_4"):
         return premium_algorithm(params)
     elif client and client.verify_user_access(user_id, "LAMBDA_TIER_2"):
@@ -413,13 +413,13 @@ def test_my_function():
     mock_client = Mock()
     mock_client.verify_user_access.return_value = True
     mock_client.check_consent.return_value = True
-    
+
     # Inject mock
     my_module.identity_client = mock_client
-    
+
     # Test function
     result = my_module.protected_function("test_user", {})
-    
+
     # Verify identity checks were made
     mock_client.verify_user_access.assert_called_with("test_user", "LAMBDA_TIER_2")
     mock_client.check_consent.assert_called_with("test_user", "operation_name")

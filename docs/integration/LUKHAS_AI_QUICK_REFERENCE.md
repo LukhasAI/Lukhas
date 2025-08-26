@@ -6,7 +6,7 @@
 - ✅ **Claude Desktop** (configured with LUKHAS context)
 - ✅ **Claude Code Extension** (VS Code integrated)
 - ✅ **Ollama** with llama3.2:1b model
-- ✅ **ChatGPT Desktop** 
+- ✅ **ChatGPT Desktop**
 - ✅ **VS Code ChatGPT Extension**
 - ✅ **Perplexity Desktop**
 

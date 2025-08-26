@@ -36,7 +36,7 @@ from qrg_integration import LukhusQRGIntegrator, QRGType
 
 from lukhas.qi.steganographic_demo import (
     GlyphStyle,
-    QuantumQRInfluencer,
+    QIQRInfluencer,
     SteganographicGlyphGenerator,
 )
 
@@ -409,7 +409,7 @@ class TestQuantumSteganographicCoverage(unittest.TestCase):
     """Test quantum and steganographic components"""
 
     def setUp(self):
-        self.quantum_influencer = QuantumQRInfluencer()
+        self.qi_influencer = QIQRInfluencer()
         self.glyph_generator = SteganographicGlyphGenerator()
 
     def test_all_quantum_influence_types(self):
@@ -419,13 +419,13 @@ class TestQuantumSteganographicCoverage(unittest.TestCase):
 
         for level in security_levels:
             with self.subTest(security_level=level):
-                influence = self.quantum_influencer.create_quantum_influence(
+                influence = self.qi_influencer.create_quantum_influence(
                     test_data, level
                 )
 
                 # Validate all influence components
                 self.assertGreater(influence.entropy_bits, 0)
-                self.assertIsInstance(influence.quantum_seed, bytes)
+                self.assertIsInstance(influence.qi_seed, bytes)
                 self.assertIsInstance(influence.entanglement_pairs, list)
                 self.assertIsInstance(influence.coherence_matrix, list)
                 self.assertIsInstance(influence.superposition_states, dict)
@@ -433,11 +433,11 @@ class TestQuantumSteganographicCoverage(unittest.TestCase):
                 self.assertGreater(influence.decoherence_protection, 0.9)
 
                 # Test pattern application
-                quantum_pattern = self.quantum_influencer.apply_quantum_influence_to_qr(
+                qi_pattern = self.qi_influencer.apply_quantum_influence_to_qr(
                     test_data, influence
                 )
-                self.assertIsInstance(quantum_pattern, str)
-                self.assertGreater(len(quantum_pattern), 0)
+                self.assertIsInstance(qi_pattern, str)
+                self.assertGreater(len(qi_pattern), 0)
 
     def test_all_glyph_styles(self):
         """Test all steganographic glyph styles"""
@@ -549,9 +549,9 @@ class TestPerformanceOptimization(unittest.TestCase):
         original_config = self.integrator.config.copy()
 
         optimized_configs = [
-            {"max_pattern_size": 100, "quantum_coherence_target": 0.98},
-            {"max_pattern_size": 200, "quantum_coherence_target": 0.90},
-            {"max_pattern_size": 50, "quantum_coherence_target": 0.99},
+            {"max_pattern_size": 100, "qi_coherence_target": 0.98},
+            {"max_pattern_size": 200, "qi_coherence_target": 0.90},
+            {"max_pattern_size": 50, "qi_coherence_target": 0.99},
         ]
 
         for config in optimized_configs:

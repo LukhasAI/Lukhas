@@ -116,7 +116,7 @@ export default function TrinityCanvas() {
       const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, 80)
       gradient.addColorStop(0, node.glowColor)
       gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
-      
+
       ctx.globalAlpha = 0.6 + Math.sin(time * 0.002) * 0.2
       ctx.fillStyle = gradient
       ctx.beginPath()
@@ -135,28 +135,28 @@ export default function TrinityCanvas() {
       ctx.save()
       ctx.translate(node.x, node.y)
       ctx.rotate(node.rotation)
-      
+
       ctx.strokeStyle = node.color
       ctx.lineWidth = 1
       ctx.globalAlpha = 0.6
-      
+
       // First ring
       ctx.beginPath()
       ctx.ellipse(0, 0, 45, 20, 0, 0, Math.PI * 2)
       ctx.stroke()
-      
+
       // Second ring
       ctx.rotate(Math.PI / 3)
       ctx.beginPath()
       ctx.ellipse(0, 0, 45, 20, 0, 0, Math.PI * 2)
       ctx.stroke()
-      
+
       // Third ring
       ctx.rotate(Math.PI / 3)
       ctx.beginPath()
       ctx.ellipse(0, 0, 45, 20, 0, 0, Math.PI * 2)
       ctx.stroke()
-      
+
       ctx.restore()
 
       // Draw icon
@@ -180,7 +180,7 @@ export default function TrinityCanvas() {
       // Draw triangular connections
       for (let i = 0; i < nodes.length; i++) {
         const nextIndex = (i + 1) % nodes.length
-        
+
         // Create gradient along the line
         const gradient = ctx.createLinearGradient(
           nodes[i].x, nodes[i].y,
@@ -188,16 +188,16 @@ export default function TrinityCanvas() {
         )
         gradient.addColorStop(0, nodes[i].color)
         gradient.addColorStop(1, nodes[nextIndex].color)
-        
+
         ctx.strokeStyle = gradient
         ctx.globalAlpha = 0.3 + Math.sin(time * 0.001 + i) * 0.2
-        
+
         ctx.beginPath()
         ctx.moveTo(nodes[i].x, nodes[i].y)
         ctx.lineTo(nodes[nextIndex].x, nodes[nextIndex].y)
         ctx.stroke()
       }
-      
+
       ctx.setLineDash([])
     }
 
@@ -207,7 +207,7 @@ export default function TrinityCanvas() {
       energyGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)')
       energyGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.1)')
       energyGradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
-      
+
       ctx.globalAlpha = 0.5 + Math.sin(time * 0.003) * 0.3
       ctx.fillStyle = energyGradient
       ctx.beginPath()
@@ -218,7 +218,7 @@ export default function TrinityCanvas() {
       ctx.save()
       ctx.translate(centerX, centerY)
       ctx.rotate(time * 0.001)
-      
+
       for (let i = 0; i < 3; i++) {
         ctx.rotate((Math.PI * 2) / 3)
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'
@@ -228,7 +228,7 @@ export default function TrinityCanvas() {
         ctx.lineTo(triangleRadius * 0.6, 0)
         ctx.stroke()
       }
-      
+
       ctx.restore()
     }
 
@@ -260,10 +260,10 @@ export default function TrinityCanvas() {
   }, [])
 
   return (
-    <canvas 
+    <canvas
       ref={canvasRef}
       className="w-full h-full"
-      style={{ 
+      style={{
         background: 'transparent',
         width: '100%',
         height: '100%'

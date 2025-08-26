@@ -1,5 +1,5 @@
 # EXACT BATCH STATUS - What's Left To Complete
-**Generated**: August 25, 2025  
+**Generated**: August 25, 2025
 **Purpose**: Precise instructions for new agents
 
 ## 📊 Current PR Status - POST MERGE REVIEW
@@ -7,7 +7,7 @@
 ### ✅ **COMPLETED & MERGED**
 - **BATCH 1** - ✅ **MERGED** PR #33 - Critical import fixes (Merged 2025-08-25)
 - **BATCH 1-1** - ✅ **CLOSED** PR #32 - Already in main via commit 387d6f7c
-- **BATCH 2** - ✅ **CLOSED** PR #34 - Already in main via commit 387d6f7c 
+- **BATCH 2** - ✅ **CLOSED** PR #34 - Already in main via commit 387d6f7c
 - **BATCH 4** - ✅ **MERGED** PR #40 - Orchestration & Integration (Merged 2025-08-25)
 - **BATCH 5** - ✅ **MERGED** PR #31 - Memory/symbolic systems (Merged 2025-08-25)
 - **BATCH 7** - ✅ **MERGED** PR #37 - Configuration & Logging (Merged 2025-08-25)
@@ -19,15 +19,15 @@
 
 ### 🔴 **REMAINING BATCHES - Need New Agents**
 
-## **BATCH 3: API & SERVICE IMPLEMENTATION** 
-**Status**: 🟡 **PARTIALLY COMPLETE - REVIEW NEEDED**  
-**Priority**: 🔥 HIGH - User-facing functionality  
-**Files**: API and service layer  
+## **BATCH 3: API & SERVICE IMPLEMENTATION**
+**Status**: 🟡 **PARTIALLY COMPLETE - REVIEW NEEDED**
+**Priority**: 🔥 HIGH - User-facing functionality
+**Files**: API and service layer
 **Note**: PR #39 was closed as already in main - verify completeness
 
 ### Specific TODOs for New Agent:
 1. `candidate/bridge/api/onboarding.py` - Implement onboarding start logic
-2. `candidate/bridge/api/onboarding.py` - Implement tier setup logic  
+2. `candidate/bridge/api/onboarding.py` - Implement tier setup logic
 3. `candidate/bridge/api/onboarding.py` - Implement consent collection logic
 4. `candidate/bridge/api/onboarding.py` - Implement onboarding completion logic
 5. `candidate/bridge/api/api.py` - Implement QRS manager logic (8 TODOs)
@@ -45,7 +45,7 @@
 17. `candidate/bridge/llm_wrappers/openai_modulated_service.py` - Integrate with real vector store
 
 ## **BATCH 4: ORCHESTRATION & INTEGRATION**
-**Status**: ✅ **COMPLETED** - PR #40 MERGED (2025-08-25)  
+**Status**: ✅ **COMPLETED** - PR #40 MERGED (2025-08-25)
 **Priority**: ✅ RESOLVED - System coordination complete
 **Files**: Orchestration and integration systems
 **Implementation**: All 17 TODOs successfully implemented
@@ -61,9 +61,9 @@
 8. ✅ `candidate/core/orchestration/core.py` - ModuleRegistry integration
 
 ## **BATCH 6: VOICE & AUDIO SYSTEMS**
-**Status**: ❌ **NO PR FOUND - NEEDS AGENT**  
-**Priority**: 🟠 MEDIUM - Audio processing  
-**Files**: Voice and audio processing  
+**Status**: ❌ **NO PR FOUND - NEEDS AGENT**
+**Priority**: 🟠 MEDIUM - Audio processing
+**Files**: Voice and audio processing
 **Estimated Time**: 40-55 minutes
 
 ### Specific TODOs for New Agent:
@@ -85,9 +85,9 @@
 
 
 ## **BATCH 8: GOVERNANCE & SECURITY**
-**Status**: 🟡 **BLOCKED - SOLUTION PROVIDED**  
-**Priority**: 🟠 MEDIUM - Governance systems  
-**Files**: Governance and security  
+**Status**: 🟡 **BLOCKED - SOLUTION PROVIDED**
+**Priority**: 🟠 MEDIUM - Governance systems
+**Files**: Governance and security
 **Estimated Time**: 50-65 minutes
 
 ### 🔓 **Unblocking Step Required**:
@@ -149,7 +149,7 @@ Success criteria:
 
 ## 📊 **Updated Statistics - POST PR MERGE**
 - **Total Original TODOs**: ~964
-- **BATCHES Complete**: 8/10 (BATCH 1, 1-1, 2, 4, 5, 7, 9, 10) 
+- **BATCHES Complete**: 8/10 (BATCH 1, 1-1, 2, 4, 5, 7, 9, 10)
 - **BATCHES Pending**: 2/10 (BATCH 3, 6, 8)
 - **TODOs Remaining**: ~180 (estimated based on incomplete batches)
 - **PRs Successfully Merged**: 5 (PRs #31, #33, #36, #37, #38, #40)

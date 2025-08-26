@@ -190,7 +190,7 @@ class AuditTrail:
                 checksum TEXT,
                 verified INTEGER,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                
+
                 FOREIGN KEY (parent_id) REFERENCES audit_entries(audit_id)
             )
         """
@@ -221,7 +221,7 @@ class AuditTrail:
                 confidence_factors TEXT,
                 alternative_decisions TEXT,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                
+
                 FOREIGN KEY (audit_id) REFERENCES audit_entries(audit_id)
             )
         """
@@ -642,7 +642,7 @@ class AuditTrail:
         # Delete orphaned explanations
         cursor.execute(
             """
-            DELETE FROM explanations 
+            DELETE FROM explanations
             WHERE audit_id NOT IN (SELECT audit_id FROM audit_entries)
         """
         )

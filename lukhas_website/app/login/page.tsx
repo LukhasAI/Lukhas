@@ -172,7 +172,7 @@ export default function LoginPage() {
       }
       setError(errorMsg)
       AnnouncementManager.announceAuthState('error', errorMsg)
-      
+
       // Focus the error message for screen readers
       setTimeout(() => FocusManager.focusFirstError(), 100)
     } finally {
@@ -184,7 +184,7 @@ export default function LoginPage() {
   const handleMagicLink = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
     AnnouncementManager.announceAuthState('loading', t.sending)
-    
+
     if (!email.trim()) {
       setError(t.pleaseEnterEmail)
       return
@@ -238,13 +238,13 @@ export default function LoginPage() {
       />
       <div className="min-h-screen bg-bg-primary flex flex-col">
       {/* Skip to main content link for accessibility */}
-      <a 
-        href="#main-content" 
+      <a
+        href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-trinity-identity text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white z-50"
       >
         Skip to main content
       </a>
-      
+
       {/* Header */}
       <header className="flex items-center justify-between p-6" role="banner">
         <Link href="/" className="flex items-center text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-identity focus:ring-offset-2 focus:ring-offset-bg-primary rounded">
@@ -403,14 +403,14 @@ export default function LoginPage() {
 
           {/* Recovery Options */}
           <div className="mt-8 text-center space-y-2">
-            <Link 
-              href="/recover" 
+            <Link
+              href="/recover"
               className="block text-sm text-white/60 hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-identity focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-2 py-1"
             >
               {t.lostAccess}
             </Link>
-            <Link 
-              href="/signup" 
+            <Link
+              href="/signup"
               className="block text-sm text-trinity-identity hover:text-trinity-consciousness transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-identity focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-2 py-1"
             >
               {t.createNewAccount}
@@ -436,7 +436,7 @@ export default function LoginPage() {
                 </button>
               ))}
             </div>
-            
+
             {/* Content */}
             <div className="text-xs text-white/60 leading-relaxed" data-tone={selectedTone}>
               {copyContent[selectedTone]}

@@ -211,7 +211,7 @@ def simulate_parallel_outcomes():
 
 ### Quantum Module
 ```python
-# Classes  
+# Classes
 class QuantumState:
 class QuantumConsciousness:
 class QuantumCoherence:

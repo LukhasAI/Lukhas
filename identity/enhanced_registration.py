@@ -26,7 +26,7 @@ class UserIDValidator:
     def validate_user_id(self, user_id: str) -> Tuple[bool, str, List[str]]:
         """
         Validate a proposed user ID.
-        
+
         Returns:
             (is_valid, error_message, suggestions)
         """
@@ -141,14 +141,14 @@ class EnhancedRegistrationSystem:
     ) -> Dict[str, Any]:
         """
         Enhanced user registration with custom user ID support.
-        
+
         Args:
             email: User's email address (required)
-            password: User's password (required)  
+            password: User's password (required)
             requested_tier: Desired tier (T1-T5)
             custom_user_id: Optional custom user ID
             display_name: Optional display name for UI
-            
+
         Returns:
             Registration result with user_id, token, and metadata
         """

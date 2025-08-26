@@ -511,6 +511,6 @@ analytics = client.get_analytics(
 
 ---
 
-*NIΛS Dream Commerce API - Where Dreams Meet Commerce*  
-*Documentation Version: 1.0.0*  
+*NIΛS Dream Commerce API - Where Dreams Meet Commerce*
+*Documentation Version: 1.0.0*
 *Last Updated: December 2024*

@@ -134,5 +134,5 @@ Embark on this cosmic journey with us! Together, let us weave dreams into realit
 
 ---
 
-> 🧬 *Part of the LUKHAS AGI Consciousness Architecture*  
+> 🧬 *Part of the LUKHAS AGI Consciousness Architecture*
 > *"Where dreams become algorithms, and algorithms dream of consciousness"*

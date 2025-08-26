@@ -200,7 +200,7 @@ export default function MemoryIntegrator({ memories, onMemoryAdd }: MemoryIntegr
             {memories.map((memory, index) => {
               const isExpanded = expandedMemories.has(memory.id)
               const causalStrength = calculateCausalStrength(memory)
-              
+
               return (
                 <motion.div
                   key={memory.id}
@@ -238,7 +238,7 @@ export default function MemoryIntegrator({ memories, onMemoryAdd }: MemoryIntegr
                             <Link2 className="w-3 h-3 text-white/40" />
                           )}
                         </div>
-                        
+
                         <p className="text-sm text-white/80">
                           {isExpanded ? memory.content : `${memory.content.substring(0, 100)}${memory.content.length > 100 ? '...' : ''}`}
                         </p>
@@ -254,7 +254,7 @@ export default function MemoryIntegrator({ memories, onMemoryAdd }: MemoryIntegr
                               <div>
                                 <span className="text-white/40">Emotional Weight</span>
                                 <div className="mt-1 h-1 bg-white/10 rounded-full overflow-hidden">
-                                  <div 
+                                  <div
                                     className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
                                     style={{ width: `${memory.emotionalWeight * 100}%` }}
                                   />
@@ -263,14 +263,14 @@ export default function MemoryIntegrator({ memories, onMemoryAdd }: MemoryIntegr
                               <div>
                                 <span className="text-white/40">Causal Strength</span>
                                 <div className="mt-1 h-1 bg-white/10 rounded-full overflow-hidden">
-                                  <div 
+                                  <div
                                     className="h-full bg-gradient-to-r from-green-500 to-emerald-500"
                                     style={{ width: `${causalStrength * 100}%` }}
                                   />
                                 </div>
                               </div>
                             </div>
-                            
+
                             {memory.causalLinks.length > 0 && (
                               <div className="mt-2">
                                 <span className="text-xs text-white/40">Linked to:</span>
@@ -302,8 +302,8 @@ export default function MemoryIntegrator({ memories, onMemoryAdd }: MemoryIntegr
                         }}
                         className="ml-2 p-1 hover:bg-white/10 rounded"
                       >
-                        {isExpanded ? 
-                          <ChevronUp className="w-4 h-4 text-white/60" /> : 
+                        {isExpanded ?
+                          <ChevronUp className="w-4 h-4 text-white/60" /> :
                           <ChevronDown className="w-4 h-4 text-white/60" />
                         }
                       </button>

@@ -19,7 +19,7 @@ from typing import Any, Optional
 from candidate.core.common import get_logger
 
 try:
-    from bio.quantum_bio_components import ProtonGradient
+    from bio.qi_bio_components import ProtonGradient
 except ImportError:
     # Fallback for missing bio components
     class ProtonGradient:
@@ -34,7 +34,7 @@ logger = get_logger(__name__)
 class VisualizationConfig:
     """Configuration for memory visualization"""
 
-    quantum_enhancement: bool = True
+    qi_enhancement: bool = True
     dream_collapse: bool = True
     emotional_mapping: bool = True
     temporal_depth: int = 7  # Days
@@ -48,7 +48,7 @@ class EnhancedMemoryVisualizer:
 
     def __init__(self, config: Optional[VisualizationConfig] = None):
         self.config = config or VisualizationConfig()
-        self.quantum_oscillator = QuantumOscillator()
+        self.qi_oscillator = QIOscillator()
         self.proton_gradient = ProtonGradient()
 
         # Initialize visualization components
@@ -59,7 +59,7 @@ class EnhancedMemoryVisualizer:
         st.set_page_config(page_title="Enhanced Memory Visualization", layout="wide")
 
         # Quantum coherence indicator
-        coherence = self.quantum_oscillator.quantum_modulate(1.0)
+        coherence = self.qi_oscillator.qi_modulate(1.0)
         st.sidebar.metric(
             "Quantum Coherence",
             f"{coherence:.2f}",
@@ -92,7 +92,7 @@ class EnhancedMemoryVisualizer:
 
             return {
                 "status": "success",
-                "coherence": self.quantum_oscillator.entanglement_factor,
+                "coherence": self.qi_oscillator.entanglement_factor,
                 "visualization_data": modulated_data,
             }
 
@@ -107,7 +107,7 @@ class EnhancedMemoryVisualizer:
 
         for key, value in memory_data.items():
             if isinstance(value, (int, float)):
-                modulated[key] = self.quantum_oscillator.quantum_modulate(value)
+                modulated[key] = self.qi_oscillator.qi_modulate(value)
             elif isinstance(value, dict):
                 modulated[key] = self._quantum_modulate_memory(value)
             else:
@@ -133,8 +133,8 @@ class Enhanced3DVisualizer:
     3D visualization of quantum memory spaces
     """
 
-    def __init__(self, quantum_oscillator: Optional[QuantumOscillator] = None):
-        self.quantum_oscillator = quantum_oscillator or QuantumOscillator()
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
+        self.qi_oscillator = qi_oscillator or QIOscillator()
 
     def launch_3d_viewer(self, memory_data: dict[str, Any]) -> None:
         """Launch 3D memory visualization"""

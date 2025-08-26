@@ -1,8 +1,8 @@
 # Brand Decision Record (BDR) Template
 
-**BDR ID**: BDR-YYYY-MM-DD-[SHORT-NAME]  
-**Date**: [YYYY-MM-DD]  
-**Status**: [Proposed | Accepted | Rejected | Deprecated]  
+**BDR ID**: BDR-YYYY-MM-DD-[SHORT-NAME]
+**Date**: [YYYY-MM-DD]
+**Status**: [Proposed | Accepted | Rejected | Deprecated]
 **Reviewers**: [List of reviewers required]
 
 ## Decision Summary
@@ -24,7 +24,7 @@
    - Cons:
    - Brand impact:
 
-2. **Option B**: [Brief description] 
+2. **Option B**: [Brief description]
    - Pros:
    - Cons:
    - Brand impact:
@@ -102,7 +102,7 @@
 
 ### Files to Change
 - [ ] File/path 1: [Description of change]
-- [ ] File/path 2: [Description of change]  
+- [ ] File/path 2: [Description of change]
 - [ ] File/path 3: [Description of change]
 
 ### Rollout Timeline
@@ -122,7 +122,7 @@
 - Risk 1: [Description and mitigation]
 - Risk 2: [Description and mitigation]
 
-### Medium Risks  
+### Medium Risks
 - Risk 1: [Description and monitoring plan]
 - Risk 2: [Description and monitoring plan]
 
@@ -138,7 +138,7 @@
 
 ### Required Approvals
 - [ ] **Brand Lead**: [Name] - [Date]
-- [ ] **Design Lead**: [Name] - [Date]  
+- [ ] **Design Lead**: [Name] - [Date]
 - [ ] **Engineering Lead**: [Name] - [Date]
 - [ ] **Legal/Compliance**: [Name] - [Date]
 
@@ -149,7 +149,7 @@
 
 ## Related Decisions
 - **Depends on**: [List of prerequisite BDRs]
-- **Blocks**: [List of dependent BDRs] 
+- **Blocks**: [List of dependent BDRs]
 - **Related**: [List of related brand decisions]
 
 ## References & Research
@@ -187,6 +187,6 @@
 
 ---
 
-**Template Version**: 1.0  
-**Last Updated**: 2025-08-19  
+**Template Version**: 1.0
+**Last Updated**: 2025-08-19
 **Next Review**: [Date for template review]

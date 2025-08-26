@@ -173,16 +173,16 @@ try:
     from identity.middleware import require_tier, AuthContext, get_current_user
     from identity import AccessTier
     _IDENTITY_AVAILABLE = True
-    
+
     # Module tier requirement
     MODULE_REQUIRED_TIER = "{required_tier}"
-    
+
     def _check_module_access(user_context: Optional[AuthContext] = None):
         """Check if user has required tier for this module."""
         if not _IDENTITY_AVAILABLE:
             logging.warning(f"{module_name} module: Identity system not available")
             return True
-            
+
         if user_context and hasattr(user_context, 'is_tier_or_above'):
             if not user_context.is_tier_or_above(MODULE_REQUIRED_TIER):
                 raise PermissionError(
@@ -190,11 +190,11 @@ try:
                     f"Requires {MODULE_REQUIRED_TIER}, you have {user_context.tier}"
                 )
         return True
-        
+
 except ImportError as e:
     _IDENTITY_AVAILABLE = False
     logging.warning(f"{module_name} module: Identity system not available - {e}")
-    
+
     def _check_module_access(user_context=None):
         return True
 
@@ -326,15 +326,15 @@ except ImportError:
     # Fallback for when identity system not available
     _IDENTITY_AVAILABLE = False
     AuthContext = None
-    
+
     def get_current_user():
         return None
-        
+
     def require_tier(tier):
         def decorator(func):
             return func
         return decorator
-        
+
     class MockAccessTier:
         T1 = T2 = T3 = T4 = T5 = "mock"
     AccessTier = MockAccessTier()

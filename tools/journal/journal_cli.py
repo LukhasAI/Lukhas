@@ -1141,7 +1141,7 @@ def conscious(ctx, task):
 
     # Display quantum state
     print(f"\n{Colors.BOLD}Quantum State:{Colors.END}")
-    quantum = session["quantum_state"]
+    quantum = session["qi_state"]
     print(f"  Coherence: {quantum['coherence_level']:.0%}")
     print("  Superposition possibilities:")
     for possibility in quantum["superposition_possibilities"]:
@@ -1193,13 +1193,13 @@ def ritual(ctx, intention):
     "--options", "-o", multiple=True, required=True, help="Options to decide between"
 )
 @click.pass_context
-def quantum_decide(ctx, options):
+def qi_decide(ctx, options):
     """Make decisions using quantum-inspired approach"""
     integration = ctx.obj["integration"]
 
     print_header("Quantum Decision Making")
 
-    result = integration.quantum_decision_maker(list(options))
+    result = integration.qi_decision_maker(list(options))
 
     print(f"{Colors.BOLD}Options in Superposition:{Colors.END}")
     for option, score in result["alignment_scores"].items():
@@ -1231,7 +1231,7 @@ def metrics(ctx):
         ("Consciousness Level", metrics["consciousness_level"], Colors.CYAN),
         ("Emotional Coherence", metrics["emotional_coherence"], Colors.GREEN),
         ("Memory Efficiency", metrics["memory_fold_efficiency"], Colors.BLUE),
-        ("Quantum Alignment", metrics["quantum_alignment"], Colors.YELLOW),
+        ("Quantum Alignment", metrics["qi_alignment"], Colors.YELLOW),
         ("Guardian Compliance", metrics["guardian_compliance"], Colors.GREEN),
         ("Dream Innovation", metrics["dream_innovation_score"], Colors.HEADER),
     ]

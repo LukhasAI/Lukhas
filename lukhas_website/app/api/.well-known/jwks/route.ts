@@ -1,6 +1,6 @@
 /**
  * JWKS (JSON Web Key Set) API Endpoint
- * 
+ *
  * Provides public keys for JWT verification at /.well-known/jwks.json
  * Implements proper caching and security headers.
  */

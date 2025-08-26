@@ -3,7 +3,7 @@
 MATRIZ AGI Core Module
 
 This module contains the core interfaces and orchestration components
-for the MATRIZ (Memory, Attention, Thought, Action, Decision, Awareness) 
+for the MATRIZ (Memory, Attention, Thought, Action, Decision, Awareness)
 cognitive architecture.
 
 Key Components:
@@ -17,17 +17,17 @@ the MATRIZ node format.
 
 from .node_interface import (
     CognitiveNode,
-    NodeState,
     NodeLink,
-    NodeTrigger,
+    NodeProvenance,
     NodeReflection,
-    NodeProvenance
+    NodeState,
+    NodeTrigger,
 )
 from .orchestrator import CognitiveOrchestrator, ExecutionTrace
 
 __all__ = [
     'CognitiveNode',
-    'NodeState', 
+    'NodeState',
     'NodeLink',
     'NodeTrigger',
     'NodeReflection',

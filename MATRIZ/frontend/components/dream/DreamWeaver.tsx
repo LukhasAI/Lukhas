@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Sparkles, Brain, Heart, Zap, Eye, Layers, 
+import {
+  Sparkles, Brain, Heart, Zap, Eye, Layers,
   Music, Download, Share2, Play, Pause, RefreshCw,
   Volume2, ChevronRight, Loader2, Send, Mic
 } from 'lucide-react'
@@ -67,19 +67,19 @@ export default function DreamWeaver() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [audioEnabled, setAudioEnabled] = useState(true)
   const [voiceInput, setVoiceInput] = useState(false)
-  
+
   // Replace WebSocket with resilient SSE
-  const { data: streamData, connected, error } = useSSE<DreamEvent>('/api/dream/stream', { 
+  const { data: streamData, connected, error } = useSSE<DreamEvent>('/api/dream/stream', {
     debounceMs: 300,
-    paused: !isPlaying 
+    paused: !isPlaying
   })
-  
+
   const audioContextRef = useRef<AudioContext | null>(null)
 
   // Handle SSE stream data
   useEffect(() => {
     if (!streamData) return
-    
+
     setDreamState(prev => ({
       ...prev,
       phase: streamData.phase || prev.phase,
@@ -92,7 +92,7 @@ export default function DreamWeaver() {
       glyphs: streamData.glyphs ? [...prev.glyphs, ...streamData.glyphs].slice(-12) : prev.glyphs,
       narrative: streamData.narrative || prev.narrative
     }))
-    
+
     if (audioEnabled && streamData.emotion) {
       playEmotionalTone(streamData.emotion)
     }
@@ -125,23 +125,23 @@ export default function DreamWeaver() {
 
     const oscillator = audioContextRef.current.createOscillator()
     const gainNode = audioContextRef.current.createGain()
-    
+
     // Map emotions to frequencies
     const baseFreq = 220 + (emotion.valence * 220) // A3 to A4
     const modFreq = emotion.arousal * 10
-    
+
     oscillator.frequency.setValueAtTime(baseFreq, audioContextRef.current.currentTime)
     oscillator.frequency.exponentialRampToValueAtTime(
       baseFreq + modFreq,
       audioContextRef.current.currentTime + 0.5
     )
-    
+
     gainNode.gain.setValueAtTime(0.1 * emotion.dominance, audioContextRef.current.currentTime)
     gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.5)
-    
+
     oscillator.connect(gainNode)
     gainNode.connect(audioContextRef.current.destination)
-    
+
     oscillator.start()
     oscillator.stop(audioContextRef.current.currentTime + 0.5)
   }
@@ -167,7 +167,7 @@ export default function DreamWeaver() {
       if (!response.ok) throw new Error('Failed to initiate dream')
 
       const data = await response.json()
-      
+
       setDreamState(prev => ({
         ...prev,
         isProcessing: false,
@@ -180,7 +180,7 @@ export default function DreamWeaver() {
         },
         narrative: data?.interpretation || prev.narrative
       }))
-      
+
       // SSE stream is automatically handled by useSSE hook
     } catch (error) {
       console.error('Failed to initiate dream:', error)
@@ -251,13 +251,13 @@ export default function DreamWeaver() {
       if (!response.ok) throw new Error('Failed to crystallize dream')
 
       const data = await response.json()
-      
+
       setDreamState(prev => ({
         ...prev,
         narrative: data.artifact?.narrative || data.narrative,
         isProcessing: false
       }))
-      
+
       // Show crystallized dream artifact
       if (data.artifact) {
         console.log('Dream crystallized:', data.artifact)
@@ -377,7 +377,7 @@ export default function DreamWeaver() {
                   </button>
                 </>
               )}
-              
+
               <button
                 onClick={() => setAudioEnabled(!audioEnabled)}
                 className="p-4 bg-white/10 hover:bg-white/20 rounded-xl transition-colors"
@@ -398,11 +398,11 @@ export default function DreamWeaver() {
                 <motion.div
                   className="h-full bg-gradient-to-r from-indigo-500 to-purple-600"
                   initial={{ width: '0%' }}
-                  animate={{ 
+                  animate={{
                     width: `${
                       ['seed', 'awakening', 'exploration', 'creation', 'resonance', 'integration', 'crystallization']
                         .indexOf(dreamState.phase) * (100 / 6)
-                    }%` 
+                    }%`
                   }}
                   transition={{ duration: 1 }}
                 />

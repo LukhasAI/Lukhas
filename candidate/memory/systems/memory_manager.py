@@ -110,7 +110,7 @@ class AdvancedMemoryManager:
         emotional_oscillator: Optional[
             Any
         ] = None,  # Replace Any with actual type #ΛLINK_CONCEPTUAL: EmotionalSystem
-        quantum_attention: Optional[
+        qi_attention: Optional[
             Any
         ] = None,  # Replace Any with actual type #ΛLINK_CONCEPTUAL: AttentionSystem
     ):
@@ -123,7 +123,7 @@ class AdvancedMemoryManager:
             fold_engine_instance: An optional instance of the fold engine (e.g., AGIMemory).
                                   If None, a new one (assumed AGIMemory) is instantiated.
             emotional_oscillator: An optional instance of the emotional oscillator component.
-            quantum_attention: An optional instance of the quantum attention mechanism.
+            qi_attention: An optional instance of the quantum attention mechanism.
         """
         # ΛCAUTION: The direct instantiation of `MemoryManager()` might be problematic if it's the placeholder from `learning/memory_learning`.
         # A fully functional base manager is assumed here.
@@ -150,7 +150,7 @@ class AdvancedMemoryManager:
         self.emotional_oscillator = (
             emotional_oscillator  # ΛSIM_TRACE: Conceptual component.
         )
-        self.quantum_attention = quantum_attention  # ΛSIM_TRACE: Conceptual component.
+        self.qi_attention = qi_attention  # ΛSIM_TRACE: Conceptual component.
 
         self.emotion_vectors: dict[str, list[float]] = (
             self._load_emotion_vectors()
@@ -164,7 +164,7 @@ class AdvancedMemoryManager:
                 "total_memories_managed": 0,
                 "successful_retrievals": 0,
                 "emotional_context_usage": 0,
-                "quantum_attention_activations": 0,
+                "qi_attention_activations": 0,
                 "memories_stored": 0,
                 "searches_performed": 0,
             }
@@ -471,7 +471,7 @@ class AdvancedMemoryManager:
 
             # Apply conceptual quantum attention
             if (
-                self.quantum_attention and memories_found
+                self.qi_attention and memories_found
             ):  # ΛLINK_CONCEPTUAL: AttentionSystem #ΛSIM_TRACE
                 logger.debug(
                     "AdvancedMemoryManager_applying_quantum_attention",
@@ -480,7 +480,7 @@ class AdvancedMemoryManager:
                 memories_found = await self._apply_quantum_attention(
                     memories_found, query
                 )
-                self.metrics["quantum_attention_activations"] += 1
+                self.metrics["qi_attention_activations"] += 1
                 logger.debug(
                     "AdvancedMemoryManager_quantum_attention_applied",
                     num_results_after=len(memories_found),
@@ -734,7 +734,7 @@ class AdvancedMemoryManager:
     ) -> list[dict[str, Any]]:
         """
         Applies a conceptual quantum attention mechanism to re-rank memories based on relevance to a query.
-        #ΛSIM_TRACE: Interaction with conceptual `quantum_attention` system.
+        #ΛSIM_TRACE: Interaction with conceptual `qi_attention` system.
         """
         # ΛTRACE: Applying quantum attention.
         logger.debug(
@@ -742,19 +742,19 @@ class AdvancedMemoryManager:
             query=query,
             num_memories_input=len(memories),
         )
-        if not self.quantum_attention or not hasattr(
-            self.quantum_attention, "score_memory_relevance"
+        if not self.qi_attention or not hasattr(
+            self.qi_attention, "score_memory_relevance"
         ):
             logger.debug(
                 "AdvancedMemoryManager_quantum_attention_unavailable",
-                quantum_attention_exists=self.quantum_attention is not None,
+                qi_attention_exists=self.qi_attention is not None,
             )
             return memories  # Return original list if mechanism not available.
         try:
             scored_memories = []
             for memory_item in memories:
                 # ΛCAUTION: Assumes `score_memory_relevance` is async.
-                attention_score = await self.quantum_attention.score_memory_relevance(
+                attention_score = await self.qi_attention.score_memory_relevance(
                     memory_item, query
                 )
                 scored_memories.append(
@@ -903,7 +903,7 @@ class AdvancedMemoryManager:
             "fold_engine_status": fold_engine_status_info,
             "emotional_oscillator_connected": self.emotional_oscillator
             is not None,  # ΛLINK_CONCEPTUAL: EmotionalSystem
-            "quantum_attention_connected": self.quantum_attention
+            "qi_attention_connected": self.qi_attention
             is not None,  # ΛLINK_CONCEPTUAL: AttentionSystem
             "last_updated_utc": datetime.now(
                 timezone.utc

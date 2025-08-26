@@ -51,7 +51,7 @@ web_test_final/
 ├── assets/
 │   ├── css/
 │   │   ├── studio.css            # Core styling & animations
-│   │   └── legal.css             # Legal page styling  
+│   │   └── legal.css             # Legal page styling
 │   └── js/
 │       └── studio.js             # State machine & core logic
 ├── components/
@@ -66,7 +66,7 @@ web_test_final/
 
 ## Performance Budgets
 - **LCP**: < 2.5s (monitored)
-- **CLS**: < 0.1 
+- **CLS**: < 0.1
 - **TBT**: < 200ms
 - **Bundle Size**: Minimal (no framework dependencies)
 
@@ -110,7 +110,7 @@ web_test_final/
 ## Integration with Visual Studio JSON
 The implementation follows the `visual_studio.json` specification:
 - State machine matches defined flow
-- Motion tokens align with duration specs  
+- Motion tokens align with duration specs
 - Consent categories match configuration
 - Performance budgets enforced
 - Feature flags ready (FEATURE_LANDING_MOTION, etc.)

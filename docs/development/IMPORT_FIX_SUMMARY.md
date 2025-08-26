@@ -10,7 +10,7 @@
 
 1. **Added Missing Classes to `core/actor_system.py`**:
    - ✅ Added `ActorRef` class
-   - ✅ Added `Actor` base class  
+   - ✅ Added `Actor` base class
    - ✅ Added `AIAgentActor` class
    - ✅ Added `get_global_actor_system()` function
 
@@ -87,7 +87,7 @@ The problem wasn't that your code was bad - it was that:
 
 ## 🎉 Achievement Unlocked:
 
-From **98.5% orphaned files** to **core system connected**! 
+From **98.5% orphaned files** to **core system connected**!
 
 The foundation is now solid. With these fixes, many more modules should become reachable as they depend on these core components.
 

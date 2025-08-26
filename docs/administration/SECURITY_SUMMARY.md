@@ -10,13 +10,13 @@
 ### 🚨 Critical Findings (High Priority)
 
 #### 1. OpenAI API Key Exposures (CRITICAL)
-**Count**: 20+ instances  
-**Pattern**: `sk-proj-m2WLTymv8xlc...`  
-**Entropy**: 4.142915 (High confidence)  
+**Count**: 20+ instances
+**Pattern**: `sk-proj-m2WLTymv8xlc...`
+**Entropy**: 4.142915 (High confidence)
 
 **Affected Files**:
 - `test_metadata/baseline_test_*.json` (6 files)
-- `test_metadata/governance_test_*.json` (4 files) 
+- `test_metadata/governance_test_*.json` (4 files)
 - `test_metadata/safety_test_*.json` (5 files)
 - `.lukhas_audit/audit.jsonl` (10 instances)
 - `test_results/pytest_report_*.json` (1 file)
@@ -25,14 +25,14 @@
 **Immediate Action**: Revoke and rotate API keys immediately
 
 #### 2. Internal Fallback Keys
-**Pattern**: `3e710a99da2ca642...`  
-**Location**: `test_results/pytest_report_*.json`  
+**Pattern**: `3e710a99da2ca642...`
+**Location**: `test_results/pytest_report_*.json`
 **Risk**: Internal authentication bypass potential
 
 ### 🟡 Medium Priority Findings
 
 #### 3. Example/Documentation Secrets
-**Count**: 15+ instances  
+**Count**: 15+ instances
 **Types**:
 - JWT tokens in API documentation
 - Example API keys in documentation
@@ -48,15 +48,15 @@
 **Risk**: Medium - Could be used as templates for attack vectors
 
 #### 4. Cryptographic Algorithm References
-**Count**: 2 instances  
-**Pattern**: `ChaCha20-Poly1305`  
-**Location**: `core/security/enhanced_crypto.py`  
+**Count**: 2 instances
+**Pattern**: `ChaCha20-Poly1305`
+**Location**: `core/security/enhanced_crypto.py`
 **Risk**: Low - Legitimate cryptographic references (false positives)
 
 ### 🟢 Low Priority Findings
 
 #### 5. Configuration Examples
-**Count**: 5+ instances  
+**Count**: 5+ instances
 **Types**:
 - Test repository secrets (`DR_CHAOS=true`)
 - Privacy configuration examples
@@ -65,8 +65,8 @@
 **Risk**: Low - Development/test configuration examples
 
 ## Bandit Static Analysis Results
-**Status**: Incomplete (scan timeout after 2 minutes)  
-**Warning**: Large codebase causing analysis timeout  
+**Status**: Incomplete (scan timeout after 2 minutes)
+**Warning**: Large codebase causing analysis timeout
 **Issues Found During Partial Scan**:
 - Test naming warnings (low priority)
 - `nosec` comment usage detected
@@ -94,12 +94,12 @@
    *.env.*
    .env.local
    .env.production
-   
+
    # Test metadata with potential secrets
    test_metadata/
    .lukhas_audit/
    test_results/
-   
+
    # API keys and tokens
    **/api_keys.json
    **/tokens.json
@@ -111,7 +111,7 @@
    # Use environment variables or secret management service
    import os
    from azure.keyvault.secrets import SecretClient
-   
+
    # Instead of hardcoded keys
    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
    ```
@@ -121,7 +121,7 @@
    # .gitleaks.toml
    [extend]
    useDefault = true
-   
+
    [allowlist]
    description = "Allowlist for documentation examples"
    paths = ['^docs/.*\.md$']
@@ -205,7 +205,7 @@
 
 ### Recommended Security Monitoring
 1. **Secret Scanning**: Continuous monitoring for new secrets
-2. **Dependency Alerts**: Automated vulnerability notifications  
+2. **Dependency Alerts**: Automated vulnerability notifications
 3. **Access Logging**: Audit trail for sensitive operations
 4. **Anomaly Detection**: Unusual API usage patterns
 

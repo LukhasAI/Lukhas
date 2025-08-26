@@ -22,7 +22,7 @@ export default function QuoteOptions({ onEnterStudio, onExploreWebsite }: QuoteO
         >
           Enter Studio
         </button>
-        
+
         <button
           onClick={() => {
             if (onExploreWebsite) onExploreWebsite()
@@ -33,7 +33,7 @@ export default function QuoteOptions({ onEnterStudio, onExploreWebsite }: QuoteO
           Explore Lukhas
         </button>
       </div>
-      
+
       <div className="text-center mt-4">
         <p className="text-xs text-white/40 font-light tracking-wide">
           Choose your journey

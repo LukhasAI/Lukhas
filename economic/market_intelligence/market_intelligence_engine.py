@@ -60,13 +60,13 @@ class MarketIntelligenceEngine(CoreInterface):
     ) -> List[Any]:
         """
         Scan global markets for opportunities meeting criteria
-        
+
         Args:
             domains: Industry domains to scan
             min_market_size: Minimum market size threshold
             time_horizon_years: Time horizon for opportunity realization
             disruption_potential_threshold: Minimum disruption potential
-            
+
         Returns:
             List of market opportunities
         """
@@ -112,12 +112,12 @@ class MarketIntelligenceEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Analyze competitor innovation patterns
-        
+
         Args:
             competitor: Competitor identifier
             analysis_depth: Depth of analysis (basic, detailed, comprehensive)
             time_window_years: Historical time window to analyze
-            
+
         Returns:
             Competitor innovation pattern analysis
         """
@@ -171,7 +171,7 @@ class MarketIntelligenceEngine(CoreInterface):
             "disruption_patterns": {
                 "platform_economy": 0.95,
                 "ai_automation": 0.92,
-                "quantum_computing": 0.88,
+                "qi_computing": 0.88,
                 "biotechnology": 0.90,
                 "clean_energy": 0.91,
                 "space_economy": 0.87,
@@ -199,8 +199,8 @@ class MarketIntelligenceEngine(CoreInterface):
                 technology_readiness=0.9,
                 customer_readiness=0.8
             ),
-            "quantum_computing": MarketData(
-                domain="quantum_computing",
+            "qi_computing": MarketData(
+                domain="qi_computing",
                 size=8e11,
                 growth_rate=0.45,
                 competitive_intensity=0.6,
@@ -291,7 +291,7 @@ class MarketIntelligenceEngine(CoreInterface):
         advantages = []
 
         # Technology advantages
-        if domain in ["ai_services", "quantum_computing"]:
+        if domain in ["ai_services", "qi_computing"]:
             advantages.append("technological_superiority")
             advantages.append("computational_advantage")
 
@@ -321,10 +321,10 @@ class MarketIntelligenceEngine(CoreInterface):
         }
 
         # Domain-specific requirements
-        if domain == "quantum_computing":
+        if domain == "qi_computing":
             requirements["capital_requirements"] = 5e9
             requirements["technology_requirements"] = [
-                "quantum_processors", "cryogenic_systems", "error_correction"
+                "qi_processors", "cryogenic_systems", "error_correction"
             ]
         elif domain == "biotechnology":
             requirements["regulatory_requirements"] = [
@@ -345,7 +345,7 @@ class MarketIntelligenceEngine(CoreInterface):
         if domain in ["biotechnology", "clean_energy"]:
             risks.append("regulatory_change_risk")
 
-        if domain in ["quantum_computing", "neuromorphic"]:
+        if domain in ["qi_computing", "neuromorphic"]:
             risks.append("technology_maturity_risk")
 
         if domain == "metaverse":
@@ -410,7 +410,7 @@ class MarketIntelligenceEngine(CoreInterface):
         return [
             {"type": "technology", "focus": "ai_infrastructure"},
             {"type": "market_access", "focus": "emerging_markets"},
-            {"type": "research", "focus": "quantum_computing"}
+            {"type": "research", "focus": "qi_computing"}
         ]
 
     async def _analyze_market_entries(self, competitor: str) -> List[Dict[str, Any]]:

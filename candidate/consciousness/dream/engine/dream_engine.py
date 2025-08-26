@@ -28,7 +28,9 @@ except Exception:  # pragma: no cover - optional fallback
 
 
 try:
-    from candidate.orchestration.brain.cognitive.voice_engine import CognitiveVoiceEngine
+    from candidate.orchestration.brain.cognitive.voice_engine import (
+        CognitiveVoiceEngine,
+    )
 except Exception:  # pragma: no cover - optional fallback
 
     class CognitiveVoiceEngine:

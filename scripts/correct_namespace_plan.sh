@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 🎯 LUKHAS Correct Namespace Plan 
+# 🎯 LUKHAS Correct Namespace Plan
 # Understanding: lukhas/ is acceptance system, lukhas/ is main package
 
 echo "🎯 LUKHAS Namespace Transition - CORRECTED PLAN"
@@ -21,7 +21,7 @@ echo "  git mv lukhas/ lukhas_acceptance_system/"
 echo "  # Temporarily move the acceptance system out of the way"
 echo
 
-echo "STEP 2: Move main package 🔄"  
+echo "STEP 2: Move main package 🔄"
 echo "  git mv lukhas/ lukhas/"
 echo "  # Now lukhas/ contains the main package (flags, api, etc.)"
 echo
@@ -44,7 +44,7 @@ echo
 echo "🎮 Would you like to proceed with this plan?"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "[1] YES - Execute the full plan"
-echo "[2] STEP-BY-STEP - Do one step at a time"  
+echo "[2] STEP-BY-STEP - Do one step at a time"
 echo "[3] NO - Keep current structure for now"
 echo
 
@@ -53,21 +53,21 @@ read -p "Enter choice [1/2/3]: " choice
 case $choice in
     1)
         echo "🚀 Executing full namespace migration..."
-        
+
         # Step 1: Preserve acceptance system
         echo "Step 1: Moving acceptance system..."
         git mv lukhas/ lukhas_acceptance_system/
-        
-        # Step 2: Move main package  
+
+        # Step 2: Move main package
         echo "Step 2: Moving main package..."
         git mv lukhas/ lukhas/
-        
+
         # Step 3: Restore acceptance as submodule
         echo "Step 3: Restoring acceptance system..."
         mkdir -p lukhas/acceptance
         git mv lukhas_acceptance_system/* lukhas/acceptance/
         rmdir lukhas_acceptance_system/
-        
+
         # Step 4: Update lukhas/__init__.py
         echo "Step 4: Updating main init file..."
         cat > lukhas/__init__.py << 'EOF'
@@ -97,28 +97,28 @@ from . import tools
 from . import acceptance
 
 EOF
-        
+
         echo "✅ Full migration complete!"
         echo "🧪 Test with: python -c 'import lukhas; print(lukhas.__version__)'"
         ;;
-        
+
     2)
         echo "📋 STEP-BY-STEP mode selected"
         echo ""
         echo "Run these commands one by one:"
         echo "  git mv lukhas/ lukhas_acceptance_system/"
-        echo "  git mv lukhas/ lukhas/"  
+        echo "  git mv lukhas/ lukhas/"
         echo "  mkdir -p lukhas/acceptance"
         echo "  git mv lukhas_acceptance_system/* lukhas/acceptance/"
         echo "  # Then update lukhas/__init__.py manually"
         ;;
-        
+
     3)
         echo "✅ Keeping current structure"
         echo "💡 Alternative: Just update imports to use 'lukhas' consistently"
         echo "   This avoids any folder moves and is safest"
         ;;
-        
+
     *)
         echo "❌ Invalid choice"
         exit 1

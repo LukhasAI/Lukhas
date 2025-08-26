@@ -46,7 +46,7 @@ from candidate.core.glyph.universal_symbol_protocol import (
     UniversalSymbol,
 )
 from lukhas.memory.folds.optimized_fold_engine import OptimizedFoldEngine
-from qi.engines.consciousness.quantum_processor_enhanced import (
+from qi.engines.consciousness.qi_processor_enhanced import (
     QIProcessor,
     QIState,
 )
@@ -60,7 +60,7 @@ class CognitiveState:
 
     awareness_level: float = 0.5
     emotional_valence: float = 0.0
-    quantum_coherence: float = 1.0
+    qi_coherence: float = 1.0
     memory_load: float = 0.0
     consensus_confidence: float = 0.0
     active_symbols: Set[str] = field(default_factory=set)
@@ -93,7 +93,7 @@ class UnifiedCognitiveOrchestrator:
         self.memory_engine = OptimizedFoldEngine(
             max_memory_mb=2048, cache_size=1000, enable_mmap=True
         )
-        self.quantum_processor = QIProcessor(num_qubits=8)
+        self.qi_processor = QIProcessor(num_qubits=8)
         self.consensus_system = AdvancedColonyConsensus("main_colony")
 
         # Event bus for system-wide communication
@@ -114,7 +114,7 @@ class UnifiedCognitiveOrchestrator:
             "thoughts_processed": 0,
             "decisions_made": 0,
             "memories_created": 0,
-            "quantum_computations": 0,
+            "qi_computations": 0,
             "consensus_rounds": 0,
         }
 
@@ -160,7 +160,7 @@ class UnifiedCognitiveOrchestrator:
 
         # Quantum events update coherence
         async def on_quantum_collapse(event: QIStateCollapsed):
-            self.cognitive_state.quantum_coherence = event.coherence_after
+            self.cognitive_state.qi_coherence = event.coherence_after
 
         # Register handlers
         self.event_bus.subscribe(GlyphCreated, on_glyph_created)
@@ -203,8 +203,8 @@ class UnifiedCognitiveOrchestrator:
                 self.cognitive_state.emotional_valence = stored_state.get(
                     "emotional_valence", 0.0
                 )
-                self.cognitive_state.quantum_coherence = stored_state.get(
-                    "quantum_coherence", 1.0
+                self.cognitive_state.qi_coherence = stored_state.get(
+                    "qi_coherence", 1.0
                 )
                 logger.info("📂 Restored cognitive state from memory")
 
@@ -224,7 +224,7 @@ class UnifiedCognitiveOrchestrator:
                     await self._consolidate_memories()
 
                 # Quantum coherence maintenance
-                if self.cognitive_state.quantum_coherence < 0.5:
+                if self.cognitive_state.qi_coherence < 0.5:
                     await self._restore_quantum_coherence()
 
                 # Save cognitive state periodically
@@ -305,7 +305,7 @@ class UnifiedCognitiveOrchestrator:
                 # Create quantum vote based on module state
                 amplitudes = self._calculate_vote_amplitudes(module_name, decision_id)
 
-                await self.consensus_system.quantum_superposition_vote(
+                await self.consensus_system.qi_superposition_vote(
                     proposal_id,
                     module_name,
                     amplitudes,
@@ -467,15 +467,15 @@ class UnifiedCognitiveOrchestrator:
                 # Simple oracle: prefer even indices (simplified)
                 return index % 2 == 0
 
-            optimal_index = self.quantum_processor.grover_search(
+            optimal_index = self.qi_processor.grover_search(
                 oracle, num_iterations=2
             )
 
             # Create quantum state for decision
-            self.quantum_processor.create_bell_pair()
+            self.qi_processor.create_bell_pair()
 
-            self.metrics["quantum_computations"] += 1
-            self.cognitive_state.quantum_coherence *= 0.95  # Decoherence
+            self.metrics["qi_computations"] += 1
+            self.cognitive_state.qi_coherence *= 0.95  # Decoherence
 
             return optimal_index
 
@@ -487,14 +487,14 @@ class UnifiedCognitiveOrchestrator:
         test_state = QIState(
             num_qubits=2,
             amplitudes=np.array([0.5, 0.5, 0.5, 0.5]),
-            coherence=self.cognitive_state.quantum_coherence,
+            coherence=self.cognitive_state.qi_coherence,
         )
 
         # Apply error correction
-        corrected = self.quantum_processor.apply_error_correction(test_state)
+        corrected = self.qi_processor.apply_error_correction(test_state)
 
         # Update cognitive state
-        self.cognitive_state.quantum_coherence = corrected.coherence
+        self.cognitive_state.qi_coherence = corrected.coherence
 
     async def _checkpoint_cognitive_state(self):
         """Save cognitive state checkpoint to memory"""
@@ -503,7 +503,7 @@ class UnifiedCognitiveOrchestrator:
             checkpoint = {
                 "awareness_level": self.cognitive_state.awareness_level,
                 "emotional_valence": self.cognitive_state.emotional_valence,
-                "quantum_coherence": self.cognitive_state.quantum_coherence,
+                "qi_coherence": self.cognitive_state.qi_coherence,
                 "memory_load": self.cognitive_state.memory_load,
                 "consensus_confidence": self.cognitive_state.consensus_confidence,
                 "metrics": self.metrics.copy(),
@@ -567,14 +567,14 @@ class UnifiedCognitiveOrchestrator:
             "cognitive_state": {
                 "awareness": self.cognitive_state.awareness_level,
                 "valence": self.cognitive_state.emotional_valence,
-                "coherence": self.cognitive_state.quantum_coherence,
+                "coherence": self.cognitive_state.qi_coherence,
             },
         }
 
     async def get_system_status(self) -> Dict[str, Any]:
         """Get comprehensive system status"""
         memory_stats = self.memory_engine.get_statistics()
-        quantum_stats = self.quantum_processor.get_statistics()
+        qi_stats = self.qi_processor.get_statistics()
         glyph_stats = self.glyph_engine.get_system_statistics()
         consensus_history = self.consensus_system.get_consensus_history()
 
@@ -582,7 +582,7 @@ class UnifiedCognitiveOrchestrator:
             "cognitive_state": {
                 "awareness_level": self.cognitive_state.awareness_level,
                 "emotional_valence": self.cognitive_state.emotional_valence,
-                "quantum_coherence": self.cognitive_state.quantum_coherence,
+                "qi_coherence": self.cognitive_state.qi_coherence,
                 "memory_load": self.cognitive_state.memory_load,
                 "consensus_confidence": self.cognitive_state.consensus_confidence,
                 "active_symbols": len(self.cognitive_state.active_symbols),
@@ -595,7 +595,7 @@ class UnifiedCognitiveOrchestrator:
                 "compression_ratio": memory_stats["avg_compression_ratio"],
                 "size_mb": memory_stats["total_size_mb"],
             },
-            "quantum": quantum_stats,
+            "quantum": qi_stats,
             "symbols": {
                 "total": glyph_stats["total_symbols"],
                 "by_module": glyph_stats["module_breakdown"],
@@ -683,7 +683,7 @@ async def demo_unified_orchestration():
     print(f"   Memory Folds: {final_status['memory']['total_folds']}")
     print(f"   Cache Hit Rate: {final_status['memory']['cache_hit_rate']:.3%}")
     print(f"   Decisions Made: {final_status['metrics']['decisions_made']}")
-    print(f"   Quantum Computations: {final_status['metrics']['quantum_computations']}")
+    print(f"   Quantum Computations: {final_status['metrics']['qi_computations']}")
 
     # Module breakdown
     print("\n   Module Activity:")

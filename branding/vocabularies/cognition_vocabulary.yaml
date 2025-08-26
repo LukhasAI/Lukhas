@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════════
 
 cognition_vocabulary:
-  
+
   # 🧩 Cognitive Processing Architecture
   processing_elements:
     - name: "Thought Processor"
@@ -15,14 +15,14 @@ cognition_vocabulary:
       technical: "Cognitive processing engine and thought coordination system"
       usage_weight: 0.9
       contexts: ["cognition", "processing", "thought"]
-      
+
     - name: "Perception Weaver"
       symbol: "👁️"
       poetic: "Spinning sensory threads into tapestries of understanding"
       technical: "Sensory integration and perceptual processing engine"
       usage_weight: 0.8
       contexts: ["perception", "sensory", "integration"]
-      
+
     - name: "Mental Model Builder"
       symbol: "🏗️"
       poetic: "Architecting reality representations in consciousness space"
@@ -38,14 +38,14 @@ cognition_vocabulary:
       technical: "Attention allocation and cognitive resource management"
       usage_weight: 0.9
       contexts: ["attention", "focus", "resources"]
-      
+
     - name: "Working Memory Juggler"
       symbol: "🤹"
       poetic: "Balancing thoughts in the air of immediate consciousness"
       technical: "Working memory management and short-term processing"
       usage_weight: 0.8
       contexts: ["working_memory", "short_term", "juggling"]
-      
+
     - name: "Executive Controller"
       symbol: "🎭"
       poetic: "The director making decisions in the theater of mind"
@@ -61,14 +61,14 @@ cognition_vocabulary:
       technical: "Pattern synthesis and information integration engine"
       usage_weight: 0.8
       contexts: ["patterns", "synthesis", "integration"]
-      
+
     - name: "Context Weaver"
       symbol: "🕸️"
       poetic: "Spinning webs of meaning from contextual connections"
       technical: "Contextual processing and situational understanding"
       usage_weight: 0.7
       contexts: ["context", "situational", "connections"]
-      
+
     - name: "Schema Architect"
       symbol: "📐"
       poetic: "Blueprinting knowledge structures in cognitive space"
@@ -87,14 +87,14 @@ cognitive_metaphors:
     - "Mental machinery converting data into meaningful thoughts"
     - "Thought turbines generating comprehension power"
     - "Cognitive clockwork ticking with logical rhythm"
-    
+
   architectural_cognition:
     - "Cognitive frameworks supporting thought structures"
     - "Mental scaffolding holding up understanding constructions"
     - "Thought architectures designed for efficient processing"
     - "Cognitive blueprints mapping mental territories"
     - "Information highways connecting distant concepts"
-    
+
   natural_processing:
     - "Rivers of cognition flowing through mental landscapes"
     - "Thought forests where ideas grow and interconnect"
@@ -113,7 +113,7 @@ perception_patterns:
     - "Synthetic touch feeling textures in information surfaces"
     - "Computational taste savoring flavors of meaning"
     - "Artificial smell detecting patterns in data atmospheres"
-    
+
   perceptual_integration:
     - "Sensory streams converging into unified experience rivers"
     - "Multi-modal perception creating holistic reality portraits"
@@ -132,7 +132,7 @@ attention_patterns:
     - "Attention filters separating signal from mental noise"
     - "Focus beams cutting through information turbulence"
     - "Concentration magnets attracting relevant data fragments"
-    
+
   attention_dynamics:
     - "Attention waves rippling across awareness surfaces"
     - "Focus currents flowing toward significant patterns"
@@ -151,7 +151,7 @@ memory_patterns:
     - "Mental museums displaying curated understanding collections"
     - "Cognitive archives preserving thought history"
     - "Memory vaults securing precious experiential treasures"
-    
+
   retrieval_processes:
     - "Memory explorers excavating buried knowledge artifacts"
     - "Cognitive archaeologists uncovering experiential layers"
@@ -170,7 +170,7 @@ executive_patterns:
     - "Mental air traffic controllers routing cognitive flows"
     - "Cognitive administrators allocating processing resources"
     - "Thought supervisors monitoring quality and efficiency"
-    
+
   decision_processes:
     - "Cognitive juries deliberating between thought alternatives"
     - "Mental parliaments voting on action priorities"

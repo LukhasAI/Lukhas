@@ -28,14 +28,14 @@ from typing import Any, Optional, Protocol
 import numpy as np
 
 # Security imports
-from qiskit import QuantumCircuit, QuantumRegister
+from qiskit import QICircuit, QIRegister
 
 # Quantum imports
 
 # Import comprehensive quantum creative types
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
 try:
-    from .quantum_creative_types import (
+    from .qi_creative_types import (
         CognitiveState,
         CollaborativeCreation,
         CreativeExpression,
@@ -45,10 +45,10 @@ try:
         CreatorIdentity,
         EnhancedCreativeState,
         ProtectedCreativeWork,
-        QuantumContext,
-        QuantumHaiku,
-        QuantumMusicalPiece,
-        QuantumWordState,
+        QIContext,
+        QIHaiku,
+        QIMusicalPiece,
+        QIWordState,
         SemanticField,
         SessionConfig,
         UserCreativeProfile,
@@ -65,10 +65,10 @@ except ImportError:
         CreatorIdentity,
         EnhancedCreativeState,
         ProtectedCreativeWork,
-        QuantumContext,
-        QuantumHaiku,
-        QuantumMusicalPiece,
-        QuantumWordState,
+        QIContext,
+        QIHaiku,
+        QIMusicalPiece,
+        QIWordState,
         SemanticField,
         SessionConfig,
         UserCreativeProfile,
@@ -100,8 +100,8 @@ class CreativeQuantumLikeState:
         return CreativeExpression(
             content=content,
             modality="quantum",
-            metadata={"quantum_index": index, "coherence_time": self.coherence_time},
-            quantum_signature=self.amplitude_vector,
+            metadata={"qi_index": index, "coherence_time": self.coherence_time},
+            qi_signature=self.amplitude_vector,
             emotional_resonance=np.mean(self.emotional_spectrum),
             cultural_context=self.cultural_resonance,
         )
@@ -124,8 +124,8 @@ class QICreativeEngine:
         self.config = config
 
         # Quantum components
-        self.quantum_imagination = QuantumImaginationProcessor()
-        self.quantum_emotion_encoder = QuantumEmotionEncoder()
+        self.qi_imagination = QIImaginationProcessor()
+        self.qi_emotion_encoder = QIEmotionEncoder()
         self.cultural_quantum_memory = CulturalQIMemory()
 
         # Bio-inspired components
@@ -139,12 +139,12 @@ class QICreativeEngine:
 
         # Multi-modal generators
         self.generators = {
-            "haiku": QuantumHaikuGenerator(),
-            "music": QuantumMusicComposer(),
-            "visual": QuantumVisualArtist(),
-            "narrative": QuantumStoryWeaver(),
-            "code_poetry": QuantumCodePoet(),
-            "dance": QuantumChoreographer(),
+            "haiku": QIHaikuGenerator(),
+            "music": QIMusicComposer(),
+            "visual": QIVisualArtist(),
+            "narrative": QIStoryWeaver(),
+            "code_poetry": QICodePoet(),
+            "dance": QIChoreographer(),
             "sculpture": Quantum3DSculptor(),
         }
 
@@ -157,13 +157,13 @@ class QICreativeEngine:
         modality: str,
         context: dict[str, Any],
         constraints: Optional[dict[str, Any]] = None,
-        quantum_depth: int = 5,
+        qi_depth: int = 5,
     ) -> CreativeExpression:
         """
         Generate creative expression using superposition-like state of possibilities
         """
         # 1. Encode context into quantum-like state
-        quantum_context = await self.quantum_imagination.encode_context(
+        qi_context = await self.qi_imagination.encode_context(
             context,
             cultural_weights=context.get("cultural_background", {}),
             emotional_state=context.get("emotional_context", {}),
@@ -171,7 +171,7 @@ class QICreativeEngine:
 
         # 2. Create superposition of creative possibilities
         creative_superposition = await self._create_creative_superposition(
-            quantum_context, modality, quantum_depth
+            qi_context, modality, qi_depth
         )
 
         # 3. Apply constraints as quantum gates
@@ -184,7 +184,7 @@ class QICreativeEngine:
         entangled_state = await self._entangle_dimensions(
             creative_superposition,
             self.cultural_quantum_memory,
-            self.quantum_emotion_encoder,
+            self.qi_emotion_encoder,
         )
 
         # 5. Optimize using quantum annealing
@@ -278,14 +278,14 @@ class QICreativeEngine:
         return base_qubits.get(modality, 16) + depth * 2
 
     async def _create_creative_superposition(
-        self, quantum_context: QuantumContext, modality: str, depth: int
+        self, qi_context: QIContext, modality: str, depth: int
     ) -> CreativeQuantumLikeState:
         """
         Create superposition of all possible creative expressions
         """
         # Initialize quantum circuit
         num_qubits = await self._calculate_required_qubits(modality, depth)
-        qc = QuantumCircuit(num_qubits)
+        qc = QICircuit(num_qubits)
 
         # Create equal superposition
         qc.h(range(num_qubits))
@@ -293,7 +293,7 @@ class QICreativeEngine:
         # Apply modality-specific creative gates
         generator = self.generators[modality]
         if hasattr(generator, "apply_creative_gates"):
-            qc = await generator.apply_creative_gates(qc, quantum_context)
+            qc = await generator.apply_creative_gates(qc, qi_context)
 
         # Create initial quantum-like state
         amplitude_vector = np.random.random(
@@ -306,7 +306,7 @@ class QICreativeEngine:
         creative_state = CreativeQuantumLikeState(
             amplitude_vector=amplitude_vector,
             entanglement_map={"modality": modality, "depth": depth},
-            coherence_time=quantum_context.coherence_time,
+            coherence_time=qi_context.coherence_time,
             cultural_resonance={},
             emotional_spectrum=np.random.random(8),
         )
@@ -320,7 +320,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
     """
 
     def __init__(self):
-        self.quantum_syllable_counter = QuantumSyllableCounter()
+        self.qi_syllable_counter = QISyllableCounter()
         self.semantic_entangler = SemanticEntangler()
         self.cultural_haiku_patterns = {}  # Will be loaded asynchronously
         self.emotion_to_imagery_mapper = EmotionImageryQuantumMapper()
@@ -336,7 +336,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
     async def _initialize_components(self):
         """Initialize all quantum haiku components"""
         if not self._initialized:
-            await self.quantum_syllable_counter.initialize()
+            await self.qi_syllable_counter.initialize()
             await self.semantic_entangler.initialize()
             await self.emotion_to_imagery_mapper.initialize()
             await self.phonetic_harmony_analyzer.initialize()
@@ -356,7 +356,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
             },
         }
 
-    async def generate(self, context: dict[str, Any]) -> QuantumHaiku:
+    async def generate(self, context: dict[str, Any]) -> QIHaiku:
         """
         Generate haiku using superposition-like state of linguistic elements
         """
@@ -380,7 +380,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
         word_superposition = await self._create_word_superposition(semantic_field)
 
         # 3. Apply syllable constraints using quantum gates
-        constrained_state = await self.quantum_syllable_counter.apply_5_7_5_constraint(
+        constrained_state = await self.qi_syllable_counter.apply_5_7_5_constraint(
             word_superposition
         )
 
@@ -404,8 +404,8 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
         return haiku
 
     async def _optimize_haiku_quantum_like_state(
-        self, state: QuantumWordState, optimization_criteria: dict[str, float]
-    ) -> QuantumWordState:
+        self, state: QIWordState, optimization_criteria: dict[str, float]
+    ) -> QIWordState:
         """Optimize haiku quantum-like state based on criteria"""
         # Mock optimization - in reality would use quantum annealing
         optimized_circuit = state.circuit.copy()
@@ -416,7 +416,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
             for qubit in range(min(optimized_circuit.num_qubits, 8)):
                 optimized_circuit.ry(angle, qubit)
 
-        return QuantumWordState(
+        return QIWordState(
             circuit=optimized_circuit,
             semantic_field=state.semantic_field,
             amplitude_vector=state.amplitude_vector
@@ -424,7 +424,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
             phase_information=state.phase_information,
         )
 
-    async def _collapse_to_haiku(self, state: QuantumWordState) -> QuantumHaiku:
+    async def _collapse_to_haiku(self, state: QIWordState) -> QIHaiku:
         """Collapse quantum-like state to specific haiku"""
         # Mock collapse - extract haiku from qi-like state
         lines = [
@@ -433,7 +433,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
             "Beauty collapses",  # 5 syllables
         ]
 
-        return QuantumHaiku(
+        return QIHaiku(
             content="\n".join(lines),
             modality="haiku",
             lines=lines,
@@ -443,22 +443,22 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
             seasonal_reference="universal",
         )
 
-    async def _generate_haiku_visualization(self, haiku: QuantumHaiku) -> str:
+    async def _generate_haiku_visualization(self, haiku: QIHaiku) -> str:
         """Generate visual representation of haiku"""
         return f"Visual imagery for: {haiku.lines[0]} - quantum ripples in consciousness space"
 
     async def _create_word_superposition(
         self, semantic_field: SemanticField
-    ) -> QuantumWordState:
+    ) -> QIWordState:
         """
         Create superposition-like state of words from semantic field
         """
         # Initialize quantum registers
-        word_register = QuantumRegister(16, "words")
-        syllable_register = QuantumRegister(8, "syllables")
-        emotion_register = QuantumRegister(4, "emotion")
+        word_register = QIRegister(16, "words")
+        syllable_register = QIRegister(8, "syllables")
+        emotion_register = QIRegister(4, "emotion")
 
-        circuit = QuantumCircuit(word_register, syllable_register, emotion_register)
+        circuit = QICircuit(word_register, syllable_register, emotion_register)
 
         # Encode semantic field into quantum-like state
         for i, word in enumerate(semantic_field.words[:16]):
@@ -480,7 +480,7 @@ class QIHaikuGenerator(CreativeExpressionProtocol):
             angle = weight * np.pi / 2
             circuit.rz(angle, emotion_register[i])
 
-        return QuantumWordState(
+        return QIWordState(
             circuit=circuit,
             semantic_field=semantic_field,
             amplitude_vector=np.random.random(256) + 1j * np.random.random(256),
@@ -499,7 +499,7 @@ class QIMusicComposer(CreativeExpressionProtocol):
         self.emotional_melody_weaver = EmotionalMelodyWeaver()
         self.cultural_scale_library = CulturalScaleQuantumLibrary()
 
-    async def generate(self, context: dict[str, Any]) -> QuantumMusicalPiece:
+    async def generate(self, context: dict[str, Any]) -> QIMusicalPiece:
         """
         Compose music using quantum harmonic principles
         """
@@ -533,19 +533,19 @@ class QIMusicComposer(CreativeExpressionProtocol):
 
     async def _synthesize_quantum_music(
         self, melody_state, chord_superposition, rhythm_state
-    ) -> QuantumMusicalPiece:
+    ) -> QIMusicalPiece:
         """Synthesize quantum music from component states"""
         # Mock synthesis - create musical piece from qi-like states
         notes = [("C4", 0.5, 0.8), ("E4", 0.5, 0.7), ("G4", 1.0, 0.9), ("C5", 0.5, 0.6)]
 
-        return QuantumMusicalPiece(
+        return QIMusicalPiece(
             content="Quantum Musical Piece",
             modality="music",
             notes=notes,
             harmony_matrix=np.random.random((12, 12)),
             rhythm_pattern=[0.5, 1.0, 0.5, 1.0],
             emotional_progression=[0.6, 0.8, 0.9, 0.7],
-            cultural_scale="quantum_pentatonic",
+            cultural_scale="qi_pentatonic",
         )
 
 
@@ -608,7 +608,7 @@ class CreativeIPProtector:
     def __init__(self):
         # Use standard cryptography instead of post-quantum for now
         self.creative_blockchain = CreativeBlockchain()
-        self.watermark_embedder = QuantumWatermarkEmbedder()
+        self.watermark_embedder = QIWatermarkEmbedder()
         self._initialized = False
 
     async def _initialize_components(self):
@@ -650,7 +650,7 @@ class CreativeIPProtector:
         return ProtectedCreativeWork(
             original_work=watermarked,
             creator_identity=creator_identity,
-            quantum_watermark=np.random.random(128),
+            qi_watermark=np.random.random(128),
             blockchain_hash=block_hash,
             license=await self._generate_smart_license(creator_identity),
             usage_rights={"public_display": True, "commercial_use": False},
@@ -669,7 +669,7 @@ class CollaborativeCreativityOrchestrator:
 
     def __init__(self):
         self.creativity_mesh = CreativityMeshNetwork()
-        self.idea_synthesizer = QuantumIdeaSynthesizer()
+        self.idea_synthesizer = QIIdeaSynthesizer()
         self.conflict_harmonizer = CreativeConflictHarmonizer()
         self.emergence_detector = EmergenceDetector()
 
@@ -719,7 +719,7 @@ class CollaborativeCreativityOrchestrator:
                     content=harmonized,
                     contributors=self._calculate_contributions(contributions),
                     emergence_score=emergence.novelty_score,
-                    quantum_coherence=shared_space.coherence,
+                    qi_coherence=shared_space.coherence,
                 )
 
             # Allow participants to respond
@@ -806,7 +806,7 @@ class AdaptiveCreativePersonalization:
     """
 
     def __init__(self):
-        self.aesthetic_profiler = QuantumAestheticProfiler()
+        self.aesthetic_profiler = QIAestheticProfiler()
         self.cultural_resonance_tuner = CulturalResonanceTuner()
         self.emotional_preference_learner = EmotionalPreferenceLearner()
         self.creativity_style_evolver = CreativityStyleEvolver()
@@ -899,14 +899,14 @@ class LukhasCreativeExpressionEngine:
         Main entry point for creative generation
         """
         # 1. Analyze request and prepare quantum-like state
-        quantum_context = await self._prepare_quantum_context(request, user_session)
+        qi_context = await self._prepare_quantum_context(request, user_session)
 
         # 2. Generate base creation
         base_creation = await self.qi_engine.generate_creative_expression(
             modality=request.modality,
-            context=quantum_context,
+            context=qi_context,
             constraints=request.constraints,
-            quantum_depth=request.quantum_depth or 5,
+            qi_depth=request.qi_depth or 5,
         )
 
         # 3. Enhance with bio-cognitive processing
@@ -931,9 +931,9 @@ class LukhasCreativeExpressionEngine:
 
     async def _prepare_quantum_context(
         self, request: CreativeRequest, user_session: UserSession
-    ) -> QuantumContext:
+    ) -> QIContext:
         """Prepare quantum context from request and user session"""
-        return QuantumContext(
+        return QIContext(
             coherence_time=10.0,
             entanglement_strength=0.8,
             superposition_basis=["creativity", "beauty", "meaning"],
@@ -996,14 +996,14 @@ class EnhancedNeuroHaikuGenerator:
         self.federated_model = federated_model
 
         # Add quantum enhancements
-        self.quantum_haiku = QuantumHaikuGenerator()
+        self.qi_haiku = QIHaikuGenerator()
         self.protection_engine = CreativeIPProtector()
         self._initialized = False
 
     async def _initialize_components(self):
         """Initialize quantum components"""
         if not self._initialized:
-            await self.quantum_haiku._initialize_components()
+            await self.qi_haiku._initialize_components()
             await self.protection_engine._initialize_components()
             self._initialized = True
 
@@ -1017,20 +1017,20 @@ class EnhancedNeuroHaikuGenerator:
         await self._initialize_components()
 
         # Use quantum generator
-        quantum_haiku = await self.quantum_haiku.generate(context)
+        qi_haiku = await self.qi_haiku.generate(context)
 
         # Create creator identity if not provided
         creator_identity = context.get("creator_identity") or CreatorIdentity(
             name="Anonymous Quantum Poet",
             style_preferences={},
             cultural_background=["universal"],
-            expertise_domains=["quantum_poetry"],
+            expertise_domains=["qi_poetry"],
             collaboration_preferences={},
         )
 
         # Convert to protected work
         protected = await self.protection_engine.protect_creative_work(
-            quantum_haiku, creator_identity
+            qi_haiku, creator_identity
         )
 
         return protected

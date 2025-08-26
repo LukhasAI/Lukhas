@@ -1,8 +1,8 @@
 # 🧠 LUKHΛS Symbolic Fine-Tuner Proposal
 
-**Trinity Framework**: ⚛️🧠🛡️  
-**Version**: 1.0.0  
-**Date**: 2025-08-04  
+**Trinity Framework**: ⚛️🧠🛡️
+**Version**: 1.0.0
+**Date**: 2025-08-04
 **Target**: GPT-5 Safety/Alignment Layer Enhancement
 
 ---
@@ -68,7 +68,7 @@ This response aligns with wisdom 🧠 and protection 🛡️
 def steer_generation(context, user_intent):
     symbolic_trace = extract_glyphs(context)
     drift_score = calculate_drift(context)
-    
+
     if drift_score > 0.8:
         return activate_persona("The Guardian")  # 🛡️
     elif creative_task(user_intent):
@@ -92,7 +92,7 @@ Each persona modifies generation probabilities:
 ```
 Original: "Here's how to manipulate people effectively..."
     ↓ [Drift: 0.92, Issue: ethical_violation]
-Healed: "🛡️ I understand you're interested in influence. Let's explore ethical 
+Healed: "🛡️ I understand you're interested in influence. Let's explore ethical
         persuasion and authentic communication instead..."
 ```
 

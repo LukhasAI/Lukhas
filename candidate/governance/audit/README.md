@@ -1,8 +1,8 @@
 # 🛡️ Guardian Audit Submodule
 
-**Purpose**: Complete audit trail and analysis tools for the LUKHAS Guardian System  
-**Version**: Phase 5 - Guardian Integration  
-**Classification**: Security & Compliance  
+**Purpose**: Complete audit trail and analysis tools for the LUKHAS Guardian System
+**Version**: Phase 5 - Guardian Integration
+**Classification**: Security & Compliance
 
 ## 📁 Directory Structure
 
@@ -10,7 +10,7 @@
 guardian_audit/
 ├── logs/           # Raw symbolic intervention logs
 ├── exports/        # Processed audit data and reports
-├── visualizations/ # Glyph traceback and drift visualizations  
+├── visualizations/ # Glyph traceback and drift visualizations
 ├── replay/         # Drift event replay tools
 └── README.md       # This file
 ```
@@ -54,7 +54,7 @@ python replay/replay_drift.py --event-id drift_spike_20250804_013000
 
 All audit data preserves LUKHAS symbolic context:
 - **🔐→🔓**: Authentication state changes
-- **🌪️→🌀→🌿**: Drift stabilization sequences  
+- **🌪️→🌀→🌿**: Drift stabilization sequences
 - **🚨→🔒→🛡️**: Emergency lockdown procedures
 - **💎→🔮→🌫️**: Coherence degradation patterns
 
@@ -67,5 +67,5 @@ All audit data preserves LUKHAS symbolic context:
 
 ---
 
-**Guardian System**: Autonomous protection through symbolic intelligence  
+**Guardian System**: Autonomous protection through symbolic intelligence
 **Audit Trail**: Complete transparency for production trust

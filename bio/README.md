@@ -54,7 +54,7 @@ bio/                              # Unified bio-inspired systems
 ### **Previous Structure (Scattered)**
 ```
 bio_core/           # Root directory
-bio_symbolic/       # Root directory  
+bio_symbolic/       # Root directory
 bio_awareness/      # Root directory
 ```
 

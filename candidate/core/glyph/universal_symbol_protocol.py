@@ -70,7 +70,7 @@ class UniversalSymbol:
     text_repr: Optional[str] = None
     audio_signature: Optional[bytes] = None
     visual_pattern: Optional[np.ndarray] = None
-    quantum_state: Optional[Dict[str, complex]] = None
+    qi_state: Optional[Dict[str, complex]] = None
 
     # Semantic properties
     semantic_vector: Optional[np.ndarray] = None
@@ -192,7 +192,7 @@ class SymbolTranslator:
         elif target_modality == SymbolModality.VISUAL:
             translated.visual_pattern = self._to_visual(symbol)
         elif target_modality == SymbolModality.QUANTUM:
-            translated.quantum_state = self._to_quantum(symbol)
+            translated.qi_state = self._to_quantum(symbol)
         elif target_modality == SymbolModality.EMOTIONAL:
             translated.emotional_state = self._to_emotional(symbol)
 
@@ -250,8 +250,8 @@ class SymbolTranslator:
 
     def _to_quantum(self, symbol: UniversalSymbol) -> Dict[str, complex]:
         """Convert symbol to quantum state representation"""
-        if symbol.quantum_state:
-            return symbol.quantum_state
+        if symbol.qi_state:
+            return symbol.qi_state
 
         # Generate quantum state from symbol properties
         state = {}

@@ -30,42 +30,42 @@ from core.common import GLYPHToken
 
 class CoreInterface(ABC):
     """Abstract interface for core modules"""
-    
+
     @abstractmethod
     async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Process data through the module.
-        
+
         Args:
             data: Input data dictionary
-            
+
         Returns:
             Dict[str, Any]: Processed output
-            
+
         Raises:
             ValidationError: If input data is invalid
             ProcessingError: If processing fails
         """
         pass
-        
+
     @abstractmethod
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
         """
         Handle GLYPH token communication.
-        
+
         Args:
             token: Input GLYPH token
-            
+
         Returns:
             GLYPHToken: Response token
         """
         pass
-        
+
     @abstractmethod
     async def get_status(self) -> Dict[str, Any]:
         """
         Get module status.
-        
+
         Returns:
             Dict containing:
             - operational: bool
@@ -104,49 +104,49 @@ class MemoryType(Enum):
 
 class MemoryInterface(ABC):
     """Abstract interface for memory modules"""
-    
+
     @abstractmethod
-    async def store(self, 
-                   data: Any, 
+    async def store(self,
+                   data: Any,
                    memory_type: MemoryType,
                    metadata: Optional[Dict[str, Any]] = None) -> str:
         """
         Store data in memory.
-        
+
         Args:
             data: Data to store
             memory_type: Type of memory
             metadata: Optional metadata
-            
+
         Returns:
             str: Memory ID for retrieval
-            
+
         Contract:
             - Must return unique ID
             - Must preserve data integrity
             - Must handle concurrent access
         """
         pass
-        
+
     @abstractmethod
-    async def retrieve(self, 
+    async def retrieve(self,
                       memory_id: str,
                       include_metadata: bool = True) -> Dict[str, Any]:
         """
         Retrieve data from memory.
-        
+
         Args:
             memory_id: ID of memory to retrieve
             include_metadata: Whether to include metadata
-            
+
         Returns:
             Dict containing data and optional metadata
-            
+
         Raises:
             MemoryNotFoundError: If memory_id doesn't exist
         """
         pass
-        
+
     @abstractmethod
     async def search(self,
                     query: Dict[str, Any],
@@ -154,12 +154,12 @@ class MemoryInterface(ABC):
                     limit: int = 10) -> List[Dict[str, Any]]:
         """
         Search memories by criteria.
-        
+
         Args:
             query: Search criteria
             memory_type: Optional filter by type
             limit: Maximum results
-            
+
         Returns:
             List of matching memories
         """
@@ -171,22 +171,22 @@ class MemoryInterface(ABC):
 ```python
 class DNAHelixInterface(MemoryInterface):
     """DNA Helix memory specific interface"""
-    
+
     @abstractmethod
     async def calculate_drift(self, memory_id: str) -> float:
         """
         Calculate drift from origin.
-        
+
         Returns:
             float: Drift score (0.0 = no drift, 1.0 = maximum drift)
         """
         pass
-        
+
     @abstractmethod
     async def repair_memory(self, memory_id: str) -> bool:
         """
         Repair drifted memory.
-        
+
         Returns:
             bool: True if repair successful
         """
@@ -202,16 +202,16 @@ class DNAHelixInterface(MemoryInterface):
 ```python
 class ConsciousnessInterface(ABC):
     """Abstract interface for consciousness modules"""
-    
+
     @abstractmethod
-    async def assess_awareness(self, 
+    async def assess_awareness(self,
                              stimulus: Dict[str, Any]) -> Dict[str, Any]:
         """
         Assess awareness level for given stimulus.
-        
+
         Args:
             stimulus: Input stimulus
-            
+
         Returns:
             Dict containing:
             - awareness_level: float (0.0-1.0)
@@ -219,7 +219,7 @@ class ConsciousnessInterface(ABC):
             - emotional_state: Dict[str, float]
         """
         pass
-        
+
     @abstractmethod
     async def make_decision(self,
                           scenario: Dict[str, Any],
@@ -227,35 +227,35 @@ class ConsciousnessInterface(ABC):
                           context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Make a conscious decision.
-        
+
         Args:
             scenario: Decision scenario
             options: Available options
             context: Optional context
-            
+
         Returns:
             Dict containing:
             - decision: str (selected option)
             - confidence: float (0.0-1.0)
             - reasoning: List[str]
             - alternatives: List[Dict[str, float]]
-            
+
         Contract:
             - Must validate all options
             - Must provide reasoning
             - Must consider ethical implications
         """
         pass
-        
+
     @abstractmethod
     async def reflect(self,
                      experience: Dict[str, Any]) -> Dict[str, Any]:
         """
         Reflect on experience for learning.
-        
+
         Args:
             experience: Experience to reflect on
-            
+
         Returns:
             Dict containing insights and learnings
         """
@@ -271,41 +271,41 @@ class ConsciousnessInterface(ABC):
 ```python
 class GuardianInterface(ABC):
     """Abstract interface for Guardian ethical system"""
-    
+
     @abstractmethod
     async def validate_action(self,
                             action: Dict[str, Any],
                             context: Dict[str, Any]) -> Dict[str, Any]:
         """
         Validate action against ethical framework.
-        
+
         Args:
             action: Proposed action
             context: Action context
-            
+
         Returns:
             Dict containing:
             - approved: bool
             - risk_level: str (low, medium, high, critical)
             - constraints: List[str]
             - reasoning: Dict[str, Any]
-            
+
         Contract:
             - Must evaluate all ethical dimensions
             - Must provide clear reasoning
             - Must enforce safety constraints
         """
         pass
-        
+
     @abstractmethod
     async def detect_drift(self,
                          behavioral_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Detect behavioral drift.
-        
+
         Args:
             behavioral_data: Recent behavior patterns
-            
+
         Returns:
             Dict containing:
             - drift_detected: bool
@@ -336,15 +336,15 @@ class GLYPHToken:
     context: GLYPHContext
     priority: MessagePriority
     metadata: Dict[str, Any]
-    
+
     def validate(self) -> bool:
         """Validate token integrity"""
         pass
-        
+
     def to_dict(self) -> Dict[str, Any]:
         """Serialize to dictionary"""
         pass
-        
+
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'GLYPHToken':
         """Deserialize from dictionary"""
@@ -377,7 +377,7 @@ class MyModule(CoreInterface):
     def __init__(self):
         # Initialize module
         pass
-        
+
     async def initialize(self):
         """Async initialization"""
         # Register with DI system
@@ -470,22 +470,22 @@ All modules must expose metrics:
 ```python
 class ModuleMetrics:
     """Standard metrics interface"""
-    
+
     @property
     def operations_per_second(self) -> float:
         """Current throughput"""
         pass
-        
+
     @property
     def average_latency_ms(self) -> float:
         """Average operation latency"""
         pass
-        
+
     @property
     def error_rate(self) -> float:
         """Error rate (0.0-1.0)"""
         pass
-        
+
     @property
     def memory_usage_mb(self) -> float:
         """Current memory usage"""

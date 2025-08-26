@@ -706,4 +706,4 @@ curl -X POST https://staging-api.voicereactive.ai/v1/voice/session/start \
 ### Support Channels
 - **Email**: api-support@voicereactive.ai
 - **Discord**: https://discord.gg/voicereactive
-- **GitHub Issues**: https://github.com/voicereactive/api/issues 
+- **GitHub Issues**: https://github.com/voicereactive/api/issues

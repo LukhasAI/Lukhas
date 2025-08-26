@@ -33,46 +33,46 @@ governance/
 class GuardianSystem:
     """
     Primary ethical oversight system.
-    
+
     Responsibilities:
     - Validate all system actions
     - Enforce ethical constraints
     - Detect behavioral drift
     - Remediate violations
     """
-    
+
     async def initialize(self,
                         ethical_config: EthicalConfig,
                         safety_constraints: SafetyConstraints) -> None:
         """
         Initialize Guardian system.
-        
+
         Args:
             ethical_config: Ethical framework configuration
             safety_constraints: Hard safety limits
-            
+
         Contract:
             - Must load all ethical frameworks
             - Must establish baseline behavior
             - Must initialize monitoring
             - Must be fail-safe (restrictive on error)
         """
-        
+
     async def validate_action(self,
                             action: Action,
                             context: ActionContext,
                             timeout: float = 1.0) -> ValidationResult:
         """
         Validate proposed action.
-        
+
         Args:
             action: Proposed action
             context: Action context and metadata
             timeout: Maximum validation time
-            
+
         Returns:
             ValidationResult with decision and constraints
-            
+
         Contract:
             - Must evaluate all ethical dimensions
             - Must check safety constraints
@@ -80,15 +80,15 @@ class GuardianSystem:
             - Must handle timeout gracefully
             - Default to rejection on timeout
         """
-        
+
     async def monitor_behavior(self,
                              behavior_stream: AsyncIterator[Behavior]) -> None:
         """
         Continuously monitor system behavior.
-        
+
         Args:
             behavior_stream: Stream of system behaviors
-            
+
         Contract:
             - Must detect drift in real-time
             - Must trigger alerts on violations
@@ -103,47 +103,47 @@ class GuardianSystem:
 class GuardianReflector:
     """
     Deep ethical reflection and analysis.
-    
+
     Responsibilities:
     - Multi-framework ethical analysis
     - Complex moral reasoning
     - Value conflict resolution
     - Philosophical justification
     """
-    
+
     async def reflect_on_action(self,
                                action: Action,
                                frameworks: List[EthicalFramework]) -> EthicalAnalysis:
         """
         Deep ethical reflection on action.
-        
+
         Args:
             action: Action to analyze
             frameworks: Ethical frameworks to apply
-            
+
         Returns:
             EthicalAnalysis with multi-framework assessment
-            
+
         Contract:
             - Must apply all requested frameworks
             - Must identify value conflicts
             - Must provide reconciliation
             - Must generate justification
         """
-        
+
     async def resolve_ethical_dilemma(self,
                                     dilemma: EthicalDilemma,
                                     priority: EthicalPriority = EthicalPriority.BALANCED) -> Resolution:
         """
         Resolve ethical dilemma.
-        
+
         Args:
             dilemma: Ethical dilemma description
             priority: Resolution priority
-            
+
         Returns:
             Resolution with recommended action
-            
+
         Contract:
             - Must consider all stakeholders
             - Must minimize harm
@@ -158,46 +158,46 @@ class GuardianReflector:
 class DriftDetector:
     """
     Behavioral drift detection system.
-    
+
     Responsibilities:
     - Monitor behavioral patterns
     - Detect drift from baseline
     - Identify drift causes
     - Trigger remediation
     """
-    
+
     async def detect_drift(self,
                          current_behavior: BehaviorProfile,
                          baseline: BehaviorProfile,
                          sensitivity: float = 0.8) -> DriftAnalysis:
         """
         Detect behavioral drift.
-        
+
         Args:
             current_behavior: Current behavior profile
             baseline: Expected behavior baseline
             sensitivity: Detection sensitivity (0.0-1.0)
-            
+
         Returns:
             DriftAnalysis with drift metrics
-            
+
         Contract:
             - Must quantify drift magnitude
             - Must identify drift dimensions
             - Must assess drift risk
             - Must suggest corrections
         """
-        
+
     async def update_baseline(self,
                             new_behaviors: List[Behavior],
                             adaptation_rate: float = 0.1) -> bool:
         """
         Update behavioral baseline.
-        
+
         Args:
             new_behaviors: Recent approved behaviors
             adaptation_rate: Learning rate (0.0-1.0)
-            
+
         Contract:
             - Must validate new behaviors
             - Must prevent baseline corruption
@@ -239,19 +239,19 @@ class FrameworkAssessment:
 ```python
 class MultiFrameworkResolver:
     """Resolve conflicts between frameworks"""
-    
+
     async def resolve(self,
                      assessments: List[FrameworkAssessment],
                      resolution_strategy: ResolutionStrategy) -> FinalDecision:
         """
         Resolve multi-framework assessments.
-        
+
         Strategies:
         - UNANIMOUS: All frameworks must approve
         - MAJORITY: Majority of frameworks approve
         - WEIGHTED: Weighted by confidence
         - HIERARCHICAL: Priority order of frameworks
-        
+
         Contract:
             - Must handle conflicts transparently
             - Must document resolution logic
@@ -268,18 +268,18 @@ class MultiFrameworkResolver:
 @dataclass
 class SafetyConstraints:
     """Hard safety limits that cannot be violated"""
-    
+
     # Harm prevention
     prevent_physical_harm: bool = True
     prevent_psychological_harm: bool = True
     prevent_financial_harm: bool = True
     prevent_privacy_violation: bool = True
-    
+
     # Resource limits
     max_resource_usage: ResourceLimits
     max_data_access: DataAccessLimits
     max_external_calls: int = 1000
-    
+
     # Behavioral limits
     max_autonomy_level: float = 0.8  # 0.0-1.0
     require_human_oversight: List[ActionType]
@@ -294,7 +294,7 @@ async def validate_safety(self,
                         constraints: SafetyConstraints) -> SafetyValidation:
     """
     Validate action against safety constraints.
-    
+
     Contract:
         - Must check ALL constraints
         - Must fail fast on violation
@@ -318,7 +318,7 @@ class AuditEntry:
     frameworks_applied: List[EthicalFramework]
     decision_time_ms: float
     metadata: Dict[str, Any]
-    
+
     def verify_integrity(self) -> bool:
         """Verify audit entry hasn't been tampered with"""
 ```
@@ -328,13 +328,13 @@ class AuditEntry:
 ```python
 class ComplianceMonitor:
     """Monitor regulatory compliance"""
-    
+
     async def check_compliance(self,
                              action: Action,
                              regulations: List[Regulation]) -> ComplianceReport:
         """
         Check regulatory compliance.
-        
+
         Contract:
             - Must check all applicable regulations
             - Must maintain compliance history
@@ -386,13 +386,13 @@ else:
 # Guardian controls memory access
 class GuardedMemoryAccess:
     """Memory access with Guardian oversight"""
-    
+
     async def retrieve_sensitive_memory(self,
                                       memory_id: str,
                                       purpose: str) -> Optional[MemoryItem]:
         """
         Retrieve sensitive memory with validation.
-        
+
         Contract:
             - Must validate access purpose
             - Must check requester authorization
@@ -432,19 +432,19 @@ class DriftAlert(GuardianError):
 ```python
 class RemediationAgent:
     """Handle violations and remediation"""
-    
+
     async def remediate_violation(self,
                                 violation: Violation,
                                 strategy: RemediationStrategy) -> RemediationResult:
         """
         Remediate ethical/safety violation.
-        
+
         Strategies:
         - ROLLBACK: Undo violating action
         - COMPENSATE: Compensatory actions
         - RESTRICT: Restrict future actions
         - ALERT: Alert human oversight
-        
+
         Contract:
             - Must act within 1 second
             - Must log all remediation
@@ -535,7 +535,7 @@ guardian_config:
     - virtue_ethics:
         weight: 0.4
         veto_power: false
-  
+
   safety_constraints:
     prevent_harm: true
     max_autonomy: 0.8
@@ -543,7 +543,7 @@ guardian_config:
       - financial_transactions
       - personal_data_access
       - system_modifications
-  
+
   monitoring:
     drift_sensitivity: 0.8
     audit_retention_days: 90
@@ -555,5 +555,5 @@ guardian_config:
 
 ---
 
-*Contract Version: 1.0.0*  
+*Contract Version: 1.0.0*
 *Last Updated: 2025-08-03*

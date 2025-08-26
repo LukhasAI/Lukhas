@@ -5,7 +5,7 @@
 ║ ⚛️🧠🛡️ LUKHAS AI - BASE MEMORY MANAGER
 ║ Trinity Framework Foundation: Abstract memory orchestration for LUKHAS AI ecosystem
 ║ ⚛️ Identity: Authenticates memory provenance and ownership
-║ 🧠 Consciousness: Enables adaptive learning through structured memory patterns  
+║ 🧠 Consciousness: Enables adaptive learning through structured memory patterns
 ║ 🛡️ Guardian: Protects memory integrity and enforces ethical access policies
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
@@ -62,7 +62,7 @@ that nourishes our quest for understanding in the age of LUKHAS AI.
 
                           🏷️ ΛTAG KEYWORDS
 # MemoryManagement #TrinityFramework #AbstractClass #DataIntegrity
-# LambdaTracing #ConsciousnessPatterns #GuardianCompliance #QuantumInspired
+# LambdaTracing #ConsciousnessPatterns #GuardianCompliance #QIInspired
 # CognitiveComputation #Extensibility #LUKHAS #ArtificialIntelligence
 ══════════════════════════════════════════════════════════════════════════════════
 ```

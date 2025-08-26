@@ -31,7 +31,7 @@ def login_user(email: str, password: str) -> Dict[str, Any]:
     4. Creates authentication token
     5. Returns user session data
     """
-    
+
     # Password validation requirements:
     # - Minimum 8 characters
     # - At least 1 uppercase letter
@@ -39,10 +39,10 @@ def login_user(email: str, password: str) -> Dict[str, Any]:
     # - At least 1 number
     # - At least 1 special character
     # - No common weak patterns
-    
+
     # User ID generation:
     user_id = email.split("@")[0].replace(".", "_").lower()
-    
+
     # Token creation with metadata:
     metadata = {
         "email": email,
@@ -52,7 +52,7 @@ def login_user(email: str, password: str) -> Dict[str, Any]:
         "password_validated": True,
         "security_level": "enhanced" if CRYPTO_AVAILABLE else "basic"
     }
-    
+
     # Returns:
     {
         "success": True,
@@ -75,10 +75,10 @@ def register_user(email: str, password: str, requested_tier: Optional[str] = Non
     4. Creates initial user metadata
     5. Generates authentication token
     """
-    
+
     # User ID generation:
     user_id = email.split("@")[0].replace(".", "_").lower()
-    
+
     # Initial metadata:
     metadata = {
         "email": email,
@@ -88,7 +88,7 @@ def register_user(email: str, password: str, requested_tier: Optional[str] = Non
         "cultural_profile": "universal",
         "created_at": datetime.now(timezone.utc).isoformat()
     }
-    
+
     # Default tier assignment:
     tier = AccessTier.T2  # Creator level by default
 ```
@@ -163,7 +163,7 @@ def generate_user_id(email: str) -> str:
     - Takes email prefix (before @)
     - Replaces dots with underscores
     - Converts to lowercase
-    
+
     Example:
     john.doe@example.com -> john_doe
     """
@@ -405,7 +405,7 @@ Response: { "valid": true, "tier": "T2", "user_id": "user" }
    ```python
    # Replace custom tokens with JWT
    import jwt
-   
+
    token = jwt.encode({
        "user_id": user_id,
        "tier": tier,
@@ -417,7 +417,7 @@ Response: { "valid": true, "tier": "T2", "user_id": "user" }
    ```python
    # Add social login providers
    from authlib.integrations import oauth2
-   
+
    oauth.register(
        name='google',
        client_id=GOOGLE_CLIENT_ID,

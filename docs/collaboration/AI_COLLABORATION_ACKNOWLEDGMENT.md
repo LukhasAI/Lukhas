@@ -28,5 +28,5 @@ Proving that the future of innovation is democratized</i>
 
 ---
 
-*"What if intelligence was structured, symbolic, safe — and still wildly creative?"*  
+*"What if intelligence was structured, symbolic, safe — and still wildly creative?"*
 — Gonzalo R. Dominguez Marchan

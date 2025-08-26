@@ -11,13 +11,14 @@ Features:
 - Immutable snapshot per TEQ evaluation.
 """
 
-import os
-import yaml
 import copy
 import threading
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, Optional
+
+import yaml
 from pydantic import BaseModel, ValidationError
+
 
 class OverlaySchema(BaseModel):
     version: str
@@ -41,7 +42,7 @@ class RiskOverlayManager:
         if not overlay_file.exists():
             raise FileNotFoundError(f"No overlays.yaml found in {self.overlay_dir}")
         try:
-            data = yaml.safe_load(open(overlay_file, "r", encoding="utf-8"))
+            data = yaml.safe_load(open(overlay_file, encoding="utf-8"))
             self._overlays = OverlaySchema(**data)
         except ValidationError as e:
             raise RuntimeError(f"Overlay schema validation failed: {e}")
@@ -92,7 +93,8 @@ class RiskOverlayManager:
 
 # CLI for ops teams
 if __name__ == "__main__":
-    import argparse, json
+    import argparse
+    import json
     parser = argparse.ArgumentParser(description="Risk Overlay Manager CLI")
     parser.add_argument("overlay_dir", help="Path to overlays.yaml root dir")
     parser.add_argument("--jurisdiction", help="Jurisdiction code", default=None)

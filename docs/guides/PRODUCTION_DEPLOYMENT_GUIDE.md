@@ -10,7 +10,7 @@ This guide provides comprehensive instructions for deploying LUKHAS  in a produc
 
 **Minimum Requirements:**
 - CPU: 4 cores (8 recommended)
-- RAM: 8GB (16GB recommended)  
+- RAM: 8GB (16GB recommended)
 - Storage: 50GB SSD (100GB recommended)
 - Network: 100Mbps (1Gbps recommended)
 - OS: Ubuntu 20.04+ / CentOS 8+ / RHEL 8+
@@ -79,7 +79,7 @@ LUKHAS_ENV=production
 LUKHAS_DEBUG=false
 LUKHAS_SECRET_KEY=your-super-secure-secret-key-here
 
-# API Configuration  
+# API Configuration
 LUKHAS_API_HOST=0.0.0.0
 LUKHAS_API_PORT=8080
 LUKHAS_API_WORKERS=4
@@ -271,7 +271,7 @@ cache:
 security:
   secret_key: "${LUKHAS_SECRET_KEY}"
   api_key_required: true
-  cors_origins: 
+  cors_origins:
     - "https://your-domain.com"
     - "https://api.your-domain.com"
   rate_limiting:
@@ -759,7 +759,7 @@ crontab -e
 ### Post-Deployment
 
 - [ ] Health checks passing
-- [ ] Monitoring dashboards operational  
+- [ ] Monitoring dashboards operational
 - [ ] Log rotation configured
 - [ ] Backup scripts tested
 - [ ] Performance optimization applied
@@ -776,10 +776,10 @@ crontab -e
    # Check service status
    sudo systemctl status lukhas-
    sudo systemctl status lukhas--monitoring
-   
+
    # Check application health
    curl https://api.your-domain.com/health
-   
+
    # Monitor logs for errors
    sudo tail -f /var/log/lukhas-/error.log
    ```
@@ -790,10 +790,10 @@ crontab -e
    htop
    df -h
    free -h
-   
+
    # Database connections
    sudo -u postgres psql -c "SELECT count(*) FROM pg_stat_activity;"
-   
+
    # Redis memory
    redis-cli info memory
    ```
@@ -804,7 +804,7 @@ crontab -e
    ```bash
    # Analyze error patterns
    grep ERROR /var/log/lukhas-/*.log | tail -100
-   
+
    # Check performance metrics
    grep "slow query" /var/log/lukhas-/*.log
    ```
@@ -813,7 +813,7 @@ crontab -e
    ```bash
    # Update system packages
    sudo apt update && sudo apt upgrade
-   
+
    # Update Python dependencies
    source venv/bin/activate
    pip list --outdated
@@ -881,7 +881,7 @@ crontab -e
    ```bash
    # Check memory usage
    ps aux --sort=-%mem | head
-   
+
    # Restart services if needed
    sudo systemctl restart lukhas-
    ```
@@ -890,7 +890,7 @@ crontab -e
    ```bash
    # Check database connections
    sudo -u postgres psql -c "SELECT * FROM pg_stat_activity;"
-   
+
    # Restart database if needed
    sudo systemctl restart postgresql
    ```
@@ -899,7 +899,7 @@ crontab -e
    ```bash
    # Check application logs
    grep "slow" /var/log/lukhas-/*.log
-   
+
    # Monitor system resources
    iotop
    nethogs
@@ -924,11 +924,11 @@ crontab -e
 
 3. **Emergency Contacts**
    - System Administrator: [contact info]
-   - Database Administrator: [contact info]  
+   - Database Administrator: [contact info]
    - Development Team Lead: [contact info]
 
 ---
 
-**Last Updated**: January 2025  
-**Version**: 1.0.0  
+**Last Updated**: January 2025
+**Version**: 1.0.0
 **Status**: Production Ready ✅

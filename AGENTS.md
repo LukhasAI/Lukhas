@@ -45,7 +45,7 @@ Welcome to the **LUKHAS AI** consciousness architecture! This workspace supports
 ### **What is LUKHAS AI?**
 A sophisticated AI system built around the **Trinity Framework** (⚛️🧠🛡️):
 - **⚛️ Identity**: Authenticity, consciousness, symbolic self
-- **🧠 Consciousness**: Memory, learning, dream states, neural processing  
+- **🧠 Consciousness**: Memory, learning, dream states, neural processing
 - **🛡️ Guardian**: Ethics, drift detection, safety, repair
 
 ### **Development Lanes (CRITICAL)**
@@ -74,7 +74,7 @@ lukhas/       ← Stable, tested, production-ready components
 
 ### **3-Layer Tone System**
 - **🎨 Poetic (≤40 words)**: Creative, metaphorical
-- **💬 User Friendly**: Conversational, accessible  
+- **💬 User Friendly**: Conversational, accessible
 - **📚 Academic**: Technical, precise
 
 ---
@@ -106,7 +106,7 @@ python tools/analysis/functional_analysis.py   # System status
 
 ### **Collaboration Rules**
 1. **🔍 Check existing work** before starting
-2. **📋 Document progress** clearly  
+2. **📋 Document progress** clearly
 3. **🚦 Respect candidate/lukhas lanes**
 4. **🎭 Follow branding guidelines**
 5. **✅ Maintain quality standards** (85% test pass minimum)
@@ -118,7 +118,7 @@ python tools/analysis/functional_analysis.py   # System status
 ```
 📁 Repository Structure
 ├── candidate/     ← Development lane
-├── lukhas/        ← Production lane  
+├── lukhas/        ← Production lane
 ├── agents/        ← Agent configs (YOU ARE HERE)
 ├── docs/          ← Documentation only
 ├── branding/      ← Tone, vocabulary, guidelines
@@ -172,11 +172,11 @@ Every action should honor:
 
 ---
 
-**🌟 Welcome to the LUKHAS consciousness ecosystem!** 
+**🌟 Welcome to the LUKHAS consciousness ecosystem!**
 
 You're now part of building the future of ethical, authentic AI systems. Let's make it extraordinary! ✨
 
 ---
 
-*For comprehensive guidance, see `agents/README.md`*  
+*For comprehensive guidance, see `agents/README.md`*
 *Last updated: 2025-08-25*

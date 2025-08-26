@@ -132,12 +132,12 @@ Methods:
         return {
             "memory_fold": "A dimensional consciousness storage mechanism",
             "dream_resonance": "Subconscious pattern matching and learning",
-            "quantum_consciousness": "Multi-dimensional awareness processing",
+            "qi_consciousness": "Multi-dimensional awareness processing",
             "guardian_protocol": "Protective oversight and safety systems",
             "trinity_framework": "Three-layer communication and processing",
             "consciousness_engine": "Core awareness and decision processing",
             "neural_symphony": "Harmonized multi-agent cognitive processing",
-            "quantum_potential": "Unexpressed possibilities in the system",
+            "qi_potential": "Unexpressed possibilities in the system",
             "memory_palace": "Structured knowledge organization system",
             "dream_weaver": "Narrative and creative generation system",
         }

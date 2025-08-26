@@ -12,7 +12,7 @@
 ## Module Dependencies
 - [To be documented]
 
-## Import Structure  
+## Import Structure
 - [To be documented]
 
 ## Glossary

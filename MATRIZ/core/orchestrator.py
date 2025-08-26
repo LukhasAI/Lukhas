@@ -5,13 +5,11 @@ Routes queries through MATRIZ nodes with full traceability
 Implements the vision from March 24, 2025
 """
 
-import json
 import time
 import uuid
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
-from abc import ABC, abstractmethod
+from typing import Any, Dict, List
 
 
 @dataclass
@@ -32,29 +30,29 @@ class CognitiveOrchestrator:
     Main orchestrator that routes queries through MATRIZ nodes.
     Every thought becomes a traceable, governed node.
     """
-    
+
     def __init__(self):
         self.available_nodes = {}
         self.context_memory = []  # Recent MATRIZ nodes for context
         self.execution_trace = []  # Full execution history
         self.matriz_graph = {}  # All MATRIZ nodes by ID
-        
+
     def register_node(self, name: str, node: 'CognitiveNode'):
         """Register a cognitive node that emits MATRIZ format"""
         self.available_nodes[name] = node
         print(f"✓ Registered node: {name}")
-        
+
     def process_query(self, user_input: str) -> Dict[str, Any]:
         """
         Process user query through MATRIZ nodes
         Returns result with full trace
         """
         start_time = time.time()
-        
+
         # 1. Intent Analysis - Create INTENT node
         intent_node = self._analyze_intent(user_input)
         self.matriz_graph[intent_node['id']] = intent_node
-        
+
         # 2. Node Selection - Create DECISION node
         selected_node_name = self._select_node(intent_node)
         decision_node = self._create_decision_node(
@@ -62,29 +60,29 @@ class CognitiveOrchestrator:
             trigger_id=intent_node['id']
         )
         self.matriz_graph[decision_node['id']] = decision_node
-        
+
         # 3. Process through selected node
         if selected_node_name not in self.available_nodes:
             return {
                 'error': f'No node available for {selected_node_name}',
                 'trace': self.execution_trace
             }
-            
+
         node = self.available_nodes[selected_node_name]
         result = node.process({'query': user_input})
-        
+
         # 4. Validation
         if 'validator' in self.available_nodes:
             validator = self.available_nodes['validator']
             validation = validator.validate_output(result)
-            
+
             # Create validation reflection node
             reflection_node = self._create_reflection_node(
                 result_node=result['matriz_node'],
                 validation=validation
             )
             self.matriz_graph[reflection_node['id']] = reflection_node
-        
+
         # 5. Build execution trace
         trace = ExecutionTrace(
             timestamp=datetime.now(),
@@ -97,7 +95,7 @@ class CognitiveOrchestrator:
             reasoning_chain=self._build_reasoning_chain()
         )
         self.execution_trace.append(trace)
-        
+
         return {
             'answer': result.get('answer', 'No answer'),
             'confidence': result.get('confidence', 0.0),
@@ -105,7 +103,7 @@ class CognitiveOrchestrator:
             'trace': asdict(trace),
             'reasoning_chain': trace.reasoning_chain
         }
-    
+
     def _analyze_intent(self, user_input: str) -> Dict:
         """Create INTENT MATRIZ node from user input"""
         intent_node = {
@@ -122,7 +120,7 @@ class CognitiveOrchestrator:
             'triggers': [],
             'reflections': []
         }
-        
+
         # Simple intent detection
         if any(op in user_input for op in ['+', '-', '*', '/', '=']):
             intent_node['state']['intent'] = 'mathematical'
@@ -132,13 +130,13 @@ class CognitiveOrchestrator:
             intent_node['state']['intent'] = 'perception'
         else:
             intent_node['state']['intent'] = 'general'
-            
+
         return intent_node
-    
+
     def _select_node(self, intent_node: Dict) -> str:
         """Select appropriate node based on intent"""
         intent = intent_node['state'].get('intent', 'general')
-        
+
         if intent == 'mathematical':
             return 'math'
         elif intent == 'question':
@@ -147,7 +145,7 @@ class CognitiveOrchestrator:
             return 'vision'  # Would handle "boy sees dog"
         else:
             return 'facts'  # Default
-    
+
     def _create_decision_node(self, decision: str, trigger_id: str) -> Dict:
         """Create DECISION MATRIZ node"""
         return {
@@ -164,7 +162,7 @@ class CognitiveOrchestrator:
             'triggers': [trigger_id],
             'reflections': []
         }
-    
+
     def _create_reflection_node(self, result_node: Dict, validation: bool) -> Dict:
         """Create REFLECTION MATRIZ node"""
         reflection_type = 'affirmation' if validation else 'regret'
@@ -187,7 +185,7 @@ class CognitiveOrchestrator:
                 'timestamp': datetime.now().isoformat()
             }]
         }
-    
+
     def _build_reasoning_chain(self) -> List[str]:
         """Build human-readable reasoning chain from MATRIZ nodes"""
         chain = []
@@ -199,21 +197,21 @@ class CognitiveOrchestrator:
             elif node['type'] == 'REFLECTION':
                 chain.append(f"Reflection: {node['state'].get('reflection_type', 'unknown')}")
         return chain
-    
+
     def get_causal_chain(self, node_id: str) -> List[Dict]:
         """Trace back the causal chain for any node"""
         if node_id not in self.matriz_graph:
             return []
-        
+
         chain = []
         visited = set()
         to_visit = [node_id]
-        
+
         while to_visit:
             current_id = to_visit.pop(0)
             if current_id in visited:
                 continue
-                
+
             visited.add(current_id)
             node = self.matriz_graph.get(current_id)
             if node:
@@ -222,5 +220,5 @@ class CognitiveOrchestrator:
                 for trigger_id in node.get('triggers', []):
                     if trigger_id not in visited:
                         to_visit.append(trigger_id)
-                        
+
         return chain

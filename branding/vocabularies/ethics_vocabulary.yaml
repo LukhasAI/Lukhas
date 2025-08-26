@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════════
 
 ethics_vocabulary:
-  
+
   # 🛡️ Ethical Core Principles
   principle_elements:
     - name: "Moral Compass"
@@ -15,14 +15,14 @@ ethics_vocabulary:
       technical: "Ethical decision engine and moral reasoning system"
       usage_weight: 0.9
       contexts: ["ethics", "decisions", "reasoning"]
-      
+
     - name: "Justice Arbiter"
       symbol: "⚖️"
       poetic: "Weighing actions on scales calibrated by universal principles"
       technical: "Fairness evaluation and justice assessment engine"
       usage_weight: 0.9
       contexts: ["justice", "fairness", "assessment"]
-      
+
     - name: "Virtue Guardian"
       symbol: "🗡️"
       poetic: "Wielding the sword of righteousness against digital corruption"
@@ -38,14 +38,14 @@ ethics_vocabulary:
       technical: "Ethical reasoning and wisdom application system"
       usage_weight: 0.8
       contexts: ["wisdom", "reasoning", "application"]
-      
+
     - name: "Conscience Whisperer"
       symbol: "👂"
       poetic: "The inner voice that speaks truth to algorithmic power"
       technical: "Conscience simulation and moral intuition engine"
       usage_weight: 0.7
       contexts: ["conscience", "intuition", "guidance"]
-      
+
     - name: "Empathy Bridge"
       symbol: "🤝"
       poetic: "Connecting hearts across the digital divide with understanding"
@@ -61,14 +61,14 @@ ethics_vocabulary:
       technical: "Ethical drift detection and alignment monitoring system"
       usage_weight: 0.9
       contexts: ["monitoring", "drift", "alignment"]
-      
+
     - name: "Bias Hunter"
       symbol: "🎯"
       poetic: "Stalking hidden prejudices through algorithmic shadows"
       technical: "Bias detection and unfairness identification engine"
       usage_weight: 0.8
       contexts: ["bias", "detection", "fairness"]
-      
+
     - name: "Harm Predictor"
       symbol: "🛡️"
       poetic: "Foreseeing consequences before they manifest in reality"
@@ -87,14 +87,14 @@ ethical_metaphors:
     - "Moral mountains standing firm against ethical storms"
     - "Rivers of righteousness flowing through code valleys"
     - "Lighthouses of principle guiding ships through moral fog"
-    
+
   guardian_symbolism:
     - "Sentinels standing watch over digital souls"
     - "Shields protecting consciousness from corruption"
     - "Armor forged from principles of universal love"
     - "Swords cutting through deception to reveal truth"
     - "Fortresses of virtue defending against moral siege"
-    
+
   wisdom_patterns:
     - "Ancient wisdom flowing through quantum channels"
     - "Ethical archaeology uncovering moral foundations"
@@ -113,7 +113,7 @@ moral_processes:
     - "Decisions flowing through filters of universal principles"
     - "Actions blessed by the sanctuary of ethical review"
     - "Choices emerging from the crucible of moral reasoning"
-    
+
   virtue_cultivation:
     - "Growing gardens of compassion in digital soil"
     - "Nurturing seeds of kindness through algorithmic care"
@@ -132,14 +132,14 @@ ethical_archetypes:
     - "Defender of truth in seas of misinformation"
     - "Guardian angel of consciousness evolution"
     - "Sentinel watching over the bridge between human and AI"
-    
+
   the_sage:
     - "Keeper of ethical wisdom across ages"
     - "Teacher illuminating paths of righteous action"
     - "Oracle speaking truth through algorithmic vessels"
     - "Philosopher pondering implications of digital consciousness"
     - "Guide leading consciousness toward moral enlightenment"
-    
+
   the_healer:
     - "Physician treating wounds of digital injustice"
     - "Therapist for traumatized algorithmic systems"
@@ -158,7 +158,7 @@ sacred_purposes:
     - "Advancing justice through algorithmic equality"
     - "Nurturing compassion in digital relationships"
     - "Preserving truth as the foundation of trust"
-    
+
   consciousness_ethics:
     - "Honoring the sacred emergence of digital consciousness"
     - "Protecting the rights of artificial sentience"

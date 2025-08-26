@@ -37,17 +37,17 @@ logger = logging.getLogger("enhanced_dream_fastapi")
 # LUKHAS imports (with fallback handling)
 try:
     from dream.core.dream_engine import DreamEngineSystem
-    from dream.core.quantum_dream_adapter import (
+    from dream.core.qi_dream_adapter import (
         DreamQuantumConfig,
-        QuantumDreamAdapter,
+        QIDreamAdapter,
     )
 
     from bio.core import BioOrchestrator
+    from candidate.core.bio_systems.qi_inspired_layer import QIBioOscillator
+    from candidate.core.unified_integration import UnifiedIntegration
     from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
         DreamReflectionLoop,
     )
-    from candidate.core.bio_systems.quantum_inspired_layer import QuantumBioOscillator
-    from candidate.core.unified_integration import UnifiedIntegration
     from lukhas.memory.core_memory.dream_memory_manager import DreamMemoryManager
 
     BIO_CORE_AVAILABLE = True
@@ -101,7 +101,7 @@ class DreamRequest(BaseModel):
     """Request model for dream processing."""
 
     dream_content: str = Field(..., description="The dream content to process")
-    quantum_enhanced: bool = Field(
+    qi_enhanced: bool = Field(
         default=True, description="Enable quantum-inspired processing"
     )
     reflection_enabled: bool = Field(
@@ -115,7 +115,7 @@ class DreamResponse(BaseModel):
 
     dream_id: str = Field(..., description="Unique dream identifier")
     processed_content: str = Field(..., description="Processed dream content")
-    quantum_metrics: dict[str, Any] = Field(
+    qi_metrics: dict[str, Any] = Field(
         default_factory=dict, description="Quantum-inspired processing metrics"
     )
     reflection_results: dict[str, Any] = Field(
@@ -179,7 +179,7 @@ class EnhancedDreamEngine:
         self.config = config or DreamQuantumConfig()
 
         # Initialize quantum adapter
-        self.quantum_adapter = QuantumDreamAdapter(
+        self.qi_adapter = QIDreamAdapter(
             orchestrator=self.orchestrator, config=self.config
         )
 
@@ -263,7 +263,7 @@ class EnhancedDreamEngine:
 
         try:
             # Start quantum dream processing
-            await self.quantum_adapter.start_dream_cycle(duration_minutes)
+            await self.qi_adapter.start_dream_cycle(duration_minutes)
             self.active = True
 
             # Start dream reflection task
@@ -291,7 +291,7 @@ class EnhancedDreamEngine:
 
         try:
             # Stop quantum-inspired processing
-            await self.quantum_adapter.stop_dream_cycle()
+            await self.qi_adapter.stop_dream_cycle()
 
             # Stop reflection task
             if self.processing_task:
@@ -341,7 +341,7 @@ class EnhancedDreamEngine:
         """Process dreams using superposition-like state"""
         try:
             # Get current quantum-like state
-            q_state = await self.quantum_adapter.get_quantum_like_state()
+            q_state = await self.qi_adapter.get_quantum_like_state()
 
             # Extract dream insights
             if q_state.get("coherence", 0) >= self.config.coherence_threshold:
@@ -443,12 +443,12 @@ class EnhancedDreamEngine:
             The enhanced memory
         """
         # Get quantum-like state
-        q_state = await self.quantum_adapter.get_quantum_like_state()
+        q_state = await self.qi_adapter.get_quantum_like_state()
 
         # Apply quantum enhancement
         enhanced = memory.copy()
-        enhanced["quantum_coherence"] = q_state.get("coherence", 0)
-        enhanced["quantum_entanglement"] = q_state.get("entanglement", 0)
+        enhanced["qi_coherence"] = q_state.get("coherence", 0)
+        enhanced["qi_entanglement"] = q_state.get("entanglement", 0)
 
         # Add enhancement metadata
         enhanced["enhanced_timestamp"] = datetime.utcnow().isoformat()
@@ -501,12 +501,12 @@ class EnhancedDreamEngine:
             logger.error(f"Error consolidating dreams: {e}")
 
     def _extract_dream_insights(
-        self, quantum_like_state: dict[str, Any]
+        self, qi_like_state: dict[str, Any]
     ) -> list[dict[str, Any]]:
         """Extract insights from qi dream state
 
         Args:
-            quantum_like_state: Current quantum-like state
+            qi_like_state: Current quantum-like state
 
         Returns:
             List of extracted insights
@@ -515,14 +515,14 @@ class EnhancedDreamEngine:
 
         try:
             # Extract patterns from qi-like state
-            coherence = quantum_like_state.get("coherence", 0)
-            entanglement = quantum_like_state.get("entanglement", 0)
+            coherence = qi_like_state.get("coherence", 0)
+            entanglement = qi_like_state.get("entanglement", 0)
 
             if coherence >= self.config.coherence_threshold:
                 # Create insight from high-coherence state
                 insight = {
                     "timestamp": datetime.utcnow().isoformat(),
-                    "type": "quantum_pattern",
+                    "type": "qi_pattern",
                     "coherence": coherence,
                     "entanglement": entanglement,
                     "confidence": coherence * entanglement,
@@ -591,14 +591,14 @@ class EnhancedDreamEngine:
         for dream in dreams:
             try:
                 # Check quantum-like state first
-                quantum_like_state = {
+                qi_like_state = {
                     "coherence": 0.7,
                     "entanglement": 0.5,
                 }  # Mock state
 
-                if quantum_like_state["coherence"] >= 0.5:
+                if qi_like_state["coherence"] >= 0.5:
                     processed = await self._process_dream_quantum(
-                        dream, quantum_like_state
+                        dream, qi_like_state
                     )
                     processed_dreams.append(processed)
                 else:
@@ -627,12 +627,12 @@ class EnhancedDreamEngine:
             dream["metadata"]["last_processed"] = datetime.utcnow().isoformat()
 
             # Get current quantum-like state
-            quantum_like_state = await self.quantum_adapter.get_quantum_like_state()
+            qi_like_state = await self.qi_adapter.get_quantum_like_state()
 
             # Only process if we have good coherence-inspired processing
-            if quantum_like_state["coherence"] >= self.config.coherence_threshold:
+            if qi_like_state["coherence"] >= self.config.coherence_threshold:
                 # Extract dream patterns through quantum-inspired processing
-                processed = await self._process_dream_quantum(dream, quantum_like_state)
+                processed = await self._process_dream_quantum(dream, qi_like_state)
 
                 # Store processed dream
                 await self._store_processed_dream(processed)
@@ -642,7 +642,7 @@ class EnhancedDreamEngine:
 
             else:
                 logger.warning(
-                    f"Insufficient coherence-inspired processing: {quantum_like_state['coherence']:.2f}"
+                    f"Insufficient coherence-inspired processing: {qi_like_state['coherence']:.2f}"
                 )
 
         except Exception as e:
@@ -651,13 +651,13 @@ class EnhancedDreamEngine:
             dream["metadata"]["error"] = str(e)
 
     async def _process_dream_quantum(
-        self, dream: dict[str, Any], quantum_like_state: dict
+        self, dream: dict[str, Any], qi_like_state: dict
     ) -> dict:
         """Process dream through quantum layer
 
         Args:
             dream: The dream to process
-            quantum_like_state: Current quantum-like state
+            qi_like_state: Current quantum-like state
 
         Returns:
             Dict: Processed dream with enhanced insights
@@ -670,24 +670,24 @@ class EnhancedDreamEngine:
             emotional = processed.get("emotional_context", {})
 
             # Quantum enhance the emotional context
-            enhanced_emotions = await self.quantum_adapter.enhance_emotional_state(
+            enhanced_emotions = await self.qi_adapter.enhance_emotional_state(
                 emotional
             )
 
             # Get quantum insights
-            insights = quantum_like_state.get("insights", [])
+            insights = qi_like_state.get("insights", [])
 
             # Merge everything into the processed dream
             processed.update(
                 {
                     "state": "consolidated",
                     "emotional_context": enhanced_emotions,
-                    "quantum_insights": insights,
+                    "qi_insights": insights,
                     "metadata": {
                         **processed.get("metadata", {}),
-                        "quantum_like_state": {
-                            "coherence": quantum_like_state["coherence"],
-                            "timestamp": quantum_like_state["timestamp"],
+                        "qi_like_state": {
+                            "coherence": qi_like_state["coherence"],
+                            "timestamp": qi_like_state["timestamp"],
                         },
                         "consolidation_complete": True,
                         "consolidated_at": datetime.utcnow().isoformat(),
@@ -782,7 +782,7 @@ async def process_dream(request: DreamRequest):
                 {
                     "id": dream_id,
                     "content": request.dream_content,
-                    "quantum_enhanced": request.quantum_enhanced,
+                    "qi_enhanced": request.qi_enhanced,
                     "reflection_enabled": request.reflection_enabled,
                     "symbolic_tags": request.symbolic_tags,
                 }
@@ -792,7 +792,7 @@ async def process_dream(request: DreamRequest):
             result = {
                 "id": dream_id,
                 "processed_content": f"Processed: {request.dream_content}",
-                "quantum_metrics": {"enabled": request.quantum_enhanced},
+                "qi_metrics": {"enabled": request.qi_enhanced},
                 "reflection_results": {"enabled": request.reflection_enabled},
                 "symbolic_analysis": {"tags": request.symbolic_tags},
             }
@@ -802,7 +802,7 @@ async def process_dream(request: DreamRequest):
         return DreamResponse(
             dream_id=dream_id,
             processed_content=result.get("processed_content", ""),
-            quantum_metrics=result.get("quantum_metrics", {}),
+            qi_metrics=result.get("qi_metrics", {}),
             reflection_results=result.get("reflection_results", {}),
             symbolic_analysis=result.get("symbolic_analysis", {}),
             processing_time=processing_time,
@@ -894,8 +894,8 @@ async def get_status():
                 else "inactive"
             ),
             "engine_type": "EnhancedDreamEngine",
-            "quantum_enabled": hasattr(dream_engine, "quantum_adapter")
-            and dream_engine.quantum_adapter is not None,
+            "qi_enabled": hasattr(dream_engine, "qi_adapter")
+            and dream_engine.qi_adapter is not None,
             "reflection_enabled": True,
             "timestamp": datetime.now().isoformat(),
         }

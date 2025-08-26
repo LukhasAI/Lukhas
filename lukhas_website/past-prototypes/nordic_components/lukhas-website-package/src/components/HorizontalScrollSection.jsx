@@ -9,12 +9,12 @@ const HorizontalScrollSection = ({ children, id }) => {
   useEffect(() => {
     const container = containerRef.current;
     const scrollContainer = scrollRef.current;
-    
+
     if (!container || !scrollContainer) return;
 
     // Calculate scroll distance
     const scrollWidth = scrollContainer.scrollWidth - window.innerWidth;
-    
+
     // Create horizontal scroll animation
     const horizontalScroll = gsap.to(scrollContainer, {
       x: -scrollWidth,
@@ -33,9 +33,9 @@ const HorizontalScrollSection = ({ children, id }) => {
     // Add entrance animations for cards
     const cards = scrollContainer.querySelectorAll('.horizontal-card');
     cards.forEach((card, index) => {
-      gsap.fromTo(card, 
-        { 
-          opacity: 0, 
+      gsap.fromTo(card,
+        {
+          opacity: 0,
           y: 100,
           rotateY: -15,
           scale: 0.8
@@ -69,8 +69,8 @@ const HorizontalScrollSection = ({ children, id }) => {
 
   return (
     <section ref={containerRef} id={id} className="horizontal-scroll relative overflow-hidden">
-      <div 
-        ref={scrollRef} 
+      <div
+        ref={scrollRef}
         className="flex items-center h-screen w-max"
         style={{ width: 'max-content' }}
       >
@@ -81,4 +81,3 @@ const HorizontalScrollSection = ({ children, id }) => {
 };
 
 export default HorizontalScrollSection;
-

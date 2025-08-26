@@ -36,7 +36,7 @@ class InnovationDomain(Enum):
     """Innovation domains for specialized exploration"""
 
     BIOTECHNOLOGY = "biotechnology"
-    QUANTUM_COMPUTING = "quantum_computing"
+    QUANTUM_COMPUTING = "qi_computing"
     MATERIALS_SCIENCE = "materials_science"
     ENERGY_SYSTEMS = "energy_systems"
     SPACE_TECHNOLOGY = "space_technology"
@@ -231,7 +231,7 @@ class AutonomousInnovationCore(CoreInterface):
         strategies = [
             "first_principles",
             "biological_inspiration",
-            "quantum_mechanics",
+            "qi_mechanics",
             "materials_science",
             "information_theory",
             "complexity_science",

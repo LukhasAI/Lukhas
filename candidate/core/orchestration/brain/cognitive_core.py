@@ -58,7 +58,7 @@ except ImportError:
     OPENAI_AVAILABLE = False
     lukhas_openai = None
 try:
-    from attention.quantum_attention import QuantumInspiredAttention
+    from attention.qi_attention import QIInspiredAttention
 except ImportError:
 
     class QIInspiredAttention:
@@ -188,7 +188,7 @@ class CognitiveEngine:
         self.initialization_time = datetime.now()
 
         # Initialize core components (ORIGINAL LOGIC)
-        self.attention_mechanism = QuantumInspiredAttention()
+        self.attention_mechanism = QIInspiredAttention()
         self.causal_reasoning = CausalReasoningModule()
         self.symbolic_engine = SymbolicEngine()
         self.compliance_engine = ComplianceEngine()

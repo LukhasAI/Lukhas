@@ -19,7 +19,7 @@ export interface UserPreferences {
 
 export interface RiskFactors {
   deviceTrust: number      // 0-100: known device score
-  geoNovelty: number       // 0-100: location anomaly score  
+  geoNovelty: number       // 0-100: location anomaly score
   velocity: number         // 0-100: action frequency score
   recentResets: number     // Count of recent password/auth resets
   stepUpHistory: number    // Count of recent step-ups
@@ -81,16 +81,16 @@ export function calculateRiskScore(factors: RiskFactors): number {
     recentResets: 0.15,
     stepUpHistory: 0.1
   }
-  
+
   let score = 50  // Base score
-  
+
   // Apply weighted factors
   score += factors.deviceTrust * weights.deviceTrust
   score += factors.geoNovelty * weights.geoNovelty
   score += factors.velocity * weights.velocity
   score += factors.recentResets * weights.recentResets * 10  // Scale up
   score += factors.stepUpHistory * weights.stepUpHistory * 5
-  
+
   // Clamp to 0-100
   return Math.max(0, Math.min(100, Math.round(score)))
 }
@@ -113,20 +113,20 @@ export async function pickChallenge(
   preferences: UserPreferences
 ): Promise<Challenge | null> {
   const level = getRiskLevel(riskScore)
-  
+
   // Low risk - no additional challenge needed
   if (level === 'low') {
     return null
   }
-  
+
   // Critical risk - passkey only, no emoji challenges
   if (level === 'critical') {
     return null
   }
-  
+
   // Select challenge type based on preferences and accessibility
   let challengeType: ChallengeType = preferences.preferredChallenge || 'grid'
-  
+
   // Adjust for accessibility needs
   if (preferences.accessibility?.screenReader) {
     // Sequence works best with screen readers
@@ -135,15 +135,15 @@ export async function pickChallenge(
     // Grid or sequence for keyboard navigation
     challengeType = challengeType === 'swipe' ? 'grid' : challengeType
   }
-  
+
   // Generate the challenge
   const challenge = await generateChallenge(challengeType, preferences)
-  
+
   // Store in Redis with TTL
   const redis = await getRedisClient()
   const challengeKey = `challenge:${challenge.id}`
   await redis.setex(challengeKey, challenge.ttl, JSON.stringify(challenge))
-  
+
   return challenge
 }
 
@@ -162,20 +162,20 @@ async function generateChallenge(
     maxAttempts: 3,
     createdAt: Date.now()
   }
-  
+
   switch (type) {
     case 'grid':
       return {
         ...baseChallenge,
         data: generateGridChallenge(preferences)
       }
-      
+
     case 'swipe':
       return {
         ...baseChallenge,
         data: generateSwipeChallenge(preferences)
       }
-      
+
     case 'sequence':
       return {
         ...baseChallenge,
@@ -195,7 +195,7 @@ function generateGridChallenge(preferences: UserPreferences): GridChallenge {
     '🦋', '🐢', '🦜', '🦚', '🐠', '🦈', '🐙', '🦀',
     '🍎', '🍊', '🍋', '🍇', '🍓', '🍑', '🥝', '🍉'
   ]
-  
+
   // High contrast mode uses more distinct emojis
   if (preferences.accessibility?.highContrast) {
     emojiPool.splice(0, emojiPool.length,
@@ -203,12 +203,12 @@ function generateGridChallenge(preferences: UserPreferences): GridChallenge {
       '▲', '■', '●', '♦', '✦', '✚', '◉', '◐'
     )
   }
-  
+
   // Create 3x3 grid
   const gridSize = 3
   const grid: string[][] = []
   const used = new Set<string>()
-  
+
   for (let i = 0; i < gridSize; i++) {
     const row: string[] = []
     for (let j = 0; j < gridSize; j++) {
@@ -221,16 +221,16 @@ function generateGridChallenge(preferences: UserPreferences): GridChallenge {
     }
     grid.push(row)
   }
-  
+
   // Select 3-4 target emojis
   const targetCount = 3 + Math.floor(Math.random() * 2)
   const flatGrid = grid.flat()
   const target: string[] = []
-  
+
   for (let i = 0; i < targetCount; i++) {
     target.push(flatGrid[Math.floor(Math.random() * flatGrid.length)])
   }
-  
+
   // Generate accessibility labels
   const labels: Record<string, string> = {
     '🌟': 'star',
@@ -243,7 +243,7 @@ function generateGridChallenge(preferences: UserPreferences): GridChallenge {
     '■': 'square',
     // ... add all emoji descriptions
   }
-  
+
   return {
     type: 'grid',
     grid,
@@ -259,16 +259,16 @@ function generateSwipeChallenge(preferences: UserPreferences): SwipeChallenge {
   const emojiPool = ['🎯', '🎲', '🎨', '🚀', '🌟', '🌈']
   const sequence = []
   const directions: ('up' | 'down' | 'left' | 'right')[] = []
-  
+
   // Generate 4-6 swipes
   const swipeCount = 4 + Math.floor(Math.random() * 3)
-  
+
   for (let i = 0; i < swipeCount; i++) {
     sequence.push(emojiPool[Math.floor(Math.random() * emojiPool.length)])
     const dirs: ('up' | 'down' | 'left' | 'right')[] = ['up', 'down', 'left', 'right']
     directions.push(dirs[Math.floor(Math.random() * 4)])
   }
-  
+
   return {
     type: 'swipe',
     sequence,
@@ -306,17 +306,17 @@ function generateSequenceChallenge(preferences: UserPreferences): SequenceChalle
     colors: ['crimson', 'azure', 'emerald', 'golden', 'violet', 'silver'],
     actions: ['explore', 'discover', 'create', 'imagine', 'inspire', 'achieve']
   }
-  
+
   // Pick a random category
   const categories = Object.keys(wordPools) as (keyof typeof wordPools)[]
   const category = categories[Math.floor(Math.random() * categories.length)]
   const pool = wordPools[category]
-  
+
   // Select 4-5 words
   const wordCount = 4 + Math.floor(Math.random() * 2)
   const words: string[] = []
   const indices: number[] = []
-  
+
   for (let i = 0; i < wordCount; i++) {
     let idx: number
     do {
@@ -325,11 +325,11 @@ function generateSequenceChallenge(preferences: UserPreferences): SequenceChalle
     indices.push(idx)
     words.push(pool[idx])
   }
-  
+
   // Shuffle for display
   const shuffled = [...words].sort(() => Math.random() - 0.5)
   const correctSequence = shuffled.map(w => words.indexOf(w))
-  
+
   return {
     type: 'sequence',
     words: shuffled,
@@ -355,29 +355,29 @@ export async function verifyChallenge(
   const redis = await getRedisClient()
   const challengeKey = `challenge:${challengeId}`
   const attemptKey = `challenge-attempts:${challengeId}`
-  
+
   try {
     // Get challenge from Redis
     const challengeData = await redis.get(challengeKey)
     if (!challengeData) {
       return { verified: false }
     }
-    
+
     const challenge: Challenge = JSON.parse(challengeData)
-    
+
     // Check attempts
     const attempts = await redis.incr(attemptKey)
     await redis.expire(attemptKey, 120)  // Same TTL as challenge
-    
+
     if (attempts > challenge.maxAttempts) {
       // Too many attempts - delete challenge
       await redis.del(challengeKey)
       return { verified: false, attemptsRemaining: 0 }
     }
-    
+
     // Verify based on challenge type
     let verified = false
-    
+
     switch (challenge.type) {
       case 'grid':
         verified = verifyGridResponse(challenge.data, response)
@@ -389,14 +389,14 @@ export async function verifyChallenge(
         verified = verifySequenceResponse(challenge.data, response)
         break
     }
-    
+
     if (verified) {
       // Clean up on success
       await redis.del(challengeKey)
       await redis.del(attemptKey)
       return { verified: true }
     }
-    
+
     return {
       verified: false,
       attemptsRemaining: challenge.maxAttempts - attempts

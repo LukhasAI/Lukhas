@@ -127,7 +127,7 @@ const nextConfig = {
         },
       },
     })
-    
+
     return config
   },
 }

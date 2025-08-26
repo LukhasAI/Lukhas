@@ -31,19 +31,19 @@ from typing import Any
 # Import core system modules
 try:
     from backend.audit_logger import AuditLogger
+    from governance.identity.auth.cultural_profile_manager import CulturalProfileManager
     from utils.cognitive_load_estimator import CognitiveLoadEstimator
     from utils.cultural_safety_checker import CulturalSafetyChecker
 
-    from lukhas.consciousness.core_consciousness.consciousness_engine import (
-        ConsciousnessEngine,
-    )
-    from lukhas.consciousness.core_consciousness.quantum_consciousness_visualizer import (
-        QIConsciousnessVisualizer,
-    )
     from candidate.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
-    from governance.identity.auth.cultural_profile_manager import CulturalProfileManager
+    from lukhas.consciousness.core_consciousness.consciousness_engine import (
+        ConsciousnessEngine,
+    )
+    from lukhas.consciousness.core_consciousness.qi_consciousness_visualizer import (
+        QIConsciousnessVisualizer,
+    )
 except ImportError:
     # Fallback for standalone operation
     print("⚠️ Core modules not available, using mock implementations")
@@ -72,7 +72,7 @@ class QRGType(Enum):
 
     CONSCIOUSNESS_ADAPTIVE = "consciousness_adaptive"
     CULTURAL_SYMBOLIC = "cultural_symbolic"
-    QUANTUM_ENCRYPTED = "quantum_encrypted"
+    QUANTUM_ENCRYPTED = "qi_encrypted"
     STEGANOGRAPHIC = "steganographic"
     DREAM_STATE = "dream_state"
     EMERGENCY_OVERRIDE = "emergency_override"
@@ -135,7 +135,7 @@ class LukhusQRGIntegrator:
         """Initialize the QRG Integrator with all required components"""
         self.consciousness_engine = ConsciousnessEngine()
         self.cultural_manager = CulturalProfileManager()
-        self.quantum_visualizer = QIConsciousnessVisualizer()
+        self.qi_visualizer = QIConsciousnessVisualizer()
         self.constitutional_gatekeeper = ConstitutionalGatekeeper()
         self.cognitive_estimator = CognitiveLoadEstimator()
         self.safety_checker = CulturalSafetyChecker()
@@ -145,14 +145,14 @@ class LukhusQRGIntegrator:
         self.active_sessions = {}
         self.generation_history = []
         self.cultural_adaptation_cache = {}
-        self.quantum_like_states = {}
+        self.qi_like_states = {}
 
         # Configuration
         self.config = {
             "max_pattern_size": 177,  # High-density QR capacity
             "min_consciousness_threshold": 0.1,
             "cultural_safety_threshold": 0.8,
-            "quantum_coherence_target": 0.95,
+            "qi_coherence_target": 0.95,
             "constitutional_compliance_required": True,
             "dream_state_enabled": True,
             "emergency_override_allowed": True,
@@ -374,7 +374,7 @@ class LukhusQRGIntegrator:
         print(f"⚛️ Generating quantum QRG for user {context.user_id}")
 
         # Quantum state preparation
-        quantum_params = self.quantum_visualizer.prepare_quantum_like_state(
+        qi_params = self.qi_visualizer.prepare_quantum_like_state(
             {
                 "security_level": context.security_clearance.value,
                 "consciousness_level": context.consciousness_level,
@@ -382,29 +382,29 @@ class LukhusQRGIntegrator:
             }
         )
 
-        if not isinstance(quantum_params, dict):
-            quantum_params = {
+        if not isinstance(qi_params, dict):
+            qi_params = {
                 "coherence": 0.95,
                 "entanglement": "high",
                 "security": "maximum",
             }
 
         # Generate quantum-secured pattern
-        quantum_seed = secrets.token_bytes(32)
-        quantum_signature = hashlib.sha3_512(
-            quantum_seed + context.session_id.encode() + str(context.timestamp).encode()
+        qi_seed = secrets.token_bytes(32)
+        qi_signature = hashlib.sha3_512(
+            qi_seed + context.session_id.encode() + str(context.timestamp).encode()
         ).hexdigest()
 
         # High-entropy pattern generation
         pattern_data = self._create_quantum_pattern(
-            quantum_seed, quantum_params, context.security_clearance
+            qi_seed, qi_params, context.security_clearance
         )
 
         # Quantum metadata
         metadata = {
-            "quantum_parameters": quantum_params,
+            "qi_parameters": qi_params,
             "security_level": context.security_clearance.value,
-            "quantum_signature": quantum_signature,
+            "qi_signature": qi_signature,
             "post_quantum_protected": True,
             "entanglement_id": secrets.token_hex(16),
             "coherence_metrics": {
@@ -420,7 +420,7 @@ class LukhusQRGIntegrator:
         }
 
         security_signature = hashlib.blake2b(
-            (pattern_data + quantum_signature).encode(), key=quantum_seed[:32]
+            (pattern_data + qi_signature).encode(), key=qi_seed[:32]
         ).hexdigest()
 
         result = QRGResult(
@@ -432,10 +432,10 @@ class LukhusQRGIntegrator:
             expiration=context.timestamp + timedelta(minutes=30),
             compliance_score=1.0,
             cultural_safety_score=1.0,
-            consciousness_resonance=quantum_params.get("coherence", 0.95),
+            consciousness_resonance=qi_params.get("coherence", 0.95),
             generation_metrics={
                 "generation_time": 0.25,
-                "quantum_quality": "military_grade",
+                "qi_quality": "military_grade",
                 "entropy_bits": 512,
             },
         )
@@ -667,10 +667,10 @@ class LukhusQRGIntegrator:
         return pattern_data
 
     def _create_quantum_pattern(
-        self, quantum_seed: bytes, params: dict, security_level: SecurityLevel
+        self, qi_seed: bytes, params: dict, security_level: SecurityLevel
     ) -> str:
         """Create quantum-encrypted QR pattern"""
-        seed_hex = quantum_seed.hex()[:32]
+        seed_hex = qi_seed.hex()[:32]
         coherence = params.get("coherence", 0.95)
         pattern_data = f"QUANTUM_QR_{security_level.value}_{seed_hex}_COH_{coherence}"
         return pattern_data

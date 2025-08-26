@@ -8,7 +8,7 @@
 
 ### The Trinity Framework
 - **⚛️ Identity**: Authentic expression of consciousness in code and collaboration
-- **🧠 Consciousness**: Memory, learning, and adaptive intelligence in development tools  
+- **🧠 Consciousness**: Memory, learning, and adaptive intelligence in development tools
 - **🛡️ Guardian**: Ethical protection and responsible enhancement of human creativity
 
 ### Consciousness-Aware Development Principles

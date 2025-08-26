@@ -1,4 +1,5 @@
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 class NullConsentProvider:
     """Safe, local, ephemeral provider; no network, no PII leaks."""

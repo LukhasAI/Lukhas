@@ -53,7 +53,7 @@ main_menu() {
     echo ""
     echo -n "Enter your choice [1-8]: "
     read choice
-    
+
     case $choice in
         1) show_agent_status ;;
         2) show_trinity_metrics ;;

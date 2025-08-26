@@ -49,7 +49,7 @@ detect_vscode() {
 clear_cache() {
     echo ""
     echo "Clearing VS Code cache..."
-    
+
     # macOS paths
     if [[ "$OSTYPE" == "darwin"* ]]; then
         CACHE_PATHS=(
@@ -69,14 +69,14 @@ clear_cache() {
             "$HOME/.config/Code/Code Cache"
         )
     fi
-    
+
     for path in "${CACHE_PATHS[@]}"; do
         if [ -d "$path" ]; then
             echo "  Removing: $path"
             rm -rf "$path"
         fi
     done
-    
+
     print_status "Cache cleared successfully"
 }
 
@@ -84,7 +84,7 @@ clear_cache() {
 reset_extensions() {
     echo ""
     echo "Resetting problematic extensions..."
-    
+
     # List of extensions that commonly cause issues
     PROBLEMATIC_EXTENSIONS=(
         "ms-python.python"
@@ -92,14 +92,14 @@ reset_extensions() {
         "GitHub.copilot"
         "GitHub.copilot-chat"
     )
-    
+
     for ext in "${PROBLEMATIC_EXTENSIONS[@]}"; do
         if $VSCODE_CMD --list-extensions | grep -q "$ext"; then
             print_warning "Disabling extension: $ext"
             $VSCODE_CMD --disable-extension "$ext" 2>/dev/null || true
         fi
     done
-    
+
     print_status "Extensions reset"
 }
 
@@ -107,9 +107,9 @@ reset_extensions() {
 optimize_settings() {
     echo ""
     echo "Optimizing VS Code settings..."
-    
+
     SETTINGS_FILE=".vscode/settings.json"
-    
+
     if [ -f "$SETTINGS_FILE" ]; then
         # Create backup if not already done today
         BACKUP_FILE=".vscode/settings.json.recovery-backup-$(date +%Y%m%d)"
@@ -117,7 +117,7 @@ optimize_settings() {
             cp "$SETTINGS_FILE" "$BACKUP_FILE"
             print_status "Settings backed up to $BACKUP_FILE"
         fi
-        
+
         print_status "Settings optimization complete"
     else
         print_warning "No settings.json found in current directory"
@@ -128,19 +128,19 @@ optimize_settings() {
 check_resources() {
     echo ""
     echo "Checking system resources..."
-    
+
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # macOS
         MEM_FREE=$(vm_stat | grep "Pages free" | awk '{print $3}' | sed 's/\.//')
         MEM_FREE_MB=$((MEM_FREE * 4096 / 1024 / 1024))
-        
+
         if [ $MEM_FREE_MB -lt 1000 ]; then
             print_warning "Low memory available: ${MEM_FREE_MB}MB"
             print_warning "Consider closing other applications"
         else
             print_status "Memory available: ${MEM_FREE_MB}MB"
         fi
-        
+
         # Check for zombie VS Code processes
         ZOMBIE_COUNT=$(ps aux | grep -i electron | grep -v grep | wc -l)
         if [ $ZOMBIE_COUNT -gt 5 ]; then
@@ -163,7 +163,7 @@ reinstall_vscode() {
     echo ""
     read -p "Do you want to reinstall VS Code? (y/n): " -n 1 -r
     echo ""
-    
+
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         if [[ "$OSTYPE" == "darwin"* ]] && command -v brew &> /dev/null; then
             print_status "Reinstalling VS Code via Homebrew..."
@@ -186,7 +186,7 @@ show_menu() {
     echo "6) Exit"
     echo ""
     read -p "Enter option (1-6): " choice
-    
+
     case $choice in
         1)
             clear_cache
@@ -222,7 +222,7 @@ show_menu() {
 # Main execution
 main() {
     detect_vscode
-    
+
     # Check if VS Code is currently running
     if pgrep -x "Electron" > /dev/null; then
         print_warning "VS Code appears to be running"
@@ -232,9 +232,9 @@ main() {
             exit 0
         fi
     fi
-    
+
     show_menu
-    
+
     echo ""
     print_status "Recovery complete!"
     echo ""

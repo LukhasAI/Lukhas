@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export default function MinimalAgiWebsite() {
   const [currentImage, setCurrentImage] = useState(0);
   const [fadeIn, setFadeIn] = useState(true);
-  
+
   // Earth-inspired background images
   const backgroundImages = [
     "https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?auto=format&fit=crop&q=80", // Earth from space
@@ -11,7 +11,7 @@ export default function MinimalAgiWebsite() {
     "https://images.unsplash.com/photo-1486082570281-d942af5c39b7?auto=format&fit=crop&q=80", // White marble
     "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80"  // Space view
   ];
-  
+
   // Handle background image transitions
   useEffect(() => {
     const interval = setInterval(() => {
@@ -21,19 +21,19 @@ export default function MinimalAgiWebsite() {
         setFadeIn(true);
       }, 1000);
     }, 8000);
-    
+
     return () => clearInterval(interval);
   }, []);
-  
+
   return (
     <div className="relative min-h-screen font-['Inter',sans-serif] font-extralight overflow-hidden">
       {/* Background images with fade transition */}
       <div className="fixed inset-0 z-[-1]">
         {backgroundImages.map((img, index) => (
-          <div 
+          <div
             key={index}
             className="absolute inset-0 transition-opacity duration-1000"
-            style={{ 
+            style={{
               backgroundImage: `url(${img})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
@@ -43,7 +43,7 @@ export default function MinimalAgiWebsite() {
         ))}
         <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-filter backdrop-blur-sm" />
       </div>
-      
+
       {/* Main Content */}
       <div className="relative min-h-screen flex flex-col">
         {/* Header */}
@@ -52,7 +52,7 @@ export default function MinimalAgiWebsite() {
             <div className="text-white text-2xl tracking-[0.15em] font-extralight">
               LUKHΛS
             </div>
-            
+
             <nav className="hidden md:flex space-x-8">
               <a href="#home" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity tracking-wider font-extralight">HOME</a>
               <a href="#about" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity tracking-wider font-extralight">ABOUT</a>
@@ -61,7 +61,7 @@ export default function MinimalAgiWebsite() {
             </nav>
           </div>
         </header>
-        
+
         {/* Hero Section */}
         <main className="flex-1 flex items-center justify-center p-6">
           <div className="max-w-4xl text-center">
@@ -85,7 +85,7 @@ export default function MinimalAgiWebsite() {
             </div>
           </div>
         </main>
-        
+
         {/* Footer */}
         <footer className="p-8">
           <div className="max-w-6xl mx-auto text-center">

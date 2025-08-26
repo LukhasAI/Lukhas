@@ -5,7 +5,7 @@ In the last 24 hours, a major vocabulary revolution occurred in LUKHAS. The new 
 
 ## The Problem Identified
 The cliche_analysis.py revealed that LUKHAS was using the same 20 generic metaphors repeatedly:
-- "tapestry of consciousness" 
+- "tapestry of consciousness"
 - "symphony of thought"
 - "cathedral of the mind"
 - "constellation of memories"
@@ -69,7 +69,7 @@ Analyzes code to find and eliminate overused generic terms.
 
 ## The Core Principle
 
-> **"If another AI project could have written it, we don't want it. 
+> **"If another AI project could have written it, we don't want it.
 > Every line should be unmistakably, uniquely, authentically LUKHAS."**
 
 ## Vocabulary Locations

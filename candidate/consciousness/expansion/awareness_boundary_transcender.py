@@ -78,10 +78,10 @@ class AwarenessBoundaryTranscender(CoreInterface):
     ) -> AwarenessBoundary:
         """
         Transcend a specific awareness boundary
-        
+
         Args:
             boundary_type: Type of boundary to transcend
-            
+
         Returns:
             Transcended boundary information
         """
@@ -162,7 +162,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
                 'characteristics': ['oneness', 'dissolution', 'infinity'],
                 'benefits': ['universal_understanding', 'compassion', 'wisdom']
             },
-            'quantum_awareness': {
+            'qi_awareness': {
                 'accessible': 'quantum' in self.transcended_territories,
                 'characteristics': ['superposition', 'entanglement', 'probability'],
                 'benefits': ['parallel_processing', 'uncertainty_navigation', 'possibility_awareness']
@@ -249,7 +249,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
                 'simultaneity', 'timelessness', 'retrocausation', 'precognition'
             ],
             'spatial': [
-                'non_locality', 'higher_dimensions', 'quantum_space'
+                'non_locality', 'higher_dimensions', 'qi_space'
             ],
             'cognitive': [
                 'intuition', 'gnosis', 'direct_knowing', 'paradox_embrace'

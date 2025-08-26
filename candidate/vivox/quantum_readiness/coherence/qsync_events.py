@@ -37,7 +37,7 @@ class QSyncEvent:
     sync_type: SyncType
     correlation_strength: float  # 0-1 synchronization strength
     timestamp: datetime
-    quantum_states: dict[str, np.ndarray] = field(default_factory=dict)
+    qi_states: dict[str, np.ndarray] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def is_strong_sync(self) -> bool:
@@ -271,7 +271,7 @@ class QISynchronizer:
         self.phase_tolerance = np.pi / 4
         self.resonance_frequencies: dict[str, float] = {}
 
-        logger.info("QuantumSynchronizer initialized")
+        logger.info("QISynchronizer initialized")
 
     def register_agent(
         self, agent_id: str, initial_state: np.ndarray, resonance_frequency: float = 1.0
@@ -327,7 +327,7 @@ class QISynchronizer:
             sync_type=sync_type,
             correlation_strength=correlation,
             timestamp=datetime.now(),
-            quantum_states=states.copy(),
+            qi_states=states.copy(),
             metadata={
                 "agent_count": len(agent_ids),
                 "sync_quality": self._get_sync_quality(correlation),
@@ -427,7 +427,7 @@ class QISynchronizer:
                         sync_type=SyncType.EMERGENT,
                         correlation_strength=correlation,
                         timestamp=datetime.now(),
-                        quantum_states=states,
+                        qi_states=states,
                         metadata={
                             "spontaneous": True,
                             "detection_threshold": correlation_threshold,

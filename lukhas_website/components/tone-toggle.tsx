@@ -35,7 +35,7 @@ export default function ToneToggle({ className = "" }: ToneToggleProps) {
 
   function applyToneMode(tone: ToneMode) {
     const root = document.documentElement;
-    
+
     switch (tone) {
       case 'glass':
         root.style.setProperty('--panel', 'rgba(16,20,29,0.55)');
@@ -100,7 +100,7 @@ export default function ToneToggle({ className = "" }: ToneToggleProps) {
               zIndex: 999,
             }}
           />
-          
+
           {/* Tone options menu */}
           <div
             style={{

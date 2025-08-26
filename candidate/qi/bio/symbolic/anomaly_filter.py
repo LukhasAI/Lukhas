@@ -30,7 +30,7 @@ class AnomalyType(Enum):
 
     SENSOR_ERROR = "sensor_error"
     PHYSIOLOGICAL = "physiological"
-    QUANTUM_FLUCTUATION = "quantum_fluctuation"
+    QUANTUM_FLUCTUATION = "qi_fluctuation"
     SYMBOLIC_DRIFT = "symbolic_drift"
     ADVERSARIAL = "adversarial"
     UNKNOWN = "unknown"
@@ -43,7 +43,7 @@ class AnomalyAction(Enum):
     HARD_FILTER = "hard_filter"
     INTERPOLATE = "interpolate"
     COLONY_CONSENSUS = "colony_consensus"
-    QUANTUM_HEAL = "quantum_heal"
+    QUANTUM_HEAL = "qi_heal"
     LEARN_FROM = "learn_from"
 
 
@@ -485,7 +485,7 @@ class AnomalyFilterColony(BaseColony):
         return {
             "detector": "quantum",
             "anomalies": anomalies,
-            "quantum_context_available": "quantum" in context,
+            "qi_context_available": "quantum" in context,
         }
 
     async def _symbolic_detector(

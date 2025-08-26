@@ -1,7 +1,7 @@
 /**
  * Group to Role Mapping System with Collision Handling
  * Enterprise-grade role mapping for LUKHAS AI ΛiD System
- * 
+ *
  * Supports:
  * - Deterministic mapping from IdP groups to platform roles
  * - Collision resolution strategy with priority-based conflict handling
@@ -18,20 +18,20 @@ export interface GroupMappingRule {
   tenantId: string;
   name: string;
   description?: string;
-  
+
   // Group matching
   groupPattern: string; // Regex pattern to match group names
   groupPatternFlags?: string; // Regex flags (i, g, m, etc.)
   exactMatch?: boolean; // If true, use exact string match instead of regex
-  
+
   // Role assignment
   roleName: string;
   roleScope?: 'global' | 'tenant' | 'group'; // Scope of the role assignment
-  
+
   // Priority and conditions
   priority: number; // Higher number = higher priority (1-1000)
   isActive: boolean;
-  
+
   // Conditions for applying the rule
   conditions?: {
     userCount?: { min?: number; max?: number }; // Group size requirements
@@ -40,7 +40,7 @@ export interface GroupMappingRule {
     userAttributes?: Record<string, string | string[]>; // Required user attributes
     timeWindow?: { start: string; end: string }; // Time-based conditions
   };
-  
+
   // Metadata
   metadata: {
     createdAt: Date;
@@ -68,7 +68,7 @@ export interface MappingConflict {
   userId: string;
   userEmail: string;
   groupName: string;
-  
+
   // Conflicting mappings
   conflictingRules: Array<{
     ruleId: string;
@@ -77,7 +77,7 @@ export interface MappingConflict {
     priority: number;
     tenantId: string;
   }>;
-  
+
   // Resolution details
   resolution: {
     strategy: 'priority' | 'merge' | 'first' | 'manual';
@@ -85,7 +85,7 @@ export interface MappingConflict {
     selectedRoleName: string;
     reason: string;
   };
-  
+
   // Metadata
   timestamp: Date;
   resolvedAt?: Date;
@@ -112,7 +112,7 @@ export interface MappingAuditEntry {
   id: string;
   tenantId: string;
   eventType: 'rule_created' | 'rule_updated' | 'rule_deleted' | 'mapping_applied' | 'conflict_resolved';
-  
+
   details: {
     ruleId?: string;
     userId?: string;
@@ -121,13 +121,13 @@ export interface MappingAuditEntry {
     conflictId?: string;
     changes?: Record<string, { old: any; new: any }>;
   };
-  
+
   actor: {
     userId: string;
     email: string;
     role: string;
   };
-  
+
   timestamp: Date;
   ipAddress?: string;
   userAgent?: string;
@@ -377,7 +377,7 @@ export class GroupMappingManager {
 
         for (const groupName of groupMemberships) {
           const matches = await this.evaluateRule(rule, groupName, userAttributes);
-          
+
           if (matches.isMatch) {
             appliedMappings.push({
               ruleId: rule.id,
@@ -651,7 +651,7 @@ export class GroupMappingManager {
           const now = new Date();
           const start = new Date(rule.conditions.timeWindow.start);
           const end = new Date(rule.conditions.timeWindow.end);
-          
+
           if (now < start || now > end) {
             return { isMatch: false, warnings };
           }
@@ -675,11 +675,11 @@ export class GroupMappingManager {
     conflictingRules: MappingConflict['conflictingRules']
   ): Promise<MappingConflict> {
     const conflictId = this.generateConflictId();
-    
+
     // Resolve by priority (highest priority wins)
     const sortedRules = [...conflictingRules].sort((a, b) => b.priority - a.priority);
     const winner = sortedRules[0];
-    
+
     const conflict: MappingConflict = {
       conflictId,
       userId,

@@ -30,7 +30,7 @@ export default function StateLayout({ children }: StateLayoutProps) {
   useEffect(() => {
     const storedConsent = localStorage.getItem('lukhas_cookie_consent')
     const storedType = localStorage.getItem('lukhas_cookie_type') as 'essential' | 'full' | null
-    
+
     if (storedConsent) {
       setConsentGiven(true)
       setConsentType(storedType || 'essential')
@@ -51,19 +51,19 @@ export default function StateLayout({ children }: StateLayoutProps) {
       case 'BOOT':
         timer = setTimeout(() => setCurrentState('QUOTE_IN'), 800)
         break
-      
+
       case 'QUOTE_IN':
         // Quote component will call handleQuoteComplete after animation
         break
-      
+
       case 'CONSENT_PENDING':
         // Wait for user interaction with cookie banner
         break
-      
+
       case 'QUOTE_WITH_OPTIONS':
         timer = setTimeout(() => setCurrentState('MARKETING_MODE'), 3800)
         break
-      
+
       case 'MARKETING_MODE':
         // Final state - user can interact with the full website
         break
@@ -88,10 +88,10 @@ export default function StateLayout({ children }: StateLayoutProps) {
     setConsentGiven(true)
     setConsentType('full')
     setCurrentState('QUOTE_WITH_OPTIONS')
-    
+
     // Store full consent
     localStorage.setItem('lukhas_cookie_type', 'full')
-    
+
     // Emit event for external systems that might be listening
     window.dispatchEvent(new CustomEvent('lukhas:cookies:accepted'))
   }
@@ -100,10 +100,10 @@ export default function StateLayout({ children }: StateLayoutProps) {
     setConsentGiven(true)
     setConsentType('essential')
     setCurrentState('QUOTE_WITH_OPTIONS')
-    
+
     // Store essential-only consent
     localStorage.setItem('lukhas_cookie_type', 'essential')
-    
+
     // Emit event for external systems that might be listening
     window.dispatchEvent(new CustomEvent('lukhas:cookies:declined'))
   }
@@ -117,7 +117,7 @@ export default function StateLayout({ children }: StateLayoutProps) {
   useEffect(() => {
     const className = `state-${currentState.toLowerCase()}`
     document.body.classList.add(className)
-    
+
     return () => {
       document.body.classList.remove(className)
     }
@@ -162,7 +162,7 @@ export default function StateLayout({ children }: StateLayoutProps) {
               <Quote />
             </div>
           </div>
-          <CookiesBanner 
+          <CookiesBanner
             onAccept={handleConsentAccepted}
             onDecline={handleConsentDeclined}
           />
@@ -177,7 +177,7 @@ export default function StateLayout({ children }: StateLayoutProps) {
               <Quote />
             </div>
           </div>
-          
+
           {/* Navigation Options */}
           <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
             <div className="flex items-center space-x-4 bg-black/20 backdrop-blur-md rounded-full px-6 py-3 border border-white/10">
@@ -212,7 +212,7 @@ export default function StateLayout({ children }: StateLayoutProps) {
           {consentType === 'essential' && (
             <EssentialModeBanner onChangePreferences={handleChangePreferences} />
           )}
-          
+
           {/* Top navigation bar */}
           <nav className={`fixed left-0 right-0 z-30 bg-black/20 backdrop-blur-md border-b border-white/10 ${
             consentType === 'essential' ? 'top-12' : 'top-0'

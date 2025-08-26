@@ -77,7 +77,7 @@ class OperationResult(BaseModel):
 class ServiceAdapter(ABC):
     """
     Abstract base class for all service adapters.
-    
+
     Defines common interface for external service integrations:
     - list, get, put, move, search, watch operations
     - Capability token verification for all operations

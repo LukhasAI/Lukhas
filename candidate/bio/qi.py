@@ -17,7 +17,7 @@ class VoiceQIConfig:
 
 
 class QIVoiceEnhancer:
-    """Bio quantum - QuantumVoiceEnhancer"""
+    """Bio quantum - QIVoiceEnhancer"""
 
     def __init__(self, *args, **kwargs):
         pass
@@ -33,7 +33,7 @@ class MitochondrialQIBridge:
 
 
 class QISynapticGate:
-    """Bio quantum - QuantumSynapticGate"""
+    """Bio quantum - QISynapticGate"""
 
     pass
 

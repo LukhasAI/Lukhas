@@ -12,7 +12,7 @@ change_kinds:
       - "qi/ops/cap_sandbox.py"
       - "qi/memory/consent_ledger.py"
       - "qi/autonomy/self_healer.py"
-  
+
   router_threshold:
     risk: medium
     reviewers_required: 1
@@ -20,7 +20,7 @@ change_kinds:
     allowed_paths:
       - "qi/safety/policy_packs/*/mappings.yaml"
     deny_paths: []
-  
+
   eval_weight_adjust:
     risk: low
     reviewers_required: 1
@@ -34,13 +34,13 @@ approvers:
     risk_levels: ["low", "medium", "high"]
     domains: ["safety", "eval", "autonomy"]
   - id: "ops"
-    risk_levels: ["low", "medium"] 
+    risk_levels: ["low", "medium"]
     domains: ["eval", "config"]
 
 notifications:
   slack_webhook: null
   email_alerts: []
-  
+
 audit:
   require_attestation: true
   retention_days: 365

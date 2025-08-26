@@ -157,7 +157,7 @@ async def get_system_capabilities():
         return {
             "cognitive_capabilities": {
                 "multi_modal_reasoning": True,
-                "quantum_attention": True,
+                "qi_attention": True,
                 "ethical_compliance": True,
                 "continuous_learning": True,
                 "metacognitive_awareness": True,

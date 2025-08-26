@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 async def initialize_agi_supremacy_modules() -> Dict[str, Any]:
     """
     Initialize complete AGI supremacy capability by registering all missing modules.
-    
+
     Returns:
         Dictionary of registered services and their status
     """
@@ -153,7 +153,7 @@ async def initialize_agi_supremacy_modules() -> Dict[str, Any]:
 async def verify_agi_supremacy_integration() -> Dict[str, Any]:
     """
     Verify that all AGI supremacy modules are properly integrated.
-    
+
     Returns:
         Verification results for each module
     """
@@ -215,7 +215,7 @@ async def verify_agi_supremacy_integration() -> Dict[str, Any]:
 async def run_agi_supremacy_demo() -> Dict[str, Any]:
     """
     Run a demonstration of the AGI supremacy capabilities.
-    
+
     Returns:
         Demo results showcasing integrated capabilities
     """
@@ -254,7 +254,7 @@ async def run_agi_supremacy_demo() -> Dict[str, Any]:
         if economic_manipulator:
             logger.info("Phase 3: Testing market creation capabilities...")
             market_result = await economic_manipulator.create_trillion_dollar_markets(
-                ["ai_services", "quantum_computing"]
+                ["ai_services", "qi_computing"]
             )
             demo_results["market_creation"] = {
                 "markets_created": len(market_result.get("markets_created", [])),

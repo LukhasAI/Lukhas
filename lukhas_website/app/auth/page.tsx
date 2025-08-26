@@ -32,15 +32,15 @@ export default function AuthPage() {
             <h1 className="text-3xl font-light mb-2 lukhas-brand">LUKHΛS</h1>
             <p className="text-white/60">Sign in to your account</p>
           </div>
-          
+
           <div className="space-y-4">
-            <button 
+            <button
               onClick={onSignIn}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg transition-colors"
             >
               Continue with Passkey
             </button>
-            
+
             <p className="text-center text-sm text-white/60">
               Having trouble? Use email link or step-up via QRG.
             </p>

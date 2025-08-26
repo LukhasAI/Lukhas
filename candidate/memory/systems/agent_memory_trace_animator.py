@@ -42,7 +42,7 @@ class MemoryTraceType(Enum):
 
     AGENT_WORKFLOW = "agent_workflow"
     SYMBOLIC_REASONING = "symbolic_reasoning"
-    QUANTUM_ENTANGLEMENT = "quantum_entanglement"
+    QUANTUM_ENTANGLEMENT = "qi_entanglement"
     COLLABORATIVE_DECISION = "collaborative_decision"
     LEARNING_PATTERN = "learning_pattern"
     SECURITY_AUDIT = "security_audit"
@@ -54,7 +54,7 @@ class AnimationType(Enum):
 
     FLOWING_PARTICLES = "flowing_particles"
     NEURAL_NETWORK = "neural_network"
-    QUANTUM_WAVES = "quantum_waves"
+    QUANTUM_WAVES = "qi_waves"
     SYMBOLIC_GRAPH = "symbolic_graph"
     TIMELINE_SEQUENCE = "timeline_sequence"
     DIMENSIONAL_PROJECTION = "dimensional_projection"
@@ -74,7 +74,7 @@ class MemoryNode:
     timestamp: datetime
     connections: Optional[list[str]] = field(default_factory=list)
     importance_score: float = 0.5
-    quantum_like_state: Optional[str] = (
+    qi_like_state: Optional[str] = (
         # NOTE: Potential for #COLLAPSE_POINT if this state changes due to
         # "measurement" in animation.
         None
@@ -97,7 +97,7 @@ class MemoryTrace:
     nodes: list[MemoryNode]  # This list of nodes is the recalled memory data.
     start_time: datetime
     end_time: Optional[datetime] = None
-    quantum_signature: Optional[str] = (
+    qi_signature: Optional[str] = (
         None  # NOTE: Could be related to #AIDENTITY if unique.
     )
     symbolic_metadata: Optional[dict[str, Any]] = field(default_factory=dict)
@@ -223,7 +223,7 @@ class AgentMemoryTraceAnimator:
                 "frame_count": len(frames),
                 "nodes_count": len(trace.nodes),
                 "color_scheme": self._get_color_scheme(trace.trace_type),
-                "quantum_signature": trace.quantum_signature,
+                "qi_signature": trace.qi_signature,
                 "generated_at_utc": datetime.now(timezone.utc).isoformat(),
             }
 
@@ -301,7 +301,7 @@ class AgentMemoryTraceAnimator:
     # RECALL: Processes MemoryTrace for entanglement-like correlation visualization.
     # GLYPH: Generates quantum wave animation (a visual glyph).
     # CAUTION: HTML generation is a STUB.
-    # COLLAPSE_POINT: Visualization of quantum_like_state could represent
+    # COLLAPSE_POINT: Visualization of qi_like_state could represent
     # collapse if states change.
     @lukhas_tier_required(1)
     async def create_quantum_entanglement_animation(
@@ -325,7 +325,7 @@ class AgentMemoryTraceAnimator:
                 "trace_id": trace.id,
                 "animation_type": AnimationType.QUANTUM_WAVES.value,
                 "entanglement_pairs": len(
-                    [n for n in trace.nodes if n.quantum_like_state == "entangled"]
+                    [n for n in trace.nodes if n.qi_like_state == "entangled"]
                 ),
                 "wave_frequency_avg": 2.4,
                 "coherence_level_avg": 0.87,  # NOTE: Example fixed values.
@@ -437,8 +437,8 @@ class AgentMemoryTraceAnimator:
             "layout_suggestion": "force_directed",
         }
 
-    # RECALL: Processes quantum_nodes from the trace.
-    # COLLAPSE_POINT: Visual representation of node.quantum_like_state could
+    # RECALL: Processes qi_nodes from the trace.
+    # COLLAPSE_POINT: Visual representation of node.qi_like_state could
     # show collapse if animated.
     async def _generate_quantum_waves(self, trace: MemoryTrace) -> dict[str, Any]:
         # TRACE: Generating quantum wave data.
@@ -448,15 +448,15 @@ class AgentMemoryTraceAnimator:
             total_nodes=len(trace.nodes),
         )
         waves = []
-        quantum_nodes = [n for n in trace.nodes if n.quantum_like_state]
-        for i, node in enumerate(quantum_nodes):
+        qi_nodes = [n for n in trace.nodes if n.qi_like_state]
+        for i, node in enumerate(qi_nodes):
             wave = {
                 "node_id": node.id,
                 "frequency": 2.4 + (i * 0.3),
                 "amplitude": node.importance_score,
                 "phase": i * (math.pi / 4),
                 "entangled_with": node.connections or [],
-                "quantum_like_state": node.quantum_like_state,
+                "qi_like_state": node.qi_like_state,
             }
             waves.append(wave)
         # TRACE: Quantum wave data generated.
@@ -613,7 +613,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
                     for j in range(max(0, i - 1), i)
                 ],
                 importance_score=min(1.0, 0.3 + (i * 0.15)),
-                quantum_like_state=(
+                qi_like_state=(
                     "entangled"
                     if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT and i % 2 == 0
                     else None
@@ -632,7 +632,7 @@ document.addEventListener('DOMContentLoaded', () => anim.renderFrame(0));
             nodes=nodes,
             start_time=start_time,
             end_time=start_time + timedelta(seconds=(len(nodes) - 1) * 10 + 5),
-            quantum_signature=(
+            qi_signature=(
                 f"Q-Sample-{start_time.timestamp()}"
                 if trace_type == MemoryTraceType.QUANTUM_ENTANGLEMENT
                 else None

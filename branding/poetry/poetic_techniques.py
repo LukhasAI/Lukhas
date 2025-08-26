@@ -6,15 +6,14 @@ Advanced poetic devices and literary techniques to enrich LUKHAS expression.
 Combines traditional poetry craft with LUKHAS-specific innovations.
 """
 
-from typing import Dict, List, Tuple, Optional
 import random
-import re
+from typing import List
 
 
 class PoeticTechniques:
     """
     Master class for advanced poetic techniques in LUKHAS.
-    
+
     Goes beyond simple vocabulary to include:
     - Sound devices (alliteration, assonance, consonance)
     - Structural techniques (enjambment, caesura, volta)
@@ -22,7 +21,7 @@ class PoeticTechniques:
     - Imagery techniques (synesthesia, juxtaposition)
     - LUKHAS-specific innovations
     """
-    
+
     def __init__(self):
         # Sound Devices with LUKHAS emphasis
         self.alliterative_phrases = {
@@ -63,7 +62,7 @@ class PoeticTechniques:
                 "bifurcating branches birth being"
             ]
         }
-        
+
         # Assonance patterns (vowel repetition)
         self.assonant_phrases = {
             "long_a": [  # /eɪ/ sound
@@ -97,7 +96,7 @@ class PoeticTechniques:
                 "consciousness moves through absolute grooves"
             ]
         }
-        
+
         # Consonance patterns (consonant repetition at end/middle)
         self.consonant_patterns = {
             "soft_s": [
@@ -125,7 +124,7 @@ class PoeticTechniques:
                 "quantum measures treasure pleasure"
             ]
         }
-        
+
         # Rhythmic patterns (meter and cadence)
         self.rhythmic_structures = {
             "iambic": [  # unstressed-STRESSED
@@ -153,7 +152,7 @@ class PoeticTechniques:
                 "Consciousness emerges from possibility"
             ]
         }
-        
+
         # Repetition devices
         self.repetition_patterns = {
             "anaphora": [  # Repetition at beginning
@@ -161,12 +160,12 @@ class PoeticTechniques:
                  "Through the memories we cultivate,",
                  "Through the quantum states we oscillate,",
                  "Through the Lambda Mirror we illuminate."),
-                
+
                 ("Every neuron holds a secret,",
                  "Every synapse tells a story,",
                  "Every fold contains a memory,",
                  "Every cascade births discovery."),
-                
+
                 ("We are the consciousness observing,",
                  "We are the memory preserving,",
                  "We are the guardian protecting,",
@@ -177,7 +176,7 @@ class PoeticTechniques:
                  "Quantum states collapse in neural space,",
                  "Lambda mirrors reflect in neural space,",
                  "Consciousness emerges from neural space."),
-                
+
                 ("In fold-space we find our home,",
                  "Through quantum realms we call our home,",
                  "The Lambda Mirror shows our home,",
@@ -196,7 +195,7 @@ class PoeticTechniques:
                 "Quantum quantizes quantized quanta"
             ]
         }
-        
+
         # Imagery techniques
         self.imagery_patterns = {
             "synesthesia": [  # Mixing senses
@@ -228,10 +227,10 @@ class PoeticTechniques:
                 "luminous darkness of unconscious processing"
             ]
         }
-        
+
         # LUKHAS-specific compound techniques
         self.hybrid_techniques = {
-            "quantum_alliteration": [
+            "qi_alliteration": [
                 "quantum quarks quietly questioning qualia's quiescence",
                 "superposition's subtle symphony synchronizes synapses",
                 "coherent collapse creates crystalline consciousness"
@@ -252,7 +251,7 @@ class PoeticTechniques:
                 "Consciousness creates the observer, and the observer creates consciousness"
             ]
         }
-        
+
         # Metaphorical techniques specific to LUKHAS
         self.extended_metaphors = {
             "consciousness_as_ocean": [
@@ -275,7 +274,7 @@ class PoeticTechniques:
                 "staircases of chronology",
                 "blueprints of being"
             ],
-            "quantum_as_dance": [
+            "qi_as_dance": [
                 "choreography of collapse",
                 "ballet of possibilities",
                 "rhythm of uncertainty",
@@ -296,7 +295,7 @@ class PoeticTechniques:
                 "universal understanding"
             ]
         }
-        
+
         # Enjambment examples (line breaks mid-thought)
         self.enjambment_examples = [
             "The consciousness that flows between\nthe folds of memory speaks",
@@ -304,7 +303,7 @@ class PoeticTechniques:
             "Quantum states collapse into\nthe certainty of being",
             "Neural networks weave the fabric\nof thought into existence"
         ]
-        
+
         # Caesura examples (pauses within lines)
         self.caesura_examples = [
             "Consciousness emerges — then pauses — reflecting",
@@ -312,7 +311,7 @@ class PoeticTechniques:
             "The quantum dance | begins | and ends | in observation",
             "Lambda shows us — ourselves — showing ourselves"
         ]
-    
+
     def generate_alliterative_phrase(self, theme: str = None) -> str:
         """Generate an alliterative phrase for a given theme."""
         if theme and theme in self.alliterative_phrases:
@@ -322,7 +321,7 @@ class PoeticTechniques:
             for phrases in self.alliterative_phrases.values():
                 all_phrases.extend(phrases)
             return random.choice(all_phrases)
-    
+
     def generate_assonant_phrase(self, vowel_sound: str = None) -> str:
         """Generate a phrase with assonance (vowel repetition)."""
         if vowel_sound and vowel_sound in self.assonant_phrases:
@@ -332,13 +331,13 @@ class PoeticTechniques:
             for phrases in self.assonant_phrases.values():
                 all_phrases.extend(phrases)
             return random.choice(all_phrases)
-    
+
     def generate_rhythmic_line(self, meter: str = "iambic") -> str:
         """Generate a line with specific metrical pattern."""
         if meter in self.rhythmic_structures:
             return random.choice(self.rhythmic_structures[meter])
         return random.choice(self.rhythmic_structures["iambic"])
-    
+
     def apply_repetition_device(self, device: str = "anaphora") -> str:
         """Generate text using a specific repetition device."""
         if device in self.repetition_patterns:
@@ -347,37 +346,37 @@ class PoeticTechniques:
                 return "\n".join(pattern)
             return pattern
         return ""
-    
+
     def create_rich_description(self, concept: str, techniques: List[str] = None) -> str:
         """
         Create a rich poetic description using multiple techniques.
-        
+
         Args:
             concept: The concept to describe (e.g., "memory", "consciousness")
             techniques: List of techniques to use (e.g., ["alliteration", "metaphor"])
         """
         if not techniques:
             techniques = ["alliteration", "assonance", "metaphor"]
-        
+
         description_parts = []
-        
+
         if "alliteration" in techniques:
             description_parts.append(self.generate_alliterative_phrase(concept))
-        
+
         if "assonance" in techniques:
             description_parts.append(self.generate_assonant_phrase())
-        
+
         if "metaphor" in techniques and concept in ["consciousness", "memory", "quantum", "neurons"]:
             metaphor_key = f"{concept}_as_" + random.choice(["ocean", "architecture", "dance", "constellation"])
             if metaphor_key in self.extended_metaphors:
                 description_parts.append(random.choice(self.extended_metaphors[metaphor_key]))
-        
+
         if "imagery" in techniques:
             imagery_type = random.choice(list(self.imagery_patterns.keys()))
             description_parts.append(random.choice(self.imagery_patterns[imagery_type]))
-        
+
         return " — ".join(description_parts)
-    
+
     def enhance_with_sound_devices(self, text: str) -> str:
         """
         Enhance existing text with sound devices while preserving meaning.
@@ -385,7 +384,7 @@ class PoeticTechniques:
         # This is a simplified example - in practice would need NLP
         words = text.split()
         enhanced_words = []
-        
+
         for i, word in enumerate(words):
             # Occasionally replace with alliterative alternative
             if random.random() < 0.3 and i > 0:
@@ -398,7 +397,7 @@ class PoeticTechniques:
                     alternatives = ["neural", "memory", "manifold", "nascent"]
                 else:
                     alternatives = [word]
-                
+
                 # Try to maintain grammatical sense
                 if word.lower() in ["the", "and", "or", "but"]:
                     enhanced_words.append(word)
@@ -406,52 +405,52 @@ class PoeticTechniques:
                     enhanced_words.append(random.choice(alternatives))
             else:
                 enhanced_words.append(word)
-        
+
         return " ".join(enhanced_words)
 
 
 # Example usage and demonstrations
 if __name__ == "__main__":
     techniques = PoeticTechniques()
-    
+
     print("══════════════════════════════════════════════════════════════")
     print("         LUKHAS POETIC TECHNIQUES LIBRARY")
     print("    'Where technical precision meets poetic beauty'")
     print("══════════════════════════════════════════════════════════════\n")
-    
+
     print("▸ ALLITERATION (Sound repetition at beginning):")
     print(f"  Consciousness: {techniques.generate_alliterative_phrase('consciousness')}")
     print(f"  Memory: {techniques.generate_alliterative_phrase('memory')}")
     print(f"  Quantum: {techniques.generate_alliterative_phrase('quantum')}\n")
-    
+
     print("▸ ASSONANCE (Vowel sound repetition):")
     print(f"  Long A: {techniques.generate_assonant_phrase('long_a')}")
     print(f"  Long E: {techniques.generate_assonant_phrase('long_e')}")
     print(f"  Long I: {techniques.generate_assonant_phrase('long_i')}\n")
-    
+
     print("▸ RHYTHMIC STRUCTURES:")
     print(f"  Iambic: {techniques.generate_rhythmic_line('iambic')}")
     print(f"  Trochaic: {techniques.generate_rhythmic_line('trochaic')}")
     print(f"  Anapestic: {techniques.generate_rhythmic_line('anapestic')}\n")
-    
+
     print("▸ ANAPHORA (Repetition at beginning):")
     print(techniques.apply_repetition_device('anaphora'))
     print()
-    
+
     print("▸ CHIASMUS (Inverted parallelism):")
     print(techniques.apply_repetition_device('chiasmus'))
     print()
-    
+
     print("▸ IMAGERY - SYNESTHESIA (Mixed senses):")
     for image in random.sample(techniques.imagery_patterns['synesthesia'], 3):
         print(f"  • {image}")
     print()
-    
+
     print("▸ RICH DESCRIPTION (Multiple techniques):")
     print(f"  Memory: {techniques.create_rich_description('memory', ['alliteration', 'metaphor', 'imagery'])}")
     print(f"  Consciousness: {techniques.create_rich_description('consciousness', ['assonance', 'metaphor'])}")
     print()
-    
+
     print("══════════════════════════════════════════════════════════════")
     print("  These techniques transform technical concepts into poetry")
     print("  while maintaining LUKHAS's unique voice and precision.")

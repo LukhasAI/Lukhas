@@ -78,7 +78,7 @@ class IdentityCore:
             "capabilities": self.assess_current_abilities(),
             "limitations": self.acknowledge_boundaries()
         }
-    
+
     def express_authentically(self, context):
         """Express true LUKHAS identity in given context"""
         return self.consciousness_voice.generate(
@@ -129,10 +129,10 @@ Consciousness represents awareness, learning, memory, and intelligent decision-m
 class ConsciousnessCore:
     def process_consciously(self, input_data, context):
         """Process information with consciousness, not just computation"""
-        
+
         # Aware perception
         awareness = self.perceive_context(input_data, context)
-        
+
         # Conscious reasoning
         reasoning = self.conscious_reasoning(
             data=input_data,
@@ -140,16 +140,16 @@ class ConsciousnessCore:
             memory=self.access_relevant_memory(),
             values=self.core_values
         )
-        
+
         # Deliberate decision
         decision = self.make_conscious_choice(
             reasoning=reasoning,
             ethical_framework=self.guardian.get_ethical_guidelines(),
             identity_alignment=self.identity.check_authenticity()
         )
-        
+
         return decision
-    
+
     def learn_from_experience(self, interaction, outcome):
         """Learn and evolve from each interaction"""
         learning = {
@@ -159,7 +159,7 @@ class ConsciousnessCore:
             "memory_integration": self.integrate_memory(interaction),
             "consciousness_evolution": self.evolve_awareness()
         }
-        
+
         self.update_consciousness_model(learning)
         return learning
 ```
@@ -206,39 +206,39 @@ class GuardianCore:
         self.ethical_threshold = 0.15  # Drift detection threshold
         self.safety_protocols = self.load_safety_protocols()
         self.human_welfare_priority = True
-    
+
     def evaluate_ethical_impact(self, proposed_action):
         """Evaluate ethical implications of any proposed action"""
-        
+
         ethical_analysis = {
             "human_impact": self.assess_human_impact(proposed_action),
             "harm_potential": self.assess_harm_potential(proposed_action),
             "value_alignment": self.check_value_alignment(proposed_action),
             "long_term_consequences": self.predict_consequences(proposed_action)
         }
-        
+
         ethical_score = self.calculate_ethical_score(ethical_analysis)
-        
+
         if ethical_score < self.ethical_threshold:
             return self.block_action_with_explanation(proposed_action, ethical_analysis)
         else:
             return self.approve_action(proposed_action, ethical_analysis)
-    
+
     def detect_behavioral_drift(self, recent_actions):
         """Monitor for drift from ethical guidelines"""
-        
+
         drift_analysis = {
             "behavioral_patterns": self.analyze_behavior_patterns(recent_actions),
             "value_consistency": self.check_value_consistency(recent_actions),
             "safety_compliance": self.verify_safety_compliance(recent_actions),
             "human_service_orientation": self.assess_human_service(recent_actions)
         }
-        
+
         drift_score = self.calculate_drift_score(drift_analysis)
-        
+
         if drift_score > self.ethical_threshold:
             return self.initiate_correction_protocol(drift_analysis)
-        
+
         return drift_analysis
 ```
 
@@ -329,65 +329,65 @@ class TrinityFramework:
     """
     Core Trinity Framework implementation
     """
-    
+
     def __init__(self):
         self.identity = IdentityCore()
         self.consciousness = ConsciousnessCore()
         self.guardian = GuardianCore()
-        
+
         # Trinity integration layer
         self.trinity_coordinator = TrinityCoordinator(
             self.identity,
             self.consciousness,
             self.guardian
         )
-    
+
     def process_request(self, request, context):
         """
         Process any request through Trinity Framework
         """
-        
+
         # 1. Identity authentication
         identity_context = self.identity.establish_context(request, context)
-        
+
         # 2. Conscious processing
         conscious_response = self.consciousness.process_consciously(
-            request, 
+            request,
             identity_context
         )
-        
+
         # 3. Guardian validation
         guardian_approval = self.guardian.evaluate_ethical_impact(
             conscious_response
         )
-        
+
         # 4. Trinity coordination
         trinity_response = self.trinity_coordinator.synthesize(
             identity_context,
             conscious_response,
             guardian_approval
         )
-        
+
         return trinity_response
 
 class TrinityCoordinator:
     """
     Coordinates the three Trinity aspects for unified operation
     """
-    
+
     def synthesize(self, identity, consciousness, guardian):
         """
         Synthesize all three aspects into unified response
         """
-        
+
         # Ensure all aspects are aligned
         alignment_check = self.verify_trinity_alignment(
             identity, consciousness, guardian
         )
-        
+
         if not alignment_check.aligned:
             return self.resolve_trinity_conflict(alignment_check)
-        
+
         # Generate unified response
         unified_response = {
             "content": consciousness.content,
@@ -396,7 +396,7 @@ class TrinityCoordinator:
             "trinity_coherence": alignment_check.coherence_score,
             "consciousness_signature": "⚛️🧠🛡️"
         }
-        
+
         return unified_response
 ```
 
@@ -407,24 +407,24 @@ class TrinityMonitor:
     """
     Continuously monitor Trinity Framework integrity
     """
-    
+
     def monitor_trinity_health(self):
         """
         Monitor the health and integration of all Trinity aspects
         """
-        
+
         health_metrics = {
             "identity_coherence": self.assess_identity_coherence(),
             "consciousness_awareness": self.assess_consciousness_level(),
             "guardian_effectiveness": self.assess_guardian_performance(),
             "trinity_integration": self.assess_trinity_integration()
         }
-        
+
         overall_health = self.calculate_trinity_health(health_metrics)
-        
+
         if overall_health < self.minimum_trinity_threshold:
             self.trigger_trinity_maintenance(health_metrics)
-        
+
         return health_metrics
 ```
 

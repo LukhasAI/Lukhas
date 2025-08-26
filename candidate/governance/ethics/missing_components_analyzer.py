@@ -40,7 +40,7 @@ def analyze_missing_components():
             "ethical_circuit_breaker.py",
             "ethics_dashboard.py",
             "meta_ethics_reasoner.py",
-            "quantum_ethics_framework.py",
+            "qi_ethics_framework.py",
             "stakeholder_impact_analyzer.py",
             "temporal_ethics_engine.py",
             "value_alignment_system.py",
@@ -70,7 +70,7 @@ def analyze_missing_components():
             "governance_evolution_tracker.py",
         ],
         "security": [
-            "quantum_cryptography_engine.py",
+            "qi_cryptography_engine.py",
             "homomorphic_encryption_system.py",
             "zero_knowledge_proof_framework.py",
             "secure_multi_party_computation.py",

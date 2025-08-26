@@ -7,6 +7,6 @@ This module provides quantum-inspired attention mechanisms including:
 - Superposition matrix operations
 """
 
-from .quantum_attention import QuantumInspiredAttention
+from .qi_attention import QIInspiredAttention
 
-__all__ = ["QuantumInspiredAttention"]
+__all__ = ["QIInspiredAttention"]

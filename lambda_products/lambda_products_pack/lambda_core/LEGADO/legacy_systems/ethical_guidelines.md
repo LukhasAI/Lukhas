@@ -13,7 +13,7 @@
 #### Granular Consent Mechanisms
 ```
 [✓] Allow biometric authentication on this device
-[✓] Sync authentication across Apple devices  
+[✓] Sync authentication across Apple devices
 [✓] Deduct 1 symbolic token from balance
 [ ] Share authentication data with third parties (optional)
 
@@ -82,7 +82,7 @@ Data You Control:
 
 Data We Never Access:
 ✗ Biometric templates
-✗ Device unlock patterns  
+✗ Device unlock patterns
 ✗ Other app usage data
 ```
 
@@ -216,7 +216,7 @@ Data We Never Access:
 
 #### Phase 1: Core Authentication (Months 1-3)
 - Basic QRG scanning
-- Simple Apple Wallet integration  
+- Simple Apple Wallet integration
 - Single-device authentication
 - Free tier implementation
 
@@ -246,7 +246,7 @@ Data We Never Access:
 - User understanding of costs > 95%
 - Data portability requests fulfilled < 24h
 
-#### UX Metrics  
+#### UX Metrics
 - Authentication completion rate > 95%
 - Average authentication time < 3 seconds
 - Error recovery success rate > 90%

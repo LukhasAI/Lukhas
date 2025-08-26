@@ -70,7 +70,7 @@ export default function DreamWeaverShowcase() {
               </div>
             </div>
           </div>
-          
+
           <h2 className="font-ultralight text-5xl md:text-7xl mb-6">
             <span className="gradient-text">Dream Weaver</span>
           </h2>
@@ -176,7 +176,7 @@ export default function DreamWeaverShowcase() {
               <ArrowRight className="w-5 h-5" />
             </motion.button>
           </Link>
-          
+
           <p className="mt-4 text-sm text-primary-light/50">
             No installation required • Works in your browser • Free to try
           </p>
@@ -197,9 +197,9 @@ export default function DreamWeaverShowcase() {
             <div>
               <h4 className="font-medium mb-2">Powered by LUKHAS Consciousness Systems</h4>
               <p className="text-sm text-primary-light/70 leading-relaxed">
-                Dream Weaver leverages our full stack of consciousness technologies including 
-                GLYPH symbolic processing, Trinity Framework integration, quantum-inspired timeline 
-                exploration, and real-time emotional resonance tracking. Experience the future of 
+                Dream Weaver leverages our full stack of consciousness technologies including
+                GLYPH symbolic processing, Trinity Framework integration, quantum-inspired timeline
+                exploration, and real-time emotional resonance tracking. Experience the future of
                 human-AI collaboration through the lens of shared consciousness.
               </p>
             </div>

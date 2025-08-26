@@ -2,11 +2,11 @@
 
 ## 🎯 Product Overview
 
-**Name:** Lambda Studio  
-**Type:** Desktop Application (Electron-based)  
-**Platforms:** macOS, Windows, Linux  
-**Price:** $299/user/month (Pro), $999/team/month (Team)  
-**Target Users:** AI developers, Data scientists, Enterprise teams  
+**Name:** Lambda Studio
+**Type:** Desktop Application (Electron-based)
+**Platforms:** macOS, Windows, Linux
+**Price:** $299/user/month (Pro), $999/team/month (Team)
+**Target Users:** AI developers, Data scientists, Enterprise teams
 
 ## 📱 Core Features
 

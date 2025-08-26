@@ -78,17 +78,17 @@ class LoginSuccessResponse(BaseModel):
 async def initiate_oauth_login(request: OAuthLoginRequest):
     """
     Initiate OAuth login flow.
-    
+
     Returns authorization URL that user should be redirected to.
-    
+
     Supported providers:
-    - apple: Apple Sign-In  
+    - apple: Apple Sign-In
     - google: Google OAuth 2.0
     - github: GitHub OAuth
     - microsoft: Microsoft OAuth
     - linkedin: LinkedIn OAuth
     - discord: Discord OAuth
-    
+
     Example:
     ```json
     {
@@ -139,8 +139,8 @@ async def oauth_login_redirect(
 ):
     """
     Direct OAuth login redirect (GET endpoint for easy linking).
-    
-    Usage: 
+
+    Usage:
     - Web: <a href="/identity/oauth/login/google?redirect_uri=...">Login with Google</a>
     - Mobile: Handle the redirect URL in your app
     """
@@ -164,15 +164,15 @@ async def oauth_login_redirect(
 async def oauth_callback(request: OAuthCallbackRequest):
     """
     Handle OAuth callback after user authorization.
-    
+
     This endpoint processes the authorization code and creates/links LUKHAS account.
-    
+
     Flow:
     1. User authorizes on OAuth provider
     2. Provider redirects to your callback with code
     3. Your app calls this endpoint with the code
     4. Returns LUKHAS token and user info
-    
+
     Example:
     ```json
     {
@@ -216,7 +216,7 @@ async def oauth_callback_get(
 ):
     """
     Handle OAuth callback via GET (for providers that use GET redirects).
-    
+
     This is typically called automatically by the OAuth provider.
     Returns redirect to frontend with token or error.
     """
@@ -254,7 +254,7 @@ async def oauth_callback_get(
 async def get_organizations():
     """
     Get list of supported organizations for enterprise/institutional login.
-    
+
     Returns all configured enterprise domains and their settings.
     """
     orgs = oauth_federation.get_organization_configs()
@@ -280,20 +280,20 @@ async def get_organizations():
 async def create_enterprise_user(org_id: str, request: EnterpriseUserRequest):
     """
     Create enterprise user with organization prefix.
-    
+
     This is typically called by enterprise admin or automated provisioning.
     Creates user with format: org_id-username
-    
+
     Example:
     ```json
     {
         "organization_id": "acme",
-        "user_email": "john.doe@acme.com", 
+        "user_email": "john.doe@acme.com",
         "custom_user_id": "johndoe",
         "tier": "T3"
     }
     ```
-    
+
     Result: User ID "acme-johndoe" with tier T3
     """
     if org_id != request.organization_id:
@@ -366,14 +366,14 @@ async def create_enterprise_user(org_id: str, request: EnterpriseUserRequest):
 async def link_oauth_account(request: AccountLinkRequest):
     """
     Link additional OAuth provider to existing LUKHAS account.
-    
+
     Allows users to sign in with multiple providers (Google + Apple, etc.)
-    
+
     Example: User has Google account, wants to add Apple Sign-In
     ```json
     {
         "primary_user_id": "john_doe",
-        "secondary_provider": "apple", 
+        "secondary_provider": "apple",
         "secondary_code": "apple_auth_code",
         "redirect_uri": "https://yourapp.com/oauth/callback"
     }

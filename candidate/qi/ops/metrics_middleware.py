@@ -1,11 +1,20 @@
 # path: qi/ops/metrics_middleware.py
 from __future__ import annotations
+
 import time
-from typing import Callable, Awaitable
-from prometheus_client import Counter, Histogram, CollectorRegistry, CONTENT_TYPE_LATEST, generate_latest
-from starlette.requests import Request
-from starlette.responses import Response, PlainTextResponse
+from collections.abc import Awaitable
+from typing import Callable
+
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    CollectorRegistry,
+    Counter,
+    Histogram,
+    generate_latest,
+)
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
 
 # Global registry (shared across uvicorn workers if using --workers=1)
 REGISTRY = CollectorRegistry(auto_describe=True)

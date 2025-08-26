@@ -32,12 +32,12 @@ Quantum QR:    [Bit 1] ↔ [Bit 2] ↔ [Bit 3] ← Entangled pairs
 ```
 Embedded Keys:
 ├── Kyber-1024 (Key Encapsulation)
-├── Dilithium-5 (Digital Signatures)  
+├── Dilithium-5 (Digital Signatures)
 └── LUKHAS-Quantum-v2 (Proprietary)
 
 🔬 Security Levels:
 - PROTECTED: 256-bit quantum keys
-- SECRET: 512-bit quantum keys  
+- SECRET: 512-bit quantum keys
 - COSMIC: 1024-bit quantum keys
 ```
 
@@ -131,7 +131,7 @@ Single QR Data: "CONSCIOUSNESS_ADAPTIVE_AUTH_2025"
 
 Distributed Across:
 1. ✡ (Ancient Symbols) - Segment 1/6
-2. ◈ (Geometric Forms) - Segment 2/6  
+2. ◈ (Geometric Forms) - Segment 2/6
 3. 🔮 (Cultural Motifs) - Segment 3/6
 4. 🌙 (Natural Forms) - Segment 4/6
 5. ψ (Mathematical) - Segment 5/6
@@ -158,7 +158,7 @@ Detection Difficulty: 99.0%
 Visual Complexity: Transcendent patterns
 ```
 
-### Medium Consciousness (0.4-0.7): Balanced Patterns  
+### Medium Consciousness (0.4-0.7): Balanced Patterns
 ```
 Preferred Glyphs: ♰ ⬢ ❄ ψ
 Encoding Method:  Phase/Transform Domain

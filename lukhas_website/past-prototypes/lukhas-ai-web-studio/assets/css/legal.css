@@ -1,8 +1,8 @@
 /* LUKHΛS Legal Pages - Calm, Professional Styling */
 
 /* Prefer calm, low-contrast legal pages */
-body.legal .background-effects { 
-  pointer-events: none; 
+body.legal .background-effects {
+  pointer-events: none;
 }
 
 body.legal .background-effects .geometric-pattern {
@@ -19,11 +19,11 @@ body.legal .neural-network-bg {
 
 /* Honor user accessibility preferences */
 @media (prefers-reduced-motion: reduce) {
-  body.legal .background-effects { 
-    display: none !important; 
+  body.legal .background-effects {
+    display: none !important;
   }
-  body.legal .neural-network-bg { 
-    display: none !important; 
+  body.legal .neural-network-bg {
+    display: none !important;
   }
 }
 

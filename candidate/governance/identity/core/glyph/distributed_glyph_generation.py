@@ -16,11 +16,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-from PIL import Image
-
-# Import colony infrastructure
-from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.swarm import AgentState, SwarmAgent
 
 # Import identity components
 from governance.identity.core.events import (
@@ -28,6 +23,11 @@ from governance.identity.core.events import (
     get_identity_event_publisher,
 )
 from governance.identity.core.visualization.lukhas_orb import OrbVisualization
+from PIL import Image
+
+# Import colony infrastructure
+from candidate.core.colonies.base_colony import BaseColony
+from candidate.core.swarm import AgentState, SwarmAgent
 
 logger = logging.getLogger("LUKHAS_DISTRIBUTED_GLYPH")
 
@@ -66,7 +66,7 @@ class GLYPHGenerationTask:
     identity_data: dict[str, Any]
     orb_state: Optional[OrbVisualization] = None
     steganographic_data: Optional[dict[str, Any]] = None
-    quantum_seed: Optional[bytes] = None
+    qi_seed: Optional[bytes] = None
     consciousness_pattern: Optional[np.ndarray] = None
     dream_sequence: Optional[list[dict[str, Any]]] = None
     deadline: Optional[datetime] = None
@@ -263,8 +263,8 @@ class GLYPHGenerationAgent(SwarmAgent):
         size = params.get("size", (256, 256))
 
         # Use quantum seed if available
-        if task.quantum_seed:
-            np.random.seed(int.from_bytes(task.quantum_seed[:4], "big"))
+        if task.qi_seed:
+            np.random.seed(int.from_bytes(task.qi_seed[:4], "big"))
 
         # Generate quantum interference pattern
         x, y = np.meshgrid(np.linspace(-5, 5, size[0]), np.linspace(-5, 5, size[1]))
@@ -285,13 +285,13 @@ class GLYPHGenerationAgent(SwarmAgent):
         interference = (interference / interference.max() * 255).astype(np.uint8)
 
         # Create RGBA image with quantum patterns
-        quantum_pattern = np.zeros((*size, 4), dtype=np.uint8)
-        quantum_pattern[:, :, 0] = interference  # Red channel
-        quantum_pattern[:, :, 1] = np.roll(interference, 50, axis=0)  # Green shifted
-        quantum_pattern[:, :, 2] = np.roll(interference, -50, axis=1)  # Blue shifted
-        quantum_pattern[:, :, 3] = 255  # Full alpha
+        qi_pattern = np.zeros((*size, 4), dtype=np.uint8)
+        qi_pattern[:, :, 0] = interference  # Red channel
+        qi_pattern[:, :, 1] = np.roll(interference, 50, axis=0)  # Green shifted
+        qi_pattern[:, :, 2] = np.roll(interference, -50, axis=1)  # Blue shifted
+        qi_pattern[:, :, 3] = 255  # Full alpha
 
-        return quantum_pattern
+        return qi_pattern
 
     async def _generate_consciousness_fragment(
         self, task: GLYPHGenerationTask, params: dict[str, Any]
@@ -653,7 +653,7 @@ class DistributedGLYPHColony(BaseColony):
 
         # Add quantum/consciousness data for higher tiers
         if tier_level >= 4:
-            task.quantum_seed = self._generate_quantum_seed(lambda_id, session_id)
+            task.qi_seed = self._generate_quantum_seed(lambda_id, session_id)
 
         if tier_level >= 3 and orb_state:
             task.consciousness_pattern = self._extract_consciousness_pattern(orb_state)

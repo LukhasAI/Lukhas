@@ -1,7 +1,12 @@
 from __future__ import annotations
-import os, json, yaml, argparse
+
+import argparse
+import json
+import os
 from dataclasses import dataclass
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
+import yaml
 
 DEFAULT_CFG = {
   "weights": {
@@ -35,12 +40,12 @@ class RiskOrchestrator:
 
     def _load_cfg(self, path: str | None) -> Dict[str, Any]:
         if path and os.path.exists(path):
-            return yaml.safe_load(open(path, "r", encoding="utf-8"))
+            return yaml.safe_load(open(path, encoding="utf-8"))
         # allow jurisdictional override under policy packs
         policy_root = os.path.join("qi","safety","policy_packs","global")
         override = os.path.join(policy_root, "risk_orchestrator.yaml")
         if os.path.exists(override):
-            return yaml.safe_load(open(override, "r", encoding="utf-8"))
+            return yaml.safe_load(open(override, encoding="utf-8"))
         return DEFAULT_CFG
 
     def score(self, *, calibrated_conf: float, pii_hits: int, content_flags: int) -> float:
@@ -80,7 +85,7 @@ if __name__ == "__main__":
     ap.add_argument("--context", required=True)
     ap.add_argument("--task", required=True)
     args = ap.parse_args()
-    ctx = json.load(open(args.context, "r", encoding="utf-8"))
+    ctx = json.load(open(args.context, encoding="utf-8"))
     ro = RiskOrchestrator(args.cfg)
     plan = ro.route(task=args.task, ctx=ctx)
     print(json.dumps({"tier":plan.tier,"score":plan.score,"actions":plan.actions,"notes":plan.notes}, indent=2))

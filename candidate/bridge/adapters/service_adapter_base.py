@@ -3,7 +3,7 @@
 
 Trinity Framework Integration:
 - ⚛️ Identity: Secure authentication and capability token validation
-- 🧠 Consciousness: Agent communication and state awareness  
+- 🧠 Consciousness: Agent communication and state awareness
 - 🛡️ Guardian: Ethical oversight and consent validation
 
 Service Adapter Integration Specialist
@@ -28,7 +28,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../orchestration'))
 
 # Import LUKHAS AI modules - Trinity Framework Integration
 try:
-    from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
+    from lukhas.governance.consent_ledger.ledger_v1 import (
+        ConsentLedgerV1,
+        PolicyVerdict,
+    )
 except ImportError:
     ConsentLedgerV1 = None
     PolicyVerdict = None
@@ -338,12 +341,12 @@ def with_resilience(func):
 
 class BaseServiceAdapter(ABC):
     """⚛️🧠🛡️ Base adapter class for all external services
-    
+
     Trinity Framework Integration:
     - ⚛️ Identity: Secure authentication and access control
     - 🧠 Consciousness: State awareness and agent communication
     - 🛡️ Guardian: Ethical oversight and consent validation
-    
+
     Features:
     - Circuit breaker pattern for resilience
     - Capability token-based authorization

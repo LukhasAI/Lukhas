@@ -339,7 +339,7 @@ class LukhasAIAgentTeam:
             {
                 "type": "advanced_consolidation",
                 "scope": [
-                    "quantum_biological_optimization",
+                    "qi_biological_optimization",
                     "meta_cognitive_integration",
                 ],
                 "objectives": [

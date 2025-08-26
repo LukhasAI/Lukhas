@@ -6,7 +6,7 @@
 
 ## ✨ Core Philosophy
 
-> "Attention is the currency of consciousness.  
+> "Attention is the currency of consciousness.
 > Protect it like the precious resource it is." — LUKHAS AI
 
 ΛBAS embodies this philosophy by:
@@ -202,7 +202,7 @@ mutation requestAttention($userId: ID!, $request: AttentionRequestInput!) {
 
 ### Boundary Modes
 - **Soft**: Gentle suggestions, can be overridden
-- **Firm**: Clear blocking with manual override option  
+- **Firm**: Clear blocking with manual override option
 - **Strict**: Absolute blocking, emergency-only exceptions
 - **Adaptive**: AI-determined enforcement based on context
 
@@ -214,7 +214,7 @@ mutation requestAttention($userId: ID!, $request: AttentionRequestInput!) {
 ```python
 def detect_flow_state(metrics: AttentionMetrics) -> float:
     """Calculate flow probability (0.0-1.0)"""
-    if (metrics.focus_level >= 0.8 and 
+    if (metrics.focus_level >= 0.8 and
         0.6 <= metrics.cognitive_load <= 0.8 and
         metrics.attention_residue < 0.2 and
         metrics.interruption_cost < 0.1):

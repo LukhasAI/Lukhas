@@ -176,7 +176,7 @@ class ΛBAS:
             "max_interruptions_per_hour": 6,
             "adaptive_learning": True,
             "flow_state_detection": True,
-            "quantum_attention_modeling": True,
+            "qi_attention_modeling": True,
             "biometric_integration": False,
         }
 
@@ -781,7 +781,7 @@ class ΛBAS:
             "config": {
                 "flow_protection": self.config["flow_protection_threshold"],
                 "adaptive_learning": self.config["adaptive_learning"],
-                "quantum_modeling": self.config["quantum_attention_modeling"],
+                "qi_modeling": self.config["qi_attention_modeling"],
             },
         }
 

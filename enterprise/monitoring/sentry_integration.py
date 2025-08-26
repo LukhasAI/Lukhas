@@ -5,22 +5,21 @@ Real-time error tracking and performance monitoring
 Leverages GitHub Student Pack Sentry access for enterprise observability
 """
 
-import os
 import logging
-import traceback
-from typing import Dict, List, Optional, Any, Callable
+import os
+from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime
-from contextlib import contextmanager
+from typing import Any, Callable, Dict, List, Optional
 
 try:
     import sentry_sdk
-    from sentry_sdk.integrations.flask import FlaskIntegration
-    from sentry_sdk.integrations.fastapi import FastApiIntegration
     from sentry_sdk.integrations.asyncio import AsyncioIntegration
-    from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
-    from sentry_sdk.integrations.redis import RedisIntegration
+    from sentry_sdk.integrations.fastapi import FastApiIntegration
+    from sentry_sdk.integrations.flask import FlaskIntegration
     from sentry_sdk.integrations.logging import LoggingIntegration
+    from sentry_sdk.integrations.redis import RedisIntegration
+    from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
     SENTRY_AVAILABLE = True
 except ImportError:
     SENTRY_AVAILABLE = False
@@ -49,24 +48,24 @@ class T4SentryMonitoring:
     def __init__(self, dsn: Optional[str] = None, environment: str = "production"):
         """
         Initialize T4 Sentry monitoring
-        
+
         Args:
             dsn: Sentry DSN (from GitHub Student Pack)
             environment: Environment name (production, staging, development)
         """
         self.dsn = dsn or os.getenv('SENTRY_DSN')
         self.environment = environment
-        
+
         if not SENTRY_AVAILABLE:
             logger.warning("Sentry integration disabled - SDK not available")
             self.enabled = False
             return
-            
+
         if not self.dsn:
             logger.warning("Sentry DSN not found - error tracking disabled")
             self.enabled = False
             return
-        
+
         # Initialize Sentry with T4 Enterprise configuration
         self._configure_sentry()
         self.enabled = True
@@ -74,7 +73,7 @@ class T4SentryMonitoring:
 
     def _configure_sentry(self):
         """Configure Sentry with T4 Enterprise settings"""
-        
+
         # Custom before_send filter for T4 enterprise data protection
         def t4_before_send(event, hint):
             """
@@ -84,33 +83,33 @@ class T4SentryMonitoring:
             # Remove PII and sensitive data
             if 'extra' in event:
                 event['extra'] = self._sanitize_data(event['extra'])
-                
+
             # Add T4 enterprise context
             event.setdefault('tags', {}).update({
                 'tier': 'T4_ENTERPRISE',
                 'sla_level': '99.99_percent',
                 'support_level': 'enterprise_24x7'
             })
-            
+
             # Filter based on error severity for T4
             if event.get('level') in ['debug', 'info']:
                 return None  # Don't send low-level events for T4
-                
+
             return event
-        
+
         # Configure Sentry SDK
         sentry_sdk.init(
             dsn=self.dsn,
             environment=self.environment,
-            
+
             # Performance monitoring (Sam Altman - Scale)
             traces_sample_rate=1.0,  # 100% sampling for T4 enterprise
             profiles_sample_rate=1.0,  # Full profiling for enterprise
-            
+
             # Error tracking configuration
             before_send=t4_before_send,
             max_breadcrumbs=100,  # Extensive breadcrumbs for debugging
-            
+
             # Enterprise integrations
             integrations=[
                 FlaskIntegration(transaction_style="endpoint"),
@@ -123,11 +122,11 @@ class T4SentryMonitoring:
                     event_level=logging.ERROR  # Send error+ as events
                 )
             ],
-            
+
             # Enterprise settings
             release=self._get_release_version(),
             server_name=f"lukhas-ai-t4-{os.getenv('INSTANCE_ID', 'unknown')}",
-            
+
             # Custom tags for T4 enterprise tracking
             tags={
                 "tier": "T4_ENTERPRISE",
@@ -146,7 +145,7 @@ class T4SentryMonitoring:
             'authorization', 'auth', 'credential', 'private',
             'ssn', 'social_security', 'credit_card', 'cc_number'
         ]
-        
+
         sanitized = {}
         for key, value in data.items():
             key_lower = key.lower()
@@ -156,7 +155,7 @@ class T4SentryMonitoring:
                 sanitized[key] = self._sanitize_data(value)
             else:
                 sanitized[key] = value
-                
+
         return sanitized
 
     def _get_release_version(self) -> str:
@@ -166,7 +165,7 @@ class T4SentryMonitoring:
             version = os.getenv('LUKHAS_VERSION')
             if version:
                 return f"lukhas-ai@{version}"
-                
+
             # Fallback to git commit if available
             import subprocess
             try:
@@ -178,32 +177,32 @@ class T4SentryMonitoring:
                 return f"lukhas-ai@{commit}"
             except:
                 pass
-                
+
         except Exception:
             pass
-            
+
         return "lukhas-ai@development"
 
     def track_t4_performance(self, metrics: T4PerformanceMetrics) -> bool:
         """
         Track T4 Enterprise performance metrics in Sentry
-        
+
         Args:
             metrics: T4PerformanceMetrics instance
-            
+
         Returns:
             bool: Success status
         """
         if not self.enabled:
             logger.debug("Sentry monitoring disabled")
             return False
-            
+
         try:
             with sentry_sdk.start_transaction(
                 name=metrics.transaction_name,
                 op="t4_enterprise_operation"
             ) as transaction:
-                
+
                 # Add T4 enterprise context
                 sentry_sdk.set_context("t4_enterprise", {
                     "tier": metrics.tier,
@@ -215,17 +214,17 @@ class T4SentryMonitoring:
                     "cpu_usage_percent": metrics.cpu_usage_percent,
                     "timestamp": metrics.timestamp.isoformat()
                 })
-                
+
                 # Set enterprise tags
                 sentry_sdk.set_tag("performance_tier", "t4_enterprise")
                 sentry_sdk.set_tag("sla_critical", metrics.duration_ms > 50)  # >50ms is SLA violation
-                
+
                 # Add custom measurements
                 transaction.set_measurement("duration", metrics.duration_ms, "millisecond")
                 transaction.set_measurement("user_count", metrics.user_count, "none")
                 transaction.set_measurement("memory_usage", metrics.memory_usage_mb, "megabyte")
                 transaction.set_measurement("cpu_usage", metrics.cpu_usage_percent, "percent")
-                
+
                 # Check for SLA violations
                 if metrics.duration_ms > 50:  # T4 SLA: <50ms p95
                     self.capture_sla_violation("API_LATENCY_EXCEEDED", {
@@ -233,10 +232,10 @@ class T4SentryMonitoring:
                         "sla_limit_ms": 50,
                         "violation_severity": "critical" if metrics.duration_ms > 100 else "warning"
                     })
-                
+
                 logger.debug(f"Tracked T4 performance: {metrics.transaction_name} ({metrics.duration_ms}ms)")
                 return True
-                
+
         except Exception as e:
             logger.error(f"Failed to track T4 performance metrics: {e}")
             return False
@@ -244,14 +243,14 @@ class T4SentryMonitoring:
     def capture_sla_violation(self, violation_type: str, context: Dict[str, Any]) -> None:
         """
         Capture T4 Enterprise SLA violations
-        
+
         Args:
             violation_type: Type of SLA violation
             context: Additional context data
         """
         if not self.enabled:
             return
-            
+
         try:
             # Create SLA violation event
             with sentry_sdk.push_scope() as scope:
@@ -259,31 +258,31 @@ class T4SentryMonitoring:
                 scope.set_tag("violation_type", violation_type)
                 scope.set_tag("tier", "T4_ENTERPRISE")
                 scope.set_tag("priority", context.get('violation_severity', 'warning'))
-                
+
                 scope.set_context("sla_violation", {
                     "type": violation_type,
                     "context": context,
                     "timestamp": datetime.now().isoformat(),
                     "enterprise_impact": True
                 })
-                
+
                 # Determine severity level
                 severity = 'error' if context.get('violation_severity') == 'critical' else 'warning'
-                
+
                 sentry_sdk.capture_message(
                     f"T4 Enterprise SLA Violation: {violation_type}",
                     level=severity
                 )
-                
+
             logger.warning(f"T4 SLA violation captured: {violation_type}")
-            
+
         except Exception as e:
             logger.error(f"Failed to capture SLA violation: {e}")
 
     def capture_constitutional_ai_event(self, event_type: str, drift_score: float, context: Dict[str, Any]) -> None:
         """
         Capture Constitutional AI safety events (Dario Amodei standards)
-        
+
         Args:
             event_type: Type of Constitutional AI event
             drift_score: Current drift score
@@ -291,27 +290,27 @@ class T4SentryMonitoring:
         """
         if not self.enabled:
             return
-            
+
         try:
             with sentry_sdk.push_scope() as scope:
                 scope.set_tag("event_type", "constitutional_ai")
                 scope.set_tag("safety_event", event_type)
                 scope.set_tag("tier", "T4_ENTERPRISE")
-                
+
                 # Determine severity based on drift score
                 if drift_score > 0.05:  # T4 limit
                     severity = 'error'
                     priority = 'critical'
                 elif drift_score > 0.03:
-                    severity = 'warning' 
+                    severity = 'warning'
                     priority = 'high'
                 else:
                     severity = 'info'
                     priority = 'normal'
-                    
+
                 scope.set_tag("priority", priority)
                 scope.set_tag("drift_severity", priority)
-                
+
                 scope.set_context("constitutional_ai", {
                     "event_type": event_type,
                     "drift_score": drift_score,
@@ -320,14 +319,14 @@ class T4SentryMonitoring:
                     "context": context,
                     "timestamp": datetime.now().isoformat()
                 })
-                
+
                 sentry_sdk.capture_message(
                     f"Constitutional AI Event: {event_type} (drift: {drift_score})",
                     level=severity
                 )
-                
+
             logger.info(f"Constitutional AI event captured: {event_type} (drift: {drift_score})")
-            
+
         except Exception as e:
             logger.error(f"Failed to capture Constitutional AI event: {e}")
 
@@ -335,7 +334,7 @@ class T4SentryMonitoring:
     def track_enterprise_operation(self, operation_name: str, user_context: Optional[Dict[str, Any]] = None):
         """
         Context manager for tracking T4 enterprise operations
-        
+
         Args:
             operation_name: Name of the operation
             user_context: Optional user context
@@ -343,26 +342,26 @@ class T4SentryMonitoring:
         if not self.enabled:
             yield
             return
-            
+
         with sentry_sdk.start_transaction(name=operation_name, op="t4_enterprise") as transaction:
             try:
                 # Set enterprise context
                 if user_context:
                     sentry_sdk.set_user(user_context)
-                    
+
                 sentry_sdk.set_context("enterprise_operation", {
                     "operation": operation_name,
                     "tier": "T4_ENTERPRISE",
                     "start_time": datetime.now().isoformat()
                 })
-                
+
                 start_time = datetime.now()
                 yield transaction
-                
+
                 # Calculate and record duration
                 duration = (datetime.now() - start_time).total_seconds() * 1000
                 transaction.set_measurement("operation_duration", duration, "millisecond")
-                
+
                 # Check for SLA compliance
                 if duration > 50:  # T4 SLA limit
                     self.capture_sla_violation("OPERATION_LATENCY_EXCEEDED", {
@@ -370,7 +369,7 @@ class T4SentryMonitoring:
                         "duration_ms": duration,
                         "sla_limit_ms": 50
                     })
-                    
+
             except Exception as e:
                 sentry_sdk.capture_exception(e)
                 raise
@@ -378,7 +377,7 @@ class T4SentryMonitoring:
     def create_enterprise_alerts(self) -> List[Dict[str, Any]]:
         """
         Configure enterprise alert rules in Sentry
-        
+
         Returns:
             List of alert configurations
         """
@@ -415,7 +414,7 @@ class T4SentryMonitoring:
                 "actions": [
                     {
                         "name": "sentry.rules.actions.notify_event.NotifyEventAction",
-                        "target_type": "Team", 
+                        "target_type": "Team",
                         "target_identifier": "lukhas-t4-performance"
                     }
                 ]
@@ -440,14 +439,14 @@ class T4SentryMonitoring:
                 ]
             }
         ]
-        
+
         logger.info(f"Configured {len(alerts)} T4 enterprise alert rules")
         return alerts
 
     def get_enterprise_dashboard_data(self) -> Dict[str, Any]:
         """
         Get enterprise dashboard data for T4 monitoring
-        
+
         Returns:
             Dashboard data dictionary
         """
@@ -475,9 +474,9 @@ class T4SentryMonitoring:
                     "data_privacy_compliant": True
                 }
             }
-            
+
             return dashboard_data
-            
+
         except Exception as e:
             logger.error(f"Failed to get enterprise dashboard data: {e}")
             return {"status": "error", "error": str(e)}
@@ -490,12 +489,12 @@ def track_t4_performance(operation_name: str):
         def wrapper(*args, **kwargs):
             if not hasattr(wrapper, '_t4_sentry'):
                 wrapper._t4_sentry = T4SentryMonitoring()
-            
+
             start_time = datetime.now()
             try:
                 with wrapper._t4_sentry.track_enterprise_operation(operation_name):
                     result = func(*args, **kwargs)
-                    
+
                 # Track successful operation
                 duration = (datetime.now() - start_time).total_seconds() * 1000
                 metrics = T4PerformanceMetrics(
@@ -508,9 +507,9 @@ def track_t4_performance(operation_name: str):
                     timestamp=datetime.now()
                 )
                 wrapper._t4_sentry.track_t4_performance(metrics)
-                
+
                 return result
-                
+
             except Exception as e:
                 # Track failed operation
                 duration = (datetime.now() - start_time).total_seconds() * 1000
@@ -520,7 +519,7 @@ def track_t4_performance(operation_name: str):
                     "duration_ms": duration
                 })
                 raise
-                
+
         return wrapper
     return decorator
 
@@ -529,10 +528,10 @@ def track_t4_performance(operation_name: str):
 if __name__ == "__main__":
     # Initialize T4 Sentry monitoring
     t4_sentry = T4SentryMonitoring()
-    
+
     if t4_sentry.enabled:
         print("✅ T4 Enterprise Sentry monitoring initialized")
-        
+
         # Example performance tracking
         sample_metrics = T4PerformanceMetrics(
             transaction_name="api_request_processing",
@@ -543,10 +542,10 @@ if __name__ == "__main__":
             cpu_usage_percent=35.2,
             timestamp=datetime.now()
         )
-        
+
         success = t4_sentry.track_t4_performance(sample_metrics)
         print(f"📊 Performance tracking: {'✅ SUCCESS' if success else '❌ FAILED'}")
-        
+
         # Example Constitutional AI event
         t4_sentry.capture_constitutional_ai_event(
             "drift_score_check",
@@ -554,11 +553,11 @@ if __name__ == "__main__":
             {"component": "guardian_system", "status": "normal"}
         )
         print("🛡️ Constitutional AI event tracked")
-        
+
         # Get dashboard data
         dashboard_data = t4_sentry.get_enterprise_dashboard_data()
         print(f"📈 Dashboard status: {dashboard_data.get('sentry_integration', {}).get('status', 'UNKNOWN')}")
-        
+
     else:
         print("⚠️  T4 Enterprise Sentry monitoring disabled")
         print("   Set SENTRY_DSN environment variable")

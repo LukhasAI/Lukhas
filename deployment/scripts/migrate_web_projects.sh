@@ -19,7 +19,7 @@ WORKSPACE_DIR="/Users/Gonz/lukhas/web_projects"
 
 echo "📁 Migration targets:"
 echo "  - LUKHAS Studio (Visual Studio Clean)"
-echo "  - LUKHAS ID Website" 
+echo "  - LUKHAS ID Website"
 echo "  - Team Dashboards"
 echo "  - Additional Web Interfaces"
 
@@ -41,14 +41,14 @@ fi
 # 3. Copy from Lukhas folder
 if [ -d "$DOWNLOADS_DIR/Lukhas" ]; then
     echo "📂 Processing Lukhas folder contents..."
-    
+
     # Copy web interfaces
     find "$DOWNLOADS_DIR/Lukhas" -name "*web*" -type d | head -5 | while read dir; do
         basename_dir=$(basename "$dir")
         cp -R "$dir" "$WORKSPACE_DIR/additional_interfaces/$basename_dir"
         echo "✅ Copied: $basename_dir"
     done
-    
+
     # Copy studio projects
     find "$DOWNLOADS_DIR/Lukhas" -name "*studio*" -type d | head -3 | while read dir; do
         basename_dir=$(basename "$dir")

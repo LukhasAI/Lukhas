@@ -141,7 +141,7 @@ else:
 
 ## 🎯 Core Capabilities
 
-### 1. **Causal Archaeology** 
+### 1. **Causal Archaeology**
 - 12+ types of causal relationships tracked
 - Multi-generational lineage analysis
 - Cross-system causality integration

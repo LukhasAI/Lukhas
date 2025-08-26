@@ -92,7 +92,7 @@ class QIAlgorithm(Enum):
 
 # ΛTIER_CONFIG_START
 # {
-#   "module": "quantum.quantum_certificate_manager",
+#   "module": "qi.qi_certificate_manager",
 #   "class_QuantumCertificateManager": {
 #     "default_tier": 2,
 #     "methods": {
@@ -125,7 +125,7 @@ class QICertificateManager:
         self.config = config or {}
 
         self.cert_store_path = Path(
-            self.config.get("cert_store_path", "lukhas_certs/quantum_certs_store")
+            self.config.get("cert_store_path", "lukhas_certs/qi_certs_store")
         )
         try:
             self.cert_store_path.mkdir(parents=True, exist_ok=True)
@@ -142,8 +142,8 @@ class QICertificateManager:
             "renewal_check_interval_seconds", 3600
         )
 
-        self.quantum_ca_endpoints: dict[str, str] = self.config.get(
-            "quantum_ca_endpoints",
+        self.qi_ca_endpoints: dict[str, str] = self.config.get(
+            "qi_ca_endpoints",
             {
                 "primary_ca_simulation_url": "https://quantum-ca.lukhas.ai/api/v1/simulate",
                 "backup_ca_simulation_url": "https://backup-ca.lukhas.ai/api/v1/simulate",
@@ -156,11 +156,11 @@ class QICertificateManager:
         self.renewal_tasks: dict[str, asyncio.Task[Any]] = {}  # type: ignore
         self.validation_task: Optional[asyncio.Task[Any]] = None
 
-        self.quantum_entropy_enabled: bool = self.config.get(
-            "quantum_entropy_enabled", True
+        self.qi_entropy_enabled: bool = self.config.get(
+            "qi_entropy_enabled", True
         )
         self.log.info(
-            "QuantumCertificateManager initialized.",
+            "QICertificateManager initialized.",
             cert_store=str(self.cert_store_path),
             auto_renewal=self.auto_renewal_enabled,
         )
@@ -368,9 +368,9 @@ class QICertificateManager:
             "Validating quantum signature.", cert_id=cert_data.get("certificate_id")
         )
         try:
-            algorithm = cert_data.get("quantum_algorithm")
-            signature_b64 = cert_data.get("quantum_signature")
-            public_key_b64 = cert_data.get("quantum_public_key")
+            algorithm = cert_data.get("qi_algorithm")
+            signature_b64 = cert_data.get("qi_signature")
+            public_key_b64 = cert_data.get("qi_public_key")
             if not all([algorithm, signature_b64, public_key_b64]):
                 self.log.warning(
                     "Missing data for quantum signature validation.",
@@ -391,19 +391,19 @@ class QICertificateManager:
             )
             message_bytes = message_to_verify_str.encode("utf-8")
             algo_enum_member = next(
-                (qa for qa in QuantumAlgorithm if qa.value == algorithm), None
+                (qa for qa in QIAlgorithm if qa.value == algorithm), None
             )
-            if algo_enum_member == QuantumAlgorithm.CRYSTALS_DILITHIUM:
+            if algo_enum_member == QIAlgorithm.CRYSTALS_DILITHIUM:
                 # type: ignore
                 return await self._verify_dilithium_signature_sim(
                     message_bytes, signature_b64, public_key_b64
                 )
-            elif algo_enum_member == QuantumAlgorithm.FALCON:
+            elif algo_enum_member == QIAlgorithm.FALCON:
                 # type: ignore
                 return await self._verify_falcon_signature_sim(
                     message_bytes, signature_b64, public_key_b64
                 )
-            elif algo_enum_member == QuantumAlgorithm.SPHINCS_PLUS:
+            elif algo_enum_member == QIAlgorithm.SPHINCS_PLUS:
                 # type: ignore
                 return await self._verify_sphincs_signature_sim(
                     message_bytes, signature_b64, public_key_b64
@@ -475,7 +475,7 @@ class QICertificateManager:
                 "status"
             ] = CertificateStatus.PENDING_RENEWAL.value
             new_key_pair = await self._generate_quantum_key_pair(
-                cert_data.get("quantum_algorithm", "crystals_dilithium")
+                cert_data.get("qi_algorithm", "crystals_dilithium")
             )  # Default algo
             csr = await self._create_certificate_signing_request(
                 cert_data, new_key_pair
@@ -521,14 +521,14 @@ class QICertificateManager:
         )
         entropy = (
             await self._get_quantum_entropy()
-            if self.quantum_entropy_enabled
+            if self.qi_entropy_enabled
             else secrets.token_bytes(64)
         )
         # ΛNOTE: Actual key generation is complex and uses PQC libraries. This is
         # simulated.
         algo_enum = next(
-            (qa for qa in QuantumAlgorithm if qa.value == algorithm_name),
-            QuantumAlgorithm.CRYSTALS_DILITHIUM,
+            (qa for qa in QIAlgorithm if qa.value == algorithm_name),
+            QIAlgorithm.CRYSTALS_DILITHIUM,
         )  # Default
         key_seed_private = hashlib.sha512(
             entropy + algo_enum.name.encode() + b"_private_key_seed"
@@ -555,8 +555,8 @@ class QICertificateManager:
         _, public_key_b64 = new_key_pair
         csr = {
             "subject": old_cert_data.get("subject"),
-            "quantum_algorithm": old_cert_data.get("quantum_algorithm"),
-            "quantum_public_key": public_key_b64,
+            "qi_algorithm": old_cert_data.get("qi_algorithm"),
+            "qi_public_key": public_key_b64,
             "requested_validity_days": 365,  # Example
             "extensions": old_cert_data.get(
                 "extensions", {"key_usage": ["digital_signature"]}
@@ -565,42 +565,42 @@ class QICertificateManager:
         }
         # CSR should be signed by the new private key for authenticity
         csr["csr_signature"] = await self._sign_csr_data(
-            csr, new_key_pair[0], old_cert_data.get('quantum_algorithm')
+            csr, new_key_pair[0], old_cert_data.get('qi_algorithm')
         )
         return csr
 
     @lukhas_tier_required(3)
     async def _sign_csr_data(
-        self, csr_data: dict[str, Any], private_key_b64: str, quantum_algorithm: Optional[str] = None
+        self, csr_data: dict[str, Any], private_key_b64: str, qi_algorithm: Optional[str] = None
     ) -> str:
         """Sign the CSR data with the new private key for authenticity"""
-        
+
         try:
             import hashlib
             import hmac
-            
+
             # Create canonical representation of CSR for signing
             # Remove any existing signature first
             csr_for_signing = {k: v for k, v in csr_data.items() if k != "csr_signature"}
-            
+
             # Sort keys for deterministic serialization
             canonical_csr = json.dumps(csr_for_signing, sort_keys=True, separators=(',', ':'))
-            
+
             # Decode the private key
             try:
                 private_key_bytes = base64.b64decode(private_key_b64)
             except Exception as e:
                 self.log.warning(f"Failed to decode private key, using raw string: {e}")
                 private_key_bytes = private_key_b64.encode('utf-8')
-            
+
             # Sign the canonical CSR representation
-            if quantum_algorithm and "kyber" in quantum_algorithm.lower():
+            if qi_algorithm and "kyber" in qi_algorithm.lower():
                 # For quantum-resistant algorithms, use a more sophisticated approach
                 # In production, this would use actual post-quantum cryptographic libraries
                 signature_data = hashlib.sha3_512(
                     private_key_bytes + canonical_csr.encode('utf-8')
                 ).hexdigest()
-                signature_method = f"PQC-{quantum_algorithm}-SHA3-512"
+                signature_method = f"PQC-{qi_algorithm}-SHA3-512"
             else:
                 # Standard HMAC-SHA256 signing
                 signature_data = hmac.new(
@@ -609,7 +609,7 @@ class QICertificateManager:
                     hashlib.sha256
                 ).hexdigest()
                 signature_method = "HMAC-SHA256"
-            
+
             # Create signature object
             signature = {
                 "signature": signature_data,
@@ -617,24 +617,24 @@ class QICertificateManager:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "key_fingerprint": hashlib.sha256(private_key_bytes).hexdigest()[:16]
             }
-            
+
             signature_b64 = base64.b64encode(
                 json.dumps(signature, separators=(',', ':')).encode('utf-8')
             ).decode('utf-8')
-            
+
             self.log.debug(
-                "CSR signed successfully", 
+                "CSR signed successfully",
                 algorithm=signature_method,
                 key_fingerprint=signature["key_fingerprint"]
             )
-            
+
             return signature_b64
-            
+
         except Exception as e:
             self.log.error(f"Failed to sign CSR: {e}")
             # Fallback to a simple hash-based signature
             fallback_signature = hashlib.sha256(
-                f"{canonical_csr}{private_key_b64}".encode('utf-8')
+                f"{canonical_csr}{private_key_b64}".encode()
             ).hexdigest()
             return base64.b64encode(
                 json.dumps({
@@ -657,7 +657,7 @@ class QICertificateManager:
                 csr_data
             )  # Renamed
 
-        for ca_name, ca_url_endpoint in self.quantum_ca_endpoints.items():
+        for ca_name, ca_url_endpoint in self.qi_ca_endpoints.items():
             try:
                 async with aiohttp.ClientSession() as http_session:  # Renamed session
                     async with http_session.post(
@@ -719,12 +719,12 @@ class QICertificateManager:
             "certificate_id": cert_id,
             "subject": csr_data.get("subject"),
             "issuer": "LUKHAS_EmergencySelfSign_CA",
-            "quantum_algorithm": csr_data.get("quantum_algorithm"),
-            "quantum_public_key": csr_data.get("quantum_public_key"),
+            "qi_algorithm": csr_data.get("qi_algorithm"),
+            "qi_public_key": csr_data.get("qi_public_key"),
             "issued_at": now_utc.isoformat(),
             "expires_at": expires_utc.isoformat(),
             "certificate_type": "emergency_self_signed",
-            "quantum_signature": hashlib.sha256(
+            "qi_signature": hashlib.sha256(
                 f"{cert_id}{csr_data.get('subject')}".encode()
             ).hexdigest(),  # Dummy signature
             "extensions": csr_data.get("extensions", {}),
@@ -833,7 +833,7 @@ class QICertificateManager:
             "current_status": metadata.get("status"),
             "last_validated_utc_iso": metadata.get("last_validated_utc_iso"),
             "renewal_count": metadata.get("renewal_count", 0),
-            "quantum_algorithm_used": cert_data.get("quantum_algorithm"),
+            "qi_algorithm_used": cert_data.get("qi_algorithm"),
         }
 
     @lukhas_tier_required(1)
@@ -923,12 +923,12 @@ async def main_demo_runner():  # Renamed main to main_demo_runner
         "renewal_threshold_days": 2,
         "auto_renewal_enabled": True,
         "renewal_check_interval_seconds": 5,
-        "quantum_entropy_enabled": False,
+        "qi_entropy_enabled": False,
         "trusted_quantum_cas": ["LUKHAS Demo Quantum Root CA"],
     }
     Path(demo_config["cert_store_path"]).mkdir(parents=True, exist_ok=True)
 
-    manager = QuantumCertificateManager(config=demo_config)
+    manager = QICertificateManager(config=demo_config)
     await manager.initialize()
     log.info("--- Quantum Certificate Manager Demo ---")
     demo_cert_id = "demo_q_cert_001"
@@ -939,11 +939,11 @@ async def main_demo_runner():  # Renamed main to main_demo_runner
         "certificate_id": demo_cert_id,
         "subject": "CN=demo.lukhas.ai",
         "issuer": "LUKHAS Demo Quantum Root CA",
-        "quantum_algorithm": QuantumAlgorithm.CRYSTALS_DILITHIUM.value,
-        "quantum_public_key": base64.b64encode(os.urandom(32)).decode(),
+        "qi_algorithm": QIAlgorithm.CRYSTALS_DILITHIUM.value,
+        "qi_public_key": base64.b64encode(os.urandom(32)).decode(),
         "issued_at": datetime.now(timezone.utc).isoformat(),
         "expires_at": expires_soon_date.isoformat(),
-        "quantum_signature": base64.b64encode(os.urandom(64)).decode(),
+        "qi_signature": base64.b64encode(os.urandom(64)).decode(),
     }
     manager.certificates[demo_cert_id] = demo_cert_data
     manager.certificate_metadata[demo_cert_id] = {
@@ -992,10 +992,10 @@ if __name__ == "__main__":
 # File Origin: LUKHAS AI Security Infrastructure Team
 # Context: This manager is a critical component for ensuring the security and integrity
 #          of quantum-era communications and data within the LUKHAS AI system.
-# ACCESSED_BY: ['ΛWebManager_LUKHAS', 'SecureCommunicationLayer', 'QuantumKMIPService'] # Conceptual
+# ACCESSED_BY: ['ΛWebManager_LUKHAS', 'SecureCommunicationLayer', 'QIKMIPService'] # Conceptual
 # MODIFIED_BY: ['SECURITY_ENGINEERING_LEAD', 'PQC_SPECIALIST', 'Jules_AI_Agent'] # Conceptual
 # Tier Access: Varies by method (Refer to ΛTIER_CONFIG block for details)
-# Related Components: ['QuantumCryptographyPrimitives', 'CertificateAuthorityClient', 'HSMInterface']
+# Related Components: ['QICryptographyPrimitives', 'CertificateAuthorityClient', 'HSMInterface']
 # CreationDate: 2025-06-23 (Original) | LastModifiedDate: 2024-07-27 | Version: 1.1
 # --- End Standard Footer ---
 
@@ -1008,7 +1008,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": False,
+        "qi_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -1027,7 +1027,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

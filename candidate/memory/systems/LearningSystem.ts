@@ -71,10 +71,10 @@ export class LearningSystem extends EventEmitter {
 
       // Process through core brain first
       const processed = await this.coreBrain.think(input);
-      
+
       // Extract and validate pattern
       const pattern = await this.extractPattern(processed);
-      
+
       if (pattern.confidence >= this.MIN_CONFIDENCE) {
         this.patterns.set(pattern.id, pattern);
         this.emit('patternLearned', pattern);
@@ -104,7 +104,7 @@ export class LearningSystem extends EventEmitter {
     // Simple confidence calculation
     const complexity = JSON.stringify(input).length;
     const existingPatterns = this.patterns.size;
-    
+
     return Math.min(
       1,
       (1000 / complexity) * // Complexity factor
@@ -116,7 +116,7 @@ export class LearningSystem extends EventEmitter {
     // Validate pattern safety and effectiveness
     const brainStatus = this.coreBrain.getSystemStatus();
     const safetyAnalysis = this.safetyMonitor.analyzeSystemSafety();
-    
+
     return Math.min(brainStatus.safety, safetyAnalysis.score);
   }
 
@@ -124,7 +124,7 @@ export class LearningSystem extends EventEmitter {
     // Consolidate patterns by merging similar ones
     const patterns = Array.from(this.patterns.values());
     patterns.sort((a, b) => b.confidence - a.confidence);
-    
+
     // Keep only the most confident patterns
     this.patterns.clear();
     patterns.slice(0, this.MAX_PATTERNS / 2).forEach(pattern => {

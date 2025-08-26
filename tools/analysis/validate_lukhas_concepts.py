@@ -27,10 +27,10 @@ class LUKHASConceptValidator:
             "oneiric": "Related to dreams (Greek origin)",
             "dream_scenario": "Parallel universe scenario generation",
             # Quantum
-            "quantum_state": "Superposition of possibilities",
-            "quantum_consciousness": "Quantum-inspired awareness",
-            "quantum_coherence": "Maintaining quantum properties",
-            "quantum_entanglement": "Connected states across modules",
+            "qi_state": "Superposition of possibilities",
+            "qi_consciousness": "Quantum-inspired awareness",
+            "qi_coherence": "Maintaining quantum properties",
+            "qi_entanglement": "Connected states across modules",
             # Bio-Symbolic
             "bio_oscillation": "Biological rhythm patterns",
             "bio_coherence": "Harmony between biological and symbolic",
@@ -132,7 +132,7 @@ class LUKHASConceptValidator:
                         "severity": (
                             "high"
                             if concept:
-                            in ["memory_fold", "dream_engine", "quantum_state"]
+                            in ["memory_fold", "dream_engine", "qi_state"]
                             else "medium":
                         ),
                     }
@@ -238,9 +238,9 @@ Based on the validation analysis, here are the concepts that need special attent
 - `dream_scenario` - Parallel universe generation
 
 ### Quantum Processing Concepts
-- `quantum_state` - Fundamental to SGI processing
-- `quantum_consciousness` - Awareness mechanism
-- `quantum_entanglement` - Module interconnection
+- `qi_state` - Fundamental to SGI processing
+- `qi_consciousness` - Awareness mechanism
+- `qi_entanglement` - Module interconnection
 
 ## Preservation Rules
 
@@ -274,7 +274,7 @@ class Memory:
 ## Future Evolution
 
 As LUKHAS evolves toward 2030, these concepts may expand but should never be lost:
-- `memory_fold` → `quantum_memory_fold`
+- `memory_fold` → `qi_memory_fold`
 - `dream_recall` → `multi_dimensional_dream_recall`
 - `emotional_vector` → `empathic_emotional_vector`
 

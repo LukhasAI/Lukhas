@@ -1,6 +1,6 @@
 /**
  * Redis-backed Rate Limiting System for ΛiD Authentication
- * 
+ *
  * Implements sophisticated rate limiting with multiple algorithms, tier-based limits,
  * graceful degradation, and proper 429 response handling for LUKHAS AI.
  */
@@ -50,9 +50,9 @@ class MemoryRateLimiter {
   async checkLimit(config: RateLimitConfig): Promise<RateLimitResult> {
     const now = Date.now();
     const windowKey = `${config.identifier}:${config.rpm}:${config.rpd}`;
-    
+
     let window = this.windows.get(windowKey);
-    
+
     // Initialize or reset window if expired
     if (!window || now >= window.resetTime) {
       window = {
@@ -66,10 +66,10 @@ class MemoryRateLimiter {
     // Clean old requests from sliding window
     const cutoff = now - (60 * 1000);
     window.requests = window.requests.filter(time => time > cutoff);
-    
+
     // Check RPM limit
     const rpmExceeded = window.requests.length >= config.rpm;
-    
+
     // Check RPD limit (simplified daily check)
     const dailyKey = `${config.identifier}:daily:${new Date().toDateString()}`;
     const dailyWindow = this.windows.get(dailyKey);
@@ -89,7 +89,7 @@ class MemoryRateLimiter {
 
     // Record the request
     window.requests.push(now);
-    
+
     // Update daily counter
     if (dailyWindow) {
       dailyWindow.count++;
@@ -144,7 +144,7 @@ class RedisRateLimiter {
       // const Redis = require('ioredis');
       // this.redis = new Redis(process.env.REDIS_URL);
       // this.isRedisAvailable = true;
-      
+
       // For now, use memory fallback
       this.isRedisAvailable = false;
       console.log('Redis not available, using memory fallback for rate limiting');
@@ -170,7 +170,7 @@ class RedisRateLimiter {
   private async checkRedisLimit(config: RateLimitConfig): Promise<RateLimitResult> {
     const now = Date.now();
     const algorithm = config.algorithm || 'sliding_window';
-    
+
     switch (algorithm) {
       case 'sliding_window':
         return this.slidingWindowLimit(config, now);
@@ -191,13 +191,13 @@ class RedisRateLimiter {
       local limit = tonumber(ARGV[2])
       local now = tonumber(ARGV[3])
       local expiry = tonumber(ARGV[4])
-      
+
       -- Remove expired entries
       redis.call('ZREMRANGEBYSCORE', key, 0, now - window)
-      
+
       -- Count current requests
       local count = redis.call('ZCARD', key)
-      
+
       if count < limit then
         -- Add current request
         redis.call('ZADD', key, now, now)
@@ -210,7 +210,7 @@ class RedisRateLimiter {
 
     const windowMs = 60 * 1000; // 1 minute
     const expirySec = 60; // 1 minute expiry
-    
+
     const result = await this.redis.eval(
       script,
       1,
@@ -241,16 +241,16 @@ class RedisRateLimiter {
       local refill_rate = tonumber(ARGV[2])
       local now = tonumber(ARGV[3])
       local requested = tonumber(ARGV[4]) or 1
-      
+
       local bucket = redis.call('HMGET', key, 'tokens', 'last_refill')
       local tokens = tonumber(bucket[1]) or capacity
       local last_refill = tonumber(bucket[2]) or now
-      
+
       -- Calculate tokens to add based on time elapsed
       local elapsed = math.max(0, (now - last_refill) / 1000)
       local tokens_to_add = math.floor(elapsed * refill_rate)
       tokens = math.min(capacity, tokens + tokens_to_add)
-      
+
       if tokens >= requested then
         tokens = tokens - requested
         redis.call('HMSET', key, 'tokens', tokens, 'last_refill', now)
@@ -290,18 +290,18 @@ class RedisRateLimiter {
     // Fixed window implementation
     const windowStart = Math.floor(now / (60 * 1000)) * (60 * 1000); // 1-minute windows
     const key = `rate_limit:${config.identifier}:fixed:${windowStart}`;
-    
+
     const script = `
       local key = KEYS[1]
       local limit = tonumber(ARGV[1])
       local expiry = tonumber(ARGV[2])
       local reset_time = tonumber(ARGV[3])
-      
+
       local count = redis.call('INCR', key)
       if count == 1 then
         redis.call('EXPIRE', key, expiry)
       end
-      
+
       if count <= limit then
         return {1, limit - count, reset_time}
       else
@@ -340,7 +340,7 @@ class RedisRateLimiter {
       const key = `rate_limit:${identifier}:rpm`;
       const count = await this.redis.zcard(key);
       const ttl = await this.redis.ttl(key);
-      
+
       return {
         current: count,
         limit: 0, // Would need to be stored separately
@@ -368,7 +368,7 @@ class RedisRateLimiter {
  */
 export class RateLimiter {
   private static instance: RedisRateLimiter;
-  
+
   static getInstance(): RedisRateLimiter {
     if (!this.instance) {
       this.instance = new RedisRateLimiter();
@@ -396,7 +396,7 @@ export class RateLimiter {
     }
   ): Promise<RateLimitResult> {
     const tierLimits = TierManager.getRateLimits(tier);
-    
+
     const config: RateLimitConfig = {
       identifier,
       rpm: options?.customLimits?.rpm || tierLimits.rpm,
@@ -407,7 +407,7 @@ export class RateLimiter {
 
     const result = await this.checkLimit(config);
     result.tier = tier;
-    
+
     return result;
   }
 
@@ -452,7 +452,7 @@ export class RateLimiter {
       }
 
       // Track most restrictive limit
-      if (!mostRestrictive || 
+      if (!mostRestrictive ||
           result.remaining < mostRestrictive.remaining ||
           (!result.allowed && result.retryAfter && result.retryAfter > (mostRestrictive.retryAfter || 0))) {
         mostRestrictive = result;
@@ -479,7 +479,7 @@ export class RateLimiter {
    */
   static create429Response(result: RateLimitResult, message?: string): Response {
     const headers = this.createHeaders(result);
-    
+
     const body = {
       error: 'rate_limit_exceeded',
       message: message || `Rate limit exceeded. Try again in ${result.retryAfter || 60} seconds.`,
@@ -509,7 +509,7 @@ export class RateLimiter {
       return await this.checkLimit(config);
     } catch (error) {
       console.error('Rate limiting failed, using fallback:', error);
-      
+
       // Return fallback result
       return {
         allowed: fallbackAllowed,
@@ -553,12 +553,12 @@ export class RateLimitMiddleware {
         }
 
         // Generate rate limit key
-        const identifier = options.keyGenerator 
+        const identifier = options.keyGenerator
           ? options.keyGenerator(req)
           : req.ip || 'unknown';
 
         // Get tier
-        const tier = options.tierExtractor 
+        const tier = options.tierExtractor
           ? options.tierExtractor(req)
           : 'T1';
 

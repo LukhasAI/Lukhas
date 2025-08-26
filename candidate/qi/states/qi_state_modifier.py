@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-from qi.service import QuantumService
+from qi.service import QIService
 
 # TAG:qim
 # TAG:qi_states
@@ -18,10 +18,10 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class QILikeStateModifier:
-    """# ΛTAG: quantum_modifier
+    """# ΛTAG: qi_modifier
     Applies quantum-like state operations to narrative threads."""
 
-    quantum_service: QuantumService
+    qi_service: QIService
 
     async def modify_thread(self, thread: Any) -> Any:
         """Modify narrative thread using superposition-like state and collapse."""
@@ -33,16 +33,16 @@ class QILikeStateModifier:
                 }
                 for i, _ in enumerate(thread.fragments)
             ]
-            sup = self.quantum_service.quantum_superposition(
+            sup = self.qi_service.qi_superposition(
                 user_id=getattr(thread, "owner_id", "system"),
                 superposition_states=states,
                 collapse_probability=0.5,
             )
-            obs = self.quantum_service.observe_quantum_like_state(
+            obs = self.qi_service.observe_quantum_like_state(
                 user_id=getattr(thread, "owner_id", "system")
             )
             thread.metadata = getattr(thread, "metadata", {})
-            thread.metadata["quantum_mod"] = {
+            thread.metadata["qi_mod"] = {
                 "superposition": sup,
                 "observation": obs,
                 "modified_at": datetime.utcnow().isoformat(),

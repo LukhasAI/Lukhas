@@ -44,7 +44,7 @@ class QIConsciousnessIntegration:
             "enable_quantum_consciousness": True,
             "enable_creative_boosts": True,
             "consciousness_level_threshold": 0.8,
-            "quantum_coherence_target": 0.9,
+            "qi_coherence_target": 0.9,
             "enable_content_generation": True,
             "supported_content_types": [
                 "haiku",
@@ -60,17 +60,17 @@ class QIConsciousnessIntegration:
 
         # Initialize the quantum consciousness system
         if QUANTUM_CONSCIOUSNESS_AVAILABLE:
-            self.quantum_consciousness = QICreativeConsciousness()
+            self.qi_consciousness = QICreativeConsciousness()
         else:
             logger.warning("Using mock implementation for quantum consciousness")
-            self.quantum_consciousness = QICreativeConsciousness()
+            self.qi_consciousness = QICreativeConsciousness()
 
         self.is_initialized = False
         self.content_generation_sessions = {}
         self.consciousness_metrics = {
             "total_content_generations": 0,
             "consciousness_level_average": 0.0,
-            "quantum_coherence_average": 0.0,
+            "qi_coherence_average": 0.0,
             "creative_flow_average": 0.0,
             "sessions_completed": 0,
             "last_activity": datetime.now().isoformat(),
@@ -109,12 +109,12 @@ class QIConsciousnessIntegration:
         logger.info("Initializing quantum consciousness systems...")
 
         # Configure quantum parameters
-        self.quantum_config = {
+        self.qi_config = {
             "consciousness_level_threshold": self.config.get(
                 "consciousness_level_threshold", 0.8
             ),
-            "quantum_coherence_target": self.config.get(
-                "quantum_coherence_target", 0.9
+            "qi_coherence_target": self.config.get(
+                "qi_coherence_target", 0.9
             ),
             "enable_enhanced_processing": self.config.get(
                 "enable_enhanced_processing", True
@@ -198,9 +198,9 @@ class QIConsciousnessIntegration:
 
             # Generate content using quantum consciousness system
             if QUANTUM_CONSCIOUSNESS_AVAILABLE and hasattr(
-                self.quantum_consciousness, "generate_conscious_content"
+                self.qi_consciousness, "generate_conscious_content"
             ):
-                result = await self.quantum_consciousness.generate_conscious_content(
+                result = await self.qi_consciousness.generate_conscious_content(
                     content_type, theme, style, consciousness_level
                 )
 
@@ -254,16 +254,16 @@ class QIConsciousnessIntegration:
 
         try:
             if QUANTUM_CONSCIOUSNESS_AVAILABLE and hasattr(
-                self.quantum_consciousness, "get_consciousness_status"
+                self.qi_consciousness, "get_consciousness_status"
             ):
-                status = self.quantum_consciousness.get_consciousness_status()
+                status = self.qi_consciousness.get_consciousness_status()
 
                 return {
                     "success": True,
                     "consciousness_status": status,
                     "integration_metrics": self.consciousness_metrics,
                     "config": {
-                        "quantum_enabled": self.config.get(
+                        "qi_enabled": self.config.get(
                             "enable_quantum_consciousness", True
                         ),
                         "creative_boosts_enabled": self.config.get(
@@ -305,13 +305,13 @@ class QIConsciousnessIntegration:
 
         try:
             if QUANTUM_CONSCIOUSNESS_AVAILABLE and hasattr(
-                self.quantum_consciousness, "consciousness_level"
+                self.qi_consciousness, "consciousness_level"
             ):
-                current_level = self.quantum_consciousness.consciousness_level
+                current_level = self.qi_consciousness.consciousness_level
 
                 # Simulate consciousness enhancement
                 if target_level > current_level:
-                    self.quantum_consciousness.consciousness_level = min(
+                    self.qi_consciousness.consciousness_level = min(
                         target_level, 1.0
                     )
                     enhancement_applied = True
@@ -320,7 +320,7 @@ class QIConsciousnessIntegration:
 
                 return {
                     "success": True,
-                    "current_level": self.quantum_consciousness.consciousness_level,
+                    "current_level": self.qi_consciousness.consciousness_level,
                     "target_level": target_level,
                     "enhancement_applied": enhancement_applied,
                     "timestamp": datetime.now().isoformat(),
@@ -379,7 +379,7 @@ class QIConsciousnessIntegration:
             # Combine metrics with current state
             metrics = {
                 **self.consciousness_metrics,
-                "quantum_consciousness_available": QUANTUM_CONSCIOUSNESS_AVAILABLE,
+                "qi_consciousness_available": QUANTUM_CONSCIOUSNESS_AVAILABLE,
                 "active_sessions": len(
                     [
                         s
@@ -392,8 +392,8 @@ class QIConsciousnessIntegration:
                     "consciousness_level_threshold": self.config.get(
                         "consciousness_level_threshold", 0.8
                     ),
-                    "quantum_coherence_target": self.config.get(
-                        "quantum_coherence_target", 0.9
+                    "qi_coherence_target": self.config.get(
+                        "qi_coherence_target", 0.9
                     ),
                     "supported_content_types": self.config.get(
                         "supported_content_types", []
@@ -430,7 +430,7 @@ class QIConsciousnessIntegration:
             current_sessions = self.consciousness_metrics["sessions_completed"]
 
             consciousness_level = metrics.get("consciousness_level", 0.0)
-            quantum_coherence = metrics.get("quantum_coherence", 0.0)
+            qi_coherence = metrics.get("qi_coherence", 0.0)
             creative_flow = metrics.get("creative_flow", 0.0)
 
             # Calculate running averages
@@ -439,10 +439,10 @@ class QIConsciousnessIntegration:
                 * (current_sessions - 1)
                 + consciousness_level
             ) / current_sessions
-            self.consciousness_metrics["quantum_coherence_average"] = (
-                self.consciousness_metrics["quantum_coherence_average"]
+            self.consciousness_metrics["qi_coherence_average"] = (
+                self.consciousness_metrics["qi_coherence_average"]
                 * (current_sessions - 1)
-                + quantum_coherence
+                + qi_coherence
             ) / current_sessions
             self.consciousness_metrics["creative_flow_average"] = (
                 self.consciousness_metrics["creative_flow_average"]
@@ -493,7 +493,7 @@ class QIConsciousnessIntegration:
             "consciousness_metrics": {
                 "consciousness_level": 0.85,
                 "consciousness_boost": 1.1,
-                "quantum_coherence": 0.88,
+                "qi_coherence": 0.88,
                 "creative_flow": 0.89,
             },
             "metadata": {
@@ -514,7 +514,7 @@ class QIConsciousnessIntegration:
                 "consciousness_level": 0.85,
                 "consciousness_available": False,
                 "creative_engine_available": False,
-                "quantum_coherence": 0.88,
+                "qi_coherence": 0.88,
                 "bio_cognitive_boost": 1.15,
                 "creative_flow": 0.89,
                 "consciousness_resonance": 0.87,
@@ -522,7 +522,7 @@ class QIConsciousnessIntegration:
             },
             "integration_metrics": self.consciousness_metrics,
             "config": {
-                "quantum_enabled": False,
+                "qi_enabled": False,
                 "creative_boosts_enabled": True,
                 "content_generation_enabled": True,
             },

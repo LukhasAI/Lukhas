@@ -12,7 +12,7 @@ You're seeing "unresolved diagnostics" messages during commits because:
 ### 1. Missing Directory Exclusions
 The `pyproject.toml` didn't exclude backup directories, causing thousands of false positives:
 - `.event_bus_backup*`
-- `.hygiene_backup*`  
+- `.hygiene_backup*`
 - `._cleanup_archive`
 - `archive/`
 

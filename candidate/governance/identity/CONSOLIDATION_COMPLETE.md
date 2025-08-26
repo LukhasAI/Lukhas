@@ -20,7 +20,7 @@ lukhas/identity/
 ├── core/
 │   ├── qrs_manager.py              # 🔄 QR-Symbolic Manager (NEW)
 │   ├── tier/
-│   │   └── tier_manager.py         # 🔧 Enhanced Tier System  
+│   │   └── tier_manager.py         # 🔧 Enhanced Tier System
 │   ├── auth/
 │   │   └── biometric_integration.py # 🧬 Biometric Integration (NEW)
 │   ├── qrg/
@@ -86,7 +86,7 @@ lukhas/identity/
 ### Tier-Based Progression:
 ```
 🟢 Tier 0: Seeker (FREE)        → Basic symbolic access
-🔵 Tier 1: Explorer (BASIC)     → Enhanced symbolic + 2FA  
+🔵 Tier 1: Explorer (BASIC)     → Enhanced symbolic + 2FA
 🟡 Tier 2: Builder (PROFESSIONAL) → Multi-element + device binding
 🟠 Tier 3: Custodian (PREMIUM)  → Cultural + biometric + QRG
 🔴 Tier 4: Guardian (EXECUTIVE) → Enterprise + advanced biometric
@@ -228,10 +228,10 @@ auth_response = requests.post("http://localhost:8000/api/lambdaid/authenticate",
 
 ## 📞 SUPPORT & CONTACT
 
-**Development Team**: LUKHAS AI SYSTEMS  
-**License**: PROPRIETARY - UNAUTHORIZED ACCESS PROHIBITED  
-**Documentation**: Complete with examples and integration guides  
-**Support**: Enterprise support available for production deployments  
+**Development Team**: LUKHAS AI SYSTEMS
+**License**: PROPRIETARY - UNAUTHORIZED ACCESS PROHIBITED
+**Documentation**: Complete with examples and integration guides
+**Support**: Enterprise support available for production deployments
 
 ---
 

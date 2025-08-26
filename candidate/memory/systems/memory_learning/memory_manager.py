@@ -75,7 +75,7 @@ except ImportError:
         def __init__(self, *args, **kwargs): pass
     class MemoryPriority:
         HIGH = "high"
-        MEDIUM = "medium" 
+        MEDIUM = "medium"
         LOW = "low"
     class MemoryType:
         EPISODIC = "episodic"

@@ -244,7 +244,7 @@ async def consciousness_endpoint(
 
 
 @app.post("/protected/quantum", response_model=BaseResponse, tags=["T4-Protected"])
-async def quantum_endpoint(
+async def qi_endpoint(
     request: BaseRequest, user: AuthContext = Depends(require_t4_or_above)
 ) -> BaseResponse:
     """
@@ -266,9 +266,9 @@ async def quantum_endpoint(
         # result = await process_quantum_computation(data)
 
         result = {
-            "quantum_result": "Simulated quantum computation result",
+            "qi_result": "Simulated quantum computation result",
             "processed_by": user.user_id,
-            "quantum_tier_verified": True,
+            "qi_tier_verified": True,
         }
 
         logger.info(f"Quantum processing accessed by user {user.user_id} (T4+)")
@@ -406,13 +406,13 @@ USAGE EXAMPLES:
 
 3. Consciousness Access (T3+):
    POST /protected/consciousness
-   Headers: Authorization: Bearer <token>  
+   Headers: Authorization: Bearer <token>
    Body: {"prompt": "What is consciousness?"}
 
 4. Quantum Processing (T4+):
    POST /protected/quantum
    Headers: Authorization: Bearer <token>
-   Body: {"algorithm": "quantum_search", "data": [...]}
+   Body: {"algorithm": "qi_search", "data": [...]}
 
 5. Admin Actions (T5):
    POST /protected/admin

@@ -37,7 +37,7 @@ grep -r "TODO.*import\|FIXME.*import" .
 ---
 
 ### 2. Duplicate Code Cleanup
-**Priority**: 🔴 CRITICAL  
+**Priority**: 🔴 CRITICAL
 **Estimated Time**: 1-2 hours
 
 #### Target Files:
@@ -79,7 +79,7 @@ api/
 
 #### Directories to Remove/Consolidate:
 - [ ] `core/agent_modeling/` (empty)
-- [ ] `core/emotion_engine/` (empty)  
+- [ ] `core/emotion_engine/` (empty)
 - [ ] `core/external_interfaces/` (empty)
 - [ ] `core/ethics/` (empty subfolder)
 
@@ -168,22 +168,22 @@ from pathlib import Path
 def test_imports():
     """Test all Python modules can be imported"""
     errors = []
-    
+
     # Find all .py files
     for py_file in Path('.').rglob('*.py'):
         if '__pycache__' in str(py_file):
             continue
-            
+
         # Convert path to module name
         module_name = str(py_file).replace('/', '.').replace('.py', '')
-        
+
         try:
             importlib.import_module(module_name)
             print(f"✅ {module_name}")
         except Exception as e:
             errors.append((module_name, str(e)))
             print(f"❌ {module_name}: {e}")
-    
+
     return errors
 
 if __name__ == "__main__":
@@ -284,7 +284,7 @@ echo "✅ Quick fixes complete!"
 
 ### Completion Checklist:
 - [ ] All import errors resolved
-- [ ] Duplicate classes consolidated  
+- [ ] Duplicate classes consolidated
 - [ ] Security scan passed
 - [ ] Empty directories cleaned
 - [ ] Configuration unified

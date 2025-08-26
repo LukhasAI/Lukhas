@@ -18,32 +18,32 @@ This folder contains **specialized subsystems** for **LUKHAS_AGI_3.8**, enabling
 
 ## 🔍 Subsystem Responsibilities
 
-1. **ABAS (Adaptive Arbitration System)**  
-   - Governs **decision prioritization** across modules (ethics, oscillation, quantum).  
+1. **ABAS (Adaptive Arbitration System)**
+   - Governs **decision prioritization** across modules (ethics, oscillation, quantum).
    - Ensures arbitration aligns with **ethical drift thresholds**.
 
-2. **DAST (Dynamic AI Solutions Tracker)**  
-   - Manages **task compatibility**, ensuring dynamic orchestration across subsystems (e.g., Quantum Engine ↔ Oscillator).  
+2. **DAST (Dynamic AI Solutions Tracker)**
+   - Manages **task compatibility**, ensuring dynamic orchestration across subsystems (e.g., Quantum Engine ↔ Oscillator).
    - Supports **task docking** and **solution modularity**.
 
-3. **NIAS (Non-Intrusive Attentional Scheduler)**  
-   - **Schedules subsystem activations** to avoid resource contention.  
+3. **NIAS (Non-Intrusive Attentional Scheduler)**
+   - **Schedules subsystem activations** to avoid resource contention.
    - Prioritizes based on **entropy levels**, **oscillator phase**, and **compliance hooks**.
 
 ---
 
 ## 🛡️ Compliance Touchpoints
 
-- **ABAS**: Aligned with **EU AI Act** (ethical decision arbitration).  
-- **DAST**: Ensures **modular task flows** do not violate **compliance constraints**.  
+- **ABAS**: Aligned with **EU AI Act** (ethical decision arbitration).
+- **DAST**: Ensures **modular task flows** do not violate **compliance constraints**.
 - **NIAS**: Monitors for compliance-related **resource contention** (e.g., when ethics drift exceeds thresholds).
 
 ---
 
 ## 🔗 Related Docs
 
-- [Core Module README](../README.md)  
-- [Architecture Overview](../../architecture/architecture.md)  
+- [Core Module README](../README.md)
+- [Architecture Overview](../../architecture/architecture.md)
 - [Compliance Guide](../../compliance/compliance_guide.md)
 
 ---

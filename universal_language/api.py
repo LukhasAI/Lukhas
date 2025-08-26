@@ -107,7 +107,7 @@ async def bind_symbol(
 ) -> BindSymbolResponse:
     """
     Bind personal symbol to meaning (local only).
-    
+
     Symbol data is hashed and stored locally, never sent to server.
     """
     try:
@@ -138,7 +138,7 @@ async def request_challenge(
 ) -> ChallengeResponse:
     """
     Request composition challenge for high-risk action.
-    
+
     Server generates challenge based on action risk level.
     """
     # Check if action requires UL entropy
@@ -169,7 +169,7 @@ async def verify_proof(
 ) -> ProofVerificationResponse:
     """
     Verify composition proof without seeing symbols.
-    
+
     Server validates cryptographic proof without accessing raw symbol data.
     """
     try:
@@ -219,7 +219,7 @@ async def get_status(
 ) -> ULStatusResponse:
     """
     Get UL system status.
-    
+
     Returns statistics about symbols and challenges.
     """
     return ULStatusResponse(
@@ -237,7 +237,7 @@ async def cancel_challenge(
 ) -> Dict[str, str]:
     """
     Cancel active challenge.
-    
+
     Removes challenge from active list.
     """
     if challenge_id in service.challenge_service.active_challenges:
@@ -251,7 +251,7 @@ async def cancel_challenge(
 async def list_ul_actions() -> Dict[str, Any]:
     """
     List actions that benefit from UL entropy.
-    
+
     Returns all high-risk actions with UL requirements.
     """
     from . import UL_ENHANCED_ACTIONS
@@ -271,7 +271,7 @@ async def demo_ul_flow(
 ) -> Dict[str, Any]:
     """
     Demonstrate UL workflow for development.
-    
+
     Shows complete flow from binding to verification.
     """
     demo_steps = [

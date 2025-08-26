@@ -63,7 +63,7 @@ class GlobalSystemInitializer:
                 "initialize_consciousness_system",
             ),
             ("memory", "memory.memory_hub", "initialize_memory_system"),
-            ("quantum", "quantum.quantum_hub", "initialize_quantum_system"),
+            ("quantum", "qi.qi_hub", "initialize_quantum_system"),
         ]
 
         for system_name, module_path, init_func in core_systems:
@@ -190,7 +190,9 @@ class GlobalSystemInitializer:
     async def _cross_register_services(self):
         """Perform cross-hub service registration"""
         try:
-            from candidate.core.integration.service_discovery import get_service_discovery
+            from candidate.core.integration.service_discovery import (
+                get_service_discovery,
+            )
 
             discovery = get_service_discovery()
 

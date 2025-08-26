@@ -4,7 +4,7 @@ import type { MDXComponents } from 'mdx/types'
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ...components,
-    
+
     // Typography overrides with LUKHAS styling
     h1: ({ children }) => (
       <h1 className="text-3xl font-light text-white mb-6 tracking-tight">
@@ -26,7 +26,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </p>
     ),
-    
+
     // Code blocks with LUKHAS theme
     code: ({ children }) => (
       <code className="px-1.5 py-0.5 bg-black/40 text-trinity-consciousness rounded text-sm font-mono">
@@ -38,7 +38,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </pre>
     ),
-    
+
     // Lists with proper spacing
     ul: ({ children }) => (
       <ul className="list-disc list-inside space-y-2 mb-4 text-white/80">
@@ -55,24 +55,24 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </li>
     ),
-    
+
     // Links with LUKHAS identity colors
     a: ({ href, children }) => (
-      <a 
+      <a
         href={href}
         className="text-trinity-identity hover:text-trinity-consciousness transition-colors underline decoration-trinity-identity/30"
       >
         {children}
       </a>
     ),
-    
+
     // Blockquotes with LUKHAS styling
     blockquote: ({ children }) => (
       <blockquote className="pl-4 border-l-2 border-trinity-guardian/50 italic text-white/70 my-4">
         {children}
       </blockquote>
     ),
-    
+
     // Tables with LUKHAS theme
     table: ({ children }) => (
       <div className="overflow-x-auto mb-4">
@@ -91,29 +91,29 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </td>
     ),
-    
+
     // Horizontal rule
     hr: () => (
       <hr className="my-8 border-white/10" />
     ),
-    
+
     // Custom components for tone system
     ToneWrapper: ({ tone, children }: { tone: string; children: React.ReactNode }) => (
       <div data-tone={tone} className="mb-4">
         {children}
       </div>
     ),
-    
+
     // Lambda symbol component
     Lambda: () => (
       <span className="text-trinity-identity" aria-label="Lambda">Λ</span>
     ),
-    
+
     // LUKHAS brand component
     LUKHAS: () => (
       <span className="font-medium">LUKHAS AI</span>
     ),
-    
+
     // Trinity components
     TrinityIdentity: ({ children }) => (
       <span className="text-trinity-identity">⚛️ {children}</span>

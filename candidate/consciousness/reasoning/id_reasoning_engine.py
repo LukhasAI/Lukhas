@@ -99,7 +99,7 @@ class LukhasIdEnhancedReasoningEngine:
     decision_logic: str
     emotional_state: Optional[EmotionalMemoryVector]
     compliance_region: ComplianceRegion
-    quantum_signature: QuantumSignature
+    qi_signature: QISignature
     privacy_impact: str
 
     def to_dict(self) -> Dict:
@@ -112,11 +112,11 @@ class LukhasIdEnhancedReasoningEngine:
             'decision_logic': self.decision_logic,
             'emotional_state': self.emotional_state.to_dict() if self.emotional_state else None,
             'compliance_region': self.compliance_region.value,
-            'quantum_signature': {
-                'signature': self.quantum_signature.signature_data,
-                'algorithm': self.quantum_signature.algorithm,
-                'timestamp': self.quantum_signature.timestamp.isoformat(),
-                'signer': self.quantum_signature.signer_id},
+            'qi_signature': {
+                'signature': self.qi_signature.signature_data,
+                'algorithm': self.qi_signature.algorithm,
+                'timestamp': self.qi_signature.timestamp.isoformat(),
+                'signer': self.qi_signature.signer_id},
             'privacy_impact': self.privacy_impact}
 
 
@@ -420,7 +420,7 @@ class LukhasIdEnhancedReasoningEngine:
         self.audit_log = []
 
         # Initialize quantum security (mock for development)
-        self.quantum_signer_id = "lukhas_core_system"
+        self.qi_signer_id = "lukhas_core_system"
 
         logger.info(
             f"Lukhas_ID Manager initialized with {compliance_region.value} compliance")
@@ -621,7 +621,7 @@ class LukhasIdEnhancedReasoningEngine:
                 'basic_chat', 'public_demos', 'standard_voice',
                 'personalized_ai', 'basic_memory', 'voice_adaptation',
                 'advanced_ai', 'full_memory_helix', 'custom_voice_personas',
-                'dream_engine', 'quantum_processing', 'advanced_analytics',
+                'dream_engine', 'qi_processing', 'advanced_analytics',
                 'system_monitoring'
             ],
             AccessTier.TIER_5_ADMIN: [
@@ -647,9 +647,9 @@ class LukhasIdEnhancedReasoningEngine:
             f"{user_id}|{component}|{action}|{datetime.now().isoformat()}"
         )
 
-        quantum_signature = QuantumSignature(
+        qi_signature = QISignature(
             signature_data=signature_data,
-            signer_id=self.quantum_signer_id
+            signer_id=self.qi_signer_id
         )
 
         audit_entry = AuditLogEntry(
@@ -661,7 +661,7 @@ class LukhasIdEnhancedReasoningEngine:
             decision_logic=decision_logic,
             emotional_state=emotional_state,
             compliance_region=self.compliance_monitor.region,
-            quantum_signature=quantum_signature,
+            qi_signature=qi_signature,
             privacy_impact=privacy_impact
         )
 
@@ -674,7 +674,7 @@ class LukhasIdEnhancedReasoningEngine:
         """Generate quantum-resistant signature (mock implementation)"""
         # In real implementation, this would use Dilithium or similar post-quantum
         # signature
-        signature_input = f"{data}|{self.quantum_signer_id}|{secrets.token_hex(16)}"
+        signature_input = f"{data}|{self.qi_signer_id}|{secrets.token_hex(16)}"
         return hashlib.sha256(signature_input.encode()).hexdigest()
 
     async def get_user_permissions(self, session_token: str) -> Optional[List[str]]:

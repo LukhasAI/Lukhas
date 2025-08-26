@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Microscope, Brain, Atom, Shield, Database, 
+import {
+  Microscope, Brain, Atom, Shield, Database,
   GitBranch, Layers, Zap, Lock, Heart,
   ArrowRight, BookOpen, Code2, Beaker
 } from 'lucide-react'
@@ -18,7 +18,7 @@ export default function ResearchPage() {
       gradient: "from-purple-500 to-indigo-600",
       areas: [
         "ConsciousnessState modeling and transitions",
-        "Awareness fabric and attention mechanisms", 
+        "Awareness fabric and attention mechanisms",
         "Symbolic consciousness event processing",
         "Consciousness-memory integration patterns"
       ],
@@ -51,7 +51,7 @@ export default function ResearchPage() {
       status: "Active Research"
     },
     {
-      title: "Guardian Ethics Systems", 
+      title: "Guardian Ethics Systems",
       description: "Constitutional AI frameworks with real-time drift detection and autonomous ethical decision-making.",
       icon: Shield,
       gradient: "from-red-500 to-pink-600",
@@ -100,7 +100,7 @@ export default function ResearchPage() {
     },
     {
       title: "VIVOX: Mathematical Foundations of Artificial Consciousness",
-      type: "Mathematical Framework", 
+      type: "Mathematical Framework",
       status: "Draft",
       date: "2025"
     },
@@ -208,7 +208,7 @@ export default function ResearchPage() {
                     <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${area.gradient} mb-6`}>
                       <IconComponent className="w-8 h-8 text-white" strokeWidth={1.5} />
                     </div>
-                    
+
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-semibold text-xl text-trinity-consciousness">
                         {area.title}
@@ -217,11 +217,11 @@ export default function ResearchPage() {
                         {area.status}
                       </span>
                     </div>
-                    
+
                     <p className="text-primary-light/70 mb-6 leading-relaxed">
                       {area.description}
                     </p>
-                    
+
                     <ul className="space-y-2">
                       {area.areas.map((research, idx) => (
                         <li key={idx} className="flex items-start space-x-2 text-sm text-primary-light/60">
@@ -304,7 +304,7 @@ export default function ResearchPage() {
               <h2 className="font-light text-3xl md:text-4xl mb-8 text-center gradient-text">
                 Research Methodology
               </h2>
-              
+
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-identity/20 mb-4">
@@ -312,29 +312,29 @@ export default function ResearchPage() {
                   </div>
                   <h3 className="font-medium text-lg mb-3">Collaborative Development</h3>
                   <p className="text-sm text-primary-light/70">
-                    Human-AI partnership in developing consciousness architectures 
+                    Human-AI partnership in developing consciousness architectures
                     through iterative design and continuous validation.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-consciousness/20 mb-4">
                     <Beaker className="w-8 h-8 text-trinity-consciousness" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-medium text-lg mb-3">Empirical Testing</h3>
                   <p className="text-sm text-primary-light/70">
-                    Rigorous testing of consciousness models, memory systems, 
+                    Rigorous testing of consciousness models, memory systems,
                     and ethical frameworks through controlled experiments.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-guardian/20 mb-4">
                     <Shield className="w-8 h-8 text-trinity-guardian" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-medium text-lg mb-3">Ethical Validation</h3>
                   <p className="text-sm text-primary-light/70">
-                    Every research direction validated through constitutional AI 
+                    Every research direction validated through constitutional AI
                     principles and multi-framework ethical analysis.
                   </p>
                 </div>
@@ -357,7 +357,7 @@ export default function ResearchPage() {
                 Collaborative Research
               </h2>
               <p className="text-lg text-primary-light/70 mb-8 leading-relaxed">
-                Our research progresses through open collaboration between human researchers 
+                Our research progresses through open collaboration between human researchers
                 and AI systems, fostering breakthrough discoveries in consciousness technology.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -1,7 +1,7 @@
 # BATCH 7 Agent Handoff Instructions
-**Agent Assignment**: Configuration & Logging Systems  
-**Priority**: 🟠 MEDIUM - Infrastructure  
-**Status**: 75% Complete - **Final Sprint Required**  
+**Agent Assignment**: Configuration & Logging Systems
+**Priority**: 🟠 MEDIUM - Infrastructure
+**Status**: 75% Complete - **Final Sprint Required**
 **Generated**: August 25, 2025
 
 ## 🎯 **MISSION: Complete BATCH 7 Configuration & Logging Infrastructure**
@@ -45,20 +45,20 @@ from pathlib import Path
 
 class ConfigurationManager:
     """Unified configuration management for LUKHAS"""
-    
+
     def __init__(self):
         self.config_loader = ConfigLoader()
         self.config_path = Path("candidate/config")
         self.config_path.mkdir(exist_ok=True)
-    
+
     def load_dynamic_config(self, config_name: str):
         """Load configuration dynamically"""
         return self.config_loader.load_config(config_name)
-    
+
     def reload_config(self):
         """Reload all configurations"""
         return self.config_loader.reload()
-    
+
     def get_config(self, key: str, default=None):
         """Get configuration value"""
         return self.config_loader.get(key, default)
@@ -82,7 +82,7 @@ from pathlib import Path
 
 class SettingsValidator:
     """Validate LUKHAS configuration settings"""
-    
+
     def __init__(self):
         self.validation_rules = {
             "api_keys": self._validate_api_keys,
@@ -90,30 +90,30 @@ class SettingsValidator:
             "thresholds": self._validate_thresholds,
             "features": self._validate_features
         }
-    
+
     def validate_config(self, config: Dict[str, Any]) -> Dict[str, List[str]]:
         """Validate configuration and return errors"""
         errors = {}
-        
+
         for section, validator in self.validation_rules.items():
             if section in config:
                 section_errors = validator(config[section])
                 if section_errors:
                     errors[section] = section_errors
-        
+
         return errors
-    
+
     def _validate_api_keys(self, keys: Dict) -> List[str]:
         """Validate API keys configuration"""
         errors = []
         required_keys = ["OPENAI_API_KEY", "ANTHROPIC_API_KEY"]
-        
+
         for key in required_keys:
             if key not in keys or not keys[key]:
                 errors.append(f"Missing required API key: {key}")
-        
+
         return errors
-    
+
     def _validate_paths(self, paths: Dict) -> List[str]:
         """Validate file paths"""
         errors = []
@@ -121,7 +121,7 @@ class SettingsValidator:
             if not Path(path).exists():
                 errors.append(f"Path does not exist: {name} -> {path}")
         return errors
-    
+
     def _validate_thresholds(self, thresholds: Dict) -> List[str]:
         """Validate threshold values"""
         errors = []
@@ -129,7 +129,7 @@ class SettingsValidator:
             if not isinstance(value, (int, float)) or value < 0:
                 errors.append(f"Invalid threshold: {name} = {value}")
         return errors
-    
+
     def _validate_features(self, features: Dict) -> List[str]:
         """Validate feature flags"""
         errors = []
@@ -162,18 +162,18 @@ from pathlib import Path
 
 class Environment(Enum):
     DEVELOPMENT = "development"
-    TESTING = "testing" 
+    TESTING = "testing"
     STAGING = "staging"
     PRODUCTION = "production"
 
 class EnvironmentManager:
     """Manage environment-specific configurations"""
-    
+
     def __init__(self):
         self.current_env = self._detect_environment()
         self.config_dir = Path("candidate/config/environments")
         self.config_dir.mkdir(parents=True, exist_ok=True)
-    
+
     def _detect_environment(self) -> Environment:
         """Detect current environment"""
         env_name = os.getenv("LUKHAS_ENV", "development").lower()
@@ -181,19 +181,19 @@ class EnvironmentManager:
             return Environment(env_name)
         except ValueError:
             return Environment.DEVELOPMENT
-    
+
     def get_environment_config(self) -> Dict[str, Any]:
         """Get environment-specific configuration"""
         config_file = self.config_dir / f"{self.current_env.value}.json"
-        
+
         if config_file.exists():
             import json
             with open(config_file, 'r') as f:
                 return json.load(f)
-        
+
         # Default configurations
         return self._get_default_config()
-    
+
     def _get_default_config(self) -> Dict[str, Any]:
         """Get default configuration for current environment"""
         base_config = {
@@ -204,7 +204,7 @@ class EnvironmentManager:
                 "matrix_instrumentation": True
             }
         }
-        
+
         if self.current_env == Environment.DEVELOPMENT:
             base_config.update({
                 "logging_level": "DEBUG",
@@ -217,9 +217,9 @@ class EnvironmentManager:
                 "debug_mode": False,
                 "features": {"performance_monitoring": True}
             })
-        
+
         return base_config
-    
+
     def set_environment(self, env: Environment):
         """Set current environment"""
         self.current_env = env
@@ -248,15 +248,15 @@ from typing import Dict, Any
 
 class StructuredLogger:
     """Unified structured logging for LUKHAS"""
-    
+
     def __init__(self, component: str = "lukhas"):
         self.component = component
         self.setup_structlog()
         self.logger = structlog.get_logger(component)
-        
+
         # Integration with existing monitoring
         self._integrate_with_monitoring()
-    
+
     def setup_structlog(self):
         """Configure structlog"""
         structlog.configure(
@@ -275,7 +275,7 @@ class StructuredLogger:
             logger_factory=structlog.stdlib.LoggerFactory(),
             cache_logger_on_first_use=True,
         )
-    
+
     def _integrate_with_monitoring(self):
         """Integrate with existing monitoring system"""
         try:
@@ -283,7 +283,7 @@ class StructuredLogger:
             self.metrics = MetricsCollector()
         except ImportError:
             self.metrics = None
-    
+
     def log_event(self, level: str, message: str, **kwargs):
         """Log structured event"""
         event_data = {
@@ -292,26 +292,26 @@ class StructuredLogger:
             "message": message,
             **kwargs
         }
-        
+
         # Send to metrics if available
         if self.metrics:
             self.metrics.record_event(event_data)
-        
+
         # Log structured message
         getattr(self.logger, level.lower())(message, **kwargs)
-    
+
     def info(self, message: str, **kwargs):
         """Log info message"""
         self.log_event("INFO", message, **kwargs)
-    
+
     def error(self, message: str, **kwargs):
         """Log error message"""
         self.log_event("ERROR", message, **kwargs)
-    
+
     def warning(self, message: str, **kwargs):
         """Log warning message"""
         self.log_event("WARNING", message, **kwargs)
-    
+
     def debug(self, message: str, **kwargs):
         """Log debug message"""
         self.log_event("DEBUG", message, **kwargs)
@@ -322,14 +322,14 @@ lukhas_logger = StructuredLogger("lukhas")
 # Usage example
 if __name__ == "__main__":
     logger = StructuredLogger("test")
-    logger.info("BATCH 7 structured logging working", 
-                component="batch_7", 
+    logger.info("BATCH 7 structured logging working",
+                component="batch_7",
                 task="completion_test")
 ```
 
 ### **Task 5: Create Log Aggregator** ⭐ **MEDIUM PRIORITY**
 ```python
-# candidate/logging/log_aggregator.py  
+# candidate/logging/log_aggregator.py
 """
 Log Aggregator - BATCH 7 Completion
 """
@@ -341,14 +341,14 @@ from collections import defaultdict
 
 class LogAggregator:
     """Aggregate and analyze logs from multiple sources"""
-    
+
     def __init__(self, log_directory: str = "logs"):
         self.log_dir = Path(log_directory)
         self.log_dir.mkdir(exist_ok=True)
-        
+
         # Integration with existing systems
         self._setup_integrations()
-    
+
     def _setup_integrations(self):
         """Setup integrations with existing monitoring"""
         try:
@@ -356,22 +356,22 @@ class LogAggregator:
             self.data_collector = DataCollector()
         except ImportError:
             self.data_collector = None
-    
+
     def collect_logs(self, hours: int = 24) -> List[Dict[str, Any]]:
         """Collect logs from last N hours"""
         logs = []
         cutoff = datetime.utcnow() - timedelta(hours=hours)
-        
+
         # Collect from log files
         for log_file in self.log_dir.glob("*.jsonl"):
             logs.extend(self._read_log_file(log_file, cutoff))
-        
+
         # Collect from monitoring system
         if self.data_collector:
             logs.extend(self._collect_monitoring_logs(cutoff))
-        
+
         return sorted(logs, key=lambda x: x.get('timestamp', ''))
-    
+
     def _read_log_file(self, log_file: Path, cutoff: datetime) -> List[Dict]:
         """Read structured log file"""
         logs = []
@@ -387,7 +387,7 @@ class LogAggregator:
         except FileNotFoundError:
             pass
         return logs
-    
+
     def _is_recent_log(self, log_entry: Dict, cutoff: datetime) -> bool:
         """Check if log entry is recent enough"""
         timestamp_str = log_entry.get('timestamp', '')
@@ -396,15 +396,15 @@ class LogAggregator:
             return timestamp >= cutoff
         except (ValueError, TypeError):
             return True  # Include if we can't parse timestamp
-    
+
     def _collect_monitoring_logs(self, cutoff: datetime) -> List[Dict]:
         """Collect logs from monitoring system"""
         if not self.data_collector:
             return []
-        
+
         # This would integrate with existing monitoring
         return []
-    
+
     def aggregate_by_component(self, logs: List[Dict]) -> Dict[str, List[Dict]]:
         """Aggregate logs by component"""
         aggregated = defaultdict(list)
@@ -412,7 +412,7 @@ class LogAggregator:
             component = log.get('component', 'unknown')
             aggregated[component].append(log)
         return dict(aggregated)
-    
+
     def get_error_summary(self, logs: List[Dict]) -> Dict[str, int]:
         """Get summary of errors"""
         error_counts = defaultdict(int)
@@ -421,11 +421,11 @@ class LogAggregator:
                 error_type = log.get('message', 'unknown_error')
                 error_counts[error_type] += 1
         return dict(error_counts)
-    
+
     def generate_report(self, hours: int = 24) -> Dict[str, Any]:
         """Generate aggregated log report"""
         logs = self.collect_logs(hours)
-        
+
         return {
             "period": f"Last {hours} hours",
             "total_logs": len(logs),
@@ -449,9 +449,9 @@ BATCH 7 Integration Test - Verify Everything Works Together
 """
 def test_batch_7_completion():
     """Test all BATCH 7 components work together"""
-    
+
     print("🧪 BATCH 7 Integration Test Starting...")
-    
+
     # Test 1: Configuration Manager
     try:
         from candidate.config.configuration_manager import ConfigurationManager
@@ -459,15 +459,15 @@ def test_batch_7_completion():
         print("✅ Configuration Manager: Working")
     except Exception as e:
         print(f"❌ Configuration Manager: {e}")
-    
-    # Test 2: Settings Validator  
+
+    # Test 2: Settings Validator
     try:
         from candidate.config.settings_validator import SettingsValidator
         validator = SettingsValidator()
         print("✅ Settings Validator: Working")
     except Exception as e:
         print(f"❌ Settings Validator: {e}")
-    
+
     # Test 3: Environment Manager
     try:
         from candidate.config.environment_manager import EnvironmentManager
@@ -475,7 +475,7 @@ def test_batch_7_completion():
         print(f"✅ Environment Manager: Working ({env_manager.current_env})")
     except Exception as e:
         print(f"❌ Environment Manager: {e}")
-    
+
     # Test 4: Structured Logger
     try:
         from candidate.logging.structured_logger import StructuredLogger
@@ -484,7 +484,7 @@ def test_batch_7_completion():
         print("✅ Structured Logger: Working")
     except Exception as e:
         print(f"❌ Structured Logger: {e}")
-    
+
     # Test 5: Log Aggregator
     try:
         from candidate.logging.log_aggregator import LogAggregator
@@ -493,14 +493,14 @@ def test_batch_7_completion():
         print("✅ Log Aggregator: Working")
     except Exception as e:
         print(f"❌ Log Aggregator: {e}")
-    
+
     # Test 6: ΛTRACE functionality (existing)
     try:
         import candidate.core.glyph.api_manager
         print("✅ ΛTRACE System: Working (existing)")
     except Exception as e:
         print(f"❌ ΛTRACE System: {e}")
-    
+
     # Test 7: Monitoring Integration (existing)
     try:
         from candidate.monitoring.adaptive_metrics_collector import MetricsCollector
@@ -508,7 +508,7 @@ def test_batch_7_completion():
         print("✅ Monitoring System: Working (existing)")
     except Exception as e:
         print(f"❌ Monitoring System: {e}")
-    
+
     print("🎉 BATCH 7 Integration Test Complete!")
 
 if __name__ == "__main__":
@@ -528,7 +528,7 @@ mkdir -p candidate/logging
 ### **Step 2: Create the 5 Required Files** (15 minutes)
 Copy the code above for each file:
 1. `candidate/config/configuration_manager.py`
-2. `candidate/config/settings_validator.py` 
+2. `candidate/config/settings_validator.py`
 3. `candidate/config/environment_manager.py`
 4. `candidate/logging/structured_logger.py`
 5. `candidate/logging/log_aggregator.py`
@@ -564,7 +564,7 @@ Document what you completed and test results.
 
 ### **Common Issues & Solutions:**
 
-1. **Import Errors**: 
+1. **Import Errors**:
    ```bash
    # Fix with:
    export PYTHONPATH=/Users/agi_dev/LOCAL-REPOS/Lukhas:$PYTHONPATH

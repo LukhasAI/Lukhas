@@ -12,7 +12,7 @@ Generated: 2025-08-13
 
 #### Core AGI Systems (653-421 lines each!)
 1. `core/agi/autonomous_learning.py` - 653 lines
-2. `core/agi/self_improvement.py` - 447 lines  
+2. `core/agi/self_improvement.py` - 447 lines
 3. `core/agi/consciousness_stream.py` - 421 lines
 4. `core/agi/adaptive/meta_learning.py` - Check size
 
@@ -44,7 +44,7 @@ Generated: 2025-08-13
 
 #### Quantum Consciousness
 21. `consciousness/quantum_consciousness_integration.py` - Check size
-22. `consciousness/quantum_integration/quantum_consciousness_integration.py` 
+22. `consciousness/quantum_integration/quantum_consciousness_integration.py`
 23. `consciousness/quantum_integration/quantum_consciousness_visualizer.py`
 24. `quantum/core/quantum_processor_enhanced.py` - 759 lines
 
@@ -194,7 +194,7 @@ mkdir -p reports
 for module in "${MODULES[@]}"; do
     echo "Analyzing: $module"
     filename=$(basename "$module" .py)
-    
+
     python3 ml_integration_analyzer.py \
         --orphan "$module" \
         --lukhas . \
@@ -203,7 +203,7 @@ for module in "${MODULES[@]}"; do
         --cascade-models gpt-3.5-turbo,gpt-4,gpt-4-turbo \
         --out "reports/${filename}_analysis.json" \
         2>&1 | tee "reports/${filename}_log.txt"
-    
+
     echo "Completed: $module"
     echo "---"
     sleep 2  # Rate limiting

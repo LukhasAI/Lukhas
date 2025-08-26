@@ -53,12 +53,12 @@ from typing import Any, Optional
 import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
 from dream.core import DreamPhase
 
-from bio.quantum_inspired_layer import QuantumBioOscillator
+from bio.qi_inspired_layer import QIBioOscillator
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from consciousness.awareness.awareness_engine import AwarenessEngine
 from candidate.core.unified.integration import UnifiedIntegration
-from ethics.engine import EthicalFramework, EthicalRiskLevel, QuantumEthics
-from qi.processing_core import QuantumProcessingCore
+from consciousness.awareness.awareness_engine import AwarenessEngine
+from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
+from qi.processing_core import QIProcessingCore
 
 
 @dataclass
@@ -92,7 +92,7 @@ class AwarenessQuantumConfig:
 class SystemState:
     """System state snapshot"""
 
-    quantum_coherence: float = 1.0
+    qi_coherence: float = 1.0
     system_health: float = 1.0
     resource_utilization: float = 0.0
     active_processes: int = 0
@@ -151,9 +151,9 @@ class QIAwarenessSystem:
             )
             raise  # Or handle more gracefully depending on application requirements
 
-        self.monitor_oscillator: QuantumBioOscillator = QuantumBioOscillator(
+        self.monitor_oscillator: QIBioOscillator = QIBioOscillator(
             base_freq=self.config.monitoring_frequency,
-            quantum_config={  # type: ignore # ΛTRACE_COMMENT: Assuming QuantumBioOscillator handles this dict
+            qi_config={  # type: ignore # ΛTRACE_COMMENT: Assuming QIBioOscillator handles this dict
                 "coherence_threshold": self.config.coherence_threshold,
                 "entanglement_threshold": self.config.entanglement_threshold,
             },
@@ -173,12 +173,12 @@ class QIAwarenessSystem:
 
         # Integration with consciousness, dream, and ethics
         self.consciousness_engine: Optional[AwarenessEngine] = None
-        self.ethics_engine: Optional[QuantumEthics] = None
+        self.ethics_engine: Optional[QIEthics] = None
         self.dream_training_task: Optional[asyncio.Task[None]] = None
         self.ethical_scenarios_log: list[dict[str, Any]] = []
 
         # Neuroplasticity integration
-        self.quantum_inspired_processor: Optional[QuantumProcessingCore] = None
+        self.qi_inspired_processor: Optional[QIProcessingCore] = None
         self.plasticity_buffer: list[dict[str, Any]] = []
         self.safe_plasticity_mode: bool = True  # Safety by default
 
@@ -368,7 +368,7 @@ class QIAwarenessSystem:
             # type: ignore # ΛTRACE_COMMENT: Assuming method exists and returns float
             coherence: float = await self.monitor_oscillator.measure_coherence()
 
-            self.current_state.quantum_coherence = coherence
+            self.current_state.qi_coherence = coherence
             self.current_state.last_update = datetime.now(
                 timezone.utc
             )  # ΛTRACE_CHANGE: Use timezone.utc
@@ -454,7 +454,7 @@ class QIAwarenessSystem:
 
             metrics: dict[str, Any] = {
                 "timestamp": current_time.isoformat(),  # ΛTRACE_CHANGE
-                "quantum_coherence": self.current_state.quantum_coherence,
+                "qi_coherence": self.current_state.qi_coherence,
                 "system_health": self.current_state.system_health,
                 "resource_utilization": self.current_state.resource_utilization,
                 "active_processes": self.current_state.active_processes,
@@ -717,7 +717,7 @@ class QIAwarenessSystem:
         try:
             if not self.ethics_engine:
                 # Initialize ethics engine if not already present
-                self.ethics_engine = QuantumEthics()
+                self.ethics_engine = QIEthics()
                 log.info("Initialized ethics engine for monitoring.")
 
             # Set up ethical monitoring parameters
@@ -743,8 +743,8 @@ class QIAwarenessSystem:
                 log.info("Updated consciousness level.", level=level)
             elif action == "get_quantum_like_state":
                 response = {
-                    "type": "quantum_consciousness_state",
-                    "coherence": self.current_state.quantum_coherence,
+                    "type": "qi_consciousness_state",
+                    "coherence": self.current_state.qi_coherence,
                     "consciousness_level": self.current_state.consciousness_level,
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
@@ -804,7 +804,7 @@ class QIAwarenessSystem:
                         "type": "ethical_evaluation",
                         "action_id": proposed_action.get("id"),
                         "result": result,
-                        "quantum_coherence": self.current_state.quantum_coherence,
+                        "qi_coherence": self.current_state.qi_coherence,
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                     await self.integration.send_message("ethical_monitoring", response)
@@ -813,7 +813,7 @@ class QIAwarenessSystem:
                     "type": "ethical_status",
                     "status": self.current_state.ethical_status,
                     "scenarios_processed": self.current_state.ethical_scenarios_processed,
-                    "current_coherence": self.current_state.quantum_coherence,
+                    "current_coherence": self.current_state.qi_coherence,
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
                 await self.integration.send_message("ethical_monitoring", response)
@@ -825,7 +825,7 @@ class QIAwarenessSystem:
         """Get comprehensive integrated system state."""
         return {
             "quantum": {
-                "coherence": self.current_state.quantum_coherence,
+                "coherence": self.current_state.qi_coherence,
                 "health": self.current_state.system_health,
                 "resource_utilization": self.current_state.resource_utilization,
             },
@@ -879,9 +879,9 @@ class QIAwarenessSystem:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat())
 
         try:
-            if not self.quantum_inspired_processor:
-                self.quantum_inspired_processor = QuantumProcessingCore()
-                await self.quantum_inspired_processor.initialize()
+            if not self.qi_inspired_processor:
+                self.qi_inspired_processor = QIProcessingCore()
+                await self.qi_inspired_processor.initialize()
                 log.info("Initialized quantum processor for neuroplasticity.")
 
             # Set safe initial parameters
@@ -904,7 +904,7 @@ class QIAwarenessSystem:
         while self.active and self.config.neuroplasticity_enabled:
             try:
                 # Check current system state
-                if self.current_state.quantum_coherence < 0.6:
+                if self.current_state.qi_coherence < 0.6:
                     # Reduce plasticity in low coherence states
                     await self._reduce_plasticity("low_coherence")
                 elif self.current_state.alert_level == "warning":
@@ -930,7 +930,7 @@ class QIAwarenessSystem:
 
         try:
             # Calculate safe adaptation based on multiple factors
-            coherence_factor = self.current_state.quantum_coherence
+            coherence_factor = self.current_state.qi_coherence
             consciousness_factor = self.current_state.consciousness_level
             ethical_factor = (
                 1.0 if self.current_state.ethical_status == "aligned" else 0.5
@@ -972,12 +972,12 @@ class QIAwarenessSystem:
                 )
 
             # Update quantum processor if available
-            if self.quantum_inspired_processor:
+            if self.qi_inspired_processor:
                 learning_state = {
                     "adaptation_rate": self.current_state.current_plasticity_rate,
                     "efficiency": self.current_state.learning_efficiency,
                 }
-                await self.quantum_inspired_processor.apply_learning_bias(
+                await self.qi_inspired_processor.apply_learning_bias(
                     learning_state
                 )
 
@@ -1112,24 +1112,24 @@ class QIAwarenessSystem:
             )
 
             # Process through quantum processor if available
-            if self.quantum_inspired_processor:
-                quantum_learning = {
+            if self.qi_inspired_processor:
+                qi_learning = {
                     "signal_strength": self.current_state.synaptic_strength,
                     "learning_type": learning_type,
                     "plasticity_rate": self.current_state.current_plasticity_rate,
                     **context,
                 }
 
-                result = await self.quantum_inspired_processor.process_quantum_enhanced(
-                    quantum_learning, context={"learning_mode": True}
+                result = await self.qi_inspired_processor.process_quantum_enhanced(
+                    qi_learning, context={"learning_mode": True}
                 )
 
                 # Update efficiency based on quantum-inspired processing
                 if result.get("status") == "success":
-                    quantum_efficiency = result.get("quantum_advantage", 0.5)
+                    qi_efficiency = result.get("qi_advantage", 0.5)
                     self.current_state.learning_efficiency = (
                         self.current_state.learning_efficiency * 0.8
-                        + quantum_efficiency * 0.2
+                        + qi_efficiency * 0.2
                     )
 
             log.info(
@@ -1233,7 +1233,7 @@ class QIAwarenessSystem:
 #                     Improved cleanup_old_metrics with individual file error handling and logging counts.
 #                     Ensured datetime objects in state responses are ISO strings.
 # 2025-07-27: Claude - Fixed import paths:
-#                     Changed from bio.quantum_inspired_layer to lukhas.bio.quantum_inspired_layer
+#                     Changed from bio.qi_inspired_layer to lukhas.bio.qi_inspired_layer
 #                     Changed from candidate.core.unified_integration to lukhas.core.unified.integration
 #                     Added missing asdict import from dataclasses
 # 2025-07-27: Claude - Added consciousness/dream/ethics integration:
@@ -1244,7 +1244,7 @@ class QIAwarenessSystem:
 #                     Added comprehensive message handlers for all integrations
 #                     Implemented get_integrated_state() for unified system monitoring
 # 2025-07-27: Claude - Added safe neuroplasticity modulation:
-#                     Integrated QuantumProcessingCore for neuroplastic adaptation
+#                     Integrated QIProcessingCore for neuroplastic adaptation
 #                     Implemented safety constraints with plasticity limits and monitoring
 #                     Added momentum-based learning with configurable parameters
 #                     Created automatic plasticity reduction during low coherence/alerts
@@ -1257,7 +1257,7 @@ class QIAwarenessSystem:
 #                  Consider making it configurable via environment variables or a dedicated config system.
 # - Error Handling: Further review error handling, especially around `asyncio.Task` management and external calls (orchestrator, integration layer).
 # - Resource Usage: The `_cleanup_old_metrics` and `_handle_metrics_request` could be resource-intensive if the number of metric files is very large. Consider optimizations like limiting the number of files read or using a database for metrics.
-# - Type Safety: Resolve `# type: ignore` comments by ensuring the called methods/objects (e.g., from `QuantumBioOscillator`, `BioOrchestrator`, `UnifiedIntegration`) have compatible type hints or by adding appropriate stubs/interfaces.
+# - Type Safety: Resolve `# type: ignore` comments by ensuring the called methods/objects (e.g., from `QIBioOscillator`, `BioOrchestrator`, `UnifiedIntegration`) have compatible type hints or by adding appropriate stubs/interfaces.
 # - State History Cap: Consider capping the size of `self.state_history` to prevent unbounded memory growth.
 # - Tiering: Uncomment and refine `@lukhas_tier_required` decorators once the module is stable and integrated.
 # - Testing: Add comprehensive unit and integration tests, especially for async logic and file operations.
@@ -1272,7 +1272,7 @@ class QIAwarenessSystem:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": True,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -1291,7 +1291,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

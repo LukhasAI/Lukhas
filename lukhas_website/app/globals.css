@@ -28,7 +28,7 @@
     --trinity-consciousness: 168, 85, 247;
     --trinity-guardian: 34, 197, 94;
     --accent-gold: 251, 191, 36;
-    
+
     /* Glass morphism theme tokens - dimmer, not pitch-black; subtle blue lift */
     --bg: #0c1018;
     --panel: rgba(16,20,29,0.55);         /* translucent */
@@ -43,13 +43,13 @@
     --shadow-1: 0 20px 60px rgba(0,0,0,.45);
     --shadow-2: 0 30px 80px rgba(0,0,0,.55);
     --shadow-inset: inset 0 1px 0 rgba(255,255,255,.05);
-    
+
     /* motion budget */
     --ease: cubic-bezier(.2,.8,.2,1);
     --dur-quick: 120ms;
     --dur: 200ms;
     --dur-slow: 220ms;
-    
+
     /* type ramp */
     --fs-11: 11px; --fs-13: 13px; --fs-15: 15px; --fs-18: 18px; --fs-22: 22px; --fs-28: 28px;
     --lh-tight: 1.15; --lh-normal: 1.35;
@@ -91,16 +91,16 @@
   .t-28 { font-size: var(--fs-28); line-height: var(--lh-tight); }
 
   /* Focus visibility */
-  *:focus-visible { 
-    outline: 2px solid #5b8aff; 
-    outline-offset: 2px; 
+  *:focus-visible {
+    outline: 2px solid #5b8aff;
+    outline-offset: 2px;
     border-radius: 8px;
   }
 
   /* Motion audit */
-  * { 
-    transition: background var(--dur) var(--ease), 
-                border-color var(--dur) var(--ease), 
+  * {
+    transition: background var(--dur) var(--ease),
+                border-color var(--dur) var(--ease),
                 color var(--dur) var(--ease);
   }
 
@@ -110,50 +110,50 @@
     font-weight: 100;
     letter-spacing: 0.05em;
   }
-  
+
   /* Force text to be visible with important flag */
   h1, h2, h3, h4, h5, h6, p, span, div, a, button, label, input, li, td, th {
     color: rgb(255, 255, 255) !important;
   }
-  
+
   /* Ensure all text elements are white by default */
   * {
     color: rgb(255, 255, 255);
   }
-  
+
   /* Allow specific color overrides */
   .text-trinity-identity {
     color: rgb(107, 70, 193) !important;
   }
-  
+
   .text-trinity-consciousness {
     color: rgb(168, 85, 247) !important;
   }
-  
+
   .text-trinity-guardian {
     color: rgb(34, 197, 94) !important;
   }
-  
+
   .text-accent-gold {
     color: rgb(251, 191, 36) !important;
   }
-  
+
   .text-gray-300 {
     color: rgb(209, 213, 219) !important;
   }
-  
+
   .text-gray-400 {
     color: rgb(156, 163, 175) !important;
   }
-  
+
   .text-gray-500 {
     color: rgb(107, 114, 128) !important;
   }
-  
+
   .text-text-secondary {
     color: rgb(179, 179, 179) !important;
   }
-  
+
   .text-text-tertiary {
     color: rgb(128, 128, 128) !important;
   }
@@ -169,7 +169,7 @@
     transition: none !important;
     scroll-behavior: auto !important;
   }
-  
+
   /* Specific animation classes to disable */
   .star,
   .animate-pulse,
@@ -185,17 +185,17 @@
     animation: none !important;
     transition: none !important;
   }
-  
+
   /* Disable auto-rotating elements */
   [data-auto-rotate="true"] {
     animation: none !important;
   }
-  
+
   /* Simplify hover effects */
   *:hover {
     transition: none !important;
   }
-  
+
   /* Disable parallax effects */
   .parallax {
     transform: none !important;
@@ -222,12 +222,12 @@ body.calm-mode *::after {
     --glass: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
   }
-  
+
   /* Increase text contrast */
   body {
     font-weight: 500;
   }
-  
+
   /* Stronger borders */
   .border {
     border-width: 2px !important;
@@ -241,85 +241,85 @@ body.calm-mode *::after {
     opacity: 0;
     animation: fadeIn 1s ease-out forwards;
   }
-  
+
   /* Character-by-character fade in for quote */
   @keyframes fadeInByChar {
     0% { opacity: 0; }
     100% { opacity: 1; }
   }
-  
+
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  
+
   /* State-specific body classes */
   body.state-boot {
     overflow: hidden;
   }
-  
+
   body.state-quote_in {
     overflow: hidden;
   }
-  
+
   body.state-consent_pending {
     overflow: hidden;
   }
-  
+
   body.state-marketing_mode {
     overflow-x: hidden;
   }
-  
+
   body.state-login_flow {
     overflow: hidden;
   }
-  
+
   body.state-studio {
     overflow: hidden;
   }
-  
+
   /* Loading spinner effects */
   .loading-spinner {
     animation: pulse 2s infinite;
   }
-  
+
   /* Quote dissolve in effect */
   .quote-dissolve-in blockquote {
     animation: fadeIn 2s ease-out forwards;
   }
-  
+
   /* Consent modal active */
   .consent-modal-active {
     backdrop-filter: blur(8px);
   }
-  
+
   /* Marketing mode effects */
   .marketing-active .top-bar-visible nav {
     transform: translateY(0);
     transition: transform 0.3s ease-out;
   }
-  
+
   /* Login modal active */
   .login-modal-active {
     backdrop-filter: blur(12px);
   }
-  
+
   /* Studio active effects */
   .studio-active {
     background: linear-gradient(135deg, #0b1020 0%, #112a6b 100%);
   }
-  
+
   /* Top bar auto-hide for studio */
   .top-bar-auto-hide .studio-topbar {
     transform: translateY(-100%);
     transition: transform 0.3s ease-out;
   }
-  
+
   .top-bar-auto-hide .studio-topbar:hover,
   .top-bar-auto-hide .studio-topbar.show {
     transform: translateY(0);
   }
-  
+
   /* Cinematic quote animation */
   .quote-cinematic {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -328,13 +328,13 @@ body.calm-mode *::after {
     line-height: 1.4;
     text-align: center;
   }
-  
+
   .quote-cinematic span {
     display: inline-block;
     opacity: 0;
     animation: fadeInByChar 0.1s ease-out forwards;
   }
-  
+
   /* Stagger animation for each character */
   .quote-cinematic span:nth-child(1) { animation-delay: 0.1s; }
   .quote-cinematic span:nth-child(2) { animation-delay: 0.15s; }
@@ -342,7 +342,7 @@ body.calm-mode *::after {
   .quote-cinematic span:nth-child(4) { animation-delay: 0.25s; }
   .quote-cinematic span:nth-child(5) { animation-delay: 0.3s; }
   /* Continue pattern as needed */
-  
+
   /* Glassmorphism effects for modals */
   .glass-modal {
     background: rgba(255, 255, 255, 0.05);
@@ -350,19 +350,19 @@ body.calm-mode *::after {
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
-  
+
   /* Subtle parallax for neural background */
   .parallax-background {
     transform: translateZ(0);
     will-change: transform;
   }
-  
+
   @media (prefers-reduced-motion: no-preference) {
     .parallax-background {
       animation: subtleFloat 20s ease-in-out infinite;
     }
   }
-  
+
   @keyframes subtleFloat {
     0%, 100% { transform: translateY(0px) scale(1); }
     50% { transform: translateY(-10px) scale(1.02); }

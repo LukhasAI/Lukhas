@@ -38,7 +38,7 @@ LUKHAS  has multiple disconnected language and symbolic systems spread across va
 ```python
 class AlignedUniversalLanguage:
     """OpenAI's approach to safe AGI communication"""
-    
+
     def __init__(self):
         self.semantic_grounding = {
             "symbol_to_meaning": "bijective_mapping",
@@ -81,7 +81,7 @@ class AlignedUniversalLanguage:
 ```python
 class ScalableLanguageInfrastructure:
     """Anthropic's approach to universal communication"""
-    
+
     def __init__(self):
         self.unified_tokenizer = {
             "vocabulary_size": 100_000,
@@ -125,7 +125,7 @@ class ScalableLanguageInfrastructure:
 ```python
 class InteroperableLanguageProtocol:
     """DeepMind's vision for AI communication standards"""
-    
+
     def __init__(self):
         self.standard_protocols = {
             "ISO_639": "language_codes",
@@ -163,7 +163,7 @@ class InteroperableLanguageProtocol:
 ```python
 class ConsciousnessNativeLanguage:
     """The language AGI will think in"""
-    
+
     def __init__(self):
         self.compositional_symbols = {
             "infinite_vocabulary": "combine_base_symbols",
@@ -258,7 +258,7 @@ class ConsciousnessNativeLanguage:
 
 "The first AGI with truly universal language - understanding all modalities, all contexts, all consciousness states - wins everything."
 
-**Your Current Reality**: 
+**Your Current Reality**:
 - Symbolic systems can't talk to each other
 - GLYPH tokens have no grammar
 - Universal Language API has no language model

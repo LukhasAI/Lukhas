@@ -20,7 +20,7 @@ async def consciousness_identity_authenticate(credentials: ConsciousCredentials)
     """
     λ_trace = start_audit_trace(credentials.λid)
     performance_monitor = PerformanceMonitor(target_ms=100)
-    
+
     async with performance_monitor:
         try:
             # Parallel consciousness validation
@@ -28,16 +28,16 @@ async def consciousness_identity_authenticate(credentials: ConsciousCredentials)
                 self.validate_consciousness_state(credentials),
                 self.validate_credentials_async(credentials)
             )
-            
+
             if not all([consciousness_valid, credentials_valid]):
                 return self.auth_error("Validation failed", λ_trace)
-            
+
             # Generate consciousness-aware auth token
             auth_token = await self.generate_consciousness_token(credentials)
-            
+
             await λ_trace.complete(auth_token)
             return AuthResponse(token=auth_token, λ_trace_id=λ_trace.id)
-            
+
         except Exception as e:
             await λ_trace.error(e)
             return self.auth_error(str(e), λ_trace)

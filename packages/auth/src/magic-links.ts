@@ -1,14 +1,14 @@
 /**
  * ΛiD Authentication System - Magic Links
- * 
+ *
  * One-time tokens with TTL 600s, IP/email throttling and security features
  * Integrates with LUKHAS Trinity Framework (⚛️🧠🛡️)
  */
 
-import { 
-  MagicLinkToken, 
-  MagicLinkOptions, 
-  MagicLinkResult, 
+import {
+  MagicLinkToken,
+  MagicLinkOptions,
+  MagicLinkResult,
   MagicLinkValidationResult,
   ThrottleConfig,
   SecurityEvent
@@ -315,7 +315,7 @@ class MagicLinkStore {
 
     // Cleanup throttles
     const windowStart = now - (this.config.attemptWindow * 1000);
-    
+
     for (const [ip, entry] of this.ipThrottles.entries()) {
       if (entry.firstAttempt < windowStart && (!entry.blockExpiry || now > entry.blockExpiry)) {
         this.ipThrottles.delete(ip);
@@ -498,7 +498,7 @@ export class MagicLinkManager {
           originalIP: entry.ipAddress,
           currentIP: ipAddress
         });
-        
+
         // Don't fail immediately - log but allow (configurable behavior)
         if (entry.metadata?.allowIPChange !== true) {
           return {
@@ -552,13 +552,13 @@ export class MagicLinkManager {
     expiresAt?: string;
   }> {
     const entry = this.store.getToken(token);
-    
+
     if (!entry) {
       return { exists: false };
     }
 
     const now = Date.now();
-    
+
     return {
       exists: true,
       used: entry.used,
@@ -578,7 +578,7 @@ export class MagicLinkManager {
 
     // Mark as used to prevent further use
     const revoked = this.store.useToken(token);
-    
+
     if (revoked) {
       this.store.logSecurityEvent('MAGIC_LINK_REVOKED', {
         token,
@@ -607,7 +607,7 @@ export class MagicLinkManager {
     if (ip) {
       this.store['ipThrottles'].delete(ip);
     }
-    
+
     if (email) {
       this.store['emailThrottles'].delete(email);
     }
@@ -621,8 +621,8 @@ export class MagicLinkManager {
     // Generate cryptographically secure random token
     const array = new Uint8Array(this.config.secretLength);
     crypto.getRandomValues(array);
-    
-    return Array.from(array, byte => 
+
+    return Array.from(array, byte =>
       byte.toString(16).padStart(2, '0')
     ).join('');
   }
@@ -718,7 +718,7 @@ export async function sendMagicLinkEmail(
     };
 
     console.log('[ΛiD MAGIC LINKS] Email would be sent:', emailContent);
-    
+
     // Placeholder for actual email sending
     return true;
   } catch (error) {
@@ -756,26 +756,26 @@ function generateEmailHTML(magicLink: string, purpose: string, metadata?: Record
             <div class="logo">⚛️ LUKHAS AI</div>
             <div class="subtitle">Consciousness-Aware Authentication</div>
         </div>
-        
+
         <div class="content">
             <h2>Your ${purpose} link is ready</h2>
             <p>Click the button below to ${purpose} to your LUKHAS AI account:</p>
-            
+
             <div style="text-align: center;">
                 <a href="${magicLink}" class="button">Complete ${purpose}</a>
             </div>
-            
+
             <p>Or copy and paste this link in your browser:</p>
             <p style="word-break: break-all; background: #f8f9fa; padding: 10px; border-radius: 3px; font-family: monospace; font-size: 12px;">
                 ${magicLink}
             </p>
         </div>
-        
+
         <div class="security">
-            <strong>🛡️ Security Notice:</strong> This link will expire in 10 minutes and can only be used once. 
+            <strong>🛡️ Security Notice:</strong> This link will expire in 10 minutes and can only be used once.
             If you didn't request this ${purpose}, please ignore this email.
         </div>
-        
+
         <div class="footer">
             <p>LUKHAS AI - Trinity Framework (⚛️🧠🛡️)</p>
             <p>This email was sent as part of your authentication request.</p>

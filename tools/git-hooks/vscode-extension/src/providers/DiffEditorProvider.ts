@@ -75,7 +75,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
         // This would integrate with GitHookManager to get the enhancement data
         const originalContent = document.getText();
         const enhancedContent = await this.getEnhancedContent(document.uri.fsPath);
-        
+
         return this.generateDiffHtml(webview, originalContent, enhancedContent, document.uri.fsPath);
     }
 
@@ -93,7 +93,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
     ): Promise<string> {
         const originalContent = document.getText();
         const enhancedContent = await this.getEnhancedContent(document.uri.fsPath);
-        
+
         return this.generateDiffHtml(webview, originalContent, enhancedContent, document.uri.fsPath);
     }
 
@@ -104,7 +104,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
         filePath: string
     ): Promise<string> {
         const fileName = filePath.split('/').pop() || 'file';
-        
+
         return Promise.resolve(`
             <!DOCTYPE html>
             <html lang="en">
@@ -122,7 +122,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         height: 100vh;
                         overflow: hidden;
                     }
-                    
+
                     .header {
                         background: var(--vscode-titleBar-activeBackground);
                         color: var(--vscode-titleBar-activeForeground);
@@ -132,17 +132,17 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         justify-content: space-between;
                         align-items: center;
                     }
-                    
+
                     .header h2 {
                         margin: 0;
                         font-size: 16px;
                     }
-                    
+
                     .header-actions {
                         display: flex;
                         gap: 8px;
                     }
-                    
+
                     .btn {
                         background: var(--vscode-button-background);
                         color: var(--vscode-button-foreground);
@@ -152,37 +152,37 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         cursor: pointer;
                         font-size: 12px;
                     }
-                    
+
                     .btn:hover {
                         background: var(--vscode-button-hoverBackground);
                     }
-                    
+
                     .btn-secondary {
                         background: var(--vscode-button-secondaryBackground);
                         color: var(--vscode-button-secondaryForeground);
                     }
-                    
+
                     .btn-danger {
                         background: var(--vscode-errorForeground);
                         color: white;
                     }
-                    
+
                     .diff-container {
                         display: flex;
                         height: calc(100vh - 60px);
                     }
-                    
+
                     .diff-pane {
                         flex: 1;
                         display: flex;
                         flex-direction: column;
                         border-right: 1px solid var(--vscode-panel-border);
                     }
-                    
+
                     .diff-pane:last-child {
                         border-right: none;
                     }
-                    
+
                     .pane-header {
                         background: var(--vscode-panel-background);
                         padding: 8px 16px;
@@ -190,7 +190,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         font-weight: bold;
                         font-size: 13px;
                     }
-                    
+
                     .pane-content {
                         flex: 1;
                         overflow: auto;
@@ -198,7 +198,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         font-size: var(--vscode-editor-font-size);
                         line-height: var(--vscode-editor-line-height);
                     }
-                    
+
                     .code-content {
                         padding: 16px;
                         white-space: pre-wrap;
@@ -206,7 +206,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         margin: 0;
                         min-height: 100%;
                     }
-                    
+
                     .line-numbers {
                         background: var(--vscode-editorLineNumber-background);
                         color: var(--vscode-editorLineNumber-foreground);
@@ -220,28 +220,28 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         text-align: right;
                         min-width: 40px;
                     }
-                    
+
                     .diff-line {
                         display: flex;
                         margin: 0;
                         padding: 0;
                     }
-                    
+
                     .line-added {
                         background: rgba(0, 255, 0, 0.1);
                         border-left: 3px solid var(--vscode-gitDecoration-addedResourceForeground);
                     }
-                    
+
                     .line-removed {
                         background: rgba(255, 0, 0, 0.1);
                         border-left: 3px solid var(--vscode-gitDecoration-deletedResourceForeground);
                     }
-                    
+
                     .line-modified {
                         background: rgba(255, 255, 0, 0.1);
                         border-left: 3px solid var(--vscode-gitDecoration-modifiedResourceForeground);
                     }
-                    
+
                     .enhancement-marker {
                         position: absolute;
                         right: 8px;
@@ -252,18 +252,18 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         font-size: 10px;
                         cursor: pointer;
                     }
-                    
+
                     .enhancement-marker:hover {
                         background: var(--vscode-button-hoverBackground);
                     }
-                    
+
                     .change-controls {
                         position: absolute;
                         right: 40px;
                         display: flex;
                         gap: 4px;
                     }
-                    
+
                     .change-btn {
                         background: var(--vscode-button-secondaryBackground);
                         color: var(--vscode-button-secondaryForeground);
@@ -273,7 +273,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         cursor: pointer;
                         font-size: 10px;
                     }
-                    
+
                     .stats {
                         padding: 8px 16px;
                         background: var(--vscode-statusBar-background);
@@ -295,7 +295,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         <button class="btn btn-secondary" onclick="showOriginal()">👁️ Original</button>
                     </div>
                 </div>
-                
+
                 <div class="diff-container">
                     <div class="diff-pane">
                         <div class="pane-header">📄 Original</div>
@@ -303,7 +303,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                             <pre class="code-content" id="original-content">${this.escapeHtml(originalContent)}</pre>
                         </div>
                     </div>
-                    
+
                     <div class="diff-pane">
                         <div class="pane-header">✨ Enhanced</div>
                         <div class="pane-content">
@@ -311,43 +311,43 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="stats">
                     <span id="diff-stats">Analyzing changes...</span>
                     <span>File: ${fileName}</span>
                 </div>
-                
+
                 <script>
                     const vscode = acquireVsCodeApi();
-                    
+
                     function acceptAll() {
                         vscode.postMessage({
                             command: 'acceptAll',
                             filePath: '${filePath}'
                         });
                     }
-                    
+
                     function declineAll() {
                         vscode.postMessage({
                             command: 'declineAll',
                             filePath: '${filePath}'
                         });
                     }
-                    
+
                     function editManually() {
                         vscode.postMessage({
                             command: 'editManually',
                             filePath: '${filePath}'
                         });
                     }
-                    
+
                     function showOriginal() {
                         vscode.postMessage({
                             command: 'showOriginal',
                             filePath: '${filePath}'
                         });
                     }
-                    
+
                     function acceptChange(changeId) {
                         vscode.postMessage({
                             command: 'acceptChange',
@@ -355,7 +355,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                             filePath: '${filePath}'
                         });
                     }
-                    
+
                     function declineChange(changeId) {
                         vscode.postMessage({
                             command: 'declineChange',
@@ -363,34 +363,34 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                             filePath: '${filePath}'
                         });
                     }
-                    
+
                     // Initialize diff analysis
                     window.addEventListener('load', () => {
                         analyzeChanges();
                     });
-                    
+
                     function analyzeChanges() {
                         const originalLines = document.getElementById('original-content').textContent.split('\\n');
                         const enhancedLines = document.getElementById('enhanced-content').textContent.split('\\n');
-                        
+
                         let additions = 0;
                         let deletions = 0;
                         let modifications = 0;
-                        
+
                         // Simple diff analysis
                         const maxLength = Math.max(originalLines.length, enhancedLines.length);
                         for (let i = 0; i < maxLength; i++) {
                             const original = originalLines[i] || '';
                             const enhanced = enhancedLines[i] || '';
-                            
+
                             if (original !== enhanced) {
                                 if (!original) additions++;
                                 else if (!enhanced) deletions++;
                                 else modifications++;
                             }
                         }
-                        
-                        document.getElementById('diff-stats').textContent = 
+
+                        document.getElementById('diff-stats').textContent =
                             \`+\${additions} -\${deletions} ~\${modifications} changes\`;
                     }
                 </script>
@@ -405,7 +405,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
         filePath: string
     ): Promise<string> {
         const fileName = filePath.split('/').pop() || 'file';
-        
+
         return Promise.resolve(`
             <!DOCTYPE html>
             <html lang="en">
@@ -421,13 +421,13 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                         background: var(--vscode-editor-background);
                         color: var(--vscode-editor-foreground);
                     }
-                    
+
                     .header {
                         margin-bottom: 20px;
                         padding-bottom: 10px;
                         border-bottom: 1px solid var(--vscode-panel-border);
                     }
-                    
+
                     .content {
                         font-family: var(--vscode-editor-font-family);
                         font-size: var(--vscode-editor-font-size);
@@ -445,7 +445,7 @@ export class DiffEditorProvider implements vscode.CustomTextEditorProvider {
                     <h2>✨ Enhanced Version: ${fileName}</h2>
                     <p>This is the enhanced version with all improvements applied.</p>
                 </div>
-                
+
                 <div class="content">${this.escapeHtml(content)}</div>
             </body>
             </html>

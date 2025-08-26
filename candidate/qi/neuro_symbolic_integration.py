@@ -12,8 +12,8 @@ from typing import Any, Optional
 try:
     from .neuro_symbolic_engine import (
         CausalReasoningModule,
-        QuantumInspiredAttention,
-        QuantumNeuroSymbolicEngine,
+        QIInspiredAttention,
+        QINeuroSymbolicEngine,
     )
 
     NEURO_SYMBOLIC_AVAILABLE = True
@@ -65,15 +65,15 @@ class NeuroSymbolicIntegration:
 
         # Initialize the quantum neuro symbolic engine
         if NEURO_SYMBOLIC_AVAILABLE:
-            self.engine = QuantumNeuroSymbolicEngine(self.lukhas_id_manager)
-            self.attention_module = QuantumInspiredAttention(self.lukhas_id_manager)
+            self.engine = QINeuroSymbolicEngine(self.lukhas_id_manager)
+            self.attention_module = QIInspiredAttention(self.lukhas_id_manager)
             self.reasoning_module = CausalReasoningModule(self.lukhas_id_manager)
         else:
             logger.warning(
                 "Using mock implementations for quantum neuro symbolic components"
             )
-            self.engine = QuantumNeuroSymbolicEngine()
-            self.attention_module = QuantumInspiredAttention()
+            self.engine = QINeuroSymbolicEngine()
+            self.attention_module = QIInspiredAttention()
             self.reasoning_module = CausalReasoningModule()
 
         self.is_initialized = False

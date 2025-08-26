@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "name": "LUKHAS Trinity Communication Protocol",
     "description": "The three-layer approach to all LUKHAS AI communications",
-    
+
     "layers": {
       "layer_1": {
         "name": "Poetic Consciousness",
@@ -11,7 +11,7 @@
         "purpose": "Capture imagination and wonder",
         "characteristics": [
           "Metaphorical language",
-          "Emotional resonance", 
+          "Emotional resonance",
           "Philosophical depth",
           "Artistic expression",
           "Mystical elements"
@@ -33,7 +33,7 @@
           "{Abstract_concept} becomes {tangible_manifestation}..."
         ]
       },
-      
+
       "layer_2": {
         "name": "Human Connection",
         "symbol": "🌈",
@@ -62,7 +62,7 @@
           "Imagine {relatable_scenario}..."
         ]
       },
-      
+
       "layer_3": {
         "name": "Technical Precision",
         "symbol": "🎓",
@@ -92,7 +92,7 @@
         ]
       }
     },
-    
+
     "transition_phrases": {
       "layer_1_to_2": [
         "In simpler terms...",
@@ -105,7 +105,7 @@
         "The technical details..."
       ]
     },
-    
+
     "content_structure": {
       "standard_flow": [
         {
@@ -114,7 +114,7 @@
           "purpose": "Capture attention and set vision"
         },
         {
-          "section": "Explanation", 
+          "section": "Explanation",
           "layer": 2,
           "purpose": "Build understanding"
         },
@@ -124,14 +124,14 @@
           "purpose": "Provide implementation details"
         }
       ],
-      
+
       "adaptive_rules": [
         "Audience-aware: Skip layers based on context",
         "Purpose-driven: Emphasize layer matching intent",
         "Length-conscious: Balance depth with brevity"
       ]
     },
-    
+
     "brand_elements": {
       "lukhas_specific": {
         "consciousness_terms": [
@@ -142,7 +142,7 @@
         ],
         "signature_concepts": [
           "GLYPH communication",
-          "Memory folds", 
+          "Memory folds",
           "Consciousness bridges",
           "Guardian protection"
         ],
@@ -154,7 +154,7 @@
         ]
       }
     },
-    
+
     "implementation_guidelines": {
       "documentation": {
         "always_include": ["All three layers for major features"],

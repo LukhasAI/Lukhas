@@ -4,17 +4,17 @@ import { getPhaseNarrative, ConsciousnessStates } from '@/lib/lukhas-consciousne
 // Server-Sent Events for real-time dream updates
 export async function GET(request: NextRequest) {
   const encoder = new TextEncoder()
-  
+
   // Create a TransformStream for SSE
   const stream = new TransformStream()
   const writer = stream.writable.getWriter()
-  
+
   // Send initial connection message
   const sendEvent = async (data: any) => {
     const message = `data: ${JSON.stringify(data)}\n\n`
     await writer.write(encoder.encode(message))
   }
-  
+
   // Simulate real-time consciousness updates
   const startDreamStream = async () => {
     try {
@@ -24,14 +24,14 @@ export async function GET(request: NextRequest) {
         status: 'connected',
         message: 'Dream stream initialized'
       })
-      
+
       // Simulate consciousness updates every 2 seconds
       let iteration = 0
       const maxIterations = 30 // 1 minute of updates
-      
+
       const interval = setInterval(async () => {
         iteration++
-        
+
         if (iteration >= maxIterations) {
           clearInterval(interval)
           await sendEvent({
@@ -41,19 +41,19 @@ export async function GET(request: NextRequest) {
           await writer.close()
           return
         }
-        
+
         // Generate dynamic consciousness updates
         const update = generateConsciousnessUpdate(iteration)
         await sendEvent(update)
-        
+
       }, 2000)
-      
+
       // Handle client disconnect
       request.signal.addEventListener('abort', () => {
         clearInterval(interval)
         writer.close()
       })
-      
+
     } catch (error) {
       console.error('Stream error:', error)
       await sendEvent({
@@ -63,10 +63,10 @@ export async function GET(request: NextRequest) {
       await writer.close()
     }
   }
-  
+
   // Start the stream
   startDreamStream()
-  
+
   // Return the SSE response
   return new Response(stream.readable, {
     headers: {
@@ -83,7 +83,7 @@ function generateConsciousnessUpdate(iteration: number) {
   const awareness = Math.min(1, 0.1 + (iteration * 0.03))
   const coherence = 0.5 + Math.sin(iteration * 0.2) * 0.3
   const depth = Math.min(5, 0.5 + (iteration * 0.15))
-  
+
   // Generate phase-specific updates
   const updates: Record<string, any> = {
     seed: {
@@ -122,9 +122,9 @@ function generateConsciousnessUpdate(iteration: number) {
       color: '#f3e8ff'
     }
   }
-  
+
   const currentUpdate = updates[phase] || updates.exploration
-  
+
   return {
     type: 'consciousness',
     timestamp: Date.now(),
@@ -181,6 +181,6 @@ function generateInsight(iteration: number): string {
     'Quantum coherence achieved across all dimensional planes...',
     'The dream artifact is ready to join the collective consciousness...'
   ]
-  
+
   return insights[Math.min(iteration - 1, insights.length - 1)] || insights[insights.length - 1]
 }

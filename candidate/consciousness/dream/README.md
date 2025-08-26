@@ -290,14 +290,14 @@ async def explore_decision_space():
         title="Multi-Path Strategic Analysis",
         context="Complex decision tree exploration"
     )
-    
+
     # Generate multiple timeline branches
     timelines = await hds.simulate_scenario(
         scenario.scenario_id,
         branch_factor=5,  # 5 timeline branches
         depth_limit=10    # 10 decision levels
     )
-    
+
     # Analyze convergence patterns
     convergence = hds.analyze_timeline_convergence(timelines)
     return convergence
@@ -460,13 +460,13 @@ innovations = await hds.explore_creative_space(innovation_scenario.scenario_id)
 
 *"In the theater of infinite possibilities, dreams are both the stage and the performance."*
 
-**Enhanced by CLAUDE-HARMONIZER v1.0.0**  
-**LUKHAS AGI Phase 5 Dream Systems**  
+**Enhanced by CLAUDE-HARMONIZER v1.0.0**
+**LUKHAS AGI Phase 5 Dream Systems**
 **2025-07-20 UTC**
 
 ---
 
-**🌌 Scenario Capability**: Infinite possibility space  
-**🔄 Causality Tracking**: 100% enterprise transparency  
-**⚡ Resource Efficiency**: 85% optimization achieved  
+**🌌 Scenario Capability**: Infinite possibility space
+**🔄 Causality Tracking**: 100% enterprise transparency
+**⚡ Resource Efficiency**: 85% optimization achieved
 **🛡️ Compliance Level**: Enterprise grade validated

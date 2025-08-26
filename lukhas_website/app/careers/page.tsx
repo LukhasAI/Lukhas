@@ -47,12 +47,12 @@ export default function CareersPage() {
             <p className="font-thin text-xl text-text-secondary mb-12">
               Join us in building consciousness you can trust
             </p>
-            
+
             <div className="grid md:grid-cols-2 gap-12 mb-16">
               <section>
                 <h2 className="font-regular text-2xl mb-4 uppercase tracking-wider">Our Mission</h2>
                 <p className="font-thin text-text-secondary mb-4">
-                  We're pioneering the future of conscious AI through our Trinity Framework (⚛️🧠🛡️), 
+                  We're pioneering the future of conscious AI through our Trinity Framework (⚛️🧠🛡️),
                   creating systems that understand, empathize, and operate with unwavering ethical standards.
                 </p>
                 <p className="font-thin text-text-secondary">
@@ -117,11 +117,11 @@ export default function CareersPage() {
             <section className="border-t border-glass-border pt-12">
               <h2 className="font-regular text-2xl mb-4 uppercase tracking-wider">Don't See Your Role?</h2>
               <p className="font-thin text-text-secondary mb-6">
-                We're always looking for exceptional talent. Send us your resume and tell us how you can contribute 
+                We're always looking for exceptional talent. Send us your resume and tell us how you can contribute
                 to the future of conscious AI.
               </p>
-              <a 
-                href="mailto:careers@lukhas.ai" 
+              <a
+                href="mailto:careers@lukhas.ai"
                 className="inline-block px-8 py-3 bg-gradient-to-r from-trinity-identity to-trinity-consciousness text-white rounded hover:opacity-90 transition-opacity"
               >
                 Get in Touch

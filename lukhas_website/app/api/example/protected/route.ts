@@ -24,8 +24,8 @@ function getLocale(req: NextRequest): Locale {
 }
 
 function getClientIp(req: NextRequest): string {
-  return req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
-         req.headers.get('x-real-ip') || 
+  return req.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+         req.headers.get('x-real-ip') ||
          '0.0.0.0';
 }
 
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
   const locale = getLocale(req);
   const ip = getClientIp(req);
   const requestId = crypto.randomUUID();
-  
+
   // 1. Authenticate user
   const authHeader = req.headers.get('authorization');
   if (!authHeader?.startsWith('Bearer ')) {
@@ -44,13 +44,13 @@ export async function POST(req: NextRequest) {
       success: false,
       error: 'missing_token'
     });
-    
+
     return new Response('Unauthorized', { status: 401 });
   }
-  
+
   const token = authHeader.slice(7);
   const { valid, payload } = await verifyAccessToken(token);
-  
+
   if (!valid) {
     metrics.auth({
       kind: 'auth.login',
@@ -60,14 +60,14 @@ export async function POST(req: NextRequest) {
       success: false,
       error: 'invalid_token'
     });
-    
+
     return new Response('Unauthorized', { status: 401 });
   }
-  
+
   // 2. Get user plan (from token or database)
   const userId = payload.sub as string;
   const userPlan = (payload.plan || 'free') as 'free' | 'plus' | 'team' | 'enterprise' | 'core';
-  
+
   // 3. Check rate limit
   const rl = await planTokenBucket({
     plan: userPlan,
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
     ip,
     cost: 1 // Adjust cost based on operation complexity
   });
-  
+
   if (!rl.allowed) {
     // Log rate limit event
     metrics.rateLimit({
@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
       retryAfterSec: rl.retryAfterSec,
       resetAt: rl.nextAvailableAt
     });
-    
+
     // Return localized 429 response
     return respond429JSON({
       retryAfterSec: rl.retryAfterSec,
@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
       requestId
     });
   }
-  
+
   // 4. Log successful rate limit check
   metrics.rateLimit({
     kind: 'rate_limit.allow',
@@ -117,18 +117,18 @@ export async function POST(req: NextRequest) {
     ip,
     remaining: rl.remaining
   });
-  
+
   // 5. Process the actual request
   try {
     const body = await req.json();
-    
+
     // Track operation latency
     const result = await metrics.trackLatency('api:protected:process', async () => {
       // Your business logic here
       await new Promise(resolve => setTimeout(resolve, 100)); // Simulate work
       return { processed: true, data: body };
     });
-    
+
     // Return success response with rate limit headers
     return new Response(JSON.stringify({
       ok: true,
@@ -148,11 +148,11 @@ export async function POST(req: NextRequest) {
         'X-Request-ID': requestId
       }
     });
-    
+
   } catch (error) {
     // Log error
     console.error('API Error:', error);
-    
+
     return new Response(JSON.stringify({
       ok: false,
       error: 'internal_error',
@@ -171,21 +171,21 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const locale = getLocale(req);
   const authHeader = req.headers.get('authorization');
-  
+
   if (!authHeader?.startsWith('Bearer ')) {
     return new Response('Unauthorized', { status: 401 });
   }
-  
+
   const token = authHeader.slice(7);
   const { valid, payload } = await verifyAccessToken(token);
-  
+
   if (!valid) {
     return new Response('Unauthorized', { status: 401 });
   }
-  
+
   const userId = payload.sub as string;
   const userPlan = (payload.plan || 'free') as 'free' | 'plus' | 'team' | 'enterprise' | 'core';
-  
+
   // Check current rate limit status without consuming
   const limits = {
     free: { rpm: 30, rpd: 1000 },
@@ -194,7 +194,7 @@ export async function GET(req: NextRequest) {
     enterprise: { rpm: 300, rpd: 100000 },
     core: { rpm: 1000, rpd: 1000000 }
   };
-  
+
   return new Response(JSON.stringify({
     ok: true,
     plan: userPlan,

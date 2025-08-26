@@ -5,7 +5,7 @@ External API connections and interfaces
 
 ## Structure
 - `docs/` - Documentation
-- `tests/` - Test suite  
+- `tests/` - Test suite
 - `examples/` - Usage examples
 - `MODULE_MANIFEST.json` - Module configuration
 

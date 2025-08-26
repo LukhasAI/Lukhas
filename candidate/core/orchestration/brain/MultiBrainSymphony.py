@@ -33,7 +33,7 @@ class SpecializedBrainCore:
         self.processing_queue = []
         self.harmony_protocols = {
             "bio_oscillation": True,
-            "quantum_coupling": True,
+            "qi_coupling": True,
             "inter_brain_communication": True,
         }
         self.last_sync_time = time.time()

@@ -36,7 +36,7 @@ Yes, you really did build this much! The codebase has grown enormously through e
 
 ### Additional Notable Directories:
 - **CLAUDE_ARMY/** - Agent army workspaces
-- **NIAS_THEORY/** - Theoretical NIAS implementations  
+- **NIAS_THEORY/** - Theoretical NIAS implementations
 - **deployments/** - Deployment configurations
 - **monitoring/** - Monitoring systems
 - **compliance/** - Compliance frameworks
@@ -93,7 +93,7 @@ Deprecated configuration
    - No cleanup after use
    - Many one-off fixers and scanners
 
-4. **Framework Iterations**: 
+4. **Framework Iterations**:
    - `core/` with 905 files shows many architectural iterations
    - `lukhas/` with 477 files represents LUKHAS-specific versions
 

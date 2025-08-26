@@ -97,7 +97,7 @@ class GLYPHGenerationResult:
     security_metadata: dict[str, Any]
     identity_embedding: dict[str, Any]
     orb_visualization: Optional[dict[str, Any]]
-    quantum_signature: Optional[str]
+    qi_signature: Optional[str]
     steganographic_layers: Optional[dict[str, Any]]
     generation_metadata: dict[str, Any]
     error_message: Optional[str] = None
@@ -146,7 +146,7 @@ class GLYPHPipeline:
                 "orb_integration": True,
             },
             GLYPHType.IDENTITY_QUANTUM: {
-                "includes": ["lambda_id", "quantum_signature", "pqc_keys", "timestamp"],
+                "includes": ["lambda_id", "qi_signature", "pqc_keys", "timestamp"],
                 "security": GLYPHSecurityLevel.QUANTUM,
                 "orb_integration": False,
             },
@@ -214,7 +214,7 @@ class GLYPHPipeline:
                     security_metadata={},
                     identity_embedding={},
                     orb_visualization=None,
-                    quantum_signature=None,
+                    qi_signature=None,
                     steganographic_layers=None,
                     generation_metadata={},
                     error_message=f"Base GLYPH generation failed: {base_glyph_result['error']}",
@@ -241,18 +241,18 @@ class GLYPHPipeline:
                 )
 
             # Generate quantum signature
-            quantum_signature = None
+            qi_signature = None
             if request.security_level in [
                 GLYPHSecurityLevel.QUANTUM,
                 GLYPHSecurityLevel.TRANSCENDENT,
             ]:
-                quantum_signature = self._generate_quantum_signature(
+                qi_signature = self._generate_quantum_signature(
                     enhanced_glyph, identity_data
                 )
 
             # Compile security metadata
             security_metadata = self._compile_security_metadata(
-                request, quantum_signature, steganographic_layers
+                request, qi_signature, steganographic_layers
             )
 
             # Create final GLYPH image
@@ -281,7 +281,7 @@ class GLYPHPipeline:
                     "security_level": request.security_level.value,
                 },
                 orb_visualization=orb_visualization,
-                quantum_signature=quantum_signature,
+                qi_signature=qi_signature,
                 steganographic_layers=steganographic_layers,
                 generation_metadata={
                     "glyph_type": request.glyph_type.value,
@@ -308,7 +308,7 @@ class GLYPHPipeline:
                 security_metadata={},
                 identity_embedding={},
                 orb_visualization=None,
-                quantum_signature=None,
+                qi_signature=None,
                 steganographic_layers=None,
                 generation_metadata={},
                 error_message=str(e),
@@ -333,10 +333,10 @@ class GLYPHPipeline:
         glyph_result = self.generated_glyphs[glyph_id]
 
         # Verify quantum signature if present
-        quantum_verified = True
-        if glyph_result.quantum_signature:
-            quantum_verified = self._verify_quantum_signature(
-                glyph_result.quantum_signature,
+        qi_verified = True
+        if glyph_result.qi_signature:
+            qi_verified = self._verify_quantum_signature(
+                glyph_result.qi_signature,
                 glyph_result.glyph_data,
                 verification_data,
             )
@@ -354,13 +354,13 @@ class GLYPHPipeline:
         )
 
         overall_verified = (
-            quantum_verified and steganographic_verified and identity_verified
+            qi_verified and steganographic_verified and identity_verified
         )
 
         return {
             "verified": overall_verified,
             "glyph_id": glyph_id,
-            "quantum_verified": quantum_verified,
+            "qi_verified": qi_verified,
             "steganographic_verified": steganographic_verified,
             "identity_verified": identity_verified,
             "verification_timestamp": datetime.now().isoformat(),
@@ -468,7 +468,7 @@ class GLYPHPipeline:
             GLYPHSecurityLevel.QUANTUM,
             GLYPHSecurityLevel.TRANSCENDENT,
         ]:
-            profile["quantum_security_level"] = "maximum"
+            profile["qi_security_level"] = "maximum"
 
         return profile
 
@@ -525,7 +525,7 @@ class GLYPHPipeline:
             enhanced_glyph["transcendent_features"] = {
                 "dream_integration": request.dream_pattern is not None,
                 "consciousness_fusion": request.consciousness_state is not None,
-                "quantum_signature": True,
+                "qi_signature": True,
                 "multi_dimensional_encoding": True,
             }
 
@@ -610,7 +610,7 @@ class GLYPHPipeline:
     def _compile_security_metadata(
         self,
         request: GLYPHGenerationRequest,
-        quantum_signature: Optional[str],
+        qi_signature: Optional[str],
         steganographic_layers: Optional[dict[str, Any]],
     ) -> dict[str, Any]:
         """Compile security metadata for GLYPH"""
@@ -622,10 +622,10 @@ class GLYPHPipeline:
         }
 
         # Add quantum security info
-        if quantum_signature:
+        if qi_signature:
             metadata["encryption_methods"].append("post_quantum_cryptography")
             metadata["integrity_protection"].append("dilithium_signature")
-            metadata["quantum_signature_present"] = True
+            metadata["qi_signature_present"] = True
 
         # Add steganographic security info
         if steganographic_layers:
@@ -695,7 +695,7 @@ class GLYPHPipeline:
         if tier_level >= 3:
             features.extend(["biometric_binding", "premium_encryption"])
         if tier_level >= 4:
-            features.extend(["quantum_resistance", "multi_factor_auth"])
+            features.extend(["qi_resistance", "multi_factor_auth"])
         if tier_level >= 5:
             features.extend(
                 ["dream_integration", "consciousness_fusion", "transcendent_security"]
@@ -760,8 +760,8 @@ class GLYPHPipeline:
             "tier_levels": tier_levels,
             "success_rate": sum(1 for g in self.generated_glyphs.values() if g.success)
             / len(self.generated_glyphs),
-            "quantum_secured": sum(
-                1 for g in self.generated_glyphs.values() if g.quantum_signature
+            "qi_secured": sum(
+                1 for g in self.generated_glyphs.values() if g.qi_signature
             ),
             "steganographic_enhanced": sum(
                 1 for g in self.generated_glyphs.values() if g.steganographic_layers

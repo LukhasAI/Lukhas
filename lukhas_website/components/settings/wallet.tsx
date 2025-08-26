@@ -1,8 +1,8 @@
 "use client";
 
 export default function WalletSettings() {
-  const tier = typeof window !== 'undefined' 
-    ? Number(localStorage.getItem("lukhas:tier") || 1) 
+  const tier = typeof window !== 'undefined'
+    ? Number(localStorage.getItem("lukhas:tier") || 1)
     : 1;
 
   return (
@@ -12,24 +12,24 @@ export default function WalletSettings() {
         Tier: {tier}
       </div>
       <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-        <button 
+        <button
           style={{
-            border: "1px solid var(--line)", 
-            background: "transparent", 
-            color: "var(--text)", 
-            borderRadius: 8, 
+            border: "1px solid var(--line)",
+            background: "transparent",
+            color: "var(--text)",
+            borderRadius: 8,
             padding: "6px 10px",
             cursor: "pointer"
           }}
         >
           View WΛLLET
         </button>
-        <button 
+        <button
           style={{
-            border: "1px solid var(--line)", 
-            background: "transparent", 
-            color: "var(--text)", 
-            borderRadius: 8, 
+            border: "1px solid var(--line)",
+            background: "transparent",
+            color: "var(--text)",
+            borderRadius: 8,
             padding: "6px 10px",
             cursor: "pointer"
           }}

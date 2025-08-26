@@ -87,7 +87,7 @@ class GuardianSystem:
     def __init__(self, drift_threshold=0.15):
         self.drift_threshold = drift_threshold
         self.baseline = self.establish_baseline()
-        
+
     def check_drift(self, action):
         drift_score = self.calculate_drift(action, self.baseline)
         if drift_score > self.drift_threshold:
@@ -99,7 +99,7 @@ class GuardianSystem:
 class ConstitutionalValidator:
     def __init__(self, principles):
         self.principles = principles
-        
+
     def validate(self, action):
         for principle in self.principles:
             if not principle.check(action):

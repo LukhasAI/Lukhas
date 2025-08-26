@@ -26,13 +26,13 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    
+
     /* Record video on failure */
     video: 'retain-on-failure',
-    
+
     /* Take screenshot on failure */
     screenshot: 'only-on-failure',
-    
+
     /* Global timeout for all operations */
     actionTimeout: 30000,
     navigationTimeout: 30000,
@@ -91,18 +91,18 @@ export default defineConfig({
       DEV_HTTPS_ENABLED: 'true',
     },
   },
-  
+
   /* Test timeout */
   timeout: 60000,
-  
+
   /* Expect timeout */
   expect: {
     timeout: 10000,
   },
-  
+
   /* Output directory */
   outputDir: 'test-results/',
-  
+
   /* Test artifacts */
   preserveOutput: 'always',
 });

@@ -20,24 +20,24 @@ jobs:
   policy-enforcement:
     runs-on: ubuntu-latest
     name: Brand, Tone & Accessibility Enforcement
-    
+
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Full history for comprehensive scanning
-        
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         cache: 'npm'
         cache-dependency-path: lukhas_website/package-lock.json
-        
+
     - name: Install dependencies
       run: |
         cd lukhas_website
         npm ci
-        
+
     - name: Run Comprehensive Policy Linting
       id: policy-lint
       run: |
@@ -53,7 +53,7 @@ jobs:
         echo "Brand policy violations detected. Build blocked until resolved." >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### Failed Checks:" >> $GITHUB_STEP_SUMMARY
-        
+
         if [ "${{ steps.policy-lint.outcome }}" = "failure" ]; then
           echo "- ❌ **Comprehensive Policy Check**: Multiple violations detected" >> $GITHUB_STEP_SUMMARY
           echo "  - Brand Policy: MATADA/Λ usage violations" >> $GITHUB_STEP_SUMMARY
@@ -63,7 +63,7 @@ jobs:
           echo "  - Vendor Neutrality: Implied endorsements detected" >> $GITHUB_STEP_SUMMARY
           echo "  - International: False friends in supported locales" >> $GITHUB_STEP_SUMMARY
         fi
-        
+
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### Quick Fixes:" >> $GITHUB_STEP_SUMMARY
         echo "- Replace public 'MATADA' with 'Matriz'" >> $GITHUB_STEP_SUMMARY
@@ -96,14 +96,14 @@ jobs:
     needs: policy-enforcement
     runs-on: ubuntu-latest
     if: failure() && github.event_name == 'pull_request'
-    
+
     steps:
     - name: Notify Brand Council
       uses: actions/github-script@v7
       with:
         script: |
           const { owner, repo, number } = context.issue;
-          
+
           await github.rest.issues.createComment({
             owner,
             repo,
@@ -119,7 +119,7 @@ This PR contains brand policy violations that block the build process.
 
 ### Brand Guidelines:
 - Use **"Matriz"** in body text, **"MΛTRIZ"** only in logos/headers
-- Add \`aria-label="Matriz"\` to all Λ usage  
+- Add \`aria-label="Matriz"\` to all Λ usage
 - Avoid banned words: guaranteed, perfect, revolutionary, etc.
 - Limit poetic content to ≤40 words
 
@@ -132,31 +132,31 @@ This PR contains brand policy violations that block the build process.
   weekly-brand-scan:
     runs-on: ubuntu-latest
     if: github.event_name == 'schedule'
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        
+
     - name: Install dependencies
       run: |
         cd lukhas_website
         npm ci
-        
+
     - name: Full Repository Brand Scan
       run: |
         echo "🔍 Weekly brand compliance scan..."
         cd lukhas_website
         npm run lint:policy || true
-        
+
     - name: Generate Compliance Report
       run: |
         echo "## 📊 Weekly Brand Compliance Report" >> weekly-report.md
         echo "**Scan Date:** $(date)" >> weekly-report.md
         echo "" >> weekly-report.md
         # Additional reporting logic here
-        
+
     # In a real implementation, this would post to Slack or similar

@@ -78,7 +78,7 @@ class LukhasyStudio {
             console.log(`State transition: ${this.state} → ${nextState} (${event})`);
             this.state = nextState;
             this.onStateEnter(nextState, context);
-            
+
             // Emit for observability
             this.emit('STATE_TRANSITION', { from: this.state, to: nextState, event });
         }
@@ -121,7 +121,7 @@ class LukhasyStudio {
 
     startQuoteRotation(quotes) {
         let currentIndex = 0;
-        
+
         const rotateQuote = () => {
             const quote = quotes[currentIndex];
             this.displayQuote(quote);
@@ -130,7 +130,7 @@ class LukhasyStudio {
 
         // Initial quote
         rotateQuote();
-        
+
         // Set interval for rotation
         setInterval(rotateQuote, 7000);
     }
@@ -138,7 +138,7 @@ class LukhasyStudio {
     displayQuote(quote) {
         const quoteText = document.getElementById('quote-text');
         const quoteAuthor = document.getElementById('quote-author');
-        
+
         if (!quoteText || !quoteAuthor) return;
 
         // Character-by-character animation if motion enabled
@@ -147,9 +147,9 @@ class LukhasyStudio {
         } else {
             quoteText.textContent = `"${quote.text}"`;
         }
-        
+
         quoteAuthor.textContent = `— ${quote.signedBy}`;
-        
+
         // Emit for observability
         this.emit('QUOTE_SHOWN', { id: quote.id, text: quote.text });
     }
@@ -157,7 +157,7 @@ class LukhasyStudio {
     animateQuoteCharacters(element, text) {
         element.innerHTML = '';
         element.classList.add('character-animate');
-        
+
         [...text].forEach((char, index) => {
             const span = document.createElement('span');
             span.textContent = char === ' ' ? '\u00A0' : char; // Non-breaking space
@@ -255,7 +255,7 @@ class LukhasyStudio {
     handleNavigation(e) {
         e.preventDefault();
         const href = e.target.getAttribute('href');
-        
+
         if (href === '/legal/terms-eu.html') {
             window.location.href = href;
             return;
@@ -276,7 +276,7 @@ class LukhasyStudio {
                     }
                 }
             });
-            
+
             observer.observe({ entryTypes: ['largest-contentful-paint'] });
         }
     }
@@ -284,13 +284,13 @@ class LukhasyStudio {
     // Event System
     emit(eventName, detail = {}) {
         this.eventBus.dispatchEvent(new CustomEvent(eventName, { detail }));
-        
+
         // Log for observability (matching visual_studio.json spec)
         const observabilityEvents = [
             'QUOTE_SHOWN', 'CONSENT_DECISION', 'LOGIN_SUCCESS', 'STUDIO_LOADED',
             'STATE_TRANSITION', 'LCP_MEASURED'
         ];
-        
+
         if (observabilityEvents.includes(eventName)) {
             console.log(`📊 ${eventName}:`, detail);
         }
@@ -311,7 +311,7 @@ window.addEventListener('load', () => {
     setTimeout(() => {
         const navigation = performance.getEntriesByType('navigation')[0];
         const lcp = performance.getEntriesByType('largest-contentful-paint')[0];
-        
+
         const metrics = {
             LCP: lcp ? lcp.startTime : 0,
             FCP: navigation ? navigation.loadEventEnd - navigation.loadEventStart : 0
@@ -319,7 +319,7 @@ window.addEventListener('load', () => {
 
         // Budget checks from visual_studio.json
         const budgets = { LCP_ms: 2500, CLS: 0.1, TBT_ms: 200 };
-        
+
         if (metrics.LCP > budgets.LCP_ms) {
             console.warn(`🚨 LCP budget exceeded: ${metrics.LCP}ms > ${budgets.LCP_ms}ms`);
         }

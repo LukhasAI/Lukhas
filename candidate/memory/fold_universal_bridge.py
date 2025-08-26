@@ -60,11 +60,11 @@ except ImportError:
 
 # Quantum engine
 try:
-    from qi.systems.quantum_engine import QIEngine
+    from qi.systems.qi_engine import QIEngine
 
-    quantum_available = True
+    qi_available = True
 except ImportError:
-    quantum_available = False
+    qi_available = False
 
 # Ethics engine
 try:
@@ -126,7 +126,7 @@ class BridgeConfiguration:
 
     # Integration parameters
     hormone_memory_threshold: float = 0.7  # Hormone level to trigger memory creation
-    quantum_entanglement_distance: float = (
+    qi_entanglement_distance: float = (
         0.3  # Max emotional distance for entanglement
     )
     ethical_memory_risk_threshold: float = 0.8  # Risk level requiring ethics review
@@ -189,8 +189,8 @@ class MemoryFoldUniversalBridge:
             self.active_bridges.add("bio_simulation")
 
         # Quantum
-        if self.config.enable_quantum and quantum_available:
-            self.quantum_engine = QIEngine()
+        if self.config.enable_quantum and qi_available:
+            self.qi_engine = QIEngine()
             self.active_bridges.add("quantum")
 
         # Ethics
@@ -288,7 +288,7 @@ class MemoryFoldUniversalBridge:
         # 6. Quantum Integration (post-creation entanglement)
         if "quantum" in self.active_bridges:
             entanglements = await self._integrate_quantum(memory_fold)
-            integration_results["quantum_entanglements"] = entanglements
+            integration_results["qi_entanglements"] = entanglements
 
         # 7. Echo Detection Integration
         if "echo_detection" in self.active_bridges:
@@ -424,13 +424,13 @@ class MemoryFoldUniversalBridge:
             # Find emotionally similar memories
             similar_memories = self.memory_system.get_emotional_neighborhood(
                 memory_fold["emotion"],
-                threshold=self.config.quantum_entanglement_distance,
+                threshold=self.config.qi_entanglement_distance,
             )
 
             entanglements = []
             for similar_emotion, distance in similar_memories.items():
                 # Create entanglement-like correlation
-                entanglement = await self.quantum_engine.create_entanglement(
+                entanglement = await self.qi_engine.create_entanglement(
                     {
                         "source_id": memory_fold["hash"],
                         "source_emotion": memory_fold["emotion"],
@@ -700,7 +700,7 @@ class MemoryFoldUniversalBridge:
         """Create special quantum bridge between dream and memory."""
         try:
             # Dreams have special quantum properties
-            await self.quantum_engine.create_dream_bridge(
+            await self.qi_engine.create_dream_bridge(
                 {
                     "memory_id": memory_fold["hash"],
                     "dream_id": dream_snapshot.snapshot_id,
@@ -778,10 +778,10 @@ class MemoryFoldUniversalBridge:
                     ] = await self.lambda_mirror.get_status()
                 elif bridge == "bio_simulation" and hasattr(self, "bio_sim"):
                     status["bridge_health"][bridge] = self.bio_sim.get_system_status()
-                elif bridge == "quantum" and hasattr(self, "quantum_engine"):
+                elif bridge == "quantum" and hasattr(self, "qi_engine"):
                     status["bridge_health"][
                         bridge
-                    ] = await self.quantum_engine.get_health()
+                    ] = await self.qi_engine.get_health()
                 else:
                     status["bridge_health"][bridge] = {"status": "active"}
             except Exception as e:

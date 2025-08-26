@@ -38,7 +38,7 @@ class NeuralNetworkBackground {
             bottom: 0;
             overflow: hidden;
             z-index: 1;
-            background: 
+            background:
                 radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
                 linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.9) 50%, rgba(22, 33, 62, 0.8) 100%);
@@ -46,10 +46,10 @@ class NeuralNetworkBackground {
 
         // Create network layers
         this.createNetworkLayers(networkScene);
-        
+
         // Create flowing data connections
         this.createDataConnections(networkScene);
-        
+
         // Add floating particles
         this.createFloatingParticles(networkScene);
 
@@ -57,7 +57,7 @@ class NeuralNetworkBackground {
 
         // Add styles
         this.addNeuralNetworkStyles();
-        
+
         console.log('Neural network scene created successfully');
     }
 
@@ -162,32 +162,32 @@ class NeuralNetworkBackground {
             }
 
             @keyframes dataFlow {
-                0% { 
+                0% {
                     transform: translateY(-100px) rotate(var(--rotation));
                     opacity: 0;
                 }
                 10% { opacity: 0.8; }
                 90% { opacity: 0.8; }
-                100% { 
+                100% {
                     transform: translateY(100vh) rotate(var(--rotation));
                     opacity: 0;
                 }
             }
 
             @keyframes particleFloat {
-                0% { 
+                0% {
                     transform: translate(0, 100vh) scale(0);
                     opacity: 0;
                 }
-                10% { 
+                10% {
                     opacity: 1;
                     transform: translate(0, 90vh) scale(1);
                 }
-                90% { 
+                90% {
                     opacity: 1;
                     transform: translate(100px, 10vh) scale(1);
                 }
-                100% { 
+                100% {
                     transform: translate(200px, 0) scale(0);
                     opacity: 0;
                 }
@@ -216,7 +216,7 @@ class NeuralNetworkBackground {
                     width: 3px !important;
                     height: 3px !important;
                 }
-                
+
                 .neural-network-scene .data-connection {
                     width: 1px !important;
                 }
@@ -235,7 +235,7 @@ class NeuralNetworkBackground {
         const connections = document.querySelectorAll('.data-connection');
         connections.forEach((connection, index) => {
             connection.style.setProperty('--rotation', `${Math.random() * 360}deg`);
-            
+
             // Randomly restart animations
             setTimeout(() => {
                 connection.style.animation = 'none';
@@ -250,12 +250,12 @@ class NeuralNetworkBackground {
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
         }
-        
+
         const scene = document.querySelector('.neural-network-scene');
         if (scene) {
             scene.remove();
         }
-        
+
         const styles = document.querySelector('#neural-network-styles');
         if (styles) {
             styles.remove();

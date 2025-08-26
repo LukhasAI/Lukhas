@@ -140,7 +140,7 @@ MERGED MODULE:
         base_interfaces = interface_plan["base_interfaces"]
 
         for interface_name, interface_spec in base_interfaces.items():
-            prompt = f"""You are designing standardized interfaces for an AGI system. 
+            prompt = f"""You are designing standardized interfaces for an AGI system.
 
 Create a comprehensive Python interface/protocol for: {interface_name}
 
@@ -392,11 +392,11 @@ from pathlib import Path
 
 def migrate_agi_modules():
     print("🚀 Starting AGI module migration...")
-    
+
     # Backup original modules
     backup_dir = Path("backup_original_modules")
     backup_dir.mkdir(exist_ok=True)
-    
+
 """
 
         # Add backup operations for merged modules
@@ -410,10 +410,10 @@ def migrate_agi_modules():
 """
 
         script += """
-    
+
     # Copy consolidated modules
     consolidated_dir = Path("consolidated_agi")
-    
+
 """
 
         # Add copy operations for consolidated modules
@@ -430,7 +430,7 @@ def migrate_agi_modules():
 """
 
         script += """
-    
+
     print("🎉 Migration completed!")
     print("Next steps:")
     print("1. Update import statements in your code")

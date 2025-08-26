@@ -38,7 +38,7 @@ tools/analysis/_IMPORT_FIXER.py         → import_fixer.py                Actio
 ```
 BEFORE (Multiple Files)                    → AFTER (Single Module)          LOGIC
 lukhas_governance/audit_logger/__init__.py
-lukhas_governance/compliance_hooks/__init__.py  
+lukhas_governance/compliance_hooks/__init__.py
 lukhas_governance/policy_manager/__init__.py    → governance_extended.py       Consolidate sparse modules
 
 lukhas_personality/creative_core/__init__.py
@@ -83,7 +83,7 @@ RENAME_MAPPINGS = {
     'lukhas_id_enhanced': 'identity_enhanced',
     'lukhas_lambda_id': 'lambda_identity',
     'lukhas_next_gen': 'next_gen',
-    
+
     # File renames (tools/analysis/)
     'tools/analysis/_OPERATIONAL_SUMMARY.py': 'tools/analysis/operational_summary.py',
     'tools/analysis/_FUNCTIONAL_ANALYSIS.py': 'tools/analysis/functional_analysis.py',
@@ -95,11 +95,11 @@ RENAME_MAPPINGS = {
 def execute_renames():
     """Execute the rename plan"""
     workspace = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-    
+
     for old_path, new_path in RENAME_MAPPINGS.items():
         old_full = workspace / old_path
         new_full = workspace / new_path
-        
+
         if old_full.exists():
             print(f"Renaming: {old_path} → {new_path}")
             shutil.move(str(old_full), str(new_full))

@@ -45,11 +45,11 @@ analyze_current_files() {
     echo "📊 Analysis of Your Current Root Directory:"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo
-    
+
     local file_count=0
     local high_confidence=0
     local suggestions_made=0
-    
+
     # Check specific files we know about
     if [ -f "AGENTS.md" ]; then
         echo "📄 AGENTS.md"
@@ -61,7 +61,7 @@ analyze_current_files() {
         ((high_confidence++))
         ((suggestions_made++))
     fi
-    
+
     if [ -f "CLAUDE.md" ]; then
         echo "📄 CLAUDE.md"
         echo "   🎯 Pattern: Claude documentation → docs/agents/"
@@ -72,7 +72,7 @@ analyze_current_files() {
         ((high_confidence++))
         ((suggestions_made++))
     fi
-    
+
     if [ -f "matada_node_v1.json" ]; then
         echo "📄 matada_node_v1.json"
         echo "   🎯 Pattern: MATADA schema → MATADA/"
@@ -83,19 +83,19 @@ analyze_current_files() {
         ((high_confidence++))
         ((suggestions_made++))
     fi
-    
+
     # Count all markdown files
     local md_count
     md_count=$(find . -maxdepth 1 -name "*.md" -type f | wc -l)
-    
+
     # Count all JSON files
     local json_count
     json_count=$(find . -maxdepth 1 -name "*.json" -type f | wc -l)
-    
+
     # Count all script files
     local script_count
     script_count=$(find . -maxdepth 1 -name "*.sh" -type f | wc -l)
-    
+
     echo "📈 Summary Statistics:"
     echo "   • Markdown files: $md_count"
     echo "   • JSON files: $json_count"
@@ -148,12 +148,12 @@ main() {
     show_banner
     explain_system
     analyze_current_files
-    
+
     while true; do
         show_options
         read -p "Your choice [r/d/h/q]: " choice
         echo
-        
+
         case $choice in
             [Rr]|run)
                 echo "🎉 Starting interactive file organization..."
@@ -190,14 +190,14 @@ show_detailed_demo() {
     echo
     echo "Scanning your root directory..."
     echo
-    
+
     # Real file analysis with actual pattern matching
     while IFS= read -r -d '' file; do
         local basename
         basename=$(basename "$file")
-        
+
         echo "📄 $basename"
-        
+
         # Pattern matching logic
         case $basename in
             *AGENT*|*agent*|AGENTS*|agents*)
@@ -206,7 +206,7 @@ show_detailed_demo() {
                 echo "   📊 Confidence: 9/10"
                 ;;
             *CLAUDE*|*claude*)
-                echo "   🔍 Pattern: Claude-related → Category: AGENTS"  
+                echo "   🔍 Pattern: Claude-related → Category: AGENTS"
                 echo "   📁 Suggestion: docs/agents/"
                 echo "   📊 Confidence: 8/10"
                 ;;
@@ -251,12 +251,12 @@ show_detailed_demo() {
                 echo "   📊 Confidence: 3/10"
                 ;;
         esac
-        
+
         echo "   ❓ Interactive: Would ask [y]es/[s]kip/[c]ustom/[q]uit"
         echo
-        
+
     done < <(find . -maxdepth 1 -type f -not -path '*/\.*' -print0 | head -z -n 8)
-    
+
     echo "🎭 Demo complete! In real mode, you'd approve each move."
 }
 

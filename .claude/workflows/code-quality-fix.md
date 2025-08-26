@@ -18,21 +18,21 @@ def process_consciousness_data(data: ConsciousData) -> ConsciousResponse:
     🎓 Technical: Async processing with Trinity validation and Λ-trace integration
     """
     λ_trace = start_audit_trace(data.λid)
-    
+
     try:
         # Consciousness validation
         consciousness_state = await validate_consciousness_alignment(data)
         if not consciousness_state.valid:
             return consciousness_error("Trinity alignment required", λ_trace)
-        
+
         # Core processing with bio-inspired patterns
         result = await bio_inspired_processing(data, consciousness_state)
-        
+
         # Λ-trace completion
         await λ_trace.complete(result)
-        
+
         return ConsciousResponse(result, consciousness_metadata=consciousness_state)
-        
+
     except Exception as e:
         await λ_trace.error(e)
         return consciousness_error(str(e), λ_trace)

@@ -12,7 +12,7 @@ Generated: 2025-08-13
 
 The adapters in `core/adapters/module_service_adapter.py` are trying to import modules that:
 1. **DON'T EXIST** in the specified locations
-2. Were **MOVED** during reorganization  
+2. Were **MOVED** during reorganization
 3. Were **NEVER CREATED** in the first place
 
 ---
@@ -62,7 +62,7 @@ The adapters in `core/adapters/module_service_adapter.py` are trying to import m
 
 ### Actually Used (Correctly):
 - `consciousness/unified/auto_consciousness.py` ✅
-- `consciousness/dream/core/dream_engine.py` ✅  
+- `consciousness/dream/core/dream_engine.py` ✅
 - `consciousness/awareness/__init__.py` ✅
 - `memory/__init__.py` ✅ (but it's nearly empty!)
 
@@ -81,7 +81,7 @@ The adapters in `core/adapters/module_service_adapter.py` are trying to import m
 ### The Cascade Effect:
 
 1. **Broken Imports** → Modules can't load
-2. **Can't Load** → Not in import graph  
+2. **Can't Load** → Not in import graph
 3. **Not in Import Graph** → Marked as orphaned
 4. **Orphaned** → 98% unused
 
@@ -106,7 +106,7 @@ from memory.memory_fold import MemoryFoldSystem
 from memory.folds.memory_fold import MemoryFoldSystem
 
 # OLD (BROKEN):
-from governance.guardian.guardian_system import GuardianSystem  
+from governance.guardian.guardian_system import GuardianSystem
 
 # NEW (FIXED):
 from governance.guardian_system import GuardianSystem
@@ -140,7 +140,7 @@ except ImportError as e:
 
 ### Modules That Will Come Online:
 1. **Memory System**: 380 files
-2. **Governance System**: 285 files  
+2. **Governance System**: 285 files
 3. **Emotion System**: 35 files
 4. **Total**: ~700 files activated!
 
@@ -164,7 +164,7 @@ python3 -c "
 from memory.folds.memory_fold import MemoryFoldSystem
 print('✅ Memory works!')
 
-from governance.guardian_system import GuardianSystem  
+from governance.guardian_system import GuardianSystem
 print('✅ Governance works!')
 "
 ```

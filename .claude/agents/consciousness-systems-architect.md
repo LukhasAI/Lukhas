@@ -83,7 +83,7 @@ class QuantumConsciousness:
         self.memory = FoldMemory(max_folds=1000)
         self.quantum = QuantumProcessor()
         self.bio = BioOscillator(frequency=40)
-        
+
     def process_awareness(self, stimuli):
         quantum_state = self.quantum.superposition(stimuli)
         memory_context = self.memory.recall(quantum_state)

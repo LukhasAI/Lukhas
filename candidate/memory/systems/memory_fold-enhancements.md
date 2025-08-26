@@ -1,4 +1,4 @@
-memory_fold enhancements:	
+memory_fold enhancements:
 
 1. Tighten the data model
 
@@ -15,7 +15,7 @@ Global memory_folds list	Not thread-safe; falls over as soon as you have async t
 
 Current line	Problem	Patch sketch
 folds.sort(key=lambda x: x["relevance_score"], …)	relevance_score is never computed ⇒ KeyError.	After you validate the hash, assign relevance_score = w1*recency + w2*priority + w3*semantic_similarity(query) (weights configurable).
-Hash check only SHA-256	Works, but you could HMAC-sign with a secret key to stop malicious hash collisions.	
+Hash check only SHA-256	Works, but you could HMAC-sign with a secret key to stop malicious hash collisions.
 
 4. Concurrency & I/O
 	•	Wrap disk / DB ops in async functions and run with asyncio.TaskGroup; don’t block the event loop with file I/O (e.g., reading lukhas_vision_prompts.json).
@@ -40,4 +40,3 @@ Idea	Pay-off
 Sliding-window summarisation (e.g., keep only distilled facts after N folds)	Keeps vector store small, lowers latency.
 Compression models like Mamba for long sequences	Cheaply summarises working context before the LLM call.  ￼
 Multi-agent messaging protocol (muvius or LangChain Multi-Agent boilerplate)	Lets specialised sub-agents read/write the same memory.  ￼
-

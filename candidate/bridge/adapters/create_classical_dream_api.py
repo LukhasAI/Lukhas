@@ -484,7 +484,7 @@ async def health_check():
     return {
         "status": "healthy",
         "engine": "classical",
-        "quantum_free": True,
+        "qi_free": True,
         "deterministic": True,
     }
 
@@ -500,7 +500,7 @@ async def compare_with_quantum():
             "Compatible with all hardware",
             "Easier to debug and verify",
         ],
-        "quantum_advantages": [
+        "qi_advantages": [
             "True superposition exploration",
             "Quantum entanglement insights",
             "Potentially deeper emergence",

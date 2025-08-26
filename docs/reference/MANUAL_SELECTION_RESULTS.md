@@ -119,7 +119,7 @@ Generated: 2025-08-13
 ```bash
 # Highest value, most complete
 1. ai_orchestration/lukhas_ai_orchestrator.py
-2. core/agi/autonomous_learning.py  
+2. core/agi/autonomous_learning.py
 3. core/agi/self_improvement.py
 4. core/agi/consciousness_stream.py
 5. core/ethics/dream_ethics_injector.py

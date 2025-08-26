@@ -417,7 +417,7 @@ class LukhasKMSManager:
         self.rotation_running = False
 
         # QIM assessment
-        self.qim_status = QuantumInspireModuleStatus()
+        self.qim_status = QIInspireModuleStatus()
 
         logger.info("🔐 LUKHAS KMS Manager initialized")
 

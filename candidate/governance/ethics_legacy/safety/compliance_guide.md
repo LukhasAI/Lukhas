@@ -23,20 +23,20 @@ LUKHAS_AGI_3.8 adheres to the following major regulatory frameworks:
 
 LUKHAS_AGI_3.8 applies a **jurisdiction-aware policy hierarchy** using the following regulatory precedence:
 
-1. **EU AI Act (2024/1689)**:  
+1. **EU AI Act (2024/1689)**:
    - Takes **top precedence** for deployments within the EU jurisdiction.
    - Enforced articles include AI Literacy (4), Prohibited Practices (5), Transparency (13), Robustness (15).
 
-2. **GDPR (General Data Protection Regulation)**:  
+2. **GDPR (General Data Protection Regulation)**:
    - Applies to all **data handling and privacy** aspects globally for EU citizens.
 
-3. **OECD AI Principles**:  
+3. **OECD AI Principles**:
    - Applied globally where local jurisdiction lacks specific AI laws.
 
-4. **ISO/IEC 27001**:  
+4. **ISO/IEC 27001**:
    - Enforced for **information security management** (ISMS) across all regions.
 
-5. **Local/National Laws**:  
+5. **Local/National Laws**:
    - Applied **when stricter** or more specific than higher-tier frameworks.
 
 #### Conflict Resolution

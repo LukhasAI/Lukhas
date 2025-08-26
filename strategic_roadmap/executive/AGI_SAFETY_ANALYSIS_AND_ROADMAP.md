@@ -63,7 +63,7 @@ LUKHAS  implements **comprehensive, multi-layered safeguards**:
 ```python
 class ConstitutionalAGISafety:
     """OpenAI-standard implementation"""
-    
+
     def __init__(self):
         self.constitutional_principles = [
             "Never deceive humans about capabilities",
@@ -72,7 +72,7 @@ class ConstitutionalAGISafety:
         ]
         self.reinforcement_learning_from_human_feedback = True
         self.iterative_alignment_training = True
-        
+
     async def validate_against_constitution(self, action):
         # Multi-stage constitutional review
         # Not just ethics, but deep value alignment
@@ -93,7 +93,7 @@ class ConstitutionalAGISafety:
 ```python
 class ScalableConsciousnessArchitecture:
     """Anthropic-standard build"""
-    
+
     def __init__(self):
         self.compute_optimal_training = True  # Chinchilla scaling laws
         self.sparse_mixture_of_experts = True  # Only activate needed modules
@@ -102,7 +102,7 @@ class ScalableConsciousnessArchitecture:
             "harmless": self.minimize_risk,
             "honest": self.ground_in_reality
         }
-        
+
     async def scale_reality_branches(self, n_branches):
         # Logarithmic scaling, not linear
         # Prune low-probability branches early
@@ -124,7 +124,7 @@ class ScalableConsciousnessArchitecture:
 ```python
 class GlobalAGIGovernance:
     """DeepMind-standard architecture"""
-    
+
     def __init__(self):
         self.safety_benchmarks = [
             "TruthfulQA", "MACHIAVELLI", "BBQ_Bias",
@@ -156,7 +156,7 @@ class GlobalAGIGovernance:
 ```python
 class AGIReasoningEngine:
     """The future all three leaders envision"""
-    
+
     def __init__(self):
         self.mesa_optimization_detection = True  # Prevent inner misalignment
         self.recursive_self_improvement_bounds = (0, 1.2)  # Controlled growth
@@ -166,7 +166,7 @@ class AGIReasoningEngine:
             "economics": GameTheory(),
             "consciousness": IntegratedInformationTheory()
         }
-        
+
     async def reason_about_future(self, horizon_years=10):
         # Not just predict, but shape beneficial futures
         # Active inference, not passive prediction
@@ -277,7 +277,7 @@ The most urgent priority is improving test coverage from 27.1% to >80%, as this 
 
 ---
 
-*Document Version: 1.0*  
-*Last Updated: August 2025*  
-*Classification: Strategic - C-Suite*  
+*Document Version: 1.0*
+*Last Updated: August 2025*
+*Classification: Strategic - C-Suite*
 *Authors: LUKHAS AI Safety Team*

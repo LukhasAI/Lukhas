@@ -40,7 +40,7 @@ class VocabularySuggester {
     this.techPatterns = [];
     this.lukhasTerms = [];
     this.poeticPhrases = [];
-    
+
     this.loadExistingTerms();
     this.setupPatterns();
   }
@@ -53,12 +53,12 @@ class VocabularySuggester {
     // Load existing vocabulary terms
     vocabPlain.forEach(entry => this.existingTerms.add(entry.term.toLowerCase()));
     vocabTechnical.forEach(entry => this.existingTerms.add(entry.term.toLowerCase()));
-    
+
     // Load blocked terms
     Object.values(blocklist).flat().forEach(entry => {
       if (entry.term) this.existingTerms.add(entry.term.toLowerCase());
     });
-    
+
     // Load poetic seeds as context
     Object.values(poeticSeeds).flat().forEach(phrase => {
       this.existingTerms.add(phrase.toLowerCase());
@@ -164,7 +164,7 @@ class VocabularySuggester {
 
     const patterns = [
       '**/*.md',
-      '**/*.js', 
+      '**/*.js',
       '**/*.ts',
       '**/*.jsx',
       '**/*.tsx',
@@ -173,8 +173,8 @@ class VocabularySuggester {
       '**/*.yml'
     ];
 
-    const files = patterns.flatMap(pattern => 
-      glob.sync(pattern, { 
+    const files = patterns.flatMap(pattern =>
+      glob.sync(pattern, {
         ignore: [
           'node_modules/**',
           '.git/**',
@@ -350,7 +350,7 @@ class VocabularySuggester {
   exportSuggestions() {
     const timestamp = new Date().toISOString().split('T')[0];
     const outputFile = path.join(__dirname, `../vocab-suggestions-${timestamp}.json`);
-    
+
     const output = {
       generated: new Date().toISOString(),
       summary: {

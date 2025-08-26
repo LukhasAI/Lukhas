@@ -9,7 +9,7 @@
 
 ### Product Screenshots
 1. **Hero view**: MATRIZ dashboard interface
-2. **Technical view**: Node tracing visualization  
+2. **Technical view**: Node tracing visualization
 3. **Integration view**: LUKHAS ecosystem connection
 
 ### One-Pager PDF Structure
@@ -30,7 +30,7 @@
 <h1 aria-label="Matriz">MΛTRIZ</h1>
 ```
 
-### Matriz Plain Form  
+### Matriz Plain Form
 - **Usage**: Body copy, SEO, metadata, alt text, documentation
 - **Context**: All text content and accessibility contexts
 - **SEO**: Primary term for search optimization
@@ -64,7 +64,7 @@
 
 ### Press Release Language
 - **Product name**: Always "Matriz" in body text
-- **Company**: "LUKHAS AI" (never "LUKHAS AGI") 
+- **Company**: "LUKHAS AI" (never "LUKHAS AGI")
 - **Features**: Focus on capabilities, not superlatives
 - **Limitations**: Include appropriate disclaimers
 
@@ -82,7 +82,7 @@
 
 ## Contact Information
 - **Media inquiries**: press@lukhas.ai
-- **Brand licensing**: brand@lukhas.ai  
+- **Brand licensing**: brand@lukhas.ai
 - **Technical questions**: docs@lukhas.ai
 
 ## Version History

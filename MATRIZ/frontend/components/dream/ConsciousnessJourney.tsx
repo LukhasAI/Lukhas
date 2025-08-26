@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Brain, Heart, Zap, Eye, Layers, Volume2, VolumeX, 
+import {
+  Brain, Heart, Zap, Eye, Layers, Volume2, VolumeX,
   RotateCcw, Sparkles, Play, Pause
 } from 'lucide-react'
 import ConsciousnessVisualizer from './ConsciousnessVisualizer'
@@ -46,12 +46,12 @@ interface ConsciousnessJourneyProps {
   setAudioEnabled: (enabled: boolean) => void
 }
 
-export default function ConsciousnessJourney({ 
-  dreamState, 
-  setDreamState, 
-  onReset, 
-  audioEnabled, 
-  setAudioEnabled 
+export default function ConsciousnessJourney({
+  dreamState,
+  setDreamState,
+  onReset,
+  audioEnabled,
+  setAudioEnabled
 }: ConsciousnessJourneyProps) {
   const [isPlaying, setIsPlaying] = useState(true)
   const [revealedElements, setRevealedElements] = useState<string[]>([])
@@ -67,7 +67,7 @@ export default function ConsciousnessJourney({
       integration: ['consciousness', 'timeline', 'glyphs', 'emotions', 'memories'],
       crystallization: ['consciousness', 'timeline', 'glyphs', 'emotions', 'memories', 'narrative']
     }
-    
+
     setRevealedElements(revelationMap[dreamState.phase] || [])
   }, [dreamState.phase])
 
@@ -107,13 +107,13 @@ export default function ConsciousnessJourney({
       if (!response.ok) throw new Error('Failed to crystallize dream')
 
       const data = await response.json()
-      
+
       setDreamState(prev => ({
         ...prev,
         narrative: data.artifact?.narrative || data.narrative,
         isProcessing: false
       }))
-      
+
     } catch (error) {
       console.error('Failed to crystallize dream:', error)
       setDreamState(prev => ({
@@ -197,7 +197,7 @@ export default function ConsciousnessJourney({
       <div className="pt-32 pb-16 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8">
-            
+
             {/* Left Column - Consciousness Visualization */}
             <div className="space-y-6">
               <AnimatePresence>

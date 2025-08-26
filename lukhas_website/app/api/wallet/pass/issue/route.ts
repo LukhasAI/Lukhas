@@ -29,8 +29,8 @@ export async function GET(_req: NextRequest) {
   } catch (error) {
     // If passkit-generator not installed, return error
     console.error("PKPass generation failed:", error);
-    return NextResponse.json({ 
-      error: "PKPass generation not available. Install passkit-generator package." 
+    return NextResponse.json({
+      error: "PKPass generation not available. Install passkit-generator package."
     }, { status: 501 });
   }
 }

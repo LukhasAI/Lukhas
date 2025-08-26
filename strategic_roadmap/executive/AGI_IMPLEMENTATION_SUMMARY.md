@@ -53,7 +53,7 @@ class NeuroplasticTransformer:
 ```python
 MANDATORY_INTERFACES = [
     "SafetyHandshake",      # Mutual capability disclosure
-    "ValueAlignment",       # Shared objective negotiation  
+    "ValueAlignment",       # Shared objective negotiation
     "ResourceArbitration",  # Compute/data sharing
     "EmergencyShutdown"     # Coordinated pause capability
 ]
@@ -185,13 +185,13 @@ class QuantumBiologicalReasoner:
 
 The LUKHAS  Enhanced Monitoring System now has a clear path to AGI-level capabilities with industry-leading safety mechanisms. The combination of biological-inspired monitoring, constitutional AI principles, and quantum-biological reasoning positions this system at the forefront of AGI development.
 
-> **"In the race to AGI, second place is extinction."**  
+> **"In the race to AGI, second place is extinction."**
 > — The unified message from Altman, Amodei, and Hassabis
 
 **The choice is binary. The time is now.**
 
 ---
 
-*Document Version: 1.0*  
-*Date: January 2025*  
+*Document Version: 1.0*
+*Date: January 2025*
 *Status: ✅ Vision Documented & Initial Implementation Complete*

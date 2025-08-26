@@ -8,7 +8,7 @@
 
   // Check if we're running in an iframe
   const isEmbedded = window.parent !== window;
-  
+
   // Get URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const embeddedMode = urlParams.get('embedded') === 'true';
@@ -29,7 +29,7 @@
     try {
       const savedApiConfig = localStorage.getItem('proteus_api_config');
       const savedVisualConfig = localStorage.getItem('proteus_visual_config');
-      
+
       if (savedApiConfig) {
         state.apiConfig = JSON.parse(savedApiConfig);
       }
@@ -55,7 +55,7 @@
       if (config.voiceIntensity !== undefined) {
         window.morphingSystem.setVoiceIntensity(config.voiceIntensity);
       }
-      
+
       // Update UI sliders if they exist
       updateUIFromConfig(config);
     }
@@ -121,14 +121,14 @@
     // Security: Only accept messages from trusted origins
     const trustedOrigins = [
       'http://localhost:3000',
-      'http://localhost:3001', 
+      'http://localhost:3001',
       'https://lukhas.ai',
       'https://www.lukhas.ai'
     ];
-    
+
     const isLocalhost = event.origin.includes('localhost');
     const isLukhas = event.origin.includes('lukhas.ai');
-    
+
     if (!isLocalhost && !isLukhas) {
       return;
     }
@@ -139,15 +139,15 @@
       case 'updateSettings':
         handleUpdateSettings(data);
         break;
-      
+
       case 'updateConfiguration':
         handleUpdateConfiguration(data);
         break;
-      
+
       case 'proteusCommand':
         handleCommand(data.command, data.data);
         break;
-      
+
       case 'requestStatus':
         sendStatus();
         break;
@@ -186,7 +186,7 @@
     const openaiInput = document.getElementById('openaiKey');
     const anthropicInput = document.getElementById('anthropicKey');
     const localEndpointInput = document.getElementById('localEndpoint');
-    
+
     if (openaiInput && config.openaiKey) {
       openaiInput.value = config.openaiKey;
     }
@@ -206,29 +206,29 @@
           window.morphingSystem.setShape(data.shape);
         }
         break;
-      
+
       case 'setColor':
         if (window.morphingSystem && data.color) {
           window.morphingSystem.setColor(data.color);
         }
         break;
-      
+
       case 'setParticleCount':
         if (window.morphingSystem && data.count) {
           window.morphingSystem.setParticleCount(data.count);
         }
         break;
-      
+
       case 'reset':
         if (window.morphingSystem) {
           window.morphingSystem.reset();
         }
         break;
-      
+
       case 'toggleMic':
         toggleMicrophone(!state.micEnabled);
         break;
-      
+
       case 'toggleAudio':
         toggleAudio(!state.audioEnabled);
         break;
@@ -243,7 +243,7 @@
       micButton.textContent = enable ? 'Disable Mic' : 'Enable Mic';
       micButton.classList.toggle('active', enable);
     }
-    
+
     // Trigger actual microphone toggle in the morphing system
     if (window.morphingSystem) {
       window.morphingSystem.toggleMicrophone(enable);
@@ -287,14 +287,14 @@
       // Hide the top bar and chat panel in embedded mode
       const topBar = document.querySelector('.lucas-topbar');
       const chatPanel = document.getElementById('lucasChatPanel');
-      
+
       if (topBar) {
         topBar.style.display = 'none';
       }
       if (chatPanel) {
         chatPanel.style.display = 'none';
       }
-      
+
       // Adjust canvas to full size
       const canvas = document.getElementById('mainCanvas');
       if (canvas) {
@@ -308,12 +308,12 @@
   function initialize() {
     loadConfiguration();
     configureEmbeddedMode();
-    
+
     // Set up message listener
     if (isEmbedded) {
       window.addEventListener('message', handleMessage);
     }
-    
+
     // Apply initial states
     if (state.micEnabled) {
       toggleMicrophone(true);
@@ -321,7 +321,7 @@
     if (!state.audioEnabled) {
       toggleAudio(false);
     }
-    
+
     // Send ready signal after a short delay to ensure everything is loaded
     setTimeout(sendReady, 1000);
   }

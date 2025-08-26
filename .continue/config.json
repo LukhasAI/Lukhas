@@ -25,7 +25,7 @@
     },
     {
       "title": "⚡ Fast Local Completion",
-      "provider": "ollama", 
+      "provider": "ollama",
       "model": "starcoder2:3b",
       "systemMessage": "Fast local code completion. Preserve LUKHAS naming when possible.",
       "contextLength": 8192
@@ -33,7 +33,7 @@
   ],
   "tabAutocompleteModel": {
     "title": "⚡ Fast Local Completion",
-    "provider": "ollama", 
+    "provider": "ollama",
     "model": "starcoder2:3b"
   },
   "customCommands": [

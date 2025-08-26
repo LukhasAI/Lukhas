@@ -11,20 +11,20 @@ const items = [
 
 export default function ModeChips() {
   const { mode, setMode } = useMode();
-  
+
   return (
     <div style={{ display: "flex", gap: 8 }}>
       {items.map(({ id, label, Icon }) => (
-        <button 
-          key={id} 
-          onClick={() => setMode(id as any)} 
+        <button
+          key={id}
+          onClick={() => setMode(id as any)}
           title={label}
           style={{
-            display: "flex", 
-            alignItems: "center", 
-            gap: 6, 
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
             padding: "6px 10px",
-            border: "1px solid var(--line)", 
+            border: "1px solid var(--line)",
             borderRadius: 999,
             background: mode === id ? "rgba(91,138,255,.15)" : "transparent",
             color: "var(--text)",

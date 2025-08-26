@@ -5,13 +5,13 @@ Integration adapters for seamless connectivity with external systems,
 legacy DAST implementations, and third-party task management tools.
 """
 
-import json
-import asyncio
-from typing import Dict, List, Any, Optional, Union
-from dataclasses import dataclass, asdict
-from datetime import datetime
-import aiohttp
 import time
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+import aiohttp
+
 
 @dataclass
 class AdapterConfig:

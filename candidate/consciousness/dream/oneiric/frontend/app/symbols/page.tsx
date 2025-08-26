@@ -66,8 +66,8 @@ export default function SymbolsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {symbols && symbols.length > 0 ? (
           symbols.map((symbol) => (
-            <div 
-              key={symbol.symbol} 
+            <div
+              key={symbol.symbol}
               className="bg-white rounded-lg p-6 shadow-sm border hover:shadow-md transition-shadow"
             >
               <div className="flex items-center justify-between mb-4">
@@ -78,19 +78,19 @@ export default function SymbolsPage() {
                   {symbol.frequency}x
                 </span>
               </div>
-              
+
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Emotional Charge:</span>
                   <span className={`font-medium ${
-                    symbol.emotional_charge > 0.5 ? 'text-green-600' : 
-                    symbol.emotional_charge < -0.5 ? 'text-red-600' : 
+                    symbol.emotional_charge > 0.5 ? 'text-green-600' :
+                    symbol.emotional_charge < -0.5 ? 'text-red-600' :
                     'text-gray-600'
                   }`}>
                     {symbol.emotional_charge.toFixed(2)}
                   </span>
                 </div>
-                
+
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Recent Dreams:</span>
                   <span className="text-gray-500">
@@ -98,11 +98,11 @@ export default function SymbolsPage() {
                   </span>
                 </div>
               </div>
-              
+
               <div className="mt-4 pt-4 border-t">
                 <div className="flex flex-wrap gap-1">
                   {symbol.recent_dreams.slice(0, 3).map((dreamId) => (
-                    <span 
+                    <span
                       key={dreamId}
                       className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
                     >

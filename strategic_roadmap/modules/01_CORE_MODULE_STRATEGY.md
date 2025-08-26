@@ -20,7 +20,7 @@ The CORE module (396 files) serves as LUKHAS 's foundational infrastructure, pro
 ```python
 class AlignedCoreInfrastructure:
     """What OpenAI would build as foundation"""
-    
+
     def __init__(self):
         self.constitutional_base_class = True  # Every object inherits safety
         self.interpretable_glyphs = {
@@ -56,7 +56,7 @@ class AlignedCoreInfrastructure:
 ```python
 class ScalableCoreArchitecture:
     """Anthropic's approach to core infrastructure"""
-    
+
     def __init__(self):
         self.microservices_architecture = True
         self.lazy_loading = True  # Load only what's needed
@@ -94,7 +94,7 @@ class ScalableCoreArchitecture:
 ```python
 class InteroperableCore:
     """DeepMind's approach to universal compatibility"""
-    
+
     def __init__(self):
         self.protocol_adapters = {
             "tensorflow": TensorFlowBridge(),
@@ -130,7 +130,7 @@ class InteroperableCore:
 ```python
 class FutureProofCore:
     """The infrastructure all leaders envision for 2030"""
-    
+
     def __init__(self):
         self.quantum_ready = {
             "qiskit_integration": True,
@@ -156,7 +156,7 @@ class FutureProofCore:
 ### For CEOs
 > "Your current CORE module is a Ferrari engine in a go-kart frame. Investing $2M in infrastructure refactoring will save $20M in scaling costs and unlock $200M in enterprise contracts."
 
-### For CTOs  
+### For CTOs
 > "396 files for core infrastructure is technical debt incarnate. Google's Borg (which runs everything) is 50 files. Simplicity at the core enables complexity at scale."
 
 ### For Chief Scientists

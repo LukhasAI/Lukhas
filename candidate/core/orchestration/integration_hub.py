@@ -23,6 +23,18 @@ from nias.integration.nias_integration_hub import NIASIntegrationHub
 from bio.bio_engine import get_bio_engine
 from bio.bio_integration_hub import get_bio_integration_hub
 from bio.core.symbolic_mito_ethics_sync import MitoEthicsSync
+from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+
+# Ethics integration
+from ethics.ethics_integration import get_ethics_integration
+from ethics.hitlo_bridge import HITLOBridge
+from ethics.meta_ethics_governor import MetaEthicsGovernor
+from ethics.seedra.seedra_core import SEEDRACore
+from ethics.self_reflective_debugger import SelfReflectiveDebugger
+
+# Ethics system imports
+from ethics.service import EthicsService
+from identity.identity_hub import IdentityHub
 from lukhas.consciousness.reflection.consciousness_hub import ConsciousnessHub
 from lukhas.consciousness.reflection.memory_hub import MemoryHub
 
@@ -37,23 +49,11 @@ from lukhas.core.core_hub import CoreHub
 # Core interfaces
 from lukhas.core.interfaces.interfaces_hub import get_interfaces_hub
 
-# Ethics integration
-from ethics.ethics_integration import get_ethics_integration
-from ethics.hitlo_bridge import HITLOBridge
-from ethics.meta_ethics_governor import MetaEthicsGovernor
-from ethics.seedra.seedra_core import SEEDRACore
-from ethics.self_reflective_debugger import SelfReflectiveDebugger
-
-# Ethics system imports
-from ethics.service import EthicsService
-from identity.identity_hub import IdentityHub
-from candidate.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
-
 # Oscillator and mito patterns
 from qi.oscillator import BaseOscillator
-from qi.quantum_hub import QuantumHub
+from qi.qi_hub import QIHub
 
-# from qi.system_orchestrator import QuantumAGISystem  # TODO: Implement quantum AGI system
+# from qi.system_orchestrator import QIAGISystem  # TODO: Implement quantum AGI system
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +78,7 @@ class SystemIntegrationHub:
 
         # Core system hubs
         self.core_hub = CoreHub()
-        self.quantum_hub = QuantumHub()
+        self.qi_hub = QIHub()
         self.consciousness_hub = ConsciousnessHub()
         self.identity_hub = IdentityHub()
         self.memory_hub = MemoryHub()
@@ -98,7 +98,7 @@ class SystemIntegrationHub:
 
         # Learning and quantum orchestration
         self.learning_engine = Learningengine()
-        self.quantum_orchestrator = QuantumAGISystem(config=None)  # Will be configured
+        self.qi_orchestrator = QIAGISystem(config=None)  # Will be configured
 
         # Bio engine
         self.bio_engine = get_bio_engine()
@@ -161,7 +161,7 @@ class SystemIntegrationHub:
     def _connect_core_systems(self):
         """Connect core system hubs"""
         # Core ↔ Quantum ↔ Consciousness cycle
-        self.core_hub.register_service("quantum_hub", self.quantum_hub)
+        self.core_hub.register_service("qi_hub", self.qi_hub)
         self.core_hub.register_service("consciousness_hub", self.consciousness_hub)
 
         # Identity ↔ Memory bidirectional
@@ -231,8 +231,8 @@ class SystemIntegrationHub:
     def _establish_cross_connections(self):
         """Establish critical cross-system connections"""
         # Quantum orchestrator oversees all quantum operations
-        self.quantum_orchestrator.register_hub("core", self.core_hub)
-        self.quantum_orchestrator.register_hub("consciousness", self.consciousness_hub)
+        self.qi_orchestrator.register_hub("core", self.core_hub)
+        self.qi_orchestrator.register_hub("consciousness", self.consciousness_hub)
 
         # SEEDRA provides consent framework to all systems
         self.seedra.register_system("golden_trio", self.trio_orchestrator)

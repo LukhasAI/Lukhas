@@ -55,10 +55,10 @@ get_user_choice() {
     local default="${2:-y}"
     local timeout="${3:-30}"
     local choices="${4:-y/n}"
-    
+
     echo -e "${YELLOW}${prompt}${RESET}"
     echo -e "${DIM}Choices: [${choices}] (default: ${default}, timeout: ${timeout}s)${RESET}"
-    
+
     local choice
     if read -t "$timeout" -p "❯ " choice; then
         choice="${choice:-$default}"
@@ -66,7 +66,7 @@ get_user_choice() {
         echo -e "\n${DIM}⏱️  Timeout reached, using default: ${default}${RESET}"
         choice="$default"
     fi
-    
+
     echo "$choice"
 }
 
@@ -80,18 +80,18 @@ check_git_repo() {
 
 backup_existing_hooks() {
     local backup_dir="$GIT_HOOKS_DIR/backup-$(date +%Y%m%d_%H%M%S)"
-    
+
     if [[ -n "$(ls -A "$GIT_HOOKS_DIR" 2>/dev/null | grep -v '\.sample$')" ]]; then
         echo -e "${YELLOW}📦 Backing up existing hooks...${RESET}"
         mkdir -p "$backup_dir"
-        
+
         for hook in "$GIT_HOOKS_DIR"/*; do
             if [[ -f "$hook" ]] && [[ ! "$hook" =~ \.sample$ ]]; then
                 cp "$hook" "$backup_dir/"
                 echo -e "${DIM}  Backed up: $(basename "$hook")${RESET}"
             fi
         done
-        
+
         echo -e "${GREEN}✅ Backup created: $backup_dir${RESET}"
         return 0
     else
@@ -102,11 +102,11 @@ backup_existing_hooks() {
 
 install_framework() {
     echo -e "${BLUE}📚 Installing Interactive Hook Framework...${RESET}"
-    
+
     # Copy the framework
     cp "$SCRIPT_DIR/interactive-hook-framework.sh" "$GIT_HOOKS_DIR/"
     chmod +x "$GIT_HOOKS_DIR/interactive-hook-framework.sh"
-    
+
     echo -e "${GREEN}✅ Framework installed${RESET}"
 }
 
@@ -115,26 +115,26 @@ install_hook() {
     local hook_name="$2"
     local source_file="$SCRIPT_DIR/${HOOK_FILES[$hook_type]}"
     local target_file="$GIT_HOOKS_DIR/$hook_name"
-    
+
     if [[ ! -f "$source_file" ]]; then
         echo -e "${RED}❌ Hook file not found: $source_file${RESET}"
         return 1
     fi
-    
+
     echo -e "${BLUE}🔧 Installing $hook_type hook as $hook_name...${RESET}"
-    
+
     # Copy and make executable
     cp "$source_file" "$target_file"
     chmod +x "$target_file"
-    
+
     echo -e "${GREEN}✅ Hook installed: $hook_name${RESET}"
 }
 
 create_hook_config() {
     local config_file="$GIT_HOOKS_DIR/interactive-hook.conf"
-    
+
     echo -e "${BLUE}⚙️  Creating configuration file...${RESET}"
-    
+
     cat > "$config_file" << 'EOF'
 # ═══════════════════════════════════════════════════════════════════════════════════
 # Interactive Git Hooks Configuration
@@ -180,9 +180,9 @@ EOF
 test_hook_installation() {
     local hook_name="$1"
     local hook_file="$GIT_HOOKS_DIR/$hook_name"
-    
+
     echo -e "${BLUE}🧪 Testing hook installation...${RESET}"
-    
+
     if [[ -x "$hook_file" ]]; then
         # Test if the hook can run
         if "$hook_file" --help >/dev/null 2>&1 || [[ $? -eq 0 ]]; then
@@ -200,7 +200,7 @@ test_hook_installation() {
 
 show_usage_instructions() {
     echo -e "\n${BOLD}🎉 Installation Complete!${RESET}\n"
-    
+
     echo -e "${CYAN}📖 How to use your new interactive hooks:${RESET}"
     echo -e "${DIM}────────────────────────────────────────${RESET}"
     echo -e "• Make changes to your files"
@@ -208,20 +208,20 @@ show_usage_instructions() {
     echo -e "• Run ${BOLD}git commit${RESET} to trigger the hooks"
     echo -e "• Follow the interactive prompts to apply enhancements"
     echo ""
-    
+
     echo -e "${CYAN}⚙️  Configuration:${RESET}"
     echo -e "• Config file: ${BOLD}$GIT_HOOKS_DIR/interactive-hook.conf${RESET}"
     echo -e "• Logs: ${BOLD}/tmp/git-hooks.log${RESET}"
     echo -e "• Backups: ${BOLD}/tmp/git-hook-backups${RESET}"
     echo ""
-    
+
     echo -e "${CYAN}🔧 Available modes:${RESET}"
     echo -e "• ${BOLD}interactive${RESET} - Ask for each action (default)"
     echo -e "• ${BOLD}auto${RESET} - Apply all enhancements automatically"
     echo -e "• ${BOLD}preview${RESET} - Show what would be changed"
     echo -e "• ${BOLD}skip${RESET} - Skip hook execution"
     echo ""
-    
+
     echo -e "${CYAN}💡 Pro tips:${RESET}"
     echo -e "• Set ${BOLD}HOOK_MODE=auto${RESET} environment variable for batch processing"
     echo -e "• Use ${BOLD}git commit --no-verify${RESET} to bypass hooks temporarily"
@@ -236,13 +236,13 @@ show_usage_instructions() {
 show_hook_selection_menu() {
     echo -e "${BOLD}📋 Available Hooks:${RESET}"
     print_separator
-    
+
     local i=1
     for hook_type in "${!AVAILABLE_HOOKS[@]}"; do
         echo -e "${CYAN}$i)${RESET} ${BOLD}${hook_type^}${RESET} - ${AVAILABLE_HOOKS[$hook_type]}"
         ((i++))
     done
-    
+
     echo -e "${CYAN}$i)${RESET} ${BOLD}All${RESET} - Install all available hooks"
     echo -e "${CYAN}$((i+1)))${RESET} ${BOLD}Custom${RESET} - Let me choose which hooks to install"
     print_separator
@@ -250,12 +250,12 @@ show_hook_selection_menu() {
 
 select_hooks_to_install() {
     local selected_hooks=()
-    
+
     show_hook_selection_menu
-    
+
     local choice
     choice=$(get_user_choice "Which hooks would you like to install?" "4" 30 "1-$((${#AVAILABLE_HOOKS[@]}+2))")
-    
+
     case "$choice" in
         "1")
             selected_hooks=("tone")
@@ -284,7 +284,7 @@ select_hooks_to_install() {
             exit 1
             ;;
     esac
-    
+
     printf '%s\n' "${selected_hooks[@]}"
 }
 
@@ -295,10 +295,10 @@ select_git_hooks() {
     echo -e "2) ${BOLD}post-commit${RESET} - Run after each commit"
     echo -e "3) ${BOLD}pre-push${RESET} - Run before pushing to remote"
     echo -e "4) ${BOLD}custom${RESET} - I'll specify the hook name"
-    
+
     local choice
     choice=$(get_user_choice "Select git hook:" "1" 20 "1-4")
-    
+
     case "$choice" in
         "1"|"pre-commit")
             echo "pre-commit"
@@ -326,61 +326,61 @@ select_git_hooks() {
 
 main() {
     print_header
-    
+
     # Verify we're in a git repository
     check_git_repo
-    
+
     echo -e "${GREEN}📂 Git repository detected: $(git rev-parse --show-toplevel)${RESET}"
     echo -e "${DIM}Hooks will be installed to: $GIT_HOOKS_DIR${RESET}\n"
-    
+
     # Confirm installation
     local proceed
     proceed=$(get_user_choice "🚀 Ready to install interactive git hooks?" "y" 30 "y/n")
-    
+
     if [[ ! "${proceed,,}" =~ ^(y|yes)$ ]]; then
         echo -e "${YELLOW}👋 Installation cancelled${RESET}"
         exit 0
     fi
-    
+
     # Backup existing hooks
     backup_existing_hooks
     echo ""
-    
+
     # Install the framework
     install_framework
     echo ""
-    
+
     # Select hooks to install
     echo -e "${BOLD}🎯 Hook Selection${RESET}"
     mapfile -t selected_hooks < <(select_hooks_to_install)
-    
+
     if [[ ${#selected_hooks[@]} -eq 0 ]]; then
         echo -e "${YELLOW}⚠️  No hooks selected for installation${RESET}"
         exit 0
     fi
-    
+
     # Select git hook type
     git_hook=$(select_git_hooks)
     echo ""
-    
+
     # Install selected hooks
     echo -e "${BOLD}🔧 Installing Hooks${RESET}"
     print_separator
-    
+
     for hook_type in "${selected_hooks[@]}"; do
         install_hook "$hook_type" "$git_hook"
     done
-    
+
     echo ""
-    
+
     # Create configuration
     create_hook_config
     echo ""
-    
+
     # Test installation
     test_hook_installation "$git_hook"
     echo ""
-    
+
     # Show usage instructions
     show_usage_instructions
 }
@@ -454,7 +454,7 @@ elif [[ "$AUTO_INSTALL" == true ]]; then
     check_git_repo
     backup_existing_hooks >/dev/null 2>&1 || true
     install_framework
-    
+
     if [[ -n "$HOOK_TYPE" ]]; then
         install_hook "$HOOK_TYPE" "$GIT_HOOK"
     else
@@ -462,7 +462,7 @@ elif [[ "$AUTO_INSTALL" == true ]]; then
             install_hook "$hook_type" "$GIT_HOOK"
         done
     fi
-    
+
     create_hook_config
     echo -e "${GREEN}✅ Automated installation complete${RESET}"
 else

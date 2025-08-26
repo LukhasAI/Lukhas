@@ -36,7 +36,7 @@ export function extractUlid(lid: string): string | null {
 export function getLidTimestamp(lid: string): Date | null {
   const ulidPart = extractUlid(lid)
   if (!ulidPart) return null
-  
+
   try {
     // ULID encodes timestamp in first 10 chars (48 bits)
     const timestampChars = ulidPart.substring(0, 10)
@@ -51,12 +51,12 @@ export function getLidTimestamp(lid: string): Date | null {
 function decodeTime(timestampChars: string): number {
   const ENCODING = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'
   let timestamp = 0
-  
+
   for (const char of timestampChars) {
     const value = ENCODING.indexOf(char)
     if (value === -1) throw new Error('Invalid ULID character')
     timestamp = timestamp * 32 + value
   }
-  
+
   return timestamp
 }

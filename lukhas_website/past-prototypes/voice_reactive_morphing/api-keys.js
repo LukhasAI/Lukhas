@@ -6,16 +6,16 @@
 const APIKeys = {
     // OpenAI API Key (get from: https://platform.openai.com/api-keys)
     openai: 'sk-your-openai-api-key-here',
-    
+
     // Claude API Key (get from: https://console.anthropic.com/)
     claude: 'sk-ant-your-claude-api-key-here',
-    
+
     // Azure OpenAI API Key (get from: https://portal.azure.com/)
     azure: 'your-azure-openai-api-key-here',
-    
+
     // Google Gemini API Key (get from: https://makersuite.google.com/app/apikey)
     gemini: 'your-gemini-api-key-here',
-    
+
     // Perplexity API Key (get from: https://www.perplexity.ai/settings/api)
     perplexity: 'your-perplexity-api-key-here',
 };
@@ -30,4 +30,4 @@ if (typeof module !== 'undefined' && module.exports) {
 // Instructions:
 // 1. Replace the placeholder values with your actual API keys
 // 2. Add this file to your .gitignore to keep keys secure
-// 3. In elite-config.js, import this file and use: apiKeys: APIKeys 
+// 3. In elite-config.js, import this file and use: apiKeys: APIKeys

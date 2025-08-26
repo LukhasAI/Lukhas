@@ -10,7 +10,7 @@ class LukhasDashboard {
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 2000;
         this.isReconnecting = false;
-        
+
         // Dashboard state
         this.currentData = {
             entropy: { level: 0, quality: 'unknown' },
@@ -19,19 +19,19 @@ class LukhasDashboard {
             devices: new Map(),
             alerts: []
         };
-        
+
         // Performance tracking
         this.lastUpdate = Date.now();
         this.updateCount = 0;
-        
+
         this.initializeComponents();
         this.connect();
-        
+
         // Start periodic updates
         setInterval(() => this.updateDisplay(), 1000);
         setInterval(() => this.checkConnectionHealth(), 5000);
     }
-    
+
     initializeComponents() {
         // Get DOM elements
         this.elements = {
@@ -52,29 +52,29 @@ class LukhasDashboard {
             sessionsList: document.getElementById('sessionsList'),
             alertsList: document.getElementById('alertsList')
         };
-        
+
         // Initialize display
         this.updateConnectionStatus('disconnected');
         this.log('Dashboard initialized', 'info');
     }
-    
+
     connect() {
         try {
             // Try both WebSocket protocols
             const protocols = ['ws://localhost:8080', 'ws://127.0.0.1:8080'];
             const protocol = protocols[this.reconnectAttempts % protocols.length];
-            
+
             this.log(`Connecting to ${protocol}...`, 'info');
             this.updateConnectionStatus('reconnecting');
-            
+
             this.socket = new WebSocket(protocol);
-            
+
             this.socket.onopen = () => {
                 this.log('WebSocket connected successfully', 'info');
                 this.updateConnectionStatus('connected');
                 this.reconnectAttempts = 0;
                 this.isReconnecting = false;
-                
+
                 // Send initial handshake
                 this.sendMessage({
                     type: 'dashboard_connect',
@@ -82,7 +82,7 @@ class LukhasDashboard {
                     client_type: 'web_dashboard'
                 });
             };
-            
+
             this.socket.onmessage = (event) => {
                 try {
                     const data = JSON.parse(event.data);
@@ -91,58 +91,58 @@ class LukhasDashboard {
                     this.log(`Failed to parse message: ${error.message}`, 'error');
                 }
             };
-            
+
             this.socket.onclose = (event) => {
                 this.log(`WebSocket closed: ${event.code} - ${event.reason}`, 'warning');
                 this.updateConnectionStatus('disconnected');
                 this.handleDisconnection();
             };
-            
+
             this.socket.onerror = (error) => {
                 this.log(`WebSocket error: ${error.message || 'Connection failed'}`, 'error');
                 this.updateConnectionStatus('disconnected');
             };
-            
+
         } catch (error) {
             this.log(`Connection failed: ${error.message}`, 'error');
             this.handleDisconnection();
         }
     }
-    
+
     handleMessage(data) {
         this.lastUpdate = Date.now();
         this.updateCount++;
-        
+
         switch (data.type) {
             case 'entropy_update':
                 this.handleEntropyUpdate(data);
                 break;
-                
+
             case 'trust_score_update':
                 this.handleTrustScoreUpdate(data);
                 break;
-                
+
             case 'session_update':
                 this.handleSessionUpdate(data);
                 break;
-                
+
             case 'device_update':
                 this.handleDeviceUpdate(data);
                 break;
-                
+
             case 'security_alert':
                 this.handleSecurityAlert(data);
                 break;
-                
+
             case 'system_status':
                 this.handleSystemStatus(data);
                 break;
-                
+
             default:
                 this.log(`Unknown message type: ${data.type}`, 'warning');
         }
     }
-    
+
     handleEntropyUpdate(data) {
         if (data.entropy_level !== undefined) {
             this.currentData.entropy = {
@@ -151,22 +151,22 @@ class LukhasDashboard {
                 source: data.entropy_source || 'system',
                 timestamp: Date.now()
             };
-            
+
             this.log(`Entropy updated: ${data.entropy_level}% (${this.currentData.entropy.quality})`, 'info');
         }
     }
-    
+
     handleTrustScoreUpdate(data) {
         if (data.trust_score) {
             this.currentData.trustScore = {
                 ...data.trust_score,
                 timestamp: Date.now()
             };
-            
+
             this.log(`Trust score updated: ${data.trust_score.total_score}% (${data.trust_score.trust_level})`, 'info');
         }
     }
-    
+
     handleSessionUpdate(data) {
         if (data.session_id) {
             this.currentData.sessions.set(data.session_id, {
@@ -178,7 +178,7 @@ class LukhasDashboard {
             });
         }
     }
-    
+
     handleDeviceUpdate(data) {
         if (data.device_id) {
             this.currentData.devices.set(data.device_id, {
@@ -190,7 +190,7 @@ class LukhasDashboard {
             });
         }
     }
-    
+
     handleSecurityAlert(data) {
         const alert = {
             id: Date.now(),
@@ -199,21 +199,21 @@ class LukhasDashboard {
             details: data.details || {},
             timestamp: Date.now()
         };
-        
+
         this.currentData.alerts.unshift(alert);
-        
+
         // Keep only last 10 alerts
         if (this.currentData.alerts.length > 10) {
             this.currentData.alerts = this.currentData.alerts.slice(0, 10);
         }
-        
+
         this.log(`Security alert: ${alert.message}`, alert.type);
     }
-    
+
     handleSystemStatus(data) {
         this.log(`System status: ${data.message || 'Status update received'}`, 'info');
     }
-    
+
     updateDisplay() {
         this.updateEntropyDisplay();
         this.updateTrustScoreDisplay();
@@ -221,50 +221,50 @@ class LukhasDashboard {
         this.updateDevicesDisplay();
         this.updateAlertsDisplay();
     }
-    
+
     updateEntropyDisplay() {
         const entropy = this.currentData.entropy;
-        
+
         this.elements.entropyValue.textContent = `${entropy.level}%`;
         this.elements.entropyQuality.textContent = `Quality: ${entropy.quality.toUpperCase()}`;
         this.elements.entropyProgress.style.width = `${entropy.level}%`;
-        
+
         // Color coding for entropy level
-        const color = entropy.level > 80 ? '#00ff88' : 
+        const color = entropy.level > 80 ? '#00ff88' :
                      entropy.level > 50 ? '#ffaa00' : '#ff4444';
         this.elements.entropyValue.style.color = color;
-        this.elements.entropyProgress.style.background = 
+        this.elements.entropyProgress.style.background =
             `linear-gradient(90deg, ${color}, ${color}88)`;
     }
-    
+
     updateTrustScoreDisplay() {
         const trust = this.currentData.trustScore;
-        
+
         this.elements.trustValue.textContent = `${trust.total_score?.toFixed(1) || '--'}%`;
         this.elements.trustLevel.textContent = `Level: ${(trust.trust_level || 'unknown').toUpperCase()}`;
-        
+
         // Update component scores
         const components = trust.components || {};
         this.elements.trustEntropy.textContent = `${components.entropy?.toFixed(1) || '--'}`;
         this.elements.trustBehavioral.textContent = `${components.behavioral?.toFixed(1) || '--'}`;
         this.elements.trustDevice.textContent = `${components.device?.toFixed(1) || '--'}`;
         this.elements.trustContextual.textContent = `${components.contextual?.toFixed(1) || '--'}`;
-        
+
         // Color coding for trust level
-        const color = trust.total_score > 80 ? '#00ff88' : 
+        const color = trust.total_score > 80 ? '#00ff88' :
                      trust.total_score > 60 ? '#ffaa00' : '#ff4444';
         this.elements.trustValue.style.color = color;
     }
-    
+
     updateSessionsDisplay() {
         const activeSessions = Array.from(this.currentData.sessions.values())
             .filter(session => session.status === 'active');
-        
+
         this.elements.sessionCount.textContent = activeSessions.length;
-        this.elements.sessionStatus.textContent = activeSessions.length > 0 ? 
+        this.elements.sessionStatus.textContent = activeSessions.length > 0 ?
             `${activeSessions.length} active session${activeSessions.length !== 1 ? 's' : ''}` :
             'No active sessions';
-        
+
         // Update sessions list
         if (activeSessions.length === 0) {
             this.elements.sessionsList.innerHTML = `
@@ -288,17 +288,17 @@ class LukhasDashboard {
             `).join('');
         }
     }
-    
+
     updateDevicesDisplay() {
         const activeDevices = Array.from(this.currentData.devices.values())
             .filter(device => device.status === 'active');
-        
+
         this.elements.deviceCount.textContent = activeDevices.length;
-        this.elements.deviceStatus.textContent = activeDevices.length > 0 ? 
+        this.elements.deviceStatus.textContent = activeDevices.length > 0 ?
             `${activeDevices.length} device${activeDevices.length !== 1 ? 's' : ''} connected` :
             'No devices connected';
     }
-    
+
     updateAlertsDisplay() {
         if (this.currentData.alerts.length === 0) {
             this.elements.alertsList.innerHTML = `
@@ -318,13 +318,13 @@ class LukhasDashboard {
             `).join('');
         }
     }
-    
+
     updateConnectionStatus(status) {
         const statusElement = this.elements.connectionStatus;
         const indicator = statusElement.querySelector('.status-indicator');
-        
+
         statusElement.className = `connection-status ${status}`;
-        
+
         switch (status) {
             case 'connected':
                 statusElement.innerHTML = '<span class="status-indicator status-active"></span>Connected';
@@ -337,18 +337,18 @@ class LukhasDashboard {
                 break;
         }
     }
-    
+
     handleDisconnection() {
         if (this.isReconnecting) return;
-        
+
         this.isReconnecting = true;
-        
+
         if (this.reconnectAttempts < this.maxReconnectAttempts) {
             const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts);
             this.reconnectAttempts++;
-            
+
             this.log(`Reconnecting in ${delay}ms (attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts})`, 'warning');
-            
+
             setTimeout(() => {
                 this.connect();
             }, delay);
@@ -357,7 +357,7 @@ class LukhasDashboard {
             this.updateConnectionStatus('disconnected');
         }
     }
-    
+
     checkConnectionHealth() {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             // Send ping to check connection
@@ -365,7 +365,7 @@ class LukhasDashboard {
                 type: 'ping',
                 timestamp: Date.now()
             });
-            
+
             // Check if we've received updates recently
             const timeSinceLastUpdate = Date.now() - this.lastUpdate;
             if (timeSinceLastUpdate > 30000) { // 30 seconds
@@ -373,7 +373,7 @@ class LukhasDashboard {
             }
         }
     }
-    
+
     sendMessage(message) {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             try {
@@ -383,11 +383,11 @@ class LukhasDashboard {
             }
         }
     }
-    
+
     log(message, type = 'info') {
         const timestamp = new Date().toLocaleTimeString();
         const prefix = `[${timestamp}] LUKHAS Dashboard:`;
-        
+
         switch (type) {
             case 'error':
                 console.error(`${prefix} ${message}`);
@@ -401,7 +401,7 @@ class LukhasDashboard {
                 break;
         }
     }
-    
+
     // Public API methods
     refreshConnection() {
         if (this.socket) {
@@ -410,7 +410,7 @@ class LukhasDashboard {
         this.reconnectAttempts = 0;
         this.connect();
     }
-    
+
     getStatus() {
         return {
             connected: this.socket && this.socket.readyState === WebSocket.OPEN,
@@ -425,12 +425,12 @@ class LukhasDashboard {
 // Initialize dashboard when page loads
 document.addEventListener('DOMContentLoaded', () => {
     window.lukhasDashboard = new LukhasDashboard();
-    
+
     // Expose refresh function to global scope
     window.refreshDashboard = () => {
         window.lukhasDashboard.refreshConnection();
     };
-    
+
     // Add keyboard shortcuts
     document.addEventListener('keydown', (event) => {
         if (event.ctrlKey || event.metaKey) {

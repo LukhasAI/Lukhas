@@ -5,17 +5,19 @@ This module provides integration points for CVS Health's pharmacy and
 MinuteClinic services, including prescription management and retail health services.
 """
 
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from .....base_provider import BaseHealthcareProvider, ProviderConfig, SecurityConfig
+
 
 class CVSHealthInterface(BaseHealthcareProvider):
     """Implementation of healthcare interface for CVS Health"""
-    
+
     def __init__(self, config: Dict[str, Any]):
         """
         Initialize CVS Health interface with configuration
-        
+
         Args:
             config: Configuration dictionary containing:
                 - store_id: CVS store identifier
@@ -44,7 +46,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         super().__init__(provider_config, security_config)
         self.config = config
         self._validate_config()
-    
+
     def _validate_config(self):
         """Validate CVS-specific configuration"""
         required_fields = [
@@ -56,7 +58,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
             'pbm_connection'
         ]
         self.validate_data(self.config, required_fields)
-    
+
     async def check_prescription_status(self,
                                      rx_number: str,
                                      store_id: Optional[str] = None) -> Dict[str, Any]:
@@ -71,7 +73,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         )
         # Implement prescription status check
         pass
-    
+
     async def verify_insurance(self,
                              patient_id: str,
                              insurance_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -84,7 +86,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         )
         # Implement insurance verification
         pass
-    
+
     async def schedule_minuteclinic(self,
                                   patient_id: str,
                                   service_type: str,
@@ -99,7 +101,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         )
         # Implement MinuteClinic scheduling
         pass
-    
+
     async def submit_prescription_to_insurance(self,
                                             rx_data: Dict[str, Any]) -> str:
         """Submit prescription claim to insurance"""
@@ -111,7 +113,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         )
         # Implement prescription claim submission
         pass
-    
+
     async def check_drug_interactions(self,
                                    patient_id: str,
                                    drug_codes: List[str]) -> List[Dict[str, Any]]:
@@ -124,7 +126,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         )
         # Implement drug interaction check
         pass
-    
+
     async def get_medication_history(self,
                                   patient_id: str,
                                   start_date: Optional[datetime] = None) -> List[Dict[str, Any]]:

@@ -44,14 +44,14 @@ import unittest
 import numpy as np
 
 from bio.symbolic import BioSymbolicOrchestrator as BioOrchestrator
-from candidate.core.bio_systems.quantum_inspired_layer import QIBioOscillator
+from candidate.core.bio_systems.qi_inspired_layer import QIBioOscillator
 
 
 class TestQuantumIntegration(unittest.TestCase):
 
     def setUp(self):
         # Configure quantum settings for faster testing
-        self.quantum_config = QuantumConfig(
+        self.qi_config = QIConfig(
             coherence_threshold=0.85,
             entanglement_threshold=0.95,
             decoherence_rate=0.1,  # Higher rate for faster testing
@@ -60,10 +60,10 @@ class TestQuantumIntegration(unittest.TestCase):
 
         # Initialize oscillators
         self.osc1 = QIBioOscillator(
-            base_freq=3.0, quantum_config=self.quantum_config
+            base_freq=3.0, qi_config=self.qi_config
         )
         self.osc2 = QIBioOscillator(
-            base_freq=3.0, quantum_config=self.quantum_config
+            base_freq=3.0, qi_config=self.qi_config
         )
 
         # Initialize orchestrator
@@ -72,7 +72,7 @@ class TestQuantumIntegration(unittest.TestCase):
     def test_superposition_transition(self):
         """Test transition to superposition state"""
         # Initially in classical state
-        self.assertEqual(self.osc1.quantum_like_state, QuantumLikeState.CLASSICAL)
+        self.assertEqual(self.osc1.qi_like_state, QILikeState.CLASSICAL)
 
         # Simulate high coherence
         self.osc1.metrics["coherence"] = 0.9
@@ -80,7 +80,7 @@ class TestQuantumIntegration(unittest.TestCase):
         # Should enter superposition
         success = self.osc1.enter_superposition()
         self.assertTrue(success)
-        self.assertEqual(self.osc1.quantum_like_state, QuantumLikeState.SUPERPOSITION)
+        self.assertEqual(self.osc1.qi_like_state, QILikeState.SUPERPOSITION)
 
     def test_entanglement(self):
         """Test entanglement between oscillators"""
@@ -97,8 +97,8 @@ class TestQuantumIntegration(unittest.TestCase):
         self.assertTrue(success)
 
         # Both should be in entangled state
-        self.assertEqual(self.osc1.quantum_like_state, QuantumLikeState.ENTANGLED)
-        self.assertEqual(self.osc2.quantum_like_state, QuantumLikeState.ENTANGLED)
+        self.assertEqual(self.osc1.qi_like_state, QILikeState.ENTANGLED)
+        self.assertEqual(self.osc2.qi_like_state, QILikeState.ENTANGLED)
 
     def test_decoherence(self):
         """Test natural decoherence process"""
@@ -107,11 +107,11 @@ class TestQuantumIntegration(unittest.TestCase):
         self.osc1.enter_superposition()
 
         # Force decoherence with high rate
-        self.osc1.quantum_config.decoherence_rate = 1.0
+        self.osc1.qi_config.decoherence_rate = 1.0
         self.osc1.update_quantum_like_state()
 
         # Should return to classical
-        self.assertEqual(self.osc1.quantum_like_state, QuantumLikeState.CLASSICAL)
+        self.assertEqual(self.osc1.qi_like_state, QILikeState.CLASSICAL)
 
     def test_measurement(self):
         """Test probabilistic observation"""
@@ -124,7 +124,7 @@ class TestQuantumIntegration(unittest.TestCase):
         phase, state = self.osc1.measure_state()
 
         # Verify measurement
-        self.assertEqual(state, QuantumLikeState.CLASSICAL)
+        self.assertEqual(state, QILikeState.CLASSICAL)
         self.assertTrue(
             any(np.isclose(phase, exp_phase) for exp_phase in expected_phases)
         )
@@ -141,7 +141,7 @@ class TestQuantumIntegration(unittest.TestCase):
         # Check quantum metrics
         metrics = self.orchestrator.get_quantum_metrics()
         self.assertEqual(metrics["total_oscillators"], 2)
-        self.assertEqual(metrics["quantum_capable"], 2)
+        self.assertEqual(metrics["qi_capable"], 2)
 
     def test_generate_quantum_values(self):
         """Test value generation in different quantum-like states"""
@@ -168,7 +168,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -187,7 +187,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

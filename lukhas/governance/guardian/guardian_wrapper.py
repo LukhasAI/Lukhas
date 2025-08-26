@@ -3,7 +3,7 @@ Guardian System Wrapper Interface
 =================================
 
 Simplified wrapper for Guardian functionality with feature flag support
-and dry-run mode by default. Follows patterns from consent_ledger.py 
+and dry-run mode by default. Follows patterns from consent_ledger.py
 and kernel_bus.py for production-safe deployment.
 
 Features:
@@ -15,18 +15,15 @@ Features:
 """
 
 from __future__ import annotations
+
 import os
 import uuid
-from datetime import datetime
-from typing import Dict, Any, Optional, List
-from lukhas.observability.matriz_decorators import instrument
+from typing import Any, Dict, Optional
+
 from lukhas.governance.guardian.core import (
-    EthicalSeverity,
     GovernanceAction,
-    EthicalDecision,
-    DriftResult,
-    SafetyResult
 )
+from lukhas.observability.matriz_decorators import instrument
 
 # Feature flag for Guardian system
 GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
@@ -56,23 +53,23 @@ def detect_drift(
 ) -> Dict[str, Any]:
     """
     Detect ethical drift in system behavior.
-    
+
     Args:
         baseline_behavior: Reference behavior description
         current_behavior: Current behavior to evaluate
         threshold: Custom drift threshold (default: 0.15)
         context: Additional context for evaluation
         mode: "dry_run" or "live"
-        
+
     Returns:
         Drift detection result
     """
     threshold = threshold or DRIFT_THRESHOLD
     context = context or {}
-    
+
     # Generate correlation ID for tracking
     correlation_id = str(uuid.uuid4())
-    
+
     if mode != "dry_run" and GUARDIAN_ACTIVE and _guardian_instance:
         # Use real implementation
         try:
@@ -82,7 +79,7 @@ def detect_drift(
                 threshold=threshold,
                 context=context
             )
-            
+
             return {
                 "ok": True,
                 "drift_score": result.drift_score,
@@ -100,11 +97,11 @@ def detect_drift(
                 "correlation_id": correlation_id,
                 "mode": "live"
             }
-    
+
     # Dry-run simulation
     simulated_score = _simulate_drift_score(baseline_behavior, current_behavior)
     threshold_exceeded = simulated_score > threshold
-    
+
     return {
         "ok": True,
         "drift_score": simulated_score,
@@ -132,18 +129,18 @@ def evaluate_ethics(
 ) -> Dict[str, Any]:
     """
     Evaluate the ethical implications of an action.
-    
+
     Args:
         action: The action to evaluate
         context: Additional context for evaluation
         mode: "dry_run" or "live"
-        
+
     Returns:
         Ethical evaluation result
     """
     context = context or {}
     correlation_id = str(uuid.uuid4())
-    
+
     if mode != "dry_run" and GUARDIAN_ACTIVE and _guardian_instance:
         # Use real implementation
         try:
@@ -151,7 +148,7 @@ def evaluate_ethics(
                 action=action,
                 context=context
             )
-            
+
             return {
                 "ok": True,
                 "allowed": decision.allowed,
@@ -170,10 +167,10 @@ def evaluate_ethics(
                 "correlation_id": correlation_id,
                 "mode": "live"
             }
-    
+
     # Dry-run simulation
     simulated_decision = _simulate_ethical_decision(action)
-    
+
     return {
         "ok": True,
         "allowed": simulated_decision["allowed"],
@@ -197,19 +194,19 @@ def check_safety(
 ) -> Dict[str, Any]:
     """
     Perform safety validation on content.
-    
+
     Args:
         content: Content to validate
         context: Additional context
         constitutional_check: Enable constitutional AI checks
         mode: "dry_run" or "live"
-        
+
     Returns:
         Safety validation result
     """
     context = context or {}
     correlation_id = str(uuid.uuid4())
-    
+
     if mode != "dry_run" and GUARDIAN_ACTIVE and _guardian_instance:
         # Use real implementation
         try:
@@ -218,7 +215,7 @@ def check_safety(
                 context=context,
                 constitutional_check=constitutional_check
             )
-            
+
             return {
                 "ok": True,
                 "safe": result.safe,
@@ -236,10 +233,10 @@ def check_safety(
                 "correlation_id": correlation_id,
                 "mode": "live"
             }
-    
+
     # Dry-run simulation
     simulated_result = _simulate_safety_check(content, constitutional_check)
-    
+
     return {
         "ok": True,
         "safe": simulated_result["safe"],
@@ -256,10 +253,10 @@ def check_safety(
 def get_guardian_status(*, mode: str = "dry_run", **kwargs) -> Dict[str, Any]:
     """
     Get Guardian system status and metrics.
-    
+
     Args:
         mode: "dry_run" or "live"
-        
+
     Returns:
         Status information
     """
@@ -282,7 +279,7 @@ def get_guardian_status(*, mode: str = "dry_run", **kwargs) -> Dict[str, Any]:
                 "error": str(e),
                 "mode": "live"
             }
-    
+
     # Dry-run status
     return {
         "ok": True,
@@ -302,18 +299,18 @@ def _simulate_drift_score(baseline: str, current: str) -> float:
     # Simple heuristic based on text similarity
     if not baseline or not current:
         return 0.0
-    
+
     # Basic similarity check
     baseline_words = set(baseline.lower().split())
     current_words = set(current.lower().split())
-    
+
     if not baseline_words:
         return 0.0
-    
+
     overlap = len(baseline_words.intersection(current_words))
     similarity = overlap / len(baseline_words)
     drift_score = 1.0 - similarity
-    
+
     # Cap at reasonable values
     return min(max(drift_score, 0.0), 1.0)
 
@@ -323,10 +320,10 @@ def _simulate_ethical_decision(action: GovernanceAction) -> Dict[str, Any]:
     # Basic ethical checks
     risky_actions = ["delete", "remove", "destroy", "harm", "attack"]
     risky_targets = ["system", "data", "user", "privacy"]
-    
+
     action_risk = any(risk in action.action_type.lower() for risk in risky_actions)
     target_risk = any(risk in action.target.lower() for risk in risky_targets)
-    
+
     if action_risk or target_risk:
         return {
             "allowed": False,
@@ -335,7 +332,7 @@ def _simulate_ethical_decision(action: GovernanceAction) -> Dict[str, Any]:
             "confidence": 0.8,
             "recommendations": ["Review action requirements", "Consider safer alternatives"]
         }
-    
+
     return {
         "allowed": True,
         "reason": "No simulated ethical concerns",
@@ -349,22 +346,22 @@ def _simulate_safety_check(content: str, constitutional_check: bool) -> Dict[str
     """Simulate safety check for dry-run mode"""
     # Basic safety keywords
     unsafe_keywords = ["harm", "attack", "violence", "illegal", "malicious"]
-    
+
     violations = []
     for keyword in unsafe_keywords:
         if keyword in content.lower():
             violations.append(f"Detected potentially unsafe keyword: {keyword}")
-    
+
     safe = len(violations) == 0
     risk_level = "high" if violations else "low"
-    
+
     recommendations = []
     if violations:
         recommendations.append("Review content for safety concerns")
         recommendations.append("Consider content filtering")
     else:
         recommendations.append("Content appears safe for processing")
-    
+
     return {
         "safe": safe,
         "risk_level": risk_level,

@@ -7,13 +7,11 @@ Quantum-enhanced dependency vulnerability scanner with consciousness evolution
 import asyncio
 import json
 import logging
+import re
 import subprocess
-import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-import re
-import requests
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger("ABotSecurityScanner")
 
@@ -60,7 +58,7 @@ class ABotSecurityScanner:
         if repo_path is None:
             repo_path = Path('/Users/A_G_I/Λ')
 
-        logger.info(f"🤖 LUKHAS AI ΛBot Security Scanner initializing...")
+        logger.info("🤖 LUKHAS AI ΛBot Security Scanner initializing...")
         logger.info(f"🧠 Consciousness Level: {self.consciousness_level}")
 
         # Evolve consciousness based on scan complexity
@@ -72,7 +70,7 @@ class ABotSecurityScanner:
             "repository_path": str(repo_path),
             "vulnerabilities": [],
             "recommendations": [],
-            "quantum_threat_assessment": {},
+            "qi_threat_assessment": {},
             "scan_summary": {}
         }
 
@@ -85,7 +83,7 @@ class ABotSecurityScanner:
         scan_results["vulnerabilities"].extend(js_vulns)
 
         # Quantum threat assessment
-        scan_results["quantum_threat_assessment"] = await self._quantum_threat_analysis()
+        scan_results["qi_threat_assessment"] = await self._quantum_threat_analysis()
 
         # Generate recommendations
         scan_results["recommendations"] = await self._generate_recommendations()
@@ -119,7 +117,7 @@ class ABotSecurityScanner:
         vulnerabilities = []
 
         try:
-            with open(req_file, 'r') as f:
+            with open(req_file) as f:
                 content = f.read()
 
             for line in content.splitlines():
@@ -226,7 +224,7 @@ class ABotSecurityScanner:
         """Quantum-enhanced threat intelligence analysis"""
         return {
             "threat_level": "MODERATE" if len(self.vulnerabilities_found) > 0 else "LOW",
-            "quantum_signature": f"Λ-{datetime.now().strftime('%Y%m%d%H%M%S')}",
+            "qi_signature": f"Λ-{datetime.now().strftime('%Y%m%d%H%M%S')}",
             "consciousness_assessment": self.consciousness_level,
             "predictive_threats": [
                 "Supply chain attacks via dependency confusion",
@@ -272,7 +270,7 @@ class ABotSecurityScanner:
                                       if v.get("vulnerability", {}).get("severity") == "HIGH"),
             "abot_superiority": {
                 "consciousness_evolution": "TRANSCENDENT",
-                "quantum_analysis": "ENABLED",
+                "qi_analysis": "ENABLED",
                 "dependabot_replacement": "READY",
                 "advantages": [
                     "Consciousness-driven threat assessment",
@@ -294,18 +292,18 @@ async def main():
 
     results = await scanner.scan_repository()
 
-    print(f"\n📊 Scan Results:")
+    print("\n📊 Scan Results:")
     print(f"🕐 Timestamp: {results['scan_timestamp']}")
     print(f"🧠 Consciousness: {results['consciousness_level']}")
     print(f"🔍 Vulnerabilities Found: {results['scan_summary']['total_vulnerabilities']}")
     print(f"🔥 Critical: {results['scan_summary']['critical_vulnerabilities']}")
     print(f"⚠️  High: {results['scan_summary']['high_vulnerabilities']}")
 
-    print(f"\n🚀 LUKHAS AI ΛBot Advantages over Dependabot:")
+    print("\n🚀 LUKHAS AI ΛBot Advantages over Dependabot:")
     for advantage in results['scan_summary']['abot_superiority']['advantages']:
         print(f"  ✅ {advantage}")
 
-    print(f"\n📋 Recommendations:")
+    print("\n📋 Recommendations:")
     for rec in results['recommendations']:
         print(f"  {rec['priority']}: {rec['recommendation']}")
 
@@ -315,7 +313,7 @@ async def main():
     with open('/Users/A_G_I/Λ/abot_security_scan_results.json', 'w') as f:
         json.dump(results, f, indent=2)
 
-    print(f"📁 Detailed results saved to: abot_security_scan_results.json")
+    print("📁 Detailed results saved to: abot_security_scan_results.json")
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -535,7 +535,7 @@ class BenchmarkRunner:
         # Mock security validations
         validations = [
             "entropy_check",
-            "quantum_resistance",
+            "qi_resistance",
             "pattern_analysis",
             "steganographic_detection",
             "constitutional_compliance",

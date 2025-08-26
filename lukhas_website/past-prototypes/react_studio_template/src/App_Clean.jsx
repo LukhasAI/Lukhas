@@ -90,12 +90,12 @@ function App() {
         setCommandPaletteVisible(!commandPaletteVisible)
         setCommandPaletteLevel(commandPaletteVisible ? 0 : 1)
       }
-      
+
       if (e.key === 'Escape' && commandPaletteVisible) {
         setCommandPaletteVisible(false)
         setCommandPaletteLevel(0)
       }
-      
+
       if (e.key === 'Tab' && commandPaletteVisible) {
         e.preventDefault()
         setCommandPaletteLevel(commandPaletteLevel === 1 ? 2 : 1)
@@ -123,7 +123,7 @@ function App() {
   const handleDesktopDrop = (e) => {
     e.preventDefault()
     setDragOverDesktop(false)
-    
+
     const data = e.dataTransfer.getData('text/plain')
     if (data) {
       const newItem = {
@@ -151,23 +151,23 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black relative overflow-hidden text-gray-200" style={{ fontFamily: "'Helvetica Neue', -apple-system, system-ui, sans-serif" }}>
       {/* Optimized Animated Background */}
       {animatedBg !== 'custom' && animatedBg !== 'color' && (
-        <AnimatedBackground 
-          type={animatedBg} 
-          isActive={true} 
+        <AnimatedBackground
+          type={animatedBg}
+          isActive={true}
         />
       )}
-      
+
       {/* Solid Color Background */}
       {animatedBg === 'color' && (
-        <div 
+        <div
           className="fixed inset-0 z-0"
           style={{ backgroundColor: bgColor }}
         />
       )}
-      
+
       {/* Custom Background Image */}
       {animatedBg === 'custom' && customBgImage && (
-        <div 
+        <div
           className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${customBgImage})` }}
         />
@@ -176,17 +176,17 @@ function App() {
       {/* Command Palette */}
       <AnimatePresence>
         {commandPaletteVisible && (
-          <div 
+          <div
             className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-[20vh]"
             onClick={() => {
               setCommandPaletteVisible(false)
               setCommandPaletteLevel(0)
             }}
           >
-            <div 
+            <div
               className={`bg-gray-800/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 transition-all duration-300 ease-out overflow-hidden ${
-                commandPaletteLevel === 1 
-                  ? 'w-[90%] max-w-2xl h-[300px]' 
+                commandPaletteLevel === 1
+                  ? 'w-[90%] max-w-2xl h-[300px]'
                   : 'w-[90%] max-w-4xl h-[500px]'
               }`}
               onClick={(e) => e.stopPropagation()}
@@ -194,8 +194,8 @@ function App() {
               <div className="p-4 border-b border-gray-700">
                 <div className="flex items-center gap-3">
                   <Search className="w-5 h-5 text-gray-400" />
-                  <Input 
-                    placeholder="Search commands... (Tab to expand, Esc to close)" 
+                  <Input
+                    placeholder="Search commands... (Tab to expand, Esc to close)"
                     className="border-0 bg-transparent text-lg focus:ring-0 text-gray-200 placeholder-gray-500"
                     autoFocus
                   />
@@ -205,7 +205,7 @@ function App() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Command palette content */}
               <div className="p-4 space-y-4 overflow-y-auto">
                 {commandPaletteLevel === 2 && (
@@ -219,10 +219,10 @@ function App() {
                           { type: 'color', name: 'Solid Color', active: animatedBg === 'color' },
                           { type: 'custom', name: 'Custom Image', active: animatedBg === 'custom' }
                         ].map((bg) => (
-                          <Button 
+                          <Button
                             key={bg.type}
-                            variant={bg.active ? "default" : "ghost"} 
-                            size="sm" 
+                            variant={bg.active ? "default" : "ghost"}
+                            size="sm"
                             onClick={() => setAnimatedBg(bg.type)}
                             className="justify-start"
                           >
@@ -231,7 +231,7 @@ function App() {
                         ))}
                       </div>
                     </div>
-                    
+
                     <div>
                       <h3 className="text-lg font-semibold mb-3 text-gray-100">Interface</h3>
                       <div className="space-y-2">
@@ -249,7 +249,7 @@ function App() {
                         </Button>
                       </div>
                     </div>
-                    
+
                     <div>
                       <h3 className="text-lg font-semibold mb-3 text-gray-100">Accessibility</h3>
                       <div className="space-y-2">
@@ -264,7 +264,7 @@ function App() {
                         </Button>
                       </div>
                     </div>
-                    
+
                     <div>
                       <h3 className="text-lg font-semibold mb-3 text-gray-100">AI Settings</h3>
                       <div className="space-y-2">
@@ -281,7 +281,7 @@ function App() {
                     </div>
                   </div>
                 )}
-                
+
                 {commandPaletteLevel === 1 && (
                   <div className="space-y-2">
                     <div className="text-sm text-gray-400 mb-2">Quick Commands</div>
@@ -324,16 +324,16 @@ function App() {
       {/* Studio Layout */}
       <div className="flex h-screen relative z-10">
         {/* Left Dock */}
-        <div 
+        <div
           className={`bg-gray-800/30 backdrop-blur-xl border-r border-gray-700/30 p-4 flex flex-col transition-all duration-300 ${
             showLeftDock ? 'w-56 opacity-100' : 'w-0 opacity-0 overflow-hidden'
           }`}
         >
           {/* Settings Button and LUKHΛS Brand */}
           <div className="mb-8 flex items-center justify-between">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               className="h-8 w-8 p-0 text-slate-400 hover:text-slate-300 rounded-lg"
               onClick={() => setShowSettings(!showSettings)}
               title="Settings"
@@ -412,11 +412,11 @@ function App() {
                 { title: 'Code Review', time: '1h', active: false },
                 { title: 'Design Discussion', time: '3h', active: false }
               ].map((chat, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className={`p-3 rounded-xl border cursor-pointer transition-all ${
-                    chat.active 
-                      ? 'bg-slate-600/20 border-slate-500/30 text-slate-200' 
+                    chat.active
+                      ? 'bg-slate-600/20 border-slate-500/30 text-slate-200'
                       : 'bg-slate-700/20 border-slate-600/20 text-slate-300 hover:bg-slate-700/30'
                   }`}
                   draggable
@@ -442,7 +442,7 @@ function App() {
 
         {/* Main Desktop Area */}
         <div className="flex-1 relative p-6">
-          <div 
+          <div
             className={`h-full relative rounded-3xl transition-all duration-300 ${
               dragOverDesktop ? 'border-2 border-dashed border-blue-400 bg-blue-400/5' : ''
             }`}
@@ -455,7 +455,7 @@ function App() {
                 <div className="text-blue-400 text-lg font-medium">Drop items here</div>
               </div>
             )}
-            
+
             {/* Desktop Items */}
             {desktopItems.map((item) => (
               <div
@@ -481,18 +481,18 @@ function App() {
         </div>
 
         {/* Right Dock - Compact AI Agents */}
-        <div 
+        <div
           className={`bg-gray-800/30 backdrop-blur-xl border-l border-gray-700/30 p-4 flex flex-col transition-all duration-300 ${
             showRightDock ? 'w-48 opacity-100' : 'w-0 opacity-0 overflow-hidden'
           }`}
-        >          
+        >
           {/* Agent Selector - Compact */}
           <div className="mb-4">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-4 h-4 bg-gradient-to-br from-slate-500 to-slate-600 rounded-sm"></div>
               <span className="text-sm text-gray-200 font-medium" style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 300 }}>AI Agents</span>
             </div>
-            
+
             {/* Active Agent Display */}
             <div className="p-3 bg-blue-900/20 rounded-xl border border-blue-500/20 mb-3">
               <div className="flex items-center gap-3">
@@ -508,7 +508,7 @@ function App() {
                 </div>
               </div>
             </div>
-            
+
             {/* Quick Agent Switcher */}
             <div className="space-y-1">
               {[
@@ -516,25 +516,25 @@ function App() {
                 { name: 'Claude Sonnet', provider: 'Anthropic', icon: Edit, color: 'orange' },
                 { name: 'Gemini Pro', provider: 'Google', icon: Zap, color: 'purple' }
               ].map((agent, i) => (
-                <div 
+                <div
                   key={i}
                   className={`p-2 bg-gray-700/20 rounded-lg border cursor-pointer transition-all group ${
-                    selectedAgent === agent.name 
-                      ? `border-${agent.color}-500/30 bg-${agent.color}-900/20` 
+                    selectedAgent === agent.name
+                      ? `border-${agent.color}-500/30 bg-${agent.color}-900/20`
                       : 'border-gray-600/20 hover:border-slate-500/30'
                   }`}
                   onClick={() => setSelectedAgent(agent.name)}
                 >
                   <div className="flex items-center gap-2">
                     <agent.icon className={`w-3 h-3 ${
-                      selectedAgent === agent.name 
-                        ? `text-${agent.color}-400` 
+                      selectedAgent === agent.name
+                        ? `text-${agent.color}-400`
                         : `text-gray-400 group-hover:text-${agent.color}-400`
                     }`} />
                     <div className="flex-1 min-w-0">
                       <p className={`text-xs truncate ${
-                        selectedAgent === agent.name 
-                          ? 'text-gray-200' 
+                        selectedAgent === agent.name
+                          ? 'text-gray-200'
                           : 'text-gray-300 group-hover:text-gray-200'
                       }`}>{agent.name}</p>
                     </div>
@@ -553,7 +553,7 @@ function App() {
                 { name: 'Data Engine', icon: Database, desc: 'Analytics' },
                 { name: 'Widgets', icon: BarChart2, desc: 'Dashboard' }
               ].map((tool, i) => (
-                <div 
+                <div
                   key={i}
                   className="p-2 bg-gray-700/20 rounded-lg border border-gray-600/20 hover:border-slate-500/30 cursor-pointer transition-all group"
                 >
@@ -582,12 +582,12 @@ function App() {
       </div>
 
       {/* Floating Chat Interface - 3D Effect - Contained within Desktop */}
-      <div className="fixed bottom-6 z-40" style={{ 
-        left: showLeftDock ? '15rem' : '1.5rem', 
+      <div className="fixed bottom-6 z-40" style={{
+        left: showLeftDock ? '15rem' : '1.5rem',
         right: showRightDock ? '13rem' : '1.5rem',
         transition: 'left 300ms, right 300ms'
       }}>
-        <div 
+        <div
           className="bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-700/50 p-4"
           style={{
             boxShadow: `
@@ -611,7 +611,7 @@ function App() {
                   }
                 }}
               />
-              
+
               <Button variant="ghost" size="sm" className="absolute right-3 top-1/2 -translate-y-1/2 h-6 w-6 p-0 text-gray-400 hover:text-slate-300">
                 <Smile className="w-4 h-4" />
               </Button>
@@ -644,16 +644,16 @@ function App() {
             <div className="flex items-center gap-2">
               {/* Add Items Dropdown */}
               <div className="relative">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-8 w-8 p-0 text-gray-400 hover:text-slate-300 rounded-xl" 
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 text-gray-400 hover:text-slate-300 rounded-xl"
                   title="Add items"
                   onClick={() => setShowSendOptions(!showSendOptions)}
                 >
                   <Plus className="w-3 h-3" />
                 </Button>
-                
+
                 {showSendOptions && (
                   <div className="absolute bottom-full mb-2 left-0 bg-gray-800/95 backdrop-blur-lg rounded-xl border border-gray-700/50 p-2 shadow-xl z-50">
                     <div className="flex flex-col gap-1 min-w-[120px]">
@@ -677,7 +677,7 @@ function App() {
                   </div>
                 )}
               </div>
-              
+
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-slate-300 rounded-xl" title="Attach">
                 <Paperclip className="w-3 h-3" />
               </Button>
@@ -699,7 +699,7 @@ function App() {
                 <X className="w-5 h-5" />
               </Button>
             </div>
-            
+
             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-semibold mb-3 text-gray-100">Background</h3>
@@ -720,7 +720,7 @@ function App() {
                     </Button>
                   ))}
                 </div>
-                
+
                 {/* Color Picker */}
                 {animatedBg === 'color' && (
                   <div className="mt-4">
@@ -734,7 +734,7 @@ function App() {
                     />
                   </div>
                 )}
-                
+
                 {/* Custom Image Upload */}
                 {animatedBg === 'custom' && (
                   <div className="mt-4">

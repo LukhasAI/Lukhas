@@ -90,7 +90,7 @@ class Intentnodehistory:
     reasoning_steps: list[str]
     memory_references: list[str]
     emotional_context: list[float]
-    quantum_signature: str
+    qi_signature: str
 
 
 @dataclass
@@ -104,7 +104,7 @@ class Memoriasnapshot:
     retrieval_success_rate: float
     consolidation_quality: float
     symbolic_links: list[str]
-    quantum_signature: str
+    qi_signature: str
 
 
 @dataclass
@@ -119,7 +119,7 @@ class Dreamreplayrecord:
     performance_delta: float
     symbolic_insights: list[str]
     emotional_resonance: float
-    quantum_signature: str
+    qi_signature: str
 
 
 @dataclass
@@ -135,7 +135,7 @@ class Symbolicfeedbackloop:
     optimization_suggestions: list[str]
     rehearsal_opportunities: list[str]
     confidence_adjustment: float
-    quantum_signature: str
+    qi_signature: str
 
 
 class Symbolicfeedbacksystem:
@@ -214,7 +214,7 @@ class Symbolicfeedbacksystem:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "success": resolution_success,
             }
-            quantum_signature = self._generate_quantum_signature(intent_data)
+            qi_signature = self._generate_quantum_signature(intent_data)
 
             # Create history record
             history_record = IntentNodeHistory(
@@ -226,7 +226,7 @@ class Symbolicfeedbacksystem:
                 reasoning_steps=reasoning_steps,
                 memory_references=memory_references,
                 emotional_context=emotional_context,
-                quantum_signature=quantum_signature,
+                qi_signature=qi_signature,
             )
 
             self.intent_history.append(history_record)
@@ -240,7 +240,7 @@ class Symbolicfeedbacksystem:
             logger.debug(
                 f"Intent node interaction logged: {intent_id} - Success: {resolution_success}"
             )
-            return quantum_signature
+            return qi_signature
 
         except Exception as e:
             logger.error(f"Error logging intent node interaction: {e}")
@@ -268,7 +268,7 @@ class Symbolicfeedbacksystem:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "fragment_count": len(memory_fragments),
             }
-            quantum_signature = self._generate_quantum_signature(memoria_data)
+            qi_signature = self._generate_quantum_signature(memoria_data)
 
             # Create snapshot record
             snapshot_record = MemoriaSnapshot(
@@ -279,7 +279,7 @@ class Symbolicfeedbacksystem:
                 retrieval_success_rate=retrieval_success_rate,
                 consolidation_quality=consolidation_quality,
                 symbolic_links=symbolic_links,
-                quantum_signature=quantum_signature,
+                qi_signature=qi_signature,
             )
 
             self.memoria_snapshots.append(snapshot_record)
@@ -293,7 +293,7 @@ class Symbolicfeedbacksystem:
             logger.debug(
                 f"Memoria snapshot logged: {snapshot_id} - Coherence: {coherence_score:.3f}"
             )
-            return quantum_signature
+            return qi_signature
 
         except Exception as e:
             logger.error(f"Error logging memoria snapshot: {e}")
@@ -326,7 +326,7 @@ class Symbolicfeedbacksystem:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "success": replay_success,
             }
-            quantum_signature = self._generate_quantum_signature(dream_data)
+            qi_signature = self._generate_quantum_signature(dream_data)
 
             # Create replay record
             replay_record = DreamReplayRecord(
@@ -338,7 +338,7 @@ class Symbolicfeedbacksystem:
                 performance_delta=performance_delta,
                 symbolic_insights=symbolic_insights,
                 emotional_resonance=emotional_resonance,
-                quantum_signature=quantum_signature,
+                qi_signature=qi_signature,
             )
 
             self.dream_replays.append(replay_record)
@@ -355,7 +355,7 @@ class Symbolicfeedbacksystem:
             logger.debug(
                 f"Dream replay logged: {replay_id} - Outcome: {learning_outcome.value}"
             )
-            return quantum_signature
+            return qi_signature
 
         except Exception as e:
             logger.error(f"Error logging dream replay: {e}")
@@ -412,7 +412,7 @@ class Symbolicfeedbacksystem:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "feedback_type": feedback_type.value,
             }
-            quantum_signature = self._generate_quantum_signature(loop_data)
+            qi_signature = self._generate_quantum_signature(loop_data)
 
             # Create feedback loop record
             feedback_loop = SymbolicFeedbackLoop(
@@ -425,7 +425,7 @@ class Symbolicfeedbacksystem:
                 optimization_suggestions=optimization_suggestions,
                 rehearsal_opportunities=rehearsal_opportunities,
                 confidence_adjustment=confidence_adjustment,
-                quantum_signature=quantum_signature,
+                qi_signature=qi_signature,
             )
 
             self.feedback_loops.append(feedback_loop)

@@ -288,7 +288,7 @@ class DreamDivergenceMapper:
             if i > count // 2:
                 # Introduce divergent symbols in later sessions
                 symbol_pool.extend(
-                    ["quantum_void", "recursive_mirror", "temporal_fracture"]
+                    ["qi_void", "recursive_mirror", "temporal_fracture"]
                 )
 
             session = DreamSession(

@@ -9,12 +9,12 @@ Templates are organized in:
 /templates/regions/{region}/{country}/{provider}/
 """
 
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Optional, Any
-import logging
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ class ProviderRegion(Enum):
     ITALY = "italy"
     NETHERLANDS = "netherlands"
     SWITZERLAND = "switzerland"
-    
+
     # Americas
     USA = "united_states"
     CANADA = "canada"
@@ -38,7 +38,7 @@ class ProviderRegion(Enum):
     BRAZIL = "brazil"
     ARGENTINA = "argentina"
     CHILE = "chile"
-    
+
     # Asia Pacific
     AUSTRALIA = "australia"
     NEW_ZEALAND = "new_zealand"
@@ -47,7 +47,7 @@ class ProviderRegion(Enum):
     INDIA = "india"
     CHINA = "china"
     SOUTH_KOREA = "south_korea"
-    
+
     # Middle East & Africa
     UAE = "united_arab_emirates"
     SAUDI_ARABIA = "saudi_arabia"
@@ -88,52 +88,52 @@ class ProviderConfig:
 
 class BaseHealthcareProvider(ABC):
     """Abstract base class for all healthcare providers"""
-    
+
     def __init__(self, config: ProviderConfig):
         self.config = config
         self.logger = logging.getLogger(f"{__name__}.{config.provider_id}")
         self._initialized = False
-    
+
     @abstractmethod
     async def authenticate(self, credentials: Dict[str, str]) -> bool:
         """Authenticate with the provider"""
         pass
-    
+
     @abstractmethod
     async def get_patient_record(self, patient_id: str) -> Dict[str, Any]:
         """Retrieve patient medical record"""
         pass
-    
+
     @abstractmethod
     async def book_appointment(
-        self, 
-        patient_id: str, 
-        specialty: str, 
+        self,
+        patient_id: str,
+        specialty: str,
         preferred_time: Optional[datetime] = None
     ) -> Dict[str, Any]:
         """Book medical appointment"""
         pass
-    
+
     @abstractmethod
     async def get_prescriptions(self, patient_id: str) -> List[Dict[str, Any]]:
         """Get patient prescriptions"""
         pass
-    
+
     @abstractmethod
     async def renew_prescription(
-        self, 
-        patient_id: str, 
+        self,
+        patient_id: str,
         prescription_id: str
     ) -> Dict[str, Any]:
         """Renew a prescription"""
         pass
-    
+
     async def initialize(self) -> bool:
         """Initialize provider connection"""
         self.logger.info(f"Initializing {self.config.name} provider")
         self._initialized = True
         return True
-    
+
     async def check_availability(self) -> bool:
         """Check if provider service is available"""
         return self._initialized
@@ -143,7 +143,7 @@ class BaseHealthcareProvider(ABC):
 
 class NHSProvider(BaseHealthcareProvider):
     """UK National Health Service Provider"""
-    
+
     def __init__(self):
         config = ProviderConfig(
             provider_id="nhs_uk",
@@ -165,14 +165,14 @@ class NHSProvider(BaseHealthcareProvider):
             }
         )
         super().__init__(config)
-    
+
     async def authenticate(self, credentials: Dict[str, str]) -> bool:
         """NHS Login authentication"""
         # NHS uses OAuth2 with NHS login
         self.logger.info("Authenticating with NHS Login")
         # Implementation would connect to NHS Identity service
         return True
-    
+
     async def get_patient_record(self, patient_id: str) -> Dict[str, Any]:
         """Get NHS patient summary care record"""
         return {
@@ -180,11 +180,11 @@ class NHSProvider(BaseHealthcareProvider):
             "summary_care_record": {},
             "gp_practice": {}
         }
-    
+
     async def book_appointment(
-        self, 
-        patient_id: str, 
-        specialty: str, 
+        self,
+        patient_id: str,
+        specialty: str,
         preferred_time: Optional[datetime] = None
     ) -> Dict[str, Any]:
         """Book NHS appointment via e-Referral Service"""
@@ -192,14 +192,14 @@ class NHSProvider(BaseHealthcareProvider):
             "booking_reference": f"NHS-{patient_id}-{datetime.now().isoformat()}",
             "status": "confirmed"
         }
-    
+
     async def get_prescriptions(self, patient_id: str) -> List[Dict[str, Any]]:
         """Get NHS Electronic Prescription Service records"""
         return []
-    
+
     async def renew_prescription(
-        self, 
-        patient_id: str, 
+        self,
+        patient_id: str,
         prescription_id: str
     ) -> Dict[str, Any]:
         """Request prescription renewal through NHS EPS"""
@@ -208,7 +208,7 @@ class NHSProvider(BaseHealthcareProvider):
 
 class GKVProvider(BaseHealthcareProvider):
     """German Statutory Health Insurance (Gesetzliche Krankenversicherung)"""
-    
+
     def __init__(self):
         config = ProviderConfig(
             provider_id="gkv_germany",
@@ -230,12 +230,12 @@ class GKVProvider(BaseHealthcareProvider):
             }
         )
         super().__init__(config)
-    
+
     async def authenticate(self, credentials: Dict[str, str]) -> bool:
         """Authenticate with German eHealth card (eGK)"""
         self.logger.info("Authenticating with eGK card")
         return True
-    
+
     async def get_patient_record(self, patient_id: str) -> Dict[str, Any]:
         """Get elektronische Patientenakte (ePA)"""
         return {
@@ -243,11 +243,11 @@ class GKVProvider(BaseHealthcareProvider):
             "ePA_data": {},
             "krankenkasse": "AOK"  # Example insurance
         }
-    
+
     async def book_appointment(
-        self, 
-        patient_id: str, 
-        specialty: str, 
+        self,
+        patient_id: str,
+        specialty: str,
         preferred_time: Optional[datetime] = None
     ) -> Dict[str, Any]:
         """Book appointment via KV system"""
@@ -255,14 +255,14 @@ class GKVProvider(BaseHealthcareProvider):
             "termin_code": f"KV-{patient_id}",
             "facharzt": specialty
         }
-    
+
     async def get_prescriptions(self, patient_id: str) -> List[Dict[str, Any]]:
         """Get eRezept (electronic prescriptions)"""
         return []
-    
+
     async def renew_prescription(
-        self, 
-        patient_id: str, 
+        self,
+        patient_id: str,
         prescription_id: str
     ) -> Dict[str, Any]:
         """Renew eRezept"""
@@ -271,7 +271,7 @@ class GKVProvider(BaseHealthcareProvider):
 
 class SASProvider(BaseHealthcareProvider):
     """Spanish Andalusian Health Service (Servicio Andaluz de Salud)"""
-    
+
     def __init__(self):
         config = ProviderConfig(
             provider_id="sas_andalucia",
@@ -293,12 +293,12 @@ class SASProvider(BaseHealthcareProvider):
             }
         )
         super().__init__(config)
-    
+
     async def authenticate(self, credentials: Dict[str, str]) -> bool:
         """ClicSalud+ authentication"""
         self.logger.info("Authenticating with ClicSalud+")
         return True
-    
+
     async def get_patient_record(self, patient_id: str) -> Dict[str, Any]:
         """Get Historia de Salud from Diraya"""
         return {
@@ -306,11 +306,11 @@ class SASProvider(BaseHealthcareProvider):
             "historia_salud": {},
             "centro_salud": {}
         }
-    
+
     async def book_appointment(
-        self, 
-        patient_id: str, 
-        specialty: str, 
+        self,
+        patient_id: str,
+        specialty: str,
         preferred_time: Optional[datetime] = None
     ) -> Dict[str, Any]:
         """Book appointment via InterSAS"""
@@ -319,14 +319,14 @@ class SASProvider(BaseHealthcareProvider):
             "especialidad": specialty,
             "centro": "Hospital Virgen del Rocío"
         }
-    
+
     async def get_prescriptions(self, patient_id: str) -> List[Dict[str, Any]]:
         """Get Receta XXI prescriptions"""
         return []
-    
+
     async def renew_prescription(
-        self, 
-        patient_id: str, 
+        self,
+        patient_id: str,
         prescription_id: str
     ) -> Dict[str, Any]:
         """Renew Receta XXI"""
@@ -337,7 +337,7 @@ class SASProvider(BaseHealthcareProvider):
 
 class KaiserProvider(BaseHealthcareProvider):
     """Kaiser Permanente - US integrated healthcare"""
-    
+
     def __init__(self):
         config = ProviderConfig(
             provider_id="kaiser_us",
@@ -359,11 +359,11 @@ class KaiserProvider(BaseHealthcareProvider):
             }
         )
         super().__init__(config)
-    
+
     async def authenticate(self, credentials: Dict[str, str]) -> bool:
         """Kaiser MyChart authentication"""
         return True
-    
+
     async def get_patient_record(self, patient_id: str) -> Dict[str, Any]:
         """Get Kaiser EMR record"""
         return {
@@ -371,11 +371,11 @@ class KaiserProvider(BaseHealthcareProvider):
             "emr_data": {},
             "care_team": []
         }
-    
+
     async def book_appointment(
-        self, 
-        patient_id: str, 
-        specialty: str, 
+        self,
+        patient_id: str,
+        specialty: str,
         preferred_time: Optional[datetime] = None
     ) -> Dict[str, Any]:
         """Book Kaiser appointment"""
@@ -383,14 +383,14 @@ class KaiserProvider(BaseHealthcareProvider):
             "appointment_id": f"KP-{patient_id}",
             "department": specialty
         }
-    
+
     async def get_prescriptions(self, patient_id: str) -> List[Dict[str, Any]]:
         """Get Kaiser pharmacy prescriptions"""
         return []
-    
+
     async def renew_prescription(
-        self, 
-        patient_id: str, 
+        self,
+        patient_id: str,
         prescription_id: str
     ) -> Dict[str, Any]:
         """Renew via Kaiser pharmacy"""
@@ -399,7 +399,7 @@ class KaiserProvider(BaseHealthcareProvider):
 
 class CVSProvider(BaseHealthcareProvider):
     """CVS Health - US retail pharmacy and MinuteClinic"""
-    
+
     def __init__(self):
         config = ProviderConfig(
             provider_id="cvs_us",
@@ -421,22 +421,22 @@ class CVSProvider(BaseHealthcareProvider):
             }
         )
         super().__init__(config)
-    
+
     async def authenticate(self, credentials: Dict[str, str]) -> bool:
         """CVS/Caremark authentication"""
         return True
-    
+
     async def get_patient_record(self, patient_id: str) -> Dict[str, Any]:
         """Get CVS pharmacy records"""
         return {
             "extracare_number": patient_id,
             "pharmacy_records": []
         }
-    
+
     async def book_appointment(
-        self, 
-        patient_id: str, 
-        specialty: str, 
+        self,
+        patient_id: str,
+        specialty: str,
         preferred_time: Optional[datetime] = None
     ) -> Dict[str, Any]:
         """Book MinuteClinic appointment"""
@@ -444,14 +444,14 @@ class CVSProvider(BaseHealthcareProvider):
             "clinic_visit": f"MC-{patient_id}",
             "service": specialty
         }
-    
+
     async def get_prescriptions(self, patient_id: str) -> List[Dict[str, Any]]:
         """Get CVS pharmacy prescriptions"""
         return []
-    
+
     async def renew_prescription(
-        self, 
-        patient_id: str, 
+        self,
+        patient_id: str,
         prescription_id: str
     ) -> Dict[str, Any]:
         """Request prescription renewal"""
@@ -462,7 +462,7 @@ class CVSProvider(BaseHealthcareProvider):
 
 class MedicareAustraliaProvider(BaseHealthcareProvider):
     """Medicare Australia - Public healthcare"""
-    
+
     def __init__(self):
         config = ProviderConfig(
             provider_id="medicare_au",
@@ -484,11 +484,11 @@ class MedicareAustraliaProvider(BaseHealthcareProvider):
             }
         )
         super().__init__(config)
-    
+
     async def authenticate(self, credentials: Dict[str, str]) -> bool:
         """MyGov authentication"""
         return True
-    
+
     async def get_patient_record(self, patient_id: str) -> Dict[str, Any]:
         """Get My Health Record"""
         return {
@@ -496,11 +496,11 @@ class MedicareAustraliaProvider(BaseHealthcareProvider):
             "my_health_record": {},
             "pbs_history": []
         }
-    
+
     async def book_appointment(
-        self, 
-        patient_id: str, 
-        specialty: str, 
+        self,
+        patient_id: str,
+        specialty: str,
         preferred_time: Optional[datetime] = None
     ) -> Dict[str, Any]:
         """Book via HealthDirect"""
@@ -508,14 +508,14 @@ class MedicareAustraliaProvider(BaseHealthcareProvider):
             "booking_ref": f"HD-{patient_id}",
             "specialist": specialty
         }
-    
+
     async def get_prescriptions(self, patient_id: str) -> List[Dict[str, Any]]:
         """Get PBS prescriptions"""
         return []
-    
+
     async def renew_prescription(
-        self, 
-        patient_id: str, 
+        self,
+        patient_id: str,
         prescription_id: str
     ) -> Dict[str, Any]:
         """PBS prescription renewal"""
@@ -526,7 +526,7 @@ class MedicareAustraliaProvider(BaseHealthcareProvider):
 
 class AXAProvider(BaseHealthcareProvider):
     """AXA - Global private health insurance"""
-    
+
     def __init__(self):
         config = ProviderConfig(
             provider_id="axa_global",
@@ -549,11 +549,11 @@ class AXAProvider(BaseHealthcareProvider):
             }
         )
         super().__init__(config)
-    
+
     async def authenticate(self, credentials: Dict[str, str]) -> bool:
         """AXA member portal authentication"""
         return True
-    
+
     async def get_patient_record(self, patient_id: str) -> Dict[str, Any]:
         """Get AXA member health records"""
         return {
@@ -561,11 +561,11 @@ class AXAProvider(BaseHealthcareProvider):
             "coverage": {},
             "claims_history": []
         }
-    
+
     async def book_appointment(
-        self, 
-        patient_id: str, 
-        specialty: str, 
+        self,
+        patient_id: str,
+        specialty: str,
         preferred_time: Optional[datetime] = None
     ) -> Dict[str, Any]:
         """Book through AXA provider network"""
@@ -573,14 +573,14 @@ class AXAProvider(BaseHealthcareProvider):
             "network_booking": f"AXA-{patient_id}",
             "provider": specialty
         }
-    
+
     async def get_prescriptions(self, patient_id: str) -> List[Dict[str, Any]]:
         """Get prescription claims"""
         return []
-    
+
     async def renew_prescription(
-        self, 
-        patient_id: str, 
+        self,
+        patient_id: str,
         prescription_id: str
     ) -> Dict[str, Any]:
         """Process prescription claim"""
@@ -589,53 +589,53 @@ class AXAProvider(BaseHealthcareProvider):
 
 class ProviderRegistry:
     """Global healthcare provider registry"""
-    
+
     def __init__(self):
         self.providers: Dict[str, BaseHealthcareProvider] = {}
         self._initialize_providers()
-    
+
     def _initialize_providers(self):
         """Initialize all available providers"""
         # European providers
         self.register_provider(NHSProvider())
         self.register_provider(GKVProvider())
         self.register_provider(SASProvider())
-        
+
         # American providers
         self.register_provider(KaiserProvider())
         self.register_provider(CVSProvider())
-        
+
         # Asia-Pacific providers
         self.register_provider(MedicareAustraliaProvider())
-        
+
         # Global private providers
         self.register_provider(AXAProvider())
-        
+
         logger.info(f"Initialized {len(self.providers)} healthcare providers")
-    
+
     def register_provider(self, provider: BaseHealthcareProvider):
         """Register a healthcare provider"""
         self.providers[provider.config.provider_id] = provider
         logger.info(f"Registered provider: {provider.config.name}")
-    
+
     def get_provider(self, provider_id: str) -> Optional[BaseHealthcareProvider]:
         """Get provider by ID"""
         return self.providers.get(provider_id)
-    
+
     def get_providers_by_region(self, region: ProviderRegion) -> List[BaseHealthcareProvider]:
         """Get all providers for a region"""
         return [
-            p for p in self.providers.values() 
+            p for p in self.providers.values()
             if p.config.region == region
         ]
-    
+
     def get_providers_by_type(self, provider_type: ProviderType) -> List[BaseHealthcareProvider]:
         """Get all providers of a specific type"""
         return [
-            p for p in self.providers.values() 
+            p for p in self.providers.values()
             if p.config.type == provider_type
         ]
-    
+
     def search_providers(
         self,
         region: Optional[ProviderRegion] = None,
@@ -645,34 +645,34 @@ class ProviderRegistry:
     ) -> List[BaseHealthcareProvider]:
         """Search for providers based on criteria"""
         results = list(self.providers.values())
-        
+
         if region:
             results = [p for p in results if p.config.region == region]
-        
+
         if provider_type:
             results = [p for p in results if p.config.type == provider_type]
-        
+
         if language:
             results = [
-                p for p in results 
+                p for p in results
                 if language in p.config.language_codes
             ]
-        
+
         if service:
             results = [
-                p for p in results 
+                p for p in results
                 if service in p.config.supported_services
             ]
-        
+
         return results
-    
+
     def get_emergency_number(self, region: ProviderRegion) -> Optional[str]:
         """Get emergency number for a region"""
         providers = self.get_providers_by_region(region)
         for provider in providers:
             if provider.config.emergency_number:
                 return provider.config.emergency_number
-        
+
         # Fallback emergency numbers
         emergency_numbers = {
             ProviderRegion.EU: "112",

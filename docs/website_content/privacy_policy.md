@@ -309,7 +309,7 @@ We may update this Privacy Policy to reflect changes in our consciousness servic
 ### Privacy Questions
 For questions about this Privacy Policy or our consciousness data practices:
 
-**Email**: privacy@lukhas.ai  
+**Email**: privacy@lukhas.ai
 **Mail**: LUKHAS AI Privacy Office, [Address]
 
 ### Data Protection Officer
@@ -320,7 +320,7 @@ For GDPR-related inquiries or consciousness data protection concerns:
 ### Data Subject Requests
 To exercise your privacy rights regarding consciousness data:
 
-**Email**: datarights@lukhas.ai  
+**Email**: datarights@lukhas.ai
 **Online Portal**: [Account Settings → Privacy Controls]
 
 Response time: We respond to consciousness data requests within 30 days (or as required by applicable law).

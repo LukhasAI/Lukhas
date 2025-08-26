@@ -29,10 +29,10 @@ class NeuroSymbolicReweighter:
             statement=x,
             witness=self.weights['ethical']
         )
-        
+
         if not AsilomarVerifier.check(ethical_proof):  # Implements [^12]
             raise EthicalConstraintViolation
-            
+
         cognitive_output = self.base_model(x) * self.weights['cognitive']
         return self.annealer.optimize(cognitive_output)  # Uses [^6]
 ```

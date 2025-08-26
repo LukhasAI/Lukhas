@@ -15,7 +15,7 @@ This directory contains comprehensive documentation of LUKHAS AI's system archit
 - **[NEUROPLASTIC_ARCHITECTURE.md](./NEUROPLASTIC_ARCHITECTURE.md)** - Neuroplastic design patterns
 - **[LUKHAS_NEUROPLASTIC_ARCHITECTURE.md](./LUKHAS_NEUROPLASTIC_ARCHITECTURE.md)** - LUKHAS-specific neuroplastic implementation
 
-#### **Future Architecture**  
+#### **Future Architecture**
 - **[LUKHAS_2030_ARCHITECTURE.md](./LUKHAS_2030_ARCHITECTURE.md)** - Long-term architecture roadmap
 - **[CRITICAL_ARCHITECTURE_ISSUES.md](./CRITICAL_ARCHITECTURE_ISSUES.md)** - Known issues and resolutions
 
@@ -26,7 +26,7 @@ This directory contains comprehensive documentation of LUKHAS AI's system archit
 ### **Trinity Framework Integration**
 All LUKHAS AI architecture follows the Trinity Framework (⚛️🧠🛡️):
 - **⚛️ Identity**: Authentic consciousness characteristics
-- **🧠 Consciousness**: Memory, learning, neural processing  
+- **🧠 Consciousness**: Memory, learning, neural processing
 - **🛡️ Guardian**: Ethics, drift detection, safety
 
 ### **Key Design Patterns**
@@ -37,5 +37,5 @@ All LUKHAS AI architecture follows the Trinity Framework (⚛️🧠🛡️):
 
 ---
 
-**Directory Status**: ✅ **Organized**  
+**Directory Status**: ✅ **Organized**
 **Last Updated**: August 25, 2025

@@ -6,9 +6,8 @@ Customize the appearance and behavior of your LUKHAS AI ΛBot status bar indicat
 This script provides examples and options for different designs.
 """
 
-import json
-import os
 from pathlib import Path
+
 
 class BotStatusDesigner:
     """Customizable status bar designer for LUKHAS AI ΛBot."""

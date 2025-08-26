@@ -127,7 +127,7 @@
     },
     "vault_hashes.json": {
       "sha3_512": "self_referential_hash_placeholder",
-      "blake3": "self_referential_blake3_placeholder", 
+      "blake3": "self_referential_blake3_placeholder",
       "size_bytes": 8956,
       "description": "Complete system integrity verification"
     }

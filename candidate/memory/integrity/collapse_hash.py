@@ -80,7 +80,7 @@ class HashAlgorithm(Enum):
     SHA256 = "sha256"
     SHA3_256 = "sha3_256"
     BLAKE2B = "blake2b"
-    QUANTUM_RESISTANT = "quantum_resistant"  # Placeholder for future
+    QUANTUM_RESISTANT = "qi_resistant"  # Placeholder for future
 
 
 class IntegrityStatus(Enum):

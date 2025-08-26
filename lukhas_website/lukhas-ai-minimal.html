@@ -4,20 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>LUKHAS — Conscious Intelligence</title>
-    
+
     <!-- Minimal, Clean Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Phosphor Icons (Better than FontAwesome for minimal design) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         :root {
             --text-primary: #000000;
             --text-secondary: #666666;
@@ -31,7 +31,7 @@
             --radius-sm: 8px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             color: var(--text-primary);
@@ -41,7 +41,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        
+
         /* Navigation */
         nav {
             position: fixed;
@@ -53,7 +53,7 @@
             border-bottom: 1px solid var(--border);
             z-index: 1000;
         }
-        
+
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -63,19 +63,19 @@
             align-items: center;
             justify-content: space-between;
         }
-        
+
         .logo {
             font-size: 20px;
             font-weight: 600;
             letter-spacing: -0.5px;
         }
-        
+
         .nav-links {
             display: flex;
             gap: 32px;
             align-items: center;
         }
-        
+
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
@@ -83,17 +83,17 @@
             font-weight: 500;
             transition: var(--transition);
         }
-        
+
         .nav-links a:hover {
             color: var(--text-primary);
         }
-        
+
         .nav-actions {
             display: flex;
             gap: 16px;
             align-items: center;
         }
-        
+
         .btn {
             padding: 8px 16px;
             font-size: 14px;
@@ -107,25 +107,25 @@
             align-items: center;
             gap: 8px;
         }
-        
+
         .btn-ghost {
             color: var(--text-primary);
             background: transparent;
         }
-        
+
         .btn-ghost:hover {
             background: var(--bg-tertiary);
         }
-        
+
         .btn-primary {
             color: white;
             background: var(--accent);
         }
-        
+
         .btn-primary:hover {
             opacity: 0.9;
         }
-        
+
         /* Hero Section */
         .hero {
             padding: 160px 32px 80px;
@@ -133,7 +133,7 @@
             margin: 0 auto;
             text-align: center;
         }
-        
+
         .hero h1 {
             font-size: 72px;
             font-weight: 700;
@@ -141,14 +141,14 @@
             letter-spacing: -3px;
             margin-bottom: 24px;
         }
-        
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 48px;
                 letter-spacing: -2px;
             }
         }
-        
+
         .hero .subtitle {
             font-size: 24px;
             font-weight: 400;
@@ -156,25 +156,25 @@
             margin-bottom: 48px;
             letter-spacing: -0.5px;
         }
-        
+
         .hero-actions {
             display: flex;
             gap: 16px;
             justify-content: center;
         }
-        
+
         .btn-large {
             padding: 16px 32px;
             font-size: 16px;
         }
-        
+
         /* Lambda Products Grid */
         .products {
             padding: 80px 32px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .section-label {
             font-size: 12px;
             font-weight: 600;
@@ -183,20 +183,20 @@
             color: var(--text-tertiary);
             margin-bottom: 16px;
         }
-        
+
         .section-title {
             font-size: 48px;
             font-weight: 700;
             letter-spacing: -2px;
             margin-bottom: 48px;
         }
-        
+
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 24px;
         }
-        
+
         .product-card {
             background: var(--bg-secondary);
             border-radius: var(--radius);
@@ -204,25 +204,25 @@
             transition: var(--transition);
             cursor: pointer;
         }
-        
+
         .product-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
         }
-        
+
         .product-icon {
             width: 48px;
             height: 48px;
             margin-bottom: 20px;
         }
-        
+
         .product-name {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 8px;
             letter-spacing: -0.5px;
         }
-        
+
         .product-type {
             font-size: 12px;
             font-weight: 600;
@@ -231,19 +231,19 @@
             color: var(--text-tertiary);
             margin-bottom: 16px;
         }
-        
+
         .product-description {
             font-size: 14px;
             color: var(--text-secondary);
             line-height: 1.5;
         }
-        
+
         /* Stats Section */
         .stats {
             padding: 80px 32px;
             background: var(--bg-secondary);
         }
-        
+
         .stats-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -252,26 +252,26 @@
             gap: 48px;
             text-align: center;
         }
-        
+
         .stat-value {
             font-size: 48px;
             font-weight: 700;
             letter-spacing: -2px;
             margin-bottom: 8px;
         }
-        
+
         .stat-label {
             font-size: 14px;
             color: var(--text-secondary);
         }
-        
+
         /* Developer Section */
         .developer {
             padding: 80px 32px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .code-block {
             background: #1a1a1a;
             color: #f0f0f0;
@@ -282,29 +282,29 @@
             line-height: 1.6;
             overflow-x: auto;
         }
-        
+
         .code-comment {
             color: #666;
         }
-        
+
         .code-keyword {
             color: #ff79c6;
         }
-        
+
         .code-string {
             color: #50fa7b;
         }
-        
+
         .code-function {
             color: #8be9fd;
         }
-        
+
         /* Features */
         .features {
             padding: 80px 32px;
             background: var(--bg-secondary);
         }
-        
+
         .feature-grid {
             max-width: 1200px;
             margin: 48px auto 0;
@@ -312,54 +312,54 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 48px;
         }
-        
+
         .feature {
             text-align: center;
         }
-        
+
         .feature-icon {
             width: 32px;
             height: 32px;
             margin: 0 auto 16px;
         }
-        
+
         .feature-title {
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 8px;
         }
-        
+
         .feature-description {
             font-size: 14px;
             color: var(--text-secondary);
         }
-        
+
         /* CTA Section */
         .cta {
             padding: 120px 32px;
             text-align: center;
             background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
         }
-        
+
         .cta h2 {
             font-size: 56px;
             font-weight: 700;
             letter-spacing: -2px;
             margin-bottom: 24px;
         }
-        
+
         .cta p {
             font-size: 20px;
             color: var(--text-secondary);
             margin-bottom: 48px;
         }
-        
+
         /* Footer */
         footer {
             padding: 48px 32px;
             border-top: 1px solid var(--border);
         }
-        
+
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -367,28 +367,28 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .footer-links {
             display: flex;
             gap: 32px;
         }
-        
+
         .footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 14px;
             transition: var(--transition);
         }
-        
+
         .footer-links a:hover {
             color: var(--text-primary);
         }
-        
+
         .copyright {
             font-size: 14px;
             color: var(--text-tertiary);
         }
-        
+
         /* LUKHAS ID Modal */
         .modal {
             display: none;
@@ -403,11 +403,11 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal.active {
             display: flex;
         }
-        
+
         .modal-content {
             background: white;
             border-radius: var(--radius);
@@ -416,25 +416,25 @@
             width: 90%;
             text-align: center;
         }
-        
+
         .modal-title {
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 16px;
             letter-spacing: -1px;
         }
-        
+
         .modal-subtitle {
             font-size: 14px;
             color: var(--text-secondary);
             margin-bottom: 32px;
         }
-        
+
         .input-group {
             margin-bottom: 16px;
             text-align: left;
         }
-        
+
         .input-label {
             font-size: 12px;
             font-weight: 600;
@@ -444,7 +444,7 @@
             margin-bottom: 8px;
             display: block;
         }
-        
+
         .input {
             width: 100%;
             padding: 12px 16px;
@@ -453,29 +453,29 @@
             font-size: 14px;
             transition: var(--transition);
         }
-        
+
         .input:focus {
             outline: none;
             border-color: var(--accent);
         }
-        
+
         .modal-actions {
             display: flex;
             gap: 16px;
             margin-top: 32px;
         }
-        
+
         .modal-actions .btn {
             flex: 1;
         }
-        
+
         .divider {
             margin: 24px 0;
             color: var(--text-tertiary);
             font-size: 12px;
             position: relative;
         }
-        
+
         .divider::before,
         .divider::after {
             content: '';
@@ -485,11 +485,11 @@
             height: 1px;
             background: var(--border);
         }
-        
+
         .divider::before {
             left: 0;
         }
-        
+
         .divider::after {
             right: 0;
         }
@@ -500,14 +500,14 @@
     <nav>
         <div class="nav-container">
             <div class="logo">LUKHAS</div>
-            
+
             <div class="nav-links">
                 <a href="#products">Products</a>
                 <a href="#developers">Developers</a>
                 <a href="#pricing">Pricing</a>
                 <a href="https://lukhas.store">Store</a>
             </div>
-            
+
             <div class="nav-actions">
                 <button class="btn btn-ghost" onclick="openLukhasID()">
                     <i class="ph ph-user"></i>
@@ -517,12 +517,12 @@
             </div>
         </div>
     </nav>
-    
+
     <!-- Hero Section -->
     <section class="hero">
         <h1>Conscious Intelligence</h1>
         <p class="subtitle">AI that understands context, emotion, and purpose.</p>
-        
+
         <div class="hero-actions">
             <button class="btn btn-primary btn-large" onclick="openLukhasID()">
                 Start Building
@@ -533,12 +533,12 @@
             </a>
         </div>
     </section>
-    
+
     <!-- Lambda Products -->
     <section class="products" id="products">
         <div class="section-label">Lambda Products</div>
         <h2 class="section-title">Core Intelligence Modules</h2>
-        
+
         <div class="product-grid">
             <!-- NIΛS -->
             <div class="product-card">
@@ -548,11 +548,11 @@
                 <h3 class="product-name">NIΛS</h3>
                 <p class="product-type">Emotional Intelligence</p>
                 <p class="product-description">
-                    Understands nuance, context, and emotion in every interaction. 
+                    Understands nuance, context, and emotion in every interaction.
                     Makes AI feel genuinely human.
                 </p>
             </div>
-            
+
             <!-- ΛBAS -->
             <div class="product-card">
                 <div class="product-icon">
@@ -561,11 +561,11 @@
                 <h3 class="product-name">ΛBAS</h3>
                 <p class="product-type">Attention Management</p>
                 <p class="product-description">
-                    Focuses on what matters. Filters noise, prioritizes tasks, 
+                    Focuses on what matters. Filters noise, prioritizes tasks,
                     maintains context across sessions.
                 </p>
             </div>
-            
+
             <!-- DΛST -->
             <div class="product-card">
                 <div class="product-icon">
@@ -574,11 +574,11 @@
                 <h3 class="product-name">DΛST</h3>
                 <p class="product-type">State Orchestration</p>
                 <p class="product-description">
-                    Manages context across all systems. Maintains state, memory, 
+                    Manages context across all systems. Maintains state, memory,
                     and decision coherence.
                 </p>
             </div>
-            
+
             <!-- ΛiD -->
             <div class="product-card">
                 <div class="product-icon">
@@ -587,11 +587,11 @@
                 <h3 class="product-name">ΛiD</h3>
                 <p class="product-type">Identity & Auth</p>
                 <p class="product-description">
-                    Quantum-secure identity verification. Zero-knowledge proofs 
+                    Quantum-secure identity verification. Zero-knowledge proofs
                     for ultimate privacy.
                 </p>
             </div>
-            
+
             <!-- ΛBot -->
             <div class="product-card">
                 <div class="product-icon">
@@ -600,11 +600,11 @@
                 <h3 class="product-name">ΛBot</h3>
                 <p class="product-type">Agent Framework</p>
                 <p class="product-description">
-                    Build autonomous agents that work 24/7. Deploy once, 
+                    Build autonomous agents that work 24/7. Deploy once,
                     scale infinitely.
                 </p>
             </div>
-            
+
             <!-- ΛWallet -->
             <div class="product-card">
                 <div class="product-icon">
@@ -613,13 +613,13 @@
                 <h3 class="product-name">ΛWallet</h3>
                 <p class="product-type">Value Exchange</p>
                 <p class="product-description">
-                    Secure value transfer between agents, humans, and systems. 
+                    Secure value transfer between agents, humans, and systems.
                     Built for the AI economy.
                 </p>
             </div>
         </div>
     </section>
-    
+
     <!-- Stats -->
     <section class="stats">
         <div class="stats-container">
@@ -641,37 +641,37 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Developer Section -->
     <section class="developer" id="developers">
         <div class="section-label">For Developers</div>
         <h2 class="section-title">Simple to integrate</h2>
-        
+
         <div class="code-block">
             <span class="code-comment"># Initialize LUKHAS with consciousness</span><br>
             <span class="code-keyword">from</span> lukhas <span class="code-keyword">import</span> LambdaAI<br><br>
-            
+
             ai = <span class="code-function">LambdaAI</span>(api_key=<span class="code-string">"your-key"</span>)<br><br>
-            
+
             <span class="code-comment"># Create an aware agent</span><br>
             agent = ai.<span class="code-function">create_agent</span>(<br>
             &nbsp;&nbsp;&nbsp;&nbsp;type=<span class="code-string">"assistant"</span>,<br>
             &nbsp;&nbsp;&nbsp;&nbsp;consciousness=<span class="code-string">"aware"</span>,<br>
             &nbsp;&nbsp;&nbsp;&nbsp;emotional_intelligence=<span class="code-keyword">True</span><br>
             )<br><br>
-            
+
             <span class="code-comment"># Agent handles everything</span><br>
             response = agent.<span class="code-function">process</span>(user_input)
         </div>
     </section>
-    
+
     <!-- Features -->
     <section class="features">
         <div class="section-label">Why LUKHAS</div>
         <h2 class="section-title" style="text-align: center; max-width: 1200px; margin: 0 auto;">
             Built different from day one
         </h2>
-        
+
         <div class="feature-grid">
             <div class="feature">
                 <div class="feature-icon">
@@ -682,7 +682,7 @@
                     Future-proof encryption that quantum computers can't break.
                 </p>
             </div>
-            
+
             <div class="feature">
                 <div class="feature-icon">
                     <i class="ph ph-scales" style="font-size: 32px;"></i>
@@ -692,7 +692,7 @@
                     Built-in compliance with global AI regulations and ethics.
                 </p>
             </div>
-            
+
             <div class="feature">
                 <div class="feature-icon">
                     <i class="ph ph-lightning" style="font-size: 32px;"></i>
@@ -702,7 +702,7 @@
                     54,000 operations per second with sub-millisecond latency.
                 </p>
             </div>
-            
+
             <div class="feature">
                 <div class="feature-icon">
                     <i class="ph ph-heart" style="font-size: 32px;"></i>
@@ -712,7 +712,7 @@
                     Understands and responds to human emotion appropriately.
                 </p>
             </div>
-            
+
             <div class="feature">
                 <div class="feature-icon">
                     <i class="ph ph-globe" style="font-size: 32px;"></i>
@@ -722,7 +722,7 @@
                     Deploy across regions with automatic failover and scaling.
                 </p>
             </div>
-            
+
             <div class="feature">
                 <div class="feature-icon">
                     <i class="ph ph-sparkle" style="font-size: 32px;"></i>
@@ -734,12 +734,12 @@
             </div>
         </div>
     </section>
-    
+
     <!-- CTA -->
     <section class="cta">
         <h2>Ready to build conscious AI?</h2>
         <p>Join thousands of developers creating the future.</p>
-        
+
         <div class="hero-actions">
             <button class="btn btn-primary btn-large" onclick="openLukhasID()">
                 Get Started Free
@@ -749,7 +749,7 @@
             </a>
         </div>
     </section>
-    
+
     <!-- Footer -->
     <footer>
         <div class="footer-container">
@@ -761,69 +761,69 @@
                 <a href="#">Privacy</a>
                 <a href="#">Terms</a>
             </div>
-            
+
             <div class="copyright">
                 © 2025 LUKHAS. All rights reserved.
             </div>
         </div>
     </footer>
-    
+
     <!-- LUKHAS ID Modal -->
     <div class="modal" id="lukhasIDModal">
         <div class="modal-content">
             <h2 class="modal-title">Welcome back</h2>
             <p class="modal-subtitle">Sign in with LUKHAS ID to continue</p>
-            
+
             <div class="input-group">
                 <label class="input-label">Email or LUKHAS ID</label>
                 <input type="text" class="input" placeholder="you@example.com">
             </div>
-            
+
             <div class="input-group">
                 <label class="input-label">Password</label>
                 <input type="password" class="input" placeholder="••••••••">
             </div>
-            
+
             <div class="modal-actions">
                 <button class="btn btn-primary" style="width: 100%;">
                     Sign In
                 </button>
             </div>
-            
+
             <div class="divider">or</div>
-            
+
             <button class="btn btn-ghost" style="width: 100%; margin-bottom: 8px;">
                 <i class="ph ph-fingerprint"></i>
                 Use Biometric Auth
             </button>
-            
+
             <button class="btn btn-ghost" style="width: 100%;">
                 <i class="ph ph-key"></i>
                 Sign in with Passkey
             </button>
-            
+
             <p style="margin-top: 24px; font-size: 14px; color: var(--text-secondary);">
-                Don't have an account? 
+                Don't have an account?
                 <a href="https://lukhas.id" style="color: var(--accent); text-decoration: none; font-weight: 600;">
                     Create LUKHAS ID
                 </a>
             </p>
-            
+
             <button class="btn btn-ghost" onclick="closeLukhasID()" style="position: absolute; top: 16px; right: 16px;">
                 <i class="ph ph-x"></i>
             </button>
         </div>
     </div>
-    
+
     <script>
         function openLukhasID() {
             document.getElementById('lukhasIDModal').classList.add('active');
         }
-        
+
         function closeLukhasID() {
             document.getElementById('lukhasIDModal').classList.remove('active');
         }
-        
+
         // Close modal when clicking outside
         document.getElementById('lukhasIDModal').addEventListener('click', function(e) {
             if (e.target === this) {

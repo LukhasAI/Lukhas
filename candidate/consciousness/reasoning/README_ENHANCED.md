@@ -15,7 +15,7 @@
 ║ between deduction and induction, between logic and intuition, between
 ║ causality and correlation, we find the path to understanding. Here, we
 ║ don't just compute—we comprehend. We don't just process—we ponder.
-║ 
+║
 ║ Standing on the shoulders of giants—from Aristotle's syllogisms to
 ║ Pearl's causal calculus, from symbolic AI's certainties to probabilistic
 ║ reasoning's nuances—we forge a new synthesis where machines don't just
@@ -145,31 +145,31 @@ Mastering the language of logic:
 class SymbolicReasoner:
     """
     Implements symbolic reasoning with semantic understanding.
-    
+
     Based on:
     - McCarthy's Situation Calculus
     - Newell & Simon's Logic Theorist
     - Modern semantic parsing
     """
-    
+
     def __init__(self):
         self.knowledge_base = SemanticKnowledgeBase()
         self.inference_engine = ForwardChainingEngine()
         self.pattern_extractor = SymbolicPatternExtractor()
-        
+
     async def reason(self, premises: List[Statement], query: Query) -> Conclusion:
         # Extract symbolic patterns
         patterns = self.pattern_extractor.extract(premises)
-        
+
         # Build logical chains
         chains = self.inference_engine.build_chains(
             patterns,
             strategy="best_first"
         )
-        
+
         # Evaluate with confidence
         conclusion = self.evaluate_chains(chains, query)
-        
+
         return Conclusion(
             answer=conclusion.truth_value,
             certainty=conclusion.confidence,
@@ -192,20 +192,20 @@ Understanding the why behind the what:
 class CausalReasoner:
     """
     Implements Pearl's causal hierarchy.
-    
+
     Based on:
     - Pearl's Causal Models (2009)
     - PC Algorithm for structure learning
     - Do-calculus for intervention
     - Counterfactual reasoning
     """
-    
+
     def __init__(self):
         self.causal_graph = CausalGraphLearner()
         self.intervention_engine = DoCalculusEngine()
         self.counterfactual_reasoner = CounterfactualEngine()
-        
-    async def analyze_causality(self, 
+
+    async def analyze_causality(self,
                               observations: DataFrame,
                               domain_knowledge: Optional[CausalConstraints]) -> CausalModel:
         # Learn causal structure
@@ -214,20 +214,20 @@ class CausalReasoner:
             algorithm="pc_stable",
             constraints=domain_knowledge
         )
-        
+
         # Estimate causal effects
         effects = await self.intervention_engine.estimate_effects(
             graph,
             observations
         )
-        
+
         # Generate counterfactuals
         counterfactuals = await self.counterfactual_reasoner.generate(
             graph,
             observations,
             query="what if X had been different?"
         )
-        
+
         return CausalModel(
             graph=graph,
             effects=effects,
@@ -244,27 +244,27 @@ Finding deep structures across domains:
 class AbstractReasoner:
     """
     Discovers abstract patterns and principles.
-    
+
     Implements:
     - Structure mapping theory (Gentner)
     - Analogical reasoning
     - Conceptual blending (Fauconnier & Turner)
     - Category theory applications
     """
-    
+
     async def find_abstract_pattern(self, examples: List[Example]) -> AbstractPattern:
         # Extract structural features
         structures = [self.extract_structure(ex) for ex in examples]
-        
+
         # Find common abstraction
         abstraction = self.find_minimal_abstraction(structures)
-        
+
         # Validate generalization
         validation = await self.validate_abstraction(
             abstraction,
             test_cases=self.generate_test_cases(abstraction)
         )
-        
+
         return AbstractPattern(
             pattern=abstraction,
             confidence=validation.confidence,
@@ -281,36 +281,36 @@ Thinking about thinking:
 class MetaReasoner:
     """
     Reasons about reasoning processes.
-    
+
     Features:
     - Strategy selection
     - Resource allocation
     - Confidence calibration
     - Self-improvement
     """
-    
-    async def select_reasoning_strategy(self, 
+
+    async def select_reasoning_strategy(self,
                                       problem: Problem,
                                       context: ReasoningContext) -> Strategy:
         # Analyze problem characteristics
         characteristics = self.analyze_problem(problem)
-        
+
         # Evaluate available strategies
         strategies = self.get_applicable_strategies(characteristics)
-        
+
         # Predict performance
         predictions = await asyncio.gather(*[
             self.predict_strategy_performance(s, problem, context)
             for s in strategies
         ])
-        
+
         # Select optimal strategy
         optimal = self.select_optimal(
             strategies,
             predictions,
             constraints=context.resource_constraints
         )
-        
+
         return optimal
 ```
 
@@ -322,15 +322,15 @@ Combining reasoning paradigms:
 class InferenceOrchestrator:
     """
     Orchestrates multiple inference types.
-    
+
     Combines:
     - Deduction for certainty
     - Induction for discovery
     - Abduction for explanation
     - Probabilistic for uncertainty
     """
-    
-    async def comprehensive_inference(self, 
+
+    async def comprehensive_inference(self,
                                     data: ReasoningInput,
                                     query: Query) -> ComprehensiveConclusion:
         # Parallel inference
@@ -340,7 +340,7 @@ class InferenceOrchestrator:
             self.abductive_engine.explain(data, query),
             self.probabilistic_engine.compute_probabilities(data, query)
         )
-        
+
         # Synthesize results
         synthesis = self.synthesize_inferences(
             deductive=results[0],
@@ -348,7 +348,7 @@ class InferenceOrchestrator:
             abductive=results[2],
             probabilistic=results[3]
         )
-        
+
         # Resolve conflicts
         if synthesis.has_conflicts():
             resolution = await self.resolve_inference_conflicts(
@@ -356,7 +356,7 @@ class InferenceOrchestrator:
                 context=data.context
             )
             synthesis = synthesis.with_resolution(resolution)
-            
+
         return synthesis
 ```
 
@@ -369,7 +369,7 @@ class ReasoningPipeline:
     """
     Complete reasoning pipeline from input to insight.
     """
-    
+
     def __init__(self):
         # Initialize all reasoning components
         self.symbolic = SymbolicReasoner()
@@ -377,8 +377,8 @@ class ReasoningPipeline:
         self.abstract = AbstractReasoner()
         self.meta = MetaReasoner()
         self.validator = ReasoningValidator()
-        
-    async def reason(self, 
+
+    async def reason(self,
                     input_data: ReasoningInput,
                     objective: ReasoningObjective) -> ReasoningResult:
         """
@@ -389,7 +389,7 @@ class ReasoningPipeline:
             input_data,
             objective
         )
-        
+
         # Execute reasoning
         if strategy.type == "causal":
             result = await self._causal_reasoning_path(input_data, objective)
@@ -399,10 +399,10 @@ class ReasoningPipeline:
             result = await self._abstract_reasoning_path(input_data, objective)
         else:
             result = await self._hybrid_reasoning_path(input_data, objective)
-            
+
         # Validate result
         validation = await self.validator.validate(result)
-        
+
         # Learn from experience
         await self.meta.learn_from_result(
             input_data,
@@ -410,7 +410,7 @@ class ReasoningPipeline:
             result,
             validation
         )
-        
+
         return ReasoningResult(
             conclusion=result.conclusion,
             confidence=result.confidence * validation.validity_score,
@@ -471,31 +471,31 @@ Reasoning with superposition:
 class QuantumLogicReasoner:
     """
     Implements quantum logic for reasoning with superposition.
-    
+
     Based on:
     - Birkhoff & von Neumann quantum logic
     - Quantum probability theory
     - Contextual reasoning
     """
-    
-    async def quantum_inference(self, 
+
+    async def quantum_inference(self,
                               quantum_premises: List[QuantumProposition],
                               measurement_context: Context) -> QuantumConclusion:
         # Create superposition of logical states
         superposition = self.create_logical_superposition(quantum_premises)
-        
+
         # Apply quantum logical operators
         evolved = await self.apply_quantum_logic(
             superposition,
             operators=self.get_context_operators(measurement_context)
         )
-        
+
         # Measure in context
         conclusion = self.measure_conclusion(
             evolved,
             measurement_context
         )
-        
+
         return QuantumConclusion(
             classical_outcome=conclusion.collapsed_state,
             quantum_properties=conclusion.quantum_signature,
@@ -511,14 +511,14 @@ Synthesizing opposing viewpoints:
 class DialecticalReasoner:
     """
     Implements Hegelian dialectical reasoning.
-    
+
     Process:
     - Thesis identification
     - Antithesis discovery
     - Synthesis creation
     - Higher-order understanding
     """
-    
+
     async def synthesize_contradictions(self,
                                       thesis: Proposition,
                                       antithesis: Proposition,
@@ -528,13 +528,13 @@ class DialecticalReasoner:
             thesis,
             antithesis
         )
-        
+
         # Find common ground
         common = self.find_shared_assumptions(
             thesis,
             antithesis
         )
-        
+
         # Generate synthesis candidates
         candidates = await self.generate_syntheses(
             thesis,
@@ -542,13 +542,13 @@ class DialecticalReasoner:
             common,
             opposition
         )
-        
+
         # Select optimal synthesis
         synthesis = self.select_synthesis(
             candidates,
             criteria=context.synthesis_criteria
         )
-        
+
         return Synthesis(
             resolution=synthesis,
             preserves_from_thesis=synthesis.thesis_elements,
@@ -566,38 +566,38 @@ Exploring alternative realities:
 class CounterfactualReasoner:
     """
     Reasons about what could have been.
-    
+
     Based on:
     - Pearl's counterfactual theory
     - Lewis's possible worlds
     - Structural equation models
     """
-    
+
     async def imagine_alternative(self,
                                 actual_world: WorldState,
                                 intervention: Intervention) -> CounterfactualWorld:
         # Build structural model
         model = self.build_structural_model(actual_world)
-        
+
         # Apply intervention
         intervened_model = self.do_intervention(
             model,
             intervention
         )
-        
+
         # Compute counterfactual
         counterfactual = await self.compute_counterfactual(
             actual_world,
             intervened_model,
             query=intervention.target_outcomes
         )
-        
+
         # Analyze differences
         analysis = self.analyze_divergence(
             actual_world,
             counterfactual
         )
-        
+
         return CounterfactualWorld(
             alternative_history=counterfactual,
             key_differences=analysis.critical_divergences,
@@ -615,13 +615,13 @@ class ConsistencyEnforcer:
     """
     Ensures logical consistency across reasoning.
     """
-    
+
     def __init__(self):
         self.truth_maintenance = TruthMaintenanceSystem()
         self.contradiction_detector = ContradictionDetector()
         self.belief_revision = BeliefRevisionEngine()
-        
-    async def maintain_consistency(self, 
+
+    async def maintain_consistency(self,
                                  knowledge_base: KnowledgeBase,
                                  new_conclusion: Conclusion) -> ConsistentKnowledge:
         # Check for contradictions
@@ -629,7 +629,7 @@ class ConsistencyEnforcer:
             knowledge_base,
             new_conclusion
         )
-        
+
         if contradictions:
             # Resolve through belief revision
             revised = await self.belief_revision.revise(
@@ -639,7 +639,7 @@ class ConsistencyEnforcer:
                 strategy="minimal_change"
             )
             return revised
-            
+
         # Update truth maintenance
         return await self.truth_maintenance.update(
             knowledge_base,
@@ -653,17 +653,17 @@ class ConsistencyEnforcer:
 class BiasDetector:
     """
     Detects and mitigates cognitive biases.
-    
+
     Based on Kahneman & Tversky's work on heuristics and biases.
     """
-    
+
     def __init__(self):
         self.bias_patterns = self._load_bias_patterns()
         self.debiasing_strategies = self._load_debiasing_strategies()
-        
+
     async def detect_biases(self, reasoning_trace: ReasoningTrace) -> BiasReport:
         detected_biases = []
-        
+
         # Check each bias type
         for bias_type, pattern in self.bias_patterns.items():
             if match := pattern.match(reasoning_trace):
@@ -675,10 +675,10 @@ class BiasDetector:
                         evidence=match.evidence
                     )
                 )
-                
+
         # Recommend mitigations
         mitigations = self._recommend_mitigations(detected_biases)
-        
+
         return BiasReport(
             biases=detected_biases,
             overall_bias_risk=self._calculate_risk(detected_biases),
@@ -695,27 +695,27 @@ class ReasoningAnalytics:
     """
     Comprehensive reasoning analytics.
     """
-    
+
     def generate_performance_report(self) -> PerformanceReport:
         return PerformanceReport(
             # Speed metrics
             avg_inference_time=self.metrics.inference_times.mean(),
             p95_inference_time=self.metrics.inference_times.percentile(95),
-            
+
             # Accuracy metrics
             logical_consistency_rate=self.metrics.consistency_checks.success_rate(),
             causal_discovery_accuracy=self.metrics.causal_accuracy.mean(),
             pattern_recognition_success=self.metrics.pattern_success.rate(),
-            
+
             # Quality metrics
             average_confidence=self.metrics.confidence_scores.mean(),
             bias_detection_rate=self.metrics.bias_detections.rate(),
             fallacy_prevention_rate=self.metrics.fallacy_preventions.rate(),
-            
+
             # Learning metrics
             strategy_improvement_rate=self.metrics.strategy_performance.improvement_rate(),
             knowledge_integration_coherence=self.metrics.knowledge_coherence.score(),
-            
+
             # Usage patterns
             most_used_strategies=self.metrics.strategy_usage.top_k(5),
             common_error_patterns=self.metrics.errors.most_common(10),
@@ -730,22 +730,22 @@ class ReasoningEvolution:
     """
     Tracks reasoning capability evolution.
     """
-    
+
     async def track_capability_growth(self) -> EvolutionReport:
         milestones = []
-        
+
         # Track logic mastery
         if logic_progress := await self.assess_logic_progress():
             milestones.extend(logic_progress.milestones)
-            
+
         # Track causal understanding
         if causal_progress := await self.assess_causal_progress():
             milestones.extend(causal_progress.milestones)
-            
+
         # Track abstraction ability
         if abstract_progress := await self.assess_abstraction_progress():
             milestones.extend(abstract_progress.milestones)
-            
+
         return EvolutionReport(
             capability_timeline=milestones,
             current_level=self._assess_overall_level(milestones),

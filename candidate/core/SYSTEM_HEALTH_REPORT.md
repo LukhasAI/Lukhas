@@ -1,7 +1,7 @@
 # 🏥 LUKHAS Core System Health Report
 
-**Date:** July 27, 2025  
-**Inspector:** Claude (Anthropic AI Assistant)  
+**Date:** July 27, 2025
+**Inspector:** Claude (Anthropic AI Assistant)
 **System:** LUKHAS Distributed AI Infrastructure
 
 ## 📊 Executive Summary
@@ -74,7 +74,7 @@ integrated_system.py
 
 ## 🗑️ Unused Files Analysis
 
-**Total Python files in core:** ~200+  
+**Total Python files in core:** ~200+
 **Potentially unused files:** 117 (58.5%)
 
 ### Categories of Unused Files:
@@ -99,7 +99,7 @@ Passed: 3 (37.5%)
 Failed: 5 (62.5%)
 
 ✅ Event Sourcing
-✅ Distributed Tracing  
+✅ Distributed Tracing
 ✅ Observability
 ❌ Actor System
 ❌ Efficient Communication

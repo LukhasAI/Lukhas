@@ -20,19 +20,19 @@ const CustomCursor = () => {
     // Smooth cursor animation
     const animateCursor = () => {
       const speed = 0.12;
-      
+
       cursorPos.current.x += (mousePos.current.x - cursorPos.current.x) * speed;
       cursorPos.current.y += (mousePos.current.y - cursorPos.current.y) * speed;
-      
+
       cursor.style.transform = `translate3d(${cursorPos.current.x}px, ${cursorPos.current.y}px, 0)`;
-      
+
       animationId = requestAnimationFrame(animateCursor);
     };
 
     // Interactive element handlers
     const handleMouseEnter = (e) => {
       const target = e.target;
-      
+
       if (target.matches('a, button, [data-cursor="pointer"]')) {
         cursor.classList.add('hover');
       } else if (target.matches('p, h1, h2, h3, h4, h5, h6, span')) {
@@ -48,7 +48,7 @@ const CustomCursor = () => {
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseenter', handleMouseEnter, true);
     document.addEventListener('mouseleave', handleMouseLeave, true);
-    
+
     // Start animation
     animateCursor();
 
@@ -56,7 +56,7 @@ const CustomCursor = () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseenter', handleMouseEnter, true);
       document.removeEventListener('mouseleave', handleMouseLeave, true);
-      
+
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
@@ -67,4 +67,3 @@ const CustomCursor = () => {
 };
 
 export default CustomCursor;
-

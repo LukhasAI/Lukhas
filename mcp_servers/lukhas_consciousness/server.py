@@ -246,7 +246,7 @@ class LukhosConsciousnessServer:
                 "reasoning": ["causal_inference", "logic_engine", "decision_tree"],
                 "identity": ["lambda_id", "tier_system", "authentication"],
                 "vivox": ["me_module", "mae_module", "cil_module", "srm_module"],
-                "quantum": ["quantum_processing", "collapse_simulation"],
+                "quantum": ["qi_processing", "collapse_simulation"],
                 "bio": ["adaptation_systems", "oscillators"],
                 "emotion": ["vad_affect", "mood_regulation"],
                 "creativity": ["dream_engine", "controlled_chaos"],

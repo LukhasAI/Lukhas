@@ -90,7 +90,7 @@ class OptimizedOpenAIClient:
     ):
         """
         Initialize optimized OpenAI client.
-        
+
         Args:
             api_key: OpenAI API key
             cache_strategy: Caching strategy to use
@@ -212,7 +212,7 @@ class OptimizedOpenAIClient:
     async def _check_rate_limits(self, model: str, estimated_tokens: int) -> bool:
         """
         Check if request would exceed rate limits.
-        
+
         Returns:
             True if request can proceed, False if should wait
         """
@@ -286,7 +286,7 @@ class OptimizedOpenAIClient:
     ) -> Dict[str, Any]:
         """
         Complete a prompt with caching and rate limiting.
-        
+
         Args:
             prompt: Input prompt
             model: Model to use
@@ -294,7 +294,7 @@ class OptimizedOpenAIClient:
             temperature: Response randomness
             use_cache: Whether to use cache
             **kwargs: Additional OpenAI parameters
-            
+
         Returns:
             API response dictionary
         """
@@ -360,12 +360,12 @@ class OptimizedOpenAIClient:
     ) -> List[float]:
         """
         Generate embeddings with caching.
-        
+
         Args:
             text: Text to embed
             model: Embedding model
             use_cache: Whether to use cache
-            
+
         Returns:
             Embedding vector
         """
@@ -514,13 +514,13 @@ class BatchProcessor:
     ) -> List[Dict[str, Any]]:
         """
         Process multiple prompts concurrently with rate limiting.
-        
+
         Args:
             prompts: List of prompts to process
             model: Model to use
             max_concurrent: Maximum concurrent requests
             **kwargs: Additional parameters
-            
+
         Returns:
             List of responses
         """

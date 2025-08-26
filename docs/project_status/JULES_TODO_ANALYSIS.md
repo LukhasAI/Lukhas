@@ -10,7 +10,7 @@
 
 ### Primary Patterns (Most Common)
 ```bash
-TODO:?     # Standard todos 
+TODO:?     # Standard todos
 FIXME:?    # Items needing fixes
 XXX:?      # Temporary/quick fixes
 HACK:?     # Hacky solutions needing cleanup
@@ -45,7 +45,7 @@ grep -r "TODO\|FIXME\|XXX\|HACK\|ΛTODO" --include="*.py" --include="*.md" --inc
    - Validation enhancements
    - Safety checks
 
-### 🟡 MEDIUM PRIORITY 
+### 🟡 MEDIUM PRIORITY
 4. **Documentation & Comments** (~300 items)
    - Missing docstrings
    - Incomplete documentation
@@ -69,14 +69,14 @@ grep -r "TODO\|FIXME\|XXX\|HACK\|ΛTODO" --include="*.py" --include="*.md" --inc
 
 ## ✅ Recently Resolved TODOs (Jules can ignore)
 - MemoryManager import issues ✅ FIXED
-- EmotionEngine class name issues ✅ FIXED  
+- EmotionEngine class name issues ✅ FIXED
 - Service implementation stubs ✅ FIXED (100% success)
 - Core branding system integration ✅ FIXED
 
 ## 🚫 TODOs Jules Should Skip
 1. **Archive/Legacy directories**
    - `archive/`
-   - `*_archive/` 
+   - `*_archive/`
    - `legacy_*`
    - Files with "deprecated" in path
 
@@ -123,7 +123,7 @@ result = risky_operation()
 ```python
 class MyClass:
     """TODO: Add class documentation"""
-    
+
     def method(self):
         # TODO: Document this method
         pass

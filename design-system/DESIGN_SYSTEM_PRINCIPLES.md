@@ -190,7 +190,7 @@ Primary call-to-action element for user interactions.
 \`\`\`tsx
 import { Button } from '@lukhas/ui'
 
-<Button 
+<Button
   variant="primary"
   size="medium"
   onClick={handleClick}
@@ -464,17 +464,17 @@ interface ComponentMetrics {
   complexity: number          // Cyclomatic complexity < 10
   maintainability: number     // Maintainability index > 80
   coverage: number           // Test coverage > 80%
-  
+
   // Performance
   renderTime: number         // Initial render < 16ms
   reRenderTime: number       // Re-render < 8ms
   memoryUsage: number        // Memory footprint < 10MB
-  
+
   // Accessibility
   wcagScore: 'A' | 'AA' | 'AAA'
   keyboardScore: number      // 0-100
   screenReaderScore: number  // 0-100
-  
+
   // Documentation
   propsDocumented: boolean
   examplesProvided: boolean
@@ -524,14 +524,14 @@ handoff_checklist:
     - Interaction specifications
     - Responsive behaviors
     - Edge cases documented
-  
+
   development:
     - Component structure agreed
     - Props interface defined
     - Accessibility requirements
     - Performance budgets set
     - Test scenarios identified
-  
+
   review:
     - Visual QA completed
     - Interaction testing done
@@ -664,17 +664,17 @@ export const designSystemKPIs = {
   developmentVelocity: '+25%',      // Increase in feature delivery
   bugReduction: '-40%',             // Decrease in UI bugs
   consistencyScore: '95%',          // Design consistency across products
-  
+
   // Quality
   accessibilityScore: 'AA',         // WCAG compliance level
   performanceScore: 90,             // Lighthouse score
   testCoverage: 85,                 // Percentage of code tested
-  
+
   // Adoption
   componentReuse: '78%',            // Percentage of shared components
   teamAdoption: '100%',             // Teams using design system
   contributionRate: '15/month',     // New contributions per month
-  
+
   // Satisfaction
   developerSatisfaction: 4.2,       // Out of 5
   designerSatisfaction: 4.1,        // Out of 5

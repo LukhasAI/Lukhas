@@ -45,7 +45,7 @@ class MemoryFold(BaseModel):
     content: str
     emotional_vector: dict[str, float]
     causal_chain: list[str]
-    quantum_state: dict[str, float]
+    qi_state: dict[str, float]
     decay_rate: float
     resonance_frequency: float
     helix_position: tuple[float, float, float]
@@ -64,7 +64,7 @@ class MemoryQuery(BaseModel):
     causal_depth: int = Field(
         3, ge=1, le=10, description="How many causal links to follow"
     )
-    quantum_coherence: float = Field(
+    qi_coherence: float = Field(
         0.7, ge=0, le=1, description="Quantum search coherence"
     )
 
@@ -77,7 +77,7 @@ class MemoryRecallResponse(BaseModel):
         ..., description="How well memories match emotional query"
     )
     causal_paths: list[list[str]] = Field(..., description="Causal chains discovered")
-    quantum_entanglement: dict[str, float] = Field(
+    qi_entanglement: dict[str, float] = Field(
         ..., description="Quantum correlations between memories"
     )
     temporal_drift: float = Field(
@@ -91,7 +91,7 @@ class HelixState(BaseModel):
     total_folds: int
     helix_coherence: float
     emotional_balance: dict[str, float]
-    quantum_stability: float
+    qi_stability: float
     oldest_memory: datetime
     newest_memory: datetime
     compression_ratio: float
@@ -102,7 +102,7 @@ class QIMemoryEngine:
 
     def __init__(self):
         self.memory_helix = {}  # fold_id -> MemoryFold
-        self.quantum_field = np.random.RandomState(42)
+        self.qi_field = np.random.RandomState(42)
         self.emotional_dimensions = [
             "joy",
             "sadness",
@@ -120,7 +120,7 @@ class QIMemoryEngine:
         fold_id = f"fold_{uuid.uuid4().hex[:8]}_{int(datetime.now().timestamp())}"
 
         # Calculate quantum state based on emotional vector
-        quantum_state = self._calculate_quantum_state(
+        qi_state = self._calculate_quantum_state(
             memory_input.emotional_state, memory_input.importance
         )
 
@@ -142,7 +142,7 @@ class QIMemoryEngine:
             content=memory_input.content,
             emotional_vector=memory_input.emotional_state,
             causal_chain=memory_input.causal_links,
-            quantum_state=quantum_state,
+            qi_state=qi_state,
             decay_rate=decay_rate,
             resonance_frequency=resonance,
             helix_position=helix_position,
@@ -161,7 +161,7 @@ class QIMemoryEngine:
 
         # Quantum-inspired similarity search
         relevant_memories = await self._quantum_search(
-            query.query, query.emotional_context, query.quantum_coherence
+            query.query, query.emotional_context, query.qi_coherence
         )
 
         # Follow causal chains
@@ -182,7 +182,7 @@ class QIMemoryEngine:
             memories=relevant_memories,
             emotional_resonance=resonance,
             causal_paths=causal_paths,
-            quantum_entanglement=entanglements,
+            qi_entanglement=entanglements,
             temporal_drift=temporal_drift,
         )
 
@@ -190,21 +190,21 @@ class QIMemoryEngine:
         self, emotions: dict[str, float], importance: float
     ) -> dict[str, float]:
         """Calculate quantum state from emotional vector"""
-        quantum_state = {}
+        qi_state = {}
 
         # Superposition of emotional states
         for emotion, value in emotions.items():
             # Quantum amplitude based on emotion intensity
             amplitude = np.sqrt(value * importance)
-            phase = self.quantum_field.random() * 2 * np.pi
+            phase = self.qi_field.random() * 2 * np.pi
 
-            quantum_state[f"{emotion}_amplitude"] = amplitude
-            quantum_state[f"{emotion}_phase"] = phase
+            qi_state[f"{emotion}_amplitude"] = amplitude
+            qi_state[f"{emotion}_phase"] = phase
 
         # Coherence factor
-        quantum_state["coherence"] = 1.0 - np.std(list(emotions.values()))
+        qi_state["coherence"] = 1.0 - np.std(list(emotions.values()))
 
-        return quantum_state
+        return qi_state
 
     def _calculate_helix_position(self, index: int) -> tuple[float, float, float]:
         """Calculate 3D position in memory helix"""
@@ -270,7 +270,7 @@ class QIMemoryEngine:
             score = text_similarity * emotional_similarity * abs(interference)
 
             # Quantum tunneling - low probability of finding unrelated memories
-            if self.quantum_field.random() < 0.05 * coherence:
+            if self.qi_field.random() < 0.05 * coherence:
                 score += 0.3
 
             if score > 0.5:
@@ -353,7 +353,7 @@ class QIMemoryEngine:
                 current_emotions, memory.emotional_vector
             )
             # Weight by memory importance (from qi state)
-            importance = memory.quantum_state.get("coherence", 0.5)
+            importance = memory.qi_state.get("coherence", 0.5)
             total_resonance += memory_resonance * importance
 
         return total_resonance / len(memories)
@@ -408,8 +408,8 @@ class QIMemoryEngine:
         phase_correlation = 0.0
 
         for emotion in self.emotional_dimensions:
-            phase1 = fold1.quantum_state.get(f"{emotion}_phase", 0)
-            phase2 = fold2.quantum_state.get(f"{emotion}_phase", 0)
+            phase1 = fold1.qi_state.get(f"{emotion}_phase", 0)
+            phase2 = fold2.qi_state.get(f"{emotion}_phase", 0)
 
             # Quantum interference
             correlation = np.cos(phase1 - phase2)
@@ -453,12 +453,12 @@ class QIMemoryEngine:
                 # Strong entanglement modifies both memories
                 for emotion in self.emotional_dimensions:
                     key = f"{emotion}_phase"
-                    if key in fold.quantum_state and key in new_fold.quantum_state:
+                    if key in fold.qi_state and key in new_fold.qi_state:
                         # Phase synchronization
                         avg_phase = (
-                            fold.quantum_state[key] + new_fold.quantum_state[key]
+                            fold.qi_state[key] + new_fold.qi_state[key]
                         ) / 2
-                        fold.quantum_state[key] = avg_phase
+                        fold.qi_state[key] = avg_phase
 
     def _calculate_fold_relevance(self, fold: MemoryFold, query: str) -> float:
         """Calculate overall relevance score for ranking"""
@@ -469,7 +469,7 @@ class QIMemoryEngine:
         recency_score = np.exp(-age_days / 30)  # 30-day half-life
 
         # Importance from qi coherence
-        importance = fold.quantum_state.get("coherence", 0.5)
+        importance = fold.qi_state.get("coherence", 0.5)
 
         return text_score * 0.5 + recency_score * 0.3 + importance * 0.2
 
@@ -480,7 +480,7 @@ class QIMemoryEngine:
                 total_folds=0,
                 helix_coherence=1.0,
                 emotional_balance={},
-                quantum_stability=1.0,
+                qi_stability=1.0,
                 oldest_memory=datetime.now(),
                 newest_memory=datetime.now(),
                 compression_ratio=0.0,
@@ -502,14 +502,14 @@ class QIMemoryEngine:
         }
 
         # Calculate coherence
-        quantum_states = [
-            fold.quantum_state.get("coherence", 0.5)
+        qi_states = [
+            fold.qi_state.get("coherence", 0.5)
             for fold in self.memory_helix.values()
         ]
-        helix_coherence = np.mean(quantum_states)
+        helix_coherence = np.mean(qi_states)
 
         # Quantum stability (inverse of variance)
-        quantum_stability = 1.0 - np.std(quantum_states)
+        qi_stability = 1.0 - np.std(qi_states)
 
         # Time range
         timestamps = [fold.timestamp for fold in self.memory_helix.values()]
@@ -527,7 +527,7 @@ class QIMemoryEngine:
             total_folds=total_folds,
             helix_coherence=helix_coherence,
             emotional_balance=emotional_balance,
-            quantum_stability=quantum_stability,
+            qi_stability=qi_stability,
             oldest_memory=oldest,
             newest_memory=newest,
             compression_ratio=compression,
@@ -620,7 +620,7 @@ async def health_check():
         "memory_engine": "active",
         "total_memories": helix_state.total_folds,
         "helix_coherence": helix_state.helix_coherence,
-        "quantum_stability": helix_state.quantum_stability,
+        "qi_stability": helix_state.qi_stability,
     }
 
 
@@ -652,7 +652,7 @@ relevant_memories = lukhas.recall_memories({
     'query': new_user_query,
     'emotional_context': current_mood,
     'causal_depth': 5,
-    'quantum_coherence': 0.8
+    'qi_coherence': 0.8
 })
 
 # Use memories to enhance response

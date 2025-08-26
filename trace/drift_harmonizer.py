@@ -6,7 +6,7 @@ Advanced drift analysis and realignment suggestion system for Trinity Framework 
 
 Trinity Framework: ⚛️🧠🛡️
 - ⚛️ Identity: Maintains symbolic integrity during drift correction
-- 🧠 Consciousness: Learns from drift patterns for better predictions  
+- 🧠 Consciousness: Learns from drift patterns for better predictions
 - 🛡️ Guardian: Ensures ethical compliance during realignment actions
 
 Suggests realignment actions when drift metrics diverge from acceptable thresholds.
@@ -65,7 +65,7 @@ class DriftAnalysis:
 class DriftHarmonizer:
     """
     Advanced drift analysis and realignment suggestion system.
-    
+
     Analyzes drift history patterns, predicts future drift trends,
     and suggests Trinity Framework compliant realignment strategies.
     """
@@ -73,7 +73,7 @@ class DriftHarmonizer:
     def __init__(self, threshold: float = 0.15, history_size: int = 100):
         """
         Initialize DriftHarmonizer with Trinity Framework compliance.
-        
+
         Args:
             threshold: Base drift threshold (default: 0.15 per Guardian standards)
             history_size: Maximum number of drift records to maintain
@@ -110,7 +110,7 @@ class DriftHarmonizer:
     def record_drift(self, score: float, metadata: Optional[Dict[str, Any]] = None) -> None:
         """
         Record a drift measurement with timestamp and optional metadata.
-        
+
         Args:
             score: Drift score (0.0 = no drift, 1.0 = maximum drift)
             metadata: Optional context about the drift measurement
@@ -131,7 +131,7 @@ class DriftHarmonizer:
     def suggest_realignment(self) -> str:
         """
         Legacy method for backwards compatibility.
-        
+
         Returns:
             Simple realignment suggestion string
         """
@@ -147,7 +147,7 @@ class DriftHarmonizer:
     def analyze_drift(self) -> DriftAnalysis:
         """
         Perform comprehensive drift analysis with Trinity Framework validation.
-        
+
         Returns:
             DriftAnalysis object with detailed assessment and recommendations
         """
@@ -203,7 +203,7 @@ class DriftHarmonizer:
     def get_trinity_balance(self) -> Dict[str, float]:
         """
         Assess Trinity Framework component balance based on drift patterns.
-        
+
         Returns:
             Dictionary with identity, consciousness, guardian balance scores
         """

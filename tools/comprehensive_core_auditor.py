@@ -63,14 +63,14 @@ class ComprehensiveCoreAuditor:
             ],
             "quantum": [
                 "quantum",
-                "quantum_core",
-                "quantum_processing",
+                "qi_core",
+                "qi_processing",
                 "entanglement",
                 "superposition",
                 "coherence",
                 "decoherence",
                 "qbit",
-                "quantum_state",
+                "qi_state",
             ],
             "brain": [
                 "brain",

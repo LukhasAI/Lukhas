@@ -18,12 +18,12 @@ __version__ = "1.0.0"
 __author__ = "LUKHAS AI"
 
 # Claude integration utilities
-from .save_claude_context import *
-from .claude_memory_integration import *
 from .claude_lukhas_integration import *
+from .claude_memory_integration import *
+from .save_claude_context import *
 
 __all__ = [
     'save_claude_context',
-    'claude_memory_integration', 
+    'claude_memory_integration',
     'claude_lukhas_integration'
 ]

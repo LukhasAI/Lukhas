@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: 🔒 Run Trivy security scan
         uses: aquasecurity/trivy-action@master
         with:
@@ -28,17 +28,17 @@ jobs:
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-results.sarif'
-      
+
       - name: 🔒 Run Snyk security scan
         uses: snyk/actions/python@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      
+
       - name: 🔒 GitGuardian scan
         uses: GitGuardian/ggshield-action@master
         env:
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
-      
+
       - name: Upload security results
         uses: github/codeql-action/upload-sarif@v2
         with:
@@ -49,32 +49,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      
+
       - name: 🎨 Black formatting
         run: |
           pip install black
           black --check .
-      
+
       - name: 🎨 Flake8 linting
         run: |
           pip install flake8
           flake8 . --max-line-length=100
-      
+
       - name: 🎨 MyPy type checking
         run: |
           pip install mypy
           mypy . --ignore-missing-imports
-      
+
       - name: 📊 Radon complexity
         run: |
           pip install radon
           radon cc . -s -nb
-      
+
       - name: 📊 Code coverage check
         run: |
           pip install pytest-cov
@@ -87,24 +87,24 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ['3.9', '3.10', '3.11']
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           pip install pytest pytest-asyncio pytest-cov pytest-benchmark
-      
+
       - name: 🧪 Run unit tests
         run: |
           pytest tests/unit/ -v --benchmark-only
-      
+
       - name: Upload test results
         uses: actions/upload-artifact@v3
         with:
@@ -125,7 +125,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      
+
       redis:
         image: redis:7
         options: >-
@@ -133,18 +133,18 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-      
+
       - name: 🧪 Run integration tests
         run: pytest tests/integration/ -v
         env:
@@ -157,20 +157,20 @@ jobs:
     needs: [integration-tests]
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           pip install locust pytest-benchmark
-      
+
       - name: 🏃 Run stress tests
         run: python tests/stress_tests/test_comprehensive_stress.py
-      
+
       - name: 🏃 Run load tests
         run: |
           locust -f tests/load/locustfile.py \
@@ -179,7 +179,7 @@ jobs:
             --spawn-rate 10 \
             --run-time 60s \
             --host http://localhost:8000
-      
+
       - name: Check performance thresholds
         run: |
           python -c "
@@ -195,16 +195,16 @@ jobs:
     needs: [security-scan, code-quality, performance-tests]
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
@@ -224,12 +224,12 @@ jobs:
     environment: staging
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Deploy to Kubernetes staging
         run: |
           kubectl apply -f k8s/staging/ --namespace=staging
           kubectl rollout status deployment/lambda-products -n staging
-      
+
       - name: Run smoke tests
         run: |
           python tests/smoke/test_staging.py
@@ -242,15 +242,15 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: 🚀 Deploy to production
         run: |
           python deploy/production_deployment.py
-      
+
       - name: Verify deployment
         run: |
           python tests/smoke/test_production.py
-      
+
       - name: Update status page
         run: |
           curl -X POST https://status.lambda-products.ai/api/deploy \
@@ -275,7 +275,7 @@ jobs:
                 "tags": ["env:prod", "version:${{ github.sha }}"]
               }]
             }'
-      
+
       - name: 📧 Notify Slack
         uses: 8398a7/action-slack@v3
         with:
@@ -297,7 +297,7 @@ jobs:
         run: |
           kubectl rollout undo deployment/lambda-products -n production
           kubectl rollout status deployment/lambda-products -n production
-      
+
       - name: 🚨 Create incident
         run: |
           curl -X POST https://api.pagerduty.com/incidents \

@@ -15,11 +15,6 @@ from typing import Any, Optional
 
 import numpy as np
 
-# Import colony infrastructure
-from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
-from candidate.core.enhanced_swarm import AgentCapability, AgentMemory
-from candidate.core.swarm import AgentState, SwarmAgent
-
 # Import identity events
 from governance.identity.core.events import (
     IdentityEventPublisher,
@@ -37,6 +32,11 @@ from governance.identity.core.visualization.consciousness_mapper import (
     ConsciousnessState,
     EmotionalState,
 )
+
+# Import colony infrastructure
+from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
+from candidate.core.enhanced_swarm import AgentCapability, AgentMemory
+from candidate.core.swarm import AgentState, SwarmAgent
 
 logger = logging.getLogger("LUKHAS_CONSCIOUSNESS_COLONY")
 

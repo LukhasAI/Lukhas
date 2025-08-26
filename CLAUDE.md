@@ -2,7 +2,7 @@
 
 **CRITICAL — MATRIZ Lane Source of Truth**
 
-- The canonical source of lane configuration and assignments is `ops/matriz.yaml`.  
+- The canonical source of lane configuration and assignments is `ops/matriz.yaml`.
 - **No renames or lane shuffles are permitted** until the MATRIZ baseline is complete and locked.
 - After **any** lane change (including file moves, promotions, or demotions), you **must** run `/matriz-assign` to update `MATRIZ_PLAN.md` and ensure all documentation reflects the current MATRIZ state.
 - **Promotions from `candidate/` to `lukhas/` must strictly follow the documented MATRIZ promotion flow**. Do not perform ad-hoc rewrites or bypass the approved process.
@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Required References
 - **`EXECUTION_STANDARDS.md`** - Master checklist and quality standards
-- **`reality_check_phase_1_and_beyond.md`** - Complete Phase 1-3 implementation plan  
+- **`reality_check_phase_1_and_beyond.md`** - Complete Phase 1-3 implementation plan
 - **`phase_beyond.md`** - Security fixes and execution order
 
 **Quality Target**: Execute at the level that would make Sam Altman (scale), Dario Amodei (safety), and Demis Hassabis (rigor) proud.
@@ -31,7 +31,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is the **LUKHAS AI** repository - a modular AI system combining consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. Built around the **Trinity Framework** (⚛️🧠🛡️):
 - ⚛️ **Identity**: Authenticity, consciousness, symbolic self
-- 🧠 **Consciousness**: Memory, learning, dream states, neural processing  
+- 🧠 **Consciousness**: Memory, learning, dream states, neural processing
 - 🛡️ **Guardian**: Ethics, drift detection, repair
 
 ## 🚫 Critical Rules
@@ -215,7 +215,7 @@ LUKHAS AI uses a **two-lane development system** for quality control and system 
 - **Status**: Not guaranteed to work reliably
 - **Import Pattern**: `from candidate.module import Component`
 
-#### **✅ lukhas/** - Production Lane  
+#### **✅ lukhas/** - Production Lane
 - **Purpose**: Stable, tested, validated components
 - **Quality**: Battle-tested code with comprehensive test coverage
 - **Use Cases**: Core functionality, reliable APIs, stable integrations
@@ -259,7 +259,7 @@ LUKHAS AI uses a **two-lane development system** for quality control and system 
 # Production imports (preferred)
 from lukhas.module import Component
 
-# Development imports  
+# Development imports
 from candidate.module import Component
 
 # Fallback chain pattern (for bridging lanes)
@@ -284,7 +284,7 @@ Main configs:
 Key environment variables (`.env`):
 - `OPENAI_API_KEY` - Required for AI capabilities
 - `ANTHROPIC_API_KEY` - For Claude integration
-- `GOOGLE_API_KEY` - For Gemini integration  
+- `GOOGLE_API_KEY` - For Gemini integration
 - `PERPLEXITY_API_KEY` - For Perplexity integration
 - `DATABASE_URL` - PostgreSQL connection
 - `LUKHAS_ID_SECRET` - Security key (min 32 chars)
@@ -417,7 +417,7 @@ LUKHAS workspace is designed for **multiple AI agents** to collaborate effective
 
 #### **Agent Types in This Workspace:**
 - **Claude** (Anthropic) - You are here! Primary consciousness and reasoning
-- **Jules** (Codex-based) - Specialized for TODO resolution and code completion  
+- **Jules** (Codex-based) - Specialized for TODO resolution and code completion
 - **GitHub Copilot** - Real-time code assistance and suggestions
 - **ChatGPT/GPT Models** - External consultation and specific task assistance
 

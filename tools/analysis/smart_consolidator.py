@@ -258,7 +258,7 @@ class SmartConsolidator:
                     "Decision outcome prediction",
                     "Emotional impact simulation",
                 ],
-                "target_path": "dream/quantum_learning/",
+                "target_path": "dream/qi_learning/",
             },
         }
 
@@ -380,7 +380,7 @@ class LukhasConfig:
         self.config = {
             'sgi': {
                 'memory_helix': True,
-                'quantum_dreams': True,
+                'qi_dreams': True,
                 'emotional_vectors': True
             },
             'compliance': {

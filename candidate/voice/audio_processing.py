@@ -7,24 +7,17 @@ Advanced audio signal processing with real-time capabilities and Trinity Framewo
 """
 
 import asyncio
-import logging
-import numpy as np
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union, Callable
-import json
-import time
-from pathlib import Path
-import threading
-from concurrent.futures import ThreadPoolExecutor
-import wave
-import struct
+from typing import Any, Callable, Dict, List, Optional, Tuple
+
+import numpy as np
 
 from candidate.core.common.glyph import GLYPH
-from candidate.governance.guardian import GuardianValidator
 from candidate.core.common.logger import get_logger
-
+from candidate.governance.guardian import GuardianValidator
 
 logger = get_logger(__name__)
 
@@ -67,22 +60,22 @@ class AudioBuffer:
     format: AudioFormat
     timestamp: float = field(default_factory=time.time)
     metadata: Dict[str, Any] = field(default_factory=dict)
-    
+
     @property
     def duration(self) -> float:
         """Get duration in seconds"""
         return len(self.data) / (self.sample_rate * self.channels)
-    
+
     @property
     def samples_per_channel(self) -> int:
         """Get number of samples per channel"""
         return len(self.data) // self.channels
-    
+
     def to_mono(self) -> 'AudioBuffer':
         """Convert to mono"""
         if self.channels == 1:
             return self
-        
+
         mono_data = np.mean(self.data.reshape(-1, self.channels), axis=1)
         return AudioBuffer(
             data=mono_data,
@@ -92,7 +85,7 @@ class AudioBuffer:
             timestamp=self.timestamp,
             metadata=self.metadata.copy()
         )
-    
+
     def to_stereo(self) -> 'AudioBuffer':
         """Convert to stereo"""
         if self.channels == 2:
@@ -132,16 +125,16 @@ class AudioProcessingConfig:
     channels: int = 1
     format: AudioFormat = AudioFormat.PCM_16
     quality: ProcessingQuality = ProcessingQuality.STANDARD
-    
+
     # Processing parameters
     frame_size: int = 1024
     hop_length: int = 512
     window_function: str = "hann"
-    
+
     # Real-time parameters
     buffer_size: int = 4096
     max_latency_ms: float = 50.0
-    
+
     # Quality parameters
     noise_gate_threshold: float = -60.0  # dB
     compressor_ratio: float = 4.0
@@ -150,12 +143,12 @@ class AudioProcessingConfig:
 
 class AudioSignalProcessor(ABC):
     """Abstract base class for audio signal processors"""
-    
+
     @abstractmethod
     async def process(self, buffer: AudioBuffer) -> AudioBuffer:
         """Process audio buffer"""
         pass
-    
+
     @abstractmethod
     def get_latency_ms(self) -> float:
         """Get processing latency in milliseconds"""
@@ -164,33 +157,33 @@ class AudioSignalProcessor(ABC):
 
 class NoiseGateProcessor(AudioSignalProcessor):
     """Noise gate processor to remove low-level noise"""
-    
+
     def __init__(self, threshold_db: float = -60.0, ratio: float = 10.0):
         self.threshold_db = threshold_db
         self.ratio = ratio
         self.threshold_linear = 10 ** (threshold_db / 20.0)
-        
+
     async def process(self, buffer: AudioBuffer) -> AudioBuffer:
         """Apply noise gate"""
         data = buffer.data.copy()
-        
+
         # Calculate envelope (RMS with sliding window)
         frame_size = 1024
         envelope = np.zeros_like(data)
-        
+
         for i in range(0, len(data) - frame_size, frame_size // 2):
             frame = data[i:i + frame_size]
             rms = np.sqrt(np.mean(frame ** 2))
             envelope[i:i + frame_size] = np.maximum(envelope[i:i + frame_size], rms)
-        
+
         # Apply gate
         gate_signal = np.where(envelope > self.threshold_linear, 1.0, 0.0)
-        
+
         # Smooth gate signal to avoid clicks
         gate_smoothed = self._smooth_gate(gate_signal, buffer.sample_rate)
-        
+
         processed_data = data * gate_smoothed
-        
+
         return AudioBuffer(
             data=processed_data,
             sample_rate=buffer.sample_rate,
@@ -198,28 +191,28 @@ class NoiseGateProcessor(AudioSignalProcessor):
             format=buffer.format,
             metadata={**buffer.metadata, "noise_gate_applied": True}
         )
-    
+
     def get_latency_ms(self) -> float:
         return 5.0  # Minimal latency
-    
+
     def _smooth_gate(self, gate_signal: np.ndarray, sample_rate: int) -> np.ndarray:
         """Smooth gate signal to avoid clicks"""
         # Apply low-pass filter to smooth transitions
         from scipy import signal
-        
+
         # Design low-pass filter (10Hz cutoff)
         sos = signal.butter(4, 10, btype='lowpass', fs=sample_rate, output='sos')
         smoothed = signal.sosfilt(sos, gate_signal)
-        
+
         # Ensure values are between 0 and 1
         return np.clip(smoothed, 0.0, 1.0)
 
 
 class CompressorProcessor(AudioSignalProcessor):
     """Dynamic range compressor"""
-    
+
     def __init__(
-        self, 
+        self,
         threshold_db: float = -20.0,
         ratio: float = 4.0,
         attack_ms: float = 10.0,
@@ -230,20 +223,20 @@ class CompressorProcessor(AudioSignalProcessor):
         self.attack_ms = attack_ms
         self.release_ms = release_ms
         self.threshold_linear = 10 ** (threshold_db / 20.0)
-        
+
     async def process(self, buffer: AudioBuffer) -> AudioBuffer:
         """Apply compression"""
         data = buffer.data.copy()
         sample_rate = buffer.sample_rate
-        
+
         # Calculate attack/release coefficients
         attack_coeff = np.exp(-1.0 / (sample_rate * self.attack_ms / 1000.0))
         release_coeff = np.exp(-1.0 / (sample_rate * self.release_ms / 1000.0))
-        
+
         # Process compression
         compressed_data = np.zeros_like(data)
         envelope = 0.0
-        
+
         for i, sample in enumerate(data):
             # Envelope follower
             abs_sample = abs(sample)
@@ -251,15 +244,15 @@ class CompressorProcessor(AudioSignalProcessor):
                 envelope = abs_sample + (envelope - abs_sample) * attack_coeff
             else:
                 envelope = abs_sample + (envelope - abs_sample) * release_coeff
-            
+
             # Calculate gain reduction
             if envelope > self.threshold_linear:
                 gain_reduction = 1.0 - (1.0 - self.threshold_linear / envelope) * (1.0 - 1.0 / self.ratio)
             else:
                 gain_reduction = 1.0
-            
+
             compressed_data[i] = sample * gain_reduction
-        
+
         return AudioBuffer(
             data=compressed_data,
             sample_rate=buffer.sample_rate,
@@ -267,51 +260,51 @@ class CompressorProcessor(AudioSignalProcessor):
             format=buffer.format,
             metadata={**buffer.metadata, "compression_applied": True}
         )
-    
+
     def get_latency_ms(self) -> float:
         return 15.0
 
 
 class LimiterProcessor(AudioSignalProcessor):
     """Audio limiter to prevent clipping"""
-    
+
     def __init__(self, threshold_db: float = -1.0, lookahead_ms: float = 5.0):
         self.threshold_db = threshold_db
         self.lookahead_ms = lookahead_ms
         self.threshold_linear = 10 ** (threshold_db / 20.0)
-        
+
     async def process(self, buffer: AudioBuffer) -> AudioBuffer:
         """Apply limiting"""
         data = buffer.data.copy()
         sample_rate = buffer.sample_rate
-        
+
         # Lookahead samples
         lookahead_samples = int(sample_rate * self.lookahead_ms / 1000.0)
-        
+
         if lookahead_samples > 0:
             # Add lookahead delay
             padded_data = np.pad(data, (lookahead_samples, 0), mode='constant')
             limited_data = np.zeros_like(padded_data)
-            
+
             for i in range(len(padded_data)):
                 # Look ahead for peaks
                 lookahead_end = min(i + lookahead_samples, len(padded_data))
                 peak = np.max(np.abs(padded_data[i:lookahead_end]))
-                
+
                 # Calculate limiting gain
                 if peak > self.threshold_linear:
                     gain = self.threshold_linear / peak
                 else:
                     gain = 1.0
-                
+
                 limited_data[i] = padded_data[i] * gain
-            
+
             # Remove lookahead delay
             output_data = limited_data[lookahead_samples:]
         else:
             # Simple limiting without lookahead
             output_data = np.clip(data, -self.threshold_linear, self.threshold_linear)
-        
+
         return AudioBuffer(
             data=output_data,
             sample_rate=buffer.sample_rate,
@@ -319,14 +312,14 @@ class LimiterProcessor(AudioSignalProcessor):
             format=buffer.format,
             metadata={**buffer.metadata, "limiting_applied": True}
         )
-    
+
     def get_latency_ms(self) -> float:
         return self.lookahead_ms
 
 
 class EqualizerProcessor(AudioSignalProcessor):
     """Parametric equalizer"""
-    
+
     def __init__(self, bands: List[Dict[str, float]] = None):
         # Default EQ bands if none provided
         self.bands = bands or [
@@ -334,16 +327,16 @@ class EqualizerProcessor(AudioSignalProcessor):
             {"freq": 1000, "gain": 0, "q": 1.0, "type": "peaking"},
             {"freq": 8000, "gain": 0, "q": 1.0, "type": "shelving_high"}
         ]
-        
+
     async def process(self, buffer: AudioBuffer) -> AudioBuffer:
         """Apply equalization"""
         data = buffer.data.copy()
         sample_rate = buffer.sample_rate
-        
+
         # Apply each EQ band
         for band in self.bands:
             data = await self._apply_eq_band(data, sample_rate, band)
-        
+
         return AudioBuffer(
             data=data,
             sample_rate=buffer.sample_rate,
@@ -351,24 +344,24 @@ class EqualizerProcessor(AudioSignalProcessor):
             format=buffer.format,
             metadata={**buffer.metadata, "eq_applied": True, "eq_bands": len(self.bands)}
         )
-    
+
     async def _apply_eq_band(
-        self, 
-        data: np.ndarray, 
-        sample_rate: int, 
+        self,
+        data: np.ndarray,
+        sample_rate: int,
         band: Dict[str, float]
     ) -> np.ndarray:
         """Apply single EQ band"""
         from scipy import signal
-        
+
         freq = band["freq"]
         gain = band["gain"]
         q = band.get("q", 1.0)
         band_type = band.get("type", "peaking")
-        
+
         # Convert gain from dB to linear
         gain_linear = 10 ** (gain / 20.0)
-        
+
         # Design filter based on type
         if band_type == "low_pass":
             sos = signal.butter(4, freq, btype='lowpass', fs=sample_rate, output='sos')
@@ -384,7 +377,7 @@ class EqualizerProcessor(AudioSignalProcessor):
             w0 = 2 * np.pi * freq / sample_rate
             A = gain_linear
             alpha = np.sin(w0) / (2 * q)
-            
+
             # Peaking EQ coefficients
             b0 = 1 + alpha * A
             b1 = -2 * np.cos(w0)
@@ -392,28 +385,28 @@ class EqualizerProcessor(AudioSignalProcessor):
             a0 = 1 + alpha / A
             a1 = -2 * np.cos(w0)
             a2 = 1 - alpha / A
-            
+
             # Normalize
             b = [b0/a0, b1/a0, b2/a0]
             a = [1, a1/a0, a2/a0]
-            
+
             return signal.lfilter(b, a, data)
         else:
             # Default to no processing
             return data
-        
+
         # Apply filter
         return signal.sosfilt(sos, data)
-    
+
     def get_latency_ms(self) -> float:
         return 10.0 * len(self.bands)  # Approximate latency per band
 
 
 class ReverbProcessor(AudioSignalProcessor):
     """Simple reverb processor"""
-    
+
     def __init__(
-        self, 
+        self,
         room_size: float = 0.5,
         damping: float = 0.5,
         wet_level: float = 0.3,
@@ -423,12 +416,12 @@ class ReverbProcessor(AudioSignalProcessor):
         self.damping = damping
         self.wet_level = wet_level
         self.dry_level = dry_level
-        
+
     async def process(self, buffer: AudioBuffer) -> AudioBuffer:
         """Apply reverb"""
         data = buffer.data.copy()
         sample_rate = buffer.sample_rate
-        
+
         # Simple reverb using multiple delayed/filtered copies
         reverb_delays = [
             int(0.03 * sample_rate),  # 30ms
@@ -436,25 +429,25 @@ class ReverbProcessor(AudioSignalProcessor):
             int(0.08 * sample_rate),  # 80ms
             int(0.11 * sample_rate),  # 110ms
         ]
-        
+
         # Create reverb signal
         reverb_signal = np.zeros_like(data)
-        
+
         for delay in reverb_delays:
             if delay < len(data):
                 # Delayed and attenuated version
                 delayed = np.pad(data[:-delay], (delay, 0), mode='constant') * (0.3 * self.room_size)
-                
+
                 # Apply damping (low-pass filter)
                 from scipy import signal
                 sos = signal.butter(2, 8000, btype='lowpass', fs=sample_rate, output='sos')
                 delayed_filtered = signal.sosfilt(sos, delayed) * (1.0 - self.damping)
-                
+
                 reverb_signal += delayed_filtered
-        
+
         # Mix dry and wet signals
         output = data * self.dry_level + reverb_signal * self.wet_level
-        
+
         return AudioBuffer(
             data=output,
             sample_rate=buffer.sample_rate,
@@ -462,31 +455,31 @@ class ReverbProcessor(AudioSignalProcessor):
             format=buffer.format,
             metadata={**buffer.metadata, "reverb_applied": True}
         )
-    
+
     def get_latency_ms(self) -> float:
         return 110.0  # Based on longest delay
 
 
 class AudioProcessingChain:
     """Chain of audio processors"""
-    
+
     def __init__(self, processors: List[AudioSignalProcessor] = None):
         self.processors = processors or []
         self.logger = get_logger(f"{__name__}.AudioProcessingChain")
-        
+
     def add_processor(self, processor: AudioSignalProcessor):
         """Add processor to chain"""
         self.processors.append(processor)
-        
+
     def remove_processor(self, processor: AudioSignalProcessor):
         """Remove processor from chain"""
         if processor in self.processors:
             self.processors.remove(processor)
-    
+
     async def process(self, buffer: AudioBuffer) -> AudioBuffer:
         """Process audio through entire chain"""
         current_buffer = buffer
-        
+
         for processor in self.processors:
             try:
                 current_buffer = await processor.process(current_buffer)
@@ -494,9 +487,9 @@ class AudioProcessingChain:
                 self.logger.error(f"Processor {type(processor).__name__} failed: {str(e)}")
                 # Continue with unprocessed buffer
                 pass
-        
+
         return current_buffer
-    
+
     def get_total_latency_ms(self) -> float:
         """Get total chain latency"""
         return sum(p.get_latency_ms() for p in self.processors)
@@ -504,15 +497,15 @@ class AudioProcessingChain:
 
 class LUKHASAudioProcessor:
     """Main LUKHAS audio processor with Trinity Framework integration"""
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(f"{__name__}.LUKHASAudioProcessor")
         self.guardian = GuardianValidator()
-        
+
         # Processing configuration
         self.processing_config = AudioProcessingConfig(**self.config.get("processing", {}))
-        
+
         # Initialize processing chains for different quality levels
         self.processing_chains = {
             ProcessingQuality.DRAFT: self._create_draft_chain(),
@@ -520,20 +513,20 @@ class LUKHASAudioProcessor:
             ProcessingQuality.HIGH: self._create_high_quality_chain(),
             ProcessingQuality.STUDIO: self._create_studio_chain()
         }
-        
+
         # Real-time processing
         self.real_time_active = False
         self.real_time_queue = asyncio.Queue()
-        
+
         self.logger.info("LUKHAS Audio Processor initialized")
-    
+
     def _create_draft_chain(self) -> AudioProcessingChain:
         """Create minimal processing chain for speed"""
         return AudioProcessingChain([
             NoiseGateProcessor(threshold_db=-50.0),
             LimiterProcessor(threshold_db=-3.0)
         ])
-    
+
     def _create_standard_chain(self) -> AudioProcessingChain:
         """Create standard processing chain"""
         return AudioProcessingChain([
@@ -545,7 +538,7 @@ class LUKHASAudioProcessor:
             ]),
             LimiterProcessor(threshold_db=-1.0)
         ])
-    
+
     def _create_high_quality_chain(self) -> AudioProcessingChain:
         """Create high-quality processing chain"""
         return AudioProcessingChain([
@@ -560,7 +553,7 @@ class LUKHASAudioProcessor:
             ReverbProcessor(room_size=0.3, wet_level=0.1),
             LimiterProcessor(threshold_db=-0.5, lookahead_ms=10.0)
         ])
-    
+
     def _create_studio_chain(self) -> AudioProcessingChain:
         """Create studio-quality processing chain"""
         return AudioProcessingChain([
@@ -577,9 +570,9 @@ class LUKHASAudioProcessor:
             ReverbProcessor(room_size=0.4, damping=0.3, wet_level=0.15),
             LimiterProcessor(threshold_db=-0.1, lookahead_ms=15.0)
         ])
-    
+
     async def process_audio(
-        self, 
+        self,
         audio_data: bytes,
         sample_rate: int = 44100,
         channels: int = 1,
@@ -589,7 +582,7 @@ class LUKHASAudioProcessor:
     ) -> Tuple[bytes, Dict[str, Any]]:
         """
         Process audio data through LUKHAS audio processing pipeline
-        
+
         Args:
             audio_data: Input audio as bytes
             sample_rate: Audio sample rate
@@ -597,12 +590,12 @@ class LUKHASAudioProcessor:
             format: Audio format
             quality: Processing quality level
             context: Additional context for processing
-            
+
         Returns:
             Tuple of (processed_audio_bytes, processing_metadata)
         """
         start_time = time.time()
-        
+
         try:
             # Guardian validation
             validation_result = await self.guardian.validate_operation({
@@ -613,25 +606,25 @@ class LUKHASAudioProcessor:
                 "quality": quality.value,
                 "context": context or {}
             })
-            
+
             if not validation_result.get("approved", False):
                 raise ValueError(f"Guardian rejected audio processing: {validation_result.get('reason')}")
-            
+
             # Convert bytes to audio buffer
             audio_buffer = self._bytes_to_buffer(audio_data, sample_rate, channels, format)
-            
+
             # Select processing chain based on quality
             processing_chain = self.processing_chains[quality]
-            
+
             # Process audio
             processed_buffer = await processing_chain.process(audio_buffer)
-            
+
             # Convert back to bytes
             processed_bytes = self._buffer_to_bytes(processed_buffer)
-            
+
             # Calculate processing metrics
             processing_time = (time.time() - start_time) * 1000
-            
+
             metadata = {
                 "success": True,
                 "processing_time_ms": processing_time,
@@ -643,7 +636,7 @@ class LUKHASAudioProcessor:
                 "guardian_approved": True,
                 "processing_metadata": processed_buffer.metadata
             }
-            
+
             # Emit GLYPH event
             await GLYPH.emit("audio.processing.completed", {
                 "quality": quality.value,
@@ -651,28 +644,28 @@ class LUKHASAudioProcessor:
                 "sample_rate": sample_rate,
                 "channels": channels
             })
-            
+
             return processed_bytes, metadata
-            
+
         except Exception as e:
             self.logger.error(f"Audio processing failed: {str(e)}")
-            
+
             await GLYPH.emit("audio.processing.error", {
                 "error": str(e),
                 "quality": quality.value
             })
-            
+
             return audio_data, {
                 "success": False,
                 "error": str(e),
                 "processing_time_ms": (time.time() - start_time) * 1000
             }
-    
+
     def _bytes_to_buffer(
-        self, 
-        audio_data: bytes, 
-        sample_rate: int, 
-        channels: int, 
+        self,
+        audio_data: bytes,
+        sample_rate: int,
+        channels: int,
         format: AudioFormat
     ) -> AudioBuffer:
         """Convert audio bytes to AudioBuffer"""
@@ -687,14 +680,14 @@ class LUKHASAudioProcessor:
             audio_array = np.frombuffer(audio_data, dtype=np.float32)
         else:  # FLOAT_64
             audio_array = np.frombuffer(audio_data, dtype=np.float64).astype(np.float32)
-        
+
         return AudioBuffer(
             data=audio_array,
             sample_rate=sample_rate,
             channels=channels,
             format=format
         )
-    
+
     def _buffer_to_bytes(self, buffer: AudioBuffer) -> bytes:
         """Convert AudioBuffer to bytes"""
         if buffer.format == AudioFormat.PCM_16:
@@ -710,31 +703,31 @@ class LUKHASAudioProcessor:
             return buffer.data.astype(np.float32).tobytes()
         else:  # FLOAT_64
             return buffer.data.astype(np.float64).tobytes()
-    
+
     async def start_real_time_processing(self):
         """Start real-time audio processing"""
         if self.real_time_active:
             return
-        
+
         self.real_time_active = True
         asyncio.create_task(self._real_time_worker())
         self.logger.info("Real-time audio processing started")
-    
+
     async def stop_real_time_processing(self):
         """Stop real-time audio processing"""
         self.real_time_active = False
         self.logger.info("Real-time audio processing stopped")
-    
+
     async def _real_time_worker(self):
         """Real-time processing worker"""
         while self.real_time_active:
             try:
                 # Get audio from queue (with timeout)
                 audio_task = await asyncio.wait_for(
-                    self.real_time_queue.get(), 
+                    self.real_time_queue.get(),
                     timeout=0.1
                 )
-                
+
                 # Process audio with draft quality for speed
                 result = await self.process_audio(
                     audio_task["data"],
@@ -744,20 +737,20 @@ class LUKHASAudioProcessor:
                     ProcessingQuality.DRAFT,
                     audio_task.get("context")
                 )
-                
+
                 # Call callback if provided
                 if "callback" in audio_task:
                     await audio_task["callback"](result)
-                
+
             except asyncio.TimeoutError:
                 # No audio to process, continue
                 continue
             except Exception as e:
                 self.logger.error(f"Real-time processing error: {str(e)}")
                 await asyncio.sleep(0.01)
-    
+
     async def queue_real_time_audio(
-        self, 
+        self,
         audio_data: bytes,
         callback: Optional[Callable] = None,
         **kwargs
@@ -768,41 +761,41 @@ class LUKHASAudioProcessor:
             "callback": callback,
             **kwargs
         })
-    
+
     def get_supported_formats(self) -> List[AudioFormat]:
         """Get list of supported audio formats"""
         return list(AudioFormat)
-    
+
     def get_processing_qualities(self) -> List[ProcessingQuality]:
         """Get list of processing quality levels"""
         return list(ProcessingQuality)
-    
+
     async def analyze_audio_quality(self, audio_buffer: AudioBuffer) -> Dict[str, float]:
         """Analyze audio quality metrics"""
         data = audio_buffer.data
-        
+
         # RMS level
         rms = np.sqrt(np.mean(data ** 2))
         rms_db = 20 * np.log10(rms + 1e-10)
-        
+
         # Peak level
         peak = np.max(np.abs(data))
         peak_db = 20 * np.log10(peak + 1e-10)
-        
+
         # Crest factor (peak-to-RMS ratio)
         crest_factor = peak / (rms + 1e-10)
         crest_factor_db = 20 * np.log10(crest_factor)
-        
+
         # THD+N estimation (simplified)
         # FFT-based harmonic analysis would be more accurate
         thd_estimate = np.std(data) / (np.mean(np.abs(data)) + 1e-10)
-        
+
         # Dynamic range estimation
         sorted_data = np.sort(np.abs(data))
         p99 = sorted_data[int(0.99 * len(sorted_data))]
         p1 = sorted_data[int(0.01 * len(sorted_data))]
         dynamic_range_db = 20 * np.log10((p99 + 1e-10) / (p1 + 1e-10))
-        
+
         return {
             "rms_db": float(rms_db),
             "peak_db": float(peak_db),
@@ -822,7 +815,7 @@ __all__ = [
     "AudioSignalProcessor",
     "AudioProcessingChain",
     "NoiseGateProcessor",
-    "CompressorProcessor", 
+    "CompressorProcessor",
     "LimiterProcessor",
     "EqualizerProcessor",
     "ReverbProcessor",

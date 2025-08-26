@@ -17,16 +17,16 @@ export default function PrivacyPage() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="font-ultralight text-5xl mb-8">PRIVACY POLICY</h1>
-            
+
             <div className="space-y-8 font-thin text-text-secondary">
               <section>
                 <h2 className="font-regular text-2xl mb-4 text-text-primary uppercase tracking-wider">Data Collection</h2>
                 <p className="mb-4">
-                  LUKHAS AI is committed to protecting your privacy and ensuring the security of your personal information. 
+                  LUKHAS AI is committed to protecting your privacy and ensuring the security of your personal information.
                   We collect only the minimum data necessary to provide our consciousness-powered AI services.
                 </p>
                 <p>
-                  Our Trinity Framework (⚛️🧠🛡️) includes built-in privacy protection through our Guardian System, 
+                  Our Trinity Framework (⚛️🧠🛡️) includes built-in privacy protection through our Guardian System,
                   ensuring ethical handling of all user data.
                 </p>
               </section>

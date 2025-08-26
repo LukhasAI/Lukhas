@@ -146,7 +146,7 @@ with open("document.txt", "rb") as f:
 
 # Generate policy fingerprint
 policy_fp = policy_fingerprint_from_files(
-    "qi/safety/policy_packs/global", 
+    "qi/safety/policy_packs/global",
     "qi/risk"
 )
 
@@ -168,7 +168,7 @@ verifier = GlyphVerifier(jwks)
 
 verification = verifier.verify_seal(
     content_bytes,
-    result["seal"], 
+    result["seal"],
     result["signature"]
 )
 
@@ -302,9 +302,9 @@ Include revocation and bundle checking:
 ```python
 verifier = GlyphVerifier(jwks)
 result = verifier.verify_seal(
-    content_bytes, 
-    seal_data, 
-    signature_data, 
+    content_bytes,
+    seal_data,
+    signature_data,
     online_check=True  # Check revocation status
 )
 
@@ -522,7 +522,7 @@ GLYPHs maintain strict trust boundaries:
 - Check for encoding issues (text files)
 - Verify extraction preserved original content
 
-**"Signature verification failed"**  
+**"Signature verification failed"**
 - Ensure correct JWKS public key
 - Check key_id matches in JWKS
 - Verify signature wasn't corrupted
@@ -562,7 +562,7 @@ python3 test_glyph_system.py
 GLYPHs are part of the LUKHAS AI ecosystem. Contributions welcome:
 
 1. Test additional file formats
-2. Improve embedding efficiency  
+2. Improve embedding efficiency
 3. Add cryptographic algorithm support
 4. Enhance verification UX
 5. Build ecosystem integrations

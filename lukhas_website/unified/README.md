@@ -33,10 +33,10 @@ graph TD
     D --> E[Particle System]
     E --> F[Three.js Renderer]
     F --> G[WebGL Output]
-    
+
     H[LUKHAS Core] --> I[Consciousness Bridge]
     I --> C
-    
+
     J[AI Providers] --> K[Shape Interpretation]
     K --> D
 ```

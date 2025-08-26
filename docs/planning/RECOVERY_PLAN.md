@@ -1,6 +1,6 @@
 # 🚨 LUKHAS Recovery Plan
 
-**Emergency Response and System Recovery Procedures**  
+**Emergency Response and System Recovery Procedures**
 **Last Updated**: August 25, 2025
 
 ---

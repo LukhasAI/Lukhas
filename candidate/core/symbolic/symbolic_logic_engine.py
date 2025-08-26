@@ -102,7 +102,7 @@ class SymbolicEvaluation:
     glyph_signals: list[GlyphSignal]  # Active GLYPH signals
     contradictions: list[str]  # Detected contradiction descriptions
     symbolic_pressure: float  # Pressure from symbolic environment
-    quantum_branches: int  # Number of potential quantum branches
+    qi_branches: int  # Number of potential quantum branches
     confidence_score: float  # Overall path confidence [0.0, 1.0]
     feedback_glyphs: dict[str, Any]  # GLYPHs to emit back to system
     evaluation_timestamp: str  # UTC timestamp of evaluation
@@ -118,7 +118,7 @@ class SymbolicEvaluation:
             "glyph_signals": [signal.name for signal in self.glyph_signals],
             "contradictions": self.contradictions,
             "symbolic_pressure": self.symbolic_pressure,
-            "quantum_branches": self.quantum_branches,
+            "qi_branches": self.qi_branches,
             "confidence_score": self.confidence_score,
             "feedback_glyphs": self.feedback_glyphs,
             "evaluation_timestamp": self.evaluation_timestamp,
@@ -196,7 +196,7 @@ class SymbolicLogicEngine:
         self.collapse_threshold = self.config.get("collapse_threshold", 0.85)
         self.attractor_sensitivity = self.config.get("attractor_sensitivity", 0.6)
         self.max_chain_length = self.config.get("max_chain_length", 20)
-        self.quantum_branch_limit = self.config.get("quantum_branch_limit", 5)
+        self.qi_branch_limit = self.config.get("qi_branch_limit", 5)
 
         # ΛMEMORY_TIER: Engine state and knowledge storage
         self.glyph_registry: dict[str, dict[str, Any]] = (
@@ -213,7 +213,7 @@ class SymbolicLogicEngine:
             "paths_evaluated": 0,
             "collapses_detected": 0,
             "contradictions_found": 0,
-            "quantum_branches_created": 0,
+            "qi_branches_created": 0,
             "average_entropy": 0.0,
             "total_reasoning_time": 0.0,
         }
@@ -278,7 +278,7 @@ class SymbolicLogicEngine:
             )
 
             # Step 6: Assess quantum branching potential
-            quantum_branches = self._assess_quantum_branches(
+            qi_branches = self._assess_quantum_branches(
                 glyph_path, path_entropy, eval_logger
             )
 
@@ -304,7 +304,7 @@ class SymbolicLogicEngine:
                 glyph_signals=glyph_signals,
                 contradictions=contradictions,
                 symbolic_pressure=symbolic_pressure,
-                quantum_branches=quantum_branches,
+                qi_branches=qi_branches,
                 confidence_score=confidence_score,
                 feedback_glyphs=feedback_glyphs,
                 evaluation_timestamp=datetime.now(timezone.utc).isoformat(),
@@ -340,7 +340,7 @@ class SymbolicLogicEngine:
                 glyph_signals=[],
                 contradictions=[f"Evaluation error: {str(e)}"],
                 symbolic_pressure=symbolic_pressure,
-                quantum_branches=0,
+                qi_branches=0,
                 confidence_score=0.0,
                 feedback_glyphs={},
                 evaluation_timestamp=datetime.now(timezone.utc).isoformat(),
@@ -805,15 +805,15 @@ class SymbolicLogicEngine:
         path_complexity = len(set(glyph_path)) / len(glyph_path) if glyph_path else 0
         branch_factor = entropy * path_complexity * 10
 
-        quantum_branches = min(self.quantum_branch_limit, int(branch_factor))
+        qi_branches = min(self.qi_branch_limit, int(branch_factor))
 
         eval_logger.debug(
             "ΛTRACE: Quantum branching assessed.",
             branch_factor=round(branch_factor, 3),
-            quantum_branches=quantum_branches,
+            qi_branches=qi_branches,
         )
 
-        return quantum_branches
+        return qi_branches
 
     def _calculate_path_confidence(
         self,
@@ -976,8 +976,8 @@ class SymbolicLogicEngine:
         if evaluation.contradictions:
             self.metrics["contradictions_found"] += len(evaluation.contradictions)
 
-        if evaluation.quantum_branches > 0:
-            self.metrics["quantum_branches_created"] += evaluation.quantum_branches
+        if evaluation.qi_branches > 0:
+            self.metrics["qi_branches_created"] += evaluation.qi_branches
 
         # Update average entropy (running average)
         prev_avg = self.metrics["average_entropy"]
@@ -999,7 +999,7 @@ class SymbolicLogicEngine:
             "entropy_score": evaluation.entropy_score,
             "collapse_probability": evaluation.collapse_probability,
             "contradictions_count": len(evaluation.contradictions),
-            "quantum_branches": evaluation.quantum_branches,
+            "qi_branches": evaluation.qi_branches,
             "confidence_score": evaluation.confidence_score,
         }
 

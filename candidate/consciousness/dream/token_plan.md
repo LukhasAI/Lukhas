@@ -62,6 +62,6 @@ Tokens are bound to symbolic events:
 
 ---
 
-**Status**: In Planning  
-**Maintainer**: LUKHAS Core Economic Layer  
+**Status**: In Planning
+**Maintainer**: LUKHAS Core Economic Layer
 **Last Updated**: 2025-07-21

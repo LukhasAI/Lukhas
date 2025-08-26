@@ -101,18 +101,18 @@ class GuardianSystem:
         self.ethics_engine = EthicsEngine()
         self.compliance_validator = ComplianceValidator()
         self.consent_ledger = ConsentLedger()
-        
+
     def validate_operation(self, operation):
         # Multi-layer validation
         ethics_score = self.ethics_engine.evaluate(operation)
         compliance_status = self.compliance_validator.check(operation)
         consent_valid = self.consent_ledger.verify(operation)
         drift_score = self.calculate_drift(operation)
-        
+
         if drift_score > self.drift_threshold:
             self.trigger_containment(operation)
             return ValidationResult.BLOCKED
-            
+
         return ValidationResult.APPROVED
 
 # Consent management with GDPR compliance
@@ -120,7 +120,7 @@ class ConsentManager:
     def __init__(self):
         self.ledger = ImmutableLedger()
         self.preferences = UserPreferences()
-        
+
     def record_consent(self, user_id, purpose, scope):
         consent_record = {
             'user_id': user_id,

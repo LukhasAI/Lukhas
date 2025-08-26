@@ -555,15 +555,15 @@ async function validateContent(content) {
             contentType: 'marketing',
             autoCorrect: true
         });
-        
+
         if (!result.isCompliant) {
             const corrected = await brand.validation.applyCorrections(
-                content, 
+                content,
                 result.autoCorrections
             );
             return corrected.correctedContent;
         }
-        
+
         return content;
     } catch (error) {
         console.error('Validation failed:', error);
@@ -580,24 +580,24 @@ from lukhas_brand import BrandMonitor
 class RealTimeBrandMonitoring:
     def __init__(self):
         self.monitor = BrandMonitor()
-        
+
     async def start_monitoring(self):
         """Start continuous brand monitoring"""
-        
+
         # Define content source
         async def get_content():
             # Your content source (e.g., user inputs, generated content)
             return await self.collect_new_content()
-        
+
         # Start monitoring
         await self.monitor.start_continuous_monitoring(
             content_source=get_content,
             monitoring_interval=1.0  # Check every second
         )
-    
+
     async def handle_brand_violation(self, violation_data):
         """Handle detected brand violations"""
-        
+
         if violation_data.severity == "critical":
             # Immediate action for critical violations
             await self.emergency_brand_response(violation_data)
@@ -655,14 +655,14 @@ from lukhas_brand import BrandAPI, BrandValidationError
 
 def robust_content_validation(content):
     """Robust content validation with error recovery"""
-    
+
     brand = BrandAPI(api_key="your_api_key")
-    
+
     try:
         # Attempt validation
         result = brand.validate_content(content)
         return result
-        
+
     except BrandValidationError as e:
         # Handle validation errors
         if e.auto_correctable:
@@ -675,12 +675,12 @@ def robust_content_validation(content):
                 f"Manual correction required: {e.message}",
                 suggestions=e.suggestions
             )
-            
+
     except RateLimitError as e:
         # Handle rate limiting
         time.sleep(e.retry_after)
         return robust_content_validation(content)
-        
+
     except Exception as e:
         # Handle unexpected errors
         logger.error(f"Unexpected validation error: {e}")
@@ -699,12 +699,12 @@ from functools import lru_cache
 class OptimizedBrandAPI:
     def __init__(self, api_key):
         self.brand_api = BrandAPI(api_key)
-    
+
     @lru_cache(maxsize=1000)
     def cached_voice_profile(self, profile_name, context):
         """Cache voice profiles for faster access"""
         return self.brand_api.get_voice_profile(profile_name, context)
-    
+
     async def batch_validate(self, content_list):
         """Batch validation for better performance"""
         return await self.brand_api.validate_batch(content_list)

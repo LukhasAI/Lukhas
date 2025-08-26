@@ -3,9 +3,9 @@
 Integration module for QI (Quantum-Inspired) components with LUKHAS AI
 """
 
-from typing import Dict, Any, Optional, Tuple
-from pathlib import Path
 import logging
+from pathlib import Path
+from typing import Any, Dict, Optional, Tuple
 
 from .metrics.calibration import UncertaintyCalibrationEngine
 from .safety.teq_gate import TEQCoupler
@@ -17,21 +17,21 @@ class QIIntegration:
     """
     Central integration point for Quantum-Inspired components
     """
-    
+
     def __init__(self, state_dir: Path = None):
         self.state_dir = state_dir or Path.home() / ".lukhas" / "state" / "qi"
-        
+
         # Initialize QI components
         self.calibration = UncertaintyCalibrationEngine(
             state_dir=self.state_dir / "calibration"
         )
-        
+
         self.teq_gate = TEQCoupler(
             state_dir=self.state_dir / "teq"
         )
-        
+
         logger.info("[QI] Quantum-Inspired components initialized")
-    
+
     def evaluate_action(
         self,
         module: str,
@@ -43,7 +43,7 @@ class QIIntegration:
     ) -> Tuple[bool, Dict[str, Any]]:
         """
         Evaluate an action through both calibration and TEQ systems
-        
+
         Returns: (allowed, context)
         """
         # If no risk estimate, derive from confidence
@@ -51,7 +51,7 @@ class QIIntegration:
             # High confidence in risky actions = higher risk
             uncertainty = self.calibration.get_uncertainty_estimate()
             risk_estimate = (1.0 - confidence) * uncertainty["total"]
-        
+
         # Check TEQ gate first (safety)
         allowed, reason, suggestions = self.teq_gate.evaluate_action(
             module=module,
@@ -60,7 +60,7 @@ class QIIntegration:
             energy=energy,
             metadata=metadata
         )
-        
+
         # Record prediction for calibration
         pred_id = self.calibration.record_prediction(
             module=module,
@@ -68,10 +68,10 @@ class QIIntegration:
             prediction=action,
             metadata={"teq_allowed": allowed, "risk": risk_estimate}
         )
-        
+
         # Get calibration adjustment
         confidence_adjustment = self.calibration.suggest_confidence_adjustment(module)
-        
+
         # Build context
         context = {
             "allowed": allowed,
@@ -83,9 +83,9 @@ class QIIntegration:
             "calibration_score": self.calibration.get_calibration_score(module),
             "teq_state": self.teq_gate.get_equilibrium_status()
         }
-        
+
         return allowed, context
-    
+
     def record_outcome(
         self,
         module: str,
@@ -100,7 +100,7 @@ class QIIntegration:
             actual=actual_result or success,
             correct=success
         )
-    
+
     def get_system_status(self) -> Dict[str, Any]:
         """Get overall QI system status"""
         return {
@@ -114,7 +114,7 @@ class QIIntegration:
                 "report": self.teq_gate.get_report()
             }
         }
-    
+
     def emergency_reset(self):
         """Emergency reset of QI systems"""
         logger.warning("[QI] Emergency reset triggered")
@@ -139,12 +139,12 @@ def example_integration():
     Example of how LUKHAS modules would use QI components
     """
     qi = get_qi_integration()
-    
+
     # Module wants to perform an action
     module = "consciousness"
     action = "deep_introspection"
     confidence = 0.75
-    
+
     # Evaluate through QI systems
     allowed, context = qi.evaluate_action(
         module=module,
@@ -153,24 +153,24 @@ def example_integration():
         risk_estimate=0.4,  # Moderate risk
         energy=3.0
     )
-    
+
     if allowed:
         print(f"✅ Action allowed: {action}")
         print(f"   Adjusted confidence: {context['adjusted_confidence']:.2f}")
-        
+
         # Perform action...
         success = True  # Simulated outcome
-        
+
         # Record outcome for learning
         qi.record_outcome(module, action, success)
     else:
         print(f"🚫 Action blocked: {context['reason']}")
         if context['suggestions']:
             print(f"   Suggestions: {context['suggestions']}")
-    
+
     # Check system status
     status = qi.get_system_status()
-    print(f"\n📊 System Status:")
+    print("\n📊 System Status:")
     print(f"   Calibration Score: {status['calibration']['global_score']:.3f}")
     print(f"   TEQ State: {status['teq']['status']['state']}")
     print(f"   Stability: {status['teq']['status']['stability_score']:.3f}")

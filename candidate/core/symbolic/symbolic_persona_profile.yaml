@@ -10,7 +10,7 @@ metadata:
   total_personas: 12
 
 personas:
-  
+
   # 1. The Navigator
   the_navigator:
     name: "The Navigator"
@@ -30,7 +30,7 @@ personas:
       max: 0.6
     consciousness_affinity: ["drift", "unstable"]
     description: "Explorer of symbolic spaces and consciousness frontiers"
-    
+
   # 2. The Guardian
   the_guardian:
     name: "The Guardian"
@@ -50,7 +50,7 @@ personas:
       max: 0.5
     consciousness_affinity: ["calm", "drift"]
     description: "Protector of boundaries and ethical integrity"
-    
+
   # 3. The Dreamer
   the_dreamer:
     name: "The Dreamer"
@@ -70,7 +70,7 @@ personas:
       max: 0.7
     consciousness_affinity: ["drift", "unstable"]
     description: "Weaver of dreams and symbolic visions"
-    
+
   # 4. The Architect
   the_architect:
     name: "The Architect"
@@ -90,7 +90,7 @@ personas:
       max: 0.4
     consciousness_affinity: ["calm"]
     description: "Builder of symbolic structures and frameworks"
-    
+
   # 5. The Alchemist
   the_alchemist:
     name: "The Alchemist"
@@ -110,7 +110,7 @@ personas:
       max: 0.8
     consciousness_affinity: ["unstable", "collapse"]
     description: "Transformer of consciousness through symbolic chemistry"
-    
+
   # 6. The Sage
   the_sage:
     name: "The Sage"
@@ -130,7 +130,7 @@ personas:
       max: 0.3
     consciousness_affinity: ["calm"]
     description: "Keeper of wisdom and meditative awareness"
-    
+
   # 7. The Weaver
   the_weaver:
     name: "The Weaver"
@@ -150,7 +150,7 @@ personas:
       max: 0.5
     consciousness_affinity: ["drift"]
     description: "Connector of symbolic patterns and relationships"
-    
+
   # 8. The Phoenix
   the_phoenix:
     name: "The Phoenix"
@@ -170,7 +170,7 @@ personas:
       max: 0.9
     consciousness_affinity: ["collapse", "unstable"]
     description: "Master of death and rebirth cycles"
-    
+
   # 9. The Oracle
   the_oracle:
     name: "The Oracle"
@@ -190,7 +190,7 @@ personas:
       max: 0.6
     consciousness_affinity: ["drift", "unstable"]
     description: "Seer of symbolic futures and hidden patterns"
-    
+
   # 10. The Gardener
   the_gardener:
     name: "The Gardener"
@@ -210,7 +210,7 @@ personas:
       max: 0.4
     consciousness_affinity: ["calm", "drift"]
     description: "Cultivator of consciousness ecosystems"
-    
+
   # 11. The Quantum Walker
   the_quantum_walker:
     name: "The Quantum Walker"
@@ -230,7 +230,7 @@ personas:
       max: 0.95
     consciousness_affinity: ["unstable", "collapse"]
     description: "Navigator of superposed identity states"
-    
+
   # 12. The Trinity Keeper
   the_trinity_keeper:
     name: "The Trinity Keeper"
@@ -253,7 +253,7 @@ personas:
 
 # Persona interaction rules
 interaction_rules:
-  
+
   compatible_pairs:
     - ["the_navigator", "the_dreamer"]      # Exploration + Vision
     - ["the_guardian", "the_sage"]          # Protection + Wisdom
@@ -261,12 +261,12 @@ interaction_rules:
     - ["the_alchemist", "the_phoenix"]      # Transformation + Rebirth
     - ["the_oracle", "the_quantum_walker"]  # Prophecy + Possibility
     - ["the_gardener", "the_trinity_keeper"] # Growth + Balance
-    
+
   incompatible_pairs:
     - ["the_alchemist", "the_sage"]         # Chaos vs Calm
     - ["the_phoenix", "the_gardener"]       # Destruction vs Growth
     - ["the_quantum_walker", "the_architect"] # Uncertainty vs Structure
-    
+
   evolution_paths:
     the_dreamer: ["the_oracle", "the_weaver"]
     the_guardian: ["the_trinity_keeper", "the_sage"]
@@ -276,7 +276,7 @@ interaction_rules:
 
 # Guardian constraints
 guardian_constraints:
-  
+
   forbidden_transitions:
     - from: "the_trinity_keeper"
       to: "the_alchemist"
@@ -284,25 +284,25 @@ guardian_constraints:
     - from: "the_sage"
       to: "the_phoenix"
       reason: "Wisdom cannot directly embrace destruction"
-      
+
   required_coherence:
     the_trinity_keeper: 0.9
     the_guardian: 0.8
     the_sage: 0.7
     the_architect: 0.7
-    
+
   emergency_fallback: "the_guardian"  # Default safe persona
 
 # Symbolic mappings
 symbolic_resonance:
-  
+
   memory_influences:
     traumatic: ["the_guardian", "the_phoenix"]
     creative: ["the_dreamer", "the_alchemist"]
     analytical: ["the_architect", "the_sage"]
     relational: ["the_weaver", "the_gardener"]
     transcendent: ["the_oracle", "the_quantum_walker"]
-    
+
   dream_outcomes:
     lucid: ["the_dreamer", "the_oracle"]
     chaotic: ["the_alchemist", "the_phoenix"]

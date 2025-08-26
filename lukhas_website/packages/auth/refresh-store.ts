@@ -4,25 +4,25 @@ import { randomUUID } from 'crypto';
 const prisma = new PrismaClient();
 
 export async function createFamily(userId: string) {
-  const fam = await prisma.refreshTokenFamily.create({ 
-    data: { userId } 
+  const fam = await prisma.refreshTokenFamily.create({
+    data: { userId }
   });
   return fam.id;
 }
 
 export async function issueRefreshDB(opts: {
-  userId: string; 
-  deviceId?: string; 
-  familyId?: string; 
-  ttlDays: number; 
-  jti?: string; 
-  ip?: string; 
+  userId: string;
+  deviceId?: string;
+  familyId?: string;
+  ttlDays: number;
+  jti?: string;
+  ip?: string;
   userAgent?: string;
 }) {
   const familyId = opts.familyId ?? await createFamily(opts.userId);
   const jti = opts.jti ?? randomUUID();
   const expiresAt = new Date(Date.now() + opts.ttlDays * 24 * 60 * 60 * 1000);
-  
+
   const token = await prisma.refreshToken.create({
     data: {
       userId: opts.userId,
@@ -61,11 +61,11 @@ export async function markUsed(jti: string) {
   }
 
   // Mark as used
-  await prisma.refreshToken.update({ 
-    where: { jti }, 
-    data: { usedAt: new Date() } 
+  await prisma.refreshToken.update({
+    where: { jti },
+    data: { usedAt: new Date() }
   });
-  
+
   return { ok: true, familyId: tok.familyId, userId: tok.userId };
 }
 
@@ -92,15 +92,15 @@ export async function rotateRefreshTokenSecure(oldJti: string, deviceId?: string
 
   // Issue new refresh in same family
   const { familyId, userId } = result;
-  const { jti } = await issueRefreshDB({ 
-    userId, 
-    deviceId, 
-    familyId, 
+  const { jti } = await issueRefreshDB({
+    userId,
+    deviceId,
+    familyId,
     ttlDays: parseInt(process.env.AUTH_REFRESH_TTL_DAYS || '30', 10),
     ip,
     userAgent
   });
-  
+
   // Issue new access token
   const { issueAccessToken } = await import('./jwt');
   const access = await issueAccessToken({ sub: userId });
@@ -140,7 +140,7 @@ export async function getUserActiveSessions(userId: string) {
       familyId: true
     }
   });
-  
+
   return tokens;
 }
 
@@ -149,10 +149,10 @@ export async function revokeAllUserSessions(userId: string) {
   const families = await prisma.refreshTokenFamily.findMany({
     where: { userId, revokedAt: null }
   });
-  
+
   for (const family of families) {
     await revokeFamily(family.id, 'user_logout_all');
   }
-  
+
   return families.length;
 }

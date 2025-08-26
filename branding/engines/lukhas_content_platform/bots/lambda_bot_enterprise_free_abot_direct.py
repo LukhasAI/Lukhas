@@ -3,9 +3,10 @@
 Free LUKHAS AI ΛBot Direct Mode - Bypass router issues and let LUKHAS AI ΛBot work directly
 """
 
+import subprocess
 import sys
 import time
-import subprocess
+
 sys.path.append('/Users/A_G_I/Λ')
 
 def run_free_abot_direct():

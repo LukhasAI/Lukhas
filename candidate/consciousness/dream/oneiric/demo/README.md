@@ -38,13 +38,13 @@ A sophisticated dream interpretation application with voice input, multimedia pr
 2. **Configure your AI provider** (optional):
    ```python
    from dream_interpreter import LLMConfig, DreamInterpreter
-   
+
    llm_config = LLMConfig(
        provider="openai",  # or "anthropic", "lukhas"
        api_key="your-api-key",
        model="gpt-4"
    )
-   
+
    interpreter = DreamInterpreter(llm_config=llm_config)
    ```
 
@@ -84,7 +84,7 @@ print(ai_dream.narrative)
 ```python
 # Smart emoji enhancement
 enhancement = interpreter.dream_enhancer.smart_emoji_enhancement(
-    "I was flying through a dark forest", 
+    "I was flying through a dark forest",
     enhancement_level='high'
 )
 print(enhancement.enriched_text)  # "I was flying 🕊️ through a dark forest 🌲 ✨"

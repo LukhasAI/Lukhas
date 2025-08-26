@@ -7,7 +7,7 @@ candidate lane compatibility.
 
 Trinity Framework Integration: ⚛️🧠🛡️
 - ⚛️ Identity: Core authentic identity management
-- 🧠 Consciousness: Awareness-based authentication  
+- 🧠 Consciousness: Awareness-based authentication
 - 🛡️ Guardian: Security and drift protection
 
 Performance Targets:
@@ -26,33 +26,33 @@ logger = logging.getLogger(__name__)
 try:
     from candidate.governance.identity import (
         IdentityClient,
-        get_identity_client, 
+        get_identity_client,
         verify_tier_access,
     )
     GOVERNANCE_IDENTITY_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Governance identity system not available: {e}")
     GOVERNANCE_IDENTITY_AVAILABLE = False
-    
+
     # Fallback implementations
     class IdentityClient:
         """Fallback identity client for development"""
-        
+
         def __init__(self):
             logger.warning("Using fallback IdentityClient")
-            
+
         def verify_user_access(self, user_id: str, tier: str) -> bool:
             """Fallback access verification - always allows"""
             return True
-            
+
         def log_activity(self, **kwargs):
             """Fallback activity logging - no-op"""
             pass
-    
+
     def get_identity_client() -> IdentityClient:
         """Get fallback identity client"""
         return IdentityClient()
-    
+
     def verify_tier_access(user_id: str, required_tier: str) -> bool:
         """Fallback tier access verification - always allows"""
         return True
@@ -67,15 +67,15 @@ try:
 except ImportError as e:
     logger.warning(f"OAuth2/OIDC provider not available: {e}")
     OAUTH_PROVIDER_AVAILABLE = False
-    
+
     class OAuth2OIDCProvider:
         """Fallback OAuth2/OIDC provider"""
         def __init__(self, config=None):
             logger.warning("Using fallback OAuth2OIDCProvider")
-            
+
         def handle_authorization_request(self, *args, **kwargs):
             return {"error": "not_implemented", "error_description": "OAuth2 provider not available"}
-    
+
     class OAuthClient:
         """Fallback OAuth client"""
         def __init__(self, client_data):
@@ -84,58 +84,58 @@ except ImportError as e:
 # WebAuthn/FIDO2 Support
 try:
     from candidate.governance.identity.core.auth.webauthn_manager import (
-        WebAuthnManager,
-        PasskeyRegistration,
         PasskeyAuthentication,
+        PasskeyRegistration,
+        WebAuthnManager,
     )
     WEBAUTHN_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"WebAuthn manager not available: {e}")
     WEBAUTHN_AVAILABLE = False
-    
+
     class WebAuthnManager:
         """Fallback WebAuthn manager"""
         def __init__(self):
             logger.warning("Using fallback WebAuthnManager")
-            
+
         def register_passkey(self, *args, **kwargs):
             return {"error": "not_implemented", "error_description": "WebAuthn not available"}
-    
+
     class PasskeyRegistration:
         """Fallback passkey registration"""
         pass
-    
+
     class PasskeyAuthentication:
         """Fallback passkey authentication"""
         pass
 
 # λID Core Identity System
 try:
+    from candidate.governance.identity.core.id_service.entropy_engine import (
+        EntropyEngine,
+    )
     from candidate.governance.identity.core.id_service.lambd_id_generator import (
         LambdIDGenerator,
         LambdIDValidator,
-    )
-    from candidate.governance.identity.core.id_service.entropy_engine import (
-        EntropyEngine,
     )
     LAMBDA_ID_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"λID system not available: {e}")
     LAMBDA_ID_AVAILABLE = False
-    
+
     class LambdIDGenerator:
         """Fallback λID generator"""
         def __init__(self):
             logger.warning("Using fallback LambdIDGenerator")
-            
+
         def generate_lambda_id(self, *args, **kwargs):
             return "LUKHAS0-DEMO-○-FALLBACK"
-    
+
     class LambdIDValidator:
         """Fallback λID validator"""
         def validate(self, lambda_id: str) -> bool:
             return True
-    
+
     class EntropyEngine:
         """Fallback entropy engine"""
         def generate_entropy(self):
@@ -151,15 +151,15 @@ try:
 except ImportError as e:
     logger.warning(f"Tier system not available: {e}")
     TIER_SYSTEM_AVAILABLE = False
-    
+
     class TierManager:
         """Fallback tier manager"""
         def __init__(self):
             logger.warning("Using fallback TierManager")
-            
+
         def get_user_tier(self, user_id: str) -> int:
             return 0  # Default to guest tier
-    
+
     class TierValidator:
         """Fallback tier validator"""
         def validate_tier_access(self, user_id: str, required_tier: int) -> bool:
@@ -168,22 +168,22 @@ except ImportError as e:
 # Namespace Management
 try:
     from candidate.governance.identity.core.namespace_manager import (
-        NamespaceManager,
         IdentityNamespace,
+        NamespaceManager,
     )
     NAMESPACE_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Namespace system not available: {e}")
     NAMESPACE_AVAILABLE = False
-    
+
     class NamespaceManager:
         """Fallback namespace manager"""
         def __init__(self):
             logger.warning("Using fallback NamespaceManager")
-            
+
         def resolve(self, domain: str):
             return "default"
-    
+
     class IdentityNamespace:
         """Fallback identity namespace"""
         def __init__(self, namespace_id: str):
@@ -192,7 +192,7 @@ except ImportError as e:
 
 class IdentitySystem:
     """⚛️🧠🛡️ Unified Identity System Interface"""
-    
+
     def __init__(self):
         """Initialize the identity system"""
         self.client = get_identity_client()
@@ -201,18 +201,18 @@ class IdentitySystem:
         self.lambda_id_generator = LambdIDGenerator() if LAMBDA_ID_AVAILABLE else None
         self.tier_manager = TierManager() if TIER_SYSTEM_AVAILABLE else None
         self.namespace_manager = NamespaceManager() if NAMESPACE_AVAILABLE else None
-        
-        logger.info(f"Identity system initialized with components:")
+
+        logger.info("Identity system initialized with components:")
         logger.info(f"  - Governance Identity: {GOVERNANCE_IDENTITY_AVAILABLE}")
         logger.info(f"  - OAuth2/OIDC: {OAUTH_PROVIDER_AVAILABLE}")
         logger.info(f"  - WebAuthn: {WEBAUTHN_AVAILABLE}")
         logger.info(f"  - λID System: {LAMBDA_ID_AVAILABLE}")
         logger.info(f"  - Tier System: {TIER_SYSTEM_AVAILABLE}")
         logger.info(f"  - Namespaces: {NAMESPACE_AVAILABLE}")
-    
+
     def authenticate_user(
-        self, 
-        credentials: Dict[str, Any], 
+        self,
+        credentials: Dict[str, Any],
         tier: str = 'T1',
         namespace: Optional[str] = None
     ) -> Dict[str, Any]:
@@ -223,13 +223,13 @@ class IdentitySystem:
                 resolved_namespace = self.namespace_manager.resolve(namespace)
             else:
                 resolved_namespace = "default"
-            
+
             # Basic validation
             if not credentials.get('user_id'):
                 return {"success": False, "error": "Missing user_id"}
-            
+
             user_id = credentials['user_id']
-            
+
             # Tier-based authentication
             if tier == 'T1':
                 # Basic email + password
@@ -242,7 +242,7 @@ class IdentitySystem:
                 result = self._consciousness_auth(credentials, tier)
             else:
                 return {"success": False, "error": f"Unsupported tier: {tier}"}
-            
+
             # Generate identity token if successful
             if result.get('success') and self.lambda_id_generator:
                 lambda_id = self.lambda_id_generator.generate_lambda_id(
@@ -251,19 +251,19 @@ class IdentitySystem:
                     namespace=resolved_namespace
                 )
                 result['lambda_id'] = lambda_id
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Authentication failed: {e}")
             return {"success": False, "error": "Authentication system error"}
-    
+
     def _basic_auth(self, credentials: Dict[str, Any]) -> Dict[str, Any]:
         """T1: Basic authentication (email + password)"""
         # Simplified implementation
         user_id = credentials.get('user_id')
         password = credentials.get('password')
-        
+
         if user_id and password and len(password) >= 6:
             return {
                 "success": True,
@@ -271,13 +271,13 @@ class IdentitySystem:
                 "tier": "T1",
                 "method": "basic"
             }
-        
+
         return {"success": False, "error": "Invalid credentials"}
-    
+
     def _enhanced_auth(self, credentials: Dict[str, Any]) -> Dict[str, Any]:
         """T2: Enhanced authentication (passkey + biometric)"""
         user_id = credentials.get('user_id')
-        
+
         # Check for passkey or biometric data
         if credentials.get('passkey_response') or credentials.get('biometric_data'):
             return {
@@ -286,14 +286,14 @@ class IdentitySystem:
                 "tier": "T2",
                 "method": "enhanced"
             }
-        
+
         # Fallback to basic auth
         return self._basic_auth(credentials)
-    
+
     def _consciousness_auth(self, credentials: Dict[str, Any], tier: str) -> Dict[str, Any]:
         """T3+: Consciousness-based authentication"""
         user_id = credentials.get('user_id')
-        
+
         # Mock consciousness verification
         consciousness_signature = credentials.get('consciousness_signature')
         if consciousness_signature:
@@ -303,10 +303,10 @@ class IdentitySystem:
                 "tier": tier,
                 "method": "consciousness"
             }
-        
+
         # Fallback to enhanced auth
         return self._enhanced_auth(credentials)
-    
+
     def get_system_status(self) -> Dict[str, Any]:
         """Get identity system status"""
         return {
@@ -350,26 +350,28 @@ def generate_lambda_id(user_id: str, tier: str = 'T1') -> str:
     if default_system.lambda_id_generator:
         try:
             # Convert tier string to TierLevel enum
-            from candidate.governance.identity.core.id_service.lambd_id_generator import TierLevel
-            
+            from candidate.governance.identity.core.id_service.lambd_id_generator import (
+                TierLevel,
+            )
+
             tier_mapping = {
                 'T0': TierLevel.GUEST,
-                'T1': TierLevel.VISITOR, 
+                'T1': TierLevel.VISITOR,
                 'T2': TierLevel.FRIEND,
                 'T3': TierLevel.TRUSTED,
                 'T4': TierLevel.INNER_CIRCLE,
                 'T5': TierLevel.ROOT_DEV
             }
-            
+
             tier_enum = tier_mapping.get(tier, TierLevel.FRIEND)
             user_context = {'user_id': user_id}
-            
+
             return default_system.lambda_id_generator.generate_lambda_id(
                 tier=tier_enum, user_context=user_context
             )
         except Exception:
             pass
-    
+
     # Fallback ID generation
     tier_num = tier[1:] if tier.startswith('T') else '0'
     return f"LUKHAS{tier_num}-{user_id[:4].upper()}-○-FALL"
@@ -391,7 +393,7 @@ __all__ = [
     "TierValidator",
     "NamespaceManager",
     "IdentityNamespace",
-    
+
     # Convenience functions
     "authenticate_user",
     "get_identity_client",
@@ -399,10 +401,10 @@ __all__ = [
     "get_webauthn_manager",
     "generate_lambda_id",
     "verify_tier_access",
-    
+
     # System instance
     "default_system",
-    
+
     # Availability flags
     "GOVERNANCE_IDENTITY_AVAILABLE",
     "OAUTH_PROVIDER_AVAILABLE",

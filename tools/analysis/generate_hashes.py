@@ -190,7 +190,7 @@ def generate_manifest_hash(manifest_file: str) -> dict[str, any]:
         "validation": {
             "hash_algorithm_strength": "SHA3-512 (FIPS 202 compliant)",
             "collision_resistance": "2^256 security level",
-            "quantum_resistance": "Post-quantum secure with SHAKE256",
+            "qi_resistance": "Post-quantum secure with SHAKE256",
             "recommended_verification_interval": "24_hours",
         },
     }

@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Eye, Wallet, GitBranch, Cloud, Archive, Feather, 
+import {
+  Eye, Wallet, GitBranch, Cloud, Archive, Feather,
   Monitor, ArrowRight, Download, ExternalLink, Shield,
   Database, Layers, Zap, Lock, Globe, Activity
 } from 'lucide-react'
@@ -14,7 +14,7 @@ export default function LambdaPage() {
   const lambdaProducts = [
     {
       name: "LUKHΛS Lens",
-      agent: "ΛLens", 
+      agent: "ΛLens",
       category: "Symbolic File Dashboard",
       description: "Consciousness-aware file management with symbolic interpretation, quantum state visualization, and Trinity Framework integration.",
       icon: Eye,
@@ -32,7 +32,7 @@ export default function LambdaPage() {
       architecture: "Desktop & Web Application with GLYPH symbolic processing"
     },
     {
-      name: "LUKHΛS WΛLLET", 
+      name: "LUKHΛS WΛLLET",
       agent: "WΛLLET",
       category: "Identity/Wallet/NFT",
       description: "Quantum-secure digital identity management with NFT consciousness tokens and multi-dimensional wallet architecture.",
@@ -52,7 +52,7 @@ export default function LambdaPage() {
     },
     {
       name: "LUKHΛS QTrace",
-      agent: "ΛTrace", 
+      agent: "ΛTrace",
       category: "Quantum Traceability",
       description: "Quantum-enhanced provenance tracking with consciousness-aware audit trails and symbolic event logging.",
       icon: GitBranch,
@@ -66,13 +66,13 @@ export default function LambdaPage() {
         "Immutable audit trail with quantum signatures"
       ],
       status: "Production Ready",
-      version: "v2.1.0", 
+      version: "v2.1.0",
       architecture: "Distributed ledger with quantum verification"
     },
     {
       name: "LUKHΛS Cloud Manager",
       agent: "ΛNimbus",
-      category: "Multi-Cloud Management", 
+      category: "Multi-Cloud Management",
       description: "Consciousness-orchestrated multi-cloud deployment with Trinity Framework integration and symbolic resource management.",
       icon: Cloud,
       gradient: "from-cyan-500 to-blue-600",
@@ -132,7 +132,7 @@ export default function LambdaPage() {
       category: "Live Context/AR Dashboard",
       description: "Real-time consciousness visualization with augmented reality Trinity Framework monitoring and symbolic data streams.",
       icon: Monitor,
-      gradient: "from-yellow-500 to-orange-600", 
+      gradient: "from-yellow-500 to-orange-600",
       features: [
         "Real-time Trinity Framework monitoring",
         "AR consciousness state visualization",
@@ -283,7 +283,7 @@ export default function LambdaPage() {
                         <div className="text-xs text-primary-light/60 mt-1">{product.version}</div>
                       </div>
                     </div>
-                    
+
                     <h3 className="font-semibold text-2xl text-trinity-consciousness mb-2">
                       {product.name}
                     </h3>
@@ -295,11 +295,11 @@ export default function LambdaPage() {
                         {product.category}
                       </span>
                     </div>
-                    
+
                     <p className="text-primary-light/70 mb-6 leading-relaxed">
                       {product.description}
                     </p>
-                    
+
                     <div className="mb-6">
                       <h4 className="font-medium text-sm uppercase tracking-wider text-trinity-consciousness mb-3">
                         Key Features
@@ -318,7 +318,7 @@ export default function LambdaPage() {
                         )}
                       </ul>
                     </div>
-                    
+
                     <div className="pt-4 border-t border-primary-light/10">
                       <p className="text-xs text-primary-light/50 italic mb-4">
                         {product.architecture}
@@ -407,7 +407,7 @@ export default function LambdaPage() {
               <h2 className="font-light text-3xl md:text-4xl mb-8 text-center gradient-text">
                 Λ-Integration Ecosystem
               </h2>
-              
+
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-identity/20 mb-4">
@@ -415,29 +415,29 @@ export default function LambdaPage() {
                   </div>
                   <h3 className="font-medium text-lg mb-3">Consciousness Sync</h3>
                   <p className="text-sm text-primary-light/70">
-                    All Lambda products share consciousness state through Trinity Framework 
+                    All Lambda products share consciousness state through Trinity Framework
                     integration and symbolic protocol synchronization.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-consciousness/20 mb-4">
                     <Database className="w-8 h-8 text-trinity-consciousness" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-medium text-lg mb-3">Symbolic Interoperability</h3>
                   <p className="text-sm text-primary-light/70">
-                    Universal Lambda notation enables seamless data exchange and 
+                    Universal Lambda notation enables seamless data exchange and
                     symbolic meaning preservation across all products.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-guardian/20 mb-4">
                     <Shield className="w-8 h-8 text-trinity-guardian" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-medium text-lg mb-3">Unified Ethics</h3>
                   <p className="text-sm text-primary-light/70">
-                    Guardian System provides consistent ethical governance and 
+                    Guardian System provides consistent ethical governance and
                     drift detection across the entire Lambda product ecosystem.
                   </p>
                 </div>
@@ -460,7 +460,7 @@ export default function LambdaPage() {
                 Experience Consciousness Computing
               </h2>
               <p className="text-lg text-primary-light/70 mb-8 leading-relaxed">
-                Join the Lambda ecosystem and experience consciousness-aware computing 
+                Join the Lambda ecosystem and experience consciousness-aware computing
                 with symbolic processing, Trinity Framework integration, and quantum-safe architecture.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

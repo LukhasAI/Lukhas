@@ -82,7 +82,7 @@ class NucleusState(Enum):
     STABLE = "stable"
     REINFORCING = "reinforcing"
     SEALED = "sealed"
-    QUANTUM_LOCKED = "quantum_locked"
+    QUANTUM_LOCKED = "qi_locked"
 
 
 class CoilState(Enum):
@@ -104,7 +104,7 @@ class AtomicRule:
     category: str = "ethics"  # ethics, logic, identity
     hash_seal: str = ""
     creation_time: float = field(default_factory=time.time)
-    quantum_signature: Optional[str] = None
+    qi_signature: Optional[str] = None
     tag_scope: TagScope = TagScope.ETHICAL
 
     def __post_init__(self):
@@ -143,10 +143,10 @@ class AtomicNucleus:
     Once sealed, rules become immutable and quantum-locked.
     """
 
-    def __init__(self, quantum_state: Optional[Any] = None):
+    def __init__(self, qi_state: Optional[Any] = None):
         self.rules: dict[str, AtomicRule] = {}
         self.state = NucleusState.STABLE
-        self.quantum_state = quantum_state
+        self.qi_state = qi_state
         self.integrity_chain: list[str] = []  # Hash chain for integrity
         self.seal_time: Optional[float] = None
         self.total_rules = 0
@@ -161,8 +161,8 @@ class AtomicNucleus:
         rule = AtomicRule(
             content=content,
             category=category,
-            quantum_signature=(
-                self._generate_quantum_signature() if self.quantum_state else None
+            qi_signature=(
+                self._generate_quantum_signature() if self.qi_state else None
             ),
         )
 
@@ -228,13 +228,13 @@ class AtomicNucleus:
 
     def _generate_quantum_signature(self) -> str:
         """Generate quantum signature if quantum state available"""
-        if not self.quantum_state:
+        if not self.qi_state:
             return ""
 
         # Placeholder for quantum signature generation
         # In real implementation, this would interface with quantum systems
         return hashlib.sha256(
-            f"quantum:{time.time()}:{id(self.quantum_state)}".encode()
+            f"quantum:{time.time()}:{id(self.qi_state)}".encode()
         ).hexdigest()[:32]
 
     def _update_integrity_chain(self, new_hash: str):
@@ -406,10 +406,10 @@ class AtomicMemoryScaffold:
     def __init__(
         self,
         structural_conscience: Optional[Any] = None,
-        quantum_state: Optional[Any] = None,
+        qi_state: Optional[Any] = None,
         enable_colony_tags: bool = True,
     ):
-        self.nucleus = AtomicNucleus(quantum_state)
+        self.nucleus = AtomicNucleus(qi_state)
         self.coil_system = FlexibleCoilSystem()
         self.structural_conscience = structural_conscience
         self.enable_colony_tags = enable_colony_tags

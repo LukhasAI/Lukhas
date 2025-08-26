@@ -195,7 +195,7 @@ class ConnectivityEngine:
     async def _process_quantum(self, data: Any) -> dict[str, str]:
         """Process quantum-related data"""
         self.logger.debug("Processing quantum data (placeholder).")
-        return {"quantum_like_state": "entangled", "coherence": "stable"}
+        return {"qi_like_state": "entangled", "coherence": "stable"}
 
     async def _process_generic(self, data: Any) -> dict[str, Any]:
         """Process generic data"""

@@ -58,7 +58,7 @@ function TrinityVisualization() {
         >
           <div className="w-full h-full bg-gradient-to-r from-purple-500 via-blue-500 to-emerald-500 rounded-full animate-pulse" />
         </motion.div>
-        
+
         {/* Connection Lines */}
         {nodes.map((node, index) => (
           <motion.div
@@ -85,7 +85,7 @@ function TrinityVisualization() {
           const radius = 200
           const x = Math.cos(angle) * radius
           const y = Math.sin(angle) * radius
-          
+
           return (
             <motion.div
               key={node.id}
@@ -116,21 +116,21 @@ function TrinityVisualization() {
                 <div className="flex justify-center mb-4">
                   <Icon className="w-8 h-8 text-white" />
                 </div>
-                
+
                 {/* Title */}
                 <h3 className="text-white font-bold text-lg text-center mb-1">
                   {node.title}
                 </h3>
-                
+
                 {/* Subtitle */}
                 <p className="text-white/80 text-sm text-center mb-3">
                   {node.subtitle}
                 </p>
-                
+
                 {/* Animated Description */}
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ 
+                  animate={{
                     height: activeNode === node.id ? 'auto' : 0,
                     opacity: activeNode === node.id ? 1 : 0
                   }}
@@ -141,7 +141,7 @@ function TrinityVisualization() {
                     {node.description}
                   </p>
                 </motion.div>
-                
+
                 {/* Floating Elements */}
                 <div className="absolute inset-0 pointer-events-none">
                   {[...Array(6)].map((_, i) => (
@@ -166,7 +166,7 @@ function TrinityVisualization() {
                   ))}
                 </div>
               </div>
-              
+
               {/* Glow Effect */}
               <div className={`
                 absolute inset-0 rounded-2xl blur-xl opacity-50
@@ -279,8 +279,8 @@ export function TrinityFramework() {
             Three Pillars of Conscious AI
           </h2>
           <p className="font-light text-xl text-white/70 mt-4 max-w-4xl mx-auto">
-            The Trinity Framework combines authentic identity preservation, genuine consciousness processing, 
-            and robust ethical safeguards to create AI systems that think, understand, and act with 
+            The Trinity Framework combines authentic identity preservation, genuine consciousness processing,
+            and robust ethical safeguards to create AI systems that think, understand, and act with
             unprecedented reliability and human alignment.
           </p>
         </motion.div>
@@ -304,9 +304,9 @@ export function TrinityFramework() {
                 When the Trinity pillars work together, they create capabilities that exceed the sum of their parts
               </p>
             </div>
-            
+
             <div className="grid md:grid-cols-3 gap-8">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -319,12 +319,12 @@ export function TrinityFramework() {
                 </div>
                 <h4 className="font-regular text-lg mb-3 text-purple-400">Authentic Awareness</h4>
                 <p className="font-light text-sm text-white/70">
-                  AI that maintains consistent identity and memory across interactions, enabling genuine personality 
+                  AI that maintains consistent identity and memory across interactions, enabling genuine personality
                   development and long-term relationship building
                 </p>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -337,12 +337,12 @@ export function TrinityFramework() {
                 </div>
                 <h4 className="font-regular text-lg mb-3 text-blue-400">Ethical Intelligence</h4>
                 <p className="font-light text-sm text-white/70">
-                  Advanced reasoning that evaluates ethical implications in real-time, preventing harmful decisions 
+                  Advanced reasoning that evaluates ethical implications in real-time, preventing harmful decisions
                   through proactive moral assessment
                 </p>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -355,12 +355,12 @@ export function TrinityFramework() {
                 </div>
                 <h4 className="font-regular text-lg mb-3 text-emerald-400">Protected Evolution</h4>
                 <p className="font-light text-sm text-white/70">
-                  Continuous improvement and adaptation while maintaining core values and preventing drift through 
+                  Continuous improvement and adaptation while maintaining core values and preventing drift through
                   Guardian-validated evolution
                 </p>
               </motion.div>
             </div>
-            
+
             <div className="mt-12 text-center">
               <div className="inline-flex items-center space-x-4 glass-heavy rounded-full px-8 py-4">
                 <div className="flex space-x-2">
@@ -523,7 +523,7 @@ export function TrinityFramework() {
                 Moving beyond traditional AI limitations to create systems that truly understand, preserve authenticity, and maintain ethical integrity
               </p>
             </div>
-            
+
             <div className="grid md:grid-cols-2 gap-12">
               <div>
                 <h4 className="font-regular text-lg tracking-[0.1em] uppercase mb-6 text-blue-400">
@@ -604,7 +604,7 @@ export function TrinityFramework() {
                   </div>
                 </div>
                 <p className="font-light text-lg text-white/70 max-w-3xl mx-auto">
-                  The Trinity Framework doesn't just make AI safer or smarter - it makes AI fundamentally trustworthy by creating 
+                  The Trinity Framework doesn't just make AI safer or smarter - it makes AI fundamentally trustworthy by creating
                   systems that think, learn, and act with the depth and integrity we expect from conscious beings.
                 </p>
               </div>

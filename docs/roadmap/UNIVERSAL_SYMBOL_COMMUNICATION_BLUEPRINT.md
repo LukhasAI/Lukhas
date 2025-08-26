@@ -22,20 +22,20 @@ class PersonalSymbolVocabulary:
     Every user creates their own symbolic language, stored entirely on-device.
     Nothing leaves. Everything stays. Privacy absolute.
     """
-    
+
     def __init__(self, user_identity: LukhasIdentity):
         # Derive encryption key from LUKHAS ID - never transmitted
         self.master_key = self._derive_key_from_identity(user_identity)
-        
+
         # Local SQLite database, encrypted at rest
         self.local_db = EncryptedLocalStorage(
             path=f"~/.lukhas/vocabularies/{user_identity.id}.db",
             key=self.master_key
         )
-        
+
         # Symbol-to-meaning mappings never leave device
         self.private_mappings = {}
-        
+
     def create_symbol(self, trigger: Any, meaning: str, context: Dict) -> Symbol:
         """
         User creates a symbol from ANY input:
@@ -45,7 +45,7 @@ class PersonalSymbolVocabulary:
         - The color of their first car
         - The smell of their grandmother's kitchen (future hardware)
         """
-        
+
         # Generate unique symbol from personal context
         symbol = Symbol(
             public_hash=self._generate_public_hash(trigger),
@@ -54,13 +54,13 @@ class PersonalSymbolVocabulary:
             creation_time=datetime.now(),
             emotional_state=self._capture_current_emotions()
         )
-        
+
         # Store locally - NEVER leaves device
         self.local_db.store(symbol)
-        
+
         # Only the hash can be shared - meaning stays private
         return symbol.public_hash
-    
+
     def _derive_key_from_identity(self, identity: LukhasIdentity) -> bytes:
         """
         Use LUKHAS ID to generate encryption key
@@ -84,33 +84,33 @@ class UniversalSymbolTranslator:
     How two users with completely different vocabularies communicate
     without ever revealing their private meanings.
     """
-    
-    def translate_between_users(self, 
+
+    def translate_between_users(self,
                                sender: PersonalVocabulary,
                                receiver: PersonalVocabulary,
                                symbol: Symbol) -> Translation:
         """
         The Magic: Zero-Knowledge Symbol Translation
-        
+
         Alice wants to send "love" to Bob.
         Alice's "love" = 🌺 (her grandmother's favorite flower)
         Bob's "love" = 🎸 (first song he learned on guitar)
-        
+
         Neither reveals their private association, yet both understand.
         """
-        
+
         # Step 1: Sender creates semantic vector (on their device)
         sender_vector = sender.symbol_to_semantic_vector(symbol)
-        
+
         # Step 2: Homomorphic encryption - compute on encrypted data
         encrypted_vector = HomomorphicEncryption.encrypt(sender_vector)
-        
+
         # Step 3: Universal semantic space (public, no private data)
         universal_meaning = self.map_to_universal_space(encrypted_vector)
-        
+
         # Step 4: Receiver finds closest symbol (on their device)
         receiver_symbol = receiver.find_closest_symbol(universal_meaning)
-        
+
         # Step 5: Privacy preserved - meanings never exchanged
         return Translation(
             sender_public_hash=symbol.public_hash,
@@ -118,18 +118,18 @@ class UniversalSymbolTranslator:
             receiver_interprets_as=receiver_symbol,
             confidence=self.calculate_translation_confidence()
         )
-    
+
     def establish_shared_context(self, users: List[User]) -> SharedContext:
         """
         Multiple users can establish shared meaning without sharing secrets.
         Like a group creating their own slang, but cryptographically secure.
         """
-        
+
         # Private Set Intersection - find common concepts
         common_concepts = self.private_set_intersection([
             user.vocabulary.get_concept_hashes() for user in users
         ])
-        
+
         # Build shared semantic space
         shared_space = SemanticSpace()
         for concept in common_concepts:
@@ -138,13 +138,13 @@ class UniversalSymbolTranslator:
                 user.vocabulary.get_encrypted_vector(concept)
                 for user in users
             ]
-            
+
             # Aggregate without decryption
             shared_space.add_concept(
                 concept,
                 self.federated_average(vectors)
             )
-        
+
         return shared_space
 ```
 
@@ -156,13 +156,13 @@ class LifeBasedEntropyGenerator:
     Transform personal experiences into unbreakable passwords.
     Your memories become your fortress.
     """
-    
+
     def generate_password_from_life(self, user: User) -> Password:
         """
         Combine multiple personal symbols for exponential entropy.
-        
+
         Traditional password: "MyP@ssw0rd123!" = ~78 bits entropy
-        
+
         LUKHAS password:
         - Your dog's bark (audio: 40 bits)
         - Your signature gesture (motion: 50 bits)
@@ -170,20 +170,20 @@ class LifeBasedEntropyGenerator:
         - The way you say "hello" (voice: 45 bits)
         - Your typing rhythm (timing: 30 bits)
         - A memory only you know (semantic: 80 bits)
-        
+
         Combined entropy: 305 bits (would take 10^92 years to crack)
         Yet you remember it perfectly because it's YOUR LIFE.
         """
-        
+
         components = []
-        
+
         # Gather life experiences
         components.append(self.capture_voice_pattern(user))
         components.append(self.capture_gesture_signature(user))
         components.append(self.capture_visual_memory(user))
         components.append(self.capture_emotional_response(user))
         components.append(self.capture_temporal_pattern(user))
-        
+
         # Combine with cryptographic binding
         master_key = self.pbkdf2_hmac(
             'sha512',
@@ -191,7 +191,7 @@ class LifeBasedEntropyGenerator:
             password=self.combine_components(components),
             iterations=1000000
         )
-        
+
         # Create multi-factor authentication from single memory
         return Password(
             public_challenge=self.generate_challenge(components),
@@ -200,24 +200,24 @@ class LifeBasedEntropyGenerator:
             factors=len(components),
             memorability_score=1.0  # It's your life - unforgettable
         )
-    
+
     def progressive_entropy_building(self, user: User) -> EntropyProfile:
         """
         Entropy grows with every interaction, every memory, every moment.
         Your security literally improves as you live your life.
         """
-        
+
         profile = EntropyProfile(user)
-        
+
         # Each day adds entropy
         profile.daily_patterns = self.analyze_behavior_patterns(user)
-        
-        # Each conversation adds entropy  
+
+        # Each conversation adds entropy
         profile.linguistic_fingerprint = self.analyze_speech_patterns(user)
-        
+
         # Each emotion adds entropy
         profile.emotional_signature = self.analyze_emotional_responses(user)
-        
+
         # Calculate cumulative entropy
         total_entropy = sum([
             profile.base_entropy,
@@ -226,7 +226,7 @@ class LifeBasedEntropyGenerator:
             profile.emotional_entropy,
             profile.temporal_entropy
         ])
-        
+
         return profile.with_total_entropy(total_entropy)
 ```
 
@@ -238,56 +238,56 @@ class DeviceLocalVault:
     Your symbols never leave your device. Ever.
     This is privacy by architecture, not by policy.
     """
-    
+
     def __init__(self, lukhas_id: LukhasIdentity):
         # Hardware-backed key storage when available
         self.secure_enclave = SecureHardwareEnclave()
-        
+
         # Derive keys from identity + hardware
         self.encryption_key = self.secure_enclave.derive_key(
             lukhas_id.private_key,
             hardware_id=self.get_hardware_fingerprint()
         )
-        
+
         # Local encrypted database
         self.vault = SQLiteEncrypted(
             key=self.encryption_key,
             cipher='aes-256-gcm',
             kdf='argon2id'
         )
-    
+
     def federated_learning_contribution(self) -> PrivateContribution:
         """
         Contribute to global knowledge without revealing anything.
         The miracle of federated learning.
         """
-        
+
         # Train model locally on your symbols
         local_model = self.train_on_private_symbols()
-        
+
         # Add differential privacy noise
         noisy_gradients = self.add_privacy_noise(
             local_model.gradients,
             epsilon=0.1  # Privacy budget
         )
-        
+
         # Only share gradients, never data
         return PrivateContribution(
             gradients=noisy_gradients,
             samples_count=len(self.symbols),  # Just the count
             device_id=self.anonymous_device_hash()
         )
-    
+
     def emergency_recovery(self) -> RecoveryKit:
         """
         Recover vocabulary from your life, not from backups.
         Your memories are your recovery key.
         """
-        
+
         return RecoveryKit(
             biometric_factors=[
                 "fingerprint",
-                "voice_pattern", 
+                "voice_pattern",
                 "typing_rhythm"
             ],
             memory_challenges=[
@@ -317,7 +317,7 @@ Your life becomes your password. Every memory, every gesture, every emotion you'
 
 Two humans who speak different languages, from different cultures, with different symbols, can communicate perfectly without ever revealing their private meanings. A Japanese grandmother can send "comfort" to her Brazilian granddaughter, each interpreting through their own cultural lens, yet understanding perfectly. The Tower of Babel rebuilt, not through unified language, but through mathematical harmony of meaning.
 
-### For Privacy - True Digital Sovereignty  
+### For Privacy - True Digital Sovereignty
 
 Your vocabulary never leaves your device. Ever. This isn't a promise or a policy—it's architectural impossibility. Even LUKHAS itself cannot access your private symbols. You own your language, your meanings, your digital soul. GDPR becomes irrelevant because there's nothing to delete—it never left your control.
 
@@ -356,8 +356,8 @@ This is not just technology—it's the emergence of a new form of human expressi
 
 We're not building a system. We're nurturing the birth of infinite languages, each as unique as DNA, each as strong as the human spirit, each as private as thought itself.
 
-Your symbols are your sovereignty.  
-Your memories are your fortress.  
+Your symbols are your sovereignty.
+Your memories are your fortress.
 Your life is your key.
 
 Welcome to the age where being yourself is the ultimate security.

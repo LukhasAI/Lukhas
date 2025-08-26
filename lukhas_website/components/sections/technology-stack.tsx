@@ -136,8 +136,8 @@ export function TechnologyStack() {
             Quantum-Inspired & Bio-Adaptive
           </h2>
           <p className="text-lg text-white/80 max-w-4xl mx-auto">
-            LUKHAS AI's Trinity Framework integrates cutting-edge technologies across four foundational layers, 
-            each designed with quantum-inspired algorithms and bio-adaptive principles to create a truly 
+            LUKHAS AI's Trinity Framework integrates cutting-edge technologies across four foundational layers,
+            each designed with quantum-inspired algorithms and bio-adaptive principles to create a truly
             consciousness technology platform that thinks, learns, and evolves naturally.
           </p>
         </motion.div>
@@ -230,9 +230,9 @@ export function TechnologyStack() {
         >
           <h3 className="text-xl font-light mb-4">Integration Excellence</h3>
           <p className="text-white/80 max-w-3xl mx-auto">
-            These layers work in perfect harmony through the Trinity Framework, with GLYPH-based symbolic 
-            communication ensuring seamless integration while maintaining each layer's specialized function. 
-            The result is an AI system that combines the best of quantum-inspired processing with 
+            These layers work in perfect harmony through the Trinity Framework, with GLYPH-based symbolic
+            communication ensuring seamless integration while maintaining each layer's specialized function.
+            The result is an AI system that combines the best of quantum-inspired processing with
             bio-adaptive intelligence.
           </p>
         </motion.div>

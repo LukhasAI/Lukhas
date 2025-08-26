@@ -2,6 +2,6 @@
 QI Operations Module - Budget governance and operational tools
 """
 
-from .budgeter import Budgeter, BudgetConfig
+from .budgeter import BudgetConfig, Budgeter
 
 __all__ = ['Budgeter', 'BudgetConfig']

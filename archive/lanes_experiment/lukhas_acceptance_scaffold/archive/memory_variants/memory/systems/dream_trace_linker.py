@@ -629,12 +629,12 @@ class DreamTraceLinker:
             )
 
         # Check for entanglement-like correlation overload
-        quantum_risk = self._assess_quantum_entanglement_risk(
+        qi_risk = self._assess_quantum_entanglement_risk(
             entanglement_level, glyph_signatures
         )
-        if quantum_risk["overload_detected"]:
-            flags.append("quantum_entanglement_overload")
-            logger.critical(f"Quantum entanglement overload: {quantum_risk}")
+        if qi_risk["overload_detected"]:
+            flags.append("qi_entanglement_overload")
+            logger.critical(f"Quantum entanglement overload: {qi_risk}")
 
         return flags
 
@@ -1100,18 +1100,18 @@ class DreamTraceLinker:
         """Assess risk of entanglement-like correlation overload."""
         risk_analysis = {
             "overload_detected": False,
-            "quantum_complexity": 0.0,
+            "qi_complexity": 0.0,
             "entanglement_density": 0.0,
             "coherence_breakdown_risk": 0.0,
         }
 
         # Calculate quantum complexity
-        quantum_glyphs = [
+        qi_glyphs = [
             sig
             for sig in glyph_signatures
             if sig.resonance_level == GlyphResonanceLevel.QUANTUM
         ]
-        risk_analysis["quantum_complexity"] = len(quantum_glyphs) / max(
+        risk_analysis["qi_complexity"] = len(qi_glyphs) / max(
             len(glyph_signatures), 1
         )
 
@@ -1122,17 +1122,17 @@ class DreamTraceLinker:
         # Calculate coherence breakdown risk
         complexity_factor = entanglement_level / 15.0
         density_factor = risk_analysis["entanglement_density"]
-        quantum_factor = risk_analysis["quantum_complexity"]
+        qi_factor = risk_analysis["qi_complexity"]
 
         risk_analysis["coherence_breakdown_risk"] = (
-            complexity_factor * 0.4 + density_factor * 0.3 + quantum_factor * 0.3
+            complexity_factor * 0.4 + density_factor * 0.3 + qi_factor * 0.3
         )
 
         # Determine if overload is detected
         risk_analysis["overload_detected"] = (
             risk_analysis["coherence_breakdown_risk"] > 0.8
             or entanglement_level > 14
-            or len(quantum_glyphs) > 3
+            or len(qi_glyphs) > 3
         )
 
         return risk_analysis

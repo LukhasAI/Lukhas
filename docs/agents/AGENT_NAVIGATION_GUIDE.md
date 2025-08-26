@@ -133,7 +133,7 @@ identity/
 ```
 governance/
 ├── README.md                 # Guardian System v1.0.0 overview
-├── engine.py                 # Core governance engine  
+├── engine.py                 # Core governance engine
 ├── ethics/                   # Multi-tiered policy engines (86 components)
 ├── compliance/               # Regulatory compliance (12 modules)
 ├── audit_ethics_monitor.py  # Continuous monitoring
@@ -193,7 +193,7 @@ bridge/
 agents/
 ├── AGENT_CONFIGURATION_SUMMARY.md
 ├── supreme_consciousness_architect_config.json    # Tier 1 General
-├── guardian_system_commander_config.json          # Tier 1 General  
+├── guardian_system_commander_config.json          # Tier 1 General
 ├── identity_quantum_general_config.json           # Tier 1 General
 ├── memory_systems_colonel_config.json             # Tier 2 Colonel
 ├── [15+ additional agent configs]                 # Multi-tier structure
@@ -228,7 +228,7 @@ config/
 ```
 ├── Makefile                    # Build automation
 ├── requirements.txt            # Python dependencies
-├── package.json               # Node.js dependencies  
+├── package.json               # Node.js dependencies
 ├── docker-compose.yml         # Container orchestration
 ├── azure-container-app.yaml   # Azure deployment
 └── .github/                   # CI/CD workflows
@@ -275,7 +275,7 @@ tools/
 ## 🔒 **SECURITY & COMPLIANCE**
 
 ### **Guardian Audit System (`/guardian_audit/`)**
-```  
+```
 guardian_audit/
 ├── README.md                   # Audit system overview
 └── [audit modules]             # Security monitoring
@@ -355,7 +355,7 @@ docs/
 - **LUKHAS Website**: ✅ Production-ready UI, dev server running port 3000
 - **Identity System**: ✅ WebAuthn/Passkey implementation complete
 - **QRG**: ✅ Core implementation, API endpoints active
-- **NIAS**: ✅ Architecture implemented, validation endpoints active  
+- **NIAS**: ✅ Architecture implemented, validation endpoints active
 - **DAST**: ✅ Security testing framework operational
 - **Agent Army**: ✅ 25 agents deployed and coordinated
 - **Guardian System**: ✅ v1.0.0 active with 280+ safety modules
@@ -382,7 +382,7 @@ docs/
 - Mode system fully implemented with context awareness
 - Glass morphism theme in `globals.css`
 
-### **For Backend/API Work** 
+### **For Backend/API Work**
 - API routes in `/lukhas_website/app/api/`
 - Core systems in root directories (identity, governance, etc.)
 - Configuration in `/config/`

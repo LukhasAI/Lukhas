@@ -8,7 +8,7 @@ class SimpleNeuralNetwork {
         this.container = null;
         this.animationId = null;
     }
-    
+
     init() {
         console.log('Initializing simple neural network...');
         this.createBackground();
@@ -16,7 +16,7 @@ class SimpleNeuralNetwork {
         this.createConnections();
         this.animate();
     }
-    
+
     createBackground() {
         this.container = document.createElement('div');
         this.container.style.cssText = `
@@ -30,17 +30,17 @@ class SimpleNeuralNetwork {
             overflow: hidden;
             pointer-events: none;
         `;
-        
+
         document.body.appendChild(this.container);
         console.log('Neural network background created');
     }
-    
+
     createNodes() {
         const nodeCount = 40;
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         const padding = 100;
-        
+
         for (let i = 0; i < nodeCount; i++) {
             const node = {
                 x: padding + Math.random() * (viewportWidth - 2 * padding),
@@ -50,7 +50,7 @@ class SimpleNeuralNetwork {
                 size: 3 + Math.random() * 3,
                 element: null
             };
-            
+
             // Create visual element
             node.element = document.createElement('div');
             node.element.style.cssText = `
@@ -64,14 +64,14 @@ class SimpleNeuralNetwork {
                 box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
                 z-index: 2;
             `;
-            
+
             this.container.appendChild(node.element);
             this.nodes.push(node);
         }
-        
+
         console.log(`Created ${nodeCount} nodes`);
     }
-    
+
     createConnections() {
         for (let i = 0; i < this.nodes.length; i++) {
             for (let j = i + 1; j < this.nodes.length; j++) {
@@ -83,13 +83,13 @@ class SimpleNeuralNetwork {
                         element: null,
                         opacity: Math.max(0.1, 1 - distance / 150)
                     };
-                    
+
                     connection.element = document.createElement('div');
                     connection.element.style.cssText = `
                         position: fixed;
-                        background: linear-gradient(90deg, 
-                            rgba(96, 165, 250, 0.3), 
-                            rgba(59, 130, 246, 0.5), 
+                        background: linear-gradient(90deg,
+                            rgba(96, 165, 250, 0.3),
+                            rgba(59, 130, 246, 0.5),
                             rgba(96, 165, 250, 0.3)
                         );
                         height: 1px;
@@ -97,45 +97,45 @@ class SimpleNeuralNetwork {
                         opacity: ${connection.opacity};
                         transform-origin: 0 50%;
                     `;
-                    
+
                     this.container.appendChild(connection.element);
                     this.connections.push(connection);
                     this.updateConnection(connection);
                 }
             }
         }
-        
+
         console.log(`Created ${this.connections.length} connections`);
     }
-    
+
     updateConnection(connection) {
         const distance = this.getDistance(connection.from, connection.to);
         const angle = Math.atan2(
             connection.to.y - connection.from.y,
             connection.to.x - connection.from.x
         ) * 180 / Math.PI;
-        
+
         connection.element.style.width = `${distance}px`;
         connection.element.style.left = `${connection.from.x}px`;
         connection.element.style.top = `${connection.from.y}px`;
         connection.element.style.transform = `rotate(${angle}deg)`;
     }
-    
+
     getDistance(node1, node2) {
         const dx = node1.x - node2.x;
         const dy = node1.y - node2.y;
         return Math.sqrt(dx * dx + dy * dy);
     }
-    
+
     updateNode(node) {
         const padding = 50;
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
-        
+
         // Update position
         node.x += node.vx;
         node.y += node.vy;
-        
+
         // Bounce off edges
         if (node.x <= padding || node.x >= viewportWidth - padding) {
             node.vx *= -1;
@@ -145,19 +145,19 @@ class SimpleNeuralNetwork {
             node.vy *= -1;
             node.y = Math.max(padding, Math.min(viewportHeight - padding, node.y));
         }
-        
+
         // Update visual position
         node.element.style.left = `${node.x}px`;
         node.element.style.top = `${node.y}px`;
     }
-    
+
     animate() {
         // Update all nodes
         this.nodes.forEach(node => this.updateNode(node));
-        
+
         // Update all connections
         this.connections.forEach(connection => this.updateConnection(connection));
-        
+
         // Continue animation
         this.animationId = requestAnimationFrame(() => this.animate());
     }
@@ -168,14 +168,14 @@ class DashboardIntegration {
     constructor() {
         this.activeTab = 'dashboard';
     }
-    
+
     init() {
         this.initializeIcons();
         this.setupTabNavigation();
         this.setupInteractiveElements();
         console.log('Dashboard integration initialized');
     }
-    
+
     // Initialize Lucide icons
     initializeIcons() {
         if (typeof lucide !== 'undefined') {
@@ -185,12 +185,12 @@ class DashboardIntegration {
             console.warn('Lucide icons not available');
         }
     }
-    
+
     // Setup tab navigation
     setupTabNavigation() {
         const navLinks = document.querySelectorAll('.nav-link[data-tab]');
         const tabContents = document.querySelectorAll('.tab-content');
-        
+
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -199,44 +199,44 @@ class DashboardIntegration {
             });
         });
     }
-    
+
     switchTab(targetTab, navLinks, tabContents) {
         // Remove active class from all nav items and tab contents
         navLinks.forEach(link => link.closest('.nav-item').classList.remove('active'));
         tabContents.forEach(content => content.classList.remove('active'));
-        
+
         // Add active class to clicked nav item and corresponding tab content
         const activeLink = document.querySelector(`[data-tab="${targetTab}"]`);
         const activeContent = document.getElementById(`${targetTab}-content`);
-        
+
         if (activeLink && activeContent) {
             activeLink.closest('.nav-item').classList.add('active');
             activeContent.classList.add('active');
             this.activeTab = targetTab;
         }
     }
-    
+
     // Setup interactive elements
     setupInteractiveElements() {
         this.setupDockToggles();
         this.setupCommandPalette();
         this.setupFloatingSearch();
     }
-    
+
     setupDockToggles() {
         const leftToggle = document.getElementById('left-dock-toggle');
         const rightToggle = document.getElementById('right-dock-toggle');
         const leftDock = document.getElementById('left-dock');
         const rightDock = document.getElementById('right-dock');
         const mainContent = document.querySelector('.main-content');
-        
+
         if (leftToggle && leftDock) {
             leftToggle.addEventListener('click', () => {
                 leftDock.classList.toggle('collapsed');
                 mainContent.classList.toggle('left-collapsed');
             });
         }
-        
+
         if (rightToggle && rightDock) {
             rightToggle.addEventListener('click', () => {
                 rightDock.classList.toggle('collapsed');
@@ -244,11 +244,11 @@ class DashboardIntegration {
             });
         }
     }
-    
+
     setupCommandPalette() {
         const commandPalette = document.getElementById('command-palette');
         const commandClose = document.querySelector('.command-close');
-        
+
         // Open command palette with Ctrl+K
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'k') {
@@ -259,23 +259,23 @@ class DashboardIntegration {
                     if (input) input.focus();
                 }
             }
-            
+
             if (e.key === 'Escape' && commandPalette) {
                 commandPalette.classList.remove('active');
             }
         });
-        
+
         if (commandClose) {
             commandClose.addEventListener('click', () => {
                 commandPalette.classList.remove('active');
             });
         }
     }
-    
+
     setupFloatingSearch() {
         const floatingSearch = document.getElementById('floating-search');
         const mainContent = document.querySelector('.main-content');
-        
+
         if (mainContent && floatingSearch) {
             mainContent.addEventListener('mousemove', (e) => {
                 // Show search bar when mouse is in top area
@@ -344,11 +344,11 @@ class DockManager {
     toggleDock(side) {
         const dock = side === 'left' ? this.leftDock : this.rightDock;
         const toggle = side === 'left' ? this.leftToggle : this.rightToggle;
-        
+
         if (!dock) return;
 
         const isHidden = dock.classList.contains('hidden');
-        
+
         if (isHidden) {
             this.showDock(side);
         } else {
@@ -359,11 +359,11 @@ class DockManager {
     hideDock(side) {
         const dock = side === 'left' ? this.leftDock : this.rightDock;
         const toggle = side === 'left' ? this.leftToggle : this.rightToggle;
-        
+
         if (!dock) return;
 
         dock.classList.add('hidden');
-        
+
         // Update toggle button icon
         if (toggle) {
             const icon = toggle.querySelector('i');
@@ -382,18 +382,18 @@ class DockManager {
 
         // Adjust main content margin
         this.adjustMainContentMargin();
-        
+
         console.log(`${side} dock hidden`);
     }
 
     showDock(side) {
         const dock = side === 'left' ? this.leftDock : this.rightDock;
         const toggle = side === 'left' ? this.leftToggle : this.rightToggle;
-        
+
         if (!dock) return;
 
         dock.classList.remove('hidden');
-        
+
         // Update toggle button icon
         if (toggle) {
             const icon = toggle.querySelector('i');
@@ -412,7 +412,7 @@ class DockManager {
 
         // Adjust main content margin
         this.adjustMainContentMargin();
-        
+
         console.log(`${side} dock shown`);
     }
 
@@ -457,15 +457,15 @@ class DockManager {
 // Initialize everything together
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM LOADED - Starting LUKHAS v2 System');
-    
+
     // Initialize neural network
     const neuralNet = new SimpleNeuralNetwork();
     neuralNet.init();
-    
+
     // Initialize dashboard
     const dashboard = new DashboardIntegration();
     dashboard.init();
-    
+
     // Initialize dock manager
     const dockManager = new DockManager();
     dockManager.init();
@@ -477,13 +477,13 @@ if (document.readyState === 'loading') {
 } else {
     // DOM is already loaded
     console.log('DOM ALREADY LOADED - Starting LUKHAS v2 System immediately');
-    
+
     const neuralNet = new SimpleNeuralNetwork();
     neuralNet.init();
-    
+
     const dashboard = new DashboardIntegration();
     dashboard.init();
-    
+
     const dockManager = new DockManager();
     dockManager.init();
 }

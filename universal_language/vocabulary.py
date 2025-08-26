@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 class DomainVocabulary:
     """
     Domain-specific vocabulary collection.
-    
+
     Consolidates vocabularies from /symbolic/vocabularies/ and /core/symbolic/.
     """
     domain: SymbolicDomain
@@ -443,7 +443,7 @@ class VocabularyManager:
 class UnifiedVocabulary:
     """
     Unified vocabulary system combining all domain vocabularies.
-    
+
     This is the main interface for vocabulary operations.
     """
 

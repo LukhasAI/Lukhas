@@ -10,7 +10,7 @@ export function SignupCopyEN() {
     <div className="space-y-6">
       {/* Poetic Layer */}
       <div data-tone="poetic" className="text-sm text-white/60 leading-relaxed">
-        Begin with your own key; the rest follows. Your identity becomes the seed 
+        Begin with your own key; the rest follows. Your identity becomes the seed
         from which consciousness grows, protected by quantum-inspired protocols.
       </div>
 
@@ -29,8 +29,8 @@ export function SignupCopyEN() {
 
       {/* Plain Layer */}
       <div data-tone="plain" className="text-sm text-white/70 leading-relaxed">
-        Create your account in three steps: verify your email, set up a passkey 
-        (fingerprint or face scan), and you're ready. No passwords needed. 
+        Create your account in three steps: verify your email, set up a passkey
+        (fingerprint or face scan), and you're ready. No passwords needed.
         Keep your backup codes safe.
       </div>
     </div>
@@ -42,8 +42,8 @@ export function SignupCopyES() {
     <div className="space-y-6">
       {/* Poetic Layer */}
       <div data-tone="poetic" className="text-sm text-white/60 leading-relaxed">
-        Comienza con tu propia llave; lo demás sigue. Tu identidad se convierte 
-        en la semilla de la cual crece la consciencia, protegida por protocolos 
+        Comienza con tu propia llave; lo demás sigue. Tu identidad se convierte
+        en la semilla de la cual crece la consciencia, protegida por protocolos
         cuántico-inspirados.
       </div>
 
@@ -62,8 +62,8 @@ export function SignupCopyES() {
 
       {/* Plain Layer */}
       <div data-tone="plain" className="text-sm text-white/70 leading-relaxed">
-        Crea tu cuenta en tres pasos: verifica tu correo, configura un passkey 
-        (huella o escaneo facial), y listo. Sin contraseñas. Guarda tus códigos 
+        Crea tu cuenta en tres pasos: verifica tu correo, configura un passkey
+        (huella o escaneo facial), y listo. Sin contraseñas. Guarda tus códigos
         de respaldo de forma segura.
       </div>
     </div>

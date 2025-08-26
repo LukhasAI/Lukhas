@@ -103,8 +103,8 @@ class EcosystemReinforcer:
 
         # Define needed bridges based on harmony audit
         bridges_needed = [
-            ("qim", "governance", "quantum_governance_bridge.py"),
-            ("qim", "bridge", "quantum_api_bridge.py"),
+            ("qim", "governance", "qi_governance_bridge.py"),
+            ("qim", "bridge", "qi_api_bridge.py"),
             ("emotion", "governance", "emotion_ethics_bridge.py"),
             ("consciousness", "qim", "consciousness_quantum_bridge.py"),
             ("memory", "governance", "memory_governance_bridge.py"),

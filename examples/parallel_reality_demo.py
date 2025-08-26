@@ -10,11 +10,11 @@ from collections import defaultdict
 from datetime import datetime
 from typing import Any, Dict
 
+from core.common import get_logger
 from lukhas.consciousness.dream.parallel_reality_simulator import (
     ParallelRealitySimulator,
     RealityType,
 )
-from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -33,7 +33,7 @@ class ParallelRealityDemo:
                 "max_branches": 8,
                 "max_depth": 4,
                 "ethical_threshold": 0.4,
-                "quantum_seed": 42,  # Reproducible results
+                "qi_seed": 42,  # Reproducible results
             }
         )
 
@@ -104,7 +104,7 @@ class ParallelRealityDemo:
 
         # Create quantum simulation
         origin = {
-            "quantum_state": "superposition",
+            "qi_state": "superposition",
             "energy_level": 1.0,
             "coherence": 0.8,
             "entangled_particles": 3,
@@ -122,7 +122,7 @@ class ParallelRealityDemo:
             print(f"\n  Branch {i+1}: {branch.branch_id}")
             print(f"    Probability: {branch.probability:.3f}")
             print(
-                f"    Quantum shift: {branch.divergence_point.get('quantum_shift', 0):.3f}"
+                f"    Quantum shift: {branch.divergence_point.get('qi_shift', 0):.3f}"
             )
             print(f"    Coherence: {branch.divergence_point.get('coherence', 0):.3f}")
 
@@ -140,7 +140,7 @@ class ParallelRealityDemo:
 
         self.demo_results.append(
             {
-                "demo": "quantum_branching",
+                "demo": "qi_branching",
                 "simulation_id": simulation.simulation_id,
                 "branches_created": len(simulation.branches) + len(sub_branches),
             }

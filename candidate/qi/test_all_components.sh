@@ -22,7 +22,7 @@ RESULTS=""
 test_component() {
     local name="$1"
     local cmd="$2"
-    
+
     echo -e "${YELLOW}Testing: $name${NC}"
     if eval "$cmd" > /dev/null 2>&1; then
         echo -e "${GREEN}✅ $name passed${NC}\n"

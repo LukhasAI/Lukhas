@@ -15,20 +15,20 @@ Demo Structure:
   Frontend: React + Three.js for multiverse visualization
   Backend: FastAPI (already implemented)
   Runtime: Docker container for easy deployment
-  
+
 Key Features to Showcase:
   - Multiverse Branching: Show 5 parallel scenarios from single input
   - Quantum Coherence: Display coherence scores exceeding 100%
   - Emotional Evolution: Visualize emotional trajectories across universes
   - Integration Example: Live demo with GPT/Claude API integration
-  
+
 Demo Flow:
   1. User inputs scenario: "How should I handle a difficult customer?"
   2. LUKHAS explores 5 parallel universes simultaneously
   3. Show emotional evolution graphs for each universe
   4. Display convergence patterns and emergent insights
   5. Compare with single-path GPT/Claude response
-  
+
 Performance Metrics:
   - Response time: <500ms for 5 universes
   - Coherence score: Show 102.22% bio-symbolic alignment
@@ -54,13 +54,13 @@ Demo Structure:
     - Emotional vector coloring (joy=gold, sadness=blue, etc.)
     - Causal chain visualization with connecting strands
     - Quantum entanglement between related memories
-    
+
 Interactive Elements:
   - Click memory node: Show full context + emotional state
   - Drag timeline: See memory evolution over time
   - Search bar: Find memories by content/emotion
   - Entanglement view: Show quantum correlations
-  
+
 Live Demonstration:
   1. Create new memory with emotional context
   2. Show it joining the helix in real-time
@@ -83,14 +83,14 @@ Demo Components:
   Visual: Animated circular QR with consciousness adaptation
   Security: Live zero-knowledge proof demonstration
   Integration: WebAuthn/FIDO2 compliance
-  
+
 Demo Flow:
   1. User enters: "carrot cake + lioness" (memorable phrase)
   2. Generate animated circular QRG in real-time
   3. Show consciousness adaptation (calm → focused states)
   4. Demonstrate authentication without revealing secret
   5. Display tier-based access granted
-  
+
 Technical Highlights:
   - Post-quantum cryptography (CRYSTALS-Kyber)
   - Steganographic data embedding visualization
@@ -113,13 +113,13 @@ Demo Setup:
   Input: Text or voice emotional content
   Processing: Real-time hormonal state calculation
   Output: Coherence score + response modulation
-  
+
 Visual Dashboard:
   - Hormonal levels (cortisol, dopamine, serotonin, oxytocin)
   - Emotional vector in 3D space (VAD model)
   - Coherence meter (showing >100% achievement)
   - Response modulation suggestions
-  
+
 Integration Example:
   1. Feed GPT/Claude response into system
   2. Show emotional analysis and coherence score
@@ -143,7 +143,7 @@ Visualization:
   - Real-time consensus formation animation
   - Echo chamber detection highlighting
   - Emergent insight notifications
-  
+
 Demo Scenario:
   "Should we pivot our startup's direction?"
   - Spawn 6 agent types (dreamers, critics, validators...)

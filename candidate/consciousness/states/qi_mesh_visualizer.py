@@ -13,7 +13,7 @@ Quantum Ethics Mesh Visual Debugger - ΛMESH VIS
 Visual inspection and debugging interface for Quantum Ethics Mesh Integrator
 
 ΛTAG: QUANTUM_MESH_VIS
-MODULE_ID: ethics.tools.quantum_mesh_visualizer
+MODULE_ID: ethics.tools.qi_mesh_visualizer
 """
 
 import argparse
@@ -53,12 +53,12 @@ except ImportError:
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 try:
-    from ethics.quantum_mesh_integrator import (
-        QuantumEthicsMeshIntegrator,
+    from ethics.qi_mesh_integrator import (
+        QIEthicsMeshIntegrator,
     )
 except ImportError:
-    print("Warning: Could not import QuantumEthicsMeshIntegrator")
-    QuantumEthicsMeshIntegrator = None
+    print("Warning: Could not import QIEthicsMeshIntegrator")
+    QIEthicsMeshIntegrator = None
 
 logging.basicConfig(level=logging.INFO)
 logger = get_logger(__name__)
@@ -117,7 +117,7 @@ class QIMeshVisualizer:
             f"Loading entanglement data: log_path={log_path}, live_mode={live_mode}"
         )
 
-        if live_mode and QuantumEthicsMeshIntegrator:
+        if live_mode and QIEthicsMeshIntegrator:
             return self._load_live_data()
         elif log_path and Path(log_path).exists():
             return self._load_from_logs(log_path)
@@ -127,7 +127,7 @@ class QIMeshVisualizer:
 
     def _load_live_data(self) -> dict[str, Any]:
         """Load data from live quantum mesh integrator"""
-        integrator = QuantumEthicsMeshIntegrator()
+        integrator = QIEthicsMeshIntegrator()
 
         # Generate sample states for live demo
         sample_states = {
@@ -733,7 +733,7 @@ class QIMeshVisualizer:
 
         # Save dashboard
         if not output_path:
-            output_path = str(self.output_dir / "quantum_mesh_dashboard.html")
+            output_path = str(self.output_dir / "qi_mesh_dashboard.html")
 
         pyo.plot(fig, filename=output_path, auto_open=False)
         logger.info(f"Interactive dashboard saved to {output_path}")
@@ -749,7 +749,7 @@ class QIMeshVisualizer:
         html_content = self._create_html_template(data)
 
         if not output_path:
-            output_path = str(self.output_dir / "quantum_mesh_dashboard.html")
+            output_path = str(self.output_dir / "qi_mesh_dashboard.html")
 
         with open(output_path, "w") as f:
             f.write(html_content)
@@ -1009,10 +1009,10 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python3 quantum_mesh_visualizer.py --mode heatmap
-  python3 quantum_mesh_visualizer.py --mode sync --window 24h
-  python3 quantum_mesh_visualizer.py --export ./mesh_snapshots/day7_summary.md
-  python3 quantum_mesh_visualizer.py --dashboard --live
+  python3 qi_mesh_visualizer.py --mode heatmap
+  python3 qi_mesh_visualizer.py --mode sync --window 24h
+  python3 qi_mesh_visualizer.py --export ./mesh_snapshots/day7_summary.md
+  python3 qi_mesh_visualizer.py --dashboard --live
         """,
     )
 

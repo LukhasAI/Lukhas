@@ -58,7 +58,7 @@ class DreamRecallResponse(BaseModel):
     timestamp: str
     original_scenario: str
     scenarios: list[DreamOutcome]
-    quantum_coherence: float = Field(..., ge=0, description="Quantum coherence score")
+    qi_coherence: float = Field(..., ge=0, description="Quantum coherence score")
     dream_depth: int = Field(..., description="How deep the dream exploration went")
     insights: list[str] = Field(..., description="Key insights from dream exploration")
 
@@ -67,7 +67,7 @@ class LUKHASDreamEngine:
     """Core dream engine that generates parallel scenarios"""
 
     def __init__(self):
-        self.quantum_state = np.random.RandomState(42)  # For reproducibility in demos
+        self.qi_state = np.random.RandomState(42)  # For reproducibility in demos
 
     async def explore_multiverse(self, scenario: DreamScenario) -> list[DreamOutcome]:
         """Explore multiple parallel outcomes through dream states"""
@@ -75,7 +75,7 @@ class LUKHASDreamEngine:
 
         for i in range(scenario.parallel_universes):
             # Simulate quantum branching
-            universe_id = f"u{i+1}_q{self.quantum_state.randint(1000)}"
+            universe_id = f"u{i+1}_q{self.qi_state.randint(1000)}"
 
             # Generate unique outcome based on quantum fluctuations
             outcome = await self._generate_outcome(
@@ -229,7 +229,7 @@ async def dream_recall(scenario: DreamScenario):
             timestamp=datetime.now().isoformat(),
             original_scenario=scenario.scenario,
             scenarios=dream_outcomes,
-            quantum_coherence=coherence,
+            qi_coherence=coherence,
             dream_depth=len(dream_outcomes[0].path) if dream_outcomes else 0,
             insights=insights,
         )
@@ -340,7 +340,7 @@ async def health_check():
     return {
         "status": "healthy",
         "dream_engine": "active",
-        "quantum_coherence": "optimal",
+        "qi_coherence": "optimal",
     }
 
 

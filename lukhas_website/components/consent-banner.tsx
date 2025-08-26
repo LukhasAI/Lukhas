@@ -25,7 +25,7 @@ export default function ConsentBanner() {
       setBudget(b ?? { costUSD: isNaN(defCost) ? 0.5 : defCost, timeMs: isNaN(defTime) ? 30000 : defTime });
     } catch {}
   }, [consentKey, budgetKey]);
-  
+
   useEffect(() => {
     const onReq = () => {
       setConsent((c) => {

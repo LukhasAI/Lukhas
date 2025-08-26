@@ -12,12 +12,12 @@ Reference: `reality_check_phase_1_and_beyond.md` lines 1-110, `phase_beyond.md` 
 
 1. **CRITICAL SECURITY - Remove exposed API keys**
    - [ ] Remove .env from git tracking
-   - [ ] Add .env to .gitignore  
+   - [ ] Add .env to .gitignore
    - [ ] Purge API keys from git history
    - [ ] Create .env.example with safe defaults
    - [ ] **ROTATE ALL EXPOSED KEYS AT PROVIDERS**
 
-2. **AST-based Acceptance Gate** 
+2. **AST-based Acceptance Gate**
    Reference: `reality_check_phase_1_and_beyond.md` lines 11-110
    - [ ] Replace tools/acceptance_gate.py with AST version
    - [ ] Verify it catches ALL existing violations
@@ -25,7 +25,7 @@ Reference: `reality_check_phase_1_and_beyond.md` lines 1-110, `phase_beyond.md` 
 
 3. **Fix Illegal Imports with Registry Pattern**
    Reference: `reality_check_phase_1_and_beyond.md` lines 119-157, `phase_beyond.md` lines 55-101
-   - [ ] Fix lukhas/core/core_wrapper.py 
+   - [ ] Fix lukhas/core/core_wrapper.py
    - [ ] Fix lukhas/governance/guardian/guardian_impl.py
    - [ ] NO static imports from candidate/ in accepted/
 

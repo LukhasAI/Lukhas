@@ -1,6 +1,6 @@
 /**
  * ΛiD Authentication System - TypeScript Type Definitions
- * 
+ *
  * Comprehensive type definitions for LUKHAS authentication system
  * Integrates with LUKHAS Trinity Framework (⚛️🧠🛡️)
  */
@@ -27,40 +27,40 @@ export type UserStatus = 'active' | 'suspended' | 'locked' | 'deleted';
 /**
  * Authentication scopes for permission management
  */
-export type AuthScope = 
+export type AuthScope =
   // MATRIZ Core Access
   | 'matriz:read'
   | 'matriz:write'
   | 'matriz:admin'
-  
+
   // Identity Management
   | 'identity:read'
   | 'identity:write'
   | 'identity:admin'
   | 'identity:impersonate'
-  
+
   // Orchestration & AI
   | 'orchestrator:run'
   | 'orchestrator:debug'
   | 'orchestrator:admin'
-  
+
   // API Management
   | 'api:keys:read'
   | 'api:keys:write'
   | 'api:keys:delete'
   | 'api:keys:admin'
-  
+
   // Organization Management
   | 'org:read'
   | 'org:settings'
   | 'org:members'
   | 'org:admin'
-  
+
   // Billing & Commerce
   | 'billing:read'
   | 'billing:manage'
   | 'billing:admin'
-  
+
   // Consciousness & Memory Systems
   | 'consciousness:read'
   | 'consciousness:write'
@@ -68,12 +68,12 @@ export type AuthScope =
   | 'memory:read'
   | 'memory:write'
   | 'memory:admin'
-  
+
   // Guardian & Ethics
   | 'guardian:read'
   | 'guardian:configure'
   | 'guardian:override'
-  
+
   // System Administration
   | 'system:monitor'
   | 'system:admin'
@@ -884,12 +884,12 @@ export type {
   UserStatus,
   AuthScope,
   Permission,
-  
+
   // User types
   User,
   CreateUserData,
   UpdateUserData,
-  
+
   // JWT types
   JWTHeader,
   JWTPayload,
@@ -898,12 +898,12 @@ export type {
   JWTOptions,
   JWKSResponse,
   RefreshTokenData,
-  
+
   // Rate limiting types
   RateLimitConfig,
   RateLimitWindow,
   RateLimitResult,
-  
+
   // Passkey types
   PasskeyCredential,
   PasskeyRegistrationOptions,
@@ -911,14 +911,14 @@ export type {
   PasskeyRegistrationResult,
   PasskeyAuthenticationResult,
   PasskeyValidationResult,
-  
+
   // Magic link types
   MagicLinkOptions,
   MagicLinkResult,
   MagicLinkValidationResult,
   ThrottleConfig,
   MagicLinkToken,
-  
+
   // Verification code types
   VerificationCodeOptions,
   VerificationCodeResult,
@@ -984,36 +984,36 @@ export interface VerificationCodeEntry {
   expiresAt: string;
   metadata: Record<string, any>;
 }
-  
+
   // Session types
   Session,
   DeviceHandle,
   BackupCode,
-  
+
   // Security event types
   SecurityEventSeverity,
   SecurityEventCategory,
   SecurityEvent,
-  
+
   // OAuth types
   OAuthApplication,
   OAuthAuthorizationCode,
-  
+
   // API types
   ApiResponse,
   PaginatedResponse,
   AuthResponse,
   LoginRequest,
   RegistrationRequest,
-  
+
   // Middleware types
   AuthContext,
   PermissionCheckOptions,
   RateLimitCheckOptions,
-  
+
   // Configuration types
   AuthConfig,
-  
+
   // Utility types
   PartialUpdate,
   DatabaseEntity,

@@ -4,7 +4,7 @@
 export function normalizeEmail(email: string): string {
   // Convert to lowercase and trim whitespace
   let normalized = email.toLowerCase().trim();
-  
+
   // Handle Gmail plus addressing and dots
   const [localPart, domain] = normalized.split('@');
   if (domain === 'gmail.com' || domain === 'googlemail.com') {
@@ -12,7 +12,7 @@ export function normalizeEmail(email: string): string {
     const cleanLocal = localPart.split('+')[0].replace(/\./g, '');
     normalized = `${cleanLocal}@gmail.com`;
   }
-  
+
   return normalized;
 }
 
@@ -23,23 +23,23 @@ export function normalizeEmail(email: string): string {
 export function normalizePhoneE164(phone: string): string {
   // Remove all non-digit characters
   let digits = phone.replace(/\D/g, '');
-  
+
   // Handle US numbers (10 digits without country code)
   if (digits.length === 10) {
     digits = '1' + digits;
   }
-  
+
   // Ensure it starts with + for E.164
   if (!digits.startsWith('1') && digits.length === 11) {
     // Assume US number with country code
     return '+' + digits;
   }
-  
+
   // For international numbers, just clean and add +
   if (digits.length > 10) {
     return '+' + digits;
   }
-  
+
   // Return as-is if we can't normalize
   return '+' + digits;
 }

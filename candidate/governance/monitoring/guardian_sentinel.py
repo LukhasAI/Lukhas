@@ -9,12 +9,13 @@ full governance integration and Trinity Framework (⚛️🧠🛡️) awareness.
 import asyncio
 import json
 import logging
+import time
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Dict, List, Optional
+
 import websockets
-import time
 
 from ..common import GlyphIntegrationMixin
 
@@ -60,16 +61,16 @@ class ThreatIndicator:
 class GuardianSentinel(GlyphIntegrationMixin):
     """
     Enhanced Guardian Sentinel with governance integration and Trinity Framework monitoring
-    
+
     Monitors system health, detects threats to stability, and triggers interventions
     with comprehensive governance oversight and Trinity Framework awareness.
     """
 
     # Enhanced severity thresholds with governance considerations
     SEVERITY_LEVELS = {
-        "low": 0.3, 
-        "medium": 0.5, 
-        "high": 0.7, 
+        "low": 0.3,
+        "medium": 0.5,
+        "high": 0.7,
         "critical": 0.9,
         "governance_critical": 0.85,
         "trinity_critical": 0.95
@@ -186,7 +187,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 current_drift = self._read_current_drift()
                 governance_factor = self._get_governance_influence_on_drift()
                 adjusted_drift = current_drift * (1.0 + governance_factor)
-                
+
                 self.drift_history.append({
                     "value": adjusted_drift,
                     "raw_value": current_drift,
@@ -233,7 +234,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 current_entropy = self._read_current_entropy()
                 trinity_entropy_factor = self._calculate_trinity_entropy_factor()
                 adjusted_entropy = current_entropy * (1.0 + trinity_entropy_factor)
-                
+
                 self.entropy_history.append({
                     "value": adjusted_entropy,
                     "raw_value": current_entropy,
@@ -280,7 +281,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 pattern_coherence = self._read_pattern_coherence()
                 symbolic_integrity = self._assess_symbolic_integrity()
                 combined_coherence = (pattern_coherence + symbolic_integrity) / 2
-                
+
                 self.pattern_history.append({
                     "coherence": combined_coherence,
                     "pattern_coherence": pattern_coherence,
@@ -323,7 +324,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 current_state = self._read_consciousness_state()
                 coherence_level = self._assess_consciousness_coherence()
                 trinity_alignment = self._check_consciousness_trinity_alignment()
-                
+
                 self.consciousness_history.append({
                     "state": current_state,
                     "coherence": coherence_level,
@@ -336,7 +337,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                     recent_states = [h["state"] for h in list(self.consciousness_history)[-10:]]
                     unique_states = len(set(recent_states))
                     instability = unique_states / 10.0
-                    
+
                     # Factor in coherence and Trinity alignment
                     adjusted_instability = instability * (2.0 - coherence_level) * (2.0 - trinity_alignment)
 
@@ -379,7 +380,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 governance_health = self._assess_governance_health()
                 policy_compliance = self._check_policy_compliance()
                 escalation_efficiency = self._calculate_escalation_efficiency()
-                
+
                 self.governance_history.append({
                     "health": governance_health,
                     "policy_compliance": policy_compliance,
@@ -422,7 +423,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 sync_level = self._calculate_trinity_sync_level()
                 component_health = self._get_trinity_component_health()
                 cross_impact = self._assess_trinity_cross_impact()
-                
+
                 self.trinity_sync_history.append({
                     "sync_level": sync_level,
                     "component_health": component_health,
@@ -465,7 +466,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 identity_integrity = self._assess_identity_integrity()
                 auth_system_health = self._check_auth_system_health()
                 identity_coherence = self._calculate_identity_coherence()
-                
+
                 self.identity_health_history.append({
                     "integrity": identity_integrity,
                     "auth_health": auth_system_health,
@@ -513,7 +514,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
                 guardian_effectiveness = self._assess_guardian_effectiveness()
                 protection_coverage = self._calculate_protection_coverage()
                 response_capability = self._check_response_capability()
-                
+
                 self.guardian_health_history.append({
                     "effectiveness": guardian_effectiveness,
                     "coverage": protection_coverage,
@@ -692,7 +693,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             "expected_result": "Drift rate reduction",
             "governance_approved": self.governance_enabled,
             "trinity_adjustments": {
-                comp: max(0.1, 1.0 - impact) 
+                comp: max(0.1, 1.0 - impact)
                 for comp, impact in threat.trinity_impact.items()
             }
         }
@@ -991,7 +992,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
 async def demo_enhanced_sentinel():
     """Demonstrate Enhanced Guardian Sentinel with governance and Trinity Framework"""
     sentinel = GuardianSentinel(
-        alert_threshold=0.5, 
+        alert_threshold=0.5,
         monitoring_interval=2,
         governance_enabled=True
     )

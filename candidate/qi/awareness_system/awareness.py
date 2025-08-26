@@ -6,7 +6,7 @@
 #              system awareness, monitoring, and health checks.
 #              Serves as an #AINTEROP and #ΛBRIDGE point for these paradigms.
 # DEPENDENCIES: structlog, asyncio, typing, datetime,
-#               .qi_bio_components, ...quantum_processing, ...bio_core
+#               .qi_bio_components, ...qi_processing, ...bio_core
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
@@ -25,13 +25,13 @@ logger = structlog.get_logger("ΛTRACE.core.integration.bio_awareness.Awareness"
 # AIMPORT_TODO: Review deep relative imports for robustness and potential refactoring
 # into more accessible shared libraries or services.
 try:
-    from ...bio_core.oscillator.quantum_inspired_layer import (
+    from ...bio_core.oscillator.qi_inspired_layer import (
         QIBioOscillator,
     )
 
     # ΛNOTE: The following imports indicate dependencies on potentially
     # complex or distant modules.
-    from ...quantum.quantum_processing.qi_engine import QuantumOscillator
+    from ...qi.qi_processing.qi_engine import QIOscillator
     from .qi_bio_components import (
         CardiolipinEncoder,
         CristaFilter,
@@ -90,7 +90,7 @@ class EnhancedSystemAwareness:
 
         # Initialize quantum components
         try:
-            self.quantum_oscillator = QuantumOscillator()
+            self.qi_oscillator = QIOscillator()
             self.bio_oscillator = QIBioOscillator()
             self.logger.debug("Quantum and Bio oscillators initialized.")
         except Exception as e:
@@ -98,15 +98,15 @@ class EnhancedSystemAwareness:
                 "Error initializing core oscillators.", error=str(e), exc_info=True
             )
             # ΛCAUTION: Core oscillator initialization failed. System may be unstable.
-            self.quantum_oscillator = None  # type: ignore
+            self.qi_oscillator = None  # type: ignore
             self.bio_oscillator = None  # type: ignore
 
         # Initialize bio components
         # ΛNOTE: Bio-component initialization relies on successful oscillator init.
         try:
             self.proton_gradient = (
-                ProtonGradient(self.quantum_oscillator)
-                if self.quantum_oscillator
+                ProtonGradient(self.qi_oscillator)
+                if self.qi_oscillator
                 else None
             )
             self.attention_gate = (
@@ -305,7 +305,7 @@ class EnhancedSystemAwareness:
 # CLASSES: EnhancedSystemAwareness.
 # DECORATORS: None.
 # DEPENDENCIES: structlog, asyncio, typing, datetime, .qi_bio_components,
-#               ...quantum_processing.qi_engine, ...bio_core.oscillator.quantum_inspired_layer.
+#               ...qi_processing.qi_engine, ...bio_core.oscillator.qi_inspired_layer.
 # INTERFACES: Public methods of EnhancedSystemAwareness class, primarily `monitor_system`.
 # ERROR HANDLING: Basic error logging. Placeholder error handling method.
 #                 Graceful degradation for missing optional components during initialization.

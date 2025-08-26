@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-import os, pathlib, json, re
+import json
+import pathlib
+import re
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 LANES = {
     "accepted": ROOT / "lukhas",

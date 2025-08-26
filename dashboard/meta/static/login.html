@@ -247,17 +247,17 @@
             <div class="logo">
                 <div class="trinity-glyphs">⚛️🧠🛡️</div>
             </div>
-            
+
             <h1>LUKHΛS Identity</h1>
             <p class="subtitle">Trinity Framework Authentication</p>
 
             <form id="loginForm">
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
                         placeholder="reviewer@openai.com"
                         required
                         autocomplete="email"
@@ -266,10 +266,10 @@
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
                         placeholder="Enter your password"
                         required
                         autocomplete="current-password"
@@ -317,7 +317,7 @@
         // Handle login form submission
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const loading = document.getElementById('loading');
@@ -350,7 +350,7 @@
                     localStorage.setItem('lukhas_token', data.token);
                     localStorage.setItem('lukhas_tier', data.tier);
                     localStorage.setItem('lukhas_glyphs', JSON.stringify(data.glyphs));
-                    
+
                     // Show success message
                     message.textContent = `Welcome! ${data.glyphs.join(' ')} Access granted.`;
                     message.className = 'message success';
@@ -383,7 +383,7 @@
         document.querySelector('.info-box').addEventListener('click', () => {
             document.getElementById('email').value = 'reviewer@openai.com';
             document.getElementById('password').value = 'demo_password';
-            
+
             // Visual feedback
             const infoBox = document.querySelector('.info-box');
             infoBox.style.transform = 'scale(0.98)';

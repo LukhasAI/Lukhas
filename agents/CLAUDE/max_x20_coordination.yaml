@@ -145,7 +145,7 @@ communication_channels:
   primary:
     type: "shared_workspace"
     location: "CLAUDE_ARMY/coordination/channels/"
-  
+
   contracts:
     identity: "coordination/contracts/identity_contract.yaml"
     consent: "coordination/contracts/consent_contract.yaml"
@@ -194,7 +194,7 @@ success_metrics:
     context_handoff: "< 250ms ✓"
     total_workflow: "< 10s ✓"
     uptime: "> 99.9% ✓"
-  
+
   business:
     mvp_demo_ready: true
     cost_per_month: "$200"

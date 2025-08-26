@@ -1,0 +1,5 @@
+# Tests and fixtures require human review
+/tests/**                          @gonzo.dominguez
+/**/tests/**                       @gonzo.dominguez
+/mocks/**                          @gonzo.dominguez
+/**/conftest.py                    @gonzo.dominguez

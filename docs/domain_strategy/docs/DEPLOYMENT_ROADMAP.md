@@ -68,7 +68,7 @@ export class LukhasID {
   async signIn(credentials) {
     // Unified SSO logic
   }
-  
+
   async validateQRGlyph(glyph) {
     // QR authentication
   }
@@ -160,7 +160,7 @@ spec:
 ### 1. Enterprise Chat Widget
 ```html
 <!-- Add to lukhas.ai -->
-<iframe 
+<iframe
   src="/team_dashboards/lambda_bot_enterprise_chat.html"
   class="chat-widget"
   style="position: fixed; bottom: 20px; right: 20px; width: 400px; height: 600px;"

@@ -127,11 +127,11 @@ class LambdaIdentity:
         self.namespace_manager = NamespaceManager()
         self.credential_vault = SecureVault()
         self.auth_engine = AuthenticationEngine()
-        
+
     async def authenticate(self, credentials, tier='T2'):
         # Namespace isolation
         namespace = self.namespace_manager.resolve(credentials.domain)
-        
+
         # Tiered authentication
         if tier == 'T1':
             result = await self.basic_auth(credentials)
@@ -139,7 +139,7 @@ class LambdaIdentity:
             result = await self.enhanced_auth(credentials)
         elif tier == 'T3':
             result = await self.consciousness_auth(credentials)
-            
+
         # Generate ΛID token
         if result.success:
             return self.generate_lid_token(result.identity, namespace)
@@ -149,11 +149,11 @@ class WebAuthnManager:
     def __init__(self):
         self.rp_id = "lukhas.ai"
         self.credential_store = CredentialStore()
-        
+
     async def register_passkey(self, user_id):
         # Generate challenge
         challenge = secrets.token_bytes(32)
-        
+
         # Create credential options
         options = {
             'rp': {'id': self.rp_id, 'name': 'LUKHAS AI'},

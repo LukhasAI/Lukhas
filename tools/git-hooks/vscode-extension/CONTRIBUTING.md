@@ -13,7 +13,7 @@ Found something that doesn't feel right? Help us improve:
 - Provide steps to reproduce
 - Share screenshots or screen recordings when helpful
 
-### ✨ Feature Requests  
+### ✨ Feature Requests
 Have an idea that would make Consciousness Hooks even more magical?
 - Describe the feature in terms of user benefit
 - Explain how it fits with our consciousness-aware philosophy
@@ -37,7 +37,7 @@ Help others discover the magic:
 ## 🏗️ Development Setup
 
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 18+
 - VS Code 1.80+
 - Git
 
@@ -131,7 +131,7 @@ consciousness-hooks/
 ### PR Template
 We'll provide a template, but generally include:
 - **What**: Brief description of changes
-- **Why**: Motivation and context for changes  
+- **Why**: Motivation and context for changes
 - **How**: Technical approach and design decisions
 - **Testing**: How you verified the changes work
 - **Screenshots**: Visual changes benefit from images

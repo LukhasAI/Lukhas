@@ -34,13 +34,12 @@ from lazy_loading_embeddings import (
     LazyEmbeddingLoader,
     create_lazy_embedding_system,
 )
+from memory_fold_system import MemoryFoldSystem, MemoryItem
 from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
 from optimized_memory_item import (
     OptimizedMemoryItem,
     create_optimized_memory,
 )
-
-from memory_fold_system import MemoryFoldSystem, MemoryItem
 
 
 def create_hybrid_memory_fold(

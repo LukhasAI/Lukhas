@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const bgEnabled = process.env.NEXT_PUBLIC_BG_ENABLED !== 'false'
-  
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="text-white antialiased">

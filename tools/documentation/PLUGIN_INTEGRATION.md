@@ -35,7 +35,7 @@ DocuTutor is an intelligent documentation and tutoring plugin that leverages Luk
 
 ### 1. Symbolic Knowledge Core (SKC)
 - **Purpose:** Knowledge representation and reasoning engine
-- **Lukhas Integration:** 
+- **Lukhas Integration:**
   - Uses Lukhas's symbolic processing patterns
   - Implements Memory Helix for knowledge evolution
   - Preserves Lukhas's safety-first approach

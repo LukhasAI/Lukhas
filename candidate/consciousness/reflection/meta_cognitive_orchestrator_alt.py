@@ -35,7 +35,7 @@ into the ABot platform to create next-generation AI capabilities.
 
 Key Integration Points:
 1. MetaCognitiveOrchestrator -> ABot enterprise reasoning engine
-2. QuantumInspiredAttention -> Premium attention mechanisms
+2. QIInspiredAttention -> Premium attention mechanisms
 3. SymbolicEngine -> Advanced logic processing for Pro users
 4. ComplianceEngine -> Enterprise safety & governance
 5. EnhancedAGIBot -> Core AI capabilities for commercial platform
@@ -897,7 +897,7 @@ class MetaCognitiveOrchestrator:
                         rec["target"] == "attention"
                         and "attention" not in self.components
                     ):
-                        self.components["attention"] = QuantumInspiredAttention()
+                        self.components["attention"] = QIInspiredAttention()
                         modification["status"] = "successful"
 
                 self.metacognitive_state["last_self_modification"] = modification[
@@ -1013,7 +1013,7 @@ class EnhancedAGIBot:
         self.initialization_time = datetime.now()
 
         # Initialize core components
-        self.attention_mechanism = QuantumInspiredAttention()
+        self.attention_mechanism = QIInspiredAttention()
         self.causal_reasoning = CausalReasoningModule()
         self.symbolic_engine = SymbolicEngine()
         self.compliance_engine = ComplianceEngine()

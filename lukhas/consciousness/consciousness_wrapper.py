@@ -18,13 +18,12 @@ Author: LUKHAS AI Consciousness Systems Architect
 Version: 1.0.0
 """
 
-import asyncio
 import os
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union, Protocol
+from typing import Any, Dict, List, Optional, Protocol
 
 try:
     from ..observability.matriz_decorators import matriz_trace
@@ -44,13 +43,13 @@ except ImportError:
     # Fallback classes for development
     from dataclasses import dataclass
     from enum import Enum
-    
+
     class EthicalSeverity(Enum):
         LOW = "low"
         MEDIUM = "medium"
         HIGH = "high"
         CRITICAL = "critical"
-    
+
     @dataclass
     class EthicalDecision:
         allowed: bool
@@ -59,7 +58,7 @@ except ImportError:
         confidence: float = 0.0
         recommendations: Optional[List[str]] = None
         drift_score: Optional[float] = None
-    
+
     GUARDIAN_AVAILABLE = False
 
 try:
@@ -141,57 +140,57 @@ class ConsciousnessState:
 class ConsciousnessWrapper:
     """
     Production-safe wrapper for LUKHAS consciousness capabilities
-    
+
     Provides controlled access to consciousness processing with comprehensive
     safety measures and Trinity Framework integration.
     """
-    
+
     def __init__(self, config: Optional[ConsciousnessConfig] = None):
         """Initialize consciousness wrapper with safety-first configuration"""
         self.config = config or ConsciousnessConfig()
         self.state = ConsciousnessState(safety_mode=self.config.safety_mode)
         self.session_id = f"consciousness_{int(time.time())}"
         self.candidate_system = None  # Will load if activated
-        
+
         # Initialize only if enabled
         if CONSCIOUSNESS_ACTIVE and self.config.safety_mode != SafetyMode.DRY_RUN:
             self._initialize_candidate_system()
-    
+
     def _initialize_candidate_system(self):
         """Lazy initialization of candidate consciousness system"""
         # System is now loaded from registry instead of static import
         # Implementations register themselves at runtime
         self.candidate_system = _CONSCIOUSNESS_REGISTRY.get("default")
-    
+
     @matriz_trace("consciousness.check_awareness")
     async def check_awareness(self, stimulus: Dict[str, Any], mode: str = "dry_run") -> Dict[str, Any]:
         """
         Check awareness level for given stimulus
-        
+
         Args:
             stimulus: Input data to assess awareness for
             mode: Operation mode ("dry_run", "monitored", "production")
-            
+
         Returns:
             Awareness assessment with safety metadata
         """
         start_time = time.time()
-        
+
         # Force dry-run if safety mode requires it
         if self.config.safety_mode == SafetyMode.DRY_RUN or not CONSCIOUSNESS_ACTIVE:
             return self._dry_run_awareness_response(stimulus)
-        
+
         try:
             # Guardian validation if enabled
             if self.config.enable_ethics_validation:
                 ethical_decision = await self._validate_ethics("awareness_check", stimulus)
                 if not ethical_decision.allowed:
                     return self._blocked_response("awareness_check", ethical_decision.reason)
-            
+
             # Performance monitoring
             if self.candidate_system and AWARENESS_ACTIVE:
                 result = await self.candidate_system.assess_awareness(stimulus)
-                
+
                 # Add safety metadata
                 result["safety_metadata"] = {
                     "mode": mode,
@@ -199,47 +198,47 @@ class ConsciousnessWrapper:
                     "trinity_compliance": True,
                     "drift_score": self.state.drift_score
                 }
-                
+
                 # Update performance tracking
                 self.state.performance_ms = result["safety_metadata"]["performance_ms"]
-                
+
                 return result
             else:
                 return self._fallback_awareness_response(stimulus)
-                
+
         except Exception as e:
             return self._error_response("awareness_check", str(e))
-    
+
     @matriz_trace("consciousness.initiate_reflection")
     async def initiate_reflection(self, context: Dict[str, Any], mode: str = "dry_run") -> Dict[str, Any]:
         """
         Initiate consciousness reflection process
-        
+
         Args:
             context: Reflection context and trigger data
             mode: Operation mode
-            
+
         Returns:
             Reflection results with safety guarantees
         """
         start_time = time.time()
-        
+
         if self.config.safety_mode == SafetyMode.DRY_RUN or not REFLECTION_ACTIVE:
             return self._dry_run_reflection_response(context)
-        
+
         try:
             # Ethics validation
             if self.config.enable_ethics_validation:
                 ethical_decision = await self._validate_ethics("reflection", context)
                 if not ethical_decision.allowed:
                     return self._blocked_response("reflection", ethical_decision.reason)
-            
+
             # Drift detection
             if self.config.enable_drift_detection:
                 drift_score = await self._detect_drift(context)
                 if drift_score > self.config.drift_threshold:
                     return self._drift_blocked_response(drift_score)
-            
+
             # Process reflection if candidate system available
             if self.candidate_system:
                 # Simplified reflection processing for safety
@@ -257,27 +256,27 @@ class ConsciousnessWrapper:
                 return result
             else:
                 return self._fallback_reflection_response(context)
-                
+
         except Exception as e:
             return self._error_response("reflection", str(e))
-    
+
     @matriz_trace("consciousness.make_decision")
     async def make_conscious_decision(self, options: List[Dict[str, Any]], mode: str = "dry_run") -> Dict[str, Any]:
         """
         Make consciousness-informed decision
-        
+
         Args:
             options: Decision options to evaluate
             mode: Operation mode
-            
+
         Returns:
             Decision with consciousness reasoning
         """
         start_time = time.time()
-        
+
         if self.config.safety_mode == SafetyMode.DRY_RUN or not UNIFIED_ACTIVE:
             return self._dry_run_decision_response(options)
-        
+
         try:
             # Validate decision ethics
             decision_context = {"options": options, "decision_type": "conscious_choice"}
@@ -285,12 +284,12 @@ class ConsciousnessWrapper:
                 ethical_decision = await self._validate_ethics("decision_making", decision_context)
                 if not ethical_decision.allowed:
                     return self._blocked_response("decision_making", ethical_decision.reason)
-            
+
             # Simple decision logic for production safety
             if options:
                 # Pick first option for now, with consciousness metadata
                 chosen_option = options[0]
-                
+
                 result = {
                     "chosen_option": chosen_option,
                     "confidence": 0.7,
@@ -306,18 +305,18 @@ class ConsciousnessWrapper:
                 return result
             else:
                 return self._error_response("decision_making", "No options provided")
-                
+
         except Exception as e:
             return self._error_response("decision_making", str(e))
-    
+
     @matriz_trace("consciousness.get_state")
     def get_consciousness_state(self, mode: str = "dry_run") -> Dict[str, Any]:
         """
         Get current consciousness state
-        
+
         Args:
             mode: Operation mode
-            
+
         Returns:
             Current consciousness state with metadata
         """
@@ -346,7 +345,7 @@ class ConsciousnessWrapper:
             },
             "trinity_framework": {
                 "identity": True,      # ⚛️ Identity integration
-                "consciousness": True, # 🧠 Consciousness processing  
+                "consciousness": True, # 🧠 Consciousness processing
                 "guardian": True       # 🛡️ Guardian protection
             },
             "safety_metadata": {
@@ -356,9 +355,9 @@ class ConsciousnessWrapper:
                 "observability_available": OBSERVABILITY_AVAILABLE
             }
         }
-    
+
     # Safety and fallback methods
-    
+
     def _dry_run_awareness_response(self, stimulus: Dict[str, Any]) -> Dict[str, Any]:
         """Safe mock response for awareness checks"""
         return {
@@ -372,7 +371,7 @@ class ConsciousnessWrapper:
                 "stimulus_keys": list(stimulus.keys()) if stimulus else []
             }
         }
-    
+
     def _dry_run_reflection_response(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Safe mock response for reflection"""
         return {
@@ -386,7 +385,7 @@ class ConsciousnessWrapper:
                 "context_keys": list(context.keys()) if context else []
             }
         }
-    
+
     def _dry_run_decision_response(self, options: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Safe mock response for decisions"""
         return {
@@ -394,13 +393,13 @@ class ConsciousnessWrapper:
             "confidence": 0.5,
             "reasoning": "Mock decision for dry-run mode",
             "safety_metadata": {
-                "mode": "dry_run", 
+                "mode": "dry_run",
                 "performance_ms": 1.5,
                 "mock_response": True,
                 "options_count": len(options)
             }
         }
-    
+
     def _fallback_awareness_response(self, stimulus: Dict[str, Any]) -> Dict[str, Any]:
         """Fallback when candidate system unavailable"""
         return {
@@ -413,7 +412,7 @@ class ConsciousnessWrapper:
                 "candidate_system_available": False
             }
         }
-    
+
     def _fallback_reflection_response(self, context: Dict[str, Any]) -> Dict[str, Any]:
         """Fallback reflection processing"""
         return {
@@ -425,7 +424,7 @@ class ConsciousnessWrapper:
                 "full_reflection_available": False
             }
         }
-    
+
     def _blocked_response(self, operation: str, reason: str) -> Dict[str, Any]:
         """Response when operation blocked by Guardian"""
         return {
@@ -437,7 +436,7 @@ class ConsciousnessWrapper:
                 "ethical_validation": "failed"
             }
         }
-    
+
     def _drift_blocked_response(self, drift_score: float) -> Dict[str, Any]:
         """Response when drift threshold exceeded"""
         return {
@@ -450,7 +449,7 @@ class ConsciousnessWrapper:
                 "safety_threshold_enforced": True
             }
         }
-    
+
     def _error_response(self, operation: str, error: str) -> Dict[str, Any]:
         """Error response with safety information"""
         return {
@@ -462,12 +461,12 @@ class ConsciousnessWrapper:
                 "graceful_degradation": True
             }
         }
-    
+
     async def _validate_ethics(self, action_type: str, context: Dict[str, Any]) -> EthicalDecision:
         """Validate action against ethical principles"""
         # Simplified ethics validation for production safety
         # In full implementation, would integrate with Guardian system
-        
+
         # Basic checks
         if "harmful" in str(context).lower():
             return EthicalDecision(
@@ -476,23 +475,23 @@ class ConsciousnessWrapper:
                 severity=EthicalSeverity.HIGH,
                 confidence=0.8
             )
-        
+
         return EthicalDecision(
             allowed=True,
             reason="Action approved by basic ethics validation",
             severity=EthicalSeverity.LOW,
             confidence=0.7
         )
-    
+
     async def _detect_drift(self, context: Dict[str, Any]) -> float:
         """Detect symbolic drift in consciousness state"""
         # Simplified drift detection for production safety
         # In full implementation, would use comprehensive drift scoring
-        
+
         # Mock drift calculation
         drift_score = 0.05  # Low drift by default
-        
+
         # Update state
         self.state.drift_score = drift_score
-        
+
         return drift_score

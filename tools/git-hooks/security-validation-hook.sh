@@ -67,19 +67,19 @@ analyze_file() {
     local file="$1"
     local issues=()
     local severity_high=false
-    
+
     # Skip binary files
     if ! file "$file" | grep -q text; then
         return 1
     fi
-    
+
     # Check for security patterns
     for pattern_name in "${!SECURITY_PATTERNS[@]}"; do
         local pattern="${SECURITY_PATTERNS[$pattern_name]}"
         if grep -qiE "$pattern" "$file" 2>/dev/null; then
             local description="${SECURITY_DESCRIPTIONS[$pattern_name]}"
             issues+=("🚨 $description")
-            
+
             # Mark high severity issues
             case "$pattern_name" in
                 "private_key"|"aws_access"|"github_token")
@@ -88,20 +88,20 @@ analyze_file() {
             esac
         fi
     done
-    
+
     # Check for other security concerns
     if grep -qE "TODO.*security|FIXME.*security|XXX.*security" "$file" 2>/dev/null; then
         issues+=("⚠️  Security-related TODO/FIXME found")
     fi
-    
+
     if grep -qE "http://.*api\.|http://.*login" "$file" 2>/dev/null; then
         issues+=("🔓 HTTP URL for sensitive endpoint (use HTTPS)")
     fi
-    
+
     if [[ ${#issues[@]} -gt 0 ]]; then
         printf "Security concerns found:\n"
         printf "  • %s\n" "${issues[@]}"
-        
+
         if $severity_high; then
             printf "\n  ⚠️  HIGH SEVERITY ISSUES DETECTED!\n"
         fi
@@ -114,14 +114,14 @@ analyze_file() {
 
 preview_changes() {
     local file="$1"
-    
+
     echo -e "${BLUE}🔍 Security analysis for: $(basename "$file")${RESET}"
     echo -e "${DIM}────────────────────────────────────────${RESET}"
-    
+
     local line_num=1
     while IFS= read -r line; do
         local found_issue=false
-        
+
         for pattern_name in "${!SECURITY_PATTERNS[@]}"; do
             local pattern="${SECURITY_PATTERNS[$pattern_name]}"
             if echo "$line" | grep -qiE "$pattern"; then
@@ -132,10 +132,10 @@ preview_changes() {
                 break
             fi
         done
-        
+
         ((line_num++))
     done < "$file"
-    
+
     if ! $found_issue; then
         echo -e "${GREEN}No specific security issues found in preview${RESET}"
     fi
@@ -143,21 +143,21 @@ preview_changes() {
 
 apply_enhancement() {
     local file="$1"
-    
+
     # Create backup
     local backup_file
     backup_file=$(create_backup "$file")
-    
+
     # For security issues, we typically want to comment out or remove
     # rather than automatically fix, since context matters
     local temp_file="/tmp/security_enhanced_$(basename "$file")"
     cp "$file" "$temp_file"
-    
+
     # Comment out obvious security issues
     for pattern_name in "${!SECURITY_PATTERNS[@]}"; do
         local pattern="${SECURITY_PATTERNS[$pattern_name]}"
         local description="${SECURITY_DESCRIPTIONS[$pattern_name]}"
-        
+
         case "$pattern_name" in
             "private_key"|"aws_access"|"github_token")
                 # Remove these entirely and add warning
@@ -176,7 +176,7 @@ apply_enhancement() {
                 ;;
         esac
     done
-    
+
     # Add security header if significant changes were made
     if ! cmp -s "$file" "$temp_file"; then
         {
@@ -190,7 +190,7 @@ apply_enhancement() {
             cat "$temp_file"
         } > "$file"
     fi
-    
+
     rm -f "$temp_file" "$temp_file.bak"
     log_action "Applied security enhancements to $file (backup: $backup_file)"
 }
@@ -201,7 +201,7 @@ apply_enhancement() {
 
 check_for_secrets() {
     local file="$1"
-    
+
     # Use more sophisticated secret detection
     if command -v truffleHog >/dev/null 2>&1; then
         truffleHog --regex --entropy=False "$file" 2>/dev/null
@@ -213,20 +213,20 @@ check_for_secrets() {
 generate_security_report() {
     local files=("$@")
     local report_file="/tmp/security-report-$(date +%Y%m%d_%H%M%S).txt"
-    
+
     {
         echo "🔒 SECURITY VALIDATION REPORT"
         echo "Generated: $(date)"
         echo "Files scanned: ${#files[@]}"
         echo ""
-        
+
         for file in "${files[@]}"; do
             echo "FILE: $file"
             analyze_file "$file" 2>/dev/null || echo "  No issues found"
             echo ""
         done
     } > "$report_file"
-    
+
     echo "📄 Security report saved to: $report_file"
 }
 
@@ -236,11 +236,11 @@ generate_security_report() {
 
 main() {
     ensure_git_repo
-    
+
     # Get all text files for security scanning
     local files=()
     readarray -t staged_files < <(get_staged_files '.*')
-    
+
     for file in "${staged_files[@]}"; do
         # Skip binary files and common excludes
         if [[ -f "$file" ]] && \
@@ -249,12 +249,12 @@ main() {
             files+=("$file")
         fi
     done
-    
+
     # Generate security report
     if [[ ${#files[@]} -gt 0 ]]; then
         generate_security_report "${files[@]}"
     fi
-    
+
     interactive_hook_main "${files[@]}"
 }
 

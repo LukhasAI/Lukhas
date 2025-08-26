@@ -1,13 +1,13 @@
 /**
  * ΛiD Authentication System - Passkeys (WebAuthn)
- * 
+ *
  * WebAuthn implementation: discoverable, UV=required, AAGUID capture, attestation preferred
  * Integrates with LUKHAS Trinity Framework (⚛️🧠🛡️)
  */
 
-import { 
-  PasskeyCredential, 
-  PasskeyRegistrationOptions, 
+import {
+  PasskeyCredential,
+  PasskeyRegistrationOptions,
   PasskeyAuthenticationOptions,
   PasskeyRegistrationResult,
   PasskeyAuthenticationResult,
@@ -73,7 +73,7 @@ export const KNOWN_AAGUIDS: Record<string, AuthenticatorInfo> = {
     trusted: true,
     certificationLevel: 'L2'
   },
-  
+
   // Google devices
   'ea9b8d66-4d01-1d21-3ce4-b6b48cb575d4': {
     name: 'Titan Security Key',
@@ -82,7 +82,7 @@ export const KNOWN_AAGUIDS: Record<string, AuthenticatorInfo> = {
     trusted: true,
     certificationLevel: 'L2'
   },
-  
+
   // Yubico devices
   '2fc0579f-8113-47ea-b116-bb5a8db9202a': {
     name: 'YubiKey 5 Series',
@@ -91,7 +91,7 @@ export const KNOWN_AAGUIDS: Record<string, AuthenticatorInfo> = {
     trusted: true,
     certificationLevel: 'L2'
   },
-  
+
   // Windows Hello
   '08987058-cadc-4b81-b6e1-30de50dcbe96': {
     name: 'Windows Hello',
@@ -100,7 +100,7 @@ export const KNOWN_AAGUIDS: Record<string, AuthenticatorInfo> = {
     trusted: true,
     certificationLevel: 'L1'
   },
-  
+
   // Android devices
   'b93fd961-f2e6-462f-b122-82002247de78': {
     name: 'Android Fingerprint',
@@ -131,7 +131,7 @@ export class PasskeyManager {
     excludeCredentials: string[] = []
   ): Promise<PasskeyRegistrationOptions> {
     const challenge = this.generateChallenge();
-    
+
     const options: PasskeyRegistrationOptions = {
       challenge,
       rp: {
@@ -466,7 +466,7 @@ export class PasskeyManager {
 
       // Check for platform authenticator
       const platformSupported = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
-      
+
       // Check for conditional UI support
       const conditionalUISupported = await PublicKeyCredential.isConditionalMediationAvailable?.() || false;
 
@@ -540,13 +540,13 @@ export class PasskeyManager {
   private buffersEqual(a: ArrayBuffer | Uint8Array, b: ArrayBuffer | Uint8Array): boolean {
     const viewA = new Uint8Array(a);
     const viewB = new Uint8Array(b);
-    
+
     if (viewA.length !== viewB.length) return false;
-    
+
     for (let i = 0; i < viewA.length; i++) {
       if (viewA[i] !== viewB[i]) return false;
     }
-    
+
     return true;
   }
 
@@ -564,7 +564,7 @@ export class PasskeyManager {
     const rpIdHash = authData.slice(0, 32);
     const flags = view.getUint8(32);
     const signCount = view.getUint32(33, false);
-    
+
     return {
       rpIdHash,
       flags: {

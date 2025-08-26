@@ -32,15 +32,15 @@ In the grand tapestry of LUKHAS AGI, this module is essential for fostering self
 # 🎯 KEY FEATURES
 
 - **Reflective Introspection**: Dive deep into self-awareness with mechanisms that allow agents to evaluate their own processes and decisions.
-  
+
 - **Adaptive Cognition**: The Cognitive Adapter intelligently integrates various cognitive functions, enhancing overall AI performance and adaptability.
-  
+
 - **Seamless Initialization**: The `__init__.py` file ensures that all elements harmonize flawlessly, allowing for smooth operation within the LUKHAS framework.
-  
+
 - **Insight Generation**: Harnesses cognitive processing to generate actionable insights, guiding AI decisions with profound understanding.
-  
+
 - **User-Friendly Interface**: Intuitive design principles ensure ease of use for developers and researchers alike, inviting exploration and creativity.
-  
+
 - **Interoperability**: Designed for seamless integration with other LUKHAS modules, promoting collaborative and holistic AI experiences.
 
 ---
@@ -118,7 +118,7 @@ The **Cognitive Module** is currently in an alpha stage of development. While it
 
 ### Known Limitations
 - Limited support for highly complex emotional reflections; future iterations will aim to incorporate emotional intelligence frameworks.
-  
+
 ### Future Plans
 - Expansion of introspective capabilities to include emotional reflections.
 - Integration with external knowledge bases for enriched cognitive processing.
@@ -135,7 +135,7 @@ The beauty of the **Cognitive Module** lies in its ability to seamlessly integra
 
 ### API Interfaces
 - Exposes RESTful APIs for external applications to interact with its reflective capabilities.
-  
+
 ### Protocols
 - Follows common data exchange protocols to facilitate interoperability with other LUKHAS modules and external systems.
 
@@ -172,5 +172,5 @@ In this ever-evolving landscape where dreams intertwine with reality, we invite 
 
 ---
 
-> 🧬 *Part of the LUKHAS AGI Consciousness Architecture*  
+> 🧬 *Part of the LUKHAS AGI Consciousness Architecture*
 > *"Where dreams become algorithms, and algorithms dream of consciousness"*

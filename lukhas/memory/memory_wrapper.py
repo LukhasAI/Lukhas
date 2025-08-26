@@ -23,7 +23,7 @@ except ImportError:
         return decorator
 
 
-from .fold_system import FoldManager, MemoryFold, get_fold_manager
+from .fold_system import get_fold_manager
 
 
 class MemoryWrapper:

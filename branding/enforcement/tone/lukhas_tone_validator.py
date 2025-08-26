@@ -18,7 +18,7 @@ class LukhasToneValidator:
             "lukhas",
             "trinity_framework",
             "consciousness",
-            "quantum_inspired",
+            "qi_inspired",
             "bio_inspired",
             "symbolic",
             "guardian",

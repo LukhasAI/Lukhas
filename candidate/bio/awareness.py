@@ -93,12 +93,12 @@ class CardiolipinEncoder:
 
 
 class QIOscillator:
-    """Bio awareness - QuantumOscillator"""
+    """Bio awareness - QIOscillator"""
 
     pass
 
 
 class QIBioOscillator:
-    """Bio awareness - QuantumBioOscillator"""
+    """Bio awareness - QIBioOscillator"""
 
     pass

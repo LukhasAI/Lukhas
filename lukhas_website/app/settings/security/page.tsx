@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  ChevronLeftIcon, 
-  ShieldCheckIcon, 
-  KeyIcon, 
+import {
+  ChevronLeftIcon,
+  ShieldCheckIcon,
+  KeyIcon,
   DevicePhoneMobileIcon,
   ComputerDesktopIcon,
   TrashIcon,
@@ -61,13 +61,13 @@ export default function SecuritySettingsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  
+
   // Security data
   const [passkeys, setPasskeys] = useState<Passkey[]>([])
   const [backupCodes, setBackupCodes] = useState<BackupCode[]>([])
   const [securityEvents, setSecurityEvents] = useState<SecurityEvent[]>([])
   const [sessions, setSessions] = useState<Session[]>([])
-  
+
   // UI state
   const [activeTab, setActiveTab] = useState<'passkeys' | 'backup' | 'sessions' | 'activity'>('passkeys')
   const [showBackupCodes, setShowBackupCodes] = useState(false)
@@ -521,7 +521,7 @@ export default function SecuritySettingsPage() {
                           <div>
                             <p className="text-yellow-400 font-medium mb-1">Important Security Information</p>
                             <p className="text-white/60 text-sm">
-                              Each backup code can only be used once. Store them securely and do not share them. 
+                              Each backup code can only be used once. Store them securely and do not share them.
                               If you lose access to your passkeys, these codes will allow you to recover your account.
                             </p>
                           </div>
@@ -640,8 +640,8 @@ export default function SecuritySettingsPage() {
                       securityEvents.slice(0, 20).map((event) => (
                         <div key={event.id} className="flex items-start space-x-4 p-4 bg-black/20 rounded-lg border border-white/10">
                           <div className={`p-2 rounded-lg ${
-                            event.result === 'success' 
-                              ? 'bg-green-500/20 text-green-400' 
+                            event.result === 'success'
+                              ? 'bg-green-500/20 text-green-400'
                               : 'bg-red-500/20 text-red-400'
                           }`}>
                             {event.result === 'success' ? (

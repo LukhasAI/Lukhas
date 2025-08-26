@@ -69,7 +69,7 @@ class QICreativeBridge:
 
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.quantum_mode = QUANTUM_MODE
+        self.qi_mode = QUANTUM_MODE
 
         # Initialize appropriate engine
         if QUANTUM_MODE == "full":
@@ -104,7 +104,7 @@ class QICreativeBridge:
             expression = await self.engine.create(request, user_session=None)
             return {
                 "content": expression.content.content,
-                "quantum_signature": expression.signature,
+                "qi_signature": expression.signature,
                 "protection_level": "post_quantum",
                 "mode": "full_quantum",
             }
@@ -113,7 +113,7 @@ class QICreativeBridge:
             expression = await self.engine.create(request)
             return {
                 "content": expression.content,
-                "quantum_fingerprint": expression.quantum_fingerprint,
+                "qi_fingerprint": expression.qi_fingerprint,
                 "protection_level": "development_mock",
                 "mode": "mock_quantum",
             }
@@ -139,7 +139,7 @@ class QICreativeBridge:
             expression = await self.engine.create(request, user_session=None)
             return {
                 "content": expression.content.content,
-                "quantum_signature": expression.signature,
+                "qi_signature": expression.signature,
                 "protection_level": "post_quantum",
                 "mode": "full_quantum",
             }
@@ -147,7 +147,7 @@ class QICreativeBridge:
             expression = await self.engine.create(request)
             return {
                 "content": expression.content,
-                "quantum_fingerprint": expression.quantum_fingerprint,
+                "qi_fingerprint": expression.qi_fingerprint,
                 "protection_level": "development_mock",
                 "mode": "mock_quantum",
             }
@@ -155,11 +155,11 @@ class QICreativeBridge:
     def get_system_status(self) -> dict[str, Any]:
         """Get quantum creative system status"""
         return {
-            "quantum_mode": self.quantum_mode,
+            "qi_mode": self.qi_mode,
             "engine_type": type(self.engine).__name__,
             "available_modalities": ["haiku", "music"],
             "theoretical_capabilities": [
-                "quantum_superposition_creativity",
+                "qi_superposition_creativity",
                 "bio_cognitive_enhancement",
                 "cultural_resonance_tuning",
                 "post_quantum_ip_protection",
@@ -175,13 +175,13 @@ LUKHAS_QUANTUM_CREATIVE = QICreativeBridge()
 
 
 # Easy integration functions for existing LUKHAS code
-async def quantum_haiku(theme: str, emotion: str = "wonder") -> str:
+async def qi_haiku(theme: str, emotion: str = "wonder") -> str:
     """Simple quantum haiku generation for existing code"""
     result = await LUKHAS_QUANTUM_CREATIVE.generate_quantum_haiku(theme, emotion)
     return result["content"]
 
 
-async def quantum_music(emotion: str, key: str = "C") -> str:
+async def qi_music(emotion: str, key: str = "C") -> str:
     """Simple quantum music generation for existing code"""
     result = await LUKHAS_QUANTUM_CREATIVE.generate_quantum_music(emotion, key)
     return result["content"]
@@ -210,13 +210,13 @@ async def demo_integration():
 
     # Test haiku generation
     print("🎋 Generating quantum haiku...")
-    haiku = await quantum_haiku("consciousness", "wonder")
+    haiku = await qi_haiku("consciousness", "wonder")
     print(f"Result:\n{haiku}")
     print()
 
     # Test music generation
     print("🎵 Generating quantum music...")
-    music = await quantum_music("peaceful", "D")
+    music = await qi_music("peaceful", "D")
     print(f"Result:\n{music}")
     print()
 

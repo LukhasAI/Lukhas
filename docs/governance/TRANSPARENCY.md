@@ -1,7 +1,7 @@
 # 🔍 LUKHAS AI Transparency Report
 
-> **Last Updated**: August 11, 2025  
-> **Version**: 1.0.0  
+> **Last Updated**: August 11, 2025
+> **Version**: 1.0.0
 > **Trinity Framework**: ⚛️🧠🛡️ Active
 
 ## 📊 System Transparency Cards
@@ -258,6 +258,6 @@ For transparency concerns or questions:
 
 *Transparency is a core value of LUKHAS AI. We believe in open development, clear communication, and honest representation of our system's capabilities and limitations.*
 
-**Last Manual Review**: August 11, 2025  
-**Auto-Generated Sections**: Performance metrics, test results  
+**Last Manual Review**: August 11, 2025
+**Auto-Generated Sections**: Performance metrics, test results
 **Human Verified**: ✅

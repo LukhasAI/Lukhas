@@ -394,7 +394,7 @@ class LUKHASConsciousnessMCP:
                 ],
             },
             "advanced_systems": {
-                "quantum_modules": [
+                "qi_modules": [
                     m for m in self.consciousness_modules if "quantum" in m
                 ],
                 "bio_modules": [m for m in self.consciousness_modules if "bio" in m],

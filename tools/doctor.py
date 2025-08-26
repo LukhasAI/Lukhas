@@ -1,4 +1,7 @@
-import sys, os, pathlib
+import os
+import pathlib
+import sys
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 pkg = ROOT / "lukhas"
 assert pkg.exists() and (pkg / "__init__.py").exists(), "lukhas package missing"

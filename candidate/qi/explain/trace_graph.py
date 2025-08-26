@@ -1,6 +1,11 @@
 from __future__ import annotations
-import json, argparse, time
-from typing import List, Dict, Any
+
+import argparse
+import json
+import time
+from typing import Any, Dict, List
+
+
 def build_trace(nodes: List[Dict[str,Any]]) -> Dict[str,Any]:
     return {"ts":time.time(),"nodes":nodes}
 if __name__=="__main__":

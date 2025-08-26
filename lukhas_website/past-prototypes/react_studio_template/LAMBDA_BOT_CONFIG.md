@@ -137,15 +137,15 @@ LUKHΛS_Custom_Rules:
     - Never update Radix UI packages individually
     - Always batch @radix-ui/* updates
     - Test shadcn/ui components after updates
-  
+
   Performance_Critical:
     - Monitor Framer Motion impact on animations
     - Track Vite bundle size changes
     - Verify constellation background performance
-  
+
   Security_First:
     - Prioritize React security patches
-    - Monitor Tailwind CSS vulnerabilities  
+    - Monitor Tailwind CSS vulnerabilities
     - Scan for supply chain attacks
 ```
 
@@ -188,6 +188,6 @@ LUKHΛS_Custom_Rules:
 
 ---
 
-**ΛBot Configuration Version**: 2.0  
-**Last Updated**: June 27, 2025  
+**ΛBot Configuration Version**: 2.0
+**Last Updated**: June 27, 2025
 **Optimized for**: LUKHΛS Studio V-2 React/Vite Project

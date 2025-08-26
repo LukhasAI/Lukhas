@@ -189,12 +189,12 @@
             .animation-container {
                 height: 400px;
             }
-            
+
             .trace-info {
                 position: relative;
                 margin-bottom: 1rem;
             }
-            
+
             .stats-panel {
                 grid-template-columns: 1fr;
             }
@@ -285,7 +285,7 @@
         function createMemoryNode(x, y, isImportant = false) {
             const node = document.createElement('div');
             const agent = getRandomAgent();
-            
+
             node.className = 'memory-node' + (isImportant ? ' important' : '');
             node.style.left = x + 'px';
             node.style.top = y + 'px';
@@ -293,7 +293,7 @@
             node.style.boxShadow = `0 0 ${isImportant ? '20' : '15'}px ${agent.color}`;
             node.dataset.agent = agent.name;
             node.dataset.nodeId = totalNodes;
-            
+
             return node;
         }
 
@@ -301,22 +301,22 @@
             const fromRect = from.getBoundingClientRect();
             const toRect = to.getBoundingClientRect();
             const canvasRect = canvas.getBoundingClientRect();
-            
+
             const fromX = fromRect.left - canvasRect.left + 10;
             const fromY = fromRect.top - canvasRect.top + 10;
             const toX = toRect.left - canvasRect.left + 10;
             const toY = toRect.top - canvasRect.top + 10;
-            
+
             const length = Math.sqrt(Math.pow(toX - fromX, 2) + Math.pow(toY - fromY, 2));
             const angle = Math.atan2(toY - fromY, toX - fromX) * 180 / Math.PI;
-            
+
             const connection = document.createElement('div');
             connection.className = 'connection-line';
             connection.style.left = fromX + 'px';
             connection.style.top = fromY + 'px';
             connection.style.width = length + 'px';
             connection.style.transform = `rotate(${angle}deg)`;
-            
+
             return connection;
         }
 
@@ -325,22 +325,22 @@
 
             const canvasWidth = canvas.offsetWidth - 40;
             const canvasHeight = canvas.offsetHeight - 80;
-            
+
             // Create new memory node
             const x = Math.random() * canvasWidth + 20;
             const y = Math.random() * canvasHeight + 60;
             const isImportant = Math.random() < 0.2; // 20% chance of important node
-            
+
             const node = createMemoryNode(x, y, isImportant);
             canvas.appendChild(node);
             nodes.push(node);
             totalNodes++;
-            
+
             // Activate node with delay
             setTimeout(() => {
                 node.classList.add('active');
             }, 100);
-            
+
             // Create connections to recent nodes
             if (nodes.length > 1) {
                 const connectionsToCreate = Math.min(2, nodes.length - 1);
@@ -354,19 +354,19 @@
                     }
                 }
             }
-            
+
             // Remove old nodes and connections
             if (nodes.length > 15) {
                 const oldNode = nodes.shift();
                 oldNode.remove();
             }
-            
+
             if (connections.length > 20) {
                 const oldConnection = connections.shift();
                 oldConnection.remove();
                 activeConnections = Math.max(0, activeConnections - 1);
             }
-            
+
             // Update stats
             updateStats();
             currentFrame++;
@@ -377,7 +377,7 @@
             document.getElementById('totalNodes').textContent = totalNodes;
             document.getElementById('activeConnections').textContent = activeConnections;
             document.getElementById('currentFrame').textContent = currentFrame;
-            
+
             // Simulate varying coherence level
             const coherence = 85 + Math.sin(currentFrame * 0.1) * 5;
             document.getElementById('coherenceLevel').textContent = coherence.toFixed(1) + '%';
@@ -386,35 +386,35 @@
         function playAnimation() {
             if (isPlaying) return;
             isPlaying = true;
-            
+
             document.getElementById('traceStatus').textContent = 'Recording';
             document.getElementById('traceStatus').className = 'status-active';
-            
+
             animationInterval = setInterval(animateFrame, 800 / animationSpeed);
         }
 
         function pauseAnimation() {
             isPlaying = false;
             clearInterval(animationInterval);
-            
+
             document.getElementById('traceStatus').textContent = 'Paused';
             document.getElementById('traceStatus').className = '';
         }
 
         function resetAnimation() {
             pauseAnimation();
-            
+
             // Clear all nodes and connections
             nodes.forEach(node => node.remove());
             connections.forEach(connection => connection.remove());
             nodes = [];
             connections = [];
-            
+
             // Reset counters
             currentFrame = 0;
             totalNodes = 0;
             activeConnections = 0;
-            
+
             // Update display
             updateStats();
             document.getElementById('traceStatus').textContent = 'Ready';
@@ -425,9 +425,9 @@
             const speeds = [0.5, 1, 2, 4];
             const currentIndex = speeds.indexOf(animationSpeed);
             animationSpeed = speeds[(currentIndex + 1) % speeds.length];
-            
+
             document.getElementById('speedIndicator').textContent = animationSpeed + 'x';
-            
+
             if (isPlaying) {
                 clearInterval(animationInterval);
                 animationInterval = setInterval(animateFrame, 800 / animationSpeed);
@@ -436,7 +436,7 @@
 
         // Initialize display
         updateStats();
-        
+
         // Auto-start demo after 2 seconds
         setTimeout(() => {
             playAnimation();

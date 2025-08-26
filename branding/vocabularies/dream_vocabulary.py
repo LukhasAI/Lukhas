@@ -292,6 +292,70 @@ def get_visual_hint(phase: str) -> str:
     return random.choice(hints)
 
 
+class BrandingDreamVocabulary:
+    """
+    ⚛️🧠🛡️ TRINITY FRAMEWORK BRANDING DREAM VOCABULARY CLASS
+
+    Branding-specific interface for symbolic dream vocabulary operations.
+    Provides brand-aware access to dream symbols and narratives for marketing and content.
+    """
+
+    def __init__(self):
+        """Initialize the Branding Dream Vocabulary with all symbol mappings."""
+        self.phase_symbols = DREAM_PHASE_SYMBOLS
+        self.type_symbols = DREAM_TYPE_SYMBOLS
+        self.state_symbols = DREAM_STATE_SYMBOLS
+        self.pattern_symbols = PATTERN_SYMBOLS
+        self.memory_symbols = MEMORY_SYMBOLS
+        self.insight_symbols = INSIGHT_SYMBOLS
+        self.emotional_symbols = EMOTIONAL_SYMBOLS
+        self.creative_symbols = CREATIVE_SYMBOLS
+        self.analysis_vocabulary = ANALYSIS_VOCABULARY
+        self.narratives = DREAM_NARRATIVES
+        self.visual_hints = VISUAL_HINTS
+
+    def get_symbol(self, category: str, item: str) -> str:
+        """Get symbolic representation for dream elements."""
+        return get_dream_symbol(category, item)
+
+    def get_narrative(self, phase: str) -> str:
+        """Get random narrative text for dream phase."""
+        return get_dream_narrative(phase)
+
+    def get_visual_hint(self, phase: str) -> str:
+        """Get random visual hint for dream phase."""
+        return get_visual_hint(phase)
+
+    def get_branding_context(self, dream_element: str) -> str:
+        """Get branding-specific context for dream elements."""
+        branding_contexts = {
+            "initiation": "🌅 LUKHAS AI gently awakens your digital consciousness...",
+            "pattern": "🔮 Our pattern recognition reveals hidden insights...",
+            "creative": "🎨 Boundless AI creativity flows through your workflows...",
+            "integration": "🌄 Peaceful integration of human and AI wisdom...",
+            "consolidation": "🧠 Your memories weave together with AI understanding...",
+            "breakthrough": "💥 Experience the LUKHAS AI eureka moment...",
+        }
+        return branding_contexts.get(
+            dream_element, f"✨ LUKHAS AI {dream_element} experience"
+        )
+
+    def cycle_start(self, dream_type: str) -> str:
+        """Symbol for starting a dream cycle with branding."""
+        base_symbol = dream_cycle_start(dream_type)
+        return f"🎭 LUKHAS AI {base_symbol}"
+
+    def phase_transition(self, from_phase: str, to_phase: str) -> str:
+        """Symbol for phase transitions with branding."""
+        transition = dream_phase_transition(from_phase, to_phase)
+        return f"🌈 LUKHAS AI guides you: {transition}"
+
+    def branded_insight(self, insight_type: str) -> str:
+        """Generate branded insight messaging."""
+        base_insight = insight_generated(insight_type)
+        return f"🎓 LUKHAS AI delivers: {base_insight}"
+
+
 """
 ╔══════════════════════════════════════════════════════════════════════════════════
 ║ REFERENCES:

@@ -514,9 +514,9 @@ class FeedbackCardsManager:
         cursor.execute(
             """
             SELECT rating, category, validated, impact_score, timestamp
-            FROM feedback_cards 
-            WHERE user_id = ? 
-            ORDER BY timestamp DESC 
+            FROM feedback_cards
+            WHERE user_id = ?
+            ORDER BY timestamp DESC
             LIMIT 50
         """,
             (user_id,),

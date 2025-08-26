@@ -87,7 +87,7 @@ try:
 
     # from ....AID.dream_engine.dream_replay import replay_dream_by_id,
     # replay_recent_dreams  # TODO: Install or implement AID
-    from ...bio_core.memory.quantum_memory_manager import QIMemoryManager
+    from ...bio_core.memory.qi_memory_manager import QIMemoryManager
     from ...bio_symbolic_.glyph_id_hash import (
         GlyphIDHasher,  # Note: extra underscore in original path, assuming typo and it's bio_symbolic
     )
@@ -172,7 +172,7 @@ class ReflectiveStatement:
     symbolic_mood: SymbolicMood
     content: str
     metadata: dict[str, Any]
-    quantum_signature: str
+    qi_signature: str
     id: str = field(
         default_factory=lambda: f"ref_{int(time.time()*1000)}_{random.randint(100,999)}"
     )  # Added ID
@@ -242,7 +242,7 @@ class ReflectionLayer:
         # VoicePack, DreamReplayer) are currently initialized as placeholders.
         # Full functionality requires integration with the actual LUKHAS system
         # components.
-        self.quantum_memory = None  # type: ignore
+        self.qi_memory = None  # type: ignore
         self.intent_node = None  # type: ignore
         self.voice_pack = None  # type: ignore
         self.dream_replayer = None  # type: ignore
@@ -291,7 +291,7 @@ class ReflectionLayer:
             self.voice_pack = self._initialize_voice_handler()
 
             # Placeholder for QIMemoryManager
-            self.quantum_memory = "quantum_memory_placeholder"  # type: ignore
+            self.qi_memory = "qi_memory_placeholder"  # type: ignore
 
             # Placeholder for IntentNode
             self.intent_node = "intent_node_placeholder"  # type: ignore
@@ -399,7 +399,7 @@ class ReflectionLayer:
                 "severity": severity,
                 "pattern_length": len(historical_pattern),
             },
-            quantum_signature=self._generate_quantum_signature(content),
+            qi_signature=self._generate_quantum_signature(content),
             trigger_event="drift_score_update",
             associated_drift=current_drift,
             emotional_weight=min(current_drift, 1.0),
@@ -409,7 +409,7 @@ class ReflectionLayer:
             "🧠 Drift reflection generated",
             mood=mood.value,
             current_drift=current_drift,
-            signature=reflection.quantum_signature,
+            signature=reflection.qi_signature,
             reflection_id=reflection.id,
         )
         return reflection
@@ -458,7 +458,7 @@ class ReflectionLayer:
                 "actual_outcome": actual_outcome,
                 "deviation_score": deviation_score,
             },
-            quantum_signature=self._generate_quantum_signature(content),
+            qi_signature=self._generate_quantum_signature(content),
             trigger_event="intent_deviation_detected",
             emotional_weight=deviation_score,
         )
@@ -467,7 +467,7 @@ class ReflectionLayer:
             "🧠 Intent deviation reflection generated",
             mood=mood.value,
             deviation_score=deviation_score,
-            signature=reflection.quantum_signature,
+            signature=reflection.qi_signature,
             reflection_id=reflection.id,
         )
         return reflection
@@ -519,7 +519,7 @@ class ReflectionLayer:
                 "stability": stability,
                 "dominant_emotion": dominant_emotion,
             },
-            quantum_signature=self._generate_quantum_signature(content),
+            qi_signature=self._generate_quantum_signature(content),
             trigger_event="emotional_state_assessment",
             emotional_weight=1.0 - stability,
         )
@@ -528,7 +528,7 @@ class ReflectionLayer:
             "🧠 Emotional reflection generated",
             mood=mood.value,
             stability=stability,
-            signature=reflection.quantum_signature,
+            signature=reflection.qi_signature,
             reflection_id=reflection.id,
         )
         return reflection
@@ -573,7 +573,7 @@ class ReflectionLayer:
                 "stakeholders": stakeholders,
                 "severity": severity,
             },
-            quantum_signature=self._generate_quantum_signature(content),
+            qi_signature=self._generate_quantum_signature(content),
             trigger_event="ethical_conflict_detected",
             emotional_weight=severity,
         )
@@ -582,7 +582,7 @@ class ReflectionLayer:
             "🧠 Ethical contemplation generated",
             mood=mood.value,
             severity=severity,
-            signature=reflection.quantum_signature,
+            signature=reflection.qi_signature,
             reflection_id=reflection.id,
         )
         return reflection
@@ -622,7 +622,7 @@ class ReflectionLayer:
                 "probability": probability,
                 "impact": impact,
             },
-            quantum_signature=self._generate_quantum_signature(content),
+            qi_signature=self._generate_quantum_signature(content),
             trigger_event="future_scenario_modeling",
             emotional_weight=probability * impact,
         )
@@ -632,7 +632,7 @@ class ReflectionLayer:
             mood=mood.value,
             probability=probability,
             impact=impact,
-            signature=reflection.quantum_signature,
+            signature=reflection.qi_signature,
             reflection_id=reflection.id,
         )
         return reflection
@@ -670,7 +670,7 @@ class ReflectionLayer:
                 "memory_patterns": memory_patterns,
                 "integration_score": integration_score,
             },
-            quantum_signature=self._generate_quantum_signature(content),
+            qi_signature=self._generate_quantum_signature(content),
             trigger_event="memory_synthesis_complete",
             emotional_weight=1.0 - integration_score,
         )
@@ -679,7 +679,7 @@ class ReflectionLayer:
             "🧠 Memory synthesis reflection generated",
             mood=mood.value,
             integration_score=integration_score,
-            signature=reflection.quantum_signature,
+            signature=reflection.qi_signature,
             reflection_id=reflection.id,
         )
         return reflection
@@ -704,7 +704,7 @@ class ReflectionLayer:
             "mood": reflection.symbolic_mood.value,
             "content": reflection.content,
             "metadata": reflection.metadata,
-            "quantum_signature": reflection.quantum_signature,
+            "qi_signature": reflection.qi_signature,
             "emotional_weight": reflection.emotional_weight,
         }
 

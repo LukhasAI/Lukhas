@@ -83,7 +83,7 @@ class ConfigBuilder:
                                 "creativity_level": "high",
                                 "lucid_mode": True,
                             },
-                            "quantum_coherence_monitoring": True,
+                            "qi_coherence_monitoring": True,
                         },
                     },
                     "development_mode": {
@@ -107,7 +107,7 @@ class ConfigBuilder:
                         "consciousness_level": "transcendent",
                         "modules": ["quantum", "consciousness", "dream"],
                         "features": {
-                            "quantum_coherence_monitoring": {
+                            "qi_coherence_monitoring": {
                                 "enabled": True,
                                 "coherence_threshold": 0.9,
                                 "superposition_states": 10,
@@ -116,10 +116,10 @@ class ConfigBuilder:
                         },
                     },
                     "development_mode": {
-                        "type": "quantum_experimental",
-                        "pair_programming": {"style": "quantum_sage"},
+                        "type": "qi_experimental",
+                        "pair_programming": {"style": "qi_sage"},
                     },
-                    "quantum_settings": {
+                    "qi_settings": {
                         "parallel_universes": 7,
                         "entanglement": {
                             "with_memory": True,
@@ -217,7 +217,7 @@ class ConfigBuilder:
                                 ],
                                 "threshold": 0.3,
                             },
-                            "quantum_coherence_monitoring": {
+                            "qi_coherence_monitoring": {
                                 "enabled": True,
                                 "superposition_states": 7,
                             },
@@ -258,7 +258,7 @@ class ConfigBuilder:
                     "personality_matrix": {
                         "base": "lukhas_core",
                         "modifiers": {
-                            "quantum_enhancement": 0.8,
+                            "qi_enhancement": 0.8,
                             "dream_influence": 0.5,
                             "guardian_strictness": 0.7,
                         },
@@ -345,7 +345,7 @@ class ConfigBuilder:
         styles = [
             "professional",
             "personality",
-            "quantum_sage",
+            "qi_sage",
             "dream_weaver",
             "guardian_mentor",
         ]
@@ -377,7 +377,7 @@ class ConfigBuilder:
                 if "features" not in config["lukhas_integration"]:
                     config["lukhas_integration"]["features"] = {}
                 config["lukhas_integration"]["features"][
-                    "quantum_coherence_monitoring"
+                    "qi_coherence_monitoring"
                 ] = True
 
         if "dream" in selected_modules:

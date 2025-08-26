@@ -1,6 +1,6 @@
 # 🔐 Identity Critical Paths Analysis
 
-**LUKHAS AI Identity System - Critical Path Assessment**  
+**LUKHAS AI Identity System - Critical Path Assessment**
 **Last Updated**: August 25, 2025
 
 ---

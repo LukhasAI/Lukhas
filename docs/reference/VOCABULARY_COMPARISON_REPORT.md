@@ -13,7 +13,7 @@
 ### Duplicate Files (safe to consolidate)
 Files that are identical except for TAG comments:
 - bio_vocabulary.py
-- dream_vocabulary.py  
+- dream_vocabulary.py
 - identity_vocabulary.py
 - voice_vocabulary.py
 - vision_vocabulary.py

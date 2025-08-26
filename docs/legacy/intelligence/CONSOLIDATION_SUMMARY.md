@@ -8,12 +8,12 @@ The `intelligence/` module has been successfully consolidated into existing LUKH
 ## Consolidation Mapping
 
 ### Core Intelligence Engines
-**From:** `intelligence/intelligence_engine.py`  
+**From:** `intelligence/intelligence_engine.py`
 **To:** `consciousness/reasoning/advanced_engines/intelligence_engines.py`
 
 Includes:
 - LukhasMetaCognitiveEngine
-- LukhasCausalReasoningEngine  
+- LukhasCausalReasoningEngine
 - LukhasAutonomousGoalEngine
 - LukhasCuriosityEngine
 - LukhasTheoryOfMindEngine
@@ -22,31 +22,31 @@ Includes:
 - LukhasSubsystemOrchestrator
 
 ### Agent Bridge
-**From:** `intelligence/agent_bridge.py`  
+**From:** `intelligence/agent_bridge.py`
 **To:** `orchestration/agent_orchestrator/intelligence_bridge.py`
 
 Provides agent-to-intelligence communication layer.
 
 ### Orchestration Adapter
-**From:** `intelligence/orchestration_adapter.py`  
+**From:** `intelligence/orchestration_adapter.py`
 **To:** `orchestration/intelligence_adapter.py`
 
 Integrates with symbolic kernel bus.
 
 ### Safety Validation
-**From:** `intelligence/safety_validator.py`  
+**From:** `intelligence/safety_validator.py`
 **To:** `governance/intelligence_safety_validator.py`
 
 Merged with existing Guardian System for unified safety.
 
 ### Monitoring
-**From:** `intelligence/monitoring.py`  
+**From:** `intelligence/monitoring.py`
 **To:** `orchestration/brain/monitoring/intelligence_monitor.py`
 
 Integrated with brain monitoring systems.
 
 ### Benchmarking
-**From:** `intelligence/benchmarking.py`  
+**From:** `intelligence/benchmarking.py`
 **To:** `tools/benchmarking/intelligence_benchmark.py`
 
 Moved to tools for better organization.
@@ -82,7 +82,7 @@ Update agent YAML configurations to use new module paths:
 # Old
 intelligence_engine: intelligence.LukhasMetaCognitiveEngine
 
-# New  
+# New
 intelligence_engine: consciousness.reasoning.advanced_engines.LukhasMetaCognitiveEngine
 ```
 

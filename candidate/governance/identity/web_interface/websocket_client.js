@@ -1,9 +1,9 @@
 /**
  * LUKHAS WebSocket Client - Browser Entropy Synchronization
- * 
+ *
  * This module implements WebSocket client functionality for browsers to participate
  * in multi-device entropy synchronization for LUKHAS authentication.
- * 
+ *
  * Author: LUKHAS Team
  * Date: June 2025
  * Purpose: Browser-based entropy sync and real-time communication
@@ -20,22 +20,22 @@ class LukhAsWebSocketClient {
             entropyCollectionInterval: options.entropyCollectionInterval || 500,
             ...options
         };
-        
+
         this.websocket = null;
         this.isConnected = false;
         this.reconnectCount = 0;
         this.entropyBuffer = [];
         this.syncCallbacks = [];
         this.connectionCallbacks = [];
-        
+
         // Entropy collection state
         this.mouseMovements = [];
         this.keystrokes = [];
         this.deviceMetrics = {};
-        
+
         this.startEntropyCollection();
     }
-    
+
     /**
      * Generate unique device ID for this browser session
      */
@@ -43,10 +43,10 @@ class LukhAsWebSocketClient {
         const timestamp = Date.now();
         const random = Math.random().toString(36).substring(2);
         const userAgent = navigator.userAgent.slice(0, 20);
-        
+
         return btoa(`browser_${timestamp}_${random}_${userAgent}`).replace(/[^a-zA-Z0-9]/g, '').substring(0, 32);
     }
-    
+
     /**
      * Connect to the LUKHAS entropy synchronization server
      */
@@ -54,7 +54,7 @@ class LukhAsWebSocketClient {
         try {
             const wsUrl = `${this.options.serverUrl}/sync/${this.sessionId}`;
             this.websocket = new WebSocket(wsUrl);
-            
+
             this.websocket.onopen = () => {
                 console.log('LUKHAS WebSocket connected');
                 this.isConnected = true;
@@ -62,36 +62,36 @@ class LukhAsWebSocketClient {
                 this.authenticateDevice();
                 this.notifyConnectionCallbacks('connected');
             };
-            
+
             this.websocket.onmessage = (event) => {
                 this.handleMessage(JSON.parse(event.data));
             };
-            
+
             this.websocket.onclose = () => {
                 console.log('LUKHAS WebSocket disconnected');
                 this.isConnected = false;
                 this.notifyConnectionCallbacks('disconnected');
                 this.attemptReconnect();
             };
-            
+
             this.websocket.onerror = (error) => {
                 console.error('LUKHAS WebSocket error:', error);
                 this.notifyConnectionCallbacks('error', error);
             };
-            
+
             return true;
         } catch (error) {
             console.error('Failed to connect to entropy server:', error);
             return false;
         }
     }
-    
+
     /**
      * Authenticate this browser device with the server
      */
     authenticateDevice() {
         if (!this.isConnected) return;
-        
+
         const authMessage = {
             type: 'device_auth',
             device_id: this.deviceId,
@@ -99,10 +99,10 @@ class LukhAsWebSocketClient {
             capabilities: this.getDeviceCapabilities(),
             timestamp: new Date().toISOString()
         };
-        
+
         this.websocket.send(JSON.stringify(authMessage));
     }
-    
+
     /**
      * Get browser device capabilities
      */
@@ -134,7 +134,7 @@ class LukhAsWebSocketClient {
             webgl: this.getWebGLInfo()
         };
     }
-    
+
     /**
      * Get WebGL information for device fingerprinting
      */
@@ -142,9 +142,9 @@ class LukhAsWebSocketClient {
         try {
             const canvas = document.createElement('canvas');
             const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-            
+
             if (!gl) return null;
-            
+
             return {
                 vendor: gl.getParameter(gl.VENDOR),
                 renderer: gl.getParameter(gl.RENDERER),
@@ -155,7 +155,7 @@ class LukhAsWebSocketClient {
             return null;
         }
     }
-    
+
     /**
      * Start collecting entropy from browser interactions
      */
@@ -169,13 +169,13 @@ class LukhAsWebSocketClient {
                 pressure: e.pressure || 0,
                 buttons: e.buttons
             });
-            
+
             // Keep buffer size manageable
             if (this.mouseMovements.length > 100) {
                 this.mouseMovements = this.mouseMovements.slice(-50);
             }
         });
-        
+
         // Keyboard timing entropy
         document.addEventListener('keydown', (e) => {
             this.keystrokes.push({
@@ -185,12 +185,12 @@ class LukhAsWebSocketClient {
                 shiftKey: e.shiftKey,
                 altKey: e.altKey
             });
-            
+
             if (this.keystrokes.length > 50) {
                 this.keystrokes = this.keystrokes.slice(-25);
             }
         });
-        
+
         // Device orientation entropy (mobile/tablet)
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', (e) => {
@@ -202,7 +202,7 @@ class LukhAsWebSocketClient {
                 };
             });
         }
-        
+
         // Device motion entropy (mobile/tablet)
         if (window.DeviceMotionEvent) {
             window.addEventListener('devicemotion', (e) => {
@@ -214,10 +214,10 @@ class LukhAsWebSocketClient {
                 };
             });
         }
-        
+
         // Network timing entropy
         this.collectNetworkTiming();
-        
+
         // Start periodic entropy transmission
         setInterval(() => {
             if (this.isConnected) {
@@ -225,7 +225,7 @@ class LukhAsWebSocketClient {
             }
         }, this.options.entropyCollectionInterval);
     }
-    
+
     /**
      * Collect network timing information for entropy
      */
@@ -241,7 +241,7 @@ class LukhAsWebSocketClient {
                 domComplete: performance.timing.domComplete
             };
         }
-        
+
         // Collect resource timing if available
         if (performance && performance.getEntriesByType) {
             const resourceTimings = performance.getEntriesByType('resource').slice(-10);
@@ -253,13 +253,13 @@ class LukhAsWebSocketClient {
             }));
         }
     }
-    
+
     /**
      * Send collected entropy data to the server
      */
     sendEntropyData() {
         if (!this.isConnected || this.mouseMovements.length === 0) return;
-        
+
         const entropyData = {
             mouse_movements: this.mouseMovements.slice(-10), // Last 10 movements
             keystroke_timings: this.keystrokes.slice(-5),    // Last 5 keystrokes (without content)
@@ -268,27 +268,27 @@ class LukhAsWebSocketClient {
             random_samples: this.generateRandomSamples(),
             timestamp: new Date().toISOString()
         };
-        
+
         const message = {
             type: 'entropy_data',
             device_id: this.deviceId,
             entropy: entropyData,
             timestamp: new Date().toISOString()
         };
-        
+
         this.websocket.send(JSON.stringify(message));
-        
+
         // Clear sent data
         this.mouseMovements = [];
         this.keystrokes = [];
     }
-    
+
     /**
      * Get performance timing for entropy
      */
     getPerformanceTiming() {
         if (!performance || !performance.now) return null;
-        
+
         return {
             now: performance.now(),
             memory: performance.memory ? {
@@ -302,13 +302,13 @@ class LukhAsWebSocketClient {
             } : null
         };
     }
-    
+
     /**
      * Generate additional random samples for entropy
      */
     generateRandomSamples() {
         const samples = [];
-        
+
         for (let i = 0; i < 10; i++) {
             samples.push({
                 crypto: crypto.getRandomValues ? Array.from(crypto.getRandomValues(new Uint8Array(4))) : null,
@@ -317,10 +317,10 @@ class LukhAsWebSocketClient {
                 index: i
             });
         }
-        
+
         return samples;
     }
-    
+
     /**
      * Handle incoming WebSocket messages
      */
@@ -329,30 +329,30 @@ class LukhAsWebSocketClient {
             case 'device_authenticated':
                 console.log('Device authenticated with session:', data.session_id);
                 break;
-                
+
             case 'connection_rejected':
                 console.warn('Connection rejected:', data.reason);
                 this.notifyConnectionCallbacks('rejected', data.reason);
                 break;
-                
+
             case 'entropy_ack':
                 console.log('Entropy acknowledged, quality score:', data.quality_score);
                 break;
-                
+
             case 'sync_complete':
                 console.log('Entropy synchronization complete');
                 this.notifySyncCallbacks(data);
                 break;
-                
+
             case 'error':
                 console.error('Server error:', data.message);
                 break;
-                
+
             default:
                 console.log('Unknown message type:', data.type);
         }
     }
-    
+
     /**
      * Attempt to reconnect to the server
      */
@@ -362,31 +362,31 @@ class LukhAsWebSocketClient {
             this.notifyConnectionCallbacks('max_attempts_reached');
             return;
         }
-        
+
         this.reconnectCount++;
         const delay = this.options.reconnectDelay * Math.pow(2, this.reconnectCount - 1); // Exponential backoff
-        
+
         console.log(`Attempting reconnection ${this.reconnectCount}/${this.options.reconnectAttempts} in ${delay}ms`);
-        
+
         setTimeout(() => {
             this.connect();
         }, delay);
     }
-    
+
     /**
      * Add callback for sync completion events
      */
     onSyncComplete(callback) {
         this.syncCallbacks.push(callback);
     }
-    
+
     /**
      * Add callback for connection state changes
      */
     onConnectionChange(callback) {
         this.connectionCallbacks.push(callback);
     }
-    
+
     /**
      * Notify sync completion callbacks
      */
@@ -399,7 +399,7 @@ class LukhAsWebSocketClient {
             }
         });
     }
-    
+
     /**
      * Notify connection state callbacks
      */
@@ -412,7 +412,7 @@ class LukhAsWebSocketClient {
             }
         });
     }
-    
+
     /**
      * Get current connection status
      */
@@ -425,7 +425,7 @@ class LukhAsWebSocketClient {
             entropyBufferSize: this.entropyBuffer.length
         };
     }
-    
+
     /**
      * Disconnect and cleanup
      */
@@ -434,12 +434,12 @@ class LukhAsWebSocketClient {
             this.websocket.close();
             this.websocket = null;
         }
-        
+
         this.isConnected = false;
         this.mouseMovements = [];
         this.keystrokes = [];
         this.deviceMetrics = {};
-        
+
         console.log('LUKHAS WebSocket client disconnected and cleaned up');
     }
 }

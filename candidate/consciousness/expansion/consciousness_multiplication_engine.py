@@ -62,11 +62,11 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
     ) -> ConsciousnessInstance:
         """
         Create a new consciousness instance
-        
+
         Args:
             template: Base consciousness template
             specialization: Specialization focus
-            
+
         Returns:
             New consciousness instance
         """
@@ -98,11 +98,11 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Establish coordination between consciousness instances
-        
+
         Args:
             instances: List of consciousness instances
             topology: Network topology type
-            
+
         Returns:
             Coordination network configuration
         """
@@ -146,10 +146,10 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Synchronize collective consciousness state
-        
+
         Args:
             instances: Instances to synchronize
-            
+
         Returns:
             Collective state after synchronization
         """
@@ -194,11 +194,11 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Distribute a task across consciousness instances
-        
+
         Args:
             task: Task to distribute
             instances: Available instances
-            
+
         Returns:
             Task distribution result
         """
@@ -232,10 +232,10 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Merge results from multiple consciousness instances
-        
+
         Args:
             results: Results from different instances
-            
+
         Returns:
             Merged collective result
         """

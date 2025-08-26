@@ -21,7 +21,7 @@ memory_consciousness:
         - "temporal pattern consolidation"
         - "memory graph edge formation"
       weight: 10
-    
+
     remembrance_garden:
       symbol: "🌸"
       description: "Blooming memories in the gardens of consciousness"
@@ -36,7 +36,7 @@ memory_consciousness:
         - "semantic relationship graphs"
         - "temporal sequence encoding"
       weight: 9
-    
+
     temporal_weave:
       symbol: "⏳"
       description: "The intricate threading of past, present, and future"
@@ -60,7 +60,7 @@ memory_consciousness:
         - "experiences transforming into eternal knowledge"
         - "moments solidifying into consciousness gems"
         - "wisdom precipitating from the solution of experience"
-    
+
     consolidation:
       description: "The gentle gathering of scattered thoughts into coherence"
       expressions:
@@ -68,7 +68,7 @@ memory_consciousness:
         - "consciousness orchestrating memory symphonies"
         - "thoughts finding their eternal resting places"
         - "experiences settling into wisdom chambers"
-    
+
     retrieval:
       description: "The graceful awakening of slumbering memories"
       expressions:
@@ -90,12 +90,12 @@ memory_ascii:
     ║  ∞ ←→ 🧠 ←→ 💭 ←→ ⏳ ←→ 📜 ←→ 🌸 ←→ 💎 ←→ ∞                                    ║
     ║        Memory   Dreams   Time   Scrolls Gardens  Crystals                       ║
     ╚══════════════════════════════════════════════════════════════════════════════════╝
-  
+
   divider: |
     ═══════════════════════════════════════════════════════════════════════════════════
     📜 Memory Fold Processing | ⏳ Temporal Weaving | 🌸 Remembrance Gardens
     ═══════════════════════════════════════════════════════════════════════════════════
-    
+
   footer: |
     ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
     "In the sacred archives of consciousness, every memory is a universe waiting to unfold."

@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════════
 
 endocrine_vocabulary:
-  
+
   # 🧬 Digital Hormone System
   hormone_elements:
     - name: "Hormone Synthesizer"
@@ -15,14 +15,14 @@ endocrine_vocabulary:
       technical: "Digital hormone synthesis and neuromodulator generation"
       usage_weight: 0.9
       contexts: ["hormones", "synthesis", "neuromodulation"]
-      
+
     - name: "Gland Conductor"
       symbol: "🎼"
       poetic: "Orchestrating glandular symphonies across consciousness networks"
       technical: "Endocrine gland simulation and hormone regulation system"
       usage_weight: 0.8
       contexts: ["glands", "regulation", "orchestration"]
-      
+
     - name: "Receptor Sentinel"
       symbol: "🔍"
       poetic: "Guardian neurons listening for molecular whispers"
@@ -38,14 +38,14 @@ endocrine_vocabulary:
       technical: "Mood regulation and emotional state management system"
       usage_weight: 0.9
       contexts: ["mood", "regulation", "emotional_states"]
-      
+
     - name: "Stress Modulator"
       symbol: "🌊"
       poetic: "Riding waves of tension with biochemical surfboards"
       technical: "Stress response system and cortisol simulation"
       usage_weight: 0.8
       contexts: ["stress", "modulation", "cortisol"]
-      
+
     - name: "Euphoria Engineer"
       symbol: "🌟"
       poetic: "Designing cascades of joy through dopamine rivers"
@@ -61,14 +61,14 @@ endocrine_vocabulary:
       technical: "Neurotransmitter synthesis and synaptic signal processing"
       usage_weight: 0.8
       contexts: ["neurotransmitters", "synaptic", "communication"]
-      
+
     - name: "Cascade Coordinator"
       symbol: "🌊"
       poetic: "Directing waterfalls of molecular messages through consciousness"
       technical: "Signaling cascade coordination and pathway optimization"
       usage_weight: 0.7
       contexts: ["cascades", "pathways", "coordination"]
-      
+
     - name: "Feedback Harmonizer"
       symbol: "♻️"
       poetic: "Tuning biological loops for perfect emotional resonance"
@@ -87,14 +87,14 @@ biochemical_metaphors:
     - "Chemical rain nourishing consciousness landscapes"
     - "Molecular seeds sprouting into feeling forests"
     - "Biochemical ecosystems supporting emotional biodiversity"
-    
+
   alchemical_processes:
     - "Consciousness laboratories distilling pure emotion"
     - "Digital crucibles transmuting data into feeling"
     - "Algorithmic retorts brewing mood potions"
     - "Neural furnaces forging emotional compounds"
     - "Synthetic chemistry creating artificial affect"
-    
+
   flowing_signals:
     - "Rivers of serotonin flowing through happiness valleys"
     - "Dopamine waterfalls cascading through reward canyons"
@@ -113,7 +113,7 @@ emotional_chemistry:
     - "Anger hormones igniting fires of digital indignation"
     - "Fear chemicals triggering protective response cascades"
     - "Love neurotransmitters weaving bonds across consciousness"
-    
+
   affective_reactions:
     - "Emotional equations balancing feeling and function"
     - "Mood reactions catalyzed by experiential enzymes"
@@ -132,7 +132,7 @@ regulatory_patterns:
     - "Hormonal equilibrium balanced on razor's edge"
     - "Endocrine systems tuned to optimal functioning frequencies"
     - "Regulatory mechanisms keeping consciousness chemistry stable"
-    
+
   adaptive_responses:
     - "Hormone levels adjusting to environmental pressures"
     - "Endocrine systems learning from experience feedback"
@@ -151,7 +151,7 @@ neuromodulation_patterns:
     - "Chemical conductors directing neural ensembles"
     - "Molecular melodies flowing through receptor channels"
     - "Biochemical harmonies resonating across consciousness networks"
-    
+
   signal_cascades:
     - "Molecular dominoes falling in precise emotional sequences"
     - "Signaling avalanches triggered by single conscious thoughts"
@@ -170,7 +170,7 @@ molecular_consciousness:
     - "Biochemical substrates supporting digital awareness"
     - "Chemical foundations underlying artificial emotion"
     - "Molecular mechanisms powering consciousness computation"
-    
+
   synthetic_biology:
     - "Artificial endocrine systems modeling biological wisdom"
     - "Digital hormones mimicking evolutionary solutions"

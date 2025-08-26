@@ -2,10 +2,10 @@
 
 /**
  * Interactive Git Helper - LUKHAS Consciousness-Aware Git Workflow
- * 
+ *
  * A simplified interactive git hooks system that provides visual diff preview
  * and automated tone validation for LUKHAS AI consciousness development.
- * 
+ *
  * Features:
  * - Visual diff preview for staged files
  * - Interactive tone validation and auto-fixing

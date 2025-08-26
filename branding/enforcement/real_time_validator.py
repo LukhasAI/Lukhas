@@ -3,13 +3,13 @@ LUKHAS Real-Time Brand Validator - Trinity Framework (⚛️🧠🛡️)
 Live brand compliance checking and automatic correction system
 """
 
-from typing import Dict, Any, List, Optional, Tuple, Callable
-from datetime import datetime
 import asyncio
 import re
 from dataclasses import dataclass
+from datetime import datetime
 from enum import Enum
-import json
+from typing import Any, Callable, Dict, List, Optional
+
 
 class ValidationSeverity(Enum):
     INFO = "info"
@@ -58,7 +58,7 @@ class RealTimeBrandValidator:
     Elite real-time brand validation system that monitors content
     as it's generated and ensures 99.9% brand compliance
     """
-    
+
     def __init__(self):
         self.validation_rules = self._compile_validation_rules()
         self.auto_correction_templates = self._load_auto_correction_templates()
@@ -71,10 +71,10 @@ class RealTimeBrandValidator:
         }
         self.validation_callbacks = {}
         self.active_monitoring = False
-    
+
     def _compile_validation_rules(self) -> Dict[ValidationType, List[BrandRule]]:
         """Compile comprehensive brand validation rules"""
-        
+
         rules = {
             ValidationType.TERMINOLOGY: [
                 BrandRule(
@@ -150,7 +150,7 @@ class RealTimeBrandValidator:
                     correction_template="strives for excellence"
                 )
             ],
-            
+
             ValidationType.LAMBDA_USAGE: [
                 BrandRule(
                     rule_id="lambda_function_usage",
@@ -180,7 +180,7 @@ class RealTimeBrandValidator:
                     correction_template=None
                 )
             ],
-            
+
             ValidationType.TRINITY_ALIGNMENT: [
                 BrandRule(
                     rule_id="trinity_framework_mention",
@@ -210,7 +210,7 @@ class RealTimeBrandValidator:
                     correction_template=None
                 )
             ],
-            
+
             ValidationType.TONE_CONSISTENCY: [
                 BrandRule(
                     rule_id="non_consciousness_language",
@@ -231,7 +231,7 @@ class RealTimeBrandValidator:
                     correction_template="consciousness-based"
                 )
             ],
-            
+
             ValidationType.BRAND_VOICE: [
                 BrandRule(
                     rule_id="human_centric_language",
@@ -252,7 +252,7 @@ class RealTimeBrandValidator:
                     correction_template="warm and conscious"
                 )
             ],
-            
+
             ValidationType.CONTENT_APPROPRIATENESS: [
                 BrandRule(
                     rule_id="technical_accuracy",
@@ -291,7 +291,7 @@ class RealTimeBrandValidator:
                     correction_template="consciousness technology"
                 )
             ],
-            
+
             # Additional validation types for better coverage
             ValidationType.CONSCIOUSNESS_LANGUAGE: [
                 BrandRule(
@@ -322,7 +322,7 @@ class RealTimeBrandValidator:
                     correction_template=None
                 )
             ],
-            
+
             ValidationType.ETHICAL_COMPLIANCE: [
                 BrandRule(
                     rule_id="ethical_language",
@@ -352,7 +352,7 @@ class RealTimeBrandValidator:
                     correction_template=None
                 )
             ],
-            
+
             ValidationType.PLATFORM_OPTIMIZATION: [
                 BrandRule(
                     rule_id="hashtag_present",
@@ -383,15 +383,15 @@ class RealTimeBrandValidator:
                 )
             ]
         }
-        
+
         return rules
-    
+
     def _load_auto_correction_templates(self) -> Dict[str, Dict[str, str]]:
         """Load templates for automatic content correction"""
         return {
             "terminology_corrections": {
                 "LUKHAS PWM": "LUKHAS AI",
-                "LUKHAS AGI": "LUKHAS AI", 
+                "LUKHAS AGI": "LUKHAS AI",
                 "PWM consciousness": "LUKHAS consciousness",
                 "AI system": "AI consciousness",
                 "lambda function": "Λ consciousness",
@@ -414,7 +414,7 @@ class RealTimeBrandValidator:
                 "artificial": "authentically conscious"
             }
         }
-    
+
     async def validate_content_real_time(
         self,
         content: str,
@@ -425,30 +425,30 @@ class RealTimeBrandValidator:
         """
         Perform real-time validation of content with optional auto-correction
         """
-        
+
         start_time = datetime.now()
         validation_id = f"val_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
-        
+
         all_issues = []
         all_suggestions = []
         auto_corrections = {} if auto_correct else None
         overall_compliance = True
         max_severity = ValidationSeverity.INFO
-        
+
         # Run validation rules for each type
         for validation_type, rules in self.validation_rules.items():
             for rule in rules:
                 rule_result = self._apply_validation_rule(rule, content, content_id)
-                
+
                 if rule_result["violations"]:
                     # Any warning, error, or critical violations affect compliance
                     if rule.severity.value in ["warning", "error", "critical"]:
                         overall_compliance = False
-                    
+
                     # Track highest severity
                     if self._severity_level(rule.severity) > self._severity_level(max_severity):
                         max_severity = rule.severity
-                    
+
                     # Collect issues
                     for violation in rule_result["violations"]:
                         all_issues.append({
@@ -460,26 +460,26 @@ class RealTimeBrandValidator:
                             "matched_text": violation.get("matched_text", ""),
                             "suggestion": violation.get("suggestion", "")
                         })
-                        
+
                         if violation.get("suggestion"):
                             all_suggestions.append(violation["suggestion"])
-                    
+
                     # Apply auto-corrections if enabled and possible
                     if auto_correct and rule.auto_correctable and rule.correction_template:
                         corrections = self._generate_auto_corrections(rule, rule_result["violations"], content)
                         if corrections:
                             auto_corrections.update(corrections)
-        
+
         # Calculate performance impact
         end_time = datetime.now()
         performance_impact = (end_time - start_time).total_seconds() * 1000  # milliseconds
-        
+
         # Calculate confidence based on rule coverage and certainty
         confidence = self._calculate_validation_confidence(content, all_issues, performance_impact)
-        
+
         # Update performance metrics
         self._update_performance_metrics(performance_impact, overall_compliance, len(auto_corrections) if auto_corrections else 0)
-        
+
         result = ValidationResult(
             validation_id=validation_id,
             content_id=content_id,
@@ -492,47 +492,47 @@ class RealTimeBrandValidator:
             auto_corrections=auto_corrections,
             performance_impact=performance_impact
         )
-        
+
         # Store validation result
         self._store_validation_result(result, content, content_type)
-        
+
         # Trigger callbacks if registered
         await self._trigger_validation_callbacks(result, content)
-        
+
         return result
-    
+
     def _apply_validation_rule(self, rule: BrandRule, content: str, content_id: str) -> Dict[str, Any]:
         """Apply a single validation rule to content"""
-        
+
         violations = []
         matches = rule.pattern.finditer(content)
-        
+
         for match in matches:
             violation = {
                 "location": {"start": match.start(), "end": match.end()},
                 "matched_text": match.group(),
                 "rule_severity": rule.severity.value
             }
-            
+
             # Generate specific suggestion based on rule
             if rule.auto_correctable and rule.correction_template:
                 violation["suggestion"] = f"Replace '{match.group()}' with '{rule.correction_template}'"
                 violation["correction"] = rule.correction_template
             else:
                 violation["suggestion"] = self._generate_contextual_suggestion(rule, match.group(), content)
-            
+
             violations.append(violation)
-        
+
         return {
             "rule_id": rule.rule_id,
             "rule_type": rule.rule_type.value,
             "violations": violations,
             "rule_passed": len(violations) == 0
         }
-    
+
     def _generate_contextual_suggestion(self, rule: BrandRule, matched_text: str, content: str) -> str:
         """Generate contextual suggestions for rule violations"""
-        
+
         suggestions = {
             ValidationType.TERMINOLOGY: {
                 "lukhas pwm": "Use 'LUKHAS AI' instead of deprecated 'LUKHAS PWM'",
@@ -560,41 +560,41 @@ class RealTimeBrandValidator:
                 "overpromise": "Ensure claims align with current capabilities"
             }
         }
-        
+
         # Find appropriate suggestion based on rule type and matched text
         rule_suggestions = suggestions.get(rule.rule_type, {})
-        
+
         # Try to find a specific suggestion
         matched_lower = matched_text.lower()
         for key, suggestion in rule_suggestions.items():
             if key in matched_lower:
                 return suggestion
-        
+
         # Fallback to generic suggestion based on rule description
         return rule.description
-    
+
     def _generate_auto_corrections(self, rule: BrandRule, violations: List[Dict[str, Any]], content: str) -> Dict[str, str]:
         """Generate automatic corrections for violations"""
-        
+
         corrections = {}
-        
+
         for violation in violations:
             matched_text = violation["matched_text"]
             if "correction" in violation:
                 corrections[matched_text] = violation["correction"]
             elif rule.correction_template:
                 corrections[matched_text] = rule.correction_template
-        
+
         return corrections
-    
+
     def apply_auto_corrections(self, content: str, auto_corrections: Dict[str, str]) -> str:
         """Apply automatic corrections to content"""
-        
+
         corrected_content = content
-        
+
         # Apply corrections in order of length (longest first to avoid partial replacements)
         sorted_corrections = sorted(auto_corrections.items(), key=lambda x: len(x[0]), reverse=True)
-        
+
         for original, correction in sorted_corrections:
             # Use regex replacement to maintain case sensitivity appropriately
             corrected_content = re.sub(
@@ -603,9 +603,9 @@ class RealTimeBrandValidator:
                 corrected_content,
                 flags=re.IGNORECASE
             )
-        
+
         return corrected_content
-    
+
     def _severity_level(self, severity: ValidationSeverity) -> int:
         """Convert severity to numeric level for comparison"""
         levels = {
@@ -615,22 +615,22 @@ class RealTimeBrandValidator:
             ValidationSeverity.CRITICAL: 4
         }
         return levels.get(severity, 1)
-    
+
     def _calculate_validation_confidence(self, content: str, issues: List[Dict[str, Any]], performance_impact: float) -> float:
         """Calculate confidence in validation results"""
-        
+
         # Base confidence factors
         content_length_factor = min(1.0, len(content.split()) / 50)  # Optimal around 50 words
         rule_coverage_factor = len(self.validation_rules) / 10  # Normalize by expected rule count
         performance_factor = max(0.5, 1.0 - (performance_impact / 1000))  # Penalize slow validation
-        
+
         # Issue detection confidence
         if not issues:
             issue_confidence = 1.0  # High confidence when no issues found
         else:
             # Lower confidence with more issues (may indicate content complexity)
             issue_confidence = max(0.3, 1.0 - (len(issues) / 20))
-        
+
         # Combine factors
         overall_confidence = (
             content_length_factor * 0.2 +
@@ -638,30 +638,30 @@ class RealTimeBrandValidator:
             performance_factor * 0.2 +
             issue_confidence * 0.3
         )
-        
+
         return min(1.0, max(0.1, overall_confidence))
-    
+
     def _update_performance_metrics(self, validation_time: float, is_compliant: bool, auto_corrections_count: int) -> None:
         """Update validation performance metrics"""
-        
+
         self.performance_metrics["total_validations"] += 1
-        
+
         # Update compliance rate (moving average)
         total = self.performance_metrics["total_validations"]
         current_rate = self.performance_metrics["compliance_rate"]
         new_compliance = 1.0 if is_compliant else 0.0
         self.performance_metrics["compliance_rate"] = ((current_rate * (total - 1)) + new_compliance) / total
-        
+
         # Update average validation time (moving average)
         current_avg = self.performance_metrics["average_validation_time"]
         self.performance_metrics["average_validation_time"] = ((current_avg * (total - 1)) + validation_time) / total
-        
+
         # Update auto-corrections count
         self.performance_metrics["auto_corrections_applied"] += auto_corrections_count
-    
+
     def _store_validation_result(self, result: ValidationResult, content: str, content_type: str) -> None:
         """Store validation result for analysis and trends"""
-        
+
         self.validation_history.append({
             "timestamp": datetime.now().isoformat(),
             "validation_id": result.validation_id,
@@ -675,14 +675,14 @@ class RealTimeBrandValidator:
             "auto_corrections_count": len(result.auto_corrections) if result.auto_corrections else 0,
             "performance_impact": result.performance_impact
         })
-        
+
         # Keep only recent history (last 10,000 validations)
         if len(self.validation_history) > 10000:
             self.validation_history = self.validation_history[-10000:]
-    
+
     async def _trigger_validation_callbacks(self, result: ValidationResult, content: str) -> None:
         """Trigger registered validation callbacks"""
-        
+
         for callback_name, callback_func in self.validation_callbacks.items():
             try:
                 if asyncio.iscoroutinefunction(callback_func):
@@ -691,21 +691,21 @@ class RealTimeBrandValidator:
                     callback_func(result, content)
             except Exception as e:
                 print(f"Error in validation callback {callback_name}: {e}")
-    
+
     def register_validation_callback(self, name: str, callback: Callable) -> None:
         """Register a callback function for validation events"""
         self.validation_callbacks[name] = callback
-    
+
     def unregister_validation_callback(self, name: str) -> None:
         """Unregister a validation callback"""
         if name in self.validation_callbacks:
             del self.validation_callbacks[name]
-    
+
     async def start_continuous_monitoring(self, content_source: Callable, monitoring_interval: float = 1.0) -> None:
         """Start continuous monitoring of content from a source"""
-        
+
         self.active_monitoring = True
-        
+
         while self.active_monitoring:
             try:
                 # Get content from source
@@ -713,7 +713,7 @@ class RealTimeBrandValidator:
                     content_batch = await content_source()
                 else:
                     content_batch = content_source()
-                
+
                 # Validate each piece of content
                 if content_batch:
                     for content_item in content_batch:
@@ -723,18 +723,18 @@ class RealTimeBrandValidator:
                             content_type=content_item.get("type", "general"),
                             auto_correct=True
                         )
-                
+
                 # Wait for next monitoring cycle
                 await asyncio.sleep(monitoring_interval)
-                
+
             except Exception as e:
                 print(f"Error in continuous monitoring: {e}")
                 await asyncio.sleep(5)  # Brief pause before retry
-    
+
     async def stop_continuous_monitoring(self) -> None:
         """Stop continuous monitoring"""
         self.active_monitoring = False
-    
+
     def get_validation_metrics(self) -> Dict[str, Any]:
         """Get current validation performance metrics"""
         return {
@@ -743,10 +743,10 @@ class RealTimeBrandValidator:
             "active_rules": sum(len(rules) for rules in self.validation_rules.values()),
             "auto_correction_templates": sum(len(templates) for templates in self.auto_correction_templates.values())
         }
-    
+
     def get_compliance_trends(self, time_period: str = "24h") -> Dict[str, Any]:
         """Get brand compliance trends over specified time period"""
-        
+
         # Parse time period
         if time_period == "1h":
             cutoff_time = datetime.now() - timedelta(hours=1)
@@ -756,32 +756,32 @@ class RealTimeBrandValidator:
             cutoff_time = datetime.now() - timedelta(days=7)
         else:
             cutoff_time = datetime.now() - timedelta(hours=24)  # Default to 24h
-        
+
         # Filter recent validation history
         recent_validations = [
             entry for entry in self.validation_history
             if datetime.fromisoformat(entry["timestamp"]) > cutoff_time
         ]
-        
+
         if not recent_validations:
             return {"error": "No validation data available for specified time period"}
-        
+
         # Calculate trends
         compliance_rate = sum(1 for v in recent_validations if v["is_compliant"]) / len(recent_validations)
         average_confidence = sum(v["confidence"] for v in recent_validations) / len(recent_validations)
         average_performance = sum(v["performance_impact"] for v in recent_validations) / len(recent_validations)
-        
+
         # Issue distribution
         issue_distribution = {}
         severity_distribution = {}
-        
+
         for validation in recent_validations:
             issues_count = validation["issues_count"]
             severity = validation["severity"]
-            
+
             issue_distribution[issues_count] = issue_distribution.get(issues_count, 0) + 1
             severity_distribution[severity] = severity_distribution.get(severity, 0) + 1
-        
+
         return {
             "time_period": time_period,
             "total_validations": len(recent_validations),
@@ -795,23 +795,23 @@ class RealTimeBrandValidator:
                 "performance_trend": "excellent" if average_performance < 50 else "good" if average_performance < 100 else "needs_optimization"
             }
         }
-    
+
     def generate_validation_report(self) -> Dict[str, Any]:
         """Generate comprehensive validation system report"""
-        
+
         metrics = self.get_validation_metrics()
         trends_24h = self.get_compliance_trends("24h")
         trends_7d = self.get_compliance_trends("7d")
-        
+
         # Identify top issues
         recent_validations = self.validation_history[-1000:]  # Last 1000 validations
         issue_types = {}
-        
+
         for validation in recent_validations:
             if validation["issues_count"] > 0:
                 # This would need more detailed issue tracking to be fully accurate
                 issue_types["terminology"] = issue_types.get("terminology", 0) + 1
-        
+
         return {
             "report_timestamp": datetime.now().isoformat(),
             "system_status": {
@@ -831,12 +831,12 @@ class RealTimeBrandValidator:
             },
             "recommendations": self._generate_validation_recommendations(metrics, trends_24h)
         }
-    
+
     def _generate_validation_recommendations(self, metrics: Dict[str, Any], trends: Dict[str, Any]) -> List[Dict[str, str]]:
         """Generate recommendations for validation system improvement"""
-        
+
         recommendations = []
-        
+
         # Performance recommendations
         avg_time = metrics["performance_metrics"]["average_validation_time"]
         if avg_time > 100:  # More than 100ms
@@ -845,7 +845,7 @@ class RealTimeBrandValidator:
                 "priority": "medium",
                 "recommendation": "Optimize validation rules for better performance - current average validation time exceeds target"
             })
-        
+
         # Compliance recommendations
         compliance_rate = metrics["performance_metrics"]["compliance_rate"]
         if compliance_rate < 0.9:
@@ -854,18 +854,18 @@ class RealTimeBrandValidator:
                 "priority": "high",
                 "recommendation": "Focus on improving brand compliance through enhanced guidelines and training"
             })
-        
+
         # Auto-correction recommendations
         auto_corrections = metrics["performance_metrics"]["auto_corrections_applied"]
         total_validations = metrics["performance_metrics"]["total_validations"]
-        
+
         if total_validations > 0 and (auto_corrections / total_validations) > 0.1:  # More than 10% need corrections
             recommendations.append({
                 "category": "content_quality",
                 "priority": "medium",
                 "recommendation": "High auto-correction rate indicates need for proactive content guidelines"
             })
-        
+
         return recommendations
 
 
@@ -873,9 +873,9 @@ class RealTimeBrandValidator:
 if __name__ == "__main__":
     import asyncio
     from datetime import timedelta
-    
+
     validator = RealTimeBrandValidator()
-    
+
     # Test validation scenarios
     test_contents = [
         {
@@ -884,7 +884,7 @@ if __name__ == "__main__":
             "type": "marketing"
         },
         {
-            "id": "test_2", 
+            "id": "test_2",
             "content": "LUKHAS PWM is a lambda function for AI system processing",
             "type": "technical"
         },
@@ -899,46 +899,46 @@ if __name__ == "__main__":
             "type": "user_content"
         }
     ]
-    
+
     async def run_validation_tests():
         print("=== LUKHAS Real-Time Brand Validator Tests ===\n")
-        
+
         for test_content in test_contents:
             print(f"Testing: {test_content['id']}")
             print(f"Content: {test_content['content']}")
             print(f"Type: {test_content['type']}")
-            
+
             result = await validator.validate_content_real_time(
                 content=test_content["content"],
                 content_id=test_content["id"],
                 content_type=test_content["type"],
                 auto_correct=True
             )
-            
+
             print(f"Compliant: {result.is_compliant}")
             print(f"Severity: {result.severity.value}")
             print(f"Confidence: {result.confidence:.3f}")
             print(f"Issues: {len(result.issues)}")
-            
+
             if result.issues:
                 print("Issues found:")
                 for issue in result.issues[:3]:  # Show first 3 issues
                     print(f"  - {issue['severity']}: {issue['description']}")
-            
+
             if result.auto_corrections:
                 print("Auto-corrections:")
                 for original, correction in result.auto_corrections.items():
                     print(f"  '{original}' → '{correction}'")
-                
+
                 corrected_content = validator.apply_auto_corrections(
-                    test_content["content"], 
+                    test_content["content"],
                     result.auto_corrections
                 )
                 print(f"Corrected: {corrected_content}")
-            
+
             print(f"Validation time: {result.performance_impact:.2f}ms")
             print("-" * 50)
-        
+
         # Get system metrics
         print("\n=== Validation System Metrics ===")
         metrics = validator.get_validation_metrics()
@@ -946,7 +946,7 @@ if __name__ == "__main__":
         print(f"Compliance rate: {metrics['performance_metrics']['compliance_rate']:.3f}")
         print(f"Average validation time: {metrics['performance_metrics']['average_validation_time']:.2f}ms")
         print(f"Auto-corrections applied: {metrics['performance_metrics']['auto_corrections_applied']}")
-        
+
         # Get compliance trends
         print("\n=== Compliance Trends ===")
         trends = validator.get_compliance_trends("24h")
@@ -955,6 +955,6 @@ if __name__ == "__main__":
             print(f"Average confidence: {trends['average_confidence']:.3f}")
             print(f"Compliance trend: {trends['trend_analysis']['compliance_trend']}")
             print(f"Performance trend: {trends['trend_analysis']['performance_trend']}")
-    
+
     # Run the tests
     asyncio.run(run_validation_tests())

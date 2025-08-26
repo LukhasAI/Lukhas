@@ -95,7 +95,7 @@ class BioQuantumRadarMetrics:
         brain_performance = self._extract_brain_performance(reasoning_result)
 
         # Quantum-specific metrics
-        quantum_metrics = self._extract_quantum_metrics(reasoning_result)
+        qi_metrics = self._extract_quantum_metrics(reasoning_result)
 
         # Bio-oscillation metrics
         bio_oscillation_metrics = self._extract_bio_oscillation_metrics(
@@ -111,13 +111,13 @@ class BioQuantumRadarMetrics:
             "timestamp": timestamp,
             "unified_confidence": unified_confidence,
             "individual_brains": brain_performance,
-            "quantum_metrics": quantum_metrics,
+            "qi_metrics": qi_metrics,
             "bio_oscillation": bio_oscillation_metrics,
             "uncertainty_analysis": uncertainty_breakdown,
             "reasoning_metadata": {
                 "processing_time": reasoning_result.get("processing_time", 0.0),
                 "phase_count": reasoning_result.get("phase_count", 6),
-                "quantum_enhancement": reasoning_result.get("quantum_enhanced", False),
+                "qi_enhancement": reasoning_result.get("qi_enhanced", False),
                 "cross_brain_coherence": coherence,
             },
         }
@@ -167,8 +167,8 @@ class BioQuantumRadarMetrics:
                     "metacognition": metacognition,
                     "frequency": frequency,
                     "oscillation_sync": oscillation_sync,
-                    "quantum_entanglement": brain_result.get(
-                        "quantum_entanglement", np.random.uniform(0.5, 0.8)
+                    "qi_entanglement": brain_result.get(
+                        "qi_entanglement", np.random.uniform(0.5, 0.8)
                     ),
                 }
             )
@@ -179,23 +179,23 @@ class BioQuantumRadarMetrics:
         self, reasoning_result: dict[str, Any]
     ) -> dict[str, float]:
         """Extract quantum-specific performance metrics."""
-        quantum_data = reasoning_result.get("quantum_like_state", {})
+        qi_data = reasoning_result.get("qi_like_state", {})
 
         return {
-            "superposition_coherence": quantum_data.get(
+            "superposition_coherence": qi_data.get(
                 "superposition_coherence", np.random.uniform(0.6, 0.9)
             ),
-            "entanglement_strength": quantum_data.get(
+            "entanglement_strength": qi_data.get(
                 "entanglement_strength", np.random.uniform(0.5, 0.8)
             ),
-            "quantum_interference": quantum_data.get(
-                "quantum_interference", np.random.uniform(0.4, 0.7)
+            "qi_interference": qi_data.get(
+                "qi_interference", np.random.uniform(0.4, 0.7)
             ),
-            "measurement_confidence": quantum_data.get(
+            "measurement_confidence": qi_data.get(
                 "measurement_confidence", np.random.uniform(0.7, 0.9)
             ),
-            "quantum_speedup": quantum_data.get(
-                "quantum_speedup", np.random.uniform(1.5, 3.0)
+            "qi_speedup": qi_data.get(
+                "qi_speedup", np.random.uniform(1.5, 3.0)
             ),
         }
 
@@ -234,21 +234,21 @@ class BioQuantumRadarMetrics:
         perspectives = confidence_perspectives if confidence_perspectives else {}
 
         bayesian_conf = perspectives.get("bayesian", base_confidence)
-        quantum_conf = perspectives.get("quantum", base_confidence * 0.9)
+        qi_conf = perspectives.get("quantum", base_confidence * 0.9)
         symbolic_conf = perspectives.get("symbolic", base_confidence * 1.1)
         emotional_conf = perspectives.get("emotional", base_confidence * 0.95)
         meta_conf = perspectives.get("meta", base_confidence * 1.05)
 
         return {
             "overall_confidence": np.mean(
-                [bayesian_conf, quantum_conf, symbolic_conf, emotional_conf, meta_conf]
+                [bayesian_conf, qi_conf, symbolic_conf, emotional_conf, meta_conf]
             ),
             "reasoning_coherence": coherence,
             "metacognitive_stability": meta_conf,
             "uncertainty_balance": 1.0
-            - np.std([bayesian_conf, quantum_conf, symbolic_conf, emotional_conf]),
+            - np.std([bayesian_conf, qi_conf, symbolic_conf, emotional_conf]),
             "self_awareness_level": meta_conf,
-            "quantum_enhancement": quantum_conf,
+            "qi_enhancement": qi_conf,
         }
 
     def _get_brain_frequency(self, brain_type: str) -> float:
@@ -286,7 +286,7 @@ class BioQuantumRadarVisualizer:
             },
             "visualization_engine": "plotly",
             "real_time_monitoring": True,
-            "quantum_enhancement": True,
+            "qi_enhancement": True,
         }
 
     def create_bio_quantum_radar(self, metrics: dict[str, Any]) -> Optional[str]:
@@ -376,7 +376,7 @@ class BioQuantumRadarVisualizer:
             unified_conf["metacognitive_stability"],
             unified_conf["uncertainty_balance"],
             unified_conf["self_awareness_level"],
-            unified_conf["quantum_enhancement"],
+            unified_conf["qi_enhancement"],
         ]
 
         # Add confidence zones
@@ -412,7 +412,7 @@ class BioQuantumRadarVisualizer:
                 brain["reasoning"],
                 brain["metacognition"],
                 brain["oscillation_sync"],
-                brain["quantum_entanglement"],
+                brain["qi_entanglement"],
             ]
 
             dimensions = [
@@ -453,7 +453,7 @@ class BioQuantumRadarVisualizer:
         self, fig, metrics: dict[str, Any], row: int, col: int
     ):
         """Add quantum enhancement metrics radar."""
-        quantum_metrics = metrics["quantum_metrics"]
+        qi_metrics = metrics["qi_metrics"]
 
         dimensions = [
             "Superposition Coherence",
@@ -464,13 +464,13 @@ class BioQuantumRadarVisualizer:
         ]
 
         # Normalize quantum speedup to 0-1 range (assuming max ~5x speedup)
-        normalized_speedup = min(quantum_metrics["quantum_speedup"] / 5.0, 1.0)
+        normalized_speedup = min(qi_metrics["qi_speedup"] / 5.0, 1.0)
 
         values = [
-            quantum_metrics["superposition_coherence"],
-            quantum_metrics["entanglement_strength"],
-            quantum_metrics["quantum_interference"],
-            quantum_metrics["measurement_confidence"],
+            qi_metrics["superposition_coherence"],
+            qi_metrics["entanglement_strength"],
+            qi_metrics["qi_interference"],
+            qi_metrics["measurement_confidence"],
             normalized_speedup,
         ]
 
@@ -750,7 +750,7 @@ class BioQuantumRadarIntegration:
             "coherence": np.random.uniform(0.15, 0.35),
             "processing_time": np.random.uniform(0.01, 0.1),
             "phase_count": 6,
-            "quantum_enhanced": True,
+            "qi_enhanced": True,
             "brain_results": {
                 "dreams_brain": {"confidence": np.random.uniform(0.6, 0.8)},
                 "emotional_brain": {"confidence": np.random.uniform(0.6, 0.8)},
@@ -836,7 +836,7 @@ def create_bio_quantum_radar_config() -> dict[str, Any]:
         },
         "visualization_engine": "plotly",
         "real_time_monitoring": True,
-        "quantum_enhancement": True,
+        "qi_enhancement": True,
         "bio_oscillation_tracking": True,
         "output_directory": "/Users/A_G_I/lukhas/lukhasBrains/radar_outputs",
     }

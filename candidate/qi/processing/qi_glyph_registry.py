@@ -3,7 +3,7 @@
 Synchronizes symbolic glyph states across multiple LUKHAS nodes and enables
 distributed dream recombination.
 
-# ΛTAG: quantum_glyph_registry, distributed_dream
+# ΛTAG: qi_glyph_registry, distributed_dream
 """
 
 from __future__ import annotations

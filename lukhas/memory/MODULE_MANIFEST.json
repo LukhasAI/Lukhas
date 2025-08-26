@@ -8,7 +8,7 @@
   "capabilities": [
     "memory:fold:create",
     "memory:fold:retrieve",
-    "memory:consolidation", 
+    "memory:consolidation",
     "memory:causal_chain",
     "memory:emotional_valence",
     "memory:cascade_prevention",
@@ -22,7 +22,7 @@
   },
   "performance_targets": {
     "fold_creation": "<10ms",
-    "memory_access": "<50ms", 
+    "memory_access": "<50ms",
     "consolidation": "<100ms",
     "cascade_prevention_rate": "99.7%",
     "max_folds": 1000
@@ -45,7 +45,7 @@
   "exports": [
     "MemoryWrapper",
     "MemoryFold",
-    "FoldManager", 
+    "FoldManager",
     "MemoryMatrizAdapter",
     "create_fold",
     "consolidate_memory",
@@ -67,7 +67,7 @@
   "tags": [
     "#TAG:memory",
     "#TAG:fold_based",
-    "#TAG:production_safe", 
+    "#TAG:production_safe",
     "#TAG:trinity_framework"
   ]
 }

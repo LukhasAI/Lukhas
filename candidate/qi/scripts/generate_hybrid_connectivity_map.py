@@ -61,7 +61,7 @@ def generate_connectivity_json():
                 "role": "Cortex - Awareness & Decision",
                 "status": "adaptive",
                 "hybrid_subdirs": [
-                    "quantum_integration",
+                    "qi_integration",
                     "awareness",
                     "systems/dream_engine",
                     "meta_cognitive",
@@ -172,7 +172,7 @@ def generate_connectivity_json():
             },
             "consciousness-quantum": {
                 "shared_components": [
-                    "quantum_integration",
+                    "qi_integration",
                     "conscious_collapse",
                     "awareness_superposition",
                 ],

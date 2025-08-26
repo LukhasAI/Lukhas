@@ -96,7 +96,7 @@ export class LukhasClient {
     params?: Record<string, any>
   ): Promise<T> {
     const url = new URL(`${this.baseUrl}${endpoint}`);
-    
+
     // Add query parameters
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
@@ -124,11 +124,11 @@ export class LukhasClient {
     }
 
     let lastError: Error | null = null;
-    
+
     for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
       try {
         const response = await fetch(url.toString(), options);
-        
+
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
@@ -141,12 +141,12 @@ export class LukhasClient {
         }
       } catch (error) {
         lastError = error as Error;
-        
+
         // Don't retry on client errors (4xx)
         if (error instanceof Error && error.message.includes('HTTP 4')) {
           throw error;
         }
-        
+
         // Exponential backoff
         if (attempt < this.maxRetries) {
           await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
@@ -280,7 +280,7 @@ export class LukhasClient {
           signals: sharedSignals,
         });
         results.push(result);
-        
+
         // Small delay to avoid rate limiting
         await new Promise(resolve => setTimeout(resolve, 100));
       } catch (error) {
@@ -367,16 +367,16 @@ async function example() {
 // React component example
 function LukhasChat() {
   const { complete, giveFeedback, checkHealth } = useLukhasClient();
-  
+
   const handleSend = async (message: string) => {
     const response = await complete(message);
     console.log(response);
   };
-  
+
   const handleFeedback = async (auditId: string, rating: number) => {
     await giveFeedback(auditId, rating);
   };
-  
+
   // Component implementation...
 }
 

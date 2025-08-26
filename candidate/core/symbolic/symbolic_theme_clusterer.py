@@ -277,7 +277,7 @@ class SymbolicThemeClusterer:
                 # Late phase: theme evolution/divergence
                 base_theme = random.choice(themes)
                 evolution_symbols = [
-                    "quantum_void",
+                    "qi_void",
                     "recursive_mirror",
                     "temporal_fracture",
                     "ΛDRIFT_CRITICAL",

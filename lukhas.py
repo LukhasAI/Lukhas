@@ -4,7 +4,7 @@ Redirects to new 'lukhas' namespace
 
 This module exists for backwards compatibility.
 All new code should use 'import lukhas' instead.
-"""`````1`````````````````````````````````~`~
+"""
 
 import sys
 import warnings

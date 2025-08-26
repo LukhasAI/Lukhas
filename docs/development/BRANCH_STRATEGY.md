@@ -49,7 +49,7 @@ Each promotion follows these steps:
 1. **Context Bus** - Internal messaging and orchestration
    - Source: `candidate/orchestration/symbolic_kernel_bus.py`
    - Dependencies: None (standalone)
-   
+
 2. **MATRIZ Core** - Observability foundation
    - Source: `candidate/MATRIZ/`
    - Partially promoted (decorators in lukhas/observability)

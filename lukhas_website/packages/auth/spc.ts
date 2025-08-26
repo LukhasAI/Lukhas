@@ -28,7 +28,7 @@ export interface SPCOptions {
  */
 export function isSPCSupported(): boolean {
   return !!(
-    window.PaymentRequest && 
+    window.PaymentRequest &&
     window.PublicKeyCredential &&
     'secure-payment-confirmation' in window
   )
@@ -51,7 +51,7 @@ export async function initiateSPC(
 
     // Generate challenge for this transaction
     const challenge = await generateTransactionChallenge(transaction)
-    
+
     // Build SPC data
     const spcData: SPCOptions = {
       rpId: process.env.NEXT_PUBLIC_RP_ID || 'lukhas.ai',
@@ -95,7 +95,7 @@ export async function initiateSPC(
 
     // Create payment request
     const request = new PaymentRequest(methodData, details)
-    
+
     // Check if payment can be made
     const canMake = await request.canMakePayment()
     if (!canMake) {
@@ -105,7 +105,7 @@ export async function initiateSPC(
 
     // Show payment UI and get response
     const response = await request.show()
-    
+
     // The response contains the WebAuthn assertion bound to the transaction
     return response
   } catch (error) {
@@ -124,18 +124,18 @@ export async function verifySPCPayment(
   try {
     // Extract WebAuthn assertion from payment response
     const assertion = response.details
-    
+
     // Verify the assertion is bound to the correct transaction
     const clientData = JSON.parse(
       new TextDecoder().decode(
         base64UrlToArrayBuffer(assertion.clientDataJSON)
       )
     )
-    
+
     // Check payment extension data
     if (clientData.payment) {
       const { amount, currency, payee } = clientData.payment
-      
+
       // Verify transaction details match
       if (
         amount !== transaction.amount ||
@@ -146,14 +146,14 @@ export async function verifySPCPayment(
         return { verified: false }
       }
     }
-    
+
     // Verify WebAuthn signature (simplified - use proper verification in production)
     const verified = await verifyWebAuthnAssertion(assertion)
-    
+
     if (verified) {
       // Generate transaction ID
       const transactionId = generateTransactionId()
-      
+
       // Log successful SPC verification
       console.log('payment.spc.verified', {
         transactionId,
@@ -161,10 +161,10 @@ export async function verifySPCPayment(
         currency: transaction.currency,
         timestamp: new Date().toISOString()
       })
-      
+
       return { verified: true, transactionId }
     }
-    
+
     return { verified: false }
   } catch (error) {
     console.error('SPC verification failed:', error)
@@ -181,14 +181,14 @@ export async function fallbackToWebAuthnPayment(
   try {
     // Use the step-up authentication flow
     const { triggerStepUp } = await import('./stepup')
-    
+
     // Trigger step-up with billing purpose
     const stepUpToken = await triggerStepUp('billing')
-    
+
     if (!stepUpToken) {
       return false
     }
-    
+
     // Verify payment with step-up token
     const response = await fetch('/api/payments/confirm', {
       method: 'POST',
@@ -198,7 +198,7 @@ export async function fallbackToWebAuthnPayment(
       },
       body: JSON.stringify(transaction)
     })
-    
+
     return response.ok
   } catch (error) {
     console.error('WebAuthn payment fallback failed:', error)
@@ -216,14 +216,14 @@ export async function confirmPayment(
   // Try SPC first if credential is available
   if (credentialId && isSPCSupported()) {
     const spcResponse = await initiateSPC(transaction, credentialId)
-    
+
     if (spcResponse) {
       // Complete the payment
       await spcResponse.complete('success')
-      
+
       // Verify on server
       const verification = await verifySPCPayment(spcResponse, transaction)
-      
+
       if (verification.verified) {
         return {
           success: true,
@@ -233,11 +233,11 @@ export async function confirmPayment(
       }
     }
   }
-  
+
   // Fallback to standard WebAuthn step-up
   console.log('Falling back to WebAuthn step-up for payment')
   const fallbackSuccess = await fallbackToWebAuthnPayment(transaction)
-  
+
   return {
     success: fallbackSuccess,
     transactionId: fallbackSuccess ? generateTransactionId() : undefined,

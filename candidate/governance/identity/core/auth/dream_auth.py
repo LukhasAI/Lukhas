@@ -110,7 +110,7 @@ class DreamAuthenticationResult:
     lucidity_verification: bool
     archetypal_resonance: float
     personal_significance_match: float
-    quantum_verified: bool
+    qi_verified: bool
     dream_metadata: dict[str, Any]
     error_message: Optional[str] = None
 
@@ -375,7 +375,7 @@ class DreamAuthenticationEngine:
                     lucidity_verification=False,
                     archetypal_resonance=0.0,
                     personal_significance_match=0.0,
-                    quantum_verified=False,
+                    qi_verified=False,
                     dream_metadata={},
                     error_message="Dream seed not found",
                 )
@@ -391,7 +391,7 @@ class DreamAuthenticationEngine:
                     lucidity_verification=False,
                     archetypal_resonance=0.0,
                     personal_significance_match=0.0,
-                    quantum_verified=False,
+                    qi_verified=False,
                     dream_metadata={},
                     error_message="Dream seed expired",
                 )
@@ -436,7 +436,7 @@ class DreamAuthenticationEngine:
             )
 
             # Quantum verification
-            quantum_verified = self._verify_dream_response_integrity(dream_response)
+            qi_verified = self._verify_dream_response_integrity(dream_response)
 
             # Calculate overall confidence score
             confidence_score = self._calculate_dream_confidence_score(
@@ -452,7 +452,7 @@ class DreamAuthenticationEngine:
 
             # Determine success based on difficulty level
             success_threshold = 0.6 + (seed.difficulty_level * 0.3)  # 0.6 to 0.9
-            success = confidence_score >= success_threshold and quantum_verified
+            success = confidence_score >= success_threshold and qi_verified
 
             # Update seed usage
             seed.usage_count += 1
@@ -466,7 +466,7 @@ class DreamAuthenticationEngine:
                 lucidity_verification=lucidity_verification,
                 archetypal_resonance=archetypal_resonance,
                 personal_significance_match=personal_significance_match,
-                quantum_verified=quantum_verified,
+                qi_verified=qi_verified,
                 dream_metadata={
                     "seed_id": seed_id,
                     "difficulty_level": seed.difficulty_level,
@@ -488,7 +488,7 @@ class DreamAuthenticationEngine:
                 lucidity_verification=False,
                 archetypal_resonance=0.0,
                 personal_significance_match=0.0,
-                quantum_verified=False,
+                qi_verified=False,
                 dream_metadata={},
                 error_message=str(e),
             )

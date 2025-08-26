@@ -22,21 +22,21 @@ module.exports = {
     extend: {
       keyframes: {
         fadeUp: {
-          '0%': { 
-            opacity: '0', 
-            transform: 'translateY(12px)' 
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(12px)'
           },
-          '100%': { 
-            opacity: '1', 
-            transform: 'translateY(0)' 
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
           },
         },
         shimmer: {
-          '0%': { 
-            backgroundPosition: '-200px 0' 
+          '0%': {
+            backgroundPosition: '-200px 0'
           },
-          '100%': { 
-            backgroundPosition: 'calc(200px + 100%) 0' 
+          '100%': {
+            backgroundPosition: 'calc(200px + 100%) 0'
           },
         },
       },

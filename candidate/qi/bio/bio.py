@@ -43,11 +43,11 @@ log = structlog.get_logger(__name__)  # Module-level logger
 # NOTE: For now, assuming these imports work within the LUKHAS build/test environment.
 LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
-    from bio.core.oscillator.quantum_inspired_layer import (
+    from bio.core.oscillator.qi_inspired_layer import (
         QIBioOscillator,  # type: ignore
     )
     from qi.processing.qi_engine import (
-        QuantumOscillator,  # type: ignore
+        QIOscillator,  # type: ignore
     )
 
     LUKHAS_OSCILLATORS_AVAILABLE = True
@@ -66,9 +66,9 @@ except ImportError as e:
 
     # Mock classes if actual ones are not available
     class QIOscillator:  # type: ignore
-        def quantum_modulate(self, signal: np.ndarray) -> np.ndarray:
+        def qi_modulate(self, signal: np.ndarray) -> np.ndarray:
             log.warning(
-                "Using mock QuantumOscillator.quantum_modulate",
+                "Using mock QIOscillator.qi_modulate",
                 timestamp=datetime.now(timezone.utc).isoformat(),
             )
             return signal * 0.9
@@ -84,7 +84,7 @@ except ImportError as e:
 
 # TIER_CONFIG_START
 # {
-#   "module": "quantum.qi_bio",
+#   "module": "qi.qi_bio",
 #   "class_MitochondrialQIBridge": {
 #     "default_tier": 2,
 #     "methods": {"__init__":0, "process_quantum_signal":2, "_simulate_electron_transport":3, "_simulate_proton_gradient_generation":3, "_simulate_quantum_atp_synthesis":3}
@@ -116,12 +116,12 @@ class MitochondrialQIBridge:
     Implements conceptual electron transport chain dynamics for quantum information flow.
     """
 
-    def __init__(self, quantum_oscillator: Optional[QuantumOscillator] = None):
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
         self.log = log.bind(
             component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
         )
-        self.quantum_oscillator: QuantumOscillator = (
-            quantum_oscillator or QuantumOscillator()
+        self.qi_oscillator: QIOscillator = (
+            qi_oscillator or QIOscillator()
         )
 
         self.complex_states: dict[str, np.ndarray] = {
@@ -159,7 +159,7 @@ class MitochondrialQIBridge:
             timestamp=current_timestamp,
         )
         try:
-            modulated_input = self.quantum_oscillator.quantum_modulate(input_signal)
+            modulated_input = self.qi_oscillator.qi_modulate(input_signal)
             electron_transport_state = await self._simulate_electron_transport(
                 modulated_input
             )
@@ -224,7 +224,7 @@ class MitochondrialQIBridge:
 
         state_c1_input = _prepare_for_concat(current_state, 3)
         self.complex_states["complex_i_nadh_dehydrogenase"] = (
-            self.quantum_oscillator.quantum_modulate(
+            self.qi_oscillator.qi_modulate(
                 np.concatenate([state_c1_input, [1.0]])
             )
         )
@@ -232,14 +232,14 @@ class MitochondrialQIBridge:
 
         state_c3_input = _prepare_for_concat(current_state, 3)
         self.complex_states["complex_iii_cytochrome_bc1"] = (
-            self.quantum_oscillator.quantum_modulate(
+            self.qi_oscillator.qi_modulate(
                 np.concatenate([state_c3_input, [0.8]])
             )
         )
         current_state = self.complex_states["complex_iii_cytochrome_bc1"][:3]
 
         self.complex_states["complex_iv_cytochrome_c_oxidase"] = (
-            self.quantum_oscillator.quantum_modulate(current_state[:3])
+            self.qi_oscillator.qi_modulate(current_state[:3])
         )
 
         self.log.debug(
@@ -264,7 +264,7 @@ class MitochondrialQIBridge:
             gradient_strength=gradient_strength,
             timestamp=datetime.now(timezone.utc).isoformat(),
         )
-        simulated_gradient_vector = self.quantum_oscillator.quantum_modulate(
+        simulated_gradient_vector = self.qi_oscillator.qi_modulate(
             gradient_strength * np.array([0.7, 1.0, 0.5], dtype=float)
         )
         return simulated_gradient_vector
@@ -288,7 +288,7 @@ class MitochondrialQIBridge:
             :3
         ]  # type: ignore
         self.complex_states["complex_v_atp_synthase"] = (
-            self.quantum_oscillator.quantum_modulate(
+            self.qi_oscillator.qi_modulate(
                 np.concatenate([padded_gradient, [1.0, 0.7]])
             )
         )
@@ -328,7 +328,7 @@ class QISynapticGate:
         )
         self.internal_quantum_like_state = np.zeros(5, dtype=float)
         self.log.info(
-            "QuantumSynapticGate initialized.",
+            "QISynapticGate initialized.",
             timestamp=datetime.now(timezone.utc).isoformat(),
         )
 
@@ -457,12 +457,12 @@ class NeuroplasticityModulator:
     Adjusts internal state based on current and target states, modulated by a quantum oscillator.
     """
 
-    def __init__(self, quantum_oscillator: Optional[QuantumOscillator] = None):
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
         self.log = log.bind(
             component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
         )
-        self.quantum_oscillator: QuantumOscillator = (
-            quantum_oscillator or QuantumOscillator()
+        self.qi_oscillator: QIOscillator = (
+            qi_oscillator or QIOscillator()
         )
         self.plasticity_state_vector = np.zeros(4, dtype=float)
         self.simulated_learning_rate = 0.1
@@ -500,13 +500,13 @@ class NeuroplasticityModulator:
             plasticity_delta_signal = self._calculate_plasticity_delta_signal(
                 current_neural_state, target_neural_state
             )
-            quantum_modulated_delta = self.quantum_oscillator.quantum_modulate(
+            qi_modulated_delta = self.qi_oscillator.qi_modulate(
                 plasticity_delta_signal
             )
 
             # SYNTAX_ERROR_FIXED:             self.plasticity_state_vector =
             # self.plasticity_state_vector * (1 - self.simulated_learning_rate) + " +
-            # "quantum_modulated_delta * self.simulated_learning_rate
+            # "qi_modulated_delta * self.simulated_learning_rate
 
             new_neural_state = current_neural_state + self.plasticity_state_vector
 
@@ -514,7 +514,7 @@ class NeuroplasticityModulator:
                 "current_plasticity_state_vector": self.plasticity_state_vector.tolist(),
                 "applied_learning_rate_sim": self.simulated_learning_rate,
                 "calculated_delta_signal": plasticity_delta_signal.tolist(),
-                "quantum_modulated_delta_signal": quantum_modulated_delta.tolist(),
+                "qi_modulated_delta_signal": qi_modulated_delta.tolist(),
                 "timestamp_utc_iso": current_timestamp,  # Use consistent timestamp
             }
             self.log.info(
@@ -576,7 +576,7 @@ class NeuroplasticityModulator:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": True,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -595,7 +595,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

@@ -8,29 +8,17 @@ import hashlib
 import logging
 import uuid
 from contextlib import asynccontextmanager
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from enum import Enum
-from typing import Any
-from typing import Generic
-from typing import Optional
-from typing import TypeVar
+from typing import Any, Generic, Optional, TypeVar
 
 import redis.asyncio as redis
-from fastapi import BackgroundTasks
-from fastapi import Depends
-from fastapi import FastAPI
-from fastapi import HTTPException
-from fastapi import Request
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
-from fastapi.security import HTTPAuthorizationCredentials
-from fastapi.security import HTTPBearer
-from pydantic import BaseModel
-from pydantic import Field
-from pydantic import root_validator
-from pydantic import validator
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel, Field, root_validator, validator
 from pydantic.generics import GenericModel
 
 # from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
@@ -48,7 +36,7 @@ class Counter:
     def __init__(self, name, desc, labels=None):
         self.name = name
         self.labels = lambda **kw: self
-        
+
     def inc(self):
         pass
 
@@ -56,7 +44,7 @@ class Histogram:
     def __init__(self, name, desc, labels=None):
         self.name = name
         self.labels = lambda **kw: self
-        
+
     def observe(self, val):
         pass
 
@@ -206,7 +194,7 @@ class MemoryFoldRequest(BaseModel):
         options = values.get("fold_options", {})
 
         # Advanced folding requires higher tier
-        if options.get("quantum_fold") and tier < TierLevel.ADVANCED:
+        if options.get("qi_fold") and tier < TierLevel.ADVANCED:
             raise ValueError("Quantum folding requires ADVANCED tier or higher")
 
         return values
@@ -347,36 +335,37 @@ async def verify_token(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> dict[str, Any]:
     """Verify JWT token and extract claims"""
-    import jwt
     import os
     from datetime import datetime, timezone
-    
+
+    import jwt
+
     token = credentials.credentials
-    
+
     # JWT secret from environment (fallback for development)
     jwt_secret = os.getenv("LUKHAS_JWT_SECRET", "dev-secret-key-change-in-production")
     jwt_algorithm = os.getenv("LUKHAS_JWT_ALGORITHM", "HS256")
-    
+
     if not token:
         raise HTTPException(
-            status_code=401, 
+            status_code=401,
             detail="Missing authentication token"
         )
-    
+
     try:
         # Decode and verify JWT token
         payload = jwt.decode(
-            token, 
-            jwt_secret, 
+            token,
+            jwt_secret,
             algorithms=[jwt_algorithm],
             options={"verify_exp": True, "verify_iat": True}
         )
-        
+
         # Extract user information from payload
         user_id = payload.get("user_id") or payload.get("sub")
         tier_level_str = payload.get("tier_level", "BASIC")
         permissions = payload.get("permissions", ["read"])
-        
+
         # Convert tier level string to enum
         tier_mapping = {
             "PUBLIC": TierLevel.PUBLIC,
@@ -386,47 +375,47 @@ async def verify_token(
             "ELITE": TierLevel.ELITE
         }
         tier_level = tier_mapping.get(tier_level_str, TierLevel.BASIC)
-        
+
         # Validate required fields
         if not user_id:
             raise HTTPException(
-                status_code=401, 
+                status_code=401,
                 detail="Invalid token: missing user_id"
             )
-        
+
         # Check token expiration
         exp = payload.get("exp")
         if exp and datetime.fromtimestamp(exp, tz=timezone.utc) < datetime.now(timezone.utc):
             raise HTTPException(
-                status_code=401, 
+                status_code=401,
                 detail="Token has expired"
             )
-        
+
         logger.info(f"Token verified successfully for user: {user_id}")
-        
+
         return {
             "user_id": user_id,
             "tier_level": tier_level,
             "permissions": permissions,
             "token_payload": payload
         }
-        
+
     except jwt.ExpiredSignatureError:
         logger.warning("JWT token has expired")
         raise HTTPException(
-            status_code=401, 
+            status_code=401,
             detail="Token has expired"
         )
     except jwt.InvalidTokenError as e:
         logger.warning(f"Invalid JWT token: {str(e)}")
         raise HTTPException(
-            status_code=401, 
+            status_code=401,
             detail="Invalid authentication token"
         )
     except Exception as e:
         logger.error(f"Error verifying JWT token: {str(e)}")
         raise HTTPException(
-            status_code=401, 
+            status_code=401,
             detail="Authentication failed"
         )
 

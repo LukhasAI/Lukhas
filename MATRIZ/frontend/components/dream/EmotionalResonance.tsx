@@ -25,7 +25,7 @@ export default function EmotionalResonance({ emotion, onEmotionChange }: Emotion
     const valenceResonance = 1 - Math.abs(userEmotion.valence - emotion.valence)
     const arousalResonance = 1 - Math.abs(userEmotion.arousal - emotion.arousal)
     const dominanceResonance = 1 - Math.abs(userEmotion.dominance - emotion.dominance)
-    
+
     const totalResonance = (valenceResonance + arousalResonance + dominanceResonance) / 3
     setResonanceScore(totalResonance)
 
@@ -94,12 +94,12 @@ export default function EmotionalResonance({ emotion, onEmotionChange }: Emotion
         ctx.lineWidth = resonanceScore * 3
         ctx.beginPath()
         ctx.moveTo(aiX, aiY)
-        
+
         // Create curved path based on resonance
         const controlX = centerX + Math.sin(time * 0.001) * 50 * resonanceScore
         const controlY = centerY + Math.cos(time * 0.001) * 50 * resonanceScore
         ctx.quadraticCurveTo(controlX, controlY, userX, userY)
-        
+
         ctx.stroke()
       }
 
@@ -156,7 +156,7 @@ export default function EmotionalResonance({ emotion, onEmotionChange }: Emotion
           height={200}
           className="w-full h-48"
         />
-        
+
         {/* Overlay Labels */}
         <div className="absolute top-2 left-2 text-xs text-white/60">
           AI Emotion
@@ -195,7 +195,7 @@ export default function EmotionalResonance({ emotion, onEmotionChange }: Emotion
                 background: `linear-gradient(to right, #ef4444 0%, #fbbf24 50%, #10b981 100%)`
               }}
             />
-            <div 
+            <div
               className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg pointer-events-none"
               style={{ left: `${(userEmotion.valence + 1) * 50}%`, transform: 'translateX(-50%) translateY(-50%)' }}
             />
@@ -226,7 +226,7 @@ export default function EmotionalResonance({ emotion, onEmotionChange }: Emotion
                 background: `linear-gradient(to right, #06b6d4 0%, #fbbf24 50%, #ef4444 100%)`
               }}
             />
-            <div 
+            <div
               className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg pointer-events-none"
               style={{ left: `${userEmotion.arousal * 100}%`, transform: 'translateX(-50%) translateY(-50%)' }}
             />
@@ -257,7 +257,7 @@ export default function EmotionalResonance({ emotion, onEmotionChange }: Emotion
                 background: `linear-gradient(to right, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%)`
               }}
             />
-            <div 
+            <div
               className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg pointer-events-none"
               style={{ left: `${userEmotion.dominance * 100}%`, transform: 'translateX(-50%) translateY(-50%)' }}
             />
@@ -272,8 +272,8 @@ export default function EmotionalResonance({ emotion, onEmotionChange }: Emotion
             <Music className="w-4 h-4 text-purple-400" />
             <span className="text-sm">Emotional Resonance</span>
           </div>
-          <span className="text-sm font-medium" style={{ 
-            color: resonanceScore > 0.7 ? '#10b981' : resonanceScore > 0.4 ? '#fbbf24' : '#ef4444' 
+          <span className="text-sm font-medium" style={{
+            color: resonanceScore > 0.7 ? '#10b981' : resonanceScore > 0.4 ? '#fbbf24' : '#ef4444'
           }}>
             {(resonanceScore * 100).toFixed(0)}%
           </span>

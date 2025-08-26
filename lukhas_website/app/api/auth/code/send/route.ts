@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI - Verification Code Send API
- * 
+ *
  * Generates and sends 6-digit verification codes via email/SMS
  * Enumeration-safe responses, HMAC-based validation, rate limiting
  */
@@ -33,9 +33,9 @@ export async function POST(req: NextRequest) {
   try {
     // Get client IP and user agent
     const headersList = headers();
-    const ipAddress = headersList.get('x-forwarded-for') ?? 
-                      headersList.get('x-real-ip') ?? 
-                      req.ip ?? 
+    const ipAddress = headersList.get('x-forwarded-for') ??
+                      headersList.get('x-real-ip') ??
+                      req.ip ??
                       '127.0.0.1';
     const userAgent = headersList.get('user-agent') ?? 'Unknown';
 
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       body = SendCodeRequestSchema.parse(rawBody);
     } catch (error) {
       return NextResponse.json(
-        { 
+        {
           ok: true,  // Enumeration-safe response
           message: 'If the email address is valid, a verification code has been sent.',
           requestId: `req_${Date.now()}_${Math.random().toString(36).substring(2)}`
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
 
     if (!rateLimitResult.success) {
       return NextResponse.json(
-        { 
+        {
           ok: true,  // Enumeration-safe response
           message: 'If the email address is valid, a verification code has been sent.',
           requestId: `req_${Date.now()}_${Math.random().toString(36).substring(2)}`
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
     if (codeResult.success && codeResult.code) {
       // Send the code via the requested channel
       const templateEngine = new TemplateEngine();
-      
+
       if (channel === 'email') {
         // Render email template
         const templateType = 'code_verification' as const;
@@ -151,7 +151,7 @@ export async function POST(req: NextRequest) {
 
     // Always return enumeration-safe success response
     return NextResponse.json(
-      { 
+      {
         ok: true,
         message: 'If the email address is valid, a verification code has been sent.',
         requestId,
@@ -174,7 +174,7 @@ export async function POST(req: NextRequest) {
 
     // Always return enumeration-safe response even on errors
     return NextResponse.json(
-      { 
+      {
         ok: true,
         message: 'If the email address is valid, a verification code has been sent.',
         requestId: `req_${Date.now()}_${Math.random().toString(36).substring(2)}`

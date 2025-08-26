@@ -8,7 +8,7 @@ lukhas_embedding:
   identity_conflict_threshold: 0.35
   guardian_override_enabled: true
   output_log: logs/lukhas_reflection_log.json
-  
+
   # Mode configurations
   modes:
     passive_monitor:
@@ -22,7 +22,7 @@ lukhas_embedding:
       intervention_allowed: false
       log_level: "debug"
       enhancement_level: "subtle"
-  
+
   # Glyph system
   trinity_core: ["⚛️", "🧠", "🛡️"]
   positive_glyphs: ["🌟", "💎", "🌿", "🧘", "🔮", "✨", "🌈", "🪷"]

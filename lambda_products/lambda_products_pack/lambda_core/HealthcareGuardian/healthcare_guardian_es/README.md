@@ -160,7 +160,7 @@ healthcare_guardian_es/
 ### Primary Users
 - **Age**: 65+ years
 - **Location**: Andalusia, Spain
-- **Characteristics**: 
+- **Characteristics**:
   - Limited or no reading ability
   - Andalusian Spanish speakers
   - Multiple chronic conditions
@@ -315,6 +315,6 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 
 ---
 
-*Developed with ❤️ for the elderly community of Andalusia*  
-*Part of the LUKHAS AI Trinity Framework ecosystem*  
+*Developed with ❤️ for the elderly community of Andalusia*
+*Part of the LUKHAS AI Trinity Framework ecosystem*
 *⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian*

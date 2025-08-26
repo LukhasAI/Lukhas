@@ -12,10 +12,6 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-from candidate.core.enhanced_swarm import EnhancedSwarmHub
-
-# Import swarm infrastructure
-from candidate.core.swarm import SwarmTask, TaskPriority
 from governance.identity.core.colonies import (
     BiometricVerificationColony,
     ConsciousnessVerificationColony,
@@ -28,6 +24,11 @@ from governance.identity.core.events import (
     IdentityEventType,
     get_identity_event_publisher,
 )
+
+from candidate.core.enhanced_swarm import EnhancedSwarmHub
+
+# Import swarm infrastructure
+from candidate.core.swarm import SwarmTask, TaskPriority
 
 logger = logging.getLogger("LUKHAS_TIER_SWARM_HUB")
 
@@ -54,7 +55,7 @@ class TierResourceAllocation:
     parallel_colonies: int
     verification_depth: VerificationDepth
     healing_enabled: bool
-    quantum_resources: bool = False
+    qi_resources: bool = False
     consciousness_resources: bool = False
     dream_resources: bool = False
 
@@ -176,7 +177,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 parallel_colonies=8,
                 verification_depth=VerificationDepth.QUANTUM,
                 healing_enabled=True,
-                quantum_resources=True,
+                qi_resources=True,
                 consciousness_resources=True,
             ),
             5: TierResourceAllocation(  # Transcendent
@@ -187,7 +188,7 @@ class TierAwareSwarmHub(EnhancedSwarmHub):
                 parallel_colonies=10,
                 verification_depth=VerificationDepth.TRANSCENDENT,
                 healing_enabled=True,
-                quantum_resources=True,
+                qi_resources=True,
                 consciousness_resources=True,
                 dream_resources=True,
             ),

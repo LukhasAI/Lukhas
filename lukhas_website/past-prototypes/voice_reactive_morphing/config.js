@@ -12,7 +12,7 @@ const Config = {
         gemini: null, // 'your-gemini-api-key-here'
         perplexity: null, // 'your-perplexity-api-key-here'
     },
-    
+
     // Advanced Performance Settings
     performance: {
         maxResponseTime: 5000, // 5 seconds timeout
@@ -21,7 +21,7 @@ const Config = {
         enableCompression: true,
         enableGzip: true,
     },
-    
+
     // Cost Management
     costControl: {
         dailyBudget: 10.00, // $10 daily limit
@@ -30,7 +30,7 @@ const Config = {
         costAlertThreshold: 0.80, // Alert at 80% of budget
         autoSwitchToCheaperAI: true,
     },
-    
+
     // Rate Limiting
     rateLimits: {
         openai: { requests: 100, window: 60000 }, // 100/min
@@ -39,7 +39,7 @@ const Config = {
         gemini: { requests: 60, window: 60000 },  // 60/min
         perplexity: { requests: 40, window: 60000 }, // 40/min
     },
-    
+
     // Voice Analysis Settings
     voiceAnalysis: {
         sampleRate: 44100,
@@ -51,7 +51,7 @@ const Config = {
         emotionDetectionEnabled: true,
         speechRecognitionEnabled: true,
     },
-    
+
     // AI Model Preferences
     aiModels: {
         openai: {
@@ -86,7 +86,7 @@ const Config = {
             temperature: 0.7,
         },
     },
-    
+
     // Shape Generation Settings
     shapeGeneration: {
         enableProceduralGeneration: true,
@@ -98,7 +98,7 @@ const Config = {
         shapeInterpolationSpeed: 0.5, // seconds
         enableShapeCaching: true,
     },
-    
+
     // Advanced Features
     advancedFeatures: {
         enableAutoOptimization: true,
@@ -110,7 +110,7 @@ const Config = {
         enableLoadBalancing: true,
         enablePredictiveCaching: true,
     },
-    
+
     // Security Settings
     security: {
         enableAPIKeyEncryption: true,
@@ -120,7 +120,7 @@ const Config = {
         enableErrorLogging: true,
         enablePerformanceLogging: true,
     },
-    
+
     // Advanced Voice Features
     advancedVoice: {
         enableNoiseReduction: true,
@@ -132,7 +132,7 @@ const Config = {
         enableLanguageDetection: true,
         enableAccentDetection: false,
     },
-    
+
     // Real-time Settings
     realtime: {
         updateFrequency: 60, // FPS
@@ -142,7 +142,7 @@ const Config = {
         enableAdaptiveQuality: true,
         enableDynamicScaling: true,
     },
-    
+
     // Debug and Development
     debug: {
         enableConsoleLogging: true,
@@ -152,7 +152,7 @@ const Config = {
         enableShapeDataLogging: false,
         enableErrorStackTraces: true,
     },
-    
+
     // Advanced Monitoring
     monitoring: {
         enableRealTimeMetrics: true,
@@ -162,7 +162,7 @@ const Config = {
         enableUsageAnalytics: true,
         enablePredictiveMaintenance: true,
     },
-    
+
     // Customization
     customization: {
         enableCustomShapes: true,
@@ -172,7 +172,7 @@ const Config = {
         enableCustomVoiceResponses: true,
         enableCustomAIPrompts: true,
     },
-    
+
     // Integration Settings
     integration: {
         enableWebSocketSupport: false,
@@ -182,7 +182,7 @@ const Config = {
         enableEventStreaming: false,
         enableMessageQueue: false,
     },
-    
+
     // Advanced Optimization
     optimization: {
         enableLazyLoading: true,
@@ -193,38 +193,38 @@ const Config = {
         enableCDN: false,
         enableServiceWorker: false,
     },
-    
+
     // Validation
     validateConfig() {
         const errors = [];
-        
+
         // Check if at least one API key is set
         const hasValidAPIKey = Object.values(this.apiKeys).some(key => key && key.length > 0);
         if (!hasValidAPIKey) {
             errors.push('At least one API key must be configured');
         }
-        
+
         // Validate performance settings
         if (this.performance.maxResponseTime < 1000) {
             errors.push('Max response time should be at least 1000ms');
         }
-        
+
         // Validate cost settings
         if (this.costControl.dailyBudget <= 0) {
             errors.push('Daily budget must be greater than 0');
         }
-        
+
         // Validate voice settings
         if (this.voiceAnalysis.sampleRate < 8000) {
             errors.push('Sample rate should be at least 8000Hz');
         }
-        
+
         return {
             isValid: errors.length === 0,
             errors: errors
         };
     },
-    
+
     // Get optimized settings based on current performance
     getOptimizedSettings() {
         return {
@@ -234,13 +234,13 @@ const Config = {
                 maxResponseTime: this.getOptimalResponseTime(),
                 cacheExpiry: this.getOptimalCacheExpiry(),
             },
-            
+
             // Auto-adjust based on cost
             costControl: {
                 ...this.costControl,
                 dailyBudget: this.getOptimalDailyBudget(),
             },
-            
+
             // Auto-adjust based on voice quality
             voiceAnalysis: {
                 ...this.voiceAnalysis,
@@ -248,28 +248,28 @@ const Config = {
             },
         };
     },
-    
+
     // Helper methods for optimization
     getOptimalResponseTime() {
         // Return optimal response time based on current performance
         return 5000; // Default 5 seconds
     },
-    
+
     getOptimalCacheExpiry() {
         // Return optimal cache expiry based on usage patterns
         return 300000; // Default 5 minutes
     },
-    
+
     getOptimalDailyBudget() {
         // Return optimal daily budget based on usage
         return 10.00; // Default $10
     },
-    
+
     getOptimalFFTSize() {
         // Return optimal FFT size based on performance
         return 2048; // Default 2048
     },
-    
+
     // Export configuration
     export() {
         return {
@@ -278,7 +278,7 @@ const Config = {
             version: '1.0.0',
         };
     },
-    
+
     // Import configuration
     import(config) {
         Object.assign(this, config);
@@ -301,4 +301,4 @@ if (typeof module !== 'undefined' && module.exports) {
 const validation = Config.validateConfig();
 if (!validation.isValid) {
     console.warn('Config validation failed:', validation.errors);
-} 
+}

@@ -12,7 +12,7 @@ export default function QRGDemo() {
     setLoading(true);
     try {
       const { glyphSvg, traceId } = await issue({ purpose: "wallet_tx", ttl_ms: 15000 });
-      setSvg(glyphSvg); 
+      setSvg(glyphSvg);
       setTrace(traceId);
     } catch {
       setSvg(null);
@@ -42,7 +42,7 @@ export default function QRGDemo() {
           </div>
 
           <div className="mb-8">
-            <button 
+            <button
               onClick={onIssue}
               disabled={loading}
               className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:opacity-50 text-white py-3 px-6 rounded-lg transition-colors"
@@ -58,9 +58,9 @@ export default function QRGDemo() {
                 <div className="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full"></div>
               </div>
             ) : svg ? (
-              <div 
+              <div
                 className="flex items-center justify-center"
-                dangerouslySetInnerHTML={{ __html: svg }} 
+                dangerouslySetInnerHTML={{ __html: svg }}
               />
             ) : (
               <div className="flex items-center justify-center h-64">

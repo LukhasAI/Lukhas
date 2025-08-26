@@ -6,7 +6,7 @@
   "type": "object",
   "required": [
     "v",
-    "content_hash", 
+    "content_hash",
     "media_type",
     "created_at",
     "issuer",
@@ -40,7 +40,7 @@
       "description": "ISO 8601 UTC timestamp when seal was created"
     },
     "issuer": {
-      "type": "string", 
+      "type": "string",
       "pattern": "^lukhas:\\/\\/org\\/[a-zA-Z0-9\\-_]+$",
       "description": "Issuer identifier in lukhas://org/<tenant-id> format"
     },
@@ -52,7 +52,7 @@
     },
     "policy_fingerprint": {
       "type": "string",
-      "pattern": "^sha3-256:[a-f0-9]{64}$", 
+      "pattern": "^sha3-256:[a-f0-9]{64}$",
       "description": "SHA3-256 fingerprint of policy pack state"
     },
     "jurisdiction": {
@@ -67,7 +67,7 @@
     },
     "expiry": {
       "type": "string",
-      "format": "date-time", 
+      "format": "date-time",
       "description": "ISO 8601 UTC timestamp when seal expires"
     },
     "nonce": {
@@ -93,7 +93,7 @@
           "description": "Temperature scaling parameter"
         },
         "ece": {
-          "type": "number", 
+          "type": "number",
           "minimum": 0.0,
           "maximum": 1.0,
           "description": "Expected Calibration Error"

@@ -1,7 +1,7 @@
 /**
  * SCIM v2 User Lifecycle Management
  * Enterprise-grade user provisioning for LUKHAS AI ΛiD System
- * 
+ *
  * Supports:
  * - SCIM v2.0 compliance for user operations
  * - CREATE, READ, UPDATE, DELETE operations
@@ -87,7 +87,7 @@ export interface SCIMUser {
     type?: string;
     primary?: boolean;
   }>;
-  
+
   // SCIM metadata
   meta: {
     resourceType: 'User';
@@ -96,7 +96,7 @@ export interface SCIMUser {
     version?: string;
     location?: string;
   };
-  
+
   // Custom LUKHAS attributes
   'urn:lukhas:params:scim:schemas:extension:2.0:User'?: {
     tenantId: string;
@@ -180,7 +180,7 @@ export class SCIMUserManager {
       }
 
       const primaryEmail = scimUser.emails.find(e => e.primary) || scimUser.emails[0];
-      
+
       // Check if user already exists
       const existingUser = await this.findUserByEmail(primaryEmail.value);
       if (existingUser) {
@@ -223,7 +223,7 @@ export class SCIMUserManager {
 
       // Store user
       this.users.set(userId, lukhasUser);
-      
+
       if (scimUser.externalId) {
         this.externalIdMapping.set(scimUser.externalId, userId);
       }
@@ -298,7 +298,7 @@ export class SCIMUserManager {
       }
 
       const now = new Date();
-      
+
       // Update user fields
       if (scimUser.active !== undefined) {
         existingUser.isActive = scimUser.active;
@@ -318,7 +318,7 @@ export class SCIMUserManager {
 
       if (scimUser.emails && scimUser.emails.length > 0) {
         const primaryEmail = scimUser.emails.find(e => e.primary) || scimUser.emails[0];
-        
+
         // Check if new email conflicts with existing users
         if (primaryEmail.value !== existingUser.email) {
           const conflictUser = await this.findUserByEmail(primaryEmail.value);
@@ -335,17 +335,17 @@ export class SCIMUserManager {
         if (existingUser.metadata.externalId) {
           this.externalIdMapping.delete(existingUser.metadata.externalId);
         }
-        
+
         // Check for conflicts
         if (scimUser.externalId && this.externalIdMapping.has(scimUser.externalId)) {
           throw this.createSCIMError('409', 'External ID already in use', 'uniqueness');
         }
-        
+
         // Add new mapping
         if (scimUser.externalId) {
           this.externalIdMapping.set(scimUser.externalId, userId);
         }
-        
+
         existingUser.metadata.externalId = scimUser.externalId;
       }
 
@@ -621,7 +621,7 @@ export class SCIMUserManager {
 
   private applyPatchOperation(scimUser: SCIMUser, operation: SCIMUserPatch['Operations'][0]): SCIMUser {
     const { op, path, value } = operation;
-    
+
     // Simple path-based patching - in production, implement full JSON Pointer support
     switch (op) {
       case 'replace':
@@ -637,23 +637,23 @@ export class SCIMUserManager {
           scimUser.name.familyName = value;
         }
         break;
-        
+
       case 'add':
         // Implementation for add operations
         break;
-        
+
       case 'remove':
         // Implementation for remove operations
         break;
     }
-    
+
     return scimUser;
   }
 
   private applyFilter(users: LUKHASUser[], filter: string): LUKHASUser[] {
     // Basic filter implementation - supports userName, email filters
     // In production, implement full SCIM filter syntax parsing
-    
+
     if (filter.includes('userName eq')) {
       const match = filter.match(/userName eq "([^"]+)"/);
       if (match) {
@@ -661,7 +661,7 @@ export class SCIMUserManager {
         return users.filter(user => user.email === userName);
       }
     }
-    
+
     if (filter.includes('email eq')) {
       const match = filter.match(/email eq "([^"]+)"/);
       if (match) {
@@ -669,16 +669,16 @@ export class SCIMUserManager {
         return users.filter(user => user.email === email);
       }
     }
-    
+
     return users;
   }
 
   private applySorting(users: LUKHASUser[], sortBy: string, sortOrder: 'ascending' | 'descending'): LUKHASUser[] {
     const sorted = [...users];
-    
+
     sorted.sort((a, b) => {
       let aValue: any, bValue: any;
-      
+
       switch (sortBy) {
         case 'userName':
         case 'email':
@@ -696,25 +696,25 @@ export class SCIMUserManager {
         default:
           return 0;
       }
-      
+
       if (aValue < bValue) return sortOrder === 'ascending' ? -1 : 1;
       if (aValue > bValue) return sortOrder === 'ascending' ? 1 : -1;
       return 0;
     });
-    
+
     return sorted;
   }
 
   private getChangedFields(scimUser: Partial<SCIMUser>): string[] {
     const changedFields: string[] = [];
-    
+
     if (scimUser.active !== undefined) changedFields.push('active');
     if (scimUser.displayName !== undefined) changedFields.push('displayName');
     if (scimUser.name?.givenName !== undefined) changedFields.push('name.givenName');
     if (scimUser.name?.familyName !== undefined) changedFields.push('name.familyName');
     if (scimUser.emails !== undefined) changedFields.push('emails');
     if (scimUser.externalId !== undefined) changedFields.push('externalId');
-    
+
     return changedFields;
   }
 }

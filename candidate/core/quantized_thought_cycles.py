@@ -165,7 +165,7 @@ class QuantizedThoughtProcessor:
         )
 
         await self.input_queue.put(quantum)
-        return quantum.id
+        return qi.id
 
     async def get_result(self, timeout: float = None) -> Optional[ThoughtQuantum]:
         """Get processed result from output queue"""
@@ -224,22 +224,22 @@ class QuantizedThoughtProcessor:
             return
 
         # Check energy availability
-        if quantum.energy_units > self.energy_pool:
-            logger.warning(f"Insufficient energy for quantum {quantum.id}")
-            quantum.metadata["error"] = "insufficient_energy"
+        if qi.energy_units > self.energy_pool:
+            logger.warning(f"Insufficient energy for quantum {qi.id}")
+            qi.metadata["error"] = "insufficient_energy"
             await self.output_queue.put(quantum)
             return
 
         # Process through all phases
         cycle_log = {
             "cycle": self.cycle_counter,
-            "quantum_id": quantum.id,
+            "qi_id": qi.id,
             "phases": [],
         }
 
         for phase in CyclePhase:
             phase_start = time.time()
-            quantum.phase = phase
+            qi.phase = phase
 
             # Execute phase handler
             handler = self.phase_handlers[phase]
@@ -250,17 +250,17 @@ class QuantizedThoughtProcessor:
                 {
                     "phase": phase.value,
                     "duration_ms": phase_duration,
-                    "success": quantum.metadata.get("error") is None,
+                    "success": qi.metadata.get("error") is None,
                 }
             )
 
             # Stop if error
-            if quantum.metadata.get("error"):
+            if qi.metadata.get("error"):
                 break
 
         # Consume energy
-        self.energy_pool -= quantum.energy_units
-        quantum.duration_ms = sum(p["duration_ms"] for p in cycle_log["phases"])
+        self.energy_pool -= qi.energy_units
+        qi.duration_ms = sum(p["duration_ms"] for p in cycle_log["phases"])
 
         # Record in history
         self.cycle_history.append(cycle_log)
@@ -274,10 +274,10 @@ class QuantizedThoughtProcessor:
         await asyncio.sleep(0.001)
 
         # Validate input
-        if quantum.input_data is None:
-            quantum.metadata["error"] = "null_input"
+        if qi.input_data is None:
+            qi.metadata["error"] = "null_input"
 
-        quantum.metadata["bound_at"] = time.time()
+        qi.metadata["bound_at"] = time.time()
         return quantum
 
     async def _conform_phase(self, quantum: ThoughtQuantum) -> ThoughtQuantum:
@@ -286,12 +286,12 @@ class QuantizedThoughtProcessor:
         await asyncio.sleep(0.002)
 
         # Transform input format if needed
-        if isinstance(quantum.input_data, str):
-            quantum.metadata["input_type"] = "string"
-        elif isinstance(quantum.input_data, dict):
-            quantum.metadata["input_type"] = "dict"
+        if isinstance(qi.input_data, str):
+            qi.metadata["input_type"] = "string"
+        elif isinstance(qi.input_data, dict):
+            qi.metadata["input_type"] = "dict"
         else:
-            quantum.metadata["input_type"] = "other"
+            qi.metadata["input_type"] = "other"
 
         return quantum
 
@@ -301,26 +301,26 @@ class QuantizedThoughtProcessor:
         await asyncio.sleep(0.005)
 
         # Example transformation - this is where real processing happens
-        if isinstance(quantum.input_data, str):
-            quantum.output_data = {
-                "processed": quantum.input_data.upper(),
-                "length": len(quantum.input_data),
+        if isinstance(qi.input_data, str):
+            qi.output_data = {
+                "processed": qi.input_data.upper(),
+                "length": len(qi.input_data),
                 "cycle": self.cycle_counter,
             }
-        elif isinstance(quantum.input_data, dict):
-            quantum.output_data = {
-                "keys": list(quantum.input_data.keys()),
+        elif isinstance(qi.input_data, dict):
+            qi.output_data = {
+                "keys": list(qi.input_data.keys()),
                 "processed": True,
                 "cycle": self.cycle_counter,
             }
         else:
-            quantum.output_data = {
-                "type": str(type(quantum.input_data)),
+            qi.output_data = {
+                "type": str(type(qi.input_data)),
                 "processed": True,
                 "cycle": self.cycle_counter,
             }
 
-        quantum.metadata["catalyzed"] = True
+        qi.metadata["catalyzed"] = True
         return quantum
 
     async def _release_phase(self, quantum: ThoughtQuantum) -> ThoughtQuantum:
@@ -328,8 +328,8 @@ class QuantizedThoughtProcessor:
         # Simulate release
         await asyncio.sleep(0.001)
 
-        quantum.metadata["completed_at"] = time.time()
-        quantum.metadata["total_phases"] = 4
+        qi.metadata["completed_at"] = time.time()
+        qi.metadata["total_phases"] = 4
 
         return quantum
 

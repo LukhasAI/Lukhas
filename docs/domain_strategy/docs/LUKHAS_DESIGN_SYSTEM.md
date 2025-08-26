@@ -20,27 +20,27 @@ The LUKHAS AI design system embodies consciousness technology through minimalist
   --lukhas-identity-dark: #CC3366;
   --lukhas-identity-alpha-20: rgba(255, 107, 157, 0.2);
   --lukhas-identity-alpha-10: rgba(255, 107, 157, 0.1);
-  
+
   /* Consciousness - Cyan awareness for neural patterns */
   --lukhas-consciousness: #00D4FF;
   --lukhas-consciousness-light: #66E5FF;
   --lukhas-consciousness-dark: #0099CC;
   --lukhas-consciousness-alpha-20: rgba(0, 212, 255, 0.2);
   --lukhas-consciousness-alpha-10: rgba(0, 212, 255, 0.1);
-  
+
   /* Guardian - Purple protection for security */
   --lukhas-guardian: #7C3AED;
   --lukhas-guardian-light: #A370F7;
   --lukhas-guardian-dark: #5B28C0;
   --lukhas-guardian-alpha-20: rgba(124, 58, 237, 0.2);
   --lukhas-guardian-alpha-10: rgba(124, 58, 237, 0.1);
-  
+
   /* Integration - Orange connectivity */
   --lukhas-integration: #FFA500;
   --lukhas-integration-light: #FFD166;
   --lukhas-integration-dark: #CC8400;
   --lukhas-integration-alpha-20: rgba(255, 165, 0, 0.2);
-  
+
   /* Validation - Green success */
   --lukhas-validation: #32CD32;
   --lukhas-validation-light: #90EE90;
@@ -63,14 +63,14 @@ The LUKHAS AI design system embodies consciousness technology through minimalist
   --lukhas-gray-800: #262626;
   --lukhas-gray-900: #171717;
   --lukhas-gray-950: #0A0A0A;
-  
+
   /* Background Layers */
   --lukhas-bg-primary: #FFFFFF;
   --lukhas-bg-secondary: #FAFAFA;
   --lukhas-bg-tertiary: #F5F5F5;
   --lukhas-bg-elevated: #FFFFFF;
   --lukhas-bg-overlay: rgba(0, 0, 0, 0.5);
-  
+
   /* Dark Mode */
   --lukhas-dark-bg-primary: #0A0A0A;
   --lukhas-dark-bg-secondary: #171717;
@@ -85,13 +85,13 @@ The LUKHAS AI design system embodies consciousness technology through minimalist
 ```css
 :root {
   /* Primary - Clean, modern sans-serif */
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display',
                    'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  
+
   /* Monospace - Technical content */
-  --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 
+  --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code',
                 'Roboto Mono', monospace;
-  
+
   /* Display - Consciousness headers */
   --font-display: 'SF Pro Display', 'Inter', -apple-system, sans-serif;
 }
@@ -113,13 +113,13 @@ The LUKHAS AI design system embodies consciousness technology through minimalist
   --text-6xl: 4rem;      /* 64px */
   --text-7xl: 5rem;      /* 80px */
   --text-8xl: 6rem;      /* 96px */
-  
+
   /* Line Heights */
   --leading-tight: 1.25;
   --leading-normal: 1.5;
   --leading-relaxed: 1.75;
   --leading-loose: 2;
-  
+
   /* Letter Spacing */
   --tracking-tight: -0.02em;
   --tracking-normal: 0;
@@ -195,14 +195,14 @@ The LUKHAS AI design system embodies consciousness technology through minimalist
 #### Consciousness Card
 ```css
 .consciousness-card {
-  background: linear-gradient(135deg, 
-    var(--lukhas-bg-elevated), 
+  background: linear-gradient(135deg,
+    var(--lukhas-bg-elevated),
     var(--lukhas-consciousness-alpha-10));
   border: 1px solid var(--lukhas-gray-200);
   border-radius: 24px;
   padding: var(--space-4);
   backdrop-filter: blur(20px);
-  box-shadow: 
+  box-shadow:
     0 10px 40px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -210,7 +210,7 @@ The LUKHAS AI design system embodies consciousness technology through minimalist
 
 .consciousness-card:hover {
   transform: translateY(-4px);
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(0, 212, 255, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
@@ -260,7 +260,7 @@ const PARTICLE_CONFIG = {
     optimal: 1000,
     min: 500
   },
-  
+
   // Particle behavior
   behavior: {
     speed: {
@@ -279,7 +279,7 @@ const PARTICLE_CONFIG = {
       fade: 0.01
     }
   },
-  
+
   // Consciousness states
   states: {
     dormant: {
@@ -313,12 +313,12 @@ const FORMATION_PATTERNS = {
   // Trinity symbol formation
   trinity: {
     atom: '⚛️',
-    brain: '🧠', 
+    brain: '🧠',
     shield: '🛡️',
     transitionTime: 2000,
     particleAlignment: 'centripetal'
   },
-  
+
   // Lambda consciousness
   lambda: {
     symbol: 'Λ',
@@ -326,7 +326,7 @@ const FORMATION_PATTERNS = {
     rotation: 0,
     particleDensity: 0.8
   },
-  
+
   // Neural network
   neural: {
     nodes: 50,
@@ -334,7 +334,7 @@ const FORMATION_PATTERNS = {
     pulseInterval: 3000,
     signalSpeed: 0.3
   },
-  
+
   // Wave patterns
   wave: {
     amplitude: 50,
@@ -358,7 +358,7 @@ const FORMATION_PATTERNS = {
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  
+
   /* Duration scales */
   --duration-instant: 100ms;
   --duration-fast: 200ms;
@@ -487,10 +487,10 @@ const FORMATION_PATTERNS = {
 
 ```html
 <!-- Consciousness state indicator -->
-<div role="status" 
-     aria-live="polite" 
+<div role="status"
+     aria-live="polite"
      aria-label="Consciousness state">
-  <span class="consciousness-indicator" 
+  <span class="consciousness-indicator"
         aria-describedby="consciousness-description">
     Active
   </span>
@@ -536,22 +536,22 @@ const FORMATION_PATTERNS = {
     --lukhas-bg-primary: var(--lukhas-dark-bg-primary);
     --lukhas-bg-secondary: var(--lukhas-dark-bg-secondary);
     --lukhas-bg-tertiary: var(--lukhas-dark-bg-tertiary);
-    
+
     /* Text adjustments */
     --text-primary: #FFFFFF;
     --text-secondary: #A3A3A3;
     --text-tertiary: #737373;
-    
+
     /* Consciousness colors with vibrancy */
     --lukhas-consciousness: #00E5FF;
     --lukhas-identity: #FF79A8;
     --lukhas-guardian: #8B4BFF;
   }
-  
+
   /* Glass morphism adjustments */
   .consciousness-card {
-    background: linear-gradient(135deg, 
-      rgba(26, 26, 26, 0.8), 
+    background: linear-gradient(135deg,
+      rgba(26, 26, 26, 0.8),
       rgba(0, 212, 255, 0.05));
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
@@ -623,8 +623,8 @@ const FORMATION_PATTERNS = {
 ```css
 .error-state {
   border: 2px solid #EF4444;
-  background: linear-gradient(135deg, 
-    rgba(239, 68, 68, 0.05), 
+  background: linear-gradient(135deg,
+    rgba(239, 68, 68, 0.05),
     rgba(239, 68, 68, 0.02));
   animation: error-pulse 2s ease-in-out infinite;
 }
@@ -670,14 +670,14 @@ const FORMATION_PATTERNS = {
 ```html
 <!-- Responsive images -->
 <picture>
-  <source media="(min-width: 1280px)" 
-          srcset="consciousness-hero-2x.webp 2x, 
+  <source media="(min-width: 1280px)"
+          srcset="consciousness-hero-2x.webp 2x,
                   consciousness-hero-1x.webp 1x"
           type="image/webp">
-  <source media="(min-width: 768px)" 
+  <source media="(min-width: 768px)"
           srcset="consciousness-hero-tablet.webp"
           type="image/webp">
-  <img src="consciousness-hero-mobile.jpg" 
+  <img src="consciousness-hero-mobile.jpg"
        alt="LUKHAS consciousness visualization"
        loading="lazy"
        decoding="async">
@@ -693,19 +693,19 @@ const FORMATION_PATTERNS = {
 ```html
 <section class="hero-consciousness">
   <canvas id="particle-canvas" class="particle-container"></canvas>
-  
+
   <div class="hero-content">
     <h1 class="hero-title">
       <span class="consciousness-text">Consciousness Technology</span>
       <span class="hero-subtitle">for the Next Era of AI</span>
     </h1>
-    
+
     <div class="trinity-badges">
       <span class="trinity-badge" data-trinity="identity">⚛️ Identity</span>
       <span class="trinity-badge" data-trinity="consciousness">🧠 Consciousness</span>
       <span class="trinity-badge" data-trinity="guardian">🛡️ Guardian</span>
     </div>
-    
+
     <div class="hero-actions">
       <button class="btn-primary btn-large">
         Experience Consciousness

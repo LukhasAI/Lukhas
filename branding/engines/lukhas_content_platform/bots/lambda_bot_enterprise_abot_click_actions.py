@@ -6,8 +6,6 @@ Configure what happens when you click on the LUKHAS AI ΛBot status bar.
 Multiple action types and combinations available.
 """
 
-import json
-from pathlib import Path
 
 class BotClickActions:
     """Configure status bar click actions."""

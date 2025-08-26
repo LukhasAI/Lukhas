@@ -31,13 +31,13 @@ class SVGFreezeValidator {
     console.log('🎨 Validating SVG freeze compliance...\n');
 
     const files = this.getFilesToValidate(patterns);
-    
+
     for (const filePath of files) {
       await this.validateFile(filePath);
     }
 
     this.reportResults();
-    
+
     // Exit with error code if violations found
     if (this.violations.length > 0) {
       process.exit(1);
@@ -46,9 +46,9 @@ class SVGFreezeValidator {
 
   getFilesToValidate(patterns) {
     const files = [];
-    
+
     for (const pattern of patterns) {
-      const matches = glob.sync(pattern, { 
+      const matches = glob.sync(pattern, {
         cwd: process.cwd(),
         ignore: ['**/node_modules/**', '**/.git/**', '**/dist/**', '**/build/**']
       });
@@ -65,13 +65,13 @@ class SVGFreezeValidator {
 
       // Check for Lambda in text elements
       this.checkTextElements(content, relativePath);
-      
+
       // Check for Lambda as path
       this.checkLambdaPath(content, relativePath);
-      
+
       // Check for CSP/SRI attributes if embedded
       this.checkSecurityAttributes(content, relativePath);
-      
+
       // Check for proper viewBox and dimensions
       this.checkSVGAttributes(content, relativePath);
 
@@ -84,10 +84,10 @@ class SVGFreezeValidator {
     // Check if Lambda appears in text elements
     const textPattern = /<text[^>]*>([^<]*[λΛ][^<]*)<\/text>/gi;
     const matches = [...content.matchAll(textPattern)];
-    
+
     for (const match of matches) {
       const lineNumber = this.getLineNumber(content, match.index);
-      
+
       this.violations.push({
         file: filePath,
         line: lineNumber,
@@ -101,10 +101,10 @@ class SVGFreezeValidator {
     // Also check for Lambda in tspan elements
     const tspanPattern = /<tspan[^>]*>([^<]*[λΛ][^<]*)<\/tspan>/gi;
     const tspanMatches = [...content.matchAll(tspanPattern)];
-    
+
     for (const match of tspanMatches) {
       const lineNumber = this.getLineNumber(content, match.index);
-      
+
       this.violations.push({
         file: filePath,
         line: lineNumber,
@@ -119,12 +119,12 @@ class SVGFreezeValidator {
   checkLambdaPath(content, filePath) {
     // Check if file name suggests it should contain Lambda
     const isLambdaFile = /matriz|lukhas|lambda|wordmark/i.test(filePath);
-    
+
     if (isLambdaFile) {
       // Look for path elements that might represent Lambda
       const hasPath = /<path\s/i.test(content);
       const hasText = /<text/i.test(content);
-      
+
       if (!hasPath && hasText) {
         this.warnings.push({
           file: filePath,
@@ -134,7 +134,7 @@ class SVGFreezeValidator {
           type: 'no-path'
         });
       }
-      
+
       // Check if Lambda character appears anywhere in the SVG
       if (/[λΛ]/.test(content) && !/<path/.test(content)) {
         this.violations.push({
@@ -163,10 +163,10 @@ class SVGFreezeValidator {
     // Check for external resource references
     const externalPattern = /xlink:href=["'](?!#)([^"']+)["']/gi;
     const matches = [...content.matchAll(externalPattern)];
-    
+
     for (const match of matches) {
       const lineNumber = this.getLineNumber(content, match.index);
-      
+
       this.warnings.push({
         file: filePath,
         line: lineNumber,
@@ -180,10 +180,10 @@ class SVGFreezeValidator {
     // Check for on* event handlers
     const eventPattern = /\son[a-z]+\s*=/gi;
     const eventMatches = [...content.matchAll(eventPattern)];
-    
+
     for (const match of eventMatches) {
       const lineNumber = this.getLineNumber(content, match.index);
-      
+
       this.violations.push({
         file: filePath,
         line: lineNumber,
@@ -210,7 +210,7 @@ class SVGFreezeValidator {
     // Check for width/height without viewBox
     const hasWidthHeight = /<svg[^>]*(width|height)=/i.test(content);
     const hasViewBox = /<svg[^>]*viewBox=/i.test(content);
-    
+
     if (hasWidthHeight && !hasViewBox) {
       this.warnings.push({
         file: filePath,
@@ -243,7 +243,7 @@ class SVGFreezeValidator {
     // Report violations
     if (this.violations.length > 0) {
       console.log(`❌ ${this.violations.length} SVG Violations Found:\n`);
-      
+
       this.violations.forEach((violation, index) => {
         console.log(`${index + 1}. ${violation.file}:${violation.line}`);
         console.log(`   ❌ ${violation.message}`);
@@ -257,7 +257,7 @@ class SVGFreezeValidator {
     // Report warnings
     if (this.warnings.length > 0) {
       console.log(`⚠️  ${this.warnings.length} SVG Warnings:\n`);
-      
+
       this.warnings.forEach((warning, index) => {
         console.log(`${index + 1}. ${warning.file}:${warning.line}`);
         console.log(`   ⚠️  ${warning.message}`);
@@ -276,7 +276,7 @@ class SVGFreezeValidator {
       console.log('📋 Summary:');
       console.log(`   Critical violations: ${this.violations.length}`);
       console.log(`   Warnings: ${this.warnings.length}`);
-      
+
       if (this.violations.length > 0) {
         console.log('\n🚫 Build blocked due to SVG violations.');
         console.log('   Convert Lambda to paths and remove security risks.');

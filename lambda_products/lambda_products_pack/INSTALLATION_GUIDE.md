@@ -39,7 +39,7 @@ Or for development:
 python setup.py develop
 ```
 
-## 🔌 Plugin Integration with Lukhas 
+## 🔌 Plugin Integration with Lukhas
 
 ### Automatic Integration
 
@@ -157,12 +157,12 @@ lambda_products:
     enabled: true
     tier_required: 2
     monitoring_interval: 300
-    
+
   abas:
     enabled: true
     tier_required: 2
     flow_protection: true
-    
+
   dast:
     enabled: true
     tier_required: 3
@@ -171,7 +171,7 @@ lambda_products:
 lukhas:
   integration_enabled: true
   auto_register: true
-  
+
 openai:
   integration_level: DEEP
   api_key: ${OPENAI_API_KEY}
@@ -278,14 +278,14 @@ from lambda_products_pack.agents import LambdaWorkforceOrchestrator
 async def main():
     # Step 1: Initialize  integration
     adapter = LukhasIntegrationAdapter()
-    
+
     # Step 2: Register all Lambda Products
     await adapter.auto_register_all_products()
-    
+
     # Step 3: Deploy autonomous workforce
     orchestrator = LambdaWorkforceOrchestrator()
     await orchestrator.deploy_lambda_workforce(company_size=100)
-    
+
     # Step 4: Monitor
     print("Lambda Products integrated and running!")
     while True:
@@ -308,7 +308,7 @@ For issues or questions:
 ## 🎉 Ready to Go!
 
 Your Lambda Products package is ready for integration with Lukhas . The system will:
-- Automatically detect and integrate with 
+- Automatically detect and integrate with
 - Deploy autonomous agents
 - Connect to OpenAI when configured
 - Provide enterprise-grade AI capabilities
@@ -317,7 +317,7 @@ Start with the quick integration example above and scale as needed!
 
 ---
 
-**Package Version:** 1.0.0  
-**Compatible with:** Lukhas  2.0+  
-**Python Required:** 3.9+  
+**Package Version:** 1.0.0
+**Compatible with:** Lukhas  2.0+
+**Python Required:** 3.9+
 **Last Updated:** August 6, 2025

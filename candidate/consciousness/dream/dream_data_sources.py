@@ -341,22 +341,22 @@ class DreamDataCollector:
         logger.info("Collecting quantum/symbolic data for dreams")
 
         try:
-            from qi.systems.quantum_engine import QuantumOscillator
+            from qi.systems.qi_engine import QIOscillator
             from symbolic.glyphs.glyph import ActiveGlyphs
 
-            quantum_engine = QuantumOscillator()
+            qi_engine = QIOscillator()
             glyph_system = ActiveGlyphs()
 
-            quantum_state = await quantum_engine.get_current_state()
+            qi_state = await qi_engine.get_current_state()
             active_glyphs = await glyph_system.get_active_glyphs()
 
             return {
-                "source": "quantum_symbolic",
-                "coherence_level": quantum_state.get("coherence", 0.7),
-                "entanglement_nodes": quantum_state.get("entanglements", []),
+                "source": "qi_symbolic",
+                "coherence_level": qi_state.get("coherence", 0.7),
+                "entanglement_nodes": qi_state.get("entanglements", []),
                 "active_glyphs": active_glyphs,
                 "symbolic_resonance": self._calculate_symbolic_resonance(active_glyphs),
-                "quantum_possibilities": self._get_quantum_possibilities(),
+                "qi_possibilities": self._get_quantum_possibilities(),
                 "timestamp": datetime.utcnow().isoformat(),
             }
 
@@ -377,7 +377,7 @@ class DreamDataCollector:
             "entangled_memories",
             "collapsed_futures",
             "coherent_narratives",
-            "quantum_tunneling_insights",
+            "qi_tunneling_insights",
         ]
         return random.sample(possibilities, 3)
 
@@ -385,11 +385,11 @@ class DreamDataCollector:
         """Simulate quantum/symbolic data."""
         glyphs = ["ΛQUANTUM", "ΛMEMORY", "ΛCREATE", "ΛBRIDGE", "ΛEMOTION"]
         return {
-            "source": "quantum_symbolic_simulated",
+            "source": "qi_symbolic_simulated",
             "coherence_level": round(random.uniform(0.6, 0.9), 3),
             "active_glyphs": random.sample(glyphs, 3),
             "symbolic_resonance": 0.75,
-            "quantum_possibilities": [
+            "qi_possibilities": [
                 "creative_superposition",
                 "memory_entanglement",
                 "future_collapse",
@@ -603,7 +603,7 @@ class DreamDataCollector:
             "memory": await self.collect_memory_data(),
             "consciousness": await self.collect_consciousness_data(),
             "emotion": await self.collect_emotional_data(),
-            "quantum_symbolic": await self.collect_quantum_symbolic_data(),
+            "qi_symbolic": await self.collect_quantum_symbolic_data(),
             "external": await self.collect_external_data(user_context),
             "creative": await self.collect_creative_data(),
         }
@@ -668,8 +668,8 @@ class DreamDataCollector:
                 )
 
         # Quantum-symbolic seed
-        if "quantum_symbolic" in data:
-            glyphs = data["quantum_symbolic"].get("active_glyphs", [])
+        if "qi_symbolic" in data:
+            glyphs = data["qi_symbolic"].get("active_glyphs", [])
             if glyphs:
                 seeds.append(
                     {
@@ -717,8 +717,8 @@ class DreamDataCollector:
             params["sensory_richness"] *= 0.7 + complexity * 0.3
 
         # Adjust based on quantum coherence
-        if "quantum_symbolic" in data:
-            coherence = data["quantum_symbolic"].get("coherence_level", 0.5)
+        if "qi_symbolic" in data:
+            coherence = data["qi_symbolic"].get("coherence_level", 0.5)
             params["symbolic_density"] = coherence * 0.8
             params["temporal_fluidity"] = 1.0 - coherence * 0.5
 
@@ -739,7 +739,7 @@ class DreamDataCollector:
         if data.get("emotion", {}).get("emotional_complexity", 0) > 0.7:
             influences.append("emotionally_complex")
 
-        if data.get("quantum_symbolic", {}).get("coherence_level", 0) > 0.8:
+        if data.get("qi_symbolic", {}).get("coherence_level", 0) > 0.8:
             influences.append("symbolically_rich")
 
         if data.get("consciousness", {}).get("reflection_depth", 0) > 0.6:

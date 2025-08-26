@@ -576,10 +576,10 @@ LUKHAS_CONCEPTS_MAP = {
         "emergence",
     ],
     "quantum": [
-        "quantum_coherence",
+        "qi_coherence",
         "entanglement",
         "superposition",
-        "quantum_ready",
+        "qi_ready",
     ],
     "identity": ["identity_legacy", "symbolic_identity", "qrg", "tier_access"],
     "orchestration": ["brain_hub", "coordination", "multi_agent", "harmony"],

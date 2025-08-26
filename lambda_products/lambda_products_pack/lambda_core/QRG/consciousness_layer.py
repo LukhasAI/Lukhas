@@ -97,7 +97,7 @@ class ConsciousnessSignature:
     interaction_patterns: dict[str, float]
     temporal_characteristics: dict[str, float]
     symbolic_resonance: dict[str, float]
-    quantum_coherence: float
+    qi_coherence: float
 
 
 @dataclass
@@ -189,7 +189,7 @@ class ConsciousnessLayer:
 
         # Quantum coherence measurement (theoretical)
         if ConsciousnessSource.QUANTUM_RESONANCE in self.consciousness_sources:
-            self.quantum_detector = QICoherenceDetector()
+            self.qi_detector = QICoherenceDetector()
 
         logger.info(
             f"🔧 Initialized {len(self.consciousness_sources)} consciousness detection systems"
@@ -243,7 +243,7 @@ class ConsciousnessLayer:
         symbolic_resonance = self._measure_symbolic_resonance(detection_data)
 
         # Calculate quantum coherence (theoretical)
-        quantum_coherence = self._measure_quantum_coherence(detection_data)
+        qi_coherence = self._measure_quantum_coherence(detection_data)
 
         # Generate signature
         signature = ConsciousnessSignature(
@@ -252,7 +252,7 @@ class ConsciousnessLayer:
             interaction_patterns=interaction_patterns,
             temporal_characteristics=temporal_characteristics,
             symbolic_resonance=symbolic_resonance,
-            quantum_coherence=quantum_coherence,
+            qi_coherence=qi_coherence,
         )
 
         # Store in history
@@ -421,10 +421,10 @@ class ConsciousnessLayer:
         💬 User Friendly Layer: "A special measurement of your energy alignment"
         📚 Academic Layer: "Theoretical quantum coherence measurement of consciousness field"
         """
-        if not hasattr(self, "quantum_detector"):
+        if not hasattr(self, "qi_detector"):
             return 0.5  # Neutral coherence
 
-        return self.quantum_detector.measure_coherence(detection_data)
+        return self.qi_detector.measure_coherence(detection_data)
 
     def _generate_signature_id(self) -> str:
         """Generate unique consciousness signature ID"""
@@ -893,7 +893,7 @@ class ConsciousnessLayer:
 
         base_security = {
             "error_correction_boost": 0.0,
-            "quantum_resistance_level": 1.0,
+            "qi_resistance_level": 1.0,
             "biometric_requirement": False,  # Always false for privacy
             "temporal_window_adjustment": 1.0,
             "consciousness_verification": True,
@@ -912,7 +912,7 @@ class ConsciousnessLayer:
         elif emotional_state == EmotionalState.FOCUS:
             # Enhanced security for focused users
             base_security.update(
-                {"quantum_resistance_level": 1.2, "consciousness_verification": True}
+                {"qi_resistance_level": 1.2, "consciousness_verification": True}
             )
 
         elif emotional_state == EmotionalState.EXCITEMENT:
@@ -1015,7 +1015,7 @@ class ConsciousnessLayer:
         avg_dominance = np.mean([v[2] for v in vad_values])
 
         # Consciousness coherence trend
-        coherence_values = [sig.quantum_coherence for sig in recent_signatures]
+        coherence_values = [sig.qi_coherence for sig in recent_signatures]
         avg_coherence = np.mean(coherence_values)
 
         return {

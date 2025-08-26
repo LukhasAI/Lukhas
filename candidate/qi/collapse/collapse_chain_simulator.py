@@ -98,7 +98,7 @@ class CollapseChainSimulator:
         # Simulation 3: Low coherence.
         await self.simulate_collapse(
             {
-                "event_type": "quantum_like_states",
-                "quantum_like_states": {"coherence": 0.05},
+                "event_type": "qi_like_states",
+                "qi_like_states": {"coherence": 0.05},
             }
         )

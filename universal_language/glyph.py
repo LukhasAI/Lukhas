@@ -105,7 +105,7 @@ class GLYPHType(Enum):
 class GLYPHToken:
     """
     Individual GLYPH token representation.
-    
+
     Represents a single meaningful unit in the GLYPH system.
     """
     glyph: str  # The visual glyph (emoji/symbol)
@@ -181,7 +181,7 @@ class GLYPHSequence:
 class GLYPHEngine:
     """
     Main GLYPH processing engine.
-    
+
     Handles GLYPH token creation, parsing, and manipulation.
     """
 

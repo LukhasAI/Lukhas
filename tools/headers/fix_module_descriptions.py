@@ -160,13 +160,13 @@ def main():
     print("=" * 50)
 
     # Start from current quantum directory
-    quantum_dir = Path(__file__).parent
+    qi_dir = Path(__file__).parent
     fixed = 0
     skipped = 0
 
     # Process files with proper descriptions
     for filename in PROPER_DESCRIPTIONS:
-        filepath = quantum_dir / filename
+        filepath = qi_dir / filename
         if filepath.exists():
             result = fix_description(filepath)
             if result:

@@ -54,11 +54,11 @@ class MetaConsciousnessDeveloper(CoreInterface):
     ) -> RecursiveAwareness:
         """
         Develop recursive self-awareness capabilities
-        
+
         Args:
             current_depth: Current recursion depth
             target_depth: Target recursion depth
-            
+
         Returns:
             Recursive awareness development result
         """

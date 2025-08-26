@@ -12,23 +12,23 @@ export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnve
   const [open,setOpen] = useState(false);
   const [busy,setBusy] = useState(false);
   const [error,setError] = useState<string|null>(null);
-  
+
   async function handleOpen() {
     if(!onOpen) return;
-    
+
     setBusy(true);
     setError(null);
-    
+
     try {
       // TODO: Real authentication challenge (WebAuthn / device key)
       // TODO: Audit Λ-trace for security logging
-      
+
       // Simulate authentication delay
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       const result = await onOpen();
       console.log("QRG envelope opened:", result);
-      
+
       setOpen(true);
     } catch (err) {
       setError("Authentication failed or content unavailable");
@@ -37,24 +37,24 @@ export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnve
       setBusy(false);
     }
   }
-  
+
   return (
     <button
       onClick={handleOpen}
       disabled={busy}
       title={`${filename} · ${sizeMB}MB · ${level}`}
       style={{
-        display:"grid", 
-        gap:8, 
-        padding:12, 
-        border:`1px solid ${level==="secret" ? "#a78bfa" : "#3b82f6"}`, 
+        display:"grid",
+        gap:8,
+        padding:12,
+        border:`1px solid ${level==="secret" ? "#a78bfa" : "#3b82f6"}`,
         borderRadius:12,
-        background: open 
-          ? "rgba(167,139,250,.15)" 
-          : busy 
-          ? "rgba(59,130,246,.1)" 
-          : "transparent", 
-        color:"var(--text)", 
+        background: open
+          ? "rgba(167,139,250,.15)"
+          : busy
+          ? "rgba(59,130,246,.1)"
+          : "transparent",
+        color:"var(--text)",
         cursor: busy ? "wait" : "pointer",
         opacity: busy ? 0.7 : 1,
         transition: "all 0.2s ease",
@@ -65,7 +65,7 @@ export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnve
         <div style={{
           width:12,
           height:12,
-          borderRadius:999, 
+          borderRadius:999,
           background: level==="secret" ? "#a78bfa" : "#3b82f6",
           flexShrink: 0,
           position: "relative" as const
@@ -88,11 +88,11 @@ export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnve
           {level.toUpperCase()}
         </div>
       </div>
-      
+
       <div style={{fontSize:13, opacity:.9, fontWeight:500}}>
         {filename} · {sizeMB}MB
       </div>
-      
+
       <div style={{fontSize:12, opacity:.7, fontStyle:"italic"}}>
         {error ? (
           <span style={{color:"#ef4444"}}>⚠️ {error}</span>
@@ -104,7 +104,7 @@ export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnve
           "🔒 Click to authenticate & decrypt"
         )}
       </div>
-      
+
       {open && (
         <div style={{
           marginTop: 4,
@@ -114,11 +114,11 @@ export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnve
           fontSize: 12,
           opacity: 0.9
         }}>
-          <strong>Security Note:</strong> Content has been decrypted using your device key. 
+          <strong>Security Note:</strong> Content has been decrypted using your device key.
           This session is logged to the Λ-trace for audit purposes.
         </div>
       )}
-      
+
       <style jsx>{`
         @keyframes spin {
           0% { transform: rotate(0deg); }

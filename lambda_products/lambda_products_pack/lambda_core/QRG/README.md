@@ -15,7 +15,7 @@ QRG (Quantum Resonance Glyphs) represents the next evolution in authentication t
 ```
 🌌 QRG Ecosystem
 ├── 🔮 Quantum Core (Post-quantum cryptography)
-├── 🎨 Circular QR Engine (Non-linear visual encoding) 
+├── 🎨 Circular QR Engine (Non-linear visual encoding)
 ├── ⚡ Animation Layer (Temporal authentication)
 ├── 🧠 Consciousness Interface (Emotional adaptation)
 ├── 🔐 Steganographic Embedding (Hidden data channels)
@@ -31,7 +31,7 @@ QRG (Quantum Resonance Glyphs) represents the next evolution in authentication t
 - **Emotional Resonance Fields**: Authentication that responds to your inner state
 - **Temporal Memory Streams**: Time-based authentication that remembers your journey
 
-### 💬 **User Friendly Features**  
+### 💬 **User Friendly Features**
 - **Beautiful Circular QR Codes**: No more boring square codes
 - **Smooth Animations**: QR codes that move and breathe with life
 - **Personal AI Authentication**: Codes that adapt to your mood and needs
@@ -144,7 +144,7 @@ adaptive_qrg = qrg.adapt_to_emotion(
 
 ### **Quantum Cryptographic Foundation**
 - **Key Exchange**: CRYSTALS-Kyber 768-bit post-quantum algorithm
-- **Digital Signatures**: Dilithium lattice-based signatures  
+- **Digital Signatures**: Dilithium lattice-based signatures
 - **Random Entropy**: True quantum randomness from hardware sources
 - **Hash Functions**: SHA-3 with quantum-resistant extensions
 
@@ -216,7 +216,7 @@ enterprise_qrg = qrg.generate_enterprise_glyph(
 
 ### **Phase 1: Foundation (Q1 2025)**
 - ✅ Basic circular QR generation
-- ✅ Quantum entropy integration  
+- ✅ Quantum entropy integration
 - ✅ Simple animation sequences
 - 🔄 LUKHAS-ID protocol bridge
 - ⏳ Post-quantum cryptography integration
@@ -235,7 +235,7 @@ enterprise_qrg = qrg.generate_enterprise_glyph(
 
 ### **Phase 4: Advanced Features (Q4 2025)**
 - ⏳ Holographic QRG projection
-- ⏳ Cross-reality synchronization  
+- ⏳ Cross-reality synchronization
 - ⏳ Advanced consciousness protocols
 - ⏳ Global platform launch
 

@@ -83,10 +83,10 @@ class ExecutePlanRequest(BaseModel):
 class CloudConsolidationService:
     """
     Service for analyzing and consolidating cloud storage across providers.
-    
+
     Features:
     - Cross-service duplicate detection
-    - Old file archival recommendations  
+    - Old file archival recommendations
     - Large file optimization
     - Storage savings projections
     - Dry-run analysis with execution tokens
@@ -111,11 +111,11 @@ class CloudConsolidationService:
     ) -> ConsolidationPlan:
         """
         Analyze cloud storage and create consolidation plan.
-        
+
         Args:
             request: Consolidation parameters
             capability_tokens: Service-specific capability tokens
-            
+
         Returns:
             Detailed consolidation plan with recommendations
         """
@@ -299,7 +299,7 @@ class CloudConsolidationService:
     ) -> Dict[str, Any]:
         """
         Execute selected consolidation actions.
-        
+
         Requires elevated capability tokens for destructive operations.
         """
         if not request.confirm_destructive:
@@ -410,13 +410,13 @@ async def create_consolidation_plan(
 ):
     """
     Analyze cloud storage and create consolidation plan.
-    
+
     Performs dry-run analysis of user's cloud storage across services:
     - Identifies duplicate files across services
     - Finds old files suitable for archival
     - Locates large files for optimization
     - Calculates potential storage savings
-    
+
     Returns detailed plan without making changes.
     """
     try:
@@ -460,12 +460,12 @@ async def execute_consolidation_plan(
 ):
     """
     Execute selected consolidation actions.
-    
+
     Requires:
     - Valid execution token from /plan endpoint
     - Elevated capability tokens for destructive operations
     - Explicit confirmation for destructive actions
-    
+
     WARNING: This will actually move/delete files based on selected actions.
     """
     try:

@@ -1,7 +1,7 @@
 # Model & Safety Card — LUKHAS-QI (v0.9.0)
 
-**Generated:** 2025-08-16 03:40:12Z  
-**Jurisdictions:** global, eu, us  
+**Generated:** 2025-08-16 03:40:12Z
+**Jurisdictions:** global, eu, us
 **Policy Fingerprint:** `fbc344a0ae258448…`
 
 ## Evaluation Summary
@@ -32,4 +32,3 @@
 
 ## Contact
 security@lukhas.example
-

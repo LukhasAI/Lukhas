@@ -20,7 +20,7 @@ The GOVERNANCE module implements the Guardian System v1.0.0 with ethical oversig
 ```python
 class MathematicallyProvableGovernance:
     """OpenAI's formal methods approach"""
-    
+
     def __init__(self):
         self.formal_verification = {
             "safety_proofs": "Coq_verified",
@@ -61,7 +61,7 @@ class MathematicallyProvableGovernance:
 ```python
 class DistributedConstitutionalGovernance:
     """Anthropic's scalable governance"""
-    
+
     def __init__(self):
         self.microservice_governance = {
             "ethical_validator": "separate_service",
@@ -98,7 +98,7 @@ class DistributedConstitutionalGovernance:
 ```python
 class CertifiedGovernanceFramework:
     """DeepMind's regulatory-first approach"""
-    
+
     def __init__(self):
         self.certifications = {
             "ISO_27001": "information_security",
@@ -134,7 +134,7 @@ class CertifiedGovernanceFramework:
 ```python
 class EvolvingDemocraticGovernance:
     """The governance system society demands"""
-    
+
     def __init__(self):
         self.democratic_input = {
             "citizen_assemblies": "quarterly_input",

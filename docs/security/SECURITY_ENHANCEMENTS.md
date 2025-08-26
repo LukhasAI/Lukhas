@@ -92,7 +92,7 @@ Each LUKHAS module now has tailored encryption:
 - Uses AES-256-GCM for general memories
 - Personality memories use multi-layer encryption
 
-# Identity Module  
+# Identity Module
 - All identity data encrypted as "personality" level
 - Biometric hashes use additional protection
 

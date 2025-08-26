@@ -82,11 +82,11 @@ export const metrics = {
 
   security(ev: SecurityEvent) {
     // Always log security events
-    console.error(JSON.stringify({ 
-      ts: nowIso(), 
-      level: 'SECURITY', 
-      event: ev.kind, 
-      ...ev 
+    console.error(JSON.stringify({
+      ts: nowIso(),
+      level: 'SECURITY',
+      event: ev.kind,
+      ...ev
     }));
 
     // OpenTelemetry with high priority

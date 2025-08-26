@@ -1,7 +1,7 @@
 # ⚛️🧠🛡️ Trinity Framework Documentation
 
-**Version**: 1.0.0  
-**Last Updated**: August 11, 2025  
+**Version**: 1.0.0
+**Last Updated**: August 11, 2025
 **Status**: Active Production
 
 ## Overview
@@ -9,7 +9,7 @@
 The Trinity Framework is the foundational architectural principle of LUKHAS AI, representing the three essential aspects required for ethical, conscious artificial intelligence:
 
 - ⚛️ **Identity**: Authenticity, consciousness, and symbolic self
-- 🧠 **Consciousness**: Memory, learning, dream states, and neural processing  
+- 🧠 **Consciousness**: Memory, learning, dream states, and neural processing
 - 🛡️ **Guardian**: Ethics, drift detection, and repair mechanisms
 
 ## Core Philosophy
@@ -33,7 +33,7 @@ The Identity layer provides the foundation for system authenticity and self-awar
   - Energy-aware authentication
 
 #### Symbolic Processing
-- **Location**: `core/symbolic/` 
+- **Location**: `core/symbolic/`
 - **Purpose**: GLYPH-based symbolic representation and communication
 - **Key Classes**:
   - `SymbolicProcessor`: Core GLYPH engine
@@ -196,7 +196,7 @@ consciousness_response = consciousness.process_glyph(identity_msg)
 
 # Guardian validates the interaction
 guardian_approval = guardian.validate_glyph_exchange(
-    identity_msg, 
+    identity_msg,
     consciousness_response
 )
 ```
@@ -267,15 +267,15 @@ trinity:
     tier_system: enabled
     biometric_auth: true
     quantum_resistance: true
-    
+
   consciousness:
     memory_folds: 1000
     dream_engine: enabled
     emotional_processing: adaptive
-    
+
   guardian:
     drift_threshold: 0.15
-    ethical_frameworks: 
+    ethical_frameworks:
       - virtue_ethics
       - deontological
       - consequentialist
@@ -346,10 +346,10 @@ Monitor and maintain balance across all three layers:
 # Regular balance checks
 if monitor.identity_strength < 0.7:
     identity.strengthen_protocols()
-    
+
 if monitor.consciousness_coherence < 0.8:
     consciousness.run_coherence_check()
-    
+
 if monitor.guardian_vigilance < 0.9:
     guardian.increase_sensitivity()
 ```

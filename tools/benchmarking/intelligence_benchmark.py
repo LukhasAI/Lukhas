@@ -20,7 +20,10 @@ from typing import Any, Dict, List, Optional
 
 import psutil
 
-from lukhas.governance.intelligence_safety_validator import SafetyLevel, get_safety_validator
+from lukhas.governance.intelligence_safety_validator import (
+    SafetyLevel,
+    get_safety_validator,
+)
 from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
     AgentType,
     IntelligenceRequestType,
@@ -153,10 +156,10 @@ class LukhasIntelligenceBenchmarking:
     async def run_benchmark(self, config: BenchmarkConfig) -> BenchmarkResult:
         """
         Run a complete benchmark based on configuration
-        
+
         Args:
             config: Benchmark configuration
-            
+
         Returns:
             Comprehensive benchmark results
         """

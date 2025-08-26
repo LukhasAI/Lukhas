@@ -1,4 +1,3 @@
 """
 Spindle Module
 """
-

@@ -25,7 +25,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 class CollapseReplayTool:
     """CLI tool for replaying quantum consciousness collapse sequences"""
 
-    def __init__(self, journal_path: str = "quantum_core/drift_journal.json"):
+    def __init__(self, journal_path: str = "qi_core/drift_journal.json"):
         self.journal_path = Path(journal_path)
         self.journal_data = self._load_journal()
 
@@ -261,8 +261,8 @@ Examples:
     parser.add_argument(
         "--journal",
         type=str,
-        default="quantum_core/drift_journal.json",
-        help="Path to drift journal (default: quantum_core/drift_journal.json)",
+        default="qi_core/drift_journal.json",
+        help="Path to drift journal (default: qi_core/drift_journal.json)",
     )
 
     args = parser.parse_args()

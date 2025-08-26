@@ -18,7 +18,7 @@ combining symbolic reasoning, emotional intelligence, quantum-inspired computing
 and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Quantum Consensus System Enhanced
-Path: lukhas/quantum/quantum_consensus_system_enhanced.py
+Path: lukhas/quantum/qi_consensus_system_enhanced.py
 Description: Quantum module for advanced AGI functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
@@ -52,8 +52,8 @@ logger = logging.getLogger(__name__)
 class ConsensusAlgorithm(Enum):
     """Available consensus algorithms"""
 
-    QUANTUM_PAXOS = "quantum_paxos"
-    QUANTUM_RAFT = "quantum_raft"
+    QUANTUM_PAXOS = "qi_paxos"
+    QUANTUM_RAFT = "qi_raft"
     HYBRID_BYZANTINE = "hybrid_byzantine"
     BIO_QUANTUM_SYNC = "bio_quantum_sync"
 
@@ -101,7 +101,7 @@ class QILikeState:
     """
 
     state_vector: np.ndarray
-    state_type: QuantumLikeStateType
+    state_type: QILikeStateType
     entanglement_map: dict[str, float] = field(default_factory=dict)
     phase_coherence: float = 1.0
     fidelity: float = 1.0
@@ -128,11 +128,11 @@ class QILikeState:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "QuantumLikeState":
+    def from_dict(cls, data: dict[str, Any]) -> "QILikeState":
         """Create from dictionary"""
         return cls(
             state_vector=np.array(data["state_vector"]),
-            state_type=QuantumLikeStateType(data["state_type"]),
+            state_type=QILikeStateType(data["state_type"]),
             entanglement_map=data["entanglement_map"],
             phase_coherence=data["phase_coherence"],
             fidelity=data["fidelity"],
@@ -156,7 +156,7 @@ class QILikeState:
 
         return hashlib.sha256(state_str.encode()).hexdigest()
 
-    def calculate_distance(self, other: "QuantumLikeState") -> float:
+    def calculate_distance(self, other: "QILikeState") -> float:
         """Calculate quantum-like state distance (fidelity-based)"""
         # Use quantum fidelity as distance metric
         dot_product = np.abs(np.dot(self.state_vector.conj(), other.state_vector))
@@ -170,7 +170,7 @@ class ConsensusProposal:
 
     proposal_id: str
     proposer_id: str
-    proposed_state: QuantumLikeState
+    proposed_state: QILikeState
     timestamp: datetime
     signatures: dict[str, str] = field(default_factory=dict)
     votes: dict[str, bool] = field(default_factory=dict)
@@ -193,7 +193,7 @@ class ComponentInfo:
     state: ComponentState = ComponentState.ACTIVE
     last_heartbeat: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     reliability_score: float = 1.0
-    quantum_capabilities: set[str] = field(default_factory=set)
+    qi_capabilities: set[str] = field(default_factory=set)
 
 
 class QIConsensusSystem:
@@ -211,7 +211,7 @@ class QIConsensusSystem:
     def __init__(
         self,
         components: list[str],
-        initial_state: Optional[QuantumLikeState] = None,
+        initial_state: Optional[QILikeState] = None,
         consensus_threshold: float = 0.67,
         algorithm: ConsensusAlgorithm = ConsensusAlgorithm.QUANTUM_RAFT,
         bio_quantum_mode: bool = False,
@@ -234,7 +234,7 @@ class QIConsensusSystem:
         self.bio_quantum_mode = bio_quantum_mode
 
         # State management
-        self.current_state: Optional[QuantumLikeState] = (
+        self.current_state: Optional[QILikeState] = (
             initial_state or self._get_default_initial_state()
         )
         self.state_history: deque = deque(maxlen=100)  # Keep last 100 states
@@ -255,20 +255,20 @@ class QIConsensusSystem:
             f"Quantum Consensus System initialized with {len(components)} components"
         )
 
-    def _get_default_initial_state(self) -> QuantumLikeState:
+    def _get_default_initial_state(self) -> QILikeState:
         """Create default initial quantum-like state"""
         # Default to 4-qubit system in |0000⟩ state
         default_vector = np.zeros(16)
         default_vector[0] = 1.0
 
-        return QuantumLikeState(
+        return QILikeState(
             state_vector=default_vector,
-            state_type=QuantumLikeStateType.PURE,
+            state_type=QILikeStateType.PURE,
             metadata={"origin": "default_initialization"},
         )
 
     async def propose_state_update(
-        self, component_id: str, proposed_state: QuantumLikeState, priority: int = 0
+        self, component_id: str, proposed_state: QILikeState, priority: int = 0
     ) -> str:
         """
         Propose a quantum-like state update with enhanced validation
@@ -319,7 +319,7 @@ class QIConsensusSystem:
         logger.info(f"Proposal {proposal_id} created by {component_id}")
         return proposal_id
 
-    def _validate_quantum_like_state(self, state: QuantumLikeState):
+    def _validate_quantum_like_state(self, state: QILikeState):
         """Validate quantum-like state properties"""
         # Check normalization
         norm = np.linalg.norm(state.state_vector)
@@ -338,7 +338,7 @@ class QIConsensusSystem:
         if self.bio_quantum_mode and "brain_id" not in state.metadata:
             raise ValueError("Bio-quantum mode requires brain_id in metadata")
 
-    def _sign_proposal(self, component_id: str, state: QuantumLikeState) -> str:
+    def _sign_proposal(self, component_id: str, state: QILikeState) -> str:
         """Create cryptographic signature for proposal"""
         # Create signing data
         sign_data = f"{component_id}:{state.calculate_hash()}:{self.current_term}"
@@ -535,7 +535,7 @@ class QIConsensusSystem:
 
         logger.info(f"Applied state update from proposal {proposal.proposal_id}")
 
-    async def _notify_state_change(self, new_state: QuantumLikeState):
+    async def _notify_state_change(self, new_state: QILikeState):
         """Notify all components of state change"""
         # In production, this would send actual notifications
         # For now, log the change
@@ -544,7 +544,7 @@ class QIConsensusSystem:
             f"coherence={new_state.phase_coherence:.3f}"
         )
 
-    def get_current_state(self) -> Optional[QuantumLikeState]:
+    def get_current_state(self) -> Optional[QILikeState]:
         """Get the current consensus state"""
         return self.current_state
 
@@ -596,7 +596,7 @@ class QIConsensusSystem:
 class PartitionDetector:
     """Detects and handles network partitions"""
 
-    def __init__(self, consensus_system: QuantumConsensusSystem):
+    def __init__(self, consensus_system: QIConsensusSystem):
         self.consensus_system = consensus_system
         self.heartbeat_interval = 1.0  # seconds
         self.partition_threshold = 5.0  # seconds
@@ -677,7 +677,7 @@ async def demo_bio_quantum_consensus():
     # Create bio-quantum consensus system with 4 brain components
     brain_components = ["brain_alpha", "brain_beta", "brain_gamma", "brain_delta"]
 
-    consensus_system = QuantumConsensusSystem(
+    consensus_system = QIConsensusSystem(
         components=brain_components,
         consensus_threshold=0.75,  # Require 75% agreement
         algorithm=ConsensusAlgorithm.BIO_QUANTUM_SYNC,
@@ -691,9 +691,9 @@ async def demo_bio_quantum_consensus():
     coherent_state[15] = 0.5  # |1111⟩
     coherent_state = coherent_state / np.linalg.norm(coherent_state)
 
-    brain_state = QuantumLikeState(
+    brain_state = QILikeState(
         state_vector=coherent_state,
-        state_type=QuantumLikeStateType.ENTANGLED,
+        state_type=QILikeStateType.ENTANGLED,
         entanglement_map={
             "brain_alpha-brain_beta": 0.9,
             "brain_gamma-brain_delta": 0.85,
@@ -805,7 +805,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -824,7 +824,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

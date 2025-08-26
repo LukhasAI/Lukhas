@@ -29,7 +29,7 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
   })
   const [privacyPoints, setPrivacyPoints] = useState(6)
   const [rewardTier, setRewardTier] = useState(3)
-  
+
   // Smooth entry animation and check storage
   useEffect(() => {
     const storedConsent = localStorage.getItem('lukhas_cookie_consent')
@@ -41,18 +41,18 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
       return () => clearTimeout(timer)
     }
   }, [])
-  
+
   // Calculate privacy points based on preferences
   useEffect(() => {
     let points = 6 // Start with maximum points
-    
+
     // Subtract points for each optional cookie type enabled
     if (preferences.functional) points -= 1
     if (preferences.analytics) points -= 2
     if (preferences.marketing) points -= 3
-    
+
     setPrivacyPoints(points)
-    
+
     // Set reward tier based on privacy points
     if (points >= 6) {
       setRewardTier(3) // Highest tier (most private)
@@ -64,21 +64,21 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
       setRewardTier(0) // No reward (least private)
     }
   }, [preferences])
-  
+
   // Toggle cookie preference
   const togglePreference = (type: keyof CookiePreferences) => {
     if (type === 'necessary') return // Can't disable necessary cookies
-    
+
     setPreferences(prev => ({
       ...prev,
       [type]: !prev[type]
     }))
   }
-  
+
   // Submit cookie consent
   const submitConsent = async () => {
     setConsentState('rewarded')
-    
+
     // Store consent in localStorage
     localStorage.setItem('lukhas_cookie_consent', JSON.stringify({
       preferences,
@@ -86,21 +86,21 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
       privacyPoints,
       rewardTier
     }))
-    
+
     // Notify parent component
     if (onAccept) {
       onAccept(preferences)
     }
-    
+
     // Trigger state machine transition to marketing mode
     await giveConsent()
-    
+
     // Close modal after showing reward
     setTimeout(() => {
       setShowModal(false)
     }, rewardTier > 0 ? 3000 : 1000)
   }
-  
+
   // Decline all optional cookies
   const declineAll = async () => {
     const minimalPreferences = {
@@ -109,10 +109,10 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
       analytics: false,
       marketing: false
     }
-    
+
     setPreferences(minimalPreferences)
     setConsentState('rewarded')
-    
+
     // Store consent
     localStorage.setItem('lukhas_cookie_consent', JSON.stringify({
       preferences: minimalPreferences,
@@ -120,31 +120,31 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
       privacyPoints: 6,
       rewardTier: 3
     }))
-    
+
     if (onDecline) {
       onDecline()
     }
-    
+
     // Trigger state machine transition to marketing mode
     await giveConsent()
-    
+
     setTimeout(() => setShowModal(false), 3000)
   }
-  
+
   if (!showModal) return null
-  
+
   return (
     <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-500 ${
       isVisible ? 'opacity-100' : 'opacity-0'
     }`}>
       {/* Backdrop */}
-      <div 
+      <div
         className={`absolute inset-0 bg-black/50 backdrop-blur-md transition-all duration-500 ${
           isVisible ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={() => consentState === 'rewarded' && setShowModal(false)}
       />
-      
+
       {/* Modal */}
       <div className={`relative max-w-md w-full glass-modal rounded-xl overflow-hidden transform transition-all duration-500 ${
         isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
@@ -159,7 +159,7 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
             <XMarkIcon className="w-5 h-5" />
           </button>
         )}
-        
+
         {/* Initial State */}
         {consentState === 'initial' && (
           <div className="p-8">
@@ -167,10 +167,10 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
               Privacy Preferences
             </h2>
             <p className="text-white/70 text-sm leading-relaxed mb-6">
-              We value your privacy. Unlike most sites, we reward you for protecting your data. 
+              We value your privacy. Unlike most sites, we reward you for protecting your data.
               Disable optional cookies to unlock enhanced features and experiences.
             </p>
-            
+
             <div className="space-y-3">
               <button
                 onClick={() => setConsentState('choosing')}
@@ -178,7 +178,7 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
               >
                 Choose Preferences
               </button>
-              
+
               <button
                 onClick={declineAll}
                 className="w-full py-3 bg-transparent hover:bg-white/5 text-white/70 rounded-lg transition-all text-sm font-light tracking-wider"
@@ -188,14 +188,14 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
             </div>
           </div>
         )}
-        
+
         {/* Choosing State */}
         {consentState === 'choosing' && (
           <div className="p-8">
             <h2 className="text-xl font-light text-white mb-6">
               Select Preferences
             </h2>
-            
+
             {/* Cookie Options */}
             <div className="space-y-4 mb-6">
               {/* Necessary Cookies - Always on */}
@@ -209,7 +209,7 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
                   <div className="absolute top-0.5 left-6 w-5 h-5 bg-white rounded-full opacity-50"></div>
                 </div>
               </div>
-              
+
               {/* Functional Cookies */}
               <div className="flex justify-between items-center">
                 <div>
@@ -223,13 +223,13 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
                   className="relative w-12 h-6 rounded-full transition-colors"
                   style={{ backgroundColor: preferences.functional ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)' }}
                 >
-                  <div 
+                  <div
                     className="absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform"
                     style={{ transform: preferences.functional ? 'translateX(24px)' : 'translateX(2px)' }}
                   />
                 </button>
               </div>
-              
+
               {/* Analytics Cookies */}
               <div className="flex justify-between items-center">
                 <div>
@@ -243,13 +243,13 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
                   className="relative w-12 h-6 rounded-full transition-colors"
                   style={{ backgroundColor: preferences.analytics ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)' }}
                 >
-                  <div 
+                  <div
                     className="absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform"
                     style={{ transform: preferences.analytics ? 'translateX(24px)' : 'translateX(2px)' }}
                   />
                 </button>
               </div>
-              
+
               {/* Marketing Cookies */}
               <div className="flex justify-between items-center">
                 <div>
@@ -263,31 +263,31 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
                   className="relative w-12 h-6 rounded-full transition-colors"
                   style={{ backgroundColor: preferences.marketing ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)' }}
                 >
-                  <div 
+                  <div
                     className="absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform"
                     style={{ transform: preferences.marketing ? 'translateX(24px)' : 'translateX(2px)' }}
                   />
                 </button>
               </div>
             </div>
-            
+
             {/* Privacy Rewards Display */}
             <div className="mb-6 border border-white/10 rounded-lg p-4">
               <div className="text-white/80 text-sm font-light tracking-wider mb-3">
                 Privacy Rewards
               </div>
-              
+
               {/* Points Bar */}
               <div className="flex items-center mb-3">
                 <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                  <div 
+                  <div
                     className="h-full bg-gradient-to-r from-purple-600 to-blue-600 transition-all duration-500"
                     style={{ width: `${(privacyPoints / 6) * 100}%` }}
                   />
                 </div>
                 <div className="ml-3 text-white text-sm">{privacyPoints}/6</div>
               </div>
-              
+
               {/* Rewards List */}
               <div className="space-y-2">
                 <div className={`flex items-center ${rewardTier >= 1 ? 'text-white' : 'text-white/40'}`}>
@@ -304,7 +304,7 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
                 </div>
               </div>
             </div>
-            
+
             <button
               onClick={submitConsent}
               className="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/30 text-white rounded-lg transition-all text-sm font-light tracking-wider"
@@ -313,7 +313,7 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
             </button>
           </div>
         )}
-        
+
         {/* Rewarded State */}
         {consentState === 'rewarded' && (
           <div className="p-8 text-center">
@@ -323,14 +323,14 @@ export default function CookiesConsent({ onAccept, onDecline }: CookieConsentPro
               {rewardTier === 2 && '🛡️'}
               {rewardTier === 3 && '✨'}
             </div>
-            
+
             <h2 className="text-xl font-light text-white mb-3">
               {rewardTier === 0 && 'Standard Experience'}
               {rewardTier === 1 && 'Enhanced Security'}
               {rewardTier === 2 && 'Advanced Privacy'}
               {rewardTier === 3 && 'Maximum Privacy'}
             </h2>
-            
+
             <p className="text-white/70 text-sm leading-relaxed">
               {rewardTier === 0 && 'Preferences saved. Your experience includes all personalization features.'}
               {rewardTier === 1 && 'You\'ve unlocked enhanced security protocols by protecting some of your data.'}

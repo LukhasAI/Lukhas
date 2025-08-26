@@ -64,21 +64,24 @@ log = structlog.get_logger(__name__)
 LUKHAS_CORE_COMPONENTS_AVAILABLE = False
 BioOrchestrator = Any  # Placeholder
 QIBioOscillator = Any  # Placeholder
-QuantumLikeState = Any  # Placeholder
-QuantumConfig = Any  # Placeholder
+QILikeState = Any  # Placeholder
+QIConfig = Any  # Placeholder
 UnifiedQuantumSystem = Any  # Placeholder
-QuantumAwarenessSystem = Any  # Placeholder
-QuantumDreamAdapter = Any  # Placeholder
+QIAwarenessSystem = Any  # Placeholder
+QIDreamAdapter = Any  # Placeholder
 QIBioCoordinator = Any  # Placeholder
 
 try:
     from bio.symbolic.architectures import (
         BioSymbolicOrchestrator as BioOrchestrator,  # type: ignore
     )
-    from candidate.core.bio_systems.quantum_inspired_layer import (  # type: ignore
+    from candidate.core.bio_systems.qi_inspired_layer import (  # type: ignore
         QIBioOscillator,
-        QuantumConfig,
-        QuantumLikeState,
+        QIConfig,
+        QILikeState,
+    )
+    from qi.qi_awareness_system import (
+        QIAwarenessSystem,  # type: ignore
     )
 
     # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
@@ -86,13 +89,10 @@ try:
     from qi.qi_bio_coordinator import (
         QIBioCoordinator,  # type: ignore
     )
-    from qi.quantum_awareness_system import (
-        QuantumAwarenessSystem,  # type: ignore
+    from qi.qi_dream_adapter import (
+        QIDreamAdapter,  # type: ignore
     )
-    from qi.quantum_dream_adapter import (
-        QuantumDreamAdapter,  # type: ignore
-    )
-    from qi.quantum_unified_system import (
+    from qi.qi_unified_system import (
         UnifiedQuantumSystem,  # type: ignore
     )
 
@@ -115,7 +115,7 @@ except ImportError as e:
             log.warning("MockBioOrchestrator.register_oscillator called.")
 
     class MockQIBioOscillator:
-        def __init__(self, base_freq: float, quantum_config: Any):
+        def __init__(self, base_freq: float, qi_config: Any):
             pass
 
         def get_coherence(self) -> float:
@@ -130,16 +130,16 @@ except ImportError as e:
         async def strengthen_entanglement(self):
             await asyncio.sleep(0.01)
 
-        def create_superposition(self, vector: np.ndarray) -> "QuantumLikeState":
-            return QuantumLikeState(vector, 0.9, 0.1, 1.0, 1.0, 0.8)  # type: ignore
+        def create_superposition(self, vector: np.ndarray) -> "QILikeState":
+            return QILikeState(vector, 0.9, 0.1, 1.0, 1.0, 0.8)  # type: ignore
 
         async def entangle_states(
-            self, states: list["QuantumLikeState"]
-        ) -> "QuantumLikeState":
+            self, states: list["QILikeState"]
+        ) -> "QILikeState":
             return (
                 states[0]
                 if states
-                else QuantumLikeState(np.array([0.0]), 0.0, 0.0, 0.0, 0.0, 0.0)
+                else QILikeState(np.array([0.0]), 0.0, 0.0, 0.0, 0.0, 0.0)
             )  # type: ignore
 
     class QILikeState:  # type: ignore
@@ -203,14 +203,14 @@ except ImportError as e:
         BioOrchestrator = MockBioOrchestrator  # type: ignore
     if "QIBioOscillator" not in globals() or QIBioOscillator is Any:
         QIBioOscillator = MockQIBioOscillator  # type: ignore
-    if "QuantumLikeState" not in globals() or QuantumLikeState is Any:
-        QuantumLikeState = QuantumLikeState  # type: ignore
-    if "QuantumConfig" not in globals() or QuantumConfig is Any:
-        QuantumConfig = QuantumConfig  # type: ignore
-    if "QuantumAwarenessSystem" not in globals() or QuantumAwarenessSystem is Any:
-        QuantumAwarenessSystem = MockQuantumAwarenessSystem  # type: ignore
-    if "QuantumDreamAdapter" not in globals() or QuantumDreamAdapter is Any:
-        QuantumDreamAdapter = MockQuantumDreamAdapter  # type: ignore
+    if "QILikeState" not in globals() or QILikeState is Any:
+        QILikeState = QILikeState  # type: ignore
+    if "QIConfig" not in globals() or QIConfig is Any:
+        QIConfig = QIConfig  # type: ignore
+    if "QIAwarenessSystem" not in globals() or QIAwarenessSystem is Any:
+        QIAwarenessSystem = MockQuantumAwarenessSystem  # type: ignore
+    if "QIDreamAdapter" not in globals() or QIDreamAdapter is Any:
+        QIDreamAdapter = MockQuantumDreamAdapter  # type: ignore
     if "QIBioCoordinator" not in globals() or QIBioCoordinator is Any:
         QIBioCoordinator = MockQIBioCoordinator  # type: ignore
 
@@ -229,7 +229,7 @@ class QIBioOptimizationConfig:
     atp_synthesis_rate_target_au: float = 0.8
     awareness_processing_depth_level: int = 5
     dream_consolidation_cycles_count: int = 3
-    quantum_memory_retention_factor: float = 0.95
+    qi_memory_retention_factor: float = 0.95
     max_optimization_cycles_per_call: int = 50
     convergence_tolerance_delta: float = 0.01
     stability_check_frequency_cycles: int = 5
@@ -240,7 +240,7 @@ class QIBioOptimizationConfig:
 class QIBioMetrics:
     """Tracks various metrics during quantum bio-optimization cycles."""
 
-    quantum_coherence_level: float = 0.0
+    qi_coherence_level: float = 0.0
     entanglement_strength_factor: float = 0.0
     superposition_stability_metric: float = 0.0
     mitochondrial_efficiency_achieved: float = 0.0
@@ -260,7 +260,7 @@ class QIBioMetrics:
 
 # TIER_CONFIG_START
 # {
-#   "module": "quantum.qi_bio_optimization_adapter",
+#   "module": "qi.qi_bio_optimization_adapter",
 #   "class_QIBioOptimizationAdapter": {
 #     "default_tier": 2,
 #     "methods": {
@@ -324,25 +324,25 @@ class QIBioOptimizationAdapter:
         """Initializes the core quantum and bio-computational components."""
         self.log.debug("Initializing internal quantum-bio systems...")
         try:
-            q_config = QuantumConfig(  # type: ignore
+            q_config = QIConfig(  # type: ignore
                 coherence_threshold=self.config.coherence_threshold,
                 entanglement_threshold=self.config.entanglement_threshold,
                 decoherence_rate=self.config.decoherence_rate,
                 measurement_interval=0.1,
             )
             self.qi_bio_oscillator: QIBioOscillator = QIBioOscillator(
-                base_freq=self.config.base_frequency, quantum_config=q_config
+                base_freq=self.config.base_frequency, qi_config=q_config
             )  # type: ignore
 
-            self.quantum_awareness_system: (
-                QuantumAwarenessSystem
-            ) = QuantumAwarenessSystem(
+            self.qi_awareness_system: (
+                QIAwarenessSystem
+            ) = QIAwarenessSystem(
                 orchestrator=self.bio_orchestrator,
                 integration=None,
                 config=None,
-                metrics_dir=Path("./quantum_metrics_output"),
+                metrics_dir=Path("./qi_metrics_output"),
             )  # type: ignore # TODO: integration=None needs review
-            self.quantum_dream_adapter: QuantumDreamAdapter = QuantumDreamAdapter(
+            self.qi_dream_adapter: QIDreamAdapter = QIDreamAdapter(
                 orchestrator=self.bio_orchestrator, config=None
             )  # type: ignore # TODO: config=None needs review
             self.bio_quantum_coordinator: QIBioCoordinator = QIBioCoordinator()  # type: ignore
@@ -420,7 +420,7 @@ class QIBioOptimizationAdapter:
                 # type: ignore
                 "current_quantum_like_state_snapshot": (
                     asdict(prepared_q_state)
-                    if isinstance(prepared_q_state, QuantumLikeState)
+                    if isinstance(prepared_q_state, QILikeState)
                     else str(prepared_q_state)
                 ),
                 "optimization_run_id": f"qbo_run_{self.optimization_cycles_completed_total}_{int(datetime.now(timezone.utc).timestamp())}",
@@ -445,15 +445,15 @@ class QIBioOptimizationAdapter:
     # type: ignore
     async def _prepare_quantum_like_state(
         self, input_data: dict[str, Any]
-    ) -> QuantumLikeState:
+    ) -> QILikeState:
         self.log.debug(
             "Preparing quantum-like state from input data.",
             input_keys=list(input_data.keys()),
         )
         try:
-            quantum_vector = self._data_to_quantum_vector(input_data)
+            qi_vector = self._data_to_quantum_vector(input_data)
             initial_superposition_state = (
-                self.qi_bio_oscillator.create_superposition(quantum_vector)
+                self.qi_bio_oscillator.create_superposition(qi_vector)
             )  # type: ignore
             # type: ignore
             entangled_state = await self.qi_bio_oscillator.entangle_states(
@@ -471,7 +471,7 @@ class QIBioOptimizationAdapter:
                 error_message=str(e),
                 exc_info=True,
             )
-            return QuantumLikeState(
+            return QILikeState(
                 np.array([0.0], dtype=float),
                 0.0,
                 0.0,
@@ -509,26 +509,26 @@ class QIBioOptimizationAdapter:
     @lukhas_tier_required(3)
     # type: ignore
     def _extract_quantum_features(
-        self, quantum_like_state: QuantumLikeState
+        self, qi_like_state: QILikeState
     ) -> dict[str, float]:
         self.log.debug(
             "Extracting quantum features from state.",
-            coherence=quantum_like_state.coherence,
+            coherence=qi_like_state.coherence,
         )  # type: ignore
         try:
             return {
-                "coherence": quantum_like_state.coherence,
-                "phase": quantum_like_state.phase,  # type: ignore
+                "coherence": qi_like_state.coherence,
+                "phase": qi_like_state.phase,  # type: ignore
                 # type: ignore
                 "amplitude": (
-                    abs(quantum_like_state.amplitude).mean().item()
-                    if isinstance(quantum_like_state.amplitude, np.ndarray)
-                    else abs(quantum_like_state.amplitude)
+                    abs(qi_like_state.amplitude).mean().item()
+                    if isinstance(qi_like_state.amplitude, np.ndarray)
+                    else abs(qi_like_state.amplitude)
                 ),
-                "entanglement": getattr(quantum_like_state, "entanglement", 0.5),
-                "energy": getattr(quantum_like_state, "energy", 1.0),
+                "entanglement": getattr(qi_like_state, "entanglement", 0.5),
+                "energy": getattr(qi_like_state, "energy", 1.0),
                 "frequency": getattr(
-                    quantum_like_state, "frequency", self.config.base_frequency
+                    qi_like_state, "frequency", self.config.base_frequency
                 ),
             }
         except Exception as e:
@@ -549,20 +549,20 @@ class QIBioOptimizationAdapter:
     @lukhas_tier_required(3)
     # type: ignore
     async def _optimize_biological_systems(
-        self, quantum_like_state: QuantumLikeState
+        self, qi_like_state: QILikeState
     ) -> dict[str, Any]:
         self.log.debug(
             "Optimizing biological systems (simulated).",
-            quantum_like_state_coherence=quantum_like_state.coherence,
+            qi_like_state_coherence=qi_like_state.coherence,
         )  # type: ignore
         await asyncio.sleep(0.01)
-        quantum_features = self._extract_quantum_features(quantum_like_state)
+        qi_features = self._extract_quantum_features(qi_like_state)
         return {
-            "mitochondrial": self._optimize_mitochondrial_function(quantum_features),
-            "membrane": self._optimize_membrane_potential(quantum_features),
-            "gradient": self._optimize_proton_gradient(quantum_features),
-            "atp": self._optimize_atp_synthesis(quantum_features),
-            "quantum_features_used": quantum_features,
+            "mitochondrial": self._optimize_mitochondrial_function(qi_features),
+            "membrane": self._optimize_membrane_potential(qi_features),
+            "gradient": self._optimize_proton_gradient(qi_features),
+            "atp": self._optimize_atp_synthesis(qi_features),
+            "qi_features_used": qi_features,
         }
 
     # Placeholder implementations for sub-optimizations called by
@@ -610,7 +610,7 @@ class QIBioOptimizationAdapter:
         self.log.debug("Enhancing consciousness (simulated).")
         # type: ignore
         awareness_result = (
-            await self.quantum_awareness_system.process_quantum_awareness(
+            await self.qi_awareness_system.process_quantum_awareness(
                 integrated_result
             )
         )
@@ -636,10 +636,10 @@ class QIBioOptimizationAdapter:
     ) -> dict[str, Any]:
         self.log.info("Starting dream consolidation cycle.")
         # type: ignore
-        await self.quantum_dream_adapter.start_dream_cycle(duration_minutes=1)
+        await self.qi_dream_adapter.start_dream_cycle(duration_minutes=1)
         await asyncio.sleep(0.02)  # Simulate consolidation time
-        dream_state = await self.quantum_dream_adapter.get_quantum_like_state()  # type: ignore
-        await self.quantum_dream_adapter.stop_dream_cycle()  # type: ignore
+        dream_state = await self.qi_dream_adapter.get_quantum_like_state()  # type: ignore
+        await self.qi_dream_adapter.stop_dream_cycle()  # type: ignore
         awareness_result["dream_consolidation_state"] = dream_state
         awareness_result["dream_consolidation_timestamp_utc_iso"] = datetime.now(
             timezone.utc
@@ -678,7 +678,7 @@ class QIBioOptimizationAdapter:
         self.log.debug("Calculating current performance metrics from result data.")
         # Simplified: actual metrics would come from result_data structure
         return {
-            "quantum_coherence": result_data.get("quantum_coherence_applied", 0.6),
+            "qi_coherence": result_data.get("qi_coherence_applied", 0.6),
             "bio_stability": result_data.get("metadata", {}).get("bio_stability", 0.6),
             "integration_efficiency": result_data.get("metadata", {}).get(
                 "integration_efficiency", 0.6
@@ -735,9 +735,9 @@ class QIBioOptimizationAdapter:
             result_data
         )  # Use helper
         metrics = QIBioMetrics(
-            quantum_coherence_level=perf_metrics.get("quantum_coherence", 0.0),
+            qi_coherence_level=perf_metrics.get("qi_coherence", 0.0),
             entanglement_strength_factor=result_data.get(
-                "quantum_entanglement", 0.0
+                "qi_entanglement", 0.0
             ),  # Assuming this is in result_data
             superposition_stability_metric=self.qi_bio_oscillator.get_coherence(),  # type: ignore
             mitochondrial_efficiency_achieved=result_data.get("mitochondrial", {}).get(
@@ -763,7 +763,7 @@ class QIBioOptimizationAdapter:
         recent_metrics = self.metrics_history[
             -self.config.stability_check_frequency_cycles :
         ]
-        coherence_lvls = [m.quantum_coherence_level for m in recent_metrics]
+        coherence_lvls = [m.qi_coherence_level for m in recent_metrics]
         stability = (
             np.clip(1.0 - (np.var(coherence_lvls).item() * 5.0), 0.0, 1.0)
             if len(coherence_lvls) > 1
@@ -841,9 +841,9 @@ class QIBioOptimizationAdapter:
                     if hasattr(self, "qi_bio_oscillator")
                     else "inactive/mocked"
                 ),
-                "quantum_awareness_system": (
+                "qi_awareness_system": (
                     "active"
-                    if hasattr(self, "quantum_awareness_system")
+                    if hasattr(self, "qi_awareness_system")
                     else "inactive/mocked"
                 ),
             },
@@ -860,14 +860,14 @@ class QIBioOptimizationAdapter:
         try:
             self.is_currently_optimizing = False
             if (
-                hasattr(self, "quantum_dream_adapter")
-                and hasattr(self.quantum_dream_adapter, "active")
-                and self.quantum_dream_adapter.active
+                hasattr(self, "qi_dream_adapter")
+                and hasattr(self.qi_dream_adapter, "active")
+                and self.qi_dream_adapter.active
             ):  # type: ignore
-                if hasattr(self.quantum_dream_adapter, "stop_dream_cycle") and callable(
-                    self.quantum_dream_adapter.stop_dream_cycle
+                if hasattr(self.qi_dream_adapter, "stop_dream_cycle") and callable(
+                    self.qi_dream_adapter.stop_dream_cycle
                 ):  # type: ignore
-                    await self.quantum_dream_adapter.stop_dream_cycle()  # type: ignore
+                    await self.qi_dream_adapter.stop_dream_cycle()  # type: ignore
             self.optimization_performance_cache.clear()
             self.log.info("QIBioOptimizationAdapter shutdown complete.")
         except Exception as e:
@@ -899,7 +899,7 @@ class QIBioOptimizationAdapter:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -918,7 +918,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

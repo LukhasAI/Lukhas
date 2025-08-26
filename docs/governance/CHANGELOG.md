@@ -56,7 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Infrastructure
 - Docker containerization support
-- Kubernetes deployment configurations  
+- Kubernetes deployment configurations
 - CI/CD pipeline with automated testing
 - Security scanning and compliance validation
 - Performance monitoring and analytics
@@ -92,5 +92,5 @@ Security vulnerabilities are addressed immediately and released as patch version
 
 ---
 
-**Last Updated**: 2025-01-17  
+**Last Updated**: 2025-01-17
 **Maintained by**: LUKHAS AI Development Team

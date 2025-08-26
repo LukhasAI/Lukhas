@@ -25,7 +25,7 @@ LUKHAS AI Unified Platform (FULLY INTEGRATED)
 │   ├── Content generation ✅
 │   └── Cross-system sharing ✅
 │
-├── Document Engine  
+├── Document Engine
 │   ├── Knowledge base from DB ✅
 │   ├── Real-time content storage ✅
 │   ├── Voice coherence tracking ✅

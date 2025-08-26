@@ -31,7 +31,7 @@ export class AdvancedSafetyMonitor extends EventEmitter {
   private metrics: Map<string, SafetyMetric[]>;
   private readonly MAX_HISTORY = 1000;
   private readonly TREND_WINDOW = 100;
-  
+
   // Enhanced safety thresholds
   private readonly THRESHOLDS = {
     responseTime: 100,
@@ -121,7 +121,7 @@ export class AdvancedSafetyMonitor extends EventEmitter {
 
   private generateRecommendations(metric: SafetyMetric): string[] {
     const recommendations: string[] = [];
-    
+
     if (metric.value > metric.threshold * 1.5) {
       recommendations.push('Immediate system pause recommended');
       recommendations.push('Initiate emergency safety protocols');
@@ -149,7 +149,7 @@ export class AdvancedSafetyMonitor extends EventEmitter {
 
     const recent = history.slice(-this.TREND_WINDOW);
     const values = recent.map(m => m.value);
-    
+
     // Calculate trend
     const velocity = this.calculateVelocity(values);
     const prediction = this.predictNextValue(values);
@@ -223,7 +223,7 @@ export class AdvancedSafetyMonitor extends EventEmitter {
     return Object.entries(weights).reduce((score, [name, weight]) => {
       const metric = metrics[name];
       if (!metric) return score;
-      
+
       const normalizedValue = Math.min(1, metric.threshold / Math.max(metric.value, 0.0001));
       return score + (normalizedValue * weight);
     }, 0);

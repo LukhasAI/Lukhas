@@ -21,7 +21,7 @@ sequenceDiagram
     participant A as Auth API
     participant E as Email Service
     participant J as JWKS
-    
+
     U->>W: Request login with email
     W->>A: POST /auth/magic-link
     A->>A: Check rate limits

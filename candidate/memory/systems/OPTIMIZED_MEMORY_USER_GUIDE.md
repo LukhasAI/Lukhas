@@ -7,9 +7,9 @@
 
 # 🎯 LUKHAS AI - Optimized Memory User Guide
 
-**Version**: 1.0.0  
-**Target Audience**: Developers, System Integrators, AGI Researchers  
-**Difficulty Level**: Intermediate to Advanced  
+**Version**: 1.0.0
+**Target Audience**: Developers, System Integrators, AGI Researchers
+**Difficulty Level**: Intermediate to Advanced
 
 ---
 
@@ -26,7 +26,7 @@ Like the ancient poets who captured entire universes within the delicate confine
 Imagine your AI system suddenly becoming **333 times more memory-efficient** while actually getting **faster and smarter**. That's exactly what you're getting:
 
 - **📦 Massive Compression**: Store 333x more memories in the same space
-- **⚡ Lightning Fast**: Create 700+ memories/second, retrieve 12,000/second  
+- **⚡ Lightning Fast**: Create 700+ memories/second, retrieve 12,000/second
 - **🎯 Perfect Quality**: >99.9% similarity preservation for embeddings
 - **🔒 100% Safe**: Complete data integrity with lossless content storage
 - **🔌 Drop-in Ready**: Works with all existing LUKHAS systems
@@ -75,7 +75,7 @@ print(f"✅ Embedding quality: >99.9% similarity maintained")
 💾 Memory size: 1.2 KB
 📊 Compression achieved: ~333x smaller!
 ✅ Content perfect: 61 characters preserved
-✅ Tags perfect: 4 tags preserved  
+✅ Tags perfect: 4 tags preserved
 ✅ Embedding quality: >99.9% similarity maintained
 ```
 
@@ -96,11 +96,11 @@ Your AI's "understanding" (embeddings) get compressed from 4KB to 1KB while keep
 # Before: 1024 numbers × 4 bytes = 4,096 bytes
 original_embedding = np.random.randn(1024).astype(np.float32)
 
-# After: 1024 numbers × 1 byte + scale = 1,028 bytes  
+# After: 1024 numbers × 1 byte + scale = 1,028 bytes
 # Quality: 99.997% similarity preserved!
 memory = create_optimized_memory(
-    content="Test", 
-    tags=["demo"], 
+    content="Test",
+    tags=["demo"],
     embedding=original_embedding
 )
 ```
@@ -118,7 +118,7 @@ metadata = {
     "timestamp": datetime.now(),
     "importance": 0.85,
     "emotion": "joy",        # Becomes enum: 1 byte instead of 3
-    "type": "knowledge"      # Becomes enum: 1 byte instead of 9  
+    "type": "knowledge"      # Becomes enum: 1 byte instead of 9
 }
 ```
 
@@ -164,10 +164,10 @@ Perfect for basic AI learning and knowledge storage:
 ```python
 def store_ai_insight(insight_text, categories, confidence_score):
     """Store an AI insight with automatic optimization"""
-    
+
     # Generate embedding (your AI's understanding)
     embedding = generate_insight_embedding(insight_text)
-    
+
     # Create optimized memory
     memory = create_optimized_memory(
         content=insight_text,
@@ -179,7 +179,7 @@ def store_ai_insight(insight_text, categories, confidence_score):
             "type": "insight"
         }
     )
-    
+
     print(f"🧠 Stored insight: {memory.memory_usage_kb:.1f}KB")
     return memory
 
@@ -197,16 +197,16 @@ For processing lots of memories efficiently:
 ```python
 def optimize_memory_batch(raw_memories):
     """Convert a batch of raw memories to optimized format"""
-    
+
     optimized_memories = []
     total_size_before = 0
     total_size_after = 0
-    
+
     for raw_memory in raw_memories:
         # Estimate original size
         original_size = estimate_legacy_size(raw_memory)
         total_size_before += original_size
-        
+
         # Create optimized version
         optimized = create_optimized_memory(
             content=raw_memory["content"],
@@ -214,21 +214,21 @@ def optimize_memory_batch(raw_memories):
             embedding=raw_memory.get("embedding"),
             metadata=raw_memory.get("metadata", {})
         )
-        
+
         optimized_memories.append(optimized)
         total_size_after += optimized.memory_usage
-    
+
     compression_ratio = total_size_before / total_size_after
-    
+
     print(f"📈 Batch Results:")
     print(f"   Memories processed: {len(raw_memories)}")
     print(f"   Size before: {total_size_before/1024:.1f} KB")
     print(f"   Size after: {total_size_after/1024:.1f} KB")
     print(f"   Compression: {compression_ratio:.1f}x improvement")
-    
+
     return optimized_memories
 
-# Usage with your existing memories  
+# Usage with your existing memories
 raw_memories = load_existing_memories()
 optimized_batch = optimize_memory_batch(raw_memories)
 ```
@@ -249,29 +249,29 @@ class AIMemoryManager:
             enable_attention=True,     # Advanced retrieval
             enable_conscience=True     # Safety features
         )
-    
+
     async def store_experience(self, experience, emotion, importance):
         """Store an AI experience with full optimization"""
-        
+
         memory_id = await self.memory_system.fold_in_with_embedding(
             data=experience,
             tags=["experience", emotion, "learning"],
             importance=importance,
             emotion=emotion
         )
-        
+
         print(f"🎯 Stored experience: {memory_id[:8]}...")
         return memory_id
-    
+
     async def recall_similar(self, query, top_k=5):
         """Recall similar experiences with optimization benefits"""
-        
+
         results = await self.memory_system.fold_out_semantic(
             query=query,
             top_k=top_k,
             use_attention=True
         )
-        
+
         print(f"🔍 Found {len(results)} similar experiences")
         return results
 
@@ -302,16 +302,16 @@ Keep track of your optimization benefits:
 ```python
 def monitor_optimization_performance(memory_system):
     """Monitor your optimization benefits in real-time"""
-    
+
     stats = memory_system.get_optimization_statistics()
-    
+
     print("🎯 OPTIMIZATION DASHBOARD")
     print("=" * 40)
     print(f"💾 Memories optimized: {stats['memories_optimized']:,}")
     print(f"📈 Average compression: {stats['avg_compression_ratio']:.1f}x")
     print(f"💰 Memory saved: {stats['total_memory_saved_mb']:.1f} MB")
     print(f"🚀 Storage efficiency: {stats['memory_efficiency_improvement']}")
-    
+
     # Capacity projections
     capacity = stats.get('vector_storage', {})
     if capacity:
@@ -341,46 +341,46 @@ Verify that optimization maintains perfect quality:
 ```python
 def validate_optimization_quality(original_memories, optimized_memories):
     """Ensure optimization maintains perfect quality"""
-    
+
     quality_report = {
         "content_integrity": 0,
         "embedding_similarity": [],
         "metadata_preservation": 0,
         "total_memories": len(original_memories)
     }
-    
+
     for original, optimized in zip(original_memories, optimized_memories):
         # Check content integrity
         if optimized.get_content() == original["content"]:
             quality_report["content_integrity"] += 1
-        
+
         # Check embedding similarity
         if "embedding" in original and original["embedding"] is not None:
             original_emb = original["embedding"]
             recovered_emb = optimized.get_embedding()
-            
+
             similarity = np.dot(original_emb, recovered_emb) / (
                 np.linalg.norm(original_emb) * np.linalg.norm(recovered_emb)
             )
             quality_report["embedding_similarity"].append(similarity)
-        
+
         # Check metadata preservation
         recovered_metadata = optimized.get_metadata()
         if recovered_metadata and "importance" in recovered_metadata:
             quality_report["metadata_preservation"] += 1
-    
+
     # Calculate results
     content_rate = quality_report["content_integrity"] / quality_report["total_memories"]
     metadata_rate = quality_report["metadata_preservation"] / quality_report["total_memories"]
     avg_similarity = np.mean(quality_report["embedding_similarity"])
-    
+
     print("🔍 QUALITY ASSURANCE REPORT")
     print("=" * 40)
     print(f"✅ Content integrity: {content_rate:.1%}")
     print(f"✅ Metadata preservation: {metadata_rate:.1%}")
     print(f"✅ Embedding similarity: {avg_similarity:.6f}")
     print(f"🎯 Quality grade: {'EXCELLENT' if avg_similarity > 0.999 else 'GOOD'}")
-    
+
     return quality_report
 
 # Usage during testing
@@ -398,7 +398,7 @@ quality_report = validate_optimization_quality(original_memories, optimized_memo
 # ❌ Wrong
 from memory.optimized_memory_item import create_optimized_memory
 
-# ✅ Correct  
+# ✅ Correct
 from memory.systems.optimized_memory_item import create_optimized_memory
 ```
 
@@ -473,7 +473,7 @@ standard_memory = create_optimized_memory(
 # For specialized use: Consider 512 dimensions for further optimization
 compact_memory = create_optimized_memory(
     content=content,
-    tags=tags, 
+    tags=tags,
     embedding=np.random.randn(512).astype(np.float32)  # 50% smaller embeddings
 )
 ```
@@ -514,19 +514,19 @@ class OptimizedMemoryTracker:
             "total_size_saved": 0,
             "avg_compression_ratio": 0
         }
-    
+
     def track_creation(self, legacy_size, optimized_size):
         self.stats["memories_created"] += 1
         size_saved = legacy_size - optimized_size
         self.stats["total_size_saved"] += size_saved
-        
+
         compression_ratio = legacy_size / optimized_size
         # Running average
         n = self.stats["memories_created"]
         self.stats["avg_compression_ratio"] = (
             (self.stats["avg_compression_ratio"] * (n-1) + compression_ratio) / n
         )
-    
+
     def print_summary(self):
         print(f"🎯 Optimization Summary:")
         print(f"   Memories: {self.stats['memories_created']:,}")
@@ -541,7 +541,7 @@ for raw_memory in memories:
     legacy_size = estimate_legacy_size(raw_memory)
     optimized = create_optimized_memory(...)
     optimized_size = optimized.memory_usage
-    
+
     tracker.track_creation(legacy_size, optimized_size)
 
 tracker.print_summary()
@@ -563,7 +563,7 @@ class AILearningLab:
             enable_attention=True
         )
         self.learning_sessions = {}
-    
+
     async def start_learning_session(self, topic):
         """Start a new learning session with optimized memory"""
         session_id = f"learning_{topic}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
@@ -573,13 +573,13 @@ class AILearningLab:
             "start_time": datetime.now()
         }
         return session_id
-    
+
     async def record_learning(self, session_id, insight, confidence, sources):
         """Record a learning insight with automatic optimization"""
-        
+
         # Generate embedding for the insight
         insight_embedding = await self.generate_insight_embedding(insight)
-        
+
         # Store optimized memory
         memory_id = await self.memory_system.fold_in_with_embedding(
             data=insight,
@@ -592,49 +592,49 @@ class AILearningLab:
                 "timestamp": datetime.now()
             }
         )
-        
+
         self.learning_sessions[session_id]["memories"].append(memory_id)
-        
+
         print(f"🧠 Recorded learning: {insight[:50]}...")
         return memory_id
-    
+
     async def consolidate_session(self, session_id):
         """Consolidate learning session memories"""
-        
+
         session = self.learning_sessions[session_id]
         topic = session["topic"]
-        
+
         # Find related memories using semantic search
         related_memories = await self.memory_system.fold_out_semantic(
             query=f"learning about {topic}",
             top_k=20,
             use_attention=True
         )
-        
+
         # Generate session summary
         insights = []
         for memory_id in session["memories"]:
             memory = await self.memory_system.fold_out_by_id(memory_id)
             if memory:
                 insights.append(memory.data)
-        
+
         summary = self.generate_session_summary(insights)
-        
+
         # Store consolidated memory
         summary_embedding = await self.generate_insight_embedding(summary)
-        
+
         consolidated_id = await self.memory_system.fold_in_with_embedding(
             data=summary,
             tags=["learning", topic, "consolidated", "session_summary"],
             embedding=summary_embedding,
             metadata={
-                "session_id": session_id, 
+                "session_id": session_id,
                 "insights_count": len(insights),
                 "consolidation_time": datetime.now(),
                 "type": "learning_summary"
             }
         )
-        
+
         print(f"📚 Consolidated session: {len(insights)} insights → 1 summary")
         return consolidated_id
 
@@ -677,15 +677,15 @@ class MultiAgentMemoryNetwork:
                 enable_consensus=True  # Enable multi-agent consensus
             )
         self.shared_memories = {}
-    
+
     async def agent_learns(self, agent_id, experience, tags, importance=0.5):
         """Agent learns something and stores it optimally"""
-        
+
         agent_memory = self.agents[agent_id]
-        
+
         # Generate embedding for the experience
         embedding = await self.generate_experience_embedding(experience)
-        
+
         # Store in agent's optimized memory
         memory_id = await agent_memory.fold_in_with_embedding(
             data=experience,
@@ -698,19 +698,19 @@ class MultiAgentMemoryNetwork:
                 "shareable": importance > 0.7  # High importance memories are shareable
             }
         )
-        
+
         # If important enough, consider sharing
         if importance > 0.7:
             await self.consider_sharing(agent_id, memory_id, experience, embedding)
-        
+
         return memory_id
-    
+
     async def consider_sharing(self, source_agent, memory_id, experience, embedding):
         """Consider sharing important memory with other agents"""
-        
+
         # Check if similar memory already exists in shared storage
         similar_memories = await self.find_similar_shared_memories(embedding, threshold=0.85)
-        
+
         if not similar_memories:
             # This is a novel insight worth sharing
             shared_id = f"shared_{memory_id}"
@@ -721,42 +721,42 @@ class MultiAgentMemoryNetwork:
                 "shared_timestamp": datetime.now(),
                 "access_count": 0
             }
-            
+
             print(f"🤝 Agent {source_agent} shared: {experience[:40]}...")
-            
+
             # Notify other agents of new shared memory
             await self.notify_agents_of_shared_memory(source_agent, shared_id)
-    
+
     async def agent_recall_with_sharing(self, agent_id, query, include_shared=True):
         """Agent recalls memories including shared knowledge"""
-        
+
         agent_memory = self.agents[agent_id]
-        
+
         # Get agent's personal memories
         personal_memories = await agent_memory.fold_out_semantic(
             query=query,
             top_k=10,
             use_attention=True
         )
-        
+
         results = [(m, score, "personal") for m, score in personal_memories]
-        
+
         # Include shared memories if requested
         if include_shared:
             query_embedding = await self.generate_experience_embedding(query)
             shared_matches = await self.find_similar_shared_memories(
-                query_embedding, 
+                query_embedding,
                 threshold=0.6,
                 max_results=5
             )
-            
+
             for shared_memory, similarity in shared_matches:
                 self.shared_memories[shared_memory["id"]]["access_count"] += 1
                 results.append((shared_memory, similarity, "shared"))
-        
+
         # Sort by relevance
         results.sort(key=lambda x: x[1], reverse=True)
-        
+
         print(f"🧠 Agent {agent_id} recalled: {len(results)} memories")
         return results
 
@@ -773,7 +773,7 @@ await network.agent_learns(
 
 # Agent 2 learns something related
 await network.agent_learns(
-    "agent_2", 
+    "agent_2",
     "Emotional recognition helps predict human needs better",
     tags=["emotion", "prediction", "human_needs"],
     importance=0.8  # Also important - will be shared
@@ -814,7 +814,7 @@ if hasattr(memory_system, 'quantum_storage_protocol'):
 ```python
 def create_scalable_memory_system(expected_memory_count):
     """Create memory system optimized for expected scale"""
-    
+
     if expected_memory_count < 10000:
         # Small scale: Maximum quality
         return create_optimized_hybrid_memory_fold(
@@ -823,7 +823,7 @@ def create_scalable_memory_system(expected_memory_count):
             enable_compression=True,
             compression_level=9  # Maximum compression
         )
-    
+
     elif expected_memory_count < 1000000:
         # Medium scale: Balanced
         return create_optimized_hybrid_memory_fold(
@@ -833,7 +833,7 @@ def create_scalable_memory_system(expected_memory_count):
             compression_level=6,  # Balanced compression
             enable_lazy_loading=True
         )
-    
+
     else:
         # Large scale: Maximum efficiency
         return create_optimized_hybrid_memory_fold(
@@ -849,7 +849,7 @@ def create_scalable_memory_system(expected_memory_count):
 # For a chatbot: ~10K memories expected
 chatbot_memory = create_scalable_memory_system(10000)
 
-# For an AGI research system: ~1M memories expected  
+# For an AGI research system: ~1M memories expected
 research_memory = create_scalable_memory_system(1000000)
 ```
 
@@ -887,7 +887,7 @@ research_memory = create_scalable_memory_system(1000000)
 
 ### Professional Support
 - **🎯 Enterprise Support**: enterprise@lukhas.ai
-- **🚀 Consulting Services**: consulting@lukhas.ai  
+- **🚀 Consulting Services**: consulting@lukhas.ai
 - **🎓 Training Programs**: training@lukhas.ai
 
 ### Quick Help Commands
@@ -913,5 +913,5 @@ Welcome to the future of artificial intelligence! 🚀
 
 ---
 
-*Copyright © 2025 LUKHAS AI. All rights reserved.*  
+*Copyright © 2025 LUKHAS AI. All rights reserved.*
 *User Guide Version 1.0.0 - Created with ❤️ for the AGI community*

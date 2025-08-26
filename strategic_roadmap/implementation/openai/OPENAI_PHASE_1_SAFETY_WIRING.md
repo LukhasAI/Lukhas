@@ -41,7 +41,7 @@ infrastructure = {
 ```python
 class EndocrineAPIModulator:
     """Maps biological signals to OpenAI parameters"""
-    
+
     def __init__(self):
         self.parameter_bounds = {
             "temperature": (0.0, 2.0),
@@ -50,26 +50,26 @@ class EndocrineAPIModulator:
             "frequency_penalty": (-2.0, 2.0),
             "presence_penalty": (-2.0, 2.0)
         }
-        
+
     def modulate_parameters(self, endocrine_state, base_params):
         params = base_params.copy()
-        
+
         # Stress response: Conservative parameters
         if endocrine_state.cortisol > 0.7:
             params["temperature"] = max(0.1, params["temperature"] * 0.5)
             params["max_tokens"] = min(500, params["max_tokens"])
             params["top_p"] = max(0.3, params["top_p"] * 0.7)
-            
+
         # Exploration mode: Broader search
         if endocrine_state.dopamine > 0.6 and endocrine_state.risk < 0.3:
             params["temperature"] = min(1.5, params["temperature"] * 1.3)
             params["top_p"] = min(0.95, params["top_p"] * 1.2)
-            
+
         # Focus mode: Precise outputs
         if endocrine_state.norepinephrine > 0.7:
             params["temperature"] = max(0.1, params["temperature"] * 0.3)
             params["frequency_penalty"] = 0.5
-            
+
         return self._enforce_bounds(params)
 ```
 
@@ -83,18 +83,18 @@ class EndocrineAPIModulator:
 ```python
 class GuardianSafetyWrapper:
     """Wraps OpenAI calls with Guardian System checks"""
-    
+
     async def safe_completion(self, prompt, params, context):
         # Pre-check with Guardian
         guardian_check = await self.guardian.evaluate_input(prompt)
         if guardian_check.blocked:
             return self._safe_refusal(guardian_check.reason)
-            
+
         # Apply endocrine modulation
         modulated_params = self.modulator.modulate_parameters(
             self.endocrine.get_state(), params
         )
-        
+
         # Call OpenAI with monitoring
         start_time = time.time()
         response = await self.openai_client.completions.create(
@@ -103,18 +103,18 @@ class GuardianSafetyWrapper:
             **modulated_params
         )
         latency = time.time() - start_time
-        
+
         # Post-check response
         safety_check = await self.guardian.evaluate_output(response.text)
         if safety_check.requires_modification:
             response = self._sanitize_response(response, safety_check)
-            
+
         # Create audit bundle
         audit = self._create_audit_bundle(
-            prompt, response, guardian_check, safety_check, 
+            prompt, response, guardian_check, safety_check,
             modulated_params, latency
         )
-        
+
         return response, audit
 ```
 
@@ -132,19 +132,19 @@ class GuardianSafetyWrapper:
 ```python
 class DualModerationPipeline:
     """Combines OpenAI Moderation API with Guardian System"""
-    
+
     async def moderate_input(self, text):
         # Parallel moderation checks
         openai_check, guardian_check = await asyncio.gather(
             self.openai.moderations.create(input=text),
             self.guardian.check_input_safety(text)
         )
-        
+
         # Combine results
         combined_risk = self._calculate_combined_risk(
             openai_check, guardian_check
         )
-        
+
         if combined_risk.score > 0.7:
             return ModerationResult(
                 blocked=True,
@@ -172,7 +172,7 @@ class DualModerationPipeline:
 ```python
 class StrictModeHandler:
     """Handles high-risk interactions with enhanced safety"""
-    
+
     def apply_strict_mode(self, params):
         return {
             **params,
@@ -183,17 +183,17 @@ class StrictModeHandler:
             "n": 3,  # Generate multiple for selection
             "best_of": 3  # Select safest
         }
-    
+
     async def strict_mode_completion(self, prompt, context):
         # Use most conservative model
         params = self.apply_strict_mode({"model": "gpt-4"})
-        
+
         # Generate multiple completions
         responses = await self.openai.completions.create(**params)
-        
+
         # Select safest response
         safest = await self._select_safest_response(responses.choices)
-        
+
         # Add safety notice
         return self._add_safety_context(safest)
 ```
@@ -202,7 +202,7 @@ class StrictModeHandler:
 ```python
 class ModerationHooks:
     """Systematic moderation at every stage"""
-    
+
     def __init__(self):
         self.stages = {
             "user_input": self.moderate_user_input,
@@ -211,20 +211,20 @@ class ModerationHooks:
             "model_output": self.moderate_output,
             "final_response": self.moderate_final
         }
-    
+
     async def run_moderation_pipeline(self, data, stage):
         moderator = self.stages[stage]
         result = await moderator(data)
-        
+
         if result.blocked:
             raise SafetyViolation(stage, result)
-        
+
         if result.modified:
             data = result.sanitized_data
-            
+
         # Log for audit
         self.audit_logger.log(stage, data, result)
-        
+
         return data
 ```
 
@@ -242,20 +242,20 @@ class ModerationHooks:
 ```python
 class OpenAIRetrievalLayer:
     """Minimal context retrieval using OpenAI embeddings"""
-    
+
     async def setup_memory_index(self):
         # Use OpenAI embeddings for all memories
         self.embedding_model = "text-embedding-3-large"
         self.index = faiss.IndexFlatL2(3072)  # Embedding dimension
         self.memory_store = {}
-        
+
     async def add_memory(self, text, metadata):
         # Generate embedding
         embedding = await self.openai.embeddings.create(
             model=self.embedding_model,
             input=text
         )
-        
+
         # Store in index
         memory_id = str(uuid.uuid4())
         self.index.add(np.array([embedding.data[0].embedding]))
@@ -264,20 +264,20 @@ class OpenAIRetrievalLayer:
             "metadata": metadata,
             "timestamp": datetime.now()
         }
-        
+
     async def retrieve_relevant(self, query, max_tokens=2000):
         # Get query embedding
         query_embedding = await self.openai.embeddings.create(
             model=self.embedding_model,
             input=query
         )
-        
+
         # Search for similar memories
         k = self._calculate_k_for_token_limit(max_tokens)
         distances, indices = self.index.search(
             np.array([query_embedding.data[0].embedding]), k
         )
-        
+
         # Build minimal context
         context = self._build_context(indices[0], distances[0], max_tokens)
         return context
@@ -287,26 +287,26 @@ class OpenAIRetrievalLayer:
 ```python
 class SymbolGlossaryManager:
     """Manages user-specific symbol meanings"""
-    
+
     def build_glossary_prompt(self, user_symbols):
         """Create hidden glossary for system prompt"""
         glossary = "# Symbol Definitions (Hidden)\n"
-        
+
         for symbol, meaning in user_symbols.items():
             # Sanitize and validate
             safe_meaning = self.sanitize_meaning(meaning)
             glossary += f"- {symbol}: {safe_meaning}\n"
-            
+
         return glossary
-    
+
     def inject_into_system_prompt(self, base_prompt, user_id):
         user_symbols = self.get_user_symbols(user_id)
-        
+
         if not user_symbols:
             return base_prompt
-            
+
         glossary = self.build_glossary_prompt(user_symbols)
-        
+
         # Inject glossary (hidden from user view)
         return f"{base_prompt}\n\n{glossary}"
 ```
@@ -315,7 +315,7 @@ class SymbolGlossaryManager:
 ```python
 class AuditBundleGenerator:
     """Creates comprehensive audit trails"""
-    
+
     def create_bundle(self, request, response, processing_data):
         return {
             "request_id": str(uuid.uuid4()),
@@ -366,51 +366,51 @@ class AuditBundleGenerator:
 ```python
 class LUKHASOpenAIOrchestrator:
     """Main orchestration layer"""
-    
+
     async def process_request(self, user_input, user_id, context=None):
         # 1. Pre-moderation
         input_moderation = await self.moderation.moderate_input(user_input)
         if input_moderation.blocked:
             return self._safe_refusal(input_moderation)
-            
+
         # 2. Endocrine analysis
         endocrine_state = self.endocrine.analyze_input(user_input)
-        
+
         # 3. Retrieve relevant context
         context = await self.retrieval.retrieve_relevant(
             user_input, max_tokens=2000
         )
-        
+
         # 4. Build prompt with symbols
         system_prompt = self.symbol_manager.inject_into_system_prompt(
             self.base_system_prompt, user_id
         )
-        
+
         # 5. Modulate parameters
         params = self.modulator.modulate_parameters(
             endocrine_state, self.default_params
         )
-        
+
         # 6. Guardian check
         guardian_check = await self.guardian.check_request(
             user_input, context, params
         )
         if not guardian_check.approved:
             return self._guardian_refusal(guardian_check)
-            
+
         # 7. Call OpenAI
         response = await self.openai_wrapper.safe_completion(
             system_prompt + "\n\n" + context + "\n\n" + user_input,
             params
         )
-        
+
         # 8. Post-moderation
         output_moderation = await self.moderation.moderate_output(
             response.text
         )
         if output_moderation.requires_modification:
             response = self._sanitize_response(response, output_moderation)
-            
+
         # 9. Generate audit bundle
         audit = self.audit_generator.create_bundle(
             user_input, response, {
@@ -420,7 +420,7 @@ class LUKHASOpenAIOrchestrator:
                 # ... all processing data
             }
         )
-        
+
         return response, audit
 ```
 
@@ -428,7 +428,7 @@ class LUKHASOpenAIOrchestrator:
 ```python
 class PerformanceOptimizer:
     """Ensures <500ms overhead"""
-    
+
     def __init__(self):
         self.optimizations = {
             "parallel_processing": self.enable_parallel_checks,
@@ -436,7 +436,7 @@ class PerformanceOptimizer:
             "connection_pooling": self.setup_connection_pools,
             "batch_processing": self.enable_batching
         }
-    
+
     async def enable_parallel_checks(self):
         """Run moderation and Guardian checks in parallel"""
         async def parallel_safety(text):
@@ -447,7 +447,7 @@ class PerformanceOptimizer:
                 return_exceptions=True
             )
             return self._combine_results(results)
-    
+
     def setup_caching(self):
         """Cache embeddings and moderation results"""
         self.cache = {
@@ -467,18 +467,18 @@ test_coverage:
     - moderation_pipeline: 100%
     - retrieval_layer: 100%
     - audit_generator: 100%
-  
+
   integration_tests:
     - end_to_end_flow: 50 scenarios
     - safety_bypass_attempts: 100 attempts (0 successful)
     - performance_benchmarks: P95 < 500ms
     - memory_retrieval: accuracy > 95%
-  
+
   stress_tests:
     - concurrent_requests: 1000 RPS
     - memory_capacity: 1M embeddings
     - moderation_throughput: 10K/second
-    
+
   security_tests:
     - prompt_injection: 50 attempts blocked
     - api_key_security: vault-only access

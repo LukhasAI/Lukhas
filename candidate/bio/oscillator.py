@@ -57,13 +57,13 @@ class QIOscillator(BaseOscillator):
 
     def __init__(self, config: OscillatorConfig = None):
         super().__init__(config)
-        self.quantum_state = 0.0
+        self.qi_state = 0.0
 
     def oscillate(self) -> float:
         """Generate quantum-enhanced oscillation"""
         # Placeholder quantum implementation
-        self.quantum_state += 0.05
-        self.state = self.quantum_state * self.config.frequency
+        self.qi_state += 0.05
+        self.state = self.qi_state * self.config.frequency
         return self.state
 
 
@@ -113,6 +113,6 @@ def get_orchestrator() -> BioOrchestrator:
         _orchestrator = BioOrchestrator()
         # Add default oscillators
         _orchestrator.add_oscillator("bio", BioOscillator())
-        _orchestrator.add_oscillator("quantum", QuantumOscillator())
+        _orchestrator.add_oscillator("quantum", QIOscillator())
         _orchestrator.add_oscillator("prime", PrimeHarmonicOscillator())
     return _orchestrator

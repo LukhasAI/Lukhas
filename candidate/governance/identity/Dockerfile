@@ -1,6 +1,6 @@
 # LUKHAS ΛiD API Docker Configuration
 # ===================================
-# 
+#
 # Production-ready Docker container for LUKHAS Lambda Identity API
 # Optimized for security, performance, and scalability
 

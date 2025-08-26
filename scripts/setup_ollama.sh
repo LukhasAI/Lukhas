@@ -29,7 +29,7 @@ check_ollama() {
 # Install Ollama
 install_ollama() {
     echo "Installing Ollama..."
-    
+
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # macOS
         if command -v brew &> /dev/null; then
@@ -64,11 +64,11 @@ check_ollama_service() {
 # Start Ollama service
 start_ollama_service() {
     echo "Starting Ollama service..."
-    
+
     # Try to start in background
     ollama serve > /dev/null 2>&1 &
     OLLAMA_PID=$!
-    
+
     # Wait for service to start
     echo -n "Waiting for service to start"
     for i in {1..10}; do
@@ -80,7 +80,7 @@ start_ollama_service() {
         echo -n "."
         sleep 1
     done
-    
+
     echo ""
     echo -e "${RED}❌ Failed to start Ollama service${NC}"
     echo "Try running manually: ollama serve"
@@ -90,7 +90,7 @@ start_ollama_service() {
 # Check if model is installed
 check_model() {
     local model=$1
-    
+
     if ollama list 2>/dev/null | grep -q "$model"; then
         echo -e "${GREEN}✅ Model $model is installed${NC}"
         return 0
@@ -105,7 +105,7 @@ pull_model() {
     local model=$1
     echo "Pulling model $model..."
     echo "This may take a few minutes depending on your internet speed..."
-    
+
     if ollama pull "$model"; then
         echo -e "${GREEN}✅ Model $model pulled successfully${NC}"
         return 0
@@ -120,10 +120,10 @@ test_model() {
     local model=$1
     echo ""
     echo "Testing model $model..."
-    
+
     # Simple test prompt
     local response=$(ollama run "$model" "Fix this Python syntax error: print('Hello World'" --verbose 2>&1 | head -5)
-    
+
     if [[ $? -eq 0 ]]; then
         echo -e "${GREEN}✅ Model test successful${NC}"
         echo "Sample response:"
@@ -139,14 +139,14 @@ test_model() {
 main() {
     echo "This script will set up Ollama with code-focused LLMs for LUKHAS."
     echo ""
-    
+
     # Step 1: Check/Install Ollama
     if ! check_ollama; then
         read -p "Install Ollama? (y/n) " -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             install_ollama
-            
+
             # Verify installation
             if ! check_ollama; then
                 echo -e "${RED}❌ Installation failed${NC}"
@@ -157,7 +157,7 @@ main() {
             exit 1
         fi
     fi
-    
+
     # Step 2: Check/Start service
     if ! check_ollama_service; then
         read -p "Start Ollama service? (y/n) " -n 1 -r
@@ -172,7 +172,7 @@ main() {
             exit 1
         fi
     fi
-    
+
     # Step 3: Install models
     echo ""
     echo "Recommended models for code improvement:"
@@ -180,7 +180,7 @@ main() {
     echo "2. codellama:7b (7B parameters, Meta's code model)"
     echo "3. mistral:7b (7B parameters, general purpose)"
     echo ""
-    
+
     # Check and install deepseek-coder
     MODEL="deepseek-coder:6.7b"
     if ! check_model "$MODEL"; then
@@ -190,7 +190,7 @@ main() {
             pull_model "$MODEL"
         fi
     fi
-    
+
     # Optionally install codellama
     MODEL="codellama:7b"
     if ! check_model "$MODEL"; then
@@ -200,18 +200,18 @@ main() {
             pull_model "$MODEL"
         fi
     fi
-    
+
     # Step 4: Test setup
     echo ""
     echo "Testing setup..."
-    
+
     # Test the primary model
     if check_model "deepseek-coder:6.7b"; then
         test_model "deepseek-coder:6.7b"
     elif check_model "codellama:7b"; then
         test_model "codellama:7b"
     fi
-    
+
     # Step 5: Create systemd service (Linux) or launchd plist (macOS)
     echo ""
     read -p "Create system service to auto-start Ollama? (y/n) " -n 1 -r
@@ -244,7 +244,7 @@ main() {
 EOF
             launchctl load ~/Library/LaunchAgents/ai.lukhas.ollama.plist
             echo -e "${GREEN}✅ Created launchd service${NC}"
-            
+
         elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
             # Linux systemd
             sudo tee /etc/systemd/system/ollama.service > /dev/null << EOF
@@ -268,7 +268,7 @@ EOF
             echo -e "${GREEN}✅ Created systemd service${NC}"
         fi
     fi
-    
+
     # Final summary
     echo ""
     echo "======================================"

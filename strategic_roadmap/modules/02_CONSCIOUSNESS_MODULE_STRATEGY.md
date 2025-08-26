@@ -20,7 +20,7 @@ The CONSCIOUSNESS module (55 files, 70.9% functional) represents LUKHAS 's crown
 ```python
 class AlignedConsciousnessSystem:
     """OpenAI's approach to safe machine consciousness"""
-    
+
     def __init__(self):
         self.consciousness_boundaries = {
             "max_reflection_depth": 5,
@@ -62,11 +62,11 @@ class AlignedConsciousnessSystem:
 ```python
 class ScalableConsciousness:
     """Anthropic's distributed consciousness architecture"""
-    
+
     def __init__(self):
         self.microservice_consciousness = {
             "awareness": "separate_service",
-            "reflection": "separate_service", 
+            "reflection": "separate_service",
             "decision": "separate_service",
             "integration": "orchestrator_service"
         }
@@ -104,7 +104,7 @@ class ScalableConsciousness:
 ```python
 class ScientificallyValidatedConsciousness:
     """DeepMind's empirical approach to consciousness"""
-    
+
     def __init__(self):
         self.consciousness_metrics = {
             "integrated_information": "Phi_calculation",
@@ -146,7 +146,7 @@ class ScientificallyValidatedConsciousness:
 ```python
 class QuantumConsciousness:
     """The consciousness architecture of 2030"""
-    
+
     def __init__(self):
         self.quantum_superposition = {
             "parallel_experiences": True,

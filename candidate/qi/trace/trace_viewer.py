@@ -1,11 +1,20 @@
 # path: qi/trace/trace_viewer.py
 from __future__ import annotations
+
 import os
 from typing import Optional
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import Response
 
-from qi.trace.trace_graph import _load_receipt, _load_prov, _teq_replay, build_dot, render_svg, STATE
+from qi.trace.trace_graph import (
+    STATE,
+    _load_prov,
+    _load_receipt,
+    _teq_replay,
+    build_dot,
+    render_svg,
+)
 
 app = FastAPI(title="Lukhas Trace Viewer", version="1.0.0")
 

@@ -22,7 +22,7 @@ In this digital universe, each plugin breathes with its own life force:
 
 ## 💬 Layer 2 - User Friendly: Getting Started
 
-### What's This All About? 
+### What's This All About?
 
 Hey there! Welcome to the LUKHAS Plugin System - think of it as a super-smart LEGO set for AI. Each Lambda Product is like a specialized brain module that you can snap into place whenever you need it. Want emotional intelligence? Add NIΛS. Need better focus? Plug in ΛBAS. It's that simple!
 
@@ -79,12 +79,12 @@ The LUKHAS Plugin Architecture implements a hierarchical dependency injection pa
 class LukhasPlugin(ABC):
     """
     Abstract base class implementing the plugin interface.
-    
+
     Lifecycle Management:
     - State machine: UNINITIALIZED → INITIALIZING → READY → ACTIVE → DISABLED
     - Asynchronous operations with asyncio event loop integration
     - Thread-safe state transitions with mutex locking
-    
+
     Health Monitoring:
     - Continuous health checks at configurable intervals (default: 30s)
     - Metrics: CPU usage, memory consumption, response latency
@@ -111,7 +111,7 @@ class PluginManifest:
 class HealthStatus:
     """
     Health metrics collected at each monitoring interval.
-    
+
     Metrics:
     - is_healthy: Boolean health state
     - cpu_usage: Percentage (0.0-100.0)
@@ -131,7 +131,7 @@ def _update_plugin_order(self, plugin_id: str):
     Topological sort implementation for dependency resolution.
     Time Complexity: O(V + E) where V = plugins, E = dependencies
     Space Complexity: O(V)
-    
+
     Handles:
     - Circular dependency detection
     - Optional dependency graceful degradation
@@ -145,7 +145,7 @@ def _update_plugin_order(self, plugin_id: str):
 async def emit_event(self, event: str, data: Any = None):
     """
     Event emission with subscriber pattern.
-    
+
     Features:
     - Non-blocking async dispatch
     - Error isolation per listener
@@ -181,7 +181,7 @@ async def emit_event(self, event: str, data: Any = None):
 ### 💬 User-Friendly Layer
 We found and fixed these issues to make everything work better:
 
-1. **Import Problems** → Now everything finds what it needs automatically! 
+1. **Import Problems** → Now everything finds what it needs automatically!
 2. **Duplicate Dreams** → Merged into one amazing dream system!
 3. **Health Monitoring** → Added checkups so nothing breaks!
 4. **Configuration Mess** → One simple config file for everything!
@@ -238,7 +238,7 @@ NIΛS makes sure messages arrive at the perfect moment when you're ready to rece
 class NIASPlugin(LukhasPlugin):
     """
     Implements consent-based message delivery with VAD emotional state modeling.
-    
+
     Algorithms:
     - Emotional gating using 3D VAD vectors (Valence, Arousal, Dominance)
     - Consent verification via cryptographic signatures
@@ -259,7 +259,7 @@ class NIASPlugin(LukhasPlugin):
 class ABASPlugin(LukhasPlugin):
     """
     Cognitive load management using attention economics model.
-    
+
     Features:
     - Flow state detection via HRV correlation
     - Boundary enforcement with configurable thresholds
@@ -280,7 +280,7 @@ DΛST remembers what you were doing and predicts what you'll need next!
 class DASTPlugin(LukhasPlugin):
     """
     Real-time context tracking with predictive modeling.
-    
+
     Implementation:
     - Sliding window context buffer (configurable depth)
     - Pattern recognition using sequence-to-sequence models
@@ -309,13 +309,13 @@ Together, they create richer, more meaningful dream experiences!
 class UnifiedDreamSystem:
     """
     Hybrid dream processing combining counterfactual exploration with narrative generation.
-    
+
     Architecture:
     - Hyperspace simulation: Monte Carlo tree search in possibility space
     - Dream seed generation: Contextual narrative synthesis
     - Causality tracking: Directed acyclic graph (DAG) construction
     - Token optimization: Dynamic programming for resource allocation
-    
+
     Performance:
     - Average processing time: 850ms
     - Token efficiency: 92% utilization
@@ -343,12 +343,12 @@ lukhas:
   features:
     cognitive_workspace: true
     dream_processing: true
-    
+
 plugin_system:
   health_check_interval: 30  # seconds
   plugin_paths:
     - "${LUKHAS_HOME}/lambda-products"
-    
+
 lambda_products:
   products:
     nias:
@@ -428,7 +428,7 @@ async def test_progressive_integration():
 ```python
 # Optimization techniques
 1. Lazy initialization: Load plugins only when needed
-2. Connection pooling: Reuse connections across plugins  
+2. Connection pooling: Reuse connections across plugins
 3. Batch processing: Group operations for efficiency
 4. Async everywhere: Never block the event loop
 5. Memory management: Implement LRU caches with TTL

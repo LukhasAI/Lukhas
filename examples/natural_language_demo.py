@@ -9,11 +9,11 @@ import asyncio
 import sys
 from datetime import datetime
 
+from core.common import get_logger
 from lukhas.consciousness.interfaces.natural_language_interface import (
     ConversationManager,
     NaturalLanguageConsciousnessInterface,
 )
-from core.common import get_logger
 
 logger = get_logger(__name__)
 

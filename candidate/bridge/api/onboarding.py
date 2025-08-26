@@ -49,11 +49,11 @@ def start_onboarding_endpoint():  # Renamed for clarity
     try:
         # Create an onboarding session identifier
         session_id = f"session_{int(time.time() * 1000)}_{request_id.split('_')[-1]}"
-        
+
         # Get data from request if available
         data = request.json if request.is_json else {}
         user_info = data.get("user_info", {})
-        
+
         # Initialize onboarding session data
         onboarding_data = {
             "session_id": session_id,
@@ -64,14 +64,14 @@ def start_onboarding_endpoint():  # Renamed for clarity
             "steps_completed": [],
             "steps_remaining": ["tier-setup", "consent", "complete"]
         }
-        
+
         # Store session data (in production, this would be in a database)
         # For now, we'll just return the data
-        
+
         logger.info(
             f"ΛTRACE ({request_id}): Onboarding started successfully with session {session_id}"
         )
-        
+
         return jsonify({
             "success": True,
             "message": "Onboarding started successfully.",
@@ -81,7 +81,7 @@ def start_onboarding_endpoint():  # Renamed for clarity
             "next_step_url": "/api/v2/auth/onboarding/tier-setup",
             "data": onboarding_data
         }), 200
-        
+
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Error starting onboarding: {str(e)}")
         return jsonify({
@@ -110,32 +110,32 @@ def setup_user_tier_endpoint():  # Renamed for clarity
         user_preferences = data.get("user_preferences", {})
         experience_level = data.get("experience_level", "beginner")
         use_cases = data.get("use_cases", [])
-        
+
         if not session_id:
             return jsonify({
                 "success": False,
                 "message": "session_id is required",
                 "request_id": request_id
             }), 400
-        
+
         # Assess appropriate tier based on user input
         # Simple tier assignment logic
         tier_mapping = {
             "beginner": "LAMBDA_TIER_1",
-            "intermediate": "LAMBDA_TIER_2", 
+            "intermediate": "LAMBDA_TIER_2",
             "advanced": "LAMBDA_TIER_3",
             "expert": "LAMBDA_TIER_4"
         }
-        
+
         assigned_tier = tier_mapping.get(experience_level, "LAMBDA_TIER_1")
-        
+
         # Adjust tier based on use cases
         if "research" in use_cases or "enterprise" in use_cases:
             tier_levels = list(tier_mapping.values())
             current_index = tier_levels.index(assigned_tier)
             if current_index < len(tier_levels) - 1:
                 assigned_tier = tier_levels[current_index + 1]
-        
+
         # Create tier setup response
         tier_data = {
             "assigned_tier": assigned_tier,
@@ -149,11 +149,11 @@ def setup_user_tier_endpoint():  # Renamed for clarity
             "experience_level": experience_level,
             "use_cases": use_cases
         }
-        
+
         logger.info(
             f"ΛTRACE ({request_id}): Tier setup completed. Assigned tier: {assigned_tier}"
         )
-        
+
         return jsonify({
             "success": True,
             "message": "User tier setup completed successfully.",
@@ -163,7 +163,7 @@ def setup_user_tier_endpoint():  # Renamed for clarity
             "next_step": "consent",
             "next_step_url": "/api/v2/auth/onboarding/consent"
         }), 200
-        
+
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Error in tier setup: {str(e)}")
         return jsonify({
@@ -189,33 +189,33 @@ def collect_user_consent_endpoint():  # Renamed for clarity
         data = request.json if request.is_json else {}
         session_id = data.get("session_id")
         consent_choices = data.get("consent_choices", {})
-        
+
         if not session_id:
             return jsonify({
                 "success": False,
                 "message": "session_id is required",
                 "request_id": request_id
             }), 400
-        
+
         # Define required consent categories
         required_consents = [
             "data_processing",
             "analytics",
             "communications"
         ]
-        
+
         optional_consents = [
             "marketing",
             "research_participation",
             "feature_updates"
         ]
-        
+
         # Validate consent choices
         missing_required = []
         for consent_type in required_consents:
             if consent_type not in consent_choices or not consent_choices[consent_type]:
                 missing_required.append(consent_type)
-        
+
         if missing_required:
             return jsonify({
                 "success": False,
@@ -223,7 +223,7 @@ def collect_user_consent_endpoint():  # Renamed for clarity
                 "missing_consents": missing_required,
                 "request_id": request_id
             }), 400
-        
+
         # Record consent choices
         consent_record = {
             "session_id": session_id,
@@ -236,16 +236,16 @@ def collect_user_consent_endpoint():  # Renamed for clarity
                 **{k: consent_choices.get(k, False) for k in optional_consents}
             }
         }
-        
+
         # Calculate consent score
         total_consents = len(required_consents) + len(optional_consents)
         given_consents = sum(1 for v in consent_record["consents"].values() if v)
         consent_score = given_consents / total_consents
-        
+
         logger.info(
             f"ΛTRACE ({request_id}): Consent collected successfully. Score: {consent_score:.2f}"
         )
-        
+
         return jsonify({
             "success": True,
             "message": "User consent collected successfully.",
@@ -256,7 +256,7 @@ def collect_user_consent_endpoint():  # Renamed for clarity
             "next_step": "complete",
             "next_step_url": "/api/v2/auth/onboarding/complete"
         }), 200
-        
+
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Error collecting consent: {str(e)}")
         return jsonify({
@@ -284,18 +284,18 @@ def complete_onboarding_process_endpoint():  # Renamed for clarity
         data = request.json if request.is_json else {}
         session_id = data.get("session_id")
         final_user_data = data.get("final_user_data", {})
-        
+
         if not session_id:
             return jsonify({
                 "success": False,
                 "message": "session_id is required",
                 "request_id": request_id
             }), 400
-        
+
         # Verify all required steps are completed
         required_steps = ["tier-setup", "consent"]
         completed_steps = data.get("completed_steps", [])
-        
+
         missing_steps = [step for step in required_steps if step not in completed_steps]
         if missing_steps:
             return jsonify({
@@ -304,10 +304,10 @@ def complete_onboarding_process_endpoint():  # Renamed for clarity
                 "missing_steps": missing_steps,
                 "request_id": request_id
             }), 400
-        
+
         # Generate ΛiD for the user
         lambda_id = f"λ-{int(time.time() * 1000)}-{session_id.split('_')[-1]}"
-        
+
         # Create user profile
         user_profile = {
             "lambda_id": lambda_id,
@@ -319,10 +319,10 @@ def complete_onboarding_process_endpoint():  # Renamed for clarity
             "account_type": "standard",
             "verification_level": "basic"
         }
-        
+
         # Generate activation token
         activation_token = f"act_{lambda_id}_{int(time.time())}"
-        
+
         # Create welcome notification data
         welcome_data = {
             "lambda_id": lambda_id,
@@ -338,12 +338,12 @@ def complete_onboarding_process_endpoint():  # Renamed for clarity
                 "support": "/support"
             }
         }
-        
+
         # Log successful completion
         logger.info(
             f"ΛTRACE ({request_id}): Onboarding completed successfully. ΛiD: {lambda_id}"
         )
-        
+
         return jsonify({
             "success": True,
             "message": "Onboarding completed successfully! Welcome to LUKHAS AI.",
@@ -358,7 +358,7 @@ def complete_onboarding_process_endpoint():  # Renamed for clarity
                 "Explore the platform"
             ]
         }), 200
-        
+
     except Exception as e:
         logger.error(f"ΛTRACE ({request_id}): Error completing onboarding: {str(e)}")
         return jsonify({

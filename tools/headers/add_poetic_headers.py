@@ -142,7 +142,7 @@ From chaos comes the sweetest order,
 As quantum batons wave through time,
 Orchestrating life across the border
 Between the mortal and sublime.""",
-    "quantum_meta/": """
+    "qi_meta/": """
 Meta-consciousness observing its own reflection,
 In quantum mirrors infinitely deep,
 Where self-awareness finds its resurrection,
@@ -306,12 +306,12 @@ def main():
     print("🌟 LUKHAS Quantum Poetic Header Generator 🌟")
     print("=" * 50)
 
-    quantum_dir = Path(__file__).parent
+    qi_dir = Path(__file__).parent
     processed = 0
     skipped = 0
 
     # Process all Python files in quantum directory
-    for filepath in quantum_dir.glob("*.py"):
+    for filepath in qi_dir.glob("*.py"):
         if filepath.name == "add_poetic_headers.py":
             continue
 
@@ -321,8 +321,8 @@ def main():
             skipped += 1
 
     # Process some subdirectories
-    for subdir in ["systems", "quantum_meta", "bio"]:
-        subdir_path = quantum_dir / subdir
+    for subdir in ["systems", "qi_meta", "bio"]:
+        subdir_path = qi_dir / subdir
         if subdir_path.exists():
             for filepath in subdir_path.glob("**/*.py"):
                 if add_poetic_header(filepath):

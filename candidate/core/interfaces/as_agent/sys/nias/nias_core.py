@@ -23,7 +23,9 @@ DESCRIPTION:
 
 from lukhas.core.interfaces.as_agent.sys.abas.abas import is_allowed_now
 from lukhas.core.interfaces.as_agent.sys.nias.consent_filter import is_allowed
-from lukhas.core.interfaces.as_agent.sys.nias.symbolic_matcher import match_message_to_context
+from lukhas.core.interfaces.as_agent.sys.nias.symbolic_matcher import (
+    match_message_to_context,
+)
 from lukhas.core.interfaces.as_agent.sys.nias.trace_logger import log_delivery_event
 
 

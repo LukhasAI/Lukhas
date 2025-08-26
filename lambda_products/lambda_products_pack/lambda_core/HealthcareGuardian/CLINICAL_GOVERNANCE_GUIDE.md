@@ -13,8 +13,8 @@ This guide details the clinical governance components integrated from the Guardi
 
 #### 1. Clinical Decision Support System (CDS)
 
-**Purpose:** AI-powered clinical decision assistance with ethical oversight  
-**Confidence Threshold:** 0.75 minimum for recommendations  
+**Purpose:** AI-powered clinical decision assistance with ethical oversight
+**Confidence Threshold:** 0.75 minimum for recommendations
 **Validation:** Multi-layer verification with Guardian System
 
 ```python
@@ -71,8 +71,8 @@ decision = await cds.make_decision(
 
 #### 2. Case Management System
 
-**Purpose:** Comprehensive patient case tracking with governance integration  
-**Audit Trail:** Complete decision history with justifications  
+**Purpose:** Comprehensive patient case tracking with governance integration
+**Audit Trail:** Complete decision history with justifications
 **Compliance:** HIPAA, GDPR, clinical guidelines
 
 ```python
@@ -122,8 +122,8 @@ timeline = await case_manager.get_case_timeline(case_id)
 
 #### 3. Guardian Dashboard Monitoring
 
-**Purpose:** Real-time visualization of clinical governance metrics  
-**Refresh Rate:** <250ms for critical alerts  
+**Purpose:** Real-time visualization of clinical governance metrics
+**Refresh Rate:** <250ms for critical alerts
 **Trinity Integration:** Full ⚛️🧠🛡️ status monitoring
 
 ```python
@@ -168,8 +168,8 @@ await dashboard.subscribe_to_alerts(
 
 #### 4. Threat Prediction System
 
-**Purpose:** Predictive analysis of clinical and system threats  
-**ML Model:** Ensemble of gradient boosting + neural networks  
+**Purpose:** Predictive analysis of clinical and system threats
+**ML Model:** Ensemble of gradient boosting + neural networks
 **Accuracy:** 94% threat detection rate, 2% false positive rate
 
 ```python
@@ -220,8 +220,8 @@ threats = await predictor.analyze_clinical_threats(
 
 #### 5. Enhanced Ethical Guardian
 
-**Purpose:** Multi-framework ethical validation of clinical decisions  
-**Frameworks:** Principlism, Care Ethics, Virtue Ethics, Consequentialism  
+**Purpose:** Multi-framework ethical validation of clinical decisions
+**Frameworks:** Principlism, Care Ethics, Virtue Ethics, Consequentialism
 **Context Awareness:** Patient values, cultural factors, resource constraints
 
 ```python
@@ -274,8 +274,8 @@ ethical_validation = await ethical_guardian.validate_decision(
 
 #### 6. Consent Management System
 
-**Purpose:** Granular consent tracking and verification  
-**Compliance:** GDPR Article 7, HIPAA Privacy Rule  
+**Purpose:** Granular consent tracking and verification
+**Compliance:** GDPR Article 7, HIPAA Privacy Rule
 **Audit:** Complete consent history with timestamps
 
 ```python
@@ -317,8 +317,8 @@ consent_history = await consent_manager.get_consent_history(
 
 #### 7. Privacy Guardian
 
-**Purpose:** Comprehensive privacy protection and de-identification  
-**Methods:** Differential privacy, k-anonymity, secure multi-party computation  
+**Purpose:** Comprehensive privacy protection and de-identification
+**Methods:** Differential privacy, k-anonymity, secure multi-party computation
 **Standards:** HIPAA Safe Harbor, GDPR pseudonymization
 
 ```python
@@ -366,20 +366,20 @@ async def handle_emergency_with_governance(emergency_type, patient_context):
         emergency_type=emergency_type,
         patient_factors=patient_context
     )
-    
+
     # 2. Ethical validation
     ethical_check = await ethical_guardian.validate_emergency_response(
         planned_actions=emergency_protocol[emergency_type],
         patient_context=patient_context,
         resource_constraints=current_resources
     )
-    
+
     # 3. Consent verification (implied consent in emergency)
     consent_status = await consent_manager.verify_emergency_consent(
         patient_id=patient_context.patient_id,
         emergency_level=threat_level
     )
-    
+
     # 4. Clinical decision with governance
     clinical_response = await cds.emergency_decision(
         emergency_type=emergency_type,
@@ -387,13 +387,13 @@ async def handle_emergency_with_governance(emergency_type, patient_context):
         ethical_constraints=ethical_check.constraints,
         consent_status=consent_status
     )
-    
+
     # 5. Execute with monitoring
     response = await execute_emergency_protocol(
         clinical_response,
         monitoring_callback=dashboard.track_emergency
     )
-    
+
     # 6. Audit trail
     await case_manager.log_emergency_response(
         patient_id=patient_context.patient_id,
@@ -404,7 +404,7 @@ async def handle_emergency_with_governance(emergency_type, patient_context):
             "clinical_confidence": clinical_response.confidence
         }
     )
-    
+
     return response
 ```
 
@@ -419,14 +419,14 @@ async def validate_medication_with_governance(medication, patient):
         current_medications=patient.medications,
         allergies=patient.allergies
     )
-    
+
     # 2. Threat prediction
     adverse_event_risk = await threat_predictor.predict_adverse_event(
         medication=medication,
         patient_factors=patient,
         interaction_database="DrugBank"
     )
-    
+
     # 3. Ethical considerations
     ethical_review = await ethical_guardian.review_medication(
         medication=medication,
@@ -434,14 +434,14 @@ async def validate_medication_with_governance(medication, patient):
         patient_values=patient.treatment_preferences,
         alternative_options=clinical_check.alternatives
     )
-    
+
     # 4. Privacy-preserving verification
     external_check = await privacy_guardian.secure_external_verification(
         medication=medication,
         patient_hash=privacy_guardian.hash_patient_id(patient.id),
         verification_service="FDA_AERS"
     )
-    
+
     return {
         "approved": all([
             clinical_check.safe,
@@ -574,7 +574,7 @@ If something seems wrong, it stops and asks for help. It learns from mistakes. I
 
 ---
 
-**Clinical Governance Guide** — Ethical AI Healthcare Oversight  
-*Part of ΛHealthcare Guardian System*  
-*Powered by LUKHAS AI Trinity Framework ⚛️🧠🛡️*  
+**Clinical Governance Guide** — Ethical AI Healthcare Oversight
+*Part of ΛHealthcare Guardian System*
+*Powered by LUKHAS AI Trinity Framework ⚛️🧠🛡️*
 *Where Consciousness Guides Clinical Care*

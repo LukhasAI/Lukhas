@@ -29,11 +29,11 @@ CREATE TABLE users (
   email VARCHAR(320) UNIQUE NOT NULL,
   email_verified BOOLEAN DEFAULT FALSE,
   email_verified_at TIMESTAMP WITH TIME ZONE,
-  
+
   -- User tier and status
   tier user_tier NOT NULL DEFAULT 'T1',
   status user_status NOT NULL DEFAULT 'pending',
-  
+
   -- Profile information
   display_name VARCHAR(255),
   given_name VARCHAR(100),
@@ -41,29 +41,29 @@ CREATE TABLE users (
   picture_url TEXT,
   locale VARCHAR(10) DEFAULT 'en',
   timezone VARCHAR(50) DEFAULT 'UTC',
-  
+
   -- Password-related (for password-based auth if needed)
   password_hash TEXT, -- bcrypt hash
   password_changed_at TIMESTAMP WITH TIME ZONE,
   password_reset_required BOOLEAN DEFAULT FALSE,
-  
+
   -- Organization membership
   organization_id UUID,
   organization_role VARCHAR(50),
-  
+
   -- Preferences and settings
   preferences JSONB DEFAULT '{}',
   feature_flags JSONB DEFAULT '{}',
-  
+
   -- Audit fields
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   last_login_at TIMESTAMP WITH TIME ZONE,
   login_count INTEGER DEFAULT 0,
-  
+
   -- Soft delete
   deleted_at TIMESTAMP WITH TIME ZONE,
-  
+
   -- Constraints
   CONSTRAINT users_email_check CHECK (email ~* '^[^@]+@[^@]+\.[^@]+$'),
   CONSTRAINT users_display_name_check CHECK (LENGTH(display_name) >= 1)
@@ -83,34 +83,34 @@ CREATE TABLE sessions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   device_handle_id UUID, -- References device_handles table
-  
+
   -- Session identification
   session_token VARCHAR(255) UNIQUE NOT NULL,
   session_token_hash VARCHAR(64) NOT NULL, -- SHA-256 hash for lookup
-  
+
   -- Session metadata
   status session_status DEFAULT 'active',
   ip_address INET NOT NULL,
   user_agent TEXT,
-  
+
   -- Geolocation (optional)
   country_code VARCHAR(2),
   city VARCHAR(100),
-  
+
   -- Session lifetime
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
   last_activity_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  
+
   -- Session data
   scopes TEXT[] DEFAULT '{}',
   roles TEXT[] DEFAULT '{}',
   metadata JSONB DEFAULT '{}',
-  
+
   -- Revocation tracking
   revoked_at TIMESTAMP WITH TIME ZONE,
   revocation_reason VARCHAR(255),
-  
+
   -- Constraints
   CONSTRAINT sessions_expires_after_created CHECK (expires_at > created_at),
   CONSTRAINT sessions_token_length CHECK (LENGTH(session_token) >= 32)
@@ -130,45 +130,45 @@ CREATE INDEX idx_sessions_ip_address ON sessions(ip_address);
 CREATE TABLE passkeys (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  
+
   -- WebAuthn credential data
   credential_id BYTEA UNIQUE NOT NULL,
   credential_id_b64 TEXT UNIQUE NOT NULL, -- Base64url encoded for easy lookup
   public_key BYTEA NOT NULL,
   algorithm INTEGER NOT NULL, -- COSE algorithm identifier
-  
+
   -- User handle for discoverable credentials
   user_handle VARCHAR(255) NOT NULL,
-  
+
   -- Authenticator information
   aaguid UUID, -- Authenticator AAGUID
   device_type device_type DEFAULT 'unknown',
   device_label VARCHAR(255) NOT NULL,
-  
+
   -- WebAuthn flags and counters
   sign_count BIGINT DEFAULT 0,
   uv_required BOOLEAN DEFAULT TRUE, -- User verification required
   rk BOOLEAN DEFAULT TRUE, -- Resident key (discoverable)
-  
+
   -- Transport methods
   transports TEXT[] DEFAULT '{}', -- ['usb', 'nfc', 'ble', 'internal']
-  
+
   -- Attestation data
   attestation_type VARCHAR(20), -- 'none', 'basic', 'self', 'attca'
   attestation_data BYTEA,
-  
+
   -- Backup eligibility and state
   backup_eligible BOOLEAN DEFAULT FALSE,
   backup_state BOOLEAN DEFAULT FALSE,
-  
+
   -- Usage tracking
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   last_used_at TIMESTAMP WITH TIME ZONE,
   use_count INTEGER DEFAULT 0,
-  
+
   -- Soft delete
   deleted_at TIMESTAMP WITH TIME ZONE,
-  
+
   -- Constraints
   CONSTRAINT passkeys_credential_id_length CHECK (LENGTH(credential_id) >= 16),
   CONSTRAINT passkeys_public_key_length CHECK (LENGTH(public_key) >= 32),
@@ -191,32 +191,32 @@ CREATE TABLE refresh_tokens (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   device_handle_id UUID, -- References device_handles table
-  
+
   -- Refresh token family tracking
   family_id VARCHAR(255) NOT NULL,
   token_hash VARCHAR(64) UNIQUE NOT NULL, -- SHA-256 hash of token
-  
+
   -- Token metadata
   sequence_number INTEGER NOT NULL DEFAULT 1,
   parent_token_id UUID REFERENCES refresh_tokens(id),
-  
+
   -- Lifetime and usage
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
   used_at TIMESTAMP WITH TIME ZONE,
-  
+
   -- Security tracking
   ip_address INET NOT NULL,
   user_agent TEXT,
-  
+
   -- Revocation
   revoked_at TIMESTAMP WITH TIME ZONE,
   revocation_reason VARCHAR(255),
-  
+
   -- Metadata
   scopes TEXT[] DEFAULT '{}',
   metadata JSONB DEFAULT '{}',
-  
+
   -- Constraints
   CONSTRAINT refresh_tokens_expires_after_created CHECK (expires_at > created_at),
   CONSTRAINT refresh_tokens_sequence_positive CHECK (sequence_number > 0)
@@ -236,39 +236,39 @@ CREATE INDEX idx_refresh_tokens_parent_token ON refresh_tokens(parent_token_id);
 CREATE TABLE device_handles (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  
+
   -- Device identification
   device_id VARCHAR(255) UNIQUE NOT NULL, -- Stable device identifier
   device_fingerprint VARCHAR(64), -- Hash of device characteristics
-  
+
   -- Device metadata
   device_type device_type DEFAULT 'unknown',
   device_name VARCHAR(255), -- User-friendly name
   platform VARCHAR(100),
   browser VARCHAR(100),
   os VARCHAR(100),
-  
+
   -- Network information
   ip_address INET,
   country_code VARCHAR(2),
   city VARCHAR(100),
-  
+
   -- Trust level
   trusted BOOLEAN DEFAULT FALSE,
   trust_score DECIMAL(3,2) DEFAULT 0.0, -- 0.0 to 1.0
-  
+
   -- Usage tracking
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   last_used_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   last_seen_ip INET,
   use_count INTEGER DEFAULT 0,
-  
+
   -- Soft delete
   deleted_at TIMESTAMP WITH TIME ZONE,
-  
+
   -- Additional metadata
   metadata JSONB DEFAULT '{}',
-  
+
   -- Constraints
   CONSTRAINT device_handles_device_id_length CHECK (LENGTH(device_id) >= 8),
   CONSTRAINT device_handles_trust_score_range CHECK (trust_score BETWEEN 0.0 AND 1.0)
@@ -287,19 +287,19 @@ CREATE INDEX idx_device_handles_last_used ON device_handles(last_used_at);
 CREATE TABLE backup_codes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  
+
   -- Code data
   code_hash VARCHAR(64) NOT NULL, -- SHA-256 hash of the code
   code_partial VARCHAR(8) NOT NULL, -- First few chars for user reference
-  
+
   -- Usage tracking
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   used_at TIMESTAMP WITH TIME ZONE,
-  
+
   -- Context when used
   used_ip_address INET,
   used_user_agent TEXT,
-  
+
   -- Constraints
   CONSTRAINT backup_codes_partial_length CHECK (LENGTH(code_partial) = 8)
 );
@@ -316,46 +316,46 @@ CREATE TABLE security_events (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID REFERENCES users(id) ON DELETE SET NULL,
   session_id UUID REFERENCES sessions(id) ON DELETE SET NULL,
-  
+
   -- Event classification
   event_type security_event_type NOT NULL,
   event_category VARCHAR(50), -- 'auth', 'session', 'security', 'privacy'
   severity VARCHAR(20) DEFAULT 'info', -- 'info', 'warning', 'error', 'critical'
-  
+
   -- Event details
   description TEXT,
   result VARCHAR(20), -- 'success', 'failure', 'blocked'
   error_code VARCHAR(50),
-  
+
   -- Context information
   ip_address INET,
   user_agent TEXT,
   country_code VARCHAR(2),
   city VARCHAR(100),
-  
+
   -- Request details
   endpoint VARCHAR(255),
   method VARCHAR(10),
   status_code INTEGER,
-  
+
   -- Device and session context
   device_handle_id UUID REFERENCES device_handles(id) ON DELETE SET NULL,
   device_fingerprint VARCHAR(64),
-  
+
   -- Risk assessment
   risk_score DECIMAL(3,2), -- 0.0 to 1.0
   risk_factors TEXT[],
-  
+
   -- Timing
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   event_timestamp TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  
+
   -- Additional data
   metadata JSONB DEFAULT '{}',
-  
+
   -- Data retention
   expires_at TIMESTAMP WITH TIME ZONE,
-  
+
   -- Constraints
   CONSTRAINT security_events_risk_score_range CHECK (risk_score IS NULL OR risk_score BETWEEN 0.0 AND 1.0)
 );
@@ -389,7 +389,7 @@ CREATE TABLE email_verification_tokens (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
   used_at TIMESTAMP WITH TIME ZONE,
-  
+
   CONSTRAINT email_verification_expires_after_created CHECK (expires_at > created_at)
 );
 
@@ -403,24 +403,24 @@ CREATE TABLE rate_limit_entries (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   key_hash VARCHAR(64) UNIQUE NOT NULL,
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-  
+
   -- Rate limit counters
   count INTEGER DEFAULT 0,
   daily_count INTEGER DEFAULT 0,
-  
+
   -- Reset times
   reset_time TIMESTAMP WITH TIME ZONE NOT NULL,
   daily_reset_time TIMESTAMP WITH TIME ZONE NOT NULL,
-  
+
   -- Block status
   blocked BOOLEAN DEFAULT FALSE,
   block_expires_at TIMESTAMP WITH TIME ZONE,
-  
+
   -- Metadata
   tier user_tier,
   endpoint VARCHAR(255),
   ip_address INET,
-  
+
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -457,19 +457,19 @@ BEGIN
   -- Clean up expired sessions
   DELETE FROM sessions WHERE expires_at < NOW() - INTERVAL '7 days';
   GET DIAGNOSTICS cleanup_count = ROW_COUNT;
-  
+
   -- Clean up expired refresh tokens
   DELETE FROM refresh_tokens WHERE expires_at < NOW() - INTERVAL '7 days';
-  
+
   -- Clean up expired email verification tokens
   DELETE FROM email_verification_tokens WHERE expires_at < NOW();
-  
+
   -- Clean up expired rate limit entries
   DELETE FROM rate_limit_entries WHERE reset_time < NOW() - INTERVAL '1 day' AND NOT blocked;
-  
+
   -- Clean up old security events (based on expires_at)
   DELETE FROM security_events WHERE expires_at IS NOT NULL AND expires_at < NOW();
-  
+
   RETURN cleanup_count;
 END;
 $$ LANGUAGE plpgsql;
@@ -478,7 +478,7 @@ $$ LANGUAGE plpgsql;
 
 -- Active sessions view
 CREATE VIEW active_sessions AS
-SELECT 
+SELECT
   s.*,
   u.email,
   u.tier,
@@ -488,13 +488,13 @@ SELECT
 FROM sessions s
 JOIN users u ON s.user_id = u.id
 LEFT JOIN device_handles dh ON s.device_handle_id = dh.id
-WHERE s.status = 'active' 
+WHERE s.status = 'active'
   AND s.expires_at > NOW()
   AND u.deleted_at IS NULL;
 
 -- User security summary view
 CREATE VIEW user_security_summary AS
-SELECT 
+SELECT
   u.id,
   u.email,
   u.tier,
@@ -538,14 +538,14 @@ COMMENT ON COLUMN security_events.risk_score IS 'Event risk score from 0.0 (low 
 -- Performance monitoring query (for development/monitoring)
 /*
 -- Query to check table sizes and index usage
-SELECT 
+SELECT
   schemaname,
   tablename,
   attname,
   n_distinct,
   correlation
-FROM pg_stats 
-WHERE schemaname = 'public' 
+FROM pg_stats
+WHERE schemaname = 'public'
   AND tablename IN ('users', 'sessions', 'passkeys', 'refresh_tokens', 'device_handles', 'backup_codes', 'security_events')
 ORDER BY tablename, attname;
 */

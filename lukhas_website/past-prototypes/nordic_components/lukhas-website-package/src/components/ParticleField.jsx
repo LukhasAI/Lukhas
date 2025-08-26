@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-const ParticleField = ({ 
+const ParticleField = ({
   particleCount = 100,
   connectionDistance = 150,
   mouseInfluence = 100,
@@ -23,7 +23,7 @@ const ParticleField = ({
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-    
+
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
@@ -145,4 +145,3 @@ const ParticleField = ({
 };
 
 export default ParticleField;
-

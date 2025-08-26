@@ -2,7 +2,7 @@
   "task_id": "LUKHAS-NEURO-001",
   "title": "Neuro-Symbolic Fusion Layer - Superposition States",
   "priority": "P0",
-  "domain": "symbolic_consciousness", 
+  "domain": "symbolic_consciousness",
   "trinity_focus": "⚛️ Identity",
   "description": "Implement quantum-inspired superposition states for parallel consciousness processing",
   "source_file": "./core/integration/neuro_symbolic_fusion_layer.py",
@@ -21,7 +21,7 @@
   "validation_criteria": [
     "Superposition state implementation",
     "Parallel processing validation",
-    "Consciousness coherence maintained", 
+    "Consciousness coherence maintained",
     "Performance benchmarks met",
     "Trinity Identity framework alignment"
   ],

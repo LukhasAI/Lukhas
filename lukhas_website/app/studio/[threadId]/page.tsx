@@ -12,7 +12,7 @@ import type { ResultCardData } from "@/components/result-card";
 export const dynamic = "force-dynamic";
 export default function StudioThreadPage({ params }: { params: { threadId: string } }) {
   const [cards, setCards] = useState<ResultCardData[]>([]);
-  
+
   // Demo seed for testing UI changes
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_DEMO_SEED === "true") {
@@ -31,13 +31,13 @@ export default function StudioThreadPage({ params }: { params: { threadId: strin
     consent: { allowCrossProvider: false, allowExternalWebFetch: true, containPII: false, piiRedacted: true },
     hash: "dev"
   };
-  
+
   // Bridge capsule to palette layer
   useEffect(() => {
     const ev = new CustomEvent("lukhas:capsule", { detail: capsule });
     window.dispatchEvent(ev);
   }, [capsule]);
-  
+
   // Listen for palette results to add cards
   useEffect(() => {
     const onAdd = (e: any) => {
@@ -54,7 +54,7 @@ export default function StudioThreadPage({ params }: { params: { threadId: strin
     document.addEventListener("lukhas:canvas-add-card", onAdd as any);
     return () => document.removeEventListener("lukhas:canvas-add-card", onAdd as any);
   }, []);
-  
+
   // Mount P2P chat in the right sidebar
   useEffect(() => {
     import('react-dom/client').then((ReactDOM) => {

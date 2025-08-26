@@ -8,12 +8,12 @@ rules:
       - pattern: TOKEN = "..."
     message: "Hardcoded secret detected"
     severity: ERROR
-    
+
   - id: unsafe-deserialization
     pattern: pickle.loads(...)
     message: "Unsafe deserialization detected"
     severity: ERROR
-    
+
   - id: sql-injection
     pattern: |
       "SELECT * FROM ... WHERE " + $INPUT

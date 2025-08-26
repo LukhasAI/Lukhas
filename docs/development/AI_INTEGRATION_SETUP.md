@@ -110,7 +110,7 @@ LUKHAS code snippets are available in `.vscode/lukhas_snippets.code-snippets`:
 
 3. **Quantum Refactoring:**
 ```bash
-# Select code and use custom command  
+# Select code and use custom command
 ⚛️ Quantum Refactor
 ```
 
@@ -194,7 +194,7 @@ python ai_orchestration/lukhas_knowledge_server.py export
 ## 🎓 Next Steps
 
 1. **Try the workflow** with a simple function
-2. **Generate Trinity documentation** for an existing class  
+2. **Generate Trinity documentation** for an existing class
 3. **Run LUKHAS code review** on current codebase
 4. **Experiment with AI routing** for different task types
 5. **Customize patterns** based on your specific needs

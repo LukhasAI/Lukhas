@@ -15,16 +15,16 @@ class PoeticGuard {
     this.maxWords = this.policyManifest.tone.poetic.maxWords;
     this.bannedWords = this.policyManifest.bannedWords || [];
     this.violations = [];
-    
+
     // Claims detection pattern - using banned words from manifest
     const bannedPattern = this.bannedWords.join('|');
     this.CLAIM = new RegExp(`\\b(${bannedPattern}|certified|endorsed)\\b`, 'i');
-    
+
     // Additional claim patterns
     this.claimyPatterns = [
       this.CLAIM,
       /\b\d+%\s*(accurate|reliable|success|improvement)\b/i, // Metrics
-      /\b(proven|validated|tested|verified)\s+(to|by)\b/i,   // Claims  
+      /\b(proven|validated|tested|verified)\s+(to|by)\b/i,   // Claims
       /\b(always|never|every|all|none)\s+(works|fails|delivers)\b/i // Absolutes
     ];
 
@@ -51,7 +51,7 @@ class PoeticGuard {
    */
   extractPoeticSections(content, filePath) {
     const poeticSections = [];
-    
+
     // Patterns for data-tone="poetic" sections
     const poeticPatterns = [
       /data-tone=["']poetic["'][\s\S]*?<\/(section|div|p)>/gi,
@@ -64,7 +64,7 @@ class PoeticGuard {
       while ((match = pattern.exec(content)) !== null) {
         const sectionContent = this.extractPlainText(match[0]);
         const lineNumber = this.getLineNumber(content, match.index);
-        
+
         poeticSections.push({
           content: sectionContent,
           raw: match[0],
@@ -130,7 +130,7 @@ class PoeticGuard {
       const matches = [...section.content.matchAll(new RegExp(pattern.source, 'gi'))];
       matches.forEach(match => {
         violations.push({
-          type: 'metaphor-creep', 
+          type: 'metaphor-creep',
           pattern: pattern.source,
           match: match[0],
           message: `Metaphor creep detected - implies performance claims: "${match[0]}"`
@@ -185,15 +185,15 @@ class PoeticGuard {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const relativePath = path.relative(process.cwd(), filePath);
-      
+
       const poeticSections = this.extractPoeticSections(content, relativePath);
-      
+
       for (const section of poeticSections) {
         const sectionViolations = this.assertPoeticSafe(section);
-        
+
         if (sectionViolations.length > 0) {
           const suggestions = this.generatePoeticSuggestions(sectionViolations);
-          
+
           this.violations.push({
             file: section.file,
             line: section.line,
@@ -251,9 +251,9 @@ class PoeticGuard {
   async analyze(patterns = ['lukhas_website/**/*.{tsx,jsx,md}', 'branding/**/*.md']) {
     const glob = require('glob');
     const files = [];
-    
+
     for (const pattern of patterns) {
-      const matches = glob.sync(pattern, { 
+      const matches = glob.sync(pattern, {
         cwd: process.cwd(),
         ignore: ['**/node_modules/**', '**/.git/**']
       });
@@ -261,7 +261,7 @@ class PoeticGuard {
     }
 
     const uniqueFiles = [...new Set(files)];
-    
+
     for (const filePath of uniqueFiles) {
       await this.analyzeFile(filePath);
     }

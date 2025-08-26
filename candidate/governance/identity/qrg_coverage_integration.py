@@ -72,7 +72,7 @@ class QRGCoverageIntegration:
             "error_handling": TestQRGErrorHandling,
             "security_validation": TestQRGSecurityValidation,
             "cultural_validation": TestQRGCulturalValidation,
-            "quantum_steganographic": TestQuantumSteganographicCoverage,
+            "qi_steganographic": TestQuantumSteganographicCoverage,
             "performance_optimization": TestPerformanceOptimization,
             "integration_boundaries": TestIntegrationBoundaries,
         }
@@ -236,7 +236,7 @@ class QRGCoverageIntegration:
                 areas_covered=[
                     "consciousness_adaptation",
                     "cultural_sensitivity",
-                    "quantum_cryptography",
+                    "qi_cryptography",
                     "steganographic_glyphs",
                     "security_validation",
                     "performance_testing",
@@ -300,7 +300,7 @@ class QRGCoverageIntegration:
         return [
             "consciousness_adaptation_tests",
             "cultural_sensitivity_validation",
-            "quantum_cryptography_security",
+            "qi_cryptography_security",
             "steganographic_glyph_encoding",
             "performance_optimization_tests",
             "integration_boundary_validation",
@@ -317,7 +317,7 @@ class QRGCoverageIntegration:
             "error_handling": 8,
             "security_validation": 12,
             "cultural_validation": 10,
-            "quantum_steganographic": 14,
+            "qi_steganographic": 14,
             "performance_optimization": 6,
             "integration_boundaries": 9,
         }

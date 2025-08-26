@@ -41,10 +41,10 @@ class LukhasIDParser:
     def parse_canonical(cls, input_str: str) -> Tuple[Optional[str], str]:
         """
         Parse canonical ΛID core: {namespace?}:{username}
-        
+
         Returns:
             (namespace, username) tuple
-            
+
         Raises:
             ValueError if format is invalid
         """
@@ -173,11 +173,11 @@ class LukhasIDResolver:
     def resolve_login(self, input_str: str, provider: Optional[str] = None) -> Dict[str, str]:
         """
         Core resolution endpoint: POST /identity/resolve-login
-        
+
         Args:
             input_str: User input like "stanford:alice_smith" or "gonzo"
             provider: Optional provider override (google|apple|github|lukhas)
-            
+
         Returns:
             {
                 "canonical_lid": "stanford:alice_smith",
@@ -307,13 +307,13 @@ resolver = LukhasIDResolver()
 async def resolve_login_endpoint(request: ResolveLoginRequest):
     """
     Resolve ΛID to canonical form and provider auth URL.
-    
+
     Core endpoint that:
     1. Parses ΛID input using ABNF grammar
     2. Resolves canonical namespace:username
     3. Maps to appropriate OAuth provider or first-party WebAuthn
     4. Returns auth URL with CSRF protection
-    
+
     Examples:
     - `stanford:alice_smith` + `google` → Google OAuth for stanford:alice_smith
     - `gonzo` + `lukhas` → WebAuthn challenge for gonzo
@@ -327,7 +327,7 @@ async def resolve_login_endpoint(request: ResolveLoginRequest):
 async def oidc_configuration():
     """
     OIDC Discovery endpoint for "Sign in with LUKHΛS" functionality.
-    
+
     Allows other services to integrate LUKHΛS as an OIDC provider.
     """
     return resolver.get_oidc_configuration()
@@ -337,7 +337,7 @@ async def oidc_configuration():
 async def jwks_endpoint():
     """
     JSON Web Key Set for token verification.
-    
+
     Public keys used to verify JWT tokens issued by LUKHΛS Identity Provider.
     """
     return resolver.get_jwks()

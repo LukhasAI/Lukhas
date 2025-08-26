@@ -399,7 +399,7 @@ async def demonstrate_advanced_features() -> None:
             "problem_space_definition": {  # Renamed for clarity
                 "description": "Develop a novel quantum-inspired optimization algorithm for protein folding.",
                 "domain_tags": [
-                    "quantum_computing",
+                    "qi_computing",
                     "bioinformatics",
                     "protein_folding",
                 ],  # Renamed
@@ -418,7 +418,7 @@ async def demonstrate_advanced_features() -> None:
                     "scalability_potential",
                 ],
             },
-            "designated_reasoning_type": "quantum_algorithm_design_and_optimization",  # Renamed
+            "designated_reasoning_type": "qi_algorithm_design_and_optimization",  # Renamed
         }
         adv_logger.debug(
             "ΛTRACE: Advanced problem request data defined.",

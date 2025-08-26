@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI Plan Labels - Bilingual (EN/ES)
- * 
+ *
  * User-facing labels for OpenAI-style plans in English and Spanish
  * Follows LUKHAS AI brand guidelines and tone system
  */
@@ -100,7 +100,7 @@ export const FEATURE_LABELS_EN = {
   quantumInspired: 'Quantum-Inspired Processing',
   bioInspired: 'Bio-Inspired Adaptation',
   guardianSystem: 'Guardian Ethics System',
-  
+
   // Authentication & Security
   sso: 'Single Sign-On (SSO)',
   scim: 'SCIM User Provisioning',
@@ -108,24 +108,24 @@ export const FEATURE_LABELS_EN = {
   passkeys: 'Passkey Authentication',
   magicLinks: 'Magic Link Login',
   backupCodes: 'Backup Recovery Codes',
-  
+
   // API & Integration
   apiAccess: 'API Access',
   adminApi: 'Admin API',
   webhooks: 'Webhooks',
   customIntegrations: 'Custom Integrations',
-  
+
   // Analytics & Monitoring
   analytics: 'Analytics Dashboard',
   auditLogs: 'Audit Logs',
   complianceReports: 'Compliance Reports',
-  
+
   // Limits & Quotas
   rateLimit: 'API Rate Limit',
   storage: 'Storage',
   teamMembers: 'Team Members',
   concurrentSessions: 'Concurrent Sessions',
-  
+
   // Support
   communitySupport: 'Community Support',
   prioritySupport: 'Priority Support',
@@ -144,7 +144,7 @@ export const FEATURE_LABELS_ES = {
   quantumInspired: 'Procesamiento Cuántico-Inspirado',
   bioInspired: 'Adaptación Bio-Inspirada',
   guardianSystem: 'Sistema Guardián de Ética',
-  
+
   // Authentication & Security
   sso: 'Inicio de Sesión Único (SSO)',
   scim: 'Aprovisionamiento SCIM',
@@ -152,24 +152,24 @@ export const FEATURE_LABELS_ES = {
   passkeys: 'Autenticación con Passkey',
   magicLinks: 'Enlace Mágico',
   backupCodes: 'Códigos de Respaldo',
-  
+
   // API & Integration
   apiAccess: 'Acceso API',
   adminApi: 'API de Administración',
   webhooks: 'Webhooks',
   customIntegrations: 'Integraciones Personalizadas',
-  
+
   // Analytics & Monitoring
   analytics: 'Panel de Análisis',
   auditLogs: 'Registros de Auditoría',
   complianceReports: 'Informes de Cumplimiento',
-  
+
   // Limits & Quotas
   rateLimit: 'Límite de Tasa API',
   storage: 'Almacenamiento',
   teamMembers: 'Miembros del Equipo',
   concurrentSessions: 'Sesiones Concurrentes',
-  
+
   // Support
   communitySupport: 'Soporte Comunitario',
   prioritySupport: 'Soporte Prioritario',
@@ -254,11 +254,11 @@ export function formatPricing(amount: number, period: 'monthly' | 'yearly', lang
   const currency = lang === 'es' ? '€' : '$';
   const labels = PRICING_LABELS[lang];
   const periodLabel = period === 'monthly' ? labels.monthly : labels.yearly;
-  
+
   if (amount === 0) {
     return lang === 'es' ? 'Gratis' : 'Free';
   }
-  
+
   return `${currency}${amount} ${periodLabel}`;
 }
 

@@ -72,7 +72,7 @@ See LICENSE file for details
 ```python
 # Proper DI pattern
 class MemoryService:
-    def __init__(self, 
+    def __init__(self,
                  storage: StorageInterface,
                  cache: CacheInterface,
                  logger: LoggerInterface):
@@ -87,7 +87,7 @@ class MemoryService:
 from typing import List, Dict, Optional, Union, TypeVar, Protocol
 
 def fold_memory(
-    data: MemoryData, 
+    data: MemoryData,
     context: EmotionalContext,
     options: Optional[FoldOptions] = None
 ) -> FoldedMemory:
@@ -102,7 +102,7 @@ from pydantic import BaseModel, validator
 class MemoryFoldRequest(BaseModel):
     data: MemoryData
     emotional_weight: float
-    
+
     @validator('emotional_weight')
     def weight_must_be_valid(cls, v):
         if not 0 <= v <= 1:
@@ -118,7 +118,7 @@ import structlog
 
 logger = structlog.get_logger()
 
-logger.info("memory_folded", 
+logger.info("memory_folded",
     user_id=user_id,
     memory_size=len(data),
     fold_duration_ms=duration,
@@ -169,7 +169,7 @@ app = FastAPI(
 async def fold_memory(request: FoldRequest):
     """
     Folds memory data with emotional context.
-    
+
     - **data**: Raw memory data to fold
     - **context**: Emotional context for folding
     - **options**: Optional fold parameters
@@ -182,13 +182,13 @@ async def fold_memory(request: FoldRequest):
 ```python
 class LukhasError(Exception):
     """Base exception for all LUKHAS errors"""
-    
+
 class MemoryError(LukhasError):
     """Memory system errors"""
-    
+
 class ConsciousnessError(LukhasError):
     """Consciousness system errors"""
-    
+
 class TierAccessError(LukhasError):
     """Tier-based access violations"""
     error_code = "TIER_ACCESS_DENIED"
@@ -263,7 +263,7 @@ def upgrade():
     op.add_column('memories',
         sa.Column('emotional_weight', sa.Float(), nullable=True)
     )
-    
+
 def downgrade():
     op.drop_column('memories', 'emotional_weight')
 ```
@@ -340,7 +340,7 @@ from locust import HttpUser, task, between
 
 class LukhasUser(HttpUser):
     wait_time = between(1, 3)
-    
+
     @task
     def fold_memory(self):
         self.client.post("/api/v1/memory/fold", json={

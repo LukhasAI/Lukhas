@@ -179,7 +179,7 @@ class GPTLanguageProcessor:
         )
         return response
 
-# DALL-E Integration  
+# DALL-E Integration
 class ImageSymbolGenerator:
     async def generate_symbol(self, description):
         # Generate visual symbols using DALL-E
@@ -208,51 +208,51 @@ class AudioPatternExtractor:
 def calculate_entropy(password_elements):
     """
     Calculate total entropy from multi-modal elements
-    
+
     Sources of entropy:
     - Text: 26 lowercase + 26 uppercase + 10 digits + 32 special = 94 chars
     - Emojis: 3,664 standard Unicode emojis
     - Gestures: 100+ distinct gestures × timing × pressure
     - Images: Visual features (colors, shapes, patterns)
     - Sounds: Frequency patterns, rhythm, pitch
-    
+
     Combined entropy = log2(possibilities)
     """
-    
+
     entropy_bits = 0
-    
+
     # Text entropy (standard)
     if password_elements.text:
         charset_size = 94
         entropy_bits += len(password_elements.text) * math.log2(charset_size)
-    
+
     # Emoji entropy (massive)
     if password_elements.emojis:
         emoji_space = 3664
         entropy_bits += len(password_elements.emojis) * math.log2(emoji_space)
-    
+
     # Gesture entropy (timing + pattern)
     if password_elements.gestures:
         gesture_space = 100 * 10 * 10  # gesture × timing × pressure
         entropy_bits += len(password_elements.gestures) * math.log2(gesture_space)
-    
+
     # Image entropy (visual features)
     if password_elements.images:
         image_features = extract_visual_features(password_elements.images)
         entropy_bits += calculate_visual_entropy(image_features)
-    
+
     # Sound entropy (audio patterns)
     if password_elements.sounds:
         audio_features = extract_audio_features(password_elements.sounds)
         entropy_bits += calculate_audio_entropy(audio_features)
-    
+
     return entropy_bits
 ```
 
 ### Example: Ultra-High Entropy Password
 
 ```python
-# Traditional password: "MyP@ssw0rd123!" 
+# Traditional password: "MyP@ssw0rd123!"
 # Entropy: ~78 bits
 
 # LUKHAS Universal Password:
@@ -282,7 +282,7 @@ class UniversalMeaningBuilder:
     """
     Builds universal meanings from multi-modal inputs
     """
-    
+
     async def build_meaning(self, inputs):
         # 1. Extract features from each modality
         text_features = self.extract_text_features(inputs.text)
@@ -290,7 +290,7 @@ class UniversalMeaningBuilder:
         image_features = await self.extract_image_features(inputs.images)
         sound_features = await self.extract_sound_features(inputs.sounds)
         gesture_features = self.extract_gesture_features(inputs.gestures)
-        
+
         # 2. Create multi-modal embedding
         embedding = self.combine_features([
             text_features,
@@ -299,13 +299,13 @@ class UniversalMeaningBuilder:
             sound_features,
             gesture_features
         ])
-        
+
         # 3. Find universal consensus through colonies
         consensus = await self.colony_consensus.reach_consensus(
             proposal=embedding,
             method=ConsensusMethod.FEDERATED
         )
-        
+
         # 4. Register in universal dictionary
         if consensus.confidence > 0.8:
             universal_symbol = self.register_universal_meaning(
@@ -313,7 +313,7 @@ class UniversalMeaningBuilder:
                 consensus=consensus,
                 privacy_level="high"
             )
-            
+
         return universal_symbol
 ```
 

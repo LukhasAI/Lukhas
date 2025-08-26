@@ -22,31 +22,31 @@ export interface EmojiSecretConfig {
 export async function setEmojiSecret(config: EmojiSecretConfig): Promise<boolean> {
   try {
     const { userId, emojis, words, pattern } = config
-    
+
     // Combine all secret elements
     const secretElements: string[] = []
     if (emojis) secretElements.push(...emojis)
     if (words) secretElements.push(...words)
     if (pattern) secretElements.push(pattern)
-    
+
     if (secretElements.length === 0) {
       throw new Error('No secret elements provided')
     }
-    
+
     // Create secret string
     const secretString = secretElements.join(':')
-    
+
     // Generate salt
     const salt = randomBytes(32)
-    
+
     // Hash with Argon2id (OWASP recommended)
     const secretHash = await hashSecret(secretString, salt)
-    
+
     // Check if user already has a secret
     const existing = await prisma.emojiSecret.findUnique({
       where: { userId }
     })
-    
+
     if (existing) {
       // Update existing
       await prisma.emojiSecret.update({
@@ -68,7 +68,7 @@ export async function setEmojiSecret(config: EmojiSecretConfig): Promise<boolean
         }
       })
     }
-    
+
     // Log security event (no secret data)
     await prisma.securityEvent.create({
       data: {
@@ -82,7 +82,7 @@ export async function setEmojiSecret(config: EmojiSecretConfig): Promise<boolean
         }
       }
     })
-    
+
     return true
   } catch (error) {
     console.error('Failed to set emoji secret:', error)
@@ -102,26 +102,26 @@ export async function verifyEmojiSecret(
     const emojiSecret = await prisma.emojiSecret.findUnique({
       where: { userId }
     })
-    
+
     if (!emojiSecret || !emojiSecret.enabled) {
       return false
     }
-    
+
     // Build attempt string
     const attemptElements: string[] = []
     if (attempt.emojis) attemptElements.push(...attempt.emojis)
     if (attempt.words) attemptElements.push(...attempt.words)
     if (attempt.pattern) attemptElements.push(attempt.pattern)
-    
+
     const attemptString = attemptElements.join(':')
-    
+
     // Verify with constant-time comparison
     const isValid = await verifySecret(
       attemptString,
       emojiSecret.secretHash,
       emojiSecret.salt
     )
-    
+
     // Log attempt
     await prisma.securityEvent.create({
       data: {
@@ -132,7 +132,7 @@ export async function verifyEmojiSecret(
         }
       }
     })
-    
+
     return isValid
   } catch (error) {
     console.error('Failed to verify emoji secret:', error)
@@ -146,7 +146,7 @@ export async function verifyEmojiSecret(
 async function hashSecret(secret: string, salt: Buffer): Promise<string> {
   const pepper = process.env.SECRET_PEPPER || ''
   const combined = secret + pepper
-  
+
   return hash(combined, {
     type: 2, // Argon2id
     salt,
@@ -167,7 +167,7 @@ async function verifySecret(
 ): Promise<boolean> {
   const pepper = process.env.SECRET_PEPPER || ''
   const combined = attempt + pepper
-  
+
   try {
     return verify(hash, combined, {
       type: 2,
@@ -190,7 +190,7 @@ export async function disableEmojiSecret(userId: string): Promise<void> {
     where: { userId },
     data: { enabled: false }
   })
-  
+
   await prisma.securityEvent.create({
     data: {
       userId,
@@ -210,6 +210,6 @@ export async function hasEmojiSecret(userId: string): Promise<boolean> {
     where: { userId },
     select: { enabled: true }
   })
-  
+
   return secret?.enabled || false
 }

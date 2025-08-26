@@ -4,9 +4,9 @@
  * Handles the complete flow: BOOT → QUOTE_IN → CONSENT_PENDING → MARKETING_MODE → LOGIN_FLOW → STUDIO
  */
 
-export type AppState = 
+export type AppState =
   | 'BOOT'
-  | 'QUOTE_IN' 
+  | 'QUOTE_IN'
   | 'CONSENT_PENDING'
   | 'QUOTE_WITH_OPTIONS'
   | 'MARKETING_MODE'
@@ -46,7 +46,7 @@ export const STATE_CONFIGS: Record<AppState, StateConfig> = {
     effects: ['loading-spinner'],
     allowedTransitions: ['SYSTEM_READY', 'RESET']
   },
-  
+
   QUOTE_IN: {
     state: 'QUOTE_IN',
     duration: 3000,
@@ -57,7 +57,7 @@ export const STATE_CONFIGS: Record<AppState, StateConfig> = {
     effects: ['quote-dissolve-in'],
     allowedTransitions: ['QUOTE_DISPLAYED', 'CONSENT_REQUIRED', 'RESET']
   },
-  
+
   CONSENT_PENDING: {
     state: 'CONSENT_PENDING',
     effects: ['consent-banner-active'],
@@ -69,19 +69,19 @@ export const STATE_CONFIGS: Record<AppState, StateConfig> = {
     effects: ['quote-visible', 'options-visible'],
     allowedTransitions: ['MARKETING_COMPLETE', 'ENTER_STUDIO', 'RESET']
   },
-  
+
   MARKETING_MODE: {
     state: 'MARKETING_MODE',
     effects: ['marketing-active', 'top-bar-visible'],
     allowedTransitions: ['LOGIN_INITIATED', 'ENTER_STUDIO', 'CONSENT_REQUIRED', 'RESET']
   },
-  
+
   LOGIN_FLOW: {
     state: 'LOGIN_FLOW',
     effects: ['login-modal-active'],
     allowedTransitions: ['LOGIN_SUCCESS', 'MARKETING_COMPLETE', 'RESET']
   },
-  
+
   STUDIO: {
     state: 'STUDIO',
     effects: ['studio-active', 'top-bar-auto-hide'],
@@ -94,13 +94,13 @@ export const STATE_TRANSITIONS: Record<AppState, Partial<Record<AppEvent, AppSta
     SYSTEM_READY: 'QUOTE_IN',
     RESET: 'BOOT'
   },
-  
+
   QUOTE_IN: {
     QUOTE_DISPLAYED: 'CONSENT_PENDING',
     CONSENT_REQUIRED: 'CONSENT_PENDING',
     RESET: 'BOOT'
   },
-  
+
   CONSENT_PENDING: {
     CONSENT_GIVEN: 'QUOTE_WITH_OPTIONS',
     RESET: 'BOOT'
@@ -111,20 +111,20 @@ export const STATE_TRANSITIONS: Record<AppState, Partial<Record<AppEvent, AppSta
     ENTER_STUDIO: 'STUDIO',
     RESET: 'BOOT'
   },
-  
+
   MARKETING_MODE: {
     LOGIN_INITIATED: 'LOGIN_FLOW',
     ENTER_STUDIO: 'STUDIO',
     CONSENT_REQUIRED: 'CONSENT_PENDING',
     RESET: 'BOOT'
   },
-  
+
   LOGIN_FLOW: {
     LOGIN_SUCCESS: 'STUDIO',
     MARKETING_COMPLETE: 'MARKETING_MODE', // Back to marketing if login fails
     RESET: 'BOOT'
   },
-  
+
   STUDIO: {
     RESET: 'BOOT'
   }
@@ -161,24 +161,24 @@ export class UserJourneyStateMachine {
     }
 
     const nextState = STATE_TRANSITIONS[this.currentState][event]
-    
+
     if (!nextState) {
       console.warn(`No transition defined for ${event} from ${this.currentState}`)
       return false
     }
 
     console.log(`State transition: ${this.currentState} --[${event}]--> ${nextState}`)
-    
+
     this.currentState = nextState
     this.setupAutoTransitions()
     this.notifyListeners(event)
-    
+
     return true
   }
 
   public subscribe(listener: (state: AppState, event?: AppEvent) => void): () => void {
     this.listeners.push(listener)
-    
+
     // Return unsubscribe function
     return () => {
       const index = this.listeners.indexOf(listener)
@@ -204,14 +204,14 @@ export class UserJourneyStateMachine {
     this.timeouts.clear()
 
     const config = this.getStateConfig()
-    
+
     if (config.autoTransition) {
       const timeout = setTimeout(() => {
         if (this.canTransition(config.autoTransition!.event)) {
           this.transition(config.autoTransition!.event)
         }
       }, config.autoTransition.delay)
-      
+
       this.timeouts.set(`auto_${this.currentState}`, timeout)
     }
   }

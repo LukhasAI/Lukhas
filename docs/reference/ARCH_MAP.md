@@ -132,7 +132,7 @@ This document maps all major components, services, and modules within the LUKHAS
 
 ### Authentication Flow
 1. **WebAuthn Entry**: `identity/webauthn_bootstrap.py`
-2. **ΛID Resolution**: `identity/lucas_id_resolver.py` 
+2. **ΛID Resolution**: `identity/lucas_id_resolver.py`
 3. **OAuth Federation**: `identity/oauth_federation.py`
 4. **Capability Tokens**: Generated with audience+TTL caveats
 

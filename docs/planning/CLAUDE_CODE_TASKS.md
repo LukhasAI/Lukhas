@@ -13,16 +13,16 @@
 # Target Architecture Pattern
 class SignalBus:
     """Publish-subscribe pattern for colony communication"""
-    
+
     def publish(self, signal: Signal) -> None:
         """Emit signal to all subscribers"""
-        
+
     def subscribe(self, signal_type: str, handler: Callable) -> None:
         """Register handler for signal type"""
-        
+
     def unsubscribe(self, signal_type: str, handler: Callable) -> None:
         """Remove handler"""
-        
+
     def get_active_signals(self) -> List[Signal]:
         """Get current signal state"""
 
@@ -62,32 +62,32 @@ class Signal:
 ```python
 class HomeostasisController:
     """Maintains system balance through signal regulation"""
-    
+
     def __init__(self, bus: SignalBus, policy: ModulationPolicy):
         self.bus = bus
         self.policy = policy
         self.signal_history = deque(maxlen=1000)
         self.rate_limiters = {}
-        
+
     def on_event(self, event: SystemEvent) -> List[Signal]:
         """Convert events to signals based on policy"""
-        
+
     def regulate_signals(self, signals: List[Signal]) -> List[Signal]:
         """Apply rate limiting, cooldowns, and bounds"""
-        
+
     def compute_modulation(self, signals: List[Signal]) -> ModulationParams:
         """Transform signals into API parameters"""
-        
+
     def detect_oscillation(self) -> bool:
         """Prevent signal feedback loops"""
-        
+
     def explain_decision(self, audit_id: str) -> AuditTrail:
         """Generate human-readable explanation"""
 ```
 
 #### Advanced Features:
 - **Rate Limiting**: Prevent signal spam
-- **Oscillation Detection**: Identify and break feedback loops  
+- **Oscillation Detection**: Identify and break feedback loops
 - **Adaptive Thresholds**: Learn optimal signal levels over time
 - **Emergency Modes**: Handle extreme signal states
 - **Cross-Signal Dependencies**: Complex signal interactions
@@ -109,20 +109,20 @@ class HomeostasisController:
 ```python
 class FeedbackCardSystem:
     """Human-in-the-loop learning from user ratings"""
-    
-    def capture_feedback(self, action_id: str, rating: int, 
+
+    def capture_feedback(self, action_id: str, rating: int,
                         note: str, symbols: List[str]) -> FeedbackCard:
         """Record user feedback with context"""
-        
+
     def extract_patterns(self, cards: List[FeedbackCard]) -> PatternSet:
         """Identify patterns in user preferences"""
-        
+
     def update_policy(self, patterns: PatternSet) -> PolicyUpdate:
         """Generate bounded policy modifications"""
-        
+
     def validate_update(self, update: PolicyUpdate) -> bool:
         """Ensure safety constraints maintained"""
-        
+
     def explain_learning(self, user_id: str) -> LearningReport:
         """Show what system learned from user"""
 ```
@@ -151,20 +151,20 @@ class FeedbackCardSystem:
 ```python
 class PersonalSymbolSystem:
     """Private, encrypted symbol-to-meaning mapping"""
-    
-    def register_symbol(self, symbol: str, meaning: SymbolMeaning, 
+
+    def register_symbol(self, symbol: str, meaning: SymbolMeaning,
                        gesture: Optional[Gesture] = None) -> None:
         """Add new personal symbol"""
-        
+
     def interpret_symbol(self, symbol: str, context: str) -> SymbolMeaning:
         """Get meaning in context"""
-        
+
     def generate_universal_hash(self, symbol: str) -> str:
         """Create privacy-preserving hash for matching"""
-        
+
     def suggest_symbols(self, intent: str) -> List[str]:
         """Recommend symbols for user intent"""
-        
+
     def export_encrypted(self) -> EncryptedSymbolDictionary:
         """Export for backup/sync"""
 ```
@@ -179,7 +179,7 @@ class PersonalSymbolSystem:
 #### Symbol Matching Algorithm:
 ```python
 # Privacy-preserving symbol matching
-def find_universal_symbols(local_symbols: Dict[str, SymbolMeaning], 
+def find_universal_symbols(local_symbols: Dict[str, SymbolMeaning],
                           global_hashes: Set[str]) -> List[Match]:
     """Find common symbols without revealing private ones"""
     # Use private set intersection or similar technique
@@ -196,33 +196,33 @@ def find_universal_symbols(local_symbols: Dict[str, SymbolMeaning],
 ```python
 class ColonyModule:
     """Base class for all colony modules"""
-    
+
     def __init__(self, module_id: str, bus: SignalBus):
         self.id = module_id
         self.bus = bus
         self.state = ModuleState.ACTIVE
-        
+
     async def process_signal(self, signal: Signal) -> List[Action]:
         """Handle incoming signal"""
-        
+
     def report_health(self) -> HealthStatus:
         """Module health check"""
-        
+
     def adapt_to_environment(self, environment: Environment) -> None:
         """Dynamic reconfiguration"""
 
 class ColonyOrchestrator:
     """Manages colony of modules"""
-    
+
     def spawn_module(self, module_type: str, config: Dict) -> ColonyModule:
         """Create new module instance"""
-        
+
     def route_signals(self, signal: Signal) -> List[ColonyModule]:
         """Determine which modules should receive signal"""
-        
+
     def balance_load(self) -> None:
         """Distribute work across modules"""
-        
+
     def handle_failure(self, module: ColonyModule) -> None:
         """Graceful failure handling"""
 ```
@@ -245,23 +245,23 @@ class ColonyOrchestrator:
 ```python
 class EnhancedOpenAIClient:
     """Advanced wrapper for OpenAI API with signal modulation"""
-    
+
     def __init__(self, client: OpenAI, modulator: PromptModulator):
         self.client = client
         self.modulator = modulator
-        
-    async def generate_response(self, prompt: str, signals: List[Signal], 
+
+    async def generate_response(self, prompt: str, signals: List[Signal],
                                context: List[str]) -> Response:
         """Generate response with signal-based modulation"""
-        
-    async def parallel_generate(self, prompts: List[str], 
+
+    async def parallel_generate(self, prompts: List[str],
                                merge_strategy: str) -> Response:
         """Parallel processing for complex tasks"""
-        
-    def stream_with_feedback(self, prompt: str, 
+
+    def stream_with_feedback(self, prompt: str,
                            feedback_handler: Callable) -> AsyncIterator[str]:
         """Streaming with real-time feedback integration"""
-        
+
     async def function_calling_with_validation(self, functions: List[Function],
                                              validator: Callable) -> FunctionCall:
         """Enhanced function calling with safety validation"""
@@ -283,7 +283,7 @@ class EnhancedOpenAIClient:
 2. **Basic Homeostasis** - Simple signal regulation
 3. **API Integration** - Connect signals to OpenAI API
 
-### Phase 2: Learning & Adaptation (Week 3-4) 
+### Phase 2: Learning & Adaptation (Week 3-4)
 1. **Feedback Cards** - Human-in-the-loop learning
 2. **Symbol System** - Personal customization layer
 3. **Advanced Homeostasis** - Complex signal patterns

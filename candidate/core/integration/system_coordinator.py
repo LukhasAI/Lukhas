@@ -50,11 +50,9 @@ from typing import Any, Callable, Optional
 
 # Import core components
 try:
-    from lukhas.consciousness.core_consciousness.consciousness_integrator import (
-        ConsciousnessEvent,
-        ConsciousnessIntegrator,
-        IntegrationPriority,
-    )
+    from personas.persona_manager import PersonaManager
+    from voice.processor import VoiceProcessor
+
     from candidate.core.identity.identity_manager import IdentityManager
     from candidate.core.neural_architectures.neural_integrator import (
         NeuralContext,
@@ -62,9 +60,12 @@ try:
         NeuralMode,
     )
     from creativity.emotion.brain_integration_emotion_engine import EmotionEngine
+    from lukhas.consciousness.core_consciousness.consciousness_integrator import (
+        ConsciousnessEvent,
+        ConsciousnessIntegrator,
+        IntegrationPriority,
+    )
     from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
-    from personas.persona_manager import PersonaManager
-    from voice.processor import VoiceProcessor
 except ImportError as e:
     logging.warning(f"Some core components not available: {e}")
 
@@ -222,7 +223,9 @@ class SystemCoordinator:
             logger.info("Consciousness integrator initialized")
 
             # Initialize neural integrator
-            from candidate.core.neural_architectures.neural_integrator import NeuralIntegrator
+            from candidate.core.neural_architectures.neural_integrator import (
+                NeuralIntegrator,
+            )
 
             self.neural_integrator = NeuralIntegrator()
             self.active_components["neural"] = True

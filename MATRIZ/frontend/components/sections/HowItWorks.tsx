@@ -73,7 +73,7 @@ const analysis = {
     code: `// Node selection
 const selectedNodes = [
   "financial_analyzer",
-  "data_processor", 
+  "data_processor",
   "pattern_detector"
 ]`
   },
@@ -296,10 +296,10 @@ export default function HowItWorks() {
             THE RESULT
           </h3>
           <p className="font-thin text-xl max-w-4xl mx-auto mb-8">
-            Every response is backed by transparent reasoning, ethical validation, and continuous learning. 
+            Every response is backed by transparent reasoning, ethical validation, and continuous learning.
             MATADA doesn't just answer—it thinks, validates, and evolves with each interaction.
           </p>
-          
+
           {/* Key Benefits */}
           <div className="grid md:grid-cols-3 gap-8 mt-12">
             <div className="text-center">

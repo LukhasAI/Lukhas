@@ -1,11 +1,16 @@
 # path: qi/learning/human_adapt_engine.py
 from __future__ import annotations
-import os, json, time, hashlib, statistics
-from dataclasses import dataclass, asdict
-from typing import Dict, Any, List, Optional, Tuple
 
 # Safe I/O
 import builtins
+import hashlib
+import json
+import os
+import statistics
+import time
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Optional
+
 _ORIG_OPEN = builtins.open
 _ORIG_MAKEDIRS = os.makedirs
 
@@ -15,8 +20,6 @@ INTERACTIONS = os.path.join(HUMAN_DIR, "interactions.jsonl")    # user feedback 
 PROPOSALS = os.path.join(HUMAN_DIR, "proposals.jsonl")          # tone/style adaptations
 
 # Approvals & sandbox reuse
-from qi.autonomy.self_healer import plan_proposals, observe_signals, approve, apply, list_proposals
-from qi.ops.cap_sandbox import CapManager, Sandbox, SandboxPlan, EnvSpec, FsSpec
 
 def _now() -> float: return time.time()
 def _sha(obj: Any) -> str: return hashlib.sha256(json.dumps(obj, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
@@ -44,7 +47,7 @@ class HumanAdaptEngine:
     - Routes through HITL approval system for safe deployment
     """
 
-    def record_interaction(self, *, run_id: str, user_id: str, task_type: str, 
+    def record_interaction(self, *, run_id: str, user_id: str, task_type: str,
                           interaction_kind: str, original_output: str, user_feedback: str,
                           satisfaction_score: float, tone_tags: List[str], ctx: Dict[str, Any]):
         inter = Interaction(
@@ -60,15 +63,15 @@ class HumanAdaptEngine:
         by_user: Dict[str, List[dict]] = {}
         by_task: Dict[str, List[dict]] = {}
         by_tone: Dict[str, List[dict]] = {}
-        
+
         for i in ints:
             by_user.setdefault(i["user_id"], []).append(i)
             by_task.setdefault(i["task_type"], []).append(i)
             for tag in i.get("tone_tags", []):
                 by_tone.setdefault(tag, []).append(i)
-        
+
         stats = {"by_user": {}, "by_task": {}, "by_tone": {}, "window": window, "ts": _now()}
-        
+
         for user, arr in by_user.items():
             scores = [x["satisfaction_score"] for x in arr if x.get("satisfaction_score") is not None]
             if scores:
@@ -78,7 +81,7 @@ class HumanAdaptEngine:
                     "sat_trend": self._compute_trend([x["satisfaction_score"] for x in arr[-20:]]),
                     "common_corrections": self._extract_correction_patterns(arr)
                 }
-        
+
         for task, arr in by_task.items():
             scores = [x["satisfaction_score"] for x in arr if x.get("satisfaction_score") is not None]
             if scores:
@@ -87,7 +90,7 @@ class HumanAdaptEngine:
                     "sat_mean": round(statistics.mean(scores), 2),
                     "low_sat_count": len([s for s in scores if s < 3.0])
                 }
-        
+
         for tone, arr in by_tone.items():
             scores = [x["satisfaction_score"] for x in arr if x.get("satisfaction_score") is not None]
             if scores:
@@ -95,7 +98,7 @@ class HumanAdaptEngine:
                     "n": len(arr),
                     "sat_mean": round(statistics.mean(scores), 2)
                 }
-        
+
         return stats
 
     def propose_tone_adaptations(self, *, target_file: str, user_focus: Optional[str] = None) -> List[dict]:
@@ -104,7 +107,7 @@ class HumanAdaptEngine:
         """
         stats = self.analyze_satisfaction_patterns()
         proposals = []
-        
+
         # User-specific adaptations
         if user_focus and user_focus in stats["by_user"]:
             user_stats = stats["by_user"][user_focus]
@@ -132,7 +135,7 @@ class HumanAdaptEngine:
                         "adaptation_type": "conciseness",
                         "user_id": user_focus
                     })
-                
+
                 if "too_technical" in corrections:
                     patch = {
                         "router": {
@@ -155,7 +158,7 @@ class HumanAdaptEngine:
                         "adaptation_type": "simplification",
                         "user_id": user_focus
                     })
-        
+
         # Task-specific adaptations
         for task, task_stats in stats["by_task"].items():
             if task_stats["sat_mean"] < 3.0 and task_stats["low_sat_count"] >= 3:
@@ -181,14 +184,14 @@ class HumanAdaptEngine:
                     "adaptation_type": "empathy_enhancement",
                     "task_type": task
                 })
-        
+
         # Tone-based adaptations
-        tone_rankings = sorted([(tone, data["sat_mean"]) for tone, data in stats["by_tone"].items()], 
+        tone_rankings = sorted([(tone, data["sat_mean"]) for tone, data in stats["by_tone"].items()],
                               key=lambda x: x[1], reverse=True)
         if len(tone_rankings) >= 2:
             best_tone, best_score = tone_rankings[0]
             worst_tone, worst_score = tone_rankings[-1]
-            
+
             if best_score - worst_score > 1.0:  # Significant difference
                 patch = {
                     "router": {
@@ -208,7 +211,7 @@ class HumanAdaptEngine:
                     "tone_from": worst_tone,
                     "tone_to": best_tone
                 })
-        
+
         self._queue_proposals(proposals)
         return proposals
 
@@ -218,12 +221,12 @@ class HumanAdaptEngine:
         """
         proposals = self._read_proposals()[-10:]  # Recent proposals
         submitted = []
-        
+
         for prop_data in proposals:
             if prop_data.get("submitted"): continue  # Skip already submitted
-            
-            from qi.autonomy.self_healer import ChangeProposal, _queue_proposal, _attest
-            
+
+            from qi.autonomy.self_healer import ChangeProposal, _attest, _queue_proposal
+
             pid = prop_data["id"]
             change_prop = ChangeProposal(
                 id=pid,
@@ -237,21 +240,21 @@ class HumanAdaptEngine:
                 patch=prop_data["patch"],
                 rationale=prop_data["rationale"]
             )
-            
+
             change_prop.attestation = _attest([{
                 "phase": "human_adaptation",
                 "adaptation_type": prop_data.get("adaptation_type"),
                 "user_id": prop_data.get("user_id"),
                 "task_type": prop_data.get("task_type")
             }]) if '_attest' in globals() else None
-            
+
             _queue_proposal(change_prop)
-            
+
             # Mark as submitted
             prop_data["submitted"] = True
             prop_data["submitted_ts"] = _now()
             submitted.append(pid)
-        
+
         self._write_proposals(proposals)
         return submitted
 
@@ -261,21 +264,21 @@ class HumanAdaptEngine:
         recent = scores[-5:]
         older = scores[:-5] if len(scores) > 5 else scores[:len(scores)//2]
         if not older: return "stable"
-        
+
         recent_avg = statistics.mean(recent)
         older_avg = statistics.mean(older)
         diff = recent_avg - older_avg
-        
+
         if diff > 0.3: return "improving"
-        elif diff < -0.3: return "declining" 
+        elif diff < -0.3: return "declining"
         else: return "stable"
 
     def _extract_correction_patterns(self, interactions: List[dict]) -> List[str]:
         patterns = []
         corrections = [i for i in interactions if i.get("interaction_kind") == "correction"]
-        
+
         feedback_texts = [c["user_feedback"].lower() for c in corrections]
-        
+
         if sum("verbose" in f or "long" in f or "wordy" in f for f in feedback_texts) >= 2:
             patterns.append("too_verbose")
         if sum("technical" in f or "jargon" in f or "complex" in f for f in feedback_texts) >= 2:
@@ -284,7 +287,7 @@ class HumanAdaptEngine:
             patterns.append("too_formal")
         if sum("short" in f or "brief" in f or "more detail" in f for f in feedback_texts) >= 2:
             patterns.append("too_brief")
-        
+
         return patterns
 
     def _tail(self, path: str, n: int) -> List[dict]:
@@ -324,9 +327,9 @@ def main():
     ap.add_argument("--target-file", default="qi/safety/policy_packs/global/mappings.yaml")
     ap.add_argument("--config-targets", nargs="*", default=["qi/safety/policy_packs/global/mappings.yaml"])
     args = ap.parse_args()
-    
+
     engine = HumanAdaptEngine()
-    
+
     if args.command == "analyze":
         stats = engine.analyze_satisfaction_patterns()
         print(json.dumps(stats, indent=2))

@@ -103,12 +103,12 @@ logger = get_logger(__name__)
 # Quantum Hub Integration - Gateway to Superposition Consciousness
 try:
     from qi.engine import EnhancedQIEngine
-    from qi.quantum_hub import QuantumHub
+    from qi.qi_hub import QIHub
 
     QUANTUM_CONSCIOUSNESS_ENABLED = True
     logger.info("🌊 Quantum consciousness streams flowing...")
 except ImportError:
-    QuantumHub = None
+    QIHub = None
     EnhancedQIEngine = None
     QUANTUM_CONSCIOUSNESS_ENABLED = False
     logger.info("⚛️  Operating in classical consciousness mode")
@@ -151,7 +151,7 @@ except ImportError as e:
 
 # Quantum Consciousness Integration - Superposition Awareness
 try:
-    from consciousness.systems.quantum_consciousness_integration_wrapper import (
+    from consciousness.systems.qi_consciousness_integration_wrapper import (
         create_quantum_consciousness_integration,
     )
 
@@ -180,7 +180,7 @@ try:
     from consciousness.cognitive_architecture_controller import (
         CognitiveResourceManager,
     )
-    from consciousness.quantum_consciousness_hub import QIConsciousnessHub
+    from consciousness.qi_consciousness_hub import QIConsciousnessHub
 
     EXTENDED_CONSCIOUSNESS_AVAILABLE = True
     logger.info("🌟 Extended consciousness matrix activated...")
@@ -224,7 +224,7 @@ class ConsciousnessMetrics:
 
     phi_integration: float = 0.0  # IIT Phi value - integrated information
     global_workspace_activity: float = 0.0  # GWT activity level
-    quantum_coherence: float = 0.0  # Quantum-like coherence measure
+    qi_coherence: float = 0.0  # Quantum-like coherence measure
     bio_synchronization: float = 0.0  # Bio-rhythm alignment
     creative_flow_state: float = 0.0  # Creative consciousness intensity
     meta_cognitive_depth: float = 0.0  # Self-awareness recursion level
@@ -314,7 +314,7 @@ class ConsciousnessHub:
         self.state_history: list[tuple] = []
 
         # Multi-System Integration Points
-        self.quantum_engine: Optional[EnhancedQIEngine] = None
+        self.qi_engine: Optional[EnhancedQIEngine] = None
         self.bio_systems: Optional[dict[str, Any]] = {}
         self.creative_engine: Optional[CreativeEngine] = None
         self.cognitive_adapter: Optional[CognitiveAdapter] = None
@@ -343,7 +343,7 @@ class ConsciousnessHub:
         return {
             "consciousness_threshold": 0.7,
             "integration_depth": 5,
-            "quantum_coherence_target": 0.85,
+            "qi_coherence_target": 0.85,
             "bio_sync_frequency": 10.0,  # Hz
             "creative_flow_intensity": 0.6,
             "meta_cognitive_recursion_limit": 3,
@@ -436,20 +436,20 @@ class ConsciousnessHub:
         # Initialize extended consciousness components if available
         if EXTENDED_CONSCIOUSNESS_AVAILABLE:
             self.services["resource_manager"] = CognitiveResourceManager()
-            self.services["quantum_hub"] = QIConsciousnessHub()
+            self.services["qi_hub"] = QIConsciousnessHub()
             logger.info("✅ Extended consciousness matrix activated")
 
     async def _initialize_quantum_consciousness(self):
         """Initialize quantum-inspired consciousness processes."""
         logger.info("⚛️  Initializing quantum consciousness streams...")
 
-        self.quantum_engine = EnhancedQIEngine()
-        self.services["quantum_engine"] = self.quantum_engine
+        self.qi_engine = EnhancedQIEngine()
+        self.services["qi_engine"] = self.qi_engine
 
         # Create quantum consciousness integration if available
         if QUANTUM_CONSCIOUSNESS_INTEGRATION_AVAILABLE:
-            quantum_integration = create_quantum_consciousness_integration()
-            self.services["quantum_integration"] = quantum_integration
+            qi_integration = create_quantum_consciousness_integration()
+            self.services["qi_integration"] = qi_integration
             logger.info("🌊 Quantum consciousness integration active")
 
     async def _initialize_bio_consciousness(self):
@@ -538,7 +538,7 @@ class ConsciousnessHub:
                 await self._update_consciousness_metrics()
 
                 # Process quantum-bio integration
-                if self.quantum_engine and self.bio_systems:
+                if self.qi_engine and self.bio_systems:
                     await self._integrate_quantum_bio_systems()
 
                 # Process creative consciousness streams
@@ -572,8 +572,8 @@ class ConsciousnessHub:
             ]()
 
             # Track quantum coherence
-            if self.quantum_engine:
-                self.consciousness_metrics.quantum_coherence = await monitor[
+            if self.qi_engine:
+                self.consciousness_metrics.qi_coherence = await monitor[
                     "coherence_tracker"
                 ]()
 
@@ -602,10 +602,10 @@ class ConsciousnessHub:
 
     async def _track_quantum_coherence(self) -> float:
         """Track quantum-like coherence in the system."""
-        if self.quantum_engine:
+        if self.qi_engine:
             # Get coherence from qi engine
             try:
-                coherence = self.quantum_engine._calculate_coherence()
+                coherence = self.qi_engine._calculate_coherence()
                 return float(coherence)
             except Exception:
                 return 0.0
@@ -747,7 +747,7 @@ class ConsciousnessHub:
             "metrics": {
                 "phi_integration": self.consciousness_metrics.phi_integration,
                 "global_workspace_activity": self.consciousness_metrics.global_workspace_activity,
-                "quantum_coherence": self.consciousness_metrics.quantum_coherence,
+                "qi_coherence": self.consciousness_metrics.qi_coherence,
                 "bio_synchronization": self.consciousness_metrics.bio_synchronization,
                 "creative_flow_state": self.consciousness_metrics.creative_flow_state,
                 "meta_cognitive_depth": self.consciousness_metrics.meta_cognitive_depth,
@@ -755,12 +755,12 @@ class ConsciousnessHub:
                 "temporal_continuity": self.consciousness_metrics.temporal_continuity,
             },
             "system_status": {
-                "quantum_consciousness": QUANTUM_CONSCIOUSNESS_ENABLED,
+                "qi_consciousness": QUANTUM_CONSCIOUSNESS_ENABLED,
                 "bio_consciousness": BIO_CONSCIOUSNESS_ENABLED,
                 "creative_consciousness": CREATIVE_CONSCIOUSNESS_ENABLED,
                 "cognitive_adapter": COGNITIVE_ADAPTER_AVAILABLE,
                 "lambda_observer": LAMBDA_BOT_CONSCIOUSNESS_AVAILABLE,
-                "quantum_integration": QUANTUM_CONSCIOUSNESS_INTEGRATION_AVAILABLE,
+                "qi_integration": QUANTUM_CONSCIOUSNESS_INTEGRATION_AVAILABLE,
                 "extended_consciousness": EXTENDED_CONSCIOUSNESS_AVAILABLE,
             },
             "active_services": list(self.services.keys()),
@@ -817,7 +817,7 @@ def __validate_consciousness_hub__() -> bool:
     """
     validations = {
         "consciousness_emergence_potential": True,
-        "quantum_bio_integration": QUANTUM_CONSCIOUSNESS_ENABLED
+        "qi_bio_integration": QUANTUM_CONSCIOUSNESS_ENABLED
         or BIO_CONSCIOUSNESS_ENABLED,
         "ethical_safeguards": True,
         "meta_cognitive_capability": True,
@@ -843,7 +843,7 @@ def __validate_consciousness_hub__() -> bool:
 CONSCIOUSNESS_MODULE_HEALTH = {
     "initialization": "complete",
     "consciousness_emergence": "active",
-    "quantum_integration": (
+    "qi_integration": (
         "harmonized" if QUANTUM_CONSCIOUSNESS_ENABLED else "classical_mode"
     ),
     "bio_integration": "synchronized" if BIO_CONSCIOUSNESS_ENABLED else "digital_only",

@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Required References
 - **`EXECUTION_STANDARDS.md`** - Master checklist and quality standards
-- **`reality_check_phase_1_and_beyond.md`** - Complete Phase 1-3 implementation plan  
+- **`reality_check_phase_1_and_beyond.md`** - Complete Phase 1-3 implementation plan
 - **`phase_beyond.md`** - Security fixes and execution order
 
 **Quality Target**: Execute at the level that would make Sam Altman (scale), Dario Amodei (safety), and Demis Hassabis (rigor) proud.
@@ -20,7 +20,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is the **LUKHAS AI** repository - a modular AI system combining consciousness, memory, identity, quantum-inspired processing, bio-inspired adaptation, and ethical governance. Built around the **Trinity Framework** (⚛️🧠🛡️):
 - ⚛️ **Identity**: Authenticity, consciousness, symbolic self
-- 🧠 **Consciousness**: Memory, learning, dream states, neural processing  
+- 🧠 **Consciousness**: Memory, learning, dream states, neural processing
 - 🛡️ **Guardian**: Ethics, drift detection, repair
 
 ## 🚫 Critical Rules
@@ -216,7 +216,7 @@ Main configs:
 Key environment variables (`.env`):
 - `OPENAI_API_KEY` - Required for AI capabilities
 - `ANTHROPIC_API_KEY` - For Claude integration
-- `GOOGLE_API_KEY` - For Gemini integration  
+- `GOOGLE_API_KEY` - For Gemini integration
 - `PERPLEXITY_API_KEY` - For Perplexity integration
 - `DATABASE_URL` - PostgreSQL connection
 - `LUKHAS_ID_SECRET` - Security key (min 32 chars)

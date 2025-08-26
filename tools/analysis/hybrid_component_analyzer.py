@@ -150,7 +150,7 @@ class HybridComponentAnalyzer:
 
         # Scenario 3: Quantum Pattern Recognition
         print("Running Scenario 3: Quantum Pattern Recognition...")
-        self.scenario_results["quantum_pattern"] = self.analyze_scenario(
+        self.scenario_results["qi_pattern"] = self.analyze_scenario(
             trigger_modules=["quantum"],
             target_concepts=["pattern", "recognition", "memory", "conscious"],
             description="Quantum-enhanced pattern recognition",

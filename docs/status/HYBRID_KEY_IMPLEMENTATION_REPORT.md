@@ -15,22 +15,22 @@ This dual-key approach provides both speed and institutional trust, embodying th
 ```python
 def _generate_session_key(self, payload: GlyphPayload) -> str:
     """Generate hybrid session key using BLAKE3 + SHAKE256"""
-    
+
     # Key material includes:
     # - User ID
     # - Timestamp (microsecond precision)
     # - Authentication tier (T1-T5)
     # - 32 bytes of cryptographic entropy
-    
+
     key_material = f"{user_id}|{timestamp}|{tier}|{entropy_hex}"
-    
+
     # Internal key: BLAKE3 (fast, XOF-capable)
     if BLAKE3_AVAILABLE:
         internal_session_key = blake3.blake3(key_material_bytes).hexdigest()
     else:
         # SHA3-256 fallback
         internal_session_key = hashlib.sha3_256(key_material_bytes).hexdigest()
-    
+
     # Public verification hash: SHAKE256 (institutional trust)
     shake = hashlib.shake_256()
     shake.update(key_material_bytes)

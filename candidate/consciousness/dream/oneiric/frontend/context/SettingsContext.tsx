@@ -20,11 +20,11 @@ export const SettingsProvider = ({ children }: { children: ReactNode }) => {
     try {
       const savedRecursion = localStorage.getItem('oneiric_recursion');
       const savedDrift = localStorage.getItem('oneiric_drift');
-      
+
       if (savedRecursion !== null) {
         setRecursionEnabled(savedRecursion === 'true');
       }
-      
+
       if (savedDrift !== null) {
         setDriftLoggingEnabled(savedDrift === 'true');
       }

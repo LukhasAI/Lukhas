@@ -44,18 +44,18 @@ import structlog  # Standardized logging
 # Initialize structlog logger for this module
 log = structlog.get_logger(__name__)
 
-# AIMPORT_TODO: The triple-dot relative imports (e.g., `...quantum_processing`) are highly
+# AIMPORT_TODO: The triple-dot relative imports (e.g., `...qi_processing`) are highly
 #               dependent on the execution environment and how the LUKHAS project is structured.
 #               If `lukhas` is a top-level package available in PYTHONPATH, these should be
 # changed to absolute imports like `from qi_processing.qi_engine
-# import QuantumOscillator`.
+# import QIOscillator`.
 LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
-    from ...bio_core.oscillator.quantum_inspired_layer import (
+    from ...bio_core.oscillator.qi_inspired_layer import (
         QIBioOscillator,  # type: ignore
     )
-    from .quantum_processing.qi_engine import (
-        QuantumOscillator,  # type: ignore
+    from .qi_processing.qi_engine import (
+        QIOscillator,  # type: ignore
     )
 
     LUKHAS_OSCILLATORS_AVAILABLE = True
@@ -70,8 +70,8 @@ except ImportError as e:
     LUKHAS_OSCILLATORS_AVAILABLE = False
 
     class QIOscillator:  # type: ignore
-        def quantum_modulate(self, signal: np.ndarray) -> np.ndarray:
-            log.warning("Using MOCK QuantumOscillator.quantum_modulate")
+        def qi_modulate(self, signal: np.ndarray) -> np.ndarray:
+            log.warning("Using MOCK QIOscillator.qi_modulate")
             return signal * 0.95
 
     class QIBioOscillator:  # type: ignore
@@ -86,7 +86,7 @@ except ImportError as e:
 
 # ΛTIER_CONFIG_START
 # {
-#   "module": "quantum.qi_bio_components",
+#   "module": "qi.qi_bio_components",
 #   "class_ProtonGradient": {
 #     "default_tier": 2, "methods": {"__init__":0, "process":2, "_apply_gradient_to_data":3}
 #   },
@@ -115,12 +115,12 @@ def lukhas_tier_required(level: int):
 class ProtonGradient:
     """Simulates bio-inspired quantum-enhanced gradient processing."""
 
-    def __init__(self, quantum_oscillator: Optional[QuantumOscillator] = None):
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
         self.log = log.bind(
             component_class=self.__class__.__name__, instance_id=hex(id(self))[-6:]
         )
-        self.quantum_oscillator: QuantumOscillator = (
-            quantum_oscillator or QuantumOscillator()
+        self.qi_oscillator: QIOscillator = (
+            qi_oscillator or QIOscillator()
         )
         self.gradient_state_vector = np.zeros(3, dtype=float)
         self.log.info("ProtonGradient component initialized.")
@@ -162,7 +162,7 @@ class ProtonGradient:
                 ).item()  # type: ignore
 
             random_influence = np.random.randn(3) * gradient_strength * 0.1
-            self.gradient_state_vector = self.quantum_oscillator.quantum_modulate(
+            self.gradient_state_vector = self.qi_oscillator.qi_modulate(
                 self.gradient_state_vector + random_influence
             )
 
@@ -247,11 +247,11 @@ class QIAttentionGate:
                 )
                 return input_data
 
-            quantum_modulated_frequencies = self.bio_oscillator.modulate_frequencies(
+            qi_modulated_frequencies = self.bio_oscillator.modulate_frequencies(
                 relevant_focus_values
             )
             normalized_attention_weights = self._normalize_attention_weights(
-                quantum_modulated_frequencies
+                qi_modulated_frequencies
             )
 
             attended_data: dict[str, Any] = {}
@@ -328,7 +328,7 @@ class CristaFilter:
             filtered_data_output: dict[str, Any] = {}
             for key, value in input_data.items():
                 current_filter_params = self.filter_state_params.get(
-                    key, {"threshold": 0.1, "momentum": 0.95, "quantum_weight": 1.0}
+                    key, {"threshold": 0.1, "momentum": 0.95, "qi_weight": 1.0}
                 )
                 if isinstance(value, (int, float)):
                     filtered_data_output[key] = self._apply_quantum_filter_to_value(
@@ -364,7 +364,7 @@ class CristaFilter:
             self.filter_state_params[key] = {
                 "threshold": 0.5,
                 "momentum": 0.9,
-                "quantum_weight": 1.0,
+                "qi_weight": 1.0,
             }
 
     @lukhas_tier_required(3)
@@ -379,7 +379,7 @@ class CristaFilter:
                 self.filter_state_params[key] = {
                     "threshold": 0.5,
                     "momentum": 0.9,
-                    "quantum_weight": 1.0,
+                    "qi_weight": 1.0,
                 }
 
             if isinstance(state_value, (int, float)):
@@ -389,8 +389,8 @@ class CristaFilter:
                     0.05,
                     0.95,
                 ).item()  # type: ignore
-                self.filter_state_params[key]["quantum_weight"] = np.clip(
-                    self.filter_state_params[key]["quantum_weight"]
+                self.filter_state_params[key]["qi_weight"] = np.clip(
+                    self.filter_state_params[key]["qi_weight"]
                     * (0.95 + 0.1 * np.tanh(state_value)),
                     0.5,
                     1.5,
@@ -403,11 +403,11 @@ class CristaFilter:
         """Applies a quantum-modulated filter to a single numeric value."""
         threshold = filter_params.get("threshold", 0.1)
         momentum = filter_params.get("momentum", 0.9)
-        quantum_weight = filter_params.get("quantum_weight", 1.0)
+        qi_weight = filter_params.get("qi_weight", 1.0)
 
         significant_value = value if abs(value) > threshold else value * 0.1
         filtered_value_with_momentum = significant_value * momentum
-        return filtered_value_with_momentum * quantum_weight
+        return filtered_value_with_momentum * qi_weight
 
 
 @lukhas_tier_required(2)
@@ -472,7 +472,7 @@ class CardiolipinEncoder:
 # ACCESSED_BY: ['BioQuantumCoordinator', 'AGIExperimentalFramework', 'TheoreticalModelingSuite'] # Conceptual
 # MODIFIED_BY: ['QUANTUM_BIO_RESEARCH_TEAM', 'Jules_AI_Agent'] # Conceptual
 # Tier Access: Varies by class/method (Refer to ΛTIER_CONFIG block and @lukhas_tier_required decorators)
-# Related Components: ['quantum_processing.qi_engine.QuantumOscillator', 'bio_core.oscillator.quantum_inspired_layer.QIBioOscillator']
+# Related Components: ['qi_processing.qi_engine.QIOscillator', 'bio_core.oscillator.qi_inspired_layer.QIBioOscillator']
 # CreationDate: 2023-03-15 (Approx.) | LastModifiedDate: 2024-07-27 | Version: 1.1
 # --- End Standard Footer ---
 
@@ -485,7 +485,7 @@ class CardiolipinEncoder:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -504,7 +504,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

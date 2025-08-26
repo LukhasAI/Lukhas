@@ -104,7 +104,7 @@ action = ActionProposal(
 
 # Ethical evaluation
 mae_decision = await vivox["moral_alignment"].evaluate_action_proposal(
-    action, 
+    action,
     {"emotional_state": {"valence": 0.7, "arousal": 0.4}}
 )
 
@@ -114,7 +114,7 @@ if mae_decision.approved:
         perceptual_input={"request": "help"},
         internal_state={"emotional_state": [0.7, 0.4, 0.5]}
     )
-    
+
     # Record in memory
     memory_id = await vivox["memory_expansion"].record_decision_mutation(
         decision=action.content,

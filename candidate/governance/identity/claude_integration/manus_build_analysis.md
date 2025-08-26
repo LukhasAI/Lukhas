@@ -8,12 +8,12 @@ After comprehensive exploration of the `/Users/A_G_I/Downloads/lukhas_visual_stu
 
 ### Manus Build Structure
 - **Microservices Architecture**: Containerized services with Docker/K8s orchestration
-- **Modern Web Stack**: React/Vite frontend with Radix UI components  
+- **Modern Web Stack**: React/Vite frontend with Radix UI components
 - **Mobile Integration**: React Native cross-platform mobile app
 - **Advanced Services**: Steganography, Trust Scoring, BFT consensus, Visual Generation
 - **Production-Ready Infrastructure**: Redis, PostgreSQL, comprehensive deployment configs
 
-### LUKHAS_AUTH_SYSTEM Structure  
+### LUKHAS_AUTH_SYSTEM Structure
 - **Monolithic Backend**: Centralized authentication server with entropy APIs
 - **Real-time Communication**: WebSocket-based entropy synchronization
 - **Security Focus**: Strong cryptographic signatures, session management, audit logging
@@ -58,7 +58,7 @@ After comprehensive exploration of the `/Users/A_G_I/Downloads/lukhas_visual_stu
 
 **Capabilities**:
 - **Request Routing**: Centralized traffic management
-- **Rate Limiting**: DDoS protection and abuse prevention  
+- **Rate Limiting**: DDoS protection and abuse prevention
 - **Health Monitoring**: Service discovery and load balancing
 - **Authentication Proxy**: JWT validation and token management
 
@@ -66,7 +66,7 @@ After comprehensive exploration of the `/Users/A_G_I/Downloads/lukhas_visual_stu
 
 ### 5. Stub Services (Minimal Implementation)
 - **BFT Engine**: Basic Flask app (requires implementation)
-- **Visual Generator**: Basic Flask app (requires implementation)  
+- **Visual Generator**: Basic Flask app (requires implementation)
 - **Auth Service**: Basic Flask app (requires implementation)
 
 **Integration Value**: LOW - Require significant development
@@ -151,7 +151,7 @@ After comprehensive exploration of the `/Users/A_G_I/Downloads/lukhas_visual_stu
 ⚠️ **Missing TLS**: No explicit HTTPS enforcement in service configs
 ⚠️ **Incomplete Services**: Several services lack actual implementation
 
-### LUKHAS_AUTH_SYSTEM Security Strengths  
+### LUKHAS_AUTH_SYSTEM Security Strengths
 ✅ **Strong Cryptography**: Proper signature verification and key management
 ✅ **Audit Logging**: Comprehensive security event tracking
 ✅ **Session Security**: Robust session management with expiry
@@ -200,7 +200,7 @@ After comprehensive exploration of the `/Users/A_G_I/Downloads/lukhas_visual_stu
 /lukhas_visual_studio/backend/services/trust_scorer/trust_scorer/src/main.py
 → /LUKHAS_AUTH_SYSTEM/backend/trust_scorer.py
 
-/lukhas_visual_studio/backend/services/steganography/steganography/src/main.py  
+/lukhas_visual_studio/backend/services/steganography/steganography/src/main.py
 → /LUKHAS_AUTH_SYSTEM/backend/steganography_engine.py
 
 /lukhas_visual_studio/web_app/lukhas_web/src/App.jsx

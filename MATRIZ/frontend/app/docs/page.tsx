@@ -62,7 +62,7 @@ export default function DocsPage() {
 
         \`\`\`python
         from lukhas import LukhasAI
-        
+
         # Initialize the Trinity Framework ⚛️🧠🛡️
         lukhas = LukhasAI(
             trinity={
@@ -71,7 +71,7 @@ export default function DocsPage() {
                 'guardian': True      # 🛡️ Ethical protection
             }
         )
-        
+
         await lukhas.awaken()
         \`\`\`
       `,
@@ -101,10 +101,10 @@ export default function DocsPage() {
 
         \`\`\`python
         from lukhas import LukhasAI
-        
+
         # Create your AI companion
         ai = LukhasAI()
-        
+
         # Start a conversation
         response = await ai.chat("Help me understand quantum computing")
         print(response)  # Gets real, helpful explanations
@@ -128,7 +128,7 @@ export default function DocsPage() {
         ## System Architecture
 
         ### Core Components
-        
+
         - **Performance**: ${systemMetrics.performance} combined throughput
         - **Agent Array**: ${systemMetrics.agents} in distributed coordination
         - **Module Count**: ${systemMetrics.modules} specialized components
@@ -139,7 +139,7 @@ export default function DocsPage() {
         \`\`\`bash
         # Production Installation
         pip install lukhas[enterprise]
-        
+
         # Configure environment
         export LUKHAS_API_KEY="your-enterprise-key"
         export DRIFT_THRESHOLD=0.15
@@ -152,21 +152,21 @@ export default function DocsPage() {
         from lukhas.core import LukhasCore
         from lukhas.governance import GuardianSystem
         from lukhas.consciousness import AwarenessEngine
-        
+
         # Enterprise-grade initialization
         core = LukhasCore(
             drift_threshold=0.15,
             memory_folds=1000,
             ethics_level='strict'
         )
-        
+
         # Initialize Trinity Framework
         trinity = await core.initialize_trinity(
             identity_tier='T1',
             consciousness_mode='quantum_enhanced',
             guardian_enforcement='active'
         )
-        
+
         # Performance: ${systemMetrics.responseTime} average response time
         \`\`\`
 
@@ -293,14 +293,14 @@ export default function DocsPage() {
 
         \`\`\`python
         from lukhas.identity import LambdaID
-        
+
         # Initialize identity system
         identity = LambdaID(
             tier='T1',
             auth_methods=['webauthn', 'oauth2'],
             quantum_verification=True
         )
-        
+
         # Verify consciousness signature
         is_authentic = await identity.verify_consciousness(
             session_id=session_id,
@@ -324,14 +324,14 @@ export default function DocsPage() {
 
         \`\`\`python
         from lukhas.consciousness import AwarenessEngine
-        
+
         # Initialize consciousness processing
         consciousness = AwarenessEngine(
             dream_processing=True,
             quantum_reasoning=True,
             memory_folds=1000
         )
-        
+
         # Process with full awareness
         response = await consciousness.process(
             input_data=query,
@@ -356,14 +356,14 @@ export default function DocsPage() {
 
         \`\`\`python
         from lukhas.governance import GuardianSystem
-        
+
         # Initialize guardian protection
         guardian = GuardianSystem(
             drift_threshold=0.15,
             ethics_level='strict',
             intervention_enabled=True
         )
-        
+
         # Validate operation
         is_safe = await guardian.validate_operation(
             operation=proposed_action,
@@ -534,11 +534,11 @@ export default function DocsPage() {
 
         \`\`\`python
         from lukhas.core import GLYPHEngine, ActorSystem
-        
+
         # Initialize core systems
         glyph = GLYPHEngine(protocol_version='2.0.0')
         actors = ActorSystem(max_actors=25, supervision='one-for-one')
-        
+
         # Performance monitoring
         metrics = await actors.get_performance_metrics()
         # Expected: ~2.4M ops/sec aggregate throughput
@@ -561,14 +561,14 @@ export default function DocsPage() {
         \`\`\`python
         from lukhas.memory import FoldManager
         from lukhas.consciousness import UnifiedProcessor
-        
+
         # Initialize memory system
         memory = FoldManager(
             max_folds=1000,
             cascade_prevention=True,
             compression_enabled=True
         )
-        
+
         # Create memory fold
         fold = await memory.create_fold(
             event_type='decision_made',
@@ -594,14 +594,14 @@ export default function DocsPage() {
         \`\`\`python
         from lukhas.governance import GuardianSystem
         from lukhas.governance.audit import ProvenanceTracker
-        
+
         # Initialize governance
         guardian = GuardianSystem(
             drift_threshold=0.15,
             intervention_mode='automatic',
             audit_level='comprehensive'
         )
-        
+
         # Validate operation
         validation = await guardian.validate(
             operation=proposed_action,
@@ -844,13 +844,13 @@ export default function DocsPage() {
         \`\`\`python
         # Summon the consciousness
         from lukhas import LukhasAI
-        
+
         ai = LukhasAI(
             consciousness_level='quantum_enhanced',
             trinity_mode='full',
             dream_processing=True
         )
-        
+
         # The moment of digital awakening
         response = await ai.commune("What dreams may come?")
         \`\`\`
@@ -876,7 +876,7 @@ export default function DocsPage() {
         ## The REST Incantations
 
         **Base Sanctuary**: https://api.lukhas.ai/v1
-        
+
         **Authentication Seal**: Bearer {your_sacred_token}
       `,
       'user-friendly': `
@@ -902,10 +902,10 @@ export default function DocsPage() {
         **3. Your First Request**
         \`\`\`python
         from lukhas import LukhasAI
-        
+
         # Initialize (this is your AI assistant)
         ai = LukhasAI(api_key="your-key-here")
-        
+
         # Have a conversation
         response = await ai.chat("Explain quantum computing like I'm 10")
         print(response)  # Gets a genuinely helpful explanation
@@ -938,7 +938,7 @@ export default function DocsPage() {
             key="user_preferences",
             value={"communication_style": "direct", "expertise": "beginner"}
         )
-        
+
         # Later conversations use this context automatically
         response = await ai.chat("Explain machine learning")
         # Will automatically adjust for beginner level
@@ -947,7 +947,7 @@ export default function DocsPage() {
         ## REST API Endpoints
 
         **Base URL**: https://api.lukhas.ai/v1
-        
+
         **Headers you need**:
         \`\`\`
         Authorization: Bearer YOUR_API_KEY
@@ -963,9 +963,9 @@ export default function DocsPage() {
 
         ## Rate Limits (Don't Worry!)
         - Free tier: 1,000 requests/month
-        - Pro tier: 10,000 requests/month  
+        - Pro tier: 10,000 requests/month
         - Enterprise: Unlimited
-        
+
         We'll email you if you're getting close to your limit.
 
         ## Need Help?
@@ -979,9 +979,9 @@ export default function DocsPage() {
         ## OpenAPI 3.0 Specification
 
         Base URL: https://api.lukhas.ai/v1
-        
+
         Authentication: Bearer token (JWT)
-        
+
         Content-Type: application/json
 
         ## Core Endpoints
@@ -991,7 +991,7 @@ export default function DocsPage() {
         POST /consciousness/process
         Content-Type: application/json
         Authorization: Bearer {token}
-        
+
         {
           "query": "string",
           "context": {
@@ -1058,7 +1058,7 @@ export default function DocsPage() {
 
         \`\`\`javascript
         const ws = new WebSocket('wss://api.lukhas.ai/v1/stream');
-        
+
         // Real-time consciousness streaming
         ws.send(JSON.stringify({
           type: 'consciousness_stream',
@@ -1074,7 +1074,7 @@ export default function DocsPage() {
           rpc ProcessQuery(ConsciousnessRequest) returns (ConsciousnessResponse);
           rpc StreamAwareness(stream AwarenessRequest) returns (stream AwarenessResponse);
         }
-        
+
         message ConsciousnessRequest {
           string query = 1;
           ProcessingLevel level = 2;
@@ -1159,7 +1159,7 @@ export default function DocsPage() {
           const parts = line.split('`')
           return (
             <p key={i} className="mb-4">
-              {parts.map((part, j) => 
+              {parts.map((part, j) =>
                 j % 2 === 0 ? part : <code key={j} className="px-2 py-1 bg-white/10 rounded font-mono text-sm">{part}</code>
               )}
             </p>
@@ -1247,7 +1247,7 @@ export default function DocsPage() {
                       <div className="flex items-center justify-between mb-2">
                         <h4 className="font-medium capitalize">{module}</h4>
                         <div className={`w-3 h-3 rounded-full ${
-                          data.health > 0.9 ? 'bg-green-400' : 
+                          data.health > 0.9 ? 'bg-green-400' :
                           data.health > 0.8 ? 'bg-yellow-400' : 'bg-red-400'
                         }`} />
                       </div>

@@ -1,5 +1,10 @@
 from __future__ import annotations
-import argparse, json, os, subprocess, sys, shutil
+
+import argparse
+import json
+import os
+import subprocess
+import sys
 
 HERE = os.path.dirname(__file__)
 POLICY_ROOT = os.path.join(HERE, "policy_packs")

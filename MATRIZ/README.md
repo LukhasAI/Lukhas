@@ -103,7 +103,7 @@ python testing/validate_nodes.py
 - [x] Core orchestrator
 - [ ] Base node interface
 - [ ] Math node
-- [ ] Fact node  
+- [ ] Fact node
 - [ ] Validator node
 - [ ] Memory system
 - [ ] Visualization

@@ -75,7 +75,7 @@ class StreamlineImplementation:
 
         # Create standard utilities
         utils_content = '''"""
-Common utilities for LUKHAS 
+Common utilities for LUKHAS
 ===============================
 Centralized utility functions to reduce code duplication.
 """
@@ -192,7 +192,7 @@ def merge_dicts(dict1: Dict[str, Any], dict2: Dict[str, Any]) -> Dict[str, Any]:
 
         # Create __init__.py
         init_path = common_utils_path.parent / "__init__.py"
-        init_content = '''"""Common utilities for LUKHAS 
+        init_content = '''"""Common utilities for LUKHAS
 
 from .utils import (
     get_logger,
@@ -269,7 +269,7 @@ __all__ = [
         interfaces_path = self.root_path / "lukhas" / "common" / "interfaces.py"
 
         interfaces_content = '''"""
-Common interfaces for LUKHAS 
+Common interfaces for LUKHAS
 ================================
 Consolidated interface definitions to reduce duplication.
 """

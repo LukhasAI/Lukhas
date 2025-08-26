@@ -1,7 +1,8 @@
 # path: qi/docs/jurisdiction_diff.py
 from __future__ import annotations
+
 from typing import Any, Dict
-from copy import deepcopy
+
 
 def _diff_dict(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
     """Structured diff: added/removed/changed (shallow+recursive on dicts)."""

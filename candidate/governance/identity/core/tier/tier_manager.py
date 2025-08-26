@@ -52,7 +52,7 @@ class TierCapability(Enum):
     ENTERPRISE_INTEGRATION = "enterprise_integration"
     ADVANCED_BIOMETRICS = "advanced_biometrics"
     CONSCIOUSNESS_INTEGRATION = "consciousness_integration"
-    QUANTUM_SECURITY = "quantum_security"
+    QUANTUM_SECURITY = "qi_security"
     QRG_GENERATION = "qrg_generation"
     QRG_ADVANCED = "qrg_advanced"
     CUSTOM_BRANDING = "custom_branding"
@@ -847,10 +847,10 @@ TierManager = LambdaTierManager
 
 class TierValidator:
     """Simple tier validator wrapper"""
-    
+
     def __init__(self, tier_manager=None):
         self.tier_manager = tier_manager or LambdaTierManager()
-    
+
     def validate_tier_access(self, user_id: str, required_tier: int) -> bool:
         """Validate if user has access to required tier"""
         user_tier = self.tier_manager.get_user_tier(user_id)

@@ -225,24 +225,24 @@ sequenceDiagram
     User->>Frontend: Initiate Authentication
     Frontend->>ConsentManager: Check Consent
     ConsentManager-->>Frontend: Consent Status
-    
+
     alt No Consent
         Frontend->>User: Request Consent
         User->>Frontend: Grant Consent
         Frontend->>ConsentManager: Record Consent
     end
-    
+
     Frontend->>ReplayProtection: Generate Nonce
     ReplayProtection-->>Frontend: Nonce + Timestamp
-    
+
     Frontend->>ConsciousnessAuth: Authenticate
     ConsciousnessAuth->>ConsciousnessAuth: Check Consciousness Level
     ConsciousnessAuth->>GestureEngine: Process Gesture
     GestureEngine-->>ConsciousnessAuth: Gesture Token
-    
+
     ConsciousnessAuth->>ReplayProtection: Verify Nonce
     ReplayProtection-->>ConsciousnessAuth: Valid
-    
+
     ConsciousnessAuth-->>Frontend: Auth Token
     Frontend->>Backend: Access Resources
 ```
@@ -257,28 +257,28 @@ class LambdaSecurityManager:
         self.psi_auth = SecurePsiAuthenticationEngine()
         self.grypto = SecureGryptoEngine()
         self.consent = GDPRConsentManager()
-        
-    async def authenticate_user(self, user_id: str, 
+
+    async def authenticate_user(self, user_id: str,
                                biometric_data: Dict,
                                gesture_data: Optional[Dict] = None):
         # Check consent
-        if not self.consent.check_consent(user_id, 
+        if not self.consent.check_consent(user_id,
                                          ConsentPurpose.AUTHENTICATION,
                                          DataCategory.BIOMETRIC):
             raise ConsentRequiredError()
-        
+
         # Replay protection
         nonce = self.replay_protection.generate_nonce(user_id)
-        
+
         # Multi-factor authentication
         consciousness_result = await self.psi_auth.authenticate_with_psi(
             biometric_data,
             nonce=nonce
         )
-        
+
         if gesture_data:
             gesture_result = await self.grypto.process_gesture(gesture_data)
-            
+
         return self._combine_auth_factors(consciousness_result, gesture_result)
 ```
 
@@ -425,7 +425,7 @@ import structlog
 logger = structlog.get_logger()
 
 # Log security events
-logger.info("authentication_attempt", 
+logger.info("authentication_attempt",
            user_id=user_id,
            method="consciousness",
            result=result,
@@ -526,7 +526,7 @@ async def batch_authenticate(users: List[str]):
 # Check consciousness level
 if consciousness_score < 0.6:
     print("Consciousness level too low, user may be tired")
-    
+
 # Verify timestamp
 if (datetime.now() - request_timestamp).seconds > 30:
     print("Request timestamp expired")
@@ -578,8 +578,8 @@ For questions or issues:
 
 *"Security is not a product, but a process."*
 
-**Version**: 1.0.0  
-**Last Updated**: 2025-01-01  
+**Version**: 1.0.0
+**Last Updated**: 2025-01-01
 **License**: LUKHAS AI Proprietary License
 
 ---

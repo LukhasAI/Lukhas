@@ -1,7 +1,7 @@
 #!/bin/bash
 # LUKHAS AI Safe Cleanup Script
 # Trinity Framework: ⚛️🧠🛡️
-# 
+#
 # This script ONLY archives files with LOW AI/AGI value
 # All high-value AI logic is preserved
 

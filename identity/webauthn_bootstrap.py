@@ -5,7 +5,7 @@ First-party authentication system using WebAuthn/Passkeys as primary auth method
 Implements requirement #2: Primary auth = Passkeys/WebAuthn
 
 Privacy-first design:
-- No raw PII stored (requirement #1) 
+- No raw PII stored (requirement #1)
 - Edge-first credential storage (requirement #5)
 - Full audit trail (requirement #6)
 - Capability tokens with least privilege (requirement #4)
@@ -74,11 +74,11 @@ class WebAuthnBootstrap:
     def generate_registration_challenge(self, canonical_lid: str, display_name: str = None) -> Dict:
         """
         Generate WebAuthn registration challenge for new passkey.
-        
+
         Args:
             canonical_lid: Canonical ΛID (namespace:username)
             display_name: Optional display name for UI
-            
+
         Returns:
             WebAuthn registration options for client
         """
@@ -158,11 +158,11 @@ class WebAuthnBootstrap:
     def verify_registration(self, canonical_lid: str, credential_response: Dict) -> Dict:
         """
         Verify WebAuthn registration response and store credential.
-        
+
         Args:
             canonical_lid: Canonical ΛID
             credential_response: Client's WebAuthn registration response
-            
+
         Returns:
             Registration result with credential ID
         """
@@ -247,10 +247,10 @@ class WebAuthnBootstrap:
     def generate_authentication_challenge(self, canonical_lid: str) -> Dict:
         """
         Generate WebAuthn authentication challenge for existing user.
-        
+
         Args:
             canonical_lid: Canonical ΛID to authenticate
-            
+
         Returns:
             WebAuthn authentication options
         """
@@ -311,11 +311,11 @@ class WebAuthnBootstrap:
     def verify_authentication(self, canonical_lid: str, auth_response: Dict) -> Dict:
         """
         Verify WebAuthn authentication response.
-        
+
         Args:
             canonical_lid: Canonical ΛID being authenticated
             auth_response: Client's WebAuthn authentication response
-            
+
         Returns:
             Authentication result with capability token
         """
@@ -412,7 +412,7 @@ class WebAuthnBootstrap:
     def _generate_capability_token(self, canonical_lid: str, scopes: List[str]) -> str:
         """
         Generate short-lived capability token (requirement #4).
-        
+
         In production: use proper JWT with RSA keys from KMS/enclave.
         """
         # Mock JWT token with caveats
@@ -461,11 +461,11 @@ async def webauthn_challenge(
 ):
     """
     Generate WebAuthn challenge for authentication or registration.
-    
+
     Query parameters:
     - lid: Canonical ΛID (namespace:username)
     - mode: "auth" for login, "register" for new passkey
-    
+
     Returns WebAuthn challenge options for client.
     """
     try:
@@ -490,7 +490,7 @@ async def webauthn_register(
 ):
     """
     Verify WebAuthn registration and store new passkey.
-    
+
     Body should contain WebAuthn registration response from client.
     """
     result = webauthn.verify_registration(lid, credential)
@@ -505,7 +505,7 @@ async def webauthn_authenticate(
 ):
     """
     Verify WebAuthn authentication assertion.
-    
+
     Body should contain WebAuthn authentication response from client.
     Returns capability token for API access.
     """
@@ -517,7 +517,7 @@ async def webauthn_authenticate(
 async def list_credentials(lid: str):
     """
     List registered credentials for user (for management UI).
-    
+
     Returns list of credential metadata (no sensitive data).
     """
     credentials = webauthn.credentials.get(lid, [])

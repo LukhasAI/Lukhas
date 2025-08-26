@@ -9,7 +9,7 @@ from .telemedicine_interface import TelemedicineInterface, TelemedicineSecurityH
 
 __all__ = [
     "EHRInterface",
-    "ProviderNotificationInterface", 
+    "ProviderNotificationInterface",
     "TelemedicineInterface",
     "TelemedicineSecurityHandler"
 ]

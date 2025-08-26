@@ -89,7 +89,7 @@ LUKHAS_AUTH_SYSTEM/
    ```python
    from core.constitutional_gatekeeper import ConstitutionalGatekeeper
    from core.cultural_profile_manager import CulturalProfileManager
-   
+
    # Initialize core components
    gatekeeper = ConstitutionalGatekeeper()
    profile_manager = CulturalProfileManager()

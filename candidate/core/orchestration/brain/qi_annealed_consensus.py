@@ -1,7 +1,7 @@
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
-Original: quantum_annealed_consensus.py
-Advanced: quantum_annealed_consensus.py
+Original: qi_annealed_consensus.py
+Advanced: qi_annealed_consensus.py
 Integration Date: 2025-05-31T07:55:27.752287
 """
 

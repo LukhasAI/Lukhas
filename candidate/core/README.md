@@ -5,7 +5,7 @@ Central nervous system - GLYPH engine, symbolic processing
 
 ## Structure
 - `docs/` - Documentation
-- `tests/` - Test suite  
+- `tests/` - Test suite
 - `examples/` - Usage examples
 - `MODULE_MANIFEST.json` - Module configuration
 

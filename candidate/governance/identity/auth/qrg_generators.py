@@ -35,12 +35,12 @@ from PIL import Image, ImageDraw
 
 # Import LUKHAS components
 try:
+    from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
     from utils.cultural_safety_checker import CulturalSafetyChecker
 
     from candidate.core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
-    from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
 except ImportError:
     print("Warning: LUKHAS core components not found. Running in standalone mode.")
 
@@ -51,7 +51,7 @@ class QRGType(Enum):
     CONSCIOUSNESS_ADAPTIVE = "consciousness_adaptive"
     CULTURAL_SYMBOLIC = "cultural_symbolic"
     STEGANOGRAPHIC = "steganographic"
-    QUANTUM_ENCRYPTED = "quantum_encrypted"
+    QUANTUM_ENCRYPTED = "qi_encrypted"
     CONSTITUTIONAL_VALIDATED = "constitutional_validated"
     MULTI_DIMENSIONAL = "multi_dimensional"
     EMERGENCY_OVERRIDE = "emergency_override"
@@ -587,69 +587,69 @@ class QIQRGenerator:
             self.constitutional_gatekeeper = None
 
     def generate_quantum_qr(
-        self, data: str, quantum_security_level: str = "standard"
+        self, data: str, qi_security_level: str = "standard"
     ) -> dict[str, Any]:
         """
         Generate QR code with quantum-enhanced security.
 
         Args:
             data: Data to encode
-            quantum_security_level: 'standard', 'high', 'maximum', 'transcendent'
+            qi_security_level: 'standard', 'high', 'maximum', 'transcendent'
 
         Returns:
             Dictionary containing quantum-secured QR code
         """
         # Generate quantum entropy for security
         if self.entropy_sync:
-            quantum_entropy = self.entropy_sync.generate_quantum_entropy(256)
+            qi_entropy = self.entropy_sync.generate_quantum_entropy(256)
         else:
-            quantum_entropy = secrets.token_bytes(256)
+            qi_entropy = secrets.token_bytes(256)
 
         # Create quantum signature
-        quantum_signature = self._generate_quantum_signature(data, quantum_entropy)
+        qi_signature = self._generate_quantum_signature(data, qi_entropy)
 
         # Prepare quantum-secured data package
-        quantum_package = {
+        qi_package = {
             "original_data": data,
-            "quantum_signature": quantum_signature,
-            "entropy_hash": hashlib.sha256(quantum_entropy).hexdigest(),
-            "security_level": quantum_security_level,
+            "qi_signature": qi_signature,
+            "entropy_hash": hashlib.sha256(qi_entropy).hexdigest(),
+            "security_level": qi_security_level,
             "timestamp": time.time(),
             "post_quantum_protected": True,
         }
 
         # Constitutional validation if available
         if self.constitutional_gatekeeper:
-            constitutional_check = self._constitutional_validation(quantum_package)
-            quantum_package["constitutional_approved"] = constitutional_check
+            constitutional_check = self._constitutional_validation(qi_package)
+            qi_package["constitutional_approved"] = constitutional_check
 
         # Create QR code with quantum package
         qr = qrcode.QRCode(
-            version=self._get_quantum_version(quantum_security_level),
+            version=self._get_quantum_version(qi_security_level),
             error_correction=qrcode.constants.ERROR_CORRECT_H,
             box_size=5,
             border=3,
         )
 
-        encoded_package = json.dumps(quantum_package, separators=(",", ":"))
+        encoded_package = json.dumps(qi_package, separators=(",", ":"))
         qr.add_data(encoded_package)
         qr.make(fit=True)
 
         # Create quantum-styled image
-        qr_image = self._apply_quantum_styling(qr, quantum_security_level)
+        qr_image = self._apply_quantum_styling(qr, qi_security_level)
 
         return {
             "qr_image": qr_image,
-            "quantum_signature": quantum_signature,
-            "security_level": quantum_security_level,
-            "entropy_strength": len(quantum_entropy),
-            "quantum_metadata": {
+            "qi_signature": qi_signature,
+            "security_level": qi_security_level,
+            "entropy_strength": len(qi_entropy),
+            "qi_metadata": {
                 "post_quantum_resistant": True,
-                "constitutional_approved": quantum_package.get(
+                "constitutional_approved": qi_package.get(
                     "constitutional_approved", False
                 ),
                 "generation_timestamp": time.time(),
-                "quantum_coherence": self._measure_quantum_coherence(quantum_entropy),
+                "qi_coherence": self._measure_quantum_coherence(qi_entropy),
             },
         }
 
@@ -766,7 +766,7 @@ class LUKHASQRGManager:
         self.consciousness_qrg = ConsciousnessQRGenerator()
         self.cultural_qrg = CulturalQRGenerator()
         self.steganographic_qrg = SteganographicQRGenerator()
-        self.quantum_qrg = QuantumQRGenerator()
+        self.qi_qrg = QIQRGenerator()
 
         self.generation_history = []
 
@@ -810,8 +810,8 @@ class LUKHASQRGManager:
                 )
 
             elif qr_type == QRGType.QUANTUM_ENCRYPTED:
-                security_level = user_profile.get("quantum_security_level", "standard")
-                result = self.quantum_qrg.generate_quantum_qr(data, security_level)
+                security_level = user_profile.get("qi_security_level", "standard")
+                result = self.qi_qrg.generate_quantum_qr(data, security_level)
 
             else:
                 # Default to consciousness adaptive
@@ -953,23 +953,23 @@ if __name__ == "__main__":
 
     # Test quantum QR
     print("\n⚛️ Testing Quantum QR...")
-    quantum_profile = {
+    qi_profile = {
         "user_id": "test_quantum_001",
-        "quantum_security_level": "maximum",
+        "qi_security_level": "maximum",
     }
 
-    quantum_qr = qrg_manager.generate_adaptive_qr(
-        "QUANTUM_SECURE_TOKEN_ABCDEF", quantum_profile, QRGType.QUANTUM_ENCRYPTED
+    qi_qr = qrg_manager.generate_adaptive_qr(
+        "QUANTUM_SECURE_TOKEN_ABCDEF", qi_profile, QRGType.QUANTUM_ENCRYPTED
     )
 
-    if "error" not in quantum_qr:
+    if "error" not in qi_qr:
         print("✅ Quantum QR generated successfully")
-        print(f"   ⚛️ Security level: {quantum_qr.get('security_level', 'N/A')}")
+        print(f"   ⚛️ Security level: {qi_qr.get('security_level', 'N/A')}")
         print(
-            f"   🔐 Entropy strength: {quantum_qr.get('entropy_strength', 'N/A')} bytes"
+            f"   🔐 Entropy strength: {qi_qr.get('entropy_strength', 'N/A')} bytes"
         )
     else:
-        print(f"❌ Quantum QR failed: {quantum_qr['error']}")
+        print(f"❌ Quantum QR failed: {qi_qr['error']}")
 
     # Test steganographic QR
     print("\n🎭 Testing Steganographic QR...")

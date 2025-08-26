@@ -11,7 +11,7 @@ const config: Config = {
   safelist: [
     // Include dynamic color classes used in components
     'text-trinity-identity',
-    'text-trinity-consciousness', 
+    'text-trinity-consciousness',
     'text-trinity-guardian',
     'text-accent-gold',
     'bg-trinity-identity',

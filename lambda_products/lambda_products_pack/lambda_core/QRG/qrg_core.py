@@ -31,7 +31,7 @@ class QIGlyphConfig:
 
     # Security parameters
     entropy_bits: int = 768
-    quantum_resistance_level: int = 5
+    qi_resistance_level: int = 5
     temporal_window_seconds: int = 30
 
     # Consciousness parameters
@@ -64,7 +64,7 @@ class QIGlyph:
     glyph_id: str
     visual_matrix: np.ndarray
     animation_frames: list[np.ndarray]
-    quantum_signature: str
+    qi_signature: str
     consciousness_fingerprint: str
     temporal_validity: datetime
     hidden_payload: Optional[dict[str, Any]] = None
@@ -73,7 +73,7 @@ class QIGlyph:
         """Convert glyph to dictionary format"""
         return {
             "glyph_id": self.glyph_id,
-            "quantum_signature": self.quantum_signature,
+            "qi_signature": self.qi_signature,
             "consciousness_fingerprint": self.consciousness_fingerprint,
             "temporal_validity": self.temporal_validity.isoformat(),
             "hidden_payload": self.hidden_payload,
@@ -88,14 +88,14 @@ class QIResonanceGlyph:
     to user emotional states and provide post-quantum cryptographic security.
     """
 
-    def __init__(self, config: Optional[QuantumGlyphConfig] = None):
+    def __init__(self, config: Optional[QIGlyphConfig] = None):
         """
         Initialize the QRG system
 
         Args:
             config: Optional configuration object
         """
-        self.config = config or QuantumGlyphConfig()
+        self.config = config or QIGlyphConfig()
         self._initialize_quantum_system()
         self._initialize_consciousness_engine()
 
@@ -105,7 +105,7 @@ class QIResonanceGlyph:
         """Initialize quantum entropy and cryptographic systems"""
         # Simulated quantum entropy (in production, would use true quantum sources)
         np.random.seed(int(time.time() * 1000000) % 2**32)
-        self.quantum_entropy_pool = np.random.bytes(1024)
+        self.qi_entropy_pool = np.random.bytes(1024)
 
         logger.info("⚛️ Quantum entropy system initialized")
 
@@ -139,7 +139,7 @@ class QIResonanceGlyph:
         consciousness_context: Optional[ConsciousnessContext] = None,
         security_tier: int = 3,
         animation_type: str = "gentle_pulse",
-    ) -> QuantumGlyph:
+    ) -> QIGlyph:
         """
         Generate a consciousness-aware authentication glyph
 
@@ -150,14 +150,14 @@ class QIResonanceGlyph:
             animation_type: Type of animation to apply
 
         Returns:
-            QuantumGlyph: Generated authentication glyph
+            QIGlyph: Generated authentication glyph
         """
         logger.info(f"🔮 Generating auth glyph for identity: {user_identity[:8]}...")
 
         context = consciousness_context or ConsciousnessContext()
 
         # Step 1: Generate quantum signature
-        quantum_signature = self._generate_quantum_signature(
+        qi_signature = self._generate_quantum_signature(
             user_identity, security_tier
         )
 
@@ -166,7 +166,7 @@ class QIResonanceGlyph:
 
         # Step 3: Generate base visual matrix
         visual_matrix = self._generate_circular_qr_matrix(
-            data=user_identity + quantum_signature, consciousness_context=context
+            data=user_identity + qi_signature, consciousness_context=context
         )
 
         # Step 4: Apply consciousness-aware adaptations
@@ -178,13 +178,13 @@ class QIResonanceGlyph:
         )
 
         # Step 6: Create glyph object
-        glyph = QuantumGlyph(
+        glyph = QIGlyph(
             glyph_id=hashlib.sha256(
-                f"{user_identity}{quantum_signature}".encode()
+                f"{user_identity}{qi_signature}".encode()
             ).hexdigest()[:16],
             visual_matrix=adapted_matrix,
             animation_frames=animation_frames,
-            quantum_signature=quantum_signature,
+            qi_signature=qi_signature,
             consciousness_fingerprint=consciousness_fingerprint,
             temporal_validity=datetime.now()
             + timedelta(seconds=self.config.temporal_window_seconds),
@@ -197,10 +197,10 @@ class QIResonanceGlyph:
         """Generate quantum-resistant cryptographic signature"""
         # Combine identity with quantum entropy
         identity_bytes = identity.encode("utf-8")
-        quantum_salt = self.quantum_entropy_pool[:32]  # 256 bits
+        qi_salt = self.qi_entropy_pool[:32]  # 256 bits
 
         # Create multi-round hash with quantum resistance
-        signature_data = identity_bytes + quantum_salt
+        signature_data = identity_bytes + qi_salt
         for _ in range(security_tier * 1000):  # More rounds = higher security
             signature_data = hashlib.sha3_256(signature_data).digest()
 
@@ -379,10 +379,10 @@ class QIResonanceGlyph:
 
     def embed_hidden_data(
         self,
-        glyph: QuantumGlyph,
+        glyph: QIGlyph,
         hidden_payload: dict[str, Any],
         steganographic_key: Optional[str] = None,
-    ) -> QuantumGlyph:
+    ) -> QIGlyph:
         """
         Embed hidden data using steganographic techniques
 
@@ -392,18 +392,18 @@ class QIResonanceGlyph:
             steganographic_key: Optional key for encryption
 
         Returns:
-            QuantumGlyph: Glyph with embedded data
+            QIGlyph: Glyph with embedded data
         """
         logger.info("🔍 Embedding hidden data using steganography")
 
         # Create new glyph with embedded data
-        embedded_glyph = QuantumGlyph(
+        embedded_glyph = QIGlyph(
             glyph_id=glyph.glyph_id + "_embedded",
             visual_matrix=self._embed_data_in_matrix(
                 glyph.visual_matrix, hidden_payload
             ),
             animation_frames=glyph.animation_frames,
-            quantum_signature=glyph.quantum_signature,
+            qi_signature=glyph.qi_signature,
             consciousness_fingerprint=glyph.consciousness_fingerprint,
             temporal_validity=glyph.temporal_validity,
             hidden_payload=hidden_payload,
@@ -440,7 +440,7 @@ class QIResonanceGlyph:
         return embedded_matrix
 
     def verify_glyph_authenticity(
-        self, glyph: QuantumGlyph, user_identity: str
+        self, glyph: QIGlyph, user_identity: str
     ) -> dict[str, Any]:
         """
         Verify glyph authenticity and extract information
@@ -457,7 +457,7 @@ class QIResonanceGlyph:
         verification_result = {
             "authentic": False,
             "temporal_valid": False,
-            "quantum_verified": False,
+            "qi_verified": False,
             "consciousness_matched": False,
             "confidence_score": 0.0,
         }
@@ -468,14 +468,14 @@ class QIResonanceGlyph:
 
         # Verify quantum signature (simplified)
         expected_signature = self._generate_quantum_signature(user_identity, 3)
-        verification_result["quantum_verified"] = (
-            glyph.quantum_signature == expected_signature
+        verification_result["qi_verified"] = (
+            glyph.qi_signature == expected_signature
         )
 
         # Calculate overall confidence
         confidence_factors = [
             verification_result["temporal_valid"],
-            verification_result["quantum_verified"],
+            verification_result["qi_verified"],
         ]
         verification_result["confidence_score"] = sum(confidence_factors) / len(
             confidence_factors
@@ -492,7 +492,7 @@ class QIResonanceGlyph:
         identity: str,
         spatial_dimensions: int = 3,
         consciousness_layer: str = "user_friendly",
-        quantum_entanglement: bool = True,
+        qi_entanglement: bool = True,
     ) -> dict[str, Any]:
         """
         Create holographic QRG for WebXR/AR applications
@@ -501,7 +501,7 @@ class QIResonanceGlyph:
             identity: User identity
             spatial_dimensions: Number of spatial dimensions
             consciousness_layer: Communication layer preference
-            quantum_entanglement: Enable quantum entanglement features
+            qi_entanglement: Enable quantum entanglement features
 
         Returns:
             Dict: Holographic glyph data
@@ -519,13 +519,13 @@ class QIResonanceGlyph:
             "projection_matrices": self._generate_3d_projection_data(base_glyph),
             "interaction_zones": self._define_interaction_zones(),
             "consciousness_layer": consciousness_layer,
-            "quantum_entangled": quantum_entanglement,
+            "qi_entangled": qi_entanglement,
         }
 
         logger.info("🌌 Holographic QRG created for immersive authentication")
         return holographic_data
 
-    def _generate_3d_projection_data(self, glyph: QuantumGlyph) -> list[dict[str, Any]]:
+    def _generate_3d_projection_data(self, glyph: QIGlyph) -> list[dict[str, Any]]:
         """Generate 3D projection matrices for holographic display"""
         # Placeholder for 3D projection calculations
         return [

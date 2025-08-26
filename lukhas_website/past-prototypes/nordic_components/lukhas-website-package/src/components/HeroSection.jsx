@@ -47,7 +47,7 @@ const HeroSection = () => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const parallaxSpeed = 0.5;
-      
+
       gsap.set(hero, {
         y: scrollY * parallaxSpeed,
       });
@@ -96,4 +96,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-

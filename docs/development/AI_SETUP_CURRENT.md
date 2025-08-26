@@ -61,7 +61,7 @@ Since you have Ollama.app installed, let's add some essential lightweight models
 # Fast completion model (1.7GB)
 ollama pull starcoder2:3b
 
-# Lightweight chat model (4.1GB)  
+# Lightweight chat model (4.1GB)
 ollama pull llama3.2:3b
 
 # Code-focused model (7GB)
@@ -127,7 +127,7 @@ Once models are installed, use for privacy-sensitive LUKHAS development tasks.
 ## ✅ **Quick Setup Checklist:**
 
 - [ ] Configure Claude Desktop custom instructions
-- [ ] Set up ChatGPT.app system prompt  
+- [ ] Set up ChatGPT.app system prompt
 - [ ] Update VS Code Claude extension settings
 - [ ] Test Trinity documentation generation
 - [ ] Install lightweight Ollama models (optional)

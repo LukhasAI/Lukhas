@@ -29,7 +29,7 @@ export function LoginCopyEN() {
 
       {/* Plain Layer */}
       <div data-tone="plain" className="text-sm text-white/70 leading-relaxed">
-        Sign in with a passkey (fingerprint, face, or device PIN). If unavailable, 
+        Sign in with a passkey (fingerprint, face, or device PIN). If unavailable,
         we'll email a one-time link. No passwords. Add multiple devices for backup access.
       </div>
     </div>
@@ -60,7 +60,7 @@ export function LoginCopyES() {
 
       {/* Plain Layer */}
       <div data-tone="plain" className="text-sm text-white/70 leading-relaxed">
-        Entra con un passkey (huella, cara o PIN del dispositivo). Si no está disponible, 
+        Entra con un passkey (huella, cara o PIN del dispositivo). Si no está disponible,
         te enviamos un enlace por correo. Sin contraseñas. Añade varios dispositivos para respaldo.
       </div>
     </div>

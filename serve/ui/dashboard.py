@@ -20,7 +20,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 # Import other agents' components
 from core.identity.lambda_id_core import LukhasIdentityService
 from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
-from lukhas.orchestration.context_bus_enhanced import ContextBusOrchestrator, WorkflowPipelines
+from lukhas.orchestration.context_bus_enhanced import (
+    ContextBusOrchestrator,
+    WorkflowPipelines,
+)
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -167,21 +170,21 @@ LOGIN_HTML = """
         async function registerWithPasskey() {
             const email = document.getElementById('email').value;
             const displayName = document.getElementById('displayName').value || email;
-            
+
             // Register user
             const response = await fetch('/api/register', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({email, display_name: displayName})
             });
-            
+
             const data = await response.json();
-            
+
             if (data.lid && data.passkey_options) {
                 // Create passkey
                 try {
                     const credential = await navigator.credentials.create(data.passkey_options);
-                    
+
                     // Complete registration
                     const authResponse = await fetch('/api/authenticate', {
                         method: 'POST',
@@ -197,7 +200,7 @@ LOGIN_HTML = """
                             }
                         })
                     });
-                    
+
                     const authData = await authResponse.json();
                     if (authData.success) {
                         localStorage.setItem('lid', data.lid);
@@ -208,14 +211,14 @@ LOGIN_HTML = """
                     alert('Passkey creation failed: ' + e.message);
                 }
             }
-            
+
             // Show performance
             if (data.performance) {
-                document.getElementById('performance').innerHTML = 
+                document.getElementById('performance').innerHTML =
                     `⚡ Auth latency: ${data.performance.latency_ms.toFixed(2)}ms`;
             }
         }
-        
+
         function arrayBufferToBase64(buffer) {
             return btoa(String.fromCharCode(...new Uint8Array(buffer)));
         }
@@ -225,14 +228,14 @@ LOGIN_HTML = """
     <div class="login-container">
         <h1>🎭 LUKHAS AI</h1>
         <div class="subtitle">Secure AI with Transparency</div>
-        
+
         <input type="email" id="email" placeholder="Email" required>
         <input type="text" id="displayName" placeholder="Display Name (optional)">
-        
+
         <button class="passkey-btn" onclick="registerWithPasskey()">
             🔐 Login with Passkey
         </button>
-        
+
         <div class="trinity">⚛️ 🧠 🛡️</div>
         <div class="performance" id="performance"></div>
     </div>
@@ -353,24 +356,24 @@ DASHBOARD_HTML = """
     <script>
         let ws = null;
         let currentWorkflowId = null;
-        
+
         async function connectWebSocket() {
             const lid = localStorage.getItem('lid');
             ws = new WebSocket(`ws://localhost:8000/ws/${lid}`);
-            
+
             ws.onmessage = function(event) {
                 const data = JSON.parse(event.data);
                 updateNarrative(data.message);
             };
         }
-        
+
         async function runWorkflow() {
             const request = document.getElementById('workflowRequest').value;
             const lid = localStorage.getItem('lid');
-            
+
             // Request consent first
             await requestConsent();
-            
+
             // Run workflow
             const response = await fetch('/api/workflow/execute', {
                 method: 'POST',
@@ -381,26 +384,26 @@ DASHBOARD_HTML = """
                     context: {request: request}
                 })
             });
-            
+
             const data = await response.json();
             currentWorkflowId = data.workflow_id;
-            
+
             // Display results
             if (data.narrative) {
                 const narrativeDiv = document.getElementById('narrative');
                 narrativeDiv.innerHTML = data.narrative.join('<br>');
             }
-            
+
             // Show feedback section
             document.getElementById('feedbackSection').style.display = 'block';
         }
-        
+
         async function requestConsent() {
             const lid = localStorage.getItem('lid');
-            
+
             // Show consent prompt
             document.getElementById('consentPrompt').style.display = 'block';
-            
+
             // Grant consent for demo
             const services = ['gmail', 'drive', 'dropbox'];
             for (const service of services) {
@@ -415,18 +418,18 @@ DASHBOARD_HTML = """
                     })
                 });
             }
-            
+
             setTimeout(() => {
                 document.getElementById('consentPrompt').style.display = 'none';
             }, 2000);
         }
-        
+
         function updateNarrative(message) {
             const narrativeDiv = document.getElementById('narrative');
             narrativeDiv.innerHTML += message + '<br>';
             narrativeDiv.scrollTop = narrativeDiv.scrollHeight;
         }
-        
+
         function setRating(rating) {
             const stars = document.querySelectorAll('.star');
             stars.forEach((star, index) => {
@@ -438,12 +441,12 @@ DASHBOARD_HTML = """
             });
             document.getElementById('ratingValue').value = rating;
         }
-        
+
         async function submitFeedback() {
             const lid = localStorage.getItem('lid');
             const rating = document.getElementById('ratingValue').value;
             const comment = document.getElementById('feedbackComment').value;
-            
+
             await fetch('/api/feedback/submit', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -454,21 +457,21 @@ DASHBOARD_HTML = """
                     comment: comment
                 })
             });
-            
+
             alert('Thank you for your feedback!');
             document.getElementById('feedbackSection').style.display = 'none';
         }
-        
+
         async function loadMetrics() {
             const response = await fetch('/api/metrics');
             const metrics = await response.json();
-            
+
             document.getElementById('authLatency').innerHTML = metrics.auth_latency_ms.toFixed(2) + 'ms';
             document.getElementById('handoffLatency').innerHTML = metrics.handoff_latency_ms.toFixed(2) + 'ms';
             document.getElementById('consentActive').innerHTML = metrics.active_consents;
             document.getElementById('workflowsRun').innerHTML = metrics.workflows_completed;
         }
-        
+
         window.onload = function() {
             connectWebSocket();
             loadMetrics();
@@ -484,7 +487,7 @@ DASHBOARD_HTML = """
             <button class="btn" onclick="location.href='/logout'">Logout</button>
         </div>
     </div>
-    
+
     <div class="container">
         <!-- Consent Prompt -->
         <div id="consentPrompt" class="consent-prompt" style="display:none;">
@@ -492,7 +495,7 @@ DASHBOARD_HTML = """
             LUKHAS needs permission to access your Gmail, Drive, and Dropbox for travel document analysis.
             <button class="btn" style="margin-top:10px;">Grant Access</button>
         </div>
-        
+
         <!-- Workflow Input -->
         <div class="card">
             <h2>🔄 Run Workflow</h2>
@@ -501,7 +504,7 @@ DASHBOARD_HTML = """
                 <button class="btn" onclick="runWorkflow()">Execute</button>
             </div>
         </div>
-        
+
         <!-- Workflow Narrative -->
         <div class="card">
             <h2>📖 Workflow Progress</h2>
@@ -509,7 +512,7 @@ DASHBOARD_HTML = """
                 Ready to execute workflows...
             </div>
         </div>
-        
+
         <!-- Feedback Section -->
         <div id="feedbackSection" class="card" style="display:none;">
             <h2>💭 Provide Feedback</h2>
@@ -523,12 +526,12 @@ DASHBOARD_HTML = """
                     <span class="star" onclick="setRating(5)">⭐</span>
                 </div>
                 <input type="hidden" id="ratingValue" value="0">
-                <textarea id="feedbackComment" placeholder="Additional comments (optional)" 
+                <textarea id="feedbackComment" placeholder="Additional comments (optional)"
                           style="width:100%; padding:10px; margin:10px 0; border:1px solid #ddd; border-radius:6px;"></textarea>
                 <button class="btn" onclick="submitFeedback()">Submit Feedback</button>
             </div>
         </div>
-        
+
         <!-- Performance Metrics -->
         <div class="card">
             <h2>⚡ Performance Metrics</h2>
@@ -755,14 +758,14 @@ async def privacy_dashboard():
                     <button class="btn btn-danger">Revoke</button>
                 </div>
             </div>
-            
+
             <div class="card">
                 <h2>Data Access Log</h2>
                 <p>All your data access is logged with Λ-trace audit records.</p>
                 <button class="btn">Export Audit Log</button>
                 <button class="btn btn-danger">Delete All Data</button>
             </div>
-            
+
             <div class="card">
                 <h2>GDPR/CCPA Rights</h2>
                 <ul>

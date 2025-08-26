@@ -29,7 +29,7 @@
     },
     "audit_requirements": [
       "quantum_signatures",
-      "event_logging", 
+      "event_logging",
       "decision_trails",
       "compliance_verification"
     ]
@@ -52,7 +52,7 @@
     },
     "compliance_bindings": {
       "eu_ai_act_article_13": "automated_decision_transparency",
-      "eu_ai_act_article_14": "human_oversight_requirements", 
+      "eu_ai_act_article_14": "human_oversight_requirements",
       "eu_ai_act_article_15": "accuracy_robustness_requirements",
       "ieee_2857_2021": "privacy_engineering_requirements"
     }
@@ -67,7 +67,7 @@
       ]
     },
     "dream_replay_link": {
-      "status": "COMPLETED", 
+      "status": "COMPLETED",
       "integration_points": [
         "replay_dream_by_id",
         "replay_recent_dreams",
@@ -132,7 +132,7 @@
     "symbolic_language": {
       "vocabulary_depth": "moderate",
       "mood_representations": [
-        "harmonious", "contemplative", "concerned", 
+        "harmonious", "contemplative", "concerned",
         "dissonant", "regretful", "hopeful", "transcendent"
       ],
       "reflection_types": [

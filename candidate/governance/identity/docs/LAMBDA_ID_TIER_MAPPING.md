@@ -197,19 +197,19 @@ from lukhas.core.identity_integration import IdentityContext
 
 def adaptive_function(user_id: str, data: dict):
     result = {}
-    
+
     # Basic features for all authenticated users
     with IdentityContext(user_id, "LAMBDA_TIER_1") as ctx:
         if ctx.has_access:
             result["basic"] = process_basic(data)
-    
+
     # Advanced features for elevated users
     with IdentityContext(user_id, "LAMBDA_TIER_3") as ctx:
         if ctx.has_access:
             result["advanced"] = process_advanced(data)
         else:
             result["upgrade_prompt"] = "Upgrade to Tier 3 for advanced features"
-    
+
     return result
 ```
 

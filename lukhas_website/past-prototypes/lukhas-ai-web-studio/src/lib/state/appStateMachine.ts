@@ -5,26 +5,26 @@ import { setup } from 'xstate';
 const guards = {
   isEURegion: () => {
     if (typeof window === 'undefined') return false;
-    
+
     // Try to detect EU region from language, timezone, or other indicators
     const language = navigator.language;
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    
+
     const euLanguages = ['de', 'fr', 'it', 'es', 'nl', 'pl', 'pt', 'sv', 'da', 'fi', 'hu', 'cs', 'sk', 'sl', 'hr', 'bg', 'ro', 'et', 'lv', 'lt', 'mt', 'el'];
     const euTimezones = ['Europe/', 'Atlantic/Canary', 'Atlantic/Madeira'];
-    
+
     const isEULanguage = euLanguages.some(lang => language.toLowerCase().startsWith(lang));
     const isEUTimezone = euTimezones.some(tz => timezone.startsWith(tz));
-    
+
     return isEULanguage || isEUTimezone;
   },
-  
+
   isAuthenticated: () => {
     if (typeof window === 'undefined') return false;
     // Check for auth token or session
     return localStorage.getItem('lukhas_auth_token') !== null;
   },
-  
+
   reducedMotion: () => {
     if (typeof window === 'undefined') return true;
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -46,7 +46,7 @@ export const appStateMachine = setup({
         console.log('🚀 LUKHΛS booting...');
       }
     },
-    
+
     QUOTE_IN: {
       on: {
         CONSENT_NEEDED: {
@@ -59,7 +59,7 @@ export const appStateMachine = setup({
         console.log('💭 Quote animation starting...');
       }
     },
-    
+
     CONSENT_PENDING: {
       on: {
         CONSENT_ACCEPTED: 'MARKETING_MODE',
@@ -70,7 +70,7 @@ export const appStateMachine = setup({
         console.log('🍪 Consent required - showing cookie preferences');
       }
     },
-    
+
     MARKETING_MODE: {
       on: {
         CLICK_LOGIN: 'LOGIN_FLOW',
@@ -83,7 +83,7 @@ export const appStateMachine = setup({
         console.log('🎯 Marketing mode - ready for user interaction');
       }
     },
-    
+
     LOGIN_FLOW: {
       on: {
         TOS_ACCEPTED: 'ROUTE_DECISION',
@@ -93,7 +93,7 @@ export const appStateMachine = setup({
         console.log('🔐 Login flow initiated');
       }
     },
-    
+
     ROUTE_DECISION: {
       on: {
         FIRST_TIME: 'STUDIO_DEFAULT_PRESET',
@@ -103,13 +103,13 @@ export const appStateMachine = setup({
         console.log('🧭 Determining user route...');
       }
     },
-    
+
     STUDIO_DEFAULT_PRESET: {
       entry: () => {
         console.log('🎨 Loading default studio preset');
       }
     },
-    
+
     STUDIO_USER_PRESET: {
       entry: () => {
         console.log('👤 Loading user studio preset');
@@ -119,7 +119,7 @@ export const appStateMachine = setup({
 });
 
 export type AppState = typeof appStateMachine.states;
-export type AppEvent = 
+export type AppEvent =
   | { type: 'BG_READY' }
   | { type: 'CONSENT_NEEDED' }
   | { type: 'SKIP_CONSENT' }

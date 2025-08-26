@@ -31,8 +31,8 @@ except ImportError:
 
 # Import bridges
 try:
-    from .bridges.memory import MemoryConsciousnessBridge
     from .bridges.core import CoreConsciousnessBridge
+    from .bridges.memory import MemoryConsciousnessBridge
     from .bridges.quantum import QIConsciousnessBridge
 except ImportError:
     pass
@@ -46,7 +46,9 @@ except ImportError:
 # Import LUKHAS AI branding system for consciousness outputs
 try:
     from lukhas.branding_bridge import (
-        get_brand_voice, get_trinity_context, BrandContext
+        BrandContext,
+        get_brand_voice,
+        get_trinity_context,
     )
     CONSCIOUSNESS_BRANDING_AVAILABLE = True
 except ImportError:

@@ -11,9 +11,9 @@
 ╠═══════════════════════════════════════════════════════════════════════════════
 ║ PHILOSOPHICAL FOUNDATION
 ╠═══════════════════════════════════════════════════════════════════════════════
-║ "In the quantum dance of distributed intelligence, observation changes the 
+║ "In the quantum dance of distributed intelligence, observation changes the
 ║ observed. Our tools must not merely watch but participate—becoming instruments
-║ of understanding that can gently guide the swarm toward coherence without 
+║ of understanding that can gently guide the swarm toward coherence without
 ║ destroying the emergent magic of collective cognition."
 ╚═══════════════════════════════════════════════════════════════════════════════
 
@@ -41,25 +41,25 @@ class TemporalObservatory:
         self.timeline = EventTimeline()
         self.causal_graph = CausalityTracker()
         self.state_snapshots = QuantumLikeStateCapture()
-        
+
     def time_travel(self, timestamp):
         """
         Reconstruct complete swarm state at any moment
         """
         return self.timeline.reconstruct_at(timestamp)
-        
+
     def trace_causality(self, event):
         """
         Follow the ripples of cause and effect
         """
         return self.causal_graph.trace_lineage(event)
-        
+
     def predict_futures(self, current_state, intervention=None):
         """
         Model possible futures with/without intervention
         """
         return self.quantum_predictor.simulate_branches(
-            current_state, 
+            current_state,
             intervention
         )
 ```
@@ -78,7 +78,7 @@ class InterventionEngine:
         self.impact_analyzer = ImpactPredictor()
         self.intervention_log = AuditTrail()
         self.rollback_manager = StateRollback()
-        
+
     def pause_swarm(self, scope="global"):
         """
         Freeze time for observation or intervention
@@ -86,27 +86,27 @@ class InterventionEngine:
         """
         with self.temporal_lock(scope) as frozen_swarm:
             yield frozen_swarm
-            
+
     def inject_message(self, message, target, validation_mode="strict"):
         """
         Introduce new information into the swarm
         """
         # Predict ripple effects
         impact = self.impact_analyzer.predict(message, target)
-        
+
         if impact.risk_level > self.safety_threshold:
             return self.request_confirmation(impact)
-            
+
         # Execute with full audit trail
         return self.execute_intervention(message, target)
-        
+
     def modify_agent_state(self, agent_id, state_delta):
         """
         Direct manipulation of agent internal state
         """
         # Create restoration point
         self.rollback_manager.checkpoint(agent_id)
-        
+
         # Apply changes with validation
         return self.apply_state_modification(agent_id, state_delta)
 ```
@@ -129,7 +129,7 @@ class VisualizationNexus:
             "emergent_patterns": PatternDetectionRenderer(),
             "health_metrics": HealthDashboardRenderer()
         }
-        
+
     def render_swarm_consciousness(self, timeframe):
         """
         Holographic representation of collective intelligence
@@ -154,13 +154,13 @@ observability_foundation:
     - Lossless compression for infinite retention
     - Nanosecond timestamp precision
     - Causal relationship tracking
-    
+
   state_management:
     - Distributed snapshot coordination
     - Merkle tree state verification
     - Differential state storage
     - Quantum superposition modeling
-    
+
   communication_intercept:
     - Zero-overhead message tapping
     - Protocol-agnostic capture
@@ -180,7 +180,7 @@ class DebuggerInterface:
         self.command_palette = CommandPalette()
         self.visual_cortex = VisualCortex()
         self.intervention_sandbox = SafetyNet()
-        
+
     def handle_user_intent(self, intent):
         """
         Natural language to precise action
@@ -190,10 +190,10 @@ class DebuggerInterface:
         # "Inject a priority override to colony-7"
         # "Replay the last cascade failure"
         # "Predict what happens if I pause agent-99"
-        
+
         action = self.intent_parser.parse(intent)
         validation = self.safety_checker.validate(action)
-        
+
         if validation.safe:
             return self.execute_action(action)
         else:
@@ -212,14 +212,14 @@ class SwarmIntelligence:
         self.pattern_library = PatternLibrary()
         self.anomaly_detector = AnomalyDetector()
         self.intervention_advisor = InterventionAdvisor()
-        
+
     def suggest_interventions(self, current_issue):
         """
         AI-powered debugging assistance
         """
         similar_patterns = self.pattern_library.find_similar(current_issue)
         successful_interventions = self.analyze_past_successes(similar_patterns)
-        
+
         return InterventionSuggestions(
             immediate_actions=self.rank_interventions(successful_interventions),
             risk_assessment=self.calculate_intervention_risks(),
@@ -248,7 +248,7 @@ when swarm.drift_score > 0.7:
     pause(scope="high_drift_agents")
     inject(message="recalibrate", target="all_paused")
     resume(gradual=True, monitor=True)
-    
+
 on cascade_detection:
     snapshot(label="pre_cascade")
     isolate(affected_agents)

@@ -38,6 +38,7 @@ class MemoryServiceAdapter(IMemoryService):
             try:
                 # Import existing memory components
                 from memory import AGIMemory, MemoryFoldManager
+
                 from lukhas.memory.fold_system.memory_fold import (
                     HybridMemoryFold as MemoryFoldSystem,
                 )
@@ -353,9 +354,9 @@ class QIServiceAdapter(IQuantumService):
         """Lazy load quantum components"""
         if not self._initialized:
             try:
-                from qi.systems.quantum_engine import QuantumOscillator
+                from qi.systems.qi_engine import QIOscillator
 
-                self._oscillator = QuantumOscillator()
+                self._oscillator = QIOscillator()
                 self._initialized = True
                 logger.info("Quantum service adapter initialized")
             except ImportError:
@@ -370,7 +371,7 @@ class QIServiceAdapter(IQuantumService):
         return {
             "status": "healthy" if self._initialized else "initializing",
             "initialized": self._initialized,
-            "quantum_oscillator": hasattr(self, "_oscillator")
+            "qi_oscillator": hasattr(self, "_oscillator")
             and self._oscillator is not None,
         }
 
@@ -526,7 +527,9 @@ class GovernanceServiceAdapter(IGovernanceService):
         if not self._initialized:
             try:
                 from lukhas.governance.guardian.guardian_system import GuardianSystem
-                from lukhas.governance.reflector.guardian_reflector import GuardianReflector
+                from lukhas.governance.reflector.guardian_reflector import (
+                    GuardianReflector,
+                )
 
                 self._guardian = GuardianSystem() if GuardianSystem else None
                 self._reflector = GuardianReflector() if GuardianReflector else None
@@ -695,7 +698,7 @@ def register_service_adapters():
     container.register_singleton(IMemoryService, MemoryServiceAdapter)
     container.register_singleton(IConsciousnessService, ConsciousnessServiceAdapter)
     container.register_singleton(IDreamService, DreamServiceAdapter)
-    container.register_singleton(IQuantumService, QuantumServiceAdapter)
+    container.register_singleton(IQuantumService, QIServiceAdapter)
     container.register_singleton(IEmotionService, EmotionServiceAdapter)
     container.register_singleton(IGovernanceService, GovernanceServiceAdapter)
     container.register_singleton(IBridgeService, BridgeServiceAdapter)

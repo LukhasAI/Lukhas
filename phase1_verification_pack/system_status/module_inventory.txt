@@ -5,7 +5,7 @@ Accepted Lane (lukhas/):
 ------------------------
 Total Modules: 12
 - core/           - Core wrapper with registry pattern ✅
-- consciousness/  - Consciousness wrapper with registry ✅  
+- consciousness/  - Consciousness wrapper with registry ✅
 - vivox/         - VIVOX wrapper with registry ✅
 - governance/    - Guardian interfaces and consent ledger
 - identity/      - Lambda ID and WebAuthn interfaces

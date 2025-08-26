@@ -37,40 +37,40 @@ export function validatePoeticContent(content: string, policy: PoeticPolicy = DE
   wordCount: number
 } {
   const violations: string[] = []
-  
+
   // Word count validation
   const words = content.trim().split(/\s+/).filter(word => word.length > 0)
   const wordCount = words.length
-  
+
   let clampedContent = content
-  
+
   // Clamp to max words if exceeded
   if (wordCount > policy.maxWords) {
     const clampedWords = words.slice(0, policy.maxWords)
     clampedContent = clampedWords.join(' ')
     violations.push(`Exceeded max words (${wordCount}/${policy.maxWords})`)
   }
-  
+
   // Check for claims if policy requires no claims
   if (policy.noClaims) {
     // Check for claim words
     const lowerContent = content.toLowerCase()
-    const foundClaimWords = CLAIM_WORDS.filter(word => 
+    const foundClaimWords = CLAIM_WORDS.filter(word =>
       lowerContent.includes(word.toLowerCase())
     )
     if (foundClaimWords.length > 0) {
       violations.push(`Contains claim words: ${foundClaimWords.join(', ')}`)
     }
-    
+
     // Check for metric patterns
-    const foundMetrics = METRIC_PATTERNS.filter(pattern => 
+    const foundMetrics = METRIC_PATTERNS.filter(pattern =>
       pattern.test(content)
     )
     if (foundMetrics.length > 0) {
       violations.push('Contains metrics or absolute statements')
     }
   }
-  
+
   return {
     isValid: violations.length === 0,
     clampedContent,
@@ -103,7 +103,7 @@ export function isPoeticContent(content: string): boolean {
     /[,;]\s*\w+ing\b/i, // participial phrases
     /\b\w+\s+(meets?|becomes?)\s+\w+/i // metaphorical connections
   ]
-  
+
   return poeticIndicators.some(pattern => pattern.test(content))
 }
 
@@ -112,16 +112,16 @@ export function isPoeticContent(content: string): boolean {
  */
 export function safePoeticContent(content: string, fallback: string = ''): string {
   const validation = validatePoeticContent(content)
-  
+
   if (validation.isValid) {
     return content
   }
-  
+
   // Log violations in development
   if (process.env.NODE_ENV === 'development') {
     console.warn('[PoeticGuard] Poetic content violations:', validation.violations)
   }
-  
+
   // Return clamped content or fallback
   return validation.clampedContent || fallback
 }

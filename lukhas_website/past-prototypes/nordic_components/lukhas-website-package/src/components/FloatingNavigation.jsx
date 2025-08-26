@@ -23,14 +23,14 @@ const FloatingNavigation = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
-          
+
           // Hide navigation when scrolling down, show when scrolling up
           if (currentScrollY > lastScrollY && currentScrollY > 100) {
             setIsVisible(false);
           } else if (currentScrollY < lastScrollY || currentScrollY < 100) {
             setIsVisible(true);
           }
-          
+
           lastScrollY = currentScrollY;
           ticking = false;
         });
@@ -39,7 +39,7 @@ const FloatingNavigation = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -106,4 +106,3 @@ const FloatingNavigation = () => {
 };
 
 export default FloatingNavigation;
-

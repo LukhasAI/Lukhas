@@ -6,15 +6,15 @@ Emits MATRIZ-compliant nodes for compliance and regulatory events
 import json
 import time
 import uuid
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class ComplianceMatrizAdapter:
     """Adapter to emit MATRIZ nodes for compliance events"""
-    
+
     SCHEMA_REF = "lukhas://schemas/matriz_node_v1.json"
-    
+
     @staticmethod
     def create_node(
         node_type: str,
@@ -23,7 +23,7 @@ class ComplianceMatrizAdapter:
         provenance_extra: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Create a MATRIZ-compliant node for compliance events"""
-        
+
         node = {
             "version": 1,
             "id": f"LT-COMP-{uuid.uuid4().hex[:8]}",
@@ -47,12 +47,12 @@ class ComplianceMatrizAdapter:
                 **(provenance_extra or {})
             }
         }
-        
+
         if labels:
             node["labels"] = labels
-            
+
         return node
-    
+
     @staticmethod
     def emit_compliance_check(
         regulation: str,
@@ -60,18 +60,18 @@ class ComplianceMatrizAdapter:
         violations: Optional[List[str]] = None
     ) -> Dict[str, Any]:
         """Emit a compliance validation node"""
-        
+
         is_compliant = status == "compliant"
         urgency = 0.0 if is_compliant else 0.9
-        
+
         labels = [
             f"compliance:{regulation}",
             f"status:{status}"
         ]
-        
+
         if violations:
             labels.extend([f"violation:{v}" for v in violations[:3]])
-        
+
         return ComplianceMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -84,7 +84,7 @@ class ComplianceMatrizAdapter:
             },
             labels=labels
         )
-    
+
     @staticmethod
     def emit_consent_verification(
         user_id: str,
@@ -93,7 +93,7 @@ class ComplianceMatrizAdapter:
         scope: str
     ) -> Dict[str, Any]:
         """Emit a consent verification node"""
-        
+
         return ComplianceMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -112,7 +112,7 @@ class ComplianceMatrizAdapter:
                 "user_id": user_id
             }
         )
-    
+
     @staticmethod
     def emit_audit_event(
         event_type: str,
@@ -121,14 +121,14 @@ class ComplianceMatrizAdapter:
         risk_level: str = "low"
     ) -> Dict[str, Any]:
         """Emit an audit trail node"""
-        
+
         risk_urgency = {
             "low": 0.1,
             "medium": 0.5,
             "high": 0.8,
             "critical": 1.0
         }
-        
+
         return ComplianceMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state={
@@ -144,7 +144,7 @@ class ComplianceMatrizAdapter:
                 f"risk:{risk_level}"
             ]
         )
-    
+
     @staticmethod
     def emit_gdpr_compliance(
         data_type: str,
@@ -153,7 +153,7 @@ class ComplianceMatrizAdapter:
         retention_days: int
     ) -> Dict[str, Any]:
         """Emit a GDPR compliance node"""
-        
+
         return ComplianceMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -170,36 +170,36 @@ class ComplianceMatrizAdapter:
                 f"basis:{lawful_basis}"
             ]
         )
-    
+
     @staticmethod
     def validate_node(node: Dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
-        
+
         for field in required_fields:
             if field not in node:
                 return False
-                
+
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
         for field in required_prov:
             if field not in node.get("provenance", {}):
                 return False
-                
+
         return True
-    
+
     @staticmethod
     def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/compliance")
-            
+
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
-        
+
         with open(filepath, 'w') as f:
             json.dump(node, f, indent=2)
-            
+
         return filepath

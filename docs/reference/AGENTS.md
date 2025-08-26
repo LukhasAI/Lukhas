@@ -272,7 +272,7 @@ ls ~/.claude/projects/
 # 2. Consciousness Developer → Implementation and coding
 # 3. DevOps Guardian → Infrastructure and deployment
 # 4. Documentation Specialist → Documentation and knowledge
-# 5. Guardian Engineer → Safety and ethics validation  
+# 5. Guardian Engineer → Safety and ethics validation
 # 6. Velocity Lead → Innovation and optimization
 ```
 
@@ -298,7 +298,7 @@ LUKHAS AI features a sophisticated **bio-inspired signal modulation system** tha
 signals = [Signal(name="alignment_risk", level=0.8, source="guardian")]
 # Result: temperature=0.2, strict mode, limited tools
 
-# Memory system under stress → Focused response  
+# Memory system under stress → Focused response
 signals = [Signal(name="stress", level=0.7, source="memory")]
 # Result: temperature=0.4, efficient tokens, essential tools only
 
@@ -307,7 +307,7 @@ signals = [Signal(name="novelty", level=0.8, source="consciousness")]
 # Result: temperature=0.9, exploratory mode, all tools available
 
 # High trust interaction → Detailed response
-signals = [Signal(name="trust", level=0.9, source="identity")]  
+signals = [Signal(name="trust", level=0.9, source="identity")]
 # Result: max_tokens=3500, personalized, enhanced memory
 ```
 
@@ -338,7 +338,7 @@ This creates **true symbiosis** between LUKHAS consciousness and ChatGPT, with e
 agents/
 └── configs/
     ├── consciousness-architect.yaml    # Chief Consciousness Architect
-    ├── consciousness-dev.yaml         # Consciousness Developer  
+    ├── consciousness-dev.yaml         # Consciousness Developer
     ├── devops-guardian.yaml          # DevOps Guardian
     ├── docs-specialist.yaml          # Documentation Specialist
     ├── guardian-engineer.yaml        # Guardian Engineer
@@ -416,7 +416,7 @@ USER (Ultimate Decision Authority)
 - **🛡️ Guardian Protection Level**: Safety and ethics compliance percentage
 
 #### **Agent Coordination Metrics**
-- **Task Assignment Accuracy**: Correct agent selection percentage  
+- **Task Assignment Accuracy**: Correct agent selection percentage
 - **Response Quality**: Trinity Framework alignment in outputs
 - **User Satisfaction**: Effectiveness in solving consciousness challenges
 - **Cross-Agent Synergy**: Collaborative problem-solving success rate

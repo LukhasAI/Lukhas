@@ -28,10 +28,10 @@ class QIServiceAdapter(IQuantumService):
             try:
                 # Try to import QIM components
                 from qi.engines.consciousness.engine import QIEngine
-                from qi.processing.quantum_bio_coordinator import (
+                from qi.processing.qi_bio_coordinator import (
                     MockQuantumBioCoordinator,
                 )
-                from qi.quantum_states.processor import QIProcessor
+                from qi.qi_states.processor import QIProcessor
 
                 self._quantum_coordinator = MockQuantumBioCoordinator()
                 logger.info("QIM Quantum Bio Coordinator initialized")
@@ -94,7 +94,7 @@ def register_quantum_service(container) -> None:
 
     container.register(
         IQuantumService,
-        QuantumServiceAdapter,
+        QIServiceAdapter,
         ServiceLifetime.SINGLETON
     )
     logger.info("QIM Quantum Service registered ⚛️")

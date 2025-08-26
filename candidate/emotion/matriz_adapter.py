@@ -6,15 +6,15 @@ Emits MATRIZ-compliant nodes for emotional states and affect events
 import json
 import time
 import uuid
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class EmotionMatrizAdapter:
     """Adapter to emit MATRIZ nodes for emotion events"""
-    
+
     SCHEMA_REF = "lukhas://schemas/matriz_node_v1.json"
-    
+
     @staticmethod
     def create_node(
         node_type: str,
@@ -23,7 +23,7 @@ class EmotionMatrizAdapter:
         provenance_extra: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Create a MATRIZ-compliant node for emotion events"""
-        
+
         node = {
             "version": 1,
             "id": f"LT-EMO-{uuid.uuid4().hex[:8]}",
@@ -47,12 +47,12 @@ class EmotionMatrizAdapter:
                 **(provenance_extra or {})
             }
         }
-        
+
         if labels:
             node["labels"] = labels
-            
+
         return node
-    
+
     @staticmethod
     def emit_emotion_state(
         valence: float,
@@ -61,15 +61,15 @@ class EmotionMatrizAdapter:
         emotion_label: Optional[str] = None
     ) -> Dict[str, Any]:
         """Emit a VAD emotion state node"""
-        
+
         labels = ["emotion:vad"]
         if emotion_label:
             labels.append(f"emotion:{emotion_label}")
-            
+
         # Map VAD to salience/urgency
         salience = abs(arousal)  # High arousal = high salience
         urgency = max(0, -valence) * arousal  # Negative valence + high arousal = urgent
-        
+
         return EmotionMatrizAdapter.create_node(
             node_type="EMOTION",
             state={
@@ -83,7 +83,7 @@ class EmotionMatrizAdapter:
             },
             labels=labels
         )
-    
+
     @staticmethod
     def emit_mood_drift(
         current_mood: Dict[str, float],
@@ -91,7 +91,7 @@ class EmotionMatrizAdapter:
         drift_score: float
     ) -> Dict[str, Any]:
         """Emit a mood drift detection node"""
-        
+
         return EmotionMatrizAdapter.create_node(
             node_type="EMOTION",
             state={
@@ -110,7 +110,7 @@ class EmotionMatrizAdapter:
                 f"drift:{drift_score:.2f}"
             ]
         )
-    
+
     @staticmethod
     def emit_emotion_intent(
         intent: str,
@@ -118,7 +118,7 @@ class EmotionMatrizAdapter:
         context: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Emit an emotion-intent mapping node"""
-        
+
         return EmotionMatrizAdapter.create_node(
             node_type="INTENT",
             state={
@@ -133,7 +133,7 @@ class EmotionMatrizAdapter:
                 "emotion:intent_mapping"
             ]
         )
-    
+
     @staticmethod
     def emit_stagnation_detection(
         emotion: str,
@@ -141,9 +141,9 @@ class EmotionMatrizAdapter:
         threshold_ms: int = 5000
     ) -> Dict[str, Any]:
         """Emit an affect stagnation detection node"""
-        
+
         stagnation_ratio = duration_ms / threshold_ms
-        
+
         return EmotionMatrizAdapter.create_node(
             node_type="EMOTION",
             state={
@@ -160,38 +160,38 @@ class EmotionMatrizAdapter:
                 "alert:stagnation" if duration_ms > threshold_ms else "status:normal"
             ]
         )
-    
+
     @staticmethod
     def validate_node(node: Dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
-        
+
         for field in required_fields:
             if field not in node:
                 return False
-                
+
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
         for field in required_prov:
             if field not in node.get("provenance", {}):
                 return False
-                
+
         return True
-    
+
     @staticmethod
     def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/emotion")
-            
+
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
-        
+
         with open(filepath, 'w') as f:
             json.dump(node, f, indent=2)
-            
+
         return filepath
 
 
@@ -200,7 +200,7 @@ def wrap_vad_detection(original_func):
     """Decorator to add MATRIZ emission to VAD detection"""
     def wrapper(*args, **kwargs):
         result = original_func(*args, **kwargs)
-        
+
         if isinstance(result, dict) and all(k in result for k in ['valence', 'arousal', 'dominance']):
             node = EmotionMatrizAdapter.emit_emotion_state(
                 valence=result['valence'],
@@ -209,6 +209,6 @@ def wrap_vad_detection(original_func):
                 emotion_label=result.get('emotion')
             )
             EmotionMatrizAdapter.save_node(node)
-            
+
         return result
     return wrapper

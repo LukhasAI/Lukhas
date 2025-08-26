@@ -39,14 +39,14 @@ from typing import Any, Callable, Optional, Union
 try:
     from candidate.core.identity_aware_base_colony import (
         IdentityValidationError,
-        QuantumSecurityError,
+        QISecurityError,
         TierAccessDeniedError,
     )
 
-    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import (
-        QuantumIdentityManager,
-        QuantumTierLevel,
-        QuantumUserContext,
+    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (
+        QIIdentityManager,
+        QITierLevel,
+        QIUserContext,
         get_quantum_identity_manager,
     )
 
@@ -86,7 +86,7 @@ class TierAwareColonyProxy:
         self,
         target_colony: Union[BaseColony, object],
         proxy_id: str,
-        identity_manager: Optional[QuantumIdentityManager] = None,
+        identity_manager: Optional[QIIdentityManager] = None,
     ):
         """
         Initialize tier-aware colony proxy.
@@ -106,7 +106,7 @@ class TierAwareColonyProxy:
         )
 
         # Proxy state management
-        self.active_user_contexts: dict[str, QuantumUserContext] = {}
+        self.active_user_contexts: dict[str, QIUserContext] = {}
         self.method_access_rules: dict[str, dict[str, Any]] = {}
         self.performance_metrics: dict[str, list[float]] = {}
         self.proxy_audit_log: list[dict[str, Any]] = []
@@ -126,7 +126,7 @@ class TierAwareColonyProxy:
         self.method_access_rules = {
             # Basic operations - available to all tiers
             "basic_operations": {
-                "min_tier": QuantumTierLevel.QUANTUM_TIER_0,
+                "min_tier": QITierLevel.QUANTUM_TIER_0,
                 "methods": [
                     "get_info",
                     "get_status",
@@ -137,43 +137,43 @@ class TierAwareColonyProxy:
             },
             # Query operations - Tier 0+
             "query_operations": {
-                "min_tier": QuantumTierLevel.QUANTUM_TIER_0,
+                "min_tier": QITierLevel.QUANTUM_TIER_0,
                 "methods": ["query", "search", "retrieve", "get"],
                 "rate_limit": 30,
             },
             # Reasoning operations - Tier 1+
             "reasoning_operations": {
-                "min_tier": QuantumTierLevel.QUANTUM_TIER_1,
+                "min_tier": QITierLevel.QUANTUM_TIER_1,
                 "methods": ["reason", "analyze", "process", "evaluate"],
                 "rate_limit": 100,
             },
             # Advanced operations - Tier 2+
             "advanced_operations": {
-                "min_tier": QuantumTierLevel.QUANTUM_TIER_2,
+                "min_tier": QITierLevel.QUANTUM_TIER_2,
                 "methods": ["create", "generate", "synthesize", "transform"],
                 "rate_limit": 200,
             },
             # Oracle operations - Tier 2+
             "oracle_operations": {
-                "min_tier": QuantumTierLevel.QUANTUM_TIER_2,
+                "min_tier": QITierLevel.QUANTUM_TIER_2,
                 "methods": ["predict", "forecast", "prophesy", "divine"],
                 "rate_limit": 50,
             },
             # Administrative operations - Tier 3+
             "admin_operations": {
-                "min_tier": QuantumTierLevel.QUANTUM_TIER_3,
+                "min_tier": QITierLevel.QUANTUM_TIER_3,
                 "methods": ["configure", "update", "modify", "delete"],
                 "rate_limit": 20,
             },
             # System operations - Tier 4+
             "system_operations": {
-                "min_tier": QuantumTierLevel.QUANTUM_TIER_4,
+                "min_tier": QITierLevel.QUANTUM_TIER_4,
                 "methods": ["restart", "shutdown", "reset", "migrate"],
                 "rate_limit": 5,
             },
             # Superintelligence operations - Tier 5 only
             "superintelligence_operations": {
-                "min_tier": QuantumTierLevel.QUANTUM_TIER_5,
+                "min_tier": QITierLevel.QUANTUM_TIER_5,
                 "methods": ["superintend", "transcend", "evolve", "ascend"],
                 "rate_limit": -1,  # Unlimited
             },
@@ -345,7 +345,7 @@ class TierAwareColonyProxy:
 
     def _extract_user_context(
         self, args: tuple, kwargs: dict
-    ) -> Optional[QuantumUserContext]:
+    ) -> Optional[QIUserContext]:
         """Extract user context from method arguments."""
         # Check kwargs first
         if "user_context" in kwargs:
@@ -357,9 +357,9 @@ class TierAwareColonyProxy:
             if user_id in self.active_user_contexts:
                 return self.active_user_contexts[user_id]
 
-        # Check args for QuantumUserContext
+        # Check args for QIUserContext
         for arg in args:
-            if isinstance(arg, QuantumUserContext):
+            if isinstance(arg, QIUserContext):
                 return arg
 
         # Check first argument if it's a dict with user context
@@ -373,7 +373,7 @@ class TierAwareColonyProxy:
         return None
 
     async def _validate_method_access(
-        self, user_context: QuantumUserContext, method_name: str
+        self, user_context: QIUserContext, method_name: str
     ):
         """Validate that user has access to the requested method."""
         # Categorize the method
@@ -398,12 +398,12 @@ class TierAwareColonyProxy:
                 user_context, self.proxy_id, method_name
             )
             if not authorized:
-                raise QuantumSecurityError(
+                raise QISecurityError(
                     f"Quantum authorization failed for method {method_name}"
                 )
 
     async def _check_rate_limits(
-        self, user_context: QuantumUserContext, method_name: str
+        self, user_context: QIUserContext, method_name: str
     ):
         """Check rate limits for the user and method."""
         method_category = self._categorize_method(method_name)
@@ -428,7 +428,7 @@ class TierAwareColonyProxy:
 
     async def _log_method_execution(
         self,
-        user_context: QuantumUserContext,
+        user_context: QIUserContext,
         method_name: str,
         status: str,
         result: Any,
@@ -452,7 +452,7 @@ class TierAwareColonyProxy:
         if QUANTUM_IDENTITY_AVAILABLE and self.identity_manager:
             try:
                 # This would use the quantum identity manager's audit system
-                log_entry["quantum_audit_hash"] = "placeholder_quantum_hash"
+                log_entry["qi_audit_hash"] = "placeholder_quantum_hash"
             except Exception as e:
                 self.logger.error(f"Failed to generate quantum audit hash: {e}")
 
@@ -462,7 +462,7 @@ class TierAwareColonyProxy:
         if len(self.proxy_audit_log) > 10000:
             self.proxy_audit_log = self.proxy_audit_log[-10000:]
 
-    async def register_user_context(self, user_context: QuantumUserContext):
+    async def register_user_context(self, user_context: QIUserContext):
         """Register a user context for proxy access."""
         self.active_user_contexts[user_context.user_id] = user_context
         self.logger.debug(
@@ -555,7 +555,7 @@ class ColonyProxyManager:
     Provides centralized management of multiple colony proxies with identity integration.
     """
 
-    def __init__(self, identity_manager: Optional[QuantumIdentityManager] = None):
+    def __init__(self, identity_manager: Optional[QIIdentityManager] = None):
         self.identity_manager = identity_manager or (
             get_quantum_identity_manager() if QUANTUM_IDENTITY_AVAILABLE else None
         )
@@ -599,7 +599,7 @@ class ColonyProxyManager:
             return True
         return False
 
-    async def register_user_context_all(self, user_context: QuantumUserContext):
+    async def register_user_context_all(self, user_context: QIUserContext):
         """Register user context across all proxies."""
         for proxy in self.proxies.values():
             await proxy.register_user_context(user_context)

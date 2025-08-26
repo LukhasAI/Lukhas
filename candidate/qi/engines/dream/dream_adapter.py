@@ -24,7 +24,7 @@ class DreamQuantumConfig:
     entanglement_strength: float = 0.5
     superposition_depth: int = 3
     decoherence_rate: float = 0.1
-    quantum_frequency: float = 6.5
+    qi_frequency: float = 6.5
     measurement_precision: float = 0.8
 
     def __post_init__(self):
@@ -33,7 +33,7 @@ class DreamQuantumConfig:
         self.entanglement_strength = max(0.0, min(1.0, self.entanglement_strength))
         self.superposition_depth = max(1, min(10, self.superposition_depth))
         self.decoherence_rate = max(0.0, min(1.0, self.decoherence_rate))
-        self.quantum_frequency = max(0.1, min(20.0, self.quantum_frequency))
+        self.qi_frequency = max(0.1, min(20.0, self.qi_frequency))
         self.measurement_precision = max(0.0, min(1.0, self.measurement_precision))
 
 
@@ -53,7 +53,7 @@ class QIDreamAdapter:
             config: Configuration for quantum-inspired processing
         """
         self.config = config or DreamQuantumConfig()
-        self.quantum_like_state = self._initialize_quantum_like_state()
+        self.qi_like_state = self._initialize_quantum_like_state()
         self.entangled_dreams = {}
         self.coherence_history = []
         self.superposition_states = []
@@ -91,7 +91,7 @@ class QIDreamAdapter:
         superposition = {
             "type": "superposition",
             "component_states": effective_states,
-            "coherence": self.quantum_like_state["coherence"],
+            "coherence": self.qi_like_state["coherence"],
             "superposition_weights": [],
         }
 
@@ -114,7 +114,7 @@ class QIDreamAdapter:
         superposition.update(combined_content)
 
         # Update quantum-like state
-        self.quantum_like_state["superposition_active"] = True
+        self.qi_like_state["superposition_active"] = True
         self.superposition_states.append(superposition)
 
         return superposition
@@ -187,7 +187,7 @@ class QIDreamAdapter:
         self.entangled_dreams[pair_id] = entanglement_pair
 
         # Update quantum-like state
-        self.quantum_like_state["entanglement_pairs"].append(pair_id)
+        self.qi_like_state["entanglement_pairs"].append(pair_id)
 
         # Create entangled properties
         entangled_result = self._create_entangled_properties(
@@ -257,7 +257,7 @@ class QIDreamAdapter:
 
         # Entanglement-specific properties
         entangled["entanglement_strength"] = strength
-        entangled["quantum_correlation"] = self._calculate_quantum_correlation(
+        entangled["qi_correlation"] = self._calculate_quantum_correlation(
             data1, data2
         )
 
@@ -293,30 +293,30 @@ class QIDreamAdapter:
         measurement_result = {
             "observable": observable,
             "timestamp": self._get_timestamp(),
-            "measurement_count": self.quantum_like_state["measurement_count"] + 1,
+            "measurement_count": self.qi_like_state["measurement_count"] + 1,
         }
 
         if observable == "coherence":
             # Measure coherence with some uncertainty
             uncertainty = (1.0 - self.config.measurement_precision) * 0.1
-            measured_value = self.quantum_like_state["coherence"] + random.uniform(
+            measured_value = self.qi_like_state["coherence"] + random.uniform(
                 -uncertainty, uncertainty
             )
             measurement_result["value"] = max(0.0, min(1.0, measured_value))
 
         elif observable == "phase":
             # Measure phase
-            measurement_result["value"] = self.quantum_like_state["phase"] % (
+            measurement_result["value"] = self.qi_like_state["phase"] % (
                 2 * math.pi
             )
 
         elif observable == "entanglement":
             # Measure entanglement strength
-            if self.quantum_like_state["entanglement_pairs"]:
+            if self.qi_like_state["entanglement_pairs"]:
                 avg_strength = sum(
                     self.entangled_dreams[pair_id]["strength"]
-                    for pair_id in self.quantum_like_state["entanglement_pairs"]
-                ) / len(self.quantum_like_state["entanglement_pairs"])
+                    for pair_id in self.qi_like_state["entanglement_pairs"]
+                ) / len(self.qi_like_state["entanglement_pairs"])
                 measurement_result["value"] = avg_strength
             else:
                 measurement_result["value"] = 0.0
@@ -326,7 +326,7 @@ class QIDreamAdapter:
             measurement_result["value"] = 0.0
 
         # Update quantum-like state (measurement affects the system)
-        self.quantum_like_state["measurement_count"] += 1
+        self.qi_like_state["measurement_count"] += 1
         self._apply_measurement_decoherence()
 
         return measurement_result
@@ -334,11 +334,11 @@ class QIDreamAdapter:
     def _apply_measurement_decoherence(self):
         """Apply decoherence due to measurement."""
         decoherence_factor = 1.0 - self.config.decoherence_rate
-        self.quantum_like_state["coherence"] *= decoherence_factor
+        self.qi_like_state["coherence"] *= decoherence_factor
 
         # Collapse superposition if coherence drops too low
-        if self.quantum_like_state["coherence"] < self.config.coherence_threshold * 0.5:
-            self.quantum_like_state["superposition_active"] = False
+        if self.qi_like_state["coherence"] < self.config.coherence_threshold * 0.5:
+            self.qi_like_state["superposition_active"] = False
 
     def evolve_quantum_like_state(self, time_step: float = 0.1) -> dict[str, Any]:
         """
@@ -351,28 +351,28 @@ class QIDreamAdapter:
             Evolution result
         """
         # Update phase
-        self.quantum_like_state["phase"] += (
-            2 * math.pi * self.config.quantum_frequency * time_step
+        self.qi_like_state["phase"] += (
+            2 * math.pi * self.config.qi_frequency * time_step
         )
 
         # Apply decoherence
         decoherence_factor = math.exp(-self.config.decoherence_rate * time_step)
-        self.quantum_like_state["coherence"] *= decoherence_factor
+        self.qi_like_state["coherence"] *= decoherence_factor
 
         # Update amplitude with small fluctuations
         fluctuation = 0.01 * random.uniform(-1, 1)
-        self.quantum_like_state["amplitude"] *= 1 + fluctuation
-        self.quantum_like_state["amplitude"] = max(
-            0.1, min(2.0, self.quantum_like_state["amplitude"])
+        self.qi_like_state["amplitude"] *= 1 + fluctuation
+        self.qi_like_state["amplitude"] = max(
+            0.1, min(2.0, self.qi_like_state["amplitude"])
         )
 
         # Record coherence history
         self.coherence_history.append(
             {
                 "time": self._get_timestamp(),
-                "coherence": self.quantum_like_state["coherence"],
-                "phase": self.quantum_like_state["phase"],
-                "amplitude": self.quantum_like_state["amplitude"],
+                "coherence": self.qi_like_state["coherence"],
+                "phase": self.qi_like_state["phase"],
+                "amplitude": self.qi_like_state["amplitude"],
             }
         )
 
@@ -381,7 +381,7 @@ class QIDreamAdapter:
             self.coherence_history = self.coherence_history[-1000:]
 
         return {
-            "evolved_state": self.quantum_like_state.copy(),
+            "evolved_state": self.qi_like_state.copy(),
             "decoherence_factor": decoherence_factor,
             "time_step": time_step,
         }
@@ -394,17 +394,17 @@ class QIDreamAdapter:
             Dictionary with quantum metrics
         """
         metrics = {
-            "current_coherence": self.quantum_like_state["coherence"],
-            "current_phase": self.quantum_like_state["phase"],
-            "current_amplitude": self.quantum_like_state["amplitude"],
-            "superposition_active": self.quantum_like_state["superposition_active"],
-            "entanglement_pairs": len(self.quantum_like_state["entanglement_pairs"]),
-            "measurement_count": self.quantum_like_state["measurement_count"],
+            "current_coherence": self.qi_like_state["coherence"],
+            "current_phase": self.qi_like_state["phase"],
+            "current_amplitude": self.qi_like_state["amplitude"],
+            "superposition_active": self.qi_like_state["superposition_active"],
+            "entanglement_pairs": len(self.qi_like_state["entanglement_pairs"]),
+            "measurement_count": self.qi_like_state["measurement_count"],
             "superposition_states": len(self.superposition_states),
             "config": {
                 "coherence_threshold": self.config.coherence_threshold,
                 "entanglement_strength": self.config.entanglement_strength,
-                "quantum_frequency": self.config.quantum_frequency,
+                "qi_frequency": self.config.qi_frequency,
             },
         }
 
@@ -449,7 +449,7 @@ class QIDreamAdapter:
 
     def reset_quantum_like_state(self) -> None:
         """Reset the quantum-like state to initial conditions."""
-        self.quantum_like_state = self._initialize_quantum_like_state()
+        self.qi_like_state = self._initialize_quantum_like_state()
         self.entangled_dreams.clear()
         self.coherence_history.clear()
         self.superposition_states.clear()
@@ -463,8 +463,8 @@ class QIDreamAdapter:
     def _apply_measurement_decoherence(self):
         """Apply decoherence due to measurement."""
         decoherence_factor = 1.0 - self.config.decoherence_rate
-        self.quantum_like_state["coherence"] *= decoherence_factor
+        self.qi_like_state["coherence"] *= decoherence_factor
 
         # Collapse superposition if coherence drops too low
-        if self.quantum_like_state["coherence"] < self.config.coherence_threshold * 0.5:
-            self.quantum_like_state["superposition_active"] = False
+        if self.qi_like_state["coherence"] < self.config.coherence_threshold * 0.5:
+            self.qi_like_state["superposition_active"] = False

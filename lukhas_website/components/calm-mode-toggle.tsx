@@ -14,7 +14,7 @@ export default function CalmModeToggle({ className = '' }: CalmModeToggleProps) 
     // Check system preference for reduced motion
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     setPrefersReducedMotion(mediaQuery.matches)
-    
+
     // Listen for changes to system preference
     const handleMediaChange = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches)
@@ -22,7 +22,7 @@ export default function CalmModeToggle({ className = '' }: CalmModeToggleProps) 
         setIsCalmMode(true) // Auto-enable calm mode if system prefers reduced motion
       }
     }
-    
+
     mediaQuery.addEventListener('change', handleMediaChange)
 
     // Check for saved calm mode preference
@@ -40,23 +40,23 @@ export default function CalmModeToggle({ className = '' }: CalmModeToggleProps) 
   const toggleCalmMode = () => {
     const newCalmMode = !isCalmMode
     setIsCalmMode(newCalmMode)
-    
+
     // Update body class
     if (newCalmMode) {
       document.body.classList.add('calm-mode')
     } else {
       document.body.classList.remove('calm-mode')
     }
-    
+
     // Save preference
     localStorage.setItem('calm-mode', newCalmMode.toString())
-    
+
     // Dispatch custom event for React components to listen to
-    window.dispatchEvent(new CustomEvent('calmModeToggle', { 
-      detail: { 
+    window.dispatchEvent(new CustomEvent('calmModeToggle', {
+      detail: {
         enabled: newCalmMode,
         reason: 'user-toggle'
-      } 
+      }
     }))
   }
 

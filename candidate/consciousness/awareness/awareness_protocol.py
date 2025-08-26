@@ -217,7 +217,7 @@ class LUKHASAwarenessProtocol:
             "confidence_score": self.confidence_score,
             "tier_granted_internal": self.access_tier,
             "bio_metrics": self.bio_adapter.bio_metrics,
-            "quantum_like_states": self.bio_adapter.quantum_like_state,
+            "qi_like_states": self.bio_adapter.qi_like_state,
             "recovery_signature_summary": {
                 k: (f"{str(v)[:30]}..." if isinstance(v, (dict, list, str)) else v)
                 for k, v in recovery_sig.items()

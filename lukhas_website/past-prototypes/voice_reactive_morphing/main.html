@@ -5,7 +5,7 @@ Original author: Unknown (source: web_to_test project)
 Original license: Unknown (please refer to original project for licensing)
 Adaptation by: Gonz, 2024
 
-This adaptation is for educational/research purposes. 
+This adaptation is for educational/research purposes.
 If you are the original author, please contact for proper attribution.
 -->
 <!DOCTYPE html>
@@ -14,24 +14,24 @@ If you are the original author, please contact for proper attribution.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUKHΛS Teams - LUKHΛS SYSTEMS Research</title>
-    
+
     <!-- External Libraries - Now using local copies -->
     <script src="libs/jl_matrix_min.js"></script>
     <script src="build.js"></script>
     <script src="shader-modifications.js"></script>
     <script src="js/morphing-system.js"></script>
-    
+
     <!-- Styles -->
     <link rel="stylesheet" href="css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Condensed:wght@400;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- WebGL Canvas -->
     <canvas id="mainCanvas"></canvas>
-    
+
     <!-- Main UI Container -->
     <div class="ui-container">
         <!-- Top Bar -->
@@ -55,7 +55,7 @@ If you are the original author, please contact for proper attribution.
                 <!-- AI Provider Configuration -->
                 <div class="config-section">
                     <h3 class="section-title">AI Provider</h3>
-                    
+
                     <!-- OpenAI -->
                     <div class="config-group">
                         <div class="config-label">
@@ -71,7 +71,7 @@ If you are the original author, please contact for proper attribution.
                             <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
                         </select>
                     </div>
-                    
+
                     <!-- Anthropic -->
                     <div class="config-group">
                         <div class="config-label">
@@ -87,7 +87,7 @@ If you are the original author, please contact for proper attribution.
                             <option value="claude-3-haiku-20240307">Claude 3 Haiku</option>
                         </select>
                     </div>
-                    
+
                     <!-- Local -->
                     <div class="config-group">
                         <div class="config-label">
@@ -100,7 +100,7 @@ If you are the original author, please contact for proper attribution.
                         <input type="text" id="localModel" class="config-input" placeholder="Model name">
                     </div>
                 </div>
-                
+
                 <!-- Media Controls -->
                 <div class="config-section">
                     <h3 class="section-title">Media Controls</h3>
@@ -115,11 +115,11 @@ If you are the original author, please contact for proper attribution.
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Particle System -->
                 <div class="config-section">
                     <h3 class="section-title">Particle System</h3>
-                    
+
                     <div class="config-group">
                         <label class="config-label">Particle Count</label>
                         <div class="range-group">
@@ -127,7 +127,7 @@ If you are the original author, please contact for proper attribution.
                             <span class="range-value" id="particleCountValue">1,000</span>
                         </div>
                     </div>
-                    
+
                     <div class="config-group">
                         <label class="config-label">Morph Speed</label>
                         <div class="range-group">
@@ -135,7 +135,7 @@ If you are the original author, please contact for proper attribution.
                             <span class="range-value" id="morphSpeedValue">1.00</span>
                         </div>
                     </div>
-                    
+
                     <div class="config-group">
                         <label class="config-label">Boundary Force</label>
                         <div class="range-group">
@@ -143,7 +143,7 @@ If you are the original author, please contact for proper attribution.
                             <span class="range-value" id="boundaryForceValue">0.15</span>
                         </div>
                     </div>
-                    
+
                     <div class="config-group">
                         <label class="config-label">Attraction Strength</label>
                         <div class="range-group">
@@ -152,11 +152,11 @@ If you are the original author, please contact for proper attribution.
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Visual Settings -->
                 <div class="config-section">
                     <h3 class="section-title">Visual Settings</h3>
-                    
+
                     <div class="config-group">
                         <label class="config-label">Particle Size</label>
                         <div class="range-group">
@@ -164,7 +164,7 @@ If you are the original author, please contact for proper attribution.
                             <span class="range-value" id="particleSizeValue">0.50</span>
                         </div>
                     </div>
-                    
+
                     <div class="config-group">
                         <label class="config-label">Color Theme</label>
                         <select id="colorTheme" class="config-input">
@@ -175,11 +175,11 @@ If you are the original author, please contact for proper attribution.
                         </select>
                     </div>
                 </div>
-                
+
                 <!-- System Controls -->
                 <div class="config-section">
                     <h3 class="section-title">System Controls</h3>
-                    
+
                     <div class="config-group">
                         <button class="config-btn" id="resetSystem">
                             <i class="fas fa-redo"></i>
@@ -197,7 +197,7 @@ If you are the original author, please contact for proper attribution.
                 </div>
             </div>
         </aside>
-        
+
         <!-- Chat Interface -->
         <div class="chat-interface" id="chatInterface">
             <div class="chat-header" id="chatHeader">
@@ -221,7 +221,7 @@ If you are the original author, please contact for proper attribution.
                     </button>
                 </div>
             </div>
-            
+
             <div class="chat-body">
                 <div class="chat-messages" id="chatMessages">
                     <div class="message system">
@@ -234,7 +234,7 @@ If you are the original author, please contact for proper attribution.
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="chat-input-area">
                     <div class="input-container">
                         <input type="text" id="chatInput" class="chat-input" placeholder="Ask about the particle system...">
@@ -246,10 +246,10 @@ If you are the original author, please contact for proper attribution.
             </div>
         </div>
     </div>
-    
+
     <!-- Hidden file input for config import -->
     <input type="file" id="configFileInput" accept=".json" style="display: none;">
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize the morphing system from the final-demo
@@ -296,8 +296,8 @@ If you are the original author, please contact for proper attribution.
 
                 // Color Theme control is more complex and will require deeper integration.
                 // For now, it will not be wired up.
-                
-            }, 1000); 
+
+            }, 1000);
 
             // Sidebar toggle logic
             const sidebar = document.getElementById('sidebar');
@@ -336,4 +336,4 @@ If you are the original author, please contact for proper attribution.
         });
     </script>
 </body>
-</html> 
+</html>

@@ -1,8 +1,17 @@
 # path: qi/ops/cap_sandbox.py
 from __future__ import annotations
-import os, time, json, fnmatch, hashlib, contextlib, builtins, io, subprocess, shlex
-from dataclasses import dataclass, asdict
-from typing import Dict, Any, List, Optional, Tuple, Iterable, Callable
+
+import builtins
+import contextlib
+import fnmatch
+import hashlib
+import json
+import os
+import subprocess
+import time
+from collections.abc import Iterable
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Optional, Tuple
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 AUDIT_DIR = os.path.join(STATE, "audit"); os.makedirs(AUDIT_DIR, exist_ok=True)
@@ -122,7 +131,7 @@ class CapManager:
         leases = self._leases.get(subject, [])
         cap_kind = cap.split(":", 1)[0]
         for l in leases:
-            if not l.alive(now): 
+            if not l.alive(now):
                 continue
             for c in l.caps:
                 if c == cap:

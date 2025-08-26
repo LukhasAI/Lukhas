@@ -136,7 +136,7 @@ export function getRandomEmojis(
   } = {}
 ): EmojiDefinition[] {
   let pool: EmojiDefinition[] = []
-  
+
   if (options.highContrast) {
     pool = HIGH_CONTRAST_EMOJIS
   } else if (options.category) {
@@ -145,15 +145,15 @@ export function getRandomEmojis(
   } else {
     pool = EMOJI_CATALOG.flatMap(c => c.emojis)
   }
-  
+
   if (options.excludeConfusing) {
     // Remove potentially confusing emojis
-    pool = pool.filter(e => 
+    pool = pool.filter(e =>
       !['🌺', '🌸', '🌼'].includes(e.emoji) && // Similar flowers
       !['🐠', '🐟'].includes(e.emoji) // Similar fish
     )
   }
-  
+
   // Shuffle and take requested count
   const shuffled = [...pool].sort(() => Math.random() - 0.5)
   return shuffled.slice(0, count)
@@ -166,10 +166,10 @@ export function getRandomWords(
   count: number,
   category?: keyof typeof WORD_POOLS
 ): string[] {
-  const pool = category 
-    ? WORD_POOLS[category] 
+  const pool = category
+    ? WORD_POOLS[category]
     : Object.values(WORD_POOLS).flat()
-  
+
   const shuffled = [...pool].sort(() => Math.random() - 0.5)
   return shuffled.slice(0, count)
 }

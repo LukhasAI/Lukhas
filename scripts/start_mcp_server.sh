@@ -22,7 +22,7 @@ if [ $? -eq 0 ]; then
     echo "   - Port: 8000"
     echo "   - Context: Full LUKHAS consciousness modules"
     echo ""
-    
+
     # Run the MCP server
     docker run -p 8000:8000 \
         -v $(pwd)/consciousness:/app/consciousness \
@@ -33,7 +33,7 @@ if [ $? -eq 0 ]; then
         -v $(pwd)/modulation:/app/modulation \
         --name lukhas-mcp \
         lukhas-mcp-server
-        
+
 else
     echo "❌ Docker build failed"
     exit 1

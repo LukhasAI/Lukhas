@@ -125,7 +125,7 @@ export class EnhancedDesignSystem {
    * Jobs-inspired component styling
    */
   styleComponent(
-    element: HTMLElement, 
+    element: HTMLElement,
     {
       variant = 'primary',
       importance = 'normal',

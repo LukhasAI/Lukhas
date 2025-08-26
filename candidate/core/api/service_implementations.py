@@ -3,9 +3,8 @@ Service implementations for LUKHAS core modules
 Connects to real implementations replacing stubs
 """
 
-import asyncio
 import warnings
-from typing import Any, Optional
+from typing import Any
 
 import structlog
 
@@ -22,14 +21,14 @@ except ImportError:
 
 try:
     # Try to import with updated path handling
-    import sys
     import os
-    
+    import sys
+
     # Add candidate path to ensure imports work
     candidate_path = os.path.join(os.path.dirname(__file__), '../../..')
     if candidate_path not in sys.path:
         sys.path.insert(0, candidate_path)
-    
+
     from candidate.memory.systems.memory_learning.memory_manager import MemoryManager
     MEMORY_MANAGER_AVAILABLE = True
 except ImportError as e:
@@ -74,18 +73,18 @@ except ImportError:
 if not SYMBOLIC_ENGINE_AVAILABLE:
     class SymbolicEngine:
         """Fallback stub for symbolic/GLYPH engine"""
-        
+
         def __init__(self):
             self.initialized = False
             self.glyph_map = {
                 "love": "♥", "think": "🧠", "create": "✨",
                 "remember": "💭", "feel": "💫", "dream": "🌙",
             }
-        
+
         async def initialize(self):
             self.initialized = True
             log.info("Fallback SymbolicEngine initialized")
-        
+
         async def encode(self, text: str) -> dict[str, Any]:
             """Encode text to GLYPHs"""
             words = text.split()
@@ -95,15 +94,15 @@ if not SYMBOLIC_ENGINE_AVAILABLE:
 if not MEMORY_MANAGER_AVAILABLE:
     class MemoryManager:
         """Fallback stub for memory system"""
-        
+
         def __init__(self):
             self.initialized = False
             self.memories = {"general": [], "episodic": [], "semantic": []}
-        
+
         async def initialize(self):
             self.initialized = True
             log.info("Fallback MemoryManager initialized")
-        
+
         async def store(self, content: dict[str, Any], memory_type: str = "general"):
             memory_id = f"mem_{len(self.memories[memory_type])}"
             self.memories[memory_type].append({"id": memory_id, "content": content})
@@ -114,14 +113,14 @@ if not MEMORY_MANAGER_AVAILABLE:
 if not GUARDIAN_SYSTEM_AVAILABLE:
     class GuardianSystem:
         """Fallback stub for Guardian system"""
-        
+
         def __init__(self):
             self.initialized = False
-        
+
         async def initialize(self):
             self.initialized = True
             log.info("Fallback GuardianSystem initialized")
-        
+
         async def evaluate_action(self, action_proposal: dict[str, Any]) -> dict[str, Any]:
             return {"approved": True, "risk_score": 0.1, "ethical_score": 0.9}
 
@@ -143,9 +142,9 @@ def log_service_status():
     status = get_service_status()
     real_count = sum(status.values())
     total_count = len(status)
-    
+
     log.info(f"Service Implementation Status: {real_count}/{total_count} real implementations available")
-    
+
     for service, available in status.items():
         if available:
             log.info(f"✅ {service}: Real implementation")

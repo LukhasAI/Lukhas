@@ -58,7 +58,7 @@ class LukhasConfig(BaseSettings):
         description="Memory service endpoint",
     )
 
-    quantum_api_url: str = Field(
+    qi_api_url: str = Field(
         default_factory=lambda: os.getenv(
             "QUANTUM_API_URL", "http://localhost:8080/api/v1/quantum"
         ),

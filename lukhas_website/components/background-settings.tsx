@@ -31,7 +31,7 @@ export default function BackgroundSettings({ className = '' }: BackgroundSetting
   const updateSettings = (newSettings: typeof settings) => {
     setSettings(newSettings)
     localStorage.setItem('lukhas_background_settings', JSON.stringify(newSettings))
-    
+
     // Emit custom event for live background updates
     window.dispatchEvent(new CustomEvent('lukhas:background:settings', {
       detail: newSettings
@@ -81,16 +81,16 @@ export default function BackgroundSettings({ className = '' }: BackgroundSetting
               <button
                 onClick={handleToggle}
                 className={`relative w-8 h-4 rounded-full transition-all duration-200 ${
-                  settings.enabled 
-                    ? 'bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg shadow-blue-500/25' 
+                  settings.enabled
+                    ? 'bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg shadow-blue-500/25'
                     : 'bg-white/10 hover:bg-white/15'
                 }`}
                 title={settings.enabled ? 'Disable background' : 'Enable background'}
               >
                 <div
                   className={`absolute top-0.5 w-3 h-3 bg-white rounded-full transition-all duration-200 ${
-                    settings.enabled 
-                      ? 'translate-x-4 shadow-sm' 
+                    settings.enabled
+                      ? 'translate-x-4 shadow-sm'
                       : 'translate-x-0.5'
                   }`}
                 />

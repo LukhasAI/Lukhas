@@ -43,10 +43,10 @@ class BreakthroughSynthesisEngine(CoreInterface):
     ) -> List[Dict[str, Any]]:
         """
         Synthesize breakthroughs from innovation results
-        
+
         Args:
             innovation_results: Results from various innovation engines
-            
+
         Returns:
             Synthesized breakthroughs
         """

@@ -16,7 +16,7 @@ const phaseMapping = {
 
 export default function ContextualVignetteOverlay() {
   const { phase, intensity } = useDreamContext()
-  
+
   return (
     <VignetteOverlay
       phase={phase}

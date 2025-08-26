@@ -20,17 +20,17 @@
   - Symbolic diagnostics
   - Identity pattern analyzers
   - Quantum generators
-  
+
 - **Archive candidates**: 13 files
   - Small utility files (<50 lines)
   - Duplicate safety filters
   - Empty brain templates
-  
+
 - **Syntax errors**: 140 files
   - Many in tools/ directory
   - Archive directories
   - Need investigation for valuable code
-  
+
 - **Needs review**: 17 files
   - Ambiguous purpose
   - May contain valuable logic
@@ -132,7 +132,7 @@
    class MemoryFoldProcessor:      # Industry standard + LUKHAS concept
    class DreamResonanceEngine:     # Clear purpose + personality
    class QuantumConsciousnessHub:  # Professional + innovative
-   
+
    # Fix These:
    lukhas_memory_manager → LukhasMemoryManager
    dream_engine_base → DreamEngineBase
@@ -147,7 +147,7 @@
    def fold_memory(data):          # LUKHAS concept preserved
    def apply_mutation(genome):     # Scientific + LUKHAS
    def resonate_emotions(state):   # Descriptive + personality
-   
+
    # Fix These:
    def ProcessMemory() → def process_memory()
    def GetQuantumState() → def get_quantum_state()

@@ -30,7 +30,7 @@
 ```python
 # Added to core/actor_system.py:
 class ActorRef
-class Actor  
+class Actor
 class AIAgentActor
 def get_global_actor_system()
 ```
@@ -110,7 +110,7 @@ def get_global_actor_system()
 
 **This is a COGNITIVE ARCHITECTURE, not a simple app!**
 - Every file has purpose
-- Every submodule is designed  
+- Every submodule is designed
 - The complexity is intentional
 - The biological inspiration is real
 

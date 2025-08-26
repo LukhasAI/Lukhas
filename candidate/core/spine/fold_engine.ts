@@ -42,7 +42,7 @@ export class AGIMemory {
     try {
       // Create or update fold
       const fold = new MemoryFold(key, content, memory_type, priority, owner_id);
-      
+
       // Safety check before storing
       const validation = await this.validate_fold(fold);
       if (!validation.isValid) {
@@ -152,7 +152,7 @@ export class AGIMemory {
       // If backup recovery fails, reconstruct from patterns
       const reconstructed = await this.patternEngine.reconstruct_fold(fold);
       const validation = await this.validate_fold(reconstructed);
-      
+
       if (!validation.isValid) {
         throw new Error('Recovery failed: Could not restore valid state');
       }
@@ -171,19 +171,19 @@ export class AGIMemory {
 
   private _add_to_indices(fold: MemoryFold): void {
     const key = fold.key;
-    
+
     // Type index
     if (!this.typeIndices.has(fold.memory_type)) {
       this.typeIndices.set(fold.memory_type, new Set());
     }
     this.typeIndices.get(fold.memory_type).add(key);
-    
+
     // Priority index
     if (!this.priorityIndices.has(fold.priority)) {
       this.priorityIndices.set(fold.priority, new Set());
     }
     this.priorityIndices.get(fold.priority).add(key);
-    
+
     // Owner index
     if (fold.owner_id) {
       if (!this.ownerIndex.has(fold.owner_id)) {

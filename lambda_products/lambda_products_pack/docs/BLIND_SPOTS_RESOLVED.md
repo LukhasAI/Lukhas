@@ -26,7 +26,7 @@ But through deliberate transformation, we've woven these threads into a tapestry
 
 Hey! So we did a deep dive into the LUKHAS system and found some issues that were making things harder than they needed to be. Here's what we discovered and fixed:
 
-### 1. Import Problems - "Where's My Code?" 
+### 1. Import Problems - "Where's My Code?"
 **Before**: Files couldn't find each other - like a library with no catalog system!
 ```python
 # This would fail:
@@ -107,10 +107,10 @@ except ImportError:
 def safe_import(module_path: str, fallback_path: str):
     """
     Dual-strategy import with automatic fallback.
-    
+
     Strategy 1: Relative import (preferred for package distribution)
     Strategy 2: Absolute import with path injection (development fallback)
-    
+
     Time Complexity: O(1) for successful import, O(2) for fallback
     Space Complexity: O(1)
     """
@@ -120,17 +120,17 @@ def safe_import(module_path: str, fallback_path: str):
     except ImportError as e:
         # Log for debugging
         logger.debug(f"Relative import failed: {e}")
-        
+
         # Attempt absolute import with path modification
         import_path = Path(__file__).parent.parent
         sys.path.insert(0, str(import_path))
-        
+
         try:
             module = importlib.import_module(fallback_path)
         finally:
             # Clean up path modification
             sys.path.remove(str(import_path))
-    
+
     return module
 ```
 
@@ -152,33 +152,33 @@ def safe_import(module_path: str, fallback_path: str):
 class UnifiedDreamSystem:
     """
     Unified dream processing with dual-mode operation.
-    
+
     Architecture Pattern: Strategy Pattern with Bridge Pattern
-    
+
     Components:
     1. HyperspaceSimulator: Monte Carlo exploration in possibility space
     2. DreamSeedManager: Contextual narrative synthesis
     3. CausalityTracker: Event sourcing for audit trail
     4. TokenOptimizer: Dynamic programming for resource allocation
     """
-    
+
     def __init__(self):
         self.modes = {
             DreamType.HYPERSPACE: HyperspaceStrategy(),
             DreamType.SEED: SeedStrategy(),
             DreamType.HYBRID: HybridStrategy()
         }
-        
+
     async def process_dream(self, context: Dict, mode: DreamType):
         """
         Process dream with automatic mode selection.
-        
+
         Algorithm:
         1. Context analysis: O(n) where n = context features
         2. Mode selection: O(1) lookup
         3. Processing: O(m*log(m)) where m = scenario branches
         4. Causality tracking: O(k) where k = causal events
-        
+
         Total: O(n + m*log(m) + k)
         """
         strategy = self.modes[mode]
@@ -203,47 +203,47 @@ class UnifiedDreamSystem:
 class HealthMonitor:
     """
     Comprehensive health monitoring with predictive analytics.
-    
+
     Monitoring Strategy:
     - Passive: Metrics collection via instrumentation
     - Active: Periodic health probes
     - Predictive: ML-based failure prediction
     """
-    
+
     async def monitor_health(self, plugin: LukhasPlugin):
         """
         Collect health metrics with minimal overhead.
-        
+
         Metrics Collected:
         - CPU: User + System time via psutil
         - Memory: RSS + VMS via process monitoring
         - Latency: P50, P95, P99 percentiles
         - Errors: Rate and categorization
         - Custom: Plugin-specific KPIs
-        
+
         Collection Method: Lock-free ring buffer
         Storage: Time-series database (InfluxDB compatible)
         """
         metrics = HealthMetrics()
-        
+
         # CPU monitoring (non-blocking)
         metrics.cpu = await self._get_cpu_usage_async(plugin.pid)
-        
+
         # Memory monitoring
         metrics.memory = await self._get_memory_usage_async(plugin.pid)
-        
+
         # Response time (sliding window)
         metrics.latency = self._calculate_percentiles(
             plugin.response_times,
             percentiles=[50, 95, 99]
         )
-        
+
         # Error tracking (exponential decay)
         metrics.error_rate = self._calculate_error_rate(
             plugin.errors,
             window=timedelta(minutes=5)
         )
-        
+
         return metrics
 ```
 
@@ -271,16 +271,16 @@ version: "2.0.0"
 # Hierarchical organization with clear ownership
 lukhas:
   # Core  settings
-  
+
 plugin_system:
   # Plugin management settings
-  
+
 lambda_products:
   # Product-specific configurations
-  
+
 consolidation_modules:
   # Legacy module settings
-  
+
 unified_services:
   # Shared service configurations
 ```
@@ -311,13 +311,13 @@ unified_services:
 class PluginArchitecture:
     """
     Modular plugin system with dependency injection.
-    
+
     Design Patterns:
     - Dependency Injection: Constructor-based
     - Service Locator: For optional dependencies
     - Chain of Responsibility: For event handling
     - Observer: For health monitoring
-    
+
     SOLID Principles:
     - Single Responsibility: Each plugin has one purpose
     - Open/Closed: Extend via plugins, don't modify core

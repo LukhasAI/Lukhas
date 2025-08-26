@@ -7,7 +7,7 @@ Successfully organized recent files from the root directory into appropriate sub
 
 ### 📂 scripts/ (Shell Scripts)
 - `cleanup_orphaned_files.sh` - File cleanup automation
-- `consolidate_to_lukhas.sh` - Namespace consolidation  
+- `consolidate_to_lukhas.sh` - Namespace consolidation
 - `create_gpt5_package.sh` - Package creation
 - `mcp_integration_script.sh` - MCP integration
 - `safe_cleanup.sh` - Safe file cleanup

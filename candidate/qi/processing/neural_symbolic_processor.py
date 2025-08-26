@@ -41,7 +41,7 @@ __tier__ = 2
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": False,
+        "qi_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -61,7 +61,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

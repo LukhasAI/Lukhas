@@ -8,8 +8,8 @@ At LUKHAS AI, we're not just building another AI company - we're pioneering the 
 
 LUKHAS AI currently operates with a focused solo founder model, allowing for rapid innovation and coherent vision execution. As we continue to mature our consciousness technology and expand our impact, we're preparing to build a exceptional team of individuals who share our commitment to conscious AI development.
 
-**Current Status**: Foundation building with solo founder leadership  
-**Future Vision**: Carefully curated team of consciousness pioneers  
+**Current Status**: Foundation building with solo founder leadership
+**Future Vision**: Carefully curated team of consciousness pioneers
 **Timeline**: Strategic hiring as we scale our impact and capabilities
 
 ## The People We Seek

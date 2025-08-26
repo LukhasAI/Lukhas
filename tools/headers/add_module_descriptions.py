@@ -136,7 +136,7 @@ Generates and verifies zero-knowledge proofs using quantum circuits.
 Enables privacy-preserving authentication and computation verification
 without revealing underlying data through quantum cryptographic protocols.
 """,
-    "quantum_entanglement.py": """
+    "qi_entanglement.py": """
 Advanced Quantum Entanglement Framework
 =======================================
 
@@ -262,12 +262,12 @@ def main():
     print("=" * 50)
 
     # Start from current quantum directory
-    quantum_dir = Path(__file__).parent
+    qi_dir = Path(__file__).parent
     added = 0
     skipped = 0
 
     # Process all Python files in quantum directory
-    for filepath in quantum_dir.glob("*.py"):
+    for filepath in qi_dir.glob("*.py"):
         if filepath.name == "add_module_descriptions.py":
             continue
 
@@ -278,8 +278,8 @@ def main():
             skipped += 1
 
     # Process subdirectories
-    for subdir in ["systems", "quantum_meta", "bio", "src"]:
-        subdir_path = quantum_dir / subdir
+    for subdir in ["systems", "qi_meta", "bio", "src"]:
+        subdir_path = qi_dir / subdir
         if subdir_path.exists():
             for filepath in subdir_path.glob("**/*.py"):
                 # Add generic description for files not in our main list

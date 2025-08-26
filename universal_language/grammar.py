@@ -45,7 +45,7 @@ class GrammaticalRole(Enum):
 class SyntaxRule:
     """
     Individual syntax rule for the grammar system.
-    
+
     Based on patterns from the missing LUKHAS Grammar.
     """
     rule_id: str

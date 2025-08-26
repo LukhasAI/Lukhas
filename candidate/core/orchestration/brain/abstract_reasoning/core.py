@@ -98,7 +98,7 @@ class AbstractReasoningBrainCore:
         self.processing_queue = []
         self.harmony_protocols = {
             "bio_oscillation": True,
-            "quantum_coupling": True,
+            "qi_coupling": True,
             "symbolic_bridge": True,
             "cross_brain_coordination": True,
         }
@@ -151,7 +151,7 @@ class AbstractReasoningBrainCore:
             memory_frequency=10.0,  # Hz - Alpha waves
             learning_frequency=40.0,  # Hz - Gamma waves
             master_sync_frequency=1.0,  # Hz - Master coordination
-            quantum_coherence_threshold=0.85,
+            qi_coherence_threshold=0.85,
             bio_oscillation_amplitude=1.2,
         )
 
@@ -205,7 +205,7 @@ class AbstractReasoningBrainCore:
                 "reasoning_result": reasoning_result,
                 "confidence_metrics": {
                     "bayesian_confidence": confidence_metrics.bayesian_confidence,
-                    "quantum_confidence": confidence_metrics.quantum_confidence,
+                    "qi_confidence": confidence_metrics.qi_confidence,
                     "symbolic_confidence": confidence_metrics.symbolic_confidence,
                     "emotional_confidence": confidence_metrics.emotional_confidence,
                     "cross_brain_coherence": confidence_metrics.cross_brain_coherence,
@@ -344,8 +344,8 @@ class AbstractReasoningBrainCore:
                 bayesian_confidence=confidence_metrics_dict.get(
                     "bayesian_confidence", 0.5
                 ),
-                quantum_confidence=confidence_metrics_dict.get(
-                    "quantum_confidence", 0.5
+                qi_confidence=confidence_metrics_dict.get(
+                    "qi_confidence", 0.5
                 ),
                 symbolic_confidence=confidence_metrics_dict.get(
                     "symbolic_confidence", 0.5

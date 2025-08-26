@@ -26,16 +26,16 @@ export interface AliasResult {
  */
 export async function buildAlias(config: AliasConfig): Promise<AliasResult> {
   const { realm, zone, identifier, idType } = config
-  
+
   // Generate token from identifier
   const token = generateToken(identifier, idType)
-  
+
   // Format for display
   const aliasDisplay = `ΛiD#${realm}/${zone}/${token}`
-  
+
   // Normalized key for DB lookups (no special chars)
   const aliasKey = `${realm}${zone}${token}`.toUpperCase().replace(/[^A-Z0-9]/g, '')
-  
+
   return {
     aliasKey,
     aliasDisplay,
@@ -51,19 +51,19 @@ export async function buildAlias(config: AliasConfig): Promise<AliasResult> {
  */
 function generateToken(identifier: string, idType: string): string {
   const secret = process.env.LID_ALIAS_SECRET || 'default-secret'
-  
+
   // Create HMAC
   const hmac = createHmac('sha256', secret)
   hmac.update(`${idType}:${identifier.toLowerCase()}`)
   const hash = hmac.digest('hex')
-  
+
   // Convert to Base32-like encoding (A-Z, 2-7)
   const encoded = hashToBase32(hash)
-  
+
   // Take first 8 chars and add check digit
   const core = encoded.substring(0, 8)
   const checkDigit = calculateCheckDigit(core)
-  
+
   // Format as H-XXXX-XXXX-C
   return `H-${core.substring(0, 4)}-${core.substring(4, 8)}-${checkDigit}`
 }
@@ -74,14 +74,14 @@ function generateToken(identifier: string, idType: string): string {
 function hashToBase32(hash: string): string {
   const charset = 'ABCDEFGHJKLMNPQRSTUVWXYZ234567' // Base32 without confusing chars
   let result = ''
-  
+
   // Convert hex to base32
   for (let i = 0; i < hash.length; i += 2) {
     const byte = parseInt(hash.substr(i, 2), 16)
     result += charset[byte % 32]
     if (result.length >= 16) break // We only need 8-16 chars
   }
-  
+
   return result
 }
 
@@ -91,13 +91,13 @@ function hashToBase32(hash: string): string {
 function calculateCheckDigit(input: string): string {
   const charset = 'ABCDEFGHJKLMNPQRSTUVWXYZ234567'
   let sum = 0
-  
+
   for (let i = 0; i < input.length; i++) {
     const charIndex = charset.indexOf(input[i])
     const weight = (i % 2 === 0) ? 2 : 1
     sum += (charIndex * weight) % 32
   }
-  
+
   return charset[sum % charset.length]
 }
 
@@ -115,14 +115,14 @@ export function isValidAlias(alias: string): boolean {
  */
 export function parseAlias(alias: string): AliasResult | null {
   if (!isValidAlias(alias)) return null
-  
+
   // Remove ΛiD# prefix
   const parts = alias.substring(4).split('/')
   if (parts.length !== 3) return null
-  
+
   const [realm, zone, token] = parts
   const aliasKey = `${realm}${zone}${token}`.toUpperCase().replace(/[^A-Z0-9]/g, '')
-  
+
   return {
     aliasKey,
     aliasDisplay: alias,
@@ -141,11 +141,11 @@ export async function rotateAlias(
 ): Promise<AliasResult> {
   const parsed = parseAlias(currentAlias)
   if (!parsed) throw new Error('Invalid alias format')
-  
+
   // Add rotation salt to generate new token
   const rotationSalt = Date.now().toString()
   const identifierWithSalt = (newIdentifier || '') + rotationSalt
-  
+
   return buildAlias({
     realm: parsed.realm,
     zone: parsed.zone,

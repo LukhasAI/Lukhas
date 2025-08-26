@@ -12,19 +12,19 @@ interface TransparencyBoxProps {
   defaultExpanded?: boolean
 }
 
-export default function TransparencyBox({ 
-  capabilities, 
-  limitations, 
-  dependencies, 
+export default function TransparencyBox({
+  capabilities,
+  limitations,
+  dependencies,
   dataHandling,
   className = '',
-  defaultExpanded = false 
+  defaultExpanded = false
 }: TransparencyBoxProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded)
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded)
-    
+
     // Analytics event for transparency engagement
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'transparency_toggle', {
@@ -35,7 +35,7 @@ export default function TransparencyBox({
   }
 
   return (
-    <div 
+    <div
       className={`transparency-box bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden ${className}`}
       role="complementary"
       aria-labelledby="transparency-title"
@@ -121,9 +121,9 @@ export default function TransparencyBox({
           {/* Footer Note */}
           <div className="pt-3 border-t border-white/10">
             <p className="text-xs text-white/50 leading-relaxed">
-              Transparency disclosure required on all LUKHAS AI interfaces. 
-              GLYPH encoding used for symbolic data representation and system interoperability, not for cryptographic security. 
-              Authentication security relies on industry-standard protocols. 
+              Transparency disclosure required on all LUKHAS AI interfaces.
+              GLYPH encoding used for symbolic data representation and system interoperability, not for cryptographic security.
+              Authentication security relies on industry-standard protocols.
               Report issues via <a href="/support" className="text-purple-400 hover:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 rounded">support</a>.
             </p>
           </div>

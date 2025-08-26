@@ -50,7 +50,7 @@ Analysis of 3,473 Python files in the LUKHAS AI codebase revealed:
 
 ### ✅ Safe to Archive (Low AI Value)
 - Test workspace files: 0 identified
-- Documentation examples: 0 identified  
+- Documentation examples: 0 identified
 - Low-value utilities: 2 files
 - **Total safe to archive: 2 files**
 

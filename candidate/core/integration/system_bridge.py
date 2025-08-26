@@ -210,7 +210,7 @@ class SystemBridge:
         """Process quantum-related data (placeholder)."""
         self.logger.debug("Processing quantum data in SystemBridge (placeholder).")
         return {
-            "quantum_like_state_bridge": "entangled",
+            "qi_like_state_bridge": "entangled",
             "coherence_bridge": "stable",
         }
 

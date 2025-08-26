@@ -19,10 +19,13 @@ import datetime
 import logging
 from typing import Any
 
+from candidate.core.interfaces.voice.voice_emotional.context_aware_modular_voice import (
+    ComplianceEngine,
+)
+from candidate.memory.temporal.ContextAnalyzer import ContextAnalyzer
+
 # Import actual implementations
 from candidate.memory.voice_memory_manager import MemoryManager
-from candidate.memory.temporal.ContextAnalyzer import ContextAnalyzer
-from candidate.core.interfaces.voice.voice_emotional.context_aware_modular_voice import ComplianceEngine
 
 from .modulator import VoiceModulator
 from .safety.voice_safety_guard import SafetyGuard

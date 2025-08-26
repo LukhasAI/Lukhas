@@ -1,11 +1,15 @@
 # path: qi/learning/adaptive_engine.py
 from __future__ import annotations
-import os, json, time, math, random, itertools, hashlib
-from dataclasses import dataclass, asdict
-from typing import Dict, Any, List, Optional, Tuple, Iterable
 
 # Safe I/O
 import builtins
+import hashlib
+import json
+import os
+import time
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Optional
+
 _ORIG_OPEN = builtins.open
 _ORIG_MAKEDIRS = os.makedirs
 
@@ -15,8 +19,8 @@ EPISODES = os.path.join(LEARN_DIR, "episodes.jsonl")          # ring buffer of t
 CANDIDATES = os.path.join(LEARN_DIR, "candidates.jsonl")      # proposed configs + scores
 
 # Approvals & sandbox reuse
-from qi.autonomy.self_healer import plan_proposals, observe_signals, approve, apply, list_proposals
-from qi.ops.cap_sandbox import CapManager, Sandbox, SandboxPlan, EnvSpec, FsSpec
+from qi.autonomy.self_healer import observe_signals
+
 
 def _now() -> float: return time.time()
 def _sha(obj: Any) -> str: return hashlib.sha256(json.dumps(obj, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
@@ -150,7 +154,11 @@ class AdaptiveLearningEngine:
             # self_healer.plan_proposals already computes a safe patch; we replace its patch with ours per target
             sig = observe_signals()
             # We inject our specific candidate patch by temporarily writing a one-off plan around target
-            from qi.autonomy.self_healer import ChangeProposal, _queue_proposal, _attest  # type: ignore
+            from qi.autonomy.self_healer import (  # type: ignore
+                ChangeProposal,
+                _attest,
+                _queue_proposal,
+            )
             for tgt in config_targets:
                 pid = _sha({"cand": cand.id, "tgt": tgt, "ts": int(_now())})
                 prop = ChangeProposal(

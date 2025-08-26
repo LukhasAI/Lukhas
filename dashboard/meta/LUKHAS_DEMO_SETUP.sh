@@ -42,7 +42,7 @@ check_python() {
 # Check and activate virtual environment
 setup_venv() {
     echo -e "\n${BLUE}Setting up virtual environment...${NC}"
-    
+
     # Check if .venv exists
     if [ -d ".venv" ]; then
         echo -e "${GREEN}✓ Virtual environment found${NC}"
@@ -56,7 +56,7 @@ setup_venv() {
             return 1
         fi
     fi
-    
+
     # Activate virtual environment
     echo -e "${BLUE}Activating virtual environment...${NC}"
     source .venv/bin/activate
@@ -66,7 +66,7 @@ setup_venv() {
 # Install dependencies
 install_dependencies() {
     echo -e "\n${BLUE}Installing dependencies...${NC}"
-    
+
     if [ -f "requirements.txt" ]; then
         pip install -q --upgrade pip
         pip install -q -r requirements.txt
@@ -74,7 +74,7 @@ install_dependencies() {
     else
         echo -e "${YELLOW}⚠ requirements.txt not found${NC}"
     fi
-    
+
     # Install FastAPI and Uvicorn if not present
     pip install -q fastapi uvicorn
     echo -e "${GREEN}✓ FastAPI and Uvicorn ready${NC}"
@@ -83,25 +83,25 @@ install_dependencies() {
 # Initialize data directory
 setup_data() {
     echo -e "\n${BLUE}Initializing data directory...${NC}"
-    
+
     # Create data directory
     mkdir -p data
     mkdir -p guardian_audit/logs
     mkdir -p meta_dashboard/static
-    
+
     # Initialize demo user if not exists
     if [ ! -f "data/users.json" ]; then
         echo -e "${YELLOW}Creating demo user database...${NC}"
         python3 -c "from identity.user_db import user_db; print('Demo user initialized')"
     fi
-    
+
     echo -e "${GREEN}✓ Data directory ready${NC}"
 }
 
 # Create demo FastAPI app
 create_demo_app() {
     echo -e "\n${BLUE}Creating demo application...${NC}"
-    
+
     cat > demo_app.py << 'EOF'
 """
 LUKHΛS Demo Application
@@ -176,7 +176,7 @@ if __name__ == "__main__":
     print("  Login: http://localhost:8000/static/login.html")
     print("  API Docs: http://localhost:8000/docs")
     print("  Symbolic Map: http://localhost:8000/meta/symbolic-map\n")
-    
+
     uvicorn.run(app, host="0.0.0.0", port=8000)
 EOF
 
@@ -186,13 +186,13 @@ EOF
 # Generate token cards
 generate_artifacts() {
     echo -e "\n${BLUE}Generating review artifacts...${NC}"
-    
+
     # Generate API token cards
     if [ -f "meta_dashboard/generate_token_cards.py" ]; then
         python3 meta_dashboard/generate_token_cards.py > /dev/null 2>&1
         echo -e "${GREEN}✓ API token cards generated${NC}"
     fi
-    
+
     # Create reviewer token file
     cat > meta_dashboard/reviewer_token.json << EOF
 {
@@ -208,7 +208,7 @@ generate_artifacts() {
     }
 }
 EOF
-    
+
     echo -e "${GREEN}✓ Reviewer token file created${NC}"
 }
 
@@ -217,22 +217,22 @@ launch_demo() {
     echo -e "\n${PURPLE}═══════════════════════════════════════════════════════════════${NC}"
     echo -e "${BOLD}${GREEN}LUKHΛS Demo Ready!${NC}"
     echo -e "${PURPLE}═══════════════════════════════════════════════════════════════${NC}\n"
-    
+
     echo -e "${CYAN}Demo Access:${NC}"
     echo -e "  ${BOLD}Login URL:${NC} http://localhost:8000/static/login.html"
     echo -e "  ${BOLD}Email:${NC} reviewer@openai.com"
     echo -e "  ${BOLD}Password:${NC} demo_password"
     echo -e "  ${BOLD}API Docs:${NC} http://localhost:8000/docs"
-    
+
     echo -e "\n${CYAN}Key Endpoints:${NC}"
     echo -e "  ${BOLD}/identity/login${NC} - Authentication"
     echo -e "  ${BOLD}/meta/overview${NC} - Dashboard overview"
     echo -e "  ${BOLD}/meta/trends${NC} - Trends analysis"
     echo -e "  ${BOLD}/api/meta/log${NC} - System logs"
     echo -e "  ${BOLD}/meta/symbolic-map${NC} - Symbolic reference"
-    
+
     echo -e "\n${YELLOW}Starting server...${NC}\n"
-    
+
     # Launch the demo
     python3 demo_app.py
 }
@@ -247,10 +247,10 @@ handle_error() {
 # Main execution
 main() {
     print_header
-    
+
     # Change to script directory
     cd "$(dirname "$0")/.." || handle_error "Directory navigation"
-    
+
     # Run setup steps
     check_python || handle_error "Python check"
     setup_venv || handle_error "Virtual environment"
@@ -258,7 +258,7 @@ main() {
     setup_data || handle_error "Data initialization"
     create_demo_app || handle_error "Demo app creation"
     generate_artifacts || handle_error "Artifact generation"
-    
+
     # Launch demo
     launch_demo
 }

@@ -420,11 +420,11 @@
         <div id="welcomeStage" class="stage-content">
             <h1 class="stage-title">Welcome to LUKHAS ΛiD</h1>
             <p class="stage-subtitle">Your journey to symbolic identity begins here</p>
-            
+
             <p>We'll guide you through creating a unique identity that reflects your cultural background and personal preferences.</p>
-            
+
             <h3 style="margin-top: 30px; margin-bottom: 20px;">Choose Your Onboarding Style:</h3>
-            
+
             <div class="personality-grid">
                 <div class="personality-card" data-personality="simple">
                     <div class="personality-icon">⚡</div>
@@ -432,21 +432,21 @@
                     <div class="personality-description">Get started with minimal setup</div>
                     <div class="personality-time">2-3 minutes</div>
                 </div>
-                
+
                 <div class="personality-card" data-personality="cultural">
                     <div class="personality-icon">🌍</div>
                     <div class="personality-title">Cultural Expression</div>
                     <div class="personality-description">Explore cultural symbols and traditions</div>
                     <div class="personality-time">5-8 minutes</div>
                 </div>
-                
+
                 <div class="personality-card" data-personality="security">
                     <div class="personality-icon">🔒</div>
                     <div class="personality-title">Security Focused</div>
                     <div class="personality-description">Maximum security and privacy features</div>
                     <div class="personality-time">8-12 minutes</div>
                 </div>
-                
+
                 <div class="personality-card" data-personality="creative">
                     <div class="personality-icon">🎨</div>
                     <div class="personality-title">Creative & Artistic</div>
@@ -454,7 +454,7 @@
                     <div class="personality-time">6-10 minutes</div>
                 </div>
             </div>
-            
+
             <div class="action-buttons">
                 <button class="btn btn-primary" onclick="startOnboarding()">Begin Journey</button>
             </div>
@@ -464,7 +464,7 @@
         <div id="culturalStage" class="stage-content hidden">
             <h1 class="stage-title">Cultural Discovery</h1>
             <p class="stage-subtitle">Share your cultural background for personalized suggestions</p>
-            
+
             <div class="cultural-context-selector">
                 <h3>Select your cultural heritage:</h3>
                 <div class="cultural-options">
@@ -494,7 +494,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="cultural-suggestions">
                 <div class="cultural-title">Suggested elements for your heritage:</div>
                 <div class="cultural-elements" id="culturalSuggestions">
@@ -503,7 +503,7 @@
                     <span class="cultural-tag">unity</span>
                 </div>
             </div>
-            
+
             <div class="action-buttons">
                 <button class="btn btn-secondary" onclick="previousStage()">Back</button>
                 <button class="btn btn-primary" onclick="nextStage()">Continue</button>
@@ -514,13 +514,13 @@
         <div id="symbolicStage" class="stage-content hidden">
             <h1 class="stage-title">Symbolic Foundation</h1>
             <p class="stage-subtitle">Choose symbols, words, and elements that represent you</p>
-            
+
             <p>Select 3-8 elements that resonate with you. These will form your symbolic vault:</p>
-            
+
             <div class="symbolic-grid" id="symbolicGrid">
                 <!-- Symbolic elements will be populated here -->
             </div>
-            
+
             <div class="recommendations">
                 <h4>💡 Recommendations:</h4>
                 <div class="recommendation-item">
@@ -532,7 +532,7 @@
                     <span class="recommendation-text">Include elements from your cultural background</span>
                 </div>
             </div>
-            
+
             <div class="action-buttons">
                 <button class="btn btn-secondary" onclick="previousStage()">Back</button>
                 <button class="btn btn-primary" onclick="nextStage()" id="symbolicContinue" disabled>Continue</button>
@@ -543,14 +543,14 @@
         <div id="completionStage" class="stage-content hidden">
             <h1 class="stage-title">🎉 ΛiD Created Successfully!</h1>
             <p class="stage-subtitle">Your symbolic identity is ready</p>
-            
+
             <div class="lambda-preview">
                 <h3>Your LUKHAS ΛiD</h3>
                 <div class="lambda-id" id="lambdaIdDisplay">ΛUKH-DEMO-2024-ABCD1234</div>
                 <div class="qrg-preview">🔮</div>
                 <p>Tier: <strong id="tierDisplay">BASIC</strong> | Entropy: <strong id="entropyDisplay">0.65</strong></p>
             </div>
-            
+
             <div class="completion-report">
                 <h3>Onboarding Complete!</h3>
                 <div class="report-stats">
@@ -572,7 +572,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="action-buttons">
                 <button class="btn btn-primary" onclick="downloadCredentials()">Download Credentials</button>
                 <button class="btn btn-secondary" onclick="startNewDemo()">Start New Demo</button>
@@ -639,7 +639,7 @@
             }
 
             sessionData.startTime = Date.now();
-            
+
             // Determine flow based on personality
             if (sessionData.personalityType === 'cultural') {
                 showStage('cultural');
@@ -648,7 +648,7 @@
                 showStage('symbolic');
                 sessionData.progress = 50;
             }
-            
+
             updateProgress();
             generateSymbolicElements();
         }
@@ -657,10 +657,10 @@
             document.querySelectorAll('.stage-content').forEach(stage => {
                 stage.classList.add('hidden');
             });
-            
+
             document.getElementById(stageName + 'Stage').classList.remove('hidden');
             document.getElementById(stageName + 'Stage').classList.add('fade-in');
-            
+
             currentStage = stageName;
             document.getElementById('currentStage').textContent = stageName.charAt(0).toUpperCase() + stageName.slice(1);
         }
@@ -714,7 +714,7 @@
 
             // Mix of emojis and words
             let elements = [...symbolicElements.emojis.slice(0, 8), ...symbolicElements.words.slice(0, 6)];
-            
+
             // Add cultural elements if selected
             if (sessionData.culturalContext) {
                 elements = [...elements, ...symbolicElements.cultural[sessionData.culturalContext]];
@@ -722,7 +722,7 @@
 
             // Shuffle and display
             elements.sort(() => Math.random() - 0.5);
-            
+
             elements.slice(0, 20).forEach(element => {
                 const div = document.createElement('div');
                 div.className = 'symbolic-element';
@@ -739,13 +739,13 @@
 
         function toggleSymbolicElement(element, value) {
             element.classList.toggle('selected');
-            
+
             if (element.classList.contains('selected')) {
                 sessionData.selectedSymbols.push(value);
             } else {
                 sessionData.selectedSymbols = sessionData.selectedSymbols.filter(s => s !== value);
             }
-            
+
             // Update continue button
             const continueBtn = document.getElementById('symbolicContinue');
             continueBtn.disabled = sessionData.selectedSymbols.length < 3;
@@ -756,30 +756,30 @@
             // Simulate completion
             sessionData.progress = 100;
             updateProgress();
-            
+
             // Calculate demo stats
             const duration = (Date.now() - sessionData.startTime) / 60000; // minutes
             const tier = sessionData.selectedSymbols.length >= 6 ? 'BASIC' : 'FREE';
             const tierLevel = sessionData.selectedSymbols.length >= 6 ? 2 : 1;
             const entropy = Math.min(0.3 + (sessionData.selectedSymbols.length * 0.05), 0.8);
-            
+
             // Update completion display
             document.getElementById('lambdaIdDisplay').textContent = `ΛUKH-DEMO-${Date.now().toString().slice(-8)}`;
             document.getElementById('tierDisplay').textContent = tier;
             document.getElementById('entropyDisplay').textContent = entropy.toFixed(2);
-            
+
             document.getElementById('statDuration').textContent = duration.toFixed(1);
             document.getElementById('statElements').textContent = sessionData.selectedSymbols.length;
             document.getElementById('statTier').textContent = tierLevel;
             document.getElementById('statEntropy').textContent = Math.round(entropy * 100) + '%';
-            
+
             showStage('completion');
         }
 
         function updateProgress() {
             document.getElementById('progressFill').style.width = sessionData.progress + '%';
             document.getElementById('progressPercent').textContent = Math.round(sessionData.progress);
-            
+
             const timeSpent = (Date.now() - sessionData.startTime) / 60000;
             document.getElementById('timeSpent').textContent = timeSpent.toFixed(1);
         }
@@ -794,7 +794,7 @@
                 cultural_context: sessionData.culturalContext,
                 created: new Date().toISOString()
             };
-            
+
             const blob = new Blob([JSON.stringify(credentials, null, 2)], {type: 'application/json'});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -812,7 +812,7 @@
                 startTime: Date.now(),
                 progress: 10
             };
-            
+
             // Reset UI
             document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
             showStage('welcome');

@@ -37,7 +37,7 @@ from datetime import datetime
 
 import numpy as np
 import simpleaudio as sa
-from qiskit import Aer, QuantumCircuit
+from qiskit import Aer, QICircuit
 from scipy.special import softmax
 
 
@@ -216,7 +216,7 @@ class QIEthicalHandler:
         from qiskit.circuit import Parameter
 
         Parameter("θ")
-        qc = QuantumCircuit(self.n_qubits)
+        qc = QICircuit(self.n_qubits)
 
         # Ethical state preparation with compliance-aware weighting
         for i, w in enumerate(weights[: self.n_qubits]):
@@ -329,7 +329,7 @@ class LucasAGI:
 
     def __init__(self, prime_ratios=(3, 5, 7, 11)):
         self.oscillators = []  # Prime-harmonic cognitive modules
-        self.quantum_handler = QuantumEthicalHandler()
+        self.qi_handler = QIEthicalHandler()
         self.compliance_layer = LegalComplianceLayer()
         self.environmental_context = {}
         self.ethical_override = False
@@ -374,31 +374,31 @@ class LucasAGI:
             logging.error("Input violates AI governance frameworks")
             return self._safe_fallback_response()
 
-        weights = self.quantum_handler.ethics.get_priority_weights(
+        weights = self.qi_handler.ethics.get_priority_weights(
             self.environmental_context
         )
         modulated_weights = self._modulate_ethical_weights(weights)
         self.assess_stakeholder_impact(self.environmental_context)
-        quantum_decision = self.quantum_handler.measure_ethical_state(
+        qi_decision = self.qi_handler.measure_ethical_state(
             self.environmental_context, modulated_weights
         )
 
-        if quantum_decision == -1:  # Human review required
+        if qi_decision == -1:  # Human review required
             return self._human_oversight_protocol(input_data)
 
-        if quantum_decision == "Deny operation for privacy preservation":
+        if qi_decision == "Deny operation for privacy preservation":
             self.recalibrate_autonomy()
 
         self.ethical_decision_log.append(
-            {"context": self.environmental_context.copy(), "decision": quantum_decision}
+            {"context": self.environmental_context.copy(), "decision": qi_decision}
         )
         self.monitor_post_market()
-        return self._synthesize_output(quantum_decision)
+        return self._synthesize_output(qi_decision)
 
     def recalibrate_autonomy(self):
         """Full system recalibration under ethical strain"""
         logging.info("Recalibrating Lukhas_AGI autonomy and ethical alignment")
-        self.quantum_handler.compliance.recalibrate_safeguards()
+        self.qi_handler.compliance.recalibrate_safeguards()
         keys_to_retain = ["ecological_balance", "privacy_protection"]
         self.environmental_context = {
             k: v for k, v in self.environmental_context.items() if k in keys_to_retain
@@ -644,7 +644,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": False,
+        "qi_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -663,7 +663,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

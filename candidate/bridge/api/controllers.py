@@ -80,7 +80,7 @@ try:
     from lukhas.memory.memory_service import MemoryService
 
     # Learning service is now obtained through the service registry
-    from qi.quantum_service import QuantumService
+    from qi.qi_service import QIService
 
     logger.info("ΛTRACE: Successfully imported AGI module services and IdentityClient.")
 except ImportError as e:
@@ -93,7 +93,7 @@ except ImportError as e:
     from .fallback_services import FallbackEthicsService as EthicsService
     from .fallback_services import FallbackIdentityClient as IdentityClient
     from .fallback_services import FallbackMemoryService as MemoryService
-    from .fallback_services import FallbackQuantumService as QuantumService
+    from .fallback_services import FallbackQuantumService as QIService
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -118,7 +118,7 @@ consciousness_service = ConsciousnessService()
 # Get learning service from registry through the lazy getter
 learning_service_getter = _get_learning_service()
 learning_service = learning_service_getter()
-quantum_service = QuantumService()
+qi_service = QIService()
 identity_client = IdentityClient()  # This client handles auth and activity logging
 logger.info("ΛTRACE: All AGI module services initialized (potentially fallbacks).")
 
@@ -838,7 +838,7 @@ def learning_adapt_behavior_endpoint():  # Renamed:
 
 @app.route(f"{BASE_PATH}/quantum/compute", methods=["POST"])
 @require_auth("LAMBDA_TIER_3")  # Higher tier for quantum computation
-def quantum_perform_computation_endpoint():  # Renamed:
+def qi_perform_computation_endpoint():  # Renamed:
     """Execute a quantum algorithm with specified input qubits and gates."""
     endpoint_path = "/quantum/compute"
     user_id = get_request_user_id()
@@ -884,14 +884,14 @@ def quantum_perform_computation_endpoint():  # Renamed:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling quantum_service.quantum_compute for user '{user_id}',
+            f"ΛTRACE: Calling qi_service.qi_compute for user '{user_id}',
             algorithm: '{data['algorithm']}'."
         )
-        result = quantum_service.quantum_compute(
+        result = qi_service.qi_compute(
             user_id,
             data["algorithm"],
             qubits,
-            data.get("quantum_gates"),  # quantum_gates is optional
+            data.get("qi_gates"),  # qi_gates is optional
         )
         logger.info(
             f"ΛTRACE: Response for {endpoint_path} (user '{user_id}'): {result}"
@@ -909,7 +909,7 @@ def quantum_perform_computation_endpoint():  # Renamed:
 
 @app.route(f"{BASE_PATH}/quantum/entangle", methods=["POST"])
 @require_auth("LAMBDA_TIER_4")  # Highest tier for advanced quantum operations
-def quantum_create_entanglement_endpoint():  # Renamed:
+def qi_create_entanglement_endpoint():  # Renamed:
     """Create entanglement-like correlation between specified target systems."""
     endpoint_path = "/quantum/entangle"
     user_id = get_request_user_id()
@@ -931,10 +931,10 @@ def quantum_create_entanglement_endpoint():  # Renamed:
             )
 
         logger.debug(
-            f"ΛTRACE: Calling quantum_service.quantum_entangle for user '{user_id}',
+            f"ΛTRACE: Calling qi_service.qi_entangle for user '{user_id}',
             type: '{data['entanglement_type']}'."
         )
-        result = quantum_service.quantum_entangle(
+        result = qi_service.qi_entangle(
             user_id,
             data["entanglement_type"],
             data["target_systems"],

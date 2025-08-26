@@ -43,7 +43,7 @@ if [ -d "poetry" ]; then
     # Copy the new poetry system
     cp -r poetry/* branding/poetry/ 2>/dev/null || true
     print_status "Moved new poetry system to branding/poetry"
-    
+
     # Remove the old location
     rm -rf poetry
     print_status "Removed poetry from root"
@@ -181,7 +181,7 @@ from pathlib import Path
 
 def update_imports(root_dir):
     """Update poetry-related imports in Python files"""
-    
+
     old_imports = [
         (r'from consciousness\.creativity import advanced_haiku_generator',
          'from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py'),
@@ -190,39 +190,39 @@ def update_imports(root_dir):
         (r'import poetry\.',
          'import branding.poetry.'),
     ]
-    
+
     updated_files = []
-    
+
     for root, dirs, files in os.walk(root_dir):
         # Skip virtual environments and git
         dirs[:] = [d for d in dirs if d not in {'.venv', '.git', 'node_modules', '__pycache__'}]
-        
+
         for file in files:
             if file.endswith('.py'):
                 filepath = Path(root) / file
-                
+
                 try:
                     with open(filepath, 'r') as f:
                         content = f.read()
-                    
+
                     original_content = content
                     for old_pattern, new_pattern in old_imports:
                         content = re.sub(old_pattern, new_pattern, content)
-                    
+
                     if content != original_content:
                         with open(filepath, 'w') as f:
                             f.write(content)
                         updated_files.append(str(filepath))
-                        
+
                 except Exception as e:
                     print(f"Error processing {filepath}: {e}")
-    
+
     return updated_files
 
 if __name__ == "__main__":
     print("Updating poetry imports...")
     updated = update_imports("/Users/agi_dev/LOCAL-REPOS/Lukhas")
-    
+
     if updated:
         print(f"\nUpdated {len(updated)} files:")
         for file in updated:

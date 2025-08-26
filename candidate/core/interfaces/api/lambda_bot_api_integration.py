@@ -24,7 +24,7 @@ LAMBDA_BOT_ENDPOINTS = {
     "multi_brain_symphony": "https://lambda-bot-multi-brain-symphony.lukhas-ai-dev-env.eastus.azurecontainerapps.io",
     "agi_controller": "https://lambda-bot-agi-controller.lukhas-ai-dev-env.eastus.azurecontainerapps.io",
     "bio_symbolic": "https://lambda-bot-bio-symbolic.lukhas-ai-dev-env.eastus.azurecontainerapps.io",
-    "quantum_consciousness": "https://lambda-bot-quantum-consciousness.lukhas-ai-dev-env.eastus.azurecontainerapps.io",
+    "qi_consciousness": "https://lambda-bot-quantum-consciousness.lukhas-ai-dev-env.eastus.azurecontainerapps.io",
 }
 
 

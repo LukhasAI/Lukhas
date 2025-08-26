@@ -89,7 +89,7 @@ if metrics.latency_p99 > 200:
     optimize_task_queue()
     enable_caching()
 
-# Database optimization  
+# Database optimization
 if metrics.db_cpu > 80:
     add_read_replicas()
     optimize_queries()

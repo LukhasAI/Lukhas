@@ -1,15 +1,18 @@
 from __future__ import annotations
-import os, json, glob
-from typing import Dict, List, Any
+
+import json
+import os
+from typing import Any, Dict, List
+
 import yaml
 
 CHECK_KINDS = {"require_provenance","mask_pii","budget_limit","age_gate","content_policy"}
 
 def load_pack(policy_root: str, jurisdiction: str = "global") -> Dict[str, Any]:
     base = os.path.join(policy_root, jurisdiction)
-    with open(os.path.join(base, "policy.yaml"), "r", encoding="utf-8") as f:
+    with open(os.path.join(base, "policy.yaml"), encoding="utf-8") as f:
         policy = yaml.safe_load(f)
-    with open(os.path.join(base, "mappings.yaml"), "r", encoding="utf-8") as f:
+    with open(os.path.join(base, "mappings.yaml"), encoding="utf-8") as f:
         mappings = yaml.safe_load(f)
     return {"root": base, "policy": policy, "mappings": mappings}
 

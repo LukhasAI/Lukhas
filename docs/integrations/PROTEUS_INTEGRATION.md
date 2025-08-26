@@ -79,7 +79,7 @@ npm run dev
   - Anthropic Claude
   - Google Gemini
   - Local models (Ollama)
-  
+
 - **Visual Settings**:
   - Particle count (100-5000)
   - Morph speed

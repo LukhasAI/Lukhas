@@ -814,7 +814,7 @@ class HyperspaceDreamSimulator:
         # Add sophisticated outcome generation based on causal models
         advanced_outcomes = await self._generate_causal_model_outcomes(decision, outcomes)
         outcomes.extend(advanced_outcomes)
-        
+
         # Use historical data and ML patterns for outcome prediction
         if hasattr(self, 'historical_patterns'):
             pattern_based_outcomes = self._generate_pattern_based_outcomes(decision, outcomes)
@@ -984,14 +984,14 @@ class HyperspaceDreamSimulator:
     def _analyze_convergence(self, scenario: SimulationScenario) -> dict[str, Any]:
         """Analyze convergence patterns in timeline branches"""
         # Implement sophisticated convergence analysis using clustering algorithms
-        
+
         convergence_points = []
         timeline_positions = []
 
         for timeline in scenario.timelines.values():
             if timeline.current_position.dimensions:
                 timeline_positions.append(timeline.current_position)
-        
+
         # Perform convergence clustering analysis
         if len(timeline_positions) > 1:
             convergence_analysis = self._perform_convergence_clustering(timeline_positions)
@@ -1145,12 +1145,12 @@ class HyperspaceDreamSimulator:
         # Add sophisticated recommendation generation using ML models
         ml_recommendations = await self._generate_ml_based_recommendations(scenario)
         recommendations.extend(ml_recommendations)
-        
+
         # Generate pattern-based recommendations from historical outcomes
         if hasattr(scenario, 'historical_data'):
             historical_recommendations = self._generate_historical_recommendations(scenario)
             recommendations.extend(historical_recommendations)
-        
+
         # Risk-aware recommendations
         risk_recommendations = self._generate_risk_aware_recommendations(scenario)
         recommendations.extend(risk_recommendations)
@@ -1551,54 +1551,54 @@ class HyperspaceDreamSimulator:
     def _validate_logical_coherence(self) -> list[str]:
         """Validate logical coherence in the current scenario"""
         violations = []
-        
+
         # Check for logical contradictions in outcomes
         outcome_statements = []
         for outcome in self.outcomes:
             if isinstance(outcome, dict) and "description" in outcome:
                 outcome_statements.append(outcome["description"].lower())
-        
+
         # Simple contradiction detection
         contradiction_pairs = [
             ("success", "failure"),
-            ("increase", "decrease"), 
+            ("increase", "decrease"),
             ("growth", "decline"),
             ("positive", "negative"),
         ]
-        
+
         for positive, negative in contradiction_pairs:
             positive_count = sum(1 for stmt in outcome_statements if positive in stmt)
             negative_count = sum(1 for stmt in outcome_statements if negative in stmt)
-            
+
             if positive_count > 0 and negative_count > 0:
                 violations.append(f"Logical contradiction detected: {positive} vs {negative}")
-        
+
         # Check for impossible temporal sequences
         if len(self.outcomes) > 1:
             timeline_events = []
             for outcome in self.outcomes:
                 if isinstance(outcome, dict) and "timeline" in outcome:
                     timeline_events.append(outcome["timeline"])
-            
+
             # Check for events that occur before their prerequisites
             if len(timeline_events) > 1:
                 sorted_events = sorted(timeline_events)
                 if timeline_events != sorted_events:
                     violations.append("Temporal causality violation detected")
-        
+
         return violations
 
     async def _generate_causal_model_outcomes(
         self, decision: dict[str, Any], existing_outcomes: list[dict]
     ) -> list[dict[str, Any]]:
         """Generate sophisticated outcomes based on causal models"""
-        
+
         advanced_outcomes = []
-        
+
         # Causal chain analysis
         decision_type = decision.get("type", "unknown")
         decision_impact = decision.get("expected_impact", 0.5)
-        
+
         # Generate systemic outcomes based on causal relationships
         if decision_type in ["strategic", "policy"]:
             # Long-term cascading effects
@@ -1611,13 +1611,13 @@ class HyperspaceDreamSimulator:
                 "timeline_impact": "long_term",
                 "causal_factors": [
                     "network_effects",
-                    "stakeholder_reactions", 
+                    "stakeholder_reactions",
                     "regulatory_response",
                 ],
                 "context": decision.get("context", {}),
             }
             advanced_outcomes.append(cascade_outcome)
-        
+
         # Network effect outcomes
         if decision.get("affects_network", False):
             network_outcome = {
@@ -1632,19 +1632,19 @@ class HyperspaceDreamSimulator:
                 "context": decision.get("context", {}),
             }
             advanced_outcomes.append(network_outcome)
-        
+
         return advanced_outcomes
-    
+
     def _generate_pattern_based_outcomes(
         self, decision: dict[str, Any], existing_outcomes: list[dict]
     ) -> list[dict[str, Any]]:
         """Generate outcomes based on historical patterns"""
-        
+
         pattern_outcomes = []
-        
+
         # Mock historical pattern matching
         decision_fingerprint = hash(str(decision)) % 100
-        
+
         if decision_fingerprint > 70:
             # High success pattern
             pattern_outcome = {
@@ -1667,25 +1667,25 @@ class HyperspaceDreamSimulator:
                 "description": "Outcome matches historical risk patterns",
                 "probability": 0.6,
                 "impact_magnitude": -0.4,
-                "timeline_impact": "medium_term", 
+                "timeline_impact": "medium_term",
                 "risk_factors": ["market_volatility", "stakeholder_resistance"],
                 "mitigation_suggestions": ["phased_implementation", "stakeholder_engagement"],
                 "context": decision.get("context", {}),
             }
             pattern_outcomes.append(risk_outcome)
-        
+
         return pattern_outcomes
 
     def _perform_convergence_clustering(self, positions: list) -> dict[str, Any]:
         """Perform clustering analysis to identify convergence points"""
-        
+
         if len(positions) < 2:
             return {"clusters": [], "convergence_score": 0.0}
-        
+
         # Simple distance-based clustering for timeline positions
         clusters = []
         convergence_threshold = 0.3
-        
+
         # Convert positions to comparable format
         position_vectors = []
         for pos in positions:
@@ -1695,41 +1695,41 @@ class HyperspaceDreamSimulator:
                 while len(vector) < 3:
                     vector.append(0.0)  # Pad with zeros
                 position_vectors.append(vector)
-        
+
         if len(position_vectors) < 2:
             return {"clusters": [], "convergence_score": 0.0}
-        
+
         # Simple pairwise distance clustering
         clustered = [False] * len(position_vectors)
         cluster_id = 0
-        
+
         for i in range(len(position_vectors)):
             if clustered[i]:
                 continue
-                
+
             cluster_members = [i]
             clustered[i] = True
-            
+
             for j in range(i + 1, len(position_vectors)):
                 if clustered[j]:
                     continue
-                    
+
                 # Calculate Euclidean distance
                 distance = sum(
                     (position_vectors[i][k] - position_vectors[j][k]) ** 2
                     for k in range(3)
                 ) ** 0.5
-                
+
                 if distance < convergence_threshold:
                     cluster_members.append(j)
                     clustered[j] = True
-            
+
             if len(cluster_members) > 1:
                 clusters.append({
                     "cluster_id": cluster_id,
                     "member_count": len(cluster_members),
                     "convergence_strength": 1.0 - (sum(
-                        sum((position_vectors[m1][k] - position_vectors[m2][k]) ** 2 
+                        sum((position_vectors[m1][k] - position_vectors[m2][k]) ** 2
                             for k in range(3)) ** 0.5
                         for m1 in cluster_members for m2 in cluster_members if m1 < m2
                     ) / max(1, len(cluster_members) * (len(cluster_members) - 1) / 2)),
@@ -1739,9 +1739,9 @@ class HyperspaceDreamSimulator:
                     ]
                 })
                 cluster_id += 1
-        
+
         convergence_score = len(clusters) / max(1, len(positions) / 2)  # Normalize score
-        
+
         return {
             "clusters": clusters,
             "convergence_score": min(1.0, convergence_score),
@@ -1753,31 +1753,31 @@ class HyperspaceDreamSimulator:
         self, scenario: SimulationScenario
     ) -> list[str]:
         """Generate ML-based recommendations for scenario optimization"""
-        
+
         recommendations = []
-        
+
         # Analyze scenario characteristics for ML insights
         timeline_count = len(scenario.timelines)
         outcome_diversity = len(set(
             outcome.get("type", "unknown") for outcome in scenario.outcomes
         ))
-        
+
         # Decision complexity analysis
         decision_complexity = sum(
             len(str(decision)) for decision in scenario.decision_sequence
         ) / max(len(scenario.decision_sequence), 1)
-        
+
         # Generate recommendations based on ML patterns
         if timeline_count > 5 and outcome_diversity < 3:
             recommendations.append(
                 "Consider exploring more diverse outcome types to improve scenario robustness"
             )
-        
+
         if decision_complexity > 200:  # Arbitrary threshold for complexity
             recommendations.append(
                 "High decision complexity detected - consider breaking down into smaller decisions"
             )
-        
+
         # Resource optimization recommendations
         if hasattr(scenario, 'resource_usage'):
             resource_efficiency = getattr(scenario, 'resource_efficiency', 0.7)
@@ -1785,19 +1785,19 @@ class HyperspaceDreamSimulator:
                 recommendations.append(
                     "Resource efficiency below optimal - recommend resource reallocation"
                 )
-        
+
         return recommendations
-    
+
     def _generate_historical_recommendations(
         self, scenario: SimulationScenario
     ) -> list[str]:
         """Generate recommendations based on historical data patterns"""
-        
+
         recommendations = []
-        
+
         # Mock historical analysis
         scenario_hash = hash(scenario.scenario_id) % 100
-        
+
         if scenario_hash > 60:
             recommendations.append(
                 "Similar historical scenarios suggest focusing on stakeholder communication"
@@ -1809,22 +1809,22 @@ class HyperspaceDreamSimulator:
             recommendations.append(
                 "Historical patterns suggest increased risk mitigation measures"
             )
-        
+
         return recommendations
-    
+
     def _generate_risk_aware_recommendations(
         self, scenario: SimulationScenario
     ) -> list[str]:
         """Generate risk-aware recommendations for scenario management"""
-        
+
         recommendations = []
-        
+
         # Analyze risk factors in outcomes
         high_risk_outcomes = [
             outcome for outcome in scenario.outcomes
             if isinstance(outcome, dict) and outcome.get("impact_magnitude", 0) < -0.5
         ]
-        
+
         if high_risk_outcomes:
             recommendations.append(
                 f"Monitor {len(high_risk_outcomes)} high-risk outcomes closely"
@@ -1832,20 +1832,20 @@ class HyperspaceDreamSimulator:
             recommendations.append(
                 "Consider developing contingency plans for negative outcomes"
             )
-        
+
         # Timeline risk analysis
         if len(scenario.timelines) > 10:
             recommendations.append(
                 "High timeline divergence - recommend regular convergence checkpoints"
             )
-        
+
         # Complexity risk
         total_decisions = len(scenario.decision_sequence)
         if total_decisions > 20:
             recommendations.append(
                 "High decision sequence complexity - recommend decision audit and simplification"
             )
-        
+
         return recommendations
 
 

@@ -5,7 +5,7 @@
   "trinity_framework": "⚛️🧠🛡️",
   "primary_capabilities": [
     "GLYPH engine for symbolic communication",
-    "Actor system for distributed processing", 
+    "Actor system for distributed processing",
     "Symbolic reasoning and pattern recognition",
     "Trinity Framework integration",
     "Graph-based processing capabilities"
@@ -16,14 +16,14 @@
       "source": "candidate/core/glyph/glyph_engine.py",
       "capabilities": [
         "Concept encoding to GLYPH representations",
-        "Trinity Framework glyph creation", 
+        "Trinity Framework glyph creation",
         "Emotional context integration",
         "Memory, emotion, and action glyph types"
       ]
     },
     "actor_system": {
       "description": "Distributed actor model for scalable processing",
-      "source": "candidate/core/actor_system.py", 
+      "source": "candidate/core/actor_system.py",
       "capabilities": [
         "ActorRef and ActorSystem management",
         "AIAgentActor for intelligent processing",
@@ -37,7 +37,7 @@
       "capabilities": [
         "Symbol creation and relationship mapping",
         "Pattern recognition in symbol networks",
-        "Formal reasoning with inference rules", 
+        "Formal reasoning with inference rules",
         "Temporal chain management"
       ]
     }
@@ -45,7 +45,7 @@
   "integration_points": {
     "consciousness_bridge": "bidirectional communication with consciousness systems",
     "memory_bridge": "integration with fold-based memory systems",
-    "quantum_bridge": "quantum-inspired processing integration", 
+    "quantum_bridge": "quantum-inspired processing integration",
     "bio_bridge": "bio-inspired adaptation integration",
     "identity_bridge": "identity and authentication integration",
     "safety_bridge": "ethical oversight and safety validation"
@@ -53,7 +53,7 @@
   "graph_architecture": {
     "binding_sites": [
       "bridges/ - module interconnection points",
-      "integration/ - system coordination hubs", 
+      "integration/ - system coordination hubs",
       "orchestration/ - brain and workflow coordination",
       "colonies/ - swarm intelligence networks"
     ],
@@ -76,7 +76,7 @@
       "env_var": "GLYPH_ENGINE_ENABLED"
     },
     "SYMBOLIC_PROCESSING_ENABLED": {
-      "default": true, 
+      "default": true,
       "description": "Enable symbolic reasoning and pattern recognition",
       "env_var": "SYMBOLIC_PROCESSING_ENABLED"
     },
@@ -90,7 +90,7 @@
     "internal": [],
     "external": [
       "typing",
-      "dataclasses", 
+      "dataclasses",
       "enum",
       "logging",
       "os"
@@ -103,7 +103,7 @@
   },
   "performance_targets": {
     "glyph_encoding": "<10ms per concept",
-    "symbolic_reasoning": "<100ms for basic inference", 
+    "symbolic_reasoning": "<100ms for basic inference",
     "actor_message_passing": "<5ms per message",
     "memory_operations": "<10ms per operation"
   },
@@ -113,7 +113,7 @@
     "test_categories": [
       "GLYPH engine functionality",
       "Actor system operations",
-      "Symbolic reasoning accuracy", 
+      "Symbolic reasoning accuracy",
       "Trinity Framework integration",
       "Feature flag behavior",
       "Error handling and fallbacks"

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Deep Cleanup and Archive Script for Lukhas 
+Deep Cleanup and Archive Script for Lukhas
 Archives deprecated files, cleans cache, updates docs, and creates clean package
 """
 

@@ -130,7 +130,7 @@ from tests.test_framework import LUKHASTestCase, IntegrationTestCase
 
 class TestMyComponent(LUKHASTestCase):
     """Unit tests for my component"""
-    
+
     @pytest.fixture
     async def my_component(self):
         """Create component instance"""
@@ -138,7 +138,7 @@ class TestMyComponent(LUKHASTestCase):
         await component.initialize()
         yield component
         await component.shutdown()
-        
+
     @pytest.mark.asyncio
     async def test_basic_functionality(self, my_component):
         """Test basic component functionality"""
@@ -178,7 +178,7 @@ class TestPerformance(PerformanceTestCase):
             lambda: my_component.expensive_operation(),
             performance_metrics
         )
-        
+
         self.assert_performance(
             performance_metrics,
             max_response_time=0.5,  # 500ms
@@ -249,15 +249,15 @@ The framework provides common fixtures:
 @pytest.fixture
 async def symbolic_engine():
     """Symbolic/GLYPH engine"""
-    
+
 @pytest.fixture
 async def consciousness_system():
     """Consciousness system"""
-    
+
 @pytest.fixture
 async def memory_system():
     """Memory system"""
-    
+
 @pytest.fixture
 async def guardian_system():
     """Guardian/governance system"""
@@ -296,7 +296,7 @@ pytest -l tests/unit/test_memory.py
 pytest tests/unit/test_guardian.py::TestGuardianCore::test_initialization
 
 # Run tests matching pattern
-pytest -k "test_memory" 
+pytest -k "test_memory"
 
 # Run failed tests from last run
 pytest --lf
@@ -381,21 +381,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.11'
-          
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           pip install -r requirements-test.txt
-          
+
       - name: Run tests
         run: |
           python tests/run_tests.py all --coverage --report
-          
+
       - name: Upload coverage
         uses: codecov/codecov-action@v2
 ```

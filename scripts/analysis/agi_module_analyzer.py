@@ -46,7 +46,7 @@ class AGIModuleAnalyzer:
             "execution": ["action", "motor", "execution", "control"],
             "communication": ["language", "communication", "nlp", "dialogue"],
             "integration": ["orchestration", "coordination", "integration", "hub"],
-            "quantum_processing": [
+            "qi_processing": [
                 "quantum",
                 "superposition",
                 "entanglement",

@@ -1,4 +1,5 @@
 from .providers.null_webauthn import NullWebAuthnProvider
+
 _provider = None
 
 def register(provider) -> None:

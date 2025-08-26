@@ -5,7 +5,7 @@ QRG (QR-based approval system) provides secure, time-limited approval tokens for
 
 ## Technical Specifications
 - **Algorithm**: ES256 (ECDSA with P-256 and SHA-256)
-- **Token Format**: JSON Web Signature (JWS) 
+- **Token Format**: JSON Web Signature (JWS)
 - **TTL**: 60 seconds default
 - **Replay Protection**: JTI-based with tracking
 - **Nonce**: 16-byte random value for each token

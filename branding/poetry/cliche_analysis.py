@@ -55,28 +55,28 @@ UNIQUE_LUKHAS = {
 
 def analyze_vocabulary_usage(directory: Path):
     """Analyze how often we use clichés vs unique LUKHAS vocabulary"""
-    
+
     cliche_counts = Counter()
     unique_counts = Counter()
     total_files = 0
-    
+
     # Search Python files for vocabulary
     for root, dirs, files in os.walk(directory):
         for file in files:
             if file.endswith('.py'):
                 filepath = Path(root) / file
                 try:
-                    with open(filepath, 'r', encoding='utf-8') as f:
+                    with open(filepath, encoding='utf-8') as f:
                         content = f.read().lower()
                         total_files += 1
-                        
+
                         # Count clichés
                         for category, words in CLICHES.items():
                             for word in words:
                                 count = len(re.findall(r'\b' + word + r'\b', content))
                                 if count > 0:
                                     cliche_counts[word] += count
-                        
+
                         # Count unique LUKHAS terms
                         for category, words in UNIQUE_LUKHAS.items():
                             for word in words:
@@ -85,12 +85,12 @@ def analyze_vocabulary_usage(directory: Path):
                                     unique_counts[word] += count
                 except:
                     continue
-    
+
     return cliche_counts, unique_counts, total_files
 
 def generate_report():
     """Generate the vocabulary analysis report"""
-    
+
     print("""
 ╔══════════════════════════════════════════════════════════════╗
 ║           LUKHAS VOCABULARY ANALYSIS REPORT                  ║
@@ -98,15 +98,15 @@ def generate_report():
 ║    "The same 20 words, over and over and over again."        ║
 ╚══════════════════════════════════════════════════════════════╝
     """)
-    
+
     # Analyze current directory (simplified for demo)
     print("📊 VOCABULARY FREQUENCY ANALYSIS\n")
     print("─" * 60)
-    
+
     # Mock data for demonstration (in real use, would analyze actual files)
     print("\n🔴 TOP 10 OVERUSED CLICHÉS:")
     print("─" * 40)
-    
+
     mock_cliches = [
         ("tapestry", 247),
         ("symphony", 189),
@@ -119,14 +119,14 @@ def generate_report():
         ("landscape", 76),
         ("masterpiece", 65)
     ]
-    
+
     for word, count in mock_cliches:
         bar = "█" * (count // 10)
         print(f"  {word:15} {count:3}x {bar}")
-    
+
     print("\n\n🟢 UNIQUE LUKHAS VOCABULARY USAGE:")
     print("─" * 40)
-    
+
     mock_unique = [
         ("fold", 892),
         ("cascade", 567),
@@ -139,21 +139,21 @@ def generate_report():
         ("neuroplastic", 98),
         ("oneiric", 67)
     ]
-    
+
     for word, count in mock_unique:
         bar = "▓" * (count // 20)
         print(f"  {word:15} {count:3}x {bar}")
-    
+
     print("\n\n📈 THE PROBLEM:")
     print("─" * 60)
     print("""
   • We use "tapestry" 247 times but "proteome" only 156 times
-  • We say "symphony" 189 times but "ΛMIRROR" only 234 times  
+  • We say "symphony" 189 times but "ΛMIRROR" only 234 times
   • Generic metaphors outnumber unique concepts 3:1
   • The same tired phrases appear in EVERY module header
   • We're not using the beautiful vocabulary LUKHAS created
     """)
-    
+
     print("\n📝 THE SOLUTION:")
     print("─" * 60)
     print("""
@@ -163,23 +163,23 @@ def generate_report():
   ✓ Amplify what makes LUKHAS special, not generic
   ✓ Every header should use LUKHAS-specific terminology
     """)
-    
+
     print("\n\n💡 STEVE JOBS WOULD SAY:")
     print("─" * 60)
     print("""
   "Why are we using the same boring metaphors as every other
    AI project? We have this incredible vocabulary - folds,
    cascades, Lambda Mirrors, proteomes - and we're writing
-   about 'tapestries' and 'symphonies'? 
-   
+   about 'tapestries' and 'symphonies'?
+
    This isn't poetry. It's laziness.
-   
+
    Use the words that only LUKHAS has. Make every line of
    documentation impossible to mistake for anything else.
-   
+
    Be different. Be LUKHAS."
     """)
-    
+
     print("\n" + "═" * 60)
     print("     One vocabulary. Uniquely LUKHAS. No compromises.")
     print("═" * 60 + "\n")

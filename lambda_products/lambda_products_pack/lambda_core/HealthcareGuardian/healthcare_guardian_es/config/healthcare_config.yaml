@@ -21,7 +21,7 @@ voice:
   elder_mode: true
   timeout_seconds: 10
   noise_cancellation: true
-  
+
   # Andalusian dialect settings
   andaluz:
     seseo: true
@@ -36,12 +36,12 @@ medical:
   temperature: 0.3
   max_tokens: 500
   safety_mode: "maximum"
-  
+
   # Medical context
   user_profile: "elderly"
   age_range: "65+"
   language_complexity: "simple"
-  
+
   # Local fallback
   local_fallback: true
   offline_mode_available: false
@@ -52,7 +52,7 @@ sas:
   environment: "production"  # production, staging, development
   region: "andalucia"
   provincia: "SEVILLA"
-  
+
   # API Endpoints
   api_endpoints:
     base_url: "https://api.sas.junta-andalucia.es"
@@ -60,11 +60,11 @@ sas:
     prescriptions: "/api/v1/recetas"
     medical_records: "/api/v1/historia"
     emergency: "/api/v1/urgencias"
-  
+
   # Authentication
   auth_method: "certificate"  # certificate, oauth2, api_key
   certificate_path: "/path/to/certificate.p12"
-  
+
   # Settings
   timeout_seconds: 30
   retry_attempts: 3
@@ -76,15 +76,15 @@ emergency:
   number: "112"
   medical_number: "061"
   auto_dispatch: false  # Require confirmation except for critical
-  
+
   # Fall detection
   fall_detection: true
   fall_sensitivity: "medium"  # low, medium, high
-  
+
   # Location tracking
   location_tracking: true
   gps_update_interval: 60  # seconds
-  
+
   # Family contacts (to be filled by user)
   family_contacts: []
   # Example:
@@ -98,16 +98,16 @@ emergency:
 medication:
   reminder_enabled: true
   reminder_advance_minutes: 15
-  
+
   # OCR settings
   ocr_enabled: true
   ocr_language: "spa"
   auto_identify_pills: true
-  
+
   # Drug interaction checking
   interaction_check: true
   interaction_database: "spanish_medicines"
-  
+
   # Compliance tracking
   track_compliance: true
   notify_family_on_missed: true
@@ -117,7 +117,7 @@ interface:
   theme: "high_contrast"
   font_size: "extra_large"
   button_size: "extra_large"
-  
+
   # Android app settings
   android:
     min_touch_target: 64  # dp
@@ -129,11 +129,11 @@ interface:
 privacy:
   data_encryption: true
   encryption_algorithm: "AES-256-GCM"
-  
+
   # Consent management
   explicit_consent_required: true
   data_retention_days: 730  # 2 years
-  
+
   # GDPR compliance
   gdpr_compliant: true
   right_to_forget: true
@@ -143,14 +143,14 @@ privacy:
 monitoring:
   enabled: true
   log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
-  
+
   # Metrics to track
   metrics:
     voice_accuracy: true
     medication_compliance: true
     emergency_response_time: true
     user_satisfaction: true
-  
+
   # Audit logging
   audit_logging: true
   audit_retention_days: 365
@@ -161,11 +161,11 @@ performance:
   request_timeout_seconds: 30
   cache_enabled: true
   cache_ttl_seconds: 300
-  
+
   # Voice processing
   voice_buffer_size: 4096
   voice_sample_rate: 16000
-  
+
   # Resource limits
   max_memory_mb: 512
   max_cpu_percent: 80
@@ -196,7 +196,7 @@ localization:
     - "es-ES"  # Spanish (Spain)
     - "es-AN"  # Spanish (Andalusian)
     - "en-GB"  # English (for caregivers)
-  
+
   date_format: "DD/MM/YYYY"
   time_format: "24h"
   currency: "EUR"
@@ -208,7 +208,7 @@ integrations:
     consciousness: true
     identity: true
     guardian: true
-  
+
   external_services:
     openai: true
     google_cloud: true

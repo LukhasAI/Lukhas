@@ -40,7 +40,7 @@
 ```
 ✅ Seal Creation: PASSED
 ✅ Text Embedding: PASSED
-✅ QR Encoding: PASSED  
+✅ QR Encoding: PASSED
 ✅ Verification: PASSED
 ⚠️ PNG Embedding: 80% (embed works, extract needs refinement)
 ```

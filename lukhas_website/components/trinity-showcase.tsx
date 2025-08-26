@@ -123,7 +123,7 @@ export function TrinityShowcase() {
   const renderPillarDetail = (key: keyof typeof trinityPillars) => {
     const pillar = trinityPillars[key]
     const Icon = pillar.icon
-    
+
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -143,15 +143,15 @@ export function TrinityShowcase() {
           <div className="absolute top-0 right-0 w-96 h-96 opacity-10">
             <Icon className="w-full h-full" />
           </div>
-          
+
           <div className="relative">
             <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${pillar.color} mb-6`}>
               <Icon className="w-8 h-8 text-white" />
             </div>
-            
+
             <h3 className="text-4xl font-light mb-4">{pillar.title}</h3>
             <p className="text-xl text-gray-300 mb-8">{pillar.description}</p>
-            
+
             <div className="grid md:grid-cols-2 gap-4">
               {pillar.features.map((feature, index) => (
                 <motion.div

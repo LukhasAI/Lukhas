@@ -54,8 +54,8 @@ try:
     from ΛBot_elite_orchestrator import (
         BotEvolutionEngine,
         BotProtocol,
-        QuantumBotConfig,
-        QuantumDecisionEngine,
+        QIBotConfig,
+        QIDecisionEngine,
         ReasoningContext,
     )
 
@@ -85,7 +85,7 @@ except ImportError:
         type: str = "dependency_analysis"
         capabilities: list[str] = None
         autonomy_level: float = 0.85
-        quantum_enabled: bool = True
+        qi_enabled: bool = True
         bio_symbolic_processing: bool = True
         self_evolving: bool = True
 
@@ -109,29 +109,29 @@ except ImportError:
         def __init__(self):
             self.nodes_data = {}
             self.edges_data = []
-            self.quantum_like_state = "initialized"
+            self.qi_like_state = "initialized"
 
-        def add_node(self, node_id: str, **quantum_attributes):
+        def add_node(self, node_id: str, **qi_attributes):
             """Add node with quantum enhancement."""
             self.nodes_data[node_id] = {
-                "quantum_signature": hash(node_id) % 1000,
+                "qi_signature": hash(node_id) % 1000,
                 "coherence_level": 0.8,
-                **quantum_attributes,
+                **qi_attributes,
             }
 
         def add_edge(
-            self, source: str, target: str, weight: float = 1.0, **quantum_props
+            self, source: str, target: str, weight: float = 1.0, **qi_props
         ):
             """Add quantum-enhanced edge."""
             edge = {
                 "source": source,
                 "target": target,
                 "weight": weight,
-                "quantum_entanglement": min(
+                "qi_entanglement": min(
                     self.nodes_data.get(source, {}).get("coherence_level", 0.5),
                     self.nodes_data.get(target, {}).get("coherence_level", 0.5),
                 ),
-                **quantum_props,
+                **qi_props,
             }
             self.edges_data.append(edge)
 
@@ -142,10 +142,10 @@ except ImportError:
 
             # Quantum-enhanced modularity calculation
             total_edges = len(self.edges_data)
-            quantum_clusters = self._detect_quantum_clusters()
+            qi_clusters = self._detect_quantum_clusters()
 
             modularity = 0.0
-            for cluster in quantum_clusters:
+            for cluster in qi_clusters:
                 internal_edges = sum(
                     1
                     for edge in self.edges_data
@@ -180,9 +180,9 @@ except ImportError:
                 # Find quantum-coherent neighbors
                 cluster = {node}
                 for edge in self.edges_data:
-                    if edge["source"] == node and edge["quantum_entanglement"] > 0.7:
+                    if edge["source"] == node and edge["qi_entanglement"] > 0.7:
                         cluster.add(edge["target"])
-                    elif edge["target"] == node and edge["quantum_entanglement"] > 0.7:
+                    elif edge["target"] == node and edge["qi_entanglement"] > 0.7:
                         cluster.add(edge["source"])
 
                 clusters.append(cluster)
@@ -207,7 +207,7 @@ except ImportError:
 
     # Create quantum nx compatibility layer
     class nx:
-        DiGraph = QuantumNetworkEngine
+        DiGraph = QINetworkEngine
 
 
 # Symbol Validation Integration
@@ -381,7 +381,7 @@ class ΛDependencyProfile:
     """ΛBot-enhanced dependency profile."""
 
     module_id: str
-    quantum_signature: str
+    qi_signature: str
     coherence_level: float
     coupling_metrics: dict[str, float]
     architectural_impact: float
@@ -398,7 +398,7 @@ class ΛArchitecturalInsight:
     confidence_level: float
     impact_assessment: str
     recommended_actions: list[str]
-    quantum_rationale: str
+    qi_rationale: str
     stakeholder_implications: dict[str, str]
 
 
@@ -407,7 +407,7 @@ class ΛModularityReport:
     """Comprehensive ΛBot modularity analysis report."""
 
     timestamp: str
-    quantum_modularity_score: float
+    qi_modularity_score: float
     architectural_insights: list[ΛArchitecturalInsight]
     dependency_profiles: list[ΛDependencyProfile]
     optimization_roadmap: dict[str, Any]
@@ -423,28 +423,28 @@ class ΛDependaBoT(BotProtocol):
     """
 
     def __init__(
-        self, repository_path: str, bot_config: Optional[QuantumBotConfig] = None
+        self, repository_path: str, bot_config: Optional[QIBotConfig] = None
     ):
         """Initialize ΛDependaBoT with quantum-inspired capabilities."""
         self.repository_path = Path(repository_path)
-        self.config = bot_config or QuantumBotConfig(
+        self.config = bot_config or QIBotConfig(
             name="ΛDependaBoT",
             type="dependency_analysis",
             capabilities=[
-                "quantum_network_analysis",
+                "qi_network_analysis",
                 "bio_symbolic_pattern_recognition",
                 "autonomous_optimization",
                 "architectural_intelligence",
                 "performance_prediction",
             ],
             autonomy_level=0.85,
-            quantum_enabled=True,
+            qi_enabled=True,
             bio_symbolic_processing=True,
             self_evolving=True,
         )
 
         # Initialize ΛBot systems
-        self.quantum_engine = None
+        self.qi_engine = None
         self.evolution_engine = None
         self.reasoning_context = None
 
@@ -492,7 +492,7 @@ class ΛDependaBoT(BotProtocol):
         try:
             # Initialize quantum decision engine
             if ΛBOT_INTEGRATION:
-                self.quantum_engine = QuantumDecisionEngine()
+                self.qi_engine = QIDecisionEngine()
                 self.evolution_engine = BotEvolutionEngine()
 
             # Initialize reasoning context
@@ -522,7 +522,7 @@ class ΛDependaBoT(BotProtocol):
                         "maintain_backward_compatibility",
                     ],
                     confidence_requirements=0.85,
-                    quantum_enhancement=True,
+                    qi_enhancement=True,
                 )
                 if ΛBOT_INTEGRATION
                 else None
@@ -560,7 +560,7 @@ class ΛDependaBoT(BotProtocol):
 
             # Phase 3: Quantum modularity calculation
             print("⚛️  Phase 3: Quantum modularity optimization...")
-            quantum_modularity = await self._calculate_quantum_modularity()
+            qi_modularity = await self._calculate_quantum_modularity()
 
             # Phase 4: Architectural intelligence insights
             print("🧠 Phase 4: Generating architectural intelligence insights...")
@@ -577,7 +577,7 @@ class ΛDependaBoT(BotProtocol):
             # Create comprehensive report
             report = ΛModularityReport(
                 timestamp=datetime.now().isoformat(),
-                quantum_modularity_score=quantum_modularity,
+                qi_modularity_score=qi_modularity,
                 architectural_insights=insights,
                 dependency_profiles=list(self.module_profiles.values()),
                 optimization_roadmap=roadmap,
@@ -594,10 +594,10 @@ class ΛDependaBoT(BotProtocol):
             self.analysis_history.append(report)
 
             self.logger.info(
-                f"✅ ΛDependaBoT analysis complete. Modularity: {quantum_modularity:.3f}"
+                f"✅ ΛDependaBoT analysis complete. Modularity: {qi_modularity:.3f}"
             )
             print(
-                f"🎯 Analysis complete! Quantum modularity score: {quantum_modularity:.3f}"
+                f"🎯 Analysis complete! Quantum modularity score: {qi_modularity:.3f}"
             )
 
             return report
@@ -615,11 +615,11 @@ class ΛDependaBoT(BotProtocol):
                 "name": self.config.name,
                 "type": self.config.type,
                 "autonomy_level": self.config.autonomy_level,
-                "quantum_enabled": self.config.quantum_enabled,
+                "qi_enabled": self.config.qi_enabled,
             },
             "performance_metrics": self.performance_metrics,
             "capability_status": {
-                "quantum_analysis": QUANTUM_ANALYSIS_AVAILABLE,
+                "qi_analysis": QUANTUM_ANALYSIS_AVAILABLE,
                 "λbot_integration": ΛBOT_INTEGRATION,
                 "index_integration": INDEX_INTEGRATION,
                 "bio_symbolic_processing": self.config.bio_symbolic_processing,
@@ -632,7 +632,7 @@ class ΛDependaBoT(BotProtocol):
                     "accuracy_score", 0.0
                 ),
             },
-            "quantum_like_state": {
+            "qi_like_state": {
                 "coherence_level": self._calculate_quantum_coherence(),
                 "entanglement_quality": self._assess_entanglement_quality(),
                 "evolution_cycles": self.performance_metrics.get("evolution_cycles", 0),
@@ -677,7 +677,7 @@ class ΛDependaBoT(BotProtocol):
         self.logger.info("🔧 Performing ΛDependaBoT self-diagnostics...")
 
         diagnostics = {
-            "quantum_systems": True,
+            "qi_systems": True,
             "network_analysis": True,
             "bio_symbolic_processing": True,
             "integration_systems": True,
@@ -787,14 +787,14 @@ class ΛDependaBoT(BotProtocol):
             module_name = self._get_module_name(file_path)
 
             # Quantum-enhanced complexity analysis
-            quantum_complexity = self._calculate_quantum_complexity(tree)
-            coherence_level = min(1.0, quantum_complexity / 50.0)  # Normalize to 0-1
+            qi_complexity = self._calculate_quantum_complexity(tree)
+            coherence_level = min(1.0, qi_complexity / 50.0)  # Normalize to 0-1
 
             # Add quantum-enhanced node
             self.dependency_network.add_node(
                 module_name,
                 file_path=str(file_path),
-                quantum_complexity=quantum_complexity,
+                qi_complexity=qi_complexity,
                 coherence_level=coherence_level,
                 size_lines=len(content.splitlines()),
                 validation_status="validated" if SYMBOL_VALIDATION else "unvalidated",
@@ -1042,15 +1042,15 @@ class ΛDependaBoT(BotProtocol):
         """Add quantum-enhanced dependency edge."""
         if hasattr(self.dependency_network, "add_edge"):
             # Calculate entanglement-like correlation strength
-            quantum_weight = (
+            qi_weight = (
                 coherence_level * 0.8 + 0.2
             )  # Base weight + quantum enhancement
 
             self.dependency_network.add_edge(
                 source,
                 target,
-                weight=quantum_weight,
-                quantum_entanglement=coherence_level,
+                weight=qi_weight,
+                qi_entanglement=coherence_level,
                 dependency_type="import",
             )
 
@@ -1074,7 +1074,7 @@ class ΛDependaBoT(BotProtocol):
                     confidence_level=0.8,
                     impact_assessment=f"Detected {len(pattern_data)} instances of {pattern_type}",
                     recommended_actions=[f"Optimize {pattern_type} organization"],
-                    quantum_rationale=f"Bio-symbolic analysis reveals {pattern_type} optimization potential",
+                    qi_rationale=f"Bio-symbolic analysis reveals {pattern_type} optimization potential",
                     stakeholder_implications={
                         "developers": f"Consider {pattern_type} refactoring"
                     },
@@ -1106,10 +1106,10 @@ class ΛDependaBoT(BotProtocol):
 
             # Simplified quantum modularity
             total_edges = len(edges)
-            quantum_clusters = await self._detect_quantum_clusters()
+            qi_clusters = await self._detect_quantum_clusters()
 
             modularity = 0.0
-            for cluster in quantum_clusters:
+            for cluster in qi_clusters:
                 internal_edges = sum(
                     1
                     for edge in edges
@@ -1163,7 +1163,7 @@ class ΛDependaBoT(BotProtocol):
                         "Extract common interfaces",
                         "Apply facade pattern",
                     ],
-                    quantum_rationale="Quantum analysis indicates coupling beyond optimal thresholds",
+                    qi_rationale="Quantum analysis indicates coupling beyond optimal thresholds",
                     stakeholder_implications={
                         "developers": "Refactoring required for maintainability",
                         "architects": "Consider architectural redesign",
@@ -1260,7 +1260,7 @@ class ΛDependaBoT(BotProtocol):
     def _calculate_quantum_complexity(self, tree: ast.AST) -> float:
         """Calculate quantum-enhanced complexity score."""
         complexity = 0
-        quantum_factors = {
+        qi_factors = {
             ast.FunctionDef: 2.0,
             ast.AsyncFunctionDef: 2.5,
             ast.ClassDef: 3.0,
@@ -1272,7 +1272,7 @@ class ΛDependaBoT(BotProtocol):
         }
 
         for node in ast.walk(tree):
-            for node_type, factor in quantum_factors.items():
+            for node_type, factor in qi_factors.items():
                 if isinstance(node, node_type):
                     complexity += factor
 
@@ -1334,7 +1334,7 @@ class ΛDependaBoT(BotProtocol):
         if not self.analysis_history:
             return 0.0
         return sum(
-            report.quantum_modularity_score for report in self.analysis_history
+            report.qi_modularity_score for report in self.analysis_history
         ) / len(self.analysis_history)
 
     def _calculate_quantum_coherence(self) -> float:
@@ -2016,17 +2016,17 @@ async def main():
     print()
 
     # Create bot configuration
-    config = QuantumBotConfig(
+    config = QIBotConfig(
         name=args.bot_name,
         type="dependency_analysis",
         capabilities=[
-            "quantum_network_analysis",
+            "qi_network_analysis",
             "bio_symbolic_pattern_recognition",
             "autonomous_optimization",
             "architectural_intelligence",
         ],
         autonomy_level=args.autonomy_level,
-        quantum_enabled=True,
+        qi_enabled=True,
         bio_symbolic_processing=True,
         self_evolving=True,
     )
@@ -2062,7 +2062,7 @@ async def main():
         # Print summary
         print("\n🎯 ΛDependaBoT Analysis Complete!")
         print("=" * 50)
-        print(f"🔬 Quantum Modularity Score: {report.quantum_modularity_score:.3f}")
+        print(f"🔬 Quantum Modularity Score: {report.qi_modularity_score:.3f}")
         print(f"🧠 Architectural Insights: {len(report.architectural_insights)}")
         print(f"📊 Dependency Profiles: {len(report.dependency_profiles)}")
         print(

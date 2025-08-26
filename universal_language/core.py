@@ -60,7 +60,7 @@ class ConceptType(Enum):
 class Symbol:
     """
     Universal symbol representation.
-    
+
     Unified from /core/symbolic/symbolic_language.py and
     /symbolic/multi_modal_language.py
     """
@@ -134,7 +134,7 @@ class Symbol:
 class Concept:
     """
     Universal concept - higher level abstraction built from symbols.
-    
+
     Based on Universal Language spec and UniversalConcept from
     /symbolic/multi_modal_language.py
     """
@@ -199,7 +199,7 @@ class Concept:
 class Grammar:
     """
     Grammar rules for the universal language.
-    
+
     Based on missing LUKHAS Grammar system.
     """
     rule_id: str
@@ -227,7 +227,7 @@ class Grammar:
 class Vocabulary:
     """
     Domain-specific vocabulary collection.
-    
+
     Consolidates vocabularies from /symbolic/vocabularies/ and
     /core/symbolic/ vocabularies.
     """
@@ -265,7 +265,7 @@ class Vocabulary:
 class UniversalLanguageCore:
     """
     Core universal language system.
-    
+
     This is the main entry point for all language operations.
     """
 

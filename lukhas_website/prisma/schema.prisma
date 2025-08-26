@@ -9,26 +9,26 @@ datasource db {
 }
 
 // ---------- Enums ----------
-enum IdentifierType { 
-  email 
-  phone 
-  other 
+enum IdentifierType {
+  email
+  phone
+  other
 }
 
-enum ChallengeType { 
-  grid 
-  swipe 
-  sequence 
-  oddOneOut 
-  wordPair 
+enum ChallengeType {
+  grid
+  swipe
+  sequence
+  oddOneOut
+  wordPair
 }
 
-enum Role { 
-  owner 
-  admin 
-  developer 
-  analyst 
-  viewer 
+enum Role {
+  owner
+  admin
+  developer
+  analyst
+  viewer
 }
 
 // ---------- Core ----------
@@ -191,9 +191,9 @@ model Guardian {
   publicKey      String?  @db.Text
   addedAt        DateTime @default(now())
   revokedAt      DateTime?
-  
+
   recoveryApprovals RecoveryApproval[]
-  
+
   @@unique([userId, contact])
 }
 
@@ -209,9 +209,9 @@ model RecoveryTicket {
   createdAt         DateTime @default(now())
   expiresAt         DateTime
   meta              Json     @default("{}")
-  
+
   approvals         RecoveryApproval[]
-  
+
   @@index([userId, createdAt])
 }
 
@@ -225,7 +225,7 @@ model RecoveryApproval {
   channel        String   @db.VarChar(16) // 'email','phone','guardian','admin'
   approved       Boolean
   createdAt      DateTime @default(now())
-  
+
   @@index([ticketId])
 }
 
@@ -242,7 +242,7 @@ model OnboardingSession {
   attempts        Int      @default(0)
   createdAt       DateTime @default(now())
   expiresAt       DateTime
-  
+
   @@index([identifierNorm])
 }
 
@@ -259,7 +259,7 @@ model QrgSession {
   issuedAt   DateTime @default(now())
   expiresAt  DateTime
   consumedAt DateTime?
-  
+
   @@index([userId, txId])
   @@index([status, expiresAt])
 }
@@ -277,7 +277,7 @@ model WalletPass {
   createdAt      DateTime @default(now())
   expiresAt      DateTime?
   revokedAt      DateTime?
-  
+
   @@index([userId, status])
   @@index([serialNumber])
 }

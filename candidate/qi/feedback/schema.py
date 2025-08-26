@@ -1,11 +1,14 @@
 # path: qi/feedback/schema.py
 from __future__ import annotations
-from pydantic import BaseModel, Field, validator
-from typing import Optional, List, Dict, Any, Literal
-from datetime import datetime
+
 import uuid
+from datetime import datetime
+from typing import Any, Dict, List, Literal, Optional
+
+from pydantic import BaseModel, Field, validator
 
 from qi.safety.constants import ALLOWED_STYLES, MAX_THRESHOLD_SHIFT
+
 
 class FeedbackContext(BaseModel):
     """Context information for the feedback."""
@@ -24,13 +27,13 @@ class ProposedTuning(BaseModel):
     """Proposed tuning parameters."""
     style: Optional[str] = Field(None, description="Proposed style")
     threshold_delta: Optional[float] = Field(None, description="Threshold adjustment")
-    
+
     @validator("style")
     def validate_style(cls, v):
         if v and v not in ALLOWED_STYLES:
             raise ValueError(f"Style must be one of {ALLOWED_STYLES}")
         return v
-    
+
     @validator("threshold_delta")
     def validate_threshold(cls, v):
         if v is not None and abs(v) > MAX_THRESHOLD_SHIFT:
@@ -60,7 +63,7 @@ class FeedbackCard(BaseModel):
     proposed_tuning: Optional[ProposedTuning] = None
     constraints: FeedbackConstraints = Field(default_factory=FeedbackConstraints)
     attestation: Optional[FeedbackAttestation] = None
-    
+
     class Config:
         json_encoders = {
             datetime: lambda v: v.isoformat() + "Z"
@@ -71,13 +74,13 @@ class PolicySafePatch(BaseModel):
     style: Optional[str] = Field(None, description="Style adjustment")
     threshold_delta: Optional[float] = Field(None, description="Threshold adjustment")
     explain_depth: Optional[int] = Field(None, ge=1, le=5, description="Explanation depth")
-    
+
     @validator("style")
     def validate_style(cls, v):
         if v and v not in ALLOWED_STYLES:
             raise ValueError(f"Style must be one of {ALLOWED_STYLES}")
         return v
-    
+
     @validator("threshold_delta")
     def validate_threshold(cls, v):
         if v is not None and abs(v) > MAX_THRESHOLD_SHIFT:
@@ -96,7 +99,7 @@ class ChangeProposal(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     feedback_ref: Optional[str] = Field(None, description="Reference to feedback card")
     cluster_id: Optional[str] = Field(None, description="Reference to feedback cluster")
-    
+
     class Config:
         json_encoders = {
             datetime: lambda v: v.isoformat() + "Z"
@@ -114,7 +117,7 @@ class FeedbackCluster(BaseModel):
     common_issues: List[str] = Field(default_factory=list, description="Common issues")
     drift_delta: Optional[float] = Field(None, description="Observed drift from baseline")
     created_at: datetime = Field(default_factory=datetime.utcnow)
-    
+
     class Config:
         json_encoders = {
             datetime: lambda v: v.isoformat() + "Z"

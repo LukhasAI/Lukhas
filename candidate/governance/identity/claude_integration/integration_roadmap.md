@@ -18,7 +18,7 @@
 - Enhance session management with trust-based expiry
 - Add trust metrics to audit logging
 
-### 2. Visual Authentication Enhancement  
+### 2. Visual Authentication Enhancement
 **Goal**: Add steganographic capabilities for enhanced security and user experience
 
 **Implementation Plan**:
@@ -53,7 +53,7 @@ npm install @radix-ui/react-progress @radix-ui/react-card lucide-react
 
 **Benefits**:
 - Centralized rate limiting and security policies
-- Service discovery and health monitoring  
+- Service discovery and health monitoring
 - Horizontal scaling preparation
 - Enhanced audit logging and metrics
 
@@ -114,18 +114,18 @@ npm install @radix-ui/react-progress @radix-ui/react-card lucide-react
 class SecureTrustScorer:
     def __init__(self, entropy_validator, session_manager, audit_logger):
         self.entropy_validator = entropy_validator
-        self.session_manager = session_manager  
+        self.session_manager = session_manager
         self.audit_logger = audit_logger
         self.base_score = 50.0
         self.max_score = 100.0
         self.min_score = 0.0
-    
+
     def calculate_entropy_score(self, entropy_data):
         # Validate entropy using LUKHAS standards
         if not self.entropy_validator.validate(entropy_data):
             self.audit_logger.log_security_event("Invalid entropy in trust calculation")
             return 0.0
-        
+
         # Implement Manus scoring logic with security validation
         # ... rest of implementation
 ```
@@ -137,7 +137,7 @@ def enhanced_authenticate(self, payload, signature, session_id):
     # Existing signature verification
     if not self.verify_signature(payload, signature):
         return {"status": "error", "message": "Invalid signature"}
-    
+
     # NEW: Calculate trust score
     trust_score = self.trust_scorer.calculate_trust_score(
         user_id=session_id,
@@ -146,7 +146,7 @@ def enhanced_authenticate(self, payload, signature, session_id):
         device_data=payload.get('device_info', {}),
         context_data=self.get_context_data(session_id)
     )
-    
+
     # Enhanced authentication decision
     auth_threshold = self.get_dynamic_threshold(trust_score['total_score'])
     if trust_score['total_score'] < auth_threshold:
@@ -156,7 +156,7 @@ def enhanced_authenticate(self, payload, signature, session_id):
             "threshold": auth_threshold
         })
         return {"status": "error", "message": "Authentication failed"}
-    
+
     # Continue with existing authentication logic...
 ```
 
@@ -176,7 +176,7 @@ function addTrustScoreDisplay() {
             <div>Contextual: <span id="contextual-score">--</span></div>
         </div>
     `;
-    
+
     document.querySelector('.dashboard-content').appendChild(trustContainer);
 }
 
@@ -185,7 +185,7 @@ socket.on('trust_score_update', (data) => {
     document.getElementById('trust-score').textContent = data.total_score;
     document.getElementById('entropy-score').textContent = data.components.entropy;
     document.getElementById('behavioral-score').textContent = data.components.behavioral;
-    document.getElementById('device-score').textContent = data.components.device;  
+    document.getElementById('device-score').textContent = data.components.device;
     document.getElementById('contextual-score').textContent = data.components.contextual;
 });
 ```
@@ -200,35 +200,35 @@ class LukhasVisualAuth:
         self.entropy_source = entropy_source
         self.signature_manager = signature_manager
         self.stego_engine = SteganographyEngine()
-    
+
     def generate_auth_pattern(self, session_id, entropy_data):
         # Create base pattern using entropy
         pattern = self.stego_engine.generate_steganographic_pattern(
             message=f"LUKHAS_{session_id}_{entropy_data['level']}"
         )
-        
+
         # Sign the pattern data
         pattern_signature = self.signature_manager.sign(pattern.tobytes())
-        
+
         return {
             'pattern': base64.b64encode(pattern).decode(),
             'signature': pattern_signature,
             'timestamp': time.time()
         }
-    
+
     def verify_pattern(self, pattern_data, expected_session):
         # Verify signature first
         if not self.signature_manager.verify(
-            pattern_data['pattern'], 
+            pattern_data['pattern'],
             pattern_data['signature']
         ):
             return False
-        
+
         # Extract hidden message
         pattern_bytes = base64.b64decode(pattern_data['pattern'])
         pattern_image = np.frombuffer(pattern_bytes, dtype=np.uint8)
         hidden_message = self.stego_engine.extract_lsb(pattern_image)
-        
+
         # Validate session match
         return hidden_message.startswith(f"LUKHAS_{expected_session}")
 ```
@@ -241,7 +241,7 @@ class LukhasVisualAuth:
 - [ ] Improved audit trail completeness
 - [ ] Maintained session security standards
 
-### Performance Metrics  
+### Performance Metrics
 - [ ] <100ms additional latency from trust scoring
 - [ ] <200ms for visual pattern generation
 - [ ] Maintained WebSocket real-time performance

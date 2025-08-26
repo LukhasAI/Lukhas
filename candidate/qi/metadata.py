@@ -60,7 +60,7 @@ class QIMetadata:
     """Quantum-secure metadata structure for content."""
 
     content_id: str
-    quantum_signature: str
+    qi_signature: str
     symbolic_tags: list[str]
     symbolic_dimensions: dict[str, float]  # Dimension -> weight
     semantic_vector: list[float]  # Simplified semantic representation
@@ -69,7 +69,7 @@ class QIMetadata:
     last_modified: str
     author_agent: str
     validation_status: str
-    quantum_entanglement_refs: list[str]  # References to related content
+    qi_entanglement_refs: list[str]  # References to related content
 
 
 @dataclass
@@ -93,10 +93,10 @@ class QIMetadataManager:
 
     def __init__(self, config: dict[str, Any] = None):
         self.config = config or {}
-        self.logger = logging.getLogger("ΛWebManager_LUKHAS.QuantumMetadata")
+        self.logger = logging.getLogger("ΛWebManager_LUKHAS.QIMetadata")
 
         # Quantum security settings
-        self.quantum_enabled = self.config.get("quantum_enabled", True)
+        self.qi_enabled = self.config.get("qi_enabled", True)
         self.signature_algorithm = self.config.get("signature_algorithm", "sha3-256")
 
         # Symbolic intelligence settings
@@ -104,7 +104,7 @@ class QIMetadataManager:
         self.semantic_analysis = self.config.get("semantic_analysis", True)
 
         # Content database (in-memory for demo)
-        self.metadata_store: dict[str, QuantumMetadata] = {}
+        self.metadata_store: dict[str, QIMetadata] = {}
         self.tag_index: dict[str, set[str]] = {}  # tag -> content_ids
         self.dimension_index: dict[str, set[str]] = {}  # dimension -> content_ids
 
@@ -112,7 +112,7 @@ class QIMetadataManager:
 
     async def generate_quantum_metadata(
         self, content: str, content_id: str = None, manual_tags: list[str] = None
-    ) -> QuantumMetadata:
+    ) -> QIMetadata:
         """
         Generate comprehensive quantum metadata for content.
 
@@ -122,7 +122,7 @@ class QIMetadataManager:
             manual_tags: Optional manually specified tags
 
         Returns:
-            QuantumMetadata object with full analysis
+            QIMetadata object with full analysis
         """
         if not content_id:
             content_id = str(uuid.uuid4())
@@ -130,7 +130,7 @@ class QIMetadataManager:
         self.logger.info(f"🔮 Generating quantum metadata for content: {content_id}")
 
         # Generate quantum signature
-        quantum_signature = await self._generate_quantum_signature(content, content_id)
+        qi_signature = await self._generate_quantum_signature(content, content_id)
 
         # Generate content hash
         content_hash = hashlib.sha3_256(content.encode()).hexdigest()
@@ -149,9 +149,9 @@ class QIMetadataManager:
         # Find entanglement-like correlations (related content)
         entanglement_refs = await self._find_quantum_entanglements(content, content_id)
 
-        metadata = QuantumMetadata(
+        metadata = QIMetadata(
             content_id=content_id,
-            quantum_signature=quantum_signature,
+            qi_signature=qi_signature,
             symbolic_tags=list(set(symbolic_tags)),  # Remove duplicates
             symbolic_dimensions=symbolic_dimensions,
             semantic_vector=semantic_vector,
@@ -160,7 +160,7 @@ class QIMetadataManager:
             last_modified=datetime.now().isoformat(),
             author_agent="ΛWebManager_LUKHAS",
             validation_status="pending",
-            quantum_entanglement_refs=entanglement_refs,
+            qi_entanglement_refs=entanglement_refs,
         )
 
         # Store metadata
@@ -173,12 +173,12 @@ class QIMetadataManager:
 
     async def _generate_quantum_signature(self, content: str, content_id: str) -> str:
         """Generate quantum-resistant signature for content."""
-        if not self.quantum_enabled:
+        if not self.qi_enabled:
             return hashlib.sha256(f"{content_id}:{content}".encode()).hexdigest()
 
         # Quantum-resistant signature generation (simplified)
         timestamp = datetime.now().isoformat()
-        signature_data = f"{content_id}:{content}:{timestamp}:quantum_seed_12345"
+        signature_data = f"{content_id}:{content}:{timestamp}:qi_seed_12345"
 
         if self.signature_algorithm == "sha3-256":
             signature = hashlib.sha3_256(signature_data.encode()).hexdigest()
@@ -372,7 +372,7 @@ class QIMetadataManager:
 
         return dot_product / (magnitude1 * magnitude2)
 
-    async def _store_metadata(self, metadata: QuantumMetadata):
+    async def _store_metadata(self, metadata: QIMetadata):
         """Store metadata in the quantum-secure index."""
         self.metadata_store[metadata.content_id] = metadata
 
@@ -389,7 +389,7 @@ class QIMetadataManager:
                     self.dimension_index[dimension] = set()
                 self.dimension_index[dimension].add(metadata.content_id)
 
-    async def search_by_tags(self, tags: list[str]) -> list[QuantumMetadata]:
+    async def search_by_tags(self, tags: list[str]) -> list[QIMetadata]:
         """Search content by symbolic tags."""
         matching_ids = None
 
@@ -406,7 +406,7 @@ class QIMetadataManager:
 
     async def search_by_dimension(
         self, dimension: SymbolicDimension, min_weight: float = 0.5
-    ) -> list[QuantumMetadata]:
+    ) -> list[QIMetadata]:
         """Search content by symbolic dimension."""
         content_ids = self.dimension_index.get(dimension.value, set())
         results = []
@@ -418,7 +418,7 @@ class QIMetadataManager:
 
         return results
 
-    async def get_quantum_entanglements(self, content_id: str) -> list[QuantumMetadata]:
+    async def get_quantum_entanglements(self, content_id: str) -> list[QIMetadata]:
         """Get quantum-entangled (related) content."""
         if content_id not in self.metadata_store:
             return []
@@ -426,7 +426,7 @@ class QIMetadataManager:
         metadata = self.metadata_store[content_id]
         entangled_content = []
 
-        for entangled_id in metadata.quantum_entanglement_refs:
+        for entangled_id in metadata.qi_entanglement_refs:
             if entangled_id in self.metadata_store:
                 entangled_content.append(self.metadata_store[entangled_id])
 
@@ -458,10 +458,10 @@ class QIMetadataManager:
             "top_tags": sorted(tag_frequency.items(), key=lambda x: x[1], reverse=True)[
                 :10
             ],
-            "quantum_enabled": self.quantum_enabled,
+            "qi_enabled": self.qi_enabled,
             "average_entanglements": (
                 sum(
-                    len(m.quantum_entanglement_refs)
+                    len(m.qi_entanglement_refs)
                     for m in self.metadata_store.values()
                 )
                 / total_content
@@ -475,8 +475,8 @@ class QIMetadataManager:
 if __name__ == "__main__":
 
     async def demo():
-        manager = QuantumMetadataManager(
-            {"quantum_enabled": True, "auto_tagging": True}
+        manager = QIMetadataManager(
+            {"qi_enabled": True, "auto_tagging": True}
         )
 
         sample_content = """
@@ -490,10 +490,10 @@ if __name__ == "__main__":
 
         print("Quantum Metadata Generated:")
         print(f"Content ID: {metadata.content_id}")
-        print(f"Quantum Signature: {metadata.quantum_signature}")
+        print(f"Quantum Signature: {metadata.qi_signature}")
         print(f"Symbolic Tags: {metadata.symbolic_tags}")
         print(f"Symbolic Dimensions: {metadata.symbolic_dimensions}")
-        print(f"Entanglements: {len(metadata.quantum_entanglement_refs)}")
+        print(f"Entanglements: {len(metadata.qi_entanglement_refs)}")
 
         # Search examples
         tech_content = await manager.search_by_tags(["tech:ai"])
@@ -516,7 +516,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": False,
+        "qi_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -538,7 +538,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

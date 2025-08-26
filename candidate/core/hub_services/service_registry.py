@@ -325,17 +325,17 @@ class QIBioOptimizerProvider:
         def create_bio_optimizer():
             from qi.bio.bio_optimizer import (
                 MockBioOrchestrator,
-                QuantumBioOptimizationAdapter,
+                QIBioOptimizationAdapter,
             )
 
-            return QuantumBioOptimizationAdapter(MockBioOrchestrator())
+            return QIBioOptimizationAdapter(MockBioOrchestrator())
 
         register_factory(
-            "quantum_bio_optimizer",
+            "qi_bio_optimizer",
             create_bio_optimizer,
             {
                 "module": "quantum",
-                "interface": "QuantumBioOptimizationAdapter",
+                "interface": "QIBioOptimizationAdapter",
             },
         )
 
@@ -346,7 +346,7 @@ def register_all_providers():
     LearningServiceProvider.register()
     ConsciousnessServiceProvider.register()
     IdentityServiceProvider.register()
-    QuantumBioOptimizerProvider.register()
+    QIBioOptimizerProvider.register()
     logger.info("All service providers registered")
 
 
@@ -359,5 +359,5 @@ __all__ = [
     "get_service",
     "inject_services",
     "register_all_providers",
-    "QuantumBioOptimizerProvider",
+    "QIBioOptimizerProvider",
 ]

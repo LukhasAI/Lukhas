@@ -10,7 +10,7 @@ Full-stack engineering project to create a unified website experience combining 
 - **Type**: Pure HTML/CSS/JavaScript
 - **Layout**: Dock-based interface (left sidebar + right sidebar + minimal center)
 - **Background**: Dynamic neural network visualization
-- **Features**: 
+- **Features**:
   - Lightweight and fast
   - Clean dock navigation
   - Neural network background effects

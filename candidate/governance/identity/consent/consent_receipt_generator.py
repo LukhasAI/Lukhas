@@ -355,7 +355,7 @@ def main():
     ]
 
     batch_receipt = generator.generate_batch_receipt(
-        user_id="quantum_master", consent_events=consent_events
+        user_id="qi_master", consent_events=consent_events
     )
 
     print(f"✅ Batch receipt generated: {batch_receipt}")

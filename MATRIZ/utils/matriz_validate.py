@@ -1,6 +1,10 @@
 from __future__ import annotations
-import json, sys, pathlib
-from typing import Iterable
+
+import json
+import pathlib
+import sys
+from collections.abc import Iterable
+
 from jsonschema import Draft202012Validator
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -18,12 +22,12 @@ def validate_node(node: dict) -> None:
     sr = node.get("schema_ref")
     if sr and sr not in ALLOWED_SCHEMA_REFS:
         raise ValueError(f"Unsupported schema_ref: {sr!r}")
-    
+
     # Create a copy without metadata fields for validation
     node_copy = dict(node)
     node_copy.pop("$kind", None)  # Remove if present
     node_copy.pop("schema_ref", None)  # Remove if present
-    
+
     _validator.validate(node_copy)
 
 def validate_nodes(nodes: Iterable[dict]) -> None:

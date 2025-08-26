@@ -24,25 +24,25 @@ export async function POST(req: NextRequest) {
     '30m'
   );
 
-  await prisma.recoveryTicket.update({ 
-    where: { id: ticketId }, 
-    data: { state: 'completed' } 
+  await prisma.recoveryTicket.update({
+    where: { id: ticketId },
+    data: { state: 'completed' }
   });
-  
+
   // Set ephemeral cookie
-  const response = NextResponse.json({ 
-    ephemeral: true, 
-    ttlMinutes: 30, 
+  const response = NextResponse.json({
+    ephemeral: true,
+    ttlMinutes: 30,
     method,
     message: 'Recovery complete. Please bind a new passkey immediately.'
   });
-  
+
   response.cookies.set('recovery-token', ephemeralToken, {
     httpOnly: true,
     secure: true,
     sameSite: 'strict',
     maxAge: 1800 // 30 minutes
   });
-  
+
   return response;
 }

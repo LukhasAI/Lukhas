@@ -8,8 +8,9 @@ Apply changes instantly to see the results.
 
 import json
 import sys
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
 
 class BotCustomizer:
     """Interactive customizer for LUKHAS AI ΛBot status bar."""
@@ -218,7 +219,7 @@ class BotCustomizer:
             raise FileNotFoundError("BotStatusBar.py not found")
 
         # Read current file
-        with open(self.status_bar_file, 'r') as f:
+        with open(self.status_bar_file) as f:
             content = f.read()
 
         # Generate new widget creation code
@@ -226,7 +227,7 @@ class BotCustomizer:
 
         # Replace the create_status_widget function
         # This is a simplified replacement - in a real implementation you'd use AST manipulation'
-        print(f"Generated new widget code (preview):")
+        print("Generated new widget code (preview):")
         print(new_widget_code[:200] + "...")
 
         # For now, create a configuration file that the status bar can read

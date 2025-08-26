@@ -11,9 +11,9 @@ from typing import Any, Callable, Optional
 
 from ...voice_integrator import VoiceIntegrator
 from ..oscillator.orchestrator import BioOrchestrator
-from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
+from ..oscillator.qi_inspired_layer import QIBioOscillator
 
-logger = logging.getLogger("quantum_voice")
+logger = logging.getLogger("qi_voice")
 
 
 @dataclass
@@ -47,17 +47,17 @@ class QIVoiceEnhancer:
         self.config = config or VoiceQuantumConfig()
 
         # Initialize quantum oscillators for voice processing
-        self.emotion_oscillator = QuantumBioOscillator(
+        self.emotion_oscillator = QIBioOscillator(
             base_freq=self.config.emotion_processing_frequency,
-            quantum_config={
+            qi_config={
                 "coherence_threshold": self.config.coherence_threshold,
                 "entanglement_threshold": self.config.entanglement_threshold,
             },
         )
 
-        self.voice_oscillator = QuantumBioOscillator(
+        self.voice_oscillator = QIBioOscillator(
             base_freq=1000.0 / self.config.voice_sync_interval,  # Hz from ms
-            quantum_config={
+            qi_config={
                 "coherence_threshold": self.config.coherence_threshold,
                 "entanglement_threshold": self.config.entanglement_threshold,
             },
@@ -82,7 +82,7 @@ class QIVoiceEnhancer:
         original_process_voice = self.voice_integrator.process_voice_input
         original_generate_speech = self.voice_integrator.generate_speech_output
 
-        async def quantum_process_voice(
+        async def qi_process_voice(
             audio_data: bytes, context: Optional[dict[str, Any]] = None
         ) -> dict[str, Any]:
             """Quantum-enhanced voice input processing"""
@@ -105,7 +105,7 @@ class QIVoiceEnhancer:
                 # Fallback to classical processing
                 return original_process_voice(audio_data, context)
 
-        async def quantum_generate_speech(
+        async def qi_generate_speech(
             text: str, voice_params: Optional[dict[str, Any]] = None
         ) -> dict[str, Any]:
             """Quantum-enhanced speech generation"""
@@ -129,8 +129,8 @@ class QIVoiceEnhancer:
                 return original_generate_speech(text, voice_params)
 
         # Replace with enhanced versions
-        self.voice_integrator.process_voice_input = quantum_process_voice
-        self.voice_integrator.generate_speech_output = quantum_generate_speech
+        self.voice_integrator.process_voice_input = qi_process_voice
+        self.voice_integrator.generate_speech_output = qi_generate_speech
 
     async def _quantum_voice_process(
         self,
@@ -147,13 +147,13 @@ class QIVoiceEnhancer:
                 return base_result
 
             # Enhance emotion detection with quantum-inspired processing
-            quantum_emotion = await self._enhance_emotion_detection(
+            qi_emotion = await self._enhance_emotion_detection(
                 base_result.get("emotion"), context
             )
 
-            if quantum_emotion:
-                base_result["emotion"] = quantum_emotion
-                base_result["quantum_enhanced"] = True
+            if qi_emotion:
+                base_result["emotion"] = qi_emotion
+                base_result["qi_enhanced"] = True
 
             return base_result
 
@@ -173,16 +173,16 @@ class QIVoiceEnhancer:
 
             # Enhance emotion parameters with quantum-inspired processing
             if params.get("emotion"):
-                quantum_emotion = await self._enhance_emotion_modulation(
+                qi_emotion = await self._enhance_emotion_modulation(
                     params["emotion"], params.get("emotion_intensity", 0.5)
                 )
-                params["emotion"] = quantum_emotion
+                params["emotion"] = qi_emotion
 
             # Generate with enhanced parameters
             result = original_method(text, params)
 
             if result["success"]:
-                result["quantum_enhanced"] = True
+                result["qi_enhanced"] = True
 
             return result
 

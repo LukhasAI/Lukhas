@@ -29,9 +29,9 @@ QUANTUM_DREAM_CONFIG = {
         ],
     },
     # Performance Optimization
-    "quantum_acceleration": {
+    "qi_acceleration": {
         "parallel_dream_streams": 4,  # Multiple quantum dream processes
-        "quantum_cache_size": 1000,  # Quantum state cache
+        "qi_cache_size": 1000,  # Quantum state cache
         "optimization_algorithm": "variational_quantum_eigensolver",
     },
 }

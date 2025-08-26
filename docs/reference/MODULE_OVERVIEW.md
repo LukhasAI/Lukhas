@@ -13,7 +13,7 @@ LUKHAS is organized into 14 specialized modules exploring symbolic cognition and
 
 ### 💭 Cognitive Systems
 - **consciousness/** - Awareness and self-reflection
-- **reasoning/** - Logic and causal analysis  
+- **reasoning/** - Logic and causal analysis
 - **learning/** - Adaptive meta-learning
 - **memory/** - Fold-based memory with causal tracking
 

@@ -4,11 +4,11 @@ Production-safe wrapper for VIVOX consciousness system
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from .vivox_wrapper import VivoxWrapper, VivoxConfig, ConsciousnessLevel
+from .vivox_wrapper import ConsciousnessLevel, VivoxConfig, VivoxWrapper
 
 __all__ = [
-    "VivoxWrapper", 
-    "VivoxConfig", 
+    "VivoxWrapper",
+    "VivoxConfig",
     "ConsciousnessLevel"
 ]
 

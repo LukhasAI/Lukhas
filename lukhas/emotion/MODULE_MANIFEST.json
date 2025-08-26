@@ -68,7 +68,7 @@
     "stress_priority": 1,
     "hormone_receptors": [
       "cortisol",
-      "dopamine", 
+      "dopamine",
       "serotonin",
       "oxytocin"
     ]
@@ -85,7 +85,7 @@
     "events": [
       "emotion_initialization",
       "emotion_process",
-      "emotion_regulate_mood", 
+      "emotion_regulate_mood",
       "emotion_track_valence",
       "emotion_memory_init",
       "emotion_store_memory",

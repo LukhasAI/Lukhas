@@ -14,12 +14,12 @@ rules:
     description: OpenAI API Key
     regex: 'sk-[a-zA-Z0-9]{48}'
     tags: ["key", "openai"]
-    
+
   - id: anthropic_api_key
     description: Anthropic API Key
     regex: 'sk-ant-[a-zA-Z0-9]{40,}'
     tags: ["key", "anthropic"]
-    
+
   - id: oauth_token
     description: OAuth Bearer Token
     regex: 'Bearer\s+[a-zA-Z0-9\-\._~\+\/]+=*'

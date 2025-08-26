@@ -165,7 +165,7 @@ class NIΛS:
             "max_messages_per_session": 5,
             "cooldown_period": 300,  # seconds
             "dream_delivery_enabled": True,
-            "quantum_security": True,
+            "qi_security": True,
             "emotional_protection": True,
             "symbolic_learning": True,
             "audit_level": "full",
@@ -525,7 +525,7 @@ class NIΛS:
 
         # Quantum audit trail for enterprise users
         if (
-            self.config["quantum_security"]
+            self.config["qi_security"]
             and self.user_contexts[user_id].tier.value >= MessageTier.ENTERPRISE.value
         ):
             await self._create_quantum_audit_entry(user_id, message, result)
@@ -611,7 +611,7 @@ class NIΛS:
             "integration_mode": self._get_integration_mode(),
             "features": {
                 "dream_delivery": self.config["dream_delivery_enabled"],
-                "quantum_security": self.config["quantum_security"],
+                "qi_security": self.config["qi_security"],
                 "emotional_protection": self.config["emotional_protection"],
             },
         }

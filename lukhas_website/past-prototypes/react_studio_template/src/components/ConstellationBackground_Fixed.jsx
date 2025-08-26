@@ -8,7 +8,7 @@ const ConstellationBackground = () => {
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas) return { width: 0, height: 0 }
-    
+
     const rect = canvas.parentElement?.getBoundingClientRect() || { width: window.innerWidth, height: window.innerHeight }
     canvas.width = rect.width
     canvas.height = rect.height
@@ -35,13 +35,13 @@ const ConstellationBackground = () => {
 
     const maxConnections = Math.min(stars.length * 3, 300)
     let connectionCount = 0
-    
+
     for (let i = 0; i < stars.length && connectionCount < maxConnections; i++) {
       for (let j = i + 1; j < stars.length && connectionCount < maxConnections; j++) {
         const dx = stars[i].x - stars[j].x
         const dy = stars[i].y - stars[j].y
         const distance = Math.sqrt(dx * dx + dy * dy)
-        
+
         if (distance < 100) {
           connections.push({
             star1: i,
@@ -63,7 +63,7 @@ const ConstellationBackground = () => {
 
     const ctx = canvas.getContext('2d')
     const { width, height } = { width: canvas.width, height: canvas.height }
-    
+
     const now = performance.now()
     if (!animationRef.lastFrame) animationRef.lastFrame = now
     if (now - animationRef.lastFrame < 16.67) {
@@ -73,7 +73,7 @@ const ConstellationBackground = () => {
     animationRef.lastFrame = now
 
     ctx.clearRect(0, 0, width, height)
-    
+
     const time = now * 0.001
     const { stars, connections } = dataRef.current
 
@@ -83,9 +83,9 @@ const ConstellationBackground = () => {
         const star1 = stars[connection.star1]
         const star2 = stars[connection.star2]
         if (!star1 || !star2) return
-        
+
         const pulseOpacity = connection.baseOpacity * (0.7 + 0.3 * Math.sin(time * 1.5))
-        
+
         ctx.beginPath()
         ctx.moveTo(star1.x, star1.y)
         ctx.lineTo(star2.x, star2.y)
@@ -149,7 +149,7 @@ const ConstellationBackground = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 z-0 pointer-events-none"
-      style={{ 
+      style={{
         background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)'
       }}
     />

@@ -71,14 +71,14 @@ class SuggestionResponse(BaseModel):
 async def register_with_custom_id(request: CustomRegistrationRequest):
     """
     Register a new user with optional custom user ID.
-    
+
     Features:
     - Choose your own user ID (username)
     - Fallback to email-derived ID if custom ID unavailable
     - Username validation and suggestions
     - Display name support
     - Tier selection
-    
+
     Example:
     ```json
     {
@@ -112,16 +112,16 @@ async def register_with_custom_id(request: CustomRegistrationRequest):
 async def check_username_availability(request: UsernameCheckRequest):
     """
     Check if a username (user ID) is available.
-    
+
     Returns availability status and suggestions if unavailable.
-    
+
     Example:
     ```json
     {
         "user_id": "johndoe"
     }
     ```
-    
+
     Response:
     ```json
     {
@@ -147,16 +147,16 @@ async def check_username_availability(request: UsernameCheckRequest):
 async def get_username_suggestions(request: SuggestionRequest):
     """
     Get username suggestions based on email address.
-    
+
     Generates multiple username options from the email address.
-    
+
     Example:
     ```json
     {
         "email": "john.doe@example.com"
     }
     ```
-    
+
     Response:
     ```json
     {
@@ -182,7 +182,7 @@ async def get_username_suggestions(request: SuggestionRequest):
 async def get_username_rules():
     """
     Get the rules and requirements for choosing a username.
-    
+
     Returns validation rules, reserved words, and formatting requirements.
     """
     return {
@@ -217,7 +217,7 @@ async def get_username_rules():
             "Username cannot be changed after registration"
         ],
         "examples": {
-            "good": ["johndoe", "alice_smith", "dev-guru", "quantum_alice"],
+            "good": ["johndoe", "alice_smith", "dev-guru", "qi_alice"],
             "bad": ["john..doe", "123user", "admin", "a", "this-is-way-too-long-for-a-username"]
         }
     }
@@ -227,13 +227,13 @@ async def get_username_rules():
 async def get_demo_usernames():
     """
     Get sample usernames for demonstration and testing.
-    
+
     Useful for UI examples and testing flows.
     """
     return {
         "available_examples": [
             "demo_user", "test_explorer", "luke_reviewer", "ai_enthusiast",
-            "quantum_dev", "consciousness_fan", "guardian_tester"
+            "qi_dev", "consciousness_fan", "guardian_tester"
         ],
         "taken_examples": [
             "admin", "root", "john", "alice", "test123", "demo_user"
@@ -242,7 +242,7 @@ async def get_demo_usernames():
             "T1": ["observer_1", "viewer_demo"],
             "T2": ["creator_joe", "builder_alice"],
             "T3": ["advanced_user", "consciousness_dev"],
-            "T4": ["quantum_alice", "architect_bob"],
+            "T4": ["qi_alice", "architect_bob"],
             "T5": ["guardian_admin", "trinity_master"]
         },
         "note": "These are examples only. Actual availability may vary."
@@ -258,7 +258,7 @@ async def register_legacy_mode(
 ):
     """
     Legacy registration mode (email-derived user ID only).
-    
+
     Maintains backward compatibility with existing registration flow.
     User ID will be automatically generated from email address.
     """

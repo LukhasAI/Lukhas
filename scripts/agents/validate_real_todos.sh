@@ -23,7 +23,7 @@ echo -e "${BLUE}📋 Analyzing TODO task files...${NC}"
 for task_file in "$TASK_DIR"/*.json; do
     if [ -f "$task_file" ]; then
         TOTAL_TASKS=$((TOTAL_TASKS + 1))
-        
+
         # Extract task info
         task_id=$(jq -r '.task_id' "$task_file")
         title=$(jq -r '.title' "$task_file")
@@ -31,19 +31,19 @@ for task_file in "$TASK_DIR"/*.json; do
         priority=$(jq -r '.priority' "$task_file")
         domain=$(jq -r '.domain' "$task_file")
         trinity_focus=$(jq -r '.trinity_focus' "$task_file")
-        
+
         echo -e "${PURPLE}🎯 Task: ${task_id}${NC}"
         echo -e "   📂 ${title}"
         echo -e "   🔗 Source: ${source_file}"
         echo -e "   ⭐ Priority: ${priority}"
         echo -e "   🏷️ Domain: ${domain}"
         echo -e "   ${trinity_focus}"
-        
+
         # Validate source file exists and contains actual TODOs
         if [ -f "$source_file" ]; then
             todo_count=$(grep -c "TODO:" "$source_file" 2>/dev/null || echo "0")
             lambda_todo_count=$(grep -c "ΛTODO:" "$source_file" 2>/dev/null || echo "0")
-            
+
             if [ "$todo_count" -gt 0 ] || [ "$lambda_todo_count" -gt 0 ]; then
                 echo -e "   ✅ ${GREEN}VALID - Source file contains TODOs${NC}"
                 VALID_TASKS=$((VALID_TASKS + 1))

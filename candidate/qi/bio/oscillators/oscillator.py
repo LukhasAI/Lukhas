@@ -105,7 +105,7 @@ class BioOscillator:
         # Synchronization settings
         self.sync_threshold = 0.85
         self.phase_lock_enabled = True
-        self.quantum_sync = True
+        self.qi_sync = True
 
         # Component tracking
         self.synced_components: dict[str, float] = {}
@@ -221,7 +221,7 @@ class BioOscillator:
             "current_frequency": self.current_frequency,
             "target_frequency": self.target_frequency,
             "synced_components": len(self.synced_components),
-            "quantum_sync": self.quantum_sync,
+            "qi_sync": self.qi_sync,
             "timestamp": datetime.utcnow().isoformat(),
             "verification": {
                 "identity_legacy": (

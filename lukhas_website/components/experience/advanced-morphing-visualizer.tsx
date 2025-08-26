@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic'
 // Dynamically import the actual visualizer to avoid SSR issues
 const MorphingVisualizerInner = dynamic(
   () => import('@/components/morphing-visualizer'),
-  { 
+  {
     ssr: false,
     loading: () => <div className="w-full h-full bg-black/50 backdrop-blur-xl animate-pulse" />
   }
@@ -20,7 +20,7 @@ interface AdvancedMorphingVisualizerProps {
   config?: any
 }
 
-export default function AdvancedMorphingVisualizer({ 
+export default function AdvancedMorphingVisualizer({
   quotedText = '',
   mode = 'AI',
   voiceIntensity = 0,
@@ -36,19 +36,19 @@ export default function AdvancedMorphingVisualizer({
     glyphText: quotedText,
     voiceSensitivity: config.voiceSensitivity || 1.0
   }
-  
+
   const voiceData = {
     intensity: voiceIntensity,
     frequency: 0
   }
-  
+
   return (
     <div className="w-full h-full relative">
-      <MorphingVisualizerInner 
+      <MorphingVisualizerInner
         config={enhancedConfig}
         voiceData={voiceData}
       />
-      
+
       {/* Mode indicator overlay */}
       <div className="absolute top-4 left-4 pointer-events-none">
         <div className="bg-black/60 backdrop-blur-xl border border-white/10 rounded-lg px-3 py-2">
@@ -60,7 +60,7 @@ export default function AdvancedMorphingVisualizer({
           </div>
         </div>
       </div>
-      
+
       {/* Stats overlay if enabled */}
       {showStats && (
         <div className="absolute top-4 right-4 pointer-events-none">

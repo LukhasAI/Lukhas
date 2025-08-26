@@ -9,7 +9,7 @@
 # colonies/memory_integration.py
 class ColonyMemoryBridge:
     """Bridge between colony decisions and DNA memory"""
-    
+
     async def record_consensus(self, colony_id: str, decision: Dict):
         """Store colony decision in immutable memory"""
         memory = get_dna_memory()
@@ -61,11 +61,11 @@ class SystemMetrics:
         self.colony_metrics = PrometheusMetrics()
         self.memory_metrics = PrometheusMetrics()
         self.symbol_metrics = PrometheusMetrics()
-    
+
     @track_time("colony.consensus.duration")
     async def record_consensus_time(self, duration: float):
         self.colony_metrics.histogram("consensus_duration", duration)
-    
+
     @track_count("symbols.generated")
     async def record_symbol_generation(self):
         self.symbol_metrics.increment("symbols_generated")
@@ -81,15 +81,15 @@ async def test_symbol_to_colony_to_memory():
     """End-to-end test of complete system flow"""
     # 1. Generate symbol
     symbol = await generate_universal_symbol(entropy=256)
-    
+
     # 2. Colony validates symbol
     colony = await spawn_colony(size=10)
     validation = await colony.validate_symbol(symbol)
-    
+
     # 3. Store in DNA memory
     memory = get_dna_memory()
     node = await memory.store_validated_symbol(symbol, validation)
-    
+
     # 4. Verify retrieval
     retrieved = await memory.retrieve_by_hash(symbol.hash)
     assert retrieved.verify_integrity()
@@ -112,7 +112,7 @@ services:
     depends_on:
       - db
       - redis
-  
+
   db:
     image: postgres:14
     environment:
@@ -121,12 +121,12 @@ services:
       - POSTGRES_PASSWORD=password
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  
+
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
-  
+
   grafana:
     image: grafana/grafana:latest
     ports:
@@ -146,7 +146,7 @@ class FeatureFlags:
     DNA_MEMORY_ENABLED = env.bool("FF_DNA_MEMORY", default=False)
     COLONY_CONSENSUS_V2 = env.bool("FF_COLONY_V2", default=False)
     SYMBOL_DICTIONARY_BETA = env.bool("FF_SYMBOLS_BETA", default=True)
-    
+
     @staticmethod
     def is_enabled(flag: str, user_id: str = None) -> bool:
         """Check if feature is enabled for user"""
@@ -233,7 +233,7 @@ async def readiness_check():
         "colonies": await check_colony_health(),
         "memory": await check_memory_system()
     }
-    
+
     if all(checks.values()):
         return {"status": "ready", "checks": checks}
     else:

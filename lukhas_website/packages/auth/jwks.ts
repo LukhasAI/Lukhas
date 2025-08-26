@@ -1,6 +1,6 @@
 /**
  * JWKS (JSON Web Key Set) Management for ΛiD Authentication System
- * 
+ *
  * Provides secure RSA key rotation and JWKS endpoint for JWT verification.
  * Implements quarterly key rotation with 30-day overlap for seamless transitions.
  */
@@ -42,7 +42,7 @@ export class JWKSManager {
     try {
       const publicKey = await this.importPublicKey(this.config.publicKey);
       const jwk = await exportJWK(publicKey);
-      
+
       const key: JWKSKey = {
         kid: this.config.keyId,
         kty: 'RSA',
@@ -115,11 +115,11 @@ export class JWKSManager {
 
       // Generate new key ID
       const newKeyId = this.generateKeyId();
-      
+
       // Import and add new key
       const publicKey = await this.importPublicKey(newPublicKey);
       const jwk = await exportJWK(publicKey);
-      
+
       const newKey: JWKSKey = {
         kid: newKeyId,
         kty: 'RSA',
@@ -133,7 +133,7 @@ export class JWKSManager {
       };
 
       this.keys.set(newKey.kid, newKey);
-      
+
       // Schedule cleanup of deprecated keys after 30 days
       setTimeout(() => {
         this.cleanupDeprecatedKeys();
@@ -150,7 +150,7 @@ export class JWKSManager {
    */
   private cleanupDeprecatedKeys(): void {
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-    
+
     Array.from(this.keys.entries()).forEach(([kid, key]) => {
       if (key.status === 'rotating' && new Date(key.created_at) < thirtyDaysAgo) {
         key.status = 'deprecated';

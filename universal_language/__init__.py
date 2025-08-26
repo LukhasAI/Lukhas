@@ -238,7 +238,7 @@ def calculate_symbol_quality(symbol_data: Any, symbol_type: SymbolType) -> float
 def compose_symbol_proof(symbols: List[PersonalSymbol], operators: List[str], nonce: str) -> str:
     """
     Create cryptographic proof of symbol composition.
-    
+
     This proves knowledge of symbols without revealing them.
     """
     hasher = hashlib.sha256()
@@ -268,7 +268,7 @@ class CompositionOperator(Enum):
 def parse_composition(composition_str: str) -> Tuple[List[str], List[str]]:
     """
     Parse composition string into meanings and operators.
-    
+
     Example: "calm + collapse" -> (["calm", "collapse"], ["+"])
     """
     # Define operator symbols

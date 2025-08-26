@@ -24,7 +24,7 @@ interface AuthContextType {
   session: AuthSession | null
   isLoading: boolean
   isAuthenticated: boolean
-  
+
   // Actions
   login: (credentials: LoginCredentials) => Promise<void>
   register: (credentials: RegisterCredentials) => Promise<void>
@@ -32,7 +32,7 @@ interface AuthContextType {
   refresh: () => Promise<void>
   updateUserProfile: (updates: Partial<Pick<LukhasUser, 'displayName' | 'avatar'>>) => Promise<void>
   verifyUserEmail: (token: string) => Promise<boolean>
-  
+
   // Utilities
   hasModuleAccess: (module: keyof LukhasUser['trinityAccess']) => boolean
   isSubscriptionValid: boolean
@@ -58,7 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if (storedSession) {
           setSession(storedSession)
           setUser(storedSession.user)
-          
+
           // Try to refresh the session
           try {
             const refreshedSession = await refreshSession()
@@ -167,11 +167,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const updateUserProfile = useCallback(async (updates: Partial<Pick<LukhasUser, 'displayName' | 'avatar'>>) => {
     if (!user) throw new Error('No user logged in')
-    
+
     try {
       const updatedUser = await updateProfile(updates)
       setUser(updatedUser)
-      
+
       // Update session as well
       if (session) {
         const updatedSession: AuthSession = {
@@ -213,7 +213,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     session,
     isLoading,
     isAuthenticated,
-    
+
     // Actions
     login,
     register,
@@ -221,7 +221,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     refresh,
     updateUserProfile,
     verifyUserEmail,
-    
+
     // Utilities
     hasModuleAccess,
     isSubscriptionValid,
@@ -252,9 +252,9 @@ interface ProtectedRouteProps {
   requiredSubscription?: boolean
 }
 
-export function ProtectedRoute({ 
-  children, 
-  fallback = null, 
+export function ProtectedRoute({
+  children,
+  fallback = null,
   requireVerification = false,
   requiredModule,
   requiredSubscription = false

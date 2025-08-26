@@ -24,10 +24,10 @@ export interface MorphingTarget {
 export function generateShapeDNA(text: string): ShapeDNA {
   const seed = seedFromString(text)
   const rng = mulberry32(seed)
-  
+
   const forms: ShapeDNA['baseForm'][] = ['sphere', 'torus', 'helix', 'cube']
   const baseForm = forms[Math.floor(rng() * forms.length)]
-  
+
   return {
     baseForm,
     complexity: 0.3 + rng() * 0.4, // 0.3-0.7 range for stability
@@ -41,20 +41,20 @@ export function generateShapeDNA(text: string): ShapeDNA {
  * Create morphing target from shape DNA
  */
 export function createMorphingTarget(
-  dna: ShapeDNA, 
+  dna: ShapeDNA,
   particleCount: number
 ): MorphingTarget {
   const positions = new Float32Array(particleCount * 3)
   const seed = seedFromString(dna.signature)
   const rng = mulberry32(seed)
-  
+
   // Base radius with complexity variation
   const baseRadius = 2.0
   const radiusVariation = dna.complexity * 0.5
-  
+
   for (let i = 0; i < particleCount; i++) {
     const idx = i * 3
-    
+
     switch (dna.baseForm) {
       case 'sphere':
         const [x, y, z] = generateSpherePoint(rng, baseRadius, radiusVariation, dna.organicity)
@@ -62,21 +62,21 @@ export function createMorphingTarget(
         positions[idx + 1] = y
         positions[idx + 2] = z
         break
-        
+
       case 'torus':
         const [tx, ty, tz] = generateTorusPoint(rng, baseRadius, radiusVariation, dna.organicity)
         positions[idx] = tx
         positions[idx + 1] = ty
         positions[idx + 2] = tz
         break
-        
+
       case 'helix':
         const [hx, hy, hz] = generateHelixPoint(i, particleCount, rng, baseRadius, dna.organicity)
         positions[idx] = hx
         positions[idx + 1] = hy
         positions[idx + 2] = hz
         break
-        
+
       case 'cube':
         const [cx, cy, cz] = generateCubePoint(rng, baseRadius, radiusVariation, dna.organicity)
         positions[idx] = cx
@@ -85,7 +85,7 @@ export function createMorphingTarget(
         break
     }
   }
-  
+
   return {
     positions,
     signature: dna.signature,
@@ -97,9 +97,9 @@ export function createMorphingTarget(
  * Generate sphere point with organic variation
  */
 function generateSpherePoint(
-  rng: () => number, 
-  radius: number, 
-  variation: number, 
+  rng: () => number,
+  radius: number,
+  variation: number,
   organicity: number
 ): [number, number, number] {
   // Uniform sphere distribution
@@ -107,11 +107,11 @@ function generateSpherePoint(
   const v = rng()
   const theta = 2 * Math.PI * u
   const phi = Math.acos(2 * v - 1)
-  
+
   // Add organic noise
   const noise = organicity * (rng() - 0.5) * variation
   const r = radius + noise
-  
+
   return [
     r * Math.sin(phi) * Math.cos(theta),
     r * Math.cos(phi),
@@ -131,12 +131,12 @@ function generateTorusPoint(
   const minorRadius = majorRadius * 0.3
   const u = rng() * 2 * Math.PI
   const v = rng() * 2 * Math.PI
-  
+
   // Add organic variation
   const noise = organicity * (rng() - 0.5) * variation
   const R = majorRadius + noise
   const r = minorRadius + noise * 0.5
-  
+
   return [
     (R + r * Math.cos(v)) * Math.cos(u),
     r * Math.sin(v),
@@ -157,11 +157,11 @@ function generateHelixPoint(
   const t = (index / total) * 4 * Math.PI // 2 full turns
   const height = 4.0
   const y = (t / (4 * Math.PI)) * height - height * 0.5
-  
+
   // Add organic variation
   const noise = organicity * (rng() - 0.5) * 0.2
   const r = radius + noise
-  
+
   return [
     r * Math.cos(t) + noise,
     y + noise,
@@ -182,9 +182,9 @@ function generateCubePoint(
   const face = Math.floor(rng() * 6)
   const u = rng() - 0.5
   const v = rng() - 0.5
-  
+
   let x: number, y: number, z: number
-  
+
   switch (face) {
     case 0: [x, y, z] = [size, u * size, v * size]; break // +X
     case 1: [x, y, z] = [-size, u * size, v * size]; break // -X
@@ -193,22 +193,22 @@ function generateCubePoint(
     case 4: [x, y, z] = [u * size, v * size, size]; break // +Z
     default: [x, y, z] = [u * size, v * size, -size]; break // -Z
   }
-  
+
   // Apply organic rounding
   if (organicity > 0) {
     const len = Math.sqrt(x * x + y * y + z * z)
     const sphereRadius = size * Math.sqrt(3) // Cube diagonal
     const blend = organicity * 0.5
-    
+
     const sphereX = (x / len) * sphereRadius
     const sphereY = (y / len) * sphereRadius
     const sphereZ = (z / len) * sphereRadius
-    
+
     x = x * (1 - blend) + sphereX * blend
     y = y * (1 - blend) + sphereY * blend
     z = z * (1 - blend) + sphereZ * blend
   }
-  
+
   // Add variation noise
   const noise = variation * (rng() - 0.5) * 0.3
   return [x + noise, y + noise, z + noise]
@@ -223,10 +223,10 @@ export function interpolateMorphingTargets(
   progress: number
 ): Float32Array {
   const result = new Float32Array(current.positions.length)
-  
+
   for (let i = 0; i < result.length; i++) {
     result[i] = current.positions[i] * (1 - progress) + target.positions[i] * progress
   }
-  
+
   return result
 }

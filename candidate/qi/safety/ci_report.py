@@ -1,5 +1,10 @@
 from __future__ import annotations
-import os, json, sys, datetime
+
+import datetime
+import json
+import os
+import sys
+
 
 def _md_code_block(text: str, lang: str = "") -> str:
     return f"```{lang}\n{text}\n```"
@@ -24,7 +29,7 @@ def render_markdown(report: dict) -> str:
     steps = report.get("steps", [])
     rows = _summarize(steps)
     lines = []
-    lines.append(f"# 🔐 Safety CI Report")
+    lines.append("# 🔐 Safety CI Report")
     lines.append(f"_Generated: {ts}_")
     lines.append("")
     lines.append("## Steps")
@@ -48,7 +53,7 @@ def main():
     if not os.path.exists(out_json):
         print(f"Cannot find report JSON at {out_json}", file=sys.stderr)
         sys.exit(1)
-    report = json.load(open(out_json, "r", encoding="utf-8"))
+    report = json.load(open(out_json, encoding="utf-8"))
     md = render_markdown(report)
 
     # Write alongside JSON

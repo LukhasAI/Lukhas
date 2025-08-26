@@ -8,7 +8,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -16,30 +16,30 @@
             padding: 40px 20px;
             color: white;
         }
-        
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-        
+
         header {
             text-align: center;
             margin-bottom: 50px;
         }
-        
+
         h1 {
             font-size: 3em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             animation: fadeIn 1s ease-in;
         }
-        
+
         .subtitle {
             font-size: 1.3em;
             opacity: 0.9;
             animation: fadeIn 1.5s ease-in;
         }
-        
+
         .quote {
             font-style: italic;
             margin-top: 20px;
@@ -47,14 +47,14 @@
             opacity: 0.8;
             animation: fadeIn 2s ease-in;
         }
-        
+
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
             gap: 40px;
             margin-top: 40px;
         }
-        
+
         .dream-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -64,28 +64,28 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             animation: slideUp 0.8s ease-out;
         }
-        
+
         .dream-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 50px rgba(0,0,0,0.4);
         }
-        
+
         .dream-image {
             width: 100%;
             height: auto;
             display: block;
         }
-        
+
         .dream-info {
             padding: 25px;
         }
-        
+
         .dream-title {
             font-size: 1.8em;
             margin-bottom: 10px;
             font-weight: 600;
         }
-        
+
         .dream-type {
             display: inline-block;
             background: rgba(255,255,255,0.2);
@@ -94,13 +94,13 @@
             font-size: 0.9em;
             margin-bottom: 15px;
         }
-        
+
         .dream-description {
             line-height: 1.6;
             opacity: 0.9;
             margin-bottom: 15px;
         }
-        
+
         .technical {
             font-size: 0.85em;
             opacity: 0.7;
@@ -108,12 +108,12 @@
             padding-top: 15px;
             margin-top: 15px;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
+
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -124,7 +124,7 @@
                 transform: translateY(0);
             }
         }
-        
+
         .features {
             display: flex;
             justify-content: center;
@@ -132,22 +132,22 @@
             margin: 40px 0;
             flex-wrap: wrap;
         }
-        
+
         .feature {
             text-align: center;
             animation: fadeIn 2.5s ease-in;
         }
-        
+
         .feature-icon {
             font-size: 2em;
             margin-bottom: 10px;
         }
-        
+
         .feature-text {
             font-size: 0.95em;
             opacity: 0.9;
         }
-        
+
         footer {
             text-align: center;
             margin-top: 60px;
@@ -164,7 +164,7 @@
             <div class="subtitle">AI-Generated Dreams from DALL-E 3</div>
             <div class="quote">"Not selling, but dreaming together"</div>
         </header>
-        
+
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">🎨</div>
@@ -183,7 +183,7 @@
                 <div class="feature-text">Ethereal Beauty</div>
             </div>
         </div>
-        
+
         <div class="gallery">
             <div class="dream-card">
                 <img src="dream_winter_comfort_20250807_165008.png" alt="Winter Comfort Dream" class="dream-image">
@@ -191,8 +191,8 @@
                     <h2 class="dream-title">Winter Comfort</h2>
                     <span class="dream-type">Seasonal Dream</span>
                     <p class="dream-description">
-                        An ethereal visualization of comfort and warmth, where cashmere floats like clouds in a 
-                        peaceful winter dreamscape. This isn't a product photo - it's a feeling rendered in 
+                        An ethereal visualization of comfort and warmth, where cashmere floats like clouds in a
+                        peaceful winter dreamscape. This isn't a product photo - it's a feeling rendered in
                         watercolor and light.
                     </p>
                     <div class="technical">
@@ -200,15 +200,15 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="dream-card">
                 <img src="dream_wellness_journey_20250807_165026.png" alt="Wellness Journey Dream" class="dream-image">
                 <div class="dream-info">
                     <h2 class="dream-title">Wellness Journey</h2>
                     <span class="dream-type">Replenishment Dream</span>
                     <p class="dream-description">
-                        A meditation on wellness and self-care, where organic elements float in golden light. 
-                        This dream speaks to the soul's need for balance and renewal, not to the wallet's 
+                        A meditation on wellness and self-care, where organic elements float in golden light.
+                        This dream speaks to the soul's need for balance and renewal, not to the wallet's
                         impulse to purchase.
                     </p>
                     <div class="technical">
@@ -216,14 +216,14 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="dream-card">
                 <img src="dream_holiday_gift_20250807_165045.png" alt="Holiday Gift Dream" class="dream-image">
                 <div class="dream-info">
                     <h2 class="dream-title">Holiday Magic</h2>
                     <span class="dream-type">Celebration Dream</span>
                     <p class="dream-description">
-                        The essence of giving captured in light and stardust. A gift box becomes a portal to 
+                        The essence of giving captured in light and stardust. A gift box becomes a portal to
                         wonder, reminding us that the best presents are moments of connection and joy.
                     </p>
                     <div class="technical">
@@ -231,15 +231,15 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="dream-card">
                 <img src="nias_dream_cashmere.png" alt="Cashmere Dreams" class="dream-image">
                 <div class="dream-info">
                     <h2 class="dream-title">Cashmere Dreams</h2>
                     <span class="dream-type">Comfort Dream</span>
                     <p class="dream-description">
-                        Soft as morning mist, warm as a memory. This dream captures the essence of comfort 
-                        without showing a product - it's the feeling of being held by clouds, painted in 
+                        Soft as morning mist, warm as a memory. This dream captures the essence of comfort
+                        without showing a product - it's the feeling of being held by clouds, painted in
                         the language of dreams.
                     </p>
                     <div class="technical">
@@ -248,7 +248,7 @@
                 </div>
             </div>
         </div>
-        
+
         <footer>
             <h3>The NIAS Dream Commerce Revolution</h3>
             <p style="margin-top: 20px; line-height: 1.6;">

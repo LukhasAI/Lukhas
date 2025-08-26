@@ -56,12 +56,12 @@ class ValueCreationSynthesizer(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Synthesize a value creation structure for a market
-        
+
         Args:
             domain: Market domain
             market_size: Total addressable market size
             time_horizon: Time horizon in years
-            
+
         Returns:
             Value structure definition
         """
@@ -98,11 +98,11 @@ class ValueCreationSynthesizer(CoreInterface):
     ) -> List[Dict[str, Any]]:
         """
         Generate optimization strategies for market dynamics
-        
+
         Args:
             current_dynamics: Current market dynamics
             target_metrics: Target performance metrics
-            
+
         Returns:
             List of optimization strategies
         """
@@ -131,11 +131,11 @@ class ValueCreationSynthesizer(CoreInterface):
     ) -> List[Dict[str, str]]:
         """
         Identify competitive advantages from a market position
-        
+
         Args:
             market: Market implementation data
             advantage_types: Types of advantages to identify
-            
+
         Returns:
             List of competitive advantages
         """

@@ -130,7 +130,7 @@ class IdentityProcessor:
 
     async def _process_quantum(self, data: Any) -> dict:
         """Process quantum-related data"""
-        return {"quantum_like_state": "entangled", "coherence": "stable"}
+        return {"qi_like_state": "entangled", "coherence": "stable"}
 
     async def _process_generic(self, data: Any) -> dict:
         """Process generic data"""

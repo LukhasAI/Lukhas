@@ -17,7 +17,7 @@ sas:
     historia_clinica: "/api/v1/historia"
     citas: "/api/v1/citas"
     prescripcion: "/api/v1/recetas"
-    
+
 # Authorization
 autorizacion:
   roles_permitidos:

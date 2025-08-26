@@ -818,7 +818,7 @@ if __name__ == "__main__":
                 "branch_id": str(uuid.uuid4()),
                 "reality_type": "quantum",
                 "breakthrough_score": 0.95,
-                "insights": ["quantum_principle_1", "quantum_principle_2"],
+                "insights": ["qi_principle_1", "qi_principle_2"],
             }
             for _ in range(100)
         ]

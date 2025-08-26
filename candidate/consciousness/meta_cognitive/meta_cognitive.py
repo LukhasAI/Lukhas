@@ -7,7 +7,7 @@
 #              Serves as an #AINTEROP and #ΛBRIDGE point for these systems.
 # DEPENDENCIES: structlog, typing, datetime, asyncio, numpy,
 #               ..bio_awareness.awareness, ..dast.enhanced_dast_orchestrator,
-#               ...quantum_processing.quantum_engine
+#               ...qi_processing.qi_engine
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
@@ -26,7 +26,7 @@ import numpy as np
 # AIMPORT_TODO: Review relative import paths for robustness, especially for `EnhancedDASTOrchestrator`.
 # Ensure these components are correctly packaged or accessible.
 try:
-    from ...quantum_processing.quantum_engine import QuantumOscillator
+    from ...qi_processing.qi_engine import QIOscillator
     from ..bio_awareness.awareness import (
         EnhancedSystemAwareness,  # Assuming it's in awareness.py
     )
@@ -51,8 +51,8 @@ except ImportError as e:
         pass  # type: ignore
 
     class QIOscillator:  # type: ignore
-        def quantum_modulate(self, val: Any) -> Any:
-            logger.error("Fallback QuantumOscillator used.")
+        def qi_modulate(self, val: Any) -> Any:
+            logger.error("Fallback QIOscillator used.")
             return val
 
 
@@ -77,9 +77,9 @@ class EnhancedMetaCognitiveOrchestrator:
         try:
             self.awareness = EnhancedSystemAwareness()
             self.dast_orchestrator = EnhancedDASTOrchestrator()  # Assumes default init
-            self.quantum_oscillator = QuantumOscillator()
+            self.qi_oscillator = QIOscillator()
             self.logger.debug(
-                "Core components (Awareness, DAST, QuantumOscillator) initialized."
+                "Core components (Awareness, DAST, QIOscillator) initialized."
             )
         except Exception as e_init:
             self.logger.error(
@@ -91,7 +91,7 @@ class EnhancedMetaCognitiveOrchestrator:
             # functionality.
             self.awareness = None  # type: ignore
             self.dast_orchestrator = None  # type: ignore
-            self.quantum_oscillator = None  # type: ignore
+            self.qi_oscillator = None  # type: ignore
 
         # ΛSEED: Dynamic weights for different cognitive aspects, with quantum
         # enhancement.
@@ -106,7 +106,7 @@ class EnhancedMetaCognitiveOrchestrator:
         self.safety_thresholds: dict[str, float] = {
             "cognitive_coherence": 0.8,
             "ethical_confidence": 0.9,  # e.g. from an ethics engine
-            "quantum_stability": 0.85,  # e.g. related to quantum-like state coherence
+            "qi_stability": 0.85,  # e.g. related to quantum-like state coherence
         }
 
         self.logger.info(
@@ -129,7 +129,7 @@ class EnhancedMetaCognitiveOrchestrator:
             context_keys=list(context.keys()) if context else [],
         )
 
-        if not all([self.awareness, self.dast_orchestrator, self.quantum_oscillator]):
+        if not all([self.awareness, self.dast_orchestrator, self.qi_oscillator]):
             self.logger.error("Cannot process task: Core components not initialized.")
             return {
                 "status": "error",
@@ -208,18 +208,18 @@ class EnhancedMetaCognitiveOrchestrator:
         # ΛNOTE: Placeholder for base coherence calculation.
         self.logger.debug("Checking cognitive coherence.", task_type=task.get("type"))
         base_coherence = self._calculate_base_coherence(task)  # Placeholder
-        if not self.quantum_oscillator:
+        if not self.qi_oscillator:
             return (
                 base_coherence > self.safety_thresholds["cognitive_coherence"]
             )  # Fallback if no quantum
 
-        quantum_modulated = self.quantum_oscillator.quantum_modulate(base_coherence)
-        is_coherent = quantum_modulated > self.safety_thresholds["cognitive_coherence"]
+        qi_modulated = self.qi_oscillator.qi_modulate(base_coherence)
+        is_coherent = qi_modulated > self.safety_thresholds["cognitive_coherence"]
         self.logger.info(
             "Cognitive coherence check result.",
             task_type=task.get("type"),
             base_coherence=base_coherence,
-            quantum_modulated=quantum_modulated,
+            qi_modulated=qi_modulated,
             threshold=self.safety_thresholds["cognitive_coherence"],
             is_coherent=is_coherent,
         )
@@ -236,7 +236,7 @@ class EnhancedMetaCognitiveOrchestrator:
         self.logger.debug(
             "Updating quantum-enhanced weights.", task_type=task.get("type")
         )
-        if not self.quantum_oscillator:
+        if not self.qi_oscillator:
             self.logger.warning(
                 "Quantum oscillator not available, skipping quantum weight update."
             )
@@ -247,7 +247,7 @@ class EnhancedMetaCognitiveOrchestrator:
             base_adjustment = self._calculate_weight_adjustment(
                 key, task, context
             )  # Placeholder
-            adjustments[key] = self.quantum_oscillator.quantum_modulate(base_adjustment)
+            adjustments[key] = self.qi_oscillator.qi_modulate(base_adjustment)
 
         for key, adjustment in adjustments.items():
             new_weight = np.clip(self.weights[key] + adjustment, 0.1, 1.0)
@@ -348,7 +348,7 @@ class EnhancedMetaCognitiveOrchestrator:
             "Applying quantum-inspired processing (placeholder).",
             task_type=task.get("type"),
         )
-        # Example: task["data"] = self.quantum_oscillator.process_data(task["data"])
+        # Example: task["data"] = self.qi_oscillator.process_data(task["data"])
         return task  # Return modified task
 
     def _validate_safety(self, result: dict[str, Any]) -> bool:  # Made sync
@@ -390,7 +390,7 @@ class EnhancedMetaCognitiveOrchestrator:
 # DEPENDENCIES: structlog, typing, datetime, asyncio, numpy,
 #               ..bio_awareness.awareness.EnhancedSystemAwareness,
 #               ..dast.enhanced_dast_orchestrator.EnhancedDASTOrchestrator,
-#               ...quantum_processing.quantum_engine.QuantumOscillator.
+#               ...qi_processing.qi_engine.QIOscillator.
 # INTERFACES: Public methods of EnhancedMetaCognitiveOrchestrator, primarily `process_cognitive_task`.
 # ERROR HANDLING: Basic try-except blocks, logs errors. Fallbacks for missing dependencies.
 #                 Placeholder error handling and safe alternative generation.

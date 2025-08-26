@@ -10,14 +10,14 @@ I've prepared everything you need for your OpenAI/Anthropic presentation:
   ```bash
   open docs/presentation/LUKHAS_PITCH_DECK.html
   ```
-- **Features**: 
+- **Features**:
   - 12 slides with animations
   - Touch/keyboard navigation
   - Mobile responsive
   - All your key metrics and innovations
 
 ### 2. **Demo Environment** 🎯
-- **Quick Start**: 
+- **Quick Start**:
   ```bash
   ./start_demo.sh
   ```

@@ -6,7 +6,7 @@ Integration Date: 2025-05-31T07:55:28.187065
 """
 
 """
-📦 MODULE      : quantum_attention.py
+📦 MODULE      : qi_attention.py
 🧠 DESCRIPTION : Quantum-biological inspired AGI modules based on mitochondrial mechanisms
 🧩 PART OF     : LUKHAS_AGI bio-symbolic layer
 🔢 VERSION     : 1.0.0
@@ -36,12 +36,12 @@ class CristaGate(nn.Module):
     def __init__(self, ethical_threshold=0.7):
         super().__init__()
         self.ethical_layer = nn.Linear(512, 256)
-        self.quantum_filter = QuantumTunnelFilter()
+        self.qi_filter = QITunnelFilter()
         self.threshold = ethical_threshold
 
     def forward(self, x):
         ethical_signal = torch.sigmoid(self.ethical_layer(x))
-        filtered = self.quantum_filter(x * ethical_signal)
+        filtered = self.qi_filter(x * ethical_signal)
         return filtered * (ethical_signal > self.threshold)
 
 

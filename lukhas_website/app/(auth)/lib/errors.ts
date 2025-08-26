@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI - Authentication Error Mapping Utility
- * 
+ *
  * Maps API error responses to user-friendly messages with proper
  * internationalization and tone layer support.
  */
@@ -62,11 +62,11 @@ export function getErrorTypeFromStatus(status: number): MappedError['type'] {
         return 'generic';
     }
   }
-  
+
   if (status >= 500) {
     return 'server';
   }
-  
+
   return 'generic';
 }
 
@@ -79,7 +79,7 @@ export function mapNetworkError(
 ): MappedError {
   const { locale = 'en', includePoetic = false } = context;
   const t = rateI18n[locale];
-  
+
   return {
     type: 'network',
     title: t.errors.network.title,
@@ -109,12 +109,12 @@ export function mapHttpError(
   const t = rateI18n[locale];
   const status = response.status;
   const errorType = getErrorTypeFromStatus(status);
-  
+
   // Rate limiting
   if (status === 429) {
     const retryAfter = response.headers.get('Retry-After');
     const retryMs = retryAfter ? parseInt(retryAfter, 10) * 1000 : undefined;
-    
+
     return {
       type: 'rate_limit',
       title: t.rateLimit.exceeded.title,
@@ -132,7 +132,7 @@ export function mapHttpError(
       }
     };
   }
-  
+
   // Validation errors
   if (errorType === 'validation') {
     return {
@@ -150,14 +150,14 @@ export function mapHttpError(
       }
     };
   }
-  
+
   // Authentication errors
   if (errorType === 'authentication') {
     return {
       type: 'authentication',
       title: locale === 'es' ? 'Error de Autenticación' : 'Authentication Error',
-      message: responseBody?.message || (locale === 'es' 
-        ? 'Las credenciales proporcionadas no son válidas' 
+      message: responseBody?.message || (locale === 'es'
+        ? 'Las credenciales proporcionadas no son válidas'
         : 'The provided credentials are not valid'),
       actions: [
         locale === 'es' ? 'Verificar credenciales' : 'Check credentials',
@@ -169,7 +169,7 @@ export function mapHttpError(
       }
     };
   }
-  
+
   // Authorization errors
   if (errorType === 'authorization') {
     return {
@@ -188,7 +188,7 @@ export function mapHttpError(
       }
     };
   }
-  
+
   // Server errors
   if (errorType === 'server') {
     return {
@@ -208,7 +208,7 @@ export function mapHttpError(
       }
     };
   }
-  
+
   // Generic errors
   return {
     type: 'generic',
@@ -236,17 +236,17 @@ export function mapOperationError(
   context: ErrorContext = {}
 ): MappedError {
   const enhancedContext = { ...context, operation };
-  
+
   // Network/fetch errors
   if (error instanceof TypeError && error.message.includes('fetch')) {
     return mapNetworkError(error, enhancedContext);
   }
-  
+
   // HTTP response errors
   if (error.response) {
     return mapHttpError(error.response, error.data, enhancedContext);
   }
-  
+
   // Generic errors
   return mapNetworkError(error, enhancedContext);
 }
@@ -290,9 +290,9 @@ export function getRecoveryActions(
       locale === 'es' ? 'Reintentar' : 'Try again'
     ]
   };
-  
+
   const actions = baseActions[errorType] || baseActions.generic;
-  
+
   // Add operation-specific actions
   if (operation === 'send_code') {
     actions.push(
@@ -305,7 +305,7 @@ export function getRecoveryActions(
       locale === 'es' ? 'Solicitar nuevo código' : 'Request new code'
     );
   }
-  
+
   return actions;
 }
 

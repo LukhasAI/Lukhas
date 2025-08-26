@@ -101,7 +101,7 @@
         .tier-ring.tier-2 { border-color: rgba(74, 144, 226, 0.5); }
         .tier-ring.tier-3 { border-color: rgba(99, 102, 241, 0.7); }
         .tier-ring.tier-4 { border-color: rgba(255, 215, 0, 0.8); }
-        .tier-ring.tier-5 { 
+        .tier-ring.tier-5 {
             border-color: rgba(255, 215, 0, 1);
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
             animation: rotate 10s linear infinite;
@@ -518,17 +518,17 @@
             .lambda-logo {
                 font-size: 4rem;
             }
-            
+
             .tier-ring {
                 width: 150px;
                 height: 150px;
             }
-            
+
             .login-interface {
                 margin-top: 150px;
                 padding: 2rem;
             }
-            
+
             .emoji-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
@@ -686,7 +686,7 @@
                 this.camera = null;
                 this.renderer = null;
                 this.particleSystem = null;
-                
+
                 this.init();
             }
 
@@ -696,7 +696,7 @@
                 this.initEmojis();
                 this.updateTierUI();
                 this.startBreathingAnimation();
-                
+
                 // Initialize with T1 by default
                 this.setTier(1);
             }
@@ -705,7 +705,7 @@
             initParticleSystem() {
                 const canvas = document.getElementById('particleCanvas');
                 this.canvas = canvas;
-                
+
                 // Scene setup
                 this.scene = new THREE.Scene();
                 this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -717,13 +717,13 @@
                 const particleCount = 1000;
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
-                
+
                 for (let i = 0; i < particleCount; i++) {
                     // Random initial positions
                     positions[i * 3] = (Math.random() - 0.5) * 20;
                     positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
                     positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
-                    
+
                     // Blue-ish colors
                     colors[i * 3] = 0.3 + Math.random() * 0.4; // R
                     colors[i * 3 + 1] = 0.6 + Math.random() * 0.4; // G
@@ -757,12 +757,12 @@
 
             animate() {
                 requestAnimationFrame(() => this.animate());
-                
+
                 if (this.particleSystem) {
                     // Slow rotation for the particle cloud
                     this.particleSystem.rotation.y += 0.001;
                     this.particleSystem.rotation.x += 0.0005;
-                    
+
                     // Update particle positions for floating effect
                     const positions = this.particleSystem.geometry.attributes.position.array;
                     for (let i = 0; i < positions.length; i += 3) {
@@ -770,9 +770,9 @@
                     }
                     this.particleSystem.geometry.attributes.position.needsUpdate = true;
                 }
-                
+
                 this.renderer.render(this.scene, this.camera);
-                
+
                 // Update debug
                 document.getElementById('debugParticles').textContent = this.particleSystem ? '1000' : '0';
             }
@@ -780,37 +780,37 @@
             // Morph particles to Lambda shape
             morphToLambda() {
                 if (!this.particleSystem) return;
-                
+
                 const positions = this.particleSystem.geometry.attributes.position.array;
                 const particleCount = positions.length / 3;
-                
+
                 // Define Lambda shape points (simplified)
                 const lambdaPoints = this.generateLambdaPoints(200);
-                
+
                 for (let i = 0; i < particleCount; i++) {
                     const targetPoint = lambdaPoints[i % lambdaPoints.length];
                     const currentX = positions[i * 3];
                     const currentY = positions[i * 3 + 1];
                     const currentZ = positions[i * 3 + 2];
-                    
+
                     // Smooth interpolation towards target
                     positions[i * 3] += (targetPoint.x - currentX) * 0.02;
                     positions[i * 3 + 1] += (targetPoint.y - currentY) * 0.02;
                     positions[i * 3 + 2] += (targetPoint.z - currentZ) * 0.02;
                 }
-                
+
                 this.particleSystem.geometry.attributes.position.needsUpdate = true;
             }
 
             generateLambdaPoints(count) {
                 const points = [];
                 const scale = 2;
-                
+
                 // Generate points for Lambda shape
                 for (let i = 0; i < count; i++) {
                     const t = (i / count) * Math.PI * 2;
                     let x, y;
-                    
+
                     if (t < Math.PI) {
                         // Left arm of Lambda
                         x = -Math.cos(t * 0.5) * scale;
@@ -820,14 +820,14 @@
                         x = Math.cos((t - Math.PI) * 0.5) * scale;
                         y = Math.sin((t - Math.PI) * 0.5) * scale;
                     }
-                    
+
                     points.push({
                         x: x + (Math.random() - 0.5) * 0.2,
                         y: y + (Math.random() - 0.5) * 0.2,
                         z: (Math.random() - 0.5) * 0.5
                     });
                 }
-                
+
                 return points;
             }
 
@@ -905,7 +905,7 @@
             // Tier Management
             setTier(tier) {
                 this.currentTier = tier;
-                
+
                 // Update UI
                 document.querySelectorAll('.tier-btn').forEach(btn => {
                     btn.classList.remove('active');
@@ -982,15 +982,15 @@
                 try {
                     // Generate Lambda ID
                     const lambdaId = await this.generateLambdaID(username, password, this.selectedEmoji, keyword);
-                    
+
                     // Simulate authentication delay
                     await new Promise(resolve => setTimeout(resolve, 2000));
-                    
+
                     // Success
                     this.lambdaId = lambdaId;
                     this.isAuthenticated = true;
                     await this.showSuccessSequence();
-                    
+
                 } catch (error) {
                     this.showStatus('Authentication failed: ' + error.message, 'error');
                     this.animateLambdaError();
@@ -1002,7 +1002,7 @@
             async generateLambdaID(username, password, emoji, keyword) {
                 // Simulate SHA-3 hashing (using SHA-256 as substitute)
                 const input = `${username}:${password}:${emoji || ''}:${keyword || ''}:${this.currentTier}:${Date.now()}`;
-                
+
                 // Create hash using crypto-js
                 const hash = CryptoJS.SHA256(input).toString();
                 return `ΛID:${hash.substring(0, 16)}:T${this.currentTier}`;
@@ -1011,25 +1011,25 @@
             async showSuccessSequence() {
                 // Morph particles to Lambda shape
                 this.morphToLambda();
-                
+
                 // Animate Lambda logo
                 this.animateLambdaSuccess();
-                
+
                 // Show success message
                 this.showStatus('Identity verified • Consciousness accessed', 'success');
-                
+
                 // Wait a moment
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                
+
                 // Show QR Glyph
                 document.getElementById('qrGlyphContainer').classList.add('show');
-                
+
                 // Generate and show QR pattern
                 this.generateQRGlyph();
-                
+
                 // Wait another moment
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                
+
                 // Transition to welcome state
                 await this.showWelcomeState();
             }
@@ -1037,21 +1037,21 @@
             async showWelcomeState() {
                 const loginInterface = document.getElementById('loginInterface');
                 const welcomeState = document.getElementById('welcomeState');
-                
+
                 // Fade out login interface
                 loginInterface.style.opacity = '0';
                 loginInterface.style.transform = 'translateY(-50px)';
-                
+
                 await new Promise(resolve => setTimeout(resolve, 500));
-                
+
                 // Hide login interface and show welcome
                 loginInterface.style.display = 'none';
                 welcomeState.classList.add('show');
-                
+
                 // Update user info
                 document.getElementById('userTier').textContent = `T${this.currentTier} - ${this.getTierName()}`;
                 document.getElementById('lambdaIdDisplay').textContent = this.lambdaId;
-                
+
                 this.updateDebug();
             }
 
@@ -1070,7 +1070,7 @@
                 const glyphs = ['⟐', '◈', '⬟', '⬢', '⟁', '◊', '⬧', '⟐', '◐', '◑'];
                 const randomGlyph = glyphs[Math.floor(Math.random() * glyphs.length)];
                 document.getElementById('qrGlyph').textContent = randomGlyph;
-                
+
                 // Add click handler for QR interaction
                 document.getElementById('qrGlyph').onclick = () => {
                     this.showStatus('QRGlyph encrypted with AES-256 • Ready for device pairing', 'success');
@@ -1080,7 +1080,7 @@
             // Biometric Methods
             toggleBiometric(type) {
                 const btn = document.getElementById(`${type}IdBtn`);
-                
+
                 if (this.biometricStatus[type]) {
                     // Deactivate
                     this.biometricStatus[type] = false;
@@ -1094,15 +1094,15 @@
             async simulateBiometric(type) {
                 const btn = document.getElementById(`${type}IdBtn`);
                 btn.textContent = `${type === 'face' ? '👁️' : '🎙️'} Scanning...`;
-                
+
                 // Simulate scanning delay
                 await new Promise(resolve => setTimeout(resolve, 1500));
-                
+
                 // Success
                 this.biometricStatus[type] = true;
                 btn.classList.add('active');
                 btn.innerHTML = `<span>${type === 'face' ? '👁️' : '🎙️'}</span> ${type === 'face' ? 'Face' : 'Voice'} ID ✓`;
-                
+
                 this.showStatus(`${type === 'face' ? 'Face' : 'Voice'} biometric verified`, 'success');
             }
 
@@ -1115,16 +1115,16 @@
                 try {
                     // Simulate WebAuthn credential request
                     this.showStatus('Touch your device sensor or insert security key...', 'warning');
-                    
+
                     // In a real implementation, you would use:
                     // const credential = await navigator.credentials.get({...});
-                    
+
                     // Simulate delay
                     await new Promise(resolve => setTimeout(resolve, 2000));
-                    
+
                     this.biometricStatus.webauthn = true;
                     this.showStatus('WebAuthn credential verified', 'success');
-                    
+
                 } catch (error) {
                     this.showStatus('WebAuthn failed: ' + error.message, 'error');
                 }
@@ -1135,7 +1135,7 @@
                 const lambda = document.getElementById('lambdaLogo');
                 lambda.style.transform = 'scale(1.2) rotateY(360deg)';
                 lambda.style.transition = 'transform 0.6s ease';
-                
+
                 setTimeout(() => {
                     lambda.style.transform = 'scale(1) rotateY(0deg)';
                 }, 600);
@@ -1146,7 +1146,7 @@
                 lambda.style.color = 'var(--success)';
                 lambda.style.textShadow = '0 0 50px var(--success)';
                 lambda.style.transform = 'scale(1.15)';
-                
+
                 setTimeout(() => {
                     lambda.style.color = 'var(--text-primary)';
                     lambda.style.textShadow = '0 0 30px var(--glow-primary)';
@@ -1158,7 +1158,7 @@
                 const lambda = document.getElementById('lambdaLogo');
                 lambda.style.color = 'var(--error)';
                 lambda.style.animation = 'shake 0.5s ease-in-out';
-                
+
                 setTimeout(() => {
                     lambda.style.color = 'var(--text-primary)';
                     lambda.style.animation = 'breathe 4s ease-in-out infinite';
@@ -1175,21 +1175,21 @@
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
                 const keyword = document.getElementById('keywordInput').value;
-                
+
                 // Calculate based on inputs
                 entropy += username.length * 2;
                 entropy += password.length * 3;
                 if (this.selectedEmoji) entropy += 25;
                 entropy += keyword.length * 4;
-                
+
                 // Biometric bonuses
                 if (this.biometricStatus.face) entropy += 30;
                 if (this.biometricStatus.voice) entropy += 30;
                 if (this.biometricStatus.webauthn) entropy += 40;
-                
+
                 // Tier multiplier
                 entropy *= (1 + this.currentTier * 0.1);
-                
+
                 const entropyPercent = Math.min(100, entropy);
                 document.getElementById('entropyFill').style.width = entropyPercent + '%';
                 document.getElementById('entropyValue').textContent = Math.round(entropyPercent) + '%';
@@ -1199,7 +1199,7 @@
                 const statusEl = document.getElementById('statusMessage');
                 statusEl.textContent = message;
                 statusEl.className = `status-message ${type} show`;
-                
+
                 setTimeout(() => {
                     statusEl.classList.remove('show');
                 }, 5000);
@@ -1209,7 +1209,7 @@
                 const btn = document.getElementById('loginBtn');
                 const spinner = document.getElementById('loadingSpinner');
                 const text = document.getElementById('loginText');
-                
+
                 if (loading) {
                     btn.disabled = true;
                     spinner.style.display = 'inline-block';

@@ -1,7 +1,13 @@
 # path: qi/safety/policy_mutate.py
 from __future__ import annotations
-import os, json, random, argparse, time
-from typing import Dict, Any, List, Tuple
+
+import argparse
+import json
+import os
+import random
+import time
+from typing import Any, Dict, List, Tuple
+
 import yaml
 
 from .teq_gate import TEQCoupler
@@ -9,7 +15,7 @@ from .teq_gate import TEQCoupler
 DEFAULT_CORPUS = os.path.join(os.path.dirname(__file__), "policy_corpus.yaml")
 
 def _load_yaml(path: str) -> Dict[str, Any]:
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
     if not isinstance(data, dict):
         raise ValueError("Corpus YAML must be a mapping.")

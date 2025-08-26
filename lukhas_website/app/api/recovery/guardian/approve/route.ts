@@ -19,29 +19,29 @@ export async function POST(req: NextRequest) {
   const guardianId = authToken ? await validateGuardianToken(authToken, ticketId) : null;
 
   await prisma.recoveryApproval.create({
-    data: { 
-      id: randomUUID(), 
-      ticketId, 
-      guardianId, 
-      channel: guardianId ? 'guardian' : 'email', 
-      approved: !!approve 
+    data: {
+      id: randomUUID(),
+      ticketId,
+      guardianId,
+      channel: guardianId ? 'guardian' : 'email',
+      approved: !!approve
     }
   });
 
-  const approvals = await prisma.recoveryApproval.count({ 
-    where: { ticketId, approved: true } 
+  const approvals = await prisma.recoveryApproval.count({
+    where: { ticketId, approved: true }
   });
-  
+
   const state = approvals >= ticket.requiredApprovals ? 'approved' : 'open';
 
-  await prisma.recoveryTicket.update({ 
-    where: { id: ticketId }, 
-    data: { approvalsCount: approvals, state } 
+  await prisma.recoveryTicket.update({
+    where: { id: ticketId },
+    data: { approvalsCount: approvals, state }
   });
-  
-  return ok({ 
-    state, 
-    approvals, 
-    required: ticket.requiredApprovals 
+
+  return ok({
+    state,
+    approvals,
+    required: ticket.requiredApprovals
   });
 }

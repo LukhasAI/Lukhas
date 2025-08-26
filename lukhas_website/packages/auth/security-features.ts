@@ -1,6 +1,6 @@
 /**
  * Advanced Security Features for ΛiD Authentication System
- * 
+ *
  * Implements refresh token family tracking, device binding, session rotation,
  * account lockout, and comprehensive security monitoring.
  */
@@ -250,7 +250,7 @@ export class RefreshTokenFamilyTracker {
       if (reuseDelta < this.config.reuseDetectionWindow) {
         // Possible token reuse attack - revoke entire family
         await this.revokeFamily(token.family_id, 'Potential token reuse detected');
-        
+
         await this.db.createSecurityEvent({
           user_id: family.userId,
           event_type: 'suspicious_activity',
@@ -476,10 +476,10 @@ export class DeviceBindingManager {
         }
       });
 
-      return { 
-        verified: false, 
-        binding, 
-        reason: `Fingerprint mismatch (similarity: ${fingerprintMatch.similarity.toFixed(2)})` 
+      return {
+        verified: false,
+        binding,
+        reason: `Fingerprint mismatch (similarity: ${fingerprintMatch.similarity.toFixed(2)})`
       };
     }
 
@@ -487,10 +487,10 @@ export class DeviceBindingManager {
     const timeSinceVerification = (Date.now() - binding.lastVerified.getTime()) / 1000;
     if (timeSinceVerification > this.config.verificationInterval) {
       // Re-verification needed
-      return { 
-        verified: false, 
-        binding, 
-        reason: 'Re-verification required' 
+      return {
+        verified: false,
+        binding,
+        reason: 'Re-verification required'
       };
     }
 
@@ -527,7 +527,7 @@ export class DeviceBindingManager {
    * Compare fingerprints with fuzzy matching
    */
   private compareFingerprintsFuzzy(
-    fingerprint1: string, 
+    fingerprint1: string,
     fingerprint2: string
   ): { similarity: number; differences: string[] } {
     if (fingerprint1 === fingerprint2) {
@@ -537,7 +537,7 @@ export class DeviceBindingManager {
     // Simple implementation - in production, use more sophisticated comparison
     const components1 = fingerprint1.split('|');
     const components2 = fingerprint2.split('|');
-    
+
     if (components1.length !== components2.length) {
       return { similarity: 0.0, differences: ['component_count'] };
     }
@@ -658,9 +658,9 @@ export class SessionRotationManager {
       return { success: true, newSessionToken };
 
     } catch (error) {
-      return { 
-        success: false, 
-        reason: error instanceof Error ? error.message : 'Unknown error' 
+      return {
+        success: false,
+        reason: error instanceof Error ? error.message : 'Unknown error'
       };
     }
   }
@@ -702,7 +702,7 @@ export class AccountLockoutManager {
     }
 
     let lockout = this.lockouts.get(userId);
-    
+
     if (!lockout) {
       lockout = {
         userId,
@@ -726,7 +726,7 @@ export class AccountLockoutManager {
       lockout.lockedAt = new Date();
       lockout.lockLevel = lockLevel;
       lockout.unlockAt = new Date(Date.now() + lockDuration * 1000);
-      
+
       if (lockLevel !== 'permanent') {
         lockout.unlockToken = this.generateUnlockToken();
       }
@@ -775,7 +775,7 @@ export class AccountLockoutManager {
    */
   isAccountLocked(userId: string): { locked: boolean; lockout?: AccountLockoutState; timeRemaining?: number } {
     const lockout = this.lockouts.get(userId);
-    
+
     if (!lockout || !lockout.unlockAt) {
       return { locked: false };
     }
@@ -788,10 +788,10 @@ export class AccountLockoutManager {
     }
 
     if (now < unlockTime) {
-      return { 
-        locked: true, 
-        lockout, 
-        timeRemaining: Math.ceil((unlockTime - now) / 1000) 
+      return {
+        locked: true,
+        lockout,
+        timeRemaining: Math.ceil((unlockTime - now) / 1000)
       };
     }
 
@@ -809,7 +809,7 @@ export class AccountLockoutManager {
     unlockToken?: string
   ): Promise<{ success: boolean; reason?: string }> {
     const lockout = this.lockouts.get(userId);
-    
+
     if (!lockout) {
       return { success: true, reason: 'Account not locked' };
     }
@@ -842,7 +842,7 @@ export class AccountLockoutManager {
       metadata: {
         unlockMethod: method,
         previousLockLevel: lockout.lockLevel,
-        lockDuration: lockout.unlockAt ? 
+        lockDuration: lockout.unlockAt ?
           (Date.now() - lockout.lockedAt.getTime()) / 1000 : 0
       }
     });
@@ -857,7 +857,7 @@ export class AccountLockoutManager {
     const baseSeconds = this.config.lockoutDuration;
     const multiplier = Math.pow(this.config.backoffMultiplier, lockout.lockHistory.length);
     const duration = baseSeconds * multiplier;
-    
+
     return Math.min(duration, this.config.maxLockoutDuration);
   }
 

@@ -50,31 +50,31 @@ export async function POST(req: NextRequest) {
   }
 
   // alias mint
-  const aliasResult = await buildAlias({ 
-    realm: s.realm, 
-    zone: s.zone, 
+  const aliasResult = await buildAlias({
+    realm: s.realm,
+    zone: s.zone,
     identifier: s.identifierNorm,
     idType: s.idType as 'email' | 'phone' | 'other'
   });
-  
+
   await prisma.lidAlias.upsert({
     where: { aliasKey: aliasResult.aliasKey },
-    create: { 
-      id: randomUUID(), 
-      userId: user.id, 
-      aliasKey: aliasResult.aliasKey, 
-      aliasDisplay: aliasResult.aliasDisplay, 
-      realm: s.realm, 
-      zone: s.zone, 
-      idType: s.idType, 
-      verifiedAt: new Date() 
+    create: {
+      id: randomUUID(),
+      userId: user.id,
+      aliasKey: aliasResult.aliasKey,
+      aliasDisplay: aliasResult.aliasDisplay,
+      realm: s.realm,
+      zone: s.zone,
+      idType: s.idType,
+      verifiedAt: new Date()
     },
-    update: { 
-      userId: user.id, 
-      verifiedAt: new Date(), 
-      realm: s.realm, 
-      zone: s.zone, 
-      aliasDisplay: aliasResult.aliasDisplay 
+    update: {
+      userId: user.id,
+      verifiedAt: new Date(),
+      realm: s.realm,
+      zone: s.zone,
+      aliasDisplay: aliasResult.aliasDisplay
     }
   });
 

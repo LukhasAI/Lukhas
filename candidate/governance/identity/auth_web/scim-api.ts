@@ -1,7 +1,7 @@
 /**
  * SCIM v2 API Endpoints
  * Full SCIM v2.0 compliance for LUKHAS AI ΛiD System
- * 
+ *
  * Supports:
  * - /scim/v2/Users endpoint
  * - /scim/v2/Groups endpoint
@@ -460,15 +460,15 @@ export class SCIMAPIController {
    */
   async getSchema(req: Request, res: Response): Promise<void> {
     const { schemaId } = req.params;
-    
+
     // Get all schemas and find the requested one
     const allSchemas = await this.getAllSchemas();
     const schema = allSchemas.find(s => s.id === schemaId);
-    
+
     if (!schema) {
       return this.sendSCIMError(res, 404, 'Schema not found');
     }
-    
+
     res.json(schema);
   }
 
@@ -479,7 +479,7 @@ export class SCIMAPIController {
     try {
       const tenantId = (req as any).tenantId;
       const user = await this.userManager.createUser(req.body, tenantId);
-      
+
       res.status(201).json(user);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -493,7 +493,7 @@ export class SCIMAPIController {
     try {
       const { userId } = req.params;
       const user = await this.userManager.getUser(userId);
-      
+
       res.json(user);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -507,7 +507,7 @@ export class SCIMAPIController {
     try {
       const { userId } = req.params;
       const user = await this.userManager.updateUser(userId, req.body);
-      
+
       res.json(user);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -521,7 +521,7 @@ export class SCIMAPIController {
     try {
       const { userId } = req.params;
       const user = await this.userManager.patchUser(userId, req.body);
-      
+
       res.json(user);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -535,7 +535,7 @@ export class SCIMAPIController {
     try {
       const { userId } = req.params;
       await this.userManager.deleteUser(userId);
-      
+
       res.status(204).send();
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -552,9 +552,9 @@ export class SCIMAPIController {
       const count = parseInt(req.query.count as string) || 100;
       const sortBy = req.query.sortBy as string;
       const sortOrder = (req.query.sortOrder as string) === 'descending' ? 'descending' : 'ascending';
-      
+
       const result = await this.userManager.listUsers(filter, startIndex, count, sortBy, sortOrder);
-      
+
       res.json(result);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -568,7 +568,7 @@ export class SCIMAPIController {
     try {
       const tenantId = (req as any).tenantId;
       const group = await this.groupManager.createGroup(req.body, tenantId);
-      
+
       res.status(201).json(group);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -582,7 +582,7 @@ export class SCIMAPIController {
     try {
       const { groupId } = req.params;
       const group = await this.groupManager.getGroup(groupId);
-      
+
       res.json(group);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -596,7 +596,7 @@ export class SCIMAPIController {
     try {
       const { groupId } = req.params;
       const group = await this.groupManager.updateGroup(groupId, req.body);
-      
+
       res.json(group);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -610,7 +610,7 @@ export class SCIMAPIController {
     try {
       const { groupId } = req.params;
       const group = await this.groupManager.patchGroup(groupId, req.body);
-      
+
       res.json(group);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -624,7 +624,7 @@ export class SCIMAPIController {
     try {
       const { groupId } = req.params;
       await this.groupManager.deleteGroup(groupId);
-      
+
       res.status(204).send();
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -641,9 +641,9 @@ export class SCIMAPIController {
       const count = parseInt(req.query.count as string) || 100;
       const sortBy = req.query.sortBy as string;
       const sortOrder = (req.query.sortOrder as string) === 'descending' ? 'descending' : 'ascending';
-      
+
       const result = await this.groupManager.listGroups(filter, startIndex, count, sortBy, sortOrder);
-      
+
       res.json(result);
     } catch (error) {
       this.handleSCIMError(res, error);
@@ -763,7 +763,7 @@ export class SCIMAPIController {
 
   private extractTenantId(req: Request): string | null {
     // Try multiple methods to extract tenant ID
-    
+
     // 1. From subdomain
     const host = req.headers.host;
     if (host) {

@@ -3,7 +3,7 @@
 ## Overview
 Oneiric Core is a symbolic dream analysis system with identity management, featuring:
 - **Backend**: FastAPI with ΛiD (Lukhas ID) identity management
-- **Frontend**: Next.js/React with Clerk authentication  
+- **Frontend**: Next.js/React with Clerk authentication
 - **Database**: PostgreSQL with vector embeddings
 - **Features**: Dream generation, symbolic drift tracking, settings overlay, animations
 

@@ -27,7 +27,7 @@ Comprehensive email template system for LUKHAS AI identity operations including 
 - **Features**: Guardian count, approval requirements, process timeline
 
 #### Recovery Approved
-- **File**: `recovery_approved.json`  
+- **File**: `recovery_approved.json`
 - **Purpose**: Provide ephemeral session access after approval
 - **Features**: Temporary access links, security steps, TTL warnings
 
@@ -276,7 +276,7 @@ from identity.email_templates import GuardianTemplates
 
 def send_guardian_invitation(user, guardian, recovery_id):
     templates = GuardianTemplates()
-    
+
     email = templates.create_invitation(
         requestor_display_name=user.display_name,
         guardian_name=guardian.name,
@@ -285,7 +285,7 @@ def send_guardian_invitation(user, guardian, recovery_id):
         decline_url=f"https://lukhas.ai/recovery/decline/{recovery_id}",
         language=guardian.preferred_language or 'en'
     )
-    
+
     send_mail(
         subject=email.subject,
         message=email.plain_text,
@@ -305,14 +305,14 @@ app = FastAPI()
 @app.post("/recovery/notify-approved")
 async def notify_recovery_approved(user_id: str, session_token: str):
     templates = RecoveryTemplates()
-    
+
     email = templates.create_approved_notification(
         user_display_name=user.display_name,
         session_url=f"https://lukhas.ai/recovery/session/{session_token}",
         session_ttl=timedelta(hours=1),
         language=user.preferred_language or 'en'
     )
-    
+
     await email_service.send(
         to=user.email,
         subject=email.subject,
@@ -331,7 +331,7 @@ async def notify_recovery_approved(user_id: str, session_token: str):
 ## Security Considerations
 
 - All template variables are sanitized
-- HTML entities are escaped in variable substitution  
+- HTML entities are escaped in variable substitution
 - No user-controlled content in template structure
 - HTTPS URLs enforced for all action links
 - Time-based tokens recommended for all URLs
@@ -347,6 +347,6 @@ For questions about the email template system:
 
 ---
 
-**Version**: 1.0.0  
-**Last Updated**: 2025-08-23  
+**Version**: 1.0.0
+**Last Updated**: 2025-08-23
 **Maintainer**: Identity & Authentication Specialist

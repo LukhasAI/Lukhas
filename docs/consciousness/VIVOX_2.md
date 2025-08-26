@@ -67,4 +67,3 @@ Beyond individual modules, Vivox embodies several key features that define its u
 *   **Privacy and Consent:** With encrypted internal states, non-decodable content, and consent-aware identity systems (Lucas_ID), Vivox prioritizes user privacy and data security.
 *   **Multimodal Capabilities:** The architecture integrates capabilities for voice (via a "voice layer" using services like ElevenLabs), visual perception (EVRN), and emotional input/expression.
 *   **Agent Classes and Use Cases:** Vivox supports different agent classes with varying levels of capability and ethical constraints. Examples include the **VIVOX Sentinel Agent** for high-risk medical environments (like autonomous surgical triage, acting as a "moral firewall") and the **VIVOX Embedded Companion** for personal devices (e.g., elderly memory companions, providing "protection without surveillance" against scam calls).
-

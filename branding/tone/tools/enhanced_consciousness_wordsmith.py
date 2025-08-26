@@ -221,7 +221,7 @@ class ConsciousnessWordsmith:
         """
         # Select appropriate ASCII template based on domain
         if domain == "quantum":
-            template = self.ascii_artistry.get("quantum_style", "")
+            template = self.ascii_artistry.get("qi_style", "")
         elif domain == "memory":
             template = self.ascii_artistry.get("memory_style", "")
         elif domain == "bio":

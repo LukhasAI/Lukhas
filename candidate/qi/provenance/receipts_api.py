@@ -1,9 +1,15 @@
 # path: qi/provenance/receipts_api.py
 from __future__ import annotations
-import os, json, glob, hashlib, time, random
-from typing import Optional, List
+
+import glob
+import hashlib
+import json
+import os
+import random
+from typing import Optional
+
 from fastapi import FastAPI, HTTPException, Query, Response
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 
 # NEW: optional CORS (uncomment if you want browser embedding from other origins)
 try:
@@ -14,14 +20,15 @@ except Exception:
 
 # Use original open to avoid sandbox recursion
 import builtins
+
 _ORIG_OPEN = builtins.open
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECDIR = os.path.join(STATE, "provenance", "exec_receipts")
 
 # NEW: helpers imported from trace & replay modules
-from qi.trace.trace_graph import build_dot
 from qi.safety.teq_replay import replay_from_receipt
+from qi.trace.trace_graph import build_dot
 
 app = FastAPI(title="Lukhas Receipts API", version="1.1.0")
 
@@ -49,7 +56,7 @@ def _receipt_path(rid: str) -> str:
 def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
     h = hashlib.sha256()
     def add_file(fp: str):
-        h.update(fp.encode()); 
+        h.update(fp.encode())
         try:
             with _ORIG_OPEN(fp, "rb") as f: h.update(f.read())
         except Exception:
@@ -64,7 +71,7 @@ def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
     return h.hexdigest()
 
 @app.get("/healthz")
-def healthz(): 
+def healthz():
     return {"ok": True}
 
 @app.get("/receipts/sample")

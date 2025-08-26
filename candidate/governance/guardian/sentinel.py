@@ -29,11 +29,11 @@ Features:
 import asyncio
 import logging
 import uuid
+from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
-from collections import deque, defaultdict
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -82,18 +82,18 @@ class MonitoringProfile:
 class GuardianSentinel:
     """
     Guardian Sentinel for continuous monitoring and surveillance
-    
+
     Provides comprehensive monitoring capabilities with real-time
     threat detection, pattern analysis, and automated alerting.
     """
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
         self.status = SentinelStatus.ACTIVE
         self.monitoring_profiles: Dict[str, MonitoringProfile] = {}
         self.alerts: deque = deque(maxlen=10000)
         self.monitoring_data: Dict[str, Any] = {}
-        
+
         # Performance metrics
         self.metrics = {
             "alerts_generated": 0,
@@ -104,16 +104,16 @@ class GuardianSentinel:
             "average_response_time": 0.0,
             "last_updated": datetime.now().isoformat()
         }
-        
+
         # Initialize
         asyncio.create_task(self._initialize_sentinel())
         logger.info("👁️ Guardian Sentinel activated")
-    
+
     async def _initialize_sentinel(self):
         """Initialize sentinel system"""
         await self._setup_monitoring_profiles()
         asyncio.create_task(self._monitoring_loop())
-    
+
     async def _setup_monitoring_profiles(self):
         """Setup default monitoring profiles"""
         profiles = [
@@ -132,10 +132,10 @@ class GuardianSentinel:
                 monitoring_frequency=1.0
             )
         ]
-        
+
         for profile in profiles:
             self.monitoring_profiles[profile.profile_id] = profile
-    
+
     async def _monitoring_loop(self):
         """Main monitoring loop"""
         while self.status == SentinelStatus.ACTIVE:
@@ -145,20 +145,20 @@ class GuardianSentinel:
             except Exception as e:
                 logger.error(f"❌ Sentinel monitoring error: {e}")
                 await asyncio.sleep(5.0)
-    
+
     async def _perform_monitoring_cycle(self):
         """Perform one monitoring cycle"""
         for profile in self.monitoring_profiles.values():
             await self._monitor_with_profile(profile)
-    
+
     async def _monitor_with_profile(self, profile: MonitoringProfile):
         """Monitor using specific profile"""
         # Simulate monitoring logic
         current_metrics = await self._collect_current_metrics(profile.scope)
-        
+
         for metric_name, threshold in profile.thresholds.items():
             current_value = current_metrics.get(metric_name, 0.0)
-            
+
             if current_value > threshold:
                 alert = SentinelAlert(
                     alert_id=f"alert_{uuid.uuid4().hex[:8]}",
@@ -169,9 +169,9 @@ class GuardianSentinel:
                     source_component=profile.name,
                     confidence_score=0.9
                 )
-                
+
                 await self._generate_alert(alert)
-    
+
     async def _collect_current_metrics(self, scope: MonitoringScope) -> Dict[str, float]:
         """Collect current system metrics"""
         # Simulate metric collection
@@ -182,14 +182,14 @@ class GuardianSentinel:
             "failed_auth": 0,
             "suspicious_activity": 0.1
         }
-    
+
     async def _generate_alert(self, alert: SentinelAlert):
         """Generate and process alert"""
         self.alerts.append(alert)
         self.metrics["alerts_generated"] += 1
-        
+
         logger.warning(f"🚨 Sentinel Alert: {alert.message}")
-    
+
     async def get_status(self) -> Dict[str, Any]:
         """Get sentinel status"""
         return {

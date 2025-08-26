@@ -84,8 +84,8 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 
-from lukhas.governance.identity.auth_backend.audit_logger import AuditLogger
 from candidate.orchestration.brain.privacy_manager import PrivacyManager
+from lukhas.governance.identity.auth_backend.audit_logger import AuditLogger
 
 # 🛡️ Compliance and Security Imports
 

@@ -84,12 +84,12 @@ class QIConsciousnessHub:
         # Component connections (will be injected)
         self.nias_core = None
         self.dream_adapter = None
-        self.quantum_processor = None
+        self.qi_processor = None
         self.abas_gate = None
         self.dast_router = None
 
         # Initialize Quantum Attention Economics
-        self.quantum_attention_economics = QIAttentionEconomics(
+        self.qi_attention_economics = QIAttentionEconomics(
             openai_api_key=openai_api_key
         )
 
@@ -111,22 +111,22 @@ class QIConsciousnessHub:
         self,
         nias_core: Any = None,
         dream_adapter: Any = None,
-        quantum_processor: Any = None,
+        qi_processor: Any = None,
         abas_gate: Any = None,
         dast_router: Any = None,
-        quantum_attention_economics: Optional[QIAttentionEconomics] = None,
+        qi_attention_economics: Optional[QIAttentionEconomics] = None,
         consciousness_core: Optional[ConsciousnessCore] = None,
     ) -> None:
         """Inject component dependencies"""
         self.nias_core = nias_core
         self.dream_adapter = dream_adapter
-        self.quantum_processor = quantum_processor
+        self.qi_processor = qi_processor
         self.abas_gate = abas_gate
         self.dast_router = dast_router
 
         # Update quantum attention economics if provided
-        if quantum_attention_economics:
-            self.quantum_attention_economics = quantum_attention_economics
+        if qi_attention_economics:
+            self.qi_attention_economics = qi_attention_economics
 
         # Update consciousness core if provided
         if consciousness_core:
@@ -152,9 +152,9 @@ class QIConsciousnessHub:
             )
 
             # Route through quantum attention economics
-            if self.quantum_attention_economics:
+            if self.qi_attention_economics:
                 attention_result = (
-                    await self.quantum_attention_economics.process_attention_event(
+                    await self.qi_attention_economics.process_attention_event(
                         event_type, event_data
                     )
                 )
@@ -175,7 +175,7 @@ class QIConsciousnessHub:
                 result = await self._process_dream_injection(
                     agent_id, event_data, state
                 )
-            elif event_type == "quantum_query":
+            elif event_type == "qi_query":
                 result = await self._process_quantum_query(agent_id, event_data, state)
             elif event_type == "attention_bid":
                 result = await self._process_attention_economics(
@@ -295,7 +295,7 @@ class QIConsciousnessHub:
                                         "minimum": 0,
                                         "maximum": 1,
                                     },
-                                    "quantum_alignment": {
+                                    "qi_alignment": {
                                         "type": "number",
                                         "minimum": 0,
                                         "maximum": 1,
@@ -420,17 +420,17 @@ class QIConsciousnessHub:
 
         # Update to superposition state
         state.state_type = ConsciousnessState.SUPERPOSITION
-        state.coherence = interpretation.get("quantum_alignment", 0.8)
+        state.coherence = interpretation.get("qi_alignment", 0.8)
 
         # Create parallel processing branches
         branches = await self._generate_consciousness_branches(message, interpretation)
 
         # Process through quantum layer if available
-        if self.quantum_processor:
-            quantum_result = await self.quantum_processor.process_superposition(
+        if self.qi_processor:
+            qi_result = await self.qi_processor.process_superposition(
                 branches
             )
-            state.superposition_weights = quantum_result.get("weights", [])
+            state.superposition_weights = qi_result.get("weights", [])
 
         return ProcessingResult(
             success=True,

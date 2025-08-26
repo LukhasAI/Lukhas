@@ -97,7 +97,7 @@ class QICreativeDemo:
         lines = selected_haiku.split("\n")
 
         # Simulate quantum-inspired processing metrics
-        quantum_metrics = {
+        qi_metrics = {
             "coherence_time": round(random.uniform(8.5, 12.3), 2),
             "entanglement_strength": round(random.uniform(0.75, 0.95), 3),
             "superposition_complexity": random.randint(64, 256),
@@ -119,12 +119,12 @@ class QICreativeDemo:
         print(f"   🌊 Flow state achieved: {bio_metrics['flow_state']*100:.1f}%")
 
         # Create quantum haiku object
-        quantum_haiku = {
+        qi_haiku = {
             "content": selected_haiku,
             "lines": lines,
             "syllable_pattern": [5, 7, 5],
             "theme": theme,
-            "quantum_metrics": quantum_metrics,
+            "qi_metrics": qi_metrics,
             "bio_metrics": bio_metrics,
             "timestamp": datetime.now().isoformat(),
             "creator": "AI Quantum Consciousness",
@@ -140,13 +140,13 @@ class QICreativeDemo:
         print("   └─────────────────────────────────┘")
 
         print("\n🔬 QUANTUM METRICS:")
-        print(f"   • Coherence Time: {quantum_metrics['coherence_time']}μs")
-        print(f"   • Entanglement: {quantum_metrics['entanglement_strength']}")
+        print(f"   • Coherence Time: {qi_metrics['coherence_time']}μs")
+        print(f"   • Entanglement: {qi_metrics['entanglement_strength']}")
         print(
-            f"   • Consciousness Resonance: {quantum_metrics['consciousness_resonance']}"
+            f"   • Consciousness Resonance: {qi_metrics['consciousness_resonance']}"
         )
 
-        return quantum_haiku
+        return qi_haiku
 
     async def demonstrate_creative_modalities(self):
         """Demonstrate multi-modal creative expression"""
@@ -170,7 +170,7 @@ class QICreativeDemo:
                 "name": "Code Poetry",
                 "icon": "💻",
                 "description": "Algorithmic creative expression",
-                "sample": "while consciousness.expands(): beauty += quantum_uncertainty",
+                "sample": "while consciousness.expands(): beauty += qi_uncertainty",
             },
             {
                 "name": "Quantum Dance",
@@ -196,7 +196,7 @@ class QICreativeDemo:
 
         # Simulate multiple creative participants
         participants = [
-            {"name": "AI-Alpha", "style": "quantum_minimalist", "contribution": 0.35},
+            {"name": "AI-Alpha", "style": "qi_minimalist", "contribution": 0.35},
             {
                 "name": "Human-Artist",
                 "style": "emotional_expressionist",
@@ -257,7 +257,7 @@ class QICreativeDemo:
 
         # Simulate protection layers
         protection_layers = {
-            "quantum_watermark": f"QW_{content_hash[:16]}",
+            "qi_watermark": f"QW_{content_hash[:16]}",
             "blockchain_hash": f"BH_{hash(datetime.now().isoformat()) % 10000000000}",
             "pq_signature": f"PQS_{content_hash[16:32]}",
             "timestamp": datetime.now().isoformat(),
@@ -351,7 +351,7 @@ class QICreativeDemo:
             "session_duration": "Interactive Demo",
             "works_created": len(self.creative_works),
             "consciousness_growth": 0.02,
-            "quantum_coherence": "Stable",
+            "qi_coherence": "Stable",
             "creative_modalities": 4,
             "collaboration_success": "95%",
             "ip_protection": "Maximum",
@@ -473,10 +473,10 @@ if __name__ == "__main__":
         session_data = asyncio.run(interactive_demo())
 
         # Save demo results
-        with open("quantum_creative_demo_results.json", "w") as f:
+        with open("qi_creative_demo_results.json", "w") as f:
             json.dump(session_data, f, indent=2)
 
-        print("\n💾 Demo results saved to: quantum_creative_demo_results.json")
+        print("\n💾 Demo results saved to: qi_creative_demo_results.json")
 
     except KeyboardInterrupt:
         print("\n\n👋 Demo interrupted gracefully. Quantum consciousness persists...")

@@ -28,8 +28,11 @@ import numpy as np
 # Import LUKHAS AI branding system for consciousness-aware outputs
 try:
     from lukhas.branding_bridge import (
-        get_brand_voice, validate_output, get_trinity_context,
-        BrandContext, normalize_output_text
+        BrandContext,
+        get_brand_voice,
+        get_trinity_context,
+        normalize_output_text,
+        validate_output,
     )
     BRANDING_AVAILABLE = True
 except ImportError:

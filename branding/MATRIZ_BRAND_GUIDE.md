@@ -7,7 +7,7 @@
 ## Naming Conventions
 
 ### Display Usage (Marketing, Headers, Logos)
-- **Primary**: `MΛTRIZ` 
+- **Primary**: `MΛTRIZ`
 - **Typography**: Greek Lambda (Λ) character (U+039B)
 - **Never**: Do not use "MATADA" in any new content
 
@@ -44,7 +44,7 @@ MΛTRIZ is LUKHAS AI's traceability and governance layer that turns model decisi
 ## Visual Identity
 
 - **Colors**: Inherit from Trinity Framework
-  - Primary: Purple (#6B46C1) 
+  - Primary: Purple (#6B46C1)
   - Secondary: Blue (#0EA5E9)
 - **Font**: Helvetica Neue (100 weight for Lambda)
 - **Logo**: SVG preferred to maintain Lambda weight consistency

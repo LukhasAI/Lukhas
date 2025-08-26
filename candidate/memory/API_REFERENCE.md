@@ -359,14 +359,14 @@ async def store_with_integrity(content, importance=0.7):
         importance=importance,
         mode=PersistenceMode.IMMEDIATE if importance > 0.8 else PersistenceMode.LAZY
     )
-    
+
     # Add to integrity system
     await collapse_hash.add_memory(
         memory_id=memory_id,
         memory_data=content,
         tags=["important"] if importance > 0.8 else []
     )
-    
+
     # Translate to protein if very important
     if importance > 0.9:
         await proteome.translate_memory(
@@ -375,7 +375,7 @@ async def store_with_integrity(content, importance=0.7):
             protein_type=ProteinType.REGULATORY,
             priority=True
         )
-    
+
     return memory_id
 ```
 
@@ -387,32 +387,32 @@ async def health_check_memory(memory_id):
     content = await persistence.retrieve_memory(memory_id)
     if not content:
         return None
-    
+
     # Check for trauma
     trauma = await repair_system.detect_trauma(
         memory_id=memory_id,
         memory_content=content,
         context={"source": "health_check"}
     )
-    
+
     if trauma:
         # Initiate repair
         scaffold_id = await repair_system.initiate_repair(
             trauma_id=trauma.trauma_id
         )
-        
+
         # For severe trauma, create checkpoint first
         if trauma.severity > 0.7:
             checkpoint = await collapse_hash.create_checkpoint(
                 checkpoint_name=f"Before repair of {memory_id}"
             )
-        
+
         return {
             "status": "repair_initiated",
             "trauma": trauma,
             "scaffold": scaffold_id
         }
-    
+
     return {"status": "healthy"}
 ```
 
@@ -421,14 +421,14 @@ async def health_check_memory(memory_id):
 ```python
 async def evolve_memory(memory_id, generations=3):
     evolution_history = []
-    
+
     for gen in range(generations):
         # Express current function
         expression = await proteome.express_memory_function(
             memory_id=memory_id,
             context={"generation": gen}
         )
-        
+
         # Apply modifications based on activity
         for protein_id in expression.get("active_proteins", []):
             if expression["total_activity"] > 0.8:
@@ -437,19 +437,19 @@ async def evolve_memory(memory_id, generations=3):
                     protein_id=protein_id,
                     modification=PostTranslationalModification.PHOSPHORYLATION
                 )
-            
+
             # Increase stability
             await proteome.modify_protein(
                 protein_id=protein_id,
                 modification=PostTranslationalModification.SUMOYLATION
             )
-        
+
         evolution_history.append({
             "generation": gen,
             "activity": expression["total_activity"],
             "modifications": len(expression.get("modifications", []))
         })
-    
+
     return evolution_history
 ```
 

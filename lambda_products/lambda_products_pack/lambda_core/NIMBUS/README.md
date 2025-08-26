@@ -1,6 +1,6 @@
 # ☁️ ΛNimbus - Multi-Cloud Manager
 
-**Unified Interface for AWS, GCP, Azure, and More**  
+**Unified Interface for AWS, GCP, Azure, and More**
 *Market Opportunity: $80M | Status: In Development*
 
 ---
@@ -91,7 +91,7 @@
 
 ---
 
-## 🚀 **Implementation Roadmap** 
+## 🚀 **Implementation Roadmap**
 
 *Updated based on existing cloud consolidation foundation*
 
@@ -162,6 +162,6 @@
 
 ---
 
-*ΛNimbus - Unified Multi-Cloud Intelligence*  
-*Part of the Lambda Products Suite ($890M+ Market Opportunity)*  
+*ΛNimbus - Unified Multi-Cloud Intelligence*
+*Part of the Lambda Products Suite ($890M+ Market Opportunity)*
 *Status: Development Phase | Priority: High*

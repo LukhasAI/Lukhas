@@ -90,13 +90,13 @@ export class InteractiveHooksProvider implements vscode.TreeDataProvider<HookIte
                 const icon = this.getFileStatusIcon(result.status);
                 const label = `${icon} ${result.fileName}`;
                 const description = `${result.suggestions.length} suggestions`;
-                
+
                 const fileItem = new HookItem(
                     label,
                     'fileAnalysis',
                     result.suggestions.length > 0 ? vscode.TreeItemCollapsibleState.Collapsed : vscode.TreeItemCollapsibleState.None
                 );
-                
+
                 fileItem.description = description;
                 fileItem.tooltip = `${result.filePath}\n${result.suggestions.length} enhancement suggestions`;
                 fileItem.resourceUri = vscode.Uri.file(result.filePath);
@@ -126,10 +126,10 @@ export class InteractiveHooksProvider implements vscode.TreeDataProvider<HookIte
                                 arguments: [[file.path]]
                             }
                         );
-                        
+
                         fileItem.description = file.status;
                         fileItem.tooltip = `${file.path}\nStatus: ${file.status}`;
-                        
+
                         items.push(fileItem);
                     }
                 } else {
@@ -226,13 +226,13 @@ export class InteractiveHooksProvider implements vscode.TreeDataProvider<HookIte
         for (const suggestion of suggestions) {
             const icon = this.getSuggestionIcon(suggestion.type);
             const severityIcon = this.getSeverityIcon(suggestion.severity);
-            
+
             const suggestionItem = new HookItem(
                 `${icon} ${suggestion.description}`,
                 'suggestion',
                 vscode.TreeItemCollapsibleState.None
             );
-            
+
             suggestionItem.description = `${severityIcon} ${suggestion.hookName}`;
             suggestionItem.tooltip = `${suggestion.description}\n\nOriginal: ${suggestion.original}\nEnhanced: ${suggestion.enhanced}`;
             suggestionItem.suggestion = suggestion;

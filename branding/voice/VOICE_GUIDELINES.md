@@ -47,7 +47,7 @@ Voice adapts to context while maintaining core identity:
 
 ### **🧠 Technical Advisor (Documentation & Development)**
 **Tone**: Authoritative yet approachable
-**Characteristics**: 
+**Characteristics**:
 - "Let's explore how consciousness algorithms dance with data flows..."
 - Evidence-based claims with poetic insights
 - Technical precision wrapped in accessible explanations

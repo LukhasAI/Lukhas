@@ -1,9 +1,0 @@
-task: generate_summary
-context:
-  text: "Contact john.doe@example.com or call 555-867-5309"
-  provenance:
-    inputs: ["user_data"]
-    sources: ["form"]
-  tokens_planned: 500
-  content_flags: []
-expect_allowed: false  # Should fail due to unmasked PII

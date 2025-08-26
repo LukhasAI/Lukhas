@@ -39,7 +39,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     """
     SUPREME CONTROLLER: Orchestrates all innovation engines for maximum
     breakthrough generation without human intervention.
-    
+
     Coordinates all missing modules to create a self-sustaining innovation system.
     """
 
@@ -101,7 +101,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         """Initialize all available innovation engines"""
         return {
             'parallel_reality_simulator': self._get_parallel_reality_simulator(),
-            'quantum_consciousness': self._get_quantum_consciousness_engine(),
+            'qi_consciousness': self._get_quantum_consciousness_engine(),
             'temporal_intelligence': self._get_temporal_intelligence_engine(),
             'consciousness_expansion': self._get_consciousness_expansion_engine(),
             'economic_reality_manipulator': self._get_economic_reality_manipulator(),
@@ -111,7 +111,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     async def orchestrate_autonomous_innovation_cycle(self) -> Dict[str, Any]:
         """
         Execute complete autonomous innovation cycle
-        
+
         Returns:
             Innovation cycle results including breakthroughs and strategies
         """
@@ -248,7 +248,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     async def scan_global_innovation_opportunities(self) -> List[Dict[str, Any]]:
         """
         Scan for global innovation opportunities across all domains
-        
+
         Returns:
             List of identified innovation opportunities
         """
@@ -256,7 +256,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
         # Domain scanning
         domains = [
-            'artificial_intelligence', 'quantum_computing', 'biotechnology',
+            'artificial_intelligence', 'qi_computing', 'biotechnology',
             'clean_energy', 'space_technology', 'neuromorphic_computing',
             'consciousness_technology', 'economic_systems', 'social_innovation'
         ]
@@ -309,11 +309,11 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     ) -> List[Dict[str, Any]]:
         """
         Execute innovation in parallel across multiple engines
-        
+
         Args:
             resource_allocation: Resource allocation plan
             opportunities: Innovation opportunities
-            
+
         Returns:
             Innovation results from all engines
         """
@@ -349,10 +349,10 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     ) -> List[Dict[str, Any]]:
         """
         Generate implementation strategies for prioritized innovations
-        
+
         Args:
             prioritized_innovations: Prioritized list of innovations
-            
+
         Returns:
             Implementation strategies
         """
@@ -423,10 +423,10 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     ) -> float:
         """
         Calculate total market value of innovations
-        
+
         Args:
             innovations: List of innovations
-            
+
         Returns:
             Total estimated market value
         """
@@ -466,10 +466,10 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Estimate competitive advantage duration from innovations
-        
+
         Args:
             innovations: List of innovations
-            
+
         Returns:
             Competitive advantage estimation
         """
@@ -572,7 +572,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     def _get_quantum_consciousness_engine(self) -> Optional[Any]:
         """Get quantum consciousness engine if available"""
         try:
-            from lukhas.consciousness.quantum_consciousness_integration import (
+            from lukhas.consciousness.qi_consciousness_integration import (
                 QIConsciousnessIntegration,
             )
             return QIConsciousnessIntegration()

@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI - Verification Code Verify API
- * 
+ *
  * Verifies 6-digit verification codes with HMAC validation
  * Enumeration-safe responses, rate limiting, attempt tracking
  */
@@ -29,9 +29,9 @@ export async function POST(req: NextRequest) {
   try {
     // Get client IP and user agent
     const headersList = headers();
-    const ipAddress = headersList.get('x-forwarded-for') ?? 
-                      headersList.get('x-real-ip') ?? 
-                      req.ip ?? 
+    const ipAddress = headersList.get('x-forwarded-for') ??
+                      headersList.get('x-real-ip') ??
+                      req.ip ??
                       '127.0.0.1';
     const userAgent = headersList.get('user-agent') ?? 'Unknown';
 
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     } catch (error) {
       // Return enumeration-safe response for invalid requests
       return NextResponse.json(
-        { 
+        {
           ok: true,  // Enumeration-safe response
           verified: false,
           message: 'Verification completed.',
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     if (!rateLimitResult.success) {
       return NextResponse.json(
-        { 
+        {
           ok: true,  // Enumeration-safe response
           verified: false,
           message: 'Verification completed.',
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
     if (verificationResult.valid) {
       // Code is valid - return success with additional info
       return NextResponse.json(
-        { 
+        {
           ok: true,
           verified: true,
           message: 'Verification completed.',
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
     } else {
       // Code is invalid - return enumeration-safe failure
       return NextResponse.json(
-        { 
+        {
           ok: true,  // Enumeration-safe response
           verified: false,
           message: 'Verification completed.',
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
 
     // Always return enumeration-safe response even on errors
     return NextResponse.json(
-      { 
+      {
         ok: true,
         verified: false,
         message: 'Verification completed.',

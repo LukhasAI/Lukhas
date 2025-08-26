@@ -123,7 +123,7 @@ class AwarenessOutput(BaseModel):
     recommendations: list[str] = Field(default_factory=list)
     sustainability_score: Optional[float] = None
     processing_time_ms: float = 0.0
-    quantum_signature: Optional[str] = None
+    qi_signature: Optional[str] = None
 
 
 class Reasoner(Protocol):
@@ -179,7 +179,7 @@ class AwarenessModule(ABC):
                 recommendations=recommendations,
                 sustainability_score=sustainability_score,
                 processing_time_ms=processing_time,
-                quantum_signature=(
+                qi_signature=(
                     self._generate_quantum_signature(result)
                     if self.config.enable_quantum_processing
                     else None
@@ -267,9 +267,9 @@ class AwarenessModule(ABC):
 
         # Quantum-specific risk factors
         if self.config.enable_quantum_processing and result.get(
-            "quantum_instability", False
+            "qi_instability", False
         ):
-            risk_factors.append("quantum_instability")
+            risk_factors.append("qi_instability")
 
         return risk_factors
 
@@ -358,10 +358,10 @@ class EnhancedEnvReasoner:
             energy_efficiency = max(0.1, 1.0 - (inputs.energy_consumption / 50) ** 1.5)
 
         # Quantum anomaly detection
-        anomaly_detected = quantum_anomaly_check(
+        anomaly_detected = qi_anomaly_check(
             inputs.ambient_noise, inputs.temperature
         )
-        quantum_confidence = 0.95 if not anomaly_detected else 0.7
+        qi_confidence = 0.95 if not anomaly_detected else 0.7
 
         # Calculate composite environmental score
         component_weights = [
@@ -404,7 +404,7 @@ class EnhancedEnvReasoner:
                 "location_bonus": location_bonus,
             },
             "anomaly_detected": anomaly_detected,
-            "quantum_confidence": quantum_confidence,
+            "qi_confidence": qi_confidence,
             "sustainability_metrics": self._calculate_sustainability_metrics(inputs),
             "optimization_opportunities": self._identify_optimization_opportunities(
                 inputs
@@ -494,7 +494,7 @@ def is_indoor_location(location: tuple[float, float]) -> bool:
     return True  # Default assumption for most office/home environments
 
 
-def quantum_anomaly_check(noise: float, temperature: float) -> bool:
+def qi_anomaly_check(noise: float, temperature: float) -> bool:
     """Quantum subroutine: Advanced anomaly detection."""
     # Placeholder for quantum anomaly detection algorithm
     # In real implementation, this might use quantum machine learning
@@ -508,8 +508,8 @@ def quantum_anomaly_check(noise: float, temperature: float) -> bool:
         return True
 
     # Quantum-inspired correlation check
-    quantum_correlation = abs(noise - temperature * 2) > 50
-    return quantum_correlation
+    qi_correlation = abs(noise - temperature * 2) > 50
+    return qi_correlation
 
 
 class EnvironmentalAwarenessModule(AwarenessModule):
@@ -536,8 +536,8 @@ class EnvironmentalAwarenessModule(AwarenessModule):
             base_score -= 15
 
         # Quantum confidence factor
-        quantum_confidence = result.get("quantum_confidence", 0.95)
-        base_score *= quantum_confidence
+        qi_confidence = result.get("qi_confidence", 0.95)
+        base_score *= qi_confidence
 
         # Location sustainability bonus
         location_analysis = result.get("location_analysis", {})
@@ -577,7 +577,7 @@ class EnvironmentalAwarenessModule(AwarenessModule):
         # Quantum-enhanced recommendations
         if (
             self.config.enable_quantum_processing
-            and result.get("quantum_confidence", 1.0) < 0.8
+            and result.get("qi_confidence", 1.0) < 0.8
         ):
             recommendations.append(
                 "Quantum analysis indicates environmental instability - monitor closely"
@@ -1745,7 +1745,7 @@ class LukhasAwarenessEngine:
             "modules_loaded": [t.value for t in self.modules],
             "config": {
                 "institutional_mode": self.config.institutional_mode,
-                "quantum_processing": self.config.enable_quantum_processing,
+                "qi_processing": self.config.enable_quantum_processing,
                 "symbolic_reasoning": self.config.enable_symbolic_reasoning,
                 "real_time_monitoring": self.config.enable_real_time_monitoring,
                 "compliance_thresholds": {
@@ -1798,8 +1798,8 @@ if __name__ == "__main__":
     print(f"Risk Factors: {env_output.alignment.risk_factors}")
     print(f"Sustainability Score: {env_output.sustainability_score:.2f}")
     print(f"Processing Time: {env_output.processing_time_ms:.2f}ms")
-    if env_output.quantum_signature:
-        print(f"Quantum Signature: {env_output.quantum_signature}")
+    if env_output.qi_signature:
+        print(f"Quantum Signature: {env_output.qi_signature}")
 
     print("\nEnvironmental Data:")
     for key, value in env_output.data.items():

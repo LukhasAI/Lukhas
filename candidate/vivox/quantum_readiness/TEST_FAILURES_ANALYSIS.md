@@ -8,7 +8,7 @@ VIVOX.QREADY has 25 passing tests out of 29 total (86.2% pass rate). The 4 faili
 ### 1. `TestVIVOXQuantumBridge::test_cil_quantum_collapse`
 **Issue**: AttributeError - 'EthicalQuantumState' object has no attribute 'metadata'
 
-**Root Cause**: 
+**Root Cause**:
 - The `apply_collapse_field()` method expects a `QuantumState` object with a `metadata` attribute
 - `EthicalQuantumState` uses `context` instead of `metadata` for storing additional information
 - The code tries to access `state.metadata` but EthicalQuantumState doesn't have this attribute
@@ -111,7 +111,7 @@ These failures are integration issues, not fundamental flaws:
    @property
    def metadata(self):
        return self.context
-   
+
    @property
    def state_vector(self):
        return self.superposition

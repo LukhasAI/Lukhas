@@ -206,7 +206,7 @@ lambda_healthcare:
     identity_enabled: true
     consciousness_active: true
     guardian_threshold: 0.15
-  
+
   # Healthcare Settings
   healthcare:
     gpt5_enabled: true
@@ -214,13 +214,13 @@ lambda_healthcare:
     emergency_numbers:
       general: "112"
       medical: "061"
-    
+
   # Compliance
   compliance:
     gdpr_enabled: true
     hipaa_enabled: true
     lopd_enabled: true
-    
+
   # Lambda Features
   lambda:
     priority_processing: true
@@ -372,6 +372,6 @@ This system is designed to assist, not replace, professional medical care. Alway
 
 ---
 
-**ΛHealthcare Guardian** - Where Consciousness Meets Care  
-*Powered by LUKHAS AI - The Symbolic Intelligence Company*  
+**ΛHealthcare Guardian** - Where Consciousness Meets Care
+*Powered by LUKHAS AI - The Symbolic Intelligence Company*
 *Lambda Products Suite - Enterprise Healthcare Division*

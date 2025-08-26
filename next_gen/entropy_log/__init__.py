@@ -1,4 +1,3 @@
 """
 Entropy Log Module
 """
-

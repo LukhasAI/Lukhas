@@ -1,11 +1,16 @@
 # path: qi/metrics/calibration.py
 from __future__ import annotations
-import os, json, math, glob, time
-from dataclasses import dataclass, asdict
-from typing import List, Dict, Any, Optional, Tuple
 
 # safe I/O
 import builtins
+import glob
+import json
+import math
+import os
+import time
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Optional, Tuple
+
 _ORIG_OPEN = builtins.open
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
@@ -106,7 +111,7 @@ def fit_temperature(samples: List[Tuple[float,int,str]], weights: Optional[Dict[
         if weights and t in weights:
             w = weights[t]
         weighted_pairs.append((c, y, w))
-    
+
     T = 1.0
     for _ in range(50):
         grad = 0.0; hess = 0.0
@@ -131,7 +136,7 @@ def fit_and_save(source_preference: str = "eval", feedback_weights: Optional[Dic
         src = "receipts" if source_preference == "eval" else "eval"
     else:
         src = source_preference
-    
+
     # Get feedback weights if not provided
     if feedback_weights is None:
         try:
@@ -155,13 +160,13 @@ def fit_and_save(source_preference: str = "eval", feedback_weights: Optional[Dic
     for t in tasks:
         d = reliability_diagram(samples, task=t)
         n_samples = sum(b["count"] for b in d)
-        
+
         # Cold-start: if samples < N_min (e.g., 50) → ignore weight
         if n_samples < 50:
             task_weights = None
         else:
             task_weights = {t: feedback_weights.get(t, 1.0)} if feedback_weights else None
-        
+
         if n_samples < 20:   # skip tiny data
             continue
         per_task_bins[t] = d

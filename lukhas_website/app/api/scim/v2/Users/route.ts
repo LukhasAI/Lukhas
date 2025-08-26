@@ -3,11 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 // Minimal SCIM skeleton — fill with your directory model & pagination
 export async function GET(req: NextRequest) {
   const Resources: any[] = []; // TODO: Fetch users from database
-  return NextResponse.json({ 
-    Resources, 
-    totalResults: Resources.length, 
-    startIndex: 1, 
-    itemsPerPage: Resources.length, 
+  return NextResponse.json({
+    Resources,
+    totalResults: Resources.length,
+    startIndex: 1,
+    itemsPerPage: Resources.length,
     schemas: ['urn:ietf:params:scim:api:messages:2.0:ListResponse']
   });
 }

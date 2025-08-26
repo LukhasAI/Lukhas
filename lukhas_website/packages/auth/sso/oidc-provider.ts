@@ -1,7 +1,7 @@
 /**
  * OpenID Connect 1.0 Provider Implementation
  * Enterprise-grade OIDC integration for LUKHAS AI ΛiD System
- * 
+ *
  * Supports:
  * - Authorization Code Flow with PKCE
  * - ID token validation and claims extraction
@@ -53,7 +53,7 @@ export interface OIDCClaims {
   acr?: string;
   amr?: string[];
   azp?: string;
-  
+
   // Standard profile claims
   name?: string;
   given_name?: string;
@@ -69,11 +69,11 @@ export interface OIDCClaims {
   zoneinfo?: string;
   locale?: string;
   updated_at?: number;
-  
+
   // Standard email claims
   email?: string;
   email_verified?: boolean;
-  
+
   // Standard address claims
   address?: {
     formatted?: string;
@@ -83,11 +83,11 @@ export interface OIDCClaims {
     postal_code?: string;
     country?: string;
   };
-  
+
   // Standard phone claims
   phone_number?: string;
   phone_number_verified?: boolean;
-  
+
   // Custom claims
   [key: string]: any;
 }
@@ -142,7 +142,7 @@ export class OIDCProvider {
   async generateAuthorizationUrl(additionalParams?: Record<string, string>): Promise<{ url: string; state: string }> {
     const state = this.generateRandomString(32);
     const nonce = this.generateRandomString(32);
-    
+
     let codeVerifier: string | undefined;
     let codeChallenge: string | undefined;
     let codeChallengeMethod: string | undefined;
@@ -151,7 +151,7 @@ export class OIDCProvider {
     if (this.config.usePKCE !== false) { // Default to true
       codeVerifier = this.generateRandomString(128);
       codeChallengeMethod = this.config.codeChallenge || 'S256';
-      
+
       if (codeChallengeMethod === 'S256') {
         codeChallenge = createHash('sha256')
           .update(codeVerifier)
@@ -552,7 +552,7 @@ export class OIDCProvider {
   private cleanupExpiredStates(): void {
     const now = Date.now();
     const maxAge = 10 * 60 * 1000; // 10 minutes
-    
+
     for (const [state, stateData] of this.pendingStates.entries()) {
       if (now - stateData.timestamp > maxAge) {
         this.pendingStates.delete(state);
@@ -566,7 +566,7 @@ export class OIDCProvider {
  */
 export async function discoverOIDCEndpoints(issuer: string): Promise<OIDCEndpoints> {
   const discoveryUrl = `${issuer}/.well-known/openid_configuration`;
-  
+
   const response = await fetch(discoveryUrl);
   if (!response.ok) {
     throw new Error(`OIDC discovery failed: ${response.status}`);
@@ -598,7 +598,7 @@ export class OIDCProviderFactory {
   ): Promise<OIDCProvider> {
     const issuer = `https://${domain}`;
     const endpoints = await discoverOIDCEndpoints(issuer);
-    
+
     const config: OIDCConfig = {
       issuer,
       clientId,
@@ -621,7 +621,7 @@ export class OIDCProviderFactory {
   ): Promise<OIDCProvider> {
     const issuer = `https://login.microsoftonline.com/${tenantId}/v2.0`;
     const endpoints = await discoverOIDCEndpoints(issuer);
-    
+
     const config: OIDCConfig = {
       issuer,
       clientId,
@@ -643,7 +643,7 @@ export class OIDCProviderFactory {
   ): Promise<OIDCProvider> {
     const issuer = 'https://accounts.google.com';
     const endpoints = await discoverOIDCEndpoints(issuer);
-    
+
     const config: OIDCConfig = {
       issuer,
       clientId,

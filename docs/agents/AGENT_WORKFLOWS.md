@@ -1,6 +1,6 @@
 # 🔄 LUKHAS Agent Workflows
 
-**Multi-AI Coordination and Task Management Workflows**  
+**Multi-AI Coordination and Task Management Workflows**
 **Last Updated**: August 25, 2025
 
 ---

@@ -18,7 +18,7 @@ BANNED = ("candidate", "quarantine", "archive")
 
 def py_files(root: pathlib.Path):
     for p in root.rglob("*.py"):
-        if "__pycache__" in p.parts: 
+        if "__pycache__" in p.parts:
             continue
         yield p
 
@@ -38,7 +38,7 @@ class ImportScan(ast.NodeVisitor):
         self.from_imports.append(mod)
 
 def is_facade_ast(tree: ast.AST) -> bool:
-    """Facade heuristic: 
+    """Facade heuristic:
        - File has < 40 non-empty code lines
        - Only statements are imports / assignments / alias exports
        - And at least one banned import is present

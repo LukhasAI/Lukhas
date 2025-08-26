@@ -6,9 +6,9 @@ from datetime import datetime
 import openai
 import speech_recognition as sr
 from dream_generator import generate_dreams  # hypothetical dream engine
+from voice import speak  # COVE/Lukhas voice output
 
 from lukhas.emotion_mapper import map_emotion  # optional emotion extractor
-from voice import speak  # COVE/Lukhas voice output
 
 
 def speak(text):

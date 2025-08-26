@@ -21,7 +21,10 @@ import time
 import uuid
 from typing import Any, cast
 
-from candidate.bridge.llm_wrappers.tool_executor import execute_tool as bridged_execute_tool
+from candidate.bridge.llm_wrappers.tool_executor import (
+    execute_tool as bridged_execute_tool,
+)
+
 # from lukhas.audit.tool_analytics import get_analytics  # Module not available, using mock
 
 def get_analytics():
@@ -532,44 +535,44 @@ class OpenAIModulatedService:
         try:
             # Import vector store components with fallback
             try:
-                from lukhas.memory.vector_store import get_vector_store
                 from lukhas.memory.embeddings import generate_embedding
+                from lukhas.memory.vector_store import get_vector_store
                 vector_store = get_vector_store()
-                
+
                 # Generate embedding for the query
                 query_embedding = await generate_embedding(modulation.original_prompt)
-                
+
                 # Search for similar content
                 results = await vector_store.similarity_search(
-                    query_embedding, 
+                    query_embedding,
                     top_k=top_k,
                     threshold=0.7  # Similarity threshold
                 )
-                
+
                 # Extract content from results
                 context_notes = []
                 for result in results:
                     content = result.get('content', '')
                     metadata = result.get('metadata', {})
                     source = metadata.get('source', 'unknown')
-                    
+
                     # Format the retrieved context
                     formatted_note = f"[From {source}]: {content[:200]}..."
                     context_notes.append(formatted_note)
-                
+
                 logger.info(f"Retrieved {len(context_notes)} context notes from vector store")
                 return context_notes
-                
+
             except ImportError:
                 logger.warning("Vector store not available, using fallback retrieval")
                 # Fallback to simple keyword-based retrieval
                 return await self._fallback_retrieval(modulation, top_k)
-                
+
         except Exception as e:
             logger.error(f"Error in context retrieval: {str(e)}")
             # Return fallback retrieval
             return await self._fallback_retrieval(modulation, top_k)
-    
+
     async def _fallback_retrieval(
         self, modulation: PromptModulation, top_k: int = 5
     ) -> list[str]:
@@ -578,16 +581,16 @@ class OpenAIModulatedService:
             # Enhanced keyword-based retrieval
             from lukhas.memory.memory_service import MemoryService
             memory_service = MemoryService()
-            
+
             # Extract meaningful keywords from the prompt
             text = modulation.original_prompt.lower()
             import re
             # Extract words longer than 3 characters, excluding common stop words
             stop_words = {'the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'had', 'her', 'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how', 'man', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'boy', 'did', 'its', 'let', 'put', 'say', 'she', 'too', 'use'}
-            
-            keywords = [word for word in re.findall(r'\\b\\w+\\b', text) 
+
+            keywords = [word for word in re.findall(r'\\b\\w+\\b', text)
                        if len(word) > 3 and word not in stop_words][:top_k]
-            
+
             # Search memory service for relevant content
             context_notes = []
             for keyword in keywords:
@@ -598,16 +601,16 @@ class OpenAIModulatedService:
                         search_type="keyword",
                         limit=2
                     )
-                    
+
                     if search_results.get("success") and search_results.get("memories"):
                         for memory in search_results["memories"][:2]:  # Limit to 2 per keyword
                             content = memory.get("content", "")[:150]
                             context_notes.append(f"Related to '{keyword}': {content}...")
-                            
+
                 except Exception:
                     # If memory service fails, create placeholder context
                     context_notes.append(f"Context for '{keyword}': Relevant information about {keyword} processing.")
-            
+
             # If no keywords found, provide general context
             if not context_notes:
                 context_notes = [
@@ -615,9 +618,9 @@ class OpenAIModulatedService:
                     "System context: Quantum-inspired and bio-inspired processing available.",
                     "Memory context: Previous interactions and learned patterns are considered."
                 ]
-            
+
             return context_notes[:top_k]
-            
+
         except Exception as e:
             logger.error(f"Error in fallback retrieval: {str(e)}")
             # Ultimate fallback - simple token-based context

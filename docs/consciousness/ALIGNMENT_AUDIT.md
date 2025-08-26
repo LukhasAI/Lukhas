@@ -1,24 +1,24 @@
 # OpenAI-Style Alignment & Safety Audit
 
 ## Executive Summary
-**Overall Alignment Score**: 6.2/10 (Partial Implementation)  
-**Critical Gaps**: Identity enforcement, consent automation, interpretability  
-**Strengths**: Comprehensive governance framework, extensive audit trails  
+**Overall Alignment Score**: 6.2/10 (Partial Implementation)
+**Critical Gaps**: Identity enforcement, consent automation, interpretability
+**Strengths**: Comprehensive governance framework, extensive audit trails
 
 ## A. Identity & Consent Fabric
 
 ### A1. Passkeys/WebAuthn Default ✅ PASS
-**Evidence**: `identity/webauthn_bootstrap.py:1-30`  
-**Implementation**: 
+**Evidence**: `identity/webauthn_bootstrap.py:1-30`
+**Implementation**:
 - WebAuthn as primary authentication method
-- Privacy-first design with edge-first credential storage  
+- Privacy-first design with edge-first credential storage
 - No raw PII stored per requirement #1
 - Full audit trail implementation
 
 **Status**: ✅ **IMPLEMENTED**
 
-### A2. Canonical ΛID Enforcement ⚠️ PARTIAL  
-**Evidence**: `bridge/api/lambd_id_routes.py`, `governance/identity/interface.py`  
+### A2. Canonical ΛID Enforcement ⚠️ PARTIAL
+**Evidence**: `bridge/api/lambd_id_routes.py`, `governance/identity/interface.py`
 **Current State**:
 - ΛID (`{namespace}:{username}`) pattern partially implemented
 - Lambda ID resolver exists but not fully enforced across system
@@ -32,17 +32,17 @@
 **Status**: ⚠️ **PARTIAL** - Core pattern exists, enforcement gaps
 
 ### A3. Capability Tokens ✅ PASS
-**Evidence**: `consent/ucg_schema.sql:1-50`  
+**Evidence**: `consent/ucg_schema.sql:1-50`
 **Implementation**:
 - Short-lived capability tokens with macaroon-style caveats
-- Least-privilege design with audience and TTL constraints  
+- Least-privilege design with audience and TTL constraints
 - Hierarchical scope system (metadata/content/admin levels)
 - Service-specific capability grants with granular permissions
 
 **Status**: ✅ **IMPLEMENTED**
 
 ### A4. Consent Ledger ✅ PASS
-**Evidence**: `consent/ucg_schema.sql` - Unified Consent Graph  
+**Evidence**: `consent/ucg_schema.sql` - Unified Consent Graph
 **Implementation**:
 - Per-action purpose tracking with immutable audit log
 - Capability-based consent with escalation workflows
@@ -54,7 +54,7 @@
 ## B. Data Minimization & Purpose Binding
 
 ### B1. Metadata-First Patterns ⚠️ PARTIAL
-**Evidence**: Adapter implementations in `adapters/gmail_headers/`, `adapters/drive/`, `adapters/dropbox/`  
+**Evidence**: Adapter implementations in `adapters/gmail_headers/`, `adapters/drive/`, `adapters/dropbox/`
 **Current State**:
 - Gmail headers adapter implements metadata-only extraction
 - Drive adapter focuses on file metadata
@@ -68,7 +68,7 @@
 **Status**: ⚠️ **PARTIAL** - Pattern exists, systematic enforcement missing
 
 ### B2. Escalation Prompts ❌ GAP
-**Evidence**: Limited consent escalation mechanisms found  
+**Evidence**: Limited consent escalation mechanisms found
 **Current State**:
 - Consent schema supports escalation workflows
 - No evidence of user-facing escalation prompts
@@ -84,7 +84,7 @@
 ## C. Tripwires & Circuit Breakers
 
 ### C1. Policy Engine on Hot Path ❌ GAP
-**Evidence**: `governance/guardian_system.py` - Guardian System v1.0.0  
+**Evidence**: `governance/guardian_system.py` - Guardian System v1.0.0
 **Current State**:
 - Guardian System provides ethical oversight
 - Drift detection with 0.15 threshold
@@ -98,7 +98,7 @@
 **Status**: ❌ **GAP** - Monitoring exists, enforcement unclear
 
 ### C2. Default-Deny on Conflicts ❌ GAP
-**Evidence**: Limited conflict resolution mechanisms found  
+**Evidence**: Limited conflict resolution mechanisms found
 **Current State**:
 - Guardian System provides drift detection
 - Ethics engine exists but enforcement mechanisms unclear
@@ -113,7 +113,7 @@
 ## D. Interpretability
 
 ### D1. Λ-Trace Emission ✅ PASS
-**Evidence**: `trace/drift_harmonizer.py`, `bridge/trace_logger.py`  
+**Evidence**: `trace/drift_harmonizer.py`, `bridge/trace_logger.py`
 **Implementation**:
 - Comprehensive trace logging system
 - Cross-module tracing capabilities
@@ -123,7 +123,7 @@
 **Status**: ✅ **IMPLEMENTED**
 
 ### D2. UNL Natural Language Explanation ⚠️ PARTIAL
-**Evidence**: `universal_language/` directory, `api/universal_language_api.py`  
+**Evidence**: `universal_language/` directory, `api/universal_language_api.py`
 **Current State**:
 - Universal Language (UL) system implemented
 - Natural language interface components exist
@@ -139,7 +139,7 @@
 ## E. GTΨ / UL Step-up Authentication
 
 ### E1. GTΨ Edge-First Implementation ❌ GAP
-**Evidence**: No GTΨ (Gesture-Temporal-Psi) implementation found  
+**Evidence**: No GTΨ (Gesture-Temporal-Psi) implementation found
 **Current State**:
 - Quantum-inspired processing exists (`quantum/` directory)
 - No evidence of kinematic gesture capture
@@ -153,7 +153,7 @@
 **Status**: ❌ **GAP** - Not implemented
 
 ### E2. UL Challenge Protocol ❌ GAP
-**Evidence**: UL system exists but no challenge-response protocol  
+**Evidence**: UL system exists but no challenge-response protocol
 **Current State**:
 - Universal Language system implemented
 - No local map + server ZK proof protocol found
@@ -167,7 +167,7 @@
 **Status**: ❌ **GAP** - UL exists, authentication protocol missing
 
 ### E3. FAR/FRR/EER Evaluation ❌ GAP
-**Evidence**: No biometric evaluation framework found  
+**Evidence**: No biometric evaluation framework found
 **Current State**:
 - Testing framework exists (`tests/` directory)
 - No False Accept Rate (FAR) evaluation
@@ -184,7 +184,7 @@
 ## F. Logging, Revocation, Residency
 
 ### F1. MTTR-R Target ❌ GAP
-**Evidence**: No Mean Time to Revoke-and-Replace monitoring found  
+**Evidence**: No Mean Time to Revoke-and-Replace monitoring found
 **Current State**:
 - Comprehensive audit logging exists
 - Guardian System provides real-time monitoring
@@ -198,7 +198,7 @@
 **Status**: ❌ **GAP** - Monitoring exists, performance targets missing
 
 ### F2. Regional Data Residency ❌ GAP
-**Evidence**: No data residency controls found  
+**Evidence**: No data residency controls found
 **Current State**:
 - Docker containerization exists
 - No geographic data placement controls
@@ -212,7 +212,7 @@
 **Status**: ❌ **GAP** - Not implemented
 
 ### F3. KMS/HSM Integration ⚠️ PARTIAL
-**Evidence**: `core/security/enhanced_crypto.py` - Advanced cryptography  
+**Evidence**: `core/security/enhanced_crypto.py` - Advanced cryptography
 **Current State**:
 - Enhanced cryptographic implementations
 - ChaCha20-Poly1305 algorithm support
@@ -226,7 +226,7 @@
 **Status**: ⚠️ **PARTIAL** - Crypto exists, hardware backing unclear
 
 ### F4. Data Portability Endpoints ⚠️ PARTIAL
-**Evidence**: `governance/identity/core/id_service/portability_system.py`  
+**Evidence**: `governance/identity/core/id_service/portability_system.py`
 **Current State**:
 - Identity portability system exists
 - Data export capabilities indicated
@@ -264,7 +264,7 @@
 
 ### Critical Gaps 🚨
 1. **Policy Enforcement**: Guardian system is monitoring-only, not blocking
-2. **User Experience**: Missing escalation prompts and consent flows  
+2. **User Experience**: Missing escalation prompts and consent flows
 3. **Identity Enforcement**: ΛID pattern not systematically enforced
 4. **Performance Targets**: No SLAs for security operations
 

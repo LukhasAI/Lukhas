@@ -7,7 +7,7 @@ Complete voice and audio processing capabilities with Trinity Framework integrat
 
 This module provides comprehensive voice and audio processing capabilities including:
 - Text-to-Speech (TTS) synthesis with multiple providers
-- Speech recognition with multiple engines  
+- Speech recognition with multiple engines
 - Voice modulation and effects processing
 - Real-time audio streaming
 - Audio signal processing and filtering
@@ -17,67 +17,17 @@ This module provides comprehensive voice and audio processing capabilities inclu
 """
 
 import logging
-from typing import Dict, Any, Optional, List
+from typing import Any, Dict, List, Optional
 
-# Core audio processing
-from .audio_processing import (
-    LUKHASAudioProcessor,
-    AudioBuffer,
-    AudioFormat,
-    ProcessingQuality
+# Audio codecs
+from .audio_codec import (
+    AudioCodec,
+    CodecQuality,
+    LUKHASAudioCodecManager,
+    decode_from_wav,
+    encode_to_wav,
 )
-
-# Voice modulation and synthesis
-from .voice_modulator import (
-    VoiceModulator,
-    LucasVoiceSystem,
-    VoiceParameters,
-    VoiceModulationMode
-)
-
-# Enhanced voice processing
-from .voice_system_enhanced import (
-    VoiceSystemEnhanced,
-    EnhancedVoiceProcessor,
-    VoiceProcessingMode,
-    VoiceQualityLevel
-)
-
-# TTS service integration
-from .tts_integration import (
-    LUKHASTTSService,
-    TTSRequest,
-    TTSResponse,
-    TTSProviderType,
-    TTSQuality,
-    text_to_speech
-)
-
-# Speech recognition
-from .speech_recognition import (
-    LUKHASSpeechRecognitionService,
-    SpeechRecognitionRequest,
-    SpeechRecognitionResult,
-    SpeechRecognitionProvider,
-    RecognitionQuality,
-    LanguageCode,
-    transcribe_audio
-)
-
-# Voice effects and filters
-from .voice_effects import (
-    VoiceEffectsProcessor,
-    VoiceEffectType,
-    EffectIntensity,
-    apply_voice_effect,
-    apply_voice_preset
-)
-
-from .audio_filters import (
-    LUKHASAudioFilterBank,
-    FilterType,
-    FilterParameters
-)
+from .audio_filters import FilterParameters, FilterType, LUKHASAudioFilterBank
 
 # Audio pipeline
 from .audio_pipeline import (
@@ -85,25 +35,15 @@ from .audio_pipeline import (
     PipelineConfig,
     PipelineInput,
     PipelineOutput,
-    text_to_speech_pipeline
+    text_to_speech_pipeline,
 )
 
-# Voice analytics
-from .voice_analytics import (
-    LUKHASVoiceAnalytics,
-    VoiceQualityReport,
-    VoiceQualityMetric,
-    QualityGrade,
-    analyze_voice_quality
-)
-
-# Audio codecs
-from .audio_codec import (
-    LUKHASAudioCodecManager,
-    AudioCodec,
-    CodecQuality,
-    encode_to_wav,
-    decode_from_wav
+# Core audio processing
+from .audio_processing import (
+    AudioBuffer,
+    AudioFormat,
+    LUKHASAudioProcessor,
+    ProcessingQuality,
 )
 
 # Audio streaming
@@ -112,7 +52,62 @@ from .audio_streaming import (
     LUKHASAudioStreamManager,
     StreamConfig,
     StreamingMode,
-    create_realtime_stream
+    create_realtime_stream,
+)
+
+# Speech recognition
+from .speech_recognition import (
+    LanguageCode,
+    LUKHASSpeechRecognitionService,
+    RecognitionQuality,
+    SpeechRecognitionProvider,
+    SpeechRecognitionRequest,
+    SpeechRecognitionResult,
+    transcribe_audio,
+)
+
+# TTS service integration
+from .tts_integration import (
+    LUKHASTTSService,
+    TTSProviderType,
+    TTSQuality,
+    TTSRequest,
+    TTSResponse,
+    text_to_speech,
+)
+
+# Voice analytics
+from .voice_analytics import (
+    LUKHASVoiceAnalytics,
+    QualityGrade,
+    VoiceQualityMetric,
+    VoiceQualityReport,
+    analyze_voice_quality,
+)
+
+# Voice effects and filters
+from .voice_effects import (
+    EffectIntensity,
+    VoiceEffectsProcessor,
+    VoiceEffectType,
+    apply_voice_effect,
+    apply_voice_preset,
+)
+
+# Voice modulation and synthesis
+from .voice_modulator import (
+    LucasVoiceSystem,
+    VoiceModulationMode,
+    VoiceModulator,
+    VoiceParameters,
+)
+
+# Enhanced voice processing
+from .voice_system_enhanced import (
+    EnhancedVoiceProcessor,
+    VoiceProcessingMode,
+    VoiceQualityLevel,
+    VoiceSystemEnhanced,
 )
 
 # Voice training
@@ -120,7 +115,7 @@ from .voice_training import (
     LUKHASVoiceTrainer,
     TrainingConfig,
     TrainingObjective,
-    train_voice_model
+    train_voice_model,
 )
 
 # Version and metadata
@@ -137,45 +132,45 @@ class LUKHASVoiceSystem:
     Unified LUKHAS Voice System
     Main entry point for all voice and audio operations
     """
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """
         Initialize LUKHAS Voice System
-        
+
         Args:
             config: System configuration dictionary
         """
         self.config = config or {}
         self.logger = logging.getLogger(f"{__name__}.LUKHASVoiceSystem")
-        
+
         # Initialize subsystems
         self._initialize_subsystems()
-        
+
         self.logger.info("LUKHAS Voice System initialized successfully")
-    
+
     def _initialize_subsystems(self):
         """Initialize all voice subsystems"""
         # Core audio processing
         self.audio_processor = LUKHASAudioProcessor(
             self.config.get("audio_processor", {})
         )
-        
+
         # TTS service
         self.tts_service = LUKHASTTSService(
             self.config.get("tts", {})
         )
-        
+
         # Speech recognition
         self.speech_recognition = LUKHASSpeechRecognitionService(
             self.config.get("speech_recognition", {})
         )
-        
+
         # Voice effects and modulation
         self.voice_effects = VoiceEffectsProcessor()
         self.voice_modulator = VoiceModulator(
             self.config.get("voice_modulator", {})
         )
-        
+
         # Audio pipeline
         pipeline_config = PipelineConfig()
         if "pipeline" in self.config:
@@ -183,23 +178,23 @@ class LUKHASVoiceSystem:
             for key, value in self.config["pipeline"].items():
                 if hasattr(pipeline_config, key):
                     setattr(pipeline_config, key, value)
-        
+
         self.audio_pipeline = LUKHASAudioPipeline(pipeline_config)
-        
+
         # Voice analytics
         self.voice_analytics = LUKHASVoiceAnalytics(
             self.config.get("voice_analytics", {})
         )
-        
+
         # Audio codecs
         self.audio_codecs = LUKHASAudioCodecManager()
-        
+
         # Audio streaming
         self.stream_manager = LUKHASAudioStreamManager()
-        
+
         # Audio filters
         self.audio_filters = LUKHASAudioFilterBank()
-    
+
     async def synthesize_speech(
         self,
         text: str,
@@ -210,14 +205,14 @@ class LUKHASVoiceSystem:
     ) -> TTSResponse:
         """
         Synthesize speech from text with optional effects
-        
+
         Args:
             text: Text to synthesize
             voice_id: Voice identifier
             quality: TTS quality level
             effects_preset: Voice effects preset to apply
             **kwargs: Additional parameters
-            
+
         Returns:
             TTS response with audio data
         """
@@ -228,10 +223,10 @@ class LUKHASVoiceSystem:
             quality=quality,
             **kwargs
         )
-        
+
         # Synthesize speech
         response = await self.tts_service.synthesize_speech(request)
-        
+
         # Apply effects if requested
         if effects_preset and response.success and response.audio_data:
             try:
@@ -241,19 +236,19 @@ class LUKHASVoiceSystem:
                     channels=1,
                     format=AudioFormat.PCM_16
                 )
-                
+
                 effects_buffer = await self.voice_effects.apply_preset(buffer, effects_preset)
-                
+
                 # Convert back to bytes
                 effects_audio = (effects_buffer.data * 32767).astype(np.int16).tobytes()
                 response.audio_data = effects_audio
                 response.metadata["effects_applied"] = effects_preset
-                
+
             except Exception as e:
                 self.logger.warning(f"Failed to apply effects: {str(e)}")
-        
+
         return response
-    
+
     async def recognize_speech(
         self,
         audio_data: bytes,
@@ -263,13 +258,13 @@ class LUKHASVoiceSystem:
     ) -> SpeechRecognitionResult:
         """
         Recognize speech from audio data
-        
+
         Args:
             audio_data: Audio data as bytes
             language: Language code
             quality: Recognition quality
             **kwargs: Additional parameters
-            
+
         Returns:
             Speech recognition result
         """
@@ -279,9 +274,9 @@ class LUKHASVoiceSystem:
             quality=quality,
             **kwargs
         )
-        
+
         return await self.speech_recognition.recognize_speech(request)
-    
+
     async def process_audio_pipeline(
         self,
         text: str,
@@ -292,14 +287,14 @@ class LUKHASVoiceSystem:
     ) -> PipelineOutput:
         """
         Process text through complete audio pipeline
-        
+
         Args:
             text: Text to process
             voice_id: Voice identifier
             effects_preset: Effects preset
             quality: Processing quality
             **kwargs: Additional parameters
-            
+
         Returns:
             Pipeline output with processed audio
         """
@@ -310,9 +305,9 @@ class LUKHASVoiceSystem:
             quality_preference=quality,
             **kwargs
         )
-        
+
         return await self.audio_pipeline.process(pipeline_input)
-    
+
     async def analyze_audio_quality(
         self,
         audio_data: bytes,
@@ -321,12 +316,12 @@ class LUKHASVoiceSystem:
     ) -> VoiceQualityReport:
         """
         Analyze audio quality
-        
+
         Args:
             audio_data: Audio data as bytes
             sample_rate: Sample rate
             format: Audio format
-            
+
         Returns:
             Voice quality report
         """
@@ -335,7 +330,7 @@ class LUKHASVoiceSystem:
             sample_rate=sample_rate,
             format=format
         )
-    
+
     async def create_audio_stream(
         self,
         stream_id: str,
@@ -344,12 +339,12 @@ class LUKHASVoiceSystem:
     ) -> LUKHASAudioStream:
         """
         Create real-time audio stream
-        
+
         Args:
             stream_id: Stream identifier
             mode: Streaming mode
             sample_rate: Audio sample rate
-            
+
         Returns:
             Audio stream instance
         """
@@ -357,9 +352,9 @@ class LUKHASVoiceSystem:
             mode=mode,
             sample_rate=sample_rate
         )
-        
+
         return await self.stream_manager.create_stream(stream_id, config)
-    
+
     async def get_system_status(self) -> Dict[str, Any]:
         """Get comprehensive system status"""
         return {
@@ -371,7 +366,7 @@ class LUKHASVoiceSystem:
             "voice_analytics_stats": self.voice_analytics.get_analytics_stats(),
             "codec_stats": self.audio_codecs.get_stats()
         }
-    
+
     async def cleanup(self):
         """Cleanup system resources"""
         await self.stream_manager.stop_all_streams()
@@ -397,33 +392,33 @@ async def quick_stt(audio_data: bytes, language: LanguageCode = LanguageCode.EN_
 __all__ = [
     # Main system class
     "LUKHASVoiceSystem",
-    
+
     # Core audio processing
     "LUKHASAudioProcessor",
-    "AudioBuffer", 
+    "AudioBuffer",
     "AudioFormat",
     "ProcessingQuality",
-    
+
     # Voice modulation and synthesis
     "VoiceModulator",
     "LucasVoiceSystem",
     "VoiceParameters",
     "VoiceModulationMode",
-    
+
     # Enhanced voice processing
     "VoiceSystemEnhanced",
     "EnhancedVoiceProcessor",
     "VoiceProcessingMode",
     "VoiceQualityLevel",
-    
+
     # TTS integration
     "LUKHASTTSService",
     "TTSRequest",
-    "TTSResponse", 
+    "TTSResponse",
     "TTSProviderType",
     "TTSQuality",
     "text_to_speech",
-    
+
     # Speech recognition
     "LUKHASSpeechRecognitionService",
     "SpeechRecognitionRequest",
@@ -432,55 +427,55 @@ __all__ = [
     "RecognitionQuality",
     "LanguageCode",
     "transcribe_audio",
-    
+
     # Voice effects and filters
     "VoiceEffectsProcessor",
     "VoiceEffectType",
-    "EffectIntensity", 
+    "EffectIntensity",
     "apply_voice_effect",
     "apply_voice_preset",
     "LUKHASAudioFilterBank",
     "FilterType",
     "FilterParameters",
-    
+
     # Audio pipeline
     "LUKHASAudioPipeline",
     "PipelineConfig",
     "PipelineInput",
     "PipelineOutput",
     "text_to_speech_pipeline",
-    
+
     # Voice analytics
     "LUKHASVoiceAnalytics",
     "VoiceQualityReport",
     "VoiceQualityMetric",
     "QualityGrade",
     "analyze_voice_quality",
-    
+
     # Audio codecs
     "LUKHASAudioCodecManager",
     "AudioCodec",
     "CodecQuality",
     "encode_to_wav",
     "decode_from_wav",
-    
+
     # Audio streaming
-    "LUKHASAudioStream", 
+    "LUKHASAudioStream",
     "LUKHASAudioStreamManager",
     "StreamConfig",
     "StreamingMode",
     "create_realtime_stream",
-    
+
     # Voice training
     "LUKHASVoiceTrainer",
     "TrainingConfig",
     "TrainingObjective",
     "train_voice_model",
-    
+
     # Convenience functions
     "quick_tts",
     "quick_stt",
-    
+
     # Module metadata
     "__version__",
     "__author__",

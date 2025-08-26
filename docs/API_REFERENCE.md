@@ -39,7 +39,7 @@ The LUKHAS  system provides two API layers:
    - ✅ Operations (`/ops/`)
    - ✅ DNA system (`/dna/`)
 
-2. **Consciousness APIs** (`/api/`) - Higher-level interaction endpoints  
+2. **Consciousness APIs** (`/api/`) - Higher-level interaction endpoints
    - ✅ Consciousness chat (`consciousness_chat_api.py`)
    - ✅ Universal language (`universal_language_api.py`)
    - ✅ Integrated consciousness (`integrated_consciousness_api.py`)
@@ -704,13 +704,13 @@ X-RateLimit-Reset-After: 42
 // JavaScript example
 async function makeRequestWithRetry(url, options) {
   const response = await fetch(url, options);
-  
+
   if (response.status === 429) {
     const resetAfter = response.headers.get('X-RateLimit-Reset-After');
     await new Promise(resolve => setTimeout(resolve, resetAfter * 1000));
     return makeRequestWithRetry(url, options);
   }
-  
+
   return response;
 }
 ```
@@ -778,7 +778,7 @@ async def stream_interaction():
     async with client.stream() as stream:
         # Send query
         await stream.send_query("Explain consciousness")
-        
+
         # Receive chunks
         async for chunk in stream:
             if chunk.type == "content":

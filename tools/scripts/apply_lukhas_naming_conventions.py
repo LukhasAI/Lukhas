@@ -271,7 +271,7 @@ class LukhasNamingApplicator:
         )
 
         print(f"\n🧬 LUKHAS concepts preserved: {len(self.preserve_concepts)}")
-        print("   Examples: memory_fold, dream_recall, quantum_state, bio_symbolic")
+        print("   Examples: memory_fold, dream_recall, qi_state, bio_symbolic")
 
         if not self.dry_run:
             print(f"\n📦 Backup created at: {self.backup_dir}")

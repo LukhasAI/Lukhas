@@ -26,7 +26,7 @@ function showToast(title: string, desc?: string, type: 'error' | 'info' | 'succe
   }`
   t.innerHTML = `<div class="font-medium">${title}</div>${desc ? `<div class="text-xs opacity-80 mt-1">${desc}</div>` : ''}`
   document.body.appendChild(t)
-  setTimeout(() => { 
+  setTimeout(() => {
     t.style.opacity = '0'
     t.style.transform = 'translateY(-6px)'
   }, 3000)
@@ -34,32 +34,32 @@ function showToast(title: string, desc?: string, type: 'error' | 'info' | 'succe
 }
 
 // Dynamic imports for better performance
-const ExperienceSidebar = dynamic(() => import('@/components/experience-sidebar'), { 
+const ExperienceSidebar = dynamic(() => import('@/components/experience-sidebar'), {
   ssr: false,
   loading: () => <div className="fixed left-0 top-16 bottom-0 w-80 bg-black/40 animate-pulse" />
 })
 
-const ChatInterface = dynamic(() => import('@/components/chat-interface'), { 
-  ssr: false 
+const ChatInterface = dynamic(() => import('@/components/chat-interface'), {
+  ssr: false
 })
 
-const TrinityInteractive = dynamic(() => import('@/components/trinity-interactive'), { 
+const TrinityInteractive = dynamic(() => import('@/components/trinity-interactive'), {
   ssr: false,
   loading: () => <div className="w-full h-full bg-black/20 animate-pulse rounded-2xl" />
 })
 
-const MorphingVisualizer = dynamic(() => import('@/components/morphing-visualizer'), { 
+const MorphingVisualizer = dynamic(() => import('@/components/morphing-visualizer'), {
   ssr: false,
   loading: () => <div className="w-full h-full bg-black/20 animate-pulse rounded-2xl" />
 })
 
-const AdvancedMorphingVisualizer = dynamic(() => import('@/components/experience/advanced-morphing-visualizer'), { 
+const AdvancedMorphingVisualizer = dynamic(() => import('@/components/experience/advanced-morphing-visualizer'), {
   ssr: false,
   loading: () => <div className="w-full h-full bg-black/20 animate-pulse rounded-2xl" />
 })
 
-const VoiceMorphingBridge = dynamic(() => import('@/components/voice-morphing-bridge'), { 
-  ssr: false 
+const VoiceMorphingBridge = dynamic(() => import('@/components/voice-morphing-bridge'), {
+  ssr: false
 })
 
 // TEMP fallbacks: remove once lib modules are present
@@ -67,9 +67,9 @@ const _fallbackSent = (s: string) => 0;
 const _fallbackMap = (s: string) => ({} as { color?: string; tempo?: number });
 const _fallbackIsViolent = (s: string) => false;
 const _fallbackCalm = { accentColor: '#38bdf8', tempo: 0.75, morphSpeed: 0.018 };
-const _fallbackEstimate = (text: string, model: string) => ({ 
-  tokens: Math.max(60, Math.ceil(text.length / 4) + 80), 
-  costUSD: 0 
+const _fallbackEstimate = (text: string, model: string) => ({
+  tokens: Math.max(60, Math.ceil(text.length / 4) + 80),
+  costUSD: 0
 });
 
 // Resolve to real if available
@@ -82,18 +82,18 @@ const EST = (typeof estimateTokensAndCost === 'function' ? estimateTokensAndCost
 // Hook to detect prefers-reduced-motion
 function useReducedMotion() {
   const [reducedMotion, setReducedMotion] = useState(false)
-  
+
   useEffect(() => {
     if (typeof window === 'undefined') return
-    
+
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     setReducedMotion(mediaQuery.matches)
-    
+
     const handler = () => setReducedMotion(mediaQuery.matches)
     mediaQuery.addEventListener('change', handler)
     return () => mediaQuery.removeEventListener('change', handler)
   }, [])
-  
+
   return reducedMotion
 }
 
@@ -172,8 +172,8 @@ function extractIntentFromMessage(msg: string): Intent {
     if (noun) {
       intent.text = noun.toUpperCase()
       // Inform ExperiencePage via window event for queueing
-      try { 
-        window.dispatchEvent(new CustomEvent('lukhas-queue-shape', { detail: { noun } })) 
+      try {
+        window.dispatchEvent(new CustomEvent('lukhas-queue-shape', { detail: { noun } }))
       } catch { }
     }
   }
@@ -227,24 +227,24 @@ type VisualizationMode = 'morphing' | 'trinity' | 'hybrid'
 export default function ExperiencePage() {
   // Constants for layout
   const RIGHT_PANEL_WIDTH = 360 // px
-  
+
   // Motion preferences
   const prefersReducedMotion = useReducedMotion()
-  
+
   const [visualizationMode, setVisualizationMode] = useState<VisualizationMode>('morphing')
   const [isProcessing, setIsProcessing] = useState(false)
   const [selectedModel, setSelectedModel] = useState('LUKHAS')
-  
+
   // Voice data state
   const [voiceData, setVoiceData] = useState({
     intensity: 0,
     frequency: 0
   })
-  
+
   // Advanced visualizer state
   const [currentMode, setCurrentMode] = useState<'AI' | 'Human'>('AI')
   const [quotedText, setQuotedText] = useState<string>('')
-  
+
   // Voice analyzer state
   const [voiceAnalyzer, setVoiceAnalyzer] = useState<VoiceAnalyzer | null>(null)
   const [voiceMetrics, setVoiceMetrics] = useState<VoiceMetrics | null>(null)
@@ -257,13 +257,13 @@ export default function ExperiencePage() {
   const [messages, setMessages] = useState<{ id: string; role: 'user'|'assistant'; content: string; timestamp: Date; model?: string }[]>([])
   const [usage, setUsage] = useState({ tokens: 0, costUSD: 0, creditsRemaining: 1000 })
   const [lastPlan, setLastPlan] = useState<any | null>(null)
-  
+
   // Plan1 features state
-  const [modStats, setModStats] = useState<{ sentiment: number; tempo: number; speed: number }>({ 
-    sentiment: 0, tempo: 1, speed: 0.02 
+  const [modStats, setModStats] = useState<{ sentiment: number; tempo: number; speed: number }>({
+    sentiment: 0, tempo: 1, speed: 0.02
   })
-  const [morphBar, setMorphBar] = useState<{ active: boolean; value: number; label: string }>({ 
-    active: false, value: 0, label: 'Morphing…' 
+  const [morphBar, setMorphBar] = useState<{ active: boolean; value: number; label: string }>({
+    active: false, value: 0, label: 'Morphing…'
   })
   const [queuedShapes, setQueuedShapes] = useState<QueuedShape[]>([])
   const [showQueue, setShowQueue] = useState(false)
@@ -299,7 +299,7 @@ export default function ExperiencePage() {
   // Handle configuration changes
   const handleConfigChange = (key: string, value: any) => {
     setConfig(prev => ({ ...prev, [key]: value }))
-    
+
     // Update selected model when activeModel changes
     if (key === 'activeModel') {
       const modelMap: Record<string, string> = {
@@ -316,7 +316,7 @@ export default function ExperiencePage() {
   // Handle API key changes
   const handleApiKeyChange = (provider: string, key: string) => {
     setApiKeys(prev => ({ ...prev, [provider]: key }))
-    
+
     // Auto-select first available model for the provider when key is added
     if (key && key.trim()) {
       let newModel = config.activeModel
@@ -329,7 +329,7 @@ export default function ExperiencePage() {
       } else if (provider === 'perplexity' && config.activeModel === 'lukhas') {
         newModel = 'pplx-7b-online'
       }
-      
+
       if (newModel !== config.activeModel) {
         setConfig(prev => ({ ...prev, activeModel: newModel }))
         setSelectedModel(`${provider.toUpperCase()} · ${newModel}`)
@@ -364,11 +364,11 @@ export default function ExperiencePage() {
   // Handle message sending with Plan1 enhancements
   const handleSendMessage = async (message: string) => {
     setIsProcessing(true)
-    
+
     // Auto-layout tweaks
     setSidebarCollapsed(true)
     setRightPanelOpen(true)
-    
+
     // Heuristic: msg → intent (shape/text)
     const intent = extractIntentFromMessage(message)
 
@@ -381,8 +381,8 @@ export default function ExperiencePage() {
     }
 
     // Estimate tokens & soft cost (for UI)
-    try { 
-      setReplyEst(EST(message, config?.activeModel || 'lukhas')) 
+    try {
+      setReplyEst(EST(message, config?.activeModel || 'lukhas'))
     } catch { }
 
     // Sentiment → morph speed (safety-capped)
@@ -395,7 +395,7 @@ export default function ExperiencePage() {
     // Enhanced color detection from voice input
     const colorMatches = {
       red: /#ff0000|#ff4444|#e74c3c/i.test(message) || /\bred|crimson|scarlet\b/i.test(message),
-      blue: /#0066cc|#3498db|#0080ff/i.test(message) || /\bblue|azure|cyan\b/i.test(message), 
+      blue: /#0066cc|#3498db|#0080ff/i.test(message) || /\bblue|azure|cyan\b/i.test(message),
       green: /#00cc66|#27ae60|#00ff80/i.test(message) || /\bgreen|emerald|lime\b/i.test(message),
       purple: /#8b5cf6|#9b59b6|#6a0dad/i.test(message) || /\bpurple|violet|magenta\b/i.test(message),
       yellow: /#f1c40f|#ffeb3b|#ffd700/i.test(message) || /\byellow|gold|amber\b/i.test(message),
@@ -411,7 +411,7 @@ export default function ExperiencePage() {
       if (isMatch) {
         const colorValues = {
           red: '#ff4444',
-          blue: '#0080ff', 
+          blue: '#0080ff',
           green: '#00ff80',
           purple: '#8b5cf6',
           yellow: '#ffd700',
@@ -450,7 +450,7 @@ export default function ExperiencePage() {
     } catch (e) {
       console.warn('Failed to run MorphScript plan:', e)
     }
-    
+
     // Add user message to chat history
     const userMessage = {
       id: `msg-${Date.now()}-user`,
@@ -464,7 +464,7 @@ export default function ExperiencePage() {
     // Real API integration
     try {
       let response: ApiResponse | null = null
-      
+
       if (config.activeModel === 'gpt-4o' && apiKeys.openai) {
         response = await callAI(message, 'openai', 'gpt-4o', apiKeys.openai)
       } else if (config.activeModel === 'gpt-4o-mini' && apiKeys.openai) {
@@ -482,14 +482,14 @@ export default function ExperiencePage() {
       } else if (config.activeModel === 'pplx-70b-online' && apiKeys.perplexity) {
         response = await callAI(message, 'perplexity', 'pplx-70b-online', apiKeys.perplexity)
       }
-      
+
       // Update voice data and processing state (fallback simulation)
       const fallbackRng = mulberry32(Date.now())
       setVoiceData({
         intensity: fallbackRng() * 0.8 + 0.2,
         frequency: fallbackRng() * 1000 + 200
       })
-      
+
       // Update usage tracking with real data if available
       if (response && !response.error) {
         // Only use response if there's no error
@@ -498,7 +498,7 @@ export default function ExperiencePage() {
           costUSD: +(prev.costUSD + response.usage.costUSD).toFixed(6),
           creditsRemaining: Math.max(0, prev.creditsRemaining - response.usage.tokens)
         }))
-        
+
         // Add response message to chat
         const assistantMessage = {
           id: `msg-${Date.now()}`,
@@ -524,14 +524,14 @@ export default function ExperiencePage() {
             'info'
           )
         }
-        
+
         // Generate appropriate LUKHAS fallback response (single concise response)
         const fallbackResponses = [
           'Field is responsive. Try speaking or typing text in quotes.',
           'Morphing consciousness awaits your command.',
           'The particle field responds to your intention.'
         ]
-        
+
         const responseRng = mulberry32(Date.now())
         const fallbackMessage = {
           id: `msg-${Date.now()}`,
@@ -541,14 +541,14 @@ export default function ExperiencePage() {
           model: 'LUKHAS'
         }
         setMessages(prev => [...prev, fallbackMessage])
-        
+
         setUsage(prev => ({
           tokens: prev.tokens + 120,
           costUSD: +(prev.costUSD + 0.002).toFixed(4),
           creditsRemaining: Math.max(0, prev.creditsRemaining - 120)
         }))
       }
-      
+
     } catch (error) {
       console.error('API call failed:', error)
       // Fallback to local processing
@@ -578,7 +578,7 @@ export default function ExperiencePage() {
           if (analyzer && mounted) {
             setVoiceAnalyzer(analyzer)
             setVoiceEnabled(true)
-            
+
             // Start real-time analysis
             analyzer.start((metrics: VoiceMetrics) => {
               if (mounted) {
@@ -589,7 +589,7 @@ export default function ExperiencePage() {
                 })
               }
             })
-            
+
             showToast('Voice analysis active', 'Particles will react to your voice', 'success')
           }
         } catch (error) {
@@ -621,11 +621,11 @@ export default function ExperiencePage() {
     const handleGlyphRender = (event: CustomEvent) => {
       const { text, intent, duration } = event.detail
       setQuotedText(text)
-      
+
       // Show glyph status
       showToast('Morphing to glyph', `"${text}" (${duration/1000}s)`, 'info')
     }
-    
+
     window.addEventListener('lukhas-render-glyph', handleGlyphRender as EventListener)
     return () => window.removeEventListener('lukhas-render-glyph', handleGlyphRender as EventListener)
   }, [])
@@ -675,7 +675,7 @@ export default function ExperiencePage() {
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Gradient background */}
       <div className="fixed inset-0 bg-gradient-to-br from-purple-900/10 via-black to-blue-900/10 pointer-events-none" />
-      
+
       {/* Animated background particles (CSS-driven for stability) */}
       <div className="fixed inset-0 pointer-events-none z-0">
         {[...Array(80)].map((_, i) => (
@@ -697,7 +697,7 @@ export default function ExperiencePage() {
           @keyframes drift { from { transform: translate3d(0,0,0); } to { transform: translate3d(0,-40px,0); } }
         `}</style>
       </div>
-      
+
       {/* Header - 3-Zone Grid Layout */}
       <header className="sticky top-0 z-40 backdrop-blur-lg bg-black/30 border-b border-white/10">
         <div className="mx-auto w-full max-w-screen-2xl px-6 md:px-10 lg:px-14">
@@ -787,7 +787,7 @@ export default function ExperiencePage() {
           </div>
         </div>
       </header>
-      
+
       {/* Sidebar */}
       <ExperienceSidebar
         config={config}
@@ -799,11 +799,11 @@ export default function ExperiencePage() {
         usage={usage}
         onEncryptKey={(provider, glyph) => { console.log('Encrypted GLYPH for', provider, glyph) }}
       />
-      
+
       {/* Main Visualization Area with Perfect Centering */}
-      <main 
+      <main
         className="h-screen pt-16 flex items-center justify-center relative transition-[padding] duration-300"
-        style={{ 
+        style={{
           ['--rpw' as any]: `${RIGHT_PANEL_WIDTH}px`,
           paddingRight: rightPanelOpen ? `${RIGHT_PANEL_WIDTH}px` : '0'
         }}
@@ -828,7 +828,7 @@ export default function ExperiencePage() {
                     transition={prefersReducedMotion ? { duration: 0 } : undefined}
                     className="w-full h-full"
                   >
-                    <AdvancedMorphingVisualizer 
+                    <AdvancedMorphingVisualizer
                       quotedText={quotedText}
                       mode={currentMode}
                       voiceIntensity={voiceData.intensity}
@@ -842,13 +842,13 @@ export default function ExperiencePage() {
                         renderMode: 'particles'
                       }}
                     />
-                    <VoiceMorphingBridge 
+                    <VoiceMorphingBridge
                       config={config}
                       onVoiceDataUpdate={setVoiceData}
                     />
                   </motion.div>
                 )}
-                
+
                 {visualizationMode === 'trinity' && (
                   <motion.div
                     key="trinity"
@@ -861,7 +861,7 @@ export default function ExperiencePage() {
                     <TrinityInteractive />
                   </motion.div>
                 )}
-                
+
                 {visualizationMode === 'hybrid' && (
                   <motion.div
                     key="hybrid"
@@ -872,7 +872,7 @@ export default function ExperiencePage() {
                     className="w-full h-full grid grid-cols-2 gap-4 p-4"
                   >
                     <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
-                      <AdvancedMorphingVisualizer 
+                      <AdvancedMorphingVisualizer
                         quotedText={quotedText}
                         mode={currentMode}
                         voiceIntensity={voiceData.intensity}
@@ -893,7 +893,7 @@ export default function ExperiencePage() {
                 )}
               </AnimatePresence>
             </div>
-            
+
             {/* Floating Status Indicators */}
             <div className="absolute top-4 right-4">
               <div className="space-y-2">
@@ -907,7 +907,7 @@ export default function ExperiencePage() {
                     <span className="text-xs text-green-400">Voice Active</span>
                   </motion.div>
                 )}
-                
+
                 {config.audioEnabled && (
                   <motion.div
                     initial={{ x: 20, opacity: 0 }}
@@ -919,7 +919,7 @@ export default function ExperiencePage() {
                     <span className="text-xs text-blue-400">Audio Enabled</span>
                   </motion.div>
                 )}
-                
+
                 <motion.div
                   initial={{ x: 20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -936,19 +936,19 @@ export default function ExperiencePage() {
           </motion.div>
         </div>
       </main>
-      
+
       {/* Chat Interface */}
-      <ChatInterface 
+      <ChatInterface
         onSendMessage={handleSendMessage}
         selectedModel={selectedModel}
         isProcessing={isProcessing}
         onTyping={() => { setSidebarCollapsed(true); setRightPanelOpen(true) }}
         onMessage={(m) => {
           setMessages(prev => [...prev, m])
-          
+
           // Process message for intent detection and glyph morphing
           processMessageForGlyph(m.content, m.role)
-          
+
           // Extract quoted text from messages for visualization
           if (m.role === 'assistant') {
             const quoteMatch = m.content.match(/["'](.*?)["']/)
@@ -962,7 +962,7 @@ export default function ExperiencePage() {
         }}
         showInlineHistory={false}
       />
-      
+
       {/* Right-side Message Panel */}
       <AnimatePresence>
         {rightPanelOpen && (
@@ -1001,9 +1001,9 @@ export default function ExperiencePage() {
             )}
           </div>
           <div className="h-2 rounded-full bg-white/10 overflow-hidden border border-white/15">
-            <div 
-              className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-400 transition-all duration-100" 
-              style={{ width: `${Math.round(morphBar.value * 100)}%` }} 
+            <div
+              className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-400 transition-all duration-100"
+              style={{ width: `${Math.round(morphBar.value * 100)}%` }}
             />
           </div>
         </div>
@@ -1033,23 +1033,23 @@ export default function ExperiencePage() {
           <div className="text-sm text-white/90">That shape isn't in my library yet.</div>
           <div className="mt-1 text-[11px] text-white/60">Choose how to proceed for "{truthNotice.noun}":</div>
           <div className="mt-3 flex flex-wrap gap-2">
-            <button 
-              className="px-3 py-2 text-xs rounded-lg bg-white/10 border border-white/10 hover:bg-white/15 transition-colors" 
+            <button
+              className="px-3 py-2 text-xs rounded-lg bg-white/10 border border-white/10 hover:bg-white/15 transition-colors"
               onClick={() => setTruthNotice({ active: false })}
             >
               Render as GLYPH
             </button>
-            <button 
-              className="px-3 py-2 text-xs rounded-lg bg-white/10 border border-white/10 hover:bg-white/15 transition-colors" 
-              onClick={() => { 
-                handleConfigChange('shape', 'sphere'); 
+            <button
+              className="px-3 py-2 text-xs rounded-lg bg-white/10 border border-white/10 hover:bg-white/15 transition-colors"
+              onClick={() => {
+                handleConfigChange('shape', 'sphere');
                 setTruthNotice({ active: false });
               }}
             >
               Approximate (simple form)
             </button>
-            <button 
-              className="px-3 py-2 text-xs rounded-lg bg-white/10 border border-white/10 hover:bg-white/15 transition-colors" 
+            <button
+              className="px-3 py-2 text-xs rounded-lg bg-white/10 border border-white/10 hover:bg-white/15 transition-colors"
               onClick={() => setTruthNotice({ active: false })}
             >
               Queue it (keep motion)
@@ -1057,13 +1057,13 @@ export default function ExperiencePage() {
           </div>
         </div>
       )}
-      
+
       {/* Dev Telemetry Overlay */}
       {process.env.NODE_ENV === 'development' && (
         <div className="fixed bottom-4 left-4 pointer-events-none">
           <div className="bg-black/80 backdrop-blur-xl border border-white/10 rounded-lg p-3 text-xs font-mono">
             <div className="text-white/60 mb-2">🔧 DEV TELEMETRY</div>
-            
+
             {/* Voice Analytics */}
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -1072,7 +1072,7 @@ export default function ExperiencePage() {
                   Voice: {voiceEnabled ? 'Active' : 'Inactive'}
                 </span>
               </div>
-              
+
               {voiceMetrics && (
                 <>
                   <div className="text-green-400">
@@ -1087,7 +1087,7 @@ export default function ExperiencePage() {
                 </>
               )}
             </div>
-            
+
             {/* Particle System */}
             <div className="mt-3 pt-2 border-t border-white/10">
               <div className="text-cyan-400">
@@ -1102,7 +1102,7 @@ export default function ExperiencePage() {
                 </div>
               )}
             </div>
-            
+
             {/* Glyph Queue Status */}
             <div className="mt-3 pt-2 border-t border-white/10">
               <div className="text-orange-400">
@@ -1117,7 +1117,7 @@ export default function ExperiencePage() {
           </div>
         </div>
       )}
-      
+
       <Footer />
     </div>
   )

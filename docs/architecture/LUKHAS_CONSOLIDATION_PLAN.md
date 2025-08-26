@@ -83,7 +83,7 @@ mkdir -p lukhas
 # Move major modules (preserving structure)
 MODULES=(
     "core"
-    "consciousness" 
+    "consciousness"
     "memory"
     "governance"
     "emotion"
@@ -184,7 +184,7 @@ All modules consolidated under lukhas/ for clean architecture.
 __version__ = "1.0.0"
 __all__ = [
     "core",
-    "consciousness", 
+    "consciousness",
     "memory",
     "governance",
     "emotion",

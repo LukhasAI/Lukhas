@@ -26,7 +26,9 @@ import structlog
 # Import from tier_system if available, otherwise create placeholder
 try:
     from lukhas.memory.systems.tier_system import PermissionScope, TierLevel
-    from lukhas.memory.systems.tier_system import lukhas_tier_required as _tier_required_impl
+    from lukhas.memory.systems.tier_system import (
+        lukhas_tier_required as _tier_required_impl,
+    )
 
     _HAS_TIER_SYSTEM = True
 except ImportError:
@@ -81,7 +83,7 @@ def lukhas_tier_required(
 
         @lukhas_tier_required(level=TierLevel.ADMIN, scope="quantum")
 
-        def quantum_admin_function():
+        def qi_admin_function():
             pass
     """
     if _HAS_TIER_SYSTEM:

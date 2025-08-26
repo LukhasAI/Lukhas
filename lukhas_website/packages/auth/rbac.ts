@@ -1,6 +1,6 @@
 /**
  * Role-Based Access Control (RBAC) System for ΛiD Authentication
- * 
+ *
  * Implements hierarchical role management with organization-scoped permissions,
  * role inheritance, and fine-grained access control for LUKHAS AI.
  */
@@ -8,14 +8,14 @@
 import { TierLevel } from './scopes';
 import { TierManager } from './tier-system';
 
-export type Role = 
+export type Role =
   | 'owner'      // Organization owner (highest authority)
   | 'admin'      // Organization administrator
   | 'developer'  // Developer with creation/modification rights
   | 'analyst'    // Analyst with read access and limited write
   | 'viewer';    // Read-only access
 
-export type Permission = 
+export type Permission =
   // Organization management
   | 'org:create'
   | 'org:read'
@@ -26,13 +26,13 @@ export type Permission =
   | 'org:manage_roles'
   | 'org:manage_billing'
   | 'org:export_data'
-  
+
   // User management
   | 'user:read'
   | 'user:update'
   | 'user:delete'
   | 'user:impersonate'
-  
+
   // Project management
   | 'project:create'
   | 'project:read'
@@ -40,7 +40,7 @@ export type Permission =
   | 'project:delete'
   | 'project:share'
   | 'project:export'
-  
+
   // API and integration management
   | 'api:keys:create'
   | 'api:keys:read'
@@ -51,7 +51,7 @@ export type Permission =
   | 'webhooks:read'
   | 'webhooks:update'
   | 'webhooks:delete'
-  
+
   // Model and AI management
   | 'models:create'
   | 'models:read'
@@ -60,14 +60,14 @@ export type Permission =
   | 'models:train'
   | 'models:deploy'
   | 'models:inference'
-  
+
   // Analytics and monitoring
   | 'analytics:read'
   | 'analytics:export'
   | 'logs:read'
   | 'logs:export'
   | 'metrics:read'
-  
+
   // Security and compliance
   | 'security:read'
   | 'security:configure'
@@ -75,14 +75,14 @@ export type Permission =
   | 'audit:export'
   | 'compliance:read'
   | 'compliance:configure'
-  
+
   // Billing and subscription
   | 'billing:read'
   | 'billing:update'
   | 'billing:export'
   | 'subscription:read'
   | 'subscription:update'
-  
+
   // Administrative functions
   | 'admin:system:read'
   | 'admin:system:configure'
@@ -90,7 +90,7 @@ export type Permission =
   | 'admin:organizations:manage'
   | 'admin:tiers:manage'
   | 'admin:support:access'
-  
+
   // Special permissions
   | 'support:access'
   | 'debug:access'
@@ -404,11 +404,11 @@ export class RBACManager {
     // Check time restrictions
     if (conditions.timeRestriction) {
       const now = new Date();
-      const currentTime = now.toLocaleTimeString('en-US', { 
-        hour12: false, 
-        timeZone: conditions.timeRestriction.timezone 
+      const currentTime = now.toLocaleTimeString('en-US', {
+        hour12: false,
+        timeZone: conditions.timeRestriction.timezone
       });
-      
+
       const startTime = conditions.timeRestriction.startTime;
       const endTime = conditions.timeRestriction.endTime;
 

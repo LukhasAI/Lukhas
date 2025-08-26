@@ -1,4 +1,3 @@
 """
 Auctor Module
 """
-

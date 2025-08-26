@@ -12,7 +12,7 @@ from core.interfaces.dependency_injection import inject, get_service
 from core.interfaces.memory_interface import MemoryInterface, MemoryType
 from memory.core.unified_memory_orchestrator import UnifiedMemoryOrchestrator
 
-# Consciousness  
+# Consciousness
 from consciousness.unified.auto_consciousness import AutoConsciousness
 from consciousness.reflection.self_reflection import ReflectionEngine
 
@@ -31,26 +31,26 @@ logger = get_logger(__name__)
 
 class MyModule(CoreInterface):
     """Example LUKHAS module"""
-    
+
     def __init__(self):
         self.operational = False
-        
+
     async def initialize(self):
         """Async initialization"""
         # Register with dependency injection
         register_service("my_module", self, singleton=True)
         self.operational = True
         logger.info("MyModule initialized")
-        
+
     async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
         """Process data"""
         if not self.operational:
             raise ProcessingError("Module not initialized")
-            
+
         # Process data
         result = {"processed": True, "data": data}
         return result
-        
+
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
         """Handle GLYPH communication"""
         # Process token
@@ -61,7 +61,7 @@ class MyModule(CoreInterface):
             payload={"response": "acknowledged"}
         )
         return response
-        
+
     async def get_status(self) -> Dict[str, Any]:
         """Get module status"""
         return {
@@ -267,7 +267,7 @@ class MyModule(CoreInterface):
             "total_time_ms": 0,
             "errors_count": 0
         }
-        
+
     async def process(self, data):
         start = time()
         try:
@@ -301,11 +301,11 @@ async def test_my_module(mock_memory_service, monkeypatch):
         "core.interfaces.dependency_injection.get_service",
         lambda name: mock_memory_service if name == "memory_service" else None
     )
-    
+
     # Test module
     module = MyModule()
     await module.initialize()
-    
+
     result = await module.process({"test": "data"})
     assert result["processed"] is True
 ```

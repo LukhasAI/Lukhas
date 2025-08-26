@@ -357,7 +357,7 @@ class MetaLearningEnhancementsystem:
         enhancement_event = {
             "event_type": "enhancement_cycle_completed",
             "cycle_results": cycle_results,
-            "quantum_signature": self.monitor_dashboard._generate_quantum_signature(
+            "qi_signature": self.monitor_dashboard._generate_quantum_signature(
                 f"cycle_{cycle_results['cycle_id']}"
             ),
         }
@@ -452,7 +452,7 @@ class MetaLearningEnhancementsystem:
 
         integration_result = {
             "collapse_engine_integrated": False,
-            "quantum_signatures_synchronized": False,
+            "qi_signatures_synchronized": False,
             "coherence_monitoring_enabled": False,
         }
 
@@ -463,7 +463,7 @@ class MetaLearningEnhancementsystem:
 
                 # Track collapse patterns in monitoring dashboard
                 self.monitor_dashboard.track_learning_metric(
-                    metric_type="quantum_collapse_efficiency",
+                    metric_type="qi_collapse_efficiency",
                     value=collapse_metrics.get("efficiency", 0.5),
                     context={
                         "source": "collapse_engine",
@@ -475,11 +475,11 @@ class MetaLearningEnhancementsystem:
                 integration_result["coherence_monitoring_enabled"] = True
 
             # Synchronize quantum signatures
-            if hasattr(collapse_engine_instance, "quantum_signature"):
-                quantum_sync = self._synchronize_quantum_signatures(
-                    collapse_engine_instance.quantum_signature
+            if hasattr(collapse_engine_instance, "qi_signature"):
+                qi_sync = self._synchronize_quantum_signatures(
+                    collapse_engine_instance.qi_signature
                 )
-                integration_result["quantum_signatures_synchronized"] = quantum_sync
+                integration_result["qi_signatures_synchronized"] = qi_sync
 
             logger.info("CollapseEngine integration completed successfully")
 

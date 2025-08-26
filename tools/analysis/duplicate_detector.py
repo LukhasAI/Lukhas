@@ -124,7 +124,7 @@ class ConsolidationPlanner:
             "memory_consolidation": self._plan_memory_consolidation(),
             "dream_consolidation": self._plan_dream_consolidation(),
             "emotion_consolidation": self._plan_emotion_consolidation(),
-            "quantum_consolidation": self._plan_quantum_consolidation(),
+            "qi_consolidation": self._plan_quantum_consolidation(),
             "utility_extraction": self._plan_utility_extraction(),
         }
         return plan
@@ -152,7 +152,7 @@ class ConsolidationPlanner:
     def _plan_dream_consolidation(self) -> dict:
         """Consolidate dream systems for quantum-state learning"""
         return {
-            "target": "dream/quantum_learning/",
+            "target": "dream/qi_learning/",
             "description": "Multi-parallel scenario generation for self-training",
             "merge_candidates": [
                 "dream/engine/",
@@ -186,7 +186,7 @@ class ConsolidationPlanner:
         return {
             "target": "quantum/sgi_core/",
             "description": "Quantum-inspired SGI processing",
-            "merge_candidates": ["quantum/", "architectures/quantum_inspired/"],
+            "merge_candidates": ["quantum/", "architectures/qi_inspired/"],
             "preserve": [
                 "Multi-state processing",
                 "Quantum-resistant security",

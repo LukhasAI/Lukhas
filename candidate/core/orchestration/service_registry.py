@@ -214,7 +214,7 @@ if __name__ == "__main__":
     # Or register with factory
     register_factory(
         ServiceNames.QUANTUM,
-        lambda: type("QuantumService", (), {"compute": lambda: "quantum"})(),
+        lambda: type("QIService", (), {"compute": lambda: "quantum"})(),
     )
 
     # List services

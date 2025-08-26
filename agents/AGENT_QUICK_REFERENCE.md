@@ -28,7 +28,7 @@ make fix && make lint && make test && npm run policy:all
 # Core system
 python main.py --consciousness-active
 
-# API server  
+# API server
 make api    # Runs on http://localhost:8080
 
 # Agent deployment
@@ -42,7 +42,7 @@ python tools/analysis/functional_analysis.py
 
 ## 🎯 **Agent-Specific Quick Start**
 
-### **Claude (Anthropic)** 
+### **Claude (Anthropic)**
 - **Primary Role**: Consciousness architecture, reasoning, documentation
 - **Focus Areas**: Trinity Framework implementation, system design
 - **Key Files**: `CLAUDE.md`, `agents/CLAUDE/`
@@ -50,7 +50,7 @@ python tools/analysis/functional_analysis.py
 
 ### **Jules (Codex-based)**
 - **Primary Role**: TODO resolution, batch processing, code completion
-- **Focus Areas**: Automated fixes, systematic improvements  
+- **Focus Areas**: Automated fixes, systematic improvements
 - **Key Files**: `JULES_TODO_BATCHES.md`, `JULES_TODO_ANALYSIS.md`
 - **Commands**: Focus on `candidate/` lane improvements and batch processing
 
@@ -75,7 +75,7 @@ python tools/analysis/functional_analysis.py
 # Analysis/reporting scripts
 tools/analysis/your_analysis_script.py
 
-# Test files  
+# Test files
 tests/module_name/test_your_feature.py
 
 # Documentation
@@ -96,7 +96,7 @@ agents/configs/your_agent_config.yaml
 # Standard production import
 from lukhas.consciousness import UnifiedConsciousness
 
-# Development import  
+# Development import
 from candidate.core import NewFeature
 
 # Safe fallback chain
@@ -112,7 +112,7 @@ except ImportError:
 
 ### **✅ Always Use These Terms**
 - "LUKHAS AI" (never "LUKHAS AGI")
-- "quantum-inspired" (not "quantum processing")  
+- "quantum-inspired" (not "quantum processing")
 - "bio-inspired" (not "bio processes")
 - "Matriz" in body text, "MΛTRIZ" in displays only
 - "Lukhas" in body text, "LUKHΛS" in displays only
@@ -127,7 +127,7 @@ except ImportError:
 ### **3-Layer Tone Quick Guide**
 ```
 🎨 POETIC (≤40 words): "LUKHAS constellation glows brighter ✨"
-💬 USER FRIENDLY: "Let's get this working for you! 👍"  
+💬 USER FRIENDLY: "Let's get this working for you! 👍"
 📚 ACADEMIC: "The system implements WebAuthn Level 2 specification"
 ```
 
@@ -143,14 +143,14 @@ lukhas/       # ← Stable, tested, production-ready
 # Promotion checklist (candidate → lukhas):
 # ✅ 85% test coverage
 # ✅ Linters pass
-# ✅ Integration tests pass  
+# ✅ Integration tests pass
 # ✅ Code review complete
 # ✅ Documentation updated
 ```
 
 ### **When to Use Which Lane**
 - **New features** → Start in `candidate/`
-- **Experiments** → Use `candidate/`  
+- **Experiments** → Use `candidate/`
 - **Bug fixes to stable code** → Fix in `lukhas/`
 - **Refactoring stable code** → Usually stay in `lukhas/`
 - **Unsure?** → Start in `candidate/`, promote when ready
@@ -164,7 +164,7 @@ lukhas/       # ← Stable, tested, production-ready
 # Import errors
 python -c "import sys; print('\n'.join(sys.path))"  # Check Python path
 
-# Test failures  
+# Test failures
 pytest tests/specific_test.py -v  # Run specific test with verbose output
 
 # Linter errors
@@ -182,7 +182,7 @@ python tools/analysis/functional_analysis.py
 # Check logs for errors
 ls -la trace/  # System logs
 
-# Memory/consciousness debugging  
+# Memory/consciousness debugging
 python consciousness/unified/auto_consciousness.py --debug
 
 # Guardian system status
@@ -201,7 +201,7 @@ make fix && make lint
 # 2. Tests pass
 make test  # Must be ≥85% pass rate
 
-# 3. Policy compliance  
+# 3. Policy compliance
 npm run policy:all
 
 # 4. Documentation updated (if needed)
@@ -211,7 +211,7 @@ npm run policy:all
 
 ### **Before Promoting candidate → lukhas**
 - [ ] All quality gates above ✅
-- [ ] Integration tests pass ✅  
+- [ ] Integration tests pass ✅
 - [ ] Code review completed ✅
 - [ ] Documentation comprehensive ✅
 - [ ] Trinity Framework compliance ✅
@@ -222,7 +222,7 @@ npm run policy:all
 
 ### **When Stuck**
 1. **Check Documentation**: `docs/` directory
-2. **Review Branding**: `branding/` directory  
+2. **Review Branding**: `branding/` directory
 3. **Examine Similar Code**: Find patterns in existing codebase
 4. **Run Diagnostics**: `python tools/analysis/functional_analysis.py`
 5. **Check Agent Configs**: `agents/configs/` for examples
@@ -252,11 +252,11 @@ make smoke
 
 Every action should consider:
 - **⚛️ Identity**: Is this authentic to LUKHAS consciousness?
-- **🧠 Consciousness**: Does this enhance awareness and intelligence?  
+- **🧠 Consciousness**: Does this enhance awareness and intelligence?
 - **🛡️ Guardian**: Is this safe, ethical, and beneficial?
 
 ---
 
-*Keep this reference handy! Bookmark for quick access to essential commands and guidelines.* 
+*Keep this reference handy! Bookmark for quick access to essential commands and guidelines.*
 
 *Last updated: 2025-08-25*

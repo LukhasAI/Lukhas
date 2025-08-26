@@ -9,7 +9,7 @@ The Interactive Git Hooks Framework is a revolutionary approach to git hooks tha
 ### ✨ Key Features
 
 - **🤖 Interactive Mode**: Gracefully asks users for permission instead of blocking commits
-- **⚡ Auto Mode**: Batch apply enhancements for CI/CD workflows  
+- **⚡ Auto Mode**: Batch apply enhancements for CI/CD workflows
 - **👀 Preview Mode**: Show what would be changed without applying
 - **🧠 Learning System**: Remembers user preferences and adapts
 - **🔧 Pluggable Architecture**: Easy to create custom hooks for any validation
@@ -27,7 +27,7 @@ Enhances files with consciousness-aware terminology and LUKHAS AI branding guide
 - Integrates symbolic glyphs (⚛️🧠🛡️)
 - Validates Trinity Framework compliance
 
-### 🔍 Code Quality Hook  
+### 🔍 Code Quality Hook
 Improves code quality, documentation, and best practices.
 
 **Features:**
@@ -41,7 +41,7 @@ Scans for security vulnerabilities and suggests fixes.
 
 **Features:**
 - Detects hardcoded secrets and API keys
-- Identifies potential injection vulnerabilities  
+- Identifies potential injection vulnerabilities
 - Checks for weak cryptographic algorithms
 - Generates security reports
 
@@ -92,7 +92,7 @@ The foundational library that provides:
 #### 2. Hook Implementations
 Specific hook scripts that use the framework:
 - `tone-validation-hook.sh`
-- `code-quality-hook.sh` 
+- `code-quality-hook.sh`
 - `security-validation-hook.sh`
 
 #### 3. Installation System
@@ -136,17 +136,17 @@ apply_enhancement() {
 main() {
     ensure_git_repo
     local files=()
-    
+
     # Get files to process
     readarray -t staged_files < <(get_staged_files '\\.py$')
-    
+
     # Filter files that need enhancement
     for file in "${staged_files[@]}"; do
         if analyze_file "$file" >/dev/null; then
             files+=("$file")
         fi
     done
-    
+
     # Run the framework
     interactive_hook_main "${files[@]}"
 }
@@ -164,7 +164,7 @@ Hooks are configured via `.git/hooks/interactive-hook.conf`:
 # Default mode for all hooks
 DEFAULT_MODE=interactive
 
-# Timeout for user input (seconds)  
+# Timeout for user input (seconds)
 INPUT_TIMEOUT=30
 
 # Enable logging
@@ -185,7 +185,7 @@ Control hook behavior with environment variables:
 # Set mode for this commit only
 HOOK_MODE=auto git commit -m "Auto-enhance everything"
 
-# Skip hooks temporarily  
+# Skip hooks temporarily
 HOOK_MODE=skip git commit -m "Skip validation"
 
 # Preview mode
@@ -211,7 +211,7 @@ Potential enhancements:
 
 What would you like to do?
 Choices: [a)pply/s)kip/v)iew/q)uit] (default: s, timeout: 30s)
-❯ 
+❯
 ```
 
 ### Auto Mode
@@ -383,7 +383,7 @@ interactive_hook_main "${files[@]}"
 
 ### Scalability
 - ✅ Works with repos of any size
-- ✅ Handles hundreds of files efficiently  
+- ✅ Handles hundreds of files efficiently
 - ✅ Parallel processing support
 - ✅ Configurable timeouts and limits
 

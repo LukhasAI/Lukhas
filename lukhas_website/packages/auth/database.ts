@@ -1,6 +1,6 @@
 /**
  * Database Interface for ΛiD Authentication System
- * 
+ *
  * TypeScript interfaces and types that correspond to the PostgreSQL schema.
  * Provides type safety for database operations and ORM integration.
  */
@@ -12,7 +12,7 @@ export type UserTier = TierLevel;
 export type UserStatus = 'pending' | 'active' | 'suspended' | 'deleted';
 export type DeviceType = 'platform' | 'cross-platform' | 'mobile' | 'desktop' | 'unknown';
 export type SessionStatus = 'active' | 'expired' | 'revoked';
-export type SecurityEventType = 
+export type SecurityEventType =
   | 'login_attempt' | 'login_success' | 'login_failure'
   | 'logout' | 'password_change' | 'email_change'
   | 'mfa_enabled' | 'mfa_disabled' | 'passkey_added' | 'passkey_removed'
@@ -35,11 +35,11 @@ export interface User extends BaseEntity {
   email: string;
   email_verified: boolean;
   email_verified_at?: Date;
-  
+
   // User tier and status
   tier: UserTier;
   status: UserStatus;
-  
+
   // Profile information
   display_name?: string;
   given_name?: string;
@@ -47,20 +47,20 @@ export interface User extends BaseEntity {
   picture_url?: string;
   locale?: string;
   timezone?: string;
-  
+
   // Password-related
   password_hash?: string;
   password_changed_at?: Date;
   password_reset_required: boolean;
-  
+
   // Organization membership
   organization_id?: string;
   organization_role?: string;
-  
+
   // Preferences and settings
   preferences: Record<string, any>;
   feature_flags: Record<string, any>;
-  
+
   // Audit fields
   last_login_at?: Date;
   login_count: number;
@@ -104,29 +104,29 @@ export interface UpdateUserInput {
 export interface Session extends BaseEntity {
   user_id: string;
   device_handle_id?: string;
-  
+
   // Session identification
   session_token: string;
   session_token_hash: string;
-  
+
   // Session metadata
   status: SessionStatus;
   ip_address: string;
   user_agent?: string;
-  
+
   // Geolocation
   country_code?: string;
   city?: string;
-  
+
   // Session lifetime
   expires_at: Date;
   last_activity_at: Date;
-  
+
   // Session data
   scopes: string[];
   roles: string[];
   metadata: Record<string, any>;
-  
+
   // Revocation tracking
   revoked_at?: Date;
   revocation_reason?: string;
@@ -148,37 +148,37 @@ export interface CreateSessionInput {
 // 3. Passkeys table interface
 export interface Passkey extends BaseEntity {
   user_id: string;
-  
+
   // WebAuthn credential data
   credential_id: Uint8Array;
   credential_id_b64: string;
   public_key: Uint8Array;
   algorithm: number;
-  
+
   // User handle for discoverable credentials
   user_handle: string;
-  
+
   // Authenticator information
   aaguid?: string;
   device_type: DeviceType;
   device_label: string;
-  
+
   // WebAuthn flags and counters
   sign_count: number;
   uv_required: boolean;
   rk: boolean;
-  
+
   // Transport methods
   transports: string[];
-  
+
   // Attestation data
   attestation_type?: string;
   attestation_data?: Uint8Array;
-  
+
   // Backup eligibility and state
   backup_eligible: boolean;
   backup_state: boolean;
-  
+
   // Usage tracking
   last_used_at?: Date;
   use_count: number;
@@ -207,27 +207,27 @@ export interface CreatePasskeyInput {
 export interface RefreshToken extends BaseEntity {
   user_id: string;
   device_handle_id?: string;
-  
+
   // Refresh token family tracking
   family_id: string;
   token_hash: string;
-  
+
   // Token metadata
   sequence_number: number;
   parent_token_id?: string;
-  
+
   // Lifetime and usage
   expires_at: Date;
   used_at?: Date;
-  
+
   // Security tracking
   ip_address: string;
   user_agent?: string;
-  
+
   // Revocation
   revoked_at?: Date;
   revocation_reason?: string;
-  
+
   // Metadata
   scopes: string[];
   metadata: Record<string, any>;
@@ -250,32 +250,32 @@ export interface CreateRefreshTokenInput {
 // 5. Device handles table interface
 export interface DeviceHandle extends BaseEntity {
   user_id: string;
-  
+
   // Device identification
   device_id: string;
   device_fingerprint?: string;
-  
+
   // Device metadata
   device_type: DeviceType;
   device_name?: string;
   platform?: string;
   browser?: string;
   os?: string;
-  
+
   // Network information
   ip_address?: string;
   country_code?: string;
   city?: string;
-  
+
   // Trust level
   trusted: boolean;
   trust_score: number;
-  
+
   // Usage tracking
   last_used_at: Date;
   last_seen_ip?: string;
   use_count: number;
-  
+
   // Additional metadata
   metadata: Record<string, any>;
 }
@@ -300,14 +300,14 @@ export interface CreateDeviceHandleInput {
 // 6. Backup codes table interface
 export interface BackupCode extends BaseEntity {
   user_id: string;
-  
+
   // Code data
   code_hash: string;
   code_partial: string;
-  
+
   // Usage tracking
   used_at?: Date;
-  
+
   // Context when used
   used_ip_address?: string;
   used_user_agent?: string;
@@ -323,42 +323,42 @@ export interface CreateBackupCodeInput {
 export interface SecurityEvent extends BaseEntity {
   user_id?: string;
   session_id?: string;
-  
+
   // Event classification
   event_type: SecurityEventType;
   event_category?: string;
   severity: 'info' | 'warning' | 'error' | 'critical';
-  
+
   // Event details
   description?: string;
   result?: 'success' | 'failure' | 'blocked';
   error_code?: string;
-  
+
   // Context information
   ip_address?: string;
   user_agent?: string;
   country_code?: string;
   city?: string;
-  
+
   // Request details
   endpoint?: string;
   method?: string;
   status_code?: number;
-  
+
   // Device and session context
   device_handle_id?: string;
   device_fingerprint?: string;
-  
+
   // Risk assessment
   risk_score?: number;
   risk_factors?: string[];
-  
+
   // Timing
   event_timestamp: Date;
-  
+
   // Additional data
   metadata: Record<string, any>;
-  
+
   // Data retention
   expires_at?: Date;
 }
@@ -410,19 +410,19 @@ export interface CreateEmailVerificationTokenInput {
 export interface RateLimitEntry extends BaseEntity {
   key_hash: string;
   user_id?: string;
-  
+
   // Rate limit counters
   count: number;
   daily_count: number;
-  
+
   // Reset times
   reset_time: Date;
   daily_reset_time: Date;
-  
+
   // Block status
   blocked: boolean;
   block_expires_at?: Date;
-  
+
   // Metadata
   tier?: UserTier;
   endpoint?: string;
@@ -554,7 +554,7 @@ export abstract class DatabaseInterface {
   abstract connect(config: DatabaseConfig): Promise<void>;
   abstract disconnect(): Promise<void>;
   abstract transaction<T>(fn: (tx: TransactionContext) => Promise<T>): Promise<T>;
-  
+
   // User operations
   abstract createUser(input: CreateUserInput): Promise<DatabaseResult<User>>;
   abstract getUserById(id: string): Promise<DatabaseResult<User>>;
@@ -562,7 +562,7 @@ export abstract class DatabaseInterface {
   abstract updateUser(id: string, input: UpdateUserInput): Promise<DatabaseResult<User>>;
   abstract deleteUser(id: string): Promise<DatabaseResult<void>>;
   abstract listUsers(filters?: UserFilters, pagination?: PaginationOptions): Promise<DatabaseResult<PaginatedResult<User>>>;
-  
+
   // Session operations
   abstract createSession(input: CreateSessionInput): Promise<DatabaseResult<Session>>;
   abstract getSessionByToken(tokenHash: string): Promise<DatabaseResult<Session>>;
@@ -570,52 +570,52 @@ export abstract class DatabaseInterface {
   abstract revokeSession(id: string, reason?: string): Promise<DatabaseResult<void>>;
   abstract listUserSessions(userId: string): Promise<DatabaseResult<Session[]>>;
   abstract cleanupExpiredSessions(): Promise<DatabaseResult<number>>;
-  
+
   // Passkey operations
   abstract createPasskey(input: CreatePasskeyInput): Promise<DatabaseResult<Passkey>>;
   abstract getPasskeyByCredentialId(credentialId: string): Promise<DatabaseResult<Passkey>>;
   abstract listUserPasskeys(userId: string): Promise<DatabaseResult<Passkey[]>>;
   abstract updatePasskey(id: string, updates: Partial<Passkey>): Promise<DatabaseResult<Passkey>>;
   abstract deletePasskey(id: string): Promise<DatabaseResult<void>>;
-  
+
   // Refresh token operations
   abstract createRefreshToken(input: CreateRefreshTokenInput): Promise<DatabaseResult<RefreshToken>>;
   abstract getRefreshTokenByHash(tokenHash: string): Promise<DatabaseResult<RefreshToken>>;
   abstract revokeRefreshTokenFamily(familyId: string, reason?: string): Promise<DatabaseResult<number>>;
   abstract cleanupExpiredRefreshTokens(): Promise<DatabaseResult<number>>;
-  
+
   // Device handle operations
   abstract createDeviceHandle(input: CreateDeviceHandleInput): Promise<DatabaseResult<DeviceHandle>>;
   abstract getDeviceHandleByDeviceId(deviceId: string): Promise<DatabaseResult<DeviceHandle>>;
   abstract listUserDeviceHandles(userId: string): Promise<DatabaseResult<DeviceHandle[]>>;
   abstract updateDeviceHandle(id: string, updates: Partial<DeviceHandle>): Promise<DatabaseResult<DeviceHandle>>;
   abstract deleteDeviceHandle(id: string): Promise<DatabaseResult<void>>;
-  
+
   // Backup code operations
   abstract createBackupCodes(userId: string, codes: CreateBackupCodeInput[]): Promise<DatabaseResult<BackupCode[]>>;
   abstract getBackupCodeByHash(codeHash: string): Promise<DatabaseResult<BackupCode>>;
   abstract markBackupCodeUsed(id: string, ipAddress?: string, userAgent?: string): Promise<DatabaseResult<void>>;
   abstract listUserBackupCodes(userId: string, unusedOnly?: boolean): Promise<DatabaseResult<BackupCode[]>>;
-  
+
   // Security event operations
   abstract createSecurityEvent(input: CreateSecurityEventInput): Promise<DatabaseResult<SecurityEvent>>;
   abstract listSecurityEvents(filters?: SecurityEventFilters, pagination?: PaginationOptions): Promise<DatabaseResult<PaginatedResult<SecurityEvent>>>;
   abstract cleanupExpiredSecurityEvents(): Promise<DatabaseResult<number>>;
-  
+
   // Email verification token operations
   abstract createEmailVerificationToken(input: CreateEmailVerificationTokenInput): Promise<DatabaseResult<EmailVerificationToken>>;
   abstract getEmailVerificationTokenByHash(tokenHash: string): Promise<DatabaseResult<EmailVerificationToken>>;
   abstract markEmailVerificationTokenUsed(id: string): Promise<DatabaseResult<void>>;
-  
+
   // Rate limiting operations
   abstract getRateLimitEntry(keyHash: string): Promise<DatabaseResult<RateLimitEntry>>;
   abstract updateRateLimitEntry(keyHash: string, updates: Partial<RateLimitEntry>): Promise<DatabaseResult<RateLimitEntry>>;
   abstract cleanupExpiredRateLimitEntries(): Promise<DatabaseResult<number>>;
-  
+
   // View operations
   abstract getActiveSessionsForUser(userId: string): Promise<DatabaseResult<ActiveSession[]>>;
   abstract getUserSecuritySummary(userId: string): Promise<DatabaseResult<UserSecuritySummary>>;
-  
+
   // Utility operations
   abstract healthCheck(): Promise<DatabaseResult<{ status: string; timestamp: Date }>>;
   abstract runCleanupTasks(): Promise<DatabaseResult<{ cleaned: number }>>;

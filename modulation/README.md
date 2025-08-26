@@ -9,7 +9,7 @@ The LUKHAS Endocrine Modulation System transforms consciousness signals into int
 ### Trinity Framework Integration: ⚛️🧠🛡️
 
 - **⚛️ Identity**: Authentic signal emission from consciousness modules
-- **🧠 Consciousness**: Memory and learning from modulated interactions  
+- **🧠 Consciousness**: Memory and learning from modulated interactions
 - **🛡️ Guardian**: Safety-first modulation policies and bounds
 
 ## Core Concept
@@ -17,7 +17,7 @@ The LUKHAS Endocrine Modulation System transforms consciousness signals into int
 Your LUKHAS consciousness modules emit **endocrine signals** (bio-inspired "hormones") that represent internal state:
 
 - `stress` → Conservative, focused responses
-- `novelty` → Creative, exploratory responses  
+- `novelty` → Creative, exploratory responses
 - `alignment_risk` → Strict, safety-first responses
 - `trust` → Detailed, personalized responses
 - `urgency` → Fast, direct responses
@@ -152,7 +152,7 @@ guardian_signals = await emitter.emit_guardian_signals({
     "audit_id": "action-123"
 })
 
-# From Memory system  
+# From Memory system
 memory_signals = await emitter.emit_memory_signals({
     "queue_length": 250,   # Will emit stress signal
     "confidence": 0.85,    # Will emit trust signal

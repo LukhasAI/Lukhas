@@ -5,7 +5,7 @@
   "domain": "orchestration_optimization",
   "trinity_focus": "🛡️ Guardian",
   "description": "Implement distributed energy coordination for consciousness processing efficiency",
-  "source_file": "./core/utils/orchestration_energy_aware_execution_planner.py", 
+  "source_file": "./core/utils/orchestration_energy_aware_execution_planner.py",
   "todo_items": [
     "ΛTODO: Implement distributed energy coordination across multiple nodes"
   ],

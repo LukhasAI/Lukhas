@@ -3,9 +3,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  ChevronLeftIcon, 
-  CreditCardIcon, 
+import {
+  ChevronLeftIcon,
+  CreditCardIcon,
   BanknotesIcon,
   DocumentTextIcon,
   ExclamationTriangleIcon,
@@ -82,17 +82,17 @@ export default function BillingPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [userTier, setUserTier] = useState<string>('')
-  
+
   // Step-up authentication
   const [stepUpRequired, setStepUpRequired] = useState(false)
   const [stepUpCompleted, setStepUpCompleted] = useState(false)
-  
+
   // Billing data
   const [billingInfo, setBillingInfo] = useState<BillingInfo | null>(null)
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([])
   const [invoices, setInvoices] = useState<Invoice[]>([])
   const [usageMetrics, setUsageMetrics] = useState<UsageMetrics | null>(null)
-  
+
   // UI state
   const [activeTab, setActiveTab] = useState<'overview' | 'methods' | 'invoices' | 'usage'>('overview')
   const [showAddPayment, setShowAddPayment] = useState(false)
@@ -140,7 +140,7 @@ export default function BillingPage() {
         if (stepUpRes.ok) {
           const stepUpData = await stepUpRes.json()
           setStepUpRequired(stepUpData.required)
-          
+
           if (!stepUpData.required) {
             setStepUpCompleted(true)
             await loadBillingData()
@@ -336,14 +336,14 @@ export default function BillingPage() {
             Billing management requires a paid tier. Upgrade to access payment methods and invoices.
           </p>
           <div className="space-y-3">
-            <Link 
-              href="/pricing" 
+            <Link
+              href="/pricing"
               className="block w-full px-6 py-3 bg-trinity-identity hover:bg-trinity-consciousness transition-colors rounded-lg text-white font-medium"
             >
               View Pricing
             </Link>
-            <Link 
-              href="/experience" 
+            <Link
+              href="/experience"
               className="block w-full px-6 py-3 bg-black/40 hover:bg-black/60 transition-colors rounded-lg text-white font-medium"
             >
               Back to Experience
@@ -362,19 +362,19 @@ export default function BillingPage() {
           <ShieldCheckIcon className="w-16 h-16 text-trinity-guardian mx-auto mb-6" />
           <h1 className="text-2xl font-light text-white mb-4">Step-up Authentication Required</h1>
           <p className="text-white/60 mb-6">
-            Billing management requires additional authentication for security. 
+            Billing management requires additional authentication for security.
             Please verify your identity to continue.
           </p>
           <div className="space-y-3">
-            <button 
+            <button
               onClick={handleStepUpAuth}
               disabled={loading}
               className="w-full px-6 py-3 bg-trinity-guardian hover:bg-trinity-consciousness transition-colors rounded-lg text-white font-medium disabled:opacity-50"
             >
               {loading ? 'Authenticating...' : 'Authenticate with Passkey'}
             </button>
-            <Link 
-              href="/experience" 
+            <Link
+              href="/experience"
               className="block w-full px-6 py-3 bg-black/40 hover:bg-black/60 transition-colors rounded-lg text-white font-medium"
             >
               Back to Experience
@@ -598,7 +598,7 @@ export default function BillingPage() {
                               </div>
                               <div className="text-white/60 text-sm">
                                 {method.name}
-                                {method.expiryMonth && method.expiryYear && 
+                                {method.expiryMonth && method.expiryYear &&
                                   ` • Expires ${method.expiryMonth}/${method.expiryYear}`
                                 }
                               </div>
@@ -696,7 +696,7 @@ export default function BillingPage() {
                         </span>
                       </div>
                       <div className="w-full bg-black/40 rounded-full h-2">
-                        <div 
+                        <div
                           className={`h-2 rounded-full transition-all duration-1000 ${
                             getUsagePercentage(usageMetrics.apiRequests.used, usageMetrics.apiRequests.limit) >= 90 ? 'bg-red-400' :
                             getUsagePercentage(usageMetrics.apiRequests.used, usageMetrics.apiRequests.limit) >= 70 ? 'bg-yellow-400' : 'bg-green-400'
@@ -715,7 +715,7 @@ export default function BillingPage() {
                         </span>
                       </div>
                       <div className="w-full bg-black/40 rounded-full h-2">
-                        <div 
+                        <div
                           className={`h-2 rounded-full transition-all duration-1000 ${
                             getUsagePercentage(usageMetrics.storageGB.used, usageMetrics.storageGB.limit) >= 90 ? 'bg-red-400' :
                             getUsagePercentage(usageMetrics.storageGB.used, usageMetrics.storageGB.limit) >= 70 ? 'bg-yellow-400' : 'bg-green-400'
@@ -734,7 +734,7 @@ export default function BillingPage() {
                         </span>
                       </div>
                       <div className="w-full bg-black/40 rounded-full h-2">
-                        <div 
+                        <div
                           className={`h-2 rounded-full transition-all duration-1000 ${
                             getUsagePercentage(usageMetrics.teamMembers.used, usageMetrics.teamMembers.limit) >= 90 ? 'bg-red-400' :
                             getUsagePercentage(usageMetrics.teamMembers.used, usageMetrics.teamMembers.limit) >= 70 ? 'bg-yellow-400' : 'bg-green-400'
@@ -753,7 +753,7 @@ export default function BillingPage() {
                         </span>
                       </div>
                       <div className="w-full bg-black/40 rounded-full h-2">
-                        <div 
+                        <div
                           className={`h-2 rounded-full transition-all duration-1000 ${
                             getUsagePercentage(usageMetrics.consciousnessSync.used, usageMetrics.consciousnessSync.limit) >= 90 ? 'bg-red-400' :
                             getUsagePercentage(usageMetrics.consciousnessSync.used, usageMetrics.consciousnessSync.limit) >= 70 ? 'bg-yellow-400' : 'bg-green-400'

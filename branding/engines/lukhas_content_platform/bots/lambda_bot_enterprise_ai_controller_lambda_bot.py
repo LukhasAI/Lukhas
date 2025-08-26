@@ -7,14 +7,12 @@ Integrates workspace AGI Controller for enterprise-grade modularization
 
 import asyncio
 import logging
-import time
-import json
 import sys
-import os
-from datetime import datetime
-from typing import Dict, List, Any, Optional, Union
+import time
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List
 
 # Add workspace core to path
 sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
@@ -176,7 +174,7 @@ class AGIControllerΛBot:
         # Record ethical checkpoint
         session.ethical_checkpoints.append(f"Session initialized with consciousness level: {session.consciousness_level.value}")
 
-        logger.info(f"✅ Consciousness modularization session active")
+        logger.info("✅ Consciousness modularization session active")
         return session
 
     async def consciousness_guided_analysis(self, analysis_target: str) -> Dict[str, Any]:
@@ -445,28 +443,28 @@ async def main():
         compliance_requirements=["gdpr", "ccpa", "iso_27001"]
     )
 
-    print(f"\n🚀 Consciousness Session Active:")
+    print("\n🚀 Consciousness Session Active:")
     print(f"   Session ID: {session.session_id}")
     print(f"   Consciousness Level: {session.consciousness_level.value}")
     print(f"   Compliance Status: {session.compliance_status}")
 
     # Perfrom consciousness-guided analysis
-    print(f"\n🧠 Starting Consciousness-Guided Analysis...")
+    print("\n🧠 Starting Consciousness-Guided Analysis...")
     analysis = await agi_bot.consciousness_guided_analysis("/Users/agi_dev/AGI-Consolidation-Repo/core")
 
-    print(f"\n✅ Consciousness Analysis Complete!")
+    print("\n✅ Consciousness Analysis Complete!")
     print(f"   Consciousness Level: {analysis['consciousness_level']}")
     print(f"   Compliance Score: {analysis['compliance_validation']['compliance_score']}")
     print(f"   Ethical Score: {analysis['ethical_assessment']['ethical_score']}")
 
     # Monitor session
     status = await agi_bot.monitor_consciousness_session()
-    print(f"\n📊 Session Status:")
+    print("\n📊 Session Status:")
     print(f"   Runtime: {status['runtime']:.1f}s")
     print(f"   Consciousness Health: {status['consciousness_health']}")
     print(f"   Next Level: {status['next_consciousness_level']}")
 
-    print(f"\n🎯 AGI Controller LUKHAS AI ΛBot Analysis Complete! 🧠")
+    print("\n🎯 AGI Controller LUKHAS AI ΛBot Analysis Complete! 🧠")
 
 if __name__ == "__main__":
     asyncio.run(main())

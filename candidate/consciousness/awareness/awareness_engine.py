@@ -293,7 +293,7 @@ class AwarenessEngine:
         self.instance_logger.debug(
             "ΛTRACE: Internal: Processing quantum-related data (placeholder)."
         )
-        return {"quantum_entanglement_status": "stable", "coherence_level": "high"}
+        return {"qi_entanglement_status": "stable", "coherence_level": "high"}
 
     async def _process_generic_data(self, data: Any) -> dict[str, Any]:
         self.instance_logger.debug(

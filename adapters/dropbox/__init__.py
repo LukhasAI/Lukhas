@@ -6,7 +6,7 @@ Metadata-first Dropbox adapter with file content escalation.
 System-wide guardrails applied:
 1. File metadata by default (name, size, modified, sharing)
 2. Content access requires capability token escalation
-3. All operations verify capability token scopes  
+3. All operations verify capability token scopes
 4. Complete audit trail for file operations
 
 ACK GUARDRAILS
@@ -45,12 +45,12 @@ class DropboxFileMetadata(ResourceMetadata):
 class DropboxAdapter(ServiceAdapter):
     """
     Dropbox adapter with metadata-first design.
-    
+
     Metadata operations (long TTL):
     - list_resources: File/folder listings with metadata
-    - get_resource_metadata: Detailed file information  
+    - get_resource_metadata: Detailed file information
     - search_resources: Search by name and content
-    
+
     Content operations (short TTL):
     - get_resource_content: Download actual file content
     - put_resource: Upload/update files
@@ -107,7 +107,7 @@ class DropboxAdapter(ServiceAdapter):
     ) -> List[DropboxFileMetadata]:
         """
         List Dropbox files/folders with metadata only.
-        
+
         Requires: files.list.metadata scope
         Returns: File metadata without content
         """
@@ -139,7 +139,7 @@ class DropboxAdapter(ServiceAdapter):
     ) -> DropboxFileMetadata:
         """
         Get detailed file metadata.
-        
+
         Requires: files.read.metadata scope
         Returns: Complete metadata including sharing info
         """
@@ -176,7 +176,7 @@ class DropboxAdapter(ServiceAdapter):
     ) -> ResourceContent:
         """
         Download actual file content.
-        
+
         Requires: files.read.content scope (escalated capability)
         Returns: File content with metadata
         """
@@ -217,7 +217,7 @@ class DropboxAdapter(ServiceAdapter):
     ) -> OperationResult:
         """
         Upload or update file.
-        
+
         Requires: files.write scope
         Returns: Upload result with file path
         """
@@ -261,7 +261,7 @@ class DropboxAdapter(ServiceAdapter):
     ) -> OperationResult:
         """
         Move file to different folder.
-        
+
         Requires: files.move scope
         Returns: Move operation result
         """
@@ -299,7 +299,7 @@ class DropboxAdapter(ServiceAdapter):
     ) -> List[DropboxFileMetadata]:
         """
         Search Dropbox files by name or content.
-        
+
         Requires: files.search scope
         Returns: Matching files with metadata only
         """
@@ -331,7 +331,7 @@ class DropboxAdapter(ServiceAdapter):
     ) -> str:
         """
         Set up Dropbox webhooks for file changes.
-        
+
         Requires: files.watch scope
         Returns: Webhook ID
         """
@@ -363,7 +363,7 @@ class DropboxAdapter(ServiceAdapter):
     ) -> OperationResult:
         """
         Remove Dropbox webhook.
-        
+
         Requires: files.watch scope
         Returns: Unwatch operation result
         """

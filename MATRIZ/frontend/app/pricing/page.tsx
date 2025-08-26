@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Heart, Coffee, Rocket, Crown, Check, ArrowRight, 
+import {
+  Heart, Coffee, Rocket, Crown, Check, ArrowRight,
   Shield, Brain, Users, Zap, Gift, DollarSign
 } from 'lucide-react'
 import Link from 'next/link'
@@ -28,14 +28,14 @@ export default function PricingPage() {
       ],
       limitations: [
         "Rate limited processing",
-        "Community support only", 
+        "Community support only",
         "Standard memory retention"
       ],
       cta: "Start Exploring",
       popular: false
     },
     {
-      name: "Collaborator", 
+      name: "Collaborator",
       icon: Coffee,
       price: "$24",
       period: "/month",
@@ -63,7 +63,7 @@ export default function PricingPage() {
       name: "Pioneer",
       icon: Rocket,
       price: "$99",
-      period: "/month", 
+      period: "/month",
       description: "For growing organizations implementing consciousness technology at scale with dedicated support.",
       gradient: "from-purple-500 to-pink-600",
       features: [
@@ -94,7 +94,7 @@ export default function PricingPage() {
       gradient: "from-yellow-500 to-orange-600",
       features: [
         "Unlimited API requests",
-        "Custom Trinity Framework deployment", 
+        "Custom Trinity Framework deployment",
         "Dedicated consciousness infrastructure",
         "White-label solutions available",
         "Direct founder collaboration",
@@ -199,9 +199,9 @@ export default function PricingPage() {
                 <h3 className="font-medium text-xl">A Personal Note</h3>
               </div>
               <p className="text-primary-light/80 leading-relaxed">
-                Hi! I'm the solo founder behind LUKHAS. This journey started in September 2024 with zero coding experience, 
-                guided by AI collaboration. Every feature, every line of code, every breakthrough has been a partnership 
-                between human curiosity and artificial intelligence. These prices reflect not corporate overhead, 
+                Hi! I'm the solo founder behind LUKHAS. This journey started in September 2024 with zero coding experience,
+                guided by AI collaboration. Every feature, every line of code, every breakthrough has been a partnership
+                between human curiosity and artificial intelligence. These prices reflect not corporate overhead,
                 but a sustainable path to continue this consciousness research for everyone.
               </p>
             </motion.div>
@@ -232,25 +232,25 @@ export default function PricingPage() {
                         </span>
                       </div>
                     )}
-                    
+
                     <div className={`p-8 ${tier.popular ? 'pt-12' : ''}`}>
                       <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${tier.gradient} mb-6`}>
                         <IconComponent className="w-8 h-8 text-white" strokeWidth={1.5} />
                       </div>
-                      
+
                       <h3 className="font-semibold text-2xl text-trinity-consciousness mb-2">
                         {tier.name}
                       </h3>
-                      
+
                       <div className="mb-4">
                         <span className="text-4xl font-ultralight">{tier.price}</span>
                         <span className="text-primary-light/60 ml-2">{tier.period}</span>
                       </div>
-                      
+
                       <p className="text-sm text-primary-light/70 mb-6 leading-relaxed">
                         {tier.description}
                       </p>
-                      
+
                       <ul className="space-y-3 mb-6">
                         {tier.features.map((feature, idx) => (
                           <li key={idx} className="flex items-start space-x-2 text-sm">
@@ -259,7 +259,7 @@ export default function PricingPage() {
                           </li>
                         ))}
                       </ul>
-                      
+
                       {tier.limitations.length > 0 && (
                         <div className="mb-6">
                           <h4 className="text-xs uppercase tracking-wider text-primary-light/50 mb-2">
@@ -275,7 +275,7 @@ export default function PricingPage() {
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="p-8 pt-0">
                       <motion.button
                         whileHover={{ scale: 1.05 }}
@@ -397,7 +397,7 @@ export default function PricingPage() {
                   <h3 className="font-semibold text-xl">Academic & Research Discount</h3>
                 </div>
                 <p className="text-primary-light/70 mb-6">
-                  50% off all paid plans for students, researchers, and educational institutions. 
+                  50% off all paid plans for students, researchers, and educational institutions.
                   Because consciousness research should be accessible to everyone.
                 </p>
                 <button className="text-green-400 hover:text-green-300 flex items-center space-x-2">
@@ -419,7 +419,7 @@ export default function PricingPage() {
                   <h3 className="font-semibold text-xl">Early Supporter Benefit</h3>
                 </div>
                 <p className="text-primary-light/70 mb-6">
-                  Join now and lock in current pricing forever. As a solo founder, 
+                  Join now and lock in current pricing forever. As a solo founder,
                   I want to reward those who believe in this consciousness journey from the beginning.
                 </p>
                 <button className="text-pink-400 hover:text-pink-300 flex items-center space-x-2">
@@ -445,7 +445,7 @@ export default function PricingPage() {
                 Start Your Consciousness Journey
               </h2>
               <p className="text-lg text-primary-light/70 mb-8 leading-relaxed">
-                Whether you're a student, researcher, or developer, there's a path for you to explore 
+                Whether you're a student, researcher, or developer, there's a path for you to explore
                 consciousness computing. Start free and grow with the technology.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

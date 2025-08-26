@@ -9,7 +9,7 @@ echo
 
 echo "📊 Current State Analysis:"
 echo "✅ lukhas/ exists with main modules"
-echo "✅ lukhas/ exists with different structure"  
+echo "✅ lukhas/ exists with different structure"
 echo "✅ Import aliasing system already in place"
 echo "✅ Both namespaces currently working"
 echo
@@ -58,7 +58,7 @@ case $choice in
     1)
         echo "✅ CONSERVATIVE approach selected"
         echo "• Continue using existing lukhas imports"
-        echo "• Use 'import lukhas' for new code only" 
+        echo "• Use 'import lukhas' for new code only"
         echo "• Transition gradually over time"
         ;;
     2)
@@ -95,7 +95,7 @@ esac
 echo
 echo "🎯 Next Steps After Any Changes:"
 echo "1. Test imports: python -c 'import lukhas; print(\"✅ OK\")'"
-echo "2. Run smoke tests: python -m pytest tests/ -k smoke" 
+echo "2. Run smoke tests: python -m pytest tests/ -k smoke"
 echo "3. Check specific modules you use most"
 echo "4. Commit changes: git add . && git commit -m 'chore: namespace migration'"
 echo

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Complete Integration Script for Lambda Products + Lukhas 
+Complete Integration Script for Lambda Products + Lukhas
 Connects all systems for full operational capability
 """
 
@@ -502,7 +502,7 @@ async def main():
 
 if __name__ == "__main__":
     print("\n🔧 Starting Full System Integration...")
-    print("This will connect all Lambda Products with Lukhas 
+    print("This will connect all Lambda Products with Lukhas
     print("Please wait...\n")
 
     try:

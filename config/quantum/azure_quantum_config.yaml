@@ -7,7 +7,7 @@ azure_quantum:
   resource_group: "${AZURE_RESOURCE_GROUP}"  # lukhas-ai-rg
   workspace_name: "${AZURE_QUANTUM_WORKSPACE}"  # lukhas-ai-workspace
   location: "${AZURE_LOCATION}"
-  
+
   # Quantum Providers
   providers:
     - name: "microsoft"
@@ -30,7 +30,7 @@ azure_compute:
     size: "Standard_E32s_v4"  # 256GB RAM, 32 cores
     location: "eastus"
     image: "ubuntu-20.04-quantum"
-  
+
   # Auto-scaling for workload bursts
   auto_scaling:
     min_instances: 0  # Scale to zero when idle
@@ -45,7 +45,7 @@ hybrid_processing:
     - "small_quantum_simulations"  # < 12 qubits
     - "user_interface"
     - "light_preprocessing"
-  
+
   # What gets offloaded to Azure
   cloud_tasks:
     - "large_quantum_simulations"  # >= 12 qubits

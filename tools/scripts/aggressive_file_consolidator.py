@@ -55,7 +55,7 @@ class AggressiveFileConsolidator:
                 "consolidation": ["consolidate", "merge", "combine", "integrate"],
             },
             "QIM": {
-                "quantum_states": ["quantum", "state", "superposition", "collapse"],
+                "qi_states": ["quantum", "state", "superposition", "collapse"],
                 "entanglement": ["entangle", "correlate", "pair", "bond"],
                 "superposition": ["superpos", "multiple", "simultaneous", "parallel"],
                 "bio": ["bio", "organic", "life", "adapt"],

@@ -1,0 +1,170 @@
+{
+  "bio_quantum_radar_config": {
+    "system_info": {
+      "version": "1.0.0",
+      "integration_date": "2025-06-12",
+      "description": "Bio-Quantum Symbolic Reasoning + LUKHAS Radar Analytics Integration"
+    },
+    "radar_visualization": {
+      "update_interval_ms": 500,
+      "visualization_engine": "plotly",
+      "output_directory": "/Users/A_G_I/lukhas/lukhasBrains/radar_outputs",
+      "auto_generate_visualizations": true,
+      "save_interactive_html": true,
+      "confidence_zones": {
+        "high_confidence": {
+          "threshold": 0.7,
+          "color": "rgba(60, 150, 60, 0.15)"
+        },
+        "medium_confidence": {
+          "threshold": 0.3,
+          "color": "rgba(255, 200, 50, 0.15)"
+        },
+        "low_confidence": {
+          "threshold": 0.0,
+          "color": "rgba(220, 50, 50, 0.15)"
+        }
+      }
+    },
+    "bio_quantum_processing": {
+      "enable_quantum_enhancement": true,
+      "enable_bio_oscillation_sync": true,
+      "confidence_threshold": 0.6,
+      "coherence_threshold": 0.15,
+      "brain_frequencies": {
+        "Dreams": 0.1,
+        "Emotional": 6.0,
+        "Memory": 10.0,
+        "Learning": 40.0,
+        "Master_Sync": 1.0,
+        "Abstract_Focus": 15.0
+      },
+      "quantum_parameters": {
+        "superposition_depth": 16,
+        "entanglement_strength": 0.8,
+        "measurement_confidence": 0.9,
+        "phase_randomization": true
+      }
+    },
+    "confidence_calibration": {
+      "multi_perspective_enabled": true,
+      "uncertainty_decomposition": true,
+      "meta_learning_enabled": true,
+      "calibration_perspectives": [
+        "bayesian",
+        "quantum",
+        "symbolic",
+        "emotional",
+        "meta"
+      ],
+      "uncertainty_types": [
+        "aleatory",
+        "epistemic",
+        "linguistic",
+        "temporal",
+        "quantum"
+      ]
+    },
+    "real_time_monitoring": {
+      "enabled": true,
+      "default_update_interval": 2.0,
+      "max_history_entries": 100,
+      "performance_tracking": true,
+      "session_analytics": true,
+      "auto_export_sessions": true
+    },
+    "radar_chart_settings": {
+      "unified_confidence_chart": {
+        "dimensions": [
+          "Overall Confidence",
+          "Reasoning Coherence",
+          "Metacognitive Stability",
+          "Uncertainty Balance",
+          "Self Awareness Level",
+          "Quantum Enhancement"
+        ],
+        "colors": {
+          "primary": "#1FB8CD",
+          "fill": "rgba(31, 184, 205, 0.4)"
+        }
+      },
+      "brain_performance_chart": {
+        "dimensions": [
+          "Confidence",
+          "Reasoning",
+          "Metacognition",
+          "Oscillation Sync",
+          "Quantum Entanglement"
+        ],
+        "brain_colors": {
+          "Dreams": "#9B59B6",
+          "Emotional": "#E74C3C",
+          "Memory": "#3498DB",
+          "Learning": "#2ECC71"
+        }
+      },
+      "quantum_metrics_chart": {
+        "dimensions": [
+          "Superposition Coherence",
+          "Entanglement Strength",
+          "Quantum Interference",
+          "Measurement Confidence",
+          "Quantum Speedup (Normalized)"
+        ],
+        "colors": {
+          "primary": "#9B59B6",
+          "fill": "rgba(155, 89, 182, 0.4)"
+        }
+      },
+      "bio_oscillation_chart": {
+        "dimensions": [
+          "Master Sync Coherence",
+          "Cross-Brain Harmony",
+          "Frequency Stability",
+          "Amplitude Coherence",
+          "Phase Lock Strength"
+        ],
+        "colors": {
+          "primary": "#2ECC71",
+          "fill": "rgba(46, 204, 113, 0.4)"
+        }
+      }
+    },
+    "performance_thresholds": {
+      "excellent_confidence": 0.8,
+      "good_confidence": 0.6,
+      "acceptable_confidence": 0.4,
+      "excellent_coherence": 0.3,
+      "good_coherence": 0.2,
+      "acceptable_coherence": 0.1,
+      "quantum_speedup_threshold": 1.5,
+      "bio_sync_threshold": 0.7
+    },
+    "export_settings": {
+      "default_format": "json",
+      "include_visualizations": true,
+      "include_raw_data": true,
+      "include_performance_metrics": true,
+      "compression": false,
+      "timestamp_format": "%Y%m%d_%H%M%S"
+    },
+    "integration_features": {
+      "lukhʌs_radar_compatibility": true,
+      "abstract_reasoning_integration": true,
+      "multi_brain_orchestration": true,
+      "quantum_enhancement": true,
+      "bio_oscillation_sync": true,
+      "advanced_confidence_calibration": true,
+      "real_time_monitoring": true,
+      "session_analytics": true,
+      "performance_optimization": true
+    },
+    "debugging": {
+      "log_level": "INFO",
+      "detailed_timing": false,
+      "quantum_like_state_logging": false,
+      "brain_coordination_logging": true,
+      "performance_profiling": false
+    }
+  }
+}

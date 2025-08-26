@@ -1,6 +1,6 @@
 # QI Component Test Results
 
-**Test Date**: 2025-08-15  
+**Test Date**: 2025-08-15
 **Designed by**: Gonzalo Dominguez - Lukhas AI
 
 ## Executive Summary
@@ -51,7 +51,7 @@ Successfully tested and verified **15 QI components** with the following results
 ### 2. ConsentGuard Test
 ```
 Grant consent: ✅ PASSED
-Check consent: ✅ PASSED  
+Check consent: ✅ PASSED
 Revoke consent: ✅ PASSED
 TTL expiry: ✅ PASSED
 TEQ integration: ✅ PASSED

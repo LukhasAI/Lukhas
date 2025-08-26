@@ -14,7 +14,7 @@ The LUKHAS  monitoring system provides comprehensive real-time monitoring for al
    - Mobile-responsive interface
    - Alert management
 
-2. **Meta Dashboard** (`meta_dashboard/dashboard_server.py`)  
+2. **Meta Dashboard** (`meta_dashboard/dashboard_server.py`)
    - Symbolic system monitoring
    - Drift analysis and visualization
    - Trinity coherence tracking
@@ -208,7 +208,7 @@ The monitoring system collects data from:
    - Disk space warnings
    - Process failures
 
-2. **Application Alerts** 
+2. **Application Alerts**
    - Memory drift spikes
    - API performance degradation
    - Ethics violations
@@ -226,15 +226,15 @@ alerting:
     # System
     cpu_critical: 90.0        # CPU usage %
     memory_critical: 90.0     # Memory usage %
-    
-    # Application  
+
+    # Application
     drift_critical: 0.8       # Memory drift score
     response_time_slow: 1000  # API response time (ms)
     error_rate_high: 0.05     # Error rate (5%)
-    
+
     # Consciousness
     awareness_low: 0.3        # Awareness level
-    
+
     # Ethics
     ethics_score_low: 0.7     # Ethics score threshold
 ```
@@ -300,7 +300,7 @@ services:
     build: .
     ports:
       - "3001:3000"
-  monitoring-2:  
+  monitoring-2:
     build: .
     ports:
       - "3002:3000"
@@ -428,7 +428,7 @@ Check different log files:
 # Main application logs
 tail -f logs/monitoring.log
 
-# Metrics collection logs  
+# Metrics collection logs
 tail -f logs/metrics.log
 
 # Alert system logs
@@ -445,7 +445,7 @@ tail -f logs/errors.log
 ```http
 GET /health                 # Health check
 GET /api/metrics           # Current metrics
-GET /api/alerts            # Current alerts  
+GET /api/alerts            # Current alerts
 GET /api/history?hours=24  # Historical data
 ```
 
@@ -520,7 +520,7 @@ ws.onmessage = (event) => {
 
 ---
 
-**Version**: 2.0.0  
-**Last Updated**: January 2025  
-**Trinity Framework**: ⚛️🧠🛡️  
+**Version**: 2.0.0
+**Last Updated**: January 2025
+**Trinity Framework**: ⚛️🧠🛡️
 **Status**: Production Ready ✅

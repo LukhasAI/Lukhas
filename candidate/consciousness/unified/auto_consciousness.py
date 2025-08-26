@@ -3,7 +3,7 @@
 =====================================================
 
 Provides automatic consciousness assessment and decision-making capabilities
-for the LUKHAS AI system. This module combines awareness assessment, 
+for the LUKHAS AI system. This module combines awareness assessment,
 decision-making, and consciousness state management.
 
 Author: LUKHAS AI System
@@ -49,7 +49,7 @@ class ConsciousnessState:
 class AutoConsciousness:
     """
     🧠 Auto Consciousness - Unified consciousness processing system
-    
+
     Provides automatic consciousness assessment, decision-making, and state management
     with integration across awareness, reasoning, and memory systems.
     """
@@ -97,10 +97,10 @@ class AutoConsciousness:
     async def assess_awareness(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Assess awareness level based on input stimuli
-        
+
         Args:
             input_data: Dictionary containing stimulus, context, and metadata
-            
+
         Returns:
             Dictionary with awareness assessment results
         """
@@ -163,10 +163,10 @@ class AutoConsciousness:
     async def make_decision(self, decision_input: Dict[str, Any]) -> Dict[str, Any]:
         """
         Make a decision based on input scenario and options
-        
+
         Args:
             decision_input: Dictionary with scenario, options, and context
-            
+
         Returns:
             Dictionary with decision results
         """

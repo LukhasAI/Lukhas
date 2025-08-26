@@ -33,7 +33,7 @@ API Layer (routes/) → Controller Layer (controllers/) → Core Services (core/
 
 ### **Modular Design**
 - **Core Services** (`core/id_service/`): Business logic isolation
-- **API Interface** (`api/routes/`): Clean REST endpoints  
+- **API Interface** (`api/routes/`): Clean REST endpoints
 - **Controllers** (`api/controllers/`): Orchestration layer
 - **Configuration** (JSON files): Environment-agnostic settings
 
@@ -136,7 +136,7 @@ lukhas/identity/
 │   └── 🧠 advanced/                   # Advanced algorithms
 │       └── brain/                    # AI/ML components
 ├── 🌐 api/                           # REST API interface
-│   ├── routes/                       
+│   ├── routes/
 │   │   └── lambd_id_routes.py        # ✅ Complete REST endpoints
 │   ├── controllers/
 │   │   └── lambd_id_controller.py    # ✅ Business logic orchestration
@@ -210,7 +210,7 @@ curl -X POST http://localhost:5000/api/v1/lambda-id/generate \
   -H "Content-Type: application/json" \
   -d '{"user_tier": 1, "symbolic_preferences": ["🌟", "⚡"]}'
 
-# Validate ΛiD  
+# Validate ΛiD
 curl -X POST http://localhost:5000/api/v1/lambda-id/validate \
   -H "Content-Type: application/json" \
   -d '{"lambda_id": "Λ1‿2847#", "validation_level": "full"}'

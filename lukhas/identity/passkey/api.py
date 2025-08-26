@@ -1,6 +1,8 @@
 import os
-from typing import Dict, Any
+from typing import Any, Dict
+
 from lukhas.observability.matriz_decorators import instrument
+
 from .registry import get_provider
 
 FEATURE = os.getenv("FEATURE_IDENTITY_PASSKEY", "false").lower() == "true"

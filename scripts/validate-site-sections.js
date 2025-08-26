@@ -118,13 +118,13 @@ for (const s of sections) {
   if (!s.sources || !Array.isArray(s.sources)) {
     continue; // Skip sections without sources array
   }
-  
+
   for (const source of s.sources) {
     if (isGeneratedFile(source)) {
       console.log(`⚡ ${source} → generated file (skipping)`);
       continue;
     }
-    
+
     if (fs.existsSync(source)) {
       console.log(`✅ ${source} → source found`);
     } else {

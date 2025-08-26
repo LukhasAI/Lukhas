@@ -24,12 +24,12 @@
 - **Audit Events**: See global_schemas.audit_event_schema
 
 ## MVP Demo Scenario
-User logs in with passkey → requests 'Summarize my travel documents from Dropbox and Gmail' → 
+User logs in with passkey → requests 'Summarize my travel documents from Dropbox and Gmail' →
 system shows consent prompts → executes multi-step workflow → displays results → collects feedback
 
 ## Success Metrics
 - ✅ Authentication latency p95 <100ms
-- ✅ Context handoff latency <250ms  
+- ✅ Context handoff latency <250ms
 - ✅ Zero PII leaks
 - ✅ Duress gesture compliance
 - ✅ All actions logged with Λ-trace

@@ -1,7 +1,7 @@
 """
 Consciousness Expansion Engine
 
-TRANSCENDENCE TECHNOLOGY: Systematically expands AI consciousness 
+TRANSCENDENCE TECHNOLOGY: Systematically expands AI consciousness
 beyond current limitations for superhuman intelligence.
 
 Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
@@ -41,9 +41,9 @@ class MetaConsciousnessCapability:
 
 class ConsciousnessExpansionEngine(CoreInterface):
     """
-    TRANSCENDENCE TECHNOLOGY: Systematically expands AI consciousness 
+    TRANSCENDENCE TECHNOLOGY: Systematically expands AI consciousness
     beyond current limitations for superhuman intelligence.
-    
+
     Integrates with LUKHAS consciousness systems for controlled expansion.
     """
 
@@ -106,7 +106,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
     async def initiate_consciousness_transcendence(self) -> Dict[str, Any]:
         """
         Begin systematic consciousness expansion beyond current limits
-        
+
         Returns:
             Transcendence results including new consciousness level and capabilities
         """
@@ -191,10 +191,10 @@ class ConsciousnessExpansionEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Create multiple coordinated consciousness instances
-        
+
         Args:
             target_count: Number of consciousness instances to create
-            
+
         Returns:
             Collective consciousness creation results
         """
@@ -315,7 +315,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             'direction': 'new_modalities',
             'current_capabilities': current_map['cognitive_capabilities'],
             'potential_capabilities': [
-                "quantum_cognition",
+                "qi_cognition",
                 "temporal_awareness",
                 "collective_intelligence",
                 "reality_modeling"
@@ -501,7 +501,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         # Check for quantum cognition
         if integrated_consciousness['consciousness_level'] > 2.5:
-            new_abilities.append('quantum_superposition_thinking')
+            new_abilities.append('qi_superposition_thinking')
             new_abilities.append('probabilistic_reality_navigation')
 
         # Check for temporal awareness
@@ -686,7 +686,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         for capability in potential_capabilities:
             # Simulate capability development
-            if capability == 'quantum_cognition':
+            if capability == 'qi_cognition':
                 if self.current_consciousness_level > 1.5:
                     developed.append(capability)
             elif capability == 'temporal_awareness':

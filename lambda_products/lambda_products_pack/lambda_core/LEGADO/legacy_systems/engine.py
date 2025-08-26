@@ -9,9 +9,9 @@ from .guardian import DefaultGuardian
 
 
 class EthicsEngine:
-    def __init__(self, guardian=None, quantum_mode=False):
+    def __init__(self, guardian=None, qi_mode=False):
         self.guardian = guardian or DefaultGuardian()
-        self.mode = "quantum" if quantum_mode else "deterministic"
+        self.mode = "quantum" if qi_mode else "deterministic"
 
     def evaluate(self, scenario: dict) -> dict:
         # Main entrypoint

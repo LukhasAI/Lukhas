@@ -1,6 +1,9 @@
 # path: qi/router/task_router.py
 from __future__ import annotations
-import os, json, argparse
+
+import argparse
+import json
+import os
 from typing import Any, Dict, Optional, Tuple
 
 import yaml  # pip install pyyaml
@@ -17,7 +20,7 @@ class ConfigError(Exception):
 def _load_yaml(path: str) -> Dict[str, Any]:
     if not os.path.exists(path):
         raise ConfigError(f"Preset file not found: {path}")
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
     if not isinstance(data, dict):
         raise ConfigError("presets.yaml must be a YAML mapping at the top level.")
@@ -31,7 +34,7 @@ def _validate(cfg: Dict[str, Any]) -> None:
 
     def _check_plan(plan: Dict[str, Any], ctx: str):
         # soft schema
-        for k in plan.keys():
+        for k in plan:
             if k not in {
                 "gen_tokens","retrieval","passes","temperature","tools","retrieval_k",
                 "max_input_tokens","allow_models","deny_models","notes","max_output_tokens",

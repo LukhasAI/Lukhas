@@ -7,17 +7,17 @@ integration with Trinity Framework (⚛️🧠🛡️) oversight.
 """
 
 import asyncio
+import base64
+import hashlib
 import json
 import logging
-import time
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple
-from dataclasses import dataclass, asdict
-import hashlib
-import uuid
-import base64
-from datetime import datetime, timedelta
 import re
+import time
+import uuid
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 from ..common import GlyphIntegrationMixin
 
@@ -53,7 +53,7 @@ class DataClassification:
     anonymization_rules: List[str]
     governance_validated: bool = True
     trinity_impact: Dict[str, float] = None
-    
+
     def __post_init__(self):
         if self.trinity_impact is None:
             self.trinity_impact = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
@@ -74,7 +74,7 @@ class PrivacyIncident:
     notification_required: bool
     governance_escalated: bool = False
     trinity_components_affected: List[str] = None
-    
+
     def __post_init__(self):
         if self.trinity_components_affected is None:
             self.trinity_components_affected = []
@@ -83,11 +83,11 @@ class PrivacyIncident:
 class PrivacyGuardian(GlyphIntegrationMixin):
     """
     Enhanced privacy protection system with governance and Trinity Framework integration
-    
+
     Provides comprehensive privacy protection including encryption, anonymization,
     compliance monitoring, and governance oversight for LUKHAS AI systems.
     """
-    
+
     # Enhanced data sensitivity levels with governance
     SENSITIVITY_LEVELS = {
         "public": {
@@ -127,7 +127,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "trinity_protection": True
         }
     }
-    
+
     # Enhanced privacy regulations with governance requirements
     PRIVACY_REGULATIONS = {
         "GDPR": {
@@ -171,7 +171,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "trinity_compliance": True
         }
     }
-    
+
     # Enhanced anonymization techniques with governance validation
     ANONYMIZATION_TECHNIQUES = {
         "masking": "Replace sensitive data with mask characters",
@@ -184,7 +184,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         "differential_privacy": "Add mathematical privacy guarantees",
         "trinity_protection": "Apply Trinity Framework specific protection"
     }
-    
+
     # Enhanced privacy symbols with governance and Trinity Framework
     PRIVACY_SYMBOLS = {
         "protected": ["🔒", "🛡️", "🔐"],
@@ -197,36 +197,36 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         "trinity_protected": ["⚛️", "🧠", "🛡️"],
         "privacy_violation": ["🚨", "⚖️", "🔒"]
     }
-    
-    def __init__(self, 
+
+    def __init__(self,
                  config_path: str = "governance/config/privacy_config.json",
                  policies_path: str = "governance/config/privacy_policies.json",
                  audit_log_path: str = "governance/logs/privacy_audit.log",
                  governance_enabled: bool = True):
-        
+
         super().__init__()
         self.config_path = Path(config_path)
         self.policies_path = Path(policies_path)
         self.audit_log_path = Path(audit_log_path)
         self.governance_enabled = governance_enabled
-        
+
         # Privacy policies and classifications with governance
         self.privacy_policies: Dict[str, PrivacyPolicy] = {}
         self.data_classifications: Dict[str, DataClassification] = {}
         self.active_regulations: List[str] = ["GDPR", "HIPAA", "LUKHAS_GOVERNANCE"]
-        
+
         # Encryption and anonymization with governance oversight
         self.encryption_enabled = True
         self.default_anonymization = "basic"
         self.encryption_key = self._generate_encryption_key()
         self.governance_validated_keys: Dict[str, bool] = {}
-        
+
         # Enhanced privacy incidents and auditing
         self.privacy_incidents: List[PrivacyIncident] = []
         self.audit_events: List[Dict] = []
         self.consent_records: Dict[str, Dict] = {}
         self.governance_log: List[Dict] = []
-        
+
         # Enhanced compliance tracking with Trinity Framework
         self.compliance_status = {
             "GDPR": {"compliant": True, "last_check": None, "issues": [], "governance_validated": True},
@@ -234,7 +234,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "CCPA": {"compliant": True, "last_check": None, "issues": [], "governance_validated": True},
             "LUKHAS_GOVERNANCE": {"compliant": True, "last_check": None, "issues": [], "governance_validated": True}
         }
-        
+
         # Enhanced configuration with governance
         self.config = {
             "data_retention_default": 365,  # days
@@ -248,7 +248,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "privacy_by_design": True,
             "data_minimization": True
         }
-        
+
         # Enhanced performance tracking with governance metrics
         self.stats = {
             "data_encrypted": 0,
@@ -262,72 +262,72 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "trinity_protections_applied": 0,
             "privacy_by_design_validations": 0
         }
-        
+
         # Trinity Framework integration
         self.trinity_weights = {
             "identity": 1.0,      # Maximum weight for identity privacy
             "consciousness": 0.9,  # High weight for consciousness privacy
             "guardian": 1.0       # Maximum weight for guardian privacy
         }
-        
+
         # Load configuration
         self._load_configuration()
         self._load_privacy_policies()
-        
+
         logger.info("🔒 Enhanced Privacy Guardian initialized with governance integration")
-    
+
     def _load_configuration(self):
         """Load privacy configuration with governance validation"""
         try:
             if self.config_path.exists():
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     config_data = json.load(f)
-                
+
                 if "privacy_settings" in config_data:
                     self.config.update(config_data["privacy_settings"])
-                
+
                 if "active_regulations" in config_data:
                     self.active_regulations = config_data["active_regulations"]
-                
+
                 if "governance_settings" in config_data and self.governance_enabled:
                     governance_settings = config_data["governance_settings"]
                     self.config.update(governance_settings)
-                
+
                 logger.info("Privacy configuration loaded with governance validation")
             else:
                 self._create_default_configuration()
-                
+
         except Exception as e:
             logger.warning(f"Failed to load privacy configuration: {e}")
             self._create_default_configuration()
-    
+
     def _load_privacy_policies(self):
         """Load privacy policies with governance validation"""
         try:
             if self.policies_path.exists():
-                with open(self.policies_path, 'r') as f:
+                with open(self.policies_path) as f:
                     policies_data = json.load(f)
-                
+
                 for policy_data in policies_data.get("policies", []):
                     policy = PrivacyPolicy(**policy_data)
                     if self.governance_enabled:
                         policy.governance_approved = policy_data.get("governance_approved", True)
                     self.privacy_policies[policy.policy_id] = policy
-                
+
                 for classification_data in policies_data.get("classifications", []):
                     classification = DataClassification(**classification_data)
                     if self.governance_enabled:
                         classification.governance_validated = classification_data.get("governance_validated", True)
                     self.data_classifications[classification.classification_id] = classification
-                
+
                 logger.info(f"Loaded {len(self.privacy_policies)} privacy policies with governance validation")
             else:
                 self._create_default_policies()
-                
+
         except Exception as e:
             logger.warning(f"Failed to load privacy policies: {e}")
             self._create_default_policies()
-    
+
     def _create_default_configuration(self):
         """Create default privacy configuration with governance integration"""
         default_config = {
@@ -353,16 +353,16 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "governance_validation": self.governance_enabled
             }
         }
-        
+
         try:
             self.config_path.parent.mkdir(parents=True, exist_ok=True)
             with open(self.config_path, 'w') as f:
                 json.dump(default_config, f, indent=2)
-            
+
             logger.info(f"Created default privacy configuration with governance: {self.config_path}")
         except Exception as e:
             logger.error(f"Failed to create default configuration: {e}")
-    
+
     def _create_default_policies(self):
         """Create default privacy policies with governance and Trinity Framework integration"""
         default_policies = {
@@ -461,148 +461,148 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 }
             ]
         }
-        
+
         try:
             self.policies_path.parent.mkdir(parents=True, exist_ok=True)
             with open(self.policies_path, 'w') as f:
                 json.dump(default_policies, f, indent=2)
-            
+
             # Load the policies we just created
             self._load_privacy_policies()
-            
+
             logger.info(f"Created default privacy policies with governance and Trinity Framework: {self.policies_path}")
         except Exception as e:
             logger.error(f"Failed to create default policies: {e}")
-    
+
     def _generate_encryption_key(self) -> str:
         """Generate encryption key with governance validation"""
         # In production, this would use proper key management with governance approval
         key = base64.b64encode(hashlib.sha256(str(uuid.uuid4()).encode()).digest()).decode()
-        
+
         if self.governance_enabled:
             self.governance_validated_keys[key] = True
             self._log_governance_action(
                 "encryption_key_generated",
                 {"key_id": hashlib.sha256(key.encode()).hexdigest()[:16]}
             )
-        
+
         return key
-    
+
     async def initialize_privacy_services(self):
         """Initialize privacy protection services with governance integration"""
         logger.info("🔒 Initializing enhanced privacy protection services")
-        
+
         try:
             # Initialize encryption services with governance validation
             await self._initialize_encryption()
-            
+
             # Initialize anonymization engine with governance oversight
             await self._initialize_anonymization()
-            
+
             # Start compliance monitoring with Trinity Framework integration
             await self._start_compliance_monitoring()
-            
+
             # Initialize audit logging with governance integration
             await self._initialize_audit_logging()
-            
+
             # Initialize Trinity Framework protection
             if self.config.get("trinity_protection"):
                 await self._initialize_trinity_protection()
-            
+
             # Initialize governance integration
             if self.governance_enabled:
                 await self._initialize_governance_integration()
-            
+
             logger.info("✅ Enhanced privacy services initialized successfully")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize privacy services: {e}")
             return False
-    
+
     async def _initialize_encryption(self):
         """Initialize encryption services with governance validation"""
         await asyncio.sleep(0.1)  # Simulate initialization
-        
+
         if self.governance_enabled:
             await self._log_governance_action(
                 "encryption_services_initialized",
                 {"algorithm": self.config["encryption_algorithm"]}
             )
-        
+
         logger.info("🔑 Enhanced encryption services initialized with governance validation")
-    
+
     async def _initialize_anonymization(self):
         """Initialize anonymization engine with governance oversight"""
         await asyncio.sleep(0.1)  # Simulate initialization
-        
+
         if self.governance_enabled:
             await self._log_governance_action(
                 "anonymization_engine_initialized",
                 {"techniques": list(self.ANONYMIZATION_TECHNIQUES.keys())}
             )
-        
+
         logger.info("🎭 Enhanced anonymization engine initialized with governance oversight")
-    
+
     async def _start_compliance_monitoring(self):
         """Start compliance monitoring with Trinity Framework integration"""
         await asyncio.sleep(0.1)  # Simulate initialization
-        
+
         if self.governance_enabled:
             await self._log_governance_action(
                 "compliance_monitoring_started",
                 {"regulations": self.active_regulations}
             )
-        
+
         logger.info("⚖️ Enhanced compliance monitoring started with Trinity Framework integration")
-    
+
     async def _initialize_audit_logging(self):
         """Initialize audit logging with governance integration"""
         self.audit_log_path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         if self.governance_enabled:
             await self._log_governance_action(
                 "audit_logging_initialized",
                 {"audit_level": self.config["audit_level"]}
             )
-        
+
         logger.info("📝 Enhanced audit logging initialized with governance integration")
-    
+
     async def _initialize_trinity_protection(self):
         """Initialize Trinity Framework specific protection"""
         await asyncio.sleep(0.1)  # Simulate initialization
-        
+
         await self._log_governance_action(
             "trinity_protection_initialized",
             {"components": ["identity", "consciousness", "guardian"]}
         )
-        
+
         logger.info("⚛️🧠🛡️ Trinity Framework protection initialized")
-    
+
     async def _initialize_governance_integration(self):
         """Initialize governance integration services"""
         await asyncio.sleep(0.1)  # Simulate initialization
-        
+
         await self._log_governance_action(
             "governance_integration_initialized",
             {"privacy_policies": len(self.privacy_policies)}
         )
-        
+
         logger.info("🛡️ Governance integration initialized")
-    
+
     async def classify_data(self, data: Dict, data_type: str = None, context: Dict = None) -> Dict:
         """Enhanced data classification with governance validation and Trinity Framework assessment"""
         start_time = time.time()
         context = context or {}
-        
+
         try:
             # Determine data type if not provided
             if not data_type:
                 data_type = self._detect_data_type(data)
-            
+
             # Find matching classification
             classification = self._find_classification(data_type)
-            
+
             if not classification:
                 # Create default classification with governance validation
                 classification = DataClassification(
@@ -616,25 +616,25 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     anonymization_rules=[],
                     governance_validated=self.governance_enabled
                 )
-            
+
             # Analyze data content for sensitive patterns
             sensitive_patterns = await self._detect_sensitive_patterns(data)
-            
+
             # Adjust classification based on detected patterns
             if sensitive_patterns:
                 classification = await self._adjust_classification_for_patterns(classification, sensitive_patterns)
-            
+
             # Analyze Trinity Framework impact
             trinity_impact = await self._analyze_trinity_impact_for_data(data, data_type, context)
             classification.trinity_impact = trinity_impact["impact_scores"]
-            
+
             # Apply governance validation
             if self.governance_enabled:
                 governance_result = await self._validate_classification_governance(classification, context)
                 classification.governance_validated = governance_result["approved"]
-            
+
             self.stats["privacy_checks"] += 1
-            
+
             # Log classification event with governance metadata
             await self._log_audit_event({
                 "event_type": "data_classification",
@@ -645,10 +645,10 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "governance_validated": classification.governance_validated,
                 "timestamp": datetime.now().isoformat()
             })
-            
+
             # Determine symbolic signature
             symbolic_signature = self._get_classification_symbols(classification)
-            
+
             return {
                 "success": True,
                 "data_type": data_type,
@@ -666,39 +666,39 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "classification_time": time.time() - start_time,
                 "symbolic_signature": symbolic_signature
             }
-            
+
         except Exception as e:
             logger.error(f"Enhanced data classification failed: {e}")
-            
+
             # Log error in governance system
             if self.governance_enabled:
                 await self._log_governance_action(
                     "classification_error",
                     {"error": str(e), "data_type": data_type}
                 )
-            
+
             return {
                 "success": False,
                 "error": str(e),
                 "classification_time": time.time() - start_time,
                 "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
             }
-    
+
     def _detect_data_type(self, data: Dict) -> str:
         """Enhanced data type detection with Trinity Framework awareness"""
         # Convert data to string for analysis
         content_str = json.dumps(data).lower()
-        
+
         # Trinity Framework specific keywords
         identity_keywords = ["identity", "auth", "credential", "user_id", "username", "profile"]
         consciousness_keywords = ["memory", "thought", "decision", "consciousness", "awareness", "dream"]
         guardian_keywords = ["security", "protection", "guardian", "policy", "governance", "audit"]
-        
+
         # Traditional keywords
         medical_keywords = ["patient", "diagnosis", "medication", "treatment", "symptom", "doctor", "hospital"]
         personal_keywords = ["name", "email", "phone", "address", "ssn", "passport", "license"]
         financial_keywords = ["account", "payment", "credit", "bank", "transaction", "balance"]
-        
+
         # Check Trinity Framework types first
         if any(keyword in content_str for keyword in identity_keywords):
             return "identity"
@@ -715,67 +715,67 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             return "personal"
         else:
             return "general"
-    
+
     def _find_classification(self, data_type: str) -> Optional[DataClassification]:
         """Find matching data classification with governance validation"""
         for classification in self.data_classifications.values():
-            if (classification.data_type == data_type and 
+            if (classification.data_type == data_type and
                 (not self.governance_enabled or classification.governance_validated)):
                 return classification
         return None
-    
+
     async def _detect_sensitive_patterns(self, data: Dict) -> List[str]:
         """Enhanced sensitive pattern detection with Trinity Framework patterns"""
         patterns = []
-        
+
         # Convert data to string for pattern matching
         data_str = json.dumps(data)
-        
+
         # Trinity Framework patterns
         if re.search(r'\b(identity|auth|credential)[_-]?\w+', data_str, re.IGNORECASE):
             patterns.append("identity_data")
-        
+
         if re.search(r'\b(consciousness|memory|thought)[_-]?\w+', data_str, re.IGNORECASE):
             patterns.append("consciousness_data")
-        
+
         if re.search(r'\b(guardian|security|protection)[_-]?\w+', data_str, re.IGNORECASE):
             patterns.append("guardian_data")
-        
+
         # Traditional patterns
         if "@" in data_str and "." in data_str:
             patterns.append("email_address")
-        
+
         # Phone number pattern
         phone_pattern = r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b'
         if re.search(phone_pattern, data_str):
             patterns.append("phone_number")
-        
+
         # SSN pattern
         ssn_pattern = r'\b\d{3}-\d{2}-\d{4}\b'
         if re.search(ssn_pattern, data_str):
             patterns.append("ssn")
-        
+
         # Credit card pattern
         cc_pattern = r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b'
         if re.search(cc_pattern, data_str):
             patterns.append("credit_card")
-        
+
         # Medical record number pattern
         mrn_pattern = r'\bMRN[-\s]?\d+\b'
         if re.search(mrn_pattern, data_str, re.IGNORECASE):
             patterns.append("medical_record_number")
-        
+
         # API keys and tokens
         api_pattern = r'\b[A-Za-z0-9]{32,}\b'
         if re.search(api_pattern, data_str):
             patterns.append("api_key_or_token")
-        
+
         return patterns
-    
+
     async def _analyze_trinity_impact_for_data(self, data: Dict, data_type: str, context: Dict) -> Dict:
         """Analyze Trinity Framework impact for data classification"""
         impact_scores = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
-        
+
         # Base impact based on data type
         if data_type == "identity":
             impact_scores["identity"] = 0.9
@@ -791,18 +791,18 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             impact_scores["consciousness"] = 0.2  # May reveal consciousness patterns
         elif data_type == "personal":
             impact_scores["identity"] = 0.8  # Personal data directly impacts identity
-        
+
         # Adjust based on context
         if context.get("cross_component_data"):
             for component in impact_scores:
                 impact_scores[component] = min(1.0, impact_scores[component] + 0.2)
-        
+
         # Calculate overall Trinity risk
         overall_risk = sum(
             impact_scores[component] * self.trinity_weights[component]
             for component in impact_scores
         ) / len(impact_scores)
-        
+
         return {
             "impact_scores": impact_scores,
             "overall_risk": overall_risk,
@@ -810,45 +810,45 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 comp for comp, score in impact_scores.items() if score > 0.7
             ]
         }
-    
+
     async def _adjust_classification_for_patterns(
-        self, 
-        classification: DataClassification, 
+        self,
+        classification: DataClassification,
         patterns: List[str]
     ) -> DataClassification:
         """Enhanced classification adjustment with Trinity Framework and governance awareness"""
         trinity_patterns = {"identity_data", "consciousness_data", "guardian_data"}
         sensitive_patterns = {"ssn", "credit_card", "medical_record_number", "api_key_or_token"}
-        
+
         # Upgrade for Trinity Framework patterns
         if any(pattern in trinity_patterns for pattern in patterns):
             classification.sensitivity_level = "restricted"
             classification.encryption_required = True
             if "trinity_protection" not in classification.anonymization_rules:
                 classification.anonymization_rules.append("trinity_protection")
-            
+
             # Add LUKHAS governance requirement
             if "LUKHAS_GOVERNANCE" not in classification.regulatory_requirements:
                 classification.regulatory_requirements.append("LUKHAS_GOVERNANCE")
-        
+
         # Upgrade for traditional sensitive patterns
         if any(pattern in sensitive_patterns for pattern in patterns):
             classification.sensitivity_level = "restricted"
             classification.encryption_required = True
             if "remove_identifiers" not in classification.anonymization_rules:
                 classification.anonymization_rules.append("remove_identifiers")
-            
+
             # Add relevant regulations
             if "ssn" in patterns or "credit_card" in patterns:
                 if "CCPA" not in classification.regulatory_requirements:
                     classification.regulatory_requirements.append("CCPA")
-            
+
             if "medical_record_number" in patterns:
                 if "HIPAA" not in classification.regulatory_requirements:
                     classification.regulatory_requirements.append("HIPAA")
-        
+
         return classification
-    
+
     async def _validate_classification_governance(
         self,
         classification: DataClassification,
@@ -857,7 +857,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         """Validate classification against governance policies"""
         if not self.governance_enabled:
             return {"approved": True, "reason": "Governance not enabled"}
-        
+
         # Check if sensitive data requires governance approval
         if classification.sensitivity_level in ["confidential", "restricted"]:
             approval_required = context.get("governance_approval_required", True)
@@ -866,7 +866,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "approved": False,
                     "reason": "Governance approval required for sensitive data classification"
                 }
-        
+
         # Check Trinity Framework compliance
         if max(classification.trinity_impact.values()) > 0.7:
             trinity_approval = context.get("trinity_framework_approved", False)
@@ -875,34 +875,34 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "approved": False,
                     "reason": "Trinity Framework approval required for high-impact data"
                 }
-        
+
         return {"approved": True, "reason": "Governance validation passed"}
-    
+
     def _get_classification_symbols(self, classification: DataClassification) -> List[str]:
         """Get symbolic signature for classification with governance and Trinity context"""
         base_symbols = self.PRIVACY_SYMBOLS["protected"].copy()
-        
+
         # Add sensitivity level symbols
         if classification.sensitivity_level == "restricted":
             base_symbols.extend(["🔒", "🛡️"])
         elif classification.sensitivity_level == "confidential":
             base_symbols.extend(["🔐"])
-        
+
         # Add governance symbols
         if classification.governance_validated:
             base_symbols.append("⚖️")
-        
+
         # Add Trinity Framework symbols
         if max(classification.trinity_impact.values()) > 0.7:
             base_symbols.extend(["⚛️", "🧠", "🛡️"])
-        
+
         return base_symbols[:5]  # Limit to 5 symbols
-    
+
     async def encrypt_data(self, data: Any, encryption_level: str = "standard", context: Dict = None) -> Dict:
         """Enhanced data encryption with governance validation and Trinity Framework protection"""
         start_time = time.time()
         context = context or {}
-        
+
         try:
             if not self.encryption_enabled:
                 return {
@@ -911,7 +911,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "encryption_time": time.time() - start_time,
                     "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
                 }
-            
+
             # Governance validation for encryption
             if self.governance_enabled:
                 governance_result = await self._validate_encryption_governance(data, encryption_level, context)
@@ -922,21 +922,21 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                         "encryption_time": time.time() - start_time,
                         "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
                     }
-            
+
             # Convert data to string for encryption
             data_str = json.dumps(data) if isinstance(data, dict) else str(data)
-            
+
             # Apply Trinity Framework protection if needed
             if context.get("trinity_protection") or self.config.get("trinity_protection"):
                 encryption_level = "trinity_protected"
-            
+
             # Enhanced encryption with governance metadata
             encrypted_data = self._enhanced_encrypt(data_str, encryption_level, context)
-            
+
             self.stats["data_encrypted"] += 1
             if encryption_level == "trinity_protected":
                 self.stats["trinity_protections_applied"] += 1
-            
+
             # Log encryption event with governance metadata
             await self._log_audit_event({
                 "event_type": "data_encryption",
@@ -946,7 +946,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "trinity_protected": encryption_level == "trinity_protected",
                 "timestamp": datetime.now().isoformat()
             })
-            
+
             return {
                 "success": True,
                 "encrypted_data": encrypted_data,
@@ -957,23 +957,23 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "encryption_time": time.time() - start_time,
                 "symbolic_signature": self.PRIVACY_SYMBOLS["encrypted"]
             }
-            
+
         except Exception as e:
             logger.error(f"Enhanced data encryption failed: {e}")
-            
+
             if self.governance_enabled:
                 await self._log_governance_action(
                     "encryption_error",
                     {"error": str(e), "encryption_level": encryption_level}
                 )
-            
+
             return {
                 "success": False,
                 "error": str(e),
                 "encryption_time": time.time() - start_time,
                 "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
             }
-    
+
     async def _validate_encryption_governance(self, data: Any, encryption_level: str, context: Dict) -> Dict[str, Any]:
         """Validate encryption request against governance policies"""
         # Check if high-level encryption requires approval
@@ -984,7 +984,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "approved": False,
                     "reason": "Governance approval required for high-level encryption"
                 }
-        
+
         # Check data sensitivity requirements
         data_str = json.dumps(data) if isinstance(data, dict) else str(data)
         if any(keyword in data_str.lower() for keyword in ["identity", "consciousness", "guardian"]):
@@ -993,14 +993,14 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                     "approved": False,
                     "reason": "Trinity Framework data requires enhanced encryption"
                 }
-        
+
         return {"approved": True, "reason": "Encryption governance validation passed"}
-    
+
     def _enhanced_encrypt(self, data: str, level: str, context: Dict) -> str:
         """Enhanced encryption with governance and Trinity Framework support"""
         # Enhanced base64 encoding for demo (NOT for production use)
         encoded = base64.b64encode(data.encode()).decode()
-        
+
         if level == "high":
             # Double encoding for "high" security
             encoded = base64.b64encode(encoded.encode()).decode()
@@ -1009,36 +1009,36 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             encoded = base64.b64encode(encoded.encode()).decode()
             encoded = base64.b64encode(encoded.encode()).decode()
             encoded = f"TRINITY:{encoded}"
-        
+
         # Add governance metadata
         governance_prefix = "GOV:" if self.governance_enabled else ""
-        
+
         return f"ENC:{governance_prefix}{level}:{encoded}"
-    
+
     async def _log_audit_event(self, event: Dict):
         """Enhanced privacy audit event logging with governance integration"""
         try:
             event["event_id"] = str(uuid.uuid4())
             event["timestamp"] = event.get("timestamp", datetime.now().isoformat())
             event["governance_enabled"] = self.governance_enabled
-            
+
             self.audit_events.append(event)
             self.stats["audit_events_logged"] += 1
-            
+
             # Write to audit log file
             with open(self.audit_log_path, 'a') as f:
                 f.write(json.dumps(event) + "\n")
-            
+
             # Log in governance system if enabled
             if self.governance_enabled:
                 await self._log_governance_action(
                     f"privacy_audit_{event['event_type']}",
                     {"event_id": event["event_id"], "details": event}
                 )
-            
+
         except Exception as e:
             logger.error(f"Enhanced audit logging failed: {e}")
-    
+
     async def _log_governance_action(self, action: str, metadata: Dict[str, Any]):
         """Log action in governance audit system"""
         log_entry = {
@@ -1048,19 +1048,19 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "source": "privacy_guardian",
             "symbolic_signature": self.generate_governance_glyph(action, metadata)
         }
-        
+
         self.governance_log.append(log_entry)
-        
+
         # Keep only last 5000 entries
         if len(self.governance_log) > 5000:
             self.governance_log = self.governance_log[-5000:]
-        
+
         logger.debug(f"🔍 Privacy governance action logged: {action}")
-    
+
     def get_enhanced_privacy_statistics(self) -> Dict[str, Any]:
         """Get comprehensive privacy protection statistics with governance metrics"""
         stats = self.stats.copy()
-        
+
         # Add enhanced state information
         stats["active_policies"] = len(self.privacy_policies)
         stats["data_classifications"] = len(self.data_classifications)
@@ -1068,25 +1068,25 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         stats["privacy_incidents_total"] = len(self.privacy_incidents)
         stats["audit_events_total"] = len(self.audit_events)
         stats["governance_enabled"] = self.governance_enabled
-        
+
         # Calculate enhanced compliance rate
         compliant_regulations = sum(1 for status in self.compliance_status.values() if status["compliant"])
         total_regulations = len(self.compliance_status)
         stats["compliance_rate"] = compliant_regulations / total_regulations if total_regulations > 0 else 0.0
-        
+
         # Governance-specific metrics
         stats["governance_validated_policies"] = len([p for p in self.privacy_policies.values() if p.governance_approved])
         stats["trinity_protected_classifications"] = len([
-            c for c in self.data_classifications.values() 
+            c for c in self.data_classifications.values()
             if max(c.trinity_impact.values()) > 0.7
         ])
         stats["governance_log_entries"] = len(self.governance_log)
-        
+
         # Trinity Framework metrics
         stats["trinity_framework_integration"] = self.config.get("trinity_protection", False)
-        
+
         return stats
-    
+
     async def health_check(self) -> bool:
         """Enhanced health check including governance and Trinity Framework systems"""
         try:
@@ -1097,24 +1097,24 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "identity_id": "test_identity_123"
             }
             classification_result = await self.classify_data(test_data, context={"health_check": True})
-            
+
             if not classification_result["success"]:
                 return False
-            
+
             # Test enhanced encryption
             encryption_result = await self.encrypt_data(test_data, context={"health_check": True})
-            
+
             if not encryption_result["success"]:
                 return False
-            
+
             # Test governance integration if enabled
             if self.governance_enabled:
                 governance_health = len(self.governance_log) >= 0  # Basic check
                 if not governance_health:
                     return False
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Enhanced privacy guardian health check failed: {e}")
             return False
@@ -1125,10 +1125,10 @@ if __name__ == "__main__":
         """Demo enhanced privacy guardian functionality with governance"""
         print("🔒 Enhanced Privacy Guardian Demo")
         print("=" * 35)
-        
+
         guardian = PrivacyGuardian(governance_enabled=True)
         await guardian.initialize_privacy_services()
-        
+
         # Test data with Trinity Framework elements
         test_data = {
             "identity_id": "user_12345",
@@ -1143,14 +1143,14 @@ if __name__ == "__main__":
             "zip_code": "12345",
             "api_key": "sk_live_1234567890abcdef1234567890abcdef"
         }
-        
+
         print("\n🔍 Testing enhanced data classification...")
         classification_result = await guardian.classify_data(
-            test_data, 
-            data_type="medical", 
+            test_data,
+            data_type="medical",
             context={"trinity_framework_approved": True}
         )
-        
+
         if classification_result["success"]:
             print(f"   ✅ Data type: {classification_result['data_type']}")
             print(f"   📊 Sensitivity: {classification_result['classification']['sensitivity_level']}")
@@ -1160,26 +1160,26 @@ if __name__ == "__main__":
             print(f"   ⚛️🧠🛡️ Trinity protection: {classification_result['protection_requirements']['trinity_protection']}")
             print(f"   🔍 Sensitive patterns: {', '.join(classification_result['sensitive_patterns'])}")
             print(f"   📊 Trinity impact: I:{classification_result['trinity_impact']['identity']:.1f} C:{classification_result['trinity_impact']['consciousness']:.1f} G:{classification_result['trinity_impact']['guardian']:.1f}")
-        
+
         # Test enhanced encryption
         print("\n🔑 Testing enhanced data encryption...")
         encryption_result = await guardian.encrypt_data(
-            test_data, 
-            "trinity_protected", 
+            test_data,
+            "trinity_protected",
             context={"governance_pre_approved": True, "trinity_protection": True}
         )
-        
+
         if encryption_result["success"]:
-            print(f"   ✅ Encryption successful")
+            print("   ✅ Encryption successful")
             print(f"   📊 Algorithm: {encryption_result['algorithm']}")
             print(f"   🛡️ Governance validated: {encryption_result['governance_validated']}")
             print(f"   ⚛️ Trinity protected: {encryption_result['trinity_protected']}")
             print(f"   ⏱️  Time: {encryption_result['encryption_time']:.3f}s")
             print(f"   🔐 Encrypted data: {encryption_result['encrypted_data'][:50]}...")
-        
+
         # Show enhanced statistics
         stats = guardian.get_enhanced_privacy_statistics()
-        print(f"\n📊 Enhanced Privacy Guardian Statistics:")
+        print("\n📊 Enhanced Privacy Guardian Statistics:")
         print(f"   Data encrypted: {stats['data_encrypted']}")
         print(f"   Privacy checks: {stats['privacy_checks']}")
         print(f"   Compliance rate: {stats['compliance_rate']:.2f}")
@@ -1188,5 +1188,5 @@ if __name__ == "__main__":
         print(f"   Governance log entries: {stats['governance_log_entries']}")
         print(f"   Trinity protected classifications: {stats['trinity_protected_classifications']}")
         print(f"   Active regulations: {stats['active_regulations']}")
-    
+
     asyncio.run(demo())

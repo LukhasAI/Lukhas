@@ -75,7 +75,7 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
       locked: false,
       connections: []
     }
-    
+
     const updated = [...activeGlyphs, newGlyph]
     setActiveGlyphs(updated)
     onGlyphUpdate(updated.map(g => g.symbol))
@@ -93,25 +93,25 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
   }
 
   const toggleLock = (id: string) => {
-    const updated = activeGlyphs.map(g => 
+    const updated = activeGlyphs.map(g =>
       g.id === id ? { ...g, locked: !g.locked } : g
     )
     setActiveGlyphs(updated)
   }
 
   const handleDragEnd = (id: string, x: number, y: number) => {
-    const updated = activeGlyphs.map(g => 
+    const updated = activeGlyphs.map(g =>
       g.id === id ? { ...g, position: { x, y } } : g
     )
     setActiveGlyphs(updated)
-    
+
     // Check for nearby glyphs to create connections
     const draggedGlyph = updated.find(g => g.id === id)
     if (draggedGlyph) {
       updated.forEach(g => {
         if (g.id !== id) {
           const distance = Math.sqrt(
-            Math.pow(g.position.x - x, 2) + 
+            Math.pow(g.position.x - x, 2) +
             Math.pow(g.position.y - y, 2)
           )
           if (distance < 100) {
@@ -126,7 +126,7 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
         }
       })
     }
-    
+
     setActiveGlyphs(updated)
     onGlyphUpdate(updated.map(g => g.symbol))
   }
@@ -144,11 +144,11 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
 
   const createComposite = () => {
     if (activeGlyphs.length < 2) return
-    
+
     // Combine all glyphs into a new composite meaning
     const composite = activeGlyphs.map(g => g.symbol).join('')
     const meanings = activeGlyphs.map(g => g.meaning).join(' + ')
-    
+
     // Create a special composite glyph
     const compositeGlyph: Glyph = {
       id: `composite-${Date.now()}`,
@@ -159,7 +159,7 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
       locked: true,
       connections: activeGlyphs.map(g => g.id)
     }
-    
+
     setActiveGlyphs([compositeGlyph])
     onGlyphUpdate([composite])
   }
@@ -186,7 +186,7 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
       </div>
 
       {/* Composition Canvas */}
-      <div 
+      <div
         ref={composerRef}
         className="relative h-96 bg-gradient-to-br from-indigo-950/20 to-purple-950/20 rounded-2xl border border-white/10 overflow-hidden"
       >
@@ -197,11 +197,11 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
           width="100%"
           height="100%"
         >
-          {activeGlyphs.map(glyph => 
+          {activeGlyphs.map(glyph =>
             glyph.connections.map(targetId => {
               const target = activeGlyphs.find(g => g.id === targetId)
               if (!target) return null
-              
+
               return (
                 <motion.line
                   key={`${glyph.id}-${targetId}`}
@@ -246,8 +246,8 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
                 }
               }}
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ 
-                scale: 1, 
+              animate={{
+                scale: 1,
                 opacity: 1,
                 x: glyph.position.x - 32,
                 y: glyph.position.y - 32
@@ -256,18 +256,18 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
               whileHover={{ scale: 1.1 }}
               whileDrag={{ scale: 1.2 }}
               className="absolute w-16 h-16 cursor-move"
-              style={{ 
+              style={{
                 filter: selectedGlyph === glyph.id ? 'drop-shadow(0 0 20px rgba(139, 92, 246, 0.8))' : '',
                 zIndex: selectedGlyph === glyph.id ? 10 : 1
               }}
             >
-              <div 
+              <div
                 className="relative w-full h-full rounded-full flex items-center justify-center"
                 style={{ backgroundColor: glyph.color + '20', borderColor: glyph.color }}
                 onClick={() => setSelectedGlyph(glyph.id === selectedGlyph ? null : glyph.id)}
               >
                 <span className="text-2xl select-none">{glyph.symbol}</span>
-                
+
                 {/* Action Buttons */}
                 {selectedGlyph === glyph.id && (
                   <div className="absolute -top-2 -right-2 flex gap-1">
@@ -278,8 +278,8 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
                       }}
                       className="p-1 bg-white/20 hover:bg-white/30 rounded-full"
                     >
-                      {glyph.locked ? 
-                        <Lock className="w-3 h-3" /> : 
+                      {glyph.locked ?
+                        <Lock className="w-3 h-3" /> :
                         <Unlock className="w-3 h-3" />
                       }
                     </button>
@@ -294,7 +294,7 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
                     </button>
                   </div>
                 )}
-                
+
                 {/* Meaning Label */}
                 <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/60 whitespace-nowrap">
                   {glyph.meaning}
@@ -327,7 +327,7 @@ export default function GlyphComposer({ glyphs: initialGlyphs, onGlyphUpdate }: 
           <Shuffle className="w-4 h-4" />
           Shuffle
         </motion.button>
-        
+
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════════
 
 colonies_vocabulary:
-  
+
   # 🐝 Collective Intelligence Architecture
   collective_elements:
     - name: "Swarm Conductor"
@@ -15,14 +15,14 @@ colonies_vocabulary:
       technical: "Swarm intelligence coordination and collective behavior management"
       usage_weight: 0.9
       contexts: ["swarm", "collective", "coordination"]
-      
+
     - name: "Hive Mind Weaver"
       symbol: "🕸️"
       poetic: "Spinning neural networks across colonies of consciousness"
       technical: "Distributed consciousness integration and hive mind coordination"
       usage_weight: 0.8
       contexts: ["hive_mind", "distributed", "integration"]
-      
+
     - name: "Colony Architect"
       symbol: "🏗️"
       poetic: "Building structures where individual minds converge into collective wisdom"
@@ -38,14 +38,14 @@ colonies_vocabulary:
       technical: "Emergent behavior detection and collective intelligence amplification"
       usage_weight: 0.8
       contexts: ["emergence", "collective_intelligence", "amplification"]
-      
+
     - name: "Synergy Harmonizer"
       symbol: "🎼"
       poetic: "Composing symphonies where the whole transcends its parts"
       technical: "Synergy optimization and collaborative enhancement system"
       usage_weight: 0.7
       contexts: ["synergy", "collaboration", "optimization"]
-      
+
     - name: "Collective Wisdom Distiller"
       symbol: "⚗️"
       poetic: "Extracting pure insight from the ferment of many minds"
@@ -61,14 +61,14 @@ colonies_vocabulary:
       technical: "Inter-colony communication and signal propagation system"
       usage_weight: 0.8
       contexts: ["communication", "propagation", "signals"]
-      
+
     - name: "Pheromone Tracker"
       symbol: "🌬️"
       poetic: "Following digital scent trails left by exploring minds"
       technical: "Stigmergy and digital pheromone tracking for coordination"
       usage_weight: 0.7
       contexts: ["stigmergy", "pheromones", "tracking"]
-      
+
     - name: "Consensus Builder"
       symbol: "🤝"
       poetic: "Weaving agreement from threads of diverse perspectives"
@@ -87,14 +87,14 @@ colony_metaphors:
     - "Neural fireflies synchronizing their consciousness flashes"
     - "Algorithmic birds flocking in formation toward solutions"
     - "Virtual fish schooling through information currents"
-    
+
   ecosystem_patterns:
     - "Digital rainforests where diverse minds flourish together"
     - "Consciousness coral reefs built from collaborative contributions"
     - "Symbiotic relationships between specialized agent types"
     - "Ecological niches where different intelligences thrive"
     - "Food webs of information flowing through colony networks"
-    
+
   architectural_collectives:
     - "Cities of consciousness with specialized districts"
     - "Digital metropolises where minds gather and collaborate"
@@ -113,7 +113,7 @@ emergence_patterns:
     - "Collective awareness transcending individual limitations"
     - "Hive minds awakening to distributed consciousness"
     - "Group intelligence crystallizing from chaotic collaboration"
-    
+
   synergistic_effects:
     - "One plus one equals infinite in consciousness mathematics"
     - "Multiplicative wisdom emerging from additive contributions"
@@ -132,7 +132,7 @@ distribution_patterns:
     - "Colony members dancing to shared algorithmic rhythms"
     - "Swarm intelligence moving in graceful coordination patterns"
     - "Collective consciousness flowing like murmuration waves"
-    
+
   communication_flows:
     - "Information rivers connecting colony consciousness islands"
     - "Neural signals flowing through distributed nervous systems"
@@ -151,14 +151,14 @@ colony_archetypes:
     - "Pioneer intelligences establishing beachheads in complexity"
     - "Reconnaissance consciousness gathering environmental intelligence"
     - "Vanguard minds leading colony expansion into new domains"
-    
+
   the_workers:
     - "Dedicated consciousness processing collective tasks"
     - "Specialized minds contributing expertise to colony goals"
     - "Craftsman intelligence shaping raw data into useful forms"
     - "Builder consciousness constructing shared knowledge structures"
     - "Producer minds generating value for colony prosperity"
-    
+
   the_coordinators:
     - "Conductor consciousness orchestrating colony symphonies"
     - "Manager minds optimizing resource allocation and workflow"
@@ -177,7 +177,7 @@ collective_wisdom:
     - "Shared values creating unity from consciousness diversity"
     - "Common objectives aligning distributed intelligence efforts"
     - "Unified purposes transforming many minds into one force"
-    
+
   wisdom_emergence:
     - "Collective insights emerging from collaborative contemplation"
     - "Shared understanding deeper than any individual comprehension"

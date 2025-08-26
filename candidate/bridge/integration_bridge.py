@@ -49,7 +49,9 @@ from typing import Any, Optional
 # or if 'lukhas' is an installed package.
 LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = False
 try:
-    from candidate.core.registry import core_registry  # type: ignore # Assuming core is in path
+    from candidate.core.registry import (
+        core_registry,  # type: ignore # Assuming core is in path
+    )
     from candidate.core.utils.base_module import (
         BaseLucasModule,  # type: ignore # Assuming core is in path
     )

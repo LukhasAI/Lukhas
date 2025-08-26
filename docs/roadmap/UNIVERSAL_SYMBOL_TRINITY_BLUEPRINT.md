@@ -44,7 +44,7 @@ Neither person ever knows the other's private symbol, yet they understand each o
 Traditional passwords are like trying to remember a random phone number. LUKHAS passwords are like remembering your wedding day:
 
 **Old Way**: "Tr!cky#Pass2024" = Can be cracked in months
-**LUKHAS Way**: 
+**LUKHAS Way**:
 - The way you say "hello" (your voice pattern)
 - Your signature doodle (your hand movement)
 - Your childhood pet's photo (visual memory)
@@ -79,7 +79,7 @@ class UniversalSymbolSystem:
     Distributed, privacy-preserving symbol communication system
     with device-local encryption and zero-knowledge translation
     """
-    
+
     components = {
         "client_layer": {
             "personal_vocabulary": "Device-local SQLite + AES-256-GCM",
@@ -113,7 +113,7 @@ class PersonalVocabularyImplementation:
     """
     Technical implementation of device-local symbol storage
     """
-    
+
     def __init__(self, lukhas_id: bytes):
         # Key derivation using Scrypt (memory-hard, ASIC-resistant)
         kdf = Scrypt(
@@ -124,34 +124,34 @@ class PersonalVocabularyImplementation:
             p=1,      # Parallelization parameter
         )
         self.master_key = kdf.derive(lukhas_id)
-        
+
         # Initialize encrypted local database
         self.db_path = self._get_secure_storage_path()
         self.cipher = ChaCha20Poly1305(self.master_key)
-        
-    def create_symbol(self, 
+
+    def create_symbol(self,
                      multimodal_input: bytes,
                      semantic_meaning: str,
                      context_vector: np.ndarray) -> str:
         """
         Create symbol with multi-modal entropy sources
-        
+
         Entropy calculation:
         - Visual: H = -Σ p(x,y) log p(x,y) for pixel distribution
         - Audio: H = spectral_entropy(FFT(signal))
         - Gesture: H = trajectory_entropy(accelerometer_data)
         - Temporal: H = -Σ p(Δt) log p(Δt) for timing patterns
-        
+
         Total entropy = Σ H_i for all modalities
         """
-        
+
         # Generate public hash (what can be shared)
         public_hash = hashlib.blake2b(
             multimodal_input,
             digest_size=32,
             key=self.master_key[:16]  # MAC for authenticity
         ).hexdigest()
-        
+
         # Encrypt private meaning (never leaves device)
         nonce = os.urandom(12)
         ciphertext = self.cipher.encrypt(
@@ -159,15 +159,15 @@ class PersonalVocabularyImplementation:
             semantic_meaning.encode(),
             associated_data=public_hash.encode()
         )
-        
+
         # Store in local encrypted database
         with self._encrypted_connection() as conn:
             conn.execute("""
-                INSERT INTO symbols 
+                INSERT INTO symbols
                 (public_hash, encrypted_meaning, context_vector, created_at)
                 VALUES (?, ?, ?, ?)
             """, (public_hash, ciphertext, context_vector.tobytes(), time.time()))
-        
+
         return public_hash
 ```
 
@@ -181,7 +181,7 @@ class ZeroKnowledgeTranslator:
     """
     Translate between users without revealing private meanings
     """
-    
+
     def __init__(self):
         # Initialize homomorphic encryption context
         self.seal = SealContext(
@@ -189,7 +189,7 @@ class ZeroKnowledgeTranslator:
             coeff_modulus=[60, 40, 40, 60],
             scale=2**40
         )
-        
+
     def translate(self,
                   sender_vector_encrypted: bytes,
                   receiver_vocabulary: PersonalVocabulary) -> str:
@@ -199,13 +199,13 @@ class ZeroKnowledgeTranslator:
         2. Encrypt: E(v_s) using homomorphic encryption
         3. Universal: u = Transform(E(v_s)) via learned manifold
         4. Receiver: symbol_r = argmax_{s∈V_r} sim(embed(s), u)
-        
-        Privacy guarantee: 
+
+        Privacy guarantee:
         - Sender's v_s never revealed (homomorphic)
         - Receiver's vocabulary V_r never leaves device
         - Universal space u contains no private information
         """
-        
+
         # Compute similarity in encrypted space
         encrypted_similarities = []
         for symbol_hash in receiver_vocabulary.get_public_hashes():
@@ -214,12 +214,12 @@ class ZeroKnowledgeTranslator:
                 receiver_vocabulary.get_encrypted_vector(symbol_hash)
             )
             encrypted_similarities.append((symbol_hash, encrypted_sim))
-        
+
         # Receiver locally decrypts and finds best match
         best_match = receiver_vocabulary.decrypt_and_select_best(
             encrypted_similarities
         )
-        
+
         return best_match
 ```
 
@@ -230,36 +230,36 @@ class EntropyAggregator:
     """
     Combine multiple biometric and behavioral sources for maximum entropy
     """
-    
+
     @staticmethod
     def calculate_total_entropy(components: List[BiometricComponent]) -> float:
         """
         Information-theoretic entropy calculation:
-        
+
         H_total = Σ H_i - I(X_i; X_j) for all pairs
-        
+
         Where:
         - H_i = entropy of component i
         - I(X_i; X_j) = mutual information between components
-        
+
         Sources and typical entropy:
         - Voice spectral: 40-50 bits (mel-frequency cepstral coefficients)
         - Gesture dynamics: 45-60 bits (3D accelerometer trajectory)
         - Typing rhythm: 30-40 bits (keystroke dynamics)
         - Visual memory: 60-80 bits (perceptual hash of image)
         - Emotional response: 35-45 bits (GSR + heart rate variability)
-        
+
         Combined (with minimal correlation): 250-350 bits
         vs Traditional password: 50-80 bits
         """
-        
+
         individual_entropies = [c.calculate_entropy() for c in components]
-        
+
         # Subtract mutual information to avoid counting shared entropy
         mutual_info = calculate_mutual_information_matrix(components)
-        
+
         total = sum(individual_entropies) - mutual_info.sum() / 2
-        
+
         return min(total, 512)  # Cap at 512 bits for practical reasons
 ```
 
@@ -270,7 +270,7 @@ class DeviceSecurityLayer:
     """
     Ensure symbols never leave device - architectural enforcement
     """
-    
+
     def __init__(self):
         # Use platform-specific secure storage
         if platform.system() == "Darwin":  # macOS/iOS
@@ -279,20 +279,20 @@ class DeviceSecurityLayer:
             self.secure_store = WindowsCredentialLocker()
         elif platform.system() == "Linux":
             self.secure_store = SecretService()  # FreeDesktop.org
-        
+
         # Hardware security module when available
         self.hsm = self._detect_hsm()
-        
+
     def enforce_local_only(self):
         """
         Technical measures to prevent data exfiltration:
-        
+
         1. Network isolation: iptables/pf rules blocking symbol paths
         2. Memory protection: mlock() to prevent swap
         3. Process isolation: Mandatory Access Control (MAC)
         4. Secure deletion: Explicit overwrite with random data
         """
-        
+
         # Prevent network access for symbol processes
         subprocess.run([
             "iptables", "-A", "OUTPUT",
@@ -300,7 +300,7 @@ class DeviceSecurityLayer:
             "-m", "string", "--string", "symbol_vocabulary",
             "-j", "DROP"
         ])
-        
+
         # Lock memory pages containing symbols
         import ctypes
         libc = ctypes.CDLL("libc.so.6")
@@ -316,24 +316,24 @@ performance_requirements:
   symbol_creation:
     latency_p95: 50ms
     throughput: 1000/sec per device
-    
+
   translation:
     latency_p95: 100ms  # Including network
     accuracy: 0.95  # Semantic preservation
-    
+
   entropy_generation:
     min_bits: 256
     max_time: 2000ms
-    
+
   memory_usage:
     vocabulary_size: 10000 symbols
     storage: <100MB encrypted
     ram: <50MB active
-    
+
   battery_impact:
     idle: <1% per hour
     active: <5% per hour
-    
+
   privacy_guarantees:
     differential_privacy: ε=0.1, δ=10^-5
     k_anonymity: k≥5 for shared concepts
@@ -346,21 +346,21 @@ performance_requirements:
 def colony_symbol_validation(symbol: Symbol) -> ValidationResult:
     """
     Colony consensus for symbol quality and uniqueness
-    
+
     Consensus requirements:
     - Uniqueness: No collision with existing symbols (Bloom filter)
     - Entropy: Minimum 256 bits verified by 3 colonies
     - Semantic: Coherent meaning verified by language models
     - Cultural: Appropriate across contexts (ethics check)
-    
+
     BFT with n=100 colonies, f=33 Byzantine tolerance
     """
-    
+
     colonies = spawn_validation_colonies(count=100)
     votes = asyncio.gather(*[
         colony.validate_symbol(symbol) for colony in colonies
     ])
-    
+
     # Byzantine fault tolerant aggregation
     return bft_aggregate(votes, threshold=0.67)
 ```

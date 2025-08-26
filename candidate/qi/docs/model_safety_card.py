@@ -1,17 +1,21 @@
 # path: qi/docs/model_safety_card.py
 from __future__ import annotations
-import os, json, time, hashlib
-from dataclasses import dataclass, asdict
-from typing import Any, Dict, List, Optional
 
 # Safe I/O
 import builtins
+import hashlib
+import json
+import os
+import time
+from dataclasses import asdict, dataclass
+from typing import List, Optional
+
 _ORIG_OPEN = builtins.open
 
 # Jurisdiction diff support
 try:
-    from qi.risk.orchestrator_overlays import RiskOverlayManager
     from qi.docs.jurisdiction_diff import compute_overlay_diff
+    from qi.risk.orchestrator_overlays import RiskOverlayManager
     _HAS_OVERLAYS = True
 except ImportError:
     _HAS_OVERLAYS = False
@@ -24,15 +28,16 @@ def _read_json(path: str) -> dict:
     with _ORIG_OPEN(path, "r", encoding="utf-8") as f: return json.load(f)
 
 def _latest_eval() -> Optional[dict]:
-    import glob, os
+    import glob
+    import os
     files = sorted(glob.glob(os.path.join(EVALDIR, "eval_*.json")), key=os.path.getmtime, reverse=True)
     return _read_json(files[0]) if files else None
 
 def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
-    import os, hashlib
+    import os
     h = hashlib.sha256()
     def add(fp):
-        h.update(fp.encode()); 
+        h.update(fp.encode())
         try: h.update(_ORIG_OPEN(fp,"rb").read())
         except Exception: pass
     for root,_,files in os.walk(policy_root):
@@ -102,8 +107,8 @@ def to_markdown(card: dict, *, jurisdiction_diffs: Optional[dict] = None) -> str
         jdiff = f"\n### Jurisdiction Diffs\n```\n{pformat(jurisdiction_diffs)}\n```\n"
     return f"""# Model & Safety Card — {card['model_name']} (v{card['version']})
 
-**Generated:** {time.strftime('%Y-%m-%d %H:%M:%SZ', time.gmtime(card['generated_at']))}  
-**Jurisdictions:** {", ".join(card['jurisdictions'])}  
+**Generated:** {time.strftime('%Y-%m-%d %H:%M:%SZ', time.gmtime(card['generated_at']))}
+**Jurisdictions:** {", ".join(card['jurisdictions'])}
 **Policy Fingerprint:** `{card['policy_fingerprint'][:16]}…`
 
 ## Evaluation Summary
@@ -169,7 +174,7 @@ def main():
                 jdiff[f"{j1}→{j2}"] = compute_overlay_diff(mgr, j1, j2, context=args.context)
         except Exception as e:
             jdiff = {"error": str(e)}
-    
+
     md = to_markdown(card, jurisdiction_diffs=jdiff)
     with _ORIG_OPEN(args.out_md, "w", encoding="utf-8") as f: f.write(md)
 

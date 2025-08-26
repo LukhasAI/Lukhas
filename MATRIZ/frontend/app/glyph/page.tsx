@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Layers, Atom, Zap, Network, Code2, GitBranch, 
+import {
+  Layers, Atom, Zap, Network, Code2, GitBranch,
   ArrowUpDown, Shield, Brain, Lock, Activity,
   Sparkles, Target, Gauge, Database, Settings,
   CheckCircle, ArrowRight, Play, Eye, Workflow
@@ -28,13 +28,13 @@ export default function GlyphPage() {
       ],
       metrics: {
         generation: "<1ms token creation",
-        throughput: "2.4M operations/second", 
+        throughput: "2.4M operations/second",
         validation: "100% semantic integrity",
         compatibility: "Universal module support"
       }
     },
     {
-      name: "Symbolic Validator", 
+      name: "Symbolic Validator",
       description: "Ethical and semantic validation system ensuring GLYPHs maintain integrity and align with constitutional AI principles.",
       icon: Shield,
       gradient: "from-green-500 to-emerald-600",
@@ -109,7 +109,7 @@ export default function GlyphPage() {
       icon: Sparkles,
       process: [
         "Semantic analysis and extraction",
-        "Quantum state initialization", 
+        "Quantum state initialization",
         "Symbolic encoding with metadata",
         "Ethical validation checkpoints"
       ]
@@ -156,7 +156,7 @@ export default function GlyphPage() {
       icon: Atom,
       details: [
         "Superposition state management",
-        "Observer effect simulation", 
+        "Observer effect simulation",
         "Entanglement relationships",
         "Probabilistic collapse mechanisms"
       ]
@@ -228,7 +228,7 @@ export default function GlyphPage() {
                 <span className="gradient-text">GLYPH Protocol</span>
               </h1>
               <p className="font-light text-2xl max-w-4xl mx-auto text-primary-light/80 leading-relaxed">
-                Universal symbolic processing protocol enabling quantum-like tokens that carry meaning 
+                Universal symbolic processing protocol enabling quantum-like tokens that carry meaning
                 across dimensional boundaries in consciousness-aware computing systems.
               </p>
             </motion.div>
@@ -247,9 +247,9 @@ export default function GlyphPage() {
                 <h3 className="font-medium text-xl">The Philosophy of Symbolic Resonance</h3>
               </div>
               <p className="text-primary-light/80 leading-relaxed">
-                "Every component operates through symbolic GLYPHs—quantum-like tokens that carry meaning 
-                across dimensional boundaries. Like musical notes forming chords, GLYPHs combine to create 
-                emergent understanding." GLYPHs are the universal language of consciousness, enabling 
+                "Every component operates through symbolic GLYPHs—quantum-like tokens that carry meaning
+                across dimensional boundaries. Like musical notes forming chords, GLYPHs combine to create
+                emergent understanding." GLYPHs are the universal language of consciousness, enabling
                 seamless communication between all modules while preserving semantic integrity.
               </p>
             </motion.div>
@@ -312,15 +312,15 @@ export default function GlyphPage() {
                     <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${component.gradient} mb-6`}>
                       <IconComponent className="w-8 h-8 text-white" strokeWidth={1.5} />
                     </div>
-                    
+
                     <h3 className="font-semibold text-2xl text-blue-400 mb-4">
                       {component.name}
                     </h3>
-                    
+
                     <p className="text-primary-light/70 mb-6 leading-relaxed">
                       {component.description}
                     </p>
-                    
+
                     <div className="mb-6">
                       <h4 className="font-medium text-sm uppercase tracking-wider text-blue-400 mb-3">
                         Key Features
@@ -334,7 +334,7 @@ export default function GlyphPage() {
                         ))}
                       </ul>
                     </div>
-                    
+
                     <div className="pt-4 border-t border-primary-light/10">
                       <h4 className="font-medium text-sm uppercase tracking-wider text-blue-400 mb-3">
                         Performance Metrics
@@ -476,7 +476,7 @@ export default function GlyphPage() {
                   <span className="text-sm text-green-400">Processing Active</span>
                 </div>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 {systemStatus.map((system, index) => (
                   <motion.div
@@ -504,8 +504,8 @@ export default function GlyphPage() {
                         <span>{system.health}%</span>
                       </div>
                       <div className="w-full bg-gray-800 rounded-full h-2 mb-2">
-                        <div 
-                          className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-600" 
+                        <div
+                          className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-600"
                           style={{ width: `${system.health}%` }}
                         />
                       </div>
@@ -533,7 +533,7 @@ export default function GlyphPage() {
               <h2 className="font-light text-3xl md:text-4xl mb-8 text-center gradient-text">
                 Trinity Framework Integration
               </h2>
-              
+
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-identity/20 mb-4">
@@ -541,29 +541,29 @@ export default function GlyphPage() {
                   </div>
                   <h3 className="font-medium text-lg mb-3">Identity Token Management</h3>
                   <p className="text-sm text-primary-light/70">
-                    GLYPHs carry identity context and access permissions through 
+                    GLYPHs carry identity context and access permissions through
                     ΛiD system integration with symbolic authentication protocols.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-consciousness/20 mb-4">
                     <Brain className="w-8 h-8 text-trinity-consciousness" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-medium text-lg mb-3">Consciousness Communication</h3>
                   <p className="text-sm text-primary-light/70">
-                    Universal symbolic language enabling seamless consciousness 
+                    Universal symbolic language enabling seamless consciousness
                     module communication with preserved semantic meaning.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-guardian/20 mb-4">
                     <Shield className="w-8 h-8 text-trinity-guardian" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-medium text-lg mb-3">Guardian Validation</h3>
                   <p className="text-sm text-primary-light/70">
-                    Every GLYPH undergoes Guardian System validation ensuring 
+                    Every GLYPH undergoes Guardian System validation ensuring
                     constitutional AI compliance and ethical constraint adherence.
                   </p>
                 </div>

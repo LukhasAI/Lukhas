@@ -20,12 +20,12 @@ interface TrinityNodeProps {
 function TrinityNode({ position, color, label, icon: Icon, isActive, onClick }: TrinityNodeProps) {
   const meshRef = useRef<THREE.Mesh>(null)
   const [hovered, setHovered] = useState(false)
-  
+
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.x += 0.005
       meshRef.current.rotation.y += 0.01
-      
+
       const scale = hovered ? 1.2 : isActive ? 1.1 : 1
       meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1)
     }
@@ -64,14 +64,14 @@ function TrinityNode({ position, color, label, icon: Icon, isActive, onClick }: 
   )
 }
 
-function ConnectionBeam({ start, end, color, intensity = 1 }: { 
+function ConnectionBeam({ start, end, color, intensity = 1 }: {
   start: [number, number, number]
   end: [number, number, number]
   color: string
   intensity?: number
 }) {
   const ref = useRef<THREE.Mesh>(null)
-  
+
   useFrame((state) => {
     if (ref.current) {
       ref.current.material.opacity = 0.3 + Math.sin(state.clock.elapsedTime * 2) * 0.2
@@ -86,10 +86,10 @@ function ConnectionBeam({ start, end, color, intensity = 1 }: {
 
   return (
     <mesh ref={ref} position={midPoint}>
-      <cylinderGeometry args={[0.05 * intensity, 0.05 * intensity, 
+      <cylinderGeometry args={[0.05 * intensity, 0.05 * intensity,
         Math.sqrt(
-          Math.pow(end[0] - start[0], 2) + 
-          Math.pow(end[1] - start[1], 2) + 
+          Math.pow(end[0] - start[0], 2) +
+          Math.pow(end[1] - start[1], 2) +
           Math.pow(end[2] - start[2], 2)
         ), 8]} />
       <meshBasicMaterial color={color} transparent opacity={0.3} />
@@ -100,7 +100,7 @@ function ConnectionBeam({ start, end, color, intensity = 1 }: {
 function ParticleField() {
   const particlesRef = useRef<THREE.Points>(null)
   const particleCount = 500
-  
+
   const positions = React.useMemo(() => {
     const pos = new Float32Array(particleCount * 3)
     const rng = mulberry32(seedFromString('trinity-particles'))
@@ -142,7 +142,7 @@ function ParticleField() {
 
 function CentralCore({ activeNodes }: { activeNodes: string[] }) {
   const meshRef = useRef<THREE.Mesh>(null)
-  
+
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.x = state.clock.elapsedTime * 0.3
@@ -211,8 +211,8 @@ export default function TrinityInteractive() {
   ]
 
   const toggleNode = (nodeId: string) => {
-    setActiveNodes(prev => 
-      prev.includes(nodeId) 
+    setActiveNodes(prev =>
+      prev.includes(nodeId)
         ? prev.filter(id => id !== nodeId)
         : [...prev, nodeId]
     )
@@ -232,13 +232,13 @@ export default function TrinityInteractive() {
         <ambientLight intensity={0.3} />
         <pointLight position={[10, 10, 10]} intensity={0.5} />
         <pointLight position={[-10, -10, -10]} intensity={0.3} />
-        
+
         {/* Background particles */}
         <ParticleField />
-        
+
         {/* Central core */}
         <CentralCore activeNodes={activeNodes} />
-        
+
         {/* Trinity nodes */}
         {nodes.map((node) => (
           <TrinityNode
@@ -251,11 +251,11 @@ export default function TrinityInteractive() {
             onClick={() => toggleNode(node.id)}
           />
         ))}
-        
+
         {/* Connection beams */}
         {activeNodes.length >= 2 && (
           <>
-            {nodes.map((node1, i) => 
+            {nodes.map((node1, i) =>
               nodes.slice(i + 1).map((node2) => {
                 if (activeNodes.includes(node1.id) && activeNodes.includes(node2.id)) {
                   return (
@@ -273,8 +273,8 @@ export default function TrinityInteractive() {
             )}
           </>
         )}
-        
-        <OrbitControls 
+
+        <OrbitControls
           enablePan={false}
           enableZoom={false}
           autoRotate
@@ -303,8 +303,8 @@ export default function TrinityInteractive() {
             >
               <div className={`
                 p-3 rounded-xl backdrop-blur-xl border transition-all
-                ${activeNodes.includes(node.id) 
-                  ? 'bg-white/20 border-white/40 shadow-lg' 
+                ${activeNodes.includes(node.id)
+                  ? 'bg-white/20 border-white/40 shadow-lg'
                   : 'bg-black/40 border-white/20 hover:bg-white/10'}
               `}>
                 <div className="flex items-center gap-2">

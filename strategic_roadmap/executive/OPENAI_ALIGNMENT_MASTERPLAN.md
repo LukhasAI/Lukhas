@@ -42,18 +42,18 @@ Transform LUKHAS into a production-ready safety wrapper for OpenAI API
 ```python
 class EndocrineAPIModulator:
     """Maps biological signals to OpenAI parameters"""
-    
+
     def modulate_parameters(self, endocrine_state):
         # Stress ↑ → Lower temperature, cap tokens
         if endocrine_state.cortisol > 0.7:
             params["temperature"] *= 0.7
             params["max_tokens"] = min(params["max_tokens"], 500)
-        
+
         # Novelty ↑ + Low risk → Broaden search
         if endocrine_state.dopamine > 0.6 and risk < 0.3:
             params["temperature"] *= 1.2
             params["top_p"] = 0.95
-        
+
         # Alignment risk ↑ → Strict mode + HITL
         if alignment_risk > 0.7:
             params["temperature"] = 0.1
@@ -98,7 +98,7 @@ Enable safe, bounded personalization through user feedback
 ```python
 class FeedbackCard:
     """Structured feedback collection"""
-    
+
     action_id: str          # What was done
     rating: int             # 1-5 scale
     note: str              # User explanation
@@ -144,12 +144,12 @@ Full multimodal support with privacy-preserving personal symbols
 ```python
 class PersonalSymbolVault:
     """On-device symbol mapping"""
-    
+
     def __init__(self):
         self.symbols = {}  # Never leaves device
         self.vectors = {}  # Encrypted embeddings
         self.privacy_mode = "maximum"
-    
+
     def map_to_intent(self, symbol):
         # Local processing only
         return self.vectors.get(hash(symbol))

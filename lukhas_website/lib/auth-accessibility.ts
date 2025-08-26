@@ -7,7 +7,7 @@ import { AnnouncementManager, FocusManager } from './accessibility'
  * Authentication-specific accessibility utilities
  */
 export class AuthAccessibility {
-  
+
   /**
    * Enhance passkey authentication flow for screen readers
    */
@@ -24,7 +24,7 @@ export class AuthAccessibility {
     const passkeyButtons = document.querySelectorAll('[data-passkey-action]')
     passkeyButtons.forEach(button => {
       button.setAttribute('aria-describedby', 'passkey-help')
-      
+
       // Add help text if not present
       if (!document.getElementById('passkey-help')) {
         const helpText = document.createElement('div')
@@ -65,7 +65,7 @@ export class AuthAccessibility {
     progressElements.forEach(progress => {
       const currentStep = progress.getAttribute('aria-valuenow')
       const maxStep = progress.getAttribute('aria-valuemax')
-      
+
       if (currentStep && maxStep) {
         const stepAnnouncement = `Registration step ${currentStep} of ${maxStep}`
         AnnouncementManager.announce(stepAnnouncement, 'polite')
@@ -105,7 +105,7 @@ export class AuthAccessibility {
         const backButton = document.querySelector('[data-back-action]') as HTMLButtonElement
         const cancelButton = document.querySelector('[data-cancel-action]') as HTMLButtonElement
         const targetButton = cancelButton || backButton
-        
+
         if (targetButton) {
           e.preventDefault()
           targetButton.click()
@@ -156,7 +156,7 @@ export class AuthAccessibility {
         if (mutation.type === 'attributes' && mutation.attributeName === 'aria-busy') {
           const target = mutation.target as HTMLElement
           const isBusy = target.getAttribute('aria-busy') === 'true'
-          
+
           if (isBusy) {
             AnnouncementManager.announce('Processing your request, please wait...', 'polite')
           }
@@ -180,7 +180,7 @@ export class AuthAccessibility {
   static addHighContrastSupport() {
     if (window.matchMedia('(prefers-contrast: high)').matches) {
       document.documentElement.classList.add('high-contrast')
-      
+
       // Enhance contrast for Lambda symbols
       const lambdaSymbols = document.querySelectorAll('[aria-label*="Lambda"], [aria-label*="LUKHAS"]')
       lambdaSymbols.forEach(symbol => {
@@ -204,7 +204,7 @@ export class AuthAccessibility {
   static addReducedMotionSupport() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       document.documentElement.classList.add('reduce-motion')
-      
+
       // Replace animations with instant state changes
       const animations = document.querySelectorAll('[data-animation]')
       animations.forEach(element => {
@@ -292,7 +292,7 @@ export class AuthAccessibility {
  * Color contrast validation for WCAG compliance
  */
 export class AuthColorContrast {
-  
+
   /**
    * Validate authentication page color contrasts
    */
@@ -346,7 +346,7 @@ export class AuthColorContrast {
 // Auto-initialize on import
 if (typeof window !== 'undefined') {
   AuthAccessibility.initialize()
-  
+
   // Validate colors in development
   if (process.env.NODE_ENV === 'development') {
     AuthColorContrast.validateAuthColors()

@@ -95,8 +95,8 @@ class ModuleManager:
         # Quantum Mind (for memory system)
         self.register_module(
             ModuleConfig(
-                name="quantum_mind",
-                import_path="quantum_mind",
+                name="qi_mind",
+                import_path="qi_mind",
                 priority=ModulePriority.LOW,
                 auto_create_stub=True,
                 stub_content=self._get_quantum_mind_stub(),
@@ -125,7 +125,7 @@ class ModuleManager:
                 import_path="memory.systems",
                 priority=ModulePriority.HIGH,
                 fallback_class=self._create_memory_fallback(),
-                dependencies=["quantum_mind"],
+                dependencies=["qi_mind"],
                 description="Core memory and trace management",
             )
         )

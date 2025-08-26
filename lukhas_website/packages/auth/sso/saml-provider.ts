@@ -1,7 +1,7 @@
 /**
  * SAML 2.0 Provider Implementation
  * Enterprise-grade SAML integration for LUKHAS AI ΛiD System
- * 
+ *
  * Supports:
  * - SP-initiated and IdP-initiated flows
  * - Okta, Azure AD, Google Workspace
@@ -59,14 +59,14 @@ export class SAMLProvider {
     this.config = config;
     this.auditLogger = auditLogger;
     this.security = new SecurityFeatures();
-    
+
     this.xmlParser = new XMLParser({
       ignoreAttributes: false,
       attributeNamePrefix: '@_',
       parseAttributeValue: false,
       trimValues: true
     });
-    
+
     this.xmlBuilder = new XMLBuilder({
       ignoreAttributes: false,
       attributeNamePrefix: '@_',
@@ -83,7 +83,7 @@ export class SAMLProvider {
   async generateAuthnRequest(relayState?: string): Promise<{ url: string; requestId: string }> {
     const requestId = this.generateRequestId();
     const timestamp = new Date().toISOString();
-    
+
     // Store request for validation
     this.pendingRequests.set(requestId, {
       timestamp: Date.now(),
@@ -146,7 +146,7 @@ export class SAMLProvider {
     try {
       // Decode base64 response
       const xmlResponse = Buffer.from(samlResponse, 'base64').toString('utf-8');
-      
+
       // Validate XML signature
       if (!this.validateSignature(xmlResponse, this.config.certificate)) {
         throw new Error('Invalid SAML response signature');
@@ -293,7 +293,7 @@ export class SAMLProvider {
         getKeyInfo: () => `<X509Data><X509Certificate>${certificate}</X509Certificate></X509Data>`,
         getKey: () => `-----BEGIN CERTIFICATE-----\n${certificate}\n-----END CERTIFICATE-----`
       };
-      
+
       return sig.checkSignature(xml);
     } catch (error) {
       return false;
@@ -362,14 +362,14 @@ export class SAMLProvider {
     // Validate audience
     const audienceRestriction = conditions['saml:AudienceRestriction'];
     if (audienceRestriction) {
-      const audiences = Array.isArray(audienceRestriction['saml:Audience']) 
+      const audiences = Array.isArray(audienceRestriction['saml:Audience'])
         ? audienceRestriction['saml:Audience']
         : [audienceRestriction['saml:Audience']];
-      
-      const validAudience = audiences.some((aud: any) => 
+
+      const validAudience = audiences.some((aud: any) =>
         (aud['#text'] || aud) === this.config.entityId
       );
-      
+
       if (!validAudience) {
         throw new Error('Invalid audience in assertion');
       }
@@ -379,11 +379,11 @@ export class SAMLProvider {
     const subject = assertion['saml:Subject'];
     if (subject?.['saml:SubjectConfirmation']?.['saml:SubjectConfirmationData']) {
       const confirmationData = subject['saml:SubjectConfirmation']['saml:SubjectConfirmationData'];
-      
+
       if (confirmationData['@_Recipient'] !== this.config.assertionConsumerServiceUrl) {
         throw new Error('Invalid recipient in subject confirmation');
       }
-      
+
       const notOnOrAfter = new Date(confirmationData['@_NotOnOrAfter']);
       if (now.getTime() >= notOnOrAfter.getTime() + tolerance) {
         throw new Error('Subject confirmation has expired');
@@ -394,7 +394,7 @@ export class SAMLProvider {
   private mapAttributes(assertion: any): SAMLAssertion {
     const subject = assertion['saml:Subject'];
     const nameId = subject?.['saml:NameID']?.['#text'] || subject?.['saml:NameID'];
-    
+
     if (!nameId) {
       throw new Error('No NameID found in assertion');
     }
@@ -402,7 +402,7 @@ export class SAMLProvider {
     const conditions = assertion['saml:Conditions'];
     const notBefore = new Date(conditions['@_NotBefore']);
     const notOnOrAfter = new Date(conditions['@_NotOnOrAfter']);
-    
+
     const authnStatement = assertion['saml:AuthnStatement'];
     const authnInstant = new Date(authnStatement?.['@_AuthnInstant'] || Date.now());
     const sessionIndex = authnStatement?.['@_SessionIndex'];
@@ -410,18 +410,18 @@ export class SAMLProvider {
     // Extract attributes
     const attributes: Record<string, string | string[]> = {};
     const attributeStatement = assertion['saml:AttributeStatement'];
-    
+
     if (attributeStatement?.['saml:Attribute']) {
       const attrs = Array.isArray(attributeStatement['saml:Attribute'])
         ? attributeStatement['saml:Attribute']
         : [attributeStatement['saml:Attribute']];
-      
+
       for (const attr of attrs) {
         const name = attr['@_Name'];
         const values = Array.isArray(attr['saml:AttributeValue'])
           ? attr['saml:AttributeValue'].map((v: any) => v['#text'] || v)
           : [attr['saml:AttributeValue']?.['#text'] || attr['saml:AttributeValue']];
-        
+
         // Apply attribute mapping if configured
         const mappedName = this.config.attributeMapping?.[name] || name;
         attributes[mappedName] = values.length === 1 ? values[0] : values;
@@ -443,7 +443,7 @@ export class SAMLProvider {
   private cleanupExpiredRequests(): void {
     const now = Date.now();
     const maxAge = 10 * 60 * 1000; // 10 minutes
-    
+
     for (const [requestId, request] of this.pendingRequests.entries()) {
       if (now - request.timestamp > maxAge) {
         this.pendingRequests.delete(requestId);

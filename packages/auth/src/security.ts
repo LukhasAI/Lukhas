@@ -1,6 +1,6 @@
 /**
  * ΛiD Authentication System - Security Features
- * 
+ *
  * Advanced security features: refresh token family tracking, device binding,
  * session rotation, account lockout with exponential backoff
  * Integrates with LUKHAS Trinity Framework (⚛️🧠🛡️)
@@ -39,7 +39,7 @@ export class RefreshTokenFamilyManager {
     userAgent?: string
   ): string {
     const familyId = `family_${Date.now()}_${Math.random().toString(36).substring(2)}`;
-    
+
     const initialToken: RefreshTokenData = {
       id: `rt_${Date.now()}_${Math.random().toString(36).substring(2)}`,
       userId,
@@ -57,7 +57,7 @@ export class RefreshTokenFamilyManager {
     };
 
     this.familyStore.set(familyId, [initialToken]);
-    
+
     this.logSecurityEvent('REFRESH_TOKEN_FAMILY_CREATED', {
       familyId,
       userId,
@@ -159,7 +159,7 @@ export class RefreshTokenFamilyManager {
     if (!family) return;
 
     const now = new Date().toISOString();
-    
+
     // Revoke all tokens in family
     family.forEach(token => {
       if (!token.revokedAt) {
@@ -197,7 +197,7 @@ export class RefreshTokenFamilyManager {
 
     for (const [familyId, family] of this.familyStore.entries()) {
       // Remove if all tokens are expired or revoked
-      const hasActiveTokens = family.some(token => 
+      const hasActiveTokens = family.some(token =>
         !token.revokedAt && new Date(token.expiresAt) > now
       );
 
@@ -265,7 +265,7 @@ export class DeviceBindingManager {
     deviceName?: string
   ): DeviceHandle {
     const handle = `device_${Date.now()}_${Math.random().toString(36).substring(2)}`;
-    
+
     // Check if device exists by fingerprint
     const existingHandles = this.fingerprintStore.get(fingerprint) || [];
     const existingDevice = existingHandles
@@ -277,9 +277,9 @@ export class DeviceBindingManager {
       existingDevice.lastSeenAt = new Date().toISOString();
       existingDevice.lastIpAddress = ipAddress;
       existingDevice.useCount++;
-      
+
       this.deviceStore.set(existingDevice.handle, existingDevice);
-      
+
       this.logSecurityEvent('DEVICE_UPDATED', {
         deviceHandle: existingDevice.handle,
         userId,
@@ -310,7 +310,7 @@ export class DeviceBindingManager {
     };
 
     this.deviceStore.set(handle, device);
-    
+
     // Update fingerprint mapping
     existingHandles.push(handle);
     this.fingerprintStore.set(fingerprint, existingHandles);
@@ -385,9 +385,9 @@ export class DeviceBindingManager {
     }
 
     if (device.blocked) {
-      return { 
-        valid: false, 
-        reason: `Device blocked: ${device.blockedReason}` 
+      return {
+        valid: false,
+        reason: `Device blocked: ${device.blockedReason}`
       };
     }
 
@@ -400,10 +400,10 @@ export class DeviceBindingManager {
       };
     }
 
-    return { 
-      valid: true, 
+    return {
+      valid: true,
       device,
-      requiresTrust: !device.trusted 
+      requiresTrust: !device.trusted
     };
   }
 
@@ -469,7 +469,7 @@ export class DeviceBindingManager {
     const platform = this.extractPlatformInfo(userAgent);
     const browser = this.extractBrowserInfo(userAgent);
     const deviceType = this.detectDeviceType(userAgent);
-    
+
     return `${platform} ${browser} (${deviceType})`;
   }
 
@@ -600,7 +600,7 @@ export class SessionRotationManager {
     if (!session) return false;
 
     session.lastUsedAt = new Date().toISOString();
-    
+
     if (ipAddress && ipAddress !== session.ipAddress) {
       // IP address change - log security event
       this.logSecurityEvent('SESSION_IP_CHANGE', {
@@ -610,7 +610,7 @@ export class SessionRotationManager {
         newIP: ipAddress,
         severity: 'medium' as SecurityEventSeverity
       });
-      
+
       session.ipAddress = ipAddress;
     }
 
@@ -650,8 +650,8 @@ export class SessionRotationManager {
     // Check if session needs rotation
     const needsRotation = this.sessionNeedsRotation(session);
 
-    return { 
-      valid: true, 
+    return {
+      valid: true,
       session,
       requiresRotation: needsRotation
     };
@@ -729,18 +729,18 @@ export class SessionRotationManager {
       .filter(s => s.userId === session.userId && s.id !== session.id);
 
     for (const otherSession of otherSessions) {
-      if (otherSession.ipAddress && session.ipAddress && 
+      if (otherSession.ipAddress && session.ipAddress &&
           otherSession.ipAddress !== session.ipAddress) {
         const timeDiff = Math.abs(
-          new Date(session.lastUsedAt).getTime() - 
+          new Date(session.lastUsedAt).getTime() -
           new Date(otherSession.lastUsedAt).getTime()
         );
-        
+
         // Concurrent usage from different IPs within 5 minutes
         if (timeDiff < 5 * 60 * 1000) {
-          return { 
-            suspicious: true, 
-            reason: 'Concurrent sessions from different locations' 
+          return {
+            suspicious: true,
+            reason: 'Concurrent sessions from different locations'
           };
         }
       }
@@ -808,9 +808,9 @@ export class AccountLockoutManager {
   } {
     const key = userId;
     const now = Date.now();
-    
+
     let record = this.lockoutStore.get(key);
-    
+
     if (!record) {
       record = {
         attempts: 0,
@@ -842,7 +842,7 @@ export class AccountLockoutManager {
         this.baseLockoutDuration * Math.pow(2, record.backoffLevel),
         this.maxLockoutDuration
       );
-      
+
       record.lockoutUntil = now + lockoutDuration;
       record.backoffLevel++;
 
@@ -994,7 +994,7 @@ export class AccountLockoutManager {
 
     for (const [userId, record] of this.lockoutStore.entries()) {
       // Remove old records that are no longer relevant
-      if (record.lastAttempt < cleanupThreshold && 
+      if (record.lastAttempt < cleanupThreshold &&
           (!record.lockoutUntil || now > record.lockoutUntil)) {
         this.lockoutStore.delete(userId);
         cleanedCount++;

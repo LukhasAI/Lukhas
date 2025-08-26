@@ -1,1 +1,1 @@
-"""Unified quantum_systems module"""
+"""Unified qi_systems module"""

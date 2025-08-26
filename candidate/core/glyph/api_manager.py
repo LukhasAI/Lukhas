@@ -69,7 +69,7 @@ class ΛiDProfile:
     public_key: str
     verification_tier: int
     professional_roles: list[str]
-    quantum_signature: str
+    qi_signature: str
     created_at: str  # ISO format string
     consent_level: int
 
@@ -141,7 +141,7 @@ class QICrypto:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat(), λid=λid)
         log.debug("Encrypting API key.")
         salt = secrets.token_bytes(16)
-        key = QuantumCrypto.derive_key_from_λid(λid, salt)
+        key = QICrypto.derive_key_from_λid(λid, salt)
         fernet = Fernet(base64.urlsafe_b64encode(key))
 
         encrypted_key = fernet.encrypt(api_key.encode())
@@ -158,7 +158,7 @@ class QICrypto:
         log = logger.bind(timestamp=datetime.now(timezone.utc).isoformat(), λid=λid)
         log.debug("Decrypting API key.")
         salt_bytes = base64.b64decode(salt)
-        key = QuantumCrypto.derive_key_from_λid(λid, salt_bytes)
+        key = QICrypto.derive_key_from_λid(λid, salt_bytes)
         fernet = Fernet(base64.urlsafe_b64encode(key))
 
         encrypted_bytes = base64.b64decode(encrypted_key)
@@ -188,7 +188,7 @@ class VeriFoldGlyphGenerator:
         )
 
         verification_metadata = {
-            "quantum_signature": self._generate_quantum_signature(
+            "qi_signature": self._generate_quantum_signature(
                 api_key_data, λid_profile.user_id
             ),
             "professional_roles": λid_profile.professional_roles,
@@ -305,7 +305,7 @@ class VeriFoldGlyphGenerator:
         qr_payload = {
             "api_keys": api_data,
             "timestamp": datetime.now(timezone.utc).isoformat(),  # ΛTRACE_CHANGE
-            "verification": "quantum_secured",
+            "verification": "qi_secured",
             "access_method": "λid_verified",
         }
         return base64.b64encode(json.dumps(qr_payload).encode()).decode()
@@ -414,7 +414,7 @@ class LUKHASAPIManager:
             public_key=secrets.token_hex(32),
             verification_tier=verification_tier,
             professional_roles=professional_roles,
-            quantum_signature=hashlib.sha256(
+            qi_signature=hashlib.sha256(
                 f"{user_id}{current_time_utc}".encode()
             ).hexdigest(),  # ΛTRACE_CHANGE
             created_at=current_time_utc,
@@ -443,7 +443,7 @@ class LUKHASAPIManager:
     @lukhas_tier_required(level=3)  # ΛTRACE_ADD
     def store_api_key(:
         self, λid: str, service_name: str, api_key: str, access_tier: int = 1
-    ) -> QuantumAPIKey:
+    ) -> QIAPIKey:
         """Store API key with quantum encryption and VeriFold glyph."""
         current_time_utc: str = datetime.now(timezone.utc).isoformat()  # ΛTRACE_ADD
         log = logger.bind(
@@ -459,9 +459,9 @@ class LUKHASAPIManager:
             log.error("ΛiD profile not found for storing API key.")  # ΛTRACE_ADD
             raise ValueError(f"ΛiD profile not found: {λid}")
 
-        encrypted_key, salt = QuantumCrypto.encrypt_api_key(api_key, λid)
+        encrypted_key, salt = QICrypto.encrypt_api_key(api_key, λid)
 
-        key_record = QuantumAPIKey(
+        key_record = QIAPIKey(
             key_id=f"key_{secrets.token_hex(8)}",
             service_name=service_name,
             encrypted_key=encrypted_key,
@@ -476,7 +476,7 @@ class LUKHASAPIManager:
             expiry_date=(
                 datetime.now(timezone.utc) + timedelta(days=365)
             ).isoformat(),  # ΛTRACE_CHANGE
-            verification_chain=[profile.quantum_signature],
+            verification_chain=[profile.qi_signature],
             created_at=current_time_utc,  # ΛTRACE_CHANGE
         )
 
@@ -568,7 +568,7 @@ class LUKHASAPIManager:
                 )  # ΛTRACE_CHANGE
                 return None
 
-            api_key: str = QuantumCrypto.decrypt_api_key(
+            api_key: str = QICrypto.decrypt_api_key(
                 key_data["encrypted_key"], salt, λid
             )  # ΛTRACE_CHANGE: Type hint
             self._update_usage_tracking(key_id)
@@ -615,7 +615,7 @@ class LUKHASAPIManager:
             "professional_roles": profile.professional_roles,
             "verification_tier": profile.verification_tier,
             "timestamp": current_time_utc,
-            "quantum_signature": secrets.token_hex(32),  # ΛTRACE_CHANGE
+            "qi_signature": secrets.token_hex(32),  # ΛTRACE_CHANGE
         }
         glyph = self.glyph_generator.create_animated_glyph(verification_data, profile)
 
@@ -885,7 +885,7 @@ if __name__ == "__main__":
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": False,
+        "qi_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -904,7 +904,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

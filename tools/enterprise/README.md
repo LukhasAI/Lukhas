@@ -113,7 +113,7 @@ Comprehensive health monitoring with subsystem checks and intelligent alerting.
 ### Usage
 ```python
 from tools.enterprise.health_check_system import (
-    HealthCheckSystem, 
+    HealthCheckSystem,
     DatabaseHealthCheck,
     RedisHealthCheck,
     HTTPHealthCheck
@@ -139,7 +139,7 @@ health_system.register_check(
 async def alert_callback(result):
     if result.status == HealthStatus.UNHEALTHY:
         await send_slack_alert(result)
-        
+
 health_system.register_alert_callback(alert_callback)
 
 # Run checks

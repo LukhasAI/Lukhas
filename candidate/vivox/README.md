@@ -80,7 +80,7 @@ if mae_result.approved:
         perceptual_input={"user_request": "help needed"},
         internal_state={"mood": "helpful"}
     )
-    
+
     # ME records the decision
     memory_id = await vivox_me.record_decision_mutation(
         decision=decision,

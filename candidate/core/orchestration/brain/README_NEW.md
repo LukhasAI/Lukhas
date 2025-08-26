@@ -11,7 +11,7 @@ The lukhas Brain represents a revolutionary breakthrough in cognitive architectu
 ```
 🧠 lukhas Brain System
 ├── 🎭 MultiBrainSymphony          # Bio-quantum orchestrator
-├── 🧮 CognitiveCore               # Main reasoning engine  
+├── 🧮 CognitiveCore               # Main reasoning engine
 ├── 🔗 EnhancedBrainIntegration    # System integration layer
 ├── 🛡️ EU_AI_Transparency         # Compliance & transparency
 ├── 🎯 attention/                  # Attention mechanisms
@@ -40,7 +40,7 @@ For detailed technical documentation, architecture specifications, implementatio
 **👉 [lukhas/brain/docs/](docs/) - Complete Brain Documentation**
 
 - **[INDEX](docs/INDEX.md)** - Documentation overview and navigation
-- **[ARCHITECTURE](docs/architecture/)** - Detailed system architecture  
+- **[ARCHITECTURE](docs/architecture/)** - Detailed system architecture
 - **[GUIDES](docs/guides/)** - Implementation and integration guides
 - **[SPECIFICATIONS](docs/specifications/)** - Technical specs and compliance
 - **[API](docs/api/)** - Component APIs and interfaces

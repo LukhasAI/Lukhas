@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List
 
 from bio.endocrine_integration import EndocrineIntegration
+from candidate.orchestration.signals.signal_bus import SignalBus
 
 # Import LUKHAS modules to demonstrate data integration
 from lukhas.consciousness.unified.auto_consciousness import AutoConsciousness
@@ -24,7 +25,6 @@ from monitoring import (
     PlasticityTriggerType,
     start_complete_monitoring_system,
 )
-from candidate.orchestration.signals.signal_bus import SignalBus
 from reasoning.causal.causal_inference import CausalInferenceEngine
 
 

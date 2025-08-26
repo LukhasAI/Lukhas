@@ -88,7 +88,7 @@ Navigate to the appropriate regional provider:
 # For German GKV integration
 from .regions.europe.germany.gkv.gkv_interface import GKVInterface
 
-# For Spanish SAS integration  
+# For Spanish SAS integration
 from .regions.europe.spain.sas.sas_interface import SASInterface
 
 # For US Kaiser Permanente
@@ -136,7 +136,7 @@ records = await provider.get_patient_record(
 Each template supports multiple compliance frameworks:
 
 - **GDPR** (General Data Protection Regulation) - EU
-- **HIPAA** (Health Insurance Portability and Accountability Act) - US  
+- **HIPAA** (Health Insurance Portability and Accountability Act) - US
 - **LOPD** (Ley Orgánica de Protección de Datos) - Spain
 - **PIPEDA** (Personal Information Protection and Electronic Documents Act) - Canada
 
@@ -191,7 +191,7 @@ class YourProviderInterface(EHRInterface):
     async def initialize(self, config):
         # Provider-specific initialization
         pass
-    
+
     async def get_patient_record(self, patient_id, record_types=None):
         # Provider-specific implementation
         pass
@@ -241,7 +241,7 @@ All provider operations generate detailed audit logs:
 
 Track provider performance:
 - Response times
-- Error rates  
+- Error rates
 - Compliance violations
 - Resource utilization
 
@@ -257,7 +257,7 @@ from .testing.provider_test_base import ProviderTestBase
 class TestGKVInterface(ProviderTestBase):
     def setUp(self):
         self.provider = GKVInterface(test_config)
-    
+
     async def test_patient_record_retrieval(self):
         record = await self.provider.get_patient_record("test_patient")
         self.assertIsNotNone(record)
@@ -284,7 +284,7 @@ async def test_gdpr_compliance(self):
 
 Each provider includes:
 - **Integration Guide** - Step-by-step setup
-- **API Reference** - Method documentation  
+- **API Reference** - Method documentation
 - **Configuration Guide** - All settings explained
 - **Compliance Guide** - Regulatory requirements
 - **Troubleshooting** - Common issues and solutions
@@ -338,5 +338,5 @@ All templates follow healthcare-specific licensing requirements and comply with 
 
 ---
 
-**Healthcare Provider Templates** - Standardized, Secure, Compliant Integration Framework  
+**Healthcare Provider Templates** - Standardized, Secure, Compliant Integration Framework
 *Part of LUKHAS AI HealthcareGuardian - Enterprise Healthcare AI System*

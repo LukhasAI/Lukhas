@@ -58,7 +58,7 @@ The LUKHAS feedback loop has been successfully implemented with all required com
 All 6 test categories passed:
 ```
 ✅ Feedback Ingestion: PASSED
-✅ Clustering & Triage: PASSED  
+✅ Clustering & Triage: PASSED
 ✅ Proposal Promotion: PASSED
 ✅ Calibration with Weights: PASSED
 ✅ Merkle & PQC Signing: PASSED

@@ -24,7 +24,7 @@ websockets>=10.0
 pandas>=1.3.0
 msgpack>=1.0.0
 
-# Consciousness and AI integration  
+# Consciousness and AI integration
 scikit-learn>=1.0.0
 
 # Development and testing

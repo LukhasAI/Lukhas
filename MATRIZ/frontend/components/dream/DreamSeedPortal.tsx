@@ -22,7 +22,7 @@ export default function DreamSeedPortal({ onDreamBegin }: DreamSeedPortalProps) 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     setPrefersReducedMotion(mediaQuery.matches)
-    
+
     const handleChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
     mediaQuery.addEventListener('change', handleChange)
     return () => mediaQuery.removeEventListener('change', handleChange)
@@ -37,9 +37,9 @@ export default function DreamSeedPortal({ onDreamBegin }: DreamSeedPortalProps) 
 
   const handleSeedPlanting = async () => {
     if (!seedValue.trim()) return
-    
+
     setIsGerminating(true)
-    
+
     // Germination animation before transitioning
     setTimeout(() => {
       onDreamBegin(seedValue)
@@ -82,7 +82,7 @@ export default function DreamSeedPortal({ onDreamBegin }: DreamSeedPortalProps) 
       {/* Main Portal */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-6">
         <div className="text-center max-w-2xl">
-          
+
           {/* Title - Appears first */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -137,10 +137,10 @@ export default function DreamSeedPortal({ onDreamBegin }: DreamSeedPortalProps) 
                   {/* Glow effect */}
                   <div className={`absolute inset-0 rounded-full transition-all duration-1000 ${
                     isHovering || seedValue
-                      ? 'bg-purple-500/20 blur-xl scale-110' 
+                      ? 'bg-purple-500/20 blur-xl scale-110'
                       : 'bg-purple-500/10 blur-lg scale-100'
                   }`} />
-                  
+
                   {/* Input field */}
                   <input
                     ref={inputRef}
@@ -154,7 +154,7 @@ export default function DreamSeedPortal({ onDreamBegin }: DreamSeedPortalProps) 
                     autoFocus
                     className="relative z-10 w-full max-w-md mx-auto px-8 py-6 bg-black/50 border border-white/20 rounded-full text-white text-xl text-center placeholder-white/40 focus:outline-none focus:border-purple-400/50 focus:bg-black/70 transition-all duration-500 backdrop-blur-sm focus:ring-2 focus:ring-purple-400/20"
                   />
-                  
+
                   {/* Subtle pulsing ring */}
                   <div className="absolute inset-0 rounded-full border border-purple-500/30 animate-pulse" />
                 </motion.div>
@@ -208,12 +208,12 @@ export default function DreamSeedPortal({ onDreamBegin }: DreamSeedPortalProps) 
                 <div className="relative">
                   <motion.div
                     initial={{ scale: 0.5, opacity: 0.5 }}
-                    animate={{ 
+                    animate={{
                       scale: [0.5, 1.2, 1],
                       opacity: [0.5, 1, 0.8],
                       rotate: [0, 180, 360]
                     }}
-                    transition={{ 
+                    transition={{
                       duration: 3,
                       times: [0, 0.6, 1],
                       ease: "easeInOut"

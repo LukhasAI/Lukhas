@@ -10,7 +10,7 @@ import logging
 from dataclasses import dataclass
 from typing import Any, Optional
 
-logger = logging.getLogger("quantum_inspired_layer")
+logger = logging.getLogger("qi_inspired_layer")
 
 
 @dataclass
@@ -20,7 +20,7 @@ class QIConfig:
     coherence_threshold: float = 0.85
     entanglement_threshold: float = 0.95
     base_frequency: float = 10.0
-    quantum_noise_factor: float = 0.1
+    qi_noise_factor: float = 0.1
 
 
 class QIBioOscillator:
@@ -34,20 +34,20 @@ class QIBioOscillator:
     def __init__(
         self,
         base_freq: float = 10.0,
-        quantum_config: Optional[dict[str, Any]] = None,
+        qi_config: Optional[dict[str, Any]] = None,
     ):
         """Initialize quantum bio-oscillator
 
         Args:
             base_freq: Base oscillation frequency in Hz
-            quantum_config: Configuration for quantum behavior
+            qi_config: Configuration for quantum behavior
         """
         self.base_freq = base_freq
-        self.config = QuantumConfig()
+        self.config = QIConfig()
 
         # Apply quantum config overrides
-        if quantum_config:
-            for key, value in quantum_config.items():
+        if qi_config:
+            for key, value in qi_config.items():
                 if hasattr(self.config, key):
                     setattr(self.config, key, value)
 
@@ -56,7 +56,7 @@ class QIBioOscillator:
         self.superposition_state = False
         self.active = False
 
-        logger.info(f"QuantumBioOscillator initialized with base_freq={base_freq}Hz")
+        logger.info(f"QIBioOscillator initialized with base_freq={base_freq}Hz")
 
     async def enter_superposition(self) -> bool:
         """Enter superposition-like state state for processing
@@ -94,8 +94,8 @@ class QIBioOscillator:
             self.superposition_state = False
 
             # Apply measurement noise
-            self.coherence_level *= 1.0 - self.config.quantum_noise_factor
-            self.entanglement_level *= 1.0 - self.config.quantum_noise_factor
+            self.coherence_level *= 1.0 - self.config.qi_noise_factor
+            self.entanglement_level *= 1.0 - self.config.qi_noise_factor
 
             logger.debug(f"State measured: {state}")
             return state
@@ -158,14 +158,14 @@ class QIBioOscillator:
     def activate(self):
         """Activate the oscillator"""
         self.active = True
-        logger.info("QuantumBioOscillator activated")
+        logger.info("QIBioOscillator activated")
 
     def deactivate(self):
         """Deactivate the oscillator"""
         self.active = False
         self.superposition_state = False
-        logger.info("QuantumBioOscillator deactivated")
+        logger.info("QIBioOscillator deactivated")
 
 
 # CLAUDE CHANGELOG
-# - Created mock QuantumBioOscillator implementation for voice system integration # CLAUDE_EDIT_v0.19
+# - Created mock QIBioOscillator implementation for voice system integration # CLAUDE_EDIT_v0.19

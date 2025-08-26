@@ -1,6 +1,11 @@
 # path: qi/safety/provenance_links.py
 from __future__ import annotations
-import os, re, json, time, urllib.parse, argparse
+
+import argparse
+import json
+import os
+import re
+import urllib.parse
 from typing import Any, Dict, Optional, Tuple
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
@@ -28,7 +33,7 @@ def _load_record_by_sha(sha: str) -> Dict[str, Any]:
     rec_path = os.path.join(STATE, "provenance", "records", sha[:2], f"{sha}.json")
     if not os.path.exists(rec_path):
         raise FileNotFoundError(f"Record not found: {rec_path}")
-    return json.load(open(rec_path, "r", encoding="utf-8"))
+    return json.load(open(rec_path, encoding="utf-8"))
 
 # ---------- S3 presign ----------
 def _s3_presign(bucket: str, key: str, expires: int, *, filename: Optional[str], content_type: Optional[str]) -> str:
@@ -151,7 +156,7 @@ def main():
     p2.add_argument("--expires", type=int, default=900)
     p2.add_argument("--filename")
     def _run_sign(a):
-        rec = _load_record_by_sha(a.sha) if a.sha else json.load(open(a.record, "r", encoding="utf-8"))
+        rec = _load_record_by_sha(a.sha) if a.sha else json.load(open(a.record, encoding="utf-8"))
         print(json.dumps(presign_for_record(rec, expires=a.expires, filename=a.filename), indent=2))
     p2.set_defaults(func=_run_sign)
 

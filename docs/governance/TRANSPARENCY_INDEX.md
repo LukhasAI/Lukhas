@@ -1,6 +1,6 @@
 # 📑 LUKHAS Module Transparency Documentation
 
-**Created**: 2025-07-24  
+**Created**: 2025-07-24
 **Purpose**: Provide complete transparency into the LUKHAS AGI module system
 
 ## 📚 Available Documentation

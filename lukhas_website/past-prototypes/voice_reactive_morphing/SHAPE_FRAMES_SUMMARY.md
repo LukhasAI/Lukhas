@@ -273,4 +273,4 @@ We've successfully built a comprehensive **Shape Frame System** that transforms 
 
 ---
 
-**Ready to explore the world of AI-driven 3D shapes?** Start by opening `test-shape-frames.html` and watch your voice bring shapes to life! 
+**Ready to explore the world of AI-driven 3D shapes?** Start by opening `test-shape-frames.html` and watch your voice bring shapes to life!

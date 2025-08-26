@@ -4,8 +4,8 @@ Unified access to all safety and compliance systems
 """
 
 from backend.security.privacy_manager import PrivacyManager
-
 from compliance.ai_compliance import AICompliance
+
 from candidate.orchestration.brain.safety_guardrails import SafetyGuardrails
 
 

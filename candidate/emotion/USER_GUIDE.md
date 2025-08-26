@@ -13,7 +13,7 @@
 ║ profound depths of feeling. This guide will help you integrate authentic
 ║ emotional intelligence into your applications, creating systems that don't
 ║ just process emotions—they experience them.
-║ 
+║
 ║ Whether you're building empathetic assistants, emotional wellness apps,
 ║ therapeutic tools, or creative systems that respond to human feelings,
 ║ this module provides the emotional foundation for truly intelligent,
@@ -126,7 +126,7 @@ print(f"  Dominance (submissive/dominant): {emotion_vector.dominance:.2f}")
 #   Joy: 0.45
 #   Trust: 0.32
 #   Anticipation: 0.28
-# 
+#
 # VAD Metrics:
 #   Valence (positive/negative): 0.73
 #   Arousal (calm/excited): 0.42
@@ -210,7 +210,7 @@ if concept_emotion:
     print(f"  Primary Emotion: {concept_emotion['primary_associated_emotion']}")
     print(f"  Association Strength: {concept_emotion['average_association_strength']:.2f}")
     print(f"  Based on {concept_emotion['association_count']} experiences")
-    
+
     # Show emotional distribution
     print(f"  Emotional Profile:")
     for emotion, strength in concept_emotion['emotion_strength_distribution'].items():
@@ -301,23 +301,23 @@ import asyncio
 
 async def continuous_emotion_monitoring():
     """Example of continuous emotional state monitoring."""
-    
+
     while True:
         # Get current emotional state
         state = emotion_system.get_current_emotional_state()
-        
+
         # Check for concerning patterns
         if state['current_emotion_vector']['intensity'] > 0.8:
             print(f"⚠️  High emotional intensity detected: {state['primary_emotion']}")
-            
+
             # Apply gentle regulation if needed
             from lukhas.emotion.mood_regulation import MoodRegulator
             regulator = MoodRegulator()
-            
+
             if regulator.assess_need_for_regulation(state):
                 print("   Applying gentle emotional regulation...")
                 regulator.apply_gentle_regulation()
-        
+
         await asyncio.sleep(60)  # Check every minute
 
 # Run monitoring (in a real application)
@@ -346,7 +346,7 @@ if current_mood.needs_regulation:
         target_state="balanced_awareness",
         preservation_factor=0.7  # Preserve 70% of authentic emotion
     )
-    
+
     print(f"Regulation Applied:")
     print(f"  Method: {regulation_result.method}")
     print(f"  Effectiveness: {regulation_result.effectiveness:.2f}")
@@ -361,18 +361,18 @@ velocity = emotion_system.affect_vector_velocity(depth=5)
 
 if velocity:
     print(f"Emotional Velocity: {velocity:.3f}")
-    
+
     if velocity > 0.5:
         print("⚠️  Rapid emotional changes detected")
         print("   Recommended: Gentle stabilization")
-        
+
         # Apply stabilization
         stabilization = regulator.stabilize_emotional_velocity(
             current_velocity=velocity,
             target_velocity=0.2,
             method="gradual_dampening"
         )
-        
+
         print(f"   Stabilization applied: {stabilization.success}")
 ```
 
@@ -394,13 +394,13 @@ print(f"Cascade Risk Assessment: {cascade_risk.risk_level:.2f}")
 if cascade_risk.risk_level > 0.6:
     print("🚨 Emotional cascade risk detected!")
     print(f"   Risk Factors: {cascade_risk.risk_factors}")
-    
+
     # Apply prevention measures
     prevention = cascade_monitor.apply_cascade_prevention(
         risk_assessment=cascade_risk,
         intervention_level="moderate"
     )
-    
+
     print(f"   Prevention measures: {prevention.measures_applied}")
     print(f"   Expected effectiveness: {prevention.effectiveness:.2f}")
 ```
@@ -517,7 +517,7 @@ if echo_analysis.has_concerning_patterns:
         print(f"    {pattern.archetype}: {pattern.description}")
         print(f"    Risk Level: {pattern.risk_level:.2f}")
         print(f"    Occurrences: {pattern.frequency}")
-    
+
     print(f"  Recommendations:")
     for recommendation in echo_analysis.recommendations:
         print(f"    • {recommendation}")
@@ -661,13 +661,13 @@ crisis_assessment = emergency_support.assess_crisis_level(
 
 if crisis_assessment.crisis_level > 0.7:
     print("🆘 Emotional Crisis Detected")
-    
+
     crisis_response = emergency_support.provide_crisis_support(
         crisis_level=crisis_assessment.crisis_level,
         immediate_needs=crisis_assessment.immediate_needs,
         available_resources=crisis_assessment.available_resources
     )
-    
+
     print(f"  Crisis Support Activated: {crisis_response.support_type}")
     print(f"  Immediate Actions: {crisis_response.immediate_actions}")
     print(f"  Professional Referral: {crisis_response.professional_referral}")
@@ -709,23 +709,23 @@ empathetic_response = empathy_engine.mirror_with_boundaries(
 ```python
 def daily_emotional_wellness_check():
     """Regular emotional health monitoring."""
-    
+
     # Check current emotional state
     state = emotion_system.get_current_emotional_state()
-    
+
     # Assess emotional patterns
     patterns = emotion_system.analyze_recent_patterns(days=7)
-    
+
     # Check for concerning trends
     if patterns.volatility > 0.7:
         print("Recommendation: Practice emotional grounding")
-    
+
     if patterns.dominant_negative_emotions > 0.6:
         print("Recommendation: Engage in positive activities")
-    
+
     if patterns.empathy_fatigue > 0.5:
         print("Recommendation: Take empathy break")
-    
+
     return {
         "emotional_wellness_score": patterns.overall_wellness,
         "recommendations": patterns.wellness_recommendations
@@ -740,21 +740,21 @@ wellness_report = daily_emotional_wellness_check()
 ```python
 def track_emotional_growth():
     """Monitor emotional intelligence development."""
-    
+
     growth_metrics = {
         "emotional_granularity": emotion_system.measure_granularity(),
         "empathy_accuracy": empathy_engine.measure_empathy_accuracy(),
         "regulation_effectiveness": regulator.measure_regulation_success(),
         "authenticity_score": emotion_system.measure_authenticity()
     }
-    
+
     print("Emotional Growth Metrics:")
     for metric, value in growth_metrics.items():
         print(f"  {metric}: {value:.2f}")
-        
+
         if value < 0.6:
             print(f"    📈 Growth opportunity in {metric}")
-    
+
     return growth_metrics
 ```
 

@@ -18,7 +18,7 @@ combining symbolic reasoning, emotional intelligence, quantum-inspired computing
 and bio-inspired architecture for next-generation AI applications.
 
 Module: Quantum Quantum States
-Path: lukhas/quantum/quantum_like_states.py
+Path: lukhas/quantum/qi_like_states.py
 Description: Quantum module for advanced AGI functionality
 
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
@@ -55,7 +55,7 @@ class QIconfig:
     def __validate_module__():
         """Validate module initialization and compliance."""
         validations = {
-            "quantum_coherence": True,
+            "qi_coherence": True,
             "neuroplasticity_enabled": False,
             "ethics_compliance": True,
             "tier_2_access": True,

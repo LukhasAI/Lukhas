@@ -6,8 +6,8 @@ import React, { memo } from 'react'
 import { useAnimatedBackground } from '../hooks/useAnimatedBackground'
 import ConstellationBackground from './ConstellationBackground'
 
-const AnimatedBackground = memo(({ 
-  type = 'constellation', 
+const AnimatedBackground = memo(({
+  type = 'constellation',
   isActive = true,
   className = '',
   style = {}
@@ -30,7 +30,7 @@ const AnimatedBackground = memo(({
   // For clouds, we use a subtle static gradient only
   if (type === 'clouds') {
     return (
-      <div 
+      <div
         className={`fixed inset-0 pointer-events-none z-0 ${className}`}
         style={gradientStyle}
       />
@@ -38,14 +38,14 @@ const AnimatedBackground = memo(({
   }
 
   return (
-    <div 
+    <div
       className={`fixed inset-0 pointer-events-none z-0 ${className}`}
       style={gradientStyle}
     >
-      <canvas 
+      <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
-        style={{ 
+        style={{
           opacity: isActive ? 1 : 0,
           transition: 'opacity 0.3s ease-in-out'
         }}

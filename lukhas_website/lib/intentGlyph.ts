@@ -30,7 +30,7 @@ const INTENT_PATTERNS = {
     { pattern: /\b(triangle|pyramid)\b/i, confidence: 0.8, shape: 'cube' }, // fallback
     { pattern: /\b(star|sparkle)\b/i, confidence: 0.7, shape: 'sphere' }
   ],
-  
+
   emotion: [
     { pattern: /\b(happy|joy|excited|energetic|bright)\b/i, confidence: 0.8, shape: 'sphere' },
     { pattern: /\b(sad|melancholy|down|heavy)\b/i, confidence: 0.8, shape: 'cube' },
@@ -38,7 +38,7 @@ const INTENT_PATTERNS = {
     { pattern: /\b(calm|peaceful|serene|flowing)\b/i, confidence: 0.8, shape: 'torus' },
     { pattern: /\b(chaotic|random|wild|crazy)\b/i, confidence: 0.7, shape: 'helix' }
   ],
-  
+
   action: [
     { pattern: /\b(spin|rotate|turn|whirl)\b/i, confidence: 0.9, shape: 'torus' },
     { pattern: /\b(expand|grow|inflate|swell)\b/i, confidence: 0.8, shape: 'sphere' },
@@ -46,7 +46,7 @@ const INTENT_PATTERNS = {
     { pattern: /\b(twist|spiral|coil)\b/i, confidence: 0.9, shape: 'helix' },
     { pattern: /\b(pulse|beat|throb|oscillate)\b/i, confidence: 0.8, shape: 'sphere' }
   ],
-  
+
   concept: [
     { pattern: /\b(consciousness|awareness|mind|thought)\b/i, confidence: 0.9, shape: 'sphere' },
     { pattern: /\b(memory|remember|recall|past)\b/i, confidence: 0.8, shape: 'helix' },
@@ -73,7 +73,7 @@ const QUOTE_PATTERNS = [
 export function analyzeIntent(text: string): Intent[] {
   const intents: Intent[] = []
   const lowerText = text.toLowerCase()
-  
+
   // Check each intent category
   for (const [category, patterns] of Object.entries(INTENT_PATTERNS)) {
     for (const { pattern, confidence, shape } of patterns) {
@@ -85,20 +85,20 @@ export function analyzeIntent(text: string): Intent[] {
           keywords: matches,
           shapeDNA: shape ? generateShapeDNA(`${category}-${shape}-${text.slice(0, 20)}`) : undefined
         }
-        
+
         intents.push(intent)
       }
     }
   }
-  
+
   // Extract potential glyph text
   const quotes = extractQuotes(text)
   if (quotes.length > 0) {
     // Find the most significant quote
-    const bestQuote = quotes.reduce((best, current) => 
+    const bestQuote = quotes.reduce((best, current) =>
       current.length > best.length ? current : best
     )
-    
+
     if (bestQuote.length >= 3 && bestQuote.length <= 50) {
       intents.push({
         type: 'concept',
@@ -109,7 +109,7 @@ export function analyzeIntent(text: string): Intent[] {
       })
     }
   }
-  
+
   // Sort by confidence
   return intents.sort((a, b) => b.confidence - a.confidence)
 }
@@ -119,7 +119,7 @@ export function analyzeIntent(text: string): Intent[] {
  */
 export function extractQuotes(text: string): string[] {
   const quotes: string[] = []
-  
+
   for (const pattern of QUOTE_PATTERNS) {
     let match
     while ((match = pattern.exec(text)) !== null) {
@@ -129,7 +129,7 @@ export function extractQuotes(text: string): string[] {
       }
     }
   }
-  
+
   // Remove duplicates and sort by length (longer = more significant)
   return Array.from(new Set(quotes)).sort((a, b) => b.length - a.length)
 }
@@ -138,29 +138,29 @@ export function extractQuotes(text: string): string[] {
  * Generate glyph event from chat message
  */
 export function createGlyphEvent(
-  message: string, 
+  message: string,
   role: 'user' | 'assistant' = 'user'
 ): GlyphEvent | null {
   const intents = analyzeIntent(message)
-  
+
   if (intents.length === 0) return null
-  
+
   const primaryIntent = intents[0]
-  
+
   // Determine text to visualize
   let glyphText = primaryIntent.glyphText
   if (!glyphText) {
     // Use first significant word if no quotes found
-    const significantWords = message.split(/\s+/).filter(word => 
+    const significantWords = message.split(/\s+/).filter(word =>
       word.length >= 4 && !/^(the|and|but|for|are|you|all|can|had|her|was|one|our|out|day|get|has|him|his|how|its|may|new|now|old|see|two|way|who|boy|did|she|use|man|can|her|now|old|see|way|who)$/i.test(word)
     )
     glyphText = significantWords[0] || message.split(' ')[0] || 'IDEA'
   }
-  
+
   // Determine priority and duration
   let priority: GlyphEvent['priority'] = 'medium'
   let duration = 2000 // default 2 seconds
-  
+
   if (role === 'assistant') {
     priority = 'high'
     duration = 3000 // AI responses held longer
@@ -171,7 +171,7 @@ export function createGlyphEvent(
     priority = 'low'
     duration = 1500
   }
-  
+
   return {
     text: glyphText.toUpperCase().slice(0, 20), // Limit length and capitalize
     intent: primaryIntent,
@@ -188,7 +188,7 @@ export class GlyphQueue {
   private queue: GlyphEvent[] = []
   private currentEvent: GlyphEvent | null = null
   private timeoutId: number | null = null
-  
+
   /**
    * Add glyph event to queue
    */
@@ -197,7 +197,7 @@ export class GlyphQueue {
     if (this.queue.length >= 3) {
       this.queue = this.queue.filter(e => e.priority !== 'low')
     }
-    
+
     // Insert by priority
     const insertIndex = this.queue.findIndex(e => e.priority < event.priority)
     if (insertIndex === -1) {
@@ -205,13 +205,13 @@ export class GlyphQueue {
     } else {
       this.queue.splice(insertIndex, 0, event)
     }
-    
+
     // Start processing if not already active
     if (!this.currentEvent) {
       this.processNext()
     }
   }
-  
+
   /**
    * Process next event in queue
    */
@@ -220,9 +220,9 @@ export class GlyphQueue {
       this.currentEvent = null
       return
     }
-    
+
     this.currentEvent = this.queue.shift()!
-    
+
     // Emit glyph render event
     window.dispatchEvent(new CustomEvent('lukhas-render-glyph', {
       detail: {
@@ -231,33 +231,33 @@ export class GlyphQueue {
         duration: this.currentEvent.duration
       }
     }))
-    
+
     // Schedule next event
     this.timeoutId = window.setTimeout(() => {
       this.processNext()
     }, this.currentEvent.duration)
   }
-  
+
   /**
    * Clear queue and current event
    */
   clear(): void {
     this.queue = []
     this.currentEvent = null
-    
+
     if (this.timeoutId) {
       clearTimeout(this.timeoutId)
       this.timeoutId = null
     }
   }
-  
+
   /**
    * Get current glyph text being displayed
    */
   getCurrentText(): string | null {
     return this.currentEvent?.text || null
   }
-  
+
   /**
    * Get queue status
    */
@@ -277,7 +277,7 @@ export const globalGlyphQueue = new GlyphQueue()
  * Helper to process chat message and queue glyph
  */
 export function processMessageForGlyph(
-  message: string, 
+  message: string,
   role: 'user' | 'assistant' = 'user'
 ): void {
   const event = createGlyphEvent(message, role)

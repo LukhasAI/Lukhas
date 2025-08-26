@@ -11,7 +11,7 @@ The system uses a sophisticated **6-factor triggering mechanism**:
 ### Core Triggering Components
 
 1. **Real-time data collection** from all LUKHAS  modules every 2-5 seconds
-2. **Multi-dimensional trigger evaluation** combining biological + cognitive signals  
+2. **Multi-dimensional trigger evaluation** combining biological + cognitive signals
 3. **Adaptive threshold calculations** that learn and adjust over time
 4. **Cooldown management** to prevent trigger spam
 5. **Risk assessment** before applying any adaptations
@@ -20,21 +20,21 @@ The system uses a sophisticated **6-factor triggering mechanism**:
 ### Example Trigger Flow
 
 ```
-User says "I'm stressed" 
+User says "I'm stressed"
     ↓
-NL Interface detects negative emotion 
+NL Interface detects negative emotion
     ↓
-Consciousness awareness increases 
+Consciousness awareness increases
     ↓
-Endocrine cortisol rises 
+Endocrine cortisol rises
     ↓
-Combined stress indicator = 0.71 
+Combined stress indicator = 0.71
     ↓
-Exceeds adaptive threshold 0.68 
+Exceeds adaptive threshold 0.68
     ↓
-STRESS TRIGGER FIRES 
+STRESS TRIGGER FIRES
     ↓
-Adaptation applied 
+Adaptation applied
     ↓
 System learns from outcome
 ```
@@ -61,7 +61,7 @@ Thresholds are **dynamically calculated** using a 6-factor adaptive algorithm:
 ```python
 # ADAPTIVE THRESHOLD CALCULATION
 threshold = base_threshold (e.g., 0.7)
-+ historical_adaptation (-0.05 if recent values lower)  
++ historical_adaptation (-0.05 if recent values lower)
 + circadian_factor (-0.1 during work hours for stress)
 + system_load_factor (+0.02 if system busy)
 + success_rate_factor (-0.03 if adaptations work well)
@@ -123,7 +123,7 @@ consciousness.get_attention_targets() → current focus areas
 natural_language_interface._analyze_emotion() → emotional state
 ```
 
-#### MEMORY DATA  
+#### MEMORY DATA
 ```python
 memoria.get_memory_statistics() → memory load, fold count
 memoria.get_consolidation_rate() → learning efficiency
@@ -161,7 +161,7 @@ brain_hub.get_coordination_metrics() → integration quality
 ### Data Integration Pipeline
 
 1. **Real-time collection** from 7+ module categories
-2. **Derived metric calculation** combining multiple sources  
+2. **Derived metric calculation** combining multiple sources
 3. **Biological correlation** linking cognitive + hormonal states
 4. **Context determination** based on combined signals
 5. **Trigger evaluation** using adaptive thresholds
@@ -201,7 +201,7 @@ learning_readiness = (
 When real modules are unavailable:
 
 - **Intelligent simulation** based on system state
-- **psutil integration** for actual CPU/memory as stress proxies  
+- **psutil integration** for actual CPU/memory as stress proxies
 - **Time-based cycles** simulating natural biological rhythms
 - **Behavioral inference** from user interactions and system activity
 - **Pattern-based estimation** using historical data
@@ -215,7 +215,7 @@ When real modules are unavailable:
    - Hormone level tracking and analysis
    - Plasticity trigger detection and firing
 
-2. **PlasticityTriggerManager** 
+2. **PlasticityTriggerManager**
    - Intelligent adaptation decision-making
    - Risk assessment and safety validation
    - Adaptation strategy selection and execution

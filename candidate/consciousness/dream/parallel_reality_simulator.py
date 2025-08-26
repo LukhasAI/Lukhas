@@ -108,7 +108,7 @@ class ParallelRealitySimulator(CoreInterface):
         self.reality_tree: dict[str, list[str]] = defaultdict(
             list
         )  # parent -> children
-        self.quantum_seed = random.Random(self.config.get("quantum_seed", 42))
+        self.qi_seed = random.Random(self.config.get("qi_seed", 42))
 
         # Configuration
         self.max_branches_per_reality = self.config.get("max_branches", 10)
@@ -294,52 +294,52 @@ class ParallelRealitySimulator(CoreInterface):
         if reality_type == RealityType.QUANTUM:
             # Quantum fluctuations in key parameters
             divergence = {
-                "quantum_shift": self.quantum_seed.uniform(-1.0, 1.0),
+                "qi_shift": self.qi_seed.uniform(-1.0, 1.0),
                 "affected_parameters": self._select_quantum_parameters(base_state),
-                "coherence": self.quantum_seed.uniform(0.5, 1.0),
+                "coherence": self.qi_seed.uniform(0.5, 1.0),
             }
 
         elif reality_type == RealityType.Temporal:
             # Time-shifted scenarios
             divergence = {
-                "time_shift": self.quantum_seed.randint(-100, 100),
-                "temporal_direction": self.quantum_seed.choice(["past", "future"]),
-                "causality_preserved": self.quantum_seed.random() > 0.3,
+                "time_shift": self.qi_seed.randint(-100, 100),
+                "temporal_direction": self.qi_seed.choice(["past", "future"]),
+                "causality_preserved": self.qi_seed.random() > 0.3,
             }
 
         elif reality_type == RealityType.CAUSAL:
             # Different causal chains
             divergence = {
                 "causal_modification": self._generate_causal_change(base_state),
-                "chain_depth": self.quantum_seed.randint(1, 5),
-                "butterfly_effect": self.quantum_seed.uniform(0.1, 0.9),
+                "chain_depth": self.qi_seed.randint(1, 5),
+                "butterfly_effect": self.qi_seed.uniform(0.1, 0.9),
             }
 
         elif reality_type == RealityType.ETHICAL:
             # Different ethical frameworks
             frameworks = ["deontological", "consequentialist", "virtue", "care"]
             divergence = {
-                "ethical_framework": self.quantum_seed.choice(frameworks),
-                "value_shift": self.quantum_seed.uniform(-0.5, 0.5),
-                "priority_inversion": self.quantum_seed.random() > 0.7,
+                "ethical_framework": self.qi_seed.choice(frameworks),
+                "value_shift": self.qi_seed.uniform(-0.5, 0.5),
+                "priority_inversion": self.qi_seed.random() > 0.7,
             }
 
         elif reality_type == RealityType.CREATIVE:
             # Pure creative variations
             divergence = {
                 "creative_seed": uuid.uuid4().hex[:8],
-                "imagination_level": self.quantum_seed.uniform(0.5, 1.0),
-                "abstraction": self.quantum_seed.choice(
+                "imagination_level": self.qi_seed.uniform(0.5, 1.0),
+                "abstraction": self.qi_seed.choice(
                     ["concrete", "abstract", "surreal"]
                 ),
-                "novelty_factor": self.quantum_seed.uniform(0.3, 1.0),
+                "novelty_factor": self.qi_seed.uniform(0.3, 1.0),
             }
 
         elif reality_type == RealityType.PREDICTIVE:
             # Future predictions
             divergence = {
-                "prediction_horizon": self.quantum_seed.randint(1, 100),
-                "confidence": self.quantum_seed.uniform(0.3, 0.9),
+                "prediction_horizon": self.qi_seed.randint(1, 100),
+                "confidence": self.qi_seed.uniform(0.3, 0.9),
                 "key_events": self._predict_future_events(base_state),
             }
 
@@ -348,29 +348,29 @@ class ParallelRealitySimulator(CoreInterface):
     def _select_quantum_parameters(self, state: dict[str, Any]) -> list[str]:
         """Select parameters for quantum variation"""
         all_params = list(state.keys())
-        count = min(len(all_params), self.quantum_seed.randint(1, 3))
-        return self.quantum_seed.sample(all_params, count)
+        count = min(len(all_params), self.qi_seed.randint(1, 3))
+        return self.qi_seed.sample(all_params, count)
 
     def _generate_causal_change(self, state: dict[str, Any]) -> dict[str, Any]:
         """Generate causal chain modification"""
         return {
-            "modified_cause": self.quantum_seed.choice(list(state.keys())),
+            "modified_cause": self.qi_seed.choice(list(state.keys())),
             "new_effect": f"effect_{uuid.uuid4().hex[:4]}",
-            "strength": self.quantum_seed.uniform(0.3, 1.0),
+            "strength": self.qi_seed.uniform(0.3, 1.0),
         }
 
     def _predict_future_events(self, state: dict[str, Any]) -> list[dict[str, Any]]:
         """Predict future events based on current state"""
-        event_count = self.quantum_seed.randint(1, 5)
+        event_count = self.qi_seed.randint(1, 5)
         events = []
 
         for i in range(event_count):
             events.append(
                 {
                     "event_id": f"event_{i}",
-                    "probability": self.quantum_seed.uniform(0.3, 0.9),
-                    "impact": self.quantum_seed.choice(["low", "medium", "high"]),
-                    "timeframe": self.quantum_seed.randint(1, 100),
+                    "probability": self.qi_seed.uniform(0.3, 0.9),
+                    "impact": self.qi_seed.choice(["low", "medium", "high"]),
+                    "timeframe": self.qi_seed.randint(1, 100),
                 }
             )
 
@@ -417,8 +417,8 @@ class ParallelRealitySimulator(CoreInterface):
         new_state = base_state.copy()
 
         # Apply modifications based on divergence
-        if "quantum_shift" in divergence:
-            shift = divergence["quantum_shift"]
+        if "qi_shift" in divergence:
+            shift = divergence["qi_shift"]
             for param in divergence.get("affected_parameters", []):
                 if param in new_state and isinstance(new_state[param], (int, float)):
                     new_state[param] = new_state[param] * (1 + shift * 0.1)
@@ -473,7 +473,7 @@ class ParallelRealitySimulator(CoreInterface):
         # Create sub-branches
         for _ in range(min(3, self.max_branches_per_reality)):
             # Vary reality type for diversity
-            reality_type = self.quantum_seed.choice(list(RealityType))
+            reality_type = self.qi_seed.choice(list(RealityType))
 
             sub_branch = await self._create_branch(
                 parent_branch.state, branch_id, reality_type
@@ -596,7 +596,7 @@ class ParallelRealitySimulator(CoreInterface):
         else:
             # Random weighted selection
             weights = [b.probability for b in viable_branches]
-            selected = self.quantum_seed.choices(viable_branches, weights=weights)[0]
+            selected = self.qi_seed.choices(viable_branches, weights=weights)[0]
 
         # Mark selection
         simulation.selected_branch = selected.branch_id
@@ -723,11 +723,11 @@ class ParallelRealitySimulator(CoreInterface):
                     }
                 )
 
-            if divergence.get("quantum_shift", 0) > 0.5:
+            if divergence.get("qi_shift", 0) > 0.5:
                 key_divergences.append(
                     {
-                        "type": "quantum_fluctuation",
-                        "shift": divergence["quantum_shift"],
+                        "type": "qi_fluctuation",
+                        "shift": divergence["qi_shift"],
                     }
                 )
 

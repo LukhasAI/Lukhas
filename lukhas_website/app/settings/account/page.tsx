@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  ChevronLeftIcon, 
-  UserCircleIcon, 
-  EnvelopeIcon, 
+import {
+  ChevronLeftIcon,
+  UserCircleIcon,
+  EnvelopeIcon,
   CalendarIcon,
   ShieldCheckIcon,
   ArrowDownTrayIcon,
@@ -416,7 +416,7 @@ export default function AccountSettingsPage() {
               </div>
 
               <div className="text-xs text-white/50">
-                Export includes: profile information, session history, settings, and preferences. 
+                Export includes: profile information, session history, settings, and preferences.
                 No authentication credentials or sensitive security data is included.
               </div>
             </div>
@@ -436,7 +436,7 @@ export default function AccountSettingsPage() {
                   <div className="flex-1">
                     <h3 className="text-white font-medium mb-1">Delete your account</h3>
                     <p className="text-white/60 text-sm mb-4">
-                      Permanently delete your LUKHAS AI account and all associated data. 
+                      Permanently delete your LUKHAS AI account and all associated data.
                       This action cannot be undone.
                     </p>
 

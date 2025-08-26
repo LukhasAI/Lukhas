@@ -357,7 +357,7 @@ class ModalityProcessor:
 class MultiModalProcessor:
     """
     Main processor for multi-modal inputs.
-    
+
     Handles combination and analysis of multiple modalities.
     """
 

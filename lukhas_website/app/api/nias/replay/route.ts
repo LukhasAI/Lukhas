@@ -56,11 +56,11 @@ async function getCurrentUserContext(req: NextRequest): Promise<{
 } | null> {
   const token = req.cookies.get('auth-token')?.value;
   if (!token) return null;
-  
+
   try {
     const payload = await verifyJWT(token);
     if (!payload?.sub) return null;
-    
+
     return {
       userId: payload.sub,
       tier: payload.tier || 'T1',
@@ -94,20 +94,20 @@ function executeReplay(request: ReplayRequest): {
 } {
   const replayId = `nias-replay-${Date.now()}`;
   const { replay_type, source, sandbox_config, replay_parameters, consciousness_context } = request;
-  
+
   // Simulate execution metrics based on request parameters
   const baseSteps = 100;
   const speedMultiplier = replay_parameters.speed_multiplier || 1.0;
   const steps_executed = Math.floor(baseSteps * speedMultiplier);
   const execution_time_ms = Math.floor((steps_executed / speedMultiplier) * 10);
-  
+
   const results = {
     states_captured: sandbox_config.monitoring.trace_execution ? steps_executed : 0,
     symbolic_operations: sandbox_config.monitoring.log_symbolic_ops ? Math.floor(steps_executed * 1.5) : 0,
     consciousness_events: sandbox_config.monitoring.capture_consciousness ? Math.floor(steps_executed * 0.3) : 0,
     memory_integrations: consciousness_context?.memory_integration ? Math.floor(steps_executed * 0.2) : 0
   };
-  
+
   // Generate artifacts based on monitoring configuration
   const artifacts: any = {};
   if (sandbox_config.monitoring.trace_execution) {
@@ -122,44 +122,44 @@ function executeReplay(request: ReplayRequest): {
   if (sandbox_config.monitoring.performance_profiling) {
     artifacts.performance_profile = `perf_${replayId}.prof`;
   }
-  
+
   // Generate insights
   const insights: string[] = [];
   const warnings: string[] = [];
-  
+
   if (replay_type === 'consciousness_trace') {
     insights.push('Consciousness patterns show strong coherence throughout replay');
     if (consciousness_context?.awareness_level && consciousness_context.awareness_level < 60) {
       warnings.push('Low awareness level may affect replay fidelity');
     }
   }
-  
+
   if (replay_type === 'dream_sequence') {
     insights.push('Dream logic maintained consistency across symbolic transformations');
     insights.push('Novel pattern combinations detected during replay');
   }
-  
+
   if (source.type === 'validation_session') {
     insights.push('Validation replay confirmed original symbolic interpretations');
   }
-  
+
   if (sandbox_config.isolation_level === 'strict') {
     insights.push('Strict isolation prevented any external state contamination');
   } else {
     warnings.push('Non-strict isolation - results may have external influences');
   }
-  
+
   if (results.symbolic_operations > 200) {
     insights.push('High symbolic operation density indicates complex reasoning patterns');
   }
-  
+
   // Determine status
   let status: 'completed' | 'failed' | 'partial' = 'completed';
   if (execution_time_ms > 25000) { // Timeout simulation
     status = 'partial';
     warnings.push('Execution exceeded time limits - replay truncated');
   }
-  
+
   return {
     replayId,
     status,
@@ -174,9 +174,9 @@ function executeReplay(request: ReplayRequest): {
 
 /**
  * POST /api/nias/replay
- * 
+ *
  * Execute sandboxed replay of NIAS sessions for analysis and debugging
- * 
+ *
  * This stub implementation simulates:
  * 1. Secure sandbox creation
  * 2. Session state restoration
@@ -184,9 +184,9 @@ function executeReplay(request: ReplayRequest): {
  * 4. Consciousness state tracking
  * 5. Symbolic operation monitoring
  * 6. Safe artifact extraction
- * 
+ *
  * Body: ReplayRequest
- * 
+ *
  * Response:
  * {
  *   "success": true,
@@ -210,7 +210,7 @@ export async function POST(req: NextRequest) {
         expectedAvailability: '2025-Q4'
       });
     }
-    
+
     // Parse and validate request body
     const body = await req.json().catch(() => null);
     const parsed = ReplayRequestSchema.safeParse(body);
@@ -222,17 +222,17 @@ export async function POST(req: NextRequest) {
         }))
       });
     }
-    
+
     const replayRequest = parsed.data;
-    
+
     // Get user context and check authorization
     const userContext = await getCurrentUserContext(req);
     if (!userContext) {
       return unauthorized('Authentication required');
     }
-    
+
     const { userId, tier, scopes } = userContext;
-    
+
     // Check NIAS replay permissions
     const authResult = hasExtendedScope(
       tier as any,
@@ -248,25 +248,25 @@ export async function POST(req: NextRequest) {
         }
       }
     );
-    
+
     if (!authResult.allowed) {
       return unauthorized(`Insufficient permissions for NIAS replay: ${authResult.reason}`);
     }
-    
+
     // Additional tier-based restrictions
     if (replayRequest.replay_type === 'consciousness_trace' && tier < 'T3') {
       return unauthorized('Consciousness trace replay requires T3+ tier');
     }
-    
+
     if (replayRequest.sandbox_config.resource_limits.memory_mb > 2048 && tier < 'T4') {
       return unauthorized('High memory replay requires T4+ tier');
     }
-    
+
     // Execute replay (stub implementation)
     const replayResult = executeReplay(replayRequest);
     const startedAt = new Date().toISOString();
     const completedAt = new Date(Date.now() + replayResult.execution_time_ms).toISOString();
-    
+
     // Log replay event
     console.log('[NIAS REPLAY STUB]', JSON.stringify({
       event: 'sandbox_replay_executed',
@@ -280,7 +280,7 @@ export async function POST(req: NextRequest) {
       startedAt,
       completedAt
     }));
-    
+
     return ok({
       replayId: replayResult.replayId,
       status: replayResult.status,
@@ -314,7 +314,7 @@ export async function POST(req: NextRequest) {
         symbolic_processing: replayRequest.replay_parameters.symbolic_interpretation
       }
     });
-    
+
   } catch (error) {
     console.error('[NIAS REPLAY ERROR]', error);
     return badRequest('Internal server error during replay execution');
@@ -323,15 +323,15 @@ export async function POST(req: NextRequest) {
 
 /**
  * GET /api/nias/replay
- * 
+ *
  * Get replay history and sandbox status
- * 
+ *
  * Query params:
  * - session_id: Filter by session ID
  * - replay_type: Filter by replay type
  * - status: Filter by execution status
  * - limit: Number of results (default 20)
- * 
+ *
  * Response:
  * {
  *   "success": true,
@@ -352,15 +352,15 @@ export async function GET(req: NextRequest) {
         feature: 'sandbox_replay'
       });
     }
-    
+
     // Get user context and check authorization
     const userContext = await getCurrentUserContext(req);
     if (!userContext) {
       return unauthorized('Authentication required');
     }
-    
+
     const { userId, tier, scopes } = userContext;
-    
+
     // Check read permissions
     const authResult = hasExtendedScope(
       tier as any,
@@ -371,18 +371,18 @@ export async function GET(req: NextRequest) {
         action: 'read_replay_history'
       }
     );
-    
+
     if (!authResult.allowed) {
       return unauthorized(`Insufficient permissions: ${authResult.reason}`);
     }
-    
+
     // Parse query parameters
     const { searchParams } = new URL(req.url);
     const sessionIdFilter = searchParams.get('session_id');
     const replayTypeFilter = searchParams.get('replay_type');
     const statusFilter = searchParams.get('status');
     const limit = Math.min(50, parseInt(searchParams.get('limit') || '20'));
-    
+
     // Stub data - recent replays
     const stubReplays = [
       {
@@ -417,7 +417,7 @@ export async function GET(req: NextRequest) {
         warnings: ['Execution timeout - replay truncated']
       }
     ];
-    
+
     // Apply filters
     let filteredReplays = stubReplays;
     if (sessionIdFilter) {
@@ -430,7 +430,7 @@ export async function GET(req: NextRequest) {
       filteredReplays = filteredReplays.filter(r => r.status === statusFilter);
     }
     filteredReplays = filteredReplays.slice(0, limit);
-    
+
     // Sandbox status (stub)
     const sandboxStatus = {
       available_sandboxes: 5,
@@ -441,7 +441,7 @@ export async function GET(req: NextRequest) {
       isolation_levels: ['strict', 'moderate', 'minimal'],
       supported_replay_types: ['full', 'partial', 'debug', 'consciousness_trace', 'dream_sequence']
     };
-    
+
     // User quotas based on tier (stub)
     const quotas = {
       daily_replays: tier === 'T5' ? 1000 : tier === 'T4' ? 100 : tier === 'T3' ? 20 : 5,
@@ -450,7 +450,7 @@ export async function GET(req: NextRequest) {
       max_execution_time_ms: tier === 'T5' ? 30000 : tier === 'T4' ? 15000 : tier === 'T3' ? 10000 : 5000,
       consciousness_replay_allowed: parseInt(tier.substring(1)) >= 3
     };
-    
+
     return ok({
       recentReplays: filteredReplays,
       sandboxStatus,
@@ -468,7 +468,7 @@ export async function GET(req: NextRequest) {
         timestamp: new Date().toISOString()
       }
     });
-    
+
   } catch (error) {
     console.error('[NIAS REPLAY GET ERROR]', error);
     return badRequest('Internal server error retrieving replay data');

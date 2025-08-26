@@ -14,7 +14,7 @@ class A11yLinter {
   constructor() {
     this.violations = [];
     this.warnings = [];
-    
+
     // Critical accessibility patterns
     this.a11yPatterns = [
       {
@@ -56,13 +56,13 @@ class A11yLinter {
     console.log('♿ Scanning for accessibility violations...\n');
 
     const files = this.getFilesToScan();
-    
+
     for (const filePath of files) {
       await this.scanFile(filePath);
     }
 
     this.reportResults();
-    
+
     // Exit with error code if critical violations found
     if (this.violations.length > 0) {
       process.exit(1);
@@ -71,9 +71,9 @@ class A11yLinter {
 
   getFilesToScan() {
     const files = [];
-    
+
     for (const pattern of this.scanPatterns) {
-      const matches = glob.sync(pattern, { 
+      const matches = glob.sync(pattern, {
         cwd: process.cwd(),
         ignore: ['node_modules/**', '.git/**']
       });
@@ -90,7 +90,7 @@ class A11yLinter {
 
       for (const rule of this.a11yPatterns) {
         const matches = [...content.matchAll(rule.pattern)];
-        
+
         for (const match of matches) {
           const violation = rule.check(content, match, relativePath);
           if (violation) {
@@ -115,18 +115,18 @@ class A11yLinter {
   checkLambdaAccessibility(content, match, filePath) {
     const lambdaIndex = match.index;
     const lineNumber = this.getLineNumber(content, lambdaIndex);
-    
+
     // Look for aria-label in the surrounding context (within 200 chars)
     const contextStart = Math.max(0, lambdaIndex - 200);
     const contextEnd = Math.min(content.length, lambdaIndex + 200);
     const context = content.substring(contextStart, contextEnd);
-    
+
     // Check if Λ is in a context that has aria-label
     const hasAriaLabel = /aria-label\s*=\s*["'][^"']*matriz[^"']*["']/i.test(context);
-    
+
     // Check if it's in alt text or title (which should use plain text)
     const isInAltOrTitle = /(alt|title)\s*=\s*["'][^"']*[λΛ]/i.test(context);
-    
+
     if (isInAltOrTitle) {
       return {
         file: filePath,
@@ -137,7 +137,7 @@ class A11yLinter {
         type: 'lambda-alt-text'
       };
     }
-    
+
     if (!hasAriaLabel) {
       return {
         file: filePath,
@@ -149,17 +149,17 @@ class A11yLinter {
         suggestion: 'Add aria-label="Matriz" to the element containing Λ'
       };
     }
-    
+
     return null;
   }
 
   checkImageAlt(content, match, filePath) {
     const imgTag = match[0];
     const lineNumber = this.getLineNumber(content, match.index);
-    
+
     // Check if alt attribute is present
     const hasAlt = /alt\s*=/i.test(imgTag);
-    
+
     if (!hasAlt) {
       return {
         file: filePath,
@@ -170,7 +170,7 @@ class A11yLinter {
         type: 'missing-alt'
       };
     }
-    
+
     // Check if alt text contains Λ
     const altMatch = imgTag.match(/alt\s*=\s*["']([^"']*[λΛ][^"']*)["']/i);
     if (altMatch) {
@@ -183,28 +183,28 @@ class A11yLinter {
         type: 'lambda-in-alt'
       };
     }
-    
+
     return null;
   }
 
   checkButtonAccessibility(content, match, filePath) {
     const buttonTag = match[0];
     const lineNumber = this.getLineNumber(content, match.index);
-    
+
     // Find the closing button tag to get full content
     const buttonStart = match.index;
     const buttonEndRegex = /<\/button>/i;
     const buttonEndMatch = buttonEndRegex.exec(content.substring(buttonStart));
-    
+
     if (!buttonEndMatch) return null;
-    
+
     const fullButton = content.substring(buttonStart, buttonStart + buttonEndMatch.index + buttonEndMatch[0].length);
-    
+
     // Check for accessible name (text content, aria-label, or aria-labelledby)
     const hasTextContent = />([^<]*\w[^<]*)</i.test(fullButton);
     const hasAriaLabel = /aria-label\s*=/i.test(fullButton);
     const hasAriaLabelledBy = /aria-labelledby\s*=/i.test(fullButton);
-    
+
     if (!hasTextContent && !hasAriaLabel && !hasAriaLabelledBy) {
       return {
         file: filePath,
@@ -215,13 +215,13 @@ class A11yLinter {
         type: 'button-no-name'
       };
     }
-    
+
     return null;
   }
 
   checkAriaLabelLambda(content, match, filePath) {
     const lineNumber = this.getLineNumber(content, match.index);
-    
+
     return {
       file: filePath,
       line: lineNumber,
@@ -239,13 +239,13 @@ class A11yLinter {
       /bg-gray-[1-3][^0-9]/g, // Very light backgrounds
       /text-gray-[1-3][^0-9]/g // Very light text
     ];
-    
+
     for (const pattern of lowContrastPatterns) {
       const matches = [...content.matchAll(pattern)];
-      
+
       for (const match of matches) {
         const lineNumber = this.getLineNumber(content, match.index);
-        
+
         this.warnings.push({
           file: filePath,
           line: lineNumber,
@@ -260,15 +260,15 @@ class A11yLinter {
 
   checkHeadingStructure(content, filePath) {
     const headingMatches = [...content.matchAll(/<h([1-6])[^>]*>/gi)];
-    
+
     if (headingMatches.length === 0) return;
-    
+
     let previousLevel = 0;
-    
+
     for (const match of headingMatches) {
       const currentLevel = parseInt(match[1]);
       const lineNumber = this.getLineNumber(content, match.index);
-      
+
       // Check for skipped heading levels
       if (currentLevel > previousLevel + 1) {
         this.warnings.push({
@@ -280,7 +280,7 @@ class A11yLinter {
           type: 'heading-skip'
         });
       }
-      
+
       previousLevel = currentLevel;
     }
   }
@@ -299,7 +299,7 @@ class A11yLinter {
     // Report critical violations
     if (this.violations.length > 0) {
       console.log(`❌ ${this.violations.length} Accessibility Violations Found:\n`);
-      
+
       if (violationsByType['lambda-aria-label']) {
         console.log('🔤 Lambda Accessibility Issues:');
         for (const violation of violationsByType['lambda-aria-label']) {
@@ -335,7 +335,7 @@ class A11yLinter {
     // Report warnings
     if (this.warnings.length > 0) {
       console.log(`⚠️  ${this.warnings.length} Accessibility Warnings:\n`);
-      
+
       for (const warning of this.warnings) {
         console.log(`${warning.file}:${warning.line}`);
         console.log(`  ⚠️  ${warning.message}`);
@@ -350,7 +350,7 @@ class A11yLinter {
       console.log('📋 Summary:');
       console.log(`  Critical violations: ${this.violations.length}`);
       console.log(`  Warnings: ${this.warnings.length}`);
-      
+
       if (this.violations.length > 0) {
         console.log('\n🚫 Build blocked due to accessibility violations.');
       }

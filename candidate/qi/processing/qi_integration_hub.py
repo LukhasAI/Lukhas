@@ -24,7 +24,7 @@ import structlog
 
 # Import priority quantum components for Agent 10
 from ..states.bio_optimizer import QIBioOptimizationAdapter
-from .system_orchestrator import QuantumAGISystem
+from .system_orchestrator import QIAGISystem
 from .ΛBot_quantum_security import PostQuantumCryptographyEngine
 
 logger = structlog.get_logger(__name__)
@@ -35,7 +35,7 @@ class QIIntegrationHub:
 
     def __init__(self):
         self.services: dict[str, Any] = {}
-        self.quantum_system: Optional[QuantumAGISystem] = None
+        self.qi_system: Optional[QIAGISystem] = None
         self.initialized = False
 
         # Initialize priority components for Agent 10
@@ -49,18 +49,18 @@ class QIIntegrationHub:
             self.register_service("bio_optimization", self.bio_optimizer)
 
             # Quantum security engine
-            self.quantum_security = PostQuantumCryptographyEngine()
-            self.register_service("quantum_security", self.quantum_security)
+            self.qi_security = PostQuantumCryptographyEngine()
+            self.register_service("qi_security", self.qi_security)
 
-            logger.info("quantum_priority_services_initialized")
+            logger.info("qi_priority_services_initialized")
 
         except Exception as e:
-            logger.error("quantum_service_initialization_failed", error=str(e))
+            logger.error("qi_service_initialization_failed", error=str(e))
 
     def register_service(self, name: str, service: Any) -> None:
         """Register a quantum service"""
         self.services[name] = service
-        logger.debug("quantum_service_registered", service=name)
+        logger.debug("qi_service_registered", service=name)
 
     async def initialize(self) -> None:
         """Initialize quantum integration hub"""
@@ -75,7 +75,7 @@ class QIIntegrationHub:
             await self._connect_voice_integration()
 
             self.initialized = True
-            logger.info("quantum_integration_hub_initialized")
+            logger.info("qi_integration_hub_initialized")
 
         except Exception as e:
             logger.warning("qi_hub_initialization_failed", error=str(e))
@@ -106,10 +106,10 @@ class QIIntegrationHub:
             # Register quantum enhancement services if voice hub supports it
             if hasattr(voice_hub, "register_service"):
                 voice_hub.register_service(
-                    "quantum_voice_security", self.quantum_security
+                    "qi_voice_security", self.qi_security
                 )
 
-            logger.info("quantum_voice_integration_connected")
+            logger.info("qi_voice_integration_connected")
 
         except Exception as e:
             logger.debug("voice_integration_connection_failed", error=str(e))
@@ -138,10 +138,10 @@ class QIIntegrationHub:
                     results["bio_result"] = await bio_service.optimize(data)
 
             if (
-                request_type == "quantum_security"
-                and "quantum_security" in self.services
+                request_type == "qi_security"
+                and "qi_security" in self.services
             ):
-                security_service = self.services["quantum_security"]
+                security_service = self.services["qi_security"]
                 if hasattr(security_service, "encrypt"):
                     results["security_result"] = await security_service.encrypt(data)
 
@@ -149,7 +149,7 @@ class QIIntegrationHub:
             return results
 
         except Exception as e:
-            logger.error("quantum_processing_failed", error=str(e))
+            logger.error("qi_processing_failed", error=str(e))
             return {"error": str(e)}
 
     async def health_check(self) -> dict[str, Any]:
@@ -182,21 +182,21 @@ class QIIntegrationHub:
         if shutdown_tasks:
             await asyncio.gather(*shutdown_tasks, return_exceptions=True)
 
-        logger.info("quantum_integration_hub_shutdown_complete")
+        logger.info("qi_integration_hub_shutdown_complete")
 
 
 # Singleton pattern for quantum integration hub
-_quantum_integration_hub_instance: Optional[QuantumIntegrationHub] = None
+_quantum_integration_hub_instance: Optional[QIIntegrationHub] = None
 
 
-def get_quantum_integration_hub() -> QuantumIntegrationHub:
+def get_quantum_integration_hub() -> QIIntegrationHub:
     """Get the global quantum integration hub instance"""
     global _quantum_integration_hub_instance
     if _quantum_integration_hub_instance is None:
-        _quantum_integration_hub_instance = QuantumIntegrationHub()
+        _quantum_integration_hub_instance = QIIntegrationHub()
     return _quantum_integration_hub_instance
 
 
 # Export for Agent 10 integration
-__all__ = ["QuantumIntegrationHub", "get_quantum_integration_hub"]
-__all__ = ["QuantumIntegrationHub", "get_quantum_integration_hub"]
+__all__ = ["QIIntegrationHub", "get_quantum_integration_hub"]
+__all__ = ["QIIntegrationHub", "get_quantum_integration_hub"]

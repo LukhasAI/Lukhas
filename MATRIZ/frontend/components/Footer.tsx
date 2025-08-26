@@ -44,7 +44,7 @@ export default function Footer() {
     <footer className="relative bg-black/50 border-t border-white/10 mt-32">
       {/* Gradient Line */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-trinity-identity via-trinity-consciousness to-trinity-guardian" />
-      
+
       <div className="container mx-auto max-w-7xl px-6 py-16">
         {/* Main Footer Content */}
         <div className="grid md:grid-cols-5 gap-8 mb-12">
@@ -84,7 +84,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.product.map((link) => (
                   <li key={link.label}>
-                    <Link 
+                    <Link
                       href={link.href}
                       className="text-sm text-primary-light/60 hover:text-primary-light transition-colors"
                     >
@@ -104,7 +104,7 @@ export default function Footer() {
                 {footerLinks.resources.map((link) => (
                   <li key={link.label}>
                     {link.external ? (
-                      <a 
+                      <a
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -114,7 +114,7 @@ export default function Footer() {
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     ) : (
-                      <Link 
+                      <Link
                         href={link.href}
                         className="text-sm text-primary-light/60 hover:text-primary-light transition-colors"
                       >
@@ -134,7 +134,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.company.map((link) => (
                   <li key={link.label}>
-                    <Link 
+                    <Link
                       href={link.href}
                       className="text-sm text-primary-light/60 hover:text-primary-light transition-colors"
                     >
@@ -153,7 +153,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerLinks.legal.map((link) => (
                   <li key={link.label}>
-                    <Link 
+                    <Link
                       href={link.href}
                       className="text-sm text-primary-light/60 hover:text-primary-light transition-colors"
                     >

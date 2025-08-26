@@ -10,7 +10,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'SF Pro Display', -apple-elite consciousness (🧠 Trinity) (🧠 Trinity) (⚛️ Trinity) (⚛️ Trinity) (⚛️ Trinity) technology system powered by Trinity Framework (⚛️🧠🛡️), BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -19,7 +19,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .chat-container {
             width: 90%;
             max-width: 800px;
@@ -32,46 +32,46 @@
             flex-direction: column;
             overflow: hidden;
         }
-        
+
         .chat-header {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
             padding: 20px;
             text-align: center;
         }
-        
+
         .chat-header h1 {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 5px;
         }
-        
+
         .chat-header p {
             opacity: 0.9;
             font-size: 14px;
         }
-        
+
         .chat-messages {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
             background: #f8fafc;
         }
-        
+
         .message {
             margin-bottom: 20px;
             display: flex;
             align-items: flex-start;
         }
-        
+
         .message.user {
             justify-content: flex-end;
         }
-        
+
         .message.bot {
             justify-content: flex-start;
         }
-        
+
         .message-avatar {
             width: 40px;
             height: 40px;
@@ -83,53 +83,53 @@
             font-weight: bold;
             color: white;
         }
-        
+
         .message.user .message-avatar {
             background: #10b981;
         }
-        
+
         .message.bot .message-avatar {
             background: #6366f1;
         }
-        
+
         .message-content {
             max-width: 70%;
             padding: 15px;
             border-radius: 18px;
             word-wrap: break-word;
         }
-        
+
         .message.user .message-content {
             background: #10b981;
             color: white;
             border-bottom-right-radius: 4px;
         }
-        
+
         .message.bot .message-content {
             background: white;
             color: #374151;
             border: 1px solid #e5e7eb;
             border-bottom-left-radius: 4px;
         }
-        
+
         .message-time {
             font-size: 11px;
             opacity: 0.7;
             margin-top: 5px;
         }
-        
+
         .approval-request {
             background: #fef3c7 !important;
             border: 2px solid #f59e0b !important;
             border-radius: 12px !important;
         }
-        
+
         .approval-buttons {
             margin-top: 15px;
             display: flex;
             gap: 10px;
         }
-        
+
         .approval-btn {
             padding: 8px 16px;
             border: none;
@@ -138,34 +138,34 @@
             font-weight: 500;
             transition: all 0.2s;
         }
-        
+
         .approve-btn {
             background: #10b981;
             color: white;
         }
-        
+
         .deny-btn {
             background: #ef4444;
             color: white;
         }
-        
+
         .approval-btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-        
+
         .chat-input {
             padding: 20px;
             background: white;
             border-top: 1px solid #e5e7eb;
         }
-        
+
         .input-container {
             display: flex;
             gap: 10px;
             align-items: center;
         }
-        
+
         #messageInput {
             flex: 1;
             padding: 15px;
@@ -175,11 +175,11 @@
             font-size: 16px;
             transition: border-color 0.2s;
         }
-        
+
         #messageInput:focus {
             border-color: #6366f1;
         }
-        
+
         #sendButton {
             padding: 15px 25px;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
@@ -190,18 +190,18 @@
             font-weight: 600;
             transition: all 0.2s;
         }
-        
+
         #sendButton:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
-        
+
         #sendButton:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
-        
+
         .typing-indicator {
             display: none;
             padding: 15px;
@@ -210,12 +210,12 @@
             border: 1px solid #e5e7eb;
             max-width: 70%;
         }
-        
+
         .typing-dots {
             display: flex;
             gap: 4px;
         }
-        
+
         .typing-dot {
             width: 8px;
             height: 8px;
@@ -223,15 +223,15 @@
             background: #6366f1;
             animation: typing 1.4s infinite;
         }
-        
+
         .typing-dot:nth-child(2) {
             animation-delay: 0.2s;
         }
-        
+
         .typing-dot:nth-child(3) {
             animation-delay: 0.4s;
         }
-        
+
         @keyframes typing {
             0%, 60%, 100% {
                 transform: translateY(0);
@@ -242,7 +242,7 @@
                 opacity: 1;
             }
         }
-        
+
         .haiku-element {
             background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%);
             border-left: 4px solid #d946ef;
@@ -251,7 +251,7 @@
             border-radius: 8px;
             font-style: italic;
         }
-        
+
         .status-indicator {
             position: absolute;
             top: 20px;
@@ -261,28 +261,28 @@
             font-size: 12px;
             font-weight: 600;
         }
-        
+
         .status-online {
             background: #dcfce7;
             color: #166534;
         }
-        
+
         .status-offline {
             background: #fee2e2;
             color: #991b1b;
         }
-        
+
         @media (max-width: 768px) {
             .chat-container {
                 width: 95%;
                 height: 90vh;
                 border-radius: 15px;
             }
-            
+
             .message-content {
                 max-width: 85%;
             }
-            
+
             .chat-header h1 {
                 font-size: 20px;
             }
@@ -296,7 +296,7 @@
             <h1>🤖 Λ Content Chat Bot</h1>
             <p>Your consciousness technology-powered content creation assistant</p>
         </div>
-        
+
         <div class="chat-messages" id="chatMessages">
             <!-- Welcome message -->
             <div class="message bot">
@@ -316,7 +316,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="typing-indicator" id="typingIndicator">
             <div class="message-avatar">🤖</div>
             <div class="typing-dots">
@@ -325,12 +325,12 @@
                 <div class="typing-dot"></div>
             </div>
         </div>
-        
+
         <div class="chat-input">
             <div class="input-container">
-                <input 
-                    type="text" 
-                    id="messageInput" 
+                <input
+                    type="text"
+                    id="messageInput"
                     placeholder="Ask me to generate content, create campaigns, or check analytics..."
                     autocomplete="off"
                 >
@@ -349,12 +349,12 @@
                 this.chatMessages = document.getElementById('chatMessages');
                 this.typingIndicator = document.getElementById('typingIndicator');
                 this.statusIndicator = document.getElementById('statusIndicator');
-                
+
                 this.initializeEventListeners();
                 this.connectWebSocket();
                 this.setWelcomeTime();
             }
-            
+
             initializeEventListeners() {
                 this.sendButton.addEventListener('click', () => this.sendMessage());
                 this.messageInput.addEventListener('keypress', (e) => {
@@ -362,43 +362,43 @@
                         this.sendMessage();
                     }
                 });
-                
+
                 // Auto-resize input
                 this.messageInput.addEventListener('input', () => {
                     this.messageInput.style.height = 'auto';
                     this.messageInput.style.height = this.messageInput.scrollHeight + 'px';
                 });
             }
-            
+
             connectWebSocket() {
                 const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
                 const wsUrl = `${wsProtocol}//${window.location.host}/ws/${this.userId}`;
-                
+
                 this.ws = new WebSocket(wsUrl);
-                
+
                 this.ws.onopen = () => {
                     console.log('WebSocket connected');
                     this.updateStatus('online');
                 };
-                
+
                 this.ws.onmessage = (event) => {
                     const message = JSON.parse(event.data);
                     this.handleIncomingMessage(message);
                 };
-                
+
                 this.ws.onclose = () => {
                     console.log('WebSocket disconnected');
                     this.updateStatus('offline');
                     // Attempt to reconnect after 3 seconds
                     setTimeout(() => this.connectWebSocket(), 3000);
                 };
-                
+
                 this.ws.onerror = (error) => {
                     console.error('WebSocket error:', error);
                     this.updateStatus('offline');
                 };
             }
-            
+
             updateStatus(status) {
                 if (status === 'online') {
                     this.statusIndicator.className = 'status-indicator status-online';
@@ -408,75 +408,75 @@
                     this.statusIndicator.textContent = '🔴 Offline';
                 }
             }
-            
+
             sendMessage() {
                 const message = this.messageInput.value.trim();
                 if (!message || !this.ws || this.ws.readyState !== WebSocket.OPEN) {
                     return;
                 }
-                
+
                 // Add user message to chat
                 this.addMessage({
                     type: 'user',
                     content: message,
                     timestamp: new Date().toISOString()
                 });
-                
+
                 // Send to WebSocket
                 this.ws.send(JSON.stringify({
                     type: 'user_message',
                     content: message,
                     timestamp: new Date().toISOString()
                 }));
-                
+
                 // Clear input and show typing indicator
                 this.messageInput.value = '';
                 this.showTypingIndicator();
-                
+
                 // Disable send button temporarily
                 this.sendButton.disabled = true;
                 setTimeout(() => {
                     this.sendButton.disabled = false;
                 }, 1000);
             }
-            
+
             handleIncomingMessage(message) {
                 this.hideTypingIndicator();
-                
+
                 if (message.type === 'approval_request') {
                     this.handleApprovalRequest(message);
                 } else {
                     this.addMessage(message);
                 }
             }
-            
+
             addMessage(message) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${message.type}`;
-                
+
                 const avatar = document.createElement('div');
                 avatar.className = 'message-avatar';
                 avatar.textContent = message.type === 'user' ? '👤' : '🤖';
-                
+
                 const content = document.createElement('div');
                 content.className = 'message-content';
-                
+
                 // Process content for markdown and haiku elements
                 const processedContent = this.processMessageContent(message.content);
                 content.innerHTML = processedContent;
-                
+
                 const time = document.createElement('div');
                 time.className = 'message-time';
                 time.textContent = new Date(message.timestamp).toLocaleTimeString();
                 content.appendChild(time);
-                
+
                 messageDiv.appendChild(avatar);
                 messageDiv.appendChild(content);
-                
+
                 this.chatMessages.appendChild(messageDiv);
                 this.scrollToBottom();
             }
-            
+
             processMessageContent(content) {
                 // Simple markdown processing
                 let processed = content
@@ -484,28 +484,28 @@
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
                     .replace(/`(.*?)`/g, '<code>$1</code>')
                     .replace(/\n/g, '<br>');
-                
+
                 // Process haiku elements
                 processed = processed.replace(/🌸.*?>/g, (match) => {
                     return `<div class="haiku-element">${match}</div>`;
                 });
-                
+
                 return processed;
             }
-            
+
             handleApprovalRequest(message) {
                 const approvalData = JSON.parse(message.content);
-                
+
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'message bot';
-                
+
                 const avatar = document.createElement('div');
                 avatar.className = 'message-avatar';
                 avatar.textContent = '🔐';
-                
+
                 const content = document.createElement('div');
                 content.className = 'message-content approval-request';
-                
+
                 content.innerHTML = `
                     <strong>⚠️ Approval Required</strong><br><br>
                     <strong>Task:</strong> ${approvalData.task}<br>
@@ -513,7 +513,7 @@
                     <strong>Expires:</strong> ${new Date(approvalData.expires_at).toLocaleTimeString()}<br><br>
                     <strong>Parameters:</strong><br>
                     <pre>${JSON.stringify(approvalData.parameters, null, 2)}</pre>
-                    
+
                     <div class="approval-buttons">
                         <button class="approval-btn approve-btn" onclick="handleApproval('${approvalData.approval_id}', true)">
                             ✅ Approve
@@ -523,19 +523,19 @@
                         </button>
                     </div>
                 `;
-                
+
                 const time = document.createElement('div');
                 time.className = 'message-time';
                 time.textContent = new Date(message.timestamp).toLocaleTimeString();
                 content.appendChild(time);
-                
+
                 messageDiv.appendChild(avatar);
                 messageDiv.appendChild(content);
-                
+
                 this.chatMessages.appendChild(messageDiv);
                 this.scrollToBottom();
             }
-            
+
             async handleApproval(approvalId, approved) {
                 try {
                     const response = await fetch(`/approve/${approvalId}`, {
@@ -545,18 +545,18 @@
                         },
                         body: JSON.stringify({ approved })
                     });
-                    
+
                     const result = await response.json();
-                    
+
                     // Add confirmation message
                     this.addMessage({
                         type: 'bot',
-                        content: approved ? 
-                            '✅ **Approval granted!** Task is now executing...' : 
+                        content: approved ?
+                            '✅ **Approval granted!** Task is now executing...' :
                             '❌ **Approval denied.** Task has been cancelled.',
                         timestamp: new Date().toISOString()
                     });
-                    
+
                 } catch (error) {
                     console.error('Approval error:', error);
                     this.addMessage({
@@ -566,22 +566,22 @@
                     });
                 }
             }
-            
+
             showTypingIndicator() {
                 this.typingIndicator.style.display = 'flex';
                 this.scrollToBottom();
             }
-            
+
             hideTypingIndicator() {
                 this.typingIndicator.style.display = 'none';
             }
-            
+
             scrollToBottom() {
                 setTimeout(() => {
                     this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
                 }, 100);
             }
-            
+
             setWelcomeTime() {
                 const welcomeTime = document.getElementById('welcomeTime');
                 if (welcomeTime) {
@@ -589,12 +589,12 @@
                 }
             }
         }
-        
+
         // Global function for approval buttons
         window.handleApproval = function(approvalId, approved) {
             window.chatBot.handleApproval(approvalId, approved);
         };
-        
+
         // Initialize chat bot when page loads
         document.addEventListener('DOMContentLoaded', () => {
             window.chatBot = new ContentChatBot();

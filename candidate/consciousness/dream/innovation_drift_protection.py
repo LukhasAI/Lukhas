@@ -26,13 +26,6 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from consciousness.states.symbolic_drift_tracker import (
-    DriftPhase,
-    DriftScore,
-    SymbolicDriftTracker,
-    SymbolicState,
-)
-
 # Core LUKHAS imports
 from candidate.core.common import GLYPHToken, get_logger
 from candidate.core.common.exceptions import LukhasError, ValidationError
@@ -43,9 +36,19 @@ from candidate.core.monitoring.drift_monitor import (
     InterventionType,
     UnifiedDriftMonitor,
 )
+from consciousness.states.symbolic_drift_tracker import (
+    DriftPhase,
+    DriftScore,
+    SymbolicDriftTracker,
+    SymbolicState,
+)
 
 # Import existing drift and integrity systems
-from lukhas.memory.integrity.collapse_hash import Checkpoint, CollapseHash, HashAlgorithm
+from lukhas.memory.integrity.collapse_hash import (
+    Checkpoint,
+    CollapseHash,
+    HashAlgorithm,
+)
 from lukhas.memory.temporal.drift_dashboard import DriftDashboard
 from vivox.emotional_regulation.vivox_ern_core import RegulationStrategy
 from vivox.emotional_regulation.vivox_ern_core import (
@@ -104,7 +107,7 @@ class DriftEvent:
 class InnovationDriftProtection(CoreInterface):
     """
     Enhanced innovation system with comprehensive drift protection.
-    
+
     Integrates all LUKHAS drift detection and prevention systems to ensure
     safe innovation generation without hallucinations or prohibited ideas.
     """
@@ -206,12 +209,12 @@ class InnovationDriftProtection(CoreInterface):
     ) -> Optional[BreakthroughInnovation]:
         """
         Generate innovation with full drift protection and hallucination prevention.
-        
+
         Args:
             hypothesis: Innovation hypothesis to explore
             reality_count: Number of parallel realities to explore
             exploration_depth: Depth of exploration in each reality
-            
+
         Returns:
             Validated breakthrough innovation or None if unsafe
         """

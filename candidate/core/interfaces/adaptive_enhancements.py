@@ -13,10 +13,10 @@ from enum import Enum
 from typing import Any, Optional
 
 from cognition.symbolic_feedback_loop import SymbolicState
-from identity.identity_core import AccessTier
 
 # Import existing LUKHΛS components
 from candidate.orchestration.symbolic_kernel_bus import emit, kernel_bus
+from identity.identity_core import AccessTier
 
 # We'll only take what enhances our system
 
@@ -187,7 +187,7 @@ class AdaptiveExporter:
         # Remove sensitive fields for lower tiers
         if tier.value < AccessTier.T3:
             sensitive_keys = [
-                "quantum_state",
+                "qi_state",
                 "drift_internals",
                 "guardian_overrides",
             ]

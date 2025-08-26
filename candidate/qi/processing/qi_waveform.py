@@ -28,7 +28,7 @@ except Exception:  # pragma: no cover - fallback for broken import
 
 @dataclass
 class QIWaveform:
-    """# ΛTAG: quantum_waveform
+    """# ΛTAG: qi_waveform
     Represents a quantum waveform capable of collapsing into symbolic dreams."""
 
     base_seed: str

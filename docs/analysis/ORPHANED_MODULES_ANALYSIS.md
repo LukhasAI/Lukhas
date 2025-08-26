@@ -1,9 +1,9 @@
 # LUKHAS AI Orphaned Modules Analysis Report
 
-**Date**: August 25, 2025  
-**Analysis Method**: ML Integration Analyzer + Comprehensive Test Failure Analysis  
-**Scope**: 4,025+ Python files analyzed, 68 test failures captured  
-**T4 Enterprise Context**: Post-Datadog integration system analysis  
+**Date**: August 25, 2025
+**Analysis Method**: ML Integration Analyzer + Comprehensive Test Failure Analysis
+**Scope**: 4,025+ Python files analyzed, 68 test failures captured
+**T4 Enterprise Context**: Post-Datadog integration system analysis
 
 ---
 
@@ -26,7 +26,7 @@ Comprehensive testing and ML analysis revealed **68+ disconnected modules** and 
 
 #### Missing `core.common` Module
 - **Files Affected**: 45+ files across entire codebase
-- **Missing Imports**: 
+- **Missing Imports**:
   ```python
   from core.common import get_logger, GLYPHToken, retry, with_timeout
   from core.common import LukhasError, GuardianRejectionError
@@ -53,7 +53,7 @@ Comprehensive testing and ML analysis revealed **68+ disconnected modules** and 
 - **Status**: Ready for integration testing
 
 #### Identity Module Structure
-- **Missing**: `candidate.identity.lambda_id` 
+- **Missing**: `candidate.identity.lambda_id`
 - **Tests Blocked**: WebAuthn integration, E2E authentication flows
 - **Recommendation**: Reorganize identity modules under standard structure
 
@@ -125,7 +125,7 @@ Comprehensive testing and ML analysis revealed **68+ disconnected modules** and 
 def get_logger(name: str) -> logging.Logger:
     return logging.getLogger(f"lukhas.{name}")
 
-# 2. Create core/common/glyph.py  
+# 2. Create core/common/glyph.py
 class GLYPHToken:
     """GLYPH communication token"""
     pass
@@ -138,7 +138,7 @@ class GuardianRejectionError(LukhasError): pass
 ### **Strategy 2: Gradual Module Migration**
 Based on ML analyzer recommendations:
 - **Week 1**: Core infrastructure and LLM bridge
-- **Week 2**: Memory and identity systems  
+- **Week 2**: Memory and identity systems
 - **Week 3**: Event contracts and governance
 - **Week 4**: Test framework and final integration
 
@@ -175,7 +175,7 @@ except ImportError:
 - **Quality**: High consistency in naming patterns
 - **Domain Detection**: Generic (could benefit from module prefixes)
 
-### **Security Analysis** 
+### **Security Analysis**
 - **Vulnerabilities**: None detected in offline scan
 - **Code Quality**: Well-structured with docstrings
 - **Type Hints**: Some modules need enhancement
@@ -192,7 +192,7 @@ except ImportError:
 
 ### **T4 Standards Compliance**
 - **Sam Altman (Scale)**: Integration delays impact scalability
-- **Dario Amodei (Safety)**: Missing consent ledger affects compliance  
+- **Dario Amodei (Safety)**: Missing consent ledger affects compliance
 - **Demis Hassabis (Rigor)**: Cannot run full test suite (68 errors)
 
 ### **Enterprise Readiness Impact**
@@ -215,7 +215,7 @@ except ImportError:
 
 2. **Fix LLM Bridge**
    ```bash
-   mkdir -p lukhas/bridge/llm_wrappers  
+   mkdir -p lukhas/bridge/llm_wrappers
    # Implement UnifiedOpenAIClient, OpenAIModulatedService
    ```
 
@@ -231,7 +231,7 @@ except ImportError:
 
 ### **Long Term (Next Month)**
 1. Full VIVOX consciousness system integration
-2. Complete lambda products migration  
+2. Complete lambda products migration
 3. Achieve 100% test pass rate
 
 ---
@@ -241,12 +241,12 @@ except ImportError:
 ### **Integration KPIs**
 - **Test Pass Rate**: 0% → 85% target (current: 68 errors)
 - **Import Resolution**: 45+ missing `core.common` imports → 0
-- **Module Integration**: 68 orphaned modules → 0 
+- **Module Integration**: 68 orphaned modules → 0
 - **T4 Compliance**: Current gaps → Full enterprise readiness
 
 ### **T4 Enterprise Standards**
 - **API Latency**: Maintain <50ms P95 during integration
-- **System Uptime**: Maintain 99.99% during refactoring  
+- **System Uptime**: Maintain 99.99% during refactoring
 - **Safety Drift**: Keep <0.05 threshold during migrations
 - **Development Velocity**: Measure integration completion rate
 
@@ -262,6 +262,6 @@ The LUKHAS AI system has **significant integration opportunities** with 68+ disc
 
 ---
 
-**Document Owner**: T4 Enterprise Integration Team  
-**Next Review**: Weekly during integration sprint  
+**Document Owner**: T4 Enterprise Integration Team
+**Next Review**: Weekly during integration sprint
 **Status**: Ready for implementation approval

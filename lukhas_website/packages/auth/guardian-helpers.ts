@@ -23,7 +23,7 @@ export async function getRequiredGuardianApprovals(userId: string): Promise<numb
       revokedAt: null
     }
   });
-  
+
   // Require 2-of-N guardians, or all if less than 2
   return Math.min(2, guardianCount);
 }
@@ -40,7 +40,7 @@ export async function notifyGuardian(
   // 1. Look up guardian's preferred notification method
   // 2. Send secure notification with approval link
   // 3. Log the notification attempt
-  
+
   console.log(`[Guardian Notification] Guardian: ${guardianId}, Ticket: ${ticketId}, Reason: ${reason}`);
 }
 
@@ -56,7 +56,7 @@ export async function validateGuardianToken(
   // 2. Check token hasn't expired
   // 3. Extract guardian ID from token
   // 4. Verify guardian is still active for the user
-  
+
   // For now, return null (no guardian context)
   return null;
 }

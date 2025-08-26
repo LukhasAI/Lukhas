@@ -107,7 +107,7 @@ class QICollapseEngine:
             stability_threshold: Minimum stability required for branch selection
             config: Additional configuration parameters
         """
-        self.logger = logger.bind(component="QuantumCollapseEngine")
+        self.logger = logger.bind(component="QICollapseEngine")
         self.logger.info("Initializing Quantum Collapse Engine")
 
         self.entropy_threshold = entropy_threshold
@@ -367,7 +367,7 @@ class QICollapseEngine:
             event_record = {
                 "event_id": event_id,
                 "collapse_id": resolution.collapse_id,
-                "event_type": "quantum_collapse",
+                "event_type": "qi_collapse",
                 "timestamp": resolution.timestamp,
                 "collapse_type": resolution.collapse_type.value,
                 "resolution_strategy": resolution.resolution_strategy.value,
@@ -644,7 +644,7 @@ class QICollapseEngine:
 
 # Export main classes
 __all__ = [
-    "QuantumCollapseEngine",
+    "QICollapseEngine",
     "CollapseResult",
     "ReasoningChain",
     "CollapseType",

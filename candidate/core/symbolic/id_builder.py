@@ -31,7 +31,7 @@ class LUKHASIdentity:
     tier_level: int  # 1-5 access tiers
     consciousness_signature: dict[str, float]
     created_at: datetime
-    quantum_entropy: str
+    qi_entropy: str
 
 
 # 5-Tier Access System
@@ -62,7 +62,7 @@ TIER_DEFINITIONS = {
     },
     5: {
         "name": "Architect",
-        "access": ["full_system", "configuration", "quantum_features"],
+        "access": ["full_system", "configuration", "qi_features"],
         "color": "#9d4edd",
         "symbol": "🏛️",
     },
@@ -101,8 +101,8 @@ class LUKHASIDBuilder:
         )
 
         # Generate SID hash with quantum entropy
-        quantum_entropy = self._generate_quantum_entropy()
-        sid_hash = self._generate_sid_hash(symbolic_phrase, quantum_entropy)
+        qi_entropy = self._generate_quantum_entropy()
+        sid_hash = self._generate_sid_hash(symbolic_phrase, qi_entropy)
 
         # Determine initial tier based on verification
         tier_level = self._determine_tier_level(user_input)
@@ -118,7 +118,7 @@ class LUKHASIDBuilder:
             tier_level=tier_level,
             consciousness_signature=consciousness_signature,
             created_at=datetime.now(),
-            quantum_entropy=quantum_entropy,
+            qi_entropy=qi_entropy,
         )
 
         # Store identity
@@ -153,10 +153,10 @@ class LUKHASIDBuilder:
         entropy = secrets.token_bytes(32)
         return base64.b64encode(entropy).decode("utf-8")
 
-    def _generate_sid_hash(self, symbolic_phrase: str, quantum_entropy: str) -> str:
+    def _generate_sid_hash(self, symbolic_phrase: str, qi_entropy: str) -> str:
         """Generate Symbolic Identity Hash"""
         # Combine phrase with quantum entropy
-        combined = f"{symbolic_phrase}:{quantum_entropy}".encode()
+        combined = f"{symbolic_phrase}:{qi_entropy}".encode()
 
         # Multi-layer hashing for quantum resistance
         # Layer 1: SHA3-512
@@ -196,7 +196,7 @@ class LUKHASIDBuilder:
             "emotional_coherence": user_input.get("coherence", 0.7),
             "creative_potential": user_input.get("creativity", 0.6),
             "ethical_alignment": user_input.get("ethics", 0.8),
-            "quantum_resonance": user_input.get("quantum", 0.4),
+            "qi_resonance": user_input.get("quantum", 0.4),
         }
 
     def authenticate_with_phrase(
@@ -235,10 +235,10 @@ class LUKHASIDBuilder:
         )
 
         # Add quantum entropy
-        quantum_salt = secrets.token_bytes(16)
+        qi_salt = secrets.token_bytes(16)
 
         # Generate token
-        h = hashlib.blake2b(token_data.encode(), salt=quantum_salt)
+        h = hashlib.blake2b(token_data.encode(), salt=qi_salt)
 
         return base64.urlsafe_b64encode(h.digest()).decode("utf-8")
 
@@ -256,7 +256,7 @@ class LUKHASIDBuilder:
                 "animation": "consciousness_wave",
                 "steganographic_layer": self._generate_steganographic_data(identity),
             },
-            "quantum_signature": identity.quantum_entropy[
+            "qi_signature": identity.qi_entropy[
                 :16
             ],  # Partial entropy for QRG
         }
@@ -383,7 +383,7 @@ def create_lukhas_auth_demo():
         print(f"   Type: {qrg['type']}")
         print(f"   Color: {qrg['visual']['primary_color']}")
         print(f"   Animation: {qrg['visual']['animation']}")
-        print(f"   Quantum Signature: {qrg['quantum_signature']}")
+        print(f"   Quantum Signature: {qrg['qi_signature']}")
 
 
 def main():

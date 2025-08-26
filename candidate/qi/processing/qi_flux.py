@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 @dataclass
 class QIFlux:
-    """# ΛTAG: quantum_entropy
+    """# ΛTAG: qi_entropy
     Provides entropy metrics for dream variability."""
 
     seed: int | None = None

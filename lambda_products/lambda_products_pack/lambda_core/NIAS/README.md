@@ -28,14 +28,14 @@ NIΛS (Non-Intrusive Advertising System) v1 is a complete consent-based, emotion
 
 #### T1 - Premium ($29.99/month)
 - **Unlimited capacity** and duration
-- **Ad-free experience** 
+- **Ad-free experience**
 - **Optional feedback** only
 - **Advanced widgets** with full interactivity
 - **Permanent deletion** capability
 - **API access** for integrations
 - **Dream customization** features
 
-#### T2 - Enhanced ($9.99/month)  
+#### T2 - Enhanced ($9.99/month)
 - **10 items** for **14 days**
 - **Assistant Mode** with triple-tap activation
 - **Enhanced widgets** with seasonal theming
@@ -43,7 +43,7 @@ NIΛS (Non-Intrusive Advertising System) v1 is a complete consent-based, emotion
 - **Data export** capabilities
 
 #### T3 - Basic (Free)
-- **5 items** for **7 days** 
+- **5 items** for **7 days**
 - **Mandatory feedback** required
 - **Basic widgets** only
 - **Ad-supported** experience

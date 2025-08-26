@@ -7,9 +7,9 @@
 - **Right Dock**: Reduced from `w-64` (16rem) to `w-48` (12rem) - **25% narrower**
 - **Result**: Much more compact and space-efficient docks
 
-### 2. **Enhanced Command Palette** 
+### 2. **Enhanced Command Palette**
 - **Restored Original Design**: Your command palette now has proper settings content
-- **Two-Level Interface**: 
+- **Two-Level Interface**:
   - Level 1: Quick commands (Settings, Code Editor, Terminal)
   - Level 2: Full settings (Background options, Interface toggles)
 - **Hidden but Accessible**: Settings only accessible via Cmd/Ctrl+K as intended
@@ -19,7 +19,7 @@
 - **Position**: Moved from bottom fixed bar to floating between docks
 - **3D Effect**: Custom box-shadow for depth illusion:
   ```css
-  box-shadow: 
+  box-shadow:
     0 25px 50px -12px rgba(0, 0, 0, 0.5),
     0 8px 16px -8px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1)
@@ -41,7 +41,7 @@
 
 ### **Command Palette Design** ✅ PRESERVED
 - Still accessible via Cmd/Ctrl+K
-- Two-level interface (Level 1: commands, Level 2: settings) 
+- Two-level interface (Level 1: commands, Level 2: settings)
 - Hidden settings approach maintained
 - Enhanced with proper content structure
 
@@ -63,7 +63,7 @@
 ```jsx
 // Message cards that appear in desktop area
 {messages.map((message) => (
-  <MessageCard 
+  <MessageCard
     key={message.id}
     position={{ x: message.x, y: message.y }}
     agent={message.agent}

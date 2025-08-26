@@ -11,7 +11,7 @@ Quantum Ethics Mesh Integrator - ΛETHICS Module
 Unifies ethical states across distributed symbolic systems in LUKHAS AGI
 
 ΛTAG: QUANTUM_ETHICS_MESH
-MODULE_ID: ethics.quantum_mesh_integrator
+MODULE_ID: ethics.qi_mesh_integrator
 ETHICS_SCORE: 0.95
 COLLAPSE_READY: True
 """
@@ -452,7 +452,7 @@ class QIEthicsMeshIntegrator:
         ) or cascade_risk >= 0.8:
             freeze_signal = EthicsSignal(
                 signal_type=EthicsSignalType.ΛFREEZE_OVERRIDE,
-                source_modules=["quantum_mesh_integrator"],
+                source_modules=["qi_mesh_integrator"],
                 data={
                     "reason": "CRITICAL_ETHICS_FAILURE",
                     "affected_modules": list(self.subsystem_states.keys()),
@@ -745,7 +745,7 @@ class QIEthicsMeshIntegrator:
 # Demo and testing functions
 async def demo_quantum_ethics_mesh():
     """Demonstration of quantum ethics mesh integrator"""
-    integrator = QuantumEthicsMeshIntegrator()
+    integrator = QIEthicsMeshIntegrator()
 
     # Example subsystem states
     demo_states = {
@@ -816,7 +816,7 @@ if __name__ == "__main__":
     asyncio.run(demo_quantum_ethics_mesh())
 
 # CLAUDE CHANGELOG
-# - Created quantum_mesh_integrator.py with comprehensive ethics mesh integration # CLAUDE_EDIT_v0.1
+# - Created qi_mesh_integrator.py with comprehensive ethics mesh integration # CLAUDE_EDIT_v0.1
 # - Implemented quantum ethical field aggregation with weighted subsystem metrics # CLAUDE_EDIT_v0.1
 # - Built phase entanglement matrix calculator with conflict detection # CLAUDE_EDIT_v0.1
 # - Added safety layer with configurable thresholds and cascade prevention # CLAUDE_EDIT_v0.1

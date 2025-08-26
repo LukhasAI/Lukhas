@@ -52,7 +52,7 @@ def save_context_manually():
     template = f"""# Claude Code Context - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 
 ## Session Information
-- Repository: LUKHAS 
+- Repository: LUKHAS
 - Date: {datetime.now().strftime("%Y-%m-%d")}
 - Time: {datetime.now().strftime("%H:%M:%S")}
 

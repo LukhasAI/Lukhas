@@ -72,12 +72,12 @@ def main():
     print("=" * 50)
 
     # Start from current quantum directory
-    quantum_dir = Path(__file__).parent
+    qi_dir = Path(__file__).parent
     fixed = 0
     skipped = 0
 
     # Process all Python files in quantum directory
-    for filepath in quantum_dir.glob("*.py"):
+    for filepath in qi_dir.glob("*.py"):
         if filepath.name == "fix_proper_lukhas_ascii.py":
             continue
 
@@ -88,8 +88,8 @@ def main():
             skipped += 1
 
     # Process subdirectories
-    for subdir in ["systems", "quantum_meta", "bio", "src"]:
-        subdir_path = quantum_dir / subdir
+    for subdir in ["systems", "qi_meta", "bio", "src"]:
+        subdir_path = qi_dir / subdir
         if subdir_path.exists():
             for filepath in subdir_path.glob("**/*.py"):
                 result = fix_ascii_in_file(filepath)

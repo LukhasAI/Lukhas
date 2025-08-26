@@ -32,7 +32,7 @@ web_test_final/
 
 ## Template Sources
 - **Primary**: Nordic Cookies Template (privacy innovation)
-- **Legal**: EU Terms Template (GDPR compliance)  
+- **Legal**: EU Terms Template (GDPR compliance)
 - **Layout**: V2 Dock Template (interface structure)
 - **Components**: React Studio Template (advanced features)
 

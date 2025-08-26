@@ -15,10 +15,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.consciousness.reflection.openai_modulated_service import (
-    OpenAICapability,
-    OpenAIModulatedService,
-)
 from candidate.core.colonies.consensus_mechanisms import (
     ColonyConsensus,
 )
@@ -29,6 +25,10 @@ from candidate.core.colonies.enhanced_colony import (
     EnhancedReasoningColony,
 )
 from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from lukhas.consciousness.reflection.openai_modulated_service import (
+    OpenAICapability,
+    OpenAIModulatedService,
+)
 
 logger = logging.getLogger(__name__)
 

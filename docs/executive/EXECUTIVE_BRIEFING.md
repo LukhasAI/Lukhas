@@ -25,7 +25,7 @@ LUKHΛS AI represents a paradigm shift in artificial intelligence architecture�
 
 ### **Performance Benchmarks**
 - **Throughput**: 2.4M+ operations/second sustained performance
-- **Latency**: <100ms identity operations, <250ms consciousness processing  
+- **Latency**: <100ms identity operations, <250ms consciousness processing
 - **Reliability**: 99%+ uptime across distributed consciousness network
 - **Scalability**: Horizontal scaling validated to millions of concurrent streams
 
@@ -177,7 +177,7 @@ LUKHΛS AI represents the convergence of consciousness science, advanced enginee
 
 For strategic discussions and partnership opportunities:
 - **Technology Leadership**: tech-leadership@lukhas.ai
-- **Business Development**: partnerships@lukhas.ai  
+- **Business Development**: partnerships@lukhas.ai
 - **Investment Relations**: investors@lukhas.ai
 
 ---

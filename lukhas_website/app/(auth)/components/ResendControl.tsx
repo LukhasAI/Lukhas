@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI - Resend Control Component
- * 
+ *
  * Real-time countdown, rate limiting, and enumeration-safe responses
  * for verification code resend functionality with full accessibility support.
  */
@@ -81,10 +81,10 @@ export function ResendControl({
   const [requestId, setRequestId] = useState<string>('');
   const [rateLimitResetTime, setRateLimitResetTime] = useState<number>(0);
   const [remainingAttempts, setRemainingAttempts] = useState<number | null>(null);
-  
+
   const countdownRef = useRef<(() => void) | null>(null);
   const statusRef = useRef<HTMLDivElement>(null);
-  
+
   // Get localized strings
   const t = rateI18n[locale];
   const helpT = emailHelpI18n[locale];
@@ -109,7 +109,7 @@ export function ResendControl({
       (formatted, remaining) => {
         setTimeLeft(formatted);
         setMillisecondsLeft(remaining);
-        
+
         if (remaining <= 0) {
           setState('idle');
           setTimeLeft('');
@@ -126,7 +126,7 @@ export function ResendControl({
     const retryAfter = response.headers.get('Retry-After');
     const rateLimitRemaining = response.headers.get('X-RateLimit-Remaining');
     const rateLimitReset = response.headers.get('X-RateLimit-Reset');
-    
+
     if (retryAfter) {
       const retryMs = parseRetryAfter(retryAfter);
       if (retryMs && retryMs > 0) {
@@ -138,18 +138,18 @@ export function ResendControl({
         return;
       }
     }
-    
+
     if (rateLimitRemaining) {
       setRemainingAttempts(parseInt(rateLimitRemaining, 10));
     }
 
     const data: ApiResponse = await response.json();
-    
+
     if (response.ok && data.ok) {
       setState('success');
       setRequestId(data.requestId);
       onCodeSent?.({ requestId: data.requestId, success: true });
-      
+
       // Start client-side cooldown
       const cooldownEndTime = Date.now() + cooldownMs;
       setState('cooldown');
@@ -279,7 +279,7 @@ export function ResendControl({
           {getIcon()}
           {getButtonText()}
         </Button>
-        
+
         {variant !== 'compact' && (
           <span className="text-sm text-muted-foreground" data-tone="plain">
             {getStatusMessage()}
@@ -355,8 +355,8 @@ export function ResendControl({
 
       {/* Countdown Display for Screen Readers */}
       {millisecondsLeft > 0 && (
-        <div 
-          className="sr-only" 
+        <div
+          className="sr-only"
           aria-live="polite"
           aria-label={t.accessibility.countdown.replace('{time}', timeLeft)}
           data-tone="technical"

@@ -19,7 +19,7 @@ class MyNode(CognitiveNode):
     def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process input and return result with MATADA node"""
         # Your processing logic here
-        
+
     def validate_output(self, output: Dict[str, Any]) -> bool:
         """Validate the output format and quality"""
         # Your validation logic here
@@ -33,7 +33,7 @@ class MyNode(CognitiveNode):
 
 **Must Return**:
 - `answer`: The processing result
-- `confidence`: Confidence level (0.0-1.0)  
+- `confidence`: Confidence level (0.0-1.0)
 - `matada_node`: Complete MATADA format node
 - `processing_time`: Time taken in seconds
 
@@ -41,10 +41,10 @@ class MyNode(CognitiveNode):
 ```python
 def process(self, input_data):
     start_time = time.time()
-    
+
     # Your processing logic
     result = self.do_processing(input_data['query'])
-    
+
     # Create MATADA node
     state = NodeState(confidence=0.9, salience=0.8)
     matada_node = self.create_matada_node(
@@ -52,7 +52,7 @@ def process(self, input_data):
         state=state,
         additional_data={'result': result}
     )
-    
+
     return {
         'answer': f"The result is {result}",
         'confidence': 0.9,
@@ -199,35 +199,35 @@ class MyReasoningNode(CognitiveNode):
             capabilities=["reasoning", "analysis"],
             tenant="default"
         )
-    
+
     def process(self, input_data):
         # Process the input
         result = self.analyze(input_data['query'])
-        
+
         # Create state
         state = NodeState(
             confidence=0.85,
             salience=0.9,
             valence=0.6  # Positive outcome
         )
-        
+
         # Create MATADA node
         matada_node = self.create_matada_node(
             node_type="DECISION",
             state=state,
             additional_data={'analysis_result': result}
         )
-        
+
         return {
             'answer': f"Analysis complete: {result}",
             'confidence': 0.85,
             'matada_node': matada_node,
             'processing_time': 0.1
         }
-    
+
     def validate_output(self, output):
         # Validate required fields and MATADA node
-        return (all(k in output for k in ['answer', 'confidence', 'matada_node']) 
+        return (all(k in output for k in ['answer', 'confidence', 'matada_node'])
                 and self.validate_matada_node(output['matada_node']))
 ```
 

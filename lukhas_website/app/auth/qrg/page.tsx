@@ -10,12 +10,12 @@ export default function QRGStepUp() {
 
   useEffect(() => {
     if (!enabled) return;
-    
+
     setLoading(true);
     issue({ purpose: "auth_stepup", ttl_ms: 20000 })
-      .then(({ glyphSvg, traceId }) => { 
-        setSvg(glyphSvg); 
-        setTrace(traceId); 
+      .then(({ glyphSvg, traceId }) => {
+        setSvg(glyphSvg);
+        setTrace(traceId);
       })
       .catch(() => {
         setSvg(null);
@@ -40,16 +40,16 @@ export default function QRGStepUp() {
         <div className="w-full max-w-lg text-center">
           <h1 className="text-3xl font-light mb-2 lukhas-brand">Scan to Verify</h1>
           <p className="text-white/60 mb-8">Use your device to scan the QRG below</p>
-          
+
           <div className="bg-white/5 rounded-lg p-8 border border-white/10">
             {loading ? (
               <div className="flex items-center justify-center h-64">
                 <div className="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full"></div>
               </div>
             ) : svg ? (
-              <div 
+              <div
                 className="flex items-center justify-center"
-                dangerouslySetInnerHTML={{ __html: svg }} 
+                dangerouslySetInnerHTML={{ __html: svg }}
               />
             ) : (
               <div className="flex items-center justify-center h-64">
@@ -57,16 +57,16 @@ export default function QRGStepUp() {
               </div>
             )}
           </div>
-          
+
           {trace && (
             <p className="text-xs text-white/40 mt-4">
               Trace: {trace}
             </p>
           )}
-          
+
           <div className="mt-6">
-            <a 
-              href="/auth" 
+            <a
+              href="/auth"
               className="text-blue-400 hover:text-blue-300 text-sm underline"
             >
               ← Back to sign in

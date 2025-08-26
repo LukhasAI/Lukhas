@@ -37,7 +37,7 @@ class ModuleEnhancer:
             'qim': {
                 'description': 'Quantum-Inspired Metaphors for advanced processing',
                 'primary_author': 'LUKHAS AI',
-                'submodules': ['quantum_states', 'entanglement', 'superposition',
+                'submodules': ['qi_states', 'entanglement', 'superposition',
     'bio'],
                 'key_features': ['Quantum states', 'Entanglement', 'Superposition',
     'Bio-inspired computing']

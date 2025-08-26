@@ -5,14 +5,13 @@ Unified OpenAI integration combining all client features
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 
-import asyncio
-import json
 import logging
 import os
+import uuid
+from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Optional, Union, AsyncIterator
-import uuid
+from typing import Any, Optional, Union
 
 from openai import AsyncOpenAI, OpenAI
 
@@ -24,13 +23,13 @@ except ImportError:
     # Fallback to standard logging if core.common not available
     import logging
     logger = logging.getLogger(__name__)
-    
+
     def retry(*args, **kwargs):
         """Fallback retry decorator"""
         def decorator(func):
             return func
         return decorator
-    
+
     def with_timeout(*args, **kwargs):
         """Fallback timeout decorator"""
         def decorator(func):
@@ -41,13 +40,13 @@ except ImportError:
 @dataclass
 class ConversationMessage:
     """Represents a single message in a conversation"""
-    
+
     role: str
     content: str
     timestamp: datetime = field(default_factory=datetime.utcnow)
     message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     metadata: dict[str, Any] = field(default_factory=dict)
-    
+
     def to_openai_format(self) -> dict[str, Any]:
         """Convert to OpenAI API format"""
         return {
@@ -59,13 +58,13 @@ class ConversationMessage:
 @dataclass
 class ConversationState:
     """Manages conversation state and history"""
-    
+
     conversation_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     messages: list[ConversationMessage] = field(default_factory=list)
     system_prompt: Optional[str] = None
     max_history: int = 50
     created_at: datetime = field(default_factory=datetime.utcnow)
-    
+
     def add_message(self, role: str, content: str, **metadata) -> ConversationMessage:
         """Add a message to the conversation"""
         message = ConversationMessage(
@@ -74,27 +73,27 @@ class ConversationState:
             metadata=metadata
         )
         self.messages.append(message)
-        
+
         # Trim history if needed
         if len(self.messages) > self.max_history:
             self.messages = self.messages[-self.max_history:]
-        
+
         return message
-    
+
     def to_openai_messages(self) -> list[dict[str, Any]]:
         """Convert to OpenAI messages format"""
         messages = []
-        
+
         # Add system prompt if present
         if self.system_prompt:
             messages.append({
                 "role": "system",
                 "content": self.system_prompt
             })
-        
+
         # Add conversation messages
         messages.extend([msg.to_openai_format() for msg in self.messages])
-        
+
         return messages
 
 
@@ -103,7 +102,7 @@ class UnifiedOpenAIClient:
     Unified OpenAI client with async support, conversation management,
     and comprehensive error handling.
     """
-    
+
     def __init__(
         self,
         api_key: Optional[str] = None,
@@ -115,7 +114,7 @@ class UnifiedOpenAIClient:
     ):
         """
         Initialize the unified OpenAI client.
-        
+
         Args:
             api_key: OpenAI API key (defaults to OPENAI_API_KEY env var)
             organization: OpenAI organization ID
@@ -130,30 +129,30 @@ class UnifiedOpenAIClient:
         self.default_model = default_model
         self.max_retries = max_retries
         self.timeout = timeout
-        
+
         if not self.api_key:
             raise ValueError("OpenAI API key must be provided or set in OPENAI_API_KEY environment variable")
-        
+
         # Initialize clients
         client_args = {
             "api_key": self.api_key,
             "max_retries": max_retries,
             "timeout": timeout,
         }
-        
+
         if self.organization:
             client_args["organization"] = self.organization
         if self.base_url:
             client_args["base_url"] = self.base_url
-        
+
         self.client = OpenAI(**client_args)
         self.async_client = AsyncOpenAI(**client_args)
-        
+
         # Conversation management
         self.conversations: dict[str, ConversationState] = {}
-        
+
         logger.info(f"Initialized UnifiedOpenAIClient with model {default_model}")
-    
+
     def create_conversation(
         self,
         conversation_id: Optional[str] = None,
@@ -162,30 +161,30 @@ class UnifiedOpenAIClient:
     ) -> str:
         """
         Create a new conversation.
-        
+
         Args:
             conversation_id: Optional custom conversation ID
             system_prompt: System prompt for the conversation
             max_history: Maximum messages to keep in history
-            
+
         Returns:
             Conversation ID
         """
         if conversation_id is None:
             conversation_id = str(uuid.uuid4())
-        
+
         self.conversations[conversation_id] = ConversationState(
             conversation_id=conversation_id,
             system_prompt=system_prompt,
             max_history=max_history,
         )
-        
+
         return conversation_id
-    
+
     def get_conversation(self, conversation_id: str) -> Optional[ConversationState]:
         """Get conversation by ID"""
         return self.conversations.get(conversation_id)
-    
+
     @retry(max_attempts=3, delay=1.0, exceptions=(Exception,))
     async def chat_completion(
         self,
@@ -197,19 +196,19 @@ class UnifiedOpenAIClient:
     ) -> Union[dict[str, Any], AsyncIterator[dict[str, Any]]]:
         """
         Create a chat completion.
-        
+
         Args:
             messages: Either a string prompt or list of OpenAI messages
             model: Model to use (defaults to default_model)
             conversation_id: Optional conversation ID for state management
             stream: Whether to stream responses
             **kwargs: Additional OpenAI API parameters
-            
+
         Returns:
             Response dict or async iterator for streaming
         """
         model = model or self.default_model
-        
+
         # Handle different message formats
         if isinstance(messages, str):
             if conversation_id:
@@ -224,7 +223,7 @@ class UnifiedOpenAIClient:
                 openai_messages = [{"role": "user", "content": messages}]
         else:
             openai_messages = messages
-        
+
         # Prepare API call
         api_params = {
             "model": model,
@@ -232,13 +231,13 @@ class UnifiedOpenAIClient:
             "stream": stream,
             **kwargs,
         }
-        
+
         try:
             if stream:
                 return self._stream_chat_completion(api_params, conversation_id)
             else:
                 response = await self.async_client.chat.completions.create(**api_params)
-                
+
                 # Add response to conversation if tracking
                 if conversation_id and response.choices:
                     conversation = self.conversations.get(conversation_id)
@@ -246,7 +245,7 @@ class UnifiedOpenAIClient:
                         assistant_content = response.choices[0].message.content
                         if assistant_content:
                             conversation.add_message("assistant", assistant_content)
-                
+
                 return {
                     "id": response.id,
                     "object": response.object,
@@ -269,11 +268,11 @@ class UnifiedOpenAIClient:
                         "total_tokens": response.usage.total_tokens if response.usage else 0,
                     } if response.usage else None,
                 }
-                
+
         except Exception as e:
             logger.error(f"Chat completion failed: {str(e)}")
             raise
-    
+
     async def _stream_chat_completion(
         self,
         api_params: dict[str, Any],
@@ -281,7 +280,7 @@ class UnifiedOpenAIClient:
     ) -> AsyncIterator[dict[str, Any]]:
         """Handle streaming chat completion"""
         assistant_content_parts = []
-        
+
         try:
             async for chunk in await self.async_client.chat.completions.create(**api_params):
                 chunk_dict = {
@@ -291,7 +290,7 @@ class UnifiedOpenAIClient:
                     "model": chunk.model,
                     "choices": [],
                 }
-                
+
                 if chunk.choices:
                     choice = chunk.choices[0]
                     chunk_dict["choices"] = [{
@@ -302,24 +301,24 @@ class UnifiedOpenAIClient:
                         },
                         "finish_reason": choice.finish_reason,
                     }]
-                    
+
                     # Collect content for conversation tracking
                     if choice.delta.content:
                         assistant_content_parts.append(choice.delta.content)
-                
+
                 yield chunk_dict
-            
+
             # Add complete response to conversation if tracking
             if conversation_id and assistant_content_parts:
                 conversation = self.conversations.get(conversation_id)
                 if conversation:
                     full_content = "".join(assistant_content_parts)
                     conversation.add_message("assistant", full_content)
-                    
+
         except Exception as e:
             logger.error(f"Streaming chat completion failed: {str(e)}")
             raise
-    
+
     async def embeddings(
         self,
         input_text: Union[str, list[str]],
@@ -328,12 +327,12 @@ class UnifiedOpenAIClient:
     ) -> dict[str, Any]:
         """
         Create embeddings for input text.
-        
+
         Args:
             input_text: Text or list of texts to embed
             model: Embedding model to use
             **kwargs: Additional API parameters
-            
+
         Returns:
             Embeddings response
         """
@@ -343,7 +342,7 @@ class UnifiedOpenAIClient:
                 input=input_text,
                 **kwargs,
             )
-            
+
             return {
                 "object": response.object,
                 "data": [
@@ -360,18 +359,18 @@ class UnifiedOpenAIClient:
                     "total_tokens": response.usage.total_tokens,
                 } if response.usage else None,
             }
-            
+
         except Exception as e:
             logger.error(f"Embeddings failed: {str(e)}")
             raise
-    
+
     def clear_conversation(self, conversation_id: str) -> bool:
         """Clear a conversation"""
         if conversation_id in self.conversations:
             del self.conversations[conversation_id]
             return True
         return False
-    
+
     def get_conversation_history(self, conversation_id: str) -> Optional[list[dict[str, Any]]]:
         """Get conversation history in OpenAI format"""
         conversation = self.conversations.get(conversation_id)
@@ -382,5 +381,5 @@ class UnifiedOpenAIClient:
 
 # Aliases for backward compatibility
 GPTClient = UnifiedOpenAIClient
-LukhasOpenAIClient = UnifiedOpenAIClient  
+LukhasOpenAIClient = UnifiedOpenAIClient
 OpenAIWrapper = UnifiedOpenAIClient

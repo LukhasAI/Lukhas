@@ -11,13 +11,13 @@ describe('TransparencyBox', () => {
         dataHandling={['Stores data E', 'Processes data F']}
       />
     );
-    
+
     // Check all section headers are present
     expect(screen.getByRole('heading', { name: /Capabilities/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Limitations/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Dependencies/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Data handling/i })).toBeInTheDocument();
-    
+
     // Check content is rendered
     expect(screen.getByText('Can do A')).toBeInTheDocument();
     expect(screen.getByText('Cannot do X')).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('TransparencyBox', () => {
         dataHandling={['Almacena datos E']}
       />
     );
-    
+
     expect(screen.getByRole('heading', { name: /Capacidades/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Limitaciones/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Dependencias/i })).toBeInTheDocument();
@@ -51,7 +51,7 @@ describe('TransparencyBox', () => {
         dataHandling={['D']}
       />
     );
-    
+
     expect(container.querySelector('[data-transparency="present"]')).toBeInTheDocument();
     expect(container.querySelector('[data-section="capabilities"]')).toBeInTheDocument();
     expect(container.querySelector('[data-section="limitations"]')).toBeInTheDocument();
@@ -69,7 +69,7 @@ describe('TransparencyBox', () => {
         dataHandling={['D']}
       />
     );
-    
+
     const region = screen.getByRole('region', { name: /Custom Title/i });
     expect(region).toBeInTheDocument();
     expect(region).toHaveAttribute('aria-label', 'Custom Title');
@@ -78,10 +78,10 @@ describe('TransparencyBox', () => {
   test('warns in development when sections are missing', () => {
     const originalEnv = process.env.NODE_ENV;
     const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-    
+
     // Set to development
     process.env.NODE_ENV = 'development';
-    
+
     render(
       <TransparencyBox
         capabilities={[]}
@@ -90,11 +90,11 @@ describe('TransparencyBox', () => {
         dataHandling={['D']}
       />
     );
-    
+
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining('Missing sections: capabilities')
     );
-    
+
     // Restore
     process.env.NODE_ENV = originalEnv;
     consoleSpy.mockRestore();

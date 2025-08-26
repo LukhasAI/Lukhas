@@ -2,7 +2,7 @@
 """
  Streamline Analyzer
 ======================
-Focused redundancy analysis and streamlining recommendations for LUKHAS 
+Focused redundancy analysis and streamlining recommendations for LUKHAS
 """
 
 import ast

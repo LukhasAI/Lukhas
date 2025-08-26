@@ -1,4 +1,3 @@
 """
 Oscillators Module
 """
-

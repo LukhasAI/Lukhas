@@ -6,11 +6,9 @@ context tracking, symbolic reasoning, and workflow analysis.
 """
 
 import time
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass
-from datetime import datetime, timedelta
-import json
-import numpy as np
+from datetime import datetime
+from typing import Any, Dict, List
+
 
 class TaskIntelligence:
     """
@@ -487,7 +485,7 @@ class WorkflowAnalyzer:
 
         # Average task age by status
         avg_age_by_status = {}
-        for status in status_distribution.keys():
+        for status in status_distribution:
             status_tasks = [t for t in tasks if t.get("status") == status]
             if status_tasks:
                 avg_age = sum(self._task_age_days(t) for t in status_tasks) / len(status_tasks)

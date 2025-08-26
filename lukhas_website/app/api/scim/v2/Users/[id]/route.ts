@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(_: NextRequest, { params }: { params: { id: string }}) {
   // TODO: Fetch user by id from database
-  return NextResponse.json({ 
-    id: params.id, 
+  return NextResponse.json({
+    id: params.id,
     userName: 'example@lukhas.ai',
     name: {
       givenName: 'Example',

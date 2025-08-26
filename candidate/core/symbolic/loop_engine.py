@@ -31,7 +31,7 @@ class SymbolicState:
 
     symbol: str
     bio_grounding: Optional[dict[str, Any]] = None
-    quantum_state: Optional[dict[str, Any]] = None
+    qi_state: Optional[dict[str, Any]] = None
     conscious_representation: Optional[dict[str, Any]] = None
     emergent_meaning: Optional[dict[str, Any]] = None
     timestamp: datetime = None
@@ -97,20 +97,20 @@ class SymbolicLoopEngine:
             )
 
             # Stage 3: Quantum Processing - Explore superposition of meanings
-            quantum_input = {
+            qi_input = {
                 "symbol": symbolic_structure,
                 "bio_state": state.bio_grounding,
                 "coherence_level": 0.8,
             }
-            state.quantum_state = await self.quantum.process_symbolic_state(
-                quantum_input
+            state.qi_state = await self.qi.process_symbolic_state(
+                qi_input
             )
 
             # Stage 4: Consciousness Integration - Awareness and binding
             consciousness_input = {
                 "symbol": symbol,
                 "bio_grounding": state.bio_grounding,
-                "quantum_state": state.quantum_state,
+                "qi_state": state.qi_state,
                 "integration_mode": "holistic",
             }
             state.conscious_representation = (
@@ -122,7 +122,7 @@ class SymbolicLoopEngine:
                 original_symbol=symbol,
                 grounded_states={
                     "bio": state.bio_grounding,
-                    "quantum": state.quantum_state,
+                    "quantum": state.qi_state,
                     "conscious": state.conscious_representation,
                 },
             )
@@ -195,8 +195,8 @@ class SymbolicLoopEngine:
         )
 
         # Quantum entanglement between symbols
-        quantum_relation = await self.quantum.entangle_states(
-            state1.quantum_state, state2.quantum_state, relation_type=relation
+        qi_relation = await self.qi.entangle_states(
+            state1.qi_state, state2.qi_state, relation_type=relation
         )
 
         # Conscious binding of relationship
@@ -210,7 +210,7 @@ class SymbolicLoopEngine:
             "symbols": (state1.symbol, state2.symbol),
             "relation": relation,
             "bio_binding": bio_relation,
-            "quantum_entanglement": quantum_relation,
+            "qi_entanglement": qi_relation,
             "conscious_integration": conscious_relation,
             "timestamp": datetime.now(),
         }
@@ -229,8 +229,8 @@ class SymbolicLoopEngine:
         )
 
         # Find quantum correlations
-        quantum_correlations = await self.quantum.find_correlations(
-            [s.quantum_state for s in symbols.values()]
+        qi_correlations = await self.qi.find_correlations(
+            [s.qi_state for s in symbols.values()]
         )
 
         # Identify conscious gestalts
@@ -239,19 +239,19 @@ class SymbolicLoopEngine:
         )
 
         # Combine into emergent patterns
-        for bio_c, quantum_c, conscious_g in zip(
-            bio_clusters, quantum_correlations, conscious_gestalts
+        for bio_c, qi_c, conscious_g in zip(
+            bio_clusters, qi_correlations, conscious_gestalts
         ):
             patterns.append(
                 {
                     "type": "emergent_symbolic_pattern",
                     "bio_coherence": bio_c,
-                    "quantum_correlation": quantum_c,
+                    "qi_correlation": qi_c,
                     "conscious_gestalt": conscious_g,
                     "symbols_involved": [
                         s
                         for s in symbols
-                        if self._symbol_in_pattern(s, bio_c, quantum_c, conscious_g)
+                        if self._symbol_in_pattern(s, bio_c, qi_c, conscious_g)
                     ],
                 }
             )

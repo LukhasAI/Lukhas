@@ -40,7 +40,7 @@ logger = logging.getLogger(__name__)
 
 class AdvancedConsensusMethod(Enum):
     """Advanced consensus methods"""
-    QUANTUM_SUPERPOSITION = "quantum_superposition"
+    QUANTUM_SUPERPOSITION = "qi_superposition"
     SWARM_INTELLIGENCE = "swarm_intelligence"
     GENETIC_EVOLUTION = "genetic_evolution"
     NEURAL_CONSENSUS = "neural_consensus"
@@ -129,7 +129,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         super().__init__(colony_id, **kwargs)
 
         # Quantum consensus state
-        self.quantum_votes: Dict[str, List[QuantumVote]] = defaultdict(list)
+        self.qi_votes: Dict[str, List[QIVote]] = defaultdict(list)
         self.entanglement_graph: Dict[str, Set[str]] = defaultdict(set)
 
         # Swarm intelligence state
@@ -160,7 +160,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         self.learning_rate = 0.01
         self.consensus_memory: deque = deque(maxlen=50)
 
-    async def quantum_superposition_vote(
+    async def qi_superposition_vote(
         self,
         proposal_id: str,
         agent_id: str,
@@ -174,14 +174,14 @@ class AdvancedColonyConsensus(ColonyConsensus):
             return False
 
         # Create quantum vote
-        qvote = QuantumVote(
+        qvote = QIVote(
             agent_id=agent_id,
             amplitudes=amplitudes,
             entangled_with=entangle_with or []
         )
 
         # Add to quantum votes
-        self.quantum_votes[proposal_id].append(qvote)
+        self.qi_votes[proposal_id].append(qvote)
 
         # Update entanglement graph
         if entangle_with:
@@ -195,7 +195,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
     async def _quantum_consensus(
         self,
         proposal: ConsensusProposal,
-        quantum_votes: List[QuantumVote]
+        qi_votes: List[QIVote]
     ) -> ConsensusOutcome:
         """
         Quantum superposition consensus mechanism
@@ -205,7 +205,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         # Process entangled votes together
         processed = set()
 
-        for qvote in quantum_votes:
+        for qvote in qi_votes:
             if qvote.agent_id in processed:
                 continue
 
@@ -218,7 +218,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
                 combined_amplitudes = defaultdict(complex)
 
                 for agent_id in cluster:
-                    agent_qvotes = [qv for qv in quantum_votes if qv.agent_id == agent_id]
+                    agent_qvotes = [qv for qv in qi_votes if qv.agent_id == agent_id]
                     for qv in agent_qvotes:
                         for vote_type, amplitude in qv.amplitudes.items():
                             combined_amplitudes[vote_type] += amplitude / np.sqrt(len(cluster))
@@ -249,7 +249,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         # Use weighted consensus on collapsed votes
         outcome = await self._weighted_vote_consensus(proposal, collapsed_votes)
         outcome.method_used = ConsensusMethod.BYZANTINE  # Update to quantum method
-        outcome.metadata["quantum_entanglement_clusters"] = len(self._get_entanglement_clusters())
+        outcome.metadata["qi_entanglement_clusters"] = len(self._get_entanglement_clusters())
 
         return outcome
 
@@ -845,7 +845,7 @@ async def demo_advanced_consensus():
 
     proposal_id = await consensus.propose(
         content="Adopt quantum communication protocol",
-        proposer="quantum_coordinator",
+        proposer="qi_coordinator",
         method=ConsensusMethod.BYZANTINE  # Will be overridden
     )
 
@@ -865,7 +865,7 @@ async def demo_advanced_consensus():
         # Entangle some agents
         entangle_with = random.sample(agents[:5], k=random.randint(0, 2))
 
-        await consensus.quantum_superposition_vote(
+        await consensus.qi_superposition_vote(
             proposal_id,
             agent_id,
             amplitudes,
@@ -878,17 +878,17 @@ async def demo_advanced_consensus():
         await consensus.vote(proposal_id, agent_id, vote_type, random.random())
 
     # Reach quantum consensus
-    quantum_votes = consensus.quantum_votes[proposal_id]
+    qi_votes = consensus.qi_votes[proposal_id]
     consensus.votes[proposal_id]
 
     outcome = await consensus._quantum_consensus(
         consensus.active_proposals[proposal_id],
-        quantum_votes
+        qi_votes
     )
 
     print(f"   Decision: {outcome.decision.value}")
     print(f"   Confidence: {outcome.confidence:.3f}")
-    print(f"   Entanglement clusters: {outcome.metadata.get('quantum_entanglement_clusters', 0)}")
+    print(f"   Entanglement clusters: {outcome.metadata.get('qi_entanglement_clusters', 0)}")
 
     # Clean up
     del consensus.active_proposals[proposal_id]

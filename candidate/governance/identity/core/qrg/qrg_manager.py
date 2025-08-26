@@ -53,7 +53,7 @@ class QRGType(Enum):
     CONSCIOUSNESS_ADAPTIVE = "consciousness_adaptive"
     CULTURAL_SYMBOLIC = "cultural_symbolic"
     STEGANOGRAPHIC = "steganographic"
-    QUANTUM_ENCRYPTED = "quantum_encrypted"
+    QUANTUM_ENCRYPTED = "qi_encrypted"
 
 
 @dataclass
@@ -515,7 +515,7 @@ class LambdaIDQRGGenerator:
                 "entropy_signature": package.get("entropy_signature") is not None,
                 "biometric_enabled": config.tier_level >= 3,
                 "vault_access": config.tier_level >= 4,
-                "quantum_secured": config.security_level in ["maximum", "transcendent"],
+                "qi_secured": config.security_level in ["maximum", "transcendent"],
                 "consciousness_adaptive": config.consciousness_level > 0.3,
                 "cultural_styling": config.cultural_context is not None,
             },

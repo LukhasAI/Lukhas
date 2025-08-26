@@ -1,11 +1,20 @@
 # path: qi/autonomy/self_healer.py
 from __future__ import annotations
-import os, json, time, hashlib, difflib, shutil, fnmatch, yaml
-from dataclasses import dataclass, asdict
-from typing import Dict, Any, List, Optional
 
 # Safe IO (avoid sandbox recursion)
 import builtins
+import difflib
+import fnmatch
+import hashlib
+import json
+import os
+import shutil
+import time
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Optional
+
+import yaml
+
 _ORIG_OPEN = builtins.open
 _ORIG_MAKEDIRS = os.makedirs
 
@@ -24,14 +33,14 @@ ADIR = os.path.join(STATE, "audit"); _ORIG_MAKEDIRS(ADIR, exist_ok=True)
 
 # Attestation hooks (optional)
 try:
-    from qi.ops.provenance import merkle_chain, attest, verify as verify_att
+    from qi.ops.provenance import attest, merkle_chain
     _HAS_ATT = True
 except Exception:
     _HAS_ATT = False
 
 # Sandbox
 try:
-    from qi.ops.cap_sandbox import CapManager, Sandbox, SandboxPlan, EnvSpec, FsSpec
+    from qi.ops.cap_sandbox import CapManager, EnvSpec, FsSpec, Sandbox, SandboxPlan
     _HAS_SANDBOX = True
 except Exception:
     _HAS_SANDBOX = False
@@ -253,13 +262,13 @@ def apply(proposal_id: str, subject_user: str = "system") -> Dict[str, Any]:
 
     target = p["target_path"]
     backup = target + f".bak.{int(_now())}"
-    
+
     # Re-check governance before applying
     gov = _load_governance()
     rule = (gov.get("change_kinds", {}).get(p.get("kind","config_patch")) or {})
     if not _path_allowed(target, rule.get("allowed_paths"), rule.get("deny_paths")):
         raise RuntimeError("governance denies writes to target path")
-    
+
     if _HAS_SANDBOX:
         mgr = CapManager()
         # require fs write lease for target dir
@@ -273,7 +282,7 @@ def apply(proposal_id: str, subject_user: str = "system") -> Dict[str, Any]:
             meta={"proposal": proposal_id}
         )
         sb = Sandbox(mgr)
-        
+
         # Apply patch: naive deep merge for JSON/YAML files
         with sb.activate(plan):
             _apply_patch(target, backup, p["patch"])
@@ -305,7 +314,7 @@ def apply(proposal_id: str, subject_user: str = "system") -> Dict[str, Any]:
             receipt_id = None
     else:
         receipt_id = None
-        
+
     _audit("proposal_applied", {"id": proposal_id, "target": target, "backup": backup})
     return {"ok": True, "proposal": proposal_id, "backup": backup, "receipt_id": receipt_id}
 
@@ -318,7 +327,7 @@ def _apply_patch(target: str, backup: str, patch: Dict[str, Any]):
             data = yaml.safe_load(old)
         except Exception:
             data = json.loads(old) if old.strip() else {}
-        
+
         from copy import deepcopy
         def deep_merge(a,b):
             if isinstance(a,dict) and isinstance(b,dict):
@@ -327,7 +336,7 @@ def _apply_patch(target: str, backup: str, patch: Dict[str, Any]):
                 return out
             return b if b is not None else a
         new_data = deep_merge(data, patch)
-        
+
         # backup then write
         shutil.copyfile(target, backup)
         try:
@@ -338,7 +347,7 @@ def _apply_patch(target: str, backup: str, patch: Dict[str, Any]):
                 txt = json.dumps(new_data, indent=2)
             with _ORIG_OPEN(target, "w", encoding="utf-8") as f:
                 f.write(txt)
-        except Exception as e:
+        except Exception:
             # rollback
             shutil.copyfile(backup, target)
             raise

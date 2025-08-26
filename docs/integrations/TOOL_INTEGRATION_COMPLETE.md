@@ -23,18 +23,18 @@ Integrated the complete tool execution loop:
 while step < MAX_STEPS:
     # 1. Call OpenAI
     response = await client.chat_completion(...)
-    
+
     # 2. Check for tool calls
     if tool_calls:
         # 3. Execute allowed tools
         result = await tool_executor.execute(tool_name, args)
-        
+
         # 4. Add results to messages
         messages.append({"role": "tool", "content": result})
-        
+
         # 5. Continue conversation
         continue
-    
+
     # 6. Return final response
     break
 ```
@@ -163,7 +163,7 @@ Every tool execution is tracked:
 
 ## Summary
 
-**The tool execution loop is COMPLETE and WORKING!** 
+**The tool execution loop is COMPLETE and WORKING!**
 
 LUKHAS  now has:
 - ✅ Full OpenAI integration with tool support

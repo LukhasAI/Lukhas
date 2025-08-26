@@ -50,13 +50,13 @@ class EmailHeaderMetadata(ResourceMetadata):
 class GmailHeadersAdapter(ServiceAdapter):
     """
     Gmail adapter that provides headers-only access by default.
-    
+
     Metadata operations (long TTL capabilities):
     - list_resources: Email headers in inbox/folders
     - get_resource_metadata: Detailed headers for specific email
     - search_resources: Search by sender/subject/date
-    
-    Content operations (short TTL capabilities):  
+
+    Content operations (short TTL capabilities):
     - get_resource_content: Full email body and attachments
     """
 
@@ -110,7 +110,7 @@ class GmailHeadersAdapter(ServiceAdapter):
     ) -> List[EmailHeaderMetadata]:
         """
         List email headers (metadata only).
-        
+
         Requires: email.read.headers scope
         Returns: Email headers without body content
         """
@@ -145,7 +145,7 @@ class GmailHeadersAdapter(ServiceAdapter):
     ) -> EmailHeaderMetadata:
         """
         Get detailed email headers for specific message.
-        
+
         Requires: email.read.headers scope
         Returns: Complete headers without body
         """
@@ -182,7 +182,7 @@ class GmailHeadersAdapter(ServiceAdapter):
     ) -> ResourceContent:
         """
         Get full email content including body and attachments.
-        
+
         Requires: email.read.content scope (escalated capability)
         Returns: Complete email with body and attachments
         """
@@ -220,7 +220,7 @@ class GmailHeadersAdapter(ServiceAdapter):
     ) -> List[EmailHeaderMetadata]:
         """
         Search emails by headers (sender, subject, date).
-        
+
         Requires: email.search.headers scope
         Returns: Matching email headers only
         """

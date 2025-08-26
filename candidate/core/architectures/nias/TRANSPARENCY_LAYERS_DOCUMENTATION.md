@@ -1,7 +1,7 @@
 # 🔍 NIAS Transparency Layers Documentation
 
-**Version:** 1.0  
-**Date:** July 30, 2025  
+**Version:** 1.0
+**Date:** July 30, 2025
 **Status:** Complete Implementation with 7-Tier System
 
 ---
@@ -277,12 +277,12 @@ print(result['explanation']['content'])
 ```python
 # Get human-readable explanation
 nl_explanation = await hub.get_natural_language_explanation(
-    result, 
+    result,
     user_context
 )
 
 print(nl_explanation)
-# "This content was filtered because it matched spam, marketing categories 
+# "This content was filtered because it matched spam, marketing categories
 #  and triggered 1 policies. Available through user settings"
 ```
 
@@ -451,6 +451,6 @@ This implementation sets a new standard for transparent AI systems and demonstra
 
 ---
 
-**Last Updated:** July 30, 2025  
-**Maintained By:** LUKHAS AI Development Team  
+**Last Updated:** July 30, 2025
+**Maintained By:** LUKHAS AI Development Team
 **Contact:** transparency@lukhas.ai

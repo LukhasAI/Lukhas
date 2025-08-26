@@ -13,7 +13,7 @@
 - Added `authenticate_with_identity()` method for unified auth
 - ΛID validation support through Identity module
 
-### 🧠 Consciousness Integration  
+### 🧠 Consciousness Integration
 - Connected to SymbolicKernelBus for agent communication
 - Added `notify_consciousness()` for event broadcasting
 - Consciousness status tracking in health reports

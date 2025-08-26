@@ -1,5 +1,5 @@
 # FILES STAGED FOR DELETION - COMMIT ANALYSIS
-**Date:** August 3, 2025  
+**Date:** August 3, 2025
 **Git Status:** Many files are marked as "deleted" and ready to be committed
 
 ## 🔴 CRITICAL FILES ABOUT TO BE DELETED
@@ -7,7 +7,7 @@
 ### Core Architecture Files
 ```
 api/ - Entire API framework
-architectures/ - ABAS, DAST, NIAS architectures  
+architectures/ - ABAS, DAST, NIAS architectures
 bio/ - Biological simulation system
 creativity/ - Creative expression engines
 dream/ - Dream processing system
@@ -22,7 +22,7 @@ voice/ - Voice processing system
 ### Important Configuration & Documentation
 ```
 DEMO_QUICKSTART.md
-ROADMAP.md  
+ROADMAP.md
 VISION.md
 MODULE_STANDARDIZATION_QUICKSTART.md
 docker-compose.yml
@@ -39,7 +39,7 @@ These files have changes that will be committed:
 ```
 CLAUDE.md
 bridge/README.md
-consciousness/README.md  
+consciousness/README.md
 core/README.md
 Multiple files in core/interfaces/
 Multiple files in ._cleanup_archive/
@@ -53,14 +53,14 @@ VIVOX_LUKHAS_COMPLETE_FEATURE_MATRIX.md
 Z_C_COMPLETE_USER_GUIDE.md
 recovery/
 core/tags/ - Our new tag system
-core/endocrine/ - Our new endocrine system  
+core/endocrine/ - Our new endocrine system
 core/explainability/ - Our new decision explainer
 examples/ - Our demo scripts
 ```
 
 ## ⚠️ RECOMMENDATION: DO NOT COMMIT YET
 
-**This commit would delete most of your LUKHAS system!** 
+**This commit would delete most of your LUKHAS system!**
 
 Instead, you should:
 
@@ -68,7 +68,7 @@ Instead, you should:
 2. **Selectively add new files** you want to keep:
    ```bash
    git add IMPLEMENTATION_STATUS_REPORT.md
-   git add VIVOX_LUKHAS_COMPLETE_FEATURE_MATRIX.md  
+   git add VIVOX_LUKHAS_COMPLETE_FEATURE_MATRIX.md
    git add Z_C_COMPLETE_USER_GUIDE.md
    git add core/tags/
    git add core/endocrine/
@@ -88,7 +88,7 @@ Instead, you should:
 **What would be deleted:**
 - ~90% of LUKHAS modules (bio, dream, quantum, reasoning, etc.)
 - API frameworks
-- Deployment configurations  
+- Deployment configurations
 - Security systems
 - Documentation
 

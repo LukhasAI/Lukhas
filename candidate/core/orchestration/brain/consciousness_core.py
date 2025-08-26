@@ -8,8 +8,10 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
+from candidate.orchestration.core_modules.orchestration_service import (
+    ConsciousnessLevel,
+)
 from lukhas.core.common.config import LukhasConfig
-from candidate.orchestration.core_modules.orchestration_service import ConsciousnessLevel
 
 logger = logging.getLogger("LukhasConsciousness")
 

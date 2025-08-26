@@ -45,10 +45,10 @@ except ImportError:
 
 # Import quantum identity management
 try:
-    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import (
-        QuantumIdentityManager,
-        QuantumTierLevel,
-        QuantumUserContext,
+    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (
+        QIIdentityManager,
+        QITierLevel,
+        QIUserContext,
         authorize_quantum_access,
         get_quantum_identity_manager,
     )
@@ -116,14 +116,14 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         self.logger = logging.getLogger(f"{__name__}.{colony_id}")
 
         # Quantum identity components
-        self.quantum_identity_manager: Optional[QuantumIdentityManager] = None
+        self.qi_identity_manager: Optional[QIIdentityManager] = None
         self.oracle_hub: Optional[OracleNervousSystemHub] = None
         self.ethics_colony: Optional[EthicsSwarmColony] = None
         self.consciousness_engine: Optional[DistributedConsciousnessEngine] = None
 
         # Identity-aware state
-        self.active_user_contexts: dict[str, QuantumUserContext] = {}
-        self.tier_capability_matrix: dict[QuantumTierLevel, list[str]] = {}
+        self.active_user_contexts: dict[str, QIUserContext] = {}
+        self.tier_capability_matrix: dict[QITierLevel, list[str]] = {}
         self.identity_audit_log: list[dict[str, Any]] = []
 
         # Performance tracking
@@ -143,11 +143,11 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         """Initialize quantum identity management integration."""
         if QUANTUM_IDENTITY_AVAILABLE:
             try:
-                self.quantum_identity_manager = get_quantum_identity_manager()
+                self.qi_identity_manager = get_quantum_identity_manager()
                 self.logger.info("Quantum identity management integration enabled")
             except Exception as e:
                 self.logger.error(f"Failed to initialize quantum identity: {e}")
-                self.quantum_identity_manager = None
+                self.qi_identity_manager = None
         else:
             self.logger.warning("Quantum identity management not available")
 
@@ -155,12 +155,12 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         """Setup tier-based capability access matrix."""
         # Define capability access by tier level
         tier_capabilities = {
-            QuantumTierLevel.QUANTUM_TIER_0: [
+            QITierLevel.QUANTUM_TIER_0: [
                 "basic_query",
                 "simple_reasoning",
                 "basic_memory",
             ],
-            QuantumTierLevel.QUANTUM_TIER_1: [
+            QITierLevel.QUANTUM_TIER_1: [
                 "basic_query",
                 "simple_reasoning",
                 "basic_memory",
@@ -168,39 +168,39 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
                 "creativity_basic",
                 "ethics_consultation",
             ],
-            QuantumTierLevel.QUANTUM_TIER_2: [
+            QITierLevel.QUANTUM_TIER_2: [
                 "basic_query",
                 "simple_reasoning",
                 "basic_memory",
                 "advanced_reasoning",
                 "creativity_basic",
                 "ethics_consultation",
-                "quantum_processing",
+                "qi_processing",
                 "consciousness_access",
                 "oracle_prediction",
             ],
-            QuantumTierLevel.QUANTUM_TIER_3: [
+            QITierLevel.QUANTUM_TIER_3: [
                 "basic_query",
                 "simple_reasoning",
                 "basic_memory",
                 "advanced_reasoning",
                 "creativity_basic",
                 "ethics_consultation",
-                "quantum_processing",
+                "qi_processing",
                 "consciousness_access",
                 "oracle_prediction",
                 "advanced_creativity",
                 "temporal_reasoning",
                 "swarm_coordination",
             ],
-            QuantumTierLevel.QUANTUM_TIER_4: [
+            QITierLevel.QUANTUM_TIER_4: [
                 "basic_query",
                 "simple_reasoning",
                 "basic_memory",
                 "advanced_reasoning",
                 "creativity_basic",
                 "ethics_consultation",
-                "quantum_processing",
+                "qi_processing",
                 "consciousness_access",
                 "oracle_prediction",
                 "advanced_creativity",
@@ -209,7 +209,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
                 "superintelligence_features",
                 "cross_colony_orchestration",
             ],
-            QuantumTierLevel.QUANTUM_TIER_5: ["*"],  # All capabilities
+            QITierLevel.QUANTUM_TIER_5: ["*"],  # All capabilities
         }
 
         # Filter capabilities based on colony's actual capabilities
@@ -253,7 +253,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         self,
         task_id: str,
         task_data: dict[str, Any],
-        user_context: Optional[QuantumUserContext] = None,
+        user_context: Optional[QIUserContext] = None,
     ) -> dict[str, Any]:
         """
         Execute task with identity-aware processing and quantum security.
@@ -269,7 +269,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         Raises:
             IdentityValidationError: If identity validation fails
             TierAccessDeniedError: If user tier insufficient for operation
-            QuantumSecurityError: If quantum security validation fails
+            QISecurityError: If quantum security validation fails
         """
         start_time = time.time()
 
@@ -343,9 +343,9 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             if len(self.identity_validation_times) > 1000:
                 self.identity_validation_times = self.identity_validation_times[-1000:]
 
-    async def _validate_quantum_identity(self, user_context: QuantumUserContext):
+    async def _validate_quantum_identity(self, user_context: QIUserContext):
         """Validate quantum identity with post-quantum cryptography."""
-        if not self.quantum_identity_manager:
+        if not self.qi_identity_manager:
             # Fallback validation
             if not user_context.user_id:
                 raise IdentityValidationError("Invalid user context: missing user_id")
@@ -353,7 +353,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
         try:
             # Verify quantum signature and collapse hash
-            if user_context.quantum_signature and user_context.collapse_hash:
+            if user_context.qi_signature and user_context.collapse_hash:
                 # Quantum validation would happen here
                 # For now, we'll validate basic context integrity
                 pass
@@ -368,10 +368,10 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             self.active_user_contexts[user_context.user_id] = user_context
 
         except Exception as e:
-            raise QuantumSecurityError(f"Quantum identity validation failed: {e}")
+            raise QISecurityError(f"Quantum identity validation failed: {e}")
 
     async def _authorize_task_execution(
-        self, user_context: QuantumUserContext, operation: str
+        self, user_context: QIUserContext, operation: str
     ) -> bool:
         """Authorize task execution based on tier and capabilities."""
         # Check cache first
@@ -388,7 +388,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         authorized = False
 
         # Tier 5 gets all capabilities
-        if user_context.tier_level == QuantumTierLevel.QUANTUM_TIER_5:
+        if user_context.tier_level == QITierLevel.QUANTUM_TIER_5:
             authorized = True
         else:
             # Check if operation matches allowed capabilities
@@ -408,12 +408,12 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
                         break
 
         # Use quantum identity manager for additional authorization
-        if self.quantum_identity_manager:
+        if self.qi_identity_manager:
             try:
-                quantum_authorized = await authorize_quantum_access(
+                qi_authorized = await authorize_quantum_access(
                     user_context, self.colony_id, operation
                 )
-                authorized = authorized and quantum_authorized
+                authorized = authorized and qi_authorized
             except Exception as e:
                 self.logger.error(f"Quantum authorization failed: {e}")
                 authorized = False
@@ -426,7 +426,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         return authorized
 
     async def _get_oracle_insights(
-        self, user_context: QuantumUserContext, task_data: dict[str, Any]
+        self, user_context: QIUserContext, task_data: dict[str, Any]
     ) -> Optional[dict[str, Any]]:
         """Get Oracle insights for task execution (if available)."""
         if not ORACLE_ETHICS_AVAILABLE or not self.oracle_hub:
@@ -463,7 +463,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             return None
 
     async def _validate_ethics(
-        self, user_context: QuantumUserContext, task_data: dict[str, Any]
+        self, user_context: QIUserContext, task_data: dict[str, Any]
     ) -> bool:
         """Validate task ethics using Ethics Swarm Colony (if available)."""
         if not ORACLE_ETHICS_AVAILABLE or not self.ethics_colony:
@@ -492,7 +492,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             return False  # Fail secure
 
     async def _get_consciousness_context(
-        self, user_context: QuantumUserContext, task_data: dict[str, Any]
+        self, user_context: QIUserContext, task_data: dict[str, Any]
     ) -> Optional[dict[str, Any]]:
         """Get consciousness context for identity-aware processing (if available)."""
         if not CONSCIOUSNESS_AVAILABLE or not self.consciousness_engine:
@@ -521,7 +521,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         self,
         task_id: str,
         task_data: dict[str, Any],
-        user_context: QuantumUserContext,
+        user_context: QIUserContext,
         oracle_insights: Optional[dict[str, Any]],
         ethics_approval: bool,
         consciousness_context: Optional[dict[str, Any]],
@@ -550,7 +550,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
     async def _log_identity_audit(
         self,
-        user_context: QuantumUserContext,
+        user_context: QIUserContext,
         task_id: str,
         operation: str,
         status: str,
@@ -574,11 +574,11 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         }
 
         # Generate collapse hash for audit entry (if quantum crypto available)
-        if self.quantum_identity_manager and hasattr(
-            self.quantum_identity_manager, "collapse_hash_manager"
+        if self.qi_identity_manager and hasattr(
+            self.qi_identity_manager, "collapse_hash_manager"
         ):
             try:
-                collapse_hash = self.quantum_identity_manager.collapse_hash_manager.generate_collapse_hash(
+                collapse_hash = self.qi_identity_manager.collapse_hash_manager.generate_collapse_hash(
                     audit_entry
                 )
                 audit_entry["collapse_hash"] = collapse_hash
@@ -605,12 +605,12 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
 
     async def _update_user_patterns(
         self,
-        user_context: QuantumUserContext,
+        user_context: QIUserContext,
         task_data: dict[str, Any],
         result: dict[str, Any],
     ):
         """Update user behavior patterns for dynamic tier adjustment."""
-        if not self.quantum_identity_manager:
+        if not self.qi_identity_manager:
             return
 
         try:
@@ -638,7 +638,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         except Exception as e:
             self.logger.error(f"Failed to update user patterns: {e}")
 
-    async def register_user_context(self, user_context: QuantumUserContext):
+    async def register_user_context(self, user_context: QIUserContext):
         """Register user context for colony access."""
         await self._validate_quantum_identity(user_context)
         self.active_user_contexts[user_context.user_id] = user_context
@@ -661,7 +661,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
         self.logger.debug(f"Unregistered user context for {user_id}")
 
     def get_supported_capabilities_for_tier(
-        self, tier_level: QuantumTierLevel
+        self, tier_level: QITierLevel
     ) -> list[str]:
         """Get capabilities supported for a specific tier level."""
         return self.tier_capability_matrix.get(tier_level, [])
@@ -697,7 +697,7 @@ class IdentityAwareBaseColony(BaseColony if BASE_COLONY_AVAILABLE else ABC):
             "identity_type_distribution": identity_type_distribution,
             "avg_validation_time_ms": avg_validation_time * 1000,
             "total_audit_entries": len(self.identity_audit_log),
-            "quantum_identity_enabled": self.quantum_identity_manager is not None,
+            "qi_identity_enabled": self.qi_identity_manager is not None,
             "oracle_integration_enabled": ORACLE_ETHICS_AVAILABLE,
             "consciousness_integration_enabled": CONSCIOUSNESS_AVAILABLE,
             "supported_tier_levels": [
@@ -716,7 +716,7 @@ class DefaultIdentityAwareColony(IdentityAwareBaseColony):
         self,
         task_id: str,
         task_data: dict[str, Any],
-        user_context: QuantumUserContext,
+        user_context: QIUserContext,
         oracle_insights: Optional[dict[str, Any]],
         ethics_approval: bool,
         consciousness_context: Optional[dict[str, Any]],

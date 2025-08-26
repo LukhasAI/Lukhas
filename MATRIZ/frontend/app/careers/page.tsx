@@ -4,8 +4,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Briefcase, Code, Brain, Shield, Users, Globe, 
+import {
+  Briefcase, Code, Brain, Shield, Users, Globe,
   Rocket, Heart, Target, ChevronRight, MapPin, Clock
 } from 'lucide-react'
 
@@ -129,8 +129,8 @@ export default function CareersPage() {
             >
               <h2 className="font-regular text-3xl mb-6">Our Mission</h2>
               <p className="font-thin text-xl leading-relaxed max-w-4xl mx-auto">
-                We're building the next generation of AI consciousness technology. Join us in creating 
-                systems that are not just intelligent, but aware, ethical, and aligned with human values. 
+                We're building the next generation of AI consciousness technology. Join us in creating
+                systems that are not just intelligent, but aware, ethical, and aligned with human values.
                 At LUKHAS, you'll work on cutting-edge problems that push the boundaries of what's possible.
               </p>
             </motion.div>

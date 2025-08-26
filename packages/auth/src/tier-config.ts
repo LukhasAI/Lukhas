@@ -1,13 +1,13 @@
 /**
  * ΛiD Authentication System - Tier Configuration
- * 
+ *
  * Complete T1-T5 tier system configuration with proper RPM/RPD limits and scope definitions
  * Integrates with LUKHAS Trinity Framework (⚛️🧠🛡️)
  */
 
-import { 
-  UserTier, 
-  AuthScope, 
+import {
+  UserTier,
+  AuthScope,
   UserRole,
   RateLimitConfig,
   Permission,
@@ -460,7 +460,7 @@ export function canUpgradeTier(currentTier: UserTier): {
   benefits?: string[];
 } {
   const definition = TIER_DEFINITIONS[currentTier];
-  
+
   return {
     canUpgrade: definition.upgrade.available,
     nextTier: definition.upgrade.nextTier,
@@ -538,7 +538,7 @@ export function getTierComparison(): {
   tiers: Record<UserTier, boolean[]>;
 } {
   const allFeatures = new Set<string>();
-  
+
   // Collect all unique features
   Object.values(TIER_DEFINITIONS).forEach(tier => {
     Object.values(tier.features).forEach(categoryFeatures => {
@@ -575,33 +575,33 @@ export function calculateTierValue(tier: UserTier): {
   };
 } {
   const definition = TIER_DEFINITIONS[tier];
-  
+
   // Calculate feature score
   const featureCount = Object.values(definition.features)
     .reduce((sum, features) => sum + features.length, 0);
-  
+
   // Calculate limits score based on rate limits
-  const rateLimitScore = definition.limits.rateLimits.rpm + 
+  const rateLimitScore = definition.limits.rateLimits.rpm +
     (definition.limits.rateLimits.rpd / 1000);
-  
+
   // Calculate support score
-  const supportScore = tier === 'T5' ? 100 : 
+  const supportScore = tier === 'T5' ? 100 :
                       tier === 'T4' ? 80 :
                       tier === 'T3' ? 60 :
                       tier === 'T2' ? 40 : 20;
-  
+
   // Calculate security score
   const securityScore = definition.features.security.length * 10;
-  
+
   const breakdown = {
     features: featureCount,
     limits: rateLimitScore,
     support: supportScore,
     security: securityScore
   };
-  
+
   const score = Object.values(breakdown).reduce((sum, val) => sum + val, 0);
-  
+
   return { score, breakdown };
 }
 
@@ -628,7 +628,7 @@ export function tierCanPerformOperation(
 ): boolean {
   const definition = TIER_DEFINITIONS[tier];
   const scopes = definition.scopes;
-  
+
   // Map operations to required scopes
   const operationScopeMap: Record<string, AuthScope> = {
     'read_api': 'api:keys:read',
@@ -651,10 +651,10 @@ export function tierCanPerformOperation(
     'manage_billing': 'billing:manage',
     'admin_billing': 'billing:admin'
   };
-  
+
   const requiredScope = operationScopeMap[operation];
   if (!requiredScope) return false;
-  
+
   return scopes.includes(requiredScope);
 }
 
@@ -677,18 +677,18 @@ export function getTierUpgradeRecommendations(
 } {
   const currentDef = TIER_DEFINITIONS[currentTier];
   const currentLimits = currentDef.limits;
-  
+
   // Check if approaching limits
   const dailyApiLimit = parseInt(currentLimits.usage.apiCalls.split('/')[0].replace(',', ''));
   const dailyConsciousnessLimit = parseInt(currentLimits.usage.consciousnessQueries.split('/')[0].replace(',', ''));
   const dailyOrchestrationLimit = parseInt(currentLimits.usage.orchestrationRuns.split('/')[0].replace(',', ''));
-  
+
   const apiUsageRatio = usage.apiCalls / dailyApiLimit;
   const consciousnessUsageRatio = usage.consciousnessQueries / dailyConsciousnessLimit;
   const orchestrationUsageRatio = usage.orchestrationRuns / dailyOrchestrationLimit;
-  
+
   const maxUsageRatio = Math.max(apiUsageRatio, consciousnessUsageRatio, orchestrationUsageRatio);
-  
+
   if (maxUsageRatio > 0.8) {
     const upgrade = canUpgradeTier(currentTier);
     if (upgrade.canUpgrade) {
@@ -700,7 +700,7 @@ export function getTierUpgradeRecommendations(
       };
     }
   }
-  
+
   return { shouldUpgrade: false };
 }
 

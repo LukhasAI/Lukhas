@@ -36,7 +36,7 @@ class OscillatorAdapter:
         # Core components
         self.nodes: list[UnifiedNode] = []
         self.proton_gradient = ProtonGradient()
-        self.quantum_inspired_gate = QIAttentionGate()
+        self.qi_inspired_gate = QIAttentionGate()
         self.crista_filter = CristaFilter()
 
         # Oscillation parameters
@@ -106,7 +106,7 @@ class OscillatorAdapter:
 
         try:
             # Apply quantum attention
-            attended_signal = self.quantum_inspired_gate.attend(signal, self.sync_state)
+            attended_signal = self.qi_inspired_gate.attend(signal, self.sync_state)
 
             # Filter through cristae topology
             filtered_signal = self.crista_filter.filter(

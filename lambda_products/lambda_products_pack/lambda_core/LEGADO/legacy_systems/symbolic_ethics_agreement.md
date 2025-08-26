@@ -301,9 +301,9 @@ By using or contributing to the LUKHAS ecosystem, I agree to:
 - [ ] Respect the rights and dignity of all ecosystem participants
 - [ ] Contribute to the continuous improvement of ethical AI practices
 
-**Signature**: _________________________  
-**Name**: _____________________________  
-**Role**: _____________________________  
+**Signature**: _________________________
+**Name**: _____________________________
+**Role**: _____________________________
 **Date**: _____________________________
 
 ### Organizational Commitment
@@ -315,9 +315,9 @@ Our organization commits to:
 - [ ] Transparent reporting and accountability measures
 - [ ] Continuous improvement and adaptation of ethical practices
 
-**Organization**: ______________________  
-**Representative**: ____________________  
-**Title**: ____________________________  
+**Organization**: ______________________
+**Representative**: ____________________
+**Title**: ____________________________
 **Date**: _____________________________
 
 ---
@@ -325,25 +325,25 @@ Our organization commits to:
 ## 📞 Contact and Resources
 
 ### Ethics Support
-**Ethics Hotline**: [Contact Information]  
-**Email**: ethics@lukhas.ai  
-**Website**: https://lukhas.ai/ethics  
+**Ethics Hotline**: [Contact Information]
+**Email**: ethics@lukhas.ai
+**Website**: https://lukhas.ai/ethics
 
 ### Educational Resources
-**AI Ethics Course**: [Link to training materials]  
-**Documentation**: [Link to technical documentation]  
-**Community Forum**: [Link to discussion platform]  
+**AI Ethics Course**: [Link to training materials]
+**Documentation**: [Link to technical documentation]
+**Community Forum**: [Link to discussion platform]
 
 ### External Resources
-**Partnership for AI**: https://partnershiponai.org  
-**Future of Humanity Institute**: https://fhi.ox.ac.uk  
-**AI Ethics Initiative**: https://aiethicsinitiative.org  
+**Partnership for AI**: https://partnershiponai.org
+**Future of Humanity Institute**: https://fhi.ox.ac.uk
+**AI Ethics Initiative**: https://aiethicsinitiative.org
 
 ---
 
 *This agreement is a living document that evolves with our understanding of AI ethics and the needs of our community. Regular updates ensure continued relevance and effectiveness in guiding ethical AI development and deployment.*
 
-**Document Version**: 2.0  
-**Last Updated**: 2025-06-23  
-**Next Review**: 2025-12-23  
+**Document Version**: 2.0
+**Last Updated**: 2025-06-23
+**Next Review**: 2025-12-23
 **Approval Authority**: LUKHAS Ethics Review Board

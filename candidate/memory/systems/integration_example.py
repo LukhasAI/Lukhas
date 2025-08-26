@@ -25,12 +25,11 @@
 import asyncio
 from typing import Any
 
+# Existing systems to integrate with
+from candidate.core.integration.connectivity_engine import ConnectivityEngine
 from lukhas.consciousness.reflection.unified_memory_manager import (
     EnhancedMemoryManager,
 )
-
-# Existing systems to integrate with
-from candidate.core.integration.connectivity_engine import ConnectivityEngine
 
 # New memory systems
 from memory.core import create_hybrid_memory_fold
@@ -103,7 +102,7 @@ class EnhancedMemoryIntegration:
         """
 
         # Add attention-based search to quantum manager
-        async def quantum_semantic_search(query: str, top_k: int = 10):
+        async def qi_semantic_search(query: str, top_k: int = 10):
             """Search quantum memories using attention"""
             # Get all quantum memories
             memories = []
@@ -112,7 +111,7 @@ class EnhancedMemoryIntegration:
                     "id": fold_id,
                     "content": fold_data.get("content", ""),
                     "embedding": fold_data.get("embedding"),
-                    "quantum_state": fold_data.get("quantum_state"),
+                    "qi_state": fold_data.get("qi_state"),
                     "tags": fold_data.get("tags", []),
                 }
                 memories.append(memory_item)
@@ -130,7 +129,7 @@ class EnhancedMemoryIntegration:
             return results
 
         # Add method to manager
-        manager.semantic_search = quantum_semantic_search
+        manager.semantic_search = qi_semantic_search
         logger.info("Quantum manager enhanced with semantic search")
 
     async def create_unified_memory_interface(self):

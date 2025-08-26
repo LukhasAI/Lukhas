@@ -190,13 +190,13 @@ class FallbackLearningService:
 
 
 class FallbackQuantumService:
-    """Fallback QuantumService for development when real service is unavailable."""
+    """Fallback QIService for development when real service is unavailable."""
 
     def __init__(self):
         self.logger = logger.getChild("FallbackQuantumService")
         self.logger.info("ΛTRACE: FallbackQuantumService initialized.")
 
-    def quantum_compute(self, *args, **kwargs) -> dict[str, Any]:
+    def qi_compute(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate quantum computation with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback quantum computation.")
         return {
@@ -206,7 +206,7 @@ class FallbackQuantumService:
             "kwargs": kwargs,
         }
 
-    def quantum_entangle(self, *args, **kwargs) -> dict[str, Any]:
+    def qi_entangle(self, *args, **kwargs) -> dict[str, Any]:
         """Simulate entanglement-like correlation with fallback response."""
         self.logger.warning("ΛTRACE: Using fallback entanglement-like correlation.")
         return {

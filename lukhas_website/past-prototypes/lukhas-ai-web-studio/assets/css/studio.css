@@ -97,11 +97,11 @@
         animation: none;
         opacity: 1;
     }
-    
+
     .btn::before {
         display: none;
     }
-    
+
     .studio-entry {
         animation: none;
     }

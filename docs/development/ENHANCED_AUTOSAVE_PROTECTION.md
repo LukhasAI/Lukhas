@@ -15,7 +15,7 @@ This document outlines the comprehensive autosave and data protection enhancemen
 "workbench.editor.restoreViewState": true,
 "workbench.editor.enablePreview": false, // No preview mode
 
-// Backup and Recovery Enhancement  
+// Backup and Recovery Enhancement
 "files.enableTrash": true,
 "workbench.editor.closeOnFileDelete": false,
 "workbench.localHistory.enabled": true,  // VS Code local history
@@ -40,7 +40,7 @@ This document outlines the comprehensive autosave and data protection enhancemen
 
 ### 2. **Git Pre-Commit Hook Enhancement**
 - **Agent Protection**: Automatic backup before commits
-- **Empty File Detection**: Blocks commits with empty agent files  
+- **Empty File Detection**: Blocks commits with empty agent files
 - **JSON Validation**: Ensures agent configs have valid syntax
 - **Recovery Commands**: Provides exact recovery instructions
 
@@ -109,7 +109,7 @@ cp -r ".auto-backup/$LATEST_BACKUP/agents/" agents/
 
 **Protected Directories**:
 - `agents/` - All agent configurations
-- `consciousness/` - Consciousness modules  
+- `consciousness/` - Consciousness modules
 - `core/` - Core system files
 - `identity/` - Identity management
 - `.vscode/` - VS Code settings

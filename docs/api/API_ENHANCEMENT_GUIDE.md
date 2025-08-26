@@ -51,10 +51,10 @@ A full-featured Python client SDK makes integration easy:
 async with LUKHASClient('http://localhost:8000', api_key='your-key') as client:
     # Query consciousness
     response = await client.consciousness.query("What is the meaning of existence?")
-    
+
     # Store memory
     memory_id = await client.memory.store({"event": "Important meeting"})
-    
+
     # Generate creative content
     dream = await client.dream.generate("A world without limits")
 ```
@@ -128,7 +128,7 @@ async def main():
     async with LUKHASClient('http://localhost:8000') as client:
         # Login
         await client.auth.login('user', 'password')
-        
+
         # Use LUKHAS
         response = await client.consciousness.query("Hello LUKHAS")
         print(response)

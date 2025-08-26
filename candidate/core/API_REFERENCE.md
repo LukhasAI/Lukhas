@@ -58,7 +58,7 @@ class SupervisionStrategy:
     restart_delay: float = 0.1  # seconds
     backoff_multiplier: float = 2.0
     max_restart_delay: float = 30.0
-    
+
     def calculate_restart_delay(self, failure_count: int) -> float:
         """Calculate delay before restart using exponential backoff"""
 ```
@@ -71,7 +71,7 @@ Enhanced actor with supervision capabilities.
 
 ```python
 class SupervisorActor(Actor):
-    def __init__(self, 
+    def __init__(self,
                  actor_id: str,
                  supervision_strategy: Optional[SupervisionStrategy] = None,
                  supervision_decider: Optional[SupervisionDecider] = None)
@@ -204,7 +204,7 @@ Collects and aggregates observability data.
 
 ```python
 class ObservabilityCollector:
-    def __init__(self, 
+    def __init__(self,
                  retention_period: float = 3600.0,
                  aggregation_interval: float = 5.0)
 ```
@@ -240,7 +240,7 @@ Enhanced actor with built-in observability.
 ```python
 class ObservableActor(Actor):
     def __init__(self, actor_id: str, collector: Optional[ObservabilityCollector] = None)
-    
+
     def get_custom_metrics(self) -> Dict[str, Any]:
         """Override to provide custom metrics"""
         return {}
@@ -251,7 +251,7 @@ Interactive dashboard for system observation.
 
 ```python
 class ObservabilityDashboard:
-    def __init__(self, 
+    def __init__(self,
                  collector: ObservabilityCollector,
                  steering: SteeringController)
 ```
@@ -295,9 +295,9 @@ class Event:
     data: Dict[str, Any]
     correlation_id: Optional[str] = None
     causation_id: Optional[str] = None
-    
+
     def to_json(self) -> str
-    
+
     @classmethod
     def from_json(cls, json_str: str) -> 'Event'
 ```
@@ -315,10 +315,10 @@ class ActorStateSnapshot:
     state_data: bytes
     state_hash: str
     metadata: Dict[str, Any]
-    
+
     @classmethod
     def create_from_actor(cls, actor: Actor, event_id: str) -> 'ActorStateSnapshot'
-    
+
     def restore_to_actor(self, actor: Actor) -> None
 ```
 
@@ -329,7 +329,7 @@ Persistent storage for events with replay capabilities.
 
 ```python
 class EventStore:
-    def __init__(self, 
+    def __init__(self,
                  storage_path: str = "./event_store",
                  max_memory_events: int = 10000,
                  compression: bool = True)
@@ -361,7 +361,7 @@ Actor that automatically records events and supports replay.
 
 ```python
 class EventSourcedActor(Actor):
-    def __init__(self, 
+    def __init__(self,
                  actor_id: str,
                  event_store: Optional[EventStore] = None,
                  snapshot_store: Optional[SnapshotStore] = None)
@@ -567,30 +567,30 @@ class AnomalyDetected(Exception):
 async def setup_resilient_system():
     # Core actor system
     system = await get_global_actor_system()
-    
+
     # Event sourcing
     event_store = EventStore()
     snapshot_store = SnapshotStore()
     await event_store.start()
-    
+
     # Observability
     collector = ObservabilityCollector()
     collector.start()
-    
+
     # Cascade prevention
     cascade_prevention = CascadePreventionSystem(system, collector)
     await cascade_prevention.start()
-    
+
     # Root supervisor
     root = await system.create_actor(RootSupervisor, "root-supervisor")
-    
+
     # Steering and dashboard
     steering = SteeringController(system)
     dashboard = ObservabilityDashboard(collector, steering)
-    
+
     # Replay controller
     replay = ReplayController(system, event_store, snapshot_store)
-    
+
     return locals()
 ```
 
@@ -601,23 +601,23 @@ class ProtectedActor(ObservableActor, EventSourcedActor):
     def __init__(self, actor_id: str, components):
         ObservableActor.__init__(self, actor_id, components['collector'])
         EventSourcedActor.__init__(
-            self, actor_id, 
-            components['event_store'], 
+            self, actor_id,
+            components['event_store'],
             components['snapshot_store']
         )
         self.cascade_prevention = components['cascade_prevention']
-    
+
     async def protected_operation(self, data):
         # Record state change
         await self.record_state_change("op_start", self.state, "processing")
-        
+
         # Use circuit breaker
         cb = self.cascade_prevention.get_or_create_circuit_breaker(self.actor_id)
         result = await cb.async_call(self._do_work, data)
-        
+
         # Record completion
         await self.record_state_change("op_complete", "processing", self.state)
-        
+
         return result
 ```
 

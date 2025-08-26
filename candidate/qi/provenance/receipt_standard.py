@@ -1,13 +1,16 @@
 # path: qi/provenance/receipt_standard.py
 from __future__ import annotations
-import os, time, json, hashlib, base64
-from dataclasses import dataclass, asdict
+
+import hashlib
+import json
+import time
+from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Optional
 
 # Merkle + Ed25519 (same primitives you already use)
 _HAS_PROV = True
 try:
-    from qi.ops.provenance import merkle_chain, attest  # writes *.jsonl + *.att.json
+    from qi.ops.provenance import attest, merkle_chain  # writes *.jsonl + *.att.json
 except Exception:
     _HAS_PROV = False
 

@@ -3,16 +3,16 @@
 from dataclasses import dataclass
 from typing import Any, Optional
 
-# Enhanced dependency: quantum_mind with better fallback
+# Enhanced dependency: qi_mind with better fallback
 try:
     from qi.mind import (
         ConsciousnessPhase,
-        QuantumMindInterface,
+        QIMindInterface,
         get_current_phase,
         get_quantum_mind,
     )
     QUANTUM_MIND_AVAILABLE = True
-except Exception:  # pragma: no cover - fallback if quantum_mind is unavailable
+except Exception:  # pragma: no cover - fallback if qi_mind is unavailable
     import time
     from enum import Enum
 
@@ -93,7 +93,7 @@ class CoreMemoryComponent:
         self.trace_store: dict[str, Any] = {}
 
         # Enhanced: Connect to quantum mind interface
-        self.quantum_mind = get_quantum_mind()
+        self.qi_mind = get_quantum_mind()
         self.use_quantum_mind = QUANTUM_MIND_AVAILABLE
 
         if self.use_quantum_mind:
@@ -105,16 +105,16 @@ class CoreMemoryComponent:
         """Enhanced consciousness phase recording with quantum mind integration"""
         if self.use_quantum_mind:
             # Use real quantum mind interface
-            quantum_phase = self.quantum_mind.get_phase()
-            phase = quantum_phase.value
-            operational = self.quantum_mind.is_operational()
+            qi_phase = self.qi_mind.get_phase()
+            phase = qi_phase.value
+            operational = self.qi_mind.is_operational()
 
             if not operational:
                 self.logger.warning(f"Quantum mind not operational in phase: {phase}")
         else:
             # Fallback to time-based phase determination
-            quantum_phase = get_current_phase()
-            phase = quantum_phase.value
+            qi_phase = get_current_phase()
+            phase = qi_phase.value
             operational = True
 
         self.consciousness_log.append(phase)
@@ -154,15 +154,15 @@ class CoreMemoryComponent:
             "component_name": self.__class__.__name__,
             "operational_status": "ready" if self.config.enabled else "disabled",
             "current_configuration": self.config.__dict__,
-            "quantum_mind_available": self.use_quantum_mind,
+            "qi_mind_available": self.use_quantum_mind,
             "current_consciousness_phase": self.current_consciousness_phase,
             "trace_count": len(self.trace_store),
             "consciousness_log_length": len(self.consciousness_log),
         }
 
         if self.use_quantum_mind:
-            status["quantum_mind_operational"] = self.quantum_mind.is_operational()
-            status["quantum_phase"] = self.quantum_mind.get_phase().value
+            status["qi_mind_operational"] = self.qi_mind.is_operational()
+            status["qi_phase"] = self.qi_mind.get_phase().value
 
         return status
 

@@ -1,4 +1,3 @@
 """
 Consciousness Module
 """
-

@@ -32,7 +32,7 @@ export default function StudioLayout({ children }: StudioLayoutProps) {
   const [topbar, setTopbar] = useState(true);
   const [prefs, setPrefs] = useState(loadPrefs());
   const [showSettings, setShowSettings] = useState(false);
-  
+
   // Refresh prefs when localStorage changes
   useEffect(() => {
     const handleStorage = () => setPrefs(loadPrefs());
@@ -91,7 +91,7 @@ export default function StudioLayout({ children }: StudioLayoutProps) {
               <WidgetRail side="top" defaults={["conversations","delivery"]} half={prefs.depth==="half"} />
             </div>
           )}
-          
+
           <div style={{ display: "flex", flex: 1 }}>
             {/* LEFT rail */}
             {(prefs.placement.startsWith("left") || prefs.placement.endsWith("left")) && (
@@ -103,13 +103,13 @@ export default function StudioLayout({ children }: StudioLayoutProps) {
                 <WidgetRail side="left" defaults={["conversations","trading","terminal"]} half={prefs.depth==="half"} />
               </aside>
             )}
-            
+
             <main style={{ flex: 1, position: "relative", zIndex: 1, padding: "16px 18px 12px 18px" }}>
               <div className="glass" style={{ height:"100%", padding:12 }}>
                 {children}
               </div>
             </main>
-            
+
             {/* RIGHT rail */}
             {(prefs.placement.startsWith("right") || prefs.placement.endsWith("right")) && (
               <aside style={{ width: 240, background:"var(--panel-heavy)", display:"grid", gridTemplateRows:"auto auto 1fr" }}>
@@ -123,7 +123,7 @@ export default function StudioLayout({ children }: StudioLayoutProps) {
               </aside>
             )}
           </div>
-          
+
           {/* BOTTOM rail */}
           {prefs.placement.startsWith("bottom") && (
             <div style={{ borderTop:"1px solid var(--line)", background:"var(--panel-heavy)" }}>
@@ -133,7 +133,7 @@ export default function StudioLayout({ children }: StudioLayoutProps) {
         </div>
 
         <FooterBar />
-        
+
         {showSettings && (
           <SettingsModal onClose={() => setShowSettings(false)}>
             <SettingsTabs />
@@ -170,7 +170,7 @@ function FooterBar() {
   } catch {
     // Not in a mode context, skip mode components
   }
-  
+
   function dispatch() {
     if (palette.isIntercepting) {
       const value = taRef.current?.value || "";
@@ -212,14 +212,14 @@ function FooterBar() {
   }, []);
 
   return (
-    <div style={{ 
-      padding: 14, 
-      display: "grid", 
-      gridTemplateColumns: modeChips ? "auto auto 1fr auto" : "auto 1fr auto", 
-      gap: 12, 
-      alignItems: "center", 
-      borderTop:"1px solid var(--line)", 
-      background:"var(--bg)" 
+    <div style={{
+      padding: 14,
+      display: "grid",
+      gridTemplateColumns: modeChips ? "auto auto 1fr auto" : "auto 1fr auto",
+      gap: 12,
+      alignItems: "center",
+      borderTop:"1px solid var(--line)",
+      background:"var(--bg)"
     }}>
       {modeChips}
       {modeToolbar}
@@ -257,9 +257,9 @@ function FooterBar() {
             : "Type to chat, write an email, /command, or draft… (Enter to send · Shift+Enter for newline · ⌘K commands)"
           }
         onKeyDown={(e) => {
-          if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { 
-            e.preventDefault(); 
-            palette.mode === "closed" ? palette.openMini() : palette.close(); 
+          if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+            e.preventDefault();
+            palette.mode === "closed" ? palette.openMini() : palette.close();
           }
           if (e.key === "Escape" && palette.isIntercepting) { palette.close(); }
           if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); dispatch(); }

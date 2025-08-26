@@ -38,15 +38,15 @@ class FoldedMemory:
 
 class MemoryFoldEngine:
     """Handles memory folding operations."""
-    
+
     def fold_in(self, experience: Dict[str, Any], context: Dict[str, Any]) -> FoldedMemory:
         """Fold experience into compressed memory representation."""
         pass
-    
+
     def fold_out(self, memory: FoldedMemory, query_context: Dict[str, Any]) -> Dict[str, Any]:
         """Reconstruct experience from folded memory."""
         pass
-    
+
     def merge_folds(self, memories: List[FoldedMemory]) -> FoldedMemory:
         """Merge multiple folded memories."""
         pass
@@ -74,18 +74,18 @@ class DriftMetrics:
 
 class DriftTracker:
     """Monitors semantic drift in memory vectors."""
-    
-    def calculate_drift(self, 
-                       original: np.ndarray, 
+
+    def calculate_drift(self,
+                       original: np.ndarray,
                        current: np.ndarray,
                        time_delta: float) -> DriftMetrics:
         """Calculate drift between memory states."""
         pass
-    
+
     def calculate_entropy(self, vector: np.ndarray) -> float:
         """Calculate symbolic entropy of memory vector."""
         pass
-    
+
     def predict_collapse(self, metrics: DriftMetrics) -> float:
         """Predict probability of memory collapse."""
         pass
@@ -114,18 +114,18 @@ class CollapseEvent:
 
 class LineageMapper:
     """Tracks memory lineage and collapse events."""
-    
-    def record_collapse(self, 
+
+    def record_collapse(self,
                        parent_memories: List[str],
                        drift_score: float,
                        metadata: Dict[str, Any]) -> CollapseEvent:
         """Record a memory collapse event."""
         pass
-    
+
     def get_lineage(self, memory_hash: str) -> List[CollapseEvent]:
         """Get full lineage trace for a memory."""
         pass
-    
+
     def find_common_ancestor(self, hash1: str, hash2: str) -> Optional[str]:
         """Find common ancestor between two memories."""
         pass
@@ -146,8 +146,8 @@ from .lineage_mapper import LineageMapper, CollapseEvent
 
 class MemoryCore:
     """Unified interface for LUKHAS memory system."""
-    
-    def __init__(self, 
+
+    def __init__(self,
                  agent_id: str,
                  enable_drift: bool = True,
                  collapse_threshold: float = 0.7):
@@ -156,26 +156,26 @@ class MemoryCore:
         self.drift_tracker = DriftTracker() if enable_drift else None
         self.lineage_mapper = LineageMapper()
         self.collapse_threshold = collapse_threshold
-        
+
     def store(self, experience: Dict[str, Any], context: Dict[str, Any]) -> str:
         """Store experience in memory system."""
         # 1. Fold the experience
         folded = self.fold_engine.fold_in(experience, context)
-        
+
         # 2. Check for drift if enabled
         if self.drift_tracker:
             # Implementation here
             pass
-            
+
         # 3. Record in lineage
         # Implementation here
-        
+
         return memory_id
-    
+
     def retrieve(self, memory_id: str, context: Dict[str, Any]) -> Dict[str, Any]:
         """Retrieve and reconstruct memory."""
         pass
-    
+
     def search_similar(self, query: Dict[str, Any], top_k: int = 5) -> List[Dict[str, Any]]:
         """Search for similar memories."""
         pass
@@ -196,7 +196,7 @@ from .lineage_mapper import LineageMapper, CollapseEvent
 
 __all__ = [
     'MemoryCore',
-    'MemoryFoldEngine', 
+    'MemoryFoldEngine',
     'FoldedMemory',
     'DriftTracker',
     'DriftMetrics',
@@ -227,7 +227,7 @@ __all__ = [
    ```python
    # Old
    from memory.unified_memory_system import MemoryFold
-   
+
    # New
    from memory import MemoryCore
    # or

@@ -7,13 +7,11 @@ Integrates workspace MultiBrainSymphony for agent synchronization
 
 import asyncio
 import logging
-import time
-import json
 import sys
-import os
-from datetime import datetime
-from typing import Dict, List, Any, Optional
+import time
 from dataclasses import dataclass
+from datetime import datetime
+from typing import Any, Dict
 
 # Add workspace core to path
 sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
@@ -22,8 +20,8 @@ sys.path.append('/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot')
 
 # Import workspace components
 try:
-    from MultiBrainSymphony import MultiBrainSymphony, SpecializedBrainCore
     from brain_integration import BrainIntegration
+    from MultiBrainSymphony import MultiBrainSymphony, SpecializedBrainCore
     WORKSPACE_BRAIN_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Workspace brain not available: {e}")
@@ -108,7 +106,7 @@ class MultiBrainΛBot:
             ),
             'lambda_brain': SpecializedBrainCore(
                 brain_id='lambda_quantum_brain',
-                specialization='quantum_enhanced_orchestration',
+                specialization='qi_enhanced_orchestration',
                 base_frequency=50.0
             ),
             'integration_brain': SpecializedBrainCore(
@@ -263,10 +261,10 @@ class MultiBrainΛBot:
         # Simulate LUKHAS AI ΛBot analysis with quantum enhancement
         result = {
             'brain_id': 'lambda_quantum_brain',
-            'analysis_type': 'quantum_enhanced_orchestration',
+            'analysis_type': 'qi_enhanced_orchestration',
             'frequency_state': brain.base_frequency if brain else 50.0,
             'findings': {
-                'quantum_optimization': 'Multi-dimensional module boundary optimization',
+                'qi_optimization': 'Multi-dimensional module boundary optimization',
                 'orchestration_strategy': 'Bio-rhythmic agent coordination with quantum coherence',
                 'decision_synthesis': 'Quantum superposition of architectural possibilities',
                 'bio_rhythmic_insights': 'System shows 50Hz quantum orchestration patterns'
@@ -275,7 +273,7 @@ class MultiBrainΛBot:
             'bio_sync_quality': 0.93
         }
 
-        logger.info(f"⚛️ LUKHAS AI ΛBot brain orchestration: {result['findings']['quantum_optimization']}")
+        logger.info(f"⚛️ LUKHAS AI ΛBot brain orchestration: {result['findings']['qi_optimization']}")
         return result
 
     async def _synthesize_multi_brain_results(self, codex_result: Dict, jules_result: Dict, lambda_result: Dict) -> Dict[str, Any]:
@@ -370,7 +368,7 @@ async def main():
 
     # Get system status
     status = await multi_brain_bot.get_multi_brain_status()
-    print(f"\n📊 System Status:")
+    print("\n📊 System Status:")
     print(f"   Brain Symphony: {'✅ Available' if status['brain_symphony_available'] else '❌ Not Available'}")
     print(f"   Specialized Brains: {status['specialized_brains_count']}")
     print(f"   Sync State: {status['synchronization_state']['harmony_level']}")
@@ -382,19 +380,19 @@ async def main():
         'depth': 'comprehensive'
     }
 
-    print(f"\n🔄 Starting Multi-Brain Coordinated Analysis...")
+    print("\n🔄 Starting Multi-Brain Coordinated Analysis...")
     results = await multi_brain_bot.coordinate_agent_analysis(analysis_request)
 
-    print(f"\n✅ Analysis Complete!")
+    print("\n✅ Analysis Complete!")
     print(f"   Session ID: {results['session_id']}")
     print(f"   Synthesis Confidence: {results['synthesis']['integrated_findings']['confidence_synthesis']:.2f}")
     print(f"   Bio-Sync Harmony: {results['synthesis']['integrated_findings']['bio_sync_harmony']:.2f}")
 
-    print(f"\n🎯 Recommended Actions:")
+    print("\n🎯 Recommended Actions:")
     for i, action in enumerate(results['synthesis']['next_actions'], 1):
         print(f"   {i}. {action}")
 
-    print(f"\n🧠 Multi-Brain Symphony LUKHAS AI ΛBot Analysis Complete! 🎼")
+    print("\n🧠 Multi-Brain Symphony LUKHAS AI ΛBot Analysis Complete! 🎼")
 
 if __name__ == "__main__":
     asyncio.run(main())

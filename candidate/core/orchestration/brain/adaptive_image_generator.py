@@ -9,9 +9,10 @@ import asyncio
 import logging
 from typing import Optional
 
+from candidate.bridge.llm_wrappers.unified_openai_client import (
+    UnifiedOpenAIClient as GPTClient,
+)
 from integrations.openai.dalle_client import DALLEClient
-
-from candidate.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient as GPTClient
 
 logger = logging.getLogger(__name__)
 

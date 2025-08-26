@@ -8,10 +8,10 @@ Integration Date: 2025-05-31T07:55:28.252850
 import logging
 from typing import Any
 
-from ..voice_profiling import VoiceProfileManager
-
 # Import LUKHAS voice modulation system
 from candidate.voice.voice_modulator import LucasVoiceSystem, VoiceModulator
+
+from ..voice_profiling import VoiceProfileManager
 
 
 class VoiceIntegrationLayer:

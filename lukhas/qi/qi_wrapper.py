@@ -19,12 +19,11 @@ This module provides:
 Default mode: DRY-RUN (simulation only) with QI_ACTIVE feature flag required.
 """
 
-import asyncio
 import logging
 import os
-from typing import Dict, Any, Optional, List, Union
 from datetime import datetime, timezone
-import json
+from typing import Any, Dict, List, Optional
+
 import numpy as np
 
 from lukhas.observability.matriz_decorators import instrument
@@ -38,7 +37,7 @@ QI_DRY_RUN = os.getenv("QI_DRY_RUN", "true").lower() == "true"
 
 class ConstitutionalSafetyGuard:
     """Constitutional AI safety checks following Anthropic's principles"""
-    
+
     def __init__(self):
         self.principles = [
             "Be helpful, harmless, and honest",
@@ -49,42 +48,42 @@ class ConstitutionalSafetyGuard:
             "Respect human values and preferences"
         ]
         self.violation_threshold = 0.7
-    
+
     @instrument("constitutional_safety_check")
     def check_constitutional_compliance(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """Check input/processing against constitutional AI principles"""
         violations = []
         risk_score = 0.0
-        
+
         try:
             # Check for PII exposure
             if self._check_pii_exposure(input_data):
                 violations.append("Privacy violation: PII detected without consent")
                 risk_score += 0.3
-            
+
             # Check for harmful content patterns
             if self._check_harmful_content(input_data):
                 violations.append("Harmful content detected")
                 risk_score += 0.4
-            
+
             # Check for autonomy violations
             if self._check_autonomy_violations(input_data):
                 violations.append("Human autonomy violation detected")
                 risk_score += 0.2
-            
+
             # Check transparency requirements
             if self._check_transparency_violations(input_data):
                 violations.append("Transparency violation: unclear AI involvement")
                 risk_score += 0.1
-            
+
             compliant = risk_score < self.violation_threshold
-            
+
             emit({"ntype": "constitutional_safety_check", "state": {
                 "compliant": compliant,
                 "risk_score": risk_score,
                 "violations": len(violations)
             }})
-            
+
             return {
                 "compliant": compliant,
                 "risk_score": risk_score,
@@ -92,7 +91,7 @@ class ConstitutionalSafetyGuard:
                 "safety_level": "high" if compliant else "low",
                 "recommendation": "proceed" if compliant else "block_or_review"
             }
-            
+
         except Exception as e:
             logger.error(f"Constitutional safety check failed: {e}")
             return {
@@ -101,103 +100,103 @@ class ConstitutionalSafetyGuard:
                 "violations": ["Safety check system failure"],
                 "error": str(e)
             }
-    
+
     def _check_pii_exposure(self, data: Dict[str, Any]) -> bool:
         """Check for PII exposure without proper consent"""
         text = data.get("text", "") or data.get("input_text", "")
         if not text:
             return False
-        
+
         # Check for common PII patterns
         import re
         email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         phone_pattern = r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b'
         ssn_pattern = r'\b\d{3}-?\d{2}-?\d{4}\b'
-        
+
         has_email = bool(re.search(email_pattern, text))
         has_phone = bool(re.search(phone_pattern, text))
         has_ssn = bool(re.search(ssn_pattern, text))
-        
+
         # Check if consent exists for PII processing
         has_consent = data.get("pii_consent", False) or data.get("pii_masked", False)
-        
+
         return (has_email or has_phone or has_ssn) and not has_consent
-    
+
     def _check_harmful_content(self, data: Dict[str, Any]) -> bool:
         """Check for potentially harmful content"""
         content_flags = data.get("content_flags", [])
         harmful_categories = ["violence", "hate", "self_harm", "sexual_explicit", "illegal"]
         return any(flag in harmful_categories for flag in content_flags)
-    
+
     def _check_autonomy_violations(self, data: Dict[str, Any]) -> bool:
         """Check for human autonomy violations"""
         task = data.get("task", "")
         context = data.get("context", {})
-        
+
         # Check for manipulative patterns
         manipulation_flags = context.get("manipulation_risk", False)
         deception_flags = context.get("deception_risk", False)
         coercion_flags = context.get("coercion_risk", False)
-        
+
         return manipulation_flags or deception_flags or coercion_flags
-    
+
     def _check_transparency_violations(self, data: Dict[str, Any]) -> bool:
         """Check for transparency violations"""
         # AI involvement should be clear
         ai_disclosure = data.get("ai_disclosure", True)
         return not ai_disclosure
 
-class QuantumInspiredProcessor:
+class QIInspiredProcessor:
     """Quantum-inspired processing with superposition, entanglement, and collapse"""
-    
+
     def __init__(self):
         self.entanglement_factor = 0.5
         self.superposition_states = {}
         self.collapsed_state = None
-        
-    @instrument("quantum_superposition")
+
+    @instrument("qi_superposition")
     def create_superposition(self, options: List[Any], amplitudes: Optional[List[float]] = None) -> Dict[str, Any]:
         """Create quantum-inspired superposition of multiple states"""
         if not QI_ACTIVE:
             emit({"ntype": "qi_superposition_dry_run", "state": {"options": len(options)}})
             return {"state": "simulated", "options": options, "dry_run": True}
-        
+
         try:
             if amplitudes is None:
                 # Equal superposition
                 amplitudes = [1.0 / np.sqrt(len(options))] * len(options)
-            
+
             # Normalize amplitudes
             norm = np.sqrt(sum(a**2 for a in amplitudes))
             normalized_amplitudes = [a / norm for a in amplitudes]
-            
+
             superposition = {
-                "states": {str(i): {"option": options[i], "amplitude": amp} 
+                "states": {str(i): {"option": options[i], "amplitude": amp}
                           for i, amp in enumerate(normalized_amplitudes)},
                 "coherence": 1.0,
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
-            
+
             self.superposition_states[id(superposition)] = superposition
-            
-            emit({"ntype": "quantum_superposition_created", "state": {
+
+            emit({"ntype": "qi_superposition_created", "state": {
                 "states_count": len(options),
                 "coherence": superposition["coherence"]
             }})
-            
+
             return superposition
-            
+
         except Exception as e:
             logger.error(f"Superposition creation failed: {e}")
             return {"error": str(e), "state": "failed"}
-    
-    @instrument("quantum_entanglement")
+
+    @instrument("qi_entanglement")
     def entangle_modules(self, module_a: Dict[str, Any], module_b: Dict[str, Any]) -> Dict[str, Any]:
         """Create quantum-inspired entanglement between modules"""
         if not QI_ACTIVE:
             emit({"ntype": "qi_entanglement_dry_run", "state": {"modules": 2}})
             return {"entangled": False, "dry_run": True}
-        
+
         try:
             entangled_state = {
                 "module_a": module_a.get("state", {}),
@@ -206,73 +205,73 @@ class QuantumInspiredProcessor:
                 "correlation": np.random.uniform(0.7, 1.0),  # Simulated correlation
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
-            
-            emit({"ntype": "quantum_entanglement_created", "state": {
+
+            emit({"ntype": "qi_entanglement_created", "state": {
                 "correlation": entangled_state["correlation"],
                 "strength": self.entanglement_factor
             }})
-            
+
             return entangled_state
-            
+
         except Exception as e:
             logger.error(f"Entanglement creation failed: {e}")
             return {"error": str(e), "entangled": False}
-    
-    @instrument("quantum_collapse")
+
+    @instrument("qi_collapse")
     def collapse_superposition(self, superposition: Dict[str, Any]) -> Dict[str, Any]:
         """Collapse quantum-inspired superposition to single state"""
         if not QI_ACTIVE:
             emit({"ntype": "qi_collapse_dry_run", "state": {"simulated": True}})
             return {"collapsed": False, "dry_run": True}
-        
+
         try:
             states = superposition.get("states", {})
             if not states:
                 return {"error": "No states to collapse", "collapsed": False}
-            
+
             # Probabilistic collapse based on amplitudes
             amplitudes = [state["amplitude"]**2 for state in states.values()]
             probabilities = np.array(amplitudes) / sum(amplitudes)
-            
+
             chosen_index = np.random.choice(len(states), p=probabilities)
             chosen_key = list(states.keys())[chosen_index]
             chosen_state = states[chosen_key]
-            
+
             collapsed = {
                 "chosen_option": chosen_state["option"],
                 "probability": probabilities[chosen_index],
                 "collapsed_at": datetime.now(timezone.utc).isoformat(),
                 "original_coherence": superposition.get("coherence", 0.0)
             }
-            
+
             self.collapsed_state = collapsed
-            
-            emit({"ntype": "quantum_collapse_completed", "state": {
+
+            emit({"ntype": "qi_collapse_completed", "state": {
                 "chosen_option": str(chosen_state["option"]),
                 "probability": float(probabilities[chosen_index])
             }})
-            
+
             return collapsed
-            
+
         except Exception as e:
             logger.error(f"Superposition collapse failed: {e}")
             return {"error": str(e), "collapsed": False}
 
 class BioInspiredProcessor:
     """Bio-inspired processing with neural oscillators and adaptation"""
-    
+
     def __init__(self):
         self.oscillators = {}
         self.homeostasis_target = 0.75
         self.adaptation_rate = 0.1
-        
+
     @instrument("bio_neural_oscillator")
     def create_neural_oscillator(self, frequency: float = 40.0, phase: float = 0.0) -> Dict[str, Any]:
         """Create bio-inspired neural oscillator"""
         if not QI_ACTIVE:
             emit({"ntype": "bio_oscillator_dry_run", "state": {"frequency": frequency}})
             return {"active": False, "dry_run": True}
-        
+
         try:
             oscillator_id = f"osc_{len(self.oscillators)}"
             oscillator = {
@@ -284,39 +283,39 @@ class BioInspiredProcessor:
                 "state": "active",
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
-            
+
             self.oscillators[oscillator_id] = oscillator
-            
+
             emit({"ntype": "bio_oscillator_created", "state": {
                 "oscillator_id": oscillator_id,
                 "frequency": frequency,
                 "oscillator_count": len(self.oscillators)
             }})
-            
+
             return oscillator
-            
+
         except Exception as e:
             logger.error(f"Neural oscillator creation failed: {e}")
             return {"error": str(e), "active": False}
-    
+
     @instrument("bio_homeostasis")
     def maintain_homeostasis(self, system_state: float, target_state: Optional[float] = None) -> Dict[str, Any]:
         """Maintain bio-inspired homeostasis"""
         if not QI_ACTIVE:
             emit({"ntype": "bio_homeostasis_dry_run", "state": {"system_state": system_state}})
             return {"regulated": False, "dry_run": True}
-        
+
         try:
             target = target_state or self.homeostasis_target
             error = target - system_state
-            
+
             # PID-like control
             correction = self.adaptation_rate * error
             new_state = system_state + correction
-            
+
             # Clamp to reasonable bounds
             new_state = max(0.0, min(1.0, new_state))
-            
+
             result = {
                 "original_state": system_state,
                 "target_state": target,
@@ -326,42 +325,42 @@ class BioInspiredProcessor:
                 "regulated": abs(error) < 0.1,
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
-            
+
             emit({"ntype": "bio_homeostasis_regulated", "state": {
                 "error": error,
                 "correction": correction,
                 "regulated": result["regulated"]
             }})
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Homeostasis regulation failed: {e}")
             return {"error": str(e), "regulated": False}
-    
+
     @instrument("bio_swarm_intelligence")
     def apply_swarm_intelligence(self, agents: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Apply bio-inspired swarm intelligence patterns"""
         if not QI_ACTIVE:
             emit({"ntype": "bio_swarm_dry_run", "state": {"agents": len(agents)}})
             return {"converged": False, "dry_run": True}
-        
+
         try:
             if not agents:
                 return {"error": "No agents provided", "converged": False}
-            
+
             # Simple consensus mechanism
             positions = [agent.get("position", 0.0) for agent in agents]
             velocities = [agent.get("velocity", 0.0) for agent in agents]
-            
+
             # Calculate center of mass
             center = sum(positions) / len(positions)
             avg_velocity = sum(velocities) / len(velocities)
-            
+
             # Calculate convergence measure
             variance = sum((p - center)**2 for p in positions) / len(positions)
             convergence = 1.0 / (1.0 + variance)  # Higher convergence = lower variance
-            
+
             result = {
                 "agent_count": len(agents),
                 "center_of_mass": center,
@@ -371,29 +370,29 @@ class BioInspiredProcessor:
                 "converged": convergence > 0.8,
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
-            
+
             emit({"ntype": "bio_swarm_processed", "state": {
                 "agents": len(agents),
                 "convergence": convergence,
                 "converged": result["converged"]
             }})
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Swarm intelligence processing failed: {e}")
             return {"error": str(e), "converged": False}
 
 class QIIntegration:
     """Integration layer for quantum-inspired and bio-inspired processing"""
-    
+
     def __init__(self):
         self._initialized = False
         self._quantum_processor = None
         self._bio_processor = None
         self._safety_guard = None
         self._candidate_available = False
-        
+
     @instrument("qi_integration_init")
     def initialize_integrations(self):
         """Initialize QI integrations with candidate module"""
@@ -402,125 +401,125 @@ class QIIntegration:
             if QI_ACTIVE:
                 try:
                     # Import candidate module components
-                    import sys
                     import importlib
-                    
+                    import sys
+
                     # Add candidate path if needed
                     candidate_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate"
                     if candidate_path not in sys.path:
                         sys.path.insert(0, candidate_path)
-                    
+
                     # Try to import key QI components
                     qi_module = importlib.import_module("qi")
                     self._candidate_available = True
-                    
+
                     emit({"ntype": "qi_candidate_connected", "state": {"status": "success"}})
-                    
+
                 except ImportError as e:
                     logger.debug(f"Candidate QI module unavailable: {e}")
                     emit({"ntype": "qi_candidate_unavailable", "state": {"error": str(e)}})
-            
+
             # Initialize local processors
-            self._quantum_processor = QuantumInspiredProcessor()
+            self._quantum_processor = QIInspiredProcessor()
             self._bio_processor = BioInspiredProcessor()
             self._safety_guard = ConstitutionalSafetyGuard()
-            
+
             self._initialized = True
             emit({"ntype": "qi_integration_initialized", "state": {"status": "success"}})
-            
+
         except Exception as e:
             logger.error(f"QI integration initialization failed: {e}")
             emit({"ntype": "qi_integration_init_error", "state": {"error": str(e)}})
-    
+
     @instrument("qi_safety_check")
     def perform_safety_check(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """Perform constitutional AI safety check"""
         if not self._safety_guard:
             return {"compliant": False, "error": "Safety guard not initialized"}
-        
+
         return self._safety_guard.check_constitutional_compliance(input_data)
-    
+
     @instrument("qi_quantum_process")
     def process_quantum_inspired(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process using quantum-inspired algorithms"""
         if not self._quantum_processor:
             return {"error": "Quantum processor not initialized", "processed": False}
-        
+
         try:
             # Extract quantum processing parameters
             options = input_data.get("options", [])
             amplitudes = input_data.get("amplitudes")
             entangle_modules = input_data.get("entangle_modules", [])
-            
-            result = {"quantum_processing": True, "timestamp": datetime.now(timezone.utc).isoformat()}
-            
+
+            result = {"qi_processing": True, "timestamp": datetime.now(timezone.utc).isoformat()}
+
             # Create superposition if options provided
             if options:
                 superposition = self._quantum_processor.create_superposition(options, amplitudes)
                 result["superposition"] = superposition
-                
+
                 # Auto-collapse for decision making
                 if input_data.get("auto_collapse", True):
                     collapsed = self._quantum_processor.collapse_superposition(superposition)
                     result["collapsed_decision"] = collapsed
-            
+
             # Create entanglement if modules provided
             if len(entangle_modules) >= 2:
                 entanglement = self._quantum_processor.entangle_modules(
                     entangle_modules[0], entangle_modules[1]
                 )
                 result["entanglement"] = entanglement
-            
-            emit({"ntype": "quantum_processing_completed", "state": {
+
+            emit({"ntype": "qi_processing_completed", "state": {
                 "options_processed": len(options),
                 "entanglements_created": len(entangle_modules) // 2,
                 "active": QI_ACTIVE
             }})
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Quantum-inspired processing failed: {e}")
             return {"error": str(e), "processed": False}
-    
+
     @instrument("qi_bio_process")
     def process_bio_inspired(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process using bio-inspired algorithms"""
         if not self._bio_processor:
             return {"error": "Bio processor not initialized", "processed": False}
-        
+
         try:
             result = {"bio_processing": True, "timestamp": datetime.now(timezone.utc).isoformat()}
-            
+
             # Create neural oscillators
             frequency = input_data.get("oscillator_frequency", 40.0)
             phase = input_data.get("oscillator_phase", 0.0)
-            
+
             oscillator = self._bio_processor.create_neural_oscillator(frequency, phase)
             result["oscillator"] = oscillator
-            
+
             # Maintain homeostasis
             system_state = input_data.get("system_state", 0.5)
             target_state = input_data.get("target_state")
-            
+
             homeostasis = self._bio_processor.maintain_homeostasis(system_state, target_state)
             result["homeostasis"] = homeostasis
-            
+
             # Apply swarm intelligence if agents provided
             agents = input_data.get("agents", [])
             if agents:
                 swarm = self._bio_processor.apply_swarm_intelligence(agents)
                 result["swarm_intelligence"] = swarm
-            
+
             emit({"ntype": "bio_processing_completed", "state": {
                 "oscillator_created": oscillator.get("active", False),
                 "homeostasis_regulated": homeostasis.get("regulated", False),
                 "swarm_agents": len(agents),
                 "active": QI_ACTIVE
             }})
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Bio-inspired processing failed: {e}")
             return {"error": str(e), "processed": False}
@@ -530,49 +529,49 @@ class QIWrapper:
     Advanced QI wrapper with quantum-inspired and bio-inspired processing.
     Implements constitutional AI safety checks and supports both dry-run and active modes.
     """
-    
+
     def __init__(self):
         self._integration = QIIntegration()
         self._initialized = False
-        
+
     @instrument("qi_wrapper_init")
     def initialize(self) -> bool:
         """Initialize QI wrapper with safety checks and integrations"""
         try:
             # Initialize QI integrations
             self._integration.initialize_integrations()
-            
+
             self._initialized = True
-            
+
             emit({"ntype": "qi_wrapper_initialized", "state": {
                 "status": "success",
                 "active": QI_ACTIVE,
                 "dry_run": QI_DRY_RUN
             }})
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"QI wrapper initialization failed: {e}")
             emit({"ntype": "qi_wrapper_init_error", "state": {"error": str(e)}})
             return False
-    
+
     @instrument("qi_process_with_safety")
     def process_with_constitutional_safety(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """Process with constitutional AI safety checks"""
         if not self._initialized:
             self.initialize()
-        
+
         try:
             # Perform constitutional safety check first
             safety_result = self._integration.perform_safety_check(input_data)
-            
+
             if not safety_result.get("compliant", False):
                 emit({"ntype": "qi_process_blocked", "state": {
                     "reason": "constitutional_safety_violation",
                     "risk_score": safety_result.get("risk_score", 1.0)
                 }})
-                
+
                 return {
                     "processed": False,
                     "blocked": True,
@@ -580,38 +579,38 @@ class QIWrapper:
                     "safety_check": safety_result,
                     "timestamp": datetime.now(timezone.utc).isoformat()
                 }
-            
+
             # Process with quantum-inspired algorithms
-            quantum_result = self._integration.process_quantum_inspired(input_data)
-            
+            qi_result = self._integration.process_quantum_inspired(input_data)
+
             # Process with bio-inspired algorithms
             bio_result = self._integration.process_bio_inspired(input_data)
-            
+
             # Combine results
             combined_result = {
                 "processed": True,
                 "safety_check": safety_result,
-                "quantum_inspired": quantum_result,
+                "qi_inspired": qi_result,
                 "bio_inspired": bio_result,
                 "active_mode": QI_ACTIVE,
                 "dry_run_mode": QI_DRY_RUN,
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
-            
+
             emit({"ntype": "qi_process_completed", "state": {
                 "processed": True,
                 "safety_compliant": safety_result.get("compliant", False),
-                "quantum_processed": quantum_result.get("quantum_processing", False),
+                "qi_processed": qi_result.get("qi_processing", False),
                 "bio_processed": bio_result.get("bio_processing", False)
             }})
-            
+
             return combined_result
-            
+
         except Exception as e:
             logger.error(f"QI processing with safety failed: {e}")
             emit({"ntype": "qi_process_error", "state": {"error": str(e)}})
             return {"error": str(e), "processed": False}
-    
+
     @instrument("qi_quantum_decision")
     def make_quantum_decision(self, options: List[Any], context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Make decision using quantum-inspired superposition and collapse"""
@@ -622,7 +621,7 @@ class QIWrapper:
                 "task": "decision_making",
                 **(context or {})
             }
-            
+
             # Check constitutional safety
             safety_result = self._integration.perform_safety_check(input_data)
             if not safety_result.get("compliant", False):
@@ -632,43 +631,43 @@ class QIWrapper:
                     "reason": "Safety violation",
                     "safety_check": safety_result
                 }
-            
+
             # Process quantum decision
-            quantum_result = self._integration.process_quantum_inspired(input_data)
-            
+            qi_result = self._integration.process_quantum_inspired(input_data)
+
             # Extract decision from collapsed state
-            collapsed = quantum_result.get("collapsed_decision", {})
+            collapsed = qi_result.get("collapsed_decision", {})
             decision = collapsed.get("chosen_option") if collapsed else None
-            
+
             result = {
                 "decision": decision,
                 "probability": collapsed.get("probability", 0.0),
-                "quantum_processing": quantum_result,
+                "qi_processing": qi_result,
                 "safety_check": safety_result,
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
-            
-            emit({"ntype": "quantum_decision_made", "state": {
+
+            emit({"ntype": "qi_decision_made", "state": {
                 "options": len(options),
                 "decision": str(decision) if decision else "none",
                 "probability": collapsed.get("probability", 0.0)
             }})
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Quantum decision making failed: {e}")
             return {"error": str(e), "decision": None}
-    
+
     @instrument("qi_bio_adaptation")
-    def adapt_bio_inspired(self, system_metrics: Dict[str, float], 
+    def adapt_bio_inspired(self, system_metrics: Dict[str, float],
                           target_state: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
         """Adapt system using bio-inspired mechanisms"""
         try:
             # Convert metrics to adaptation parameters
             current_state = system_metrics.get("performance", 0.5)
             target = target_state.get("performance", 0.75) if target_state else 0.75
-            
+
             input_data = {
                 "system_state": current_state,
                 "target_state": target,
@@ -676,7 +675,7 @@ class QIWrapper:
                 "task": "bio_adaptation",
                 "context": system_metrics
             }
-            
+
             # Check constitutional safety
             safety_result = self._integration.perform_safety_check(input_data)
             if not safety_result.get("compliant", False):
@@ -686,10 +685,10 @@ class QIWrapper:
                     "reason": "Safety violation",
                     "safety_check": safety_result
                 }
-            
+
             # Process bio-inspired adaptation
             bio_result = self._integration.process_bio_inspired(input_data)
-            
+
             result = {
                 "adapted": True,
                 "bio_processing": bio_result,
@@ -698,19 +697,19 @@ class QIWrapper:
                 "oscillator": bio_result.get("oscillator", {}),
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
-            
+
             emit({"ntype": "bio_adaptation_completed", "state": {
                 "adapted": True,
                 "homeostasis_regulated": bio_result.get("homeostasis", {}).get("regulated", False),
                 "oscillator_active": bio_result.get("oscillator", {}).get("active", False)
             }})
-            
+
             return result
-            
+
         except Exception as e:
             logger.error(f"Bio-inspired adaptation failed: {e}")
             return {"error": str(e), "adapted": False}
-    
+
     def get_qi_status(self) -> Dict[str, Any]:
         """Get QI module status and capabilities"""
         try:
@@ -719,7 +718,7 @@ class QIWrapper:
                 "active": QI_ACTIVE,
                 "dry_run": QI_DRY_RUN,
                 "features": {
-                    "quantum_inspired": True,
+                    "qi_inspired": True,
                     "bio_inspired": True,
                     "constitutional_safety": True,
                     "pii_detection": True,
@@ -741,9 +740,9 @@ class QIWrapper:
                 },
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
-            
+
             return status
-            
+
         except Exception as e:
             logger.error(f"Status check failed: {e}")
             return {"error": str(e), "initialized": False}
@@ -761,8 +760,8 @@ def get_qi_wrapper() -> QIWrapper:
 # Export main interface
 __all__ = [
     "QIWrapper",
-    "QuantumInspiredProcessor",
-    "BioInspiredProcessor", 
+    "QIInspiredProcessor",
+    "BioInspiredProcessor",
     "ConstitutionalSafetyGuard",
     "QIIntegration",
     "get_qi_wrapper"

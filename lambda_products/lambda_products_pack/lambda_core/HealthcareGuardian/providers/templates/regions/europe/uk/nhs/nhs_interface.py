@@ -5,18 +5,20 @@ This module provides specific integration points for the UK's
 National Health Service (NHS) systems.
 """
 
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from ...interfaces.ehr_interface import EHRInterface
-from ...security.security_utils import EncryptionHandler, AuditLogger
+from ...security.security_utils import AuditLogger, EncryptionHandler
+
 
 class NHSInterface(EHRInterface):
     """Implementation of EHR interface for NHS"""
-    
+
     def __init__(self, config: Dict[str, Any]):
         """
         Initialize NHS interface with configuration
-        
+
         Args:
             config: Configuration dictionary containing:
                 - trust_id: NHS Trust identifier
@@ -29,7 +31,7 @@ class NHSInterface(EHRInterface):
         self.encryption = EncryptionHandler(config)
         self.audit = AuditLogger(config)
         self._validate_config()
-        
+
     def _validate_config(self):
         """Validate NHS-specific configuration"""
         required_fields = [
@@ -42,7 +44,7 @@ class NHSInterface(EHRInterface):
         for field in required_fields:
             if field not in self.config:
                 raise ValueError(f"Missing required NHS configuration: {field}")
-    
+
     async def initialize(self, config: Dict[str, Any]) -> None:
         """Initialize connection to NHS systems"""
         # Implement NHS-specific initialization
@@ -50,13 +52,13 @@ class NHSInterface(EHRInterface):
         # - Verify NHS Digital API access
         # - Initialize Smart Card interface if required
         pass
-    
+
     async def get_patient_record(self,
                                patient_id: str,
                                record_types: Optional[List[str]] = None) -> Dict[str, Any]:
         """
         Retrieve patient records from NHS
-        
+
         Args:
             patient_id: NHS Number
             record_types: Types of records to retrieve
@@ -68,7 +70,7 @@ class NHSInterface(EHRInterface):
         )
         # Implement NHS-specific record retrieval
         pass
-    
+
     async def update_patient_record(self,
                                   patient_id: str,
                                   data: Dict[str, Any],
@@ -82,14 +84,14 @@ class NHSInterface(EHRInterface):
         )
         # Implement NHS-specific record update
         pass
-    
+
     async def create_encounter(self,
                              patient_id: str,
                              encounter_data: Dict[str, Any]) -> str:
         """Create new patient encounter in NHS systems"""
         # Implement NHS-specific encounter creation
         pass
-    
+
     async def get_provider_schedule(self,
                                   provider_id: str,
                                   start_date: datetime,
@@ -97,12 +99,12 @@ class NHSInterface(EHRInterface):
         """Get provider's schedule from NHS scheduling system"""
         # Implement NHS-specific schedule retrieval
         pass
-    
+
     async def validate_credentials(self) -> bool:
         """Validate NHS Digital credentials and Smart Card"""
         # Implement NHS-specific credential validation
         pass
-    
+
     async def handle_error(self, error: Exception) -> None:
         """Handle NHS-specific errors"""
         self.audit.log_security_event(

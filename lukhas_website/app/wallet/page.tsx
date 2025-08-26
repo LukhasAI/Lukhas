@@ -10,41 +10,41 @@ export default function WalletPage() {
   const [msg, setMsg] = useState<string | null>(null);
 
   async function refresh() {
-    try { 
-      setBal(await getBalance()); 
+    try {
+      setBal(await getBalance());
       setMsg(null);
-    } catch { 
-      setMsg("Balance unavailable (API down?)"); 
+    } catch {
+      setMsg("Balance unavailable (API down?)");
     }
   }
-  
-  useEffect(() => { 
-    if (enabled) refresh(); 
+
+  useEffect(() => {
+    if (enabled) refresh();
   }, [enabled]);
 
   async function onEarn() {
     setBusy(true);
-    try { 
-      const b = await earn({ reason: "nias_opt_in", amount: 10 }); 
-      setBal(b); 
-      setMsg("✅ Earned 10 LUK via NIAS opt-in."); 
-    } catch { 
-      setMsg("❌ Earn failed."); 
-    } finally { 
-      setBusy(false); 
+    try {
+      const b = await earn({ reason: "nias_opt_in", amount: 10 });
+      setBal(b);
+      setMsg("✅ Earned 10 LUK via NIAS opt-in.");
+    } catch {
+      setMsg("❌ Earn failed.");
+    } finally {
+      setBusy(false);
     }
   }
-  
+
   async function onSpend() {
     setBusy(true);
-    try { 
-      const b = await spend({ reason: "mentor_mode", amount: 10 }); 
-      setBal(b); 
-      setMsg("✅ Spent 10 LUK for Mentor Mode."); 
-    } catch { 
-      setMsg("❌ Spend failed."); 
-    } finally { 
-      setBusy(false); 
+    try {
+      const b = await spend({ reason: "mentor_mode", amount: 10 });
+      setBal(b);
+      setMsg("✅ Spent 10 LUK for Mentor Mode.");
+    } catch {
+      setMsg("❌ Spend failed.");
+    } finally {
+      setBusy(false);
     }
   }
 
@@ -80,25 +80,25 @@ export default function WalletPage() {
           {/* Action Buttons */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {niasEnabled && (
-              <button 
-                onClick={onEarn} 
+              <button
+                onClick={onEarn}
                 disabled={busy}
                 className="bg-green-600 hover:bg-green-700 disabled:bg-green-800 disabled:opacity-50 text-white py-3 px-4 rounded-lg transition-colors"
               >
                 {busy ? "Processing..." : "Earn 10 LUK (NIAS)"}
               </button>
             )}
-            
-            <button 
-              onClick={onSpend} 
+
+            <button
+              onClick={onSpend}
               disabled={busy || !bal || bal.amount < 10}
               className="bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:opacity-50 text-white py-3 px-4 rounded-lg transition-colors"
             >
               {busy ? "Processing..." : "Spend 10 LUK (Mentor Mode)"}
             </button>
-            
-            <button 
-              onClick={refresh} 
+
+            <button
+              onClick={refresh}
               disabled={busy}
               className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:opacity-50 text-white py-3 px-4 rounded-lg transition-colors"
             >

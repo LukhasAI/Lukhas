@@ -1,13 +1,13 @@
 /**
  * Scope Management for ΛiD Authentication System
- * 
+ *
  * Implements tier-based access control (T1-T5) with deny-by-default security.
  * Each tier has specific scopes and the system ensures no privilege escalation.
  */
 
 export type TierLevel = 'T1' | 'T2' | 'T3' | 'T4' | 'T5';
 
-export type ScopeCategory = 
+export type ScopeCategory =
   | 'matriz'      // MΛTRIZ system access
   | 'identity'    // Identity management
   | 'orchestrator'// System orchestration
@@ -54,7 +54,7 @@ export const TIER_ENVELOPES: Record<TierLevel, TierEnvelope> = {
     maxRpd: 1000,
     features: ['docs', 'demos', 'public_api']
   },
-  
+
   'T2': {
     tier: 'T2',
     name: 'Builder (Pro)',
@@ -73,10 +73,10 @@ export const TIER_ENVELOPES: Record<TierLevel, TierEnvelope> = {
     maxRpd: 5000,
     features: ['personal_projects', 'api_access', 'basic_orchestration']
   },
-  
+
   'T3': {
     tier: 'T3',
-    name: 'Studio (Team)', 
+    name: 'Studio (Team)',
     description: 'Team collaboration with organization RBAC',
     scopes: [
       'matriz:admin',
@@ -95,7 +95,7 @@ export const TIER_ENVELOPES: Record<TierLevel, TierEnvelope> = {
     maxRpd: 20000,
     features: ['team_management', 'org_rbac', 'advanced_api', 'custom_orchestration']
   },
-  
+
   'T4': {
     tier: 'T4',
     name: 'Enterprise',
@@ -116,7 +116,7 @@ export const TIER_ENVELOPES: Record<TierLevel, TierEnvelope> = {
     maxRpd: 100000,
     features: ['enterprise_sso', 'sla_guarantees', 'advanced_governance', 'billing_management', 'audit_logs']
   },
-  
+
   'T5': {
     tier: 'T5',
     name: 'Core Team',
@@ -156,28 +156,28 @@ export const RBAC_ROLES: Record<string, Role> = {
     scopes: ['org:admin', 'billing:admin', 'identity:admin'],
     minTier: 'T3'
   },
-  
+
   'admin': {
-    name: 'Administrator', 
+    name: 'Administrator',
     description: 'Administrative access to organization resources',
     scopes: ['org:write', 'identity:write', 'analytics:admin'],
     minTier: 'T3'
   },
-  
+
   'developer': {
     name: 'Developer',
     description: 'Development and API access',
     scopes: ['api:write', 'orchestrator:execute', 'matriz:write'],
     minTier: 'T2'
   },
-  
+
   'analyst': {
     name: 'Analyst',
     description: 'Analytics and monitoring access',
     scopes: ['analytics:read', 'analytics:write', 'governance:read'],
     minTier: 'T2'
   },
-  
+
   'viewer': {
     name: 'Viewer',
     description: 'Read-only access to organization resources',
@@ -235,12 +235,12 @@ export class ScopeGuard {
    * Enforce deny-by-default in middleware assertions
    */
   static async enforceScope(
-    userId: string, 
-    requiredScope: string, 
+    userId: string,
+    requiredScope: string,
     auditContext?: { action: string; resource: string }
   ): Promise<{ allowed: boolean; reason?: string }> {
     const hasAccess = await this.hasScope(userId, requiredScope);
-    
+
     // Log authorization decision
     if (auditContext) {
       await this.logAuthorizationDecision({
@@ -280,7 +280,7 @@ export class ScopeGuard {
     // Handle middle wildcards: 'api:*:read' matches 'api:keys:read', 'api:users:read'
     const availableParts = availableScope.split(':');
     const requiredParts = requiredScope.split(':');
-    
+
     if (availableParts.length !== requiredParts.length) {
       return false;
     }
@@ -433,17 +433,17 @@ export class ScopeManager {
     for (const scope of requiredScopes) {
       const result = this.hasScope(context, scope, options);
       results.push(result);
-      
+
       if (!result.allowed) {
         missingScopes.push(scope);
       }
     }
 
     const allAllowed = results.every(r => r.allowed);
-    
+
     return {
       allowed: allAllowed,
-      reason: allAllowed 
+      reason: allAllowed
         ? 'All required scopes satisfied'
         : `Missing scopes: ${missingScopes.join(', ')}`,
       missingScopes: missingScopes.length > 0 ? missingScopes : undefined,
@@ -469,7 +469,7 @@ export class ScopeManager {
     for (const scope of requiredScopes) {
       const result = this.hasScope(context, scope, options);
       results.push(result);
-      
+
       // Early return on first match
       if (result.allowed) {
         return {
@@ -542,11 +542,11 @@ export class ScopeManager {
    */
   private static collectUserScopes(context: SecurityContext): string[] {
     const scopes = new Set<string>();
-    
+
     // Add tier scopes (including inherited)
     const tierEnvelope = TIER_ENVELOPES[context.userTier];
     tierEnvelope.scopes.forEach(scope => scopes.add(scope));
-    
+
     // Add inherited tier scopes
     if (tierEnvelope.inheritsFrom) {
       tierEnvelope.inheritsFrom.forEach(inheritedTier => {
@@ -554,7 +554,7 @@ export class ScopeManager {
         inheritedEnvelope.scopes.forEach(scope => scopes.add(scope));
       });
     }
-    
+
     // Add role-based scopes
     context.roles.forEach(roleName => {
       const role = RBAC_ROLES[roleName];
@@ -562,7 +562,7 @@ export class ScopeManager {
         role.scopes.forEach(scope => scopes.add(scope));
       }
     });
-    
+
     return Array.from(scopes);
   }
 
@@ -570,7 +570,7 @@ export class ScopeManager {
    * Check wildcard scope matches
    */
   private static checkWildcardScopes(
-    availableScopes: string[], 
+    availableScopes: string[],
     requiredScope: string
   ): { matched: boolean; wildcard?: string } {
     for (const availableScope of availableScopes) {
@@ -603,7 +603,7 @@ export class ScopeManager {
     const tierOrder: TierLevel[] = ['T1', 'T2', 'T3', 'T4', 'T5'];
     const userIndex = tierOrder.indexOf(userTier);
     const requiredIndex = tierOrder.indexOf(requiredTier);
-    
+
     return userIndex >= requiredIndex;
   }
 }
@@ -618,7 +618,7 @@ export class ScopeUtils {
   static parseScope(scope: string): { category: string; action: string; resource?: string } | null {
     const parts = scope.split(':');
     if (parts.length < 2) return null;
-    
+
     return {
       category: parts[0],
       action: parts[1],
@@ -650,16 +650,16 @@ export class ScopeUtils {
   static getAllTierScopes(tier: TierLevel): string[] {
     const envelope = TIER_ENVELOPES[tier];
     if (!envelope) return [];
-    
+
     const scopes = new Set(envelope.scopes);
-    
+
     if (envelope.inheritsFrom) {
       envelope.inheritsFrom.forEach(inheritedTier => {
         const inheritedScopes = this.getAllTierScopes(inheritedTier);
         inheritedScopes.forEach(scope => scopes.add(scope));
       });
     }
-    
+
     return Array.from(scopes);
   }
 }

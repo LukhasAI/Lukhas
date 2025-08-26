@@ -10,6 +10,7 @@ import asyncio
 import json
 from typing import Any, Dict
 
+from core.common import get_logger
 from lukhas.consciousness.dream.parallel_reality_safety import (
     SafetyLevel,
 )
@@ -17,7 +18,6 @@ from lukhas.consciousness.dream.parallel_reality_simulator import (
     ParallelRealitySimulator,
     RealityType,
 )
-from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -41,7 +41,7 @@ class SafetyDemo:
                 "drift_threshold": 0.6,  # More restrictive for demo
                 "hallucination_threshold": 0.5,
                 "auto_correct": True,
-                "quantum_seed": 42,
+                "qi_seed": 42,
             }
         )
 

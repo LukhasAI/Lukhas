@@ -1,4 +1,3 @@
 """
 Lambda-Products Module
 """
-

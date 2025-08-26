@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
+import {
   ChevronLeftIcon,
   LanguageIcon,
   CheckIcon,
@@ -97,23 +97,23 @@ export default function PricingPage() {
       />
       <div className="min-h-screen bg-bg-primary">
         {/* Skip to main content link for accessibility */}
-        <a 
-          href="#main-content" 
+        <a
+          href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-trinity-identity text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white z-50"
         >
           Skip to main content
         </a>
-        
+
         {/* Header */}
         <header className="flex items-center justify-between p-6" role="banner">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="flex items-center text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-identity focus:ring-offset-2 focus:ring-offset-bg-primary rounded"
           >
             <ChevronLeftIcon className="w-5 h-5 mr-2" aria-hidden="true" />
             {t.backToLukhas}
           </Link>
-          
+
           <div className="flex items-center gap-4">
             {/* Language selector */}
             <button
@@ -124,10 +124,10 @@ export default function PricingPage() {
               <LanguageIcon className="w-4 h-4 mr-1" />
               {locale === 'en' ? 'ES' : 'EN'}
             </button>
-            
+
             {/* Login link */}
-            <Link 
-              href="/login" 
+            <Link
+              href="/login"
               className="text-sm text-trinity-identity hover:text-trinity-consciousness transition-colors focus:outline-none focus:ring-2 focus:ring-trinity-identity focus:ring-offset-2 focus:ring-offset-bg-primary rounded px-2 py-1"
             >
               {locale === 'en' ? 'Sign in' : 'Iniciar sesión'}
@@ -207,7 +207,7 @@ export default function PricingPage() {
               <div className="inline-flex items-center justify-center p-4 bg-black/40 backdrop-blur-xl rounded-lg border border-white/10">
                 <QuestionMarkCircleIcon className="w-5 h-5 text-white/60 mr-2" />
                 <span className="text-sm text-white/60">
-                  {locale === 'en' 
+                  {locale === 'en'
                     ? 'Need help choosing? Contact our team for guidance.'
                     : '¿Necesitas ayuda para elegir? Contacta a nuestro equipo para orientación.'}
                 </span>
@@ -221,8 +221,8 @@ export default function PricingPage() {
           <TransparencyBox
             locale={locale}
             capabilities={[
-              locale === 'en' 
-                ? "Flexible tier system from Free to Enterprise" 
+              locale === 'en'
+                ? "Flexible tier system from Free to Enterprise"
                 : "Sistema de niveles flexible desde Gratis hasta Empresarial",
               locale === 'en'
                 ? "Rate limiting with clear RPM/RPD boundaries"

@@ -32,7 +32,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
-from candidate.bridge.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
+from candidate.bridge.openai_core_service import (
+    ModelType,
+    OpenAICoreService,
+    OpenAIRequest,
+)
 from lukhas.core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.oracle_colony")

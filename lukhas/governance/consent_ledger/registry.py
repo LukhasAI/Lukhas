@@ -1,5 +1,5 @@
-from typing import Optional
 from .providers.null_provider import NullConsentProvider
+
 # Registry is intentionally internal. candidate/* may register via runtime hooks later.
 _provider = None
 

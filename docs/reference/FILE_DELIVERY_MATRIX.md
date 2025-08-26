@@ -34,7 +34,7 @@ This matrix defines exactly where new files should be placed in the LUKHAS AI pr
 | Test enhancements     | `tests/enhancements/`  | `self-healing-engine.py`                     |
 | Domain-specific tests | `tests/[domain]/`      | `tests/candidate/`, `tests/lambda_products/` |
 
-### **Reports & Analytics** 
+### **Reports & Analytics**
 | File Type        | Destination           | Examples                                        |
 | ---------------- | --------------------- | ----------------------------------------------- |
 | API reports      | `reports/api/`        | `api_test_results.json`                         |

@@ -83,7 +83,7 @@ This isn't training—it's cognitive architecture. The system experiences, evalu
 
 LUKHAS doesn't compete—it elevates:
 - GPT + LUKHAS = Emotionally intelligent GPT
-- Claude + LUKHAS = Ethically grounded Claude  
+- Claude + LUKHAS = Ethically grounded Claude
 - $0.001 per enhanced inference
 
 Control the consciousness layer, control AGI safety globally.
@@ -159,7 +159,7 @@ LUKHAS  isn't another architecture—it's the **convergent solution**. The code 
 1. **Fix Identity Imports** (2 hours)
    - Standardize all imports to `governance.identity`
    - Update module references across codebase
-   
+
 2. **Wire Signal Bus** (4 hours)
    - Location: `/orchestration/signals/signal_bus.py`
    - Connect to colony decisions
@@ -194,7 +194,7 @@ LUKHAS  isn't another architecture—it's the **convergent solution**. The code 
 1. **Clean Dead Code** (2 hours)
    - Remove archive references
    - Delete duplicate implementations
-   
+
 2. **Performance Tuning** (3 hours)
    - Profile signal bus latency
    - Optimize colony consensus

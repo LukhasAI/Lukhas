@@ -13,15 +13,17 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
-from lukhas.memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
-from candidate.orchestration.brain.collapse_chain_integrity import CollapseChainIntegrity
+from candidate.orchestration.brain.collapse_chain_integrity import (
+    CollapseChainIntegrity,
+)
 from candidate.orchestration.brain.integrity_probe import IntegrityProbe
 from candidate.orchestration.brain.mesh.collapse_mesh import CollapseMesh
 from candidate.orchestration.brain.unified_collapse_system import (
     BrainCollapseManager,
     CollapseBridge,
 )
+from lukhas.consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
+from lukhas.memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
 
 
 def collapse_handler(collapse_manager: BrainCollapseManager) -> None:
@@ -81,7 +83,7 @@ class BrainCollapseManager:
         if analysis.get("bio_metrics_trends", {}).get("proton_gradient", 1.0) < 0.1:
             return True
         return (
-            analysis.get("quantum_like_state_trends", {}).get(
+            analysis.get("qi_like_state_trends", {}).get(
                 "avg_coherence_trend", 1.0
             )
             < 0.1

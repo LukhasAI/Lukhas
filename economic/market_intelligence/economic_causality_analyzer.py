@@ -57,11 +57,11 @@ class EconomicCausalityAnalyzer(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Analyze causality chains in a market structure
-        
+
         Args:
             market_structure: Market structure to analyze
             disruption_potential: Potential for market disruption
-            
+
         Returns:
             Causality chain analysis
         """
@@ -100,10 +100,10 @@ class EconomicCausalityAnalyzer(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Analyze current market dynamics
-        
+
         Args:
             market_implementation: Current market implementation state
-            
+
         Returns:
             Market dynamics analysis
         """
@@ -149,11 +149,11 @@ class EconomicCausalityAnalyzer(CoreInterface):
     ) -> float:
         """
         Estimate the impact of a strategy on the market
-        
+
         Args:
             strategy: Strategy to evaluate
             market_factors: Current market factors
-            
+
         Returns:
             Estimated impact value
         """

@@ -66,7 +66,7 @@
    ```bash
    # Pin high-risk packages
    cryptography==45.0.5  # Latest stable
-   transformers==4.46.3  # Latest stable  
+   transformers==4.46.3  # Latest stable
    aiohttp==3.11.16      # Latest stable
    torch==2.6.1          # Latest stable
    jinja2==3.1.6         # Latest stable
@@ -82,7 +82,7 @@
    ```bash
    # macOS
    brew install postgresql
-   
+
    # Ubuntu/Debian
    sudo apt-get install postgresql-server-dev-all
    ```
@@ -131,7 +131,7 @@ python3 -m pip_audit -r requirements.txt --format=json
 pip install cyclonedx-bom
 cyclonedx-py -r requirements.txt -o sbom.json
 
-# Node.js SBOM generation  
+# Node.js SBOM generation
 npm install -g @cyclonedx/cyclonedx-npm
 cyclonedx-npm --output-file sbom-npm.json
 ```

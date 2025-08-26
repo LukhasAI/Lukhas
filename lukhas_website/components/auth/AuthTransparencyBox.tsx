@@ -102,7 +102,7 @@ export function AuthTransparencyBox({
             {locale === 'en' ? 'Biometric Privacy:' : 'Privacidad Biométrica:'}
           </strong>
           <span className="ml-1">
-            {locale === 'en' 
+            {locale === 'en'
               ? "This site uses device biometrics via your OS (Face ID, Touch ID, Windows Hello). We never receive your biometric data—only a cryptographic proof."
               : "Este sitio utiliza biometría del dispositivo a través de tu SO (Face ID, Touch ID, Windows Hello). Nunca recibimos tus datos biométricos—solo una prueba criptográfica."}
           </span>

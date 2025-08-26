@@ -124,7 +124,7 @@ def generate_guardian_events() -> List[Dict[str, Any]]:
             "description": "Guardian emergency protocol activated",
             "glyphs": ["🚨", "🛡️", "⚔️"],
             "intervention": {
-                "action": "quantum_stabilization",
+                "action": "qi_stabilization",
                 "protocol": "ALPHA-7",
                 "glyphs": ["🛡️", "🔮", "⚛️", "🌟"],
             },

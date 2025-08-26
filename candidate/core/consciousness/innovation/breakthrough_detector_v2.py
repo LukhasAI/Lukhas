@@ -72,7 +72,7 @@ class BreakthroughDetectorV2(CoreInterface):
     """
     INNOVATION SUPREMACY: Detects breakthrough innovations before they
     become obvious to competitors. 50x more sophisticated than basic version.
-    
+
     Multi-layer detection system with advanced pattern recognition.
     """
 
@@ -127,10 +127,10 @@ class BreakthroughDetectorV2(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Detect innovations that will reshape civilization
-        
+
         Args:
             innovation_data: Data about potential innovations
-            
+
         Returns:
             Comprehensive breakthrough detection results
         """
@@ -713,7 +713,7 @@ class ScientificRevolutionPredictor:
             revolution = ScientificRevolution(
                 revolution_id=str(uuid.uuid4()),
                 field=data.get('field', 'physics'),
-                breakthrough_concepts=data.get('concepts', ['quantum_gravity']),
+                breakthrough_concepts=data.get('concepts', ['qi_gravity']),
                 theoretical_shifts=['unification', 'emergence'],
                 experimental_validations=data.get('experiments', []),
                 revolution_probability=revolution_probability_threshold,

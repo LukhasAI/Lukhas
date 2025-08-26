@@ -4,8 +4,8 @@
 ║ 3D visualization for quantum consciousness authentication.
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ Module: quantum_consciousness_visualizer.py
-║ Path: lukhas/[subdirectory]/quantum_consciousness_visualizer.py
+║ Module: qi_consciousness_visualizer.py
+║ Path: lukhas/[subdirectory]/qi_consciousness_visualizer.py
 ║ Version: 1.0.0 | Created: 2025-07-25 | Modified: 2025-07-25
 ║ Authors: LUKHAS AI Consciousness Team | Jules
 ╠══════════════════════════════════════════════════════════════════════════════════
@@ -43,7 +43,7 @@ class QIConsciousnessVisualizer:
             "neural_complexity": 0.0,
         }
         self.visual_layers = {
-            "quantum_field": {},
+            "qi_field": {},
             "neural_pathways": {},
             "symbolic_elements": {},
             "consciousness_feedback": {},

@@ -1,7 +1,7 @@
 export default function SimplePage() {
   return (
-    <div style={{ 
-      minHeight: '100vh', 
+    <div style={{
+      minHeight: '100vh',
       background: 'linear-gradient(to bottom, #111827, #000000)',
       color: 'white',
       padding: '2rem',
@@ -35,10 +35,10 @@ export default function SimplePage() {
         </div>
       </nav>
 
-      <div style={{ 
-        minHeight: '100vh', 
-        display: 'flex', 
-        alignItems: 'center', 
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
         paddingTop: '4rem'
@@ -53,7 +53,7 @@ export default function SimplePage() {
           <p style={{ fontSize: '1.5rem', color: '#9CA3AF', marginBottom: '3rem' }}>
             Building Consciousness You Can Trust
           </p>
-          
+
           <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', marginBottom: '3rem' }}>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>⚛️</div>

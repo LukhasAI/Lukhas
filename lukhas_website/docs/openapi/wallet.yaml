@@ -1,5 +1,5 @@
 openapi: 3.0.3
-info: 
+info:
   title: Lukhas Wallet API
   version: 0.1.0
 paths:
@@ -7,53 +7,53 @@ paths:
     get:
       operationId: balance
       responses:
-        "200": 
+        "200":
           description: OK
-          content: 
-            application/json: 
-              schema: 
+          content:
+            application/json:
+              schema:
                 type: object
-                properties: 
-                  currency: 
+                properties:
+                  currency:
                     type: string
-                  amount: 
+                  amount:
                     type: number
                 required: [currency, amount]
   /earn:
     post:
       operationId: earn
-      requestBody: 
+      requestBody:
         required: true
-        content: 
-          application/json: 
-            schema: 
+        content:
+          application/json:
+            schema:
               type: object
-              properties: 
-                reason: 
+              properties:
+                reason:
                   type: string
-                amount: 
+                amount:
                   type: number
               required: [reason]
       responses:
-        "200": 
+        "200":
           $ref: "#/components/responses/Balance"
   /spend:
     post:
       operationId: spend
-      requestBody: 
+      requestBody:
         required: true
-        content: 
-          application/json: 
-            schema: 
+        content:
+          application/json:
+            schema:
               type: object
-              properties: 
-                reason: 
+              properties:
+                reason:
                   type: string
-                amount: 
+                amount:
                   type: number
               required: [reason, amount]
       responses:
-        "200": 
+        "200":
           $ref: "#/components/responses/Balance"
 components:
   responses:
@@ -61,11 +61,11 @@ components:
       description: OK
       content:
         application/json:
-          schema: 
+          schema:
             type: object
-            properties: 
-              currency: 
+            properties:
+              currency:
                 type: string
-              amount: 
+              amount:
                 type: number
             required: [currency, amount]

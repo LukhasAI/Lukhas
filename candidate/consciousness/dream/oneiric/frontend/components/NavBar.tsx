@@ -5,11 +5,11 @@
  * Author: LUKHAS Development Team
  * Version: 1.0.0
  * Date: 2025-01-10
- * 
+ *
  * Description:
  * Main navigation bar component for the Oneiric Core application.
  * Provides navigation links and user authentication interface.
- * 
+ *
  * Copyright (c) 2025 LUKHAS. All rights reserved.
  * Licensed under the MIT License.
  * ================================================================================
@@ -41,7 +41,7 @@ export default function NavBar({ onOpenSettings }: NavBarProps) {
         <div className="font-bold text-xl text-gray-900">
           Oneiric Core
         </div>
-        
+
         <div className="flex items-center space-x-4">
           {navItems.map((item) => (
             <Link
@@ -56,7 +56,7 @@ export default function NavBar({ onOpenSettings }: NavBarProps) {
               {item.name}
             </Link>
           ))}
-          
+
           {isAuthenticated && (
             <button
               onClick={onOpenSettings}
@@ -66,14 +66,14 @@ export default function NavBar({ onOpenSettings }: NavBarProps) {
               ⚙️
             </button>
           )}
-          
+
           <div className="flex items-center space-x-2">
             {isAuthenticated ? (
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-600">
                   demo@example.com
                 </span>
-                <button 
+                <button
                   onClick={() => console.log('Sign out clicked')}
                   className="text-sm px-3 py-2 text-gray-700 hover:bg-gray-100 rounded"
                 >
@@ -81,7 +81,7 @@ export default function NavBar({ onOpenSettings }: NavBarProps) {
                 </button>
               </div>
             ) : (
-              <button 
+              <button
                 onClick={() => console.log('Sign in clicked')}
                 className="text-sm px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               >
@@ -98,10 +98,10 @@ export default function NavBar({ onOpenSettings }: NavBarProps) {
 /*
  * ================================================================================
  * END OF LUKHAS ONEIRIC CORE - Navigation Bar Component
- * 
+ *
  * This component provides the main navigation interface for the Oneiric Core
  * application, including links to key features and user authentication controls.
- * 
+ *
  * For support: contact@lukhas.com
  * Documentation: https://docs.lukhas.com/oneiric-core
  * ================================================================================

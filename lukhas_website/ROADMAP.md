@@ -137,9 +137,9 @@ Implement a **stable, compelling, demo-ready pipeline** for `/app/experience` wi
 - Toggle: **AI ↔ Human** blending
 
 ### 📂 File Moves / Setup
-1. Move the placeholder files created at project root into proper locations:  
-   - `enhanced-particle-system.ts` → `/lib/visuals/`  
-   - `advanced-morphing-visualizer.tsx` → `/components/experience/`  
+1. Move the placeholder files created at project root into proper locations:
+   - `enhanced-particle-system.ts` → `/lib/visuals/`
+   - `advanced-morphing-visualizer.tsx` → `/components/experience/`
 2. Update imports in `/app/experience/page.tsx`.
 
 ### ⚙️ Implementation Steps

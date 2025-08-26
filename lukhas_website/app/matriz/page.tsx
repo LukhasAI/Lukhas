@@ -13,7 +13,7 @@ const matrizJsonLD = {
   "operatingSystem": "Cross-platform",
   "url": "https://lukhas.ai/matriz",
   "author": {
-    "@type": "Organization", 
+    "@type": "Organization",
     "name": "LUKHAS AI",
     "url": "https://lukhas.ai"
   },
@@ -27,7 +27,7 @@ const matrizJsonLD = {
   },
   "featureList": [
     "AI decision traceability",
-    "Real-time audit trails", 
+    "Real-time audit trails",
     "Governance integration",
     "Compliance monitoring",
     "Trinity Framework compatibility"
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
   },
   keywords: [
     'AI traceability',
-    'AI governance', 
+    'AI governance',
     'decision transparency',
     'AI audit trails',
     'LUKHAS AI',
@@ -90,10 +90,10 @@ export default function MatrizPage() {
             <h1 className="text-6xl md:text-8xl font-thin tracking-wider text-white mb-6" aria-label="Matriz">
               M<span className="text-purple-400 font-extralight">Λ</span>TRIZ
             </h1>
-            
+
             {/* Poetic Layer (≤40 words) - Protected by runtime validation */}
             <div className="mb-8">
-              <PoeticText 
+              <PoeticText
                 className="text-xl text-purple-200 font-light leading-relaxed max-w-2xl mx-auto"
                 showWordCount={process.env.NODE_ENV === 'development'}
               >
@@ -113,8 +113,8 @@ export default function MatrizPage() {
               <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900">
                 Start Tracing
               </button>
-              <a 
-                href="/docs/matriz" 
+              <a
+                href="/docs/matriz"
                 className="border border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white px-8 py-3 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
               >
                 Documentation
@@ -127,7 +127,7 @@ export default function MatrizPage() {
         <section data-tone="technical" className="px-6 py-16 border-t border-white/10">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-semibold text-white mb-8 text-center">Technical Specifications</h2>
-            
+
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div>
@@ -187,7 +187,7 @@ export default function MatrizPage() {
         <section className="px-6 py-16 border-t border-white/10">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-semibold text-white mb-12 text-center">Key Capabilities</h2>
-            
+
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-white/5 border border-white/10 rounded-lg p-6">
                 <div className="text-3xl mb-4">📊</div>

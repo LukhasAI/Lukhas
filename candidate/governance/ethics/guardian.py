@@ -29,8 +29,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
-    from ethics import LUKHASEthicsOrchestrator
     from red_team import LUKHASRedTeamProtocol
+
+    from ethics import LUKHASEthicsOrchestrator
 
     from .core import LucasGovernanceModule
 except ImportError as e:

@@ -49,12 +49,11 @@ except ImportError:
         HybridMemoryFold,
         VectorStorageLayer,
     )
+    from memory_fold_system import MemoryItem
     from optimized_memory_item import (
         OptimizedMemoryItem,
         create_optimized_memory,
     )
-
-    from memory_fold_system import MemoryItem
 
     try:
         from lazy_loading_embeddings import (

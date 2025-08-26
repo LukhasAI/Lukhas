@@ -4,16 +4,16 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Heart, 
-  Shield, 
-  Eye, 
-  Users, 
-  Brain, 
-  Atom, 
-  Lock, 
-  AlertTriangle, 
-  CheckCircle, 
+import {
+  Heart,
+  Shield,
+  Eye,
+  Users,
+  Brain,
+  Atom,
+  Lock,
+  AlertTriangle,
+  CheckCircle,
   Globe,
   BookOpen,
   Scale,
@@ -193,7 +193,7 @@ export default function EthicsPage() {
                 <span className="gradient-text">Ethical AI</span>
               </h1>
               <p className="font-thin text-2xl max-w-4xl mx-auto text-primary-light/80 mb-8">
-                Building conscious AI systems through rigorous ethical frameworks, 
+                Building conscious AI systems through rigorous ethical frameworks,
                 transparent development, and unwavering commitment to human values
               </p>
               <div className="flex justify-center space-x-8 text-sm font-regular tracking-wider">
@@ -219,7 +219,7 @@ export default function EthicsPage() {
                 TRINITY FRAMEWORK ETHICS
               </h2>
               <p className="font-thin text-xl max-w-3xl mx-auto text-primary-light/80">
-                Our ethical foundation is built on the Trinity Framework—three interconnected pillars 
+                Our ethical foundation is built on the Trinity Framework—three interconnected pillars
                 that ensure AI systems remain beneficial, transparent, and aligned with human values
               </p>
             </motion.div>
@@ -267,7 +267,7 @@ export default function EthicsPage() {
                 ETHICAL PRINCIPLES
               </h2>
               <p className="font-thin text-xl max-w-3xl mx-auto text-primary-light/80">
-                Six fundamental principles guide every decision in LUKHAS development, 
+                Six fundamental principles guide every decision in LUKHAS development,
                 ensuring responsible AI advancement with comprehensive safety measures
               </p>
             </motion.div>
@@ -354,7 +354,7 @@ export default function EthicsPage() {
                 <Scale className="w-16 h-16 mx-auto mb-6 text-trinity-guardian" strokeWidth={1} />
                 <h2 className="font-regular text-3xl mb-6">Constitutional AI Safety Framework</h2>
                 <p className="font-thin text-lg text-primary-light/80 max-w-3xl mx-auto">
-                  LUKHAS implements a comprehensive Constitutional AI safety framework based on leading research 
+                  LUKHAS implements a comprehensive Constitutional AI safety framework based on leading research
                   from Anthropic, OpenAI, and DeepMind, ensuring AGI-level safety and alignment
                 </p>
               </div>
@@ -462,7 +462,7 @@ export default function EthicsPage() {
             >
               <h2 className="font-thin text-4xl mb-8">Join us in building ethical AI</h2>
               <p className="font-thin text-lg text-primary-light/80 mb-12 max-w-2xl mx-auto">
-                Explore our open-source approach to ethical AI development and contribute 
+                Explore our open-source approach to ethical AI development and contribute
                 to the future of responsible artificial intelligence
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

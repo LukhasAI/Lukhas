@@ -23,7 +23,7 @@ export default function VoiceMorphingBridge({ config, onVoiceDataUpdate }: Voice
           morphSpeed: config.morphSpeed || 0.005,
           particleCount: config.particleCount || 2000,
           voiceData: { intensity: 0, frequency: 0 },
-          
+
           // Methods that mirror the original morphing system
           setShape: (shape: string) => {
             morphingSystem.targetShape = shape
@@ -31,44 +31,44 @@ export default function VoiceMorphingBridge({ config, onVoiceDataUpdate }: Voice
               detail: { shape, morphSpeed: morphingSystem.morphSpeed }
             }))
           },
-          
+
           setColor: (color: string) => {
             window.dispatchEvent(new CustomEvent('morphing-color-change', {
               detail: { color }
             }))
           },
-          
+
           setParticleCount: (count: number) => {
             morphingSystem.particleCount = count
             window.dispatchEvent(new CustomEvent('morphing-particle-change', {
               detail: { count }
             }))
           },
-          
+
           setMorphSpeed: (speed: number) => {
             morphingSystem.morphSpeed = speed
             window.dispatchEvent(new CustomEvent('morphing-speed-change', {
               detail: { speed }
             }))
           },
-          
+
           setVoiceData: (voiceData: { intensity: number; frequency: number }) => {
             morphingSystem.voiceData = voiceData
             onVoiceDataUpdate(voiceData)
           },
-          
+
           reset: () => {
             morphingSystem.currentShape = 'sphere'
             morphingSystem.targetShape = 'sphere'
             window.dispatchEvent(new CustomEvent('morphing-reset'))
           },
-          
+
           toggleMicrophone: (enabled: boolean) => {
             window.dispatchEvent(new CustomEvent('morphing-mic-toggle', {
               detail: { enabled }
             }))
           },
-          
+
           toggleAudio: (enabled: boolean) => {
             window.dispatchEvent(new CustomEvent('morphing-audio-toggle', {
               detail: { enabled }
@@ -116,22 +116,22 @@ export default function VoiceMorphingBridge({ config, onVoiceDataUpdate }: Voice
   useEffect(() => {
     if (morphingSystemRef.current) {
       const system = morphingSystemRef.current
-      
+
       // Update shape if changed
       if (system.targetShape !== config.shape) {
         system.setShape(config.shape)
       }
-      
+
       // Update particle count if changed
       if (system.particleCount !== config.particleCount) {
         system.setParticleCount(config.particleCount)
       }
-      
+
       // Update morph speed if changed
       if (system.morphSpeed !== config.morphSpeed) {
         system.setMorphSpeed(config.morphSpeed)
       }
-      
+
       // Update color if changed
       if (config.accentColor) {
         system.setColor(config.accentColor)
@@ -167,7 +167,7 @@ export default function VoiceMorphingBridge({ config, onVoiceDataUpdate }: Voice
             voiceIntensity: config.voiceSensitivity
           }
         },
-        
+
         sendStatus: () => {
           window.dispatchEvent(new CustomEvent('lukhas-status', {
             detail: {
@@ -179,7 +179,7 @@ export default function VoiceMorphingBridge({ config, onVoiceDataUpdate }: Voice
             }
           }))
         },
-        
+
         applyVisualConfiguration: (visualConfig: any) => {
           if (morphingSystemRef.current) {
             const system = morphingSystemRef.current
@@ -194,13 +194,13 @@ export default function VoiceMorphingBridge({ config, onVoiceDataUpdate }: Voice
             }
           }
         },
-        
+
         toggleMicrophone: (enabled: boolean) => {
           if (morphingSystemRef.current) {
             morphingSystemRef.current.toggleMicrophone(enabled)
           }
         },
-        
+
         toggleAudio: (enabled: boolean) => {
           if (morphingSystemRef.current) {
             morphingSystemRef.current.toggleAudio(enabled)

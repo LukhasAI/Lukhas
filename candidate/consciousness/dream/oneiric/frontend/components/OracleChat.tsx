@@ -49,9 +49,9 @@ export default function OracleChat() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (prompt.trim()) {
-      dreamMutation.mutate({ 
-        prompt: prompt.trim(), 
-        recursive: isRecursionEnabled 
+      dreamMutation.mutate({
+        prompt: prompt.trim(),
+        recursive: isRecursionEnabled
       });
     }
   };
@@ -114,15 +114,15 @@ export default function OracleChat() {
             alt={dreamMutation.data.symbolicStructure.visualAnchor}
             className="w-full h-64 object-cover rounded-md mb-4"
           />
-          
+
           <h3 className="font-bold mb-2 text-gray-900">
             Dream: {dreamMutation.data.sceneId.slice(0, 8)}
           </h3>
-          
+
           <p className="text-gray-700 mb-4 leading-relaxed">
             {dreamMutation.data.narrativeText}
           </p>
-          
+
           {dreamMutation.data.narrativeAudioUrl && (
             <audio controls src={dreamMutation.data.narrativeAudioUrl} className="w-full mb-4">
               Your browser does not support the audio element.
@@ -133,13 +133,13 @@ export default function OracleChat() {
             <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
               Directive: {dreamMutation.data.symbolicStructure.directive_used}
             </span>
-            
+
             {dreamMutation.data.symbolicStructure.driftAnalysis && (
               <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
                 Drift: {dreamMutation.data.symbolicStructure.driftAnalysis.driftScore}
               </span>
             )}
-            
+
             <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">
               Anchor: {dreamMutation.data.symbolicStructure.visualAnchor}
             </span>

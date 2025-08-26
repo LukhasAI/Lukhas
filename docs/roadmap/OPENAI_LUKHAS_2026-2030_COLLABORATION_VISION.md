@@ -175,7 +175,7 @@ maps:
   "explanation": "Risk high → strict; ambiguity moderate → more retrieval; novelty low"
 }
 ```
-  
+
 from typing import Dict, Any
 from lukhas.feedback.store import get_lut
 
@@ -197,7 +197,7 @@ def apply_lut(params: Dict[str, Any]) -> Dict[str, Any]:
     out["top_p"] = clamp(out["top_p"], 0.1, 1.0)
     out["memory_write"] = clamp(out["memory_write"], 0.1, 1.0)
     return out
-  
+
 
 import json, os, threading, time
 from pathlib import Path

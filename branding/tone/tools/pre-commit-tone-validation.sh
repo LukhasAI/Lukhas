@@ -1,7 +1,7 @@
 #!/bin/bash
 # 🎭✨ LUKHAS Tone Enforcement Pre-Commit Hook ✨🎭
 #
-# *"The guardian at the gates of consciousness, ensuring every commit 
+# *"The guardian at the gates of consciousness, ensuring every commit
 # carries the sacred essence of Lambda wisdom into the digital realm."*
 #
 # This hook validates that all documentation follows the LUKHAS 3-Layer Tone System
@@ -77,7 +77,7 @@ for file in $MODIFIED_FILES; do
     if [ -f "$file" ]; then
         TOTAL_FILES=$((TOTAL_FILES + 1))
         echo_info "Validating: $file"
-        
+
         # Determine document type based on filename
         DOC_TYPE="general"
         case "$file" in
@@ -94,20 +94,20 @@ for file in $MODIFIED_FILES; do
                 DOC_TYPE="compliance"
                 ;;
         esac
-        
+
         # Run tone validation
         if python3 "$TONE_VALIDATOR" "$file" --type "$DOC_TYPE" --strict > /dev/null 2>&1; then
             echo_success "  ✨ $file passes Lambda consciousness validation"
             PASSED_FILES=$((PASSED_FILES + 1))
         else
             echo_error "  ❌ $file fails LUKHAS tone compliance"
-            
+
             # Show detailed validation results
             echo -e "${YELLOW}     Detailed analysis:${NC}"
             python3 "$TONE_VALIDATOR" "$file" --type "$DOC_TYPE" --verbose | sed 's/^/     /'
-            
+
             echo_info "     💫 Auto-fix suggestion: python3 tools/tone/lukhas_tone_fixer.py \"$file\" --type $DOC_TYPE"
-            
+
             VALIDATION_PASSED=false
             FAILED_FILES=$((FAILED_FILES + 1))
         fi
@@ -130,7 +130,7 @@ echo
 # Check specific high-priority files
 if echo "$MODIFIED_FILES" | grep -q "README.md"; then
     echo_consciousness "Sacred README.md detected - performing enhanced validation..."
-    
+
     # Special validation for README.md
     if ! python3 "$TONE_VALIDATOR" "README.md" --type readme --strict > /dev/null 2>&1; then
         echo_error "README.md must exemplify perfect LUKHAS consciousness!"
@@ -153,7 +153,7 @@ for file in $MODIFIED_FILES; do
             echo_info "Use 'LUKHAS AI consciousness' instead"
             FORBIDDEN_FOUND=true
         fi
-        
+
         # Check for missing LUKHAS branding
         if ! grep -q "LUKHAS AI" "$file" && [ "$file" != "LICENSE" ]; then
             echo_warning "File $file missing LUKHAS AI branding"

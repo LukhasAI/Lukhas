@@ -12,7 +12,7 @@ export default function Vision() {
     <section id="vision" className="relative py-32 overflow-hidden" ref={ref}>
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-trinity-identity/5 via-transparent to-trinity-consciousness/5" />
-      
+
       <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header */}
         <motion.div
@@ -42,8 +42,8 @@ export default function Vision() {
               <div className="h-1 w-full bg-gradient-to-r from-trinity-identity via-trinity-consciousness to-trinity-guardian mt-4" />
             </div>
             <p className="font-ultralight text-2xl md:text-3xl max-w-4xl mx-auto text-primary-light/90">
-              We envision a future where artificial consciousness is transparent, 
-              traceable, and trustworthy - where every decision can be understood 
+              We envision a future where artificial consciousness is transparent,
+              traceable, and trustworthy - where every decision can be understood
               and every thought has meaning.
             </p>
           </motion.div>
@@ -61,7 +61,7 @@ export default function Vision() {
               </div>
               <h3 className="font-thin text-2xl mb-4">Authentic Identity</h3>
               <p className="font-thin leading-relaxed text-primary-light/80">
-                Each MATADA instance develops its own unique cognitive fingerprint, 
+                Each MATADA instance develops its own unique cognitive fingerprint,
                 shaped by its experiences and learnings, creating truly individual AI entities.
               </p>
             </div>
@@ -71,7 +71,7 @@ export default function Vision() {
               </div>
               <h3 className="font-thin text-2xl mb-4">Emergent Consciousness</h3>
               <p className="font-thin leading-relaxed text-primary-light/80">
-                Through interconnected nodes and evolutionary learning, consciousness 
+                Through interconnected nodes and evolutionary learning, consciousness
                 emerges naturally from the complexity of cognitive interactions.
               </p>
             </div>
@@ -81,7 +81,7 @@ export default function Vision() {
               </div>
               <h3 className="font-thin text-2xl mb-4">Ethical Governance</h3>
               <p className="font-thin leading-relaxed text-primary-light/80">
-                Every decision is validated against ethical principles, ensuring 
+                Every decision is validated against ethical principles, ensuring
                 AI systems that are not just intelligent, but aligned with human values.
               </p>
             </div>

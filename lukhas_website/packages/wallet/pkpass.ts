@@ -18,23 +18,23 @@ export interface WalletPassData {
   foregroundColor: string;
   backgroundColor: string;
   labelColor: string;
-  
+
   // Dynamic fields
   authenticationToken: string;
   webServiceURL: string;
-  
+
   // User-specific
   userId: string;
   deviceId: string;
   expirationDate?: Date;
-  
+
   // Approval fields
   barcode?: {
     message: string;
     format: 'PKBarcodeFormatQR' | 'PKBarcodeFormatPDF417';
     messageEncoding: string;
   };
-  
+
   // Visual fields
   primaryFields?: PassField[];
   secondaryFields?: PassField[];
@@ -67,10 +67,10 @@ export async function generateWalletPass(
 ): Promise<WalletPassData> {
   const serialNumber = randomBytes(16).toString('hex');
   const authToken = randomBytes(32).toString('hex');
-  
+
   const expiryHours = options.expiresInHours || DEFAULT_EXPIRY_HOURS;
   const expirationDate = new Date(Date.now() + expiryHours * 60 * 60 * 1000);
-  
+
   const pass: WalletPassData = {
     passTypeIdentifier: 'pass.ai.lukhas.auth',
     teamIdentifier: process.env.APPLE_TEAM_ID || 'LUKHAS_TEAM',
@@ -81,14 +81,14 @@ export async function generateWalletPass(
     foregroundColor: 'rgb(255, 255, 255)',
     backgroundColor: 'rgb(16, 16, 16)',
     labelColor: 'rgb(128, 128, 128)',
-    
+
     authenticationToken: authToken,
     webServiceURL: `${process.env.API_URL}/api/wallet/update`,
-    
+
     userId,
     deviceId,
     expirationDate,
-    
+
     barcode: {
       message: JSON.stringify({
         type: 'LUKHAS_AUTH',
@@ -99,7 +99,7 @@ export async function generateWalletPass(
       format: 'PKBarcodeFormatQR',
       messageEncoding: 'iso-8859-1'
     },
-    
+
     primaryFields: [
       {
         key: 'status',
@@ -108,7 +108,7 @@ export async function generateWalletPass(
         changeMessage: 'Pass status changed to %@'
       }
     ],
-    
+
     secondaryFields: [
       {
         key: 'device',
@@ -121,7 +121,7 @@ export async function generateWalletPass(
         value: expirationDate.toLocaleDateString()
       }
     ],
-    
+
     auxiliaryFields: options.allowedActions ? [
       {
         key: 'actions',
@@ -129,7 +129,7 @@ export async function generateWalletPass(
         value: options.allowedActions.join(', ')
       }
     ] : [],
-    
+
     backFields: [
       {
         key: 'security',
@@ -143,7 +143,7 @@ export async function generateWalletPass(
       }
     ]
   };
-  
+
   return pass;
 }
 
@@ -157,7 +157,7 @@ export async function verifyWalletToken(
 ): Promise<boolean> {
   // In production, verify against stored tokens in database
   // Check expiry, device binding, and usage count
-  
+
   try {
     // Simplified verification for now
     const expectedHash = createHash('sha256')
@@ -165,7 +165,7 @@ export async function verifyWalletToken(
       .update(userId)
       .update(deviceId)
       .digest('hex');
-    
+
     // Check against stored hashes
     // In production, query database
     return true; // Placeholder
@@ -184,9 +184,9 @@ export async function updatePassStatus(
 ): Promise<void> {
   // In production, send push notification to update pass
   // This requires Apple Push Notification service setup
-  
+
   console.log(`Updating pass ${serialNumber} status to ${status}`);
-  
+
   // Store status update in database
   // Send push notification if configured
 }
@@ -199,7 +199,7 @@ export async function revokeWalletPass(
   reason?: string
 ): Promise<void> {
   await updatePassStatus(serialNumber, 'revoked');
-  
+
   // Log revocation
   console.log(`Pass ${serialNumber} revoked: ${reason || 'No reason provided'}`);
 }
@@ -217,7 +217,7 @@ export async function generatePKPassFile(
   // 3. Create manifest.json with file hashes
   // 4. Sign with Apple certificate
   // 5. Create .pkpass zip file
-  
+
   // Placeholder for now
   const passJson = JSON.stringify(passData, null, 2);
   return Buffer.from(passJson);
@@ -231,7 +231,7 @@ export function generateGoogleWalletLink(
 ): string {
   // In production, use Google Wallet API to create JWT
   // and generate proper save link
-  
+
   const jwt = Buffer.from(JSON.stringify(passData)).toString('base64');
   return `https://pay.google.com/gp/v/save/${jwt}`;
 }

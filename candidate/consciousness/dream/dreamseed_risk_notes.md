@@ -84,7 +84,7 @@ Layer 1: Input Validation
 ├── Validate against schemas
 └── Check tier permissions
 
-Layer 2: Processing Safeguards  
+Layer 2: Processing Safeguards
 ├── Resource monitoring
 ├── Recursion detection
 └── Mutation validation
@@ -105,14 +105,14 @@ Layer 4: Audit & Recovery
 ```python
 class DreamSeedEmergencyShutdown:
     """Emergency procedures for critical failures"""
-    
+
     TRIGGERS = {
         "recursion_depth": 15,
         "memory_corruption": True,
         "drift_score": 0.95,
         "resource_usage": 0.99
     }
-    
+
     async def emergency_halt(self, reason: str):
         emit_glyph("ΛEMERGENCY::SHUTDOWN::INITIATED")
         # 1. Stop all active dreams
@@ -197,7 +197,7 @@ class DreamSeedEmergencyShutdown:
 
 ---
 
-**Risk Assessment Version**: v1.0  
-**Assessment Date**: 2025-07-21  
-**Next Review**: 2025-08-21  
+**Risk Assessment Version**: v1.0
+**Assessment Date**: 2025-07-21
+**Next Review**: 2025-08-21
 **ΛTAG**: ΛRISK::ASSESSMENT::DREAMSEED

@@ -554,7 +554,7 @@ async def health_check():
     return {
         "status": "healthy",
         "engine": "classical",
-        "quantum_free": True,
+        "qi_free": True,
         "models_available": ["plutchik", "ekman", "vad", "panas"],
     }
 

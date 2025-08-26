@@ -44,18 +44,18 @@ Ethics-as-a-Service (EaaS) in LUCΛS is a **modular trust framework** designed t
 
 Every symbolic message in LUCΛS goes through:
 
-1. **Consent Gate**  
-   - Checks user tier + message tier  
+1. **Consent Gate**
+   - Checks user tier + message tier
    - Fallbacks to dream mode if blocked
 
-2. **Emotional Checkpoint**  
+2. **Emotional Checkpoint**
    - ABAS regulates based on stress, joy, longing
 
-3. **Trace Logging**  
+3. **Trace Logging**
    - All actions (delivery, deferral, rejection) are logged
 
-4. **User Feedback Loop**  
-   - Optional scoring, emoji, reflection  
+4. **User Feedback Loop**
+   - Optional scoring, emoji, reflection
    - Stored in `feedback_log.jsonl`
 
 ---
@@ -95,5 +95,5 @@ These symbolic checks ensure LUCΛS remains emotionally aligned, traceable, and 
 
 ---
 
-> “In the future, ethics must be modular, observable, and symbolically felt.”  
+> “In the future, ethics must be modular, observable, and symbolically felt.”
 > — LUCΛS 🖤

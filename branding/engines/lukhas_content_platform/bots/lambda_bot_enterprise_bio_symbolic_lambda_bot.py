@@ -7,15 +7,12 @@ Integrates workspace bio-symbolic processing for intelligent modularization
 
 import asyncio
 import logging
-import time
-import json
 import sys
-import os
-from datetime import datetime
-from typing import Dict, List, Any, Optional, Tuple, Set
+import time
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
-import re
+from typing import Any, Dict, List
 
 # Add workspace core to path
 sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
@@ -256,7 +253,7 @@ class BioSymbolicΛBot:
             locations=[
                 "core/agi_controller.py",
                 "core/bio_symbolic.py",
-                "consciousness/quantum_consciousness_integration.py"
+                "consciousness/qi_consciousness_integration.py"
             ],
             relationships=["membrane_interfaces", "selective_permeability", "internal_organization"],
             modularization_impact="Natural module boundaries follow cellular organization principles"
@@ -427,7 +424,7 @@ class BioSymbolicΛBot:
             'organism_level': {
                 'scope': 'entire_application',
                 'biological_analogy': 'Complete organism with coordinated systems',
-                'modules': ['core_consciousness', 'cognitive_systems', 'bio_processing', 'quantum_integration'],
+                'modules': ['core_consciousness', 'cognitive_systems', 'bio_processing', 'qi_integration'],
                 'organization': 'Hierarchical organ system coordination'
             },
             'organ_system_level': {
@@ -568,35 +565,35 @@ async def main():
     # Start bio-symbolic analysis
     session = await bio_bot.start_bio_symbolic_analysis("/Users/agi_dev/AGI-Consolidation-Repo")
 
-    print(f"\n🔬 Bio-Symbolic Analysis Session Active:")
+    print("\n🔬 Bio-Symbolic Analysis Session Active:")
     print(f"   Session ID: {session.session_id}")
     print(f"   Target: {session.target_path}")
 
     # Discover bio-symbolic patterns
-    print(f"\n🧬 Discovering Bio-Symbolic Patterns...")
+    print("\n🧬 Discovering Bio-Symbolic Patterns...")
     patterns = await bio_bot.discover_bio_symbolic_patterns()
 
-    print(f"\n✅ Pattern Discovery Complete!")
+    print("\n✅ Pattern Discovery Complete!")
     for pattern in patterns:
         print(f"   🔬 {pattern.pattern_type.value}: {pattern.biological_analogy}")
         print(f"      Confidence: {pattern.confidence:.2f}")
 
     # Generate bio-inspired strategy
-    print(f"\n🌱 Generating Bio-Inspired Modularization Strategy...")
+    print("\n🌱 Generating Bio-Inspired Modularization Strategy...")
     strategy = await bio_bot.generate_bio_inspired_modularization_strategy(patterns)
 
-    print(f"\n🧬 Bio-Strategy Generated!")
+    print("\n🧬 Bio-Strategy Generated!")
     print(f"   Framework: {strategy['biological_framework']}")
     print(f"   Phases: {len(strategy['implementation_phases'])}")
 
     # Get insights
     insights = await bio_bot.get_bio_symbolic_insights()
-    print(f"\n📊 Bio-Symbolic Insights:")
+    print("\n📊 Bio-Symbolic Insights:")
     print(f"   Patterns: {insights['patterns_discovered']}")
     print(f"   Health Score: {insights['biological_health_score']:.2f}")
     print(f"   Readiness: {insights['modularization_readiness']}")
 
-    print(f"\n🔬 Bio-Symbolic LUKHAS AI ΛBot Analysis Complete! 🧬")
+    print("\n🔬 Bio-Symbolic LUKHAS AI ΛBot Analysis Complete! 🧬")
 
 if __name__ == "__main__":
     asyncio.run(main())

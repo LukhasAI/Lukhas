@@ -169,10 +169,11 @@ class NaturalLanguageGenerator(ExplanationGenerator):
 
     def _load_templates(self) -> dict[str, str]:
         """Load explanation templates from configuration files or defaults."""
-        import os
         import json
+        import os
+
         import yaml
-        
+
         # Default templates
         default_templates = {
             "decision": "The system decided {decision} because {reasoning}. Confidence: {confidence}.",
@@ -184,23 +185,23 @@ class NaturalLanguageGenerator(ExplanationGenerator):
             "technical": "Technical Details:\nDecision: {decision}\nAlgorithm: {algorithm}\nParameters: {parameters}\nMetrics: {metrics}",
             "audit": "AUDIT REPORT\nDecision ID: {decision_id}\nTimestamp: {timestamp}\nDecision: {decision}\nJustification: {reasoning}\nCompliance: {compliance_status}"
         }
-        
+
         # Try to load from configuration files
         template_paths = [
             "config/explanation_templates.yaml",
             "config/explanation_templates.json",
             os.path.expanduser("~/.lukhas/templates.yaml")
         ]
-        
+
         for template_path in template_paths:
             try:
                 if os.path.exists(template_path):
-                    with open(template_path, 'r', encoding='utf-8') as f:
+                    with open(template_path, encoding='utf-8') as f:
                         if template_path.endswith('.yaml') or template_path.endswith('.yml'):
                             loaded_templates = yaml.safe_load(f)
                         else:
                             loaded_templates = json.load(f)
-                    
+
                     if isinstance(loaded_templates, dict):
                         # Merge with defaults, loaded templates take precedence
                         default_templates.update(loaded_templates)
@@ -208,7 +209,7 @@ class NaturalLanguageGenerator(ExplanationGenerator):
                         break
             except Exception as e:
                 logger.warning(f"Failed to load templates from {template_path}: {e}")
-        
+
         return default_templates
 
     async def generate_explanation(
@@ -335,14 +336,14 @@ class FormalProofGenerator(ExplanationGenerator):
             if not premises:
                 # Auto-generate premises from context
                 premises = self._extract_premises_from_context(context)
-            
+
             rules = context.get("inference_rules", [])
             if not rules:
                 rules = self._determine_inference_rules(context)
-            
+
             steps = []
             step_counter = 1
-            
+
             # Add premises as initial steps
             for premise in premises:
                 steps.append({
@@ -353,12 +354,12 @@ class FormalProofGenerator(ExplanationGenerator):
                     "confidence": 1.0
                 })
                 step_counter += 1
-            
+
             # Generate inference chain
             reasoning_chain = context.get("reasoning_chain", [])
             if not reasoning_chain:
                 reasoning_chain = self._build_reasoning_chain(context)
-            
+
             # Add inference steps
             for reasoning_step in reasoning_chain:
                 steps.append({
@@ -370,7 +371,7 @@ class FormalProofGenerator(ExplanationGenerator):
                     "dependencies": reasoning_step.get("dependencies", [])
                 })
                 step_counter += 1
-            
+
             # Add final conclusion
             conclusion = context.get("decision") or context.get("conclusion", "Decision reached")
             if conclusion not in [step["statement"] for step in steps]:
@@ -381,17 +382,17 @@ class FormalProofGenerator(ExplanationGenerator):
                     "rule": "Resolution",
                     "confidence": context.get("confidence", 0.8)
                 })
-            
+
             # Calculate overall validity score
             step_confidences = [step.get("confidence", 0.8) for step in steps if "confidence" in step]
             validity_score = sum(step_confidences) / len(step_confidences) if step_confidences else 0.8
-            
+
             # Try to integrate with theorem prover if available
             try:
                 validity_score = await self._verify_with_theorem_prover(steps, conclusion)
             except Exception as e:
                 logger.debug(f"Theorem prover not available: {e}")
-            
+
             return ExplanationProof(
                 proof_id=str(uuid.uuid4()),
                 premises=premises,
@@ -402,7 +403,7 @@ class FormalProofGenerator(ExplanationGenerator):
                 validity_score=validity_score,
                 timestamp=datetime.now(timezone.utc)
             )
-            
+
         except Exception as e:
             logger.error(f"Error generating formal proof: {e}")
             # Return a minimal proof structure
@@ -501,7 +502,6 @@ class ExplainabilityInterfaceLayer:
         }
 
         # Implement LRU cache for explanations
-        from functools import lru_cache
         self.explanation_cache = {}
         self._cache_size = self.config.get("cache_size", 100)
         self._cache_hits = 0
@@ -684,13 +684,13 @@ class ExplainabilityInterfaceLayer:
         """Get comprehensive ethical analysis from MEG."""
         if not self.meg:
             return "Ethical analysis: MEG not available - using basic ethical assessment."
-        
+
         try:
             # Extract relevant context for ethical analysis
             decision = context.get("decision", "")
             reasoning = context.get("reasoning", "")
             stakeholders = context.get("stakeholders", [])
-            
+
             # Perform ethical analysis using MEG
             ethical_assessment = await self.meg.assess_ethical_implications(
                 decision=decision,
@@ -698,24 +698,24 @@ class ExplainabilityInterfaceLayer:
                 stakeholders=stakeholders,
                 context=context
             )
-            
+
             # Format ethical analysis
             analysis_parts = []
             if ethical_assessment.get("overall_score"):
                 score = ethical_assessment["overall_score"]
                 analysis_parts.append(f"Overall ethical score: {score:.2f}/1.0")
-            
+
             frameworks = ethical_assessment.get("framework_assessments", {})
             for framework, assessment in frameworks.items():
                 status = "passes" if assessment.get("compliant", False) else "raises concerns for"
                 analysis_parts.append(f"Decision {status} {framework} framework")
-            
+
             if ethical_assessment.get("recommendations"):
                 recommendations = ethical_assessment["recommendations"]
                 analysis_parts.append(f"Recommendations: {'; '.join(recommendations)}")
-            
+
             return ". ".join(analysis_parts) + "."
-            
+
         except Exception as e:
             logger.warning(f"Error in MEG ethical analysis: {e}")
             return "Ethical analysis: Unable to perform complete analysis - decision appears to follow standard ethical guidelines."
@@ -724,23 +724,23 @@ class ExplainabilityInterfaceLayer:
         """Get comprehensive reasoning trace from symbolic engine."""
         if not self.symbolic_engine:
             return {
-                "trace": "Symbolic engine not available - using basic reasoning trace", 
+                "trace": "Symbolic engine not available - using basic reasoning trace",
                 "steps": [],
                 "method": "fallback"
             }
-        
+
         try:
             # Extract reasoning context
             query = context.get("query") or context.get("decision", "")
             premises = context.get("premises", [])
-            
+
             # Get symbolic reasoning trace
             trace_result = await self.symbolic_engine.trace_reasoning(
                 query=query,
                 premises=premises,
                 context=context
             )
-            
+
             # Format trace steps
             formatted_steps = []
             for i, step in enumerate(trace_result.get("steps", []), 1):
@@ -753,7 +753,7 @@ class ExplainabilityInterfaceLayer:
                     "confidence": step.get("confidence", 0.8),
                     "explanation": step.get("explanation", "")
                 })
-            
+
             return {
                 "trace": f"Symbolic reasoning completed with {len(formatted_steps)} steps",
                 "steps": formatted_steps,
@@ -761,7 +761,7 @@ class ExplainabilityInterfaceLayer:
                 "overall_confidence": trace_result.get("confidence", 0.8),
                 "reasoning_depth": len(formatted_steps)
             }
-            
+
         except Exception as e:
             logger.warning(f"Error in symbolic engine reasoning trace: {e}")
             return {
@@ -852,42 +852,42 @@ class ExplainabilityInterfaceLayer:
             essential_elements = ["decision", "reasoning", "confidence"]
             important_elements = ["context", "factors", "evidence", "analysis"]
             quality_elements = ["uncertainty", "alternatives", "implications"]
-            
+
             explanation_lower = explanation.lower()
             context_lower = str(context).lower()
-            
+
             # Score essential elements (weight: 0.5)
             essential_score = sum(
-                1 for elem in essential_elements 
+                1 for elem in essential_elements
                 if elem in explanation_lower or elem in context_lower
             ) / len(essential_elements)
-            
+
             # Score important elements (weight: 0.3)
             important_score = sum(
-                1 for elem in important_elements 
+                1 for elem in important_elements
                 if elem in explanation_lower or elem in context_lower
             ) / len(important_elements)
-            
+
             # Score quality elements (weight: 0.2)
             quality_score = sum(
-                1 for elem in quality_elements 
+                1 for elem in quality_elements
                 if elem in explanation_lower
             ) / len(quality_elements)
-            
+
             # Calculate weighted completeness score
             completeness = (
-                essential_score * 0.5 + 
-                important_score * 0.3 + 
+                essential_score * 0.5 +
+                important_score * 0.3 +
                 quality_score * 0.2
             )
-            
+
             # Bonus for detailed explanations
             word_count = len(explanation.split())
             if word_count > 50:  # Detailed explanation bonus
                 completeness = min(1.0, completeness + 0.1)
             elif word_count < 20:  # Penalty for too brief
                 completeness *= 0.8
-            
+
             # Check for specific completeness indicators
             completeness_indicators = {
                 "because": 0.05,  # Causal explanation
@@ -897,13 +897,13 @@ class ExplainabilityInterfaceLayer:
                 "specifically": 0.02,  # Detailed information
                 "furthermore": 0.02  # Comprehensive coverage
             }
-            
+
             for indicator, bonus in completeness_indicators.items():
                 if indicator in explanation_lower:
                     completeness = min(1.0, completeness + bonus)
-            
+
             return completeness
-            
+
         except Exception as e:
             logger.warning(f"Error calculating completeness: {e}")
             # Fallback to simple calculation
@@ -915,22 +915,22 @@ class ExplainabilityInterfaceLayer:
         """Calculate explanation clarity using NLP-based metrics."""
         try:
             import re
-            
+
             # Basic text statistics
             words = explanation.split()
             word_count = len(words)
-            
+
             sentences = re.split(r'[.!?]+', explanation)
             sentences = [s.strip() for s in sentences if s.strip()]
             sentence_count = len(sentences)
-            
+
             if sentence_count == 0 or word_count == 0:
                 return 0.0
-            
+
             # Calculate readability metrics
             avg_sentence_length = word_count / sentence_count
             avg_word_length = sum(len(word) for word in words) / word_count
-            
+
             # Sentence length clarity (optimal range: 8-20 words)
             if 8 <= avg_sentence_length <= 20:
                 sentence_clarity = 1.0
@@ -938,7 +938,7 @@ class ExplainabilityInterfaceLayer:
                 sentence_clarity = 0.8
             else:
                 sentence_clarity = 0.6
-            
+
             # Word complexity (prefer shorter words for clarity)
             if avg_word_length <= 5:
                 word_clarity = 1.0
@@ -946,7 +946,7 @@ class ExplainabilityInterfaceLayer:
                 word_clarity = 0.8
             else:
                 word_clarity = 0.6
-            
+
             # Check for clarity indicators
             clarity_enhancers = [
                 "clearly", "simply", "basically", "essentially", "in summary",
@@ -956,33 +956,33 @@ class ExplainabilityInterfaceLayer:
                 "however", "nevertheless", "notwithstanding", "conversely",
                 "albeit", "whereas", "furthermore", "moreover"
             ]
-            
+
             explanation_lower = explanation.lower()
             enhancer_count = sum(1 for phrase in clarity_enhancers if phrase in explanation_lower)
             detractor_count = sum(1 for phrase in clarity_detractors if phrase in explanation_lower)
-            
+
             # Structure clarity (presence of logical connectors)
             structure_indicators = ["first", "second", "then", "next", "finally", "because", "therefore"]
             structure_score = min(1.0, sum(1 for indicator in structure_indicators if indicator in explanation_lower) * 0.1)
-            
+
             # Jargon penalty (technical terms that might reduce clarity)
             jargon_terms = [
-                "algorithm", "optimization", "parametric", "heuristic", 
+                "algorithm", "optimization", "parametric", "heuristic",
                 "probabilistic", "stochastic", "deterministic", "inference"
             ]
             jargon_count = sum(1 for term in jargon_terms if term in explanation_lower)
             jargon_penalty = min(0.3, jargon_count * 0.05)  # Max 30% penalty
-            
+
             # Calculate overall clarity
             base_clarity = (sentence_clarity * 0.4 + word_clarity * 0.3 + structure_score * 0.3)
             enhancer_bonus = min(0.2, enhancer_count * 0.05)
             detractor_penalty = min(0.15, detractor_count * 0.03)
-            
+
             clarity_score = base_clarity + enhancer_bonus - detractor_penalty - jargon_penalty
             clarity_score = max(0.0, min(1.0, clarity_score))  # Clamp to [0, 1]
-            
+
             return clarity_score
-            
+
         except Exception as e:
             logger.warning(f"Error calculating clarity: {e}")
             # Fallback to simple readability
@@ -1002,11 +1002,11 @@ class ExplainabilityInterfaceLayer:
         """Sign explanation using SRD cryptographic capabilities."""
         if not self.srd:
             return "SRD_NOT_AVAILABLE"
-        
+
         try:
             import hashlib
             import json
-            
+
             # Prepare comprehensive signature data
             signature_data = {
                 "explanation_id": explanation.explanation_id,
@@ -1018,7 +1018,7 @@ class ExplainabilityInterfaceLayer:
                 "quality_metrics": explanation.quality_metrics,
                 "version": "XIL_v1.2.0"
             }
-            
+
             # Add formal proof hash if available
             if explanation.formal_proof:
                 proof_data = {
@@ -1029,7 +1029,7 @@ class ExplainabilityInterfaceLayer:
                 signature_data["proof_hash"] = hashlib.sha256(
                     json.dumps(proof_data, sort_keys=True).encode()
                 ).hexdigest()
-            
+
             # Use SRD to create cryptographic signature
             srd_signature = await self.srd.create_cryptographic_signature(
                 data=signature_data,
@@ -1037,7 +1037,7 @@ class ExplainabilityInterfaceLayer:
                 include_timestamp=True,
                 include_identity=True
             )
-            
+
             # Verify signature was created successfully
             if srd_signature.get("status") == "success":
                 signature_value = srd_signature["signature"]
@@ -1047,20 +1047,20 @@ class ExplainabilityInterfaceLayer:
                     "public_key_id": srd_signature.get("public_key_id"),
                     "created_at": srd_signature.get("created_at")
                 }
-                
+
                 # Return verifiable signature string
                 return f"SRD_V1:{signature_value}:{verification_data['public_key_id']}"
             else:
                 raise Exception(f"SRD signing failed: {srd_signature.get('error', 'Unknown error')}")
-                
+
         except Exception as e:
             self.logger.error("ΛTRACE_SIGNING_ERROR", error=str(e))
-            
+
             # Fallback to basic hash-based signature
             try:
                 import hashlib
                 import time
-                
+
                 fallback_data = f"{explanation.explanation_id}:{explanation.timestamp.isoformat()}:{explanation.natural_language[:100]}"
                 fallback_hash = hashlib.sha256(fallback_data.encode()).hexdigest()[:16]
                 return f"FALLBACK_SIG_{int(time.time())}_{fallback_hash}"
@@ -1126,7 +1126,7 @@ class ExplainabilityInterfaceLayer:
         followup_questions = await self._generate_contextual_followups(
             decision_id, initial_explanation, context
         )
-        
+
         # Initialize dialogue state for session management
         dialogue_state = {
             "session_id": session_id,
@@ -1146,11 +1146,11 @@ class ExplainabilityInterfaceLayer:
             },
             "user_intent_model": {
                 "clarification_seeking": 0.7,
-                "detail_preference": "medium", 
+                "detail_preference": "medium",
                 "technical_level": "general",
             },
         }
-        
+
         # Store dialogue state for follow-up interactions
         if not hasattr(self, 'active_dialogues'):
             self.active_dialogues = {}
@@ -1164,7 +1164,7 @@ class ExplainabilityInterfaceLayer:
             "dialogue_state": "initialized",
             "conversation_capabilities": [
                 "ask_detailed_questions",
-                "request_alternatives", 
+                "request_alternatives",
                 "explore_consequences",
                 "challenge_assumptions",
                 "seek_examples",
@@ -1231,10 +1231,10 @@ class ExplainabilityInterfaceLayer:
 
         # Perform statistical analysis on audit results
         stats_analysis = await self._perform_audit_statistical_analysis(audit_results)
-        
-        # Detect patterns across decisions  
+
+        # Detect patterns across decisions
         patterns = await self._detect_audit_patterns(audit_results, context_data)
-        
+
         # Enhanced recommendations based on analysis
         recommendations = await self._generate_enhanced_audit_recommendations(
             audit_results, stats_analysis, patterns
@@ -1310,21 +1310,21 @@ class ExplainabilityInterfaceLayer:
     def _extract_premises_from_context(self, context: dict[str, Any]) -> list[str]:
         """Extract logical premises from decision context."""
         premises = []
-        
+
         # Extract from input data
         if "input_data" in context:
             premises.append("P1: Input data has been validated and processed")
-        
+
         # Extract from reasoning steps
         if "reasoning_steps" in context:
             for i, step in enumerate(context["reasoning_steps"][:3], 2):
                 premises.append(f"P{i}: {step.get('assumption', 'Processing step completed')}")
-        
+
         # Extract from constraints
         if "constraints" in context:
             for i, constraint in enumerate(context["constraints"][:2], len(premises) + 1):
                 premises.append(f"P{i}: {constraint}")
-        
+
         # Default premises if none found
         if not premises:
             premises = [
@@ -1332,35 +1332,35 @@ class ExplainabilityInterfaceLayer:
                 "P2: Input data meets quality requirements",
                 "P3: Decision algorithms are properly configured"
             ]
-        
+
         return premises
 
     def _determine_inference_rules(self, context: dict[str, Any]) -> list[str]:
         """Determine appropriate inference rules based on context."""
         rules = ["Modus Ponens"]  # Always include basic rule
-        
+
         # Add rules based on reasoning type
         reasoning_type = context.get("reasoning_type", "deductive")
-        
+
         if reasoning_type == "deductive":
             rules.extend(["Universal Instantiation", "Hypothetical Syllogism"])
         elif reasoning_type == "inductive":
             rules.extend(["Statistical Inference", "Generalization"])
         elif reasoning_type == "abductive":
             rules.extend(["Inference to Best Explanation", "Causal Reasoning"])
-        
+
         # Add domain-specific rules
         if "probabilistic" in str(context).lower():
             rules.append("Bayesian Inference")
         if "causal" in str(context).lower():
             rules.append("Causal Chain Reasoning")
-        
+
         return list(set(rules))  # Remove duplicates
 
     def _build_reasoning_chain(self, context: dict[str, Any]) -> list[dict[str, Any]]:
         """Build a logical reasoning chain from context."""
         chain = []
-        
+
         # Extract existing reasoning steps
         if "reasoning_steps" in context:
             for step in context["reasoning_steps"]:
@@ -1371,7 +1371,7 @@ class ExplainabilityInterfaceLayer:
                     "confidence": step.get("confidence", 0.8),
                     "dependencies": step.get("dependencies", [])
                 })
-        
+
         # Build chain from decision factors
         elif "decision_factors" in context:
             for i, factor in enumerate(context["decision_factors"]):
@@ -1382,7 +1382,7 @@ class ExplainabilityInterfaceLayer:
                     "confidence": 0.75,
                     "dependencies": [f"P{i+1}"]
                 })
-        
+
         # Default reasoning chain
         if not chain:
             chain = [{
@@ -1392,7 +1392,7 @@ class ExplainabilityInterfaceLayer:
                 "confidence": context.get("confidence", 0.7),
                 "dependencies": ["P1", "P2"]
             }]
-        
+
         return chain
 
     async def _verify_with_theorem_prover(self, steps: list[dict[str, Any]], conclusion: str) -> float:
@@ -1401,21 +1401,21 @@ class ExplainabilityInterfaceLayer:
             # Try to connect to theorem prover service
             # This would integrate with tools like Lean, Coq, or Z3
             # For now, implement basic logical consistency checking
-            
+
             # Check for logical consistency in steps
             confidence_scores = []
-            
+
             for step in steps:
                 step_confidence = step.get("confidence", 0.8)
-                
+
                 # Basic consistency checks
                 if "contradiction" in step.get("statement", "").lower():
                     step_confidence *= 0.5
                 if "assumption" in step.get("rule", "").lower():
                     step_confidence *= 0.9  # Assumptions are less certain
-                
+
                 confidence_scores.append(step_confidence)
-            
+
             # Calculate overall proof strength
             if confidence_scores:
                 # Use geometric mean for conservative estimate
@@ -1425,9 +1425,9 @@ class ExplainabilityInterfaceLayer:
                 proof_strength = product ** (1.0 / len(confidence_scores))
             else:
                 proof_strength = 0.5
-            
+
             return min(0.95, proof_strength)  # Cap at 95% for automated verification
-            
+
         except Exception as e:
             logger.debug(f"Theorem prover verification failed: {e}")
             # Return conservative estimate based on step consistency
@@ -1438,25 +1438,25 @@ class ExplainabilityInterfaceLayer:
         self, audit_results: list[dict]
     ) -> dict[str, Any]:
         """Perform statistical analysis on audit results"""
-        
+
         if not audit_results:
             return {"error": "No audit data available"}
-            
+
         # Extract quality metrics
         compliance_scores = [r["compliance_score"] for r in audit_results]
         signing_rates = [1.0 if r["signed"] else 0.0 for r in audit_results]
-        
+
         # Calculate explanation quality metrics
         completeness_scores = []
         accuracy_scores = []
-        
+
         for result in audit_results:
             explanation = result.get("explanation")
             if explanation and hasattr(explanation, 'quality_metrics'):
                 metrics = explanation.quality_metrics
                 completeness_scores.append(metrics.get("completeness", 0.0))
                 accuracy_scores.append(metrics.get("accuracy", 0.0))
-        
+
         stats = {
             "total_decisions": len(audit_results),
             "compliance_statistics": self._calculate_basic_stats(compliance_scores),
@@ -1472,34 +1472,34 @@ class ExplainabilityInterfaceLayer:
                 "accuracy_distribution": self._calculate_basic_stats(accuracy_scores) if accuracy_scores else {},
             },
         }
-        
+
         return stats
-    
+
     async def _detect_audit_patterns(
         self, audit_results: list[dict], context_data: dict[str, dict]
     ) -> dict[str, Any]:
         """Detect patterns in audit results"""
-        
+
         patterns = {
             "consistency_score": 0.0,
             "risk_areas": [],
             "improvement_opportunities": [],
             "trends": {},
         }
-        
+
         if not audit_results:
             return patterns
-            
+
         # Analyze consistency in compliance scores
         compliance_scores = [r["compliance_score"] for r in audit_results]
         if compliance_scores:
             import statistics
             std_dev = statistics.stdev(compliance_scores) if len(compliance_scores) > 1 else 0
             patterns["consistency_score"] = max(0.0, 1.0 - std_dev)  # High consistency = low deviation
-        
+
         # Identify risk areas
         low_compliance_decisions = [
-            r["decision_id"] for r in audit_results 
+            r["decision_id"] for r in audit_results
             if r["compliance_score"] < 0.6
         ]
         if low_compliance_decisions:
@@ -1509,7 +1509,7 @@ class ExplainabilityInterfaceLayer:
                 "affected_decisions": low_compliance_decisions[:5],  # Limit for brevity
                 "severity": "high" if len(low_compliance_decisions) > len(audit_results) * 0.2 else "medium",
             })
-        
+
         # Identify unsigned decisions
         unsigned_decisions = [
             r["decision_id"] for r in audit_results if not r["signed"]
@@ -1521,7 +1521,7 @@ class ExplainabilityInterfaceLayer:
                 "affected_decisions": unsigned_decisions[:5],
                 "severity": "medium" if len(unsigned_decisions) < len(audit_results) * 0.1 else "high",
             })
-        
+
         # Improvement opportunities
         avg_compliance = sum(compliance_scores) / len(compliance_scores)
         if avg_compliance < 0.8:
@@ -1535,16 +1535,16 @@ class ExplainabilityInterfaceLayer:
                     "Implement additional quality checks",
                 ],
             })
-        
+
         return patterns
-    
+
     async def _generate_enhanced_audit_recommendations(
         self, audit_results: list[dict], stats: dict, patterns: dict
     ) -> list[dict[str, str]]:
         """Generate enhanced recommendations based on statistical analysis"""
-        
+
         recommendations = []
-        
+
         # Base recommendations
         recommendations.extend([
             {
@@ -1560,7 +1560,7 @@ class ExplainabilityInterfaceLayer:
                 "rationale": "Low compliance scores indicate potential issues",
             },
         ])
-        
+
         # Statistical analysis based recommendations
         signing_rate = stats.get("signing_statistics", {}).get("signing_rate", 1.0)
         if signing_rate < 0.9:
@@ -1570,7 +1570,7 @@ class ExplainabilityInterfaceLayer:
                 "priority": "high",
                 "rationale": "Low signing rate indicates process gaps",
             })
-        
+
         # Pattern-based recommendations
         for risk_area in patterns.get("risk_areas", []):
             if risk_area["type"] == "low_compliance":
@@ -1580,7 +1580,7 @@ class ExplainabilityInterfaceLayer:
                     "priority": risk_area["severity"],
                     "rationale": "Low compliance decisions pose regulatory and operational risks",
                 })
-        
+
         # Quality-based recommendations
         avg_completeness = stats.get("quality_statistics", {}).get("avg_completeness", 1.0)
         if avg_completeness < 0.8:
@@ -1590,31 +1590,31 @@ class ExplainabilityInterfaceLayer:
                 "priority": "medium",
                 "rationale": "Incomplete explanations reduce transparency and auditability",
             })
-        
+
         return recommendations
-    
+
     def _assess_overall_compliance(self, stats: dict) -> str:
         """Assess overall compliance status based on statistics"""
-        
+
         compliance_stats = stats.get("compliance_statistics", {})
         avg_compliance = compliance_stats.get("mean", 0.0)
         signing_rate = stats.get("signing_statistics", {}).get("signing_rate", 0.0)
-        
+
         if avg_compliance > 0.8 and signing_rate > 0.9:
             return "compliant"
         elif avg_compliance > 0.6 and signing_rate > 0.7:
             return "partially_compliant"
         else:
             return "non_compliant"
-    
+
     def _calculate_basic_stats(self, values: list[float]) -> dict[str, float]:
         """Calculate basic statistical measures for a list of values"""
-        
+
         if not values:
             return {}
-            
+
         import statistics
-        
+
         return {
             "count": len(values),
             "mean": statistics.mean(values),
@@ -1629,36 +1629,36 @@ class ExplainabilityInterfaceLayer:
         self, decision_id: str, explanation: Any, context: dict[str, Any]
     ) -> list[str]:
         """Generate intelligent follow-up questions based on decision context"""
-        
+
         followups = [
             "Can you explain this in more detail?",
             "What were the key factors in this decision?",
             "How confident is the system in this decision?",
         ]
-        
+
         # Context-aware question generation
         if context.get("ethical_factors"):
             followups.append("What ethical considerations were involved?")
             followups.append("How were competing ethical principles balanced?")
-            
+
         if context.get("uncertainty_level", 0) > 0.5:
             followups.append("What are the main sources of uncertainty?")
             followups.append("What would change your confidence in this decision?")
-            
+
         if context.get("stakeholders"):
             followups.append("How does this affect different stakeholders?")
             followups.append("Were all relevant perspectives considered?")
-            
+
         if context.get("alternatives"):
             followups.append("What alternatives were considered?")
             followups.append("Why wasn't the second-best option chosen?")
-            
+
         if context.get("timeline_pressure"):
             followups.append("How did time constraints affect this decision?")
-            
+
         if context.get("resource_constraints"):
             followups.append("How did resource limitations influence the choice?")
-            
+
         # Decision type specific questions
         decision_type = context.get("decision_type", "")
         if "financial" in decision_type.lower():
@@ -1676,14 +1676,14 @@ class ExplainabilityInterfaceLayer:
                 "What policy implications should be considered?",
                 "How does this align with existing policies?",
             ])
-            
+
         return followups[:8]  # Limit to most relevant questions
 
     async def _generate_suggested_actions(
         self, context: dict[str, Any]
     ) -> list[dict[str, str]]:
         """Generate suggested actions user can take based on context"""
-        
+
         actions = [
             {
                 "action": "request_detailed_analysis",
@@ -1701,42 +1701,42 @@ class ExplainabilityInterfaceLayer:
                 "icon": "👥",
             },
         ]
-        
+
         if context.get("can_modify"):
             actions.append({
                 "action": "propose_modification",
                 "description": "Propose modifications to the decision",
                 "icon": "✏️",
             })
-            
+
         if context.get("reversible"):
             actions.append({
                 "action": "simulate_reversal",
                 "description": "Simulate reversing this decision",
                 "icon": "↩️",
             })
-            
+
         return actions
 
     def _assess_decision_complexity(
         self, explanation: Any
     ) -> str:
         """Assess the complexity level of a decision for dialogue adaptation"""
-        
+
         if not hasattr(explanation, 'natural_language'):
             return "medium"
-            
+
         text = explanation.natural_language
         word_count = len(text.split())
-        
+
         # Simple heuristic based on explanation length and complexity indicators
         complexity_indicators = [
             "multiple factors", "complex interaction", "trade-off", "uncertainty",
             "competing", "interdependent", "cascading", "non-linear",
         ]
-        
+
         complexity_score = sum(1 for indicator in complexity_indicators if indicator in text.lower())
-        
+
         if word_count > 300 or complexity_score > 3:
             return "high"
         elif word_count > 150 or complexity_score > 1:

@@ -25,17 +25,17 @@ vivox:
   production:
     enabled: true
     log_level: WARNING
-    
+
   performance:
     memory_operations_cache: 10000
     precedent_search_limit: 100
     consciousness_history: 1000
-    
+
   ethics:
     dissonance_threshold: 0.7
     harm_prevention_weight: 1.0
     decision_timeout: 5.0
-    
+
   consciousness:
     drift_threshold: 0.1
     coherence_minimum: 0.2
@@ -123,35 +123,35 @@ async def vivox_health_check(vivox_system):
         "consciousness": False,
         "self_reflection": False
     }
-    
+
     try:
         # Test memory
         me = vivox_system["memory_expansion"]
         test_memory = await me.create_memory("test", {"test": True})
         if test_memory:
             checks["memory_expansion"] = True
-            
+
         # Test ethics
         mae = vivox_system["moral_alignment"]
         test_action = ActionProposal("test", {}, {})
         decision = await mae.evaluate_action_proposal(test_action, {})
         if decision:
             checks["moral_alignment"] = True
-            
+
         # Test consciousness
         cil = vivox_system["consciousness"]
         state = await cil.simulate_conscious_experience({"test": True}, {})
         if state:
             checks["consciousness"] = True
-            
+
         # Test self-reflection
         srm = vivox_system["self_reflection"]
         if srm:
             checks["self_reflection"] = True
-            
+
     except Exception as e:
         print(f"Health check failed: {e}")
-        
+
     return checks
 ```
 
@@ -179,7 +179,7 @@ class OptimizedVIVOX:
     def __init__(self, vivox_system):
         self.vivox = vivox_system
         self._precedent_cache = {}
-        
+
     @lru_cache(maxsize=1000)
     async def cached_ethical_evaluation(self, action_hash):
         """Cache ethical evaluations for repeated actions"""
@@ -195,7 +195,7 @@ class VIVOXConnectionPool:
     def __init__(self, size=10):
         self.pool = []
         self.size = size
-        
+
     async def get_connection(self):
         # Return available connection
         pass
@@ -274,7 +274,7 @@ class VIVOXCluster:
         self.nodes = []
         for i in range(nodes):
             self.nodes.append(create_vivox_system())
-            
+
     async def route_request(self, request):
         # Route to least loaded node
         pass

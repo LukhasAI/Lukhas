@@ -54,32 +54,32 @@
         }
 
         .aurora-layer:nth-child(1) {
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(0, 255, 170, 0.3) 20%, 
-                rgba(0, 170, 255, 0.5) 40%, 
-                rgba(170, 0, 255, 0.3) 60%, 
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(0, 255, 170, 0.3) 20%,
+                rgba(0, 170, 255, 0.5) 40%,
+                rgba(170, 0, 255, 0.3) 60%,
                 transparent 100%);
             animation-delay: 0s;
         }
 
         .aurora-layer:nth-child(2) {
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(255, 0, 170, 0.3) 30%, 
-                rgba(0, 255, 255, 0.4) 50%, 
-                rgba(255, 170, 0, 0.3) 70%, 
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 0, 170, 0.3) 30%,
+                rgba(0, 255, 255, 0.4) 50%,
+                rgba(255, 170, 0, 0.3) 70%,
                 transparent 100%);
             animation-delay: 5s;
             animation-duration: 18s;
         }
 
         .aurora-layer:nth-child(3) {
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(120, 0, 255, 0.4) 25%, 
-                rgba(0, 255, 120, 0.5) 50%, 
-                rgba(255, 0, 120, 0.3) 75%, 
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(120, 0, 255, 0.4) 25%,
+                rgba(0, 255, 120, 0.5) 50%,
+                rgba(255, 0, 120, 0.3) 75%,
                 transparent 100%);
             animation-delay: 10s;
             animation-duration: 20s;
@@ -302,8 +302,8 @@
             position: absolute;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at center, 
-                rgba(147, 112, 219, 0.3) 0%, 
+            background: radial-gradient(circle at center,
+                rgba(147, 112, 219, 0.3) 0%,
                 transparent 50%);
             animation: fogDrift 30s infinite ease-in-out;
             filter: blur(40px);
@@ -422,7 +422,7 @@
     <script>
         // Initialize with Aurora background
         let currentBackground = 'aurora';
-        
+
         function createAurora() {
             return `
                 <div class="aurora-container">
@@ -456,7 +456,7 @@
 
         function createNeuralConstellation() {
             let html = '<div class="neural-constellation">';
-            
+
             // Create random stars
             for (let i = 0; i < 100; i++) {
                 const size = ['small', 'medium', 'large'][Math.floor(Math.random() * 3)];
@@ -465,7 +465,7 @@
                 const delay = Math.random() * 4;
                 html += `<div class="star ${size}" style="top: ${top}%; left: ${left}%; animation-delay: ${delay}s"></div>`;
             }
-            
+
             // Create neural links
             for (let i = 0; i < 20; i++) {
                 const top = Math.random() * 100;
@@ -475,14 +475,14 @@
                 const delay = Math.random() * 3;
                 html += `<div class="neural-link" style="top: ${top}%; left: ${left}%; width: ${width}px; transform: rotate(${rotation}deg); animation-delay: ${delay}s"></div>`;
             }
-            
+
             html += '</div>';
             return html;
         }
 
         function createDreamParticles() {
             let html = '<div class="dream-particles">';
-            
+
             for (let i = 0; i < 30; i++) {
                 const size = 5 + Math.random() * 25;
                 const left = Math.random() * 100;
@@ -490,7 +490,7 @@
                 const duration = 15 + Math.random() * 10;
                 html += `<div class="particle floating" style="width: ${size}px; height: ${size}px; left: ${left}%; animation-delay: ${delay}s; animation-duration: ${duration}s"></div>`;
             }
-            
+
             html += '</div>';
             return html;
         }
@@ -508,7 +508,7 @@
         function showBackground(type) {
             const container = document.getElementById('backgroundContainer');
             let html = '';
-            
+
             switch(type) {
                 case 'aurora':
                     html = createAurora();
@@ -529,9 +529,9 @@
                     html = createMysticalFog();
                     break;
             }
-            
+
             container.innerHTML = html;
-            
+
             // Update active button
             document.querySelectorAll('.controls button').forEach(btn => {
                 btn.classList.remove('active');

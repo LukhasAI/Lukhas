@@ -19,12 +19,12 @@ Key Features:
 from .core import (
     CognitiveNode,
     CognitiveOrchestrator,
-    NodeState,
+    ExecutionTrace,
     NodeLink,
-    NodeTrigger,
-    NodeReflection,
     NodeProvenance,
-    ExecutionTrace
+    NodeReflection,
+    NodeState,
+    NodeTrigger,
 )
 
 __version__ = '1.0.0'
@@ -32,7 +32,7 @@ __author__ = 'LUKHAS AI Team'
 
 __all__ = [
     'CognitiveNode',
-    'CognitiveOrchestrator', 
+    'CognitiveOrchestrator',
     'NodeState',
     'NodeLink',
     'NodeTrigger',

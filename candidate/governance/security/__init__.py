@@ -6,11 +6,11 @@ for LUKHAS AI governance with Trinity Framework integration.
 """
 
 from .consent_manager import ConsentManager, ConsentRequest, ConsentStatus
-from .privacy_guardian import PrivacyGuardian, DataClassification, PrivacyPolicy
+from .privacy_guardian import DataClassification, PrivacyGuardian, PrivacyPolicy
 
 __all__ = [
     "ConsentManager",
-    "ConsentRequest", 
+    "ConsentRequest",
     "ConsentStatus",
     "PrivacyGuardian",
     "DataClassification",

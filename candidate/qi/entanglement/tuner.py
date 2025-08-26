@@ -33,12 +33,12 @@ import numpy as np
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
 try:
-    from ethics.quantum_mesh_integrator import (
-        QuantumEthicsMeshIntegrator,
+    from ethics.qi_mesh_integrator import (
+        QIEthicsMeshIntegrator,
     )
 except ImportError:
-    print("Warning: Could not import QuantumEthicsMeshIntegrator")
-    QuantumEthicsMeshIntegrator = None
+    print("Warning: Could not import QIEthicsMeshIntegrator")
+    QIEthicsMeshIntegrator = None
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -286,7 +286,7 @@ class AdaptiveEntanglementStabilizer:
         self, log_file: str, window: int = 10
     ) -> list[dict[str, Any]]:
         """
-        Read quantum_mesh_integrator logs and track recent entanglement trends
+        Read qi_mesh_integrator logs and track recent entanglement trends
 
         Args:
             log_file: Path to mesh integrator log file (JSONL)
@@ -631,7 +631,7 @@ class AdaptiveEntanglementStabilizer:
         )
 
         # This would integrate with:
-        # - ethics/quantum_mesh_integrator.py for mesh modification
+        # - ethics/qi_mesh_integrator.py for mesh modification
         # - memory/ modules for symbolic memory injection
         # - reasoning/ modules for cognitive stabilization
 

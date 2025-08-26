@@ -4,11 +4,11 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-type Quote = { 
-  id: string; 
-  text: string; 
-  signedBy?: string; 
-  priority?: number; 
+type Quote = {
+  id: string;
+  text: string;
+  signedBy?: string;
+  priority?: number;
   untilTs?: number;
   tags?: string[];
 };
@@ -19,28 +19,28 @@ interface QuoteRotatorProps {
   enableCharacterAnimation?: boolean;
 }
 
-export default function QuoteRotator({ 
-  quotes, 
+export default function QuoteRotator({
+  quotes,
   rotateMs = 7000,
-  enableCharacterAnimation = false 
+  enableCharacterAnimation = false
 }: QuoteRotatorProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isAnimating, setIsAnimating] = useState(false);
-  
+
   // Sort quotes by priority and filter by time constraints
   const sortedQuotes = quotes
     .sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))
     .filter(q => !q.untilTs || Date.now() < q.untilTs);
-  
+
   const activeQuote = sortedQuotes[currentIndex % sortedQuotes.length] || quotes[0];
-  
+
   // Character-by-character animation for special quotes
   useEffect(() => {
     if (enableCharacterAnimation && activeQuote) {
       setIsAnimating(true);
       setDisplayedText('');
-      
+
       let index = 0;
       const interval = setInterval(() => {
         if (index < activeQuote.text.length) {
@@ -51,7 +51,7 @@ export default function QuoteRotator({
           setIsAnimating(false);
         }
       }, 80);
-      
+
       return () => clearInterval(interval);
     } else {
       setDisplayedText(activeQuote?.text || '');
@@ -78,7 +78,7 @@ export default function QuoteRotator({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          transition={{ 
+          transition={{
             duration: enableCharacterAnimation ? 0.8 : 0.5,
             ease: [0.4, 0, 0.2, 1] // easeOutQuart cubic-bezier
           }}
@@ -89,16 +89,16 @@ export default function QuoteRotator({
               <motion.span
                 className="inline-block w-1 h-8 bg-blue-400 ml-2"
                 animate={{ opacity: [1, 0] }}
-                transition={{ 
-                  duration: 0.8, 
-                  repeat: Infinity, 
-                  repeatType: 'reverse' 
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                  repeatType: 'reverse'
                 }}
               />
             )}
           </p>
           {activeQuote.signedBy && (
-            <motion.p 
+            <motion.p
               className="mt-4 text-lg opacity-70 text-blue-100"
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.7 }}
@@ -109,10 +109,10 @@ export default function QuoteRotator({
           )}
         </motion.div>
       </AnimatePresence>
-      
+
       {/* Progress indicator for multiple quotes */}
       {sortedQuotes.length > 1 && !enableCharacterAnimation && (
-        <motion.div 
+        <motion.div
           className="flex justify-center gap-2 mt-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}

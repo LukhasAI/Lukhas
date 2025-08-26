@@ -185,7 +185,7 @@ async function loadAll() {
   if (!rec.data && rec.notModified) {/* keep */}
   else if (!rec.data) { throw new Error("failed to load receipt"); }
   const receipt = rec.data || JSON.parse(recJson.dataset.raw || "{}");
-  
+
   // Auto-detect proposal_id from activity.run_id pattern "selfheal-<proposal>"
   const runId = (receipt.activity && receipt.activity.id) ? String(receipt.activity.id) : "";
   const selfhealMatch = runId.match(/selfheal-([a-f0-9]+)/i);
@@ -299,13 +299,13 @@ $("#btnRandom").addEventListener("click", async () => {
 window.addEventListener("keydown", async (e) => {
   const mod = e.metaKey || e.ctrlKey;
   const id = rid.value.trim();
-  
+
   if (mod && e.key.toLowerCase() === "l") { e.preventDefault(); loadAll(); }
   if (e.key.toLowerCase() === "r") { e.preventDefault(); loadAll(); }
   if (e.key.toLowerCase() === "s") { e.preventDefault(); $("#btnSaveSvg").click(); }
   if (e.key.toLowerCase() === "j") { e.preventDefault(); $("#btnSaveJson").click(); }
   if (mod && e.key.toLowerCase() === "g") { e.preventDefault(); $("#btnRandom").click(); }
-  
+
   // Optional keyboard shortcuts for prev/next
   if (id) {
     if (e.key === "ArrowLeft") { e.preventDefault(); const n = await fetchNeighbors(id); if (n.prev) { rid.value=n.prev; loadAll(); } }

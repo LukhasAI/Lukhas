@@ -31,8 +31,8 @@ class BioConsolidator:
 
         # Get all bio variants
         cursor.execute("""
-            SELECT DISTINCT file_path 
-            FROM duplicates 
+            SELECT DISTINCT file_path
+            FROM duplicates
             WHERE module_type = 'bio'
             ORDER BY variant_name, has_unique_logic DESC
         """)
@@ -257,7 +257,7 @@ except ImportError:
 
 __all__ = [
     'oscillator',
-    'symbolic', 
+    'symbolic',
     'awareness',
     'adapters',
     'quantum',
@@ -280,7 +280,7 @@ def trinity_sync():
     """Synchronize with Trinity Framework"""
     return {
         'identity': '⚛️',
-        'consciousness': '🧠', 
+        'consciousness': '🧠',
         'guardian': '🛡️',
         'status': 'synchronized'
     }
@@ -313,7 +313,7 @@ def test_bio_imports():
 def test_bio_core_components():
     """Test core bio components are available"""
     from lukhas.accepted.bio import oscillator, symbolic, awareness
-    
+
     # Check modules exist
     assert oscillator is not None
     assert symbolic is not None
@@ -322,14 +322,14 @@ def test_bio_core_components():
 def test_bio_engine():
     """Test bio engine initialization"""
     from lukhas.accepted.bio import get_bio_engine
-    
+
     engine = get_bio_engine()
     assert engine is not None
 
 def test_trinity_integration():
     """Test Trinity Framework integration"""
     from lukhas.accepted.bio import trinity_sync
-    
+
     sync_status = trinity_sync()
     assert sync_status['identity'] == '⚛️'
     assert sync_status['consciousness'] == '🧠'
@@ -339,10 +339,10 @@ def test_trinity_integration():
 def test_backward_compatibility():
     """Test compatibility shims still work"""
     import warnings
-    
+
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
-        
+
         # Try old import (should work with deprecation warning)
         try:
             from bio_core import BioEngine

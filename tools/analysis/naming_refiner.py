@@ -36,11 +36,11 @@ class LukhasNamingRefiner:
             "dream_state",
             "dream_scenario",
             # Quantum concepts
-            "quantum_state",
-            "quantum_consciousness",
-            "quantum_coherence",
-            "quantum_entanglement",
-            "quantum_superposition",
+            "qi_state",
+            "qi_consciousness",
+            "qi_coherence",
+            "qi_entanglement",
+            "qi_superposition",
             # Bio concepts
             "bio_oscillation",
             "bio_rhythm",
@@ -69,7 +69,7 @@ class LukhasNamingRefiner:
             # Identity concepts
             "tier_access",
             "identity_helix",
-            "quantum_identity",
+            "qi_identity",
             # Guardian concepts
             "guardian_protocol",
             "ethical_drift",
@@ -340,7 +340,7 @@ class LukhasNamingRefiner:
                 "examples": [
                     "memory_fold.py",
                     "dream_engine.py",
-                    "quantum_processor.py",
+                    "qi_processor.py",
                     "bio_oscillator.py",
                 ],
             },

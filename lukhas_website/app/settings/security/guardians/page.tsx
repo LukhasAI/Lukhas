@@ -3,9 +3,9 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  ChevronLeftIcon, 
-  ShieldCheckIcon, 
+import {
+  ChevronLeftIcon,
+  ShieldCheckIcon,
   UserGroupIcon,
   PlusIcon,
   TrashIcon,
@@ -68,12 +68,12 @@ export default function GuardiansPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  
+
   // Guardian data
   const [guardians, setGuardians] = useState<Guardian[]>([])
   const [recoveryAttempts, setRecoveryAttempts] = useState<RecoveryAttempt[]>([])
   const [guardianConfig, setGuardianConfig] = useState<GuardianConfig | null>(null)
-  
+
   // UI state
   const [activeTab, setActiveTab] = useState<'guardians' | 'recovery' | 'config'>('guardians')
   const [showAddGuardian, setShowAddGuardian] = useState(false)
@@ -368,7 +368,7 @@ export default function GuardiansPage() {
             <div>
               <h1 className="text-2xl font-light text-white mb-2">Account Recovery Guardians</h1>
               <p className="text-white/60">Manage trusted contacts who can help recover your account if you lose access</p>
-              
+
               {/* Feature Flag Notice */}
               <div className="mt-4 p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
                 <div className="flex items-start">
@@ -579,11 +579,11 @@ export default function GuardiansPage() {
                             </div>
                             <button
                               onClick={() => handleRemoveGuardian(guardian.id)}
-                              disabled={deletingGuardian === guardian.id || 
+                              disabled={deletingGuardian === guardian.id ||
                                        guardians.filter(g => g.status === 'ACTIVE').length <= (guardianConfig?.minGuardians || 2)}
                               className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                              title={guardians.filter(g => g.status === 'ACTIVE').length <= (guardianConfig?.minGuardians || 2) 
-                                     ? "Cannot remove - minimum guardians required" 
+                              title={guardians.filter(g => g.status === 'ACTIVE').length <= (guardianConfig?.minGuardians || 2)
+                                     ? "Cannot remove - minimum guardians required"
                                      : "Remove guardian"}
                             >
                               <TrashIcon className="w-4 h-4" />
@@ -626,9 +626,9 @@ export default function GuardiansPage() {
                               </div>
                               <span className="text-sm text-white/60">{formatDate(attempt.initiatedAt)}</span>
                             </div>
-                            
+
                             <p className="text-white/80 mb-3">{attempt.justification}</p>
-                            
+
                             <div className="space-y-2">
                               <h4 className="text-sm font-medium text-white/80">Guardian Responses:</h4>
                               {attempt.guardianResponses.map((response) => (
@@ -645,7 +645,7 @@ export default function GuardiansPage() {
                                 </div>
                               ))}
                             </div>
-                            
+
                             {attempt.completedAt && (
                               <div className="mt-3 pt-3 border-t border-white/10 text-sm text-white/60">
                                 Completed: {formatDate(attempt.completedAt)}
@@ -673,7 +673,7 @@ export default function GuardiansPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div className="space-y-4">
                             <h3 className="text-lg font-medium text-white">Policy Settings</h3>
-                            
+
                             <div>
                               <label className="block text-sm font-medium text-white/80 mb-2">Required Guardians</label>
                               <div className="text-white/60 text-sm">
@@ -705,15 +705,15 @@ export default function GuardiansPage() {
 
                           <div className="space-y-4">
                             <h3 className="text-lg font-medium text-white">Security Features</h3>
-                            
+
                             <div className="flex items-center justify-between p-3 bg-black/20 rounded-lg border border-white/10">
                               <div>
                                 <div className="text-white font-medium">Emergency Override</div>
                                 <div className="text-white/60 text-sm">Allow emergency recovery bypass</div>
                               </div>
                               <div className={`px-3 py-1 rounded-full text-xs ${
-                                guardianConfig.emergencyOverride 
-                                  ? 'text-green-400 bg-green-500/20' 
+                                guardianConfig.emergencyOverride
+                                  ? 'text-green-400 bg-green-500/20'
                                   : 'text-red-400 bg-red-500/20'
                               }`}>
                                 {guardianConfig.emergencyOverride ? 'Enabled' : 'Disabled'}
@@ -746,7 +746,7 @@ export default function GuardiansPage() {
                             <div>
                               <p className="text-yellow-400 font-medium mb-1">Configuration Notice</p>
                               <p className="text-white/60 text-sm">
-                                Guardian configuration is currently managed by system policies. 
+                                Guardian configuration is currently managed by system policies.
                                 Custom configuration options will be available in the production release.
                                 Contact support for specific requirements or enterprise customization.
                               </p>
@@ -773,7 +773,7 @@ export default function GuardiansPage() {
             capabilities={[
               "Guardian enrollment with email and phone verification",
               "Security challenge validation with encrypted answer storage",
-              "2-of-N approval system with configurable thresholds", 
+              "2-of-N approval system with configurable thresholds",
               "Real-time recovery attempt monitoring and status tracking",
               "Progressive cool-off periods and rate limiting protection"
             ]}

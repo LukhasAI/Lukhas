@@ -1,6 +1,6 @@
 /**
  * ΛiD Authentication System - Main Export
- * 
+ *
  * Phase 1: Core Infrastructure
  * Enterprise-grade authentication for LUKHAS AI
  * Integrates with Trinity Framework (⚛️🧠🛡️)
@@ -122,12 +122,12 @@ export type {
   UserStatus,
   AuthScope,
   Permission,
-  
+
   // User types
   User,
   CreateUserData,
   UpdateUserData,
-  
+
   // JWT types
   JWTHeader,
   JWTPayload,
@@ -136,12 +136,12 @@ export type {
   JWTOptions,
   JWKSResponse,
   RefreshTokenData,
-  
+
   // Rate limiting types
   RateLimitConfig,
   RateLimitWindow,
   RateLimitResult,
-  
+
   // Passkey types
   PasskeyCredential,
   PasskeyRegistrationOptions,
@@ -149,43 +149,43 @@ export type {
   PasskeyRegistrationResult,
   PasskeyAuthenticationResult,
   PasskeyValidationResult,
-  
+
   // Magic link types
   MagicLinkOptions,
   MagicLinkResult,
   MagicLinkValidationResult,
   ThrottleConfig,
   MagicLinkToken,
-  
+
   // Session types
   Session,
   DeviceHandle,
   BackupCode,
-  
+
   // Security event types
   SecurityEventSeverity,
   SecurityEventCategory,
   SecurityEvent,
-  
+
   // OAuth types
   OAuthApplication,
   OAuthAuthorizationCode,
-  
+
   // API types
   ApiResponse,
   PaginatedResponse,
   AuthResponse,
   LoginRequest,
   RegistrationRequest,
-  
+
   // Middleware types
   AuthContext,
   PermissionCheckOptions,
   RateLimitCheckOptions,
-  
+
   // Configuration types
   AuthConfig,
-  
+
   // Utility types
   PartialUpdate,
   DatabaseEntity,
@@ -205,11 +205,11 @@ export { AuthErrorCode, AuthError } from '../types/auth.types';
 export function initializeAuth(config?: Partial<typeof LUKHAS_AUTH_CONFIG>) {
   console.log('🚀 Initializing ΛiD Authentication System (Phase 1)');
   console.log('⚛️🧠🛡️ Trinity Framework Integration Active');
-  
+
   if (config) {
     console.log('📋 Custom configuration applied');
   }
-  
+
   return {
     version: '1.0.0',
     phase: 'Phase 1: Core Infrastructure',
@@ -269,7 +269,7 @@ export function validateAuthConfig(config: any): {
   if (!config?.jwt?.issuer) {
     errors.push('JWT issuer is required');
   }
-  
+
   if (!config?.jwt?.audience) {
     errors.push('JWT audience is required');
   }
@@ -303,20 +303,20 @@ export function validateAuthConfig(config: any): {
 export default {
   // Main initialization
   initialize: initializeAuth,
-  
+
   // Core managers
   jwt: jwtManager,
   passkeys: passkeyManager,
   magicLinks: magicLinkManager,
   security: securityManager,
-  
+
   // Utility functions
   hasScope,
   checkRateLimit,
   getTierDefinition,
   getAuthSystemHealth,
   validateAuthConfig,
-  
+
   // Configuration
   config: LUKHAS_AUTH_CONFIG
 };

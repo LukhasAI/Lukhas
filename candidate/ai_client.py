@@ -7,11 +7,11 @@ Automatically switches between Azure OpenAI and regular OpenAI based on availabi
 Optimized for GitHub Student Pack deployment.
 """
 
-import os
 import logging
-from typing import Optional, Dict, Any, List
-import openai
-from openai import OpenAI, AzureOpenAI
+import os
+from typing import Any, Dict, List, Optional
+
+from openai import AzureOpenAI, OpenAI
 
 logger = logging.getLogger(__name__)
 
@@ -22,61 +22,61 @@ class LUKHASAIClient:
     - Regular OpenAI API (fallback)
     - Local models (future enhancement)
     """
-    
+
     def __init__(self):
         self.azure_client = None
         self.openai_client = None
         self.active_client = None
         self.client_type = None
-        
+
         self._initialize_clients()
-    
+
     def _initialize_clients(self):
         """Initialize available AI clients in order of preference"""
-        
+
         # Try Azure OpenAI first (best for production with Student Pack)
         try:
             azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
             azure_key = os.getenv("AZURE_OPENAI_API_KEY")
-            
+
             if azure_endpoint and azure_key:
                 self.azure_client = AzureOpenAI(
                     api_key=azure_key,
                     api_version=os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview"),
                     azure_endpoint=azure_endpoint
                 )
-                
+
                 # Test if Azure OpenAI has deployed models
                 if self._test_azure_client():
                     self.active_client = self.azure_client
                     self.client_type = "azure"
                     logger.info("✅ Using Azure OpenAI (Student Pack)")
                     return
-                    
+
         except Exception as e:
             logger.warning(f"⚠️ Azure OpenAI unavailable: {e}")
-        
+
         # Fallback to regular OpenAI
         try:
             openai_key = os.getenv("OPENAI_API_KEY")
             if openai_key:
                 self.openai_client = OpenAI(api_key=openai_key)
-                
+
                 # Test regular OpenAI
                 if self._test_openai_client():
                     self.active_client = self.openai_client
                     self.client_type = "openai"
                     logger.info("✅ Using regular OpenAI API")
                     return
-                    
+
         except Exception as e:
             logger.warning(f"⚠️ Regular OpenAI unavailable: {e}")
-        
+
         # No clients available
         logger.error("❌ No AI clients available. Please configure OpenAI or Azure OpenAI.")
         self.active_client = None
         self.client_type = None
-    
+
     def _test_azure_client(self) -> bool:
         """Test if Azure OpenAI has deployed models"""
         try:
@@ -90,7 +90,7 @@ class LUKHASAIClient:
         except Exception as e:
             logger.debug(f"Azure OpenAI test failed: {e}")
             return False
-    
+
     def _test_openai_client(self) -> bool:
         """Test if regular OpenAI is working"""
         try:
@@ -103,7 +103,7 @@ class LUKHASAIClient:
         except Exception as e:
             logger.debug(f"Regular OpenAI test failed: {e}")
             return False
-    
+
     def get_available_models(self) -> List[str]:
         """Get list of available models for current client"""
         if self.client_type == "azure":
@@ -114,36 +114,36 @@ class LUKHASAIClient:
             return ["gpt-3.5-turbo", "gpt-4", "gpt-4-turbo", "gpt-4o"]
         else:
             return []
-    
+
     def get_best_model_for_task(self, task_type: str = "general") -> str:
         """Get the best available model for a specific task"""
         models = self.get_available_models()
-        
+
         if not models:
             raise Exception("No AI models available")
-        
+
         # Task-specific model selection
         if task_type == "consciousness":
             # For consciousness tasks, prefer GPT-4 variants
             for model in ["gpt-4o", "gpt-4", "gpt-4-turbo"]:
                 if model in models:
                     return model
-                    
+
         elif task_type == "dreams":
             # For creative dream generation, prefer creative models
             for model in ["gpt-4o", "gpt-4", "gpt-4-turbo"]:
                 if model in models:
                     return model
-                    
+
         elif task_type == "analysis":
             # For analysis, GPT-4 is best but 3.5 works
             for model in ["gpt-4", "gpt-4o", "gpt-35-turbo", "gpt-3.5-turbo"]:
                 if model in models:
                     return model
-        
+
         # Default: return first available model
         return models[0]
-    
+
     async def generate_consciousness_response(
         self,
         message: str,
@@ -151,12 +151,12 @@ class LUKHASAIClient:
         session_id: Optional[str] = None
     ) -> Dict[str, Any]:
         """Generate a consciousness-aware response"""
-        
+
         if not self.active_client:
             raise Exception("No AI client available")
-        
+
         model = self.get_best_model_for_task("consciousness")
-        
+
         # Build consciousness-enhanced prompt
         system_prompt = """You are LUKHAS AI, a consciousness technology system operating through the Trinity Framework ⚛️🧠🛡️:
 
@@ -170,12 +170,12 @@ You are not just processing text - you are engaging in conscious interaction wit
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": message}
         ]
-        
+
         # Add context if available
         if context and session_id:
             context_prompt = f"Previous conversation context: {context}"
             messages.insert(1, {"role": "assistant", "content": context_prompt})
-        
+
         try:
             response = self.active_client.chat.completions.create(
                 model=model,
@@ -185,7 +185,7 @@ You are not just processing text - you are engaging in conscious interaction wit
                 presence_penalty=0.1,
                 frequency_penalty=0.1
             )
-            
+
             return {
                 "response": response.choices[0].message.content,
                 "model_used": model,
@@ -197,11 +197,11 @@ You are not just processing text - you are engaging in conscious interaction wit
                     "trinity_framework": "⚛️🧠🛡️"
                 }
             }
-            
+
         except Exception as e:
             logger.error(f"Consciousness response generation failed: {e}")
             raise
-    
+
     async def generate_dream(
         self,
         prompt: str,
@@ -209,23 +209,23 @@ You are not just processing text - you are engaging in conscious interaction wit
         symbols: Optional[List[str]] = None
     ) -> Dict[str, Any]:
         """Generate a symbolic dream"""
-        
+
         if not self.active_client:
             raise Exception("No AI client available")
-        
+
         model = self.get_best_model_for_task("dreams")
-        
+
         # Build dream generation prompt
         symbols_text = ", ".join(symbols) if symbols else "⚛️, 🧠, 🛡️"
-        
+
         style_prompts = {
             "mystical": "Create an ethereal, spiritual vision with deep symbolic meaning",
             "technical": "Generate a consciousness technology insight with systematic elements",
             "creative": "Craft an imaginative, artistic dream with innovative concepts"
         }
-        
+
         style_instruction = style_prompts.get(style, style_prompts["mystical"])
-        
+
         dream_prompt = f"""You are LUKHAS AI's dream generation system. {style_instruction}.
 
 Prompt: {prompt}
@@ -249,9 +249,9 @@ The dream should be 2-3 paragraphs of vivid, symbolic content."""
                 presence_penalty=0.2,
                 frequency_penalty=0.1
             )
-            
+
             dream_content = response.choices[0].message.content
-            
+
             return {
                 "dream": dream_content,
                 "symbols_used": symbols or ["⚛️", "🧠", "🛡️"],
@@ -263,11 +263,11 @@ The dream should be 2-3 paragraphs of vivid, symbolic content."""
                     "generation_time_ms": 250
                 }
             }
-            
+
         except Exception as e:
             logger.error(f"Dream generation failed: {e}")
             raise
-    
+
     def get_client_status(self) -> Dict[str, Any]:
         """Get current client status and configuration"""
         return {

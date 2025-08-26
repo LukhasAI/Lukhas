@@ -6,15 +6,15 @@ Emits MATRIZ-compliant nodes for monitoring events
 import json
 import time
 import uuid
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class MonitoringMatrizAdapter:
     """Adapter to emit MATRIZ nodes for monitoring events"""
-    
+
     SCHEMA_REF = "lukhas://schemas/matriz_node_v1.json"
-    
+
     @staticmethod
     def create_node(
         node_type: str,
@@ -23,7 +23,7 @@ class MonitoringMatrizAdapter:
         provenance_extra: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Create a MATRIZ-compliant node for monitoring events"""
-        
+
         node = {
             "version": 1,
             "id": f"LT-MON-{uuid.uuid4().hex[:8]}",
@@ -47,12 +47,12 @@ class MonitoringMatrizAdapter:
                 **(provenance_extra or {})
             }
         }
-        
+
         if labels:
             node["labels"] = labels
-            
+
         return node
-    
+
     @staticmethod
     def emit_drift_detection(
         drift_score: float,
@@ -60,9 +60,9 @@ class MonitoringMatrizAdapter:
         threshold: float = 0.15
     ) -> Dict[str, Any]:
         """Emit a drift detection node"""
-        
+
         urgency = min(1.0, drift_score / threshold) if drift_score > threshold else 0.0
-        
+
         return MonitoringMatrizAdapter.create_node(
             node_type="AWARENESS",
             state={
@@ -79,7 +79,7 @@ class MonitoringMatrizAdapter:
                 "alert:drift" if drift_score > threshold else "status:normal"
             ]
         )
-    
+
     @staticmethod
     def emit_performance_metric(
         metric_name: str,
@@ -88,19 +88,19 @@ class MonitoringMatrizAdapter:
         target: Optional[float] = None
     ) -> Dict[str, Any]:
         """Emit a performance metric node"""
-        
+
         labels = [
             f"metric:{metric_name}",
             f"unit:{unit}"
         ]
-        
+
         if target:
             labels.append(f"target:{target}{unit}")
             performance_ratio = value / target if target > 0 else 1.0
             urgency = max(0, min(1.0, performance_ratio - 1.0))
         else:
             urgency = 0.0
-            
+
         return MonitoringMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state={
@@ -112,7 +112,7 @@ class MonitoringMatrizAdapter:
             },
             labels=labels
         )
-    
+
     @staticmethod
     def emit_health_check(
         component: str,
@@ -120,14 +120,14 @@ class MonitoringMatrizAdapter:
         details: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Emit a health check node"""
-        
+
         status_urgency = {
             "healthy": 0.0,
             "degraded": 0.5,
             "unhealthy": 0.9,
             "critical": 1.0
         }
-        
+
         return MonitoringMatrizAdapter.create_node(
             node_type="AWARENESS",
             state={
@@ -143,38 +143,38 @@ class MonitoringMatrizAdapter:
                 "monitoring:health"
             ]
         )
-    
+
     @staticmethod
     def validate_node(node: Dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
-        
+
         for field in required_fields:
             if field not in node:
                 return False
-                
+
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
         for field in required_prov:
             if field not in node.get("provenance", {}):
                 return False
-                
+
         return True
-    
+
     @staticmethod
     def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/monitoring")
-            
+
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
-        
+
         with open(filepath, 'w') as f:
             json.dump(node, f, indent=2)
-            
+
         return filepath
 
 
@@ -183,7 +183,7 @@ def wrap_drift_detection(original_func):
     """Decorator to add MATRIZ emission to drift detection"""
     def wrapper(*args, **kwargs):
         result = original_func(*args, **kwargs)
-        
+
         # Extract drift score from result (adapt based on actual function)
         if isinstance(result, dict) and 'drift_score' in result:
             node = MonitoringMatrizAdapter.emit_drift_detection(
@@ -191,7 +191,7 @@ def wrap_drift_detection(original_func):
                 component=result.get('component', 'unknown')
             )
             MonitoringMatrizAdapter.save_node(node)
-            
+
         return result
     return wrapper
 
@@ -200,7 +200,7 @@ def wrap_metric_collection(original_func):
     """Decorator to add MATRIZ emission to metric collection"""
     def wrapper(*args, **kwargs):
         result = original_func(*args, **kwargs)
-        
+
         # Extract metrics from result (adapt based on actual function)
         if isinstance(result, dict):
             for metric_name, value in result.items():
@@ -210,6 +210,6 @@ def wrap_metric_collection(original_func):
                         value=value
                     )
                     MonitoringMatrizAdapter.save_node(node)
-                    
+
         return result
     return wrapper

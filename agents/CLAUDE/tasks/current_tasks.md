@@ -5,7 +5,7 @@
 - [ ] Focus on tools/ directory first
 - [ ] Then bio/ and quantum/ modules
 
-## Priority 2: Module Integration  
+## Priority 2: Module Integration
 - [ ] Create central module registry
 - [ ] Connect 200+ isolated modules
 - [ ] Standardize imports

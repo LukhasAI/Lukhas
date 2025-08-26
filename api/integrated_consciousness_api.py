@@ -14,10 +14,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from lukhas.consciousness.interfaces.natural_language_interface import (
-    ConversationManager,
-    NaturalLanguageConsciousnessInterface,
-)
 from core.common import get_logger
 from dashboard.interpretability_dashboard import (
     UnifiedInterpretabilityDashboard,
@@ -26,6 +22,10 @@ from feedback.user_feedback_system import (
     ComplianceRegion,
     FeedbackType,
     UserFeedbackSystem,
+)
+from lukhas.consciousness.interfaces.natural_language_interface import (
+    ConversationManager,
+    NaturalLanguageConsciousnessInterface,
 )
 
 logger = get_logger(__name__)

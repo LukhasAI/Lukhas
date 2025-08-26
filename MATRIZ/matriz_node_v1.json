@@ -92,7 +92,7 @@
       "type": "string",
       "enum": [
         "lukhas://schemas/matriz_node_v1.json",
-        "lukhas://schemas/matada_node_v1.json"  
+        "lukhas://schemas/matada_node_v1.json"
       ]
     }
   },

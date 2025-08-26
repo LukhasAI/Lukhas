@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { 
-  ChevronLeftIcon, 
-  KeyIcon, 
+import {
+  ChevronLeftIcon,
+  KeyIcon,
   CodeBracketIcon,
   ShieldCheckIcon,
   DocumentTextIcon,
@@ -218,13 +218,13 @@ export default function ApiDocsPage() {
       />
       <div className="min-h-screen bg-bg-primary">
         {/* Skip to main content link for accessibility */}
-        <a 
-          href="#main-content" 
+        <a
+          href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-trinity-consciousness text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-white z-50"
         >
           Skip to main content
         </a>
-        
+
         {/* Header */}
         <header className="border-b border-white/10 px-6 py-4" role="banner">
           <div className="flex items-center justify-between max-w-7xl mx-auto">
@@ -246,7 +246,7 @@ export default function ApiDocsPage() {
         {/* Main Content */}
         <main id="main-content" className="max-w-7xl mx-auto px-6 py-8" role="main">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            
+
             {/* Sidebar Navigation */}
             <nav className="lg:col-span-1" role="navigation" aria-label="API documentation navigation">
               <div className="sticky top-8">
@@ -303,7 +303,7 @@ export default function ApiDocsPage() {
             {/* Main Content Area */}
             <div className="lg:col-span-3">
               <div className="space-y-8">
-                
+
                 {/* Page Title */}
                 <div>
                   <h1 className="text-3xl font-light text-white mb-4">
@@ -320,7 +320,7 @@ export default function ApiDocsPage() {
                 {/* Endpoints List */}
                 <div className="space-y-4">
                   {apiCategories[activeCategory].endpoints.map((endpoint, index) => (
-                    <div 
+                    <div
                       key={`${endpoint.method}-${endpoint.path}`}
                       className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden"
                     >
@@ -348,10 +348,10 @@ export default function ApiDocsPage() {
                               {endpoint.tier}
                             </span>
                           </div>
-                          <ChevronLeftIcon 
+                          <ChevronLeftIcon
                             className={`w-5 h-5 text-white/60 transition-transform ${
                               selectedEndpoint === `${activeCategory}-${index}` ? 'rotate-90' : ''
-                            }`} 
+                            }`}
                             aria-hidden="true"
                           />
                         </div>

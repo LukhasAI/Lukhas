@@ -21,7 +21,7 @@ lukhas-ai-web-studio/
 │   │   └── state/
 │   │       └── appStateMachine.ts   # XState user journey
 │   ├── hooks/
-│   │   └── useAppStateMachine.ts    # State machine React hook  
+│   │   └── useAppStateMachine.ts    # State machine React hook
 │   └── styles/
 │       └── globals.css              # Tailwind + design system
 ├── public/
@@ -30,7 +30,7 @@ lukhas-ai-web-studio/
 ├── package.json                    # Dependencies & scripts
 ├── next.config.js                  # Next.js configuration
 ├── tailwind.config.js              # Design system tokens
-├── tsconfig.json                   # TypeScript configuration  
+├── tsconfig.json                   # TypeScript configuration
 └── index.html                      # Legacy implementation (reference)
 ```
 
@@ -140,6 +140,6 @@ BOOT → QUOTE_IN → CONSENT_PENDING → MARKETING_MODE → LOGIN_FLOW → ROUT
 
 ---
 
-**Status**: Single workspace established ✅  
-**Next Action**: Run `npm install` to resolve dependencies and continue development  
+**Status**: Single workspace established ✅
+**Next Action**: Run `npm install` to resolve dependencies and continue development
 **Working Directory**: `/Users/agi_dev/ztudio-workspace/lukhas-ai-web-studio/`

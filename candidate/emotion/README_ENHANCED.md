@@ -166,27 +166,27 @@ Where feelings meet remembrance with scientific precision:
 class EnhancedEmotionalMemory:
     """
     Sophisticated emotional memory using Plutchik's 8 basic emotions.
-    
+
     Based on:
     - Plutchik's Wheel of Emotions (1980)
     - VAD Model (Valence-Arousal-Dominance)
     - Affective Computing Theory (Picard, 1997)
     - Memory-Emotion Integration Research
     """
-    
+
     # Plutchik's 8 basic emotions
     EMOTION_DIMENSIONS = [
-        "joy", "sadness", "anger", "fear", 
+        "joy", "sadness", "anger", "fear",
         "disgust", "surprise", "trust", "anticipation"
     ]
-    
+
     def __init__(self, personality_config: Dict[str, Any]):
         self.current_emotion = EmotionVector()
         self.personality = self._create_personality_profile(personality_config)
         self.emotional_memories = []
         self.drift_tracker = SymbolicDriftTracker()
-        
-    def process_experience(self, 
+
+    def process_experience(self,
                          experience: Dict[str, Any],
                          explicit_emotions: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
         """
@@ -197,18 +197,18 @@ class EnhancedEmotionalMemory:
             EmotionVector(explicit_emotions) if explicit_emotions
             else self._infer_emotion_from_experience(experience)
         )
-        
+
         # Update current emotional state using personality dynamics
         previous_state = self.current_emotion.to_dict()
         self._update_emotional_state(triggered_emotion, experience.get('intensity', 0.5))
-        
+
         # Calculate emotional delta for drift tracking
         self.affect_delta(
             trigger_event=experience.get('type', 'unknown'),
             previous_emotion=EmotionVector.from_dict(previous_state),
             current_emotion=self.current_emotion
         )
-        
+
         # Store emotionally-contextualized memory
         memory_entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -218,7 +218,7 @@ class EnhancedEmotionalMemory:
             "state_after": self.current_emotion.to_dict(),
             "emotional_significance": self._calculate_significance(triggered_emotion)
         }
-        
+
         self.emotional_memories.append(memory_entry)
         return memory_entry
 ```
@@ -241,7 +241,7 @@ def _update_derived_metrics(self) -> None:
         self.values["disgust"] * 0.6
     )
     self.valence = np.clip((positive_valence - negative_valence + 1.0) / 2.0, 0.0, 1.0)
-    
+
     # Arousal calculation (activation level)
     high_arousal = (
         self.values["anger"] * 0.8 +
@@ -254,7 +254,7 @@ def _update_derived_metrics(self) -> None:
         self.values["trust"] * 0.2
     )
     self.arousal = np.clip((high_arousal - low_arousal + 1.0) / 2.0, 0.0, 1.0)
-    
+
     # Dominance calculation (control vs submission)
     high_dominance = (
         self.values["anger"] * 0.7 +
@@ -277,20 +277,20 @@ Advanced emotional pattern recognition and loop prevention:
 class EmotionalEchoDetector:
     """
     ΛECHO - Emotional-Symbolic Loop Detection System.
-    
+
     Identifies dangerous emotional patterns that could lead to:
     - Emotional cascades and spirals
     - Trauma loops and reinforcement cycles
     - Identity crisis patterns
     - Void-seeking behaviors
-    
+
     Based on:
     - Jungian archetypal analysis
     - Pattern recognition algorithms
     - Recurrence detection theory
     - Emotional stability research
     """
-    
+
     # High-risk archetypal patterns
     RISK_ARCHETYPES = {
         "SPIRAL_DOWN": {
@@ -312,11 +312,11 @@ class EmotionalEchoDetector:
             'description': 'Existential void-seeking pattern with system collapse risk'
         }
     }
-    
+
     def analyze_emotional_patterns(self, window_hours: int = 24) -> LoopReport:
         """
         Analyze emotional sequences for dangerous loops.
-        
+
         Returns comprehensive report with:
         - ELI (Emotional Loop Index): 0.0-1.0 loop strength
         - RIS (Recurrence Intensity Score): 0.0-1.0 escalation risk
@@ -326,7 +326,7 @@ class EmotionalEchoDetector:
         sequences = self._extract_recent_sequences(window_hours)
         motifs = self.detect_recurring_motifs(sequences)
         eli, ris = self.compute_loop_scores(motifs)
-        
+
         # Generate archetype alerts
         archetype_alerts = []
         for motif in motifs:
@@ -338,7 +338,7 @@ class EmotionalEchoDetector:
                     'risk_level': self.RISK_ARCHETYPES[archetype.value]['risk_level'],
                     'recommendations': self._get_archetype_interventions(archetype)
                 })
-        
+
         return LoopReport(
             eli_score=eli,
             ris_score=ris,
@@ -356,14 +356,14 @@ Understanding emotions across multiple channels:
 class MultiModalAffectDetector:
     """
     Comprehensive emotion detection across multiple modalities.
-    
+
     Processes:
     - Textual content for emotional language
     - Voice prosody for affective cues
     - Contextual patterns for situational emotion
     - Symbolic elements for deeper meaning
     """
-    
+
     async def analyze_comprehensive_affect(self,
                                          text: Optional[str] = None,
                                          voice_features: Optional[Dict] = None,
@@ -373,30 +373,30 @@ class MultiModalAffectDetector:
         Multi-modal emotion detection with confidence scoring.
         """
         detections = {}
-        
+
         # Text-based emotion detection
         if text:
             text_emotions = await self._detect_textual_emotions(text)
             detections['textual'] = text_emotions
-        
+
         # Voice prosody analysis
         if voice_features:
             prosody_emotions = await self._analyze_voice_prosody(voice_features)
             detections['prosodic'] = prosody_emotions
-        
+
         # Contextual emotion inference
         if context:
             contextual_emotions = await self._infer_contextual_emotions(context)
             detections['contextual'] = contextual_emotions
-        
+
         # Symbolic emotion analysis
         if symbols:
             symbolic_emotions = await self._analyze_symbolic_content(symbols)
             detections['symbolic'] = symbolic_emotions
-        
+
         # Cross-modal fusion
         integrated_emotions = self._fuse_emotional_modalities(detections)
-        
+
         return AffectAnalysis(
             primary_emotion=integrated_emotions.get_primary(),
             emotional_blend=integrated_emotions.get_blend(),
@@ -414,19 +414,19 @@ Deep emotional understanding and response:
 class EmpathyEngine:
     """
     Advanced empathy system for emotional understanding and response.
-    
+
     Implements:
     - Emotional mirroring with conscious awareness
     - Perspective-taking algorithms
     - Compassionate response generation
     - Emotional validation protocols
     """
-    
+
     def __init__(self):
         self.mirror_neurons = EmotionalMirrorSystem()
         self.perspective_taker = PerspectiveTakingEngine()
         self.compassion_generator = CompassionResponseSystem()
-        
+
     async def empathetic_response(self,
                                 other_emotional_state: EmotionVector,
                                 context: EmpathyContext,
@@ -439,14 +439,14 @@ class EmpathyEngine:
             other_emotion=other_emotional_state,
             mirroring_intensity=relationship_depth * 0.7  # Protect against overwhelming
         )
-        
+
         # Take their perspective
         perspective = await self.perspective_taker.take_perspective(
             other_state=other_emotional_state,
             other_context=context.other_situation,
             my_experience=context.my_relevant_experience
         )
-        
+
         # Generate compassionate response
         compassionate_action = await self.compassion_generator.generate_response(
             understood_emotion=mirrored_emotion,
@@ -454,18 +454,18 @@ class EmpathyEngine:
             relationship_context=context.relationship_type,
             appropriate_boundaries=context.boundaries
         )
-        
+
         return EmpathyResponse(
             emotional_resonance=mirrored_emotion,
             perspective_understanding=perspective,
             compassionate_action=compassionate_action,
             validation_message=self._create_validation(other_emotional_state, perspective)
         )
-    
+
     def _create_validation(self, emotion: EmotionVector, perspective: Perspective) -> str:
         """Create validating response message."""
         primary = emotion.get_primary_emotion()
-        
+
         validation_templates = {
             "sadness": "I can sense the depth of your sadness. That kind of pain is real and meaningful.",
             "fear": "The fear you're experiencing makes complete sense given the situation.",
@@ -473,13 +473,13 @@ class EmpathyEngine:
             "joy": "I can feel the brightness of your joy. It's wonderful to witness your happiness.",
             "anxiety": "That anxiety is your mind trying to protect you, even if it feels overwhelming."
         }
-        
+
         base_validation = validation_templates.get(primary, "I can sense what you're feeling.")
-        
+
         # Add perspective-specific understanding
         if perspective.key_concerns:
             base_validation += f" I understand this is particularly difficult because {perspective.key_concerns[0]}."
-        
+
         return base_validation
 ```
 
@@ -492,18 +492,18 @@ class EmotionalStateManager:
     """
     Sophisticated emotional state management with personality integration.
     """
-    
+
     def __init__(self, personality_profile: PersonalityProfile):
         self.current_state = EmotionVector()
         self.personality = personality_profile
         self.state_history = deque(maxlen=168)  # One week of hourly states
-        
+
         # Personality-based emotional dynamics
         self.baseline_emotion = EmotionVector(personality_profile.baseline_emotions)
         self.volatility = personality_profile.emotional_volatility
         self.resilience = personality_profile.emotional_resilience
         self.expressiveness = personality_profile.emotional_expressiveness
-        
+
     def update_emotional_state(self,
                              trigger_emotion: EmotionVector,
                              event_intensity: float,
@@ -512,27 +512,27 @@ class EmotionalStateManager:
         Update emotional state with personality-driven dynamics.
         """
         previous_state = self.current_state.copy()
-        
+
         # Calculate blend weight based on personality and event intensity
         blend_weight = np.clip(
             event_intensity * self.volatility * context.receptivity_modifier,
             0.0, 1.0
         )
-        
+
         # Blend new emotion with current state
         self.current_state = self.current_state.blend(trigger_emotion, blend_weight)
-        
+
         # Apply baseline pull based on resilience
         baseline_pull = 0.05 * self.resilience
         self.current_state = self.current_state.blend(self.baseline_emotion, baseline_pull)
-        
+
         # Calculate emotional velocity for cascade detection
         velocity = self._calculate_emotional_velocity()
-        
+
         # Check for concerning patterns
         if velocity > 0.8:
             self._emit_volatility_warning(velocity, previous_state, self.current_state)
-        
+
         # Store state in history
         self.state_history.append({
             'timestamp': datetime.now(timezone.utc).isoformat(),
@@ -541,7 +541,7 @@ class EmotionalStateManager:
             'velocity': velocity,
             'context': context.to_dict()
         })
-        
+
         return StateUpdate(
             previous_state=previous_state,
             new_state=self.current_state,
@@ -600,20 +600,20 @@ The Emotion module achieves remarkable emotional sophistication:
 class EmotionalCascadePrevention:
     """
     Comprehensive system for preventing emotional cascades and maintaining stability.
-    
+
     Features:
     - Real-time emotional velocity monitoring
     - Circuit breakers for overwhelming states
     - Graduated intervention protocols
     - Recovery facilitation
     """
-    
+
     def __init__(self):
         self.velocity_monitor = EmotionalVelocityMonitor()
         self.circuit_breakers = EmotionalCircuitBreakers()
         self.recovery_protocols = RecoveryProtocols()
-        
-    def monitor_emotional_stability(self, 
+
+    def monitor_emotional_stability(self,
                                   current_state: EmotionVector,
                                   state_history: List[Dict]) -> StabilityAssessment:
         """
@@ -621,10 +621,10 @@ class EmotionalCascadePrevention:
         """
         # Calculate emotional velocity
         velocity = self.velocity_monitor.calculate_velocity(state_history[-5:])
-        
+
         # Assess cascade risk
         cascade_risk = self._assess_cascade_risk(current_state, velocity, state_history)
-        
+
         # Check for intervention triggers
         if cascade_risk > 0.7:
             intervention = self._select_intervention(cascade_risk, current_state)
@@ -634,30 +634,30 @@ class EmotionalCascadePrevention:
                 recommended_intervention=intervention,
                 risk_factors=self._identify_risk_factors(current_state, state_history)
             )
-        
+
         return StabilityAssessment(
             stability_score=1.0 - cascade_risk,
             intervention_required=False,
             risk_factors=[]
         )
-    
+
     def apply_emergency_stabilization(self, crisis_state: EmotionVector) -> StabilizationResult:
         """
         Emergency emotional stabilization protocol.
         """
         # Immediate circuit breaker activation
         self.circuit_breakers.activate_emotional_circuit_breaker()
-        
+
         # Apply grounding techniques
         grounded_state = self.recovery_protocols.apply_grounding(crisis_state)
-        
+
         # Gradual return to baseline
         stabilized_state = self.recovery_protocols.gradual_stabilization(
             grounded_state,
             target_baseline=self._get_safe_baseline(),
             stabilization_rate=0.1  # Gentle recovery
         )
-        
+
         return StabilizationResult(
             initial_state=crisis_state,
             stabilized_state=stabilized_state,
@@ -674,12 +674,12 @@ class TraumaAwareProcessor:
     """
     Specialized processing for trauma-sensitive emotional handling.
     """
-    
+
     def __init__(self):
         self.trauma_indicators = self._load_trauma_indicators()
         self.protective_buffers = ProtectiveBufferSystem()
         self.gentle_processing = GentleProcessingProtocols()
-        
+
     def process_with_trauma_awareness(self,
                                     emotional_input: EmotionVector,
                                     context: ProcessingContext) -> TraumaAwareResult:
@@ -688,14 +688,14 @@ class TraumaAwareProcessor:
         """
         # Screen for trauma indicators
         trauma_risk = self._assess_trauma_risk(emotional_input, context)
-        
+
         if trauma_risk > 0.5:
             # Apply protective buffering
             buffered_input = self.protective_buffers.apply_gentle_buffer(
                 emotional_input,
                 buffer_strength=trauma_risk
             )
-            
+
             # Use gentle processing protocols
             processed_emotion = self.gentle_processing.process_gently(
                 buffered_input,
@@ -703,14 +703,14 @@ class TraumaAwareProcessor:
                 validation_mode="high",
                 safety_priority="maximum"
             )
-            
+
             return TraumaAwareResult(
                 processed_emotion=processed_emotion,
                 trauma_risk_detected=trauma_risk,
                 protective_measures_applied=True,
                 support_recommendations=self._generate_support_recommendations(trauma_risk)
             )
-        
+
         # Standard processing for non-trauma contexts
         return TraumaAwareResult(
             processed_emotion=emotional_input,
@@ -727,14 +727,14 @@ class TraumaAwareProcessor:
 class EmotionalAlchemist:
     """
     Transform difficult emotions into growth and wisdom.
-    
+
     Based on:
     - Cognitive reframing techniques
     - Positive psychology research
     - Emotional transformation theory
     - Wisdom development models
     """
-    
+
     def transmute_emotion(self,
                         source_emotion: EmotionVector,
                         transformation_goal: str,
@@ -759,19 +759,19 @@ class EmotionalAlchemist:
                 'transformation_time': "extended"
             }
         }
-        
+
         if transformation_goal not in transformation_pathways:
             return AlchemyResult(success=False, reason="Unknown transformation pathway")
-        
+
         pathway = transformation_pathways[transformation_goal]
-        
+
         # Apply transformation process
         transformed_emotion = pathway['process'](
             source_emotion,
             catalyst=catalyst,
             intensity_preservation=0.7  # Preserve emotional energy
         )
-        
+
         return AlchemyResult(
             success=True,
             source_emotion=source_emotion,
@@ -789,7 +789,7 @@ class CollectiveEmotionalIntelligence:
     """
     Sense and respond to group emotional dynamics.
     """
-    
+
     def sense_collective_mood(self,
                             participants: List[EmotionalProfile],
                             interaction_context: GroupContext) -> CollectiveMood:
@@ -798,27 +798,27 @@ class CollectiveEmotionalIntelligence:
         """
         # Individual emotion analysis
         individual_states = [p.current_emotion for p in participants]
-        
+
         # Group emotional contagion modeling
         contagion_effects = self._model_emotional_contagion(
             individual_states,
             interaction_context.intimacy_level,
             interaction_context.interaction_duration
         )
-        
+
         # Collective mood synthesis
         collective_emotion = self._synthesize_collective_emotion(
             individual_states,
             contagion_effects,
             interaction_context.group_dynamics
         )
-        
+
         # Identify dominant emotional currents
         emotional_currents = self._identify_emotional_currents(
             individual_states,
             collective_emotion
         )
-        
+
         return CollectiveMood(
             collective_emotion=collective_emotion,
             individual_contributions=individual_states,
@@ -838,7 +838,7 @@ class EmotionalHealthAnalytics:
     """
     Comprehensive emotional health monitoring and analytics.
     """
-    
+
     def generate_emotional_health_report(self,
                                       timeframe: timedelta = timedelta(days=7)) -> HealthReport:
         """
@@ -846,21 +846,21 @@ class EmotionalHealthAnalytics:
         """
         # Collect emotional data
         emotional_data = self._collect_emotional_data(timeframe)
-        
+
         # Analyze emotional patterns
         patterns = self._analyze_emotional_patterns(emotional_data)
-        
+
         # Assess emotional stability
         stability = self._assess_emotional_stability(emotional_data)
-        
+
         # Identify growth areas
         growth_opportunities = self._identify_growth_areas(patterns, stability)
-        
+
         # Generate recommendations
         recommendations = self._generate_health_recommendations(
             patterns, stability, growth_opportunities
         )
-        
+
         return HealthReport(
             timeframe=timeframe,
             emotional_range_utilized=patterns.range_percentage,

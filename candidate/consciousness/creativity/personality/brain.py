@@ -20,18 +20,18 @@ class LUKHASBrain:
 
         # Initialize components
         self.emotional_oscillator = EmotionalOscillator()
-        self.quantum_attention = QIAttention()
+        self.qi_attention = QIAttention()
         self.ethics_engine = EthicsEngine()
 
         # Enhanced memory manager with integrations
         self.memory_manager = EnhancedMemoryManager(
             emotional_oscillator=self.emotional_oscillator,
-            quantum_attention=self.quantum_attention,
+            qi_attention=self.qi_attention,
         )
 
         # Decision engine with access to memory
         self.decision_engine = DecisionEngine(
-            quantum_attention=self.quantum_attention,
+            qi_attention=self.qi_attention,
             ethics_engine=self.ethics_engine,
             memory_manager=self.memory_manager,
         )

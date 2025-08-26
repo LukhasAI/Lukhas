@@ -20,20 +20,18 @@ Namespace Schema:
 - User namespaces: user.{user_id}.lukhas.ai
 """
 
-import hashlib
-import json
 import secrets
 import time
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Set, Tuple
+from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class NamespaceType(Enum):
     """Namespace type classification"""
     ROOT = "root"                    # Root system namespaces
     ENTERPRISE = "enterprise"        # Enterprise tenant namespaces
-    TENANT = "tenant"                # Individual tenant namespaces  
+    TENANT = "tenant"                # Individual tenant namespaces
     SERVICE = "service"              # Service-specific namespaces
     USER = "user"                    # User-specific namespaces
     DEVELOPMENT = "development"      # Development/testing namespaces
@@ -42,7 +40,7 @@ class NamespaceType(Enum):
 
 class NamespacePolicy:
     """Namespace security and access policies"""
-    
+
     def __init__(self, policy_data: Dict[str, Any]):
         self.namespace_id = policy_data.get('namespace_id', '')
         self.access_control = policy_data.get('access_control', 'strict')
@@ -56,7 +54,7 @@ class NamespacePolicy:
         self.rate_limits = policy_data.get('rate_limits', {})
         self.created_at = policy_data.get('created_at', datetime.utcnow().isoformat())
         self.updated_at = policy_data.get('updated_at', datetime.utcnow().isoformat())
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert policy to dictionary"""
         return {
@@ -77,7 +75,7 @@ class NamespacePolicy:
 
 class IdentityNamespace:
     """Identity namespace with isolation and security properties"""
-    
+
     def __init__(self, namespace_data: Dict[str, Any]):
         self.namespace_id = namespace_data.get('namespace_id', '')
         self.parent_namespace = namespace_data.get('parent_namespace', '')
@@ -90,16 +88,16 @@ class IdentityNamespace:
         self.created_at = namespace_data.get('created_at', datetime.utcnow().isoformat())
         self.updated_at = namespace_data.get('updated_at', datetime.utcnow().isoformat())
         self.metadata = namespace_data.get('metadata', {})
-        
+
         # Security properties
         self.isolation_level = namespace_data.get('isolation_level', 'strict')
         self.encryption_key_id = namespace_data.get('encryption_key_id', '')
         self.access_token_ttl = namespace_data.get('access_token_ttl', 3600)
-        
+
         # Performance properties
         self.cache_ttl = namespace_data.get('cache_ttl', 300)
         self.rate_limit_per_minute = namespace_data.get('rate_limit_per_minute', 1000)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert namespace to dictionary"""
         return {
@@ -120,7 +118,7 @@ class IdentityNamespace:
             'cache_ttl': self.cache_ttl,
             'rate_limit_per_minute': self.rate_limit_per_minute
         }
-    
+
     def is_child_of(self, parent_namespace_id: str) -> bool:
         """Check if this namespace is a child of the given parent"""
         current_parent = self.parent_namespace
@@ -130,7 +128,7 @@ class IdentityNamespace:
             # In a real implementation, would traverse up the hierarchy
             break
         return False
-    
+
     def get_full_path(self) -> str:
         """Get the full namespace path"""
         if self.parent_namespace:
@@ -140,28 +138,28 @@ class IdentityNamespace:
 
 class NamespaceManager:
     """⚛️🧠🛡️ Trinity-compliant namespace manager for identity isolation"""
-    
+
     def __init__(self, config: Optional[Dict] = None):
         self.config = config or {}
-        
+
         # Storage (in production, would use database)
         self.namespaces: Dict[str, IdentityNamespace] = {}
         self.policies: Dict[str, NamespacePolicy] = {}
         self.cross_namespace_mappings: Dict[str, Dict[str, str]] = {}
-        
+
         # Performance optimization
         self.resolution_cache = {}
         self.policy_cache = {}
         self.mapping_cache = {}
-        
+
         # Trinity Framework integration
         self.guardian_validator = None  # 🛡️ Guardian
         self.consciousness_tracker = None  # 🧠 Consciousness
         self.identity_verifier = None  # ⚛️ Identity
-        
+
         # Initialize default namespaces
         self._initialize_default_namespaces()
-    
+
     def _initialize_default_namespaces(self):
         """Initialize default system namespaces"""
         default_namespaces = [
@@ -191,11 +189,11 @@ class NamespaceManager:
                 'rate_limit_per_minute': 5000
             }
         ]
-        
+
         for ns_data in default_namespaces:
             namespace = IdentityNamespace(ns_data)
             self.namespaces[namespace.namespace_id] = namespace
-            
+
             # Create default policy
             policy_data = {
                 'namespace_id': namespace.namespace_id,
@@ -208,42 +206,42 @@ class NamespaceManager:
                 },
                 'audit_level': 'full' if namespace.namespace_type == NamespaceType.ROOT else 'standard'
             }
-            
+
             policy = NamespacePolicy(policy_data)
             self.policies[namespace.namespace_id] = policy
-    
+
     def resolve_namespace(
-        self, 
-        domain_or_identifier: str, 
+        self,
+        domain_or_identifier: str,
         context: Optional[Dict[str, Any]] = None
     ) -> Optional[IdentityNamespace]:
         """⚛️ Resolve namespace from domain or identifier"""
         try:
             start_time = time.time()
-            
+
             # Check cache first
             cache_key = f"resolve_{domain_or_identifier}"
             if cache_key in self.resolution_cache:
                 cached_result = self.resolution_cache[cache_key]
                 if time.time() - cached_result['timestamp'] < 300:  # 5-minute cache
                     return cached_result['namespace']
-            
+
             # Normalize the input
             normalized_id = self._normalize_namespace_identifier(domain_or_identifier)
-            
+
             # Direct lookup
             if normalized_id in self.namespaces:
                 namespace = self.namespaces[normalized_id]
             else:
                 # Try pattern matching
                 namespace = self._resolve_by_pattern(normalized_id, context)
-            
+
             # 🛡️ Guardian validation
             if namespace and not self._constitutional_validation(
                 namespace.namespace_id, 'namespace_resolution', context
             ):
                 return None
-            
+
             # Cache result
             processing_time = (time.time() - start_time) * 1000
             if processing_time < 5:  # Only cache fast resolutions
@@ -251,7 +249,7 @@ class NamespaceManager:
                     'namespace': namespace,
                     'timestamp': time.time()
                 }
-            
+
             # 🧠 Consciousness tracking
             if self.consciousness_tracker and namespace:
                 self.consciousness_tracker.log_event('namespace_resolved', {
@@ -259,13 +257,13 @@ class NamespaceManager:
                     'resolution_time_ms': processing_time,
                     'cache_hit': False
                 })
-            
+
             return namespace
-            
+
         except Exception as e:
             print(f"Namespace resolution failed for '{domain_or_identifier}': {e}")
             return None
-    
+
     def create_namespace(
         self,
         namespace_id: str,
@@ -278,28 +276,28 @@ class NamespaceManager:
         """🏠 Create new identity namespace"""
         try:
             start_time = time.time()
-            
+
             # Validate namespace ID format
             if not self._validate_namespace_id(namespace_id):
                 return {
                     'success': False,
                     'error': 'Invalid namespace ID format'
                 }
-            
+
             # Check if namespace already exists
             if namespace_id in self.namespaces:
                 return {
                     'success': False,
                     'error': 'Namespace already exists'
                 }
-            
+
             # Validate parent namespace if specified
             if parent_namespace and parent_namespace not in self.namespaces:
                 return {
                     'success': False,
                     'error': 'Parent namespace does not exist'
                 }
-            
+
             # 🛡️ Guardian validation
             if not self._constitutional_validation(namespace_id, 'namespace_creation', {
                 'owner_id': owner_id,
@@ -310,10 +308,10 @@ class NamespaceManager:
                     'success': False,
                     'error': 'Guardian validation failed'
                 }
-            
+
             # Generate encryption key ID
             encryption_key_id = f"ns_key_{secrets.token_hex(16)}"
-            
+
             # Create namespace
             namespace_data = {
                 'namespace_id': namespace_id,
@@ -329,10 +327,10 @@ class NamespaceManager:
                 'access_token_ttl': self._get_default_token_ttl(namespace_type),
                 'rate_limit_per_minute': self._get_default_rate_limit(namespace_type)
             }
-            
+
             namespace = IdentityNamespace(namespace_data)
             self.namespaces[namespace_id] = namespace
-            
+
             # Create default policy
             policy_data = {
                 'namespace_id': namespace_id,
@@ -353,15 +351,15 @@ class NamespaceManager:
                     'identity_operations_per_hour': 100
                 }
             }
-            
+
             policy = NamespacePolicy(policy_data)
             self.policies[namespace_id] = policy
-            
+
             # Clear resolution cache
             self.resolution_cache.clear()
-            
+
             processing_time = (time.time() - start_time) * 1000
-            
+
             return {
                 'success': True,
                 'namespace_id': namespace_id,
@@ -370,17 +368,17 @@ class NamespaceManager:
                 'processing_time_ms': processing_time,
                 'policy_created': True
             }
-            
+
         except Exception as e:
             return {
                 'success': False,
                 'error': f'Namespace creation failed: {str(e)}'
             }
-    
+
     def get_namespace_policy(self, namespace_id: str) -> Optional[NamespacePolicy]:
         """📜 Get namespace policy"""
         return self.policies.get(namespace_id)
-    
+
     def update_namespace_policy(
         self,
         namespace_id: str,
@@ -394,9 +392,9 @@ class NamespaceManager:
                     'success': False,
                     'error': 'Namespace policy not found'
                 }
-            
+
             policy = self.policies[namespace_id]
-            
+
             # 🛡️ Guardian validation
             if not self._constitutional_validation(namespace_id, 'policy_update', {
                 'updater_id': updater_id,
@@ -406,29 +404,29 @@ class NamespaceManager:
                     'success': False,
                     'error': 'Guardian validation failed'
                 }
-            
+
             # Apply updates
             for key, value in policy_updates.items():
                 if hasattr(policy, key):
                     setattr(policy, key, value)
-            
+
             policy.updated_at = datetime.utcnow().isoformat()
-            
+
             # Clear policy cache
             self.policy_cache.clear()
-            
+
             return {
                 'success': True,
                 'namespace_id': namespace_id,
                 'updated_fields': list(policy_updates.keys())
             }
-            
+
         except Exception as e:
             return {
                 'success': False,
                 'error': f'Policy update failed: {str(e)}'
             }
-    
+
     def create_cross_namespace_mapping(
         self,
         source_namespace: str,
@@ -444,7 +442,7 @@ class NamespaceManager:
                     'success': False,
                     'error': 'One or both namespaces do not exist'
                 }
-            
+
             # Check if cross-namespace mapping is allowed
             source_policy = self.policies.get(source_namespace)
             if not source_policy or not source_policy.cross_namespace_allowed:
@@ -452,7 +450,7 @@ class NamespaceManager:
                     'success': False,
                     'error': 'Cross-namespace mapping not allowed for source namespace'
                 }
-            
+
             # 🛡️ Guardian validation
             if not self._constitutional_validation(source_namespace, 'cross_namespace_mapping', {
                 'creator_id': creator_id,
@@ -463,20 +461,20 @@ class NamespaceManager:
                     'success': False,
                     'error': 'Guardian validation failed'
                 }
-            
+
             # Create mapping
             mapping_id = f"{source_namespace}->{target_namespace}"
-            
+
             if source_namespace not in self.cross_namespace_mappings:
                 self.cross_namespace_mappings[source_namespace] = {}
-            
+
             self.cross_namespace_mappings[source_namespace][target_namespace] = {
                 'identity_mapping': identity_mapping,
                 'creator_id': creator_id,
                 'created_at': datetime.utcnow().isoformat(),
                 'active': True
             }
-            
+
             return {
                 'success': True,
                 'mapping_id': mapping_id,
@@ -484,13 +482,13 @@ class NamespaceManager:
                 'target_namespace': target_namespace,
                 'mapped_identities': len(identity_mapping)
             }
-            
+
         except Exception as e:
             return {
                 'success': False,
                 'error': f'Cross-namespace mapping creation failed: {str(e)}'
             }
-    
+
     def map_identity_across_namespaces(
         self,
         source_identity: str,
@@ -505,34 +503,34 @@ class NamespaceManager:
                 target_namespace not in self.cross_namespace_mappings[source_namespace]
             ):
                 return None
-            
+
             mapping_data = self.cross_namespace_mappings[source_namespace][target_namespace]
-            
+
             if not mapping_data.get('active', False):
                 return None
-            
+
             identity_mapping = mapping_data.get('identity_mapping', {})
             return identity_mapping.get(source_identity)
-            
+
         except Exception:
             return None
-    
+
     def list_namespaces(
-        self, 
+        self,
         namespace_type: Optional[NamespaceType] = None,
         parent_namespace: Optional[str] = None
     ) -> List[Dict[str, Any]]:
         """📋 List namespaces with optional filtering"""
         namespaces = []
-        
+
         for namespace in self.namespaces.values():
             # Apply filters
             if namespace_type and namespace.namespace_type != namespace_type:
                 continue
-            
+
             if parent_namespace and namespace.parent_namespace != parent_namespace:
                 continue
-            
+
             # Get basic namespace info
             namespace_info = {
                 'namespace_id': namespace.namespace_id,
@@ -544,26 +542,26 @@ class NamespaceManager:
                 'isolation_level': namespace.isolation_level,
                 'rate_limit_per_minute': namespace.rate_limit_per_minute
             }
-            
+
             namespaces.append(namespace_info)
-        
+
         return sorted(namespaces, key=lambda x: x['namespace_id'])
-    
+
     def get_system_status(self) -> Dict[str, Any]:
         """📊 Get namespace system status"""
         total_namespaces = len(self.namespaces)
         active_namespaces = sum(1 for ns in self.namespaces.values() if ns.active)
-        
+
         # Type distribution
         type_distribution = {}
         for ns in self.namespaces.values():
             ns_type = ns.namespace_type.value
             type_distribution[ns_type] = type_distribution.get(ns_type, 0) + 1
-        
+
         # Policy statistics
         strict_policies = sum(1 for policy in self.policies.values() if policy.access_control == 'strict')
         cross_namespace_enabled = sum(1 for policy in self.policies.values() if policy.cross_namespace_allowed)
-        
+
         return {
             'system': 'LUKHAS Namespace Manager',
             'version': '1.0.0',
@@ -590,29 +588,29 @@ class NamespaceManager:
                 'audit_coverage': '100%'
             }
         }
-    
+
     # Helper methods
-    
+
     def _normalize_namespace_identifier(self, identifier: str) -> str:
         """Normalize namespace identifier"""
         # Remove protocol prefixes
         identifier = identifier.replace('https://', '').replace('http://', '')
-        
+
         # Remove trailing slashes
         identifier = identifier.rstrip('/')
-        
+
         # Convert to lowercase
         identifier = identifier.lower()
-        
+
         return identifier
-    
+
     def _resolve_by_pattern(self, identifier: str, context: Optional[Dict] = None) -> Optional[IdentityNamespace]:
         """Resolve namespace by pattern matching"""
         # Try exact match first
         for namespace_id, namespace in self.namespaces.items():
             if identifier == namespace_id or identifier.endswith(f'.{namespace_id}'):
                 return namespace
-        
+
         # Try subdomain matching
         parts = identifier.split('.')
         if len(parts) >= 2:
@@ -621,14 +619,14 @@ class NamespaceManager:
                 potential_namespace = '.'.join(parts[i:])
                 if potential_namespace in self.namespaces:
                     return self.namespaces[potential_namespace]
-        
+
         return None
-    
+
     def _validate_namespace_id(self, namespace_id: str) -> bool:
         """Validate namespace ID format"""
         if not namespace_id or len(namespace_id) < 3 or len(namespace_id) > 253:
             return False
-        
+
         # Basic domain name validation
         parts = namespace_id.split('.')
         for part in parts:
@@ -636,9 +634,9 @@ class NamespaceManager:
                 return False
             if not part.replace('-', '').replace('_', '').isalnum():
                 return False
-        
+
         return True
-    
+
     def _get_default_isolation_level(self, namespace_type: NamespaceType) -> str:
         """Get default isolation level for namespace type"""
         isolation_map = {
@@ -651,7 +649,7 @@ class NamespaceManager:
             NamespaceType.SANDBOX: 'relaxed'
         }
         return isolation_map.get(namespace_type, 'strict')
-    
+
     def _get_default_token_ttl(self, namespace_type: NamespaceType) -> int:
         """Get default token TTL for namespace type"""
         ttl_map = {
@@ -664,7 +662,7 @@ class NamespaceManager:
             NamespaceType.SANDBOX: 1800     # 30 minutes
         }
         return ttl_map.get(namespace_type, 3600)
-    
+
     def _get_default_rate_limit(self, namespace_type: NamespaceType) -> int:
         """Get default rate limit for namespace type"""
         rate_map = {
@@ -677,7 +675,7 @@ class NamespaceManager:
             NamespaceType.SANDBOX: 100
         }
         return rate_map.get(namespace_type, 1000)
-    
+
     def _get_minimum_tier_for_type(self, namespace_type: NamespaceType) -> int:
         """Get minimum tier requirement for namespace type"""
         tier_map = {
@@ -690,7 +688,7 @@ class NamespaceManager:
             NamespaceType.SANDBOX: 0
         }
         return tier_map.get(namespace_type, 0)
-    
+
     def _get_data_retention_days(self, namespace_type: NamespaceType) -> int:
         """Get data retention days for namespace type"""
         retention_map = {
@@ -703,40 +701,40 @@ class NamespaceManager:
             NamespaceType.SANDBOX: 30       # 30 days
         }
         return retention_map.get(namespace_type, 365)
-    
+
     def _constitutional_validation(self, namespace_id: str, operation: str, data: Any) -> bool:
         """🛡️ Guardian constitutional validation"""
         try:
             # Basic safety checks
             if not namespace_id or len(namespace_id) > 253:
                 return False
-            
+
             # Validate operation type
             if operation not in [
                 'namespace_resolution', 'namespace_creation', 'policy_update',
                 'cross_namespace_mapping'
             ]:
                 return False
-            
+
             # Check for suspicious patterns
             data_str = str(data)
             if any(pattern in data_str.lower() for pattern in ['script', 'eval', 'javascript:', '__proto__']):
                 return False
-            
+
             # Validate namespace ID format
             if '/' in namespace_id or '\\' in namespace_id:
                 return False
-            
+
             return True
-            
+
         except Exception:
             return False
 
 
 # Export main classes
 __all__ = [
-    'NamespaceManager', 
-    'IdentityNamespace', 
+    'NamespaceManager',
+    'IdentityNamespace',
     'NamespacePolicy',
     'NamespaceType'
 ]

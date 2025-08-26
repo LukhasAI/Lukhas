@@ -24,7 +24,7 @@ class ComplianceMonitor:
             "default": {"recalibrate": 0.3, "escalate": 0.6},
             "emotional_oscillator": {"recalibrate": 0.2, "escalate": 0.5},
             "ethics_engine": {"recalibrate": 0.4, "escalate": 0.7},
-            "quantum_engine": {"recalibrate": 0.35, "escalate": 0.65},
+            "qi_engine": {"recalibrate": 0.35, "escalate": 0.65},
         }
         self.log_dir = log_dir
         os.makedirs(self.log_dir, exist_ok=True)

@@ -4,7 +4,7 @@
 
 MATADA implements AGI leadership-grade consciousness architecture with mandatory:
 - **Safety-first**: Complete provenance + consent scopes
-- **Modularity**: Skill Capsules with `node_out` compliance  
+- **Modularity**: Skill Capsules with `node_out` compliance
 - **Governance**: Audit-ready with tenant/policy tracking
 - **Innovation**: Modalityless architecture for all data types
 
@@ -25,7 +25,7 @@ MATADA implements AGI leadership-grade consciousness architecture with mandatory
   "provenance": {
     "producer": "module.path",
     "capabilities": ["capability.name"],
-    "tenant": "tenant_id", 
+    "tenant": "tenant_id",
     "trace_id": "LT-...",
     "consent_scopes": ["scope.name"]
   }
@@ -89,7 +89,7 @@ return {
 - Implement schema validation in adapter layers
 - Ensure provenance.capabilities match declared capabilities
 
-### ChatGPT Integration  
+### ChatGPT Integration
 - Bridge existing outputs to MATADA format
 - Maintain consent scope inheritance
 - Validate against canonical schema before API return
@@ -110,7 +110,7 @@ return {
 ## 📚 Additional Resources
 
 - **Full Docs**: `../` (files 1.md-7.md with MATADA updates)
-- **Schema**: `../../matriz_node_v1.json` 
+- **Schema**: `../../matriz_node_v1.json`
 - **Validation**: `../utils/matada_validate.py`
 - **Examples**: See implementation guides in main docs
 

@@ -36,7 +36,7 @@ from typing import Any, Optional
 from code_crypto import Classic_McEliece
 from hash_crypto import SPHINCS_Plus
 from lattice_crypto import CRYSTALS_Dilithium, CRYSTALS_Kyber
-from qi_timestamp import QuantumVerifiableTimestamp
+from qi_timestamp import QIVerifiableTimestamp
 from zkp_crypto import IdentityProof, ZKProof
 
 
@@ -97,20 +97,20 @@ class PostQuantumCryptoEngine:
         self.zkp_system = ZKProof(security_level=SecurityLevel.NIST_5)
 
         # Quantum-verifiable timestamp service
-        self.timestamp_service = QuantumVerifiableTimestamp(
+        self.timestamp_service = QIVerifiableTimestamp(
             federation_nodes=config.get("timestamp_nodes", 3)
         )
 
         # Hybrid classical-PQC for transition period
         self.hybrid_mode = config.get("enable_hybrid_crypto", True)
-        self.key_rotation_scheduler = QuantumKeyRotationScheduler(
+        self.key_rotation_scheduler = QIKeyRotationScheduler(
             rotation_interval=config.get("rotation_interval", 3600),  # 1 hour default
             timestamp_service=self.timestamp_service,
         )
 
     async def create_quantum_secure_session(
         self, peer_identity: PeerIdentity, session_requirements: SessionRequirements
-    ) -> QuantumSecureSession:
+    ) -> QISecureSession:
         """
         Establish quantum-secure communication session
         """
@@ -121,7 +121,7 @@ class PostQuantumCryptoEngine:
 
         # 2. Generate ephemeral keys with quantum randomness
         ephemeral_keys = await self._generate_ephemeral_keys(
-            negotiated_algorithms, entropy_source="quantum_rng"
+            negotiated_algorithms, entropy_source="qi_rng"
         )
 
         # 3. Perform key encapsulation
@@ -137,13 +137,13 @@ class PostQuantumCryptoEngine:
         )
 
         # 5. Set up authenticated encryption
-        cipher = QuantumSafeAEAD(
+        cipher = QISafeAEAD(
             algorithm="AES-256-GCM",  # Still quantum-safe for symmetric
             key=session_keys.encryption_key,
             additional_quantum_protection=True,
         )
 
-        return QuantumSecureSession(
+        return QISecureSession(
             session_id=self._generate_session_id(),
             cipher=cipher,
             signing_key=session_keys.signing_key,
@@ -156,9 +156,9 @@ class PostQuantumCryptoEngine:
     async def sign_with_quantum_resistance(
         self,
         data: bytes,
-        signing_key: QuantumSigningKey,
+        signing_key: QISigningKey,
         include_timestamp: bool = True,
-    ) -> QuantumSignature:
+    ) -> QISignature:
         """
         Create quantum-resistant digital signature
         """
@@ -190,7 +190,7 @@ class PostQuantumCryptoEngine:
         else:
             signature_data = primary_signature
 
-        return QuantumSignature(
+        return QISignature(
             algorithm_id=self.signature_algorithms["primary"].algorithm_id,
             signature_data=signature_data,
             timestamp=timestamp if include_timestamp else None,
@@ -214,7 +214,7 @@ class PostQuantumCryptoEngine:
         # Verify the timestamp if provided
         if timestamp:
             timestamp_valid = self.timestamp_service.verify_timestamp(
-                timestamp, quantum_resistant=True
+                timestamp, qi_resistant=True
             )
             if not timestamp_valid:
                 return False, {"error": "Invalid or expired timestamp"}
@@ -261,7 +261,7 @@ class PostQuantumCryptoEngine:
         # Add quantum-verifiable timestamp if requested
         if include_timestamp:
             timestamp = self.timestamp_service.create_timestamp(
-                data=zkp.commitment, quantum_resistant=True
+                data=zkp.commitment, qi_resistant=True
             )
             zkp.add_timestamp(timestamp)
 
@@ -286,7 +286,7 @@ class PostQuantumCryptoEngine:
             Dictionary containing derived keys
         """
         # Use SHAKE256 (SHA3) for key derivation
-        kdf = self.quantum_kdf.initialize(
+        kdf = self.qi_kdf.initialize(
             algorithm="SHAKE256", constant_time=True, memory_protection=True
         )
 
@@ -310,7 +310,7 @@ class PostQuantumCryptoEngine:
         Perform quantum-safe key rotation with timing attack resistance
         """
         # Get quantum-verifiable timestamp for rotation
-        rotation_time = self.timestamp_service.create_timestamp(quantum_resistant=True)
+        rotation_time = self.timestamp_service.create_timestamp(qi_resistant=True)
 
         # Rotate KEM keys
         for algo in self.kem_algorithms.values():
@@ -390,7 +390,7 @@ class PostQuantumCryptoEngine:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": False,
+        "qi_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_4_access": True,
@@ -409,7 +409,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

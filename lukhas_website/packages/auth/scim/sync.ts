@@ -1,7 +1,7 @@
 /**
  * SCIM Deprovision & Sync Management
  * Enterprise user lifecycle synchronization for LUKHAS AI ΛiD System
- * 
+ *
  * Supports:
  * - 15-minute SLO for user deprovisioning
  * - Background job for sync validation
@@ -22,7 +22,7 @@ export interface ProvisioningEvent {
   resourceType: 'user' | 'group';
   resourceId: string;
   externalId?: string;
-  
+
   // Event details
   details: {
     method: 'jit' | 'pre-provisioned' | 'scim' | 'manual';
@@ -30,19 +30,19 @@ export interface ProvisioningEvent {
     changes?: Record<string, { old: any; new: any }>;
     attributes?: Record<string, any>;
   };
-  
+
   // Timing and SLO tracking
   timestamp: Date;
   processingStarted?: Date;
   processingCompleted?: Date;
   sloTarget?: Date; // When this event must be completed by
   sloStatus: 'pending' | 'in_progress' | 'completed' | 'failed' | 'slo_breach';
-  
+
   // Error handling
   retryCount: number;
   maxRetries: number;
   lastError?: string;
-  
+
   // Metadata
   metadata: {
     requestId?: string;
@@ -56,11 +56,11 @@ export interface SyncValidationResult {
   id: string;
   tenantId: string;
   validationType: 'full' | 'incremental' | 'user' | 'group';
-  
+
   // Validation results
   usersChecked: number;
   groupsChecked: number;
-  
+
   // Drift detection
   driftDetected: {
     users: Array<{
@@ -76,7 +76,7 @@ export interface SyncValidationResult {
       details: Record<string, any>;
     }>;
   };
-  
+
   // Recommendations
   recommendations: Array<{
     type: 'sync' | 'manual_review' | 'configuration_change';
@@ -84,7 +84,7 @@ export interface SyncValidationResult {
     priority: 'low' | 'medium' | 'high' | 'critical';
     affectedResources: string[];
   }>;
-  
+
   // Metadata
   startTime: Date;
   endTime: Date;
@@ -96,18 +96,18 @@ export interface SyncValidationResult {
 export interface ProvisioningStats {
   tenantId: string;
   period: '1h' | '24h' | '7d' | '30d';
-  
+
   // Event counts
   provisioned: number;
   deprovisioned: number;
   updated: number;
   failed: number;
-  
+
   // SLO metrics
   sloCompliance: number; // Percentage
   averageProcessingTime: number; // milliseconds
   sloBreaches: number;
-  
+
   // Method breakdown
   byMethod: {
     jit: number;
@@ -115,7 +115,7 @@ export interface ProvisioningStats {
     scim: number;
     manual: number;
   };
-  
+
   // Source breakdown
   bySource: {
     idp: number;
@@ -123,7 +123,7 @@ export interface ProvisioningStats {
     admin_portal: number;
     automated: number;
   };
-  
+
   timestamp: Date;
 }
 
@@ -298,7 +298,7 @@ export class SCIMSyncManager {
 
       // Provision user via JIT
       const user = await this.userManager.provisionJITUser(email, attributes, tenantId);
-      
+
       event.resourceId = user.id;
       event.processingCompleted = new Date();
       event.sloStatus = 'completed';
@@ -427,8 +427,8 @@ export class SCIMSyncManager {
     const startTime = new Date(now.getTime() - periodMs);
 
     const events = Array.from(this.provisioningEvents.values())
-      .filter(event => 
-        event.tenantId === tenantId && 
+      .filter(event =>
+        event.tenantId === tenantId &&
         event.timestamp >= startTime
       );
 
@@ -560,16 +560,16 @@ export class SCIMSyncManager {
   private async validateUsers(tenantId: string, result: SyncValidationResult): Promise<void> {
     // This would typically compare users in LUKHAS with IdP
     // For now, we'll simulate the validation
-    
+
     // Get all users for tenant (would come from database in real implementation)
     const users: LUKHASUser[] = []; // Would be populated from actual user store
-    
+
     result.usersChecked = users.length;
 
     // Check for drift (simplified example)
     for (const user of users) {
       // Simulate drift detection logic
-      if (user.metadata.syncedAt && 
+      if (user.metadata.syncedAt &&
           (Date.now() - user.metadata.syncedAt.getTime()) > (24 * 60 * 60 * 1000)) {
         result.driftDetected.users.push({
           userId: user.id,
@@ -654,14 +654,14 @@ export class SCIMSyncManager {
     // Start SLO monitoring
     const sloMonitor = setInterval(async () => {
       const now = new Date();
-      
+
       for (const [eventId, event] of this.provisioningEvents) {
-        if (event.sloTarget && 
-            event.sloStatus === 'in_progress' && 
+        if (event.sloTarget &&
+            event.sloStatus === 'in_progress' &&
             now > event.sloTarget) {
-          
+
           event.sloStatus = 'slo_breach';
-          
+
           await this.auditLogger.logSecurityEvent('slo_breach_detected', {
             eventId,
             resourceType: event.resourceType,

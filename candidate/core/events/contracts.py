@@ -154,7 +154,7 @@ class QIStateCollapsed(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "quantum.state.collapsed"
+        return "qi.state.collapsed"
 
 
 # Consciousness Domain Events
@@ -282,7 +282,7 @@ class QIStateCreated(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "quantum.state.created"
+        return "qi.state.created"
 
 
 @dataclass
@@ -295,7 +295,7 @@ class QIStateCollapsed(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "quantum.state.collapsed"
+        return "qi.state.collapsed"
 
 
 @dataclass
@@ -308,7 +308,7 @@ class QISuperpositionCreated(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "quantum.superposition.created"
+        return "qi.superposition.created"
 
 
 @dataclass
@@ -321,7 +321,7 @@ class EntanglementCreated(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "quantum.entanglement.created"
+        return "qi.entanglement.created"
 
 
 # Emotion Domain Events
@@ -565,10 +565,10 @@ EVENT_REGISTRY = {
     "dream.analyzed": DreamAnalyzed,
     "dream.cycle.started": DreamCycleStarted,
     # Quantum events
-    "quantum.state.created": QIStateCreated,
-    "quantum.state.collapsed": QIStateCollapsed,
-    "quantum.superposition.created": QuantumSuperpositionCreated,
-    "quantum.entanglement.created": EntanglementCreated,
+    "qi.state.created": QIStateCreated,
+    "qi.state.collapsed": QIStateCollapsed,
+    "qi.superposition.created": QISuperpositionCreated,
+    "qi.entanglement.created": EntanglementCreated,
     # Emotion events
     "emotion.state.changed": EmotionalStateChanged,
     "emotion.regulation.applied": EmotionalRegulationApplied,

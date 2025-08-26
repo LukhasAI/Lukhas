@@ -97,8 +97,8 @@
 
 ### Integration Flow
 ```
-User → Identity (ΛID) → Consent Check → Policy Engine → 
-Adapters (Gmail/Drive/Dropbox) → Context Bus → 
+User → Identity (ΛID) → Consent Check → Policy Engine →
+Adapters (Gmail/Drive/Dropbox) → Context Bus →
 Workflow Execution → Λ-trace Audit → Results
 ```
 

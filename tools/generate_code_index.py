@@ -251,7 +251,7 @@ class CodeIndexer:
             # Store in database
             cursor = self.conn.cursor()
             cursor.execute("""
-                INSERT OR REPLACE INTO files 
+                INSERT OR REPLACE INTO files
                 (path, module_path, lines, has_tests, has_types, trinity_framework, lane)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             """, (str(path), module_path, lines, has_tests, has_types, has_trinity, lane))
@@ -339,7 +339,7 @@ class CodeIndexer:
         # Bio consolidation mappings
         cursor.execute("""
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
-            VALUES 
+            VALUES
                 ('bio_core', 'lukhas.accepted.bio', true, '2025-11-01'),
                 ('bio_orchestrator', 'lukhas.accepted.bio.orchestrator', true, '2025-11-01'),
                 ('bio_symbolic', 'lukhas.accepted.bio.symbolic', true, '2025-11-01'),
@@ -349,7 +349,7 @@ class CodeIndexer:
         # Memory consolidation mappings
         cursor.execute("""
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
-            VALUES 
+            VALUES
                 ('memory.fold_manager', 'lukhas.accepted.memory.fold', true, '2025-11-01'),
                 ('memory.memory_consolidation', 'lukhas.accepted.memory.consolidation', true, '2025-11-01'),
                 ('memory.episodic', 'lukhas.accepted.memory.episodic', true, '2025-11-01')
@@ -358,7 +358,7 @@ class CodeIndexer:
         # Core module mappings
         cursor.execute("""
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
-            VALUES 
+            VALUES
                 ('core.glyph', 'lukhas.accepted.core.glyph', true, '2025-11-01'),
                 ('identity.core', 'lukhas.accepted.identity', true, '2025-11-01'),
                 ('governance.guardian', 'lukhas.accepted.governance.guardian', true, '2025-11-01')
@@ -367,7 +367,7 @@ class CodeIndexer:
         # Candidate module mappings (feature-flagged)
         cursor.execute("""
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
-            VALUES 
+            VALUES
                 ('universal_language', 'lukhas.candidate.ul', true, '2025-11-01'),
                 ('vivox', 'lukhas.candidate.vivox', true, '2025-11-01'),
                 ('qim', 'lukhas.candidate.qim', true, '2025-11-01')

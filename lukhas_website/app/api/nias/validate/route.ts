@@ -40,11 +40,11 @@ async function getCurrentUserContext(req: NextRequest): Promise<{
 } | null> {
   const token = req.cookies.get('auth-token')?.value;
   if (!token) return null;
-  
+
   try {
     const payload = await verifyJWT(token);
     if (!payload?.sub) return null;
-    
+
     return {
       userId: payload.sub,
       tier: payload.tier || 'T1',
@@ -70,12 +70,12 @@ function validateSymbolicPayload(request: SymbolicValidationRequest): {
   const errors: string[] = [];
   const warnings: string[] = [];
   const { type, payload, context, validation_rules } = request;
-  
+
   // Basic validation
   if (!payload.data) {
     errors.push('Payload data is required');
   }
-  
+
   // Type-specific validation
   switch (type) {
     case 'glyph':
@@ -86,7 +86,7 @@ function validateSymbolicPayload(request: SymbolicValidationRequest): {
         warnings.push('No symbolic binding detected - may affect interpretation');
       }
       break;
-      
+
     case 'consciousness_fragment':
       if (validation_rules.validate_consciousness && !context.consciousness_level) {
         errors.push('Consciousness level required for fragment validation');
@@ -95,7 +95,7 @@ function validateSymbolicPayload(request: SymbolicValidationRequest): {
         warnings.push('Low consciousness level detected - validation may be incomplete');
       }
       break;
-      
+
     case 'pattern':
       if (!payload.data?.pattern_matrix) {
         errors.push('Pattern matrix required for pattern validation');
@@ -104,7 +104,7 @@ function validateSymbolicPayload(request: SymbolicValidationRequest): {
         warnings.push('Pattern depth may be insufficient for requested symbolic depth');
       }
       break;
-      
+
     case 'sequence':
       if (!Array.isArray(payload.data?.sequence)) {
         errors.push('Sequence must be an array');
@@ -113,14 +113,14 @@ function validateSymbolicPayload(request: SymbolicValidationRequest): {
         errors.push('Empty sequences cannot be validated');
       }
       break;
-      
+
     case 'symbol':
       if (!payload.data?.symbol_definition) {
         errors.push('Symbol definition required');
       }
       break;
   }
-  
+
   // Checksum validation if provided
   if (payload.checksum && validation_rules.check_symbolic_integrity) {
     // Stub: In real implementation, would verify checksum
@@ -129,22 +129,22 @@ function validateSymbolicPayload(request: SymbolicValidationRequest): {
       warnings.push('Checksum mismatch - data integrity may be compromised');
     }
   }
-  
+
   // Calculate analysis scores (stub implementation)
   const complexity_score = Math.min(95, 10 + (context.symbolic_depth * 10) + (JSON.stringify(payload.data).length / 100));
   const symbolic_integrity = errors.length === 0 ? (warnings.length === 0 ? 100 : 85) : 50;
   const consciousness_coherence = context.consciousness_level || 75;
-  
+
   // Pattern recognition (stub)
   const pattern_recognition = [
     `${type}_pattern_detected`,
     'symbolic_coherence_validated'
   ];
-  
+
   if (context.consciousness_level && context.consciousness_level > 80) {
     pattern_recognition.push('high_consciousness_resonance');
   }
-  
+
   return {
     valid: errors.length === 0,
     errors,
@@ -160,18 +160,18 @@ function validateSymbolicPayload(request: SymbolicValidationRequest): {
 
 /**
  * POST /api/nias/validate
- * 
+ *
  * Validate symbolic payloads using NIAS (Neural Intelligence Amplification System)
- * 
+ *
  * This stub implementation simulates:
  * 1. Symbolic pattern validation
- * 2. Consciousness coherence checking  
+ * 2. Consciousness coherence checking
  * 3. Glyph integrity verification
  * 4. Neural pattern recognition
  * 5. Semantic consistency analysis
- * 
+ *
  * Body: SymbolicValidationRequest
- * 
+ *
  * Response:
  * {
  *   "success": true,
@@ -194,7 +194,7 @@ export async function POST(req: NextRequest) {
         expectedAvailability: '2025-Q4'
       });
     }
-    
+
     // Parse and validate request body
     const body = await req.json().catch(() => null);
     const parsed = SymbolicPayloadSchema.safeParse(body);
@@ -206,17 +206,17 @@ export async function POST(req: NextRequest) {
         }))
       });
     }
-    
+
     const validationRequest = parsed.data;
-    
+
     // Get user context and check authorization
     const userContext = await getCurrentUserContext(req);
     if (!userContext) {
       return unauthorized('Authentication required');
     }
-    
+
     const { userId, tier, scopes } = userContext;
-    
+
     // Check NIAS validation permissions
     const authResult = hasExtendedScope(
       tier as any,
@@ -231,39 +231,39 @@ export async function POST(req: NextRequest) {
         }
       }
     );
-    
+
     if (!authResult.allowed) {
       return unauthorized(`Insufficient permissions for NIAS validation: ${authResult.reason}`);
     }
-    
+
     // Perform symbolic validation (stub implementation)
     const validationResult = validateSymbolicPayload(validationRequest);
     const validationId = `nias-val-${Date.now()}`;
     const processedAt = new Date().toISOString();
-    
+
     // Generate recommendations based on validation results
     const recommendations: string[] = [];
-    
+
     if (!validationResult.valid) {
       recommendations.push('Fix validation errors before proceeding');
     }
-    
+
     if (validationResult.warnings.length > 0) {
       recommendations.push('Review warnings to improve symbolic integrity');
     }
-    
+
     if (validationResult.analysis.complexity_score > 80) {
       recommendations.push('Consider breaking down complex symbolic patterns');
     }
-    
+
     if (validationResult.analysis.consciousness_coherence < 70) {
       recommendations.push('Increase consciousness level for better coherence');
     }
-    
+
     if (validationRequest.context.symbolic_depth > 5) {
       recommendations.push('High symbolic depth detected - ensure adequate processing resources');
     }
-    
+
     // Log validation event
     console.log('[NIAS VALIDATION STUB]', JSON.stringify({
       event: 'symbolic_validation',
@@ -276,7 +276,7 @@ export async function POST(req: NextRequest) {
       warnings: validationResult.warnings.length,
       processedAt
     }));
-    
+
     return ok({
       valid: validationResult.valid,
       validationId,
@@ -299,7 +299,7 @@ export async function POST(req: NextRequest) {
         validation_rules: validationRequest.validation_rules
       }
     });
-    
+
   } catch (error) {
     console.error('[NIAS VALIDATION ERROR]', error);
     return badRequest('Internal server error during symbolic validation');
@@ -308,14 +308,14 @@ export async function POST(req: NextRequest) {
 
 /**
  * GET /api/nias/validate
- * 
+ *
  * Get validation history and system status
- * 
+ *
  * Query params:
  * - type: Filter by symbolic type
  * - valid: Filter by validation status
  * - limit: Number of results (default 20)
- * 
+ *
  * Response:
  * {
  *   "success": true,
@@ -336,15 +336,15 @@ export async function GET(req: NextRequest) {
         status: 'in_development'
       });
     }
-    
+
     // Get user context and check authorization
     const userContext = await getCurrentUserContext(req);
     if (!userContext) {
       return unauthorized('Authentication required');
     }
-    
+
     const { tier, scopes } = userContext;
-    
+
     // Check read permissions
     const authResult = hasExtendedScope(
       tier as any,
@@ -355,17 +355,17 @@ export async function GET(req: NextRequest) {
         action: 'read_validation_history'
       }
     );
-    
+
     if (!authResult.allowed) {
       return unauthorized(`Insufficient permissions: ${authResult.reason}`);
     }
-    
+
     // Parse query parameters
     const { searchParams } = new URL(req.url);
     const typeFilter = searchParams.get('type');
     const validFilter = searchParams.get('valid');
     const limit = Math.min(100, parseInt(searchParams.get('limit') || '20'));
-    
+
     // Stub data - recent validations
     const stubValidations = [
       {
@@ -394,7 +394,7 @@ export async function GET(req: NextRequest) {
         errors: ['Pattern matrix insufficient']
       }
     ];
-    
+
     // Apply filters
     let filteredValidations = stubValidations;
     if (typeFilter) {
@@ -405,7 +405,7 @@ export async function GET(req: NextRequest) {
       filteredValidations = filteredValidations.filter(v => v.valid === validBool);
     }
     filteredValidations = filteredValidations.slice(0, limit);
-    
+
     // System status (stub)
     const systemStatus = {
       status: 'operational',
@@ -416,7 +416,7 @@ export async function GET(req: NextRequest) {
       symbolic_processors_available: 12,
       queue_depth: 3
     };
-    
+
     // Statistics (stub)
     const statistics = {
       total_validations_today: 1247,
@@ -425,7 +425,7 @@ export async function GET(req: NextRequest) {
       most_common_type: 'glyph',
       consciousness_coherence_avg: 81
     };
-    
+
     return ok({
       recentValidations: filteredValidations,
       systemStatus,
@@ -440,7 +440,7 @@ export async function GET(req: NextRequest) {
         timestamp: new Date().toISOString()
       }
     });
-    
+
   } catch (error) {
     console.error('[NIAS VALIDATION GET ERROR]', error);
     return badRequest('Internal server error retrieving validation data');

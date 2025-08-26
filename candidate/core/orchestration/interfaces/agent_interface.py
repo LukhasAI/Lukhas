@@ -54,7 +54,7 @@ class AgentCapability(Enum):
     SELF_MONITORING = "self_monitoring"
 
     # Specialized capabilities
-    QUANTUM_PROCESSING = "quantum_processing"
+    QUANTUM_PROCESSING = "qi_processing"
     DREAM_SYNTHESIS = "dream_synthesis"
     ETHICAL_REASONING = "ethical_reasoning"
     SYMBOLIC_PROCESSING = "symbolic_processing"

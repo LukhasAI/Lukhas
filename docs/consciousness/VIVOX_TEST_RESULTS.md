@@ -13,7 +13,7 @@ Successfully implemented all requested improvements to the VIVOX system from the
 
 ### 2. ✅ Precedent Matching - FIXED
 - **Previous Issue**: Always 0 matches despite seeding
-- **Solution**: 
+- **Solution**:
   - Fixed ActionProposal object extraction in similarity calculation
   - Added precedent seeding in EthicalPrecedentDatabase init
   - Improved similarity scoring with fuzzy matching
@@ -120,7 +120,7 @@ from vivox.moral_alignment.precedent_seeds import get_ethical_precedent_seeds
 # Automatically seeded in __init__, but can manually add more:
 seeds = get_ethical_precedent_seeds()
 for seed in seeds:
-    await mae.add_precedent(seed["action"], seed["context"], 
+    await mae.add_precedent(seed["action"], seed["context"],
                            seed["decision"], seed["outcome"])
 ```
 
@@ -155,7 +155,7 @@ strict_evaluator = create_strict_decision_maker(threshold=0.5)
 - **Integration**: Can be swapped in for existing state determination
 
 ### Decision Selectivity
-- **Status**: Enhancement module created  
+- **Status**: Enhancement module created
 - **Solution**: Use `StrictDecisionMaker` for stricter ethical evaluation
 - **Features**: Risk assessment, harm detection, alternative suggestions
 

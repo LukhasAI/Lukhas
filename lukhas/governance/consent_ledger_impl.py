@@ -276,7 +276,7 @@ class ConsentLedgerV1:
                     created_at REAL NOT NULL,
                     glyph_signature TEXT,
                     trinity_identity_verified INTEGER DEFAULT 0,
-                    trinity_consciousness_aligned INTEGER DEFAULT 0, 
+                    trinity_consciousness_aligned INTEGER DEFAULT 0,
                     trinity_guardian_approved INTEGER DEFAULT 0,
                     compliance_flags TEXT,
                     chain_integrity TEXT,
@@ -592,7 +592,7 @@ class ConsentLedgerV1:
                     trace_id, lid, parent_trace_id, action, resource,
                     purpose, timestamp, policy_verdict, capability_token_id,
                     context, explanation_unl, hash, signature, created_at,
-                    glyph_signature, trinity_identity_verified, 
+                    glyph_signature, trinity_identity_verified,
                     trinity_consciousness_aligned, trinity_guardian_approved,
                     compliance_flags, chain_integrity
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -829,7 +829,7 @@ class ConsentLedgerV1:
                         """
                         INSERT INTO consent_records (
                             consent_id, lid, resource_type, scopes, purpose,
-                            lawful_basis, consent_type, granted_at, expires_at, 
+                            lawful_basis, consent_type, granted_at, expires_at,
                             data_categories, third_parties, processing_locations,
                             trace_id, withdrawal_method, data_subject_rights,
                             retention_period, automated_decision_making, profiling,

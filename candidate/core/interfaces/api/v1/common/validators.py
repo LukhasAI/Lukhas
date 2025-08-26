@@ -9,13 +9,13 @@ from typing import Optional
 def validate_api_key(api_key: str) -> bool:
     """
     Validate the provided API key.
-    
+
     Performs basic validation checks including format, length, and
     optional comparison against configured valid keys.
-    
+
     Args:
         api_key: The API key to validate
-        
+
     Returns:
         bool: True if the key passes validation, False otherwise
     """
@@ -51,10 +51,10 @@ def validate_api_key(api_key: str) -> bool:
 def _get_valid_api_keys() -> Optional[set]:
     """
     Get valid API key hashes from environment configuration.
-    
+
     Expects LUKHAS_API_KEY_HASHES environment variable with comma-separated
     SHA256 hashes of valid API keys.
-    
+
     Returns:
         Set of valid API key hashes, or None if not configured
     """
@@ -82,10 +82,10 @@ def _get_valid_api_keys() -> Optional[set]:
 def generate_api_key_hash(api_key: str) -> str:
     """
     Generate SHA256 hash of an API key for storage in configuration.
-    
+
     Args:
         api_key: The plain text API key
-        
+
     Returns:
         str: SHA256 hash of the API key
     """
@@ -96,10 +96,10 @@ def is_valid_api_key_format(api_key: str) -> bool:
     """
     Check if an API key meets basic format requirements without
     validating against configured keys.
-    
+
     Args:
         api_key: The API key to check
-        
+
     Returns:
         bool: True if format is valid, False otherwise
     """

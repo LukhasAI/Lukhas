@@ -75,7 +75,7 @@ After comprehensive analysis of **2,012 Python files** across **53 root systems*
 **Recommendation: Keep all 4 meaningful isolated files**
 
 1. **`meta/HEADER_FOOTER_STANDARD.py`** - 11.7KB template system
-2. **`foundry/__init__.py`** - 4.5KB module interface  
+2. **`foundry/__init__.py`** - 4.5KB module interface
 3. **`meta/HEADER_TEMPLATE.py`** - 0.9KB template utilities
 4. **`embodiment/body_state.py`** - 0.5KB robotics interface
 
@@ -83,7 +83,7 @@ After comprehensive analysis of **2,012 Python files** across **53 root systems*
 **Recommendation: Archive only 3 empty files**
 
 1. **`testing/__init__.py`** - Empty file (0KB)
-2. **`lukhas-id/mobile/__init__.py`** - Empty file (0KB)  
+2. **`lukhas-id/mobile/__init__.py`** - Empty file (0KB)
 3. **`lukhas-id/mobile/qr_code_animator.py`** - Empty file (0KB)
 
 ---

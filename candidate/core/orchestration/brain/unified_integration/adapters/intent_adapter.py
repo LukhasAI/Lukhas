@@ -53,7 +53,7 @@ class IntentNodeAdapter:
         )
 
         # Quantum state tracking
-        self.quantum_like_state = {
+        self.qi_like_state = {
             "superposition": {},
             "entanglement": {},
             "coherence": 1.0,
@@ -64,7 +64,7 @@ class IntentNodeAdapter:
             "attention_quality": [],
             "energy_efficiency": [],
             "pattern_accuracy": [],
-            "quantum_stability": [],
+            "qi_stability": [],
         }
 
         logger.info("Initialized quantum-biological intent adapter")
@@ -88,7 +88,7 @@ class IntentNodeAdapter:
         try:
             # Apply quantum attention
             attended_data = self.attention_gate.attend(
-                input_data, self.quantum_like_state
+                input_data, self.qi_like_state
             )
 
             # Filter through cristae
@@ -98,7 +98,7 @@ class IntentNodeAdapter:
 
             # Process through proton gradient
             gradient_processed = self.proton_gradient.process(
-                filtered_data, self.quantum_like_state
+                filtered_data, self.qi_like_state
             )
 
             # Detect intent through superposition-like state
@@ -115,7 +115,7 @@ class IntentNodeAdapter:
             # Generate final result
             result = {
                 "intent_result": intent_result,
-                "quantum_like_state": self.quantum_like_state,
+                "qi_like_state": self.qi_like_state,
                 "node_state": self.unified_node.state,
                 "processing_metrics": self._get_metrics(start_time),
             }
@@ -159,15 +159,15 @@ class IntentNodeAdapter:
         confidence = probabilities[primary_intent]
 
         # Update quantum-like state
-        self.quantum_like_state["superposition"] = superposition
+        self.qi_like_state["superposition"] = superposition
 
         return {
             "primary_intent": primary_intent,
             "confidence": confidence,
             "probabilities": probabilities,
-            "quantum_features": {
+            "qi_features": {
                 "superposition": superposition,
-                "coherence": self.quantum_like_state["coherence"],
+                "coherence": self.qi_like_state["coherence"],
             },
         }
 
@@ -233,13 +233,13 @@ class IntentNodeAdapter:
     def _update_quantum_like_state(self, intent_result: dict[str, Any]) -> None:
         """Update quantum-like state based on intent detection"""
         # Update coherence based on confidence
-        self.quantum_like_state["coherence"] = (
-            self.quantum_like_state["coherence"] * 0.7
+        self.qi_like_state["coherence"] = (
+            self.qi_like_state["coherence"] * 0.7
             + intent_result["confidence"] * 0.3
         )
 
         # Update entanglement based on context links
-        self.quantum_like_state["entanglement"] = {
+        self.qi_like_state["entanglement"] = {
             "intent_type": intent_result["primary_intent"],
             "confidence": intent_result["confidence"],
             "timestamp": datetime.now().isoformat(),
@@ -251,7 +251,7 @@ class IntentNodeAdapter:
 
         return {
             "processing_time": processing_time,
-            "quantum_coherence": self.quantum_like_state["coherence"],
+            "qi_coherence": self.qi_like_state["coherence"],
             "attention_quality": (
                 np.mean(self.metrics["attention_quality"][-10:])
                 if self.metrics["attention_quality"]

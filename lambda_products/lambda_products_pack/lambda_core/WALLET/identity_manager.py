@@ -13,7 +13,7 @@ import uuid
 from collections import defaultdict
 from typing import Any, Optional
 
-from .quantum_identity_core import LambdaWalletIdentity, QuantumTier
+from .qi_identity_core import LambdaWalletIdentity, QITier
 from .symbolic_vault import WalletSymbolicVault
 
 logger = logging.getLogger("WΛLLET.IdentityManager")
@@ -90,7 +90,7 @@ class WalletIdentityManager:
     def create_wallet_identity(
         self,
         emoji_seed: str,
-        tier: QuantumTier = QuantumTier.USER,
+        tier: QITier = QITier.USER,
         biometric_data: Optional[bytes] = None,
     ) -> LambdaWalletIdentity:
         """
@@ -248,7 +248,7 @@ class WalletIdentityManager:
         for field, value in updates.items():
             if field == "tier" and isinstance(value, str):
                 try:
-                    wallet_identity.tier = QuantumTier[value.upper()]
+                    wallet_identity.tier = QITier[value.upper()]
                 except KeyError:
                     self.logger.warning(f"Invalid tier: {value}")
 

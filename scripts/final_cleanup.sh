@@ -51,7 +51,7 @@ if [ -d "tools/tone" ] && [ -d "branding/tone/tools" ]; then
     # Copy unique Python files
     cp -n tools/tone/*.py branding/unified/tone/ 2>/dev/null || true
     cp -n branding/tone/tools/*.py branding/unified/tone/ 2>/dev/null || true
-    
+
     # Remove the duplicate directories
     rm -rf tools/tone
     echo "  ✓ Removed duplicate tools/tone directory"

@@ -7,8 +7,8 @@ from datetime import timezone
 ║                          🧠 LUKHAS AI - QUANTUM MEMORY ARCHITECTURE           ║
 ║          A symphony of consciousness, sculpting the intangible into the tangible  ║
 ╠═══════════════════════════════════════════════════════════════════════════════
-║ Module: quantum_manager.py                                                       ║
-║ Path: /Users/agi_dev/Downloads/Consolidation-Repo/memory/quantum_manager.py   ║
+║ Module: qi_manager.py                                                       ║
+║ Path: /Users/agi_dev/Downloads/Consolidation-Repo/memory/qi_manager.py   ║
 ║ Version: 2.0.0 | Created: 2024-01-01 | Modified: 2025-07-25                   ║
 ║ Authors: LUKHAS AI Memory                                                        ║
 ╠═══════════════════════════════════════════════════════════════════════════════
@@ -101,8 +101,8 @@ try:
         EnhancedMemoryVisualizer,
         VisualizationConfig,
     )
-    from qi.systems.quantum_engine import (
-        Quantumoscillator as QuantumOscillator,
+    from qi.systems.qi_engine import (
+        Quantumoscillator as QIOscillator,
     )
 
     logger.info(
@@ -156,17 +156,17 @@ class EnhancedMemoryManager:
         )
 
         try:
-            self.quantum_oscillator = QuantumOscillator()
-            self.logger.debug("QuantumOscillator initialized for MemoryManager.")
+            self.qi_oscillator = QIOscillator()
+            self.logger.debug("QIOscillator initialized for MemoryManager.")
         except Exception as e_init:
             self.logger.error(
-                "Error initializing QuantumOscillator in MemoryManager",
+                "Error initializing QIOscillator in MemoryManager",
                 error=str(e_init),
                 exc_info=True,
             )
-            # ΛCAUTION: QuantumOscillator failed to init; quantum features will be
+            # ΛCAUTION: QIOscillator failed to init; quantum features will be
             # impaired.
-            self.quantum_oscillator = None  # type: ignore
+            self.qi_oscillator = None  # type: ignore
 
         # ΛNOTE: Base path for memory storage is configurable, defaults to ~/Lukhas/memory.
         # Ensure this path is writable and appropriate for the deployment environment.
@@ -254,8 +254,8 @@ class EnhancedMemoryManager:
             return {
                 "status": "success",
                 "memory_id": effective_memory_id,
-                "quantum_like_state_summary": stored_package.get("metadata", {}).get(
-                    "quantum_like_state", "N/A"
+                "qi_like_state_summary": stored_package.get("metadata", {}).get(
+                    "qi_like_state", "N/A"
                 ),
             }
 
@@ -321,9 +321,9 @@ class EnhancedMemoryManager:
                 # The fold's internal `classical_state` should be
                 # `disk_data_package['data']`.
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
-                memory_fold.state["quantum_like_state"] = disk_data_package.get(
+                memory_fold.state["qi_like_state"] = disk_data_package.get(
                     "metadata", {}
-                ).get("quantum_like_state")
+                ).get("qi_like_state")
                 memory_fold.state["entanglements"] = set(
                     disk_data_package.get("metadata", {}).get("entanglements", [])
                 )

@@ -16,7 +16,7 @@ cp -r agents/ "$BACKUP_DIR/agents/" 2>/dev/null
 echo "  ✓ Supreme Army configs backed up"
 
 # Backup consciousness modules
-echo "🧠 Backing up Consciousness Modules..." 
+echo "🧠 Backing up Consciousness Modules..."
 cp -r consciousness/ "$BACKUP_DIR/consciousness/" 2>/dev/null
 cp -r core/ "$BACKUP_DIR/core/" 2>/dev/null
 cp -r identity/ "$BACKUP_DIR/identity/" 2>/dev/null

@@ -42,10 +42,10 @@ class InnovationPrioritizationEngine(CoreInterface):
     ) -> List[Dict[str, Any]]:
         """
         Prioritize innovations based on multiple criteria
-        
+
         Args:
             innovations: List of innovations to prioritize
-            
+
         Returns:
             Prioritized list of innovations
         """

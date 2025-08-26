@@ -122,7 +122,7 @@ class ShapeFrameManager {
             stl: new STLParser()
         };
     }
-    
+
     async loadShapeFrame(format, data, options) {
         const parser = this.parsers[format];
         const geometry = await parser.parse(data);
@@ -140,7 +140,7 @@ class ShapeFrame {
         this.morphTargets = options.morphTargets || [];
         this.animations = new Map();
     }
-    
+
     applyAIContext(context) {
         // Apply AI-driven transformations
         this.setEmotion(context.emotion);
@@ -156,7 +156,7 @@ class OBJParser {
     async parse(objData) {
         const lines = objData.split('\n');
         const geometry = { vertices: [], faces: [], normals: [] };
-        
+
         for (const line of lines) {
             if (line.startsWith('v ')) {
                 // Parse vertex
@@ -168,7 +168,7 @@ class OBJParser {
                 geometry.faces.push(face);
             }
         }
-        
+
         return geometry;
     }
 }
@@ -200,29 +200,29 @@ class OBJParser {
 async function morphToShape(targetShape, duration = 1000) {
     const startGeometry = currentShapeFrame.geometry;
     const endGeometry = targetShape.geometry;
-    
+
     // Create morph targets
     const morphTargets = [
         { geometry: startGeometry, weight: 1.0 },
         { geometry: endGeometry, weight: 0.0 }
     ];
-    
+
     // Animate morphing
     const startTime = Date.now();
     const animate = () => {
         const progress = (Date.now() - startTime) / duration;
         const t = Math.min(progress, 1.0);
-        
+
         morphTargets[0].weight = 1.0 - t;
         morphTargets[1].weight = t;
-        
+
         currentShapeFrame.updateMorphTargets(morphTargets);
-        
+
         if (t < 1.0) {
             requestAnimationFrame(animate);
         }
     };
-    
+
     animate();
 }
 ```
@@ -233,7 +233,7 @@ async function morphToShape(targetShape, duration = 1000) {
 function applyVoiceMorphing(intensity) {
     const scale = 1.0 + (intensity * 0.5);
     const rotation = intensity * Math.PI * 2;
-    
+
     currentShapeFrame.setScale(scale);
     currentShapeFrame.setRotation(0, rotation, 0);
 }
@@ -291,7 +291,7 @@ class CustomParser extends BaseParser {
         // Implement custom parsing logic
         return geometry;
     }
-    
+
     getSupportedExtensions() {
         return ['.custom'];
     }
@@ -313,7 +313,7 @@ function createCustomShape() {
         ],
         faces: [[0, 1, 2]]
     };
-    
+
     return new ShapeFrame(geometry, [defaultMaterial], {
         name: 'Custom Triangle',
         category: 'custom'
@@ -367,4 +367,4 @@ This Shape Frame System is part of the Voice-Reactive AI Interface project. See 
 
 ---
 
-**Ready to explore the world of AI-driven 3D shapes?** Start by loading some emotional shapes and watch them respond to your voice and conversations! 
+**Ready to explore the world of AI-driven 3D shapes?** Start by loading some emotional shapes and watch them respond to your voice and conversations!

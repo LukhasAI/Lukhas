@@ -72,11 +72,11 @@ class CompetitiveLandscapeController(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Execute a market creation phase
-        
+
         Args:
             phase: Phase definition
             market_design: Overall market design
-            
+
         Returns:
             Phase execution results
         """
@@ -119,12 +119,12 @@ class CompetitiveLandscapeController(CoreInterface):
     ) -> List[Dict[str, Any]]:
         """
         Identify intervention opportunities in competitor patterns
-        
+
         Args:
             competitor: Competitor identifier
             patterns: Competitor behavior patterns
             intervention_types: Types of interventions to consider
-            
+
         Returns:
             List of intervention opportunities
         """
@@ -165,12 +165,12 @@ class CompetitiveLandscapeController(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Generate a counter-strategy for a competitive opportunity
-        
+
         Args:
             competitor: Competitor identifier
             opportunity: Intervention opportunity
             strategy_type: Type of strategy to generate
-            
+
         Returns:
             Counter-strategy definition
         """
@@ -238,11 +238,11 @@ class CompetitiveLandscapeController(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Analyze strategic positioning across markets
-        
+
         Args:
             markets: List of market implementations
             analysis_dimensions: Dimensions to analyze
-            
+
         Returns:
             Strategic positioning analysis
         """
@@ -282,12 +282,12 @@ class CompetitiveLandscapeController(CoreInterface):
     ) -> List[Dict[str, Any]]:
         """
         Generate strategic recommendations based on competitive analysis
-        
+
         Args:
             competitor: Competitor identifier
             analysis: Competitive analysis results
             recommendation_types: Types of recommendations to generate
-            
+
         Returns:
             List of strategic recommendations
         """
@@ -366,7 +366,7 @@ class CompetitiveLandscapeController(CoreInterface):
                 "growth_trajectory": "accelerating",
                 "competitive_intensity": "high"
             },
-            "quantum_computing": {
+            "qi_computing": {
                 "our_position": "early_entrant",
                 "market_share": 0.02,
                 "growth_trajectory": "emerging",

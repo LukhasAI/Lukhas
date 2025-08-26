@@ -1,7 +1,13 @@
 from __future__ import annotations
-import os, json, time, hashlib, argparse, base64
+
+import argparse
+import base64
+import hashlib
+import json
+import os
+import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 PROV_DIR = os.path.join(STATE, "prov"); os.makedirs(PROV_DIR, exist_ok=True)
@@ -115,14 +121,14 @@ def attest(chain: List[Dict[str, Any]], tag: str) -> Attestation:
     return att
 
 def verify(att_path: str) -> bool:
-    data = json.load(open(att_path, "r", encoding="utf-8"))
+    data = json.load(open(att_path, encoding="utf-8"))
     chain_path = data["chain_path"]
     pk = base64.b64decode(data["public_key_b64"])
     sig = base64.b64decode(data["signature_b64"])
     # recompute root
     root = None
     prev = None
-    with open(chain_path, "r", encoding="utf-8") as f:
+    with open(chain_path, encoding="utf-8") as f:
         for line in f:
             n = json.loads(line)
             if n.get("prev") != prev:

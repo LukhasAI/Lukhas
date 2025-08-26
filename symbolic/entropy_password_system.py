@@ -65,7 +65,7 @@ class QIResistantPassword:
 
     # Metadata
     total_entropy_bits: float
-    quantum_resistance_bits: float  # Post-quantum security level
+    qi_resistance_bits: float  # Post-quantum security level
     memorability_score: float
     creation_time: float
     last_used: float
@@ -177,7 +177,7 @@ class MaximumEntropyPasswordGenerator:
         }
 
         # Quantum resistance parameters
-        self.quantum_security_margin = 1.5  # 50% extra for quantum resistance
+        self.qi_security_margin = 1.5  # 50% extra for quantum resistance
 
     async def generate_maximum_entropy_password(
         self,
@@ -185,7 +185,7 @@ class MaximumEntropyPasswordGenerator:
         max_components: int = 8,
         memorability_threshold: float = 0.6,
         use_colony_validation: bool = True,
-    ) -> QuantumResistantPassword:
+    ) -> QIResistantPassword:
         """
         Generate a password with maximum possible entropy.
 
@@ -272,7 +272,7 @@ class MaximumEntropyPasswordGenerator:
             )
 
         # Apply quantum resistance multiplier
-        quantum_entropy = total_entropy * self.quantum_security_margin
+        qi_entropy = total_entropy * self.qi_security_margin
 
         # Generate cryptographic salt
         salt = secrets.token_bytes(32)
@@ -286,7 +286,7 @@ class MaximumEntropyPasswordGenerator:
             colony_confidence = await self._validate_with_colony(components)
 
         # Create password object
-        password = QuantumResistantPassword(
+        password = QIResistantPassword(
             password_id=hashlib.sha256(
                 f"{self.user_id}_{time.time()}".encode()
             ).hexdigest()[:16],
@@ -302,7 +302,7 @@ class MaximumEntropyPasswordGenerator:
             key_derivation="scrypt",
             iterations=2**20,
             total_entropy_bits=total_entropy,
-            quantum_resistance_bits=quantum_entropy,
+            qi_resistance_bits=qi_entropy,
             memorability_score=memorability,
             creation_time=time.time(),
             last_used=time.time(),
@@ -311,7 +311,7 @@ class MaximumEntropyPasswordGenerator:
 
         logger.info(
             f"Generated password with {total_entropy:.2f} bits of entropy "
-            f"({quantum_entropy:.2f} quantum-resistant bits)"
+            f"({qi_entropy:.2f} quantum-resistant bits)"
         )
 
         return password
@@ -620,7 +620,7 @@ async def demo_maximum_entropy_password():
     print()
 
     # Create generator
-    generator = MaximumEntropyPasswordGenerator("quantum_user")
+    generator = MaximumEntropyPasswordGenerator("qi_user")
 
     # Generate maximum entropy password
     password = await generator.generate_maximum_entropy_password(
@@ -635,7 +635,7 @@ async def demo_maximum_entropy_password():
 
     # Display components
     print(f"📊 Total Entropy: {password.total_entropy_bits:.2f} bits")
-    print(f"🛡️  Quantum Resistance: {password.quantum_resistance_bits:.2f} bits")
+    print(f"🛡️  Quantum Resistance: {password.qi_resistance_bits:.2f} bits")
     print(f"🧠 Memorability Score: {password.memorability_score:.2%}")
 
     if password.colony_consensus:
@@ -680,17 +680,17 @@ async def demo_maximum_entropy_password():
     guesses_per_second_quantum = 1e15  # 1000x faster (theoretical quantum)
 
     total_possibilities = 2**password.total_entropy_bits
-    quantum_possibilities = 2**password.quantum_resistance_bits
+    qi_possibilities = 2**password.qi_resistance_bits
 
     classical_seconds = total_possibilities / (2 * guesses_per_second_classical)
-    quantum_seconds = quantum_possibilities / (2 * guesses_per_second_quantum)
+    qi_seconds = qi_possibilities / (2 * guesses_per_second_quantum)
 
     # Convert to years
     classical_years = classical_seconds / (365 * 24 * 3600)
-    quantum_years = quantum_seconds / (365 * 24 * 3600)
+    qi_years = qi_seconds / (365 * 24 * 3600)
 
     print(f"Classical Computer: {classical_years:.2e} years")
-    print(f"Quantum Computer: {quantum_years:.2e} years")
+    print(f"Quantum Computer: {qi_years:.2e} years")
 
     # Compare to age of universe
     age_of_universe = 13.8e9  # 13.8 billion years

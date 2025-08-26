@@ -1,7 +1,12 @@
 # path: qi/memory/consent_ledger.py
 from __future__ import annotations
-import os, json, time, hashlib, argparse
-from dataclasses import dataclass, asdict
+
+import argparse
+import hashlib
+import json
+import os
+import time
+from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Optional
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
@@ -18,7 +23,7 @@ KAFKA_TOPIC   = os.environ.get("CONSENT_KAFKA_TOPIC")       # e.g., lukhas.conse
 # Reuse Merkle + ed25519 attestation from provenance
 _HAS_ATTEST = True
 try:
-    from qi.ops.provenance import merkle_chain, attest  # pip install pynacl
+    from qi.ops.provenance import attest, merkle_chain  # pip install pynacl
 except Exception:
     _HAS_ATTEST = False
 
@@ -39,7 +44,7 @@ def _sha(d: Dict[str, Any]) -> str:
 
 def _read_index() -> Dict[str, Dict[str, Dict[str, Any]]]:
     try:
-        return json.load(open(IDX, "r", encoding="utf-8"))
+        return json.load(open(IDX, encoding="utf-8"))
     except Exception:
         return {}
 
@@ -96,7 +101,7 @@ def _append_event(evt: ConsentEvent) -> None:
 def record(user: str, purpose: str, fields: List[str], duration_days: int, meta: Optional[Dict[str,Any]] = None) -> ConsentEvent:
     now = time.time()
     grant = {"ts": now, "user": user, "purpose": purpose, "kind":"grant",
-             "fields": list(sorted(set(fields))), "duration_days": int(duration_days), "meta": meta or {}}
+             "fields": sorted(set(fields)), "duration_days": int(duration_days), "meta": meta or {}}
     receipt = _sign_receipt(grant)
     event_id = _sha({"u":user,"p":purpose,"k":"g","t":int(now)})
     evt = ConsentEvent(ts=now, user=user, purpose=purpose, kind="grant",

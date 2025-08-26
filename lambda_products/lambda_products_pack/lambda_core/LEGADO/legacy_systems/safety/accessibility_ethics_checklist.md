@@ -49,8 +49,8 @@ This checklist verifies compliance with ethical, accessibility, and privacy stan
 
 ---
 
-📁 LOCATION: `compliance/accessibility_ethics_checklist.md`  
-🔐 SECURED: Tracked via Lukhas_ID  
+📁 LOCATION: `compliance/accessibility_ethics_checklist.md`
+🔐 SECURED: Tracked via Lukhas_ID
 📌 TAGS: #ethics #accessibility #lucasid #compliance_ready #eulaw
 
 #guide:lukhas_ethics

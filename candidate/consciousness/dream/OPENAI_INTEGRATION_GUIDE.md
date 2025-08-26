@@ -223,7 +223,7 @@ dream_outputs/
 
 The system respects user consent for:
 - Memory sampling
-- Image generation  
+- Image generation
 - Voice synthesis
 - Data logging
 

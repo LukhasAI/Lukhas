@@ -17,7 +17,7 @@ cd "$REPO_ROOT"
 compare_files_ignore_tags() {
     local file1="$1"
     local file2="$2"
-    
+
     # Remove TAG comments and compare
     diff -q <(grep -v "^#TAG:" "$file1" 2>/dev/null || echo "") \
             <(grep -v "^#TAG:" "$file2" 2>/dev/null || echo "") >/dev/null 2>&1
@@ -78,7 +78,7 @@ cat > VOCABULARY_COMPARISON_REPORT.md << 'EOF'
 ### Duplicate Files (safe to consolidate)
 Files that are identical except for TAG comments:
 - bio_vocabulary.py
-- dream_vocabulary.py  
+- dream_vocabulary.py
 - identity_vocabulary.py
 - voice_vocabulary.py
 - vision_vocabulary.py
@@ -158,38 +158,38 @@ def analyze_vocabularies():
         'core/symbolic_legacy/vocabularies',
         'branding/unified/vocabularies'
     ]
-    
+
     vocab_files = {}
-    
+
     for dir_path in vocab_dirs:
         if os.path.exists(dir_path):
             for file in Path(dir_path).glob('*vocabulary*.py'):
                 if file.is_file():
                     file_hash = get_file_hash(file)
                     file_name = file.name
-                    
+
                     if file_name not in vocab_files:
                         vocab_files[file_name] = []
-                    
+
                     vocab_files[file_name].append({
                         'path': str(file),
                         'hash': file_hash,
                         'size': file.stat().st_size
                     })
-    
+
     # Report findings
     print("\n=== Vocabulary File Analysis ===\n")
-    
+
     for filename, locations in vocab_files.items():
         print(f"{filename}:")
-        
+
         # Group by hash
         hash_groups = {}
         for loc in locations:
             if loc['hash'] not in hash_groups:
                 hash_groups[loc['hash']] = []
             hash_groups[loc['hash']].append(loc)
-        
+
         if len(hash_groups) == 1:
             print(f"  ✓ All {len(locations)} copies are identical")
             for loc in locations:

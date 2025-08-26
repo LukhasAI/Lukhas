@@ -34,16 +34,16 @@ from lukhas.core.circuit_breaker import CascadePreventionSystem
 async def basic_supervision():
     # Get actor system
     system = await get_global_actor_system()
-    
+
     # Create root supervisor
     root = await system.create_actor(RootSupervisor, "root-supervisor")
-    
+
     # Create a supervised worker
     worker = await root.ask("create_child", {
         "child_class": YourWorkerActor,
         "child_id": "worker-001"
     })
-    
+
     # Worker is now protected - will auto-restart on failure
     result = await worker.ask("do_work", {"task": "important"})
 ```
@@ -53,24 +53,24 @@ async def basic_supervision():
 ```python
 async def observable_system():
     system = await get_global_actor_system()
-    
+
     # Start observability
     collector = ObservabilityCollector()
     collector.start()
-    
+
     # Create observable actor
     from lukhas.core.observability_steering import ObservableActor
-    
+
     class MyObservableActor(ObservableActor):
         def __init__(self, actor_id: str):
             super().__init__(actor_id, collector)
-            
+
         async def handle_work(self, message):
             # Automatically tracked!
             return {"status": "completed"}
-    
+
     actor = await system.create_actor(MyObservableActor, "observable-001")
-    
+
     # Check system health
     overview = collector.get_system_overview()
     print(f"System health: {overview['health']}")
@@ -83,14 +83,14 @@ async def protected_system():
     system = await get_global_actor_system()
     collector = ObservabilityCollector()
     collector.start()
-    
+
     # Create cascade prevention
     cascade_prevention = CascadePreventionSystem(system, collector)
     await cascade_prevention.start()
-    
+
     # All calls are now protected
     actor_ref = await system.create_actor(YourActor, "protected-001")
-    
+
     try:
         # Automatically protected with circuit breaker
         result = await cascade_prevention.protected_call(
@@ -108,34 +108,34 @@ async def protected_system():
 ```python
 async def debuggable_system():
     system = await get_global_actor_system()
-    
+
     # Setup event sourcing
     event_store = EventStore()
     snapshot_store = SnapshotStore()
     await event_store.start()
-    
+
     # Create event-sourced actor
     from lukhas.core.event_replay_snapshot import EventSourcedActor
-    
+
     class DebuggableActor(EventSourcedActor):
         def __init__(self, actor_id: str):
             super().__init__(actor_id, event_store, snapshot_store)
             self.state = "initial"
-            
+
         async def handle_update(self, message):
             old_state = self.state
             self.state = message.payload["new_state"]
-            
+
             # Automatically recorded!
             await self.record_state_change(
                 "state_update", old_state, self.state
             )
-    
+
     actor = await system.create_actor(DebuggableActor, "debuggable-001")
-    
+
     # Create replay controller
     replay = ReplayController(system, event_store, snapshot_store)
-    
+
     # Mark checkpoint
     checkpoint = await replay.create_debugging_checkpoint("Before changes")
 ```
@@ -145,33 +145,33 @@ async def debuggable_system():
 ```python
 async def complete_resilient_service():
     """A complete example combining all features"""
-    
+
     # 1. Initialize all components
     system = await get_global_actor_system()
     event_store = EventStore()
     snapshot_store = SnapshotStore()
     collector = ObservabilityCollector()
-    
+
     await event_store.start()
     collector.start()
-    
+
     cascade_prevention = CascadePreventionSystem(system, collector)
     await cascade_prevention.start()
-    
+
     # 2. Create root supervisor
     root = await system.create_actor(RootSupervisor, "root-supervisor")
-    
+
     # 3. Define resilient actor
     from lukhas.core.observability_steering import ObservableActor
     from lukhas.core.event_replay_snapshot import EventSourcedActor
-    
+
     class ResilientService(ObservableActor, EventSourcedActor):
         def __init__(self, actor_id: str):
             ObservableActor.__init__(self, actor_id, collector)
             EventSourcedActor.__init__(self, actor_id, event_store, snapshot_store)
             self.register_handler("process", self._handle_process)
             self.processed_count = 0
-            
+
         async def _handle_process(self, message):
             # Record state change
             await self.record_state_change(
@@ -179,22 +179,22 @@ async def complete_resilient_service():
                 self.processed_count,
                 self.processed_count + 1
             )
-            
+
             # Simulate work
             await asyncio.sleep(0.1)
             self.processed_count += 1
-            
+
             return {"count": self.processed_count}
-        
+
         def get_custom_metrics(self):
             return {"processed": self.processed_count}
-    
+
     # 4. Create supervised service
     service = await root.ask("create_child", {
         "child_class": ResilientService,
         "child_id": "resilient-service-001"
     })
-    
+
     # 5. Use with protection
     for i in range(10):
         try:
@@ -207,26 +207,26 @@ async def complete_resilient_service():
             print(f"Processed: {result}")
         except Exception as e:
             print(f"Failed: {e}")
-    
+
     # 6. Check system status
     status = cascade_prevention.get_system_status()
     print(f"\nSystem Status:")
     print(f"  Health Score: {status['health_score']:.2%}")
     print(f"  Emergency Mode: {status['emergency_mode']}")
     print(f"  Quarantined Actors: {len(status['quarantined_actors'])}")
-    
+
     # 7. Interactive debugging
     steering = SteeringController(system)
     dashboard = ObservabilityDashboard(collector, steering)
-    
+
     graph = await dashboard.get_actor_graph()
     print(f"\nActor Network: {len(graph['nodes'])} nodes, {len(graph['edges'])} edges")
-    
+
     # 8. Create checkpoint for debugging
     replay = ReplayController(system, event_store, snapshot_store)
     checkpoint = await replay.create_debugging_checkpoint("End of demo")
     print(f"\nCheckpoint created: {checkpoint}")
-    
+
     # Cleanup
     await cascade_prevention.stop()
     await event_store.stop()

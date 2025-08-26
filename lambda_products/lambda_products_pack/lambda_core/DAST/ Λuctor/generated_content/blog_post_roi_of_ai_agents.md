@@ -115,7 +115,7 @@ Most ROI calculations miss the transformative effects:
 ### Employee Liberation
 When you remove repetitive tasks, your humans become innovators:
 - 43% increase in creative output
-- 67% improvement in job satisfaction  
+- 67% improvement in job satisfaction
 - 51% reduction in turnover
 
 ### Customer Experience Revolution

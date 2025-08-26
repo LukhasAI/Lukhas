@@ -492,7 +492,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
                 "superposition",
                 "entanglement",
                 "interference",
-                "quantum_algorithms",
+                "qi_algorithms",
             ],
             "general": ["general_processing", "coordination", "communication"],
         }

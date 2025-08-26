@@ -8,9 +8,9 @@ from pathlib import Path
 
 
 def consolidate_quantum_sgi_core():
-    """Consolidate quantum_sgi_core into unified system"""
+    """Consolidate qi_sgi_core into unified system"""
 
-    print("🔧 Consolidating quantum_sgi_core...")
+    print("🔧 Consolidating qi_sgi_core...")
     print("   Vision: True quantum processing for SGI")
 
     # Target directory
@@ -40,7 +40,7 @@ def consolidate_quantum_sgi_core():
     # 5. Update imports
     # 6. Run tests
 
-    print("✅ quantum_sgi_core consolidation complete!")
+    print("✅ qi_sgi_core consolidation complete!")
 
 
 if __name__ == "__main__":

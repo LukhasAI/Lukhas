@@ -45,7 +45,7 @@
 - Ready for Version 3 development
 
 ## Color Palette Summary
-- **Primary**: Slate (conservative gray tones)  
+- **Primary**: Slate (conservative gray tones)
 - **Backgrounds**: `slate-700/20`, `slate-600/20`
 - **Text**: `slate-400`, `slate-500`
 - **Borders**: `slate-600/20`, `slate-500/20`

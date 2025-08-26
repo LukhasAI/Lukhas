@@ -28,14 +28,14 @@ deploy_agent() {
     local agent_role=$2
     local context_dirs=$3
     local priority=$4
-    
+
     echo "🚀 Deploying: $agent_name"
     echo "   Role: $agent_role"
     echo "   Priority: $priority"
-    
+
     # Create agent workspace
     mkdir -p "$LUKHAS_ROOT/CLAUDE_ARMY/workspaces/$agent_name"
-    
+
     # Generate optimized config for Max x20
     cat > "$LUKHAS_ROOT/CLAUDE_ARMY/workspaces/$agent_name/config.json" <<EOF
 {
@@ -55,7 +55,7 @@ deploy_agent() {
     }
 }
 EOF
-    
+
     echo "   ✅ Agent $agent_name configured"
     echo ""
 }
@@ -71,7 +71,7 @@ deploy_agent \
     "identity/,serve/auth/,api/auth/" \
     "critical"
 
-# 2. Consent & Compliance Specialist  
+# 2. Consent & Compliance Specialist
 deploy_agent \
     "consent-compliance-specialist" \
     "GDPR, Privacy, Audit Trails" \
@@ -181,14 +181,14 @@ class ClaudeMaxCoordinator:
     def __init__(self):
         self.agents = {
             "identity": "identity-auth-specialist",
-            "consent": "consent-compliance-specialist", 
+            "consent": "consent-compliance-specialist",
             "adapter": "adapter-integration-specialist",
             "orchestrator": "context-orchestrator-specialist",
             "testing": "testing-devops-specialist",
             "ux": "ux-feedback-specialist"
         }
         self.max_concurrent = 6  # Max x20 plan limit
-        
+
     async def execute_mvp_demo(self):
         """Execute the MVP demo workflow"""
         workflow = [
@@ -199,23 +199,23 @@ class ClaudeMaxCoordinator:
             ("orchestrator", "Coordinate multi-AI analysis"),
             ("ux", "Display results and collect feedback")
         ]
-        
+
         for agent_key, task in workflow:
             agent_name = self.agents[agent_key]
             print(f"🤖 {agent_name}: {task}")
             await asyncio.sleep(0.5)  # Simulate work
-            
+
         print("✅ MVP Demo Complete!")
-        
+
     async def parallel_development(self):
         """Run agents in parallel for development"""
         tasks = []
         for agent_key, agent_name in self.agents.items():
             task = asyncio.create_task(self.agent_work(agent_name))
             tasks.append(task)
-            
+
         await asyncio.gather(*tasks)
-        
+
     async def agent_work(self, agent_name: str):
         """Simulate agent doing work"""
         print(f"⚡ {agent_name} working...")
@@ -224,14 +224,14 @@ class ClaudeMaxCoordinator:
 
 if __name__ == "__main__":
     coordinator = ClaudeMaxCoordinator()
-    
+
     print("🎯 LUKHAS AI - Claude Max x20 Coordinator")
     print("=========================================")
     print("1. Run MVP Demo")
     print("2. Parallel Development Mode")
-    
+
     choice = input("\nSelect mode (1 or 2): ")
-    
+
     if choice == "1":
         asyncio.run(coordinator.execute_mvp_demo())
     else:

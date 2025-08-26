@@ -41,7 +41,7 @@ fi
 # Deploy agents
 echo -e "${GREEN}🎯 Deploying Trinity Agents...${NC}"
 echo "1. Chief Consciousness Architect (⚛️)"
-echo "2. Guardian System Engineer (🛡️)" 
+echo "2. Guardian System Engineer (🛡️)"
 echo "3. Innovation Velocity Lead (🧠)"
 echo "4. Full-Stack Consciousness Developer"
 echo "5. DevOps Consciousness Guardian"

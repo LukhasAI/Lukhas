@@ -4,19 +4,19 @@
  */
 
 import { useEffect, useState, useCallback } from 'react'
-import { 
-  AppState, 
-  AppEvent, 
+import {
+  AppState,
+  AppEvent,
   StateConfig,
-  UserJourneyStateMachine, 
-  getGlobalStateMachine 
+  UserJourneyStateMachine,
+  getGlobalStateMachine
 } from '@/lib/state-machine'
 
 export interface UseStateMachineResult {
   // Current state
   currentState: AppState
   stateConfig: StateConfig
-  
+
   // State checkers
   isBootState: boolean
   isQuoteState: boolean
@@ -26,15 +26,15 @@ export interface UseStateMachineResult {
   isLoginFlow: boolean
   isStudioActive: boolean
   hasCompletedOnboarding: boolean
-  
+
   // Actions
   transition: (event: AppEvent) => boolean
   canTransition: (event: AppEvent) => boolean
   reset: () => void
-  
+
   // Effects
   activeEffects: string[]
-  
+
   // Convenience actions
   enterStudio: () => void
   startLogin: () => void
@@ -45,18 +45,18 @@ export interface UseStateMachineResult {
 export function useStateMachine(): UseStateMachineResult {
   const [stateMachine] = useState<UserJourneyStateMachine>(() => getGlobalStateMachine())
   const [currentState, setCurrentState] = useState<AppState>(stateMachine.getCurrentState())
-  
+
   // Update local state when state machine changes
   useEffect(() => {
     const unsubscribe = stateMachine.subscribe((newState, event) => {
       setCurrentState(newState)
-      
+
       // Log state changes for debugging
       if (process.env.NODE_ENV === 'development') {
         console.log(`🎯 State changed to: ${newState}`, { event })
       }
     })
-    
+
     return unsubscribe
   }, [stateMachine])
 
@@ -93,7 +93,7 @@ export function useStateMachine(): UseStateMachineResult {
     // Current state
     currentState,
     stateConfig: stateMachine.getStateConfig(),
-    
+
     // State checkers
     isBootState: stateMachine.isBootState(),
     isQuoteState: stateMachine.isQuoteState(),
@@ -103,15 +103,15 @@ export function useStateMachine(): UseStateMachineResult {
     isLoginFlow: stateMachine.isLoginFlow(),
     isStudioActive: stateMachine.isStudioActive(),
     hasCompletedOnboarding: stateMachine.hasCompletedOnboarding(),
-    
+
     // Actions
     transition,
     canTransition,
     reset,
-    
+
     // Effects
     activeEffects: stateMachine.getActiveEffects(),
-    
+
     // Convenience actions
     enterStudio,
     startLogin,

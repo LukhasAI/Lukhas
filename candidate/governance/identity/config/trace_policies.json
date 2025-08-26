@@ -16,7 +16,7 @@
       },
       "session_events": {
         "symbol": "🔐",
-        "priority": "medium", 
+        "priority": "medium",
         "retention_days": 90,
         "enterprise_required": false
       },

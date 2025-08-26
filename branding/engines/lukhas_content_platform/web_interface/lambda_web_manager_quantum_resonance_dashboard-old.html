@@ -607,7 +607,7 @@
         function connectWebSocket() {
             try {
                 ws = new WebSocket('ws://localhost:8765/quantum-resonance');
-                
+
                 ws.onopen = function() {
                     console.log('Connected to Quantum Resonance Dashboard');
                     updateConnectionStatus('connected');
@@ -648,16 +648,16 @@
         function updateResonanceChart(data) {
             const chart = resonanceChart;
             const now = new Date();
-            
+
             chart.data.labels.push(now);
             chart.data.datasets[0].data.push(data.resonance_score * 100);
-            
+
             // Keep only last 20 data points
             if (chart.data.labels.length > 20) {
                 chart.data.labels.shift();
                 chart.data.datasets[0].data.shift();
             }
-            
+
             chart.update('none');
         }
 
@@ -670,11 +670,11 @@
 
         function updateMetrics(data) {
             if (data.resonance_score) {
-                document.getElementById('currentResonance').textContent = 
+                document.getElementById('currentResonance').textContent =
                     (data.resonance_score * 100).toFixed(1) + '%';
             }
             if (data.quantum_coherence) {
-                document.getElementById('coherenceLevel').textContent = 
+                document.getElementById('coherenceLevel').textContent =
                     (data.quantum_coherence * 100).toFixed(1) + '%';
             }
         }
@@ -686,7 +686,7 @@
         function updateConnectionStatus(status) {
             const indicator = document.querySelector('.status-indicator span');
             const dot = document.querySelector('.status-dot');
-            
+
             switch (status) {
                 case 'connected':
                     indicator.textContent = 'Real-time Quantum Analysis Active';
@@ -720,7 +720,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeCharts();
             connectWebSocket();
-            
+
             // Simulate data updates every 3 seconds if WebSocket is not available
             setInterval(simulateRealtimeData, 3000);
         });

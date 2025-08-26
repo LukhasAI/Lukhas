@@ -3,14 +3,14 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import TextReveal from './TextReveal';
 
-const EnhancedSection = ({ 
-  id, 
-  title, 
-  content, 
+const EnhancedSection = ({
+  id,
+  title,
+  content,
   background = 'transparent',
   titleDelay = 0,
   contentDelay = 0.3,
-  parallax = false 
+  parallax = false
 }) => {
   const sectionRef = useRef(null);
   const backgroundRef = useRef(null);
@@ -18,7 +18,7 @@ const EnhancedSection = ({
   useEffect(() => {
     const section = sectionRef.current;
     const bg = backgroundRef.current;
-    
+
     if (!section) return;
 
     // Parallax effect for background
@@ -36,7 +36,7 @@ const EnhancedSection = ({
     }
 
     // Section entrance animation
-    gsap.fromTo(section, 
+    gsap.fromTo(section,
       { opacity: 0 },
       {
         opacity: 1,
@@ -58,21 +58,21 @@ const EnhancedSection = ({
     };
   }, [parallax]);
 
-  const backgroundClass = background === 'glass' 
-    ? 'bg-white/50 backdrop-blur-sm' 
+  const backgroundClass = background === 'glass'
+    ? 'bg-white/50 backdrop-blur-sm'
     : background === 'gradient'
     ? 'gradient-overlay'
     : '';
 
   return (
-    <section 
+    <section
       ref={sectionRef}
-      id={id} 
+      id={id}
       className={`min-h-screen flex items-center justify-center relative overflow-hidden ${backgroundClass}`}
     >
       {/* Background Element for Parallax */}
       {parallax && (
-        <div 
+        <div
           ref={backgroundRef}
           className="absolute inset-0 w-full h-[120%] -z-10"
           style={{
@@ -83,7 +83,7 @@ const EnhancedSection = ({
 
       <div className="container mx-auto px-6 text-center relative z-10">
         {/* Title with Text Reveal */}
-        <TextReveal 
+        <TextReveal
           className="text-4xl md:text-6xl font-light text-slate-800 mb-8 lambda"
           delay={titleDelay}
           stagger={0.03}
@@ -92,7 +92,7 @@ const EnhancedSection = ({
         </TextReveal>
 
         {/* Content with Text Reveal */}
-        <TextReveal 
+        <TextReveal
           className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed"
           delay={contentDelay}
           stagger={0.01}
@@ -110,4 +110,3 @@ const EnhancedSection = ({
 };
 
 export default EnhancedSection;
-

@@ -23,13 +23,13 @@ grep -r "TODO:" . \
   --include="*.yaml" \
   --include="*.json" \
   -n -H | while IFS=: read -r file line content; do
-  
+
   # Extract module name from file path
   module=$(echo "$file" | cut -d'/' -f2-3 | sed 's/\//./g')
-  
+
   # Generate unique task ID
   task_id="LUKHAS-TODO-$(echo "$file$line" | md5sum | cut -c1-8 | tr '[:lower:]' '[:upper:]')"
-  
+
   # Determine Trinity alignment based on module
   if [[ "$file" == *"governance"* ]] || [[ "$file" == *"ethics"* ]] || [[ "$file" == *"guardian"* ]]; then
     trinity_primary="guardian"
@@ -37,7 +37,7 @@ grep -r "TODO:" . \
     trinity_score_consciousness=0.3
     trinity_score_identity=0.2
   elif [[ "$file" == *"consciousness"* ]] || [[ "$file" == *"vivox"* ]] || [[ "$file" == *"memory"* ]]; then
-    trinity_primary="consciousness" 
+    trinity_primary="consciousness"
     trinity_score_consciousness=1.0
     trinity_score_identity=0.6
     trinity_score_guardian=0.4
@@ -52,7 +52,7 @@ grep -r "TODO:" . \
     trinity_score_identity=0.4
     trinity_score_guardian=0.4
   fi
-  
+
   # Assign primary agent based on module
   if [[ "$file" == *"test"* ]]; then
     primary_agent="consciousness-dev"
@@ -63,7 +63,7 @@ grep -r "TODO:" . \
   else
     primary_agent="consciousness-dev"
   fi
-  
+
   # Determine priority based on context
   if [[ "$content" == *"CRITICAL"* ]] || [[ "$content" == *"URGENT"* ]] || [[ "$content" == *"FIXME"* ]]; then
     priority="P1_HIGH"
@@ -75,10 +75,10 @@ grep -r "TODO:" . \
     priority="P3_LOW"
     consciousness_impact="OPTIMIZATION"
   fi
-  
+
   # Clean TODO content
   todo_content=$(echo "$content" | sed 's/.*TODO:[ ]*//' | sed 's/^[ \t]*//' | sed 's/[ \t]*$//')
-  
+
   # Generate task file
   cat > ".claude/tasks/generated/todos/${task_id}.json" << EOF
 {

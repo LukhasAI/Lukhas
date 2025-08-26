@@ -24,7 +24,7 @@ safe_replace() {
     local old_pattern="$2"
     local new_pattern="$3"
     local description="$4"
-    
+
     if [[ -f "$file" ]]; then
         echo "🔄 $description: $(basename "$file")"
         cp "$file" "$backup_dir/$(basename "$file").backup"
@@ -104,7 +104,7 @@ echo
 echo "📊 Summary:"
 echo "  📦 Backup created: $backup_dir"
 echo "  🔄 Updated: Python imports"
-echo "  🔄 Updated: Configuration files"  
+echo "  🔄 Updated: Configuration files"
 echo "  🔄 Updated: Documentation"
 echo "  🔄 Updated: CI/CD workflows"
 echo "  🔄 Updated: Environment templates"

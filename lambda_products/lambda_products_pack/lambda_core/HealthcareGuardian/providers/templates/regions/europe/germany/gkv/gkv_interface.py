@@ -5,18 +5,19 @@ This module provides integration points for Germany's statutory health
 insurance system (Gesetzliche Krankenversicherung - GKV).
 """
 
-from typing import Dict, Any, List, Optional
-from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 from ...interfaces.ehr_interface import EHRInterface
-from ...security.security_utils import EncryptionHandler, AuditLogger
+from ...security.security_utils import AuditLogger, EncryptionHandler
+
 
 class GKVInterface(EHRInterface):
     """Implementation of EHR interface for German GKV"""
-    
+
     def __init__(self, config: Dict[str, Any]):
         """
         Initialize GKV interface with configuration
-        
+
         Args:
             config: Configuration dictionary containing:
                 - betriebsnummer: Institution identifier
@@ -29,7 +30,7 @@ class GKVInterface(EHRInterface):
         self.encryption = EncryptionHandler(config)
         self.audit = AuditLogger(config)
         self._validate_config()
-        
+
     def _validate_config(self):
         """Validate GKV-specific configuration"""
         required_fields = [
@@ -42,7 +43,7 @@ class GKVInterface(EHRInterface):
         for field in required_fields:
             if field not in self.config:
                 raise ValueError(f"Missing required GKV configuration: {field}")
-    
+
     async def initialize(self, config: Dict[str, Any]) -> None:
         """Initialize connection to GKV systems"""
         # Implement GKV-specific initialization
@@ -50,13 +51,13 @@ class GKVInterface(EHRInterface):
         # - Initialize KV-Connect
         # - Verify healthcare provider card (HBA)
         pass
-    
+
     async def get_patient_record(self,
                                patient_id: str,
                                record_types: Optional[List[str]] = None) -> Dict[str, Any]:
         """
         Retrieve patient records from GKV
-        
+
         Args:
             patient_id: Versichertennummer (Insurance number)
             record_types: Types of records to retrieve
@@ -68,13 +69,13 @@ class GKVInterface(EHRInterface):
         )
         # Implement GKV-specific record retrieval
         pass
-    
+
     async def verify_insurance_status(self,
                                    versichertennummer: str,
                                    leistungsart: str) -> Dict[str, Any]:
         """
         Verify insurance status and coverage
-        
+
         Args:
             versichertennummer: Insurance number
             leistungsart: Type of medical service
@@ -86,7 +87,7 @@ class GKVInterface(EHRInterface):
         )
         # Implement insurance verification
         pass
-    
+
     async def submit_kvdt_data(self,
                              patient_id: str,
                              kvdt_data: Dict[str, Any]) -> str:
@@ -98,13 +99,13 @@ class GKVInterface(EHRInterface):
         )
         # Implement KVDT submission
         pass
-    
+
     async def get_referral_info(self,
                               referral_id: str) -> Dict[str, Any]:
         """Get information about a referral (Überweisung)"""
         # Implement referral retrieval
         pass
-    
+
     async def create_prescription(self,
                                 patient_id: str,
                                 prescription_data: Dict[str, Any]) -> str:
@@ -116,7 +117,7 @@ class GKVInterface(EHRInterface):
         )
         # Implement e-prescription creation
         pass
-    
+
     async def handle_error(self, error: Exception) -> None:
         """Handle GKV-specific errors"""
         self.audit.log_security_event(

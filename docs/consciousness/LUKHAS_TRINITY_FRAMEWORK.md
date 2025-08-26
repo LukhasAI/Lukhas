@@ -13,7 +13,7 @@ Each communication journey begins in the ethereal clouds of metaphor and wonder,
 The LUKHAS Trinity Framework is like having three different translators, each perfect for their audience:
 
 1. **🎭 The Poet** - Captures imagination and inspiration
-2. **🌈 The Friend** - Explains clearly and builds trust  
+2. **🌈 The Friend** - Explains clearly and builds trust
 3. **🎓 The Expert** - Provides complete technical details
 
 **Why Three Layers?**
@@ -43,7 +43,7 @@ Instead of just saying "Our API has 99.9% uptime," we say:
       "tone": "Ethereal, profound, inspiring"
     },
     "layer_2": {
-      "name": "Human Connection", 
+      "name": "Human Connection",
       "symbol": "🌈",
       "purpose": "Build understanding and trust",
       "length": "2-5 paragraphs",
@@ -51,7 +51,7 @@ Instead of just saying "Our API has 99.9% uptime," we say:
     },
     "layer_3": {
       "name": "Technical Precision",
-      "symbol": "🎓", 
+      "symbol": "🎓",
       "purpose": "Provide complete technical understanding",
       "length": "As needed for completeness",
       "tone": "Professional, precise, comprehensive"

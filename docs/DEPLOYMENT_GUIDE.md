@@ -292,7 +292,7 @@ services:
       - CONSENSUS_REQUIRED=3
     deploy:
       replicas: 5  # Odd number for consensus
-      
+
   api-gateway:
     image: lukhas/api-gateway:latest
     restart: always
@@ -303,7 +303,7 @@ services:
       - SSL_KEY=/certs/privkey.pem
     volumes:
       - ./certs:/certs:ro
-      
+
   postgres:
     image: postgres:14-alpine
     restart: always
@@ -315,7 +315,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     secrets:
       - db_password
-      
+
   redis:
     image: redis:7-alpine
     restart: always
@@ -348,7 +348,7 @@ server {
     ssl_certificate_key /certs/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
-    
+
     location / {
         proxy_pass http://brain-hub:8000;
         proxy_set_header Host $host;
@@ -356,7 +356,7 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
-    
+
     location /ws {
         proxy_pass http://brain-hub:8000;
         proxy_http_version 1.1;
@@ -550,7 +550,7 @@ Deploy with Helm:
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 
-# Install LUKHAS 
+# Install LUKHAS
 helm install lukhas- ./helm/lukhas- \
   --namespace lukhas-core \
   --create-namespace \
@@ -567,16 +567,16 @@ class BaseConfig:
     # Core settings
     APP_NAME = "LUKHAS "
     VERSION = "1.0.0"
-    
+
     # Guardian settings
     GUARDIAN_ENABLED = True
     ETHICS_FRAMEWORK = "multi-framework"
-    
+
     # Memory settings
     MEMORY_BACKEND = "postgresql"
     MEMORY_CACHE = "redis"
     DNA_HELIX_DRIFT_THRESHOLD = 0.3
-    
+
     # Module settings
     MODULE_TIMEOUT = 30  # seconds
     MODULE_RETRY_COUNT = 3
@@ -586,11 +586,11 @@ class ProductionConfig(BaseConfig):
     ENVIRONMENT = "production"
     DEBUG = False
     LOG_LEVEL = "INFO"
-    
+
     # Performance
     WORKERS = 4
     WORKER_CONNECTIONS = 1000
-    
+
     # Security
     REQUIRE_HTTPS = True
     SESSION_COOKIE_SECURE = True
@@ -633,7 +633,7 @@ scrape_configs:
     - source_labels: [__meta_kubernetes_pod_label_app]
       action: keep
       regex: brain-hub
-      
+
   - job_name: 'guardian'
     kubernetes_sd_configs:
     - role: pod
@@ -709,7 +709,7 @@ LOGGING = {
    ```bash
    # Check Guardian logs
    kubectl logs -n lukhas-core -l app=guardian --tail=100
-   
+
    # Verify ethics configuration
    kubectl describe configmap guardian-config -n lukhas-core
    ```
@@ -718,7 +718,7 @@ LOGGING = {
    ```python
    # Check drift levels
    python scripts/check_memory_drift.py
-   
+
    # Force repair if needed
    python scripts/repair_memory.py --memory-id <id> --method partial_heal
    ```
@@ -727,7 +727,7 @@ LOGGING = {
    ```bash
    # Check GLYPH token flow
    kubectl logs -n lukhas-core brain-hub-0 | grep GLYPH
-   
+
    # Verify module connectivity
    kubectl exec -n lukhas-core brain-hub-0 -- python -c "
    from orchestration.brain import test_connectivity
@@ -782,7 +782,7 @@ psql -h localhost -U lukhas -d lukhas -c "VACUUM ANALYZE;"
 
 # Check table sizes
 psql -h localhost -U lukhas -d lukhas -c "
-SELECT schemaname,tablename,pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) 
+SELECT schemaname,tablename,pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename))
 FROM pg_tables WHERE schemaname = 'public' ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
 "
 ```
@@ -832,11 +832,11 @@ helm upgrade lukhas- ./helm/lukhas- \
    ```bash
    # Restore database
    psql -h localhost -U lukhas -d lukhas < backup_20240115.sql
-   
+
    # Restore configurations
    kubectl apply -f configs_backup.yaml
    kubectl apply -f secrets_backup.yaml
-   
+
    # Restart all services
    kubectl rollout restart deployment -n lukhas-core
    ```
@@ -845,7 +845,7 @@ helm upgrade lukhas- ./helm/lukhas- \
    ```python
    # Restore specific memories
    python scripts/restore_memories.py --input backups/memories_20240115.json --memory-ids mem1,mem2
-   
+
    # Repair corrupted modules
    python scripts/repair_module.py --module consciousness --check-integrity
    ```

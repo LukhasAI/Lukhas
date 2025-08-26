@@ -1,34 +1,15 @@
 ## Summary
-- [ ] Describes purpose, risk, rollback plan
+Promote `core/<MODULE>` from candidate → lukhas. One module only.
 
-## Scope & Interfaces
-- [ ] Touches Core Surface API (context bus / adapters / identity / consent)
-  - If yes: increments bus_schema_version and updates tests
-- [ ] Lists old -> new imports added to docs/MIGRATION_GUIDE.md
-- [ ] Adds/updates compatibility shims (if moving modules) with removal date
+## Checks
+- [ ] Candidate smoke: `tests/smoke/test_<MODULE>_candidate_smoke.py` passes
+- [ ] Lukhas smoke: `tests/smoke/test_<MODULE>_lukhas_smoke.py` passes
+- [ ] Imports updated only in promoted files (core.* → lukhas.core.*)
+- [ ] TEMP shim added? (Y/N) — if Y, list dependents
+- [ ] ops/matriz.yaml lane updated
+- [ ] lanes/<MODULE>/README.md created/updated
+- [ ] MATRIZ_PLAN.md updated (Promotion Decisions)
 
-## Safety & Policy
-- [ ] All privileged steps evaluated by policy hot-path
-- [ ] Emits Λ-trace + UNL explanation for actions
-- [ ] No vendor API calls outside adapters
-- [ ] PII linter clean
-
-## Brand Policy (for UI/content changes)
-- [ ] **No public "MATADA"** references in user-facing content
-- [ ] **"Matriz"** used in body text, SEO, alt text, metadata  
-- [ ] **"MΛTRIZ"** only in logos, hero sections, wordmarks
-- [ ] **All Λ usage** includes `aria-label="Matriz"`
-- [ ] **No banned words**: guaranteed, perfect, revolutionary, flawless, unlimited
-- [ ] **Poetic sections ≤40 words** (if applicable)
-- [ ] **Brand policy lints pass**: `npm run lint:policy` in lukhas_website/
-
-## Tests & Perf
-- [ ] Unit tests added/updated
-- [ ] Canary pack for this domain passes
-- [ ] Perf: auth p95 < 100ms (if affected), context p95 < 250ms
-
-## Feature Flags
-- [ ] UL_ENABLED / VIVOX_LITE / QIM_SANDBOX unchanged or toggled intentionally
-
-## Ownership
-- [ ] CODEOWNERS approval for affected lanes
+## Notes
+- No deletion under candidate/.
+- No structural changes beyond the module copy.

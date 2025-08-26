@@ -24,15 +24,15 @@ export default function DreamCard({ dream }: DreamCardProps) {
         alt={dream.symbolicStructure.visualAnchor}
         className="w-full h-64 object-cover rounded-md mb-4"
       />
-      
+
       <h3 className="font-bold mb-2 text-gray-900">
         Dream: {dream.sceneId.slice(0, 8)}
       </h3>
-      
+
       <p className="text-gray-700 mb-4 leading-relaxed">
         {dream.narrativeText}
       </p>
-      
+
       {dream.narrativeAudioUrl && (
         <audio controls src={dream.narrativeAudioUrl} className="w-full mb-4">
           Your browser does not support the audio element.
@@ -43,13 +43,13 @@ export default function DreamCard({ dream }: DreamCardProps) {
         <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
           Directive: {dream.symbolicStructure.directive_used}
         </span>
-        
+
         {dream.symbolicStructure.driftAnalysis && (
           <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
             Drift: {dream.symbolicStructure.driftAnalysis.driftScore}
           </span>
         )}
-        
+
         <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">
           Anchor: {dream.symbolicStructure.visualAnchor}
         </span>
@@ -63,7 +63,7 @@ export default function DreamCard({ dream }: DreamCardProps) {
         >
           👍 Helpful
         </button>
-        
+
         <button
           onClick={() => handleRating(0)}
           disabled={feedbackSent}
@@ -71,7 +71,7 @@ export default function DreamCard({ dream }: DreamCardProps) {
         >
           😐 Neutral
         </button>
-        
+
         <button
           onClick={() => handleRating(-1)}
           disabled={feedbackSent}
@@ -80,7 +80,7 @@ export default function DreamCard({ dream }: DreamCardProps) {
           👎 Unhelpful
         </button>
       </div>
-      
+
       {feedbackSent && (
         <p className="text-xs text-gray-600 mt-2 text-center">
           Thank you for your feedback!

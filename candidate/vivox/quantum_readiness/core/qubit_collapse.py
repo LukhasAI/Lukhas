@@ -13,7 +13,7 @@ import numpy as np
 
 from candidate.core.common import get_logger
 
-from .quantum_substrate import QIState, QIStateType
+from .qi_substrate import QIState, QIStateType
 
 logger = get_logger(__name__)
 
@@ -87,8 +87,8 @@ class QubitCollapseEngine:
     Uses qubit superposition to explore moral ambiguities
     """
 
-    def __init__(self, quantum_substrate=None):
-        self.substrate = quantum_substrate
+    def __init__(self, qi_substrate=None):
+        self.substrate = qi_substrate
         self.collapse_history: list[ProbabilisticConvergence] = []
         self.reinforcement_patterns: dict[str, np.ndarray] = {}
         self.ethical_basis_states: dict[str, np.ndarray] = (
@@ -172,7 +172,7 @@ class QubitCollapseEngine:
         )
 
         if self.substrate:
-            self.substrate.quantum_states[state.state_id] = state
+            self.substrate.qi_states[state.state_id] = state
             # Update state history
             if hasattr(self.substrate, "state_history"):
                 self.substrate.state_history.append(state)

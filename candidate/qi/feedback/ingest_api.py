@@ -1,17 +1,21 @@
 # path: qi/feedback/ingest_api.py
 from __future__ import annotations
-import os, time, json, uuid
-from typing import Optional, List, Dict, Any
+
+import json
+import os
+import time
+import uuid
 from datetime import datetime
-from fastapi import FastAPI, HTTPException, Query, Body, BackgroundTasks
-from fastapi.responses import JSONResponse
+from typing import Any, Dict, List, Optional
+
+from fastapi import BackgroundTasks, Body, FastAPI, HTTPException, Query
 from pydantic import ValidationError
 
-from qi.feedback.schema import FeedbackCard, FeedbackContext, FeedbackData
+from qi.crypto.pqc_signer import sign_dilithium
+from qi.feedback.proposals import ProposalMapper
+from qi.feedback.schema import FeedbackCard
 from qi.feedback.store import get_store
 from qi.feedback.triage import get_triage
-from qi.feedback.proposals import ProposalMapper
-from qi.crypto.pqc_signer import sign_dilithium
 
 app = FastAPI(title="LUKHAS Feedback Ingestion API", version="0.1.0")
 
@@ -32,7 +36,7 @@ async def ingest_feedback(
     """Ingest a feedback card with HMAC redaction and validation."""
     try:
         store = get_store()
-        
+
         # Build feedback card
         fc_data = {
             "fc_id": str(uuid.uuid4()),
@@ -51,7 +55,7 @@ async def ingest_feedback(
                 "note": note  # Will be HMACed by store
             }
         }
-        
+
         # Add proposed tuning if provided
         if style or threshold_delta is not None:
             fc_data["proposed_tuning"] = {}
@@ -59,34 +63,34 @@ async def ingest_feedback(
                 fc_data["proposed_tuning"]["style"] = style
             if threshold_delta is not None:
                 fc_data["proposed_tuning"]["threshold_delta"] = threshold_delta
-        
+
         # Add constraints
         fc_data["constraints"] = {
             "ethics_bound": True,
             "compliance_bound": True
         }
-        
+
         # Validate with schema
         try:
             # This will trigger validation but we'll use the dict for storage
             FeedbackCard(**fc_data)
         except ValidationError as e:
             raise HTTPException(status_code=400, detail=f"Invalid feedback data: {str(e)}")
-        
+
         # Sign the feedback
         canonical = json.dumps(fc_data, sort_keys=True, separators=(",", ":"))
         signature = sign_dilithium(canonical.encode())
         fc_data["attestation"] = signature
-        
+
         # Append to JSONL (applies HMAC redaction)
         fc_id = store.append_feedback(fc_data)
-        
+
         return {
             "fc_id": fc_id,
             "status": "ingested",
             "timestamp": time.time()
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Ingestion failed: {str(e)}")
 
@@ -104,12 +108,12 @@ async def list_feedback(
             task_filter=task,
             jurisdiction_filter=jurisdiction
         )
-        
+
         # Compute summary statistics
         if feedback:
             satisfactions = [fc.get("feedback", {}).get("satisfaction", 0.5) for fc in feedback]
             avg_satisfaction = sum(satisfactions) / len(satisfactions)
-            
+
             issue_counts = {}
             for fc in feedback:
                 for issue in fc.get("feedback", {}).get("issues", []):
@@ -117,7 +121,7 @@ async def list_feedback(
         else:
             avg_satisfaction = None
             issue_counts = {}
-        
+
         return {
             "feedback": feedback,
             "count": len(feedback),
@@ -130,7 +134,7 @@ async def list_feedback(
                 "issue_distribution": issue_counts
             }
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"List failed: {str(e)}")
 
@@ -146,16 +150,16 @@ async def run_clustering(
         # Run triage immediately for API call
         triage = get_triage()
         stats = triage.run_triage(limit=limit)
-        
+
         # Also schedule weekly digest generation in background
         background_tasks.add_task(generate_weekly_digest)
-        
+
         return {
             "status": "completed",
             "stats": stats,
             "timestamp": time.time()
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Clustering failed: {str(e)}")
 
@@ -167,16 +171,16 @@ async def get_clusters(
     try:
         store = get_store()
         clusters = store.read_clusters()
-        
+
         if task:
             clusters = [c for c in clusters if c.get("task") == task]
-        
+
         return {
             "clusters": clusters,
             "count": len(clusters),
             "filter": {"task": task}
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {str(e)}")
 
@@ -192,24 +196,24 @@ async def promote_to_proposal(
     try:
         if not fc_id and not cluster_id:
             raise HTTPException(status_code=400, detail="Either fc_id or cluster_id required")
-        
+
         mapper = ProposalMapper()
-        
+
         if cluster_id:
             proposal_id = mapper.promote_cluster(cluster_id, target_file)
         else:
             proposal_id = mapper.promote_feedback_card(fc_id, target_file)
-        
+
         if not proposal_id:
             raise HTTPException(status_code=400, detail="Could not create proposal from feedback")
-        
+
         return {
             "proposal_id": proposal_id,
             "status": "queued",
             "source": "cluster" if cluster_id else "feedback_card",
             "timestamp": time.time()
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Promotion failed: {str(e)}")
 
@@ -221,13 +225,13 @@ async def generate_digest() -> Dict[str, Any]:
     try:
         store = get_store()
         digest = store.generate_weekly_digest()
-        
+
         return {
             "digest": digest,
             "status": "generated",
             "timestamp": time.time()
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Digest generation failed: {str(e)}")
 

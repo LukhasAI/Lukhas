@@ -7,6 +7,9 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
+from candidate.orchestration.brain.unified_cognitive_orchestrator import (
+    UnifiedCognitiveOrchestrator,
+)
 from lukhas.core.adapters.module_service_adapter import register_service_adapters
 from lukhas.core.adapters.seven_agent_adapter import register_seven_agent_services
 from lukhas.core.container.service_container import ServiceContainer, get_container
@@ -25,9 +28,6 @@ from lukhas.core.interfaces.services import (
     IGovernanceService,
     IMemoryService,
     IQuantumService,
-)
-from candidate.orchestration.brain.unified_cognitive_orchestrator import (
-    UnifiedCognitiveOrchestrator,
 )
 
 logger = logging.getLogger(__name__)
@@ -169,7 +169,7 @@ class LUKHASBootstrap:
             governance = self.services.get("governance")
             if governance:
                 await governance.check_ethics(
-                    action="quantum_state_created",
+                    action="qi_state_created",
                     context={
                         "state_id": event.state_id,
                         "state_type": event.state_type,
@@ -263,7 +263,7 @@ class LUKHASBootstrap:
         logger.info(f"   • Memory Folds: {status['memory']['total_folds']}")
         logger.info(f"   • Cache Hit Rate: {status['memory']['cache_hit_rate']:.1%}")
         logger.info(
-            f"   • Quantum Coherence: {status['cognitive_state']['quantum_coherence']:.3f}"
+            f"   • Quantum Coherence: {status['cognitive_state']['qi_coherence']:.3f}"
         )
         logger.info(
             f"   • Thoughts Processed: {status['metrics']['thoughts_processed']}"

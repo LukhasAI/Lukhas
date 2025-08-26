@@ -61,7 +61,7 @@ class NIASDreamBridge:
         # Component connections
         self.nias_core = None
         self.dream_adapter = None
-        self.quantum_hub = None
+        self.qi_hub = None
 
         # Dream queue
         self.dream_queue: list[DreamMessage] = []
@@ -74,12 +74,12 @@ class NIASDreamBridge:
         self,
         nias_core: Any = None,
         dream_adapter: Any = None,
-        quantum_hub: Any = None,
+        qi_hub: Any = None,
     ) -> None:
         """Inject component dependencies"""
         self.nias_core = nias_core
         self.dream_adapter = dream_adapter
-        self.quantum_hub = quantum_hub
+        self.qi_hub = qi_hub
 
         # Start dream processing loop
         if not self.processing_task:
@@ -293,8 +293,8 @@ class NIASDreamBridge:
                 logger.info(f"Dream injection result: {result}")
 
             # Update quantum consciousness if available
-            if self.quantum_hub:
-                await self.quantum_hub.process_consciousness_event(
+            if self.qi_hub:
+                await self.qi_hub.process_consciousness_event(
                     agent_id=dream_msg.original_message.get("user_id", "unknown"),
                     event_type="dream_injection",
                     event_data={"dream_content": dream_payload},
@@ -305,10 +305,10 @@ class NIASDreamBridge:
 
     async def _prepare_quantum_dream(self, dream_msg: DreamMessage) -> None:
         """Prepare quantum states for dream processing"""
-        if self.quantum_hub and self.openai:
+        if self.qi_hub and self.openai:
             try:
                 # Generate quantum interpretation
-                quantum_prep = await self.openai.chat.completions.create(
+                qi_prep = await self.openai.chat.completions.create(
                     model="gpt-4-turbo-preview",
                     messages=[
                         {
@@ -326,8 +326,8 @@ class NIASDreamBridge:
                 )
 
                 # Create superposition in quantum hub
-                states = [choice.message.content for choice in quantum_prep.choices]
-                await self.quantum_hub.create_superposition_state(
+                states = [choice.message.content for choice in qi_prep.choices]
+                await self.qi_hub.create_superposition_state(
                     agent_id=dream_msg.original_message.get("user_id", "unknown"),
                     states=states,
                 )

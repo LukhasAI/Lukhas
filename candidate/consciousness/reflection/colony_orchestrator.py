@@ -103,8 +103,8 @@ except ImportError as e:
 try:
     from candidate.core.tier_aware_colony_proxy import TierAwareColonyProxy
 
-    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.quantum_identity_manager import (
-        QuantumUserContext,
+    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (
+        QIUserContext,
     )
 
     QUANTUM_IDENTITY_AVAILABLE = True
@@ -161,7 +161,7 @@ class ColonyConfig:
     min_agents: int = 1
     auto_scaling: bool = True
     bio_symbolic_integration: bool = True
-    quantum_identity_enabled: bool = True
+    qi_identity_enabled: bool = True
     specialized_config: dict[str, Any] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -175,7 +175,7 @@ class ColonyTask:
     target_colonies: list[str]
     payload: dict[str, Any]
     priority: ColonyPriority = ColonyPriority.NORMAL
-    user_context: Optional[QuantumUserContext] = None
+    user_context: Optional[QIUserContext] = None
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     deadline: Optional[datetime] = None
     dependencies: list[str] = field(default_factory=list)
@@ -277,7 +277,7 @@ class ColonyOrchestrator:
             "auto_scaling_enabled": True,
             "cross_colony_communication": True,
             "bio_symbolic_integration": True,
-            "quantum_identity_integration": True,
+            "qi_identity_integration": True,
             "coherence_threshold": 85.0,  # Target coherence level
             "scaling_threshold": 0.8,  # CPU utilization for scaling
             "recovery_enabled": True,
@@ -447,7 +447,7 @@ class ColonyOrchestrator:
                 # Wrap colony with quantum identity proxy if enabled
                 if (
                     QUANTUM_IDENTITY_AVAILABLE
-                    and colony_config.quantum_identity_enabled
+                    and colony_config.qi_identity_enabled
                 ):
                     proxy = TierAwareColonyProxy(colony)
                     self.colony_proxies[colony_id] = proxy
@@ -476,7 +476,7 @@ class ColonyOrchestrator:
                     "colony_type": colony_config.colony_type.value,
                     "initial_agents": colony_config.initial_agents,
                     "bio_symbolic_enabled": colony_config.bio_symbolic_integration,
-                    "quantum_identity_enabled": colony_config.quantum_identity_enabled,
+                    "qi_identity_enabled": colony_config.qi_identity_enabled,
                     "created_at": datetime.now(timezone.utc).isoformat(),
                 }
             else:
@@ -1007,9 +1007,9 @@ class ColonyOrchestrator:
                     "bio_symbolic_enabled": self.colony_configs[
                         colony_id
                     ].bio_symbolic_integration,
-                    "quantum_identity_enabled": self.colony_configs[
+                    "qi_identity_enabled": self.colony_configs[
                         colony_id
-                    ].quantum_identity_enabled,
+                    ].qi_identity_enabled,
                 }
                 for colony_id in self.active_colonies
             },
@@ -1037,7 +1037,7 @@ class ColonyOrchestrator:
                 ).total_seconds()
                 / 3600,
                 "bio_symbolic_available": BIO_SYMBOLIC_AVAILABLE,
-                "quantum_identity_available": QUANTUM_IDENTITY_AVAILABLE,
+                "qi_identity_available": QUANTUM_IDENTITY_AVAILABLE,
                 "colony_system_available": COLONY_SYSTEM_AVAILABLE,
             },
         }

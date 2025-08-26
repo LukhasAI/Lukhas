@@ -4,8 +4,8 @@
 ║ VIVOX z_collapse mathematical enhancement for bio-symbolic coherence
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ Module: quantum_coherence_enhancer.py
-║ Path: bio/symbolic/quantum_coherence_enhancer.py
+║ Module: qi_coherence_enhancer.py
+║ Path: bio/symbolic/qi_coherence_enhancer.py
 ║ Version: 1.0.0 | Created: 2025-07-29
 ║ Authors: LUKHAS AI Bio-Symbolic Team | Claude Code
 ╠══════════════════════════════════════════════════════════════════════════════════
@@ -30,7 +30,7 @@ from typing import Any, Optional
 import numpy as np
 import structlog
 
-logger = structlog.get_logger("ΛTRACE.bio.quantum_coherence")
+logger = structlog.get_logger("ΛTRACE.bio.qi_coherence")
 
 
 @dataclass
@@ -71,13 +71,13 @@ class QICoherenceEnhancer:
         self.phase_coupling_strength = 0.1
         self.entropy_window_width = 1.0
         self.coherence_cap = 1.5  # 150% maximum for stability
-        self.quantum_boost_factor = 0.1  # 10% potential boost
+        self.qi_boost_factor = 0.1  # 10% potential boost
 
         logger.info(
             "Quantum coherence enhancer initialized",
             base_coherence=base_coherence,
             coherence_cap=self.coherence_cap,
-            boost_factor=self.quantum_boost_factor,
+            boost_factor=self.qi_boost_factor,
         )
 
     def z_collapse(self, A_t: float, theta_t: float, delta_S_t: float) -> float:
@@ -180,7 +180,7 @@ class QICoherenceEnhancer:
         z_value = self.z_collapse(amplitude, phase, entropy_change)
 
         # Calculate enhancement factor
-        enhancement_factor = 1 + (z_value * self.quantum_boost_factor)
+        enhancement_factor = 1 + (z_value * self.qi_boost_factor)
 
         # Apply enhancement with cap
         enhanced_coherence = min(

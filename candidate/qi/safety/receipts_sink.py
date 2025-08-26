@@ -1,8 +1,15 @@
 # path: qi/safety/receipts_sink.py
 from __future__ import annotations
-import os, sys, time, json, glob, hashlib
+
+import glob
+import hashlib
+import json
+import os
+import sys
+import time
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Optional, Dict, Any, Iterable
+from typing import Any, Dict, Optional
 
 STATE_DIR = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE_DIR, "provenance", "receipts")
@@ -46,7 +53,7 @@ class SinkConfig:
 
 def _load_offsets() -> Dict[str, int]:
     try:
-        return json.load(open(OFFSETS_PATH, "r", encoding="utf-8"))
+        return json.load(open(OFFSETS_PATH, encoding="utf-8"))
     except Exception:
         return {}
 
@@ -61,7 +68,7 @@ def _list_receipt_files() -> list[str]:
     return sorted(glob.glob(os.path.join(RECEIPTS_DIR, "*.jsonl")))
 
 def _iter_lines(path: str, start: int) -> Iterable[tuple[int, str]]:
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         for idx, line in enumerate(f):
             if idx < start:
                 continue

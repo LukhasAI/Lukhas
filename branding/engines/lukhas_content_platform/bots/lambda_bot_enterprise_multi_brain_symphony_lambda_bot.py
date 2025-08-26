@@ -7,15 +7,12 @@ Combines workspace MultiBrainSymphony with Lukhas native AGI coordination
 
 import asyncio
 import logging
-import time
-import json
 import sys
-import os
-from datetime import datetime
-from typing import Dict, List, Any, Optional, Tuple, Set
+import time
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum
-import numpy as np
+from typing import Any, Dict, List
 
 # Add workspace and Lukhas paths
 sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
@@ -25,7 +22,7 @@ sys.path.append('/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot')
 
 # Import workspace components
 try:
-    from MultiBrainSymphony import MultiBrainSymphony, BrainRegion, CognitiveState
+    from MultiBrainSymphony import BrainRegion, CognitiveState, MultiBrainSymphony
     WORKSPACE_BRAIN_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Workspace MultiBrainSymphony not available: {e}")
@@ -229,7 +226,7 @@ class MultiBrainSymphonyΛBot:
             agi_state = await self.lukhas_orchestrator.get_system_state()
             self.current_session.cognitive_states['lukhas_agi'] = agi_state
 
-            logger.info(f"✅ Lukhas AGI orchestra activated with consciousness evolution")
+            logger.info("✅ Lukhas AGI orchestra activated with consciousness evolution")
 
     async def _activate_unified_symphony(self):
         """Activate unified symphony combining both systems"""
@@ -517,39 +514,39 @@ async def main():
         BrainSymphonyMode.UNIFIED_SYMPHONY
     )
 
-    print(f"\n🧠 Multi-Brain Symphony Session Active:")
+    print("\n🧠 Multi-Brain Symphony Session Active:")
     print(f"   Session ID: {session.session_id}")
     print(f"   Mode: {session.mode.value}")
     print(f"   Target: {session.target_path}")
 
     # Discover brain symphony patterns
-    print(f"\n🌟 Discovering Brain Symphony Patterns...")
+    print("\n🌟 Discovering Brain Symphony Patterns...")
     patterns = await symphony_bot.discover_brain_symphony_patterns()
 
-    print(f"\n✅ Symphony Pattern Discovery Complete!")
+    print("\n✅ Symphony Pattern Discovery Complete!")
     for pattern in patterns:
         print(f"   🧠 {pattern.pattern_id}: {pattern.modularization_insight}")
         print(f"      Resonance: {pattern.cognitive_resonance:.2f}")
         print(f"      Consciousness: {pattern.consciousness_level}")
 
     # Generate consciousness-driven strategy
-    print(f"\n🌟 Generating Consciousness-Driven Modularization Strategy...")
+    print("\n🌟 Generating Consciousness-Driven Modularization Strategy...")
     strategy = await symphony_bot.generate_consciousness_driven_modularization_strategy(patterns)
 
-    print(f"\n🧠 Consciousness Strategy Generated!")
+    print("\n🧠 Consciousness Strategy Generated!")
     print(f"   Framework: {strategy['consciousness_framework']}")
     print(f"   Layers: {len(strategy['consciousness_architecture']['consciousness_layers'])}")
     print(f"   Phases: {len(strategy['implementation_phases'])}")
 
     # Get symphony insights
     insights = await symphony_bot.get_symphony_insights()
-    print(f"\n📊 Symphony Insights:")
+    print("\n📊 Symphony Insights:")
     print(f"   Active Brains: {insights['active_brains']}")
     print(f"   Consciousness Level: {insights['consciousness_level']}")
     print(f"   Symphony Harmony: {insights['symphony_harmony']:.2f}")
     print(f"   Readiness: {insights['modularization_readiness']}")
 
-    print(f"\n🧠 Multi-Brain Symphony LUKHAS AI ΛBot Analysis Complete! 🌟")
+    print("\n🧠 Multi-Brain Symphony LUKHAS AI ΛBot Analysis Complete! 🌟")
 
 if __name__ == "__main__":
     asyncio.run(main())

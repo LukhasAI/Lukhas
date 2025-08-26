@@ -78,7 +78,7 @@
     "primary": "ConsciousnessWrapper",
     "methods": [
       "check_awareness",
-      "initiate_reflection", 
+      "initiate_reflection",
       "make_conscious_decision",
       "get_consciousness_state"
     ],
@@ -87,7 +87,7 @@
   },
   "dependencies": [
     "lukhas.observability",
-    "lukhas.governance.guardian", 
+    "lukhas.governance.guardian",
     "lukhas.memory"
   ],
   "candidate_dependencies": [
@@ -117,7 +117,7 @@
   },
   "documentation": {
     "api_reference": "docs/api/consciousness.md",
-    "user_guide": "docs/guides/consciousness_usage.md", 
+    "user_guide": "docs/guides/consciousness_usage.md",
     "safety_guide": "docs/safety/consciousness_safety.md",
     "trinity_integration": "docs/trinity/consciousness_trinity.md"
   },

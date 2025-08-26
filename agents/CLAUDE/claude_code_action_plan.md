@@ -52,7 +52,7 @@ mkdir -p serve/ui/templates serve/ui/static/{css,js}
 
 **Testing Strategy:**
 1. **Identity Tests** - `tests/integration/test_identity_system.py`
-2. **Consent Tests** - `tests/integration/test_consent_ledger.py` 
+2. **Consent Tests** - `tests/integration/test_consent_ledger.py`
 3. **Adapter Tests** - `tests/integration/test_service_adapters.py`
 4. **Orchestrator Tests** - `tests/integration/test_context_orchestrator.py`
 5. **E2E Workflow Tests** - `tests/integration/test_end_to_end.py`
@@ -137,14 +137,14 @@ code serve/ui/
 
 ### **Session 2: Testing Suite (2-3 hours)**
 ```bash
-# Terminal Commands  
+# Terminal Commands
 cd ~/LOCAL-REPOS/Lukhas
 code tests/integration/
 
 # Claude Code Workflow
 1. @claude Generate test fixtures for all 4 working agents
 2. @claude Create identity system integration tests
-3. @claude Build consent ledger compliance tests  
+3. @claude Build consent ledger compliance tests
 4. @claude Add adapter mocking and integration tests
 5. @claude Create orchestrator workflow tests
 6. @claude Generate performance benchmark suite
@@ -153,7 +153,7 @@ code tests/integration/
 ### **Session 3: Security/KMS (2-3 hours)**
 ```bash
 # Terminal Commands
-cd ~/LOCAL-REPOS/Lukhas  
+cd ~/LOCAL-REPOS/Lukhas
 code core/security/
 
 # Claude Code Workflow
@@ -183,7 +183,7 @@ code core/security/
 ```
 @claude Create tests that validate consciousness features:
 - Awareness system responsiveness
-- Cognitive processing accuracy  
+- Cognitive processing accuracy
 - Memory fold integrity
 - Symbolic reasoning consistency
 - Bio-inspired behavior patterns
@@ -278,7 +278,7 @@ code core/security/
 
 ### **For Every Component, Ensure:**
 - **🎭 Consciousness Layer:** Poetic, intuitive descriptions in comments
-- **🌈 Bridge Layer:** Clear explanations of component relationships  
+- **🌈 Bridge Layer:** Clear explanations of component relationships
 - **🎓 Technical Layer:** Precise implementation with performance metrics
 
 ### **Symbolic Integration:**

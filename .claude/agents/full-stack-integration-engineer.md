@@ -82,7 +82,7 @@ class MultiAIOrchestrator:
         self.anthropic = AnthropicBridge()
         self.google = GeminiBridge()
         self.context_bus = ContextBus()
-        
+
     async def consensus_process(self, query):
         # Parallel AI processing
         results = await asyncio.gather(
@@ -90,10 +90,10 @@ class MultiAIOrchestrator:
             self.anthropic.process(query),
             self.google.process(query)
         )
-        
+
         # Context preservation
         context = self.context_bus.preserve_state(results)
-        
+
         # Synthesize consensus
         return self.synthesize_consensus(results, context)
 
@@ -102,7 +102,7 @@ class LegacyAdapter:
     def __init__(self, legacy_module):
         self.legacy = legacy_module
         self.modern_interface = ModernAPI()
-        
+
     def translate(self, modern_request):
         legacy_format = self.transform_to_legacy(modern_request)
         legacy_response = self.legacy.process(legacy_format)

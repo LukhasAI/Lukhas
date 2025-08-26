@@ -31,7 +31,7 @@ category: "setup"
 
 # 🎖️ LUKHAS Agent Army Setup Guide
 
-**Complete Configuration Guide for Multi-AI Coordination**  
+**Complete Configuration Guide for Multi-AI Coordination**
 **Last Updated**: August 25, 2025
 
 ---

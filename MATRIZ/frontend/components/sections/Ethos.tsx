@@ -78,7 +78,7 @@ export default function Ethos() {
     <section id="ethos" className="relative py-32" ref={ref}>
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-trinity-guardian/5 via-transparent to-accent-gold/5" />
-      
+
       <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header - Layer 1: Impact (UltraLight) */}
         <motion.div
@@ -97,7 +97,7 @@ export default function Ethos() {
             <div className="h-1 w-full bg-gradient-to-r from-trinity-guardian via-accent-gold to-trinity-consciousness mt-4" />
           </div>
           <p className="font-ultralight text-xl md:text-2xl max-w-4xl mx-auto text-primary-light/90">
-            These fundamental beliefs shape every line of code, every decision, 
+            These fundamental beliefs shape every line of code, every decision,
             and every step toward conscious AI development.
           </p>
         </motion.div>
@@ -178,10 +178,10 @@ export default function Ethos() {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
                     <motion.div
-                      animate={{ 
+                      animate={{
                         rotate: 360,
                       }}
-                      transition={{ 
+                      transition={{
                         duration: 20,
                         repeat: Infinity,
                         ease: "linear"

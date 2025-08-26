@@ -1,6 +1,6 @@
 /**
  * Advanced Session Management for ΛiD Authentication
- * 
+ *
  * Implements secure session handling with rotation, multi-device support,
  * device binding, and comprehensive security features for LUKHAS AI.
  */
@@ -15,39 +15,39 @@ export interface SessionData {
   tier: TierLevel;
   role?: Role;
   organizationId?: string;
-  
+
   // Security context
   deviceId: string;
   deviceFingerprint: string;
   ipAddress: string;
   userAgent: string;
   country?: string;
-  
+
   // Authentication state
   isVerified: boolean;
   isSSOAuthenticated: boolean;
   authMethods: string[];
   lastAuthAt: Date;
   lastStepUpAt?: Date;
-  
+
   // Session metadata
   createdAt: Date;
   lastActiveAt: Date;
   expiresAt: Date;
   rotatedAt?: Date;
   rotationCount: number;
-  
+
   // Security flags
   isSecure: boolean;
   requiresRotation: boolean;
   isSuspicious: boolean;
   riskScore: number;
-  
+
   // Session type and constraints
   sessionType: 'web' | 'api' | 'mobile' | 'service';
   maxIdleTime: number; // milliseconds
   maxSessionTime: number; // milliseconds
-  
+
   // Features and permissions
   scopes: string[];
   permissions: string[];
@@ -93,7 +93,7 @@ export class SessionManager {
   private static readonly SESSION_ROTATION_INTERVAL = 30 * 60 * 1000; // 30 minutes
   private static readonly MAX_IDLE_TIME = 60 * 60 * 1000; // 1 hour
   private static readonly SUSPICIOUS_THRESHOLD = 0.7;
-  
+
   // In-memory storage (replace with Redis/database in production)
   private static sessions = new Map<string, SessionData>();
   private static userSessions = new Map<string, Set<string>>();
@@ -120,16 +120,16 @@ export class SessionManager {
     scopes?: string[];
     permissions?: string[];
   }): Promise<{ session: SessionData; token: string }> {
-    
+
     // Generate unique session ID
     const sessionId = this.generateSessionId();
-    
+
     // Check concurrent session limits
     await this.enforceConcurrentSessionLimits(params.userId);
-    
+
     // Calculate session durations based on tier and risk
     const sessionDurations = this.calculateSessionDurations(params.tier, params.sessionType || 'web');
-    
+
     // Calculate risk score
     const riskScore = await this.calculateRiskScore({
       userId: params.userId,
@@ -146,32 +146,32 @@ export class SessionManager {
       tier: params.tier,
       role: params.role,
       organizationId: params.organizationId,
-      
+
       deviceId: params.deviceId,
       deviceFingerprint: params.deviceFingerprint,
       ipAddress: params.ipAddress,
       userAgent: params.userAgent,
       country: params.country,
-      
+
       isVerified: params.isVerified,
       isSSOAuthenticated: params.isSSOAuthenticated,
       authMethods: [...params.authMethods],
       lastAuthAt: new Date(),
-      
+
       createdAt: new Date(),
       lastActiveAt: new Date(),
       expiresAt: new Date(Date.now() + sessionDurations.maxSessionTime),
       rotationCount: 0,
-      
+
       isSecure: true,
       requiresRotation: false,
       isSuspicious: riskScore > this.SUSPICIOUS_THRESHOLD,
       riskScore,
-      
+
       sessionType: params.sessionType || 'web',
       maxIdleTime: sessionDurations.maxIdleTime,
       maxSessionTime: sessionDurations.maxSessionTime,
-      
+
       scopes: params.scopes || [],
       permissions: params.permissions || [],
       featureFlags: {}
@@ -179,13 +179,13 @@ export class SessionManager {
 
     // Store session
     this.sessions.set(sessionId, session);
-    
+
     // Update user session tracking
     if (!this.userSessions.has(params.userId)) {
       this.userSessions.set(params.userId, new Set());
     }
     this.userSessions.get(params.userId)!.add(sessionId);
-    
+
     // Update device session tracking
     if (!this.deviceSessions.has(params.deviceId)) {
       this.deviceSessions.set(params.deviceId, new Set());
@@ -230,14 +230,14 @@ export class SessionManager {
     checkRotation?: boolean;
     enforceIdle?: boolean;
   }): Promise<{ valid: boolean; session?: SessionData; requiresRotation?: boolean; reason?: string }> {
-    
+
     const session = this.sessions.get(sessionId);
     if (!session) {
       return { valid: false, reason: 'Session not found' };
     }
 
     const now = new Date();
-    
+
     // Check expiration
     if (now > session.expiresAt) {
       await this.destroySession(sessionId);
@@ -256,10 +256,10 @@ export class SessionManager {
     // Check if rotation is required
     let requiresRotation = false;
     if (options?.checkRotation !== false) {
-      const timeSinceRotation = session.rotatedAt 
+      const timeSinceRotation = session.rotatedAt
         ? now.getTime() - session.rotatedAt.getTime()
         : now.getTime() - session.createdAt.getTime();
-        
+
       if (timeSinceRotation > this.SESSION_ROTATION_INTERVAL || session.requiresRotation) {
         requiresRotation = true;
       }
@@ -282,7 +282,7 @@ export class SessionManager {
     deviceChanged?: boolean;
     suspiciousActivity?: boolean;
   }): Promise<{ newSessionId: string; newToken: string } | null> {
-    
+
     const session = this.sessions.get(currentSessionId);
     if (!session) {
       return null;
@@ -290,7 +290,7 @@ export class SessionManager {
 
     // Create new session ID
     const newSessionId = this.generateSessionId();
-    
+
     // Update session data
     const rotatedSession: SessionData = {
       ...session,
@@ -303,14 +303,14 @@ export class SessionManager {
 
     // Store new session
     this.sessions.set(newSessionId, rotatedSession);
-    
+
     // Update tracking
     this.userSessions.get(session.userId)?.delete(currentSessionId);
     this.userSessions.get(session.userId)?.add(newSessionId);
-    
+
     this.deviceSessions.get(session.deviceId)?.delete(currentSessionId);
     this.deviceSessions.get(session.deviceId)?.add(newSessionId);
-    
+
     // Remove old session
     this.sessions.delete(currentSessionId);
 
@@ -358,7 +358,7 @@ export class SessionManager {
     // Remove from tracking
     this.userSessions.get(session.userId)?.delete(sessionId);
     this.deviceSessions.get(session.deviceId)?.delete(sessionId);
-    
+
     // Remove session
     this.sessions.delete(sessionId);
 
@@ -375,7 +375,7 @@ export class SessionManager {
     }
 
     let destroyedCount = 0;
-    
+
     for (const sessionId of userSessionIds) {
       if (sessionId !== exceptSessionId) {
         const destroyed = await this.destroySession(sessionId);
@@ -398,7 +398,7 @@ export class SessionManager {
     }
 
     const sessions: SessionData[] = [];
-    
+
     for (const sessionId of userSessionIds) {
       const session = this.sessions.get(sessionId);
       if (session) {
@@ -422,7 +422,7 @@ export class SessionManager {
     addPermission?: string;
     removePermission?: string;
   }): Promise<boolean> {
-    
+
     const session = this.sessions.get(sessionId);
     if (!session) {
       return false;
@@ -432,15 +432,15 @@ export class SessionManager {
     if (updates.isVerified !== undefined) {
       session.isVerified = updates.isVerified;
     }
-    
+
     if (updates.isSSOAuthenticated !== undefined) {
       session.isSSOAuthenticated = updates.isSSOAuthenticated;
     }
-    
+
     if (updates.lastStepUpAt) {
       session.lastStepUpAt = updates.lastStepUpAt;
     }
-    
+
     if (updates.riskScore !== undefined) {
       session.riskScore = updates.riskScore;
       session.isSuspicious = updates.riskScore > this.SUSPICIOUS_THRESHOLD;
@@ -452,17 +452,17 @@ export class SessionManager {
         session.scopes.push(updates.addScope);
       }
     }
-    
+
     if (updates.removeScope) {
       session.scopes = session.scopes.filter(s => s !== updates.removeScope);
     }
-    
+
     if (updates.addPermission) {
       if (!session.permissions.includes(updates.addPermission)) {
         session.permissions.push(updates.addPermission);
       }
     }
-    
+
     if (updates.removePermission) {
       session.permissions = session.permissions.filter(p => p !== updates.removePermission);
     }
@@ -473,7 +473,7 @@ export class SessionManager {
     }
 
     session.lastActiveAt = new Date();
-    
+
     return true;
   }
 
@@ -485,7 +485,7 @@ export class SessionManager {
     const randomPart = Math.random().toString(36).substring(2);
     const extraEntropy = crypto.getRandomValues(new Uint8Array(16))
       .reduce((str, byte) => str + byte.toString(16).padStart(2, '0'), '');
-    
+
     return `sess_${timestamp}_${randomPart}_${extraEntropy}`;
   }
 
@@ -499,7 +499,7 @@ export class SessionManager {
     userAgent: string;
     country?: string;
   }): Promise<number> {
-    
+
     let riskScore = 0.0;
 
     // Check for new device
@@ -531,7 +531,7 @@ export class SessionManager {
       const idleTime = Date.now() - s.lastActiveAt.getTime();
       return idleTime < this.MAX_IDLE_TIME;
     });
-    
+
     if (activeSessions.length > 3) {
       riskScore += 0.1;
     }
@@ -554,7 +554,7 @@ export class SessionManager {
     };
 
     const base = baseDurations[sessionType as keyof typeof baseDurations] || baseDurations.web;
-    
+
     // Extend durations for higher tiers
     const tierMultipliers = {
       T1: 1.0,
@@ -565,7 +565,7 @@ export class SessionManager {
     };
 
     const multiplier = tierMultipliers[tier] || 1.0;
-    
+
     return {
       maxIdleTime: Math.floor(base.idle * multiplier),
       maxSessionTime: Math.floor(base.max * multiplier)
@@ -577,16 +577,16 @@ export class SessionManager {
    */
   private static async enforceConcurrentSessionLimits(userId: string): Promise<void> {
     const userSessions = await this.getUserSessions(userId);
-    
+
     if (userSessions.length >= this.MAX_SESSIONS_PER_USER) {
       // Remove oldest inactive sessions
       const sessionsToRemove = userSessions
         .sort((a, b) => a.lastActiveAt.getTime() - b.lastActiveAt.getTime())
         .slice(0, userSessions.length - this.MAX_SESSIONS_PER_USER + 1);
-      
+
       for (const session of sessionsToRemove) {
         await this.destroySession(session.sessionId);
-        
+
         await this.logSecurityEvent({
           eventType: 'concurrent_limit',
           sessionId: session.sessionId,
@@ -612,7 +612,7 @@ export class SessionManager {
     };
 
     this.securityEvents.push(securityEvent);
-    
+
     // Keep only recent events (last 1000)
     if (this.securityEvents.length > 1000) {
       this.securityEvents = this.securityEvents.slice(-1000);
@@ -642,7 +642,7 @@ export class SessionManager {
     for (const [sessionId, session] of this.sessions.entries()) {
       const isExpired = now > session.expiresAt;
       const isIdle = (now.getTime() - session.lastActiveAt.getTime()) > session.maxIdleTime;
-      
+
       if (isExpired || isIdle) {
         await this.destroySession(sessionId);
         cleanedUp++;
@@ -665,15 +665,15 @@ export class SessionManager {
   } {
     const sessions = Array.from(this.sessions.values());
     const now = Date.now();
-    
+
     const activeSessions = sessions.filter(s => {
       const idleTime = now - s.lastActiveAt.getTime();
       return idleTime < s.maxIdleTime && now < s.expiresAt.getTime();
     });
 
     const riskScores = sessions.map(s => s.riskScore);
-    const averageRiskScore = riskScores.length > 0 
-      ? riskScores.reduce((sum, score) => sum + score, 0) / riskScores.length 
+    const averageRiskScore = riskScores.length > 0
+      ? riskScores.reduce((sum, score) => sum + score, 0) / riskScores.length
       : 0;
 
     return {

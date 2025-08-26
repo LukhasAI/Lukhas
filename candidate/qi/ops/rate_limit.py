@@ -1,17 +1,20 @@
 # path: qi/ops/rate_limit.py
 from __future__ import annotations
-import time
-from dataclasses import dataclass
-from typing import Dict, Tuple, Optional, Callable, Awaitable
 
+import time
+from collections.abc import Awaitable
+from dataclasses import dataclass
+from typing import Callable, Dict, Tuple
+
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
-from starlette.middleware.base import BaseHTTPMiddleware
 
 # Prometheus (integrates with the registry from metrics_middleware)
 try:
-    from qi.ops.metrics_middleware import REGISTRY
     from prometheus_client import Counter, Gauge
+
+    from qi.ops.metrics_middleware import REGISTRY
     _PROM = True
 except Exception:
     _PROM = False

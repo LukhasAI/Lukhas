@@ -106,4 +106,3 @@ The website includes:
 ---
 
 Your sophisticated LUKHΛS website is ready for deployment! 🎉
-

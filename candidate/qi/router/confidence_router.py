@@ -1,6 +1,9 @@
 from __future__ import annotations
-import os, json, argparse
-from typing import Dict, Any
+
+import argparse
+import json
+import os
+from typing import Any, Dict
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 CAL_PATH = os.path.join(STATE, "calibration.json")
@@ -19,7 +22,7 @@ class ConfidenceRouter:
 
     def _load_calibration(self):
         try:
-            return json.load(open(CAL_PATH, "r"))
+            return json.load(open(CAL_PATH))
         except Exception:
             return {}
 

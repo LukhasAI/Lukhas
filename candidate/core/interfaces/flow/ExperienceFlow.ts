@@ -3,7 +3,7 @@ import { SafeInteractionSystem } from '../human/SafeInteractionSystem';
 
 /**
  * ExperienceFlow
- * 
+ *
  * Combines Jobs' simplicity with Altman's safety:
  * - Three clicks maximum to any function
  * - Continuous safety monitoring
@@ -14,7 +14,7 @@ export class ExperienceFlow {
   private static instance: ExperienceFlow;
   private interaction: SafeInteractionSystem;
   private design: DesignSystem;
-  
+
   private readonly MAX_STEPS = 3;
   private currentStep = 0;
 
@@ -55,10 +55,10 @@ export class ExperienceFlow {
 
     try {
       const result = await this.interaction.interact(action);
-      
+
       // Update UI with beautiful feedback
       this.updateInterface(result.response, result.metrics);
-      
+
       this.currentStep++;
     } catch (error) {
       this.handleError(error);

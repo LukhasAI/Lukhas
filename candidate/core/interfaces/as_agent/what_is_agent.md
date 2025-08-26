@@ -58,7 +58,7 @@ This bridges symbolic UX with real-time brand AI — keeping the user in flow, e
 1. Lukhas notices an upcoming flight (calendar/email).
 2. DST (Dynamic Solutions Tracker) searches for transport options.
 3. Lukhas offers ethical rideshare or Uber suggestions.
-4. If running late, Lukhas prompts:  
+4. If running late, Lukhas prompts:
    *"Shall I notify your airline or find a faster route?"*
 5. At the airport, a **vendor agent** takes over (e.g., airline check-in overlay).
 
@@ -75,13 +75,13 @@ This bridges symbolic UX with real-time brand AI — keeping the user in flow, e
 
 ## 🔐 Ethics & Consent Model
 
-- **Tiered Data Access**:  
+- **Tiered Data Access**:
   Users control how much data Lukhas can access, from minimal (Tier 1) to full emotional sync (Tier 5).
 
-- **NIAS Filtering**:  
+- **NIAS Filtering**:
   Ensures all vendor suggestions meet ethical standards (e.g., sustainability, fair pricing).
 
-- **Memoria Recall**:  
+- **Memoria Recall**:
   Guides recommendations based on past user experiences, moods, and preferences.
 
 ---

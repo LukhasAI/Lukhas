@@ -33,7 +33,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
     google: false,
     perplexity: false,
   })
-  
+
   const [apiConfig, setApiConfig] = useState<ApiConfig>({
     openaiKey: '',
     anthropicKey: '',
@@ -41,7 +41,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
     perplexityKey: '',
     localEndpoint: 'http://localhost:11434',
   })
-  
+
   const [visualConfig, setVisualConfig] = useState<VisualizationConfig>({
     particleCount: 1000,
     boundaryForce: 0.15,
@@ -51,7 +51,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
     voiceIntensity: 0.5,
     colorScheme: 'consciousness',
   })
-  
+
   const [saved, setSaved] = useState(false)
   const [testing, setTesting] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState<{ [key: string]: 'connected' | 'disconnected' | 'testing' }>({})
@@ -60,7 +60,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
     // Load saved configuration from localStorage
     const savedApiConfig = localStorage.getItem('proteus_api_config')
     const savedVisualConfig = localStorage.getItem('proteus_visual_config')
-    
+
     if (savedApiConfig) {
       setApiConfig(JSON.parse(savedApiConfig))
     }
@@ -73,30 +73,30 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
     // Save to localStorage
     localStorage.setItem('proteus_api_config', JSON.stringify(apiConfig))
     localStorage.setItem('proteus_visual_config', JSON.stringify(visualConfig))
-    
+
     // Send configuration to iframe
     window.postMessage({
       type: 'updateConfiguration',
       apiConfig,
       visualConfig,
     }, '*')
-    
+
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
 
   const testConnection = async (provider: string) => {
     setConnectionStatus({ ...connectionStatus, [provider]: 'testing' })
-    
+
     // Simulate API testing
     setTimeout(() => {
-      const hasKey = 
+      const hasKey =
         (provider === 'openai' && apiConfig.openaiKey) ||
         (provider === 'anthropic' && apiConfig.anthropicKey) ||
         (provider === 'google' && apiConfig.googleKey) ||
         (provider === 'perplexity' && apiConfig.perplexityKey) ||
         (provider === 'local' && apiConfig.localEndpoint)
-      
+
       setConnectionStatus({
         ...connectionStatus,
         [provider]: hasKey ? 'connected' : 'disconnected',
@@ -108,11 +108,11 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-      <div 
+      <div
         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       />
-      
+
       <div className="relative bg-gray-900 border border-white/10 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden">
         {/* Header */}
         <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
@@ -124,13 +124,13 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
             <X className="w-5 h-5" />
           </button>
         </div>
-        
+
         {/* Content */}
         <div className="px-6 py-6 overflow-y-auto max-h-[calc(90vh-120px)]">
           {/* API Configuration */}
           <section className="mb-8">
             <h3 className="text-lg font-light mb-4 text-blue-400">API Configuration</h3>
-            
+
             <div className="space-y-4">
               {/* OpenAI */}
               <div>
@@ -167,7 +167,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
                   </button>
                 </div>
               </div>
-              
+
               {/* Anthropic */}
               <div>
                 <label className="block text-sm uppercase tracking-wider mb-2">Anthropic API Key</label>
@@ -203,7 +203,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
                   </button>
                 </div>
               </div>
-              
+
               {/* Local Endpoint */}
               <div>
                 <label className="block text-sm uppercase tracking-wider mb-2">Local Endpoint (Ollama)</label>
@@ -233,11 +233,11 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
               </div>
             </div>
           </section>
-          
+
           {/* Visualization Settings */}
           <section className="mb-8">
             <h3 className="text-lg font-light mb-4 text-purple-400">Visualization Settings</h3>
-            
+
             <div className="space-y-4">
               {/* Particle Count */}
               <div>
@@ -254,7 +254,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
                   className="w-full"
                 />
               </div>
-              
+
               {/* Morph Speed */}
               <div>
                 <label className="block text-sm uppercase tracking-wider mb-2">
@@ -270,7 +270,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
                   className="w-full"
                 />
               </div>
-              
+
               {/* Voice Intensity */}
               <div>
                 <label className="block text-sm uppercase tracking-wider mb-2">
@@ -286,7 +286,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
                   className="w-full"
                 />
               </div>
-              
+
               {/* Color Scheme */}
               <div>
                 <label className="block text-sm uppercase tracking-wider mb-2">Color Scheme</label>
@@ -308,14 +308,14 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
               </div>
             </div>
           </section>
-          
+
           {/* Advanced Settings */}
           <section>
             <details className="group">
               <summary className="text-lg font-light mb-4 text-gray-400 cursor-pointer hover:text-white transition">
                 Advanced Settings
               </summary>
-              
+
               <div className="space-y-4 mt-4">
                 {/* Boundary Force */}
                 <div>
@@ -332,7 +332,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
                     className="w-full"
                   />
                 </div>
-                
+
                 {/* Attraction Strength */}
                 <div>
                   <label className="block text-sm uppercase tracking-wider mb-2">
@@ -348,7 +348,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
                     className="w-full"
                   />
                 </div>
-                
+
                 {/* Particle Size */}
                 <div>
                   <label className="block text-sm uppercase tracking-wider mb-2">
@@ -368,7 +368,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
             </details>
           </section>
         </div>
-        
+
         {/* Footer */}
         <div className="px-6 py-4 border-t border-white/10 flex items-center justify-between">
           <button
@@ -377,7 +377,7 @@ export default function ProteusConfig({ isOpen, onClose }: ProteusConfigProps) {
           >
             Cancel
           </button>
-          
+
           <button
             onClick={handleSave}
             className="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition flex items-center space-x-2"

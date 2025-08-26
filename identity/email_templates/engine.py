@@ -349,4 +349,3 @@ class TemplateEngine:
                 templates.append(template_name)
 
         return sorted(templates)
-

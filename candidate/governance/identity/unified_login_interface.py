@@ -791,7 +791,7 @@ class RevolutionaryLoginInterface:
             "cultural_elements": bool(state.cultural_context),
             "tier_level": state.tier_level,
             "security_indicators": [
-                "quantum_safe",
+                "qi_safe",
                 "consciousness_validated",
                 "culturally_adapted",
             ],
@@ -917,7 +917,7 @@ class RevolutionaryLoginInterface:
 
     async def _get_symbolic_traces(self, user_id: str) -> dict[str, Any]:
         """Get symbolic trace audit data"""
-        return {"symbolic_integrity": "verified", "quantum_signatures": "valid"}
+        return {"symbolic_integrity": "verified", "qi_signatures": "valid"}
 
 
 # Global login interface instance

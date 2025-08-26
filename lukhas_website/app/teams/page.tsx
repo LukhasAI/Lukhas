@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  ChevronLeftIcon, 
-  UserGroupIcon, 
-  PlusIcon, 
+import {
+  ChevronLeftIcon,
+  UserGroupIcon,
+  PlusIcon,
   ShareIcon,
   ChatBubbleLeftRightIcon,
   ClockIcon,
@@ -70,14 +70,14 @@ export default function TeamsPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [userTier, setUserTier] = useState<string>('')
-  
+
   // Team data
   const [teams, setTeams] = useState<Team[]>([])
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null)
   const [projects, setProjects] = useState<Project[]>([])
   const [members, setMembers] = useState<Member[]>([])
   const [consciousnessMetrics, setConsciousnessMetrics] = useState<ConsciousnessMetrics | null>(null)
-  
+
   // UI state
   const [activeTab, setActiveTab] = useState<'overview' | 'projects' | 'members' | 'consciousness'>('overview')
   const [showCreateForm, setShowCreateForm] = useState(false)
@@ -183,7 +183,7 @@ export default function TeamsPage() {
   // Create team
   const handleCreateTeam = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!teamName.trim() || !organizationId) {
       setError('Team name and organization are required')
       return
@@ -635,7 +635,7 @@ export default function TeamsPage() {
                                 </div>
                                 <div className="text-sm text-white/60 mb-2">Team Coherence</div>
                                 <div className="w-full bg-black/40 rounded-full h-2">
-                                  <div 
+                                  <div
                                     className="bg-trinity-consciousness h-2 rounded-full transition-all duration-1000"
                                     style={{ width: `${consciousnessMetrics.teamCoherence * 100}%` }}
                                   />
@@ -648,7 +648,7 @@ export default function TeamsPage() {
                                 </div>
                                 <div className="text-sm text-white/60 mb-2">Collective Intelligence</div>
                                 <div className="w-full bg-black/40 rounded-full h-2">
-                                  <div 
+                                  <div
                                     className="bg-trinity-identity h-2 rounded-full transition-all duration-1000"
                                     style={{ width: `${consciousnessMetrics.collectiveIntelligence * 100}%` }}
                                   />
@@ -661,7 +661,7 @@ export default function TeamsPage() {
                                 </div>
                                 <div className="text-sm text-white/60 mb-2">Emergent Properties</div>
                                 <div className="w-full bg-black/40 rounded-full h-2">
-                                  <div 
+                                  <div
                                     className="bg-trinity-guardian h-2 rounded-full transition-all duration-1000"
                                     style={{ width: `${consciousnessMetrics.emergentProperties * 100}%` }}
                                   />
@@ -680,7 +680,7 @@ export default function TeamsPage() {
                                 </span>
                               </div>
                               <p className="text-white/60 text-sm mt-2">
-                                {consciousnessMetrics.syncStatus === 'active' 
+                                {consciousnessMetrics.syncStatus === 'active'
                                   ? 'Team consciousness is actively synchronized. Collective intelligence is emerging.'
                                   : consciousnessMetrics.syncStatus === 'pending'
                                   ? 'Consciousness sync is initializing. This may take a few moments.'

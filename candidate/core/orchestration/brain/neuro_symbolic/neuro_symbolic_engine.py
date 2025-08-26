@@ -508,7 +508,7 @@ class NeuroSymbolicEngine:
     """
 
     def __init__(self):
-        self.quantum_attention_gates = QuantumInspiredAttention()
+        self.qi_attention_gates = QIInspiredAttention()
         self.causal_reasoning_module = CausalReasoningModule()
         self.processing_history = []
         self.last_processed = None
@@ -545,7 +545,7 @@ class NeuroSymbolicEngine:
             input_data["history"] = context["history"]
 
         # Apply attention mechanism
-        attended_data = self.quantum_attention_gates.attend(input_data, context or {})
+        attended_data = self.qi_attention_gates.attend(input_data, context or {})
 
         # Apply causal reasoning
         reasoning_results = self.causal_reasoning_module.reason(attended_data)

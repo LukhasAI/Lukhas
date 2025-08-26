@@ -1,7 +1,7 @@
 # LUKHAS AI Orchestrator Migration Guide
 
-**Version**: 1.0.0  
-**Date**: 2025-07-26  
+**Version**: 1.0.0
+**Date**: 2025-07-26
 **Authors**: LUKHAS AI Architecture Team | AGI Agent
 
 ## Table of Contents
@@ -40,7 +40,7 @@ class MyOrchestrator:
     def __init__(self, config=None):
         self.config = config or {}
         self.is_initialized = False
-        
+
     async def initialize(self):
         # Custom initialization
         pass
@@ -71,7 +71,7 @@ class ComplexOrchestrator:
         self.subsystem2 = None
         self.metrics = {}
 
-# NEW PATTERN  
+# NEW PATTERN
 from lukhas.orchestration.system_orchestrator import SystemOrchestrator, SystemOrchestratorConfig
 
 class ComplexOrchestrator(SystemOrchestrator):
@@ -91,13 +91,13 @@ class MigratedOrchestrator(SystemOrchestrator):
         # Preserve original state
         self.custom_state = {}
         self.original_metrics = {}
-    
+
     # Required new methods
     async def _initialize_modules(self) -> bool:
         # Initialize using new pattern
         # But call original initialization logic
         return await self._original_init_logic()
-    
+
     # Preserve original methods
     async def orchestrate_processing(self, data):
         # Original processing logic preserved
@@ -139,7 +139,7 @@ class MyOrchestratorConfig(SystemOrchestratorConfig):
 ```python
 async def _create_component(self, component_name: str) -> Optional[Any]:
     """Create component instances"""
-    
+
 async def _custom_initialize(self) -> None:
     """Custom initialization logic"""
 ```
@@ -149,10 +149,10 @@ async def _custom_initialize(self) -> None:
 ```python
 def _register_modules(self) -> None:
     """Register all managed modules"""
-    
+
 async def _initialize_modules(self) -> bool:
     """Initialize all modules"""
-    
+
 async def _check_module_health(self, name: str) -> bool:
     """Module-specific health checks"""
 ```
@@ -167,13 +167,13 @@ async def orchestrate_processing(self, input_data):
     # Check state using new pattern
     if self.state.value not in ["RUNNING", "STARTED"]:
         await self.start()
-    
+
     # Original processing logic
     result = await self._original_processing(input_data)
-    
+
     # Update new metrics
     self.metrics.operations_completed += 1
-    
+
     return result
 ```
 
@@ -186,7 +186,7 @@ async def _check_module_health(self, name: str) -> bool:
     # Use original health check logic
     if name == "my_module":
         return await self._original_health_check()
-    
+
     # Fallback to base implementation
     return await super()._check_module_health(name)
 ```
@@ -202,7 +202,7 @@ class SimpleOrchestrator(ModuleOrchestrator):
     async def _create_component(self, component_name: str):
         # Create your component
         return MyComponent(component_name)
-    
+
     async def process_request(self, request):
         # Original processing preserved
         operation = {
@@ -223,13 +223,13 @@ class MultiSystemOrchestrator(SystemOrchestrator):
         self.register_module("ai_engine", "Core AI Processing")
         self.register_module("memory_system", "Memory Management")
         self.register_module("ethics_guardian", "Ethics Oversight")
-    
+
     async def _initialize_modules(self):
         # Initialize each subsystem
         self.ai_engine = AIEngine()
         await self.ai_engine.initialize()
         self.module_instances["ai_engine"] = self.ai_engine
-        
+
         # Continue for other modules...
         return True
 ```
@@ -243,7 +243,7 @@ class PluginAwareOrchestrator(SystemOrchestrator):
         # Preserve plugin system
         self.plugins = {}
         self.auto_plugin_register()
-    
+
     def auto_plugin_register(self, plugin_dir="plugins"):
         # Original plugin logic preserved
         for plugin in discover_plugins(plugin_dir):
@@ -266,7 +266,7 @@ async def test_original_functionality():
     orchestrator = MigratedOrchestrator()
     await orchestrator.initialize()
     await orchestrator.start()
-    
+
     # Test original method still works
     result = await orchestrator.original_method(test_data)
     assert result['status'] == 'success'
@@ -281,7 +281,7 @@ async def test_module_communication():
     orchestrator = MigratedSystemOrchestrator()
     await orchestrator.initialize()
     await orchestrator.start()
-    
+
     # Test inter-module communication
     result = await orchestrator.route_cross_module_request(
         from_module="module_a",
@@ -300,14 +300,14 @@ class RegressionTestSuite:
     def __init__(self, old_orchestrator, new_orchestrator):
         self.old = old_orchestrator
         self.new = new_orchestrator
-    
+
     async def run_comparison_tests(self):
         test_cases = load_test_cases()
-        
+
         for test in test_cases:
             old_result = await self.old.process(test.input)
             new_result = await self.new.process(test.input)
-            
+
             assert_equivalent_results(old_result, new_result)
 ```
 
@@ -374,7 +374,7 @@ class TransitionOrchestrator:
         self.old_orchestrator = OldOrchestrator()
         self.new_orchestrator = NewOrchestrator()
         self.use_new = False  # Feature flag
-    
+
     async def process(self, data):
         if self.use_new:
             return await self.new_orchestrator.process(data)
@@ -401,7 +401,7 @@ async def migrate_state(old_orch, new_orch):
     # Transfer runtime state
     state_data = await old_orch.export_state()
     await new_orch.import_state(state_data)
-    
+
     # Verify state transfer
     assert await new_orch.verify_state()
 ```

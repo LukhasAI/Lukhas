@@ -5,18 +5,19 @@ This module implements the integration with ASISA private healthcare system,
 including access to their clinics, hospitals, and specialist network.
 """
 
-from typing import Dict, Any, Optional, List
 from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 from ....base_provider import BaseHealthcareProvider, ProviderConfig, SecurityConfig
 
+
 class ASISAHealthcareInterface(BaseHealthcareProvider):
     """Implementation of healthcare interface for ASISA"""
-    
+
     def __init__(self, config: Dict[str, Any]):
         """
         Initialize ASISA interface with configuration
-        
+
         Args:
             config: Configuration dictionary containing:
                 - provider_id: ASISA provider identifier
@@ -33,7 +34,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
             api_version=config.get('api_version', '1.0'),
             compliance_mode="strict"
         )
-        
+
         security_config = SecurityConfig(
             encryption_algorithm="AES-256-GCM",
             key_rotation_days=90,
@@ -41,12 +42,12 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
             mfa_required=True,
             audit_retention_days=3650  # 10 years as per Spanish law
         )
-        
+
         super().__init__(provider_config, security_config)
         self.clinic_id = config['clinic_id']
         self.api_credentials = config['api_credentials']
         self.digital_cert = config['digital_cert']
-    
+
     async def verify_patient_coverage(self, patient_id: str) -> Dict[str, Any]:
         """Verify patient's ASISA insurance coverage"""
         self.log_audit_event(
@@ -57,7 +58,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         )
         # Implementation
         pass
-    
+
     async def schedule_appointment(
         self,
         patient_id: str,
@@ -76,7 +77,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         )
         # Implementation
         pass
-    
+
     async def get_medical_history(
         self,
         patient_id: str,
@@ -91,7 +92,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         )
         # Implementation
         pass
-    
+
     async def submit_claim(
         self,
         patient_id: str,
@@ -107,7 +108,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         )
         # Implementation
         pass
-    
+
     async def get_available_specialists(
         self,
         specialty: str,
@@ -117,7 +118,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         """Get list of available ASISA specialists"""
         # Implementation
         pass
-    
+
     async def request_authorization(
         self,
         patient_id: str,

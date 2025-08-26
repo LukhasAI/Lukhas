@@ -14,7 +14,7 @@ The **Λid** (Lambda Identity) system provides secure, privacy-preserving identi
 
 **Components:**
 - **ΛiD** - Identity namespace prefix (display contexts only)
-- **REALM** - Service domain (LUKHAS, MATRIZ)  
+- **REALM** - Service domain (LUKHAS, MATRIZ)
 - **ZONE** - Geographic/regulatory zone (EU, US, APAC)
 - **TOKEN** - Versioned HMAC-based identifier
 - **CHECKSUM** - CRC32 validation suffix
@@ -107,9 +107,9 @@ interface TokenGenerator {
     userId: string,
     version?: number
   ): Promise<string>;
-  
+
   rotateAlias(currentAlias: string): Promise<string>;
-  
+
   validateAlias(alias: string): Promise<boolean>;
 }
 ```
@@ -208,7 +208,7 @@ describe('ΛiD Identity System', () => {
 ### Load Testing
 
 - **Alias Generation** - 1000 RPS sustained
-- **Alias Resolution** - 10,000 RPS sustained  
+- **Alias Resolution** - 10,000 RPS sustained
 - **Rotation Operations** - 100 RPS sustained
 - **Validation** - 50,000 RPS sustained
 

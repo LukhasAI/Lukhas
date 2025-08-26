@@ -11,7 +11,7 @@ Examples of behavior that contributes to creating a positive environment include
 ### Positive Behaviors ✅
 
 - **Respectful Communication**: Using welcoming and inclusive language
-- **Constructive Feedback**: Being respectful of differing viewpoints and experiences  
+- **Constructive Feedback**: Being respectful of differing viewpoints and experiences
 - **Graceful Acceptance**: Gracefully accepting constructive criticism
 - **Community Focus**: Focusing on what is best for the community
 - **Empathy**: Showing empathy towards other community members
@@ -71,7 +71,7 @@ This Code of Conduct applies both within project spaces and in public spaces whe
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team at:
 
-- **Primary Contact**: conduct@lukhas.ai  
+- **Primary Contact**: conduct@lukhas.ai
 - **Confidential Reports**: conduct-confidential@lukhas.ai
 - **Emergency Issues**: conduct-emergency@lukhas.ai
 
@@ -80,7 +80,7 @@ All complaints will be reviewed and investigated promptly and fairly.
 ### Investigation Process
 
 1. **Acknowledgment**: Reports acknowledged within 24 hours
-2. **Investigation**: Thorough, confidential investigation within 5 business days  
+2. **Investigation**: Thorough, confidential investigation within 5 business days
 3. **Decision**: Fair determination of appropriate response
 4. **Action**: Implementation of corrective measures if warranted
 5. **Follow-up**: Monitoring to ensure resolution and prevent retaliation
@@ -94,7 +94,7 @@ Community leaders will follow these Community Impact Guidelines in determining t
 
 **Consequence**: A private, written warning providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.
 
-### 2. Warning  
+### 2. Warning
 **Community Impact**: A violation through a single incident or series of actions.
 
 **Consequence**: A warning with consequences for continued behavior. No interaction with the people involved for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media.
@@ -140,6 +140,6 @@ For questions about this Code of Conduct, contact conduct@lukhas.ai.
 
 ---
 
-**Effective Date**: 2025-01-17  
-**Last Updated**: 2025-01-17  
+**Effective Date**: 2025-01-17
+**Last Updated**: 2025-01-17
 **Contact**: conduct@lukhas.ai

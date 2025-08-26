@@ -4,8 +4,8 @@ Fold-based memory with 99.7% cascade prevention
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-import uuid
 import time
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Dict, List, Optional

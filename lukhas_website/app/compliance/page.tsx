@@ -17,13 +17,13 @@ export default function CompliancePage() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="font-ultralight text-5xl mb-8">COMPLIANCE & REGULATIONS</h1>
-            
+
             <div className="space-y-8 font-thin text-text-secondary">
               <section>
                 <h2 className="font-regular text-2xl mb-4 text-text-primary uppercase tracking-wider">Our Commitment to Compliance</h2>
                 <p className="mb-4">
-                  LUKHAS AI maintains the highest standards of regulatory compliance across all jurisdictions. 
-                  Our Guardian System (🛡️) ensures continuous monitoring and adherence to evolving AI regulations 
+                  LUKHAS AI maintains the highest standards of regulatory compliance across all jurisdictions.
+                  Our Guardian System (🛡️) ensures continuous monitoring and adherence to evolving AI regulations
                   and ethical standards worldwide.
                 </p>
               </section>

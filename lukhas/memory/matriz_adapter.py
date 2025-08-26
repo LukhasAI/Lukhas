@@ -10,7 +10,7 @@ from typing import Any, Dict, List, Optional
 
 try:
     from lukhas.observability.matriz_decorators import matriz_record
-    from lukhas.observability.matriz_emit import make_node, emit
+    from lukhas.observability.matriz_emit import emit, make_node
 
     def emit_node(node_type):
         return matriz_record(node_type)

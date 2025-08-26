@@ -40,7 +40,7 @@ else
     echo "   ❌ Failed to deploy Supreme Consciousness Architect"
 fi
 
-# Agent 2: Guardian System Commander  
+# Agent 2: Guardian System Commander
 echo "2️⃣ Deploying Guardian System Commander..."
 claude-code create-agent guardian-system-commander \
   --config agents/guardian_system_commander_config.json \
@@ -82,7 +82,7 @@ else
     echo "   ❌ Failed to deploy Orchestration Systems Colonel"
 fi
 
-# Agent 5: Testing & Validation Colonel  
+# Agent 5: Testing & Validation Colonel
 echo "5️⃣ Deploying Testing & Validation Colonel..."
 claude-code create-agent testing-validation-colonel \
   --config agents/testing_validation_colonel_config.json \

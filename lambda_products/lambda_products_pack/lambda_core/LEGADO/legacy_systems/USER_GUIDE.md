@@ -80,7 +80,7 @@ print(f"Reasoning: {evaluation.explanation}")
 # Output:
 # Decision: APPROVED
 # Confidence: 0.95
-# Reasoning: Action approved based on: explicit user consent, 
+# Reasoning: Action approved based on: explicit user consent,
 # data anonymization, legitimate purpose, and minimal privacy impact.
 ```
 
@@ -170,7 +170,7 @@ monitor = EthicsMonitor()
 with monitor.watch():
     # Your application code here
     run_application()
-    
+
 # Monitor will automatically:
 # - Track all decisions
 # - Detect drift
@@ -424,15 +424,15 @@ from lukhas.ethics import PolicyEngine
 
 class MyOrganizationPolicy(PolicyEngine):
     """Custom policy for our organization"""
-    
+
     async def evaluate(self, action, context):
         # Implement your organization's specific values
         if action.affects_children():
             return self.require_extra_scrutiny(action)
-            
+
         if action.involves_ai_generation():
             return self.check_authenticity_disclosure(action)
-            
+
         return self.standard_evaluation(action, context)
 
 # Register custom policy
@@ -560,7 +560,7 @@ result = await ethics.evaluate(action, context)
 if result.confidence < 0.7:
     # Get human input
     human_review = await request_human_review(result)
-    
+
     # Learn from feedback
     await ethics.learn_from_feedback(
         result,
@@ -597,7 +597,7 @@ if diagnostic.issue == "insufficient_context":
     # Gather more information
     enhanced_context = await gather_additional_context()
     result = await ethics.re_evaluate(action, enhanced_context)
-    
+
 elif diagnostic.issue == "framework_conflict":
     # Use specialized resolver
     result = await ethics.resolve_framework_conflict(
@@ -617,7 +617,7 @@ if result.has_cultural_conflict:
         cultures=result.conflicting_cultures,
         preserve_core_values=True
     )
-    
+
     print(f"Common ground: {resolution.shared_values}")
     print(f"Adapted approach: {resolution.recommendation}")
 ```

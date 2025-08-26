@@ -5,7 +5,7 @@
 LUKHΛS Studio has been redesigned as a **true desktop metaphor for AI collaboration**. It prioritizes:
 
 - **Minimalism**: Clean interface focused on collaboration, not distractions
-- **Drag & Drop**: Everything is draggable for fluid multi-agent workflows  
+- **Drag & Drop**: Everything is draggable for fluid multi-agent workflows
 - **Apple-style UX**: Stacked file icons, smooth animations, premium feel
 - **Multi-agent Support**: Native support for OpenAI, Claude, Gemini collaboration
 
@@ -38,7 +38,7 @@ LUKHΛS Studio has been redesigned as a **true desktop metaphor for AI collabora
 ### 5. **Desktop Collaboration Canvas**
 - **Clean Drop Zone**: Large central area for collaborative work
 - **Visual Drag Feedback**: Highlights when dragging items over
-- **Multi-agent Sessions**: Drop multiple agents + files to create collaborative sessions  
+- **Multi-agent Sessions**: Drop multiple agents + files to create collaborative sessions
 - **Quick Action Icons**: Document, Visual, Code workspace launchers
 - **Persistent Items**: Dropped items stay on desktop with close buttons
 
@@ -59,13 +59,13 @@ LUKHΛS Studio has been redesigned as a **true desktop metaphor for AI collabora
 
 ### Drag & Drop Workflows
 1. **Files**: Drag file stacks or individual files to desktop → Creates file workspace
-2. **Conversations**: Drag chat bubbles to desktop → Loads chat context  
+2. **Conversations**: Drag chat bubbles to desktop → Loads chat context
 3. **AI Agents**: Drag model cards to desktop → Starts agent session
 4. **Multi-agent**: Drop multiple agents + files → Creates collaborative session
 
 ### Keyboard Shortcuts
 - `⌘K` / `Ctrl+K`: Toggle command palette
-- `Tab`: Expand command palette (when open)  
+- `Tab`: Expand command palette (when open)
 - `Esc`: Close command palette
 - `Enter`: Send chat message
 - Standard text formatting shortcuts in code mode

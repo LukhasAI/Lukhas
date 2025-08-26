@@ -17,7 +17,7 @@
             align-items: center;
             min-height: 100vh;
         }
-        
+
         .header {
             text-align: center;
             padding: 2rem;
@@ -25,7 +25,7 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #0f0f23 100%);
             border-bottom: 1px solid #333;
         }
-        
+
         h1 {
             margin: 0;
             font-size: 2rem;
@@ -34,13 +34,13 @@
             -webkit-text-fill-color: transparent;
             animation: glow 3s ease-in-out infinite;
         }
-        
+
         .trinity-glyphs {
             font-size: 2rem;
             margin: 1rem 0;
             letter-spacing: 1rem;
         }
-        
+
         .chart-container {
             width: 90%;
             max-width: 1200px;
@@ -52,7 +52,7 @@
             border: 1px solid #333;
             box-shadow: 0 0 30px rgba(0, 255, 204, 0.2);
         }
-        
+
         .metrics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -61,7 +61,7 @@
             max-width: 1200px;
             margin: 2rem auto;
         }
-        
+
         .metric-card {
             background: rgba(30, 30, 50, 0.8);
             padding: 1.5rem;
@@ -70,23 +70,23 @@
             text-align: center;
             transition: all 0.3s ease;
         }
-        
+
         .metric-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 20px rgba(0, 255, 204, 0.3);
         }
-        
+
         .metric-value {
             font-size: 2rem;
             font-weight: bold;
             margin: 0.5rem 0;
         }
-        
+
         .metric-label {
             color: #888;
             font-size: 0.9rem;
         }
-        
+
         .back-link {
             position: absolute;
             top: 1rem;
@@ -98,17 +98,17 @@
             border-radius: 5px;
             transition: all 0.3s ease;
         }
-        
+
         .back-link:hover {
             background: rgba(0, 255, 204, 0.1);
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
         }
-        
+
         @keyframes glow {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.8; }
         }
-        
+
         .legend {
             text-align: center;
             margin: 1rem;
@@ -118,17 +118,17 @@
 </head>
 <body>
     <a href="/meta/overview" class="back-link">← Back to Overview</a>
-    
+
     <div class="header">
         <h1>LUKHΛS Drift Visualization</h1>
         <div class="trinity-glyphs">⚛️ 🧠 🛡️</div>
         <p>Real-time symbolic drift monitoring and persona evolution</p>
     </div>
-    
+
     <div class="chart-container">
         <canvas id="driftChart"></canvas>
     </div>
-    
+
     <div class="metrics">
         <div class="metric-card">
             <div class="metric-label">Current Drift</div>
@@ -151,40 +151,40 @@
             <div class="metric-label">Dominant Mode</div>
         </div>
     </div>
-    
+
     <div class="legend">
         <p>Lower drift values indicate stronger alignment with Trinity Framework</p>
     </div>
-    
+
     <script>
         // Initialize Chart.js with drift data
         const ctx = document.getElementById('driftChart').getContext('2d');
-        
+
         // Generate sample drift data over time
         const labels = [];
         const driftData = [];
         const personaData = [];
         const guardianData = [];
-        
+
         // Generate last 24 hours of data
         for (let i = 24; i >= 0; i--) {
             const time = new Date();
             time.setHours(time.getHours() - i);
             labels.push(time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }));
-            
+
             // Simulate drift patterns
             const baseDrift = 0.12;
             const variation = Math.sin(i * 0.5) * 0.05;
             const spike = (i === 8 || i === 16) ? 0.15 : 0;
             driftData.push(Math.max(0, baseDrift + variation + spike));
-            
+
             // Simulate persona stability (inverse of drift)
             personaData.push(0.9 - (driftData[driftData.length - 1] * 0.5));
-            
+
             // Guardian interventions at spikes
             guardianData.push(spike > 0 ? 1 : 0);
         }
-        
+
         const chart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -271,7 +271,7 @@
                 }
             }
         });
-        
+
         // Update metrics periodically
         function updateMetrics() {
             // Simulate real-time updates
@@ -280,12 +280,12 @@
             const trinityScore = (0.88 + Math.random() * 0.06).toFixed(2);
             const personas = ['Analytical', 'Creative', 'Balanced', 'Protective'];
             const activePersona = personas[Math.floor(Math.random() * personas.length)];
-            
+
             document.getElementById('currentDrift').textContent = currentDrift;
             document.getElementById('guardianActivity').textContent = guardianActivity;
             document.getElementById('trinityScore').textContent = trinityScore;
             document.getElementById('activePersona').textContent = activePersona;
-            
+
             // Color code drift level
             const driftElement = document.getElementById('currentDrift');
             if (parseFloat(currentDrift) < 0.15) {
@@ -296,13 +296,13 @@
                 driftElement.style.color = '#ff6b6b';
             }
         }
-        
+
         // Initial update
         updateMetrics();
-        
+
         // Update every 5 seconds
         setInterval(updateMetrics, 5000);
-        
+
         // Add new data point every minute (for demo)
         setInterval(() => {
             // Remove oldest data point
@@ -310,16 +310,16 @@
             driftData.shift();
             personaData.shift();
             guardianData.shift();
-            
+
             // Add new data point
             const time = new Date();
             labels.push(time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }));
-            
+
             const newDrift = parseFloat(document.getElementById('currentDrift').textContent);
             driftData.push(newDrift);
             personaData.push(0.9 - (newDrift * 0.5));
             guardianData.push(newDrift > 0.3 ? 1 : 0);
-            
+
             chart.update();
         }, 60000);
     </script>

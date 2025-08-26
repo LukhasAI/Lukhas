@@ -49,7 +49,7 @@
   },
   "symbolic_consent_levels": {
     "basic": "🟢",
-    "enhanced": "🟡", 
+    "enhanced": "🟡",
     "premium": "🔶",
     "maximum": "🔴"
   },

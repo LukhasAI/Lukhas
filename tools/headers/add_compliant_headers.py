@@ -149,7 +149,7 @@ FOOTER_TEMPLATE = '''
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {{
-        "quantum_coherence": {coherence_check},
+        "qi_coherence": {coherence_check},
         "neuroplasticity_enabled": {plasticity_check},
         "ethics_compliance": True,
         "tier_{tier}_access": True
@@ -167,7 +167,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {{
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "{date}",
     "compliance_status": "verified"
@@ -323,20 +323,20 @@ def main():
     print("🏢 LUKHAS Quantum Compliant Header Generator 🏢")
     print("=" * 50)
 
-    quantum_dir = Path(__file__).parent
+    qi_dir = Path(__file__).parent
     processed = 0
     skipped = 0
 
     # Process all Python files in quantum directory
-    for filepath in quantum_dir.glob("*.py"):
+    for filepath in qi_dir.glob("*.py"):
         if add_compliant_header(filepath):
             processed += 1
         else:
             skipped += 1
 
     # Process subdirectories
-    for subdir in ["systems", "quantum_meta", "bio", "src"]:
-        subdir_path = quantum_dir / subdir
+    for subdir in ["systems", "qi_meta", "bio", "src"]:
+        subdir_path = qi_dir / subdir
         if subdir_path.exists():
             for filepath in subdir_path.glob("**/*.py"):
                 if add_compliant_header(filepath):

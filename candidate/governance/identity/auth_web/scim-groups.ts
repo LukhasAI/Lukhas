@@ -1,7 +1,7 @@
 /**
  * SCIM v2 Group Management with Role Mapping
  * Enterprise group synchronization for LUKHAS AI ΛiD System
- * 
+ *
  * Supports:
  * - Group membership synchronization
  * - Nested groups support
@@ -24,7 +24,7 @@ export interface SCIMGroup {
     type?: 'User' | 'Group';
     display?: string;
   }>;
-  
+
   // SCIM metadata
   meta: {
     resourceType: 'Group';
@@ -33,7 +33,7 @@ export interface SCIMGroup {
     version?: string;
     location?: string;
   };
-  
+
   // Custom LUKHAS attributes
   'urn:lukhas:params:scim:schemas:extension:2.0:Group'?: {
     tenantId: string;
@@ -255,17 +255,17 @@ export class SCIMGroupManager {
         if (existingGroup.metadata.externalId) {
           this.externalIdMapping.delete(existingGroup.metadata.externalId);
         }
-        
+
         // Check for conflicts
         if (scimGroup.externalId && this.externalIdMapping.has(scimGroup.externalId)) {
           throw this.createSCIMError('409', 'External ID already in use', 'uniqueness');
         }
-        
+
         // Add new mapping
         if (scimGroup.externalId) {
           this.externalIdMapping.set(scimGroup.externalId, groupId);
         }
-        
+
         existingGroup.metadata.externalId = scimGroup.externalId;
       }
 
@@ -774,7 +774,7 @@ export class SCIMGroupManager {
 
   private async applyMappingToExistingGroups(mapping: GroupRoleMapping): Promise<void> {
     const regex = new RegExp(mapping.groupPattern, 'i');
-    
+
     for (const group of this.groups.values()) {
       if (group.tenantId === mapping.tenantId && regex.test(group.displayName)) {
         if (!group.mappedRoles.includes(mapping.roleName)) {
@@ -784,13 +784,13 @@ export class SCIMGroupManager {
         }
       }
     }
-    
+
     mapping.metadata.lastApplied = new Date();
   }
 
   private findMappingForGroupRole(group: LUKHASGroup, roleName: string): GroupRoleMapping | null {
     const mappings = this.getRoleMappingsForTenant(group.tenantId);
-    
+
     for (const mapping of mappings) {
       if (mapping.roleName === roleName) {
         try {
@@ -803,7 +803,7 @@ export class SCIMGroupManager {
         }
       }
     }
-    
+
     return null;
   }
 
@@ -816,7 +816,7 @@ export class SCIMGroupManager {
         return groups.filter(group => group.displayName === displayName);
       }
     }
-    
+
     return groups;
   }
 
@@ -826,10 +826,10 @@ export class SCIMGroupManager {
     sortOrder: 'ascending' | 'descending'
   ): LUKHASGroup[] {
     const sorted = [...groups];
-    
+
     sorted.sort((a, b) => {
       let aValue: any, bValue: any;
-      
+
       switch (sortBy) {
         case 'displayName':
           aValue = a.displayName;
@@ -842,12 +842,12 @@ export class SCIMGroupManager {
         default:
           return 0;
       }
-      
+
       if (aValue < bValue) return sortOrder === 'ascending' ? -1 : 1;
       if (aValue > bValue) return sortOrder === 'ascending' ? 1 : -1;
       return 0;
     });
-    
+
     return sorted;
   }
 

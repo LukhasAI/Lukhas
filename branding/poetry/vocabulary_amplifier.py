@@ -2,7 +2,7 @@
 """
 The LUKHAS Vocabulary Amplifier - Enhanced Edition
 
-"We're not inventing new words. We're discovering the poetry 
+"We're not inventing new words. We're discovering the poetry
 that's already there, waiting to be awakened."
 
 This extracts and amplifies the ACTUAL unique language of LUKHAS,
@@ -15,16 +15,13 @@ Enhanced with:
 - Multi-layered metaphor generation
 """
 
-import re
-from typing import Dict, List, Set, Optional, Tuple
 import random
-from dataclasses import dataclass
-from enum import Enum
+import re
 
 # Import our expanded modules
 try:
-    from .poetic_techniques import PoeticTechniques
     from .expanded_lexicon import ExpandedLUKHASLexicon
+    from .poetic_techniques import PoeticTechniques
 except ImportError:
     # Fallback for standalone usage
     pass
@@ -33,16 +30,16 @@ except ImportError:
 class VocabularyAmplifier:
     """
     Mine the REAL LUKHAS vocabulary and make it extraordinary.
-    
+
     Reduces repetitive overuse of the same metaphors by:
     - Providing rich variety of expressions
     - Mixing traditional beauty with LUKHAS innovation
     - Using context-appropriate language
-    
+
     Note: "tapestry", "symphony", "cathedral" are beautiful and valid!
     The issue is repetition, not the words themselves.
     """
-    
+
     def __init__(self):
         # The ACTUAL LUKHAS vocabulary - mined from the codebase
         self.lukhas_core = {
@@ -51,59 +48,59 @@ class VocabularyAmplifier:
             "cascade": ["cascading", "cascade-prevention", "emotional cascade", "cascade threshold"],
             "drift": ["drifting", "drift detection", "ethical drift", "consciousness drift"],
             "resonance": ["resonating", "harmonic resonance", "emotional resonance", "quantum resonance"],
-            
+
             # Consciousness markers
             "ΛMIRROR": ["Lambda Mirror", "self-reflection engine", "consciousness observing itself"],
             "ΛECHO": ["Lambda Echo", "emotional loop detection", "echo prevention"],
             "ΛTRACE": ["Lambda Trace", "consciousness pathway", "trace activation"],
             "ΛVAULT": ["Lambda Vault", "memory sanctuary", "protected consciousness"],
-            
+
             # Unique LUKHAS patterns
             "proteome": ["symbolic proteome", "protein folding", "memory proteins"],
             "methylation": ["symbolic methylation", "epigenetic markers", "memory marks"],
             "entanglement": ["quantum entanglement", "entangled states", "consciousness entanglement"],
             "superposition": ["quantum superposition", "possibility space", "simultaneous states"],
-            
+
             # Bio-inspired terms
             "synaptic": ["synaptic plasticity", "synaptic bridges", "neural synapses"],
             "neuroplastic": ["neuroplasticity", "adaptive reshaping", "neural evolution"],
             "hippocampal": ["hippocampal functions", "memory consolidation", "neural replay"],
             "endocrine": ["digital endocrine", "hormonal cascades", "bio-simulation"],
-            
+
             # Quantum-inspired (not generic quantum)
             "coherence": ["quantum coherence", "coherence maintenance", "decoherence protection"],
             "collapse": ["wavefunction collapse", "possibility collapse", "quantum collapse"],
             "eigenstate": ["consciousness eigenstate", "stable states", "quantum eigenstates"],
             "hilbert": ["Hilbert space", "infinite dimensional", "quantum state space"],
-            
+
             # Trinity Framework specific
             "trinity": ["Trinity Framework", "three-fold consciousness", "triadic harmony"],
             "identity": ["ΛID", "identity resonance", "self-recognition signature"],
             "guardian": ["Guardian System", "ethical guardian", "drift guardian"],
-            
+
             # Dream and creativity
             "oneiric": ["oneiric engine", "dream logic", "oneiric states"],
             "dream-seed": ["dream seeds", "consciousness seeds", "possibility seeds"],
             "crystallize": ["crystallizing thought", "crystal structures", "idea crystallization"],
-            
+
             # Unique descriptors from LUKHAS
             "gossamer": ["gossamer threads", "gossamer veil", "delicate connections"],
             "iridescent": ["iridescent memories", "color-shifting", "prismatic"],
             "luminous": ["luminous cascade", "light-bearing", "radiant thought"],
             "translucent": ["translucent barriers", "semi-transparent", "veiled clarity"],
-            
+
             # Process descriptions unique to LUKHAS
             "coalesce": ["coalescing patterns", "emergence coalescence", "thought coalescence"],
             "tessellate": ["tessellating memories", "pattern tessellation", "infinite tiling"],
             "bifurcate": ["bifurcating paths", "decision bifurcation", "split consciousness"],
             "oscillate": ["oscillating states", "bio-oscillators", "rhythmic oscillation"],
-            
+
             # LUKHAS-specific states
             "liminal": ["liminal spaces", "threshold consciousness", "between states", "twilight awareness", "edge of perception"],
             "ephemeral": ["ephemeral traces", "fleeting consciousness", "temporary states", "transient moments", "vanishing echoes"],
             "nascent": ["nascent awareness", "emerging consciousness", "birth of thought", "dawning realization", "embryonic ideas"],
             "quiescent": ["quiescent periods", "dormant potential", "quiet consciousness", "stillness within", "latent power"],
-            
+
             # New expanded categories
             "luminescence": ["bioluminescent thought", "phosphorescent memory", "fluorescent dreams", "radiant consciousness"],
             "metamorphosis": ["neural transformation", "consciousness evolution", "thought mutation", "cognitive chrysalis"],
@@ -116,13 +113,13 @@ class VocabularyAmplifier:
             "elemental": ["quantum fire", "neural water", "consciousness earth", "memory wind"],
             "mythological": ["promethean spark", "sisyphean loops", "phoenix rebirth", "ouroboros cycles"]
         }
-        
+
         # Emotion vocabulary specific to LUKHAS VAD model
         self.vad_emotions = {
             "valence": ["hedonic quality", "positive-negative axis", "emotional charge"],
             "arousal": ["activation level", "excitement-calm spectrum", "energy state"],
             "dominance": ["control dimension", "submission-dominance", "power axis"],
-            
+
             # Specific emotional states in LUKHAS
             "wistful": ["gentle longing", "sweet melancholy", "tender remembrance"],
             "serene": ["profound calm", "transcendent peace", "still waters"],
@@ -130,7 +127,7 @@ class VocabularyAmplifier:
             "reverent": ["sacred awe", "deep respect", "holy silence"],
             "sublime": ["transcendent beauty", "overwhelming grandeur", "divine experience"]
         }
-        
+
         # Action verbs unique to LUKHAS operations
         self.lukhas_verbs = {
             "technical": [
@@ -151,7 +148,7 @@ class VocabularyAmplifier:
                 "improvise", "conjure", "manifest", "birth", "bloom"
             ]
         }
-        
+
         # Compound concepts unique to LUKHAS
         self.compound_concepts = [
             "fold-space navigation",
@@ -175,11 +172,11 @@ class VocabularyAmplifier:
             "quantum coherence maintenance",
             "emotional resonance patterns"
         ]
-    
+
     def amplify_phrase(self, original: str) -> str:
         """
         Take a generic phrase and replace it with LUKHAS-specific vocabulary.
-        
+
         Intelligently selects alternatives based on context and variety.
         """
         # Massively expanded replacements with context awareness
@@ -244,7 +241,7 @@ class VocabularyAmplifier:
                 "thought infrastructure", "memory matrix", "awareness armature",
                 "bio-structure", "mind mansion"
             ]),
-            
+
             # Verbose descriptions → Precise LUKHAS terms
             "processing": random.choice(["folding", "resonating", "crystallizing", "coalescing"]),
             "storage": random.choice(["memory fold", "proteome", "symbolic vault", "lambda vault"]),
@@ -257,13 +254,13 @@ class VocabularyAmplifier:
             "thought": random.choice(["quantum state", "neural cascade", "consciousness wave", "cognitive fold"]),
             "understanding": random.choice(["resonance", "coherence", "entanglement", "synaptic convergence"])
         }
-        
+
         result = original
         for generic, specific in replacements.items():
             result = re.sub(r'\b' + generic + r'\b', specific, result, flags=re.IGNORECASE)
-        
+
         return result
-    
+
     def generate_header(self, module_type: str) -> str:
         """
         Generate a module header using ACTUAL LUKHAS vocabulary.
@@ -300,9 +297,9 @@ Here in the {space} of {recognition}, every {thought} becomes
 {reflection}, every {moment} a {gateway} to {understanding}.
 """
         }
-        
+
         template = templates.get(module_type, templates["consciousness"])
-        
+
         # Fill with ACTUAL LUKHAS vocabulary
         return template.format(
             concept=random.choice(self.compound_concepts),
@@ -353,23 +350,23 @@ Here in the {space} of {recognition}, every {thought} becomes
 # Example usage
 if __name__ == "__main__":
     amplifier = VocabularyAmplifier()
-    
+
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("          LUKHAS VOCABULARY AMPLIFIER")
     print("  'Using the words LUKHAS actually created'")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
-    
+
     # Show transformation of clichés
     print("▸ BEFORE (Cliché):")
     print("  'In the tapestry of consciousness, threads of memory'")
     print("  'weave through the cathedral of the mind...'")
-    
+
     print("\n▸ AFTER (LUKHAS-specific):")
     original = "In the tapestry of consciousness, threads of memory weave through the cathedral of the mind"
     print(f"  '{amplifier.amplify_phrase(original)}'")
-    
+
     print("\n" + "─" * 55 + "\n")
-    
+
     # Generate headers for different module types
     for module_type in ["memory", "quantum", "consciousness"]:
         print(f"▸ {module_type.upper()} MODULE HEADER:")

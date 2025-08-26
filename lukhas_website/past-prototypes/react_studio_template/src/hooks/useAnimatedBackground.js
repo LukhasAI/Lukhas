@@ -27,7 +27,7 @@ export const useAnimatedBackground = (type = 'stars', isActive = true) => {
   const initStars = useCallback((width, height) => {
     const stars = []
     const numStars = Math.min(100, Math.floor((width * height) / 10000)) // Adaptive count
-    
+
     for (let i = 0; i < numStars; i++) {
       stars.push({
         x: Math.random() * width,
@@ -66,7 +66,7 @@ export const useAnimatedBackground = (type = 'stars', isActive = true) => {
   const initGeometric = useCallback((width, height) => {
     const particles = []
     const numParticles = Math.min(30, Math.floor((width * height) / 20000)) // Adaptive count
-    
+
     for (let i = 0; i < numParticles; i++) {
       particles.push({
         x: Math.random() * width,
@@ -81,10 +81,10 @@ export const useAnimatedBackground = (type = 'stars', isActive = true) => {
 
   const animateGeometric = useCallback((ctx, width, height) => {
     ctx.clearRect(0, 0, width, height)
-    
+
     const particles = dataRef.current.particles
     const maxDistance = 80
-    
+
     // Update positions
     particles.forEach(p => {
       p.x += p.vx
@@ -111,7 +111,7 @@ export const useAnimatedBackground = (type = 'stars', isActive = true) => {
         const p1 = particles[i]
         const p2 = particles[j]
         const distance = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)
-        
+
         if (distance < maxDistance) {
           const opacity = (1 - distance / maxDistance) * 0.3
           ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`
@@ -171,7 +171,7 @@ export const useAnimatedBackground = (type = 'stars', isActive = true) => {
     const { width, height } = resizeCanvas(canvas)
     if (type === 'stars') initStars(width, height)
     if (type === 'geometric') initGeometric(width, height)
-    
+
     animate()
 
     // Resize handler with debouncing

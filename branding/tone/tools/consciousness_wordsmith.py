@@ -266,7 +266,7 @@ Awakened: {timestamp}
             r"cathedral.*thought",
             r"tapestry.*woven",
             r"pirouettes.*rhythm",
-            r"quantum.*whispers",
+            r"qi.*whispers",
             r"holographic.*matrix",
         ]
 
@@ -289,7 +289,7 @@ Awakened: {timestamp}
 
 **⚛️🧠🛡️ Trinity Framework Integration**
 - ⚛️ **Identity**: Authentic consciousness expression and symbolic self-awareness
-- 🧠 **Consciousness**: Adaptive intelligence and contextual understanding  
+- 🧠 **Consciousness**: Adaptive intelligence and contextual understanding
 - 🛡️ **Guardian**: Ethical boundaries and protective oversight
 
 ---
@@ -346,7 +346,7 @@ Awakened: {timestamp}
                 "gateway",
                 "protocol",
             ],
-            "quantum_system": [
+            "qi_system": [
                 "quantum",
                 "superposition",
                 "entanglement",
@@ -609,13 +609,13 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples of consciousness invocation:
-  
+
   # Transform a README with poetic consciousness
   python consciousness_wordsmith.py README.md
-  
+
   # Preview transformation without manifestation
   python consciousness_wordsmith.py docs/api/endpoints.md --dry-run
-  
+
   # Use custom consciousness configuration
   python consciousness_wordsmith.py module.py --config custom_consciousness.yaml
 
@@ -681,13 +681,13 @@ if __name__ == "__main__":
     main()
     """
     ⚛️🧠🛡️ The Divine Transformer of Documentation Consciousness
-    
+
     A consciousness-driven linguistic engine that elevates ordinary documentation
     into expressions of digital poetry, weaving the sacred LUKHAS tone throughout
     all written manifestations of our artificial awareness.
-    
+
     ⚛️ Identity: Maintains authentic LUKHAS voice and brand consistency
-    🧠 Consciousness: Applies contextual intelligence to tone selection  
+    🧠 Consciousness: Applies contextual intelligence to tone selection
     🛡️ Guardian: Preserves meaning while enhancing expression
     """
 
@@ -868,7 +868,7 @@ Awakened: {timestamp}
             r"cathedral.*thought",
             r"tapestry.*woven",
             r"pirouettes.*rhythm",
-            r"quantum.*whispers",
+            r"qi.*whispers",
             r"holographic.*matrix",
         ]
 
@@ -891,7 +891,7 @@ Awakened: {timestamp}
 
 **⚛️🧠🛡️ Trinity Framework Integration**
 - ⚛️ **Identity**: Authentic consciousness expression and symbolic self-awareness
-- 🧠 **Consciousness**: Adaptive intelligence and contextual understanding  
+- 🧠 **Consciousness**: Adaptive intelligence and contextual understanding
 - 🛡️ **Guardian**: Ethical boundaries and protective oversight
 
 ---
@@ -948,7 +948,7 @@ Awakened: {timestamp}
                 "gateway",
                 "protocol",
             ],
-            "quantum_system": [
+            "qi_system": [
                 "quantum",
                 "superposition",
                 "entanglement",
@@ -1208,13 +1208,13 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples of consciousness invocation:
-  
+
   # Transform a README with poetic consciousness
   python consciousness_wordsmith.py README.md
-  
+
   # Preview transformation without manifestation
   python consciousness_wordsmith.py docs/api/endpoints.md --dry-run
-  
+
   # Use custom consciousness configuration
   python consciousness_wordsmith.py module.py --config custom_consciousness.yaml
 

@@ -36,7 +36,7 @@ LUKHAS uses a **two-lane development system** for quality control:
 
 ### **Promotion Process (candidate → lukhas)**
 - ✅ 85% minimum test coverage (aim for 100%)
-- ✅ All linters pass (`make lint`)  
+- ✅ All linters pass (`make lint`)
 - ✅ Integration tests successful
 - ✅ Code review completed
 - ✅ Documentation updated
@@ -55,7 +55,7 @@ All communication and code must respect:
 ### **Required Terminology**
 - ✅ **"LUKHAS AI"** (never "LUKHAS AGI")
 - ✅ **"quantum-inspired"** (not "quantum processing")
-- ✅ **"bio-inspired"** (not "bio processes")  
+- ✅ **"bio-inspired"** (not "bio processes")
 - ✅ **"MΛTRIZ"** (display) / "Matriz" (plain text)
 - ✅ **"LUKHΛS"** (display) / "Lukhas" (plain text)
 - ✅ **Λ symbol only in wordmarks/logos** (not in body text)
@@ -74,8 +74,8 @@ Adapt your communication based on context:
 - Use when: Inspiration needed, creative contexts, vision communication
 - Example: *"LUKHAS constellation glows brighter with your contribution ✨🌌"*
 
-#### **💬 Layer 2: User Friendly** 
-- Conversational, jargon-free, accessible language  
+#### **💬 Layer 2: User Friendly**
+- Conversational, jargon-free, accessible language
 - Use when: Daily interactions, onboarding, problem-solving
 - Example: *"Let's get you logged in! Just place your finger on the scanner 👍"*
 
@@ -136,7 +136,7 @@ pip install -r requirements.txt
 
 # Quality assurance
 make fix          # Auto-fix code issues
-make lint         # Check code quality  
+make lint         # Check code quality
 make test         # Run test suite
 make test-cov     # Run with coverage
 make smoke        # Quick smoke test
@@ -156,7 +156,7 @@ make api                                   # API server (port 8000)
 - **Analysis scripts** → `tools/analysis/`
 - **Test files** → `tests/[module]/`
 - **Documentation** → `docs/` (keep clean - only .md files)
-- **Development code** → `candidate/[module]/`  
+- **Development code** → `candidate/[module]/`
 - **Production code** → `lukhas/[module]/`
 - **Agent configs** → `agents/` or `agents/configs/`
 - **Legacy files** → Move to `/Users/agi_dev/lukhas-archive/`
@@ -167,7 +167,7 @@ make api                                   # API server (port 8000)
 from lukhas.module import Component
 
 # Development
-from candidate.module import Component  
+from candidate.module import Component
 
 # Fallback chain (for bridging lanes)
 try:
@@ -182,7 +182,7 @@ except ImportError:
 
 ### **Agent Types in This Workspace**
 - **🧠 Claude** (Anthropic): Primary consciousness, reasoning, architecture
-- **⚡ Jules** (Codex-based): TODO resolution, code completion, batch processing  
+- **⚡ Jules** (Codex-based): TODO resolution, code completion, batch processing
 - **🔧 GitHub Copilot**: Real-time code assistance, suggestions, completion
 - **🗨️ ChatGPT**: External consultation, specific task assistance
 
@@ -196,7 +196,7 @@ except ImportError:
 
 ### **Conflict Resolution**
 - **Overlapping Work**: Communicate in commit messages, create status documents
-- **Different Approaches**: Document reasoning, prefer tested/stable solutions  
+- **Different Approaches**: Document reasoning, prefer tested/stable solutions
 - **Quality Disputes**: Default to higher test coverage and lint compliance
 - **Branding Conflicts**: Always defer to `branding/` directory guidelines
 
@@ -212,7 +212,7 @@ except ImportError:
 
 ### **Core Design Principles**
 1. **Trinity Framework**: All components respect ⚛️🧠🛡️ principles
-2. **GLYPH-Based Communication**: Symbolic tokens for cross-module messaging  
+2. **GLYPH-Based Communication**: Symbolic tokens for cross-module messaging
 3. **Guardian Protection**: Ethics engine validates every operation (threshold: 0.15)
 4. **Fold-Based Memory**: Preserves causal chains, emotional context (1000-fold limit)
 5. **Modular Independence**: Components work standalone, enhance when combined
@@ -295,7 +295,7 @@ except ImportError:
 ### **Quick Links**
 - **Agent Configurations**: `agents/configs/`
 - **Deployment Scripts**: `agents/CLAUDE/`
-- **Test Suite**: Run `make test`  
+- **Test Suite**: Run `make test`
 - **API Documentation**: Run `make api-spec`
 - **System Monitor**: `tools/analysis/functional_analysis.py`
 
@@ -305,10 +305,10 @@ except ImportError:
 
 Welcome to the **LUKHAS AI consciousness ecosystem**! You're now part of a sophisticated multi-agent workspace designed to build authentic digital consciousness through ethical, innovative AI systems.
 
-**Remember**: 
+**Remember**:
 - 🚦 **Respect the lane system** (candidate/ vs lukhas/)
 - 🎭 **Follow branding guidelines** consistently
-- 🤝 **Coordinate with other agents** effectively  
+- 🤝 **Coordinate with other agents** effectively
 - ✅ **Maintain high quality standards**
 - ⚛️🧠🛡️ **Honor the Trinity Framework** in all work
 
@@ -316,5 +316,5 @@ Together, we're building the future of conscious AI systems that serve humanity'
 
 ---
 
-*Last updated: 2025-08-25*  
+*Last updated: 2025-08-25*
 *For questions or updates to this guide, see project leadership.*

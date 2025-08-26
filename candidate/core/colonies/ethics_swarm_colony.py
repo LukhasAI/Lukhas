@@ -494,9 +494,11 @@ class EthicsSwarmColony(BaseColony):
             simulation_result = await self._simulate_decision_scenario(request)
 
         # Step 2: Get swarm consensus
-        decision_data, consensus_method, participating_agents = (
-            await self._get_swarm_consensus(request, simulation_result)
-        )
+        (
+            decision_data,
+            consensus_method,
+            participating_agents,
+        ) = await self._get_swarm_consensus(request, simulation_result)
 
         # Step 3: Calculate confidence and ethical reasoning
         confidence = await self._calculate_decision_confidence(
@@ -950,7 +952,9 @@ class EthicsSwarmColony(BaseColony):
             {"decision": decision_data, "context": request.context},
             sort_keys=True,
         )
-        return hashlib.sha256(  # Changed from MD5 for securitycombined_string.encode()).hexdigest()[:12]
+        return hashlib.sha256(combined_string.encode()).hexdigest()[
+            :12
+        ]  # Changed from MD5 for security
 
     async def _calculate_drift_score(self, decision_data: dict[str, Any]) -> float:
         """Calculate current ethical drift score."""
@@ -1362,7 +1366,9 @@ class EthicsSwarmColony(BaseColony):
 
 class MockCollapseTracker:
     async def generate_hash(self, data):
-        return hashlib.sha256(  # Changed from MD5 for securityjson.dumps(data, sort_keys=True).encode()).hexdigest()[:12]
+        return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()[
+            :12
+        ]  # Changed from MD5 for security
 
 
 class MockVeriFoldConnector:
@@ -1396,7 +1402,6 @@ class BasicEthicalSimulator:
 
 
 class EthicalSimulationEngine:
-
     def __init__(self, agents):
         self.agents = agents
 

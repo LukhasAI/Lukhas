@@ -177,7 +177,7 @@ class ConsciousnessEngine:
         self.phi_score = 0.0  # Integrated information
         self.attention_capacity = 7  # Miller's magical number
         self.reflection_depth = 5  # Metacognitive recursion levels
-        self.quantum_coherence_time = 1000  # milliseconds
+        self.qi_coherence_time = 1000  # milliseconds
 
         # Experience tracking
         self.awareness_history = deque(maxlen=1000)  # Conscious moments
@@ -207,7 +207,7 @@ class ConsciousnessEngine:
                 "base_awareness_level": 0.7,
                 "phi_calculation_method": "IIT_3.0",
                 "reflection_depth": 5,
-                "quantum_coherence_time": 1000,
+                "qi_coherence_time": 1000,
                 "attention_capacity": 7,
                 "qualia_resolution": "high",
                 "metacognitive_threshold": 0.6,

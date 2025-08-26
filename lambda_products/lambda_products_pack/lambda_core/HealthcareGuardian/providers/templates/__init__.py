@@ -10,6 +10,6 @@ from .base_provider import BaseHealthcareProvider, ProviderConfig, SecurityConfi
 __version__ = "1.0.0"
 __all__ = [
     "BaseHealthcareProvider",
-    "ProviderConfig", 
+    "ProviderConfig",
     "SecurityConfig"
 ]

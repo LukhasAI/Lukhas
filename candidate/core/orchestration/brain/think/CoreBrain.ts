@@ -61,14 +61,14 @@ export class CoreBrain extends EventEmitter {
     };
 
     this.activeProcesses.set(process.id, process);
-    
+
     try {
       // Monitor safety during processing
       this.monitorProcess(process);
-      
+
       // Process the thought
       const result = await this.processThought(process);
-      
+
       // Validate output safety
       if (!this.validateOutput(result)) {
         throw new Error('Output safety validation failed');
@@ -110,7 +110,7 @@ export class CoreBrain extends EventEmitter {
   private calculateSafety(process: ThoughtProcess): number {
     const duration = Date.now() - process.startTime;
     const complexity = JSON.stringify(process.input).length;
-    
+
     // Simple safety calculation
     return Math.min(
       1,

@@ -35,15 +35,15 @@ class ReadabilityScorer {
 
     // Count sentences (periods, exclamation marks, question marks)
     const sentences = Math.max(1, (text.match(/[.!?]+/g) || []).length);
-    
+
     // Count words (word boundaries)
     const words = Math.max(1, (text.match(/\b[\w''-]+\b/g) || []).length);
-    
+
     // Count syllables (vowel groups)
     const syllables = Math.max(1, this.countSyllables(text));
 
     const gradeLevel = 0.39 * (words / sentences) + 11.8 * (syllables / words) - 15.59;
-    
+
     return Math.max(0, gradeLevel);
   }
 
@@ -63,13 +63,13 @@ class ReadabilityScorer {
    */
   countSyllables(text) {
     const cleanText = text.toLowerCase().replace(/[^a-z]/g, '');
-    
+
     // Count vowel groups
     const vowelGroups = cleanText.match(/[aeiouy]{1,2}/g) || [];
-    
+
     // Subtract silent 'e' at word endings
     const silentE = cleanText.match(/\b\w*[^aeiou]e\b/g) || [];
-    
+
     return Math.max(1, vowelGroups.length - silentE.length);
   }
 
@@ -78,7 +78,7 @@ class ReadabilityScorer {
    */
   extractPlainSections(content, filePath) {
     const plainSections = [];
-    
+
     // Pattern for data-tone="plain" sections
     const plainPatterns = [
       /data-tone=["']plain["'][\s\S]*?<\/(section|div|p)>/gi,
@@ -91,7 +91,7 @@ class ReadabilityScorer {
       while ((match = pattern.exec(content)) !== null) {
         const sectionContent = this.extractPlainText(match[0]);
         const lineNumber = this.getLineNumber(content, match.index);
-        
+
         plainSections.push({
           content: sectionContent,
           raw: match[0],
@@ -133,12 +133,12 @@ class ReadabilityScorer {
     if (currentGrade > 12) {
       suggestions.push("Consider breaking long sentences into shorter ones (aim for 15-20 words per sentence)");
     }
-    
+
     if (currentGrade > 10) {
       suggestions.push("Replace complex words with simpler alternatives");
       suggestions.push("Use active voice instead of passive voice");
     }
-    
+
     if (currentGrade > 8) {
       suggestions.push("Remove unnecessary jargon and technical terms");
       suggestions.push("Use concrete examples instead of abstract concepts");
@@ -160,15 +160,15 @@ class ReadabilityScorer {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const relativePath = path.relative(process.cwd(), filePath);
-      
+
       const plainSections = this.extractPlainSections(content, relativePath);
-      
+
       for (const section of plainSections) {
         const gradeLevel = this.fleschKincaidGrade(section.content);
-        
+
         if (gradeLevel > this.maxGradeLevel) {
           const suggestion = this.generateRewriteSuggestion(gradeLevel, this.maxGradeLevel);
-          
+
           this.violations.push({
             file: section.file,
             line: section.line,
@@ -204,12 +204,12 @@ class ReadabilityScorer {
       console.log(`${index + 1}. ${violation.file}:${violation.line}`);
       console.log(`   Grade Level: ${violation.gradeLevel} (max: ${violation.maxGrade})`);
       console.log(`   Content: "${violation.content}"`);
-      console.log(`   
+      console.log(`
    💡 Suggestions:`);
       violation.suggestion.suggestions.forEach(suggestion => {
         console.log(`     • ${suggestion}`);
       });
-      console.log(`   
+      console.log(`
    📝 Rewrite Example: ${violation.suggestion.rewriteExample}`);
       console.log('');
     });
@@ -227,9 +227,9 @@ class ReadabilityScorer {
   async analyze(patterns = ['lukhas_website/**/*.{tsx,jsx,md}', 'branding/**/*.md']) {
     const glob = require('glob');
     const files = [];
-    
+
     for (const pattern of patterns) {
-      const matches = glob.sync(pattern, { 
+      const matches = glob.sync(pattern, {
         cwd: process.cwd(),
         ignore: ['**/node_modules/**', '**/.git/**']
       });
@@ -237,7 +237,7 @@ class ReadabilityScorer {
     }
 
     const uniqueFiles = [...new Set(files)];
-    
+
     for (const filePath of uniqueFiles) {
       await this.analyzeFile(filePath);
     }

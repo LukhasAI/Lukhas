@@ -16,7 +16,7 @@
 ### 1. 🔮 **QIM (Quantum Inspire Module)**
 **Location**: `qim/`
 **Value**: Entire quantum subsystem
-**Files**: 
+**Files**:
 - `qim/processing/quantum_bio_coordinator.py`
 - `qim/processing/quantum_glyph_registry.py`
 - `qim/quantum_states/phase_quantum_integration.py`

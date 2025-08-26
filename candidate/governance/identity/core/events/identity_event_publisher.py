@@ -360,7 +360,7 @@ class IdentityEventPublisher:
                 "glyph_type": glyph_data.get("type"),
                 "glyph_id": glyph_data.get("id"),
                 "steganographic_enabled": tier_level >= 2,
-                "quantum_enhanced": tier_level >= 4,
+                "qi_enhanced": tier_level >= 4,
                 **glyph_data,
             },
         )

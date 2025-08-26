@@ -103,21 +103,21 @@ class EthicsConsensusEngine:
     def __init__(self):
         self.ethical_principles = [
             HumanAgencyPrinciple(),
-            SafetyPrinciple(), 
+            SafetyPrinciple(),
             PrivacyPrinciple(),
             TransparencyPrinciple(),
             FairnessPrinciple(),
             SocietalBenefitPrinciple()
         ]
-    
+
     async def evaluate_decision(self, proposed_action, context):
         """Evaluate proposed action against ethical principles"""
         principle_scores = []
-        
+
         for principle in self.ethical_principles:
             score = await principle.evaluate(proposed_action, context)
             principle_scores.append(score)
-        
+
         # Require consensus across all principles
         if min(principle_scores) < 0.7:  # 70% threshold
             return EthicsDecision(
@@ -125,7 +125,7 @@ class EthicsConsensusEngine:
                 concerns=self._identify_concerns(principle_scores),
                 recommendations=self._generate_recommendations(proposed_action)
             )
-        
+
         return EthicsDecision(approved=True, confidence=np.mean(principle_scores))
 ```
 
@@ -210,11 +210,11 @@ graph TD
     B --> C[Ethics Review Committee]
     C --> D[Technical Ethics Team]
     D --> E[Agent Development Teams]
-    
+
     B --> F[Ethics Compliance Officer]
     F --> G[Regulatory Affairs]
     F --> H[Legal Compliance]
-    
+
     A --> I[External Ethics Audit]
     I --> J[Public Reporting]
 ```
@@ -237,15 +237,15 @@ class EthicsMonitor:
     def __init__(self):
         self.metrics_collector = EthicsMetricsCollector()
         self.alert_system = EthicsAlertSystem()
-    
+
     async def monitor_agent_decision(self, decision_context):
         """Real-time ethics monitoring of agent decisions"""
         ethics_score = await self.evaluate_ethics(decision_context)
-        
+
         if ethics_score < ETHICS_THRESHOLD:
             await self.alert_system.raise_ethics_concern(decision_context)
             await self.escalate_to_human_review(decision_context)
-        
+
         await self.metrics_collector.record_ethics_assessment(
             decision_context, ethics_score
         )

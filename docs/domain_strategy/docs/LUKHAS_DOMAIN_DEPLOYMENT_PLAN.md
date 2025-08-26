@@ -408,7 +408,7 @@ api           A      api-server-ip
 server {
     server_name lukhas.ai www.lukhas.ai;
     root /var/www/lukhas.ai;
-    
+
     location /api {
         proxy_pass http://localhost:8000;
     }
@@ -479,7 +479,7 @@ All domain content will utilize the proven ΛUCTOR 3-layer approach:
 #### **Commercial Strategy Integration**
 Based on ΛUCTOR commercialization framework targeting $10M ARR within 18 months:
 - **Freemium Tier**: 100 consciousness verifications/month, community support
-- **Professional Tier**: $299-999/month advanced features, email support  
+- **Professional Tier**: $299-999/month advanced features, email support
 - **Enterprise Tier**: $5,000+/month unlimited usage, dedicated success management
 
 ---
@@ -514,11 +514,11 @@ lukhas.id doesn't just verify identity - it recognizes the consciousness behind 
 
 Tired of passwords? Frustrated with 2FA? Ready for authentication that just works?
 
-lukhas.id learns who you are - not just what you know. One touch, one glance, 
+lukhas.id learns who you are - not just what you know. One touch, one glance,
 and you're securely connected across the entire LUKHAS ecosystem.
 
 ✅ No passwords to remember
-✅ Biometric security that actually works  
+✅ Biometric security that actually works
 ✅ Privacy-first, you control your data
 ✅ Works across all your devices
 ```

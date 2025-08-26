@@ -39,7 +39,7 @@ class EmbeddingMethod(Enum):
     DCT = "dct"  # Discrete Cosine Transform
     WAVELET = "wavelet"  # Wavelet Transform
     FRACTAL = "fractal"  # Fractal-based hiding
-    QUANTUM_LSB = "quantum_lsb"  # Quantum-enhanced LSB
+    QUANTUM_LSB = "qi_lsb"  # Quantum-enhanced LSB
     MULTI_LAYER = "multi_layer"  # Multiple method combination
 
 
@@ -100,7 +100,7 @@ class SteganographicIdentityEmbedder:
         self.detection_threshold = 0.8  # Minimum detection resistance score
 
         # Quantum-enhanced parameters
-        self.quantum_key_size = 32  # 256-bit quantum keys
+        self.qi_key_size = 32  # 256-bit quantum keys
         self.entropy_pool_size = 1024  # Entropy pool for quantum randomness
 
         # Initialize entropy pool
@@ -206,7 +206,7 @@ class SteganographicIdentityEmbedder:
                 "data_size": len(encrypted_data),
                 "image_size": carrier_image.size,
                 "embedding_locations": result.get("locations", []),
-                "quantum_enhanced": method
+                "qi_enhanced": method
                 in [EmbeddingMethod.QUANTUM_LSB, EmbeddingMethod.MULTI_LAYER],
                 "layers_used": result.get("layers", 1),
                 "encryption_algorithm": "Fernet",
@@ -429,10 +429,10 @@ class SteganographicIdentityEmbedder:
                 new_bit = int(binary_data[data_index])
 
                 # Apply quantum noise for detection resistance
-                quantum_noise = self._get_quantum_entropy(1)[0] & 0x01
+                qi_noise = self._get_quantum_entropy(1)[0] & 0x01
                 if strength == EmbeddingStrength.QUANTUM:
                     # Add quantum countermeasures
-                    if quantum_noise:
+                    if qi_noise:
                         # Occasionally flip adjacent bits to confuse detectors
                         adjacent_pos = self._get_adjacent_position(
                             i, j, k, img_array.shape
@@ -440,7 +440,7 @@ class SteganographicIdentityEmbedder:
                         if adjacent_pos:
                             ai, aj, ak = adjacent_pos
                             img_array[ai, aj, ak] ^= 0x01
-                            countermeasures.append(("quantum_noise", adjacent_pos))
+                            countermeasures.append(("qi_noise", adjacent_pos))
 
                 img_array[i, j, k] = (original_value & 0xFE) | new_bit
                 locations.append((i, j, k))

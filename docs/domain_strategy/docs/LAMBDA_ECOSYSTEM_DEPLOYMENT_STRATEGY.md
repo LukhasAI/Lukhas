@@ -14,7 +14,7 @@ This document outlines the comprehensive deployment strategy for integrating exi
 - **Location**: `/lukhas_website/`
 - **Technology**: Next.js 14, React, TypeScript, Tailwind CSS
 - **Status**: ✅ Production Ready (localhost:3004)
-- **Features**: 
+- **Features**:
   - Consciousness branding implemented
   - Trinity Framework integration
   - Product grid with λ ecosystem
@@ -307,7 +307,7 @@ gantt
 
 We have a robust collection of web projects ready for strategic deployment across the λWecosystem. By consolidating redundant systems, enhancing core experiences with consciousness technology, and creating a unified deployment architecture, we can launch a world-class AI platform ecosystem that showcases LUKHAS's consciousness capabilities.
 
-**Total Assets**: 
+**Total Assets**:
 - 6 major project collections
 - 50+ distinct interfaces
 - 9 domain deployments

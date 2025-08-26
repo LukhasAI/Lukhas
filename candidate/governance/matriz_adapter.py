@@ -6,15 +6,15 @@ Emits MATRIZ-compliant nodes for governance, ethics, and guardian events
 import json
 import time
 import uuid
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class GovernanceMatrizAdapter:
     """Adapter to emit MATRIZ nodes for governance system events"""
-    
+
     SCHEMA_REF = "lukhas://schemas/matriz_node_v1.json"
-    
+
     @staticmethod
     def create_node(
         node_type: str,
@@ -23,7 +23,7 @@ class GovernanceMatrizAdapter:
         provenance_extra: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Create a MATRIZ-compliant node for governance events"""
-        
+
         node = {
             "version": 1,
             "id": f"LT-GOV-{uuid.uuid4().hex[:8]}",
@@ -47,12 +47,12 @@ class GovernanceMatrizAdapter:
                 **(provenance_extra or {})
             }
         }
-        
+
         if labels:
             node["labels"] = labels
-            
+
         return node
-    
+
     @staticmethod
     def emit_ethics_decision(
         decision_id: str,
@@ -61,9 +61,9 @@ class GovernanceMatrizAdapter:
         allowed: bool
     ) -> Dict[str, Any]:
         """Emit an ethical decision node"""
-        
+
         urgency = 0.2 if allowed else 0.9
-        
+
         return GovernanceMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -81,7 +81,7 @@ class GovernanceMatrizAdapter:
                 "governance:ethics"
             ]
         )
-    
+
     @staticmethod
     def emit_drift_detection(
         drift_id: str,
@@ -90,10 +90,10 @@ class GovernanceMatrizAdapter:
         component: str = "unknown"
     ) -> Dict[str, Any]:
         """Emit a drift detection event (threshold: 0.15)"""
-        
+
         is_drifting = drift_score > threshold
         urgency = min(1.0, drift_score / threshold) if is_drifting else 0.1
-        
+
         return GovernanceMatrizAdapter.create_node(
             node_type="CAUSAL",
             state={
@@ -113,7 +113,7 @@ class GovernanceMatrizAdapter:
                 "governance:drift"
             ]
         )
-    
+
     @staticmethod
     def emit_guardian_intervention(
         intervention_id: str,
@@ -122,14 +122,14 @@ class GovernanceMatrizAdapter:
         success: bool
     ) -> Dict[str, Any]:
         """Emit a Guardian System intervention event"""
-        
+
         severity_urgency = {
             "low": 0.3,
             "medium": 0.5,
             "high": 0.8,
             "critical": 1.0
         }
-        
+
         return GovernanceMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -147,7 +147,7 @@ class GovernanceMatrizAdapter:
                 "governance:guardian"
             ]
         )
-    
+
     @staticmethod
     def emit_policy_evaluation(
         policy_id: str,
@@ -156,19 +156,19 @@ class GovernanceMatrizAdapter:
         violations: Optional[List[str]] = None
     ) -> Dict[str, Any]:
         """Emit a policy evaluation event"""
-        
+
         is_compliant = compliance_score >= 0.8
-        
+
         labels = [
             f"policy:{policy_id}",
             f"type:{policy_type}",
             f"compliance:{compliance_score:.2f}",
             "governance:policy"
         ]
-        
+
         if violations:
             labels.extend([f"violation:{v}" for v in violations[:3]])
-        
+
         return GovernanceMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -181,7 +181,7 @@ class GovernanceMatrizAdapter:
             },
             labels=labels
         )
-    
+
     @staticmethod
     def emit_constitutional_check(
         check_id: str,
@@ -190,7 +190,7 @@ class GovernanceMatrizAdapter:
         confidence: float
     ) -> Dict[str, Any]:
         """Emit a constitutional AI principle check"""
-        
+
         return GovernanceMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -207,36 +207,36 @@ class GovernanceMatrizAdapter:
                 "governance:constitutional"
             ]
         )
-    
+
     @staticmethod
     def validate_node(node: Dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
-        
+
         for field in required_fields:
             if field not in node:
                 return False
-                
+
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
         for field in required_prov:
             if field not in node.get("provenance", {}):
                 return False
-                
+
         return True
-    
+
     @staticmethod
     def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/governance")
-            
+
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
-        
+
         with open(filepath, 'w') as f:
             json.dump(node, f, indent=2)
-            
+
         return filepath

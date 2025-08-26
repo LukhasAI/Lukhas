@@ -134,11 +134,11 @@ echo "Consolidating vocabulary files..."
 # Check if vocabularies exist in multiple locations
 if [ -d "branding/tone/tools/vocabularies" ] && [ -d "tools/tone/vocabularies" ]; then
     print_info "Found duplicate vocabularies in branding/tone and tools/tone"
-    
+
     # Copy unique files to unified location
     cp -n branding/tone/tools/vocabularies/*.yaml branding/unified/vocabularies/ 2>/dev/null || true
     cp -n tools/tone/vocabularies/*.yaml branding/unified/vocabularies/ 2>/dev/null || true
-    
+
     print_status "Vocabularies consolidated to branding/unified/vocabularies/"
 fi
 

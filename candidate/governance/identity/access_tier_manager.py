@@ -33,14 +33,12 @@ Access Tiers:
 """
 
 import asyncio
-import json
 import logging
-import uuid
+from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
-from collections import defaultdict, deque
+from typing import Any, Dict, List, Optional, Set
 
 logger = logging.getLogger(__name__)
 
@@ -78,23 +76,23 @@ class TierRequirements:
     tier: AccessTier
     name: str
     description: str
-    
+
     # Basic requirements
     min_verification_level: int = 1
     min_trust_score: float = 0.5
     min_reputation_score: float = 0.0
     min_tenure_days: int = 0
-    
+
     # Activity requirements
     min_activity_score: float = 0.0
     required_completions: int = 0
     required_endorsements: int = 0
-    
+
     # Risk and compliance
     max_risk_score: float = 1.0
     constitutional_compliance: bool = True
     security_clearance: bool = False
-    
+
     # Special conditions
     special_conditions: List[str] = field(default_factory=list)
     prohibited_conditions: List[str] = field(default_factory=list)
@@ -106,34 +104,34 @@ class UserAccessProfile:
     user_id: str
     current_tier: AccessTier
     effective_tier: AccessTier  # May differ due to temporary changes
-    
+
     # User metrics
     trust_score: float = 0.5
     reputation_score: float = 0.0
     activity_score: float = 0.0
     risk_score: float = 0.0
-    
+
     # Historical data
     account_created: datetime = field(default_factory=datetime.now)
     last_tier_change: datetime = field(default_factory=datetime.now)
     tier_history: List[Dict[str, Any]] = field(default_factory=list)
-    
+
     # Current status
     verification_level: int = 1
     endorsements_received: int = 0
     completions_count: int = 0
     constitutional_compliance: bool = True
     security_clearance: bool = False
-    
+
     # Temporary modifications
     temporary_grants: List[Dict[str, Any]] = field(default_factory=list)
     temporary_restrictions: List[Dict[str, Any]] = field(default_factory=list)
-    
+
     # Trinity Framework integration
     identity_coherence: float = 1.0      # ⚛️
     consciousness_level: str = "basic"   # 🧠
     guardian_status: str = "monitored"   # 🛡️
-    
+
     # Audit tracking
     last_assessment: datetime = field(default_factory=datetime.now)
     assessment_frequency: int = 30  # days
@@ -147,18 +145,18 @@ class AccessRequest:
     requested_resource: str
     required_tier: AccessTier
     request_timestamp: datetime
-    
+
     # Request context
     request_context: Dict[str, Any] = field(default_factory=dict)
     urgency_level: str = "normal"
     business_justification: str = ""
-    
+
     # Evaluation results
     decision: Optional[AccessDecision] = None
     decision_reason: str = ""
     granted_until: Optional[datetime] = None
     conditions: List[str] = field(default_factory=list)
-    
+
     # Approval workflow
     requires_approval: bool = False
     approver_required: Optional[AccessTier] = None
@@ -168,26 +166,26 @@ class AccessRequest:
 class ComprehensiveAccessTierManager:
     """
     Comprehensive access tier management system
-    
+
     Provides complete T1-T5 tier management with automated progression,
     dynamic access control, and comprehensive monitoring capabilities.
     """
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
-        
+
         # User profiles and tier management
         self.user_profiles: Dict[str, UserAccessProfile] = {}
         self.access_requests: Dict[str, AccessRequest] = {}
         self.access_history: deque = deque(maxlen=100000)
-        
+
         # Tier definitions and requirements
         self.tier_requirements: Dict[AccessTier, TierRequirements] = {}
-        
+
         # Resource access mappings
         self.resource_tier_mappings: Dict[str, AccessTier] = {}
         self.tier_permissions: Dict[AccessTier, Set[str]] = {}
-        
+
         # System configuration
         self.auto_tier_assessment = True
         self.assessment_interval = 24 * 3600  # 24 hours in seconds
@@ -197,7 +195,7 @@ class ComprehensiveAccessTierManager:
             AccessTier.T4_PRIVILEGED: timedelta(days=30),
             AccessTier.T5_ADMINISTRATIVE: timedelta(days=90)
         }
-        
+
         # Performance metrics
         self.metrics = {
             "total_users": 0,
@@ -211,29 +209,29 @@ class ComprehensiveAccessTierManager:
             "tier_satisfaction_rate": 0.0,
             "last_updated": datetime.now().isoformat()
         }
-        
+
         # Initialize system
         asyncio.create_task(self._initialize_tier_manager())
-        
+
         logger.info("🎯 Comprehensive Access Tier Manager initialized")
-    
+
     async def _initialize_tier_manager(self):
         """Initialize the tier management system"""
-        
+
         # Define tier requirements
         await self._define_tier_requirements()
-        
+
         # Initialize tier permissions
         await self._initialize_tier_permissions()
-        
+
         # Start management loops
         asyncio.create_task(self._tier_assessment_loop())
         asyncio.create_task(self._access_monitoring_loop())
         asyncio.create_task(self._temporary_access_cleanup_loop())
-    
+
     async def _define_tier_requirements(self):
         """Define requirements for each access tier"""
-        
+
         tier_definitions = [
             TierRequirements(
                 tier=AccessTier.T1_BASIC,
@@ -291,13 +289,13 @@ class ComprehensiveAccessTierManager:
                 special_conditions=["background_check", "multi_factor_auth", "continuous_monitoring"]
             )
         ]
-        
+
         for tier_def in tier_definitions:
             self.tier_requirements[tier_def.tier] = tier_def
-    
+
     async def _initialize_tier_permissions(self):
         """Initialize permissions for each tier"""
-        
+
         self.tier_permissions = {
             AccessTier.T1_BASIC: {
                 "read_public_content",
@@ -356,7 +354,7 @@ class ComprehensiveAccessTierManager:
                 "tier_management"
             }
         }
-    
+
     async def create_user_profile(
         self,
         user_id: str,
@@ -364,9 +362,9 @@ class ComprehensiveAccessTierManager:
         context: Optional[Dict[str, Any]] = None
     ) -> UserAccessProfile:
         """Create a new user access profile"""
-        
+
         context = context or {}
-        
+
         profile = UserAccessProfile(
             user_id=user_id,
             current_tier=initial_tier,
@@ -374,97 +372,97 @@ class ComprehensiveAccessTierManager:
             verification_level=context.get("verification_level", 0),
             constitutional_compliance=context.get("constitutional_compliance", True)
         )
-        
+
         # Trinity Framework initialization
         profile.identity_coherence = context.get("identity_coherence", 1.0)
         profile.consciousness_level = context.get("consciousness_level", "basic")
         profile.guardian_status = "monitored"
-        
+
         # Store profile
         self.user_profiles[user_id] = profile
-        
+
         # Update metrics
         self.metrics["total_users"] += 1
         tier_dist = self.metrics.get("tier_distribution", {})
         tier_dist[initial_tier.value] = tier_dist.get(initial_tier.value, 0) + 1
         self.metrics["tier_distribution"] = tier_dist
-        
+
         logger.info(f"👤 User profile created: {user_id} (Tier: {initial_tier.value})")
-        
+
         return profile
-    
+
     async def assess_tier_eligibility(self, user_id: str) -> Dict[AccessTier, bool]:
         """Assess user eligibility for each tier"""
-        
+
         profile = self.user_profiles.get(user_id)
         if not profile:
             return {}
-        
+
         eligibility = {}
-        
+
         for tier, requirements in self.tier_requirements.items():
             eligible = await self._check_tier_requirements(profile, requirements)
             eligibility[tier] = eligible
-        
+
         return eligibility
-    
+
     async def _check_tier_requirements(
         self,
         profile: UserAccessProfile,
         requirements: TierRequirements
     ) -> bool:
         """Check if user meets tier requirements"""
-        
+
         # Basic metric requirements
         if profile.verification_level < requirements.min_verification_level:
             return False
-        
+
         if profile.trust_score < requirements.min_trust_score:
             return False
-        
+
         if profile.reputation_score < requirements.min_reputation_score:
             return False
-        
+
         if profile.risk_score > requirements.max_risk_score:
             return False
-        
+
         # Tenure requirement
         tenure_days = (datetime.now() - profile.account_created).days
         if tenure_days < requirements.min_tenure_days:
             return False
-        
+
         # Activity requirements
         if profile.activity_score < requirements.min_activity_score:
             return False
-        
+
         if profile.completions_count < requirements.required_completions:
             return False
-        
+
         if profile.endorsements_received < requirements.required_endorsements:
             return False
-        
+
         # Security and compliance
         if requirements.security_clearance and not profile.security_clearance:
             return False
-        
+
         if requirements.constitutional_compliance and not profile.constitutional_compliance:
             return False
-        
+
         # Special conditions
         for condition in requirements.special_conditions:
             if not await self._check_special_condition(profile, condition):
                 return False
-        
+
         # Prohibited conditions
         for condition in requirements.prohibited_conditions:
             if await self._check_special_condition(profile, condition):
                 return False
-        
+
         return True
-    
+
     async def _check_special_condition(self, profile: UserAccessProfile, condition: str) -> bool:
         """Check special tier conditions"""
-        
+
         if condition == "background_check":
             # Simulate background check
             return profile.risk_score < 0.1
@@ -474,34 +472,34 @@ class ComprehensiveAccessTierManager:
         elif condition == "continuous_monitoring":
             # Check if user accepts continuous monitoring
             return profile.guardian_status in ["monitored", "trusted"]
-        
+
         return False
-    
+
     async def process_tier_progression(self, user_id: str) -> Optional[TierTransition]:
         """Process automatic tier progression for user"""
-        
+
         profile = self.user_profiles.get(user_id)
         if not profile:
             return None
-        
+
         # Check cooldown period
         if not await self._check_tier_cooldown(profile):
             return None
-        
+
         # Assess eligibility for higher tiers
         eligibility = await self.assess_tier_eligibility(user_id)
-        
+
         # Find highest eligible tier
         current_tier_level = list(AccessTier).index(profile.current_tier)
         highest_eligible_tier = profile.current_tier
-        
+
         for tier in reversed(list(AccessTier)):
             if eligibility.get(tier, False):
                 tier_level = list(AccessTier).index(tier)
                 if tier_level > current_tier_level:
                     highest_eligible_tier = tier
                 break
-        
+
         # Process promotion if applicable
         if highest_eligible_tier != profile.current_tier:
             return await self._execute_tier_change(
@@ -510,7 +508,7 @@ class ComprehensiveAccessTierManager:
                 TierTransition.PROMOTION,
                 "Automatic tier progression based on eligibility"
             )
-        
+
         # Check for demotion conditions
         demotion_tier = await self._check_demotion_conditions(profile)
         if demotion_tier and demotion_tier != profile.current_tier:
@@ -520,9 +518,9 @@ class ComprehensiveAccessTierManager:
                 TierTransition.DEMOTION,
                 "Automatic tier demotion due to unmet requirements"
             )
-        
+
         return None
-    
+
     async def _execute_tier_change(
         self,
         user_id: str,
@@ -531,15 +529,15 @@ class ComprehensiveAccessTierManager:
         reason: str
     ) -> TierTransition:
         """Execute a tier change"""
-        
+
         profile = self.user_profiles[user_id]
         old_tier = profile.current_tier
-        
+
         # Update profile
         profile.current_tier = new_tier
         profile.effective_tier = new_tier
         profile.last_tier_change = datetime.now()
-        
+
         # Record in history
         tier_change_record = {
             "timestamp": datetime.now().isoformat(),
@@ -549,26 +547,26 @@ class ComprehensiveAccessTierManager:
             "reason": reason
         }
         profile.tier_history.append(tier_change_record)
-        
+
         # Update metrics
         if transition_type == TierTransition.PROMOTION:
             self.metrics["tier_promotions"] += 1
         elif transition_type == TierTransition.DEMOTION:
             self.metrics["tier_demotions"] += 1
-        
+
         # Update tier distribution
         tier_dist = self.metrics.get("tier_distribution", {})
         tier_dist[old_tier.value] = max(0, tier_dist.get(old_tier.value, 0) - 1)
         tier_dist[new_tier.value] = tier_dist.get(new_tier.value, 0) + 1
         self.metrics["tier_distribution"] = tier_dist
-        
+
         logger.info(
             f"🎯 Tier change: {user_id} {old_tier.value} → {new_tier.value} "
             f"({transition_type.value})"
         )
-        
+
         return transition_type
-    
+
     async def check_resource_access(
         self,
         user_id: str,
@@ -576,100 +574,100 @@ class ComprehensiveAccessTierManager:
         required_permissions: Optional[List[str]] = None
     ) -> AccessDecision:
         """Check if user can access a specific resource"""
-        
+
         profile = self.user_profiles.get(user_id)
         if not profile:
             return AccessDecision.DENY
-        
+
         # Get user's effective tier (considering temporary changes)
         effective_tier = profile.effective_tier
-        
+
         # Check if resource requires specific tier
         required_tier = self.resource_tier_mappings.get(resource)
         if required_tier:
             tier_level = list(AccessTier).index(effective_tier)
             required_level = list(AccessTier).index(required_tier)
-            
+
             if tier_level < required_level:
                 return AccessDecision.DENY
-        
+
         # Check specific permissions if provided
         if required_permissions:
             user_permissions = self.tier_permissions.get(effective_tier, set())
-            
+
             for permission in required_permissions:
                 if permission not in user_permissions:
                     return AccessDecision.DENY
-        
+
         # Additional Trinity Framework checks
         if not await self._check_trinity_framework_access(profile, resource):
             return AccessDecision.CONDITIONAL
-        
+
         return AccessDecision.ALLOW
-    
+
     async def _check_trinity_framework_access(
         self,
         profile: UserAccessProfile,
         resource: str
     ) -> bool:
         """Check Trinity Framework access requirements"""
-        
+
         # ⚛️ Identity coherence check
         if profile.identity_coherence < 0.7:
             return False
-        
+
         # 🧠 Consciousness level check for advanced resources
         advanced_resources = ["system_configuration", "user_management", "security_tools"]
         if resource in advanced_resources and profile.consciousness_level == "basic":
             return False
-        
+
         # 🛡️ Guardian status check
         if profile.guardian_status == "restricted":
             return False
-        
+
         return True
-    
+
     async def _tier_assessment_loop(self):
         """Automatic tier assessment loop"""
-        
+
         while True:
             try:
                 for user_id in list(self.user_profiles.keys()):
                     profile = self.user_profiles[user_id]
-                    
+
                     # Check if assessment is due
                     time_since_assessment = (datetime.now() - profile.last_assessment).total_seconds()
                     if time_since_assessment >= self.assessment_interval:
-                        
+
                         if self.auto_tier_assessment:
                             await self.process_tier_progression(user_id)
-                        
+
                         profile.last_assessment = datetime.now()
-                
+
                 await asyncio.sleep(3600)  # Run every hour
-                
+
             except Exception as e:
                 logger.error(f"❌ Tier assessment loop error: {e}")
                 await asyncio.sleep(3600)
-    
+
     async def get_user_tier_summary(self, user_id: str) -> Optional[Dict[str, Any]]:
         """Get comprehensive tier summary for user"""
-        
+
         profile = self.user_profiles.get(user_id)
         if not profile:
             return None
-        
+
         # Calculate tier progression metrics
         eligibility = await self.assess_tier_eligibility(user_id)
         next_tier_requirements = await self._get_next_tier_requirements(profile)
-        
+
         return {
             "user_id": user_id,
             "current_tier": profile.current_tier.value,
             "effective_tier": profile.effective_tier.value,
             "account_age_days": (datetime.now() - profile.account_created).days,
             "last_tier_change": profile.last_tier_change.isoformat(),
-            
+
             "metrics": {
                 "trust_score": profile.trust_score,
                 "reputation_score": profile.reputation_score,
@@ -677,22 +675,22 @@ class ComprehensiveAccessTierManager:
                 "risk_score": profile.risk_score,
                 "verification_level": profile.verification_level
             },
-            
+
             "eligibility": {tier.value: eligible for tier, eligible in eligibility.items()},
             "next_tier_requirements": next_tier_requirements,
             "tier_history_count": len(profile.tier_history),
-            
+
             "trinity_framework": {
                 "identity_coherence": profile.identity_coherence,
                 "consciousness_level": profile.consciousness_level,
                 "guardian_status": profile.guardian_status
             },
-            
+
             "permissions": list(self.tier_permissions.get(profile.effective_tier, set())),
             "temporary_grants": len(profile.temporary_grants),
             "temporary_restrictions": len(profile.temporary_restrictions)
         }
-    
+
     async def get_system_metrics(self) -> Dict[str, Any]:
         """Get comprehensive system metrics"""
         return self.metrics.copy()

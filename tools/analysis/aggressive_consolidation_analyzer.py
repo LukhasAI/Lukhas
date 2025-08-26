@@ -37,7 +37,7 @@ class AggressiveConsolidator:
                 "path": "qim/",
                 "description": "Quantum-Inspired Metaphors for advanced processing",
                 "submodules": [
-                    "quantum_states",
+                    "qi_states",
                     "entanglement",
                     "superposition",
                     "bio",

@@ -70,7 +70,12 @@ import numpy as np
 
 # Internal imports
 try:
-    from candidate.core.common.glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
+    from candidate.core.common.glyph import (
+        EmotionVector,
+        Glyph,
+        GlyphFactory,
+        GlyphType,
+    )
     from candidate.core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
 except ImportError:
     # Fallback imports if core modules not available
@@ -88,7 +93,9 @@ try:
     from lukhas.memory.folds.memory_fold import MemoryFoldConfig, MemoryFoldSystem
 except ImportError:
     try:
-        from lukhas.consciousness.reflection.unified_memory_manager import MemoryFoldSystem
+        from lukhas.consciousness.reflection.unified_memory_manager import (
+            MemoryFoldSystem,
+        )
 
         MemoryFoldConfig = None
     except ImportError:

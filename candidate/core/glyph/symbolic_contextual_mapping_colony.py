@@ -85,7 +85,7 @@ class ContextualMappingColony(BaseColony):
         self.consensus_ttl = timedelta(seconds=60)
 
         # Quantum superposition states
-        self.quantum_states = {}
+        self.qi_states = {}
 
         # Context feature extractors
         self.feature_extractors = self._initialize_feature_extractors()
@@ -130,12 +130,12 @@ class ContextualMappingColony(BaseColony):
             )
 
             # Handle quantum superposition
-            quantum_glyphs = self._process_quantum_superposition(
+            qi_glyphs = self._process_quantum_superposition(
                 consensus_glyphs, context_features
             )
 
             # Select final GLYPHs (top N by activation)
-            final_glyphs = self._select_final_glyphs(quantum_glyphs)
+            final_glyphs = self._select_final_glyphs(qi_glyphs)
 
             # Calculate mapping confidence
             confidence = self._calculate_mapping_confidence(
@@ -147,7 +147,7 @@ class ContextualMappingColony(BaseColony):
                 "task_id": task_id,
                 "primary_glyph": final_glyphs[0] if final_glyphs else None,
                 "active_glyphs": final_glyphs,
-                "glyph_probabilities": quantum_glyphs,
+                "glyph_probabilities": qi_glyphs,
                 "context_features": self._summarize_context(context_features),
                 "confidence": confidence,
                 "timestamp": datetime.utcnow().isoformat(),
@@ -321,13 +321,13 @@ class ContextualMappingColony(BaseColony):
         # Quantum states
         if "quantum" in context:
             quantum = context["quantum"]
-            features["coherence_level"] = quantum.get("coherence", 0.5)
-            features["entanglement_strength"] = quantum.get("entanglement", 0)
-            features["superposition_count"] = quantum.get("superposition_count", 0)
-            features["collapse_probability"] = quantum.get("collapse_prob", 0.5)
+            features["coherence_level"] = qi.get("coherence", 0.5)
+            features["entanglement_strength"] = qi.get("entanglement", 0)
+            features["superposition_count"] = qi.get("superposition_count", 0)
+            features["collapse_probability"] = qi.get("collapse_prob", 0.5)
 
         # Quantum field effects
-        features["field_strength"] = context.get("quantum_field_strength", 0.3)
+        features["field_strength"] = context.get("qi_field_strength", 0.3)
         features["phase_alignment"] = context.get("phase_alignment", 0.5)
 
         return features
@@ -495,7 +495,7 @@ class ContextualMappingColony(BaseColony):
 
         # Quantum modulation
         quantum = context_features.get(ContextLayer.QUANTUM, {})
-        coherence = quantum.get("coherence_level", 0.5)
+        coherence = qi.get("coherence_level", 0.5)
         if coherence > 0.8:
             # High coherence amplifies all activations
             modulated *= 1.3
@@ -586,7 +586,7 @@ class ContextualMappingColony(BaseColony):
     ) -> dict[str, float]:
         """Process quantum superposition of GLYPHs."""
         quantum = context_features.get(ContextLayer.QUANTUM, {})
-        superposition_count = quantum.get("superposition_count", 0)
+        superposition_count = qi.get("superposition_count", 0)
 
         if superposition_count > 0:
             # Allow multiple GLYPHs to exist in superposition
@@ -641,7 +641,7 @@ class ContextualMappingColony(BaseColony):
 
         # Factor 4: Quantum coherence
         quantum = context_features.get(ContextLayer.QUANTUM, {})
-        coherence = quantum.get("coherence_level", 0.5)
+        coherence = qi.get("coherence_level", 0.5)
         confidence_factors.append(coherence)
 
         return np.mean(confidence_factors)

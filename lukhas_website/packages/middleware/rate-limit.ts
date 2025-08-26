@@ -5,11 +5,11 @@ const store = new Map<string, { count: number; resetAt: number }>();
 export async function rateLimit({ windowMs, max, key }: WindowOpts) {
   const now = Date.now();
   const slot = store.get(key) || { count: 0, resetAt: now + windowMs };
-  if (now > slot.resetAt) { 
-    slot.count = 0; 
-    slot.resetAt = now + windowMs; 
+  if (now > slot.resetAt) {
+    slot.count = 0;
+    slot.resetAt = now + windowMs;
   }
-  slot.count += 1; 
+  slot.count += 1;
   store.set(key, slot);
   const remaining = Math.max(0, max - slot.count);
   const limited = slot.count > max;
@@ -27,30 +27,30 @@ export const RATE_LIMITS = {
 
 export async function checkPlanLimit(plan: keyof typeof RATE_LIMITS, userId: string, endpoint: string) {
   const limits = RATE_LIMITS[plan];
-  
+
   // Check per-minute limit
   const minuteCheck = await rateLimit({
     windowMs: 60_000,
     max: limits.rpm,
     key: `${userId}:${endpoint}:minute`
   });
-  
+
   if (minuteCheck.limited) {
-    return { 
-      limited: true, 
+    return {
+      limited: true,
       resetAt: minuteCheck.resetAt,
       remaining: 0,
       retryAfter: Math.ceil((minuteCheck.resetAt - Date.now()) / 1000)
     };
   }
-  
+
   // Check per-day limit
   const dayCheck = await rateLimit({
     windowMs: 24 * 60 * 60_000,
     max: limits.rpd,
     key: `${userId}:${endpoint}:day`
   });
-  
+
   return {
     limited: dayCheck.limited,
     resetAt: dayCheck.resetAt,
@@ -62,8 +62,8 @@ export async function checkPlanLimit(plan: keyof typeof RATE_LIMITS, userId: str
 // Example usage in a route:
 // const { limited, retryAfter } = await checkPlanLimit('plus', userId, 'api/auth');
 // if (limited) {
-//   return new NextResponse('Too Many Requests', { 
-//     status: 429, 
+//   return new NextResponse('Too Many Requests', {
+//     status: 429,
 //     headers: { 'Retry-After': retryAfter.toString() }
 //   });
 // }

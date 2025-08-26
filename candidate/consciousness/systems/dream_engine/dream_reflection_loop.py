@@ -136,7 +136,7 @@ class DreamState:
     content: dict[str, Any]
     timestamp: datetime
     reflection_count: int = 0
-    quantum_coherence: float = 0.0
+    qi_coherence: float = 0.0
     bio_rhythm_phase: str = "unknown"
     symbolic_tags: list[str] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -221,7 +221,7 @@ class DreamReflectionLoop:
         self.metrics = {
             "dreams_processed": 0,
             "reflections_generated": 0,
-            "quantum_coherence_avg": 0.0,
+            "qi_coherence_avg": 0.0,
             "bio_sync_quality": 0.0,
             "memory_consolidations": 0,
             "insights_extracted": 0,
@@ -310,7 +310,7 @@ class DreamReflectionLoop:
             try:
                 bio_state = await self.bio_orchestrator.get_current_state()
                 dream_state.bio_rhythm_phase = bio_state.get("phase", "unknown")
-                dream_state.quantum_coherence = bio_state.get("coherence", 0.0)
+                dream_state.qi_coherence = bio_state.get("coherence", 0.0)
             except Exception as e:
                 logger.warning(f"Bio integration failed: {e}")
 
@@ -341,11 +341,11 @@ class DreamReflectionLoop:
         # Update metrics
         self.metrics["dreams_processed"] += 1
         self.metrics["reflections_generated"] += 1
-        if dream_state.quantum_coherence > 0:
-            self.metrics["quantum_coherence_avg"] = (
-                self.metrics["quantum_coherence_avg"]
+        if dream_state.qi_coherence > 0:
+            self.metrics["qi_coherence_avg"] = (
+                self.metrics["qi_coherence_avg"]
                 * (self.metrics["dreams_processed"] - 1)
-                + dream_state.quantum_coherence
+                + dream_state.qi_coherence
             ) / self.metrics["dreams_processed"]
 
         # Store in buffer
@@ -378,7 +378,7 @@ class DreamReflectionLoop:
             "processed": True,
             "reflection": reflection,
             "bio_phase": dream_state.bio_rhythm_phase,
-            "quantum_coherence": dream_state.quantum_coherence,
+            "qi_coherence": dream_state.qi_coherence,
             "metadata": dream_state.metadata,
         }
 
@@ -635,7 +635,7 @@ class DreamReflectionLoop:
                 dream_seq = self.current_dreams[i : i + 3]
 
                 # Check for coherence progression
-                coherences = [d.quantum_coherence for d in dream_seq]
+                coherences = [d.qi_coherence for d in dream_seq]
                 if all(coherences[i] <= coherences[i + 1] for i in range(2)):
                     patterns.append(
                         {
@@ -672,7 +672,7 @@ class DreamReflectionLoop:
                 "themes": [],
                 "emotions": [],
                 "symbols": [],
-                "coherence": self.metrics["quantum_coherence_avg"],
+                "coherence": self.metrics["qi_coherence_avg"],
             }
 
             # Extract elements from recent dreams
@@ -770,7 +770,7 @@ class DreamReflectionLoop:
                 "content": dream_state.content,
                 "metadata": dream_state.metadata,
                 "timestamp": dream_state.timestamp.isoformat(),
-                "importance": 0.5 + (dream_state.quantum_coherence * 0.5),
+                "importance": 0.5 + (dream_state.qi_coherence * 0.5),
             }
 
             result = await self.memory_manager.store_memory_async(memory_entry)
@@ -942,7 +942,7 @@ class DreamReflectionLoop:
             "insights_extracted": self.metrics["insights_extracted"],
             "patterns_recognized": self.metrics["patterns_recognized"],
             "memories_consolidated": self.metrics["memory_consolidations"],
-            "average_coherence": self.metrics["quantum_coherence_avg"],
+            "average_coherence": self.metrics["qi_coherence_avg"],
             "timestamp": datetime.now().isoformat(),
         }
 

@@ -54,7 +54,7 @@ class ConsentLedgerImpl:
     def record_consent(self, consent_data):
         # Real implementation
         return {"ok": True, "id": "consent_123"}
-    
+
     def verify_consent(self, subject, scope):
         # Real verification
         return {"valid": True}
@@ -129,10 +129,10 @@ class ContextBusImpl:
         start = time.time()
         result = await self._execute_handoff(context, target)
         duration = (time.time() - start) * 1000
-        
+
         if duration > 250:  # SLA breach
             logger.warning(f"Handoff exceeded 250ms: {duration}ms")
-        
+
         return result
 
 if os.getenv("FEATURE_ORCHESTRATION_HANDOFF") == "true":
@@ -165,7 +165,7 @@ def test_module_with_feature_flag():
     os.environ["FEATURE_X"] = "false"
     result = module.operation()
     assert result["mode"] == "dry_run"
-    
+
     # Test with flag enabled (real)
     os.environ["FEATURE_X"] = "true"
     result = module.operation()

@@ -58,7 +58,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
             "basic_store": "LAMBDA_TIER_1",
             "emotional_modulation": "LAMBDA_TIER_2",
             "deep_emotional_analysis": "LAMBDA_TIER_3",
-            "quantum_emotional_enhancement": "LAMBDA_TIER_4",
+            "qi_emotional_enhancement": "LAMBDA_TIER_4",
             "full_emotional_manipulation": "LAMBDA_TIER_5",
         }
 
@@ -233,7 +233,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
         return result
 
     @emotional_tier_required("T4")  # Using emotional tier decorator
-    async def quantum_enhance_emotions(
+    async def qi_enhance_emotions(
         self, user_id: str, memory_id: str
     ) -> dict[str, Any]:
         """
@@ -271,7 +271,7 @@ class UnifiedEmotionalMemoryManager(EmotionalMemoryManager):
     def _strip_symbolic_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """Remove symbolic data for users without access."""
         cleaned = data.copy()
-        symbolic_keys = ["symbolic_tags", "glyph_associations", "quantum_symbols"]
+        symbolic_keys = ["symbolic_tags", "glyph_associations", "qi_symbols"]
         for key in symbolic_keys:
             cleaned.pop(key, None)
         return cleaned

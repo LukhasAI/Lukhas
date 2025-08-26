@@ -53,10 +53,10 @@ async def _message_loop(self):
     while self._running:
         # Get ONE message
         message = await self.mailbox.get()
-        
+
         # Process it COMPLETELY
         await self._process_message(message)
-        
+
         # Only then proceed to next
         # No parallelism, no races, no chaos
 ```
@@ -147,7 +147,7 @@ mailbox = PersistentMailbox(
 class SpamFilterActor(MailboxActor):
     def __init__(self, actor_id: str):
         super().__init__(actor_id)
-        
+
         # Only accept messages from trusted sources
         self.add_message_filter(
             lambda msg: msg.sender in self.trusted_senders
@@ -165,7 +165,7 @@ class BatchProcessor(MailboxActor):
                 "batch_timeout": 1.0
             }
         )
-    
+
     async def _process_message_batch(self, messages):
         # Process multiple messages efficiently
         results = await self.bulk_operation(messages)
@@ -245,9 +245,9 @@ stats = actor.get_mailbox_stats()
 
 # Key health metrics
 utilization = stats["mailbox_stats"]["utilization"]  # 0.0-1.0
-drop_rate = stats["mailbox_stats"]["messages_dropped"] / 
+drop_rate = stats["mailbox_stats"]["messages_dropped"] /
             stats["mailbox_stats"]["messages_received"]
-avg_wait = stats["mailbox_stats"]["total_wait_time"] / 
+avg_wait = stats["mailbox_stats"]["total_wait_time"] /
            stats["mailbox_stats"]["messages_processed"]
 ```
 

@@ -31,7 +31,7 @@ from dataclasses import asdict
 │   - meta_learning_manifest.json (Symbolic Governance)          │
 │   - memoria.py (Dream Replay Integration)                      │
 │   - healix_mapper.py (Emotional Drift Calculation)             │
-│   - quantum_memory_manager.py (Memory Consolidation)           │
+│   - qi_memory_manager.py (Memory Consolidation)           │
 ├───────────────────────────────────────────────────────────────┤
 │ 🛡️ GUARDIAN RESPONSIBILITIES:                                   │
 │   - Monitor symbolic drift via DriftScore calculations         │
@@ -82,7 +82,7 @@ try:
     from ...MODULES.memoria.lukhas_replayer import (
         LUKHASReplayer,  # Conceptual, 'lukhas' might be legacy
     )
-    from ..bio_core.memory.quantum_memory_manager import (
+    from ..bio_core.memory.qi_memory_manager import (
         QIMemoryManager,  # Conceptual
     )
     from ..bio_symbolic.glyph_id_hash import GlyphIDHasher  # Conceptual
@@ -215,7 +215,7 @@ class RemediationEvent:  # Corrected class name
     entropy_measure: float  # Conceptual measure of system disorder/unpredictability
     affected_components: list[str]
     remediation_actions: list[str]
-    quantum_signature: str = ""  # For audit and integrity
+    qi_signature: str = ""  # For audit and integrity
     resolution_time_seconds: Optional[float] = None  # Renamed from resolution_time
     success_metric: float = 0.0  # Renamed from success_rate (0.0 to 1.0)
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -251,14 +251,14 @@ class RemediatorAgent:  # Corrected class name
         self.active_remediations: dict[str, RemediationEvent] = (
             {}
         )  # Tracks ongoing remediations
-        self.quantum_hasher = (
+        self.qi_hasher = (
             GlyphIDHasher()
             if LUKHAS_INFRA_AVAILABLE and "GlyphIDHasher" in globals()
             else None
         )
 
         # ΛNOTE: Conditional initialization of LUKHAS components based on availability.
-        self.quantum_memory = (
+        self.qi_memory = (
             QIMemoryManager()
             if LUKHAS_INFRA_AVAILABLE and "QIMemoryManager" in globals()
             else None
@@ -327,7 +327,7 @@ class RemediatorAgent:  # Corrected class name
             "entropy_buffer_size": 100,
             "max_concurrent_remediations": 3,
             "sub_agent_spawn_max_limit": 5,
-            "quantum_signatures_active": True,
+            "qi_signatures_active": True,
             "voice_alerts_active": False,
             "dashboard_updates_active": True,
         }  # Renamed keys
@@ -360,7 +360,7 @@ class RemediatorAgent:  # Corrected class name
             },
             "active_compliance_framework": "EU_AI_ACT_SIMULATED",
             "required_audit_trails": [
-                "quantum_signatures",
+                "qi_signatures",
                 "event_log_detailed",
                 "decision_rationale_log",
             ],
@@ -453,11 +453,11 @@ class RemediatorAgent:  # Corrected class name
         """Generate quantum signature for audit trails"""
         # ΛNOTE: Conceptual "quantum signature" for data integrity.
         # ΛCAUTION: Uses standard hash. Not true quantum cryptography.
-        if not self.config.get("quantum_signatures_active", True):
+        if not self.config.get("qi_signatures_active", True):
             return "QUANTUM_SIG_DISABLED"  # Renamed key
         try:
-            if self.quantum_hasher:
-                return self.quantum_hasher.generate_hash(str(data_to_sign))
+            if self.qi_hasher:
+                return self.qi_hasher.generate_hash(str(data_to_sign))
             # Fallback to SHA-256 with timestamp if specific LUKHAS hasher not available
             # Use json.dumps for dicts
             data_str = f"{json.dumps(data_to_sign, sort_keys=True, default=str)}_{time.time_ns()}"
@@ -466,7 +466,7 @@ class RemediatorAgent:  # Corrected class name
             ]  # Longer signature
         except Exception as e:
             self.logger.warn(
-                "quantum_signature_generation_failed_remediator", error=str(e)
+                "qi_signature_generation_failed_remediator", error=str(e)
             )
             return f"FALLBACK_SIG_{int(time.time_ns())}"  # Use time_ns
 
@@ -650,11 +650,11 @@ class RemediatorAgent:  # Corrected class name
                     logger.info("lukhas_replayer_memory_consolidation_successful")
                     return True  # Renamed filter_type
                 if (
-                    self.quantum_memory
-                    and hasattr(self.quantum_memory, "consolidate_memories")
-                    and callable(self.quantum_memory.consolidate_memories)
-                ) and self.quantum_memory.consolidate_memories():
-                    logger.info("quantum_memory_consolidation_successful")
+                    self.qi_memory
+                    and hasattr(self.qi_memory, "consolidate_memories")
+                    and callable(self.qi_memory.consolidate_memories)
+                ) and self.qi_memory.consolidate_memories():
+                    logger.info("qi_memory_consolidation_successful")
                     return True
             logger.warn(
                 "no_dream_replay_infrastructure_available_or_match_for_trigger",
@@ -987,7 +987,7 @@ class RemediatorAgent:  # Corrected class name
                 "input_system_metrics": system_metrics_payload,
             },  # Renamed keys
         )
-        event_obj.quantum_signature = self._generate_quantum_signature(
+        event_obj.qi_signature = self._generate_quantum_signature(
             asdict(event_obj)
         )  # Use asdict for dataclass
         logger.info(
@@ -1023,16 +1023,16 @@ class RemediatorAgent:  # Corrected class name
                 self.event_history.pop(0)  # Manage history size, use .get
 
             if event_data.severity != RemediationLevel.NORMAL:
-                self.active_remediations[event_data.quantum_signature] = event_data
+                self.active_remediations[event_data.qi_signature] = event_data
                 remediation_outcome = self.execute_remediation(
                     event_data
                 )  # Renamed remediation_success
                 if remediation_outcome:
-                    self.active_remediations.pop(event_data.quantum_signature, None)
+                    self.active_remediations.pop(event_data.qi_signature, None)
                 else:
                     logger.warn(
                         "remediation_failed_for_event_in_cycle",
-                        signature=event_data.quantum_signature,
+                        signature=event_data.qi_signature,
                     )
 
             if event_data.severity == RemediationLevel.EMERGENCY:
@@ -1121,7 +1121,7 @@ class RemediatorAgent:  # Corrected class name
             "LUKHAS_infra_integration_status": {
                 component: (getattr(self, component) is not None)
                 for component in [
-                    "quantum_memory",
+                    "qi_memory",
                     "enhanced_memory",
                     "lukhas_replayer",
                     "dashboard",

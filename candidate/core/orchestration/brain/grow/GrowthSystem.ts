@@ -19,7 +19,7 @@ export class GrowthSystem extends EventEmitter {
   private safetyMonitor: EnhancedSafetyMonitor;
   private coreBrain: CoreBrain;
   private learningSystem: LearningSystem;
-  
+
   private readonly MIN_GROWTH_SAFETY = 0.98; // Higher than general safety threshold
   private readonly MAX_COMPLEXITY_INCREASE = 0.1; // 10% max complexity increase per iteration
   private growthMetrics: GrowthMetrics;
@@ -70,10 +70,10 @@ export class GrowthSystem extends EventEmitter {
 
       // Analyze current performance
       const currentMetrics = await this.analyzePerformance();
-      
+
       // Plan improvements
       const improvements = await this.planImprovements(currentMetrics);
-      
+
       // Validate safety of improvements
       if (!this.validateImprovements(improvements)) {
         return false;
@@ -81,7 +81,7 @@ export class GrowthSystem extends EventEmitter {
 
       // Apply improvements
       await this.applyImprovements(improvements);
-      
+
       // Verify results
       const newMetrics = await this.analyzePerformance();
       return this.verifyImprovement(currentMetrics, newMetrics);
@@ -149,7 +149,7 @@ export class GrowthSystem extends EventEmitter {
     // Measure system complexity
     const brainStatus = this.coreBrain.getSystemStatus();
     const learningStatus = this.learningSystem.getLearningStatus();
-    
+
     return (
       (brainStatus.systemLoad + learningStatus.systemCapacity) / 2
     );
@@ -184,7 +184,7 @@ export class GrowthSystem extends EventEmitter {
     safetyStatus: string;
   } {
     const safety = this.safetyMonitor.analyzeSystemSafety();
-    
+
     return {
       metrics: this.growthMetrics,
       canGrow: this.canGrow(),

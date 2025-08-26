@@ -1,10 +1,14 @@
 # path: qi/trace/trace_graph.py
 from __future__ import annotations
-import os, json, argparse, time
-from typing import Any, Dict, Optional, List, Tuple
+
+import argparse
 
 # Use original open to avoid sandbox recursion
 import builtins
+import json
+import os
+from typing import Any, Dict, List, Optional
+
 _ORIG_OPEN = builtins.open
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))

@@ -49,7 +49,7 @@ try:
     from bio_awareness.advanced_qi_bio import (
         MitochondrialQIBridge,
         NeuroplasticityModulator,
-        QuantumSynapticGate,
+        QISynapticGate,
     )
 
     from .enhanced_qi_engine import EnhancedQIEngine
@@ -62,7 +62,7 @@ except ImportError as e:
     log.error(
         "QIBioCoordinator: Failed to import one or more submodules. Coordination capabilities will be limited.",
         error_message=str(e),
-        import_details="Check paths for EnhancedQIEngine, MitochondrialQIBridge, QuantumSynapticGate, NeuroplasticityModulator.",
+        import_details="Check paths for EnhancedQIEngine, MitochondrialQIBridge, QISynapticGate, NeuroplasticityModulator.",
         exc_info=True,
     )
 
@@ -102,15 +102,15 @@ except ImportError as e:
         EnhancedQIEngine = MockEnhancedQIEngine  # type: ignore
     if "MitochondrialQIBridge" not in globals():
         MitochondrialQIBridge = MockMitochondrialQIBridge  # type: ignore
-    if "QuantumSynapticGate" not in globals():
-        QuantumSynapticGate = MockQuantumSynapticGate  # type: ignore
+    if "QISynapticGate" not in globals():
+        QISynapticGate = MockQuantumSynapticGate  # type: ignore
     if "NeuroplasticityModulator" not in globals():
         NeuroplasticityModulator = MockNeuroplasticityModulator  # type: ignore
 
 
 # ΛTIER_CONFIG_START
 # {
-#   "module": "quantum.bio_quantum_coordinator",
+#   "module": "qi.bio_quantum_coordinator",
 #   "class_QIBioCoordinator": {
 #     "default_tier": 2,
 #     "methods": {
@@ -154,7 +154,7 @@ class QIBioCoordinator:
         self.mitochondrial_bridge: MitochondrialQIBridge = (
             MitochondrialQIBridge()
         )
-        self.synaptic_gate: QuantumSynapticGate = QuantumSynapticGate()
+        self.synaptic_gate: QISynapticGate = QISynapticGate()
         self.plasticity_modulator: NeuroplasticityModulator = NeuroplasticityModulator()
 
         self.system_state: dict[str, float] = {
@@ -165,7 +165,7 @@ class QIBioCoordinator:
         }
 
         default_processing_config: dict[str, float] = {
-            "quantum_processing_threshold": 0.85,
+            "qi_processing_threshold": 0.85,
             "bio_processing_threshold": 0.80,
             "min_integration_efficiency_threshold": 0.75,
         }
@@ -195,15 +195,15 @@ class QIBioCoordinator:
         )
 
         try:
-            quantum_signal_input = self._prepare_quantum_signal(input_data)
+            qi_signal_input = self._prepare_quantum_signal(input_data)
             self.log.debug(
                 "Quantum signal prepared.",
                 task_id=task_id,
-                signal_shape_str=str(quantum_signal_input.shape),
+                signal_shape_str=str(qi_signal_input.shape),
             )  # type: ignore
 
             qi_engine_result = await self.qi_engine.process_quantum_signal(
-                quantum_signal_input, context  # type: ignore
+                qi_signal_input, context  # type: ignore
             )
             self.log.debug(
                 "Quantum engine processing complete.",
@@ -260,7 +260,7 @@ class QIBioCoordinator:
     @lukhas_tier_required(3)
     async def _process_bio_quantum_pathway(
         self,
-        quantum_signal_output: np.ndarray,
+        qi_signal_output: np.ndarray,
         context: Optional[dict[str, Any]] = None,
     ) -> dict[str, Any]:
         """
@@ -268,12 +268,12 @@ class QIBioCoordinator:
         """
         self.log.debug(
             "Processing through bio-quantum pathway.",
-            input_signal_shape_str=str(quantum_signal_output.shape),
+            input_signal_shape_str=str(qi_signal_output.shape),
         )
         try:
             bridge_output_signal, bridge_metadata = (
                 await self.mitochondrial_bridge.process_quantum_signal(
-                    quantum_signal_output, context
+                    qi_signal_output, context
                 )
             )
             self.log.debug(
@@ -283,11 +283,11 @@ class QIBioCoordinator:
 
             gate_output_signal, gate_metadata = await self.synaptic_gate.process_signal(
                 bio_signal=bridge_output_signal,  # type: ignore
-                quantum_context_signal=quantum_signal_output,
+                qi_context_signal=qi_signal_output,
                 processing_context=context,
             )
             self.log.debug(
-                "QuantumSynapticGate processing complete.",
+                "QISynapticGate processing complete.",
                 output_shape_str=str(gate_output_signal.shape),
             )  # type: ignore
 
@@ -307,7 +307,7 @@ class QIBioCoordinator:
                 "output": final_modulated_output,  # type: ignore
                 "metadata": {
                     "mitochondrial_bridge_meta": bridge_metadata,
-                    "quantum_synaptic_gate_meta": gate_metadata,
+                    "qi_synaptic_gate_meta": gate_metadata,
                     "neuroplasticity_modulator_meta": plasticity_metadata,
                     "pathway_completion_utc_iso": datetime.now(
                         timezone.utc
@@ -411,7 +411,7 @@ class QIBioCoordinator:
         bio_component_coherences: list[float] = []
         for component_meta_key in [
             "mitochondrial_bridge_meta",
-            "quantum_synaptic_gate_meta",
+            "qi_synaptic_gate_meta",
             "neuroplasticity_modulator_meta",
         ]:
             component_meta = bio_quantum_pathway_result.get("metadata", {}).get(
@@ -438,7 +438,7 @@ class QIBioCoordinator:
         ).timestamp()
         self.log.info(
             "System state metrics updated.",
-            quantum_coherence=self.system_state["current_quantum_coherence"],
+            qi_coherence=self.system_state["current_quantum_coherence"],
             bio_stability=self.system_state["current_bio_stability_metric"],
             integration_efficiency=self.system_state["overall_integration_efficiency"],
         )
@@ -464,7 +464,7 @@ class QIBioCoordinator:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": True,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -483,7 +483,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

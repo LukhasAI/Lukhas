@@ -1,8 +1,14 @@
 # path: qi/safety/provenance_uploader.py
 from __future__ import annotations
-import os, io, json, time, hashlib, argparse, mimetypes, base64
-from dataclasses import dataclass, asdict
-from typing import Any, Dict, Optional, List, Tuple
+
+import argparse
+import hashlib
+import json
+import mimetypes
+import os
+import time
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Optional, Tuple
 
 # --------- ENV & defaults ---------
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
@@ -18,7 +24,8 @@ GCS_PREFIX = os.environ.get("PROV_GCS_PREFIX", "lukhas/provenance/")
 #  Integrate with signed attestation from qi.ops.provenance
 _HAVE_ATTEST = False
 try:
-    from qi.ops.provenance import merkle_chain, attest as _attest
+    from qi.ops.provenance import attest as _attest
+    from qi.ops.provenance import merkle_chain
     _HAVE_ATTEST = True
 except Exception:
     _HAVE_ATTEST = False
@@ -212,7 +219,7 @@ def load_record_by_sha(sha: str) -> Dict[str, Any]:
     path = os.path.join(LOCAL_DIR, "records", sha[:2], f"{sha}.json")
     if not os.path.exists(path):
         raise FileNotFoundError(f"Record not found: {path}")
-    return json.load(open(path, "r", encoding="utf-8"))
+    return json.load(open(path, encoding="utf-8"))
 
 def verify_artifact(local_path: str, record: Dict[str, Any]) -> Dict[str, Any]:
     """Verify local file hash matches the recorded hash. Returns dict with 'ok' and details."""
@@ -258,7 +265,7 @@ def _cli_verify(args):
     if args.sha:
         rec = load_record_by_sha(args.sha)
     else:
-        rec = json.load(open(args.record, "r", encoding="utf-8"))
+        rec = json.load(open(args.record, encoding="utf-8"))
     v = verify_artifact(args.local, rec)
     print(json.dumps(v, indent=2))
     if not v["ok"]:

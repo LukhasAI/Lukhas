@@ -9,29 +9,29 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
-  
+
   // Test environment
   testEnvironment: 'jest-environment-jsdom',
-  
+
   // Ignore patterns to resolve naming conflicts
   modulePathIgnorePatterns: [
     '<rootDir>/past-prototypes/',
     '<rootDir>/node_modules/',
   ],
-  
+
   // Module name mapping for absolute imports
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^@/packages/(.*)$': '<rootDir>/packages/$1',
     '^@/tests/(.*)$': '<rootDir>/tests/$1',
   },
-  
+
   // Test patterns
   testMatch: [
     '<rootDir>/tests/**/*.test.{js,jsx,ts,tsx}',
     '<rootDir>/tests/**/*.spec.{js,jsx,ts,tsx}',
   ],
-  
+
   // Coverage configuration
   collectCoverageFrom: [
     'packages/**/*.{js,ts,tsx}',
@@ -45,9 +45,9 @@ const customJestConfig = {
     '!**/coverage/**',
     '!**/dist/**',
   ],
-  
+
   coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
-  
+
   coverageThreshold: {
     global: {
       branches: 80,
@@ -62,7 +62,7 @@ const customJestConfig = {
       statements: 95,
     },
   },
-  
+
   // Test projects for different environments
   projects: [
     {
@@ -102,26 +102,26 @@ const customJestConfig = {
       setupFilesAfterEnv: ['<rootDir>/tests/setup-accessibility.ts'],
     },
   ],
-  
+
   // Global setup and teardown (temporarily disabled for cleanup)
   // globalSetup: '<rootDir>/tests/global-setup.ts',
   // globalTeardown: '<rootDir>/tests/global-teardown.ts',
-  
+
   // Transform configuration - let Next.js handle transforms
   // transform: {
   //   '^.+\\.(js|jsx|ts|tsx)$': ['ts-jest', {
   //     tsconfig: 'tsconfig.json',
   //   }],
   // },
-  
+
   // Mock configuration
   clearMocks: true,
   restoreMocks: true,
   resetMocks: true,
-  
+
   // Verbose output for debugging
   verbose: true,
-  
+
   // Timeout configuration
   testTimeout: 30000,
 }

@@ -154,7 +154,7 @@ class ModuleStandardizationChecker:
                     "lukhas",
                     "memory_fold",
                     "dream_recall",
-                    "quantum_coherence",
+                    "qi_coherence",
                     "glyph",
                 ]
             ):

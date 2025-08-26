@@ -1,6 +1,6 @@
 /**
  * ΛiD Authentication System - Scope Management
- * 
+ *
  * Tier-based authorization with deny-by-default security
  * Integrates with LUKHAS Trinity Framework (⚛️🧠🛡️)
  */
@@ -26,35 +26,35 @@ export enum Scope {
   'matriz:read' = 'matriz:read',
   'matriz:write' = 'matriz:write',
   'matriz:admin' = 'matriz:admin',
-  
+
   // Identity Management
   'identity:read' = 'identity:read',
   'identity:write' = 'identity:write',
   'identity:admin' = 'identity:admin',
   'identity:impersonate' = 'identity:impersonate',
-  
+
   // Orchestration & AI
   'orchestrator:run' = 'orchestrator:run',
   'orchestrator:debug' = 'orchestrator:debug',
   'orchestrator:admin' = 'orchestrator:admin',
-  
+
   // API Management
   'api:keys:read' = 'api:keys:read',
   'api:keys:write' = 'api:keys:write',
   'api:keys:delete' = 'api:keys:delete',
   'api:keys:admin' = 'api:keys:admin',
-  
+
   // Organization Management
   'org:read' = 'org:read',
   'org:settings' = 'org:settings',
   'org:members' = 'org:members',
   'org:admin' = 'org:admin',
-  
+
   // Billing & Commerce
   'billing:read' = 'billing:read',
   'billing:manage' = 'billing:manage',
   'billing:admin' = 'billing:admin',
-  
+
   // Consciousness & Memory Systems
   'consciousness:read' = 'consciousness:read',
   'consciousness:write' = 'consciousness:write',
@@ -62,12 +62,12 @@ export enum Scope {
   'memory:read' = 'memory:read',
   'memory:write' = 'memory:write',
   'memory:admin' = 'memory:admin',
-  
+
   // Guardian & Ethics
   'guardian:read' = 'guardian:read',
   'guardian:configure' = 'guardian:configure',
   'guardian:override' = 'guardian:override',
-  
+
   // System Administration
   'system:monitor' = 'system:monitor',
   'system:admin' = 'system:admin',
@@ -95,7 +95,7 @@ export const TIER_ENVELOPES: Record<Tier, AuthScope[]> = {
     Scope['consciousness:read'],
     Scope['guardian:read']
   ],
-  
+
   [Tier.T2_BUILDER]: [
     Scope['matriz:read'],
     Scope['matriz:write'],
@@ -110,7 +110,7 @@ export const TIER_ENVELOPES: Record<Tier, AuthScope[]> = {
     Scope['memory:write'],
     Scope['guardian:read']
   ],
-  
+
   [Tier.T3_STUDIO]: [
     Scope['matriz:read'],
     Scope['matriz:write'],
@@ -134,7 +134,7 @@ export const TIER_ENVELOPES: Record<Tier, AuthScope[]> = {
     Scope['guardian:configure'],
     Scope['system:monitor']
   ],
-  
+
   [Tier.T4_ENTERPRISE]: [
     Scope['matriz:read'],
     Scope['matriz:write'],
@@ -167,7 +167,7 @@ export const TIER_ENVELOPES: Record<Tier, AuthScope[]> = {
     Scope['system:monitor'],
     Scope['system:admin']
   ],
-  
+
   [Tier.T5_CORE_TEAM]: [
     ...Object.values(Scope) // All scopes available
   ]
@@ -187,14 +187,14 @@ export const ROLE_SCOPES: Record<Role, AuthScope[]> = {
     Scope['guardian:read'],
     Scope['system:monitor']
   ],
-  
+
   [Role.ANALYST]: [
     ...ROLE_SCOPES[Role.VIEWER],
     Scope['orchestrator:run'],
     Scope['consciousness:debug'],
     Scope['guardian:configure']
   ],
-  
+
   [Role.DEVELOPER]: [
     ...ROLE_SCOPES[Role.ANALYST],
     Scope['matriz:write'],
@@ -205,7 +205,7 @@ export const ROLE_SCOPES: Record<Role, AuthScope[]> = {
     Scope['memory:write'],
     Scope['orchestrator:debug']
   ],
-  
+
   [Role.ADMIN]: [
     ...ROLE_SCOPES[Role.DEVELOPER],
     Scope['identity:admin'],
@@ -219,7 +219,7 @@ export const ROLE_SCOPES: Record<Role, AuthScope[]> = {
     Scope['guardian:override'],
     Scope['system:admin']
   ],
-  
+
   [Role.OWNER]: [
     ...Object.values(Scope) // All scopes for owners
   ]
@@ -232,41 +232,41 @@ export const SCOPE_HIERARCHY: Record<AuthScope, AuthScope[]> = {
   // MATRIZ hierarchy
   [Scope['matriz:admin']]: [Scope['matriz:write'], Scope['matriz:read']],
   [Scope['matriz:write']]: [Scope['matriz:read']],
-  
+
   // Identity hierarchy
   [Scope['identity:admin']]: [Scope['identity:write'], Scope['identity:read']],
   [Scope['identity:write']]: [Scope['identity:read']],
-  
+
   // API keys hierarchy
   [Scope['api:keys:admin']]: [Scope['api:keys:delete'], Scope['api:keys:write'], Scope['api:keys:read']],
   [Scope['api:keys:delete']]: [Scope['api:keys:write'], Scope['api:keys:read']],
   [Scope['api:keys:write']]: [Scope['api:keys:read']],
-  
+
   // Organization hierarchy
   [Scope['org:admin']]: [Scope['org:members'], Scope['org:settings'], Scope['org:read']],
   [Scope['org:members']]: [Scope['org:read']],
   [Scope['org:settings']]: [Scope['org:read']],
-  
+
   // Billing hierarchy
   [Scope['billing:admin']]: [Scope['billing:manage'], Scope['billing:read']],
   [Scope['billing:manage']]: [Scope['billing:read']],
-  
+
   // Consciousness hierarchy
   [Scope['consciousness:debug']]: [Scope['consciousness:write'], Scope['consciousness:read']],
   [Scope['consciousness:write']]: [Scope['consciousness:read']],
-  
+
   // Memory hierarchy
   [Scope['memory:admin']]: [Scope['memory:write'], Scope['memory:read']],
   [Scope['memory:write']]: [Scope['memory:read']],
-  
+
   // Guardian hierarchy
   [Scope['guardian:override']]: [Scope['guardian:configure'], Scope['guardian:read']],
   [Scope['guardian:configure']]: [Scope['guardian:read']],
-  
+
   // Orchestrator hierarchy
   [Scope['orchestrator:admin']]: [Scope['orchestrator:debug'], Scope['orchestrator:run']],
   [Scope['orchestrator:debug']]: [Scope['orchestrator:run']],
-  
+
   // System hierarchy
   [Scope['system:emergency']]: [Scope['system:admin'], Scope['system:monitor']],
   [Scope['system:admin']]: [Scope['system:monitor']]
@@ -295,7 +295,7 @@ export interface AuthorizationResult {
 
 /**
  * Core authorization function - implements deny-by-default security
- * 
+ *
  * @param userTier - User's current tier level
  * @param userRole - User's role within organization
  * @param userScopes - Explicitly granted scopes
@@ -356,7 +356,7 @@ export function hasScope(
         userScopes,
         requiredScope
       });
-      
+
       if (!conditionResult.allowed) {
         return {
           ...result,
@@ -389,12 +389,12 @@ export function hasScope(
  */
 export function getInheritedScopes(explicitScopes: AuthScope[]): AuthScope[] {
   const inherited = new Set<AuthScope>(explicitScopes);
-  
+
   for (const scope of explicitScopes) {
     const childScopes = SCOPE_HIERARCHY[scope] || [];
     childScopes.forEach(child => inherited.add(child));
   }
-  
+
   return Array.from(inherited);
 }
 
@@ -415,7 +415,7 @@ function evaluateConditions(
     const now = new Date();
     const start = new Date(conditions.timeWindow.start);
     const end = new Date(conditions.timeWindow.end);
-    
+
     if (now < start || now > end) {
       return { allowed: false, reason: 'Outside allowed time window' };
     }
@@ -430,8 +430,8 @@ function evaluateConditions(
 
   // Resource-specific conditions
   if (conditions.resourceOwner && conditions.requestingUser) {
-    if (conditions.resourceOwner !== conditions.requestingUser && 
-        context.userRole !== Role.ADMIN && 
+    if (conditions.resourceOwner !== conditions.requestingUser &&
+        context.userRole !== Role.ADMIN &&
         context.userRole !== Role.OWNER) {
       return { allowed: false, reason: 'Insufficient permissions for resource' };
     }
@@ -476,7 +476,7 @@ export function canGrantScope(
 ): boolean {
   const tierScopes = getAvailableScopes(userTier);
   const roleScopes = getRoleScopes(userRole);
-  
+
   return tierScopes.includes(scope) && roleScopes.includes(scope);
 }
 

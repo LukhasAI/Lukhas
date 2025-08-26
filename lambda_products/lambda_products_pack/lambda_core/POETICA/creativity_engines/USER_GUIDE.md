@@ -417,7 +417,7 @@ if flow_readiness.probability > 0.7:
                 mode="flow"
             )
             creations.append(creation)
-            
+
         print(f"Created {len(creations)} pieces in flow")
         print(f"Flow duration: {flow.duration}")
         print(f"Average quality: {flow.average_quality}")
@@ -432,14 +432,14 @@ flow_monitor = creative.get_flow_monitor()
 # Real-time adjustments
 while in_creative_session:
     state = await flow_monitor.check_state()
-    
+
     if state.flow_score < 0.6:
         # Apply adjustments
         if state.challenge_level > state.skill_level:
             await creative.reduce_complexity()
         elif state.skill_level > state.challenge_level:
             await creative.increase_challenge()
-            
+
     # Get flow optimization suggestions
     if state.needs_adjustment:
         adjustments = await flow_monitor.suggest_adjustments()
@@ -463,21 +463,21 @@ collab = await creative.start_collaboration(
 while not collab.is_complete:
     # Human provides direction
     human_input = input("Your creative direction: ")
-    
+
     # AI responds creatively
     ai_response = await collab.ai_create(
         human_input,
         respect_intention=True,
         add_creative_interpretation=True
     )
-    
+
     print(f"AI creation: {ai_response.content}")
-    
+
     # Human feedback
     feedback = input("Feedback (or 'done'): ")
     if feedback.lower() == 'done':
         break
-        
+
     # AI integrates feedback
     await collab.integrate_feedback(feedback)
 
@@ -597,7 +597,7 @@ for iteration in range(3):
 # Detect creative block
 if creative.is_blocked():
     block_type = await creative.diagnose_block()
-    
+
     # Apply appropriate intervention
     if block_type == "inspiration_drought":
         await creative.seek_inspiration(
@@ -624,12 +624,12 @@ try:
     quantum_creation = await quantum.create_superposition(prompt)
 except QuantumDecoherenceError as e:
     print(f"Decoherence detected: {e.reason}")
-    
+
     # Re-establish coherence
     quantum.reset_quantum_like_state()
     quantum.increase_isolation()
     quantum.reduce_observation_frequency()
-    
+
     # Retry with protection
     quantum_creation = await quantum.create_superposition(
         prompt,
@@ -646,7 +646,7 @@ if flow.was_interrupted:
         previous_state=flow.last_snapshot,
         gentle_re_entry=True
     )
-    
+
     if recovery.successful:
         print("Flow state recovered!")
     else:

@@ -10,8 +10,8 @@ from .animation_engine import TemporalAuthenticator
 from .circular_engine import CircularQREngine
 from .consciousness_layer import ConsciousnessAwareProcessor
 from .lukhas_bridge import LambdaIdIntegration
-from .qrg_core import QuantumResonanceGlyph
-from .quantum_entropy import TrueQuantumRandomness
+from .qi_entropy import TrueQuantumRandomness
+from .qrg_core import QIResonanceGlyph
 from .steganography import HiddenDataEmbedder
 from .webxr_integration import HolographicQRProjector
 
@@ -22,7 +22,7 @@ __license__ = "Quantum-Conscious MIT"
 
 # Core exports
 __all__ = [
-    "QuantumResonanceGlyph",
+    "QIResonanceGlyph",
     "CircularQREngine",
     "TrueQuantumRandomness",
     "ConsciousnessAwareProcessor",
@@ -78,7 +78,7 @@ def get_qrg_description(layer="user_friendly"):
 def initialize_qrg_system():
     """Initialize the QRG system with optimal defaults"""
     return {
-        "quantum_entropy": True,
+        "qi_entropy": True,
         "consciousness_awareness": True,
         "post_quantum_crypto": True,
         "animation_enabled": True,

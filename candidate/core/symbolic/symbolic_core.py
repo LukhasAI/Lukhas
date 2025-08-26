@@ -13,8 +13,7 @@ Integration Date: 2025-05-31T07:55:28.222538
 
 import logging
 from datetime import datetime
-from typing import Any
-from typing import Union
+from typing import Any, Union
 
 logger = logging.getLogger("lukhas_agi.symbolic")
 

@@ -25,7 +25,7 @@ For more information, visit: https://lukhas.ai
 
 from typing import Optional
 
-from qi.quantum_flux import QuantumFlux
+from qi.qi_flux import QIFlux
 
 
 def generate_episodic_dream(trace):
@@ -49,11 +49,11 @@ THEMES = [
     "a spinning coin",
 ]
 
-_flux = QuantumFlux()
+_flux = QIFlux()
 
 
 def _seed_diversity_index(
-    resonance: float, entropy_source: Optional[QuantumFlux] = None
+    resonance: float, entropy_source: Optional[QIFlux] = None
 ) -> int:
     """Select theme index using resonance and quantum entropy."""
     source = entropy_source or _flux
@@ -61,7 +61,7 @@ def _seed_diversity_index(
     return int((resonance + entropy) * 10) % len(THEMES)
 
 
-def generate_semantic_dream(trace, flux: Optional[QuantumFlux] = None):
+def generate_semantic_dream(trace, flux: Optional[QIFlux] = None):
     """Symbolic dream: fragmented, emotionally recombined (late REM phase)."""
     collapse_id = trace.get("collapse_id", "unknown")
     resonance = trace.get("resonance", 0.0)
@@ -76,7 +76,7 @@ def generate_semantic_dream(trace, flux: Optional[QuantumFlux] = None):
     }
 
 
-def seed_dream(folded_trace, phase: str = "late", flux: Optional[QuantumFlux] = None):
+def seed_dream(folded_trace, phase: str = "late", flux: Optional[QIFlux] = None):
     """
     Generates a symbolic dream report based on modeled sleep phase.
 

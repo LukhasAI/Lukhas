@@ -50,7 +50,7 @@ class TargetedImportFixer:
                 "fix": self.fix_unexpected_indent,
             },
             {
-                "file": "memory/quantum_manager.py",
+                "file": "memory/qi_manager.py",
                 "line": 85,
                 "fix": self.fix_missing_indentation,
             },

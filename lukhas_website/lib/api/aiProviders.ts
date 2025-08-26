@@ -18,17 +18,17 @@ export interface ApiResponse {
 // Validate API key format with support for new formats
 export function validateApiKey(provider: string, key: string): boolean {
   if (!key || key.trim().length === 0) return false
-  
+
   // Clean up common issues (extra spaces, newlines)
   const cleanKey = key.trim().replace(/\s+/g, '')
-  
+
   switch (provider.toLowerCase()) {
     case 'openai':
       // OpenAI now supports both formats:
-      // Classic: sk-[48+ chars] 
+      // Classic: sk-[48+ chars]
       // Project: sk-proj-[variable length, typically 40+ chars]
       // Also being flexible with length as OpenAI has changed this over time
-      return /^sk-[A-Za-z0-9\-_]{40,}$/.test(cleanKey) || 
+      return /^sk-[A-Za-z0-9\-_]{40,}$/.test(cleanKey) ||
              /^sk-proj-[A-Za-z0-9\-_]{20,}$/.test(cleanKey)
     case 'anthropic':
       // Anthropic keys start with 'sk-ant-' and have ~95 characters
@@ -67,7 +67,7 @@ export async function callOpenAI(message: string, apiKey: string, model = 'gpt-4
       throw new Error('Invalid OpenAI API key format. Expected sk-... or sk-proj-... (40+ chars)')
     }
 
-    const openai = new OpenAI({ 
+    const openai = new OpenAI({
       apiKey: apiKey.trim(),
       dangerouslyAllowBrowser: true // Only for development/demo
     })
@@ -111,7 +111,7 @@ export async function callAnthropic(message: string, apiKey: string, model = 'cl
       throw new Error('Invalid Anthropic API key format')
     }
 
-    const anthropic = new Anthropic({ 
+    const anthropic = new Anthropic({
       apiKey: apiKey.trim(),
       dangerouslyAllowBrowser: true // Only for development/demo
     })

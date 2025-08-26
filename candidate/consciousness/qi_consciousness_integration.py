@@ -4,8 +4,8 @@
 ║ Bridge between consciousness systems and quantum-enhanced creative generation
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ Module: quantum_consciousness_integration.py
-║ Path: lukhas/consciousness/quantum_consciousness_integration.py
+║ Module: qi_consciousness_integration.py
+║ Path: lukhas/consciousness/qi_consciousness_integration.py
 ║ Version: 1.0.0 | Created: 2025-01-01 | Modified: 2025-07-25
 ║ Authors: LUKHAS AI Quantum Team | Claude Code
 ╠══════════════════════════════════════════════════════════════════════════════════
@@ -48,13 +48,13 @@ from datetime import datetime
 from typing import Any, Optional, Union
 
 # Configure module logger
-logger = logging.getLogger("ΛTRACE.consciousness.quantum_consciousness_integration")
+logger = logging.getLogger("ΛTRACE.consciousness.qi_consciousness_integration")
 
 # Module constants
 MODULE_VERSION = "1.0.0"
-MODULE_NAME = "quantum_consciousness_integration"
+MODULE_NAME = "qi_consciousness_integration"
 
-logger.info("ΛTRACE: Initializing quantum_consciousness_integration module.")
+logger.info("ΛTRACE: Initializing qi_consciousness_integration module.")
 
 
 # Placeholder for the tier decorator
@@ -192,7 +192,7 @@ class QICreativeConsciousness:
             0.87  # Current consciousness achievement (example value)
         )
         self.creative_boosts: dict[str, float] = {
-            "quantum_coherence_factor": 0.92,  # Renamed for clarity
+            "qi_coherence_factor": 0.92,  # Renamed for clarity
             "bio_cognitive_multiplier": 1.25,  # Renamed
             "creative_flow_state_factor": 0.89,  # Renamed
             "consciousness_resonance_score": 0.91,  # Renamed
@@ -335,8 +335,8 @@ class QICreativeConsciousness:
             "applied_consciousness_metrics": {  # Renamed
                 "achieved_consciousness_level": self.consciousness_level_achieved,  # Renamed
                 "applied_consciousness_boost": consciousness_boost_factor,  # Renamed
-                "quantum_coherence_factor": self.creative_boosts[
-                    "quantum_coherence_factor"
+                "qi_coherence_factor": self.creative_boosts[
+                    "qi_coherence_factor"
                 ],
                 "creative_flow_state_factor": self.creative_boosts[
                     "creative_flow_state_factor"
@@ -618,8 +618,8 @@ class QICreativeConsciousness:
     def setup_quantum_entanglement(self):
         """Setup quantum entanglement with other modules"""
         entanglement_pairs = [
-            ("consciousness.awareness", "quantum.superposition"),
-            ("consciousness.reflection", "memory.quantum_fold"),
+            ("consciousness.awareness", "qi.superposition"),
+            ("consciousness.reflection", "memory.qi_fold"),
             ("consciousness.dream", "creativity.imagination"),
         ]
 
@@ -762,11 +762,11 @@ async def main_example():  # Renamed from main
 
 
 if __name__ == "__main__":
-    logger.info("ΛTRACE: quantum_consciousness_integration.py executed as __main__.")
+    logger.info("ΛTRACE: qi_consciousness_integration.py executed as __main__.")
     asyncio.run(main_example())
 
 # ═══════════════════════════════════════════════════════════════════════════
-# FILENAME: quantum_consciousness_integration.py
+# FILENAME: qi_consciousness_integration.py
 # VERSION: 1.1.0 # Incremented version
 # TIER SYSTEM: Tier 4-5 (Quantum consciousness and creative integration are Transcendent capabilities)
 # ΛTRACE INTEGRATION: ENABLED
@@ -785,7 +785,7 @@ if __name__ == "__main__":
 # LOGGING: ΛTRACE_ENABLED using hierarchical loggers for class and module operations.
 # AUTHENTICATION: Tier checks are conceptual; methods and functions take user_id for this.
 # HOW TO USE:
-#   from consciousness.quantum_consciousness_integration import generate_conscious_content
+#   from consciousness.qi_consciousness_integration import generate_conscious_content
 #   creative_output = await generate_conscious_content("article", "future of AI", user_id="user123")
 #   print(creative_output.get("generated_content"))
 # INTEGRATION NOTES: Relies on 'ElevatedConsciousnessModule' and 'LukhasCreativeExpressionEngine'.

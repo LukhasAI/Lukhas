@@ -91,7 +91,7 @@ export default function Hero() {
             className="flex flex-col sm:flex-row gap-6 justify-center"
           >
             <a href="#trinity">
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(59, 130, 246, 0.3)" }}
                 whileTap={{ scale: 0.98 }}
                 className="px-10 py-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-regular text-sm tracking-[0.2em] uppercase rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
@@ -100,7 +100,7 @@ export default function Hero() {
               </motion.button>
             </a>
             <a href="/docs">
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.05, borderColor: "rgba(59, 130, 246, 0.8)" }}
                 whileTap={{ scale: 0.98 }}
                 className="px-10 py-4 border-2 border-white/30 font-regular text-sm tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all duration-300 rounded-lg"

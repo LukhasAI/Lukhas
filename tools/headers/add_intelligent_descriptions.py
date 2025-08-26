@@ -52,29 +52,29 @@ def analyze_code_content(filepath: Path) -> dict[str, str]:
         functions = re.findall(r"def\s+(\w+)", content)
 
         # Look for quantum-specific keywords
-        quantum_keywords = []
+        qi_keywords = []
         if "entangle" in content.lower():
-            quantum_keywords.append("entanglement")
+            qi_keywords.append("entanglement")
         if "superposition" in content.lower():
-            quantum_keywords.append("superposition")
+            qi_keywords.append("superposition")
         if "coherence" in content.lower() or "decoherence" in content.lower():
-            quantum_keywords.append("coherence")
+            qi_keywords.append("coherence")
         if "qubit" in content.lower():
-            quantum_keywords.append("qubit manipulation")
+            qi_keywords.append("qubit manipulation")
         if "circuit" in content.lower():
-            quantum_keywords.append("quantum circuits")
+            qi_keywords.append("quantum circuits")
         if "crypto" in content.lower() or "encrypt" in content.lower():
-            quantum_keywords.append("cryptography")
+            qi_keywords.append("cryptography")
         if "consensus" in content.lower():
-            quantum_keywords.append("consensus mechanisms")
+            qi_keywords.append("consensus mechanisms")
         if "neural" in content.lower() or "neuro" in content.lower():
-            quantum_keywords.append("neural integration")
+            qi_keywords.append("neural integration")
         if "bio" in content.lower():
-            quantum_keywords.append("bio-inspired computing")
+            qi_keywords.append("bio-inspired computing")
         if "dream" in content.lower() or "oneiric" in content.lower():
-            quantum_keywords.append("dream states")
+            qi_keywords.append("dream states")
         if "ethic" in content.lower():
-            quantum_keywords.append("ethical processing")
+            qi_keywords.append("ethical processing")
 
         return {
             "filename": filepath.name,
@@ -82,7 +82,7 @@ def analyze_code_content(filepath: Path) -> dict[str, str]:
             "tier": tier,
             "classes": classes[:5],  # Top 5 classes
             "functions": functions[:5],  # Top 5 functions
-            "quantum_features": quantum_keywords,
+            "qi_features": qi_keywords,
             "has_async": "async def" in content,
             "has_validation": "__validate_module__" in content,
             "imports_qiskit": "qiskit" in content,
@@ -97,7 +97,7 @@ def analyze_code_content(filepath: Path) -> dict[str, str]:
             "tier": 3,
             "classes": [],
             "functions": [],
-            "quantum_features": [],
+            "qi_features": [],
         }
 
 
@@ -111,7 +111,7 @@ Module: {code_analysis['module_name']}
 Filename: {code_analysis['filename']}
 Tier Level: {code_analysis['tier']}
 Key Classes: {', '.join(code_analysis['classes']) if code_analysis['classes'] else 'Various quantum components'}
-Quantum Features: {', '.join(code_analysis['quantum_features']) if code_analysis['quantum_features'] else 'General quantum-inspired processing'}
+Quantum Features: {', '.join(code_analysis['qi_features']) if code_analysis['qi_features'] else 'General quantum-inspired processing'}
 
 The description MUST:
 1. Start with the module name followed by equals signs (=) to match the length
@@ -162,7 +162,7 @@ Generate a description that makes quantum physics feel like poetry and poetry fe
         module_title = code_analysis["module_name"]
         equals = "=" * len(module_title)
 
-        features = code_analysis["quantum_features"]
+        features = code_analysis["qi_features"]
         if features:
             feature_text = f"quantum {', '.join(features[:2])}"
         else:
@@ -237,7 +237,7 @@ def main():
         return
 
     # Start from current quantum directory
-    quantum_dir = Path(__file__).parent
+    qi_dir = Path(__file__).parent
     added = 0
     skipped = 0
 
@@ -257,7 +257,7 @@ def main():
 
     # Process priority files first
     for filename in priority_files:
-        filepath = quantum_dir / filename
+        filepath = qi_dir / filename
         if filepath.exists():
             result = add_intelligent_description(filepath)
             if result:
@@ -266,7 +266,7 @@ def main():
                 skipped += 1
 
     # Process remaining files in quantum directory
-    for filepath in quantum_dir.glob("*.py"):
+    for filepath in qi_dir.glob("*.py"):
         if filepath.name in priority_files or filepath.name in [
             "add_module_descriptions.py",
             "add_intelligent_descriptions.py",
@@ -280,8 +280,8 @@ def main():
             skipped += 1
 
     # Process subdirectories
-    for subdir in ["systems", "quantum_meta", "bio", "src"]:
-        subdir_path = quantum_dir / subdir
+    for subdir in ["systems", "qi_meta", "bio", "src"]:
+        subdir_path = qi_dir / subdir
         if subdir_path.exists():
             print(f"\n📁 Processing {subdir} subdirectory...")
             for filepath in subdir_path.glob("**/*.py"):

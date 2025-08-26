@@ -15,16 +15,16 @@ graph TD
     C --> D[PROFILE_SETUP]
     D --> E[MFA_ENROLLMENT]
     E --> F[AUTHENTICATED]
-    
+
     F --> G[STEP_UP_REQUIRED]
     G --> F
     G --> H[STEP_UP_FAILED]
     H --> I[LOCKED]
-    
+
     F --> J[SESSION_REFRESH]
     J --> F
     J --> A
-    
+
     A --> K[LOGIN_CHALLENGE]
     K --> F
     K --> L[LOGIN_FAILED]
@@ -364,14 +364,14 @@ interface RiskFactors {
 function calculateRiskScore(factors: RiskFactors): number {
   const base = 0;
   let score = base;
-  
+
   if (factors.newDevice) score += 20;
   if (factors.newLocation) score += 15;
   if (factors.velocityAnomaly) score += 25;
   if (factors.timeAnomaly) score += 10;
   if (factors.vpnDetected) score += 10;
   if (factors.multipleFailures) score += 30;
-  
+
   return Math.min(score, 100); // Cap at 100
 }
 ```
@@ -428,15 +428,15 @@ class AuthFlowStateMachine {
   ): Promise<AuthFlowState> {
     const validator = this.getValidator(currentState);
     const isValid = await validator.canTransition(trigger, context);
-    
+
     if (!isValid) {
-      throw new AuthError('INVALID_STATE_TRANSITION', 
+      throw new AuthError('INVALID_STATE_TRANSITION',
         `Cannot transition from ${currentState} with trigger ${trigger}`);
     }
-    
+
     const newState = this.getNextState(currentState, trigger);
     await this.persistStateTransition(currentState, newState, trigger, context);
-    
+
     return newState;
   }
 }
@@ -518,7 +518,7 @@ describe('AuthFlowStateMachine', () => {
 ```typescript
 describe('Complete Auth Flows', () => {
   test('successful registration flow');
-  test('login with step-up flow'); 
+  test('login with step-up flow');
   test('session refresh flow');
   test('account recovery flow');
 });

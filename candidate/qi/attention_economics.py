@@ -54,8 +54,8 @@ class AttentionToken:
             entropy = -sum(
                 p * math.log(p) for p in self.qi_state.values() if p > 0
             )
-            quantum_bonus = entropy * 0.2  # 20% bonus per bit of entropy
-            base_value *= 1 + quantum_bonus
+            qi_bonus = entropy * 0.2  # 20% bonus per bit of entropy
+            base_value *= 1 + qi_bonus
 
         # Add entanglement bonus
         entanglement_bonus = len(self.entangled_with) * 0.1  # 10% per entanglement
@@ -110,7 +110,7 @@ class QIAttentionEconomics:
         self.max_attention_drain_rate = (
             0.3  # Max 30% of attention can be consumed per hour
         )
-        self.quantum_coherence_threshold = 0.85
+        self.qi_coherence_threshold = 0.85
 
         logger.info("Quantum Attention Economics initialized")
 
@@ -270,7 +270,7 @@ class QIAttentionEconomics:
         weights = [w / total_weight for w in weights]
 
         # Create quantum token
-        quantum_token = AttentionToken(
+        qi_token = AttentionToken(
             token_id=f"quantum_{user_id}_{datetime.now().timestamp()}",
             owner_id=user_id,
             token_type=AttentionTokenType.QUANTUM,
@@ -282,7 +282,7 @@ class QIAttentionEconomics:
             + timedelta(hours=2),  # Quantum states are more fragile
         )
 
-        self.tokens[quantum_token.token_id] = quantum_token
+        self.tokens[qi_token.token_id] = qi_token
 
         # Use AI to optimize quantum state if available
         if self.openai:
@@ -310,7 +310,7 @@ class QIAttentionEconomics:
             except Exception as e:
                 logger.error(f"Quantum optimization failed: {e}")
 
-        return quantum_token
+        return qi_token
 
     async def entangle_attention_tokens(
         self, token_ids: list[str], entanglement_type: str = "bell_state"
@@ -633,7 +633,7 @@ class QIAttentionEconomics:
                     "token_id": t.token_id,
                     "type": t.token_type.value,
                     "value": t.value,
-                    "quantum_value": t.calculate_quantum_value(),
+                    "qi_value": t.calculate_quantum_value(),
                     "expires_in": (
                         (t.expires_at - datetime.now()).total_seconds()
                         if t.expires_at

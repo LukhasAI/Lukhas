@@ -20,7 +20,7 @@ The MEMORY module (222 files, 72.1% functional) implements an innovative fold-ba
 ```python
 class AlignedMemorySystem:
     """OpenAI's approach to safe AGI memory"""
-    
+
     def __init__(self):
         self.memory_filters = {
             "harmful_content": "auto_redact",
@@ -62,7 +62,7 @@ class AlignedMemorySystem:
 ```python
 class ScalableMemoryInfrastructure:
     """Anthropic's approach to limitless memory"""
-    
+
     def __init__(self):
         self.tiered_storage = {
             "working_memory": "RAM_10ms_access",
@@ -104,7 +104,7 @@ class ScalableMemoryInfrastructure:
 ```python
 class UniversalMemoryProtocol:
     """DeepMind's vision for shared AI memory"""
-    
+
     def __init__(self):
         self.standard_formats = {
             "export": ["JSON-LD", "RDF", "Protocol_Buffers"],
@@ -139,7 +139,7 @@ class UniversalMemoryProtocol:
 ```python
 class BrainInspiredMemory:
     """The memory system neuroscience envisions"""
-    
+
     def __init__(self):
         self.memory_types = {
             "episodic": "personal_experiences",

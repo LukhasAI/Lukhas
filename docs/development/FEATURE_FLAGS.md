@@ -7,8 +7,8 @@ LUKHAS  uses environment variable-based feature flags to control runtime behavio
 ## Available Flags
 
 ### `FLAG_BROWSER_TOOL`
-**Default:** `false`  
-**Values:** `1`, `true`, `on` (case-insensitive) to enable  
+**Default:** `false`
+**Values:** `1`, `true`, `on` (case-insensitive) to enable
 **Description:** Controls whether the browser tool is available for OpenAI function calling.
 
 When disabled (default), the browser tool (`open_url`) is filtered out even if included in the tool allowlist. This provides an additional safety layer for environments where web access should be restricted.
@@ -26,8 +26,8 @@ unset FLAG_BROWSER_TOOL
 ---
 
 ### `FLAG_STRICT_DEFAULT`
-**Default:** `false`  
-**Values:** `1`, `true`, `on` (case-insensitive) to enable  
+**Default:** `false`
+**Values:** `1`, `true`, `on` (case-insensitive) to enable
 **Description:** Forces the system to use strict safety mode by default.
 
 When enabled, the modulation system defaults to `strict` safety mode instead of `balanced`, applying more conservative parameters for temperature, output tokens, and tool access.
@@ -45,8 +45,8 @@ unset FLAG_STRICT_DEFAULT
 ---
 
 ### `FLAG_TOOL_ANALYTICS`
-**Default:** `true`  
-**Values:** `1`, `true`, `on` for enabled; `0`, `false`, `off` for disabled  
+**Default:** `true`
+**Values:** `1`, `true`, `on` for enabled; `0`, `false`, `off` for disabled
 **Description:** Controls whether tool usage analytics are collected and persisted.
 
 When disabled:
@@ -140,7 +140,7 @@ To add a new feature flag:
 3. **Implement the check** using `Flags.get()`:
    ```python
     from lukhas.flags.ff import Flags
-   
+
    if Flags.get("YOUR_FEATURE", False):
        # Feature enabled path
    else:

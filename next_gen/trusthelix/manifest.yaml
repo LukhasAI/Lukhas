@@ -20,7 +20,7 @@ trust_decisions:
     user_id: "system"
     outcome: "success"
     notes: "TrustHelix initialized with genesis state"
-    
+
   - timestamp: "2025-08-03T23:35:00Z"
     glyph_path: ["🔐", "🧬", "🪷"]
     action: "authenticate_user"
@@ -38,7 +38,7 @@ trust_decisions:
       - from: "🪷"
         to: "🌸"
         reason: "Consent state blooming"
-    
+
   - timestamp: "2025-08-03T23:40:00Z"
     glyph_path: ["🔓", "🌱", "🌸"]
     action: "grant_tier5"
@@ -48,7 +48,7 @@ trust_decisions:
     outcome: "success"
     consent_types: ["biometric_processing", "consciousness_analysis", "symbolic_transmission"]
     notes: "Full T5 access granted with consciousness awareness"
-    
+
   - timestamp: "2025-08-03T23:45:00Z"
     glyph_path: ["🔓", "🌱", "🌸"]
     action: "access_sensitive_data"
@@ -57,7 +57,7 @@ trust_decisions:
     user_id: "alice_tier5"
     outcome: "success"
     guardian_approved: true
-    
+
   - timestamp: "2025-08-03T23:50:00Z"
     glyph_path: ["🔓", "🌱", "🌸"]
     action: "suspicious_pattern_detected"
@@ -73,7 +73,7 @@ trust_decisions:
         to: "🪷"
         reason: "Trust neutralized"
     alert_raised: true
-    
+
   - timestamp: "2025-08-03T23:55:00Z"
     glyph_path: ["🔐", "🌱", "🪷"]
     action: "authentication_challenge"
@@ -88,7 +88,7 @@ trust_decisions:
       - from: "🪷"
         to: "🥀"
         reason: "Trust degradation"
-    
+
   - timestamp: "2025-08-04T00:00:00Z"
     glyph_path: ["🔐", "🦠", "🥀"]
     action: "emergency_lockdown"
@@ -102,7 +102,7 @@ trust_decisions:
         reason: "Complete access revocation"
     guardian_intervention: true
     symbolic_reversal: ["🌸", "🪷", "🥀", "🌫️"]
-    
+
   - timestamp: "2025-08-04T00:05:00Z"
     glyph_path: ["🔒", "🦠", "🥀"]
     action: "recovery_initiated"
@@ -111,7 +111,7 @@ trust_decisions:
     user_id: "alice_tier5"
     outcome: "pending"
     recovery_glyphs: ["🌱", "💧", "🌿"]
-    
+
   - timestamp: "2025-08-04T00:10:00Z"
     glyph_path: ["🔒", "🦠", "🥀"]
     action: "identity_verification"
@@ -124,7 +124,7 @@ trust_decisions:
       - from: "🦠"
         to: "🧬"
         reason: "Biometric verification successful"
-    
+
   - timestamp: "2025-08-04T00:15:00Z"
     glyph_path: ["🔒", "🧬", "🥀"]
     action: "consent_renewal"
@@ -140,7 +140,7 @@ trust_decisions:
         to: "🔐"
         reason: "Partial unlock granted"
     new_consent_hash: "trusthelix:renewal:a7f4e9b21c3d5f8e"
-    
+
   - timestamp: "2025-08-04T00:20:00Z"
     glyph_path: ["🔐", "🧬", "🪷"]
     action: "trust_restoration"
@@ -156,7 +156,7 @@ trust_decisions:
         to: "🌸"
         reason: "Full consent bloom"
     restoration_complete: true
-    
+
   - timestamp: "2025-08-04T00:25:00Z"
     glyph_path: ["🔐", "🌱", "🌸"]
     action: "normal_operation_resumed"
@@ -172,7 +172,7 @@ visual_trails:
     biometric_evolution: "🧬→🌱→🦠→🧬→🌱"
     consent_cycle: "🪷→🌸→🪷→🥀→🪷→🌸"
     drift_progression: "🌿→🌀→🌪️→🌀→🌿"
-    
+
 statistics:
   total_mutations: 15
   reversals: 3
@@ -180,7 +180,7 @@ statistics:
   average_entropy: 0.41
   guardian_interventions: 2
   successful_recoveries: 1
-  
+
 integrity:
   manifest_hash: "SHA3-256:b7f4e9c21d3a5f8e2b9a7c4d1e3f6a8b"
   signed_by: "TrustHelix Guardian v1.0.0"

@@ -13,7 +13,7 @@ The LUKHAS account recovery system provides secure, user-controlled recovery mec
 - Email or phone-based verification
 - Minimum 2, maximum 5 guardians
 
-**Institutional Guardians** 
+**Institutional Guardians**
 - Enterprise SSO providers
 - Hardware security keys
 - Biometric authentication systems
@@ -49,7 +49,7 @@ The LUKHAS account recovery system provides secure, user-controlled recovery mec
       "description": "Security question set during guardian enrollment"
     },
     {
-      "type": "IDENTITY_VERIFICATION", 
+      "type": "IDENTITY_VERIFICATION",
       "description": "Photo ID or government verification"
     }
   ]
@@ -139,8 +139,8 @@ POST /api/recovery/initiate
 ```
 Subject: Account Recovery Request for [User Name]
 
-A recovery request has been submitted for the LUKHAS account 
-associated with [email]. 
+A recovery request has been submitted for the LUKHAS account
+associated with [email].
 
 Recovery Details:
 - Requested: [timestamp]
@@ -206,7 +206,7 @@ and contact security@lukhas.ai
   },
   "requiredActions": [
     "SET_NEW_PASSWORD",
-    "RECONFIGURE_MFA", 
+    "RECONFIGURE_MFA",
     "REVIEW_SECURITY_SETTINGS"
   ],
   "securityReview": {
@@ -311,7 +311,7 @@ interface FraudSignals {
 
 **Alert Triggers:**
 - High-risk recovery attempts
-- Guardian approval anomalies  
+- Guardian approval anomalies
 - Multiple simultaneous recoveries
 - Cross-account guardian patterns
 

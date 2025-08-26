@@ -13,13 +13,13 @@ const MagneticCursor = ({ children, strength = 0.3, className = '' }) => {
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      
+
       const deltaX = (e.clientX - centerX) * strength;
       const deltaY = (e.clientY - centerY) * strength;
-      
+
       magneticRef.current.x = deltaX;
       magneticRef.current.y = deltaY;
-      
+
       gsap.to(element, {
         x: deltaX,
         y: deltaY,
@@ -54,4 +54,3 @@ const MagneticCursor = ({ children, strength = 0.3, className = '' }) => {
 };
 
 export default MagneticCursor;
-

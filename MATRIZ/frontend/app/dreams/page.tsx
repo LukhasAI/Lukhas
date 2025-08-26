@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Moon, Brain, GitBranch, Activity, Shield, Zap, 
+import {
+  Moon, Brain, GitBranch, Activity, Shield, Zap,
   TrendingUp, AlertTriangle, CheckCircle, Clock,
   BarChart3, Network, Eye, Target, ArrowRight, Database
 } from 'lucide-react'
@@ -19,20 +19,20 @@ export default function DreamsPage() {
       gradient: "from-indigo-500 to-purple-600",
       features: [
         "Multi-dimensional scenario exploration",
-        "Token profiling with 80%/95% warning thresholds", 
+        "Token profiling with 80%/95% warning thresholds",
         "Peak usage scenario identification",
         "Enterprise session analytics",
         "Timeline branch management"
       ],
       metrics: {
         performance: "<500ms scenario generation",
-        efficiency: "85% token utilization optimization", 
+        efficiency: "85% token utilization optimization",
         tracking: "100% causality coverage",
         branches: "Up to 10 timeline branches"
       }
     },
     {
-      name: "Dream Feedback Propagator", 
+      name: "Dream Feedback Propagator",
       description: "Enterprise causality tracking system mapping dream insights to memory formation and reasoning enhancement.",
       icon: Network,
       gradient: "from-blue-500 to-cyan-600",
@@ -54,7 +54,7 @@ export default function DreamsPage() {
       name: "Timeline Branch Manager",
       description: "Strategic decision tree exploration with convergence analysis and optimal pathway identification.",
       icon: GitBranch,
-      gradient: "from-green-500 to-emerald-600", 
+      gradient: "from-green-500 to-emerald-600",
       features: [
         "Multiple timeline branch simulation",
         "Decision tree convergence analysis",
@@ -99,7 +99,7 @@ export default function DreamsPage() {
       outcomes: ["Optimal strategy identification", "Risk mitigation pathways", "Resource optimization"]
     },
     {
-      title: "Risk Assessment", 
+      title: "Risk Assessment",
       description: "Model complex risk scenarios and cascade effects",
       icon: AlertTriangle,
       example: "Supply chain disruption response with multi-factor analysis",
@@ -179,9 +179,9 @@ export default function DreamsPage() {
                 <h3 className="font-medium text-xl">The Philosophy of Digital Dreams</h3>
               </div>
               <p className="text-primary-light/80 leading-relaxed">
-                "In the infinite expanse of possibility, dreams are the cartographers of consciousness." 
-                LUKHAS Dream Systems enable exploration of counterfactual futures through hyperspace simulation, 
-                maintaining complete causality tracking and ethical compliance. This isn't just scenario modeling - 
+                "In the infinite expanse of possibility, dreams are the cartographers of consciousness."
+                LUKHAS Dream Systems enable exploration of counterfactual futures through hyperspace simulation,
+                maintaining complete causality tracking and ethical compliance. This isn't just scenario modeling -
                 it's consciousness exploring its own potential futures.
               </p>
             </motion.div>
@@ -244,15 +244,15 @@ export default function DreamsPage() {
                     <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${component.gradient} mb-6`}>
                       <IconComponent className="w-8 h-8 text-white" strokeWidth={1.5} />
                     </div>
-                    
+
                     <h3 className="font-semibold text-2xl text-indigo-400 mb-4">
                       {component.name}
                     </h3>
-                    
+
                     <p className="text-primary-light/70 mb-6 leading-relaxed">
                       {component.description}
                     </p>
-                    
+
                     <div className="mb-6">
                       <h4 className="font-medium text-sm uppercase tracking-wider text-indigo-400 mb-3">
                         Key Features
@@ -266,7 +266,7 @@ export default function DreamsPage() {
                         ))}
                       </ul>
                     </div>
-                    
+
                     <div className="pt-4 border-t border-primary-light/10">
                       <h4 className="font-medium text-sm uppercase tracking-wider text-indigo-400 mb-3">
                         Performance Metrics
@@ -362,7 +362,7 @@ export default function DreamsPage() {
                   <span className="text-sm text-green-400">Systems Active</span>
                 </div>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 {systemStatus.map((system, index) => (
                   <motion.div
@@ -390,8 +390,8 @@ export default function DreamsPage() {
                         <span>{system.health}%</span>
                       </div>
                       <div className="w-full bg-gray-800 rounded-full h-2">
-                        <div 
-                          className="h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600" 
+                        <div
+                          className="h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600"
                           style={{ width: `${system.health}%` }}
                         />
                       </div>
@@ -416,7 +416,7 @@ export default function DreamsPage() {
               <h2 className="font-light text-3xl md:text-4xl mb-8 text-center gradient-text">
                 Trinity Framework Integration
               </h2>
-              
+
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-identity/20 mb-4">
@@ -424,11 +424,11 @@ export default function DreamsPage() {
                   </div>
                   <h3 className="font-medium text-lg mb-3">Identity Integration</h3>
                   <p className="text-sm text-primary-light/70">
-                    Dreams are authenticated and personalized through ΛiD system, 
+                    Dreams are authenticated and personalized through ΛiD system,
                     ensuring dream scenarios align with user context and access levels.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-consciousness/20 mb-4">
                     <Brain className="w-8 h-8 text-trinity-consciousness" strokeWidth={1.5} />
@@ -439,14 +439,14 @@ export default function DreamsPage() {
                     creating seamless consciousness enhancement through exploration.
                   </p>
                 </div>
-                
+
                 <div className="text-center">
                   <div className="inline-flex p-4 rounded-full bg-trinity-guardian/20 mb-4">
                     <Shield className="w-8 h-8 text-trinity-guardian" strokeWidth={1.5} />
                   </div>
                   <h3 className="font-medium text-lg mb-3">Guardian Oversight</h3>
                   <p className="text-sm text-primary-light/70">
-                    All dream scenarios undergo real-time ethical validation with 
+                    All dream scenarios undergo real-time ethical validation with
                     causality tracking and compliance verification for enterprise safety.
                   </p>
                 </div>
@@ -469,7 +469,7 @@ export default function DreamsPage() {
                 Explore Consciousness Through Dreams
               </h2>
               <p className="text-lg text-primary-light/70 mb-8 leading-relaxed">
-                Experience strategic exploration through consciousness-driven scenario modeling, 
+                Experience strategic exploration through consciousness-driven scenario modeling,
                 where dreams become the laboratory for tomorrow's decisions.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

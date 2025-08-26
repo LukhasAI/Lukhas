@@ -51,24 +51,24 @@ export async function validateStepUpToken(
     const redis = await getRedisClient()
     const key = `stepup-token:${token}`
     const data = await redis.get(key)
-    
+
     if (!data) return false
-    
+
     const tokenData = JSON.parse(data)
-    
+
     // Validate token belongs to user and hasn't been used
     if (tokenData.userId !== userId || tokenData.used) {
       return false
     }
-    
+
     // Check if token purpose matches the operation
     if (!isOperationAllowed(tokenData.purpose, operation)) {
       return false
     }
-    
+
     // Mark token as used (single-use)
     await redis.set(key, JSON.stringify({ ...tokenData, used: true }), 'EX', 60)
-    
+
     return true
   } catch (error) {
     console.error('Step-up token validation error:', error)
@@ -104,7 +104,7 @@ function isOperationAllowed(purpose: string, operation: StepUpOperation): boolea
     ],
     'sensitive-action': Object.values(STEP_UP_OPERATIONS) // Generic purpose allows all
   }
-  
+
   const allowedOps = purposeMap[purpose] || []
   return allowedOps.includes(operation)
 }
@@ -118,7 +118,7 @@ export async function requireStepUp(
   userId: string
 ): Promise<{ allowed: boolean; error?: string }> {
   // Get step-up token from header or cookie
-  const stepUpToken = 
+  const stepUpToken =
     request.headers.get('x-stepup-token') ||
     request.cookies.get('stepup-token')?.value
 
@@ -130,7 +130,7 @@ export async function requireStepUp(
   }
 
   const isValid = await validateStepUpToken(stepUpToken, operation, userId)
-  
+
   if (!isValid) {
     return {
       allowed: false,
@@ -151,28 +151,28 @@ export async function triggerStepUp(purpose: string = 'sensitive-action'): Promi
       method: 'POST',
       headers: { 'x-stepup-purpose': purpose }
     })
-    
+
     if (!startRes.ok) throw new Error('Failed to start step-up')
-    
+
     // Get WebAuthn options
     const optionsRes = await fetch('/api/auth/stepup/options')
     if (!optionsRes.ok) throw new Error('Failed to get options')
-    
+
     const options = await optionsRes.json()
-    
+
     // Convert challenge to ArrayBuffer
     options.challenge = base64UrlToArrayBuffer(options.challenge)
-    
+
     // Request platform authenticator with UV
     options.userVerification = 'required'
-    
+
     // Get credential from browser
     const credential = await navigator.credentials.get({
       publicKey: options
     }) as PublicKeyCredential
-    
+
     if (!credential) throw new Error('No credential received')
-    
+
     // Finish step-up
     const finishRes = await fetch('/api/auth/stepup/finish', {
       method: 'POST',
@@ -197,9 +197,9 @@ export async function triggerStepUp(purpose: string = 'sensitive-action'): Promi
         type: credential.type
       })
     })
-    
+
     if (!finishRes.ok) throw new Error('Step-up verification failed')
-    
+
     const result = await finishRes.json()
     return result.stepUpToken
   } catch (error) {

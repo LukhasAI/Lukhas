@@ -79,7 +79,7 @@ class BioEngine:
         self.mitochondria = MitochondriaModel()
 
         # Quantum bridge if available
-        self.quantum_bridge = (
+        self.qi_bridge = (
             MitochondrialQIBridge() if MitochondrialQIBridge else None
         )
 
@@ -221,11 +221,11 @@ class BioEngine:
         )
 
         # Quantum processing if available
-        if self.quantum_bridge:
-            quantum_enhancement = await self.quantum_bridge.process_bio_signal(
+        if self.qi_bridge:
+            qi_enhancement = await self.qi_bridge.process_bio_signal(
                 stimulus_type, context
             )
-            atp_production *= 1 + quantum_enhancement.get("efficiency_boost", 0)
+            atp_production *= 1 + qi_enhancement.get("efficiency_boost", 0)
 
         # Update energy based on production
         self.energy_level = min(1.0, self.energy_level + atp_production * 0.1)
@@ -233,7 +233,7 @@ class BioEngine:
         return {
             "atp_production": atp_production,
             "efficiency": atp_production / max(0.1, self.stress_level),
-            "quantum_enhanced": self.quantum_bridge is not None,
+            "qi_enhanced": self.qi_bridge is not None,
         }
 
     def _calculate_adaptation(

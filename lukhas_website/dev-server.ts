@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 
-const app = express(); 
-app.use(cors({ origin: true, credentials: true })); 
+const app = express();
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 let balance = 0;
@@ -10,17 +10,17 @@ let balance = 0;
 // Wallet endpoints
 app.get("/balance", (_req, res) => res.json({ currency: "LUK", amount: balance }));
 
-app.post("/earn", (req, res) => { 
-  const amt = Number(req.body?.amount ?? 10); 
-  balance += amt; 
-  res.json({ currency: "LUK", amount: balance }); 
+app.post("/earn", (req, res) => {
+  const amt = Number(req.body?.amount ?? 10);
+  balance += amt;
+  res.json({ currency: "LUK", amount: balance });
 });
 
-app.post("/spend", (req, res) => { 
-  const amt = Number(req.body?.amount ?? 10); 
-  if (balance < amt) return res.status(400).json({ error: "insufficient" }); 
-  balance -= amt; 
-  res.json({ currency: "LUK", amount: balance }); 
+app.post("/spend", (req, res) => {
+  const amt = Number(req.body?.amount ?? 10);
+  if (balance < amt) return res.status(400).json({ error: "insufficient" });
+  balance -= amt;
+  res.json({ currency: "LUK", amount: balance });
 });
 
 // QRG endpoints
@@ -39,11 +39,11 @@ app.post("/signin/start", (_req, res) => {
 // Consent endpoints
 app.post("/record", (req, res) => {
   const { scope, granted } = req.body;
-  res.json({ 
-    userId: "dev-user", 
-    scope: scope || "unknown", 
-    granted: granted ?? true, 
-    timestamp: new Date().toISOString() 
+  res.json({
+    userId: "dev-user",
+    scope: scope || "unknown",
+    granted: granted ?? true,
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -54,5 +54,5 @@ app.get("/records", (_req, res) => {
   ]);
 });
 
-const port = process.env.PORT || 7402; 
+const port = process.env.PORT || 7402;
 app.listen(port, () => console.log(`dev-apis running on port ${port}`));

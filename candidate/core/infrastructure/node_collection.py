@@ -66,7 +66,7 @@ class MemoryNode:
         self.logger = logging.getLogger("MemoryNode")
         self.short_term = {}
         self.long_term = {}
-        self.quantum_memories = {}  # For quantum-inspired memory storage
+        self.qi_memories = {}  # For quantum-inspired memory storage
 
     def store(self, memory_data, importance=0.5, memory_type="short_term"):
         """Store a new memory with optional importance rating."""

@@ -61,7 +61,7 @@ def resolve_lambda_id(namespace: str, username: str):
 
 #### Adapter Performance
 - **Gmail Headers**: `adapters/gmail_headers/` - Email metadata extraction
-- **Drive**: `adapters/drive/` - File metadata operations  
+- **Drive**: `adapters/drive/` - File metadata operations
 - **Dropbox**: `adapters/dropbox/` - Cloud storage operations
 - **Cloud Consolidation**: `adapters/cloud_consolidation.py`
 
@@ -80,9 +80,9 @@ async def measure_adapter_latency(adapter_name: str, operation: str):
     finally:
         duration = time.perf_counter() - start_time
         # Log to monitoring system
-        logger.info("adapter_latency", 
-                   adapter=adapter_name, 
-                   operation=operation, 
+        logger.info("adapter_latency",
+                   adapter=adapter_name,
+                   operation=operation,
                    duration=duration)
 ```
 
@@ -114,9 +114,9 @@ ALTER SYSTEM SET log_duration = on;
 ALTER SYSTEM SET log_min_duration_statement = 100; -- Log queries >100ms
 
 -- Query performance analysis
-SELECT query, mean_exec_time, calls 
-FROM pg_stat_statements 
-ORDER BY mean_exec_time DESC 
+SELECT query, mean_exec_time, calls
+FROM pg_stat_statements
+ORDER BY mean_exec_time DESC
 LIMIT 20;
 ```
 
@@ -226,12 +226,12 @@ dashboard:
       type: "graph"
       targets:
         - expr: 'histogram_quantile(0.95, http_request_duration_seconds_bucket)'
-    
-    - title: "Identity Resolution Latency" 
+
+    - title: "Identity Resolution Latency"
       type: "graph"
       targets:
         - expr: 'histogram_quantile(0.95, identity_resolve_duration_seconds_bucket)'
-    
+
     - title: "Adapter Performance"
       type: "graph"
       targets:
@@ -251,7 +251,7 @@ groups:
           severity: warning
         annotations:
           summary: "High API latency detected"
-          
+
       - alert: IdentityResolutionSlow
         expr: histogram_quantile(0.95, identity_resolve_duration_seconds_bucket) > 0.05
         for: 2m
@@ -297,7 +297,7 @@ jobs:
 
 ### Critical Gaps ❌
 1. **No Performance Monitoring**: Zero instrumentation of critical paths
-2. **No SLO Definition**: No service level objectives or error budgets  
+2. **No SLO Definition**: No service level objectives or error budgets
 3. **No Load Testing**: No performance baseline measurements
 4. **No Alerting**: No performance degradation alerts
 

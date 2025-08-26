@@ -12,7 +12,7 @@ export default function PrivacySettings() {
       return false;
     }
   });
-  
+
   const [e2ee, setE2ee] = useState(() => {
     if (typeof window === 'undefined') return false;
     try {
@@ -22,20 +22,20 @@ export default function PrivacySettings() {
     }
   });
 
-  useEffect(() => { 
+  useEffect(() => {
     if (typeof window === 'undefined') return;
     try {
       const p = JSON.parse(localStorage.getItem("lukhas:prefs") || "{}");
-      p.metaAdaptive = !!meta; 
+      p.metaAdaptive = !!meta;
       localStorage.setItem("lukhas:prefs", JSON.stringify(p));
-    } catch {} 
+    } catch {}
   }, [meta]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (typeof window === 'undefined') return;
-    try { 
-      localStorage.setItem("lukhas:e2ee", e2ee ? "on" : "off"); 
-    } catch {} 
+    try {
+      localStorage.setItem("lukhas:e2ee", e2ee ? "on" : "off");
+    } catch {}
   }, [e2ee]);
 
   return (
@@ -43,10 +43,10 @@ export default function PrivacySettings() {
       <h2 className="t-18">Privacy & Consent</h2>
       <div style={{ marginTop: 8 }}>
         <label className="t-13" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <input 
-            type="checkbox" 
-            checked={meta} 
-            onChange={e => setMeta(e.target.checked)} 
+          <input
+            type="checkbox"
+            checked={meta}
+            onChange={e => setMeta(e.target.checked)}
           />
           Meta-adaptive rails (local only)
         </label>
@@ -56,10 +56,10 @@ export default function PrivacySettings() {
       </div>
       <div style={{ marginTop: 12 }}>
         <label className="t-13" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <input 
-            type="checkbox" 
-            checked={e2ee} 
-            onChange={e => setE2ee(e.target.checked)} 
+          <input
+            type="checkbox"
+            checked={e2ee}
+            onChange={e => setE2ee(e.target.checked)}
           />
           Encrypted messages (QRG)
         </label>

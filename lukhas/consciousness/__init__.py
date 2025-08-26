@@ -17,16 +17,16 @@ Version: 1.0.0
 """
 
 from .consciousness_wrapper import (
-    ConsciousnessWrapper,
+    AwarenessLevel,
     ConsciousnessConfig,
     ConsciousnessState,
-    AwarenessLevel,
+    ConsciousnessWrapper,
     SafetyMode,
 )
 
 __all__ = [
     "ConsciousnessWrapper",
-    "ConsciousnessConfig", 
+    "ConsciousnessConfig",
     "ConsciousnessState",
     "AwarenessLevel",
     "SafetyMode",

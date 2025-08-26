@@ -107,31 +107,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-          
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           pip install -r requirements-test.txt
-          
+
       - name: Run tests with coverage
         run: |
           pytest tests/ --cov=lukhas --cov-report=xml
-          
+
       - name: Security scan
         run: |
           safety check
           bandit -r lukhas/
-          
+
       - name: Code quality
         run: |
           flake8 lukhas/
           mypy lukhas/
-          
+
   deploy:
     needs: test
     if: github.ref == 'refs/heads/main'
@@ -140,7 +140,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t lukhas:${{ github.sha }} .
-          
+
       - name: Deploy to Kubernetes
         run: |
           kubectl set image deployment/lukhas lukhas=lukhas:${{ github.sha }}
@@ -155,12 +155,12 @@ class TestConsciousnessSystem:
     def consciousness(self):
         """Fixture for consciousness system."""
         return ConsciousnessSystem()
-    
+
     def test_initialization(self, consciousness):
         """Test consciousness initialization."""
         assert consciousness.state == 'initialized'
         assert consciousness.drift_score < 0.15
-        
+
     @pytest.mark.integration
     def test_memory_integration(self, consciousness):
         """Test consciousness-memory integration."""
@@ -168,7 +168,7 @@ class TestConsciousnessSystem:
         consciousness.connect_memory(memory)
         result = consciousness.process_with_memory("test input")
         assert result.has_memory_context
-        
+
     @pytest.mark.performance
     def test_response_time(self, consciousness):
         """Test consciousness response time."""
@@ -218,13 +218,13 @@ kubectl logs -f deployment/lukhas
 # Prometheus configuration
 global:
   scrape_interval: 15s
-  
+
 scrape_configs:
   - job_name: 'lukhas'
     static_configs:
       - targets: ['lukhas:8080']
     metrics_path: '/metrics'
-    
+
   - job_name: 'consciousness'
     static_configs:
       - targets: ['lukhas:9090']

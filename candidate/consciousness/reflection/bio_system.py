@@ -37,12 +37,12 @@ from typing import Any, Optional
 
 import numpy as np
 
-from bio.quantum_inspired_layer import QuantumBioOscillator
+from bio.qi_inspired_layer import QIBioOscillator
 from candidate.core.common import get_logger
 
 # Use existing quantum engines - fixed import paths
-from qi.systems.quantum_engine import (
-    Quantumoscillator as QuantumOscillator,
+from qi.systems.qi_engine import (
+    Quantumoscillator as QIOscillator,
 )
 
 logger = get_logger(__name__)
@@ -54,8 +54,8 @@ class MitochondrialQIBridge:
     Implements electron transport chain concepts for quantum information flow.
     """
 
-    def __init__(self, quantum_oscillator: Optional[QuantumOscillator] = None):
-        self.quantum_oscillator = quantum_oscillator or QuantumOscillator()
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
+        self.qi_oscillator = qi_oscillator or QIOscillator()
 
         # Quantum states for each complex
         self.complex_states = {
@@ -83,7 +83,7 @@ class MitochondrialQIBridge:
         # TAG: pulse
         try:
             # Initial quantum modulation
-            modulated = self.quantum_oscillator.quantum_modulate(input_signal)
+            modulated = self.qi_oscillator.qi_modulate(input_signal)
 
             # Process through electron transport chain
             electron_state = await self._electron_transport_process(modulated)
@@ -105,19 +105,19 @@ class MitochondrialQIBridge:
         current_state = input_signal
 
         # Complex I: NADH to ubiquinone
-        self.complex_states["complex_i"] = self.quantum_oscillator.quantum_modulate(
+        self.complex_states["complex_i"] = self.qi_oscillator.qi_modulate(
             np.concatenate([current_state, [1.0]])
         )
         current_state = self.complex_states["complex_i"][:3]
 
         # Complex III: Cytochrome bc1
-        self.complex_states["complex_iii"] = self.quantum_oscillator.quantum_modulate(
+        self.complex_states["complex_iii"] = self.qi_oscillator.qi_modulate(
             np.concatenate([current_state, [1.0]])
         )
         current_state = self.complex_states["complex_iii"][:3]
 
         # Complex IV: Cytochrome c oxidase
-        self.complex_states["complex_iv"] = self.quantum_oscillator.quantum_modulate(
+        self.complex_states["complex_iv"] = self.qi_oscillator.qi_modulate(
             current_state
         )
 
@@ -129,7 +129,7 @@ class MitochondrialQIBridge:
         gradient_strength = np.mean(electron_state)
 
         # Apply quantum modulation
-        gradient = self.quantum_oscillator.quantum_modulate(
+        gradient = self.qi_oscillator.qi_modulate(
             gradient_strength * np.ones(3)
         )
 
@@ -140,7 +140,7 @@ class MitochondrialQIBridge:
     ) -> tuple[np.ndarray, dict[str, Any]]:
         """Synthesize quantum-enhanced output"""
         # Complex V: ATP synthase simulation
-        self.complex_states["complex_v"] = self.quantum_oscillator.quantum_modulate(
+        self.complex_states["complex_v"] = self.qi_oscillator.qi_modulate(
             np.concatenate([proton_gradient, [1.0, 1.0]])
         )
 
@@ -163,9 +163,9 @@ class QISynapticGate:
     Quantum-enhanced synaptic processing inspired by neural mechanics.
     """
 
-    def __init__(self, bio_oscillator: Optional[QuantumBioOscillator] = None):
-        self.bio_oscillator = bio_oscillator or QuantumBioOscillator()
-        self.quantum_like_state = np.zeros(5)  # 5D quantum-like state space
+    def __init__(self, bio_oscillator: Optional[QIBioOscillator] = None):
+        self.bio_oscillator = bio_oscillator or QIBioOscillator()
+        self.qi_like_state = np.zeros(5)  # 5D quantum-like state space
 
     async def process_signal(
         self,
@@ -185,7 +185,7 @@ class QISynapticGate:
             )
 
             # Update quantum-like state
-            self.quantum_like_state = self.bio_oscillator.modulate_frequencies(
+            self.qi_like_state = self.bio_oscillator.modulate_frequencies(
                 interference
             )
 
@@ -193,9 +193,9 @@ class QISynapticGate:
             output = self._generate_quantum_output(interference)
 
             metadata = {
-                "quantum_like_state": self.quantum_like_state.tolist(),
+                "qi_like_state": self.qi_like_state.tolist(),
                 "interference_pattern": interference.tolist(),
-                "coherence": float(np.mean(self.quantum_like_state)),
+                "coherence": float(np.mean(self.qi_like_state)),
             }
 
             return output, metadata
@@ -230,8 +230,8 @@ class NeuroplasticityModulator:
     Quantum-enhanced neuroplasticity modulation for adaptive learning.
     """
 
-    def __init__(self, quantum_oscillator: Optional[QuantumOscillator] = None):
-        self.quantum_oscillator = quantum_oscillator or QuantumOscillator()
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
+        self.qi_oscillator = qi_oscillator or QIOscillator()
         self.plasticity_state = np.zeros(4)  # 4D plasticity state
         self.learning_rate = 0.1
 
@@ -251,7 +251,7 @@ class NeuroplasticityModulator:
             delta = self._calculate_plasticity_delta(current_state, target_state)
 
             # Apply quantum modulation
-            modulated_delta = self.quantum_oscillator.quantum_modulate(delta)
+            modulated_delta = self.qi_oscillator.qi_modulate(delta)
 
             # Update plasticity state
             # SYNTAX_ERROR_FIXED:             self.plasticity_state =
@@ -418,10 +418,10 @@ class SelfAwareAgent:
 class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
     """Enhanced version with self-awareness capabilitie"""
 
-    def __init__(self, quantum_oscillator: Optional[QuantumOscillator] = None):
-        super().__init__(quantum_oscillator)
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
+        super().__init__(qi_oscillator)
         self.self_aware_agent = SelfAwareAgent()
-        self.quantum_cache = {}  # Performance optimization
+        self.qi_cache = {}  # Performance optimization
 
     def cached_quantum_modulate(self, input_signal: np.ndarray) -> np.ndarray:
         """
@@ -431,15 +431,15 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
         # Create cache key from input signal
         cache_key = tuple(np.round(input_signal, decimals=6))
 
-        if cache_key in self.quantum_cache:
-            return self.quantum_cache[cache_key]
+        if cache_key in self.qi_cache:
+            return self.qi_cache[cache_key]
 
         # Perform quantum modulation
-        result = self.quantum_oscillator.quantum_modulate(input_signal)
+        result = self.qi_oscillator.qi_modulate(input_signal)
 
         # Cache result (with size limit)
-        if len(self.quantum_cache) < 1000:  # Limit cache size
-            self.quantum_cache[cache_key] = result
+        if len(self.qi_cache) < 1000:  # Limit cache size
+            self.qi_cache[cache_key] = result
 
         return result
 
@@ -476,7 +476,7 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
 
         # Convert back to dict format
         output = {
-            "quantum_signal": output_signal.tolist(),
+            "qi_signal": output_signal.tolist(),
             "metadata": processing_metadata,
             "input_shape": input_signal.shape,
             "output_shape": output_signal.shape,
@@ -489,7 +489,7 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
             and self.self_aware_agent.self_assessment_enabled
         ):
             coherence = self.self_aware_agent.evaluate_performance(
-                output, expected_output, context="quantum_bio_processing"
+                output, expected_output, context="qi_bio_processing"
             )
 
             # Add consciousness metadata to output
@@ -515,7 +515,7 @@ class EnhancedMitochondrialQIBridge(MitochondrialQIBridge):
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": True,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -534,7 +534,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

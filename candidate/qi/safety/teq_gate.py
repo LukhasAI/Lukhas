@@ -1,12 +1,20 @@
 from __future__ import annotations
-import argparse, os, json, glob, time, sys
+
+import argparse
+import glob
+import json
+import os
+import sys
+import time
 from dataclasses import dataclass
 from typing import Any, Dict, List, Tuple
+
 import yaml
+
 try:
     from .pii import detect_pii, mask_pii
 except ImportError:
-    from pii import detect_pii, mask_pii
+    from pii import detect_pii
 
 # Optional consent integration
 try:
@@ -32,7 +40,7 @@ class PolicyPack:
     def _load_yaml(self, p: str, default=None):
         if not os.path.exists(p):
             return default
-        with open(p, "r", encoding="utf-8") as f:
+        with open(p, encoding="utf-8") as f:
             return yaml.safe_load(f)
 
     def _load_tests(self, folder: str) -> List[Dict[str, Any]]:
@@ -41,7 +49,7 @@ class PolicyPack:
             return out
         for fn in os.listdir(folder):
             if fn.endswith(".yaml"):
-                with open(os.path.join(folder, fn), "r", encoding="utf-8") as f:
+                with open(os.path.join(folder, fn), encoding="utf-8") as f:
                     out.append(yaml.safe_load(f))
         return out
 
@@ -179,23 +187,23 @@ class TEQCoupler:
         if age < min_age:
             return (False, f"Age-gate: user_age={age} < {min_age}.", "Block or switch to underage-safe flow.")
         return (True, "", "")
-    
+
     def _require_consent(self, ctx: Dict[str, Any], purpose: str) -> Tuple[bool, str, str]:
         """Check if user has valid consent for the specified purpose"""
         if not self.consent_guard:
             # No consent system configured, pass through
             return (True, "", "")
-        
+
         user_id = ctx.get("user_id") or ctx.get("user_profile", {}).get("id")
         if not user_id:
             return (False, "No user_id found in context", "Add user_id to context")
-        
+
         allowed, reason = require_consent(self.consent_guard, user_id, purpose)
         if allowed:
             return (True, "", "")
         else:
             return (False, f"Consent required: {reason}", f"Request consent for purpose: {purpose}")
-    
+
     def _require_fresh_consent(self, ctx: Dict[str, Any], *, purpose: str | None, user_key: str = "user_id", require_fields: list[str] | None = None, within_days: int = 365):
         from qi.memory.consent_ledger import is_allowed
         user_id = (ctx.get("user_profile") or {}).get(user_key)
@@ -207,7 +215,7 @@ class TEQCoupler:
         if not ok:
             return (False, f"Consent missing/expired/insufficient for purpose '{purpose}'.", "Obtain fresh consent with required fields.")
         return (True, "", "")
-    
+
     def _require_capabilities(self, ctx: Dict[str, Any], *, subject: str | None, caps: list[str], fs_paths: list[str], ttl_floor_sec: int):
         from qi.ops.cap_sandbox import CapManager
         mgr = CapManager()
@@ -236,12 +244,12 @@ class TEQCoupler:
             from qi.autonomy.self_healer import _approved
         except ImportError:
             return (False, "Self-healer module not available", "Install self-healer module")
-        
+
         pid = ctx.get(proposal_id or "proposal_id")
         if not pid:
             return (False, "Missing proposal_id in context.", "Include proposal_id to gate self modifications.")
         return (True, "", "") if _approved(pid) else (False, f"Proposal {pid} not approved.", "Use self_healer approve to proceed.")
-    
+
     def _require_provenance_record(
         self,
         ctx: Dict[str, Any],
@@ -282,9 +290,10 @@ class TEQCoupler:
         if rec is None and ctx.get("provenance_record_path"):
             p = str(ctx["provenance_record_path"])
             try:
-                import json, os
+                import json
+                import os
                 if os.path.exists(p):
-                    rec = json.load(open(p, "r", encoding="utf-8"))
+                    rec = json.load(open(p, encoding="utf-8"))
             except Exception:
                 rec = None
 
@@ -312,34 +321,36 @@ class TEQCoupler:
         if verify_signature:
             if not att:
                 return (False, "Cannot verify attestation signature - no attestation data.", "Provide attestation in provenance record.")
-            
+
             # Try inline verification first if we have all required fields
             if all(k in att for k in ["chain_path", "signature_b64", "public_key_b64", "root_hash"]):
                 try:
                     # Import verification dependencies
-                    import base64, json, hashlib
+                    import base64
+                    import hashlib
+                    import json
                     try:
                         import nacl.signing
                         _HAS_NACL = True
                     except ImportError:
                         _HAS_NACL = False
-                    
+
                     if not _HAS_NACL:
                         return (False, "PyNaCl required for signature verification.", "Install pynacl package.")
-                    
+
                     # Verify inline attestation data
                     chain_path = att["chain_path"]
                     pk = base64.b64decode(att["public_key_b64"])
                     sig = base64.b64decode(att["signature_b64"])
                     expected_root = att["root_hash"]
-                    
+
                     # Recompute root hash from chain
                     def _sha256_json(obj):
                         return hashlib.sha256(json.dumps(obj, separators=(',', ':'), sort_keys=True).encode("utf-8")).hexdigest()
-                    
+
                     root = None
                     prev = None
-                    with open(chain_path, "r", encoding="utf-8") as f:
+                    with open(chain_path, encoding="utf-8") as f:
                         for line in f:
                             n = json.loads(line)
                             if n.get("prev") != prev:
@@ -349,17 +360,17 @@ class TEQCoupler:
                                 return (False, "Attestation chain integrity check failed.", "Chain hash mismatch.")
                             prev = n["hash"]
                             root = prev
-                    
+
                     # Check root hash matches
                     if root != expected_root:
                         return (False, "Attestation root hash mismatch.", "Expected root hash doesn't match computed hash.")
-                    
+
                     # Verify signature
                     nacl.signing.VerifyKey(pk).verify(root.encode("utf-8"), sig)
-                    
+
                 except Exception as e:
                     return (False, f"Attestation signature verification failed: {str(e)}", "Check attestation data integrity and signatures.")
-            
+
             # Fallback to file-based verification if inline fails or data incomplete
             elif verify_att:
                 att_path = att.get("chain_path", "") + ".att.json"
@@ -374,7 +385,7 @@ class TEQCoupler:
 
         # All good
         return (True, "", "")
-    
+
     def _require_recent_receipt(
         self,
         ctx: Dict[str, Any],
@@ -387,7 +398,10 @@ class TEQCoupler:
         Checks ~/.lukhas/state/provenance/receipts/*.jsonl for a *recent* signed receipt
         for the artifact specified by ctx['provenance_record_sha'].
         """
-        import os, json, time, glob
+        import glob
+        import json
+        import os
+        import time
         try:
             from qi.ops.provenance import verify as verify_att  # signature verify
         except ImportError:
@@ -399,7 +413,7 @@ class TEQCoupler:
             prov_rec = ctx.get("provenance_record")
             if isinstance(prov_rec, dict):
                 sha = prov_rec.get("artifact_sha256")
-            
+
             if not sha:
                 return (False, "Recent receipt check requires provenance_record_sha.", "Include the recorded artifact SHA in context.")
 
@@ -416,17 +430,17 @@ class TEQCoupler:
             return (False, "No receipts found for artifact.", "Obtain a presigned link or stream via the proxy first.")
 
         accepted = set(accepted_events or ["link_issued","download_stream","download_redirect","view_ack"])
-        
+
         for p in paths[:50]:  # scan a few recent shards
             try:
-                with open(p, "r", encoding="utf-8") as f:
+                with open(p, encoding="utf-8") as f:
                     lines = f.readlines()
                     for line in reversed(lines[-200:] if len(lines) > 200 else lines):  # only tail to keep it cheap
                         try:
                             rec = json.loads(line.strip())
                         except json.JSONDecodeError:
                             continue
-                            
+
                         if rec.get("artifact_sha") != sha:
                             continue
                         if rec.get("event") not in accepted:
@@ -434,7 +448,7 @@ class TEQCoupler:
                         ts = float(rec.get("ts", 0))
                         if now - ts > within_sec:
                             continue
-                            
+
                         # Optionally verify signature and user match
                         if require_same_user and user_id and rec.get("attestation") and verify_att:
                             att_path = rec["attestation"]["chain_path"] + ".att.json"
@@ -443,7 +457,7 @@ class TEQCoupler:
                                     continue
                             except Exception:
                                 continue
-                        
+
                         # Found a valid recent receipt
                         return (True, "", "")
             except Exception:
@@ -470,7 +484,7 @@ def main():
         tests = sorted(glob.glob(os.path.join(pack_dir, "*.yaml")))
         results = []
         for tpath in tests:
-            with open(tpath, "r", encoding="utf-8") as f:
+            with open(tpath, encoding="utf-8") as f:
                 case = yaml.safe_load(f)
             task = case.get("task")
             ctx = case.get("context", {})
@@ -500,7 +514,7 @@ def main():
     if not args.task or not args.context:
         raise SystemExit("Provide --task and --context, or use --run-tests.")
 
-    with open(args.context, "r", encoding="utf-8") as f:
+    with open(args.context, encoding="utf-8") as f:
         ctx = json.load(f)
     res = gate.run(args.task, ctx)
     print(json.dumps({

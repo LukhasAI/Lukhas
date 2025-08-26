@@ -222,7 +222,7 @@ python3 monitoring/setup_monitoring.py --start-all
 # Stop all monitoring services
 echo "🛑 Stopping LUKHAS  Monitoring..."
 pkill -f "unified_dashboard"
-pkill -f "meta_dashboard" 
+pkill -f "meta_dashboard"
 pkill -f "prometheus"
 echo "✅ All monitoring services stopped"
 """,
@@ -235,7 +235,7 @@ def check_service_status():
         "Unified Dashboard": "http://localhost:3000/health",
         "Meta Dashboard": "http://localhost:5042/api/health"
     }
-    
+
     for name, url in services.items():
         try:
             response = requests.get(url, timeout=5)

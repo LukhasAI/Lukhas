@@ -2,17 +2,17 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Main Dream Background Component
-const DreamBackground = ({ 
-  effect = 'aurora', 
-  intensity = 0.8, 
+const DreamBackground = ({
+  effect = 'aurora',
+  intensity = 0.8,
   interactive = true,
   poetryEnabled = true,
-  className = '' 
+  className = ''
 }) => {
   const [currentPoetry, setCurrentPoetry] = useState(0);
   const [particles, setParticles] = useState([]);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+
   // Poetry collection for dream states
   const poetryLines = [
     "Consciousness stirs in quantum waves of possibility",
@@ -58,7 +58,7 @@ const DreamBackground = ({
   };
 
   return (
-    <div 
+    <div
       className={`dream-background-container ${className}`}
       onMouseMove={handleMouseMove}
       style={{
@@ -74,7 +74,7 @@ const DreamBackground = ({
         position: 'absolute',
         width: '100%',
         height: '100%',
-        background: effect === 'aurora' 
+        background: effect === 'aurora'
           ? 'linear-gradient(to bottom, #000428 0%, #004e92 100%)'
           : effect === 'neural'
           ? 'linear-gradient(to bottom, #000011, #000033, #000044)'
@@ -88,13 +88,13 @@ const DreamBackground = ({
 
       {/* Aurora Effect */}
       {effect === 'aurora' && <AuroraEffect intensity={intensity} />}
-      
+
       {/* Neural Constellation */}
       {effect === 'neural' && <NeuralConstellation mousePos={mousePosition} />}
-      
+
       {/* REM Stage */}
       {effect === 'rem' && <REMStage />}
-      
+
       {/* Dream Particles */}
       {effect === 'dream' && (
         <div className="dream-particles">
@@ -219,13 +219,13 @@ const NeuralConstellation = ({ mousePos }) => {
         connections: []
       });
     }
-    
+
     // Create connections between nearby nodes
     nodeArray.forEach((node, i) => {
       nodeArray.forEach((otherNode, j) => {
         if (i !== j) {
           const distance = Math.sqrt(
-            Math.pow(node.x - otherNode.x, 2) + 
+            Math.pow(node.x - otherNode.x, 2) +
             Math.pow(node.y - otherNode.y, 2)
           );
           if (distance < 20) {
@@ -234,29 +234,29 @@ const NeuralConstellation = ({ mousePos }) => {
         }
       });
     });
-    
+
     return nodeArray;
   }, []);
 
   return (
-    <svg 
-      style={{ 
-        position: 'absolute', 
-        width: '100%', 
+    <svg
+      style={{
+        position: 'absolute',
+        width: '100%',
         height: '100%',
         pointerEvents: 'none'
       }}
     >
       {/* Draw connections */}
-      {nodes.map((node) => 
+      {nodes.map((node) =>
         node.connections.map((targetId) => {
           const target = nodes[targetId];
           const distance = Math.sqrt(
-            Math.pow((mousePos.x - node.x), 2) + 
+            Math.pow((mousePos.x - node.x), 2) +
             Math.pow((mousePos.y - node.y), 2)
           );
           const opacity = distance < 30 ? 0.5 : 0.1;
-          
+
           return (
             <motion.line
               key={`${node.id}-${targetId}`}
@@ -273,15 +273,15 @@ const NeuralConstellation = ({ mousePos }) => {
           );
         })
       )}
-      
+
       {/* Draw nodes */}
       {nodes.map((node) => {
         const distance = Math.sqrt(
-          Math.pow((mousePos.x - node.x), 2) + 
+          Math.pow((mousePos.x - node.x), 2) +
           Math.pow((mousePos.y - node.y), 2)
         );
         const scale = distance < 20 ? 2 : 1;
-        
+
         return (
           <motion.circle
             key={node.id}
@@ -289,7 +289,7 @@ const NeuralConstellation = ({ mousePos }) => {
             cy={`${node.y}%`}
             r="3"
             fill="white"
-            animate={{ 
+            animate={{
               scale,
               opacity: distance < 30 ? 1 : 0.5
             }}
@@ -427,7 +427,7 @@ const BrainWaveVisualizer = ({ stage = 'rem', className = '' }) => {
 
       const activeWaves = stageWaves[stage] || stageWaves.rem;
       const data = [];
-      
+
       activeWaves.forEach((waveType) => {
         const wave = waves[waveType];
         const points = [];
@@ -438,7 +438,7 @@ const BrainWaveVisualizer = ({ stage = 'rem', className = '' }) => {
         }
         data.push({ type: waveType, points, color: wave.color });
       });
-      
+
       setWaveData(data);
     };
 
@@ -448,10 +448,10 @@ const BrainWaveVisualizer = ({ stage = 'rem', className = '' }) => {
   }, [stage]);
 
   return (
-    <svg 
+    <svg
       className={`brain-wave-visualizer ${className}`}
-      style={{ 
-        width: '100%', 
+      style={{
+        width: '100%',
         height: '200px',
         position: 'absolute',
         bottom: 0,
@@ -482,56 +482,56 @@ const BrainWaveVisualizer = ({ stage = 'rem', className = '' }) => {
 };
 
 // Main Export with all components
-export default function DreamWeaverBackground({ 
+export default function DreamWeaverBackground({
   preset = 'full',
-  children 
+  children
 }) {
   const [activeEffect, setActiveEffect] = useState('aurora');
   const [sleepStage, setSleepStage] = useState('rem');
 
   const effects = ['aurora', 'neural', 'rem', 'dream', 'sleep', 'fog'];
-  
+
   // Auto-rotate effects every 30 seconds if preset is 'full'
   useEffect(() => {
     if (preset !== 'full') return;
-    
+
     const interval = setInterval(() => {
       setActiveEffect((prev) => {
         const currentIndex = effects.indexOf(prev);
         return effects[(currentIndex + 1) % effects.length];
       });
     }, 30000);
-    
+
     return () => clearInterval(interval);
   }, [preset]);
 
   return (
-    <div style={{ 
-      position: 'relative', 
-      width: '100%', 
+    <div style={{
+      position: 'relative',
+      width: '100%',
       height: '100vh',
       overflow: 'hidden',
       background: '#000'
     }}>
       {/* Layer 1: Base Dream Background */}
-      <DreamBackground 
+      <DreamBackground
         effect={activeEffect}
         intensity={0.8}
         interactive={true}
         poetryEnabled={preset === 'full'}
       />
-      
+
       {/* Layer 2: Brain Waves (only in full preset) */}
       {preset === 'full' && (
-        <BrainWaveVisualizer 
+        <BrainWaveVisualizer
           stage={sleepStage}
           className="brain-waves-overlay"
         />
       )}
-      
+
       {/* Layer 3: Content */}
-      <div style={{ 
-        position: 'relative', 
+      <div style={{
+        position: 'relative',
         zIndex: 10,
         width: '100%',
         height: '100%'
@@ -553,7 +553,7 @@ export default function DreamWeaverBackground({
           border: '1px solid rgba(255, 255, 255, 0.1)'
         }}>
           <div style={{ marginBottom: '15px' }}>
-            <h3 style={{ 
+            <h3 style={{
               color: 'rgba(255, 255, 255, 0.8)',
               fontSize: '12px',
               textTransform: 'uppercase',
@@ -569,7 +569,7 @@ export default function DreamWeaverBackground({
                   onClick={() => setActiveEffect(effect)}
                   style={{
                     padding: '5px 10px',
-                    background: activeEffect === effect 
+                    background: activeEffect === effect
                       ? 'linear-gradient(90deg, #00ffcc, #7c3aed)'
                       : 'rgba(255, 255, 255, 0.1)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -585,9 +585,9 @@ export default function DreamWeaverBackground({
               ))}
             </div>
           </div>
-          
+
           <div>
-            <h3 style={{ 
+            <h3 style={{
               color: 'rgba(255, 255, 255, 0.8)',
               fontSize: '12px',
               textTransform: 'uppercase',
@@ -603,7 +603,7 @@ export default function DreamWeaverBackground({
                   onClick={() => setSleepStage(stage)}
                   style={{
                     padding: '5px 10px',
-                    background: sleepStage === stage 
+                    background: sleepStage === stage
                       ? 'linear-gradient(90deg, #00ffcc, #7c3aed)'
                       : 'rgba(255, 255, 255, 0.1)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',

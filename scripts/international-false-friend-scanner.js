@@ -15,16 +15,16 @@ class InternationalFalseFriendScanner {
     this.violations = [];
     this.humanReviewRequired = [];
     this.policyManifest = this.loadPolicyManifest();
-    
+
     // Load false friends from policy manifest
     this.falseFriends = this.policyManifest.internationalization?.falseFriends || this.getDefaultFalseFriends();
-    
+
     // Extended false friend dictionary
     this.extendedDictionary = {
       spanish: {
         direct: ['matada', 'matadas', 'matado', 'matados'], // Direct matches (critical)
         contextual: [ // Need human review
-          'mata', 'matar', 'matando', 'matará', 'mataría', 
+          'mata', 'matar', 'matando', 'matará', 'mataría',
           'matanza', 'matadero', 'matador'
         ],
         phrases: [ // Phrase-level matches
@@ -43,7 +43,7 @@ class InternationalFalseFriendScanner {
       },
       italian: {
         direct: [],
-        contextual: ['matta', 'matto'], // Context-dependent  
+        contextual: ['matta', 'matto'], // Context-dependent
         phrases: []
       }
     };
@@ -81,13 +81,13 @@ class InternationalFalseFriendScanner {
     console.log('🌍 Scanning for international false friends...\n');
 
     const files = this.getFilesToScan();
-    
+
     for (const filePath of files) {
       await this.scanFile(filePath);
     }
 
     this.reportResults();
-    
+
     // Exit with error code if critical violations found
     if (this.violations.length > 0) {
       process.exit(1);
@@ -96,9 +96,9 @@ class InternationalFalseFriendScanner {
 
   getFilesToScan() {
     const files = [];
-    
+
     for (const pattern of this.scanPatterns) {
-      const matches = glob.sync(pattern, { 
+      const matches = glob.sync(pattern, {
         cwd: process.cwd(),
         ignore: ['**/node_modules/**', '**/.git/**']
       });
@@ -112,7 +112,7 @@ class InternationalFalseFriendScanner {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const relativePath = path.relative(process.cwd(), filePath);
-      
+
       // Detect language context from file path
       const language = this.detectLanguage(relativePath);
 
@@ -143,7 +143,7 @@ class InternationalFalseFriendScanner {
 
     // Check file extension/name
     if (filePath.includes('es.json')) return 'es';
-    if (filePath.includes('pt.json')) return 'pt'; 
+    if (filePath.includes('pt.json')) return 'pt';
     if (filePath.includes('fr.json')) return 'fr';
     if (filePath.includes('it.json')) return 'it';
 
@@ -155,11 +155,11 @@ class InternationalFalseFriendScanner {
     dictionary.direct?.forEach(term => {
       const pattern = new RegExp(`\\b${this.escapeRegex(term)}\\b`, 'gi');
       const matches = [...content.matchAll(pattern)];
-      
+
       matches.forEach(match => {
         const lineNumber = this.getLineNumber(content, match.index);
         const context = this.getContext(content, match.index, 50);
-        
+
         this.violations.push({
           file: filePath,
           line: lineNumber,
@@ -178,12 +178,12 @@ class InternationalFalseFriendScanner {
     dictionary.contextual?.forEach(term => {
       const pattern = new RegExp(`\\b${this.escapeRegex(term)}\\b`, 'gi');
       const matches = [...content.matchAll(pattern)];
-      
+
       matches.forEach(match => {
         const lineNumber = this.getLineNumber(content, match.index);
         const context = this.getContext(content, match.index, 100);
         const riskScore = this.assessContextualRisk(context, term, lang);
-        
+
         this.humanReviewRequired.push({
           file: filePath,
           line: lineNumber,
@@ -203,11 +203,11 @@ class InternationalFalseFriendScanner {
     dictionary.phrases?.forEach(phrase => {
       const pattern = new RegExp(this.escapeRegex(phrase), 'gi');
       const matches = [...content.matchAll(pattern)];
-      
+
       matches.forEach(match => {
         const lineNumber = this.getLineNumber(content, match.index);
         const context = this.getContext(content, match.index, 80);
-        
+
         this.humanReviewRequired.push({
           file: filePath,
           line: lineNumber,
@@ -234,9 +234,9 @@ class InternationalFalseFriendScanner {
 
     const indicators = riskIndicators[language] || [];
     const contextLower = context.toLowerCase();
-    
+
     let riskScore = 0.3; // Base risk
-    
+
     indicators.forEach(indicator => {
       if (contextLower.includes(indicator)) {
         riskScore += 0.2;
@@ -269,13 +269,13 @@ class InternationalFalseFriendScanner {
     if (this.humanReviewRequired.length === 0) return '';
 
     let report = '\n📋 Human Review Required:\n\n';
-    
+
     // Group by language
     const byLanguage = this.groupBy(this.humanReviewRequired, 'language');
-    
+
     Object.entries(byLanguage).forEach(([lang, items]) => {
       report += `### ${lang.toUpperCase()} Language:\n\n`;
-      
+
       items.forEach((item, index) => {
         report += `${index + 1}. **${item.file}:${item.line}**\n`;
         report += `   Term: "${item.term}"\n`;
@@ -303,7 +303,7 @@ class InternationalFalseFriendScanner {
     // Report critical violations
     if (this.violations.length > 0) {
       console.log(`❌ ${this.violations.length} Critical False Friend Violations:\n`);
-      
+
       this.violations.forEach((violation, index) => {
         console.log(`${index + 1}. ${violation.file}:${violation.line} (${violation.language})`);
         console.log(`   ❌ ${violation.message}`);
@@ -317,16 +317,16 @@ class InternationalFalseFriendScanner {
     // Report human review items
     if (this.humanReviewRequired.length > 0) {
       console.log(`⚠️  ${this.humanReviewRequired.length} Terms Require Human Review:\n`);
-      
+
       const byLanguage = this.groupBy(this.humanReviewRequired, 'language');
-      
+
       Object.entries(byLanguage).forEach(([lang, items]) => {
         console.log(`📍 ${lang.toUpperCase()}:`);
-        
+
         items.slice(0, 5).forEach(item => { // Show first 5 per language
           console.log(`   ${item.file}:${item.line} - "${item.term}" (${item.severity} risk)`);
         });
-        
+
         if (items.length > 5) {
           console.log(`   ... and ${items.length - 5} more`);
         }
@@ -341,7 +341,7 @@ class InternationalFalseFriendScanner {
       console.log('📋 Summary:');
       console.log(`   Critical violations: ${this.violations.length}`);
       console.log(`   Human review required: ${this.humanReviewRequired.length}`);
-      
+
       if (this.violations.length > 0) {
         console.log('\n🚫 Build blocked due to critical false friend violations.');
       }
@@ -354,7 +354,7 @@ class InternationalFalseFriendScanner {
     }
 
     console.log('🌍 International Brand Guidelines:');
-    console.log('   • Direct false friends block builds automatically');  
+    console.log('   • Direct false friends block builds automatically');
     console.log('   • Contextual matches require human editorial review');
     console.log('   • Consider cultural sensitivities in all languages');
     console.log('   • Maintain brand-safe terminology across locales');

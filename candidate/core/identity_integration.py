@@ -342,11 +342,11 @@ class ModuleIntegrationExamples:
 
     @staticmethod
     @require_identity(required_tier="LAMBDA_TIER_4")
-    def quantum_operation_example(user_id: str, quantum_like_state: Any):
+    def qi_operation_example(user_id: str, qi_like_state: Any):
         """Example of high-tier quantum operation."""
         logger.info(f"Performing quantum operation for user {user_id}")
         # Actual quantum operation would go here
-        return {"quantum_result": "entangled"}
+        return {"qi_result": "entangled"}
 
     @staticmethod
     def context_manager_example(user_id: str, data: dict[str, Any]):

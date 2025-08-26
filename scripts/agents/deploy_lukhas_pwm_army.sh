@@ -27,7 +27,7 @@ echo -e "${BLUE}📁 Verifying LUKHAS structure...${NC}"
 # Check critical directories exist
 REQUIRED_DIRS=(
     "core"
-    "memory" 
+    "memory"
     "consciousness"
     "identity"
     "governance"
@@ -78,9 +78,9 @@ if [ "$task_count" -gt 0 ]; then
     p0_count=$(grep -l '"priority": "P0"' .claude/tasks/real_consciousness_todos/*.json | wc -l)
     p1_count=$(grep -l '"priority": "P1"' .claude/tasks/real_consciousness_todos/*.json | wc -l)
     p2_count=$(grep -l '"priority": "P2"' .claude/tasks/real_consciousness_todos/*.json | wc -l)
-    
+
     echo -e "  🔥 P0 (Critical): ${RED}$p0_count${NC}"
-    echo -e "  ⭐ P1 (High): ${YELLOW}$p1_count${NC}"  
+    echo -e "  ⭐ P1 (High): ${YELLOW}$p1_count${NC}"
     echo -e "  📝 P2 (Medium): ${BLUE}$p2_count${NC}"
 fi
 
@@ -93,7 +93,7 @@ trinity_consciousness=$(find consciousness memory vivox -name "*.py" 2>/dev/null
 trinity_guardian=$(find governance ethics -name "*.py" 2>/dev/null | wc -l)
 
 echo -e "  ⚛️ Identity modules: ${GREEN}$trinity_identity${NC}"
-echo -e "  🧠 Consciousness modules: ${GREEN}$trinity_consciousness${NC}" 
+echo -e "  🧠 Consciousness modules: ${GREEN}$trinity_consciousness${NC}"
 echo -e "  🛡️ Guardian modules: ${GREEN}$trinity_guardian${NC}"
 
 echo ""

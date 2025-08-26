@@ -119,21 +119,21 @@ class FunctionScanner:
                 r"pattern_learning",
             ],
             # Quantum & Advanced Processing
-            "quantum_processor": [
-                r"quantum.*process",
+            "qi_processor": [
+                r"qi.*process",
                 r"entanglement",
                 r"superposition",
-                r"quantum_neuro",
+                r"qi_neuro",
             ],
-            "quantum_consensus": [
-                r"quantum_consensus",
+            "qi_consensus": [
+                r"qi_consensus",
                 r"annealed_consensus",
-                r"quantum_ethical",
+                r"qi_ethical",
             ],
             "bio_oscillator": [
                 r"bio_oscillator",
                 r"emotional_oscillator",
-                r"quantum_oscillator",
+                r"qi_oscillator",
             ],
             # Bio & Symbolic Systems
             "bio_systems": [

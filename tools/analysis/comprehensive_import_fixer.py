@@ -55,7 +55,7 @@ class ImportErrorFixer:
             "memory.core": "from lukhas.memory.core import",
             "consciousness.unified": "from lukhas.consciousness.unified import",
             "governance.guardian_system": "from lukhas.governance.guardian_system import",
-            "quantum.algorithms": "from lukhas.qi.algorithms import",
+            "qi.algorithms": "from lukhas.qi.algorithms import",
             "orchestration.brain": "from lukhas.orchestration.brain import",
             # Interface fixes
             "core.interfaces": "from core.interfaces import",

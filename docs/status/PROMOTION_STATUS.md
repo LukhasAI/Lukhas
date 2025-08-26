@@ -3,8 +3,8 @@
 ## ✅ Completed Promotions
 
 ### 1. Consent Ledger (2025-08-22)
-- **Branch**: `promote/consent-ledger` 
-- **Files Promoted**: 
+- **Branch**: `promote/consent-ledger`
+- **Files Promoted**:
   - `candidate/governance/consent_ledger/ledger_v1.py` → `lukhas/governance/consent_ledger_impl.py`
 - **Capabilities Added**:
   - `consent:record` - Record GDPR-compliant consent
@@ -33,12 +33,12 @@
 
 ## 📊 Migration Progress
 
-- **Nucleus (lukhas/)**: 
+- **Nucleus (lukhas/)**:
   - 5 modules (core, governance, identity, observability, orchestration)
   - 17 files total
   - All with MATRIZ instrumentation
-  
-- **Staged (candidate/)**: 
+
+- **Staged (candidate/)**:
   - 33 top-level directories
   - 2,171+ files
   - Awaiting capability-based promotion

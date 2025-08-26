@@ -405,7 +405,7 @@ security-comprehensive-scan:
 	@echo "Running Safety CLI scan..."
 	@safety scan --output json --save-json security-reports/safety-scan.json 2>/dev/null || echo "Safety scan completed with issues"
 	@echo "Running pip-audit..."
-	@pip-audit --format json --output security-reports/pip-audit.json 2>/dev/null || echo "pip-audit completed with issues" 
+	@pip-audit --format json --output security-reports/pip-audit.json 2>/dev/null || echo "pip-audit completed with issues"
 	@echo "Running Bandit security scan..."
 	@bandit -r . -f json -o security-reports/bandit.json -x .venv,venv,node_modules,.git 2>/dev/null || echo "Bandit scan completed"
 	@echo "Running Ollama analysis..."

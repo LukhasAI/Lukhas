@@ -62,14 +62,14 @@ const EMAIL_RATE_LIMITS = {
     maxAttempts: 3,
     blockDurationMs: 60 * 60 * 1000 // 1 hour block
   },
-  
+
   // Per IP address
   perIP: {
     windowMs: 60 * 60 * 1000, // 1 hour
     maxAttempts: 5,
     blockDurationMs: 60 * 60 * 1000 // 1 hour block
   },
-  
+
   // Global rate limit
   global: {
     windowMs: 60 * 1000, // 1 minute
@@ -137,16 +137,16 @@ const generateMagicToken = (): string => {
   const timestamp = Date.now().toString();
   const random = crypto.randomBytes(32).toString('hex');
   const fingerprint = hashFingerprint(ip, userAgent);
-  
+
   return jwt.sign(
-    { 
+    {
       type: 'magic_link',
       timestamp,
       fingerprint,
-      random 
+      random
     },
     JWT_SECRET,
-    { 
+    {
       expiresIn: '10m',
       issuer: 'lukhas.ai',
       audience: 'lukhas.ai'
@@ -196,7 +196,7 @@ const handleBounce = async (bounceEvent: BounceEvent) => {
   if (BOUNCE_TYPES.HARD_BOUNCE.includes(bounceEvent.type)) {
     await markEmailAsInvalid(bounceEvent.email);
   }
-  
+
   if (bounceEvent.type === 'spam_complaint') {
     await addToSuppressionList(bounceEvent.email);
   }

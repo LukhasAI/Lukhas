@@ -269,7 +269,7 @@ def main():
     # Test content transformation
     test_content = """
     # Memory System
-    
+
     This system stores user data and retrieves information when needed.
     The process function analyzes input and calculates the probability of success.
     """

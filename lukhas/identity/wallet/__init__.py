@@ -3,10 +3,10 @@ LUKHAS AI - WALLET Integration Bridge
 Production integration for WALLET identity management components
 """
 
+import logging
 import sys
 from pathlib import Path
-from typing import Dict, Any, Optional
-import logging
+from typing import Any, Dict, Optional
 
 # Import WALLET components
 WALLET_PATH = Path(__file__).parent.parent.parent / "lambda_products_pack" / "lambda_core" / "WALLET"
@@ -15,14 +15,14 @@ sys.path.insert(0, str(WALLET_PATH))
 class WalletAuthBridge:
     """
     Bridge between LUKHAS Authentication System and WALLET components
-    
+
     Integrates:
     - identity_manager.py: Core identity management
     - symbolic_vault.py: Symbolic identity storage
     - wallet_core.py: Wallet authentication core
-    - quantum_identity_core.py: QI identity processing
+    - qi_identity_core.py: QI identity processing
     """
-    
+
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self._identity_manager = None
@@ -30,27 +30,27 @@ class WalletAuthBridge:
         self._wallet_core = None
         self._qi_identity_core = None
         self._initialized = False
-    
+
     async def initialize(self):
         """Initialize WALLET components"""
         if self._initialized:
             return
-            
+
         try:
             # Load WALLET components dynamically
             await self._load_wallet_components()
             self._initialized = True
             self.logger.info("WALLET authentication bridge initialized")
-            
+
         except Exception as e:
             self.logger.error("WALLET bridge initialization failed: %s", e)
             raise
-    
+
     async def authenticate_identity(self, credentials: Dict[str, Any]) -> Dict[str, Any]:
         """Authenticate using WALLET identity management"""
         if not self._initialized:
             await self.initialize()
-            
+
         try:
             # Use WALLET identity manager for authentication
             result = {
@@ -60,13 +60,13 @@ class WalletAuthBridge:
                 'qi_identity_processed': True,
                 'wallet_authenticated': True
             }
-            
+
             return result
-            
+
         except Exception as e:
             self.logger.error("WALLET authentication failed: %s", e)
             return {'success': False, 'error': str(e)}
-    
+
     async def _load_wallet_components(self):
         """Load WALLET components"""
         # Components will be loaded dynamically when available

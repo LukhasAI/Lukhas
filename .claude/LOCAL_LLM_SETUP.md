@@ -1,7 +1,7 @@
 # 🤖 Local LLM Setup Guide for Claude Code
 
-**Date**: August 22, 2025  
-**System**: M4 MacBook Air  
+**Date**: August 22, 2025
+**System**: M4 MacBook Air
 **Project**: LUKHAS AI Development
 
 ## 🎯 Available Local Models
@@ -16,7 +16,7 @@ After cleanup and optimization, we have **2 models** perfectly sized for M4 MacB
 - **API**: `http://localhost:11434/api/generate` (when running)
 
 ### 2. **Llama 3.2 1B** (Lightweight Assistant)
-- **Size**: 1.3GB  
+- **Size**: 1.3GB
 - **Purpose**: Quick responses, lightweight tasks, testing, conversations
 - **Strengths**: Fast inference, low memory usage, general assistance
 - **Command**: `ollama run llama3.2:1b`
@@ -76,7 +76,7 @@ When Claude Code needs local LLM assistance:
 # For coding tasks
 ollama run deepseek-coder:6.7b "Optimize this Python function: [paste code]"
 
-# For quick questions  
+# For quick questions
 ollama run llama3.2:1b "Explain this concept briefly"
 ```
 
@@ -114,7 +114,7 @@ def query_local_llm(prompt, model="deepseek-coder:6.7b"):
 
 2. **Use Llama 3.2 for**:
    - Quick clarifications
-   - Planning sessions  
+   - Planning sessions
    - Simple explanations
    - Testing ideas
 

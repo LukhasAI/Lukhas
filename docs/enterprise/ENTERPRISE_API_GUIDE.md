@@ -47,22 +47,22 @@ API Specification:
     Production: https://api.lukhas.ai/v2
     Research: https://research.lukhas.ai/v2
     Development: https://dev.lukhas.ai/v2
-  
+
   Protocols:
     - HTTPS (TLS 1.3 minimum)
     - WebSocket Secure (WSS)
     - gRPC (for internal services)
-  
+
   Content Types:
     - application/json (default)
     - application/msgpack (binary optimization)
     - application/x-protobuf (gRPC)
-  
+
   Rate Limits:
     Free Tier: 1,000 requests/hour
     Pro Tier: 100,000 requests/hour
     Enterprise: Unlimited (with fair use)
-  
+
   Authentication:
     - Bearer tokens (JWT)
     - API keys (for simple integrations)
@@ -118,15 +118,15 @@ Authentication implements defense-in-depth with multiple verification layers:
 class AuthenticationFramework:
     """
     Multi-Factor Authentication Flow:
-    
+
     1. API Key Authentication (Simple)
        Headers: X-API-Key: <key>
        Validation: HMAC-SHA256(key, timestamp)
        Rate limiting: Per-key quotas
-    
+
     2. JWT Bearer Tokens (Standard)
        Headers: Authorization: Bearer <token>
-       
+
        Token Structure:
        {
          "alg": "RS256",
@@ -140,10 +140,10 @@ class AuthenticationFramework:
          "scope": ["feedback.write", "insights.read"],
          "clearance": "CONFIDENTIAL"
        }.<signature>
-    
+
     3. OAuth 2.0 Flow (Delegated)
        Authorization Code + PKCE:
-       
+
        Step 1: Redirect to authorize
        GET /oauth/authorize?
          client_id=xxx&
@@ -152,7 +152,7 @@ class AuthenticationFramework:
          scope=feedback.write+insights.read&
          code_challenge=xxx&
          code_challenge_method=S256
-       
+
        Step 2: Exchange code for token
        POST /oauth/token
        {
@@ -160,7 +160,7 @@ class AuthenticationFramework:
          "code": "xxx",
          "code_verifier": "xxx"
        }
-    
+
     4. Mutual TLS (Enterprise)
        Client certificate required
        Certificate pinning enabled
@@ -173,7 +173,7 @@ Token Validation Pipeline:
 async def validate_request(request: Request) -> SecurityContext:
     """
     Comprehensive request validation:
-    
+
     1. Extract credentials
     2. Verify signature/certificate
     3. Check expiration
@@ -182,7 +182,7 @@ async def validate_request(request: Request) -> SecurityContext:
     6. Check security clearance
     7. Create security context
     """
-    
+
     # Extract auth method
     if auth_header := request.headers.get("Authorization"):
         if auth_header.startswith("Bearer "):
@@ -255,7 +255,7 @@ The feedback endpoints implement a multi-modal ingestion system with real-time p
 class FeedbackEndpoints:
     """
     POST /v2/feedback - Unified Feedback Endpoint
-    
+
     Request Schema:
     {
       "user_id": "string (optional if auth token)",
@@ -275,7 +275,7 @@ class FeedbackEndpoints:
         "region": "eu|us|asia|global"
       }
     }
-    
+
     Response Schema:
     {
       "feedback_id": "string",
@@ -295,7 +295,7 @@ class FeedbackEndpoints:
       },
       "warnings": []
     }
-    
+
     Error Responses:
     400 Bad Request: {
       "error": "validation_error",
@@ -303,11 +303,11 @@ class FeedbackEndpoints:
         "field": "message about issue"
       }
     }
-    
+
     401 Unauthorized: {
       "error": "authentication_required"
     }
-    
+
     429 Too Many Requests: {
       "error": "rate_limit_exceeded",
       "retry_after": seconds
@@ -352,27 +352,27 @@ Advanced Features:
 class FeedbackProcessingPipeline:
     """
     Real-time Processing Pipeline:
-    
+
     1. Input Validation
        - Schema validation (JSONSchema)
        - Content security check
        - Rate limit verification
-    
+
     2. Enrichment
        - Geolocation (IP-based)
        - User agent parsing
        - Session continuity
-    
+
     3. Constitutional Check
        - Principle validation
        - Threat detection
        - Privacy verification
-    
+
     4. Processing Router
        - Tier assignment
        - Queue selection
        - Priority calculation
-    
+
     5. Response Generation
        - Tracking ID creation
        - Estimation calculation
@@ -427,7 +427,7 @@ Intelligence endpoints implement sophisticated analytics with real-time and batc
 class IntelligenceEndpoints:
     """
     GET /v2/intelligence/global - Global Intelligence Summary
-    
+
     Response Schema:
     {
       "timestamp": "ISO 8601",
@@ -460,7 +460,7 @@ class IntelligenceEndpoints:
         }
       ]
     }
-    
+
     Query Parameters:
     - region: Filter by geographic region
     - demographic: Filter by user segment
@@ -473,24 +473,24 @@ Advanced Analytics:
 class TrendAnalysisEngine:
     """
     GET /v2/intelligence/trends
-    
+
     Implements multiple trend detection algorithms:
-    
+
     1. Burst Detection (Kleinberg's algorithm):
        - Identifies sudden increases in term frequency
        - Adapts to different time scales
        - Filters noise from genuine trends
-    
+
     2. Topic Evolution (Dynamic Topic Models):
        - Tracks how topics change over time
        - Identifies topic birth, growth, decay
        - Maps topic relationships
-    
+
     3. Sentiment Trajectory:
        - Polynomial regression on sentiment time series
        - Confidence intervals using bootstrap
        - Anomaly detection for sudden shifts
-    
+
     Response includes:
     {
       "trends": [
@@ -517,13 +517,13 @@ Predictive Endpoints:
 class PredictiveAnalytics:
     """
     GET /v2/intelligence/predictions
-    
+
     Forecasting Models:
-    
+
     1. Short-term (1-7 days): ARIMA + Neural Prophet
     2. Medium-term (1-4 weeks): LSTM with attention
     3. Long-term (1-3 months): Scenario modeling
-    
+
     Response Schema:
     {
       "predictions": [
@@ -607,14 +607,14 @@ Security endpoints provide comprehensive security management and monitoring:
 class SecurityEndpoints:
     """
     POST /v2/security/session - Create Secure Session
-    
+
     Request:
     {
       "auth_factors": ["password", "totp", "biometric"],
       "device_fingerprint": "string",
       "client_certificate": "PEM encoded (optional)"
     }
-    
+
     Response:
     {
       "session_id": "string",
@@ -630,7 +630,7 @@ class SecurityEndpoints:
         "key_rotation_interval": 3600
       }
     }
-    
+
     Security Features:
     - Mutual TLS support
     - Perfect forward secrecy
@@ -644,7 +644,7 @@ Threat Monitoring:
 class ThreatMonitoringAPI:
     """
     GET /v2/security/threats - Real-time Threat Intelligence
-    
+
     Response:
     {
       "threat_level": "low|medium|high|critical",
@@ -684,13 +684,13 @@ Blockchain Audit Access:
 class BlockchainAuditAPI:
     """
     GET /v2/security/audit - Blockchain Audit Trail
-    
+
     Query Parameters:
     - start_block: Starting block number
     - end_block: Ending block number
     - filter: Filter by event type
     - verify: Include verification proofs
-    
+
     Response:
     {
       "blocks": [
@@ -773,13 +773,13 @@ WebSocket implementation provides low-latency, bidirectional communication:
 class WebSocketProtocol:
     """
     WebSocket Endpoint: wss://api.lukhas.ai/v2/streams
-    
+
     Connection Protocol:
     1. Upgrade HTTP to WebSocket
     2. Authenticate with token
     3. Subscribe to channels
     4. Receive real-time updates
-    
+
     Message Format:
     {
       "id": "message_id",
@@ -788,7 +788,7 @@ class WebSocketProtocol:
       "data": {...},
       "timestamp": "ISO 8601"
     }
-    
+
     Subscription Management:
     {
       "type": "subscribe",
@@ -811,27 +811,27 @@ Stream Channels:
 class StreamChannels:
     """
     Available Channels:
-    
+
     1. feedback - Real-time feedback stream
        Data includes: feedback_id, type, content, sentiment
        Filters: type, region, sentiment, user_segment
-    
+
     2. intelligence - Analytics updates
        Sub-channels:
        - intelligence.sentiment - Global sentiment changes
        - intelligence.trends - Emerging trend alerts
        - intelligence.predictions - Forecast updates
-    
+
     3. security - Security events
        Sub-channels:
        - security.threats - Active threat detection
        - security.audit - Audit trail events
        - security.anomalies - Unusual patterns
-    
+
     4. alerts - Critical notifications
        Priority levels: low, medium, high, critical
        Types: system, security, intelligence, feedback
-    
+
     5. metrics - System performance
        Updates: qps, latency, error_rate, saturation
     """
@@ -842,27 +842,27 @@ Advanced Streaming Features:
 class StreamingOptimizations:
     """
     Performance Optimizations:
-    
+
     1. Message Compression
        - Automatic gzip for messages > 1KB
        - MessagePack for binary efficiency
        - Delta encoding for time series
-    
+
     2. Backpressure Handling
        - Client acknowledgment required
        - Automatic rate adjustment
        - Buffer overflow protection
-    
+
     3. Reconnection Strategy
        - Exponential backoff
        - Message replay from last ACK
        - State synchronization
-    
+
     4. Subscription Efficiency
        - Server-side filtering
        - Aggregation windows
        - Sampling for high-volume streams
-    
+
     Example - Aggregated Stream:
     {
       "type": "subscribe",
@@ -919,9 +919,9 @@ class ErrorResponses:
         "help": "Documentation link"
       }
     }
-    
+
     Common Error Codes:
-    
+
     4xx Client Errors:
     - INVALID_REQUEST: Malformed request
     - AUTHENTICATION_REQUIRED: Missing auth
@@ -929,7 +929,7 @@ class ErrorResponses:
     - RATE_LIMIT_EXCEEDED: Too many requests
     - CONSTITUTIONAL_VIOLATION: Failed safety check
     - INVALID_CONTENT: Content validation failed
-    
+
     5xx Server Errors:
     - INTERNAL_ERROR: Something went wrong
     - SERVICE_UNAVAILABLE: Temporary outage

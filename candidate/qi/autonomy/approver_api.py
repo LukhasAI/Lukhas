@@ -1,18 +1,19 @@
 # path: qi/autonomy/approver_api.py
 from __future__ import annotations
-import os, json
-from typing import Optional
-from fastapi import FastAPI, HTTPException, Query, Header
-from fastapi.responses import JSONResponse
 
 # Safe I/O (avoid sandbox recursion)
 import builtins
+import os
+from typing import Optional
+
+from fastapi import FastAPI, Header, HTTPException, Query
+
 _ORIG_OPEN = builtins.open
 
-from qi.autonomy.self_healer import (
-    list_proposals, approve as _approve, reject as _reject, apply as _apply,
-    observe_signals, plan_proposals
-)
+from qi.autonomy.self_healer import apply as _apply
+from qi.autonomy.self_healer import approve as _approve
+from qi.autonomy.self_healer import list_proposals, observe_signals, plan_proposals
+from qi.autonomy.self_healer import reject as _reject
 
 API = FastAPI(title="Lukhas • Approver UI", version="1.0.0")
 TOKEN = os.environ.get("AUTONOMY_API_TOKEN")  # optional bearer/token
@@ -26,7 +27,7 @@ def healthz(): return {"ok": True}
 
 @API.get("/proposals")
 def api_list_proposals(x_auth_token: Optional[str] = Header(None)):
-    _auth(x_auth_token); 
+    _auth(x_auth_token)
     return {"items": list_proposals()}
 
 @API.post("/proposals/plan")

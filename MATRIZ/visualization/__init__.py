@@ -11,14 +11,14 @@ Classes:
 
 Example:
     from visualization import MATRIZGraphViewer
-    
+
     viewer = MATRIZGraphViewer(width=1200, height=800)
     viewer.add_node(matriz_node_data)
     fig = viewer.create_interactive_plot()
     fig.show()
 """
 
-from .graph_viewer import MATRIZGraphViewer, NodeTypeConfig, LinkTypeConfig
+from .graph_viewer import LinkTypeConfig, MATRIZGraphViewer, NodeTypeConfig
 
 __all__ = ['MATRIZGraphViewer', 'NodeTypeConfig', 'LinkTypeConfig']
 __version__ = '1.0.0'

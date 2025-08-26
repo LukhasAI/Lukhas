@@ -17,7 +17,7 @@ endpoints:
       - allowed: boolean
       - consent_id: string
       - require_step_up: boolean
-  
+
   log_audit_event:
     method: POST
     path: /audit/log
@@ -30,7 +30,7 @@ endpoints:
     output:
       - trace_id: string  # Λ-trace
       - timestamp: ISO8601
-  
+
   validate_policy:
     method: POST
     path: /policy/validate

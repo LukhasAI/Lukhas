@@ -26,7 +26,7 @@ export class ConfigurationManager {
 
     public getConfiguration(): HookConfiguration {
         const vscodeConfig = vscode.workspace.getConfiguration(ConfigurationManager.CONFIG_KEY);
-        
+
         // Load from VS Code settings with defaults
         const defaultConfig: HookConfiguration = {
             mode: 'interactive',
@@ -40,7 +40,7 @@ export class ConfigurationManager {
 
         // Merge with workspace file config if exists
         const workspaceConfig = this.loadWorkspaceConfig();
-        
+
         return {
             mode: vscodeConfig.get('mode', workspaceConfig?.mode || defaultConfig.mode),
             autoRunOnSave: vscodeConfig.get('autoRunOnSave', workspaceConfig?.autoRunOnSave || defaultConfig.autoRunOnSave),
@@ -54,7 +54,7 @@ export class ConfigurationManager {
 
     public async saveConfiguration(config: Partial<HookConfiguration>): Promise<void> {
         const vscodeConfig = vscode.workspace.getConfiguration(ConfigurationManager.CONFIG_KEY);
-        
+
         // Save to VS Code settings
         for (const [key, value] of Object.entries(config)) {
             await vscodeConfig.update(key, value, vscode.ConfigurationTarget.Workspace);
@@ -68,7 +68,7 @@ export class ConfigurationManager {
 
     public async resetConfiguration(): Promise<void> {
         const vscodeConfig = vscode.workspace.getConfiguration(ConfigurationManager.CONFIG_KEY);
-        
+
         // Reset all settings
         const keys = ['mode', 'autoRunOnSave', 'enableNotifications', 'backupOriginalFiles', 'maxFileSize', 'timeoutSeconds', 'enabledHooks'];
         for (const key of keys) {
@@ -129,7 +129,7 @@ export class ConfigurationManager {
     public async toggleHook(hookName: string): Promise<void> {
         const config = this.getConfiguration();
         const enabledHooks = [...config.enabledHooks];
-        
+
         const index = enabledHooks.indexOf(hookName);
         if (index >= 0) {
             enabledHooks.splice(index, 1);

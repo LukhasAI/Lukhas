@@ -36,7 +36,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # Try to import available components
 try:
-    from candidate.orchestration.brain.attention.quantum_attention import QuantumInspiredAttention
+    from candidate.orchestration.brain.attention.qi_attention import QIInspiredAttention
 
     QUANTUM_ATTENTION_AVAILABLE = True
 except ImportError:
@@ -57,7 +57,9 @@ except ImportError:
     SYMBOLIC_REASONING_AVAILABLE = False
 
 try:
-    from candidate.orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
+    from candidate.orchestration.agents.MetaCognitiveOrchestrator import (
+        MetaCognitiveOrchestrator,
+    )
 
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:
@@ -79,7 +81,9 @@ except ImportError:
     DREAMS_AVAILABLE = False
 
 try:
-    from candidate.orchestration.brain.visualization.golden_healix_mapper import GoldenHelixMapper
+    from candidate.orchestration.brain.visualization.golden_healix_mapper import (
+        GoldenHelixMapper,
+    )
 
     HEALIX_AVAILABLE = True
 except ImportError:
@@ -148,7 +152,7 @@ class NeuralIntelligenceSystem:
 
         # Initialize components that are available
         if QUANTUM_ATTENTION_AVAILABLE:
-            self.attention_mechanism = QuantumInspiredAttention()
+            self.attention_mechanism = QIInspiredAttention()
         else:
             self.attention_mechanism = None
             logger.warning("Quantum attention not available")

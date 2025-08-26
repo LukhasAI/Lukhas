@@ -171,7 +171,7 @@ from lambda_products import NIΛS, ΛBAS, DΛST, ΛLens, WΛLLET
 
 # Initialize integrated system
 nias = NIΛS()  # Message filtering
-abas = ΛBAS()  # Attention management  
+abas = ΛBAS()  # Attention management
 dast = DΛST()  # Context tracking
 lens = ΛLens() # Content analysis
 wallet = WΛLLET() # Identity management
@@ -203,7 +203,7 @@ else:
 
 ### New Market Categories
 - **Conscious Communication** (NIΛS): $85M - Advanced consent-based messaging
-- **Attention Management** (ΛBAS): $75M - Enterprise cognitive boundary protection  
+- **Attention Management** (ΛBAS): $75M - Enterprise cognitive boundary protection
 - **Context Intelligence** (DΛST): $65M - Real-time symbolic activity tracking
 
 ## 🤝 Partnership Opportunities

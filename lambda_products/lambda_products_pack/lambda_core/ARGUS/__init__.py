@@ -198,7 +198,7 @@ import asyncio
 async def main():
     # Create signal bus (or get from existing LUKHAS system)
     signal_bus = SignalBus()
-    
+
     # Start the complete monitoring system
     monitoring_system = await start_complete_monitoring_system(
         signal_bus,
@@ -209,27 +209,27 @@ async def main():
             "auto_adaptation": True
         }
     )
-    
+
     # System is now running with:
     # - Hormone level monitoring and plasticity triggers
     # - Bio-symbolic coherence tracking
-    # - Adaptive metrics collection with context awareness  
+    # - Adaptive metrics collection with context awareness
     # - Predictive dashboard with hormone-driven insights
     # - Neuroplastic learning and adaptation
     # - Full integration with existing LUKHAS systems
-    
+
     # Get system status
     status = monitoring_system.get_system_status()
     print(f"System Health: {status['health']['overall']:.2f}")
     print(f"Risk Level: {status['health']['risk_level']}")
-    
+
     # Get recent insights
     insights = monitoring_system.get_unified_insights(limit=5)
     print(f"Recent Insights: {len(insights)}")
-    
+
     # Run for demonstration
     await asyncio.sleep(60)
-    
+
     # Stop monitoring
     await monitoring_system.stop_monitoring()
 

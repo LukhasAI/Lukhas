@@ -56,10 +56,10 @@ export default function RootLayout({
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#2563EB_0%,_transparent_70%)] opacity-10" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_#7C3AED_0%,_transparent_70%)] opacity-10" />
             </div>
-            
+
             {/* VignetteOverlay for Dream Weaver effects */}
             <ContextualVignetteOverlay />
-            
+
             {/* Main content */}
             {children}
           </div>

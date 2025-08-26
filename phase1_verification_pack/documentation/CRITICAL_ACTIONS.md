@@ -6,7 +6,7 @@ The following API keys were previously exposed in the repository and MUST be rot
 
 ### 1. OpenAI API Key
 - **Provider**: https://platform.openai.com/api-keys
-- **Action**: 
+- **Action**:
   1. Log into OpenAI platform
   2. Revoke the exposed key starting with `sk-proj-m2WLTymv8xlc...`
   3. Generate new API key

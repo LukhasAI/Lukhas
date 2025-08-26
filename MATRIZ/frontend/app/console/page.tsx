@@ -4,8 +4,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Terminal, Database, GitBranch, Shield, Brain, Cpu, 
+import {
+  Terminal, Database, GitBranch, Shield, Brain, Cpu,
   Globe, Book, Github, ExternalLink, Lock, Zap,
   Activity, Users, Code, Cloud
 } from 'lucide-react'
@@ -191,10 +191,10 @@ export default function ConsolePage() {
               <div className="bg-black/50 rounded-lg p-6 font-mono text-sm">
                 <div className="text-neutral-gray mb-2"># Install LUKHAS CLI</div>
                 <div className="text-green-500 mb-4">npm install -g @lukhas/cli</div>
-                
+
                 <div className="text-neutral-gray mb-2"># Initialize a new project</div>
                 <div className="text-green-500 mb-4">lukhas init my-consciousness-app</div>
-                
+
                 <div className="text-neutral-gray mb-2"># Start development server</div>
                 <div className="text-green-500">lukhas dev</div>
               </div>
@@ -255,7 +255,7 @@ export default function ConsolePage() {
                   <span className="text-xs text-neutral-gray uppercase">Live</span>
                 </div>
               </div>
-              
+
               <div className="grid md:grid-cols-3 gap-6">
                 <div>
                   <div className="text-xs font-regular uppercase tracking-wider text-neutral-gray mb-2">
@@ -266,7 +266,7 @@ export default function ConsolePage() {
                     <div className="h-full bg-gradient-to-r from-trinity-identity to-trinity-consciousness" style={{ width: '75%' }} />
                   </div>
                 </div>
-                
+
                 <div>
                   <div className="text-xs font-regular uppercase tracking-wider text-neutral-gray mb-2">
                     Memory Usage
@@ -276,7 +276,7 @@ export default function ConsolePage() {
                     <div className="h-full bg-gradient-to-r from-trinity-consciousness to-trinity-guardian" style={{ width: '64.3%' }} />
                   </div>
                 </div>
-                
+
                 <div>
                   <div className="text-xs font-regular uppercase tracking-wider text-neutral-gray mb-2">
                     Guardian Score

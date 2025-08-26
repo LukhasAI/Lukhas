@@ -43,15 +43,15 @@ class EnhancedMemoryManager:
             "Default MemoryFoldConfig and VisualizationConfig initialized."
         )
         try:
-            self.quantum_oscillator = QuantumOscillator()
-            self.logger.debug("QuantumOscillator initialized for MemoryManager.")
+            self.qi_oscillator = QIOscillator()
+            self.logger.debug("QIOscillator initialized for MemoryManager.")
         except Exception as e_init:
             self.logger.error(
-                "Error initializing QuantumOscillator in MemoryManager",
+                "Error initializing QIOscillator in MemoryManager",
                 error=str(e_init),
                 exc_info=True,
             )
-            self.quantum_oscillator = None
+            self.qi_oscillator = None
         self.base_path = (
             Path(base_path)
             if base_path
@@ -117,8 +117,8 @@ class EnhancedMemoryManager:
             return {
                 "status": "success",
                 "memory_id": effective_memory_id,
-                "quantum_like_state_summary": stored_package.get("metadata", {}).get(
-                    "quantum_like_state", "N/A"
+                "qi_like_state_summary": stored_package.get("metadata", {}).get(
+                    "qi_like_state", "N/A"
                 ),
             }
         except Exception as e:
@@ -156,9 +156,9 @@ class EnhancedMemoryManager:
                 disk_data_package = await self._load_from_disk(memory_id)
                 memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
-                memory_fold.state["quantum_like_state"] = disk_data_package.get(
+                memory_fold.state["qi_like_state"] = disk_data_package.get(
                     "metadata", {}
-                ).get("quantum_like_state")
+                ).get("qi_like_state")
                 memory_fold.state["entanglements"] = set(
                     disk_data_package.get("metadata", {}).get("entanglements", [])
                 )
@@ -391,15 +391,15 @@ class EnhancedMemoryManager:
             "Default MemoryFoldConfig and VisualizationConfig initialized."
         )
         try:
-            self.quantum_oscillator = QuantumOscillator()
-            self.logger.debug("QuantumOscillator initialized for MemoryManager.")
+            self.qi_oscillator = QIOscillator()
+            self.logger.debug("QIOscillator initialized for MemoryManager.")
         except Exception as e_init:
             self.logger.error(
-                "Error initializing QuantumOscillator in MemoryManager",
+                "Error initializing QIOscillator in MemoryManager",
                 error=str(e_init),
                 exc_info=True,
             )
-            self.quantum_oscillator = None
+            self.qi_oscillator = None
         self.base_path = (
             Path(base_path)
             if base_path
@@ -465,8 +465,8 @@ class EnhancedMemoryManager:
             return {
                 "status": "success",
                 "memory_id": effective_memory_id,
-                "quantum_like_state_summary": stored_package.get("metadata", {}).get(
-                    "quantum_like_state", "N/A"
+                "qi_like_state_summary": stored_package.get("metadata", {}).get(
+                    "qi_like_state", "N/A"
                 ),
             }
         except Exception as e:
@@ -504,9 +504,9 @@ class EnhancedMemoryManager:
                 disk_data_package = await self._load_from_disk(memory_id)
                 memory_fold = EnhancedMemoryFold(memory_id, self.memory_fold_config)
                 memory_fold.state["classical_state"] = disk_data_package.get("data")
-                memory_fold.state["quantum_like_state"] = disk_data_package.get(
+                memory_fold.state["qi_like_state"] = disk_data_package.get(
                     "metadata", {}
-                ).get("quantum_like_state")
+                ).get("qi_like_state")
                 memory_fold.state["entanglements"] = set(
                     disk_data_package.get("metadata", {}).get("entanglements", [])
                 )
@@ -739,18 +739,18 @@ class QIMemoryManager(BaseMemoryManager):
     ):
         """Initialize quantum memory manager."""
         super().__init__(config, base_path)
-        self.quantum_config = {
+        self.qi_config = {
             "coherence_threshold": 0.7,
             "entanglement_strength": 0.5,
             "superposition_limit": 8,
             "decoherence_rate": 0.01,
             **self.config.get("quantum", {}),
         }
-        self.quantum_like_states: dict[str, dict[str, Any]] = {}
+        self.qi_like_states: dict[str, dict[str, Any]] = {}
         self.entanglements: dict[str, set[str]] = {}
         self.coherence_scores: dict[str, float] = {}
         self.logger.info(
-            "QIMemoryManager initialized", quantum_config=self.quantum_config
+            "QIMemoryManager initialized", qi_config=self.qi_config
         )
 
     async def store(
@@ -767,12 +767,12 @@ class QIMemoryManager(BaseMemoryManager):
         if not memory_id:
             memory_id = self.generate_memory_id("qmem")
         try:
-            quantum_like_state = self._initialize_quantum_like_state(memory_data)
-            self.quantum_like_states[memory_id] = quantum_like_state
+            qi_like_state = self._initialize_quantum_like_state(memory_data)
+            self.qi_like_states[memory_id] = qi_like_state
             self.coherence_scores[memory_id] = 1.0
             enhanced_metadata = {
                 **(metadata or {}),
-                "quantum_like_state": quantum_like_state,
+                "qi_like_state": qi_like_state,
                 "coherence": 1.0,
                 "created_at": datetime.now(timezone.utc).isoformat(),
             }
@@ -780,7 +780,7 @@ class QIMemoryManager(BaseMemoryManager):
                 "data": memory_data,
                 "metadata": enhanced_metadata,
                 "quantum": {
-                    "state": quantum_like_state,
+                    "state": qi_like_state,
                     "entanglements": [],
                     "coherence_history": [1.0],
                 },
@@ -790,12 +790,12 @@ class QIMemoryManager(BaseMemoryManager):
             self.logger.info(
                 "Quantum memory stored",
                 memory_id=memory_id,
-                quantum_dimensions=quantum_like_state.get("dimensions"),
+                qi_dimensions=qi_like_state.get("dimensions"),
             )
             return {
                 "status": "success",
                 "memory_id": memory_id,
-                "quantum_like_state": quantum_like_state,
+                "qi_like_state": qi_like_state,
                 "coherence": 1.0,
             }
         except Exception as e:
@@ -815,12 +815,12 @@ class QIMemoryManager(BaseMemoryManager):
         try:
             memory_package = self._load_from_disk(memory_id)
             coherence = self._apply_decoherence(memory_id)
-            if memory_id not in self.quantum_like_states:
-                self.quantum_like_states[memory_id] = memory_package["quantum"]["state"]
+            if memory_id not in self.qi_like_states:
+                self.qi_like_states[memory_id] = memory_package["quantum"]["state"]
                 self.coherence_scores[memory_id] = coherence
             if context and context.get("collapse_superposition"):
                 memory_data = self._collapse_superposition(
-                    memory_package["data"], self.quantum_like_states[memory_id]
+                    memory_package["data"], self.qi_like_states[memory_id]
                 )
             else:
                 memory_data = memory_package["data"]
@@ -854,9 +854,9 @@ class QIMemoryManager(BaseMemoryManager):
             if current["status"] == "error":
                 return current
             updated_data = {**current["data"], **updates} if merge else updates
-            if memory_id in self.quantum_like_states:
-                self.quantum_like_states[memory_id] = self._evolve_quantum_like_state(
-                    self.quantum_like_states[memory_id], updates
+            if memory_id in self.qi_like_states:
+                self.qi_like_states[memory_id] = self._evolve_quantum_like_state(
+                    self.qi_like_states[memory_id], updates
                 )
             result = await self.store(updated_data, memory_id, current["metadata"])
             self.logger.info("Quantum memory updated", memory_id=memory_id)
@@ -875,8 +875,8 @@ class QIMemoryManager(BaseMemoryManager):
                     if entangled_id in self.entanglements:
                         self.entanglements[entangled_id].discard(memory_id)
                 del self.entanglements[memory_id]
-            if memory_id in self.quantum_like_states:
-                del self.quantum_like_states[memory_id]
+            if memory_id in self.qi_like_states:
+                del self.qi_like_states[memory_id]
             if memory_id in self.coherence_scores:
                 del self.coherence_scores[memory_id]
             if soft_delete:
@@ -963,12 +963,12 @@ class QIMemoryManager(BaseMemoryManager):
             self.entanglements[memory_id1].add(memory_id2)
             self.entanglements[memory_id2].add(memory_id1)
             if (
-                memory_id1 in self.quantum_like_states
-                and memory_id2 in self.quantum_like_states
+                memory_id1 in self.qi_like_states
+                and memory_id2 in self.qi_like_states
             ):
                 self._entangle_quantum_like_states(
-                    self.quantum_like_states[memory_id1],
-                    self.quantum_like_states[memory_id2],
+                    self.qi_like_states[memory_id1],
+                    self.qi_like_states[memory_id2],
                 )
             self.logger.info(
                 "Memories entangled", memory_id1=memory_id1, memory_id2=memory_id2
@@ -976,7 +976,7 @@ class QIMemoryManager(BaseMemoryManager):
             return {
                 "status": "success",
                 "entangled_ids": [memory_id1, memory_id2],
-                "entanglement_strength": self.quantum_config["entanglement_strength"],
+                "entanglement_strength": self.qi_config["entanglement_strength"],
             }
         except Exception as e:
             self.logger.error(
@@ -999,20 +999,20 @@ class QIMemoryManager(BaseMemoryManager):
             memory = await self.retrieve(memory_id)
             if memory["status"] == "error":
                 return memory
-            quantum_like_state = self.quantum_like_states.get(memory_id, {})
+            qi_like_state = self.qi_like_states.get(memory_id, {})
             viz_data = {
                 "memory_id": memory_id,
-                "quantum_like_state": {
-                    "dimensions": quantum_like_state.get("dimensions", 0),
-                    "amplitude": quantum_like_state.get("amplitude", []),
-                    "phase": quantum_like_state.get("phase", []),
+                "qi_like_state": {
+                    "dimensions": qi_like_state.get("dimensions", 0),
+                    "amplitude": qi_like_state.get("amplitude", []),
+                    "phase": qi_like_state.get("phase", []),
                 },
                 "coherence": self.coherence_scores.get(memory_id, 0.0),
                 "entanglements": list(self.entanglements.get(memory_id, set())),
                 "visualization_type": (
-                    options.get("type", "quantum_sphere")
+                    options.get("type", "qi_sphere")
                     if options
-                    else "quantum_sphere"
+                    else "qi_sphere"
                 ),
             }
             return {"status": "success", "visualization_data": viz_data}
@@ -1027,7 +1027,7 @@ class QIMemoryManager(BaseMemoryManager):
     ) -> dict[str, Any]:
         """Initialize quantum-like state for memory."""
         dimensions = min(
-            len(str(memory_data)), self.quantum_config["superposition_limit"]
+            len(str(memory_data)), self.qi_config["superposition_limit"]
         )
         amplitude = np.random.rand(dimensions).tolist()
         phase = np.random.rand(dimensions).tolist()
@@ -1047,13 +1047,13 @@ class QIMemoryManager(BaseMemoryManager):
             return 0.0
         current_coherence = self.coherence_scores[memory_id]
         new_coherence = current_coherence * (
-            1 - self.quantum_config["decoherence_rate"]
+            1 - self.qi_config["decoherence_rate"]
         )
         self.coherence_scores[memory_id] = new_coherence
         return new_coherence
 
     def _collapse_superposition(
-        self, memory_data: dict[str, Any], quantum_like_state: dict[str, Any]
+        self, memory_data: dict[str, Any], qi_like_state: dict[str, Any]
     ) -> dict[str, Any]:
         """Collapse superposition-like state to classical state."""
         return memory_data
@@ -1075,7 +1075,7 @@ class QIMemoryManager(BaseMemoryManager):
     ) -> None:
         """Create entanglement between quantum-like states."""
         if "phase" in state1 and "phase" in state2:
-            strength = self.quantum_config["entanglement_strength"]
+            strength = self.qi_config["entanglement_strength"]
             for i in range(min(len(state1["phase"]), len(state2["phase"]))):
                 avg_phase = (state1["phase"][i] + state2["phase"][i]) / 2
                 state1["phase"][i] = (
@@ -1097,9 +1097,9 @@ class QIMemoryManager(BaseMemoryManager):
     async def get_statistics(self) -> dict[str, Any]:
         """Get quantum memory statistics."""
         base_stats = await super().get_statistics()
-        quantum_stats = {
+        qi_stats = {
             **base_stats,
-            "quantum_memories": len(self.quantum_like_states),
+            "qi_memories": len(self.qi_like_states),
             "total_entanglements": sum(len(e) for e in self.entanglements.values())
             // 2,
             "average_coherence": (
@@ -1107,9 +1107,9 @@ class QIMemoryManager(BaseMemoryManager):
                 if self.coherence_scores
                 else 0.0
             ),
-            "coherence_threshold": self.quantum_config["coherence_threshold"],
+            "coherence_threshold": self.qi_config["coherence_threshold"],
         }
-        return quantum_stats
+        return qi_stats
 
 
 class DriftMemoryManager(BaseMemoryManager):

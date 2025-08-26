@@ -79,7 +79,7 @@ export function Navigation() {
             <NavLink href="#technology">{t('nav.technology')}</NavLink>
             <NavLink href="#developers">{t('nav.developers')}</NavLink>
             <NavLink href="#pricing">{t('nav.pricing')}</NavLink>
-            
+
             {/* Search Button */}
             <button
               onClick={() => setSearchOpen(true)}
@@ -99,7 +99,7 @@ export function Navigation() {
                 <Globe className="w-4 h-4 text-text-secondary" />
                 <span className="text-xs text-text-secondary">{languages[language]?.flag || '🌍'}</span>
               </button>
-              
+
               <AnimatePresence>
                 {langMenuOpen && (
                   <motion.div
@@ -145,7 +145,7 @@ export function Navigation() {
                   <Sun className="w-4 h-4 text-text-secondary" />
                 )}
               </button>
-              
+
               <AnimatePresence>
                 {themeMenuOpen && (
                   <motion.div
@@ -323,12 +323,12 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   )
 }
 
-function MobileNavLink({ 
-  href, 
-  children, 
-  onClick 
-}: { 
-  href: string; 
+function MobileNavLink({
+  href,
+  children,
+  onClick
+}: {
+  href: string;
   children: React.ReactNode;
   onClick: () => void;
 }) {

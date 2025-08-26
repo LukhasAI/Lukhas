@@ -1,17 +1,23 @@
 # path: qi/safety/provenance_streamer.py
 from __future__ import annotations
-import os, io, json, re, time
-from typing import Optional, Iterator
+
+import os
+import re
+from collections.abc import Iterator
+from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import StreamingResponse, FileResponse, JSONResponse
+from fastapi.responses import FileResponse, StreamingResponse
 
-from qi.safety.provenance_uploader import load_record_by_sha
-from qi.safety.provenance_receipts import write_receipt
 from qi.ops.metrics_middleware import (
-    PrometheusMiddleware, metrics_endpoint,
-    PROV_STREAM_REQ, PROV_STREAM_BYTES, PROV_STREAM_LAT
+    PROV_STREAM_BYTES,
+    PROV_STREAM_LAT,
+    PROV_STREAM_REQ,
+    PrometheusMiddleware,
+    metrics_endpoint,
 )
+from qi.safety.provenance_receipts import write_receipt
+from qi.safety.provenance_uploader import load_record_by_sha
 
 # Reuse URL parsing from the presigner (inline minimal parser to avoid deps)
 _S3_RE = re.compile(r"^s3://([^/]+)/(.+)$")
@@ -33,7 +39,9 @@ app.add_middleware(PrometheusMiddleware)
 app.add_api_route("/metrics", metrics_endpoint(), methods=["GET"])
 
 # Add rate limiting
-from qi.ops.rate_limit import RateLimiter, BucketConfig
+from qi.ops.rate_limit import BucketConfig, RateLimiter
+
+
 def is_prov(req):
     p = req.url.path
     return p.startswith("/provenance/") and any(seg in p for seg in ("/stream", "/download", "/link"))

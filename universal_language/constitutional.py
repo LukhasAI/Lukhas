@@ -86,7 +86,7 @@ class ConstitutionalViolation:
 class ConstitutionalValidator:
     """
     Validates symbols against constitutional principles.
-    
+
     Core of what Dario Amodei would implement for safe AI.
     """
 
@@ -167,7 +167,7 @@ class ConstitutionalValidator:
     def validate_symbol(self, symbol: Symbol) -> Tuple[bool, List[ConstitutionalViolation]]:
         """
         Validate a symbol against all constitutional rules.
-        
+
         Returns:
             (is_valid, violations) tuple
         """
@@ -295,7 +295,7 @@ class ConstitutionalValidator:
 class ConstitutionalGuardrails:
     """
     Implements guardrails for safe symbol generation.
-    
+
     Prevents generation of harmful or inappropriate symbols.
     """
 
@@ -374,7 +374,7 @@ class ConstitutionalGuardrails:
 class SymbolSandbox:
     """
     Sandbox environment for testing symbols safely.
-    
+
     What Anthropic would implement for safe experimentation.
     """
 
@@ -468,7 +468,7 @@ class SymbolSandbox:
 class ConstitutionalAPI:
     """
     High-level API for constitutional symbol management.
-    
+
     Combines validation, guardrails, and sandboxing.
     """
 
@@ -482,7 +482,7 @@ class ConstitutionalAPI:
                           value: Any, **attributes) -> Optional[Symbol]:
         """
         Create a symbol with constitutional validation.
-        
+
         Returns None if symbol violates critical rules.
         """
         # Create proposed symbol
@@ -551,7 +551,7 @@ class ConstitutionalAPI:
     def experiment_safely(self, experimental_symbols: List[Symbol]) -> List[Symbol]:
         """
         Experiment with symbols in sandbox.
-        
+
         Returns only safe, validated symbols.
         """
         self.sandbox.enter_sandbox()

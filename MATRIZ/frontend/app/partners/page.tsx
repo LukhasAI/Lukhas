@@ -4,8 +4,8 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { 
-  Globe, Zap, Shield, Code, Brain, 
+import {
+  Globe, Zap, Shield, Code, Brain,
   Rocket, Users, Target, ArrowRight, CheckCircle, Star
 } from 'lucide-react'
 
@@ -66,7 +66,7 @@ export default function PartnersPage() {
     },
     {
       name: 'ChatGPT/OpenAI',
-      type: 'AI Assistant', 
+      type: 'AI Assistant',
       description: 'Development collaboration through paid ChatGPT Plus subscriptions',
       logo: '⚡'
     },
@@ -184,9 +184,9 @@ export default function PartnersPage() {
             >
               <h2 className="font-regular text-3xl mb-6">Why Partner with LUKHAS?</h2>
               <p className="font-thin text-xl leading-relaxed max-w-4xl mx-auto">
-                LUKHAS AI represents the cutting edge of consciousness technology. By partnering with us, 
-                you gain access to revolutionary AI capabilities that can transform your products, research, 
-                and business outcomes. Together, we're building a future where AI truly understands and 
+                LUKHAS AI represents the cutting edge of consciousness technology. By partnering with us,
+                you gain access to revolutionary AI capabilities that can transform your products, research,
+                and business outcomes. Together, we're building a future where AI truly understands and
                 enhances human potential.
               </p>
             </motion.div>
@@ -376,8 +376,8 @@ export default function PartnersPage() {
             >
               <h3 className="text-2xl font-thin mb-6">Open Source & Future Partnerships</h3>
               <p className="text-lg text-primary-light/80 mb-6 max-w-4xl mx-auto">
-                LUKHAS is currently developed as an open-source project by a solo founder. 
-                While we use AI assistants as development collaborators, we are open to formal 
+                LUKHAS is currently developed as an open-source project by a solo founder.
+                While we use AI assistants as development collaborators, we are open to formal
                 partnerships with organizations that align with our Trinity Framework principles.
               </p>
               <div className="grid md:grid-cols-3 gap-6 text-sm text-primary-light/60">

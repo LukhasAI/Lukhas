@@ -211,7 +211,7 @@ class CapSandbox:
 if __name__=="__main__":
     import argparse, json
     ap=argparse.ArgumentParser(); ap.add_argument("--net", action="store_true"); args=ap.parse_args()
-    cs=CapSandbox({"net":args.net}); 
+    cs=CapSandbox({"net":args.net});
     try: cs.with_net(); print(json.dumps({"ok":True}))
     except Exception as e: print(json.dumps({"ok":False,"err":str(e)}))
 PY

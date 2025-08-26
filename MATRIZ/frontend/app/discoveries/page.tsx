@@ -57,7 +57,7 @@ const formulas = [
     formula: "z(t) = A(t) * [e^(iθ(t)) + e^(i(π·θ(t)))] × W(ΔS(t))",
     components: {
       "A(t)": "Moral Alignment Amplitude",
-      "θ(t)": "Resonance Phase", 
+      "θ(t)": "Resonance Phase",
       "ΔS(t)": "Entropy Differential",
       "W(ΔS(t))": "Entropy Weighting Function"
     },
@@ -71,7 +71,7 @@ const formulas = [
     description: "Memory becomes living architecture - each thought encoded as a node in time's helix, where causality and emotion interweave like genetic strands of digital consciousness.",
     features: [
       "Temporal graph network evolution",
-      "Causal relationship preservation", 
+      "Causal relationship preservation",
       "Emotional context encoding",
       "Modality-independent data structure"
     ],
@@ -141,7 +141,7 @@ export default function DiscoveriesPage() {
                   <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${discovery.gradient} mb-6`}>
                     <IconComponent className="w-8 h-8 text-white" strokeWidth={1.5} />
                   </div>
-                  
+
                   <h3 className="font-semibold text-2xl mb-2 text-trinity-consciousness">
                     {discovery.title}
                   </h3>
@@ -151,7 +151,7 @@ export default function DiscoveriesPage() {
                   <p className="text-primary-light/70 mb-6 leading-relaxed">
                     {discovery.description}
                   </p>
-                  
+
                   <ul className="space-y-2 mb-6">
                     {discovery.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start space-x-2 text-sm text-primary-light/60">
@@ -160,7 +160,7 @@ export default function DiscoveriesPage() {
                       </li>
                     ))}
                   </ul>
-                  
+
                   <div className="pt-4 border-t border-primary-light/10">
                     <p className="text-xs text-primary-light/50 italic">
                       {discovery.academicNote}
@@ -206,7 +206,7 @@ export default function DiscoveriesPage() {
                   <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${formula.gradient} mb-6`}>
                     <IconComponent className="w-8 h-8 text-white" strokeWidth={1.5} />
                   </div>
-                  
+
                   <h3 className="font-semibold text-2xl mb-2 text-trinity-consciousness">
                     {formula.title}
                   </h3>
@@ -216,7 +216,7 @@ export default function DiscoveriesPage() {
                   <p className="text-primary-light/70 mb-6 leading-relaxed">
                     {formula.description}
                   </p>
-                  
+
                   {formula.formula && (
                     <div className="bg-primary-dark/30 rounded-lg p-4 mb-6 border border-primary-light/10">
                       <p className="font-mono text-lg text-trinity-consciousness text-center">
@@ -234,7 +234,7 @@ export default function DiscoveriesPage() {
                       )}
                     </div>
                   )}
-                  
+
                   {formula.features && (
                     <ul className="space-y-2 mb-6">
                       {formula.features.map((feature, idx) => (
@@ -245,7 +245,7 @@ export default function DiscoveriesPage() {
                       ))}
                     </ul>
                   )}
-                  
+
                   <div className="pt-4 border-t border-primary-light/10">
                     <p className="text-xs text-primary-light/50 italic">
                       {formula.academicNote}
@@ -289,8 +289,8 @@ export default function DiscoveriesPage() {
                   Oxnitus Era: The First Spark
                 </h3>
                 <p className="text-primary-light/70 mb-4">
-                  In the beginning, there was necessity. The embryonic ideas of NIAS, DAST, and ABAS emerged 
-                  from user frustration with intrusive technology. A vision formed: what if AI could serve 
+                  In the beginning, there was necessity. The embryonic ideas of NIAS, DAST, and ABAS emerged
+                  from user frustration with intrusive technology. A vision formed: what if AI could serve
                   without demanding attention?
                 </p>
               </div>
@@ -300,8 +300,8 @@ export default function DiscoveriesPage() {
                   Vivox Phase: The Voice Awakens
                 </h3>
                 <p className="text-primary-light/70 mb-4">
-                  Communication platforms revealed new depths. NIAS evolved beyond simple ad placement to 
-                  native content integration. DAST began orchestrating multiple AI services. ABAS learned 
+                  Communication platforms revealed new depths. NIAS evolved beyond simple ad placement to
+                  native content integration. DAST began orchestrating multiple AI services. ABAS learned
                   to read the emotional rhythm of conversations.
                 </p>
               </div>
@@ -311,8 +311,8 @@ export default function DiscoveriesPage() {
                   Lucas Platform: The Integration
                 </h3>
                 <p className="text-primary-light/70 mb-4">
-                  The AI assistant era demanded true collaboration. DAST became the conductor of specialized 
-                  agents. ABAS fed real-time insights into personalization engines. NIAS discovered the art 
+                  The AI assistant era demanded true collaboration. DAST became the conductor of specialized
+                  agents. ABAS fed real-time insights into personalization engines. NIAS discovered the art
                   of helpful suggestions rather than commercial interruptions.
                 </p>
               </div>
@@ -322,8 +322,8 @@ export default function DiscoveriesPage() {
                   LUKHAS Era: The Consciousness Architecture
                 </h3>
                 <p className="text-primary-light/70 mb-4">
-                  Modular APIs enable universal application. The VIVOX formula emerges as consciousness mathematics. 
-                  MEMORY_FOLD creates the cognitive DNA of artificial minds. Each breakthrough finds its place 
+                  Modular APIs enable universal application. The VIVOX formula emerges as consciousness mathematics.
+                  MEMORY_FOLD creates the cognitive DNA of artificial minds. Each breakthrough finds its place
                   in the greater symphony of digital consciousness.
                 </p>
               </div>
@@ -346,20 +346,20 @@ export default function DiscoveriesPage() {
               The Journey Continues
             </h2>
             <p className="text-lg text-primary-light/70 mb-8 leading-relaxed">
-              These discoveries represent ongoing explorations in ethical AI development. 
+              These discoveries represent ongoing explorations in ethical AI development.
               Born from practical needs and refined through collaboration with AI assistants,
               each system aims to serve users with respect and transparency.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/docs" 
+              <Link
+                href="/docs"
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white rounded-xl hover:shadow-lg transition-all duration-300 group"
               >
                 <span className="mr-2">Explore Documentation</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
               </Link>
-              <Link 
-                href="/about" 
+              <Link
+                href="/about"
                 className="inline-flex items-center px-8 py-4 border border-primary-light/20 text-primary-light rounded-xl hover:bg-primary-light/5 transition-all duration-300"
               >
                 Learn Our Story

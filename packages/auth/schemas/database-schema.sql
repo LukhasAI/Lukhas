@@ -12,27 +12,27 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     email_verified BOOLEAN DEFAULT FALSE,
     email_verified_at TIMESTAMP WITH TIME ZONE,
-    
+
     -- Tier and role information
     tier VARCHAR(10) NOT NULL DEFAULT 'T1' CHECK (tier IN ('T1', 'T2', 'T3', 'T4', 'T5')),
     role VARCHAR(50) NOT NULL DEFAULT 'viewer' CHECK (role IN ('owner', 'admin', 'developer', 'analyst', 'viewer')),
-    
+
     -- Account status
     status VARCHAR(20) NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'suspended', 'locked', 'deleted')),
     locked_until TIMESTAMP WITH TIME ZONE,
     failed_login_attempts INTEGER DEFAULT 0,
     last_failed_login TIMESTAMP WITH TIME ZONE,
-    
+
     -- Profile information
     display_name VARCHAR(255),
     avatar_url TEXT,
     timezone VARCHAR(50) DEFAULT 'UTC',
     locale VARCHAR(10) DEFAULT 'en-US',
-    
+
     -- Metadata and preferences
     metadata JSONB DEFAULT '{}',
     preferences JSONB DEFAULT '{}',
-    
+
     -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -52,26 +52,26 @@ CREATE TABLE sessions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     device_handle VARCHAR(255) NOT NULL,
-    
+
     -- Session information
     access_token_jti VARCHAR(255) UNIQUE NOT NULL,
     refresh_token_jti VARCHAR(255) UNIQUE,
-    
+
     -- Security information
     ip_address INET,
     user_agent TEXT,
     fingerprint_hash VARCHAR(255),
-    
+
     -- Session metadata
     scopes TEXT[], -- Array of granted scopes
     tier VARCHAR(10) NOT NULL,
     role VARCHAR(50) NOT NULL,
-    
+
     -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
     last_used_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -88,34 +88,34 @@ CREATE INDEX idx_sessions_ip_address ON sessions(ip_address);
 CREATE TABLE passkeys (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Credential information
     credential_id TEXT UNIQUE NOT NULL, -- Base64URL encoded
     public_key TEXT NOT NULL, -- Base64URL encoded public key
     algorithm INTEGER NOT NULL, -- COSE algorithm identifier
-    
+
     -- Authenticator information
     aaguid VARCHAR(36), -- Authenticator AAGUID
     authenticator_name VARCHAR(255),
     authenticator_vendor VARCHAR(255),
     authenticator_type VARCHAR(20) CHECK (authenticator_type IN ('platform', 'cross-platform')),
     device_label VARCHAR(255), -- User-friendly name
-    
+
     -- Security counters and flags
     sign_count BIGINT DEFAULT 0,
     uv_initialized BOOLEAN DEFAULT FALSE, -- User verification initialized
     backup_eligible BOOLEAN DEFAULT FALSE,
     backup_state BOOLEAN DEFAULT FALSE,
-    
+
     -- Trust and certification
     trusted BOOLEAN DEFAULT FALSE,
     certification_level VARCHAR(5) CHECK (certification_level IN ('L1', 'L2', 'L3')),
-    
+
     -- Usage tracking
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     last_used_at TIMESTAMP WITH TIME ZONE,
     use_count INTEGER DEFAULT 0,
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -131,31 +131,31 @@ CREATE INDEX idx_passkeys_last_used_at ON passkeys(last_used_at);
 CREATE TABLE refresh_tokens (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Token family for reuse detection
     family_id VARCHAR(255) NOT NULL,
     token_hash VARCHAR(255) UNIQUE NOT NULL, -- SHA-256 hash of token
     device_handle VARCHAR(255) NOT NULL,
-    
+
     -- Token information
     jti VARCHAR(255) UNIQUE NOT NULL,
     scopes TEXT[], -- Array of granted scopes
     tier VARCHAR(10) NOT NULL,
-    
+
     -- Security information
     ip_address INET,
     user_agent TEXT,
-    
+
     -- Status and timestamps
     revoked_at TIMESTAMP WITH TIME ZONE,
     revoked_reason VARCHAR(255),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
     used_at TIMESTAMP WITH TIME ZONE,
-    
+
     -- Parent token for family tracking
     parent_token_id UUID REFERENCES refresh_tokens(id),
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -173,34 +173,34 @@ CREATE INDEX idx_refresh_tokens_revoked_at ON refresh_tokens(revoked_at);
 CREATE TABLE device_handles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Device identification
     handle VARCHAR(255) UNIQUE NOT NULL,
     device_type VARCHAR(50), -- 'desktop', 'mobile', 'tablet', 'unknown'
     fingerprint_hash VARCHAR(255),
-    
+
     -- Device information
     device_name VARCHAR(255), -- User-friendly device name
     platform VARCHAR(100), -- 'Windows', 'macOS', 'iOS', 'Android', etc.
     browser VARCHAR(100),
     browser_version VARCHAR(50),
-    
+
     -- Security information
     trusted BOOLEAN DEFAULT FALSE,
     trusted_at TIMESTAMP WITH TIME ZONE,
     trusted_by UUID REFERENCES users(id),
-    
+
     -- Usage tracking
     first_seen_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     last_seen_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     last_ip_address INET,
     use_count INTEGER DEFAULT 0,
-    
+
     -- Status
     blocked BOOLEAN DEFAULT FALSE,
     blocked_at TIMESTAMP WITH TIME ZONE,
     blocked_reason VARCHAR(255),
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -217,20 +217,20 @@ CREATE INDEX idx_device_handles_blocked ON device_handles(blocked);
 CREATE TABLE backup_codes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Code information
     code_hash VARCHAR(255) NOT NULL, -- Hashed backup code
     code_partial VARCHAR(10), -- First few characters for identification
-    
+
     -- Usage tracking
     used_at TIMESTAMP WITH TIME ZONE,
     used_ip_address INET,
     used_user_agent TEXT,
-    
+
     -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     expires_at TIMESTAMP WITH TIME ZONE,
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -245,40 +245,40 @@ CREATE INDEX idx_backup_codes_expires_at ON backup_codes(expires_at);
 CREATE TABLE security_events (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID REFERENCES users(id) ON DELETE SET NULL,
-    
+
     -- Event information
     event_type VARCHAR(100) NOT NULL,
     event_category VARCHAR(50) NOT NULL, -- 'auth', 'session', 'device', 'security'
     severity VARCHAR(20) NOT NULL DEFAULT 'info' CHECK (severity IN ('critical', 'high', 'medium', 'low', 'info')),
-    
+
     -- Context information
     ip_address INET,
     user_agent TEXT,
     device_handle VARCHAR(255),
     session_id UUID REFERENCES sessions(id) ON DELETE SET NULL,
-    
+
     -- Event details
     success BOOLEAN,
     error_code VARCHAR(50),
     error_message TEXT,
-    
+
     -- Request information
     request_id VARCHAR(255),
     endpoint VARCHAR(255),
     method VARCHAR(10),
-    
+
     -- Geographic information
     country_code VARCHAR(2),
     region VARCHAR(100),
     city VARCHAR(100),
-    
+
     -- Risk assessment
     risk_score INTEGER DEFAULT 0 CHECK (risk_score >= 0 AND risk_score <= 100),
     risk_factors TEXT[],
-    
+
     -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -297,25 +297,25 @@ CREATE INDEX idx_security_events_risk_score ON security_events(risk_score);
 CREATE TABLE magic_links (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Token information
     token_hash VARCHAR(255) UNIQUE NOT NULL,
     token_partial VARCHAR(10), -- First few characters for identification
     email VARCHAR(255) NOT NULL,
     purpose VARCHAR(50) NOT NULL CHECK (purpose IN ('login', 'register', 'password-reset', 'email-verification')),
-    
+
     -- Security information
     ip_address INET,
     user_agent TEXT,
     max_attempts INTEGER DEFAULT 3,
     attempts INTEGER DEFAULT 0,
-    
+
     -- Status and timestamps
     used_at TIMESTAMP WITH TIME ZONE,
     used_ip_address INET,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -331,26 +331,26 @@ CREATE INDEX idx_magic_links_used_at ON magic_links(used_at);
 -- Rate limit tracking table - For distributed rate limiting
 CREATE TABLE rate_limits (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    
+
     -- Rate limit key
     key_hash VARCHAR(255) UNIQUE NOT NULL,
     key_type VARCHAR(50) NOT NULL, -- 'user', 'ip', 'device', 'operation'
-    
+
     -- Limit information
     tier VARCHAR(10),
     operation VARCHAR(100),
     window_type VARCHAR(20) NOT NULL CHECK (window_type IN ('minute', 'hour', 'day')),
-    
+
     -- Counter information
     count INTEGER DEFAULT 0,
     burst_used INTEGER DEFAULT 0,
     window_start TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -365,21 +365,21 @@ CREATE INDEX idx_rate_limits_tier ON rate_limits(tier);
 -- Revoked tokens table - JWT blacklist
 CREATE TABLE revoked_tokens (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    
+
     -- Token information
     jti VARCHAR(255) UNIQUE NOT NULL,
     token_type VARCHAR(20) NOT NULL CHECK (token_type IN ('access', 'refresh')),
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Revocation information
     revoked_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     revoked_by UUID REFERENCES users(id),
     revocation_reason VARCHAR(255),
-    
+
     -- Original token information
     issued_at TIMESTAMP WITH TIME ZONE,
     expires_at TIMESTAMP WITH TIME ZONE,
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -394,23 +394,23 @@ CREATE INDEX idx_revoked_tokens_revoked_at ON revoked_tokens(revoked_at);
 CREATE TABLE user_permissions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Permission information
     scope VARCHAR(100) NOT NULL,
     resource_type VARCHAR(100),
     resource_id VARCHAR(255),
-    
+
     -- Grant information
     granted_by UUID REFERENCES users(id),
     granted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     expires_at TIMESTAMP WITH TIME ZONE,
-    
+
     -- Conditions
     conditions JSONB DEFAULT '{}',
-    
+
     -- Status
     active BOOLEAN DEFAULT TRUE,
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -425,40 +425,40 @@ CREATE INDEX idx_user_permissions_active ON user_permissions(active);
 -- OAuth applications table - Third-party integrations
 CREATE TABLE oauth_applications (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    
+
     -- Application information
     client_id VARCHAR(255) UNIQUE NOT NULL,
     client_secret_hash VARCHAR(255),
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    
+
     -- OAuth configuration
     redirect_uris TEXT[],
     allowed_scopes TEXT[],
     grant_types TEXT[] DEFAULT ARRAY['authorization_code'],
     response_types TEXT[] DEFAULT ARRAY['code'],
-    
+
     -- Application metadata
     website_url TEXT,
     privacy_policy_url TEXT,
     terms_of_service_url TEXT,
     logo_url TEXT,
-    
+
     -- Security settings
     trusted BOOLEAN DEFAULT FALSE,
     confidential BOOLEAN DEFAULT TRUE,
     pkce_required BOOLEAN DEFAULT TRUE,
-    
+
     -- Owner information
     owner_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Status
     active BOOLEAN DEFAULT TRUE,
-    
+
     -- Timestamps
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -471,26 +471,26 @@ CREATE INDEX idx_oauth_applications_active ON oauth_applications(active);
 -- OAuth authorization codes table
 CREATE TABLE oauth_authorization_codes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    
+
     -- Code information
     code_hash VARCHAR(255) UNIQUE NOT NULL,
     client_id VARCHAR(255) NOT NULL REFERENCES oauth_applications(client_id),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    
+
     -- Authorization details
     redirect_uri TEXT NOT NULL,
     scopes TEXT[],
     state VARCHAR(255),
-    
+
     -- PKCE
     code_challenge VARCHAR(255),
     code_challenge_method VARCHAR(10) CHECK (code_challenge_method IN ('S256', 'plain')),
-    
+
     -- Status and timestamps
     used_at TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    
+
     -- Additional metadata
     metadata JSONB DEFAULT '{}'
 );
@@ -526,28 +526,28 @@ RETURNS void AS $$
 BEGIN
     -- Clean up expired sessions
     DELETE FROM sessions WHERE expires_at < NOW() - INTERVAL '1 day';
-    
+
     -- Clean up expired refresh tokens
     DELETE FROM refresh_tokens WHERE expires_at < NOW() - INTERVAL '7 days';
-    
+
     -- Clean up expired magic links
     DELETE FROM magic_links WHERE expires_at < NOW() - INTERVAL '1 day';
-    
+
     -- Clean up expired authorization codes
     DELETE FROM oauth_authorization_codes WHERE expires_at < NOW() - INTERVAL '1 day';
-    
+
     -- Clean up expired rate limits
     DELETE FROM rate_limits WHERE expires_at < NOW();
-    
+
     -- Clean up old security events (keep 90 days)
     DELETE FROM security_events WHERE created_at < NOW() - INTERVAL '90 days';
-    
+
     -- Clean up expired revoked tokens
     DELETE FROM revoked_tokens WHERE expires_at < NOW() - INTERVAL '7 days';
-    
+
     -- Clean up expired backup codes
     DELETE FROM backup_codes WHERE expires_at IS NOT NULL AND expires_at < NOW();
-    
+
     -- Clean up expired user permissions
     DELETE FROM user_permissions WHERE expires_at IS NOT NULL AND expires_at < NOW();
 END;
@@ -583,20 +583,20 @@ DECLARE
 BEGIN
     -- Get user information
     SELECT tier, role, status INTO user_record FROM users WHERE id = p_user_id;
-    
+
     -- Check if user exists and is active
     IF NOT FOUND OR user_record.status != 'active' THEN
         RETURN FALSE;
     END IF;
-    
+
     -- Get tier-based scopes
     tier_scopes := get_user_tier_scopes(user_record.tier);
-    
+
     -- Check if scope is in tier scopes
     IF p_scope = ANY(tier_scopes) THEN
         has_permission := TRUE;
     END IF;
-    
+
     -- Check explicit permissions
     IF NOT has_permission THEN
         SELECT COUNT(*) > 0 INTO has_permission
@@ -608,14 +608,14 @@ BEGIN
             AND active = TRUE
             AND (expires_at IS NULL OR expires_at > NOW());
     END IF;
-    
+
     RETURN has_permission;
 END;
 $$ LANGUAGE plpgsql;
 
 -- Create views for common queries
 CREATE VIEW active_sessions AS
-SELECT 
+SELECT
     s.*,
     u.email,
     u.tier,
@@ -630,7 +630,7 @@ LEFT JOIN device_handles dh ON s.device_handle = dh.handle
 WHERE s.expires_at > NOW() AND u.status = 'active';
 
 CREATE VIEW user_security_summary AS
-SELECT 
+SELECT
     u.id,
     u.email,
     u.tier,
@@ -650,7 +650,7 @@ LEFT JOIN security_events se ON u.id = se.user_id
 GROUP BY u.id, u.email, u.tier, u.role, u.status, u.failed_login_attempts, u.last_login_at;
 
 -- Insert default data
-INSERT INTO users (email, tier, role, status, display_name) VALUES 
+INSERT INTO users (email, tier, role, status, display_name) VALUES
 ('admin@lukhas.ai', 'T5', 'owner', 'active', 'LUKHAS Admin')
 ON CONFLICT (email) DO NOTHING;
 
@@ -660,10 +660,10 @@ RETURNS INTEGER AS $$
 DECLARE
     deleted_count INTEGER;
 BEGIN
-    DELETE FROM sessions 
-    WHERE user_id = p_user_id 
+    DELETE FROM sessions
+    WHERE user_id = p_user_id
         AND (p_keep_current IS NULL OR access_token_jti != p_keep_current);
-    
+
     GET DIAGNOSTICS deleted_count = ROW_COUNT;
     RETURN deleted_count;
 END;
@@ -675,12 +675,12 @@ RETURNS INTEGER AS $$
 DECLARE
     affected_count INTEGER;
 BEGIN
-    UPDATE refresh_tokens 
-    SET revoked_at = NOW(), 
+    UPDATE refresh_tokens
+    SET revoked_at = NOW(),
         revoked_reason = 'Family invalidated due to reuse detection'
-    WHERE family_id = p_family_id 
+    WHERE family_id = p_family_id
         AND revoked_at IS NULL;
-    
+
     GET DIAGNOSTICS affected_count = ROW_COUNT;
     RETURN affected_count;
 END;

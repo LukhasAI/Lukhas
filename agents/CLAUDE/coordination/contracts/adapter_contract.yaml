@@ -17,7 +17,7 @@ endpoints:
     output:
       - emails: array
       - trace_id: string
-  
+
   drive_list:
     method: POST
     path: /adapters/drive/list
@@ -28,7 +28,7 @@ endpoints:
     output:
       - files: array
       - trace_id: string
-  
+
   dropbox_retrieve:
     method: POST
     path: /adapters/dropbox/retrieve

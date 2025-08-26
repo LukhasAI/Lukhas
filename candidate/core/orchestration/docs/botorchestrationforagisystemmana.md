@@ -925,25 +925,25 @@ data:
       message_type: enum[command, query, notification, response]
       payload: object
       signature: quantum_signature
-      
+
     channels:
       - name: critical
         encryption: post_quantum
         priority: 1
-        
+
       - name: standard
         encryption: aes256
         priority: 5
-        
+
       - name: bulk
         encryption: optional
         priority: 10
-        
+
     discovery:
       method: kubernetes_service_mesh
       health_check_interval: 30s
       capability_advertisement: true
-      
+
     coordination:
       consensus: raft
       leader_election: true

@@ -40,25 +40,25 @@ with open(task_file, 'w') as f:
     f.write(f\"**Role**: {agent.get('role', 'Not specified')}\\n\")
     f.write(f\"**Description**: {agent.get('description', 'Not specified')}\\n\")
     f.write(f\"**Generated**: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\\n\\n\")
-    
+
     # Core Mission
     f.write('## 🎯 Core Mission\\n')
     f.write(agent.get('core_mission', 'No mission defined').strip() + '\\n\\n')
-    
+
     # Personality
     if 'personality' in agent:
         f.write('## 🎭 Personality & Approach\\n')
         for trait in agent['personality']:
             f.write(f'- {trait}\\n')
         f.write('\\n')
-    
+
     # Technical Expertise
     if 'technical_expertise' in agent:
         f.write('## 💻 Technical Expertise\\n')
         for skill in agent['technical_expertise']:
             f.write(f'- {skill}\\n')
         f.write('\\n')
-    
+
     # Focus Areas
     if 'current_focus_areas' in agent:
         f.write('## 📌 Current Focus Areas\\n')
@@ -67,7 +67,7 @@ with open(task_file, 'w') as f:
             for item in items:
                 f.write(f'- [ ] {item}\\n')
         f.write('\\n')
-    
+
     # Collaboration
     if 'collaboration_patterns' in agent:
         f.write('## 🤝 Collaboration Patterns\\n')
@@ -76,14 +76,14 @@ with open(task_file, 'w') as f:
             for item in items:
                 f.write(f'- {item}\\n')
         f.write('\\n')
-    
+
     # Deliverables
     if 'deliverables' in agent:
         f.write('## ✅ Deliverables\\n')
         for deliverable in agent['deliverables']:
             f.write(f'- [ ] {deliverable}\\n')
         f.write('\\n')
-    
+
     # Progress Tracking
     f.write('## 📈 Progress Tracking\\n\\n')
     f.write('### Status Legend\\n')
@@ -189,12 +189,12 @@ rules:
     description: OpenAI API Key
     regex: 'sk-[a-zA-Z0-9]{48}'
     tags: ["key", "openai"]
-    
+
   - id: anthropic_api_key
     description: Anthropic API Key
     regex: 'sk-ant-[a-zA-Z0-9]{40,}'
     tags: ["key", "anthropic"]
-    
+
   - id: oauth_token
     description: OAuth Bearer Token
     regex: 'Bearer\s+[a-zA-Z0-9\-\._~\+\/]+=*'
@@ -213,12 +213,12 @@ rules:
       - pattern: TOKEN = "..."
     message: "Hardcoded secret detected"
     severity: ERROR
-    
+
   - id: unsafe-deserialization
     pattern: pickle.loads(...)
     message: "Unsafe deserialization detected"
     severity: ERROR
-    
+
   - id: sql-injection
     pattern: |
       "SELECT * FROM ... WHERE " + $INPUT
@@ -247,14 +247,14 @@ def generate_sbom():
         "name": "LUKHAS AI System",
         "packages": []
     }
-    
+
     # Get Python dependencies
     result = subprocess.run(
         ["pip", "freeze"],
         capture_output=True,
         text=True
     )
-    
+
     for line in result.stdout.split('\n'):
         if '==' in line:
             name, version = line.split('==')
@@ -263,7 +263,7 @@ def generate_sbom():
                 "version": version,
                 "supplier": "PyPI"
             })
-    
+
     return sbom
 
 if __name__ == "__main__":

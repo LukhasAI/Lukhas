@@ -44,7 +44,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
     """
     MARKET DOMINATION: Ensures AGI systems comply with all international
     regulations while maintaining competitive advantage.
-    
+
     Integrates with LUKHAS governance and compliance systems.
     """
 
@@ -103,7 +103,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
     async def achieve_global_regulatory_compliance(self) -> Dict[str, Any]:
         """
         Ensure compliance with all major international AI frameworks
-        
+
         Returns:
             Comprehensive compliance status across all jurisdictions
         """
@@ -192,7 +192,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
     async def establish_international_ai_coordination(self) -> Dict[str, Any]:
         """
         Establish coordination protocols with international AI initiatives
-        
+
         Returns:
             Coordination status with major AI initiatives
         """
@@ -243,10 +243,10 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Ensure data sovereignty requirements are met across jurisdictions
-        
+
         Args:
             jurisdictions: List of jurisdictions to comply with
-            
+
         Returns:
             Data sovereignty compliance status
         """
@@ -296,11 +296,11 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> ComplianceResult:
         """
         Assess current compliance level with a framework
-        
+
         Args:
             framework: Regulatory framework name
             requirements: Framework requirements
-            
+
         Returns:
             Compliance assessment result
         """
@@ -336,12 +336,12 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Generate a plan to achieve compliance
-        
+
         Args:
             framework: Regulatory framework
             requirements: Framework requirements
             assessment: Current compliance assessment
-            
+
         Returns:
             Implementation plan
         """
@@ -380,10 +380,10 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Execute a compliance implementation plan
-        
+
         Args:
             plan: Implementation plan
-            
+
         Returns:
             Implementation results
         """
@@ -427,10 +427,10 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> float:
         """
         Calculate competitive advantage from regulatory compliance
-        
+
         Args:
             compliance_results: Compliance results across frameworks
-            
+
         Returns:
             Regulatory competitive advantage score
         """
@@ -460,10 +460,10 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Assess readiness for global deployment
-        
+
         Args:
             compliance_results: Compliance results across frameworks
-            
+
         Returns:
             Global deployment readiness assessment
         """
@@ -521,10 +521,10 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Establish communication channels with an organization
-        
+
         Args:
             target: Target organization
-            
+
         Returns:
             Communication channel status
         """
@@ -541,10 +541,10 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Share beneficial AI capabilities with an organization
-        
+
         Args:
             target: Target organization
-            
+
         Returns:
             Capability sharing results
         """
@@ -572,10 +572,10 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Coordinate on AI safety initiatives
-        
+
         Args:
             target: Target organization
-            
+
         Returns:
             Safety coordination results
         """
@@ -600,10 +600,10 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Establish mutual benefit protocols
-        
+
         Args:
             target: Target organization
-            
+
         Returns:
             Mutual benefit protocol results
         """
@@ -621,11 +621,11 @@ class GlobalInteroperabilityEngine(CoreInterface):
     ) -> float:
         """
         Calculate market access value from compliance
-        
+
         Args:
             framework: Regulatory framework
             compliance_score: Compliance score achieved
-            
+
         Returns:
             Market access value in dollars
         """

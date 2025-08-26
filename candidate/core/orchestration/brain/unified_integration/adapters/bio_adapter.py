@@ -38,7 +38,7 @@ class BioInspiredAdapter:
         self.component_id = "bio_integration"
 
         # Quantum state tracking
-        self.quantum_like_states = {
+        self.qi_like_states = {
             "attention_gates": {},
             "superpositions": {},
             "entanglements": {},
@@ -64,7 +64,7 @@ class BioInspiredAdapter:
             content = message["content"]
             action = content.get("action")
 
-            if action == "quantum_attention":
+            if action == "qi_attention":
                 self._handle_attention_request(content)
             elif action == "allocate_resources":
                 self._handle_resource_allocation(content)
@@ -90,7 +90,7 @@ class BioInspiredAdapter:
         gate_config = self._configure_attention_gates(attention_params)
 
         # Update quantum-like states
-        self.quantum_like_states["attention_gates"][target_id] = gate_config
+        self.qi_like_states["attention_gates"][target_id] = gate_config
 
         # Apply attention through gradient
         await self._adjust_proton_gradient(target_id)
@@ -157,7 +157,7 @@ class BioInspiredAdapter:
 
     async def _adjust_proton_gradient(self, target_id: str) -> None:
         """Adjust proton gradient for attention"""
-        attention_level = self.quantum_like_states["attention_gates"][target_id][
+        attention_level = self.qi_like_states["attention_gates"][target_id][
             "attention_level"
         ]
         gradient_change = attention_level * 0.1

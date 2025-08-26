@@ -5,7 +5,7 @@ Implement multi-language support for MATADA website with 7 target languages, mai
 
 ## Target Languages
 1. **Spanish (ES)** - 500M+ speakers globally
-2. **French (FR)** - 280M+ speakers globally 
+2. **French (FR)** - 280M+ speakers globally
 3. **German (DE)** - 100M+ speakers globally
 4. **Chinese Simplified (ZH)** - 1.1B+ speakers
 5. **Japanese (JA)** - 125M+ speakers
@@ -147,7 +147,7 @@ module.exports = {
 {
   "navigation": {
     "about": "ABOUT",
-    "discoveries": "DISCOVERIES", 
+    "discoveries": "DISCOVERIES",
     "docs": "DOCS",
     "careers": "CAREERS"
   },
@@ -156,7 +156,7 @@ module.exports = {
     "subtitle": "Every thought becomes a traceable, governed, evolvable node",
     "trinity": {
       "identity": "IDENTITY",
-      "consciousness": "CONSCIOUSNESS", 
+      "consciousness": "CONSCIOUSNESS",
       "guardian": "GUARDIAN"
     }
   }
@@ -170,7 +170,7 @@ import { useTranslation } from 'next-i18next'
 
 export default function Hero() {
   const { t } = useTranslation('common')
-  
+
   return (
     <motion.p className="font-regular text-base md:text-lg tracking-[0.25em] uppercase text-trinity-consciousness mb-8 opacity-90">
       {t('hero.tagline')}
@@ -241,7 +241,7 @@ const languages = [
 
 ### Development Time
 - **i18n Setup**: 8-12 hours
-- **Component Updates**: 16-24 hours  
+- **Component Updates**: 16-24 hours
 - **Testing & QA**: 12-16 hours
 - **Total Development**: 36-52 hours
 
@@ -271,7 +271,7 @@ const languages = [
 
 ### Week 1: Foundation
 - Day 1-2: i18n framework setup
-- Day 3-4: Core navigation and hero translation  
+- Day 3-4: Core navigation and hero translation
 - Day 5-7: Basic page structure translation
 
 ### Week 2: Content Translation
@@ -303,7 +303,7 @@ const languages = [
 
 ### Future Expansion
 - Arabic (AR) - 400M+ speakers
-- Russian (RU) - 260M+ speakers  
+- Russian (RU) - 260M+ speakers
 - Korean (KO) - 75M+ speakers
 - Hindi (HI) - 600M+ speakers
 

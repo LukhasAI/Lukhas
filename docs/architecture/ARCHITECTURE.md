@@ -81,18 +81,18 @@ Core:
   Framework: AsyncIO for concurrency
   Messaging: GLYPH symbolic tokens
   Storage: JSON, PostgreSQL, Redis
-  
+
 Infrastructure:
   Containers: Docker
   Orchestration: Kubernetes
   API: FastAPI
   Monitoring: Prometheus/Grafana
-  
+
 AI/ML:
   Embeddings: OpenAI, custom vectors
   Models: Transformer architectures
   Reasoning: Symbolic + Neural hybrid
-  
+
 Security:
   Encryption: AES-256, RSA-4096
   Auth: JWT + biometric validation
@@ -165,16 +165,16 @@ class BrainHub:
     async def process(self, input_data: Dict) -> Dict:
         # 1. Guardian validation
         await self.guardian.validate(input_data)
-        
+
         # 2. Route to appropriate modules
         results = await self.router.dispatch(input_data)
-        
+
         # 3. Consolidate responses
         response = await self.consolidator.merge(results)
-        
+
         # 4. Create memory fold
         await self.memory.store(response)
-        
+
         return response
 ```
 
@@ -196,17 +196,17 @@ class ConsciousnessEngine:
         self.awareness_level = AwarenessLevel.FOCUSED
         self.reflection_depth = 3
         self.state_manager = StateManager()
-        
+
     async def process_stimulus(self, stimulus: Dict) -> Dict:
         # Generate awareness
         awareness = await self.generate_awareness(stimulus)
-        
+
         # Update state
         new_state = await self.state_manager.transition(awareness)
-        
+
         # Reflect on change
         reflection = await self.reflect(new_state)
-        
+
         return {
             "awareness": awareness,
             "state": new_state,
@@ -230,10 +230,10 @@ class MemoryHelix:
         self.origin_strand = SymbolicStrand(initial_glyphs)  # Immutable
         self.current_strand = SymbolicStrand(initial_glyphs)  # Mutable
         self.helix_core = DNAHealixCore(self.origin_strand)
-        
+
     def calculate_drift(self) -> float:
         return self.helix_core.calculate_drift()
-        
+
     def repair(self, method: RepairMethod) -> None:
         self.helix_core.repair(method)
 ```
@@ -269,17 +269,17 @@ class DreamEngine:
         self.reality_layers = []
         self.chaos_generator = ChaosGenerator()
         self.pattern_recognizer = PatternRecognizer()
-        
+
     async def dream(self, seed: Dict) -> List[Reality]:
         # Generate multiple realities
         realities = await self.spawn_realities(seed)
-        
+
         # Let them evolve
         evolved = await self.evolve_realities(realities)
-        
+
         # Extract insights
         insights = await self.extract_patterns(evolved)
-        
+
         return insights
 ```
 
@@ -368,16 +368,16 @@ class IdentityValidator:
     async def validate(self, credentials: Dict) -> bool:
         # 1. Biometric verification
         biometric_valid = await self.verify_biometrics(credentials)
-        
+
         # 2. Token validation
         token_valid = await self.verify_token(credentials)
-        
+
         # 3. Behavioral analysis
         behavior_valid = await self.analyze_behavior(credentials)
-        
+
         # 4. Guardian approval
         guardian_approved = await self.guardian.approve(credentials)
-        
+
         return all([
             biometric_valid,
             token_valid,
@@ -408,16 +408,16 @@ services:
     depends_on:
       - postgres
       - redis
-      
+
   consciousness:
     image: lukhas/consciousness:latest
     scale: 3
-    
+
   memory:
     image: lukhas/memory:latest
     volumes:
       - memory_data:/data
-      
+
   guardian:
     image: lukhas/guardian:latest
     environment:
@@ -430,7 +430,7 @@ services:
 # High-level K8s structure
 Namespaces:
   - lukhas-core
-  - lukhas-modules  
+  - lukhas-modules
   - lukhas-infrastructure
 
 Core Deployments:
@@ -443,7 +443,7 @@ Module Deployments:
   - memory-system
   - reasoning-engine
   - dream-engine
-  
+
 Supporting Services:
   - PostgreSQL cluster
   - Redis cluster
@@ -522,24 +522,24 @@ Supporting Services:
 # Standard module template
 class NewModule:
     """Module description and purpose"""
-    
+
     def __init__(self, config: Dict):
         self.config = config
         self.guardian = GuardianClient()
         self.logger = logging.getLogger(__name__)
-        
+
     async def initialize(self):
         """Async initialization"""
         await self.guardian.register(self)
-        
+
     async def process(self, glyph: GLYPHToken) -> GLYPHResponse:
         """Process incoming GLYPH token"""
         # 1. Validate input
         await self.validate(glyph)
-        
+
         # 2. Process
         result = await self._process_internal(glyph)
-        
+
         # 3. Create response
         return GLYPHResponse(
             status="success",

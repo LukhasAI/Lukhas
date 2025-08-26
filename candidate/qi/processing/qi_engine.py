@@ -24,7 +24,7 @@ class QIOscillator:
         """
         self.entanglement_factor = entanglement_factor
 
-    def quantum_modulate(self, base_signal):
+    def qi_modulate(self, base_signal):
         """
         Apply quantum modulation (superposition + entanglement adjustments) to a base signal.
 

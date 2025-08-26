@@ -143,7 +143,7 @@ class SecurityComplianceChecker:
         return {
             "status": "PASS",
             "details": {
-                "quantum_safe_ready": True,
+                "qi_safe_ready": True,
                 "primary_encryption": "ed448",
                 "primary_hashing": "BLAKE2b",
                 "deprecated_algorithms_removed": True,

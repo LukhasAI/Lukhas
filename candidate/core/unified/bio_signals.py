@@ -48,12 +48,12 @@ class QIBioOscillator:
     async def start_oscillation(self):
         """Start oscillating"""
         self.active = True
-        logger.info(f"QuantumBioOscillator started at {self.frequency}Hz")
+        logger.info(f"QIBioOscillator started at {self.frequency}Hz")
 
     async def stop_oscillation(self):
         """Stop oscillating"""
         self.active = False
-        logger.info("QuantumBioOscillator stopped")
+        logger.info("QIBioOscillator stopped")
 
     async def get_current_state(self) -> Dict[str, float]:
         """Get current oscillator state"""
@@ -71,4 +71,4 @@ class QIBioOscillator:
 
 
 # Export main classes
-__all__ = ["BioSignals", "QuantumBioOscillator"]
+__all__ = ["BioSignals", "QIBioOscillator"]

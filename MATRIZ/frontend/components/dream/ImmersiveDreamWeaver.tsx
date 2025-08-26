@@ -52,15 +52,15 @@ export default function ImmersiveDreamWeaver() {
   const audioContextRef = useRef<AudioContext | null>(null)
 
   // SSE connection for consciousness stream
-  const { data: streamData, connected, error } = useSSE<DreamEvent>('/api/dream/stream', { 
+  const { data: streamData, connected, error } = useSSE<DreamEvent>('/api/dream/stream', {
     debounceMs: 300,
-    paused: !hasBegun 
+    paused: !hasBegun
   })
 
   // Handle SSE stream data
   useEffect(() => {
     if (!streamData) return
-    
+
     setDreamState(prev => ({
       ...prev,
       phase: streamData.phase || prev.phase,
@@ -73,7 +73,7 @@ export default function ImmersiveDreamWeaver() {
       glyphs: streamData.glyphs ? [...prev.glyphs, ...streamData.glyphs].slice(-12) : prev.glyphs,
       narrative: streamData.narrative || prev.narrative
     }))
-    
+
     if (audioEnabled && streamData.emotion) {
       playEmotionalTone(streamData.emotion)
     }
@@ -105,23 +105,23 @@ export default function ImmersiveDreamWeaver() {
 
     const oscillator = audioContextRef.current.createOscillator()
     const gainNode = audioContextRef.current.createGain()
-    
+
     // Map emotions to frequencies
     const baseFreq = 220 + (emotion.valence * 220) // A3 to A4
     const modFreq = emotion.arousal * 10
-    
+
     oscillator.frequency.setValueAtTime(baseFreq, audioContextRef.current.currentTime)
     oscillator.frequency.exponentialRampToValueAtTime(
       baseFreq + modFreq,
       audioContextRef.current.currentTime + 0.5
     )
-    
+
     gainNode.gain.setValueAtTime(0.1 * emotion.dominance, audioContextRef.current.currentTime)
     gainNode.gain.exponentialRampToValueAtTime(0.01, audioContextRef.current.currentTime + 0.5)
-    
+
     oscillator.connect(gainNode)
     gainNode.connect(audioContextRef.current.destination)
-    
+
     oscillator.start()
     oscillator.stop(audioContextRef.current.currentTime + 0.5)
   }
@@ -145,7 +145,7 @@ export default function ImmersiveDreamWeaver() {
       if (!response.ok) throw new Error('Failed to initiate dream')
 
       const data = await response.json()
-      
+
       setDreamState(prev => ({
         ...prev,
         isProcessing: false,
@@ -158,7 +158,7 @@ export default function ImmersiveDreamWeaver() {
         },
         narrative: data.interpretation || prev.narrative
       }))
-      
+
     } catch (error) {
       console.error('Failed to initiate dream:', error)
       setDreamState(prev => ({
@@ -187,20 +187,20 @@ export default function ImmersiveDreamWeaver() {
     <div className="relative overflow-hidden">
       {/* Vignette overlay responds to consciousness state */}
       <div className="dw-vignette-overlay" />
-      
+
       <AnimatePresence mode="wait">
         {!hasBegun ? (
           <motion.div key="portal">
             <DreamSeedPortal onDreamBegin={handleDreamBegin} />
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             key="journey"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 2 }}
           >
-            <ConsciousnessJourney 
+            <ConsciousnessJourney
               dreamState={dreamState}
               setDreamState={setDreamState}
               onReset={resetDream}

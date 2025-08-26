@@ -124,7 +124,7 @@ class RiskAssessment:
     mitigation_measures: List[Mitigation]
     residual_risk: float
     last_assessed: datetime
-    
+
     def calculate_risk_score(self) -> float:
         """Risk = Severity × Likelihood × Impact Factor"""
         base_risk = self.severity * self.likelihood
@@ -149,7 +149,7 @@ technical_documentation:
     - intended_purpose: "Biometric authentication using consciousness patterns"
     - ai_components: ["Neural networks", "Pattern recognition", "Anomaly detection"]
     - interaction_modalities: ["Biometric sensors", "Gesture input", "API"]
-    
+
   detailed_information:
     - algorithm_design:
         type: "Hybrid CNN-RNN with attention mechanisms"
@@ -177,7 +177,7 @@ class HumanOversightSystem:
     (c) Human-in-command (HIC)
     (d) Human-over-the-loop (emergency override)
     """
-    
+
     def implement_oversight(self, mode: OversightMode):
         if mode == OversightMode.HITL:
             # Human approves each decision
@@ -228,7 +228,7 @@ class ConformityAssessment:
     """
     Module A + Module B assessment procedure
     """
-    
+
     def internal_control(self) -> AssessmentResult:
         # Module A: Internal control
         checks = [
@@ -239,7 +239,7 @@ class ConformityAssessment:
             self.review_human_oversight()
         ]
         return all(checks)
-    
+
     def type_examination(self) -> CertificateResult:
         # Module B: EU-type examination by notified body
         return self.submit_to_notified_body()
@@ -251,15 +251,15 @@ class ConformityAssessment:
 @dataclass
 class PostMarketMonitoring:
     """Continuous monitoring as per Article 72"""
-    
+
     performance_degradation_threshold: float = 0.05
     incident_reporting_timeline: timedelta = timedelta(hours=72)
-    
+
     def monitor_performance(self):
         metrics = self.collect_metrics()
         if metrics.accuracy < (baseline.accuracy - self.performance_degradation_threshold):
             self.trigger_incident_report()
-    
+
     def serious_incident_protocol(self, incident: Incident):
         # Article 73: Report within 15 days
         if incident.is_serious():
@@ -357,9 +357,9 @@ compliance_status = {
 
 *"Building AI that serves humanity, protects dignity, and deserves trust."*
 
-**Framework Version**: 1.0.0  
-**Regulation**: EU AI Act (2024/1689)  
-**Compliance Status**: In Progress  
+**Framework Version**: 1.0.0
+**Regulation**: EU AI Act (2024/1689)
+**Compliance Status**: In Progress
 **Last Updated**: 2025-01-01
 
 ---

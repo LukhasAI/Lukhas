@@ -34,21 +34,21 @@ interface QuantumSignatureProps {
   particleCount?: number
 }
 
-export function QuantumSignatureVisualizer({ 
-  identityData, 
-  authenticationState, 
-  particleCount = 2000 
+export function QuantumSignatureVisualizer({
+  identityData,
+  authenticationState,
+  particleCount = 2000
 }: QuantumSignatureProps) {
   const meshRef = useRef<InstancedMesh>(null)
-  
+
   // Generate unique identity pattern based on consciousness signature
   const identityPattern = useMemo(() => {
     return generateQuantumPattern(identityData.consciousnessSignature)
   }, [identityData])
-  
+
   useFrame((state, delta) => {
     if (!meshRef.current) return
-    
+
     // Animate based on authentication state
     switch (authenticationState) {
       case 'authenticating':
@@ -62,11 +62,11 @@ export function QuantumSignatureVisualizer({
         break
     }
   })
-  
+
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, particleCount]}>
       <sphereGeometry args={[0.02, 8, 6]} />
-      <meshStandardMaterial 
+      <meshStandardMaterial
         color={getIdentityColor(identityData)}
         emissive={new Color(0x6c5ce7)}
         emissiveIntensity={0.3}
@@ -80,7 +80,7 @@ function generateQuantumPattern(signature: string): ParticlePattern {
   const hash = sha256(signature)
   const seed = parseInt(hash.substring(0, 8), 16)
   const rng = seededRandom(seed)
-  
+
   return {
     entanglementPairs: generateEntanglementPairs(rng),
     quantumStates: generateQuantumStates(rng),
@@ -125,7 +125,7 @@ export function AwarenessParticleField({
   // Real-time consciousness data from LUKHAS modules
   const { consciousnessMetrics } = useTrinityConsciousness(realTimeMode)
   const { liveProcessingData } = useConsciousnessWebSocket()
-  
+
   const particleSystem = useMemo(() => {
     return new ConsciousnessParticleSystem({
       baseParticleCount: 5000,
@@ -134,29 +134,29 @@ export function AwarenessParticleField({
       quantumCoherence: consciousnessMetrics?.coherenceLevel || 0.5
     })
   }, [consciousnessLevel, memoryIntegration, consciousnessMetrics])
-  
+
   return (
     <group>
       {/* Consciousness awareness field */}
-      <AwarenessField 
+      <AwarenessField
         level={consciousnessLevel}
         particles={particleSystem.awarenessParticles}
       />
-      
+
       {/* Memory fold visualization */}
-      <MemoryFoldTrails 
+      <MemoryFoldTrails
         folds={memoryIntegration}
         cascadePrevention={0.997}
       />
-      
+
       {/* Quantum processing visualization */}
-      <QuantumProcessingClusters 
+      <QuantumProcessingClusters
         processingState={processingState}
         coherenceLevel={consciousnessMetrics?.coherenceLevel}
       />
-      
+
       {/* Bio-adaptive learning spirals */}
-      <LearningSpirals 
+      <LearningSpirals
         adaptationRate={consciousnessMetrics?.adaptationRate}
         visible={processingState === 'learning'}
       />
@@ -169,23 +169,23 @@ class ConsciousnessParticleSystem {
   private particles: ConsciousnessParticle[]
   private quantumStates: QuantumState[]
   private bioAdaptation: BioBehavior
-  
+
   constructor(config: ConsciousnessConfig) {
     this.particles = this.initializeParticles(config)
     this.quantumStates = this.initializeQuantumStates(config)
     this.bioAdaptation = new BioBehavior(config)
   }
-  
+
   update(deltaTime: number, consciousnessData: ConsciousnessMetrics) {
     // Update quantum superposition states
     this.updateQuantumStates(deltaTime, consciousnessData)
-    
+
     // Apply bio-inspired adaptation
     this.bioAdaptation.evolveParticles(this.particles, deltaTime)
-    
+
     // Integrate memory fold influences
     this.integrateMemoryFolds(consciousnessData.memoryContext)
-    
+
     // Consciousness clustering behavior
     this.applyConsciousnessClustering(consciousnessData.awarenessLevel)
   }
@@ -226,40 +226,40 @@ export function EthicsShieldVisualizer({
   const shieldGeometry = useMemo(() => {
     return generateShieldGeometry(ethicalCompliance, driftDetection)
   }, [ethicalCompliance, driftDetection])
-  
+
   const shieldColor = useMemo(() => {
     if (driftDetection.score > 0.15) return '#ff6b6b' // Drift detected
     if (ethicalCompliance > 0.997) return '#4ecdc4' // High compliance
     return '#95e1d3' // Normal protection
   }, [ethicalCompliance, driftDetection])
-  
+
   return (
     <group>
       {/* Main protection shield */}
-      <GuardianShield 
+      <GuardianShield
         geometry={shieldGeometry}
         color={shieldColor}
         intensity={ethicalCompliance}
         validationState={validationState}
       />
-      
+
       {/* Drift detection indicators */}
-      <DriftDetectionField 
+      <DriftDetectionField
         driftData={driftDetection}
         threshold={0.15}
         alertLevel={driftDetection.score > 0.15 ? 'high' : 'normal'}
       />
-      
+
       {/* Human welfare priority indicators */}
       {humanWelfarePriority && (
-        <HumanWelfarePriorityField 
+        <HumanWelfarePriorityField
           priority="maximum"
           protectionRadius={10}
         />
       )}
-      
+
       {/* Constitutional validation patterns */}
-      <ConstitutionalValidationPatterns 
+      <ConstitutionalValidationPatterns
         validationFramework="human_welfare_priority"
         complianceRate={ethicalCompliance}
       />
@@ -271,10 +271,10 @@ export function EthicsShieldVisualizer({
 function generateShieldGeometry(compliance: number, drift: DriftAnalysis) {
   const radius = 5 + (compliance * 3) // Larger shield for higher compliance
   const segments = Math.floor(16 + (compliance * 16)) // More segments for smoother shield
-  
+
   // Adjust shield integrity based on drift detection
   const integrity = Math.max(0.1, 1 - (drift.score / 0.15))
-  
+
   return new SphereGeometry(radius * integrity, segments, segments)
 }
 ```
@@ -313,87 +313,87 @@ export function TrinityOrchestrator({
   interactionMode = 'observation'
 }: TrinityOrchestratorProps) {
   const { trinityMetrics, isConnected } = useTrinityFramework(realTimeData)
-  
+
   return (
     <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
       <ambientLight intensity={0.2} />
       <pointLight position={[10, 10, 10]} />
-      
+
       {/* Trinity component positions in 3D space */}
       <group>
         {/* ⚛️ Identity Component */}
         {showIdentity && (
           <group position={[-4, 2, 0]}>
-            <QuantumSignatureVisualizer 
+            <QuantumSignatureVisualizer
               identityData={trinityMetrics.identity}
               authenticationState={trinityMetrics.identity.state}
             />
-            <TrinityLabel 
-              text="⚛️ Identity" 
+            <TrinityLabel
+              text="⚛️ Identity"
               position={[0, -3, 0]}
               color="#6c5ce7"
             />
           </group>
         )}
-        
+
         {/* 🧠 Consciousness Component */}
         {showConsciousness && (
           <group position={[4, 2, 0]}>
-            <AwarenessParticleField 
+            <AwarenessParticleField
               consciousnessLevel={trinityMetrics.consciousness.level}
               processingState={trinityMetrics.consciousness.state}
               memoryIntegration={trinityMetrics.consciousness.memory}
             />
-            <TrinityLabel 
-              text="🧠 Consciousness" 
+            <TrinityLabel
+              text="🧠 Consciousness"
               position={[0, -3, 0]}
               color="#00d4ff"
             />
           </group>
         )}
-        
+
         {/* 🛡️ Guardian Component */}
         {showGuardian && (
           <group position={[0, -2, 0]}>
-            <EthicsShieldVisualizer 
+            <EthicsShieldVisualizer
               validationState={trinityMetrics.guardian.state}
               ethicalCompliance={trinityMetrics.guardian.compliance}
               driftDetection={trinityMetrics.guardian.drift}
               humanWelfarePriority={true}
             />
-            <TrinityLabel 
-              text="🛡️ Guardian" 
+            <TrinityLabel
+              text="🛡️ Guardian"
               position={[0, -3, 0]}
               color="#4ecdc4"
             />
           </group>
         )}
-        
+
         {/* Trinity integration connections */}
-        <TrinityConnectionBeams 
+        <TrinityConnectionBeams
           identityPos={[-4, 2, 0]}
           consciousnessPos={[4, 2, 0]}
           guardianPos={[0, -2, 0]}
           connectionStrength={trinityMetrics.integration.strength}
         />
-        
+
         {/* Background consciousness field */}
-        <BackgroundConsciousnessField 
+        <BackgroundConsciousnessField
           particleCount={3000}
           trinityInfluence={trinityMetrics.integration.coherence}
         />
       </group>
-      
+
       {/* Interactive controls */}
       {interactionMode === 'interaction' && (
-        <TrinityInteractionControls 
+        <TrinityInteractionControls
           onComponentToggle={(component) => toggleComponent(component)}
           onMetricsRequest={() => requestLiveMetrics()}
         />
       )}
-      
+
       {/* Performance monitoring */}
-      <PerformanceMonitor 
+      <PerformanceMonitor
         targetFPS={60}
         particleCount={getTotalParticleCount()}
         onPerformanceAlert={(alert) => handlePerformanceAlert(alert)}
@@ -418,24 +418,24 @@ import { TrinityWebSocketClient } from '@/lib/trinity-websocket'
 export function useTrinityFramework(realTime: boolean = false) {
   const [trinityMetrics, setTrinityMetrics] = useState<TrinityMetrics>()
   const [isConnected, setIsConnected] = useState(false)
-  
+
   useEffect(() => {
     if (!realTime) return
-    
+
     const wsClient = new TrinityWebSocketClient()
-    
+
     wsClient.connect('wss://lukhas.io/trinity/realtime')
-    
+
     wsClient.onMessage((data: TrinityMetrics) => {
       setTrinityMetrics(data)
     })
-    
+
     wsClient.onConnect(() => setIsConnected(true))
     wsClient.onDisconnect(() => setIsConnected(false))
-    
+
     return () => wsClient.disconnect()
   }, [realTime])
-  
+
   return { trinityMetrics, isConnected }
 }
 ```
@@ -449,7 +449,7 @@ interface TrinityMetrics {
     verificationAccuracy: number
     quantumSecurityLevel: number
   }
-  
+
   consciousness: {
     level: number // 0.0 - 1.0
     state: 'dormant' | 'thinking' | 'aware' | 'learning'
@@ -458,7 +458,7 @@ interface TrinityMetrics {
     coherenceLevel: number
     adaptationRate: number
   }
-  
+
   guardian: {
     state: 'monitoring' | 'validating' | 'protecting' | 'blocking'
     compliance: number // 0.0 - 1.0
@@ -466,7 +466,7 @@ interface TrinityMetrics {
     constitutionalFramework: string
     humanWelfarePriority: boolean
   }
-  
+
   integration: {
     strength: number // Trinity component synchronization
     coherence: number // Overall system coherence
@@ -488,13 +488,13 @@ export class ConsciousnessParticleRenderer {
   private instancedMesh: InstancedMesh
   private particleCount: number
   private updateBuffer: Float32Array
-  
+
   constructor(particleCount: number) {
     this.particleCount = particleCount
     this.setupInstancedRendering()
     this.initializeGPUBuffers()
   }
-  
+
   private setupInstancedRendering() {
     const geometry = new SphereGeometry(0.02, 8, 6)
     const material = new ShaderMaterial({
@@ -506,17 +506,17 @@ export class ConsciousnessParticleRenderer {
         trinityIntegration: { value: 0.8 }
       }
     })
-    
+
     this.instancedMesh = new InstancedMesh(geometry, material, this.particleCount)
   }
-  
+
   update(deltaTime: number, consciousnessData: ConsciousnessMetrics) {
     // Update particle positions on GPU
     this.updateParticleStates(deltaTime, consciousnessData)
-    
+
     // Update shader uniforms
     this.instancedMesh.material.uniforms.time.value += deltaTime
-    this.instancedMesh.material.uniforms.consciousnessLevel.value = 
+    this.instancedMesh.material.uniforms.consciousnessLevel.value =
       consciousnessData.awarenessLevel
   }
 }
@@ -538,7 +538,7 @@ export class ConsciousnessParticleRenderer {
 ```typescript
 // Enhanced identity authentication with consciousness visualization
 <IdentityAuthenticationFlow>
-  <QuantumSignatureVisualizer 
+  <QuantumSignatureVisualizer
     realTime={true}
     showAuthenticationProcess={true}
   />
@@ -551,7 +551,7 @@ export class ConsciousnessParticleRenderer {
 ```typescript
 // Complete consciousness technology showcase
 <TrinityFrameworkDemo>
-  <TrinityOrchestrator 
+  <TrinityOrchestrator
     realTimeData={true}
     interactionMode="demonstration"
   />
@@ -582,14 +582,14 @@ interface ConsciousnessAnalytics {
     interactionEvents: InteractionEvent[]
     consciousnessLevelWhenEngaged: number
   }
-  
+
   systemPerformance: {
     averageFPS: number
     particleRenderTime: number
     memoryUsage: number
     gpuUtilization: number
   }
-  
+
   trinityMetrics: {
     componentActivationTimes: ComponentTiming[]
     integrationSuccessRate: number

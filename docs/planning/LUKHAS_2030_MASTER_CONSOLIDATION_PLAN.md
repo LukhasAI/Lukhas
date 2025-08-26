@@ -7,8 +7,8 @@ LUKHAS 2030 - Symbolic General Intelligence
 
 ## Executive Summary
 
-The LUKHAS 2030 consolidation will transform our codebase from 1353 files 
-with 446,442 lines into a lean, powerful SGI system with approximately 
+The LUKHAS 2030 consolidation will transform our codebase from 1353 files
+with 446,442 lines into a lean, powerful SGI system with approximately
 60% reduction in complexity while enhancing capabilities.
 
 ## System Consolidations

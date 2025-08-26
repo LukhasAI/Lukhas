@@ -13,6 +13,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent))
 
 from adaptive_metrics_collector import AdaptiveMetricsCollector, OperationalContext
+from bio_symbolic_coherence_monitor import BioSymbolicCoherenceMonitor
 from endocrine_observability_engine import (
     EndocrineObservabilityEngine,
     PlasticityTriggerType,
@@ -22,8 +23,6 @@ from integrated_monitoring_system import IntegratedMonitoringSystem
 from neuroplastic_learning_orchestrator import NeuroplasticLearningOrchestrator
 from plasticity_trigger_manager import PlasticityTriggerManager
 from real_data_collector import LukhasRealDataCollector
-
-from bio_symbolic_coherence_monitor import BioSymbolicCoherenceMonitor
 
 
 class SystemCapabilitiesDemo:

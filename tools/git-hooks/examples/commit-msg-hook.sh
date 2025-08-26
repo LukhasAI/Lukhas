@@ -44,15 +44,15 @@ suggest_conventional_format() {
 
 suggest_improvements() {
     first_line=$(echo "$COMMIT_MSG" | head -n1)
-    
+
     if [[ ${#first_line} -gt 72 ]]; then
         echo "📏 Your message is quite long (${#first_line} chars). Consider shortening to 50-72 characters."
     fi
-    
+
     if [[ ${#first_line} -lt 10 ]]; then
         echo "📝 Your message is very short. Consider adding more detail about what changed."
     fi
-    
+
     if echo "$COMMIT_MSG" | grep -qE "^(wip|temp|fix|update)$"; then
         echo "🔍 Generic message detected. Consider being more specific about what you changed."
     fi
@@ -63,13 +63,13 @@ improve_message_interactively() {
     echo "✏️ Let's improve your commit message!"
     echo "   Current: $COMMIT_MSG"
     echo
-    
+
     suggest_conventional_format
     suggest_improvements
     echo
-    
+
     read -p "🖊️  Enter improved message (or press Enter to keep current): " new_message
-    
+
     if [[ -n "$new_message" ]]; then
         echo "$new_message" > "$COMMIT_MSG_FILE"
         echo "✅ Commit message updated!"
@@ -85,47 +85,47 @@ main() {
     echo "🎭 $HOOK_NAME"
     echo "   $HOOK_DESCRIPTION"
     echo
-    
+
     # Skip if no commit message (merge commits, etc.)
     if [[ -z "$COMMIT_MSG" || "$COMMIT_MSG" =~ ^Merge.* ]]; then
         exit 0
     fi
-    
+
     echo "📝 Your commit message: \"$COMMIT_MSG\""
-    
+
     # Check various quality aspects
     issues=()
-    
+
     if ! is_conventional_format; then
         issues+=("Not using conventional format")
     fi
-    
+
     if ! is_good_length; then
         issues+=("Length could be improved")
     fi
-    
+
     if ! has_description; then
         issues+=("Message is too generic")
     fi
-    
+
     if [[ ${#issues[@]} -eq 0 ]]; then
         echo "✅ Great commit message! 🎉"
         exit 0
     fi
-    
+
     echo
     echo "🤔 Your commit message could be improved:"
     for issue in "${issues[@]}"; do
         echo "   • $issue"
     done
     echo
-    
+
     get_user_choice \
         "✏️ Improve message now" "improve_now" \
         "💡 Show suggestions only" "show_suggestions" \
         "✅ Use as-is" "keep_message" \
         "❌ Cancel commit" "cancel_commit"
-    
+
     case $USER_CHOICE in
         "improve_now")
             if improve_message_interactively; then

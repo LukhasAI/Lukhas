@@ -43,7 +43,7 @@ class ConsolidationState(Enum):
 class MemoryTrace:
     """
     Individual memory trace (engram) inspired by neuroscience.
-    
+
     Like neurons encoding memories in the brain.
     """
     trace_id: str
@@ -91,7 +91,7 @@ class MemoryTrace:
 class EpisodicMemory:
     """
     Episodic memory for specific symbol usage events.
-    
+
     Like the hippocampus encoding specific experiences.
     """
     episode_id: str
@@ -133,7 +133,7 @@ class EpisodicMemory:
 class HippocampalBuffer:
     """
     Hippocampal-like temporary buffer for new memories.
-    
+
     Inspired by how the hippocampus temporarily stores memories
     before cortical consolidation.
     """
@@ -161,7 +161,7 @@ class HippocampalBuffer:
     def replay(self, n_replays: int = 10) -> List[MemoryTrace]:
         """
         Sharp-wave ripple replay for consolidation.
-        
+
         Like how the hippocampus replays memories during rest/sleep.
         """
         replayed = []
@@ -178,7 +178,7 @@ class HippocampalBuffer:
     def pattern_complete(self, partial: Dict[str, Any]) -> Optional[MemoryTrace]:
         """
         Pattern completion from partial cues.
-        
+
         Like CA3 region completing patterns from partial input.
         """
         best_match = None
@@ -219,7 +219,7 @@ class HippocampalBuffer:
 class CorticalNetwork:
     """
     Cortical-like network for semantic memory.
-    
+
     Distributed representation like neocortex.
     """
 
@@ -256,7 +256,7 @@ class CorticalNetwork:
                            max_spread: int = 3) -> List[Tuple[str, float]]:
         """
         Spreading activation through semantic network.
-        
+
         Like how concepts activate related concepts in the brain.
         """
         if start_concept not in self.semantic_nodes:
@@ -323,7 +323,7 @@ class CorticalNetwork:
 class WorkingMemory:
     """
     Working memory system with limited capacity.
-    
+
     Like prefrontal cortex maintaining active representations.
     """
 
@@ -394,7 +394,7 @@ class WorkingMemory:
 class NeuroSymbolicMemory:
     """
     Complete neuroscience-inspired memory system.
-    
+
     Integrates multiple memory systems like the human brain.
     """
 
@@ -413,7 +413,7 @@ class NeuroSymbolicMemory:
                                 outcome: Optional[str] = None) -> str:
         """
         Encode a new symbol usage experience.
-        
+
         Creates episodic memory and extracts semantic knowledge.
         """
         # Create episodic memory
@@ -474,7 +474,7 @@ class NeuroSymbolicMemory:
     def consolidate_memories(self, cycles: int = 1):
         """
         Consolidate memories from hippocampus to cortex.
-        
+
         Like sleep consolidation in the brain.
         """
         for _ in range(cycles):
@@ -499,7 +499,7 @@ class NeuroSymbolicMemory:
     def dream_recombination(self, n_symbols: int = 5) -> List[Symbol]:
         """
         Dream-like recombination of memory traces.
-        
+
         Creates novel symbol combinations like REM sleep.
         """
         # Select random traces weighted by importance
@@ -543,7 +543,7 @@ class NeuroSymbolicMemory:
     def prune_memories(self, threshold: float = 0.1):
         """
         Prune weak memory traces.
-        
+
         Like synaptic pruning in the brain.
         """
         current_time = time.time()

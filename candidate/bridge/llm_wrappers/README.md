@@ -27,7 +27,7 @@ This module stands as a testament to our commitment to pushing the boundaries of
 # 🎯 KEY FEATURES
 
 - **Unified Interface**: Interact with various LLMs using a consistent API, reducing the complexity of integrating multiple models.
-  
+
 - **Dynamic Model Selection**: Easily switch between models based on user requirements or application context, enhancing versatility in deployments.
 
 - **Perplexity Measurement**: Assess the quality and coherence of generated text using perplexity metrics, ensuring outputs meet desired standards.
@@ -122,7 +122,7 @@ The **llm_wrappers** module is currently in an active development phase but has 
 - **Development Status**: Actively maintained with regular updates.
 - **Test Coverage**: 85% unit test coverage ensuring core functionalities are thoroughly validated.
 - **Reliability Metrics**: Proven stability in production environments with minimal downtime reported.
-  
+
 ### Known Limitations
 
 While our module provides extensive capabilities, there are inherent limitations:
@@ -187,5 +187,5 @@ Join us on this exhilarating journey as we collectively explore the infinite pos
 
 ---
 
-> 🧬 *Part of the LUKHAS AGI Consciousness Architecture*  
+> 🧬 *Part of the LUKHAS AGI Consciousness Architecture*
 > *"Where dreams become algorithms, and algorithms dream of consciousness"*

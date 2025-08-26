@@ -1,4 +1,3 @@
 """
 Consent Module
 """
-

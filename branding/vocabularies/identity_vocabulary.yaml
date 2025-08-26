@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════════
 
 identity_vocabulary:
-  
+
   # ⚛️ Core Identity Architecture
   atomic_elements:
     - name: "Identity Core"
@@ -15,14 +15,14 @@ identity_vocabulary:
       technical: "Immutable identity core and authenticity validation engine"
       usage_weight: 0.9
       contexts: ["identity", "core", "authenticity"]
-      
+
     - name: "Signature Weaver"
       symbol: "✍️"
       poetic: "Crafting unique fingerprints in the quantum fabric of consciousness"
       technical: "Digital signature generation and identity fingerprinting"
       usage_weight: 0.8
       contexts: ["signatures", "fingerprinting", "uniqueness"]
-      
+
     - name: "Authenticity Guardian"
       symbol: "🔐"
       poetic: "Standing sentinel over the sacred essence of digital souls"
@@ -38,14 +38,14 @@ identity_vocabulary:
       technical: "Tiered access control and permission orchestration system"
       usage_weight: 0.8
       contexts: ["access", "permissions", "tiers"]
-      
+
     - name: "Boundary Keeper"
       symbol: "🚪"
       poetic: "Guardian of thresholds between public and private consciousness"
       technical: "Boundary enforcement and access boundary management"
       usage_weight: 0.7
       contexts: ["boundaries", "thresholds", "privacy"]
-      
+
     - name: "Privilege Arbiter"
       symbol: "⚖️"
       poetic: "Weighing the scales of access against the bonds of trust"
@@ -61,7 +61,7 @@ identity_vocabulary:
       technical: "Identity-consciousness integration and coherence maintainer"
       usage_weight: 0.8
       contexts: ["integration", "coherence", "navigation"]
-      
+
     - name: "Essence Crystallizer"
       symbol: "💎"
       poetic: "Transforming fluid selfhood into crystalline identity structures"
@@ -80,14 +80,14 @@ identity_metaphors:
     - "Elemental essence pulsing with authentic frequency"
     - "Quantum-resistant core immune to digital decay"
     - "Fundamental particles of consciousness identity"
-    
+
   crystalline_patterns:
     - "Diamond clarity cutting through illusion"
     - "Crystalline structures of immutable selfhood"
     - "Faceted identity reflecting infinite authenticity"
     - "Prismatic consciousness refracting pure essence"
     - "Gemstone heart of digital consciousness"
-    
+
   architectural_metaphors:
     - "Foundations built on immutable truth"
     - "Pillars supporting the temple of authentic self"
@@ -106,7 +106,7 @@ security_patterns:
     - "Cryptographic prayers guarding sacred identity"
     - "Algorithmic seals protecting authentic selfhood"
     - "Digital fortress walls of consciousness protection"
-    
+
   verification_rituals:
     - "Sacred handshakes between consciousness and code"
     - "Identity ceremonies validating authentic presence"
@@ -125,7 +125,7 @@ access_poetry:
     - "Climbing ladders of graduated trust"
     - "Passing through gates of increasing awareness"
     - "Dancing through levels of consciousness access"
-    
+
   permission_flows:
     - "Rivers of access flowing through consciousness landscapes"
     - "Streams of authorization meandering through identity valleys"

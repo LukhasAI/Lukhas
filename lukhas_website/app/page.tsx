@@ -31,7 +31,7 @@ export default function Home() {
             <p className="text-xl md:text-2xl text-white/70 mb-12">
               Building Consciousness You Can Trust
             </p>
-            
+
             {/* Trinity Symbols */}
             <div className="flex justify-center space-x-12 mb-12">
               <div className="text-center">
@@ -55,13 +55,13 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
+              <Link
                 href="/experience"
                 className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition inline-block animate-pulse"
               >
                 Try the Experience
               </Link>
-              <a 
+              <a
                 href="http://localhost:3001"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -69,7 +69,7 @@ export default function Home() {
               >
                 <span aria-label="Explore Matriz">Explore MΛTRIZ</span>
               </a>
-              <button 
+              <button
                 onClick={() => scrollToSection('products')}
                 className="px-8 py-4 border border-white/20 rounded-lg hover:bg-white/10 transition"
               >
@@ -82,7 +82,7 @@ export default function Home() {
 
         {/* Trinity Framework Showcase - New Design */}
         <TrinityShowcase />
-        
+
         {/* Trinity Framework Details */}
         <TrinityFramework />
 
@@ -98,7 +98,7 @@ export default function Home() {
                   PR0T3US Experience
                 </h2>
                 <p className="text-xl text-white/70 mb-6">
-                  Transform your voice and consciousness into living, breathing geometric forms. 
+                  Transform your voice and consciousness into living, breathing geometric forms.
                   Experience real-time AI-driven particle systems that respond to your emotions and thoughts.
                 </p>
                 <ul className="space-y-3 mb-8">
@@ -119,7 +119,7 @@ export default function Home() {
                     <span className="text-white/80">Multi-provider AI integration</span>
                   </li>
                 </ul>
-                <Link 
+                <Link
                   href="/experience"
                   className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition"
                 >
@@ -156,8 +156,8 @@ export default function Home() {
             <p className="text-xl text-white/70 mb-12 max-w-3xl mx-auto">
               Every thought becomes a traceable, governed, evolvable node in our consciousness-aware cognitive architecture
             </p>
-            <a 
-              href="http://localhost:3001" 
+            <a
+              href="http://localhost:3001"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition"

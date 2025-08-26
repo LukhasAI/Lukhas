@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden">
       <NeuralBackground />
-      
+
       {/* Main Content */}
       <div className="relative z-10 flex min-h-screen flex-col">
         {/* Header */}
@@ -36,7 +36,7 @@ export default function Home() {
           >
             LUKHΛS
           </motion.div>
-          
+
           <motion.nav
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -64,12 +64,12 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <QuoteRotator 
+              <QuoteRotator
                 quotes={quotesData}
                 rotateMs={8000}
                 enableCharacterAnimation={true}
               />
-              
+
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

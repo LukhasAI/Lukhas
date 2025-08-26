@@ -33,7 +33,7 @@ class PrivacyLevel(Enum):
 class PrivateSymbol:
     """
     Private symbol stored on device only.
-    
+
     Based on Universal Language spec for private idiolect.
     """
     symbol_id: str
@@ -100,7 +100,7 @@ class PrivateBinding:
 class SymbolEncryption:
     """
     Handles encryption for private symbols.
-    
+
     Based on Universal Language spec security requirements.
     """
 
@@ -115,7 +115,7 @@ class SymbolEncryption:
     def derive_key(self, user_id: str, salt: bytes) -> bytes:
         """
         Derive encryption key using PBKDF2.
-        
+
         Based on spec: K_device = KDF(ΛiD_seed ∥ device_secret ∥ salt)
         """
         cache_key = f"{user_id}:{salt.hex()}"
@@ -165,7 +165,7 @@ class SymbolEncryption:
 class ConceptAnonymizer:
     """
     Anonymizes concepts for privacy-preserving transmission.
-    
+
     Only concept IDs cross the wire, never raw private tokens.
     """
 
@@ -222,7 +222,7 @@ class ConceptAnonymizer:
 class PrivateSymbolVault:
     """
     Device-local vault for private symbols.
-    
+
     Based on Universal Language spec - encrypted local storage,
     never leaves device by default.
     """
@@ -291,7 +291,7 @@ class PrivateSymbolVault:
     def translate_private_to_universal(self, tokens: List[Any]) -> List[str]:
         """
         Translate private tokens to universal concept IDs.
-        
+
         Core privacy feature - only concept IDs transmitted.
         """
         concept_ids = []
@@ -329,7 +329,7 @@ class PrivateSymbolVault:
                                       mode: str = "preferred") -> List[Any]:
         """
         Translate universal concept IDs to private tokens.
-        
+
         Personalized rendering based on user preferences.
         """
         private_tokens = []
@@ -427,18 +427,18 @@ class PrivateSymbolVault:
             imported_symbols = vault_data.get("symbols", {})
             imported_bindings = vault_data.get("bindings", {})
             imported_stats = vault_data.get("stats", {})
-            
+
             # Merge symbols with conflict resolution
             for symbol_id, symbol_data in imported_symbols.items():
                 if symbol_id in self.symbols:
                     # Symbol exists - merge by choosing more recent or comprehensive version
                     existing_symbol = self.symbols[symbol_id]
                     imported_symbol = symbol_data
-                    
+
                     # Compare modification times if available
                     existing_time = existing_symbol.get("modified", 0)
                     imported_time = imported_symbol.get("modified", 0)
-                    
+
                     if imported_time > existing_time:
                         self.symbols[symbol_id] = imported_symbol
                         logger.info(f"Updated existing symbol {symbol_id} with imported version")
@@ -448,14 +448,14 @@ class PrivateSymbolVault:
                     # New symbol - add it
                     self.symbols[symbol_id] = symbol_data
                     logger.info(f"Added new imported symbol {symbol_id}")
-            
+
             # Merge bindings similarly
             for binding_key, binding_data in imported_bindings.items():
                 if binding_key in self.bindings:
                     # Binding exists - merge values
                     existing_binding = self.bindings[binding_key]
                     imported_binding = binding_data
-                    
+
                     # For bindings, we can merge the values if they're different
                     if existing_binding != imported_binding:
                         # Create a merged binding with both values
@@ -472,7 +472,7 @@ class PrivateSymbolVault:
                     # New binding - add it
                     self.bindings[binding_key] = binding_data
                     logger.info(f"Added new imported binding {binding_key}")
-            
+
             # Update stats by merging counters
             for stat_key, stat_value in imported_stats.items():
                 if stat_key in self.stats:

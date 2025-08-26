@@ -108,7 +108,7 @@ class HealixMapper:
         }
 
         # Helix properties
-        self.quantum_encryption = True
+        self.qi_encryption = True
         self.mutation_tracking = True
         self.pattern_validation = True
 

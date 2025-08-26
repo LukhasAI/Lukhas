@@ -78,7 +78,7 @@ const mockResponses: Record<string, any> = {
 export default function InteractiveDemo() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
-  
+
   const [query, setQuery] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
   const [nodes, setNodes] = useState<MatadaNode[]>([])
@@ -113,7 +113,7 @@ export default function InteractiveDemo() {
     for (let i = 0; i < mockData.nodes.length; i++) {
       const nodeData = mockData.nodes[i]
       const nodeId = `node-${Date.now()}-${i}`
-      
+
       // Create node
       const node: MatadaNode = {
         id: nodeId,
@@ -319,7 +319,7 @@ export default function InteractiveDemo() {
               <h3 className="font-regular text-lg tracking-[0.1em] uppercase mb-4">
                 Ask MATADA
               </h3>
-              
+
               {/* Sample Queries */}
               <div className="mb-4">
                 <p className="text-sm text-neutral-gray mb-2">Try these sample queries:</p>
@@ -379,7 +379,7 @@ export default function InteractiveDemo() {
                     <span className="mr-2">🛡️</span>
                     Guardian Status
                   </h3>
-                  
+
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="text-neutral-gray">Status:</span>
@@ -421,7 +421,7 @@ export default function InteractiveDemo() {
                     Response
                   </h3>
                   <p className="font-thin text-base leading-relaxed mb-4">{response}</p>
-                  
+
                   {showTrace && (
                     <motion.button
                       initial={{ opacity: 0 }}
@@ -444,7 +444,7 @@ export default function InteractiveDemo() {
               <h3 className="font-regular text-lg tracking-[0.1em] uppercase mb-4">
                 Cognitive Nodes
               </h3>
-              
+
               <div className="space-y-4 min-h-[200px]">
                 <AnimatePresence>
                   {nodes.length === 0 && !isProcessing && (
@@ -456,7 +456,7 @@ export default function InteractiveDemo() {
                       Enter a query to see cognitive processing in action
                     </motion.div>
                   )}
-                  
+
                   {nodes.map((node, index) => (
                     <motion.div
                       key={node.id}
@@ -488,7 +488,7 @@ export default function InteractiveDemo() {
                   <h3 className="font-regular text-lg tracking-[0.1em] uppercase mb-4">
                     Processing Trace
                   </h3>
-                  
+
                   <div className="space-y-2 max-h-64 overflow-y-auto font-mono text-xs">
                     {processingSteps.map((step, index) => (
                       <motion.div

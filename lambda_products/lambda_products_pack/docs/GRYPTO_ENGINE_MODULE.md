@@ -138,16 +138,16 @@ class SecureGryptoEngine:
 def derive_cryptographic_key(gesture_sequence, user_salt=None):
     """
     HMAC-SHA3-256 based key derivation
-    
+
     Security parameters:
     - Salt length: 32 bytes
     - PBKDF2 iterations: 600,000
     - Output key length: 256 bits
     """
-    
+
     # HMAC construction
     h = hmac.new(user_salt, digestmod=hashlib.sha3_256)
-    
+
     # Serialize gesture data with MessagePack
     for gesture in gesture_sequence:
         gesture_data = msgpack.packb({
@@ -157,7 +157,7 @@ def derive_cryptographic_key(gesture_sequence, user_salt=None):
             'timestamp': gesture['timestamp']
         })
         h.update(gesture_data)
-    
+
     # PBKDF2 key stretching
     kdf = PBKDF2(
         algorithm=hashes.SHA3_256(),
@@ -166,7 +166,7 @@ def derive_cryptographic_key(gesture_sequence, user_salt=None):
         iterations=600_000,
         backend=default_backend()
     )
-    
+
     return kdf.derive(h.digest())
 ```
 
@@ -177,11 +177,11 @@ def derive_cryptographic_key(gesture_sequence, user_salt=None):
 def recognize_gesture(input_gesture, stored_templates):
     """
     DTW-based recognition with early abandoning
-    
+
     Complexity: O(nm) average case, O(n²) worst case
     Accuracy: 97.2% on 10,000 sample dataset
     """
-    
+
     for template in stored_templates:
         distance = constrained_dtw(
             input_gesture,
@@ -189,7 +189,7 @@ def recognize_gesture(input_gesture, stored_templates):
             window=0.1,  # Sakoe-Chiba band
             early_abandon_threshold=0.3
         )
-        
+
         if distance < recognition_threshold:
             return template.id, confidence_score(distance)
 ```
@@ -327,8 +327,8 @@ The system continuously learns and adapts to user patterns:
 
 *"Your movements are your signature, your gestures your keys, your motion your unbreakable identity."*
 
-**Engine Version**: 2.0.0-secure  
-**Last Updated**: 2025-01-01  
+**Engine Version**: 2.0.0-secure
+**Last Updated**: 2025-01-01
 **Security Level**: Quantum-Resistant
 
 ---

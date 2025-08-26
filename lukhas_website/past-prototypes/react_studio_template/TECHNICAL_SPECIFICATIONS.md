@@ -169,7 +169,7 @@ const rightIcons = [
 // Two-Level Interface
 Level 1: Quick Commands (search)
 - Settings & Preferences
-- Open Code Editor  
+- Open Code Editor
 - Open Terminal
 - New Document
 - Find in Files
@@ -213,7 +213,7 @@ GET /api/agents/available
 POST /api/agents/switch
 GET /api/agents/status
 
-// File Management  
+// File Management
 POST /api/files/upload
 GET /api/files/list
 DELETE /api/files/:id
@@ -231,7 +231,7 @@ PUT /api/user/settings
 'file_upload_complete' // File processing done
 'typing_indicator'    // Agent is processing
 
-// Outgoing Events  
+// Outgoing Events
 'send_message'        // User message
 'switch_agent'        // Change active agent
 'upload_file'         // File attachment
@@ -287,7 +287,7 @@ connect-src 'self' wss: https:;
 
 ### Input Sanitization
 - XSS Protection: Sanitize all user inputs
-- File Upload: Validate file types and sizes  
+- File Upload: Validate file types and sizes
 - CSRF Protection: Token-based validation
 - Rate Limiting: API request throttling
 
@@ -312,6 +312,6 @@ const performanceMetrics = {
 
 ---
 
-**Technical Specification Version**: 2.0  
-**Last Updated**: June 27, 2025  
+**Technical Specification Version**: 2.0
+**Last Updated**: June 27, 2025
 **Maintained by**: LUKHΛS AI Development Team

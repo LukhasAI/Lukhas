@@ -7,7 +7,7 @@ The ΛiD identity system audit revealed **296 high-severity security issues** ac
 ## 🚨 Critical Security Issues (Priority 1)
 
 ### Hardcoded Secrets (289 instances)
-**Risk Level:** CRITICAL  
+**Risk Level:** CRITICAL
 **Impact:** Credential exposure, unauthorized access
 
 **Affected Files:**
@@ -23,7 +23,7 @@ The ΛiD identity system audit revealed **296 high-severity security issues** ac
 4. **Create:** Secure credential rotation procedures
 
 ### Weak Cryptography (7 instances)
-**Risk Level:** HIGH  
+**Risk Level:** HIGH
 **Impact:** Data compromise, authentication bypass
 
 **Affected Files:**
@@ -43,7 +43,7 @@ The ΛiD identity system audit revealed **296 high-severity security issues** ac
 class LukhusSecretManager:
     def __init__(self):
         self.vault = VaultClient(url=os.getenv('VAULT_URL'))
-    
+
     def get_secret(self, path: str) -> str:
         return self.vault.read(path)['data']['value']
 ```

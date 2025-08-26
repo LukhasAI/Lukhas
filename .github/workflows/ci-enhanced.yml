@@ -65,36 +65,36 @@ jobs:
         run: |
           echo "🔍 Running acceptance gate to check for illegal imports..."
           python3 tools/acceptance_gate.py
-          
+
       - name: Install import-linter
         run: |
           pip install import-linter
-          
+
       - name: Create import-linter config
         run: |
           cat > .importlinter << EOF
           [importlinter]
           root_package = lukhas
-          
+
           [contract:accepted_must_not_import_candidate]
           name = Accepted must not import Candidate
           type = forbidden
           source_modules = lukhas
           forbidden_modules = candidate
-          
+
           [contract:accepted_must_not_import_quarantine]
           name = Accepted must not import Quarantine
           type = forbidden
           source_modules = lukhas
           forbidden_modules = quarantine
-          
+
           [contract:accepted_must_not_import_archive]
           name = Accepted must not import Archive
           type = forbidden
           source_modules = lukhas
           forbidden_modules = archive
           EOF
-          
+
       - name: Run import-linter
         run: |
           echo "📦 Checking import contracts..."

@@ -16,12 +16,12 @@ security:
     security_level: 5  # AES-256 equivalent
     hybrid_mode: true
     key_rotation_interval_hours: 24
-  
+
   zero_knowledge:
     default_proof_system: "adaptive"
     circuit_cache_size: 1000
     trusted_setup_required: false
-  
+
   homomorphic_encryption:
     scheme: "CKKS"
     precision_bits: 40
@@ -34,7 +34,7 @@ distributed:
     head_node_port: 10001
     num_cpus: 8
     num_gpus: 1
-  
+
   consensus:
     algorithm: "quantum_byzantine_ft"
     byzantine_tolerance: 0.33
@@ -46,7 +46,7 @@ memory:
     capacity_qubits: 10
     error_correction: "surface_code"
     decoherence_mitigation: "dynamical_decoupling"
-  
+
   classical_cache:
     max_size_gb: 10
     eviction_policy: "lru"
@@ -57,7 +57,7 @@ audit:
     block_size: 100
     mining_difficulty: 4
     consensus_algorithm: "proof_of_stake"
-  
+
   compliance_frameworks:
     - "GDPR"
     - "CCPA"

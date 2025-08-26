@@ -54,7 +54,7 @@ export default function LaunchChecklist() {
         status: 'unknown',
         category: 'critical'
       },
-      
+
       // Performance Requirements
       {
         id: 'tti-performance',
@@ -70,8 +70,8 @@ export default function LaunchChecklist() {
         status: 'unknown',
         category: 'important'
       },
-      
-      // Technical Requirements  
+
+      // Technical Requirements
       {
         id: 'telemetry-sampled',
         name: 'Telemetry events sampled and non-identifying',
@@ -94,16 +94,16 @@ export default function LaunchChecklist() {
         category: 'nice-to-have'
       }
     ]
-    
+
     setItems(checklistItems)
-    
+
     // Run automated checks
     runAutomatedChecks(checklistItems)
   }, [])
 
   const runAutomatedChecks = async (checklistItems: ChecklistItem[]) => {
     const updatedItems = [...checklistItems]
-    
+
     // Check quote system
     try {
       const quoteKey = 'lukhas:lastQuoteId'
@@ -116,7 +116,7 @@ export default function LaunchChecklist() {
       const item = updatedItems.find(i => i.id === 'one-quote-per-session')
       if (item) item.status = 'fail'
     }
-    
+
     // Check reduced motion support
     try {
       const supportsReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')
@@ -128,14 +128,14 @@ export default function LaunchChecklist() {
       const item = updatedItems.find(i => i.id === 'reduced-motion-verified')
       if (item) item.status = 'fail'
     }
-    
+
     // Check environment flags
     const item = updatedItems.find(i => i.id === 'env-flags-documented')
     if (item) {
       // We know we implemented this
       item.status = 'pass'
     }
-    
+
     setItems(updatedItems)
   }
 
@@ -167,7 +167,7 @@ export default function LaunchChecklist() {
     const critical = items.filter(i => i.category === 'critical')
     const important = items.filter(i => i.category === 'important')
     const niceToHave = items.filter(i => i.category === 'nice-to-have')
-    
+
     return {
       critical: {
         total: critical.length,

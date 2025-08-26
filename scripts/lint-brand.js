@@ -15,7 +15,7 @@ class BrandLinter {
     this.violations = [];
     this.warnings = [];
     this.policyManifest = this.loadPolicyManifest();
-    
+
     // Critical violations that block builds
     this.criticalPatterns = [
       {
@@ -62,7 +62,7 @@ class BrandLinter {
       'lukhas_website/**/*.{tsx,jsx,ts,js,html,md}',
       'branding/**/*.md'
     ];
-    
+
     // Directories to ignore
     this.ignorePatterns = [
       '**/node_modules/**',
@@ -89,13 +89,13 @@ class BrandLinter {
     console.log('🔍 Scanning for brand policy violations...\n');
 
     const files = this.getFilesToScan();
-    
+
     for (const filePath of files) {
       await this.scanFile(filePath);
     }
 
     this.reportResults();
-    
+
     // Exit with error code if critical violations found
     if (this.violations.length > 0) {
       process.exit(1);
@@ -104,9 +104,9 @@ class BrandLinter {
 
   getFilesToScan() {
     const files = [];
-    
+
     for (const pattern of this.scanPatterns) {
-      const matches = glob.sync(pattern, { 
+      const matches = glob.sync(pattern, {
         cwd: process.cwd(),
         ignore: this.ignorePatterns
       });
@@ -128,10 +128,10 @@ class BrandLinter {
         }
 
         const matches = [...content.matchAll(rule.pattern)];
-        
+
         for (const match of matches) {
           const lineNumber = this.getLineNumber(content, match.index);
-          
+
           this.violations.push({
             file: relativePath,
             line: lineNumber,
@@ -144,17 +144,17 @@ class BrandLinter {
 
       // Check Lambda usage outside display contexts
       this.checkLambdaUsage(content, relativePath);
-      
+
       // Check for international false friends
       this.checkFalseFriends(content, relativePath);
-      
+
       // Check warnings
       for (const rule of this.warningPatterns) {
         const matches = [...content.matchAll(rule.pattern)];
-        
+
         for (const match of matches) {
           const lineNumber = this.getLineNumber(content, match.index);
-          
+
           this.warnings.push({
             file: relativePath,
             line: lineNumber,
@@ -173,8 +173,8 @@ class BrandLinter {
 
   shouldSkipFile(filePath, excludePatterns = []) {
     if (!excludePatterns) return false;
-    
-    return excludePatterns.some(pattern => 
+
+    return excludePatterns.some(pattern =>
       filePath.toLowerCase().includes(pattern.toLowerCase())
     );
   }
@@ -187,24 +187,24 @@ class BrandLinter {
     // Check if Lambda appears outside of display contexts
     const lambdaPattern = /[λΛ]/g;
     const matches = [...content.matchAll(lambdaPattern)];
-    
+
     for (const match of matches) {
       const lineNumber = this.getLineNumber(content, match.index);
       const lineStart = content.lastIndexOf('\n', match.index) + 1;
       const lineEnd = content.indexOf('\n', match.index);
       const line = content.substring(lineStart, lineEnd === -1 ? undefined : lineEnd);
-      
+
       // Check if it's in a display context
       const isDisplay = /aria-label=["'].*Matriz/i.test(line);
       const isHeader = /<h[1-6]/i.test(line);
       const isLogo = /logo|wordmark|brand/i.test(line);
-      
+
       if (!isDisplay && !isHeader && !isLogo) {
         // Check if it's in body text or SEO-sensitive areas
         const isInBody = /<p|<span|<div|<li/i.test(line);
         const isInMeta = /<meta|<title|alt=|title=/i.test(line);
         const isInUrl = /href=|path=|url=/i.test(line);
-        
+
         if (isInBody || isInMeta || isInUrl) {
           this.violations.push({
             file: filePath,
@@ -226,19 +226,19 @@ class BrandLinter {
       FR: this.policyManifest.i18n?.falseFriendsFR || ['matrice'],
       IT: this.policyManifest.i18n?.falseFriendsIT || ['matrice']
     };
-    
+
     for (const [locale, words] of Object.entries(falseFriends)) {
       for (const word of words) {
         const pattern = new RegExp(`\\b${word}\\b`, 'gi');
         const matches = [...content.matchAll(pattern)];
-        
+
         for (const match of matches) {
           const lineNumber = this.getLineNumber(content, match.index);
-          
+
           // Check if it's in a locale-specific context
-          const isLocaleFile = filePath.includes(`.${locale.toLowerCase()}.`) || 
+          const isLocaleFile = filePath.includes(`.${locale.toLowerCase()}.`) ||
                                filePath.includes(`/${locale.toLowerCase()}/`);
-          
+
           if (isLocaleFile) {
             this.violations.push({
               file: filePath,
@@ -267,7 +267,7 @@ class BrandLinter {
     // Report violations (errors)
     if (this.violations.length > 0) {
       console.log(`❌ ${this.violations.length} Critical Violations Found:\n`);
-      
+
       for (const violation of this.violations) {
         console.log(`${violation.file}:${violation.line}`);
         console.log(`  ❌ ${violation.message}`);
@@ -279,7 +279,7 @@ class BrandLinter {
     // Report warnings
     if (this.warnings.length > 0) {
       console.log(`⚠️  ${this.warnings.length} Warnings:\n`);
-      
+
       for (const warning of this.warnings) {
         console.log(`${warning.file}:${warning.line}`);
         console.log(`  ⚠️  ${warning.message}`);
@@ -298,7 +298,7 @@ class BrandLinter {
       console.log('📋 Summary:');
       console.log(`  Critical violations: ${this.violations.length}`);
       console.log(`  Warnings: ${this.warnings.length}`);
-      
+
       if (this.violations.length > 0) {
         console.log('\n🚫 Build blocked due to critical violations.');
         console.log('   Fix violations above and re-run.');

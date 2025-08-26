@@ -1,5 +1,5 @@
 {
-  "task_id": "LUKHAS-MEMORY-001", 
+  "task_id": "LUKHAS-MEMORY-001",
   "title": "Hyperspace Dream Simulator - Advanced Consciousness Modeling",
   "priority": "P1",
   "domain": "memory_consciousness",
@@ -9,7 +9,7 @@
   "todo_items": [
     "ΛTODO: Implement logical coherence validation",
     "ΛTODO: Add more sophisticated outcome generation based on causal models",
-    "ΛTODO: Implement sophisticated convergence analysis", 
+    "ΛTODO: Implement sophisticated convergence analysis",
     "ΛTODO: Add more sophisticated recommendation generation",
     "TODO: Implement predictive token consumption modeling for simulation planning"
   ],

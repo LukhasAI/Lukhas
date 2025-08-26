@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 class SafetyMonitor extends EventEmitter {
   private static instance: SafetyMonitor;
   private metrics: Map<string, number>;
-  
+
   private constructor() {
     super();
     this.metrics = new Map();

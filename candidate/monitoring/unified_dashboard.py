@@ -417,14 +417,14 @@ async def dashboard_home():
             .trinity { font-size: 48px; margin: 10px 0; }
             .title { font-size: 28px; margin: 10px 0; }
             .subtitle { font-size: 14px; color: #888; }
-            
+
             .dashboard-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
                 gap: 20px;
                 padding: 20px;
             }
-            
+
             .metric-card {
                 background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
                 border: 1px solid #00ff00;
@@ -433,13 +433,13 @@ async def dashboard_home():
                 box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
                 transition: all 0.3s ease;
             }
-            
+
             .metric-card:hover {
                 border-color: #00ff88;
                 box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
                 transform: translateY(-2px);
             }
-            
+
             .card-title {
                 font-size: 18px;
                 color: #00ff88;
@@ -447,32 +447,32 @@ async def dashboard_home():
                 display: flex;
                 align-items: center;
             }
-            
+
             .card-icon { font-size: 24px; margin-right: 10px; }
-            
+
             .metric-value {
                 font-size: 32px;
                 font-weight: bold;
                 margin-bottom: 10px;
                 text-align: center;
             }
-            
+
             .metric-label {
                 font-size: 12px;
                 color: #888;
                 text-align: center;
             }
-            
+
             .health-excellent { color: #00ff00; }
             .health-good { color: #88ff00; }
             .health-fair { color: #ffff00; }
             .health-poor { color: #ff8800; }
             .health-critical { color: #ff0000; }
-            
+
             .status-active { color: #00ff00; }
             .status-warning { color: #ffff00; }
             .status-error { color: #ff0000; }
-            
+
             .alerts-panel {
                 position: fixed;
                 top: 20px;
@@ -486,7 +486,7 @@ async def dashboard_home():
                 padding: 15px;
                 display: none;
             }
-            
+
             .alert-item {
                 padding: 8px;
                 margin: 5px 0;
@@ -494,11 +494,11 @@ async def dashboard_home():
                 background: rgba(255, 255, 255, 0.05);
                 border-radius: 4px;
             }
-            
+
             .alert-critical { border-left-color: #ff0000; }
             .alert-warning { border-left-color: #ffff00; }
             .alert-info { border-left-color: #00ffff; }
-            
+
             .chart-container {
                 height: 150px;
                 background: rgba(0, 0, 0, 0.3);
@@ -509,7 +509,7 @@ async def dashboard_home():
                 justify-content: center;
                 color: #555;
             }
-            
+
             .footer {
                 text-align: center;
                 padding: 20px;
@@ -525,7 +525,7 @@ async def dashboard_home():
             <div class="subtitle">Real-time monitoring and analytics</div>
             <div class="subtitle" id="last-update">Connecting...</div>
         </div>
-        
+
         <div class="dashboard-grid">
             <!-- System Health -->
             <div class="metric-card">
@@ -533,42 +533,42 @@ async def dashboard_home():
                 <div class="metric-value health-excellent" id="health-score">--</div>
                 <div class="metric-label">Overall Health Score</div>
             </div>
-            
+
             <!-- API Performance -->
             <div class="metric-card">
                 <div class="card-title"><span class="card-icon">🚀</span>API Performance</div>
                 <div class="metric-value" id="api-rps">--</div>
                 <div class="metric-label" id="api-response-time">Response Time: --ms</div>
             </div>
-            
+
             <!-- Consciousness Status -->
             <div class="metric-card">
                 <div class="card-title"><span class="card-icon">🧠</span>Consciousness</div>
                 <div class="metric-value" id="awareness-level">--</div>
                 <div class="metric-label" id="consciousness-state">State: --</div>
             </div>
-            
+
             <!-- Memory System -->
             <div class="metric-card">
                 <div class="card-title"><span class="card-icon">🧬</span>Memory</div>
                 <div class="metric-value" id="memory-folds">--</div>
                 <div class="metric-label" id="drift-score">Drift Score: --</div>
             </div>
-            
+
             <!-- Guardian System -->
             <div class="metric-card">
                 <div class="card-title"><span class="card-icon">🛡️</span>Guardian</div>
                 <div class="metric-value status-active" id="guardian-status">ACTIVE</div>
                 <div class="metric-label" id="ethics-score">Ethics Score: --</div>
             </div>
-            
+
             <!-- Dream Engine -->
             <div class="metric-card">
                 <div class="card-title"><span class="card-icon">🌙</span>Dream Engine</div>
                 <div class="metric-value" id="active-dreams">--</div>
                 <div class="metric-label" id="creativity-index">Creativity: --</div>
             </div>
-            
+
             <!-- System Resources -->
             <div class="metric-card">
                 <div class="card-title"><span class="card-icon">⚙️</span>System Resources</div>
@@ -583,7 +583,7 @@ async def dashboard_home():
                     </div>
                 </div>
             </div>
-            
+
             <!-- Feature Flags -->
             <div class="metric-card">
                 <div class="card-title"><span class="card-icon">🎛️</span>Feature Flags</div>
@@ -591,111 +591,111 @@ async def dashboard_home():
                 <div class="metric-label" id="total-flags">Total: --</div>
             </div>
         </div>
-        
+
         <div class="alerts-panel" id="alerts-panel">
             <h3>Recent Alerts</h3>
             <div id="alerts-list"></div>
         </div>
-        
+
         <div class="footer">
             <div>LUKHAS  Dashboard v2.0.0 | Trinity Framework</div>
             <div>WebSocket Status: <span id="connection-status" class="status-warning">Connecting...</span></div>
         </div>
-        
+
         <script>
             // WebSocket connection
             const ws = new WebSocket(`ws://${window.location.host}/ws`);
-            
+
             ws.onopen = () => {
                 document.getElementById('connection-status').textContent = 'Connected';
                 document.getElementById('connection-status').className = 'status-active';
             };
-            
+
             ws.onclose = () => {
                 document.getElementById('connection-status').textContent = 'Disconnected';
                 document.getElementById('connection-status').className = 'status-error';
             };
-            
+
             ws.onmessage = (event) => {
                 const message = JSON.parse(event.data);
                 updateDashboard(message.data);
                 updateAlerts(message.alerts);
-                document.getElementById('last-update').textContent = 
+                document.getElementById('last-update').textContent =
                     `Last updated: ${new Date().toLocaleTimeString()}`;
             };
-            
+
             function updateDashboard(data) {
                 if (!data) return;
-                
+
                 // System health
                 const healthScore = data.health_score || 0;
                 document.getElementById('health-score').textContent = (healthScore * 100).toFixed(0) + '%';
-                document.getElementById('health-score').className = 
+                document.getElementById('health-score').className =
                     'metric-value ' + getHealthClass(healthScore);
-                
+
                 // API metrics
                 if (data.api) {
-                    document.getElementById('api-rps').textContent = 
+                    document.getElementById('api-rps').textContent =
                         (data.api.requests_per_second || 0).toFixed(1) + ' RPS';
-                    document.getElementById('api-response-time').textContent = 
+                    document.getElementById('api-response-time').textContent =
                         `Response Time: ${data.api.average_response_time || 0}ms`;
                 }
-                
+
                 // Consciousness
                 if (data.consciousness) {
-                    document.getElementById('awareness-level').textContent = 
+                    document.getElementById('awareness-level').textContent =
                         ((data.consciousness.awareness_level || 0) * 100).toFixed(0) + '%';
-                    document.getElementById('consciousness-state').textContent = 
+                    document.getElementById('consciousness-state').textContent =
                         `State: ${data.consciousness.state || 'unknown'}`;
                 }
-                
+
                 // Memory
                 if (data.memory) {
-                    document.getElementById('memory-folds').textContent = 
+                    document.getElementById('memory-folds').textContent =
                         data.memory.total_folds || 0;
-                    document.getElementById('drift-score').textContent = 
+                    document.getElementById('drift-score').textContent =
                         `Drift Score: ${(data.memory.drift_score || 0).toFixed(2)}`;
                 }
-                
+
                 // Guardian
                 if (data.ethics) {
-                    document.getElementById('guardian-status').textContent = 
+                    document.getElementById('guardian-status').textContent =
                         data.ethics.guardian_active ? 'ACTIVE' : 'INACTIVE';
-                    document.getElementById('ethics-score').textContent = 
+                    document.getElementById('ethics-score').textContent =
                         `Ethics Score: ${((data.ethics.ethics_score || 0) * 100).toFixed(0)}%`;
                 }
-                
+
                 // Dream Engine
                 if (data.dream) {
-                    document.getElementById('active-dreams').textContent = 
+                    document.getElementById('active-dreams').textContent =
                         data.dream.active_dreams || 0;
-                    document.getElementById('creativity-index').textContent = 
+                    document.getElementById('creativity-index').textContent =
                         `Creativity: ${((data.dream.creativity_index || 0) * 100).toFixed(0)}%`;
                 }
-                
+
                 // System Resources
                 if (data.system) {
-                    document.getElementById('cpu-usage').textContent = 
+                    document.getElementById('cpu-usage').textContent =
                         (data.system.cpu_percent || 0).toFixed(1) + '%';
-                    document.getElementById('memory-usage').textContent = 
+                    document.getElementById('memory-usage').textContent =
                         (data.system.memory_percent || 0).toFixed(1) + '%';
                 }
-                
+
                 // Feature Flags
                 if (data.flags) {
-                    document.getElementById('enabled-flags').textContent = 
+                    document.getElementById('enabled-flags').textContent =
                         data.flags.enabled_flags || 0;
-                    document.getElementById('total-flags').textContent = 
+                    document.getElementById('total-flags').textContent =
                         `Total: ${data.flags.total_flags || 0}`;
                 }
             }
-            
+
             function updateAlerts(alerts) {
                 if (!alerts || !alerts.length) return;
-                
+
                 const alertsList = document.getElementById('alerts-list');
                 alertsList.innerHTML = '';
-                
+
                 alerts.forEach(alert => {
                     const alertEl = document.createElement('div');
                     alertEl.className = `alert-item alert-${alert.type}`;
@@ -706,12 +706,12 @@ async def dashboard_home():
                     `;
                     alertsList.appendChild(alertEl);
                 });
-                
+
                 if (alerts.length > 0) {
                     document.getElementById('alerts-panel').style.display = 'block';
                 }
             }
-            
+
             function getHealthClass(score) {
                 if (score >= 0.9) return 'health-excellent';
                 if (score >= 0.8) return 'health-good';
@@ -719,7 +719,7 @@ async def dashboard_home():
                 if (score >= 0.4) return 'health-poor';
                 return 'health-critical';
             }
-            
+
             // Toggle alerts panel on click
             document.addEventListener('click', (e) => {
                 if (e.target.closest('.alerts-panel')) return;

@@ -33,64 +33,64 @@ consciousness/
 class AutoConsciousness:
     """
     Autonomous consciousness system with self-awareness.
-    
+
     Responsibilities:
     - Maintain continuous awareness
     - Make autonomous decisions
     - Reflect on experiences
     - Learn from interactions
     """
-    
+
     async def initialize(self,
                         awareness_threshold: float = 0.7,
                         reflection_interval: int = 300) -> None:
         """
         Initialize consciousness system.
-        
+
         Args:
             awareness_threshold: Minimum awareness level (0.0-1.0)
             reflection_interval: Seconds between reflections
-            
+
         Contract:
             - Must establish baseline awareness
             - Must start background processes
             - Must connect to memory system
             - Must register with Guardian
         """
-        
+
     async def process_stimulus(self,
                              stimulus: Stimulus,
                              priority: Priority = Priority.NORMAL) -> Response:
         """
         Process incoming stimulus.
-        
+
         Args:
             stimulus: Input stimulus
             priority: Processing priority
-            
+
         Returns:
             Response with awareness assessment and actions
-            
+
         Contract:
             - Must assess awareness level
             - Must determine attention focus
             - Must consider emotional impact
             - Must log to memory if significant
         """
-        
+
     async def make_conscious_decision(self,
                                     scenario: DecisionScenario,
                                     time_limit: Optional[float] = None) -> Decision:
         """
         Make a conscious, deliberate decision.
-        
+
         Args:
             scenario: Decision context and options
             time_limit: Maximum decision time (seconds)
-            
+
         Returns:
             Decision with reasoning and confidence
-            
+
         Contract:
             - Must evaluate all options
             - Must consider ethical implications
@@ -106,42 +106,42 @@ class AutoConsciousness:
 class AwarenessEngine:
     """
     Multi-dimensional awareness assessment.
-    
+
     Responsibilities:
     - Assess self-awareness
-    - Monitor environmental awareness  
+    - Monitor environmental awareness
     - Track emotional awareness
     - Maintain meta-awareness
     """
-    
+
     async def assess_awareness(self,
                              context: AwarenessContext) -> AwarenessState:
         """
         Perform comprehensive awareness assessment.
-        
+
         Args:
             context: Current context for assessment
-            
+
         Returns:
             AwarenessState with multi-dimensional scores
-            
+
         Contract:
             - Must evaluate all awareness dimensions
             - Must detect awareness degradation
             - Must identify attention focus
             - Must be computationally efficient
         """
-        
+
     async def focus_attention(self,
                             targets: List[AttentionTarget],
                             duration: float = 1.0) -> AttentionResult:
         """
         Direct conscious attention.
-        
+
         Args:
             targets: Targets for attention
             duration: Focus duration in seconds
-            
+
         Contract:
             - Must prioritize targets
             - Must maintain awareness during focus
@@ -156,41 +156,41 @@ class AwarenessEngine:
 class ReflectionEngine:
     """
     Self-reflection and meta-cognition.
-    
+
     Responsibilities:
     - Reflect on experiences
     - Analyze decision outcomes
     - Identify patterns
     - Generate insights
     """
-    
+
     async def reflect_on_experience(self,
                                   experience: Experience,
                                   depth: ReflectionDepth = ReflectionDepth.NORMAL) -> Insights:
         """
         Reflect on an experience.
-        
+
         Args:
             experience: Experience to reflect on
             depth: Depth of reflection
-            
+
         Returns:
             Insights gained from reflection
-            
+
         Contract:
             - Must analyze causal relationships
             - Must identify learnings
             - Must update belief system
             - Must generate actionable insights
         """
-        
+
     async def meta_cognitive_analysis(self) -> MetaCognitiveReport:
         """
         Analyze own cognitive processes.
-        
+
         Returns:
             Report on cognitive patterns and efficiency
-            
+
         Contract:
             - Must assess decision quality
             - Must identify cognitive biases
@@ -304,26 +304,26 @@ VALID_TRANSITIONS = {
 ```python
 class ConsciousnessMemoryBridge:
     """Bridge between consciousness and memory"""
-    
+
     async def store_significant_experience(self,
                                          experience: Experience,
                                          significance: float) -> str:
         """
         Store experience if significant enough.
-        
+
         Contract:
             - Significance > 0.7 always stored
             - Significance > 0.5 stored if unique
             - Must include consciousness state
             - Must preserve causal context
         """
-        
+
     async def retrieve_relevant_memories(self,
                                        context: DecisionContext,
                                        limit: int = 10) -> List[MemoryItem]:
         """
         Retrieve memories relevant to current context.
-        
+
         Contract:
             - Must be context-aware
             - Must prioritize by relevance
@@ -337,24 +337,24 @@ class ConsciousnessMemoryBridge:
 ```python
 class ConsciousnessEmotionBridge:
     """Bridge between consciousness and emotion"""
-    
+
     async def get_emotional_influence(self,
                                     decision_scenario: DecisionScenario) -> EmotionalInfluence:
         """
         Get emotional influence on decision.
-        
+
         Contract:
             - Must quantify influence (0.0-1.0)
             - Must identify specific emotions
             - Must explain influence mechanism
             - Must be overrideable by logic
         """
-        
+
     async def update_emotional_state(self,
                                    decision_outcome: DecisionOutcome) -> None:
         """
         Update emotional state based on outcome.
-        
+
         Contract:
             - Must reflect on emotional accuracy
             - Must adjust future influence
@@ -370,7 +370,7 @@ class ConsciousnessEmotionBridge:
 ```python
 class DecisionQualityMetrics:
     """Metrics for decision quality"""
-    
+
     average_confidence: float  # 0.0-1.0
     decision_accuracy: float  # Based on outcomes
     ethical_alignment: float  # Guardian assessment
@@ -384,7 +384,7 @@ class DecisionQualityMetrics:
 ```python
 class AwarenessQualityMetrics:
     """Metrics for awareness quality"""
-    
+
     awareness_stability: float     # Variation over time
     attention_accuracy: float      # Focus on relevant
     self_awareness_depth: float    # Meta-cognitive level
@@ -420,13 +420,13 @@ async def handle_consciousness_degradation(self,
                                          degradation_type: DegradationType) -> RecoveryPlan:
     """
     Handle consciousness degradation.
-    
+
     Degradation Types:
     - Awareness dropping below threshold
     - Decision paralysis
     - Reflection loops
     - Attention fragmentation
-    
+
     Contract:
         - Must detect degradation early
         - Must have recovery strategies
@@ -508,5 +508,5 @@ CONSCIOUSNESS_ETHICS = {
 
 ---
 
-*Contract Version: 2.0.0*  
+*Contract Version: 2.0.0*
 *Last Updated: 2025-08-03*

@@ -72,7 +72,7 @@ class SteganographyMode(Enum):
     HOLOGRAPHIC = "holographic"  # 3D holographic embedding
     TEMPORAL_PHASED = "temporal_phased"  # Time-based revelation
     SYMBOLIC_RESONANCE = "symbolic"  # Hidden in symbolic patterns
-    QUANTUM_ENTANGLED = "quantum_entangled"  # Quantum entangled bits
+    QUANTUM_ENTANGLED = "qi_entangled"  # Quantum entangled bits
     PLAUSIBLE_DENIABILITY = "deniable"  # Multiple valid interpretations
 
 
@@ -85,7 +85,7 @@ class PayloadType(Enum):
     FINANCIAL_KEYS = "financial_keys"  # Crypto keys, passwords
     CONSCIOUSNESS_BACKUP = "consciousness"  # Consciousness state backup
     SYMBOLIC_IDENTITY = "symbolic_identity"  # Lambda ID components
-    QUANTUM_SIGNATURE = "quantum_signature"  # Quantum auth signatures
+    QUANTUM_SIGNATURE = "qi_signature"  # Quantum auth signatures
     LEGACY_MESSAGE = "legacy_message"  # Time-locked messages
     SOVEREIGN_DECLARATION = "sovereign"  # Digital sovereignty claims
     UNIVERSAL_KEY = "universal_key"  # Master key fragments
@@ -108,7 +108,7 @@ class SteganographicPayload:
     encryption_key: Optional[bytes] = None
     consciousness_lock: Optional[dict[str, Any]] = None
     temporal_lock: Optional[datetime] = None
-    quantum_signature: Optional[str] = None
+    qi_signature: Optional[str] = None
     plausible_alternatives: list[bytes] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -166,7 +166,7 @@ class QISteganographyEngine:
         self,
         default_mode: SteganographyMode = SteganographyMode.LSB_QUANTUM,
         enable_consciousness: bool = True,
-        quantum_encryption: bool = True,
+        qi_encryption: bool = True,
         plausible_deniability: bool = False,
     ):
         """
@@ -179,7 +179,7 @@ class QISteganographyEngine:
         """
         self.default_mode = default_mode
         self.enable_consciousness = enable_consciousness
-        self.quantum_encryption = quantum_encryption
+        self.qi_encryption = qi_encryption
         self.plausible_deniability = plausible_deniability
 
         # Initialize subsystems
@@ -204,14 +204,14 @@ class QISteganographyEngine:
         🚀 CEO: "Activating military-grade quantum protection"
         """
         # Quantum random number generator
-        self.qrng = QuantumRandomGenerator()
+        self.qrng = QIRandomGenerator()
 
         # Post-quantum encryption
         self.pqc_engine = PostQuantumCrypto()
 
         # Quantum entanglement simulator
-        if self.quantum_encryption:
-            self.entanglement_engine = QuantumEntanglementSimulator()
+        if self.qi_encryption:
+            self.entanglement_engine = QIEntanglementSimulator()
 
         logger.info("⚛️ Quantum systems initialized with maximum entropy")
 
@@ -241,7 +241,7 @@ class QISteganographyEngine:
         mode: Optional[SteganographyMode] = None,
         consciousness_lock: Optional[dict[str, Any]] = None,
         temporal_lock: Optional[datetime] = None,
-        quantum_entangle: bool = True,
+        qi_entangle: bool = True,
     ) -> tuple[np.ndarray, SteganographicPayload]:
         """
         Embed sovereign data with maximum protection
@@ -273,7 +273,7 @@ class QISteganographyEngine:
             mode: Embedding mode (default: quantum LSB)
             consciousness_lock: Optional consciousness requirements
             temporal_lock: Optional time-based reveal date
-            quantum_entangle: Enable quantum entanglement
+            qi_entangle: Enable quantum entanglement
 
         Returns:
             Tuple[np.ndarray, SteganographicPayload]: Embedded image and payload record
@@ -284,7 +284,7 @@ class QISteganographyEngine:
 
         # Prepare payload
         prepared_payload = self._prepare_payload(
-            payload, consciousness_lock, temporal_lock, quantum_entangle
+            payload, consciousness_lock, temporal_lock, qi_entangle
         )
 
         # Select embedding strategy
@@ -343,7 +343,7 @@ class QISteganographyEngine:
         data: Union[dict[str, Any], bytes, str],
         consciousness_lock: Optional[dict[str, Any]],
         temporal_lock: Optional[datetime],
-        quantum_entangle: bool,
+        qi_entangle: bool,
     ) -> SteganographicPayload:
         """Prepare and encrypt payload for embedding"""
 
@@ -362,7 +362,7 @@ class QISteganographyEngine:
         compressed_data = zlib.compress(data_bytes, level=9)
 
         # Generate encryption key
-        if self.quantum_encryption:
+        if self.qi_encryption:
             encryption_key = self.qrng.generate_quantum_key(32)
         else:
             encryption_key = secrets.token_bytes(32)
@@ -371,9 +371,9 @@ class QISteganographyEngine:
         encrypted_data = self._encrypt_payload(compressed_data, encryption_key)
 
         # Generate quantum signature
-        quantum_signature = None
-        if quantum_entangle and hasattr(self, "entanglement_engine"):
-            quantum_signature = self.entanglement_engine.generate_signature(
+        qi_signature = None
+        if qi_entangle and hasattr(self, "entanglement_engine"):
+            qi_signature = self.entanglement_engine.generate_signature(
                 encrypted_data
             )
 
@@ -391,13 +391,13 @@ class QISteganographyEngine:
             encryption_key=encryption_key,
             consciousness_lock=consciousness_lock,
             temporal_lock=temporal_lock,
-            quantum_signature=quantum_signature,
+            qi_signature=qi_signature,
             plausible_alternatives=plausible_alternatives,
             metadata={
                 "compressed_size": len(compressed_data),
                 "original_size": len(data_bytes),
                 "embedding_time": datetime.now().isoformat(),
-                "quantum_protected": self.quantum_encryption,
+                "qi_protected": self.qi_encryption,
             },
         )
 
@@ -424,7 +424,7 @@ class QISteganographyEngine:
         total_bits = length_bits + payload_bits
 
         # Generate quantum-random embedding positions
-        if self.quantum_encryption:
+        if self.qi_encryption:
             positions = self.qrng.generate_embedding_positions(
                 len(total_bits), height * width * 3
             )
@@ -1014,7 +1014,7 @@ class QISteganographyEngine:
             "has_key": payload.encryption_key is not None,
             "has_consciousness": payload.consciousness_lock is not None,
             "has_temporal": payload.temporal_lock is not None,
-            "has_quantum": payload.quantum_signature is not None,
+            "has_quantum": payload.qi_signature is not None,
         }
 
         # Serialize complete payload
@@ -1032,8 +1032,8 @@ class QISteganographyEngine:
         if payload.temporal_lock:
             serialized["temporal"] = payload.temporal_lock.isoformat()
 
-        if payload.quantum_signature:
-            serialized["quantum"] = payload.quantum_signature
+        if payload.qi_signature:
+            serialized["quantum"] = payload.qi_signature
 
         return json.dumps(serialized).encode("utf-8")
 

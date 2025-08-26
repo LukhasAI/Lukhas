@@ -60,7 +60,7 @@ async def protected_route(user: AuthContext = Depends(get_current_user)):
 - **Access**: Basic public content
 - **Trinity Score**: 0.3
 
-### T2 - Participant  
+### T2 - Participant
 - **Glyphs**: ⚛️ 🔐
 - **Access**: Content creation, basic API
 - **Trinity Score**: 0.5

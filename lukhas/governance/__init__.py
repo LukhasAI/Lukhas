@@ -31,10 +31,10 @@ Phase: Phase 7 - Registry Updates and Policy Integration
 
 # Core Guardian System imports
 try:
-    from .guardian_system import GuardianSystem
+    from .guardian import Guardian
     from .guardian_sentinel import GuardianSentinel
     from .guardian_shadow_filter import GuardianShadowFilter
-    from .guardian import Guardian
+    from .guardian_system import GuardianSystem
 except ImportError:
     GuardianSystem = None
     GuardianSentinel = None
@@ -44,16 +44,16 @@ except ImportError:
 # Promoted Guardian System (lukhas/governance/guardian)
 try:
     from .guardian import (
-        detect_drift,
-        evaluate_ethics,
-        check_safety,
-        get_guardian_status,
+        GUARDIAN_ACTIVE,
+        DriftResult,
+        EthicalDecision,
         EthicalSeverity,
         GovernanceAction,
-        EthicalDecision,
-        DriftResult,
         SafetyResult,
-        GUARDIAN_ACTIVE
+        check_safety,
+        detect_drift,
+        evaluate_ethics,
+        get_guardian_status,
     )
     GUARDIAN_PROMOTED = True
 except ImportError:
@@ -71,10 +71,10 @@ except ImportError:
 
 # Ethics and compliance imports
 try:
-    from .ethics.constitutional_ai import ConstitutionalAI
-    from .ethics.ethical_guardian import EthicsGuardian
-    from .ethics.ethical_evaluator import EthicalEvaluator
     from .compliance_drift_monitor import ComplianceDriftMonitor
+    from .ethics.constitutional_ai import ConstitutionalAI
+    from .ethics.ethical_evaluator import EthicalEvaluator
+    from .ethics.ethical_guardian import EthicsGuardian
 except ImportError:
     ConstitutionalAI = None
     EthicsGuardian = None
@@ -91,50 +91,46 @@ except ImportError:
 
 # Phase 7 ID Authentication Integration imports
 try:
-    from .auth_guardian_integration import (
-        AuthenticationGuardian,
-        AuthEventType,
-        AuthDriftMetrics,
-        ConstitutionalAuthPrinciples
-    )
-    
-    from .auth_glyph_registry import (
-        AuthGlyphRegistry,
-        AuthGlyph,
-        SymbolicIdentity,
-        AuthGlyphCategory,
-        auth_glyph_registry
-    )
-    
-    from .auth_governance_policies import (
-        AuthGovernancePolicyEngine,
-        PolicyRule,
-        PolicyViolation,
-        PolicyAssessment,
-        PolicyCategory,
-        PolicySeverity,
-        auth_governance_policy_engine
-    )
-    
     from .auth_cross_module_integration import (
         AuthCrossModuleIntegrator,
-        TrinityFrameworkIntegration,
+        AuthMessageType,
         AuthModuleMessage,
         ModuleAuthContext,
         ModuleType,
-        AuthMessageType,
-        auth_cross_module_integrator
+        TrinityFrameworkIntegration,
+        auth_cross_module_integrator,
     )
-    
+    from .auth_glyph_registry import (
+        AuthGlyph,
+        AuthGlyphCategory,
+        AuthGlyphRegistry,
+        SymbolicIdentity,
+        auth_glyph_registry,
+    )
+    from .auth_governance_policies import (
+        AuthGovernancePolicyEngine,
+        PolicyAssessment,
+        PolicyCategory,
+        PolicyRule,
+        PolicySeverity,
+        PolicyViolation,
+        auth_governance_policy_engine,
+    )
+    from .auth_guardian_integration import (
+        AuthDriftMetrics,
+        AuthenticationGuardian,
+        AuthEventType,
+        ConstitutionalAuthPrinciples,
+    )
     from .auth_integration_system import (
-        LUKHASAuthIntegrationSystem,
-        IntegrationHealthStatus,
         AuthIntegrationMetrics,
-        lukhas_auth_integration_system
+        IntegrationHealthStatus,
+        LUKHASAuthIntegrationSystem,
+        lukhas_auth_integration_system,
     )
-    
+
     PHASE_7_AVAILABLE = True
-    
+
 except ImportError as e:
     # Fallback for development or missing dependencies
     AuthenticationGuardian = None
@@ -244,7 +240,7 @@ def get_governance_status():
         'available_capabilities': len(GOVERNANCE_INFO['capabilities']),
         'integration_ready': PHASE_7_AVAILABLE
     }
-    
+
     return status
 
 
@@ -256,21 +252,21 @@ def initialize_governance_system(config=None):
             if GuardianSystem:
                 return GuardianSystem()
             return None
-        
+
         # Initialize the complete Phase 7 integration system
         integration_system = lukhas_auth_integration_system
-        
+
         if integration_system:
             # This would be async in practice, but providing sync interface
             print(f"LUKHAS Governance System initialized: {__phase__}")
             print(f"Trinity Framework: {__trinity_framework__}")
-            print(f"Guardian System v1.0.0 with drift threshold: 0.15")
+            print("Guardian System v1.0.0 with drift threshold: 0.15")
             print(f"Phase 7 ID integration: {' Available' if PHASE_7_AVAILABLE else 'L Not Available'}")
-            
+
             return integration_system
-        
+
         return None
-        
+
     except Exception as e:
         print(f"Error initializing governance system: {e}")
         return None
@@ -285,13 +281,13 @@ __all__ = [
     'GOVERNANCE_INFO',
     'get_governance_status',
     'initialize_governance_system',
-    
+
     # Core Guardian System
     'GuardianSystem',
-    'GuardianSentinel', 
+    'GuardianSentinel',
     'GuardianShadowFilter',
     'Guardian',
-    
+
     # Promoted Guardian System Functions
     'detect_drift',
     'evaluate_ethics',
@@ -304,13 +300,13 @@ __all__ = [
     'SafetyResult',
     'GUARDIAN_ACTIVE',
     'GUARDIAN_PROMOTED',
-    
+
     # Ethics and Constitutional AI
     'ConstitutionalAI',
     'EthicsGuardian',
     'EthicalEvaluator',
     'ComplianceDriftMonitor',
-    
+
     # Audit and Compliance
     'AuditLogger',
     'AuditTrail',
@@ -324,14 +320,14 @@ if PHASE_7_AVAILABLE:
         'AuthEventType',
         'AuthDriftMetrics',
         'ConstitutionalAuthPrinciples',
-        
+
         # GLYPH Registry
         'AuthGlyphRegistry',
         'AuthGlyph',
         'SymbolicIdentity',
         'AuthGlyphCategory',
         'auth_glyph_registry',
-        
+
         # Governance Policies
         'AuthGovernancePolicyEngine',
         'PolicyRule',
@@ -340,7 +336,7 @@ if PHASE_7_AVAILABLE:
         'PolicyCategory',
         'PolicySeverity',
         'auth_governance_policy_engine',
-        
+
         # Cross-Module Integration
         'AuthCrossModuleIntegrator',
         'TrinityFrameworkIntegration',
@@ -349,7 +345,7 @@ if PHASE_7_AVAILABLE:
         'ModuleType',
         'AuthMessageType',
         'auth_cross_module_integrator',
-        
+
         # Complete Integration System
         'LUKHASAuthIntegrationSystem',
         'IntegrationHealthStatus',
@@ -363,10 +359,10 @@ try:
     if PHASE_7_AVAILABLE and lukhas_auth_integration_system:
         print(f" LUKHAS AI Governance Module loaded: {__phase__}")
         print(f"< Trinity Framework: {__trinity_framework__}")
-        print(f" Phase 7 ID Integration: Available")
+        print(" Phase 7 ID Integration: Available")
     else:
-        print(f" LUKHAS AI Governance Module loaded: Basic functionality")
-        print(f"  Phase 7 ID Integration: Not available")
-        
+        print(" LUKHAS AI Governance Module loaded: Basic functionality")
+        print("  Phase 7 ID Integration: Not available")
+
 except Exception as e:
     print(f"  Governance module initialization warning: {e}")

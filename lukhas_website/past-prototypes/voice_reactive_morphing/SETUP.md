@@ -186,4 +186,4 @@ After setup:
 2. Experiment with different AI models
 3. Customize shape libraries
 4. Add your own AI agents
-5. Integrate with your applications 
+5. Integrate with your applications

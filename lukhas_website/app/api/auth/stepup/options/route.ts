@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     // Get the latest challenge from Redis
     const redis = await getRedisClient()
     const keys = await redis.keys(`stepup:${payload.sub}:*`)
-    
+
     if (!keys || keys.length === 0) {
       return NextResponse.json(
         { error: 'No active step-up session. Please start step-up first.' },
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     // Get the most recent challenge
     const latestKey = keys[keys.length - 1]
     const challengeData = await redis.get(latestKey)
-    
+
     if (!challengeData) {
       return NextResponse.json(
         { error: 'Step-up session expired' },
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     }
 
     const challenge = latestKey.split(':')[2]
-    
+
     // Build WebAuthn options with userVerification required
     const options = {
       challenge: Buffer.from(challenge, 'base64url'),
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
     // Get user's registered credentials from database
     // This is a placeholder - implement based on your credential storage
     const userCredentials = await getUserCredentials(payload.sub)
-    
+
     if (userCredentials && userCredentials.length > 0) {
       options.allowCredentials = userCredentials.map(cred => ({
         type: 'public-key',

@@ -1,6 +1,6 @@
 /**
  * Step-Up Authentication System for ΛiD Authentication
- * 
+ *
  * Implements enhanced security for sensitive operations requiring additional
  * authentication verification beyond initial login for LUKHAS AI.
  */
@@ -10,7 +10,7 @@ import { Role, Permission } from './rbac';
 import { AuditLogger } from './audit-logger';
 import { SessionManager } from './session';
 
-export type StepUpReason = 
+export type StepUpReason =
   | 'sensitive_operation'
   | 'high_value_transaction'
   | 'administrative_action'
@@ -22,7 +22,7 @@ export type StepUpReason =
   | 'compliance_requirement'
   | 'time_based_requirement';
 
-export type StepUpMethod = 
+export type StepUpMethod =
   | 'password'
   | 'passkey'
   | 'totp'
@@ -39,33 +39,33 @@ export interface StepUpRequirement {
   reason: StepUpReason;
   description: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
-  
+
   // Authentication requirements
   requiredMethods: StepUpMethod[];
   minimumMethods: number; // At least this many methods required
   allowedMethods: StepUpMethod[]; // User can choose from these
-  
+
   // Constraints and policies
   maxAge: number; // Maximum age of step-up in seconds
   requiresFreshAuth: boolean; // Must be recent primary authentication
   requiresSecureContext: boolean; // Must be HTTPS, trusted device, etc.
-  
+
   // Conditional requirements
   minTier?: TierLevel;
   requiredRole?: Role;
   requiredPermission?: Permission;
-  
+
   // Time and location constraints
   businessHoursOnly?: boolean;
   allowedCountries?: string[];
   blockedCountries?: string[];
   trustedDeviceRequired?: boolean;
-  
+
   // Escalation and approval
   requiresApproval?: boolean;
   approverRoles?: Role[];
   escalationTimeoutMs?: number;
-  
+
   // Compliance and audit
   complianceFramework?: string; // SOX, HIPAA, PCI-DSS, etc.
   auditLevel: 'standard' | 'enhanced' | 'forensic';
@@ -77,36 +77,36 @@ export interface StepUpChallenge {
   challengeId: string;
   sessionId: string;
   userId: string;
-  
+
   // Requirement details
   requirement: StepUpRequirement;
-  
+
   // Challenge state
   status: 'pending' | 'in_progress' | 'completed' | 'failed' | 'expired';
   createdAt: Date;
   expiresAt: Date;
   completedAt?: Date;
-  
+
   // Authentication attempts
   attempts: StepUpAttempt[];
   maxAttempts: number;
   remainingAttempts: number;
-  
+
   // Methods used
   completedMethods: StepUpMethod[];
   availableMethods: StepUpMethod[];
-  
+
   // Context
   triggeredBy: string; // Action that triggered step-up
   originalRequestId: string;
   ipAddress: string;
   userAgent: string;
   deviceId?: string;
-  
+
   // Risk and security
   riskScore: number;
   securityFlags: string[];
-  
+
   // Approval workflow
   approvalRequired: boolean;
   approvalStatus?: 'pending' | 'approved' | 'rejected';
@@ -121,29 +121,29 @@ export interface StepUpAttempt {
   timestamp: Date;
   success: boolean;
   failureReason?: string;
-  
+
   // Method-specific data
   methodData?: {
     // TOTP
     totpCode?: string;
     totpWindow?: number;
-    
+
     // SMS/Email
     verificationCode?: string;
     sentTo?: string;
-    
+
     // Passkey
     passkeyId?: string;
     challenge?: string;
-    
+
     // Hardware token
     tokenSerial?: string;
-    
+
     // Biometric
     biometricType?: 'fingerprint' | 'face' | 'voice';
     confidenceScore?: number;
   };
-  
+
   // Security context
   ipAddress: string;
   userAgent: string;
@@ -187,7 +187,7 @@ export const STEP_UP_REQUIREMENTS: Record<string, StepUpRequirement> = {
     auditLevel: 'enhanced',
     retentionPeriod: 365
   },
-  
+
   api_key_delete: {
     id: 'api_key_delete',
     reason: 'sensitive_operation',
@@ -202,7 +202,7 @@ export const STEP_UP_REQUIREMENTS: Record<string, StepUpRequirement> = {
     auditLevel: 'forensic',
     retentionPeriod: 2555 // 7 years
   },
-  
+
   // Billing and subscription changes
   billing_payment_method: {
     id: 'billing_payment_method',
@@ -219,7 +219,7 @@ export const STEP_UP_REQUIREMENTS: Record<string, StepUpRequirement> = {
     auditLevel: 'enhanced',
     retentionPeriod: 2555
   },
-  
+
   billing_subscription_cancel: {
     id: 'billing_subscription_cancel',
     reason: 'high_value_transaction',
@@ -234,7 +234,7 @@ export const STEP_UP_REQUIREMENTS: Record<string, StepUpRequirement> = {
     auditLevel: 'forensic',
     retentionPeriod: 2555
   },
-  
+
   // Organization management
   org_member_remove: {
     id: 'org_member_remove',
@@ -251,7 +251,7 @@ export const STEP_UP_REQUIREMENTS: Record<string, StepUpRequirement> = {
     auditLevel: 'enhanced',
     retentionPeriod: 730
   },
-  
+
   org_role_assign_admin: {
     id: 'org_role_assign_admin',
     reason: 'role_elevation',
@@ -269,7 +269,7 @@ export const STEP_UP_REQUIREMENTS: Record<string, StepUpRequirement> = {
     auditLevel: 'forensic',
     retentionPeriod: 2555
   },
-  
+
   // Data export and compliance
   data_export_personal: {
     id: 'data_export_personal',
@@ -286,7 +286,7 @@ export const STEP_UP_REQUIREMENTS: Record<string, StepUpRequirement> = {
     auditLevel: 'enhanced',
     retentionPeriod: 2555
   },
-  
+
   data_export_organization: {
     id: 'data_export_organization',
     reason: 'data_export',
@@ -307,7 +307,7 @@ export const STEP_UP_REQUIREMENTS: Record<string, StepUpRequirement> = {
     auditLevel: 'forensic',
     retentionPeriod: 2555
   },
-  
+
   // Security configuration
   security_mfa_disable: {
     id: 'security_mfa_disable',
@@ -324,7 +324,7 @@ export const STEP_UP_REQUIREMENTS: Record<string, StepUpRequirement> = {
     auditLevel: 'forensic',
     retentionPeriod: 2555
   },
-  
+
   // Administrative functions (T5 only)
   admin_user_impersonate: {
     id: 'admin_user_impersonate',
@@ -380,7 +380,7 @@ export class StepUpAuthManager {
       riskScore?: number;
     }
   ): { required: boolean; requirement?: StepUpRequirement; reason?: string } {
-    
+
     const requirement = STEP_UP_REQUIREMENTS[operationId];
     if (!requirement) {
       return { required: false, reason: 'No step-up requirement defined' };
@@ -391,7 +391,7 @@ export class StepUpAuthManager {
       const tierOrder: TierLevel[] = ['T1', 'T2', 'T3', 'T4', 'T5'];
       const userTierIndex = tierOrder.indexOf(context.tier);
       const requiredTierIndex = tierOrder.indexOf(requirement.minTier);
-      
+
       if (userTierIndex < requiredTierIndex) {
         return { required: false, reason: `Requires ${requirement.minTier} tier or higher` };
       }
@@ -449,7 +449,7 @@ export class StepUpAuthManager {
       riskScore?: number;
     };
   }): Promise<StepUpResult> {
-    
+
     const requirementCheck = this.requiresStepUp(params.operationId, {
       userId: params.userId,
       sessionId: params.sessionId,
@@ -471,10 +471,10 @@ export class StepUpAuthManager {
 
     const requirement = requirementCheck.requirement;
     const challengeId = await this.generateChallengeId();
-    
+
     // Calculate available methods based on user's capabilities
     const availableMethods = await this.getAvailableMethodsForUser(params.userId, requirement.allowedMethods);
-    
+
     if (availableMethods.length < requirement.minimumMethods) {
       return {
         success: false,
@@ -557,7 +557,7 @@ export class StepUpAuthManager {
       deviceFingerprint?: string;
     }
   ): Promise<StepUpResult> {
-    
+
     const challenge = this.challenges.get(challengeId);
     if (!challenge) {
       return {
@@ -607,10 +607,10 @@ export class StepUpAuthManager {
     }
 
     challenge.status = 'in_progress';
-    
+
     // Verify the authentication method
     const methodResult = await this.verifyStepUpMethod(method, methodData, challenge);
-    
+
     const attempt: StepUpAttempt = {
       attemptId: await this.generateAttemptId(),
       method,
@@ -628,21 +628,21 @@ export class StepUpAuthManager {
 
     if (methodResult.success) {
       challenge.completedMethods.push(method);
-      
+
       // Check if we have enough methods completed
       const hasRequiredMethods = challenge.requirement.requiredMethods.every(
         required => challenge.completedMethods.includes(required)
       );
-      
+
       const hasMinimumMethods = challenge.completedMethods.length >= challenge.requirement.minimumMethods;
-      
+
       if (hasRequiredMethods && hasMinimumMethods) {
         // Check if approval is required
         if (challenge.approvalRequired && challenge.approvalStatus !== 'approved') {
           challenge.status = 'pending';
-          
+
           await this.requestApproval(challenge);
-          
+
           return {
             success: false,
             challengeId,
@@ -653,10 +653,10 @@ export class StepUpAuthManager {
           // Challenge completed successfully
           challenge.status = 'completed';
           challenge.completedAt = new Date();
-          
+
           // Generate step-up proof token
           const token = await this.generateStepUpToken(challenge);
-          
+
           // Update session with step-up timestamp
           await SessionManager.updateSessionSecurity(challenge.sessionId, {
             lastStepUpAt: new Date()
@@ -709,7 +709,7 @@ export class StepUpAuthManager {
       // Method verification failed
       if (challenge.remainingAttempts <= 0) {
         challenge.status = 'failed';
-        
+
         // Log failure
         await AuditLogger.log({
           eventType: 'auth_step_up_failure',
@@ -764,7 +764,7 @@ export class StepUpAuthManager {
       userAgent: string;
     }
   ): Promise<boolean> {
-    
+
     const challenge = this.challenges.get(challengeId);
     if (!challenge) {
       return false;
@@ -814,7 +814,7 @@ export class StepUpAuthManager {
       sessionId: string;
     }
   ): Promise<{ valid: boolean; challengeId?: string; error?: string }> {
-    
+
     try {
       // In production, this would verify a JWT token
       // For now, simple format: "stepup_${challengeId}_${timestamp}_${signature}"
@@ -825,7 +825,7 @@ export class StepUpAuthManager {
 
       const challengeId = parts[1];
       const timestamp = parseInt(parts[2]);
-      
+
       const challenge = this.challenges.get(challengeId);
       if (!challenge) {
         return { valid: false, error: 'Challenge not found' };
@@ -851,7 +851,7 @@ export class StepUpAuthManager {
       }
 
       return { valid: true, challengeId };
-      
+
     } catch (error) {
       return { valid: false, error: 'Token verification failed' };
     }
@@ -890,11 +890,11 @@ export class StepUpAuthManager {
 
   private static calculateSecurityFlags(context: any): string[] {
     const flags: string[] = [];
-    
+
     if (!context.isSecureContext) flags.push('insecure_context');
     if (context.riskScore > 0.7) flags.push('high_risk');
     if (!context.deviceId) flags.push('unknown_device');
-    
+
     return flags;
   }
 
@@ -905,7 +905,7 @@ export class StepUpAuthManager {
         return required;
       }
     }
-    
+
     // If all required methods are done, check if we need more for minimum
     if (challenge.completedMethods.length < challenge.requirement.minimumMethods) {
       for (const available of challenge.availableMethods) {
@@ -914,7 +914,7 @@ export class StepUpAuthManager {
         }
       }
     }
-    
+
     return undefined;
   }
 
@@ -923,45 +923,45 @@ export class StepUpAuthManager {
     methodData: any,
     challenge: StepUpChallenge
   ): Promise<{ success: boolean; error?: string }> {
-    
+
     // This would integrate with actual verification systems
     // For now, simulate verification logic
-    
+
     switch (method) {
       case 'password':
         return { success: methodData.password === 'correct_password' };
-      
+
       case 'totp':
         // Simulate TOTP verification with time window
         const validCodes = ['123456', '234567', '345678']; // Time-based codes
-        return { 
+        return {
           success: validCodes.includes(methodData.code),
           error: validCodes.includes(methodData.code) ? undefined : 'Invalid TOTP code'
         };
-      
+
       case 'passkey':
         // Simulate passkey verification
-        return { 
+        return {
           success: methodData.signature === 'valid_signature',
           error: methodData.signature === 'valid_signature' ? undefined : 'Passkey verification failed'
         };
-      
+
       case 'sms':
       case 'email':
         // Simulate code verification
-        return { 
+        return {
           success: methodData.code === '123456',
           error: methodData.code === '123456' ? undefined : 'Invalid verification code'
         };
-      
+
       case 'backup_codes':
         // Simulate backup code verification
         const validBackupCodes = ['backup-123', 'backup-456', 'backup-789'];
-        return { 
+        return {
           success: validBackupCodes.includes(methodData.code),
           error: validBackupCodes.includes(methodData.code) ? undefined : 'Invalid backup code'
         };
-      
+
       default:
         return { success: false, error: `Unsupported method: ${method}` };
     }
@@ -970,12 +970,12 @@ export class StepUpAuthManager {
   private static sanitizeMethodData(methodData: any): any {
     // Remove sensitive data from method data before storing
     const sanitized = { ...methodData };
-    
+
     // Remove actual passwords, codes, etc.
     if (sanitized.password) sanitized.password = '[REDACTED]';
     if (sanitized.code) sanitized.code = '[REDACTED]';
     if (sanitized.signature) sanitized.signature = '[REDACTED]';
-    
+
     return sanitized;
   }
 
@@ -1000,7 +1000,7 @@ export class StepUpAuthManager {
     // 1. Send notifications to approvers
     // 2. Create approval workflow entries
     // 3. Set up escalation timers
-    
+
     console.log('APPROVAL_REQUEST:', {
       challengeId: challenge.challengeId,
       userId: challenge.userId,
@@ -1012,15 +1012,15 @@ export class StepUpAuthManager {
   private static async cleanupExpiredChallenges(): Promise<void> {
     const now = new Date();
     let cleanedCount = 0;
-    
+
     for (const [challengeId, challenge] of this.challenges.entries()) {
-      if (now > challenge.expiresAt || 
+      if (now > challenge.expiresAt ||
           (challenge.status === 'completed' && now.getTime() - challenge.completedAt!.getTime() > 24 * 60 * 60 * 1000)) {
         this.challenges.delete(challengeId);
         cleanedCount++;
       }
     }
-    
+
     if (cleanedCount > 0) {
       console.log(`Cleaned up ${cleanedCount} expired step-up challenges`);
     }

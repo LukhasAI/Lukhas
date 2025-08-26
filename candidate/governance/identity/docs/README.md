@@ -1,8 +1,8 @@
 # LUKHAS ΛiD System Documentation
 ## Complete Developer & User Guide
 
-**Version:** 2.0.0  
-**Last Updated:** July 5, 2025  
+**Version:** 2.0.0
+**Last Updated:** July 5, 2025
 **Author:** LUKHAS AI Systems
 
 ---
@@ -326,7 +326,7 @@ All endpoints return consistent error responses:
 ### Rate Limiting
 
 - **Tier 0-1**: 100 requests/hour
-- **Tier 2-3**: 500 requests/hour  
+- **Tier 2-3**: 500 requests/hour
 - **Tier 4-5**: 2000 requests/hour
 - **Commercial**: Custom limits
 

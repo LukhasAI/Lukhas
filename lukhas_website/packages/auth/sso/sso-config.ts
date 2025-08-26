@@ -1,7 +1,7 @@
 /**
  * SSO Configuration Management
  * Multi-tenant SSO configuration for LUKHAS AI ΛiD System
- * 
+ *
  * Supports:
  * - Multi-tenant configuration storage
  * - SAML and OIDC provider configuration
@@ -42,7 +42,7 @@ export interface SSOMetadata {
   sloUrl?: string;
   certificate?: string;
   metadataXml?: string;
-  
+
   // OIDC metadata
   issuer?: string;
   authorizationEndpoint?: string;
@@ -172,7 +172,7 @@ export class SSOConfigManager {
       return new SAMLProvider(samlConfig, this.auditLogger);
     } else {
       const oidcConfig = config.providerConfig as OIDCConfig;
-      
+
       // Discover endpoints if not provided
       let endpoints: OIDCEndpoints;
       if ('endpoints' in oidcConfig) {
@@ -180,7 +180,7 @@ export class SSOConfigManager {
       } else {
         endpoints = await discoverOIDCEndpoints(oidcConfig.issuer);
       }
-      
+
       return new OIDCProvider(oidcConfig, endpoints, this.auditLogger);
     }
   }
@@ -223,7 +223,7 @@ export class SSOConfigManager {
     } else {
       const oidcConfig = config.providerConfig as OIDCConfig;
       const endpoints = await discoverOIDCEndpoints(oidcConfig.issuer);
-      
+
       return {
         issuer: oidcConfig.issuer,
         authorizationEndpoint: endpoints.authorization,
@@ -469,7 +469,7 @@ export class SSOConfigManager {
     try {
       // Test SSO URL accessibility
       const response = await fetch(config.ssoUrl, { method: 'HEAD' });
-      
+
       return {
         success: response.ok,
         message: response.ok ? 'SAML provider accessible' : `SAML provider returned ${response.status}`,
@@ -493,7 +493,7 @@ export class SSOConfigManager {
       // Test discovery endpoint
       const discoveryUrl = `${config.issuer}/.well-known/openid_configuration`;
       const response = await fetch(discoveryUrl);
-      
+
       if (!response.ok) {
         return {
           success: false,
@@ -504,7 +504,7 @@ export class SSOConfigManager {
       }
 
       const discoveryDoc = await response.json();
-      
+
       return {
         success: true,
         message: 'OIDC provider accessible and valid',

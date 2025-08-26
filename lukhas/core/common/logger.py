@@ -152,7 +152,7 @@ def _configure_logger(logger: logging.Logger) -> None:
         actual_logger = logger.logger
     else:
         actual_logger = logger
-    
+
     # Clear existing handlers
     actual_logger.handlers.clear()
 

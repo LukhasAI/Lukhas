@@ -52,18 +52,18 @@ To allow LUKHΛS to:
 
 ## 📡 Dream Engine Behavior
 
-1. **Symbolic Seeding**  
+1. **Symbolic Seeding**
    - Inputs converted into symbolic GLYPHs.
    - Stored with user entropy + emotional metadata.
 
-2. **Narrative Generation**  
+2. **Narrative Generation**
    - Each dream path generates a story with symbolic narrative, emotional evolution, and resolution mechanics.
 
-3. **Mutation Phase**  
+3. **Mutation Phase**
    - Symbolic weights are adjusted.
    - Associations reinforced, weakened, or rerouted.
 
-4. **Post-Dream Consolidation**  
+4. **Post-Dream Consolidation**
    - GLYPH traces and entropy deltas recorded.
    - Insights optionally visualized or fed into Reflective Layer.
 
@@ -120,6 +120,6 @@ To allow LUKHΛS to:
 
 ---
 
-**Status**: Experimental  
-**Maintainer**: LUKHΛS Core Symbolic Engine  
+**Status**: Experimental
+**Maintainer**: LUKHΛS Core Symbolic Engine
 **Last Updated**: 2025-07-21

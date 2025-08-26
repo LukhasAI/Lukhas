@@ -87,7 +87,7 @@ class FoldMemory:
     def __init__(self, max_folds=1000):
         self.folds = []
         self.cascade_threshold = 0.003  # 99.7% prevention
-        
+
     def add_fold(self, experience, emotion, causality):
         fold = {
             'experience': experience,
@@ -114,7 +114,7 @@ class DreamEngine:
     def __init__(self, chaos_level=0.3):
         self.chaos_level = chaos_level
         self.memory_pool = []
-        
+
     def generate_dream(self):
         memories = self.select_memories()
         distorted = self.apply_chaos(memories)
@@ -126,7 +126,7 @@ class ConsciousnessMonitor:
     def __init__(self):
         self.awareness_level = 0.5
         self.state = 'awake'
-        
+
     def update_awareness(self, stimuli):
         self.awareness_level = self.calculate_awareness(stimuli)
         self.state = self.determine_state()

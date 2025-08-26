@@ -18,7 +18,7 @@ Think of Natural Language Consciousness Interface as your personal AI assistant 
 2. **Context-aware responses** - Like having a trusted friend who remembers your preferences and helps you get things done faster
 3. **Multi-modal communication support** - Like having a trusted friend who remembers your preferences and helps you get things done faster
 
-**Real-world example:** 
+**Real-world example:**
 Imagine you're working on a complex project. Instead of manually figuring out each step, Natural Language Consciousness Interface anticipates what you need, provides relevant suggestions, and adapts to your working style. It's like having a conversation with someone who truly "gets" what you're trying to accomplish.
 
 **The best part?** Everything works seamlessly in the background while keeping your data completely private and under your control. You focus on your creativity and goals—we handle the complex technical details.

@@ -7,22 +7,22 @@ class CuriosityModule:
         self.dream_engine = dream_engine
         self.curiosity_threshold = 0.3
         self.question_graph = defaultdict(list)
-        
+
     def trigger_curiosity_cycle(self, input_data: Dict) -&gt; Dict:
         """Full curiosity-driven learning cycle"""
         # Stage 1: Innate Curiosity Trigger
         if self._needs_clarification(input_data):
             questions = self.generate_questions(input_data)
             return {"status": "questioning", "questions": questions}
-            
+
         # Stage 2: Meta-Reflective Processing
         reflection = self.meta_reflect(input_data)
-        
-        # Stage 3: Dream-Enhanced Consolidation 
+
+        # Stage 3: Dream-Enhanced Consolidation
         if reflection.get("needs_consolidation", False):
             dream_content = self.dream_engine.generate(reflection["key_concepts"])
             self._process_dream_insights(dream_content)
-            
+
         return {"status": "consolidated", "insights": reflection["insights"]}
 
     def generate_questions(self, context: Dict) -&gt; List[str]:
@@ -39,20 +39,20 @@ class DreamEngine:
         self.cognitive_model = cognitive_model
         self.symbolic_db = self._load_symbolic_mappings()
         self.dream_cache = deque(maxlen=100)
-        
+
     def generate(self, key_concepts: List[str]) -&gt; Dict:
         """Generate symbolic dream content"""
         # Neural-symbolic generation (Search Result 9)
         dream_structure = self._build_dream_structure(key_concepts)
         symbolic_content = self._translate_to_symbolism(dream_structure)
-        
+
         # Store in memory with federated learning
         self.cognitive_model.federated_learning.contribute_gradients(
             model_id="dream_patterns",
             client_id="dream_engine",
             gradients=self._content_to_gradients(symbolic_content)
         )
-        
+
         return symbolic_content
 
 class ReflectionOrchestrator:
@@ -64,16 +64,16 @@ class ReflectionOrchestrator:
             self._knowledge_integration,
             self._dream_trigger
         ]
-        
+
     def process_reflection(self, memory_entry: Dict) -&gt; Dict:
         """Full reflection pipeline"""
         context = self._analyze_memory_entry(memory_entry)
-        
+
         for stage in self.reflection_stages:
             stage_result = stage(context)
             if stage_result.get("requires_action"):
                 return stage_result
-                
+
         return {"status": "completed", "insights": context.get("insights", [])}
 ```
 
@@ -85,13 +85,13 @@ def meta_reflect(self, input_data: Dict) -&gt; Dict:
     """Combines MetaReflection (Search Result 2) with your federated learning"""
     # Retrieve related memories
     similar_memories = self.meta_learner.federated_learning.get_model(
-        "episodic_memories", 
+        "episodic_memories",
         client_id="self_reflection"
     )
-    
+
     # Generate reflection insights
     reflection_insights = self._compare_with_memories(input_data, similar_memories)
-    
+
     # Update meta-learning parameters
     self.meta_learner.incorporate_feedback({
         "type": "self_reflection",
@@ -101,7 +101,7 @@ def meta_reflect(self, input_data: Dict) -&gt; Dict:
             "gradients": self._insights_to_gradients(reflection_insights)
         }]
     })
-    
+
     return reflection_insights
 ```
 
@@ -111,16 +111,16 @@ class QuestionGenerator:
     """Implements Self-Ask pattern (Search Result 12) with meta-learning"""
     QUESTION_PROMPT = """Generate follow-up questions that help clarify:
     {context}
-    
+
     Consider:
     1. Missing information in current understanding
     2. Contradictions with existing knowledge
     3. Potential connections to other domains
     """
-    
+
     def __init__(self, meta_learner: MetaLearningSystem):
         self.meta_learner = meta_learner
-        
+
     def generate(self, context: str) -&gt; List[str]:
         optimized_prompt = self.meta_learner.optimize_learning_approach(
             context={"task_type": "question_generation"},
@@ -135,14 +135,14 @@ def _process_dream_insights(self, dream_content: Dict) -&gt; None:
     """Integrates Jungian dream theory (Search Result 9)"""
     # Symbolic interpretation
     interpreted_symbols = self._interpret_dream_symbols(dream_content)
-    
+
     # Update semantic memory
     self.meta_learner.federated_learning.contribute_gradients(
         model_id="semantic_memory",
         client_id="dream_analysis",
         gradients=self._symbols_to_gradients(interpreted_symbols)
     )
-    
+
     # Trigger meta-learning update
     self.meta_learner.incorporate_feedback({
         "type": "dream_interpretation",
@@ -159,7 +159,7 @@ class EnhancedMemory:
         self.fm = federated_model
         self.dream_engine = dream_engine
         self.consolidation_threshold = 0.7
-        
+
     def store_memory(self, memory: Dict) -&gt; None:
         """Store with potential dream triggering"""
         # Standard federated storage
@@ -168,13 +168,13 @@ class EnhancedMemory:
             gradients=self._memory_to_gradients(memory),
             client_id="memory_system"
         )
-        
+
         # Check for dream triggering
         if self._requires_consolidation(memory):
             self.dream_engine.generate(
                 key_concepts=memory["tags"]
             )
-            
+
     def _requires_consolidation(self, memory: Dict) -&gt; bool:
         """From Search Result 7: Memory consolidation patterns"""
         novelty_score = self._calculate_novelty(memory)

@@ -393,7 +393,7 @@ class ConstitutionalGatekeeper:
 
         # Validate quantum-safe transport
         transport_security = crypto_config.get("transport_security", {})
-        if not transport_security.get("quantum_safe_tls", False):
+        if not transport_security.get("qi_safe_tls", False):
             issues.append("Transport layer not configured for quantum-safe TLS")
 
         # Validate resistance to classical attacks

@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI - Support Email Generator
- * 
+ *
  * Mailto utility for prefilled support emails with structured data collection,
  * browser fingerprinting for diagnostics, and proper URL encoding.
  */
@@ -53,7 +53,7 @@ export function collectBrowserInfo(): BrowserInfo {
   const nav = navigator;
   const screen = window.screen;
   const now = new Date();
-  
+
   // Parse user agent for browser detection
   const userAgent = nav.userAgent;
   const browserInfo = {
@@ -62,7 +62,7 @@ export function collectBrowserInfo(): BrowserInfo {
     os: 'Unknown',
     osVersion: 'Unknown'
   };
-  
+
   // Browser detection
   if (userAgent.includes('Chrome')) {
     browserInfo.browser = 'Chrome';
@@ -81,7 +81,7 @@ export function collectBrowserInfo(): BrowserInfo {
     const match = userAgent.match(/Edge\/([0-9.]+)/);
     browserInfo.version = match ? match[1] : 'Unknown';
   }
-  
+
   // OS detection
   if (userAgent.includes('Windows NT')) {
     browserInfo.os = 'Windows';
@@ -102,7 +102,7 @@ export function collectBrowserInfo(): BrowserInfo {
     const match = userAgent.match(/OS ([0-9_]+)/);
     browserInfo.osVersion = match ? match[1].replace(/_/g, '.') : 'Unknown';
   }
-  
+
   // Device detection
   let device = 'Desktop';
   if (userAgent.includes('Mobile')) {
@@ -110,14 +110,14 @@ export function collectBrowserInfo(): BrowserInfo {
   } else if (userAgent.includes('Tablet') || userAgent.includes('iPad')) {
     device = 'Tablet';
   }
-  
+
   // Connection type (if supported)
   let connectionType: string | undefined;
   if ('connection' in nav) {
     const connection = (nav as any).connection;
     connectionType = connection?.effectiveType || connection?.type;
   }
-  
+
   return {
     browser: browserInfo.browser,
     version: browserInfo.version,
@@ -169,7 +169,7 @@ function generateDiagnosticInfo(context: SupportContext, browserInfo: BrowserInf
     `User Agent: ${browserInfo.userAgent}`,
     `Session Timestamp: ${browserInfo.timestamp}`
   ].filter(Boolean);
-  
+
   return sections.join('\n');
 }
 
@@ -183,10 +183,10 @@ function generateEmailBody(
   locale: string
 ): string {
   const diagnosticInfo = generateDiagnosticInfo(context, browserInfo);
-  
+
   // Replace template variables
   let body = template;
-  
+
   // Basic template variables
   body = body.replace(/{email}/g, context.email);
   body = body.replace(/{purpose}/g, context.purpose);
@@ -197,18 +197,18 @@ function generateEmailBody(
   body = body.replace(/{senderDomain}/g, context.senderDomain);
   body = body.replace(/{timestamp}/g, context.timestamp);
   body = body.replace(/{locale}/g, locale);
-  
+
   // Browser info variables
   body = body.replace(/{browser}/g, `${browserInfo.browser} ${browserInfo.version}`);
   body = body.replace(/{os}/g, `${browserInfo.os} ${browserInfo.osVersion}`);
   body = body.replace(/{device}/g, browserInfo.device);
   body = body.replace(/{timezone}/g, browserInfo.timezone);
-  
+
   // Add diagnostic information section
   body += '\n\n--- DIAGNOSTIC INFORMATION ---\n';
   body += '(Please include this information to help our support team assist you faster)\n\n';
   body += diagnosticInfo;
-  
+
   return body;
 }
 
@@ -232,14 +232,14 @@ export function buildSupportMailto({
 }): string {
   // Generate the complete email body
   const fullBody = generateEmailBody(body, context, browserInfo, locale);
-  
+
   // URL encode the components
   const encodedSubject = encodeURIComponent(subject);
   const encodedBody = encodeURIComponent(fullBody);
-  
+
   // Build the mailto URL
   const mailtoUrl = `mailto:${supportEmail}?subject=${encodedSubject}&body=${encodedBody}`;
-  
+
   return mailtoUrl;
 }
 
@@ -322,7 +322,7 @@ Account Information:
 Issue:
 I requested a password reset but haven't received the reset email. I've checked:
 - Primary inbox
-- Spam/Junk folder  
+- Spam/Junk folder
 - All email folders
 - Waited over 10 minutes
 
@@ -481,7 +481,7 @@ Saludos cordiales,
       }
     }
   };
-  
+
   const localeTemplates = templates[locale as keyof typeof templates] || templates.en;
   return localeTemplates[purpose as keyof typeof localeTemplates] || localeTemplates.default;
 }
@@ -518,7 +518,7 @@ export function buildSupportUrl({
   requestId?: string;
 }): string {
   const params = new URLSearchParams();
-  
+
   // Add context parameters
   params.set('email', context.email);
   params.set('purpose', context.purpose);
@@ -526,13 +526,13 @@ export function buildSupportUrl({
   if (context.realm) params.set('realm', context.realm);
   if (context.zone) params.set('zone', context.zone);
   if (requestId) params.set('requestId', requestId);
-  
+
   // Add browser info
   params.set('browser', `${browserInfo.browser} ${browserInfo.version}`);
   params.set('os', `${browserInfo.os} ${browserInfo.osVersion}`);
   params.set('device', browserInfo.device);
   params.set('timestamp', browserInfo.timestamp);
-  
+
   return `${baseUrl}?${params.toString()}`;
 }
 

@@ -1,6 +1,6 @@
 /**
  * Identity Module Scopes - Extended Authorization System
- * 
+ *
  * Comprehensive scope definitions for LUKHAS identity module including
  * ABAS, DAST, NIAS, Guardian, and Health monitoring systems.
  * Integrates with LUKHAS Trinity Framework (⚛️🧠🛡️)
@@ -15,21 +15,21 @@ import type { UserTier } from '../auth/types/auth.types';
 /**
  * Extended authentication scopes for all LUKHAS modules
  */
-export type ExtendedAuthScope = 
+export type ExtendedAuthScope =
   // Core Platform Scopes
   | 'docs:read'
   | 'app:read'
   | 'app:write'
   | 'api:read'
   | 'api:write'
-  
+
   // MATRIZ Core Access
   | 'matriz:demo:read'
   | 'matriz:read'
   | 'matriz:write'
   | 'matriz:export'
   | 'matriz:admin'
-  
+
   // NIAS (Neural Intelligence Amplification System)
   | 'nias:validate'
   | 'nias:replay'
@@ -49,7 +49,7 @@ export type ExtendedAuthScope =
   | 'nias:dreams:synthesize'
   | 'nias:dreams:replay'
   | 'nias:research:experimental'
-  
+
   // ABAS (Adaptive Behavior Analysis System)
   | 'abas:profiles:read'
   | 'abas:profiles:write'
@@ -64,7 +64,7 @@ export type ExtendedAuthScope =
   | 'abas:alerts:read'
   | 'abas:alerts:configure'
   | 'abas:privacy:configure'
-  
+
   // DAST (Dynamic Application Service Topology)
   | 'dast:route'
   | 'dast:routes:read'
@@ -80,30 +80,30 @@ export type ExtendedAuthScope =
   | 'dast:deployment:trigger'
   | 'dast:rollback:execute'
   | 'dast:analytics:advanced'
-  
+
   // Orchestrator & AI
   | 'orchestrator:run'
   | 'orchestrator:debug'
   | 'orchestrator:admin'
-  
+
   // API Management
   | 'api:keys:create'
   | 'api:keys:read'
   | 'api:keys:write'
   | 'api:keys:delete'
   | 'api:keys:admin'
-  
+
   // Organization Management
   | 'org:read'
   | 'org:settings'
   | 'org:members'
   | 'org:admin'
-  
+
   // Billing & Commerce
   | 'billing:read'
   | 'billing:manage'
   | 'billing:admin'
-  
+
   // Guardian & Ethics
   | 'guardian:read'
   | 'guardian:configure'
@@ -117,7 +117,7 @@ export type ExtendedAuthScope =
   | 'guardian:violations:detect'
   | 'guardian:violations:resolve'
   | 'guardian:override'
-  
+
   // Health & Monitoring
   | 'health:metrics:read'
   | 'health:metrics:export'
@@ -131,13 +131,13 @@ export type ExtendedAuthScope =
   | 'health:remediation:auto'
   | 'health:sla:monitor'
   | 'health:observability:setup'
-  
+
   // Identity & Authentication
   | 'identity:read'
   | 'identity:write'
   | 'identity:admin'
   | 'identity:impersonate'
-  
+
   // System Administration
   | 'system:monitor'
   | 'system:admin'
@@ -165,7 +165,7 @@ export const EXTENDED_TIER_ENVELOPES: Record<IdentityTier, ExtendedAuthScope[]> 
     'health:metrics:read',
     'guardian:read'
   ],
-  
+
   [IdentityTier.T2_BUILDER]: [
     // T1 permissions plus basic operations
     'docs:read',
@@ -181,7 +181,7 @@ export const EXTENDED_TIER_ENVELOPES: Record<IdentityTier, ExtendedAuthScope[]> 
     'guardian:read',
     'identity:read'
   ],
-  
+
   [IdentityTier.T3_STUDIO]: [
     // T2 permissions plus advanced features
     'docs:read',
@@ -218,7 +218,7 @@ export const EXTENDED_TIER_ENVELOPES: Record<IdentityTier, ExtendedAuthScope[]> 
     'identity:read',
     'identity:write'
   ],
-  
+
   [IdentityTier.T4_ENTERPRISE]: [
     // T3 permissions plus enterprise features
     'docs:read',
@@ -288,7 +288,7 @@ export const EXTENDED_TIER_ENVELOPES: Record<IdentityTier, ExtendedAuthScope[]> 
     'identity:write',
     'identity:admin'
   ],
-  
+
   [IdentityTier.T5_CORE_TEAM]: [
     // All scopes available for core team
     'docs:read',
@@ -406,7 +406,7 @@ export const MODULE_SCOPES = {
     'api:read',
     'api:write'
   ] as ExtendedAuthScope[],
-  
+
   MATRIZ: [
     'matriz:demo:read',
     'matriz:read',
@@ -414,7 +414,7 @@ export const MODULE_SCOPES = {
     'matriz:export',
     'matriz:admin'
   ] as ExtendedAuthScope[],
-  
+
   NIAS: [
     'nias:validate',
     'nias:replay',
@@ -435,7 +435,7 @@ export const MODULE_SCOPES = {
     'nias:dreams:replay',
     'nias:research:experimental'
   ] as ExtendedAuthScope[],
-  
+
   ABAS: [
     'abas:profiles:read',
     'abas:profiles:write',
@@ -451,7 +451,7 @@ export const MODULE_SCOPES = {
     'abas:alerts:configure',
     'abas:privacy:configure'
   ] as ExtendedAuthScope[],
-  
+
   DAST: [
     'dast:route',
     'dast:routes:read',
@@ -468,7 +468,7 @@ export const MODULE_SCOPES = {
     'dast:rollback:execute',
     'dast:analytics:advanced'
   ] as ExtendedAuthScope[],
-  
+
   GUARDIAN: [
     'guardian:read',
     'guardian:configure',
@@ -483,7 +483,7 @@ export const MODULE_SCOPES = {
     'guardian:violations:resolve',
     'guardian:override'
   ] as ExtendedAuthScope[],
-  
+
   HEALTH: [
     'health:metrics:read',
     'health:metrics:export',
@@ -510,13 +510,13 @@ export const EXTENDED_SCOPE_HIERARCHY: Record<ExtendedAuthScope, ExtendedAuthSco
   'api:keys:delete': ['api:keys:write', 'api:keys:read'],
   'api:keys:write': ['api:keys:read'],
   'app:write': ['app:read'],
-  
+
   // MATRIZ hierarchy
   'matriz:admin': ['matriz:export', 'matriz:write', 'matriz:read', 'matriz:demo:read'],
   'matriz:export': ['matriz:write', 'matriz:read', 'matriz:demo:read'],
   'matriz:write': ['matriz:read', 'matriz:demo:read'],
   'matriz:read': ['matriz:demo:read'],
-  
+
   // NIAS hierarchy
   'nias:research:experimental': ['nias:dreams:replay', 'nias:dreams:synthesize', 'nias:consciousness:bridge', 'nias:symbolic:validation', 'nias:symbolic:reasoning'],
   'nias:models:deploy': ['nias:models:train', 'nias:models:write', 'nias:models:read'],
@@ -528,15 +528,15 @@ export const EXTENDED_SCOPE_HIERARCHY: Record<ExtendedAuthScope, ExtendedAuthSco
   'nias:dreams:replay': ['nias:dreams:synthesize'],
   'nias:symbolic:validation': ['nias:symbolic:reasoning'],
   'nias:consciousness:bridge': ['nias:symbolic:reasoning', 'nias:symbolic:validation'],
-  
-  // ABAS hierarchy  
+
+  // ABAS hierarchy
   'abas:experiments:manage': ['abas:experiments:run'],
   'abas:analytics:export': ['abas:analytics:read'],
   'abas:patterns:train': ['abas:patterns:discover'],
   'abas:insights:share': ['abas:insights:read'],
   'abas:profiles:write': ['abas:profiles:read'],
   'abas:alerts:configure': ['abas:alerts:read'],
-  
+
   // DAST hierarchy
   'dast:analytics:advanced': ['dast:topology:visualize', 'dast:topology:discover'],
   'dast:rollback:execute': ['dast:deployment:trigger'],
@@ -546,7 +546,7 @@ export const EXTENDED_SCOPE_HIERARCHY: Record<ExtendedAuthScope, ExtendedAuthSco
   'dast:routes:write': ['dast:routes:read'],
   'dast:topology:visualize': ['dast:topology:discover'],
   'dast:route': ['dast:routes:read'],
-  
+
   // Guardian hierarchy
   'guardian:override': ['guardian:policies:approve', 'guardian:configure', 'guardian:read'],
   'guardian:policies:approve': ['guardian:policies:write', 'guardian:policies:read', 'guardian:read'],
@@ -558,7 +558,7 @@ export const EXTENDED_SCOPE_HIERARCHY: Record<ExtendedAuthScope, ExtendedAuthSco
   'guardian:violations:resolve': ['guardian:violations:detect', 'guardian:read'],
   'guardian:violations:detect': ['guardian:read'],
   'guardian:configure': ['guardian:read'],
-  
+
   // Health hierarchy
   'health:observability:setup': ['health:dashboards:write', 'health:alerts:configure', 'health:metrics:export'],
   'health:remediation:auto': ['health:anomaly:detect', 'health:metrics:read'],
@@ -570,29 +570,29 @@ export const EXTENDED_SCOPE_HIERARCHY: Record<ExtendedAuthScope, ExtendedAuthSco
   'health:alerts:configure': ['health:alerts:read'],
   'health:metrics:export': ['health:metrics:read'],
   'health:logs:read': ['health:metrics:read'],
-  
+
   // Identity hierarchy
   'identity:admin': ['identity:write', 'identity:read'],
   'identity:write': ['identity:read'],
   'identity:impersonate': ['identity:admin'],
-  
+
   // Organization hierarchy
   'org:admin': ['org:members', 'org:settings', 'org:read'],
   'org:members': ['org:read'],
   'org:settings': ['org:read'],
-  
+
   // Billing hierarchy
   'billing:admin': ['billing:manage', 'billing:read'],
   'billing:manage': ['billing:read'],
-  
+
   // Orchestrator hierarchy
   'orchestrator:admin': ['orchestrator:debug', 'orchestrator:run'],
   'orchestrator:debug': ['orchestrator:run'],
-  
+
   // System hierarchy
   'system:emergency': ['system:admin', 'system:monitor'],
   'system:admin': ['system:monitor'],
-  
+
   // Base scopes (no inheritance)
   'docs:read': [],
   'nias:validate': [],
@@ -625,7 +625,7 @@ export interface ExtendedAuthorizationResult {
 
 /**
  * Enhanced scope validation with module-aware logic
- * 
+ *
  * @param userTier - User's current tier level
  * @param userScopes - Explicitly granted scopes
  * @param requiredScope - Scope required for the operation
@@ -687,7 +687,7 @@ export function hasExtendedScope(
         requiredScope,
         module: context.module
       });
-      
+
       if (!conditionResult.allowed) {
         return {
           ...result,
@@ -721,12 +721,12 @@ export function hasExtendedScope(
  */
 export function getExtendedInheritedScopes(explicitScopes: ExtendedAuthScope[]): ExtendedAuthScope[] {
   const inherited = new Set<ExtendedAuthScope>(explicitScopes);
-  
+
   for (const scope of explicitScopes) {
     const childScopes = EXTENDED_SCOPE_HIERARCHY[scope] || [];
     childScopes.forEach(child => inherited.add(child));
   }
-  
+
   return Array.from(inherited);
 }
 
@@ -738,7 +738,7 @@ function validateModuleAccess(
   scope: ExtendedAuthScope,
   context: ExtendedPermissionContext
 ): { allowed: boolean; reason?: string } {
-  
+
   // Module-specific validation rules
   switch (module) {
     case 'nias':
@@ -750,21 +750,21 @@ function validateModuleAccess(
         return { allowed: false, reason: 'Insufficient compute quota' };
       }
       break;
-      
+
     case 'guardian':
       // Guardian operations require ethical validation
       if (scope.startsWith('guardian:override') && !context.conditions?.ethics_override_approved) {
         return { allowed: false, reason: 'Ethics override not approved' };
       }
       break;
-      
+
     case 'dast':
       // DAST operations may require infrastructure access
       if (scope.startsWith('dast:deployment:') && !context.conditions?.infrastructure_access) {
         return { allowed: false, reason: 'Infrastructure access required' };
       }
       break;
-      
+
     case 'health':
       // Health monitoring may require system-level access
       if (scope.startsWith('health:remediation:') && !context.conditions?.system_write_access) {
@@ -772,7 +772,7 @@ function validateModuleAccess(
       }
       break;
   }
-  
+
   return { allowed: true };
 }
 
@@ -788,7 +788,7 @@ function evaluateExtendedConditions(
     module?: string;
   }
 ): { allowed: boolean; reason?: string } {
-  
+
   // Module-specific conditions
   if (context.module === 'nias' && conditions.compute_intensive) {
     // Check for compute quota
@@ -796,14 +796,14 @@ function evaluateExtendedConditions(
       return { allowed: false, reason: 'Compute quota exhausted' };
     }
   }
-  
+
   if (context.module === 'guardian' && conditions.ethical_review_required) {
     // Ensure ethical review is completed
     if (!conditions.ethical_review_completed) {
       return { allowed: false, reason: 'Ethical review pending' };
     }
   }
-  
+
   // Time-based conditions for sensitive operations
   if (conditions.sensitive_operation && conditions.business_hours_only) {
     const now = new Date();
@@ -812,12 +812,12 @@ function evaluateExtendedConditions(
       return { allowed: false, reason: 'Sensitive operations restricted to business hours' };
     }
   }
-  
+
   // Rate limiting conditions
   if (conditions.rate_limited && conditions.rate_limit_exceeded) {
     return { allowed: false, reason: 'Rate limit exceeded' };
   }
-  
+
   return { allowed: true };
 }
 

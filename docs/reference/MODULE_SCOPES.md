@@ -250,7 +250,7 @@ health:reporting:operational  # Operational reporting
 **Read-Only Scopes (T1-T2):**
 ```
 *:*:read
-*:*:view  
+*:*:view
 *:metrics:*
 *:status:*
 *:dashboards:read
@@ -337,7 +337,7 @@ const MODULE_SCOPES: ModuleScope[] = [
     tier_required: 'T2'
   },
   {
-    module: 'nias', 
+    module: 'nias',
     resource: 'models',
     action: 'train',
     tier_required: 'T3',
@@ -360,14 +360,14 @@ function authorizeModuleScope(
   context?: Record<string, any>
 ): boolean {
   const scopeDefinition = findScopeDefinition(requiredScope);
-  
+
   if (!scopeDefinition) return false;
-  
+
   // Check tier requirement
   if (!meetsTierRequirement(userTier, scopeDefinition.tier_required)) {
     return false;
   }
-  
+
   // Check explicit scope grant
   if (!userScopes.includes(requiredScope)) {
     // Check for inherited permissions
@@ -376,12 +376,12 @@ function authorizeModuleScope(
       return false;
     }
   }
-  
+
   // Check contextual conditions
   if (scopeDefinition.conditions) {
     return evaluateConditions(scopeDefinition.conditions, context);
   }
-  
+
   return true;
 }
 ```

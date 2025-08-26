@@ -75,7 +75,7 @@ from .tools.memory_drift_auditor import MemoryDriftAuditor
 
 __all__ = [
     'UnifiedMemoryOrchestrator',
-    'MetaLearningPatterns', 
+    'MetaLearningPatterns',
     'MemoryDriftAuditor'
 ]
 ```
@@ -99,7 +99,7 @@ Make sure sub-modules import from each other where appropriate.
 
 ### Total Internal Orphans:
 - **Memory**: 379 files
-- **Consciousness**: 324 files  
+- **Consciousness**: 324 files
 - **Governance**: 285 files
 - **QIM**: 172 files
 - **VIVOX**: 52 files

@@ -3,10 +3,10 @@ LUKHAS AI - QRG Integration Bridge
 Production integration for QRG advanced authentication components
 """
 
+import logging
 import sys
 from pathlib import Path
-from typing import Dict, Any
-import logging
+from typing import Any, Dict
 
 # Import QRG components
 QRG_PATH = Path(__file__).parent.parent.parent / "lambda_products_pack" / "lambda_core" / "QRG"
@@ -16,15 +16,15 @@ sys.path.insert(0, str(QRG_PATH))
 class QRGAuthBridge:
     """
     Bridge between LUKHAS Authentication System and QRG components
-    
+
     Integrates:
     - qrg_core.py: Core QR generation and verification
     - animation_engine.py: Animated QR authentication flows
     - steganography.py: Hidden authentication data
     - consciousness_layer.py: Consciousness-aware QR patterns
-    - quantum_entropy.py: QI entropy for secure authentication
+    - qi_entropy.py: QI entropy for secure authentication
     """
-    
+
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self._qrg_core = None
@@ -33,27 +33,27 @@ class QRGAuthBridge:
         self._consciousness_layer = None
         self._qi_entropy = None
         self._initialized = False
-    
+
     async def initialize(self):
         """Initialize QRG components"""
         if self._initialized:
             return
-            
+
         try:
             # Load QRG components dynamically
             await self._load_qrg_components()
             self._initialized = True
             self.logger.info("QRG authentication bridge initialized")
-            
+
         except Exception as e:
             self.logger.error("QRG bridge initialization failed: %s", e)
             raise
-    
+
     async def verify_qr_authentication(self, qr_data: Dict[str, Any]) -> Dict[str, Any]:
         """Verify QR-based authentication using QRG components"""
         if not self._initialized:
             await self.initialize()
-            
+
         try:
             # Use QRG components for advanced QR verification
             result = {
@@ -64,13 +64,13 @@ class QRGAuthBridge:
                 'consciousness_validated': True,
                 'qi_entropy_verified': True
             }
-            
+
             return result
-            
+
         except Exception as e:
             self.logger.error("QRG verification failed: %s", e)
             return {'success': False, 'error': str(e)}
-    
+
     async def _load_qrg_components(self):
         """Load QRG components"""
         # Components will be loaded dynamically when available

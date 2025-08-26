@@ -1,6 +1,6 @@
 /**
  * Authorization Middleware for ΛiD Authentication System
- * 
+ *
  * Implements deny-by-default authorization with route guards, tier-based access control,
  * step-up authentication, and comprehensive audit logging for LUKHAS AI.
  */
@@ -250,11 +250,11 @@ const STEP_UP_TIMEOUT = 15 * 60 * 1000; // 15 minutes
 async function extractAuthContext(request: NextRequest): Promise<AuthContext> {
   const ipAddress = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
   const userAgent = request.headers.get('user-agent') || 'unknown';
-  
+
   // Extract session information from cookie or header
   const authCookie = request.cookies.get('lukhas_auth')?.value;
   const authHeader = request.headers.get('authorization');
-  
+
   let context: AuthContext = {
     tier: 'T1',
     isAuthenticated: false,
@@ -349,7 +349,7 @@ async function authorize(
         const tierOrder: TierLevel[] = ['T1', 'T2', 'T3', 'T4', 'T5'];
         const currentIndex = tierOrder.indexOf(context.tier);
         const requiredIndex = tierOrder.indexOf(guard.minTier);
-        
+
         if (currentIndex < requiredIndex) {
           reasons.push(`Requires ${guard.minTier} tier or higher`);
         }
@@ -445,7 +445,7 @@ async function logAudit(auditData: AuditData): Promise<void> {
   // TODO: Implement audit logging to database/file
   // This should integrate with the governance/audit system
   console.log('AUDIT:', JSON.stringify(auditData, null, 2));
-  
+
   // In production, this should write to:
   // - Database audit table
   // - CloudWatch/DataDog logs
@@ -459,10 +459,10 @@ async function logAudit(auditData: AuditData): Promise<void> {
 export async function middleware(request: NextRequest) {
   // TEMPORARY: Allow all requests during development
   return NextResponse.next();
-  
+
   /*
   const pathname = request.nextUrl.pathname;
-  
+
   // Skip middleware for static assets and API routes that don't need protection
   if (
     pathname.startsWith('/_next/') ||
@@ -477,10 +477,10 @@ export async function middleware(request: NextRequest) {
   try {
     // Extract authentication context
     const context = await extractAuthContext(request);
-    
+
     // Find matching route guard
     const guard = findRouteGuard(pathname);
-    
+
     // DENY BY DEFAULT - if no guard found, block access
     if (!guard) {
       const auditData: AuditData = {
@@ -497,7 +497,7 @@ export async function middleware(request: NextRequest) {
         organizationId: context.organizationId,
         sessionId: context.sessionId
       };
-      
+
       await logAudit(auditData);
       return new NextResponse('Access Denied - Route Not Configured', { status: 403 });
     }
@@ -506,7 +506,7 @@ export async function middleware(request: NextRequest) {
     const rateLimitKey = guard.rateLimitKey || 'default';
     const customLimits = guard.customRateLimits;
     const tierLimits = TierManager.getRateLimits(context.tier);
-    
+
     const rateLimitConfig = {
       rpm: customLimits?.rpm || tierLimits.rpm,
       rpd: customLimits?.rpd || tierLimits.rpd,
@@ -514,7 +514,7 @@ export async function middleware(request: NextRequest) {
     };
 
     const rateLimitResult = await RateLimiter.checkLimit(rateLimitConfig);
-    
+
     if (!rateLimitResult.allowed) {
       const auditData: AuditData = {
         timestamp: new Date(),
@@ -531,21 +531,21 @@ export async function middleware(request: NextRequest) {
         sessionId: context.sessionId,
         rateLimitTriggered: true
       };
-      
+
       await logAudit(auditData);
-      
+
       const response = new NextResponse('Rate Limit Exceeded', { status: 429 });
       response.headers.set('Retry-After', rateLimitResult.resetTime.toString());
       response.headers.set('X-RateLimit-Limit', rateLimitConfig.rpm.toString());
       response.headers.set('X-RateLimit-Remaining', rateLimitResult.remaining.toString());
       response.headers.set('X-RateLimit-Reset', rateLimitResult.resetTime.toString());
-      
+
       return response;
     }
 
     // Perform authorization
     const authResult = await authorize(guard, context, pathname);
-    
+
     // Log audit data
     authResult.auditData.rateLimitTriggered = false;
     await logAudit(authResult.auditData);
@@ -561,17 +561,17 @@ export async function middleware(request: NextRequest) {
     response.headers.set('X-Frame-Options', 'DENY');
     response.headers.set('X-XSS-Protection', '1; mode=block');
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-    
+
     // Add rate limit headers
     response.headers.set('X-RateLimit-Limit', rateLimitConfig.rpm.toString());
     response.headers.set('X-RateLimit-Remaining', rateLimitResult.remaining.toString());
     response.headers.set('X-RateLimit-Reset', rateLimitResult.resetTime.toString());
 
     return response;
-    
+
   } catch (error) {
     console.error('Middleware error:', error);
-    
+
     // Log the error for audit
     const auditData: AuditData = {
       timestamp: new Date(),
@@ -584,9 +584,9 @@ export async function middleware(request: NextRequest) {
       tier: 'T1',
       sessionId: 'error'
     };
-    
+
     await logAudit(auditData);
-    
+
     // In case of error, deny access (fail secure)
     return new NextResponse('Internal Error - Access Denied', { status: 500 });
   }

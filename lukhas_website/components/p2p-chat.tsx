@@ -68,7 +68,7 @@ export default function P2PChat({ threadId }: { threadId:string }) {
                   {m.attachment && <div style={{ fontSize:12, opacity:.8, marginTop:6 }}>{m.attachment.name} · {m.attachment.sizeMB}MB</div>}
                 </>
               )}
-              
+
               {/* hover-to-expand preview overlay - only for non-confidential messages */}
               {!m.confidential && over?.id===m.id && (
                 <div style={{

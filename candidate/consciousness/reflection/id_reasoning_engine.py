@@ -163,10 +163,10 @@ class QISignature:
     signer_id: Optional[str] = None
     # Log definition after the class body
     logger.debug(
-        "ΛTRACE: QuantumSignature Dataclass defined for secure data signing (conceptual).")
+        "ΛTRACE: QISignature Dataclass defined for secure data signing (conceptual).")
 
 # Dataclass for a comprehensive audit log entry.
-# AIDENTITY_BRIDGE (Multiple fields link to identity: user_id, tier_context, component_source, signer_id via QuantumSignature, emotional_state_snapshot)
+# AIDENTITY_BRIDGE (Multiple fields link to identity: user_id, tier_context, component_source, signer_id via QISignature, emotional_state_snapshot)
 # ΛTEMPORAL_HOOK (timestamp_utc marks the event time of the audit log entry itself)
 # ΛECHO: This structure echoes the state of an event at a point in time for auditing.
 
@@ -200,7 +200,7 @@ class AuditLogEntry:
     compliance_region_context: Optional[ComplianceRegion] = None
     # Quantum-resistant signature of the log entry. #ΛSIM_TRACE
     # #ΛTEMPORAL_HOOK (Signature has its own timestamp)
-    quantum_secure_signature: Optional[QuantumSignature] = None
+    qi_secure_signature: Optional[QISignature] = None
     # Assessment of privacy impact (e.g., "Low", "Medium", "High").
     privacy_impact_level: str = "NotYetAssessed"
     # Summary/description of data involved, not the raw data itself.
@@ -221,13 +221,13 @@ class AuditLogEntry:
             # AIDENTITY_BRIDGE #ΛTEMPORAL_HOOK
             'emotional_state_snapshot': self.emotional_state_snapshot.to_dict() if self.emotional_state_snapshot else None,
             'compliance_region_context': self.compliance_region_context.value if self.compliance_region_context else None,  # AIDENTITY_BRIDGE
-            'quantum_secure_signature': {  # ΛSIM_TRACE
-                'signature_string': self.quantum_secure_signature.signature_data,
-                'signature_algorithm': self.quantum_secure_signature.algorithm,
+            'qi_secure_signature': {  # ΛSIM_TRACE
+                'signature_string': self.qi_secure_signature.signature_data,
+                'signature_algorithm': self.qi_secure_signature.algorithm,
                 # ΛTEMPORAL_HOOK (Serialized signature time)
-                'signature_timestamp_utc': self.quantum_secure_signature.timestamp.isoformat(),
-                'signature_signer_id': self.quantum_secure_signature.signer_id  # AIDENTITY_BRIDGE
-            } if self.quantum_secure_signature else None,
+                'signature_timestamp_utc': self.qi_secure_signature.timestamp.isoformat(),
+                'signature_signer_id': self.qi_secure_signature.signer_id  # AIDENTITY_BRIDGE
+            } if self.qi_secure_signature else None,
             'privacy_impact_level': self.privacy_impact_level,
             'data_involved_description': self.data_involved_description
         }
@@ -641,7 +641,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
     """
     # Human-readable comment: Initializes the LukhasIdManager.
     # ΛTEMPORAL_HOOK (Init time of the manager - Event)
-    # AIDENTITY_BRIDGE (Defines a core system component identity, quantum_signer_id)
+    # AIDENTITY_BRIDGE (Defines a core system component identity, qi_signer_id)
 
     def __init__(self, compliance_region: ComplianceRegion = ComplianceRegion.GLOBAL):
         # AIDENTITY_BRIDGE (Logger for this manager instance)
@@ -663,9 +663,9 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         # ΛMEMORY_TIER: Volatile Log #ΛTEMPORAL_HOOK (Log grows over time)
         self.audit_log_entries: List[AuditLogEntry] = []
         # AIDENTITY_BRIDGE (Unique ID for the system signer)
-        self.quantum_signer_id = f"lukhas_core_system_{secrets.token_hex(4)}"
+        self.qi_signer_id = f"lukhas_core_system_{secrets.token_hex(4)}"
         self.logger.debug(
-            f"ΛTRACE: LukhasIdManager initialized. Quantum signer ID: {self.quantum_signer_id}. Users: {len(self.users)}, Active Sessions: {len(self.active_sessions)}")
+            f"ΛTRACE: LukhasIdManager initialized. Quantum signer ID: {self.qi_signer_id}. Users: {len(self.users)}, Active Sessions: {len(self.active_sessions)}")
 
     # Human-readable comment: Registers a new user in the Lukhas_ID system.
     # ΛTEMPORAL_HOOK (User registration is an event, user record gets a created_at timestamp)
@@ -964,7 +964,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
                 'custom_voice_personas_management',
                 'dream_engine_basic_access'],
             AccessTier.TIER_4_RESEARCH: [
-                'quantum_processing_tasks',
+                'qi_processing_tasks',
                 'advanced_system_analytics',
                 'experimental_feature_access',
                 'system_behavior_monitoring'],
@@ -991,7 +991,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
 
     # Human-readable comment: Creates a comprehensive audit log entry.
     # ΛTEMPORAL_HOOK (Creates an AuditLogEntry with current timestamps for the entry itself and its signature)
-    # AIDENTITY_BRIDGE (Ties user_id, tier, component, quantum_signer_id to the audit event)
+    # AIDENTITY_BRIDGE (Ties user_id, tier, component, qi_signer_id to the audit event)
     # ΛECHO (Emotional state, if provided, is echoed into the audit log)
     # #ΛCOLLAPSE_POINT (If audit logging fails or logs are corrupted, diagnostic capabilities collapse)
     # Potential Recovery:
@@ -1017,14 +1017,14 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         sig_data_payload = f"{user_id}|{component}|{action}|{datetime.now(timezone.utc).isoformat()}|{secrets.token_hex(8)}"
         # ΛECHO (Payload echoed into signature generation)
         q_sig_data = self._generate_quantum_signature(sig_data_payload)
-        # AIDENTITY_BRIDGE (signer_id) #ΛTEMPORAL_HOOK (QuantumSignature gets its
+        # AIDENTITY_BRIDGE (signer_id) #ΛTEMPORAL_HOOK (QISignature gets its
         # own timestamp)
-        q_signature = QuantumSignature(
+        q_signature = QISignature(
             signature_data=q_sig_data,
-            signer_id=self.quantum_signer_id)
+            signer_id=self.qi_signer_id)
         # AIDENTITY_BRIDGE
         self.logger.debug(
-            f"ΛTRACE: Quantum signature generated for audit entry. Signer: {self.quantum_signer_id}")
+            f"ΛTRACE: Quantum signature generated for audit entry. Signer: {self.qi_signer_id}")
 
         entry = AuditLogEntry(  # ΛECHO (Populating AuditLogEntry with provided and generated data)
             # Ensure UTC #ΛTEMPORAL_HOOK (Timestamp for the entry) #AIDENTITY_BRIDGE
@@ -1032,7 +1032,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             # ΛECHO #ΛTEMPORAL_HOOK (If emotional_state has timestamp)
             decision_logic_summary=decision_logic, emotional_state_snapshot=emotional_state,
             # AIDENTITY_BRIDGE #ΛTEMPORAL_HOOK
-            compliance_region_context=self.compliance_monitor.region, quantum_secure_signature=q_signature,
+            compliance_region_context=self.compliance_monitor.region, qi_secure_signature=q_signature,
             privacy_impact_level=privacy_impact  # Corrected field name from AuditLogEntry definition
         )
         # ΛMEMORY_TIER (Adding to log) #ΛTEMPORAL_HOOK (Log grows over time)
@@ -1042,14 +1042,14 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             f"ΛTRACE: Audit log entry created. User: {user_id}, Action {action}. Total entries: {len(self.audit_log_entries)}")
 
     # Human-readable comment: Generates a mock quantum-resistant signature.
-    # AIDENTITY_BRIDGE (Uses self.quantum_signer_id)
+    # AIDENTITY_BRIDGE (Uses self.qi_signer_id)
     # ΛECHO (data_payload is echoed into the signature process)
     def _generate_quantum_signature(self, data_payload: str) -> str:
         """Generate quantum-resistant signature (mock implementation)."""
         # self.logger.debug(f"ΛTRACE: Generating mock quantum signature for
         # payload: {data_payload[:50]}...") # Potentially too verbose
         # Signer ID included in signed data #AIDENTITY_BRIDGE
-        sig_input = f"{data_payload}|{self.quantum_signer_id}"
+        sig_input = f"{data_payload}|{self.qi_signer_id}"
         return hashlib.sha256(sig_input.encode()).hexdigest()
 
     # Human-readable comment: Retrieves user permissions for a given session token.

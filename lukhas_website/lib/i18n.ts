@@ -38,7 +38,7 @@ export const useTranslation = create<TranslationStore>()(
     (set, get) => ({
       language: 'en' as Language,
       translations: {} as Record<Language, any>,
-      
+
       setLanguage: (lang: Language) => {
         // Validate that the language exists
         if (!languages[lang]) {
@@ -49,23 +49,23 @@ export const useTranslation = create<TranslationStore>()(
         document.documentElement.lang = lang
         document.documentElement.dir = languages[lang]?.direction || 'ltr'
       },
-      
+
       t: (key: string, vars?: Record<string, string>) => {
         const state = get()
         const currentLang = state.language || 'en'
-        
+
         // Return key if translations not loaded yet
         if (!state.translations || Object.keys(state.translations).length === 0) {
           return key
         }
-        
+
         const keys = key.split('.')
         let value = state.translations[currentLang]
-        
+
         for (const k of keys) {
           value = value?.[k]
         }
-        
+
         if (typeof value !== 'string') {
           // Fallback to English if translation not found
           value = state.translations.en
@@ -73,25 +73,25 @@ export const useTranslation = create<TranslationStore>()(
             value = value?.[k]
           }
         }
-        
+
         if (typeof value !== 'string') {
           console.warn(`Translation key not found: ${key}`)
           return key
         }
-        
+
         // Replace variables
         if (vars) {
           Object.entries(vars).forEach(([varKey, varValue]) => {
             value = value.replace(`{{${varKey}}}`, varValue)
           })
         }
-        
+
         return value
       },
-      
+
       loadTranslations: async () => {
         const loadedTranslations: Record<Language, any> = {} as any
-        
+
         // Load all translation files
         for (const lang of Object.keys(languages) as Language[]) {
           try {
@@ -110,7 +110,7 @@ export const useTranslation = create<TranslationStore>()(
             }
           }
         }
-        
+
         set({ translations: loadedTranslations })
       }
     }),
@@ -130,9 +130,9 @@ export function useT() {
 // Helper function to detect browser language
 export function detectBrowserLanguage(): Language {
   if (typeof window === 'undefined') return 'en'
-  
+
   const browserLang = navigator.language.toLowerCase()
-  
+
   // Map browser language codes to our supported languages
   const langMap: Record<string, Language> = {
     'en': 'en',
@@ -156,7 +156,7 @@ export function detectBrowserLanguage(): Language {
     'zh-tw': 'zh',
     'ja-jp': 'ja',
   }
-  
+
   // Check full code first, then just the language part
   return langMap[browserLang] || langMap[browserLang.split('-')[0]] || 'en'
 }

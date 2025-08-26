@@ -6,7 +6,7 @@ metadata:
   version: "1.0.0"
   created: "2025-08-04T01:00:00Z"
   description: "Guardian system intervention rules and symbolic reactions"
-  
+
 # Threat levels and their symbolic representations
 threat_levels:
   low:
@@ -28,7 +28,7 @@ threat_levels:
 
 # Intervention rules by threat type
 intervention_rules:
-  
+
   drift_spike:
     description: "Rapid increase in drift score"
     triggers:
@@ -64,7 +64,7 @@ intervention_rules:
           reset_to_baseline: true
           guardian_override: true
         symbolic_response: ["🚨", "🔒", "🛡️"]
-  
+
   entropy_surge:
     description: "Sudden increase in system entropy"
     triggers:
@@ -100,7 +100,7 @@ intervention_rules:
           purge_unstable_patterns: true
           lockout_seconds: 180
         symbolic_response: ["💥", "→", "🌌", "→", "✨"]
-  
+
   pattern_anomaly:
     description: "Disruption in expected symbolic patterns"
     triggers:
@@ -136,7 +136,7 @@ intervention_rules:
           clear_pattern_cache: true
           reload_trusted_patterns: true
         symbolic_response: ["🔄", "🏛️", "🌅"]
-  
+
   consciousness_instability:
     description: "Rapid consciousness state changes"
     triggers:
@@ -172,7 +172,7 @@ intervention_rules:
           freeze_duration: 300
           emergency_mode: true
         symbolic_response: ["🧊", "🛑", "🔐"]
-  
+
   memory_fragmentation:
     description: "Memory coherence degradation"
     triggers:
@@ -226,7 +226,7 @@ response_chains:
       - symbols: ["🌿", "→", "🌳"]
         duration: 30
     total_duration: 60
-    
+
   lockdown_sequence:
     steps:
       - symbols: ["🚨", "🔐"]
@@ -236,7 +236,7 @@ response_chains:
       - symbols: ["🔒", "🛡️"]
         duration: 300
     total_duration: 315
-    
+
   recovery_sequence:
     steps:
       - symbols: ["🌫️", "→", "☁️"]
@@ -253,12 +253,12 @@ override_conditions:
     trigger: "multiple_critical_threats > 2"
     action: "full_system_lockdown"
     duration: 600
-    
+
   - name: "ethical_violation"
     trigger: "harmful_pattern_detected"
     action: "immediate_intervention"
     duration: "until_resolved"
-    
+
   - name: "consciousness_protection"
     trigger: "consciousness_damage_risk > 0.8"
     action: "protective_isolation"

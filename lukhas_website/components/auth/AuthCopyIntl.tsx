@@ -76,17 +76,17 @@ const AUTH_COPY: Record<AuthLocale, Record<AuthPage, {
   }
 }
 
-export function AuthCopy({ 
-  page = 'login', 
+export function AuthCopy({
+  page = 'login',
   locale = 'en',
   tone = 'plain'
-}: { 
+}: {
   page?: AuthPage
   locale?: AuthLocale
   tone?: 'poetic' | 'technical' | 'plain'
 }) {
   const content = AUTH_COPY[locale][page][tone]
-  
+
   return (
     <div data-tone={tone} className={
       tone === 'poetic' ? 'text-sm text-white/60 leading-relaxed' :
@@ -98,15 +98,15 @@ export function AuthCopy({
   )
 }
 
-export function AuthCopyFull({ 
-  page = 'login', 
-  locale = 'en' 
-}: { 
+export function AuthCopyFull({
+  page = 'login',
+  locale = 'en'
+}: {
   page?: AuthPage
   locale?: AuthLocale
 }) {
   const copy = AUTH_COPY[locale][page]
-  
+
   return (
     <div className="space-y-6">
       <div data-tone="poetic" className="text-sm text-white/60 leading-relaxed">

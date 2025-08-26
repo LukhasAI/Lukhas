@@ -45,7 +45,7 @@ export default function ModelDock({ capsule }: { capsule?: ContextCapsule }) {
         const isActive = current.id === m.id;
         const isPulsing = pulse === m.id;
         const isDragOver = dragOver === m.id;
-        
+
         return (
           <div key={m.id} style={{ position: "relative" }}>
             <button
@@ -57,7 +57,7 @@ export default function ModelDock({ capsule }: { capsule?: ContextCapsule }) {
               style={{
                 width:44,height:44,borderRadius:12,display:"grid",placeItems:"center",
                 border:`2px solid ${isActive ? "#60a5fa" : isDragOver ? "#3b82f6" : "var(--line)"}`,
-                background: isActive ? "rgba(96,165,250,0.1)" : "transparent", 
+                background: isActive ? "rgba(96,165,250,0.1)" : "transparent",
                 cursor:"pointer",
                 transform: isPulsing ? "scale(1.05)" : "scale(1)",
                 transition: "all 0.2s ease",

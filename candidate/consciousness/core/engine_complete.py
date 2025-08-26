@@ -839,12 +839,12 @@ class SelfAwareAdaptationModule:
 class AGIConsciousnessEngine:
     """
     LUKHAS AI Trinity Framework Consciousness Engine
-    
+
     Integrates consciousness, identity, and guardian systems for ethical AI:
     ⚛️ Identity: Symbolic reasoning with GLYPH communication protocols
     🧠 Consciousness: Awareness, learning, adaptation, and bio-inspired processing
     🛡️ Guardian: Ethical governance and compliance validation
-    
+
     Features:
     - Multi-agent coordination and context bus integration
     - Bio-inspired oscillators and adaptive resonance patterns
@@ -1176,7 +1176,7 @@ class AGIConsciousnessEngine:
     ) -> dict[str, Any]:
         """
         Perform consciousness-aware authentication with bio-inspired processing.
-        
+
         Integrates Trinity Framework components for comprehensive authentication:
         ⚛️ Identity: Pattern recognition and symbolic consciousness verification
         🧠 Consciousness: Bio-inspired adaptation and contextual awareness

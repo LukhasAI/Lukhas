@@ -5,7 +5,7 @@
 Due to Claude Code's limit of 6 custom agents, we've consolidated our 14 original specialists into 6 comprehensive master agents that cover all domains:
 
 ### 1. **consciousness-systems-architect** 🧠
-**Combines:** Memory, Consciousness, Quantum-Bio specialists  
+**Combines:** Memory, Consciousness, Quantum-Bio specialists
 **Expertise:**
 - Consciousness architectures (VIVOX, awareness, dream states)
 - Fold-based memory systems (1000-fold limit, 99.7% cascade prevention)
@@ -14,7 +14,7 @@ Due to Claude Code's limit of 6 custom agents, we've consolidated our 14 origina
 - Trinity Framework consciousness implementation
 
 ### 2. **full-stack-integration-engineer** 🔌
-**Combines:** API Bridge, Adapter Integration, Context Orchestrator, Legacy Integration  
+**Combines:** API Bridge, Adapter Integration, Context Orchestrator, Legacy Integration
 **Expertise:**
 - REST/GraphQL/WebSocket APIs
 - Multi-AI orchestration (OpenAI, Anthropic, Google)
@@ -23,7 +23,7 @@ Due to Claude Code's limit of 6 custom agents, we've consolidated our 14 origina
 - Context Bus and pipeline workflows
 
 ### 3. **guardian-compliance-officer** 🛡️
-**Combines:** Governance Ethics, Consent Compliance, Coordination Metrics  
+**Combines:** Governance Ethics, Consent Compliance, Coordination Metrics
 **Expertise:**
 - Guardian System v1.0.0 management
 - Constitutional AI principles and drift detection (0.15 threshold)
@@ -40,7 +40,7 @@ Due to Claude Code's limit of 6 custom agents, we've consolidated our 14 origina
 - <100ms p95 authentication latency
 
 ### 5. **quality-devops-engineer** 🧪
-**Combines:** Testing DevOps, Infrastructure, Monitoring  
+**Combines:** Testing DevOps, Infrastructure, Monitoring
 **Expertise:**
 - Test automation (unit, integration, e2e)
 - CI/CD pipelines (GitHub Actions, Docker, Kubernetes)
@@ -49,7 +49,7 @@ Due to Claude Code's limit of 6 custom agents, we've consolidated our 14 origina
 - 99.9% uptime targets
 
 ### 6. **ux-content-strategist** 🎨
-**Combines:** UX Feedback, Interactive Web Designer, Content Strategist  
+**Combines:** UX Feedback, Interactive Web Designer, Content Strategist
 **Expertise:**
 - User interface design and dashboards
 - Three.js particle systems and consciousness visualization
@@ -124,7 +124,7 @@ The original 14 individual specialists have been archived in `.claude/agents/arc
 
 Each master agent respects the Trinity Framework:
 - **⚛️ Identity**: identity-authentication-specialist (primary), ux-content-strategist
-- **🧠 Consciousness**: consciousness-systems-architect (primary), full-stack-integration-engineer  
+- **🧠 Consciousness**: consciousness-systems-architect (primary), full-stack-integration-engineer
 - **🛡️ Guardian**: guardian-compliance-officer (primary), quality-devops-engineer
 
 ---

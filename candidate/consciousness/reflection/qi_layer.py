@@ -21,7 +21,7 @@ class QIBioConfig:
     """Configuration for quantum bio-oscillator."""
 
     base_frequency: float = 5.0
-    quantum_coherence: float = 0.8
+    qi_coherence: float = 0.8
     entanglement_strength: float = 0.6
     decoherence_rate: float = 0.05
     measurement_precision: float = 0.9
@@ -30,7 +30,7 @@ class QIBioConfig:
     def __post_init__(self):
         """Validate configuration parameters."""
         self.base_frequency = max(0.1, min(100.0, self.base_frequency))
-        self.quantum_coherence = max(0.0, min(1.0, self.quantum_coherence))
+        self.qi_coherence = max(0.0, min(1.0, self.qi_coherence))
         self.entanglement_strength = max(0.0, min(1.0, self.entanglement_strength))
         self.decoherence_rate = max(0.0, min(1.0, self.decoherence_rate))
         self.measurement_precision = max(0.0, min(1.0, self.measurement_precision))
@@ -45,15 +45,15 @@ class QIBioOscillator:
     to create complex oscillatory patterns suitable for consciousness modeling.
     """
 
-    def __init__(self, config: Optional[QuantumBioConfig] = None):
+    def __init__(self, config: Optional[QIBioConfig] = None):
         """
         Initialize the quantum bio-oscillator.
 
         Args:
             config: Configuration for the oscillator
         """
-        self.config = config or QuantumBioConfig()
-        self.quantum_like_state = self._initialize_quantum_like_state()
+        self.config = config or QIBioConfig()
+        self.qi_like_state = self._initialize_quantum_like_state()
         self.oscillation_history = []
         self.entangled_oscillators = {}
         self.coherence_matrix = []
@@ -62,7 +62,7 @@ class QIBioOscillator:
     def _initialize_quantum_like_state(self) -> dict[str, Any]:
         """Initialize quantum-like state for the oscillator."""
         return {
-            "coherence": self.config.quantum_coherence,
+            "coherence": self.config.qi_coherence,
             "phase": 0.0,
             "amplitude": self.config.oscillation_amplitude,
             "frequency": self.config.base_frequency,
@@ -85,21 +85,21 @@ class QIBioOscillator:
             Dictionary with oscillation data
         """
         # Base oscillation
-        base_oscillation = self.quantum_like_state["amplitude"] * math.sin(
-            2 * math.pi * self.quantum_like_state["frequency"] * time_point
-            + self.quantum_like_state["phase"]
+        base_oscillation = self.qi_like_state["amplitude"] * math.sin(
+            2 * math.pi * self.qi_like_state["frequency"] * time_point
+            + self.qi_like_state["phase"]
         )
 
         # Apply coherence-inspired processing effects
-        coherence_factor = self.quantum_like_state["coherence"]
-        quantum_noise = (1 - coherence_factor) * random.uniform(-0.1, 0.1)
+        coherence_factor = self.qi_like_state["coherence"]
+        qi_noise = (1 - coherence_factor) * random.uniform(-0.1, 0.1)
 
         # Apply external influence if provided
         if external_influence:
             influence_factor = external_influence.get("strength", 0.1)
             influence_phase = external_influence.get("phase", 0.0)
             influence_freq = external_influence.get(
-                "frequency", self.quantum_like_state["frequency"]
+                "frequency", self.qi_like_state["frequency"]
             )
 
             external_component = influence_factor * math.sin(
@@ -109,29 +109,29 @@ class QIBioOscillator:
             external_component = 0.0
 
         # Combine components
-        total_oscillation = base_oscillation + quantum_noise + external_component
+        total_oscillation = base_oscillation + qi_noise + external_component
 
         # Apply measurement disturbance
-        if self.quantum_like_state["measurement_disturbance"] > 0:
-            disturbance = self.quantum_like_state[
+        if self.qi_like_state["measurement_disturbance"] > 0:
+            disturbance = self.qi_like_state[
                 "measurement_disturbance"
             ] * random.uniform(-0.05, 0.05)
             total_oscillation += disturbance
 
             # Decay measurement disturbance
-            self.quantum_like_state["measurement_disturbance"] *= 0.9
+            self.qi_like_state["measurement_disturbance"] *= 0.9
 
         # Create result
         result = {
             "time": time_point,
             "oscillation_value": total_oscillation,
             "base_component": base_oscillation,
-            "quantum_noise": quantum_noise,
+            "qi_noise": qi_noise,
             "external_component": external_component,
-            "coherence": self.quantum_like_state["coherence"],
-            "frequency": self.quantum_like_state["frequency"],
-            "phase": self.quantum_like_state["phase"],
-            "amplitude": self.quantum_like_state["amplitude"],
+            "coherence": self.qi_like_state["coherence"],
+            "frequency": self.qi_like_state["frequency"],
+            "phase": self.qi_like_state["phase"],
+            "amplitude": self.qi_like_state["amplitude"],
         }
 
         # Store in history
@@ -144,7 +144,7 @@ class QIBioOscillator:
         return result
 
     def create_entanglement(
-        self, other_oscillator: "QuantumBioOscillator", strength: float = None
+        self, other_oscillator: "QIBioOscillator", strength: float = None
     ) -> dict[str, Any]:
         """
         Create entanglement-like correlation with another oscillator.
@@ -177,8 +177,8 @@ class QIBioOscillator:
         other_oscillator.entangled_oscillators[entanglement_id] = entanglement_data
 
         # Update quantum-like states
-        self.quantum_like_state["entanglement_pairs"].append(entanglement_id)
-        other_oscillator.quantum_like_state["entanglement_pairs"].append(
+        self.qi_like_state["entanglement_pairs"].append(entanglement_id)
+        other_oscillator.qi_like_state["entanglement_pairs"].append(
             entanglement_id
         )
 
@@ -209,8 +209,8 @@ class QIBioOscillator:
 
             # Calculate entanglement effect based on other oscillator's state
             phase_difference = abs(
-                self.quantum_like_state["phase"]
-                - other_oscillator.quantum_like_state["phase"]
+                self.qi_like_state["phase"]
+                - other_oscillator.qi_like_state["phase"]
             )
             correlation_factor = entanglement_data["phase_correlation"]
 
@@ -226,14 +226,14 @@ class QIBioOscillator:
         # Apply entanglement effects to quantum-like state
         if active_entanglements > 0:
             avg_effect = total_effect / active_entanglements
-            self.quantum_like_state["phase"] += (
+            self.qi_like_state["phase"] += (
                 avg_effect * 0.1
             )  # Small phase adjustment
-            self.quantum_like_state["coherence"] += (
+            self.qi_like_state["coherence"] += (
                 avg_effect * 0.05
             )  # Coherence enhancement
-            self.quantum_like_state["coherence"] = max(
-                0.0, min(1.0, self.quantum_like_state["coherence"])
+            self.qi_like_state["coherence"] = max(
+                0.0, min(1.0, self.qi_like_state["coherence"])
             )
 
         return {
@@ -258,7 +258,7 @@ class QIBioOscillator:
 
         # Add measurement disturbance
         disturbance_strength = 1.0 - self.config.measurement_precision
-        self.quantum_like_state["measurement_disturbance"] = disturbance_strength
+        self.qi_like_state["measurement_disturbance"] = disturbance_strength
 
         measurement_result = {
             "property": property_name,
@@ -270,7 +270,7 @@ class QIBioOscillator:
         if property_name == "coherence":
             # Measure coherence with uncertainty
             uncertainty = disturbance_strength * 0.1
-            measured_value = self.quantum_like_state["coherence"] + random.uniform(
+            measured_value = self.qi_like_state["coherence"] + random.uniform(
                 -uncertainty, uncertainty
             )
             measurement_result["value"] = max(0.0, min(1.0, measured_value))
@@ -278,7 +278,7 @@ class QIBioOscillator:
         elif property_name == "phase":
             # Measure phase
             uncertainty = disturbance_strength * 0.2
-            measured_value = self.quantum_like_state["phase"] + random.uniform(
+            measured_value = self.qi_like_state["phase"] + random.uniform(
                 -uncertainty, uncertainty
             )
             measurement_result["value"] = measured_value % (2 * math.pi)
@@ -286,7 +286,7 @@ class QIBioOscillator:
         elif property_name == "frequency":
             # Measure frequency
             uncertainty = disturbance_strength * 0.5
-            measured_value = self.quantum_like_state["frequency"] + random.uniform(
+            measured_value = self.qi_like_state["frequency"] + random.uniform(
                 -uncertainty, uncertainty
             )
             measurement_result["value"] = max(0.1, measured_value)
@@ -294,7 +294,7 @@ class QIBioOscillator:
         elif property_name == "amplitude":
             # Measure amplitude
             uncertainty = disturbance_strength * 0.1
-            measured_value = self.quantum_like_state["amplitude"] + random.uniform(
+            measured_value = self.qi_like_state["amplitude"] + random.uniform(
                 -uncertainty, uncertainty
             )
             measurement_result["value"] = max(0.0, measured_value)
@@ -311,11 +311,11 @@ class QIBioOscillator:
     def _apply_measurement_decoherence(self):
         """Apply decoherence due to measurement."""
         decoherence_factor = 1.0 - self.config.decoherence_rate
-        self.quantum_like_state["coherence"] *= decoherence_factor
+        self.qi_like_state["coherence"] *= decoherence_factor
 
         # Ensure coherence doesn't go below minimum
-        self.quantum_like_state["coherence"] = max(
-            0.1, self.quantum_like_state["coherence"]
+        self.qi_like_state["coherence"] = max(
+            0.1, self.qi_like_state["coherence"]
         )
 
     def evolve_quantum_like_state(self, time_step: float) -> dict[str, Any]:
@@ -329,29 +329,29 @@ class QIBioOscillator:
             Evolution result
         """
         # Update phase
-        self.quantum_like_state["phase"] += (
-            2 * math.pi * self.quantum_like_state["frequency"] * time_step
+        self.qi_like_state["phase"] += (
+            2 * math.pi * self.qi_like_state["frequency"] * time_step
         )
 
         # Apply natural decoherence
         natural_decoherence = math.exp(-self.config.decoherence_rate * time_step)
-        self.quantum_like_state["coherence"] *= natural_decoherence
+        self.qi_like_state["coherence"] *= natural_decoherence
 
         # Small random fluctuations
         frequency_fluctuation = 0.001 * random.uniform(-1, 1)
-        self.quantum_like_state["frequency"] += frequency_fluctuation
-        self.quantum_like_state["frequency"] = max(
-            0.1, min(100.0, self.quantum_like_state["frequency"])
+        self.qi_like_state["frequency"] += frequency_fluctuation
+        self.qi_like_state["frequency"] = max(
+            0.1, min(100.0, self.qi_like_state["frequency"])
         )
 
         amplitude_fluctuation = 0.001 * random.uniform(-1, 1)
-        self.quantum_like_state["amplitude"] += amplitude_fluctuation
-        self.quantum_like_state["amplitude"] = max(
-            0.1, min(10.0, self.quantum_like_state["amplitude"])
+        self.qi_like_state["amplitude"] += amplitude_fluctuation
+        self.qi_like_state["amplitude"] = max(
+            0.1, min(10.0, self.qi_like_state["amplitude"])
         )
 
         return {
-            "evolved_state": self.quantum_like_state.copy(),
+            "evolved_state": self.qi_like_state.copy(),
             "time_step": time_step,
             "decoherence_factor": natural_decoherence,
         }
@@ -364,13 +364,13 @@ class QIBioOscillator:
             Dictionary with oscillator metrics
         """
         metrics = {
-            "quantum_like_state": self.quantum_like_state.copy(),
+            "qi_like_state": self.qi_like_state.copy(),
             "entangled_pairs": len(self.entangled_oscillators),
             "measurement_count": self.measurement_count,
             "history_length": len(self.oscillation_history),
             "config": {
                 "base_frequency": self.config.base_frequency,
-                "quantum_coherence": self.config.quantum_coherence,
+                "qi_coherence": self.config.qi_coherence,
                 "entanglement_strength": self.config.entanglement_strength,
                 "decoherence_rate": self.config.decoherence_rate,
             },
@@ -399,7 +399,7 @@ class QIBioOscillator:
 
     def reset_oscillator(self):
         """Reset the oscillator to initial state."""
-        self.quantum_like_state = self._initialize_quantum_like_state()
+        self.qi_like_state = self._initialize_quantum_like_state()
         self.oscillation_history.clear()
         self.entangled_oscillators.clear()
         self.coherence_matrix.clear()
@@ -425,31 +425,31 @@ class QIBioOscillator:
             Synchronization result
         """
         # Calculate frequency difference
-        freq_diff = abs(self.quantum_like_state["frequency"] - rhythm_frequency)
+        freq_diff = abs(self.qi_like_state["frequency"] - rhythm_frequency)
 
         # Apply synchronization
         if freq_diff > 0.1:  # Only sync if difference is significant
             freq_adjustment = sync_strength * (
-                rhythm_frequency - self.quantum_like_state["frequency"]
+                rhythm_frequency - self.qi_like_state["frequency"]
             )
-            self.quantum_like_state["frequency"] += (
+            self.qi_like_state["frequency"] += (
                 freq_adjustment * 0.1
             )  # Gradual adjustment
 
             # Adjust phase to align with rhythm
             phase_adjustment = sync_strength * 0.1
-            self.quantum_like_state["phase"] += phase_adjustment
+            self.qi_like_state["phase"] += phase_adjustment
 
         return {
             "target_frequency": rhythm_frequency,
-            "current_frequency": self.quantum_like_state["frequency"],
+            "current_frequency": self.qi_like_state["frequency"],
             "sync_strength": sync_strength,
             "frequency_difference": freq_diff,
             "synchronized": freq_diff < 0.1,
         }
 
     def create_coherence_field(
-        self, other_oscillators: list["QuantumBioOscillator"]
+        self, other_oscillators: list["QIBioOscillator"]
     ) -> dict[str, Any]:
         """
         Create coherence field with multiple oscillators.
@@ -472,13 +472,13 @@ class QIBioOscillator:
             freq_similarity = (
                 1.0
                 - abs(
-                    self.quantum_like_state["frequency"]
-                    - other.quantum_like_state["frequency"]
+                    self.qi_like_state["frequency"]
+                    - other.qi_like_state["frequency"]
                 )
                 / 10.0
             )
             phase_similarity = 1.0 - abs(
-                self.quantum_like_state["phase"] - other.quantum_like_state["phase"]
+                self.qi_like_state["phase"] - other.qi_like_state["phase"]
             ) / (2 * math.pi)
 
             pairwise_coherence = (freq_similarity + phase_similarity) / 2
@@ -493,9 +493,9 @@ class QIBioOscillator:
         # Apply field effects
         if field_strength > 0.5:
             # Enhance coherence when field is strong
-            self.quantum_like_state["coherence"] += field_strength * 0.1
-            self.quantum_like_state["coherence"] = min(
-                1.0, self.quantum_like_state["coherence"]
+            self.qi_like_state["coherence"] += field_strength * 0.1
+            self.qi_like_state["coherence"] = min(
+                1.0, self.qi_like_state["coherence"]
             )
 
         return {

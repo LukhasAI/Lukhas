@@ -12,7 +12,11 @@ from datetime import datetime
 
 # Import bootstrap with fallback handling
 try:
-    from candidate.core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
+    from candidate.core.bootstrap import (
+        get_bootstrap,
+        initialize_lukhas,
+        shutdown_lukhas,
+    )
 except ImportError:
     try:
         from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
@@ -28,11 +32,11 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # Import LUKHAS AI branding system for system initialization
 # Import branding bridge with fallback handling
 try:
-    from candidate.branding_bridge import initialize_branding, get_system_signature
+    from candidate.branding_bridge import get_system_signature, initialize_branding
     BRANDING_AVAILABLE = True
 except ImportError:
     try:
-        from lukhas.branding_bridge import initialize_branding, get_system_signature
+        from lukhas.branding_bridge import get_system_signature, initialize_branding
         BRANDING_AVAILABLE = True
     except ImportError:
         BRANDING_AVAILABLE = False

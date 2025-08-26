@@ -1,5 +1,5 @@
 # LUKHAS Radical Simplification Plan
-        
+
 ## Current State (The Problem)
 - Files: 2134
 - Lines: 649158
@@ -19,7 +19,7 @@ Steve says: "I'm as proud of what we don't do as I am of what we do."
 2. Delete all non-core modules (1645 files)
 3. Archive anything with historical value
 
-### Phase 2: CONSOLIDATE (Week 2) 
+### Phase 2: CONSOLIDATE (Week 2)
 Steve says: "It's not about money. It's about the people you have, how you're led, and how much you get it."
 
 Target structure:
@@ -44,7 +44,7 @@ Steve says: "When you first start off trying to solve a problem, the first solut
 ### Success Metrics
 - Before: 649158 lines
 - Target: < 50,000 lines (94% reduction)
-- Before: 2134 files  
+- Before: 2134 files
 - Target: < 50 files (98% reduction)
 
 ### The Jobs Test

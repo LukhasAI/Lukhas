@@ -4,11 +4,10 @@ NIAS Documentation Generator using LukhasDoc (LUKHΛS Symbolic Documentation Eng
 Generates comprehensive interactive documentation for the enhanced NIAS plan
 """
 
-import os
-import sys
 import json
-from pathlib import Path
+import sys
 from datetime import datetime
+from pathlib import Path
 
 # Add the LukhasDoc plugin to path for import
 ladoc_path = Path(
@@ -28,7 +27,7 @@ def generate_nias_documentation():
         print("❌ NIAS_Plan.md not found!")
         return False
 
-    with open(nias_plan_path, "r", encoding="utf-8") as f:
+    with open(nias_plan_path, encoding="utf-8") as f:
         nias_content = f.read()
 
     # Create documentation structure

@@ -74,7 +74,7 @@ class ActionApprovalResponse(BaseModel):
 class GTΨVerificationService:
     """
     Server-side GTΨ verification and approval management.
-    
+
     Core responsibilities:
     - Generate gesture challenges for high-risk actions
     - Verify gesture features against stored patterns
@@ -110,7 +110,7 @@ class GTΨVerificationService:
         async with self.db_pool.acquire() as conn:
             await conn.execute("""
                 CREATE SCHEMA IF NOT EXISTS gtpsi;
-                
+
                 -- Stored gesture patterns (hashed features only)
                 CREATE TABLE IF NOT EXISTS gtpsi.gesture_patterns (
                     pattern_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -125,7 +125,7 @@ class GTΨVerificationService:
                     use_count INTEGER DEFAULT 0,
                     enabled BOOLEAN DEFAULT TRUE
                 );
-                
+
                 -- Active gesture challenges
                 CREATE TABLE IF NOT EXISTS gtpsi.challenges (
                     challenge_id VARCHAR(64) PRIMARY KEY,
@@ -138,7 +138,7 @@ class GTΨVerificationService:
                     expires_at TIMESTAMPTZ NOT NULL,
                     completed BOOLEAN DEFAULT FALSE
                 );
-                
+
                 -- Gesture approvals (time-locked)
                 CREATE TABLE IF NOT EXISTS gtpsi.approvals (
                     approval_id VARCHAR(64) PRIMARY KEY,
@@ -152,7 +152,7 @@ class GTΨVerificationService:
                     used BOOLEAN DEFAULT FALSE,
                     used_at TIMESTAMPTZ
                 );
-                
+
                 -- Audit log
                 CREATE TABLE IF NOT EXISTS gtpsi.audit_log (
                     log_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -167,7 +167,7 @@ class GTΨVerificationService:
                     timestamp TIMESTAMPTZ DEFAULT NOW(),
                     metadata JSONB DEFAULT '{}'::jsonb
                 );
-                
+
                 -- Indexes
                 CREATE INDEX IF NOT EXISTS idx_patterns_lid ON gtpsi.gesture_patterns(lid);
                 CREATE INDEX IF NOT EXISTS idx_challenges_lid ON gtpsi.challenges(lid);
@@ -185,12 +185,12 @@ class GTΨVerificationService:
     ) -> GestureChallenge:
         """
         Generate GTΨ challenge for high-risk action.
-        
+
         Args:
             lid: Canonical ΛID requesting action
             action: High-risk action requiring approval
             action_context: Action-specific context
-            
+
         Returns:
             Gesture challenge for client to complete
         """
@@ -236,11 +236,11 @@ class GTΨVerificationService:
     ) -> GestureVerificationResponse:
         """
         Verify gesture against stored patterns and create approval.
-        
+
         Args:
             request: Gesture verification request
             client_ip: Client IP for audit trail
-            
+
         Returns:
             Verification result with approval ID if successful
         """
@@ -336,10 +336,10 @@ class GTΨVerificationService:
     ) -> ActionApprovalResponse:
         """
         Check if action is approved via GTΨ and consume approval.
-        
+
         Args:
             request: Action approval request
-            
+
         Returns:
             Approval status and details
         """
@@ -402,11 +402,11 @@ class GTΨVerificationService:
     ) -> str:
         """
         Enroll new gesture pattern for user.
-        
+
         Args:
             lid: Canonical ΛID
             gesture_features: Gesture features to enroll
-            
+
         Returns:
             Pattern ID
         """
@@ -433,7 +433,7 @@ class GTΨVerificationService:
     ) -> float:
         """
         Verify gesture against stored patterns for user.
-        
+
         Returns:
             Similarity score (0.0-1.0)
         """

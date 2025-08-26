@@ -15,7 +15,7 @@ We take security seriously in our consciousness-aware development environment. I
 
 ### 📧 Contact Information
 
-**Primary Contact**: security@lukhas.ai  
+**Primary Contact**: security@lukhas.ai
 **Response Time**: Within 24 hours for initial acknowledgment
 
 ### 🔍 What to Include

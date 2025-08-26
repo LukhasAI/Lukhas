@@ -42,7 +42,7 @@ class PostConsolidationAuditor:
         # Known consolidation categories (from original plan)
         self.known_categories = {
             "bio": ["bio_core", "BIO_SYMBOLIC", "bio_symbolic", "bio", "oscillator"],
-            "quantum": ["quantum_core", "quantum", "quantum_processing"],
+            "quantum": ["qi_core", "quantum", "qi_processing"],
             "brain": ["brain", "neural", "cognitive", "consciousness"],
             "memory": ["memory", "memory_learning", "memory_systems"],
             "voice": ["voice", "voice_systems", "speech", "audio"],

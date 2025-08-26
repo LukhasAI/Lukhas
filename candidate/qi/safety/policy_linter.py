@@ -1,5 +1,11 @@
 from __future__ import annotations
-import os, yaml, json, argparse
+
+import argparse
+import json
+import os
+
+import yaml
+
 REQUIRED={"require_provenance","mask_pii","budget_limit"}
 def lint(policy_root: str, jurisdiction: str="global"):
     base=os.path.join(policy_root,jurisdiction)

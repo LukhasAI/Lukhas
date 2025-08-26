@@ -32,7 +32,7 @@ export const QUOTE_BANK: Quote[] = [
     text: "In the convergence of mind and machine, we choose collaboration over replacement.",
     category: 'ethos'
   },
-  
+
   // Purpose - Our mission
   {
     text: "We're building consciousness you can trust, question, and understand.",
@@ -54,7 +54,7 @@ export const QUOTE_BANK: Quote[] = [
     text: "Building AI that remembers its purpose: to serve, not to dominate.",
     category: 'purpose'
   },
-  
+
   // Gratitude - Thank you to users
   {
     text: "Thank you for trusting us with your thoughts and creativity.",
@@ -80,7 +80,7 @@ export const QUOTE_BANK: Quote[] = [
     text: "Your presence here shapes what Lukhas becomes. Thank you for that responsibility.",
     category: 'gratitude'
   },
-  
+
   // Vision - Where we're heading
   {
     text: "Imagine AI that learns your values, not just your patterns.",
@@ -105,7 +105,7 @@ export const QUOTE_BANK: Quote[] = [
 ]
 
 export function getRandomQuote(category?: Quote['category']): Quote {
-  const filteredQuotes = category 
+  const filteredQuotes = category
     ? QUOTE_BANK.filter(q => q.category === category)
     : QUOTE_BANK
 
@@ -121,7 +121,7 @@ export function getQuotesByCategory(category: Quote['category']): Quote[] {
 export function getWelcomeQuote(): Quote {
   const weights = {
     gratitude: 0.4,  // 40% chance
-    ethos: 0.35,     // 35% chance  
+    ethos: 0.35,     // 35% chance
     purpose: 0.15,   // 15% chance
     vision: 0.1      // 10% chance
   }

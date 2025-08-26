@@ -5,7 +5,7 @@
 The TEQ Replay tool enables forensic analysis and regression testing by replaying past policy decisions using cryptographically-sealed receipts. This allows you to:
 
 - **Audit past decisions**: Understand why a request was allowed or blocked
-- **Detect policy drift**: Compare historical vs current policy behavior  
+- **Detect policy drift**: Compare historical vs current policy behavior
 - **Verify attestations**: Validate cryptographic signatures on receipts
 - **Regression testing**: Ensure policy changes don't break expected behavior
 
@@ -167,9 +167,9 @@ for receipt in $BASELINE_RECEIPTS; do
     --receipt $receipt \
     --policy-root $1 \
     --json | jq -r '.replay.allowed')
-  
+
   EXPECTED=$(jq -r '.expected_allowed' $receipt)
-  
+
   if [ "$RESULT" != "$EXPECTED" ]; then
     echo "REGRESSION: $(basename $receipt)"
     ((FAILURES++))
@@ -190,7 +190,7 @@ for receipt in $(find ~/.lukhas/state/provenance/exec_receipts -name "*.json" -m
     --verify-att \
     --json
 done | jq -s '
-  group_by(.task) | 
+  group_by(.task) |
   map({
     task: .[0].task,
     total: length,
@@ -251,10 +251,10 @@ with tempfile.TemporaryDirectory() as tmpdir:
     # Copy and modify policies
     test_policies = f"{tmpdir}/test_policies"
     shutil.copytree("qi/safety/policy_packs", test_policies)
-    
+
     # Modify specific rule
     # ... make changes ...
-    
+
     # Test impact
     result = replay_from_receipt(
         receipt=receipt,

@@ -124,12 +124,12 @@ class BioAdaptationEngine:
     def __init__(self):
         self.adaptation_models = self._initialize_models()
         self.bio_feedback_loop = BioFeedbackLoop()
-        
+
     def adapt_to_biometric(self, biometric_data: Dict) -> Dict:
         # Implement actual adaptation logic
         stress_level = biometric_data.get('stress', 0.5)
         heart_rate = biometric_data.get('heart_rate', 70)
-        
+
         # Real adaptation algorithm
         adaptation = {
             'emotional_weight': 1.0 - stress_level,

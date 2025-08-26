@@ -62,11 +62,11 @@ class VocabularyValidator {
   // Validate poetic expressions are ≤40 words
   validatePoeticWordCount() {
     this.log(`\n${colors.bold}Validating poetic expression word counts...${colors.reset}`);
-    
+
     Object.entries(poeticSeeds).forEach(([module, expressions]) => {
       expressions.forEach((expression, index) => {
         const wordCount = expression.split(/\s+/).length;
-        
+
         if (wordCount > MAX_POETIC_WORDS) {
           this.error(
             `Poetic expression exceeds ${MAX_POETIC_WORDS} words (${wordCount}): "${expression}"`,
@@ -158,7 +158,7 @@ class VocabularyValidator {
       trinityViolations.push('Use "quantum-inspired processing" not "quantum processing"');
     }
 
-    // Check for correct bio terminology  
+    // Check for correct bio terminology
     if (content.includes('biological processing') && !content.includes('bio-inspired')) {
       trinityViolations.push('Use "bio-inspired processing" not "biological processing"');
     }
@@ -180,7 +180,7 @@ class VocabularyValidator {
 
     const avgWordsPerSentence = words.length / sentences.length;
     const avgSyllablesPerWord = syllables / words.length;
-    
+
     // Simplified Flesch-Kincaid formula
     const readingLevel = (0.39 * avgWordsPerSentence) + (11.8 * avgSyllablesPerWord) - 15.59;
     return Math.max(0, readingLevel);
@@ -190,8 +190,8 @@ class VocabularyValidator {
   validateFiles(patterns = ['**/*.md', '**/*.js', '**/*.ts', '**/*.json']) {
     this.log(`\n${colors.bold}Scanning files for vocabulary violations...${colors.reset}`);
 
-    const files = patterns.flatMap(pattern => 
-      glob.sync(pattern, { 
+    const files = patterns.flatMap(pattern =>
+      glob.sync(pattern, {
         ignore: [
           'node_modules/**',
           '.git/**',
@@ -208,14 +208,14 @@ class VocabularyValidator {
 
     files.forEach(file => {
       const fullPath = path.join(__dirname, '..', file);
-      
+
       // Skip if it's a directory
       if (fs.statSync(fullPath).isDirectory()) {
         return;
       }
-      
+
       const content = fs.readFileSync(fullPath, 'utf8');
-      
+
       // Check blocked terms
       const blockedViolations = this.validateBlockedTerms(content, file);
       blockedViolations.forEach(violation => {

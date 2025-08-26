@@ -139,7 +139,7 @@ async def test_websocket():
             "data": {"query": "What is 2 + 2?"},
             "timestamp": "2024-01-01T00:00:00"
         }))
-        
+
         # Receive response
         response = await websocket.recv()
         result = json.loads(response)

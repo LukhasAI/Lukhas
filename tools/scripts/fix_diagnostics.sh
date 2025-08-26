@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Fix Diagnostic Issues in LUKHAS 
+# Fix Diagnostic Issues in LUKHAS
 # This script helps resolve the "unresolved diagnostics" messages during commits
 
 echo "🔧 LUKHAS  Diagnostic Fixer"
@@ -41,11 +41,11 @@ else
             ERROR_COUNT=$(python3 -m ruff check "$file" --select=E,F 2>&1 | grep "Found" | grep -oE '[0-9]+' | head -1)
             if [ -n "$ERROR_COUNT" ] && [ "$ERROR_COUNT" -gt 0 ]; then
                 echo "  ❌ $ERROR_COUNT errors found"
-                
+
                 # Offer to auto-fix
                 echo "  🔧 Attempting auto-fix..."
                 python3 -m ruff check "$file" --fix --select=F401,E501 2>/dev/null
-                
+
                 # Check if still has errors
                 REMAINING=$(python3 -m ruff check "$file" --select=E,F 2>&1 | grep "Found" | grep -oE '[0-9]+' | head -1)
                 if [ -n "$REMAINING" ] && [ "$REMAINING" -gt 0 ]; then

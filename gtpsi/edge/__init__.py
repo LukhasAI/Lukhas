@@ -7,7 +7,7 @@ Extracts hashed kinematic features without storing raw gesture data.
 System-wide guardrails applied:
 1. Edge-first processing - never transmit raw strokes
 2. Store only hashed kinematic features + salt
-3. Quality-based gesture validation  
+3. Quality-based gesture validation
 4. Multiple gesture type support (stroke, tap, swipe, signature)
 
 ACK GUARDRAILS
@@ -27,10 +27,10 @@ from .. import GestureFeatures, GestureRecognizer, GestureType
 class StrokeGestureRecognizer(GestureRecognizer):
     """
     On-device stroke gesture recognizer.
-    
+
     Extracts kinematic features from stroke data:
     - Path length and curvature
-    - Velocity and acceleration profiles  
+    - Velocity and acceleration profiles
     - Pressure variations (if available)
     - Timing characteristics
     """
@@ -38,11 +38,11 @@ class StrokeGestureRecognizer(GestureRecognizer):
     def extract_features(self, raw_gesture_data: Any) -> List[float]:
         """
         Extract kinematic features from stroke data.
-        
+
         Args:
             raw_gesture_data: Dictionary with 'points' array containing:
                              [{x, y, timestamp, pressure?}, ...]
-                             
+
         Returns:
             List of numerical features for hashing
         """

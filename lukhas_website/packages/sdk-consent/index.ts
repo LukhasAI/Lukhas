@@ -5,8 +5,8 @@ const base = process.env.NEXT_PUBLIC_API_BASE || "";
 
 export async function recordConsent(input: ConsentInput): Promise<ConsentRecord> {
   const r = await fetch(`${base}/consent/record`, {
-    method: "POST", 
-    headers: { "content-type": "application/json" }, 
+    method: "POST",
+    headers: { "content-type": "application/json" },
     credentials: "include",
     body: JSON.stringify(input)
   });
@@ -15,8 +15,8 @@ export async function recordConsent(input: ConsentInput): Promise<ConsentRecord>
 }
 
 export async function getConsents(): Promise<ConsentRecord[]> {
-  const r = await fetch(`${base}/consent/records`, { 
-    credentials: "include" 
+  const r = await fetch(`${base}/consent/records`, {
+    credentials: "include"
   });
   if (!r.ok) throw new Error("consent_get_failed");
   return r.json();

@@ -245,6 +245,6 @@ The authentication system now provides a delightful, accessible, and trustworthy
 
 **🔺 Phase 5 Status: COMPLETE ✅**
 
-*Implementation Date: August 20, 2025*  
-*LUKHAS AI Authentication System v2.5.0*  
+*Implementation Date: August 20, 2025*
+*LUKHAS AI Authentication System v2.5.0*
 *Trinity Framework: ⚛️🧠🛡️*

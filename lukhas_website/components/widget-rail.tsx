@@ -7,38 +7,38 @@ export default function WidgetRail({ side, defaults, half }: { side: "left"|"rig
   const key = widgetOrderKey(side);
   const [order, setOrder] = React.useState<string[]>(() => {
     if (typeof window === 'undefined') return []; // SSR fallback
-    try { 
+    try {
       const stored = localStorage?.getItem(key);
-      return stored ? JSON.parse(stored) : []; 
-    } catch { 
-      return []; 
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
     }
   });
-  
+
   const tier = getTier();
   const canDrag = tier >= 4;
   const ids = (order.length ? order : defaults);
   const ws = visibleWidgets(ids);
-  
-  function save(o:string[]){ 
+
+  function save(o:string[]){
     if (typeof window === 'undefined') return; // SSR guard
-    try { 
-      localStorage?.setItem(key, JSON.stringify(o)); 
-    } catch {} 
+    try {
+      localStorage?.setItem(key, JSON.stringify(o));
+    } catch {}
   }
-  
+
   function onDrop(e: React.DragEvent<HTMLDivElement>, to: string){
-    const from = e.dataTransfer.getData("text/plain"); 
+    const from = e.dataTransfer.getData("text/plain");
     if(!from) return;
-    
-    const next = ids.filter(x=>x!==from); 
-    const idx = next.indexOf(to); 
+
+    const next = ids.filter(x=>x!==from);
+    const idx = next.indexOf(to);
     next.splice(idx<0?next.length:idx, 0, from);
-    
-    setOrder(next); 
+
+    setOrder(next);
     save(next);
   }
-  
+
   // Meta-adaptive usage tracking
   function trackUsage(widgetId: string) {
     if (typeof window === 'undefined') return; // SSR guard
@@ -54,7 +54,7 @@ export default function WidgetRail({ side, defaults, half }: { side: "left"|"rig
       }
     } catch {}
   }
-  
+
   return (
     <div style={{
       display:"grid", gap:10, padding:10,
@@ -62,7 +62,7 @@ export default function WidgetRail({ side, defaults, half }: { side: "left"|"rig
       borderLeft: side==="right"?"1px solid var(--line)":undefined,
       borderBottom: side==="top"?"1px solid var(--line)":undefined,
       borderTop: side==="bottom"?"1px solid var(--line)":undefined,
-      height: half ? "50vh" : "auto", 
+      height: half ? "50vh" : "auto",
       overflow:"auto"
     }}>
       {ws.map(w=>(
@@ -74,9 +74,9 @@ export default function WidgetRail({ side, defaults, half }: { side: "left"|"rig
           onDrop={(e)=>onDrop(e,w.id)}
           title={canDrag? "Drag to reorder" : "Upgrade to Tier 4 for full customization"}
           style={{
-            border:"1px solid var(--line2)", 
-            borderRadius:12, 
-            padding:10, 
+            border:"1px solid var(--line2)",
+            borderRadius:12,
+            padding:10,
             background:"var(--panel)",
             opacity: canDrag ? 1 : .85,
             cursor: canDrag ? "grab" : "default",
@@ -88,13 +88,13 @@ export default function WidgetRail({ side, defaults, half }: { side: "left"|"rig
             <div style={{display:"flex", gap:8, alignItems:"center"}}>
               {!canDrag && <span className="t-11" style={{opacity:.6}}>🔒</span>}
               {w.action && (
-                <button 
-                  onClick={w.action.onClick} 
-                  style={{ 
-                    padding:"4px 8px", 
-                    border:"1px solid var(--line)", 
-                    borderRadius:8, 
-                    background:"transparent", 
+                <button
+                  onClick={w.action.onClick}
+                  style={{
+                    padding:"4px 8px",
+                    border:"1px solid var(--line)",
+                    borderRadius:8,
+                    background:"transparent",
                     color:"var(--text)",
                     cursor:"pointer"
                   }}

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
-import { 
-  generateConsciousnessInterpretation, 
+import {
+  generateConsciousnessInterpretation,
   getPhaseNarrative,
   GlyphMeanings,
   ConsciousnessStates,
@@ -49,7 +49,7 @@ function generateGlyphs(seed: string): string[] {
 
   const words = seed.toLowerCase().split(' ')
   const glyphs: string[] = []
-  
+
   // Generate contextual glyphs based on seed content
   words.forEach(word => {
     if (word.includes('love') || word.includes('heart')) {
@@ -81,19 +81,19 @@ function analyzeEmotion(seed: string): ConsciousnessState['emotion'] {
   const positiveWords = ['love', 'joy', 'happy', 'peace', 'hope', 'dream', 'beautiful', 'light']
   const activeWords = ['run', 'fly', 'create', 'build', 'explore', 'discover', 'chase', 'energy']
   const powerWords = ['strong', 'powerful', 'control', 'master', 'lead', 'conquer', 'achieve']
-  
+
   const words = seed.toLowerCase().split(' ')
-  
+
   let valence = 0.5
   let arousal = 0.5
   let dominance = 0.5
-  
+
   words.forEach(word => {
     if (positiveWords.some(pw => word.includes(pw))) valence += 0.1
     if (activeWords.some(aw => word.includes(aw))) arousal += 0.1
     if (powerWords.some(pw => word.includes(pw))) dominance += 0.1
   })
-  
+
   return {
     valence: Math.min(1, Math.max(0, valence)),
     arousal: Math.min(1, Math.max(0, arousal)),
@@ -128,7 +128,7 @@ Each branch should explore a different aspect of consciousness emergence.`
     })
 
     const response = completion.choices[0].message.content || '[]'
-    
+
     // Parse response and ensure proper format
     try {
       const branches = JSON.parse(response)
@@ -185,7 +185,7 @@ Each branch should explore a different aspect of consciousness emergence.`
 async function generateLukhasInterpretation(seed: string): Promise<string> {
   // First use LUKHAS native interpretation
   const lukhasInterpretation = generateConsciousnessInterpretation(seed, 'POETIC')
-  
+
   try {
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
@@ -278,7 +278,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Dream seed error:', error)
-    
+
     // Return a valid response structure even on error
     // This prevents frontend crashes while still indicating an issue
     const fallbackResponse = {
@@ -321,7 +321,7 @@ export async function POST(request: NextRequest) {
         error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
-    
+
     return NextResponse.json(fallbackResponse)
   }
 }

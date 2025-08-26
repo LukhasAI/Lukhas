@@ -41,14 +41,14 @@ If applicable, add screenshots to help explain your problem.
 ## 🎭 **Agent Context**
 If this involves our 25-agent system:
 - [ ] Claude Desktop agents affected
-- [ ] Supreme Army agents affected  
+- [ ] Supreme Army agents affected
 - [ ] Multi-agent coordination issues
 - [ ] Single agent malfunction
 
 ## ⚛️ **Trinity Framework Impact**
 Which Trinity components are affected:
 - [ ] ⚛️ Identity systems
-- [ ] 🧠 Consciousness processing  
+- [ ] 🧠 Consciousness processing
 - [ ] 🛡️ Guardian protections
 - [ ] None / Not applicable
 

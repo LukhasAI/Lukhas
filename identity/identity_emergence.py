@@ -173,7 +173,7 @@ class EmergentIdentity:
             "lucid_dreamer": ["🌙", "🔮", "🪞"],
             "guardian_archivist": ["🛡️", "📚", "🧬"],
             "harmony_weaver": ["🌿", "🧠", "🎼"],
-            "quantum_navigator": ["⚛️", "🧭", "🌌"],
+            "qi_navigator": ["⚛️", "🧭", "🌌"],
             "creative_synthesizer": ["🎨", "🧬", "✨"],
         }
 

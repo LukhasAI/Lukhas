@@ -16,7 +16,7 @@ This is the **LUKHAS AI** repository - a SOPHISTICATED COGNITIVE ARCHITECTURE wi
 
 ### Trinity Framework
 - ⚛️ **Identity**: Authenticity, consciousness, symbolic self
-- 🧠 **Consciousness**: Memory, learning, dream states, neural processing  
+- 🧠 **Consciousness**: Memory, learning, dream states, neural processing
 - 🛡️ **Guardian**: Ethics, drift detection, repair
 
 ### Related Repositories
@@ -242,7 +242,7 @@ Main configs:
 Key environment variables (`.env`):
 - `OPENAI_API_KEY` - Required for AI capabilities
 - `ANTHROPIC_API_KEY` - For Claude integration
-- `GOOGLE_API_KEY` - For Gemini integration  
+- `GOOGLE_API_KEY` - For Gemini integration
 - `PERPLEXITY_API_KEY` - For Perplexity integration
 - `DATABASE_URL` - PostgreSQL connection
 - `LUKHAS_ID_SECRET` - Security key (min 32 chars)

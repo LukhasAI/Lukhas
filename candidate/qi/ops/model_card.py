@@ -1,5 +1,9 @@
 from __future__ import annotations
-import os, json, argparse
+
+import argparse
+import json
+import os
+
 STATE=os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 def load_json(p, default=None):
     try: return json.load(open(p))

@@ -136,11 +136,11 @@ class QIGlyphSystem:
         "celestial": (["🌙", "☀️"], ["🌟", "🪐"]),
     }
 
-    def __init__(self, keystore_path: str = "quantum_glyphs.json"):
+    def __init__(self, keystore_path: str = "qi_glyphs.json"):
         self.keystore_path = Path(keystore_path)
         self.glyph_pairs: Dict[str, GlyphPair] = {}
         self.entanglement_network: Dict[str, Set[str]] = defaultdict(set)
-        self.authentication_log: List[QuantumAuthentication] = []
+        self.authentication_log: List[QIAuthentication] = []
         self.correlation_matrix: Dict[Tuple[str, str], float] = {}
 
         # Load existing pairs
@@ -187,7 +187,7 @@ class QIGlyphSystem:
         data = {
             "version": "1.0.0",
             "created": datetime.utcnow().isoformat(),
-            "quantum_system": True,
+            "qi_system": True,
             "pairs": {},
             "statistics": {
                 "total_pairs": len(self.glyph_pairs),
@@ -289,7 +289,7 @@ class QIGlyphSystem:
 
     def create_authentication_challenge(
         self, challenger_id: str, respondent_id: str
-    ) -> Optional[QuantumAuthentication]:
+    ) -> Optional[QIAuthentication]:
         """Create quantum authentication challenge"""
         if len(self.glyph_pairs) < 2:
             logger.error("Need at least 2 glyph pairs for authentication")
@@ -323,7 +323,7 @@ class QIGlyphSystem:
 
         # Create authentication
         auth_id = f"qauth_{datetime.utcnow().timestamp()}"
-        auth = QuantumAuthentication(
+        auth = QIAuthentication(
             auth_id=auth_id,
             challenge_pair=challenge_pair,
             response_pair=response_pair,
@@ -506,7 +506,7 @@ class QIGlyphSystem:
                 ),
             },
             "family_distribution": family_dist,
-            "quantum_alphabet_size": len(self.QUANTUM_GLYPHS),
+            "qi_alphabet_size": len(self.QUANTUM_GLYPHS),
             "entanglement_families": len(self.ENTANGLEMENT_RULES),
         }
 
@@ -516,7 +516,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     # Create quantum glyph system
-    qgs = QuantumGlyphSystem(keystore_path="demo_quantum.json")
+    qgs = QIGlyphSystem(keystore_path="demo_qi.json")
 
     print("⚛️ Quantum Glyph Authentication Demo")
     print("=" * 60)
@@ -570,6 +570,6 @@ if __name__ == "__main__":
     import os
 
     try:
-        os.unlink("demo_quantum.json")
+        os.unlink("demo_qi.json")
     except BaseException:
         pass

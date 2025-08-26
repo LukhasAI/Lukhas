@@ -16,8 +16,7 @@
         run: |
           echo "🔍 Running acceptance gate to check for illegal imports..."
           python3 tools/acceptance_gate.py
-          
+
       - name: Install import-linter
         run: |
           pip install import-linter
-          

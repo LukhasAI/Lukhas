@@ -5,8 +5,8 @@ const base = process.env.NEXT_PUBLIC_API_BASE || "";
 
 export async function issue(req: IssueReq): Promise<IssueRes> {
   const r = await fetch(`${base}/qrg/issue`, {
-    method: "POST", 
-    headers: { "content-type": "application/json" }, 
+    method: "POST",
+    headers: { "content-type": "application/json" },
     credentials: "include",
     body: JSON.stringify(req)
   });

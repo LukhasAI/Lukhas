@@ -224,7 +224,7 @@ class AbstractReasoningBrainInterface:
                 "overall_confidence": confidence_metrics.get("meta_confidence", 0.0),
                 "confidence_breakdown": {
                     "bayesian": confidence_metrics.get("bayesian_confidence", 0.0),
-                    "quantum": confidence_metrics.get("quantum_confidence", 0.0),
+                    "quantum": confidence_metrics.get("qi_confidence", 0.0),
                     "symbolic": confidence_metrics.get("symbolic_confidence", 0.0),
                     "emotional": confidence_metrics.get("emotional_confidence", 0.0),
                 },

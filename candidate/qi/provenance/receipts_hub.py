@@ -1,7 +1,12 @@
 # path: qi/provenance/receipts_hub.py
 from __future__ import annotations
-import os, sys, time, json, glob, hashlib
-from typing import Optional, Dict, Any, Iterable, Tuple
+
+import hashlib
+import json
+import os
+import sys
+import time
+from typing import Any, Dict
 
 from qi.provenance.receipt_standard import build_receipt, to_json
 
@@ -11,6 +16,7 @@ os.makedirs(OUT_DIR, exist_ok=True)
 
 # ---- safe I/O (avoid sandbox recursion) ----
 import builtins
+
 _ORIG_OPEN = builtins.open
 
 # ---- sinks (optional) ----
@@ -50,7 +56,7 @@ def emit_receipt(**kwargs) -> Dict[str, Any]:
     """
     Build, persist locally, and push to configured sinks.
     Returns the JSON dict.
-    
+
     Supports all build_receipt parameters including:
     - metrics: Dict with calibration data (raw_conf, calibrated_conf, temperature, etc.)
     - feedback_ref: Optional reference to feedback card ID
@@ -160,7 +166,7 @@ def main():
             except json.JSONDecodeError as e:
                 print(f"Error parsing metrics JSON: {e}", file=sys.stderr)
                 return
-        
+
         data = emit_receipt(
             artifact_sha=a.artifact_sha,
             artifact_mime=a.artifact_mime,

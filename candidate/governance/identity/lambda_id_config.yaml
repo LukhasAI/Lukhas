@@ -1,7 +1,7 @@
 ΛiD_authentication:
-  version: "2.1-quantum" 
+  version: "2.1-quantum"
   crypto_layer:
-    encryption: 
+    encryption:
       algorithm: "ed448"  # Quantum-safe ECC
       digest: "BLAKE2b"
     consent_protocol:

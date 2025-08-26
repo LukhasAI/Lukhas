@@ -223,7 +223,7 @@ The interface is fully functional and ready for:
 
 ---
 
-**Created by LUKHΛS AI System**  
-**Last Updated**: June 27, 2025  
-**Repository**: https://github.com/LukhasAI/Prototype  
+**Created by LUKHΛS AI System**
+**Last Updated**: June 27, 2025
+**Repository**: https://github.com/LukhasAI/Prototype
 **License**: MIT

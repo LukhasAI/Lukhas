@@ -29,7 +29,7 @@ export class DreamProcessor {
     try {
       // Extract emotional context
       const emotionalContext = await this.emotionEngine.analyze(content);
-      
+
       // Safety check on emotional intensity
       if (!this.safetyValidator.validate_emotion_intensity(emotionalContext)) {
         throw new Error('Emotional intensity exceeds safety bounds');

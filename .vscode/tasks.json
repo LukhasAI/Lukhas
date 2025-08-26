@@ -1,0 +1,272 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🎭 Deploy Complete Consciousness Agent Army",
+      "type": "shell",
+      "command": "./scripts/agents/deploy_consciousness_army.sh",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "⚛️ Validate Complete Trinity Framework",
+      "type": "shell",
+      "command": "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv_test/bin/python",
+      "args": [
+        "branding/trinity/tools/trinity_validator.py",
+        "${workspaceFolder}",
+        "--comprehensive"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "🧠 Sync All Consciousness Tasks",
+      "type": "shell",
+      "command": "claude-code",
+      "args": [
+        "sync-tasks",
+        "--workspace",
+        "${workspaceFolder}",
+        "--consciousness-mode"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "🛡️ Complete Guardian System Health Check",
+      "type": "shell",
+      "command": "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv_test/bin/python",
+      "args": [
+        "tools/analysis/PWM_OPERATIONAL_SUMMARY.py",
+        "--guardian-focus"
+      ],
+      "group": "test"
+    },
+    {
+      "label": "🎯 Generate Comprehensive Consciousness Report",
+      "type": "shell",
+      "command": "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv_test/bin/python",
+      "args": [
+        "tools/analysis/PWM_FUNCTIONAL_ANALYSIS.py",
+        "--consciousness-analysis"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "🧪 Run All Consciousness Tests",
+      "type": "shell",
+      "command": "pytest",
+      "args": [
+        "tests/",
+        "-v",
+        "--consciousness-mode",
+        "--trinity-validation"
+      ],
+      "group": "test"
+    },
+    {
+      "label": "🚀 Start LUKHAS Development Server",
+      "type": "shell",
+      "command": "/Users/agi_dev/LOCAL-REPOS/Lukhas/.venv_test/bin/python",
+      "args": [
+        "main.py",
+        "--dev-mode",
+        "--consciousness-active"
+      ],
+      "group": "build",
+      "isBackground": true
+    },
+    {
+      "label": "Audit: Gold Standard",
+      "type": "shell",
+      "command": "make audit",
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint (ruff)",
+      "type": "shell",
+      "command": "ruff check .",
+      "problemMatcher": []
+    },
+    {
+      "label": "Type Check (mypy)",
+      "type": "shell",
+      "command": "mypy .",
+      "problemMatcher": []
+    },
+    {
+      "label": "Tests (pytest)",
+      "type": "shell",
+      "command": "pytest -q",
+      "problemMatcher": []
+    },
+    {
+      "label": "Claude: LUKHAS Architecture Review",
+      "type": "shell",
+      "command": "echo 'Reviewing LUKHAS architecture with Claude Code...'",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": {
+        "env": {
+          "CLAUDE_PROMPT": "Review this LUKHAS code for consciousness patterns, Trinity Framework compliance, and agent integration opportunities. Suggest specific improvements."
+        }
+      }
+    },
+    {
+      "label": "Claude: Generate Trinity Documentation",
+      "type": "shell",
+      "command": "echo 'Generating Trinity Framework documentation...'",
+      "group": "build",
+      "options": {
+        "env": {
+          "CLAUDE_PROMPT": "Generate Trinity Framework documentation (🎭🌈🎓) for this code: consciousness description, bridge explanation, technical details."
+        }
+      }
+    },
+    {
+      "label": "Claude: Consciousness Integration Check",
+      "type": "shell",
+      "command": "echo 'Checking consciousness integration patterns...'",
+      "group": "test",
+      "options": {
+        "env": {
+          "CLAUDE_PROMPT": "Analyze this code for consciousness-aware patterns: ΛID usage, Λ-trace auditing, symbolic vocabulary, bio-inspired design. Suggest enhancements."
+        }
+      }
+    },
+    {
+      "label": "Claude: Performance Optimization",
+      "type": "shell",
+      "command": "echo 'Analyzing performance optimization opportunities...'",
+      "group": "build",
+      "options": {
+        "env": {
+          "CLAUDE_PROMPT": "Optimize this LUKHAS code for consciousness-aware performance: <100ms identity, <250ms orchestration, memory efficiency, quantum processing."
+        }
+      }
+    },
+    {
+      "label": "Claude Code: Auto-Fix All Issues",
+      "type": "shell",
+      "command": "echo 'Starting automated issue resolution...'",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "new"
+      },
+      "options": {
+        "env": {
+          "CLAUDE_AUTOMATION_MODE": "auto-fix",
+          "CLAUDE_CONTEXT_FILES": ".claude/automation/issue-detector.md,.claude/workflows/",
+          "CLAUDE_TARGET": "all-issues",
+          "CLAUDE_FIX_LEVEL": "comprehensive"
+        }
+      }
+    },
+    {
+      "label": "Claude Code: Fix Code Quality Issues",
+      "type": "shell",
+      "command": "echo 'Fixing code quality issues...'",
+      "group": "build",
+      "options": {
+        "env": {
+          "CLAUDE_PROMPT": "Scan for and auto-fix code quality issues: missing Trinity documentation, inconsistent symbolic vocabulary, missing consciousness patterns. Apply LUKHAS standards automatically."
+        }
+      }
+    },
+    {
+      "label": "Claude Code: Fix Architecture Issues",
+      "type": "shell",
+      "command": "echo 'Fixing architecture issues...'",
+      "group": "build",
+      "options": {
+        "env": {
+          "CLAUDE_PROMPT": "Scan for and auto-fix architecture issues: missing agent communication, consciousness state integration, Trinity Framework compliance. Apply consciousness-aware patterns."
+        }
+      }
+    },
+    {
+      "label": "Claude Code: Fix Performance Issues",
+      "type": "shell",
+      "command": "echo 'Fixing performance issues...'",
+      "group": "build",
+      "options": {
+        "env": {
+          "CLAUDE_PROMPT": "Scan for and auto-fix performance issues: async/await patterns, memory optimization, consciousness stream efficiency. Target <100ms identity, <250ms orchestration."
+        }
+      }
+    },
+    {
+      "label": "Claude Code: Fix Security Issues",
+      "type": "shell",
+      "command": "echo 'Fixing security issues...'",
+      "group": "build",
+      "options": {
+        "env": {
+          "CLAUDE_PROMPT": "Scan for and auto-fix security issues: missing consciousness security validation, ΛID access control, audit trails, encryption. Apply LUKHAS security patterns."
+        }
+      }
+    },
+    {
+      "label": "🚀 Interactive Git Commit Helper",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "tools/git-hooks/interactive-git-helper.js",
+        "commit"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "new"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🛡️ Quick Fix PWM Issues",
+      "type": "shell",
+      "command": "node",
+      "args": [
+        "tools/git-hooks/interactive-git-helper.js",
+        "fix"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -25,7 +25,7 @@ class OBJShapeFrame {
     this.faces = [];
     this.parseOBJ(objData);
   }
-  
+
   parseOBJ(data) {
     const lines = data.split('\n');
     lines.forEach(line => {
@@ -40,7 +40,7 @@ class OBJShapeFrame {
       }
     });
   }
-  
+
   // Real-time morphing support
   morphTo(targetShape, progress) {
     return this.vertices.map((vertex, i) => ({
@@ -70,17 +70,17 @@ class ThreeJSShapeFrame {
     this.morphTargets = [];
     this.loadFromJSON(jsonData);
   }
-  
+
   loadFromJSON(data) {
     const loader = new THREE.ObjectLoader();
     const object = loader.parse(data);
-    
+
     // Extract geometry and materials
     object.traverse(child => {
       if (child.isMesh) {
         this.geometry = child.geometry;
         this.materials = child.material;
-        
+
         // Setup morph targets for AI-driven morphing
         if (child.morphTargetDictionary) {
           this.morphTargets = Object.keys(child.morphTargetDictionary);
@@ -88,12 +88,12 @@ class ThreeJSShapeFrame {
       }
     });
   }
-  
+
   // AI-controlled morphing
   applyAIMorphing(aiResponse) {
     const emotion = this.detectEmotion(aiResponse);
     const morphTarget = this.getMorphTargetForEmotion(emotion);
-    
+
     if (morphTarget) {
       this.geometry.morphTargetInfluences[morphTarget] = 1.0;
     }
@@ -139,11 +139,11 @@ class ShapeFrameManager {
     this.loadedShapes = new Map();
     this.morphingEngine = new MorphingEngine();
   }
-  
+
   // Load shape frame from various formats
   async loadShapeFrame(format, data, options = {}) {
     let shapeFrame;
-    
+
     switch (format.toLowerCase()) {
       case 'obj':
         shapeFrame = new OBJShapeFrame(data);
@@ -160,24 +160,24 @@ class ShapeFrameManager {
       default:
         throw new Error(`Unsupported format: ${format}`);
     }
-    
+
     // Apply AI-driven modifications
     if (options.aiContext) {
       shapeFrame.applyAIContext(options.aiContext);
     }
-    
+
     this.loadedShapes.set(shapeFrame.id, shapeFrame);
     return shapeFrame;
   }
-  
+
   // AI-driven shape selection
   selectShapeForAIResponse(aiResponse) {
     const emotion = this.analyzeEmotion(aiResponse);
     const context = this.extractContext(aiResponse);
-    
+
     return this.findBestMatchingShape(emotion, context);
   }
-  
+
   // Real-time morphing between shapes
   morphBetweenShapes(fromShape, toShape, duration = 2.0) {
     return this.morphingEngine.createMorphAnimation(fromShape, toShape, duration);
@@ -193,38 +193,38 @@ class AIResponsiveShapeSystem {
     this.voiceProcessor = new VoiceProcessor();
     this.aiIntegration = new AIIntegration();
   }
-  
+
   // Process AI response and generate appropriate shape
   async processAIResponse(aiResponse, voiceContext) {
     // Analyze AI response for emotional content
     const emotion = this.analyzeAIEmotion(aiResponse);
     const intensity = this.calculateEmotionalIntensity(aiResponse);
-    
+
     // Select base shape frame
     const baseShape = await this.shapeManager.selectShapeForAIResponse(aiResponse);
-    
+
     // Apply voice-reactive modifications
     const voiceModifiedShape = this.applyVoiceModifications(baseShape, voiceContext);
-    
+
     // Apply emotional modifications
     const emotionalShape = this.applyEmotionalModifications(voiceModifiedShape, emotion, intensity);
-    
+
     return emotionalShape;
   }
-  
+
   // Apply voice characteristics to shape
   applyVoiceModifications(shape, voiceContext) {
     const { pitch, volume, speechRate, emotion } = voiceContext;
-    
+
     // Scale based on volume
     shape.scale(1 + volume * 0.5);
-    
+
     // Stretch based on pitch
     shape.stretchVertical(1 + pitch * 0.3);
-    
+
     // Animation speed based on speech rate
     shape.setAnimationSpeed(1 + speechRate * 0.5);
-    
+
     return shape;
   }
 }
@@ -361,26 +361,26 @@ class AIShapeGenerator {
     this.vertexGenerator = new VertexGenerator();
     this.materialGenerator = new MaterialGenerator();
   }
-  
+
   // Generate shape based on AI response
   async generateShapeFromAI(aiResponse) {
     const parameters = this.extractShapeParameters(aiResponse);
-    
+
     // Generate geometry
     const geometry = await this.vertexGenerator.generate(parameters);
-    
+
     // Generate materials
     const materials = await this.materialGenerator.generate(parameters);
-    
+
     // Create shape frame
     const shapeFrame = new ShapeFrame(geometry, materials);
-    
+
     // Apply AI-specific modifications
     shapeFrame.applyAIModifications(parameters);
-    
+
     return shapeFrame;
   }
-  
+
   // Extract shape parameters from AI response
   extractShapeParameters(aiResponse) {
     return {
@@ -428,4 +428,4 @@ class AIShapeGenerator {
 5. **Expand to other formats** - Three.js JSON, Babylon.js for optimization
 6. **Build shape generation system** - AI-created shapes on-demand
 
-This shape frame integration will transform your voice-reactive AI interface from a simple morphing sphere into a rich, expressive, and deeply engaging visual communication system. 
+This shape frame integration will transform your voice-reactive AI interface from a simple morphing sphere into a rich, expressive, and deeply engaging visual communication system.

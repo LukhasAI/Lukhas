@@ -330,7 +330,7 @@ class SymbolicAnomalyExplorer:
             "crystal_lattice",
             "time_fragment",
             "memory_echo",
-            "quantum_bridge",
+            "qi_bridge",
             "neural_pathway",
             "dream_weaver",
         ]

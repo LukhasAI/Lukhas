@@ -135,7 +135,7 @@ parse_args() {
 
 check_system_requirements() {
     print_step "Checking system requirements..."
-    
+
     # Check OS
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         OS="linux"
@@ -145,14 +145,14 @@ check_system_requirements() {
         print_error "Unsupported operating system: $OSTYPE"
         exit 1
     fi
-    
+
     # Check architecture
     ARCH=$(uname -m)
     if [[ "$ARCH" != "x86_64" && "$ARCH" != "arm64" ]]; then
         print_error "Unsupported architecture: $ARCH"
         exit 1
     fi
-    
+
     # Check available memory for model selection
     if [[ "$OS" == "macos" ]]; then
         TOTAL_MEM=$(sysctl -n hw.memsize)
@@ -161,10 +161,10 @@ check_system_requirements() {
         TOTAL_MEM_KB=$(grep MemTotal /proc/meminfo | awk '{print $2}')
         TOTAL_MEM_GB=$((TOTAL_MEM_KB / 1024 / 1024))
     fi
-    
+
     print_info "System: $OS ($ARCH)"
     print_info "Total Memory: ${TOTAL_MEM_GB}GB"
-    
+
     # Recommend model based on memory
     if [[ $TOTAL_MEM_GB -lt 16 ]]; then
         print_warning "Less than 16GB RAM detected. GPT-OSS-20b may run slowly."
@@ -184,7 +184,7 @@ check_system_requirements() {
             echo "1) gpt-oss-20b (16GB+ RAM required)"
             echo "2) gpt-oss-120b (80GB+ RAM required)"
             read -p "Choice [1]: " model_choice
-            
+
             case $model_choice in
                 2)
                     SELECTED_MODEL="gpt-oss-120b"
@@ -195,7 +195,7 @@ check_system_requirements() {
             esac
         fi
     fi
-    
+
     print_info "Selected model: $SELECTED_MODEL"
 }
 
@@ -204,29 +204,29 @@ check_dependencies() {
         print_info "Skipping dependency check as requested"
         return
     fi
-    
+
     print_step "Checking dependencies..."
-    
+
     # Check Python
     if ! command -v python3 &> /dev/null; then
         print_error "Python 3 is required but not installed"
         exit 1
     fi
-    
+
     PYTHON_VERSION=$(python3 --version | cut -d' ' -f2)
     print_info "Python version: $PYTHON_VERSION"
-    
+
     # Check Node.js for VSCode extension
     if [[ "$INSTALL_VSCODE_EXT" == "true" ]]; then
         if ! command -v node &> /dev/null; then
             print_error "Node.js is required for VSCode extension but not installed"
             exit 1
         fi
-        
+
         NODE_VERSION=$(node --version)
         print_info "Node.js version: $NODE_VERSION"
     fi
-    
+
     # Check VS Code if installing extension
     if [[ "$INSTALL_VSCODE_EXT" == "true" ]]; then
         if ! command -v code &> /dev/null; then
@@ -234,25 +234,25 @@ check_dependencies() {
             print_info "You may need to install VS Code or add it to PATH"
         fi
     fi
-    
+
     print_success "Dependencies check completed"
 }
 
 create_directories() {
     print_step "Creating installation directories..."
-    
+
     mkdir -p "$INSTALL_DIR"
     mkdir -p "$MODELS_DIR"
-    mkdir -p "$LOGS_DIR" 
+    mkdir -p "$LOGS_DIR"
     mkdir -p "$CONFIG_DIR"
     mkdir -p "$CACHE_DIR"
-    
+
     print_success "Created directories in $INSTALL_DIR"
 }
 
 install_python_dependencies() {
     print_step "Installing Python dependencies..."
-    
+
     # Create requirements file
     cat > "$INSTALL_DIR/requirements.txt" << EOF
 # GPT-OSS Integration Requirements
@@ -267,7 +267,7 @@ ollama>=0.1.0
 psutil>=5.9.0
 pynvml>=11.4.0
 EOF
-    
+
     # Install dependencies
     if command -v pip3 &> /dev/null; then
         pip3 install -r "$INSTALL_DIR/requirements.txt"
@@ -277,7 +277,7 @@ EOF
         print_error "Neither pip3 nor pip found"
         exit 1
     fi
-    
+
     print_success "Python dependencies installed"
 }
 
@@ -285,9 +285,9 @@ install_ollama() {
     if [[ "$INSTALL_OLLAMA" != "true" ]]; then
         return
     fi
-    
+
     print_step "Installing Ollama..."
-    
+
     if command -v ollama &> /dev/null; then
         print_info "Ollama already installed"
     else
@@ -298,25 +298,25 @@ install_ollama() {
             curl -fsSL https://ollama.ai/install.sh | sh
         fi
     fi
-    
+
     # Wait for Ollama service to start
     print_info "Starting Ollama service..."
     ollama serve &
     sleep 5
-    
+
     # Pull the selected model
     print_step "Pulling $SELECTED_MODEL model..."
     if ! ollama pull "$SELECTED_MODEL"; then
         print_warning "Failed to pull $SELECTED_MODEL from Ollama registry"
         print_info "You may need to manually install the model later"
     fi
-    
+
     print_success "Ollama installation completed"
 }
 
 create_config_files() {
     print_step "Creating configuration files..."
-    
+
     # Main GPT-OSS config
     cat > "$CONFIG_DIR/gpt_oss_config.json" << EOF
 {
@@ -351,7 +351,7 @@ create_config_files() {
   }
 }
 EOF
-    
+
     # VSCode extension config
     if [[ "$INSTALL_VSCODE_EXT" == "true" ]]; then
         mkdir -p "$CONFIG_DIR/vscode"
@@ -367,7 +367,7 @@ EOF
 }
 EOF
     fi
-    
+
     # Brain module config
     if [[ "$INSTALL_BRAIN_MODULE" == "true" ]]; then
         mkdir -p "$CONFIG_DIR/brain-module"
@@ -392,7 +392,7 @@ EOF
 }
 EOF
     fi
-    
+
     # Lambda Products config
     if [[ "$INSTALL_LAMBDA_ADAPTERS" == "true" ]]; then
         mkdir -p "$CONFIG_DIR/lambda-products"
@@ -421,7 +421,7 @@ EOF
 }
 EOF
     fi
-    
+
     print_success "Configuration files created"
 }
 
@@ -429,32 +429,32 @@ install_vscode_extension() {
     if [[ "$INSTALL_VSCODE_EXT" != "true" ]]; then
         return
     fi
-    
+
     print_step "Setting up VSCode extension integration..."
-    
+
     # Copy VSCode extension files to workspace
     VSCODE_EXT_DIR="$(pwd)/gpt-oss-integration/vscode-extension"
     if [[ -d "$VSCODE_EXT_DIR" ]]; then
         print_info "Installing GPT-OSS completion provider..."
-        
+
         # Install Node.js dependencies
         cd "$VSCODE_EXT_DIR"
         if [[ -f "package.json" ]]; then
             npm install
         fi
-        
+
         cd - > /dev/null
-        
+
         # Create symlink for easy access
         ln -sf "$VSCODE_EXT_DIR" "$CONFIG_DIR/vscode-extension"
-        
+
         print_info "To complete VSCode integration, add this to your workspace settings:"
         print_info "  \"gpt-oss.configPath\": \"$CONFIG_DIR/gpt_oss_config.json\""
-        
+
     else
         print_warning "VSCode extension directory not found. Integration may be incomplete."
     fi
-    
+
     print_success "VSCode extension setup completed"
 }
 
@@ -462,24 +462,24 @@ install_brain_module() {
     if [[ "$INSTALL_BRAIN_MODULE" != "true" ]]; then
         return
     fi
-    
+
     print_step "Setting up brain module integration..."
-    
+
     # Copy brain module to installation directory
     BRAIN_MODULE_DIR="$(pwd)/gpt-oss-integration/agi-integration/brain-modules"
     if [[ -d "$BRAIN_MODULE_DIR" ]]; then
         cp -r "$BRAIN_MODULE_DIR" "$INSTALL_DIR/"
-        
+
         # Make module importable
         export PYTHONPATH="$INSTALL_DIR/brain-modules:$PYTHONPATH"
-        
+
         print_info "Brain module installed to: $INSTALL_DIR/brain-modules"
         print_info "Add to your PYTHONPATH: export PYTHONPATH=\"$INSTALL_DIR/brain-modules:\$PYTHONPATH\""
-        
+
     else
         print_warning "Brain module directory not found. Integration may be incomplete."
     fi
-    
+
     print_success "Brain module setup completed"
 }
 
@@ -487,26 +487,26 @@ install_lambda_adapters() {
     if [[ "$INSTALL_LAMBDA_ADAPTERS" != "true" ]]; then
         return
     fi
-    
+
     print_step "Setting up Lambda Products adapters..."
-    
+
     # Copy Lambda Products adapters
     ADAPTERS_DIR="$(pwd)/gpt-oss-integration/lambda-products/adapters"
     if [[ -d "$ADAPTERS_DIR" ]]; then
         cp -r "$ADAPTERS_DIR" "$INSTALL_DIR/lambda-products/"
-        
+
         print_info "Lambda Products adapters installed to: $INSTALL_DIR/lambda-products"
-        
+
     else
         print_warning "Lambda Products adapters directory not found. Integration may be incomplete."
     fi
-    
+
     print_success "Lambda Products adapters setup completed"
 }
 
 create_activation_script() {
     print_step "Creating activation script..."
-    
+
     cat > "$INSTALL_DIR/activate_gpt_oss.sh" << EOF
 #!/bin/bash
 # GPT-OSS Integration Activation Script
@@ -536,7 +536,7 @@ echo "  gpt-oss-logs     - View logs"
 EOF
 
     chmod +x "$INSTALL_DIR/activate_gpt_oss.sh"
-    
+
     # Create convenience scripts
     cat > "$INSTALL_DIR/gpt-oss-test" << 'EOF'
 #!/usr/bin/env python3
@@ -561,7 +561,7 @@ if __name__ == "__main__":
 EOF
 
     chmod +x "$INSTALL_DIR/gpt-oss-test"
-    
+
     cat > "$INSTALL_DIR/gpt-oss-status" << 'EOF'
 #!/bin/bash
 """Show GPT-OSS system status"""
@@ -602,7 +602,7 @@ fi
 EOF
 
     chmod +x "$INSTALL_DIR/gpt-oss-status"
-    
+
     cat > "$INSTALL_DIR/gpt-oss-logs" << 'EOF'
 #!/bin/bash
 """View GPT-OSS logs"""
@@ -612,7 +612,7 @@ if [[ -d "$LOG_DIR" ]]; then
     echo "📄 Available log files:"
     ls -la "$LOG_DIR"
     echo ""
-    
+
     # Show most recent log
     LATEST_LOG=$(find "$LOG_DIR" -name "*.log" -type f -exec ls -t {} + | head -1)
     if [[ -n "$LATEST_LOG" ]]; then
@@ -625,13 +625,13 @@ fi
 EOF
 
     chmod +x "$INSTALL_DIR/gpt-oss-logs"
-    
+
     print_success "Activation script and utilities created"
 }
 
 create_uninstall_script() {
     print_step "Creating uninstall script..."
-    
+
     cat > "$INSTALL_DIR/uninstall_gpt_oss.sh" << EOF
 #!/bin/bash
 # GPT-OSS Integration Uninstall Script
@@ -663,7 +663,7 @@ echo "  export PYTHONPATH=\"$INSTALL_DIR/brain-modules:\\\$PYTHONPATH\""
 EOF
 
     chmod +x "$INSTALL_DIR/uninstall_gpt_oss.sh"
-    
+
     print_success "Uninstall script created"
 }
 
@@ -705,7 +705,7 @@ show_completion_message() {
 
 uninstall_gpt_oss() {
     print_step "Uninstalling GPT-OSS integration..."
-    
+
     if [[ -d "$INSTALL_DIR" ]]; then
         # Run uninstall script if it exists
         if [[ -f "$INSTALL_DIR/uninstall_gpt_oss.sh" ]]; then
@@ -721,9 +721,9 @@ uninstall_gpt_oss() {
 
 main() {
     print_header
-    
+
     parse_args "$@"
-    
+
     # If no components selected, show help
     if [[ "$INSTALL_VSCODE_EXT" != "true" && "$INSTALL_BRAIN_MODULE" != "true" && "$INSTALL_LAMBDA_ADAPTERS" != "true" && "$INSTALL_OLLAMA" != "true" ]]; then
         echo -e "${YELLOW}No components selected for installation.${NC}"
@@ -732,7 +732,7 @@ main() {
         show_help
         exit 1
     fi
-    
+
     check_system_requirements
     check_dependencies
     create_directories

@@ -97,7 +97,7 @@ The Universal Language module implements a **zero-knowledge authentication syste
 device_secret = secrets.token_bytes(32)  # 256-bit random
 
 # Layer 2: User Key Derivation
-user_key = pbkdf2_hmac('sha256', 
+user_key = pbkdf2_hmac('sha256',
                        user_id + device_secret + salt,
                        iterations=100_000)
 
@@ -155,7 +155,7 @@ if response.success and valid_nonce(response.nonce):
    ```python
    # BAD
    logger.info(f"User symbol: {private_symbol}")
-   
+
    # GOOD
    logger.info(f"Symbol type: {private_symbol.token_type}")
    ```
@@ -164,7 +164,7 @@ if response.success and valid_nonce(response.nonce):
    ```python
    # BAD
    send_to_server({"symbol": "🦋"})
-   
+
    # GOOD
    send_to_server({"concept": "EMOTION.JOY"})
    ```

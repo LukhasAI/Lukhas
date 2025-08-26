@@ -515,7 +515,7 @@ open web/cockpit.html
   - **Calibration Viewer**: Interactive reliability SVG diagrams with per-task filtering
   - **Parameter Refit**: One-click calibration parameter refitting from latest eval data
 - **Adaptive Candidates Panel**: View and promote parameter optimization proposals
-- **Human Adaptation Panel**: Monitor satisfaction patterns and promote tone adjustments  
+- **Human Adaptation Panel**: Monitor satisfaction patterns and promote tone adjustments
 - **Approvals Panel**: Centralized proposal management with approve/reject/apply actions
 - **Receipts & Provenance Panel**: Browse execution receipts with replay and trace visualization
 
@@ -752,7 +752,7 @@ Calibration-aware policy gate integration with per-task support and receipt emis
 The TEQ Coupler (`qi/safety/teq_coupler.py`) applies calibrated confidence scores to policy decisions with bounded threshold adjustments:
 
 1. **Per-Task Calibration**: Uses task-specific temperature scaling when available, falls back to global
-2. **Threshold Adjustment**: Dynamically adjusts thresholds based on model calibration state  
+2. **Threshold Adjustment**: Dynamically adjusts thresholds based on model calibration state
 3. **Decision Generation**: Returns allow/block decisions with full audit metadata
 4. **Receipt Integration**: Emits receipts with calibration metadata for audit trails
 5. **Safe Boundaries**: Limits threshold shifts to prevent policy drift

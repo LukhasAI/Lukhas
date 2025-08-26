@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI - Code Help Modal Component
- * 
+ *
  * Comprehensive micro-modal combining ResendControl + EmailHelp
  * with accessibility features, three-layer tone compliance, and mobile support.
  */
@@ -13,11 +13,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { 
-  HelpCircle, 
-  Mail, 
-  X, 
-  ExternalLink, 
+import {
+  HelpCircle,
+  Mail,
+  X,
+  ExternalLink,
   RefreshCw,
   AlertCircle,
   Clock,
@@ -94,19 +94,19 @@ export function CodeHelpModal({
 }: CodeHelpModalProps) {
   const [activeTab, setActiveTab] = useState<'resend' | 'troubleshoot' | 'support'>('resend');
   const [browserInfo, setBrowserInfo] = useState<Record<string, any>>({});
-  
+
   // Focus management refs
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<Element | null>(null);
-  
+
   // Get localized strings
   const t = codeHelpI18n[locale] || codeHelpI18n.en;
-  
+
   // Collect browser information on mount
   useEffect(() => {
     setBrowserInfo(collectBrowserInfo());
   }, []);
-  
+
   // Focus management - focus close button when modal opens
   useEffect(() => {
     if (open) {
@@ -124,12 +124,12 @@ export function CodeHelpModal({
       }
     }
   }, [open]);
-  
+
   // Handle modal close
   const handleClose = useCallback((newOpen: boolean) => {
     onOpenChange(newOpen);
   }, [onOpenChange]);
-  
+
   // Handle support email generation
   const handleSupportEmail = useCallback(() => {
     const subject = t.support.email.subject.replace('{purpose}', purpose).replace('{email}', email);
@@ -143,7 +143,7 @@ export function CodeHelpModal({
       senderDomain,
       timestamp: new Date().toISOString()
     };
-    
+
     const mailtoUrl = buildSupportMailto({
       subject,
       body: t.support.email.body[purpose] || t.support.email.body.default,
@@ -151,27 +151,27 @@ export function CodeHelpModal({
       browserInfo,
       locale
     });
-    
+
     // Open mailto link
     window.location.href = mailtoUrl;
-    
+
     // Track support request
     onAlternativeSelected?.('support');
   }, [
-    t.support.email.subject, 
-    t.support.email.body, 
-    purpose, 
-    email, 
-    userTier, 
-    realm, 
-    zone, 
-    userAlias, 
-    senderDomain, 
-    browserInfo, 
-    locale, 
+    t.support.email.subject,
+    t.support.email.body,
+    purpose,
+    email,
+    userTier,
+    realm,
+    zone,
+    userAlias,
+    senderDomain,
+    browserInfo,
+    locale,
     onAlternativeSelected
   ]);
-  
+
   // Handle alternative auth methods
   const handleAlternativeMethod = useCallback((method: 'magic-link' | 'passkey' | 'support') => {
     if (method === 'support') {
@@ -181,24 +181,24 @@ export function CodeHelpModal({
     }
     handleClose(false);
   }, [handleSupportEmail, onAlternativeSelected, handleClose]);
-  
+
   // Handle keyboard navigation
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       handleClose(false);
     }
   }, [handleClose]);
-  
+
   useEffect(() => {
     if (open) {
       document.addEventListener('keydown', handleKeyDown);
       return () => document.removeEventListener('keydown', handleKeyDown);
     }
   }, [open, handleKeyDown]);
-  
+
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent 
+      <DialogContent
         className={cn(
           'max-w-2xl max-h-[90vh] overflow-y-auto',
           'sm:max-w-lg md:max-w-xl lg:max-w-2xl',
@@ -222,7 +222,7 @@ export function CodeHelpModal({
         </Button>
 
         <DialogHeader className="pb-4" data-tone="plain">
-          <DialogTitle 
+          <DialogTitle
             id="code-help-modal-title"
             className="text-xl font-semibold flex items-center gap-2"
             data-tone="plain"
@@ -230,14 +230,14 @@ export function CodeHelpModal({
             <HelpCircle className="w-5 h-5" />
             {t.modal.title}
           </DialogTitle>
-          <DialogDescription 
+          <DialogDescription
             id="code-help-modal-description"
             className="text-sm text-muted-foreground"
             data-tone="plain"
           >
             {t.modal.description.replace('{email}', email)}
           </DialogDescription>
-          
+
           {/* Context Badge */}
           <div className="flex items-center gap-2 mt-2">
             <Badge variant="secondary" className="text-xs" data-tone="technical">
@@ -257,8 +257,8 @@ export function CodeHelpModal({
         </DialogHeader>
 
         {/* Main Content with Tabs */}
-        <Tabs 
-          value={activeTab} 
+        <Tabs
+          value={activeTab}
           onValueChange={(value) => setActiveTab(value as any)}
           className="w-full"
           data-tone="plain"
@@ -338,11 +338,11 @@ export function CodeHelpModal({
                 <div className="text-sm text-muted-foreground" data-tone="plain">
                   {t.tabs.support.description}
                 </div>
-                
+
                 {/* Support Options */}
                 <div className="grid gap-3 md:grid-cols-2">
                   {/* Email Support */}
-                  <Card 
+                  <Card
                     className="border-muted hover:border-primary transition-colors cursor-pointer"
                     onClick={handleSupportEmail}
                     data-tone="plain"
@@ -363,9 +363,9 @@ export function CodeHelpModal({
                       </Button>
                     </CardContent>
                   </Card>
-                  
+
                   {/* Live Support (if available) */}
-                  <Card 
+                  <Card
                     className="border-muted hover:border-primary transition-colors cursor-pointer"
                     onClick={() => window.open(supportUrl, '_blank')}
                     data-tone="plain"
@@ -387,7 +387,7 @@ export function CodeHelpModal({
                     </CardContent>
                   </Card>
                 </div>
-                
+
                 {/* Context Information */}
                 {showTechnical && (
                   <div className="border-t pt-4 space-y-2" data-tone="technical">
@@ -421,7 +421,7 @@ export function CodeHelpModal({
                   <div className="text-sm text-muted-foreground mb-4" data-tone="plain">
                     {t.alternatives.description}
                   </div>
-                  
+
                   <div className="grid gap-3 sm:grid-cols-2">
                     {/* Magic Link */}
                     <Button
@@ -438,7 +438,7 @@ export function CodeHelpModal({
                         {t.alternatives.options.magicLink.description}
                       </span>
                     </Button>
-                    
+
                     {/* Passkey (if supported) */}
                     {userTier && ['T2', 'T3', 'T4', 'T5'].includes(userTier) && (
                       <Button

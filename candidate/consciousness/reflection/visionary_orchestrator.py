@@ -71,7 +71,7 @@ try:
     #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
     #     from system.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
     #     from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
-    # from system.CORE.quantum.quantum_processor import QIEngine  # TODO:
+    # from system.CORE.qi.qi_processor import QIEngine  # TODO:
     # Install or implement CORE
 except ImportError as e:
     # Graceful degradation for development/testing
@@ -179,7 +179,7 @@ class VisionaryAGIOrchestrator:
         self.dream_engine: Optional[DreamEngine] = None
         self.emotional_engine: Optional[EmotionalResonanceEngine] = None
         self.identity_system: Optional[IdentitySystem] = None
-        self.quantum_engine: Optional[QIEngine] = None
+        self.qi_engine: Optional[QIEngine] = None
 
         # Safety and monitoring
         self.safety_monitors: list[Callable] = []
@@ -405,7 +405,7 @@ class VisionaryAGIOrchestrator:
                 config=self.config["consciousness"]
             )
             self.identity_system = IdentitySystem(config=self.config["consciousness"])
-            self.quantum_engine = QIEngine(config=self.config["consciousness"])
+            self.qi_engine = QIEngine(config=self.config["consciousness"])
 
             self.logger.info("🧠 Core intelligence systems initialized")
 
@@ -601,9 +601,9 @@ class VisionaryAGIOrchestrator:
             )
 
         # Quantum processing (if available)
-        quantum_insights = None
-        if self.quantum_engine:
-            quantum_insights = await self.quantum_engine.process_quantum_thoughts(
+        qi_insights = None
+        if self.qi_engine:
+            qi_insights = await self.qi_engine.process_quantum_thoughts(
                 context["query"]
             )
 
@@ -613,7 +613,7 @@ class VisionaryAGIOrchestrator:
                 query=context["query"],
                 memories=relevant_memories,
                 emotions=emotional_context,
-                quantum_insights=quantum_insights,
+                qi_insights=qi_insights,
                 context=context,
             )
         else:
@@ -748,7 +748,7 @@ class VisionaryAGIOrchestrator:
                 "dream_engine": self.dream_engine is not None,
                 "emotional_engine": self.emotional_engine is not None,
                 "identity_system": self.identity_system is not None,
-                "quantum_engine": self.quantum_engine is not None,
+                "qi_engine": self.qi_engine is not None,
             },
             "monitoring": {
                 "safety_monitors": len(self.safety_monitors),

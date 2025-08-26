@@ -16,7 +16,7 @@
 ```
 ΛSENT System Architecture
 ├── 📋 ConsentManager        → Core lifecycle management
-├── 🎯 SymbolicScopesManager → Symbolic scope representation  
+├── 🎯 SymbolicScopesManager → Symbolic scope representation
 ├── 🔗 ConsentHistoryManager → Immutable trail management
 ├── ⚙️ PolicyEngine          → Policy and compliance validation
 └── 📊 TierConfiguration     → Tier-aware consent boundaries
@@ -146,7 +146,7 @@ user_consent = "🔄🧠📍🎵📊"  # replay + memory + location + audio + an
 
 ```http
 POST /api/consent/collect
-POST /api/consent/revoke  
+POST /api/consent/revoke
 GET  /api/consent/status/{user_id}
 GET  /api/consent/history/{user_id}
 POST /api/consent/verify
@@ -224,7 +224,7 @@ sequenceDiagram
 - Symbolic representation accuracy
 - Hash-chain integrity validation
 
-### Integration Tests  
+### Integration Tests
 - ΛTRACE logging integration
 - ΛTIER boundary validation
 - Cross-service consent propagation
@@ -242,7 +242,7 @@ sequenceDiagram
 
 ### Phase 1: Core Implementation
 - [ ] Complete consent manager implementation
-- [ ] Symbolic scope system deployment  
+- [ ] Symbolic scope system deployment
 - [ ] Basic tier validation
 - [ ] ΛTRACE integration
 
@@ -269,6 +269,6 @@ sequenceDiagram
 
 ---
 
-**Last Updated**: July 5, 2025  
-**Version**: 2.0.0  
+**Last Updated**: July 5, 2025
+**Version**: 2.0.0
 **Authors**: LUKHAS Team

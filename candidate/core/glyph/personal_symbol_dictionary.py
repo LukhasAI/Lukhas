@@ -84,7 +84,7 @@ class PersonalSymbol:
     def evolve_meaning(self, new_context: str, feedback: float):
         """
         Evolve symbol meaning based on new usage.
-        
+
         Args:
             new_context: New context where symbol was used
             feedback: Feedback score (-1 to 1)
@@ -121,7 +121,7 @@ class PersonalSymbolDictionary:
     ):
         """
         Initialize personal symbol dictionary.
-        
+
         Args:
             storage_path: Path for persistent storage
             embedding_model: Model for generating embeddings
@@ -185,7 +185,7 @@ class PersonalSymbolDictionary:
     ) -> PersonalSymbol:
         """
         Add a personal symbol for a user.
-        
+
         Args:
             user_id: User identifier
             symbol: The symbol
@@ -193,7 +193,7 @@ class PersonalSymbolDictionary:
             symbol_type: Type of symbol
             examples: Usage examples
             **kwargs: Additional symbol properties
-            
+
         Returns:
             Created personal symbol
         """
@@ -241,12 +241,12 @@ class PersonalSymbolDictionary:
     ) -> Optional[PersonalSymbol]:
         """
         Get a symbol from user's dictionary.
-        
+
         Args:
             user_id: User identifier
             symbol: Symbol to retrieve
             create_if_missing: Create from global if not found
-            
+
         Returns:
             Personal symbol or None
         """
@@ -280,12 +280,12 @@ class PersonalSymbolDictionary:
     ) -> Dict[str, Any]:
         """
         Interpret symbols in text using user's dictionary.
-        
+
         Args:
             user_id: User identifier
             text: Text containing symbols
             context: Optional context
-            
+
         Returns:
             Interpretation with meanings
         """
@@ -343,12 +343,12 @@ class PersonalSymbolDictionary:
     ) -> List[PersonalSymbol]:
         """
         Suggest symbols for a concept.
-        
+
         Args:
             user_id: User identifier
             concept: Concept to symbolize
             limit: Maximum suggestions
-            
+
         Returns:
             List of suggested symbols
         """
@@ -391,7 +391,7 @@ class PersonalSymbolDictionary:
     ):
         """
         Learn from symbol usage.
-        
+
         Args:
             user_id: User identifier
             symbol: Symbol used
@@ -427,13 +427,13 @@ class PersonalSymbolDictionary:
     ) -> PersonalSymbol:
         """
         Merge multiple symbols into a new compound symbol.
-        
+
         Args:
             user_id: User identifier
             symbols: Symbols to merge
             new_symbol: New compound symbol
             new_meaning: Meaning of compound
-            
+
         Returns:
             New compound symbol
         """

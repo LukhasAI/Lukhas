@@ -18,7 +18,7 @@
 ```
 In quick mode:
 d: decision text    → Track decision
-i: insight text     → Add insight  
+i: insight text     → Add insight
 q: question text    → Add question
 l: learning text    → Add learning
 exit               → Exit mode
@@ -26,7 +26,7 @@ exit               → Exit mode
 
 ## 🏷️ Entry Types
 - `decision` - Development decisions
-- `insight` - Realizations/observations  
+- `insight` - Realizations/observations
 - `learning` - Things you learned
 - `question` - Things to explore
 - `pattern` - Repeated behaviors
@@ -71,7 +71,7 @@ alias js="cd /Users/agi_dev/Lukhas && ./journal search"
 ./journal celebrate "win"      # Celebrate achievements
 ./journal burnout             # Check wellness
 
-# Periodic reviews  
+# Periodic reviews
 ./journal weekly              # Weekly architecture review
 ./journal vision              # Monthly vision check
 ```

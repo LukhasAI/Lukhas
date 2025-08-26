@@ -95,8 +95,8 @@ class SymbolicHub:
                 create_mito_quantum_attention,
             )
 
-            quantum_attention = create_mito_quantum_attention()
-            self.register_service("mito_quantum_attention", quantum_attention)
+            qi_attention = create_mito_quantum_attention()
+            self.register_service("mito_quantum_attention", qi_attention)
             logger.info(
                 "Successfully integrated mitochondrial quantum attention system"
             )

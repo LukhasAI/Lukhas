@@ -18,7 +18,7 @@ A complete handler system for OpenAI tool calls with:
 # Environment-based controls
 LUKHAS_ENABLE_RETRIEVAL=true    # ✅ Enabled
 LUKHAS_ENABLE_BROWSER=false     # 🔒 Disabled for security
-LUKHAS_ENABLE_SCHEDULER=true    # ✅ Enabled  
+LUKHAS_ENABLE_SCHEDULER=true    # ✅ Enabled
 LUKHAS_ENABLE_CODE_EXEC=false   # 🔒 Disabled for security
 ```
 
@@ -57,9 +57,9 @@ Output:
 ### With OpenAI Modulated Service
 The tool executor integrates cleanly with the existing flow:
 
-1. **OpenAI returns tool calls** → 
-2. **Tool executor processes them** → 
-3. **Results fed back to OpenAI** → 
+1. **OpenAI returns tool calls** →
+2. **Tool executor processes them** →
+3. **Results fed back to OpenAI** →
 4. **Final response generated**
 
 ### Key Functions

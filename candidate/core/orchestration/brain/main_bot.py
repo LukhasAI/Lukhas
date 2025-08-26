@@ -23,7 +23,7 @@ import uuid
 from datetime import datetime
 from typing import Optional
 
-from .attention.quantum_attention import QuantumInspiredAttention
+from .attention.qi_attention import QIInspiredAttention
 from .compliance.ethical_engine import ComplianceEngine
 
 # Import our organized components
@@ -64,7 +64,7 @@ class EnhancedAGIBot:
         self.initialization_time = datetime.now()
 
         # Initialize core components (ORIGINAL LOGIC)
-        self.attention_mechanism = QuantumInspiredAttention()
+        self.attention_mechanism = QIInspiredAttention()
         self.causal_reasoning = CausalReasoningModule()
         self.symbolic_engine = SymbolicEngine()
         self.compliance_engine = ComplianceEngine()

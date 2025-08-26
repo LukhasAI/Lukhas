@@ -378,7 +378,7 @@ async def integrated_response(user_id: str, user_input: str):
     # 1. Interpret personal symbols
     dictionary = PersonalSymbolDictionary()
     interpreted = dictionary.interpret_symbols(user_id, user_input)
-    
+
     # 2. Check system state
     signal_bus = SignalBus()
     homeostasis = HomeostasisController(signal_bus)
@@ -387,11 +387,11 @@ async def integrated_response(user_id: str, user_input: str):
         {"rate": 10, "response_time": 50},
         "api"
     )
-    
+
     # 3. Modulate parameters
     modulator = PromptModulator()
     params = modulator.combine_signals(signals)
-    
+
     # 4. Generate response with caching
     client = OptimizedOpenAIClient()
     base_kwargs = {
@@ -400,7 +400,7 @@ async def integrated_response(user_id: str, user_input: str):
     }
     kwargs = modulator.apply_to_openai_kwargs(base_kwargs, params)
     response = await client.complete(**kwargs)
-    
+
     # 5. Log to audit trail
     audit = AuditTrail()
     entry = audit.log_decision(
@@ -411,7 +411,7 @@ async def integrated_response(user_id: str, user_input: str):
         output_data={"response": response},
         session_id=f"session_{user_id}"
     )
-    
+
     # 6. Create feedback card
     feedback = FeedbackCardsManager()
     card = feedback.create_rating_card(
@@ -419,7 +419,7 @@ async def integrated_response(user_id: str, user_input: str):
         ai_response=response["choices"][0]["message"]["content"],
         session_id=f"session_{user_id}"
     )
-    
+
     return {
         "response": response,
         "audit_id": entry.audit_id,
@@ -439,23 +439,23 @@ asyncio.run(main())
 ```python
 def get_system_dashboard():
     """Get comprehensive system status"""
-    
+
     # Homeostasis status
     homeostasis = HomeostasisController(SignalBus())
     health = homeostasis.get_status()
-    
+
     # Cache statistics
     client = OptimizedOpenAIClient()
     cache_stats = client.get_statistics()
-    
+
     # Audit statistics
     audit = AuditTrail()
     audit_stats = audit.get_statistics()
-    
+
     # Feedback statistics
     feedback = FeedbackCardsManager()
     feedback_stats = feedback.get_statistics()
-    
+
     return {
         "system_health": {
             "state": health["state"],

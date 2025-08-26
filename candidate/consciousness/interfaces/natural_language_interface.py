@@ -26,7 +26,7 @@ from candidate.core.interfaces import CoreInterface
 from candidate.core.interfaces.dependency_injection import get_service, register_service
 
 # LUKHAS Branding Integration
-from lukhas.branding_bridge import get_bridge, BrandContext, initialize_branding
+from lukhas.branding_bridge import BrandContext, get_bridge, initialize_branding
 
 logger = get_logger(__name__)
 
@@ -925,7 +925,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
 
             # Apply brand voice through the bridge
             branded_response = self.branding_bridge.get_brand_voice(response, brand_context)
-            
+
             # Add Trinity Framework context for consciousness responses
             if intent == ConversationIntent.QUERY_AWARENESS:
                 trinity_context = self.branding_bridge.get_trinity_context("consciousness")

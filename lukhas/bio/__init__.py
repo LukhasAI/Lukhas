@@ -1,0 +1,35 @@
+"""
+LUKHAS AI Bio Module
+Biological-inspired processing and utilities
+Trinity Framework: ⚛️🧠🛡️
+"""
+
+# Import utilities
+# Import core bio-symbolic components
+from .core import (
+    BioSymbolic,
+    BioSymbolicOrchestrator,
+    SymbolicGlyph,
+    symbolic_bio_symbolic,
+    symbolic_bio_symbolic_orchestrator,
+)
+from .utilities import BioUtilities, apply_evolution, calculate_bio_energy
+
+# Module info
+__version__ = "2.0.0"
+__module_name__ = "bio"
+__description__ = "Biological-inspired processing for LUKHAS AI"
+
+# Export public interface
+__all__ = [
+    # Utilities
+    "BioUtilities",
+    "calculate_bio_energy",
+    "apply_evolution",
+    # Core bio-symbolic
+    "SymbolicGlyph",
+    "BioSymbolic",
+    "BioSymbolicOrchestrator",
+    "symbolic_bio_symbolic",
+    "symbolic_bio_symbolic_orchestrator"
+]

@@ -76,7 +76,7 @@ def decide(policy_input: Dict[str, Any], *, engine: Optional[str]=None, mode="dr
 candidate/core/decision_impl.py registers the real engine:
 
 from lukhas.core.core_wrapper import register_decision_engine
-class DefaultDecisionEngine: 
+class DefaultDecisionEngine:
     def decide(self, policy_input): return {"decision":"allow","explain":"impl:v1","risk":0.08}
 register_decision_engine("default", DefaultDecisionEngine())
 

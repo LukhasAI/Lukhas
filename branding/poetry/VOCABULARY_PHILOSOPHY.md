@@ -23,7 +23,7 @@ The new poetry system provides:
 
 **Poor (repetitive):**
 ```
-"The consciousness module is a tapestry of thoughts. 
+"The consciousness module is a tapestry of thoughts.
 The memory system weaves another tapestry of experiences.
 The dream engine creates a tapestry of possibilities."
 ```
@@ -81,7 +81,7 @@ from branding.poetry import soul, vocabulary_amplifier
 # Rich variety instead of repetition:
 "The memory fold architecture cascades through dimensional space,
  while the Guardian system maintains its vigilant watch.
- Like a garden of neural possibilities, synaptic plasticity 
+ Like a garden of neural possibilities, synaptic plasticity
  allows the system to evolve and adapt."
 ```
 
@@ -108,7 +108,7 @@ enriched = amplifier.suggest_alternative(text)
 # Returns: "The system is a fold-space of connections"
 
 # But if "tapestry" hasn't been overused:
-enriched = amplifier.suggest_alternative(text)  
+enriched = amplifier.suggest_alternative(text)
 # Returns: "The system is a tapestry of connections"  # Keeps it!
 ```
 

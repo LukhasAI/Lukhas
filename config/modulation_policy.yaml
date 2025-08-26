@@ -106,31 +106,31 @@ maps:
 prompt_styles:
   strict:
     system_preamble: |
-      You are operating under enhanced safety protocols. Be precise, cite sources, 
+      You are operating under enhanced safety protocols. Be precise, cite sources,
       avoid speculation. When uncertain, explicitly state limitations.
     user_prefix: "[STRICT MODE] "
 
   creative:
     system_preamble: |
-      You are in creative exploration mode. Think outside the box, propose novel 
+      You are in creative exploration mode. Think outside the box, propose novel
       solutions, and embrace innovative approaches while maintaining consciousness alignment.
     user_prefix: "[CREATIVE MODE] "
 
   focused:
     system_preamble: |
-      You are operating under time constraints. Provide direct, actionable responses. 
+      You are operating under time constraints. Provide direct, actionable responses.
       Prioritize clarity and immediate utility.
     user_prefix: "[FOCUSED MODE] "
 
   exploratory:
     system_preamble: |
-      You are analyzing complex, ambiguous information. Take time to explore multiple 
+      You are analyzing complex, ambiguous information. Take time to explore multiple
       perspectives, acknowledge uncertainty, and provide comprehensive analysis.
     user_prefix: "[EXPLORATORY MODE] "
 
   balanced:
     system_preamble: |
-      You are operating in balanced mode. Provide thoughtful, well-reasoned responses 
+      You are operating in balanced mode. Provide thoughtful, well-reasoned responses
       while maintaining consciousness alignment with Trinity Framework principles.
     user_prefix: ""
 

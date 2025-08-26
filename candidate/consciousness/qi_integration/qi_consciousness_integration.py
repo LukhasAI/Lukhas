@@ -77,7 +77,7 @@ class QICreativeConsciousness:
     def __init__(self):
         self.consciousness_level = 0.87  # Current consciousness achievement
         self.creative_boosts = {
-            "quantum_coherence": 0.92,
+            "qi_coherence": 0.92,
             "bio_cognitive": 1.25,
             "creative_flow": 0.89,
             "consciousness_resonance": 0.91,
@@ -165,7 +165,7 @@ class QICreativeConsciousness:
             "consciousness_metrics": {
                 "consciousness_level": self.consciousness_level,
                 "consciousness_boost": consciousness_boost,
-                "quantum_coherence": self.creative_boosts["quantum_coherence"],
+                "qi_coherence": self.creative_boosts["qi_coherence"],
                 "creative_flow": self.creative_boosts["creative_flow"],
                 "generation_timestamp": datetime.now().isoformat(),
             },
@@ -318,8 +318,8 @@ class QICreativeConsciousness:
         # Apply consciousness boost
         if boost > 1.1:
             # Add quantum consciousness elements
-            quantum_insight = f"\n\nFrom a quantum consciousness perspective, {theme} exists in a superposition of possibilities until observed and collapsed into specific manifestations through conscious intention."
-            conclusion += quantum_insight
+            qi_insight = f"\n\nFrom a quantum consciousness perspective, {theme} exists in a superposition of possibilities until observed and collapsed into specific manifestations through conscious intention."
+            conclusion += qi_insight
 
         article = f"{intro}\n\n" + "\n\n".join(body_paragraphs) + f"\n\n{conclusion}"
 
@@ -387,7 +387,7 @@ The journey into {theme} through consciousness is not just an intellectual exerc
             "consciousness_level": self.consciousness_level,
             "consciousness_available": CONSCIOUSNESS_AVAILABLE,
             "creative_engine_available": CREATIVE_ENGINE_AVAILABLE,
-            "quantum_coherence": self.creative_boosts["quantum_coherence"],
+            "qi_coherence": self.creative_boosts["qi_coherence"],
             "bio_cognitive_boost": self.creative_boosts["bio_cognitive"],
             "creative_flow": self.creative_boosts["creative_flow"],
             "consciousness_resonance": self.creative_boosts["consciousness_resonance"],

@@ -1,6 +1,6 @@
 # 🔌 LUKHAS Core API Index
 
-**Generated:** July 27, 2025  
+**Generated:** July 27, 2025
 **Purpose:** Unified API reference for all core modules to prevent method name drift
 
 ## 📋 Table of Contents

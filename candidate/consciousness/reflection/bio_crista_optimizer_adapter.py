@@ -84,7 +84,7 @@ class CristaeState:
 
 # ΛTIER_CONFIG_START
 # {
-#   "module": "quantum.quantum_bio_crista_optimizer_adapter",
+#   "module": "qi.qi_bio_crista_optimizer_adapter",
 #   "class_CristaOptimizerAdapter": {
 #     "default_tier": 2,
 #     "methods": {
@@ -388,17 +388,17 @@ class CristaOptimizerAdapter:
 
     @lukhas_tier_required(2)
     async def apply_quantum_optimization(
-        self, quantum_derived_features: dict[str, Any]
+        self, qi_derived_features: dict[str, Any]
     ) -> dict[str, Any]:
         """Applies quantum-derived optimization insights to the cristae topology."""
         self.log.info(
             "Applying quantum-derived optimization insights.",
-            quantum_features_keys=list(quantum_derived_features.keys()),
+            qi_features_keys=list(qi_derived_features.keys()),
         )
         try:
-            coherence = float(quantum_derived_features.get("coherence_level", 0.5))
+            coherence = float(qi_derived_features.get("coherence_level", 0.5))
             entanglement = float(
-                quantum_derived_features.get("entanglement_strength", 0.3)
+                qi_derived_features.get("entanglement_strength", 0.3)
             )
 
             target_density_q_influenced = np.clip(
@@ -433,11 +433,11 @@ class CristaOptimizerAdapter:
                 opt_result = {"success": True, "simulated_update": True}
 
             await self.get_current_state()
-            quantum_enhancement_factor = (coherence + entanglement) / 2.0
+            qi_enhancement_factor = (coherence + entanglement) / 2.0
 
             return {
                 "success": opt_result.get("success", True),
-                "quantum_enhancement_factor_achieved": quantum_enhancement_factor,
+                "qi_enhancement_factor_achieved": qi_enhancement_factor,
                 "new_optimized_density": self.current_cristae_state.density,
                 "new_topology_type": self.current_cristae_state.topology_type.value,
                 "coherence_applied_to_logic": coherence,
@@ -821,7 +821,7 @@ class CristaOptimizerAdapter:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -840,7 +840,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

@@ -108,7 +108,7 @@ export class GitHookManager {
     }
 
     public async analyzeFiles(
-        filePaths: string[], 
+        filePaths: string[],
         progressCallback?: (current: number, total: number) => void
     ): Promise<FileAnalysisResult[]> {
         const config = this.configManager.getConfiguration();
@@ -122,8 +122,8 @@ export class GitHookManager {
         for (let i = 0; i < filePaths.length; i++) {
             progressCallback?.(i + 1, filePaths.length);
 
-            const filePath = path.isAbsolute(filePaths[i]) 
-                ? filePaths[i] 
+            const filePath = path.isAbsolute(filePaths[i])
+                ? filePaths[i]
                 : path.join(workspaceRoot, filePaths[i]);
 
             try {
@@ -287,7 +287,7 @@ export class GitHookManager {
         }
 
         const hookScriptPath = path.join(workspaceRoot, 'tools', 'git-hooks', `${hookName}-hook.sh`);
-        
+
         if (!fs.existsSync(hookScriptPath)) {
             throw new Error(`Hook script not found: ${hookScriptPath}`);
         }

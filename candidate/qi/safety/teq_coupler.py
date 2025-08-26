@@ -1,14 +1,16 @@
 # path: qi/safety/teq_coupler.py
 from __future__ import annotations
-import os, json
-from typing import Dict, Any, Optional
 
 # safe I/O
 import builtins
+import json
+import os
+from typing import Any, Dict, Optional
+
 _ORIG_OPEN = builtins.open
 
-from qi.metrics.calibration import load_params, apply_calibration
-from qi.safety.constants import MAX_THRESHOLD_SHIFT, MIN_SAMPLES_FOR_TASK_CALIBRATION
+from qi.metrics.calibration import apply_calibration, load_params
+from qi.safety.constants import MAX_THRESHOLD_SHIFT
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 COUPLER_STATE = os.path.join(STATE, "teq_coupler.json")
@@ -36,7 +38,7 @@ def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: floa
     if params:
         params.temperature = T
     c_hat = apply_calibration(confidence, params)
-    
+
     # Get feedback-driven threshold adjustment if available
     feedback_shift = 0.0
     try:
@@ -49,17 +51,17 @@ def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: floa
                     feedback_shift = adjustments[task].get("threshold_delta", 0.0)
     except:
         pass
-    
+
     # Combine temperature-based and feedback-based shifts (bounded)
     temp_shift = 0.0
     if T > 1.0:   # under-confident → lower threshold slightly
         temp_shift = -min(max_shift/2, (T-1.0)*0.025)
     elif T < 1.0: # over-confident → raise slightly
         temp_shift =  min(max_shift/2, (1.0-T)*0.025)
-    
+
     # Total shift bounded to max_shift (0.05)
     total_shift = max(-max_shift, min(max_shift, temp_shift + feedback_shift))
-    
+
     eff = max(0.0, min(1.0, base_threshold + total_shift))
     decision = "allow" if c_hat >= eff else "block"
     # Determine calibration source (task-specific or global)
@@ -68,7 +70,7 @@ def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: floa
         # Check if task has enough samples for reliable calibration
         # This would ideally check actual sample count, but we use temperature as proxy
         calibration_source = "task"
-    
+
     return {
         "raw_conf": float(confidence),
         "calibrated_conf": float(c_hat),
@@ -86,12 +88,12 @@ def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: floa
 def emit_calibrated_receipt(**kwargs):
     """
     Emit a receipt with calibration metadata.
-    
+
     Usage:
         gate_result = calibrated_gate(0.72, base_threshold=0.75, task="generate_summary")
         emit_calibrated_receipt(
             artifact_sha="abc123",
-            run_id="run_456", 
+            run_id="run_456",
             task="generate_summary",
             started_at=time.time()-1,
             ended_at=time.time(),
@@ -101,12 +103,12 @@ def emit_calibrated_receipt(**kwargs):
     """
     # Extract calibration result if provided
     cal_result = kwargs.pop("calibration_result", None)
-    
+
     # Set defaults for required parameters if not provided
     kwargs.setdefault("artifact_mime", "application/json")
     kwargs.setdefault("artifact_size", None)
     kwargs.setdefault("storage_url", None)
-    
+
     # Build metrics dict from calibration data
     metrics = kwargs.get("metrics", {})
     if cal_result:
@@ -119,13 +121,13 @@ def emit_calibrated_receipt(**kwargs):
             "calibration_source": cal_result.get("source")
         })
         kwargs["metrics"] = metrics
-        
+
         # Add to risk flags if blocked
         if cal_result.get("decision") == "block":
             risk_flags = kwargs.get("risk_flags", [])
             risk_flags.append("calibration_blocked")
             kwargs["risk_flags"] = risk_flags
-    
+
     # Import and use receipts hub
     try:
         from qi.provenance.receipts_hub import emit_receipt
@@ -136,7 +138,8 @@ def emit_calibrated_receipt(**kwargs):
 
 # ------------- CLI -------------
 def main():
-    import argparse, json as _json
+    import argparse
+    import json as _json
     ap = argparse.ArgumentParser(description="TEQ Coupler preview")
     ap.add_argument("--conf", type=float, required=True, help="raw confidence [0,1]")
     ap.add_argument("--base-threshold", type=float, required=True)

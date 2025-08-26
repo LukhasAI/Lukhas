@@ -5,7 +5,7 @@
 The LUKHAS memory system implements a **symbolic AGI memory architecture** that models consciousness-like memory processes through three core mechanisms:
 
 1. **Memory Folding** - Recursive integration of experiences into compressed representations
-2. **Drift Tracking** - Monitoring semantic evolution and conceptual shifts over time  
+2. **Drift Tracking** - Monitoring semantic evolution and conceptual shifts over time
 3. **Lineage Mapping** - Maintaining causal chains and memory ancestry
 
 ## 🏗️ Architecture
@@ -29,7 +29,7 @@ The `fold_in()` / `fold_out()` paradigm treats memories as **foldable symbolic s
 # Folding IN: Experience → Compressed Representation
 memory_vector = memory.fold_in(experience, context)
 
-# Folding OUT: Compressed → Reconstructed Experience  
+# Folding OUT: Compressed → Reconstructed Experience
 experience = memory.fold_out(memory_vector, query_context)
 ```
 

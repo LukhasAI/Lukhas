@@ -25,13 +25,13 @@ interface TimelineExplorerProps {
   onBranchSelect: (path: number[]) => void
 }
 
-function BranchNode({ 
-  branch, 
-  path, 
-  depth, 
+function BranchNode({
+  branch,
+  path,
+  depth,
   selected,
-  onSelect 
-}: { 
+  onSelect
+}: {
   branch: TimelineBranch
   path: number[]
   depth: number
@@ -41,9 +41,9 @@ function BranchNode({
   const [expanded, setExpanded] = useState(false)
   const [hovering, setHovering] = useState(false)
 
-  const probabilityColor = branch.probability > 0.7 ? 'text-green-400' : 
+  const probabilityColor = branch.probability > 0.7 ? 'text-green-400' :
                            branch.probability > 0.4 ? 'text-yellow-400' : 'text-red-400'
-  
+
   const riskColor = branch.risk > 0.7 ? 'border-red-400' :
                      branch.risk > 0.4 ? 'border-yellow-400' : 'border-green-400'
 
@@ -72,8 +72,8 @@ function BranchNode({
         }}
         className={`
           relative p-4 rounded-lg border cursor-pointer transition-all duration-200
-          ${selected 
-            ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border-indigo-400' 
+          ${selected
+            ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border-indigo-400'
             : `bg-white/5 hover:bg-white/10 ${riskColor}`
           }
         `}
@@ -84,12 +84,12 @@ function BranchNode({
               <Circle className={`w-3 h-3 ${selected ? 'fill-current text-indigo-400' : ''}`} />
               <span className="text-sm font-medium">{branch.description}</span>
               {branch.children && branch.children.length > 0 && (
-                <ChevronRight 
-                  className={`w-4 h-4 text-white/40 transition-transform ${expanded ? 'rotate-90' : ''}`} 
+                <ChevronRight
+                  className={`w-4 h-4 text-white/40 transition-transform ${expanded ? 'rotate-90' : ''}`}
                 />
               )}
             </div>
-            
+
             {/* Metrics */}
             <div className="flex gap-4 text-xs">
               <span className={probabilityColor}>
@@ -204,8 +204,8 @@ export default function TimelineExplorer({ timeline, onBranchSelect }: TimelineE
   const [collapseAnimation, setCollapseAnimation] = useState(false)
 
   // Mock timeline data if not provided or invalid
-  const branches = (timeline?.branches && Array.isArray(timeline.branches) && timeline.branches.length > 0) 
-    ? timeline.branches 
+  const branches = (timeline?.branches && Array.isArray(timeline.branches) && timeline.branches.length > 0)
+    ? timeline.branches
     : [
     {
       id: 'root',
@@ -274,7 +274,7 @@ export default function TimelineExplorer({ timeline, onBranchSelect }: TimelineE
   const handleBranchSelect = (path: number[]) => {
     setSelectedPath(path)
     setCollapseAnimation(true)
-    
+
     // Trigger quantum collapse animation
     setTimeout(() => {
       onBranchSelect(path)

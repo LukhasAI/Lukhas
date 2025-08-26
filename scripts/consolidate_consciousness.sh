@@ -22,7 +22,7 @@ mkdir -p "$BACKUP_DIR"
 # List of consciousness modules to consolidate
 CONSCIOUSNESS_MODULES=(
     "consciousness_layer"
-    "consciousness_platform" 
+    "consciousness_platform"
     "consciousness_api"
     "consciousness_stream"
     "consciousness_quantum_bridge"

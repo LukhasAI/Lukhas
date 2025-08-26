@@ -78,9 +78,9 @@ Unified interface for bio-symbolic processing in the lukhas system.
 """
 
 from .bio_symbolic import BioSymbolic
-from .quantum_bio_symbolic import QuantumBioSymbolic
+from .qi_bio_symbolic import QIBioSymbolic
 
-__all__ = ['BioSymbolic', 'QuantumBioSymbolic']
+__all__ = ['BioSymbolic', 'QIBioSymbolic']
 '''
         self.write_file(module_path / "__init__.py", init_content)
 
@@ -97,15 +97,15 @@ class BioSymbolic:
     """Core bio-symbolic processing class."""
 
     def __init__(self):
-        self.quantum_layer = None
+        self.qi_layer = None
         self.symbolic_world = None
         self.bio_core = None
 
     def initialize(self):
         """Initialize bio-symbolic systems."""
         try:
-            from ..quantum import QuantumBioLayer
-            self.quantum_layer = QuantumBioLayer()
+            from ..quantum import QIBioLayer
+            self.qi_layer = QIBioLayer()
         except ImportError:
             print("⚠️  Quantum bio layer not available")
 
@@ -130,11 +130,11 @@ class QIBioSymbolic(BioSymbolic):
 
     def __init__(self):
         super().__init__()
-        self.quantum_attention = None
+        self.qi_attention = None
 
     def process_quantum_attention(self, attention_data):
         """Process quantum attention patterns."""
-        return {"quantum_processed": True, "attention": attention_data}
+        return {"qi_processed": True, "attention": attention_data}
 '''
             self.write_file(bio_symbolic_path, bio_symbolic_content)
             self.modules_created.append(str(bio_symbolic_path))
@@ -152,10 +152,10 @@ Advanced bio-awareness systems for the lukhas architecture.
 """
 
 from .enhanced_awareness import EnhancedAwareness
-from .quantum_bio_components import QuantumBioComponents
+from .qi_bio_components import QIBioComponents
 from .advanced_quantum_bio import AdvancedQuantumBio
 
-__all__ = ['EnhancedAwareness', 'QuantumBioComponents', 'AdvancedQuantumBio']
+__all__ = ['EnhancedAwareness', 'QIBioComponents', 'AdvancedQuantumBio']
 '''
         self.write_file(module_path / "__init__.py", init_content)
 
@@ -171,7 +171,7 @@ class EnhancedAwareness:
 
     def __init__(self):
         self.awareness_level = 0.8
-        self.quantum_components = None
+        self.qi_components = None
 
     def process_awareness(self, bio_data):
         """Process bio-awareness data."""
@@ -188,8 +188,8 @@ class EnhancedAwareness:
 '''
         self.write_file(module_path / "enhanced_awareness.py", awareness_content)
 
-        # Create quantum_bio_components.py
-        quantum_content = '''"""
+        # Create qi_bio_components.py
+        qi_content = '''"""
 Quantum Bio Components
 =====================
 Quantum-enhanced bio processing components.
@@ -199,18 +199,18 @@ class QIBioComponents:
     """Quantum bio processing components."""
 
     def __init__(self):
-        self.quantum_state = "entangled"
+        self.qi_state = "entangled"
         self.bio_resonance = 0.95
 
     def process_quantum_bio(self, bio_input):
         """Process quantum bio data."""
         return {
-            "quantum_state": self.quantum_state,
+            "qi_state": self.qi_state,
             "bio_resonance": self.bio_resonance,
             "processed": bio_input
         }
 '''
-        self.write_file(module_path / "quantum_bio_components.py", quantum_content)
+        self.write_file(module_path / "qi_bio_components.py", qi_content)
 
         # Create advanced_quantum_bio.py
         advanced_content = '''"""
@@ -223,18 +223,18 @@ class AdvancedQuantumBio:
     """Advanced quantum bio processor."""
 
     def __init__(self):
-        self.quantum_efficiency = 0.92
+        self.qi_efficiency = 0.92
 
     def process_advanced_quantum(self, data):
         """Process advanced quantum bio data."""
-        return {"advanced_quantum": True, "efficiency": self.quantum_efficiency}
+        return {"advanced_quantum": True, "efficiency": self.qi_efficiency}
 '''
         self.write_file(module_path / "advanced_quantum_bio.py", advanced_content)
 
         self.modules_created.extend(
             [
                 str(module_path / "enhanced_awareness.py"),
-                str(module_path / "quantum_bio_components.py"),
+                str(module_path / "qi_bio_components.py"),
                 str(module_path / "advanced_quantum_bio.py"),
             ]
         )
@@ -270,7 +270,7 @@ class BioCore:
 
     def __init__(self):
         self.oscillator = None
-        self.quantum_layer = None
+        self.qi_layer = None
 
     def get_oscillator(self):
         """Get oscillator reference."""
@@ -539,14 +539,14 @@ voice_modulator = VoiceModulator()
         fixes = {
             "bio_symbolic": "from bio.symbolic import BioSymbolic",
             "bio_awareness.enhanced_awareness": "from bio.awareness import EnhancedAwareness",
-            "bio_awareness.quantum_bio_components": "from bio.awareness import QuantumBioComponents",
+            "bio_awareness.qi_bio_components": "from bio.awareness import QIBioComponents",
             "bio_awareness.advanced_quantum_bio": "from bio.awareness import AdvancedQuantumBio",
             "voice_synthesis": "from voice.voice.synthesis import voice_synthesis_function as voice_synthesis",
             "voice_safety_guard": "from voice.voice.voice_safety_guard import voice_safety_guard",
             "voice_profiling": "from voice.voice.voice_profiling import voice_profiling",
             "voice_modulator": "from voice.voice.voice_modulator import voice_modulator",
             "bio_core.oscillator.orchestrator": "from bio.core.oscillator import Orchestra as orchestrator",
-            "bio_core.oscillator.quantum_layer": "from bio.core.oscillator import Oscillator",
+            "bio_core.oscillator.qi_layer": "from bio.core.oscillator import Oscillator",
             "voice.emotional_modulator": "from voice.voice.voice_modulator import VoiceModulator",
             "voice.synthesis": "from voice.voice.synthesis import VoiceSynthesis",
             "voice.speak": "from voice.voice.synthesis import voice_synthesis_function as speak",

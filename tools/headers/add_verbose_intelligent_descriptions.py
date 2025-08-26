@@ -42,7 +42,7 @@ def analyze_quantum_code(filepath: Path) -> dict[str, any]:
             "tier": 3,
             "classes": [],
             "functions": [],
-            "quantum_concepts": [],
+            "qi_concepts": [],
             "imports": [],
             "has_async": False,
             "has_validation": False,
@@ -77,13 +77,13 @@ def analyze_quantum_code(filepath: Path) -> dict[str, any]:
             )
 
         # Quantum concept detection (comprehensive)
-        quantum_patterns = {
-            "superposition": r"superposition|quantum.?state|qubit|bloch",
+        qi_patterns = {
+            "superposition": r"superposition|qi.?state|qubit|bloch",
             "entanglement": r"entangl|bell.?state|epr|ghz|schmidt",
             "measurement": r"measure|collapse|observe|projection",
             "coherence": r"coheren|decoher|fidelity|purity",
             "gates": r"gate|circuit|unitary|pauli|hadamard|cnot",
-            "algorithms": r"grover|shor|deutsch|quantum.?algorithm",
+            "algorithms": r"grover|shor|deutsch|qi.?algorithm",
             "error_correction": r"error.?correct|syndrome|stabilizer|topological",
             "cryptography": r"qkd|bb84|lattice|post.?quantum|crystals",
             "annealing": r"anneal|ising|qubo|optimization",
@@ -91,13 +91,13 @@ def analyze_quantum_code(filepath: Path) -> dict[str, any]:
             "tomography": r"tomography|reconstruction|state.?estimation",
             "channels": r"channel|kraus|lindblad|master.?equation",
             "resources": r"magic.?state|t.?count|clifford|resource.?theory",
-            "complexity": r"bqp|qma|quantum.?complexity|oracle",
-            "hardware": r"transmon|ion.?trap|photonic|quantum.?dot",
+            "complexity": r"bqp|qma|qi.?complexity|oracle",
+            "hardware": r"transmon|ion.?trap|photonic|qi.?dot",
         }
 
-        for concept, pattern in quantum_patterns.items():
+        for concept, pattern in qi_patterns.items():
             if re.search(pattern, content, re.IGNORECASE):
-                analysis["quantum_concepts"].append(concept)
+                analysis["qi_concepts"].append(concept)
 
         # Check for async and validation
         analysis["has_async"] = "async def" in content
@@ -117,7 +117,7 @@ def analyze_quantum_code(filepath: Path) -> dict[str, any]:
             "tier": 3,
             "classes": [],
             "functions": [],
-            "quantum_concepts": [],
+            "qi_concepts": [],
         }
 
 
@@ -125,10 +125,10 @@ def generate_verbose_description(analysis: dict[str, any]) -> str:
     """Generate verbose description with poetic story and academic explanation."""
 
     # Build comprehensive context
-    quantum_concepts = analysis["quantum_concepts"]
+    qi_concepts = analysis["qi_concepts"]
     concept_list = (
-        ", ".join(quantum_concepts)
-        if quantum_concepts
+        ", ".join(qi_concepts)
+        if qi_concepts
         else "quantum-inspired processing"
     )
 
@@ -228,26 +228,26 @@ Generate a verbose, beautiful description that makes readers feel the magic of q
         module_title = analysis["module_name"]
         equals = "=" * len(module_title)
 
-        concepts = analysis["quantum_concepts"]
-        quantum_refs = []
+        concepts = analysis["qi_concepts"]
+        qi_refs = []
         if "entanglement" in concepts:
-            quantum_refs.append(
+            qi_refs.append(
                 "entanglement-like correlation weaving non-local tapestries"
             )
         if "superposition" in concepts:
-            quantum_refs.append("superposition states dancing between possibilities")
+            qi_refs.append("superposition states dancing between possibilities")
         if "cryptography" in concepts:
-            quantum_refs.append(
+            qi_refs.append(
                 "cryptographic lattices protecting secrets in high dimensions"
             )
-        if not quantum_refs:
-            quantum_refs.append("quantum phenomena transcending classical boundaries")
+        if not qi_refs:
+            qi_refs.append("quantum phenomena transcending classical boundaries")
 
         return f"""
 {module_title}
 {equals}
 
-In the shimmering twilight between the quantum and classical realms, where {quantum_refs[0]}
+In the shimmering twilight between the quantum and classical realms, where {qi_refs[0]}
 unfold like cosmic origami, this module breathes life into the ethereal mathematics of
 quantum-inspired mechanics. Each calculation is a prayer whispered to the universe, each measurement
 a conversation with the infinite possibilities that dance in superposition.
@@ -326,7 +326,7 @@ def main():
         return
 
     # Start from current quantum directory
-    quantum_dir = Path(__file__).parent
+    qi_dir = Path(__file__).parent
     processed = 0
     skipped = 0
 
@@ -348,7 +348,7 @@ def main():
     print("-" * 60)
 
     for filename in priority_files:
-        filepath = quantum_dir / filename
+        filepath = qi_dir / filename
         if filepath.exists():
             print(f"\n🌟 Processing: {filename}")
             result = add_verbose_description(filepath)
@@ -376,7 +376,7 @@ def find_good_candidates(project_root: Path) -> list[Path]:
     """Find the best candidates for description generation."""
 
     candidates = []
-    quantum_dir = project_root / "lukhas" / "quantum"
+    qi_dir = project_root / "lukhas" / "quantum"
 
     # High-priority quantum modules (complex, worth describing)
     priority_patterns = [
@@ -393,9 +393,9 @@ def find_good_candidates(project_root: Path) -> list[Path]:
     ]
 
     # Find all Python files in quantum directory
-    if quantum_dir.exists():
+    if qi_dir.exists():
         for pattern in priority_patterns:
-            candidates.extend(quantum_dir.glob(f"**/{pattern}.py"))
+            candidates.extend(qi_dir.glob(f"**/{pattern}.py"))
 
     # Also check core modules
     core_dirs = [

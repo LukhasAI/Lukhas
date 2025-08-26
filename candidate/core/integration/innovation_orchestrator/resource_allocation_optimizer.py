@@ -43,11 +43,11 @@ class ResourceAllocationOptimizer(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Optimize resource allocation across engines and opportunities
-        
+
         Args:
             engines: Available innovation engines
             opportunities: Innovation opportunities
-            
+
         Returns:
             Optimized resource allocation plan
         """

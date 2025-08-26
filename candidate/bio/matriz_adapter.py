@@ -1,20 +1,20 @@
 """
-MATRIZ Adapter for Bio Module  
+MATRIZ Adapter for Bio Module
 Emits MATRIZ-compliant nodes for bio-inspired processing events
 """
 
 import json
 import time
 import uuid
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class BioMatrizAdapter:
     """Adapter to emit MATRIZ nodes for bio-inspired events"""
-    
+
     SCHEMA_REF = "lukhas://schemas/matriz_node_v1.json"
-    
+
     @staticmethod
     def create_node(
         node_type: str,
@@ -23,7 +23,7 @@ class BioMatrizAdapter:
         provenance_extra: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Create a MATRIZ-compliant node for bio events"""
-        
+
         node = {
             "version": 1,
             "id": f"LT-BIO-{uuid.uuid4().hex[:8]}",
@@ -47,12 +47,12 @@ class BioMatrizAdapter:
                 **(provenance_extra or {})
             }
         }
-        
+
         if labels:
             node["labels"] = labels
-            
+
         return node
-    
+
     @staticmethod
     def emit_oscillator_state(
         frequency: float,
@@ -61,7 +61,7 @@ class BioMatrizAdapter:
         oscillator_type: str = "neural"
     ) -> Dict[str, Any]:
         """Emit an oscillator state node"""
-        
+
         return BioMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state={
@@ -78,7 +78,7 @@ class BioMatrizAdapter:
                 f"frequency:{frequency:.2f}Hz"
             ]
         )
-    
+
     @staticmethod
     def emit_quantum_coherence(
         coherence_score: float,
@@ -86,7 +86,7 @@ class BioMatrizAdapter:
         system: str = "default"
     ) -> Dict[str, Any]:
         """Emit a quantum-inspired coherence node"""
-        
+
         return BioMatrizAdapter.create_node(
             node_type="AWARENESS",
             state={
@@ -103,7 +103,7 @@ class BioMatrizAdapter:
                 f"system:{system}"
             ]
         )
-    
+
     @staticmethod
     def emit_adaptation_event(
         adaptation_type: str,
@@ -112,9 +112,9 @@ class BioMatrizAdapter:
         mutation_rate: float = 0.01
     ) -> Dict[str, Any]:
         """Emit a bio-inspired adaptation event node"""
-        
+
         improvement = fitness_after - fitness_before
-        
+
         return BioMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -132,16 +132,16 @@ class BioMatrizAdapter:
                 "improvement:positive" if improvement > 0 else "improvement:negative"
             ]
         )
-    
+
     @staticmethod
     def emit_awareness_pulse(
         awareness_level: float,
         sensory_inputs: Dict[str, float]
     ) -> Dict[str, Any]:
         """Emit a bio-awareness pulse node"""
-        
+
         avg_sensory = sum(sensory_inputs.values()) / len(sensory_inputs) if sensory_inputs else 0
-        
+
         return BioMatrizAdapter.create_node(
             node_type="AWARENESS",
             state={
@@ -158,36 +158,36 @@ class BioMatrizAdapter:
                 f"level:{awareness_level:.2f}"
             ]
         )
-    
+
     @staticmethod
     def validate_node(node: Dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
-        
+
         for field in required_fields:
             if field not in node:
                 return False
-                
+
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
         for field in required_prov:
             if field not in node.get("provenance", {}):
                 return False
-                
+
         return True
-    
+
     @staticmethod
     def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/bio")
-            
+
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
-        
+
         with open(filepath, 'w') as f:
             json.dump(node, f, indent=2)
-            
+
         return filepath

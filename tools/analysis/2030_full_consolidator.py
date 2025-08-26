@@ -97,12 +97,12 @@ class LUKHAS2030Consolidator:
                     "Emotional drift tracking",
                 ],
             },
-            "quantum_sgi_core": {
+            "qi_sgi_core": {
                 "description": "Quantum-inspired SGI processing core",
                 "targets": [
                     "quantum",
-                    "architectures/quantum_inspired",
-                    "quantum_computing",
+                    "architectures/qi_inspired",
+                    "qi_computing",
                     "superposition",
                 ],
                 "vision": "True quantum processing for SGI",
@@ -396,7 +396,7 @@ class LUKHAS2030Consolidator:
                 "phase": 4,
                 "name": "Quantum & Bio-Symbolic",
                 "duration": "2 weeks",
-                "systems": ["quantum_sgi_core", "bio_symbolic_coherence"],
+                "systems": ["qi_sgi_core", "bio_symbolic_coherence"],
                 "description": "Implement quantum processing and bio-symbolic harmony",
             },
             {

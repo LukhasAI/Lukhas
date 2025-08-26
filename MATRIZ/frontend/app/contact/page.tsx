@@ -45,7 +45,7 @@ export default function ContactPage() {
                       <p className="text-primary-light/60">support@lukhas.ai</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start space-x-4">
                     <div className="p-3 rounded-lg bg-trinity-identity/10">
                       <MessageCircle className="w-6 h-6 text-trinity-identity" />
@@ -56,7 +56,7 @@ export default function ContactPage() {
                       <p className="text-primary-light/60">Follow us on social media</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start space-x-4">
                     <div className="p-3 rounded-lg bg-trinity-guardian/10">
                       <Clock className="w-6 h-6 text-trinity-guardian" />

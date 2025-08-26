@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       colors: {
         'trinity-identity': 'rgb(var(--trinity-identity) / <alpha-value>)',
-        'trinity-consciousness': 'rgb(var(--trinity-consciousness) / <alpha-value>)', 
+        'trinity-consciousness': 'rgb(var(--trinity-consciousness) / <alpha-value>)',
         'trinity-guardian': 'rgb(var(--trinity-guardian) / <alpha-value>)',
         'accent-gold': 'rgb(var(--accent-gold) / <alpha-value>)',
         'accent-gold-light': 'rgb(251, 191, 36)',

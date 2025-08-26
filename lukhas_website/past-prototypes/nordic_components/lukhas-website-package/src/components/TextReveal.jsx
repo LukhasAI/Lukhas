@@ -65,4 +65,3 @@ const TextReveal = ({ children, className = '', delay = 0, stagger = 0.02 }) => 
 };
 
 export default TextReveal;
-

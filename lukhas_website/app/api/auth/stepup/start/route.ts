@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     // Generate challenge for step-up
     const challenge = generateChallenge()
-    
+
     // Store challenge in Redis with 2-minute TTL
     const redis = await getRedisClient()
     const stepUpKey = `stepup:${payload.sub}:${challenge}`
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       timestamp: new Date().toISOString()
     })
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       success: true,
       challenge,
       message: 'Step-up authentication required'

@@ -6,7 +6,7 @@ import { appStateMachine } from '@/lib/state/appStateMachine';
 
 export function useAppStateMachine() {
   const [state, send] = useActor(appStateMachine);
-  
+
   return {
     state: state.value,
     context: state.context,

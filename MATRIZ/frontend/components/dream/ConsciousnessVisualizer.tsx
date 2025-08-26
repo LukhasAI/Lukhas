@@ -17,7 +17,7 @@ interface ConsciousnessVisualizerProps {
 }
 
 // Fallback 2D visualization for SSR and loading states
-function Fallback2DVisualization({ 
+function Fallback2DVisualization({
   consciousness = { awareness: 0.5, coherence: 0.5, depth: 2 },
   emotion = { valence: 0.5, arousal: 0.5, dominance: 0.5 },
   glyphs = []
@@ -88,7 +88,7 @@ function Fallback2DVisualization({
         const particleRadius = 150 + Math.sin(time * 2 + i * 0.5) * 50 * consciousness.depth / 5
         const px = centerX + Math.cos(particleAngle + time * 0.3) * particleRadius
         const py = centerY + Math.sin(particleAngle + time * 0.3) * particleRadius
-        
+
         ctx.fillStyle = `rgba(${139}, ${92}, ${246}, ${0.1 + consciousness.awareness * 0.2})`
         ctx.beginPath()
         ctx.arc(px, py, 2, 0, Math.PI * 2)
@@ -129,13 +129,13 @@ export default function ConsciousnessVisualizer(props: ConsciousnessVisualizerPr
   return (
     <div className="w-full h-full relative bg-black/50 rounded-lg overflow-hidden">
       <Fallback2DVisualization {...safeProps} />
-      
+
       <div className="absolute top-2 left-2 text-xs text-white/60">
         <div>Awareness: {(safeProps.consciousness.awareness * 100).toFixed(0)}%</div>
         <div>Coherence: {(safeProps.consciousness.coherence * 100).toFixed(0)}%</div>
         <div>Depth: {safeProps.consciousness.depth.toFixed(2)}</div>
       </div>
-      
+
       <div className="absolute bottom-2 right-2 text-xs text-white/60">
         <div>GLYPHs: {safeProps.glyphs.length}</div>
       </div>

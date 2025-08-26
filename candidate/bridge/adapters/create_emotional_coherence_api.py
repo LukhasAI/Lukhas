@@ -63,7 +63,7 @@ class CoherenceResponse(BaseModel):
     response_modulation: dict[str, float]
     empathy_markers: list[str]
     coherence_insights: list[str]
-    quantum_amplification: float = Field(
+    qi_amplification: float = Field(
         ..., ge=1, description="Quantum coherence boost factor"
     )
 
@@ -95,7 +95,7 @@ class BioSymbolicEngine:
         )
 
         # Calculate bio-symbolic coherence
-        coherence, quantum_boost = self._calculate_coherence(
+        coherence, qi_boost = self._calculate_coherence(
             emotional_vector, hormonal_state, context.target_coherence
         )
 
@@ -117,7 +117,7 @@ class BioSymbolicEngine:
             response_modulation=modulation,
             empathy_markers=empathy_markers,
             coherence_insights=insights,
-            quantum_amplification=quantum_boost,
+            qi_amplification=qi_boost,
         )
 
     async def _extract_emotions(self, text: str) -> EmotionalVector:
@@ -225,19 +225,19 @@ class BioSymbolicEngine:
         base_coherence = (emotional_balance + hormonal_balance) / 2
 
         # Quantum enhancement (can push >100%)
-        quantum_boost = 1.0
+        qi_boost = 1.0
         if base_coherence > 0.7:
             # High coherence gets quantum amplification
-            quantum_boost = 1.0 + (base_coherence - 0.7) * 1.5
+            qi_boost = 1.0 + (base_coherence - 0.7) * 1.5
 
         # Apply quantum boost
-        final_coherence = base_coherence * quantum_boost
+        final_coherence = base_coherence * qi_boost
 
         # LUKHAS special: Can exceed 100% with perfect bio-symbolic alignment
         if emotional_balance > 0.9 and hormonal_balance > 0.9:
             final_coherence *= 1.2  # 20% bonus for perfect alignment
 
-        return final_coherence, quantum_boost
+        return final_coherence, qi_boost
 
     def _generate_modulation(
         self, hormones: HormonalState, emotions: EmotionalVector
@@ -384,7 +384,7 @@ async def health_check():
         "status": "healthy",
         "bio_engine": "active",
         "coherence": "optimal",
-        "quantum_field": "stable",
+        "qi_field": "stable",
     }
 
 

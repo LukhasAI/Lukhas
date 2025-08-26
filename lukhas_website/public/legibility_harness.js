@@ -3,7 +3,7 @@
 
 window.legibilityHarness = {
   version: '1.0.0',
-  
+
   // Initialize the harness
   init() {
     this.createPanel()
@@ -87,7 +87,7 @@ window.legibilityHarness = {
     document.getElementById('leg-target').textContent = target
     document.getElementById('leg-chamfer').textContent = (detail?.chamferMax || 0).toFixed(3)
     document.getElementById('leg-hold').textContent = detail?.holdMs || 0
-    
+
     this.startTime = performance.now()
   },
 
@@ -97,7 +97,7 @@ window.legibilityHarness = {
 
     const elapsed = performance.now() - (this.startTime || 0)
     const confidence = this.calculateOCRConfidence(detail)
-    
+
     document.getElementById('leg-ocr').textContent = confidence.toFixed(3)
 
     // Log metrics if enabled
@@ -120,12 +120,12 @@ window.legibilityHarness = {
     const baseConfidence = 0.85
     const morphSpeed = detail?.morphSpeed || 0.02
     const particleCount = detail?.particleCount || 1000
-    
+
     let confidence = baseConfidence
     confidence += (particleCount / 5000) * 0.1  // More particles = better
     confidence -= (morphSpeed * 5)  // Faster morph = less stable
     confidence += (Date.now() % 100 / 1000) * 0.1 - 0.05  // Some deterministic noise
-    
+
     return Math.max(0, Math.min(1, confidence))
   },
 
@@ -135,12 +135,12 @@ window.legibilityHarness = {
       const key = 'lukhas:legibility-metrics'
       const existing = JSON.parse(localStorage.getItem(key) || '[]')
       existing.push(metrics)
-      
+
       // Keep only last 100 entries
       if (existing.length > 100) {
         existing.splice(0, existing.length - 100)
       }
-      
+
       localStorage.setItem(key, JSON.stringify(existing))
       console.log('[Legibility] Metrics logged:', metrics)
     } catch (e) {
@@ -161,7 +161,7 @@ window.legibilityHarness = {
   check(text, options = {}) {
     const confidence = (Date.now() % 300 / 1000) + 0.7  // 0.7-1.0 range for demo (deterministic)
     const readable = confidence >= (options.threshold || 0.92)
-    
+
     return {
       confidence,
       readable,

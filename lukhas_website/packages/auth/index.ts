@@ -1,8 +1,8 @@
 /**
  * LUKHAS AI ΛiD Authentication System - Complete Enterprise Platform
- * 
+ *
  * Phase 4: SSO & SCIM Integration Complete
- * 
+ *
  * This is the complete enterprise-grade authentication, authorization, and identity
  * management system for LUKHAS AI, featuring full SSO integration (SAML 2.0 + OIDC),
  * SCIM v2.0 compliance, multi-tier support, and comprehensive security features.
@@ -16,17 +16,17 @@ export { default as JWKSManager, KeyRotationManager } from './jwks';
 export type { JWKSKey, JWKSConfig } from './jwks';
 
 export { default as JWTManager, JWTUtils, DEFAULT_TOKEN_CONFIG } from './jwt';
-export type { 
-  TokenClaims, 
-  TokenConfig, 
-  TokenValidationOptions, 
+export type {
+  TokenClaims,
+  TokenConfig,
+  TokenValidationOptions,
   TokenValidationResult,
   RefreshTokenFamily as JWTRefreshTokenFamily
 } from './jwt';
 
 export { default as PasskeyManager, PasskeyUtils, WEBAUTHN_CONFIG } from './passkeys';
-export type { 
-  PasskeyCredential, 
+export type {
+  PasskeyCredential,
   PasskeyRegistrationOptions,
   PasskeyAuthenticationOptions,
   PasskeyRegistrationResult,
@@ -34,7 +34,7 @@ export type {
 } from './passkeys';
 
 export { default as MagicLinkManager, MagicLinkUtils, DEFAULT_MAGIC_LINK_CONFIG } from './magic-links';
-export type { 
+export type {
   MagicLinkToken,
   MagicLinkConfig,
   MagicLinkRequest,
@@ -43,7 +43,7 @@ export type {
 } from './magic-links';
 
 export { default as RateLimitManager, RateLimitUtils, DEFAULT_RATE_LIMIT_CONFIG } from './rate-limits';
-export type { 
+export type {
   RateLimitRule,
   RateLimitConfig,
   RateLimitEntry as RLEntry,
@@ -52,14 +52,14 @@ export type {
 } from './rate-limits';
 
 // Scope and authorization system
-export { 
+export {
   default as ScopeGuard,
-  ScopeManager, 
-  ScopeUtils, 
-  TIER_ENVELOPES, 
-  RBAC_ROLES 
+  ScopeManager,
+  ScopeUtils,
+  TIER_ENVELOPES,
+  RBAC_ROLES
 } from './scopes';
-export type { 
+export type {
   TierLevel,
   ScopeCategory,
   ScopeAction,
@@ -72,7 +72,7 @@ export type {
 
 // Tier system configuration
 export { default as TierManager, TIER_SYSTEM } from './tier-system';
-export type { 
+export type {
   TierConfiguration,
   AuthMethod,
   ApiAccessLevel,
@@ -152,7 +152,7 @@ import type { DatabaseInterface } from './database';
 export interface AuthSystemConfig {
   // Database connection
   database: DatabaseInterface;
-  
+
   // JWKS configuration
   jwks: {
     privateKey: string;
@@ -160,7 +160,7 @@ export interface AuthSystemConfig {
     keyId: string;
     rotationDays: number;
   };
-  
+
   // JWT configuration
   jwt: {
     issuer: string;
@@ -169,7 +169,7 @@ export interface AuthSystemConfig {
     refreshTokenTTL: number;
     idTokenTTL: number;
   };
-  
+
   // Security configuration
   security: {
     emailRateLimit: { windowMs: number; maxAttempts: number; blockDurationMs: number };
@@ -178,7 +178,7 @@ export interface AuthSystemConfig {
     preventEnumeration: boolean;
     auditLogging: boolean;
   };
-  
+
   // Rate limiting configuration
   rateLimiting: {
     enabled: boolean;
@@ -186,7 +186,7 @@ export interface AuthSystemConfig {
     alertThreshold: number;
     blockDuration: number;
   };
-  
+
   // Magic link configuration
   magicLinks: {
     tokenTTL: number;
@@ -194,7 +194,7 @@ export interface AuthSystemConfig {
     baseUrl: string;
     fromEmail: string;
   };
-  
+
   // Advanced security features
   advancedSecurity: {
     refreshTokenFamily: {
@@ -261,7 +261,7 @@ export class LambdaAuthSystem {
 
   constructor(config: AuthSystemConfig) {
     this.config = config;
-    
+
     // Initialize core components
     this.securityManager = new SecurityManager(config.security);
     this.rateLimitManager = new RateLimitManager(config.rateLimiting);
@@ -335,7 +335,7 @@ export class LambdaAuthSystem {
 
       // Create session and tokens
       const authResult = await this.createUserSession(user, ipAddress, userAgent, deviceFingerprint);
-      
+
       return authResult;
 
     } catch (error) {
@@ -403,7 +403,7 @@ export class LambdaAuthSystem {
 
       // Create session and tokens
       const authResult = await this.createUserSession(user, ipAddress, userAgent);
-      
+
       return authResult;
 
     } catch (error) {
@@ -860,7 +860,7 @@ export {
 } from './scim/sync';
 
 // Enhanced Tier System with SSO/SCIM enforcement
-export { 
+export {
   getSSOSCIMConfig,
   type SSOSCIMEnforcement
 } from './tier-system';
@@ -878,7 +878,7 @@ export class LUKHASAuthSystem extends LambdaAuthSystem {
   public readonly ssoConfigManager?: SSOConfigManager;
   public readonly groupMappingManager?: GroupMappingManager;
   public readonly ssoSessionManager?: SSOSessionManager;
-  
+
   // SCIM provisioning
   public readonly scimUserManager?: SCIMUserManager;
   public readonly scimGroupManager?: SCIMGroupManager;
@@ -892,19 +892,19 @@ export class LUKHASAuthSystem extends LambdaAuthSystem {
     scimConfig?: any;
   }) {
     super(config);
-    
+
     // Initialize SSO components if enabled
     if (config.enableSSO !== false) {
       this.ssoConfigManager = new SSOConfigManager(new AuditLogger());
       this.groupMappingManager = new GroupMappingManager(new AuditLogger(), new RBACManager());
       this.ssoSessionManager = new SSOSessionManager(new AuditLogger());
     }
-    
+
     // Initialize SCIM components if enabled
     if (config.enableSCIM !== false) {
       this.scimUserManager = new SCIMUserManager(
-        new AuditLogger(), 
-        TierManager, 
+        new AuditLogger(),
+        TierManager,
         new RBACManager()
       );
       this.scimGroupManager = new SCIMGroupManager(new AuditLogger(), new RBACManager());
@@ -922,12 +922,12 @@ export class LUKHASAuthSystem extends LambdaAuthSystem {
    */
   async initialize(): Promise<void> {
     await super.initialize();
-    
+
     // Additional SSO/SCIM initialization
     if (this.ssoConfigManager) {
       // Initialize SSO configurations
     }
-    
+
     if (this.scimSyncManager) {
       // Start background sync jobs
     }
@@ -938,11 +938,11 @@ export class LUKHASAuthSystem extends LambdaAuthSystem {
    */
   destroy(): void {
     super.destroy();
-    
+
     if (this.ssoSessionManager) {
       this.ssoSessionManager.cleanup();
     }
-    
+
     if (this.scimSyncManager) {
       this.scimSyncManager.cleanup();
     }
@@ -956,16 +956,16 @@ export class LUKHASAuthSystem extends LambdaAuthSystem {
     components: Record<string, { status: string; message?: string }>;
   }> {
     const baseHealth = await super.getSystemHealth();
-    
+
     // Add SSO/SCIM component health checks
     if (this.ssoConfigManager) {
       baseHealth.components.sso = { status: 'healthy', message: 'SSO integration operational' };
     }
-    
+
     if (this.scimUserManager) {
       baseHealth.components.scim = { status: 'healthy', message: 'SCIM provisioning operational' };
     }
-    
+
     return baseHealth;
   }
 }
@@ -992,7 +992,7 @@ export const PHASE_4_INFO = {
   ],
   standards: [
     'SAML 2.0',
-    'OpenID Connect 1.0', 
+    'OpenID Connect 1.0',
     'SCIM v2.0',
     'OAuth 2.0',
     'JWT/JWS/JWK',

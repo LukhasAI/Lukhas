@@ -82,7 +82,7 @@ try:
     from qi.bio.awareness_bio import (
         MitochondrialQIBridge,
         NeuroplasticityModulator,
-        QuantumSynapticGate,
+        QISynapticGate,
     )
 except ImportError:
     # Fallback implementations for standalone operation
@@ -106,7 +106,7 @@ except ImportError:
 # Bio-inspired imports
 try:
     from ..bio.core import BiologicalOscillator
-    from ..bio.symbolic.quantum_attention import QIAttentionMechanism
+    from ..bio.symbolic.qi_attention import QIAttentionMechanism
 except ImportError:
     logger.info("Bio-symbolic components not available, using quantum-only mode")
     QIAttentionMechanism = None
@@ -157,11 +157,11 @@ class EnhancedQIEngine:
     def __init__(self):
         # Initialize quantum-bio components
         self.mitochondrial_bridge = MitochondrialQIBridge()
-        self.synaptic_gate = QuantumSynapticGate()
+        self.synaptic_gate = QISynapticGate()
         self.plasticity_modulator = NeuroplasticityModulator()
 
         # Quantum state tracking
-        self.quantum_like_state = np.zeros(5)
+        self.qi_like_state = np.zeros(5)
         self.entanglement_map = {}
 
         # Processing configuration
@@ -220,7 +220,7 @@ class EnhancedQIEngine:
 
             # Generate pre/post synaptic signals
             pre_synaptic = bridge_output
-            post_synaptic = self.quantum_like_state
+            post_synaptic = self.qi_like_state
 
             # Process through synaptic gate
             gate_output, gate_meta = await self.synaptic_gate.process_signal(
@@ -230,16 +230,16 @@ class EnhancedQIEngine:
             # Modulate plasticity
             new_state, plasticity_meta = (
                 await self.plasticity_modulator.modulate_plasticity(
-                    self.quantum_like_state, gate_output, context
+                    self.qi_like_state, gate_output, context
                 )
             )
 
             # Update quantum-like state
-            self.quantum_like_state = new_state
+            self.qi_like_state = new_state
 
             return {
                 "output": gate_output,
-                "quantum_like_state": self.quantum_like_state.tolist(),
+                "qi_like_state": self.qi_like_state.tolist(),
                 "metadata": {
                     "bridge": bridge_meta,
                     "gate": gate_meta,
@@ -340,7 +340,7 @@ class EnhancedQIEngine:
 
     def _calculate_coherence(self) -> float:
         """Calculate current coherence-inspired processing"""
-        return float(np.mean(np.abs(self.quantum_like_state)))
+        return float(np.mean(np.abs(self.qi_like_state)))
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -359,7 +359,7 @@ class EnhancedQIEngine:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": True,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -385,7 +385,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_coherence": "sustained",
+    "qi_coherence": "sustained",
     "bio_integration": "harmonized",
     "entanglement_network": "active",
     "consciousness_indicators": "emerging",

@@ -11,14 +11,14 @@
         "scopes": ["basic_interaction", "essential_functions"]
       },
       "functional": {
-        "symbol": "🔧", 
+        "symbol": "🔧",
         "description": "Functional features that enhance user experience",
         "revocable": true,
         "scopes": ["audio", "trace", "analytics"]
       },
       "enhanced": {
         "symbol": "✨",
-        "description": "Enhanced features with sensitive data access", 
+        "description": "Enhanced features with sensitive data access",
         "revocable": true,
         "enhanced_security": true,
         "scopes": ["location", "biometric", "memory"]
@@ -37,7 +37,7 @@
     "immediate_revocation": ["analytics", "location", "audio"],
     "cooling_off_period": {
       "biometric": 24,
-      "memory": 48, 
+      "memory": 48,
       "replay": 72
     },
     "cascade_revocation": {

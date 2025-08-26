@@ -32,7 +32,7 @@ class HubRegistry:
                 "get_consciousness_hub",
             ),
             ("memory", "memory.memory_hub", "get_memory_hub"),
-            ("quantum", "quantum.quantum_hub", "get_quantum_hub"),
+            ("quantum", "qi.qi_hub", "get_quantum_hub"),
             ("safety", "core.safety.safety_hub", "get_safety_hub"),
             ("bio", "bio.bio_hub", "get_bio_hub"),
             (

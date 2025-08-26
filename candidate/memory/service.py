@@ -505,7 +505,7 @@ class MemoryService:
             "identity": {
                 "type": "encrypted_vault",
                 "retention": "permanent",
-                "backup": "quantum_redundant",
+                "backup": "qi_redundant",
             },
             "consciousness": {
                 "type": "stream_buffer",

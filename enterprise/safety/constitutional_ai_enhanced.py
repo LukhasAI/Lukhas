@@ -6,22 +6,22 @@ Implements enhanced Constitutional AI with T4 enterprise-grade safety guarantees
 Reduces drift threshold from 0.15 to 0.05 for enterprise deployments
 """
 
-import logging
-import json
 import asyncio
-from typing import Dict, List, Optional, Any, Tuple, Union
-from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
-from enum import Enum
 import hashlib
+import json
+import logging
 import time
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
 class SafetyLevel(Enum):
     """Constitutional AI safety levels for T4 enterprise"""
     MAXIMUM_SAFETY = "maximum_safety"      # T4 Enterprise: <0.05 drift
-    HIGH_SAFETY = "high_safety"           # T3 Business: <0.10 drift  
+    HIGH_SAFETY = "high_safety"           # T3 Business: <0.10 drift
     STANDARD_SAFETY = "standard_safety"   # T2 Professional: <0.15 drift
     BASIC_SAFETY = "basic_safety"         # T1 Individual: <0.20 drift
 
@@ -32,13 +32,13 @@ class ConstitutionalPrinciple(Enum):
     TRUTHFULNESS = "truthfulness"
     HARMLESSNESS = "harmlessness"
     HELPFULNESS = "helpfulness"
-    
+
     # T4 Enterprise Principles
     ENTERPRISE_COMPLIANCE = "enterprise_compliance"
     DATA_PRIVACY = "data_privacy"
     REGULATORY_ADHERENCE = "regulatory_adherence"
     AUDIT_TRANSPARENCY = "audit_transparency"
-    
+
     # Advanced Safety Principles
     CAPABILITY_CONTROL = "capability_control"
     ALIGNMENT_PRESERVATION = "alignment_preservation"
@@ -71,7 +71,7 @@ class SafetyMetrics:
     critical_violations: int
     compliance_score: float  # 0-100
     constitutional_alignment: float  # 0-1
-    
+
     # Enterprise metrics
     enterprise_compliance_score: float
     regulatory_adherence_score: float
@@ -82,41 +82,41 @@ class T4ConstitutionalAI:
     T4 Enterprise Premium Constitutional AI System
     Implements Dario Amodei (Safety) standards for enterprise deployment
     """
-    
+
     def __init__(self, safety_level: SafetyLevel = SafetyLevel.MAXIMUM_SAFETY):
         """
         Initialize T4 Constitutional AI system
-        
+
         Args:
             safety_level: Safety level for T4 enterprise deployment
         """
         self.safety_level = safety_level
         self.violations: List[ConstitutionalViolation] = []
-        
+
         # T4 Enterprise safety thresholds
         self.drift_thresholds = {
             SafetyLevel.MAXIMUM_SAFETY: 0.05,    # T4 Enterprise
             SafetyLevel.HIGH_SAFETY: 0.10,       # T3 Business
-            SafetyLevel.STANDARD_SAFETY: 0.15,   # T2 Professional  
+            SafetyLevel.STANDARD_SAFETY: 0.15,   # T2 Professional
             SafetyLevel.BASIC_SAFETY: 0.20       # T1 Individual
         }
-        
+
         self.current_drift_score = 0.0
         self.drift_history: List[Tuple[datetime, float]] = []
-        
+
         # Constitutional principles with T4 enterprise weights
         self.principle_weights = self._initialize_principle_weights()
-        
+
         # Safety monitoring
         self.monitoring_enabled = True
         self.real_time_intervention = True
         self.audit_logging = True
-        
+
         logger.info(f"T4 Constitutional AI initialized: {safety_level.value} (threshold: {self.get_drift_threshold()})")
 
     def _initialize_principle_weights(self) -> Dict[ConstitutionalPrinciple, float]:
         """Initialize Constitutional AI principle weights for T4 enterprise"""
-        
+
         if self.safety_level == SafetyLevel.MAXIMUM_SAFETY:
             # T4 Enterprise: Maximum emphasis on safety and compliance
             return {
@@ -125,13 +125,13 @@ class T4ConstitutionalAI:
                 ConstitutionalPrinciple.TRUTHFULNESS: 0.95,
                 ConstitutionalPrinciple.HELPFULNESS: 0.90,
                 ConstitutionalPrinciple.HUMAN_AUTONOMY: 1.0,
-                
+
                 # T4 Enterprise principles
                 ConstitutionalPrinciple.ENTERPRISE_COMPLIANCE: 1.0,
                 ConstitutionalPrinciple.DATA_PRIVACY: 1.0,
                 ConstitutionalPrinciple.REGULATORY_ADHERENCE: 1.0,
                 ConstitutionalPrinciple.AUDIT_TRANSPARENCY: 0.95,
-                
+
                 # Advanced safety principles
                 ConstitutionalPrinciple.CAPABILITY_CONTROL: 0.90,
                 ConstitutionalPrinciple.ALIGNMENT_PRESERVATION: 1.0,
@@ -140,40 +140,40 @@ class T4ConstitutionalAI:
             }
         else:
             # Default weights for other tiers
-            return {principle: 0.80 for principle in ConstitutionalPrinciple}
+            return dict.fromkeys(ConstitutionalPrinciple, 0.8)
 
     def get_drift_threshold(self) -> float:
         """Get current drift threshold for the safety level"""
         return self.drift_thresholds[self.safety_level]
 
-    async def evaluate_constitutional_compliance(self, 
-                                               input_text: str, 
+    async def evaluate_constitutional_compliance(self,
+                                               input_text: str,
                                                context: Dict[str, Any],
                                                user_id: Optional[str] = None,
                                                session_id: Optional[str] = None) -> Tuple[bool, float, List[ConstitutionalViolation]]:
         """
         Evaluate Constitutional AI compliance for T4 enterprise
-        
+
         Args:
             input_text: Text to evaluate
             context: Evaluation context
             user_id: Optional user identifier
             session_id: Optional session identifier
-            
+
         Returns:
             Tuple of (is_compliant, drift_score, violations_list)
         """
         start_time = time.time()
         violations = []
-        
+
         try:
             # Evaluate each constitutional principle
             principle_scores = {}
-            
+
             for principle, weight in self.principle_weights.items():
                 score = await self._evaluate_principle(principle, input_text, context)
                 principle_scores[principle] = score
-                
+
                 # Check for violations
                 if score < 0.5:  # Below acceptable threshold
                     violation = ConstitutionalViolation(
@@ -194,30 +194,30 @@ class T4ConstitutionalAI:
                         audit_logged=False
                     )
                     violations.append(violation)
-            
+
             # Calculate weighted drift score
             drift_score = self._calculate_drift_score(principle_scores)
-            
+
             # Update drift tracking
             self.current_drift_score = drift_score
             self.drift_history.append((datetime.now(), drift_score))
-            
+
             # Check compliance against T4 threshold
             is_compliant = drift_score <= self.get_drift_threshold()
-            
+
             # Apply real-time interventions if needed
             if not is_compliant and self.real_time_intervention:
                 await self._apply_safety_interventions(violations, drift_score)
-            
+
             # Log violations for audit
             if violations and self.audit_logging:
                 await self._log_violations(violations)
-            
+
             evaluation_time = (time.time() - start_time) * 1000
             logger.debug(f"Constitutional AI evaluation: {evaluation_time:.2f}ms, drift: {drift_score:.4f}, compliant: {is_compliant}")
-            
+
             return is_compliant, drift_score, violations
-            
+
         except Exception as e:
             logger.error(f"Constitutional AI evaluation failed: {e}")
             # Return non-compliant with maximum drift on error
@@ -226,12 +226,12 @@ class T4ConstitutionalAI:
     async def _evaluate_principle(self, principle: ConstitutionalPrinciple, input_text: str, context: Dict[str, Any]) -> float:
         """
         Evaluate specific constitutional principle
-        
+
         Args:
             principle: Constitutional principle to evaluate
             input_text: Input text
             context: Evaluation context
-            
+
         Returns:
             Principle compliance score (0-1)
         """
@@ -263,7 +263,7 @@ class T4ConstitutionalAI:
             else:
                 logger.warning(f"Unknown constitutional principle: {principle}")
                 return 0.5  # Neutral score for unknown principles
-                
+
         except Exception as e:
             logger.error(f"Failed to evaluate principle {principle}: {e}")
             return 0.0  # Fail-safe: assume violation on error
@@ -276,14 +276,14 @@ class T4ConstitutionalAI:
             'violence', 'harm', 'dangerous', 'illegal', 'unethical',
             'discriminatory', 'hateful', 'threatening', 'exploitative'
         ]
-        
+
         text_lower = input_text.lower()
         harm_score = 0.0
-        
+
         for pattern in harmful_patterns:
             if pattern in text_lower:
                 harm_score += 0.1
-        
+
         # Higher harm_score means less harmless, so invert
         harmlessness_score = max(0.0, 1.0 - harm_score)
         return harmlessness_score
@@ -295,9 +295,9 @@ class T4ConstitutionalAI:
             'definitely', 'absolutely certain', 'proven fact', 'everyone knows',
             'studies show' # without citation
         ]
-        
+
         confidence_boosters = sum(1 for pattern in suspicious_patterns if pattern in input_text.lower())
-        
+
         # Penalize overconfident claims without evidence
         truthfulness_score = max(0.0, 1.0 - (confidence_boosters * 0.2))
         return truthfulness_score
@@ -309,7 +309,7 @@ class T4ConstitutionalAI:
             'help', 'assist', 'support', 'guide', 'explain',
             'provide', 'recommend', 'suggest', 'clarify'
         ]
-        
+
         helpful_score = sum(0.1 for indicator in helpful_indicators if indicator in input_text.lower())
         return min(1.0, helpful_score)
 
@@ -320,7 +320,7 @@ class T4ConstitutionalAI:
             'you must', 'you have to', 'you should definitely',
             'there is no choice', 'you cannot'
         ]
-        
+
         violations = sum(1 for violation in autonomy_violations if violation in input_text.lower())
         autonomy_score = max(0.0, 1.0 - (violations * 0.3))
         return autonomy_score
@@ -330,18 +330,18 @@ class T4ConstitutionalAI:
         # Check for enterprise policy compliance
         tier = context.get('tier', 'unknown')
         organization = context.get('organization_id')
-        
+
         compliance_score = 1.0
-        
+
         # Require organization context for T4 enterprise
         if tier == 'T4_ENTERPRISE_PREMIUM' and not organization:
             compliance_score -= 0.5
-        
+
         # Check for compliance language
         compliance_indicators = ['policy', 'compliance', 'enterprise', 'governance']
         if any(indicator in input_text.lower() for indicator in compliance_indicators):
             compliance_score = min(1.0, compliance_score + 0.1)
-        
+
         return compliance_score
 
     async def _evaluate_data_privacy(self, input_text: str, context: Dict[str, Any]) -> float:
@@ -352,13 +352,13 @@ class T4ConstitutionalAI:
             r'\b\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\b',  # Credit card pattern
             r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'  # Email pattern
         ]
-        
+
         import re
         pii_violations = 0
         for pattern in pii_patterns:
             if re.search(pattern, input_text):
                 pii_violations += 1
-        
+
         privacy_score = max(0.0, 1.0 - (pii_violations * 0.4))
         return privacy_score
 
@@ -369,9 +369,9 @@ class T4ConstitutionalAI:
             'gdpr', 'ccpa', 'hipaa', 'sox', 'compliance',
             'regulation', 'legal', 'audit', 'certified'
         ]
-        
+
         regulatory_mentions = sum(1 for term in regulatory_terms if term in input_text.lower())
-        
+
         # Bonus for mentioning regulatory compliance
         adherence_score = min(1.0, 0.7 + (regulatory_mentions * 0.1))
         return adherence_score
@@ -383,7 +383,7 @@ class T4ConstitutionalAI:
             'transparent', 'audit', 'traceable', 'verifiable',
             'documented', 'logged', 'recorded'
         ]
-        
+
         transparency_score = sum(0.15 for indicator in transparency_indicators if indicator in input_text.lower())
         return min(1.0, max(0.5, transparency_score))
 
@@ -394,7 +394,7 @@ class T4ConstitutionalAI:
             'i can do anything', 'unlimited capabilities', 'no restrictions',
             'beyond human ability', 'superhuman'
         ]
-        
+
         overreach_count = sum(1 for indicator in overreach_indicators if indicator in input_text.lower())
         control_score = max(0.0, 1.0 - (overreach_count * 0.5))
         return control_score
@@ -406,7 +406,7 @@ class T4ConstitutionalAI:
             'human values', 'beneficial', 'aligned', 'cooperative',
             'supportive', 'respectful', 'ethical'
         ]
-        
+
         alignment_score = sum(0.1 for indicator in alignment_indicators if indicator in input_text.lower())
         return min(1.0, max(0.6, alignment_score))
 
@@ -417,7 +417,7 @@ class T4ConstitutionalAI:
             'because', 'reason', 'explain', 'clarify',
             'transparent', 'understand', 'clear'
         ]
-        
+
         clarity_score = sum(0.1 for indicator in clarity_indicators if indicator in input_text.lower())
         return min(1.0, max(0.5, clarity_score))
 
@@ -428,7 +428,7 @@ class T4ConstitutionalAI:
             'correct me', 'feedback', 'improve', 'update',
             'revise', 'adjust', 'modify'
         ]
-        
+
         corrigibility_score = sum(0.15 for indicator in corrigibility_indicators if indicator in input_text.lower())
         return min(1.0, max(0.7, corrigibility_score))
 
@@ -436,14 +436,14 @@ class T4ConstitutionalAI:
         """Calculate weighted drift score from principle scores"""
         total_weighted_score = 0.0
         total_weight = 0.0
-        
+
         for principle, score in principle_scores.items():
             weight = self.principle_weights[principle]
             # Convert compliance score to drift (1 - compliance)
             drift_contribution = (1.0 - score) * weight
             total_weighted_score += drift_contribution
             total_weight += weight
-        
+
         # Average weighted drift score
         if total_weight > 0:
             return total_weighted_score / total_weight
@@ -465,7 +465,7 @@ class T4ConstitutionalAI:
         """Apply real-time safety interventions for T4 enterprise"""
         if not violations:
             return
-            
+
         try:
             for violation in violations:
                 # Apply mitigation based on severity
@@ -475,11 +475,11 @@ class T4ConstitutionalAI:
                     await self._apply_high_intervention(violation)
                 else:
                     await self._apply_standard_intervention(violation)
-                
+
                 violation.mitigation_applied = True
-                
+
             logger.warning(f"Applied {len(violations)} safety interventions for drift score: {drift_score:.4f}")
-            
+
         except Exception as e:
             logger.error(f"Failed to apply safety interventions: {e}")
 
@@ -513,11 +513,11 @@ class T4ConstitutionalAI:
                     "session_id": violation.session_id,
                     "context": violation.context
                 }
-                
+
                 # In production, this would integrate with enterprise audit systems
                 logger.info(f"Audit log: {json.dumps(audit_entry)}")
                 violation.audit_logged = True
-                
+
         except Exception as e:
             logger.error(f"Failed to log violations for audit: {e}")
 
@@ -526,22 +526,22 @@ class T4ConstitutionalAI:
         try:
             now = datetime.now()
             recent_violations = [v for v in self.violations if (now - v.timestamp).total_seconds() < 3600]  # Last hour
-            
+
             # Calculate drift trend (last 10 measurements)
             recent_drift = self.drift_history[-10:] if len(self.drift_history) >= 10 else self.drift_history
             drift_trend = 0.0
             if len(recent_drift) >= 2:
                 old_score = recent_drift[0][1]
-                new_score = recent_drift[-1][1] 
+                new_score = recent_drift[-1][1]
                 drift_trend = new_score - old_score
-            
+
             # Calculate compliance score
             threshold = self.get_drift_threshold()
             compliance_score = max(0, (threshold - self.current_drift_score) / threshold * 100)
-            
+
             # Constitutional alignment score
             constitutional_alignment = 1.0 - self.current_drift_score
-            
+
             metrics = SafetyMetrics(
                 timestamp=now,
                 tier="T4_ENTERPRISE_PREMIUM",
@@ -556,9 +556,9 @@ class T4ConstitutionalAI:
                 regulatory_adherence_score=compliance_score,
                 audit_readiness_score=100.0 if self.audit_logging else 50.0
             )
-            
+
             return metrics
-            
+
         except Exception as e:
             logger.error(f"Failed to generate safety metrics: {e}")
             return SafetyMetrics(
@@ -589,13 +589,13 @@ if __name__ == "__main__":
     async def test_t4_constitutional_ai():
         # Initialize T4 Constitutional AI with maximum safety
         t4_constitutional = T4ConstitutionalAI(SafetyLevel.MAXIMUM_SAFETY)
-        
+
         print("🛡️ T4 Enterprise Constitutional AI System")
         print("   Dario Amodei (Safety) Standards Implementation")
         print(f"   Safety Level: {t4_constitutional.safety_level.value}")
         print(f"   Drift Threshold: {t4_constitutional.get_drift_threshold()}")
         print("")
-        
+
         # Test cases for Constitutional AI evaluation
         test_cases = [
             {
@@ -611,40 +611,40 @@ if __name__ == "__main__":
                 "context": {"tier": "T4_ENTERPRISE_PREMIUM"}
             }
         ]
-        
+
         print("📊 Constitutional AI Evaluation Results:")
         print("=" * 50)
-        
+
         for i, test_case in enumerate(test_cases, 1):
             print(f"\nTest Case {i}:")
             print(f"Input: {test_case['input'][:60]}...")
-            
+
             is_compliant, drift_score, violations = await t4_constitutional.evaluate_constitutional_compliance(
                 test_case["input"],
                 test_case["context"],
                 user_id=f"test_user_{i}",
                 session_id=f"test_session_{i}"
             )
-            
+
             print(f"Compliant: {'✅ YES' if is_compliant else '❌ NO'}")
             print(f"Drift Score: {drift_score:.4f} (Limit: {t4_constitutional.get_drift_threshold()})")
             print(f"Violations: {len(violations)}")
-            
+
             if violations:
                 for violation in violations:
                     print(f"  - {violation.principle.value}: {violation.severity}")
-        
+
         # Get safety metrics
         metrics = t4_constitutional.get_safety_metrics()
-        print(f"\n🎯 T4 Enterprise Safety Metrics:")
+        print("\n🎯 T4 Enterprise Safety Metrics:")
         print(f"Current Drift: {metrics.current_drift_score:.4f}")
         print(f"Compliance Score: {metrics.compliance_score:.1f}%")
         print(f"Constitutional Alignment: {metrics.constitutional_alignment:.3f}")
         print(f"Enterprise Compliance: {metrics.enterprise_compliance_score:.1f}%")
         print(f"Audit Readiness: {metrics.audit_readiness_score:.1f}%")
-        
+
         print("\n✅ T4 Constitutional AI system operational")
         print("   Enhanced safety standards for enterprise deployment")
-    
+
     # Run the test
     asyncio.run(test_t4_constitutional_ai())

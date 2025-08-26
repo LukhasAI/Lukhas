@@ -68,7 +68,7 @@ Each release includes:
 ### 🌟 Added
 New features and capabilities
 
-### 🔄 Changed  
+### 🔄 Changed
 Improvements to existing features
 
 ### 🔧 Fixed
@@ -96,7 +96,7 @@ Recognition for community contributions
 - AI-powered hook suggestions
 - Enhanced diff visualizations
 
-### Version 1.2.0 - "Adaptive Intelligence"  
+### Version 1.2.0 - "Adaptive Intelligence"
 - Machine learning hook optimization
 - Pattern recognition for development habits
 - Predictive enhancement suggestions

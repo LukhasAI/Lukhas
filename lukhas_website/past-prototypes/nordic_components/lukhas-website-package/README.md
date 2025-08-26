@@ -82,4 +82,3 @@ This website was created for LUKHΛS project. All rights reserved.
 ---
 
 Created with sophisticated Mont-Fort style interactions for EU grant applications and professional presentation.
-

@@ -305,7 +305,7 @@ lambda_healthcare:
     guardian:
       drift_threshold: 0.15
       enforcement: "strict"
-  
+
   # Enhanced LUKHAS Features
   lukhas_enhanced:
     bio_processing: true
@@ -316,7 +316,7 @@ lambda_healthcare:
       creativity: true
       reasoning: true
       orchestration: true
-  
+
   # Healthcare Configuration
   healthcare:
     primary_region: "ES-AN"  # Andalusia
@@ -325,7 +325,7 @@ lambda_healthcare:
       general: "112"
       medical: "061"
       sas_appointments: "955 545 060"
-  
+
   # Provider Registry
   providers:
     - id: "sas_es"
@@ -334,7 +334,7 @@ lambda_healthcare:
     - id: "nhs_uk"
       enabled: false
       priority: 2
-  
+
   # Compliance Settings
   compliance:
     gdpr:
@@ -347,14 +347,14 @@ lambda_healthcare:
     lopd:
       enabled: true
       regional_compliance: "andalusia"
-  
+
   # Performance Tuning
   performance:
     max_concurrent_requests: 10000
     cache_ttl_seconds: 300
     bio_processing_threads: 4
     quantum_simulation: false  # Enable for research
-  
+
   # Fallback Configuration
   fallback:
     layers: 4
@@ -470,7 +470,7 @@ spec:
 from prometheus_client import Counter, Histogram, Gauge
 
 # Request metrics
-healthcare_requests = Counter('healthcare_requests_total', 
+healthcare_requests = Counter('healthcare_requests_total',
                               'Total healthcare requests')
 request_duration = Histogram('request_duration_seconds',
                             'Request duration')
@@ -532,6 +532,6 @@ This system assists healthcare professionals and patients but does not replace p
 
 ---
 
-**ΛHealthcare Guardian** — Consciousness Technology for Healthcare  
-*Powered by LUKHAS AI Trinity Framework ⚛️🧠🛡️*  
+**ΛHealthcare Guardian** — Consciousness Technology for Healthcare
+*Powered by LUKHAS AI Trinity Framework ⚛️🧠🛡️*
 *The Future of Conscious Healthcare*

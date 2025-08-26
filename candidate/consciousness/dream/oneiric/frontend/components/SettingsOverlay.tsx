@@ -8,11 +8,11 @@ interface SettingsOverlayProps {
 }
 
 export default function SettingsOverlay({ isOpen, onClose }: SettingsOverlayProps) {
-  const { 
-    isRecursionEnabled, 
-    setRecursionEnabled, 
-    isDriftLoggingEnabled, 
-    setDriftLoggingEnabled 
+  const {
+    isRecursionEnabled,
+    setRecursionEnabled,
+    isDriftLoggingEnabled,
+    setDriftLoggingEnabled
   } = useSettings();
 
   if (!isOpen) return null;
@@ -29,13 +29,13 @@ export default function SettingsOverlay({ isOpen, onClose }: SettingsOverlayProp
             ✕
           </button>
         </div>
-        
+
         <div className="space-y-6">
           <div>
             <h3 className="text-sm font-medium text-gray-900 mb-3">
               Dream Generation
             </h3>
-            
+
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <label className="text-sm text-gray-700">
@@ -48,7 +48,7 @@ export default function SettingsOverlay({ isOpen, onClose }: SettingsOverlayProp
                   className="toggle-switch"
                 />
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <label className="text-sm text-gray-700">
                   Drift Logging
@@ -62,12 +62,12 @@ export default function SettingsOverlay({ isOpen, onClose }: SettingsOverlayProp
               </div>
             </div>
           </div>
-          
+
           <div>
             <h3 className="text-sm font-medium text-gray-900 mb-3">
               Experience
             </h3>
-            
+
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <label className="text-sm text-gray-700">
@@ -79,7 +79,7 @@ export default function SettingsOverlay({ isOpen, onClose }: SettingsOverlayProp
                   className="toggle-switch"
                 />
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <label className="text-sm text-gray-700">
                   Symbolic Overlays
@@ -93,7 +93,7 @@ export default function SettingsOverlay({ isOpen, onClose }: SettingsOverlayProp
             </div>
           </div>
         </div>
-        
+
         <div className="mt-8 flex justify-end space-x-3">
           <button
             onClick={onClose}

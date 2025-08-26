@@ -20,19 +20,19 @@ mkdir -p "$LOG_DIR"
 send_notification() {
     local severity="$1"
     local message="$2"
-    
+
     # Slack notification
     if [ -n "$SLACK_WEBHOOK_URL" ]; then
         curl -X POST -H 'Content-type: application/json' \
             --data "{\"text\":\"🔒 LUKHAS Security Alert [$severity]: $message\"}" \
             "$SLACK_WEBHOOK_URL" 2>/dev/null || true
     fi
-    
+
     # Email notification
     if [ -n "$EMAIL" ]; then
         echo "$message" | mail -s "LUKHAS Security Alert [$severity]" "$EMAIL" 2>/dev/null || true
     fi
-    
+
     # Log to file
     echo "[$(date)] [$severity] $message" >> "$LOG_FILE"
 }
@@ -65,7 +65,7 @@ if [ $SAFETY_EXIT -ne 0 ]; then
     VULN_COUNT=$(echo "$SAFETY_OUTPUT" | jq '.vulnerabilities | length' 2>/dev/null || echo "unknown")
     echo "   ⚠️ Found $VULN_COUNT vulnerabilities" | tee -a "$LOG_FILE"
     HIGH_VULNS=$(echo "$SAFETY_OUTPUT" | jq '[.vulnerabilities[] | select(.severity == "high")] | length' 2>/dev/null || echo "0")
-    
+
     if [ "$HIGH_VULNS" -gt "0" ]; then
         send_notification "HIGH" "Found $HIGH_VULNS high-severity vulnerabilities"
     fi
@@ -144,11 +144,11 @@ echo "3. Use 'make security-fix' to automatically fix issues" >> "$REPORT_FILE"
 # Auto-fix if LUKHAS_AUTO_FIX is set
 if [ "${LUKHAS_AUTO_FIX:-false}" = "true" ]; then
     echo -e "\n🔧 Auto-fix enabled, attempting to fix issues..." | tee -a "$LOG_FILE"
-    
+
     # Only auto-fix if there are vulnerabilities
     if [ "${VULN_COUNT:-0}" -gt "0" ] || [ "${AUDIT_COUNT:-0}" -gt "0" ]; then
         python scripts/security-update.py --auto --no-test >> "$LOG_FILE" 2>&1
-        
+
         if [ $? -eq 0 ]; then
             send_notification "INFO" "Auto-fix completed successfully"
             echo "   ✅ Auto-fix completed" | tee -a "$LOG_FILE"

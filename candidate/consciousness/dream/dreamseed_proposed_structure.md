@@ -15,7 +15,7 @@ creativity/dream/
 ├── core/                          # Core DREAMSEED components
 │   ├── __init__.py
 │   ├── dreamseed_router.py       # Main protocol entry point
-│   ├── tier_controller.py        # Access control implementation  
+│   ├── tier_controller.py        # Access control implementation
 │   ├── input_fusion_engine.py    # Multimodal input processing
 │   ├── dream_mutation_engine.py  # Memory alteration system
 │   └── zk_audit_validator.py     # Zero-knowledge proof system
@@ -63,18 +63,18 @@ creativity/dream/
 async def route_dream_request(request: DreamSeedRequest) -> DreamResponse:
     """
     Main routing function for DREAMSEED requests
-    
+
     ΛTAG: ΛSEED::ROUTE
     """
     # 1. Validate user tier
     tier_level = await tier_controller.get_user_tier(request.user_id)
-    
+
     # 2. Validate request against tier permissions
     validation = await tier_controller.validate_request(request, tier_level)
-    
+
     # 3. Generate ZK commitment for audit
     input_commitment = await zk_audit_validator.create_input_commitment(request)
-    
+
     # 4. Route to appropriate processing pipeline
     if validation.approved:
         return await process_dream_seed(request, tier_level, input_commitment)
@@ -85,17 +85,17 @@ async def process_dream_seed(request, tier_level, commitment):
     """Process validated dream seed request"""
     # Symbolic tagging
     emit_glyph(f"ΛSEED::T{tier_level}::PROCESS")
-    
+
     # Fuse multimodal inputs
     fused_inputs = await input_fusion_engine.fuse(request.seed_inputs)
-    
+
     # Generate dream narratives
     narratives = await generate_dream_narratives(fused_inputs, request.constraints)
-    
+
     # Apply mutations if permitted
     if tier_level >= 3:
         mutations = await dream_mutation_engine.apply(narratives)
-    
+
     return narratives
 ```
 
@@ -114,7 +114,7 @@ TIER_CAPABILITIES = {
         tag="ΛSEED::T0"
     ),
     1: TierConfig(
-        name="Dreamer", 
+        name="Dreamer",
         max_inputs=2,
         input_types=["text", "emotion"],
         dream_paths=2,
@@ -147,15 +147,15 @@ async def enforce_tier_permissions(user_id: str, requested_operation: str) -> bo
     """Enforce tier-based permissions with symbolic tracking"""
     tier = await get_user_tier(user_id)
     capabilities = TIER_CAPABILITIES[tier]
-    
+
     # Emit permission check GLYPH
     emit_glyph(f"{capabilities.tag}::CHECK::{requested_operation}")
-    
+
     # Validate operation
     if not has_permission(capabilities, requested_operation):
         emit_glyph(f"{capabilities.tag}::DENIED::{requested_operation}")
         return False
-        
+
     emit_glyph(f"{capabilities.tag}::GRANTED::{requested_operation}")
     return True
 ```
@@ -165,7 +165,7 @@ async def enforce_tier_permissions(user_id: str, requested_operation: str) -> bo
 ```python
 class InputFusionEngine:
     """Fuses multimodal inputs into unified dream seeds"""
-    
+
     def __init__(self):
         self.modality_processors = {
             "image": ImageToGlyph(),
@@ -174,34 +174,34 @@ class InputFusionEngine:
             "compound": CompoundToSymbol(),
             "emotion": EmotionToDrift()
         }
-    
+
     async def fuse_multimodal_inputs(self, seed_inputs: List[SeedInput]) -> FusedDreamSeed:
         """
         Transform and fuse multiple input modalities
-        
+
         ΛTAG: ΛFUSE::MULTIMODAL
         """
         processed_inputs = []
         entropy_map = {}
-        
+
         for input_item in seed_inputs:
             # Process based on type
             processor = self.modality_processors[input_item.type]
             processed = await processor.process(input_item.content)
-            
+
             # Track entropy
             entropy_map[input_item.type] = calculate_entropy(processed)
-            
+
             # Add to fusion
             processed_inputs.append(processed)
-        
+
         # Fuse all inputs into unified seed
         fused_seed = await self._perform_fusion(processed_inputs)
-        
+
         # Add symbolic annotations
         fused_seed.glyphs = self._generate_fusion_glyphs(processed_inputs)
         fused_seed.entropy_signature = entropy_map
-        
+
         return fused_seed
 ```
 
@@ -210,34 +210,34 @@ class InputFusionEngine:
 ```python
 class DreamMutationEngine:
     """Applies symbolic mutations based on dream content"""
-    
-    async def apply_mutations(self, dream_narrative: DreamNarrative, 
+
+    async def apply_mutations(self, dream_narrative: DreamNarrative,
                             user_tier: int) -> MutationResult:
         """
         Apply dream-induced mutations to memory structures
-        
+
         ΛTAG: ΛMUTATE::DREAM
         """
         # Safety check
         if not await self._validate_mutation_safety(dream_narrative):
             emit_glyph("ΛMUTATE::BLOCKED::SAFETY")
             return MutationResult(blocked=True, reason="safety_violation")
-        
+
         # Get mutation candidates
         candidates = await self._identify_mutation_targets(dream_narrative)
-        
+
         # Apply tier-based limits
         allowed_mutations = self._filter_by_tier(candidates, user_tier)
-        
+
         # Execute mutations with tracking
         mutations_applied = []
         for mutation in allowed_mutations:
             # Create ZK proof of mutation
             proof = await create_mutation_proof(mutation)
-            
+
             # Apply mutation
             result = await self._apply_single_mutation(mutation)
-            
+
             # Track
             mutations_applied.append({
                 "target": mutation.target,
@@ -246,7 +246,7 @@ class DreamMutationEngine:
                 "proof": proof,
                 "glyph": f"ΛMUTATE::APPLY::{mutation.type}"
             })
-        
+
         return MutationResult(
             mutations=mutations_applied,
             entropy_delta=calculate_entropy_delta(mutations_applied)
@@ -261,7 +261,7 @@ class DreamMutationEngine:
 
 ```
 ΛSEED::{tier}::{operation}      # Seed operations
-ΛDREAM::{phase}::{detail}        # Dream processing phases  
+ΛDREAM::{phase}::{detail}        # Dream processing phases
 ΛMUTATE::{action}::{target}      # Mutation operations
 ΛCOLLAPSE::{mode}::{score}       # Timeline collapse events
 ΛAUDIT::{type}::{status}         # Audit trail markers
@@ -276,7 +276,7 @@ class DreamMutationEngine:
 # In dreamseed_router.py
 emit_glyph("ΛSEED::T3::INIT")  # Tier 3 initialization
 
-# In quantum_branch_controller.py  
+# In quantum_branch_controller.py
 emit_glyph("ΛBRANCH::4::QUANTUM")  # 4 quantum branches created
 
 # In dream_mutation_engine.py
@@ -312,7 +312,7 @@ async def check_recursion_depth(dream_context: DreamContext) -> bool:
 # In dream_mutation_engine.py
 PROTECTED_MEMORY_REGIONS = [
     "core_ethics",
-    "identity_matrix", 
+    "identity_matrix",
     "safety_protocols"
 ]
 
@@ -356,7 +356,7 @@ def sanitize_input_glyphs(glyphs: List[str]) -> List[str]:
 ## 🚀 Implementation Timeline
 
 ### **Phase 1: Foundation (Weeks 1-2)**
-- Implement `tier_controller.py` 
+- Implement `tier_controller.py`
 - Create basic `dreamseed_router.py`
 - Set up directory structure
 
@@ -408,13 +408,13 @@ def sanitize_input_glyphs(glyphs: List[str]) -> List[str]:
 
 1. **Validate Architecture** - Review with team for feasibility
 2. **Create Proof of Concept** - Build minimal tier controller
-3. **Define GLYPH Standard** - Formalize symbolic tagging 
+3. **Define GLYPH Standard** - Formalize symbolic tagging
 4. **Security Review** - Assess risk mitigation strategies
 5. **Begin Implementation** - Start with Phase 1 components
 
 ---
 
-**Document Status**: PROPOSED  
-**Author**: Claude-Sonnet-4  
-**Date**: 2025-07-21  
+**Document Status**: PROPOSED
+**Author**: Claude-Sonnet-4
+**Date**: 2025-07-21
 **ΛTAG**: ΛDREAMSEED::PROPOSAL::v1.0

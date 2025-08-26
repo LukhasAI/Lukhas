@@ -5,8 +5,8 @@
 ║ Comprehensive type definitions and base classes for quantum creative expression
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ Module: quantum_creative_types.py
-║ Path: creativity/quantum_creative_types.py
+║ Module: qi_creative_types.py
+║ Path: creativity/qi_creative_types.py
 ║ Version: 2.1.0 | Created: 2025-07-29
 ║ Authors: LUKHAS AI Development Team
 ╠══════════════════════════════════════════════════════════════════════════════════
@@ -42,7 +42,7 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 import numpy as np
-from qiskit import QuantumCircuit
+from qiskit import QICircuit
 
 
 @dataclass
@@ -52,7 +52,7 @@ class CreativeExpression:
     content: str
     modality: str
     metadata: dict[str, Any] = field(default_factory=dict)
-    quantum_signature: Optional[np.ndarray] = None
+    qi_signature: Optional[np.ndarray] = None
     emotional_resonance: float = 0.0
     cultural_context: Optional[dict[str, Any]] = None
     timestamp: float = field(default_factory=lambda: asyncio.get_event_loop().time())
@@ -106,7 +106,7 @@ class SemanticField:
 class QIWordState:
     """Quantum state representation of words."""
 
-    circuit: QuantumCircuit
+    circuit: QICircuit
     semantic_field: SemanticField
     amplitude_vector: np.ndarray
     phase_information: np.ndarray
@@ -153,7 +153,7 @@ class ProtectedCreativeWork:
 
     original_work: CreativeExpression
     creator_identity: CreatorIdentity
-    quantum_watermark: np.ndarray
+    qi_watermark: np.ndarray
     blockchain_hash: str
     license: str
     usage_rights: dict[str, Any]
@@ -189,7 +189,7 @@ class SessionConfig:
     max_duration: float
     convergence_threshold: float
     collaboration_mode: str
-    quantum_coherence_time: float
+    qi_coherence_time: float
     evaluation_metrics: list[str]
 
 
@@ -289,7 +289,7 @@ class QIImaginationProcessor(QICreativeComponent):
     """Processes imagination through superposition-like state."""
 
     async def initialize(self) -> None:
-        self.imagination_circuit = QuantumCircuit(8)
+        self.imagination_circuit = QICircuit(8)
 
     async def process(self, concept: str) -> np.ndarray:
         # Mock implementation
@@ -360,7 +360,7 @@ class ZeroKnowledgeCreativityValidator(QICreativeComponent):
     """Zero-knowledge validator for creative authenticity."""
 
     async def initialize(self) -> None:
-        self.validation_circuit = QuantumCircuit(16)
+        self.validation_circuit = QICircuit(16)
 
     async def process(self, creative_work: CreativeExpression) -> bool:
         return True  # Mock validation
@@ -379,7 +379,7 @@ class QIVisualArtist(QICreativeComponent):
         return {
             "visual_elements": [],
             "composition": "",
-            "style": "quantum_impressionist",
+            "style": "qi_impressionist",
         }
 
 
@@ -400,7 +400,7 @@ class QICodePoet(QICreativeComponent):
         self.poetry_patterns = ["sonnet", "haiku", "free_verse", "algorithmic"]
 
     async def process(self, theme: str) -> str:
-        return f"# Quantum code poem\n# Theme: {theme}\nwhile True:\n    beauty += quantum_uncertainty"
+        return f"# Quantum code poem\n# Theme: {theme}\nwhile True:\n    beauty += qi_uncertainty"
 
 
 class QIChoreographer(QICreativeComponent):
@@ -409,13 +409,13 @@ class QIChoreographer(QICreativeComponent):
     async def initialize(self) -> None:
         self.movement_vocabulary = [
             "spiral",
-            "quantum_leap",
+            "qi_leap",
             "entanglement",
             "collapse",
         ]
 
     async def process(self, music: Any) -> list[str]:
-        return ["quantum_spiral(0.5)", "entangled_duet(2.0)", "probability_wave(1.0)"]
+        return ["qi_spiral(0.5)", "entangled_duet(2.0)", "probability_wave(1.0)"]
 
 
 class QI3DSculptor(QICreativeComponent):
@@ -423,13 +423,13 @@ class QI3DSculptor(QICreativeComponent):
 
     async def initialize(self) -> None:
         self.sculpture_materials = [
-            "quantum_marble",
+            "qi_marble",
             "probability_clay",
             "photon_glass",
         ]
 
     async def process(self, concept: str) -> dict[str, Any]:
-        return {"vertices": [], "faces": [], "quantum_properties": {}}
+        return {"vertices": [], "faces": [], "qi_properties": {}}
 
 
 # Advanced systems
@@ -486,7 +486,7 @@ class EmotionImageryQuantumMapper(QICreativeComponent):
         self.emotion_imagery_map = {}
 
     async def process(self, emotion: str) -> list[str]:
-        return ["quantum_ripple", "probability_cloud", "coherence_wave"]
+        return ["qi_ripple", "probability_cloud", "coherence_wave"]
 
 
 class PhoneticHarmonyAnalyzer(QICreativeComponent):
@@ -675,7 +675,7 @@ class QIIdeaSynthesizer(QICreativeComponent):
     """Synthesizes ideas through quantum processes."""
 
     async def initialize(self) -> None:
-        self.synthesis_circuit = QuantumCircuit(12)
+        self.synthesis_circuit = QICircuit(12)
 
     async def process(self, ideas: list[str]) -> str:
         return "Synthesized quantum idea"
@@ -782,9 +782,9 @@ class NeuroHaikuGenerator(QICreativeComponent):
         """Generate a haiku with specified expansion depth."""
         return "Old pond\nFrog jumps in\nSound of water"
 
-    async def process(self, context: str) -> QuantumHaiku:
+    async def process(self, context: str) -> QIHaiku:
         haiku_text = self.generate_haiku()
-        return QuantumHaiku(
+        return QIHaiku(
             content=haiku_text, modality="haiku", lines=haiku_text.split("\n")
         )
 
@@ -795,7 +795,7 @@ class NeuroHaikuGenerator(QICreativeComponent):
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": True,
         "ethics_compliance": True,
         "consolidation_complete": True,
@@ -810,7 +810,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "consolidation_status": "unified",
     "last_update": "2025-07-29",

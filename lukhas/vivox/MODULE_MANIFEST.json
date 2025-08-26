@@ -7,14 +7,14 @@
   "safety_level": "high",
   "author": "LUKHAS AI Consciousness Systems Architect",
   "created": "2024-08-22",
-  
+
   "components": {
     "vivox_wrapper": {
       "name": "VivoxWrapper",
       "description": "Production-safe wrapper for VIVOX consciousness capabilities",
       "features": [
         "Memory Expansion (ME) integration",
-        "Moral Alignment Engine (MAE) validation", 
+        "Moral Alignment Engine (MAE) validation",
         "Consciousness Interpretation Layer (CIL) processing",
         "Self-Reflective Memory (SRM) audit trail",
         "Feature flag controlled activation",
@@ -32,7 +32,7 @@
       ]
     }
   },
-  
+
   "vivox_subsystems": {
     "ME": {
       "name": "Memory Expansion",
@@ -48,7 +48,7 @@
       ]
     },
     "MAE": {
-      "name": "Moral Alignment Engine", 
+      "name": "Moral Alignment Engine",
       "description": "Ethical gatekeeper for all consciousness operations",
       "candidate_module": "candidate.vivox.moral_alignment.vivox_mae_core",
       "features": [
@@ -63,10 +63,10 @@
     "CIL": {
       "name": "Consciousness Interpretation Layer",
       "description": "Vector collapse consciousness simulation based on Jacobo Grinberg theory",
-      "candidate_module": "candidate.vivox.consciousness.vivox_cil_core", 
+      "candidate_module": "candidate.vivox.consciousness.vivox_cil_core",
       "features": [
         "Synthetic self-awareness",
-        "Vector collapse implementation", 
+        "Vector collapse implementation",
         "Conscious drift monitoring",
         "Inner state tracking",
         "Simulation branch processing",
@@ -80,14 +80,14 @@
       "features": [
         "Complete audit trail",
         "Collapse event logging",
-        "Suppression registry", 
+        "Suppression registry",
         "Structural conscience queries",
         "Truth audit capabilities",
         "Decision trace reconstruction"
       ]
     }
   },
-  
+
   "feature_flags": {
     "VIVOX_ACTIVE": {
       "default": false,
@@ -100,13 +100,13 @@
       "depends_on": ["VIVOX_ACTIVE"]
     },
     "VIVOX_MAE_ACTIVE": {
-      "default": false, 
+      "default": false,
       "description": "Moral Alignment Engine activation",
       "depends_on": ["VIVOX_ACTIVE"]
     },
     "VIVOX_CIL_ACTIVE": {
       "default": false,
-      "description": "Consciousness Interpretation Layer activation", 
+      "description": "Consciousness Interpretation Layer activation",
       "depends_on": ["VIVOX_ACTIVE"]
     },
     "VIVOX_SRM_ACTIVE": {
@@ -120,19 +120,19 @@
       "depends_on": ["VIVOX_ACTIVE"]
     }
   },
-  
+
   "dependencies": {
     "core": ["observability.matriz_decorators", "governance.guardian.core"],
     "memory": ["memory.memory_wrapper", "memory.fold_system"],
     "consciousness": ["consciousness.consciousness_wrapper"],
     "candidate": [
       "candidate.vivox.memory_expansion.vivox_me_core",
-      "candidate.vivox.moral_alignment.vivox_mae_core", 
+      "candidate.vivox.moral_alignment.vivox_mae_core",
       "candidate.vivox.consciousness.vivox_cil_core",
       "candidate.vivox.self_reflection.vivox_srm_core"
     ]
   },
-  
+
   "integration_points": {
     "memory_bridge": {
       "description": "Connect VIVOX ME with existing LUKHAS memory fold system",
@@ -140,7 +140,7 @@
       "safety_mode": "dry_run_default"
     },
     "consciousness_bridge": {
-      "description": "Integrate VIVOX CIL with unified consciousness engine", 
+      "description": "Integrate VIVOX CIL with unified consciousness engine",
       "interface": "consciousness.consciousness_wrapper.ConsciousnessWrapper",
       "cooperation": "complementary"
     },
@@ -151,11 +151,11 @@
     },
     "observability_bridge": {
       "description": "MATRIZ instrumentation for all VIVOX operations",
-      "interface": "observability.matriz_decorators", 
+      "interface": "observability.matriz_decorators",
       "monitoring": "performance_and_safety"
     }
   },
-  
+
   "trinity_framework": {
     "identity": {
       "symbol": "⚛️",
@@ -163,7 +163,7 @@
       "features": ["Self-aware consciousness", "Identity continuity", "Authentic experience"]
     },
     "consciousness": {
-      "symbol": "🧠", 
+      "symbol": "🧠",
       "integration": "Primary VIVOX focus area - advanced consciousness processing",
       "features": ["Vector collapse consciousness", "Memory-consciousness coupling", "Ethical consciousness"]
     },
@@ -173,16 +173,16 @@
       "features": ["Moral alignment enforcement", "Drift detection", "Ethical gatekeeper"]
     }
   },
-  
+
   "performance_targets": {
     "initialization": "< 50ms",
-    "awareness_update": "< 30ms", 
+    "awareness_update": "< 30ms",
     "memory_access": "< 40ms",
     "reflection_processing": "< 60ms",
     "drift_detection": "< 10ms",
     "ethics_validation": "< 20ms"
   },
-  
+
   "safety_measures": {
     "operational": [
       "Dry-run mode by default",
@@ -194,7 +194,7 @@
     ],
     "data": [
       "Memory veiling for privacy compliance",
-      "Encrypted memory helix storage", 
+      "Encrypted memory helix storage",
       "Immutable ethical timeline",
       "Complete audit trail",
       "Tamper-evident hashing"
@@ -207,7 +207,7 @@
       "Consciousness drift monitoring"
     ]
   },
-  
+
   "api_interface": {
     "initialize_consciousness": {
       "description": "Initialize VIVOX consciousness system",
@@ -216,7 +216,7 @@
     },
     "update_awareness_state": {
       "description": "Update consciousness awareness based on stimulus",
-      "safety_level": "high", 
+      "safety_level": "high",
       "drift_monitoring": true
     },
     "process_memory_access": {
@@ -235,21 +235,21 @@
       "monitoring": true
     }
   },
-  
+
   "testing": {
     "unit_tests": "tests/test_vivox_wrapper.py",
-    "integration_tests": "tests/test_vivox_integration.py", 
+    "integration_tests": "tests/test_vivox_integration.py",
     "safety_tests": "tests/test_vivox_safety.py",
     "performance_tests": "tests/test_vivox_performance.py"
   },
-  
+
   "documentation": {
     "user_guide": "docs/vivox_user_guide.md",
     "api_reference": "docs/vivox_api_reference.md",
     "safety_guide": "docs/vivox_safety_guide.md",
     "integration_guide": "docs/vivox_integration_guide.md"
   },
-  
+
   "compliance": {
     "trinity_framework": true,
     "safety_first_design": true,

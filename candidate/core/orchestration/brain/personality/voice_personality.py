@@ -40,7 +40,9 @@ except ImportError:
     )
 
 try:
-    from candidate.orchestration.brain.personality.personality_refiner import PersonalityRefiner
+    from candidate.orchestration.brain.personality.personality_refiner import (
+        PersonalityRefiner,
+    )
 
     PERSONALITY_REFINER_AVAILABLE = True
 except ImportError:

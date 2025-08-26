@@ -65,7 +65,7 @@ Master Subscription Agreement
 Privacy Policy
 Cookie Policy
 Datadog Status →: All Systems Operational
- 
+
 All Systems Operational
 New Key
 
@@ -81,7 +81,7 @@ Not Scoped
 Edit
 Actions API Access
 PREVIEW
- 
+
 Disabled
 Enable
 Finish

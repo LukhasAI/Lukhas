@@ -30,7 +30,7 @@ async def enhanced_gemini_response(user_question: str):
     """
     Gemini gets multiple pre-simulated scenarios from LUKHAS
     """
-    
+
     # Step 1: LUKHAS dreams 5 possible approaches
     dream_scenarios = await lukhas_dream_api.simulate_scenarios(
         question=user_question,
@@ -38,7 +38,7 @@ async def enhanced_gemini_response(user_question: str):
         scenario_count=5,
         include_edge_cases=True
     )
-    
+
     # Step 2: LUKHAS evaluates each scenario
     evaluations = await lukhas_dream_api.evaluate_scenarios(
         scenarios=dream_scenarios,
@@ -49,7 +49,7 @@ async def enhanced_gemini_response(user_question: str):
             "user_satisfaction": 0.2
         }
     )
-    
+
     # Step 3: Send best scenarios to Gemini as context
     gemini_response = await gemini.generate(
         prompt=user_question,
@@ -59,14 +59,14 @@ async def enhanced_gemini_response(user_question: str):
             "recommended_style": evaluations.optimal_tone
         }
     )
-    
+
     # Step 4: LUKHAS learns from actual outcome
     await lukhas_dream_api.record_outcome(
         prediction=evaluations,
         actual=gemini_response,
         model="gemini"
     )
-    
+
     return gemini_response
 ```
 
@@ -77,32 +77,32 @@ class LUKHASEnhancedOpenAI:
     """
     Make OpenAI even better through dream simulation
     """
-    
+
     async def collaborative_response(self, prompt: str):
         # 1. LUKHAS dreams possible responses
         dreams = await self.lukhas.dream_responses(prompt)
-        
+
         # 2. OpenAI generates with dream context
         openai_response = await openai.create_completion(
             prompt=prompt,
             system=f"""
             You have access to pre-simulated scenarios:
             {dreams.successful_paths}
-            
+
             Avoid these discovered pitfalls:
             {dreams.failure_modes}
-            
+
             Optimal approach appears to be:
             {dreams.recommended_strategy}
             """
         )
-        
+
         # 3. LUKHAS validates response quality
         validation = await self.lukhas.validate_response(
             openai_response,
             expected_quality=dreams.quality_prediction
         )
-        
+
         # 4. Continuous improvement loop
         if validation.score < 0.8:
             # LUKHAS helps OpenAI try again
@@ -111,7 +111,7 @@ class LUKHASEnhancedOpenAI:
                 dreams.alternative_approaches
             )
             return improved
-            
+
         return openai_response
 ```
 
@@ -127,7 +127,7 @@ class UniversalAIDreamEnhancer:
     """
     LUKHAS Dream API - Works with ANY AI model
     """
-    
+
     def __init__(self):
         self.dream_engine = DreamEngine()
         self.colony_consensus = ColonyConsensus()
@@ -138,7 +138,7 @@ class UniversalAIDreamEnhancer:
             'llama': LlamaProfile(),
             'custom': CustomModelProfile()
         }
-        
+
     async def enhance_any_model(self,
                                 model_name: str,
                                 request: Dict,
@@ -146,10 +146,10 @@ class UniversalAIDreamEnhancer:
         """
         Universal enhancement for any AI model
         """
-        
+
         # 1. Understand the model's characteristics
         profile = self.model_profiles.get(model_name)
-        
+
         # 2. Dream scenarios tailored to model's strengths
         scenarios = await self.dream_scenarios_for_model(
             request=request,
@@ -157,14 +157,14 @@ class UniversalAIDreamEnhancer:
             model_weaknesses=profile.weaknesses,
             optimization_target=profile.optimization_target
         )
-        
+
         # 3. Pre-evaluate using colony consensus
         evaluations = await self.colony_consensus.evaluate(
             scenarios=scenarios,
             evaluator_count=100,  # 100 agents evaluate
             consensus_method="weighted_by_expertise"
         )
-        
+
         # 4. Create enhancement package
         return Enhancement(
             recommended_approach=evaluations.best_scenario,
@@ -182,22 +182,22 @@ class AIModelSelfTuning:
     """
     Help AI models tune themselves through dream simulation
     """
-    
-    async def self_tune_through_dreams(self, 
+
+    async def self_tune_through_dreams(self,
                                       model: AIModel,
                                       training_data: Dataset,
                                       target_metrics: Dict) -> TunedModel:
         """
         Models improve by dreaming their own training
         """
-        
+
         # 1. Dream different parameter configurations
         param_dreams = await self.dream_engine.simulate_parameters(
             current_params=model.get_parameters(),
             search_space=self.define_search_space(model),
             simulation_count=1000  # Try 1000 configurations in dreams
         )
-        
+
         # 2. Simulate training with each configuration
         training_simulations = []
         for param_set in param_dreams:
@@ -209,24 +209,24 @@ class AIModelSelfTuning:
                 epochs_simulated=100
             )
             training_simulations.append(sim_result)
-        
+
         # 3. Colony consensus on best configuration
         best_config = await self.colony_consensus.select_best(
             simulations=training_simulations,
             criteria=target_metrics,
             voting_method="byzantine_fault_tolerant"
         )
-        
+
         # 4. Apply configuration with confidence
         tuned_model = model.apply_parameters(best_config.parameters)
-        
+
         # 5. Continuous dream-based improvement
         self.schedule_continuous_tuning(
             model=tuned_model,
             dream_frequency="every_1000_requests",
             improvement_threshold=0.01
         )
-        
+
         return tuned_model
 ```
 
@@ -322,32 +322,32 @@ paths:
 
 #### 1. **Medical Diagnosis Enhancement**
 ```python
-async def enhanced_medical_ai(symptoms: List[str], 
+async def enhanced_medical_ai(symptoms: List[str],
                               patient_history: Dict) -> Diagnosis:
     """
     Any medical AI gets better with LUKHAS dreams
     """
-    
+
     # LUKHAS dreams rare disease scenarios
     rare_scenarios = await lukhas_dream_api.simulate_rare_conditions(
         symptoms=symptoms,
         prevalence_threshold=0.001  # 1 in 1000 cases
     )
-    
+
     # Send to medical AI with edge cases pre-explored
     medical_ai_response = await medical_ai.diagnose(
         symptoms=symptoms,
         history=patient_history,
         consider_rare=rare_scenarios
     )
-    
+
     # LUKHAS validates through consensus of medical knowledge
     validation = await lukhas_dream_api.medical_consensus(
         diagnosis=medical_ai_response,
         colony_size=50,  # 50 medical expert agents
         confidence_required=0.95
     )
-    
+
     return validation.verified_diagnosis
 ```
 
@@ -358,7 +358,7 @@ async def enhanced_code_generation(requirements: str,
     """
     Make GitHub Copilot or similar even better
     """
-    
+
     # LUKHAS dreams edge cases and security issues
     code_dreams = await lukhas_dream_api.dream_code_scenarios(
         requirements=requirements,
@@ -366,7 +366,7 @@ async def enhanced_code_generation(requirements: str,
         security_checks=True,
         performance_analysis=True
     )
-    
+
     # Send to code AI with pre-discovered issues
     code = await code_ai.generate(
         requirements=requirements,
@@ -375,7 +375,7 @@ async def enhanced_code_generation(requirements: str,
         include_tests=code_dreams.test_cases,
         optimization_hints=code_dreams.performance_tips
     )
-    
+
     return code
 ```
 
@@ -385,27 +385,27 @@ async def multi_model_consensus(question: str) -> Answer:
     """
     Get OpenAI, Gemini, and Claude to work together
     """
-    
+
     # LUKHAS creates shared dream space
     shared_context = await lukhas_dream_api.create_shared_context(
         question=question,
         models=["openai", "gemini", "claude"]
     )
-    
+
     # Each model responds with shared context
     responses = await asyncio.gather(
         openai.complete(question, context=shared_context.for_openai),
         gemini.generate(question, context=shared_context.for_gemini),
         claude.complete(question, context=shared_context.for_claude)
     )
-    
+
     # LUKHAS harmonizes responses through colony consensus
     final_answer = await lukhas_dream_api.harmonize_responses(
         responses=responses,
         method="weighted_by_confidence",
         preserve_diversity=True
     )
-    
+
     return final_answer
 ```
 
@@ -416,35 +416,35 @@ class DreamBasedAgentTuning:
     """
     Agents improve themselves by dreaming their own experiences
     """
-    
+
     async def tune_agent_personality(self, agent: Agent) -> TunedAgent:
         """
         Agent dreams different personality configurations
         """
-        
+
         # Current personality (using our hormone system!)
         current_hormones = agent.get_hormone_levels()
-        
+
         # Dream different hormone configurations
         personality_dreams = []
         for _ in range(100):
             # Random hormone configuration
             dream_hormones = self.randomize_hormones()
-            
+
             # Simulate 1000 interactions with this personality
             simulation = await self.dream_engine.simulate_interactions(
                 agent_config=agent.config,
                 hormone_levels=dream_hormones,
                 interaction_count=1000
             )
-            
+
             personality_dreams.append({
                 'hormones': dream_hormones,
                 'performance': simulation.success_rate,
                 'user_satisfaction': simulation.satisfaction_score,
                 'stability': simulation.stability_metric
             })
-        
+
         # Find optimal personality through colony consensus
         optimal_personality = await self.colony_consensus.select_optimal(
             personalities=personality_dreams,
@@ -454,36 +454,36 @@ class DreamBasedAgentTuning:
                 'stability': 0.2
             }
         )
-        
+
         # Apply optimal personality
         agent.set_hormone_levels(optimal_personality.hormones)
-        
+
         return agent
-    
+
     async def evolutionary_tuning(self, agent_population: List[Agent]):
         """
         Population of agents evolves through shared dreams
         """
-        
+
         for generation in range(100):
             # Each agent dreams of being other agents
             for agent in agent_population:
                 # Dream of being top performers
                 role_models = self.get_top_performers(agent_population, top_k=5)
-                
+
                 dreams = await self.dream_engine.simulate_role_models(
                     agent=agent,
                     role_models=role_models,
                     scenarios=50
                 )
-                
+
                 # Learn from dreams
                 improvements = self.extract_improvements(dreams)
                 agent.apply_improvements(improvements)
-            
+
             # Natural selection
             agent_population = self.select_fittest(agent_population)
-            
+
             # Mutation through random dreams
             for agent in random.sample(agent_population, len(agent_population) // 10):
                 random_dream = await self.dream_engine.random_scenario()
@@ -497,7 +497,7 @@ class LUKHASBusinessModel:
     """
     We don't compete - we make everyone better
     """
-    
+
     pricing_tiers = {
         'free': {
             'dreams_per_month': 1000,
@@ -518,7 +518,7 @@ class LUKHASBusinessModel:
             'private_deployment': True
         }
     }
-    
+
     def value_proposition(self):
         return {
             'for_openai': "Make GPT responses more reliable through pre-simulation",
@@ -570,14 +570,14 @@ def enhance_any_ai(ai_function):
     async def enhanced(*args, **kwargs):
         # Dream before execution
         dreams = await lukhas.dream_for_function(ai_function, args, kwargs)
-        
+
         # Execute with dream context
         kwargs['lukhas_dreams'] = dreams
         result = await ai_function(*args, **kwargs)
-        
+
         # Learn from result
         await lukhas.learn_from_outcome(dreams, result)
-        
+
         return result
     return enhanced
 

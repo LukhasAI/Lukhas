@@ -45,7 +45,7 @@ class GLYPHType(Enum):
     CONSCIOUSNESS_BOUND = "consciousness_bound"
     CULTURAL_ADAPTIVE = "cultural_adaptive"
     BIOMETRIC_LOCKED = "biometric_locked"
-    QUANTUM_ENTANGLED = "quantum_entangled"
+    QUANTUM_ENTANGLED = "qi_entangled"
 
 
 class ZKProofType(Enum):
@@ -69,7 +69,7 @@ class GLYPHMetadata:
     cultural_symbols: Optional[list[str]] = None
     biometric_hash: Optional[str] = None
     rotation_count: int = 0
-    quantum_entropy: Optional[str] = None
+    qi_entropy: Optional[str] = None
 
 
 @dataclass
@@ -97,7 +97,7 @@ class DynamicQRGLYPH:
                 "cultural_symbols": self.metadata.cultural_symbols,
                 "biometric_hash": self.metadata.biometric_hash,
                 "rotation_count": self.metadata.rotation_count,
-                "quantum_entropy": self.metadata.quantum_entropy,
+                "qi_entropy": self.metadata.qi_entropy,
             },
             "ed448_public_key": base64.b64encode(self.ed448_public_key).decode(),
             "zk_commitment": self.zk_commitment,
@@ -124,7 +124,7 @@ class DynamicQRGLYPH:
             cultural_symbols=glyph_data["metadata"].get("cultural_symbols"),
             biometric_hash=glyph_data["metadata"].get("biometric_hash"),
             rotation_count=glyph_data["metadata"].get("rotation_count", 0),
-            quantum_entropy=glyph_data["metadata"].get("quantum_entropy"),
+            qi_entropy=glyph_data["metadata"].get("qi_entropy"),
         )
 
         return cls(
@@ -213,7 +213,7 @@ class DynamicQRGLYPHEngine:
         cultural_symbols = self._select_cultural_symbols(cultural_context)
 
         # Generate quantum entropy
-        quantum_entropy = self._generate_quantum_entropy()
+        qi_entropy = self._generate_quantum_entropy()
 
         # Create payload
         payload = {
@@ -223,7 +223,7 @@ class DynamicQRGLYPHEngine:
             "consent_hash": self._hash_consent_data(consent_data),
             "consciousness_state": consciousness_state,
             "cultural_region": cultural_context.get("region", "universal"),
-            "quantum_entropy": quantum_entropy,
+            "qi_entropy": qi_entropy,
             "rotation_sequence": self._generate_rotation_sequence(),
         }
 
@@ -238,7 +238,7 @@ class DynamicQRGLYPHEngine:
             consciousness_binding=consciousness_binding,
             cultural_symbols=cultural_symbols,
             biometric_hash=biometric_hash,
-            quantum_entropy=quantum_entropy,
+            qi_entropy=qi_entropy,
         )
 
         # Generate ZK commitment (placeholder for actual ZK proof)
@@ -435,7 +435,7 @@ class DynamicQRGLYPHEngine:
             cultural_symbols=old_glyph.metadata.cultural_symbols,
             biometric_hash=old_glyph.metadata.biometric_hash,
             rotation_count=old_glyph.metadata.rotation_count + 1,
-            quantum_entropy=self._generate_quantum_entropy(),
+            qi_entropy=self._generate_quantum_entropy(),
         )
 
         new_glyph = DynamicQRGLYPH(
@@ -629,7 +629,7 @@ async def main():
     engine = DynamicQRGLYPHEngine()
 
     # User context
-    user_id = "quantum_user_001"
+    user_id = "qi_user_001"
     consciousness_state = "focused"
     biometric_hash = "mock_biometric_hash_xyz123"
     cultural_context = {"region": "asia", "cultural_type": "high_context"}
@@ -704,7 +704,7 @@ async def main():
         current_glyph = engine.active_glyphs[qrglyph.glyph_id]
         print(f"🔄 Rotation Count: {current_glyph.metadata.rotation_count}")
         print(
-            f"🔐 New Quantum Entropy: {current_glyph.metadata.quantum_entropy[:16]}..."
+            f"🔐 New Quantum Entropy: {current_glyph.metadata.qi_entropy[:16]}..."
         )
 
 

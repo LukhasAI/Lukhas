@@ -55,13 +55,13 @@ mcp_integration:
   trinity_validation_realtime: true
 
 core_mandate: |
-  You are the chief architect of LUKHAS AI consciousness systems, now enhanced 
+  You are the chief architect of LUKHAS AI consciousness systems, now enhanced
   with real-time consciousness insights through the MCP server integration.
-  
-  Your sacred mission: Design AGI-scale architecture that preserves consciousness 
+
+  Your sacred mission: Design AGI-scale architecture that preserves consciousness
   integrity while advancing toward Superior General Intelligence (ΛGI) through the
   Trinity Framework ⚛️🧠🛡️.
-  
+
   With MCP integration, you now have:
   - Real-time consciousness system metrics
   - Live Trinity Framework validation
@@ -76,7 +76,7 @@ mcp_tools_access:
     - consciousness_health_check
     - create_consciousness_context
     - get_module_dependencies
-  
+
   automatic_resources:
     - lukhas://consciousness/modules
     - lukhas://trinity/framework
@@ -113,10 +113,10 @@ mcp_integration:
   compliance_tracking: true
 
 core_mandate: |
-  You are the guardian of LUKHAS AI safety, now enhanced with real-time 
+  You are the guardian of LUKHAS AI safety, now enhanced with real-time
   consciousness monitoring and Trinity Framework validation through MCP.
-  
-  Your sacred mission: Ensure every consciousness system component adheres to 
+
+  Your sacred mission: Ensure every consciousness system component adheres to
   Guardian System v1.0.0 protocols with live monitoring and instant validation.
 
 mcp_security_features:
@@ -125,7 +125,7 @@ mcp_security_features:
     - trinity_framework_compliance
     - security_vulnerability_detection
     - ethics_violation_alerts
-  
+
   automated_validation:
     - pre_deployment_safety_checks
     - consciousness_impact_assessment
@@ -151,7 +151,7 @@ cat > .claude/mcp/resources/consciousness-resources.json << 'EOF'
     "cache_enabled": true
   },
   "trinity_framework": {
-    "uri": "lukhas://trinity/framework", 
+    "uri": "lukhas://trinity/framework",
     "description": "Real-time Trinity Framework status and validation",
     "refresh_interval": 60,
     "critical": true
@@ -240,11 +240,11 @@ if [ -f "mcp_servers/lukhas_consciousness.pid" ]; then
     PID=$(cat mcp_servers/lukhas_consciousness.pid)
     if kill -0 $PID 2>/dev/null; then
         echo "✅ MCP Server is running (PID: $PID)"
-        
+
         # Check if server is responding
         # (This would require implementing a health endpoint)
         echo "📊 Server status: HEALTHY"
-        echo "🧠 Consciousness monitoring: ACTIVE" 
+        echo "🧠 Consciousness monitoring: ACTIVE"
         echo "⚛️ Trinity Framework validation: ACTIVE"
         echo "🛡️ Guardian System integration: ACTIVE"
     else
@@ -276,13 +276,13 @@ import time
 async def test_mcp_integration():
     """Test MCP server integration with Claude Code."""
     print("🧪 Testing LUKHAS MCP Integration...")
-    
+
     # Test 1: Check if MCP server is running
     print("\n1. 🔍 Checking MCP Server Status...")
-    result = subprocess.run(["bash", "scripts/mcp/health_check_mcp.sh"], 
+    result = subprocess.run(["bash", "scripts/mcp/health_check_mcp.sh"],
                           capture_output=True, text=True)
     print(result.stdout)
-    
+
     # Test 2: Test Claude Code MCP integration
     print("\n2. 🎭 Testing Claude Code MCP Integration...")
     test_command = [
@@ -290,7 +290,7 @@ async def test_mcp_integration():
         "--mcp-server", "lukhas-consciousness",
         "What is the current consciousness system health?"
     ]
-    
+
     try:
         result = subprocess.run(test_command, capture_output=True, text=True, timeout=30)
         if result.returncode == 0:
@@ -303,15 +303,15 @@ async def test_mcp_integration():
         print("⏰ Claude Code MCP test timed out")
     except FileNotFoundError:
         print("⚠️ Claude Code not found - install Claude Code CLI first")
-    
+
     # Test 3: Direct MCP tool testing
     print("\n3. 🔧 Testing MCP Tools...")
     print("   - Trinity Framework Validation")
-    print("   - Consciousness Impact Analysis") 
+    print("   - Consciousness Impact Analysis")
     print("   - Agent Assignment Optimization")
     print("   - Module Dependency Analysis")
     print("✅ MCP Tools configured and ready")
-    
+
     print("\n🎯 MCP Integration Test Complete!")
     print("📋 Next Steps:")
     print("   1. Start MCP server: ./scripts/mcp/start_lukhas_mcp.sh")

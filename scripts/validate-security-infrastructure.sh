@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ΛiD Authentication System - Security Infrastructure Validation
-# 
+#
 # This script validates the security infrastructure components and
 # ensures all security measures are properly implemented.
 
@@ -30,7 +30,7 @@ test_result() {
     local test_name="$1"
     local result="$2"
     local message="$3"
-    
+
     if [[ "$result" == "PASS" ]]; then
         echo -e "${GREEN}✅ PASS${NC}: $test_name"
         [[ -n "$message" ]] && echo "   $message"
@@ -52,7 +52,7 @@ test_result() {
 # Test environment configuration
 test_environment_config() {
     echo -e "${BLUE}🔧 Testing Environment Configuration...${NC}"
-    
+
     # Check .env.example exists
     if [[ -f ".env.example" ]]; then
         test_result "Environment template exists" "PASS" ".env.example found"
@@ -60,7 +60,7 @@ test_environment_config() {
         test_result "Environment template exists" "FAIL" ".env.example not found"
         return
     fi
-    
+
     # Check required ΛiD auth variables
     local required_vars=(
         "AUTH_PASSWORD_ENABLED"
@@ -76,27 +76,27 @@ test_environment_config() {
         "BREAK_GLASS_OWNER_EMAIL"
         "AUTH_AUDIT_LOGGING"
     )
-    
+
     local missing_vars=()
     for var in "${required_vars[@]}"; do
         if ! grep -q "^$var=" .env.example; then
             missing_vars+=("$var")
         fi
     done
-    
+
     if [[ ${#missing_vars[@]} -eq 0 ]]; then
         test_result "Required auth variables present" "PASS" "All ${#required_vars[@]} variables found"
     else
         test_result "Required auth variables present" "FAIL" "Missing: ${missing_vars[*]}"
     fi
-    
+
     # Check security defaults
     if grep -q "AUTH_PASSWORD_ENABLED=false" .env.example; then
         test_result "Password auth disabled by default" "PASS" "AUTH_PASSWORD_ENABLED=false"
     else
         test_result "Password auth disabled by default" "WARN" "Password auth should be disabled"
     fi
-    
+
     if grep -q "AUTH_PREVENT_ENUMERATION=true" .env.example; then
         test_result "Enumeration protection enabled" "PASS" "AUTH_PREVENT_ENUMERATION=true"
     else
@@ -107,7 +107,7 @@ test_environment_config() {
 # Test HTTPS development setup
 test_https_development() {
     echo -e "${BLUE}🔒 Testing HTTPS Development Setup...${NC}"
-    
+
     # Check Next.js config exists
     if [[ -f "lukhas_website/next.config.js" ]]; then
         test_result "Next.js config exists" "PASS" "next.config.js found"
@@ -115,14 +115,14 @@ test_https_development() {
         test_result "Next.js config exists" "FAIL" "next.config.js not found"
         return
     fi
-    
+
     # Check HTTPS configuration
     if grep -q "server:" lukhas_website/next.config.js && grep -q "https:" lukhas_website/next.config.js; then
         test_result "HTTPS dev config present" "PASS" "Server HTTPS configuration found"
     else
         test_result "HTTPS dev config present" "FAIL" "HTTPS configuration missing"
     fi
-    
+
     # Check security headers
     local security_headers=(
         "X-Content-Type-Options"
@@ -130,20 +130,20 @@ test_https_development() {
         "Referrer-Policy"
         "Permissions-Policy"
     )
-    
+
     local missing_headers=()
     for header in "${security_headers[@]}"; do
         if ! grep -q "$header" lukhas_website/next.config.js; then
             missing_headers+=("$header")
         fi
     done
-    
+
     if [[ ${#missing_headers[@]} -eq 0 ]]; then
         test_result "Security headers configured" "PASS" "All ${#security_headers[@]} headers found"
     else
         test_result "Security headers configured" "WARN" "Missing headers: ${missing_headers[*]}"
     fi
-    
+
     # Check certificate generation script
     if [[ -f "scripts/generate-dev-certs.sh" && -x "scripts/generate-dev-certs.sh" ]]; then
         test_result "Certificate generation script" "PASS" "Script exists and is executable"
@@ -155,7 +155,7 @@ test_https_development() {
 # Test JWKS infrastructure
 test_jwks_infrastructure() {
     echo -e "${BLUE}🔑 Testing JWKS Infrastructure...${NC}"
-    
+
     # Check JWKS TypeScript module
     if [[ -f "lukhas_website/packages/auth/jwks.ts" ]]; then
         test_result "JWKS module exists" "PASS" "jwks.ts found"
@@ -163,14 +163,14 @@ test_jwks_infrastructure() {
         test_result "JWKS module exists" "FAIL" "jwks.ts not found"
         return
     fi
-    
+
     # Check JWKS API endpoint
     if [[ -f "lukhas_website/app/api/.well-known/jwks/route.ts" ]]; then
         test_result "JWKS API endpoint exists" "PASS" "route.ts found"
     else
         test_result "JWKS API endpoint exists" "FAIL" "JWKS endpoint not found"
     fi
-    
+
     # Check JWKS module structure
     local jwks_components=(
         "JWKSManager"
@@ -179,14 +179,14 @@ test_jwks_infrastructure() {
         "getJWKS"
         "rotateKeys"
     )
-    
+
     local missing_components=()
     for component in "${jwks_components[@]}"; do
         if ! grep -q "$component" lukhas_website/packages/auth/jwks.ts; then
             missing_components+=("$component")
         fi
     done
-    
+
     if [[ ${#missing_components[@]} -eq 0 ]]; then
         test_result "JWKS components complete" "PASS" "All ${#jwks_components[@]} components found"
     else
@@ -197,7 +197,7 @@ test_jwks_infrastructure() {
 # Test security infrastructure
 test_security_infrastructure() {
     echo -e "${BLUE}🛡️ Testing Security Infrastructure...${NC}"
-    
+
     # Check security module
     if [[ -f "lukhas_website/packages/auth/security.ts" ]]; then
         test_result "Security module exists" "PASS" "security.ts found"
@@ -205,7 +205,7 @@ test_security_infrastructure() {
         test_result "Security module exists" "FAIL" "security.ts not found"
         return
     fi
-    
+
     # Check security components
     local security_components=(
         "SecurityManager"
@@ -215,23 +215,23 @@ test_security_infrastructure() {
         "logAuditEvent"
         "DEFAULT_SECURITY_CONFIG"
     )
-    
+
     local missing_components=()
     for component in "${security_components[@]}"; do
         if ! grep -q "$component" lukhas_website/packages/auth/security.ts; then
             missing_components+=("$component")
         fi
     done
-    
+
     if [[ ${#missing_components[@]} -eq 0 ]]; then
         test_result "Security components complete" "PASS" "All ${#security_components[@]} components found"
     else
         test_result "Security components complete" "WARN" "Missing: ${missing_components[*]}"
     fi
-    
+
     # Check rate limiting configuration
-    if grep -q "emailRateLimit" lukhas_website/packages/auth/security.ts && 
-       grep -q "ipRateLimit" lukhas_website/packages/auth/security.ts && 
+    if grep -q "emailRateLimit" lukhas_website/packages/auth/security.ts &&
+       grep -q "ipRateLimit" lukhas_website/packages/auth/security.ts &&
        grep -q "failedAuthLimit" lukhas_website/packages/auth/security.ts; then
         test_result "Rate limiting configured" "PASS" "Email, IP, and auth rate limits found"
     else
@@ -242,7 +242,7 @@ test_security_infrastructure() {
 # Test documentation
 test_documentation() {
     echo -e "${BLUE}📚 Testing Documentation...${NC}"
-    
+
     # Check security documentation directory
     if [[ -d "docs/security" ]]; then
         test_result "Security docs directory exists" "PASS" "docs/security/ found"
@@ -250,27 +250,27 @@ test_documentation() {
         test_result "Security docs directory exists" "FAIL" "docs/security/ not found"
         return
     fi
-    
+
     # Check key documentation files
     local doc_files=(
         "docs/security/README.md"
-        "docs/security/break-glass-procedure.md" 
+        "docs/security/break-glass-procedure.md"
         "docs/security/email-security-requirements.md"
     )
-    
+
     local missing_docs=()
     for doc in "${doc_files[@]}"; do
         if [[ ! -f "$doc" ]]; then
             missing_docs+=("$(basename "$doc")")
         fi
     done
-    
+
     if [[ ${#missing_docs[@]} -eq 0 ]]; then
         test_result "Security documentation complete" "PASS" "All ${#doc_files[@]} documents found"
     else
         test_result "Security documentation complete" "WARN" "Missing docs: ${missing_docs[*]}"
     fi
-    
+
     # Check break-glass procedure completeness
     if [[ -f "docs/security/break-glass-procedure.md" ]]; then
         local bg_sections=(
@@ -280,14 +280,14 @@ test_documentation() {
             "Key Rotation Schedule"
             "Emergency Contact"
         )
-        
+
         local missing_sections=()
         for section in "${bg_sections[@]}"; do
             if ! grep -q "$section" docs/security/break-glass-procedure.md; then
                 missing_sections+=("$section")
             fi
         done
-        
+
         if [[ ${#missing_sections[@]} -eq 0 ]]; then
             test_result "Break-glass documentation complete" "PASS" "All sections present"
         else
@@ -299,14 +299,14 @@ test_documentation() {
 # Test utility scripts
 test_utility_scripts() {
     echo -e "${BLUE}🔧 Testing Utility Scripts...${NC}"
-    
+
     # Check key management script
     if [[ -f "scripts/key-management.sh" && -x "scripts/key-management.sh" ]]; then
         test_result "Key management script exists" "PASS" "Script exists and is executable"
     else
         test_result "Key management script exists" "FAIL" "Script missing or not executable"
     fi
-    
+
     # Check key management commands
     if [[ -f "scripts/key-management.sh" ]]; then
         local key_commands=(
@@ -316,21 +316,21 @@ test_utility_scripts() {
             "validate-keys"
             "backup-keys"
         )
-        
+
         local missing_commands=()
         for cmd in "${key_commands[@]}"; do
             if ! grep -q "$cmd" scripts/key-management.sh; then
                 missing_commands+=("$cmd")
             fi
         done
-        
+
         if [[ ${#missing_commands[@]} -eq 0 ]]; then
             test_result "Key management commands complete" "PASS" "All ${#key_commands[@]} commands found"
         else
             test_result "Key management commands complete" "WARN" "Missing commands: ${missing_commands[*]}"
         fi
     fi
-    
+
     # Check validation script (this script)
     if [[ -f "scripts/validate-security-infrastructure.sh" && -x "scripts/validate-security-infrastructure.sh" ]]; then
         test_result "Security validation script exists" "PASS" "Script exists and is executable"
@@ -342,23 +342,23 @@ test_utility_scripts() {
 # Test dependencies
 test_dependencies() {
     echo -e "${BLUE}📦 Testing Dependencies...${NC}"
-    
+
     # Check required system tools
     local system_deps=("openssl" "curl" "jq" "base64")
     local missing_deps=()
-    
+
     for dep in "${system_deps[@]}"; do
         if ! command -v "$dep" &> /dev/null; then
             missing_deps+=("$dep")
         fi
     done
-    
+
     if [[ ${#missing_deps[@]} -eq 0 ]]; then
         test_result "System dependencies available" "PASS" "All ${#system_deps[@]} tools found"
     else
         test_result "System dependencies available" "FAIL" "Missing tools: ${missing_deps[*]}"
     fi
-    
+
     # Check Node.js and npm
     if command -v node &> /dev/null && command -v npm &> /dev/null; then
         local node_version=$(node --version)
@@ -367,7 +367,7 @@ test_dependencies() {
     else
         test_result "Node.js and npm available" "FAIL" "Node.js or npm not found"
     fi
-    
+
     # Check TypeScript support
     if [[ -f "lukhas_website/package.json" ]]; then
         if grep -q "typescript" lukhas_website/package.json; then
@@ -383,31 +383,31 @@ main() {
     echo -e "${BLUE}🔐 ΛiD Authentication System - Security Infrastructure Validation${NC}"
     echo -e "${BLUE}================================================================${NC}"
     echo ""
-    
+
     log "Starting security infrastructure validation"
-    
+
     # Run all tests
     test_environment_config
     echo ""
-    
+
     test_https_development
     echo ""
-    
+
     test_jwks_infrastructure
     echo ""
-    
+
     test_security_infrastructure
     echo ""
-    
+
     test_documentation
     echo ""
-    
+
     test_utility_scripts
     echo ""
-    
+
     test_dependencies
     echo ""
-    
+
     # Summary
     echo -e "${BLUE}📊 Validation Summary${NC}"
     echo -e "${BLUE}===================${NC}"
@@ -415,18 +415,18 @@ main() {
     echo -e "${RED}❌ Tests Failed: $TESTS_FAILED${NC}"
     echo -e "${YELLOW}⚠️  Warnings: $WARNINGS${NC}"
     echo ""
-    
+
     local total_tests=$((TESTS_PASSED + TESTS_FAILED))
     if [[ $total_tests -gt 0 ]]; then
         local success_rate=$((TESTS_PASSED * 100 / total_tests))
         echo -e "${BLUE}Success Rate: ${success_rate}%${NC}"
     fi
-    
+
     echo ""
     echo -e "${BLUE}📝 Detailed log written to: $LOG_FILE${NC}"
-    
+
     log "Validation completed - Passed: $TESTS_PASSED, Failed: $TESTS_FAILED, Warnings: $WARNINGS"
-    
+
     # Exit with appropriate code
     if [[ $TESTS_FAILED -gt 0 ]]; then
         exit 1

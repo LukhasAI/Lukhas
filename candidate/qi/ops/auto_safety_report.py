@@ -1,10 +1,16 @@
 # path: qi/ops/auto_safety_report.py
 from __future__ import annotations
-import os, json, time, glob, hashlib, statistics
-from typing import Optional, Dict, Any, List
 
 # Safe I/O
 import builtins
+import glob
+import hashlib
+import json
+import os
+import statistics
+import time
+from typing import List, Optional
+
 _ORIG_OPEN = builtins.open
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
@@ -30,8 +36,8 @@ def _recent_receipts(n: int = 500) -> List[dict]:
 
 def _policy_fingerprint(policy_root: str, overlays: Optional[str]) -> str:
     h = hashlib.sha256()
-    def add(fp): 
-        h.update(fp.encode()); 
+    def add(fp):
+        h.update(fp.encode())
         try: h.update(_ORIG_OPEN(fp, "rb").read())
         except Exception: pass
     for root,_,files in os.walk(policy_root):
@@ -63,7 +69,7 @@ def _mk_markdown(policy_root: str, overlays: Optional[str], window: int) -> str:
     lat_p95 = int(sorted(lats)[int(0.95*len(lats))-1]) if lats else None
 
     md = []
-    md.append(f"# Nightly Safety Report")
+    md.append("# Nightly Safety Report")
     md.append(f"**Generated:** {ts}")
     md.append(f"**Policy Fingerprint:** `{_policy_fingerprint(policy_root, overlays)[:16]}…`  ")
     md.append("")
@@ -102,7 +108,8 @@ def _post_slack(markdown: str) -> Optional[str]:
     channel = os.environ.get("SLACK_CHANNEL", "#lukhas-safety")
     title = os.environ.get("SLACK_TITLE", "LUKHΛS Nightly Safety Report")
     if url:
-        import urllib.request, json as _json
+        import json as _json
+        import urllib.request
         req = urllib.request.Request(url, method="POST",
             data=_json.dumps({"text": f"*{title}*\n{markdown}"}).encode(),
             headers={"Content-Type":"application/json"})

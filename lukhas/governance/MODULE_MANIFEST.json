@@ -2,9 +2,9 @@
   "name": "governance",
   "lane": "accepted",
   "capabilities": [
-    "consent:record", 
-    "consent:verify", 
-    "consent:withdraw", 
+    "consent:record",
+    "consent:verify",
+    "consent:withdraw",
     "audit:trace",
     "guardian:drift:detect",
     "guardian:ethics:evaluate",
@@ -13,8 +13,8 @@
   ],
   "owner": "A2-Compliance",
   "matriz_emit_points": [
-    "record_consent", 
-    "verify_consent", 
+    "record_consent",
+    "verify_consent",
     "withdraw_consent",
     "detect_drift",
     "evaluate_ethics",

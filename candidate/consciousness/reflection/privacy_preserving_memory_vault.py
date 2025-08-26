@@ -91,6 +91,9 @@ import asyncio
 import base64
 import hashlib
 import json
+
+# Configure module logger
+import logging
 import secrets
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -113,8 +116,6 @@ from ethics.meta_ethics_governor import (
 # Lukhas Core Integration
 from lukhas.memory.emotional import EmotionalMemory, EmotionVector
 
-# Configure module logger
-import logging
 logger = logging.getLogger(__name__)
 
 # Module constants
@@ -1272,65 +1273,65 @@ class PrivacyPreservingMemoryVault:
                 memory.deletion_requested for memory in self.encrypted_memories.values()
             ):
                 requirements_met.append("right_to_erasure")
-                
+
             # Article 5 - Principles relating to processing
             if all(policy.retention_period for policy in self.privacy_policies.values()):
                 requirements_met.append("storage_limitation")
-                
-            if any("data_minimization" in policy.description.lower() 
+
+            if any("data_minimization" in policy.description.lower()
                   for policy in self.privacy_policies.values()):
                 requirements_met.append("data_minimization")
-                
+
             # Article 6 - Lawfulness of processing
-            if any("consent" in policy.description.lower() or 
+            if any("consent" in policy.description.lower() or
                   "legitimate_interest" in policy.description.lower()
                   for policy in self.privacy_policies.values()):
                 requirements_met.append("lawful_basis")
-                
+
             # Article 12 - Transparent information
             if any(policy.description for policy in self.privacy_policies.values()):
                 requirements_met.append("transparent_information")
-                
+
             # Article 15 - Right of access
             if hasattr(self, 'export_memory_data'):
                 requirements_met.append("right_of_access")
-                
+
             # Article 16 - Right to rectification
-            if any("update" in op for policy in self.privacy_policies.values() 
+            if any("update" in op for policy in self.privacy_policies.values()
                   for op in policy.allowed_operations):
                 requirements_met.append("right_to_rectification")
-                
+
             # Article 18 - Right to restriction
             if any(memory.anonymized for memory in self.encrypted_memories.values()):
                 requirements_met.append("right_to_restriction")
-                
-            # Article 20 - Right to data portability  
+
+            # Article 20 - Right to data portability
             if hasattr(self, 'export_memory_data'):
                 requirements_met.append("data_portability")
-                
+
             # Article 25 - Data protection by design
-            if any(policy.privacy_level.value in ["sensitive", "confidential", "secret"] 
+            if any(policy.privacy_level.value in ["sensitive", "confidential", "secret"]
                   for policy in self.privacy_policies.values()):
                 requirements_met.append("privacy_by_design")
-                
+
             # Article 30 - Records of processing activities
             if len(self.audit_log) > 0:
                 requirements_met.append("records_of_processing")
-                
+
             # Article 32 - Security of processing
-            if any(policy.encryption_scheme != EncryptionScheme.FERNET 
+            if any(policy.encryption_scheme != EncryptionScheme.FERNET
                   for policy in self.privacy_policies.values()):
                 requirements_met.append("technical_security_measures")
-                
+
             if any(policy.monitoring_enabled for policy in self.privacy_policies.values()):
                 requirements_met.append("organizational_security_measures")
-                
+
             # Article 33/34 - Breach notification
             if any(policy.breach_notification for policy in self.privacy_policies.values()):
                 requirements_met.append("breach_notification")
-                
+
             # Article 35 - Data protection impact assessment
-            if any(policy.privacy_level.value in ["confidential", "secret", "top_secret"] 
+            if any(policy.privacy_level.value in ["confidential", "secret", "top_secret"]
                   for policy in self.privacy_policies.values()):
                 requirements_met.append("dpia_capability")
 
@@ -1340,57 +1341,57 @@ class PrivacyPreservingMemoryVault:
                 for policy in self.privacy_policies.values()
             ):
                 requirements_met.append("encryption_at_rest")
-                
+
             # 164.308 - Administrative Safeguards
             if any(policy.audit_required for policy in self.privacy_policies.values()):
                 requirements_met.append("administrative_safeguards")
-                
-            if any("authorized_users" in str(policy.__dict__) 
+
+            if any("authorized_users" in str(policy.__dict__)
                   for policy in self.privacy_policies.values()):
                 requirements_met.append("access_management")
-                
+
             if len(self.audit_log) > 0:
                 requirements_met.append("information_access_management")
-                
+
             # 164.310 - Physical Safeguards
             if any(policy.data_residency for policy in self.privacy_policies.values()):
                 requirements_met.append("facility_access_controls")
-                
-            # 164.312 - Technical Safeguards  
+
+            # 164.312 - Technical Safeguards
             if any(policy.required_tier > 1 for policy in self.privacy_policies.values()):
                 requirements_met.append("access_control")
-                
+
             if len(self.audit_log) > 0:
                 requirements_met.append("audit_controls")
-                
-            if any(policy.encryption_scheme in [EncryptionScheme.AES_256_GCM, 
+
+            if any(policy.encryption_scheme in [EncryptionScheme.AES_256_GCM,
                                                EncryptionScheme.RSA_4096]
                   for policy in self.privacy_policies.values()):
                 requirements_met.append("transmission_security")
-                
+
             # 164.314 - Organizational Requirements
-            if any(policy.compliance_standards 
+            if any(policy.compliance_standards
                   for policy in self.privacy_policies.values()):
                 requirements_met.append("business_associate_agreements")
-                
+
             # 164.316 - Policies and Procedures
             if any(policy.description for policy in self.privacy_policies.values()):
                 requirements_met.append("documented_policies")
-                
+
             # Minimum Necessary Standard
-            if any("minimum" in policy.description.lower() or 
+            if any("minimum" in policy.description.lower() or
                   policy.privacy_level.value in ["sensitive", "confidential"]
                   for policy in self.privacy_policies.values()):
                 requirements_met.append("minimum_necessary")
-                
+
             # Breach Notification Rule
             if any(policy.breach_notification for policy in self.privacy_policies.values()):
                 requirements_met.append("breach_notification")
-                
+
             # Individual Rights
             if hasattr(self, 'export_memory_data'):
                 requirements_met.append("individual_access_rights")
-                
+
             if any(memory.deletion_requested for memory in self.encrypted_memories.values()):
                 requirements_met.append("individual_amendment_rights")
 

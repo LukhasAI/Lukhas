@@ -81,7 +81,7 @@ class CausationType(Enum):
     COLLAPSE_CASCADE = "collapse_cascade"  # Triggered by fold collapse
     REFLECTION_TRIGGERED = "reflection_triggered"  # Auto-reflection activation
     TEMPORAL_DECAY = "temporal_decay"  # Time-based importance decay
-    QUANTUM_ENTANGLEMENT = "quantum_entanglement"  # Instantaneous correlations
+    QUANTUM_ENTANGLEMENT = "qi_entanglement"  # Instantaneous correlations
     EMERGENT_SYNTHESIS = "emergent_synthesis"  # New patterns from interactions
     EMOTIONAL_RESONANCE = "emotional_resonance"  # Emotion-driven associations
     SYMBOLIC_EVOLUTION = "symbolic_evolution"  # Symbol meaning evolution

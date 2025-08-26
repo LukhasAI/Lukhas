@@ -198,7 +198,7 @@ class VIVOXEventBusIntegration:
         user_id: str = None,  # Support for keyword argument
     ):
         """Publish emotional state shift event
-        
+
         Can be called with either:
         1. Individual parameters: publish_emotional_shift(user_id, previous_state, new_state, triggers, context)
         2. VIVOXEmotionalShift object: publish_emotional_shift(shift)

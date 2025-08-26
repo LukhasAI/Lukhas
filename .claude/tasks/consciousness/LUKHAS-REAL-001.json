@@ -30,7 +30,7 @@
     "related_files": [
       ".env.example",
       "config files",
-      "test files", 
+      "test files",
       "documentation files"
     ]
   },
@@ -104,7 +104,7 @@
     "consciousness_data_risk": "Potential unauthorized consciousness access",
     "immediate_actions_needed": [
       "Key rotation",
-      "Environment variable migration", 
+      "Environment variable migration",
       "Security audit",
       "Access monitoring"
     ]

@@ -169,7 +169,7 @@ class ConceptMapper:
         # Check cache first
         if concept_id in self.concept_cache:
             return self.concept_cache[concept_id]
-        
+
         # Try to find in vocabulary
         try:
             # Parse concept ID for domain lookup
@@ -186,7 +186,7 @@ class ConceptMapper:
                             return concept
                 except KeyError:
                     pass
-            
+
             # Fallback: search all vocabularies
             for domain in SymbolicDomain:
                 domain_vocab = self.vocabulary.manager.get_vocabulary(domain)
@@ -195,10 +195,10 @@ class ConceptMapper:
                         concept = self.symbol_to_concept(symbol)
                         self.concept_cache[concept_id] = concept
                         return concept
-                        
+
         except Exception as e:
             logger.warning(f"Error looking up concept {concept_id}: {e}")
-            
+
         return None
 
 
@@ -289,7 +289,7 @@ class CrossModalTranslator:
 class UniversalTranslator:
     """
     Main translator combining all translation capabilities.
-    
+
     Based on Universal Language spec for private → universal → private translation.
     """
 
@@ -305,12 +305,12 @@ class UniversalTranslator:
                  context: Optional[Dict[str, Any]] = None) -> TranslationResult:
         """
         Translate from any source to target type.
-        
+
         Args:
             source: The source to translate (Symbol, Concept, GLYPHToken, etc.)
             target_type: Target type ("symbol", "concept", "glyph", "text", etc.)
             context: Optional context for translation
-        
+
         Returns:
             TranslationResult with translated target
         """
@@ -445,7 +445,7 @@ class UniversalTranslator:
     def private_to_universal(self, private_tokens: List[Any]) -> List[str]:
         """
         Translate private tokens to universal concept IDs.
-        
+
         Based on Universal Language spec for privacy-preserving translation.
         """
         concept_ids = []
@@ -475,7 +475,7 @@ class UniversalTranslator:
                            user_preferences: Optional[Dict[str, Any]] = None) -> List[Any]:
         """
         Translate universal concept IDs to user's private representation.
-        
+
         Based on Universal Language spec for personalized rendering.
         """
         private_tokens = []
@@ -483,7 +483,7 @@ class UniversalTranslator:
         for concept_id in concept_ids:
             # Look up concept using the concept registry
             concept = self.concept_mapper.lookup_concept_by_id(concept_id)
-            
+
             if concept:
                 # Use the actual concept for private representation
                 if concept.symbols:

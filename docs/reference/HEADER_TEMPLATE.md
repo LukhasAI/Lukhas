@@ -12,13 +12,13 @@ LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - [Module Name]
 Copyright (c) 2025 LUKHAS AGI Development Team
 All rights reserved.
 
-This file is part of the LUKHAS AGI system, an enterprise artificial general 
-intelligence platform combining symbolic reasoning, emotional intelligence, 
+This file is part of the LUKHAS AGI system, an enterprise artificial general
+intelligence platform combining symbolic reasoning, emotional intelligence,
 quantum integration, and bio-inspired architecture.
 
-Mission: To illuminate complex reality through rigorous logic, adaptive 
-intelligence, and human-centred ethics—turning data into understanding, 
-understanding into foresight, and foresight into shared benefit for people 
+Mission: To illuminate complex reality through rigorous logic, adaptive
+intelligence, and human-centred ethics—turning data into understanding,
+understanding into foresight, and foresight into shared benefit for people
 and planet.
 
 [Module Description Here]
@@ -41,9 +41,9 @@ __status__ = "Production"
 ```markdown
 # [Document Title]
 
-**LUKHAS** - Logical Unified Knowledge Hyper-Adaptable System  
-**Version**: 1.0.0  
-**Last Updated**: [Date]  
+**LUKHAS** - Logical Unified Knowledge Hyper-Adaptable System
+**Version**: 1.0.0
+**Last Updated**: [Date]
 **Author**: LUKHAS Development Team
 
 ---
@@ -62,21 +62,21 @@ __status__ = "Production"
 ```typescript
 /**
  * LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - [Module Name]
- * 
+ *
  * Copyright (c) 2025 LUKHAS AGI Development Team
  * All rights reserved.
- * 
- * This file is part of the LUKHAS AGI system, an enterprise artificial general 
- * intelligence platform combining symbolic reasoning, emotional intelligence, 
+ *
+ * This file is part of the LUKHAS AGI system, an enterprise artificial general
+ * intelligence platform combining symbolic reasoning, emotional intelligence,
  * quantum integration, and bio-inspired architecture.
- * 
- * Mission: To illuminate complex reality through rigorous logic, adaptive 
- * intelligence, and human-centred ethics—turning data into understanding, 
- * understanding into foresight, and foresight into shared benefit for people 
+ *
+ * Mission: To illuminate complex reality through rigorous logic, adaptive
+ * intelligence, and human-centred ethics—turning data into understanding,
+ * understanding into foresight, and foresight into shared benefit for people
  * and planet.
- * 
+ *
  * [Module Description Here]
- * 
+ *
  * For more information, visit: https://lukhas.ai
  */
 
@@ -90,16 +90,16 @@ __status__ = "Production"
 ```bash
 #!/bin/bash
 # LUKHAS (Logical Unified Knowledge Hyper-Adaptable System) - [Script Name]
-# 
+#
 # Copyright (c) 2025 LUKHAS AGI Development Team
 # All rights reserved.
-# 
-# This file is part of the LUKHAS AGI system, an enterprise artificial general 
-# intelligence platform combining symbolic reasoning, emotional intelligence, 
+#
+# This file is part of the LUKHAS AGI system, an enterprise artificial general
+# intelligence platform combining symbolic reasoning, emotional intelligence,
 # quantum integration, and bio-inspired architecture.
-# 
+#
 # [Script Description Here]
-# 
+#
 # For more information, visit: https://lukhas.ai
 
 # ΛTRACE: Script initialization

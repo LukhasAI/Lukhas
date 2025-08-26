@@ -93,7 +93,7 @@ class QISafeHasher:
     @staticmethod
     def verify_password(password: str, hash_str: str, salt: bytes) -> bool:
         """Verify password against BLAKE2b hash"""
-        test_hash, _ = QuantumSafeHasher.hash_password(password, salt)
+        test_hash, _ = QISafeHasher.hash_password(password, salt)
         return secrets.compare_digest(hash_str, test_hash)
 
     @staticmethod
@@ -152,7 +152,7 @@ class QRGLYPHGenerator:
 
     def __init__(self, key_manager: Ed448KeyManager):
         self.key_manager = key_manager
-        self.hasher = QuantumSafeHasher()
+        self.hasher = QISafeHasher()
 
     def generate_static_qrglyph(
         self, user_id: str, tier: AuthTier, consent_data: dict
@@ -206,7 +206,7 @@ class TierAuthenticator:
     """Handle authentication for each tier"""
 
     def __init__(self):
-        self.hasher = QuantumSafeHasher()
+        self.hasher = QISafeHasher()
         self.key_manager = Ed448KeyManager()
         self.qrglyph_gen = QRGLYPHGenerator(self.key_manager)
 
@@ -394,10 +394,10 @@ class TierAuthenticator:
             "tier": "T4",
             "qrglyph": qrglyph_token,
             "consent_verified": True,
-            "session_type": "quantum_secure",
+            "session_type": "qi_secure",
             "session_token": secrets.token_urlsafe(48),
             "expires_in": 7200,  # 2 hours
-            "quantum_safe": True,
+            "qi_safe": True,
             "consciousness_coherence": (
                 qrglyph_validation.get("consciousness_coherence", 0.8)
                 if qrglyph_validation

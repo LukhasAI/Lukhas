@@ -49,7 +49,7 @@
 - **`pytest.ini`** ✓ - Test configuration
 - **`pyrightconfig.json`** ✓ - Type checking configuration
 
-### Node.js Configuration  
+### Node.js Configuration
 - **`package.json`** ✓ - Node.js dependencies and scripts
 - **`package-lock.json`** ✓ - Dependency lock file
 
@@ -66,7 +66,7 @@
 - **`SECURITY.md`** ❌ **MISSING**
 - **`CODEOWNERS`** ❌ **MISSING**
 - **`.gitleaks*`** ❌ **MISSING**
-- **`.semgrep*`** ❌ **MISSING** 
+- **`.semgrep*`** ❌ **MISSING**
 - **`.pre-commit-config.yaml`** ❌ **MISSING**
 
 ## Key Applications & Services

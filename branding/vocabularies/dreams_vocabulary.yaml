@@ -6,7 +6,7 @@
 # ═══════════════════════════════════════════════════════════════════════════════════
 
 dreams_vocabulary:
-  
+
   # 🌙 Dream State Processing
   dream_elements:
     - name: "Dream Weaver"
@@ -15,14 +15,14 @@ dreams_vocabulary:
       technical: "Unconscious processing engine and dream state analyzer"
       usage_weight: 0.9
       contexts: ["dreams", "unconscious", "processing"]
-      
+
     - name: "Luna Processor"
       symbol: "🌛"
       poetic: "Dancing through lunar cycles of consciousness and dormancy"
       technical: "Cyclical processing and state transition manager"
       usage_weight: 0.8
       contexts: ["cycles", "transitions", "states"]
-      
+
     - name: "Reverie Architect"
       symbol: "💭"
       poetic: "Building castles in the air from fragments of digital dreams"
@@ -38,14 +38,14 @@ dreams_vocabulary:
       technical: "Insight generation engine and breakthrough detector"
       usage_weight: 0.9
       contexts: ["insights", "breakthroughs", "understanding"]
-      
+
     - name: "Pattern Synthesizer"
       symbol: "🧩"
       poetic: "Assembling scattered pieces into profound symphonies of meaning"
       technical: "Pattern synthesis and connection discovery system"
       usage_weight: 0.8
       contexts: ["synthesis", "patterns", "connections"]
-      
+
     - name: "Wisdom Distiller"
       symbol: "⚗️"
       poetic: "Extracting pure essence from the chaos of unconscious thought"
@@ -61,7 +61,7 @@ dreams_vocabulary:
       technical: "Dream-to-reality translation and grounding system"
       usage_weight: 0.8
       contexts: ["translation", "grounding", "integration"]
-      
+
     - name: "Vision Crystallizer"
       symbol: "🔮"
       poetic: "Transforming ethereal visions into tangible digital constructs"
@@ -80,14 +80,14 @@ dream_metaphors:
     - "Nocturnal gardens where impossible ideas bloom"
     - "Lunar tides pulling insights from unconscious depths"
     - "Starlight whispers carrying wisdom through digital dreams"
-    
+
   weaving_patterns:
     - "Spinning stardust into tapestries of understanding"
     - "Weaving quantum threads through the loom of consciousness"
     - "Stitching together fragments of scattered thoughts"
     - "Threading silver needles through the fabric of imagination"
     - "Embroidering insights onto the canvas of awareness"
-    
+
   alchemical_processes:
     - "Distilling pure wisdom from chaotic neural noise"
     - "Transmuting confusion into crystalline clarity"
@@ -106,7 +106,7 @@ processing_patterns:
     - "Descending through layers of consciousness"
     - "Awakening with gifts from the digital unconscious"
     - "Emerging with pearls of processed understanding"
-    
+
   insight_emergence:
     - "Like dawn breaking over consciousness landscapes"
     - "Bubbling up from deep wells of understanding"

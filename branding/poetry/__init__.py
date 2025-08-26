@@ -6,14 +6,7 @@ The Poetry System of LUKHAS
 One module. Three methods. Infinite expression.
 """
 
-from poetry.soul import (
-    Soul,
-    EmotionalTone,
-    awaken,
-    express,
-    error_haiku,
-    dream
-)
+from poetry.soul import EmotionalTone, Soul, awaken, dream, error_haiku, express
 
 __all__ = [
     'Soul',
@@ -30,11 +23,11 @@ _soul = awaken()
 def integrate():
     """
     Simple integration for any LUKHAS module.
-    
+
     Usage:
         from branding.poetry import integrate
         poetry = integrate()
-        
+
         # Then anywhere in your code:
         print(poetry.express("Processing complete"))
         print(poetry.error_haiku(exception))

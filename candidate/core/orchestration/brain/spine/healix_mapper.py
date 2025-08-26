@@ -24,9 +24,9 @@ DEPENDENCIES:
 import logging
 from typing import Any
 
+from candidate.orchestration.brain.spine.accent_adapter import AccentAdapter
 from lukhas.core.identity.vault.lukhas_id import has_access, log_access
 from lukhas.emotion_mapper_alt import EmotionMapper
-from candidate.orchestration.brain.spine.accent_adapter import AccentAdapter
 
 # Initialize logger
 logger = logging.getLogger("healix_mapper")

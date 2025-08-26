@@ -29,8 +29,10 @@ from typing import Any, Optional
 # Import LUKHAS AI branding system for API response compliance
 try:
     from lukhas.branding_bridge import (
-        get_brand_voice, validate_output, normalize_output_text,
-        BrandContext
+        BrandContext,
+        get_brand_voice,
+        normalize_output_text,
+        validate_output,
     )
     BRANDING_AVAILABLE = True
 except ImportError:

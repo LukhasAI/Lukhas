@@ -486,12 +486,12 @@ class LukhasIdentityService:
     """
     Main Identity Service coordinating all components
     Integrates with Consent Ledger for Λ-trace audit records
-    
+
     Trinity Framework Integration:
     ⚛️ Identity: Core identity authentication and authorization
     🧠 Consciousness: Performance monitoring and adaptive optimization
     🛡️ Guardian: Security validation and audit trail integration
-    
+
     Performance Target: <100ms p95 authentication latency
     """
 
@@ -602,7 +602,7 @@ class LukhasIdentityService:
         """
         Trinity Framework integration status
         ⚛️ Identity: Core identity authentication system
-        🧠 Consciousness: Performance monitoring and adaptive optimization  
+        🧠 Consciousness: Performance monitoring and adaptive optimization
         🛡️ Guardian: Security validation and audit trail
         """
         return self._trinity_framework_active.copy()

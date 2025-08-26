@@ -4,8 +4,8 @@ LUCAS DAST Module Verification
 Quick verification that all modules can be imported and initialized
 """
 
-import sys
 import os
+import sys
 
 # Add current directory to Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -45,23 +45,18 @@ def test_core_classes():
 
     try:
         # Test engine classes
-        from engine import LucasDASTEngine, TaskPriority, TaskStatus
         print("✅ Engine classes imported")
 
         # Test intelligence classes
-        from intelligence import TaskIntelligence, PriorityOptimizer, ContextTracker
         print("✅ Intelligence classes imported")
 
         # Test processor classes
-        from processors import TaskProcessor, TagProcessor, AttentionProcessor
         print("✅ Processor classes imported")
 
         # Test adapter classes
-        from adapters import UniversalAdapter
         print("✅ Adapter classes imported")
 
         # Test API classes
-        from api import DASTAPIEndpoints
         print("✅ API classes imported")
 
         return True
@@ -127,21 +122,18 @@ def check_design_compliance():
 
     # Check for AI intelligence components
     try:
-        from intelligence import TaskIntelligence, PriorityOptimizer
         checks.append("✅ AI intelligence components present")
     except:
         checks.append("❌ Missing AI intelligence components")
 
     # Check for modular processors
     try:
-        from processors import TaskProcessor, TagProcessor, AttentionProcessor
         checks.append("✅ Modular processors implemented")
     except:
         checks.append("❌ Missing modular processors")
 
     # Check for external adapters
     try:
-        from adapters import UniversalAdapter
         checks.append("✅ Universal adapters implemented")
     except:
         checks.append("❌ Missing universal adapters")

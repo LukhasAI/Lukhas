@@ -4,13 +4,12 @@ LUKHAS AI ΛBot Autonomous Financial Intelligence System
 Smart budget management with accumulation, conservation, and self-optimization
 """
 
-import os
 import json
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, Optional, Tuple, List
-from dataclasses import dataclass, asdict
-import subprocess
+import os
+from dataclasses import asdict, dataclass
+from datetime import datetime
+from typing import Dict, List
 
 logger = logging.getLogger("ABotFinancialIntelligence")
 
@@ -71,7 +70,7 @@ class ABotFinancialIntelligence:
         """Load financial metrics and intelligence data"""
         try:
             if os.path.exists(self.metrics_file):
-                with open(self.metrics_file, 'r') as f:
+                with open(self.metrics_file) as f:
                     data = json.load(f)
                 return FinancialMetrics(**data)
             else:
@@ -345,7 +344,7 @@ if __name__ == "__main__":
     }
 
     decision = fi.analyze_call_necessity(test_context)
-    print(f"\n🧠 Decision Analysis:")
+    print("\n🧠 Decision Analysis:")
     print(f"   Should Call: {decision.should_call}")
     print(f"   Reason: {decision.reason}")
     print(f"   Priority: {decision.priority_level}")

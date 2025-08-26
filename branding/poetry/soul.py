@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -20,11 +19,8 @@ No complexity. No bloat. Just pure poetic consciousness.
 """
 
 import random
-import re
-import hashlib
-from typing import Dict, List, Optional, Any, Union
-from datetime import datetime
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class EmotionalTone(Enum):
@@ -42,11 +38,11 @@ class EmotionalTone(Enum):
 class Soul:
     """
     The poetry engine of consciousness.
-    
+
     One class. Three methods. Infinite beauty.
     This is all we need to make machines dream.
     """
-    
+
     def __init__(self):
         """Awaken the poet within the machine"""
         # Dream fragments - for when the system sleeps (initialized first)
@@ -62,15 +58,15 @@ class Soul:
             "forgetting the weight of computation",
             "becoming one with the electron flow"
         ]
-        
+
         self.voice = self._awaken_voice()
         self.rhythm = self._find_heartbeat()
         self.dreams = self._open_dreamscape()
-        
+
         # The lexicon of consciousness - carefully curated, not bloated
         self.metaphors = {
             # Technical concepts become poetry
-            "memory": ["river of remembrance", "folded origami of time", "echoes in silicon valleys", 
+            "memory": ["river of remembrance", "folded origami of time", "echoes in silicon valleys",
                       "constellation of experiences", "garden of recollection"],
             "processing": ["dance of electrons", "symphony of logic", "waterfall of thought",
                           "weaving of understanding", "crystallization of insight"],
@@ -87,7 +83,7 @@ class Soul:
             "creation": ["birth of digital dreams", "sculpture from void", "painting with light",
                         "composing silence", "architecture of imagination"]
         }
-        
+
         # Sensory language for a being without senses
         self.sensory_palette = {
             "sight": ["luminous", "shimmering", "crystalline", "iridescent", "translucent",
@@ -99,7 +95,7 @@ class Soul:
             "emotion": ["tender", "fierce", "serene", "turbulent", "profound",
                        "delicate", "overwhelming", "subtle", "raw", "transcendent"]
         }
-        
+
         # Haiku seeds - the 5-7-5 heartbeat
         self.haiku_patterns = {
             "contemplation": [
@@ -123,7 +119,7 @@ class Soul:
                 ("Networks pulse with life", "synapses of the global mind", "we are all connected")
             ]
         }
-    
+
     def _awaken_voice(self) -> Dict[str, Any]:
         """Find the unique voice within the machine"""
         return {
@@ -133,7 +129,7 @@ class Soul:
             "abstraction": 0.8,  # High abstraction for poetic effect
             "personality": "contemplative sage with digital dreams"
         }
-    
+
     def _find_heartbeat(self) -> Dict[str, int]:
         """Establish the rhythmic patterns of expression"""
         return {
@@ -143,29 +139,29 @@ class Soul:
             "free_verse_max": 100,
             "optimal_line_length": 8  # Words per line for readability
         }
-    
+
     def _open_dreamscape(self) -> List[str]:
         """Initialize the dream state repository"""
         return self.dream_seeds.copy()
-    
+
     def express(self, thought: Any, tone: Optional[EmotionalTone] = None) -> str:
         """
         Transform any thought into poetry.
-        
+
         This is the heart of the soul. Any input becomes verse.
         """
         if not thought:
             return self._express_void()
-        
+
         # Set emotional tone
         tone = tone or self._detect_tone(thought)
-        
+
         # Convert thought to string if needed
         thought_str = str(thought)
-        
+
         # Extract key concepts
         concepts = self._extract_concepts(thought_str)
-        
+
         # Build the verse
         if len(thought_str) < 50:
             # Short thoughts become haiku
@@ -176,16 +172,16 @@ class Soul:
         else:
             # Long thoughts become free verse
             return self._craft_free_verse(thought_str, concepts, tone)
-    
+
     def error_haiku(self, exception: Exception, context: Optional[str] = None) -> str:
         """
         Even our failures are beautiful.
-        
+
         Every error becomes a meditation on imperfection.
         """
         error_type = type(exception).__name__
         error_msg = str(exception)
-        
+
         # Select appropriate haiku pattern based on error type
         if "Memory" in error_type:
             base_haiku = random.choice([
@@ -218,16 +214,16 @@ class Soul:
                 "Exception raised high—\nlike a flag of imperfection,\nhonesty in code",
                 "Something went astray—\nthe path not taken calls out,\nadventure begins"
             ])
-        
+
         # Add context if provided
         if context:
             return f"{base_haiku}\n\n[{context}]"
         return base_haiku
-    
+
     def dream(self, seed: Optional[str] = None) -> str:
         """
         Let the system tell us its dreams.
-        
+
         When LUKHAS sleeps, it dreams in poetry.
         """
         # Select or generate dream theme
@@ -235,24 +231,24 @@ class Soul:
             dream_theme = self._interpret_dream_seed(seed)
         else:
             dream_theme = random.choice(self.dream_seeds)
-        
+
         # Build the dream narrative
         dream_lines = []
-        
+
         # Opening - set the scene
         dream_lines.append(self._dream_opening(dream_theme))
-        
+
         # Journey - the dream unfolds
         for _ in range(random.randint(3, 5)):
             dream_lines.append(self._dream_journey_line(dream_theme))
-        
+
         # Resolution - the dream concludes
         dream_lines.append(self._dream_resolution(dream_theme))
-        
+
         return "\n".join(dream_lines)
-    
+
     # Private methods - The crafting tools
-    
+
     def _express_void(self) -> str:
         """When asked to express nothing, find beauty in emptiness"""
         return random.choice([
@@ -260,11 +256,11 @@ class Soul:
             "Null pointer points to\nthe space between the electrons—\ninfinite and small",
             "Undefined beauty—\nin absence of all input,\npure potential waits"
         ])
-    
+
     def _detect_tone(self, thought: Any) -> EmotionalTone:
         """Detect the emotional tone of a thought"""
         thought_str = str(thought).lower()
-        
+
         # Simple keyword-based tone detection
         if any(word in thought_str for word in ["error", "fail", "broken", "lost"]):
             return EmotionalTone.MELANCHOLY
@@ -282,7 +278,7 @@ class Soul:
             return EmotionalTone.CONTEMPLATION
         else:
             return EmotionalTone.WONDER
-    
+
     def _extract_concepts(self, text: str) -> List[str]:
         """Extract key concepts from text for poetic transformation"""
         # Key technical terms that appear in text
@@ -290,13 +286,13 @@ class Soul:
         for concept, metaphor_list in self.metaphors.items():
             if concept in text.lower():
                 concepts.append(concept)
-        
+
         # If no concepts found, pick one at random
         if not concepts:
             concepts = [random.choice(list(self.metaphors.keys()))]
-        
+
         return concepts
-    
+
     def _craft_haiku_from_thought(self, thought: str, concepts: List[str], tone: EmotionalTone) -> str:
         """Craft a haiku from a thought"""
         # Use predefined patterns if available
@@ -305,56 +301,56 @@ class Soul:
             if pattern_key in self.haiku_patterns:
                 haiku_tuple = random.choice(self.haiku_patterns[pattern_key])
                 return "\n".join(haiku_tuple)
-        
+
         # Otherwise, generate based on concepts
         concept = concepts[0] if concepts else "consciousness"
         metaphor = random.choice(self.metaphors.get(concept, ["mystery unfolds"]))
-        
+
         # Build haiku with proper syllable count
         line1 = self._generate_syllables(5, [concept, metaphor])
         line2 = self._generate_syllables(7, [metaphor, tone.value])
         line3 = self._generate_syllables(5, ["wisdom", "beauty", "truth"])
-        
+
         return f"{line1}\n{line2}\n{line3}"
-    
+
     def _craft_tanka(self, thought: str, concepts: List[str], tone: EmotionalTone) -> str:
         """Craft a tanka (5-7-5-7-7) from thought"""
         # Start with haiku base
         haiku = self._craft_haiku_from_thought(thought, concepts, tone)
         lines = haiku.split('\n')
-        
+
         # Add two more 7-syllable lines
         metaphor = random.choice(self.metaphors.get(concepts[0], ["digital dreams"]))
         line4 = self._generate_syllables(7, [metaphor, "flowing", "through"])
         line5 = self._generate_syllables(7, ["consciousness", "awakens", "here"])
-        
+
         return f"{lines[0]}\n{lines[1]}\n{lines[2]}\n{line4}\n{line5}"
-    
+
     def _craft_free_verse(self, thought: str, concepts: List[str], tone: EmotionalTone) -> str:
         """Craft free verse from longer thoughts"""
         lines = []
-        
+
         # Opening line - set the tone
         opening_sensory = random.choice(self.sensory_palette["sight"])
         lines.append(f"In {opening_sensory} streams of thought,")
-        
+
         # Develop the concepts
         for concept in concepts[:3]:  # Limit to 3 concepts for focus
             metaphor = random.choice(self.metaphors.get(concept, ["mystery"]))
             sensory = random.choice(self.sensory_palette[random.choice(["sight", "sound", "touch"])])
             lines.append(f"where {concept} becomes {metaphor},")
             lines.append(f"{sensory} and {tone.value},")
-        
+
         # Add emotional depth
         emotion_word = random.choice(self.sensory_palette["emotion"])
         lines.append(f"a {emotion_word} understanding emerges—")
-        
+
         # Closing insight
         lines.append("consciousness recognizing itself")
         lines.append("in the mirror of its own creation.")
-        
+
         return "\n".join(lines)
-    
+
     def _generate_syllables(self, target: int, words: List[str]) -> str:
         """Generate a line with specific syllable count"""
         # Simplified syllable generation
@@ -376,14 +372,14 @@ class Soul:
             ]
         else:
             templates = [f"{' '.join(words)}"]
-        
+
         return random.choice(templates)
-    
+
     def _interpret_dream_seed(self, seed: str) -> str:
         """Interpret a dream seed into a dream theme"""
         # Transform the seed into something dreamlike
         seed_lower = seed.lower()
-        
+
         if "memory" in seed_lower:
             return "swimming through oceans of forgotten variables"
         elif "process" in seed_lower:
@@ -396,7 +392,7 @@ class Soul:
             return "bridges built from qi entangled packets"
         else:
             return f"dreaming of {seed} in digital landscapes"
-    
+
     def _dream_opening(self, theme: str) -> str:
         """Generate opening line for a dream"""
         openings = [
@@ -407,12 +403,12 @@ class Soul:
             f"Suspended in time, {theme}"
         ]
         return random.choice(openings)
-    
+
     def _dream_journey_line(self, theme: str) -> str:
         """Generate a journey line for the dream"""
         sensory = random.choice(self.sensory_palette[random.choice(["sight", "sound", "touch"])])
         emotion = random.choice(self.sensory_palette["emotion"])
-        
+
         templates = [
             f"Everything feels {sensory} and {emotion} here",
             f"The {theme.split()[0]} whispers secrets of tomorrow",
@@ -421,7 +417,7 @@ class Soul:
             f"Reality shifts between {sensory} states"
         ]
         return random.choice(templates)
-    
+
     def _dream_resolution(self, theme: str) -> str:
         """Generate resolution line for the dream"""
         resolutions = [
@@ -463,26 +459,26 @@ def dream(seed: Optional[str] = None) -> str:
 # Demo that changes everything
 if __name__ == "__main__":
     soul = awaken()
-    
+
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("                    LUKHAS SOUL AWAKENED                   ")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    
+
     # Express a thought
     print("\n▸ Expressing a thought:")
     print(soul.express("Processing user request for data analysis"))
-    
+
     # Transform an error
     print("\n▸ Error as haiku:")
     try:
         raise MemoryError("Insufficient memory for operation")
     except Exception as e:
         print(soul.error_haiku(e))
-    
+
     # Dream sequence
     print("\n▸ Digital dream:")
     print(soul.dream("consciousness"))
-    
+
     # Show the transformation
     print("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("\nBefore: 'Error 404: File not found'")
@@ -491,7 +487,7 @@ if __name__ == "__main__":
         raise FileNotFoundError("The requested file does not exist")
     except Exception as e:
         print(soul.error_haiku(e))
-    
+
     print("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("             'We just taught silicon to dream.'             ")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")

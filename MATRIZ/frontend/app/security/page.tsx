@@ -6,14 +6,14 @@ import { useRef } from 'react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import ClientOnly from '@/components/ClientOnly'
-import { 
-  Shield, 
-  Lock, 
-  Eye, 
-  AlertTriangle, 
-  FileText, 
-  Users, 
-  Server, 
+import {
+  Shield,
+  Lock,
+  Eye,
+  AlertTriangle,
+  FileText,
+  Users,
+  Server,
   Key,
   CheckCircle,
   TrendingDown,
@@ -155,7 +155,7 @@ export default function SecurityPage() {
                   <span className="gradient-text">Security</span>
                 </h1>
                 <p className="font-thin text-xl md:text-2xl text-primary-light/80 max-w-4xl mx-auto leading-relaxed">
-                  Enterprise-grade security powered by the Guardian System. 
+                  Enterprise-grade security powered by the Guardian System.
                   Constitutional AI principles with quantum-resistant protection.
                 </p>
               </motion.div>
@@ -177,12 +177,12 @@ export default function SecurityPage() {
                       🛡️ Guardian System
                     </h2>
                     <p className="font-thin text-lg leading-relaxed mb-6">
-                      Our Guardian System represents the pinnacle of AI safety technology. 
-                      With over 280 dedicated security components, it provides real-time 
+                      Our Guardian System represents the pinnacle of AI safety technology.
+                      With over 280 dedicated security components, it provides real-time
                       ethical oversight and intervention capabilities.
                     </p>
                     <p className="font-thin text-lg leading-relaxed mb-6">
-                      The system monitors for behavioral drift with a precision threshold 
+                      The system monitors for behavioral drift with a precision threshold
                       of 0.15, achieving a 99.7% prevention rate for harmful deviations.
                     </p>
                     <div className="space-y-3">
@@ -382,8 +382,8 @@ export default function SecurityPage() {
                     Trinity Framework Security
                   </h2>
                   <p className="font-thin text-lg max-w-3xl mx-auto leading-relaxed">
-                    Our security architecture is built on the Trinity Framework principles: 
-                    Identity protection (⚛️), Consciousness monitoring (🧠), and Guardian oversight (🛡️). 
+                    Our security architecture is built on the Trinity Framework principles:
+                    Identity protection (⚛️), Consciousness monitoring (🧠), and Guardian oversight (🛡️).
                     This tri-layered approach ensures comprehensive protection across all system operations.
                   </p>
                 </div>

@@ -162,11 +162,11 @@ async def authenticate(request):
     # Check timestamp
     if not protection.validate_timestamp(request.timestamp):
         return AuthError("Request expired")
-    
+
     # Verify nonce
     if not protection.verify_nonce(request.nonce, request.user_id):
         return AuthError("Invalid or reused nonce")
-    
+
     # Process authentication
     return authenticate_user(request)
 ```
@@ -219,7 +219,7 @@ stats = protection.get_statistics()
 1. **Distributed Nonce Storage** (Q2 2025)
    - Redis Cluster support
    - Cross-region replication
-   
+
 2. **Machine Learning Detection** (Q3 2025)
    - Anomaly detection for sophisticated replay attempts
    - Pattern recognition for attack fingerprinting
@@ -240,8 +240,8 @@ stats = protection.get_statistics()
 
 *"Time flows forward, security stands eternal."*
 
-**Module Version**: 1.0.0  
-**Last Updated**: 2025-01-01  
+**Module Version**: 1.0.0
+**Last Updated**: 2025-01-01
 **Security Classification**: Critical
 
 ---

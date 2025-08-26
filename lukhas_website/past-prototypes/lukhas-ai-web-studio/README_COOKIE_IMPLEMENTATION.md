@@ -4,7 +4,7 @@
 
 ### 1. **React Component** (`/components/LukhasCookies.tsx`)
 - **Clean, privacy-first design** with "Your data, your call" messaging
-- **EU-compliant defaults** - all optional cookies OFF by default  
+- **EU-compliant defaults** - all optional cookies OFF by default
 - **Accessible implementation** with proper ARIA labels and roles
 - **Multi-language support** (English + Spanish with consistent LUKHΛS branding)
 - **Versioned consent storage** with proper localStorage management
@@ -36,7 +36,7 @@
 const defaultChoices = {
   essential: true,    // Always required
   functional: false,  // OFF by default
-  analytics: false,   // OFF by default  
+  analytics: false,   // OFF by default
   research: false     // OFF by default
 };
 ```
@@ -58,7 +58,7 @@ const defaultChoices = {
 
 ### **Button Hierarchy**
 1. **"Essential only"** - Subtle styling, privacy-focused
-2. **"Allow selected"** - Primary action for informed users  
+2. **"Allow selected"** - Primary action for informed users
 3. **"Allow all"** - Available but not promoted
 
 ### **Accessibility (WCAG 2.2)**
@@ -78,14 +78,14 @@ const defaultChoices = {
 
 ### **Category Descriptions**
 - **Essential:** "Required for security and core site functionality"
-- **Functional:** "Remembers your settings (theme, language)"  
+- **Functional:** "Remembers your settings (theme, language)"
 - **Analytics:** "Privacy-preserving, aggregated usage metrics"
 - **Research:** "Optional signals to improve LUKHΛS models. Never used for ads"
 
 ### **Legal Language Softening**
 - ❌ "GDPR Compliant" (absolute claim)
 - ✅ "Designed for GDPR compliance" (honest aspiration)
-- ❌ "EU AI Act Ready" (overpromising)  
+- ❌ "EU AI Act Ready" (overpromising)
 - ✅ "EU AI Act–aligned disclosures" (accurate scope)
 
 ## 🔧 **Technical Implementation**
@@ -122,7 +122,7 @@ web_test_final/
 
 ### **Integration Options**
 1. **React Apps:** Import `LukhasCookies` component
-2. **Static Sites:** Use standalone HTML version  
+2. **Static Sites:** Use standalone HTML version
 3. **Legal Pages:** Apply legal.css for professional appearance
 4. **Custom Implementation:** Copy/adapt the patterns
 

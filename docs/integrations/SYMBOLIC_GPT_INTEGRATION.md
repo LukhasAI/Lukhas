@@ -230,7 +230,7 @@ healing:
 guardian:
   risk_tolerance: medium
   ethical_strictness: high
-  
+
 memory:
   session_limit: 1000
   pattern_detection: true
@@ -262,7 +262,7 @@ Current system performance (v1.0.0):
    ```python
    training_data = {
      "prompt": "Explain consciousness",
-     "completion": "Consciousness 🧠 emerges from quantum ⚛️ 
+     "completion": "Consciousness 🧠 emerges from quantum ⚛️
                     potentials, protected by ethical boundaries 🛡️..."
    }
    ```

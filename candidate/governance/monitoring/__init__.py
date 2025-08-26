@@ -6,11 +6,11 @@ visualization for the LUKHAS AI governance system.
 """
 
 from .guardian_dashboard import GuardianDashboard, ThreatPredictor
-from .threat_monitor import ThreatMonitor
 from .guardian_sentinel import GuardianSentinel
+from .threat_monitor import ThreatMonitor
 
 __all__ = [
-    "GuardianDashboard", 
+    "GuardianDashboard",
     "ThreatPredictor",
     "ThreatMonitor",
     "GuardianSentinel"

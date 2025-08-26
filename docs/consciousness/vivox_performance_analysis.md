@@ -130,6 +130,6 @@ VIVOX demonstrates production-ready performance with exceptional scalability. Th
 - **10,000+ consciousness experiences** at 4K+ experiences/second
 - **1,000 concurrent operations** with perfect success rate
 
-The only limitation found was in the audit system at 100K events, which is easily managed through periodic archiving. 
+The only limitation found was in the audit system at 100K events, which is easily managed through periodic archiving.
 
 **VIVOX is ready for deployment in high-performance AGI applications.**

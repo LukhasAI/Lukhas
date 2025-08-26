@@ -1,6 +1,6 @@
 /**
  * Security Infrastructure for ΛiD Authentication System
- * 
+ *
  * Implements rate limiting, enumeration protection, and abuse prevention
  * with production-ready security measures.
  */
@@ -78,7 +78,7 @@ export class SecurityManager {
   constructor(config: SecurityConfig) {
     this.config = config;
     this.rateLimitStore = new MemoryRateLimitStore();
-    
+
     // Start cleanup interval
     this.cleanupInterval = setInterval(() => {
       this.rateLimitStore.cleanup();
@@ -132,7 +132,7 @@ export class SecurityManager {
    */
   async checkAuthRateLimit(identifier: string, ip: string): Promise<{ allowed: boolean; resetTime?: number; reason?: string }> {
     const key = `auth:${identifier}:${this.hashIP(ip)}`;
-    
+
     const check = this.checkRateLimit(key, this.config.failedAuthLimit);
     if (!check.allowed) {
       await this.logAuditEvent({
@@ -222,7 +222,7 @@ export class SecurityManager {
     recentEvents: AuditEvent[];
   } {
     const events = this.auditLog.slice(-1000); // Last 1000 events
-    
+
     return {
       totalEvents: events.length,
       failedAttempts: events.filter(e => e.event === 'auth_failure').length,
@@ -264,7 +264,7 @@ export class SecurityManager {
       // Block for the configured duration
       entry.blockedUntil = now + config.blockDurationMs;
       this.rateLimitStore.set(key, entry);
-      
+
       return {
         allowed: false,
         resetTime: entry.blockedUntil,
@@ -316,9 +316,9 @@ export class SecurityManager {
    */
   private async checkFailureAlerts(ip: string): Promise<void> {
     const recentFailures = this.auditLog
-      .filter(event => 
-        event.ip === ip && 
-        event.event === 'auth_failure' && 
+      .filter(event =>
+        event.ip === ip &&
+        event.event === 'auth_failure' &&
         Date.now() - new Date(event.timestamp).getTime() < 60 * 60 * 1000 // Last hour
       )
       .length;
@@ -347,8 +347,8 @@ export class SecurityManager {
   private cleanupAuditLog(): void {
     const retentionMs = (this.config.auditLogging ? 365 : 30) * 24 * 60 * 60 * 1000; // 365 days or 30 days
     const cutoff = Date.now() - retentionMs;
-    
-    this.auditLog = this.auditLog.filter(event => 
+
+    this.auditLog = this.auditLog.filter(event =>
       new Date(event.timestamp).getTime() > cutoff
     );
   }

@@ -46,7 +46,7 @@ class EconomicRealityManipulator(CoreInterface):
     """
     TRILLION-DOLLAR CAPABILITY: Creates and destroys markets through AI-driven
     economic analysis and strategic positioning.
-    
+
     Integrates with LUKHAS consciousness, quantum processing, and governance systems.
     """
 
@@ -107,10 +107,10 @@ class EconomicRealityManipulator(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Identify and create new trillion-dollar markets through AI innovation
-        
+
         Args:
             innovation_domains: List of domains to explore for market creation
-            
+
         Returns:
             Dictionary containing created markets and strategic analysis
         """
@@ -176,10 +176,10 @@ class EconomicRealityManipulator(CoreInterface):
     ) -> Dict[str, Any]:
         """
         Strategic competitive positioning through innovation timing
-        
+
         Args:
             target_competitors: List of competitors to analyze and counter
-            
+
         Returns:
             Comprehensive competitive analysis and counter-strategies
         """

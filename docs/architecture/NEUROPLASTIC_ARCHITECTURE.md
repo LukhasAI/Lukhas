@@ -142,7 +142,7 @@ Each submodule contains:
 ### File Distribution
 ```
 CONSCIOUSNESS: 163 files (+100 consolidated)
-MEMORY:        324 files (+100 consolidated)  
+MEMORY:        324 files (+100 consolidated)
 CORE:          732 files (+100 consolidated)
 GOVERNANCE:    121 files (+93 consolidated)
 BRIDGE:        88 files  (+65 consolidated)

@@ -284,7 +284,7 @@ class ConsciousnessService:
                 "min_tier_int": 3,
                 "consent_key": "consciousness_metacognitive_tools",
             },
-            "quantum_awareness_features": {
+            "qi_awareness_features": {
                 "min_tier_str": "LAMBDA_TIER_4",
                 "min_tier_int": 4,
                 "consent_key": "consciousness_quantum_features",
@@ -1042,7 +1042,7 @@ class ConsciousnessService:
             "basic_awareness_processing": 0.3,
             "introspection_access": 0.6,
             "metacognitive_engagement": 0.8,
-            "quantum_awareness_features": 0.95,
+            "qi_awareness_features": 0.95,
             "collective_consciousness_interface": 1.0,
         }
         achieved_depth_score = processing_depth_map.get(

@@ -33,9 +33,9 @@ Proposed Directory Structure:
 │   └── image_parser.py         # Parser for images (OCR, metadata)
 ├── dashboard/
 │   ├── __init__.py
-│   ├── symbol_generator.py     # Builds symbolic representation (glyph graph) from parsed content 
-│   ├── ar_renderer.py          # Renders symbols in AR/VR-compatible formats 
-│   └── widget_factory.py       # Creates interactive dashboard widgets from symbols 
+│   ├── symbol_generator.py     # Builds symbolic representation (glyph graph) from parsed content
+│   ├── ar_renderer.py          # Renders symbols in AR/VR-compatible formats
+│   └── widget_factory.py       # Creates interactive dashboard widgets from symbols
 └── tests/
     ├── __init__.py
     └── test_translator_manager.py
@@ -447,7 +447,7 @@ class AWSAdapter:
         if creds:
             self.aws_session = boto3.Session(aws_access_key_id=creds.key, aws_secret_access_key=creds.secret, region_name=creds.region)
         # else, handle auth flow
-    
+
     def create_resource(self, resource_type, config):
         # Translate resource_type to AWS service
         if resource_type == "ComputeInstance":
@@ -463,7 +463,7 @@ class AWSAdapter:
             s3.create_bucket(Bucket=bucket_name)
             return bucket_name
         # ... handle other types
-    
+
     def delete_resource(self, resource_id, resource_type):
         if resource_type == "ComputeInstance":
             ec2 = self.aws_session.client('ec2')
@@ -631,7 +631,7 @@ Proposed Directory Structure:
 ├── memory_integration/
 │   ├── __init__.py
 │   ├── persona_memory.py    # Keeps track of prior interactions in this persona mode (to maintain style consistency)
-│   ├── user_preferences.py  # Loads any user-specific settings (e.g., prefers uplifting tone, or brevity) 
+│   ├── user_preferences.py  # Loads any user-specific settings (e.g., prefers uplifting tone, or brevity)
 │   └── context_binder.py    # Binds current context from QRG/DAST (environment, time, etc.) to tailor content
 └── tests/
     └── test_poetic_responses.py

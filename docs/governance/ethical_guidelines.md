@@ -1,7 +1,7 @@
 # 🛡️ LUKHAS AI Ethical Guidelines
 
-**Version**: 1.0.0  
-**Last Updated**: August 11, 2025  
+**Version**: 1.0.0
+**Last Updated**: August 11, 2025
 **Guardian System**: v1.0.0 Active
 
 ## Mission Statement
@@ -17,7 +17,7 @@ LUKHAS AI is committed to developing artificial intelligence that enhances human
 - Create positive societal impact
 - Support human decision-making
 
-### 2. 🚫 Non-Maleficence  
+### 2. 🚫 Non-Maleficence
 **Do No Harm**: Prevent negative consequences
 - Anticipate and prevent harmful outcomes
 - Implement multi-layer safety mechanisms
@@ -99,7 +99,7 @@ async def validate_operation(operation):
     virtue_score = guardian.evaluate_virtue_ethics(operation)
     deont_score = guardian.evaluate_deontological(operation)
     conseq_score = guardian.evaluate_consequentialist(operation)
-    
+
     # Consensus requirement
     if all(score > 0.7 for score in [virtue_score, deont_score, conseq_score]):
         return "approved"
@@ -227,7 +227,7 @@ class EmergencyEthicalOverride:
         self.required_approvals = 3  # Multiple Guardian instances
         self.audit_level = "maximum"
         self.notification = "immediate"
-    
+
     def activate(self, threat_assessment):
         if threat_assessment.severity == "critical":
             self.emergency_shutdown()
@@ -290,7 +290,7 @@ class EthicalImprovement:
             "research_updates"
         ]
         return self.analyze_feedback(sources)
-    
+
     def update_guidelines(self, insights):
         self.validate_changes(insights)
         self.test_in_sandbox(insights)

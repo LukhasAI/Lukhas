@@ -1,6 +1,6 @@
 /**
  * Rate Limiting System for ΛiD Authentication System
- * 
+ *
  * Implements tier-based rate limits (T1-T5) with RPM/RPD controls and
  * comprehensive abuse prevention mechanisms.
  */
@@ -232,7 +232,7 @@ export class RateLimitManager {
       entry.blocked = true;
       entry.blockExpiry = entry.dailyResetTime;
       this.store.set(key, entry);
-      
+
       return this.createDeniedResult(
         context.userTier,
         'Daily limit exceeded',
@@ -249,7 +249,7 @@ export class RateLimitManager {
         entry.blocked = true;
         entry.blockExpiry = now + this.config.blockDuration;
         this.store.set(key, entry);
-        
+
         return this.createDeniedResult(
           context.userTier,
           'Rate limit exceeded (strict mode)',
@@ -338,7 +338,7 @@ export class RateLimitManager {
    */
   async resetUserLimits(userId: string, ipAddress?: string): Promise<boolean> {
     let resetCount = 0;
-    
+
     for (const [key, entry] of this.store.getAll().entries()) {
       if (key.includes(userId) || (ipAddress && key.includes(this.hashIP(ipAddress)))) {
         this.store.delete(key);
@@ -459,7 +459,7 @@ export class RateLimitManager {
   private createAllowedResult(tier: TierLevel, reason: string): RateLimitResult {
     const rule = RATE_LIMIT_RULES[tier];
     const now = Date.now();
-    
+
     return {
       allowed: true,
       tier,
@@ -476,12 +476,12 @@ export class RateLimitManager {
    * Create denied result
    */
   private createDeniedResult(
-    tier: TierLevel, 
-    reason: string, 
+    tier: TierLevel,
+    reason: string,
     metadata?: Record<string, any>
   ): RateLimitResult {
     const now = Date.now();
-    
+
     return {
       allowed: false,
       tier,
@@ -584,7 +584,7 @@ export class RateLimitUtils {
     const rpm = Math.floor(baseRpm * multiplier);
     const rpd = Math.floor(rpm * 24 * 60 * 0.8); // 80% of theoretical max
     const burstLimit = Math.floor(rpm * 0.5); // 50% burst
-    
+
     return { rpm, rpd, burstLimit };
   }
 

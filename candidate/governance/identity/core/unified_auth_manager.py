@@ -63,7 +63,7 @@ class AuthMethod(Enum):
 
     EMOJI_CONSCIOUSNESS = "emoji_consciousness"
     BIOMETRIC_DREAM = "biometric_dream"
-    QUANTUM_GLYPH = "quantum_glyph"
+    QUANTUM_GLYPH = "qi_glyph"
     CULTURAL_RESONANCE = "cultural_resonance"
     CONSTITUTIONAL_CHALLENGE = "constitutional_challenge"
     HYBRID_MULTIMODAL = "hybrid_multimodal"
@@ -78,7 +78,7 @@ class ConsciousnessProfile:
     creativity_index: float
     cultural_alignment: dict[str, float]
     dream_integration_level: float
-    quantum_coherence: float
+    qi_coherence: float
     constitutional_alignment: float
 
 
@@ -105,7 +105,7 @@ class UnifiedAuthContext:
     dream_state_indicators: Optional[dict[str, float]] = None
 
     # Quantum elements
-    quantum_entropy_source: Optional[str] = None
+    qi_entropy_source: Optional[str] = None
     qrglyph_token: Optional[str] = None
 
     # Constitutional validation
@@ -519,7 +519,7 @@ class RevolutionaryAuthManager:
             if not lambda_result.get("success"):
                 return {
                     "success": False,
-                    "phase": "quantum_authentication",
+                    "phase": "qi_authentication",
                     "reason": lambda_result.get("error"),
                     "tier_attempted": optimal_tier.value,
                     "fallback_options": await self._get_fallback_options(context),
@@ -555,7 +555,7 @@ class RevolutionaryAuthManager:
                 "consciousness_profile": consciousness_profile,
                 "cultural_adaptations": cultural_adaptation["adaptations"],
                 "dream_state_data": dream_result,
-                "quantum_signature": lambda_result.get("crypto_version"),
+                "qi_signature": lambda_result.get("crypto_version"),
                 # Adaptive recommendations
                 "optimal_auth_methods": consciousness_result.get(
                     "optimal_auth_methods", []
@@ -653,7 +653,7 @@ class RevolutionaryAuthManager:
         elif context.auth_method == AuthMethod.QUANTUM_GLYPH:
             primary_auth = {
                 "qrglyph": context.qrglyph_token or "mock_qrglyph_token",
-                "quantum_entropy": context.quantum_entropy_source
+                "qi_entropy": context.qi_entropy_source
                 or "mock_quantum_entropy",
                 "consciousness_state": (
                     context.consciousness_state.value
@@ -779,7 +779,7 @@ class RevolutionaryAuthManager:
                 "cultural_compatibility_score", 0.0
             ),
             "dream_authentication": bool(dream_result and dream_result.get("success")),
-            "quantum_signature": lambda_result.get("crypto_version"),
+            "qi_signature": lambda_result.get("crypto_version"),
             "created_at": datetime.utcnow().isoformat(),
             "session_type": "revolutionary_consciousness_aware",
         }
@@ -822,7 +822,7 @@ class RevolutionaryAuthManager:
                 if context.dream_state_indicators
                 else 0.0
             ),
-            quantum_coherence=consciousness_result.get("consciousness_score", 0.0),
+            qi_coherence=consciousness_result.get("consciousness_score", 0.0),
             constitutional_alignment=0.8,  # Would be calculated from ethical responses
         )
 
@@ -846,7 +846,7 @@ class RevolutionaryAuthManager:
             "dream_authenticator": "operational",
             "supported_methods": [method.value for method in AuthMethod],
             "consciousness_states": [state.value for state in ConsciousnessState],
-            "quantum_safe": True,
+            "qi_safe": True,
             "cultural_adaptive": True,
             "dream_integrated": True,
             "innovation_level": "BLEEDING_EDGE",

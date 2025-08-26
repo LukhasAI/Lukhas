@@ -41,9 +41,9 @@ export default function RootLayout({
           <SettingsProvider>
             <NavBar onOpenSettings={() => setShowSettings(true)} />
             {showSettings && (
-              <SettingsOverlay 
-                isOpen={true} 
-                onClose={() => setShowSettings(false)} 
+              <SettingsOverlay
+                isOpen={true}
+                onClose={() => setShowSettings(false)}
               />
             )}
             <main className="min-h-screen">{children}</main>

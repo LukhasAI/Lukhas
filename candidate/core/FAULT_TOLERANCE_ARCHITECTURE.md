@@ -229,7 +229,7 @@ class DemoActor(EventSourcedActor):
     async def _handle_update(self, message):
         old_state = self.state
         self.state = new_state
-        
+
         # Automatically recorded
         await self.record_state_change(
             "state_update",
@@ -367,19 +367,19 @@ status = cascade_prevention.get_system_status()
 ```python
 class ResilientActor(ObservableActor, EventSourcedActor):
     """Actor with all fault tolerance features"""
-    
+
     def __init__(self, actor_id: str, collector: ObservabilityCollector,
                  event_store: EventStore, snapshot_store: SnapshotStore):
         # Initialize both parent classes
         ObservableActor.__init__(self, actor_id, collector)
         EventSourcedActor.__init__(self, actor_id, event_store, snapshot_store)
-        
+
         # Add custom resilience
         self.circuit_breaker = AdvancedCircuitBreaker(
             name=f"{actor_id}_internal",
             failure_threshold=3
         )
-    
+
     async def _handle_risky_operation(self, message):
         # Protected internal operation
         async def operation():
@@ -389,19 +389,19 @@ class ResilientActor(ObservableActor, EventSourcedActor):
                 self.state,
                 "processing"
             )
-            
+
             # Perform operation
             result = await self._do_risky_work(message.payload)
-            
+
             # Record success
             await self.record_state_change(
                 "risky_op_complete",
                 "processing",
                 self.state
             )
-            
+
             return result
-        
+
         # Execute with circuit breaker
         return await self.circuit_breaker.async_call(operation)
 ```
@@ -415,25 +415,25 @@ async def setup_resilient_system():
     event_store = EventStore()
     snapshot_store = SnapshotStore()
     collector = ObservabilityCollector()
-    
+
     # Start services
     await event_store.start()
     collector.start()
-    
+
     # Create cascade prevention
     cascade_prevention = CascadePreventionSystem(system, collector)
     await cascade_prevention.start()
-    
+
     # Create root supervisor
     root = await system.create_actor(RootSupervisor, "root-supervisor")
-    
+
     # Setup steering
     steering = SteeringController(system)
     dashboard = ObservabilityDashboard(collector, steering)
-    
+
     # Create replay controller
     replay = ReplayController(system, event_store, snapshot_store)
-    
+
     return {
         "system": system,
         "cascade_prevention": cascade_prevention,

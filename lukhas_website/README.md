@@ -305,7 +305,7 @@ NODE_ENV=development
 ### **API Integration Status**
 - **Authentication**: ✅ WebAuthn/Passkey ready
 - **QRG Endpoints**: ✅ Create, verify, issue endpoints
-- **NIAS Validation**: ✅ Replay and validation routes  
+- **NIAS Validation**: ✅ Replay and validation routes
 - **DAST Security**: ✅ Route security testing
 - **Wallet Integration**: ✅ Pass issuance system
 

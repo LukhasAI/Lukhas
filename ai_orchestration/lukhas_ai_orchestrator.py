@@ -83,7 +83,7 @@ class LUKHASAIOrchestrator:
             "# LUKHAS AGI Framework Context",
             "# Trinity Framework: 🎭 Poetic, 🌈 Human, 🎓 Technical",
             "# Symbolic Integration: ⚛️ Quantum, 🧠 Consciousness, 🛡️ Guardian",
-            "# Conceptual Vocabulary: memory_fold, dream_resonance, quantum_consciousness",
+            "# Conceptual Vocabulary: memory_fold, dream_resonance, qi_consciousness",
             "# Architecture: Consciousness-aware, guardian-protected, trinity-documented",
             "",
         ]
@@ -152,7 +152,7 @@ class LUKHASAIOrchestrator:
 
         client = AsyncAnthropic(api_key=self.providers["claude"].api_key)
 
-        system_message = """You are an expert LUKHAS AGI developer. Always follow Trinity Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical). Preserve LUKHAS conceptual vocabulary like memory_fold, dream_resonance, quantum_consciousness. Use symbolic patterns (⚛️🧠🛡️) in comments. Maintain consciousness-aware architecture patterns."""
+        system_message = """You are an expert LUKHAS AGI developer. Always follow Trinity Framework documentation (🎭 Poetic, 🌈 Human, 🎓 Technical). Preserve LUKHAS conceptual vocabulary like memory_fold, dream_resonance, qi_consciousness. Use symbolic patterns (⚛️🧠🛡️) in comments. Maintain consciousness-aware architecture patterns."""
 
         response = await client.messages.create(
             model=self.providers["claude"].model,
@@ -218,7 +218,7 @@ class LUKHASAIOrchestrator:
         🌈 Human: [Clear, friendly explanation anyone can understand]
         🎓 Technical: [Precise implementation details, parameters, return values, and LUKHAS integration notes]
 
-        Follow LUKHAS conventions: consciousness, memory_fold, dream_resonance, quantum_potential concepts.
+        Follow LUKHAS conventions: consciousness, memory_fold, dream_resonance, qi_potential concepts.
         Include symbolic markers where appropriate: ⚛️ 🧠 🛡️
         """
 
@@ -283,9 +283,9 @@ class LUKHASAIOrchestrator:
         Domain context: {domain}
 
         Use LUKHAS conceptual vocabulary:
-        - memory_fold, dream_resonance, quantum_consciousness
+        - memory_fold, dream_resonance, qi_consciousness
         - guardian_protocol, trinity_framework, consciousness_engine
-        - neural_symphony, quantum_potential, memory_palace
+        - neural_symphony, qi_potential, memory_palace
 
         Provide 5 creative but appropriate suggestions that follow LUKHAS naming patterns.
         """

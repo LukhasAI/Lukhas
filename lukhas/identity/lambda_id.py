@@ -1,6 +1,8 @@
 from __future__ import annotations
+
 import os
-from typing import Dict, Any, Optional
+from typing import Any, Dict
+
 from lukhas.observability.matriz_decorators import instrument
 
 # Feature flag for WebAuthn
@@ -20,7 +22,7 @@ def authenticate(lid: str, credential: Dict[str, Any] | None = None, *, mode: st
     """Authenticate with Lambda ID or WebAuthn"""
     if not isinstance(lid, str) or len(lid) < 3:
         return {"ok": False, "reason": "invalid_lid"}
-    
+
     if mode != "dry_run" and WEBAUTHN_ACTIVE and _webauthn_manager:
         # Check if this is a WebAuthn authentication
         if credential and credential.get("type") == "webauthn":
@@ -34,7 +36,7 @@ def authenticate(lid: str, credential: Dict[str, Any] | None = None, *, mode: st
                 "method": "webauthn",
                 "tier_level": auth_result.get("tier_level", 0)
             }
-    
+
     return {"ok": True, "user": {"lid": lid}, "method": "dry_run"}
 
 @instrument("AWARENESS", label="auth:register", capability="identity:register")
@@ -53,7 +55,7 @@ def register_passkey(user_id: str, user_name: str, display_name: str, *, mode: s
             "options": result.get("options"),
             "expires_at": result.get("expires_at")
         }
-    
+
     return {"ok": True, "status": "registration_initiated(dry_run)"}
 
 @instrument("DECISION", label="auth:passkey", capability="identity:passkey")
@@ -70,7 +72,7 @@ def verify_passkey(registration_id: str, response: Dict[str, Any], *, mode: str=
             "user_id": result.get("user_id"),
             "tier_level": result.get("tier_level", 0)
         }
-    
+
     return {"ok": True, "status": "verified(dry_run)"}
 
 @instrument("AWARENESS", label="auth:list", capability="identity:list")
@@ -83,7 +85,7 @@ def list_credentials(user_id: str, *, mode: str="dry_run", **kwargs) -> Dict[str
             "credentials": result.get("credentials", []),
             "total": result.get("total_credentials", 0)
         }
-    
+
     return {"ok": True, "credentials": [], "total": 0}
 
 @instrument("DECISION", label="auth:revoke", capability="identity:revoke")
@@ -95,5 +97,5 @@ def revoke_credential(user_id: str, credential_id: str, *, mode: str="dry_run", 
             "ok": result.get("success", False),
             "revoked_at": result.get("revoked_at")
         }
-    
+
     return {"ok": True, "status": "revoked(dry_run)"}

@@ -254,7 +254,7 @@ TOTAL                      100+     FRAGMENTED
 The Universal Language / Symbolic system is the **communication backbone** of LUKHAS PWM, but it's currently shattered into disconnected fragments. Without unification:
 
 1. **Modules cannot communicate** reliably
-2. **AGI coherence is impossible** 
+2. **AGI coherence is impossible**
 3. **Technical debt compounds** exponentially
 4. **System becomes unmaintainable**
 

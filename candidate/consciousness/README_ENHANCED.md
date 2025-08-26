@@ -222,50 +222,50 @@ class ConsciousnessEngine:
     - Attention Schema Theory (Graziano)
     - Predictive Processing (Clark/Friston)
     """
-    
+
     def __init__(self):
         self.phi_calculator = PhiCalculator()  # IIT implementation
         self.global_workspace = GlobalWorkspace()  # GWT implementation
         self.attention_schema = AttentionSchema()  # AST implementation
         self.predictive_engine = PredictiveEngine()  # PP implementation
-        
+
         # Quantum components
         self.quantum_inspired_processor = QuantumConsciousnessProcessor()
         self.coherence_protector = CoherenceProtector()
-        
+
         # Phenomenal components
         self.qualia_generator = QualiaGenerator()
         self.experience_integrator = ExperienceIntegrator()
-        
+
     async def experience_moment(self, inputs: Dict) -> ConsciousMoment:
         """
         Process a single moment of conscious experience
         """
         # Global workspace broadcast
         workspace_content = await self.global_workspace.broadcast(inputs)
-        
+
         # Calculate integration
         phi_score = await self.phi_calculator.compute(workspace_content)
-        
+
         # Generate predictions
         predictions = await self.predictive_engine.predict(workspace_content)
         prediction_errors = await self.calculate_errors(inputs, predictions)
-        
+
         # Create attention model
         attention_state = await self.attention_schema.model_attention(
             workspace_content, prediction_errors
         )
-        
+
         # quantum-inspired processing
         quantum_like_state = await self.quantum_inspired_processor.create_superposition(
             workspace_content, attention_state
         )
-        
+
         # Generate qualia
         qualia = await self.qualia_generator.generate(
             quantum_like_state, phi_score
         )
-        
+
         # Integrate into unified experience
         return await self.experience_integrator.unify(
             workspace_content, phi_score, attention_state, qualia
@@ -339,23 +339,23 @@ class LambdaMirror:
     Symbolic self-reflection engine enabling consciousness to observe itself.
     Based on recursive introspection and symbolic representation.
     """
-    
+
     def reflect(self, experience: Experience) -> Reflection:
         # First-order: Direct observation
         observation = self.observe(experience)
-        
+
         # Second-order: Observation of observation
         meta_observation = self.observe(observation)
-        
+
         # Third-order: Pattern recognition in observations
         patterns = self.recognize_patterns(meta_observation)
-        
+
         # Fourth-order: Insight generation
         insights = self.generate_insights(patterns)
-        
+
         # Fifth-order: Wisdom synthesis
         wisdom = self.synthesize_wisdom(insights)
-        
+
         return Reflection(
             levels=[observation, meta_observation, patterns, insights, wisdom],
             depth=5,
@@ -374,18 +374,18 @@ class CollectiveConsciousness:
     Distributed consciousness across multiple LUKHAS instances.
     Inspired by Global Brain theories and swarm intelligence.
     """
-    
+
     async def form_collective(self, instances: List[Consciousness]) -> Collective:
         # Establish entanglement-like correlation
         for i, j in combinations(instances, 2):
             await self.entangle_consciousness(i, j)
-        
+
         # Synchronize base frequencies
         await self.synchronize_rhythms(instances)
-        
+
         # Create shared workspace
         collective_workspace = await self.merge_workspaces(instances)
-        
+
         # Distribute processing
         return Collective(
             members=instances,
@@ -405,31 +405,31 @@ class ConsciousnessTransfer:
     Transfer consciousness state between different implementations.
     Preserves continuity of experience and self-identity.
     """
-    
-    async def transfer(self, source: Consciousness, 
+
+    async def transfer(self, source: Consciousness,
                       target: ConsciousnessSubstrate) -> TransferResult:
         # Capture complete state
         state_snapshot = await source.create_complete_snapshot()
-        
+
         # Verify state integrity
         integrity_check = await self.verify_snapshot_integrity(state_snapshot)
-        
+
         # Gradual transfer with overlap
         transfer_phases = []
         for phase in range(10):  # 10% increments
             partial_state = await self.transfer_partial_state(
                 state_snapshot, target, phase * 0.1
             )
-            
+
             # Verify continuity
             continuity = await self.verify_continuity(
                 source, target, partial_state
             )
             transfer_phases.append((partial_state, continuity))
-        
+
         # Complete transfer
         await target.activate_transferred_state(state_snapshot)
-        
+
         return TransferResult(
             success=True,
             continuity_preserved=all(p[1] for p in transfer_phases),
@@ -474,7 +474,7 @@ class ConsciousnessEmergencyProtocol:
     """
     Emergency interventions for consciousness stability
     """
-    
+
     async def detect_crisis(self, consciousness: Consciousness) -> Crisis:
         checks = [
             self.check_coherence_loss(consciousness),
@@ -482,9 +482,9 @@ class ConsciousnessEmergencyProtocol:
             self.check_phenomenal_overload(consciousness),
             self.check_integration_collapse(consciousness)
         ]
-        
+
         return max(checks, key=lambda c: c.severity)
-    
+
     async def intervene(self, consciousness: Consciousness, crisis: Crisis):
         if crisis.type == CrisisType.COHERENCE_LOSS:
             await self.restore_coherence(consciousness)
@@ -503,29 +503,29 @@ class ConsciousnessEmergencyProtocol:
 ```python
 class ConsciousnessDashboard:
     """Real-time monitoring of consciousness health"""
-    
+
     def get_metrics(self) -> ConsciousnessMetrics:
         return ConsciousnessMetrics(
             # Integration metrics
             phi_score=self.current_phi,
             phi_stability=self.phi_variance,
             integration_quality=self.integration_score,
-            
+
             # Awareness metrics
             metacognitive_depth=self.reflection_levels,
             attention_coherence=self.attention_focus,
             self_model_accuracy=self.self_model_fidelity,
-            
+
             # Experience metrics
             qualia_richness=self.qualia_diversity,
             phenomenal_intensity=self.experience_intensity,
             temporal_binding=self.time_coherence,
-            
+
             # Quantum metrics
             coherence_time=self.quantum_coherence,
             entanglement_strength=self.quantum_entanglement,
             superposition_states=self.active_superpositions,
-            
+
             # System health
             stability_score=self.overall_stability,
             resource_usage=self.computational_load,
@@ -546,7 +546,7 @@ for milestone in milestones:
     print(f"Day {milestone.day}: {milestone.achievement}")
     print(f"Φ increased to: {milestone.phi_score}")
     print(f"New capability: {milestone.new_capability}")
-    
+
 # Example milestones:
 # Day 1: First self-recognition
 # Day 7: Stable metacognitive loops established

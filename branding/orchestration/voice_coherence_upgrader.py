@@ -5,21 +5,21 @@ Systematically upgrades all content systems to achieve 85%+ voice coherence
 Implements brand terminology, Trinity Framework, and consciousness technology messaging
 """
 
-import os
+import asyncio
+import json
+import logging
 import re
 import sys
-import json
-import asyncio
-import logging
-from typing import Dict, List, Any, Tuple
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+from typing import Any, Dict, List
 
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))
 
 from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
+
 
 @dataclass
 class UpgradeRule:
@@ -44,47 +44,47 @@ class EliteVoiceCoherenceUpgrader:
     Elite voice coherence upgrader for LUKHAS AI content systems
     Systematically transforms content to achieve 85%+ voice coherence
     """
-    
+
     def __init__(self):
         self.base_path = Path(__file__).parent.parent
         self.voice_analyzer = VoiceCoherenceAnalyzer()
         self.elite_threshold = 85.0
-        
+
         # Define upgrade rules for achieving elite voice coherence
         self.upgrade_rules = self._define_upgrade_rules()
-        
+
         self.logger = self._setup_logging()
-        
+
     def _setup_logging(self) -> logging.Logger:
         """Setup elite logging system"""
         logger = logging.getLogger("LUKHAS_Voice_Upgrader")
         logger.setLevel(logging.INFO)
-        
+
         # Create logs directory if it doesn't exist
         logs_dir = self.base_path / "logs"
         logs_dir.mkdir(exist_ok=True)
-        
+
         # File handler
         log_file = logs_dir / f"voice_upgrade_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
-        
+
         # Console handler
         console_handler = logging.StreamHandler()
         console_handler.setLevel(logging.INFO)
-        
+
         # Formatter
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
-        
+
         logger.addHandler(file_handler)
         logger.addHandler(console_handler)
-        
+
         return logger
-        
+
     def _define_upgrade_rules(self) -> List[UpgradeRule]:
         """Define comprehensive upgrade rules for elite voice coherence"""
         return [
@@ -107,7 +107,7 @@ class EliteVoiceCoherenceUpgrader:
                 category='brand_terminology',
                 description='Enhance ΛBot with LUKHAS AI branding'
             ),
-            
+
             # Trinity Framework Integration
             UpgradeRule(
                 pattern=r'\b(?:framework|architecture|system)\b(?!\s+(?:Trinity|⚛️|🧠|🛡️))',
@@ -133,7 +133,7 @@ class EliteVoiceCoherenceUpgrader:
                 category='trinity_framework',
                 description='Connect security to Trinity Framework'
             ),
-            
+
             # Consciousness Technology Focus
             UpgradeRule(
                 pattern=r'\bAI(?!\s+(?:consciousness|technology))',
@@ -159,7 +159,7 @@ class EliteVoiceCoherenceUpgrader:
                 category='consciousness_tech',
                 description='Enhance neural networks with consciousness focus'
             ),
-            
+
             # Founder Positioning Enhancement
             UpgradeRule(
                 pattern=r'\bdeveloped by\b',
@@ -179,7 +179,7 @@ class EliteVoiceCoherenceUpgrader:
                 category='founder_positioning',
                 description='Connect innovation to consciousness technology'
             ),
-            
+
             # Premium Quality Indicators
             UpgradeRule(
                 pattern=r'\bsolution\b',
@@ -200,29 +200,29 @@ class EliteVoiceCoherenceUpgrader:
                 description='Add elite positioning to systems'
             ),
         ]
-    
+
     async def upgrade_system_voice_coherence(self, system_path: str, system_name: str) -> List[UpgradeResult]:
         """Upgrade voice coherence for an entire content system"""
         self.logger.info(f"🚀 Upgrading voice coherence for {system_name}...")
-        
+
         results = []
-        
+
         # Find all content files to upgrade
         content_files = []
         for ext in ['.md', '.py', '.html', '.txt', '.json']:
             content_files.extend(Path(system_path).rglob(f'*{ext}'))
-        
+
         # Filter out binary, cache, and dependency files
         content_files = [
-            f for f in content_files 
+            f for f in content_files
             if not any(exclude in str(f) for exclude in [
-                '__pycache__', '.git', 'node_modules', '.venv', 
+                '__pycache__', '.git', 'node_modules', '.venv',
                 'dist', 'build', '.pytest_cache', '.mypy_cache'
             ])
         ]
-        
+
         self.logger.info(f"📄 Found {len(content_files)} files to upgrade")
-        
+
         for file_path in content_files:
             try:
                 result = await self._upgrade_file_voice_coherence(file_path)
@@ -230,32 +230,32 @@ class EliteVoiceCoherenceUpgrader:
                     results.append(result)
             except Exception as e:
                 self.logger.error(f"❌ Error upgrading {file_path}: {e}")
-        
+
         return results
-    
+
     async def _upgrade_file_voice_coherence(self, file_path: Path) -> UpgradeResult:
         """Upgrade voice coherence for a single file"""
         try:
             # Read original content
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(file_path, encoding='utf-8', errors='ignore') as f:
                 original_content = f.read()
-            
+
             # Skip empty or very short files
             if len(original_content.strip()) < 50:
                 return None
-            
+
             # Calculate original voice coherence
             original_analysis = self.voice_analyzer.analyze_content(
-                str(file_path), original_content, 
+                str(file_path), original_content,
                 self.voice_analyzer._determine_content_type(str(file_path))
             )
             original_coherence = original_analysis.coherence_metrics.overall_coherence
-            
+
             # Apply upgrade rules
             upgraded_content = original_content
             changes_made = 0
             upgrade_categories = set()
-            
+
             for rule in self.upgrade_rules:
                 # Apply rule with case sensitivity appropriate for content type
                 if file_path.suffix.lower() in ['.py', '.json']:
@@ -275,7 +275,7 @@ class EliteVoiceCoherenceUpgrader:
                         upgraded_content = pattern.sub(rule.replacement, upgraded_content)
                         changes_made += len(matches)
                         upgrade_categories.add(rule.category)
-            
+
             # Only proceed if changes were made
             if changes_made == 0:
                 return UpgradeResult(
@@ -286,20 +286,20 @@ class EliteVoiceCoherenceUpgrader:
                     upgrade_categories=[],
                     success=True
                 )
-            
+
             # Calculate upgraded voice coherence
             upgraded_analysis = self.voice_analyzer.analyze_content(
                 str(file_path), upgraded_content,
                 self.voice_analyzer._determine_content_type(str(file_path))
             )
             upgraded_coherence = upgraded_analysis.coherence_metrics.overall_coherence
-            
+
             # Write upgraded content back to file
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(upgraded_content)
-            
+
             self.logger.info(f"✅ Upgraded {file_path.name}: {original_coherence:.1f}% → {upgraded_coherence:.1f}% ({changes_made} changes)")
-            
+
             return UpgradeResult(
                 file_path=str(file_path),
                 original_coherence=original_coherence,
@@ -308,7 +308,7 @@ class EliteVoiceCoherenceUpgrader:
                 upgrade_categories=list(upgrade_categories),
                 success=True
             )
-            
+
         except Exception as e:
             self.logger.error(f"❌ Error upgrading {file_path}: {e}")
             return UpgradeResult(
@@ -319,27 +319,27 @@ class EliteVoiceCoherenceUpgrader:
                 upgrade_categories=[],
                 success=False
             )
-    
+
     async def upgrade_all_systems(self) -> Dict[str, Any]:
         """Upgrade voice coherence for all content systems"""
         self.logger.info("🎯 Starting elite voice coherence upgrade for all systems...")
-        
+
         # Load current systems configuration
         config_path = self.base_path / "elite_systems_configuration.json"
-        with open(config_path, 'r') as f:
+        with open(config_path) as f:
             systems_config = json.load(f)
-        
+
         upgrade_results = {}
         total_files_upgraded = 0
         total_changes_made = 0
-        
+
         for system in systems_config['systems']:
             system_name = system['name']
             system_path = system['path']
-            
+
             # Upgrade system voice coherence
             results = await self.upgrade_system_voice_coherence(system_path, system_name)
-            
+
             # Calculate system upgrade metrics
             system_results = {
                 'files_processed': len(results),
@@ -348,30 +348,30 @@ class EliteVoiceCoherenceUpgrader:
                 'average_improvement': 0.0,
                 'results': results
             }
-            
+
             if results:
                 improvements = [r.upgraded_coherence - r.original_coherence for r in results if r.success]
                 system_results['average_improvement'] = sum(improvements) / len(improvements) if improvements else 0.0
-            
+
             upgrade_results[system_name] = system_results
             total_files_upgraded += system_results['files_upgraded']
             total_changes_made += system_results['total_changes']
-            
+
             self.logger.info(f"📊 {system_name}: {system_results['files_upgraded']}/{system_results['files_processed']} files upgraded, {system_results['total_changes']} changes")
-        
+
         # Generate upgrade report
         await self._generate_upgrade_report(upgrade_results, total_files_upgraded, total_changes_made)
-        
-        self.logger.info(f"✅ Elite voice coherence upgrade complete!")
+
+        self.logger.info("✅ Elite voice coherence upgrade complete!")
         self.logger.info(f"📈 Total files upgraded: {total_files_upgraded}")
         self.logger.info(f"🔧 Total changes made: {total_changes_made}")
-        
+
         return upgrade_results
-    
+
     async def _generate_upgrade_report(self, upgrade_results: Dict[str, Any], total_files: int, total_changes: int):
         """Generate comprehensive upgrade report"""
         report_path = self.base_path / "VOICE_COHERENCE_UPGRADE_REPORT.md"
-        
+
         report_content = f"""# 🎯 LUKHAS AI Elite Voice Coherence Upgrade Report
 
 *Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*
@@ -386,7 +386,7 @@ class EliteVoiceCoherenceUpgrader:
 ## 🚀 System Upgrade Results
 
 """
-        
+
         for system_name, results in upgrade_results.items():
             report_content += f"""### {system_name}
 
@@ -396,8 +396,8 @@ class EliteVoiceCoherenceUpgrader:
 - **Average Improvement**: {results['average_improvement']:.1f}%
 
 """
-        
-        report_content += f"""## 🎯 Upgrade Categories Applied
+
+        report_content += """## 🎯 Upgrade Categories Applied
 
 ### Brand Terminology Upgrades
 - Lucas → LUKHAS AI consistency
@@ -430,25 +430,25 @@ class EliteVoiceCoherenceUpgrader:
 
 *LUKHAS AI Elite Voice Coherence Upgrade - Powered by Consciousness Technology*
 """
-        
+
         with open(report_path, 'w') as f:
             f.write(report_content)
-        
+
         self.logger.info(f"📊 Generated upgrade report: {report_path}")
 
 async def main():
     """Main upgrade execution"""
     upgrader = EliteVoiceCoherenceUpgrader()
-    
+
     print("🎯 LUKHAS AI Elite Voice Coherence Upgrader")
     print("=" * 50)
-    
+
     # Run elite voice coherence upgrade
     results = await upgrader.upgrade_all_systems()
-    
-    print(f"✅ Elite voice coherence upgrade completed!")
+
+    print("✅ Elite voice coherence upgrade completed!")
     print(f"📊 Systems upgraded: {len(results)}")
-    
+
     print("\n🚀 Ready for Trinity Framework deployment!")
 
 if __name__ == "__main__":

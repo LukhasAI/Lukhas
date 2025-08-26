@@ -7,12 +7,12 @@ type Mode = "svg" | "canvas" | "webgl";
 
 function pickMode(): Mode {
   if (typeof window === 'undefined') return "svg";
-  
+
   const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
   // @ts-ignore - deviceMemory is not in standard types yet
   const mem = (navigator as any).deviceMemory ?? 4;
   const cores = navigator.hardwareConcurrency ?? 4;
-  // @ts-ignore - connection.saveData is not in standard types yet  
+  // @ts-ignore - connection.saveData is not in standard types yet
   const batterySaver = (navigator as any).connection?.saveData === true;
 
   if (reduce || batterySaver) return "svg";
@@ -35,43 +35,43 @@ export default function NeuralBackground() {
       let raf = 0;
       const W = (canvasRef.current.width = window.innerWidth * (window.devicePixelRatio || 1));
       const H = (canvasRef.current.height = window.innerHeight * (window.devicePixelRatio || 1));
-      
+
       // Scale canvas for high DPI
       canvasRef.current.style.width = window.innerWidth + 'px';
       canvasRef.current.style.height = window.innerHeight + 'px';
       ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
-      
+
       const pts = Array.from({ length: 60 }, () => ({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4
       }));
-      
+
       const loop = () => {
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
         ctx.globalAlpha = 0.6;
         ctx.strokeStyle = "rgba(180,200,255,0.25)";
-        
+
         // Update and draw particles
-        pts.forEach(p => { 
-          p.x += p.vx; 
-          p.y += p.vy; 
-          if (p.x < 0 || p.x > window.innerWidth) p.vx *= -1; 
-          if (p.y < 0 || p.y > window.innerHeight) p.vy *= -1; 
+        pts.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > window.innerWidth) p.vx *= -1;
+          if (p.y < 0 || p.y > window.innerHeight) p.vy *= -1;
         });
-        
+
         // Draw connections
         for (let i = 0; i < pts.length; i++){
           for (let j = i + 1; j < pts.length; j++){
             const dx = pts[i].x - pts[j].x;
             const dy = pts[i].y - pts[j].y;
             const d = Math.hypot(dx, dy);
-            if (d < 140){ 
-              ctx.beginPath(); 
-              ctx.moveTo(pts[i].x, pts[i].y); 
-              ctx.lineTo(pts[j].x, pts[j].y); 
-              ctx.stroke(); 
+            if (d < 140){
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x, pts[i].y);
+              ctx.lineTo(pts[j].x, pts[j].y);
+              ctx.stroke();
             }
           }
         }
@@ -84,9 +84,9 @@ export default function NeuralBackground() {
 
   if (mode === "svg") {
     return (
-      <svg 
-        aria-hidden="true" 
-        role="img" 
+      <svg
+        aria-hidden="true"
+        role="img"
         className="fixed inset-0 -z-10 w-full h-full"
       >
         <defs>

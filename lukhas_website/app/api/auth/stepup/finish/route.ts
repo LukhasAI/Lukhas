@@ -17,11 +17,11 @@ export async function POST(request: NextRequest) {
     }
 
     const credential = await request.json()
-    
+
     // Get the challenge from Redis
     const redis = await getRedisClient()
     const keys = await redis.keys(`stepup:${payload.sub}:*`)
-    
+
     if (!keys || keys.length === 0) {
       return NextResponse.json(
         { error: 'No active step-up session' },
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     const latestKey = keys[keys.length - 1]
     const challengeData = await redis.get(latestKey)
-    
+
     if (!challengeData) {
       return NextResponse.json(
         { error: 'Step-up session expired' },
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         purpose,
         timestamp: new Date().toISOString()
       })
-      
+
       return NextResponse.json(
         { error: 'Step-up authentication failed' },
         { status: 401 }
@@ -113,13 +113,13 @@ async function generateStepUpToken(userId: string, purpose: string) {
   const redis = await getRedisClient()
   const token = Buffer.from(crypto.randomUUID()).toString('base64url')
   const stepUpTokenKey = `stepup-token:${token}`
-  
+
   await redis.setex(stepUpTokenKey, 300, JSON.stringify({
     userId,
     purpose,
     timestamp: Date.now(),
     used: false
   }))
-  
+
   return token
 }

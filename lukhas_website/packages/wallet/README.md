@@ -25,7 +25,7 @@ import { generateWalletPass, verifyWalletToken } from '@/packages/wallet/pkpass'
 const pass = await generateWalletPass(
   userId,
   deviceId,
-  { 
+  {
     expiresInHours: 24,
     requiresPasskeyVerification: true,
     allowedActions: ['transfer', 'delete_account']

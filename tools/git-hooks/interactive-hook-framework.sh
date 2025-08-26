@@ -55,10 +55,10 @@ get_user_choice() {
     local default="${2:-y}"
     local timeout="${3:-30}"
     local choices="${4:-y/n}"
-    
+
     echo -e "${YELLOW}${prompt}${RESET}"
     echo -e "${DIM}Choices: [${choices}] (default: ${default}, timeout: ${timeout}s)${RESET}"
-    
+
     local choice
     if read -t "$timeout" -p "❯ " choice; then
         choice="${choice:-$default}"
@@ -66,7 +66,7 @@ get_user_choice() {
         echo -e "\n${DIM}⏱️  Timeout reached, using default: ${default}${RESET}"
         choice="$default"
     fi
-    
+
     echo "$choice"
 }
 
@@ -74,7 +74,7 @@ get_user_choice() {
 show_changes() {
     local file="$1"
     local description="$2"
-    
+
     echo -e "${BLUE}📄 ${description}:${RESET} ${BOLD}$file${RESET}"
     echo -e "${DIM}$(head -3 "$file" 2>/dev/null || echo "File preview unavailable")${RESET}"
     print_separator
@@ -84,7 +84,7 @@ show_changes() {
 create_backup() {
     local file="$1"
     local backup_dir="${BACKUP_DIR:-/tmp/git-hook-backups}"
-    
+
     mkdir -p "$backup_dir"
     local backup_file="$backup_dir/$(basename "$file").$(date +%Y%m%d_%H%M%S).backup"
     cp "$file" "$backup_file" 2>/dev/null || true
@@ -96,13 +96,13 @@ apply_changes() {
     local file="$1"
     local new_content="$2"
     local description="$3"
-    
+
     local backup_file
     backup_file=$(create_backup "$file")
-    
+
     echo -e "${GREEN}✅ Applying changes to: ${BOLD}$file${RESET}"
     echo -e "${DIM}Backup created: $backup_file${RESET}"
-    
+
     echo "$new_content" > "$file"
     log_action "Applied $description to $file (backup: $backup_file)"
 }
@@ -116,26 +116,26 @@ interactive_mode() {
     local files=("$@")
     local processed=0
     local applied=0
-    
+
     print_header
     echo -e "${CYAN}🔍 Found ${#files[@]} file(s) that could be enhanced${RESET}\n"
-    
+
     for file in "${files[@]}"; do
         processed=$((processed + 1))
-        
+
         echo -e "${BOLD}File $processed/${#files[@]}:${RESET} $file"
-        
+
         # Call the hook's analysis function
         if declare -f "analyze_file" > /dev/null; then
             local analysis
             analysis=$(analyze_file "$file")
             echo -e "${DIM}$analysis${RESET}"
         fi
-        
+
         # Ask user what to do
         local choice
         choice=$(get_user_choice "What would you like to do?" "s" 30 "a)pply/s)kip/v)iew/q)uit")
-        
+
         case "${choice,,}" in
             a|apply)
                 if declare -f "apply_enhancement" > /dev/null; then
@@ -168,25 +168,25 @@ interactive_mode() {
                 echo -e "${DIM}⏭️  Skipping $file${RESET}"
                 ;;
         esac
-        
+
         echo ""
     done
-    
+
     echo -e "${BOLD}📊 Summary:${RESET}"
     echo -e "  • Files processed: $processed"
     echo -e "  • Files enhanced: $applied"
     echo -e "  • Files skipped: $((processed - applied))"
-    
+
     log_action "Interactive mode: processed $processed, applied $applied"
 }
 
 # Auto mode - applies all changes without asking
 auto_mode() {
     local files=("$@")
-    
+
     print_header
     echo -e "${CYAN}🚀 Auto-applying enhancements to ${#files[@]} file(s)${RESET}\n"
-    
+
     local applied=0
     for file in "${files[@]}"; do
         if declare -f "apply_enhancement" > /dev/null; then
@@ -195,7 +195,7 @@ auto_mode() {
             echo -e "${GREEN}✅ Enhanced $file${RESET}"
         fi
     done
-    
+
     echo -e "\n${BOLD}📊 Applied enhancements to $applied file(s)${RESET}"
     log_action "Auto mode: applied enhancements to $applied files"
 }
@@ -203,10 +203,10 @@ auto_mode() {
 # Preview mode - shows what would be changed without applying
 preview_mode() {
     local files=("$@")
-    
+
     print_header
     echo -e "${CYAN}👀 Preview mode - showing potential changes${RESET}\n"
-    
+
     for file in "${files[@]}"; do
         echo -e "${BOLD}📄 $file${RESET}"
         if declare -f "preview_changes" > /dev/null; then
@@ -216,7 +216,7 @@ preview_mode() {
         fi
         print_separator
     done
-    
+
     log_action "Preview mode: showed changes for ${#files[@]} files"
 }
 
@@ -226,7 +226,7 @@ preview_mode() {
 
 load_config() {
     local config_file="${1:-$(git rev-parse --git-dir)/hooks/interactive-hook.conf}"
-    
+
     if [[ -f "$config_file" ]]; then
         # shellcheck source=/dev/null
         source "$config_file"
@@ -238,14 +238,14 @@ save_user_preference() {
     local key="$1"
     local value="$2"
     local config_file="${3:-$(git rev-parse --git-dir)/hooks/interactive-hook.conf}"
-    
+
     mkdir -p "$(dirname "$config_file")"
-    
+
     # Remove existing setting and add new one
     grep -v "^$key=" "$config_file" 2>/dev/null > "${config_file}.tmp" || touch "${config_file}.tmp"
     echo "$key=$value" >> "${config_file}.tmp"
     mv "${config_file}.tmp" "$config_file"
-    
+
     log_action "Saved preference: $key=$value"
 }
 
@@ -255,24 +255,24 @@ save_user_preference() {
 
 interactive_hook_main() {
     local files=("$@")
-    
+
     # Load configuration
     load_config
-    
+
     # Skip if no files to process
     if [[ ${#files[@]} -eq 0 ]]; then
         echo -e "${DIM}ℹ️  No files to process${RESET}"
         return 0
     fi
-    
+
     # Check for mode override from environment or config
     local mode="${HOOK_MODE:-${DEFAULT_MODE:-interactive}}"
-    
+
     # Allow user to choose mode if not set
     if [[ "$mode" == "ask" ]] || [[ -z "$mode" ]]; then
         echo -e "${YELLOW}🤔 How would you like to proceed?${RESET}"
         mode=$(get_user_choice "Choose mode:" "i" 20 "i)nteractive/a)uto/p)review/s)kip")
-        
+
         # Ask if they want to remember this choice
         local remember
         remember=$(get_user_choice "Remember this choice for future commits?" "n" 10 "y/n")
@@ -280,7 +280,7 @@ interactive_hook_main() {
             save_user_preference "DEFAULT_MODE" "$mode"
         fi
     fi
-    
+
     case "${mode,,}" in
         i|interactive)
             interactive_mode "${files[@]}"
@@ -299,7 +299,7 @@ interactive_hook_main() {
             return 1
             ;;
     esac
-    
+
     # Always exit successfully to not block commits
     return 0
 }

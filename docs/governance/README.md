@@ -80,6 +80,6 @@ All governance follows the Trinity Framework (⚛️🧠🛡️):
 
 ---
 
-**Directory Status**: ✅ **Organized**  
-**Content Type**: **Governance & Policy Documentation**  
+**Directory Status**: ✅ **Organized**
+**Content Type**: **Governance & Policy Documentation**
 **Last Updated**: August 25, 2025

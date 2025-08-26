@@ -80,12 +80,12 @@ LUKHAS_API_HOST=0.0.0.0
 # Optional (default: 8080)
 LUKHAS_API_PORT=8080
 
-# Universal Language API Port  
+# Universal Language API Port
 # Optional (default: 8081)
 LUKHAS_LANG_API_PORT=8081
 
 # =============================================================================
-# DASHBOARD CONFIGURATION  
+# DASHBOARD CONFIGURATION
 # =============================================================================
 
 # Dashboard Host
@@ -120,7 +120,7 @@ LUKHAS_MONITORING_API_KEY=your-monitoring-key-here
 # Optional (default: true)
 LUKHAS_METRICS_ENABLED=true
 
-# Metrics collection interval (seconds) 
+# Metrics collection interval (seconds)
 # Optional (default: 1)
 LUKHAS_METRICS_INTERVAL=1
 
@@ -142,7 +142,7 @@ LUKHAS_API_KEY_HASHES=hash1,hash2,hash3
 # Optional (default: false, set true for production)
 LUKHAS_API_KEY_REQUIRED=false
 
-# API Rate limiting  
+# API Rate limiting
 # Optional (default: 1000)
 LUKHAS_RATE_LIMIT_API=1000
 
@@ -204,7 +204,7 @@ T5_REQUIRE_SCIM=true
 # REQUIRED - generate with: openssl genpkey -algorithm RSA -out private.pem -pkcs8 -outform PEM
 JWT_PRIVATE_KEY=your-base64-encoded-rsa-private-key
 
-# RSA public key for JWT verification (PEM format, base64 encoded)  
+# RSA public key for JWT verification (PEM format, base64 encoded)
 # REQUIRED - extract with: openssl rsa -in private.pem -pubout -out public.pem
 JWT_PUBLIC_KEY=your-base64-encoded-rsa-public-key
 
@@ -296,7 +296,7 @@ DEV_HTTPS_ENABLED=true
 # REQUIRED if DEV_HTTPS_ENABLED=true
 DEV_SSL_CERT=./certs/localhost.crt
 
-# Path to development SSL private key  
+# Path to development SSL private key
 # REQUIRED if DEV_HTTPS_ENABLED=true
 DEV_SSL_KEY=./certs/localhost.key
 
@@ -309,7 +309,7 @@ LUKHAS_PROMETHEUS_ENABLED=false
 LUKHAS_PROMETHEUS_PORT=9090
 
 # Grafana integration
-LUKHAS_GRAFANA_ENABLED=false  
+LUKHAS_GRAFANA_ENABLED=false
 LUKHAS_GRAFANA_HOST=localhost
 LUKHAS_GRAFANA_PORT=3001
 
@@ -390,13 +390,13 @@ def pytest_configure(config):
     os.environ.setdefault("LUKHAS_DRY_RUN_MODE", "true")
     os.environ.setdefault("LUKHAS_OFFLINE", "true")
     os.environ.setdefault("LUKHAS_FEATURE_MATRIX_EMIT", "true")
-    
+
     # Disable all features by default (safety first)
     os.environ.setdefault("FEATURE_POLICY_DECIDER", "false")
     os.environ.setdefault("FEATURE_ORCHESTRATION_HANDOFF", "false")
     os.environ.setdefault("FEATURE_IDENTITY_PASSKEY", "false")
     os.environ.setdefault("FEATURE_GOVERNANCE_LEDGER", "false")
-    
+
 --
 def pytest_configure(config):
     """Register custom markers"""

@@ -7,7 +7,7 @@ This directory contains advanced orchestration modules for compliance, ethics, e
 ## File Overview
 
 ### `emotional_oscillator.py`
-A compliance-safe emotional oscillator for subsystem-level emotional modulation. 
+A compliance-safe emotional oscillator for subsystem-level emotional modulation.
 - **Purpose:** Modulates emotional state using amplitude, frequency, and phase, with strict parameter limits for regulatory compliance (EU AI Act, GDPR, ISO/IEC 27001).
 - **Usage:**
   ```python

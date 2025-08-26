@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI - Email Help Component
- * 
+ *
  * Collapsible help system with step-by-step troubleshooting guidance
  * for email delivery issues, following the three-layer tone system.
  */
@@ -12,13 +12,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Badge } from '@/components/ui/badge';
-import { 
-  ChevronDown, 
-  ChevronUp, 
-  Mail, 
-  Search, 
-  Shield, 
-  Clock, 
+import {
+  ChevronDown,
+  ChevronUp,
+  Mail,
+  Search,
+  Shield,
+  Clock,
   HelpCircle,
   ExternalLink,
   Building,
@@ -86,10 +86,10 @@ export function EmailHelp({
 }: EmailHelpProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
-  
+
   // Get localized strings
   const t = emailHelpI18n[locale];
-  
+
   // Toggle step expansion
   const toggleStep = useCallback((stepKey: string) => {
     setExpandedSteps(prev => {
@@ -155,7 +155,7 @@ export function EmailHelp({
   // Render step content
   const renderStep = (step: TroubleshootingStep, index: number) => {
     const isExpanded = expandedSteps.has(step.key);
-    
+
     return (
       <div key={step.key} className="border rounded-lg" data-tone="plain">
         <button
@@ -189,7 +189,7 @@ export function EmailHelp({
             )}
           </div>
         </button>
-        
+
         {isExpanded && (
           <div
             id={`step-${step.key}-content`}
@@ -224,9 +224,9 @@ export function EmailHelp({
     return (
       <Collapsible open={isOpen} onOpenChange={setIsOpen} className={className}>
         <CollapsibleTrigger asChild>
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             className="gap-2 text-sm"
             aria-label={isOpen ? t.emailHelp.toggle.hide : t.emailHelp.toggle.show}
             data-tone="plain"
@@ -264,8 +264,8 @@ export function EmailHelp({
     <div className={cn('space-y-4', className)} data-tone="plain">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CollapsibleTrigger asChild>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="w-full justify-between gap-2"
             aria-expanded={isOpen}
             aria-controls="email-help-content"
@@ -279,7 +279,7 @@ export function EmailHelp({
             {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </Button>
         </CollapsibleTrigger>
-        
+
         <CollapsibleContent id="email-help-content">
           <Card data-tone="plain">
             <CardHeader className="pb-4">
@@ -293,19 +293,19 @@ export function EmailHelp({
                 </p>
               )}
             </CardHeader>
-            
+
             <CardContent className="space-y-6">
               {/* Troubleshooting Steps */}
               <div className="space-y-3" data-tone="plain">
-                <h3 
+                <h3
                   className="font-medium text-base mb-3"
                   id="troubleshooting-steps"
                   data-tone="plain"
                 >
                   {t.troubleshooting.title}
                 </h3>
-                
-                <div 
+
+                <div
                   className="space-y-2"
                   role="list"
                   aria-labelledby="troubleshooting-steps"
@@ -318,7 +318,7 @@ export function EmailHelp({
               {/* Alternative Options */}
               {showAlternatives && (
                 <div className="border-t pt-4" data-tone="plain">
-                  <h3 
+                  <h3
                     className="font-medium text-base mb-3"
                     id="alternative-options"
                     data-tone="plain"
@@ -328,16 +328,16 @@ export function EmailHelp({
                   <p className="text-sm text-muted-foreground mb-4" data-tone="plain">
                     {t.emailHelp.alternatives.description}
                   </p>
-                  
-                  <div 
+
+                  <div
                     className="grid gap-3 md:grid-cols-3"
                     role="list"
                     aria-labelledby="alternative-options"
                     aria-label={t.accessibility.alternativesList}
                   >
                     {onMagicLinkRequest && (
-                      <Card 
-                        className="border-muted hover:border-primary transition-colors cursor-pointer" 
+                      <Card
+                        className="border-muted hover:border-primary transition-colors cursor-pointer"
                         onClick={onMagicLinkRequest}
                         role="listitem"
                         data-tone="plain"
@@ -355,9 +355,9 @@ export function EmailHelp({
                         </CardContent>
                       </Card>
                     )}
-                    
+
                     {onEmailChangeRequest && (
-                      <Card 
+                      <Card
                         className="border-muted hover:border-primary transition-colors cursor-pointer"
                         onClick={onEmailChangeRequest}
                         role="listitem"
@@ -376,8 +376,8 @@ export function EmailHelp({
                         </CardContent>
                       </Card>
                     )}
-                    
-                    <Card 
+
+                    <Card
                       className="border-muted hover:border-primary transition-colors cursor-pointer"
                       onClick={onSupportRequest}
                       role="listitem"
@@ -397,7 +397,7 @@ export function EmailHelp({
                       </CardContent>
                     </Card>
                   </div>
-                  
+
                   {showPoetic && (
                     <blockquote className="mt-4 text-sm italic text-muted-foreground border-l-2 border-muted pl-4" data-tone="poetic">
                       {t.emailHelp.poetic.alternatives}

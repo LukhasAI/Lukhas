@@ -52,10 +52,10 @@ MODULE_NAME = "memory_visualizer"
 
 # AIMPORT_TODO: Review deep relative imports for robustness.
 try:
-    from ...quantum_processing.quantum_engine import QuantumOscillator
-    from ..bio_awareness.quantum_bio_components import ProtonGradient
+    from ...qi_processing.qi_engine import QIOscillator
+    from ..bio_awareness.qi_bio_components import ProtonGradient
 
-    logger.info("Successfully imported QuantumOscillator and ProtonGradient.")
+    logger.info("Successfully imported QIOscillator and ProtonGradient.")
 except ImportError as e:
     logger.error(
         "Failed to import critical dependencies for MemoryVisualizer.",
@@ -65,8 +65,8 @@ except ImportError as e:
 
     # ΛCAUTION: Core dependencies missing. Visualization will be non-functional.
     class QIOscillator:  # type: ignore
-        def quantum_modulate(self, val: Any) -> Any:
-            logger.error("Fallback QuantumOscillator used.")
+        def qi_modulate(self, val: Any) -> Any:
+            logger.error("Fallback QIOscillator used.")
             return val
 
         entanglement_factor: float = 0.0  # Dummy attribute
@@ -82,7 +82,7 @@ class VisualizationConfig:
     """Configuration for memory visualization"""
 
     # ΛSEED: Default configuration values for VisualizationConfig.
-    quantum_enhancement: bool = True
+    qi_enhancement: bool = True
     dream_collapse: bool = (
         True  # ΛNOTE: "Dream collapse" visualization not yet implemented.
     )
@@ -109,12 +109,12 @@ class EnhancedMemoryVisualizer:
         self.config = config or VisualizationConfig()
 
         try:
-            self.quantum_oscillator = QuantumOscillator()
+            self.qi_oscillator = QIOscillator()
             # ΛNOTE: ProtonGradient might require specific initialization if not
             # default.
             self.proton_gradient = ProtonGradient()
             self.logger.debug(
-                "QuantumOscillator and ProtonGradient initialized for Visualizer."
+                "QIOscillator and ProtonGradient initialized for Visualizer."
             )
         except Exception as e_init:
             self.logger.error(
@@ -122,7 +122,7 @@ class EnhancedMemoryVisualizer:
                 error=str(e_init),
                 exc_info=True,
             )
-            self.quantum_oscillator = None  # type: ignore
+            self.qi_oscillator = None  # type: ignore
             self.proton_gradient = None  # type: ignore
 
         self.setup_visualization()
@@ -147,8 +147,8 @@ class EnhancedMemoryVisualizer:
                 error=str(e_st),
             )
 
-        if self.quantum_oscillator:
-            coherence = self.quantum_oscillator.quantum_modulate(
+        if self.qi_oscillator:
+            coherence = self.qi_oscillator.qi_modulate(
                 1.0
             )  # Example: modulate a neutral value
             # ΛNOTE: Displaying coherence-inspired processing in sidebar. Assumes
@@ -216,9 +216,9 @@ class EnhancedMemoryVisualizer:
                     st.plotly_chart(collapse_fig, use_container_width=True)
 
             final_coherence = 0.0
-            if self.quantum_oscillator:
+            if self.qi_oscillator:
                 final_coherence = getattr(
-                    self.quantum_oscillator, "entanglement_factor", 0.0
+                    self.qi_oscillator, "entanglement_factor", 0.0
                 )  # Using example attribute
 
             self.logger.info(
@@ -253,13 +253,13 @@ class EnhancedMemoryVisualizer:
             "Quantum modulating memory data (placeholder).",
             data_keys=list(memory_data.keys()),
         )
-        if not self.config.quantum_enhancement or not self.quantum_oscillator:
+        if not self.config.qi_enhancement or not self.qi_oscillator:
             return memory_data
 
         modulated: dict[str, Any] = {}
         for key, value in memory_data.items():
             if isinstance(value, (int, float)):
-                modulated[key] = self.quantum_oscillator.quantum_modulate(
+                modulated[key] = self.qi_oscillator.qi_modulate(
                     float(value)
                 )  # Ensure float
             elif isinstance(value, dict):  # Recursive call for nested dicts
@@ -315,20 +315,20 @@ class Enhanced3DVisualizer:
     #ΛNOTE: This class is a placeholder for future 3D visualization capabilities.
     """
 
-    def __init__(self, quantum_oscillator: Optional[QuantumOscillator] = None):
+    def __init__(self, qi_oscillator: Optional[QIOscillator] = None):
         self.logger = logger.bind(
             visualizer_3d_id=f"mem_viz_3d_{datetime.now().strftime('%H%M%S')}"
         )
         try:
-            self.quantum_oscillator = quantum_oscillator or QuantumOscillator()
-            self.logger.debug("QuantumOscillator initialized for 3DVisualizer.")
+            self.qi_oscillator = qi_oscillator or QIOscillator()
+            self.logger.debug("QIOscillator initialized for 3DVisualizer.")
         except Exception as e_init:
             self.logger.error(
-                "Error initializing QuantumOscillator in 3DVisualizer",
+                "Error initializing QIOscillator in 3DVisualizer",
                 error=str(e_init),
                 exc_info=True,
             )
-            self.quantum_oscillator = None  # type: ignore
+            self.qi_oscillator = None  # type: ignore
         self.logger.info("Enhanced3DVisualizer initialized.")
 
     def launch_3d_viewer(
@@ -347,7 +347,7 @@ class Enhanced3DVisualizer:
         self.logger.debug(
             "Preparing 3D data (placeholder).", data_keys=list(memory_data.keys())
         )
-        return {"nodes": [], "edges": [], "quantum_field_data": []}  # Example structure
+        return {"nodes": [], "edges": [], "qi_field_data": []}  # Example structure
 
 
 """

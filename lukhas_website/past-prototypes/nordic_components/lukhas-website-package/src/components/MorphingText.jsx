@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
-const MorphingText = ({ 
-  texts = [], 
+const MorphingText = ({
+  texts = [],
   className = '',
   interval = 3000,
-  morphDuration = 1000 
+  morphDuration = 1000
 }) => {
   const textRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,7 +28,7 @@ const MorphingText = ({
 
       // Clear element and create character spans
       element.innerHTML = '';
-      
+
       for (let i = 0; i < maxLength; i++) {
         const span = document.createElement('span');
         span.className = 'char inline-block';
@@ -79,10 +79,10 @@ const MorphingText = ({
   if (texts.length === 0) return null;
 
   return (
-    <div 
-      ref={textRef} 
+    <div
+      ref={textRef}
       className={`morphing-text ${className}`}
-      style={{ 
+      style={{
         transformStyle: 'preserve-3d',
         perspective: '1000px'
       }}
@@ -93,4 +93,3 @@ const MorphingText = ({
 };
 
 export default MorphingText;
-

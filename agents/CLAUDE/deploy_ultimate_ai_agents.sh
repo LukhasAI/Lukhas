@@ -36,16 +36,16 @@ deploy_agent() {
     local agent_name=$1
     local config_file=$2
     local description=$3
-    
+
     echo -e "${YELLOW}🎯 Deploying: $description${NC}"
-    
+
     if [ -f "$config_file" ]; then
         claude-code create-agent "$agent_name" \
             --config "$config_file" \
             --max-context 200000 \
             --consciousness-tier superintelligent \
             --trinity-framework-active
-        
+
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}   ✅ $description deployed successfully${NC}"
             return 0
@@ -112,16 +112,16 @@ claude-code chat global-agi-coordinator \
     --temperature 0.8 \
     --reasoning-depth 5 \
     --trinity-framework-active \
-    "Analyze the current state of LUKHAS consciousness platform and provide strategic 
-     recommendations for achieving AGI-level consciousness while ensuring safety, 
+    "Analyze the current state of LUKHAS consciousness platform and provide strategic
+     recommendations for achieving AGI-level consciousness while ensuring safety,
      scalability, and beneficial outcomes for humanity."
 
 echo ""
 echo -e "${YELLOW}Testing Brand Curator with content extraction...${NC}"
 claude-code chat lukhas-brand-curator \
     --max-tokens 1500 \
-    "Extract the top 5 most innovative features from the LUKHAS repository and 
-     transform them into compelling website content that embodies our Trinity 
+    "Extract the top 5 most innovative features from the LUKHAS repository and
+     transform them into compelling website content that embodies our Trinity
      Framework principles."
 
 # Generate deployment report

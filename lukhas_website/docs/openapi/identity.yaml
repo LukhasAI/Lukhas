@@ -1,21 +1,21 @@
 openapi: 3.0.3
-info: 
+info:
   title: Lukhas Identity API
   version: 0.1.0
 paths:
   /signin/start:
     post:
       operationId: signin_start
-      requestBody: 
+      requestBody:
         required: false
       responses:
-        "200": 
+        "200":
           description: OK
-          content: 
-            application/json: 
-              schema: 
+          content:
+            application/json:
+              schema:
                 type: object
-                properties: 
-                  challengeId: 
+                properties:
+                  challengeId:
                     type: string
                 required: [challengeId]

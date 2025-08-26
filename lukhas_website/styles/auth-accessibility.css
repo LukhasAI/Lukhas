@@ -319,7 +319,7 @@
     --trinity-consciousness: #0ea5e9 !important;
     --trinity-guardian: #059669 !important;
   }
-  
+
   .lambda-symbol {
     filter: contrast(2) brightness(1.5);
     text-shadow: 0 0 4px currentColor;
@@ -334,12 +334,12 @@
   .progress-step {
     display: none !important;
   }
-  
+
   .lambda-symbol {
     font-weight: bold !important;
     color: #000000 !important;
   }
-  
+
   .error-message,
   .success-message {
     color: #000000 !important;

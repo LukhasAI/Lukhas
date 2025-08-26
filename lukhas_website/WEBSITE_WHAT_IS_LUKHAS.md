@@ -223,7 +223,7 @@ companion = LUKHAS.create_companion(
 response = companion.chat("I'm feeling overwhelmed today")
 # AI responds with genuine empathy and helpful suggestions
 
-# Business Use Case  
+# Business Use Case
 customer_service = LUKHAS.enterprise(
     mode="customer_support",
     emotion_detection=True,

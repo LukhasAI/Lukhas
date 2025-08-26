@@ -6,7 +6,9 @@ Fail-closed acceptance gate:
 - Flags "facade" files (tiny wrappers that are mostly imports)
 Exit code: 0 = pass, 1 = violations
 """
-import ast, os, sys
+import ast
+import os
+import sys
 
 FORBIDDEN_ROOTS = ("candidate", "quarantine", "archive")
 ACCEPTED_ROOT = "lukhas"
@@ -27,7 +29,7 @@ def is_facade(py_path, tree, src):
 
 def check_file(py_path):
     try:
-        with open(py_path, "r", encoding="utf-8") as f:
+        with open(py_path, encoding="utf-8") as f:
             src = f.read()
         tree = ast.parse(src, filename=py_path)
     except Exception as e:

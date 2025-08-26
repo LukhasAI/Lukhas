@@ -16,7 +16,7 @@
 
 ### GPT-4o
 - **Current**: 0 TPM
-- **Requested**: 5 TPM  
+- **Requested**: 5 TPM
 - **Use Case**: Advanced consciousness reasoning and dream generation
 
 ## Business Justification

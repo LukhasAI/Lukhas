@@ -24,29 +24,29 @@ function App() {
     const initializeApp = () => {
       // Disable right-click context menu for a more immersive experience
       document.addEventListener('contextmenu', (e) => e.preventDefault());
-      
+
       // Add performance monitoring
       if (process.env.NODE_ENV !== 'production') {
         let frameCount = 0;
         let lastTime = performance.now();
-        
+
         const checkPerformance = () => {
           const now = performance.now();
           frameCount++;
-          
+
           if (now >= lastTime + 1000) {
             const fps = frameCount;
             frameCount = 0;
             lastTime = now;
-            
+
             if (fps < 45) {
               console.warn(`Performance alert: ${fps}fps - below target`);
             }
           }
-          
+
           requestAnimationFrame(checkPerformance);
         };
-        
+
         requestAnimationFrame(checkPerformance);
       }
     };
@@ -63,33 +63,33 @@ function App() {
       <div className="App">
         {/* Custom Cursor */}
         <CustomCursor />
-        
+
         {/* Interactive Particle Background */}
-        <ParticleField 
+        <ParticleField
           particleCount={80}
           connectionDistance={120}
           mouseInfluence={150}
           colors={['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd']}
         />
-        
+
         {/* Scroll Progress */}
         <ScrollProgress />
-        
+
         {/* Floating Navigation */}
         <FloatingNavigation />
-        
+
         {/* Main Content */}
         <main className="relative">
           {/* Hero Section */}
           <HeroSection />
-          
+
           {/* Morphing Introduction Section */}
           <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
             <div className="container mx-auto px-6 text-center relative z-10">
-              <MorphingText 
+              <MorphingText
                 texts={[
                   "Ethical Data Innovation",
-                  "EU Data Sovereignty", 
+                  "EU Data Sovereignty",
                   "Democratic AI Governance",
                   "Human-Centric Design"
                 ]}
@@ -98,16 +98,16 @@ function App() {
                 morphDuration={800}
               />
               <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-                LUKHΛS represents a paradigm shift in artificial intelligence development, 
+                LUKHΛS represents a paradigm shift in artificial intelligence development,
                 prioritizing European values in the age of ΛGI.
               </p>
             </div>
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-slate-100/50"></div>
           </section>
-          
+
           {/* Geographic Journey Section */}
           <GeographicJourney />
-          
+
           {/* Horizontal Scrolling Systems Section */}
           <HorizontalScrollSection id="systems">
             <InteractiveCard
@@ -143,7 +143,7 @@ function App() {
               animationType="float"
             />
           </HorizontalScrollSection>
-          
+
           {/* Enhanced Project Section with Magnetic Effects */}
           <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50">
             <div className="container mx-auto px-6 text-center relative z-10">
@@ -152,7 +152,7 @@ function App() {
                   The Project
                 </h2>
               </MagneticCursor>
-              
+
               <div className="grid md:grid-cols-3 gap-8 mt-16">
                 <MagneticCursor strength={0.15} className="group">
                   <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-6 h-64 flex flex-col justify-center items-center text-center transition-all duration-300 group-hover:bg-white/30">
@@ -161,7 +161,7 @@ function App() {
                     <p className="text-slate-600">Ethical AI development for European sovereignty</p>
                   </div>
                 </MagneticCursor>
-                
+
                 <MagneticCursor strength={0.15} className="group">
                   <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-6 h-64 flex flex-col justify-center items-center text-center transition-all duration-300 group-hover:bg-white/30">
                     <div className="text-3xl mb-4">🌍</div>
@@ -169,7 +169,7 @@ function App() {
                     <p className="text-slate-600">Global AI leadership through European values</p>
                   </div>
                 </MagneticCursor>
-                
+
                 <MagneticCursor strength={0.15} className="group">
                   <div className="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-6 h-64 flex flex-col justify-center items-center text-center transition-all duration-300 group-hover:bg-white/30">
                     <div className="text-3xl mb-4">⚡</div>
@@ -180,7 +180,7 @@ function App() {
               </div>
             </div>
           </section>
-          
+
           {/* Visuals Section with Different Animation */}
           <EnhancedSection
             id="visuals"
@@ -191,7 +191,7 @@ function App() {
             titleDelay={0.1}
             contentDelay={0.4}
           />
-          
+
           {/* Contact Section with Enhanced Interactivity */}
           <section id="contact" className="min-h-screen flex items-center justify-center relative overflow-hidden">
             <div className="container mx-auto px-6 text-center relative z-10">
@@ -203,13 +203,13 @@ function App() {
               <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-12">
                 Join us in shaping the future of ethical artificial intelligence.
               </p>
-              
+
               {/* Enhanced Related Website Links */}
               <div className="flex justify-center space-x-16 mt-16">
                 <MagneticCursor strength={0.4}>
-                  <a 
-                    href="https://www.lukhas.es" 
-                    target="_blank" 
+                  <a
+                    href="https://www.lukhas.es"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="group relative block"
                     data-cursor="pointer"
@@ -221,11 +221,11 @@ function App() {
                     <div className="absolute -top-2 -left-2 -right-2 -bottom-2 border border-blue-600/0 rounded-lg transition-all duration-300 group-hover:border-blue-600/30"></div>
                   </a>
                 </MagneticCursor>
-                
+
                 <MagneticCursor strength={0.4}>
-                  <a 
-                    href="https://www.lukhas.com" 
-                    target="_blank" 
+                  <a
+                    href="https://www.lukhas.com"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="group relative block"
                     data-cursor="pointer"
@@ -237,11 +237,11 @@ function App() {
                     <div className="absolute -top-2 -left-2 -right-2 -bottom-2 border border-blue-600/0 rounded-lg transition-all duration-300 group-hover:border-blue-600/30"></div>
                   </a>
                 </MagneticCursor>
-                
+
                 <MagneticCursor strength={0.4}>
-                  <a 
-                    href="https://www.lukhas.id" 
-                    target="_blank" 
+                  <a
+                    href="https://www.lukhas.id"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="group relative block"
                     data-cursor="pointer"
@@ -255,7 +255,7 @@ function App() {
                 </MagneticCursor>
               </div>
             </div>
-            
+
             {/* Background decoration */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-purple-50/30"></div>
           </section>

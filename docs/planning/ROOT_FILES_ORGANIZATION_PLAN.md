@@ -236,7 +236,7 @@ echo "✅ Root directory organized!"
 ## Benefits of This Organization
 
 1. **Cleaner Root**: Only essential config files remain
-2. **Better Discovery**: Related documents grouped together  
+2. **Better Discovery**: Related documents grouped together
 3. **Easier Navigation**: Clear hierarchy
 4. **Professional Structure**: Standard Python project layout
 5. **Git-Friendly**: Less clutter in root diffs

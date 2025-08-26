@@ -1,6 +1,6 @@
 /**
  * LUKHAS AI Plan System - OpenAI-Style Access Levels
- * 
+ *
  * Aligns with industry-standard naming conventions while maintaining
  * LUKHAS AI's unique Trinity Framework and consciousness features.
  */
@@ -26,12 +26,12 @@ export const PLAN_FEATURES: Record<Plan, {
   bioInspired: boolean;
   guardianSystem: boolean;
 }> = {
-  free: { 
-    sso: 'none',       
-    scim: false, 
-    rbac: 'basic',  
-    credits: 'none',     
-    adminApi: false, 
+  free: {
+    sso: 'none',
+    scim: false,
+    rbac: 'basic',
+    credits: 'none',
+    adminApi: false,
     analytics: 'none',
     // LUKHAS features
     matrizAccess: true,
@@ -41,13 +41,13 @@ export const PLAN_FEATURES: Record<Plan, {
     bioInspired: false,
     guardianSystem: true  // Basic ethics always enabled
   },
-  
-  plus: { 
-    sso: 'none',       
-    scim: false, 
-    rbac: 'basic',  
-    credits: 'none',     
-    adminApi: false, 
+
+  plus: {
+    sso: 'none',
+    scim: false,
+    rbac: 'basic',
+    credits: 'none',
+    adminApi: false,
     analytics: 'none',
     // LUKHAS features
     matrizAccess: true,
@@ -57,13 +57,13 @@ export const PLAN_FEATURES: Record<Plan, {
     bioInspired: true,
     guardianSystem: true
   },
-  
-  team: { 
-    sso: 'team',       
-    scim: false, 
-    rbac: 'basic',  
-    credits: 'per-seat', 
-    adminApi: false, 
+
+  team: {
+    sso: 'team',
+    scim: false,
+    rbac: 'basic',
+    credits: 'per-seat',
+    adminApi: false,
     analytics: 'workspace',
     // LUKHAS features
     matrizAccess: true,
@@ -73,13 +73,13 @@ export const PLAN_FEATURES: Record<Plan, {
     bioInspired: true,
     guardianSystem: true
   },
-  
-  enterprise: { 
-    sso: 'enterprise', 
-    scim: true,  
-    rbac: 'custom', 
-    credits: 'pooled',   
-    adminApi: true,  
+
+  enterprise: {
+    sso: 'enterprise',
+    scim: true,
+    rbac: 'custom',
+    credits: 'pooled',
+    adminApi: true,
     analytics: 'workspace',
     // LUKHAS features
     matrizAccess: true,
@@ -89,13 +89,13 @@ export const PLAN_FEATURES: Record<Plan, {
     bioInspired: true,
     guardianSystem: true
   },
-  
-  core: { 
-    sso: 'enterprise', 
-    scim: true,  
-    rbac: 'custom', 
-    credits: 'pooled',   
-    adminApi: true,  
+
+  core: {
+    sso: 'enterprise',
+    scim: true,
+    rbac: 'custom',
+    credits: 'pooled',
+    adminApi: true,
     analytics: 'workspace',
     // LUKHAS features (all enabled for internal team)
     matrizAccess: true,
@@ -248,7 +248,7 @@ export class PlanManager {
   static isFeatureEnabled(plan: Plan, feature: keyof typeof PLAN_FEATURES[Plan]): boolean {
     const features = PLAN_FEATURES[plan];
     const value = features[feature];
-    
+
     // Handle different value types
     if (typeof value === 'boolean') {
       return value;
@@ -288,12 +288,12 @@ export class PlanManager {
     const planOrder: Plan[] = ['free', 'plus', 'team', 'enterprise', 'core'];
     const currentIndex = planOrder.indexOf(currentPlan);
     const targetIndex = planOrder.indexOf(targetPlan);
-    
+
     // Core is internal only, cannot upgrade to it normally
     if (targetPlan === 'core') {
       return false;
     }
-    
+
     return targetIndex > currentIndex;
   }
 
@@ -303,11 +303,11 @@ export class PlanManager {
   static getNextPlan(currentPlan: Plan): Plan | null {
     const planOrder: Plan[] = ['free', 'plus', 'team', 'enterprise'];
     const currentIndex = planOrder.indexOf(currentPlan);
-    
+
     if (currentIndex < planOrder.length - 1) {
       return planOrder[currentIndex + 1];
     }
-    
+
     return null;
   }
 
@@ -344,46 +344,46 @@ export class PlanManager {
     const currentFeatures = PLAN_FEATURES[currentPlan];
     const targetFeatures = PLAN_FEATURES[targetPlan];
     const upgrades: string[] = [];
-    
+
     // Check SSO upgrade
     if (targetFeatures.sso !== 'none' && currentFeatures.sso === 'none') {
       upgrades.push('Single Sign-On (SSO) support');
     }
-    
+
     // Check SCIM upgrade
     if (targetFeatures.scim && !currentFeatures.scim) {
       upgrades.push('SCIM user provisioning');
     }
-    
+
     // Check RBAC upgrade
     if (targetFeatures.rbac === 'custom' && currentFeatures.rbac === 'basic') {
       upgrades.push('Custom role-based access control');
     }
-    
+
     // Check analytics upgrade
     if (targetFeatures.analytics === 'workspace' && currentFeatures.analytics === 'none') {
       upgrades.push('Workspace analytics and insights');
     }
-    
+
     // Check admin API
     if (targetFeatures.adminApi && !currentFeatures.adminApi) {
       upgrades.push('Admin API access');
     }
-    
+
     // Check rate limits
     const currentLimits = RATE_ENVELOPES[currentPlan];
     const targetLimits = RATE_ENVELOPES[targetPlan];
     if (targetLimits.rpm > currentLimits.rpm) {
       upgrades.push(`Rate limit: ${currentLimits.rpm} → ${targetLimits.rpm} RPM`);
     }
-    
+
     // Calculate pricing difference
     const currentPricing = PLAN_PRICING[currentPlan];
     const targetPricing = PLAN_PRICING[targetPlan];
     const monthlyDifference = targetPricing.monthly - currentPricing.monthly;
     const yearlyDifference = targetPricing.yearly - currentPricing.yearly;
     const yearlySavings = (targetPricing.monthly * 12) - targetPricing.yearly;
-    
+
     return {
       upgrades,
       pricing: {

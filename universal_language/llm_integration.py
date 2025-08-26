@@ -173,7 +173,7 @@ class FewShotExampleBank:
 class LLMLanguageBridge:
     """
     Main bridge between symbolic language and LLMs.
-    
+
     What Sam Altman would implement for OpenAI integration.
     """
 
@@ -198,7 +198,7 @@ class LLMLanguageBridge:
     def to_llm_tokens(self, symbols: List[Symbol]) -> List[int]:
         """
         Convert our symbols to LLM token IDs for seamless integration.
-        
+
         This enables LLMs to understand our symbolic language natively.
         """
         all_tokens = []
@@ -236,7 +236,7 @@ class LLMLanguageBridge:
                           base_prompt: str = "") -> str:
         """
         Inject symbolic context into LLM prompts efficiently.
-        
+
         Optimizes token usage while preserving meaning.
         """
         # Get relevant few-shot examples
@@ -318,7 +318,7 @@ class LLMLanguageBridge:
                        top_k: int = 5) -> List[Tuple[List[Symbol], float]]:
         """
         Semantic search using symbol embeddings.
-        
+
         Find most similar symbol sequences.
         """
         query_embedding = self.create_embedding(query_symbols)
@@ -342,7 +342,7 @@ class LLMLanguageBridge:
 class SymbolRLHF:
     """
     Reinforcement Learning from Human Feedback for symbols.
-    
+
     Learn optimal symbol meanings from usage patterns.
     """
 
@@ -374,7 +374,7 @@ class SymbolRLHF:
     def update_meanings(self, feedback_batch: List[Dict[str, Any]]):
         """
         Refine symbol meanings based on what actually works.
-        
+
         Symbols evolve to match human intuition.
         """
         # Group feedback by symbol
@@ -427,7 +427,7 @@ class LLMSymbolAPI:
                           max_tokens: int = 100) -> Tuple[str, List[Symbol]]:
         """
         Generate completion using symbols as context.
-        
+
         Returns both text and extracted symbols.
         """
         # Inject symbols into prompt

@@ -108,7 +108,7 @@ HIGH_RISK_ACTIONS = {
 class GestureRecognizer(ABC):
     """
     Abstract base class for edge-based gesture recognizers.
-    
+
     Implementation must run on-device and never transmit raw gesture data.
     Only hashed kinematic features are sent to server.
     """
@@ -132,7 +132,7 @@ class GestureRecognizer(ABC):
 class EdgeGestureProcessor:
     """
     Edge-first gesture processing that preserves privacy.
-    
+
     Processes gestures on-device and only sends hashed features to server.
     Never stores or transmits raw stroke data.
     """
@@ -147,11 +147,11 @@ class EdgeGestureProcessor:
     ) -> GestureFeatures:
         """
         Process raw gesture and return hashed features.
-        
+
         Args:
             raw_gesture_data: Raw gesture input (coordinates, timing, pressure)
             gesture_type: Type of gesture being processed
-            
+
         Returns:
             GestureFeatures with hashed data only
         """

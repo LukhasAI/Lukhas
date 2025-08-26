@@ -286,6 +286,69 @@ def get_visual_hint(phase: str) -> str:
     return random.choice(hints)
 
 
+class DreamVocabulary:
+    """
+    ⚛️🧠🛡️ TRINITY FRAMEWORK DREAM VOCABULARY CLASS
+
+    Main class interface for symbolic dream vocabulary operations.
+    Provides object-oriented access to dream symbols and narratives.
+    """
+
+    def __init__(self):
+        """Initialize the Dream Vocabulary with all symbol mappings."""
+        self.phase_symbols = DREAM_PHASE_SYMBOLS
+        self.type_symbols = DREAM_TYPE_SYMBOLS
+        self.state_symbols = DREAM_STATE_SYMBOLS
+        self.pattern_symbols = PATTERN_SYMBOLS
+        self.memory_symbols = MEMORY_SYMBOLS
+        self.insight_symbols = INSIGHT_SYMBOLS
+        self.emotional_symbols = EMOTIONAL_SYMBOLS
+        self.creative_symbols = CREATIVE_SYMBOLS
+        self.analysis_vocabulary = ANALYSIS_VOCABULARY
+        self.narratives = DREAM_NARRATIVES
+        self.visual_hints = VISUAL_HINTS
+
+    def get_symbol(self, category: str, item: str) -> str:
+        """Get symbolic representation for dream elements."""
+        return get_dream_symbol(category, item)
+
+    def get_narrative(self, phase: str) -> str:
+        """Get random narrative text for dream phase."""
+        return get_dream_narrative(phase)
+
+    def get_visual_hint(self, phase: str) -> str:
+        """Get random visual hint for dream phase."""
+        return get_visual_hint(phase)
+
+    def cycle_start(self, dream_type: str) -> str:
+        """Symbol for starting a dream cycle."""
+        return dream_cycle_start(dream_type)
+
+    def phase_transition(self, from_phase: str, to_phase: str) -> str:
+        """Symbol for phase transitions."""
+        return dream_phase_transition(from_phase, to_phase)
+
+    def pattern_discovered(self, pattern_type: str, confidence: float) -> str:
+        """Symbol for pattern discovery."""
+        return pattern_discovered(pattern_type, confidence)
+
+    def insight_generated(self, insight_type: str) -> str:
+        """Symbol for insight generation."""
+        return insight_generated(insight_type)
+
+    def emotional_context(self, emotion: str, intensity: float) -> str:
+        """Symbol for emotional context."""
+        return emotional_context(emotion, intensity)
+
+    def memory_processing(self, operation: str, count: int) -> str:
+        """Symbol for memory processing operations."""
+        return memory_processing(operation, count)
+
+    def cycle_completion(self, insights: int, patterns: int) -> str:
+        """Symbol for dream cycle completion."""
+        return cycle_completion(insights, patterns)
+
+
 """
 ╔══════════════════════════════════════════════════════════════════════════════════
 ║ REFERENCES:

@@ -1105,7 +1105,7 @@ print(f"Result: {result}")
 2. Which framework is most relevant for {topic}?
    a) React
    b) TensorFlow
-   c) LUKHAS 
+   c) LUKHAS
    d) Django
 
 3. What is a key benefit of implementing {topic}?

@@ -6,15 +6,15 @@ Emits MATRIZ-compliant nodes for core system events
 import json
 import time
 import uuid
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class CoreMatrizAdapter:
     """Adapter to emit MATRIZ nodes for core system events"""
-    
+
     SCHEMA_REF = "lukhas://schemas/matriz_node_v1.json"
-    
+
     @staticmethod
     def create_node(
         node_type: str,
@@ -23,7 +23,7 @@ class CoreMatrizAdapter:
         provenance_extra: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Create a MATRIZ-compliant node for core events"""
-        
+
         node = {
             "version": 1,
             "id": f"LT-CORE-{uuid.uuid4().hex[:8]}",
@@ -47,12 +47,12 @@ class CoreMatrizAdapter:
                 **(provenance_extra or {})
             }
         }
-        
+
         if labels:
             node["labels"] = labels
-            
+
         return node
-    
+
     @staticmethod
     def emit_glyph_event(
         glyph: str,
@@ -60,7 +60,7 @@ class CoreMatrizAdapter:
         context: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Emit a GLYPH processing event node"""
-        
+
         return CoreMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -76,7 +76,7 @@ class CoreMatrizAdapter:
                 "core:glyph"
             ]
         )
-    
+
     @staticmethod
     def emit_orchestration_event(
         component: str,
@@ -85,19 +85,19 @@ class CoreMatrizAdapter:
         latency_ms: Optional[int] = None
     ) -> Dict[str, Any]:
         """Emit an orchestration event node"""
-        
+
         urgency = 0.1 if status == "success" else 0.8
-        
+
         state = {
             "confidence": 0.9,
             "salience": 0.6,
             "urgency": urgency,
             "novelty": 0.2
         }
-        
+
         if latency_ms:
             state["latency_ms"] = latency_ms
-            
+
         return CoreMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state=state,
@@ -108,7 +108,7 @@ class CoreMatrizAdapter:
                 "core:orchestration"
             ]
         )
-    
+
     @staticmethod
     def emit_symbolic_reasoning(
         symbol: str,
@@ -117,16 +117,16 @@ class CoreMatrizAdapter:
         conclusion: Optional[str] = None
     ) -> Dict[str, Any]:
         """Emit a symbolic reasoning event node"""
-        
+
         labels = [
             f"symbol:{symbol}",
             f"inference:{inference_type}",
             "core:symbolic"
         ]
-        
+
         if conclusion:
             labels.append(f"conclusion:{conclusion[:20]}")
-            
+
         return CoreMatrizAdapter.create_node(
             node_type="CAUSAL",
             state={
@@ -137,7 +137,7 @@ class CoreMatrizAdapter:
             },
             labels=labels
         )
-    
+
     @staticmethod
     def emit_actor_event(
         actor_id: str,
@@ -145,7 +145,7 @@ class CoreMatrizAdapter:
         message_type: Optional[str] = None
     ) -> Dict[str, Any]:
         """Emit an actor system event node"""
-        
+
         return CoreMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state={
@@ -161,7 +161,7 @@ class CoreMatrizAdapter:
                 "core:actor"
             ]
         )
-    
+
     @staticmethod
     def emit_integration_event(
         source_module: str,
@@ -170,7 +170,7 @@ class CoreMatrizAdapter:
         success: bool
     ) -> Dict[str, Any]:
         """Emit an integration event between modules"""
-        
+
         return CoreMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state={
@@ -188,36 +188,36 @@ class CoreMatrizAdapter:
                 "core:integration"
             ]
         )
-    
+
     @staticmethod
     def validate_node(node: Dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
-        
+
         for field in required_fields:
             if field not in node:
                 return False
-                
+
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
         for field in required_prov:
             if field not in node.get("provenance", {}):
                 return False
-                
+
         return True
-    
+
     @staticmethod
     def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/core")
-            
+
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
-        
+
         with open(filepath, 'w') as f:
             json.dump(node, f, indent=2)
-            
+
         return filepath

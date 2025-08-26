@@ -245,7 +245,7 @@ Copyright © 2024 **LUKHlukhasS SYSTEMS Research**
 
 ---
 
-**PR0T3US** - Where transformation meets intelligence.  
+**PR0T3US** - Where transformation meets intelligence.
 **LUKHlukhasS SYSTEMS Research** - Advancing the future of AGI.
 
-*"In continuous transformation lies the path to true understanding."* 
+*"In continuous transformation lies the path to true understanding."*

@@ -8,7 +8,7 @@ This is your clean, organized workspace containing only the essential files for 
 ### **Main Project**: `lukhas-ai-web-studio/`
 - **index.html** - Main application (760+ lines)
 - **assets/** - CSS, JS, and resources
-- **components/** - Nordic cookies and other components  
+- **components/** - Nordic cookies and other components
 - **content/** - Curated quotes and content
 - **legal/** - EU terms and privacy documents
 
@@ -46,7 +46,7 @@ All experimental, backup, and reference materials moved to:
 
 ## 🎯 **What's Built & Working**
 ✅ Neural Background (Progressive SVG → Canvas)
-✅ V2 Dock Layout (Collapsible sidebar)  
+✅ V2 Dock Layout (Collapsible sidebar)
 ✅ Quote Rotation (Character animation)
 ✅ Nordic Cookie System (Privacy-first)
 ✅ State Machine (User journey management)

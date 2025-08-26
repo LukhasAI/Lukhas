@@ -18,18 +18,18 @@ class ShapeFrame {
     this.morphTargets = options.morphTargets || [];
     this.animations = new Map();
     this.aiContext = null;
-    
+
     // Morphing properties
     this.originalGeometry = this.cloneGeometry(geometry);
     this.currentMorphTarget = null;
     this.morphProgress = 0;
-    
+
     // Voice-reactive properties
     this.voiceScale = 1.0;
     this.voiceRotation = { x: 0, y: 0, z: 0 };
     this.voiceColor = null;
   }
-  
+
   /**
    * Clone geometry for morphing
    */
@@ -37,29 +37,29 @@ class ShapeFrame {
     // Implementation depends on the specific geometry type
     return JSON.parse(JSON.stringify(geometry));
   }
-  
+
   /**
    * Apply AI context to shape
    */
   applyAIContext(context) {
     this.aiContext = context;
-    
+
     // Apply emotional modifications
     if (context.emotion) {
       this.applyEmotionalModification(context.emotion, context.intensity || 0.5);
     }
-    
+
     // Apply contextual modifications
     if (context.context) {
       this.applyContextualModification(context.context);
     }
-    
+
     // Apply voice modifications
     if (context.voice) {
       this.applyVoiceModification(context.voice);
     }
   }
-  
+
   /**
    * Apply emotional modification
    */
@@ -87,7 +87,7 @@ class ShapeFrame {
         break;
     }
   }
-  
+
   /**
    * Apply contextual modification
    */
@@ -107,31 +107,31 @@ class ShapeFrame {
         break;
     }
   }
-  
+
   /**
    * Apply voice modification
    */
   applyVoiceModification(voiceContext) {
     const { pitch, volume, speechRate, emotion } = voiceContext;
-    
+
     // Scale based on volume
     this.voiceScale = 1 + volume * 0.5;
     this.scale(this.voiceScale);
-    
+
     // Rotation based on pitch
     this.voiceRotation.y = pitch * Math.PI * 2;
     this.rotate(this.voiceRotation);
-    
+
     // Animation speed based on speech rate
     this.setAnimationSpeed(1 + speechRate * 0.5);
-    
+
     // Color based on emotion
     if (emotion) {
       this.voiceColor = this.getEmotionColor(emotion);
       this.setColor(this.voiceColor);
     }
   }
-  
+
   /**
    * Get emotion color
    */
@@ -148,7 +148,7 @@ class ShapeFrame {
     };
     return colors[emotion] || '#FFFFFF';
   }
-  
+
   /**
    * Scale the shape
    */
@@ -161,7 +161,7 @@ class ShapeFrame {
       });
     }
   }
-  
+
   /**
    * Rotate the shape
    */
@@ -176,26 +176,26 @@ class ShapeFrame {
         const sinY = Math.sin(rotation.y);
         const cosZ = Math.cos(rotation.z);
         const sinZ = Math.sin(rotation.z);
-        
+
         // Rotate around X axis
         const y1 = vertex.y * cosX - vertex.z * sinX;
         const z1 = vertex.y * sinX + vertex.z * cosX;
-        
+
         // Rotate around Y axis
         const x2 = vertex.x * cosY + z1 * sinY;
         const z2 = -vertex.x * sinY + z1 * cosY;
-        
+
         // Rotate around Z axis
         const x3 = x2 * cosZ - y1 * sinZ;
         const y3 = x2 * sinZ + y1 * cosZ;
-        
+
         vertex.x = x3;
         vertex.y = y3;
         vertex.z = z2;
       });
     }
   }
-  
+
   /**
    * Set color
    */
@@ -208,7 +208,7 @@ class ShapeFrame {
       });
     }
   }
-  
+
   /**
    * Add animation
    */
@@ -222,7 +222,7 @@ class ShapeFrame {
       ...options
     });
   }
-  
+
   /**
    * Set animation speed
    */
@@ -231,30 +231,30 @@ class ShapeFrame {
       animation.duration = animation.duration / speed;
     });
   }
-  
+
   /**
    * Update animations
    */
   updateAnimations() {
     const currentTime = Date.now();
-    
+
     this.animations.forEach((animation, name) => {
       const elapsed = (currentTime - animation.startTime) / 1000;
       const progress = (elapsed / animation.duration) % 1;
-      
+
       // Apply easing
       const easedProgress = animation.easing(progress);
-      
+
       // Apply animation effect
       this.applyAnimationEffect(name, easedProgress);
-      
+
       // Remove non-looping completed animations
       if (!animation.loop && progress >= 1.0) {
         this.animations.delete(name);
       }
     });
   }
-  
+
   /**
    * Apply animation effect
    */
@@ -286,7 +286,7 @@ class ShapeFrame {
         break;
     }
   }
-  
+
   /**
    * Animation effects
    */
@@ -294,57 +294,57 @@ class ShapeFrame {
     const bounce = Math.sin(progress * Math.PI * 4) * 0.1;
     this.scale(1 + bounce);
   }
-  
+
   applyDroopEffect(progress) {
     const droop = Math.sin(progress * Math.PI) * 0.3;
     this.scale(1 - droop);
   }
-  
+
   applyVibrateEffect(progress) {
     const vibrate = Math.sin(progress * Math.PI * 20) * 0.05;
     this.scale(1 + vibrate);
   }
-  
+
   applyFloatEffect(progress) {
     const float = Math.sin(progress * Math.PI * 2) * 0.05;
     this.scale(1 + float);
   }
-  
+
   applyRhythmEffect(progress) {
     const rhythm = Math.sin(progress * Math.PI * 8) * 0.15;
     this.scale(1 + rhythm);
   }
-  
+
   applyFlowEffect(progress) {
     const flow = Math.sin(progress * Math.PI * 1.5) * 0.08;
     this.scale(1 + flow);
   }
-  
+
   applyGlitchEffect(progress) {
     const glitch = Math.random() * 0.1;
     this.scale(1 + glitch);
   }
-  
+
   applyPulseEffect(progress) {
     const pulse = Math.sin(progress * Math.PI * 2) * 0.12;
     this.scale(1 + pulse);
   }
-  
+
   /**
    * Easing functions
    */
   easeInOutCubic(t) {
     return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
   }
-  
+
   /**
    * Morph to target shape
    */
   morphTo(targetShape, progress) {
     if (!targetShape || !this.geometry.vertices) return;
-    
+
     this.morphProgress = progress;
-    
+
     // Interpolate vertices
     this.geometry.vertices.forEach((vertex, i) => {
       if (targetShape.geometry.vertices[i]) {
@@ -355,7 +355,7 @@ class ShapeFrame {
       }
     });
   }
-  
+
   /**
    * Get shape data for rendering
    */
@@ -383,11 +383,11 @@ class OBJShapeFrame extends ShapeFrame {
       normals: normals,
       uvs: uvs
     };
-    
+
     super(geometry, [], options);
     this.format = 'obj';
   }
-  
+
   /**
    * Parse OBJ data
    */
@@ -397,7 +397,7 @@ class OBJShapeFrame extends ShapeFrame {
     const faces = [];
     const normals = [];
     const uvs = [];
-    
+
     lines.forEach(line => {
       const trimmed = line.trim();
       if (trimmed.startsWith('v ')) {
@@ -414,16 +414,16 @@ class OBJShapeFrame extends ShapeFrame {
         uvs.push({ u: coords[0], v: coords[1] });
       }
     });
-    
+
     return new OBJShapeFrame(vertices, faces, normals, uvs);
   }
-  
+
   /**
    * Convert to Three.js geometry
    */
   toThreeJSGeometry() {
     const geometry = new THREE.BufferGeometry();
-    
+
     // Convert vertices to Float32Array
     const positions = new Float32Array(this.geometry.vertices.length * 3);
     this.geometry.vertices.forEach((vertex, i) => {
@@ -431,9 +431,9 @@ class OBJShapeFrame extends ShapeFrame {
       positions[i * 3 + 1] = vertex.y;
       positions[i * 3 + 2] = vertex.z;
     });
-    
+
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    
+
     // Convert faces to indices
     if (this.geometry.faces.length > 0) {
       const indices = [];
@@ -448,7 +448,7 @@ class OBJShapeFrame extends ShapeFrame {
       });
       geometry.setIndex(indices);
     }
-    
+
     // Add normals if available
     if (this.geometry.normals.length > 0) {
       const normals = new Float32Array(this.geometry.normals.length * 3);
@@ -459,7 +459,7 @@ class OBJShapeFrame extends ShapeFrame {
       });
       geometry.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
     }
-    
+
     // Add UVs if available
     if (this.geometry.uvs.length > 0) {
       const uvs = new Float32Array(this.geometry.uvs.length * 2);
@@ -469,7 +469,7 @@ class OBJShapeFrame extends ShapeFrame {
       });
       geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
     }
-    
+
     geometry.computeVertexNormals();
     return geometry;
   }
@@ -485,7 +485,7 @@ class ThreeJSShapeFrame extends ShapeFrame {
     this.morphTargets = morphTargets;
     this.morphTargetInfluences = new Array(morphTargets.length).fill(0);
   }
-  
+
   /**
    * Apply morph target
    */
@@ -495,7 +495,7 @@ class ThreeJSShapeFrame extends ShapeFrame {
       this.morphTargetInfluences[index] = influence;
     }
   }
-  
+
   /**
    * Get morph target influence
    */
@@ -503,7 +503,7 @@ class ThreeJSShapeFrame extends ShapeFrame {
     const index = this.morphTargets.indexOf(targetName);
     return index !== -1 ? this.morphTargetInfluences[index] : 0;
   }
-  
+
   /**
    * Set all morph target influences
    */
@@ -521,7 +521,7 @@ class BabylonShapeFrame extends ShapeFrame {
     this.format = 'babylon';
     this.babylonData = data;
   }
-  
+
   /**
    * Convert to Babylon.js mesh
    */
@@ -541,17 +541,17 @@ class ColladaShapeFrame extends ShapeFrame {
     this.format = 'collada';
     this.colladaData = data;
   }
-  
+
   /**
    * Parse Collada XML
    */
   static parseCollada(xmlData) {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlData, 'text/xml');
-    
+
     // Extract geometry, materials, and animations from Collada XML
     // Implementation would depend on the specific Collada structure
-    
+
     return new ColladaShapeFrame({
       geometry: {},
       materials: []
@@ -568,21 +568,21 @@ class STLShapeFrame extends ShapeFrame {
     this.format = 'stl';
     this.stlData = data;
   }
-  
+
   /**
    * Parse STL data (binary or ASCII)
    */
   static parseSTL(data) {
     // Check if it's ASCII or binary STL
     const isASCII = data.startsWith('solid');
-    
+
     if (isASCII) {
       return STLShapeFrame.parseASCIISTL(data);
     } else {
       return STLShapeFrame.parseBinarySTL(data);
     }
   }
-  
+
   /**
    * Parse ASCII STL
    */
@@ -590,9 +590,9 @@ class STLShapeFrame extends ShapeFrame {
     const lines = data.split('\n');
     const vertices = [];
     const faces = [];
-    
+
     let currentFace = [];
-    
+
     lines.forEach(line => {
       const trimmed = line.trim();
       if (trimmed.startsWith('vertex ')) {
@@ -606,13 +606,13 @@ class STLShapeFrame extends ShapeFrame {
         currentFace = [];
       }
     });
-    
+
     return new STLShapeFrame({
       geometry: { vertices, faces },
       materials: []
     });
   }
-  
+
   /**
    * Parse binary STL
    */
@@ -636,4 +636,4 @@ if (typeof module !== 'undefined' && module.exports) {
     ColladaShapeFrame,
     STLShapeFrame
   };
-} 
+}

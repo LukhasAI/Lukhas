@@ -83,7 +83,7 @@ def generate_safe_cleanup_script(categories: Dict[str, List[str]]) -> str:
     script = """#!/bin/bash
 # LUKHAS AI Safe Cleanup Script
 # Trinity Framework: ⚛️🧠🛡️
-# 
+#
 # This script ONLY archives files with LOW AI/AGI value
 # All high-value AI logic is preserved
 

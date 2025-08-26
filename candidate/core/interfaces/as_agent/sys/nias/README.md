@@ -104,6 +104,6 @@ To narrate recent dreams in soft symbolic voice, run:
 python core/modules/nias/voice_narrator.py
 ```
 
-> “Some messages return until they are heard.”  
+> “Some messages return until they are heard.”
 > — LUCΛS 🖤
 ```

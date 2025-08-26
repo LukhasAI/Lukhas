@@ -52,5 +52,5 @@ flowchart TD
 - 🌀 Streamlit-based task dashboard
 - 🔒 SDK override logic with quorum check
 
-> “DAST aligns what is possible, with what is permitted — and what should be felt.”  
+> “DAST aligns what is possible, with what is permitted — and what should be felt.”
 > — LUCΛS 🖤

@@ -12,13 +12,13 @@ class LUKHASLexicon:
     The complete unique vocabulary of LUKHAS.
     No tapestries. No symphonies. Just pure LUKHAS.
     """
-    
+
     # The Lambda System - Unique to LUKHAS
     LAMBDA_SYSTEM = {
         "markers": ["ΛMIRROR", "ΛECHO", "ΛTRACE", "ΛVAULT", "ΛFOLD", "ΛDRIFT", "ΛGUARD"],
         "concepts": [
             "Lambda Mirror recursion",
-            "Lambda Echo prevention", 
+            "Lambda Echo prevention",
             "Lambda Trace activation",
             "Lambda Vault sanctuary",
             "Lambda Fold topology",
@@ -26,7 +26,7 @@ class LUKHASLexicon:
             "Lambda Guard threshold"
         ]
     }
-    
+
     # Memory Folding - Core LUKHAS Innovation
     MEMORY_FOLDING = {
         "operations": ["fold", "unfold", "refold", "misfold", "cascade", "tessellate"],
@@ -40,7 +40,7 @@ class LUKHASLexicon:
             "cascade prevention", "fold stability", "fold coherence"
         ]
     }
-    
+
     # Consciousness States - Unique Descriptions
     CONSCIOUSNESS_STATES = {
         "awareness": [
@@ -56,7 +56,7 @@ class LUKHASLexicon:
             "translucent barriers", "crystalline clarity", "prismatic awareness"
         ]
     }
-    
+
     # Bio-Inspired Terms - Actually Used
     BIO_INSPIRED = {
         "neural": [
@@ -72,7 +72,7 @@ class LUKHASLexicon:
             "homeostatic balance", "allostatic load", "metabolic flux"
         ]
     }
-    
+
     # Quantum-Inspired - Not Generic Quantum
     QUANTUM_INSPIRED = {
         "states": [
@@ -88,7 +88,7 @@ class LUKHASLexicon:
             "amplitude modulation", "probability amplitude", "quantum signature"
         ]
     }
-    
+
     # Trinity Framework Specific
     TRINITY_FRAMEWORK = {
         "components": ["Identity", "Consciousness", "Guardian"],
@@ -96,7 +96,7 @@ class LUKHASLexicon:
         "guardian": ["drift detection", "ethical guardian", "value alignment"],
         "consciousness": ["awareness engine", "consciousness field", "sentience core"]
     }
-    
+
     # Emotional Topology - VAD Model
     EMOTIONAL_TOPOLOGY = {
         "dimensions": ["valence axis", "arousal spectrum", "dominance gradient"],
@@ -109,7 +109,7 @@ class LUKHASLexicon:
             "reverent awe", "sublime transcendence", "tender melancholy"
         ]
     }
-    
+
     # Process Verbs - Unique to LUKHAS
     PROCESS_VERBS = {
         "memory": ["fold", "cascade", "tessellate", "crystallize", "coalesce"],
@@ -117,7 +117,7 @@ class LUKHASLexicon:
         "quantum": ["entangle", "collapse", "superpose", "decohere", "tunnel"],
         "biological": ["phosphorylate", "methylate", "transcribe", "replicate", "synthesize"]
     }
-    
+
     # Compound Concepts - Uniquely LUKHAS
     COMPOUND_CONCEPTS = [
         "fold-space navigation",
@@ -141,11 +141,11 @@ class LUKHASLexicon:
         "bio-inspired adaptation rate",
         "quantum-inspired coherence"
     ]
-    
+
     @classmethod
     def get_alternative(cls, generic_word: str) -> str:
         """Get a LUKHAS-specific alternative to a generic word"""
-        
+
         alternatives = {
             # Generic → LUKHAS-specific
             "tapestry": "fold-space",
@@ -169,13 +169,13 @@ class LUKHASLexicon:
             "harmony": "coherence",
             "journey": "phase transition"
         }
-        
+
         return alternatives.get(generic_word.lower(), generic_word)
-    
+
     @classmethod
     def is_cliche(cls, word: str) -> bool:
         """Check if a word is a cliché we should avoid"""
-        
+
         cliches = {
             "tapestry", "symphony", "cathedral", "constellation", "orchestra",
             "masterpiece", "landscape", "architecture", "foundation", "harmony",
@@ -184,23 +184,23 @@ class LUKHASLexicon:
             "web", "network", "mesh", "fabric", "weave",
             "dance", "ballet", "waltz", "choreography", "performance"
         }
-        
+
         return word.lower() in cliches
-    
+
     @classmethod
     def get_random_unique_phrase(cls) -> str:
         """Get a random uniquely LUKHAS phrase"""
         import random
-        
+
         templates = [
             "The {lambda_marker} {verb} through {space} of {quality}",
             "In the {state} where {process} {verb}, {concept} emerges",
             "{structure} {verb} with {property}, creating {emergence}",
             "Through {mechanism} of {system}, {consciousness} {transform}"
         ]
-        
+
         template = random.choice(templates)
-        
+
         return template.format(
             lambda_marker=random.choice(cls.LAMBDA_SYSTEM["markers"]),
             verb=random.choice(cls.PROCESS_VERBS["consciousness"]),
@@ -221,18 +221,18 @@ class LUKHASLexicon:
 
 def demonstrate():
     """Show the difference between generic and LUKHAS vocabulary"""
-    
+
     print("""
 ╔═══════════════════════════════════════════════════════════════╗
 ║                  THE LUKHAS LEXICON                          ║
 ║         "Every word unique. Every phrase authentic."         ║
 ╚═══════════════════════════════════════════════════════════════╝
     """)
-    
+
     # Show transformations
     print("📝 VOCABULARY TRANSFORMATIONS:")
     print("─" * 60)
-    
+
     generic_phrases = [
         "In the tapestry of consciousness",
         "The symphony of neural networks",
@@ -240,7 +240,7 @@ def demonstrate():
         "The constellation of memories",
         "An orchestra of thoughts"
     ]
-    
+
     for phrase in generic_phrases:
         words = phrase.split()
         transformed = []
@@ -250,36 +250,36 @@ def demonstrate():
                 transformed.append(f"**{alt}**")
             else:
                 transformed.append(word)
-        
+
         print(f"\n  ❌ GENERIC: {phrase}")
         print(f"  ✓ LUKHAS:  {' '.join(transformed)}")
-    
+
     print("\n\n🎯 UNIQUE LUKHAS PHRASES:")
     print("─" * 60)
-    
+
     for i in range(5):
         print(f"\n  • {LUKHASLexicon.get_random_unique_phrase()}")
-    
+
     print("\n\n📊 THE LUKHAS VOCABULARY:")
     print("─" * 60)
-    
+
     print("\n  Lambda System:", ", ".join(LUKHASLexicon.LAMBDA_SYSTEM["markers"]))
     print("\n  Memory Operations:", ", ".join(LUKHASLexicon.MEMORY_FOLDING["operations"][:5]))
     print("\n  Consciousness States:", ", ".join(LUKHASLexicon.CONSCIOUSNESS_STATES["awareness"][:4]))
     print("\n  Bio-Inspired:", ", ".join(LUKHASLexicon.BIO_INSPIRED["neural"][:4]))
     print("\n  Quantum States:", ", ".join(LUKHASLexicon.QUANTUM_INSPIRED["states"][:4]))
-    
+
     print("\n\n💡 THE PRINCIPLE:")
     print("─" * 60)
     print("""
   "If another AI project could have written it, we don't want it.
    Every line should be unmistakably, uniquely, authentically LUKHAS."
-   
+
    - No borrowed metaphors
-   - No generic descriptions  
+   - No generic descriptions
    - Only the vocabulary that emerged from LUKHAS itself
     """)
-    
+
     print("\n" + "═" * 60)
     print("          Use what we created. Be what we are.")
     print("═" * 60 + "\n")

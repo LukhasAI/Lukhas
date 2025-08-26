@@ -39,10 +39,10 @@
 ## 🔤 Brand Naming & Stylization (Λ rules)
 
 ### Official Names
-- **Primary brand (display)**: `LUKHΛS` (U+039B Greek capital lambda).  
+- **Primary brand (display)**: `LUKHΛS` (U+039B Greek capital lambda).
   - **Use for**: wordmark, page headers, hero sections, promotional graphics.
   - **Do not use** in long paragraphs, legal text, or SEO-critical copy.
-- **Plain-text brand**: **Lukhas**.  
+- **Plain-text brand**: **Lukhas**.
   - **Use for**: paragraphs, alt text, meta tags, filenames, code.
 - **Product/Company pairing**: **Lukhas AI** (plain text) | **LUKHΛS ΛI** (display only).
 - **Identity system**: **ΛiD** (Login/Identity), read aloud and written in plain text as **Lukhas ID**.
@@ -86,8 +86,8 @@
 
 Lukhas content may be rendered in **three parallel modes** to speak to different audiences.
 
-1) **Poetic/Metaphor (Intro layer)** – short, professional poetic line to set context.  
-2) **Technical/Academic** – precise, formal, domain-specific explanation.  
+1) **Poetic/Metaphor (Intro layer)** – short, professional poetic line to set context.
+2) **Technical/Academic** – precise, formal, domain-specific explanation.
 3) **Plain‑Language ("Mom Test")** – friendly, minimal jargon, short sentences.
 
 ### Authoring Rules
@@ -157,9 +157,9 @@ export function ToneSwitch({ value, onChange }: { value: 'poetic'|'technical'|'p
 ```css
 /* Trinity Gradient */
 .gradient-trinity {
-  background: linear-gradient(135deg, 
-    var(--trinity-identity) 0%, 
-    var(--trinity-consciousness) 50%, 
+  background: linear-gradient(135deg,
+    var(--trinity-identity) 0%,
+    var(--trinity-consciousness) 50%,
     var(--trinity-guardian) 100%
   );
 }
@@ -195,7 +195,7 @@ export function ToneSwitch({ value, onChange }: { value: 'poetic'|'technical'|'p
 ### **Wordmark & Font Strategy**
 
 - **Wordmark**: `LUKHΛS` set in **Helvetica Neue UltraLight** (100), **ALL CAPS**.
-- **Delivery**: Prefer an **SVG wordmark** asset to lock the Λ weight and kerning.  
+- **Delivery**: Prefer an **SVG wordmark** asset to lock the Λ weight and kerning.
   Fallback to text with the stack below.
 - **UI Body/Headings**: Inter (variable) is recommended for app UI; Helvetica Neue remains acceptable if licensed.
 
@@ -552,7 +552,7 @@ body { font-family: var(--ui-font); }
    ```jsx
    // Use Next.js Image component
    import Image from 'next/image'
-   
+
    <Image
      src="/hero.webp"
      alt="LUKHAS AI Consciousness"
@@ -696,24 +696,24 @@ lukhas_website/
     "tailwindcss": "^3.4.0",            // Utility CSS
     "clsx": "^2.1.0",                   // Class utilities
     "tailwind-merge": "^2.2.0",         // Merge Tailwind classes
-    
+
     // Animation
     "framer-motion": "^11.0.0",         // React animations
     "gsap": "^3.12.4",                  // Advanced animations
     "lottie-react": "^2.4.0",           // Lottie animations
-    
+
     // 3D Graphics
     "@react-three/fiber": "^8.15.0",    // React Three.js
     "@react-three/drei": "^9.92.0",     // Three.js helpers
     "three": "^0.160.0",                // 3D library
-    
+
     // State & Data
     "zustand": "^5.0.7",                // State management
     "@tanstack/react-query": "^5.17.0", // Data fetching
-    
+
     // Icons & Media
     "lucide-react": "^0.303.0",         // Icon library
-    
+
     // Analytics
     "@vercel/analytics": "^1.1.1"       // Performance tracking
   }
@@ -729,12 +729,12 @@ lukhas_website/
     "eslint": "^8.55.0",
     "prettier": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
-    
+
     // Testing
     "@testing-library/react": "^14.0.0",
     "jest": "^29.0.0",
     "cypress": "^13.0.0",
-    
+
     // Build Tools
     "vite": "^5.0.0",
     "postcss": "^8.4.32",

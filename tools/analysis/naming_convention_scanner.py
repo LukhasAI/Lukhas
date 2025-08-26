@@ -20,7 +20,7 @@ class NamingConventionScanner:
         self.lukhas_terms = {
             "memory_fold",
             "dream_resonance",
-            "quantum_consciousness",
+            "qi_consciousness",
             "bio_oscillation",
             "symbolic_mutation",
             "emotional_drift",

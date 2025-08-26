@@ -85,6 +85,6 @@ All integrations follow the Trinity Framework (⚛️🧠🛡️):
 
 ---
 
-**Directory Status**: ✅ **Organized**  
-**Content Type**: **Integration & API Documentation**  
+**Directory Status**: ✅ **Organized**
+**Content Type**: **Integration & API Documentation**
 **Last Updated**: August 25, 2025

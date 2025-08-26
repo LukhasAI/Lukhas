@@ -10,7 +10,7 @@ TAGS: [CRITICAL, KeyFile, Neural_Architecture, Integration, AGI_Core]
 DEPENDENCIES:
   - core/consciousness/consciousness_integrator.py
   - core/memory/enhanced_memory_manager.py
-  - core/quantum/quantum_inspired_processor.py
+  - core/quantum/qi_inspired_processor.py
 """
 
 """
@@ -50,7 +50,7 @@ import torch.nn.functional as F
 
 # Import core components
 try:
-    from qi.systems.quantum_inspired_processor import QuantumInspiredProcessor
+    from qi.systems.qi_inspired_processor import QIInspiredProcessor
 
     from ..consciousness.consciousness_integrator import (
         ConsciousnessEvent,
@@ -248,7 +248,7 @@ class NeuralIntegrator:
         # Core component references
         self.consciousness_integrator: Optional[ConsciousnessIntegrator] = None
         self.memory_manager: Optional[EnhancedMemoryManager] = None
-        self.quantum_inspired_processor: Optional[QuantumInspiredProcessor] = None
+        self.qi_inspired_processor: Optional[QIInspiredProcessor] = None
 
         # Neural networks
         self.neural_networks: dict[str, AdaptiveNeuralNetwork] = {}
@@ -331,7 +331,7 @@ class NeuralIntegrator:
 
             # Initialize quantum processor (if available)
             try:
-                self.quantum_inspired_processor = QuantumInspiredProcessor()
+                self.qi_inspired_processor = QIInspiredProcessor()
                 self.active_processes["quantum"] = True
                 logger.info("Quantum processor initialized")
             except ImportError:
@@ -580,7 +580,7 @@ class NeuralIntegrator:
 
     async def _process_quantum_enhancements(self):
         """Process quantum-enhanced neural operations"""
-        if not self.quantum_inspired_processor:
+        if not self.qi_inspired_processor:
             return
 
         try:
@@ -592,7 +592,7 @@ class NeuralIntegrator:
                 for pattern in recent_patterns:
                     # Quantum-enhanced feature extraction
                     enhanced_features = (
-                        await self.quantum_inspired_processor.enhance_features(
+                        await self.qi_inspired_processor.enhance_features(
                             pattern.features
                         )
                     )

@@ -106,7 +106,7 @@ if [ "$LIST_ONLY" = true ]; then
     else
         log_warn "Backup directory not found: $BACKUP_DIR"
     fi
-    
+
     if [ -n "$S3_BUCKET" ] && command -v aws &> /dev/null; then
         echo ""
         log_info "Available S3 backups:"
@@ -132,18 +132,18 @@ if [ "$FROM_S3" = true ]; then
         log_error "S3_BUCKET not configured"
         exit 1
     fi
-    
+
     log_info "Downloading from S3: s3://$S3_BUCKET/$BACKUP_FILE"
     LOCAL_FILE="$TEMP_DIR/$(basename "$BACKUP_FILE")"
-    
+
     aws s3 cp "s3://$S3_BUCKET/$BACKUP_FILE" "$LOCAL_FILE" || {
         log_error "Failed to download from S3"
         exit 1
     }
-    
+
     # Also download checksum if available
     aws s3 cp "s3://$S3_BUCKET/${BACKUP_FILE%.tar.gz}.sha256" "$LOCAL_FILE.sha256" 2>/dev/null || true
-    
+
     BACKUP_FILE="$LOCAL_FILE"
 fi
 
@@ -159,7 +159,7 @@ if [ -f "$CHECKSUM_FILE" ]; then
     log_info "Verifying backup integrity..."
     EXPECTED=$(cut -d' ' -f1 "$CHECKSUM_FILE")
     ACTUAL=$(sha256sum "$BACKUP_FILE" | cut -d' ' -f1)
-    
+
     if [ "$EXPECTED" = "$ACTUAL" ]; then
         log_info "  Checksum verified: OK"
     else
@@ -175,12 +175,12 @@ fi
 # If verify only, stop here
 if [ "$VERIFY_ONLY" = true ]; then
     log_info "Backup verification complete"
-    
+
     # Show contents
     log_info "Backup contents:"
     tar -tzf "$BACKUP_FILE" | head -20
     echo "..."
-    
+
     exit 0
 fi
 
@@ -189,7 +189,7 @@ if [ "$FORCE" != true ]; then
     EXISTING_DIRS=""
     [ -d "$RESTORE_DIR/.lukhas_audit" ] && EXISTING_DIRS="$EXISTING_DIRS .lukhas_audit"
     [ -d "$RESTORE_DIR/.lukhas_feedback" ] && EXISTING_DIRS="$EXISTING_DIRS .lukhas_feedback"
-    
+
     if [ -n "$EXISTING_DIRS" ]; then
         log_warn "Found existing data directories:$EXISTING_DIRS"
         read -p "Overwrite existing data? (y/N): " -n 1 -r
@@ -248,13 +248,13 @@ if [ -d "$TEMP_DIR/config" ]; then
         if [ -f "$config_file" ]; then
             basename=$(basename "$config_file")
             target="$RESTORE_DIR/$basename"
-            
+
             # Special handling for .env (never overwrite without prompt)
             if [ "$basename" = ".env" ] && [ -f "$target" ] && [ "$FORCE" != true ]; then
                 log_warn "  .env exists - skipping (use --force to overwrite)"
                 continue
             fi
-            
+
             if [ -f "$target" ] && [ "$FORCE" != true ]; then
                 read -p "  Overwrite $basename? (y/N): " -n 1 -r
                 echo
@@ -262,7 +262,7 @@ if [ -d "$TEMP_DIR/config" ]; then
                     continue
                 fi
             fi
-            
+
             cp "$config_file" "$target"
             log_info "  Restored: $basename"
         fi

@@ -15,9 +15,8 @@ The MATRIZ format ensures:
 import time
 import uuid
 from abc import ABC, abstractmethod
-from datetime import datetime
-from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Union
 
 
 @dataclass
@@ -80,20 +79,20 @@ class NodeProvenance:
 class CognitiveNode(ABC):
     """
     Abstract base class for all MATRIZ cognitive nodes.
-    
+
     Every cognitive node must:
     1. Process input deterministically
     2. Emit complete MATRIZ format nodes
     3. Support interpretability through tracing
     4. Validate its own outputs
-    
+
     The MATRIZ format ensures complete auditability and governance.
     """
-    
+
     def __init__(self, node_name: str, capabilities: List[str], tenant: str = "default"):
         """
         Initialize the cognitive node.
-        
+
         Args:
             node_name: Unique identifier for this node type
             capabilities: List of capabilities this node provides
@@ -103,21 +102,21 @@ class CognitiveNode(ABC):
         self.capabilities = capabilities
         self.tenant = tenant
         self.processing_history: List[Dict] = []
-        
+
     @abstractmethod
     def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Process input data and return result with MATRIZ node.
-        
+
         This method MUST:
         1. Process the input deterministically
         2. Create a complete MATRIZ format node
         3. Return both the result and the MATRIZ node
         4. Support reproducible execution
-        
+
         Args:
             input_data: Input to process (must be JSON-serializable)
-            
+
         Returns:
             Dict containing:
             - 'answer': The processing result
@@ -126,35 +125,35 @@ class CognitiveNode(ABC):
             - 'processing_time': Time taken in seconds
         """
         pass
-    
+
     @abstractmethod
     def validate_output(self, output: Dict[str, Any]) -> bool:
         """
         Validate the output of this node's processing.
-        
+
         This method should check:
         1. Output format correctness
         2. MATRIZ node completeness
         3. Logical consistency
         4. Ethical compliance (if applicable)
-        
+
         Args:
             output: The output from process() method
-            
+
         Returns:
             True if valid, False otherwise
         """
         pass
-    
+
     def get_trace(self) -> List[Dict]:
         """
         Return the complete processing trace for interpretability.
-        
+
         Returns:
             List of all MATRIZ nodes created by this processor
         """
         return self.processing_history.copy()
-    
+
     def create_matriz_node(
         self,
         node_type: str,
@@ -168,9 +167,9 @@ class CognitiveNode(ABC):
     ) -> Dict[str, Any]:
         """
         Create a complete MATRIZ format node.
-        
+
         This is a helper method that ensures all nodes conform to the MATRIZ schema.
-        
+
         Args:
             node_type: Type from allowed MATRIZ types
             state: Node state (NodeState object or dict)
@@ -180,13 +179,13 @@ class CognitiveNode(ABC):
             evolves_to: Future evolution paths
             trace_id: Execution trace identifier
             additional_data: Extra fields for the state
-            
+
         Returns:
             Complete MATRIZ format node
         """
         node_id = str(uuid.uuid4())
         current_time = int(time.time() * 1000)  # epoch milliseconds
-        
+
         # Validate node type
         allowed_types = [
             "SENSORY_IMG", "SENSORY_AUD", "SENSORY_VID", "SENSORY_TOUCH",
@@ -197,7 +196,7 @@ class CognitiveNode(ABC):
         ]
         if node_type not in allowed_types:
             raise ValueError(f"Invalid node type '{node_type}'. Must be one of: {allowed_types}")
-        
+
         # Convert state to dict if NodeState object
         if isinstance(state, NodeState):
             state_dict = {
@@ -211,15 +210,15 @@ class CognitiveNode(ABC):
                     state_dict[field] = value
         else:
             state_dict = dict(state)
-            
+
         # Add additional data to state
         if additional_data:
             state_dict.update(additional_data)
-            
+
         # Ensure required state fields
         if 'confidence' not in state_dict or 'salience' not in state_dict:
             raise ValueError("State must include 'confidence' and 'salience' fields")
-            
+
         # Create provenance
         provenance = NodeProvenance(
             producer=f"{self.__class__.__module__}.{self.__class__.__name__}",
@@ -228,7 +227,7 @@ class CognitiveNode(ABC):
             trace_id=trace_id or str(uuid.uuid4()),
             consent_scopes=["cognitive_processing"]  # Default scope
         )
-        
+
         # Build the MATRIZ node
         matriz_node = {
             "version": 1,
@@ -245,28 +244,28 @@ class CognitiveNode(ABC):
                 "trace_id": provenance.trace_id,
                 "consent_scopes": provenance.consent_scopes
             },
-            "links": [link.__dict__ if isinstance(link, NodeLink) else link 
+            "links": [link.__dict__ if isinstance(link, NodeLink) else link
                      for link in (links or [])],
             "evolves_to": evolves_to or [],
-            "triggers": [trigger.__dict__ if isinstance(trigger, NodeTrigger) else trigger 
+            "triggers": [trigger.__dict__ if isinstance(trigger, NodeTrigger) else trigger
                         for trigger in (triggers or [])],
-            "reflections": [refl.__dict__ if isinstance(refl, NodeReflection) else refl 
+            "reflections": [refl.__dict__ if isinstance(refl, NodeReflection) else refl
                            for refl in (reflections or [])],
             "schema_ref": "lukhas://schemas/matriz_node_v1.json"
         }
-        
+
         # Store in processing history
         self.processing_history.append(matriz_node)
-        
+
         return matriz_node
-    
+
     def validate_matriz_node(self, node: Dict[str, Any]) -> bool:
         """
         Validate that a node conforms to MATRIZ schema.
-        
+
         Args:
             node: The node to validate
-            
+
         Returns:
             True if valid, False otherwise
         """
@@ -276,30 +275,30 @@ class CognitiveNode(ABC):
             for field in required_fields:
                 if field not in node:
                     return False
-                    
+
             # Check state required fields
             state = node.get("state", {})
             if "confidence" not in state or "salience" not in state:
                 return False
-                
+
             # Check confidence and salience ranges
             confidence = state.get("confidence", 0)
             salience = state.get("salience", 0)
             if not (0 <= confidence <= 1) or not (0 <= salience <= 1):
                 return False
-                
+
             # Check provenance required fields
             provenance = node.get("provenance", {})
             prov_required = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
             for field in prov_required:
                 if field not in provenance:
                     return False
-                    
+
             return True
-            
+
         except Exception:
             return False
-    
+
     def create_reflection(
         self,
         reflection_type: str,
@@ -309,20 +308,20 @@ class CognitiveNode(ABC):
     ) -> NodeReflection:
         """
         Create a reflection about this node's processing.
-        
+
         Args:
             reflection_type: Type of reflection (regret, affirmation, etc.)
             cause: What caused this reflection
             old_state: Previous state (if applicable)
             new_state: New state (if applicable)
-            
+
         Returns:
             NodeReflection object
         """
         allowed_types = ["regret", "affirmation", "dissonance_resolution", "moral_conflict", "self_question"]
         if reflection_type not in allowed_types:
             raise ValueError(f"Invalid reflection type. Must be one of: {allowed_types}")
-            
+
         return NodeReflection(
             reflection_type=reflection_type,
             timestamp=int(time.time() * 1000),
@@ -330,7 +329,7 @@ class CognitiveNode(ABC):
             new_state=new_state,
             cause=cause
         )
-    
+
     def create_link(
         self,
         target_node_id: str,
@@ -341,25 +340,25 @@ class CognitiveNode(ABC):
     ) -> NodeLink:
         """
         Create a link to another MATRIZ node.
-        
+
         Args:
             target_node_id: ID of the target node
             link_type: Type of link (temporal, causal, semantic, emotional, spatial, evidence)
             direction: bidirectional or unidirectional
             weight: Optional weight (0.0-1.0)
             explanation: Optional explanation of the link
-            
+
         Returns:
             NodeLink object
         """
         allowed_link_types = ["temporal", "causal", "semantic", "emotional", "spatial", "evidence"]
         if link_type not in allowed_link_types:
             raise ValueError(f"Invalid link type. Must be one of: {allowed_link_types}")
-            
+
         allowed_directions = ["bidirectional", "unidirectional"]
         if direction not in allowed_directions:
             raise ValueError(f"Invalid direction. Must be one of: {allowed_directions}")
-            
+
         return NodeLink(
             target_node_id=target_node_id,
             link_type=link_type,
@@ -367,32 +366,32 @@ class CognitiveNode(ABC):
             weight=weight,
             explanation=explanation
         )
-    
+
     def get_deterministic_hash(self, input_data: Dict[str, Any]) -> str:
         """
         Generate a deterministic hash for reproducible processing.
-        
+
         This ensures that the same input always produces the same hash,
         enabling deterministic node creation and caching.
-        
+
         Args:
             input_data: The input data to hash
-            
+
         Returns:
             Deterministic hash string
         """
         import hashlib
         import json
-        
+
         # Create deterministic JSON representation
         canonical_json = json.dumps(input_data, sort_keys=True, separators=(',', ':'))
-        
+
         # Add node identifier for uniqueness
         hash_input = f"{self.node_name}:{canonical_json}"
-        
+
         # Generate SHA-256 hash
         return hashlib.sha256(hash_input.encode('utf-8')).hexdigest()
-    
+
     def __repr__(self) -> str:
         """String representation of the node"""
         return f"{self.__class__.__name__}(name='{self.node_name}', capabilities={self.capabilities})"

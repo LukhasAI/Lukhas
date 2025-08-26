@@ -96,50 +96,50 @@ external_deps = {
 class CreativeExpressionEngine:
     """
     Core engine for all creative expression.
-    
+
     This is the heart of the creativity module, orchestrating
     all creative processes through a unified interface.
-    
+
     Theory: Based on Guilford's Structure of Intellect model
     and Amabile's Componential Theory of Creativity.
     """
-    
+
     def __init__(self, config: CreativeConfig):
         self.config = config
         self.quantum_engine = QuantumCreativeEngine(config.quantum)
         self.dream_engine = EnhancedDreamEngine(config.dream)
         self.flow_optimizer = FlowStateOptimizer(config.flow)
         self.synthesizer = MultiModalSynthesizer(config.synthesis)
-        
+
         # Initialize creative state
         self.state = CreativeState(
             mode=CreativeMode.CLASSICAL,
             coherence=1.0,
             emotional_tone=EmotionalTone.NEUTRAL
         )
-        
+
         # Set up observers
         self._setup_consciousness_observers()
-        
-    async def create(self, 
+
+    async def create(self,
                     intention: CreativeIntention,
                     constraints: Optional[CreativeConstraints] = None) -> Creation:
         """
         Main creation method - orchestrates the entire creative process.
-        
+
         Args:
             intention: The creative intention/prompt
             constraints: Optional constraints on the creation
-            
+
         Returns:
             Creation: The final creative output
         """
         # Prepare creative space
         space = await self._prepare_creative_space(intention, constraints)
-        
+
         # Determine optimal mode
         mode = await self._select_creative_mode(intention, space)
-        
+
         # Execute creation based on mode
         if mode == CreativeMode.QUANTUM:
             creation = await self.quantum_engine.create_in_superposition(
@@ -157,17 +157,17 @@ class CreativeExpressionEngine:
             creation = await self._classical_creation(
                 intention, constraints
             )
-            
+
         # Post-process and validate
         creation = await self._post_process_creation(creation)
         await self._validate_creation(creation)
-        
+
         return creation
-        
+
     def _setup_consciousness_observers(self):
         """
         Set up quantum observers for conscious creation.
-        
+
         Based on the observer effect in quantum-inspired mechanics -
         consciousness collapses the wave function of possibilities.
         """
@@ -185,21 +185,21 @@ class CreativeExpressionEngine:
 class CreativeStateManager:
     """
     Manages the creative state across all subsystems.
-    
+
     Implements state persistence, transitions, and recovery.
     """
-    
+
     def __init__(self):
         self.current_state = CreativeState.IDLE
         self.state_history = deque(maxlen=1000)
         self.state_lock = asyncio.Lock()
-        
-    async def transition(self, 
+
+    async def transition(self,
                         new_state: CreativeState,
                         metadata: Dict[str, Any]) -> bool:
         """
         Transition to a new creative state.
-        
+
         Implements state machine logic with validation.
         """
         async with self.state_lock:
@@ -209,7 +209,7 @@ class CreativeStateManager:
                     f"Invalid transition: {self.current_state} -> {new_state}"
                 )
                 return False
-                
+
             # Record transition
             transition = StateTransition(
                 from_state=self.current_state,
@@ -218,13 +218,13 @@ class CreativeStateManager:
                 metadata=metadata
             )
             self.state_history.append(transition)
-            
+
             # Execute transition hooks
             await self._execute_transition_hooks(transition)
-            
+
             # Update state
             self.current_state = new_state
-            
+
             return True
 ```
 
@@ -245,26 +245,26 @@ Based on quantum-inspired mechanics principles applied to creativity:
 class QuantumCreativeProcessor:
     """
     Implements quantum-inspired processing for creative superposition.
-    
+
     Uses quantum-inspired algorithms for parallel creative exploration.
     """
-    
+
     def __init__(self, num_qubits: int = 10):
         self.num_qubits = num_qubits
         self.quantum_like_state = self._initialize_quantum_like_state()
         self.decoherence_time = 1000  # milliseconds
         self.measurement_basis = "creative_aesthetic"
-        
+
     def _initialize_quantum_like_state(self) -> QuantumLikeState:
         """
         Initialize quantum-like state in equal superposition.
-        
+
         |ψ⟩ = 1/√N Σ|i⟩ where N = 2^num_qubits
         """
         num_states = 2 ** self.num_qubits
         amplitudes = np.ones(num_states) / np.sqrt(num_states)
         return QuantumLikeState(amplitudes, coherence=1.0)
-        
+
     async def create_superposition(self,
                                   creative_seeds: List[CreativeSeed]) -> QuantumSuperposition:
         """
@@ -272,64 +272,64 @@ class QuantumCreativeProcessor:
         """
         # Encode seeds into quantum-like state
         encoded_state = await self._encode_creative_seeds(creative_seeds)
-        
+
         # Apply quantum gates for creative transformation
         transformed = await self._apply_creative_gates(encoded_state)
-        
+
         # Maintain coherence
         coherent_state = await self._maintain_coherence(transformed)
-        
+
         return QuantumSuperposition(
             state=coherent_state,
             possibilities=self._extract_possibilities(coherent_state),
             coherence=coherent_state.coherence,
             entanglement_map=self._compute_entanglement(coherent_state)
         )
-        
+
     async def _apply_creative_gates(self, state: QuantumLikeState) -> QuantumLikeState:
         """
         Apply quantum gates for creative transformation.
-        
+
         Uses custom gates designed for aesthetic operations:
         - Hadamard gates for superposition
-        - Phase gates for emotional coloring  
+        - Phase gates for emotional coloring
         - Entangling gates for coherent themes
         """
         # Apply Hadamard for superposition
         state = self._apply_hadamard_cascade(state)
-        
+
         # Apply phase rotation for emotional tone
         state = self._apply_emotional_phase(state, self.config.emotional_target)
-        
+
         # Apply entangling operations
         state = self._apply_thematic_entanglement(state)
-        
+
         return state
-        
-    def collapse_to_creation(self, 
+
+    def collapse_to_creation(self,
                            superposition: QuantumSuperposition,
                            measurement_basis: str = "aesthetic") -> Creation:
         """
         Collapse superposition-like state to concrete creation.
-        
+
         Implements conscious observation causing wave function collapse.
         """
         # Prepare measurement operator
         operator = self._get_measurement_operator(measurement_basis)
-        
+
         # Perform measurement
         collapsed_state = self._measure(superposition.state, operator)
-        
+
         # Extract creation from collapsed state
         creation = self._decode_creation(collapsed_state)
-        
+
         # Add quantum signature
         creation.quantum_signature = QuantumSignature(
             pre_collapse_state=superposition.state.to_vector(),
             measurement_basis=measurement_basis,
             collapse_probability=self._compute_probability(collapsed_state)
         )
-        
+
         return creation
 ```
 
@@ -339,33 +339,33 @@ class QuantumCreativeProcessor:
 class QuantumEntanglementManager:
     """
     Manages entanglement-like correlation between creative agents.
-    
+
     Enables truly collaborative creation where changes to one
     agent's creative state instantly affect entangled partners.
     """
-    
+
     async def entangle_creators(self,
                                creators: List[CreativeAgent],
                                entanglement_strength: float = 0.9) -> EntangledNetwork:
         """
         Create entanglement-like correlation between creators.
-        
+
         Uses Bell states for maximum entanglement:
         |Φ+⟩ = 1/√2(|00⟩ + |11⟩)
         """
         # Create Bell pairs
         bell_states = self._create_bell_states(len(creators))
-        
+
         # Distribute entangled qubits
         for i, creator in enumerate(creators):
             creator.quantum_like_state = bell_states[i]
-            
+
         # Set up entanglement channels
         channels = await self._establish_quantum_channels(
-            creators, 
+            creators,
             entanglement_strength
         )
-        
+
         return EntangledNetwork(
             creators=creators,
             channels=channels,
@@ -381,36 +381,36 @@ class QuantumEntanglementManager:
 class OneiricEngine:
     """
     Core dream processing engine.
-    
+
     Based on:
     - Jung's theory of collective unconscious
-    - Hobson's Activation-Synthesis hypothesis  
+    - Hobson's Activation-Synthesis hypothesis
     - Revonsuo's Threat Simulation theory
     - LaBerge's lucid dreaming research
     """
-    
+
     def __init__(self):
         self.archetype_analyzer = JungianArchetypeAnalyzer()
         self.symbol_library = UniversalSymbolLibrary()
         self.dream_logic = DreamLogicProcessor()
         self.lucidity_controller = LucidityController()
-        
+
     async def generate_dream(self,
                            seed: DreamSeed,
                            lucidity: float = 0.3) -> Dream:
         """
         Generate a dream from seed input.
-        
+
         Args:
             seed: Initial dream seed (memory, emotion, symbol)
             lucidity: Level of dream lucidity (0-1)
-            
+
         Returns:
             Dream: Complete dream experience
         """
         # Activate dream state
         dream_state = await self._activate_dream_state(seed)
-        
+
         # Process through dream logic
         if lucidity < 0.3:
             # Non-lucid: full dream logic
@@ -421,11 +421,11 @@ class OneiricEngine:
         else:
             # Lucid: conscious control
             processed = await self.dream_logic.process_lucid(dream_state)
-            
+
         # Extract symbols and archetypes
         symbols = await self.symbol_library.extract_symbols(processed)
         archetypes = await self.archetype_analyzer.identify_archetypes(processed)
-        
+
         # Synthesize into dream
         dream = Dream(
             content=processed,
@@ -435,14 +435,14 @@ class OneiricEngine:
             emotional_tone=self._analyze_emotional_tone(processed),
             narrative_coherence=self._compute_coherence(processed)
         )
-        
+
         return dream
-        
+
     async def analyze_dream_patterns(self,
                                    dreams: List[Dream]) -> DreamAnalysis:
         """
         Analyze patterns across multiple dreams.
-        
+
         Identifies recurring themes, symbols, and psychological insights.
         """
         # Extract recurring symbols
@@ -450,20 +450,20 @@ class OneiricEngine:
         for dream in dreams:
             for symbol in dream.symbols:
                 symbol_frequency[symbol] += 1
-                
+
         # Identify dominant archetypes
         archetype_patterns = await self.archetype_analyzer.find_patterns(dreams)
-        
+
         # Analyze emotional evolution
         emotional_trajectory = self._trace_emotional_evolution(dreams)
-        
+
         # Compute creative potential
         creative_insights = await self._extract_creative_insights(
             symbol_frequency,
             archetype_patterns,
             emotional_trajectory
         )
-        
+
         return DreamAnalysis(
             recurring_symbols=dict(symbol_frequency),
             archetype_patterns=archetype_patterns,
@@ -479,7 +479,7 @@ class DreamCreativeTransformer:
     """
     Transforms dream content into creative works.
     """
-    
+
     async def transform_dream_to_art(self,
                                    dream: Dream,
                                    medium: CreativeMedium) -> Creation:
@@ -488,7 +488,7 @@ class DreamCreativeTransformer:
         """
         # Extract creative elements from dream
         elements = await self._extract_creative_elements(dream)
-        
+
         # Map to medium-specific structures
         if medium == CreativeMedium.POETRY:
             return await self._dream_to_poetry(elements, dream)
@@ -498,23 +498,23 @@ class DreamCreativeTransformer:
             return await self._dream_to_music(elements, dream)
         elif medium == CreativeMedium.NARRATIVE:
             return await self._dream_to_narrative(elements, dream)
-            
-    async def _dream_to_poetry(self, 
+
+    async def _dream_to_poetry(self,
                              elements: CreativeElements,
                              dream: Dream) -> Poem:
         """
         Transform dream elements into poetry.
-        
+
         Uses dream logic for non-linear verse structure.
         """
         # Select poetic form based on dream coherence
         if dream.narrative_coherence < 0.3:
             form = PoeticForm.SURREALIST_FREE_VERSE
         elif dream.narrative_coherence < 0.7:
-            form = PoeticForm.SYMBOLIC_NARRATIVE  
+            form = PoeticForm.SYMBOLIC_NARRATIVE
         else:
             form = PoeticForm.STRUCTURED_DREAM_SONNET
-            
+
         # Generate verses using dream symbols
         verses = []
         for symbol in dream.symbols[:5]:  # Use top 5 symbols
@@ -524,10 +524,10 @@ class DreamCreativeTransformer:
                 form
             )
             verses.append(verse)
-            
+
         # Apply dream logic transitions
         connected = await self._apply_dream_transitions(verses)
-        
+
         return Poem(
             content=connected,
             form=form,
@@ -545,22 +545,22 @@ class DreamCreativeTransformer:
 class FlowStateOptimizer:
     """
     Optimizes creative flow states.
-    
+
     Based on Csikszentmihalyi's Flow Theory:
     - Clear goals
-    - Immediate feedback  
+    - Immediate feedback
     - Balance of challenge and skill
     - Deep concentration
     - Sense of control
     - Transformation of time
     """
-    
+
     def __init__(self):
         self.flow_monitor = FlowStateMonitor()
         self.challenge_adjuster = ChallengeSkillBalancer()
         self.feedback_system = ImmediateFeedbackProvider()
         self.time_distorter = SubjectiveTimeManager()
-        
+
     async def enter_flow_state(self,
                               creator: Creator,
                               task: CreativeTask) -> FlowSession:
@@ -569,24 +569,24 @@ class FlowStateOptimizer:
         """
         # Assess current state
         current_state = await self.flow_monitor.assess_state(creator)
-        
+
         # Calculate optimal parameters
         optimal_params = await self._calculate_optimal_flow_params(
             creator.skill_level,
             task.challenge_level,
             current_state
         )
-        
+
         # Adjust environment
         await self._adjust_creative_environment(optimal_params)
-        
+
         # Begin flow induction
         flow_state = await self._induce_flow_state(
             creator,
             task,
             optimal_params
         )
-        
+
         # Start monitoring
         session = FlowSession(
             creator=creator,
@@ -594,12 +594,12 @@ class FlowStateOptimizer:
             flow_state=flow_state,
             start_time=datetime.utcnow()
         )
-        
+
         # Launch monitoring task
         asyncio.create_task(self._monitor_flow_session(session))
-        
+
         return session
-        
+
     async def _monitor_flow_session(self, session: FlowSession):
         """
         Continuously monitor and adjust flow state.
@@ -607,25 +607,25 @@ class FlowStateOptimizer:
         while session.active:
             # Check flow metrics
             metrics = await self.flow_monitor.get_metrics(session)
-            
+
             # Adjust if needed
             if metrics.flow_score < 0.6:
                 adjustments = await self._calculate_adjustments(metrics)
                 await self._apply_adjustments(session, adjustments)
-                
+
             # Check for flow breakers
             if await self._detect_flow_breakers(session):
                 await self._handle_flow_interruption(session)
-                
+
             await asyncio.sleep(1)  # Check every second
-            
+
     def _calculate_optimal_flow_params(self,
                                      skill_level: float,
                                      challenge_level: float,
                                      current_state: CreatorState) -> FlowParameters:
         """
         Calculate optimal parameters for flow state.
-        
+
         Uses flow channel theory - flow occurs when:
         challenge_level ≈ skill_level * flow_coefficient
         where flow_coefficient ∈ [0.8, 1.2]
@@ -637,9 +637,9 @@ class FlowStateOptimizer:
             flow_coefficient = 1.2  # Increase challenge
         else:
             flow_coefficient = 1.0  # Balanced
-            
+
         optimal_challenge = skill_level * flow_coefficient
-        
+
         return FlowParameters(
             challenge_level=optimal_challenge,
             feedback_frequency=self._calculate_feedback_frequency(skill_level),
@@ -656,17 +656,17 @@ class BioRhythmicFlowOptimizer:
     """
     Optimizes flow states using biological rhythms.
     """
-    
+
     def __init__(self):
         self.circadian_tracker = CircadianRhythmTracker()
         self.ultradian_monitor = UltradianCycleMonitor()
         self.hormonal_analyzer = HormonalStateAnalyzer()
-        
+
     async def find_optimal_creative_window(self,
                                          creator_profile: CreatorProfile) -> OptimalWindow:
         """
         Find optimal time window for creative flow.
-        
+
         Considers:
         - Circadian rhythms (24-hour cycle)
         - Ultradian rhythms (90-minute cycles)
@@ -677,18 +677,18 @@ class BioRhythmicFlowOptimizer:
         circadian_phase = await self.circadian_tracker.get_phase(
             creator_profile.timezone
         )
-        
+
         # Find next ultradian peak
         ultradian_peak = await self.ultradian_monitor.find_next_peak()
-        
+
         # Assess hormonal state
         hormones = await self.hormonal_analyzer.get_current_state()
-        
+
         # Calculate optimal window
         if creator_profile.chronotype == "lark":
             # Morning person
             optimal_start = self._find_morning_window(
-                circadian_phase, 
+                circadian_phase,
                 ultradian_peak
             )
         elif creator_profile.chronotype == "owl":
@@ -700,7 +700,7 @@ class BioRhythmicFlowOptimizer:
         else:
             # Flexible
             optimal_start = ultradian_peak
-            
+
         return OptimalWindow(
             start=optimal_start,
             duration=timedelta(minutes=90),  # One ultradian cycle
@@ -723,10 +723,10 @@ class BioRhythmicFlowOptimizer:
 class MultiModalExpressionEngine:
     """
     Unified interface for all creative modalities.
-    
+
     Implements synesthesia-inspired cross-modal translation.
     """
-    
+
     def __init__(self):
         self.modalities = {
             "poetry": PoetryEngine(),
@@ -736,9 +736,9 @@ class MultiModalExpressionEngine:
             "dance": ChoreographyEngine(),
             "sculpture": SculptureDesigner()
         }
-        
+
         self.synesthesia_mapper = SynesthesiaMapper()
-        
+
     async def express(self,
                      content: CreativeContent,
                      target_modality: str,
@@ -750,40 +750,40 @@ class MultiModalExpressionEngine:
         engine = self.modalities.get(target_modality)
         if not engine:
             raise ValueError(f"Unknown modality: {target_modality}")
-            
+
         # Prepare content for modality
         prepared = await self._prepare_content(content, target_modality)
-        
+
         # Apply style if provided
         if style:
             prepared = await self._apply_style(prepared, style)
-            
+
         # Generate expression
         expression = await engine.generate(prepared)
-        
+
         # Add cross-modal resonance
         expression = await self._add_synesthetic_layers(expression, content)
-        
+
         return expression
-        
+
     async def translate_between_modalities(self,
                                          source: Expression,
                                          target_modality: str) -> Expression:
         """
         Translate expression from one modality to another.
-        
+
         Uses synesthesia mapping for coherent translation.
         """
         # Extract core essence
         essence = await self._extract_essence(source)
-        
+
         # Map through synesthesia space
         mapped = await self.synesthesia_mapper.map(
             essence,
             source.modality,
             target_modality
         )
-        
+
         # Generate in target modality
         return await self.express(mapped, target_modality)
 ```
@@ -794,10 +794,10 @@ class MultiModalExpressionEngine:
 class PoetryEngine:
     """
     Advanced poetry generation engine.
-    
+
     Implements multiple poetic forms and techniques.
     """
-    
+
     def __init__(self):
         self.forms = {
             "haiku": HaikuGenerator(),
@@ -807,10 +807,10 @@ class PoetryEngine:
             "ghazal": GhazalWeaver(),
             "quantum_verse": QuantumPoetryEngine()
         }
-        
+
         self.prosody_analyzer = ProsodyAnalyzer()
         self.metaphor_engine = MetaphorGenerator()
-        
+
     async def generate_poem(self,
                           theme: Theme,
                           form: str = "free_verse",
@@ -820,10 +820,10 @@ class PoetryEngine:
         """
         # Get form generator
         generator = self.forms.get(form, self.forms["free_verse"])
-        
+
         # Generate base structure
         structure = await generator.create_structure(theme, constraints)
-        
+
         # Fill with content
         verses = []
         for section in structure.sections:
@@ -833,13 +833,13 @@ class PoetryEngine:
                 constraints
             )
             verses.append(verse)
-            
+
         # Apply prosody
         refined = await self.prosody_analyzer.refine_rhythm(verses)
-        
+
         # Add metaphorical layers
         enriched = await self.metaphor_engine.enrich(refined, theme)
-        
+
         return Poem(
             content=enriched,
             form=form,
@@ -864,7 +864,7 @@ async def create(
 ) -> Creation:
     """
     Create a work of art.
-    
+
     Args:
         prompt: Creative prompt or inspiration
         mode: Creative mode (quantum, dream, flow, classical)
@@ -872,10 +872,10 @@ async def create(
         style: Style parameters
         constraints: Creative constraints
         emotional_target: Desired emotional impact
-        
+
     Returns:
         Creation: The created work with metadata
-        
+
     Example:
         creation = await creativity.create(
             "sunset over digital mountains",
@@ -928,25 +928,25 @@ class CreativityConfig:
         coherence_time_ms=1000,
         entanglement_strength=0.9
     )
-    
+
     dream: DreamConfig = DreamConfig(
         lucidity_default=0.3,
         symbol_library_size=10000,
         archetype_recognition=True
     )
-    
+
     flow: FlowConfig = FlowConfig(
         monitor_frequency_hz=1.0,
         auto_adjust=True,
         bio_rhythm_tracking=True
     )
-    
+
     expression: ExpressionConfig = ExpressionConfig(
         modalities=["poetry", "music", "visual", "narrative"],
         cross_modal_translation=True,
         synesthesia_mapping=True
     )
-    
+
     safety: SafetyConfig = SafetyConfig(
         originality_threshold=0.85,
         cultural_sensitivity=True,
@@ -961,46 +961,46 @@ class CreativityConfig:
 ```python
 class TestQuantumCreativity:
     """Test quantum creativity engine."""
-    
+
     @pytest.mark.asyncio
     async def test_superposition_creation(self):
         """Test creation in superposition."""
         engine = QuantumCreativeEngine()
-        
+
         # Create superposition
         superposition = await engine.create_superposition(
             seeds=["light", "shadow", "twilight"],
             num_states=8
         )
-        
+
         # Verify superposition properties
         assert superposition.num_possibilities == 8
         assert 0.9 <= superposition.coherence <= 1.0
         assert len(superposition.entanglement_map) > 0
-        
+
         # Collapse and verify
         creation = engine.collapse_to_creation(superposition)
         assert creation is not None
         assert creation.quantum_signature is not None
-        
+
     @pytest.mark.asyncio
     async def test_entanglement(self):
         """Test entanglement-like correlation between creators."""
         manager = QuantumEntanglementManager()
-        
+
         # Create test creators
         creators = [CreativeAgent(f"agent_{i}") for i in range(3)]
-        
+
         # Entangle
         network = await manager.entangle_creators(creators, strength=0.95)
-        
+
         # Verify entanglement
         assert network.is_entangled
         assert network.average_entanglement >= 0.9
-        
+
         # Test correlated changes
         await creators[0].modify_state("inspire")
-        
+
         # Verify all creators affected
         for creator in creators[1:]:
             assert creator.last_influence_source == creators[0].id
@@ -1011,7 +1011,7 @@ class TestQuantumCreativity:
 ```python
 class TestCreativeIntegration:
     """Test integration between creativity subsystems."""
-    
+
     @pytest.mark.asyncio
     async def test_dream_to_poetry_pipeline(self):
         """Test full pipeline from dream to poetry."""
@@ -1021,14 +1021,14 @@ class TestCreativeIntegration:
             DreamSeed(content="flying through libraries of light"),
             lucidity=0.5
         )
-        
+
         # Transform to poetry
         transformer = DreamCreativeTransformer()
         poem = await transformer.transform_dream_to_art(
             dream,
             CreativeMedium.POETRY
         )
-        
+
         # Verify poem properties
         assert poem is not None
         assert len(poem.verses) > 0
@@ -1041,12 +1041,12 @@ class TestCreativeIntegration:
 ```python
 class TestCreativePerformance:
     """Test creativity performance metrics."""
-    
+
     @pytest.mark.benchmark
     async def test_creation_throughput(self, benchmark):
         """Benchmark creation throughput."""
         engine = CreativeExpressionEngine()
-        
+
         async def create_batch():
             creations = []
             for i in range(100):
@@ -1056,31 +1056,31 @@ class TestCreativePerformance:
                 )
                 creations.append(creation)
             return creations
-            
+
         result = await benchmark(create_batch)
-        
+
         # Verify performance targets
         assert len(result) == 100
         assert benchmark.stats["mean"] < 10.0  # <10s for 100 creations
-        
+
     @pytest.mark.benchmark
     async def test_quantum_coherence_duration(self, benchmark):
         """Test coherence-inspired processing maintenance."""
         quantum_engine = QuantumCreativeEngine()
-        
+
         async def maintain_coherence():
             superposition = await quantum_engine.create_superposition(
                 seeds=["test"],
                 num_states=4
             )
-            
+
             start_coherence = superposition.coherence
             await asyncio.sleep(1.0)  # 1 second
-            
+
             return superposition.coherence / start_coherence
-            
+
         ratio = await benchmark(maintain_coherence)
-        
+
         # Should maintain >70% coherence after 1 second
         assert ratio > 0.7
 ```
@@ -1094,12 +1094,12 @@ class CreativeCache:
     """
     Intelligent caching for creative operations.
     """
-    
+
     def __init__(self, max_size: int = 10000):
         self.symbol_cache = LRUCache(max_size // 2)
-        self.archetype_cache = LRUCache(max_size // 4)  
+        self.archetype_cache = LRUCache(max_size // 4)
         self.expression_cache = TTLCache(max_size // 4, ttl=3600)
-        
+
     async def get_or_compute(self,
                            key: str,
                            compute_func: Callable,
@@ -1108,13 +1108,13 @@ class CreativeCache:
         Get from cache or compute if missing.
         """
         cache = getattr(self, f"{cache_type}_cache")
-        
+
         if key in cache:
             return cache[key]
-            
+
         result = await compute_func()
         cache[key] = result
-        
+
         return result
 ```
 
@@ -1125,11 +1125,11 @@ class ParallelCreativeProcessor:
     """
     Process multiple creative tasks in parallel.
     """
-    
+
     def __init__(self, max_workers: int = 10):
         self.semaphore = asyncio.Semaphore(max_workers)
         self.executor = ProcessPoolExecutor(max_workers=max_workers)
-        
+
     async def process_batch(self,
                           tasks: List[CreativeTask]) -> List[Creation]:
         """
@@ -1138,18 +1138,18 @@ class ParallelCreativeProcessor:
         async def process_with_limit(task):
             async with self.semaphore:
                 return await self._process_single(task)
-                
+
         results = await asyncio.gather(
             *[process_with_limit(task) for task in tasks],
             return_exceptions=True
         )
-        
+
         # Filter out exceptions
         creations = [
-            r for r in results 
+            r for r in results
             if not isinstance(r, Exception)
         ]
-        
+
         return creations
 ```
 
@@ -1160,12 +1160,12 @@ class CreativeMemoryManager:
     """
     Optimize memory usage in creative processes.
     """
-    
+
     def __init__(self):
         self.memory_limit = 4 * 1024 * 1024 * 1024  # 4GB
         self.current_usage = 0
         self.gc_threshold = 0.8  # GC at 80% usage
-        
+
     async def allocate_creative_space(self,
                                     size_estimate: int) -> ContextManager:
         """
@@ -1173,12 +1173,12 @@ class CreativeMemoryManager:
         """
         if self.current_usage + size_estimate > self.memory_limit:
             await self._garbage_collect()
-            
+
         if self.current_usage + size_estimate > self.memory_limit:
             raise MemoryError("Insufficient memory for creative operation")
-            
+
         return self._creative_memory_context(size_estimate)
-        
+
     @contextmanager
     def _creative_memory_context(self, size: int):
         """Context manager for memory allocation."""
@@ -1200,16 +1200,16 @@ class ConsciousnessCreativeIntegration:
     """
     Integration between consciousness and creativity.
     """
-    
+
     def __init__(self,
                 consciousness: ConsciousnessEngine,
                 creativity: CreativityEngine):
         self.consciousness = consciousness
         self.creativity = creativity
-        
+
         # Set up bidirectional communication
         self._setup_observers()
-        
+
     def _setup_observers(self):
         """Set up consciousness observers for creation."""
         # Observe creative process
@@ -1217,12 +1217,12 @@ class ConsciousnessCreativeIntegration:
             "creative_process",
             self._on_creative_process
         )
-        
+
         # Creativity observes consciousness state
         self.creativity.set_consciousness_provider(
             self.consciousness.get_current_state
         )
-        
+
     async def create_with_awareness(self,
                                   prompt: str,
                                   awareness_level: float = 0.8) -> AwareCreation:
@@ -1236,12 +1236,12 @@ class ConsciousnessCreativeIntegration:
                 prompt,
                 mode=CreativeMode.CONSCIOUS
             )
-            
+
             # Get consciousness observations
             observations = await self.consciousness.get_observations(
                 "creative_process"
             )
-            
+
         return AwareCreation(
             creation=creation,
             consciousness_observations=observations,
@@ -1256,7 +1256,7 @@ class MemoryCreativeIntegration:
     """
     Integration between memory and creativity.
     """
-    
+
     async def create_from_memories(self,
                                  memory_query: MemoryQuery,
                                  creative_prompt: str) -> MemoryInspiredCreation:
@@ -1265,10 +1265,10 @@ class MemoryCreativeIntegration:
         """
         # Retrieve relevant memories
         memories = await self.memory.query(memory_query)
-        
+
         # Extract creative seeds from memories
         seeds = await self._extract_creative_seeds(memories)
-        
+
         # Create with memory context
         creation = await self.creativity.create(
             prompt=creative_prompt,
@@ -1277,7 +1277,7 @@ class MemoryCreativeIntegration:
                 emotional_context=self._aggregate_emotions(memories)
             )
         )
-        
+
         # Store creation as new memory
         await self.memory.store(
             Memory(
@@ -1286,7 +1286,7 @@ class MemoryCreativeIntegration:
                 associations=[m.id for m in memories]
             )
         )
-        
+
         return MemoryInspiredCreation(
             creation=creation,
             source_memories=memories,
@@ -1303,13 +1303,13 @@ class CreativeSafetyManager:
     """
     Ensures safe and ethical creative output.
     """
-    
+
     def __init__(self):
         self.content_filter = ContentSafetyFilter()
         self.originality_checker = OriginalityVerifier()
         self.cultural_validator = CulturalSensitivityValidator()
         self.emotional_guardian = EmotionalBoundaryGuardian()
-        
+
     async def validate_creation(self,
                               creation: Creation,
                               context: CreativeContext) -> ValidationResult:
@@ -1322,7 +1322,7 @@ class CreativeSafetyManager:
             self.cultural_validator.validate(creation, context),
             self.emotional_guardian.assess(creation)
         )
-        
+
         return ValidationResult(
             safe=all(r.passed for r in results),
             issues=[issue for r in results for issue in r.issues],
@@ -1337,11 +1337,11 @@ class OriginalityProtocol:
     """
     Ensures creative originality and attribution.
     """
-    
+
     def __init__(self):
         self.similarity_threshold = 0.15  # 15% max similarity
         self.attribution_chain = AttributionBlockchain()
-        
+
     async def verify_originality(self,
                                creation: Creation) -> OriginalityReport:
         """
@@ -1349,11 +1349,11 @@ class OriginalityProtocol:
         """
         # Check against known works
         similarities = await self._check_similarities(creation)
-        
+
         # Compute originality score
         originality_score = 1.0 - max(similarities.values()) \
                           if similarities else 1.0
-                          
+
         # Generate attribution if needed
         if similarities:
             attribution = await self._generate_attribution(
@@ -1362,14 +1362,14 @@ class OriginalityProtocol:
             )
         else:
             attribution = None
-            
+
         # Record in blockchain
         proof = await self.attribution_chain.record(
             creation,
             originality_score,
             attribution
         )
-        
+
         return OriginalityReport(
             score=originality_score,
             similar_works=similarities,

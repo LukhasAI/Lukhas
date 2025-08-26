@@ -13,8 +13,9 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 try:
-    from candidate.core.symbolic_tokens import SymbolicToken
     from memory.folding.advanced_folding import MemoryFold
+
+    from candidate.core.symbolic_tokens import SymbolicToken
 
     MEMORY_AVAILABLE = True
 except ImportError:

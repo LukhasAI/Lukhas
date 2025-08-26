@@ -57,7 +57,7 @@ export default function AboutPage() {
             >
               <h2 className="font-regular text-3xl mb-8 text-center">Our Mission</h2>
               <p className="font-thin text-xl leading-relaxed text-center max-w-4xl mx-auto">
-                To illuminate complex reality through rigorous logic, adaptive intelligence, and human-centered ethics—turning 
+                To illuminate complex reality through rigorous logic, adaptive intelligence, and human-centered ethics—turning
                 data into understanding, understanding into foresight, and foresight into shared benefit for people and planet.
               </p>
             </motion.div>
@@ -99,14 +99,14 @@ export default function AboutPage() {
                 </h3>
                 <div className="space-y-6 text-lg text-primary-light/80">
                   <p>
-                    LUKHAS represents a breakthrough in scalable consciousness architecture, implementing advanced AI 
-                    capabilities through a modular, ethical, and transparent framework. Our platform combines cutting-edge 
-                    research in cognitive science, quantum-inspired computing, and biological systems to create AI that 
+                    LUKHAS represents a breakthrough in scalable consciousness architecture, implementing advanced AI
+                    capabilities through a modular, ethical, and transparent framework. Our platform combines cutting-edge
+                    research in cognitive science, quantum-inspired computing, and biological systems to create AI that
                     truly understands and evolves.
                   </p>
                   <p>
-                    At its core, LUKHAS is built on the Trinity Framework—a revolutionary approach that balances Identity, 
-                    Consciousness, and Guardian principles to ensure AI systems that are not just intelligent, but also 
+                    At its core, LUKHAS is built on the Trinity Framework—a revolutionary approach that balances Identity,
+                    Consciousness, and Guardian principles to ensure AI systems that are not just intelligent, but also
                     aligned with human values and transparent in their operations.
                   </p>
                   <div className="grid md:grid-cols-3 gap-6 mt-12">
@@ -182,7 +182,7 @@ export default function AboutPage() {
                   </li>
                 </ul>
               </motion.div>
-              
+
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}

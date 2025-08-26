@@ -1,7 +1,11 @@
 from __future__ import annotations
-import os, json, time, math
-from dataclasses import dataclass, asdict
-from typing import Dict, Any, Optional
+
+import json
+import math
+import os
+import time
+from dataclasses import dataclass
+from typing import Any, Dict, Optional
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 BUDGET_FILE = os.path.join(STATE, "budget_state.json")
@@ -26,7 +30,7 @@ class BudgetConfig:
 
 def _load_json(path: str, default):
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         return default

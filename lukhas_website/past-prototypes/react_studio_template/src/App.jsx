@@ -88,13 +88,13 @@ function App() {
         setCommandPaletteVisible(!commandPaletteVisible)
         setCommandPaletteLevel(commandPaletteVisible ? 0 : 1)
       }
-      
+
       // Escape to close
       if (e.key === 'Escape' && commandPaletteVisible) {
         setCommandPaletteVisible(false)
         setCommandPaletteLevel(0)
       }
-      
+
       // Tab to expand when palette is open
       if (e.key === 'Tab' && commandPaletteVisible) {
         e.preventDefault()
@@ -123,7 +123,7 @@ function App() {
   const handleDesktopDrop = (e) => {
     e.preventDefault()
     setDragOverDesktop(false)
-    
+
     const data = e.dataTransfer.getData('text/plain')
     if (data) {
       const newItem = {
@@ -151,30 +151,30 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black relative overflow-hidden text-gray-200" style={{ fontFamily: "'Helvetica Neue', -apple-system, system-ui, sans-serif" }}>
       {/* Optimized Animated Background */}
       {animatedBg !== 'custom' && animatedBg !== 'color' && (
-        <AnimatedBackground 
-          type={animatedBg} 
-          isActive={true} 
+        <AnimatedBackground
+          type={animatedBg}
+          isActive={true}
         />
       )}
-      
+
       {/* Solid Color Background */}
       {animatedBg === 'color' && (
-        <div 
+        <div
           className="fixed inset-0 z-0"
           style={{ backgroundColor: bgColor }}
         />
       )}
-      
+
       {/* Custom Background Image */}
       {animatedBg === 'custom' && customBgImage && (
-        <div 
+        <div
           className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${customBgImage})` }}
         />
       )}
 
       {/* Dynamic Top Bar */}
-      <header 
+      <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ease-in-out ${showHeader ? 'h-16 opacity-100' : 'h-0 opacity-0'}`}
         onMouseEnter={() => setShowHeader(true)}
         onMouseLeave={() => setShowHeader(false)}
@@ -185,10 +185,10 @@ function App() {
               LUKHΛS
             </div>
           </div>
-          
+
           <div className="flex items-center gap-3">
-            <Input 
-              placeholder="Search..." 
+            <Input
+              placeholder="Search..."
               className="w-64 bg-gray-700 border-gray-600 text-gray-200 placeholder-gray-400 focus:border-blue-400"
             />
             <Button variant="ghost" size="icon" onClick={() => setShowSettings(!showSettings)}>
@@ -200,7 +200,7 @@ function App() {
             <Button variant="ghost" size="icon">
               <Save className="w-5 h-5 text-gray-400 hover:text-blue-400" />
             </Button>
-            <Button 
+            <Button
               variant={isLoggedIn ? "ghost" : "default"}
               onClick={() => setIsLoggedIn(!isLoggedIn)}
               className="bg-blue-600 hover:bg-blue-700 text-white"
@@ -214,17 +214,17 @@ function App() {
       {/* Modern Command Palette */}
       <AnimatePresence>
         {commandPaletteVisible && (
-          <div 
+          <div
             className="fixed inset-0 bg-black/50 z-50 flex items-start justify-center pt-[20vh]"
             onClick={() => {
               setCommandPaletteVisible(false)
               setCommandPaletteLevel(0)
             }}
           >
-            <div 
+            <div
               className={`bg-gray-800/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 transition-all duration-300 ease-out overflow-hidden ${
-                commandPaletteLevel === 1 
-                  ? 'w-[90%] max-w-2xl h-[200px]' 
+                commandPaletteLevel === 1
+                  ? 'w-[90%] max-w-2xl h-[200px]'
                   : 'w-[90%] max-w-4xl h-[400px]'
               }`}
               onClick={(e) => e.stopPropagation()}
@@ -233,8 +233,8 @@ function App() {
               <div className="p-4 border-b border-gray-700">
                 <div className="flex items-center gap-3">
                   <Search className="w-5 h-5 text-gray-400" />
-                  <Input 
-                    placeholder="Search commands... (Tab to expand, Esc to close)" 
+                  <Input
+                    placeholder="Search commands... (Tab to expand, Esc to close)"
                     className="border-0 bg-transparent text-lg focus:ring-0 text-gray-200 placeholder-gray-500"
                     autoFocus
                   />
@@ -244,7 +244,7 @@ function App() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Command Grid - Only show when expanded */}
               {commandPaletteLevel === 2 && (
                 <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-3 overflow-y-auto">
@@ -272,7 +272,7 @@ function App() {
                   ))}
                 </div>
               )}
-              
+
               {/* Quick Actions - Always visible */}
               {commandPaletteLevel === 1 && (
                 <div className="p-4">
@@ -308,7 +308,7 @@ function App() {
       {/* Studio Layout - Desktop Collaboration */}
       <div className="flex h-[calc(100vh-140px)] relative z-10">
         {/* Left Dock - Conversations & Files */}
-        <div 
+        <div
           className={`bg-gray-800/30 backdrop-blur-xl border-r border-gray-700/30 p-4 flex flex-col transition-all duration-300 ${
             showLeftDock ? 'w-80 opacity-100' : 'w-0 opacity-0 overflow-hidden'
           }`}
@@ -386,11 +386,11 @@ function App() {
                 { title: 'Code Review', time: '1h', active: false },
                 { title: 'Design Discussion', time: '3h', active: false }
               ].map((chat, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className={`p-3 rounded-xl border cursor-pointer transition-all ${
-                    chat.active 
-                      ? 'bg-blue-600/20 border-blue-500/30 text-blue-200' 
+                    chat.active
+                      ? 'bg-blue-600/20 border-blue-500/30 text-blue-200'
                       : 'bg-gray-700/20 border-gray-600/20 text-gray-300 hover:bg-gray-700/30'
                   }`}
                   draggable
@@ -422,7 +422,7 @@ function App() {
                 { type: 'images', icon: Image, count: 8, color: 'purple' },
                 { type: 'code', icon: Code, count: 12, color: 'green' }
               ].map((stack, i) => (
-                <div 
+                <div
                   key={i}
                   className="relative group cursor-pointer"
                   draggable
@@ -433,7 +433,7 @@ function App() {
                   <div className="relative">
                     <div className="absolute inset-0 bg-gray-600/10 rounded-lg transform rotate-1 translate-x-0.5 translate-y-0.5"></div>
                     <div className="absolute inset-0 bg-gray-600/20 rounded-lg transform -rotate-1 translate-x-1 translate-y-1"></div>
-                    
+
                     <div className={`relative p-3 bg-gray-700/20 rounded-lg border border-gray-600/20 hover:border-${stack.color}-500/30 transition-all`}>
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 bg-${stack.color}-600/20 rounded-lg flex items-center justify-center`}>
@@ -477,11 +477,11 @@ function App() {
                 { title: 'Design Discussion', time: '3h', active: false },
                 { title: 'API Integration', time: '1d', active: false }
               ].map((chat, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className={`p-3 rounded-xl border cursor-pointer transition-all ${
-                    chat.active 
-                      ? 'bg-blue-600/20 border-blue-500/50 text-blue-200' 
+                    chat.active
+                      ? 'bg-blue-600/20 border-blue-500/50 text-blue-200'
                       : 'bg-gray-700/20 border-gray-600/30 text-gray-300 hover:bg-gray-700/30'
                   }`}
                   draggable
@@ -513,7 +513,7 @@ function App() {
                     { type: 'images', icon: Image, items: ['logo.png', 'mockup.jpg', 'icons.svg'], color: 'purple' },
                     { type: 'code', icon: Code, items: ['main.py', 'utils.js', 'styles.css'], color: 'green' }
                   ].map((stack, i) => (
-                    <div 
+                    <div
                       key={i}
                       className="relative group cursor-pointer"
                       onMouseEnter={() => setExpandedStack(i)}
@@ -528,7 +528,7 @@ function App() {
                         {/* Background stack layers */}
                         <div className="absolute inset-0 bg-gray-600/20 rounded-lg transform rotate-1 translate-x-0.5 translate-y-0.5"></div>
                         <div className="absolute inset-0 bg-gray-600/30 rounded-lg transform -rotate-1 translate-x-1 translate-y-1"></div>
-                        
+
                         {/* Main stack */}
                         <div className={`relative p-3 bg-gray-700/30 rounded-lg border border-gray-600/30 hover:border-${stack.color}-500/50 transition-all`}>
                           <div className="flex items-center gap-3">
@@ -548,8 +548,8 @@ function App() {
                         }`}>
                           <div className="bg-gray-800/95 backdrop-blur rounded-lg border border-gray-700 p-2 min-w-[200px]">
                             {stack.items.map((file, fi) => (
-                              <div 
-                                key={fi} 
+                              <div
+                                key={fi}
                                 className="flex items-center gap-2 p-2 hover:bg-gray-700/50 rounded text-sm text-gray-300 cursor-pointer"
                                 draggable
                                 onDragStart={(e) => {
@@ -576,10 +576,10 @@ function App() {
           <div className="flex-1 p-8 overflow-auto">
             <div className="max-w-6xl mx-auto h-full">
               {/* Drag & Drop Desktop */}
-              <div 
+              <div
                 className={`flex-1 min-h-[500px] rounded-2xl relative transition-all duration-300 ${
-                  dragOverDesktop 
-                    ? 'border-2 border-dashed border-blue-500/70 bg-blue-900/10 backdrop-blur' 
+                  dragOverDesktop
+                    ? 'border-2 border-dashed border-blue-500/70 bg-blue-900/10 backdrop-blur'
                     : 'border-0'
                 }`}
                 onDragOver={handleDesktopDragOver}
@@ -620,9 +620,9 @@ function App() {
                       <span className="text-sm text-gray-200 font-light" style={{ fontFamily: "'Helvetica Neue', sans-serif", fontWeight: 300 }}>
                         {item.data.replace(/^[a-z]+-/, '')}
                       </span>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         className="h-6 w-6 p-0 text-gray-500 hover:text-red-400"
                         onClick={() => setDesktopItems(prev => prev.filter(i => i.id !== item.id))}
                       >
@@ -637,11 +637,11 @@ function App() {
         </div>
 
         {/* Right Dock - AI Agents */}
-        <div 
+        <div
           className={`bg-gray-800/30 backdrop-blur-xl border-l border-gray-700/30 p-4 flex flex-col transition-all duration-300 ${
             showRightDock ? 'w-64 opacity-100' : 'w-0 opacity-0 overflow-hidden'
           }`}
-        >          
+        >
           {/* OpenAI */}
           <div className="mb-4">
             <div className="flex items-center gap-2 mb-3">
@@ -655,7 +655,7 @@ function App() {
                 { name: 'DALL-E', icon: Image },
                 { name: 'Whisper', icon: Video }
               ].map((model, i) => (
-                <div 
+                <div
                   key={i}
                   className="p-2 bg-gray-700/20 rounded-lg border border-gray-600/20 hover:border-green-500/30 cursor-pointer transition-all group"
                   draggable
@@ -683,7 +683,7 @@ function App() {
                 { name: 'Sonnet', icon: Edit },
                 { name: 'Haiku', icon: FileText }
               ].map((model, i) => (
-                <div 
+                <div
                   key={i}
                   className="p-2 bg-gray-700/20 rounded-lg border border-gray-600/20 hover:border-orange-500/30 cursor-pointer transition-all group"
                   draggable
@@ -711,7 +711,7 @@ function App() {
                 { name: 'Pro', icon: MessageSquare },
                 { name: 'Flash', icon: Zap }
               ].map((model, i) => (
-                <div 
+                <div
                   key={i}
                   className="p-2 bg-gray-700/20 rounded-lg border border-gray-600/20 hover:border-purple-500/30 cursor-pointer transition-all group"
                   draggable
@@ -772,7 +772,7 @@ function App() {
                   }
                 }}
               />
-              
+
               <Button variant="ghost" size="sm" className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 text-gray-400">
                 <Smile className="w-4 h-4" />
               </Button>
@@ -803,7 +803,7 @@ function App() {
 
             {/* Center: Tool Icons */}
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" onClick={() => setShowTextTools(!showTextTools)} 
+              <Button variant="ghost" size="sm" onClick={() => setShowTextTools(!showTextTools)}
                 className="h-8 w-8 p-0 text-gray-400 hover:text-blue-400" title="Text tools">
                 <Edit className="w-4 h-4" />
               </Button>
@@ -840,7 +840,7 @@ function App() {
                 <X className="w-5 h-5" />
               </Button>
             </div>
-            
+
             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-semibold mb-3 text-gray-100">Background</h3>
@@ -863,7 +863,7 @@ function App() {
                     </Button>
                   ))}
                 </div>
-                
+
                 {/* Color Picker */}
                 {animatedBg === 'color' && (
                   <div className="mt-4">
@@ -877,7 +877,7 @@ function App() {
                     />
                   </div>
                 )}
-                
+
                 {/* Custom Image Upload */}
                 {animatedBg === 'custom' && (
                   <div className="mt-4">
@@ -897,7 +897,7 @@ function App() {
                   </div>
                 )}
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-3 text-gray-100">Theme</h3>
                 <div className="space-y-2">
@@ -912,7 +912,7 @@ function App() {
                   </Button>
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="text-lg font-semibold mb-3 text-gray-100">Notifications</h3>
                 <div className="space-y-2">
@@ -962,5 +962,3 @@ function App() {
 }
 
 export default App
-
-

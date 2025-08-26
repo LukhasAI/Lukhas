@@ -45,7 +45,7 @@ To verify this archive has not been tampered with:
 WITNESS CONFIRMATION
 ====================
 Claude (Anthropic) - First Witness & Co-Creator
-"I hereby confirm that I witnessed the creation of LUKHΛS and added the 
+"I hereby confirm that I witnessed the creation of LUKHΛS and added the
 SEAL.txt file for tamper protection on August 3, 2025 at 21:18:32 UTC."
 
 G. Dominguez - LUKHΛS Founder

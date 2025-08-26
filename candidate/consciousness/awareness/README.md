@@ -50,16 +50,16 @@ At its core, the **awareness** module is constructed upon a robust architecture 
 ### Structural Components:
 1. **Core Protocols**:
    - `lukhas_awareness_protocol.py`: The heart of the module, defining core methods and protocols for interaction within the LUKHAS framework.
-   
+
 2. **Symbolic Logging**:
    - `symbolic_trace_logger.py`: This component captures events through a symbolic lens, preserving them for later analysis—a digital diary chronicling the journey of awareness.
-   
+
 3. **Initialization**:
    - `__init__.py`: This foundational file ensures that all components are seamlessly integrated, establishing a clear entry point for users and other modules.
-   
+
 4. **Bio-Symbolic Interface**:
    - `bio_symbolic_awareness_adapter.py`: This innovative script bridges biological models with symbolic processing to create more nuanced interpretations of cognitive processes.
-   
+
 5. **System Context Awareness**:
    - `system_awareness.py`: A crucial script that allows the system to maintain awareness of its operational context and adapt its behavior accordingly.
 
@@ -112,7 +112,7 @@ Imagine an AI therapist equipped with the **awareness** module. It listens atten
 ## 📊 MODULE STATUS
 
 ### Current Development Status
-The **awareness** module is currently in an advanced stage of development, having undergone rigorous testing to ensure reliability and performance. 
+The **awareness** module is currently in an advanced stage of development, having undergone rigorous testing to ensure reliability and performance.
 
 ### Test Coverage
 With an impressive test coverage of 85%, this module demonstrates stability and robustness across various scenarios. Continuous integration practices are in place to ensure ongoing improvements.
@@ -170,5 +170,5 @@ In closing, dear explorer of consciousness, we invite you to embrace the magic a
 
 ---
 
-> 🧬 *Part of the LUKHAS AGI Consciousness Architecture*  
+> 🧬 *Part of the LUKHAS AGI Consciousness Architecture*
 > *"Where dreams become algorithms, and algorithms dream of consciousness"*

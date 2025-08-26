@@ -69,7 +69,7 @@ class QISafeAuditBlockchain:
             "context_hash": sha3_256(context.serialize()).hexdigest(),
             "user_consent_proof": user_consent.zero_knowledge_proof,
             "model_version": decision.model_version,
-            "quantum_advantage_used": decision.used_quantum_processing,
+            "qi_advantage_used": decision.used_quantum_processing,
         }
 
         # 2. Sign with post-quantum signature
@@ -163,7 +163,7 @@ class QISafeAuditBlockchain:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": False,
+        "qi_coherence": False,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -182,7 +182,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

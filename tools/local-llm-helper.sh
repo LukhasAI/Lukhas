@@ -37,7 +37,7 @@ check_ollama() {
         error "Ollama is not running. Please start Ollama first."
         exit 1
     fi
-    
+
     local models_output
     models_output=$(ollama list)
     if ! echo "$models_output" | grep -q "deepseek-coder"; then
@@ -52,9 +52,9 @@ check_ollama() {
 analyze_python_file() {
     local file="$1"
     local analysis_type="${2:-security}"
-    
+
     log "Analyzing $file for $analysis_type issues..."
-    
+
     local prompt=""
     case "$analysis_type" in
         "security")
@@ -100,16 +100,16 @@ ISSUES FOUND: [number]
 If no bugs found, respond with: NO BUGS FOUND"
             ;;
     esac
-    
+
     # Use Ollama to analyze the code
     local analysis_result
     analysis_result=$(ollama run "$OLLAMA_MODEL" "$prompt" 2>/dev/null || echo "ANALYSIS_FAILED")
-    
+
     if [[ "$analysis_result" == "ANALYSIS_FAILED" ]]; then
         error "Failed to analyze $file"
         return 1
     fi
-    
+
     # Parse results
     if echo "$analysis_result" | grep -q "NO.*ISSUES FOUND\|NO BUGS FOUND"; then
         success "$file - No $analysis_type issues found"
@@ -124,26 +124,26 @@ If no bugs found, respond with: NO BUGS FOUND"
 # Main function
 main() {
     cd "$PROJECT_ROOT"
-    
+
     check_ollama
-    
+
     case "${1:-analyze}" in
         "analyze")
             log "Running comprehensive analysis on changed Python files..."
             # Get list of changed Python files
             local changed_files
             changed_files=$(git diff --cached --name-only --diff-filter=ACM | grep '\.py$' || true)
-            
+
             if [[ -z "$changed_files" ]]; then
                 # If no staged files, check working directory
                 changed_files=$(git diff --name-only | grep '\.py$' || true)
             fi
-            
+
             if [[ -z "$changed_files" ]]; then
                 success "No Python files to analyze"
                 exit 0
             fi
-            
+
             local issues_found=0
             while IFS= read -r file; do
                 if [[ -f "$file" ]]; then
@@ -152,7 +152,7 @@ main() {
                     analyze_python_file "$file" "bugs" || ((issues_found++))
                 fi
             done <<< "$changed_files"
-            
+
             if [[ $issues_found -gt 0 ]]; then
                 warning "Found issues in $issues_found analysis(es)"
                 exit 1

@@ -58,7 +58,7 @@ The Enhanced Onboarding System represents a complete transformation of the LUKHA
 
 ### 2. Cultural Expression (🌍)
 - **Target**: Users interested in cultural identity
-- **Duration**: 5-8 minutes  
+- **Duration**: 5-8 minutes
 - **Stages**: Welcome → Cultural Discovery → Symbolic Foundation → Consciousness Calibration → Completion
 - **Features**: Multi-language support, heritage integration, cultural suggestions
 
@@ -116,16 +116,16 @@ The Enhanced Onboarding System represents a complete transformation of the LUKHA
 ```python
 def get_adaptive_flow(user_context):
     base_flow = personality_flows[personality_type]
-    
+
     # Remove skipped stages
-    adaptive_flow = [stage for stage in base_flow 
+    adaptive_flow = [stage for stage in base_flow
                     if not should_skip_stage(stage, user_context)]
-    
+
     # Ensure mandatory stages
     for mandatory_stage in mandatory_stages:
         if mandatory_stage not in adaptive_flow:
             insert_in_sequence(adaptive_flow, mandatory_stage)
-    
+
     return adaptive_flow
 ```
 
@@ -162,7 +162,7 @@ class OnboardingConfigManager:
 #### Enhanced Onboarding Endpoints
 ```
 POST /api/v2/onboarding/start
-POST /api/v2/onboarding/progress  
+POST /api/v2/onboarding/progress
 POST /api/v2/onboarding/complete
 GET /api/v2/onboarding/status/{session_id}
 GET /api/v2/onboarding/templates/personality
@@ -337,6 +337,6 @@ The modular architecture ensures easy maintenance and extension, while comprehen
 
 ---
 
-**LUKHAS ΛiD Enhanced Onboarding System v2.0.0**  
-*Proprietary - LUKHAS AI Systems - Unauthorized Access Prohibited*  
+**LUKHAS ΛiD Enhanced Onboarding System v2.0.0**
+*Proprietary - LUKHAS AI Systems - Unauthorized Access Prohibited*
 *Contact: LUKHAS Development Team*

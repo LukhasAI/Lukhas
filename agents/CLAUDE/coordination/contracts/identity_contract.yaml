@@ -18,7 +18,7 @@ endpoints:
       - lid: string  # LUKHAS ID
       - token: JWT
       - success: boolean
-    
+
   validate_token:
     method: POST
     path: /auth/validate
@@ -28,7 +28,7 @@ endpoints:
       - valid: boolean
       - lid: string
       - permissions: array
-  
+
   generate_lid:
     method: POST
     path: /identity/generate
@@ -42,7 +42,7 @@ endpoints:
 performance_requirements:
   - p95_latency: <100ms
   - availability: 99.9%
-  
+
 security_requirements:
   - zero_pii_leaks: true
   - secure_token_storage: true

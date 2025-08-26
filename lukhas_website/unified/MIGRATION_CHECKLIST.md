@@ -86,7 +86,7 @@ useEffect(() => {
     particleCount: 15000,
     enableVoice: true
   });
-  
+
   return () => visualizer.destroy();
 }, []);
 ```

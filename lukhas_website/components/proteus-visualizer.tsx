@@ -8,9 +8,9 @@ interface ProteusVisualizerProps {
   audioEnabled?: boolean
 }
 
-export default function ProteusVisualizer({ 
-  micEnabled = false, 
-  audioEnabled = true 
+export default function ProteusVisualizer({
+  micEnabled = false,
+  audioEnabled = true
 }: ProteusVisualizerProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -24,7 +24,7 @@ export default function ProteusVisualizer({
         micEnabled,
         audioEnabled,
       }
-      
+
       // Wait a bit for iframe to fully load before sending messages
       setTimeout(() => {
         iframeRef.current?.contentWindow?.postMessage(message, '*')
@@ -81,7 +81,7 @@ export default function ProteusVisualizer({
       <div className="h-full flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-400 mb-4">{error}</p>
-          <button 
+          <button
             onClick={() => window.location.reload()}
             className="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition"
           >
@@ -103,7 +103,7 @@ export default function ProteusVisualizer({
           </div>
         </div>
       )}
-      
+
       {/* Iframe embedding the PR0T3US system */}
       <iframe
         ref={iframeRef}
@@ -114,14 +114,14 @@ export default function ProteusVisualizer({
         onError={handleIframeError}
         title="PR0T3US Voice-Reactive Morphing System"
       />
-      
+
       {/* Alternative: Direct integration approach */}
-      {/* 
+      {/*
         For a more integrated approach, we could:
         1. Import the PR0T3US scripts directly
         2. Initialize them in a useEffect
         3. Render directly to a canvas element
-        
+
         This would require bundling the voice_reactive_morphing assets
         with the Next.js build process.
       */}

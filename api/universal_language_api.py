@@ -14,11 +14,11 @@ from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
+from core.colonies.consensus_mechanisms import ConsensusMethod
+from core.colonies.enhanced_colony import EnhancedReasoningColony
 from lukhas.consciousness.reflection.openai_modulated_service import (
     OpenAIModulatedService,
 )
-from core.colonies.consensus_mechanisms import ConsensusMethod
-from core.colonies.enhanced_colony import EnhancedReasoningColony
 from lukhas.orchestration.gpt_colony_orchestrator import (
     GPTColonyOrchestrator,
     OrchestrationMode,
@@ -260,7 +260,7 @@ async def understand_symbols(
             # Get the Universal Language translator
             from universal_language.translator import UniversalTranslator
             translator = UniversalTranslator()
-            
+
             # Try to find the universal symbol for this input
             # First convert to symbol if it's text
             if isinstance(request.input, str):
@@ -268,13 +268,13 @@ async def understand_symbols(
                 from universal_language.vocabulary import get_unified_vocabulary
                 vocabulary = get_unified_vocabulary()
                 symbol = vocabulary.manager.find_symbol(request.input)
-                
+
                 if symbol and symbol.glyph:
                     universal_symbol = symbol.glyph
                 elif result.final_decision:
                     # Try to translate the decision to a universal symbol
                     translation_result = translator.translate(
-                        str(result.final_decision), 
+                        str(result.final_decision),
                         target_type="glyph"
                     )
                     if translation_result and translation_result.is_successful():
@@ -282,7 +282,7 @@ async def understand_symbols(
         except Exception as lookup_error:
             logger.debug(f"Universal symbol lookup failed: {lookup_error}")
             # Continue without universal symbol
-        
+
         return SymbolUnderstandingResponse(
             meaning=str(result.final_decision) if result.final_decision else "unknown",
             confidence=result.confidence,

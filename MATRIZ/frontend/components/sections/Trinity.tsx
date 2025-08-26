@@ -100,17 +100,17 @@ export default function Trinity() {
                 <div className={`inline-flex p-4 rounded-2xl ${data.bgColor}/10 mb-6`}>
                   <Icon className={`w-12 h-12 ${data.textColor}`} strokeWidth={1.5} />
                 </div>
-                
+
                 {/* Title with better contrast */}
                 <h3 className={`font-regular text-xl tracking-[0.2em] uppercase mb-4 ${data.textColor}`}>
                   {data.title}
                 </h3>
-                
+
                 {/* Description */}
                 <p className="font-thin text-lg mb-6 text-primary-light/80">
                   {data.description}
                 </p>
-                
+
                 {/* Features with check icons */}
                 <div className="space-y-3">
                   {data.features.map((feature, idx) => (
@@ -151,7 +151,7 @@ export default function Trinity() {
                 <TrinityCanvas />
               </ClientOnly>
             </div>
-            
+
             {/* Legend */}
             <div className="flex justify-center mt-6 space-x-8">
               <div className="flex items-center space-x-2">

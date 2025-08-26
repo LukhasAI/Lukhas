@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 from .ΛBot_quantum_security import (
-    QuantumThreat,
+    QIThreat,
     SecurityAssessment,
     ΛBotQuantumSecurityOrchestrator,
 )
@@ -26,7 +26,7 @@ class QISecurityIntegration:
     def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the quantum security integration"""
         self.config = config or {
-            "quantum_enhanced": True,
+            "qi_enhanced": True,
             "bio_symbolic_processing": True,
             "adaptive_security": True,
             "post_quantum_crypto": True,
@@ -40,7 +40,7 @@ class QISecurityIntegration:
         self.assessment_cache = {}
 
         logger.info(
-            "QuantumSecurityIntegration initialized with config: %s", self.config
+            "QISecurityIntegration initialized with config: %s", self.config
         )
 
     async def initialize(self):
@@ -94,7 +94,7 @@ class QISecurityIntegration:
         """Load default security policies"""
         # This would typically load from a configuration file
         self.security_policies = {
-            "quantum_vulnerability_threshold": 0.7,
+            "qi_vulnerability_threshold": 0.7,
             "auto_mitigation_enabled": True,
             "encryption_upgrade_policy": "aggressive",
             "threat_response_mode": "adaptive",
@@ -174,13 +174,13 @@ class QISecurityIntegration:
         if not self.is_initialized:
             await self.initialize()
 
-        return await self.security_orchestrator.pq_crypto_engine.quantum_encrypt(
+        return await self.security_orchestrator.pq_crypto_engine.qi_encrypt(
             data, public_key, algorithm
         )
 
     async def detect_quantum_threats(
         self, system_state: dict[str, Any]
-    ) -> list[QuantumThreat]:
+    ) -> list[QIThreat]:
         """
         Detect quantum-era security threats in the system
 
@@ -203,12 +203,12 @@ class QISecurityIntegration:
             )
 
             for vuln in vuln_report.get("vulnerabilities", []):
-                threat = QuantumThreat(
+                threat = QIThreat(
                     threat_id=f"qt_{datetime.now().timestamp()}",
                     threat_type=vuln["type"],
                     severity=vuln["severity"],
                     description=vuln["description"],
-                    quantum_signature={},
+                    qi_signature={},
                     bio_patterns={},
                     confidence=vuln.get("confidence", 0.8),
                     detected_at=datetime.now().isoformat(),
@@ -265,9 +265,9 @@ class QISecurityIntegration:
 # Factory function for creating the integration
 def create_quantum_security_integration(
     config: Optional[dict[str, Any]] = None,
-) -> QuantumSecurityIntegration:
+) -> QISecurityIntegration:
     """Create and return a quantum security integration instance"""
-    return QuantumSecurityIntegration(config)
+    return QISecurityIntegration(config)
 
 
 # Module validation function (for compatibility)

@@ -58,8 +58,12 @@ try:
     )
     from dream.hyperspace_dream_simulator import HyperspaceDreamSimulator
 
-    from lukhas.memory.privacy_preserving_memory_vault import PrivacyPreservingMemoryVault
-    from candidate.orchestration.human_in_the_loop_orchestrator import HumanInTheLoopOrchestrator
+    from candidate.orchestration.human_in_the_loop_orchestrator import (
+        HumanInTheLoopOrchestrator,
+    )
+    from lukhas.memory.privacy_preserving_memory_vault import (
+        PrivacyPreservingMemoryVault,
+    )
     from reasoning.causal_program_inducer import CausalProgramInducer
 
     CEO_MODULES_AVAILABLE = True
@@ -653,13 +657,13 @@ class WorkflowOrchestrator:
     async def _create_ethical_decision_from_request(self, request: IntegrationRequest):
         """
         Create MEG (Meta Ethics Governor) ethical decision from integration request.
-        
+
         Implements orchestration workflow for ethical decision-making with
         Trinity Framework compliance and transparent step-by-step processing.
         """
         start_time = datetime.now(timezone.utc)
         decision_id = f"meg_decision_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
-        
+
         logger.info(
             "ΛTRACE_MEG_DECISION_ORCHESTRATION",
             request_id=request.request_id,
@@ -667,7 +671,7 @@ class WorkflowOrchestrator:
             step="initiated",
             narrative="Starting MEG ethical decision orchestration workflow"
         )
-        
+
         try:
             # Phase 1: Extract ethical context from integration request
             ethical_context = {
@@ -683,7 +687,7 @@ class WorkflowOrchestrator:
                     "guardian_oversight": True
                 }
             }
-            
+
             logger.info(
                 "ΛTRACE_MEG_CONTEXT_EXTRACTION",
                 decision_id=decision_id,
@@ -692,7 +696,7 @@ class WorkflowOrchestrator:
                 stakeholder_impact=ethical_context["stakeholder_impact"],
                 narrative="Extracted ethical context for MEG decision framework"
             )
-            
+
             # Phase 2: Create MEG decision structure
             meg_decision = {
                 "decision_id": decision_id,
@@ -720,7 +724,7 @@ class WorkflowOrchestrator:
                     "performance_target_ms": 250
                 }
             }
-            
+
             logger.info(
                 "ΛTRACE_MEG_DECISION_CREATED",
                 decision_id=decision_id,
@@ -729,7 +733,7 @@ class WorkflowOrchestrator:
                 governance_level=meg_decision["ethical_framework"]["governance_level"],
                 narrative="MEG decision structure created with ethical framework"
             )
-            
+
             # Phase 3: Integrate with LUKHAS event system for orchestration
             if hasattr(self, '_broadcast_orchestration_event'):
                 await self._broadcast_orchestration_event(
@@ -741,10 +745,10 @@ class WorkflowOrchestrator:
                         "workflow_step": "ethical_validation_pending"
                     }
                 )
-            
+
             # Phase 4: Return orchestrated decision for workflow continuation
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-            
+
             logger.info(
                 "ΛTRACE_MEG_ORCHESTRATION_COMPLETE",
                 decision_id=decision_id,
@@ -753,9 +757,9 @@ class WorkflowOrchestrator:
                 workflow_ready=True,
                 narrative="MEG decision orchestration workflow completed successfully"
             )
-            
+
             return meg_decision
-            
+
         except Exception as e:
             logger.error(
                 "MEG decision orchestration failed",
@@ -779,13 +783,13 @@ class WorkflowOrchestrator:
     ):
         """
         Create XIL (Explainability Interface Layer) explanation request.
-        
+
         Implements orchestration workflow for generating human-interpretable
         explanations with step-by-step narrative generation and transparency.
         """
         start_time = datetime.now(timezone.utc)
         explanation_id = f"xil_explain_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
-        
+
         logger.info(
             "ΛTRACE_XIL_EXPLANATION_ORCHESTRATION",
             request_id=request.request_id,
@@ -793,7 +797,7 @@ class WorkflowOrchestrator:
             step="initiated",
             narrative="Starting XIL explanation generation orchestration workflow"
         )
-        
+
         try:
             # Phase 1: Analyze results for explanation requirements
             explanation_requirements = {
@@ -804,7 +808,7 @@ class WorkflowOrchestrator:
                 "include_confidence_scores": request.metadata.get("include_confidence", True),
                 "privacy_constraints": request.metadata.get("privacy_constraints", [])
             }
-            
+
             logger.info(
                 "ΛTRACE_XIL_REQUIREMENTS_ANALYSIS",
                 explanation_id=explanation_id,
@@ -813,7 +817,7 @@ class WorkflowOrchestrator:
                 target_audience=explanation_requirements["target_audience"],
                 narrative="Analyzed explanation requirements for appropriate XIL response"
             )
-            
+
             # Phase 2: Extract explainable elements from results
             explainable_elements = {
                 "decisions_made": self._extract_decisions(results),
@@ -823,7 +827,7 @@ class WorkflowOrchestrator:
                 "risk_assessments": self._extract_risk_assessments(results),
                 "ethical_considerations": self._extract_ethical_considerations(results)
             }
-            
+
             # Phase 3: Create XIL explanation request structure
             xil_request = {
                 "explanation_id": explanation_id,
@@ -861,7 +865,7 @@ class WorkflowOrchestrator:
                     "transparency_guaranteed": True
                 }
             }
-            
+
             logger.info(
                 "ΛTRACE_XIL_REQUEST_STRUCTURED",
                 explanation_id=explanation_id,
@@ -870,7 +874,7 @@ class WorkflowOrchestrator:
                 narrative_components=len(xil_request["narrative_structure"]),
                 narrative="XIL explanation request structured with narrative framework"
             )
-            
+
             # Phase 4: Generate step-by-step explanation workflow
             explanation_workflow = {
                 "steps": [
@@ -880,7 +884,7 @@ class WorkflowOrchestrator:
                         "explanation_focus": "Why this decision was necessary"
                     },
                     {
-                        "step_id": "methodology_explanation", 
+                        "step_id": "methodology_explanation",
                         "description": "Explain decision-making methodology",
                         "explanation_focus": "How the system approached the problem"
                     },
@@ -907,9 +911,9 @@ class WorkflowOrchestrator:
                     "accuracy_validated"
                 ]
             }
-            
+
             xil_request["explanation_workflow"] = explanation_workflow
-            
+
             # Phase 5: Integrate with LUKHAS event system for orchestration
             if hasattr(self, '_broadcast_orchestration_event'):
                 await self._broadcast_orchestration_event(
@@ -921,10 +925,10 @@ class WorkflowOrchestrator:
                         "workflow_step": "explanation_generation_pending"
                     }
                 )
-            
+
             # Phase 6: Return orchestrated explanation request
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-            
+
             logger.info(
                 "ΛTRACE_XIL_ORCHESTRATION_COMPLETE",
                 explanation_id=explanation_id,
@@ -933,9 +937,9 @@ class WorkflowOrchestrator:
                 workflow_steps_count=len(explanation_workflow["steps"]),
                 narrative="XIL explanation orchestration workflow completed with transparency framework"
             )
-            
+
             return xil_request
-            
+
         except Exception as e:
             logger.error(
                 "XIL explanation orchestration failed",
@@ -959,13 +963,13 @@ class WorkflowOrchestrator:
     ):
         """
         Create HITLO (Human-in-the-Loop) decision context.
-        
+
         Implements orchestration workflow for human oversight integration
         with contextual decision framing and escalation pathways.
         """
         start_time = datetime.now(timezone.utc)
         hitlo_context_id = f"hitlo_ctx_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
-        
+
         logger.info(
             "ΛTRACE_HITLO_CONTEXT_ORCHESTRATION",
             request_id=request.request_id,
@@ -973,7 +977,7 @@ class WorkflowOrchestrator:
             step="initiated",
             narrative="Starting HITLO human oversight context orchestration workflow"
         )
-        
+
         try:
             # Phase 1: Analyze human oversight requirements
             oversight_requirements = {
@@ -984,7 +988,7 @@ class WorkflowOrchestrator:
                 "stakeholder_impact_level": self._assess_stakeholder_impact(request),
                 "time_sensitivity": request.metadata.get("time_sensitivity", "normal")
             }
-            
+
             logger.info(
                 "ΛTRACE_HITLO_REQUIREMENTS_ANALYSIS",
                 hitlo_context_id=hitlo_context_id,
@@ -993,7 +997,7 @@ class WorkflowOrchestrator:
                 ethical_sensitivity=oversight_requirements["ethical_sensitivity"],
                 narrative="Analyzed human oversight requirements for appropriate HITLO engagement"
             )
-            
+
             # Phase 2: Create human-readable decision context
             decision_context = {
                 "decision_summary": {
@@ -1015,7 +1019,7 @@ class WorkflowOrchestrator:
                     "subject_matter_expertise_needed": self._identify_expertise_needed(request)
                 }
             }
-            
+
             # Phase 3: Create HITLO context structure
             hitlo_context = {
                 "context_id": hitlo_context_id,
@@ -1029,7 +1033,7 @@ class WorkflowOrchestrator:
                     "interaction_mode": "guided_review_with_feedback",
                     "decision_support_tools": [
                         "comparative_analysis",
-                        "risk_assessment_matrix", 
+                        "risk_assessment_matrix",
                         "ethical_framework_checklist",
                         "impact_visualization"
                     ],
@@ -1053,7 +1057,7 @@ class WorkflowOrchestrator:
                     "context_preserved": True
                 }
             }
-            
+
             logger.info(
                 "ΛTRACE_HITLO_CONTEXT_STRUCTURED",
                 hitlo_context_id=hitlo_context_id,
@@ -1062,7 +1066,7 @@ class WorkflowOrchestrator:
                 escalation_triggers_count=len(hitlo_context["escalation_pathways"]["immediate_escalation_triggers"]),
                 narrative="HITLO context structured with human-accessible decision framework"
             )
-            
+
             # Phase 4: Create human notification and engagement workflow
             engagement_workflow = {
                 "notification_sequence": [
@@ -1094,9 +1098,9 @@ class WorkflowOrchestrator:
                     "audit_trail_generation": True
                 }
             }
-            
+
             hitlo_context["engagement_workflow"] = engagement_workflow
-            
+
             # Phase 5: Integrate with LUKHAS event system for orchestration
             if hasattr(self, '_broadcast_orchestration_event'):
                 await self._broadcast_orchestration_event(
@@ -1109,10 +1113,10 @@ class WorkflowOrchestrator:
                         "urgency_level": oversight_requirements.get("risk_level", "normal")
                     }
                 )
-            
+
             # Phase 6: Return orchestrated HITLO context
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-            
+
             logger.info(
                 "ΛTRACE_HITLO_ORCHESTRATION_COMPLETE",
                 hitlo_context_id=hitlo_context_id,
@@ -1121,9 +1125,9 @@ class WorkflowOrchestrator:
                 estimated_review_time_minutes=hitlo_context["human_interface"]["expected_review_time_minutes"],
                 narrative="HITLO context orchestration workflow completed with human engagement framework"
             )
-            
+
             return hitlo_context
-            
+
         except Exception as e:
             logger.error(
                 "HITLO context orchestration failed",
@@ -1147,13 +1151,13 @@ class WorkflowOrchestrator:
     ):
         """
         Create MEG decision from causal analysis with ethical mapping.
-        
+
         Implements orchestration workflow that transforms causal reasoning
         chains into ethical decision frameworks with transparency and accountability.
         """
         start_time = datetime.now(timezone.utc)
         causal_ethical_id = f"causal_eth_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
-        
+
         logger.info(
             "ΛTRACE_CAUSAL_ETHICAL_ORCHESTRATION",
             request_id=request.request_id,
@@ -1161,7 +1165,7 @@ class WorkflowOrchestrator:
             step="initiated",
             narrative="Starting causal-to-ethical decision mapping orchestration workflow"
         )
-        
+
         try:
             # Phase 1: Extract causal chains from analysis results
             causal_analysis = {
@@ -1171,7 +1175,7 @@ class WorkflowOrchestrator:
                 "uncertainty_factors": self._extract_uncertainties(results),
                 "temporal_dependencies": self._extract_temporal_deps(results)
             }
-            
+
             logger.info(
                 "ΛTRACE_CAUSAL_ANALYSIS_EXTRACTION",
                 causal_ethical_id=causal_ethical_id,
@@ -1180,10 +1184,10 @@ class WorkflowOrchestrator:
                 intervention_points_count=len(causal_analysis["intervention_points"]),
                 narrative="Extracted causal analysis components for ethical mapping"
             )
-            
+
             # Phase 2: Map causal elements to ethical considerations
             ethical_mapping = {}
-            
+
             # Map each causal chain to ethical implications
             for i, chain in enumerate(causal_analysis["causal_chains"]):
                 ethical_implications = {
@@ -1194,14 +1198,14 @@ class WorkflowOrchestrator:
                     "justice_fairness": self._assess_chain_justice_implications(chain),
                     "long_term_consequences": self._assess_chain_long_term_effects(chain)
                 }
-                
+
                 ethical_mapping[f"causal_chain_{i}"] = {
                     "original_chain": chain,
                     "ethical_implications": ethical_implications,
                     "ethical_weight": self._calculate_ethical_weight(ethical_implications),
                     "risk_level": self._assess_chain_risk_level(ethical_implications)
                 }
-            
+
             logger.info(
                 "ΛTRACE_ETHICAL_MAPPING_COMPLETE",
                 causal_ethical_id=causal_ethical_id,
@@ -1209,7 +1213,7 @@ class WorkflowOrchestrator:
                 mapped_chains_count=len(ethical_mapping),
                 narrative="Completed causal-to-ethical mapping for decision framework"
             )
-            
+
             # Phase 3: Create ethical decision structure from mapped analysis
             ethical_decision = {
                 "decision_id": causal_ethical_id,
@@ -1227,7 +1231,7 @@ class WorkflowOrchestrator:
                 "ethical_framework": {
                     "mapping_methodology": "causal_chain_ethical_analysis",
                     "ethical_principles_applied": [
-                        "beneficence", "non_maleficence", "autonomy", 
+                        "beneficence", "non_maleficence", "autonomy",
                         "justice", "explicability", "accountability"
                     ],
                     "mapping_confidence": self._calculate_mapping_confidence(ethical_mapping),
@@ -1260,7 +1264,7 @@ class WorkflowOrchestrator:
                     "context_preserved": True
                 }
             }
-            
+
             logger.info(
                 "ΛTRACE_ETHICAL_DECISION_STRUCTURED",
                 causal_ethical_id=causal_ethical_id,
@@ -1269,7 +1273,7 @@ class WorkflowOrchestrator:
                 critical_issues_count=len(ethical_decision["ethical_assessment"]["critical_ethical_issues"]),
                 narrative="Ethical decision structured from causal analysis with comprehensive framework"
             )
-            
+
             # Phase 4: Integrate with LUKHAS event system for orchestration
             if hasattr(self, '_broadcast_orchestration_event'):
                 await self._broadcast_orchestration_event(
@@ -1282,10 +1286,10 @@ class WorkflowOrchestrator:
                         "ethical_verdict": ethical_decision["ethical_assessment"]["overall_ethical_verdict"]
                     }
                 )
-            
+
             # Phase 5: Return orchestrated causal-ethical decision
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-            
+
             logger.info(
                 "ΛTRACE_CAUSAL_ETHICAL_ORCHESTRATION_COMPLETE",
                 causal_ethical_id=causal_ethical_id,
@@ -1294,9 +1298,9 @@ class WorkflowOrchestrator:
                 ethical_coherence_score=ethical_decision["ethical_framework"]["ethical_coherence_score"],
                 narrative="Causal-to-ethical decision mapping orchestration workflow completed successfully"
             )
-            
+
             return ethical_decision
-            
+
         except Exception as e:
             logger.error(
                 "Causal-to-ethical decision mapping failed",
@@ -1320,13 +1324,13 @@ class WorkflowOrchestrator:
     ):
         """
         Create privacy-focused decision context.
-        
+
         Implements orchestration workflow for privacy-preserving decision-making
         with comprehensive data protection and compliance frameworks.
         """
         start_time = datetime.now(timezone.utc)
         privacy_context_id = f"privacy_ctx_{request.request_id}_{start_time.strftime('%Y%m%d_%H%M%S')}"
-        
+
         logger.info(
             "ΛTRACE_PRIVACY_CONTEXT_ORCHESTRATION",
             request_id=request.request_id,
@@ -1334,7 +1338,7 @@ class WorkflowOrchestrator:
             step="initiated",
             narrative="Starting privacy decision context orchestration workflow"
         )
-        
+
         try:
             # Phase 1: Analyze privacy requirements and data sensitivity
             privacy_analysis = {
@@ -1345,7 +1349,7 @@ class WorkflowOrchestrator:
                 "data_retention_requirements": self._assess_retention_needs(request),
                 "third_party_sharing": self._identify_third_party_sharing(request, results)
             }
-            
+
             logger.info(
                 "ΛTRACE_PRIVACY_ANALYSIS_COMPLETE",
                 privacy_context_id=privacy_context_id,
@@ -1354,7 +1358,7 @@ class WorkflowOrchestrator:
                 sensitivity_level=max(privacy_analysis["data_sensitivity_levels"]) if privacy_analysis["data_sensitivity_levels"] else "unknown",
                 narrative="Completed privacy analysis for decision context framework"
             )
-            
+
             # Phase 2: Assess regulatory compliance requirements
             compliance_assessment = {
                 "applicable_regulations": self._identify_applicable_regulations(request, privacy_analysis),
@@ -1364,7 +1368,7 @@ class WorkflowOrchestrator:
                 "consent_requirements": self._assess_consent_needs(request, privacy_analysis),
                 "lawful_basis_analysis": self._determine_lawful_basis(request, privacy_analysis)
             }
-            
+
             # Phase 3: Create privacy protection framework
             privacy_protection = {
                 "data_minimization": {
@@ -1385,7 +1389,7 @@ class WorkflowOrchestrator:
                     "incident_response_procedures": self._define_incident_procedures(privacy_analysis)
                 }
             }
-            
+
             # Phase 4: Create privacy decision context structure
             privacy_context = {
                 "context_id": privacy_context_id,
@@ -1423,7 +1427,7 @@ class WorkflowOrchestrator:
                     "context_preserved": True
                 }
             }
-            
+
             logger.info(
                 "ΛTRACE_PRIVACY_CONTEXT_STRUCTURED",
                 privacy_context_id=privacy_context_id,
@@ -1432,7 +1436,7 @@ class WorkflowOrchestrator:
                 applicable_regulations_count=len(compliance_assessment["applicable_regulations"]),
                 narrative="Privacy decision context structured with comprehensive protection framework"
             )
-            
+
             # Phase 5: Create privacy workflow with stakeholder engagement
             privacy_workflow = {
                 "privacy_review_steps": [
@@ -1464,9 +1468,9 @@ class WorkflowOrchestrator:
                     "consent_changes": "stakeholder_consultation"
                 }
             }
-            
+
             privacy_context["privacy_workflow"] = privacy_workflow
-            
+
             # Phase 6: Integrate with LUKHAS event system for orchestration
             if hasattr(self, '_broadcast_orchestration_event'):
                 await self._broadcast_orchestration_event(
@@ -1479,10 +1483,10 @@ class WorkflowOrchestrator:
                         "privacy_risk_level": privacy_context["risk_assessment"]["privacy_risk_level"]
                     }
                 )
-            
+
             # Phase 7: Return orchestrated privacy context
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-            
+
             logger.info(
                 "ΛTRACE_PRIVACY_ORCHESTRATION_COMPLETE",
                 privacy_context_id=privacy_context_id,
@@ -1491,9 +1495,9 @@ class WorkflowOrchestrator:
                 privacy_safeguards_count=len(privacy_protection["technical_safeguards"]) + len(privacy_protection["organizational_measures"]),
                 narrative="Privacy decision context orchestration workflow completed with comprehensive protection framework"
             )
-            
+
             return privacy_context
-            
+
         except Exception as e:
             logger.error(
                 "Privacy decision context orchestration failed",

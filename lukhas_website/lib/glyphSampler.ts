@@ -99,11 +99,11 @@ export function glyphToTargets(
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'center';
   ctx.font = `${bold ? '700 ' : ''}${fontPx}px Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto`;
-  
+
   // Fit text: shrink font until it fits
   let f = fontPx;
   while (f > 32 && ctx.measureText(t).width > canvasW * 0.88) {
-    f -= 8; 
+    f -= 8;
     ctx.font = `${bold ? '700 ' : ''}${f}px Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto`;
   }
   ctx.fillText(t, canvasW / 2, canvasH / 2);
@@ -113,13 +113,13 @@ export function glyphToTargets(
   let candidates: [number, number][] = [];
   let attempts = 0;
   const maxAttempts = 3;
-  
+
   // Adaptive sampling to ensure sufficient candidate density
   while (attempts < maxAttempts) {
     candidates = [];
     const img = ctx.getImageData(0, 0, canvasW, canvasH);
     const data = img.data;
-    
+
     for (let y = 0; y < canvasH; y += currentStride) {
       for (let x = 0; x < canvasW; x += currentStride) {
         const idx = (y * canvasW + x) * 4;
@@ -127,12 +127,12 @@ export function glyphToTargets(
         if (a >= alphaThreshold) candidates.push([x, y]);
       }
     }
-    
+
     // Performance guardrail: if candidates < N/50, increase density
     if (candidates.length >= N / 50 || attempts === maxAttempts - 1) {
       break;
     }
-    
+
     // Try denser sampling or adjust scale
     if (attempts === 0 && currentStride > 1) {
       currentStride = Math.max(1, Math.floor(currentStride / 2));
@@ -197,7 +197,7 @@ export function glyphToTargets(
 export function makeGlyphSamplerCache(max = 24) {
   const cache = new Map<string, Float32Array>();
   const stats = { hits: 0, misses: 0, sparse: 0 };
-  
+
   return {
     get(text: string, N: number, opts: Omit<GlyphSampleOpts, 'N'>) {
       const key = `${text}|${N}|${opts.canvasW}|${opts.canvasH}|${opts.fontPx}|${opts.sampleStride}|${opts.worldScale}`;
@@ -206,17 +206,17 @@ export function makeGlyphSamplerCache(max = 24) {
         stats.hits++;
         return cached;
       }
-      
+
       stats.misses++;
       const arr = new Float32Array(N*3);
       glyphToTargets(text, arr, { N, ...opts });
-      
+
       // Track sparse glyphs for debugging
       if (_lastCandidateCount < N / 50) {
         stats.sparse++;
         console.warn(`[GlyphSampler] Sparse glyph detected: "${text}" (${_lastCandidateCount} candidates for ${N} points)`);
       }
-      
+
       cache.set(key, arr);
       if (cache.size > max) {
         const first = cache.keys().next().value;
@@ -224,11 +224,11 @@ export function makeGlyphSamplerCache(max = 24) {
       }
       return arr;
     },
-    
+
     getStats() {
       return { ...stats, cacheSize: cache.size };
     },
-    
+
     clear() {
       cache.clear();
       stats.hits = stats.misses = stats.sparse = 0;
@@ -239,36 +239,36 @@ export function makeGlyphSamplerCache(max = 24) {
 // GPU capability detection for render mode fallbacks
 export function detectGPUCapability(): 'high' | 'medium' | 'low' {
   if (typeof window === 'undefined') return 'medium';
-  
+
   try {
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (!gl) return 'low';
-    
+
     const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
     if (debugInfo) {
       const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
       const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-      
+
       // Check for integrated Intel GPU or low-end mobile
-      if (renderer.toLowerCase().includes('intel') && 
+      if (renderer.toLowerCase().includes('intel') &&
           (renderer.toLowerCase().includes('uhd') || renderer.toLowerCase().includes('hd'))) {
         return 'low';
       }
-      
+
       // Check for mobile indicators
-      if (vendor.toLowerCase().includes('qualcomm') || 
+      if (vendor.toLowerCase().includes('qualcomm') ||
           renderer.toLowerCase().includes('adreno') ||
           renderer.toLowerCase().includes('mali')) {
         return /\b(adreno [6-9]|mali.*g[7-9])/i.test(renderer) ? 'medium' : 'low';
       }
     }
-    
+
     // Check for mobile device
     if (/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) {
       return 'medium';
     }
-    
+
     return 'high';
   } catch (e) {
     return 'low';

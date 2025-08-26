@@ -166,20 +166,20 @@ export default function ProteusOnboarding({ onComplete, isFirstVisit = true }: P
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-      <div 
+      <div
         className="absolute inset-0 bg-black/90 backdrop-blur-md"
         onClick={handleSkip}
       />
-      
+
       <div className="relative bg-gray-900 border border-white/10 rounded-2xl w-full max-w-2xl">
         {/* Progress bar */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 rounded-t-2xl overflow-hidden">
-          <div 
+          <div
             className="h-full bg-gradient-to-r from-purple-600 to-blue-600 transition-all duration-300"
             style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
           />
         </div>
-        
+
         {/* Content */}
         <div className="p-8 pt-10">
           {/* Header */}
@@ -192,12 +192,12 @@ export default function ProteusOnboarding({ onComplete, isFirstVisit = true }: P
               <p className="text-sm text-gray-400 mt-1">{step.description}</p>
             </div>
           </div>
-          
+
           {/* Step content */}
           <div className="mb-8">
             {step.content}
           </div>
-          
+
           {/* Step indicator */}
           <div className="flex items-center justify-center space-x-2 mb-6">
             {steps.map((_, index) => (
@@ -213,7 +213,7 @@ export default function ProteusOnboarding({ onComplete, isFirstVisit = true }: P
               />
             ))}
           </div>
-          
+
           {/* Actions */}
           <div className="flex items-center justify-between">
             <button
@@ -222,7 +222,7 @@ export default function ProteusOnboarding({ onComplete, isFirstVisit = true }: P
             >
               {isFirstVisit ? 'Skip tutorial' : 'Close'}
             </button>
-            
+
             <button
               onClick={handleNext}
               className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:opacity-90 transition flex items-center space-x-2"

@@ -212,13 +212,13 @@ def test_vocabulary_completeness(vocabulary):
 ### Risks:
 1. **Platform Incompatibility**: Some emojis may not render
    - *Mitigation*: Test on all target platforms
-   
+
 2. **Cultural Misunderstanding**: Symbols may offend
    - *Mitigation*: Cultural review process
-   
+
 3. **Over-Symbolization**: Too many symbols confuse
    - *Mitigation*: Limit vocabulary size
-   
+
 4. **Integration Complexity**: Hard to adopt
    - *Mitigation*: Provide clear examples
 

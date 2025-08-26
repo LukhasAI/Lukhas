@@ -88,7 +88,9 @@ class EndocrineObservabilityEngine:
         # Allow optional bus for test contexts; try to obtain global bus if available.
         if signal_bus is None:
             try:
-                from candidate.orchestration.signals.signal_bus import get_signal_bus as _get_bus
+                from candidate.orchestration.signals.signal_bus import (
+                    get_signal_bus as _get_bus,
+                )
 
                 signal_bus = _get_bus()
             except Exception:

@@ -3,7 +3,7 @@
 # MODULE: orchestration
 # DESCRIPTION: Enhanced DAST orchestration system with quantum-bio safety features.
 # Combines prot1's DAST capabilities with prot2's quantum-inspired processing.
-# DEPENDENCIES: bio_awareness, quantum_processing, symbolic_ai
+# DEPENDENCIES: bio_awareness, qi_processing, symbolic_ai
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════
 
@@ -11,7 +11,7 @@ import logging
 from typing import Any
 
 from ...core.errors import SymbolicIntegrityError
-from ...quantum.quantum_processing.quantum_engine import QuantumOscillator
+from ...qi.qi_processing.qi_engine import QIOscillator
 from ...symbolic_ai.assistant import assistant_node
 from ...symbolic_ai.filter import check_intent
 from ...symbolic_ai.memory import memory
@@ -27,7 +27,7 @@ class EnhancedDASTOrchestrator:
 
     def __init__(self, seed_id: str = "GONZALO-001"):
         # Initialize quantum components
-        self.quantum_oscillator = QuantumOscillator()
+        self.qi_oscillator = QIOscillator()
 
         # Initialize bio-awareness
         self.awareness = EnhancedSystemAwareness()
@@ -45,7 +45,7 @@ class EnhancedDASTOrchestrator:
         self.safety_thresholds = {
             "ethical_confidence": 0.85,
             "dissonance_limit": 0.7,
-            "quantum_coherence": 0.9,
+            "qi_coherence": 0.9,
         }
 
         logger.info("Initialized enhanced DAST orchestrator")
@@ -96,15 +96,15 @@ class EnhancedDASTOrchestrator:
             base_check = check_intent(intent["action"])
             if not base_check:
                 raise SymbolicIntegrityError("Intent check failed")
-            quantum_modulation = self.quantum_oscillator.quantum_modulate(
+            qi_modulation = self.qi_oscillator.qi_modulate(
                 float(base_check["confidence"])
             )
 
             ethical_confidence = self.safety_thresholds.get("ethical_confidence", 0.85)
 
             return {
-                "approved": quantum_modulation > ethical_confidence,
-                "confidence": quantum_modulation,
+                "approved": qi_modulation > ethical_confidence,
+                "confidence": qi_modulation,
                 "message": base_check["message"],
             }
         except (ValueError, TypeError) as e:
@@ -124,7 +124,7 @@ class EnhancedDASTOrchestrator:
             data={
                 "intent": intent,
                 "reason": result["message"],
-                "quantum_confidence": result["confidence"],
+                "qi_confidence": result["confidence"],
             },
             affect={"emotion": "concern", "dissonance": 1.0},
             origin_node="enhanced_dast_orchestrator",
@@ -171,7 +171,7 @@ class EnhancedDASTOrchestrator:
 # DECORATORS: None
 # DEPENDENCIES:
 # - bio_awareness.enhanced_awareness.EnhancedSystemAwareness
-# - quantum_processing.quantum_engine.QuantumOscillator
+# - qi_processing.qi_engine.QIOscillator
 # - symbolic_ai.memory.memory
 # - symbolic_ai.assistant.assistant_node
 # - symbolic_ai.filter.check_intent
@@ -188,7 +188,7 @@ class EnhancedDASTOrchestrator:
 #   result = await orchestrator.process_intent(intent)
 # INTEGRATION NOTES:
 # - This module is designed to be integrated with a larger orchestration system.
-# - It requires access to the bio_awareness, quantum_processing, and symbolic_ai modules.
+# - It requires access to the bio_awareness, qi_processing, and symbolic_ai modules.
 # MAINTENANCE:
 # - The safety thresholds should be reviewed and updated regularly.
 # - The quantum modulation algorithm should be monitored for drift.

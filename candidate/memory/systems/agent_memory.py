@@ -529,7 +529,7 @@ async def main_example():
         agent1_id,
         "task_completed",
         {
-            "task": "quantum_gravity_simulation",
+            "task": "qi_gravity_simulation",
             "status": "converged",
             "insights": [
                 "Found potential unification variable.",
@@ -546,7 +546,7 @@ async def main_example():
         {
             "insight": "Observed anomaly in cosmic microwave background.",
             "confidence": 0.92,
-            "related_simulation": "quantum_gravity_simulation",
+            "related_simulation": "qi_gravity_simulation",
         },
     )
     log.info("Agent 2 append status", success=success2, agent_id=agent2_id)

@@ -42,8 +42,8 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
-from dream.modifiers.quantum_like_state_modifier import (
-    QuantumLikeStateModifier,
+from dream.modifiers.qi_like_state_modifier import (
+    QILikeStateModifier,
 )
 
 # Configure structured logging
@@ -433,7 +433,7 @@ class SymbolicWeaver:
         coherence_threshold: float = 0.6,
         identity_threshold: float = 0.7,
         ethical_threshold: float = 0.8,
-        quantum_modifier: "QuantumLikeStateModifier" = None,
+        qi_modifier: "QILikeStateModifier" = None,
     ):
         """
         Initialize the ΛWEAVER system.
@@ -448,7 +448,7 @@ class SymbolicWeaver:
         self.ethical_threshold = ethical_threshold
 
         # Initialize components
-        self.quantum_modifier = quantum_modifier
+        self.qi_modifier = qi_modifier
         self.pattern_extractor = SymbolicPatternExtractor()
         self.archetypal_analyzer = ArchetypalAnalyzer()
 
@@ -1013,8 +1013,8 @@ class SymbolicWeaver:
             ΛTAG="ΛTHREAD_SYNTHESIZED",
         )
 
-        if self.quantum_modifier:
-            thread = asyncio.run(self.quantum_modifier.modify_thread(thread))
+        if self.qi_modifier:
+            thread = asyncio.run(self.qi_modifier.modify_thread(thread))
 
         return thread
 

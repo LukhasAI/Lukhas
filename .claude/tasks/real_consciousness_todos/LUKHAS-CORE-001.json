@@ -8,7 +8,7 @@
   "source_file": "./core/integration/executive_decision_integrator.py",
   "todo_items": [
     "ΛTODO: Implement proper MEG decision creation",
-    "ΛTODO: Implement proper XIL request creation", 
+    "ΛTODO: Implement proper XIL request creation",
     "ΛTODO: Implement proper HITLO context creation",
     "ΛTODO: Implement causal-to-ethical decision mapping",
     "ΛTODO: Implement privacy decision context creation"

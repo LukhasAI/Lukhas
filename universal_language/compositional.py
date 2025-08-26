@@ -78,7 +78,7 @@ class CompositionTemplate:
 class SymbolComposer:
     """
     Generates new symbols through composition of existing ones.
-    
+
     Like how humans create new concepts from existing ones.
     """
 
@@ -145,7 +145,7 @@ class SymbolComposer:
                template_id: Optional[str] = None) -> Optional[Symbol]:
         """
         Compose symbols to create a new one.
-        
+
         If no template specified, tries to find matching one.
         """
         # Check cache
@@ -192,7 +192,7 @@ class SymbolComposer:
     def decompose(self, symbol: Symbol) -> List[Symbol]:
         """
         Decompose a composite symbol into components.
-        
+
         Inverse of composition.
         """
         components = []
@@ -389,7 +389,7 @@ class SymbolProgram:
 class SymbolProgramSynthesizer:
     """
     Synthesizes programs from symbol sequences.
-    
+
     Like program synthesis but for symbolic operations.
     """
 
@@ -416,7 +416,7 @@ class SymbolProgramSynthesizer:
     def synthesize_from_examples(self, examples: List[Dict[str, Any]]) -> Optional[SymbolProgram]:
         """
         Synthesize program from input-output examples.
-        
+
         Like programming by example.
         """
         if not examples:
@@ -440,7 +440,7 @@ class SymbolProgramSynthesizer:
     def synthesize_from_trace(self, symbol_trace: List[Tuple[str, Symbol]]) -> Optional[SymbolProgram]:
         """
         Synthesize program from execution trace.
-        
+
         Learns from observing symbol manipulations.
         """
         if len(symbol_trace) < 2:
@@ -487,7 +487,7 @@ class SymbolProgramSynthesizer:
                        input_symbols: Dict[str, Symbol]) -> Dict[str, Symbol]:
         """
         Execute a symbol program.
-        
+
         Returns output symbols.
         """
         # Create execution environment
@@ -519,7 +519,7 @@ class SymbolProgramSynthesizer:
     def optimize_program(self, program: SymbolProgram) -> SymbolProgram:
         """
         Optimize a symbol program.
-        
+
         Reduces redundancy and improves efficiency.
         """
         optimized_ops = []

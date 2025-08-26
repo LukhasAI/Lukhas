@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 
 /**
  * SafeInteractionSystem
- * 
+ *
  * Implements Jobs' "It Just Works" philosophy while maintaining Altman's safety requirements:
  * - Simple, intuitive interface
  * - Real-time safety monitoring
@@ -40,11 +40,11 @@ export class SafeInteractionSystem extends EventEmitter {
     metrics: { safety: number; complexity: number; responseTime: number };
   }> {
     const startTime = Date.now();
-    
+
     try {
       // Update state with real-time feedback
       this.updateState('processing');
-      
+
       // Validate input safety
       const safetyScore = await this.validateSafety(input);
       if (safetyScore < this.SAFETY_THRESHOLDS.safetyConfidence) {
@@ -53,7 +53,7 @@ export class SafeInteractionSystem extends EventEmitter {
 
       // Process with complexity monitoring
       const result = await this.processWithSimplicity(input);
-      
+
       // Calculate metrics
       const responseTime = Date.now() - startTime;
       const metrics = {

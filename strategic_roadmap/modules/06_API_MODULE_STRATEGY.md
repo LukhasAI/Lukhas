@@ -20,7 +20,7 @@ The API module (33.3% functional) serves as LUKHAS 's gateway to the world, with
 ```python
 class SecureAGIGateway:
     """OpenAI's approach to API safety"""
-    
+
     def __init__(self):
         self.security_layers = {
             "authentication": "OAuth2_with_JWT",
@@ -45,7 +45,7 @@ class SecureAGIGateway:
 **🚨 Security Alert**: "OpenAI's API processes 100B+ requests monthly. One unfiltered harmful output = $100M lawsuit. Your 33% functional API is 67% security hole. Every endpoint needs military-grade protection."
 
 ### API Security Roadmap
-1. **Fix the 67% broken functionality** - Non-negotiable 
+1. **Fix the 67% broken functionality** - Non-negotiable
 2. **Implement comprehensive authentication** - OAuth2, API keys, JWT
 3. **Add multi-layer content filtering** - Input and output moderation
 4. **Deploy anomaly detection** - Catch abuse before damage
@@ -64,7 +64,7 @@ class SecureAGIGateway:
 ```python
 class GlobalAPIInfrastructure:
     """Anthropic's approach to planet-scale APIs"""
-    
+
     def __init__(self):
         self.api_protocols = {
             "REST": "OpenAPI_3.1",
@@ -108,7 +108,7 @@ class GlobalAPIInfrastructure:
 ```python
 class EnterpriseReadyAPI:
     """DeepMind's enterprise-first approach"""
-    
+
     def __init__(self):
         self.standards_compliance = {
             "OpenAPI": "3.1_specification",
@@ -146,7 +146,7 @@ class EnterpriseReadyAPI:
 ```python
 class FutureAGIAPIPlatform:
     """The API platform of 2030"""
-    
+
     def __init__(self):
         self.streaming_capabilities = {
             "Server_Sent_Events": "One_way_streaming",

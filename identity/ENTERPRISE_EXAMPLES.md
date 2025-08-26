@@ -47,7 +47,7 @@ SP        = 1*WSP
 
 **Validation Regex (canonical core)**
 ```
-^(?:(?<namespace>[a-z0-9_-]{1,48}):)?(?<username>[a-z0-9_-]{3,32})$ 
+^(?:(?<namespace>[a-z0-9_-]{1,48}):)?(?<username>[a-z0-9_-]{3,32})$
 ```
 
 ## 🧭 Login Flow: Provider Dropdown + Username-Only
@@ -88,7 +88,7 @@ POST /identity/resolve-login
 
 ## 🔒 Privacy & PII Policy (Important)
 
-- **Never use raw PII as a username** (email, phone, passport/DNI/SSN). 
+- **Never use raw PII as a username** (email, phone, passport/DNI/SSN).
 - If a user prefers phone/passport/DNI for login, treat it as a **verification factor** only.
 - Store **hashed, salted, and tokenized** proofs or third‑party attestations (e.g., Stripe Identity, Passkeys/WebAuthn). Do not persist raw numbers.
 - Recommend **Passkeys/WebAuthn** as the default strong login; provider aliases remain for convenience.
@@ -167,7 +167,7 @@ sequenceDiagram
     participant App
     participant Apple
     participant LUKHAS
-    
+
     User->>App: Tap "Sign in with Apple"
     App->>LUKHAS: GET /identity/oauth/login/apple
     LUKHAS->>App: Return Apple Auth URL
@@ -287,7 +287,7 @@ func startAppleSignIn() {
     let provider = ASAuthorizationAppleIDProvider()
     let request = provider.createRequest()
     request.requestedScopes = [.fullName, .email]
-    
+
     let controller = ASAuthorizationController(authorizationRequests: [request])
     controller.delegate = self
     controller.presentationContextProvider = self
@@ -295,11 +295,11 @@ func startAppleSignIn() {
 }
 
 // 2. Handle Apple response
-func authorizationController(controller: ASAuthorizationController, 
+func authorizationController(controller: ASAuthorizationController,
                            didCompleteWithAuthorization authorization: ASAuthorization) {
     if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
         let code = String(data: appleIDCredential.authorizationCode!, encoding: .utf8)!
-        
+
         // Send to LUKHAS
         sendToLUKHAS(provider: "apple", code: code)
     }
@@ -312,7 +312,7 @@ func sendToLUKHAS(provider: String, code: String) {
         "code": code,
         "redirect_uri": "https://yourapp.com/oauth/callback"
     ]
-    
+
     APIClient.post("/identity/oauth/callback", data: request) { response in
         // Save LUKHAS token and user info
         UserDefaults.standard.set(response.token, forKey: "lukhas_token")
@@ -329,7 +329,7 @@ private fun startGoogleSignIn() {
         .requestEmail()
         .requestIdToken(getString(R.string.google_client_id))
         .build()
-        
+
     val client = GoogleSignIn.getClient(this, gso)
     val signInIntent = client.signInIntent
     startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -338,11 +338,11 @@ private fun startGoogleSignIn() {
 // 2. Handle Google response
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
-    
+
     if (requestCode == RC_SIGN_IN) {
         val task = GoogleSignIn.getSignedInAccountFromIntent(data)
         val account = task.getResult(ApiException::class.java)
-        
+
         // Send auth code to LUKHAS
         sendAuthCodeToLUKHAS("google", account.serverAuthCode)
     }
@@ -355,7 +355,7 @@ private fun sendAuthCodeToLUKHAS(provider: String, code: String?) {
         "code" to code,
         "redirect_uri" to "https://yourapp.com/oauth/callback"
     )
-    
+
     apiService.oauthCallback(request).enqueue(object : Callback<LoginResponse> {
         override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
             // Save LUKHAS credentials
@@ -384,7 +384,7 @@ POST /identity/oauth/callback
 POST /identity/oauth/link-account
 {
   "primary_user_id": "john_doe",
-  "secondary_provider": "apple", 
+  "secondary_provider": "apple",
   "secondary_code": "apple_auth_code",
   "redirect_uri": "https://yourapp.com/oauth/callback"
 }
@@ -423,7 +423,7 @@ temp_user_id = oauth_federation.create_temporary_user(
 
 ### Use Cases for Temporary Users:
 1. **OAuth Interruption**: User closes app during OAuth flow
-2. **Network Issues**: OAuth provider temporarily unavailable  
+2. **Network Issues**: OAuth provider temporarily unavailable
 3. **Partial Data**: Provider returns limited user information
 4. **Testing**: Development and testing scenarios
 
@@ -453,7 +453,7 @@ Total Users: 10,000
 ```
 OAuth Users:
 ├── T5 (Guardian): 15% (enterprise domains)
-├── T4 (Quantum): 5% (verified researchers)  
+├── T4 (Quantum): 5% (verified researchers)
 ├── T3 (Advanced): 25% (academic domains)
 ├── T2 (Creator): 50% (standard users)
 └── T1 (Observer): 5% (unverified)

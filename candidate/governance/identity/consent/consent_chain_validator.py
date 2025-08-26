@@ -49,7 +49,7 @@ class ConsentType(Enum):
     CONSCIOUSNESS_TRACKING = "consciousness_tracking"
     CULTURAL_ADAPTATION = "cultural_adaptation"
     CROSS_SYSTEM_BRIDGE = "cross_system_bridge"
-    QUANTUM_ENTANGLEMENT = "quantum_entanglement"
+    QUANTUM_ENTANGLEMENT = "qi_entanglement"
     ETHICAL_OVERRIDE = "ethical_override"
 
 
@@ -74,7 +74,7 @@ class ConsentValidity(Enum):
     REVOKED = "revoked"
     PENDING = "pending"
     CONDITIONAL = "conditional"
-    QUANTUM_UNCERTAIN = "quantum_uncertain"
+    QUANTUM_UNCERTAIN = "qi_uncertain"
 
 
 @dataclass
@@ -239,7 +239,7 @@ class ConsentChainValidator:
             "consciousness_threshold": 0.7,
             "cultural_sensitivity": 0.85,
             "require_explicit_t5": True,
-            "quantum_uncertainty_allowed": False,
+            "qi_uncertainty_allowed": False,
         }
 
         # Symbol mappings based on consent state
@@ -881,7 +881,7 @@ async def main():
     print("-" * 40)
 
     stargate_payload = {
-        "user_id": "quantum_consciousness_user",
+        "user_id": "qi_consciousness_user",
         "consciousness_state": "creative",
         "cultural_signature": {"cultural_type": "collective", "region": "africa"},
         "iris_score": 0.95,

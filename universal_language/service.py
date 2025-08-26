@@ -46,7 +46,7 @@ from . import (
 class LocalSymbolStore:
     """
     Local encrypted storage for personal symbols.
-    
+
     All data stays on device - never synchronized to server.
     Uses device-specific encryption key derived from biometrics/PIN.
     """
@@ -60,7 +60,7 @@ class LocalSymbolStore:
     def initialize(self, device_key: str):
         """
         Initialize store with device-specific key.
-        
+
         In production: derive from biometrics + PIN
         """
         # Derive encryption key from device key
@@ -80,7 +80,7 @@ class LocalSymbolStore:
     def bind_symbol(self, binding: SymbolBinding) -> PersonalSymbol:
         """
         Bind a personal symbol to meaning.
-        
+
         Symbol data is hashed and stored locally only.
         """
         # Generate unique ID and salt
@@ -128,7 +128,7 @@ class LocalSymbolStore:
     def verify_symbol(self, symbol_data: Any, symbol_type: SymbolType, meaning: str) -> bool:
         """
         Verify that symbol data matches a stored binding.
-        
+
         Returns True if symbol is bound to the specified meaning.
         """
         symbols = self.find_symbols_by_meaning(meaning)
@@ -152,7 +152,7 @@ class LocalSymbolStore:
     def create_composition(self, name: str, symbol_ids: List[str], operators: List[str], meaning: str) -> str:
         """
         Create a symbol composition.
-        
+
         Compositions combine multiple symbols with operators.
         """
         composition_id = f"comp_{secrets.token_urlsafe(16)}"
@@ -234,7 +234,7 @@ class LocalSymbolStore:
 class ULChallengeService:
     """
     Server-side challenge generation and verification.
-    
+
     Generates composition challenges and verifies proofs
     without ever seeing the actual symbol data.
     """
@@ -251,12 +251,12 @@ class ULChallengeService:
     ) -> CompositionChallenge:
         """
         Generate composition challenge for user.
-        
+
         Args:
             lid: Canonical ΛID
             action: High-risk action requiring UL entropy
             required_meanings: Meanings to compose
-            
+
         Returns:
             Composition challenge
         """
@@ -293,11 +293,11 @@ class ULChallengeService:
     ) -> bool:
         """
         Verify composition proof without seeing symbols.
-        
+
         Args:
             lid: User's canonical ΛID
             proof: Composition proof to verify
-            
+
         Returns:
             True if proof is valid
         """
@@ -336,13 +336,13 @@ class ULChallengeService:
     ) -> ULSignature:
         """
         Create UL signature for action approval.
-        
+
         Args:
             lid: User's canonical ΛID
             action: Action being approved
             symbol_proofs: Proof hashes from symbols
             composition_proof: Optional composition proof
-            
+
         Returns:
             UL signature for the action
         """
@@ -369,12 +369,12 @@ class ULChallengeService:
     ) -> bool:
         """
         Verify UL signature is valid for action.
-        
+
         Args:
             lid: User's canonical ΛID
             action: Action requiring approval
             signature: UL signature to verify
-            
+
         Returns:
             True if signature is valid
         """
@@ -401,7 +401,7 @@ class ULChallengeService:
 class UniversalLanguageService:
     """
     Main UL service coordinating local storage and server verification.
-    
+
     Manages the complete UL workflow:
     1. Local symbol binding
     2. Challenge generation
@@ -429,7 +429,7 @@ class UniversalLanguageService:
     ) -> str:
         """
         Bind personal symbol to meaning (local only).
-        
+
         Returns:
             Symbol ID for reference
         """
@@ -454,11 +454,11 @@ class UniversalLanguageService:
     ) -> CompositionChallenge:
         """
         Request composition challenge from server.
-        
+
         Args:
             lid: User's canonical ΛID
             action: High-risk action requiring UL
-            
+
         Returns:
             Composition challenge
         """
@@ -485,11 +485,11 @@ class UniversalLanguageService:
     ) -> CompositionProof:
         """
         Solve composition challenge locally.
-        
+
         Args:
             challenge: Challenge to solve
             symbol_data_list: List of (symbol_data, symbol_type) tuples
-            
+
         Returns:
             Composition proof (no raw symbols exposed)
         """
@@ -540,12 +540,12 @@ class UniversalLanguageService:
     ) -> ULSignature:
         """
         Create UL signature for action approval.
-        
+
         Args:
             lid: User's canonical ΛID
             action: Action being approved
             composition_proof: Proof of symbol composition
-            
+
         Returns:
             UL signature
         """

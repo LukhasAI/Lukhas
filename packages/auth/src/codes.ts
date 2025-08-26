@@ -1,13 +1,13 @@
 /**
  * ΛiD Authentication System - Verification Codes
- * 
+ *
  * 6-digit verification codes with HMAC validation, TTL 600s, enumeration-safe responses
  * Integrates with LUKHAS Trinity Framework (⚛️🧠🛡️)
  */
 
-import { 
-  VerificationCodeOptions, 
-  VerificationCodeResult, 
+import {
+  VerificationCodeOptions,
+  VerificationCodeResult,
   VerificationCodeValidationResult,
   SecurityEvent
 } from '../types/auth.types';
@@ -121,7 +121,7 @@ class VerificationCodeStore {
 
     // Generate HMAC hash of provided code
     const providedHash = this.generateCodeHash(code, email, purpose);
-    
+
     // Constant-time comparison to prevent timing attacks
     if (this.constantTimeCompare(entry.codeHash, providedHash)) {
       return entry;
@@ -291,7 +291,7 @@ class VerificationCodeStore {
   generateCodeHash(code: string, email: string, purpose: string): string {
     const crypto = require('crypto');
     const hmac = crypto.createHmac('sha256', this.config.hmacSecret);
-    
+
     // Include pepper, email, and purpose to prevent rainbow table attacks
     hmac.update(`${code}:${this.config.pepper}:${email}:${purpose}`);
     return hmac.digest('hex');
@@ -302,12 +302,12 @@ class VerificationCodeStore {
    */
   constantTimeCompare(a: string, b: string): boolean {
     if (a.length !== b.length) return false;
-    
+
     let result = 0;
     for (let i = 0; i < a.length; i++) {
       result |= a.charCodeAt(i) ^ b.charCodeAt(i);
     }
-    
+
     return result === 0;
   }
 
@@ -374,7 +374,7 @@ class VerificationCodeStore {
 
     // Cleanup throttles
     const windowStart = now - (this.config.attemptWindow * 1000);
-    
+
     for (const [ip, entry] of this.ipThrottles.entries()) {
       if (entry.firstAttempt < windowStart && (!entry.blockExpiry || now > entry.blockExpiry)) {
         this.ipThrottles.delete(ip);
@@ -511,10 +511,10 @@ export class VerificationCodeManager {
     try {
       // Always return success: true to prevent enumeration attacks
       // Real validation happens internally
-      
+
       const entry = this.store.getCode(email, purpose);
       let actuallyValid = false;
-      
+
       if (entry) {
         // Check if already verified
         if (entry.verified) {
@@ -534,7 +534,7 @@ export class VerificationCodeManager {
         } else {
           // Increment attempts first
           this.store.incrementAttempts(email, purpose);
-          
+
           // Verify the code
           const verifiedEntry = this.store.verifyCode(email, purpose, code);
           if (verifiedEntry) {
@@ -604,13 +604,13 @@ export class VerificationCodeManager {
     expiresAt?: string;
   }> {
     const entry = this.store.getCode(email, purpose);
-    
+
     if (!entry) {
       return { exists: false };
     }
 
     const now = Date.now();
-    
+
     return {
       exists: true,
       verified: entry.verified,
@@ -630,7 +630,7 @@ export class VerificationCodeManager {
 
     // Mark as verified to prevent further use
     const revoked = this.store.markVerified(email, purpose);
-    
+
     if (revoked) {
       this.store.logSecurityEvent('CODE_REVOKED', {
         email,
@@ -659,7 +659,7 @@ export class VerificationCodeManager {
     if (ip) {
       this.store['ipThrottles'].delete(ip);
     }
-    
+
     if (email) {
       this.store['emailThrottles'].delete(email);
     }
@@ -675,12 +675,12 @@ export class VerificationCodeManager {
   private generateSecureCode(): string {
     const array = new Uint8Array(1);
     let code = '';
-    
+
     for (let i = 0; i < this.config.codeLength; i++) {
       crypto.getRandomValues(array);
       code += (array[0] % 10).toString();
     }
-    
+
     return code;
   }
 }

@@ -15,7 +15,7 @@ export function MatrizSection() {
       icon: '🧩',
       applications: [
         'Complete thought traceability for AI decisions',
-        'Granular debugging of reasoning processes', 
+        'Granular debugging of reasoning processes',
         'Individual node optimization and refinement',
         'Cognitive architecture visualization'
       ]
@@ -170,7 +170,7 @@ export function MatrizSection() {
       examples: ["Scientific hypothesis generation", "Legal case analysis", "Strategic business planning"]
     },
     {
-      title: "Long-term Learning Systems", 
+      title: "Long-term Learning Systems",
       description: "Continuous learning that builds expertise over time without losing previous knowledge.",
       examples: ["Personalized education systems", "Adaptive recommendation engines", "Expert knowledge accumulation"]
     },
@@ -205,13 +205,13 @@ export function MatrizSection() {
           </h2>
           <div className="max-w-4xl mx-auto">
             <p className="font-light text-xl text-text-secondary mb-6 leading-relaxed">
-              MATADA (Modular Adaptive Temporal Attention Dynamic Architecture) transforms AI cognition by making every thought 
-              a traceable, governed, and evolvable node in a vast cognitive graph. This governance-focused approach creates AI systems 
-              with genuine understanding, persistent memory, and ethical evolution - establishing the foundation for conscious AI 
+              MATADA (Modular Adaptive Temporal Attention Dynamic Architecture) transforms AI cognition by making every thought
+              a traceable, governed, and evolvable node in a vast cognitive graph. This governance-focused approach creates AI systems
+              with genuine understanding, persistent memory, and ethical evolution - establishing the foundation for conscious AI
               that thinks, learns, and grows like biological intelligence.
             </p>
             <p className="font-light text-lg text-text-tertiary">
-              Unlike traditional neural networks that process information in opaque layers, MATADA creates explicit cognitive DNA 
+              Unlike traditional neural networks that process information in opaque layers, MATADA creates explicit cognitive DNA
               where each thought has identity, relationships, and evolutionary potential within the Trinity Framework.
             </p>
           </div>
@@ -455,7 +455,7 @@ export function MatrizSection() {
               Experience MATADA
             </h3>
             <p className="font-light text-xl text-text-secondary mb-8 max-w-3xl mx-auto">
-              Witness the future of AI cognition through our interactive MATADA demonstration. 
+              Witness the future of AI cognition through our interactive MATADA demonstration.
               See how every thought becomes traceable, every decision governed, and every evolution ethical.
             </p>
             <div className="flex justify-center items-center space-x-4 mb-8">

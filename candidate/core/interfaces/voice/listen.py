@@ -10,7 +10,6 @@ from pathlib import Path
 import speech_recognition as sr
 from openai import OpenAI
 from traits.trait_manager import load_traits
-
 from voice.lukhas_voice import speak
 
 # Initialize logger

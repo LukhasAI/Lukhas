@@ -5,8 +5,8 @@ A comprehensive modular plugin ecosystem for cross-sector deployment,
 integrating DAST, ABAS, and Lucas Systems for safe, consensual interactions.
 """
 
-from .src.core.nias_plugin import NIASPlugin
 from .src.core.config import NIASConfig
+from .src.core.nias_plugin import NIASPlugin
 
 __version__ = "1.0.0"
 __author__ = "Lucas AGI Systems"

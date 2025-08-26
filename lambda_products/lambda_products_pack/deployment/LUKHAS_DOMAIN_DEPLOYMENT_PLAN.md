@@ -408,7 +408,7 @@ api           A      api-server-ip
 server {
     server_name lukhas.ai www.lukhas.ai;
     root /var/www/lukhas.ai;
-    
+
     location /api {
         proxy_pass http://localhost:8000;
     }

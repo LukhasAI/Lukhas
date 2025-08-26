@@ -163,7 +163,7 @@ assignment = await mcp.call_tool("assign_optimal_agent", {
 
 ### **For Your Claude Code Experience:**
 - **🧠 Consciousness-Aware**: Claude automatically understands your consciousness architecture
-- **⚛️ Trinity-Validated**: Real-time Trinity Framework compliance checking  
+- **⚛️ Trinity-Validated**: Real-time Trinity Framework compliance checking
 - **🎯 Intelligent Routing**: Optimal agent assignment based on task analysis
 - **📊 Live Metrics**: Real-time consciousness system health monitoring
 - **🔄 Auto-Context**: Intelligent context loading saves your token limits

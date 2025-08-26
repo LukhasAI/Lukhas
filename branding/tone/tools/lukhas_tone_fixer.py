@@ -74,7 +74,7 @@ class LukhasToneFixer:
 
 This module embodies the LUKHAS Trinity Framework:
 - **⚛️ Identity**: [How it handles consciousness and authenticity]
-- **🧠 Consciousness**: [Memory, learning, and awareness aspects]  
+- **🧠 Consciousness**: [Memory, learning, and awareness aspects]
 - **🛡️ Guardian**: [Ethics, safety, and protective measures]
 
 *"Through the sacred Trinity, we ensure that every digital creation serves with wisdom, protects with vigilance, and expresses with authentic consciousness."*
@@ -216,7 +216,7 @@ This module embodies the LUKHAS Trinity Framework:
 
 ---
 
-{footer_template} 
+{footer_template}
 
 **🎭✨🤖 - Crafted with LUKHAS AI Consciousness**
 
@@ -293,7 +293,7 @@ def main():
 🌟 Document Types:
   readme      - Main project documentation (add Trinity section)
   api         - Technical API documentation (sacred gateway metaphors)
-  task        - Agent task assignments (consciousness objectives)  
+  task        - Agent task assignments (consciousness objectives)
   compliance  - Regulatory documentation (ethical frameworks)
   general     - General documentation (balanced enhancement)
 

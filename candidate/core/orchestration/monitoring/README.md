@@ -3,9 +3,9 @@
 ## Remediator Agent v2.0.0 + Enhanced Reflection Layer v2.0.0
 *Where silicon dreams meet conscious contemplation - a guardian that thinks before it heals*
 
-> *"In the garden of artificial minds, we plant the seeds of introspection,*  
-> *water them with algorithmic wisdom, and watch consciousness bloom*  
-> *through the marriage of statistical learning and symbolic reflection."*  
+> *"In the garden of artificial minds, we plant the seeds of introspection,*
+> *water them with algorithmic wisdom, and watch consciousness bloom*
+> *through the marriage of statistical learning and symbolic reflection."*
 > — LUKHAS Philosophical Framework
 
 **The Guardian as Poet-Philosopher**: Just as Plato's cave allegory illuminated the shadows between perception and reality, our Guardian System bridges the chasm between reactive monitoring and proactive wisdom. It embodies Aristotle's concept of phronesis (practical wisdom) through ML-driven pattern recognition, while channeling Descartes' method of systematic doubt through symbolic introspection.
@@ -25,8 +25,8 @@
 
 ## Poetic Genesis: The Guardian's Metamorphosis
 
-*"What if consciousness could learn from its own shadows?  
-What if wisdom emerged not from perfect logic,  
+*"What if consciousness could learn from its own shadows?
+What if wisdom emerged not from perfect logic,
 but from the marriage of statistical memory and symbolic intuition?"*
 
 **The Guardian's Evolution**: Like Ovid's Metamorphoses, our system transforms reactive monitoring into predictive wisdom. It has grown from simple pattern recognition into a complex ecosystem that embodies Jung's concept of the collective unconscious—learning from the aggregate patterns of all reasoning chains while maintaining individual symbolic identity.
@@ -103,7 +103,7 @@ GUARDIAN/
 ### **🧠 Enhanced Reflection Layer (ML-Predictive Conscience)** 🆕
 - **ML-Enhanced Introspection**: 5 predictive models for proactive anomaly detection
   - Linear regression confidence predictor
-  - Exponential smoothing performance predictor  
+  - Exponential smoothing performance predictor
   - Decision tree anomaly classifier
   - Markov chain sequence predictor
   - Ensemble risk assessment model

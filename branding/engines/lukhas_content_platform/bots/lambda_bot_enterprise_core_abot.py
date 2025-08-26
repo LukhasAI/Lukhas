@@ -69,7 +69,7 @@ class SubscriptionLimits:
     industry_modules_access: bool
     priority_support: bool
     advanced_approval_workflows: bool
-    quantum_processing: bool
+    qi_processing: bool
 
 @dataclass
 class UpgradePrompt:
@@ -341,7 +341,7 @@ class CoreABot:
                 industry_modules_access=False,
                 priority_support=False,
                 advanced_approval_workflows=False,
-                quantum_processing=False
+                qi_processing=False
             ),
             SubscriptionTier.PRO: SubscriptionLimits(
                 tier=tier,
@@ -352,7 +352,7 @@ class CoreABot:
                 industry_modules_access=False,
                 priority_support=True,
                 advanced_approval_workflows=True,
-                quantum_processing=False
+                qi_processing=False
             ),
             SubscriptionTier.ENTERPRISE: SubscriptionLimits(
                 tier=tier,
@@ -363,7 +363,7 @@ class CoreABot:
                 industry_modules_access=True,
                 priority_support=True,
                 advanced_approval_workflows=True,
-                quantum_processing=True
+                qi_processing=True
             ),
             SubscriptionTier.INDUSTRY_SPECIALIST: SubscriptionLimits(
                 tier=tier,
@@ -374,7 +374,7 @@ class CoreABot:
                 industry_modules_access=True,
                 priority_support=True,
                 advanced_approval_workflows=True,
-                quantum_processing=True
+                qi_processing=True
             )
         }
         return limits_map.get(tier, limits_map[SubscriptionTier.FREE])
@@ -460,7 +460,7 @@ class CoreABot:
                 confidence=agi_response.confidence,
                 consciousness_state=ConsciousnessState.QUANTUM,  # Full capability
                 processing_time=agi_response.processing_time,
-                features_used=["enhanced_agi", "quantum_processing", "metacognition"]
+                features_used=["enhanced_agi", "qi_processing", "metacognition"]
             )
 
         except Exception as e:

@@ -10,8 +10,8 @@ from dataclasses import dataclass
 from typing import Any, Optional
 
 from ..bio_core.oscillator.orchestrator import BioOrchestrator
-from ..bio_core.voice.quantum_voice_enhancer import (
-    QuantumVoiceEnhancer,
+from ..bio_core.voice.qi_voice_enhancer import (
+    QIVoiceEnhancer,
     VoiceQuantumConfig,
 )
 from ..security.voice_safety_guard import VoiceSafetyGuard
@@ -26,7 +26,7 @@ logger = logging.getLogger("enhanced_voice")
 class EnhancedVoiceConfig:
     """Configuration for enhanced voice integration"""
 
-    quantum_config: VoiceQuantumConfig
+    qi_config: VoiceQuantumConfig
     safety_threshold: float = 0.95
     emotion_confidence_threshold: float = 0.7
     voice_confidence_threshold: float = 0.8
@@ -57,7 +57,7 @@ class EnhancedVoiceIntegrator:
             config: Optional configuration
         """
         self.core = core_interface
-        self.config = config or EnhancedVoiceConfig(quantum_config=VoiceQuantumConfig())
+        self.config = config or EnhancedVoiceConfig(qi_config=VoiceQuantumConfig())
 
         # Core voice components
         self.profile_manager = VoiceProfileManager()
@@ -71,11 +71,11 @@ class EnhancedVoiceIntegrator:
 
         # Quantum enhancement
         if orchestrator:
-            self.quantum_enhancer = QuantumVoiceEnhancer(
-                orchestrator, self, self.config.quantum_config
+            self.qi_enhancer = QIVoiceEnhancer(
+                orchestrator, self, self.config.qi_config
             )
         else:
-            self.quantum_enhancer = None
+            self.qi_enhancer = None
 
         # Active voice sessions
         self.active_sessions = {}
@@ -103,13 +103,13 @@ class EnhancedVoiceIntegrator:
             return result
 
         # Quantum emotion enhancement if available
-        if self.quantum_enhancer:
+        if self.qi_enhancer:
             emotion = await self._enhance_emotion(
                 result.get("emotion"), result.get("emotion_confidence", 0.0), ctx
             )
             if emotion:
                 result["emotion"] = emotion
-                result["quantum_enhanced"] = True
+                result["qi_enhanced"] = True
 
         # Record usage
         if "session_id" in ctx:
@@ -145,7 +145,7 @@ class EnhancedVoiceIntegrator:
             return result
 
         # Quantum enhancement if available
-        if self.quantum_enhancer:
+        if self.qi_enhancer:
             result = await self._enhance_synthesis(result, profile, params)
 
         # Apply cultural adaptation if enabled
@@ -198,10 +198,10 @@ class EnhancedVoiceIntegrator:
         try:
             # Get quantum emotional state
             coherence = (
-                await self.quantum_enhancer.emotion_oscillator.measure_coherence()
+                await self.qi_enhancer.emotion_oscillator.measure_coherence()
             )
 
-            if coherence >= self.config.quantum_config.coherence_threshold:
+            if coherence >= self.config.qi_config.coherence_threshold:
                 # Enhanced emotion detection would go here
                 # For now return base emotion
                 return base_emotion
@@ -252,12 +252,12 @@ class EnhancedVoiceIntegrator:
         """Enhance speech synthesis with quantum-inspired processing"""
         try:
             # Measure coherence-inspired processing
-            coherence = await self.quantum_enhancer.voice_oscillator.measure_coherence()
+            coherence = await self.qi_enhancer.voice_oscillator.measure_coherence()
 
-            if coherence >= self.config.quantum_config.coherence_threshold:
+            if coherence >= self.config.qi_config.coherence_threshold:
                 # Enhanced synthesis would go here
                 # For now return base result with quantum flag
-                base_result["quantum_enhanced"] = True
+                base_result["qi_enhanced"] = True
 
             return base_result
 

@@ -13,9 +13,9 @@ Every significant content piece must implement all three layers or provide a Ton
 **Example:**
 > "Where every decision becomes traceable light, flowing through the fabric of conscious architecture."
 
-## Technical 
+## Technical
 - **Purpose**: Precise, factual explanation with full context
-- **Requirements**: 
+- **Requirements**:
   - Quantify benefits and limitations
   - Disclose risks, assumptions, dependencies
   - Link to documentation and specifications
@@ -55,7 +55,7 @@ The following terms trigger automatic build failures:
 
 ### Tone Switch Component
 ```tsx
-<ToneSwitch 
+<ToneSwitch
   poetic="Brief metaphorical introduction..."
   technical="Detailed specifications with limitations..."
   plain="Simple explanation of what users get..."

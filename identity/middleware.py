@@ -122,7 +122,7 @@ def require_permission(permission: str):
     Usage:
         @router.get("/quantum")
         @require_permission("can_use_quantum")
-        async def quantum_route(user: AuthContext = Depends(get_current_user)):
+        async def qi_route(user: AuthContext = Depends(get_current_user)):
             return {"message": "Quantum access granted"}
     """
 

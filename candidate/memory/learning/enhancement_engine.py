@@ -113,7 +113,7 @@ learning_rates:
   memory_decay: 0.95
 
 bio_symbolic_integration:
-  quantum_coupling: true
+  qi_coupling: true
   symbolic_reasoning: enhanced
   memory_voice_link: active
 

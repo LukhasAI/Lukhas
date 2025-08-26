@@ -3,12 +3,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  ChevronLeftIcon, 
-  BuildingOfficeIcon, 
-  UserGroupIcon, 
-  PlusIcon, 
-  TrashIcon, 
+import {
+  ChevronLeftIcon,
+  BuildingOfficeIcon,
+  UserGroupIcon,
+  PlusIcon,
+  TrashIcon,
   PencilIcon,
   ShieldCheckIcon,
   ExclamationTriangleIcon,
@@ -61,13 +61,13 @@ export default function OrganizationsPage() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [userTier, setUserTier] = useState<string>('')
-  
+
   // Organization data
   const [organizations, setOrganizations] = useState<Organization[]>([])
   const [selectedOrg, setSelectedOrg] = useState<Organization | null>(null)
   const [members, setMembers] = useState<Member[]>([])
   const [invitations, setInvitations] = useState<Invitation[]>([])
-  
+
   // UI state
   const [activeTab, setActiveTab] = useState<'overview' | 'members' | 'settings'>('overview')
   const [showCreateForm, setShowCreateForm] = useState(false)
@@ -163,7 +163,7 @@ export default function OrganizationsPage() {
   // Create organization
   const handleCreateOrganization = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!orgName.trim()) {
       setError('Organization name is required')
       return
@@ -208,7 +208,7 @@ export default function OrganizationsPage() {
   // Invite member
   const handleInviteMember = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!selectedOrg || !inviteEmail.trim()) {
       setError('Email is required')
       return
@@ -295,18 +295,18 @@ export default function OrganizationsPage() {
           <ExclamationTriangleIcon className="w-16 h-16 text-yellow-400 mx-auto mb-6" />
           <h1 className="text-2xl font-light text-white mb-4">Access Restricted</h1>
           <p className="text-white/60 mb-6">
-            Organization management requires Innovator (T3) tier or higher. 
+            Organization management requires Innovator (T3) tier or higher.
             Your current tier is {userTier}.
           </p>
           <div className="space-y-3">
-            <Link 
-              href="/pricing" 
+            <Link
+              href="/pricing"
               className="block w-full px-6 py-3 bg-trinity-identity hover:bg-trinity-consciousness transition-colors rounded-lg text-white font-medium"
             >
               Upgrade to T3+
             </Link>
-            <Link 
-              href="/experience" 
+            <Link
+              href="/experience"
               className="block w-full px-6 py-3 bg-black/40 hover:bg-black/60 transition-colors rounded-lg text-white font-medium"
             >
               Back to Experience
@@ -672,7 +672,7 @@ export default function OrganizationsPage() {
                     <div className="space-y-6">
                       <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-lg p-6">
                         <h3 className="text-lg font-medium text-white mb-6">Organization Settings</h3>
-                        
+
                         {['owner', 'admin'].includes(selectedOrg.userRole) ? (
                           <div className="space-y-6">
                             <div className="flex items-center justify-between p-4 bg-black/20 rounded-lg">
@@ -687,7 +687,7 @@ export default function OrganizationsPage() {
                                 disabled // Would implement settings update
                               />
                             </div>
-                            
+
                             <div className="flex items-center justify-between p-4 bg-black/20 rounded-lg">
                               <div>
                                 <h4 className="text-white font-medium">Allow member invites</h4>
@@ -700,7 +700,7 @@ export default function OrganizationsPage() {
                                 disabled // Would implement settings update
                               />
                             </div>
-                            
+
                             <div className="flex items-center justify-between p-4 bg-black/20 rounded-lg">
                               <div>
                                 <h4 className="text-white font-medium">Enforce passkeys</h4>

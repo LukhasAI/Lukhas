@@ -19,7 +19,7 @@ echo
 # Sample files from your root directory
 files=(
     "AGENTS.md"
-    "CLAUDE.md" 
+    "CLAUDE.md"
     "COMPREHENSIVE_CODEBASE_ASSESSMENT.md"
     "MATADA_PLAN.md"
     "README.md"
@@ -30,7 +30,7 @@ files=(
 
 categories=(
     "AGENTS (9/10) → docs/agents 🤖"
-    "AGENTS (7/10) → docs/agents 🤖" 
+    "AGENTS (7/10) → docs/agents 🤖"
     "REPORTS (6/10) → docs/reports 📊"
     "MATADA (10/10) → MATADA 🧠"
     "ARCHITECTURE (8/10) → docs/architecture 🏗️"
@@ -45,7 +45,7 @@ echo -e "\033[1;37m━━━━━━━━━━━━━━━━━━━━�
 for i in "${!files[@]}"; do
     file="${files[$i]}"
     category="${categories[$i]}"
-    
+
     echo -e "\033[0;36m📄 ${file}\033[0m"
     echo -e "   🎯 ${category}"
     echo

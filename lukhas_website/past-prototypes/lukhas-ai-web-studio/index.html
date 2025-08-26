@@ -559,7 +559,7 @@
         <main class="main-content">
             <div class="hero-section">
                 <h1 class="hero-title">
-                    AI Web Studio for 
+                    AI Web Studio for
                     <span class="gradient-text">Human Agency</span>
                 </h1>
 
@@ -593,7 +593,7 @@
         function initNeuralBackground() {
             const container = document.getElementById('neural-background');
             const svg = container.querySelector('.neural-background-svg');
-            
+
             // Check capabilities
             const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
             const deviceMemory = navigator.deviceMemory || 4;
@@ -610,7 +610,7 @@
                 canvas.className = 'neural-background-canvas';
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-                
+
                 const ctx = canvas.getContext('2d');
                 if (!ctx) return;
 
@@ -630,12 +630,12 @@
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.globalAlpha = 0.6;
                     ctx.strokeStyle = "rgba(180,200,255,0.25)";
-                    
+
                     // Update particles
                     particles.forEach(p => {
                         p.x += p.vx;
                         p.y += p.vy;
-                        
+
                         // Bounce off edges
                         if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
@@ -647,7 +647,7 @@
                             const dx = particles[i].x - particles[j].x;
                             const dy = particles[i].y - particles[j].y;
                             const distance = Math.hypot(dx, dy);
-                            
+
                             if (distance < 140) {
                                 ctx.beginPath();
                                 ctx.moveTo(particles[i].x, particles[i].y);
@@ -659,7 +659,7 @@
 
                     requestAnimationFrame(animate);
                 }
-                
+
                 animate();
 
                 // Handle resize
@@ -683,19 +683,19 @@
         function rotateQuote() {
             const quoteText = document.getElementById('quote-text');
             const quoteAuthor = document.getElementById('quote-author');
-            
+
             if (!quoteText || !quoteAuthor) return;
 
             const quote = quotes[currentQuoteIndex];
-            
+
             // Fade out
             quoteText.style.opacity = '0';
             quoteAuthor.style.opacity = '0';
-            
+
             setTimeout(() => {
                 quoteText.textContent = `"${quote.text}"`;
                 quoteAuthor.textContent = `— ${quote.author}`;
-                
+
                 // Fade in
                 quoteText.style.opacity = '1';
                 quoteAuthor.style.opacity = '1';
@@ -708,7 +708,7 @@
         function initDockToggle() {
             const dock = document.getElementById('left-dock');
             const toggle = document.getElementById('dock-toggle');
-            
+
             toggle?.addEventListener('click', () => {
                 dock?.classList.toggle('collapsed');
             });
@@ -717,7 +717,7 @@
         // Cookie Preferences Integration
         function initCookiePreferences() {
             const link = document.getElementById('cookie-preferences-link');
-            
+
             link?.addEventListener('click', (e) => {
                 e.preventDefault();
                 window.dispatchEvent(new CustomEvent('lukhas:open-cookie-prefs'));
@@ -729,17 +729,17 @@
             try {
                 const response = await fetch('./components/nordic-cookies-standalone.html');
                 const html = await response.text();
-                
+
                 // Extract the cookie banner HTML
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const cookieBanner = doc.getElementById('cookieBanner');
                 const toast = doc.getElementById('toast');
-                
+
                 if (cookieBanner && toast) {
                     document.getElementById('nordic-cookies-container')?.appendChild(cookieBanner);
                     document.getElementById('nordic-cookies-container')?.appendChild(toast);
-                    
+
                     // Extract and execute the script
                     const scripts = doc.querySelectorAll('script');
                     scripts.forEach(script => {
@@ -758,16 +758,16 @@
         // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
             console.log('LUKHΛS AI Web Studio loaded');
-            
+
             // Initialize components
             initNeuralBackground();
             initDockToggle();
             initCookiePreferences();
             loadNordicCookies();
-            
+
             // Start quote rotation
             setInterval(rotateQuote, 7000);
-            
+
             // Initialize Lucide icons
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();

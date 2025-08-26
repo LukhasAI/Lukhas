@@ -34,7 +34,7 @@ class BioSymbolicIntegrationHub:
 
         # Symbolic components
         self.architectures = BioSymbolicArchitectures()
-        self.quantum_attention = MitoQIAttention()
+        self.qi_attention = MitoQIAttention()
         self.crista_optimizer = CristaOptimizer()
         self.mitochondria_model = MitochondriaModel()
 
@@ -60,7 +60,7 @@ class BioSymbolicIntegrationHub:
         """Process requests through bio-symbolic pathways"""
         # Route through appropriate bio-symbolic component
         if request_type == "attention_focus":
-            return await self.quantum_attention.focus_attention(data)
+            return await self.qi_attention.focus_attention(data)
         elif request_type == "energy_optimization":
             return await self.crista_optimizer.optimize_energy_flow(data)
         elif request_type == "hormonal_regulation":

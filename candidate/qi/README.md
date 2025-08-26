@@ -299,7 +299,7 @@ tasks:
     - kind: mask_pii
     - kind: budget_limit
       max_tokens: 200000
-  
+
   pii_processing:
     - kind: require_consent
       purpose: "pii_processing"
@@ -371,7 +371,7 @@ from qi.metrics.calibration import auto_calibrate
 class LukhasOrchestrator:
     def __init__(self):
         self.gate = TEQCoupler("qi/safety/policy_packs")
-        
+
     def process(self, task, input_text, user_id):
         # 1. Check policies
         ctx = {
@@ -379,21 +379,21 @@ class LukhasOrchestrator:
             "text": input_text,
             "provenance": {"inputs": ["user"], "sources": ["api"]}
         }
-        
+
         gate_result = self.gate.run(task, ctx)
         if not gate_result.allowed:
             return {"error": gate_result.reasons}
-        
+
         # 2. Process with model
         output = self.model.generate(input_text)
-        
+
         # 3. Calibrate confidence
         cal_conf, _ = auto_calibrate(
             conf=output.confidence,
             y=self.validation_labels,
             logits=output.logits
         )
-        
+
         # 4. Record provenance
         rec = record_artifact(
             artifact_path=output.file_path,
@@ -406,7 +406,7 @@ class LukhasOrchestrator:
                 {"phase": "calibration", "conf": cal_conf}
             ]
         )
-        
+
         return {
             "output": output.text,
             "confidence": cal_conf,

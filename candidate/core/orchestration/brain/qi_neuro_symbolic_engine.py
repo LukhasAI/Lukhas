@@ -95,7 +95,7 @@ class QIInspiredAttention:
         # Create audit log entry
         await self._create_audit_log(
             user_id=user_id,
-            action="quantum_attention_processing",
+            action="qi_attention_processing",
             input_hash=hashlib.sha256(str(input_data).encode()).hexdigest()[:16],
             tier=AccessTier.TIER_2_ENHANCED,
         )
@@ -292,7 +292,7 @@ class QIInspiredAttention:
         await self.lukhas_id_manager._create_audit_log(
             user_id=user_id,
             tier=tier,
-            component="quantum_attention",
+            component="qi_attention",
             action=action,
             decision_logic=f"Quantum attention processing for input hash: {input_hash}",
             privacy_impact="Input processed with quantum-inspired attention mechanisms",
@@ -643,7 +643,7 @@ class QINeuroSymbolicEngine:
 
     def __init__(self, lukhas_id_manager: LukhosIDManager):
         self.lukhas_id_manager = lukhas_id_manager
-        self.quantum_attention_gates = QuantumInspiredAttention(lukhas_id_manager)
+        self.qi_attention_gates = QIInspiredAttention(lukhas_id_manager)
         self.causal_reasoning_module = CausalReasoningModule(lukhas_id_manager)
         self.processing_history = []
         self.last_processed = None
@@ -695,7 +695,7 @@ class QINeuroSymbolicEngine:
             input_data["history"] = context["history"]
 
         # Apply attention mechanism
-        attended_data = await self.quantum_attention_gates.attend(
+        attended_data = await self.qi_attention_gates.attend(
             input_data, context or {}, user_id, session_token
         )
 
@@ -852,7 +852,7 @@ class QINeuroSymbolicEngine:
         await self.lukhas_id_manager._create_audit_log(
             user_id=user_id,
             tier=AccessTier.TIER_2_ENHANCED,
-            component="quantum_neuro_symbolic_engine",
+            component="qi_neuro_symbolic_engine",
             action="response_generation",
             decision_logic=f"Generated {response['response_type']} response with confidence {confidence}",
             privacy_impact="Response generated using quantum neuro-symbolic processing",
@@ -1062,7 +1062,7 @@ if __name__ == "__main__":
         lukhas_id = LukhosIDManager(ComplianceRegion.EU)
 
         # Initialize the engine
-        engine = QuantumNeuroSymbolicEngine(lukhas_id)
+        engine = QINeuroSymbolicEngine(lukhas_id)
 
         # Register a test user
         user_data = {

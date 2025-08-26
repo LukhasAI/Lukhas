@@ -249,7 +249,7 @@ class WebXRIntegration:
         identity: str,
         spatial_dimensions: int = 3,
         consciousness_layer: str = "user_friendly",
-        quantum_entanglement: bool = True,
+        qi_entanglement: bool = True,
         platform: Optional[XRPlatform] = None,
         mode: HolographicMode = HolographicMode.FLOATING_GLYPH,
     ) -> dict[str, Any]:
@@ -275,7 +275,7 @@ class WebXRIntegration:
             identity: User identity for QRG generation
             spatial_dimensions: Number of spatial dimensions (2D/3D)
             consciousness_layer: Consciousness adaptation layer
-            quantum_entanglement: Enable quantum field interactions
+            qi_entanglement: Enable quantum field interactions
             platform: Target XR platform (default: configured platform)
             mode: Holographic display mode
 
@@ -317,7 +317,7 @@ class WebXRIntegration:
             )
 
         # Generate temporal dynamics
-        temporal_dynamics = self._generate_temporal_dynamics(mode, quantum_entanglement)
+        temporal_dynamics = self._generate_temporal_dynamics(mode, qi_entanglement)
 
         # Create holographic glyph
         holographic_glyph = HolographicGlyph(
@@ -342,7 +342,7 @@ class WebXRIntegration:
             "mode": mode.value,
             "spatial_dimensions": spatial_dimensions,
             "consciousness_layer": consciousness_layer,
-            "quantum_entangled": quantum_entanglement,
+            "qi_entangled": qi_entanglement,
             "spatial_origin": asdict(spatial_origin),
             "projection_matrices": [
                 {
@@ -376,7 +376,7 @@ class WebXRIntegration:
         # In production, would integrate with actual QRG core
         return {
             "identity": identity,
-            "quantum_signature": f"QS-{hash(identity) % 1000000:06d}",
+            "qi_signature": f"QS-{hash(identity) % 1000000:06d}",
             "visual_matrix": np.random.randint(0, 256, (64, 64, 3), dtype=np.uint8),
             "consciousness_fingerprint": f"CF-{hash(identity + str(time.time())) % 1000000:06d}",
         }
@@ -835,13 +835,13 @@ class WebXRIntegration:
         return adaptations
 
     def _generate_temporal_dynamics(
-        self, mode: HolographicMode, quantum_entanglement: bool
+        self, mode: HolographicMode, qi_entanglement: bool
     ) -> dict[str, Any]:
         """Generate temporal dynamics for holographic animations"""
         dynamics = {
             "base_animation_speed": 1.0,
             "breathing_frequency": 0.8,  # Hz
-            "quantum_fluctuation": quantum_entanglement,
+            "qi_fluctuation": qi_entanglement,
             "temporal_coherence": 0.95,
         }
 
@@ -873,11 +873,11 @@ class WebXRIntegration:
                 }
             )
 
-        if quantum_entanglement:
+        if qi_entanglement:
             dynamics.update(
                 {
                     "entanglement_correlation": 0.95,
-                    "quantum_decoherence_time": 30.0,  # seconds
+                    "qi_decoherence_time": 30.0,  # seconds
                     "entanglement_visualization": True,
                 }
             )
@@ -1143,7 +1143,7 @@ class WebXRIntegration:
         # Consciousness coherence effects
         if "consciousness_coherence" in consciousness_state:
             coherence = consciousness_state["consciousness_coherence"]
-            effects["quantum_stability"] = coherence
+            effects["qi_stability"] = coherence
             effects["layer_synchronization"] = coherence
 
         return effects

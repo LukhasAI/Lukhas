@@ -62,7 +62,7 @@ async def add_causal_link(self, cause_id: str, effect_id: str):
     """Enforce temporal causality"""
     cause_time = self.items[cause_id].timestamp
     effect_time = self.items[effect_id].timestamp
-    
+
     if cause_time >= effect_time:
         raise ValueError("Cause must precede effect temporally")
 ```
@@ -87,7 +87,7 @@ if not embeddings:
 # In memory_fold_system.py
 class MemoryItem:
     content_hash: str  # This IS the collapse hash!
-    
+
     def verify_integrity(self):
         """Verify memory hasn't drifted"""
         current_hash = self._compute_content_hash(self.data)
@@ -103,11 +103,11 @@ class ContinuousLearningEngine:
         stats = self.tag_usage_stats[tag]
         if stats["total"] == 0:
             return 0.0
-        
+
         # Drift = change in success rate over time windows
         recent_success = stats["recent_success"] / max(stats["recent_total"], 1)
         overall_success = stats["success"] / stats["total"]
-        
+
         drift_score = abs(recent_success - overall_success)
         return drift_score
 ```
@@ -118,7 +118,7 @@ class ContinuousLearningEngine:
 async def fold_out_verified(self, tag: str) -> List[MemoryItem]:
     """Only return verified, non-drifted memories"""
     memories = await self.fold_out_by_tag(tag)
-    
+
     verified = []
     for memory in memories:
         # Check collapse hash
@@ -129,7 +129,7 @@ async def fold_out_verified(self, tag: str) -> List[MemoryItem]:
                 verified.append(memory)
             else:
                 logger.warning(f"Memory {memory.item_id} exceeded drift threshold")
-    
+
     return verified
 ```
 
@@ -141,11 +141,11 @@ async def fold_out_verified(self, tag: str) -> List[MemoryItem]:
 async def update_memory_importance(self, memory_id: str, feedback: float):
     """Learning module tracks which memories are useful"""
     memory = self.items[memory_id]
-    
+
     # Update access statistics
     memory.access_count += 1
     memory.last_accessed = datetime.now(timezone.utc)
-    
+
     # Propagate learning to tags
     for tag in memory.tags:
         self.learning_engine.update_tag_importance(tag, feedback)
@@ -175,15 +175,15 @@ async def generate_creative_synthesis(self, seed_memories: List[str]):
     for mem_id in seed_memories:
         if mem_id in self.embedding_cache:
             embeddings.append(self.embedding_cache[mem_id])
-    
+
     # Creative combination through embedding interpolation
     creative_embedding = self._interpolate_embeddings(embeddings)
-    
+
     # Find memories near this creative point
     creative_memories = self.vector_store.search_similar(
         creative_embedding, top_k=5
     )
-    
+
     return self._synthesize_narrative(creative_memories)
 ```
 
@@ -193,26 +193,26 @@ async def creative_association(self, start_memory: str, num_hops: int = 3):
     """Creative exploration through memory associations"""
     path = [start_memory]
     current = start_memory
-    
+
     for _ in range(num_hops):
         # Get embedding
         embedding = self.embedding_cache.get(current)
         if not embedding:
             break
-        
+
         # Add noise for creativity
         noisy_embedding = embedding + np.random.randn(*embedding.shape) * 0.1
-        
+
         # Find unexpected connection
         neighbors = self.vector_store.search_similar(noisy_embedding, top_k=10)
-        
+
         # Pick one that's not too similar (for creativity)
         for mem_id, similarity in neighbors:
             if 0.3 < similarity < 0.7:  # Sweet spot for creative leaps
                 path.append(mem_id)
                 current = mem_id
                 break
-    
+
     return path
 ```
 
@@ -229,16 +229,16 @@ async def store_voice_interaction(self, transcript: str, audio_features: Dict):
         "emotion": audio_features.get("emotion"),
         "speaker": audio_features.get("speaker_id")
     }
-    
+
     tags = [
         "modality:voice",
         f"emotion:{audio_features.get('emotion', 'neutral')}",
         f"speaker:{audio_features.get('speaker_id', 'unknown')}"
     ]
-    
+
     # Store with audio embedding if available
     audio_embedding = audio_features.get("embedding")
-    
+
     return await self.fold_in_with_embedding(
         data=memory_data,
         tags=tags,
@@ -251,13 +251,13 @@ async def store_voice_interaction(self, transcript: str, audio_features: Dict):
 def learn_voice_preferences(self, speaker_id: str):
     """Learn communication patterns for each speaker"""
     voice_memories = self.fold_out_by_tag(f"speaker:{speaker_id}")
-    
+
     patterns = {
         "preferred_topics": self._extract_topic_preferences(voice_memories),
         "emotional_patterns": self._analyze_emotional_responses(voice_memories),
         "interaction_style": self._classify_interaction_style(voice_memories)
     }
-    
+
     return patterns
 ```
 
@@ -267,7 +267,7 @@ def learn_voice_preferences(self, speaker_id: str):
 ```python
 class MemoryQuarantine:
     """Isolate suspicious or corrupted memories"""
-    
+
     async def quarantine_memory(self, memory_id: str, reason: str):
         # Move to quarantine
         self.quarantined[memory_id] = {
@@ -275,7 +275,7 @@ class MemoryQuarantine:
             "reason": reason,
             "timestamp": datetime.now(timezone.utc)
         }
-        
+
         # Log for review
         logger.warning(f"Memory {memory_id} quarantined: {reason}")
 ```
@@ -286,12 +286,12 @@ async def validate_with_consensus(self, memory: MemoryItem) -> bool:
     """Validate memory against multiple sources"""
     # Check if similar memories agree
     similar = await self.fold_out_semantic(memory.data['content'], top_k=5)
-    
+
     agreements = 0
     for similar_mem, _ in similar:
         if self._memories_agree(memory, similar_mem):
             agreements += 1
-    
+
     # Require majority agreement
     return agreements >= 3
 ```
@@ -302,14 +302,14 @@ async def correct_memory_drift(self):
     """Periodic drift correction"""
     for tag in self.tag_registry:
         drift_score = self.calculate_drift_score(tag)
-        
+
         if drift_score > self.drift_threshold:
             # Re-calibrate tag embeddings
             await self._recalibrate_tag_embeddings(tag)
-            
+
             # Adjust tag weights
             self.learning_engine.tag_weights[tag] *= (1 - drift_score)
-            
+
             logger.info(f"Corrected drift for tag {tag}: {drift_score:.3f}")
 ```
 
@@ -331,13 +331,13 @@ async def fold_in_batch(self, memories: List[Dict]) -> List[str]:
     """Batch processing for efficiency"""
     # Compute all embeddings at once
     embeddings = await self._generate_embeddings_batch([m['content'] for m in memories])
-    
+
     # Store all at once
     ids = []
     for memory, embedding in zip(memories, embeddings):
         id = await self.fold_in_with_embedding(memory, embedding=embedding)
         ids.append(id)
-    
+
     return ids
 ```
 

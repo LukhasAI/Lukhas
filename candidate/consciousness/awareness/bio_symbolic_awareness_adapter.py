@@ -142,7 +142,7 @@ class BioSymbolicAwarenessAdapter:
         }
 
         # Quantum state tracking
-        self.quantum_like_state = {
+        self.qi_like_state = {
             "coherence": 1.0,  # Quantum state stability
             "entanglement": {},  # Tracked relationships
             "superposition": {},  # Current possibilities
@@ -201,12 +201,12 @@ class BioSymbolicAwarenessAdapter:
         """Single unified processing pipeline following quantum-biological metaphor"""
         # Phase 1: Quantum Focus (Attention)
         focused = await self._apply_with_fallback(
-            self.attention_gate.attend, data, self.quantum_like_state
+            self.attention_gate.attend, data, self.qi_like_state
         )
 
         # Phase 2: Energy Flow (Resource Allocation)
         energized = await self._allocate_resources(
-            self.proton_gradient.process, focused, self.quantum_like_state
+            self.proton_gradient.process, focused, self.qi_like_state
         )
 
         # Phase 3: Pattern Recognition (Learning)
@@ -266,7 +266,7 @@ class BioSymbolicAwarenessAdapter:
         )
 
         # Apply coherence-inspired processing damping
-        coherence_factor = self.quantum_like_state["coherence"]
+        coherence_factor = self.qi_like_state["coherence"]
         confidence *= coherence_factor
 
         return np.clip(confidence, 0.0, 1.0)
@@ -279,17 +279,17 @@ class BioSymbolicAwarenessAdapter:
         recovery_base = self.identity_encoder.create_base_pattern(user_id)
 
         # Enhance with quantum features
-        quantum_enhanced = self._apply_quantum_enhancement(recovery_base)
+        qi_enhanced = self._apply_quantum_enhancement(recovery_base)
 
         # Add bio-metric fingerprint
         bio_fingerprint = {
             "gradient_state": self.bio_metrics["proton_gradient"],
             "attention_pattern": self.bio_metrics["attention_focus"],
-            "coherence_level": self.quantum_like_state["coherence"],
+            "coherence_level": self.qi_like_state["coherence"],
         }
 
         return {
-            "recovery_pattern": quantum_enhanced,
+            "recovery_pattern": qi_enhanced,
             "bio_fingerprint": bio_fingerprint,
             "timestamp": datetime.utcnow().isoformat(),
         }
@@ -324,7 +324,7 @@ class BioSymbolicAwarenessAdapter:
     def _calculate_system_health(self) -> float:
         """Calculate overall system health (Jobs-style elegant simplicity)"""
         return min(
-            self.quantum_like_state["coherence"],
+            self.qi_like_state["coherence"],
             self.bio_metrics["proton_gradient"],
             self.security_state["membrane_integrity"],
             self.safety_state["pattern_stability"],
@@ -333,7 +333,7 @@ class BioSymbolicAwarenessAdapter:
     def _calculate_efficiency(self) -> float:
         """Calculate system efficiency (Jobs-style focus on essentials)"""
         fallback_penalty = max(
-            0.0, 1.0 - (len(self.quantum_like_state["fallback_states"]) / 5)
+            0.0, 1.0 - (len(self.qi_like_state["fallback_states"]) / 5)
         )
         return np.mean(
             [
@@ -389,7 +389,7 @@ class BioSymbolicAwarenessAdapter:
         """Get recommended safety actions (Jobs-style clarity)"""
         actions = []
 
-        if self.quantum_like_state["coherence"] < 0.7:
+        if self.qi_like_state["coherence"] < 0.7:
             actions.append("reset_quantum_like_state")
 
         if self.safety_state["pattern_stability"] < 0.8:
@@ -436,12 +436,12 @@ class BioSymbolicAwarenessAdapter:
         )
 
         # Decay coherence-inspired processing
-        self.quantum_like_state["coherence"] = float(
-            self.quantum_like_state["coherence"] * 0.99
+        self.qi_like_state["coherence"] = float(
+            self.qi_like_state["coherence"] * 0.99
         )
-        if self.quantum_like_state["coherence"] < 0.5:
+        if self.qi_like_state["coherence"] < 0.5:
             # Reset synchronously in this context
-            self.quantum_like_state = {
+            self.qi_like_state = {
                 "coherence": 0.8,
                 "entanglement": {},
                 "superposition": {},
@@ -453,13 +453,13 @@ class BioSymbolicAwarenessAdapter:
     def _apply_quantum_enhancement(self, pattern: dict[str, Any]) -> dict[str, Any]:
         """Apply quantum features to recovery pattern"""
         # Add quantum signature
-        pattern["quantum_signature"] = {
-            "coherence": self.quantum_like_state["coherence"],
-            "entanglement_keys": list(self.quantum_like_state["entanglement"].keys()),
+        pattern["qi_signature"] = {
+            "coherence": self.qi_like_state["coherence"],
+            "entanglement_keys": list(self.qi_like_state["entanglement"].keys()),
         }
 
         # Add superposition states
-        pattern["superposition_states"] = self.quantum_like_state["superposition"]
+        pattern["superposition_states"] = self.qi_like_state["superposition"]
 
         return pattern
 
@@ -472,13 +472,13 @@ class BioSymbolicAwarenessAdapter:
             result = await self._try_async(func, data, state)
 
             # Store successful state
-            self.quantum_like_state["fallback_states"].append(
+            self.qi_like_state["fallback_states"].append(
                 {"state": state.copy(), "timestamp": datetime.utcnow().isoformat()}
             )
 
             # Trim fallback states
-            if len(self.quantum_like_state["fallback_states"]) > 5:
-                self.quantum_like_state["fallback_states"].pop(0)
+            if len(self.qi_like_state["fallback_states"]) > 5:
+                self.qi_like_state["fallback_states"].pop(0)
 
             return result
 
@@ -486,7 +486,7 @@ class BioSymbolicAwarenessAdapter:
             logger.warning("Primary processing failed: %s", str(primary_error))
 
             # Try each fallback state from most recent
-            for fallback in reversed(self.quantum_like_state["fallback_states"]):
+            for fallback in reversed(self.qi_like_state["fallback_states"]):
                 try:
                     return await self._try_async(func, data, fallback["state"])
                 except (ValueError, TypeError, KeyError):
@@ -675,7 +675,7 @@ class BioSymbolicAwarenessAdapter:
             violations.append("adaptation_rate_exceeded")
 
         # 2. Check coherence-inspired processing
-        if self.quantum_like_state["coherence"] < self.safety_limits["min_coherence"]:
+        if self.qi_like_state["coherence"] < self.safety_limits["min_coherence"]:
             await self._reset_quantum_like_state()
             violations.append("low_coherence_reset")
 
@@ -779,7 +779,7 @@ class BioSymbolicAwarenessAdapter:
 
     async def _reset_quantum_like_state(self) -> None:
         """Reset quantum-like state to safe defaults"""
-        self.quantum_like_state = {
+        self.qi_like_state = {
             "coherence": 0.8,
             "entanglement": {},
             "superposition": {},

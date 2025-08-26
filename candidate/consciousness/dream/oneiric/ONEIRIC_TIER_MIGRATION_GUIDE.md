@@ -67,13 +67,13 @@ async def process_dream(
 ):
     # User context available
     tier_features = await get_user_tier_features(user)
-    
+
     # Apply tier-based processing
     if tier_features.get("quantum_enhancement"):
         result = dream_engine.process_quantum(request.dream_content, user.lukhas_id)
     else:
         result = dream_engine.process_basic(request.dream_content, user.lukhas_id)
-    
+
     return result
 ```
 
@@ -115,19 +115,19 @@ Use the tier features helper to implement tier-specific functionality:
 ```python
 async def process_dream_with_features(user: AuthUser, dream_content: str):
     features = await get_user_tier_features(user)
-    
+
     result = {
         "content": dream_content,
         "max_storage": features["dream_storage"],
         "quantum_enabled": features["quantum_enhancement"],
         "symbolic_access": features["symbolic_access"]
     }
-    
+
     # Tier-specific processing
     if user.tier >= 4:  # Advanced features
         result["co_dreaming_available"] = True
         result["advanced_analysis"] = await perform_advanced_analysis(dream_content)
-    
+
     return result
 ```
 
@@ -145,7 +145,7 @@ async def share_dream(
 ):
     # Consent is automatically checked by decorator
     # If user hasn't granted "dream_sharing" consent, 403 is returned
-    
+
     # Proceed with sharing logic
     await dream_sharing_service.share(dream_id, share_with, user.lukhas_id)
 ```
@@ -170,9 +170,9 @@ Define the following consent types:
 async def update_user_consent(user_id: str, consent_type: str, granted: bool):
     """Update user's consent in the database"""
     connection = await get_db_connection()
-    
+
     await connection.execute("""
-        UPDATE users 
+        UPDATE users
         SET consent_grants = consent_grants || %s
         WHERE id = %s
     """, (
@@ -194,7 +194,7 @@ def test_tier_mapping():
     # Test user with Oneiric tier 3
     user = AuthUser(id="test", tier=3)
     assert user.lambda_tier == "LAMBDA_TIER_3"
-    
+
     # Test tier validation
     adapter = OneiricTierAdapter()
     assert adapter.validate_access("test_user", 3) == True
@@ -208,11 +208,11 @@ async def test_consent_checking():
     """Test that consent is properly validated"""
     # Create test user without consent
     user = AuthUser(id="test", tier=3, lukhas_id="Λtest123")
-    
+
     # This should fail without consent
     with pytest.raises(HTTPException) as exc:
         await dream_endpoint_requiring_consent(user)
-    
+
     assert exc.value.status_code == 403
     assert "Consent required" in exc.value.detail
 ```
@@ -227,7 +227,7 @@ async def test_tier_features():
     features_t2 = await get_user_tier_features(user_t2)
     assert features_t2["quantum_enhancement"] == False
     assert features_t2["dream_storage"] == 50
-    
+
     # Tier 4 user
     user_t4 = AuthUser(id="t4", tier=4)
     features_t4 = await get_user_tier_features(user_t4)

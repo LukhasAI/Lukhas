@@ -57,7 +57,7 @@ test_user_tiers = {
 - RTL/LTR encoding support
 - Cultural localization (East Asian, Middle Eastern, European, Latin America)
 
-#### **Module 2: gpt_integration_layer.py** 
+#### **Module 2: gpt_integration_layer.py**
 - Bridge between LUKHAS and GPT models
 - Symbolic alignment analysis
 - Drift detection and healing
@@ -111,7 +111,7 @@ reports/               - Timestamped test artifacts
 ### **Enhancement Tasks (Priority 2)**
 1. **Advanced Features**
    - LLM-assisted authentication entry
-   - Emotional drift monitoring in logins  
+   - Emotional drift monitoring in logins
    - Secure key vault with TPM integration
    - Energy-saving consciousness detection mode
 
@@ -159,7 +159,7 @@ reports/               - Timestamped test artifacts
 
 ### **Symbolic Vocabulary Active**
 - ⚛️ Core consciousness elements
-- 🧠 Neural processing components  
+- 🧠 Neural processing components
 - 🛡️ Guardian protection systems
 - 💫 Quantum resonance patterns
 - 🌊 Memory fold mechanisms

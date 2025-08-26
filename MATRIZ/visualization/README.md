@@ -146,7 +146,7 @@ The system supports all standard MATADA node types with appropriate visual styli
 
 ### Sensory Nodes
 - `SENSORY_IMG` - Visual input (red square)
-- `SENSORY_AUD` - Audio input (teal circle) 
+- `SENSORY_AUD` - Audio input (teal circle)
 - `SENSORY_VID` - Video input (blue diamond)
 - `SENSORY_TOUCH` - Touch input (green triangle)
 
@@ -242,7 +242,7 @@ math_viewer = MATADAGraphViewer()
 # Add computation node
 computation_node = {
     "id": "math_001",
-    "type": "COMPUTATION", 
+    "type": "COMPUTATION",
     "state": {"confidence": 0.95, "salience": 0.8, "expression": "2+3*4", "result": 14},
     # ... other required fields
 }
@@ -254,7 +254,7 @@ validation_node = {
     "type": "VALIDATION",
     "state": {"confidence": 0.9, "salience": 0.6, "validation_result": True},
     "links": [{"target_node_id": "math_001", "link_type": "evidence"}],
-    # ... other required fields  
+    # ... other required fields
 }
 math_viewer.add_node(validation_node)
 

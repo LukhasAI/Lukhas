@@ -15,13 +15,13 @@ export const usePerformanceMonitor = () => {
     const updateFps = () => {
       frameCount++
       const currentTime = Date.now()
-      
+
       if (currentTime - lastTime >= 1000) {
         setFps(Math.round((frameCount * 1000) / (currentTime - lastTime)))
         frameCount = 0
         lastTime = currentTime
       }
-      
+
       rafId = requestAnimationFrame(updateFps)
     }
 

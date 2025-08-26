@@ -6,15 +6,15 @@ Emits MATRIZ-compliant nodes for consciousness and awareness events
 import json
 import time
 import uuid
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class ConsciousnessMatrizAdapter:
     """Adapter to emit MATRIZ nodes for consciousness system events"""
-    
+
     SCHEMA_REF = "lukhas://schemas/matriz_node_v1.json"
-    
+
     @staticmethod
     def create_node(
         node_type: str,
@@ -23,7 +23,7 @@ class ConsciousnessMatrizAdapter:
         provenance_extra: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Create a MATRIZ-compliant node for consciousness events"""
-        
+
         node = {
             "version": 1,
             "id": f"LT-CONS-{uuid.uuid4().hex[:8]}",
@@ -47,12 +47,12 @@ class ConsciousnessMatrizAdapter:
                 **(provenance_extra or {})
             }
         }
-        
+
         if labels:
             node["labels"] = labels
-            
+
         return node
-    
+
     @staticmethod
     def emit_awareness_state(
         awareness_level: float,
@@ -60,7 +60,7 @@ class ConsciousnessMatrizAdapter:
         attention_distribution: Dict[str, float]
     ) -> Dict[str, Any]:
         """Emit a consciousness awareness state node"""
-        
+
         return ConsciousnessMatrizAdapter.create_node(
             node_type="AWARENESS",
             state={
@@ -77,7 +77,7 @@ class ConsciousnessMatrizAdapter:
                 "consciousness:awareness"
             ]
         )
-    
+
     @staticmethod
     def emit_decision_point(
         decision_id: str,
@@ -86,7 +86,7 @@ class ConsciousnessMatrizAdapter:
         alternatives: int
     ) -> Dict[str, Any]:
         """Emit a consciousness decision node"""
-        
+
         return ConsciousnessMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -103,7 +103,7 @@ class ConsciousnessMatrizAdapter:
                 "consciousness:decision"
             ]
         )
-    
+
     @staticmethod
     def emit_dream_state(
         dream_id: str,
@@ -112,7 +112,7 @@ class ConsciousnessMatrizAdapter:
         emotional_tone: float
     ) -> Dict[str, Any]:
         """Emit a dream consciousness state node"""
-        
+
         return ConsciousnessMatrizAdapter.create_node(
             node_type="AWARENESS",
             state={
@@ -130,7 +130,7 @@ class ConsciousnessMatrizAdapter:
                 "consciousness:dream"
             ]
         )
-    
+
     @staticmethod
     def emit_metacognition_event(
         metacognition_type: str,
@@ -138,7 +138,7 @@ class ConsciousnessMatrizAdapter:
         reflection_depth: int
     ) -> Dict[str, Any]:
         """Emit a metacognitive awareness event"""
-        
+
         return ConsciousnessMatrizAdapter.create_node(
             node_type="CAUSAL",
             state={
@@ -155,7 +155,7 @@ class ConsciousnessMatrizAdapter:
                 "consciousness:metacognition"
             ]
         )
-    
+
     @staticmethod
     def emit_stream_of_consciousness(
         stream_id: str,
@@ -164,7 +164,7 @@ class ConsciousnessMatrizAdapter:
         thought_count: int
     ) -> Dict[str, Any]:
         """Emit a stream of consciousness event"""
-        
+
         return ConsciousnessMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state={
@@ -182,36 +182,36 @@ class ConsciousnessMatrizAdapter:
                 "consciousness:stream"
             ]
         )
-    
+
     @staticmethod
     def validate_node(node: Dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
-        
+
         for field in required_fields:
             if field not in node:
                 return False
-                
+
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
         for field in required_prov:
             if field not in node.get("provenance", {}):
                 return False
-                
+
         return True
-    
+
     @staticmethod
     def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/consciousness")
-            
+
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
-        
+
         with open(filepath, 'w') as f:
             json.dump(node, f, indent=2)
-            
+
         return filepath

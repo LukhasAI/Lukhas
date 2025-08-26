@@ -1,10 +1,10 @@
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 
-const InteractiveCard = ({ 
-  title, 
-  content, 
-  icon, 
+const InteractiveCard = ({
+  title,
+  content,
+  icon,
   color = 'blue',
   size = 'normal',
   animationType = 'float'
@@ -17,7 +17,7 @@ const InteractiveCard = ({
     const card = cardRef.current;
     const content = contentRef.current;
     const glow = glowRef.current;
-    
+
     if (!card) return;
 
     // Mouse move handler for 3D tilt effect
@@ -25,10 +25,10 @@ const InteractiveCard = ({
       const rect = card.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      
+
       const deltaX = (e.clientX - centerX) / (rect.width / 2);
       const deltaY = (e.clientY - centerY) / (rect.height / 2);
-      
+
       gsap.to(card, {
         rotateY: deltaX * 15,
         rotateX: -deltaY * 15,
@@ -132,11 +132,11 @@ const InteractiveCard = ({
   return (
     <div className="horizontal-card relative mx-8 first:ml-16 last:mr-16">
       {/* Glow effect */}
-      <div 
+      <div
         ref={glowRef}
         className={`absolute inset-0 bg-gradient-to-br ${colorClasses[color]} rounded-2xl blur-xl opacity-0 -z-10`}
       />
-      
+
       {/* Main card */}
       <div
         ref={cardRef}
@@ -176,4 +176,3 @@ const InteractiveCard = ({
 };
 
 export default InteractiveCard;
-

@@ -35,7 +35,7 @@ except ImportError:
 
 class DeviceTrustScore:
     """Device trust scoring and validation"""
-    
+
     def __init__(self):
         self.trust_factors = {
             'registration_age': 0.25,      # How long device has been registered
@@ -44,24 +44,24 @@ class DeviceTrustScore:
             'network_consistency': 0.15,   # Consistent network patterns
             'successful_auths': 0.15       # History of successful authentications
         }
-        
+
     def calculate_trust_score(self, device_data: Dict) -> float:
         """Calculate trust score for device (0.0 - 1.0)"""
         try:
             score = 0.0
-            
+
             # Registration age factor
             reg_date = datetime.fromisoformat(device_data.get('registered_at', '2024-01-01'))
             age_days = (datetime.utcnow() - reg_date).days
             age_score = min(age_days / 90.0, 1.0)  # Max score at 90 days
             score += age_score * self.trust_factors['registration_age']
-            
+
             # Usage frequency factor
             last_used = datetime.fromisoformat(device_data.get('last_used', '2024-01-01'))
             days_since_use = (datetime.utcnow() - last_used).days
             usage_score = max(1.0 - (days_since_use / 30.0), 0.0)  # Decay over 30 days
             score += usage_score * self.trust_factors['usage_frequency']
-            
+
             # Security features factor
             security_score = 0.0
             if device_data.get('biometric_enabled', False):
@@ -71,17 +71,17 @@ class DeviceTrustScore:
             if device_data.get('device_encrypted', False):
                 security_score += 0.3
             score += security_score * self.trust_factors['security_features']
-            
+
             # Network consistency factor (simplified)
             network_score = device_data.get('network_consistency_score', 0.5)
             score += network_score * self.trust_factors['network_consistency']
-            
+
             # Successful authentications factor
             auth_success_rate = device_data.get('auth_success_rate', 0.5)
             score += auth_success_rate * self.trust_factors['successful_auths']
-            
+
             return min(score, 1.0)  # Cap at 1.0
-            
+
         except Exception:
             return 0.0  # Return minimum trust on error
 
@@ -94,28 +94,28 @@ class CrossDeviceTokenManager:
         self.device_tokens: Dict[str, Dict] = {}  # user_id -> device_id -> tokens
         self.sync_queue: List[Dict] = []
         self.trust_scorer = DeviceTrustScore()
-        
+
         # Performance optimization
         self.token_cache = {}
         self.sync_cache = {}
-        
+
         # Security configuration
         self.token_encryption_key = self._generate_encryption_key()
         self.max_devices_per_user = self.config.get('max_devices_per_user', 10)
         self.token_sync_timeout = self.config.get('token_sync_timeout', 30)  # seconds
         self.trust_threshold = self.config.get('minimum_trust_threshold', 0.6)
-        
+
         # Trinity Framework components
         self.guardian_validator = None      # 🛡️ Guardian
-        self.consciousness_tracker = None   # 🧠 Consciousness  
+        self.consciousness_tracker = None   # 🧠 Consciousness
         self.identity_verifier = None       # ⚛️ Identity
 
-    def sync_token_to_device(self, token: str, device_id: str, user_id: str, 
+    def sync_token_to_device(self, token: str, device_id: str, user_id: str,
                            device_info: Optional[Dict] = None) -> Dict[str, Any]:
         """🔄 Synchronize SSO token to specific device with security validation"""
         try:
             start_time = time.time()
-            
+
             # Validate inputs
             if not all([token, device_id, user_id]):
                 return {
@@ -123,11 +123,11 @@ class CrossDeviceTokenManager:
                     'error': 'Missing required parameters',
                     'sync_time_ms': 0
                 }
-            
+
             # Initialize user device registry if needed
             if user_id not in self.device_tokens:
                 self.device_tokens[user_id] = {}
-            
+
             # Check device limit
             if len(self.device_tokens[user_id]) >= self.max_devices_per_user:
                 return {
@@ -135,13 +135,13 @@ class CrossDeviceTokenManager:
                     'error': f'Maximum devices ({self.max_devices_per_user}) exceeded',
                     'sync_time_ms': (time.time() - start_time) * 1000
                 }
-            
+
             # Get or create device data
             device_data = self._get_device_data(user_id, device_id, device_info)
-            
+
             # Calculate device trust score
             trust_score = self.trust_scorer.calculate_trust_score(device_data)
-            
+
             if trust_score < self.trust_threshold:
                 return {
                     'success': False,
@@ -149,7 +149,7 @@ class CrossDeviceTokenManager:
                     'trust_score': trust_score,
                     'sync_time_ms': (time.time() - start_time) * 1000
                 }
-            
+
             # 🛡️ Guardian validation
             if not self._constitutional_validation(user_id, device_id, device_data):
                 return {
@@ -157,10 +157,10 @@ class CrossDeviceTokenManager:
                     'error': 'Guardian validation failed',
                     'sync_time_ms': (time.time() - start_time) * 1000
                 }
-            
+
             # Encrypt token for secure storage
             encrypted_token = self._encrypt_token(token, device_id)
-            
+
             # Create sync record
             sync_record = {
                 'token': encrypted_token,

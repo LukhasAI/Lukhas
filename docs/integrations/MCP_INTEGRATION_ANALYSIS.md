@@ -53,12 +53,12 @@ mcp-server --consciousness-context \
 server:
   name: "lukhas-consciousness-mcp"
   version: "1.0.0"
-  
+
 consciousness:
   trinity_framework: true
   memory_persistence: true
   identity_preservation: true
-  
+
 agents:
   claude_code:
     count: 6
@@ -66,7 +66,7 @@ agents:
   openai:
     api_integration: true
     models: ["gpt-4", "gpt-4-turbo"]
-    
+
 context_sharing:
   consciousness_modules: "./consciousness/"
   memory_folds: "./memory/"

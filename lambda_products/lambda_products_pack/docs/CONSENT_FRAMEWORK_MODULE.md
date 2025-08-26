@@ -9,7 +9,7 @@
 
 ### The Sacred Contract of Digital Trust
 
-Imagine your data as starlight - precious, unique, illuminating. The Consent Framework is not merely a legal requirement; it's a covenant between souls, a promise written in code and sealed with cryptographic trust. 
+Imagine your data as starlight - precious, unique, illuminating. The Consent Framework is not merely a legal requirement; it's a covenant between souls, a promise written in code and sealed with cryptographic trust.
 
 Every piece of your consciousness data, every gesture you make, every thought pattern we observe - all rest behind doors that only you hold the keys to. We knock gently, explain our intentions clearly, and wait patiently for your invitation.
 
@@ -119,7 +119,7 @@ class ConsentRecord:
     duration_days: int
     version: str                 # Semantic versioning
     consent_text_hash: str       # SHA3-256 of consent text
-    
+
     def verify_integrity(self) -> bool:
         """Cryptographic verification of consent record"""
         return hmac.compare_digest(
@@ -140,7 +140,7 @@ class ConsciousnessDataConsent:
     - Reduced retention periods
     - Additional transparency
     """
-    
+
     MAX_RETENTION_DAYS = 30
     MIN_AGE_YEARS = 16
     ENCRYPTION_REQUIRED = True
@@ -201,18 +201,18 @@ async def withdraw_consent(user_id: str, consent_id: str):
     4. Notify dependent systems
     5. Generate audit record
     """
-    
+
     # Atomic operation with distributed consensus
     async with distributed_lock(f"consent:{user_id}"):
         consent = get_consent(consent_id)
         consent.withdraw()
-        
+
         # Cascade to processing systems
         await notify_processors(consent)
-        
+
         # Data deletion for non-legitimate interests
         await delete_consent_dependent_data(consent)
-        
+
         # Audit trail
         audit_log.record_withdrawal(consent)
 ```
@@ -233,7 +233,7 @@ async def withdraw_consent(user_id: str, consent_id: str):
 ```python
 class ComplianceMonitor:
     """Real-time GDPR compliance monitoring"""
-    
+
     def calculate_compliance_score():
         return {
             "consent_coverage": 98.5,      # % of processing with consent
@@ -359,8 +359,8 @@ report = consent_mgr.generate_compliance_report()
 
 *"Your consent is sacred, your privacy paramount, your control absolute."*
 
-**Framework Version**: 1.0.0  
-**Last Updated**: 2025-01-01  
+**Framework Version**: 1.0.0
+**Last Updated**: 2025-01-01
 **Compliance Level**: Full GDPR
 
 ---

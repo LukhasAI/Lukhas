@@ -44,7 +44,7 @@ The entire system can physically reconfigure based on needs:
 #### Trauma Response
 ```
 Trigger: Adrenaline:Critical
-Result: 
+Result:
 - Consciousness → Narrow focus
 - Memory → Write-protected
 - Dreams → Suspended

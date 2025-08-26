@@ -8,7 +8,7 @@ const GeographicJourney = () => {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const [currentStage, setCurrentStage] = useState(0);
-  
+
   const journeyStages = [
     {
       id: 'jerez',
@@ -121,14 +121,14 @@ const GeographicJourney = () => {
       ctx.lineTo(centerX - 70 * scale, centerY + 30 * scale);
       ctx.closePath();
       ctx.stroke();
-      
+
       // Add grid lines
       for (let i = -3; i <= 3; i++) {
         ctx.beginPath();
         ctx.moveTo(centerX + i * 30 * scale, centerY - 50 * scale);
         ctx.lineTo(centerX + i * 30 * scale, centerY + 50 * scale);
         ctx.stroke();
-        
+
         ctx.beginPath();
         ctx.moveTo(centerX - 100 * scale, centerY + i * 20 * scale);
         ctx.lineTo(centerX + 100 * scale, centerY + i * 20 * scale);
@@ -146,7 +146,7 @@ const GeographicJourney = () => {
       ctx.lineTo(centerX - 120 * scale, centerY + 80 * scale);
       ctx.closePath();
       ctx.stroke();
-      
+
       // Connection lines
       for (let i = 0; i < 8; i++) {
         const angle = (i / 8) * Math.PI * 2;
@@ -154,7 +154,7 @@ const GeographicJourney = () => {
         const y1 = centerY + Math.sin(angle) * 50 * scale;
         const x2 = centerX + Math.cos(angle) * 120 * scale;
         const y2 = centerY + Math.sin(angle) * 120 * scale;
-        
+
         ctx.beginPath();
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
@@ -172,7 +172,7 @@ const GeographicJourney = () => {
       ctx.lineTo(centerX - 180 * scale, centerY + 120 * scale);
       ctx.closePath();
       ctx.stroke();
-      
+
       // Network connections
       const points = [
         { x: centerX - 100 * scale, y: centerY - 50 * scale },
@@ -180,7 +180,7 @@ const GeographicJourney = () => {
         { x: centerX + 150 * scale, y: centerY - 30 * scale },
         { x: centerX + 200 * scale, y: centerY + 50 * scale }
       ];
-      
+
       points.forEach((point, i) => {
         points.forEach((otherPoint, j) => {
           if (i !== j) {
@@ -200,18 +200,18 @@ const GeographicJourney = () => {
         for (let j = -10; j <= 10; j++) {
           const x = centerX + i * 50 * scale;
           const y = centerY + j * 50 * scale;
-          
+
           ctx.beginPath();
           ctx.arc(x, y, 2 * scale, 0, Math.PI * 2);
           ctx.stroke();
-          
+
           if (i < 10) {
             ctx.beginPath();
             ctx.moveTo(x, y);
             ctx.lineTo(x + 50 * scale, y);
             ctx.stroke();
           }
-          
+
           if (j < 10) {
             ctx.beginPath();
             ctx.moveTo(x, y);
@@ -234,9 +234,9 @@ const GeographicJourney = () => {
           const progress = self.progress;
           const stageIndex = Math.floor(progress * journeyStages.length);
           const stageProgress = (progress * journeyStages.length) % 1;
-          
+
           setCurrentStage(stageIndex);
-          
+
           if (journeyStages[stageIndex]?.wireframe) {
             const stage = journeyStages[stageIndex];
             drawWireframe(stage.wireframeType, stage.zoom + stageProgress * 0.1, stage.position);
@@ -260,7 +260,7 @@ const GeographicJourney = () => {
         className="absolute inset-0 z-10 pointer-events-none"
         style={{ mixBlendMode: 'multiply' }}
       />
-      
+
       {/* Background images */}
       {journeyStages.map((stage, index) => (
         stage.image && (
@@ -278,12 +278,12 @@ const GeographicJourney = () => {
           />
         )
       ))}
-      
+
       {/* Wireframe background for wireframe stages */}
       {currentStageData.wireframe && (
         <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-blue-50" />
       )}
-      
+
       {/* Content overlay */}
       <div className="absolute inset-0 z-20 flex items-center justify-center">
         <div className="text-center text-white max-w-4xl px-6">
@@ -297,7 +297,7 @@ const GeographicJourney = () => {
             <p className="text-xl md:text-2xl leading-relaxed text-white/90">
               {currentStageData.description}
             </p>
-            
+
             {/* Progress indicator */}
             <div className="flex justify-center mt-8 space-x-2">
               {journeyStages.map((_, index) => (
@@ -316,7 +316,7 @@ const GeographicJourney = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
         <div className="flex flex-col items-center text-white/70">
@@ -331,4 +331,3 @@ const GeographicJourney = () => {
 };
 
 export default GeographicJourney;
-

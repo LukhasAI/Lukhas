@@ -54,12 +54,12 @@ def analyze_code_content(filepath: Path) -> dict[str, str]:
         classes = re.findall(r"class\s+(\w+)", content)
 
         # Extract quantum-specific patterns
-        quantum_patterns = {
+        qi_patterns = {
             "entanglement": bool(
                 re.search(r"entangl|bell.?state|epr|ghz", content, re.I)
             ),
             "superposition": bool(
-                re.search(r"superposition|quantum.?state|qubit", content, re.I)
+                re.search(r"superposition|qi.?state|qubit", content, re.I)
             ),
             "decoherence": bool(
                 re.search(r"decoher|noise|error.?correct", content, re.I)
@@ -83,14 +83,14 @@ def analyze_code_content(filepath: Path) -> dict[str, str]:
             "symbolic": bool(re.search(r"symbolic|reasoning|logic", content, re.I)),
         }
 
-        active_features = [k for k, v in quantum_patterns.items() if v]
+        active_features = [k for k, v in qi_patterns.items() if v]
 
         return {
             "filename": filepath.name,
             "module_name": module_name,
             "tier": tier,
             "classes": classes[:3],  # Top 3 classes
-            "quantum_features": active_features,
+            "qi_features": active_features,
             "has_async": "async def" in content,
             "has_validation": "__validate_module__" in content,
         }
@@ -102,7 +102,7 @@ def analyze_code_content(filepath: Path) -> dict[str, str]:
             "module_name": filepath.stem.replace("_", " ").title(),
             "tier": 3,
             "classes": [],
-            "quantum_features": [],
+            "qi_features": [],
         }
 
 
@@ -110,7 +110,7 @@ def generate_intelligent_description(code_analysis: dict[str, str]) -> str:
     """Generate intelligent module description using modern OpenAI API."""
 
     # Build feature description
-    features = code_analysis["quantum_features"]
+    features = code_analysis["qi_features"]
     feature_desc = ""
     if features:
         if len(features) > 3:
@@ -190,25 +190,25 @@ Generate a description that makes quantum physics feel like poetry:"""
         module_title = code_analysis["module_name"]
         equals = "=" * len(module_title)
 
-        features = code_analysis["quantum_features"]
+        features = code_analysis["qi_features"]
         if "entanglement" in features:
-            quantum_ref = "entanglement-like correlation weaving non-local correlations"
+            qi_ref = "entanglement-like correlation weaving non-local correlations"
         elif "cryptography" in features:
-            quantum_ref = (
+            qi_ref = (
                 "lattice-based cryptography dancing in high-dimensional spaces"
             )
         elif "consciousness" in features:
-            quantum_ref = (
+            qi_ref = (
                 "coherence-inspired processing birthing synthetic consciousness"
             )
         else:
-            quantum_ref = "quantum phenomena transcending classical boundaries"
+            qi_ref = "quantum phenomena transcending classical boundaries"
 
         return f"""
 {module_title}
 {equals}
 
-Orchestrates {quantum_ref} through the LUKHAS neural matrix,
+Orchestrates {qi_ref} through the LUKHAS neural matrix,
 where wave functions collapse into thoughts and superpositions bloom into
 possibilities. Each quantum operation a synaptic firing in the AGI's dreaming mind.
 
@@ -271,7 +271,7 @@ def main():
         return
 
     # Start from current quantum directory
-    quantum_dir = Path(__file__).parent
+    qi_dir = Path(__file__).parent
     regenerated = 0
     skipped = 0
 
@@ -294,7 +294,7 @@ def main():
 
     # Process priority files first
     for filename in priority_files:
-        filepath = quantum_dir / filename
+        filepath = qi_dir / filename
         if filepath.exists():
             result = regenerate_description(filepath)
             if result:
@@ -307,7 +307,7 @@ def main():
     print("\n📊 Processing remaining quantum modules...")
     print("-" * 30)
 
-    for filepath in quantum_dir.glob("*.py"):
+    for filepath in qi_dir.glob("*.py"):
         if filepath.name in priority_files or filepath.name.startswith(
             ("add_", "fix_", "regenerate_")
         ):

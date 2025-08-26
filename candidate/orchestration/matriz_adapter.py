@@ -6,15 +6,15 @@ Emits MATRIZ-compliant nodes for brain and orchestration events
 import json
 import time
 import uuid
-from typing import Dict, Any, Optional, List
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class OrchestrationMatrizAdapter:
     """Adapter to emit MATRIZ nodes for orchestration/brain events"""
-    
+
     SCHEMA_REF = "lukhas://schemas/matriz_node_v1.json"
-    
+
     @staticmethod
     def create_node(
         node_type: str,
@@ -23,7 +23,7 @@ class OrchestrationMatrizAdapter:
         provenance_extra: Optional[Dict] = None
     ) -> Dict[str, Any]:
         """Create a MATRIZ-compliant node for orchestration events"""
-        
+
         node = {
             "version": 1,
             "id": f"LT-ORCH-{uuid.uuid4().hex[:8]}",
@@ -47,12 +47,12 @@ class OrchestrationMatrizAdapter:
                 **(provenance_extra or {})
             }
         }
-        
+
         if labels:
             node["labels"] = labels
-            
+
         return node
-    
+
     @staticmethod
     def emit_brain_decision(
         decision_id: str,
@@ -61,7 +61,7 @@ class OrchestrationMatrizAdapter:
         confidence: float
     ) -> Dict[str, Any]:
         """Emit a brain-level decision event"""
-        
+
         return OrchestrationMatrizAdapter.create_node(
             node_type="DECISION",
             state={
@@ -78,7 +78,7 @@ class OrchestrationMatrizAdapter:
                 "orchestration:brain"
             ] + [f"component:{c}" for c in components_involved[:3]]
         )
-    
+
     @staticmethod
     def emit_coordination_event(
         coordination_id: str,
@@ -88,7 +88,7 @@ class OrchestrationMatrizAdapter:
         latency_ms: int
     ) -> Dict[str, Any]:
         """Emit a module coordination event"""
-        
+
         return OrchestrationMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state={
@@ -106,7 +106,7 @@ class OrchestrationMatrizAdapter:
                 "orchestration:coordinate"
             ]
         )
-    
+
     @staticmethod
     def emit_routing_event(
         route_id: str,
@@ -115,7 +115,7 @@ class OrchestrationMatrizAdapter:
         success: bool
     ) -> Dict[str, Any]:
         """Emit an event routing decision"""
-        
+
         return OrchestrationMatrizAdapter.create_node(
             node_type="CAUSAL",
             state={
@@ -134,7 +134,7 @@ class OrchestrationMatrizAdapter:
                 "orchestration:route"
             ]
         )
-    
+
     @staticmethod
     def emit_kernel_bus_event(
         bus_id: str,
@@ -143,7 +143,7 @@ class OrchestrationMatrizAdapter:
         broadcast_latency_ms: int
     ) -> Dict[str, Any]:
         """Emit a kernel bus broadcast event"""
-        
+
         return OrchestrationMatrizAdapter.create_node(
             node_type="TEMPORAL",
             state={
@@ -161,36 +161,36 @@ class OrchestrationMatrizAdapter:
                 "orchestration:kernel_bus"
             ]
         )
-    
+
     @staticmethod
     def validate_node(node: Dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
-        
+
         for field in required_fields:
             if field not in node:
                 return False
-                
+
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
         for field in required_prov:
             if field not in node.get("provenance", {}):
                 return False
-                
+
         return True
-    
+
     @staticmethod
     def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/orchestration")
-            
+
         output_dir.mkdir(parents=True, exist_ok=True)
-        
+
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
-        
+
         with open(filepath, 'w') as f:
             json.dump(node, f, indent=2)
-            
+
         return filepath

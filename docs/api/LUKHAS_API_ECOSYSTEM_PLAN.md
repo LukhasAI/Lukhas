@@ -40,7 +40,7 @@ response = lukhas_api.dream_recall({
 - Returns bio-symbolic coherence scores
 - Suggests hormonal adjustments for optimal response
 
-### 3. Memory Fold API  
+### 3. Memory Fold API
 **Endpoint**: `/api/v1/memory-fold`
 - Quantum-inspired memory storage with emotional vectors
 - Causal chain preservation
@@ -139,7 +139,7 @@ final_response = lukhas.apply_emotional_modulation(
 - LUKHAS explores all possible outcomes
 - Shows parallel universe decision trees
 
-### 2. "EmpathyClaude" - Claude + Emotional Intelligence  
+### 2. "EmpathyClaude" - Claude + Emotional Intelligence
 - Claude provides logical analysis
 - LUKHAS adds genuine emotional understanding
 - Creates truly empathetic AI responses

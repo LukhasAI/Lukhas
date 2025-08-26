@@ -17,7 +17,7 @@ export const useResponsiveLayout = () => {
     const updateScreenSize = () => {
       const width = window.innerWidth
       const height = window.innerHeight
-      
+
       setScreenSize({
         width,
         height,
@@ -38,7 +38,7 @@ export const useResponsiveLayout = () => {
     }
 
     window.addEventListener('resize', debouncedResize, { passive: true })
-    
+
     return () => {
       window.removeEventListener('resize', debouncedResize)
       clearTimeout(timeoutId)
@@ -59,7 +59,7 @@ export const getLayoutConfig = (screenSize) => {
       commandPaletteSize: 'full', // Take full width on mobile
     }
   }
-  
+
   if (screenSize.isTablet) {
     return {
       showLeftDock: false,
@@ -69,7 +69,7 @@ export const getLayoutConfig = (screenSize) => {
       commandPaletteSize: 'large',
     }
   }
-  
+
   // Desktop
   return {
     showLeftDock: true,
