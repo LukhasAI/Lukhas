@@ -12,7 +12,8 @@ allow_patterns = [
     "quantum/**",
     "bio/**",
     "candidate/**",
-    "universal_language/**"
+    "universal_language/**",
+    "tools/**"
 ]
 
 # File patterns to exclude from autofix operations  
