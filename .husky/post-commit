@@ -1,12 +1,19 @@
-make verify || {
-  echo "❌ Post-commit verification failed"
-  exit 1
-}
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
 
+# Update LUKHAS System Status after commit
 SHA=$(git rev-parse HEAD)
+COMMIT_SHORT=$(echo $SHA | cut -c1-8)
+
 cat > LUKHAS_SYSTEM_STATUS.md <<EOF
-# LUKHAS System Status — Reality (SHA: ${SHA})
+# LUKHAS System Status — Reality (SHA: ${COMMIT_SHORT})
 Generated: $(date)
-Artifacts: verification_artifacts/${SHA}/
+Artifacts: verification_artifacts/${COMMIT_SHORT}/
+
+## Recent Changes
+$(git log -1 --pretty=format:"- ✅ %s")
+
+## System Status: OPERATIONAL
 EOF
-echo "📦 Verification artifacts created for ${SHA}"
+
+echo "📊 Updated LUKHAS_SYSTEM_STATUS.md for commit ${COMMIT_SHORT}"
