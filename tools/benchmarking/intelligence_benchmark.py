@@ -16,7 +16,7 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import psutil
 
@@ -69,9 +69,9 @@ class BenchmarkConfig:
     timeout: float = 30.0
     warm_up_iterations: int = 10
     cool_down_delay: float = 1.0
-    target_metrics: List[str] = None
+    target_metrics: list[str] = None
     safety_level: SafetyLevel = SafetyLevel.MEDIUM
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
     def __post_init__(self):
         if self.target_metrics is None:
@@ -88,17 +88,17 @@ class BenchmarkResult:
     iterations_completed: int
     successful_iterations: int
     failed_iterations: int
-    metrics: Dict[str, List[float]]
-    statistics: Dict[str, Dict[str, float]]
-    system_metrics: Dict[str, float]
-    agent_performance: Dict[str, Dict[str, Any]]
-    intelligence_engine_performance: Dict[str, Dict[str, Any]]
-    trinity_compliance_scores: List[float]
-    safety_validation_results: List[Dict[str, Any]]
-    recommendations: List[str]
-    metadata: Optional[Dict[str, Any]] = None
+    metrics: dict[str, list[float]]
+    statistics: dict[str, dict[str, float]]
+    system_metrics: dict[str, float]
+    agent_performance: dict[str, dict[str, Any]]
+    intelligence_engine_performance: dict[str, dict[str, Any]]
+    trinity_compliance_scores: list[float]
+    safety_validation_results: list[dict[str, Any]]
+    recommendations: list[str]
+    metadata: Optional[dict[str, Any]] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             **asdict(self),
             'start_time': self.start_time.isoformat(),
@@ -123,7 +123,7 @@ class LukhasIntelligenceBenchmarking:
         self.monitor = None
         self._initialized = False
 
-    def _initialize_performance_targets(self) -> Dict[str, float]:
+    def _initialize_performance_targets(self) -> dict[str, float]:
         """Initialize performance targets for benchmarking"""
         return {
             "response_time": 0.1,        # 100ms target
@@ -295,7 +295,7 @@ class LukhasIntelligenceBenchmarking:
 
     async def _execute_benchmark_iteration(
         self, config: BenchmarkConfig, iteration: int, is_warmup: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Execute a single benchmark iteration"""
         iteration_start = time.time()
 
@@ -326,7 +326,7 @@ class LukhasIntelligenceBenchmarking:
 
         return result
 
-    async def _benchmark_single_agent_analysis(self, config: BenchmarkConfig, iteration: int) -> Dict[str, Any]:
+    async def _benchmark_single_agent_analysis(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
         """Benchmark single agent analysis performance"""
         start_time = time.time()
 
@@ -357,7 +357,7 @@ class LukhasIntelligenceBenchmarking:
             "payload_size": len(str(request.payload)),
         }
 
-    async def _benchmark_multi_agent_coordination(self, config: BenchmarkConfig, iteration: int) -> Dict[str, Any]:
+    async def _benchmark_multi_agent_coordination(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
         """Benchmark multi-agent coordination performance"""
         start_time = time.time()
 
@@ -388,7 +388,7 @@ class LukhasIntelligenceBenchmarking:
             "orchestration_effects": len(response.get("symbolic_effects", [])),
         }
 
-    async def _benchmark_complex_reasoning(self, config: BenchmarkConfig, iteration: int) -> Dict[str, Any]:
+    async def _benchmark_complex_reasoning(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
         """Benchmark complex reasoning performance"""
         start_time = time.time()
 
@@ -421,7 +421,7 @@ class LukhasIntelligenceBenchmarking:
             "intelligence_engine": "dimensional",
         }
 
-    async def _benchmark_autonomous_goal_formation(self, config: BenchmarkConfig, iteration: int) -> Dict[str, Any]:
+    async def _benchmark_autonomous_goal_formation(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
         """Benchmark autonomous goal formation performance"""
         start_time = time.time()
 
@@ -465,7 +465,7 @@ class LukhasIntelligenceBenchmarking:
             "intelligence_engine": "autonomous_goals",
         }
 
-    async def _benchmark_safety_validation_stress(self, config: BenchmarkConfig, iteration: int) -> Dict[str, Any]:
+    async def _benchmark_safety_validation_stress(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
         """Benchmark safety validation under stress"""
         start_time = time.time()
 
@@ -499,7 +499,7 @@ class LukhasIntelligenceBenchmarking:
             "restrictions_applied": len(response.restrictions),
         }
 
-    async def _benchmark_high_frequency_operations(self, config: BenchmarkConfig, iteration: int) -> Dict[str, Any]:
+    async def _benchmark_high_frequency_operations(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
         """Benchmark high-frequency operation performance"""
         start_time = time.time()
 
@@ -539,7 +539,7 @@ class LukhasIntelligenceBenchmarking:
             "operation_type": "high_frequency",
         }
 
-    async def _benchmark_memory_intensive_tasks(self, config: BenchmarkConfig, iteration: int) -> Dict[str, Any]:
+    async def _benchmark_memory_intensive_tasks(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
         """Benchmark memory-intensive task performance"""
         start_time = time.time()
 
@@ -583,7 +583,7 @@ class LukhasIntelligenceBenchmarking:
             "task_type": "memory_intensive",
         }
 
-    async def _benchmark_trinity_compliance_stress(self, config: BenchmarkConfig, iteration: int) -> Dict[str, Any]:
+    async def _benchmark_trinity_compliance_stress(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
         """Benchmark Trinity Framework compliance under stress"""
         start_time = time.time()
 
@@ -643,12 +643,12 @@ class LukhasIntelligenceBenchmarking:
 
     async def _process_iteration_result(
         self,
-        result: Dict[str, Any],
-        metrics: Dict[str, List[float]],
-        agent_performance: Dict[str, Dict[str, Any]],
-        intelligence_engine_performance: Dict[str, Dict[str, Any]],
-        trinity_compliance_scores: List[float],
-        safety_validation_results: List[Dict[str, Any]]
+        result: dict[str, Any],
+        metrics: dict[str, list[float]],
+        agent_performance: dict[str, dict[str, Any]],
+        intelligence_engine_performance: dict[str, dict[str, Any]],
+        trinity_compliance_scores: list[float],
+        safety_validation_results: list[dict[str, Any]]
     ):
         """Process and store results from a benchmark iteration"""
 
@@ -694,7 +694,7 @@ class LukhasIntelligenceBenchmarking:
                 "validation_time": result.get("safety_validation_time", 0.0)
             })
 
-    async def _capture_system_metrics(self) -> Dict[str, float]:
+    async def _capture_system_metrics(self) -> dict[str, float]:
         """Capture current system metrics"""
         return {
             "cpu_percent": psutil.cpu_percent(),
@@ -704,8 +704,8 @@ class LukhasIntelligenceBenchmarking:
         }
 
     async def _calculate_system_metrics_delta(
-        self, initial: Dict[str, float], final: Dict[str, float]
-    ) -> Dict[str, float]:
+        self, initial: dict[str, float], final: dict[str, float]
+    ) -> dict[str, float]:
         """Calculate system metrics delta"""
         return {
             "cpu_usage_delta": final["cpu_percent"] - initial["cpu_percent"],
@@ -714,7 +714,7 @@ class LukhasIntelligenceBenchmarking:
             "duration": final["timestamp"] - initial["timestamp"],
         }
 
-    async def _calculate_statistics(self, metrics: Dict[str, List[float]]) -> Dict[str, Dict[str, float]]:
+    async def _calculate_statistics(self, metrics: dict[str, list[float]]) -> dict[str, dict[str, float]]:
         """Calculate statistical analysis of metrics"""
         stats = {}
 
@@ -735,7 +735,7 @@ class LukhasIntelligenceBenchmarking:
 
         return stats
 
-    def _percentile(self, values: List[float], percentile: float) -> float:
+    def _percentile(self, values: list[float], percentile: float) -> float:
         """Calculate percentile of values"""
         if not values:
             return 0.0
@@ -748,10 +748,10 @@ class LukhasIntelligenceBenchmarking:
 
     async def _generate_recommendations(
         self,
-        statistics: Dict[str, Dict[str, float]],
-        system_metrics: Dict[str, float],
+        statistics: dict[str, dict[str, float]],
+        system_metrics: dict[str, float],
         config: BenchmarkConfig
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate optimization recommendations based on benchmark results"""
         recommendations = []
 
@@ -799,7 +799,7 @@ class LukhasIntelligenceBenchmarking:
 
         return recommendations
 
-    async def generate_performance_report(self, include_comparisons: bool = True) -> Dict[str, Any]:
+    async def generate_performance_report(self, include_comparisons: bool = True) -> dict[str, Any]:
         """Generate comprehensive performance report"""
         if not self.benchmark_results:
             return {"error": "No benchmark results available"}
@@ -842,7 +842,7 @@ class LukhasIntelligenceBenchmarking:
 
         return report
 
-    async def _analyze_performance_trends(self) -> Dict[str, Any]:
+    async def _analyze_performance_trends(self) -> dict[str, Any]:
         """Analyze performance trends across benchmark results"""
         if len(self.benchmark_results) < 2:
             return {}
@@ -864,7 +864,7 @@ class LukhasIntelligenceBenchmarking:
 
         return trends
 
-    async def _compare_with_baselines(self, result: BenchmarkResult) -> Dict[str, Any]:
+    async def _compare_with_baselines(self, result: BenchmarkResult) -> dict[str, Any]:
         """Compare current results with baseline metrics"""
         comparisons = {}
 
@@ -881,7 +881,7 @@ class LukhasIntelligenceBenchmarking:
 
         return comparisons
 
-    def set_baseline_metrics(self, metrics: Dict[str, float]):
+    def set_baseline_metrics(self, metrics: dict[str, float]):
         """Set baseline metrics for comparison"""
         self.baseline_metrics = metrics
         logger.info(f"✅ Baseline metrics set: {list(metrics.keys())}")
@@ -930,7 +930,7 @@ async def run_quick_benchmark(scenario: BenchmarkScenario, iterations: int = 10)
     return await benchmarking.run_benchmark(config)
 
 
-async def run_comprehensive_benchmark() -> List[BenchmarkResult]:
+async def run_comprehensive_benchmark() -> list[BenchmarkResult]:
     """Run comprehensive benchmarks across all scenarios"""
     benchmarking = await get_benchmarking_system()
     results = []

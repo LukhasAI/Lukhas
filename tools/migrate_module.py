@@ -9,7 +9,6 @@ import re
 import shutil
 import sys
 from pathlib import Path
-from typing import Dict, List
 
 
 class ModuleMigrator:
@@ -20,7 +19,7 @@ class ModuleMigrator:
         self.quarantine_dir = self.root / "quarantine"
         self.archive_dir = self.root / "archive"
 
-    def check_illegal_imports(self, module_path: Path) -> List[str]:
+    def check_illegal_imports(self, module_path: Path) -> list[str]:
         """Check for imports from non-production lanes"""
         illegal = []
         pattern = re.compile(r'^\s*(?:from|import)\s+(candidate|quarantine|archive)\b')
@@ -36,7 +35,7 @@ class ModuleMigrator:
 
         return illegal
 
-    def find_circular_dependencies(self, module_name: str) -> Dict[str, List[str]]:
+    def find_circular_dependencies(self, module_name: str) -> dict[str, list[str]]:
         """Find circular dependencies with other modules"""
         circular = {}
         module_path = self.root / module_name
@@ -56,7 +55,7 @@ class ModuleMigrator:
             for py_file in module_path.rglob("*.py"):
                 try:
                     with open(py_file, encoding='utf-8') as f:
-                        for line_no, line in enumerate(f, 1):
+                        for _line_no, line in enumerate(f, 1):
                             if pattern.search(line):
                                 imports.append(f"{py_file.relative_to(module_path)}")
                                 break

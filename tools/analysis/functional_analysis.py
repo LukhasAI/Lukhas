@@ -79,13 +79,12 @@ class FunctionalAnalyzer:
                         if node.module:
                             analysis["imports"].append(node.module)
 
-                elif isinstance(node, ast.If):
-                    if (
-                        isinstance(node.test, ast.Compare)
-                        and isinstance(node.test.left, ast.Name)
-                        and node.test.left.id == "__name__"
-                    ):
-                        analysis["main_block"] = True
+                elif isinstance(node, ast.If) and (
+                    isinstance(node.test, ast.Compare)
+                    and isinstance(node.test.left, ast.Name)
+                    and node.test.left.id == "__name__"
+                ):
+                    analysis["main_block"] = True
 
             # Determine functionality
             has_substantial_classes = any(

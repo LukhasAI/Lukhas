@@ -214,16 +214,14 @@ def main():
             fixed = False
 
             # Fix undefined names
-            if undefined_issues:
-                if fix_undefined_names(filepath, undefined_issues):
-                    fixed = True
-                    print(f"  ✓ Fixed undefined names in {filepath.name}")
+            if undefined_issues and fix_undefined_names(filepath, undefined_issues):
+                fixed = True
+                print(f"  ✓ Fixed undefined names in {filepath.name}")
 
             # Fix syntax errors
-            if syntax_issues:
-                if fix_syntax_errors(filepath, syntax_issues):
-                    fixed = True
-                    print(f"  ✓ Fixed syntax errors in {filepath.name}")
+            if syntax_issues and fix_syntax_errors(filepath, syntax_issues):
+                fixed = True
+                print(f"  ✓ Fixed syntax errors in {filepath.name}")
 
             if fixed:
                 total_fixed += 1

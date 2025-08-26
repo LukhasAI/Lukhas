@@ -14,7 +14,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -71,9 +71,9 @@ class Symbol:
     glyph: Optional[str] = None  # Visual representation (emoji, unicode)
     embedding: Optional[np.ndarray] = None
     entropy_bits: float = 0.0
-    attributes: Dict[str, Any] = field(default_factory=dict)
-    relationships: List[str] = field(default_factory=list)  # Symbol IDs
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    attributes: dict[str, Any] = field(default_factory=dict)
+    relationships: list[str] = field(default_factory=list)  # Symbol IDs
+    metadata: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
     usage_count: int = 0
     confidence: float = 1.0
@@ -112,7 +112,7 @@ class Symbol:
 
         return base_entropy + relationship_entropy + attr_entropy
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "id": self.id,
@@ -141,14 +141,14 @@ class Concept:
     concept_id: str
     concept_type: ConceptType
     meaning: str
-    symbols: List[Symbol]
+    symbols: list[Symbol]
     embedding: Optional[np.ndarray] = None
     entropy_total: float = 0.0
-    cultural_validations: Dict[str, float] = field(default_factory=dict)
+    cultural_validations: dict[str, float] = field(default_factory=dict)
     creation_time: float = field(default_factory=time.time)
     usage_count: int = 0
-    parent_concepts: List[str] = field(default_factory=list)
-    child_concepts: List[str] = field(default_factory=list)
+    parent_concepts: list[str] = field(default_factory=list)
+    child_concepts: list[str] = field(default_factory=list)
 
     def __post_init__(self):
         if not self.concept_id:
@@ -179,7 +179,7 @@ class Concept:
             return max(set(domains), key=domains.count)
         return SymbolicDomain.CONTEXT
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "concept_id": self.concept_id,
@@ -207,17 +207,17 @@ class Grammar:
     pattern: str  # Regular expression or pattern
     domain: SymbolicDomain
     priority: int = 0
-    constraints: List[str] = field(default_factory=list)
-    transformations: List[str] = field(default_factory=list)
-    examples: List[str] = field(default_factory=list)
+    constraints: list[str] = field(default_factory=list)
+    transformations: list[str] = field(default_factory=list)
+    examples: list[str] = field(default_factory=list)
     active: bool = True
 
-    def validate(self, symbols: List[Symbol]) -> bool:
+    def validate(self, symbols: list[Symbol]) -> bool:
         """Validate symbols against this grammar rule"""
         # TODO: Implement pattern matching
         return True
 
-    def apply_transformations(self, symbols: List[Symbol]) -> List[Symbol]:
+    def apply_transformations(self, symbols: list[Symbol]) -> list[Symbol]:
         """Apply transformations defined by this rule"""
         # TODO: Implement transformations
         return symbols
@@ -232,10 +232,10 @@ class Vocabulary:
     /core/symbolic/ vocabularies.
     """
     domain: SymbolicDomain
-    symbols: Dict[str, Symbol] = field(default_factory=dict)
-    concepts: Dict[str, Concept] = field(default_factory=dict)
-    grammar_rules: List[Grammar] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    symbols: dict[str, Symbol] = field(default_factory=dict)
+    concepts: dict[str, Concept] = field(default_factory=dict)
+    grammar_rules: list[Grammar] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def add_symbol(self, symbol: Symbol):
         """Add symbol to vocabulary"""
@@ -270,10 +270,10 @@ class UniversalLanguageCore:
     """
 
     def __init__(self):
-        self.vocabularies: Dict[SymbolicDomain, Vocabulary] = {}
-        self.global_symbols: Dict[str, Symbol] = {}
-        self.global_concepts: Dict[str, Concept] = {}
-        self.grammar_rules: List[Grammar] = []
+        self.vocabularies: dict[SymbolicDomain, Vocabulary] = {}
+        self.global_symbols: dict[str, Symbol] = {}
+        self.global_concepts: dict[str, Concept] = {}
+        self.grammar_rules: list[Grammar] = []
         self.initialized = False
 
         # Initialize vocabularies for each domain
@@ -415,7 +415,7 @@ class UniversalLanguageCore:
             logger.error(f"Failed to register grammar: {e}")
             return False
 
-    def translate_symbols_to_concepts(self, symbols: List[Symbol]) -> List[Concept]:
+    def translate_symbols_to_concepts(self, symbols: list[Symbol]) -> list[Concept]:
         """Translate symbols to concepts"""
         concepts = []
 
@@ -438,7 +438,7 @@ class UniversalLanguageCore:
 
         return concepts
 
-    def validate_grammar(self, symbols: List[Symbol]) -> Tuple[bool, List[str]]:
+    def validate_grammar(self, symbols: list[Symbol]) -> tuple[bool, list[str]]:
         """Validate symbols against grammar rules"""
         violations = []
 
@@ -452,7 +452,7 @@ class UniversalLanguageCore:
         is_valid = len(violations) == 0
         return is_valid, violations
 
-    def get_vocabulary_stats(self) -> Dict[str, Any]:
+    def get_vocabulary_stats(self) -> dict[str, Any]:
         """Get statistics about the language system"""
         return {
             "total_symbols": len(self.global_symbols),

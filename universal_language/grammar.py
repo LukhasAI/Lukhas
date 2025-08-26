@@ -10,7 +10,7 @@ import logging
 import re
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 from universal_language.core import Concept, Symbol, SymbolicDomain
 
@@ -52,15 +52,15 @@ class SyntaxRule:
     name: str
     pattern: str  # Pattern using grammatical roles
     syntax_type: SyntaxType
-    domains: List[SymbolicDomain]
-    required_roles: List[GrammaticalRole]
-    optional_roles: List[GrammaticalRole] = field(default_factory=list)
-    constraints: List[str] = field(default_factory=list)
-    examples: List[str] = field(default_factory=list)
+    domains: list[SymbolicDomain]
+    required_roles: list[GrammaticalRole]
+    optional_roles: list[GrammaticalRole] = field(default_factory=list)
+    constraints: list[str] = field(default_factory=list)
+    examples: list[str] = field(default_factory=list)
     priority: int = 0
     active: bool = True
 
-    def matches_pattern(self, roles: List[GrammaticalRole]) -> bool:
+    def matches_pattern(self, roles: list[GrammaticalRole]) -> bool:
         """Check if a sequence of roles matches this rule's pattern"""
         # Convert pattern to regex
         pattern_regex = self.pattern_to_regex()
@@ -91,18 +91,18 @@ class SyntaxRule:
 class ParsedStructure:
     """Result of parsing a sequence of symbols/concepts"""
     syntax_type: SyntaxType
-    elements: List[Union[Symbol, Concept]]
-    roles: List[GrammaticalRole]
+    elements: list[Union[Symbol, Concept]]
+    roles: list[GrammaticalRole]
     rule_applied: Optional[SyntaxRule] = None
     confidence: float = 1.0
-    violations: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    violations: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def is_valid(self) -> bool:
         """Check if the parsed structure is valid"""
         return len(self.violations) == 0 and self.confidence > 0.5
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "syntax_type": self.syntax_type.value,
@@ -122,7 +122,7 @@ class GrammarValidator:
     """
 
     def __init__(self):
-        self.rules: List[SyntaxRule] = []
+        self.rules: list[SyntaxRule] = []
         self._initialize_rules()
 
     def _initialize_rules(self):
@@ -183,8 +183,8 @@ class GrammarValidator:
         self.rules.append(rule)
         logger.info(f"Added grammar rule: {rule.name}")
 
-    def validate(self, elements: List[Union[Symbol, Concept]],
-                roles: List[GrammaticalRole]) -> Tuple[bool, List[str]]:
+    def validate(self, elements: list[Union[Symbol, Concept]],
+                roles: list[GrammaticalRole]) -> tuple[bool, list[str]]:
         """Validate a sequence against all rules"""
         violations = []
 
@@ -210,7 +210,7 @@ class GrammarValidator:
         is_valid = len(violations) == 0
         return is_valid, violations
 
-    def find_matching_rules(self, roles: List[GrammaticalRole]) -> List[SyntaxRule]:
+    def find_matching_rules(self, roles: list[GrammaticalRole]) -> list[SyntaxRule]:
         """Find all rules that match a role sequence"""
         matching_rules = []
 
@@ -231,7 +231,7 @@ class LanguageParser:
         self.validator = GrammarValidator()
         self.role_patterns = self._initialize_role_patterns()
 
-    def _initialize_role_patterns(self) -> Dict[str, GrammaticalRole]:
+    def _initialize_role_patterns(self) -> dict[str, GrammaticalRole]:
         """Initialize patterns for detecting grammatical roles"""
         return {
             # Subjects (entities, actors)
@@ -283,7 +283,7 @@ class LanguageParser:
 
         return domain_defaults.get(domain, GrammaticalRole.CONTEXT)
 
-    def parse(self, elements: List[Union[Symbol, Concept]]) -> ParsedStructure:
+    def parse(self, elements: list[Union[Symbol, Concept]]) -> ParsedStructure:
         """Parse a sequence of elements into a grammatical structure"""
         # Detect roles for each element
         roles = [self.detect_role(elem) for elem in elements]
@@ -317,7 +317,7 @@ class LanguageParser:
 
         return parsed
 
-    def parse_with_correction(self, elements: List[Union[Symbol, Concept]]) -> ParsedStructure:
+    def parse_with_correction(self, elements: list[Union[Symbol, Concept]]) -> ParsedStructure:
         """Parse and attempt to correct grammatical errors"""
         # Initial parse
         parsed = self.parse(elements)
@@ -396,7 +396,7 @@ class GrammarEngine:
     def __init__(self):
         self.validator = GrammarValidator()
         self.parser = LanguageParser()
-        self.custom_rules: List[SyntaxRule] = []
+        self.custom_rules: list[SyntaxRule] = []
         logger.info("Grammar Engine initialized")
 
     def add_custom_rule(self, rule: SyntaxRule) -> bool:
@@ -411,7 +411,7 @@ class GrammarEngine:
             logger.error(f"Failed to add custom rule: {e}")
             return False
 
-    def validate_sequence(self, elements: List[Union[Symbol, Concept]]) -> Tuple[bool, List[str]]:
+    def validate_sequence(self, elements: list[Union[Symbol, Concept]]) -> tuple[bool, list[str]]:
         """Validate a sequence of elements"""
         # Detect roles
         roles = [self.parser.detect_role(elem) for elem in elements]
@@ -419,7 +419,7 @@ class GrammarEngine:
         # Validate
         return self.validator.validate(elements, roles)
 
-    def parse_sequence(self, elements: List[Union[Symbol, Concept]],
+    def parse_sequence(self, elements: list[Union[Symbol, Concept]],
                       auto_correct: bool = False) -> ParsedStructure:
         """Parse a sequence of elements"""
         if auto_correct:
@@ -427,7 +427,7 @@ class GrammarEngine:
         else:
             return self.parser.parse(elements)
 
-    def get_syntax_rules(self, syntax_type: Optional[SyntaxType] = None) -> List[SyntaxRule]:
+    def get_syntax_rules(self, syntax_type: Optional[SyntaxType] = None) -> list[SyntaxRule]:
         """Get all syntax rules, optionally filtered by type"""
         all_rules = self.validator.rules + self.custom_rules
 
@@ -436,7 +436,7 @@ class GrammarEngine:
 
         return all_rules
 
-    def get_grammar_stats(self) -> Dict[str, Any]:
+    def get_grammar_stats(self) -> dict[str, Any]:
         """Get statistics about the grammar system"""
         all_rules = self.validator.rules + self.custom_rules
 

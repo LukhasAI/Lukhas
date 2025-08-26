@@ -11,7 +11,6 @@ import os
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Set
 
 
 class ModuleUsageAnalyzer:
@@ -72,7 +71,7 @@ class ModuleUsageAnalyzer:
                     relative_path = full_path.relative_to(self.root_path)
                     self.all_python_files.add(str(relative_path))
 
-    def extract_imports(self, file_path: str) -> Set[str]:
+    def extract_imports(self, file_path: str) -> set[str]:
         """Extract all imports from a Python file"""
         imports = set()
         full_path = self.root_path / file_path
@@ -87,13 +86,12 @@ class ModuleUsageAnalyzer:
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.add(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.add(node.module)
-                        # Also track specific imports
-                        for alias in node.names:
-                            if alias.name != "*":
-                                imports.add(f"{node.module}.{alias.name}")
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.add(node.module)
+                    # Also track specific imports
+                    for alias in node.names:
+                        if alias.name != "*":
+                            imports.add(f"{node.module}.{alias.name}")
 
         except (SyntaxError, UnicodeDecodeError, FileNotFoundError):
             # Skip files with syntax errors or encoding issues
@@ -101,7 +99,7 @@ class ModuleUsageAnalyzer:
 
         return imports
 
-    def resolve_import_to_file(self, import_name: str) -> List[str]:
+    def resolve_import_to_file(self, import_name: str) -> list[str]:
         """Resolve an import name to actual file paths"""
         possible_files = []
 
@@ -156,7 +154,7 @@ class ModuleUsageAnalyzer:
                     if resolved_file in self.all_python_files:
                         self.imported_modules[resolved_file].add(py_file)
 
-    def find_reachable_files(self) -> Set[str]:
+    def find_reachable_files(self) -> set[str]:
         """Find all files reachable from entry points"""
         reachable = set()
         to_visit = list(self.entry_points)
@@ -181,7 +179,7 @@ class ModuleUsageAnalyzer:
             # Also check test files that test this module
             if not current.startswith("tests/"):
                 # Find corresponding test files
-                module_name = current.replace(".py", "").replace("/", ".")
+                current.replace(".py", "").replace("/", ".")
                 test_patterns = [
                     f"tests/test_{Path(current).stem}.py",
                     f"tests/{Path(current).parent}/test_{Path(current).stem}.py",
@@ -236,7 +234,7 @@ class ModuleUsageAnalyzer:
             f for f in self.orphaned_files if not any(fp in f for fp in false_positives)
         }
 
-    def analyze_module_directories(self) -> Dict[str, Dict]:
+    def analyze_module_directories(self) -> dict[str, dict]:
         """Analyze each module directory for usage statistics"""
         module_stats = {}
 
@@ -314,7 +312,7 @@ class ModuleUsageAnalyzer:
                 "entry_points": list(self.entry_points),
             },
             "module_statistics": module_stats,
-            "top_orphaned_files": sorted(list(self.orphaned_files))[:50],
+            "top_orphaned_files": sorted(self.orphaned_files)[:50],
             "most_imported": sorted(
                 [(f, len(importers)) for f, importers in self.imported_modules.items()],
                 key=lambda x: x[1],

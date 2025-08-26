@@ -165,7 +165,6 @@ warnings.warn(
             path = Path(old_path)
             if not path.exists() or not self.is_real_module(path):
                 path.parent.mkdir(parents=True, exist_ok=True)
-                module_name = path.stem
                 shim_content = SHIM_TEMPLATE.format(
                     old_module=old_path.replace('.py', '').replace('/', '.'),
                     new_module=new_module,

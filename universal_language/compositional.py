@@ -12,7 +12,7 @@ import re
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 from universal_language.constitutional import get_constitutional_api
 from universal_language.core import Symbol, SymbolicDomain
@@ -37,14 +37,14 @@ class CompositionTemplate:
     """Template for generating composed symbols"""
     template_id: str
     name: str
-    input_types: List[str]  # Types of symbols that can be inputs
+    input_types: list[str]  # Types of symbols that can be inputs
     output_type: str
     composition_rule: CompositionRule
-    transformer: Callable[[List[Symbol]], Symbol]
-    constraints: Dict[str, Any] = field(default_factory=dict)
-    examples: List[Dict[str, Any]] = field(default_factory=list)
+    transformer: Callable[[list[Symbol]], Symbol]
+    constraints: dict[str, Any] = field(default_factory=dict)
+    examples: list[dict[str, Any]] = field(default_factory=list)
 
-    def can_apply(self, symbols: List[Symbol]) -> bool:
+    def can_apply(self, symbols: list[Symbol]) -> bool:
         """Check if template can be applied to symbols"""
         if len(symbols) != len(self.input_types):
             return False
@@ -63,7 +63,7 @@ class CompositionTemplate:
 
         return True
 
-    def apply(self, symbols: List[Symbol]) -> Optional[Symbol]:
+    def apply(self, symbols: list[Symbol]) -> Optional[Symbol]:
         """Apply template to generate new symbol"""
         if not self.can_apply(symbols):
             return None
@@ -83,8 +83,8 @@ class SymbolComposer:
     """
 
     def __init__(self):
-        self.templates: Dict[str, CompositionTemplate] = {}
-        self.composition_cache: Dict[str, Symbol] = {}
+        self.templates: dict[str, CompositionTemplate] = {}
+        self.composition_cache: dict[str, Symbol] = {}
         self.constitutional_api = get_constitutional_api()
         self._initialize_templates()
 
@@ -141,7 +141,7 @@ class SymbolComposer:
         """Add a composition template"""
         self.templates[template.template_id] = template
 
-    def compose(self, symbols: List[Symbol],
+    def compose(self, symbols: list[Symbol],
                template_id: Optional[str] = None) -> Optional[Symbol]:
         """
         Compose symbols to create a new one.
@@ -189,7 +189,7 @@ class SymbolComposer:
 
         return None
 
-    def decompose(self, symbol: Symbol) -> List[Symbol]:
+    def decompose(self, symbol: Symbol) -> list[Symbol]:
         """
         Decompose a composite symbol into components.
 
@@ -217,14 +217,14 @@ class SymbolComposer:
 
         return components
 
-    def _find_matching_template(self, symbols: List[Symbol]) -> Optional[CompositionTemplate]:
+    def _find_matching_template(self, symbols: list[Symbol]) -> Optional[CompositionTemplate]:
         """Find template that matches symbols"""
         for template in self.templates.values():
             if template.can_apply(symbols):
                 return template
         return None
 
-    def _generic_compose(self, symbols: List[Symbol]) -> Symbol:
+    def _generic_compose(self, symbols: list[Symbol]) -> Symbol:
         """Generic composition when no template matches"""
         # Combine names
         combined_name = "+".join(s.name for s in symbols)
@@ -254,7 +254,7 @@ class SymbolComposer:
             entropy_bits=sum(s.entropy_bits for s in symbols)
         )
 
-    def _blend_emotions(self, symbols: List[Symbol]) -> Symbol:
+    def _blend_emotions(self, symbols: list[Symbol]) -> Symbol:
         """Blend two emotion symbols"""
         # Extract emotional dimensions
         valence1 = symbols[0].attributes.get("valence", 0)
@@ -291,7 +291,7 @@ class SymbolComposer:
             }
         )
 
-    def _sequence_actions(self, symbols: List[Symbol]) -> Symbol:
+    def _sequence_actions(self, symbols: list[Symbol]) -> Symbol:
         """Create action sequence from symbols"""
         sequence_name = "→".join(s.name for s in symbols)
 
@@ -310,7 +310,7 @@ class SymbolComposer:
             }
         )
 
-    def _create_hierarchy(self, symbols: List[Symbol]) -> Symbol:
+    def _create_hierarchy(self, symbols: list[Symbol]) -> Symbol:
         """Create hierarchical concept"""
         parent = symbols[0]
         children = symbols[1:]
@@ -330,7 +330,7 @@ class SymbolComposer:
             }
         )
 
-    def _generate_emergent(self, symbols: List[Symbol]) -> Symbol:
+    def _generate_emergent(self, symbols: list[Symbol]) -> Symbol:
         """Generate symbol with emergent properties"""
         # Emergent properties not in any input
         emergent_properties = {
@@ -355,7 +355,7 @@ class SymbolComposer:
             }
         )
 
-    def _compute_cache_key(self, symbols: List[Symbol],
+    def _compute_cache_key(self, symbols: list[Symbol],
                           template_id: Optional[str]) -> str:
         """Compute cache key for composition"""
         symbol_ids = sorted([s.id for s in symbols])
@@ -369,12 +369,12 @@ class SymbolProgram:
     program_id: str
     name: str
     code: str  # Program in symbolic language
-    inputs: List[str]  # Input symbol names
-    outputs: List[str]  # Output symbol names
-    operations: List[Dict[str, Any]] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    inputs: list[str]  # Input symbol names
+    outputs: list[str]  # Output symbol names
+    operations: list[dict[str, Any]] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "program_id": self.program_id,
             "name": self.name,
@@ -394,11 +394,11 @@ class SymbolProgramSynthesizer:
     """
 
     def __init__(self):
-        self.programs: Dict[str, SymbolProgram] = {}
+        self.programs: dict[str, SymbolProgram] = {}
         self.operation_library = self._initialize_operations()
-        self.synthesis_cache: Dict[str, SymbolProgram] = {}
+        self.synthesis_cache: dict[str, SymbolProgram] = {}
 
-    def _initialize_operations(self) -> Dict[str, Callable]:
+    def _initialize_operations(self) -> dict[str, Callable]:
         """Initialize library of symbolic operations"""
         return {
             "compose": lambda s1, s2: f"{s1}+{s2}",
@@ -413,7 +413,7 @@ class SymbolProgramSynthesizer:
             "extract": lambda s, k: f"extract({s},{k})"
         }
 
-    def synthesize_from_examples(self, examples: List[Dict[str, Any]]) -> Optional[SymbolProgram]:
+    def synthesize_from_examples(self, examples: list[dict[str, Any]]) -> Optional[SymbolProgram]:
         """
         Synthesize program from input-output examples.
 
@@ -437,7 +437,7 @@ class SymbolProgramSynthesizer:
         # Try generic synthesis
         return self._generic_synthesis(examples)
 
-    def synthesize_from_trace(self, symbol_trace: List[Tuple[str, Symbol]]) -> Optional[SymbolProgram]:
+    def synthesize_from_trace(self, symbol_trace: list[tuple[str, Symbol]]) -> Optional[SymbolProgram]:
         """
         Synthesize program from execution trace.
 
@@ -484,7 +484,7 @@ class SymbolProgramSynthesizer:
         return program
 
     def execute_program(self, program: SymbolProgram,
-                       input_symbols: Dict[str, Symbol]) -> Dict[str, Symbol]:
+                       input_symbols: dict[str, Symbol]) -> dict[str, Symbol]:
         """
         Execute a symbol program.
 
@@ -569,7 +569,7 @@ class SymbolProgramSynthesizer:
 
         return optimized
 
-    def _analyze_patterns(self, examples: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _analyze_patterns(self, examples: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze patterns in examples"""
         patterns = {}
 
@@ -590,8 +590,8 @@ class SymbolProgramSynthesizer:
 
         return patterns
 
-    def _synthesize_transformation(self, examples: List[Dict[str, Any]],
-                                  pattern_data: Dict[str, Any]) -> SymbolProgram:
+    def _synthesize_transformation(self, examples: list[dict[str, Any]],
+                                  pattern_data: dict[str, Any]) -> SymbolProgram:
         """Synthesize transformation program"""
         # Infer transformation function
         transform_ops = []
@@ -621,8 +621,8 @@ class SymbolProgramSynthesizer:
             operations=[{"op": "transform", "function": transform_ops[0]}]
         )
 
-    def _synthesize_composition(self, examples: List[Dict[str, Any]],
-                               pattern_data: Dict[str, Any]) -> SymbolProgram:
+    def _synthesize_composition(self, examples: list[dict[str, Any]],
+                               pattern_data: dict[str, Any]) -> SymbolProgram:
         """Synthesize composition program"""
         arity = pattern_data["arity"]
 
@@ -639,8 +639,8 @@ class SymbolProgramSynthesizer:
             operations=[{"op": "compose", "arity": arity}]
         )
 
-    def _synthesize_filter(self, examples: List[Dict[str, Any]],
-                          pattern_data: Dict[str, Any]) -> SymbolProgram:
+    def _synthesize_filter(self, examples: list[dict[str, Any]],
+                          pattern_data: dict[str, Any]) -> SymbolProgram:
         """Synthesize filtering program"""
         # Infer filter condition
         code = "filter(input, condition)"
@@ -654,7 +654,7 @@ class SymbolProgramSynthesizer:
             operations=[{"op": "filter"}]
         )
 
-    def _generic_synthesis(self, examples: List[Dict[str, Any]]) -> SymbolProgram:
+    def _generic_synthesis(self, examples: list[dict[str, Any]]) -> SymbolProgram:
         """Generic program synthesis"""
         # Create simple sequential program
         code = "sequence(process(input))"
@@ -668,7 +668,7 @@ class SymbolProgramSynthesizer:
             operations=[{"op": "sequence"}]
         )
 
-    def _execute_line(self, line: str, env: Dict[str, Any]):
+    def _execute_line(self, line: str, env: dict[str, Any]):
         """Execute a single line of symbolic code"""
         if not line or line.startswith("#"):
             return
@@ -685,7 +685,7 @@ class SymbolProgramSynthesizer:
                 # Store result
                 env["results"][f"result_{len(env['results'])}"] = result
 
-    def _generate_code_from_ops(self, operations: List[Dict[str, Any]]) -> str:
+    def _generate_code_from_ops(self, operations: list[dict[str, Any]]) -> str:
         """Generate code from operations"""
         lines = []
         for op in operations:
@@ -698,7 +698,7 @@ class SymbolProgramSynthesizer:
 
         return "\n".join(lines)
 
-    def _check_consistency(self, examples: List[Dict[str, Any]]) -> bool:
+    def _check_consistency(self, examples: list[dict[str, Any]]) -> bool:
         """Check if examples show consistent pattern"""
         # Simplified check
         return len(examples) > 1

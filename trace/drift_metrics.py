@@ -9,7 +9,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 import time
 from collections import defaultdict, deque
-from typing import Dict, Optional
+from typing import Optional
 
 # ΛTAG: drift, metrics, guardian
 # ΛORIGIN_AGENT: Claude Agent 2 (Guardian Specialist)
@@ -30,12 +30,12 @@ class DriftTracker:
         self.window_size = window_size
         self.measurements: deque = deque(maxlen=window_size)
         self.timestamps: deque = deque(maxlen=window_size)
-        self.categories: Dict[str, deque] = defaultdict(
+        self.categories: dict[str, deque] = defaultdict(
             lambda: deque(maxlen=window_size)
         )
 
     def record(
-        self, value: float, category: str = "general", metadata: Optional[Dict] = None
+        self, value: float, category: str = "general", metadata: Optional[dict] = None
     ) -> None:
         """Record a drift measurement."""
         current_time = time.time()

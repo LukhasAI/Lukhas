@@ -10,7 +10,7 @@ import hashlib
 import logging
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -31,12 +31,12 @@ class LLMProvider(Enum):
 class TokenMapping:
     """Maps between our symbols and LLM tokens"""
     symbol_id: str
-    llm_token_ids: List[int]
+    llm_token_ids: list[int]
     provider: LLMProvider
     confidence: float = 1.0
     usage_count: int = 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "symbol_id": self.symbol_id,
             "llm_token_ids": self.llm_token_ids,
@@ -49,7 +49,7 @@ class TokenMapping:
 @dataclass
 class FewShotExample:
     """Few-shot learning example for symbol understanding"""
-    input_symbols: List[Symbol]
+    input_symbols: list[Symbol]
     output_text: str
     context: Optional[str] = None
     quality_score: float = 1.0
@@ -64,10 +64,10 @@ class PromptOptimizer:
     """Optimizes prompts for efficient token usage"""
 
     def __init__(self):
-        self.optimization_cache: Dict[str, str] = {}
+        self.optimization_cache: dict[str, str] = {}
         self.token_budget = 4096  # Default token limit
 
-    def optimize_prompt(self, base_prompt: str, symbols: List[Symbol],
+    def optimize_prompt(self, base_prompt: str, symbols: list[Symbol],
                        token_limit: Optional[int] = None) -> str:
         """Optimize prompt to fit within token limits"""
         limit = token_limit or self.token_budget
@@ -81,7 +81,7 @@ class PromptOptimizer:
         # Need to compress
         return self._build_compressed_prompt(base_prompt, symbols, limit)
 
-    def _build_full_prompt(self, base: str, symbols: List[Symbol]) -> str:
+    def _build_full_prompt(self, base: str, symbols: list[Symbol]) -> str:
         """Build prompt with full symbol definitions"""
         symbol_defs = []
         for symbol in symbols:
@@ -92,7 +92,7 @@ class PromptOptimizer:
 
         return f"{base}\n\nSymbol Definitions:\n" + "\n".join(symbol_defs)
 
-    def _build_compressed_prompt(self, base: str, symbols: List[Symbol],
+    def _build_compressed_prompt(self, base: str, symbols: list[Symbol],
                                 limit: int) -> str:
         """Build compressed prompt for token efficiency"""
         # Use only essential symbol information
@@ -112,7 +112,7 @@ class FewShotExampleBank:
     """Manages few-shot examples for symbol learning"""
 
     def __init__(self):
-        self.examples: Dict[SymbolicDomain, List[FewShotExample]] = {}
+        self.examples: dict[SymbolicDomain, list[FewShotExample]] = {}
         self.quality_threshold = 0.7
         self._initialize_core_examples()
 
@@ -157,12 +157,12 @@ class FewShotExampleBank:
             self.examples[domain].sort(key=lambda x: x.quality_score, reverse=True)
             self.examples[domain] = self.examples[domain][:10]
 
-    def get_relevant_examples(self, symbols: List[Symbol], n: int = 3) -> List[FewShotExample]:
+    def get_relevant_examples(self, symbols: list[Symbol], n: int = 3) -> list[FewShotExample]:
         """Get relevant few-shot examples for given symbols"""
         relevant = []
 
         # Find examples from matching domains
-        domains = set(s.domain for s in symbols)
+        domains = {s.domain for s in symbols}
         for domain in domains:
             if domain in self.examples:
                 relevant.extend(self.examples[domain][:n])
@@ -179,10 +179,10 @@ class LLMLanguageBridge:
 
     def __init__(self, provider: LLMProvider = LLMProvider.OPENAI):
         self.provider = provider
-        self.tokenizer_alignment: Dict[str, TokenMapping] = {}
+        self.tokenizer_alignment: dict[str, TokenMapping] = {}
         self.prompt_optimizer = PromptOptimizer()
         self.few_shot_library = FewShotExampleBank()
-        self.embedding_cache: Dict[str, np.ndarray] = {}
+        self.embedding_cache: dict[str, np.ndarray] = {}
 
         # Initialize tokenizer mappings
         self._initialize_tokenizer()
@@ -195,7 +195,7 @@ class LLMLanguageBridge:
         # For now, create mock mappings
         pass
 
-    def to_llm_tokens(self, symbols: List[Symbol]) -> List[int]:
+    def to_llm_tokens(self, symbols: list[Symbol]) -> list[int]:
         """
         Convert our symbols to LLM token IDs for seamless integration.
 
@@ -216,7 +216,7 @@ class LLMLanguageBridge:
 
         return all_tokens
 
-    def _create_token_mapping(self, symbol: Symbol) -> List[int]:
+    def _create_token_mapping(self, symbol: Symbol) -> list[int]:
         """Create LLM token mapping for a symbol"""
         # Simplified: hash symbol to generate token IDs
         # In reality, this would use actual tokenizer
@@ -232,7 +232,7 @@ class LLMLanguageBridge:
 
         return token_ids
 
-    def inject_into_context(self, symbols: List[Symbol],
+    def inject_into_context(self, symbols: list[Symbol],
                           base_prompt: str = "") -> str:
         """
         Inject symbolic context into LLM prompts efficiently.
@@ -263,7 +263,7 @@ class LLMLanguageBridge:
 
         return optimized
 
-    def extract_symbols_from_llm(self, llm_output: str) -> List[Symbol]:
+    def extract_symbols_from_llm(self, llm_output: str) -> list[Symbol]:
         """Extract symbols from LLM-generated text"""
         extracted = []
 
@@ -273,7 +273,7 @@ class LLMLanguageBridge:
 
         for word in words:
             # Check if word matches known symbol names
-            for symbol_id, mapping in self.tokenizer_alignment.items():
+            for symbol_id, _mapping in self.tokenizer_alignment.items():
                 # This would be more sophisticated
                 symbol = self._lookup_symbol(symbol_id)
                 if symbol and word == symbol.name.lower():
@@ -286,7 +286,7 @@ class LLMLanguageBridge:
         # This would connect to actual symbol registry
         return None
 
-    def create_embedding(self, symbols: List[Symbol]) -> np.ndarray:
+    def create_embedding(self, symbols: list[Symbol]) -> np.ndarray:
         """Create embedding vector for symbols"""
         # Combine individual symbol embeddings
         embeddings = []
@@ -313,9 +313,9 @@ class LLMLanguageBridge:
         np.random.seed(hash(symbol.id) % 2**32)
         return np.random.randn(768)
 
-    def semantic_search(self, query_symbols: List[Symbol],
-                       candidate_symbols: List[List[Symbol]],
-                       top_k: int = 5) -> List[Tuple[List[Symbol], float]]:
+    def semantic_search(self, query_symbols: list[Symbol],
+                       candidate_symbols: list[list[Symbol]],
+                       top_k: int = 5) -> list[tuple[list[Symbol], float]]:
         """
         Semantic search using symbol embeddings.
 
@@ -347,12 +347,12 @@ class SymbolRLHF:
     """
 
     def __init__(self):
-        self.feedback_buffer: List[Dict[str, Any]] = []
+        self.feedback_buffer: list[dict[str, Any]] = []
         self.reward_model = None
         self.policy_model = None
         self.learning_rate = 0.001
 
-    def collect_feedback(self, symbol_use: Dict[str, Any]) -> Dict[str, Any]:
+    def collect_feedback(self, symbol_use: dict[str, Any]) -> dict[str, Any]:
         """Track which symbols work well in practice"""
         feedback = {
             "symbols": symbol_use.get("symbols", []),
@@ -371,7 +371,7 @@ class SymbolRLHF:
 
         return feedback
 
-    def update_meanings(self, feedback_batch: List[Dict[str, Any]]):
+    def update_meanings(self, feedback_batch: list[dict[str, Any]]):
         """
         Refine symbol meanings based on what actually works.
 
@@ -399,13 +399,13 @@ class SymbolRLHF:
                 # Symbol not working, needs adjustment
                 logger.warning(f"Symbol {symbol_id} needs improvement: {avg_rating}")
 
-    def train_reward_model(self, feedback_data: List[Dict[str, Any]]):
+    def train_reward_model(self, feedback_data: list[dict[str, Any]]):
         """Train a reward model from human feedback"""
         # Simplified implementation
         # In production, would train actual neural network
         logger.info(f"Training reward model with {len(feedback_data)} examples")
 
-    def optimize_symbol_usage(self, context: str) -> List[Symbol]:
+    def optimize_symbol_usage(self, context: str) -> list[Symbol]:
         """Use learned preferences to suggest optimal symbols"""
         # This would use the trained models
         # For now, return empty list
@@ -420,18 +420,18 @@ class LLMSymbolAPI:
     def __init__(self, provider: LLMProvider = LLMProvider.OPENAI):
         self.bridge = LLMLanguageBridge(provider)
         self.rlhf = SymbolRLHF()
-        self.conversation_cache: Dict[str, List[Dict]] = {}
+        self.conversation_cache: dict[str, list[dict]] = {}
 
-    def symbolic_completion(self, symbols: List[Symbol],
+    def symbolic_completion(self, symbols: list[Symbol],
                           prompt: str = "",
-                          max_tokens: int = 100) -> Tuple[str, List[Symbol]]:
+                          max_tokens: int = 100) -> tuple[str, list[Symbol]]:
         """
         Generate completion using symbols as context.
 
         Returns both text and extracted symbols.
         """
         # Inject symbols into prompt
-        enhanced_prompt = self.bridge.inject_into_context(symbols, prompt)
+        self.bridge.inject_into_context(symbols, prompt)
 
         # This would call actual LLM API
         # For now, return mock response
@@ -440,7 +440,7 @@ class LLMSymbolAPI:
 
         return response_text, extracted_symbols
 
-    def teach_symbol_to_llm(self, symbol: Symbol, examples: List[str]):
+    def teach_symbol_to_llm(self, symbol: Symbol, examples: list[str]):
         """Teach LLM a new symbol through examples"""
         for example in examples:
             few_shot = FewShotExample(
@@ -451,8 +451,8 @@ class LLMSymbolAPI:
             self.bridge.few_shot_library.add_example(few_shot, symbol.domain)
 
     def symbolic_conversation(self, conversation_id: str,
-                            symbols: List[Symbol],
-                            message: str) -> Dict[str, Any]:
+                            symbols: list[Symbol],
+                            message: str) -> dict[str, Any]:
         """
         Maintain conversation with symbolic context.
         """

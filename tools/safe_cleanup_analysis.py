@@ -7,7 +7,6 @@ Trinity Framework: ⚛️🧠🛡️
 
 import json
 from pathlib import Path
-from typing import Dict, List
 
 
 def load_reports():
@@ -20,7 +19,7 @@ def load_reports():
 
     return usage_report, audit_report
 
-def categorize_safe_cleanup(usage_report: Dict, audit_report: Dict) -> Dict[str, List[str]]:
+def categorize_safe_cleanup(usage_report: dict, audit_report: dict) -> dict[str, list[str]]:
     """Categorize files for safe cleanup based on both usage and AI value"""
 
     # Build a value score index from audit report
@@ -53,7 +52,7 @@ def categorize_safe_cleanup(usage_report: Dict, audit_report: Dict) -> Dict[str,
     ]
 
     for file in never_imported:
-        path = Path(file)
+        Path(file)
         score = value_scores.get(file, 0)
 
         # Check if it contains critical patterns
@@ -77,7 +76,7 @@ def categorize_safe_cleanup(usage_report: Dict, audit_report: Dict) -> Dict[str,
 
     return categories
 
-def generate_safe_cleanup_script(categories: Dict[str, List[str]]) -> str:
+def generate_safe_cleanup_script(categories: dict[str, list[str]]) -> str:
     """Generate a SAFE cleanup script that preserves AI/AGI value"""
 
     script = """#!/bin/bash

@@ -7,10 +7,9 @@ Focuses on main module duplicates and conflicts.
 
 import shutil
 from pathlib import Path
-from typing import List
 
 
-def find_backup_directories() -> List[Path]:
+def find_backup_directories() -> list[Path]:
     """Find all backup directories that can be archived"""
     backups = []
 
@@ -99,7 +98,7 @@ def cleanup_imports() -> int:
     return fixed
 
 
-def archive_backups(backups: List[Path]) -> int:
+def archive_backups(backups: list[Path]) -> int:
     """Archive backup directories"""
     archive_dir = Path("archive/backups")
     archive_dir.mkdir(parents=True, exist_ok=True)

@@ -10,7 +10,7 @@ import hashlib
 import logging
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 # Core GLYPH mappings from /core/glyph/glyphs.py
 GLYPH_MAP_VERSION = "2.0.0"  # Unified version
 
-GLYPH_MAP: Dict[str, str] = {
+GLYPH_MAP: dict[str, str] = {
     # Core symbolic glyphs
     "☯": "Bifurcation Point / Duality / Choice",
     "🪞": "Symbolic Self-Reflection / Introspection",
@@ -113,7 +113,7 @@ class GLYPHToken:
     token_type: GLYPHType = GLYPHType.SYMBOLIC
     context: Optional[str] = None
     weight: float = 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         # Auto-populate meaning from GLYPH_MAP if not provided
@@ -125,7 +125,7 @@ class GLYPHToken:
         content = f"{self.glyph}:{self.meaning}:{self.context}"
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "glyph": self.glyph,
@@ -142,7 +142,7 @@ class GLYPHSequence:
     """
     Sequence of GLYPH tokens forming a message or concept.
     """
-    tokens: List[GLYPHToken]
+    tokens: list[GLYPHToken]
     sequence_id: Optional[str] = None
     entropy_bits: float = 0.0
 
@@ -161,7 +161,7 @@ class GLYPHSequence:
     def calculate_entropy(self) -> float:
         """Calculate total entropy of the sequence"""
         # Each unique glyph adds entropy
-        unique_glyphs = set(t.glyph for t in self.tokens)
+        unique_glyphs = {t.glyph for t in self.tokens}
         base_entropy = len(unique_glyphs) * 16.0  # 16 bits per unique glyph
 
         # Sequence length adds entropy
@@ -187,8 +187,8 @@ class GLYPHEngine:
 
     def __init__(self):
         self.glyph_map = GLYPH_MAP.copy()
-        self.custom_glyphs: Dict[str, str] = {}
-        self.glyph_cache: Dict[str, GLYPHToken] = {}
+        self.custom_glyphs: dict[str, str] = {}
+        self.glyph_cache: dict[str, GLYPHToken] = {}
         logger.info(f"GLYPH Engine initialized with {len(self.glyph_map)} core glyphs")
 
     def register_custom_glyph(self, glyph: str, meaning: str) -> bool:
@@ -249,8 +249,8 @@ class GLYPHEngine:
 
         return GLYPHSequence(tokens=tokens)
 
-    def create_sequence(self, glyphs: List[str],
-                       meanings: Optional[List[str]] = None) -> GLYPHSequence:
+    def create_sequence(self, glyphs: list[str],
+                       meanings: Optional[list[str]] = None) -> GLYPHSequence:
         """Create a GLYPH sequence from a list of glyphs"""
         tokens = []
 
@@ -261,7 +261,7 @@ class GLYPHEngine:
 
         return GLYPHSequence(tokens=tokens)
 
-    def translate_to_glyphs(self, concepts: List[str]) -> GLYPHSequence:
+    def translate_to_glyphs(self, concepts: list[str]) -> GLYPHSequence:
         """Translate concepts to GLYPH representation"""
         tokens = []
 
@@ -317,16 +317,16 @@ class GLYPHEngine:
         """Calculate entropy of a GLYPH sequence"""
         return sequence.entropy_bits
 
-    def export_glyph_map(self) -> Dict[str, Any]:
+    def export_glyph_map(self) -> dict[str, Any]:
         """Export the current GLYPH map including custom glyphs"""
         return {
             "version": GLYPH_MAP_VERSION,
-            "core_glyphs": {k: v for k, v in GLYPH_MAP.items()},
+            "core_glyphs": dict(GLYPH_MAP.items()),
             "custom_glyphs": self.custom_glyphs,
             "total_glyphs": len(self.glyph_map)
         }
 
-    def import_glyph_map(self, glyph_data: Dict[str, Any]) -> bool:
+    def import_glyph_map(self, glyph_data: dict[str, Any]) -> bool:
         """Import a GLYPH map"""
         try:
             # Import custom glyphs

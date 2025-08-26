@@ -13,7 +13,7 @@ import secrets
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -41,7 +41,7 @@ class PrivateSymbol:
     token_type: str  # emoji, stroke, word, color, audio, image
     meaning_id: str  # Universal concept ID
     confidence: float = 1.0
-    tags: List[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
     fingerprint: Optional[str] = None
     created_at: float = field(default_factory=time.time)
     updated_at: float = field(default_factory=time.time)
@@ -70,7 +70,7 @@ class PrivateSymbol:
             # Generic hash
             return hashlib.sha256(str(self.token).encode()).hexdigest()[:16]
 
-    def to_anonymous(self) -> Dict[str, Any]:
+    def to_anonymous(self) -> dict[str, Any]:
         """Convert to anonymous representation (no private data)"""
         return {
             "anonymous_id": hashlib.sha256(self.symbol_id.encode()).hexdigest()[:16],
@@ -106,7 +106,7 @@ class SymbolEncryption:
 
     def __init__(self, device_secret: Optional[bytes] = None):
         self.device_secret = device_secret or self._generate_device_secret()
-        self.key_cache: Dict[str, bytes] = {}
+        self.key_cache: dict[str, bytes] = {}
 
     def _generate_device_secret(self) -> bytes:
         """Generate device-specific secret"""
@@ -144,7 +144,7 @@ class SymbolEncryption:
         encrypted = self._xor_encrypt(symbol_data.encode(), key)
         return encrypted
 
-    def decrypt_symbol(self, encrypted_data: bytes, key: bytes) -> Dict[str, Any]:
+    def decrypt_symbol(self, encrypted_data: bytes, key: bytes) -> dict[str, Any]:
         """Decrypt a private symbol"""
         # Simple XOR decryption
         decrypted = self._xor_encrypt(encrypted_data, key)
@@ -170,8 +170,8 @@ class ConceptAnonymizer:
     """
 
     def __init__(self):
-        self.anonymization_cache: Dict[str, str] = {}
-        self.reverse_cache: Dict[str, str] = {}
+        self.anonymization_cache: dict[str, str] = {}
+        self.reverse_cache: dict[str, str] = {}
         self.noise_epsilon = 1.0  # Differential privacy parameter
 
     def anonymize_concept(self, concept_id: str, user_id: str) -> str:
@@ -201,7 +201,7 @@ class ConceptAnonymizer:
         noise = np.random.laplace(0, scale)
         return value + noise
 
-    def anonymize_statistics(self, stats: Dict[str, Any]) -> Dict[str, Any]:
+    def anonymize_statistics(self, stats: dict[str, Any]) -> dict[str, Any]:
         """Anonymize statistics with differential privacy"""
         anonymous_stats = {}
 
@@ -229,13 +229,13 @@ class PrivateSymbolVault:
 
     def __init__(self, user_id: str):
         self.user_id = user_id
-        self.symbols: Dict[str, PrivateSymbol] = {}
-        self.bindings: Dict[str, PrivateBinding] = {}
-        self.render_preferences: Dict[str, str] = {}  # concept_id -> preferred_symbol_id
+        self.symbols: dict[str, PrivateSymbol] = {}
+        self.bindings: dict[str, PrivateBinding] = {}
+        self.render_preferences: dict[str, str] = {}  # concept_id -> preferred_symbol_id
         self.encryption = SymbolEncryption()
         self.anonymizer = ConceptAnonymizer()
         self.privacy_mode = PrivacyLevel.LOCAL_ONLY
-        self.audit_log: List[Dict[str, Any]] = []
+        self.audit_log: list[dict[str, Any]] = []
 
         # Generate user-specific salt
         self.user_salt = secrets.token_bytes(16)
@@ -244,7 +244,7 @@ class PrivateSymbolVault:
         logger.info(f"Private Symbol Vault initialized for user {user_id}")
 
     def bind_symbol(self, token: Any, token_type: str, meaning_id: str,
-                   confidence: float = 1.0, tags: Optional[List[str]] = None) -> PrivateSymbol:
+                   confidence: float = 1.0, tags: Optional[list[str]] = None) -> PrivateSymbol:
         """Bind a private token to a universal meaning"""
         # Create private symbol
         symbol = PrivateSymbol(
@@ -288,7 +288,7 @@ class PrivateSymbolVault:
         # Log event
         self._log_event("unbind", {"symbol_id": symbol_id})
 
-    def translate_private_to_universal(self, tokens: List[Any]) -> List[str]:
+    def translate_private_to_universal(self, tokens: list[Any]) -> list[str]:
         """
         Translate private tokens to universal concept IDs.
 
@@ -325,8 +325,8 @@ class PrivateSymbolVault:
 
         return concept_ids
 
-    def translate_universal_to_private(self, concept_ids: List[str],
-                                      mode: str = "preferred") -> List[Any]:
+    def translate_universal_to_private(self, concept_ids: list[str],
+                                      mode: str = "preferred") -> list[Any]:
         """
         Translate universal concept IDs to private tokens.
 
@@ -492,14 +492,14 @@ class PrivateSymbolVault:
             logger.error(f"Failed to import vault: {e}")
             return False
 
-    def get_privacy_stats(self) -> Dict[str, Any]:
+    def get_privacy_stats(self) -> dict[str, Any]:
         """Get privacy-preserving statistics"""
         raw_stats = {
             "total_symbols": len(self.symbols),
             "total_bindings": len(self.bindings),
             "active_bindings": sum(1 for b in self.bindings.values() if b.active),
             "total_usage": sum(s.usage_count for s in self.symbols.values()),
-            "unique_concepts": len(set(b.meaning_id for b in self.bindings.values()))
+            "unique_concepts": len({b.meaning_id for b in self.bindings.values()})
         }
 
         # Apply differential privacy if not in local-only mode
@@ -524,7 +524,7 @@ class PrivateSymbolVault:
                 return symbol
         return None
 
-    def _find_symbols_by_meaning(self, meaning_id: str) -> List[PrivateSymbol]:
+    def _find_symbols_by_meaning(self, meaning_id: str) -> list[PrivateSymbol]:
         """Find all symbols bound to a meaning"""
         matching_symbols = []
 
@@ -543,7 +543,7 @@ class PrivateSymbolVault:
                 return binding
         return None
 
-    def _log_event(self, event_type: str, metadata: Dict[str, Any]):
+    def _log_event(self, event_type: str, metadata: dict[str, Any]):
         """Log vault event for audit"""
         self.audit_log.append({
             "timestamp": time.time(),
@@ -557,7 +557,7 @@ class PrivateSymbolVault:
 
 
 # Singleton instances per user
-_vault_instances: Dict[str, PrivateSymbolVault] = {}
+_vault_instances: dict[str, PrivateSymbolVault] = {}
 
 
 def get_private_vault(user_id: str) -> PrivateSymbolVault:

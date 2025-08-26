@@ -80,7 +80,7 @@ class CompositionChallenge(BaseModel):
     """Server-generated composition challenge"""
     challenge_id: str = Field(..., description="Unique challenge ID")
     composition: str = Field(..., description="Requested composition (e.g., 'calm + collapse')")
-    operators: List[str] = Field(..., description="Operators in composition (+, -, *, /)")
+    operators: list[str] = Field(..., description="Operators in composition (+, -, *, /)")
     expected_symbols: int = Field(..., description="Number of symbols expected")
     expires_at: datetime = Field(..., description="Challenge expiration")
     nonce: str = Field(..., description="Cryptographic nonce")
@@ -99,7 +99,7 @@ class ULSignature(BaseModel):
     """Universal Language signature for approval"""
     lid: str = Field(..., description="Canonical ΛID")
     action: str = Field(..., description="Action being approved")
-    symbol_proofs: List[str] = Field(..., description="Symbol proof hashes")
+    symbol_proofs: list[str] = Field(..., description="Symbol proof hashes")
     composition_proof: Optional[CompositionProof] = Field(None, description="Composition proof if challenged")
     timestamp: datetime = Field(..., description="Signature timestamp")
     expires_at: datetime = Field(..., description="Signature expiration")
@@ -114,7 +114,7 @@ class SymbolEncoder(ABC):
         pass
 
     @abstractmethod
-    def extract_features(self, symbol_data: Any) -> List[float]:
+    def extract_features(self, symbol_data: Any) -> list[float]:
         """Extract numerical features for quality scoring"""
         pass
 
@@ -132,7 +132,7 @@ class EmojiEncoder(SymbolEncoder):
         else:
             raise ValueError("Emoji data must be string or list")
 
-    def extract_features(self, symbol_data: Any) -> List[float]:
+    def extract_features(self, symbol_data: Any) -> list[float]:
         """Extract features from emoji"""
         emoji_str = symbol_data if isinstance(symbol_data, str) else ''.join(symbol_data)
 
@@ -158,7 +158,7 @@ class WordEncoder(SymbolEncoder):
         else:
             raise ValueError("Word data must be string")
 
-    def extract_features(self, symbol_data: Any) -> List[float]:
+    def extract_features(self, symbol_data: Any) -> list[float]:
         """Extract features from word/phrase"""
         text = symbol_data.lower().strip()
 
@@ -184,7 +184,7 @@ class ColorEncoder(SymbolEncoder):
         else:
             raise ValueError("Color data must be list of colors")
 
-    def extract_features(self, symbol_data: Any) -> List[float]:
+    def extract_features(self, symbol_data: Any) -> list[float]:
         """Extract features from color sequence"""
         features = [
             len(symbol_data),                  # Number of colors
@@ -235,7 +235,7 @@ def calculate_symbol_quality(symbol_data: Any, symbol_type: SymbolType) -> float
     return quality
 
 
-def compose_symbol_proof(symbols: List[PersonalSymbol], operators: List[str], nonce: str) -> str:
+def compose_symbol_proof(symbols: list[PersonalSymbol], operators: list[str], nonce: str) -> str:
     """
     Create cryptographic proof of symbol composition.
 
@@ -265,7 +265,7 @@ class CompositionOperator(Enum):
     SEQUENCE = "→"     # Sequential progression
 
 
-def parse_composition(composition_str: str) -> Tuple[List[str], List[str]]:
+def parse_composition(composition_str: str) -> tuple[list[str], list[str]]:
     """
     Parse composition string into meanings and operators.
 

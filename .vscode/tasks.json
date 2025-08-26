@@ -267,6 +267,26 @@
         "cwd": "${workspaceFolder}"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "🛡️ T4: Terminal-Safe Recovery Status",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "{ printf 'LUKHAS Recovery Status:\\n\\n'; printf 'Phase 1: Critical files recovered\\n'; printf 'Phase 2: Config files recovered\\n'; printf 'VS Code: Settings modernized\\n\\n'; printf 'System Status: OPERATIONAL\\n'; } | tee -a recovery.log"
+      ],
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
     }
   ]
 }

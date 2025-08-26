@@ -8,7 +8,6 @@ Trinity Framework: ⚛️🧠🛡️
 import ast
 import json
 from pathlib import Path
-from typing import Dict
 
 
 class OrphanedModuleAuditor:
@@ -37,7 +36,7 @@ class OrphanedModuleAuditor:
             'advanced_ai': ['transformer', 'attention', 'reasoning', 'symbolic']
         }
 
-    def analyze_file_value(self, file_path: str) -> Dict:
+    def analyze_file_value(self, file_path: str) -> dict:
         """Analyze a file to determine its potential value"""
         full_path = Path(file_path)
         if not full_path.exists():
@@ -105,7 +104,7 @@ class OrphanedModuleAuditor:
 
         return analysis
 
-    def _calculate_value_score(self, analysis: Dict) -> int:
+    def _calculate_value_score(self, analysis: dict) -> int:
         """Calculate a value score for the file"""
         score = 0
 
@@ -132,7 +131,7 @@ class OrphanedModuleAuditor:
 
         return score
 
-    def audit_orphaned_files(self, limit: int = 50) -> Dict:
+    def audit_orphaned_files(self, limit: int = 50) -> dict:
         """Audit orphaned files and categorize by value"""
         never_imported = self.report['never_imported'][:limit]
 
@@ -173,7 +172,7 @@ class OrphanedModuleAuditor:
 
         return audit_results
 
-    def generate_audit_report(self, audit_results: Dict):
+    def generate_audit_report(self, audit_results: dict):
         """Generate a detailed audit report"""
         print("\n🔍 ORPHANED MODULE AUDIT REPORT")
         print("=" * 80)
@@ -217,7 +216,7 @@ class OrphanedModuleAuditor:
         print(f"Low value: {len(audit_results['low_value'])}")
         print(f"Safe to archive: {len(audit_results['safe_to_archive'])}")
 
-    def _print_file_summary(self, file_analysis: Dict):
+    def _print_file_summary(self, file_analysis: dict):
         """Print a summary of file analysis"""
         path = file_analysis['file_path']
         score = file_analysis['value_score']

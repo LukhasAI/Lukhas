@@ -15,7 +15,7 @@ ACK GUARDRAILS
 """
 
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
@@ -234,7 +234,7 @@ async def get_status(
 async def cancel_challenge(
     challenge_id: str,
     service: UniversalLanguageService = Depends(get_ul_service)
-) -> Dict[str, str]:
+) -> dict[str, str]:
     """
     Cancel active challenge.
 
@@ -248,7 +248,7 @@ async def cancel_challenge(
 
 
 @router.get("/actions")
-async def list_ul_actions() -> Dict[str, Any]:
+async def list_ul_actions() -> dict[str, Any]:
     """
     List actions that benefit from UL entropy.
 
@@ -268,7 +268,7 @@ async def list_ul_actions() -> Dict[str, Any]:
 @router.get("/demo")
 async def demo_ul_flow(
     service: UniversalLanguageService = Depends(get_ul_service)
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Demonstrate UL workflow for development.
 

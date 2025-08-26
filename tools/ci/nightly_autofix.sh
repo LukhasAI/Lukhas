@@ -83,19 +83,19 @@ log "📊 Generating TODO summary..."
     echo "Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo ""
     echo "## Statistics"
-    
+
     # Count different TODO types
     todo_autofix=$(grep -r "TODO\[T4-AUTOFIX\]" . --include="*.py" 2>/dev/null | wc -l || echo 0)
     todo_manual=$(grep -r "TODO\[T4-MANUAL\]" . --include="*.py" 2>/dev/null | wc -l || echo 0)
     todo_research=$(grep -r "TODO\[T4-RESEARCH\]" . --include="*.py" 2>/dev/null | wc -l || echo 0)
     todo_security=$(grep -r "TODO\[T4-SECURITY\]" . --include="*.py" 2>/dev/null | wc -l || echo 0)
-    
+
     echo "- T4-AUTOFIX: $todo_autofix"
     echo "- T4-MANUAL: $todo_manual"
     echo "- T4-RESEARCH: $todo_research"
     echo "- T4-SECURITY: $todo_security"
     echo ""
-    
+
     if [[ $todo_autofix -gt 0 ]]; then
         echo "## Pending Autofix TODOs"
         grep -rn "TODO\[T4-AUTOFIX\]" . --include="*.py" 2>/dev/null | head -20 | while IFS= read -r line; do
@@ -103,12 +103,12 @@ log "📊 Generating TODO summary..."
         done
         echo ""
     fi
-    
+
     echo "## System Health"
     echo "- Last nightly run: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo "- Git status: $(git status --porcelain | wc -l) uncommitted changes"
     echo "- Repository size: $(du -sh . 2>/dev/null | cut -f1 || echo 'unknown')"
-    
+
 } > "$REPORT_FILE"
 
 # 5. Check if we have meaningful changes
@@ -117,7 +117,7 @@ total_changes=$((final_changes - initial_changes))
 
 if [[ $total_changes -gt 0 ]]; then
     log "📋 Found $total_changes changes, preparing commit..."
-    
+
     # Create commit with detailed message
     {
         echo "chore(autofix): nightly T4 maintenance $(date +%Y-%m-%d)"
@@ -136,14 +136,14 @@ if [[ $total_changes -gt 0 ]]; then
         echo "Config: $T4_CONFIG"
         echo "Log: $LOG_FILE"
     } > data/nightly_commit_message.txt
-    
+
     # Stage all changes
     git add .
-    
+
     # Commit changes
     if git commit -F data/nightly_commit_message.txt; then
         log "✅ Committed nightly autofix changes"
-        
+
         # For significant changes, consider creating a PR
         if [[ $total_changes -gt 20 ]] && [[ "${CREATE_NIGHTLY_PR:-}" == "1" ]]; then
             log "🔄 Creating PR for significant changes..."
