@@ -76,6 +76,17 @@ if [[ -f tools/ci/mark_todos.py ]]; then
     }
 fi
 
+# 3.5. Collect coverage data for golden nudge
+log "📈 Collecting coverage data..."
+mkdir -p reports/autofix
+if command -v coverage >/dev/null 2>&1 || pip install coverage pytest-cov 2>/dev/null; then
+    coverage run -m pytest -q tests/test_imports.py tests/test_integration.py tests/golden/ 2>/dev/null || true
+    coverage json -o reports/autofix/coverage.json 2>/dev/null || true
+    log "✅ Coverage data collected"
+else
+    warn "Coverage tools not available, skipping coverage collection"
+fi
+
 # 4. Generate TODO summary report
 log "📊 Generating TODO summary..."
 {

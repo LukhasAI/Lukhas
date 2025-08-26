@@ -53,6 +53,19 @@ jobs:
           chmod +x tools/ci/nightly_autofix.sh
           ./tools/ci/nightly_autofix.sh
 
+      - name: Needs-golden label
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BR="autofix/$(date +%Y%m%d)"
+          python tools/ci/needs_golden.py > /tmp/ng.json || true
+          PR_NUMBER=$(gh pr list --head "$BR" --json number --jq '.[0].number' 2>/dev/null || echo "")
+          NEED=$(jq -r '.needs_golden | length' /tmp/ng.json 2>/dev/null || echo 0)
+          if [ "$NEED" != "0" ] && [ -n "$PR_NUMBER" ]; then
+            gh pr edit "$PR_NUMBER" --add-label "needs-golden" || true
+          fi
+
       - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v3
