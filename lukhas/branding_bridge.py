@@ -153,7 +153,7 @@ BRANDING_AVAILABLE = True
 try:
     from branding.adapters.voice_adapter import BrandVoiceAdapter
     from branding.enforcement.real_time_validator import RealTimeBrandValidator
-    from branding.intelligence.brand_monitor import BrandMonitor
+    from branding.intelligence.brand_monitor import BrandIntelligenceMonitor as BrandMonitor
 
     ADVANCED_BRANDING_AVAILABLE = True
 except ImportError as e:
@@ -162,7 +162,7 @@ except ImportError as e:
 
 # Poetry and creativity branding
 try:
-    from branding.poetry.soul import LUKHASSoul
+    from branding.poetry.soul import Soul as LUKHASSoul
     from branding.tone.consciousness_wordsmith import ConsciousnessWordsmith
 
     CREATIVE_BRANDING_AVAILABLE = True
