@@ -1,0 +1,61 @@
+[
+    // Claude Code - Primary AI Assistant Shortcuts
+    {
+        "key": "cmd+shift+c",
+        "command": "claude.openChat",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+shift+a",
+        "command": "claude.askQuestion",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+shift+r",
+        "command": "claude.reviewCode",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+shift+e",
+        "command": "claude.explainCode",
+        "when": "editorTextFocus"
+    },
+    // GitHub Copilot - Secondary AI Assistant Shortcuts  
+    {
+        "key": "cmd+alt+c",
+        "command": "github.copilot.generate",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+alt+i",
+        "command": "workbench.panel.chat.view.copilot.focus",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+alt+s",
+        "command": "github.copilot.toggleInlineSuggestion",
+        "when": "editorTextFocus"
+    },
+    // Quick AI Assistant Switching
+    {
+        "key": "cmd+k cmd+c",
+        "command": "claude.openChat",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "cmd+k cmd+g",
+        "command": "workbench.panel.chat.view.copilot.focus",
+        "when": "editorTextFocus"
+    },
+    // Enhanced Code Actions
+    {
+        "key": "cmd+.",
+        "command": "editor.action.quickFix",
+        "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "cmd+shift+.",
+        "command": "editor.action.sourceAction",
+        "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+    }
+]
