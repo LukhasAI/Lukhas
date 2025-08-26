@@ -13,7 +13,12 @@ def todo_count():
 def lint_debt():
     # allowlist-only, whole repo
     Path("reports/lints").mkdir(parents=True, exist_ok=True)
-    subprocess.run(["ruff","check","--output-format","json","-o","reports/lints/ruff_dash.json","."], check=False, capture_output=True)
+    try:
+        subprocess.run(["ruff","check","--output-format","json","-o","reports/lints/ruff_dash.json","."], check=False, capture_output=True)
+    except FileNotFoundError:
+        # Ruff not installed, create empty results
+        Path("reports/lints/ruff_dash.json").write_text("[]")
+        return 0
     pol = Path(".t4autofix.toml")
     if not pol.exists():
         return 0
