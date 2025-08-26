@@ -10,7 +10,7 @@ h2==4.2.0
 huggingface_hub==0.31.1
 jsonschema==4.23.0
 lukhas==0.0.1
-matplotlib==3.10.3
+matplotlib==3.10.5
 numpy==2.2.5
 openai==1.78.0
 pandas==2.2.3
