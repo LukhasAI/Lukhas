@@ -256,6 +256,12 @@
       "other": "off"
     }
   },
+  // Terminal Safety and Paste Protection
+  "terminal.integrated.enableMultiLinePasteWarning": true,
+  "terminal.integrated.bracketedPasteMode": true,
+  "terminal.integrated.scrollback": 1000,
+  "editor.copyWithSyntaxHighlighting": false,
+  "files.eol": "\n",
   // Performance and Memory Optimizations
   "extensions.experimental.affinity": {
     "charliermarsh.ruff": 1,
@@ -264,7 +270,6 @@
   },
   "files.maxMemoryForLargeFilesMB": 2048,
   "editor.maxTokenizationLineLength": 20000,
-  "terminal.integrated.scrollback": 1000,
   "search.followSymlinks": false,
   "search.maxResults": 10000,
   "typescript.tsserver.maxTsServerMemory": 2048,
@@ -274,5 +279,31 @@
   "extensions.autoUpdate": false,
   "update.mode": "manual",
   "python.testing.pytestEnabled": true,
-  "python.testing.unittestEnabled": false
+  "python.testing.unittestEnabled": false,
+  // GitLens Configuration - Force Repository Detection
+  "gitlens.remotes": [
+    {
+      "domain": "github.com",
+      "name": "Github.com/Lukhas",
+      "protocol": "https",
+      "type": "GitHub",
+      "url": "https://github.com/LukhasAI/Lukhas"
+    }
+  ],
+  "gitlens.defaultRemote": "Github.com/Lukhas",
+  "gitlens.integrations.enabled": true,
+  "gitlens.gitCommands.closeOnFocusOut": false,
+  "gitlens.currentLine.enabled": true,
+  "gitlens.blame.highlight.enabled": true,
+  // Force GitLens to recognize correct repository
+  "gitlens.advanced.repositorySearchDepth": 1,
+  "gitlens.advanced.caching.enabled": false,
+  "gitlens.outputLevel": "verbose",
+  "gitlens.statusBar.enabled": true,
+  "gitlens.statusBar.pullRequests.enabled": true,
+  // Force clear GitLens cache and re-detect repository
+  "gitlens.advanced.fileHistoryFollowsRenames": false,
+  "gitlens.advanced.fileHistoryShowAllBranches": false,
+  "gitlens.plusFeatures.enabled": false,
+  "gitlens.virtualRepositories.enabled": false
 }
