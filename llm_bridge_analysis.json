@@ -1,0 +1,712 @@
+{
+  "module_analysis": {
+    "module_name": "llm_bridge",
+    "confidence_score": 0.51,
+    "swot_analysis": {
+      "strengths": [
+        {
+          "description": "Feature-rich functions",
+          "meta": {
+            "uniqueness_score": 0.6
+          }
+        }
+      ],
+      "weaknesses": [],
+      "opportunities": [],
+      "threats": []
+    },
+    "naming_analysis": {
+      "original_function": "__init__",
+      "detected_patterns": {
+        "convention": "snake_case",
+        "verb_pattern": "unknown",
+        "domain": "generic"
+      },
+      "target_conventions": {
+        "lukhas_pattern": "snake_case",
+        "preferred_naming": "__init__",
+        "similar_existing": [
+          "_get_system_signature",
+          "__init__",
+          "__init__"
+        ]
+      },
+      "transformation_rules": [
+        "keep snake_case",
+        "add domain prefix if ambiguous",
+        "align with existing verb patterns"
+      ]
+    },
+    "integration_recommendations": {
+      "primary_strategy": "gradual_migration",
+      "line_by_line_mapping": [
+        {
+          "source_line": 67,
+          "source_code": "    def __init__(self, config: Optional[Dict[str, Any]] = None):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "target_line": 68,
+          "suggested_merge": "def _init_(self: Any, config: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    with intelligent fallback and brand compliance validation",
+            "    \"\"\"",
+            "    "
+          ],
+          "source_context_after": [
+            "    def __init__(self, config: Optional[Dict[str, Any]] = None):",
+            "        \"\"\"Initialize LLM bridge with provider configuration\"\"\"",
+            "        self.config = config or {}"
+          ],
+          "target_context_before": [
+            "    - Cultural intelligence for global safety",
+            "    \"\"\"",
+            "    "
+          ],
+          "target_context_after": [
+            "    def __init__(self):",
+            "        self.logger = logging.getLogger(__name__)",
+            "        self._consciousness_visualizer = None"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "config": "config"
+          }
+        },
+        {
+          "source_line": 83,
+          "source_code": "    def _initialize_providers(self):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "target_line": 68,
+          "suggested_merge": "def _initialize_providers(self: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        ",
+            "        logger.info(f\"UnifiedLLMBridge initialized with {len(self.providers)} providers\")",
+            "    "
+          ],
+          "source_context_after": [
+            "    def _initialize_providers(self):",
+            "        \"\"\"Initialize all available LLM providers\"\"\"",
+            "        provider_configs = {"
+          ],
+          "target_context_before": [
+            "    - Cultural intelligence for global safety",
+            "    \"\"\"",
+            "    "
+          ],
+          "target_context_after": [
+            "    def __init__(self):",
+            "        self.logger = logging.getLogger(__name__)",
+            "        self._consciousness_visualizer = None"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 137,
+          "source_code": "    def _load_brand_prompts(self) -> Dict[str, str]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "target_line": 68,
+          "suggested_merge": "def _load_brand_prompts(self: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "                logger.error(f\"Failed to initialize {provider_name}: {e}\")",
+            "                self.provider_status[provider_name] = ProviderStatus.ERROR",
+            "    "
+          ],
+          "source_context_after": [
+            "    def _load_brand_prompts(self) -> Dict[str, str]:",
+            "        \"\"\"Load brand-specific prompts for different tone layers\"\"\"",
+            "        return {"
+          ],
+          "target_context_before": [
+            "    - Cultural intelligence for global safety",
+            "    \"\"\"",
+            "    "
+          ],
+          "target_context_after": [
+            "    def __init__(self):",
+            "        self.logger = logging.getLogger(__name__)",
+            "        self._consciousness_visualizer = None"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 226,
+          "source_code": "    def _build_brand_prompt(self, request: VoiceGenerationRequest, tone_layer: str) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "target_line": 68,
+          "suggested_merge": "def _build_brand_prompt(self: Any, request: Any, tone_layer: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        # All providers failed - return fallback",
+            "        return self._generate_fallback_response(request, time.time() - start_time)",
+            "    "
+          ],
+          "source_context_after": [
+            "    def _build_brand_prompt(self, request: VoiceGenerationRequest, tone_layer: str) -> str:",
+            "        \"\"\"Build brand-aware prompt for the request\"\"\"",
+            "        base_prompt = self.brand_prompts.get(tone_layer, self.brand_prompts['user_friendly'])"
+          ],
+          "target_context_before": [
+            "    - Cultural intelligence for global safety",
+            "    \"\"\"",
+            "    "
+          ],
+          "target_context_after": [
+            "    def __init__(self):",
+            "        self.logger = logging.getLogger(__name__)",
+            "        self._consciousness_visualizer = None"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "request": "request",
+            "tone_layer": "tone_layer"
+          }
+        },
+        {
+          "source_line": 351,
+          "source_code": "    def _get_provider_priority(self) -> List[str]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "target_line": 68,
+          "suggested_merge": "def _get_provider_priority(self: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        ",
+            "        return corrected_content",
+            "    "
+          ],
+          "source_context_after": [
+            "    def _get_provider_priority(self) -> List[str]:",
+            "        \"\"\"Get provider priority order based on availability and performance\"\"\"",
+            "        available_providers = ["
+          ],
+          "target_context_before": [
+            "    - Cultural intelligence for global safety",
+            "    \"\"\"",
+            "    "
+          ],
+          "target_context_after": [
+            "    def __init__(self):",
+            "        self.logger = logging.getLogger(__name__)",
+            "        self._consciousness_visualizer = None"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 367,
+          "source_code": "    def _mark_provider_error(self, provider_name: str):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "target_line": 68,
+          "suggested_merge": "def _mark_provider_error(self: Any, provider_name: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        # Use fallback chain order",
+            "        return [p for p in self.fallback_chain if p in available_providers]",
+            "    "
+          ],
+          "source_context_after": [
+            "    def _mark_provider_error(self, provider_name: str):",
+            "        \"\"\"Mark provider as having an error and update status\"\"\"",
+            "        if provider_name in self.providers:"
+          ],
+          "target_context_before": [
+            "    - Cultural intelligence for global safety",
+            "    \"\"\"",
+            "    "
+          ],
+          "target_context_after": [
+            "    def __init__(self):",
+            "        self.logger = logging.getLogger(__name__)",
+            "        self._consciousness_visualizer = None"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "provider_name": "provider_name"
+          }
+        },
+        {
+          "source_line": 377,
+          "source_code": "    def _generate_fallback_response(self, request: VoiceGenerationRequest, generation_time: float) -> VoiceGenerationResponse:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "target_line": 68,
+          "suggested_merge": "def _generate_fallback_response(self: Any, request: Any, generation_time: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "                self.provider_status[provider_name] = ProviderStatus.ERROR",
+            "                logger.warning(f\"Provider {provider_name} marked as ERROR due to repeated failures\")",
+            "    "
+          ],
+          "source_context_after": [
+            "    def _generate_fallback_response(self, request: VoiceGenerationRequest, generation_time: float) -> VoiceGenerationResponse:",
+            "        \"\"\"Generate fallback response when all providers fail\"\"\"",
+            "        fallback_content = f\"[LUKHAS AI Response: {request.content}]\""
+          ],
+          "target_context_before": [
+            "    - Cultural intelligence for global safety",
+            "    \"\"\"",
+            "    "
+          ],
+          "target_context_after": [
+            "    def __init__(self):",
+            "        self.logger = logging.getLogger(__name__)",
+            "        self._consciousness_visualizer = None"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "request": "request",
+            "generation_time": "generation_time"
+          }
+        },
+        {
+          "source_line": 397,
+          "source_code": "    def get_provider_status(self) -> Dict[str, str]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "target_line": 68,
+          "suggested_merge": "def get_provider_status(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "            }",
+            "        )",
+            "    "
+          ],
+          "source_context_after": [
+            "    def get_provider_status(self) -> Dict[str, str]:",
+            "        \"\"\"Get current status of all providers\"\"\"",
+            "        return {name: status.value for name, status in self.provider_status.items()}"
+          ],
+          "target_context_before": [
+            "    - Cultural intelligence for global safety",
+            "    \"\"\"",
+            "    "
+          ],
+          "target_context_after": [
+            "    def __init__(self):",
+            "        self.logger = logging.getLogger(__name__)",
+            "        self._consciousness_visualizer = None"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 401,
+          "source_code": "    def reset_provider_errors(self, provider_name: Optional[str] = None):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "target_line": 68,
+          "suggested_merge": "def reset_provider_errors(self: Any, provider_name: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        \"\"\"Get current status of all providers\"\"\"",
+            "        return {name: status.value for name, status in self.provider_status.items()}",
+            "    "
+          ],
+          "source_context_after": [
+            "    def reset_provider_errors(self, provider_name: Optional[str] = None):",
+            "        \"\"\"Reset error counts for providers\"\"\"",
+            "        if provider_name:"
+          ],
+          "target_context_before": [
+            "    - Cultural intelligence for global safety",
+            "    \"\"\"",
+            "    "
+          ],
+          "target_context_after": [
+            "    def __init__(self):",
+            "        self.logger = logging.getLogger(__name__)",
+            "        self._consciousness_visualizer = None"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "provider_name": "provider_name"
+          }
+        }
+      ],
+      "alternative_strategies": [
+        {
+          "strategy": "wrapper_service",
+          "effort_estimate": "2-3 days",
+          "risk_level": "low",
+          "pros": [
+            "Quick implementation",
+            "Minimal LUKHAS changes"
+          ],
+          "cons": [
+            "Additional maintenance overhead",
+            "Performance impact"
+          ]
+        },
+        {
+          "strategy": "direct_integration",
+          "effort_estimate": "1-2 weeks",
+          "risk_level": "medium",
+          "pros": [
+            "Clean architecture",
+            "Better performance"
+          ],
+          "cons": [
+            "More extensive testing needed",
+            "Potential conflicts"
+          ]
+        }
+      ],
+      "integration_cost_estimate": "3-5 days"
+    },
+    "risk_assessment": {
+      "security_scan": {
+        "vulnerabilities_found": 0,
+        "critical_issues": [],
+        "semgrep_rules_hit": [],
+        "remediation_required": false,
+        "snippets": []
+      },
+      "dependency_analysis": {
+        "outdated_dependencies": 0,
+        "conflicting_versions": [],
+        "update_effort": "low"
+      },
+      "performance_impact": {
+        "memory_overhead": "+15MB estimated",
+        "cpu_impact": "negligible",
+        "integration_bottlenecks": []
+      }
+    },
+    "integration_roadmap": {
+      "phase_1": {
+        "duration": "1 week",
+        "tasks": [
+          "Security vulnerability fixes",
+          "Dependency updates"
+        ],
+        "deliverables": [
+          "Cleaned orphan module",
+          "Security assessment report"
+        ]
+      },
+      "phase_2": {
+        "duration": "1-2 weeks",
+        "tasks": [
+          "Naming convention alignment",
+          "Code style harmonization"
+        ],
+        "deliverables": [
+          "Refactored module",
+          "Integration test suite"
+        ]
+      },
+      "phase_3": {
+        "duration": "3-5 days",
+        "tasks": [
+          "LUKHAS integration",
+          "End-to-end testing"
+        ],
+        "deliverables": [
+          "Integrated system",
+          "Performance benchmarks"
+        ]
+      }
+    },
+    "git_summary": "Last 50 commits (head):\n7255ea1d feat: T4 Enterprise Datadog US5 integration complete\n613c6dc0 feat: Complete session work - \u039bTODO items, file consolidation, and enterprise setup\nae3ea0cb cleanup: Remove redundant backup directories and files\n3a81abe3 refactor: Consolidate enhancement-named files to minimalistic LUKHAS naming\n8f352d91 feat: Complete naming cleanup - Quantum\u2192QI and Lucas\u2192Lukhas\n7418dc39 feat: Complete 25+ \u039bTODO implementations across LUKHAS candidate modules\nfc3b12ba feat: Complete LUKHAS Context Bus & Orchestration System Implementation\n135dc91a fix: Clean up naming conventions and syntax errors\nf702fc5f feat: Complete final 25 high-priority TODOs - System integration complete\nbc74307f feat: Complete LUKHAS AI System Implementation - 100% BATCH Completion",
+    "extras": {
+      "orphan_function_summaries": [
+        {
+          "name": "__init__",
+          "args": [
+            "self",
+            "config"
+          ],
+          "lineno": 67,
+          "end_lineno": 81,
+          "loc": 15,
+          "has_docstring": true,
+          "doc_chars": 49
+        },
+        {
+          "name": "_initialize_providers",
+          "args": [
+            "self"
+          ],
+          "lineno": 83,
+          "end_lineno": 135,
+          "loc": 53,
+          "has_docstring": true,
+          "doc_chars": 38
+        },
+        {
+          "name": "_load_brand_prompts",
+          "args": [
+            "self"
+          ],
+          "lineno": 137,
+          "end_lineno": 168,
+          "loc": 32,
+          "has_docstring": true,
+          "doc_chars": 53
+        },
+        {
+          "name": "_build_brand_prompt",
+          "args": [
+            "self",
+            "request",
+            "tone_layer"
+          ],
+          "lineno": 226,
+          "end_lineno": 250,
+          "loc": 25,
+          "has_docstring": true,
+          "doc_chars": 40
+        },
+        {
+          "name": "_get_provider_priority",
+          "args": [
+            "self"
+          ],
+          "lineno": 351,
+          "end_lineno": 365,
+          "loc": 15,
+          "has_docstring": true,
+          "doc_chars": 65
+        },
+        {
+          "name": "_mark_provider_error",
+          "args": [
+            "self",
+            "provider_name"
+          ],
+          "lineno": 367,
+          "end_lineno": 375,
+          "loc": 9,
+          "has_docstring": true,
+          "doc_chars": 50
+        },
+        {
+          "name": "_generate_fallback_response",
+          "args": [
+            "self",
+            "request",
+            "generation_time"
+          ],
+          "lineno": 377,
+          "end_lineno": 395,
+          "loc": 19,
+          "has_docstring": true,
+          "doc_chars": 50
+        },
+        {
+          "name": "get_provider_status",
+          "args": [
+            "self"
+          ],
+          "lineno": 397,
+          "end_lineno": 399,
+          "loc": 3,
+          "has_docstring": true,
+          "doc_chars": 35
+        },
+        {
+          "name": "reset_provider_errors",
+          "args": [
+            "self",
+            "provider_name"
+          ],
+          "lineno": 401,
+          "end_lineno": 412,
+          "loc": 12,
+          "has_docstring": true,
+          "doc_chars": 32
+        }
+      ],
+      "imports": [
+        "asyncio",
+        "logging",
+        "os",
+        "time",
+        "typing",
+        "dataclasses",
+        "enum",
+        "dotenv",
+        "sys",
+        "pathlib",
+        "lukhas.bridge.llm_wrappers.unified_openai_client",
+        "lukhas.bridge.llm_wrappers.anthropic_wrapper",
+        "lukhas.bridge.llm_wrappers.gemini_wrapper",
+        "lukhas.bridge.llm_wrappers.perplexity_wrapper"
+      ],
+      "top_match_candidates": [
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "function": "__init__",
+          "similarity": 0.742
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/vivox/vivox_wrapper.py",
+          "function": "__init__",
+          "similarity": 0.724
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness/consciousness_wrapper.py",
+          "function": "__init__",
+          "similarity": 0.72
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth_integration.py",
+          "function": "__init__",
+          "similarity": 0.718
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "function": "to_dict",
+          "similarity": 0.714
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/emotion/__init__.py",
+          "function": "__init__",
+          "similarity": 0.645
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/memory_wrapper.py",
+          "function": "__init__",
+          "similarity": 0.624
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/emotion/__init__.py",
+          "function": "__init__",
+          "similarity": 0.604
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/emotion/__init__.py",
+          "function": "_apply_mood_regulation",
+          "similarity": 0.603
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/memory_wrapper.py",
+          "function": "__init__",
+          "similarity": 0.589
+        }
+      ],
+      "style": {
+        "indent_spaces": 4,
+        "bracket_style": "same-line",
+        "anti_patterns": [
+          "print-in-library"
+        ]
+      }
+    },
+    "test_scaffolding": [
+      {
+        "name": "test__init_",
+        "stub": "import pytest\n\ndef test__init_():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: __init__ -> Preferred: __init__\n    # Arrange\n    # TODO: build inputs matching signature: (self, config)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__initialize_providers",
+        "stub": "import pytest\n\ndef test__initialize_providers():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _initialize_providers -> Preferred: _initialize_providers\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__load_brand_prompts",
+        "stub": "import pytest\n\ndef test__load_brand_prompts():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _load_brand_prompts -> Preferred: _load_brand_prompts\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__build_brand_prompt",
+        "stub": "import pytest\n\ndef test__build_brand_prompt():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _build_brand_prompt -> Preferred: _build_brand_prompt\n    # Arrange\n    # TODO: build inputs matching signature: (self, request, tone_layer)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__get_provider_priority",
+        "stub": "import pytest\n\ndef test__get_provider_priority():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _get_provider_priority -> Preferred: _get_provider_priority\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__mark_provider_error",
+        "stub": "import pytest\n\ndef test__mark_provider_error():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _mark_provider_error -> Preferred: _mark_provider_error\n    # Arrange\n    # TODO: build inputs matching signature: (self, provider_name)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__generate_fallback_response",
+        "stub": "import pytest\n\ndef test__generate_fallback_response():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _generate_fallback_response -> Preferred: _generate_fallback_response\n    # Arrange\n    # TODO: build inputs matching signature: (self, request, generation_time)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_get_provider_status",
+        "stub": "import pytest\n\ndef test_get_provider_status():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: get_provider_status -> Preferred: get_provider_status\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_reset_provider_errors",
+        "stub": "import pytest\n\ndef test_reset_provider_errors():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: reset_provider_errors -> Preferred: reset_provider_errors\n    # Arrange\n    # TODO: build inputs matching signature: (self, provider_name)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      }
+    ]
+  },
+  "system_metadata": {
+    "analysis_timestamp": "2025-08-25T22:24:29.049263Z",
+    "analyzer_version": "2.2.0",
+    "confidence_threshold": 0.75,
+    "model_versions": {
+      "code_embeddings": "text-embedding-3-small",
+      "security_scanner": "heuristic-0.1",
+      "style_analyzer": "custom-v2.0"
+    },
+    "reasoning_model": {
+      "default": "gpt-5-mini",
+      "final_used": "gpt-5-mini",
+      "cascade": []
+    }
+  },
+  "audit_trail": [
+    {
+      "ts": "2025-08-25T22:24:28.735777Z",
+      "action": "start_analysis",
+      "orphan": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/integrations/llm_bridge.py",
+      "target": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas",
+      "cheap_first": false
+    },
+    {
+      "ts": "2025-08-25T22:24:28.744019Z",
+      "action": "discover_files",
+      "root": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas",
+      "count": 65
+    },
+    {
+      "ts": "2025-08-25T22:24:28.906378Z",
+      "action": "parse_repository",
+      "root": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas",
+      "modules": 65
+    },
+    {
+      "ts": "2025-08-25T22:24:28.953053Z",
+      "action": "build_embeddings",
+      "count": 362
+    },
+    {
+      "ts": "2025-08-25T22:24:29.056947Z",
+      "action": "end_analysis",
+      "confidence": 0.51
+    }
+  ]
+}

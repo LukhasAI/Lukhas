@@ -842,6 +842,23 @@ class LambdaTierManager:
         return 1.0
 
 
+# Aliases for compatibility with identity system
+TierManager = LambdaTierManager
+
+class TierValidator:
+    """Simple tier validator wrapper"""
+    
+    def __init__(self, tier_manager=None):
+        self.tier_manager = tier_manager or LambdaTierManager()
+    
+    def validate_tier_access(self, user_id: str, required_tier: int) -> bool:
+        """Validate if user has access to required tier"""
+        user_tier = self.tier_manager.get_user_tier(user_id)
+        return user_tier >= required_tier
+
+# Export classes
+__all__ = ['LambdaTierManager', 'TierManager', 'TierValidator', 'TierLevel', 'TierCapability']
+
 """
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 📋 FOOTER - LUKHAS AI

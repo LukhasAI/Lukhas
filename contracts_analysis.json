@@ -1,0 +1,2154 @@
+{
+  "module_analysis": {
+    "module_name": "contracts",
+    "confidence_score": 0.51,
+    "swot_analysis": {
+      "strengths": [
+        {
+          "description": "Feature-rich functions",
+          "meta": {
+            "uniqueness_score": 0.6
+          }
+        }
+      ],
+      "weaknesses": [],
+      "opportunities": [],
+      "threats": []
+    },
+    "naming_analysis": {
+      "original_function": "serialize_event",
+      "detected_patterns": {
+        "convention": "snake_case",
+        "verb_pattern": "unknown",
+        "domain": "generic"
+      },
+      "target_conventions": {
+        "lukhas_pattern": "snake_case",
+        "preferred_naming": "serialize_event",
+        "similar_existing": []
+      },
+      "transformation_rules": [
+        "keep snake_case",
+        "add domain prefix if ambiguous",
+        "align with existing verb patterns"
+      ]
+    },
+    "integration_recommendations": {
+      "primary_strategy": "gradual_migration",
+      "line_by_line_mapping": [
+        {
+          "source_line": 595,
+          "source_code": "def serialize_event(event: DomainEvent) -> dict[str, Any]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 126,
+          "suggested_merge": "def serialize_event(event: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "}",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def serialize_event(event: DomainEvent) -> dict[str, Any]:",
+            "    \"\"\"Serialize domain event to dictionary\"\"\"",
+            "    return {"
+          ],
+          "target_context_before": [
+            "_config = None",
+            "",
+            ""
+          ],
+          "target_context_after": [
+            "def get_memory_config() -> MemoryConfig:",
+            "    \"\"\"Get or create global memory configuration\"\"\"",
+            "    global _config"
+          ],
+          "param_rename_map": {
+            "event": "event"
+          }
+        },
+        {
+          "source_line": 619,
+          "source_code": "def deserialize_event(data: dict[str, Any]) -> Optional[DomainEvent]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 126,
+          "suggested_merge": "def deserialize_event(data: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    }",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def deserialize_event(data: dict[str, Any]) -> Optional[DomainEvent]:",
+            "    \"\"\"Deserialize dictionary to domain event\"\"\"",
+            "    event_type = data.get(\"event_type\")"
+          ],
+          "target_context_before": [
+            "_config = None",
+            "",
+            ""
+          ],
+          "target_context_after": [
+            "def get_memory_config() -> MemoryConfig:",
+            "    \"\"\"Get or create global memory configuration\"\"\"",
+            "    global _config"
+          ],
+          "param_rename_map": {
+            "data": "data"
+          }
+        },
+        {
+          "source_line": 40,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "    @property",
+            "    @abstractmethod"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        \"\"\"Get the event type identifier\"\"\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 57,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    compression_ratio: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"memory.fold.created\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 69,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    retrieval_context: dict[str, Any] = field(default_factory=dict)",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"memory.fold.retrieved\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 83,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    compression_method: str = \"\"",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"memory.fold.compressed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 96,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    strengthened_connections: int = 0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"memory.consolidation.completed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 113,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    modalities: list[str] = field(default_factory=list)",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"glyph.created\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 127,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    target_modality: str = \"\"",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"symbol.translated\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 142,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    participants: int = 0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"consensus.reached\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 156,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    coherence_after: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"quantum.state.collapsed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 173,
+          "source_code": "    def __post_init__(self):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def _post_init_(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    trigger: str = \"\"",
+            "    awareness_level: float = 0.0",
+            ""
+          ],
+          "source_context_after": [
+            "    def __post_init__(self):",
+            "        # Ensure new_state matches current_state",
+            "        if not self.new_state and self.current_state:"
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 181,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "            self.current_state = self.new_state",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"consciousness.state.changed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 196,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    ethical_score: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"consciousness.decision.made\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 209,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    self_awareness_delta: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"consciousness.reflection.completed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 222,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    awareness_delta: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"consciousness.awareness.processed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 241,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    coherence: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"dream.generated\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 255,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    insights: list[str] = field(default_factory=list)",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"dream.analyzed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 267,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    cycle_type: str = \"\"",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"dream.cycle.started\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 284,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    dimensions: int = 0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"quantum.state.created\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 297,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    collapse_reason: str = \"\"",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"quantum.state.collapsed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 310,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    state_count: int = 0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"quantum.superposition.created\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 323,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    correlation: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"quantum.entanglement.created\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 340,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    intensity: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"emotion.state.changed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 353,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    success_rate: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"emotion.regulation.applied\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 365,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    vad_values: dict[str, float] = field(default_factory=dict)",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"emotion.analyzed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 378,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    expression: str = \"\"",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"emotion.response.generated\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 390,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    final_state: dict[str, float] = field(default_factory=dict)",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"emotion.regulated\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 407,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    action_taken: str = \"\"",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"governance.violation.detected\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 421,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    result: str = \"\"  # allowed, denied, modified",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"governance.policy.applied\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 434,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    permitted: bool = True",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"governance.ethics.checked\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 447,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    risk_score: float = 0.0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"governance.risk.evaluated\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 464,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    payload_size: int = 0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"bridge.message.received\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 478,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    success: bool = False",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"bridge.message.sent\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 491,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    size: int = 0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"bridge.data.sent\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 504,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    size: int = 0",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"bridge.data.received\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 517,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    to_protocol: str = \"\"",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"bridge.protocol.translated\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 534,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    hormone_levels: dict[str, float] = field(default_factory=dict)",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"system.stress.changed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 547,
+          "source_code": "    def event_type(self) -> str:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "target_line": 67,
+          "suggested_merge": "def event_type(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    current_health: dict[str, Any] = field(default_factory=dict)",
+            "",
+            "    @property"
+          ],
+          "source_context_after": [
+            "    def event_type(self) -> str:",
+            "        return \"system.health.changed\"",
+            ""
+          ],
+          "target_context_before": [
+            "            importance_pruning_threshold=float(os.getenv(\"MEMORY_PRUNING_THRESHOLD\", \"0.1\")),",
+            "        )",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_dict(self) -> Dict[str, Any]:",
+            "        \"\"\"Convert config to dictionary\"\"\"",
+            "        return {"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        }
+      ],
+      "alternative_strategies": [
+        {
+          "strategy": "wrapper_service",
+          "effort_estimate": "2-3 days",
+          "risk_level": "low",
+          "pros": [
+            "Quick implementation",
+            "Minimal LUKHAS changes"
+          ],
+          "cons": [
+            "Additional maintenance overhead",
+            "Performance impact"
+          ]
+        },
+        {
+          "strategy": "direct_integration",
+          "effort_estimate": "1-2 weeks",
+          "risk_level": "medium",
+          "pros": [
+            "Clean architecture",
+            "Better performance"
+          ],
+          "cons": [
+            "More extensive testing needed",
+            "Potential conflicts"
+          ]
+        }
+      ],
+      "integration_cost_estimate": ">= 2 weeks"
+    },
+    "risk_assessment": {
+      "security_scan": {
+        "vulnerabilities_found": 0,
+        "critical_issues": [],
+        "semgrep_rules_hit": [],
+        "remediation_required": false,
+        "snippets": []
+      },
+      "dependency_analysis": {
+        "outdated_dependencies": 0,
+        "conflicting_versions": [],
+        "update_effort": "low"
+      },
+      "performance_impact": {
+        "memory_overhead": "+15MB estimated",
+        "cpu_impact": "negligible",
+        "integration_bottlenecks": []
+      }
+    },
+    "integration_roadmap": {
+      "phase_1": {
+        "duration": "1 week",
+        "tasks": [
+          "Security vulnerability fixes",
+          "Dependency updates"
+        ],
+        "deliverables": [
+          "Cleaned orphan module",
+          "Security assessment report"
+        ]
+      },
+      "phase_2": {
+        "duration": "1-2 weeks",
+        "tasks": [
+          "Naming convention alignment",
+          "Code style harmonization"
+        ],
+        "deliverables": [
+          "Refactored module",
+          "Integration test suite"
+        ]
+      },
+      "phase_3": {
+        "duration": "3-5 days",
+        "tasks": [
+          "LUKHAS integration",
+          "End-to-end testing"
+        ],
+        "deliverables": [
+          "Integrated system",
+          "Performance benchmarks"
+        ]
+      }
+    },
+    "git_summary": "Last 50 commits (head):\n7255ea1d feat: T4 Enterprise Datadog US5 integration complete\n613c6dc0 feat: Complete session work - \u039bTODO items, file consolidation, and enterprise setup\nae3ea0cb cleanup: Remove redundant backup directories and files\n3a81abe3 refactor: Consolidate enhancement-named files to minimalistic LUKHAS naming\n8f352d91 feat: Complete naming cleanup - Quantum\u2192QI and Lucas\u2192Lukhas\n7418dc39 feat: Complete 25+ \u039bTODO implementations across LUKHAS candidate modules\nfc3b12ba feat: Complete LUKHAS Context Bus & Orchestration System Implementation\n135dc91a fix: Clean up naming conventions and syntax errors\nf702fc5f feat: Complete final 25 high-priority TODOs - System integration complete\nbc74307f feat: Complete LUKHAS AI System Implementation - 100% BATCH Completion",
+    "extras": {
+      "orphan_function_summaries": [
+        {
+          "name": "serialize_event",
+          "args": [
+            "event"
+          ],
+          "lineno": 595,
+          "end_lineno": 616,
+          "loc": 22,
+          "has_docstring": true,
+          "doc_chars": 36
+        },
+        {
+          "name": "deserialize_event",
+          "args": [
+            "data"
+          ],
+          "lineno": 619,
+          "end_lineno": 639,
+          "loc": 21,
+          "has_docstring": true,
+          "doc_chars": 38
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 40,
+          "end_lineno": 41,
+          "loc": 2,
+          "has_docstring": true,
+          "doc_chars": 29
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 57,
+          "end_lineno": 58,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 69,
+          "end_lineno": 70,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 83,
+          "end_lineno": 84,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 96,
+          "end_lineno": 97,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 113,
+          "end_lineno": 114,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 127,
+          "end_lineno": 128,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 142,
+          "end_lineno": 143,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 156,
+          "end_lineno": 157,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "__post_init__",
+          "args": [
+            "self"
+          ],
+          "lineno": 173,
+          "end_lineno": 178,
+          "loc": 6,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 181,
+          "end_lineno": 182,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 196,
+          "end_lineno": 197,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 209,
+          "end_lineno": 210,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 222,
+          "end_lineno": 223,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 241,
+          "end_lineno": 242,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 255,
+          "end_lineno": 256,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 267,
+          "end_lineno": 268,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 284,
+          "end_lineno": 285,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 297,
+          "end_lineno": 298,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 310,
+          "end_lineno": 311,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 323,
+          "end_lineno": 324,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 340,
+          "end_lineno": 341,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 353,
+          "end_lineno": 354,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 365,
+          "end_lineno": 366,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 378,
+          "end_lineno": 379,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 390,
+          "end_lineno": 391,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 407,
+          "end_lineno": 408,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 421,
+          "end_lineno": 422,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 434,
+          "end_lineno": 435,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 447,
+          "end_lineno": 448,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 464,
+          "end_lineno": 465,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 478,
+          "end_lineno": 479,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 491,
+          "end_lineno": 492,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 504,
+          "end_lineno": 505,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 517,
+          "end_lineno": 518,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 534,
+          "end_lineno": 535,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        },
+        {
+          "name": "event_type",
+          "args": [
+            "self"
+          ],
+          "lineno": 547,
+          "end_lineno": 548,
+          "loc": 2,
+          "has_docstring": false,
+          "doc_chars": 0
+        }
+      ],
+      "imports": [
+        "uuid",
+        "abc",
+        "dataclasses",
+        "datetime",
+        "enum",
+        "typing"
+      ],
+      "top_match_candidates": [
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "function": "to_dict",
+          "similarity": 0.703
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/fold_system.py",
+          "function": "__init__",
+          "similarity": 0.702
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/fold_system.py",
+          "function": "__init__",
+          "similarity": 0.702
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/memory_wrapper.py",
+          "function": "__init__",
+          "similarity": 0.696
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/memory_wrapper.py",
+          "function": "__init__",
+          "similarity": 0.696
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "function": "__init__",
+          "similarity": 0.692
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth_integration.py",
+          "function": "__init__",
+          "similarity": 0.69
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth_integration.py",
+          "function": "__init__",
+          "similarity": 0.69
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/memory_wrapper.py",
+          "function": "__init__",
+          "similarity": 0.689
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/qi/qi_wrapper.py",
+          "function": "__init__",
+          "similarity": 0.689
+        }
+      ],
+      "style": {
+        "indent_spaces": 4,
+        "bracket_style": "newline",
+        "anti_patterns": []
+      }
+    },
+    "test_scaffolding": [
+      {
+        "name": "test_serialize_event",
+        "stub": "import pytest\n\ndef test_serialize_event():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: serialize_event -> Preferred: serialize_event\n    # Arrange\n    # TODO: build inputs matching signature: (event)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_deserialize_event",
+        "stub": "import pytest\n\ndef test_deserialize_event():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: deserialize_event -> Preferred: deserialize_event\n    # Arrange\n    # TODO: build inputs matching signature: (data)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__post_init_",
+        "stub": "import pytest\n\ndef test__post_init_():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: __post_init__ -> Preferred: __post_init__\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_event_type",
+        "stub": "import pytest\n\ndef test_event_type():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: event_type -> Preferred: event_type\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      }
+    ]
+  },
+  "system_metadata": {
+    "analysis_timestamp": "2025-08-25T22:24:04.466094Z",
+    "analyzer_version": "2.2.0",
+    "confidence_threshold": 0.75,
+    "model_versions": {
+      "code_embeddings": "text-embedding-3-small",
+      "security_scanner": "heuristic-0.1",
+      "style_analyzer": "custom-v2.0"
+    },
+    "reasoning_model": {
+      "default": "gpt-5-mini",
+      "final_used": "gpt-5-mini",
+      "cascade": []
+    }
+  },
+  "audit_trail": [
+    {
+      "ts": "2025-08-25T22:24:03.919386Z",
+      "action": "start_analysis",
+      "orphan": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/core/events/contracts.py",
+      "target": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas",
+      "cheap_first": false
+    },
+    {
+      "ts": "2025-08-25T22:24:03.928705Z",
+      "action": "discover_files",
+      "root": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas",
+      "count": 65
+    },
+    {
+      "ts": "2025-08-25T22:24:04.093774Z",
+      "action": "parse_repository",
+      "root": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas",
+      "modules": 65
+    },
+    {
+      "ts": "2025-08-25T22:24:04.139008Z",
+      "action": "build_embeddings",
+      "count": 362
+    },
+    {
+      "ts": "2025-08-25T22:24:04.495768Z",
+      "action": "end_analysis",
+      "confidence": 0.51
+    }
+  ]
+}

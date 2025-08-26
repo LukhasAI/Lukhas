@@ -1,0 +1,2412 @@
+{
+  "module_analysis": {
+    "module_name": "memory_fold",
+    "confidence_score": 0.46,
+    "swot_analysis": {
+      "strengths": [
+        {
+          "description": "Feature-rich functions",
+          "meta": {
+            "uniqueness_score": 0.6
+          }
+        }
+      ],
+      "weaknesses": [
+        {
+          "description": "SQL injection potential",
+          "meta": {
+            "severity": "critical"
+          }
+        }
+      ],
+      "opportunities": [],
+      "threats": []
+    },
+    "naming_analysis": {
+      "original_function": "_get_global_system",
+      "detected_patterns": {
+        "convention": "snake_case",
+        "verb_pattern": "unknown",
+        "domain": "generic"
+      },
+      "target_conventions": {
+        "lukhas_pattern": "snake_case",
+        "preferred_naming": "_get_global_system",
+        "similar_existing": [
+          "_get_system_signature",
+          "__init__",
+          "__init__"
+        ]
+      },
+      "transformation_rules": [
+        "keep snake_case",
+        "add domain prefix if ambiguous",
+        "align with existing verb patterns"
+      ]
+    },
+    "integration_recommendations": {
+      "primary_strategy": "gradual_migration",
+      "line_by_line_mapping": [
+        {
+          "source_line": 1455,
+          "source_code": "def _get_global_system() -> MemoryFoldSystem:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _get_global_system():",
+          "confidence": 0.4,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "_global_system = None",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def _get_global_system() -> MemoryFoldSystem:",
+            "    \"\"\"Get or create global system instance.\"\"\"",
+            "    global _global_system"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {}
+        },
+        {
+          "source_line": 1463,
+          "source_code": "def log_dream(dream_type: str = \"reflective\", user_id: Optional[str] = None) -> None:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def log_dream(dream_type: Any, user_id: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    return _global_system",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def log_dream(dream_type: str = \"reflective\", user_id: Optional[str] = None) -> None:",
+            "    \"\"\"Legacy function for dream logging.\"\"\"",
+            "    system = _get_global_system()"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "dream_type": "dream_type",
+            "user_id": "user_id"
+          }
+        },
+        {
+          "source_line": 1469,
+          "source_code": "def create_memory_fold(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 438,
+          "suggested_merge": "def create_memory_fold(emotion: Any, context_snippet: Any, user_id: Any):",
+          "confidence": 0.4,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    system.log_dream(dream_type, user_id)",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def create_memory_fold(",
+            "    emotion: str, context_snippet: str, user_id: Optional[str] = None",
+            ") -> dict[str, Any]:"
+          ],
+          "target_context_before": [
+            "        self.agent_callbacks[agent_name] = callback",
+            "        logging.info(f\"Registered callback for agent: {agent_name}\")",
+            ""
+          ],
+          "target_context_after": [
+            "    def create_trace(",
+            "        self,",
+            "        lid: str,"
+          ],
+          "param_rename_map": {
+            "emotion": "emotion",
+            "context_snippet": "context_snippet",
+            "user_id": "user_id"
+          }
+        },
+        {
+          "source_line": 1477,
+          "source_code": "def recall_memory_folds(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def recall_memory_folds(user_id: Any, filter_emotion: Any, user_tier: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    return system.create_memory_fold(emotion, context_snippet, user_id)",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def recall_memory_folds(",
+            "    user_id: Optional[str] = None,",
+            "    filter_emotion: Optional[str] = None,"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "user_id": "user_id",
+            "filter_emotion": "filter_emotion",
+            "user_tier": "user_tier"
+          }
+        },
+        {
+          "source_line": 1487,
+          "source_code": "def enhanced_recall_memory_folds(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def enhanced_recall_memory_folds(user_id: Any, target_emotion: Any, user_tier: Any, emotion_threshold: Any, context_query: Any, max_results: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    return system.recall_memory_folds(user_id, filter_emotion, user_tier)",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def enhanced_recall_memory_folds(",
+            "    user_id: Optional[str] = None,",
+            "    target_emotion: Optional[str] = None,"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "user_id": "user_id",
+            "target_emotion": "target_emotion",
+            "user_tier": "user_tier",
+            "emotion_threshold": "emotion_threshold",
+            "context_query": "context_query",
+            "max_results": "max_results"
+          }
+        },
+        {
+          "source_line": 1507,
+          "source_code": "def calculate_emotion_distance(emotion1: str, emotion2: str) -> float:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def calculate_emotion_distance(emotion1: Any, emotion2: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    )",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def calculate_emotion_distance(emotion1: str, emotion2: str) -> float:",
+            "    \"\"\"Legacy function for emotion distance calculation.\"\"\"",
+            "    system = _get_global_system()"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "emotion1": "emotion1",
+            "emotion2": "emotion2"
+          }
+        },
+        {
+          "source_line": 1513,
+          "source_code": "def get_emotional_neighborhood(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def get_emotional_neighborhood(target_emotion: Any, threshold: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    return system.calculate_emotion_distance(emotion1, emotion2)",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def get_emotional_neighborhood(",
+            "    target_emotion: str, threshold: float = 0.5",
+            ") -> dict[str, float]:"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "target_emotion": "target_emotion",
+            "threshold": "threshold"
+          }
+        },
+        {
+          "source_line": 1521,
+          "source_code": "def create_emotion_clusters(tier_level: int = 0) -> dict[str, list[str]]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 438,
+          "suggested_merge": "def create_emotion_clusters(tier_level: Any):",
+          "confidence": 0.4,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    return system.get_emotional_neighborhood(target_emotion, threshold)",
+            "",
+            ""
+          ],
+          "source_context_after": [
+            "def create_emotion_clusters(tier_level: int = 0) -> dict[str, list[str]]:",
+            "    \"\"\"Legacy function for emotion clustering.\"\"\"",
+            "    system = _get_global_system()"
+          ],
+          "target_context_before": [
+            "        self.agent_callbacks[agent_name] = callback",
+            "        logging.info(f\"Registered callback for agent: {agent_name}\")",
+            ""
+          ],
+          "target_context_after": [
+            "    def create_trace(",
+            "        self,",
+            "        lid: str,"
+          ],
+          "param_rename_map": {
+            "tier_level": "tier_level"
+          }
+        },
+        {
+          "source_line": 133,
+          "source_code": "    def load_config(cls, config_path: Optional[Path] = None) -> dict[str, Any]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def load_config(cls: Any, config_path: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    )",
+            "",
+            "    @classmethod"
+          ],
+          "source_context_after": [
+            "    def load_config(cls, config_path: Optional[Path] = None) -> dict[str, Any]:",
+            "        \"\"\"Load configuration from JSON file with fallback to defaults.\"\"\"",
+            "        config_path = config_path or cls.DEFAULT_CONFIG_PATH"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "cls": "cls",
+            "config_path": "config_path"
+          }
+        },
+        {
+          "source_line": 150,
+          "source_code": "    def get_default_config(cls) -> dict[str, Any]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def get_default_config(cls: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        return cls.get_default_config()",
+            "",
+            "    @classmethod"
+          ],
+          "source_context_after": [
+            "    def get_default_config(cls) -> dict[str, Any]:",
+            "        \"\"\"Returns default configuration.\"\"\"",
+            "        return {"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "cls": "cls"
+          }
+        },
+        {
+          "source_line": 170,
+          "source_code": "    def get_default_emotion_vectors(cls) -> dict[str, dict[str, list[float]]]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def get_default_emotion_vectors(cls: Any):",
+          "confidence": 0.0,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        }",
+            "",
+            "    @classmethod"
+          ],
+          "source_context_after": [
+            "    def get_default_emotion_vectors(cls) -> dict[str, dict[str, list[float]]]:",
+            "        \"\"\"Returns default emotion vectors.\"\"\"",
+            "        return {"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "cls": "cls"
+          }
+        },
+        {
+          "source_line": 207,
+          "source_code": "    def __init__(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _init_(self: Any, db_path: Any, max_folds: Any, cleanup_interval_hours: Any):",
+          "confidence": 0.6,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "class MemoryFoldDatabase:",
+            "    \"\"\"Handles database operations for memory folds.\"\"\"",
+            ""
+          ],
+          "source_context_after": [
+            "    def __init__(",
+            "        self, db_path: str, max_folds: int = 10000, cleanup_interval_hours: int = 24",
+            "    ):"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "db_path": "db_path",
+            "max_folds": "max_folds",
+            "cleanup_interval_hours": "cleanup_interval_hours"
+          }
+        },
+        {
+          "source_line": 220,
+          "source_code": "    def _init_database(self):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _init_database(self: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        self._init_database()",
+            "        logger.info(f\"MemoryFoldDatabase initialized: {db_path}\")",
+            ""
+          ],
+          "source_context_after": [
+            "    def _init_database(self):",
+            "        \"\"\"Create database schema if not exists.\"\"\"",
+            "        with sqlite3.connect(self.db_path) as conn:"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 279,
+          "source_code": "    def add_fold(self, fold: dict[str, Any]) -> bool:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def add_fold(self: Any, fold: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "            conn.commit()",
+            ""
+          ],
+          "source_context_after": [
+            "    def add_fold(self, fold: dict[str, Any]) -> bool:",
+            "        \"\"\"Add a memory fold to the database.\"\"\"",
+            "        with self._lock:"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "fold": "fold"
+          }
+        },
+        {
+          "source_line": 323,
+          "source_code": "    def get_folds(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def get_folds(self: Any, user_id: Any, filter_emotion: Any, min_relevance: Any, limit: Any, offset: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "                logger.error(f\"Failed to add fold to database: {e}\")",
+            "                return False",
+            ""
+          ],
+          "source_context_after": [
+            "    def get_folds(",
+            "        self,",
+            "        user_id: Optional[str] = None,"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "user_id": "user_id",
+            "filter_emotion": "filter_emotion",
+            "min_relevance": "min_relevance",
+            "limit": "limit",
+            "offset": "offset"
+          }
+        },
+        {
+          "source_line": 414,
+          "source_code": "    def update_relevance_scores(self, decay_factor: float = 0.95):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def update_relevance_scores(self: Any, decay_factor: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "            logger.error(f\"Failed to retrieve folds: {e}\")",
+            "            return []",
+            ""
+          ],
+          "source_context_after": [
+            "    def update_relevance_scores(self, decay_factor: float = 0.95):",
+            "        \"\"\"Apply time-based decay to relevance scores.\"\"\"",
+            "        try:"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "decay_factor": "decay_factor"
+          }
+        },
+        {
+          "source_line": 431,
+          "source_code": "    def _cleanup_old_folds(self):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _cleanup_old_folds(self: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        except sqlite3.Error as e:",
+            "            logger.error(f\"Failed to update relevance scores: {e}\")",
+            ""
+          ],
+          "source_context_after": [
+            "    def _cleanup_old_folds(self):",
+            "        \"\"\"Remove excess folds per user based on max_folds limit.\"\"\"",
+            "        self.last_cleanup = datetime.utcnow()"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 472,
+          "source_code": "    def get_statistics(self) -> dict[str, Any]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def get_statistics(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        except sqlite3.Error as e:",
+            "            logger.error(f\"Cleanup failed: {e}\")",
+            ""
+          ],
+          "source_context_after": [
+            "    def get_statistics(self) -> dict[str, Any]:",
+            "        \"\"\"Get comprehensive database statistics.\"\"\"",
+            "        try:"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 550,
+          "source_code": "    def __init__(self, prompts_path: Optional[str] = None):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _init_(self: Any, prompts_path: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "class VisionPromptManager:",
+            "    \"\"\"Manages visual prompts for memory folds.\"\"\"",
+            ""
+          ],
+          "source_context_after": [
+            "    def __init__(self, prompts_path: Optional[str] = None):",
+            "        \"\"\"Initialize with configurable prompts path.\"\"\"",
+            "        self.prompts_path = ("
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "prompts_path": "prompts_path"
+          }
+        },
+        {
+          "source_line": 560,
+          "source_code": "    def _load_prompts(self):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _load_prompts(self: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        self.prompts_cache = None",
+            "        self._load_prompts()",
+            ""
+          ],
+          "source_context_after": [
+            "    def _load_prompts(self):",
+            "        \"\"\"Load prompts from JSON file with fallback.\"\"\"",
+            "        try:"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 574,
+          "source_code": "    def _get_default_prompts(self) -> dict[str, str]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _get_default_prompts(self: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "            logger.error(f\"Error loading vision prompts: {e}\")",
+            "            self.prompts_cache = self._get_default_prompts()",
+            ""
+          ],
+          "source_context_after": [
+            "    def _get_default_prompts(self) -> dict[str, str]:",
+            "        \"\"\"Returns comprehensive default prompts.\"\"\"",
+            "        return {"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 606,
+          "source_code": "    def get_prompt_for_fold(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def get_prompt_for_fold(self: Any, fold: Any, user_tier: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "            \"default\": \"\ud83c\udfa8 Abstract emotional landscape\",",
+            "        }",
+            ""
+          ],
+          "source_context_after": [
+            "    def get_prompt_for_fold(",
+            "        self, fold: dict[str, Any], user_tier: int = 0",
+            "    ) -> dict[str, Any]:"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "fold": "fold",
+            "user_tier": "user_tier"
+          }
+        },
+        {
+          "source_line": 693,
+          "source_code": "    def __init__(self, tier_config: Optional[dict[str, int]] = None):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _init_(self: Any, tier_config: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "class TierManager:",
+            "    \"\"\"Manages tier-based access control for memory operations.\"\"\"",
+            ""
+          ],
+          "source_context_after": [
+            "    def __init__(self, tier_config: Optional[dict[str, int]] = None):",
+            "        \"\"\"Initialize with tier thresholds.\"\"\"",
+            "        self.thresholds = tier_config or {"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "tier_config": "tier_config"
+          }
+        },
+        {
+          "source_line": 702,
+          "source_code": "    def validate_access(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 1089,
+          "suggested_merge": "def validate_access(self: Any, required_level: Any, user_tier: Any, operation: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "            \"full_access\": 5,",
+            "        }",
+            ""
+          ],
+          "source_context_after": [
+            "    def validate_access(",
+            "        self, required_level: int, user_tier: int, operation: str = \"unknown\"",
+            "    ) -> bool:"
+          ],
+          "target_context_before": [
+            "            \"admin access granted\",",
+            "        ]",
+            ""
+          ],
+          "target_context_after": [
+            "    def validate_action(self, lid: str, action: str, context: Dict[str, Any]) -> Dict:",
+            "        \"\"\"",
+            "        Validate action against all policies"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "required_level": "required_level",
+            "user_tier": "user_tier",
+            "operation": "operation"
+          }
+        },
+        {
+          "source_line": 720,
+          "source_code": "    def filter_data_by_tier(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 575,
+          "suggested_merge": "def filter_data_by_tier(self: Any, data: Any, user_tier: Any):",
+          "confidence": 0.2,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "        return has_access",
+            ""
+          ],
+          "source_context_after": [
+            "    def filter_data_by_tier(",
+            "        self, data: dict[str, Any], user_tier: int",
+            "    ) -> dict[str, Any]:"
+          ],
+          "target_context_before": [
+            "",
+            "        return None",
+            ""
+          ],
+          "target_context_after": [
+            "    def _notify_agents(self, event_type: str, data: Dict[str, Any]):",
+            "        \"\"\"Notify registered agents of ledger events\"\"\"",
+            "        for agent_name, callback in self.agent_callbacks.items():"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "data": "data",
+            "user_tier": "user_tier"
+          }
+        },
+        {
+          "source_line": 766,
+          "source_code": "    def __init__(self, config_path: Optional[Path] = None):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _init_(self: Any, config_path: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "    vision prompts, and tier-based access control.",
+            "    \"\"\"",
+            ""
+          ],
+          "source_context_after": [
+            "    def __init__(self, config_path: Optional[Path] = None):",
+            "        \"\"\"Initialize the complete memory fold system.\"\"\"",
+            "        # Load configuration"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "config_path": "config_path"
+          }
+        },
+        {
+          "source_line": 803,
+          "source_code": "    def log_dream(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def log_dream(self: Any, dream_type: Any, user_id: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "        logger.info(\"MemoryFoldSystem initialization complete\")",
+            ""
+          ],
+          "source_context_after": [
+            "    def log_dream(",
+            "        self, dream_type: str = \"reflective\", user_id: Optional[str] = None",
+            "    ) -> dict[str, Any]:"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "dream_type": "dream_type",
+            "user_id": "user_id"
+          }
+        },
+        {
+          "source_line": 836,
+          "source_code": "    def create_memory_fold(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 438,
+          "suggested_merge": "def create_memory_fold(self: Any, emotion: Any, context_snippet: Any, user_id: Any, metadata: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        logger.info(f\"Dream logged: {fold['hash'][:10]}...\")",
+            "        return fold",
+            ""
+          ],
+          "source_context_after": [
+            "    def create_memory_fold(",
+            "        self,",
+            "        emotion: str,"
+          ],
+          "target_context_before": [
+            "        self.agent_callbacks[agent_name] = callback",
+            "        logging.info(f\"Registered callback for agent: {agent_name}\")",
+            ""
+          ],
+          "target_context_after": [
+            "    def create_trace(",
+            "        self,",
+            "        lid: str,"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "emotion": "emotion",
+            "context_snippet": "context_snippet",
+            "user_id": "user_id",
+            "metadata": "metadata"
+          }
+        },
+        {
+          "source_line": 887,
+          "source_code": "    def recall_memory_folds(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def recall_memory_folds(self: Any, user_id: Any, filter_emotion: Any, user_tier: Any, limit: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "        return fold",
+            ""
+          ],
+          "source_context_after": [
+            "    def recall_memory_folds(",
+            "        self,",
+            "        user_id: Optional[str] = None,"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "user_id": "user_id",
+            "filter_emotion": "filter_emotion",
+            "user_tier": "user_tier",
+            "limit": "limit"
+          }
+        },
+        {
+          "source_line": 945,
+          "source_code": "    def enhanced_recall_memory_folds(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def enhanced_recall_memory_folds(self: Any, user_id: Any, target_emotion: Any, user_tier: Any, emotion_threshold: Any, context_query: Any, max_results: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        logger.info(f\"Recalled {len(processed_folds)} memory folds\")",
+            "        return processed_folds",
+            ""
+          ],
+          "source_context_after": [
+            "    def enhanced_recall_memory_folds(",
+            "        self,",
+            "        user_id: Optional[str] = None,"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "user_id": "user_id",
+            "target_emotion": "target_emotion",
+            "user_tier": "user_tier",
+            "emotion_threshold": "emotion_threshold",
+            "context_query": "context_query",
+            "max_results": "max_results"
+          }
+        },
+        {
+          "source_line": 1051,
+          "source_code": "    def calculate_emotion_distance(self, emotion1: str, emotion2: str) -> float:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def calculate_emotion_distance(self: Any, emotion1: Any, emotion2: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        logger.info(f\"Enhanced recall returned {len(enhanced_folds)} folds\")",
+            "        return enhanced_folds",
+            ""
+          ],
+          "source_context_after": [
+            "    def calculate_emotion_distance(self, emotion1: str, emotion2: str) -> float:",
+            "        \"\"\"",
+            "        Calculate emotional distance using cosine similarity."
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "emotion1": "emotion1",
+            "emotion2": "emotion2"
+          }
+        },
+        {
+          "source_line": 1078,
+          "source_code": "    def get_emotional_neighborhood(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def get_emotional_neighborhood(self: Any, target_emotion: Any, threshold: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "        return float(np.clip(distance, 0.0, 2.0))",
+            ""
+          ],
+          "source_context_after": [
+            "    def get_emotional_neighborhood(",
+            "        self, target_emotion: str, threshold: float = 0.5",
+            "    ) -> dict[str, float]:"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "target_emotion": "target_emotion",
+            "threshold": "threshold"
+          }
+        },
+        {
+          "source_line": 1107,
+          "source_code": "    def create_emotion_clusters(self, tier_level: int = 0) -> dict[str, list[str]]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 438,
+          "suggested_merge": "def create_emotion_clusters(self: Any, tier_level: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        # Sort by distance",
+            "        return dict(sorted(neighborhood.items(), key=lambda x: x[1]))",
+            ""
+          ],
+          "source_context_after": [
+            "    def create_emotion_clusters(self, tier_level: int = 0) -> dict[str, list[str]]:",
+            "        \"\"\"",
+            "        Create emotion clusters based on tier level."
+          ],
+          "target_context_before": [
+            "        self.agent_callbacks[agent_name] = callback",
+            "        logging.info(f\"Registered callback for agent: {agent_name}\")",
+            ""
+          ],
+          "target_context_after": [
+            "    def create_trace(",
+            "        self,",
+            "        lid: str,"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "tier_level": "tier_level"
+          }
+        },
+        {
+          "source_line": 1159,
+          "source_code": "    def dream_consolidate_memories(",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def dream_consolidate_memories(self: Any, hours_limit: Any, max_memories: Any, user_id: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "        return clusters",
+            ""
+          ],
+          "source_context_after": [
+            "    def dream_consolidate_memories(",
+            "        self,",
+            "        hours_limit: int = 24,"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "hours_limit": "hours_limit",
+            "max_memories": "max_memories",
+            "user_id": "user_id"
+          }
+        },
+        {
+          "source_line": 1254,
+          "source_code": "    def get_system_statistics(self) -> dict[str, Any]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 134,
+          "suggested_merge": "def get_system_statistics(self: Any):",
+          "confidence": 0.1,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "            \"timestamp\": datetime.utcnow().isoformat(),",
+            "        }",
+            ""
+          ],
+          "source_context_after": [
+            "    def get_system_statistics(self) -> dict[str, Any]:",
+            "        \"\"\"Get comprehensive system statistics.\"\"\"",
+            "        stats = self.database.get_statistics()"
+          ],
+          "target_context_before": [
+            "    compliance_flags: Dict[str, Any] = field(default_factory=dict)",
+            "    chain_integrity: Optional[str] = None  # Hash linking to previous traces",
+            ""
+          ],
+          "target_context_after": [
+            "    def to_immutable_hash(self) -> str:",
+            "        \"\"\"Generate cryptographic hash with Trinity Framework validation\"\"\"",
+            "        try:"
+          ],
+          "param_rename_map": {
+            "self": "self"
+          }
+        },
+        {
+          "source_line": 1289,
+          "source_code": "    def _get_emotion_state(self, user_id: Optional[str] = None) -> dict[str, Any]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _get_emotion_state(self: Any, user_id: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "    # Private helper methods",
+            ""
+          ],
+          "source_context_after": [
+            "    def _get_emotion_state(self, user_id: Optional[str] = None) -> dict[str, Any]:",
+            "        \"\"\"Get current emotion state with caching.\"\"\"",
+            "        cache_key = user_id or \"system\""
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "user_id": "user_id"
+          }
+        },
+        {
+          "source_line": 1319,
+          "source_code": "    def _add_dynamic_emotion(self, emotion: str):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _add_dynamic_emotion(self: Any, emotion: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "        return emotion_state",
+            ""
+          ],
+          "source_context_after": [
+            "    def _add_dynamic_emotion(self, emotion: str):",
+            "        \"\"\"Add a new emotion with interpolated vector.\"\"\"",
+            "        # Find two closest emotions"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "emotion": "emotion"
+          }
+        },
+        {
+          "source_line": 1349,
+          "source_code": "    def _extract_common_themes(self, folds: list[dict[str, Any]]) -> list[str]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _extract_common_themes(self: Any, folds: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        self.emotion_vectors[emotion] = new_vector",
+            "        logger.info(f\"Added dynamic emotion '{emotion}' with vector {new_vector}\")",
+            ""
+          ],
+          "source_context_after": [
+            "    def _extract_common_themes(self, folds: list[dict[str, Any]]) -> list[str]:",
+            "        \"\"\"Extract common themes from a group of folds.\"\"\"",
+            "        # Simple word frequency analysis"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "folds": "folds"
+          }
+        },
+        {
+          "source_line": 1366,
+          "source_code": "    def _get_emotion_state(self, user_id: Optional[str] = None) -> dict[str, Any]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _get_emotion_state(self: Any, user_id: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        themes = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)",
+            "        return [word for word, count in themes[:5] if count >= 2]",
+            ""
+          ],
+          "source_context_after": [
+            "    def _get_emotion_state(self, user_id: Optional[str] = None) -> dict[str, Any]:",
+            "        \"\"\"Get current emotion state with caching.\"\"\"",
+            "        cache_key = user_id or \"system\""
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "user_id": "user_id"
+          }
+        },
+        {
+          "source_line": 1396,
+          "source_code": "    def _add_dynamic_emotion(self, emotion: str):",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _add_dynamic_emotion(self: Any, emotion: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "",
+            "        return emotion_state",
+            ""
+          ],
+          "source_context_after": [
+            "    def _add_dynamic_emotion(self, emotion: str):",
+            "        \"\"\"Add a new emotion with interpolated vector.\"\"\"",
+            "        if not np:"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "emotion": "emotion"
+          }
+        },
+        {
+          "source_line": 1429,
+          "source_code": "    def _extract_common_themes(self, folds: list[dict[str, Any]]) -> list[str]:",
+          "target_file": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "target_line": 210,
+          "suggested_merge": "def _extract_common_themes(self: Any, folds: Any):",
+          "confidence": 0.5,
+          "required_adaptations": [
+            "Add type hints"
+          ],
+          "source_context_before": [
+            "        self.emotion_vectors[emotion] = new_vector",
+            "        logger.info(f\"Added dynamic emotion '{emotion}' with vector {new_vector}\")",
+            ""
+          ],
+          "source_context_after": [
+            "    def _extract_common_themes(self, folds: list[dict[str, Any]]) -> list[str]:",
+            "        \"\"\"Extract common themes from a group of folds.\"\"\"",
+            "        # Simple word frequency analysis"
+          ],
+          "target_context_before": [
+            "    step-up authentication, duress detection, data residency controls.",
+            "    \"\"\"",
+            ""
+          ],
+          "target_context_after": [
+            "    def __init__(",
+            "        self,",
+            "        db_path: str = \"governance/consent_ledger.db\","
+          ],
+          "param_rename_map": {
+            "self": "self",
+            "folds": "folds"
+          }
+        }
+      ],
+      "alternative_strategies": [
+        {
+          "strategy": "wrapper_service",
+          "effort_estimate": "2-3 days",
+          "risk_level": "low",
+          "pros": [
+            "Quick implementation",
+            "Minimal LUKHAS changes"
+          ],
+          "cons": [
+            "Additional maintenance overhead",
+            "Performance impact"
+          ]
+        },
+        {
+          "strategy": "direct_integration",
+          "effort_estimate": "1-2 weeks",
+          "risk_level": "medium",
+          "pros": [
+            "Clean architecture",
+            "Better performance"
+          ],
+          "cons": [
+            "More extensive testing needed",
+            "Potential conflicts"
+          ]
+        }
+      ],
+      "integration_cost_estimate": ">= 2 weeks"
+    },
+    "risk_assessment": {
+      "security_scan": {
+        "vulnerabilities_found": 3,
+        "critical_issues": [
+          "SQL injection potential"
+        ],
+        "semgrep_rules_hit": [],
+        "remediation_required": true,
+        "snippets": [
+          {
+            "issue": "SQL injection potential",
+            "start_line": 356,
+            "end_line": 356,
+            "snippet": "                conn.row_factory = sqlite3.Row\n                cursor = conn.execute(query, params)\n"
+          },
+          {
+            "issue": "SQL injection potential",
+            "start_line": 391,
+            "end_line": 391,
+            "snippet": "                    # Execute updates in a transaction for efficiency\n                    conn.execute(\"BEGIN TRANSACTION\")\n                    try:"
+          },
+          {
+            "issue": "SQL injection potential",
+            "start_line": 479,
+            "end_line": 479,
+            "snippet": "                # Total folds\n                cursor = conn.execute(\"SELECT COUNT(*) FROM memory_folds\")\n                stats[\"total_folds\"] = cursor.fetchone()[0]"
+          }
+        ]
+      },
+      "dependency_analysis": {
+        "outdated_dependencies": 0,
+        "conflicting_versions": [],
+        "update_effort": "low"
+      },
+      "performance_impact": {
+        "memory_overhead": "+15MB estimated",
+        "cpu_impact": "negligible",
+        "integration_bottlenecks": [
+          "Database connection pooling"
+        ]
+      }
+    },
+    "integration_roadmap": {
+      "phase_1": {
+        "duration": "1 week",
+        "tasks": [
+          "Security vulnerability fixes",
+          "Dependency updates"
+        ],
+        "deliverables": [
+          "Cleaned orphan module",
+          "Security assessment report"
+        ]
+      },
+      "phase_2": {
+        "duration": "1-2 weeks",
+        "tasks": [
+          "Naming convention alignment",
+          "Code style harmonization"
+        ],
+        "deliverables": [
+          "Refactored module",
+          "Integration test suite"
+        ]
+      },
+      "phase_3": {
+        "duration": "3-5 days",
+        "tasks": [
+          "LUKHAS integration",
+          "End-to-end testing"
+        ],
+        "deliverables": [
+          "Integrated system",
+          "Performance benchmarks"
+        ]
+      }
+    },
+    "git_summary": "Last 50 commits (head):\n7255ea1d feat: T4 Enterprise Datadog US5 integration complete\n613c6dc0 feat: Complete session work - \u039bTODO items, file consolidation, and enterprise setup\nae3ea0cb cleanup: Remove redundant backup directories and files\n3a81abe3 refactor: Consolidate enhancement-named files to minimalistic LUKHAS naming\n8f352d91 feat: Complete naming cleanup - Quantum\u2192QI and Lucas\u2192Lukhas\n7418dc39 feat: Complete 25+ \u039bTODO implementations across LUKHAS candidate modules\nfc3b12ba feat: Complete LUKHAS Context Bus & Orchestration System Implementation\n135dc91a fix: Clean up naming conventions and syntax errors\nf702fc5f feat: Complete final 25 high-priority TODOs - System integration complete\nbc74307f feat: Complete LUKHAS AI System Implementation - 100% BATCH Completion",
+    "extras": {
+      "orphan_function_summaries": [
+        {
+          "name": "_get_global_system",
+          "args": [],
+          "lineno": 1455,
+          "end_lineno": 1460,
+          "loc": 6,
+          "has_docstring": true,
+          "doc_chars": 37
+        },
+        {
+          "name": "log_dream",
+          "args": [
+            "dream_type",
+            "user_id"
+          ],
+          "lineno": 1463,
+          "end_lineno": 1466,
+          "loc": 4,
+          "has_docstring": true,
+          "doc_chars": 34
+        },
+        {
+          "name": "create_memory_fold",
+          "args": [
+            "emotion",
+            "context_snippet",
+            "user_id"
+          ],
+          "lineno": 1469,
+          "end_lineno": 1474,
+          "loc": 6,
+          "has_docstring": true,
+          "doc_chars": 41
+        },
+        {
+          "name": "recall_memory_folds",
+          "args": [
+            "user_id",
+            "filter_emotion",
+            "user_tier"
+          ],
+          "lineno": 1477,
+          "end_lineno": 1484,
+          "loc": 8,
+          "has_docstring": true,
+          "doc_chars": 43
+        },
+        {
+          "name": "enhanced_recall_memory_folds",
+          "args": [
+            "user_id",
+            "target_emotion",
+            "user_tier",
+            "emotion_threshold",
+            "context_query",
+            "max_results"
+          ],
+          "lineno": 1487,
+          "end_lineno": 1504,
+          "loc": 18,
+          "has_docstring": true,
+          "doc_chars": 36
+        },
+        {
+          "name": "calculate_emotion_distance",
+          "args": [
+            "emotion1",
+            "emotion2"
+          ],
+          "lineno": 1507,
+          "end_lineno": 1510,
+          "loc": 4,
+          "has_docstring": true,
+          "doc_chars": 49
+        },
+        {
+          "name": "get_emotional_neighborhood",
+          "args": [
+            "target_emotion",
+            "threshold"
+          ],
+          "lineno": 1513,
+          "end_lineno": 1518,
+          "loc": 6,
+          "has_docstring": true,
+          "doc_chars": 43
+        },
+        {
+          "name": "create_emotion_clusters",
+          "args": [
+            "tier_level"
+          ],
+          "lineno": 1521,
+          "end_lineno": 1524,
+          "loc": 4,
+          "has_docstring": true,
+          "doc_chars": 39
+        },
+        {
+          "name": "load_config",
+          "args": [
+            "cls",
+            "config_path"
+          ],
+          "lineno": 133,
+          "end_lineno": 147,
+          "loc": 15,
+          "has_docstring": true,
+          "doc_chars": 60
+        },
+        {
+          "name": "get_default_config",
+          "args": [
+            "cls"
+          ],
+          "lineno": 150,
+          "end_lineno": 167,
+          "loc": 18,
+          "has_docstring": true,
+          "doc_chars": 30
+        },
+        {
+          "name": "get_default_emotion_vectors",
+          "args": [
+            "cls"
+          ],
+          "lineno": 170,
+          "end_lineno": 196,
+          "loc": 27,
+          "has_docstring": true,
+          "doc_chars": 32
+        },
+        {
+          "name": "__init__",
+          "args": [
+            "self",
+            "db_path",
+            "max_folds",
+            "cleanup_interval_hours"
+          ],
+          "lineno": 207,
+          "end_lineno": 218,
+          "loc": 12,
+          "has_docstring": true,
+          "doc_chars": 42
+        },
+        {
+          "name": "_init_database",
+          "args": [
+            "self"
+          ],
+          "lineno": 220,
+          "end_lineno": 277,
+          "loc": 58,
+          "has_docstring": true,
+          "doc_chars": 37
+        },
+        {
+          "name": "add_fold",
+          "args": [
+            "self",
+            "fold"
+          ],
+          "lineno": 279,
+          "end_lineno": 321,
+          "loc": 43,
+          "has_docstring": true,
+          "doc_chars": 34
+        },
+        {
+          "name": "get_folds",
+          "args": [
+            "self",
+            "user_id",
+            "filter_emotion",
+            "min_relevance",
+            "limit",
+            "offset"
+          ],
+          "lineno": 323,
+          "end_lineno": 412,
+          "loc": 90,
+          "has_docstring": true,
+          "doc_chars": 52
+        },
+        {
+          "name": "update_relevance_scores",
+          "args": [
+            "self",
+            "decay_factor"
+          ],
+          "lineno": 414,
+          "end_lineno": 429,
+          "loc": 16,
+          "has_docstring": true,
+          "doc_chars": 43
+        },
+        {
+          "name": "_cleanup_old_folds",
+          "args": [
+            "self"
+          ],
+          "lineno": 431,
+          "end_lineno": 470,
+          "loc": 40,
+          "has_docstring": true,
+          "doc_chars": 54
+        },
+        {
+          "name": "get_statistics",
+          "args": [
+            "self"
+          ],
+          "lineno": 472,
+          "end_lineno": 539,
+          "loc": 68,
+          "has_docstring": true,
+          "doc_chars": 38
+        },
+        {
+          "name": "__init__",
+          "args": [
+            "self",
+            "prompts_path"
+          ],
+          "lineno": 550,
+          "end_lineno": 558,
+          "loc": 9,
+          "has_docstring": true,
+          "doc_chars": 42
+        },
+        {
+          "name": "_load_prompts",
+          "args": [
+            "self"
+          ],
+          "lineno": 560,
+          "end_lineno": 572,
+          "loc": 13,
+          "has_docstring": true,
+          "doc_chars": 42
+        },
+        {
+          "name": "_get_default_prompts",
+          "args": [
+            "self"
+          ],
+          "lineno": 574,
+          "end_lineno": 604,
+          "loc": 31,
+          "has_docstring": true,
+          "doc_chars": 38
+        },
+        {
+          "name": "get_prompt_for_fold",
+          "args": [
+            "self",
+            "fold",
+            "user_tier"
+          ],
+          "lineno": 606,
+          "end_lineno": 682,
+          "loc": 77,
+          "has_docstring": true,
+          "doc_chars": 53
+        },
+        {
+          "name": "__init__",
+          "args": [
+            "self",
+            "tier_config"
+          ],
+          "lineno": 693,
+          "end_lineno": 700,
+          "loc": 8,
+          "has_docstring": true,
+          "doc_chars": 32
+        },
+        {
+          "name": "validate_access",
+          "args": [
+            "self",
+            "required_level",
+            "user_tier",
+            "operation"
+          ],
+          "lineno": 702,
+          "end_lineno": 718,
+          "loc": 17,
+          "has_docstring": true,
+          "doc_chars": 41
+        },
+        {
+          "name": "filter_data_by_tier",
+          "args": [
+            "self",
+            "data",
+            "user_tier"
+          ],
+          "lineno": 720,
+          "end_lineno": 752,
+          "loc": 33,
+          "has_docstring": true,
+          "doc_chars": 39
+        },
+        {
+          "name": "__init__",
+          "args": [
+            "self",
+            "config_path"
+          ],
+          "lineno": 766,
+          "end_lineno": 801,
+          "loc": 36,
+          "has_docstring": true,
+          "doc_chars": 43
+        },
+        {
+          "name": "log_dream",
+          "args": [
+            "self",
+            "dream_type",
+            "user_id"
+          ],
+          "lineno": 803,
+          "end_lineno": 834,
+          "loc": 32,
+          "has_docstring": true,
+          "doc_chars": 183
+        },
+        {
+          "name": "create_memory_fold",
+          "args": [
+            "self",
+            "emotion",
+            "context_snippet",
+            "user_id",
+            "metadata"
+          ],
+          "lineno": 836,
+          "end_lineno": 885,
+          "loc": 50,
+          "has_docstring": true,
+          "doc_chars": 242
+        },
+        {
+          "name": "recall_memory_folds",
+          "args": [
+            "self",
+            "user_id",
+            "filter_emotion",
+            "user_tier",
+            "limit"
+          ],
+          "lineno": 887,
+          "end_lineno": 943,
+          "loc": 57,
+          "has_docstring": true,
+          "doc_chars": 282
+        },
+        {
+          "name": "enhanced_recall_memory_folds",
+          "args": [
+            "self",
+            "user_id",
+            "target_emotion",
+            "user_tier",
+            "emotion_threshold",
+            "context_query",
+            "max_results"
+          ],
+          "lineno": 945,
+          "end_lineno": 1049,
+          "loc": 105,
+          "has_docstring": true,
+          "doc_chars": 394
+        },
+        {
+          "name": "calculate_emotion_distance",
+          "args": [
+            "self",
+            "emotion1",
+            "emotion2"
+          ],
+          "lineno": 1051,
+          "end_lineno": 1076,
+          "loc": 26,
+          "has_docstring": true,
+          "doc_chars": 179
+        },
+        {
+          "name": "get_emotional_neighborhood",
+          "args": [
+            "self",
+            "target_emotion",
+            "threshold"
+          ],
+          "lineno": 1078,
+          "end_lineno": 1105,
+          "loc": 28,
+          "has_docstring": true,
+          "doc_chars": 172
+        },
+        {
+          "name": "create_emotion_clusters",
+          "args": [
+            "self",
+            "tier_level"
+          ],
+          "lineno": 1107,
+          "end_lineno": 1157,
+          "loc": 51,
+          "has_docstring": true,
+          "doc_chars": 146
+        },
+        {
+          "name": "dream_consolidate_memories",
+          "args": [
+            "self",
+            "hours_limit",
+            "max_memories",
+            "user_id"
+          ],
+          "lineno": 1159,
+          "end_lineno": 1252,
+          "loc": 94,
+          "has_docstring": true,
+          "doc_chars": 235
+        },
+        {
+          "name": "get_system_statistics",
+          "args": [
+            "self"
+          ],
+          "lineno": 1254,
+          "end_lineno": 1285,
+          "loc": 32,
+          "has_docstring": true,
+          "doc_chars": 36
+        },
+        {
+          "name": "_get_emotion_state",
+          "args": [
+            "self",
+            "user_id"
+          ],
+          "lineno": 1289,
+          "end_lineno": 1317,
+          "loc": 29,
+          "has_docstring": true,
+          "doc_chars": 39
+        },
+        {
+          "name": "_add_dynamic_emotion",
+          "args": [
+            "self",
+            "emotion"
+          ],
+          "lineno": 1319,
+          "end_lineno": 1347,
+          "loc": 29,
+          "has_docstring": true,
+          "doc_chars": 43
+        },
+        {
+          "name": "_extract_common_themes",
+          "args": [
+            "self",
+            "folds"
+          ],
+          "lineno": 1349,
+          "end_lineno": 1364,
+          "loc": 16,
+          "has_docstring": true,
+          "doc_chars": 44
+        },
+        {
+          "name": "_get_emotion_state",
+          "args": [
+            "self",
+            "user_id"
+          ],
+          "lineno": 1366,
+          "end_lineno": 1394,
+          "loc": 29,
+          "has_docstring": true,
+          "doc_chars": 39
+        },
+        {
+          "name": "_add_dynamic_emotion",
+          "args": [
+            "self",
+            "emotion"
+          ],
+          "lineno": 1396,
+          "end_lineno": 1427,
+          "loc": 32,
+          "has_docstring": true,
+          "doc_chars": 43
+        },
+        {
+          "name": "_extract_common_themes",
+          "args": [
+            "self",
+            "folds"
+          ],
+          "lineno": 1429,
+          "end_lineno": 1444,
+          "loc": 16,
+          "has_docstring": true,
+          "doc_chars": 44
+        }
+      ],
+      "imports": [
+        "logging",
+        "hashlib",
+        "json",
+        "sqlite3",
+        "numpy",
+        "collections",
+        "datetime",
+        "pathlib",
+        "threading",
+        "typing"
+      ],
+      "top_match_candidates": [
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "function": "_init_database",
+          "similarity": 0.841
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/emotion/__init__.py",
+          "function": "__init__",
+          "similarity": 0.837
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/auth_guardian_integration.py",
+          "function": "get_drift_summary",
+          "similarity": 0.678
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/wallet/__init__.py",
+          "function": "__init__",
+          "similarity": 0.669
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/core/core_wrapper.py",
+          "function": "encode_concept",
+          "similarity": 0.66
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/memory/config.py",
+          "function": "to_dict",
+          "similarity": 0.656
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/vivox/vivox_wrapper.py",
+          "function": "__init__",
+          "similarity": 0.649
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/qrg/__init__.py",
+          "function": "__init__",
+          "similarity": 0.648
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/identity/auth/__init__.py",
+          "function": "__init__",
+          "similarity": 0.648
+        },
+        {
+          "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/governance/consent_ledger_impl.py",
+          "function": "validate_action",
+          "similarity": 0.641
+        }
+      ],
+      "style": {
+        "indent_spaces": 4,
+        "bracket_style": "same-line",
+        "anti_patterns": []
+      }
+    },
+    "test_scaffolding": [
+      {
+        "name": "test__get_global_system",
+        "stub": "import pytest\n\ndef test__get_global_system():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _get_global_system -> Preferred: _get_global_system\n    # Arrange\n    # TODO: build inputs matching signature: ()\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_log_dream",
+        "stub": "import pytest\n\ndef test_log_dream():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: log_dream -> Preferred: log_dream\n    # Arrange\n    # TODO: build inputs matching signature: (dream_type, user_id)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_create_memory_fold",
+        "stub": "import pytest\n\ndef test_create_memory_fold():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: create_memory_fold -> Preferred: create_memory_fold\n    # Arrange\n    # TODO: build inputs matching signature: (emotion, context_snippet, user_id)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_recall_memory_folds",
+        "stub": "import pytest\n\ndef test_recall_memory_folds():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: recall_memory_folds -> Preferred: recall_memory_folds\n    # Arrange\n    # TODO: build inputs matching signature: (user_id, filter_emotion, user_tier)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_enhanced_recall_memory_folds",
+        "stub": "import pytest\n\ndef test_enhanced_recall_memory_folds():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: enhanced_recall_memory_folds -> Preferred: enhanced_recall_memory_folds\n    # Arrange\n    # TODO: build inputs matching signature: (user_id, target_emotion, user_tier, emotion_threshold, context_query, max_results)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_calculate_emotion_distance",
+        "stub": "import pytest\n\ndef test_calculate_emotion_distance():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: calculate_emotion_distance -> Preferred: calculate_emotion_distance\n    # Arrange\n    # TODO: build inputs matching signature: (emotion1, emotion2)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_get_emotional_neighborhood",
+        "stub": "import pytest\n\ndef test_get_emotional_neighborhood():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: get_emotional_neighborhood -> Preferred: get_emotional_neighborhood\n    # Arrange\n    # TODO: build inputs matching signature: (target_emotion, threshold)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_create_emotion_clusters",
+        "stub": "import pytest\n\ndef test_create_emotion_clusters():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: create_emotion_clusters -> Preferred: create_emotion_clusters\n    # Arrange\n    # TODO: build inputs matching signature: (tier_level)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_load_config",
+        "stub": "import pytest\n\ndef test_load_config():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: load_config -> Preferred: load_config\n    # Arrange\n    # TODO: build inputs matching signature: (cls, config_path)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_get_default_config",
+        "stub": "import pytest\n\ndef test_get_default_config():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: get_default_config -> Preferred: get_default_config\n    # Arrange\n    # TODO: build inputs matching signature: (cls)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_get_default_emotion_vectors",
+        "stub": "import pytest\n\ndef test_get_default_emotion_vectors():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: get_default_emotion_vectors -> Preferred: get_default_emotion_vectors\n    # Arrange\n    # TODO: build inputs matching signature: (cls)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__init_",
+        "stub": "import pytest\n\ndef test__init_():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: __init__ -> Preferred: __init__\n    # Arrange\n    # TODO: build inputs matching signature: (self, db_path, max_folds, cleanup_interval_hours)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__init_database",
+        "stub": "import pytest\n\ndef test__init_database():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _init_database -> Preferred: _init_database\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_add_fold",
+        "stub": "import pytest\n\ndef test_add_fold():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: add_fold -> Preferred: add_fold\n    # Arrange\n    # TODO: build inputs matching signature: (self, fold)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_get_folds",
+        "stub": "import pytest\n\ndef test_get_folds():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: get_folds -> Preferred: get_folds\n    # Arrange\n    # TODO: build inputs matching signature: (self, user_id, filter_emotion, min_relevance, limit, offset)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_update_relevance_scores",
+        "stub": "import pytest\n\ndef test_update_relevance_scores():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: update_relevance_scores -> Preferred: update_relevance_scores\n    # Arrange\n    # TODO: build inputs matching signature: (self, decay_factor)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__cleanup_old_folds",
+        "stub": "import pytest\n\ndef test__cleanup_old_folds():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _cleanup_old_folds -> Preferred: _cleanup_old_folds\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_get_statistics",
+        "stub": "import pytest\n\ndef test_get_statistics():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: get_statistics -> Preferred: get_statistics\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__init_",
+        "stub": "import pytest\n\ndef test__init_():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: __init__ -> Preferred: __init__\n    # Arrange\n    # TODO: build inputs matching signature: (self, prompts_path)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__load_prompts",
+        "stub": "import pytest\n\ndef test__load_prompts():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _load_prompts -> Preferred: _load_prompts\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__get_default_prompts",
+        "stub": "import pytest\n\ndef test__get_default_prompts():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _get_default_prompts -> Preferred: _get_default_prompts\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_get_prompt_for_fold",
+        "stub": "import pytest\n\ndef test_get_prompt_for_fold():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: get_prompt_for_fold -> Preferred: get_prompt_for_fold\n    # Arrange\n    # TODO: build inputs matching signature: (self, fold, user_tier)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__init_",
+        "stub": "import pytest\n\ndef test__init_():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: __init__ -> Preferred: __init__\n    # Arrange\n    # TODO: build inputs matching signature: (self, tier_config)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_validate_access",
+        "stub": "import pytest\n\ndef test_validate_access():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: validate_access -> Preferred: validate_access\n    # Arrange\n    # TODO: build inputs matching signature: (self, required_level, user_tier, operation)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_filter_data_by_tier",
+        "stub": "import pytest\n\ndef test_filter_data_by_tier():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: filter_data_by_tier -> Preferred: filter_data_by_tier\n    # Arrange\n    # TODO: build inputs matching signature: (self, data, user_tier)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__init_",
+        "stub": "import pytest\n\ndef test__init_():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: __init__ -> Preferred: __init__\n    # Arrange\n    # TODO: build inputs matching signature: (self, config_path)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_log_dream",
+        "stub": "import pytest\n\ndef test_log_dream():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: log_dream -> Preferred: log_dream\n    # Arrange\n    # TODO: build inputs matching signature: (self, dream_type, user_id)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_create_memory_fold",
+        "stub": "import pytest\n\ndef test_create_memory_fold():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: create_memory_fold -> Preferred: create_memory_fold\n    # Arrange\n    # TODO: build inputs matching signature: (self, emotion, context_snippet, user_id, metadata)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_recall_memory_folds",
+        "stub": "import pytest\n\ndef test_recall_memory_folds():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: recall_memory_folds -> Preferred: recall_memory_folds\n    # Arrange\n    # TODO: build inputs matching signature: (self, user_id, filter_emotion, user_tier, limit)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_enhanced_recall_memory_folds",
+        "stub": "import pytest\n\ndef test_enhanced_recall_memory_folds():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: enhanced_recall_memory_folds -> Preferred: enhanced_recall_memory_folds\n    # Arrange\n    # TODO: build inputs matching signature: (self, user_id, target_emotion, user_tier, emotion_threshold, context_query, max_results)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_calculate_emotion_distance",
+        "stub": "import pytest\n\ndef test_calculate_emotion_distance():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: calculate_emotion_distance -> Preferred: calculate_emotion_distance\n    # Arrange\n    # TODO: build inputs matching signature: (self, emotion1, emotion2)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_get_emotional_neighborhood",
+        "stub": "import pytest\n\ndef test_get_emotional_neighborhood():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: get_emotional_neighborhood -> Preferred: get_emotional_neighborhood\n    # Arrange\n    # TODO: build inputs matching signature: (self, target_emotion, threshold)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_create_emotion_clusters",
+        "stub": "import pytest\n\ndef test_create_emotion_clusters():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: create_emotion_clusters -> Preferred: create_emotion_clusters\n    # Arrange\n    # TODO: build inputs matching signature: (self, tier_level)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_dream_consolidate_memories",
+        "stub": "import pytest\n\ndef test_dream_consolidate_memories():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: dream_consolidate_memories -> Preferred: dream_consolidate_memories\n    # Arrange\n    # TODO: build inputs matching signature: (self, hours_limit, max_memories, user_id)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test_get_system_statistics",
+        "stub": "import pytest\n\ndef test_get_system_statistics():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: get_system_statistics -> Preferred: get_system_statistics\n    # Arrange\n    # TODO: build inputs matching signature: (self)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__get_emotion_state",
+        "stub": "import pytest\n\ndef test__get_emotion_state():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _get_emotion_state -> Preferred: _get_emotion_state\n    # Arrange\n    # TODO: build inputs matching signature: (self, user_id)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__add_dynamic_emotion",
+        "stub": "import pytest\n\ndef test__add_dynamic_emotion():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _add_dynamic_emotion -> Preferred: _add_dynamic_emotion\n    # Arrange\n    # TODO: build inputs matching signature: (self, emotion)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__extract_common_themes",
+        "stub": "import pytest\n\ndef test__extract_common_themes():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _extract_common_themes -> Preferred: _extract_common_themes\n    # Arrange\n    # TODO: build inputs matching signature: (self, folds)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__get_emotion_state",
+        "stub": "import pytest\n\ndef test__get_emotion_state():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _get_emotion_state -> Preferred: _get_emotion_state\n    # Arrange\n    # TODO: build inputs matching signature: (self, user_id)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__add_dynamic_emotion",
+        "stub": "import pytest\n\ndef test__add_dynamic_emotion():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _add_dynamic_emotion -> Preferred: _add_dynamic_emotion\n    # Arrange\n    # TODO: build inputs matching signature: (self, emotion)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      },
+      {
+        "name": "test__extract_common_themes",
+        "stub": "import pytest\n\ndef test__extract_common_themes():\n    # TODO: adapt imports and setup according to integration mapping\n    # Original: _extract_common_themes -> Preferred: _extract_common_themes\n    # Arrange\n    # TODO: build inputs matching signature: (self, folds)\n    # Act\n    # TODO: call target function and capture result\n    # Assert\n    assert True\n"
+      }
+    ]
+  },
+  "system_metadata": {
+    "analysis_timestamp": "2025-08-25T22:24:22.999995Z",
+    "analyzer_version": "2.2.0",
+    "confidence_threshold": 0.75,
+    "model_versions": {
+      "code_embeddings": "text-embedding-3-small",
+      "security_scanner": "heuristic-0.1",
+      "style_analyzer": "custom-v2.0"
+    },
+    "reasoning_model": {
+      "default": "gpt-5-mini",
+      "final_used": "gpt-5-mini",
+      "cascade": []
+    }
+  },
+  "audit_trail": [
+    {
+      "ts": "2025-08-25T22:24:22.359239Z",
+      "action": "start_analysis",
+      "orphan": "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/memory/folds/memory_fold.py",
+      "target": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas",
+      "cheap_first": false
+    },
+    {
+      "ts": "2025-08-25T22:24:22.382331Z",
+      "action": "discover_files",
+      "root": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas",
+      "count": 65
+    },
+    {
+      "ts": "2025-08-25T22:24:22.546479Z",
+      "action": "parse_repository",
+      "root": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas",
+      "modules": 65
+    },
+    {
+      "ts": "2025-08-25T22:24:22.592489Z",
+      "action": "build_embeddings",
+      "count": 362
+    },
+    {
+      "ts": "2025-08-25T22:24:23.032633Z",
+      "action": "end_analysis",
+      "confidence": 0.46
+    }
+  ]
+}

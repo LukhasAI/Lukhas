@@ -218,6 +218,34 @@ class LambdaIDGenerator:
         }
 
 
+# Alias for compatibility
+LambdIDGenerator = LambdaIDGenerator
+
+# Validator class
+class LambdIDValidator:
+    """Lambda ID validator"""
+    
+    def __init__(self):
+        pass
+    
+    def validate(self, lambda_id: str) -> bool:
+        """Validate Lambda ID format"""
+        if not lambda_id or not isinstance(lambda_id, str):
+            return False
+        
+        parts = lambda_id.split('-')
+        if len(parts) != 4:
+            return False
+        
+        # Check format: LUKHAS{tier}-{hash}-{symbol}-{entropy}
+        if not parts[0].startswith('LUKHAS'):
+            return False
+        
+        return True
+
+# Export main classes
+__all__ = ["LambdaIDGenerator", "LambdIDGenerator", "LambdIDValidator", "TierLevel", "UserContext"]
+
 # Example usage and testing
 if __name__ == "__main__":
     generator = LambdaIDGenerator()

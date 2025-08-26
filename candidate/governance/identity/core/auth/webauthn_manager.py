@@ -713,5 +713,9 @@ class WebAuthnManager:
         return device_dist
 
 
+# Alias for compatibility
+PasskeyRegistration = WebAuthnCredential
+PasskeyAuthentication = WebAuthnCredential
+
 # Export main class
-__all__ = ["WebAuthnManager", "WebAuthnCredential"]
+__all__ = ["WebAuthnManager", "WebAuthnCredential", "PasskeyRegistration", "PasskeyAuthentication"]

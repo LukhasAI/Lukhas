@@ -691,4 +691,7 @@ if __name__ == "__main__":
 
 
 # Alias for backward compatibility
-EntropyEngine = EntropyLevel
+EntropyEngine = LambdaIDEntropyEngine
+
+# Export classes
+__all__ = ['LambdaIDEntropyEngine', 'EntropyEngine', 'EntropyAnalysis', 'EntropyLevel']

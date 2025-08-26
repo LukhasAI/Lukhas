@@ -1,3 +1,14 @@
+## MATRIZ Priority Mode (Temporary)
+
+**CRITICAL — MATRIZ Lane Source of Truth**
+
+- The canonical source of lane configuration and assignments is `ops/matriz.yaml`.  
+- **No renames or lane shuffles are permitted** until the MATRIZ baseline is complete and locked.
+- After **any** lane change (including file moves, promotions, or demotions), you **must** run `/matriz-assign` to update `MATRIZ_PLAN.md` and ensure all documentation reflects the current MATRIZ state.
+- **Promotions from `candidate/` to `lukhas/` must strictly follow the documented MATRIZ promotion flow**. Do not perform ad-hoc rewrites or bypass the approved process.
+- All contributors and agents must coordinate lane changes through MATRIZ and never edit lane assignments directly in code or documentation without a corresponding MATRIZ update.
+
+# CLAUDE.md
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
