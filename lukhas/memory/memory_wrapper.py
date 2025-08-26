@@ -6,7 +6,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 import os
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from lukhas.observability.matriz_decorators import matriz_record
@@ -53,11 +53,11 @@ class MemoryWrapper:
     def create_fold(
         self,
         content: Any,
-        causal_chain: Optional[List[str]] = None,
+        causal_chain: Optional[list[str]] = None,
         emotional_valence: float = 0.0,
         importance: float = 0.5,
         mode: str = "auto",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Create a memory fold with comprehensive error handling"""
         start_time = time.time()
         effective_mode = self._get_mode(mode)
@@ -107,7 +107,7 @@ class MemoryWrapper:
             }
 
     @emit_node("memory:wrapper:consolidate")
-    def consolidate_memory(self, threshold: float = 0.5, mode: str = "auto") -> Dict[str, Any]:
+    def consolidate_memory(self, threshold: float = 0.5, mode: str = "auto") -> dict[str, Any]:
         """Consolidate memory with safety checks"""
         start_time = time.time()
         effective_mode = self._get_mode(mode)
@@ -145,7 +145,7 @@ class MemoryWrapper:
             }
 
     @emit_node("memory:wrapper:access")
-    def access_memory(self, query: Dict[str, Any], mode: str = "auto") -> Dict[str, Any]:
+    def access_memory(self, query: dict[str, Any], mode: str = "auto") -> dict[str, Any]:
         """Access memory with query processing"""
         start_time = time.time()
         effective_mode = self._get_mode(mode)
@@ -209,7 +209,7 @@ class MemoryWrapper:
             }
 
     @emit_node("memory:wrapper:status")
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get comprehensive memory system status"""
         try:
             # Get underlying system status
@@ -236,7 +236,7 @@ class MemoryWrapper:
 
     def extend_causal_chain(
         self, fold_id: str, new_event: str, mode: str = "auto"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Extend causal chain for a fold"""
         effective_mode = self._get_mode(mode)
 
@@ -263,7 +263,7 @@ class MemoryWrapper:
 
     def update_valence(
         self, fold_id: str, new_valence: float, mode: str = "auto"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Update emotional valence for a fold"""
         effective_mode = self._get_mode(mode)
 

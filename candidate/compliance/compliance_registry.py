@@ -2,7 +2,7 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 class ComplianceRegistry:
@@ -40,7 +40,7 @@ class ComplianceRegistry:
         self.component_registry = {}
 
     async def register_component(
-        self, component_id: str, compliance_data: Dict[str, Any]
+        self, component_id: str, compliance_data: dict[str, Any]
     ) -> None:
         """Register a component's compliance information"""
         self.component_registry[component_id] = {
@@ -51,7 +51,7 @@ class ComplianceRegistry:
 
         await self._save_registry()
 
-    async def generate_compliance_report(self) -> Dict[str, Any]:
+    async def generate_compliance_report(self) -> dict[str, Any]:
         """Generate comprehensive compliance report"""
         return {
             "timestamp": datetime.now().isoformat(),
@@ -81,7 +81,7 @@ class ComplianceRegistry:
                 indent=2,
             )
 
-    def get_component_requirements(self, component_id: str) -> List[str]:
+    def get_component_requirements(self, component_id: str) -> list[str]:
         """Get compliance requirements for a specific component"""
         base_requirements = [
             "data_minimization",

@@ -10,7 +10,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Configure logging
 logging.basicConfig(
@@ -29,7 +29,7 @@ class MonitoringSetup:
         self.services = {}
         self.base_dir = Path(__file__).parent
 
-    def load_config(self) -> Dict[str, Any]:
+    def load_config(self) -> dict[str, Any]:
         """Load monitoring configuration"""
         default_config = {
             "unified_dashboard": {
@@ -76,7 +76,7 @@ class MonitoringSetup:
 
         return default_config
 
-    def save_default_config(self, config: Dict[str, Any]):
+    def save_default_config(self, config: dict[str, Any]):
         """Save default configuration file"""
         import yaml
 
@@ -112,7 +112,7 @@ class MonitoringSetup:
             dir_path.mkdir(exist_ok=True)
             logger.info(f"📁 Created directory: {dir_path}")
 
-    def start_unified_dashboard(self, config: Dict[str, Any]):
+    def start_unified_dashboard(self, config: dict[str, Any]):
         """Start the unified monitoring dashboard"""
         if not config["unified_dashboard"]["enabled"]:
             logger.info("🔴 Unified dashboard disabled in config")
@@ -151,7 +151,7 @@ class MonitoringSetup:
         except Exception as e:
             logger.error(f"❌ Failed to start Unified Dashboard: {e}")
 
-    def start_meta_dashboard(self, config: Dict[str, Any]):
+    def start_meta_dashboard(self, config: dict[str, Any]):
         """Start the meta/symbolic dashboard"""
         if not config["meta_dashboard"]["enabled"]:
             logger.info("🔴 Meta dashboard disabled in config")
@@ -176,7 +176,7 @@ class MonitoringSetup:
         except Exception as e:
             logger.error(f"❌ Failed to start Meta Dashboard: {e}")
 
-    def setup_prometheus_integration(self, config: Dict[str, Any]):
+    def setup_prometheus_integration(self, config: dict[str, Any]):
         """Setup Prometheus metrics export"""
         if not config["integrations"]["prometheus"]:
             return
@@ -265,7 +265,7 @@ if __name__ == "__main__":
 
             logger.info(f"📝 Created script: {script_path}")
 
-    def create_systemd_services(self, config: Dict[str, Any]):
+    def create_systemd_services(self, config: dict[str, Any]):
         """Create systemd service files for production deployment"""
         services = {
             "lukhas--dashboard": {

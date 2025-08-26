@@ -9,7 +9,7 @@ import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 from core.common import GLYPHSymbol
 
@@ -31,10 +31,10 @@ class GLYPHRouter:
     """Intelligent GLYPH routing system"""
 
     def __init__(self):
-        self._routes: Dict[str, List[GLYPHRoute]] = defaultdict(list)
-        self._handlers: Dict[str, List[Callable]] = defaultdict(list)
-        self._cache: Dict[str, Any] = {}
-        self._cache_timestamps: Dict[str, datetime] = {}
+        self._routes: dict[str, list[GLYPHRoute]] = defaultdict(list)
+        self._handlers: dict[str, list[Callable]] = defaultdict(list)
+        self._cache: dict[str, Any] = {}
+        self._cache_timestamps: dict[str, datetime] = {}
         self._metrics = {
             "glyphs_routed": 0,
             "cache_hits": 0,
@@ -152,7 +152,7 @@ class GLYPHRouter:
                     except Exception as e:
                         logger.error(f"Error in GLYPH handler: {e}")
 
-    def get_metrics(self) -> Dict[str, int]:
+    def get_metrics(self) -> dict[str, int]:
         """Get routing metrics"""
         return self._metrics.copy()
 
@@ -173,7 +173,7 @@ async def emit_glyph(glyph: GLYPHSymbol, source_module: str):
 
 
 def create_glyph(
-    symbol_type: str, payload: Dict[str, Any], metadata: Dict[str, Any] = None
+    symbol_type: str, payload: dict[str, Any], metadata: dict[str, Any] = None
 ) -> GLYPHSymbol:
     """Create a GLYPH with standard format"""
     return GLYPHSymbol(

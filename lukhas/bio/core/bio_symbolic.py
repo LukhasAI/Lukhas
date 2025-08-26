@@ -10,7 +10,7 @@ mapping biological processes to symbolic representations.
 import logging
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -63,15 +63,15 @@ class BioSymbolic:
 
     def __init__(self):
         self.initialized = True
-        self.bio_states: List[Dict] = []
-        self.symbolic_mappings: List[Dict] = []
-        self.integration_events: List[Dict] = []
+        self.bio_states: list[dict] = []
+        self.symbolic_mappings: list[dict] = []
+        self.integration_events: list[dict] = []
         self.coherence_threshold = 0.7
 
         logger.info("Bio-Symbolic processor initialized")
         logger.info(f"Coherence threshold: {self.coherence_threshold}")
 
-    def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Process bio-symbolic data.
 
@@ -98,7 +98,7 @@ class BioSymbolic:
         else:
             return self.process_generic(data)
 
-    def process_rhythm(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_rhythm(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process biological rhythm data."""
         frequency = data.get("frequency", 1.0)
         amplitude = data.get("amplitude", 1.0)
@@ -121,7 +121,7 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data)
         }
 
-    def process_energy(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_energy(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process energy level data."""
         level = data.get("level", 0.5)
 
@@ -142,7 +142,7 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data)
         }
 
-    def process_dna(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_dna(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process DNA-related symbolic data."""
         operation = data.get("operation", "express")
 
@@ -163,7 +163,7 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data)
         }
 
-    def process_stress(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_stress(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process stress response data."""
         stress_level = data.get("stress_level", 0.5)
         response_type = data.get("response", "adapt")
@@ -185,7 +185,7 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data)
         }
 
-    def process_homeostasis(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_homeostasis(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process homeostatic state data."""
         balance = data.get("balance", 0.5)
 
@@ -206,7 +206,7 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data)
         }
 
-    def process_dream(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_dream(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process dream state data."""
         dream_phase = data.get("phase", "process")
 
@@ -225,7 +225,7 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data)
         }
 
-    def process_generic(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_generic(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process generic bio-symbolic data."""
         return {
             "type": "generic",
@@ -233,7 +233,7 @@ class BioSymbolic:
             "coherence": self.calculate_coherence(data)
         }
 
-    def calculate_coherence(self, data: Dict[str, Any]) -> float:
+    def calculate_coherence(self, data: dict[str, Any]) -> float:
         """
         Calculate coherence score for bio-symbolic data.
 
@@ -255,7 +255,7 @@ class BioSymbolic:
 
         return min(1.0, max(0.0, coherence))
 
-    def integrate(self, bio_data: Dict, symbolic_data: Dict) -> Dict[str, Any]:
+    def integrate(self, bio_data: dict, symbolic_data: dict) -> dict[str, Any]:
         """
         Integrate biological and symbolic data.
 
@@ -293,10 +293,10 @@ class BioSymbolicOrchestrator:
 
     def __init__(self):
         self.bio_symbolic = BioSymbolic()
-        self.orchestration_events: List[Dict] = []
+        self.orchestration_events: list[dict] = []
         logger.info("Bio-Symbolic Orchestrator initialized")
 
-    def orchestrate(self, inputs: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def orchestrate(self, inputs: list[dict[str, Any]]) -> dict[str, Any]:
         """
         Orchestrate processing of multiple bio-symbolic inputs.
 
@@ -326,7 +326,7 @@ class BioSymbolicOrchestrator:
 
         return orchestration_result
 
-    def get_dominant_glyph(self, results: List[Dict]) -> Optional[str]:
+    def get_dominant_glyph(self, results: list[dict]) -> Optional[str]:
         """
         Determine the dominant GLYPH from multiple results.
 

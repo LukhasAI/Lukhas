@@ -12,7 +12,7 @@ import json
 import time
 import uuid
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, Optional
+from typing import Any
 
 
 @dataclass
@@ -29,8 +29,8 @@ class GlyphSeal:
     proof_bundle: str
     expiry: str
     nonce: str
-    prev: Optional[str] = None
-    calib_ref: Optional[Dict[str, float]] = None
+    prev: str | None = None
+    calib_ref: dict[str, float] | None = None
 
 def sha3_512(data: bytes) -> str:
     """Compute SHA3-512 hash."""
@@ -40,7 +40,7 @@ def sha3_256(data: bytes) -> str:
     """Compute SHA3-256 hash."""
     return hashlib.sha3_256(data).hexdigest()
 
-def canonicalize(obj: Dict[str, Any]) -> bytes:
+def canonicalize(obj: dict[str, Any]) -> bytes:
     """Canonical JSON serialization (deterministic)."""
     # Remove None values
     cleaned = {k: v for k, v in obj.items() if v is not None}
@@ -61,9 +61,9 @@ def make_seal(
     jurisdiction: str,
     proof_bundle: str,
     ttl_days: int = 365,
-    calib_ref: Optional[Dict[str, float]] = None,
-    prev: Optional[str] = None
-) -> Dict[str, Any]:
+    calib_ref: dict[str, float] | None = None,
+    prev: str | None = None
+) -> dict[str, Any]:
     """
     Create a GLYPH seal for content.
 
@@ -123,7 +123,7 @@ def make_seal(
         "sig": cose_sig
     }
 
-def verify_seal(seal_bytes: bytes, sig: Dict[str, Any], content_bytes: Optional[bytes] = None) -> bool:
+def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | None = None) -> bool:
     """
     Verify a GLYPH seal.
 

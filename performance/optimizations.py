@@ -5,6 +5,7 @@ Production-ready optimizations for improved system performance
 """
 
 import asyncio
+import contextlib
 import functools
 import gc
 import logging
@@ -13,7 +14,7 @@ import time
 import weakref
 from collections import OrderedDict, defaultdict
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any, Callable, Dict, Optional, TypeVar, Union
+from typing import Any, Callable, Optional, TypeVar, Union
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -84,7 +85,7 @@ class LRUCache:
             self.hits = 0
             self.misses = 0
 
-    def stats(self) -> Dict[str, Union[int, float]]:
+    def stats(self) -> dict[str, Union[int, float]]:
         """Get cache statistics"""
         total = self.hits + self.misses
         hit_rate = self.hits / total if total > 0 else 0
@@ -135,7 +136,7 @@ class ObjectPool:
                 self.pool.append(obj)
             # If pool is full, let object be garbage collected
 
-    def stats(self) -> Dict[str, int]:
+    def stats(self) -> dict[str, int]:
         """Get pool statistics"""
         return {
             "pool_size": len(self.pool),
@@ -241,7 +242,7 @@ class MemoryOptimizer:
                     f"Memory usage {memory_mb:.1f}MB exceeds limit {self.memory_limit_mb}MB"
                 )
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get memory optimizer statistics"""
         return {
             "tracked_objects": len(self.weak_refs),
@@ -308,7 +309,7 @@ class ConnectionPool:
             self.in_use.clear()
             self.available.clear()
 
-    def stats(self) -> Dict[str, int]:
+    def stats(self) -> dict[str, int]:
         """Get connection pool statistics"""
         return {
             "available": len(self.available),
@@ -426,7 +427,7 @@ class PerformanceMonitor:
             if len(self.metrics[metric_name]) > 1000:
                 self.metrics[metric_name] = self.metrics[metric_name][-1000:]
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get performance statistics"""
         with self._lock:
             stats = {"counters": dict(self.counters), "metrics": {}}
@@ -509,10 +510,8 @@ def optimize_imports():
 
     for module_name in common_modules:
         if module_name not in sys.modules:
-            try:
+            with contextlib.suppress(ImportError):
                 importlib.import_module(module_name)
-            except ImportError:
-                pass
 
 
 def setup_optimizations():
@@ -534,7 +533,7 @@ def setup_optimizations():
     logger.info("✅ Performance optimizations active")
 
 
-def get_optimization_stats() -> Dict[str, Any]:
+def get_optimization_stats() -> dict[str, Any]:
     """Get statistics from all optimization components"""
     return {
         "global_cache": global_cache.stats(),

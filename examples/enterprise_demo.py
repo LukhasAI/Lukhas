@@ -9,7 +9,7 @@ import asyncio
 import json
 import random
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 from core.common import get_logger
 from feedback.enterprise.advanced_security import (
@@ -38,7 +38,7 @@ class EnterpriseDemo:
         self.security_system = None
         self.demo_users = self._create_demo_users()
 
-    def _create_demo_users(self) -> List[Dict[str, Any]]:
+    def _create_demo_users(self) -> list[dict[str, Any]]:
         """Create demo user profiles"""
         return [
             {

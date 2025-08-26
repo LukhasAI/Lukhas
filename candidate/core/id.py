@@ -21,7 +21,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 # Quantum Security Imports (placeholder for actual quantum crypto)
 try:
@@ -64,7 +64,7 @@ class EmotionalMemoryVector:
     timestamp: datetime
     context: str
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         return {
             'valence': self.valence,
             'arousal': self.arousal,
@@ -102,7 +102,7 @@ class AuditLogEntry:
     qi_signature: QISignature
     privacy_impact: str
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         return {
             'timestamp': self.timestamp.isoformat(),
             'user_id': self.user_id,
@@ -321,7 +321,7 @@ class ComplianceMonitor:
         self.violation_count = 0
         self.audit_log = []
 
-    def _load_compliance_rules(self) -> Dict:
+    def _load_compliance_rules(self) -> dict:
         """Load compliance rules based on region"""
         rules = {
             ComplianceRegion.GLOBAL: {
@@ -353,7 +353,7 @@ class ComplianceMonitor:
         }
         return rules.get(self.region, rules[ComplianceRegion.GLOBAL])
 
-    def check_compliance(self, action: str, context: Dict) -> Tuple[bool, List[str]]:
+    def check_compliance(self, action: str, context: dict) -> tuple[bool, list[str]]:
         """
         Check if an action complies with regulations
         Returns (is_compliant, violation_reasons)
@@ -427,7 +427,7 @@ class LukhosIDManager:
 
     async def register_user(
             self,
-            user_data: Dict,
+            user_data: dict,
             initial_tier: AccessTier = AccessTier.TIER_1_BASIC) -> str:
         """
         Register a new user with LUKHAS_ID system
@@ -483,8 +483,8 @@ class LukhosIDManager:
     async def authenticate_user(
             self,
             user_id: str,
-            credentials: Dict,
-            emotional_state: Optional[EmotionalMemoryVector] = None) -> Optional[Dict]:
+            credentials: dict,
+            emotional_state: Optional[EmotionalMemoryVector] = None) -> Optional[dict]:
         """
         Authenticate user based on their access tier requirements
         """
@@ -537,7 +537,7 @@ class LukhosIDManager:
             f"User {user_id} authenticated successfully at tier {access_tier.value}")
         return session_data
 
-    async def _verify_tier_credentials(self, user_record: Dict, credentials: Dict,
+    async def _verify_tier_credentials(self, user_record: dict, credentials: dict,
                                        tier: AccessTier) -> bool:
         """Verify credentials based on access tier requirements"""
 
@@ -566,9 +566,8 @@ class LukhosIDManager:
                 return False
 
         # Tier 5: Admin verification (additional security)
-        if tier.value >= 5:
-            if not credentials.get('admin_token'):
-                return False
+        if tier.value >= 5 and not credentials.get('admin_token'):
+            return False
 
         return True
 
@@ -602,7 +601,7 @@ class LukhosIDManager:
             return False
         return stored_gesture == provided_gesture
 
-    def _resolve_access_tier(self, tier: AccessTier) -> List[str]:
+    def _resolve_access_tier(self, tier: AccessTier) -> list[str]:
         """Get permissions based on access tier"""
         permissions = {
             AccessTier.TIER_1_BASIC: [
@@ -678,7 +677,7 @@ class LukhosIDManager:
         signature_input = f"{data}|{self.qi_signer_id}|{secrets.token_hex(16)}"
         return hashlib.sha256(signature_input.encode()).hexdigest()
 
-    async def get_user_permissions(self, session_token: str) -> Optional[List[str]]:
+    async def get_user_permissions(self, session_token: str) -> Optional[list[str]]:
         """Get user permissions from valid session"""
         if session_token not in self.active_sessions:
             return None
@@ -731,7 +730,7 @@ class LukhosIDManager:
 
         return memory_data
 
-    def get_compliance_status(self) -> Dict:
+    def get_compliance_status(self) -> dict:
         """Get current compliance status and audit summary"""
         return {
             'compliance_region': self.compliance_monitor.region.value,

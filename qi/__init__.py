@@ -51,7 +51,7 @@ except ImportError:
     QI_BIO_AVAILABLE = False
 
 
-def get_qi_status() -> Dict[str, Any]:
+def get_qi_status() -> dict[str, Any]:
     """Get overall QI system status"""
     return {
         "qi_available": QI_AVAILABLE,

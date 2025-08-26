@@ -466,11 +466,7 @@ class LambdaSSOEngine:
                 return True
 
             # Check if all requested scopes are allowed for user's tier
-            for scope in service_scope:
-                if scope not in allowed_scopes:
-                    return False
-
-            return True
+            return all(scope in allowed_scopes for scope in service_scope)
 
         except Exception:
             return False  # Deny on error for security

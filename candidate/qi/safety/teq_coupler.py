@@ -5,7 +5,7 @@ from __future__ import annotations
 import builtins
 import json
 import os
-from typing import Any, Dict, Optional
+from typing import Any
 
 _ORIG_OPEN = builtins.open
 
@@ -20,13 +20,13 @@ def _write_json(p: str, obj: Any):
     with _ORIG_OPEN(tmp,"w",encoding="utf-8") as f: json.dump(obj, f, indent=2)
     os.replace(tmp,p)
 
-def _pick_temperature(task: Optional[str], params) -> float:
+def _pick_temperature(task: str | None, params) -> float:
     if not params: return 1.0
     if task and params.per_task_temperature and task in params.per_task_temperature:
         return float(params.per_task_temperature[task])
     return float(params.temperature or 1.0)
 
-def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: float = MAX_THRESHOLD_SHIFT, task: Optional[str] = None) -> Dict[str, Any]:
+def calibrated_gate(confidence: float, *, base_threshold: float, max_shift: float = MAX_THRESHOLD_SHIFT, task: str | None = None) -> dict[str, Any]:
     """
     Uses per-task temperature if available; falls back to global.
     Respects feedback-driven threshold adjustments (bounded to ±0.05).

@@ -5,14 +5,14 @@ Following OpenAI's approach to metrics and performance monitoring
 
 import random
 from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, Query
 
 router = APIRouter()
 
 @router.get("/performance-metrics")
-async def get_performance_metrics() -> Dict[str, Any]:
+async def get_performance_metrics() -> dict[str, Any]:
     """Get comprehensive system performance metrics"""
     return {
         "system_health": 94.5,
@@ -57,7 +57,7 @@ async def get_performance_metrics() -> Dict[str, Any]:
 async def get_usage_analytics(
     start_date: Optional[str] = Query(None),
     end_date: Optional[str] = Query(None)
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Get usage analytics and patterns"""
     return {
         "period": {
@@ -103,7 +103,7 @@ async def get_usage_analytics(
     }
 
 @router.get("/cost-analysis")
-async def get_cost_analysis() -> Dict[str, Any]:
+async def get_cost_analysis() -> dict[str, Any]:
     """Get cost analysis and optimization recommendations"""
     return {
         "total_cost_monthly": 47823.45,
@@ -153,7 +153,7 @@ async def get_cost_analysis() -> Dict[str, Any]:
     }
 
 @router.get("/model-metrics")
-async def get_model_metrics() -> Dict[str, Any]:
+async def get_model_metrics() -> dict[str, Any]:
     """Get model performance and quality metrics"""
     return {
         "model_version": "2.1.3",
@@ -201,7 +201,7 @@ async def get_model_metrics() -> Dict[str, Any]:
     }
 
 @router.get("/innovation-metrics")
-async def get_innovation_metrics() -> Dict[str, Any]:
+async def get_innovation_metrics() -> dict[str, Any]:
     """Get innovation and research metrics"""
     return {
         "research_output": {
@@ -258,7 +258,7 @@ async def get_innovation_metrics() -> Dict[str, Any]:
     }
 
 @router.get("/predictive-insights")
-async def get_predictive_insights() -> Dict[str, Any]:
+async def get_predictive_insights() -> dict[str, Any]:
     """Get ML-powered predictive insights"""
     return {
         "predictions": {
@@ -317,7 +317,7 @@ async def get_predictive_insights() -> Dict[str, Any]:
     }
 
 @router.get("/comparative-analysis")
-async def get_comparative_analysis() -> Dict[str, Any]:
+async def get_comparative_analysis() -> dict[str, Any]:
     """Get comparative analysis against industry standards"""
     return {
         "industry_comparison": {

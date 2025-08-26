@@ -8,7 +8,7 @@ import json
 import secrets
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from .identity_core import AccessTier, identity_core
 
@@ -18,7 +18,7 @@ def _hash_password(password: str, salt: bytes) -> bytes:
     return hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
 
 
-def _store_user_data(user_id: str, user_data: Dict[str, Any]) -> None:
+def _store_user_data(user_id: str, user_data: dict[str, Any]) -> None:
     """Store user data securely to file system"""
     # Create users directory if it doesn't exist
     users_dir = Path("data/users")
@@ -32,7 +32,7 @@ def _store_user_data(user_id: str, user_data: Dict[str, Any]) -> None:
 
 def register_user(
     email: str, password: str, requested_tier: Optional[str] = None
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Secure registration function with proper password hashing and user storage"""
 
     # Implement secure password hashing

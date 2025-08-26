@@ -15,7 +15,7 @@ import sys
 from collections import defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, Optional, Tuple
+from typing import Optional
 
 import yaml
 
@@ -38,7 +38,7 @@ class FileOrganizer:
         self.moves_log = []
         self.stats = defaultdict(int)
 
-    def load_config(self) -> Dict:
+    def load_config(self) -> dict:
         """Load organization configuration"""
         if not self.config_file.exists():
             logger.error(f"Configuration file {self.config_file} not found")
@@ -61,7 +61,7 @@ class FileOrganizer:
         keep_list = self.config.get('keep_in_root', [])
         return filename in keep_list
 
-    def find_destination(self, filename: str) -> Optional[Tuple[str, str]]:
+    def find_destination(self, filename: str) -> Optional[tuple[str, str]]:
         """Find destination for a file based on rules"""
         rules = self.config.get('organization_rules', [])
 

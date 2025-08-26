@@ -12,7 +12,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 import os
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from openai import OpenAI
@@ -50,10 +50,10 @@ class ModulatedOpenAIClient:
     def create_completion(
         self,
         user_message: str,
-        signals: List[Signal],
-        context_snippets: Optional[List[str]] = None,
-        functions: Optional[List[Dict]] = None,
-    ) -> Dict[str, Any]:
+        signals: list[Signal],
+        context_snippets: Optional[list[str]] = None,
+        functions: Optional[list[dict]] = None,
+    ) -> dict[str, Any]:
         """Create OpenAI completion with signal-based modulation"""
 
         # Get modulation parameters from signals
@@ -108,9 +108,9 @@ class ModulatedOpenAIClient:
     def _build_messages(
         self,
         user_message: str,
-        context_snippets: Optional[List[str]],
+        context_snippets: Optional[list[str]],
         params: ModulationParams,
-    ) -> List[Dict[str, str]]:
+    ) -> list[dict[str, str]]:
         """Build message array with context and style modulation"""
 
         # Get style configuration from modulator policy
@@ -155,12 +155,12 @@ class ModulatedOpenAIClient:
 
         return messages
 
-    def _tool_allowed(self, tool_name: str, allowlist: List[str]) -> bool:
+    def _tool_allowed(self, tool_name: str, allowlist: list[str]) -> bool:
         """Check if tool is allowed based on current signal state"""
         return tool_name in allowlist
 
 
-def build_function_definitions(allowed_tools: List[str]) -> List[Dict]:
+def build_function_definitions(allowed_tools: list[str]) -> list[dict]:
     """Build OpenAI function definitions based on allowed tools"""
 
     all_functions = {

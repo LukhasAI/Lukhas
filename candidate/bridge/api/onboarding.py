@@ -107,7 +107,7 @@ def setup_user_tier_endpoint():  # Renamed for clarity
     try:
         data = request.json if request.is_json else {}
         session_id = data.get("session_id")
-        user_preferences = data.get("user_preferences", {})
+        data.get("user_preferences", {})
         experience_level = data.get("experience_level", "beginner")
         use_cases = data.get("use_cases", [])
 

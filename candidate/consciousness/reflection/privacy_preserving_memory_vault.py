@@ -880,12 +880,11 @@ class PrivacyPreservingMemoryVault:
                         result["metadata"] = decrypted_metadata
 
                     # Apply differential privacy if requested
-                    if use_differential_privacy and policy.privacy_techniques:
-                        if (
-                            PrivacyTechnique.DIFFERENTIAL_PRIVACY
-                            in policy.privacy_techniques
-                        ):
-                            result = self._apply_differential_privacy(result, policy)
+                    if use_differential_privacy and policy.privacy_techniques and (
+                        PrivacyTechnique.DIFFERENTIAL_PRIVACY
+                        in policy.privacy_techniques
+                    ):
+                        result = self._apply_differential_privacy(result, policy)
 
                 except Exception as e:
                     logger.error(

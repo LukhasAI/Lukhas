@@ -9,10 +9,10 @@ import ast
 import re
 import sys
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import Optional
 
 
-def find_syntax_errors(file_path: Path) -> Optional[Tuple[int, str]]:
+def find_syntax_errors(file_path: Path) -> Optional[tuple[int, str]]:
     """Find syntax error in a Python file."""
     try:
         with open(file_path, encoding='utf-8') as f:
@@ -25,14 +25,13 @@ def find_syntax_errors(file_path: Path) -> Optional[Tuple[int, str]]:
         # Other errors (encoding, etc.)
         return (0, str(e))
 
-def fix_common_syntax_patterns(content: str) -> Tuple[str, List[str]]:
+def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
     """Fix common syntax error patterns."""
     fixes_applied = []
     lines = content.split('\n')
     fixed_lines = []
 
     for i, line in enumerate(lines, 1):
-        original_line = line
 
         # Pattern 1: Fix self._object.method() -> self._method()
         pattern1 = re.match(r'(\s+)def\s+self\._(\w+)\.(\w+)\((.*?)\):', line)

@@ -9,7 +9,7 @@ import asyncio
 import logging
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
@@ -37,7 +37,7 @@ app.add_middleware(
 )
 
 # WebSocket connections
-active_connections: List[WebSocket] = []
+active_connections: list[WebSocket] = []
 
 # Dashboard configuration
 DASHBOARD_CONFIG = {
@@ -68,7 +68,7 @@ class MetricsCollector:
         self.last_collection = 0
         self.collection_interval = 1  # seconds
 
-    async def collect_all_metrics(self) -> Dict[str, Any]:
+    async def collect_all_metrics(self) -> dict[str, Any]:
         """Collect metrics from all systems"""
         now = time.time()
 
@@ -129,7 +129,7 @@ class MetricsCollector:
             logger.error(f"Error collecting metrics: {e}")
             return {"error": str(e), "timestamp": now}
 
-    async def _collect_system_metrics(self) -> Dict[str, Any]:
+    async def _collect_system_metrics(self) -> dict[str, Any]:
         """Collect basic system metrics"""
         import psutil
 
@@ -144,7 +144,7 @@ class MetricsCollector:
             ),
         }
 
-    async def _collect_api_metrics(self) -> Dict[str, Any]:
+    async def _collect_api_metrics(self) -> dict[str, Any]:
         """Collect API endpoint metrics"""
         # In production, this would read from actual metrics store
         return {
@@ -162,7 +162,7 @@ class MetricsCollector:
             },
         }
 
-    async def _collect_consciousness_metrics(self) -> Dict[str, Any]:
+    async def _collect_consciousness_metrics(self) -> dict[str, Any]:
         """Collect consciousness system metrics"""
         # Mock data - in production would integrate with actual consciousness modules
         return {
@@ -175,7 +175,7 @@ class MetricsCollector:
             "dream_integration": True,
         }
 
-    async def _collect_memory_metrics(self) -> Dict[str, Any]:
+    async def _collect_memory_metrics(self) -> dict[str, Any]:
         """Collect memory system metrics"""
         return {
             "total_folds": 1847,
@@ -187,7 +187,7 @@ class MetricsCollector:
             "storage_efficiency": 0.91,
         }
 
-    async def _collect_ethics_metrics(self) -> Dict[str, Any]:
+    async def _collect_ethics_metrics(self) -> dict[str, Any]:
         """Collect Guardian/ethics system metrics"""
         return {
             "guardian_active": True,
@@ -201,7 +201,7 @@ class MetricsCollector:
             "cascade_prevented": True,
         }
 
-    async def _collect_dream_metrics(self) -> Dict[str, Any]:
+    async def _collect_dream_metrics(self) -> dict[str, Any]:
         """Collect dream engine metrics"""
         return {
             "active_dreams": 5,
@@ -213,7 +213,7 @@ class MetricsCollector:
             "processing_load": 0.34,
         }
 
-    async def _collect_flags_metrics(self) -> Dict[str, Any]:
+    async def _collect_flags_metrics(self) -> dict[str, Any]:
         """Collect feature flags status"""
         try:
             from lukhas.flags import get_flags
@@ -230,7 +230,7 @@ class MetricsCollector:
             logger.error(f"Error collecting flags: {e}")
             return {"error": str(e)}
 
-    async def _collect_performance_metrics(self) -> Dict[str, Any]:
+    async def _collect_performance_metrics(self) -> dict[str, Any]:
         """Collect performance metrics"""
         return {
             "throughput": 856.3,  # operations/second
@@ -243,7 +243,7 @@ class MetricsCollector:
         }
 
     def _calculate_health_score(
-        self, system: Dict, api: Dict, consciousness: Dict
+        self, system: dict, api: dict, consciousness: dict
     ) -> float:
         """Calculate overall system health score"""
         factors = [

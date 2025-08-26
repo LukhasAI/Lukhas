@@ -9,7 +9,7 @@ import asyncio
 import time
 from collections import deque
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 from bio.endocrine_integration import EndocrineIntegration
 
@@ -185,7 +185,7 @@ class LukhasDataFeeder:
                 print(f"❌ Error in data feed: {e}")
                 await asyncio.sleep(5.0)
 
-    async def _collect_comprehensive_state(self) -> Dict[str, Any]:
+    async def _collect_comprehensive_state(self) -> dict[str, Any]:
         """Collect comprehensive state from all LUKHAS  modules"""
 
         # Consciousness data
@@ -255,7 +255,7 @@ class LukhasDataFeeder:
 
     async def _calculate_derived_metrics(
         self, consciousness, memory, emotion, reasoning, biological
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate derived metrics that combine data from multiple modules"""
 
         # Stress indicator (combines biological and cognitive signals)
@@ -309,7 +309,7 @@ class LukhasDataFeeder:
             + (1.0 - abs(emotion["arousal"] - 0.5) * 2) * 0.3,
         }
 
-    async def _feed_to_monitoring_components(self, system_state: Dict[str, Any]):
+    async def _feed_to_monitoring_components(self, system_state: dict[str, Any]):
         """Feed collected data to monitoring system components"""
 
         # Feed to endocrine engine
@@ -327,7 +327,7 @@ class LukhasDataFeeder:
             # Update bio-symbolic state
             await self._update_coherence_monitor(system_state)
 
-    async def _update_endocrine_engine(self, system_state: Dict[str, Any]):
+    async def _update_endocrine_engine(self, system_state: dict[str, Any]):
         """Update endocrine engine with biological data"""
 
         # The endocrine engine will automatically capture this data
@@ -344,7 +344,7 @@ class LukhasDataFeeder:
                     "hormone_profile"
                 ]
 
-    async def _update_metrics_collector(self, system_state: Dict[str, Any]):
+    async def _update_metrics_collector(self, system_state: dict[str, Any]):
         """Update metrics collector with derived metrics"""
 
         if self.monitoring_system.metrics_collector:
@@ -360,7 +360,7 @@ class LukhasDataFeeder:
 
             self.monitoring_system.metrics_collector.update_endocrine_state(snapshot)
 
-    async def _update_coherence_monitor(self, system_state: Dict[str, Any]):
+    async def _update_coherence_monitor(self, system_state: dict[str, Any]):
         """Update coherence monitor with bio-symbolic data"""
 
         if self.monitoring_system.coherence_monitor:
@@ -399,8 +399,8 @@ class LukhasDataFeeder:
             )
 
     async def _check_trigger_conditions(
-        self, system_state: Dict[str, Any]
-    ) -> List[PlasticityTriggerType]:
+        self, system_state: dict[str, Any]
+    ) -> list[PlasticityTriggerType]:
         """Check if any trigger conditions are met"""
 
         triggers_fired = []

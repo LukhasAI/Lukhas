@@ -35,7 +35,7 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -95,12 +95,12 @@ class AttributeDefinition:
     # Anonymization settings
     allow_suppression: bool = True
     allow_generalization: bool = True
-    generalization_hierarchy: Optional[Dict] = None
+    generalization_hierarchy: Optional[dict] = None
 
     # Value constraints
     min_value: Optional[Union[int, float]] = None
     max_value: Optional[Union[int, float]] = None
-    allowed_values: Optional[List] = None
+    allowed_values: Optional[list] = None
 
     # Statistical properties
     distribution_type: Optional[str] = None
@@ -115,7 +115,7 @@ class AnonymizationConfig:
     config_id: str
     name: str
     description: str
-    methods: List[AnonymizationMethod]
+    methods: list[AnonymizationMethod]
     privacy_level: PrivacyLevel
 
     # k-anonymity settings
@@ -123,7 +123,7 @@ class AnonymizationConfig:
 
     # l-diversity settings
     l_value: int = 2
-    sensitive_attributes: List[str] = field(default_factory=list)
+    sensitive_attributes: list[str] = field(default_factory=list)
 
     # t-closeness settings
     t_threshold: float = 0.2
@@ -187,9 +187,9 @@ class AnonymizationResult:
     pattern_preservation: float = 0.0   # Preservation of data patterns
 
     # Audit information
-    methods_applied: List[str] = field(default_factory=list)
-    transformations: List[str] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
+    methods_applied: list[str] = field(default_factory=list)
+    transformations: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
 
     # Trinity Framework results
     identity_protected: bool = True
@@ -210,20 +210,20 @@ class AdvancedAnonymizationEngine:
     real-time risk assessment and quality monitoring.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.anonymization_configs: Dict[str, AnonymizationConfig] = {}
-        self.attribute_definitions: Dict[str, AttributeDefinition] = {}
-        self.operation_history: List[AnonymizationResult] = []
+        self.anonymization_configs: dict[str, AnonymizationConfig] = {}
+        self.attribute_definitions: dict[str, AttributeDefinition] = {}
+        self.operation_history: list[AnonymizationResult] = []
 
         # Privacy budget tracking for differential privacy
-        self.privacy_budgets: Dict[str, float] = {}  # dataset_id -> remaining epsilon
+        self.privacy_budgets: dict[str, float] = {}  # dataset_id -> remaining epsilon
 
         # Generalization hierarchies
-        self.generalization_hierarchies: Dict[str, Dict] = {}
+        self.generalization_hierarchies: dict[str, dict] = {}
 
         # Synthetic data models
-        self.synthetic_models: Dict[str, Any] = {}
+        self.synthetic_models: dict[str, Any] = {}
 
         # Performance metrics
         self.metrics = {
@@ -356,11 +356,11 @@ class AdvancedAnonymizationEngine:
 
     async def anonymize_dataset(
         self,
-        dataset: List[Dict[str, Any]],
+        dataset: list[dict[str, Any]],
         config_id: str,
         dataset_id: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[List[Dict[str, Any]], AnonymizationResult]:
+        context: Optional[dict[str, Any]] = None
+    ) -> tuple[list[dict[str, Any]], AnonymizationResult]:
         """
         Anonymize a dataset using specified configuration
 
@@ -516,7 +516,7 @@ class AdvancedAnonymizationEngine:
 
             return dataset, error_result
 
-    async def _analyze_dataset_attributes(self, dataset: List[Dict[str, Any]]) -> Dict[str, Any]:
+    async def _analyze_dataset_attributes(self, dataset: list[dict[str, Any]]) -> dict[str, Any]:
         """Analyze dataset to identify attribute types and properties"""
 
         if not dataset:
@@ -570,10 +570,10 @@ class AdvancedAnonymizationEngine:
 
     async def _apply_k_anonymity(
         self,
-        dataset: List[Dict[str, Any]],
+        dataset: list[dict[str, Any]],
         config: AnonymizationConfig,
-        analysis: Dict[str, Any]
-    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        analysis: dict[str, Any]
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         """Apply k-anonymity to the dataset"""
 
         # Identify quasi-identifiers
@@ -603,7 +603,7 @@ class AdvancedAnonymizationEngine:
         anonymized_dataset = []
         min_k_achieved = float('inf')
 
-        for group_key, group_records in groups.items():
+        for _group_key, group_records in groups.items():
             group_size = len(group_records)
             min_k_achieved = min(min_k_achieved, group_size)
 
@@ -629,10 +629,10 @@ class AdvancedAnonymizationEngine:
 
     async def _generalize_group(
         self,
-        group_records: List[Tuple[int, Dict[str, Any]]],
-        quasi_identifiers: List[str],
+        group_records: list[tuple[int, dict[str, Any]]],
+        quasi_identifiers: list[str],
         config: AnonymizationConfig
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generalize a group of records to achieve k-anonymity"""
 
         if not group_records:
@@ -689,7 +689,7 @@ class AdvancedAnonymizationEngine:
         if "ranges" in level_config:
             # Numeric range generalization
             if isinstance(value, (int, float)):
-                for i, (min_val, max_val) in enumerate(level_config["ranges"]):
+                for _i, (min_val, max_val) in enumerate(level_config["ranges"]):
                     if min_val <= value <= max_val:
                         return f"{min_val}-{max_val}" if max_val != float('inf') else f"{min_val}+"
 
@@ -703,10 +703,10 @@ class AdvancedAnonymizationEngine:
 
     async def _apply_l_diversity(
         self,
-        dataset: List[Dict[str, Any]],
+        dataset: list[dict[str, Any]],
         config: AnonymizationConfig,
-        analysis: Dict[str, Any]
-    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        analysis: dict[str, Any]
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         """Apply l-diversity to sensitive attributes"""
 
         sensitive_attrs = config.sensitive_attributes
@@ -739,7 +739,7 @@ class AdvancedAnonymizationEngine:
         diversified_dataset = []
         min_l_achieved = float('inf')
 
-        for group_key, group_records in groups.items():
+        for _group_key, group_records in groups.items():
             for sensitive_attr in sensitive_attrs:
                 sensitive_values = [record.get(sensitive_attr) for record in group_records if record.get(sensitive_attr) is not None]
                 unique_sensitive_values = len(set(sensitive_values))
@@ -757,10 +757,10 @@ class AdvancedAnonymizationEngine:
 
     async def _enhance_diversity(
         self,
-        group_records: List[Dict[str, Any]],
+        group_records: list[dict[str, Any]],
         sensitive_attr: str,
         target_l: int
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Enhance diversity in sensitive attribute values"""
 
         # For now, we'll use suppression for records that don't contribute to diversity
@@ -784,10 +784,10 @@ class AdvancedAnonymizationEngine:
 
     async def _apply_t_closeness(
         self,
-        dataset: List[Dict[str, Any]],
+        dataset: list[dict[str, Any]],
         config: AnonymizationConfig,
-        analysis: Dict[str, Any]
-    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        analysis: dict[str, Any]
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         """Apply t-closeness to preserve sensitive attribute distributions"""
 
         # Implementation of t-closeness would involve:
@@ -801,11 +801,11 @@ class AdvancedAnonymizationEngine:
 
     async def _apply_differential_privacy(
         self,
-        dataset: List[Dict[str, Any]],
+        dataset: list[dict[str, Any]],
         config: AnonymizationConfig,
         dataset_id: Optional[str],
-        analysis: Dict[str, Any]
-    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        analysis: dict[str, Any]
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         """Apply differential privacy by adding calibrated noise"""
 
         epsilon = config.epsilon
@@ -847,10 +847,10 @@ class AdvancedAnonymizationEngine:
 
     async def _apply_generalization(
         self,
-        dataset: List[Dict[str, Any]],
+        dataset: list[dict[str, Any]],
         config: AnonymizationConfig,
-        analysis: Dict[str, Any]
-    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        analysis: dict[str, Any]
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         """Apply generalization to reduce data granularity"""
 
         generalized_dataset = []
@@ -872,10 +872,10 @@ class AdvancedAnonymizationEngine:
 
     async def _apply_suppression(
         self,
-        dataset: List[Dict[str, Any]],
+        dataset: list[dict[str, Any]],
         config: AnonymizationConfig,
-        analysis: Dict[str, Any]
-    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        analysis: dict[str, Any]
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         """Apply suppression to remove sensitive records or attributes"""
 
         suppressed_dataset = []
@@ -894,10 +894,10 @@ class AdvancedAnonymizationEngine:
 
     async def _apply_perturbation(
         self,
-        dataset: List[Dict[str, Any]],
+        dataset: list[dict[str, Any]],
         config: AnonymizationConfig,
-        analysis: Dict[str, Any]
-    ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+        analysis: dict[str, Any]
+    ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         """Apply perturbation to add noise to data"""
 
         perturbed_dataset = []
@@ -918,14 +918,14 @@ class AdvancedAnonymizationEngine:
 
     async def _calculate_record_risk(
         self,
-        record: Dict[str, Any],
-        analysis: Dict[str, Any]
+        record: dict[str, Any],
+        analysis: dict[str, Any]
     ) -> float:
         """Calculate re-identification risk for a single record"""
 
         risk_score = 0.0
 
-        for attr, value in record.items():
+        for attr, _value in record.items():
             if attr in analysis["unique_counts"]:
                 uniqueness = analysis["unique_counts"][attr] / analysis["record_count"]
                 # Higher uniqueness = higher risk
@@ -944,8 +944,8 @@ class AdvancedAnonymizationEngine:
 
     async def _calculate_data_utility(
         self,
-        original_dataset: List[Dict[str, Any]],
-        anonymized_dataset: List[Dict[str, Any]],
+        original_dataset: list[dict[str, Any]],
+        anonymized_dataset: list[dict[str, Any]],
         config: AnonymizationConfig
     ) -> float:
         """Calculate data utility preservation score"""
@@ -999,10 +999,10 @@ class AdvancedAnonymizationEngine:
 
     async def _assess_reidentification_risk(
         self,
-        anonymized_dataset: List[Dict[str, Any]],
+        anonymized_dataset: list[dict[str, Any]],
         config: AnonymizationConfig,
-        analysis: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        analysis: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess re-identification risk of anonymized dataset"""
 
         if not anonymized_dataset:
@@ -1031,8 +1031,8 @@ class AdvancedAnonymizationEngine:
 
     async def _calculate_statistical_accuracy(
         self,
-        original_dataset: List[Dict[str, Any]],
-        anonymized_dataset: List[Dict[str, Any]]
+        original_dataset: list[dict[str, Any]],
+        anonymized_dataset: list[dict[str, Any]]
     ) -> float:
         """Calculate statistical accuracy preservation"""
 
@@ -1062,8 +1062,8 @@ class AdvancedAnonymizationEngine:
 
     async def _calculate_pattern_preservation(
         self,
-        original_dataset: List[Dict[str, Any]],
-        anonymized_dataset: List[Dict[str, Any]]
+        original_dataset: list[dict[str, Any]],
+        anonymized_dataset: list[dict[str, Any]]
     ) -> float:
         """Calculate pattern preservation score"""
 
@@ -1077,9 +1077,9 @@ class AdvancedAnonymizationEngine:
 
     async def _validate_identity_protection(
         self,
-        anonymized_dataset: List[Dict[str, Any]],
+        anonymized_dataset: list[dict[str, Any]],
         config: AnonymizationConfig,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> bool:
         """Validate that identity information is properly protected"""
 
@@ -1099,7 +1099,7 @@ class AdvancedAnonymizationEngine:
     async def _validate_consciousness_compliance(
         self,
         config: AnonymizationConfig,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> bool:
         """Validate compliance with consciousness-level requirements"""
 
@@ -1116,7 +1116,7 @@ class AdvancedAnonymizationEngine:
         self,
         config: AnonymizationConfig,
         result: AnonymizationResult,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> bool:
         """Validate Guardian system approval"""
 
@@ -1175,11 +1175,11 @@ class AdvancedAnonymizationEngine:
         if len(self.operation_history) > max_size:
             self.operation_history = self.operation_history[-max_size:]
 
-    async def get_system_metrics(self) -> Dict[str, Any]:
+    async def get_system_metrics(self) -> dict[str, Any]:
         """Get comprehensive system metrics"""
         return self.metrics.copy()
 
-    async def get_privacy_budget_status(self, dataset_id: str) -> Dict[str, Any]:
+    async def get_privacy_budget_status(self, dataset_id: str) -> dict[str, Any]:
         """Get privacy budget status for a dataset"""
 
         remaining_budget = self.privacy_budgets.get(dataset_id, 1.0)

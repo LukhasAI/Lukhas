@@ -9,7 +9,7 @@ import time
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 
 @dataclass
@@ -17,12 +17,12 @@ class ExecutionTrace:
     """Complete trace of cognitive processing"""
     timestamp: datetime
     node_id: str
-    input_data: Dict
-    output_data: Dict
-    matriz_node: Dict  # The actual MATRIZ node created
+    input_data: dict
+    output_data: dict
+    matriz_node: dict  # The actual MATRIZ node created
     processing_time: float
     validation_result: bool
-    reasoning_chain: List[str]
+    reasoning_chain: list[str]
 
 
 class CognitiveOrchestrator:
@@ -42,7 +42,7 @@ class CognitiveOrchestrator:
         self.available_nodes[name] = node
         print(f"✓ Registered node: {name}")
 
-    def process_query(self, user_input: str) -> Dict[str, Any]:
+    def process_query(self, user_input: str) -> dict[str, Any]:
         """
         Process user query through MATRIZ nodes
         Returns result with full trace
@@ -104,7 +104,7 @@ class CognitiveOrchestrator:
             'reasoning_chain': trace.reasoning_chain
         }
 
-    def _analyze_intent(self, user_input: str) -> Dict:
+    def _analyze_intent(self, user_input: str) -> dict:
         """Create INTENT MATRIZ node from user input"""
         intent_node = {
             'id': str(uuid.uuid4()),
@@ -133,7 +133,7 @@ class CognitiveOrchestrator:
 
         return intent_node
 
-    def _select_node(self, intent_node: Dict) -> str:
+    def _select_node(self, intent_node: dict) -> str:
         """Select appropriate node based on intent"""
         intent = intent_node['state'].get('intent', 'general')
 
@@ -146,7 +146,7 @@ class CognitiveOrchestrator:
         else:
             return 'facts'  # Default
 
-    def _create_decision_node(self, decision: str, trigger_id: str) -> Dict:
+    def _create_decision_node(self, decision: str, trigger_id: str) -> dict:
         """Create DECISION MATRIZ node"""
         return {
             'id': str(uuid.uuid4()),
@@ -163,7 +163,7 @@ class CognitiveOrchestrator:
             'reflections': []
         }
 
-    def _create_reflection_node(self, result_node: Dict, validation: bool) -> Dict:
+    def _create_reflection_node(self, result_node: dict, validation: bool) -> dict:
         """Create REFLECTION MATRIZ node"""
         reflection_type = 'affirmation' if validation else 'regret'
         return {
@@ -186,10 +186,10 @@ class CognitiveOrchestrator:
             }]
         }
 
-    def _build_reasoning_chain(self) -> List[str]:
+    def _build_reasoning_chain(self) -> list[str]:
         """Build human-readable reasoning chain from MATRIZ nodes"""
         chain = []
-        for node_id, node in self.matriz_graph.items():
+        for _node_id, node in self.matriz_graph.items():
             if node['type'] == 'INTENT':
                 chain.append(f"Understood intent: {node['state'].get('intent', 'unknown')}")
             elif node['type'] == 'DECISION':
@@ -198,7 +198,7 @@ class CognitiveOrchestrator:
                 chain.append(f"Reflection: {node['state'].get('reflection_type', 'unknown')}")
         return chain
 
-    def get_causal_chain(self, node_id: str) -> List[Dict]:
+    def get_causal_chain(self, node_id: str) -> list[dict]:
         """Trace back the causal chain for any node"""
         if node_id not in self.matriz_graph:
             return []

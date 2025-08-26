@@ -121,6 +121,37 @@ make format     # Format with Black and isort
 ruff check . --fix
 black lukhas/ tests/
 mypy lukhas/
+
+# T4 Nightly autofix (runs automatically at 02:17 UTC)
+bash tools/ci/nightly_autofix.sh
+```
+
+### T4 Commit Process
+
+The repository uses the **T4 (Team of Four) Commit Process** for automated code quality and safe fixes:
+
+#### Components:
+- **Nightly Autofix**: `tools/ci/nightly_autofix.sh` - Runs safe fixes and formats code
+- **Policy Control**: `.t4autofix.toml` - Defines allowed/blocked rules for safe CST fixes
+- **TODO Annotation**: `tools/ci/mark_todos.py` - Marks remaining issues as TODO[T4-AUTOFIX]
+- **GitHub Workflows**:
+  - `.github/workflows/nightly-autofix.yml` - Scheduled nightly runs
+  - `.github/workflows/ci-autofix-label.yml` - Merge guard for autofix PRs
+- **Full Documentation**: `docs/gonzo/BP_T4_COMMIT_PROCESS.md`
+
+#### Workflow:
+1. Nightly job runs safe fixes based on `.t4autofix.toml` policy
+2. Remaining/risky issues get TODO[T4-AUTOFIX] annotations
+3. Creates PR with autofix label and ownership routing
+4. Merge guard ensures all safe-fixable issues are resolved
+
+#### Manual Run:
+```bash
+# Run the nightly autofix manually
+bash tools/ci/nightly_autofix.sh
+
+# Check for needs-golden label (uncovered changed files)
+python tools/ci/needs_golden.py
 ```
 
 ### Build & Deploy

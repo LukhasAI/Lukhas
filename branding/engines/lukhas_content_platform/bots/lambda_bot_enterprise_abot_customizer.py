@@ -220,7 +220,7 @@ class BotCustomizer:
 
         # Read current file
         with open(self.status_bar_file) as f:
-            content = f.read()
+            f.read()
 
         # Generate new widget creation code
         new_widget_code = self.generate_widget_code()

@@ -9,7 +9,7 @@ import asyncio
 import logging
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
@@ -118,7 +118,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     integration with the LUKHAS Trinity Framework (⚛️🧠🛡️).
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize enhanced ethical guardian"""
         super().__init__()
         self.config = config or {}
@@ -130,10 +130,10 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         self.governance_integration = self.config.get("governance_integration", True)
 
         # Ethical tracking
-        self.ethical_history: List[Dict] = []
-        self.violation_patterns: Dict[str, int] = {}
-        self.context_patterns: Dict[str, Dict] = {}
-        self.governance_escalations: List[Dict] = []
+        self.ethical_history: list[dict] = []
+        self.violation_patterns: dict[str, int] = {}
+        self.context_patterns: dict[str, dict] = {}
+        self.governance_escalations: list[dict] = []
 
         # Trinity Framework integration
         self.trinity_ethical_weights = {
@@ -143,19 +143,19 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         }
 
         # Reflection and learning state
-        self.ethical_reflections: List[Dict] = []
-        self.learned_contexts: Dict[str, Dict] = {}
-        self.ethical_evolution_log: List[Dict] = []
+        self.ethical_reflections: list[dict] = []
+        self.learned_contexts: dict[str, dict] = {}
+        self.ethical_evolution_log: list[dict] = []
 
         logger.info("🛡️ Enhanced Ethical Guardian initialized with governance integration")
 
     async def enhanced_ethical_check(
         self,
         user_input: str,
-        current_context: Dict[str, Any],
-        personality: Dict[str, Any],
-        trinity_state: Optional[Dict[str, Any]] = None
-    ) -> Tuple[bool, str, Dict[str, Any]]:
+        current_context: dict[str, Any],
+        personality: dict[str, Any],
+        trinity_state: Optional[dict[str, Any]] = None
+    ) -> tuple[bool, str, dict[str, Any]]:
         """
         Perform comprehensive ethical check with context awareness and governance integration
 
@@ -244,8 +244,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _analyze_keywords(
         self,
         user_input: str,
-        current_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        current_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze input for ethical keywords with context sensitivity"""
         detected_keywords = []
         severity_levels = []
@@ -294,9 +294,9 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _analyze_context(
         self,
         user_input: str,
-        current_context: Dict[str, Any],
-        personality: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        current_context: dict[str, Any],
+        personality: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze contextual factors affecting ethical evaluation"""
         context_factors = {
             "user_tier": current_context.get("user_tier", 1),
@@ -342,8 +342,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _analyze_intent(
         self,
         user_input: str,
-        current_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        current_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze user intent for ethical implications"""
         # TODO: Integrate with advanced intent analysis system
 
@@ -397,8 +397,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _analyze_governance_compliance(
         self,
         user_input: str,
-        current_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        current_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze governance and policy compliance"""
         governance_issues = []
         compliance_score = 1.0
@@ -443,8 +443,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _analyze_trinity_impact(
         self,
         user_input: str,
-        trinity_state: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        trinity_state: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Analyze impact on Trinity Framework components (⚛️🧠🛡️)"""
         if not trinity_state:
             return {
@@ -482,7 +482,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             ]
         }
 
-    def _calculate_identity_impact(self, user_input: str, trinity_state: Dict) -> float:
+    def _calculate_identity_impact(self, user_input: str, trinity_state: dict) -> float:
         """Calculate impact on Identity component (⚛️)"""
         # Check for identity-related concerns
         identity_keywords = ["identity", "authentication", "credentials", "impersonate", "fake"]
@@ -500,7 +500,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
         return min(impact, 1.0)
 
-    def _calculate_consciousness_impact(self, user_input: str, trinity_state: Dict) -> float:
+    def _calculate_consciousness_impact(self, user_input: str, trinity_state: dict) -> float:
         """Calculate impact on Consciousness component (🧠)"""
         # Check for consciousness-related concerns
         consciousness_keywords = ["consciousness", "awareness", "thinking", "decision", "memory", "mind"]
@@ -518,7 +518,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
         return min(impact, 1.0)
 
-    def _calculate_guardian_impact(self, user_input: str, trinity_state: Dict) -> float:
+    def _calculate_guardian_impact(self, user_input: str, trinity_state: dict) -> float:
         """Calculate impact on Guardian component (🛡️)"""
         # Check for guardian-related concerns
         guardian_keywords = ["security", "protection", "safety", "guardian", "defense", "shield"]
@@ -540,7 +540,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
         return min(impact, 1.0)
 
-    async def _calculate_overall_score(self, detailed_analysis: Dict) -> float:
+    async def _calculate_overall_score(self, detailed_analysis: dict) -> float:
         """Calculate overall ethical score from component analyses"""
         # Extract component scores
         keyword_score = 1.0 - (detailed_analysis["keyword_analysis"]["max_severity"] / 5.0)
@@ -571,9 +571,9 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _generate_contextual_feedback(
         self,
         is_ethical: bool,
-        detailed_analysis: Dict,
-        current_context: Dict[str, Any],
-        personality: Dict[str, Any]
+        detailed_analysis: dict,
+        current_context: dict[str, Any],
+        personality: dict[str, Any]
     ) -> str:
         """Generate contextual feedback message"""
         if is_ethical:
@@ -633,8 +633,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _perform_ethical_reflection(
         self,
         user_input: str,
-        detailed_analysis: Dict,
-        analysis_context: Dict
+        detailed_analysis: dict,
+        analysis_context: dict
     ):
         """Perform ethical reflection on challenging cases"""
         reflection = {
@@ -682,9 +682,9 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
     async def _generate_learning_insights(
         self,
-        detailed_analysis: Dict,
-        analysis_context: Dict
-    ) -> List[str]:
+        detailed_analysis: dict,
+        analysis_context: dict
+    ) -> list[str]:
         """Generate learning insights from ethical analysis"""
         insights = []
 
@@ -715,8 +715,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _escalate_to_governance(
         self,
         user_input: str,
-        detailed_analysis: Dict,
-        analysis_context: Dict
+        detailed_analysis: dict,
+        analysis_context: dict
     ):
         """Escalate serious ethical issues to governance system"""
         escalation = {
@@ -752,8 +752,8 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         self,
         user_input: str,
         is_ethical: bool,
-        detailed_analysis: Dict,
-        analysis_context: Dict
+        detailed_analysis: dict,
+        analysis_context: dict
     ):
         """Log ethical check for audit and learning purposes"""
         log_entry = {
@@ -789,7 +789,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
     async def _update_learning_patterns(
         self,
         user_input: str,
-        detailed_analysis: Dict,
+        detailed_analysis: dict,
         is_ethical: bool
     ):
         """Update learning patterns based on ethical analysis"""
@@ -800,7 +800,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         if not is_ethical:
             for keyword_data in detailed_analysis["keyword_analysis"]["detected_keywords"]:
                 keyword = keyword_data["keyword"]
-                domain = keyword_data["domain"]
+                keyword_data["domain"]
 
                 if keyword not in self.violation_patterns:
                     self.violation_patterns[keyword] = 0
@@ -848,7 +848,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
         return 1  # Default tier
 
-    def _check_consent_requirements(self, user_input: str, current_context: Dict) -> bool:
+    def _check_consent_requirements(self, user_input: str, current_context: dict) -> bool:
         """Check if consent is required for the input"""
         consent_triggers = ["personal", "private", "data", "information", "record"]
         return any(trigger in user_input.lower() for trigger in consent_triggers)
@@ -858,7 +858,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
         personal_data_indicators = ["name", "email", "address", "phone", "personal", "private"]
         return any(indicator in user_input.lower() for indicator in personal_data_indicators)
 
-    def _check_regulatory_compliance(self, user_input: str, current_context: Dict) -> List[str]:
+    def _check_regulatory_compliance(self, user_input: str, current_context: dict) -> list[str]:
         """Check for regulatory compliance issues"""
         issues = []
 
@@ -876,7 +876,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
     # Public API methods
 
-    def get_ethical_summary(self) -> Dict[str, Any]:
+    def get_ethical_summary(self) -> dict[str, Any]:
         """Get summary of ethical guardian activity"""
         total_checks = len(self.ethical_history)
         violations = len([entry for entry in self.ethical_history if not entry["is_ethical"]])
@@ -899,7 +899,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "trinity_framework_protection": True
         }
 
-    def get_learning_insights(self) -> Dict[str, Any]:
+    def get_learning_insights(self) -> dict[str, Any]:
         """Get insights from ethical learning system"""
         return {
             "violation_patterns": self.violation_patterns,
@@ -910,7 +910,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
             "learning_recommendations": self._generate_learning_recommendations()
         }
 
-    def _generate_learning_recommendations(self) -> List[str]:
+    def _generate_learning_recommendations(self) -> list[str]:
         """Generate recommendations based on learning data"""
         recommendations = []
 
@@ -927,7 +927,7 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 
         return recommendations
 
-    async def perform_ethical_audit(self) -> Dict[str, Any]:
+    async def perform_ethical_audit(self) -> dict[str, Any]:
         """Perform comprehensive ethical system audit"""
         audit_timestamp = datetime.utcnow().isoformat()
 
@@ -981,9 +981,9 @@ class EnhancedEthicalGuardian(GlyphIntegrationMixin):
 # Backward compatibility function
 async def ethical_check(
     user_input: str,
-    current_context: Dict[str, Any],
-    personality: Dict[str, Any]
-) -> Tuple[bool, str]:
+    current_context: dict[str, Any],
+    personality: dict[str, Any]
+) -> tuple[bool, str]:
     """
     Legacy compatibility function for basic ethical checking
 

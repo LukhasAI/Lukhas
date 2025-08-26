@@ -16,35 +16,35 @@ jobs:
   nightly-autofix:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'LukhasAI'
-    
+
     permissions:
       contents: write
       pull-requests: write
-      
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
-      
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
           cache: 'pip'
-      
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           # Install additional tools for nightly automation
           pip install bandit jq ruff libcst
-      
+
       - name: Configure git
         run: |
           git config --global user.name 'T4 Autofix Bot'
           git config --global user.email 'autofix@lukhas.ai'
-      
+
       - name: Run nightly autofix
         env:
           CREATE_NIGHTLY_PR: ${{ inputs.create_pr || 'false' }}
@@ -52,7 +52,7 @@ jobs:
         run: |
           chmod +x tools/ci/nightly_autofix.sh
           ./tools/ci/nightly_autofix.sh
-      
+
       - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v3
@@ -63,7 +63,7 @@ jobs:
             data/security_scan.json
             reports/todos/summary.md
           retention-days: 30
-      
+
       - name: Comment on recent PRs if issues found
         if: failure()
         run: |

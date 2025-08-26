@@ -1,4 +1,3 @@
-from typing import Set
 
 # ═══════════════════════════════════════════════════
 # FILENAME: MemoryManager.py (AdvancedMemoryManager)
@@ -808,7 +807,7 @@ class AdvancedMemoryManager:
                 )
                 return []
 
-            related_ids: Set[str] = (
+            related_ids: set[str] = (
                 set()
             )  # Use a set to store unique related memory IDs.
 

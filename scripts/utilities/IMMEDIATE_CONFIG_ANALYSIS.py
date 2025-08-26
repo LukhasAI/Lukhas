@@ -26,7 +26,7 @@ def analyze_config_files():
     """Analyze all config files for consolidation opportunities."""
     config_files = []
 
-    for root, dirs, files in os.walk("."):
+    for root, _dirs, files in os.walk("."):
         if any(
             skip in root for skip in ["._cleanup_archive", ".cleanup_archive", ".git"]
         ):

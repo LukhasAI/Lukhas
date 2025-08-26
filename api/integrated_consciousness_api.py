@@ -8,7 +8,7 @@ with real-time feedback collection.
 
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -88,9 +88,9 @@ class IntegratedChatResponse(BaseModel):
     session_id: str = Field(..., description="Session ID")
     action_id: str = Field(..., description="Action ID for feedback")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Optional[Dict[str, Any]] = Field(None, description="Response metadata")
+    metadata: Optional[dict[str, Any]] = Field(None, description="Response metadata")
     feedback_enabled: bool = Field(True, description="Whether feedback is enabled")
-    decision_trace: Optional[Dict[str, Any]] = Field(
+    decision_trace: Optional[dict[str, Any]] = Field(
         None, description="Decision explanation"
     )
 
@@ -120,7 +120,7 @@ class ConversationFeedback(BaseModel):
     action_id: str = Field(..., description="Action ID from chat response")
     user_id: str = Field(..., description="User identifier")
     feedback_type: str = Field(..., description="Type: rating, emoji, text, quick")
-    content: Dict[str, Any] = Field(..., description="Feedback content")
+    content: dict[str, Any] = Field(..., description="Feedback content")
 
     class Config:
         json_schema_extra = {
@@ -628,7 +628,7 @@ async def export_session_with_feedback(session_id: str):
 
         # Get related feedback
         if feedback_system:
-            for feedback_id, feedback in feedback_system.feedback_items.items():
+            for _feedback_id, feedback in feedback_system.feedback_items.items():
                 if feedback.context.get("session_id") == session_id:
                     export_data["feedback"].append(feedback.to_audit_entry())
 
@@ -699,7 +699,7 @@ async def get_feedback_influence(user_id: str):
         influence_data["total_feedback_given"] = len(user_feedback)
 
         # Find decisions influenced by this user's feedback
-        for decision_id, decision in dashboard.decisions.items():
+        for _decision_id, decision in dashboard.decisions.items():
             feedback_refs = decision.get("feedback_references", [])
 
             for ref in feedback_refs:

@@ -7,12 +7,13 @@ Advanced voice processing with consciousness integration and real-time capabilit
 """
 
 import asyncio
+import contextlib
 import queue
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 from candidate.consciousness.awareness.awareness_engine import AwarenessEngine
 from candidate.core.common.glyph import GLYPH
@@ -51,22 +52,22 @@ class VoiceProcessingContext:
     """Enhanced context for voice processing"""
     user_id: Optional[str] = None
     session_id: Optional[str] = None
-    conversation_context: Dict[str, Any] = field(default_factory=dict)
-    emotional_state: Dict[str, float] = field(default_factory=dict)
-    consciousness_state: Dict[str, Any] = field(default_factory=dict)
-    memory_context: List[Dict[str, Any]] = field(default_factory=list)
+    conversation_context: dict[str, Any] = field(default_factory=dict)
+    emotional_state: dict[str, float] = field(default_factory=dict)
+    consciousness_state: dict[str, Any] = field(default_factory=dict)
+    memory_context: list[dict[str, Any]] = field(default_factory=list)
 
     # Processing preferences
     quality_level: VoiceQualityLevel = VoiceQualityLevel.MEDIUM
     latency_target_ms: int = 500
-    personality_traits: Dict[str, float] = field(default_factory=dict)
+    personality_traits: dict[str, float] = field(default_factory=dict)
 
     # Environmental context
     time_of_day: Optional[int] = None
     ambient_noise_level: float = 0.0
-    device_capabilities: Dict[str, Any] = field(default_factory=dict)
+    device_capabilities: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "user_id": self.user_id,
@@ -89,13 +90,13 @@ class VoiceProcessingResult:
     """Result of voice processing operation"""
     success: bool
     audio_data: Optional[bytes] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     processing_time_ms: float = 0.0
-    quality_metrics: Dict[str, float] = field(default_factory=dict)
-    consciousness_insights: Dict[str, Any] = field(default_factory=dict)
+    quality_metrics: dict[str, float] = field(default_factory=dict)
+    consciousness_insights: dict[str, Any] = field(default_factory=dict)
     error_message: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "success": self.success,
@@ -120,7 +121,7 @@ class ConsciousnessVoiceAdapter:
     async def analyze_context_for_voice(
         self,
         context: VoiceProcessingContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Analyze context through consciousness lens for voice processing"""
         try:
             # Get consciousness state
@@ -164,8 +165,8 @@ class ConsciousnessVoiceAdapter:
     def _calculate_contextual_relevance(
         self,
         context: VoiceProcessingContext,
-        consciousness_analysis: Dict[str, Any],
-        emotional_state: Dict[str, Any]
+        consciousness_analysis: dict[str, Any],
+        emotional_state: dict[str, Any]
     ) -> float:
         """Calculate how relevant the context is for voice adaptation"""
         relevance_score = 0.5
@@ -186,10 +187,10 @@ class ConsciousnessVoiceAdapter:
 
     async def _generate_voice_recommendations(
         self,
-        consciousness_analysis: Dict[str, Any],
-        emotional_state: Dict[str, Any],
-        memory_context: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        consciousness_analysis: dict[str, Any],
+        emotional_state: dict[str, Any],
+        memory_context: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Generate voice parameter recommendations based on consciousness state"""
         recommendations = {
             "modulation_mode": VoiceModulationMode.NATURAL,
@@ -207,7 +208,7 @@ class ConsciousnessVoiceAdapter:
             recommendations["priority_adjustments"].append("low_consciousness")
 
         # Emotion-based adjustments
-        dominant_emotion = emotional_state.get("dominant_emotion", "neutral")
+        emotional_state.get("dominant_emotion", "neutral")
         emotion_intensity = emotional_state.get("intensity", 0.5)
 
         if emotion_intensity > 0.7:
@@ -224,7 +225,7 @@ class ConsciousnessVoiceAdapter:
 class EnhancedVoiceProcessor:
     """Enhanced voice processor with consciousness integration"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(f"{__name__}.EnhancedVoiceProcessor")
 
@@ -337,7 +338,7 @@ class EnhancedVoiceProcessor:
         self,
         text: str,
         context: VoiceProcessingContext,
-        consciousness_insights: Dict[str, Any]
+        consciousness_insights: dict[str, Any]
     ) -> VoiceProcessingResult:
         """Process voice with real-time constraints"""
         # Use lower quality settings for speed
@@ -367,7 +368,7 @@ class EnhancedVoiceProcessor:
         self,
         text: str,
         context: VoiceProcessingContext,
-        consciousness_insights: Dict[str, Any]
+        consciousness_insights: dict[str, Any]
     ) -> VoiceProcessingResult:
         """Process voice for streaming output"""
         # Break text into chunks for streaming
@@ -391,7 +392,7 @@ class EnhancedVoiceProcessor:
         self,
         text: str,
         context: VoiceProcessingContext,
-        consciousness_insights: Dict[str, Any]
+        consciousness_insights: dict[str, Any]
     ) -> VoiceProcessingResult:
         """Process voice with full consciousness integration"""
         # Use consciousness insights to heavily modify processing
@@ -427,7 +428,7 @@ class EnhancedVoiceProcessor:
         self,
         text: str,
         context: VoiceProcessingContext,
-        consciousness_insights: Dict[str, Any]
+        consciousness_insights: dict[str, Any]
     ) -> VoiceProcessingResult:
         """Process voice in batch mode with full quality"""
         voice_params = self._get_consciousness_adapted_parameters(consciousness_insights)
@@ -446,7 +447,7 @@ class EnhancedVoiceProcessor:
 
     def _get_consciousness_adapted_parameters(
         self,
-        consciousness_insights: Dict[str, Any]
+        consciousness_insights: dict[str, Any]
     ) -> VoiceParameters:
         """Get voice parameters adapted from consciousness insights"""
         recommendations = consciousness_insights.get("recommended_voice_parameters", {})
@@ -487,7 +488,7 @@ class EnhancedVoiceProcessor:
 
         return base_params
 
-    def _chunk_text_for_streaming(self, text: str, max_chunk_size: int = 100) -> List[str]:
+    def _chunk_text_for_streaming(self, text: str, max_chunk_size: int = 100) -> list[str]:
         """Chunk text for streaming processing"""
         words = text.split()
         chunks = []
@@ -525,10 +526,8 @@ class EnhancedVoiceProcessor:
         self.is_real_time_active = False
         if self.real_time_worker:
             self.real_time_worker.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.real_time_worker
-            except asyncio.CancelledError:
-                pass
 
         self.logger.info("Real-time voice processing stopped")
 
@@ -588,7 +587,7 @@ class VoiceSystemEnhanced:
     Main enhanced voice system providing unified interface
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(f"{__name__}.VoiceSystemEnhanced")
 
@@ -607,7 +606,7 @@ class VoiceSystemEnhanced:
         session_id: Optional[str] = None,
         mode: VoiceProcessingMode = VoiceProcessingMode.BATCH,
         quality: VoiceQualityLevel = VoiceQualityLevel.MEDIUM,
-        additional_context: Optional[Dict[str, Any]] = None
+        additional_context: Optional[dict[str, Any]] = None
     ) -> VoiceProcessingResult:
         """
         Main interface for text-to-speech processing
@@ -724,7 +723,7 @@ class VoiceSystemEnhanced:
         session["last_result"] = result.to_dict()
         session["updated"] = time.time()
 
-    async def get_session_stats(self, session_id: str) -> Optional[Dict[str, Any]]:
+    async def get_session_stats(self, session_id: str) -> Optional[dict[str, Any]]:
         """Get statistics for a session"""
         return self.active_sessions.get(session_id)
 

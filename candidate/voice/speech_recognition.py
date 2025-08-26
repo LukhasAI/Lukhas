@@ -12,7 +12,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -79,8 +79,8 @@ class SpeechRecognitionRequest:
     enable_automatic_punctuation: bool = True
 
     # Context for better recognition
-    context_phrases: List[str] = field(default_factory=list)
-    vocabulary_hints: List[str] = field(default_factory=list)
+    context_phrases: list[str] = field(default_factory=list)
+    vocabulary_hints: list[str] = field(default_factory=list)
 
     # Processing options
     noise_reduction: bool = True
@@ -89,9 +89,9 @@ class SpeechRecognitionRequest:
     # User context
     user_id: Optional[str] = None
     session_id: Optional[str] = None
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "audio_data_size": len(self.audio_data),
@@ -134,7 +134,7 @@ class SpeechSegment:
     confidence: float
     speaker_id: Optional[str] = None
     language: Optional[str] = None
-    words: List[WordTimestamp] = field(default_factory=list)
+    words: list[WordTimestamp] = field(default_factory=list)
 
 
 @dataclass
@@ -145,8 +145,8 @@ class SpeechRecognitionResult:
     confidence: float = 0.0
 
     # Detailed results
-    segments: List[SpeechSegment] = field(default_factory=list)
-    alternatives: List[str] = field(default_factory=list)
+    segments: list[SpeechSegment] = field(default_factory=list)
+    alternatives: list[str] = field(default_factory=list)
 
     # Provider information
     provider_used: Optional[str] = None
@@ -161,12 +161,12 @@ class SpeechRecognitionResult:
     error_code: Optional[str] = None
 
     # Quality metrics
-    quality_metrics: Dict[str, float] = field(default_factory=dict)
+    quality_metrics: dict[str, float] = field(default_factory=dict)
 
     # Metadata
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "success": self.success,
@@ -218,7 +218,7 @@ class SpeechRecognitionProviderAdapter(ABC):
         pass
 
     @abstractmethod
-    def get_supported_languages(self) -> List[LanguageCode]:
+    def get_supported_languages(self) -> list[LanguageCode]:
         """Get list of supported languages"""
         pass
 
@@ -231,7 +231,7 @@ class SpeechRecognitionProviderAdapter(ABC):
 class WhisperOpenAIAdapter(SpeechRecognitionProviderAdapter):
     """OpenAI Whisper API adapter"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.api_key = config.get("api_key")
         self.logger = get_logger(f"{__name__}.WhisperOpenAIAdapter")
@@ -342,7 +342,7 @@ class WhisperOpenAIAdapter(SpeechRecognitionProviderAdapter):
         """Check if OpenAI Whisper is available"""
         return self.api_key is not None and len(self.api_key) > 0
 
-    def get_supported_languages(self) -> List[LanguageCode]:
+    def get_supported_languages(self) -> list[LanguageCode]:
         """Get supported languages"""
         return [
             LanguageCode.EN_US, LanguageCode.EN_GB, LanguageCode.ES_ES,
@@ -359,7 +359,7 @@ class WhisperOpenAIAdapter(SpeechRecognitionProviderAdapter):
 class WhisperLocalAdapter(SpeechRecognitionProviderAdapter):
     """Local Whisper model adapter"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.model_name = config.get("model_name", "base")
         self.device = config.get("device", "cpu")
@@ -475,7 +475,7 @@ class WhisperLocalAdapter(SpeechRecognitionProviderAdapter):
         except ImportError:
             return False
 
-    def get_supported_languages(self) -> List[LanguageCode]:
+    def get_supported_languages(self) -> list[LanguageCode]:
         """Get supported languages"""
         return [
             LanguageCode.EN_US, LanguageCode.EN_GB, LanguageCode.ES_ES,
@@ -492,7 +492,7 @@ class WhisperLocalAdapter(SpeechRecognitionProviderAdapter):
 class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
     """Google Cloud Speech-to-Text adapter"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.credentials_path = config.get("credentials_path")
         self.project_id = config.get("project_id")
@@ -608,7 +608,7 @@ class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
         except ImportError:
             return False
 
-    def get_supported_languages(self) -> List[LanguageCode]:
+    def get_supported_languages(self) -> list[LanguageCode]:
         """Get supported languages"""
         return [
             LanguageCode.EN_US, LanguageCode.EN_GB, LanguageCode.ES_ES,
@@ -625,12 +625,12 @@ class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
 class SpeechRecognitionProviderManager:
     """Manager for speech recognition providers"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.logger = get_logger(f"{__name__}.SpeechRecognitionProviderManager")
 
         # Initialize providers
-        self.providers: Dict[SpeechRecognitionProvider, SpeechRecognitionProviderAdapter] = {}
+        self.providers: dict[SpeechRecognitionProvider, SpeechRecognitionProviderAdapter] = {}
         self._initialize_providers()
 
         # Provider priority
@@ -663,7 +663,7 @@ class SpeechRecognitionProviderManager:
 
         self.logger.info(f"Initialized {len(self.providers)} speech recognition providers")
 
-    def get_available_providers(self) -> List[SpeechRecognitionProvider]:
+    def get_available_providers(self) -> list[SpeechRecognitionProvider]:
         """Get available providers"""
         available = []
         for provider_type, provider in self.providers.items():
@@ -695,7 +695,7 @@ class SpeechRecognitionProviderManager:
 class LUKHASSpeechRecognitionService:
     """Main LUKHAS speech recognition service"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(f"{__name__}.LUKHASSpeechRecognitionService")
         self.guardian = GuardianValidator()
@@ -863,7 +863,7 @@ class LUKHASSpeechRecognitionService:
                 error_code="FILE_ERROR"
             )
 
-    async def get_service_health(self) -> Dict[str, Any]:
+    async def get_service_health(self) -> dict[str, Any]:
         """Get service health status"""
         available_providers = self.provider_manager.get_available_providers()
 
@@ -874,7 +874,7 @@ class LUKHASSpeechRecognitionService:
             "stats": self.stats.copy()
         }
 
-    def get_supported_languages(self) -> Dict[str, List[LanguageCode]]:
+    def get_supported_languages(self) -> dict[str, list[LanguageCode]]:
         """Get supported languages by provider"""
         languages_by_provider = {}
         for provider_type, provider in self.provider_manager.providers.items():

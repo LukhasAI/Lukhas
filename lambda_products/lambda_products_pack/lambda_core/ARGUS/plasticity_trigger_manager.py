@@ -12,7 +12,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog
 
@@ -70,12 +70,12 @@ class AdaptationRule:
     trigger_type: PlasticityTriggerType
     priority: AdaptationPriority
     strategy: AdaptationStrategy
-    conditions: Dict[str, Any] = field(default_factory=dict)
+    conditions: dict[str, Any] = field(default_factory=dict)
     cooldown_minutes: int = 30
     max_applications_per_day: int = 10
-    prerequisites: List[str] = field(default_factory=list)
+    prerequisites: list[str] = field(default_factory=list)
     success_threshold: float = 0.7
-    rollback_conditions: List[str] = field(default_factory=list)
+    rollback_conditions: list[str] = field(default_factory=list)
     learning_enabled: bool = True
 
 
@@ -89,9 +89,9 @@ class AdaptationPlan:
     risk_assessment: float = 0.0
     resource_cost: float = 0.0
     expected_duration: int = 0  # minutes
-    dependencies: List[str] = field(default_factory=list)
+    dependencies: list[str] = field(default_factory=list)
     rollback_plan: Optional[str] = None
-    success_metrics: List[str] = field(default_factory=list)
+    success_metrics: list[str] = field(default_factory=list)
 
 
 class PlasticityTriggerManager:
@@ -100,28 +100,28 @@ class PlasticityTriggerManager:
     system state, historical patterns, risk assessment, and learning outcomes.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Adaptation rules registry
-        self.adaptation_rules: Dict[PlasticityTriggerType, List[AdaptationRule]] = {}
+        self.adaptation_rules: dict[PlasticityTriggerType, list[AdaptationRule]] = {}
         # Fallback mapping by enum value string to avoid duplicate-enum mismatch
-        self._rules_by_value: Dict[str, List[AdaptationRule]] = {}
-        self.custom_rules: List[AdaptationRule] = []
+        self._rules_by_value: dict[str, list[AdaptationRule]] = {}
+        self.custom_rules: list[AdaptationRule] = []
 
         # Tracking and state management
-        self.active_adaptations: Dict[str, AdaptationPlan] = {}
+        self.active_adaptations: dict[str, AdaptationPlan] = {}
         self.adaptation_history: deque = deque(maxlen=1000)
-        self.cooldown_tracker: Dict[str, datetime] = {}
-        self.daily_counters: Dict[str, Dict[str, int]] = defaultdict(
+        self.cooldown_tracker: dict[str, datetime] = {}
+        self.daily_counters: dict[str, dict[str, int]] = defaultdict(
             lambda: defaultdict(int)
         )
 
         # Learning and optimization
-        self.success_rates: Dict[PlasticityTriggerType, deque] = defaultdict(
+        self.success_rates: dict[PlasticityTriggerType, deque] = defaultdict(
             lambda: deque(maxlen=50)
         )
-        self.impact_measurements: Dict[str, deque] = defaultdict(
+        self.impact_measurements: dict[str, deque] = defaultdict(
             lambda: deque(maxlen=100)
         )
         self.pattern_detector = PatternDetector()
@@ -327,7 +327,7 @@ class PlasticityTriggerManager:
     # Public wrapper expected by tests
     async def assess_adaptation_risk(
         self, plan: AdaptationPlan, current_snapshot: EndocrineSnapshot
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         approved = await self._assess_adaptation_risk(plan, current_snapshot)
         # Normalize risk value output
         risk_val: float
@@ -347,7 +347,7 @@ class PlasticityTriggerManager:
 
     async def _select_best_rule(
         self,
-        rules: List[AdaptationRule],
+        rules: list[AdaptationRule],
         trigger_event: PlasticityEvent,
         current_snapshot: EndocrineSnapshot,
     ) -> Optional[AdaptationRule]:
@@ -741,7 +741,7 @@ class PlasticityTriggerManager:
 
     async def _define_success_metrics(
         self, trigger_type: PlasticityTriggerType
-    ) -> List[str]:
+    ) -> list[str]:
         """Define metrics to measure adaptation success"""
         metrics_map = {
             PlasticityTriggerType.STRESS_ADAPTATION: [
@@ -787,7 +787,7 @@ class PlasticityTriggerManager:
             strategy=rule.strategy.value,
         )
 
-    def get_active_adaptations(self) -> List[Dict[str, Any]]:
+    def get_active_adaptations(self) -> list[dict[str, Any]]:
         """Get currently active adaptations"""
         return [
             {
@@ -800,7 +800,7 @@ class PlasticityTriggerManager:
             for adaptation_id, plan in self.active_adaptations.items()
         ]
 
-    def get_adaptation_statistics(self) -> Dict[str, Any]:
+    def get_adaptation_statistics(self) -> dict[str, Any]:
         """Get statistics about adaptation performance"""
         return {
             "total_adaptations": len(self.adaptation_history),
@@ -828,8 +828,8 @@ class PatternDetector:
         self.temporal_patterns = deque(maxlen=200)
 
     def detect_patterns(
-        self, adaptation_history: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, adaptation_history: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Detect patterns in adaptation history"""
         # Simplified pattern detection
         return {"detected_patterns": [], "recommendations": []}

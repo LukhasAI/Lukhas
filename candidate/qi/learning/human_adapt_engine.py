@@ -3,13 +3,14 @@ from __future__ import annotations
 
 # Safe I/O
 import builtins
+import contextlib
 import hashlib
 import json
 import os
 import statistics
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 _ORIG_OPEN = builtins.open
 _ORIG_MAKEDIRS = os.makedirs
@@ -33,9 +34,9 @@ class Interaction:
     original_output: str
     user_feedback: str
     satisfaction_score: float     # 1-5 scale
-    tone_tags: List[str]         # ["formal", "technical", "concise"]
+    tone_tags: list[str]         # ["formal", "technical", "concise"]
     response_length: int
-    ctx: Dict[str, Any]
+    ctx: dict[str, Any]
     ts: float
 
 class HumanAdaptEngine:
@@ -49,7 +50,7 @@ class HumanAdaptEngine:
 
     def record_interaction(self, *, run_id: str, user_id: str, task_type: str,
                           interaction_kind: str, original_output: str, user_feedback: str,
-                          satisfaction_score: float, tone_tags: List[str], ctx: Dict[str, Any]):
+                          satisfaction_score: float, tone_tags: list[str], ctx: dict[str, Any]):
         inter = Interaction(
             run_id, user_id, task_type, interaction_kind, original_output, user_feedback,
             float(satisfaction_score), tone_tags, len(original_output), ctx, _now()
@@ -57,12 +58,12 @@ class HumanAdaptEngine:
         with _ORIG_OPEN(INTERACTIONS, "a", encoding="utf-8") as f:
             f.write(json.dumps(asdict(inter)) + "\n")
 
-    def analyze_satisfaction_patterns(self, *, window: int = 1000) -> Dict[str, Any]:
+    def analyze_satisfaction_patterns(self, *, window: int = 1000) -> dict[str, Any]:
         """Analyze satisfaction patterns by user, task type, and tone characteristics."""
         ints = self._tail(INTERACTIONS, window)
-        by_user: Dict[str, List[dict]] = {}
-        by_task: Dict[str, List[dict]] = {}
-        by_tone: Dict[str, List[dict]] = {}
+        by_user: dict[str, list[dict]] = {}
+        by_task: dict[str, list[dict]] = {}
+        by_tone: dict[str, list[dict]] = {}
 
         for i in ints:
             by_user.setdefault(i["user_id"], []).append(i)
@@ -101,7 +102,7 @@ class HumanAdaptEngine:
 
         return stats
 
-    def propose_tone_adaptations(self, *, target_file: str, user_focus: Optional[str] = None) -> List[dict]:
+    def propose_tone_adaptations(self, *, target_file: str, user_focus: str | None = None) -> list[dict]:
         """
         Generate proposals for tone/style adjustments based on satisfaction analysis.
         """
@@ -215,7 +216,7 @@ class HumanAdaptEngine:
         self._queue_proposals(proposals)
         return proposals
 
-    def submit_for_approval(self, *, config_targets: List[str]) -> List[str]:
+    def submit_for_approval(self, *, config_targets: list[str]) -> list[str]:
         """
         Submit tone adaptation proposals through self_healer governance system.
         """
@@ -259,7 +260,7 @@ class HumanAdaptEngine:
         return submitted
 
     # ---------- Helper Methods ----------
-    def _compute_trend(self, scores: List[float]) -> str:
+    def _compute_trend(self, scores: list[float]) -> str:
         if len(scores) < 3: return "insufficient_data"
         recent = scores[-5:]
         older = scores[:-5] if len(scores) > 5 else scores[:len(scores)//2]
@@ -273,7 +274,7 @@ class HumanAdaptEngine:
         elif diff < -0.3: return "declining"
         else: return "stable"
 
-    def _extract_correction_patterns(self, interactions: List[dict]) -> List[str]:
+    def _extract_correction_patterns(self, interactions: list[dict]) -> list[str]:
         patterns = []
         corrections = [i for i in interactions if i.get("interaction_kind") == "correction"]
 
@@ -290,7 +291,7 @@ class HumanAdaptEngine:
 
         return patterns
 
-    def _tail(self, path: str, n: int) -> List[dict]:
+    def _tail(self, path: str, n: int) -> list[dict]:
         if not os.path.exists(path): return []
         sz = os.path.getsize(path)
         chunk = min(1024*1024, sz)
@@ -300,19 +301,18 @@ class HumanAdaptEngine:
         lines = [x for x in text.strip().splitlines() if x.strip()][-n:]
         out = []
         for ln in lines:
-            try: out.append(json.loads(ln))
-            except Exception: pass
+            with contextlib.suppress(Exception): out.append(json.loads(ln))
         return out
 
-    def _queue_proposals(self, proposals: List[dict]):
+    def _queue_proposals(self, proposals: list[dict]):
         with _ORIG_OPEN(PROPOSALS, "a", encoding="utf-8") as f:
             for p in proposals: f.write(json.dumps(p) + "\n")
 
-    def _read_proposals(self) -> List[dict]:
+    def _read_proposals(self) -> list[dict]:
         if not os.path.exists(PROPOSALS): return []
         return [json.loads(ln) for ln in _ORIG_OPEN(PROPOSALS, "r", encoding="utf-8").read().splitlines() if ln.strip()]
 
-    def _write_proposals(self, proposals: List[dict]):
+    def _write_proposals(self, proposals: list[dict]):
         tmp = PROPOSALS + ".tmp"
         with _ORIG_OPEN(tmp, "w", encoding="utf-8") as f:
             for p in proposals: f.write(json.dumps(p) + "\n")

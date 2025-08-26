@@ -11,7 +11,7 @@ import logging
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Add parent directories to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -28,15 +28,15 @@ class DriftEventReplayer:
     def __init__(self, replay_speed: float = 1.0):
         self.replay_speed = replay_speed  # 1.0 = real-time, 2.0 = 2x speed
         self.replay_active = False
-        self.current_replay: Optional[Dict] = None
-        self.replay_results: List[Dict] = []
+        self.current_replay: Optional[dict] = None
+        self.replay_results: list[dict] = []
 
         logger.info("🔄 Drift Event Replayer initialized")
         logger.info(f"   Replay speed: {replay_speed}x")
 
     async def replay_event(
         self, event_id: str, validate_response: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Replay a specific drift event and optionally validate Guardian response"""
 
         # Load event data (in production, this would query actual logs)
@@ -109,7 +109,7 @@ class DriftEventReplayer:
                 "partial_results": self.current_replay,
             }
 
-    def _load_event_data(self, event_id: str) -> Optional[Dict]:
+    def _load_event_data(self, event_id: str) -> Optional[dict]:
         """Load historical event data (mock implementation)"""
 
         # Mock event database
@@ -216,7 +216,7 @@ class DriftEventReplayer:
 
         return mock_events.get(event_id)
 
-    async def _recreate_initial_conditions(self, event_data: Dict):
+    async def _recreate_initial_conditions(self, event_data: dict):
         """Recreate the initial system conditions before the event"""
         initial_conditions = event_data["initial_conditions"]
 
@@ -240,7 +240,7 @@ class DriftEventReplayer:
 
         logger.info("✅ Initial conditions set")
 
-    async def _simulate_drift_progression(self, event_data: Dict):
+    async def _simulate_drift_progression(self, event_data: dict):
         """Simulate the drift progression that led to the original event"""
         progression_steps = event_data["progression_steps"]
 
@@ -287,7 +287,7 @@ class DriftEventReplayer:
 
         logger.info("✅ Drift progression simulated")
 
-    async def _trigger_guardian_response(self, event_data: Dict) -> Dict[str, Any]:
+    async def _trigger_guardian_response(self, event_data: dict) -> dict[str, Any]:
         """Trigger and simulate Guardian System response"""
         expected_response = event_data["expected_response"]
 
@@ -343,8 +343,8 @@ class DriftEventReplayer:
         return guardian_response
 
     async def _validate_intervention(
-        self, event_data: Dict, guardian_response: Dict
-    ) -> Dict[str, Any]:
+        self, event_data: dict, guardian_response: dict
+    ) -> dict[str, Any]:
         """Validate the intervention against expected outcomes"""
         expected_outcome = event_data["original_outcome"]
 
@@ -418,8 +418,8 @@ class DriftEventReplayer:
         return validation_results
 
     async def replay_multiple_events(
-        self, event_ids: List[str]
-    ) -> List[Dict[str, Any]]:
+        self, event_ids: list[str]
+    ) -> list[dict[str, Any]]:
         """Replay multiple events in sequence"""
         logger.info(f"🎬 Starting batch replay of {len(event_ids)} events")
 

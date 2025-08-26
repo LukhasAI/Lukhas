@@ -173,9 +173,8 @@ class LegalComplianceAssistant:
         guidelines = self.compliance_rules["ethical_guidelines"]
 
         # Transparency check
-        if guidelines["transparency"]:
-            if not context.get("operation_disclosed", False):
-                ethical_concerns.append("Operation not disclosed to user")
+        if guidelines["transparency"] and not context.get("operation_disclosed", False):
+            ethical_concerns.append("Operation not disclosed to user")
 
         # Fairness check
         if guidelines["fairness"] and context.get("bias_detected", False):

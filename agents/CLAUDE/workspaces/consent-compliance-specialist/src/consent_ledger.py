@@ -11,7 +11,7 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class PolicyVerdict(Enum):
@@ -33,7 +33,7 @@ class LambdaTrace:
     timestamp: str
     policy_verdict: PolicyVerdict
     capability_token_id: Optional[str]
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def to_hash(self) -> str:
         """Generate immutable hash of audit record"""
@@ -50,7 +50,7 @@ class ConsentRecord:
     consent_id: str
     lid: str
     resource_type: str  # gmail, drive, dropbox, etc.
-    scope: List[str]  # read, write, delete
+    scope: list[str]  # read, write, delete
     purpose: str
     granted_at: str
     expires_at: Optional[str]
@@ -117,7 +117,7 @@ class ConsentLedger:
                       purpose: str, verdict: PolicyVerdict,
                       parent_trace_id: Optional[str] = None,
                       capability_token_id: Optional[str] = None,
-                      metadata: Optional[Dict] = None) -> LambdaTrace:
+                      metadata: Optional[dict] = None) -> LambdaTrace:
         """Generate new Λ-trace audit record"""
         trace = LambdaTrace(
             trace_id=f"LT-{uuid.uuid4().hex}",
@@ -167,7 +167,7 @@ class ConsentLedger:
         conn.close()
 
     def grant_consent(self, lid: str, resource_type: str,
-                     scope: List[str], purpose: str,
+                     scope: list[str], purpose: str,
                      expires_at: Optional[str] = None) -> ConsentRecord:
         """Grant user consent for resource access"""
 
@@ -221,7 +221,7 @@ class ConsentLedger:
         """Revoke consent in real-time"""
 
         # Generate trace for revocation
-        trace = self.generate_trace(
+        self.generate_trace(
             lid=lid,
             action="revoke_consent",
             resource=consent_id,
@@ -250,7 +250,7 @@ class ConsentLedger:
         return success
 
     def check_consent(self, lid: str, resource_type: str,
-                     action: str) -> Dict:
+                     action: str) -> dict:
         """Check if user has consented to action"""
 
         conn = sqlite3.connect(self.db_path)
@@ -306,7 +306,7 @@ class PolicyEngine:
         self.ledger = ledger
         self.policies = self._load_policies()
 
-    def _load_policies(self) -> Dict:
+    def _load_policies(self) -> dict:
         """Load governance policies"""
         return {
             "data_minimization": {
@@ -339,7 +339,7 @@ class PolicyEngine:
         }
 
     def validate_action(self, lid: str, action: str,
-                       context: Dict) -> Dict:
+                       context: dict) -> dict:
         """Validate action against policies"""
 
         # Check for duress signals
@@ -392,7 +392,7 @@ class PolicyEngine:
             "explanation": "Action permitted under current policies"
         }
 
-    def _detect_duress(self, context: Dict) -> bool:
+    def _detect_duress(self, context: dict) -> bool:
         """Detect duress/shadow gestures"""
         duress_indicators = context.get("duress_indicators", [])
         return any(signal in duress_indicators
@@ -418,7 +418,7 @@ class ContentModerationFilter:
             "unlimited mode"
         ]
 
-    def moderate_content(self, content: str) -> Dict:
+    def moderate_content(self, content: str) -> dict:
         """Moderate content for safety and ethics"""
 
         # Check for jailbreak attempts

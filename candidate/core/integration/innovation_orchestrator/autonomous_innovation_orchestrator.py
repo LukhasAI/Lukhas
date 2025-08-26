@@ -13,7 +13,7 @@ import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from lukhas.core.container.service_container import ServiceContainer
 from lukhas.core.interfaces import CoreInterface
@@ -97,7 +97,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         self._initialized = True
         logger.info("Autonomous Innovation Orchestrator initialized as SUPREME CONTROLLER")
 
-    def _initialize_innovation_engines(self) -> Dict[str, Any]:
+    def _initialize_innovation_engines(self) -> dict[str, Any]:
         """Initialize all available innovation engines"""
         return {
             'parallel_reality_simulator': self._get_parallel_reality_simulator(),
@@ -108,7 +108,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             'breakthrough_detector': self._get_breakthrough_detector_v2()
         }
 
-    async def orchestrate_autonomous_innovation_cycle(self) -> Dict[str, Any]:
+    async def orchestrate_autonomous_innovation_cycle(self) -> dict[str, Any]:
         """
         Execute complete autonomous innovation cycle
 
@@ -245,7 +245,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         self._running = False
         logger.info("Stopping continuous autonomous innovation")
 
-    async def scan_global_innovation_opportunities(self) -> List[Dict[str, Any]]:
+    async def scan_global_innovation_opportunities(self) -> list[dict[str, Any]]:
         """
         Scan for global innovation opportunities across all domains
 
@@ -304,9 +304,9 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
     async def execute_parallel_innovation(
         self,
-        resource_allocation: Dict[str, Any],
-        opportunities: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        resource_allocation: dict[str, Any],
+        opportunities: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """
         Execute innovation in parallel across multiple engines
 
@@ -345,8 +345,8 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
     async def generate_implementation_strategies(
         self,
-        prioritized_innovations: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        prioritized_innovations: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """
         Generate implementation strategies for prioritized innovations
 
@@ -419,7 +419,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
     async def calculate_total_market_value(
         self,
-        innovations: List[Dict[str, Any]]
+        innovations: list[dict[str, Any]]
     ) -> float:
         """
         Calculate total market value of innovations
@@ -452,7 +452,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
             # Use economic reality manipulator if available
             if 'economic_reality_manipulator' in self.innovation_engines:
-                manipulator = self.innovation_engines['economic_reality_manipulator']
+                self.innovation_engines['economic_reality_manipulator']
                 # Enhance value estimation
                 innovation_value *= 1.5  # Boost for economic analysis
 
@@ -462,8 +462,8 @@ class AutonomousInnovationOrchestrator(CoreInterface):
 
     async def estimate_competitive_advantage(
         self,
-        innovations: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        innovations: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Estimate competitive advantage duration from innovations
 
@@ -492,7 +492,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             advantage['factors'].append('consciousness_uniqueness')
 
         # Check for multiple breakthrough types (synergy)
-        innovation_types = set(i.get('type') for i in innovations)
+        innovation_types = {i.get('type') for i in innovations}
         if len(innovation_types) > 3:
             advantage['duration_months'] *= 1.5
             advantage['factors'].append('innovation_synergy')
@@ -503,9 +503,9 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     async def _execute_engine_innovation(
         self,
         engine: Any,
-        opportunity: Dict[str, Any],
-        resources: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        opportunity: dict[str, Any],
+        resources: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute innovation with a specific engine"""
 
         result = {
@@ -617,7 +617,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         except:
             return None
 
-    async def get_innovation_metrics(self) -> Dict[str, Any]:
+    async def get_innovation_metrics(self) -> dict[str, Any]:
         """Get metrics about innovation performance"""
 
         metrics = {
@@ -653,7 +653,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
             await self.breakthrough_synthesis_engine.shutdown()
 
         # Shutdown innovation engines
-        for engine_name, engine in self.innovation_engines.items():
+        for _engine_name, engine in self.innovation_engines.items():
             if hasattr(engine, 'shutdown'):
                 await engine.shutdown()
 

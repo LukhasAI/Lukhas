@@ -74,7 +74,7 @@ import uuid
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 from candidate.core.common.logger import get_logger
 
@@ -113,7 +113,7 @@ class BaseMemoryManager(ABC):
     - analyze: Perform analysis on memory patterns
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None, base_path: Optional[Path] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None, base_path: Optional[Path] = None):
         """
         Initialize base memory manager.
 
@@ -153,9 +153,9 @@ class BaseMemoryManager(ABC):
             raise
 
         # Memory index for quick lookups with Λ-trace support
-        self._memory_index: Dict[str, Dict[str, Any]] = {}
-        self._lambda_traces: Dict[str, List[str]] = {}  # Track memory access patterns
-        self._consciousness_patterns: Set[str] = set()  # Track consciousness-related memories
+        self._memory_index: dict[str, dict[str, Any]] = {}
+        self._lambda_traces: dict[str, list[str]] = {}  # Track memory access patterns
+        self._consciousness_patterns: set[str] = set()  # Track consciousness-related memories
 
         # Initialize index with enhanced error handling
         try:
@@ -171,9 +171,9 @@ class BaseMemoryManager(ABC):
     # === Core Abstract Methods ===
 
     @abstractmethod
-    async def store(self, memory_data: Dict[str, Any],
+    async def store(self, memory_data: dict[str, Any],
                     memory_id: Optional[str] = None,
-                    metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                    metadata: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Store memory data.
 
@@ -189,7 +189,7 @@ class BaseMemoryManager(ABC):
 
     @abstractmethod
     async def retrieve(self, memory_id: str,
-                       context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                       context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Retrieve memory data.
 
@@ -204,8 +204,8 @@ class BaseMemoryManager(ABC):
 
     @abstractmethod
     async def update(self, memory_id: str,
-                     updates: Dict[str, Any],
-                     merge: bool = True) -> Dict[str, Any]:
+                     updates: dict[str, Any],
+                     merge: bool = True) -> dict[str, Any]:
         """
         Update existing memory.
 
@@ -221,7 +221,7 @@ class BaseMemoryManager(ABC):
 
     @abstractmethod
     async def delete(self, memory_id: str,
-                     soft_delete: bool = True) -> Dict[str, Any]:
+                     soft_delete: bool = True) -> dict[str, Any]:
         """
         Delete memory.
 
@@ -235,8 +235,8 @@ class BaseMemoryManager(ABC):
         pass
 
     @abstractmethod
-    async def search(self, criteria: Dict[str, Any],
-                     limit: Optional[int] = None) -> List[Dict[str, Any]]:
+    async def search(self, criteria: dict[str, Any],
+                     limit: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Search for memories matching criteria.
 
@@ -275,7 +275,7 @@ class BaseMemoryManager(ABC):
             # Fallback to simple timestamp-based ID
             return f"{prefix or 'mem'}_{datetime.now(timezone.utc).isoformat()}"
 
-    async def list_memories(self, include_deleted: bool = False) -> List[str]:
+    async def list_memories(self, include_deleted: bool = False) -> list[str]:
         """List all memory IDs."""
         if include_deleted:
             return list(self._memory_index.keys())
@@ -285,7 +285,7 @@ class BaseMemoryManager(ABC):
                 if not meta.get('deleted', False)
             ]
 
-    def _save_to_disk(self, memory_id: str, data: Dict[str, Any]) -> None:
+    def _save_to_disk(self, memory_id: str, data: dict[str, Any]) -> None:
         """Save memory to disk."""
         file_path = self.base_path / f"{memory_id}.json"
         try:
@@ -297,7 +297,7 @@ class BaseMemoryManager(ABC):
                               memory_id=memory_id, error=str(e))
             raise
 
-    def _load_from_disk(self, memory_id: str) -> Dict[str, Any]:
+    def _load_from_disk(self, memory_id: str) -> dict[str, Any]:
         """Load memory from disk."""
         file_path = self.base_path / f"{memory_id}.json"
         if not file_path.exists():
@@ -333,7 +333,7 @@ class BaseMemoryManager(ABC):
         except Exception as e:
             self.logger.error("Failed to save memory index", error=str(e))
 
-    def _update_index(self, memory_id: str, metadata: Dict[str, Any]) -> None:
+    def _update_index(self, memory_id: str, metadata: dict[str, Any]) -> None:
         """Update memory index with Trinity Framework tracking."""
         try:
             # Enhanced metadata with Trinity Framework integration
@@ -373,7 +373,7 @@ class BaseMemoryManager(ABC):
 
     # === Optional Advanced Methods ===
 
-    async def entangle(self, memory_id1: str, memory_id2: str) -> Dict[str, Any]:
+    async def entangle(self, memory_id1: str, memory_id2: str) -> dict[str, Any]:
         """
         Create entanglement between memories (for quantum-aware managers).
         Default implementation returns not supported.
@@ -384,7 +384,7 @@ class BaseMemoryManager(ABC):
         }
 
     async def visualize(self, memory_id: str,
-                        options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                        options: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Create visualization of memory.
         Default implementation returns not supported.
@@ -394,8 +394,8 @@ class BaseMemoryManager(ABC):
             "message": f"{self.__class__.__name__} does not support visualization"
         }
 
-    async def analyze(self, memory_ids: List[str],
-                      analysis_type: str = "pattern") -> Dict[str, Any]:
+    async def analyze(self, memory_ids: list[str],
+                      analysis_type: str = "pattern") -> dict[str, Any]:
         """
         Analyze memory patterns.
         Default implementation returns not supported.
@@ -405,7 +405,7 @@ class BaseMemoryManager(ABC):
             "message": f"{self.__class__.__name__} does not support analysis"
         }
 
-    async def get_statistics(self) -> Dict[str, Any]:
+    async def get_statistics(self) -> dict[str, Any]:
         """Get comprehensive manager statistics with Trinity Framework metrics."""
         try:
             total_memories = len(self._memory_index)
@@ -415,10 +415,10 @@ class BaseMemoryManager(ABC):
             )
 
             # Trinity Framework specific metrics
-            identity_contexts = set(
+            identity_contexts = {
                 meta.get('trinity_identity', '⚛️anonymous')
                 for meta in self._memory_index.values()
-            )
+            }
 
             consciousness_patterns = len(self._consciousness_patterns)
 
@@ -451,7 +451,7 @@ class BaseMemoryManager(ABC):
                 "trinity_framework": "⚛️🧠🛡️"
             }
 
-    def _extract_identity_context(self, metadata: Dict[str, Any]) -> str:
+    def _extract_identity_context(self, metadata: dict[str, Any]) -> str:
         """Extract Trinity Identity context from metadata."""
         identity_markers = ['user_id', 'agent_id', 'session_id', 'identity']
         for marker in identity_markers:
@@ -459,7 +459,7 @@ class BaseMemoryManager(ABC):
                 return f"⚛️{metadata[marker]}"
         return "⚛️anonymous"
 
-    def _analyze_consciousness_pattern(self, metadata: Dict[str, Any]) -> str:
+    def _analyze_consciousness_pattern(self, metadata: dict[str, Any]) -> str:
         """Analyze consciousness patterns in memory metadata."""
         consciousness_keywords = ['dream', 'awareness', 'learning', 'adaptation', 'reflection']
         for keyword in consciousness_keywords:
@@ -467,7 +467,7 @@ class BaseMemoryManager(ABC):
                 return f"🧠{keyword}_pattern"
         return "🧠default_pattern"
 
-    def _validate_guardian_compliance(self, metadata: Dict[str, Any]) -> str:
+    def _validate_guardian_compliance(self, metadata: dict[str, Any]) -> str:
         """Validate Guardian compliance for memory operations."""
         # Basic compliance check - can be enhanced with actual Guardian integration
         if metadata.get('ethical_review', False):
@@ -476,7 +476,7 @@ class BaseMemoryManager(ABC):
             return "🛡️review_required"
         return "🛡️standard"
 
-    def _is_consciousness_related(self, metadata: Dict[str, Any]) -> bool:
+    def _is_consciousness_related(self, metadata: dict[str, Any]) -> bool:
         """Determine if memory is consciousness-related."""
         consciousness_indicators = [
             'consciousness', 'awareness', 'learning', 'adaptation',
@@ -487,11 +487,11 @@ class BaseMemoryManager(ABC):
             for indicator in consciousness_indicators
         )
 
-    def get_lambda_traces(self, memory_id: str) -> List[str]:
+    def get_lambda_traces(self, memory_id: str) -> list[str]:
         """Get Λ-trace history for a memory."""
         return self._lambda_traces.get(memory_id, [])
 
-    def get_consciousness_patterns(self) -> Set[str]:
+    def get_consciousness_patterns(self) -> set[str]:
         """Get all consciousness-related memory IDs."""
         return self._consciousness_patterns.copy()
 

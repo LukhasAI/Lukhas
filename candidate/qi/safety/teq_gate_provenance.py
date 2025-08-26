@@ -7,7 +7,7 @@ Automatically generates execution receipts for all policy decisions
 import hashlib
 import time
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from qi.provenance.receipts_hub import emit_receipt
 from qi.safety.teq_gate import GateResult, TEQCoupler
@@ -21,7 +21,7 @@ class TEQWithProvenance(TEQCoupler):
         self.enable_provenance = enable_provenance
         self.service_name = "lukhas-teq"
 
-    def run(self, task: str, context: Dict[str, Any]) -> GateResult:
+    def run(self, task: str, context: dict[str, Any]) -> GateResult:
         """Run TEQ checks and generate provenance receipt"""
 
         # Track execution timing
@@ -65,7 +65,7 @@ class TEQWithProvenance(TEQCoupler):
 
         return result
 
-    def _extract_user_id(self, context: Dict[str, Any]) -> Optional[str]:
+    def _extract_user_id(self, context: dict[str, Any]) -> Optional[str]:
         """Extract user ID from various context formats"""
         # Try common patterns
         if "user_id" in context:
@@ -84,9 +84,9 @@ class TEQWithProvenance(TEQCoupler):
         start_time: float,
         end_time: float,
         user_id: Optional[str],
-        context: Dict[str, Any],
+        context: dict[str, Any],
         result: GateResult
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate comprehensive provenance receipt"""
 
         # Extract policy-relevant metadata

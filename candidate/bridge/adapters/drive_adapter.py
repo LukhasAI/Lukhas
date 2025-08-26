@@ -8,7 +8,7 @@ import asyncio
 import json
 import mimetypes
 from datetime import datetime, timezone
-from typing import Dict, Optional
+from typing import Optional
 
 import aiohttp
 
@@ -33,7 +33,7 @@ class DriveAdapter(BaseServiceAdapter):
         self.oauth_tokens = {}  # In production: use Agent 7's KMS vault
         self.dry_run_planner = DryRunPlanner()
 
-    async def authenticate(self, credentials: Dict) -> Dict:
+    async def authenticate(self, credentials: dict) -> dict:
         """OAuth2 authentication flow for Google Drive"""
         if self.dry_run_mode:
             return {
@@ -76,7 +76,7 @@ class DriveAdapter(BaseServiceAdapter):
     async def list_files(self, lid: str, folder_id: Optional[str] = None,
                         query: Optional[str] = None,
                         capability_token: Optional[CapabilityToken] = None,
-                        page_size: int = 100) -> Dict:
+                        page_size: int = 100) -> dict:
         """
         List files in Google Drive with optional folder and query
         Emits Λ-trace for audit
@@ -140,7 +140,7 @@ class DriveAdapter(BaseServiceAdapter):
 
     @with_resilience
     async def get_file(self, lid: str, file_id: str,
-                       capability_token: Optional[CapabilityToken] = None) -> Dict:
+                       capability_token: Optional[CapabilityToken] = None) -> dict:
         """Get file metadata and content"""
 
         # Validate capability token
@@ -200,7 +200,7 @@ class DriveAdapter(BaseServiceAdapter):
 
     @with_resilience
     async def search_files(self, lid: str, search_query: str,
-                          capability_token: Optional[CapabilityToken] = None) -> Dict:
+                          capability_token: Optional[CapabilityToken] = None) -> dict:
         """
         Search files in Drive
         Example: "name contains 'travel' and mimeType = 'application/pdf'"
@@ -210,7 +210,7 @@ class DriveAdapter(BaseServiceAdapter):
     @with_resilience
     async def upload_file(self, lid: str, file_name: str, content: bytes,
                          parent_folder_id: Optional[str] = None,
-                         capability_token: Optional[CapabilityToken] = None) -> Dict:
+                         capability_token: Optional[CapabilityToken] = None) -> dict:
         """Upload file to Google Drive"""
 
         # Validate capability token
@@ -288,7 +288,7 @@ class DriveAdapter(BaseServiceAdapter):
 
         return False
 
-    def get_quota_usage(self, lid: str) -> Dict:
+    def get_quota_usage(self, lid: str) -> dict:
         """Get Drive storage quota usage"""
         # In production: call Drive API for actual quota
         return {
@@ -311,7 +311,7 @@ class DriveContextIntegration:
         self.adapter = drive_adapter
 
     async def workflow_fetch_travel_documents(self, lid: str,
-                                             context: Dict) -> Dict:
+                                             context: dict) -> dict:
         """
         Workflow step: Fetch travel-related documents from Drive
         Used in MVP demo scenario
@@ -409,7 +409,7 @@ if __name__ == "__main__":
         integration = DriveContextIntegration(adapter)
         print("\n🔄 Testing workflow integration...")
 
-        workflow_result = await integration.workflow_fetch_travel_documents(
+        await integration.workflow_fetch_travel_documents(
             lid="USR-123456",
             context={"stage": "document_retrieval"}
         )

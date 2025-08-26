@@ -199,14 +199,13 @@ class ImportErrorFixer:
                                 )
                                 self.errors_by_category["missing_module"] += 1
 
-                    elif isinstance(node, ast.ImportFrom):
-                        if node.module:
-                            module_name = node.module
-                            if not self.module_exists(module_name):
-                                self.missing_modules[module_name].append(
-                                    str(py_file.relative_to(self.root_path))
-                                )
-                                self.errors_by_category["missing_module"] += 1
+                    elif isinstance(node, ast.ImportFrom) and node.module:
+                        module_name = node.module
+                        if not self.module_exists(module_name):
+                            self.missing_modules[module_name].append(
+                                str(py_file.relative_to(self.root_path))
+                            )
+                            self.errors_by_category["missing_module"] += 1
 
             except Exception as e:
                 logger.warning(f"Could not analyze imports in {py_file}: {e}")

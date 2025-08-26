@@ -7,7 +7,7 @@ consciousness.reflection.memory_hub <-> core.bridges.memory_consciousness_bridge
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from lukhas.core.common import GLYPHToken
 
@@ -16,7 +16,7 @@ class CommonInterface(ABC):
     """Abstract interface for common modules"""
 
     @abstractmethod
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process data through the module"""
         pass
 
@@ -26,12 +26,12 @@ class CommonInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get module status"""
         pass
 
 # Module registry for dependency injection
-_module_registry: Dict[str, CommonInterface] = {}
+_module_registry: dict[str, CommonInterface] = {}
 
 def register_module(name: str, module: CommonInterface) -> None:
     """Register module implementation"""

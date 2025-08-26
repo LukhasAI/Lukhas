@@ -35,7 +35,7 @@ retrieval, and consolidation, with integration to voice and dream processing.
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ...core.unified_integration import UnifiedIntegration
 from ..oscillator.orchestrator import BioOrchestrator
@@ -158,8 +158,8 @@ class QIMemoryManager:
             logger.error(f"Error stopping memory operations: {e}")
 
     async def store_memory(self,
-                        memory_data: Dict[str, Any],
-                        memory_type: str = "general") -> Dict[str, Any]:
+                        memory_data: dict[str, Any],
+                        memory_type: str = "general") -> dict[str, Any]:
         """Store memory with quantum enhancement
 
         Args:
@@ -196,8 +196,8 @@ class QIMemoryManager:
             }
 
     async def retrieve_memory(self,
-                          query: Dict[str, Any],
-                          memory_type: Optional[str] = None) -> Dict[str, Any]:
+                          query: dict[str, Any],
+                          memory_type: Optional[str] = None) -> dict[str, Any]:
         """Retrieve memory with quantum enhancement
 
         Args:
@@ -233,7 +233,7 @@ class QIMemoryManager:
                 "error": str(e)
             }
 
-    async def handle_message(self, message: Dict[str, Any]) -> None:
+    async def handle_message(self, message: dict[str, Any]) -> None:
         """Handle incoming messages
 
         Args:
@@ -302,8 +302,8 @@ class QIMemoryManager:
             logger.error(f"Error consolidating memories: {e}")
 
     async def _enhance_memory_storage(self,
-                                  memory_data: Dict[str, Any],
-                                  memory_type: str) -> Dict[str, Any]:
+                                  memory_data: dict[str, Any],
+                                  memory_type: str) -> dict[str, Any]:
         """Enhance memory storage with quantum processing"""
         try:
             # Memory enhancement implementation will go here
@@ -315,8 +315,8 @@ class QIMemoryManager:
             return memory_data
 
     async def _enhance_memory_retrieval(self,
-                                    query: Dict[str, Any],
-                                    memory_type: Optional[str]) -> List[Dict[str, Any]]:
+                                    query: dict[str, Any],
+                                    memory_type: Optional[str]) -> list[dict[str, Any]]:
         """Enhance memory retrieval with quantum processing"""
         try:
             # Memory retrieval enhancement implementation will go here
@@ -327,7 +327,7 @@ class QIMemoryManager:
             logger.error(f"Error enhancing memory retrieval: {e}")
             return []
 
-    async def _send_response(self, response_type: str, data: Dict[str, Any]) -> None:
+    async def _send_response(self, response_type: str, data: dict[str, Any]) -> None:
         """Send response through integration layer"""
         try:
             response = {

@@ -35,7 +35,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
     - Timing characteristics
     """
 
-    def extract_features(self, raw_gesture_data: Any) -> List[float]:
+    def extract_features(self, raw_gesture_data: Any) -> list[float]:
         """
         Extract kinematic features from stroke data.
 
@@ -77,7 +77,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
 
         return normalized_features
 
-    def _extract_path_features(self, points: List[Dict]) -> List[float]:
+    def _extract_path_features(self, points: list[dict]) -> list[float]:
         """Extract path geometry features"""
         features = []
 
@@ -130,7 +130,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
 
         return features
 
-    def _extract_motion_features(self, points: List[Dict]) -> List[float]:
+    def _extract_motion_features(self, points: list[dict]) -> list[float]:
         """Extract velocity and acceleration features"""
         features = []
 
@@ -182,7 +182,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
 
         return features
 
-    def _extract_pressure_features(self, points: List[Dict]) -> List[float]:
+    def _extract_pressure_features(self, points: list[dict]) -> list[float]:
         """Extract pressure variation features"""
         pressures = [p.get('pressure', 0.5) for p in points]
 
@@ -193,7 +193,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
             min(pressures)
         ]
 
-    def _extract_timing_features(self, points: List[Dict]) -> List[float]:
+    def _extract_timing_features(self, points: list[dict]) -> list[float]:
         """Extract timing characteristics"""
         if len(points) < 2:
             return [0.0, 0.0]
@@ -211,7 +211,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
 
         return [total_duration, avg_interval]
 
-    def _normalize_features(self, features: List[float]) -> List[float]:
+    def _normalize_features(self, features: list[float]) -> list[float]:
         """Normalize features to [0, 1] range"""
         if not features:
             return features
@@ -226,7 +226,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
         normalized = [(f - min_val) / (max_val - min_val) for f in features]
         return normalized
 
-    def hash_features(self, features: List[float], salt: str) -> str:
+    def hash_features(self, features: list[float], salt: str) -> str:
         """Hash features with salt for privacy"""
         # Round features to reduce sensitivity to minor variations
         rounded_features = [round(f, 4) for f in features]
@@ -241,7 +241,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
 
         return hasher.hexdigest()
 
-    def calculate_quality_score(self, features: List[float]) -> float:
+    def calculate_quality_score(self, features: list[float]) -> float:
         """Calculate gesture quality score based on features"""
         if not features or len(features) < 5:
             return 0.0
@@ -283,7 +283,7 @@ class StrokeGestureRecognizer(GestureRecognizer):
 class TapSequenceRecognizer(GestureRecognizer):
     """Recognizes tap rhythm patterns for GTΨ"""
 
-    def extract_features(self, raw_gesture_data: Any) -> List[float]:
+    def extract_features(self, raw_gesture_data: Any) -> list[float]:
         """Extract timing features from tap sequence"""
         if not isinstance(raw_gesture_data, dict) or 'taps' not in raw_gesture_data:
             raise ValueError("Invalid tap sequence data format")
@@ -325,7 +325,7 @@ class TapSequenceRecognizer(GestureRecognizer):
 
         return features
 
-    def hash_features(self, features: List[float], salt: str) -> str:
+    def hash_features(self, features: list[float], salt: str) -> str:
         """Hash tap timing features"""
         rounded_features = [round(f, 3) for f in features]
         feature_str = json.dumps(rounded_features, sort_keys=True)
@@ -336,7 +336,7 @@ class TapSequenceRecognizer(GestureRecognizer):
 
         return hasher.hexdigest()
 
-    def calculate_quality_score(self, features: List[float]) -> float:
+    def calculate_quality_score(self, features: list[float]) -> float:
         """Quality based on rhythm consistency and complexity"""
         if len(features) < 5:
             return 0.0
@@ -355,7 +355,7 @@ class MockStrokeData:
     """Generate realistic mock stroke data for development"""
 
     @staticmethod
-    def generate_signature_stroke() -> Dict[str, Any]:
+    def generate_signature_stroke() -> dict[str, Any]:
         """Generate mock signature stroke"""
         import random
         import time
@@ -387,7 +387,7 @@ class MockStrokeData:
         return {'points': points}
 
     @staticmethod
-    def generate_tap_sequence() -> Dict[str, Any]:
+    def generate_tap_sequence() -> dict[str, Any]:
         """Generate mock tap sequence"""
         import random
         import time
@@ -398,7 +398,7 @@ class MockStrokeData:
         # Generate 4-tap rhythm: quick-quick-slow-quick
         intervals = [0.0, 0.2, 0.4, 1.0, 1.3]
 
-        for i, interval in enumerate(intervals):
+        for _i, interval in enumerate(intervals):
             tap = {
                 'timestamp': base_time + interval,
                 'x': 200 + random.gauss(0, 10),  # Some spatial variation

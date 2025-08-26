@@ -10,7 +10,9 @@ from pathlib import Path
 
 from lukhas.dna.memory_inmem import (
     InMemoryHelix,
-)  # replace with real DNA client when ready
+)
+
+# replace with real DNA client when ready
 from lukhas.migration.legacy_jsonl import LegacyJSONL
 
 CKPT_DIR = Path(".lukhas_migration")

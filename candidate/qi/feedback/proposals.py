@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Any, Dict, Optional
+from typing import Any
 
 from qi.feedback.schema import ChangeProposal, PolicySafePatch
 from qi.feedback.triage import get_triage
@@ -18,7 +18,7 @@ class ProposalMapper:
         self.max_threshold_shift = MAX_THRESHOLD_SHIFT
         self.allowed_styles = ALLOWED_STYLES
 
-    def map_cluster_to_patch(self, cluster: Dict[str, Any]) -> Optional[PolicySafePatch]:
+    def map_cluster_to_patch(self, cluster: dict[str, Any]) -> PolicySafePatch | None:
         """Map a feedback cluster to a policy-safe patch."""
         # Extract cluster metrics
         sat_mean = cluster.get("sat_mean", 0.5)
@@ -74,14 +74,12 @@ class ProposalMapper:
                 return False
 
         # Check allowed styles
-        if patch.style is not None:
-            if patch.style not in self.allowed_styles:
-                return False
+        if patch.style is not None and patch.style not in self.allowed_styles:
+            return False
 
         # Check explanation depth
-        if patch.explain_depth is not None:
-            if not (1 <= patch.explain_depth <= 5):
-                return False
+        if patch.explain_depth is not None and not (1 <= patch.explain_depth <= 5):
+            return False
 
         return True
 
@@ -90,7 +88,7 @@ class ProposalMapper:
                           cluster_id: str,
                           target_file: str = "qi/safety/policy_packs/global/mappings.yaml",
                           ttl_sec: int = 3600,
-                          risk: str = "low") -> Dict[str, Any]:
+                          risk: str = "low") -> dict[str, Any]:
         """Convert a patch to a change proposal."""
         # Build patch dict for the target file
         patch_dict = {}
@@ -117,7 +115,7 @@ class ProposalMapper:
 
     def promote_cluster(self,
                        cluster_id: str,
-                       target_file: str = "qi/safety/policy_packs/global/mappings.yaml") -> Optional[str]:
+                       target_file: str = "qi/safety/policy_packs/global/mappings.yaml") -> str | None:
         """Promote a cluster to a change proposal."""
         # Get cluster
         cluster = self.triage.get_cluster_by_id(cluster_id)
@@ -148,7 +146,7 @@ class ProposalMapper:
 
     def promote_feedback_card(self,
                             fc_id: str,
-                            target_file: str = "qi/safety/policy_packs/global/mappings.yaml") -> Optional[str]:
+                            target_file: str = "qi/safety/policy_packs/global/mappings.yaml") -> str | None:
         """Promote a single feedback card to a proposal."""
         # For single cards, create a minimal cluster
         from qi.feedback.store import get_store
@@ -204,7 +202,7 @@ class ProposalMapper:
         return proposal_id
 
 # Helper functions
-def queue_proposal(proposal: Dict[str, Any]) -> str:
+def queue_proposal(proposal: dict[str, Any]) -> str:
     """Queue a proposal to the approval system."""
     # Use the self-healer's proposal queue
     STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))

@@ -19,7 +19,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -63,26 +63,26 @@ class UniversalSymbol:
     """
     symbol_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     core_glyph: Optional[Glyph] = None
-    modalities: Set[SymbolModality] = field(default_factory=set)
-    domains: Set[SymbolDomain] = field(default_factory=set)
+    modalities: set[SymbolModality] = field(default_factory=set)
+    domains: set[SymbolDomain] = field(default_factory=set)
 
     # Multi-modal representations
     text_repr: Optional[str] = None
     audio_signature: Optional[bytes] = None
     visual_pattern: Optional[np.ndarray] = None
-    qi_state: Optional[Dict[str, complex]] = None
+    qi_state: Optional[dict[str, complex]] = None
 
     # Semantic properties
     semantic_vector: Optional[np.ndarray] = None
     emotional_state: Optional[EmotionVector] = None
-    causal_links: List[str] = field(default_factory=list)
+    causal_links: list[str] = field(default_factory=list)
     temporal_context: Optional[datetime] = None
 
     # Metadata
     confidence: float = 1.0
     entropy: float = 0.0
     compression_ratio: float = 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __hash__(self):
         """Generate unique hash for symbol"""
@@ -120,7 +120,7 @@ class SymbolTranslator:
         self.translation_matrix = self._init_translation_matrix()
         self.domain_bridges = self._init_domain_bridges()
 
-    def _init_translation_matrix(self) -> Dict[Tuple[SymbolModality, SymbolModality], float]:
+    def _init_translation_matrix(self) -> dict[tuple[SymbolModality, SymbolModality], float]:
         """Initialize translation compatibility matrix"""
         matrix = {}
 
@@ -144,7 +144,7 @@ class SymbolTranslator:
 
         return matrix
 
-    def _init_domain_bridges(self) -> Dict[Tuple[SymbolDomain, SymbolDomain], str]:
+    def _init_domain_bridges(self) -> dict[tuple[SymbolDomain, SymbolDomain], str]:
         """Initialize domain bridging functions"""
         bridges = {}
 
@@ -233,7 +233,7 @@ class SymbolTranslator:
         np.random.seed(hash_val % (2**32))
 
         # Create base pattern
-        for i in range(len(symbol.modalities)):
+        for _i in range(len(symbol.modalities)):
             x = np.random.randint(0, pattern_size)
             y = np.random.randint(0, pattern_size)
             radius = np.random.randint(5, 20)
@@ -248,7 +248,7 @@ class SymbolTranslator:
 
         return pattern
 
-    def _to_quantum(self, symbol: UniversalSymbol) -> Dict[str, complex]:
+    def _to_quantum(self, symbol: UniversalSymbol) -> dict[str, complex]:
         """Convert symbol to quantum state representation"""
         if symbol.qi_state:
             return symbol.qi_state
@@ -301,8 +301,8 @@ class UniversalSymbolProtocol:
     def __init__(self):
         self.glyph_engine = GlyphEngine()
         self.translator = SymbolTranslator()
-        self.symbol_registry: Dict[str, UniversalSymbol] = {}
-        self.semantic_cache: Dict[str, np.ndarray] = {}
+        self.symbol_registry: dict[str, UniversalSymbol] = {}
+        self.semantic_cache: dict[str, np.ndarray] = {}
 
         # Symbol compression settings
         self.compression_threshold = 0.7
@@ -311,9 +311,9 @@ class UniversalSymbolProtocol:
     def create_symbol(
         self,
         content: Any,
-        modalities: Set[SymbolModality] = None,
-        domains: Set[SymbolDomain] = None,
-        emotion: Optional[Dict[str, float]] = None
+        modalities: set[SymbolModality] = None,
+        domains: set[SymbolDomain] = None,
+        emotion: Optional[dict[str, float]] = None
     ) -> UniversalSymbol:
         """
         Create a new universal symbol
@@ -360,12 +360,12 @@ class UniversalSymbolProtocol:
         base_vector = np.random.randn(vector_size)
 
         # Modulate by modalities
-        for i, modality in enumerate(symbol.modalities):
+        for i, _modality in enumerate(symbol.modalities):
             offset = (i * 37) % vector_size
             base_vector[offset:offset+10] *= 2.0
 
         # Modulate by domains
-        for i, domain in enumerate(symbol.domains):
+        for i, _domain in enumerate(symbol.domains):
             offset = (i * 53) % vector_size
             base_vector[offset:offset+10] += 1.0
 
@@ -405,7 +405,7 @@ class UniversalSymbolProtocol:
 
     def compress_symbols(
         self,
-        symbols: List[UniversalSymbol],
+        symbols: list[UniversalSymbol],
         target_ratio: float = 0.5
     ) -> UniversalSymbol:
         """
@@ -474,7 +474,7 @@ class UniversalSymbolProtocol:
         self,
         compressed_symbol: UniversalSymbol,
         expansion_factor: int = 2
-    ) -> List[UniversalSymbol]:
+    ) -> list[UniversalSymbol]:
         """
         Expand a compressed symbol back into multiple symbols
         """
@@ -522,7 +522,7 @@ class UniversalSymbolProtocol:
         query_symbol: UniversalSymbol,
         threshold: float = 0.8,
         max_results: int = 10
-    ) -> List[Tuple[UniversalSymbol, float]]:
+    ) -> list[tuple[UniversalSymbol, float]]:
         """
         Find symbols similar to the query symbol
         """
@@ -558,8 +558,8 @@ class UniversalSymbolProtocol:
 
     def create_causal_chain(
         self,
-        symbols: List[UniversalSymbol]
-    ) -> List[UniversalSymbol]:
+        symbols: list[UniversalSymbol]
+    ) -> list[UniversalSymbol]:
         """
         Create causal links between symbols
         """

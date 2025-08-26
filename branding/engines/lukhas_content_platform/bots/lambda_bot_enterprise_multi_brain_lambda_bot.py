@@ -11,7 +11,7 @@ import sys
 import time
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 # Add workspace core to path
 sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
@@ -162,7 +162,7 @@ class MultiBrainΛBot:
         self.sync_state.last_sync = datetime.now()
         logger.info("🎵 Bio-rhythmic synchronization active")
 
-    async def coordinate_agent_analysis(self, analysis_request: Dict[str, Any]) -> Dict[str, Any]:
+    async def coordinate_agent_analysis(self, analysis_request: dict[str, Any]) -> dict[str, Any]:
         """
         Coordinate multi-agent analysis using bio-rhythmic synchronization
         """
@@ -210,7 +210,7 @@ class MultiBrainΛBot:
             analysis_results['error'] = str(e)
             return analysis_results
 
-    async def _coordinate_codex_brain(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _coordinate_codex_brain(self, request: dict[str, Any]) -> dict[str, Any]:
         """Coordinate CODEX brain for code analysis"""
         brain = self.specialized_brains.get('codex_brain')
 
@@ -232,7 +232,7 @@ class MultiBrainΛBot:
         logger.info(f"🔍 CODEX brain analysis: {result['findings']['complexity_hotspots']}")
         return result
 
-    async def _coordinate_jules_brain(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _coordinate_jules_brain(self, request: dict[str, Any]) -> dict[str, Any]:
         """Coordinate JULES brain for architectural planning"""
         brain = self.specialized_brains.get('jules_brain')
 
@@ -254,7 +254,7 @@ class MultiBrainΛBot:
         logger.info(f"🏗️ JULES brain planning: {result['findings']['module_boundaries']}")
         return result
 
-    async def _coordinate_lambda_brain(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def _coordinate_lambda_brain(self, request: dict[str, Any]) -> dict[str, Any]:
         """Coordinate LUKHAS AI ΛBot brain for quantum orchestration"""
         brain = self.specialized_brains.get('lambda_brain')
 
@@ -276,9 +276,9 @@ class MultiBrainΛBot:
         logger.info(f"⚛️ LUKHAS AI ΛBot brain orchestration: {result['findings']['qi_optimization']}")
         return result
 
-    async def _synthesize_multi_brain_results(self, codex_result: Dict, jules_result: Dict, lambda_result: Dict) -> Dict[str, Any]:
+    async def _synthesize_multi_brain_results(self, codex_result: dict, jules_result: dict, lambda_result: dict) -> dict[str, Any]:
         """Synthesize results from all brain cores"""
-        integration_brain = self.specialized_brains.get('integration_brain')
+        self.specialized_brains.get('integration_brain')
 
         synthesis = {
             'synthesis_brain_id': 'multi_agent_integration_brain',
@@ -318,7 +318,7 @@ class MultiBrainΛBot:
         logger.info(f"🎼 Multi-brain synthesis complete - Harmony: {synthesis['integrated_findings']['bio_sync_harmony']:.2f}")
         return synthesis
 
-    def _get_brain_states(self) -> Dict[str, Any]:
+    def _get_brain_states(self) -> dict[str, Any]:
         """Get current state of all brain cores"""
         states = {}
         for brain_name, brain_core in self.specialized_brains.items():
@@ -331,7 +331,7 @@ class MultiBrainΛBot:
             }
         return states
 
-    async def get_multi_brain_status(self) -> Dict[str, Any]:
+    async def get_multi_brain_status(self) -> dict[str, Any]:
         """Get comprehensive status of Multi-Brain Symphony system"""
         status = {
             'system_name': 'Multi-Brain Symphony LUKHAS AI ΛBot',

@@ -29,7 +29,7 @@ import warnings
 from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 # Suppress Plotly warnings for cleaner output
 warnings.filterwarnings("ignore", category=UserWarning, module="plotly")
@@ -229,7 +229,7 @@ class MATRIZGraphViewer:
 
         logger.info(f"Initialized MATRIZ Graph Viewer ({width}x{height})")
 
-    def add_node(self, matriz_node: Dict[str, Any]) -> None:
+    def add_node(self, matriz_node: dict[str, Any]) -> None:
         """
         Add a MATRIZ node to the graph.
 
@@ -283,7 +283,7 @@ class MATRIZGraphViewer:
             logger.error(f"Failed to add node: {e}")
             raise
 
-    def add_nodes_batch(self, matriz_nodes: List[Dict[str, Any]]) -> Tuple[int, int]:
+    def add_nodes_batch(self, matriz_nodes: list[dict[str, Any]]) -> tuple[int, int]:
         """
         Add multiple MATRIZ nodes efficiently.
 
@@ -331,7 +331,7 @@ class MATRIZGraphViewer:
             logger.error(f"Failed to remove node {node_id}: {e}")
             return False
 
-    def get_node_details(self, node_id: str) -> Optional[Dict[str, Any]]:
+    def get_node_details(self, node_id: str) -> Optional[dict[str, Any]]:
         """
         Get complete details for a specific node.
 
@@ -349,8 +349,8 @@ class MATRIZGraphViewer:
                      max_confidence: Optional[float] = None,
                      min_salience: Optional[float] = None,
                      max_salience: Optional[float] = None,
-                     time_range: Optional[Tuple[int, int]] = None,
-                     has_links: Optional[bool] = None) -> List[str]:
+                     time_range: Optional[tuple[int, int]] = None,
+                     has_links: Optional[bool] = None) -> list[str]:
         """
         Search for nodes matching specified criteria.
 
@@ -442,29 +442,29 @@ class MATRIZGraphViewer:
 
             # Configure layout
             fig.update_layout(
-                title=dict(
-                    text=title,
-                    x=0.5,
-                    font=dict(size=20, color='#2C3E50')
-                ),
+                title={
+                    "text": title,
+                    "x": 0.5,
+                    "font": {"size": 20, "color": '#2C3E50'}
+                },
                 width=self.width,
                 height=self.height,
                 showlegend=True,
                 hovermode='closest',
-                margin=dict(b=20, l=5, r=5, t=40),
+                margin={"b": 20, "l": 5, "r": 5, "t": 40},
                 annotations=[
-                    dict(
-                        text=f"Nodes: {self.graph.number_of_nodes()}, "
+                    {
+                        "text": f"Nodes: {self.graph.number_of_nodes()}, "
                              f"Edges: {self.graph.number_of_edges()}",
-                        showarrow=False,
-                        xref="paper", yref="paper",
-                        x=0.005, y=-0.002,
-                        xanchor='left', yanchor='bottom',
-                        font=dict(size=12, color='#7F8C8D')
-                    )
+                        "showarrow": False,
+                        "xref": "paper", "yref": "paper",
+                        "x": 0.005, "y": -0.002,
+                        "xanchor": 'left', "yanchor": 'bottom',
+                        "font": {"size": 12, "color": '#7F8C8D'}
+                    }
                 ],
-                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+                yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
                 plot_bgcolor='white',
                 paper_bgcolor='white'
             )
@@ -533,9 +533,9 @@ class MATRIZGraphViewer:
                 frames.append(go.Frame(
                     data=frame_data,
                     name=str(timestamp),
-                    layout=dict(
-                        title=f"{title} - {datetime.fromtimestamp(timestamp/1000).strftime('%H:%M:%S')}"
-                    )
+                    layout={
+                        "title": f"{title} - {datetime.fromtimestamp(timestamp/1000).strftime('%H:%M:%S')}"
+                    }
                 ))
 
             # Create initial figure with first frame
@@ -595,8 +595,8 @@ class MATRIZGraphViewer:
                     'y': 0,
                     'yanchor': 'top'
                 }],
-                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+                yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
                 plot_bgcolor='white',
                 paper_bgcolor='white'
             )
@@ -644,7 +644,7 @@ class MATRIZGraphViewer:
                 go.Pie(
                     labels=list(type_counts.keys()),
                     values=list(type_counts.values()),
-                    marker_colors=[NodeTypeConfig.get_color(t) for t in type_counts.keys()],
+                    marker_colors=[NodeTypeConfig.get_color(t) for t in type_counts],
                     name="Node Types"
                 ),
                 row=1, col=1
@@ -685,7 +685,7 @@ class MATRIZGraphViewer:
                     go.Pie(
                         labels=list(link_counts.keys()),
                         values=list(link_counts.values()),
-                        marker_colors=[LinkTypeConfig.get_color(t) for t in link_counts.keys()],
+                        marker_colors=[LinkTypeConfig.get_color(t) for t in link_counts],
                         name="Link Types"
                     ),
                     row=2, col=1
@@ -702,8 +702,8 @@ class MATRIZGraphViewer:
                         y=activity_counts,
                         mode='lines+markers',
                         name="Activity",
-                        line=dict(color='#2ECC71', width=2),
-                        marker=dict(size=6)
+                        line={"color": '#2ECC71', "width": 2},
+                        marker={"size": 6}
                     ),
                     row=2, col=2
                 )
@@ -712,32 +712,32 @@ class MATRIZGraphViewer:
             metrics = self.calculate_graph_metrics()
             fig.add_trace(
                 go.Table(
-                    header=dict(
-                        values=['Metric', 'Value'],
-                        fill_color='#F8F9FA',
-                        align='left',
-                        font=dict(size=12)
-                    ),
-                    cells=dict(
-                        values=[
+                    header={
+                        "values": ['Metric', 'Value'],
+                        "fill_color": '#F8F9FA',
+                        "align": 'left',
+                        "font": {"size": 12}
+                    },
+                    cells={
+                        "values": [
                             list(metrics.keys()),
                             [f"{v:.3f}" if isinstance(v, float) else str(v) for v in metrics.values()]
                         ],
-                        fill_color='white',
-                        align='left',
-                        font=dict(size=11)
-                    )
+                        "fill_color": 'white',
+                        "align": 'left',
+                        "font": {"size": 11}
+                    }
                 ),
                 row=2, col=3
             )
 
             # Update layout
             fig.update_layout(
-                title=dict(
-                    text="MATRIZ Graph Statistics Dashboard",
-                    x=0.5,
-                    font=dict(size=20, color='#2C3E50')
-                ),
+                title={
+                    "text": "MATRIZ Graph Statistics Dashboard",
+                    "x": 0.5,
+                    "font": {"size": 20, "color": '#2C3E50'}
+                },
                 width=self.width,
                 height=self.height,
                 showlegend=False
@@ -750,7 +750,7 @@ class MATRIZGraphViewer:
             logger.error(f"Failed to create statistics dashboard: {e}")
             return self._create_error_plot(str(e))
 
-    def calculate_graph_metrics(self) -> Dict[str, Union[int, float]]:
+    def calculate_graph_metrics(self) -> dict[str, Union[int, float]]:
         """
         Calculate comprehensive graph analysis metrics.
 
@@ -999,7 +999,7 @@ class MATRIZGraphViewer:
         self._invalidate_cache()
         logger.info("Cleared all graph data")
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """
         Get a comprehensive summary of the graph.
 
@@ -1041,7 +1041,7 @@ class MATRIZGraphViewer:
 
     # Private helper methods
 
-    def _validate_matriz_node(self, node: Dict[str, Any]) -> bool:
+    def _validate_matriz_node(self, node: dict[str, Any]) -> bool:
         """Validate MATRIZ node format."""
         required_fields = ['id', 'type', 'state', 'timestamps', 'provenance']
         for field in required_fields:
@@ -1054,7 +1054,7 @@ class MATRIZGraphViewer:
 
         return True
 
-    def _add_link(self, source_id: str, link: Dict[str, Any]) -> None:
+    def _add_link(self, source_id: str, link: dict[str, Any]) -> None:
         """Add a link to the graph."""
         target_id = link.get('target_node_id')
         link_type = link.get('link_type', 'unknown')
@@ -1071,7 +1071,7 @@ class MATRIZGraphViewer:
                 style=LinkTypeConfig.get_style(link_type)
             )
 
-    def _generate_node_label(self, matriz_node: Dict[str, Any]) -> str:
+    def _generate_node_label(self, matriz_node: dict[str, Any]) -> str:
         """Generate a display label for a node."""
         node_type = matriz_node['type']
         node_id = matriz_node['id'][:8]
@@ -1079,7 +1079,7 @@ class MATRIZGraphViewer:
 
         return f"{node_type}\n{node_id}...\nConf: {confidence:.2f}"
 
-    def _calculate_node_size(self, matriz_node: Dict[str, Any]) -> float:
+    def _calculate_node_size(self, matriz_node: dict[str, Any]) -> float:
         """Calculate node size based on importance."""
         base_size = 20
 
@@ -1109,7 +1109,7 @@ class MATRIZGraphViewer:
             if timestamp:
                 self._update_temporal_snapshots(node_id, timestamp)
 
-    def _compute_layout(self, layout_type: str) -> Dict[str, Tuple[float, float]]:
+    def _compute_layout(self, layout_type: str) -> dict[str, tuple[float, float]]:
         """Compute node positions using specified layout algorithm."""
         cache_key = f"{layout_type}_{self.graph.number_of_nodes()}_{self.graph.number_of_edges()}"
 
@@ -1137,7 +1137,7 @@ class MATRIZGraphViewer:
             self.layout_cache[cache_key] = pos
             return pos
 
-    def _add_edges_to_plot(self, fig: go.Figure, pos: Dict, show_weights: bool, highlight_critical: bool) -> None:
+    def _add_edges_to_plot(self, fig: go.Figure, pos: dict, show_weights: bool, highlight_critical: bool) -> None:
         """Add edges to the plot."""
         edge_traces = defaultdict(list)
 
@@ -1174,12 +1174,12 @@ class MATRIZGraphViewer:
                     x=x_coords,
                     y=y_coords,
                     mode='lines',
-                    line=dict(width=width, color=color),
+                    line={"width": width, "color": color},
                     hoverinfo='none',
                     showlegend=False
                 ))
 
-    def _add_nodes_to_plot(self, fig: go.Figure, pos: Dict, show_info: bool) -> None:
+    def _add_nodes_to_plot(self, fig: go.Figure, pos: dict, show_info: bool) -> None:
         """Add nodes to the plot grouped by type."""
         node_traces = defaultdict(lambda: {'x': [], 'y': [], 'text': [], 'hovertext': [], 'size': []})
 
@@ -1206,22 +1206,22 @@ class MATRIZGraphViewer:
                     x=trace_data['x'],
                     y=trace_data['y'],
                     mode='markers+text' if self.show_labels else 'markers',
-                    marker=dict(
-                        size=trace_data['size'],
-                        color=NodeTypeConfig.get_color(node_type),
-                        symbol=NodeTypeConfig.get_shape(node_type),
-                        line=dict(width=1, color='white')
-                    ),
+                    marker={
+                        "size": trace_data['size'],
+                        "color": NodeTypeConfig.get_color(node_type),
+                        "symbol": NodeTypeConfig.get_shape(node_type),
+                        "line": {"width": 1, "color": 'white'}
+                    },
                     text=trace_data['text'] if self.show_labels else None,
                     textposition='middle center',
-                    textfont=dict(size=8, color='white'),
+                    textfont={"size": 8, "color": 'white'},
                     hovertext=trace_data['hovertext'] if show_info else None,
                     hoverinfo='text' if show_info else 'none',
                     name=node_type,
                     showlegend=True
                 ))
 
-    def _create_hover_text(self, node_id: str, data: Dict) -> str:
+    def _create_hover_text(self, node_id: str, data: dict) -> str:
         """Create detailed hover text for a node."""
         lines = [
             f"<b>{data.get('type', 'Unknown')}</b>",
@@ -1243,7 +1243,7 @@ class MATRIZGraphViewer:
 
         return "<br>".join(lines)
 
-    def _create_node_trace(self, graph: nx.DiGraph, pos: Dict, show_info: bool) -> Optional[go.Scatter]:
+    def _create_node_trace(self, graph: nx.DiGraph, pos: dict, show_info: bool) -> Optional[go.Scatter]:
         """Create a single node trace for animation frames."""
         if not graph.nodes():
             return None
@@ -1274,17 +1274,17 @@ class MATRIZGraphViewer:
             x=x_coords,
             y=y_coords,
             mode='markers',
-            marker=dict(
-                size=sizes,
-                color=colors,
-                line=dict(width=1, color='white')
-            ),
+            marker={
+                "size": sizes,
+                "color": colors,
+                "line": {"width": 1, "color": 'white'}
+            },
             hovertext=hover_texts if show_info else None,
             hoverinfo='text' if show_info else 'none',
             showlegend=False
         )
 
-    def _create_edge_trace(self, graph: nx.DiGraph, pos: Dict) -> Optional[go.Scatter]:
+    def _create_edge_trace(self, graph: nx.DiGraph, pos: dict) -> Optional[go.Scatter]:
         """Create a single edge trace for animation frames."""
         if not graph.edges():
             return None
@@ -1309,7 +1309,7 @@ class MATRIZGraphViewer:
             x=x_coords,
             y=y_coords,
             mode='lines',
-            line=dict(width=1, color='#7F8C8D'),
+            line={"width": 1, "color": '#7F8C8D'},
             hoverinfo='none',
             showlegend=False
         )
@@ -1328,7 +1328,7 @@ class MATRIZGraphViewer:
             xref="paper", yref="paper",
             x=0.5, y=0.5,
             xanchor='center', yanchor='middle',
-            font=dict(size=16, color='#7F8C8D'),
+            font={"size": 16, "color": '#7F8C8D'},
             showarrow=False
         )
 
@@ -1336,8 +1336,8 @@ class MATRIZGraphViewer:
             title=title,
             width=self.width,
             height=self.height,
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+            yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
             plot_bgcolor='white',
             paper_bgcolor='white'
         )
@@ -1353,7 +1353,7 @@ class MATRIZGraphViewer:
             xref="paper", yref="paper",
             x=0.5, y=0.5,
             xanchor='center', yanchor='middle',
-            font=dict(size=16, color='#E74C3C'),
+            font={"size": 16, "color": '#E74C3C'},
             showarrow=False
         )
 
@@ -1361,8 +1361,8 @@ class MATRIZGraphViewer:
             title="Visualization Error",
             width=self.width,
             height=self.height,
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            xaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
+            yaxis={"showgrid": False, "zeroline": False, "showticklabels": False},
             plot_bgcolor='white',
             paper_bgcolor='white'
         )

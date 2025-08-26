@@ -7,7 +7,7 @@ cognitive nodes and their relationships in various ways.
 """
 
 import time
-from typing import Any, Dict
+from typing import Any
 
 from graph_viewer import MATRIZGraphViewer
 
@@ -16,8 +16,8 @@ def create_sample_matriz_node(node_id: str,
                              node_type: str,
                              confidence: float = 0.8,
                              salience: float = 0.7,
-                             additional_state: Dict = None,
-                             links: list = None) -> Dict[str, Any]:
+                             additional_state: dict = None,
+                             links: list = None) -> dict[str, Any]:
     """Create a sample MATRIZ node for demonstration."""
     state = {
         "confidence": confidence,

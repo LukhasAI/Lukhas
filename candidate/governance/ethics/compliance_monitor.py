@@ -30,7 +30,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -92,11 +92,11 @@ class ComplianceRule:
     framework: ComplianceFramework
     title: str
     description: str
-    requirements: List[str]
-    data_categories: List[DataCategory] = field(default_factory=list)
-    monitoring_points: List[str] = field(default_factory=list)
+    requirements: list[str]
+    data_categories: list[DataCategory] = field(default_factory=list)
+    monitoring_points: list[str] = field(default_factory=list)
     severity: ViolationSeverity = ViolationSeverity.MEDIUM
-    remediation_actions: List[str] = field(default_factory=list)
+    remediation_actions: list[str] = field(default_factory=list)
     documentation_required: bool = False
     retention_period: Optional[int] = None  # Days
     created_at: datetime = field(default_factory=datetime.now)
@@ -112,9 +112,9 @@ class ComplianceViolation:
     severity: ViolationSeverity
     title: str
     description: str
-    affected_data_categories: List[DataCategory] = field(default_factory=list)
-    context: Dict[str, Any] = field(default_factory=dict)
-    evidence: List[str] = field(default_factory=list)
+    affected_data_categories: list[DataCategory] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
+    evidence: list[str] = field(default_factory=list)
     impact_assessment: str = ""
     remediation_required: bool = True
     remediation_deadline: Optional[datetime] = None
@@ -132,25 +132,25 @@ class ComplianceAssessment:
     assessment_id: str
     timestamp: datetime
     overall_status: ComplianceStatus
-    framework_statuses: Dict[ComplianceFramework, ComplianceStatus] = field(default_factory=dict)
+    framework_statuses: dict[ComplianceFramework, ComplianceStatus] = field(default_factory=dict)
     compliance_score: float = 0.0  # 0-100
-    violations: List[ComplianceViolation] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    violations: list[ComplianceViolation] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
     next_review_date: datetime = field(default_factory=lambda: datetime.now() + timedelta(days=30))
-    risk_factors: List[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
 
     # Trinity Framework integration
-    identity_compliance: Dict[str, Any] = field(default_factory=dict)      # ⚛️
-    consciousness_compliance: Dict[str, Any] = field(default_factory=dict) # 🧠
-    guardian_validations: List[str] = field(default_factory=list)          # 🛡️
+    identity_compliance: dict[str, Any] = field(default_factory=dict)      # ⚛️
+    consciousness_compliance: dict[str, Any] = field(default_factory=dict) # 🧠
+    guardian_validations: list[str] = field(default_factory=list)          # 🛡️
 
 
 class ComplianceRuleEngine:
     """Engine for managing and evaluating compliance rules"""
 
     def __init__(self):
-        self.rules: Dict[str, ComplianceRule] = {}
-        self.rule_dependencies: Dict[str, List[str]] = {}
+        self.rules: dict[str, ComplianceRule] = {}
+        self.rule_dependencies: dict[str, list[str]] = {}
         self._initialize_standard_rules()
 
     def _initialize_standard_rules(self):
@@ -316,18 +316,18 @@ class ComplianceRuleEngine:
             documentation_required=True
         ))
 
-        logger.info(f"✅ Initialized {len(self.rules)} compliance rules across {len(set(rule.framework for rule in self.rules.values()))} frameworks")
+        logger.info(f"✅ Initialized {len(self.rules)} compliance rules across {len({rule.framework for rule in self.rules.values()})} frameworks")
 
     def add_rule(self, rule: ComplianceRule):
         """Add a compliance rule to the engine"""
         self.rules[rule.rule_id] = rule
         logger.debug(f"Added compliance rule: {rule.rule_id} ({rule.framework.value})")
 
-    def get_rules_for_framework(self, framework: ComplianceFramework) -> List[ComplianceRule]:
+    def get_rules_for_framework(self, framework: ComplianceFramework) -> list[ComplianceRule]:
         """Get all rules for a specific compliance framework"""
         return [rule for rule in self.rules.values() if rule.framework == framework]
 
-    def get_rules_for_data_category(self, category: DataCategory) -> List[ComplianceRule]:
+    def get_rules_for_data_category(self, category: DataCategory) -> list[ComplianceRule]:
         """Get all rules applicable to a specific data category"""
         return [rule for rule in self.rules.values() if category in rule.data_categories]
 
@@ -343,9 +343,9 @@ class ComplianceMonitor:
 
     def __init__(self):
         self.rule_engine = ComplianceRuleEngine()
-        self.violation_history: List[ComplianceViolation] = []
-        self.assessment_history: List[ComplianceAssessment] = []
-        self.active_monitors: Set[str] = set()
+        self.violation_history: list[ComplianceViolation] = []
+        self.assessment_history: list[ComplianceAssessment] = []
+        self.active_monitors: set[str] = set()
         self.compliance_thresholds = self._initialize_thresholds()
 
         # Monitoring configuration
@@ -366,7 +366,7 @@ class ComplianceMonitor:
 
         logger.info("🔍 Compliance Monitor initialized")
 
-    def _initialize_thresholds(self) -> Dict[ComplianceFramework, float]:
+    def _initialize_thresholds(self) -> dict[ComplianceFramework, float]:
         """Initialize compliance score thresholds for each framework"""
         return {
             ComplianceFramework.GDPR: 95.0,              # Very high threshold
@@ -432,7 +432,7 @@ class ComplianceMonitor:
 
     async def perform_comprehensive_assessment(
         self,
-        frameworks: Optional[List[ComplianceFramework]] = None
+        frameworks: Optional[list[ComplianceFramework]] = None
     ) -> ComplianceAssessment:
         """
         Perform comprehensive compliance assessment
@@ -524,7 +524,7 @@ class ComplianceMonitor:
     async def _assess_framework_compliance(
         self,
         framework: ComplianceFramework
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assess compliance for a specific framework"""
 
         framework_rules = self.rule_engine.get_rules_for_framework(framework)
@@ -581,7 +581,7 @@ class ComplianceMonitor:
             "total_rules": total_rules
         }
 
-    async def _check_rule_compliance(self, rule: ComplianceRule) -> Dict[str, Any]:
+    async def _check_rule_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
         """Check compliance for a specific rule"""
 
         # This is a simplified compliance check
@@ -606,17 +606,16 @@ class ComplianceMonitor:
                 # Check deletion capabilities
                 compliance_result = await self._check_deletion_compliance(rule)
 
-        elif rule.framework == ComplianceFramework.AI_ETHICS:
-            if "bias" in rule.rule_id:
-                # Check AI bias testing
-                compliance_result = await self._check_ai_bias_compliance(rule)
+        elif rule.framework == ComplianceFramework.AI_ETHICS and "bias" in rule.rule_id:
+            # Check AI bias testing
+            compliance_result = await self._check_ai_bias_compliance(rule)
 
         # Default compliance check for other rules
         # In practice, this would be much more sophisticated
 
         return compliance_result
 
-    async def _check_consent_compliance(self, rule: ComplianceRule) -> Dict[str, Any]:
+    async def _check_consent_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
         """Check GDPR consent compliance"""
 
         # Simulate consent system check
@@ -646,7 +645,7 @@ class ComplianceMonitor:
             "confidence": 0.9
         }
 
-    async def _check_data_minimization_compliance(self, rule: ComplianceRule) -> Dict[str, Any]:
+    async def _check_data_minimization_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
         """Check GDPR data minimization compliance"""
 
         issues = []
@@ -673,7 +672,7 @@ class ComplianceMonitor:
             "confidence": 0.85
         }
 
-    async def _check_deletion_compliance(self, rule: ComplianceRule) -> Dict[str, Any]:
+    async def _check_deletion_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
         """Check right to be forgotten compliance"""
 
         issues = []
@@ -693,7 +692,7 @@ class ComplianceMonitor:
             "confidence": 0.9
         }
 
-    async def _check_ai_bias_compliance(self, rule: ComplianceRule) -> Dict[str, Any]:
+    async def _check_ai_bias_compliance(self, rule: ComplianceRule) -> dict[str, Any]:
         """Check AI bias prevention compliance"""
 
         issues = []
@@ -723,7 +722,7 @@ class ComplianceMonitor:
     async def _create_violation_from_rule(
         self,
         rule: ComplianceRule,
-        compliance_result: Dict[str, Any]
+        compliance_result: dict[str, Any]
     ) -> ComplianceViolation:
         """Create a compliance violation from a failed rule check"""
 
@@ -762,8 +761,8 @@ class ComplianceMonitor:
 
     async def _calculate_overall_compliance_score(
         self,
-        framework_statuses: Dict[ComplianceFramework, ComplianceStatus],
-        violations: List[ComplianceViolation]
+        framework_statuses: dict[ComplianceFramework, ComplianceStatus],
+        violations: list[ComplianceViolation]
     ) -> float:
         """Calculate overall compliance score"""
 
@@ -828,7 +827,7 @@ class ComplianceMonitor:
 
     async def _determine_overall_status(
         self,
-        framework_statuses: Dict[ComplianceFramework, ComplianceStatus],
+        framework_statuses: dict[ComplianceFramework, ComplianceStatus],
         compliance_score: float
     ) -> ComplianceStatus:
         """Determine overall compliance status"""
@@ -873,7 +872,7 @@ class ComplianceMonitor:
         else:
             return ComplianceStatus.NON_COMPLIANT
 
-    async def _assess_trinity_compliance(self) -> Dict[str, Any]:
+    async def _assess_trinity_compliance(self) -> dict[str, Any]:
         """Assess Trinity Framework compliance"""
 
         # ⚛️ Identity compliance
@@ -1024,7 +1023,7 @@ class ComplianceMonitor:
         if len(self.violation_history) > self.max_history_size:
             self.violation_history = self.violation_history[-self.max_history_size:]
 
-    async def get_compliance_status(self) -> Dict[str, Any]:
+    async def get_compliance_status(self) -> dict[str, Any]:
         """Get current compliance status"""
 
         if not self.assessment_history:
@@ -1052,7 +1051,7 @@ class ComplianceMonitor:
         self,
         severity_filter: Optional[ViolationSeverity] = None,
         framework_filter: Optional[ComplianceFramework] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get summary of compliance violations"""
 
         violations = self.violation_history
@@ -1089,7 +1088,7 @@ class ComplianceMonitor:
         format_type: str = "json",
         include_violations: bool = True,
         include_recommendations: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Export comprehensive compliance report"""
 
         if not self.assessment_history:

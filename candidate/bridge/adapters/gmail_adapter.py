@@ -6,7 +6,7 @@ Implements OAuth2, resilience, telemetry, and consent validation
 
 import asyncio
 from datetime import datetime, timezone
-from typing import Dict, Optional
+from typing import Optional
 
 import aiohttp
 
@@ -31,7 +31,7 @@ class GmailAdapter(BaseServiceAdapter):
         self.oauth_tokens = {}  # In production: use Agent 7's KMS vault
         self.dry_run_planner = DryRunPlanner()
 
-    async def authenticate(self, credentials: Dict) -> Dict:
+    async def authenticate(self, credentials: dict) -> dict:
         """
         OAuth2 authentication flow
         In production: integrates with Agent 7's token vault
@@ -69,24 +69,23 @@ class GmailAdapter(BaseServiceAdapter):
 
     async def _refresh_oauth_token(self, client_id: str,
                                   client_secret: str,
-                                  refresh_token: str) -> Dict:
+                                  refresh_token: str) -> dict:
         """Refresh OAuth2 access token"""
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                "https://oauth2.googleapis.com/token",
-                data={
-                    "client_id": client_id,
-                    "client_secret": client_secret,
-                    "refresh_token": refresh_token,
-                    "grant_type": "refresh_token"
-                }
-            ) as response:
-                return await response.json()
+        async with aiohttp.ClientSession() as session, session.post(
+            "https://oauth2.googleapis.com/token",
+            data={
+                "client_id": client_id,
+                "client_secret": client_secret,
+                "refresh_token": refresh_token,
+                "grant_type": "refresh_token"
+            }
+        ) as response:
+            return await response.json()
 
     @with_resilience
     async def fetch_emails(self, lid: str, query: Optional[str] = None,
                           capability_token: Optional[CapabilityToken] = None,
-                          max_results: int = 10) -> Dict:
+                          max_results: int = 10) -> dict:
         """
         Fetch emails with consent validation and telemetry
         Emits Λ-trace for audit
@@ -149,7 +148,7 @@ class GmailAdapter(BaseServiceAdapter):
                     return {"error": f"api_error_{response.status}"}
 
     async def _fetch_email_details(self, session: aiohttp.ClientSession,
-                                  message_id: str, headers: Dict) -> Dict:
+                                  message_id: str, headers: dict) -> dict:
         """Fetch individual email details"""
         async with session.get(
             f"{self.base_url}/users/me/messages/{message_id}",
@@ -176,7 +175,7 @@ class GmailAdapter(BaseServiceAdapter):
 
     @with_resilience
     async def list_labels(self, lid: str,
-                         capability_token: Optional[CapabilityToken] = None) -> Dict:
+                         capability_token: Optional[CapabilityToken] = None) -> dict:
         """List Gmail labels/folders"""
 
         # Validate capability token
@@ -218,7 +217,7 @@ class GmailAdapter(BaseServiceAdapter):
 
     @with_resilience
     async def search_emails(self, lid: str, search_query: str,
-                           capability_token: Optional[CapabilityToken] = None) -> Dict:
+                           capability_token: Optional[CapabilityToken] = None) -> dict:
         """
         Search emails with Gmail query syntax
         Example: "from:user@example.com subject:invoice"
@@ -248,7 +247,7 @@ class GmailAdapter(BaseServiceAdapter):
 
         return False
 
-    def get_quota_usage(self, lid: str) -> Dict:
+    def get_quota_usage(self, lid: str) -> dict:
         """Get Gmail API quota usage"""
         return {
             "lid": lid,
@@ -270,7 +269,7 @@ class GmailContextIntegration:
         self.adapter = gmail_adapter
 
     async def workflow_fetch_travel_emails(self, lid: str,
-                                          context: Dict) -> Dict:
+                                          context: dict) -> dict:
         """
         Workflow step: Fetch travel-related emails
         Used in MVP demo scenario
@@ -358,7 +357,7 @@ if __name__ == "__main__":
         print("\n🔄 Testing workflow integration...")
 
         # This would be called by Agent 4's orchestrator
-        workflow_result = await integration.workflow_fetch_travel_emails(
+        await integration.workflow_fetch_travel_emails(
             lid="USR-123456",
             context={"stage": "email_analysis"}
         )

@@ -16,7 +16,7 @@ import hashlib
 import json
 import secrets
 from datetime import datetime, timedelta, timezone
-from typing import Dict, List, Optional
+from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -65,13 +65,13 @@ class WebAuthnBootstrap:
         self.origin = "https://identity.lukhas.com"
 
         # In-memory storage (in production: use PostgreSQL from schema.sql)
-        self.credentials: Dict[str, List[WebAuthnCredential]] = {}
-        self.challenges: Dict[str, PasskeyChallenge] = {}
+        self.credentials: dict[str, list[WebAuthnCredential]] = {}
+        self.challenges: dict[str, PasskeyChallenge] = {}
 
         # Audit logging
         self.audit_log = []
 
-    def generate_registration_challenge(self, canonical_lid: str, display_name: str = None) -> Dict:
+    def generate_registration_challenge(self, canonical_lid: str, display_name: str = None) -> dict:
         """
         Generate WebAuthn registration challenge for new passkey.
 
@@ -155,7 +155,7 @@ class WebAuthnBootstrap:
                 "attestation": "direct"
             }
 
-    def verify_registration(self, canonical_lid: str, credential_response: Dict) -> Dict:
+    def verify_registration(self, canonical_lid: str, credential_response: dict) -> dict:
         """
         Verify WebAuthn registration response and store credential.
 
@@ -244,7 +244,7 @@ class WebAuthnBootstrap:
             })
             raise HTTPException(status_code=400, detail=str(e))
 
-    def generate_authentication_challenge(self, canonical_lid: str) -> Dict:
+    def generate_authentication_challenge(self, canonical_lid: str) -> dict:
         """
         Generate WebAuthn authentication challenge for existing user.
 
@@ -280,7 +280,7 @@ class WebAuthnBootstrap:
         ]
 
         if WEBAUTHN_AVAILABLE:
-            options = generate_authentication_options(
+            generate_authentication_options(
                 rp_id=self.rp_id,
                 challenge=challenge.encode(),
                 allow_credentials=[
@@ -308,7 +308,7 @@ class WebAuthnBootstrap:
                 "timeout": 60000
             }
 
-    def verify_authentication(self, canonical_lid: str, auth_response: Dict) -> Dict:
+    def verify_authentication(self, canonical_lid: str, auth_response: dict) -> dict:
         """
         Verify WebAuthn authentication response.
 
@@ -404,12 +404,12 @@ class WebAuthnBootstrap:
         """Create hashed user handle from ΛID (privacy protection)."""
         return hashlib.sha256(f"lukhas:lid:{canonical_lid}".encode()).hexdigest()[:32]
 
-    def _detect_device_name(self, credential_response: Dict) -> str:
+    def _detect_device_name(self, credential_response: dict) -> str:
         """Detect device name from WebAuthn response (for audit/UX)."""
         # In production: parse authenticator data for device info
         return "Unknown Device"
 
-    def _generate_capability_token(self, canonical_lid: str, scopes: List[str]) -> str:
+    def _generate_capability_token(self, canonical_lid: str, scopes: list[str]) -> str:
         """
         Generate short-lived capability token (requirement #4).
 
@@ -434,7 +434,7 @@ class WebAuthnBootstrap:
         token = base64.urlsafe_b64encode(json.dumps(payload).encode()).decode().rstrip('=')
         return f"cap_token_{token}"
 
-    def _log_audit_event(self, event_type: str, canonical_lid: str, metadata: Dict):
+    def _log_audit_event(self, event_type: str, canonical_lid: str, metadata: dict):
         """Log audit event (requirement #6: audit trail)."""
         event = {
             "event_type": event_type,
@@ -485,7 +485,7 @@ async def webauthn_challenge(
 @router.post("/register")
 async def webauthn_register(
     lid: str,
-    credential: Dict,
+    credential: dict,
     request: Request
 ):
     """
@@ -500,7 +500,7 @@ async def webauthn_register(
 @router.post("/authenticate")
 async def webauthn_authenticate(
     lid: str,
-    assertion: Dict,
+    assertion: dict,
     request: Request
 ):
     """

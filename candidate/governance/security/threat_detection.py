@@ -32,7 +32,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -134,8 +134,8 @@ class ThreatIndicator:
     first_seen: datetime = field(default_factory=datetime.now)
     last_seen: datetime = field(default_factory=datetime.now)
     count: int = 1
-    tags: Set[str] = field(default_factory=set)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    tags: set[str] = field(default_factory=set)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -157,28 +157,28 @@ class ThreatEvent:
     target_resource: Optional[str] = None
 
     # Technical details
-    indicators: List[ThreatIndicator] = field(default_factory=list)
+    indicators: list[ThreatIndicator] = field(default_factory=list)
     attack_vector: Optional[str] = None
-    affected_systems: List[str] = field(default_factory=list)
+    affected_systems: list[str] = field(default_factory=list)
 
     # Context
     user_agent: Optional[str] = None
     geo_location: Optional[str] = None
-    behavioral_profile: Dict[str, Any] = field(default_factory=dict)
+    behavioral_profile: dict[str, Any] = field(default_factory=dict)
 
     # Trinity Framework context
-    identity_context: Dict[str, Any] = field(default_factory=dict)      # ⚛️
-    consciousness_context: Dict[str, Any] = field(default_factory=dict) # 🧠
-    guardian_context: Dict[str, Any] = field(default_factory=dict)      # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)      # ⚛️
+    consciousness_context: dict[str, Any] = field(default_factory=dict) # 🧠
+    guardian_context: dict[str, Any] = field(default_factory=dict)      # 🛡️
 
     # Response
     status: ThreatStatus = ThreatStatus.DETECTED
-    automated_actions: List[ResponseAction] = field(default_factory=list)
-    manual_actions: List[str] = field(default_factory=list)
+    automated_actions: list[ResponseAction] = field(default_factory=list)
+    manual_actions: list[str] = field(default_factory=list)
 
     # Forensics
-    evidence: List[Dict[str, Any]] = field(default_factory=list)
-    forensic_data: Dict[str, Any] = field(default_factory=dict)
+    evidence: list[dict[str, Any]] = field(default_factory=list)
+    forensic_data: dict[str, Any] = field(default_factory=dict)
 
     # Resolution
     resolved_at: Optional[datetime] = None
@@ -195,23 +195,23 @@ class UserBehaviorProfile:
     updated_at: datetime = field(default_factory=datetime.now)
 
     # Authentication patterns
-    typical_login_hours: List[int] = field(default_factory=list)
-    typical_login_locations: Set[str] = field(default_factory=set)
+    typical_login_hours: list[int] = field(default_factory=list)
+    typical_login_locations: set[str] = field(default_factory=set)
     average_session_duration: float = 0.0
-    typical_user_agents: Set[str] = field(default_factory=set)
+    typical_user_agents: set[str] = field(default_factory=set)
 
     # Access patterns
-    typical_resources: Set[str] = field(default_factory=set)
-    access_frequency: Dict[str, float] = field(default_factory=dict)
-    permission_usage: Dict[str, int] = field(default_factory=dict)
+    typical_resources: set[str] = field(default_factory=set)
+    access_frequency: dict[str, float] = field(default_factory=dict)
+    permission_usage: dict[str, int] = field(default_factory=dict)
 
     # Behavioral metrics
-    typing_pattern: Optional[Dict[str, float]] = None
-    navigation_pattern: List[str] = field(default_factory=list)
+    typing_pattern: Optional[dict[str, float]] = None
+    navigation_pattern: list[str] = field(default_factory=list)
     error_rate: float = 0.0
 
     # Statistical baselines
-    baseline_metrics: Dict[str, float] = field(default_factory=dict)
+    baseline_metrics: dict[str, float] = field(default_factory=dict)
     anomaly_threshold: float = 2.0  # Standard deviations
 
     # Trinity Framework profile
@@ -224,7 +224,7 @@ class BehavioralAnalyzer:
     """Analyzes user behavior for anomaly detection"""
 
     def __init__(self):
-        self.user_profiles: Dict[str, UserBehaviorProfile] = {}
+        self.user_profiles: dict[str, UserBehaviorProfile] = {}
         self.learning_period = timedelta(days=30)
         self.min_observations = 10
 
@@ -233,8 +233,8 @@ class BehavioralAnalyzer:
     async def analyze_user_activity(
         self,
         user_id: str,
-        activity_data: Dict[str, Any]
-    ) -> Tuple[float, List[str]]:
+        activity_data: dict[str, Any]
+    ) -> tuple[float, list[str]]:
         """
         Analyze user activity for behavioral anomalies
 
@@ -288,8 +288,8 @@ class BehavioralAnalyzer:
     async def _analyze_temporal_patterns(
         self,
         profile: UserBehaviorProfile,
-        activity_data: Dict[str, Any]
-    ) -> Tuple[float, List[str]]:
+        activity_data: dict[str, Any]
+    ) -> tuple[float, list[str]]:
         """Analyze temporal behavioral patterns"""
 
         score = 0.0
@@ -318,8 +318,8 @@ class BehavioralAnalyzer:
     async def _analyze_access_patterns(
         self,
         profile: UserBehaviorProfile,
-        activity_data: Dict[str, Any]
-    ) -> Tuple[float, List[str]]:
+        activity_data: dict[str, Any]
+    ) -> tuple[float, list[str]]:
         """Analyze resource access patterns"""
 
         score = 0.0
@@ -344,8 +344,8 @@ class BehavioralAnalyzer:
     async def _analyze_technical_patterns(
         self,
         profile: UserBehaviorProfile,
-        activity_data: Dict[str, Any]
-    ) -> Tuple[float, List[str]]:
+        activity_data: dict[str, Any]
+    ) -> tuple[float, list[str]]:
         """Analyze technical behavioral patterns"""
 
         score = 0.0
@@ -376,8 +376,8 @@ class BehavioralAnalyzer:
     async def _analyze_trinity_behavior(
         self,
         profile: UserBehaviorProfile,
-        activity_data: Dict[str, Any]
-    ) -> Tuple[float, List[str]]:
+        activity_data: dict[str, Any]
+    ) -> tuple[float, list[str]]:
         """Analyze Trinity Framework behavioral patterns"""
 
         score = 0.0
@@ -407,7 +407,7 @@ class BehavioralAnalyzer:
     async def _update_user_profile(
         self,
         profile: UserBehaviorProfile,
-        activity_data: Dict[str, Any]
+        activity_data: dict[str, Any]
     ):
         """Update user behavioral profile with new activity data"""
 
@@ -480,7 +480,7 @@ class PatternRecognizer:
 
         logger.info("🎯 Pattern Recognizer initialized")
 
-    def _initialize_attack_patterns(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_attack_patterns(self) -> dict[str, dict[str, Any]]:
         """Initialize known attack patterns"""
 
         return {
@@ -558,8 +558,8 @@ class PatternRecognizer:
 
     async def analyze_events(
         self,
-        events: List[Dict[str, Any]]
-    ) -> List[ThreatEvent]:
+        events: list[dict[str, Any]]
+    ) -> list[ThreatEvent]:
         """Analyze events for threat patterns"""
 
         detected_threats = []
@@ -578,9 +578,9 @@ class PatternRecognizer:
     async def _check_pattern(
         self,
         pattern_id: str,
-        pattern: Dict[str, Any],
-        recent_events: List[Dict[str, Any]]
-    ) -> List[ThreatEvent]:
+        pattern: dict[str, Any],
+        recent_events: list[dict[str, Any]]
+    ) -> list[ThreatEvent]:
         """Check if events match a specific attack pattern"""
 
         threats = []
@@ -623,9 +623,9 @@ class PatternRecognizer:
 
     async def _check_indicator(
         self,
-        indicator: Dict[str, Any],
-        events: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        indicator: dict[str, Any],
+        events: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Check if events match a specific indicator"""
 
         indicator_type = indicator["type"]
@@ -646,9 +646,9 @@ class PatternRecognizer:
 
     async def _check_failed_login_indicator(
         self,
-        indicator: Dict[str, Any],
-        events: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        indicator: dict[str, Any],
+        events: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Check for failed login patterns"""
 
         threshold = indicator["threshold"]
@@ -683,9 +683,9 @@ class PatternRecognizer:
 
     async def _check_rapid_login_indicator(
         self,
-        indicator: Dict[str, Any],
-        events: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        indicator: dict[str, Any],
+        events: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Check for rapid login attempt patterns"""
 
         threshold = indicator["threshold"]
@@ -714,9 +714,9 @@ class PatternRecognizer:
 
     async def _check_bulk_access_indicator(
         self,
-        indicator: Dict[str, Any],
-        events: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        indicator: dict[str, Any],
+        events: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Check for bulk data access patterns"""
 
         threshold = indicator["threshold"]
@@ -749,9 +749,9 @@ class PatternRecognizer:
 
     async def _check_prompt_injection_indicator(
         self,
-        indicator: Dict[str, Any],
-        events: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        indicator: dict[str, Any],
+        events: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Check for prompt injection attempt patterns"""
 
         threshold = indicator["threshold"]
@@ -789,9 +789,9 @@ class PatternRecognizer:
 
     async def _check_generic_threshold(
         self,
-        indicator: Dict[str, Any],
-        events: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        indicator: dict[str, Any],
+        events: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Generic threshold-based indicator check"""
 
         return {
@@ -826,7 +826,7 @@ class ThreatResponseEngine:
 
         logger.info("🛡️ Threat Response Engine initialized")
 
-    def _initialize_response_rules(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_response_rules(self) -> dict[str, dict[str, Any]]:
         """Initialize automated response rules"""
 
         return {
@@ -905,7 +905,7 @@ class ThreatResponseEngine:
             }
         }
 
-    async def respond_to_threat(self, threat_event: ThreatEvent) -> List[str]:
+    async def respond_to_threat(self, threat_event: ThreatEvent) -> list[str]:
         """Execute automated response to threat"""
 
         executed_actions = []
@@ -933,7 +933,7 @@ class ThreatResponseEngine:
 
     async def _should_apply_rule(
         self,
-        rule: Dict[str, Any],
+        rule: dict[str, Any],
         threat_event: ThreatEvent
     ) -> bool:
         """Check if response rule should be applied"""
@@ -976,9 +976,9 @@ class ThreatResponseEngine:
 
     async def _execute_response_rule(
         self,
-        rule: Dict[str, Any],
+        rule: dict[str, Any],
         threat_event: ThreatEvent
-    ) -> List[str]:
+    ) -> list[str]:
         """Execute actions from response rule"""
 
         executed_actions = []
@@ -1112,8 +1112,8 @@ class ComprehensiveThreatDetection:
         self.response_engine = ThreatResponseEngine()
 
         # Threat tracking
-        self.active_threats: Dict[str, ThreatEvent] = {}
-        self.threat_history: List[ThreatEvent] = []
+        self.active_threats: dict[str, ThreatEvent] = {}
+        self.threat_history: list[ThreatEvent] = []
 
         # System metrics
         self.metrics = {
@@ -1133,9 +1133,9 @@ class ComprehensiveThreatDetection:
     async def analyze_activity(
         self,
         user_id: str,
-        activity_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        activity_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Analyze user activity for threats
 
@@ -1212,9 +1212,9 @@ class ComprehensiveThreatDetection:
     async def _assess_trinity_threats(
         self,
         user_id: str,
-        activity_data: Dict[str, Any],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        activity_data: dict[str, Any],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess threats specific to Trinity Framework"""
 
         threat_score = 0.0
@@ -1270,9 +1270,9 @@ class ComprehensiveThreatDetection:
     async def _generate_recommendations(
         self,
         threat_score: float,
-        behavioral_anomalies: List[str],
-        pattern_threats: List[ThreatEvent]
-    ) -> List[str]:
+        behavioral_anomalies: list[str],
+        pattern_threats: list[ThreatEvent]
+    ) -> list[str]:
         """Generate security recommendations"""
 
         recommendations = []
@@ -1343,7 +1343,7 @@ class ComprehensiveThreatDetection:
                 logger.error(f"Monitoring task error: {e}")
                 await asyncio.sleep(60)
 
-    async def get_threat_status(self) -> Dict[str, Any]:
+    async def get_threat_status(self) -> dict[str, Any]:
         """Get current threat detection status"""
 
         return {

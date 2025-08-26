@@ -6,7 +6,7 @@ Synthesizes breakthroughs from multiple innovation sources.
 
 import logging
 import uuid
-from typing import Any, Dict, List
+from typing import Any
 
 from lukhas.core.interfaces import CoreInterface
 
@@ -39,8 +39,8 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
     async def synthesize_breakthroughs(
         self,
-        innovation_results: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        innovation_results: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """
         Synthesize breakthroughs from innovation results
 
@@ -93,8 +93,8 @@ class BreakthroughSynthesisEngine(CoreInterface):
     async def _synthesize_convergence(
         self,
         innovation_type: str,
-        innovations: List[Dict[str, Any]]
-    ) -> Optional[Dict[str, Any]]:
+        innovations: list[dict[str, Any]]
+    ) -> Optional[dict[str, Any]]:
         """Synthesize breakthrough from converging innovations"""
 
         breakthrough = {
@@ -135,8 +135,8 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
     async def _convert_to_breakthrough(
         self,
-        innovation: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+        innovation: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
         """Convert single innovation to breakthrough format"""
 
         breakthrough = {
@@ -166,8 +166,8 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
     async def _synthesize_emergence(
         self,
-        grouped: Dict[str, List[Dict[str, Any]]]
-    ) -> Optional[Dict[str, Any]]:
+        grouped: dict[str, list[dict[str, Any]]]
+    ) -> Optional[dict[str, Any]]:
         """Detect emergent breakthroughs from diverse innovations"""
 
         # Check for consciousness + market combination
@@ -198,8 +198,8 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
     async def _detect_amplifications(
         self,
-        breakthroughs: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        breakthroughs: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Detect amplification patterns in breakthroughs"""
 
         amplifications = []
@@ -223,8 +223,8 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
     def _are_reinforcing(
         self,
-        b1: Dict[str, Any],
-        b2: Dict[str, Any]
+        b1: dict[str, Any],
+        b2: dict[str, Any]
     ) -> bool:
         """Check if two breakthroughs reinforce each other"""
 

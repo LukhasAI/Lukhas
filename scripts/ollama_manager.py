@@ -11,7 +11,6 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
 
 import aiohttp
 
@@ -26,7 +25,7 @@ class ModelInfo:
     parameter_size: str
     quantization: str
     family: str
-    recommended_for: List[str]
+    recommended_for: list[str]
     performance_score: float  # 0-1, higher is better
     accuracy_score: float  # 0-1, higher is better
 
@@ -59,11 +58,11 @@ class OllamaManager:
 
     def __init__(self, ollama_host: str = "http://localhost:11434"):
         self.ollama_host = ollama_host
-        self.installed_models: Dict[str, ModelInfo] = {}
-        self.model_performance: Dict[str, Dict] = {}
-        self.usage_stats: Dict[str, Dict] = {}
+        self.installed_models: dict[str, ModelInfo] = {}
+        self.model_performance: dict[str, dict] = {}
+        self.usage_stats: dict[str, dict] = {}
 
-    async def health_check(self) -> Dict:
+    async def health_check(self) -> dict:
         """Comprehensive health check of Ollama system"""
         health = {
             "status": "unknown",
@@ -84,14 +83,13 @@ class OllamaManager:
 
         # Check API responsiveness
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(
-                    f"{self.ollama_host}/api/tags", timeout=5
-                ) as resp:
-                    if resp.status == 200:
-                        health["api_responsive"] = True
-                        data = await resp.json()
-                        health["models_loaded"] = len(data.get("models", []))
+            async with aiohttp.ClientSession() as session, session.get(
+                f"{self.ollama_host}/api/tags", timeout=5
+            ) as resp:
+                if resp.status == 200:
+                    health["api_responsive"] = True
+                    data = await resp.json()
+                    health["models_loaded"] = len(data.get("models", []))
         except:
             if health["service_running"]:
                 health["recommendations"].append("Start Ollama service: ollama serve")
@@ -120,7 +118,7 @@ class OllamaManager:
 
         return health
 
-    async def list_installed_models(self) -> List[ModelInfo]:
+    async def list_installed_models(self) -> list[ModelInfo]:
         """Get detailed info about installed models"""
         models = []
 
@@ -190,7 +188,7 @@ class OllamaManager:
             accuracy_score=acc,
         )
 
-    async def recommend_models(self, task: str = "code_fixing") -> Dict:
+    async def recommend_models(self, task: str = "code_fixing") -> dict:
         """Recommend models for specific tasks"""
         recommendations = {
             "task": task,
@@ -290,7 +288,7 @@ class OllamaManager:
             print(f"❌ Error installing model: {e}")
             return False
 
-    async def optimize_models(self) -> Dict:
+    async def optimize_models(self) -> dict:
         """Optimize model selection based on usage patterns"""
         optimization = {
             "current_models": [],
@@ -330,7 +328,7 @@ class OllamaManager:
 
     async def benchmark_model(
         self, model_name: str, test_type: str = "code_fix"
-    ) -> Dict:
+    ) -> dict:
         """Benchmark a model's performance"""
         print(f"\n🧪 Benchmarking {model_name}...")
 
@@ -393,7 +391,7 @@ class OllamaManager:
 
         return benchmarks
 
-    async def auto_manage(self) -> Dict:
+    async def auto_manage(self) -> dict:
         """Automatic management based on best practices"""
         print("\n🤖 Running Automatic Ollama Management...")
 
@@ -461,7 +459,7 @@ class OllamaManager:
 
         return actions
 
-    def generate_config(self) -> Dict:
+    def generate_config(self) -> dict:
         """Generate optimal configuration for LUKHAS"""
         config = {
             "primary_model": "codellama:7b",
@@ -483,7 +481,7 @@ class OllamaManager:
 
         return config
 
-    async def monitor_performance(self, duration: int = 60) -> Dict:
+    async def monitor_performance(self, duration: int = 60) -> dict:
         """Monitor Ollama performance over time"""
         print(f"\n📊 Monitoring Ollama for {duration} seconds...")
 
@@ -503,15 +501,14 @@ class OllamaManager:
             try:
                 # Make a simple API call
                 call_start = time.time()
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(
-                        f"{self.ollama_host}/api/tags", timeout=5
-                    ) as resp:
-                        if resp.status == 200:
-                            metrics["api_calls"] += 1
-                            response_times.append(time.time() - call_start)
-                        else:
-                            metrics["errors"] += 1
+                async with aiohttp.ClientSession() as session, session.get(
+                    f"{self.ollama_host}/api/tags", timeout=5
+                ) as resp:
+                    if resp.status == 200:
+                        metrics["api_calls"] += 1
+                        response_times.append(time.time() - call_start)
+                    else:
+                        metrics["errors"] += 1
             except:
                 metrics["errors"] += 1
 

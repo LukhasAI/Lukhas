@@ -14,7 +14,7 @@ Integration Points:
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 
 class QRAuthMode(Enum):
@@ -57,7 +57,7 @@ class AuthQRGBridge:
         self.consciousness_layer = None
         self.qi_entropy = None
 
-    async def initialize(self) -> Dict[str, Any]:
+    async def initialize(self) -> dict[str, Any]:
         """Initialize QRG integration components"""
         try:
             # TODO: Initialize when QRG components are wired
@@ -88,9 +88,9 @@ class AuthQRGBridge:
     async def generate_auth_qr(
         self,
         user_id: str,
-        auth_data: Dict[str, Any],
+        auth_data: dict[str, Any],
         mode: QRAuthMode = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate authentication QR code with specified mode"""
         if mode is None:
             mode = self.config.auth_mode
@@ -106,8 +106,8 @@ class AuthQRGBridge:
     async def validate_auth_qr(
         self,
         qr_data: str,
-        user_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        user_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate authentication QR code"""
         # TODO: Implement when QRG is integrated
         return {
@@ -120,8 +120,8 @@ class AuthQRGBridge:
     async def create_animated_auth_flow(
         self,
         session_id: str,
-        consciousness_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        consciousness_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Create animated QR authentication flow"""
         # TODO: Implement when QRG animation engine is integrated
         return {
@@ -134,8 +134,8 @@ class AuthQRGBridge:
     async def embed_steganographic_auth(
         self,
         base_qr: str,
-        hidden_auth_data: Dict[str, Any]
-    ) -> Tuple[str, Dict[str, Any]]:
+        hidden_auth_data: dict[str, Any]
+    ) -> tuple[str, dict[str, Any]]:
         """Embed hidden authentication data in QR code"""
         # TODO: Implement when QRG steganography is integrated
         return (

@@ -6,7 +6,7 @@ Expands consciousness into higher dimensions of awareness.
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from candidate.core.interfaces import CoreInterface
 
@@ -18,7 +18,7 @@ class DimensionalExpansion:
     """Represents a dimensional expansion of consciousness"""
     original_dimensions: int
     target_dimensions: int
-    expanded_dimensions: List[str]
+    expanded_dimensions: list[str]
     dimensional_stability: float
     integration_success: bool
 
@@ -140,7 +140,7 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
     async def map_dimensional_space(
         self,
         dimensions: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Map the structure of a dimensional space"""
 
         space_map = {

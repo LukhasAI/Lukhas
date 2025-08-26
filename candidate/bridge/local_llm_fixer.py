@@ -13,7 +13,7 @@ import re
 import subprocess
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import aiohttp
 
@@ -69,8 +69,8 @@ class LocalLLMFixer:
         self.session: Optional[aiohttp.ClientSession] = None
 
         # Track fixes for learning
-        self.successful_fixes: List[CodeFix] = []
-        self.failed_fixes: List[CodeFix] = []
+        self.successful_fixes: list[CodeFix] = []
+        self.failed_fixes: list[CodeFix] = []
 
     async def __aenter__(self):
         """Async context manager entry"""
@@ -94,7 +94,7 @@ class LocalLLMFixer:
             logger.error(f"Ollama not available: {e}")
         return False
 
-    async def analyze_file(self, file_path: str) -> List[CodeIssue]:
+    async def analyze_file(self, file_path: str) -> list[CodeIssue]:
         """Analyze a Python file for issues"""
         issues = []
 
@@ -123,7 +123,7 @@ class LocalLLMFixer:
 
         return issues
 
-    async def _run_ruff_analysis(self, file_path: str) -> List[CodeIssue]:
+    async def _run_ruff_analysis(self, file_path: str) -> list[CodeIssue]:
         """Run ruff to find code issues"""
         issues = []
 
@@ -198,7 +198,7 @@ class LocalLLMFixer:
 
         return None
 
-    def _create_fix_prompt(self, issue: CodeIssue, lines: List[str]) -> str:
+    def _create_fix_prompt(self, issue: CodeIssue, lines: list[str]) -> str:
         """Create a prompt for the LLM to fix the issue"""
         context_start = max(0, issue.line_number - 5)
         context_end = min(len(lines), issue.line_number + 5)
@@ -247,7 +247,7 @@ Fixed code:"""
         self,
         issue: CodeIssue,
         response: str,
-        lines: List[str]
+        lines: list[str]
     ) -> Optional[CodeFix]:
         """Parse LLM response into a CodeFix"""
         # Clean the response
@@ -256,10 +256,7 @@ Fixed code:"""
         # Remove markdown if present
         if '```' in fixed_code:
             fixed_code = re.search(r'```(?:python)?\n?(.*?)\n?```', fixed_code, re.DOTALL)
-            if fixed_code:
-                fixed_code = fixed_code.group(1)
-            else:
-                fixed_code = response.strip()
+            fixed_code = fixed_code.group(1) if fixed_code else response.strip()
 
         # Get original code
         original_code = lines[issue.line_number - 1] if issue.line_number > 0 else ""
@@ -337,7 +334,7 @@ Fixed code:"""
             self.failed_fixes.append(fix)
             return False
 
-    async def fix_file(self, file_path: str, dry_run: bool = False) -> Dict[str, Any]:
+    async def fix_file(self, file_path: str, dry_run: bool = False) -> dict[str, Any]:
         """Fix all issues in a file"""
         results = {
             "file": file_path,
@@ -368,7 +365,7 @@ Fixed code:"""
 
         return results
 
-    def get_learning_stats(self) -> Dict[str, Any]:
+    def get_learning_stats(self) -> dict[str, Any]:
         """Get statistics about fixes for learning"""
         return {
             "successful_fixes": len(self.successful_fixes),

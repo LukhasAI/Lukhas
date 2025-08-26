@@ -941,9 +941,8 @@ class DistributedGLYPHColony(BaseColony):
         if glyph_type == GLYPHType.QUANTUM:
             if "quantum" not in required:
                 required.append("quantum")
-        elif glyph_type == GLYPHType.CONSCIOUSNESS:
-            if "consciousness" not in required:
-                required.append("consciousness")
+        elif glyph_type == GLYPHType.CONSCIOUSNESS and "consciousness" not in required:
+            required.append("consciousness")
 
         return required
 

@@ -7,7 +7,7 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class MonitoringMatrizAdapter:
@@ -18,10 +18,10 @@ class MonitoringMatrizAdapter:
     @staticmethod
     def create_node(
         node_type: str,
-        state: Dict[str, float],
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        state: dict[str, float],
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for monitoring events"""
 
         node = {
@@ -58,7 +58,7 @@ class MonitoringMatrizAdapter:
         drift_score: float,
         component: str,
         threshold: float = 0.15
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a drift detection node"""
 
         urgency = min(1.0, drift_score / threshold) if drift_score > threshold else 0.0
@@ -86,7 +86,7 @@ class MonitoringMatrizAdapter:
         value: float,
         unit: str = "ms",
         target: Optional[float] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a performance metric node"""
 
         labels = [
@@ -117,8 +117,8 @@ class MonitoringMatrizAdapter:
     def emit_health_check(
         component: str,
         status: str,
-        details: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        details: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Emit a health check node"""
 
         status_urgency = {
@@ -145,7 +145,7 @@ class MonitoringMatrizAdapter:
         )
 
     @staticmethod
-    def validate_node(node: Dict[str, Any]) -> bool:
+    def validate_node(node: dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
 
@@ -155,14 +155,10 @@ class MonitoringMatrizAdapter:
 
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-        for field in required_prov:
-            if field not in node.get("provenance", {}):
-                return False
-
-        return True
+        return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
-    def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+    def save_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/monitoring")

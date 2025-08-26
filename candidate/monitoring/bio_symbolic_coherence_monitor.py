@@ -11,7 +11,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog
 
@@ -64,10 +64,10 @@ class CoherenceMeasurement:
     metric_type: CoherenceMetric
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     coherence_score: float = 0.0  # 0.0 to 1.0
-    bio_component_state: Dict[str, Any] = field(default_factory=dict)
-    symbolic_component_state: Dict[str, Any] = field(default_factory=dict)
-    alignment_factors: List[str] = field(default_factory=list)
-    misalignment_factors: List[str] = field(default_factory=list)
+    bio_component_state: dict[str, Any] = field(default_factory=dict)
+    symbolic_component_state: dict[str, Any] = field(default_factory=dict)
+    alignment_factors: list[str] = field(default_factory=list)
+    misalignment_factors: list[str] = field(default_factory=list)
     confidence: float = 0.8
 
     def get_coherence_level(self) -> CoherenceLevel:
@@ -99,12 +99,12 @@ class CoherenceReport:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     overall_coherence: float = 0.0
     overall_level: CoherenceLevel = CoherenceLevel.FAIR
-    individual_metrics: Dict[CoherenceMetric, CoherenceMeasurement] = field(
+    individual_metrics: dict[CoherenceMetric, CoherenceMeasurement] = field(
         default_factory=dict
     )
-    trend_analysis: Dict[str, Any] = field(default_factory=dict)
-    recommendations: List[str] = field(default_factory=list)
-    critical_issues: List[str] = field(default_factory=list)
+    trend_analysis: dict[str, Any] = field(default_factory=dict)
+    recommendations: list[str] = field(default_factory=list)
+    critical_issues: list[str] = field(default_factory=list)
     stability_index: float = 0.0
 
 
@@ -117,7 +117,7 @@ class BioSymbolicCoherenceMonitor:
     def __init__(
         self,
         signal_bus: Optional[SignalBus] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         # Allow optional bus for tests and fall back to global bus when available
         self.signal_bus = signal_bus or get_signal_bus()
@@ -131,7 +131,7 @@ class BioSymbolicCoherenceMonitor:
         self.trend_window_minutes = self.config.get("trend_window_minutes", 60)
 
         # Data storage
-        self.measurements: Dict[CoherenceMetric, deque] = {
+        self.measurements: dict[CoherenceMetric, deque] = {
             metric: deque(maxlen=self.measurement_retention)
             for metric in CoherenceMetric
         }
@@ -139,8 +139,8 @@ class BioSymbolicCoherenceMonitor:
         self.reports: deque = deque(maxlen=100)
 
         # State tracking for bio and symbolic systems
-        self.bio_system_state: Dict[str, Any] = {}
-        self.symbolic_system_state: Dict[str, Any] = {}
+        self.bio_system_state: dict[str, Any] = {}
+        self.symbolic_system_state: dict[str, Any] = {}
         self.last_endocrine_snapshot: Optional[EndocrineSnapshot] = None
 
         # Coherence thresholds and weights
@@ -168,7 +168,7 @@ class BioSymbolicCoherenceMonitor:
         }
 
         # Pattern detection
-        self.coherence_patterns: Dict[str, Any] = {}
+        self.coherence_patterns: dict[str, Any] = {}
         self.anomaly_detector = CoherenceAnomalyDetector()
 
         # Integration tracking
@@ -200,7 +200,7 @@ class BioSymbolicCoherenceMonitor:
         # Trigger coherence assessment
         await self._assess_coherence()
 
-    async def update_symbolic_system_state(self, symbolic_data: Dict[str, Any]):
+    async def update_symbolic_system_state(self, symbolic_data: dict[str, Any]):
         """Update symbolic system state information"""
         self.symbolic_system_state.update(
             {
@@ -258,9 +258,9 @@ class BioSymbolicCoherenceMonitor:
     # --- Public compatibility APIs used by tests ---
     async def measure_coherence(
         self,
-        bio_state: Dict[str, Any],
-        symbolic_state: Dict[str, Any],
-    ) -> List[CoherenceMeasurement]:
+        bio_state: dict[str, Any],
+        symbolic_state: dict[str, Any],
+    ) -> list[CoherenceMeasurement]:
         """Measure coherence given raw bio/symbolic states and return measurements.
 
         Tests expect a list of CoherenceMeasurement items with metric_name and score.
@@ -273,14 +273,14 @@ class BioSymbolicCoherenceMonitor:
         }
         self.symbolic_system_state = dict(symbolic_state)
 
-        results: List[CoherenceMeasurement] = []
+        results: list[CoherenceMeasurement] = []
         for metric in CoherenceMetric:
             m = await self._measure_coherence_metric(metric)
             if m:
                 results.append(m)
         return results
 
-    async def analyze_coherence_trends(self, trend_data: List[float]) -> Dict[str, Any]:
+    async def analyze_coherence_trends(self, trend_data: list[float]) -> dict[str, Any]:
         """Analyze a list of coherence values and return trend direction/strength."""
         if not trend_data:
             return {"trend_direction": "unknown", "trend_strength": 0.0}
@@ -309,12 +309,12 @@ class BioSymbolicCoherenceMonitor:
 
     async def detect_alignment_issues(
         self,
-        bio_state: Dict[str, Any],
-        symbolic_state: Dict[str, Any],
-    ) -> List[str]:
+        bio_state: dict[str, Any],
+        symbolic_state: dict[str, Any],
+    ) -> list[str]:
         """Detect alignment issues based on measured coherence metrics."""
         measurements = await self.measure_coherence(bio_state, symbolic_state)
-        issues: List[str] = []
+        issues: list[str] = []
         for m in measurements:
             if m.coherence_score < 0.5:
                 issues.append(
@@ -526,8 +526,8 @@ class BioSymbolicCoherenceMonitor:
         # Base coherence on memory alignment
         coherence_score = memory_alignment
 
-        alignment_factors: List[str] = []
-        misalignment_factors: List[str] = []
+        alignment_factors: list[str] = []
+        misalignment_factors: list[str] = []
 
         if memory_alignment > 0.7:
             alignment_factors.append("Memory operations aligned with learning hormones")
@@ -720,7 +720,7 @@ class BioSymbolicCoherenceMonitor:
         )
 
     async def _generate_coherence_report(
-        self, measurements: Dict[CoherenceMetric, CoherenceMeasurement]
+        self, measurements: dict[CoherenceMetric, CoherenceMeasurement]
     ) -> CoherenceReport:
         """Generate comprehensive coherence report"""
 
@@ -779,7 +779,7 @@ class BioSymbolicCoherenceMonitor:
             stability_index=stability_index,
         )
 
-    async def _analyze_coherence_trends(self) -> Dict[str, Any]:
+    async def _analyze_coherence_trends(self) -> dict[str, Any]:
         """Analyze coherence trends over time"""
         if len(self.coherence_history) < 5:
             return {"trend": "insufficient_data", "direction": "stable"}
@@ -815,9 +815,9 @@ class BioSymbolicCoherenceMonitor:
 
     async def _generate_recommendations(
         self,
-        measurements: Dict[CoherenceMetric, CoherenceMeasurement],
+        measurements: dict[CoherenceMetric, CoherenceMeasurement],
         overall_level: CoherenceLevel,
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate recommendations for improving coherence"""
         recommendations = []
 
@@ -922,7 +922,7 @@ class BioSymbolicCoherenceMonitor:
         """Get the most recent coherence report"""
         return self.reports[-1] if self.reports else None
 
-    def get_coherence_trend(self, lookback_minutes: int = 60) -> List[Dict[str, Any]]:
+    def get_coherence_trend(self, lookback_minutes: int = 60) -> list[dict[str, Any]]:
         """Get coherence trend data"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(minutes=lookback_minutes)
 
@@ -939,12 +939,12 @@ class BioSymbolicCoherenceMonitor:
 
     def get_metric_history(
         self, metric: CoherenceMetric, lookback_points: int = 50
-    ) -> List[CoherenceMeasurement]:
+    ) -> list[CoherenceMeasurement]:
         """Get history for a specific coherence metric"""
         measurements = self.measurements[metric]
         return list(measurements)[-lookback_points:]
 
-    def get_coherence_statistics(self) -> Dict[str, Any]:
+    def get_coherence_statistics(self) -> dict[str, Any]:
         """Get coherence monitoring statistics"""
         current_report = self.get_current_coherence()
 
@@ -984,8 +984,8 @@ class CoherenceAnomalyDetector:
         self.anomaly_threshold = 0.3
 
     def detect_anomalies(
-        self, measurements: Dict[CoherenceMetric, CoherenceMeasurement]
-    ) -> List[str]:
+        self, measurements: dict[CoherenceMetric, CoherenceMeasurement]
+    ) -> list[str]:
         """Detect coherence anomalies"""
         anomalies = []
 
@@ -1000,7 +1000,7 @@ class CoherenceAnomalyDetector:
 
 # Factory function
 def create_bio_symbolic_coherence_monitor(
-    signal_bus: SignalBus, config: Optional[Dict[str, Any]] = None
+    signal_bus: SignalBus, config: Optional[dict[str, Any]] = None
 ) -> BioSymbolicCoherenceMonitor:
     """Create and return a BioSymbolicCoherenceMonitor instance"""
     return BioSymbolicCoherenceMonitor(signal_bus, config)

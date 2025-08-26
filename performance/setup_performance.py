@@ -8,7 +8,7 @@ import asyncio
 import logging
 import time
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -58,7 +58,7 @@ class PerformanceSetup:
 
         return self.optimizations_applied
 
-    async def optimize_system_config(self) -> Dict[str, Any]:
+    async def optimize_system_config(self) -> dict[str, Any]:
         """Optimize system-level configuration"""
         # Python garbage collection tuning
         import gc
@@ -78,7 +78,7 @@ class PerformanceSetup:
             "thread_pool_configured": True,
         }
 
-    async def optimize_memory(self) -> Dict[str, Any]:
+    async def optimize_memory(self) -> dict[str, Any]:
         """Setup memory optimizations"""
         # Import our optimization classes
         from optimizations import global_memory_optimizer
@@ -105,7 +105,7 @@ class PerformanceSetup:
             "gc_threshold": memory_config["gc_threshold"],
         }
 
-    async def optimize_imports(self) -> Dict[str, Any]:
+    async def optimize_imports(self) -> dict[str, Any]:
         """Optimize module imports for faster startup"""
         # Pre-import frequently used modules
         common_modules = [
@@ -145,7 +145,7 @@ class PerformanceSetup:
             "total_modules": len(common_modules) + len(_modules),
         }
 
-    async def optimize_apis(self) -> Dict[str, Any]:
+    async def optimize_apis(self) -> dict[str, Any]:
         """Optimize API performance"""
         # Check if FastAPI apps exist and apply optimizations
         api_configs = []
@@ -206,7 +206,7 @@ class PerformanceSetup:
         with open(config_path, "w") as f:
             json.dump(fastapi_config, f, indent=2)
 
-    async def optimize_database(self) -> Dict[str, Any]:
+    async def optimize_database(self) -> dict[str, Any]:
         """Setup database connection optimization"""
         # Connection pool configuration
         db_config = {
@@ -241,7 +241,7 @@ class PerformanceSetup:
             "max_connections": db_config["pool_size"] + db_config["max_overflow"],
         }
 
-    async def setup_caching(self) -> Dict[str, Any]:
+    async def setup_caching(self) -> dict[str, Any]:
         """Setup multi-level caching system"""
         from optimizations import LRUCache, global_cache
 
@@ -281,7 +281,7 @@ class PerformanceSetup:
             "cache_config": cache_config,
         }
 
-    async def optimize_async(self) -> Dict[str, Any]:
+    async def optimize_async(self) -> dict[str, Any]:
         """Optimize async operations"""
         # Configure asyncio settings
         loop = asyncio.get_event_loop()
@@ -310,7 +310,7 @@ class PerformanceSetup:
             "loop_debug": loop.get_debug(),
         }
 
-    async def integrate_monitoring(self) -> Dict[str, Any]:
+    async def integrate_monitoring(self) -> dict[str, Any]:
         """Integrate performance monitoring"""
         from optimizations import global_monitor
 

@@ -10,7 +10,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -20,7 +20,7 @@ class TrinityContent:
     layer_1_poetic: str
     layer_2_human: str
     layer_3_technical: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class TrinityGenerator:
@@ -30,7 +30,7 @@ class TrinityGenerator:
         self.framework_path = Path(__file__).parent / "communication_framework.json"
         self.framework = self._load_framework()
 
-    def _load_framework(self) -> Dict[str, Any]:
+    def _load_framework(self) -> dict[str, Any]:
         """Load the communication framework"""
         with open(self.framework_path) as f:
             return json.load(f)
@@ -39,9 +39,9 @@ class TrinityGenerator:
         self,
         feature_name: str,
         description: str,
-        benefits: List[str],
-        technical_details: Dict[str, Any],
-        code_examples: Optional[List[str]] = None,
+        benefits: list[str],
+        technical_details: dict[str, Any],
+        code_examples: Optional[list[str]] = None,
     ) -> TrinityContent:
         """Generate complete Trinity documentation for a feature"""
 
@@ -67,7 +67,7 @@ class TrinityGenerator:
         return TrinityContent(layer_1, layer_2, layer_3, metadata)
 
     def _generate_poetic_layer(
-        self, feature_name: str, description: str, benefits: List[str]
+        self, feature_name: str, description: str, benefits: list[str]
     ) -> str:
         """Generate Layer 1: Poetic Consciousness"""
         layer_1_config = self.framework["lukhas_communication_framework"]["layers"][
@@ -95,7 +95,7 @@ Through this digital alchemy, the boundary between human intuition and artificia
         return poetic_content
 
     def _generate_human_layer(
-        self, feature_name: str, description: str, benefits: List[str]
+        self, feature_name: str, description: str, benefits: list[str]
     ) -> str:
         """Generate Layer 2: Human Connection"""
         layer_2_config = self.framework["lukhas_communication_framework"]["layers"][
@@ -124,8 +124,8 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
     def _generate_technical_layer(
         self,
         feature_name: str,
-        technical_details: Dict[str, Any],
-        code_examples: Optional[List[str]],
+        technical_details: dict[str, Any],
+        code_examples: Optional[list[str]],
     ) -> str:
         """Generate Layer 3: Technical Precision"""
         layer_3_config = self.framework["lukhas_communication_framework"]["layers"][
@@ -172,7 +172,7 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
 
         return technical_content
 
-    def _extract_concepts(self, text: str) -> List[str]:
+    def _extract_concepts(self, text: str) -> list[str]:
         """Extract key concepts from text for metaphorical use"""
         # Simple keyword extraction - can be enhanced with NLP
         words = re.findall(r"\b\w+\b", text.lower())
@@ -182,7 +182,7 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
         ]
         return concepts[:3]
 
-    def generate_api_documentation(self, api_spec: Dict[str, Any]) -> TrinityContent:
+    def generate_api_documentation(self, api_spec: dict[str, Any]) -> TrinityContent:
         """Generate Trinity-formatted API documentation"""
 
         # Layer 1: Poetic introduction
@@ -269,7 +269,7 @@ Perfect for developers who want to add AI capabilities without the complexity.""
         with open(output_path, "w") as f:
             f.write(markdown_content)
 
-    def validate_trinity_content(self, content: str) -> Dict[str, bool]:
+    def validate_trinity_content(self, content: str) -> dict[str, bool]:
         """Validate that content follows Trinity structure"""
         validation = {
             "has_layer_1": "🎭" in content,

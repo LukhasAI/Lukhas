@@ -12,7 +12,7 @@ import random
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, Optional, Set
+from typing import Optional
 
 import websockets
 from websockets.server import WebSocketServerProtocol
@@ -29,7 +29,7 @@ class ConsciousnessState:
     confidence: float
     previous_state: Optional[str] = None
     transition_duration_ms: int = 0
-    biometric_hints: Dict = None
+    biometric_hints: dict = None
     symbolic_representation: str = ""
     privacy_mask: str = ""
 
@@ -107,9 +107,9 @@ class ConsciousnessBroadcaster:
         self.port = port
         self.throttle_ms = throttle_ms
         self.simulation_mode = simulation_mode
-        self.connected_clients: Set[WebSocketServerProtocol] = set()
+        self.connected_clients: set[WebSocketServerProtocol] = set()
         self.current_state: Optional[ConsciousnessState] = None
-        self.gdpr_consent: Dict[str, Dict] = {}
+        self.gdpr_consent: dict[str, dict] = {}
         self.last_broadcast = datetime.min
 
         logger.info(f"🧠 Consciousness Broadcaster initialized on port {port}")

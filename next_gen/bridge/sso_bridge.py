@@ -11,7 +11,7 @@ import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 from urllib.parse import urlencode
 
 logger = logging.getLogger(__name__)
@@ -29,9 +29,9 @@ class SSOProvider:
     endpoint_userinfo: str
     client_id: str
     client_secret: str
-    scopes: List[str]
-    glyph_mapping: Dict[str, str]  # Role/claim to glyph mapping
-    metadata: Dict[str, Any] = None
+    scopes: list[str]
+    glyph_mapping: dict[str, str]  # Role/claim to glyph mapping
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -50,9 +50,9 @@ class SSOSession:
     refresh_token: Optional[str]
     token_type: str
     expires_at: datetime
-    scopes: List[str]
-    user_claims: Dict[str, Any]
-    assigned_glyphs: List[str]
+    scopes: list[str]
+    user_claims: dict[str, Any]
+    assigned_glyphs: list[str]
     created_at: datetime
     last_activity: datetime
 
@@ -66,7 +66,7 @@ class SSOTransaction:
     state: str
     nonce: str
     redirect_uri: str
-    requested_scopes: List[str]
+    requested_scopes: list[str]
     created_at: datetime
     completed_at: Optional[datetime] = None
     success: bool = False
@@ -114,9 +114,9 @@ class SSOBridge:
     ):
         self.config_file = Path(config_file)
         self.session_store = Path(session_store)
-        self.providers: Dict[str, SSOProvider] = {}
-        self.active_sessions: Dict[str, SSOSession] = {}
-        self.transactions: Dict[str, SSOTransaction] = {}
+        self.providers: dict[str, SSOProvider] = {}
+        self.active_sessions: dict[str, SSOSession] = {}
+        self.transactions: dict[str, SSOTransaction] = {}
 
         # Load configuration
         self._load_configuration()
@@ -283,8 +283,8 @@ class SSOBridge:
         self,
         provider_id: str,
         redirect_uri: str,
-        requested_scopes: Optional[List[str]] = None,
-    ) -> Optional[Tuple[str, str]]:
+        requested_scopes: Optional[list[str]] = None,
+    ) -> Optional[tuple[str, str]]:
         """Initiate SSO authentication flow"""
         if provider_id not in self.providers:
             logger.error(f"Unknown SSO provider: {provider_id}")
@@ -407,7 +407,7 @@ class SSOBridge:
 
     def _exchange_code_for_tokens(
         self, provider: SSOProvider, code: str, redirect_uri: str
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """Exchange authorization code for access tokens (simulated)"""
         # In a real implementation, this would make an HTTP POST to the token endpoint
         logger.info("🔄 Simulating token exchange...")
@@ -423,7 +423,7 @@ class SSOBridge:
 
     def _get_user_info(
         self, provider: SSOProvider, access_token: str
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """Get user information from provider (simulated)"""
         # In a real implementation, this would make an HTTP GET to the userinfo endpoint
         logger.info("👤 Simulating user info retrieval...")
@@ -457,8 +457,8 @@ class SSOBridge:
         return None
 
     def _map_claims_to_glyphs(
-        self, user_claims: Dict, provider_mapping: Dict[str, str]
-    ) -> List[str]:
+        self, user_claims: dict, provider_mapping: dict[str, str]
+    ) -> list[str]:
         """Map user claims to LUKHAS glyphs"""
         assigned_glyphs = []
 
@@ -479,7 +479,7 @@ class SSOBridge:
 
         return assigned_glyphs
 
-    def _claim_matches(self, user_claims: Dict, target_value: str) -> bool:
+    def _claim_matches(self, user_claims: dict, target_value: str) -> bool:
         """Check if user claims contain a target value"""
         target_lower = target_value.lower()
 
@@ -530,7 +530,7 @@ class SSOBridge:
         logger.info(f"🚪 SSO session logged out: {session.external_user_id}")
         return True
 
-    def get_user_glyphs(self, session_id: str) -> List[str]:
+    def get_user_glyphs(self, session_id: str) -> list[str]:
         """Get assigned glyphs for a session"""
         session = self.validate_session(session_id)
         return session.assigned_glyphs if session else []
@@ -556,7 +556,7 @@ class SSOBridge:
             logger.error(f"Failed to save provider: {e}")
             return False
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get SSO bridge system status"""
         active_session_count = len(self.active_sessions)
         expired_sessions = 0

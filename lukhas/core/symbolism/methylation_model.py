@@ -10,7 +10,7 @@ the lifecycle and decay patterns of symbolic tags within LUKHAS AI.
 import logging
 import math
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from .tags import SymbolicTag, TagScope
 
@@ -58,7 +58,7 @@ class MethylationModel:
         self,
         scope: TagScope,
         lifespan: Optional[float],
-        tag_metadata: Optional[Dict[str, Any]] = None
+        tag_metadata: Optional[dict[str, Any]] = None
     ) -> Optional[float]:
         """
         Adjust tag lifespan based on methylation patterns.
@@ -257,7 +257,7 @@ class MethylationModel:
         }
         return minimums.get(scope, 1800.0)  # Default 30 minutes
 
-    def get_methylation_stats(self) -> Dict[str, Any]:
+    def get_methylation_stats(self) -> dict[str, Any]:
         """Get statistics about the methylation model."""
         return {
             "genetic_decay_factor": self.genetic_decay_factor,

@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import time
-from typing import Any, Dict, List, Optional, TypedDict
+from typing import Any, TypedDict
 
 import requests
 
 
 class LukhasError(RuntimeError):
-    def __init__(self, status: int, message: str, body: Optional[str] = None):
+    def __init__(self, status: int, message: str, body: str | None = None):
         super().__init__(f"{status} {message}")
         self.status = status
         self.body = body
@@ -16,9 +16,9 @@ class LukhasError(RuntimeError):
 class FeedbackCard(TypedDict, total=False):
     target_action_id: str
     rating: int
-    note: Optional[str]
-    user_id: Optional[str]
-    tags: Optional[List[str]]
+    note: str | None
+    user_id: str | None
+    tags: list[str] | None
 
 
 class Lukhas:
@@ -32,7 +32,7 @@ class Lukhas:
     def __init__(
         self,
         base_url: str,
-        api_key: Optional[str] = None,
+        api_key: str | None = None,
         timeout: float = 10.0,
         retries: int = 3,
     ):
@@ -47,7 +47,7 @@ class Lukhas:
     # ---- internals ---------------------------------------------------------
     def _request(
         self, method: str, path: str, *, params=None, json_body=None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         url = f"{self.base}{path}"
         attempt = 0
         last_err = None
@@ -82,10 +82,10 @@ class Lukhas:
         *,
         target_action_id: str,
         rating: int,
-        note: Optional[str] = None,
-        user_id: Optional[str] = None,
-        tags: Optional[List[str]] = None,
-    ) -> Dict[str, Any]:
+        note: str | None = None,
+        user_id: str | None = None,
+        tags: list[str] | None = None,
+    ) -> dict[str, Any]:
         body: FeedbackCard = {
             "target_action_id": target_action_id,
             "rating": int(rating),
@@ -98,14 +98,14 @@ class Lukhas:
             body["tags"] = tags
         return self._request("POST", "/feedback/card", json_body=body)
 
-    def feedback_lut(self) -> Dict[str, Any]:
+    def feedback_lut(self) -> dict[str, Any]:
         return self._request("GET", "/feedback/lut")
 
     # ---- Tools -------------------------------------------------------------
-    def tools_registry(self) -> Dict[str, Any]:
+    def tools_registry(self) -> dict[str, Any]:
         return self._request("GET", "/tools/registry")
 
-    def tools_names(self) -> Dict[str, Any]:
+    def tools_names(self) -> dict[str, Any]:
         # Support either /tools/available or /tools/names depending on deployment
         try:
             return self._request("GET", "/tools/available")
@@ -114,18 +114,18 @@ class Lukhas:
                 return self._request("GET", "/tools/names")
             raise
 
-    def tool_schema(self, tool_name: str) -> Dict[str, Any]:
+    def tool_schema(self, tool_name: str) -> dict[str, Any]:
         return self._request("GET", f"/tools/{tool_name}")
 
     # ---- DNA ---------------------------------------------------------------
-    def dna_health(self) -> Dict[str, Any]:
+    def dna_health(self) -> dict[str, Any]:
         return self._request("GET", "/dna/health")
 
-    def dna_compare(self, key: str) -> Dict[str, Any]:
+    def dna_compare(self, key: str) -> dict[str, Any]:
         return self._request("GET", "/dna/compare", params={"key": key})
 
     # ---- Admin (read-only) -------------------------------------------------
-    def admin_summary(self) -> Dict[str, Any]:
+    def admin_summary(self) -> dict[str, Any]:
         return self._request("GET", "/admin/summary.json")
 
     # ---- Helpers -----------------------------------------------------------

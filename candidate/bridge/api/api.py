@@ -1058,7 +1058,7 @@ class LukhasUnifiedAPI:
                 }
 
             # Check upgrade eligibility and requirements
-            upgrade_info = await self.tier_manager.get_tier_upgrade_info(current_tier)
+            await self.tier_manager.get_tier_upgrade_info(current_tier)
             upgrade_eligible = await self.tier_manager.check_upgrade_eligibility(
                 lambda_id, target_tier
             )
@@ -1291,8 +1291,8 @@ class LukhasUnifiedAPI:
 
             # Get basic usage statistics
             current_time = time.time()
-            week_ago = current_time - (7 * 24 * 60 * 60)
-            month_ago = current_time - (30 * 24 * 60 * 60)
+            current_time - (7 * 24 * 60 * 60)
+            current_time - (30 * 24 * 60 * 60)
 
             # Collect analytics from various managers
             analytics_data = {

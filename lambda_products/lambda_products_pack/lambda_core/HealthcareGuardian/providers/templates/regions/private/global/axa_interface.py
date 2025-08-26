@@ -5,7 +5,7 @@ This module provides integration points for AXA Healthcare's global systems,
 supporting both insurance and healthcare provider operations.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ....interfaces.ehr_interface import EHRInterface
 from ....security.security_utils import AuditLogger, EncryptionHandler
@@ -14,7 +14,7 @@ from ....security.security_utils import AuditLogger, EncryptionHandler
 class AXAInterface(EHRInterface):
     """Implementation of EHR interface for AXA Healthcare"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize AXA interface with configuration
 
@@ -44,7 +44,7 @@ class AXAInterface(EHRInterface):
             if field not in self.config:
                 raise ValueError(f"Missing required AXA configuration: {field}")
 
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize connection to AXA systems"""
         # Implement AXA-specific initialization
         # - Set up OAuth2 authentication
@@ -54,7 +54,7 @@ class AXAInterface(EHRInterface):
 
     async def get_patient_record(self,
                                patient_id: str,
-                               record_types: Optional[List[str]] = None) -> Dict[str, Any]:
+                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from AXA
 
@@ -73,7 +73,7 @@ class AXAInterface(EHRInterface):
     async def verify_insurance_coverage(self,
                                      member_id: str,
                                      service_code: str,
-                                     provider_id: str) -> Dict[str, Any]:
+                                     provider_id: str) -> dict[str, Any]:
         """
         Verify insurance coverage for specific service
 
@@ -93,7 +93,7 @@ class AXAInterface(EHRInterface):
 
     async def submit_claim(self,
                          member_id: str,
-                         claim_data: Dict[str, Any]) -> str:
+                         claim_data: dict[str, Any]) -> str:
         """Submit insurance claim to AXA"""
         self.audit.log_access(
             user_id=self.config['provider_id'],
@@ -105,7 +105,7 @@ class AXAInterface(EHRInterface):
         pass
 
     async def get_claim_status(self,
-                             claim_id: str) -> Dict[str, Any]:
+                             claim_id: str) -> dict[str, Any]:
         """Get status of submitted claim"""
         # Implement claim status retrieval
         pass

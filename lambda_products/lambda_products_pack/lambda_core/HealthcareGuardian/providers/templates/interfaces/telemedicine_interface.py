@@ -6,7 +6,7 @@ Providers must implement these interfaces to enable virtual consultations.
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class TelemedicineInterface(ABC):
@@ -16,7 +16,7 @@ class TelemedicineInterface(ABC):
     async def initialize_session(self,
                                provider_id: str,
                                patient_id: str,
-                               session_type: str) -> Dict[str, Any]:
+                               session_type: str) -> dict[str, Any]:
         """Initialize a new telemedicine session"""
         pass
 
@@ -30,7 +30,7 @@ class TelemedicineInterface(ABC):
     @abstractmethod
     async def end_session(self,
                          session_id: str,
-                         summary: Optional[Dict[str, Any]] = None) -> bool:
+                         summary: Optional[dict[str, Any]] = None) -> bool:
         """End an active telemedicine session"""
         pass
 
@@ -51,7 +51,7 @@ class TelemedicineInterface(ABC):
 
     @abstractmethod
     async def get_session_metrics(self,
-                                session_id: str) -> Dict[str, Any]:
+                                session_id: str) -> dict[str, Any]:
         """Get session quality and engagement metrics"""
         pass
 
@@ -78,6 +78,6 @@ class TelemedicineSecurityHandler(ABC):
     async def log_security_event(self,
                                session_id: str,
                                event_type: str,
-                               event_data: Dict[str, Any]) -> None:
+                               event_data: dict[str, Any]) -> None:
         """Log security-related events"""
         pass

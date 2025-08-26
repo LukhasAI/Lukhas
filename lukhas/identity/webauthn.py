@@ -19,7 +19,7 @@ import json
 import secrets
 import time
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from webauthn import (
@@ -40,7 +40,7 @@ except ImportError:
 class WebAuthnCredential:
     """WebAuthn credential data structure"""
 
-    def __init__(self, credential_data: Dict):
+    def __init__(self, credential_data: dict):
         self.credential_id = credential_data.get("credential_id", "")
         self.public_key = credential_data.get("public_key", "")
         self.sign_count = credential_data.get("sign_count", 0)
@@ -53,7 +53,7 @@ class WebAuthnCredential:
         self.tier_level = credential_data.get("tier_level", 0)
         self.device_type = credential_data.get("device_type", "unknown")
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Convert credential to dictionary"""
         return {
             "credential_id": self.credential_id,
@@ -71,16 +71,16 @@ class WebAuthnCredential:
 class WebAuthnManager:
     """⚛️🧠🛡️ Trinity-compliant WebAuthn/FIDO2 authentication manager"""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.rp_id = self.config.get("rp_id", "lukhas.ai")
         self.rp_name = self.config.get("rp_name", "LUKHAS AI Identity System")
         self.origin = self.config.get("origin", "https://lukhas.ai")
 
         # Credential storage (in production, would use database)
-        self.credentials: Dict[str, List[WebAuthnCredential]] = {}
-        self.pending_registrations: Dict[str, Dict] = {}
-        self.pending_authentications: Dict[str, Dict] = {}
+        self.credentials: dict[str, list[WebAuthnCredential]] = {}
+        self.pending_registrations: dict[str, dict] = {}
+        self.pending_authentications: dict[str, dict] = {}
 
         # Performance optimization
         self.validation_cache = {}
@@ -107,7 +107,7 @@ class WebAuthnManager:
 
     def generate_registration_options(
         self, user_id: str, user_name: str, user_display_name: str, user_tier: int = 0
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """🔐 Generate WebAuthn registration options for new credential"""
         try:
             start_time = time.time()
@@ -165,7 +165,7 @@ class WebAuthnManager:
                 "timeout": 60000,  # 60 seconds
                 "extensions": {
                     "credProps": True,
-                    "hmacCreateSecret": True if user_tier >= 4 else False,
+                    "hmacCreateSecret": user_tier >= 4,
                 },
             }
 
@@ -208,8 +208,8 @@ class WebAuthnManager:
             }
 
     def verify_registration_response(
-        self, registration_id: str, response: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, registration_id: str, response: dict[str, Any]
+    ) -> dict[str, Any]:
         """✅ Verify WebAuthn registration response and create credential"""
         try:
             start_time = time.time()
@@ -311,7 +311,7 @@ class WebAuthnManager:
 
     def generate_authentication_options(
         self, user_id: Optional[str] = None, tier_level: int = 0
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """🔓 Generate WebAuthn authentication options"""
         try:
             start_time = time.time()
@@ -351,7 +351,7 @@ class WebAuthnManager:
                 ),
                 "timeout": 60000,  # 60 seconds
                 "extensions": {
-                    "hmacGetSecret": True if tier_level >= 4 else False,
+                    "hmacGetSecret": tier_level >= 4,
                     "credProps": True,
                 },
             }
@@ -396,8 +396,8 @@ class WebAuthnManager:
             }
 
     def verify_authentication_response(
-        self, authentication_id: str, response: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, authentication_id: str, response: dict[str, Any]
+    ) -> dict[str, Any]:
         """🔍 Verify WebAuthn authentication response"""
         try:
             start_time = time.time()
@@ -503,7 +503,7 @@ class WebAuthnManager:
                 ),
             }
 
-    def get_user_credentials(self, user_id: str) -> Dict[str, Any]:
+    def get_user_credentials(self, user_id: str) -> dict[str, Any]:
         """📋 Get all WebAuthn credentials for a user"""
         try:
             if user_id not in self.credentials:
@@ -544,7 +544,7 @@ class WebAuthnManager:
                 "credentials": [],
             }
 
-    def revoke_credential(self, user_id: str, credential_id: str) -> Dict[str, Any]:
+    def revoke_credential(self, user_id: str, credential_id: str) -> dict[str, Any]:
         """🚫 Revoke a WebAuthn credential"""
         try:
             if user_id not in self.credentials:
@@ -580,7 +580,7 @@ class WebAuthnManager:
 
     # Helper methods
 
-    def _determine_device_type(self, response: Dict[str, Any]) -> str:
+    def _determine_device_type(self, response: dict[str, Any]) -> str:
         """Determine device type from WebAuthn response"""
         transports = response.get("transports", [])
 
@@ -635,12 +635,12 @@ class WebAuthnManager:
         timestamp = datetime.utcnow().isoformat()
         print(f"Consciousness update: {user_id} | {action} | {timestamp}")
 
-    def webauthn_health_check(self) -> Dict[str, Any]:
+    def webauthn_health_check(self) -> dict[str, Any]:
         """🏥 Perform WebAuthn system health check"""
         try:
             total_credentials = sum(len(creds) for creds in self.credentials.values())
-            active_registrations = len(self.pending_registrations)
-            active_authentications = len(self.pending_authentications)
+            len(self.pending_registrations)
+            len(self.pending_authentications)
 
             # Clean expired pending operations
             current_time = datetime.utcnow()
@@ -694,7 +694,7 @@ class WebAuthnManager:
                 "webauthn_health_check": {"overall_status": "ERROR", "error": str(e)}
             }
 
-    def _get_tier_distribution(self) -> Dict[str, int]:
+    def _get_tier_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by tier level"""
         tier_dist = {str(i): 0 for i in range(6)}
         for creds in self.credentials.values():
@@ -703,7 +703,7 @@ class WebAuthnManager:
                 tier_dist[tier_key] += 1
         return tier_dist
 
-    def _get_device_type_distribution(self) -> Dict[str, int]:
+    def _get_device_type_distribution(self) -> dict[str, int]:
         """Get distribution of credentials by device type"""
         device_dist = {}
         for creds in self.credentials.values():

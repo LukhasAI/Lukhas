@@ -8,7 +8,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 
 class ValidationSeverity(Enum):
@@ -37,9 +37,9 @@ class ValidationResult:
     severity: ValidationSeverity
     is_compliant: bool
     confidence: float
-    issues: List[Dict[str, Any]]
-    suggestions: List[str]
-    auto_corrections: Optional[Dict[str, str]]
+    issues: list[dict[str, Any]]
+    suggestions: list[str]
+    auto_corrections: Optional[dict[str, str]]
     performance_impact: float  # Time taken for validation
 
 @dataclass
@@ -72,7 +72,7 @@ class RealTimeBrandValidator:
         self.validation_callbacks = {}
         self.active_monitoring = False
 
-    def _compile_validation_rules(self) -> Dict[ValidationType, List[BrandRule]]:
+    def _compile_validation_rules(self) -> dict[ValidationType, list[BrandRule]]:
         """Compile comprehensive brand validation rules"""
 
         rules = {
@@ -386,7 +386,7 @@ class RealTimeBrandValidator:
 
         return rules
 
-    def _load_auto_correction_templates(self) -> Dict[str, Dict[str, str]]:
+    def _load_auto_correction_templates(self) -> dict[str, dict[str, str]]:
         """Load templates for automatic content correction"""
         return {
             "terminology_corrections": {
@@ -501,7 +501,7 @@ class RealTimeBrandValidator:
 
         return result
 
-    def _apply_validation_rule(self, rule: BrandRule, content: str, content_id: str) -> Dict[str, Any]:
+    def _apply_validation_rule(self, rule: BrandRule, content: str, content_id: str) -> dict[str, Any]:
         """Apply a single validation rule to content"""
 
         violations = []
@@ -573,7 +573,7 @@ class RealTimeBrandValidator:
         # Fallback to generic suggestion based on rule description
         return rule.description
 
-    def _generate_auto_corrections(self, rule: BrandRule, violations: List[Dict[str, Any]], content: str) -> Dict[str, str]:
+    def _generate_auto_corrections(self, rule: BrandRule, violations: list[dict[str, Any]], content: str) -> dict[str, str]:
         """Generate automatic corrections for violations"""
 
         corrections = {}
@@ -587,7 +587,7 @@ class RealTimeBrandValidator:
 
         return corrections
 
-    def apply_auto_corrections(self, content: str, auto_corrections: Dict[str, str]) -> str:
+    def apply_auto_corrections(self, content: str, auto_corrections: dict[str, str]) -> str:
         """Apply automatic corrections to content"""
 
         corrected_content = content
@@ -616,7 +616,7 @@ class RealTimeBrandValidator:
         }
         return levels.get(severity, 1)
 
-    def _calculate_validation_confidence(self, content: str, issues: List[Dict[str, Any]], performance_impact: float) -> float:
+    def _calculate_validation_confidence(self, content: str, issues: list[dict[str, Any]], performance_impact: float) -> float:
         """Calculate confidence in validation results"""
 
         # Base confidence factors
@@ -735,7 +735,7 @@ class RealTimeBrandValidator:
         """Stop continuous monitoring"""
         self.active_monitoring = False
 
-    def get_validation_metrics(self) -> Dict[str, Any]:
+    def get_validation_metrics(self) -> dict[str, Any]:
         """Get current validation performance metrics"""
         return {
             "performance_metrics": self.performance_metrics.copy(),
@@ -744,7 +744,7 @@ class RealTimeBrandValidator:
             "auto_correction_templates": sum(len(templates) for templates in self.auto_correction_templates.values())
         }
 
-    def get_compliance_trends(self, time_period: str = "24h") -> Dict[str, Any]:
+    def get_compliance_trends(self, time_period: str = "24h") -> dict[str, Any]:
         """Get brand compliance trends over specified time period"""
 
         # Parse time period
@@ -796,7 +796,7 @@ class RealTimeBrandValidator:
             }
         }
 
-    def generate_validation_report(self) -> Dict[str, Any]:
+    def generate_validation_report(self) -> dict[str, Any]:
         """Generate comprehensive validation system report"""
 
         metrics = self.get_validation_metrics()
@@ -832,7 +832,7 @@ class RealTimeBrandValidator:
             "recommendations": self._generate_validation_recommendations(metrics, trends_24h)
         }
 
-    def _generate_validation_recommendations(self, metrics: Dict[str, Any], trends: Dict[str, Any]) -> List[Dict[str, str]]:
+    def _generate_validation_recommendations(self, metrics: dict[str, Any], trends: dict[str, Any]) -> list[dict[str, str]]:
         """Generate recommendations for validation system improvement"""
 
         recommendations = []

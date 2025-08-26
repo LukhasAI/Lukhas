@@ -11,7 +11,7 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 class SystematicModuleHunter:
@@ -39,7 +39,7 @@ class SystematicModuleHunter:
     def log_search(self, message: str):
         print(f"🔍 {message}")
 
-    def global_search_class(self, class_name: str) -> List[str]:
+    def global_search_class(self, class_name: str) -> list[str]:
         """Search for a class name globally in all Python files"""
         if class_name in self.search_cache:
             return self.search_cache[class_name]
@@ -93,7 +93,7 @@ class SystematicModuleHunter:
 
         return found_locations
 
-    def global_search_module(self, module_name: str) -> List[str]:
+    def global_search_module(self, module_name: str) -> list[str]:
         """Search for a module name globally"""
         self.log_search(f"Hunting for module '{module_name}' globally...")
 
@@ -150,8 +150,8 @@ class SystematicModuleHunter:
         return found_locations
 
     def test_module_with_hunting(
-        self, module_name: str, expected_classes: List[str] = None
-    ) -> Dict[str, Any]:
+        self, module_name: str, expected_classes: list[str] = None
+    ) -> dict[str, Any]:
         """Test a module and hunt for missing classes"""
         self.log_info(f"Testing module: {module_name}")
 

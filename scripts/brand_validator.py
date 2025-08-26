@@ -6,7 +6,6 @@ Prevents deprecated terminology and enforces Lambda (Λ) usage rules
 
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 # Define brand rules
 DEPRECATED_TERMS = {
@@ -48,7 +47,7 @@ class BrandValidator:
         self.violations = []
         self.warnings = []
 
-    def validate_file(self, filepath: Path) -> List[Tuple[int, str, str]]:
+    def validate_file(self, filepath: Path) -> list[tuple[int, str, str]]:
         """Check a single file for brand violations"""
         violations = []
 
@@ -81,7 +80,7 @@ class BrandValidator:
 
         return violations
 
-    def validate_directory(self) -> Dict[str, List]:
+    def validate_directory(self) -> dict[str, list]:
         """Validate entire directory tree"""
         results = {
             'violations': [],
@@ -113,7 +112,7 @@ class BrandValidator:
 
         return results
 
-    def print_report(self, results: Dict) -> bool:
+    def print_report(self, results: dict) -> bool:
         """Print validation report and return success status"""
         print("\n" + "="*60)
         print("LUKHAS BRAND VALIDATION REPORT")

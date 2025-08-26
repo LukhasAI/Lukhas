@@ -6,7 +6,7 @@ including access to their clinics, hospitals, and specialist network.
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ....base_provider import BaseHealthcareProvider, ProviderConfig, SecurityConfig
 
@@ -14,7 +14,7 @@ from ....base_provider import BaseHealthcareProvider, ProviderConfig, SecurityCo
 class ASISAHealthcareInterface(BaseHealthcareProvider):
     """Implementation of healthcare interface for ASISA"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize ASISA interface with configuration
 
@@ -48,7 +48,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         self.api_credentials = config['api_credentials']
         self.digital_cert = config['digital_cert']
 
-    async def verify_patient_coverage(self, patient_id: str) -> Dict[str, Any]:
+    async def verify_patient_coverage(self, patient_id: str) -> dict[str, Any]:
         """Verify patient's ASISA insurance coverage"""
         self.log_audit_event(
             event_type="coverage_verification",
@@ -66,7 +66,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         appointment_type: str,
         preferred_date: datetime,
         clinic_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Schedule appointment with ASISA specialist"""
         self.log_audit_event(
             event_type="appointment_scheduling",
@@ -81,8 +81,8 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
     async def get_medical_history(
         self,
         patient_id: str,
-        record_types: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        record_types: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Retrieve patient's medical history from ASISA systems"""
         self.log_audit_event(
             event_type="medical_history_access",
@@ -96,9 +96,9 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
     async def submit_claim(
         self,
         patient_id: str,
-        service_details: Dict[str, Any],
-        attachments: Optional[List[Dict[str, Any]]] = None
-    ) -> Dict[str, Any]:
+        service_details: dict[str, Any],
+        attachments: Optional[list[dict[str, Any]]] = None
+    ) -> dict[str, Any]:
         """Submit insurance claim to ASISA"""
         self.log_audit_event(
             event_type="claim_submission",
@@ -114,7 +114,7 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         specialty: str,
         location: Optional[str] = None,
         date_range: Optional[tuple] = None
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get list of available ASISA specialists"""
         # Implementation
         pass
@@ -124,8 +124,8 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         patient_id: str,
         procedure_code: str,
         diagnosis_code: str,
-        supporting_docs: Optional[List[Dict[str, Any]]] = None
-    ) -> Dict[str, Any]:
+        supporting_docs: Optional[list[dict[str, Any]]] = None
+    ) -> dict[str, Any]:
         """Request authorization for medical procedure"""
         self.log_audit_event(
             event_type="authorization_request",

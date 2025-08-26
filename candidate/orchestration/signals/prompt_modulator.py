@@ -8,7 +8,7 @@ Based on the GPT5 audit recommendations.
 
 import logging
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import yaml
 
@@ -108,7 +108,7 @@ class PromptModulator:
     Implements the signal-to-prompt mapping from the GPT5 audit.
     """
 
-    def __init__(self, policy: Optional[Dict[str, Any]] = None):
+    def __init__(self, policy: Optional[dict[str, Any]] = None):
         """
         Initialize modulator with policy.
 
@@ -152,7 +152,7 @@ class PromptModulator:
         return False
 
     def _safe_eval(
-        self, expr: str, x: float, current: Any = None, ctx: Dict[str, float] = None
+        self, expr: str, x: float, current: Any = None, ctx: dict[str, float] = None
     ) -> Any:
         """
         Safely evaluate expressions like '1 - 0.85*x'.
@@ -185,7 +185,7 @@ class PromptModulator:
             logger.error(f"Error evaluating expression '{expr}': {e}")
             return current if current is not None else 0.5
 
-    def combine_signals(self, signals: List[Signal]) -> Dict[str, Any]:
+    def combine_signals(self, signals: list[Signal]) -> dict[str, Any]:
         """
         Combine signals into modulated parameters.
 
@@ -296,7 +296,7 @@ class PromptModulator:
 
         return params
 
-    def generate_explanation(self, params: Dict[str, Any]) -> str:
+    def generate_explanation(self, params: dict[str, Any]) -> str:
         """
         Generate human-readable explanation of modulation.
 
@@ -345,8 +345,8 @@ class PromptModulator:
         return "; ".join(explanations)
 
     def apply_to_openai_kwargs(
-        self, base_kwargs: Dict[str, Any], params: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, base_kwargs: dict[str, Any], params: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Apply modulated parameters to OpenAI API kwargs.
 
@@ -391,18 +391,18 @@ class PromptModulator:
 
         return kwargs
 
-    def get_tool_allowlist(self, params: Dict[str, Any]) -> List[str]:
+    def get_tool_allowlist(self, params: dict[str, Any]) -> list[str]:
         """Get allowed tools based on modulation"""
         return params.get("tool_allowlist", ["retrieval", "browser"])
 
-    def get_memory_write_strength(self, params: Dict[str, Any]) -> float:
+    def get_memory_write_strength(self, params: dict[str, Any]) -> float:
         """Get memory write strength from modulation"""
         return params.get("memory_write", 0.5)
 
-    def get_retrieval_k(self, params: Dict[str, Any]) -> int:
+    def get_retrieval_k(self, params: dict[str, Any]) -> int:
         """Get number of documents to retrieve"""
         return params.get("retrieval_k", 5)
 
-    def get_planner_beam(self, params: Dict[str, Any]) -> int:
+    def get_planner_beam(self, params: dict[str, Any]) -> int:
         """Get planning beam width"""
         return params.get("planner_beam", 3)

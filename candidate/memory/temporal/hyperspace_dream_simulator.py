@@ -1758,9 +1758,9 @@ class HyperspaceDreamSimulator:
 
         # Analyze scenario characteristics for ML insights
         timeline_count = len(scenario.timelines)
-        outcome_diversity = len(set(
+        outcome_diversity = len({
             outcome.get("type", "unknown") for outcome in scenario.outcomes
-        ))
+        })
 
         # Decision complexity analysis
         decision_complexity = sum(

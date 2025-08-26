@@ -443,14 +443,12 @@ class GlyphMemoryBridge:
 
         for glyph_id, glyph in self.active_glyphs.items():
             # Check symbol filter
-            if "symbols" in filters:
-                if glyph.symbol not in filters["symbols"]:
-                    continue
+            if "symbols" in filters and glyph.symbol not in filters["symbols"]:
+                continue
 
             # Check glyph type filter
-            if "glyph_type" in filters:
-                if glyph.glyph_type != filters["glyph_type"]:
-                    continue
+            if "glyph_type" in filters and glyph.glyph_type != filters["glyph_type"]:
+                continue
 
             # Check semantic tags filter
             if "semantic_tags" in filters:

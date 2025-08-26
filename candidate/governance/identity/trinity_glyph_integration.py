@@ -28,7 +28,7 @@ import hashlib
 import time
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 
 class TrinityComponent(Enum):
@@ -58,7 +58,7 @@ class GLYPHType(Enum):
 class GLYPHMessage:
     """GLYPH symbolic message for cross-module communication"""
 
-    def __init__(self, message_data: Dict[str, Any]):
+    def __init__(self, message_data: dict[str, Any]):
         self.message_id = message_data.get('message_id', self._generate_message_id())
         self.glyph_type = GLYPHType(message_data.get('glyph_type'))
         self.source_module = message_data.get('source_module', 'identity')
@@ -76,7 +76,7 @@ class GLYPHMessage:
         random_component = hashlib.sha256(timestamp.encode()).hexdigest()[:8]
         return f"glyph_{timestamp}_{random_component}"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert message to dictionary"""
         return {
             'message_id': self.message_id,
@@ -133,8 +133,8 @@ class TrinityValidator:
         self,
         component: TrinityComponent,
         component_instance: Any,
-        operation_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        operation_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """✅ Validate Trinity component compliance"""
         try:
             start_time = time.time()
@@ -227,9 +227,9 @@ class TrinityValidator:
     def _validate_performance(
         self,
         component_instance: Any,
-        targets: Dict[str, Any],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        targets: dict[str, Any],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate performance targets"""
         performance_metrics = {
             'latency_target_met': True,
@@ -265,9 +265,9 @@ class TrinityValidator:
     def _validate_security_requirements(
         self,
         component_instance: Any,
-        requirements: List[str],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        requirements: list[str],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate security requirements"""
         security_compliance = {
             'requirements_met': [],
@@ -303,8 +303,8 @@ class TrinityValidator:
     def _validate_consciousness_specific(
         self,
         component_instance: Any,
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """🧠 Validate consciousness-specific requirements"""
         validation = {
             'awareness_tracking': False,
@@ -330,8 +330,8 @@ class TrinityValidator:
     def _validate_guardian_specific(
         self,
         component_instance: Any,
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """🛡️ Validate guardian-specific requirements"""
         validation = {
             'constitutional_ai_compliance': False,
@@ -361,8 +361,8 @@ class TrinityValidator:
     def _validate_identity_specific(
         self,
         component_instance: Any,
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """⚛️ Validate identity-specific requirements"""
         validation = {
             'authentication_methods': [],
@@ -424,11 +424,11 @@ class GLYPHIntegrator:
     def publish_glyph_message(
         self,
         glyph_type: GLYPHType,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         source_module: str = 'identity',
-        target_modules: List[str] = None,
+        target_modules: list[str] = None,
         priority: str = 'normal',
-        trinity_context: Dict[str, Any] = None
+        trinity_context: dict[str, Any] = None
     ) -> str:
         """Publish GLYPH message to the symbolic communication system"""
         try:
@@ -491,7 +491,7 @@ class GLYPHIntegrator:
         except Exception:
             return False
 
-    def process_message_queue(self) -> Dict[str, Any]:
+    def process_message_queue(self) -> dict[str, Any]:
         """Process pending GLYPH messages"""
         processing_results = {
             'processed_count': 0,
@@ -578,7 +578,7 @@ class GLYPHIntegrator:
         """Process high-priority message immediately"""
         return self._process_message(message)
 
-    def _generate_trinity_context(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_trinity_context(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Generate Trinity Framework context for message"""
         return {
             TrinityComponent.IDENTITY.value: {
@@ -599,7 +599,7 @@ class GLYPHIntegrator:
             }
         }
 
-    def _generate_symbolic_encoding(self, glyph_type: GLYPHType, payload: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_symbolic_encoding(self, glyph_type: GLYPHType, payload: dict[str, Any]) -> dict[str, Any]:
         """Generate symbolic encoding for GLYPH message"""
         encoding = {
             'primary_symbol': self._get_primary_symbol(glyph_type),
@@ -630,7 +630,7 @@ class GLYPHIntegrator:
 
         return symbol_map.get(glyph_type, '🔶')
 
-    def _get_context_symbols(self, payload: Dict[str, Any]) -> List[str]:
+    def _get_context_symbols(self, payload: dict[str, Any]) -> list[str]:
         """Get contextual symbols based on payload"""
         symbols = []
 
@@ -653,7 +653,7 @@ class GLYPHIntegrator:
 
         return symbols
 
-    def _validate_trinity_compliance(self, message: GLYPHMessage) -> Dict[str, Any]:
+    def _validate_trinity_compliance(self, message: GLYPHMessage) -> dict[str, Any]:
         """Validate Trinity Framework compliance for message"""
         validation_result = {
             'compliant': True,
@@ -689,7 +689,7 @@ class GLYPHIntegrator:
 
         return validation_result
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get GLYPH integration status and statistics"""
         return {
             'system': 'LUKHAS GLYPH Identity Integration',
@@ -725,8 +725,8 @@ class GLYPHIntegrator:
 
 # Factory function to create Trinity-compliant identity components
 def create_trinity_compliant_identity_system(
-    config: Optional[Dict] = None
-) -> Tuple[Any, TrinityValidator, GLYPHIntegrator]:
+    config: Optional[dict] = None
+) -> tuple[Any, TrinityValidator, GLYPHIntegrator]:
     """Create Trinity-compliant identity system with GLYPH integration"""
     try:
         from candidate.identity import IdentitySystem

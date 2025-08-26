@@ -6,7 +6,7 @@ Smart interface to monitoring/ systems for brand-aware analytics and tracking
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add monitoring module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "monitoring"))
@@ -20,15 +20,15 @@ except ImportError:
     print("Warning: Core monitoring systems not available, using mock implementations")
 
     class IntegratedMonitoringSystem:
-        def collect_metrics(self, **kwargs) -> Dict[str, Any]:
+        def collect_metrics(self, **kwargs) -> dict[str, Any]:
             return {"status": "mock", "metrics": {}}
 
     class AdaptiveMetricsCollector:
-        def collect(self, metric_type: str) -> Dict[str, Any]:
+        def collect(self, metric_type: str) -> dict[str, Any]:
             return {"metric_type": metric_type, "value": 1.0}
 
     class RealDataCollector:
-        def collect_real_data(self, data_type: str) -> Dict[str, Any]:
+        def collect_real_data(self, data_type: str) -> dict[str, Any]:
             return {"data_type": data_type, "collected": True}
 
 
@@ -45,7 +45,7 @@ class BrandMonitoringAdapter:
         self.brand_metrics_config = self._load_brand_metrics_config()
         self.brand_intelligence_cache = {}
 
-    def _load_brand_metrics_config(self) -> Dict[str, Any]:
+    def _load_brand_metrics_config(self) -> dict[str, Any]:
         """Load LUKHAS brand-specific monitoring configuration"""
         return {
             "brand_consistency_metrics": {
@@ -100,10 +100,10 @@ class BrandMonitoringAdapter:
 
     def collect_brand_metrics(
         self,
-        metric_categories: List[str] = None,
+        metric_categories: list[str] = None,
         time_range: str = "last_hour",
         include_intelligence: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Collect comprehensive brand metrics using core monitoring systems
         with brand-specific intelligence layers
@@ -155,7 +155,7 @@ class BrandMonitoringAdapter:
             "recommendations": self._generate_brand_recommendations(brand_metrics)
         }
 
-    def _collect_brand_consistency_metrics(self, time_range: str) -> Dict[str, Any]:
+    def _collect_brand_consistency_metrics(self, time_range: str) -> dict[str, Any]:
         """Collect brand consistency metrics"""
 
         # Use real data collector for content analysis
@@ -180,7 +180,7 @@ class BrandMonitoringAdapter:
             "timestamp": datetime.now().isoformat()
         }
 
-    def _collect_brand_performance_metrics(self, time_range: str) -> Dict[str, Any]:
+    def _collect_brand_performance_metrics(self, time_range: str) -> dict[str, Any]:
         """Collect brand performance metrics"""
 
         # Use adaptive metrics collector for performance data
@@ -195,7 +195,7 @@ class BrandMonitoringAdapter:
             "timestamp": datetime.now().isoformat()
         }
 
-    def _collect_brand_intelligence_metrics(self, time_range: str) -> Dict[str, Any]:
+    def _collect_brand_intelligence_metrics(self, time_range: str) -> dict[str, Any]:
         """Collect brand intelligence and analytics metrics"""
 
         # Collect sentiment analysis data
@@ -213,7 +213,7 @@ class BrandMonitoringAdapter:
             "timestamp": datetime.now().isoformat()
         }
 
-    def _collect_trinity_alignment_metrics(self, time_range: str) -> Dict[str, Any]:
+    def _collect_trinity_alignment_metrics(self, time_range: str) -> dict[str, Any]:
         """Collect Trinity Framework alignment metrics"""
 
         trinity_data = self.data_collector.collect_real_data("trinity_analysis")
@@ -227,7 +227,7 @@ class BrandMonitoringAdapter:
             "timestamp": datetime.now().isoformat()
         }
 
-    def _analyze_terminology_compliance(self, content_data: Dict[str, Any]) -> Dict[str, float]:
+    def _analyze_terminology_compliance(self, content_data: dict[str, Any]) -> dict[str, float]:
         """Analyze compliance with approved LUKHAS terminology"""
 
         # Mock implementation - would analyze actual content for terminology
@@ -241,7 +241,7 @@ class BrandMonitoringAdapter:
             "needs_attention": False
         }
 
-    def _analyze_tone_layer_distribution(self, content_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_tone_layer_distribution(self, content_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze distribution of tone layers in content"""
 
         config = self.brand_metrics_config["brand_consistency_metrics"]["tone_layer_distribution"]
@@ -270,7 +270,7 @@ class BrandMonitoringAdapter:
             "overall_balance": self._calculate_distribution_balance(distribution_health)
         }
 
-    def _analyze_trinity_framework_presence(self, content_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_trinity_framework_presence(self, content_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze presence of Trinity Framework elements"""
 
         config = self.brand_metrics_config["brand_consistency_metrics"]["trinity_framework_presence"]
@@ -297,9 +297,9 @@ class BrandMonitoringAdapter:
 
     def _calculate_consistency_score(
         self,
-        terminology: Dict[str, float],
-        tone_distribution: Dict[str, Any],
-        trinity_presence: Dict[str, Any]
+        terminology: dict[str, float],
+        tone_distribution: dict[str, Any],
+        trinity_presence: dict[str, Any]
     ) -> float:
         """Calculate overall brand consistency score"""
 
@@ -320,27 +320,27 @@ class BrandMonitoringAdapter:
 
         return round(consistency_score, 3)
 
-    def _calculate_voice_consistency_score(self, performance_data: Dict[str, Any]) -> float:
+    def _calculate_voice_consistency_score(self, performance_data: dict[str, Any]) -> float:
         """Calculate voice consistency score across different contexts"""
         # Mock implementation
         return 0.91
 
-    def _calculate_personality_coherence(self, performance_data: Dict[str, Any]) -> float:
+    def _calculate_personality_coherence(self, performance_data: dict[str, Any]) -> float:
         """Calculate personality coherence score"""
         # Mock implementation
         return 0.87
 
-    def _calculate_brand_alignment_score(self, performance_data: Dict[str, Any]) -> float:
+    def _calculate_brand_alignment_score(self, performance_data: dict[str, Any]) -> float:
         """Calculate overall brand alignment score"""
         # Mock implementation
         return 0.89
 
-    def _calculate_user_engagement_rate(self, performance_data: Dict[str, Any]) -> float:
+    def _calculate_user_engagement_rate(self, performance_data: dict[str, Any]) -> float:
         """Calculate user engagement rate with brand content"""
         # Mock implementation
         return 0.76
 
-    def _analyze_performance_trend(self, time_range: str) -> Dict[str, Any]:
+    def _analyze_performance_trend(self, time_range: str) -> dict[str, Any]:
         """Analyze brand performance trends"""
         return {
             "trend_direction": "improving",
@@ -349,7 +349,7 @@ class BrandMonitoringAdapter:
             "areas_needing_attention": ["academic_tone_balance"]
         }
 
-    def _analyze_brand_sentiment(self, sentiment_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_brand_sentiment(self, sentiment_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze brand sentiment and perception"""
         return {
             "overall_sentiment": 0.78,  # Positive sentiment
@@ -368,7 +368,7 @@ class BrandMonitoringAdapter:
             "sentiment_trend": "improving"
         }
 
-    def _analyze_competitive_positioning(self, competitive_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_competitive_positioning(self, competitive_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze competitive positioning and differentiation"""
         return {
             "differentiation_score": 0.82,
@@ -380,7 +380,7 @@ class BrandMonitoringAdapter:
             "positioning_strength": "strong"
         }
 
-    def _track_brand_perception_evolution(self, time_range: str) -> Dict[str, Any]:
+    def _track_brand_perception_evolution(self, time_range: str) -> dict[str, Any]:
         """Track how brand perception evolves over time"""
         return {
             "perception_change": 0.08,  # 8% improvement
@@ -390,7 +390,7 @@ class BrandMonitoringAdapter:
             ]
         }
 
-    def _assess_market_differentiation(self, competitive_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _assess_market_differentiation(self, competitive_data: dict[str, Any]) -> dict[str, Any]:
         """Assess market differentiation strength"""
         return {
             "differentiation_strength": "high",
@@ -404,7 +404,7 @@ class BrandMonitoringAdapter:
         """Calculate confidence level in brand intelligence insights"""
         return 0.85
 
-    def _measure_identity_alignment(self, trinity_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _measure_identity_alignment(self, trinity_data: dict[str, Any]) -> dict[str, Any]:
         """Measure Identity (⚛️) component alignment"""
         return {
             "authenticity_score": 0.92,
@@ -413,7 +413,7 @@ class BrandMonitoringAdapter:
             "identity_strength": "high"
         }
 
-    def _measure_consciousness_depth(self, trinity_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _measure_consciousness_depth(self, trinity_data: dict[str, Any]) -> dict[str, Any]:
         """Measure Consciousness (🧠) component depth"""
         return {
             "consciousness_awareness": 0.89,
@@ -422,7 +422,7 @@ class BrandMonitoringAdapter:
             "consciousness_depth": "deep"
         }
 
-    def _measure_guardian_protection(self, trinity_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _measure_guardian_protection(self, trinity_data: dict[str, Any]) -> dict[str, Any]:
         """Measure Guardian (🛡️) component protection"""
         return {
             "ethical_foundation": 0.93,
@@ -431,11 +431,11 @@ class BrandMonitoringAdapter:
             "guardian_strength": "robust"
         }
 
-    def _calculate_trinity_coherence(self, trinity_data: Dict[str, Any]) -> float:
+    def _calculate_trinity_coherence(self, trinity_data: dict[str, Any]) -> float:
         """Calculate overall Trinity Framework coherence"""
         return 0.88
 
-    def _track_framework_evolution(self, time_range: str) -> Dict[str, Any]:
+    def _track_framework_evolution(self, time_range: str) -> dict[str, Any]:
         """Track Trinity Framework evolution and strengthening"""
         return {
             "evolution_direction": "strengthening",
@@ -443,7 +443,7 @@ class BrandMonitoringAdapter:
             "framework_maturity": "advanced"
         }
 
-    def _calculate_distribution_balance(self, distribution_health: Dict[str, Any]) -> float:
+    def _calculate_distribution_balance(self, distribution_health: dict[str, Any]) -> float:
         """Calculate tone layer distribution balance score"""
         balance_scores = []
 
@@ -458,7 +458,7 @@ class BrandMonitoringAdapter:
 
         return sum(balance_scores) / len(balance_scores)
 
-    def _calculate_overall_brand_health(self, brand_metrics: Dict[str, Any]) -> Dict[str, Any]:
+    def _calculate_overall_brand_health(self, brand_metrics: dict[str, Any]) -> dict[str, Any]:
         """Calculate overall brand health score and status"""
 
         health_scores = []
@@ -497,7 +497,7 @@ class BrandMonitoringAdapter:
             "trend": "stable"  # Would be calculated from historical data
         }
 
-    def _generate_brand_recommendations(self, brand_metrics: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _generate_brand_recommendations(self, brand_metrics: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate actionable brand improvement recommendations"""
 
         recommendations = []
@@ -552,10 +552,10 @@ class BrandMonitoringAdapter:
 
     def _generate_brand_intelligence_insights(
         self,
-        core_metrics: Dict[str, Any],
-        brand_metrics: Dict[str, Any],
-        adaptive_metrics: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        core_metrics: dict[str, Any],
+        brand_metrics: dict[str, Any],
+        adaptive_metrics: dict[str, Any]
+    ) -> dict[str, Any]:
         """Generate intelligent insights from brand analytics"""
 
         insights = {

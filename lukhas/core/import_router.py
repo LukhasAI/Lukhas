@@ -13,7 +13,7 @@ This module provides a future-proof import system that handles:
 import importlib
 import logging
 from functools import lru_cache
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class ModuleRouter:
     """
 
     # Module mapping: canonical path -> list of alternative paths
-    MODULE_REGISTRY: Dict[str, List[str]] = {
+    MODULE_REGISTRY: dict[str, list[str]] = {
         # Core modules
         "lukhas.core.actor_system": [
             "candidate.core.actor_system",
@@ -85,7 +85,7 @@ class ModuleRouter:
     }
 
     # Class name mappings: requested name -> (module, actual name)
-    CLASS_ALIASES: Dict[str, Tuple[str, str]] = {
+    CLASS_ALIASES: dict[str, tuple[str, str]] = {
         "AIAgentActor": ("lukhas.core.actor_system", "AIAgentActor"),
         "BaseColony": ("lukhas.core.colonies", "BaseColony"),
         "ConsensusResult": ("lukhas.core.colonies", "ConsensusResult"),
@@ -210,7 +210,7 @@ class ModuleRouter:
         logger.warning(f"Class '{class_name}' not found")
         return None
 
-    def add_module_mapping(self, canonical_path: str, alternative_paths: List[str]):
+    def add_module_mapping(self, canonical_path: str, alternative_paths: list[str]):
         """
         Add a new module mapping to the registry.
 
@@ -243,7 +243,7 @@ _router = ModuleRouter()
 
 
 # Convenience functions
-def import_with_fallback(module_path: str, fallback_paths: Optional[List[str]] = None) -> Any:
+def import_with_fallback(module_path: str, fallback_paths: Optional[list[str]] = None) -> Any:
     """
     Import a module with fallback paths.
 
@@ -295,7 +295,7 @@ def resolve_import(import_str: str) -> Any:
     raise ImportError(f"Could not resolve import: {import_str}")
 
 
-def add_module_mapping(canonical_path: str, alternative_paths: List[str]):
+def add_module_mapping(canonical_path: str, alternative_paths: list[str]):
     """Add a module mapping to the global router."""
     _router.add_module_mapping(canonical_path, alternative_paths)
 

@@ -12,7 +12,7 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # MCP SDK imports
 from mcp.server import Server
@@ -64,7 +64,7 @@ class LUKHASConsciousnessMCP:
         self._register_resources()
         self._register_tools()
 
-    def _discover_consciousness_modules(self) -> Dict[str, Path]:
+    def _discover_consciousness_modules(self) -> dict[str, Path]:
         """Discover all LUKHAS consciousness modules."""
         modules = {}
 
@@ -116,7 +116,7 @@ class LUKHASConsciousnessMCP:
         """Register MCP resources for consciousness modules."""
 
         @self.server.list_resources()
-        async def list_resources() -> List[Resource]:
+        async def list_resources() -> list[Resource]:
             """List all available LUKHAS consciousness resources."""
             resources = []
 
@@ -157,7 +157,7 @@ class LUKHASConsciousnessMCP:
             )
 
             # Module-specific resources
-            for module_name, module_path in self.consciousness_modules.items():
+            for module_name, _module_path in self.consciousness_modules.items():
                 resources.append(
                     Resource(
                         uri=f"lukhas://module/{module_name}",
@@ -193,7 +193,7 @@ class LUKHASConsciousnessMCP:
         """Register MCP tools for consciousness development."""
 
         @self.server.list_tools()
-        async def list_tools() -> List[Tool]:
+        async def list_tools() -> list[Tool]:
             """List available LUKHAS consciousness development tools."""
             return [
                 Tool(
@@ -353,7 +353,7 @@ class LUKHASConsciousnessMCP:
             ]
 
         @self.server.call_tool()
-        async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
+        async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
             """Execute LUKHAS consciousness development tools."""
 
             if name == "validate_trinity_framework":
@@ -565,8 +565,8 @@ class LUKHASConsciousnessMCP:
 
     # Tool implementation methods
     async def _validate_trinity_framework(
-        self, arguments: Dict[str, Any]
-    ) -> List[TextContent]:
+        self, arguments: dict[str, Any]
+    ) -> list[TextContent]:
         """Validate content against Trinity Framework."""
         _ = arguments["content"]  # Content validation would be implemented here
         module = arguments.get("module", "unknown")
@@ -615,8 +615,8 @@ class LUKHASConsciousnessMCP:
         ]
 
     async def _assign_optimal_agent(
-        self, arguments: Dict[str, Any]
-    ) -> List[TextContent]:
+        self, arguments: dict[str, Any]
+    ) -> list[TextContent]:
         """Suggest optimal agent assignment for a task."""
         task_description = arguments["task_description"]
         _ = arguments.get(
@@ -701,7 +701,7 @@ class LUKHASConsciousnessMCP:
         ]
 
     # Helper methods
-    async def _get_module_trinity_alignment(self, module_name: str) -> Dict[str, float]:
+    async def _get_module_trinity_alignment(self, module_name: str) -> dict[str, float]:
         """Get Trinity Framework alignment for a module."""
         # Simplified scoring based on module name and purpose
         if "identity" in module_name:
@@ -742,7 +742,7 @@ class LUKHASConsciousnessMCP:
 
     async def _validate_module_trinity_compliance(
         self, module_path: Path
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Validate a module's Trinity Framework compliance."""
         # Simplified validation - check for Trinity Framework references
         compliance = {"score": 0.8, "issues": [], "recommendations": []}

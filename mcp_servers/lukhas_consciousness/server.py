@@ -19,7 +19,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add project root to Python path
 project_root = os.environ.get(
@@ -55,7 +55,7 @@ class LukhosConsciousnessServer:
         """Define MCP resources for consciousness system access"""
 
         @self.server.list_resources()
-        async def list_resources() -> List[Resource]:
+        async def list_resources() -> list[Resource]:
             """List available LUKHAS consciousness resources"""
             return [
                 Resource(
@@ -111,7 +111,7 @@ class LukhosConsciousnessServer:
         """Define MCP tools for consciousness system interaction"""
 
         @self.server.list_tools()
-        async def list_tools() -> List[Tool]:
+        async def list_tools() -> list[Tool]:
             """List available LUKHAS consciousness tools"""
             return [
                 Tool(
@@ -218,7 +218,7 @@ class LukhosConsciousnessServer:
             ]
 
         @self.server.call_tool()
-        async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
+        async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
             """Execute LUKHAS consciousness tool"""
 
             if name == "validate_trinity_framework":
@@ -399,9 +399,9 @@ class LukhosConsciousnessServer:
         return json.dumps(tasks, indent=2)
 
     # Tool implementations
-    async def _validate_trinity_framework(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_trinity_framework(self, args: dict[str, Any]) -> dict[str, Any]:
         """Validate code/design against Trinity Framework"""
-        code_or_design = args.get("code_or_design", "")
+        args.get("code_or_design", "")
         validation_level = args.get("validation_level", "standard")
 
         # Trinity Framework validation logic
@@ -461,10 +461,10 @@ class LukhosConsciousnessServer:
         return validation_results
 
     async def _analyze_consciousness_impact(
-        self, args: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, args: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze consciousness impact of proposed changes"""
-        proposed_changes = args.get("proposed_changes", "")
+        args.get("proposed_changes", "")
         affected_modules = args.get("affected_modules", [])
 
         impact_analysis = {
@@ -496,7 +496,7 @@ class LukhosConsciousnessServer:
 
         return impact_analysis
 
-    async def _consciousness_health_check(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _consciousness_health_check(self, args: dict[str, Any]) -> dict[str, Any]:
         """Perform consciousness system health check"""
         include_metrics = args.get("include_metrics", True)
         check_integrations = args.get("check_integrations", True)
@@ -550,9 +550,9 @@ class LukhosConsciousnessServer:
 
         return health_check
 
-    async def _optimize_agent_assignment(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _optimize_agent_assignment(self, args: dict[str, Any]) -> dict[str, Any]:
         """Optimize agent assignment for tasks"""
-        task_description = args.get("task_description", "")
+        args.get("task_description", "")
         complexity_level = args.get("complexity_level", "medium")
         trinity_focus = args.get("trinity_focus", "balanced")
 
@@ -609,7 +609,7 @@ class LukhosConsciousnessServer:
 
         return agent_recommendations
 
-    async def _get_module_dependencies(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _get_module_dependencies(self, args: dict[str, Any]) -> dict[str, Any]:
         """Analyze module dependencies"""
         module_name = args.get("module_name", "")
         include_reverse_deps = args.get("include_reverse_deps", True)

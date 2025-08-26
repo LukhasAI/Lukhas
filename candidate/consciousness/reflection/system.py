@@ -1143,9 +1143,8 @@ class MetaLearningSystem:
         # Check for privacy sensitivity match
         if "privacy_sensitivity" in features and "privacy_sensitive" in strategy.get(
             "suitable_for", []
-        ):
-            if features["privacy_sensitivity"] > 0.7:  # High privacy sensitivity
-                match_score += 0.3
+        ) and features["privacy_sensitivity"] > 0.7:  # High privacy sensitivity
+            match_score += 0.3
 
         return min(1.0, match_score)
 

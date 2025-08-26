@@ -338,9 +338,8 @@ class GovernanceColony(BaseColony):
             selected.append(self.ethics_agents["safety"][0])
 
         # Add specialists based on task characteristics
-        if "user_data" in str(task_data).lower():
-            if self.ethics_agents["privacy"]:
-                selected.extend(self.ethics_agents["privacy"][:1])
+        if "user_data" in str(task_data).lower() and self.ethics_agents["privacy"]:
+            selected.extend(self.ethics_agents["privacy"][:1])
 
         if "bias" in str(task_data).lower() or "fairness" in str(task_data).lower():
             if self.ethics_agents["fairness"]:

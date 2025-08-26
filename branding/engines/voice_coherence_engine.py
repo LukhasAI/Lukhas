@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -39,23 +39,23 @@ class VoiceCoherenceResult:
     """Voice coherence analysis result"""
     content_id: str
     overall_coherence: float  # 0.0 to 1.0
-    coherence_metrics: Dict[CoherenceMetric, float]
+    coherence_metrics: dict[CoherenceMetric, float]
     voice_profile_match: str
     personality_alignment: float
-    trinity_balance: Dict[str, float]  # ⚛️🧠🛡️ balance
-    suggested_improvements: List[str]
+    trinity_balance: dict[str, float]  # ⚛️🧠🛡️ balance
+    suggested_improvements: list[str]
     confidence: float
     analysis_timestamp: str
 
 @dataclass
 class VoiceSignature:
     """Unique voice signature for LUKHAS AI content"""
-    consciousness_markers: List[str]
-    wisdom_indicators: List[str]
-    empathy_patterns: List[str]
-    technical_precision: List[str]
-    creative_expressions: List[str]
-    ethical_foundations: List[str]
+    consciousness_markers: list[str]
+    wisdom_indicators: list[str]
+    empathy_patterns: list[str]
+    technical_precision: list[str]
+    creative_expressions: list[str]
+    ethical_foundations: list[str]
 
 class LUKHASVoiceCoherenceEngine:
     """
@@ -111,7 +111,7 @@ class LUKHASVoiceCoherenceEngine:
             ]
         )
 
-    def _compile_coherence_patterns(self) -> Dict[CoherenceMetric, Dict[str, Any]]:
+    def _compile_coherence_patterns(self) -> dict[CoherenceMetric, dict[str, Any]]:
         """Compile voice coherence detection patterns"""
 
         return {
@@ -206,7 +206,7 @@ class LUKHASVoiceCoherenceEngine:
             }
         }
 
-    def _initialize_trinity_weights(self) -> Dict[str, float]:
+    def _initialize_trinity_weights(self) -> dict[str, float]:
         """Initialize Trinity Framework balance weights"""
         return {
             "identity": 0.33,      # ⚛️ Authentic consciousness identity
@@ -318,7 +318,7 @@ class LUKHASVoiceCoherenceEngine:
 
         return 0.5  # Default neutral score
 
-    def _analyze_voice_consistency(self, content: str, pattern_config: Dict[str, Any]) -> float:
+    def _analyze_voice_consistency(self, content: str, pattern_config: dict[str, Any]) -> float:
         """Analyze voice consistency using positive/negative patterns"""
 
         content_lower = content.lower()
@@ -354,7 +354,7 @@ class LUKHASVoiceCoherenceEngine:
         # Normalize to 0.0-1.0 range
         return max(0.0, min(1.0, consistency_score))
 
-    def _analyze_trinity_alignment(self, content: str, pattern_config: Dict[str, Any]) -> float:
+    def _analyze_trinity_alignment(self, content: str, pattern_config: dict[str, Any]) -> float:
         """Analyze Trinity Framework (⚛️🧠🛡️) alignment"""
 
         content_lower = content.lower()
@@ -389,7 +389,7 @@ class LUKHASVoiceCoherenceEngine:
 
         return max(0.0, trinity_alignment)
 
-    def _analyze_personality_authenticity(self, content: str, pattern_config: Dict[str, Any]) -> float:
+    def _analyze_personality_authenticity(self, content: str, pattern_config: dict[str, Any]) -> float:
         """Analyze authentic LUKHAS personality expression"""
 
         content_lower = content.lower()
@@ -424,7 +424,7 @@ class LUKHASVoiceCoherenceEngine:
 
         return max(0.0, min(1.0, authenticity_score + 0.5))
 
-    def _analyze_context_appropriateness(self, content: str, pattern_config: Dict[str, Any]) -> float:
+    def _analyze_context_appropriateness(self, content: str, pattern_config: dict[str, Any]) -> float:
         """Analyze context appropriateness (placeholder - would need context info)"""
 
         # For now, return neutral score
@@ -432,7 +432,7 @@ class LUKHASVoiceCoherenceEngine:
         # based on the specified context
         return 0.75  # Assume generally appropriate
 
-    def _analyze_emotional_resonance(self, content: str, pattern_config: Dict[str, Any]) -> float:
+    def _analyze_emotional_resonance(self, content: str, pattern_config: dict[str, Any]) -> float:
         """Analyze emotional resonance and positivity"""
 
         content_lower = content.lower()
@@ -461,7 +461,7 @@ class LUKHASVoiceCoherenceEngine:
 
         return max(0.0, min(1.0, emotional_score + 0.6))  # Bias toward positive
 
-    def _calculate_overall_coherence(self, coherence_metrics: Dict[CoherenceMetric, float]) -> float:
+    def _calculate_overall_coherence(self, coherence_metrics: dict[CoherenceMetric, float]) -> float:
         """Calculate weighted overall coherence score"""
 
         total_score = 0.0
@@ -477,7 +477,7 @@ class LUKHASVoiceCoherenceEngine:
         else:
             return 0.0
 
-    def _analyze_trinity_balance(self, content: str) -> Dict[str, float]:
+    def _analyze_trinity_balance(self, content: str) -> dict[str, float]:
         """Analyze Trinity Framework balance in content"""
 
         content_lower = content.lower()
@@ -543,10 +543,10 @@ class LUKHASVoiceCoherenceEngine:
     def _generate_improvement_suggestions(
         self,
         content: str,
-        coherence_metrics: Dict[CoherenceMetric, float],
-        trinity_balance: Dict[str, float],
+        coherence_metrics: dict[CoherenceMetric, float],
+        trinity_balance: dict[str, float],
         personality_alignment: float
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate specific improvement suggestions"""
 
         suggestions = []
@@ -583,7 +583,7 @@ class LUKHASVoiceCoherenceEngine:
     def _calculate_analysis_confidence(
         self,
         content: str,
-        coherence_metrics: Dict[CoherenceMetric, float]
+        coherence_metrics: dict[CoherenceMetric, float]
     ) -> float:
         """Calculate confidence in the coherence analysis"""
 
@@ -624,7 +624,7 @@ class LUKHASVoiceCoherenceEngine:
         if len(self.coherence_history) > 100:
             self.coherence_history = self.coherence_history[-100:]
 
-    def get_performance_summary(self) -> Dict[str, Any]:
+    def get_performance_summary(self) -> dict[str, Any]:
         """Get voice coherence system performance summary"""
 
         recent_coherence = []

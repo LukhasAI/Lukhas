@@ -6,7 +6,6 @@ import hashlib
 import json
 import os
 import random
-from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query, Response
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -53,7 +52,7 @@ def _receipt_path(rid: str) -> str:
         raise HTTPException(404, "receipt not found")
     return p
 
-def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
+def _policy_fingerprint(policy_root: str, overlays_dir: str | None) -> str:
     h = hashlib.sha256()
     def add_file(fp: str):
         h.update(fp.encode())
@@ -76,7 +75,7 @@ def healthz():
 
 @app.get("/receipts/sample")
 def receipt_sample(
-    task: Optional[str] = Query(None, description="Optional task filter"),
+    task: str | None = Query(None, description="Optional task filter"),
     window: int = Query(500, ge=1, le=5000, description="Sample among N newest receipts")
 ):
     items = _load_all_receipts_meta()
@@ -112,7 +111,7 @@ def list_receipts(limit: int = Query(20, ge=1, le=200)):
 def replay_receipt(
     rid: str,
     policy_root: str = Query(..., description="Path to policy_packs root"),
-    overlays: Optional[str] = Query(None, description="Path to overlays dir with overlays.yaml")
+    overlays: str | None = Query(None, description="Path to overlays dir with overlays.yaml")
 ):
     p = _receipt_path(rid)
     receipt = _read_json(p)
@@ -128,9 +127,9 @@ def replay_receipt(
 def receipt_trace_svg(
     rid: str,
     policy_root: str = Query(..., description="Path to policy_packs root"),
-    overlays: Optional[str] = Query(None, description="Path to overlays dir with overlays.yaml"),
-    link_base: Optional[str] = Query(None, description="Receipts API base (click target for Activity)"),
-    prov_base: Optional[str] = Query(None, description="Provenance Proxy base (click target for Artifact)")
+    overlays: str | None = Query(None, description="Path to overlays dir with overlays.yaml"),
+    link_base: str | None = Query(None, description="Receipts API base (click target for Activity)"),
+    prov_base: str | None = Query(None, description="Provenance Proxy base (click target for Artifact)")
 ):
     # load receipt + optional provenance, build DOT, render to SVG bytes (in-memory)
     p = _receipt_path(rid)
@@ -171,7 +170,7 @@ def receipt_trace_svg(
 
 # NEW: Policy fingerprint endpoint for cache/diff operations
 @app.get("/policy/fingerprint")
-def policy_fp(policy_root: str = Query(...), overlays: Optional[str] = Query(None)):
+def policy_fp(policy_root: str = Query(...), overlays: str | None = Query(None)):
     return {"fingerprint": _policy_fingerprint(policy_root, overlays)}
 
 def _load_all_receipts_meta() -> list[dict]:
@@ -193,7 +192,7 @@ def _load_all_receipts_meta() -> list[dict]:
 @app.get("/receipts/{rid}/neighbors")
 def receipt_neighbors(
     rid: str,
-    task: Optional[str] = Query(None, description="If set, restrict prev/next to this task")
+    task: str | None = Query(None, description="If set, restrict prev/next to this task")
 ):
     items = _load_all_receipts_meta()
     if task:
@@ -219,7 +218,7 @@ _UI_PATH = os.environ.get("RECEIPTS_UI_PATH")
 
 @app.get("/ui/trace", response_class=HTMLResponse)
 def ui_trace(
-    rid: Optional[str] = Query(None),
+    rid: str | None = Query(None),
     api_base: str = Query(_UI_DEFAULT["api_base"]),
     policy_root: str = Query(_UI_DEFAULT["policy_root"]),
     overlays: str = Query(_UI_DEFAULT["overlays"]),

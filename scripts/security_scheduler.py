@@ -13,7 +13,6 @@ import os
 import subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict
 
 
 class SecurityTaskScheduler:
@@ -35,14 +34,14 @@ class SecurityTaskScheduler:
         with open(self.log_file, "a") as f:
             f.write(log_msg)
 
-    def load_schedule(self) -> Dict:
+    def load_schedule(self) -> dict:
         """Load existing schedule"""
         if self.schedule_file.exists():
             with open(self.schedule_file) as f:
                 return json.load(f)
         return {"tasks": [], "last_run": None}
 
-    def save_schedule(self, schedule: Dict):
+    def save_schedule(self, schedule: dict):
         """Save schedule to file"""
         with open(self.schedule_file, "w") as f:
             json.dump(schedule, f, indent=2)
@@ -166,7 +165,7 @@ class SecurityTaskScheduler:
 
         return executed_tasks
 
-    def execute_task(self, task: Dict) -> bool:
+    def execute_task(self, task: dict) -> bool:
         """Execute a specific security task"""
         task_type = task["type"]
 

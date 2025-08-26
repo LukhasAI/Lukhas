@@ -10,7 +10,7 @@ import json
 import os
 import time
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 _ORIG_OPEN = builtins.open
 
@@ -52,7 +52,7 @@ class FeedbackStore:
         h = hmac.new(self._hmac_key, value.encode(), hashlib.sha3_512)
         return f"hmac_sha3_512:{h.hexdigest()}"
 
-    def append_feedback(self, feedback_data: Dict[str, Any]) -> str:
+    def append_feedback(self, feedback_data: dict[str, Any]) -> str:
         """Append feedback to JSONL with fsync."""
         # Apply HMAC redaction
         if "user_id" in feedback_data:
@@ -76,9 +76,9 @@ class FeedbackStore:
 
         return feedback_data.get("fc_id", "unknown")
 
-    def read_feedback(self, limit: Optional[int] = None,
-                     task_filter: Optional[str] = None,
-                     jurisdiction_filter: Optional[str] = None) -> List[Dict[str, Any]]:
+    def read_feedback(self, limit: int | None = None,
+                     task_filter: str | None = None,
+                     jurisdiction_filter: str | None = None) -> list[dict[str, Any]]:
         """Read feedback from JSONL with optional filters."""
         if not os.path.exists(self.feedback_file):
             return []
@@ -107,12 +107,12 @@ class FeedbackStore:
         # Return in reverse chronological order
         return list(reversed(feedback))
 
-    def write_clusters(self, clusters: List[Dict[str, Any]]):
+    def write_clusters(self, clusters: list[dict[str, Any]]):
         """Write clusters to JSON file."""
         with _ORIG_OPEN(self.clusters_file, "w", encoding="utf-8") as f:
             json.dump({"clusters": clusters, "generated_at": time.time()}, f, indent=2)
 
-    def read_clusters(self) -> List[Dict[str, Any]]:
+    def read_clusters(self) -> list[dict[str, Any]]:
         """Read clusters from JSON file."""
         if not os.path.exists(self.clusters_file):
             return []
@@ -121,7 +121,7 @@ class FeedbackStore:
             data = json.load(f)
             return data.get("clusters", [])
 
-    def build_merkle_tree(self, records: List[Dict[str, Any]]) -> str:
+    def build_merkle_tree(self, records: list[dict[str, Any]]) -> str:
         """Build Merkle tree from records and return root hash."""
         if not records:
             return hashlib.sha3_512(b"empty").hexdigest()
@@ -148,7 +148,7 @@ class FeedbackStore:
 
         return hashes[0]
 
-    def generate_weekly_digest(self) -> Dict[str, Any]:
+    def generate_weekly_digest(self) -> dict[str, Any]:
         """Generate weekly Merkle digest with signature."""
         # Get current week
         now = datetime.utcnow()

@@ -14,7 +14,7 @@ Features:
 import copy
 import threading
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import yaml
 from pydantic import BaseModel, ValidationError
@@ -22,9 +22,9 @@ from pydantic import BaseModel, ValidationError
 
 class OverlaySchema(BaseModel):
     version: str
-    global_policies: Dict[str, Any]
-    jurisdictions: Dict[str, Dict[str, Any]] = {}
-    contexts: Dict[str, Dict[str, Any]] = {}
+    global_policies: dict[str, Any]
+    jurisdictions: dict[str, dict[str, Any]] = {}
+    contexts: dict[str, dict[str, Any]] = {}
 
 class RiskOverlayManager:
     """
@@ -57,7 +57,7 @@ class RiskOverlayManager:
         self,
         jurisdiction: Optional[str] = None,
         context: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Returns the merged policy dict for the given jurisdiction and context.
         Order of precedence:
@@ -83,7 +83,7 @@ class RiskOverlayManager:
 
             return merged
 
-    def _deep_merge(self, base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
+    def _deep_merge(self, base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
         for k, v in override.items():
             if isinstance(v, dict) and k in base and isinstance(base[k], dict):
                 base[k] = self._deep_merge(base[k], v)

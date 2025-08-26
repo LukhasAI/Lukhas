@@ -17,7 +17,7 @@ All responses include confidence scoring and complete provenance tracking.
 import difflib
 import re
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from ..core.node_interface import (
@@ -94,7 +94,7 @@ class FactNode(CognitiveNode):
             'fuzzy_penalty': 0.1     # Penalty for fuzzy matches
         }
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process factual knowledge queries.
 
@@ -252,7 +252,7 @@ class FactNode(CognitiveNode):
             'processing_time': processing_time
         }
 
-    def validate_output(self, output: Dict[str, Any]) -> bool:
+    def validate_output(self, output: dict[str, Any]) -> bool:
         """
         Validate the factual knowledge output.
 
@@ -350,7 +350,7 @@ class FactNode(CognitiveNode):
         except Exception:
             return False
 
-    def _build_knowledge_base(self) -> Dict[str, Dict]:
+    def _build_knowledge_base(self) -> dict[str, dict]:
         """
         Build the comprehensive factual knowledge base.
 
@@ -548,7 +548,7 @@ class FactNode(CognitiveNode):
 
         return ' '.join(filtered_words)
 
-    def _search_knowledge_base(self, question: str) -> List[Dict[str, Any]]:
+    def _search_knowledge_base(self, question: str) -> list[dict[str, Any]]:
         """
         Search knowledge base for answers using fuzzy matching.
 
@@ -621,12 +621,12 @@ class FactNode(CognitiveNode):
     def _create_error_response(
         self,
         error_message: str,
-        input_data: Dict[str, Any],
+        input_data: dict[str, Any],
         trace_id: str,
         start_time: float,
-        triggers: List[NodeTrigger],
+        triggers: list[NodeTrigger],
         question: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create standardized error response with MATRIZ node.
 

@@ -13,7 +13,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -27,8 +27,8 @@ class TrinityIntegration:
     symbol: str
     domain: str
     description: str
-    keywords: List[str]
-    messaging_templates: List[str]
+    keywords: list[str]
+    messaging_templates: list[str]
 
 @dataclass
 class TrinityDeploymentResult:
@@ -36,7 +36,7 @@ class TrinityDeploymentResult:
     file_path: str
     integrations_added: int
     trinity_coherence_score: float
-    framework_elements: List[str]
+    framework_elements: list[str]
     success: bool
 
 class TrinityFrameworkDeployer:
@@ -130,7 +130,7 @@ class TrinityFrameworkDeployer:
 
         return logger
 
-    async def deploy_trinity_framework(self, system_path: str, system_name: str) -> List[TrinityDeploymentResult]:
+    async def deploy_trinity_framework(self, system_path: str, system_name: str) -> list[TrinityDeploymentResult]:
         """Deploy Trinity Framework integration for an entire content system"""
         self.logger.info(f"🎯 Deploying Trinity Framework for {system_name}...")
 
@@ -242,7 +242,7 @@ class TrinityFrameworkDeployer:
                 success=False
             )
 
-    async def _integrate_identity_framework(self, content: str, file_ext: str) -> Dict[str, Any]:
+    async def _integrate_identity_framework(self, content: str, file_ext: str) -> dict[str, Any]:
         """Integrate ⚛️ Identity Framework elements"""
         enhanced_content = content
         integrations = 0
@@ -281,7 +281,7 @@ class TrinityFrameworkDeployer:
             'elements': elements
         }
 
-    async def _integrate_consciousness_framework(self, content: str, file_ext: str) -> Dict[str, Any]:
+    async def _integrate_consciousness_framework(self, content: str, file_ext: str) -> dict[str, Any]:
         """Integrate 🧠 Consciousness Framework elements"""
         enhanced_content = content
         integrations = 0
@@ -321,13 +321,13 @@ class TrinityFrameworkDeployer:
             'elements': elements
         }
 
-    async def _integrate_guardian_framework(self, content: str, file_ext: str) -> Dict[str, Any]:
+    async def _integrate_guardian_framework(self, content: str, file_ext: str) -> dict[str, Any]:
         """Integrate 🛡️ Guardian Framework elements"""
         enhanced_content = content
         integrations = 0
         elements = []
 
-        guardian_spec = self.trinity_specifications["guardian"]
+        self.trinity_specifications["guardian"]
 
         # Add ethical AI messaging
         if any(term in content.lower() for term in ['security', 'ethics', 'governance']) and '🛡️' not in content:
@@ -371,7 +371,7 @@ class TrinityFrameworkDeployer:
         # Cap at 100%
         return min(coherence_score, 100.0)
 
-    async def deploy_all_systems(self) -> Dict[str, Any]:
+    async def deploy_all_systems(self) -> dict[str, Any]:
         """Deploy Trinity Framework across all content systems"""
         self.logger.info("⚛️🧠🛡️ Starting Trinity Framework deployment across all systems...")
 
@@ -420,7 +420,7 @@ class TrinityFrameworkDeployer:
 
         return deployment_results
 
-    async def _generate_trinity_report(self, deployment_results: Dict[str, Any], total_integrations: int):
+    async def _generate_trinity_report(self, deployment_results: dict[str, Any], total_integrations: int):
         """Generate comprehensive Trinity Framework deployment report"""
         report_path = self.base_path / "TRINITY_FRAMEWORK_DEPLOYMENT_REPORT.md"
 

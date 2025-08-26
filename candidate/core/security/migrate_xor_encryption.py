@@ -100,17 +100,16 @@ class XORMigration:
 
         # Find XOR functions
         for node in ast.walk(tree):
-            if isinstance(node, ast.FunctionDef):
-                if "xor" in node.name.lower():
-                    # Generate replacement
-                    replacement = self._generate_crypto_replacement(node)
-                    patches.append(
-                        {
-                            "function": node.name,
-                            "line": node.lineno,
-                            "replacement": replacement,
-                        }
-                    )
+            if isinstance(node, ast.FunctionDef) and "xor" in node.name.lower():
+                # Generate replacement
+                replacement = self._generate_crypto_replacement(node)
+                patches.append(
+                    {
+                        "function": node.name,
+                        "line": node.lineno,
+                        "replacement": replacement,
+                    }
+                )
 
         return {
             "file": str(file_path),

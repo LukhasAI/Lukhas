@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import os
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any
 
 from lukhas.governance.guardian.core import (
     GovernanceAction,
@@ -46,11 +46,11 @@ def detect_drift(
     baseline_behavior: str,
     current_behavior: str,
     *,
-    threshold: Optional[float] = None,
-    context: Optional[Dict[str, Any]] = None,
+    threshold: float | None = None,
+    context: dict[str, Any] | None = None,
     mode: str = "dry_run",
     **kwargs
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Detect ethical drift in system behavior.
 
@@ -123,10 +123,10 @@ def detect_drift(
 def evaluate_ethics(
     action: GovernanceAction,
     *,
-    context: Optional[Dict[str, Any]] = None,
+    context: dict[str, Any] | None = None,
     mode: str = "dry_run",
     **kwargs
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Evaluate the ethical implications of an action.
 
@@ -187,11 +187,11 @@ def evaluate_ethics(
 def check_safety(
     content: str,
     *,
-    context: Optional[Dict[str, Any]] = None,
+    context: dict[str, Any] | None = None,
     constitutional_check: bool = True,
     mode: str = "dry_run",
     **kwargs
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Perform safety validation on content.
 
@@ -250,7 +250,7 @@ def check_safety(
 
 
 @instrument("AWARENESS", label="guardian:status", capability="guardian:monitor")
-def get_guardian_status(*, mode: str = "dry_run", **kwargs) -> Dict[str, Any]:
+def get_guardian_status(*, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """
     Get Guardian system status and metrics.
 
@@ -315,7 +315,7 @@ def _simulate_drift_score(baseline: str, current: str) -> float:
     return min(max(drift_score, 0.0), 1.0)
 
 
-def _simulate_ethical_decision(action: GovernanceAction) -> Dict[str, Any]:
+def _simulate_ethical_decision(action: GovernanceAction) -> dict[str, Any]:
     """Simulate ethical decision for dry-run mode"""
     # Basic ethical checks
     risky_actions = ["delete", "remove", "destroy", "harm", "attack"]
@@ -342,7 +342,7 @@ def _simulate_ethical_decision(action: GovernanceAction) -> Dict[str, Any]:
     }
 
 
-def _simulate_safety_check(content: str, constitutional_check: bool) -> Dict[str, Any]:
+def _simulate_safety_check(content: str, constitutional_check: bool) -> dict[str, Any]:
     """Simulate safety check for dry-run mode"""
     # Basic safety keywords
     unsafe_keywords = ["harm", "attack", "violence", "illegal", "malicious"]

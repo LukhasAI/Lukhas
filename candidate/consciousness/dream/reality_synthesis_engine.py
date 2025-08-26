@@ -19,7 +19,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 from candidate.core.common import GLYPHToken, get_logger
 from candidate.core.common.exceptions import LukhasError
@@ -46,12 +46,12 @@ class UniversalPattern:
 
     pattern_id: str
     pattern_type: PatternType
-    base_pattern: Dict[str, Any]
-    cross_reality_evidence: List[Dict[str, Any]]
+    base_pattern: dict[str, Any]
+    cross_reality_evidence: list[dict[str, Any]]
     universality_score: float  # 0.0-1.0
     significance: float  # 0.0-1.0
     discovered_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -59,14 +59,14 @@ class FusedInnovation:
     """Innovation created by fusing patterns from multiple realities"""
 
     fusion_id: str
-    source_patterns: List[str]  # Pattern IDs
+    source_patterns: list[str]  # Pattern IDs
     fusion_strategy: str
     breakthrough_potential: float
     market_impact: float
     implementation_complexity: float
-    patent_claims: List[str]
+    patent_claims: list[str]
     validation_score: float = 0.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -74,11 +74,11 @@ class IPPortfolio:
     """Intellectual property portfolio from innovations"""
 
     portfolio_id: str
-    innovations: List[FusedInnovation]
-    core_patents: List[Dict[str, Any]]
-    defensive_patents: List[Dict[str, Any]]
-    improvement_patents: List[Dict[str, Any]]
-    application_patents: List[Dict[str, Any]]
+    innovations: list[FusedInnovation]
+    core_patents: list[dict[str, Any]]
+    defensive_patents: list[dict[str, Any]]
+    improvement_patents: list[dict[str, Any]]
+    application_patents: list[dict[str, Any]]
     total_value_estimate: float
     created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -95,10 +95,10 @@ class RealitySynthesisEngine(CoreInterface):
         self.operational = False
 
         # Pattern detection components
-        self.pattern_library: Dict[PatternType, List[UniversalPattern]] = defaultdict(
+        self.pattern_library: dict[PatternType, list[UniversalPattern]] = defaultdict(
             list
         )
-        self.pattern_cache: Dict[str, UniversalPattern] = {}
+        self.pattern_cache: dict[str, UniversalPattern] = {}
 
         # Innovation fusion components
         self.fusion_strategies = [
@@ -107,10 +107,10 @@ class RealitySynthesisEngine(CoreInterface):
             "scientific_unity",
             "value_chain_integration",
         ]
-        self.fused_innovations: List[FusedInnovation] = []
+        self.fused_innovations: list[FusedInnovation] = []
 
         # IP generation
-        self.ip_portfolios: List[IPPortfolio] = []
+        self.ip_portfolios: list[IPPortfolio] = []
         self.patent_count = 0
 
         # Metrics
@@ -150,10 +150,10 @@ class RealitySynthesisEngine(CoreInterface):
 
     async def synthesize_cross_reality_breakthroughs(
         self,
-        reality_results: List[Dict[str, Any]],
+        reality_results: list[dict[str, Any]],
         pattern_threshold: float = 0.95,
         validation_count: int = 1000,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Extract breakthrough innovations by finding patterns across realities.
 
@@ -191,10 +191,10 @@ class RealitySynthesisEngine(CoreInterface):
 
     async def detect_universal_patterns(
         self,
-        reality_results: List[Dict[str, Any]],
+        reality_results: list[dict[str, Any]],
         significance_threshold: float = 0.95,
         cross_validation_count: int = 1000,
-    ) -> List[UniversalPattern]:
+    ) -> list[UniversalPattern]:
         """
         Find patterns that appear across multiple reality types.
 
@@ -276,8 +276,8 @@ class RealitySynthesisEngine(CoreInterface):
         return validated_patterns
 
     async def fuse_breakthrough_innovations(
-        self, universal_patterns: List[UniversalPattern]
-    ) -> List[FusedInnovation]:
+        self, universal_patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """
         Combine patterns to create mega-innovations.
 
@@ -319,7 +319,7 @@ class RealitySynthesisEngine(CoreInterface):
         return top_innovations
 
     async def generate_ip_portfolio(
-        self, innovations: List[FusedInnovation]
+        self, innovations: list[FusedInnovation]
     ) -> IPPortfolio:
         """
         Generate comprehensive patent portfolio from innovations.
@@ -373,8 +373,8 @@ class RealitySynthesisEngine(CoreInterface):
         return portfolio
 
     async def create_market_domination_strategy(
-        self, innovations: List[FusedInnovation]
-    ) -> Dict[str, Any]:
+        self, innovations: list[FusedInnovation]
+    ) -> dict[str, Any]:
         """
         Create strategy for market domination using innovations.
 
@@ -410,8 +410,8 @@ class RealitySynthesisEngine(CoreInterface):
         pass
 
     def _group_by_reality_type(
-        self, reality_results: List[Dict[str, Any]]
-    ) -> Dict[str, List[Dict[str, Any]]]:
+        self, reality_results: list[dict[str, Any]]
+    ) -> dict[str, list[dict[str, Any]]]:
         """Group results by reality type"""
         groups = defaultdict(list)
         for result in reality_results:
@@ -420,8 +420,8 @@ class RealitySynthesisEngine(CoreInterface):
         return dict(groups)
 
     async def _extract_patterns_from_reality_type(
-        self, results: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, results: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Extract patterns from a specific reality type"""
         patterns = []
 
@@ -439,7 +439,7 @@ class RealitySynthesisEngine(CoreInterface):
         return patterns
 
     async def _calculate_pattern_similarity(
-        self, pattern1: Dict[str, Any], pattern2: Dict[str, Any]
+        self, pattern1: dict[str, Any], pattern2: dict[str, Any]
     ) -> float:
         """Calculate similarity between two patterns"""
         # Simplified similarity calculation
@@ -451,7 +451,7 @@ class RealitySynthesisEngine(CoreInterface):
         return similarity
 
     def _determine_pattern_type(
-        self, base_pattern: Dict[str, Any], evidence: List[Dict[str, Any]]
+        self, base_pattern: dict[str, Any], evidence: list[dict[str, Any]]
     ) -> PatternType:
         """Determine the type of pattern"""
         # Simple heuristic for pattern type
@@ -463,7 +463,7 @@ class RealitySynthesisEngine(CoreInterface):
             return PatternType.EMERGENT
 
     async def _calculate_significance(
-        self, pattern: Dict[str, Any], evidence: List[Dict[str, Any]]
+        self, pattern: dict[str, Any], evidence: list[dict[str, Any]]
     ) -> float:
         """Calculate significance score for a pattern"""
         base_score = pattern.get("score", 0.5)
@@ -471,8 +471,8 @@ class RealitySynthesisEngine(CoreInterface):
         return base_score * (0.5 + 0.5 * evidence_factor)
 
     async def _cross_validate_patterns(
-        self, patterns: List[UniversalPattern], validation_count: int
-    ) -> List[UniversalPattern]:
+        self, patterns: list[UniversalPattern], validation_count: int
+    ) -> list[UniversalPattern]:
         """Cross-validate patterns across additional realities"""
         # Simplified validation - in production would test against new realities
         validated = []
@@ -483,8 +483,8 @@ class RealitySynthesisEngine(CoreInterface):
         return validated
 
     async def _fuse_by_technological_convergence(
-        self, patterns: List[UniversalPattern]
-    ) -> List[FusedInnovation]:
+        self, patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """Fuse patterns based on technological convergence"""
         fusions = []
 
@@ -510,8 +510,8 @@ class RealitySynthesisEngine(CoreInterface):
         return fusions[:10]  # Return top 10 fusions
 
     async def _fuse_by_market_synergy(
-        self, patterns: List[UniversalPattern]
-    ) -> List[FusedInnovation]:
+        self, patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """Fuse patterns based on market synergy"""
         fusions = []
 
@@ -534,8 +534,8 @@ class RealitySynthesisEngine(CoreInterface):
         return fusions
 
     async def _fuse_by_scientific_unity(
-        self, patterns: List[UniversalPattern]
-    ) -> List[FusedInnovation]:
+        self, patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """Fuse patterns based on scientific principles"""
         fusions = []
 
@@ -558,8 +558,8 @@ class RealitySynthesisEngine(CoreInterface):
         return fusions
 
     async def _fuse_by_value_chain_integration(
-        self, patterns: List[UniversalPattern]
-    ) -> List[FusedInnovation]:
+        self, patterns: list[UniversalPattern]
+    ) -> list[FusedInnovation]:
         """Fuse patterns for value chain optimization"""
         fusions = []
 
@@ -589,8 +589,8 @@ class RealitySynthesisEngine(CoreInterface):
         return pattern1.pattern_type != pattern2.pattern_type
 
     async def _rank_innovations(
-        self, innovations: List[FusedInnovation]
-    ) -> List[FusedInnovation]:
+        self, innovations: list[FusedInnovation]
+    ) -> list[FusedInnovation]:
         """Rank innovations by breakthrough potential"""
         return sorted(
             innovations,
@@ -600,7 +600,7 @@ class RealitySynthesisEngine(CoreInterface):
 
     async def _generate_core_patents(
         self, innovation: FusedInnovation
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate core patents for innovation"""
         patents = []
         for claim in innovation.patent_claims[:3]:
@@ -616,7 +616,7 @@ class RealitySynthesisEngine(CoreInterface):
 
     async def _generate_defensive_patents(
         self, innovation: FusedInnovation
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate defensive patents around innovation"""
         patents = []
         for i in range(5):
@@ -632,7 +632,7 @@ class RealitySynthesisEngine(CoreInterface):
 
     async def _generate_improvement_patents(
         self, innovation: FusedInnovation
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate improvement patents"""
         patents = []
         for i in range(3):
@@ -648,7 +648,7 @@ class RealitySynthesisEngine(CoreInterface):
 
     async def _generate_application_patents(
         self, innovation: FusedInnovation
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate application patents"""
         patents = []
         for i in range(10):
@@ -678,8 +678,8 @@ class RealitySynthesisEngine(CoreInterface):
         return total
 
     async def _create_rollout_timeline(
-        self, innovations: List[FusedInnovation]
-    ) -> List[Dict[str, Any]]:
+        self, innovations: list[FusedInnovation]
+    ) -> list[dict[str, Any]]:
         """Create timeline for innovation rollout"""
         timeline = [
             {
@@ -706,8 +706,8 @@ class RealitySynthesisEngine(CoreInterface):
         return timeline
 
     async def _identify_target_segments(
-        self, innovations: List[FusedInnovation]
-    ) -> List[str]:
+        self, innovations: list[FusedInnovation]
+    ) -> list[str]:
         """Identify target market segments"""
         return [
             "Enterprise AI",
@@ -718,8 +718,8 @@ class RealitySynthesisEngine(CoreInterface):
         ]
 
     async def _analyze_competitive_advantages(
-        self, innovations: List[FusedInnovation]
-    ) -> List[str]:
+        self, innovations: list[FusedInnovation]
+    ) -> list[str]:
         """Analyze competitive advantages from innovations"""
         return [
             "First-mover in AGI safety",
@@ -730,8 +730,8 @@ class RealitySynthesisEngine(CoreInterface):
         ]
 
     async def _project_revenue(
-        self, innovations: List[FusedInnovation]
-    ) -> Dict[str, float]:
+        self, innovations: list[FusedInnovation]
+    ) -> dict[str, float]:
         """Project revenue from innovations"""
         total_market = sum(i.market_impact for i in innovations)
         return {
@@ -743,8 +743,8 @@ class RealitySynthesisEngine(CoreInterface):
         }
 
     async def _identify_risks_and_mitigations(
-        self, innovations: List[FusedInnovation]
-    ) -> List[Dict[str, str]]:
+        self, innovations: list[FusedInnovation]
+    ) -> list[dict[str, str]]:
         """Identify risks and mitigation strategies"""
         return [
             {
@@ -765,7 +765,7 @@ class RealitySynthesisEngine(CoreInterface):
             },
         ]
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current status of synthesis engine"""
         return {
             "operational": self.operational,
@@ -779,11 +779,10 @@ class RealitySynthesisEngine(CoreInterface):
     async def process(self, input_data: Any) -> Any:
         """Process input through synthesis engine"""
         # Implement CoreInterface abstract method
-        if isinstance(input_data, dict):
-            if "reality_results" in input_data:
-                return await self.synthesize_cross_reality_breakthroughs(
-                    input_data["reality_results"]
-                )
+        if isinstance(input_data, dict) and "reality_results" in input_data:
+            return await self.synthesize_cross_reality_breakthroughs(
+                input_data["reality_results"]
+            )
         return {"status": "processed"}
 
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:

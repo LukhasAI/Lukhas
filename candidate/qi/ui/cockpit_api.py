@@ -4,7 +4,6 @@ from __future__ import annotations
 import json
 import os
 import time
-from typing import List, Optional
 
 from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -37,7 +36,7 @@ import builtins
 _ORIG_OPEN = builtins.open
 
 # Auth
-def _check_auth(token: Optional[str] = Header(None, alias="X-Auth-Token")):
+def _check_auth(token: str | None = Header(None, alias="X-Auth-Token")):
     expected = os.environ.get("COCKPIT_API_TOKEN")
     if expected and token != expected:
         raise HTTPException(status_code=401, detail="Invalid or missing auth token")
@@ -53,9 +52,9 @@ def get_safety_card(
     model: str = Query("LUKHAS-QI"),
     version: str = Query("1.0.0"),
     policy_root: str = Query("qi/safety/policy_packs"),
-    overlays: Optional[str] = Query("qi/risk"),
+    overlays: str | None = Query("qi/risk"),
     jurisdictions: str = Query("global,eu,us"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -77,10 +76,10 @@ def get_safety_card_json(
     model: str = Query("LUKHAS-QI"),
     version: str = Query("0.9.0"),
     policy_root: str = Query("qi/safety/policy_packs"),
-    overlays: Optional[str] = Query("qi/risk"),
+    overlays: str | None = Query("qi/risk"),
     jurisdictions: str = Query("global,eu,us"),
     include_appendix: bool = Query(False),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -110,9 +109,9 @@ def get_safety_card_markdown(
     model: str = Query("LUKHAS-QI"),
     version: str = Query("0.9.0"),
     policy_root: str = Query("qi/safety/policy_packs"),
-    overlays: Optional[str] = Query("qi/risk"),
+    overlays: str | None = Query("qi/risk"),
     jurisdictions: str = Query("global,eu,us"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -132,8 +131,8 @@ def get_safety_card_markdown(
 @app.get("/cockpit/safety_card.pdf")
 def get_safety_card_pdf(
     policy_root: str = Query("qi/safety/policy_packs"),
-    overlays: Optional[str] = Query("qi/risk"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    overlays: str | None = Query("qi/risk"),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -144,10 +143,10 @@ def get_safety_card_pdf(
 
 @app.get("/cockpit/calibration.svg", response_class=HTMLResponse)
 def calibration_svg(
-    task: Optional[str] = Query(None),
+    task: str | None = Query(None),
     width: int = Query(640),
     height: int = Query(320),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     return HTMLResponse(reliability_svg(task=task, width=width, height=height), media_type="image/svg+xml")
@@ -155,7 +154,7 @@ def calibration_svg(
 @app.post("/cockpit/calibration/refit")
 def calibration_refit(
     source: str = Query("eval"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -174,9 +173,9 @@ def calibration_refit(
 @app.get("/cockpit/nightly-report")
 def get_nightly_report(
     policy_root: str = Query("qi/safety/policy_packs"),
-    overlays: Optional[str] = Query("qi/risk"),
+    overlays: str | None = Query("qi/risk"),
     window: int = Query(500),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -194,9 +193,9 @@ def get_nightly_report(
 @app.post("/cockpit/generate-report")
 def generate_full_report(
     policy_root: str = Query("qi/safety/policy_packs"),
-    overlays: Optional[str] = Query("qi/risk"),
+    overlays: str | None = Query("qi/risk"),
     window: int = Query(500),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -210,7 +209,7 @@ def generate_full_report(
 @app.get("/cockpit/adaptive/analyze")
 def analyze_adaptive_performance(
     window: int = Query(2000),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -222,7 +221,7 @@ def analyze_adaptive_performance(
 
 @app.get("/cockpit/adaptive/candidates")
 def get_adaptive_candidates(
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -237,8 +236,8 @@ def get_adaptive_candidates(
 
 @app.post("/cockpit/adaptive/promote")
 def promote_adaptive_candidates(
-    targets: List[str] = Query(...),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    targets: list[str] = Query(...),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -254,8 +253,8 @@ def promote_adaptive_candidates(
 @app.post("/cockpit/adaptive/evolve-params")
 def evolve_adaptive_parameters(
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
-    tasks_focus: Optional[str] = Query(None),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    tasks_focus: str | None = Query(None),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -273,8 +272,8 @@ def evolve_adaptive_parameters(
 @app.post("/cockpit/adaptive/discover-tools")
 def discover_tool_combinations(
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
-    tasks_focus: Optional[str] = Query(None),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    tasks_focus: str | None = Query(None),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -292,7 +291,7 @@ def discover_tool_combinations(
 @app.post("/cockpit/adaptive/propose-best")
 def propose_best_adaptive(
     config_targets: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -312,7 +311,7 @@ def propose_best_adaptive(
 @app.get("/cockpit/human-adapt/analyze")
 def analyze_human_satisfaction(
     window: int = Query(1000),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -324,8 +323,8 @@ def analyze_human_satisfaction(
 
 @app.get("/cockpit/human/proposals")
 def get_human_proposals(
-    user: Optional[str] = Query(None),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    user: str | None = Query(None),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -340,10 +339,10 @@ def get_human_proposals(
 
 @app.post("/cockpit/human/promote")
 def promote_human_adaptations(
-    user: Optional[str] = Query(None),
+    user: str | None = Query(None),
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
     ttl_sec: int = Query(3600),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -359,8 +358,8 @@ def promote_human_adaptations(
 @app.post("/cockpit/human-adapt/propose-tone")
 def propose_tone_adaptations(
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
-    user_focus: Optional[str] = Query(None),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    user_focus: str | None = Query(None),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -378,7 +377,7 @@ def propose_tone_adaptations(
 @app.post("/cockpit/human-adapt/submit")
 def submit_human_adaptations(
     config_targets: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -397,10 +396,10 @@ def submit_human_adaptations(
 
 @app.get("/cockpit/approvals/list")
 def list_all_proposals(
-    status_filter: Optional[str] = Query(None),
-    author_filter: Optional[str] = Query(None),
+    status_filter: str | None = Query(None),
+    author_filter: str | None = Query(None),
     limit: int = Query(50),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -439,7 +438,7 @@ def list_all_proposals(
 
 @app.get("/cockpit/proposals")
 def get_proposals_simplified(
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -453,7 +452,7 @@ def approve_proposal_by_id(
     proposal_id: str,
     by: str = Query(...),
     reason: str = Query("Approved via cockpit UI"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -467,7 +466,7 @@ def reject_proposal_by_id(
     proposal_id: str,
     by: str = Query(...),
     reason: str = Query("Rejected via cockpit UI"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -481,7 +480,7 @@ def reject_proposal_by_id(
 def apply_proposal_by_id(
     proposal_id: str,
     as_user: str = Query("ops"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -495,7 +494,7 @@ def approve_proposal_unified(
     proposal_id: str,
     reviewer: str = Query(...),
     reason: str = Query("Approved via unified cockpit"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -508,7 +507,7 @@ def approve_proposal_unified(
 def apply_proposal_unified(
     proposal_id: str,
     as_user: str = Query("ops"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -520,7 +519,7 @@ def apply_proposal_unified(
 @app.get("/cockpit/approvals/stats")
 def get_approval_stats(
     days_back: int = Query(7),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -575,8 +574,8 @@ def get_approval_stats(
 @app.get("/cockpit/receipts/recent")
 def get_recent_receipts(
     limit: int = Query(100),
-    task_filter: Optional[str] = Query(None),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    task_filter: str | None = Query(None),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -623,7 +622,7 @@ def get_recent_receipts(
 @app.get("/cockpit/receipts")
 def get_receipts_simplified(
     limit: int = Query(20),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -647,8 +646,8 @@ def get_receipts_simplified(
 def replay_receipt_json(
     receipt_id: str,
     policy_root: str = Query("qi/safety/policy_packs"),
-    overlays: Optional[str] = Query("qi/risk"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    overlays: str | None = Query("qi/risk"),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -670,9 +669,9 @@ def replay_receipt_json(
 def get_receipt_trace_svg(
     receipt_id: str,
     policy_root: str = Query("qi/safety/policy_packs"),
-    overlays: Optional[str] = Query("qi/risk"),
-    link_base: Optional[str] = Query(None),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    overlays: str | None = Query("qi/risk"),
+    link_base: str | None = Query(None),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -692,9 +691,9 @@ def get_receipt_trace_svg(
 @app.get("/cockpit/receipts/{receipt_id}/neighbors")
 def get_receipt_neighbors_unified(
     receipt_id: str,
-    task_filter: Optional[str] = Query(None),
+    task_filter: str | None = Query(None),
     limit: int = Query(10),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -705,9 +704,9 @@ def get_receipt_neighbors_unified(
 
 @app.get("/cockpit/receipts/sample")
 def get_receipt_sample_unified(
-    task_filter: Optional[str] = Query(None),
+    task_filter: str | None = Query(None),
     limit: int = Query(20),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -720,10 +719,10 @@ def get_receipt_sample_unified(
 
 @app.get("/cockpit/feedback")
 def get_feedback_list(
-    task: Optional[str] = Query(None),
-    jurisdiction: Optional[str] = Query(None),
+    task: str | None = Query(None),
+    jurisdiction: str | None = Query(None),
     limit: int = Query(100),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -762,8 +761,8 @@ def get_feedback_list(
 
 @app.get("/cockpit/feedback/clusters")
 def get_feedback_clusters(
-    task: Optional[str] = Query(None),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    task: str | None = Query(None),
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -785,7 +784,7 @@ def get_feedback_clusters(
 @app.post("/cockpit/feedback/cluster")
 def run_feedback_clustering(
     limit: int = Query(1000),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -803,10 +802,10 @@ def run_feedback_clustering(
 
 @app.post("/cockpit/feedback/promote")
 def promote_feedback_to_proposal(
-    fc_id: Optional[str] = Query(None),
-    cluster_id: Optional[str] = Query(None),
+    fc_id: str | None = Query(None),
+    cluster_id: str | None = Query(None),
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     _check_auth(token)
     try:
@@ -855,7 +854,7 @@ def health_check():
 
 @app.get("/cockpit/dashboard")
 def get_dashboard_summary(
-    token: Optional[str] = Header(None, alias="X-Auth-Token")
+    token: str | None = Header(None, alias="X-Auth-Token")
 ):
     """Unified dashboard summary for ops overview."""
     _check_auth(token)
@@ -946,7 +945,7 @@ def ui_index():
 def ui_cockpit(
     # defaults for the page fields (can be overridden via query)
     api_base: str = Query(os.environ.get("COCKPIT_UI_API_BASE", "http://127.0.0.1:8098")),
-    token: Optional[str] = Query(os.environ.get("COCKPIT_UI_TOKEN", "")),
+    token: str | None = Query(os.environ.get("COCKPIT_UI_TOKEN", "")),
     policy_root: str = Query(os.environ.get("RECEIPTS_POLICY_ROOT", "qi/safety/policy_packs")),
     overlays: str = Query(os.environ.get("RECEIPTS_OVERLAYS", "qi/risk")),
 ):
@@ -1004,7 +1003,7 @@ def ui_cockpit(
 
 @app.get("/ui/trace", response_class=HTMLResponse)
 def ui_trace(
-    rid: Optional[str] = Query(None),
+    rid: str | None = Query(None),
     api_base: str = Query(os.environ.get("RECEIPTS_API_BASE", "http://127.0.0.1:8095")),
     policy_root: str = Query(os.environ.get("RECEIPTS_POLICY_ROOT", "qi/safety/policy_packs")),
     overlays: str = Query(os.environ.get("RECEIPTS_OVERLAYS", "qi/risk")),
@@ -1040,7 +1039,7 @@ def ui_trace(
 @app.get("/ui/approver", response_class=HTMLResponse)
 def ui_approver(
     api_base: str = Query(os.environ.get("APPROVER_API_BASE", "http://127.0.0.1:8097")),
-    token: Optional[str] = Query(os.environ.get("AUTONOMY_API_TOKEN", "")),
+    token: str | None = Query(os.environ.get("AUTONOMY_API_TOKEN", "")),
 ):
     if APPROVER_UI_PATH and os.path.exists(APPROVER_UI_PATH):
         html = _ORIG_OPEN(APPROVER_UI_PATH, "r", encoding="utf-8").read()

@@ -20,7 +20,7 @@ Usage:
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +90,7 @@ def _get_system_signature() -> str:
     return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
 
 
-def get_trinity_description() -> Dict[str, Any]:
+def get_trinity_description() -> dict[str, Any]:
     """Get comprehensive Trinity Framework description"""
     return {
         "framework": TRINITY_FRAMEWORK,
@@ -100,7 +100,7 @@ def get_trinity_description() -> Dict[str, Any]:
     }
 
 
-def validate_branding_compliance(text: str) -> List[str]:
+def validate_branding_compliance(text: str) -> list[str]:
     """Validate text for basic branding compliance issues"""
     if not isinstance(text, str):
         return []
@@ -249,7 +249,7 @@ class LUKHASBrandingBridge:
             return _get_system_signature()
         return f"{SYSTEM_NAME} {TRINITY_FRAMEWORK} v{SYSTEM_VERSION}"
 
-    def get_trinity_context(self, emphasis: str = "balanced") -> Dict[str, Any]:
+    def get_trinity_context(self, emphasis: str = "balanced") -> dict[str, Any]:
         """Get Trinity Framework context for operations"""
         context = {
             "framework": TRINITY_FRAMEWORK,
@@ -277,7 +277,7 @@ class LUKHASBrandingBridge:
 
     def validate_output(
         self, text: str, context: Optional[BrandContext] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Validate text output for brand compliance"""
         if not isinstance(text, str):
             return {"valid": True, "issues": [], "text": text}
@@ -382,7 +382,7 @@ class LUKHASBrandingBridge:
         trinity = self.get_trinity_context(context.trinity_emphasis)
         return f"{prompt}\n\nIntegrating {trinity['framework']} principles: {trinity['identity']['description']}, {trinity['consciousness']['description']}, {trinity['guardian']['description']}"
 
-    def monitor_brand_drift(self, content: str) -> Dict[str, Any]:
+    def monitor_brand_drift(self, content: str) -> dict[str, Any]:
         """Monitor content for brand drift"""
         if self.monitor:
             try:
@@ -403,7 +403,7 @@ class LUKHASBrandingBridge:
             "severity": "low" if len(drift_indicators) < 3 else "medium",
         }
 
-    def get_brand_status(self) -> Dict[str, Any]:
+    def get_brand_status(self) -> dict[str, Any]:
         """Get current branding system status"""
         return {
             "initialized": self.is_initialized,
@@ -448,14 +448,14 @@ def get_system_signature() -> str:
     return get_bridge().get_system_signature()
 
 
-def get_trinity_context(emphasis: str = "balanced") -> Dict[str, Any]:
+def get_trinity_context(emphasis: str = "balanced") -> dict[str, Any]:
     """Get Trinity Framework context"""
     return get_bridge().get_trinity_context(emphasis)
 
 
 def validate_output(
     text: str, context: Optional[BrandContext] = None
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Validate text for brand compliance"""
     return get_bridge().validate_output(text, context)
 
@@ -477,12 +477,12 @@ def generate_branded_content(
     return get_bridge().generate_branded_content(prompt, context)
 
 
-def monitor_brand_drift(content: str) -> Dict[str, Any]:
+def monitor_brand_drift(content: str) -> dict[str, Any]:
     """Monitor content for brand drift"""
     return get_bridge().monitor_brand_drift(content)
 
 
-def get_brand_status() -> Dict[str, Any]:
+def get_brand_status() -> dict[str, Any]:
     """Get branding system status"""
     return get_bridge().get_brand_status()
 

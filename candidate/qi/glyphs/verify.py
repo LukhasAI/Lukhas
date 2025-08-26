@@ -8,10 +8,10 @@ Offline-first verification of GLYPH seals.
 import argparse
 import json
 import sys
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
-def fetch_cached_jwks(issuer: str) -> Optional[Dict[str, Any]]:
+def fetch_cached_jwks(issuer: str) -> Optional[dict[str, Any]]:
     """
     Fetch cached JWKS for issuer.
 
@@ -29,7 +29,7 @@ def fetch_cached_jwks(issuer: str) -> Optional[Dict[str, Any]]:
         }]
     }
 
-def verify_content_hash(content_bytes: bytes, seal: Dict[str, Any]) -> bool:
+def verify_content_hash(content_bytes: bytes, seal: dict[str, Any]) -> bool:
     """Verify content hash matches seal."""
     from qi.glyphs.seal import sha3_512
 
@@ -47,7 +47,7 @@ def verify_content_hash(content_bytes: bytes, seal: Dict[str, Any]) -> bool:
 
     return True
 
-def verify_signature(seal: Dict[str, Any], sig: Dict[str, Any], jwks: Dict[str, Any]) -> bool:
+def verify_signature(seal: dict[str, Any], sig: dict[str, Any], jwks: dict[str, Any]) -> bool:
     """Verify seal signature."""
     from qi.glyphs.seal import canonicalize, verify_seal
 
@@ -57,7 +57,7 @@ def verify_signature(seal: Dict[str, Any], sig: Dict[str, Any], jwks: Dict[str, 
     # Verify using seal module
     return verify_seal(seal_bytes, sig)
 
-def check_expiry(seal: Dict[str, Any]) -> bool:
+def check_expiry(seal: dict[str, Any]) -> bool:
     """Check if seal has expired."""
     from datetime import datetime
 
@@ -74,7 +74,7 @@ def check_expiry(seal: Dict[str, Any]) -> bool:
         print(f"Error checking expiry: {e}")
         return False
 
-def check_revocation(seal: Dict[str, Any], online: bool = False) -> bool:
+def check_revocation(seal: dict[str, Any], online: bool = False) -> bool:
     """
     Check if seal has been revoked.
 

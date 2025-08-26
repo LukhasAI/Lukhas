@@ -17,7 +17,7 @@ import time
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -147,7 +147,7 @@ class IdentityCore:
 
     def validate_symbolic_token(
         self, token: str
-    ) -> Tuple[bool, Optional[Dict[str, Any]]]:
+    ) -> tuple[bool, Optional[dict[str, Any]]]:
         """
         Validate a symbolic authentication token.
 
@@ -231,8 +231,8 @@ class IdentityCore:
             return False, None
 
     def resolve_access_tier(
-        self, user_metadata: Dict[str, Any]
-    ) -> Tuple[AccessTier, Dict[str, bool]]:
+        self, user_metadata: dict[str, Any]
+    ) -> tuple[AccessTier, dict[str, bool]]:
         """
         Resolve user's access tier and permissions from metadata.
 
@@ -305,7 +305,7 @@ class IdentityCore:
 
     def generate_identity_glyph(
         self, seed: str, entropy: Optional[bytes] = None
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Generate symbolic identity glyphs based on seed and entropy.
 
@@ -392,7 +392,7 @@ class IdentityCore:
             return ["⚛️"]
 
     def create_token(
-        self, user_id: str, tier: AccessTier, metadata: Dict[str, Any]
+        self, user_id: str, tier: AccessTier, metadata: dict[str, Any]
     ) -> str:
         """
         Create a new authentication token for a user.
@@ -500,7 +500,7 @@ class IdentityCore:
             logger.error(f"Error revoking token: {e}")
             return False
 
-    def _validate_symbolic_integrity(self, metadata: Dict[str, Any]) -> bool:
+    def _validate_symbolic_integrity(self, metadata: dict[str, Any]) -> bool:
         """
         Validate symbolic integrity of user metadata.
 
@@ -735,19 +735,19 @@ identity_core = IdentityCore()
 
 
 # Convenience functions for backward compatibility
-def validate_symbolic_token(token: str) -> Tuple[bool, Optional[Dict[str, Any]]]:
+def validate_symbolic_token(token: str) -> tuple[bool, Optional[dict[str, Any]]]:
     """Validate a symbolic authentication token."""
     return identity_core.validate_symbolic_token(token)
 
 
 def resolve_access_tier(
-    user_metadata: Dict[str, Any],
-) -> Tuple[AccessTier, Dict[str, bool]]:
+    user_metadata: dict[str, Any],
+) -> tuple[AccessTier, dict[str, bool]]:
     """Resolve user's access tier and permissions."""
     return identity_core.resolve_access_tier(user_metadata)
 
 
-def generate_identity_glyph(seed: str, entropy: Optional[bytes] = None) -> List[str]:
+def generate_identity_glyph(seed: str, entropy: Optional[bytes] = None) -> list[str]:
     """Generate symbolic identity glyphs."""
     return identity_core.generate_identity_glyph(seed, entropy)
 

@@ -12,7 +12,7 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
 
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 log_router = APIRouter(prefix="/api/meta", tags=["meta-logs"])
 
 
-def load_consent_logs(limit: int = 50) -> List[Dict[str, Any]]:
+def load_consent_logs(limit: int = 50) -> list[dict[str, Any]]:
     """
     Load consent logs from file with symbolic data.
 
@@ -75,7 +75,7 @@ def load_consent_logs(limit: int = 50) -> List[Dict[str, Any]]:
     return logs
 
 
-def enrich_log_entry(entry: Dict[str, Any]) -> Dict[str, Any]:
+def enrich_log_entry(entry: dict[str, Any]) -> dict[str, Any]:
     """
     Enrich log entry with symbolic interpretation.
 

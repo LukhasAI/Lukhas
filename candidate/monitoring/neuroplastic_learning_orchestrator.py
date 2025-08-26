@@ -12,7 +12,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import structlog
 
@@ -45,8 +45,8 @@ except Exception:
             timestamp: datetime = field(
                 default_factory=lambda: datetime.now(timezone.utc)
             )
-            hormone_levels: Dict[str, float] = field(default_factory=dict)
-            system_metrics: Dict[str, float] = field(default_factory=dict)
+            hormone_levels: dict[str, float] = field(default_factory=dict)
+            system_metrics: dict[str, float] = field(default_factory=dict)
             coherence_score: float = 0.6
 
         @dataclass
@@ -55,7 +55,7 @@ except Exception:
             timestamp: datetime = field(
                 default_factory=lambda: datetime.now(timezone.utc)
             )
-            hormone_context: Dict[str, float] = field(default_factory=dict)
+            hormone_context: dict[str, float] = field(default_factory=dict)
             reason: str = ""
 
 
@@ -88,7 +88,7 @@ except Exception:
             trigger_type: Any = None
             priority: Any = AdaptationPriority.MEDIUM
             strategy: Any = AdaptationStrategy.EXPERIMENTAL
-            conditions: Dict[str, Any] = field(default_factory=dict)
+            conditions: dict[str, Any] = field(default_factory=dict)
 
         @dataclass
         class AdaptationPlan:
@@ -159,18 +159,18 @@ class LearningGoal:
 
     goal_id: str
     description: str
-    target_metrics: List[str]
-    success_criteria: Dict[str, float]
+    target_metrics: list[str]
+    success_criteria: dict[str, float]
     priority: int = 3  # 1-5 scale
     deadline: Optional[datetime] = None
-    context_constraints: List[str] = field(default_factory=list)
+    context_constraints: list[str] = field(default_factory=list)
     biological_alignment: float = 0.5  # How well aligned with biological principles
 
     # Progress tracking
     progress: float = 0.0
     attempts: int = 0
     best_result: Optional[float] = None
-    learned_patterns: List[str] = field(default_factory=list)
+    learned_patterns: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -184,16 +184,16 @@ class AdaptationExperiment:
     test_duration: timedelta
 
     # Experimental design
-    variables_tested: List[str] = field(default_factory=list)
-    expected_outcomes: Dict[str, float] = field(default_factory=dict)
-    rollback_conditions: List[str] = field(default_factory=list)
+    variables_tested: list[str] = field(default_factory=list)
+    expected_outcomes: dict[str, float] = field(default_factory=dict)
+    rollback_conditions: list[str] = field(default_factory=list)
 
     # Results
     start_time: Optional[datetime] = None
     end_time: Optional[datetime] = None
-    actual_outcomes: Dict[str, float] = field(default_factory=dict)
+    actual_outcomes: dict[str, float] = field(default_factory=dict)
     statistical_significance: float = 0.0
-    conclusions: List[str] = field(default_factory=list)
+    conclusions: list[str] = field(default_factory=list)
     generalization_potential: float = 0.0
 
 
@@ -211,19 +211,19 @@ class LearningInsight:
     description: str = ""
 
     # Evidence and confidence
-    supporting_evidence: List[str] = field(default_factory=list)
+    supporting_evidence: list[str] = field(default_factory=list)
     confidence_score: float = 0.0
     validation_count: int = 0
 
     # Applicability
-    applicable_contexts: List[MetricContext] = field(default_factory=list)
-    applicable_metrics: List[str] = field(default_factory=list)
+    applicable_contexts: list[MetricContext] = field(default_factory=list)
+    applicable_metrics: list[str] = field(default_factory=list)
     biological_basis: Optional[str] = None
 
     # Knowledge representation
-    pattern_signature: Dict[str, Any] = field(default_factory=dict)
-    causal_relationships: List[Dict[str, str]] = field(default_factory=list)
-    predictive_rules: List[str] = field(default_factory=list)
+    pattern_signature: dict[str, Any] = field(default_factory=dict)
+    causal_relationships: list[dict[str, str]] = field(default_factory=list)
+    predictive_rules: list[str] = field(default_factory=list)
 
 
 class NeuroplasticLearningOrchestrator:
@@ -235,7 +235,7 @@ class NeuroplasticLearningOrchestrator:
     def __init__(
         self,
         signal_bus: Optional[SignalBus] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         # Allow instantiation without providing a bus (tests construct with no args)
         self.signal_bus = signal_bus or SignalBus()
@@ -254,16 +254,16 @@ class NeuroplasticLearningOrchestrator:
         self.dashboard = None
 
         # Learning objectives and tracking
-        self.learning_goals: Dict[str, LearningGoal] = {}
-        self.active_experiments: Dict[str, AdaptationExperiment] = {}
+        self.learning_goals: dict[str, LearningGoal] = {}
+        self.active_experiments: dict[str, AdaptationExperiment] = {}
         self.completed_experiments: deque = deque(maxlen=1000)
-        self.learning_insights: Dict[str, LearningInsight] = {}
+        self.learning_insights: dict[str, LearningInsight] = {}
 
         # Knowledge base
-        self.adaptation_patterns: Dict[str, Any] = defaultdict(dict)
-        self.causal_models: Dict[str, CausalModel] = {}
-        self.performance_baselines: Dict[str, float] = {}
-        self.context_models: Dict[MetricContext, ContextModel] = {}
+        self.adaptation_patterns: dict[str, Any] = defaultdict(dict)
+        self.causal_models: dict[str, CausalModel] = {}
+        self.performance_baselines: dict[str, float] = {}
+        self.context_models: dict[MetricContext, ContextModel] = {}
 
         # Learning mechanisms
         self.reward_calculator = RewardCalculator()
@@ -280,13 +280,13 @@ class NeuroplasticLearningOrchestrator:
 
         # Meta-learning
         self.meta_learning_enabled = self.config.get("meta_learning", True)
-        self.learning_strategy_effectiveness: Dict[LearningStrategy, float] = (
+        self.learning_strategy_effectiveness: dict[LearningStrategy, float] = (
             defaultdict(float)
         )
-        self.adaptation_success_patterns: Dict[str, float] = defaultdict(float)
+        self.adaptation_success_patterns: dict[str, float] = defaultdict(float)
 
         # Safety and constraints
-        self.safety_constraints: Dict[str, Any] = {
+        self.safety_constraints: dict[str, Any] = {
             "max_system_impact": 0.3,
             "min_coherence_threshold": 0.6,
             "max_adaptation_frequency": 10,  # per hour
@@ -578,7 +578,7 @@ class NeuroplasticLearningOrchestrator:
                 experiment = await self._create_experiment_from_hypothesis(hypothesis)
                 self.experiment_queue.append(experiment)
 
-    async def _generate_experimental_hypotheses(self) -> List[str]:
+    async def _generate_experimental_hypotheses(self) -> list[str]:
         return [
             "Increase dopamine to improve performance",
             "Reduce cortisol to lower stress",
@@ -668,13 +668,13 @@ class NeuroplasticLearningOrchestrator:
             principle = await self._create_generalized_principle(pattern)
             await self._validate_generalized_principle(principle)
 
-    async def _identify_cross_context_patterns(self) -> List[str]:
+    async def _identify_cross_context_patterns(self) -> list[str]:
         return ["stress_performance_tradeoff"]
 
-    async def _create_generalized_principle(self, pattern: str) -> Dict[str, Any]:
+    async def _create_generalized_principle(self, pattern: str) -> dict[str, Any]:
         return {"pattern": pattern, "principle": "Balance stress and performance"}
 
-    async def _validate_generalized_principle(self, principle: Dict[str, Any]) -> bool:
+    async def _validate_generalized_principle(self, principle: dict[str, Any]) -> bool:
         return True
 
     # Experiment management methods
@@ -793,7 +793,7 @@ class NeuroplasticLearningOrchestrator:
 
     async def _collect_experiment_outcomes(
         self, experiment: "AdaptationExperiment"
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         return {"system_performance": 0.6}
 
     async def _calculate_statistical_significance(
@@ -803,7 +803,7 @@ class NeuroplasticLearningOrchestrator:
 
     async def _generate_experiment_conclusions(
         self, experiment: "AdaptationExperiment"
-    ) -> List[str]:
+    ) -> list[str]:
         return ["Adaptation improved performance"]
 
     async def _assess_generalization_potential(
@@ -969,7 +969,7 @@ class NeuroplasticLearningOrchestrator:
             "Added learning goal", goal_id=goal.goal_id, description=goal.description
         )
 
-    def get_learning_status(self) -> Dict[str, Any]:
+    def get_learning_status(self) -> dict[str, Any]:
         """Get current learning status"""
         # Compute numeric progress synchronously by using current cached values;
         # fall back to 0.0 if no goals have progress yet.
@@ -999,7 +999,7 @@ class NeuroplasticLearningOrchestrator:
 
     def get_learning_insights(
         self, category: Optional[str] = None
-    ) -> List[LearningInsight]:
+    ) -> list[LearningInsight]:
         """Get learning insights, optionally filtered by category"""
         insights = list(self.learning_insights.values())
 
@@ -1011,7 +1011,7 @@ class NeuroplasticLearningOrchestrator:
 
         return insights
 
-    def get_adaptation_recommendations(self, context: MetricContext) -> List[str]:
+    def get_adaptation_recommendations(self, context: MetricContext) -> list[str]:
         """Get adaptation recommendations for a specific context"""
         recommendations = []
 
@@ -1057,7 +1057,7 @@ class NeuroplasticLearningOrchestrator:
         return None  # Would return actual plan
 
     async def create_learning_experiment(
-        self, experiment_type: str, context: Dict[str, Any]
+        self, experiment_type: str, context: dict[str, Any]
     ) -> "AdaptationExperiment":
         """Compatibility: create a simple learning experiment object."""
         # Map experiment_type to a trigger
@@ -1098,7 +1098,7 @@ class NeuroplasticLearningOrchestrator:
 
     async def execute_experiment_phase(
         self, experiment: "AdaptationExperiment", phase: "ExperimentPhase"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Compatibility: execute a phase and return a status dict."""
         status = {
             "phase": phase.value,
@@ -1111,8 +1111,8 @@ class NeuroplasticLearningOrchestrator:
         return status
 
     async def consolidate_learning(
-        self, learning_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, learning_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Compatibility: consolidate provided learning data and return summary."""
         experiments = learning_data.get("experiment_results", [])
         items = len(experiments) + len(learning_data.get("pattern_discoveries", []))
@@ -1125,7 +1125,7 @@ class NeuroplasticLearningOrchestrator:
 
     async def apply_transfer_learning(
         self, source_context: str, target_context: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Compatibility: simulate transfer learning between contexts."""
         success = source_context != target_context
         transfers = self.transfer_learner.transfer_knowledge(
@@ -1133,7 +1133,7 @@ class NeuroplasticLearningOrchestrator:
         )
         return {"success": success or bool(transfers)}
 
-    async def optimize_meta_learning(self) -> Dict[str, Any]:
+    async def optimize_meta_learning(self) -> dict[str, Any]:
         """Compatibility: simulate meta-learning optimization results."""
         optimizations = (
             [
@@ -1174,14 +1174,14 @@ class CausalModel:
 
     def __init__(self, target_variable: str):
         self.target_variable = target_variable
-        self.causal_factors: Dict[str, float] = {}
-        self.interaction_effects: Dict[Tuple[str, str], float] = {}
+        self.causal_factors: dict[str, float] = {}
+        self.interaction_effects: dict[tuple[str, str], float] = {}
 
     def add_causal_factor(self, factor: str, strength: float):
         """Add a causal factor"""
         self.causal_factors[factor] = strength
 
-    def predict_effect(self, factor_values: Dict[str, float]) -> float:
+    def predict_effect(self, factor_values: dict[str, float]) -> float:
         """Predict effect given factor values"""
         effect = 0.0
 
@@ -1197,9 +1197,9 @@ class ContextModel:
 
     def __init__(self, context: MetricContext):
         self.context = context
-        self.typical_patterns: Dict[str, Any] = {}
-        self.successful_adaptations: List[str] = []
-        self.context_triggers: List[str] = []
+        self.typical_patterns: dict[str, Any] = {}
+        self.successful_adaptations: list[str] = []
+        self.context_triggers: list[str] = []
 
     def add_successful_adaptation(self, adaptation_type: str):
         """Record a successful adaptation in this context"""
@@ -1211,9 +1211,9 @@ class RewardCalculator:
 
     def calculate_reward(
         self,
-        baseline_metrics: Dict[str, float],
-        current_metrics: Dict[str, float],
-        goal_weights: Dict[str, float],
+        baseline_metrics: dict[str, float],
+        current_metrics: dict[str, float],
+        goal_weights: dict[str, float],
     ) -> float:
         """Calculate reward based on metric improvements"""
 
@@ -1240,7 +1240,7 @@ class PatternDetector:
     def __init__(self):
         self.observation_history = deque(maxlen=100)
 
-    def observe(self, metrics: Dict[str, float], context: MetricContext) -> List[Any]:
+    def observe(self, metrics: dict[str, float], context: MetricContext) -> list[Any]:
         """Observe system state and detect patterns"""
 
         observation = {
@@ -1279,8 +1279,8 @@ class KnowledgeConsolidator:
     """Consolidates learning experiences into stable knowledge"""
 
     def consolidate(
-        self, experiments: List[AdaptationExperiment]
-    ) -> List[LearningInsight]:
+        self, experiments: list[AdaptationExperiment]
+    ) -> list[LearningInsight]:
         """Consolidate experiments into insights"""
         insights = []
 
@@ -1301,7 +1301,7 @@ class KnowledgeConsolidator:
         return insights
 
     def _generate_group_insight(
-        self, exp_type: str, experiments: List[AdaptationExperiment]
+        self, exp_type: str, experiments: list[AdaptationExperiment]
     ) -> Optional[LearningInsight]:
         """Generate insight from a group of similar experiments"""
 
@@ -1329,7 +1329,7 @@ class TransferLearner:
     """Enables transfer learning between contexts"""
 
     def __init__(self):
-        self.context_similarities: Dict[Tuple[MetricContext, MetricContext], float] = {}
+        self.context_similarities: dict[tuple[MetricContext, MetricContext], float] = {}
 
     def calculate_context_similarity(
         self, context1: MetricContext, context2: MetricContext
@@ -1353,7 +1353,7 @@ class TransferLearner:
 
     def transfer_knowledge(
         self, source_context: MetricContext, target_context: MetricContext
-    ) -> List[str]:
+    ) -> list[str]:
         """Transfer knowledge from source to target context"""
 
         similarity = self.calculate_context_similarity(source_context, target_context)
@@ -1368,7 +1368,7 @@ class TransferLearner:
 
 # Factory function
 def create_neuroplastic_learning_orchestrator(
-    signal_bus: SignalBus, config: Optional[Dict[str, Any]] = None
+    signal_bus: SignalBus, config: Optional[dict[str, Any]] = None
 ) -> NeuroplasticLearningOrchestrator:
     """Create and return a NeuroplasticLearningOrchestrator instance"""
     return NeuroplasticLearningOrchestrator(signal_bus, config)

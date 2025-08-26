@@ -20,7 +20,7 @@
         "command": "claude.explainCode",
         "when": "editorTextFocus"
     },
-    // GitHub Copilot - Secondary AI Assistant Shortcuts  
+    // GitHub Copilot - Secondary AI Assistant Shortcuts
     {
         "key": "cmd+alt+c",
         "command": "github.copilot.generate",

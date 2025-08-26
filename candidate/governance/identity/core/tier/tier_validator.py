@@ -19,7 +19,7 @@ import json
 import os
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 
 class TierValidationResult:
@@ -54,7 +54,7 @@ class TierValidator:
         self.identity_verifier = None  # ⚛️ Identity
 
     def validate_tier_requirements(
-        self, user_id: str, target_tier: int, user_data: Optional[Dict] = None
+        self, user_id: str, target_tier: int, user_data: Optional[dict] = None
     ) -> TierValidationResult:
         """⚛️ Validate if user meets requirements for target tier"""
         start_time = time.time()
@@ -204,8 +204,8 @@ class TierValidator:
         return result
 
     def check_tier_eligibility(
-        self, user_data: Dict, tier_level: int
-    ) -> Tuple[bool, List[str]]:
+        self, user_data: dict, tier_level: int
+    ) -> tuple[bool, list[str]]:
         """🧠 Check if user is eligible for tier level with consciousness analysis"""
         try:
             # Quick tier bounds check
@@ -264,7 +264,7 @@ class TierValidator:
         except Exception as e:
             return False, [f"Eligibility check error: {str(e)}"]
 
-    def generate_tier_report(self, user_id: str) -> Dict[str, Any]:
+    def generate_tier_report(self, user_id: str) -> dict[str, Any]:
         """📊 Generate comprehensive tier status and progression report"""
         try:
             start_time = time.time()
@@ -421,7 +421,7 @@ class TierValidator:
             os.path.dirname(__file__), "../../config/tier_permissions.json"
         )
 
-    def _load_tier_permissions(self) -> Dict:
+    def _load_tier_permissions(self) -> dict:
         """Load tier permissions configuration"""
         try:
             with open(self.config_path) as f:
@@ -440,7 +440,7 @@ class TierValidator:
                 }
             }
 
-    def _get_user_data(self, user_id: str) -> Dict:
+    def _get_user_data(self, user_id: str) -> dict:
         """Get user data (placeholder - would integrate with user database)"""
         # This would integrate with the actual user database
         # For now, return mock data based on user_id patterns
@@ -462,7 +462,7 @@ class TierValidator:
             "biometric_capable": True,
         }
 
-    def _calculate_activity_days(self, user_data: Dict) -> int:
+    def _calculate_activity_days(self, user_data: dict) -> int:
         """Calculate user activity days"""
         try:
             start_date = datetime.fromisoformat(
@@ -473,7 +473,7 @@ class TierValidator:
             return 0
 
     def _constitutional_validation(
-        self, user_id: str, tier: int, user_data: Dict
+        self, user_id: str, tier: int, user_data: dict
     ) -> bool:
         """🛡️ Guardian constitutional validation"""
         try:
@@ -500,7 +500,7 @@ class TierValidator:
         except Exception:
             return False  # Deny on error for safety
 
-    def _analyze_consciousness_patterns(self, user_data: Dict) -> float:
+    def _analyze_consciousness_patterns(self, user_data: dict) -> float:
         """🧠 Analyze user consciousness patterns for validation"""
         try:
             # Simple consciousness scoring based on activity patterns
@@ -526,7 +526,7 @@ class TierValidator:
         except Exception:
             return 0.0  # Return minimum consciousness on error
 
-    def _check_rate_limits(self, user_id: str, rate_limits: Dict) -> bool:
+    def _check_rate_limits(self, user_id: str, rate_limits: dict) -> bool:
         """Check if user is within rate limits"""
         try:
             current_time = time.time()
@@ -573,21 +573,21 @@ class TierValidator:
         )
         return tier_config.get("symbol", "⚪")
 
-    def _get_tier_features(self, tier: int) -> Dict:
+    def _get_tier_features(self, tier: int) -> dict:
         """Get tier features"""
         tier_config = self.tier_permissions.get("tier_permissions", {}).get(
             str(tier), {}
         )
         return tier_config.get("features", {})
 
-    def _get_tier_rate_limits(self, tier: int) -> Dict:
+    def _get_tier_rate_limits(self, tier: int) -> dict:
         """Get tier rate limits"""
         tier_config = self.tier_permissions.get("tier_permissions", {}).get(
             str(tier), {}
         )
         return tier_config.get("rate_limits", {})
 
-    def _get_next_tier_requirements(self, tier: int, user_data: Dict) -> List[str]:
+    def _get_next_tier_requirements(self, tier: int, user_data: dict) -> list[str]:
         """Get requirements for next tier"""
         tier_config = self.tier_permissions.get("tier_permissions", {}).get(
             str(tier), {}
@@ -614,7 +614,7 @@ class TierValidator:
             return 100.0
         return (len(validation_result.requirements_met) / total_reqs) * 100.0
 
-    def _generate_tier_recommendations(self, user_data: Dict) -> List[str]:
+    def _generate_tier_recommendations(self, user_data: dict) -> list[str]:
         """Generate personalized tier progression recommendations"""
         recommendations = []
         current_tier = user_data.get("current_tier", 0)
@@ -655,7 +655,7 @@ class WebAuthnTierValidator(TierValidator):
     """🔐 WebAuthn/FIDO2-specific tier validation extensions"""
 
     def validate_webauthn_tier_access(
-        self, user_id: str, requested_tier: int, webauthn_credential: Dict
+        self, user_id: str, requested_tier: int, webauthn_credential: dict
     ) -> bool:
         """Validate tier access with WebAuthn credential validation"""
         try:
@@ -700,7 +700,7 @@ class OIDCTierMapper:
     }
 
     @classmethod
-    def get_required_tier_for_scopes(cls, requested_scopes: List[str]) -> int:
+    def get_required_tier_for_scopes(cls, requested_scopes: list[str]) -> int:
         """Get minimum tier required for requested OAuth2/OIDC scopes"""
         max_tier = 0
         for scope in requested_scopes:
@@ -710,8 +710,8 @@ class OIDCTierMapper:
 
     @classmethod
     def filter_scopes_by_tier(
-        cls, requested_scopes: List[str], user_tier: int
-    ) -> List[str]:
+        cls, requested_scopes: list[str], user_tier: int
+    ) -> list[str]:
         """Filter scopes based on user's tier level"""
         allowed_scopes = []
         for scope in requested_scopes:

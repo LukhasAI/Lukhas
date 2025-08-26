@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 import os
 import time
-from typing import Any, Dict, Optional
+from typing import Any
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE, "provenance", "receipts")
@@ -18,14 +18,14 @@ def write_receipt(
     *,
     artifact_sha: str,
     event: str,                     # "link_issued" | "download_redirect" | "view_ack"
-    user_id: Optional[str],
-    url: Optional[str],
-    client_ip: Optional[str],
-    user_agent: Optional[str],
-    purpose: Optional[str] = None,
-    extras: Optional[Dict[str, Any]] = None,
+    user_id: str | None,
+    url: str | None,
+    client_ip: str | None,
+    user_agent: str | None,
+    purpose: str | None = None,
+    extras: dict[str, Any] | None = None,
     tag: str = "receipt"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Creates a signed, append-only receipt and returns:
       { "artifact_sha", "event", "attestation": {chain_path, signature_b64, ...}, "ts" }

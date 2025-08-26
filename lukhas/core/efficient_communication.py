@@ -16,7 +16,7 @@ import uuid
 from collections import defaultdict
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +45,7 @@ class Message:
     source: str
     destination: str
     message_type: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     priority: MessagePriority
     mode: CommunicationMode
     timestamp: float
@@ -85,7 +85,7 @@ class Message:
         """Check if message has expired"""
         return (time.time() - self.timestamp) > self.ttl
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert message to dictionary"""
         return {
             **asdict(self),
@@ -101,8 +101,8 @@ class MessageRouter:
     """
 
     def __init__(self):
-        self.routing_table: Dict[str, Dict[str, Any]] = {}
-        self.network_conditions: Dict[str, float] = {}
+        self.routing_table: dict[str, dict[str, Any]] = {}
+        self.network_conditions: dict[str, float] = {}
         self.energy_budget = 1000.0  # Available energy units
         self.energy_used = 0.0
         self._lock = threading.Lock()
@@ -110,8 +110,8 @@ class MessageRouter:
     def register_node(
         self,
         node_id: str,
-        capabilities: Optional[List[str]] = None,
-        location: Optional[Dict[str, Any]] = None,
+        capabilities: Optional[list[str]] = None,
+        location: Optional[dict[str, Any]] = None,
     ):
         """Register a node in the routing table"""
         with self._lock:
@@ -144,7 +144,7 @@ class MessageRouter:
         # Default to event bus
         return CommunicationMode.EVENT_BUS
 
-    def find_optimal_path(self, source: str, destination: str) -> List[str]:
+    def find_optimal_path(self, source: str, destination: str) -> list[str]:
         """Find the most energy-efficient path between nodes"""
         # Simple implementation - direct path for now
         # In a real system, this would consider network topology
@@ -173,7 +173,7 @@ class EventBus:
     """
 
     def __init__(self):
-        self.subscribers: Dict[str, List[Callable]] = defaultdict(list)
+        self.subscribers: dict[str, list[Callable]] = defaultdict(list)
         self.message_queue: asyncio.Queue = asyncio.Queue(maxsize=1000)
         self.stats = {
             "messages_published": 0,
@@ -272,7 +272,7 @@ class P2PChannel:
 
     def __init__(self, local_node_id: str):
         self.local_node_id = local_node_id
-        self.connections: Dict[str, Dict[str, Any]] = {}
+        self.connections: dict[str, dict[str, Any]] = {}
         self.transfer_stats = {
             "bytes_sent": 0,
             "bytes_received": 0,
@@ -281,7 +281,7 @@ class P2PChannel:
         }
 
     async def establish_connection(
-        self, remote_node_id: str, connection_info: Dict[str, Any]
+        self, remote_node_id: str, connection_info: dict[str, Any]
     ) -> bool:
         """Establish a direct connection to another node"""
         try:
@@ -326,7 +326,7 @@ class P2PChannel:
             logger.error(f"P2P send error: {e}")
             return False
 
-    def get_connection_stats(self) -> Dict[str, Any]:
+    def get_connection_stats(self) -> dict[str, Any]:
         """Get P2P connection statistics"""
         return {
             "active_connections": len(self.connections),
@@ -353,7 +353,7 @@ class EfficientCommunicationFabric:
         self.router = MessageRouter()
         self.event_bus = EventBus()
         self.p2p_channel = P2PChannel(node_id)
-        self.message_cache: Dict[str, Message] = {}
+        self.message_cache: dict[str, Message] = {}
         self.energy_monitor = EnergyMonitor()
         self._total_messages = 0
 
@@ -373,7 +373,7 @@ class EfficientCommunicationFabric:
         self,
         destination: str,
         message_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         priority: MessagePriority = MessagePriority.NORMAL,
     ) -> bool:
         """Send a message using the most efficient communication mode"""
@@ -429,12 +429,12 @@ class EfficientCommunicationFabric:
         self.event_bus.subscribe(event_type, handler)
 
     async def establish_p2p_connection(
-        self, remote_node: str, connection_info: Dict[str, Any]
+        self, remote_node: str, connection_info: dict[str, Any]
     ) -> bool:
         """Establish P2P connection for efficient data transfer"""
         return await self.p2p_channel.establish_connection(remote_node, connection_info)
 
-    def get_communication_stats(self) -> Dict[str, Any]:
+    def get_communication_stats(self) -> dict[str, Any]:
         """Get comprehensive communication statistics"""
         return {
             "node_id": self.node_id,
@@ -498,7 +498,7 @@ class EnergyMonitor:
 
     def __init__(self):
         self.total_energy_used = 0.0
-        self.energy_history: List[Dict[str, Any]] = []
+        self.energy_history: list[dict[str, Any]] = []
         self.efficiency_targets = {
             "max_energy_per_message": 1.0,
             "max_hourly_consumption": 100.0,
@@ -519,7 +519,7 @@ class EnergyMonitor:
         if len(self.energy_history) > 1000:
             self.energy_history.pop(0)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get energy consumption statistics"""
         if not self.energy_history:
             return {"total_energy": 0.0, "average_per_message": 0.0}

@@ -14,7 +14,7 @@ import math
 import secrets
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
@@ -50,13 +50,13 @@ class QIResistantPassword:
 
     # Multi-modal components
     text_component: str
-    emoji_component: List[str]
+    emoji_component: list[str]
     visual_component: str  # Base64 encoded image
     audio_component: str  # Base64 encoded audio
-    gesture_component: List[Dict[str, Any]]
-    color_component: List[Tuple[int, int, int]]
-    pattern_component: List[List[int]]  # 2D pattern
-    rhythm_component: List[float]
+    gesture_component: list[dict[str, Any]]
+    color_component: list[tuple[int, int, int]]
+    pattern_component: list[list[int]]  # 2D pattern
+    rhythm_component: list[float]
 
     # Cryptographic components
     salt: bytes
@@ -97,7 +97,7 @@ class QIResistantPassword:
 
         return kdf.derive(combined.encode())
 
-    def verify(self, input_components: Dict[str, Any]) -> bool:
+    def verify(self, input_components: dict[str, Any]) -> bool:
         """Verify password attempt"""
         # Check each component with tolerance
         checks = []
@@ -123,7 +123,7 @@ class QIResistantPassword:
         # Require at least 80% of components to match
         return sum(checks) / len(checks) >= 0.8 if checks else False
 
-    def _verify_gestures(self, input_gestures: List[Dict]) -> bool:
+    def _verify_gestures(self, input_gestures: list[dict]) -> bool:
         """Verify gesture sequence with timing tolerance"""
         if len(input_gestures) != len(self.gesture_component):
             return False
@@ -139,7 +139,7 @@ class QIResistantPassword:
 
         return True
 
-    def _verify_colors(self, input_colors: List[Tuple]) -> bool:
+    def _verify_colors(self, input_colors: list[tuple]) -> bool:
         """Verify colors with tolerance"""
         if len(input_colors) != len(self.color_component):
             return False
@@ -318,7 +318,7 @@ class MaximumEntropyPasswordGenerator:
 
     def _select_optimal_modalities(
         self, target_entropy: int, max_components: int, memorability_threshold: float
-    ) -> Dict[str, int]:
+    ) -> dict[str, int]:
         """Select optimal combination of modalities for target entropy"""
 
         selected = {}
@@ -383,7 +383,7 @@ class MaximumEntropyPasswordGenerator:
 
         return "".join(text)
 
-    def _generate_semantic_emoji_sequence(self, count: int) -> List[str]:
+    def _generate_semantic_emoji_sequence(self, count: int) -> list[str]:
         """Generate semantically meaningful emoji sequence"""
         import random
 
@@ -447,7 +447,7 @@ class MaximumEntropyPasswordGenerator:
         audio_data = bytes(pattern)
         return base64.b64encode(audio_data).decode()[:64]
 
-    def _generate_gesture_choreography(self, count: int) -> List[Dict[str, Any]]:
+    def _generate_gesture_choreography(self, count: int) -> list[dict[str, Any]]:
         """Generate memorable gesture sequence"""
         import random
 
@@ -474,7 +474,7 @@ class MaximumEntropyPasswordGenerator:
 
         return selected
 
-    def _generate_color_symphony(self, count: int) -> List[Tuple[int, int, int]]:
+    def _generate_color_symphony(self, count: int) -> list[tuple[int, int, int]]:
         """Generate harmonious color sequence"""
         import colorsys
         import random
@@ -506,7 +506,7 @@ class MaximumEntropyPasswordGenerator:
 
         return colors
 
-    def _generate_pattern_matrix(self, size: int) -> List[List[int]]:
+    def _generate_pattern_matrix(self, size: int) -> list[list[int]]:
         """Generate 2D pattern matrix"""
         import random
 
@@ -531,7 +531,7 @@ class MaximumEntropyPasswordGenerator:
 
         return pattern
 
-    def _generate_rhythm_sequence(self, count: int) -> List[float]:
+    def _generate_rhythm_sequence(self, count: int) -> list[float]:
         """Generate memorable rhythm pattern"""
         import random
 
@@ -556,7 +556,7 @@ class MaximumEntropyPasswordGenerator:
 
         return rhythm
 
-    def _calculate_memorability(self, components: Dict[str, Any]) -> float:
+    def _calculate_memorability(self, components: dict[str, Any]) -> float:
         """Calculate overall memorability score"""
         scores = []
 
@@ -593,7 +593,7 @@ class MaximumEntropyPasswordGenerator:
 
         return final_score
 
-    async def _validate_with_colony(self, components: Dict[str, Any]) -> float:
+    async def _validate_with_colony(self, components: dict[str, Any]) -> float:
         """Get colony consensus on password strength"""
         # Simplified colony validation
         # In production, would use actual colony consensus

@@ -32,7 +32,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -95,7 +95,7 @@ class RuleCondition:
     operator: RuleOperator
     value: Any                         # Expected value
     pattern: Optional[str] = None      # Regex pattern if applicable
-    context_requirements: List[str] = field(default_factory=list)
+    context_requirements: list[str] = field(default_factory=list)
     weight: float = 1.0               # Condition weight
     optional: bool = False            # Whether condition is optional
 
@@ -111,23 +111,23 @@ class RuleDefinition:
     priority: RulePriority
 
     # Rule logic
-    conditions: List[RuleCondition] = field(default_factory=list)
+    conditions: list[RuleCondition] = field(default_factory=list)
     logic_operator: RuleOperator = RuleOperator.AND
 
     # Context and scope
-    applicable_contexts: List[str] = field(default_factory=list)
-    excluded_contexts: List[str] = field(default_factory=list)
+    applicable_contexts: list[str] = field(default_factory=list)
+    excluded_contexts: list[str] = field(default_factory=list)
 
     # Hierarchical relationships
-    parent_rules: List[str] = field(default_factory=list)
-    child_rules: List[str] = field(default_factory=list)
+    parent_rules: list[str] = field(default_factory=list)
+    child_rules: list[str] = field(default_factory=list)
 
     # Dynamic behavior
     is_dynamic: bool = False
     generator_function: Optional[str] = None
 
     # Metadata
-    tags: List[str] = field(default_factory=list)
+    tags: list[str] = field(default_factory=list)
     version: str = "1.0.0"
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
@@ -144,8 +144,8 @@ class ValidationReport:
 
     validation_id: str
     rule_id: str
-    target_data: Dict[str, Any]
-    context: Dict[str, Any]
+    target_data: dict[str, Any]
+    context: dict[str, Any]
 
     # Results
     result: ValidationResult
@@ -153,26 +153,26 @@ class ValidationReport:
     confidence: float                  # 0.0 to 1.0
 
     # Detailed analysis
-    condition_results: List[Tuple[str, bool, float]] = field(default_factory=list)
-    matched_patterns: List[str] = field(default_factory=list)
-    failed_conditions: List[str] = field(default_factory=list)
+    condition_results: list[tuple[str, bool, float]] = field(default_factory=list)
+    matched_patterns: list[str] = field(default_factory=list)
+    failed_conditions: list[str] = field(default_factory=list)
 
     # Context analysis
-    context_matches: List[str] = field(default_factory=list)
-    missing_context: List[str] = field(default_factory=list)
+    context_matches: list[str] = field(default_factory=list)
+    missing_context: list[str] = field(default_factory=list)
 
     # Performance
     execution_time: float = 0.0
     cache_hit: bool = False
 
     # Recommendations
-    suggestions: List[str] = field(default_factory=list)
-    required_actions: List[str] = field(default_factory=list)
+    suggestions: list[str] = field(default_factory=list)
+    required_actions: list[str] = field(default_factory=list)
 
     # Trinity Framework integration
-    identity_factors: List[str] = field(default_factory=list)      # ⚛️
-    consciousness_factors: List[str] = field(default_factory=list) # 🧠
-    guardian_factors: List[str] = field(default_factory=list)      # 🛡️
+    identity_factors: list[str] = field(default_factory=list)      # ⚛️
+    consciousness_factors: list[str] = field(default_factory=list) # 🧠
+    guardian_factors: list[str] = field(default_factory=list)      # 🛡️
 
     # Metadata
     validation_timestamp: datetime = field(default_factory=datetime.now)
@@ -189,10 +189,10 @@ class AdvancedRuleValidator:
     """
 
     def __init__(self):
-        self.rules: Dict[str, RuleDefinition] = {}
-        self.rule_cache: Dict[str, Tuple[ValidationReport, datetime]] = {}
-        self.validation_history: List[ValidationReport] = []
-        self.context_providers: Dict[str, Callable] = {}
+        self.rules: dict[str, RuleDefinition] = {}
+        self.rule_cache: dict[str, tuple[ValidationReport, datetime]] = {}
+        self.validation_history: list[ValidationReport] = []
+        self.context_providers: dict[str, Callable] = {}
 
         # Performance metrics
         self.metrics = {
@@ -267,8 +267,8 @@ class AdvancedRuleValidator:
     async def validate(
         self,
         rule_id: str,
-        target_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
+        target_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
         use_cache: bool = True
     ) -> ValidationReport:
         """
@@ -368,11 +368,11 @@ class AdvancedRuleValidator:
 
     async def validate_multiple(
         self,
-        rule_ids: List[str],
-        target_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None,
+        rule_ids: list[str],
+        target_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None,
         require_all: bool = False
-    ) -> Dict[str, ValidationReport]:
+    ) -> dict[str, ValidationReport]:
         """
         Validate data against multiple rules
 
@@ -420,8 +420,8 @@ class AdvancedRuleValidator:
         self,
         validation_id: str,
         rule: RuleDefinition,
-        target_data: Dict[str, Any],
-        context: Dict[str, Any],
+        target_data: dict[str, Any],
+        context: dict[str, Any],
         start_time: datetime
     ) -> ValidationReport:
         """Perform the actual validation logic"""
@@ -500,9 +500,9 @@ class AdvancedRuleValidator:
     async def _evaluate_condition(
         self,
         condition: RuleCondition,
-        target_data: Dict[str, Any],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        target_data: dict[str, Any],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate a single rule condition"""
 
         # Get field value from target data
@@ -555,7 +555,7 @@ class AdvancedRuleValidator:
                 "reason": f"Condition evaluation error: {str(e)}"
             }
 
-    def _get_nested_field_value(self, data: Dict[str, Any], field_path: str) -> Any:
+    def _get_nested_field_value(self, data: dict[str, Any], field_path: str) -> Any:
         """Get value from nested dictionary using dot notation"""
         try:
             keys = field_path.split('.')
@@ -575,10 +575,10 @@ class AdvancedRuleValidator:
     async def _apply_rule_logic(
         self,
         rule: RuleDefinition,
-        condition_results: List[Tuple[str, bool, float]],
+        condition_results: list[tuple[str, bool, float]],
         total_score: float,
         total_weight: float
-    ) -> Tuple[ValidationResult, float]:
+    ) -> tuple[ValidationResult, float]:
         """Apply rule logic operator to combine condition results"""
 
         if not condition_results:
@@ -629,8 +629,8 @@ class AdvancedRuleValidator:
     def _calculate_confidence(
         self,
         rule: RuleDefinition,
-        condition_results: List[Tuple[str, bool, float]],
-        context: Dict[str, Any]
+        condition_results: list[tuple[str, bool, float]],
+        context: dict[str, Any]
     ) -> float:
         """Calculate confidence in the validation result"""
 
@@ -658,9 +658,9 @@ class AdvancedRuleValidator:
     async def _generate_suggestions(
         self,
         rule: RuleDefinition,
-        failed_conditions: List[str],
-        context: Dict[str, Any]
-    ) -> List[str]:
+        failed_conditions: list[str],
+        context: dict[str, Any]
+    ) -> list[str]:
         """Generate suggestions for validation improvement"""
 
         suggestions = []
@@ -686,8 +686,8 @@ class AdvancedRuleValidator:
     async def _generate_required_actions(
         self,
         rule: RuleDefinition,
-        failed_conditions: List[str]
-    ) -> List[str]:
+        failed_conditions: list[str]
+    ) -> list[str]:
         """Generate required actions for validation compliance"""
 
         actions = []
@@ -706,10 +706,10 @@ class AdvancedRuleValidator:
     async def _analyze_trinity_factors(
         self,
         rule: RuleDefinition,
-        target_data: Dict[str, Any],
-        context: Dict[str, Any],
+        target_data: dict[str, Any],
+        context: dict[str, Any],
         result: ValidationResult
-    ) -> Dict[str, List[str]]:
+    ) -> dict[str, list[str]]:
         """Analyze Trinity Framework factors (⚛️🧠🛡️)"""
 
         factors = {
@@ -771,7 +771,7 @@ class AdvancedRuleValidator:
             logger.error(f"Rule definition validation error: {e}")
             return False
 
-    async def _check_rule_conflicts(self, rule: RuleDefinition) -> List[str]:
+    async def _check_rule_conflicts(self, rule: RuleDefinition) -> list[str]:
         """Check for conflicts with existing rules"""
 
         conflicts = []
@@ -788,7 +788,7 @@ class AdvancedRuleValidator:
 
         return conflicts
 
-    async def _validate_context(self, rule: RuleDefinition, context: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_context(self, rule: RuleDefinition, context: dict[str, Any]) -> dict[str, Any]:
         """Validate that required context is available"""
 
         required_contexts = set()
@@ -813,8 +813,8 @@ class AdvancedRuleValidator:
     async def _check_cache(
         self,
         rule_id: str,
-        target_data: Dict[str, Any],
-        context: Dict[str, Any]
+        target_data: dict[str, Any],
+        context: dict[str, Any]
     ) -> Optional[ValidationReport]:
         """Check for cached validation results"""
 
@@ -839,8 +839,8 @@ class AdvancedRuleValidator:
     async def _cache_result(
         self,
         rule_id: str,
-        target_data: Dict[str, Any],
-        context: Dict[str, Any],
+        target_data: dict[str, Any],
+        context: dict[str, Any],
         result: ValidationReport
     ):
         """Cache a validation result"""
@@ -853,7 +853,7 @@ class AdvancedRuleValidator:
             oldest_key = min(self.rule_cache.keys(), key=lambda k: self.rule_cache[k][1])
             del self.rule_cache[oldest_key]
 
-    def _generate_cache_key(self, rule_id: str, target_data: Dict[str, Any], context: Dict[str, Any]) -> str:
+    def _generate_cache_key(self, rule_id: str, target_data: dict[str, Any], context: dict[str, Any]) -> str:
         """Generate a cache key for validation results"""
 
         # Create deterministic hash of inputs
@@ -908,7 +908,7 @@ class AdvancedRuleValidator:
         if len(self.validation_history) > max_size:
             self.validation_history = self.validation_history[-max_size:]
 
-    async def get_rule_statistics(self, rule_id: str) -> Optional[Dict[str, Any]]:
+    async def get_rule_statistics(self, rule_id: str) -> Optional[dict[str, Any]]:
         """Get statistics for a specific rule"""
 
         if rule_id not in self.rules:
@@ -938,7 +938,7 @@ class AdvancedRuleValidator:
             "common_failure_patterns": self._analyze_failure_patterns(rule_validations)
         }
 
-    def _analyze_failure_patterns(self, validations: List[ValidationReport]) -> List[str]:
+    def _analyze_failure_patterns(self, validations: list[ValidationReport]) -> list[str]:
         """Analyze common failure patterns from validation history"""
 
         failed_validations = [v for v in validations if v.result == ValidationResult.INVALID]
@@ -956,16 +956,16 @@ class AdvancedRuleValidator:
         sorted_failures = sorted(failure_counts.items(), key=lambda x: x[1], reverse=True)
         return [f"{reason} ({count} times)" for reason, count in sorted_failures[:5]]
 
-    async def get_system_metrics(self) -> Dict[str, Any]:
+    async def get_system_metrics(self) -> dict[str, Any]:
         """Get comprehensive system metrics"""
         return self.metrics.copy()
 
-    async def export_rule_definitions(self) -> List[Dict[str, Any]]:
+    async def export_rule_definitions(self) -> list[dict[str, Any]]:
         """Export all rule definitions"""
 
         exported_rules = []
 
-        for rule_id, rule in self.rules.items():
+        for _rule_id, rule in self.rules.items():
             exported_rule = {
                 "rule_id": rule.rule_id,
                 "name": rule.name,

@@ -8,7 +8,7 @@ Preserves complex functionality while reducing redundancy
 import asyncio
 import json
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 class AICodeConsolidator:
@@ -19,7 +19,7 @@ class AICodeConsolidator:
         self.consolidated_modules = {}
         self.consolidation_log = []
 
-    async def consolidate_with_ai(self, codebase_path: str) -> Dict:
+    async def consolidate_with_ai(self, codebase_path: str) -> dict:
         """Main consolidation function using AI analysis"""
         print("🤖 Starting AI-powered AGI consolidation...")
 
@@ -56,8 +56,8 @@ class AICodeConsolidator:
         return results
 
     async def _merge_modules_with_ai(
-        self, codebase_path: str, merge_candidate: Dict
-    ) -> Optional[Dict]:
+        self, codebase_path: str, merge_candidate: dict
+    ) -> Optional[dict]:
         """Use AI to intelligently merge similar modules"""
         modules = merge_candidate["modules"]
         component_type = merge_candidate["component_type"]
@@ -92,7 +92,7 @@ class AICodeConsolidator:
         return None
 
     def _create_merge_prompt(
-        self, module_contents: Dict[str, str], component_type: str
+        self, module_contents: dict[str, str], component_type: str
     ) -> str:
         """Create AI prompt for merging modules"""
         prompt = f"""You are an expert AGI architect. I need to merge these {component_type} modules while preserving all functionality and improving the architecture.
@@ -129,8 +129,8 @@ MERGED MODULE:
         return prompt
 
     async def _standardize_interfaces_with_ai(
-        self, codebase_path: str, interface_plan: Dict
-    ) -> List[Dict]:
+        self, codebase_path: str, interface_plan: dict
+    ) -> list[dict]:
         """Use AI to standardize interfaces across AGI components"""
         print("🔧 Standardizing AGI component interfaces...")
 
@@ -174,8 +174,8 @@ OUTPUT: Complete Python interface definition with full documentation.
         return standardized_results
 
     async def _optimize_modules_with_ai(
-        self, codebase_path: str, optimization_plan: Dict
-    ) -> List[Dict]:
+        self, codebase_path: str, optimization_plan: dict
+    ) -> list[dict]:
         """Use AI to optimize individual modules"""
         print("⚡ Optimizing AGI modules with AI...")
 
@@ -270,7 +270,7 @@ OPTIMIZED MODULE:
             print(f"❌ AI API call failed: {e}")
             return None
 
-    def generate_consolidation_report(self, results: Dict) -> str:
+    def generate_consolidation_report(self, results: dict) -> str:
         """Generate a comprehensive consolidation report"""
         report = """
 # AGI Module Consolidation Report
@@ -333,7 +333,7 @@ This report details the AI-powered consolidation of your AGI codebase.
         return report
 
     def save_consolidated_modules(
-        self, results: Dict, output_dir: str = "consolidated_agi"
+        self, results: dict, output_dir: str = "consolidated_agi"
     ):
         """Save all consolidated modules to disk"""
         output_path = Path(output_dir)
@@ -380,7 +380,7 @@ This report details the AI-powered consolidation of your AGI codebase.
 
         print(f"📊 Saved consolidation report: {output_dir}/consolidation_report.md")
 
-    def generate_migration_script(self, results: Dict) -> str:
+    def generate_migration_script(self, results: dict) -> str:
         """Generate a script to migrate from old to new module structure"""
         script = """#!/usr/bin/env python3
 # AGI Module Migration Script

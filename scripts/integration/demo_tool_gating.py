@@ -5,7 +5,7 @@ Demonstrates tool gating and audit logging with OpenAI completions.
 """
 
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 
 # Mock OpenAI client for demo purposes
@@ -33,8 +33,8 @@ class MockOpenAIClient:
 
 
 def lukhas_completion_with_gating(
-    messages: List[Dict[str, str]], params: Dict[str, Any], client: MockOpenAIClient
-) -> Dict[str, Any]:
+    messages: list[dict[str, str]], params: dict[str, Any], client: MockOpenAIClient
+) -> dict[str, Any]:
     """
     Complete with LUKHAS tool gating and audit logging.
 

@@ -10,7 +10,7 @@ import logging
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
@@ -44,7 +44,7 @@ app.add_middleware(
 )
 
 # WebSocket connections
-active_connections: List[WebSocket] = []
+active_connections: list[WebSocket] = []
 
 # Dashboard configuration
 DASHBOARD_CONFIG = {
@@ -283,7 +283,7 @@ async def visual_dashboard():
 
 
 @app.post("/api/meta/red-team")
-async def toggle_red_team(request: Dict[str, Any]):
+async def toggle_red_team(request: dict[str, Any]):
     """Toggle Red Team mode for drift simulation"""
     try:
         enabled = request.get("enabled", False)

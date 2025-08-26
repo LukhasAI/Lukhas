@@ -12,7 +12,6 @@ Advanced: lukhas_emotion_log_alt.py
 Integration Date: 2025-05-31T07:55:28.105121
 """
 import logging
-from typing import Dict, List
 
 """
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -128,7 +127,7 @@ def blend_emotions():
     return emotion_counts.most_common(1)[0][0]  # Return the most common emotion
 
 
-def search_emotions(criteria: Dict[str, str]) -> List[Dict]:
+def search_emotions(criteria: dict[str, str]) -> list[dict]:
     """
     Searches the emotion log based on criteria.
 

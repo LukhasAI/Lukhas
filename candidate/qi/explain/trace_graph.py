@@ -3,10 +3,10 @@ from __future__ import annotations
 import argparse
 import json
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 
-def build_trace(nodes: List[Dict[str,Any]]) -> Dict[str,Any]:
+def build_trace(nodes: list[dict[str,Any]]) -> dict[str,Any]:
     return {"ts":time.time(),"nodes":nodes}
 if __name__=="__main__":
     ap=argparse.ArgumentParser()

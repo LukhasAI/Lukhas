@@ -5,7 +5,7 @@ Trinity Framework: ⚛️🧠🛡️
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from lukhas.core.container.service_container import ServiceLifetime, injectable
 from lukhas.core.interfaces.services import (
@@ -76,7 +76,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
                 self._initialized = False
 
     @instrument
-    async def authenticate(self, credentials: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def authenticate(self, credentials: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Authenticate using ΛID system with <100ms target"""
         await self.initialize()
         if not self._identity_service:
@@ -110,7 +110,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
             logger.error(f"Token verification failed: {e}")
             return False
 
-    async def create_identity(self, user_data: Dict[str, Any]) -> str:
+    async def create_identity(self, user_data: dict[str, Any]) -> str:
         """Create new identity"""
         await self.initialize()
         if not self._identity_service:
@@ -126,7 +126,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
             logger.error(f"Failed to create identity: {e}")
             return ""
 
-    async def get_identity(self, user_id: str) -> Optional[Dict[str, Any]]:
+    async def get_identity(self, user_id: str) -> Optional[dict[str, Any]]:
         """Get identity information"""
         await self.initialize()
         if not self._identity_service:
@@ -143,7 +143,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
         self._initialized = False
         self._identity_service = None
 
-    def get_health(self) -> Dict[str, Any]:
+    def get_health(self) -> dict[str, Any]:
         """Get service health status"""
         return {
             "service": "LambdaIdentityService",
@@ -214,7 +214,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             logger.error(f"Failed to record consent: {e}")
             return False
 
-    async def check_ethics(self, action: str, context: Dict[str, Any]) -> bool:
+    async def check_ethics(self, action: str, context: dict[str, Any]) -> bool:
         """Check if action is ethically allowed"""
         await self.initialize()
         if not self._policy_engine:
@@ -226,7 +226,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             logger.error(f"Ethics check failed: {e}")
             return False
 
-    async def report_violation(self, violation: Dict[str, Any]) -> None:
+    async def report_violation(self, violation: dict[str, Any]) -> None:
         """Report ethics violation"""
         await self.initialize()
         if self._consent_ledger:
@@ -235,7 +235,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             except Exception as e:
                 logger.error(f"Failed to report violation: {e}")
 
-    async def get_governance_state(self) -> Dict[str, Any]:
+    async def get_governance_state(self) -> dict[str, Any]:
         """Get current governance state"""
         await self.initialize()
         if not self._consent_ledger:
@@ -251,7 +251,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             logger.error(f"Failed to get governance state: {e}")
             return {"status": "error", "error": str(e)}
 
-    async def evaluate_risk(self, scenario: Dict[str, Any]) -> Dict[str, Any]:
+    async def evaluate_risk(self, scenario: dict[str, Any]) -> dict[str, Any]:
         """Evaluate risk of scenario"""
         await self.initialize()
         if not self._policy_engine:
@@ -269,7 +269,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             logger.error(f"Risk evaluation failed: {e}")
             return {"risk_level": "error", "score": 1.0, "error": str(e)}
 
-    async def apply_policy(self, request: Dict[str, Any]) -> Dict[str, Any]:
+    async def apply_policy(self, request: dict[str, Any]) -> dict[str, Any]:
         """Apply governance policy"""
         await self.initialize()
         if not self._policy_engine:
@@ -282,7 +282,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             logger.error(f"Policy application failed: {e}")
             return {"approved": False, "reason": str(e)}
 
-    async def audit_action(self, action: Dict[str, Any]) -> None:
+    async def audit_action(self, action: dict[str, Any]) -> None:
         """Audit an action for compliance"""
         await self.initialize()
         if self._consent_ledger:
@@ -298,7 +298,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
         self._consent_ledger = None
         self._policy_engine = None
 
-    def get_health(self) -> Dict[str, Any]:
+    def get_health(self) -> dict[str, Any]:
         """Get service health status"""
         return {
             "service": "ConsentLedgerV1",
@@ -333,7 +333,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
                 logger.error(f"Failed to import external adapters: {e}")
                 self._initialized = False
 
-    async def connect(self, service: str, credentials: Dict[str, Any]) -> bool:
+    async def connect(self, service: str, credentials: dict[str, Any]) -> bool:
         """Connect to external service"""
         await self.initialize()
 
@@ -349,7 +349,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
             return False
 
     @instrument
-    async def fetch_data(self, service: str, query: Dict[str, Any]) -> Optional[Any]:
+    async def fetch_data(self, service: str, query: dict[str, Any]) -> Optional[Any]:
         """Fetch data from external service"""
         await self.initialize()
 
@@ -378,7 +378,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
             logger.error(f"Failed to send to {service}: {e}")
             return False
 
-    async def get_bridge_status(self) -> Dict[str, Any]:
+    async def get_bridge_status(self) -> dict[str, Any]:
         """Get status of all bridges"""
         await self.initialize()
 
@@ -391,7 +391,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
 
         return status
 
-    async def send_external(self, destination: str, data: Any) -> Dict[str, Any]:
+    async def send_external(self, destination: str, data: Any) -> dict[str, Any]:
         """Send data to external system"""
         # Parse destination format: "service:target" (e.g., "gmail:user@example.com")
         parts = destination.split(':', 1)
@@ -438,7 +438,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
         self._initialized = False
         self._adapters.clear()
 
-    def get_health(self) -> Dict[str, Any]:
+    def get_health(self) -> dict[str, Any]:
         """Get service health status"""
         return {
             "service": "ExternalAdapters",
@@ -500,7 +500,7 @@ def register_seven_agent_services(container=None):
     # Register governance service (consent ledger)
     # Note: IGovernanceService might already be registered, so we check first
     try:
-        existing = container.resolve(IGovernanceService)
+        container.resolve(IGovernanceService)
         logger.info("IGovernanceService already registered, skipping ConsentLedger registration")
     except:
         container.register_singleton(IGovernanceService, ConsentLedgerServiceAdapter)
@@ -508,7 +508,7 @@ def register_seven_agent_services(container=None):
     # Register bridge service (external adapters)
     # Note: IBridgeService might already be registered, so we check first
     try:
-        existing = container.resolve(IBridgeService)
+        container.resolve(IBridgeService)
         logger.info("IBridgeService already registered, skipping ExternalAdapters registration")
     except:
         container.register_singleton(IBridgeService, ExternalAdaptersServiceAdapter)

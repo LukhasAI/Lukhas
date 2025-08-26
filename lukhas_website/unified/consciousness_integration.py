@@ -9,7 +9,7 @@ import asyncio
 import json
 from dataclasses import asdict, dataclass
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 # Import LUKHAS core systems
 try:
@@ -54,7 +54,7 @@ class ConsciousnessVisualizationState:
     active_folds: int = 0
 
     # GLYPH state
-    active_glyphs: List[str] = None
+    active_glyphs: list[str] = None
     glyph_resonance: float = 0.5
 
     # Quantum state
@@ -70,7 +70,7 @@ class ConsciousnessVisualizationState:
         if self.active_glyphs is None:
             self.active_glyphs = []
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Convert to dictionary for JSON serialization"""
         return asdict(self)
 
@@ -121,7 +121,7 @@ class ConsciousnessVisualizationBridge:
         except:
             print("✗ GlyphEngine not available")
 
-    def _init_particle_behaviors(self) -> Dict:
+    def _init_particle_behaviors(self) -> dict:
         """Define particle behavior mappings for consciousness states"""
         return {
             VisualizationMode.AWARENESS: {
@@ -167,7 +167,7 @@ class ConsciousnessVisualizationBridge:
             }
         }
 
-    def _init_color_mappings(self) -> Dict:
+    def _init_color_mappings(self) -> dict:
         """Define color mappings for consciousness states"""
         return {
             VisualizationMode.AWARENESS: {
@@ -197,7 +197,7 @@ class ConsciousnessVisualizationBridge:
             }
         }
 
-    def _init_shape_mappings(self) -> Dict:
+    def _init_shape_mappings(self) -> dict:
         """Define shape mappings for consciousness states"""
         return {
             'high_awareness': 'galaxy',
@@ -257,7 +257,7 @@ class ConsciousnessVisualizationBridge:
             self.state.consciousness_strength = self.state.coherence / total
             self.state.guardian_strength = (1 - self.state.entropy) / total
 
-    def get_visualization_params(self) -> Dict[str, Any]:
+    def get_visualization_params(self) -> dict[str, Any]:
         """
         Get current visualization parameters based on consciousness state.
         Returns parameters formatted for the visualization engine.
@@ -345,7 +345,7 @@ class ConsciousnessVisualizationBridge:
         """Change visualization mode"""
         self.mode = mode
 
-    def process_voice_input(self, voice_data: Dict) -> Dict:
+    def process_voice_input(self, voice_data: dict) -> dict:
         """
         Process voice input and map to consciousness changes.
         Returns visualization adjustments.
@@ -373,7 +373,7 @@ class ConsciousnessVisualizationBridge:
 
         return self.get_visualization_params()
 
-    def process_text_input(self, text: str) -> Dict:
+    def process_text_input(self, text: str) -> dict:
         """
         Process text input for visualization.
         Can trigger GLYPH processing or text morphing.

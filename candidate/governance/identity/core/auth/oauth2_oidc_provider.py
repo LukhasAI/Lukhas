@@ -20,7 +20,7 @@ import hashlib
 import secrets
 import time
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 try:
     import jwt
@@ -36,7 +36,7 @@ except ImportError:
 class OAuthClient:
     """OAuth2 client registration data"""
 
-    def __init__(self, client_data: Dict):
+    def __init__(self, client_data: dict):
         self.client_id = client_data.get("client_id", "")
         self.client_secret = client_data.get("client_secret", "")
         self.client_name = client_data.get("client_name", "")
@@ -48,7 +48,7 @@ class OAuthClient:
         self.created_at = client_data.get("created_at", datetime.utcnow().isoformat())
         self.trusted = client_data.get("trusted", False)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Convert client to dictionary"""
         return {
             "client_id": self.client_id,
@@ -66,7 +66,7 @@ class OAuthClient:
 class OAuth2OIDCProvider:
     """⚛️🧠🛡️ Trinity-compliant OAuth2/OIDC authorization server"""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.issuer = self.config.get("issuer", "https://lukhas.ai")
         self.key_id = "lukhas-signing-key-2024"
@@ -75,11 +75,11 @@ class OAuth2OIDCProvider:
         self.private_key, self.public_key = self._generate_key_pair()
 
         # Storage (in production, would use database)
-        self.clients: Dict[str, OAuthClient] = {}
-        self.authorization_codes: Dict[str, Dict] = {}
-        self.access_tokens: Dict[str, Dict] = {}
-        self.refresh_tokens: Dict[str, Dict] = {}
-        self.id_tokens: Dict[str, Dict] = {}
+        self.clients: dict[str, OAuthClient] = {}
+        self.authorization_codes: dict[str, dict] = {}
+        self.access_tokens: dict[str, dict] = {}
+        self.refresh_tokens: dict[str, dict] = {}
+        self.id_tokens: dict[str, dict] = {}
 
         # Performance optimization
         self.token_cache = {}
@@ -162,7 +162,7 @@ class OAuth2OIDCProvider:
         self.consciousness_tracker = None  # 🧠 Consciousness
         self.identity_verifier = None  # ⚛️ Identity
 
-    def get_authorization_endpoint_metadata(self) -> Dict[str, Any]:
+    def get_authorization_endpoint_metadata(self) -> dict[str, Any]:
         """📋 Get OAuth2/OIDC server metadata (RFC 8414)"""
         return {
             "issuer": self.issuer,
@@ -220,11 +220,11 @@ class OAuth2OIDCProvider:
         }
 
     def handle_authorization_request(
-        self, request_params: Dict[str, Any], user_id: str, user_tier: int
-    ) -> Dict[str, Any]:
+        self, request_params: dict[str, Any], user_id: str, user_tier: int
+    ) -> dict[str, Any]:
         """🔐 Handle OAuth2/OIDC authorization request"""
         try:
-            start_time = time.time()
+            time.time()
 
             # Extract and validate parameters
             client_id = request_params.get("client_id", "")
@@ -350,12 +350,12 @@ class OAuth2OIDCProvider:
 
     def handle_token_request(
         self,
-        request_params: Dict[str, Any],
-        client_auth: Optional[Tuple[str, str]] = None,
-    ) -> Dict[str, Any]:
+        request_params: dict[str, Any],
+        client_auth: Optional[tuple[str, str]] = None,
+    ) -> dict[str, Any]:
         """💰 Handle OAuth2 token request"""
         try:
-            start_time = time.time()
+            time.time()
 
             grant_type = request_params.get("grant_type", "")
 
@@ -398,7 +398,7 @@ class OAuth2OIDCProvider:
                 "server_error", f"Token processing failed: {str(e)}"
             )
 
-    def introspect_token(self, token: str, client_id: str) -> Dict[str, Any]:
+    def introspect_token(self, token: str, client_id: str) -> dict[str, Any]:
         """🔍 Introspect access token (RFC 7662)"""
         try:
             start_time = time.time()
@@ -438,7 +438,7 @@ class OAuth2OIDCProvider:
         except Exception as e:
             return {"active": False, "error": f"Introspection failed: {str(e)}"}
 
-    def get_userinfo(self, access_token: str) -> Dict[str, Any]:
+    def get_userinfo(self, access_token: str) -> dict[str, Any]:
         """👤 Get user info using access token (OIDC UserInfo endpoint)"""
         try:
             start_time = time.time()
@@ -521,7 +521,7 @@ class OAuth2OIDCProvider:
                 "server_error", f"UserInfo retrieval failed: {str(e)}"
             )
 
-    def get_jwks(self) -> Dict[str, Any]:
+    def get_jwks(self) -> dict[str, Any]:
         """🔑 Get JSON Web Key Set (JWKS)"""
         try:
             # Check cache
@@ -576,7 +576,7 @@ class OAuth2OIDCProvider:
                 "error_description": f"JWKS generation failed: {str(e)}",
             }
 
-    def register_client(self, client_registration: Dict[str, Any]) -> Dict[str, Any]:
+    def register_client(self, client_registration: dict[str, Any]) -> dict[str, Any]:
         """📝 Register OAuth2 client (RFC 7591)"""
         try:
             # Generate client credentials
@@ -648,7 +648,7 @@ class OAuth2OIDCProvider:
         except Exception:
             return None, None
 
-    def _get_allowed_scopes_for_tier(self, user_tier: int) -> Set[str]:
+    def _get_allowed_scopes_for_tier(self, user_tier: int) -> set[str]:
         """Get allowed scopes for user tier"""
         tier_scopes = self.tier_scope_mapping.get(user_tier, self.tier_scope_mapping[0])
         if "*" in tier_scopes:
@@ -687,7 +687,7 @@ class OAuth2OIDCProvider:
 
     def _error_response(
         self, error_code: str, error_description: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate OAuth2 error response"""
         return {"error": error_code, "error_description": error_description}
 
@@ -708,7 +708,7 @@ class OAuth2OIDCProvider:
         tier_symbols = {0: "🟢", 1: "🔵", 2: "🟡", 3: "🟠", 4: "🔴", 5: "💜"}
         return tier_symbols.get(tier, "⚪")
 
-    def _get_tier_features(self, tier: int) -> List[str]:
+    def _get_tier_features(self, tier: int) -> list[str]:
         """Get tier features"""
         features = {
             0: ["basic_id_generation"],

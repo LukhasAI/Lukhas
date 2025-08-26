@@ -16,7 +16,7 @@ jobs:
           echo "  ./tools/ci/run_autofix.sh"
           echo "Or remove the label if autofix is not needed"
           exit 1
-      
+
       - name: Success
         if: "!contains(github.event.pull_request.labels.*.name, 'autofix-pending')"
         run: |

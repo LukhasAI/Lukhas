@@ -10,7 +10,7 @@ import json
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 import networkx as nx
 
@@ -20,10 +20,10 @@ class ModuleAnalysis:
     path: str
     purpose: str
     complexity_score: float
-    dependencies: List[str]
-    interfaces: List[str]
-    core_functions: List[str]
-    potential_merges: List[str]
+    dependencies: list[str]
+    interfaces: list[str]
+    core_functions: list[str]
+    potential_merges: list[str]
     abstraction_level: str
     agi_component_type: str
 
@@ -57,7 +57,7 @@ class AGIModuleAnalyzer:
             "meta_cognitive": ["meta", "reflection", "introspection", "self_model"],
         }
 
-    def analyze_agi_architecture(self) -> Dict:
+    def analyze_agi_architecture(self) -> dict:
         """Main analysis function that understands AGI modular complexity"""
         print("🧠 Analyzing AGI modular architecture...")
 
@@ -186,7 +186,7 @@ class AGIModuleAnalyzer:
         return complexity + (lines * 0.01) + (imports * 0.1)
 
     def _determine_module_purpose(
-        self, file_path: Path, content: str, classes: List[str], functions: List[str]
+        self, file_path: Path, content: str, classes: list[str], functions: list[str]
     ) -> str:
         """Determine module purpose using heuristics or AI"""
         if self.use_ai:
@@ -197,7 +197,7 @@ class AGIModuleAnalyzer:
             )
 
     def _ai_analyze_purpose(
-        self, file_path: Path, content: str, classes: List[str], functions: List[str]
+        self, file_path: Path, content: str, classes: list[str], functions: list[str]
     ) -> str:
         """Use AI to analyze module purpose (placeholder for Claude API integration)"""
         # This would integrate with Claude API to analyze the code
@@ -205,23 +205,22 @@ class AGIModuleAnalyzer:
         return self._heuristic_analyze_purpose(file_path, content, classes, functions)
 
     def _heuristic_analyze_purpose(
-        self, file_path: Path, content: str, classes: List[str], functions: List[str]
+        self, file_path: Path, content: str, classes: list[str], functions: list[str]
     ) -> str:
         """Analyze module purpose using heuristics"""
         # Extract docstrings
-        docstring = ""
         try:
             tree = ast.parse(content)
             if isinstance(tree.body[0], ast.Expr) and isinstance(
                 tree.body[0].value, ast.Str
             ):
-                docstring = tree.body[0].value.s
+                tree.body[0].value.s
         except:
             pass
 
         # Analyze filename and content
         filename = file_path.stem.lower()
-        content_lower = content.lower()
+        content.lower()
 
         # Determine purpose based on patterns
         if any(word in filename for word in ["adapter", "bridge", "interface"]):
@@ -254,7 +253,7 @@ class AGIModuleAnalyzer:
             return f"AGI component - {filename.replace('_', ' ').title()}"
 
     def _classify_agi_component(
-        self, file_path: Path, content: str, classes: List[str], functions: List[str]
+        self, file_path: Path, content: str, classes: list[str], functions: list[str]
     ) -> str:
         """Classify what type of AGI component this module represents"""
         filename = file_path.stem.lower()
@@ -281,7 +280,7 @@ class AGIModuleAnalyzer:
         return "utility"
 
     def _determine_abstraction_level(
-        self, content: str, classes: List[str], functions: List[str]
+        self, content: str, classes: list[str], functions: list[str]
     ) -> str:
         """Determine the abstraction level of the module"""
         if any("abstract" in cls.lower() or "base" in cls.lower() for cls in classes):
@@ -299,7 +298,7 @@ class AGIModuleAnalyzer:
         else:
             return "implementation"
 
-    def _get_class_methods(self, tree: ast.AST, class_name: str) -> List[str]:
+    def _get_class_methods(self, tree: ast.AST, class_name: str) -> list[str]:
         """Extract method names from a specific class"""
         for node in ast.walk(tree):
             if isinstance(node, ast.ClassDef) and node.name == class_name:
@@ -321,11 +320,10 @@ class AGIModuleAnalyzer:
         """Convert import name to file path"""
         # Convert qi.bio.cellular to bio/cellular.py
         parts = import_name.split(".")
-        if parts[0] in ["qi", "core"]:
-            if len(parts) > 1:
-                path_parts = parts[1:]  # Remove 'qi' or 'core'
-                potential_path = "/".join(path_parts) + ".py"
-                return potential_path
+        if parts[0] in ["qi", "core"] and len(parts) > 1:
+            path_parts = parts[1:]  # Remove 'qi' or 'core'
+            potential_path = "/".join(path_parts) + ".py"
+            return potential_path
         return None
 
     def _classify_agi_components(self):
@@ -345,7 +343,7 @@ class AGIModuleAnalyzer:
                 }
             )
 
-    def _identify_consolidation_opportunities(self) -> Dict:
+    def _identify_consolidation_opportunities(self) -> dict:
         """Identify modules that can be consolidated without losing AGI functionality"""
         consolidation_plan = {
             "merge_candidates": [],
@@ -373,8 +371,8 @@ class AGIModuleAnalyzer:
         return consolidation_plan
 
     def _analyze_merge_potential(
-        self, component_type: str, modules: List[Dict]
-    ) -> List[Dict]:
+        self, component_type: str, modules: list[dict]
+    ) -> list[dict]:
         """Analyze if modules within same AGI component can be merged"""
         merge_candidates = []
 
@@ -384,7 +382,7 @@ class AGIModuleAnalyzer:
             by_abstraction[module["abstraction"]].append(module)
 
         # Look for merge opportunities within same abstraction level
-        for abstraction, module_group in by_abstraction.items():
+        for _abstraction, module_group in by_abstraction.items():
             if len(module_group) > 1:
                 # Check if modules have similar complexity and purpose
                 similar_modules = []
@@ -407,7 +405,7 @@ class AGIModuleAnalyzer:
 
         return merge_candidates
 
-    def _calculate_module_similarity(self, mod1: Dict, mod2: Dict) -> float:
+    def _calculate_module_similarity(self, mod1: dict, mod2: dict) -> float:
         """Calculate similarity between two modules"""
         # Simple similarity based on purpose keywords and complexity
         purpose1_words = set(mod1["purpose"].lower().split())
@@ -422,14 +420,14 @@ class AGIModuleAnalyzer:
 
         return (word_overlap + complexity_similarity) / 2
 
-    def _suggest_merge_strategy(self, mod1: Dict, mod2: Dict) -> str:
+    def _suggest_merge_strategy(self, mod1: dict, mod2: dict) -> str:
         """Suggest how to merge two similar modules"""
         if mod1["complexity"] > mod2["complexity"]:
             return f"Merge {mod2['module']} into {mod1['module']} (primary module)"
         else:
             return f"Merge {mod1['module']} into {mod2['module']} (primary module)"
 
-    def _find_redundant_modules(self) -> List[Dict]:
+    def _find_redundant_modules(self) -> list[dict]:
         """Find modules that provide redundant functionality"""
         redundant = []
 
@@ -458,7 +456,7 @@ class AGIModuleAnalyzer:
 
         return redundant
 
-    def _find_interface_standardization_opportunities(self) -> List[Dict]:
+    def _find_interface_standardization_opportunities(self) -> list[dict]:
         """Find opportunities to standardize interfaces between modules"""
         opportunities = []
 
@@ -478,7 +476,7 @@ class AGIModuleAnalyzer:
 
         return opportunities
 
-    def _analyze_interface_patterns(self, modules: List[Dict]) -> Dict:
+    def _analyze_interface_patterns(self, modules: list[dict]) -> dict:
         """Analyze interface patterns within a component type"""
         all_interfaces = []
         for module in modules:
@@ -497,7 +495,7 @@ class AGIModuleAnalyzer:
             "suggested_standard": self._suggest_interface_standard(common_interfaces),
         }
 
-    def _suggest_interface_standard(self, common_interfaces: List[str]) -> Dict:
+    def _suggest_interface_standard(self, common_interfaces: list[str]) -> dict:
         """Suggest a standard interface for a component type"""
         # Basic interface standardization suggestions
         patterns = {
@@ -535,7 +533,7 @@ class AGIModuleAnalyzer:
             if interfaces
         }
 
-    def _generate_optimization_plan(self) -> Dict:
+    def _generate_optimization_plan(self) -> dict:
         """Generate optimization recommendations for the AGI architecture"""
         return {
             "architectural_optimizations": self._suggest_architectural_optimizations(),
@@ -544,7 +542,7 @@ class AGIModuleAnalyzer:
             "scalability_enhancements": self._suggest_scalability_enhancements(),
         }
 
-    def _suggest_architectural_optimizations(self) -> List[Dict]:
+    def _suggest_architectural_optimizations(self) -> list[dict]:
         """Suggest high-level architectural optimizations"""
         optimizations = []
 
@@ -583,7 +581,7 @@ class AGIModuleAnalyzer:
 
         return optimizations
 
-    def _suggest_performance_optimizations(self) -> List[Dict]:
+    def _suggest_performance_optimizations(self) -> list[dict]:
         """Suggest performance optimizations"""
         return [
             {
@@ -603,7 +601,7 @@ class AGIModuleAnalyzer:
             },
         ]
 
-    def _suggest_maintainability_improvements(self) -> List[Dict]:
+    def _suggest_maintainability_improvements(self) -> list[dict]:
         """Suggest maintainability improvements"""
         return [
             {
@@ -623,7 +621,7 @@ class AGIModuleAnalyzer:
             },
         ]
 
-    def _suggest_scalability_enhancements(self) -> List[Dict]:
+    def _suggest_scalability_enhancements(self) -> list[dict]:
         """Suggest scalability enhancements"""
         return [
             {
@@ -643,7 +641,7 @@ class AGIModuleAnalyzer:
             },
         ]
 
-    def _standardize_interfaces(self) -> Dict:
+    def _standardize_interfaces(self) -> dict:
         """Create interface standardization plan"""
         return {
             "base_interfaces": self._design_base_interfaces(),
@@ -651,7 +649,7 @@ class AGIModuleAnalyzer:
             "communication_standards": self._design_communication_standards(),
         }
 
-    def _design_base_interfaces(self) -> Dict:
+    def _design_base_interfaces(self) -> dict:
         """Design base interfaces for AGI components"""
         return {
             "AGIComponent": {
@@ -684,7 +682,7 @@ class AGIModuleAnalyzer:
             },
         }
 
-    def _design_component_protocols(self) -> Dict:
+    def _design_component_protocols(self) -> dict:
         """Design communication protocols between components"""
         return {
             "message_format": {
@@ -697,7 +695,7 @@ class AGIModuleAnalyzer:
             },
         }
 
-    def _design_communication_standards(self) -> Dict:
+    def _design_communication_standards(self) -> dict:
         """Design communication standards"""
         return {
             "async_patterns": "Use async/await for non-blocking operations",
@@ -705,7 +703,7 @@ class AGIModuleAnalyzer:
             "logging": "Structured logging with component identification",
         }
 
-    def _analyze_dependencies(self) -> Dict:
+    def _analyze_dependencies(self) -> dict:
         """Analyze the dependency structure"""
         return {
             "total_nodes": self.dependency_graph.number_of_nodes(),
@@ -746,7 +744,7 @@ class AGIModuleAnalyzer:
         except:
             return 0
 
-    def _generate_modular_recommendations(self) -> List[Dict]:
+    def _generate_modular_recommendations(self) -> list[dict]:
         """Generate high-level modular recommendations for AGI architecture"""
         recommendations = []
 
@@ -808,7 +806,7 @@ class AGIModuleAnalyzer:
 
         return recommendations
 
-    def generate_consolidation_script(self, analysis_result: Dict) -> str:
+    def generate_consolidation_script(self, analysis_result: dict) -> str:
         """Generate Python script to perform the consolidation"""
         script_lines = [
             "#!/usr/bin/env python3",

@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 import structlog
 
@@ -41,13 +41,13 @@ class EndocrineSnapshot:
     """Snapshot of endocrine system state at a point in time"""
 
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    hormone_levels: Dict[str, float] = field(default_factory=dict)
+    hormone_levels: dict[str, float] = field(default_factory=dict)
     homeostasis_state: Optional[str] = None
-    system_metrics: Dict[str, float] = field(default_factory=dict)
-    triggers_activated: List[str] = field(default_factory=list)
+    system_metrics: dict[str, float] = field(default_factory=dict)
+    triggers_activated: list[str] = field(default_factory=list)
     coherence_score: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization"""
         return {
             "timestamp": self.timestamp.isoformat(),
@@ -65,7 +65,7 @@ class PlasticityEvent:
 
     trigger_type: PlasticityTriggerType
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    hormone_context: Dict[str, float] = field(default_factory=dict)
+    hormone_context: dict[str, float] = field(default_factory=dict)
     reason: str = ""
     adaptation_applied: str = ""
     success: bool = False
@@ -82,7 +82,7 @@ class EndocrineObservabilityEngine:
     def __init__(
         self,
         signal_bus: Optional[SignalBus] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
         data_dir: str = "data/observability",
     ):
         # Allow optional bus for test contexts; try to obtain global bus if available.
@@ -116,7 +116,7 @@ class EndocrineObservabilityEngine:
         # Data storage
         self.snapshots: deque = deque(maxlen=self.snapshot_retention)
         self.plasticity_events: deque = deque(maxlen=500)
-        self.trend_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
+        self.trend_history: dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
 
         # Plasticity trigger thresholds
         self.trigger_thresholds = {
@@ -156,11 +156,11 @@ class EndocrineObservabilityEngine:
         }
 
         # Plasticity adaptations registry
-        self.adaptation_handlers: Dict[PlasticityTriggerType, Callable] = {}
+        self.adaptation_handlers: dict[PlasticityTriggerType, Callable] = {}
 
         # Analytics
-        self.pattern_detectors: Dict[str, Any] = {}
-        self.learning_models: Dict[str, Any] = {}
+        self.pattern_detectors: dict[str, Any] = {}
+        self.learning_models: dict[str, Any] = {}
 
         logger.info(
             "EndocrineObservabilityEngine initialized",
@@ -171,8 +171,8 @@ class EndocrineObservabilityEngine:
     # --- Minimal compatibility API expected by tests ---
     async def create_snapshot(
         self,
-        hormone_levels: Optional[Dict[str, float]] = None,
-        system_metrics: Optional[Dict[str, float]] = None,
+        hormone_levels: Optional[dict[str, float]] = None,
+        system_metrics: Optional[dict[str, float]] = None,
     ) -> "EndocrineSnapshot":
         """Create a snapshot from provided levels/metrics for analysis in tests."""
         snapshot = EndocrineSnapshot(
@@ -196,13 +196,13 @@ class EndocrineObservabilityEngine:
 
     async def analyze_plasticity_triggers(
         self, snapshot: "EndocrineSnapshot"
-    ) -> List["PlasticityEvent"]:
+    ) -> list["PlasticityEvent"]:
         """Public wrapper used by tests to analyze triggers from a snapshot."""
         return await self._analyze_plasticity_triggers(snapshot)
 
     async def assess_homeostasis(
         self, snapshot: "EndocrineSnapshot"
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Provide a simple homeostasis assessment used by tests."""
         hormones = snapshot.hormone_levels or {}
         if not hormones:
@@ -321,7 +321,7 @@ class EndocrineObservabilityEngine:
 
         return snapshot
 
-    async def _collect_system_metrics(self) -> Dict[str, float]:
+    async def _collect_system_metrics(self) -> dict[str, float]:
         """Collect comprehensive system metrics for analysis"""
         metrics = {}
 
@@ -357,7 +357,7 @@ class EndocrineObservabilityEngine:
 
     async def _analyze_plasticity_triggers(
         self, snapshot: EndocrineSnapshot
-    ) -> List[PlasticityEvent]:
+    ) -> list[PlasticityEvent]:
         """Analyze current state for plasticity trigger conditions"""
         triggers = []
 
@@ -627,12 +627,12 @@ class EndocrineObservabilityEngine:
         return 0.72
 
     # Adaptation implementation methods
-    async def _activate_stress_response(self, hormone_context: Dict[str, float]):
+    async def _activate_stress_response(self, hormone_context: dict[str, float]):
         """Activate stress response protocols"""
         logger.info("Activating stress response protocols", hormones=hormone_context)
         # Implementation would adjust system parameters for high-stress operation
 
-    async def _optimize_processing_parameters(self, system_metrics: Dict[str, float]):
+    async def _optimize_processing_parameters(self, system_metrics: dict[str, float]):
         """Optimize processing parameters based on current performance"""
         logger.info("Optimizing processing parameters", metrics=system_metrics)
         # Implementation would tune processing algorithms and resource allocation
@@ -647,7 +647,7 @@ class EndocrineObservabilityEngine:
         logger.info("Consolidating learning and memory")
         # Implementation would compress memories, reinforce learning patterns
 
-    async def _regulate_emotional_processing(self, hormone_levels: Dict[str, float]):
+    async def _regulate_emotional_processing(self, hormone_levels: dict[str, float]):
         """Regulate emotional processing to improve coherence"""
         logger.info("Regulating emotional processing", hormones=hormone_levels)
         # Implementation would balance emotional responses and mood regulation
@@ -741,18 +741,18 @@ class EndocrineObservabilityEngine:
 
     def get_trend_data(
         self, metric_name: str, lookback_points: int = 50
-    ) -> List[float]:
+    ) -> list[float]:
         """Get trend data for a specific metric"""
         return list(self.trend_history[metric_name])[-lookback_points:]
 
-    def get_plasticity_history(self, lookback_hours: int = 24) -> List[PlasticityEvent]:
+    def get_plasticity_history(self, lookback_hours: int = 24) -> list[PlasticityEvent]:
         """Get recent plasticity events"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=lookback_hours)
         return [
             event for event in self.plasticity_events if event.timestamp > cutoff_time
         ]
 
-    def get_coherence_trend(self, lookback_points: int = 50) -> List[float]:
+    def get_coherence_trend(self, lookback_points: int = 50) -> list[float]:
         """Get bio-symbolic coherence trend"""
         if not self.snapshots:
             return []
@@ -763,7 +763,7 @@ class EndocrineObservabilityEngine:
 
 # Factory function for easy instantiation
 def create_endocrine_observability_engine(
-    signal_bus: SignalBus, config: Optional[Dict[str, Any]] = None
+    signal_bus: SignalBus, config: Optional[dict[str, Any]] = None
 ) -> EndocrineObservabilityEngine:
     """Create and return an EndocrineObservabilityEngine instance"""
     return EndocrineObservabilityEngine(signal_bus, config)

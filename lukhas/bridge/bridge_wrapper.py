@@ -12,7 +12,7 @@ import asyncio
 import logging
 import os
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from lukhas.observability.matriz_decorators import instrument
 from lukhas.observability.matriz_emit import emit
@@ -30,7 +30,7 @@ class ExternalServiceIntegration:
         self._initialized = False
 
     @instrument("bridge_service_init")
-    def initialize_services(self) -> Dict[str, Any]:
+    def initialize_services(self) -> dict[str, Any]:
         """Initialize external service connections safely"""
         if not self._active:
             emit({"ntype": "bridge_init_skipped", "state": {"reason": "bridge_inactive"}})
@@ -61,7 +61,7 @@ class ExternalServiceIntegration:
             emit({"ntype": "bridge_init_error", "state": {"error": str(e)}})
             return {"initialized": False, "error": str(e)}
 
-    def _initialize_llm_providers(self) -> Dict[str, Any]:
+    def _initialize_llm_providers(self) -> dict[str, Any]:
         """Initialize LLM provider connections"""
         providers = {}
 
@@ -107,7 +107,7 @@ class ExternalServiceIntegration:
 
         return providers
 
-    def _initialize_service_adapters(self) -> Dict[str, Any]:
+    def _initialize_service_adapters(self) -> dict[str, Any]:
         """Initialize external service adapters"""
         adapters = {}
 
@@ -144,7 +144,7 @@ class ExternalServiceIntegration:
         return adapters
 
     @instrument("bridge_llm_call")
-    def call_llm_provider(self, provider: str, prompt: str, **kwargs) -> Dict[str, Any]:
+    def call_llm_provider(self, provider: str, prompt: str, **kwargs) -> dict[str, Any]:
         """Call an LLM provider with safety measures"""
         if not self._active:
             return {"error": "bridge_inactive", "result": None}
@@ -168,7 +168,7 @@ class ExternalServiceIntegration:
         }
 
     @instrument("bridge_service_call")
-    def call_service_adapter(self, service: str, operation: str, **kwargs) -> Dict[str, Any]:
+    def call_service_adapter(self, service: str, operation: str, **kwargs) -> dict[str, Any]:
         """Call a service adapter with safety measures"""
         if not self._active:
             return {"error": "bridge_inactive", "result": None}
@@ -200,7 +200,7 @@ class MultiModelOrchestrator:
         self._consensus_threshold = 0.7
 
     @instrument("bridge_consensus_process")
-    async def consensus_process(self, query: str, models: Optional[List[str]] = None) -> Dict[str, Any]:
+    async def consensus_process(self, query: str, models: Optional[list[str]] = None) -> dict[str, Any]:
         """Process query through multiple models and synthesize consensus"""
         if models is None:
             models = ["openai", "anthropic", "gemini"]
@@ -242,7 +242,7 @@ class MultiModelOrchestrator:
             emit({"ntype": "bridge_consensus_error", "state": {"error": str(e)}})
             return {"error": str(e), "consensus": None}
 
-    async def _process_with_model(self, model: str, query: str) -> Dict[str, Any]:
+    async def _process_with_model(self, model: str, query: str) -> dict[str, Any]:
         """Process query with a specific model"""
         try:
             # Simulate async processing delay
@@ -260,7 +260,7 @@ class MultiModelOrchestrator:
         except Exception as e:
             return {"error": str(e), "model": model}
 
-    def _synthesize_consensus(self, responses: List[Dict[str, Any]], query: str) -> Dict[str, Any]:
+    def _synthesize_consensus(self, responses: list[dict[str, Any]], query: str) -> dict[str, Any]:
         """Synthesize consensus from multiple model responses"""
         if not responses:
             return {
@@ -321,7 +321,7 @@ class BridgeWrapper:
             return False
 
     @instrument("bridge_multi_model_query")
-    async def multi_model_query(self, query: str, models: Optional[List[str]] = None) -> Dict[str, Any]:
+    async def multi_model_query(self, query: str, models: Optional[list[str]] = None) -> dict[str, Any]:
         """Query multiple AI models and return consensus response"""
         if not self._initialized:
             self.initialize()
@@ -343,7 +343,7 @@ class BridgeWrapper:
             return {"error": str(e)}
 
     @instrument("bridge_service_operation")
-    def service_operation(self, service: str, operation: str, **kwargs) -> Dict[str, Any]:
+    def service_operation(self, service: str, operation: str, **kwargs) -> dict[str, Any]:
         """Perform operation on external service"""
         if not self._initialized:
             self.initialize()
@@ -368,7 +368,7 @@ class BridgeWrapper:
             emit({"ntype": "bridge_service_operation_error", "state": {"error": str(e)}})
             return {"error": str(e)}
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get comprehensive bridge status"""
         return {
             "initialized": self._initialized,
@@ -383,7 +383,7 @@ class BridgeWrapper:
             }
         }
 
-    def get_supported_providers(self) -> Dict[str, List[str]]:
+    def get_supported_providers(self) -> dict[str, list[str]]:
         """Get list of supported providers and services"""
         return {
             "llm_providers": ["openai", "anthropic", "gemini", "perplexity"],

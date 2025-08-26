@@ -1,5 +1,4 @@
 from collections import deque
-from typing import Dict
 
 import numpy as np
 
@@ -9,7 +8,7 @@ class MoodEntropyTracker:
         self.window_size = window_size
         self.mood_history = deque(maxlen=window_size)
 
-    def add_mood_vector(self, mood_vector: Dict[str, float]):
+    def add_mood_vector(self, mood_vector: dict[str, float]):
         """Adds a mood vector to the history."""
         self.mood_history.append(list(mood_vector.values()))
 
@@ -34,7 +33,7 @@ class MoodEntropyTracker:
 
         return entropy
 
-    def get_mood_harmonics(self) -> Dict[str, float]:
+    def get_mood_harmonics(self) -> dict[str, float]:
         """
         Calculates the mood harmonics using FFT.
         This is a simplified implementation.

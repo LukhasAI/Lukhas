@@ -11,7 +11,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 
 class PlasticityTriggerType(Enum):
@@ -41,7 +41,7 @@ class AlertLevel(Enum):
 @dataclass
 class PlasticityEvent:
     trigger_type: PlasticityTriggerType
-    hormone_context: Dict[str, float]
+    hormone_context: dict[str, float]
     reason: str
     confidence: float = 0.8
 
@@ -49,8 +49,8 @@ class PlasticityEvent:
 @dataclass
 class EndocrineSnapshot:
     timestamp: datetime
-    hormone_levels: Dict[str, float]
-    system_metrics: Dict[str, float]
+    hormone_levels: dict[str, float]
+    system_metrics: dict[str, float]
     coherence_score: float
 
 
@@ -135,7 +135,7 @@ class StandaloneMonitoringDemo:
 
         return threshold
 
-    def simulate_hormone_levels(self, scenario: str) -> Dict[str, float]:
+    def simulate_hormone_levels(self, scenario: str) -> dict[str, float]:
         """Simulate realistic hormone levels for different scenarios"""
 
         base_time = time.time()
@@ -187,7 +187,7 @@ class StandaloneMonitoringDemo:
 
     def analyze_plasticity_triggers(
         self, snapshot: EndocrineSnapshot
-    ) -> List[PlasticityEvent]:
+    ) -> list[PlasticityEvent]:
         """Analyze and detect plasticity triggers from hormone snapshot"""
 
         triggers = []
@@ -264,7 +264,7 @@ class StandaloneMonitoringDemo:
 
         return triggers
 
-    def generate_alerts(self, state: Dict[str, Any]) -> List[AlertMessage]:
+    def generate_alerts(self, state: dict[str, Any]) -> list[AlertMessage]:
         """Generate system alerts based on current state"""
 
         alerts = []
@@ -313,8 +313,8 @@ class StandaloneMonitoringDemo:
         return alerts
 
     def generate_predictive_insights(
-        self, state: Dict[str, Any]
-    ) -> List[PredictiveInsight]:
+        self, state: dict[str, Any]
+    ) -> list[PredictiveInsight]:
         """Generate predictive insights based on current state"""
 
         insights = []
@@ -365,7 +365,7 @@ class StandaloneMonitoringDemo:
         return insights
 
     def measure_bio_symbolic_coherence(
-        self, bio_state: Dict, symbolic_state: Dict
+        self, bio_state: dict, symbolic_state: dict
     ) -> float:
         """Measure coherence between biological and symbolic systems"""
 

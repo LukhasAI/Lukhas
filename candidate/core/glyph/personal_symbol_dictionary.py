@@ -12,7 +12,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
@@ -46,20 +46,20 @@ class PersonalSymbol:
 
     # Semantic information
     embeddings: Optional[np.ndarray] = None  # Semantic embedding
-    synonyms: List[str] = field(default_factory=list)
-    antonyms: List[str] = field(default_factory=list)
-    related: List[str] = field(default_factory=list)
+    synonyms: list[str] = field(default_factory=list)
+    antonyms: list[str] = field(default_factory=list)
+    related: list[str] = field(default_factory=list)
 
     # Context and usage
-    contexts: List[str] = field(default_factory=list)  # Usage contexts
-    examples: List[str] = field(default_factory=list)  # Example uses
+    contexts: list[str] = field(default_factory=list)  # Usage contexts
+    examples: list[str] = field(default_factory=list)  # Example uses
     frequency: int = 0  # Usage frequency
     last_used: Optional[float] = None
 
     # Evolution
     confidence: float = 0.5  # Confidence in meaning
     stability: float = 0.5  # How stable the meaning is
-    variations: Dict[str, float] = field(default_factory=dict)  # Meaning variations
+    variations: dict[str, float] = field(default_factory=dict)  # Meaning variations
 
     # Emotional associations
     emotional_valence: float = 0.0  # -1 (negative) to 1 (positive)
@@ -70,7 +70,7 @@ class PersonalSymbol:
     created_at: float = field(default_factory=time.time)
     modified_at: float = field(default_factory=time.time)
     source: str = "user"  # user, system, learned
-    tags: Set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
 
     def update_usage(self):
         """Update usage statistics"""
@@ -134,13 +134,13 @@ class PersonalSymbolDictionary:
         self.max_symbols_per_user = max_symbols_per_user
 
         # User dictionaries
-        self.dictionaries: Dict[str, Dict[str, PersonalSymbol]] = defaultdict(dict)
+        self.dictionaries: dict[str, dict[str, PersonalSymbol]] = defaultdict(dict)
 
         # Global symbol registry (shared meanings)
-        self.global_symbols: Dict[str, PersonalSymbol] = {}
+        self.global_symbols: dict[str, PersonalSymbol] = {}
 
         # Symbol evolution tracking
-        self.evolution_history: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+        self.evolution_history: dict[str, list[dict[str, Any]]] = defaultdict(list)
 
         # Load existing dictionaries
         self._load_dictionaries()
@@ -180,7 +180,7 @@ class PersonalSymbolDictionary:
         symbol: str,
         meaning: str,
         symbol_type: SymbolType = SymbolType.CONCEPT,
-        examples: Optional[List[str]] = None,
+        examples: Optional[list[str]] = None,
         **kwargs
     ) -> PersonalSymbol:
         """
@@ -277,7 +277,7 @@ class PersonalSymbolDictionary:
         user_id: str,
         text: str,
         context: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Interpret symbols in text using user's dictionary.
 
@@ -340,7 +340,7 @@ class PersonalSymbolDictionary:
         user_id: str,
         concept: str,
         limit: int = 5
-    ) -> List[PersonalSymbol]:
+    ) -> list[PersonalSymbol]:
         """
         Suggest symbols for a concept.
 
@@ -421,7 +421,7 @@ class PersonalSymbolDictionary:
     def merge_symbols(
         self,
         user_id: str,
-        symbols: List[str],
+        symbols: list[str],
         new_symbol: str,
         new_meaning: str
     ) -> PersonalSymbol:
@@ -517,7 +517,7 @@ class PersonalSymbolDictionary:
             except Exception as e:
                 print(f"Failed to load dictionary for {user_id}: {e}")
 
-    def export_dictionary(self, user_id: str) -> Dict[str, Any]:
+    def export_dictionary(self, user_id: str) -> dict[str, Any]:
         """Export user's dictionary as JSON"""
         user_dict = self.dictionaries.get(user_id, {})
 
@@ -577,7 +577,7 @@ class PersonalSymbolDictionary:
 
         return export
 
-    def import_dictionary(self, user_id: str, data: Dict[str, Any]):
+    def import_dictionary(self, user_id: str, data: dict[str, Any]):
         """Import user dictionary from JSON"""
         for symbol_data in data.get("symbols", []):
             self.add_symbol(

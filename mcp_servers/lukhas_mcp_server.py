@@ -17,7 +17,7 @@ import asyncio
 import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # MCP imports (install with: pip install mcp)
 # Note: Run `pip install mcp` to install the Model Context Protocol library
@@ -68,7 +68,7 @@ class LUKHASPattern:
     pattern: str
     example: str
     description: str
-    symbols: List[str]
+    symbols: list[str]
 
 
 class LUKHASKnowledgeBase:
@@ -80,7 +80,7 @@ class LUKHASKnowledgeBase:
         self.trinity_templates = self._load_trinity_templates()
         self.symbolic_vocabulary = self._load_symbolic_vocabulary()
 
-    def _load_patterns(self) -> List[LUKHASPattern]:
+    def _load_patterns(self) -> list[LUKHASPattern]:
         """Load LUKHAS patterns from documentation and codebase analysis"""
         return [
             LUKHASPattern(
@@ -120,7 +120,7 @@ class LUKHASKnowledgeBase:
             ),
         ]
 
-    def _load_trinity_templates(self) -> Dict[str, str]:
+    def _load_trinity_templates(self) -> dict[str, str]:
         """Load Trinity Framework documentation templates"""
         return {
             "function": '''"""
@@ -162,7 +162,7 @@ Methods:
             },
         }
 
-    def _load_symbolic_vocabulary(self) -> Dict[str, str]:
+    def _load_symbolic_vocabulary(self) -> dict[str, str]:
         """Load LUKHAS symbolic vocabulary mappings"""
         return {
             "memory_fold": "A dimensional consciousness storage mechanism",
@@ -356,7 +356,7 @@ class LUKHASMCPServer:
 
     async def _review_code(
         self, code: str, file_type: str, file_path: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Review code for LUKHAS compliance"""
         issues = []
         suggestions = []
@@ -434,7 +434,7 @@ class LUKHASMCPServer:
 
     async def _suggest_naming(
         self, purpose: str, element_type: str, domain: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Suggest LUKHAS-compliant naming"""
         base_concepts = {
             "consciousness": [
@@ -492,7 +492,7 @@ class LUKHASMCPServer:
 
     async def _get_patterns(
         self, category: str, include_examples: bool
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get LUKHAS patterns for category"""
         patterns = [p for p in self.knowledge_base.patterns if p.category == category]
 

@@ -17,7 +17,7 @@ import json
 import secrets
 import time
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import qrcode
 from PIL import Image
@@ -40,7 +40,7 @@ class QREntropyGenerator:
     def __init__(self, encryption_key: Optional[bytes] = None):
         self.entropy_layers = 3  # Number of steganographic layers
         self.refresh_interval = 2.0  # Seconds between refreshes
-        self.active_codes: Dict[str, Dict] = {}  # Session -> QR data
+        self.active_codes: dict[str, dict] = {}  # Session -> QR data
         self.max_code_lifetime = 300  # 5 minutes max
 
         # Initialize encryption
@@ -179,7 +179,7 @@ class QREntropyGenerator:
             bits_per_layer = len(entropy_bits) // len(self.stego_layers)
 
             # Embed entropy across layers
-            for layer_idx, (layer_name, layer_config) in enumerate(
+            for layer_idx, (_layer_name, layer_config) in enumerate(
                 self.stego_layers.items()
             ):
                 channel = layer_config["channel"]
@@ -251,11 +251,10 @@ class QREntropyGenerator:
                 return False
 
             # Verify entropy extraction (if supported)
-            if "entropy_proof" in scan_payload:
-                if not self._verify_entropy_extraction(
-                    scan_payload["entropy_proof"], code_data["entropy_hash"]
-                ):
-                    return False
+            if "entropy_proof" in scan_payload and not self._verify_entropy_extraction(
+                scan_payload["entropy_proof"], code_data["entropy_hash"]
+            ):
+                return False
 
             # Apply constitutional checks (🛡️ Guardian validation)
             constitutional_result = self._constitutional_validation(
@@ -283,7 +282,7 @@ class QREntropyGenerator:
 
     # Helper methods for steganography and validation
 
-    def _create_base_qr_image(self, qr_data: Dict) -> Image.Image:
+    def _create_base_qr_image(self, qr_data: dict) -> Image.Image:
         """Create base QR code image from data"""
         qr = qrcode.QRCode(
             version=1,
@@ -301,7 +300,7 @@ class QREntropyGenerator:
         qr_image = qr.make_image(fill_color="black", back_color="white")
         return qr_image.convert("RGB")
 
-    def _entropy_to_bits(self, entropy_data: bytes) -> List[int]:
+    def _entropy_to_bits(self, entropy_data: bytes) -> list[int]:
         """Convert entropy bytes to bit array"""
         bits = []
         for byte in entropy_data:
@@ -310,8 +309,8 @@ class QREntropyGenerator:
         return bits
 
     def _embed_bits_in_channel(
-        self, pixels: List[Tuple], bits: List[int], channel: int, bit_depth: int
-    ) -> List[Tuple]:
+        self, pixels: list[tuple], bits: list[int], channel: int, bit_depth: int
+    ) -> list[tuple]:
         """Embed bits in specific color channel using LSB steganography"""
         pixel_list = []
         bit_index = 0
@@ -362,7 +361,7 @@ class QREntropyGenerator:
         )
         return hashlib.sha256(token_data.encode()).hexdigest()[:32]
 
-    def _constitutional_validation(self, qr_data: Dict, entropy_data: Any) -> bool:
+    def _constitutional_validation(self, qr_data: dict, entropy_data: Any) -> bool:
         """Apply constitutional AI validation (🛡️ Guardian framework)"""
         try:
             # Validate data doesn't contain harmful content
@@ -445,7 +444,7 @@ class QREntropyGenerator:
         # This would integrate with ΛTRACE logging system
         print(f"QR scan validated: session={session_id}, time={validation_time:.3f}s")
 
-    def get_active_sessions(self) -> Dict[str, Dict]:
+    def get_active_sessions(self) -> dict[str, dict]:
         """Get all active QR code sessions"""
         self._cleanup_expired_codes()
         return {
@@ -459,7 +458,7 @@ class QREntropyGenerator:
             if not data.get("invalidated", False)
         }
 
-    def refresh_qr_code(self, session_id: str, refresh_token: str) -> Dict[str, Any]:
+    def refresh_qr_code(self, session_id: str, refresh_token: str) -> dict[str, Any]:
         """Refresh QR code for extended session"""
         if session_id not in self.active_codes:
             return {"success": False, "error": "Session not found"}

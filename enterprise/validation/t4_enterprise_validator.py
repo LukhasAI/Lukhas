@@ -17,7 +17,7 @@ import sys
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(
@@ -38,7 +38,7 @@ class ValidationResult:
     passed: bool
     score: float  # 0-100
     duration_ms: float
-    details: Dict[str, Any]
+    details: dict[str, Any]
     error_message: Optional[str] = None
 
 @dataclass
@@ -68,7 +68,7 @@ class T4ValidationReport:
     github_student_pack_integration: bool
     sla_compliance: bool
 
-    validation_results: List[ValidationResult]
+    validation_results: list[ValidationResult]
 
 class T4EnterpriseValidator:
     """
@@ -78,7 +78,7 @@ class T4EnterpriseValidator:
 
     def __init__(self):
         """Initialize T4 Enterprise Validator"""
-        self.results: List[ValidationResult] = []
+        self.results: list[ValidationResult] = []
         self.start_time = datetime.now()
 
         logger.info("🧪 T4 Enterprise Validator initialized")
@@ -341,7 +341,7 @@ class T4EnterpriseValidator:
             logger.error(f"    ❌ {test_name}: FAILED ({str(e)})")
 
     # Individual test implementations
-    async def _test_github_student_pack_env(self) -> Dict[str, Any]:
+    async def _test_github_student_pack_env(self) -> dict[str, Any]:
         """Test GitHub Student Pack environment setup"""
         try:
             required_vars = [
@@ -374,7 +374,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_datadog_integration(self) -> Dict[str, Any]:
+    async def _test_datadog_integration(self) -> dict[str, Any]:
         """Test Datadog API integration"""
         try:
             # Import and test Datadog integration
@@ -410,7 +410,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_mongodb_integration(self) -> Dict[str, Any]:
+    async def _test_mongodb_integration(self) -> dict[str, Any]:
         """Test MongoDB Atlas integration"""
         try:
             from enterprise.data.mongodb_atlas_integration import (
@@ -438,7 +438,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_datadog_monitoring(self) -> Dict[str, Any]:
+    async def _test_datadog_monitoring(self) -> dict[str, Any]:
         """Test Datadog T4 monitoring capabilities"""
         try:
             from datetime import datetime
@@ -454,7 +454,7 @@ class T4EnterpriseValidator:
                 return {"passed": False, "score": 0, "error": "Datadog not enabled"}
 
             # Test metrics submission
-            test_metrics = T4SLAMetrics(
+            T4SLAMetrics(
                 api_latency_p95=35.2,
                 api_latency_p99=78.5,
                 uptime_percentage=99.997,
@@ -484,7 +484,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_sentry_monitoring(self) -> Dict[str, Any]:
+    async def _test_sentry_monitoring(self) -> dict[str, Any]:
         """Test Sentry error tracking"""
         try:
             from enterprise.monitoring.sentry_integration import T4SentryMonitoring
@@ -509,7 +509,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_enterprise_dashboards(self) -> Dict[str, Any]:
+    async def _test_enterprise_dashboards(self) -> dict[str, Any]:
         """Test enterprise dashboard creation"""
         try:
             # Test that dashboard configurations can be generated
@@ -535,7 +535,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_mongodb_enterprise(self) -> Dict[str, Any]:
+    async def _test_mongodb_enterprise(self) -> dict[str, Any]:
         """Test MongoDB Atlas enterprise features"""
         try:
             from enterprise.data.mongodb_atlas_integration import (
@@ -562,7 +562,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_data_governance(self) -> Dict[str, Any]:
+    async def _test_data_governance(self) -> dict[str, Any]:
         """Test enterprise data governance"""
         return {
             "passed": True,
@@ -574,7 +574,7 @@ class T4EnterpriseValidator:
             }
         }
 
-    async def _test_load_testing_capability(self) -> Dict[str, Any]:
+    async def _test_load_testing_capability(self) -> dict[str, Any]:
         """Test enterprise load testing capability"""
         try:
             from enterprise.scale.load_testing import (
@@ -589,7 +589,7 @@ class T4EnterpriseValidator:
                 expected_latency_p95_ms=50.0
             )
 
-            load_tester = T4EnterpriseLoadTester(config)
+            T4EnterpriseLoadTester(config)
 
             return {
                 "passed": True,
@@ -604,7 +604,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_auto_scaling_config(self) -> Dict[str, Any]:
+    async def _test_auto_scaling_config(self) -> dict[str, Any]:
         """Test auto-scaling configuration"""
         try:
             from enterprise.scale.auto_scaling_config import (
@@ -620,7 +620,7 @@ class T4EnterpriseValidator:
             auto_scaler = T4AutoScalingManager(config)
 
             # Test configuration generation
-            k8s_config = auto_scaler.generate_kubernetes_config()
+            auto_scaler.generate_kubernetes_config()
 
             return {
                 "passed": True,
@@ -635,7 +635,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_performance_targets(self) -> Dict[str, Any]:
+    async def _test_performance_targets(self) -> dict[str, Any]:
         """Test Sam Altman performance targets"""
         # Simulate performance test
         simulated_p95_latency = 35.2  # Would be actual measurement
@@ -654,7 +654,7 @@ class T4EnterpriseValidator:
             }
         }
 
-    async def _test_constitutional_ai(self) -> Dict[str, Any]:
+    async def _test_constitutional_ai(self) -> dict[str, Any]:
         """Test Constitutional AI enhanced safety"""
         try:
             from enterprise.safety.constitutional_ai_enhanced import (
@@ -681,7 +681,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_security_compliance(self) -> Dict[str, Any]:
+    async def _test_security_compliance(self) -> dict[str, Any]:
         """Test security compliance framework"""
         try:
             from enterprise.safety.security_compliance import (
@@ -703,7 +703,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_safety_monitoring(self) -> Dict[str, Any]:
+    async def _test_safety_monitoring(self) -> dict[str, Any]:
         """Test enterprise safety monitoring"""
         return {
             "passed": True,
@@ -715,7 +715,7 @@ class T4EnterpriseValidator:
             }
         }
 
-    async def _test_ab_testing_platform(self) -> Dict[str, Any]:
+    async def _test_ab_testing_platform(self) -> dict[str, Any]:
         """Test A/B testing platform"""
         try:
             from enterprise.rigor.ab_testing_platform import T4ABTestingPlatform
@@ -735,7 +735,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_statistical_significance(self) -> Dict[str, Any]:
+    async def _test_statistical_significance(self) -> dict[str, Any]:
         """Test statistical significance requirements"""
         return {
             "passed": True,
@@ -747,7 +747,7 @@ class T4EnterpriseValidator:
             }
         }
 
-    async def _test_scientific_rigor(self) -> Dict[str, Any]:
+    async def _test_scientific_rigor(self) -> dict[str, Any]:
         """Test scientific rigor assessment"""
         return {
             "passed": True,
@@ -759,14 +759,14 @@ class T4EnterpriseValidator:
             }
         }
 
-    async def _test_t4_orchestrator(self) -> Dict[str, Any]:
+    async def _test_t4_orchestrator(self) -> dict[str, Any]:
         """Test T4 enterprise orchestrator"""
         try:
             from enterprise.infrastructure.t4_orchestrator import (
                 T4EnterpriseOrchestrator,
             )
 
-            orchestrator = T4EnterpriseOrchestrator()
+            T4EnterpriseOrchestrator()
 
             return {
                 "passed": True,
@@ -781,7 +781,7 @@ class T4EnterpriseValidator:
         except Exception as e:
             return {"passed": False, "score": 0.0, "error": str(e)}
 
-    async def _test_service_health(self) -> Dict[str, Any]:
+    async def _test_service_health(self) -> dict[str, Any]:
         """Test service health monitoring"""
         return {
             "passed": True,
@@ -793,7 +793,7 @@ class T4EnterpriseValidator:
             }
         }
 
-    async def _test_sla_compliance(self) -> Dict[str, Any]:
+    async def _test_sla_compliance(self) -> dict[str, Any]:
         """Test SLA compliance validation"""
         return {
             "passed": True,
@@ -805,7 +805,7 @@ class T4EnterpriseValidator:
             }
         }
 
-    async def _test_enterprise_documentation(self) -> Dict[str, Any]:
+    async def _test_enterprise_documentation(self) -> dict[str, Any]:
         """Test enterprise documentation"""
         # Check if documentation files exist
         doc_files = [

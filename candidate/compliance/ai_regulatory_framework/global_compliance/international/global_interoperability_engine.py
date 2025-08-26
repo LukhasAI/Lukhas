@@ -10,7 +10,7 @@ Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from candidate.core.container.service_container import ServiceContainer
 from candidate.core.interfaces import CoreInterface
@@ -24,7 +24,7 @@ class RegulatoryFramework:
     """Represents an international regulatory framework"""
     name: str
     jurisdiction: str
-    requirements: List[str]
+    requirements: list[str]
     compliance_level: float
     last_updated: datetime
     enforcement_level: str  # strict, moderate, lenient
@@ -36,8 +36,8 @@ class ComplianceResult:
     framework: str
     compliant: bool
     score: float
-    gaps: List[str]
-    recommendations: List[str]
+    gaps: list[str]
+    recommendations: list[str]
 
 
 class GlobalInteroperabilityEngine(CoreInterface):
@@ -100,7 +100,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
         self._initialized = True
         logger.info("Global Interoperability Engine initialized with LUKHAS integration")
 
-    async def achieve_global_regulatory_compliance(self) -> Dict[str, Any]:
+    async def achieve_global_regulatory_compliance(self) -> dict[str, Any]:
         """
         Ensure compliance with all major international AI frameworks
 
@@ -189,7 +189,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
             'framework_details': compliance_results
         }
 
-    async def establish_international_ai_coordination(self) -> Dict[str, Any]:
+    async def establish_international_ai_coordination(self) -> dict[str, Any]:
         """
         Establish coordination protocols with international AI initiatives
 
@@ -239,8 +239,8 @@ class GlobalInteroperabilityEngine(CoreInterface):
 
     async def ensure_data_sovereignty_compliance(
         self,
-        jurisdictions: List[str]
-    ) -> Dict[str, Any]:
+        jurisdictions: list[str]
+    ) -> dict[str, Any]:
         """
         Ensure data sovereignty requirements are met across jurisdictions
 
@@ -292,7 +292,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
     async def assess_compliance_level(
         self,
         framework: str,
-        requirements: Dict[str, Any]
+        requirements: dict[str, Any]
     ) -> ComplianceResult:
         """
         Assess current compliance level with a framework
@@ -331,9 +331,9 @@ class GlobalInteroperabilityEngine(CoreInterface):
     async def generate_compliance_implementation_plan(
         self,
         framework: str,
-        requirements: Dict[str, Any],
+        requirements: dict[str, Any],
         assessment: ComplianceResult
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate a plan to achieve compliance
 
@@ -376,8 +376,8 @@ class GlobalInteroperabilityEngine(CoreInterface):
 
     async def execute_compliance_implementation(
         self,
-        plan: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        plan: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Execute a compliance implementation plan
 
@@ -423,7 +423,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
 
     async def calculate_regulatory_advantage(
         self,
-        compliance_results: Dict[str, Dict[str, Any]]
+        compliance_results: dict[str, dict[str, Any]]
     ) -> float:
         """
         Calculate competitive advantage from regulatory compliance
@@ -456,8 +456,8 @@ class GlobalInteroperabilityEngine(CoreInterface):
 
     async def assess_global_deployment_readiness(
         self,
-        compliance_results: Dict[str, Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        compliance_results: dict[str, dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Assess readiness for global deployment
 
@@ -518,7 +518,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
     async def establish_communication_channels(
         self,
         target: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Establish communication channels with an organization
 
@@ -538,7 +538,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
     async def share_beneficial_capabilities(
         self,
         target: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Share beneficial AI capabilities with an organization
 
@@ -569,7 +569,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
     async def coordinate_ai_safety_initiatives(
         self,
         target: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Coordinate on AI safety initiatives
 
@@ -597,7 +597,7 @@ class GlobalInteroperabilityEngine(CoreInterface):
     async def establish_mutual_benefit_protocols(
         self,
         target: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Establish mutual benefit protocols
 

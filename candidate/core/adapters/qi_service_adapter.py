@@ -4,7 +4,7 @@ Trinity Framework: ⚛️🧠🛡️
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from lukhas.core.container.service_container import ServiceLifetime, injectable
 from lukhas.core.interfaces.services import IQuantumService
@@ -61,7 +61,7 @@ class QIServiceAdapter(IQuantumService):
             "module": "QIM (Quantum Inspire Module)"
         }
 
-    async def process_quantum_state(self, state: Any) -> Dict[str, Any]:
+    async def process_quantum_state(self, state: Any) -> dict[str, Any]:
         """Process a quantum state"""
         await self.initialize()
 

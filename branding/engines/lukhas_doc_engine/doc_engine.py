@@ -134,7 +134,7 @@ class DocEngine:
 
     def get_engine_analytics(self) -> dict:
         """Get real-time engine analytics from database"""
-        analytics = db.get_system_analytics("doc_engine")
+        db.get_system_analytics("doc_engine")
 
         # Get document statistics
         all_docs = db.get_all_content(1000)

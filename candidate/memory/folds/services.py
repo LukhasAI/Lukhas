@@ -54,9 +54,8 @@ class MemoryService:
         Store a memory with injected dependencies.
         """
         # Verify access through identity service
-        if identity:
-            if not await identity.verify_access(agent_id, "memory.write"):
-                raise PermissionError(f"Agent {agent_id} lacks memory write access")
+        if identity and not await identity.verify_access(agent_id, "memory.write"):
+            raise PermissionError(f"Agent {agent_id} lacks memory write access")
 
         # Create memory entry
         memory_id = f"{agent_id}_{datetime.now().timestamp()}"

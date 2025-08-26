@@ -30,7 +30,7 @@ import base64
 import math
 from datetime import datetime
 from io import BytesIO
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import matplotlib.pyplot as plt
 
@@ -191,7 +191,7 @@ class EmotionalResonance:
         # Voice modulation history for tracking changes over time
         self.voice_modulation_history = []
 
-    def map_emotion(self, input_context: Dict[str, Any]) -> Dict[str, Any]:
+    def map_emotion(self, input_context: dict[str, Any]) -> dict[str, Any]:
         """
         Maps input context to an emotional state with intensity.
 
@@ -371,7 +371,7 @@ class EmotionalResonance:
         self,
         emotion_state: str,
         intensity: float,
-        context_tags: List[str],
+        context_tags: list[str],
         timestamp: datetime,
     ) -> None:
         """
@@ -475,7 +475,7 @@ class EmotionalResonance:
 
     def _generate_resonance_pattern(
         self, emotion_state: str, intensity: float, sigma_x: float, sigma_y: float
-    ) -> List[float]:
+    ) -> list[float]:
         """
         Generate a resonance pattern based on emotional state and intensity.
         This simulates the "Gabbor resonance engine" concept.
@@ -528,7 +528,7 @@ class EmotionalResonance:
             pattern.append(max(0.0, min(1.0, value)))
         return pattern
 
-    def analyze_emotional_trend(self, time_window_hours: int = 24) -> Dict[str, Any]:
+    def analyze_emotional_trend(self, time_window_hours: int = 24) -> dict[str, Any]:
         """
         Analyze the emotional trend over a given time window.
 
@@ -736,7 +736,7 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
                 xytext=(10, 10),
                 textcoords="offset points",
                 fontsize=10,
-                bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8),
+                bbox={"boxstyle": "round,pad=0.3", "fc": "white", "ec": "gray", "alpha": 0.8},
             )
 
             # Add emotional trajectory if history exists
@@ -783,8 +783,8 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
             return None
 
     def modulate_voice_parameters(
-        self, custom_calibration: Dict[str, float] = None
-    ) -> Dict[str, float]:
+        self, custom_calibration: dict[str, float] = None
+    ) -> dict[str, float]:
         """
         Generate voice modulation parameters based on current emotional state.
         Integrates with symbolic world if available to enrich voice modulation.
@@ -985,7 +985,7 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
 
         return params
 
-    def get_emotion_from_context(self, context_text: str) -> Dict[str, Any]:
+    def get_emotion_from_context(self, context_text: str) -> dict[str, Any]:
         """
         Attempt to extract emotional content from text.
         This is a simplified implementation. In a production system,
@@ -1086,7 +1086,7 @@ Last Updated: {self.last_update.strftime('%H:%M:%S')}
 
     def emotional_feedback_loop(
         self, context_text: str, response_type: str = "text"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process text input, extract emotions, and provide appropriate response.
 

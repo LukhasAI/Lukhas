@@ -15,7 +15,7 @@ ACK GUARDRAILS
 
 import asyncio
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -35,7 +35,7 @@ class GrantConsentRequest(BaseModel):
     """API request model for granting consent"""
     lid: str = Field(..., description="Canonical ΛID")
     service: str = Field(..., description="Service name")
-    scopes: List[str] = Field(..., description="Requested scopes")
+    scopes: list[str] = Field(..., description="Requested scopes")
     purpose: str = Field(..., description="Human-readable purpose")
     ttl_minutes: int = Field(60, ge=1, le=1440, description="Time-to-live (1-1440 minutes)")
     resource_pattern: Optional[str] = Field(None, description="Optional resource filter")
@@ -53,7 +53,7 @@ class RevokeConsentRequest(BaseModel):
     lid: str = Field(..., description="Canonical ΛID")
     grant_id: Optional[str] = Field(None, description="Specific grant ID")
     service: Optional[str] = Field(None, description="Service filter")
-    scopes: Optional[List[str]] = Field(None, description="Scope filters")
+    scopes: Optional[list[str]] = Field(None, description="Scope filters")
     reason: str = Field("User requested", description="Revocation reason")
 
 
@@ -66,7 +66,7 @@ class RevokeConsentResponse(BaseModel):
 class LedgerResponse(BaseModel):
     """API response model for consent ledger"""
     lid: str
-    entries: List[ConsentLedgerEntry]
+    entries: list[ConsentLedgerEntry]
     total_entries: int
 
 
@@ -88,14 +88,14 @@ class EscalateResponse(BaseModel):
 class VerifyTokenRequest(BaseModel):
     """API request model for token verification"""
     token: str = Field(..., description="Capability token to verify")
-    required_scopes: List[str] = Field(..., description="Required scopes")
+    required_scopes: list[str] = Field(..., description="Required scopes")
     resource_id: Optional[str] = Field(None, description="Specific resource ID")
 
 
 class VerifyTokenResponse(BaseModel):
     """API response model for token verification"""
     valid: bool
-    claims: Optional[Dict[str, Any]] = None
+    claims: Optional[dict[str, Any]] = None
     error: Optional[str] = None
 
 
@@ -103,8 +103,8 @@ class ConsentStatsResponse(BaseModel):
     """API response model for consent statistics"""
     total_active_grants: int
     total_services: int
-    recent_activity: Dict[str, int]
-    performance_stats: Dict[str, float]
+    recent_activity: dict[str, int]
+    performance_stats: dict[str, float]
 
 
 # Global consent service instance
@@ -135,7 +135,7 @@ def get_client_ip(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-def get_client_context(request: Request) -> Dict[str, Any]:
+def get_client_context(request: Request) -> dict[str, Any]:
     """Extract client context from request"""
     return {
         "user_agent": request.headers.get("User-Agent", "unknown"),

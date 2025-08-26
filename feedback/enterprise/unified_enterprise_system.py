@@ -13,7 +13,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -55,7 +55,7 @@ class EnterpriseFeedback:
     constitutional_alignment: Optional[FeedbackAlignment] = None
     scale_tracking_id: Optional[str] = None
     processing_tier: ProcessingTier = ProcessingTier.STANDARD
-    enterprise_metadata: Dict[str, Any] = field(default_factory=dict)
+    enterprise_metadata: dict[str, Any] = field(default_factory=dict)
     security_clearance: str = "public"
     monetization_eligible: bool = False
 
@@ -65,11 +65,11 @@ class CollectiveIntelligence:
     """Aggregated wisdom from global feedback"""
 
     total_feedback_processed: int = 0
-    global_sentiment: Dict[str, float] = field(default_factory=dict)
-    emerging_patterns: List[Dict[str, Any]] = field(default_factory=list)
-    collective_values: Dict[str, float] = field(default_factory=dict)
-    societal_trends: List[Dict[str, Any]] = field(default_factory=list)
-    early_warnings: List[Dict[str, Any]] = field(default_factory=list)
+    global_sentiment: dict[str, float] = field(default_factory=dict)
+    emerging_patterns: list[dict[str, Any]] = field(default_factory=list)
+    collective_values: dict[str, float] = field(default_factory=dict)
+    societal_trends: list[dict[str, Any]] = field(default_factory=list)
+    early_warnings: list[dict[str, Any]] = field(default_factory=list)
 
 
 class UnifiedEnterpriseSystem(CoreInterface):
@@ -78,7 +78,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
     Anthropic (constitutional AI, safety) and OpenAI (scale, productization).
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize unified system"""
         self.config = config or {}
         self.operational = False
@@ -108,10 +108,10 @@ class UnifiedEnterpriseSystem(CoreInterface):
             "pro": {"requests_per_month": 100000, "features": ["basic", "analytics"]},
             "enterprise": {"requests_per_month": -1, "features": ["all"]},
         }
-        self.usage_tracking: Dict[str, Dict[str, Any]] = defaultdict(dict)
+        self.usage_tracking: dict[str, dict[str, Any]] = defaultdict(dict)
 
         # Model specialization registry
-        self.specialized_models: Dict[str, Dict[str, Any]] = {}
+        self.specialized_models: dict[str, dict[str, Any]] = {}
 
         # Early warning patterns
         self.warning_patterns = {
@@ -122,7 +122,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
         }
 
         # Blockchain audit trail (simulated)
-        self.audit_blockchain: List[Dict[str, Any]] = []
+        self.audit_blockchain: list[dict[str, Any]] = []
 
         # Global threat intelligence
         self.threat_intelligence = {
@@ -158,8 +158,8 @@ class UnifiedEnterpriseSystem(CoreInterface):
         self,
         feedback: FeedbackItem,
         channel: FeedbackChannel = FeedbackChannel.API,
-        options: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        options: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Collect feedback with enterprise features.
 
@@ -403,7 +403,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                 logger.error(f"Collective intelligence monitoring error: {e}")
                 await asyncio.sleep(600)
 
-    async def _analyze_societal_trends(self) -> List[Dict[str, Any]]:
+    async def _analyze_societal_trends(self) -> list[dict[str, Any]]:
         """Analyze trends from collective feedback"""
         trends = []
 
@@ -485,7 +485,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
                 logger.error(f"Early warning detection error: {e}")
                 await asyncio.sleep(1200)
 
-    def _get_warning_actions(self, category: str) -> List[str]:
+    def _get_warning_actions(self, category: str) -> list[str]:
         """Get recommended actions for warning category"""
         actions = {
             "mental_health": [
@@ -511,7 +511,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
         }
         return actions.get(category, ["Monitor situation"])
 
-    async def _send_alerts(self, warnings: List[Dict[str, Any]]) -> None:
+    async def _send_alerts(self, warnings: list[dict[str, Any]]) -> None:
         """Send alerts for critical warnings"""
         # In production, integrate with alerting systems
         for warning in warnings:
@@ -569,7 +569,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
 
     async def _generate_monetization_options(
         self, feedback: EnterpriseFeedback
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate monetization options for feedback"""
         options = {
             "training_data": {
@@ -614,8 +614,8 @@ class UnifiedEnterpriseSystem(CoreInterface):
     async def create_specialized_model(
         self,
         base_model_id: str,
-        specialization_config: Dict[str, Any],
-        training_feedback: List[EnterpriseFeedback],
+        specialization_config: dict[str, Any],
+        training_feedback: list[EnterpriseFeedback],
     ) -> str:
         """Create specialized model variant from feedback"""
         model_id = f"specialized_{uuid.uuid4().hex[:12]}"
@@ -708,7 +708,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
 
         self.audit_blockchain.append(entry)
 
-    def _calculate_block_hash(self, block: Dict[str, Any]) -> str:
+    def _calculate_block_hash(self, block: dict[str, Any]) -> str:
         """Calculate hash for audit block"""
         block_str = json.dumps(block, sort_keys=True)
         return hashlib.sha256(block_str.encode()).hexdigest()
@@ -716,8 +716,8 @@ class UnifiedEnterpriseSystem(CoreInterface):
     # API Methods
 
     async def generate_enterprise_insights(
-        self, enterprise_id: str, options: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, enterprise_id: str, options: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Generate enterprise-grade insights"""
         insights = {
             "enterprise_id": enterprise_id,
@@ -773,7 +773,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
 
     # Required interface methods
 
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process request"""
         feedback = data.get("feedback")
         channel = FeedbackChannel(data.get("channel", "api"))
@@ -794,7 +794,7 @@ class UnifiedEnterpriseSystem(CoreInterface):
             },
         }
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get system status"""
         status = {
             "operational": self.operational,

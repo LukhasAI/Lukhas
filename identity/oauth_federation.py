@@ -17,7 +17,7 @@ Architecture:
 import secrets
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 from urllib.parse import urlencode
 
 import httpx
@@ -79,7 +79,7 @@ class OAuthProviderConfig(BaseModel):
     authorization_url: str
     token_url: str
     userinfo_url: str
-    scopes: List[str]
+    scopes: list[str]
     enabled: bool = True
 
     class Config:
@@ -98,7 +98,7 @@ class FederatedUser(BaseModel):
     organization_id: Optional[str] = None
     is_temporary: bool = False
     verified: bool = False
-    linked_accounts: List[str] = []  # Other provider accounts
+    linked_accounts: list[str] = []  # Other provider accounts
     created_at: datetime
     last_login: Optional[datetime] = None
 
@@ -110,10 +110,10 @@ class OAuthFederationManager:
     """Manages OAuth federation and enterprise user IDs."""
 
     def __init__(self):
-        self.providers: Dict[OAuthProvider, OAuthProviderConfig] = {}
-        self.enterprises: Dict[str, EnterpriseConfig] = {}
-        self.federated_users: Dict[str, FederatedUser] = {}  # In production: database
-        self.temp_users: Dict[str, Dict] = {}  # Temporary user storage
+        self.providers: dict[OAuthProvider, OAuthProviderConfig] = {}
+        self.enterprises: dict[str, EnterpriseConfig] = {}
+        self.federated_users: dict[str, FederatedUser] = {}  # In production: database
+        self.temp_users: dict[str, dict] = {}  # Temporary user storage
 
         # Load default configurations
         self._load_default_configs()
@@ -210,7 +210,7 @@ class OAuthFederationManager:
 
     async def handle_oauth_callback(
         self, provider: OAuthProvider, code: str, redirect_uri: str, state: str = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle OAuth callback and create/link user account."""
 
         try:
@@ -285,7 +285,7 @@ class OAuthFederationManager:
 
     async def _exchange_code_for_token(
         self, provider: OAuthProvider, code: str, redirect_uri: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Exchange authorization code for access token."""
         config = self.providers[provider]
 
@@ -306,7 +306,7 @@ class OAuthFederationManager:
 
     async def _get_user_info(
         self, provider: OAuthProvider, access_token: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get user information from OAuth provider."""
         config = self.providers[provider]
 
@@ -326,7 +326,7 @@ class OAuthFederationManager:
         """Determine organization from email domain."""
         domain = email.split("@")[1].lower()
 
-        for org_id, config in self.enterprises.items():
+        for _org_id, config in self.enterprises.items():
             pattern = config.domain_pattern.replace("*", "")
             if domain.endswith(pattern.lstrip(".")):
                 return config
@@ -466,7 +466,7 @@ class OAuthFederationManager:
         """Check if LUKHAS user ID is already taken."""
         return user_id in self.federated_users
 
-    def get_organization_configs(self) -> Dict[str, EnterpriseConfig]:
+    def get_organization_configs(self) -> dict[str, EnterpriseConfig]:
         """Get all enterprise/institutional configurations."""
         return self.enterprises.copy()
 
@@ -506,14 +506,14 @@ def get_google_login_url(redirect_uri: str) -> str:
     return oauth_federation.generate_oauth_url(OAuthProvider.GOOGLE, redirect_uri)
 
 
-async def handle_apple_callback(code: str, redirect_uri: str) -> Dict[str, Any]:
+async def handle_apple_callback(code: str, redirect_uri: str) -> dict[str, Any]:
     """Handle Apple Sign-In callback."""
     return await oauth_federation.handle_oauth_callback(
         OAuthProvider.APPLE, code, redirect_uri
     )
 
 
-async def handle_google_callback(code: str, redirect_uri: str) -> Dict[str, Any]:
+async def handle_google_callback(code: str, redirect_uri: str) -> dict[str, Any]:
     """Handle Google Sign-In callback."""
     return await oauth_federation.handle_oauth_callback(
         OAuthProvider.GOOGLE, code, redirect_uri

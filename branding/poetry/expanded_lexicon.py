@@ -13,7 +13,6 @@ A massively enriched vocabulary system combining:
 import random
 from dataclasses import dataclass
 from enum import Enum
-from typing import List
 
 
 class PoeticForm(Enum):
@@ -34,11 +33,11 @@ class PoeticForm(Enum):
 class VocabularyEntry:
     """Rich vocabulary entry with multiple dimensions."""
     word: str
-    synonyms: List[str]
-    associations: List[str]
+    synonyms: list[str]
+    associations: list[str]
     sound_quality: str  # harsh, soft, liquid, etc.
     emotional_tone: str  # melancholic, jubilant, serene, etc.
-    usage_context: List[str]  # technical, poetic, formal, etc.
+    usage_context: list[str]  # technical, poetic, formal, etc.
 
 
 class ExpandedLUKHASLexicon:
@@ -442,7 +441,7 @@ class ExpandedLUKHASLexicon:
             ]
         }
 
-    def get_synonyms(self, word: str, category: str = None) -> List[str]:
+    def get_synonyms(self, word: str, category: str = None) -> list[str]:
         """Get rich synonyms for a word, optionally filtered by category."""
         # Implementation would search across all categories
         synonyms = []
@@ -451,7 +450,7 @@ class ExpandedLUKHASLexicon:
         if category:
             if hasattr(self, f"{category}_terms"):
                 term_dict = getattr(self, f"{category}_terms")
-                for subcategory, words in term_dict.items():
+                for _subcategory, words in term_dict.items():
                     if word in words:
                         # Return related words from same subcategory
                         synonyms.extend([w for w in words if w != word])
@@ -461,7 +460,7 @@ class ExpandedLUKHASLexicon:
                 if attr_name.endswith("_terms"):
                     term_dict = getattr(self, attr_name)
                     if isinstance(term_dict, dict):
-                        for subcategory, words in term_dict.items():
+                        for _subcategory, words in term_dict.items():
                             if isinstance(words, list) and word in words:
                                 synonyms.extend([w for w in words if w != word])
 

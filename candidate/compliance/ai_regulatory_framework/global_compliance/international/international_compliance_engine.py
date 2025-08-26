@@ -6,7 +6,7 @@ Handles compliance assessment and implementation across jurisdictions.
 
 import asyncio
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from candidate.core.interfaces import CoreInterface
 
@@ -33,8 +33,8 @@ class InternationalComplianceEngine(CoreInterface):
     async def assess_compliance(
         self,
         framework: str,
-        requirements: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        requirements: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess compliance with a specific framework"""
 
         assessment = {
@@ -50,7 +50,7 @@ class InternationalComplianceEngine(CoreInterface):
                 for req in req_list:
                     # Simulate compliance check
                     assessment['requirements_met'][req] = {
-                        'met': True if 'safety' in req or 'transparency' in req else False,
+                        'met': bool("safety" in req or "transparency" in req),
                         'evidence': f"Implementation of {req}"
                     }
 
@@ -64,8 +64,8 @@ class InternationalComplianceEngine(CoreInterface):
     async def implement_requirement(
         self,
         requirement: str,
-        action: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        action: dict[str, Any]
+    ) -> dict[str, Any]:
         """Implement a specific compliance requirement"""
 
         result = {

@@ -14,7 +14,7 @@ This ensures rich, varied expression by:
 import random
 import re
 from collections import Counter
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 class VocabularyBalancer:
@@ -184,11 +184,11 @@ class VocabularyBalancer:
         """Reset usage counter for new document/session."""
         self.usage_counter.clear()
 
-    def get_usage_report(self) -> Dict[str, int]:
+    def get_usage_report(self) -> dict[str, int]:
         """Get report of metaphor usage frequency."""
         return dict(self.usage_counter)
 
-    def suggest_variety(self, concept: str) -> List[str]:
+    def suggest_variety(self, concept: str) -> list[str]:
         """
         Suggest varied ways to express a concept.
 

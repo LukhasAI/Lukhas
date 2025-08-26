@@ -2,7 +2,6 @@ import json
 import logging
 import math
 from collections.abc import Iterable, Mapping, Sequence
-from typing import Dict
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +20,7 @@ def calculate_drift_score(values: Sequence[float]) -> float:
     return score
 
 
-def generate_entropy_map_from_memory(memory: Mapping[str, int]) -> Dict[str, float]:
+def generate_entropy_map_from_memory(memory: Mapping[str, int]) -> dict[str, float]:
     """Create entropy contribution per memory element using Shannon entropy.
 
     # ΛTAG: entropy

@@ -8,7 +8,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -49,11 +49,11 @@ class SASPatientRecord:
     nuhsa: str
     name: str
     birth_date: datetime
-    medical_conditions: List[str]
-    allergies: List[str]
-    current_medications: List[str]
-    recent_visits: List[Dict]
-    emergency_contacts: List[Dict]
+    medical_conditions: list[str]
+    allergies: list[str]
+    current_medications: list[str]
+    recent_visits: list[dict]
+    emergency_contacts: list[dict]
 
 
 class SASHealthcareConnector:
@@ -62,7 +62,7 @@ class SASHealthcareConnector:
     Provides appointment booking, prescription management, and medical records access
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         """
         Initialize SAS connector with configuration
 
@@ -118,7 +118,7 @@ class SASHealthcareConnector:
             except Exception as e:
                 logger.warning(f"Could not load SAS config: {e}")
 
-    async def connect(self, nuhsa: str, credentials: Dict = None) -> bool:
+    async def connect(self, nuhsa: str, credentials: dict = None) -> bool:
         """
         Connect to SAS system with patient NUHSA
 
@@ -286,7 +286,7 @@ class SASHealthcareConnector:
 
         return response
 
-    async def get_all_appointments(self) -> List[SASAppointment]:
+    async def get_all_appointments(self) -> list[SASAppointment]:
         """Get all appointments for current patient"""
         if not self.connected or not self.current_nuhsa:
             return []
@@ -381,7 +381,7 @@ class SASHealthcareConnector:
 
         return False
 
-    async def get_active_prescriptions(self) -> List[SASPrescription]:
+    async def get_active_prescriptions(self) -> list[SASPrescription]:
         """Get active prescriptions for current patient"""
         if not self.connected or not self.current_nuhsa:
             return []
@@ -428,7 +428,7 @@ class SASHealthcareConnector:
 
         return self.record_cache.get(self.current_nuhsa)
 
-    async def get_emergency_info(self) -> Dict[str, Any]:
+    async def get_emergency_info(self) -> dict[str, Any]:
         """
         Get emergency information for current patient
 
@@ -456,7 +456,7 @@ class SASHealthcareConnector:
 
         return emergency_info
 
-    async def find_nearest_pharmacy(self, location: Tuple[float, float] = None) -> Dict:
+    async def find_nearest_pharmacy(self, location: tuple[float, float] = None) -> dict:
         """
         Find nearest pharmacy for prescriptions
 

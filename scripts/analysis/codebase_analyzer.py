@@ -9,7 +9,6 @@ import os
 import re
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List
 
 
 class CodebaseAnalyzer:
@@ -19,7 +18,7 @@ class CodebaseAnalyzer:
         self.issues = defaultdict(list)
         self.stats = defaultdict(int)
 
-    def scan_codebase(self) -> Dict:
+    def scan_codebase(self) -> dict:
         """Main scanning function that analyzes the entire codebase"""
         print(f"🔍 Analyzing codebase at: {self.root_path}")
 
@@ -142,7 +141,7 @@ class CodebaseAnalyzer:
                         }
                     )
 
-    def _find_naming_variations(self, names: List[str], concept: str) -> List[str]:
+    def _find_naming_variations(self, names: list[str], concept: str) -> list[str]:
         """Find different ways the same concept is named"""
         variations = []
         patterns = [f"{concept}_.*", f".*_{concept}", f".*{concept}.*", f"{concept}.*"]
@@ -312,7 +311,7 @@ class CodebaseAnalyzer:
                             }
                         )
 
-    def _generate_report(self) -> Dict:
+    def _generate_report(self) -> dict:
         """Generate comprehensive analysis report"""
         print("📊 Generating report...")
 
@@ -329,7 +328,7 @@ class CodebaseAnalyzer:
 
         return report
 
-    def _generate_recommendations(self) -> List[Dict]:
+    def _generate_recommendations(self) -> list[dict]:
         """Generate actionable recommendations"""
         recommendations = []
 
@@ -390,7 +389,7 @@ class CodebaseAnalyzer:
 
         return recommendations
 
-    def print_report(self, report: Dict):
+    def print_report(self, report: dict):
         """Print a human-readable report"""
         print("\n" + "=" * 60)
         print("🔍 CODEBASE ANALYSIS REPORT")
@@ -409,7 +408,7 @@ class CodebaseAnalyzer:
         for category, issues in report["issues"].items():
             if issues:
                 print(f"\n  {category.replace('_', ' ').title()}: {len(issues)} issues")
-                for i, issue in enumerate(issues[:3]):  # Show first 3
+                for _i, issue in enumerate(issues[:3]):  # Show first 3
                     if "file" in issue:
                         print(f"    • {issue['file']}")
                     elif "files" in issue:
@@ -429,7 +428,7 @@ class CodebaseAnalyzer:
 
         print("\n" + "=" * 60)
 
-    def save_report(self, report: Dict, filename: str = "codebase_analysis.json"):
+    def save_report(self, report: dict, filename: str = "codebase_analysis.json"):
         """Save report to JSON file"""
         # Convert Path objects to strings for JSON serialization
         json_report = json.loads(json.dumps(report, default=str))

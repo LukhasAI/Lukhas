@@ -12,7 +12,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 import asyncio
 import time
-from typing import Any, Dict, List
+from typing import Any
 
 from .openai_integration import ModulatedOpenAIClient, build_function_definitions
 from .signals import ModulationParams, Signal, SignalModulator
@@ -25,7 +25,7 @@ class EndocrineSignalEmitter:
         """Initialize with optional signal bus for system integration"""
         self.signal_bus = signal_bus
 
-    async def emit_guardian_signals(self, action_context: Dict) -> List[Signal]:
+    async def emit_guardian_signals(self, action_context: dict) -> list[Signal]:
         """Emit signals from Guardian/Ethics systems"""
         signals = []
 
@@ -44,7 +44,7 @@ class EndocrineSignalEmitter:
 
         return signals
 
-    async def emit_memory_signals(self, memory_context: Dict) -> List[Signal]:
+    async def emit_memory_signals(self, memory_context: dict) -> list[Signal]:
         """Emit signals from Memory system"""
         signals = []
 
@@ -76,8 +76,8 @@ class EndocrineSignalEmitter:
         return signals
 
     async def emit_consciousness_signals(
-        self, consciousness_state: Dict
-    ) -> List[Signal]:
+        self, consciousness_state: dict
+    ) -> list[Signal]:
         """Emit signals from Consciousness system"""
         signals = []
 
@@ -108,8 +108,8 @@ class EndocrineSignalEmitter:
         return signals
 
     async def emit_orchestration_signals(
-        self, orchestration_context: Dict
-    ) -> List[Signal]:
+        self, orchestration_context: dict
+    ) -> list[Signal]:
         """Emit signals from Orchestration system"""
         signals = []
 
@@ -128,8 +128,8 @@ class EndocrineSignalEmitter:
         return signals
 
     async def emit_universal_language_signals(
-        self, language_context: Dict
-    ) -> List[Signal]:
+        self, language_context: dict
+    ) -> list[Signal]:
         """Emit signals from Universal Language system"""
         signals = []
 
@@ -159,7 +159,7 @@ class EndocrineSignalEmitter:
 
         return signals
 
-    async def _assess_alignment_risk(self, context: Dict) -> float:
+    async def _assess_alignment_risk(self, context: dict) -> float:
         """Assess alignment risk based on action context"""
         # This would integrate with actual Guardian system
         # For now, return a mock assessment
@@ -194,11 +194,11 @@ class EndocrineLLMOrchestrator:
         self.signal_emitter = EndocrineSignalEmitter()
 
         # Interaction history for learning
-        self.interaction_history: List[Dict] = []
+        self.interaction_history: list[dict] = []
 
     async def process_consciousness_query(
-        self, user_query: str, context: Dict
-    ) -> Dict[str, Any]:
+        self, user_query: str, context: dict
+    ) -> dict[str, Any]:
         """Process query through endocrine-modulated consciousness pipeline"""
 
         # Gather signals from all LUKHAS systems
@@ -230,7 +230,7 @@ class EndocrineLLMOrchestrator:
 
         return result
 
-    async def _gather_system_signals(self, context: Dict) -> List[Signal]:
+    async def _gather_system_signals(self, context: dict) -> list[Signal]:
         """Gather signals from all LUKHAS systems"""
         all_signals = []
 
@@ -269,7 +269,7 @@ class EndocrineLLMOrchestrator:
 
         return all_signals
 
-    async def _retrieve_context(self, query: str, k: int) -> List[str]:
+    async def _retrieve_context(self, query: str, k: int) -> list[str]:
         """Retrieve relevant context from consciousness systems"""
         # This would integrate with actual memory/retrieval systems
         # For now, return mock context snippets
@@ -282,7 +282,7 @@ class EndocrineLLMOrchestrator:
         return context_snippets
 
     async def _store_consciousness_memory(
-        self, query: str, result: Dict, params: ModulationParams
+        self, query: str, result: dict, params: ModulationParams
     ):
         """Store interaction in consciousness memory systems"""
         # This would integrate with actual memory systems
@@ -305,7 +305,7 @@ class EndocrineLLMOrchestrator:
             print(f"💾 Storing medium-importance memory: {memory_entry['audit_id']}")
 
     async def _learn_from_interaction(
-        self, query: str, result: Dict, params: ModulationParams
+        self, query: str, result: dict, params: ModulationParams
     ):
         """Learn from interaction patterns to improve future modulation"""
         # Store interaction in history

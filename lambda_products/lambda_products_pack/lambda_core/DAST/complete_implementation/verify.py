@@ -27,7 +27,7 @@ def test_module_imports():
 
     for module_name in modules_to_test:
         try:
-            module = __import__(module_name)
+            __import__(module_name)
             print(f"✅ {module_name}.py imported successfully")
             success_count += 1
         except ImportError as e:
@@ -74,7 +74,7 @@ def test_basic_functionality():
         from engine import LucasDASTEngine, TaskPriority
 
         # Create engine instance
-        engine = LucasDASTEngine()
+        LucasDASTEngine()
         print("✅ LucasDASTEngine instance created")
 
         # Test enum usage
@@ -82,13 +82,6 @@ def test_basic_functionality():
         print(f"✅ TaskPriority enum working: {priority.value}")
 
         # Test basic task structure
-        test_task = {
-            "id": "test_001",
-            "title": "Verify DAST system",
-            "description": "Testing basic DAST functionality",
-            "priority": priority.value,
-            "tags": ["test", "verification"]
-        }
         print("✅ Task structure validated")
 
         return True

@@ -11,7 +11,6 @@ from __future__ import annotations
 import re
 import uuid
 from dataclasses import dataclass, field
-from typing import Dict
 
 
 @dataclass
@@ -20,7 +19,7 @@ class UserIntent:
 
     intent_type: str
     confidence: float = 0.0
-    entities: Dict[str, str] = field(default_factory=dict)
+    entities: dict[str, str] = field(default_factory=dict)
     raw_input: str | None = None
     sid: str = field(default_factory=lambda: uuid.uuid4().hex)
     drift_score: float = 0.0

@@ -11,7 +11,7 @@ import logging
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Add parent directories to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -34,7 +34,7 @@ class GuardianAuditExporter:
         logger.info("🛡️ Guardian Audit Exporter initialized")
         logger.info(f"   Output directory: {self.output_dir}")
 
-    def generate_full_export(self) -> Dict[str, str]:
+    def generate_full_export(self) -> dict[str, str]:
         """Generate complete audit export in all formats"""
         export_files = {}
 
@@ -63,7 +63,7 @@ class GuardianAuditExporter:
 
         return export_files
 
-    def _generate_mock_audit_data(self) -> Dict[str, Any]:
+    def _generate_mock_audit_data(self) -> dict[str, Any]:
         """Generate mock audit data (in production, read from Guardian System)"""
         base_time = self.export_timestamp - timedelta(hours=24)
 
@@ -230,7 +230,7 @@ class GuardianAuditExporter:
             },
         }
 
-    def _export_json(self, audit_data: Dict[str, Any]) -> Path:
+    def _export_json(self, audit_data: dict[str, Any]) -> Path:
         """Export audit data to JSON format"""
         timestamp_str = self.export_timestamp.strftime("%Y%m%d_%H%M%S")
         json_file = self.output_dir / f"guardian_audit_{timestamp_str}.json"
@@ -252,7 +252,7 @@ class GuardianAuditExporter:
 
         return json_file
 
-    def _export_csv(self, audit_data: Dict[str, Any]) -> Path:
+    def _export_csv(self, audit_data: dict[str, Any]) -> Path:
         """Export audit data to CSV format"""
         timestamp_str = self.export_timestamp.strftime("%Y%m%d_%H%M%S")
         csv_file = self.output_dir / f"guardian_interventions_{timestamp_str}.csv"
@@ -292,7 +292,7 @@ class GuardianAuditExporter:
         logger.info(f"📊 CSV export: {csv_file}")
         return csv_file
 
-    def _export_graphql_schema(self, audit_data: Dict[str, Any]) -> Path:
+    def _export_graphql_schema(self, audit_data: dict[str, Any]) -> Path:
         """Export GraphQL schema and sample queries"""
         timestamp_str = self.export_timestamp.strftime("%Y%m%d_%H%M%S")
         graphql_file = (
@@ -410,7 +410,7 @@ query EmergencyLockdowns {
         logger.info(f"🔍 GraphQL schema: {graphql_file}")
         return graphql_file
 
-    def _generate_summary_report(self, audit_data: Dict[str, Any]) -> Path:
+    def _generate_summary_report(self, audit_data: dict[str, Any]) -> Path:
         """Generate human-readable summary report"""
         timestamp_str = self.export_timestamp.strftime("%Y%m%d_%H%M%S")
         summary_file = self.output_dir / f"guardian_audit_summary_{timestamp_str}.md"

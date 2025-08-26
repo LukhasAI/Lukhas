@@ -7,7 +7,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -17,7 +17,7 @@ class MemoryFold:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     content: Any = None
     timestamp: datetime = field(default_factory=datetime.now)
-    causal_chain: List[str] = field(default_factory=list)
+    causal_chain: list[str] = field(default_factory=list)
     emotional_valence: float = 0.0
     importance: float = 0.5
     accessed_count: int = 0
@@ -30,11 +30,11 @@ class FoldManager:
     CASCADE_THRESHOLD = 0.997  # 99.7% prevention rate
 
     def __init__(self):
-        self.folds: Dict[str, MemoryFold] = {}
-        self.active_folds: List[str] = []
+        self.folds: dict[str, MemoryFold] = {}
+        self.active_folds: list[str] = []
         self.cascade_prevention_active = True
 
-    def create_fold(self, content: Any, causal_chain: List[str] = None) -> MemoryFold:
+    def create_fold(self, content: Any, causal_chain: list[str] = None) -> MemoryFold:
         """Create a new memory fold"""
         fold = MemoryFold(content=content, causal_chain=causal_chain or [])
 
@@ -71,7 +71,7 @@ class FoldManager:
             fold.accessed_count += 1
         return fold
 
-    def get_causal_chain(self, fold_id: str) -> List[MemoryFold]:
+    def get_causal_chain(self, fold_id: str) -> list[MemoryFold]:
         """Get full causal chain for a fold"""
         fold = self.folds.get(fold_id)
         if not fold:

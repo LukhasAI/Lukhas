@@ -9,10 +9,9 @@ import json
 import os
 from collections.abc import Iterator
 from contextlib import contextmanager
-from typing import Dict
 
 # Default flags (safe, conservative defaults)
-_DEFAULT_FLAGS: Dict[str, bool] = {
+_DEFAULT_FLAGS: dict[str, bool] = {
     "TOOL_ANALYTICS": True,
     "ADMIN_DASHBOARD": False,
     "adaptive_ai": True,
@@ -20,16 +19,16 @@ _DEFAULT_FLAGS: Dict[str, bool] = {
 }
 
 # Override stack (LIFO) to support nested contexts
-_override_stack: list[Dict[str, bool]] = []
+_override_stack: list[dict[str, bool]] = []
 
 
-def _env_overrides() -> Dict[str, bool]:
+def _env_overrides() -> dict[str, bool]:
     """Read environment-based overrides.
     Supports:
     - LUKHAS_FLAGS='{"FLAG": true, ...}'
     - LUKHAS_FLAG_<NAME>=0/1/true/false
     """
-    merged: Dict[str, bool] = {}
+    merged: dict[str, bool] = {}
     blob = os.getenv("LUKHAS_FLAGS")
     if blob:
         try:
@@ -75,7 +74,7 @@ class Flags:
         return bool(Flags.get(name, False))
 
     @staticmethod
-    def all() -> Dict[str, bool]:
+    def all() -> dict[str, bool]:
         combined = {**_DEFAULT_FLAGS, **_env_overrides()}
         if _override_stack:
             combined.update(_override_stack[-1])
@@ -83,7 +82,7 @@ class Flags:
 
     @staticmethod
     @contextmanager
-    def context(overrides: Dict[str, bool]) -> Iterator[None]:
+    def context(overrides: dict[str, bool]) -> Iterator[None]:
         _override_stack.append({str(k): bool(v) for k, v in (overrides or {}).items()})
         try:
             yield None

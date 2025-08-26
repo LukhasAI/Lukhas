@@ -5,7 +5,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 import random
-from typing import Any, List
+from typing import Any
 
 from .base import BaseColony, ColonyTask
 
@@ -18,7 +18,7 @@ class CreativityColony(BaseColony):
         self.creative_patterns = []
         super().__init__("creativity", max_agents)
 
-    def get_default_capabilities(self) -> List[str]:
+    def get_default_capabilities(self) -> list[str]:
         return [
             "ideation",
             "creative_synthesis",

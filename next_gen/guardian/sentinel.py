@@ -10,7 +10,7 @@ import logging
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Optional
 
 import websockets
 
@@ -25,10 +25,10 @@ class ThreatIndicator:
     severity: float  # 0.0 to 1.0
     source: str
     timestamp: datetime
-    details: Dict
+    details: dict
     recommended_action: str
 
-    def to_alert(self) -> Dict:
+    def to_alert(self) -> dict:
         """Convert to WebSocket alert format"""
         return {
             "type": "guardian_alert",
@@ -76,8 +76,8 @@ class GuardianSentinel:
         self.consciousness_history = deque(maxlen=50)
 
         # Threat tracking
-        self.active_threats: List[ThreatIndicator] = []
-        self.intervention_history: List[Dict] = []
+        self.active_threats: list[ThreatIndicator] = []
+        self.intervention_history: list[dict] = []
 
         # System state
         self.monitoring_active = False
@@ -303,7 +303,7 @@ class GuardianSentinel:
 
         logger.info(f"⚡ Intervention executed: {threat.recommended_action}")
 
-    async def _intervene_drift_spike(self) -> Dict:
+    async def _intervene_drift_spike(self) -> dict:
         """Intervene for drift spike"""
         return {
             "action": "drift_dampening",
@@ -311,7 +311,7 @@ class GuardianSentinel:
             "expected_result": "Drift rate reduction",
         }
 
-    async def _intervene_entropy_surge(self) -> Dict:
+    async def _intervene_entropy_surge(self) -> dict:
         """Intervene for entropy surge"""
         return {
             "action": "entropy_cooling",
@@ -319,7 +319,7 @@ class GuardianSentinel:
             "expected_result": "Entropy stabilization",
         }
 
-    async def _intervene_pattern_anomaly(self) -> Dict:
+    async def _intervene_pattern_anomaly(self) -> dict:
         """Intervene for pattern anomaly"""
         return {
             "action": "pattern_reinforcement",
@@ -330,7 +330,7 @@ class GuardianSentinel:
             "expected_result": "Pattern coherence improvement",
         }
 
-    async def _intervene_consciousness_instability(self) -> Dict:
+    async def _intervene_consciousness_instability(self) -> dict:
         """Intervene for consciousness instability"""
         return {
             "action": "consciousness_anchoring",
@@ -379,7 +379,7 @@ class GuardianSentinel:
         ]
         return random.choice(states)
 
-    def get_threat_report(self) -> Dict:
+    def get_threat_report(self) -> dict:
         """Generate threat analysis report"""
         active_count = len(
             [

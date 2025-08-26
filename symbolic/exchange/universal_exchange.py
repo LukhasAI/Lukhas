@@ -15,7 +15,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -44,8 +44,8 @@ class SymbolCandidate:
     hash_signature: str
     support_count: int = 0
     confidence: float = 0.0
-    origins: Set[str] = field(default_factory=set)
-    contexts: List[str] = field(default_factory=list)
+    origins: set[str] = field(default_factory=set)
+    contexts: list[str] = field(default_factory=list)
     last_seen: float = field(default_factory=time.time)
     adoption_rate: float = 0.0
 
@@ -55,7 +55,7 @@ class ExchangeSession:
     """A symbol exchange session between users"""
 
     session_id: str
-    participants: Set[str]
+    participants: set[str]
     protocol: ExchangeProtocol
     symbols_exchanged: int = 0
     privacy_budget: float = 1.0  # Differential privacy budget
@@ -73,9 +73,9 @@ class UniversalSymbolExchange:
         self.signal_bus = signal_bus or SignalBus()
 
         # Exchange tracking
-        self.active_sessions: Dict[str, ExchangeSession] = {}
-        self.symbol_candidates: Dict[str, SymbolCandidate] = {}
-        self.user_contributions: Dict[str, Set[str]] = defaultdict(set)
+        self.active_sessions: dict[str, ExchangeSession] = {}
+        self.symbol_candidates: dict[str, SymbolCandidate] = {}
+        self.user_contributions: dict[str, set[str]] = defaultdict(set)
 
         # Privacy settings
         self.min_k_anonymity = 3  # Minimum users before revealing symbol
@@ -83,15 +83,15 @@ class UniversalSymbolExchange:
         self.hash_rounds = 1000  # Rounds for hash computation
 
         # Colony integration
-        self.colony_validators: List[Any] = []  # Colony instances for validation
+        self.colony_validators: list[Any] = []  # Colony instances for validation
 
         # Universal vocabulary (discovered symbols)
-        self.universal_vocabulary: Dict[str, float] = {}
+        self.universal_vocabulary: dict[str, float] = {}
 
     async def initiate_exchange(
         self,
         initiator_id: str,
-        participant_ids: List[str],
+        participant_ids: list[str],
         protocol: ExchangeProtocol = ExchangeProtocol.HASHED,
     ) -> str:
         """Initiate a symbol exchange session"""
@@ -123,7 +123,7 @@ class UniversalSymbolExchange:
         self,
         session_id: str,
         user_id: str,
-        symbols: Dict[str, str],  # symbol -> hashed meaning
+        symbols: dict[str, str],  # symbol -> hashed meaning
     ) -> bool:
         """Contribute symbols to an exchange session"""
         if session_id not in self.active_sessions:
@@ -161,8 +161,8 @@ class UniversalSymbolExchange:
         return True
 
     async def _apply_privacy_protocol(
-        self, symbols: Dict[str, str], protocol: ExchangeProtocol, privacy_budget: float
-    ) -> Dict[str, str]:
+        self, symbols: dict[str, str], protocol: ExchangeProtocol, privacy_budget: float
+    ) -> dict[str, str]:
         """Apply privacy-preserving protocol to symbols"""
 
         if protocol == ExchangeProtocol.DIRECT:
@@ -266,7 +266,7 @@ class UniversalSymbolExchange:
 
     async def get_recommendations(
         self, user_id: str, context: Optional[str] = None
-    ) -> List[Tuple[str, float]]:
+    ) -> list[tuple[str, float]]:
         """Get symbol recommendations for a user"""
         recommendations = []
 
@@ -290,7 +290,7 @@ class UniversalSymbolExchange:
 
         return recommendations[:10]  # Top 10 recommendations
 
-    def get_privacy_metrics(self, session_id: str) -> Dict[str, Any]:
+    def get_privacy_metrics(self, session_id: str) -> dict[str, Any]:
         """Get privacy metrics for a session"""
         session = self.active_sessions.get(session_id)
         if not session:
@@ -354,7 +354,7 @@ class UniversalSymbolExchange:
         except BaseException:
             return "❓"  # Fallback
 
-    async def _emit_signal(self, signal_type: SignalType, level: float, metadata: Dict):
+    async def _emit_signal(self, signal_type: SignalType, level: float, metadata: dict):
         """Emit signal through signal bus"""
         if self.signal_bus:
             signal = Signal(
@@ -365,7 +365,7 @@ class UniversalSymbolExchange:
             )
             self.signal_bus.publish(signal)
 
-    def get_universal_stats(self) -> Dict[str, Any]:
+    def get_universal_stats(self) -> dict[str, Any]:
         """Get statistics about universal symbol adoption"""
         total_candidates = len(self.symbol_candidates)
         adopted_symbols = len(self.universal_vocabulary)

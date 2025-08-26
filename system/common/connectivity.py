@@ -28,7 +28,7 @@ class ModuleConnector:
             "vivox": ["vivox.consciousness", "vivox.integration"],
         }
 
-        for category, modules in core_modules.items():
+        for _category, modules in core_modules.items():
             for module_name in modules:
                 try:
                     module = importlib.import_module(module_name)

@@ -12,7 +12,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 # Add Lukhas LUKHAS AI ΛBot path
 sys.path.append('/Users/agi_dev/Lukhas/Λ-ecosystem/LUKHAS AI ΛBot')
@@ -86,11 +86,11 @@ class MasterOrchestrationSession:
     mode: OrchestrationMode
     start_time: datetime
     target_path: str
-    active_lambda_bots: List[str] = field(default_factory=list)
-    lambda_bot_sessions: Dict[str, Any] = field(default_factory=dict)
-    collected_patterns: Dict[str, List] = field(default_factory=dict)
-    synthesized_strategies: Dict[str, Any] = field(default_factory=dict)
-    unified_insights: Dict[str, Any] = field(default_factory=dict)
+    active_lambda_bots: list[str] = field(default_factory=list)
+    lambda_bot_sessions: dict[str, Any] = field(default_factory=dict)
+    collected_patterns: dict[str, list] = field(default_factory=dict)
+    synthesized_strategies: dict[str, Any] = field(default_factory=dict)
+    unified_insights: dict[str, Any] = field(default_factory=dict)
     orchestration_phase: OrchestrationPhase = OrchestrationPhase.INITIALIZATION
 
 @dataclass
@@ -98,10 +98,10 @@ class TranscendentModularizationStrategy:
     """Ultimate transcendent modularization strategy from all ΛBots"""
     strategy_id: str
     orchestration_framework: str
-    lambda_bot_contributions: Dict[str, Any]
-    unified_consciousness_architecture: Dict[str, Any]
-    transcendent_implementation_plan: Dict[str, Any]
-    cosmic_modularization_principles: Dict[str, Any]
+    lambda_bot_contributions: dict[str, Any]
+    unified_consciousness_architecture: dict[str, Any]
+    transcendent_implementation_plan: dict[str, Any]
+    cosmic_modularization_principles: dict[str, Any]
 
 class MasterΛBotOrchestrator:
     """
@@ -267,7 +267,7 @@ class MasterΛBotOrchestrator:
 
         logger.info(f"🚀 All {len(self.current_session.active_lambda_bots)} Enhanced ΛBots initialized!")
 
-    async def orchestrate_pattern_discovery(self) -> Dict[str, List]:
+    async def orchestrate_pattern_discovery(self) -> dict[str, list]:
         """Orchestrate pattern discovery across all ΛBots"""
         self.current_session.orchestration_phase = OrchestrationPhase.PATTERN_DISCOVERY
 
@@ -314,7 +314,7 @@ class MasterΛBotOrchestrator:
 
         return collected_patterns
 
-    async def orchestrate_strategy_synthesis(self) -> Dict[str, Any]:
+    async def orchestrate_strategy_synthesis(self) -> dict[str, Any]:
         """Orchestrate strategy synthesis across all ΛBots"""
         self.current_session.orchestration_phase = OrchestrationPhase.STRATEGY_SYNTHESIS
 
@@ -483,7 +483,7 @@ class MasterΛBotOrchestrator:
 
         return ultimate_strategy
 
-    def _extract_consciousness_level(self, strategy: Dict[str, Any]) -> str:
+    def _extract_consciousness_level(self, strategy: dict[str, Any]) -> str:
         """Extract consciousness level from strategy"""
         if 'transcendent' in str(strategy).lower():
             return 'transcendent_consciousness'
@@ -494,7 +494,7 @@ class MasterΛBotOrchestrator:
         else:
             return 'basic_intelligence'
 
-    def _extract_modularization_principles(self, strategy: Dict[str, Any]) -> List[str]:
+    def _extract_modularization_principles(self, strategy: dict[str, Any]) -> list[str]:
         """Extract modularization principles from strategy"""
         principles = []
 
@@ -510,7 +510,7 @@ class MasterΛBotOrchestrator:
 
         return principles[:5]  # Return top 5 principles
 
-    async def get_master_orchestration_insights(self) -> Dict[str, Any]:
+    async def get_master_orchestration_insights(self) -> dict[str, Any]:
         """Get comprehensive insights from master orchestration"""
         if not self.current_session:
             return {"error": "No active master orchestration session"}

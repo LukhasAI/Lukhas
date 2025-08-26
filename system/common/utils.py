@@ -9,7 +9,7 @@ import json
 import logging
 from functools import wraps
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 def get_logger(name: str) -> logging.Logger:
@@ -27,8 +27,8 @@ def get_logger(name: str) -> logging.Logger:
 
 
 def load_config(
-    config_path: Path, defaults: Optional[Dict[str, Any]] = None
-) -> Dict[str, Any]:
+    config_path: Path, defaults: Optional[dict[str, Any]] = None
+) -> dict[str, Any]:
     """Load JSON configuration with defaults"""
     config = defaults or {}
 
@@ -44,7 +44,7 @@ def load_config(
     return config
 
 
-def save_config(config: Dict[str, Any], config_path: Path) -> bool:
+def save_config(config: dict[str, Any], config_path: Path) -> bool:
     """Save configuration to JSON file"""
     try:
         config_path.parent.mkdir(parents=True, exist_ok=True)
@@ -110,7 +110,7 @@ def ensure_path(path: Path) -> Path:
     return path
 
 
-def merge_dicts(dict1: Dict[str, Any], dict2: Dict[str, Any]) -> Dict[str, Any]:
+def merge_dicts(dict1: dict[str, Any], dict2: dict[str, Any]) -> dict[str, Any]:
     """Deep merge two dictionaries"""
     result = dict1.copy()
 

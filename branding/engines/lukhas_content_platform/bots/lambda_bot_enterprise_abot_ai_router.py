@@ -9,7 +9,7 @@ import subprocess
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Optional
 
 logger = logging.getLogger("ABotAIRouter")
 
@@ -37,7 +37,7 @@ class AIServiceCapability:
     name: str
     model: str
     keychain_service: str
-    strengths: List[TaskType]
+    strengths: list[TaskType]
     cost_per_1k_tokens: float
     max_tokens: int
     supports_streaming: bool
@@ -47,7 +47,7 @@ class AIServiceCapability:
     creative_quality: str  # "excellent", "good", "fair"
     factual_accuracy: str  # "excellent", "good", "fair"
     max_context_length: int
-    best_for: List[str]
+    best_for: list[str]
     quality_score: int  # 1-10
 
 class ABotIntelligentAIRouter:
@@ -197,7 +197,7 @@ class ABotIntelligentAIRouter:
             logger.warning(f"KeyChain access failed for {service}: {e}")
             return None
 
-    def route_task(self, task_type: TaskType, prompt: str, priority: str = "balanced") -> Dict:
+    def route_task(self, task_type: TaskType, prompt: str, priority: str = "balanced") -> dict:
         """
         Intelligently route a task to the best AI service
 
@@ -282,11 +282,11 @@ class ABotIntelligentAIRouter:
             "cost_per_1k": best_service.cost_per_1k_tokens
         }
 
-    def get_routing_analytics(self) -> Dict:
+    def get_routing_analytics(self) -> dict:
         """Get routing analytics and usage statistics"""
         return self.routing_analytics.copy()
 
-    def get_available_services(self) -> List[str]:
+    def get_available_services(self) -> list[str]:
         """Get list of currently available AI services"""
         available = []
         for service_id, service in self.services.items():
@@ -295,7 +295,7 @@ class ABotIntelligentAIRouter:
                 available.append(service_id)
         return available
 
-def get_ai_router_status() -> Dict:
+def get_ai_router_status() -> dict:
     """Get comprehensive AI router status for reporting"""
     router = ABotIntelligentAIRouter()
 
@@ -373,7 +373,7 @@ if __name__ == "__main__":
     print(f"Available AI services: {len(router.services)}")
 
     # Show all services and their availability
-    for service_id, service in router.services.items():
+    for _service_id, service in router.services.items():
         api_key = router._get_keychain_value(service.keychain_service)
         status = "✅" if (api_key and len(api_key.strip()) > 10) else "❌"
         print(f"{status} {service.name} (${service.cost_per_1k_tokens:.4f}/1K tokens)")

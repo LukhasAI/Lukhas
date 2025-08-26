@@ -6,7 +6,7 @@ MinuteClinic services, including prescription management and retail health servi
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .....base_provider import BaseHealthcareProvider, ProviderConfig, SecurityConfig
 
@@ -14,7 +14,7 @@ from .....base_provider import BaseHealthcareProvider, ProviderConfig, SecurityC
 class CVSHealthInterface(BaseHealthcareProvider):
     """Implementation of healthcare interface for CVS Health"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize CVS Health interface with configuration
 
@@ -61,7 +61,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
 
     async def check_prescription_status(self,
                                      rx_number: str,
-                                     store_id: Optional[str] = None) -> Dict[str, Any]:
+                                     store_id: Optional[str] = None) -> dict[str, Any]:
         """Check status of a prescription"""
         store = store_id or self.config['store_id']
         self.log_audit_event(
@@ -76,7 +76,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
 
     async def verify_insurance(self,
                              patient_id: str,
-                             insurance_data: Dict[str, Any]) -> Dict[str, Any]:
+                             insurance_data: dict[str, Any]) -> dict[str, Any]:
         """Verify insurance coverage for pharmacy services"""
         self.log_audit_event(
             event_type="insurance_verification",
@@ -103,7 +103,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         pass
 
     async def submit_prescription_to_insurance(self,
-                                            rx_data: Dict[str, Any]) -> str:
+                                            rx_data: dict[str, Any]) -> str:
         """Submit prescription claim to insurance"""
         self.log_audit_event(
             event_type="prescription_claim",
@@ -116,7 +116,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
 
     async def check_drug_interactions(self,
                                    patient_id: str,
-                                   drug_codes: List[str]) -> List[Dict[str, Any]]:
+                                   drug_codes: list[str]) -> list[dict[str, Any]]:
         """Check for drug interactions"""
         self.log_audit_event(
             event_type="drug_interaction_check",
@@ -129,7 +129,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
 
     async def get_medication_history(self,
                                   patient_id: str,
-                                  start_date: Optional[datetime] = None) -> List[Dict[str, Any]]:
+                                  start_date: Optional[datetime] = None) -> list[dict[str, Any]]:
         """Retrieve patient's medication history"""
         self.log_audit_event(
             event_type="medication_history",

@@ -54,7 +54,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -106,11 +106,11 @@ class EmotionalSequence:
     sequence_id: str
     timestamp: str
     source: str  # dream, memory, drift_log
-    emotions: List[str]
-    symbols: List[str]
+    emotions: list[str]
+    symbols: list[str]
     intensity: float
     duration_minutes: Optional[float] = None
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -118,8 +118,8 @@ class RecurringMotif:
     """Identified recurring emotional motif."""
 
     motif_id: str
-    pattern: List[str]
-    occurrences: List[EmotionalSequence]
+    pattern: list[str]
+    occurrences: list[EmotionalSequence]
     first_seen: str
     last_seen: str
     frequency: float
@@ -141,9 +141,9 @@ class LoopReport:
     eli_score: float  # Emotional Loop Index
     ris_score: float  # Recurrence Intensity Score
     severity: EchoSeverity
-    motifs: List[RecurringMotif]
-    archetype_alerts: List[Dict[str, Any]]
-    recommendations: List[str]
+    motifs: list[RecurringMotif]
+    archetype_alerts: list[dict[str, Any]]
+    recommendations: list[str]
 
 
 class ArchetypeDetector:
@@ -271,8 +271,8 @@ class ArchetypeDetector:
             }
 
     def detect_archetype(
-        self, sequence: List[str]
-    ) -> Tuple[Optional[ArchetypePattern], float]:
+        self, sequence: list[str]
+    ) -> tuple[Optional[ArchetypePattern], float]:
         """
         Detect archetypal pattern in emotional sequence.
 
@@ -308,8 +308,8 @@ class ArchetypeDetector:
 
     def _calculate_pattern_match(
         self,
-        sequence: List[str],
-        pattern: List[str],
+        sequence: list[str],
+        pattern: list[str],
         regex: re.Pattern,
         sequence_text: str,
     ) -> float:
@@ -337,7 +337,7 @@ class ArchetypeDetector:
 
         return min(composite_score, 1.0)
 
-    def _direct_sequence_match(self, sequence: List[str], pattern: List[str]) -> float:
+    def _direct_sequence_match(self, sequence: list[str], pattern: list[str]) -> float:
         """Calculate direct sequence overlap."""
         if not sequence or not pattern:
             return 0.0
@@ -352,7 +352,7 @@ class ArchetypeDetector:
 
         return matches / len(pattern_lower)
 
-    def _order_sensitive_match(self, sequence: List[str], pattern: List[str]) -> float:
+    def _order_sensitive_match(self, sequence: list[str], pattern: list[str]) -> float:
         """Calculate order-sensitive pattern matching."""
         if len(sequence) < 2 or len(pattern) < 2:
             return 0.0
@@ -364,7 +364,7 @@ class ArchetypeDetector:
         lcs_length = self._lcs_length(sequence_lower, pattern_lower)
         return lcs_length / len(pattern_lower)
 
-    def _lcs_length(self, seq1: List[str], seq2: List[str]) -> int:
+    def _lcs_length(self, seq1: list[str], seq2: list[str]) -> int:
         """Calculate longest common subsequence length."""
         m, n = len(seq1), len(seq2)
         dp = [[0] * (n + 1) for _ in range(m + 1)]
@@ -378,7 +378,7 @@ class ArchetypeDetector:
 
         return dp[m][n]
 
-    def _simple_semantic_match(self, sequence: List[str], pattern: List[str]) -> float:
+    def _simple_semantic_match(self, sequence: list[str], pattern: list[str]) -> float:
         """Simple semantic similarity using word associations."""
 
         # Simplified semantic groups
@@ -467,8 +467,8 @@ class EmotionalEchoDetector:
         self.archetype_detector = ArchetypeDetector()
 
         # Data storage
-        self.emotional_sequences: List[EmotionalSequence] = []
-        self.detected_motifs: Dict[str, RecurringMotif] = {}
+        self.emotional_sequences: list[EmotionalSequence] = []
+        self.detected_motifs: dict[str, RecurringMotif] = {}
         self.analysis_history: deque = deque(maxlen=100)
 
         # Integration components
@@ -493,7 +493,7 @@ class EmotionalEchoDetector:
         )
 
     def extract_emotional_sequence(
-        self, data: Dict[str, Any]
+        self, data: dict[str, Any]
     ) -> Optional[EmotionalSequence]:
         """
         Extract emotional sequence from data source.
@@ -524,7 +524,7 @@ class EmotionalEchoDetector:
             logger.error(f"Failed to extract emotional sequence: {e}")
             return None
 
-    def _identify_source_type(self, data: Dict[str, Any]) -> str:
+    def _identify_source_type(self, data: dict[str, Any]) -> str:
         """Identify the type of data source."""
         if "dream_content" in data or "dream_type" in data:
             return "dream"
@@ -547,7 +547,7 @@ class EmotionalEchoDetector:
         else:
             return "unknown"
 
-    def _extract_from_dream(self, data: Dict[str, Any]) -> Optional[EmotionalSequence]:
+    def _extract_from_dream(self, data: dict[str, Any]) -> Optional[EmotionalSequence]:
         """Extract emotional sequence from dream data."""
         dream_content = data.get("dream_content", "")
         emotions = self._extract_emotions_from_text(dream_content)
@@ -571,7 +571,7 @@ class EmotionalEchoDetector:
             },
         )
 
-    def _extract_from_memory(self, data: Dict[str, Any]) -> Optional[EmotionalSequence]:
+    def _extract_from_memory(self, data: dict[str, Any]) -> Optional[EmotionalSequence]:
         """Extract emotional sequence from memory data."""
         emotions = []
 
@@ -609,7 +609,7 @@ class EmotionalEchoDetector:
         )
 
     def _extract_from_drift_log(
-        self, data: Dict[str, Any]
+        self, data: dict[str, Any]
     ) -> Optional[EmotionalSequence]:
         """Extract emotional sequence from ethical drift log."""
         emotions = []
@@ -647,7 +647,7 @@ class EmotionalEchoDetector:
         )
 
     def _extract_from_generic(
-        self, data: Dict[str, Any]
+        self, data: dict[str, Any]
     ) -> Optional[EmotionalSequence]:
         """Extract emotional sequence from generic emotional data."""
         emotions = data.get("emotions", [])
@@ -672,7 +672,7 @@ class EmotionalEchoDetector:
             },
         )
 
-    def _extract_emotions_from_text(self, text: str) -> List[str]:
+    def _extract_emotions_from_text(self, text: str) -> list[str]:
         """Extract emotional terms from text using pattern matching."""
 
         # Comprehensive emotion lexicon
@@ -701,7 +701,7 @@ class EmotionalEchoDetector:
 
         return emotions
 
-    def _extract_symbols_from_text(self, text: str) -> List[str]:
+    def _extract_symbols_from_text(self, text: str) -> list[str]:
         """Extract symbolic terms from text."""
 
         # Symbolic pattern recognition
@@ -728,8 +728,8 @@ class EmotionalEchoDetector:
         return symbols
 
     def _extract_emotions_from_vector(
-        self, emotion_vector: Dict[str, Any]
-    ) -> List[str]:
+        self, emotion_vector: dict[str, Any]
+    ) -> list[str]:
         """Extract emotions from emotion vector structure."""
         emotions = []
 
@@ -750,8 +750,8 @@ class EmotionalEchoDetector:
         return emotions
 
     def _extract_emotions_from_memory_log(
-        self, memory_log: List[Dict[str, Any]]
-    ) -> List[str]:
+        self, memory_log: list[dict[str, Any]]
+    ) -> list[str]:
         """Extract emotions from memory log entries."""
         emotions = []
 
@@ -764,8 +764,8 @@ class EmotionalEchoDetector:
         return emotions
 
     def detect_recurring_motifs(
-        self, emotions: List[str], symbols: List[str]
-    ) -> List[RecurringMotif]:
+        self, emotions: list[str], symbols: list[str]
+    ) -> list[RecurringMotif]:
         """
         Detect recurring motifs in emotional and symbolic patterns.
 
@@ -833,13 +833,13 @@ class EmotionalEchoDetector:
 
         return recurring_motifs
 
-    def _generate_ngrams(self, sequence: List[str], n: int) -> List[Tuple[str, ...]]:
+    def _generate_ngrams(self, sequence: list[str], n: int) -> list[tuple[str, ...]]:
         """Generate n-grams from sequence."""
         return list(zip(*[sequence[i:] for i in range(n)]))
 
     def compute_loop_score(
-        self, recurrences: List[RecurringMotif]
-    ) -> Tuple[float, float]:
+        self, recurrences: list[RecurringMotif]
+    ) -> tuple[float, float]:
         """
         Compute Emotional Loop Index (ELI) and Recurrence Intensity Score (RIS).
 
@@ -927,7 +927,7 @@ class EmotionalEchoDetector:
 
     def generate_loop_report(
         self, format: str = "json", window_minutes: int = None
-    ) -> Union[Dict[str, Any], str]:
+    ) -> Union[dict[str, Any], str]:
         """
         Generate comprehensive loop detection report.
 
@@ -1012,7 +1012,7 @@ class EmotionalEchoDetector:
             return datetime.now()
 
     def _determine_severity(
-        self, eli: float, ris: float, motifs: List[RecurringMotif]
+        self, eli: float, ris: float, motifs: list[RecurringMotif]
     ) -> EchoSeverity:
         """Determine severity level based on scores and motifs."""
 
@@ -1047,8 +1047,8 @@ class EmotionalEchoDetector:
             return EchoSeverity.NORMAL
 
     def _generate_archetype_alerts(
-        self, motifs: List[RecurringMotif]
-    ) -> List[Dict[str, Any]]:
+        self, motifs: list[RecurringMotif]
+    ) -> list[dict[str, Any]]:
         """Generate archetype-specific alerts."""
         alerts = []
 
@@ -1091,9 +1091,9 @@ class EmotionalEchoDetector:
         self,
         eli: float,
         ris: float,
-        motifs: List[RecurringMotif],
+        motifs: list[RecurringMotif],
         severity: EchoSeverity,
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate actionable recommendations based on analysis."""
         recommendations = []
 
@@ -1156,7 +1156,7 @@ class EmotionalEchoDetector:
 
         return recommendations
 
-    def _format_report_json(self, report: LoopReport) -> Dict[str, Any]:
+    def _format_report_json(self, report: LoopReport) -> dict[str, Any]:
         """Format report as JSON."""
         return {
             "report_meta": {
@@ -1288,7 +1288,7 @@ class EmotionalEchoDetector:
 
     def emit_symbolic_echo_alert(
         self, score: float, archetype: Optional[ArchetypePattern]
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Emit symbolic alert for detected emotional echo.
 
@@ -1385,7 +1385,7 @@ class EmotionalEchoDetector:
 
     def _get_alert_actions(
         self, alert_level: str, archetype: Optional[ArchetypePattern]
-    ) -> List[str]:
+    ) -> list[str]:
         """Get recommended actions for alert level and archetype."""
 
         base_actions = {
@@ -1425,7 +1425,7 @@ class EmotionalEchoDetector:
         logger.info("Integrated with LambdaGovernor")
 
     async def escalate_to_governor(
-        self, eli: float, ris: float, motifs: List[RecurringMotif]
+        self, eli: float, ris: float, motifs: list[RecurringMotif]
     ):
         """Escalate high-risk emotional loops to governor."""
         if not self.governor:
@@ -1725,7 +1725,7 @@ async def _continuous_watch(
             await asyncio.sleep(interval)
 
 
-def _load_sample_data(file_path: str) -> List[Dict[str, Any]]:
+def _load_sample_data(file_path: str) -> list[dict[str, Any]]:
     """Load sample data from JSONL file."""
     data = []
 
@@ -1743,7 +1743,7 @@ def _load_sample_data(file_path: str) -> List[Dict[str, Any]]:
 
 def _generate_synthetic_emotional_data(
     count: int = 50, high_risk: bool = False
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Generate synthetic emotional data for testing."""
 
     synthetic_data = []

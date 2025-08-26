@@ -609,11 +609,10 @@ class MemoryManager:
                 memory_content = fold.retrieve()
                 if self.id_integration and memory_content.get("_meta", {}).get(
                     "encrypted", False
-                ):
-                    if user_identity and fold.owner_id == user_identity.get_user_id():
-                        memory_content = self.id_integration.decrypt_memory_content(
-                            key, memory_content
-                        )
+                ) and user_identity and fold.owner_id == user_identity.get_user_id():
+                    memory_content = self.id_integration.decrypt_memory_content(
+                        key, memory_content
+                    )
                     # Add other conditions for decryption if necessary (e.g. admin)
 
                 # Ensure the memory is not marked as forgotten

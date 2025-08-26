@@ -7,7 +7,7 @@ Controls and manages competitive positioning strategies.
 import logging
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 from core.interfaces import CoreInterface
 
@@ -29,7 +29,7 @@ class CompetitiveStrategy:
     """Represents a competitive strategy"""
     type: StrategyType
     target: str
-    actions: List[str]
+    actions: list[str]
     resources_required: float
     success_probability: float
     expected_roi: float
@@ -67,9 +67,9 @@ class CompetitiveLandscapeController(CoreInterface):
 
     async def execute_market_phase(
         self,
-        phase: Dict[str, Any],
-        market_design: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        phase: dict[str, Any],
+        market_design: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Execute a market creation phase
 
@@ -114,9 +114,9 @@ class CompetitiveLandscapeController(CoreInterface):
     async def identify_interventions(
         self,
         competitor: str,
-        patterns: Dict[str, Any],
-        intervention_types: List[str]
-    ) -> List[Dict[str, Any]]:
+        patterns: dict[str, Any],
+        intervention_types: list[str]
+    ) -> list[dict[str, Any]]:
         """
         Identify intervention opportunities in competitor patterns
 
@@ -160,9 +160,9 @@ class CompetitiveLandscapeController(CoreInterface):
     async def generate_counter_strategy(
         self,
         competitor: str,
-        opportunity: Dict[str, Any],
+        opportunity: dict[str, Any],
         strategy_type: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate a counter-strategy for a competitive opportunity
 
@@ -233,9 +233,9 @@ class CompetitiveLandscapeController(CoreInterface):
 
     async def analyze_positioning(
         self,
-        markets: List[Dict[str, Any]],
-        analysis_dimensions: List[str]
-    ) -> Dict[str, Any]:
+        markets: list[dict[str, Any]],
+        analysis_dimensions: list[str]
+    ) -> dict[str, Any]:
         """
         Analyze strategic positioning across markets
 
@@ -278,8 +278,8 @@ class CompetitiveLandscapeController(CoreInterface):
         self,
         competitor: str,
         analysis: Any,  # CompetitiveAnalysis type
-        recommendation_types: List[str]
-    ) -> List[Dict[str, Any]]:
+        recommendation_types: list[str]
+    ) -> list[dict[str, Any]]:
         """
         Generate strategic recommendations based on competitive analysis
 
@@ -377,8 +377,8 @@ class CompetitiveLandscapeController(CoreInterface):
     async def _execute_objective(
         self,
         objective: str,
-        market_design: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        market_design: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute a single market objective"""
 
         result = {
@@ -428,8 +428,8 @@ class CompetitiveLandscapeController(CoreInterface):
     async def _identify_preemptive_opportunities(
         self,
         competitor: str,
-        patterns: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        patterns: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify preemptive intervention opportunities"""
 
         opportunities = []
@@ -467,8 +467,8 @@ class CompetitiveLandscapeController(CoreInterface):
     async def _identify_disruptive_opportunities(
         self,
         competitor: str,
-        patterns: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        patterns: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify disruptive intervention opportunities"""
 
         opportunities = []
@@ -510,8 +510,8 @@ class CompetitiveLandscapeController(CoreInterface):
     async def _identify_complementary_opportunities(
         self,
         competitor: str,
-        patterns: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        patterns: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify complementary collaboration opportunities"""
 
         opportunities = []
@@ -544,8 +544,8 @@ class CompetitiveLandscapeController(CoreInterface):
     async def _identify_defensive_opportunities(
         self,
         competitor: str,
-        patterns: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        patterns: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify defensive strategy opportunities"""
 
         opportunities = []
@@ -578,9 +578,9 @@ class CompetitiveLandscapeController(CoreInterface):
 
     async def _adjust_strategy_for_market(
         self,
-        strategy: Dict[str, Any],
+        strategy: dict[str, Any],
         competitor: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Adjust strategy based on market conditions"""
 
         # Check competitor position
@@ -603,7 +603,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
     async def _analyze_dimension(
         self,
-        markets: List[Dict[str, Any]],
+        markets: list[dict[str, Any]],
         dimension: str
     ) -> float:
         """Analyze a specific positioning dimension"""
@@ -644,8 +644,8 @@ class CompetitiveLandscapeController(CoreInterface):
 
     async def _identify_positioning_advantages(
         self,
-        dimension_scores: Dict[str, float]
-    ) -> List[str]:
+        dimension_scores: dict[str, float]
+    ) -> list[str]:
         """Identify advantages from positioning scores"""
 
         advantages = []
@@ -660,8 +660,8 @@ class CompetitiveLandscapeController(CoreInterface):
 
     async def _identify_positioning_vulnerabilities(
         self,
-        dimension_scores: Dict[str, float]
-    ) -> List[str]:
+        dimension_scores: dict[str, float]
+    ) -> list[str]:
         """Identify vulnerabilities from positioning scores"""
 
         vulnerabilities = []
@@ -678,7 +678,7 @@ class CompetitiveLandscapeController(CoreInterface):
         self,
         competitor: str,
         analysis: Any
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate offensive strategy recommendations"""
 
         recommendations = []
@@ -699,7 +699,7 @@ class CompetitiveLandscapeController(CoreInterface):
         self,
         competitor: str,
         analysis: Any
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate defensive strategy recommendations"""
 
         recommendations = []
@@ -720,7 +720,7 @@ class CompetitiveLandscapeController(CoreInterface):
         self,
         competitor: str,
         analysis: Any
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate collaborative strategy recommendations"""
 
         recommendations = []
@@ -739,7 +739,7 @@ class CompetitiveLandscapeController(CoreInterface):
 
     async def _calculate_recommendation_priority(
         self,
-        recommendation: Dict[str, Any]
+        recommendation: dict[str, Any]
     ) -> float:
         """Calculate priority score for a recommendation"""
 

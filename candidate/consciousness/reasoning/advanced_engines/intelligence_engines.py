@@ -24,7 +24,7 @@ import logging
 import random
 from collections import Counter, defaultdict, deque
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import networkx as nx
 import numpy as np
@@ -50,8 +50,8 @@ class LukhasMetaCognitiveEngine:
         logger.info("🧠 Lukhas meta-cognitive engine initialized")
 
     async def analyze_request(
-        self, request: str, context: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        self, request: str, context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Perform meta-cognitive analysis of a request"""
 
         analysis = {
@@ -75,8 +75,8 @@ class LukhasMetaCognitiveEngine:
         return analysis
 
     async def reflect_on_reasoning(
-        self, reasoning_process: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, reasoning_process: dict[str, Any]
+    ) -> dict[str, Any]:
         """Reflect on and improve reasoning processes"""
 
         reflection = {
@@ -139,8 +139,8 @@ class LukhasMetaCognitiveEngine:
             return "general_reasoning"
 
     async def _identify_potential_biases(
-        self, request: str, context: Optional[Dict]
-    ) -> List[str]:
+        self, request: str, context: Optional[dict]
+    ) -> list[str]:
         """Identify potential cognitive biases"""
         biases = []
 
@@ -155,7 +155,7 @@ class LukhasMetaCognitiveEngine:
 
         return biases
 
-    async def _identify_uncertainty(self, request: str) -> List[str]:
+    async def _identify_uncertainty(self, request: str) -> list[str]:
         """Identify areas of uncertainty"""
         uncertainties = []
 
@@ -170,7 +170,7 @@ class LukhasMetaCognitiveEngine:
 
         return uncertainties
 
-    async def _recommend_approaches(self, request: str) -> List[str]:
+    async def _recommend_approaches(self, request: str) -> list[str]:
         """Recommend approaches for handling the request"""
         approaches = []
 
@@ -185,7 +185,7 @@ class LukhasMetaCognitiveEngine:
 
         return approaches or ["general_processing"]
 
-    async def _assess_reasoning_quality(self, process: Dict[str, Any]) -> float:
+    async def _assess_reasoning_quality(self, process: dict[str, Any]) -> float:
         """Assess quality of reasoning process"""
         quality_factors = {
             "logical_consistency": 0.0,
@@ -211,7 +211,7 @@ class LukhasMetaCognitiveEngine:
 
         return sum(quality_factors.values()) / len(quality_factors)
 
-    async def _detect_biases(self, process: Dict[str, Any]) -> List[str]:
+    async def _detect_biases(self, process: dict[str, Any]) -> list[str]:
         """Detect biases in reasoning process"""
         biases = []
         process_str = str(process).lower()
@@ -224,7 +224,7 @@ class LukhasMetaCognitiveEngine:
 
         return biases
 
-    async def _suggest_improvements(self, process: Dict[str, Any]) -> List[str]:
+    async def _suggest_improvements(self, process: dict[str, Any]) -> list[str]:
         """Suggest improvements to reasoning"""
         suggestions = []
 
@@ -241,7 +241,7 @@ class LukhasMetaCognitiveEngine:
 
         return suggestions
 
-    async def _calibrate_confidence(self, process: Dict[str, Any]) -> Dict[str, float]:
+    async def _calibrate_confidence(self, process: dict[str, Any]) -> dict[str, float]:
         """Calibrate confidence based on reasoning quality"""
         quality = await self._assess_reasoning_quality(process)
         raw_confidence = process.get("confidence", 0.5)
@@ -252,7 +252,7 @@ class LukhasMetaCognitiveEngine:
             "quality_factor": quality,
         }
 
-    async def _generate_meta_insights(self, process: Dict[str, Any]) -> List[str]:
+    async def _generate_meta_insights(self, process: dict[str, Any]) -> list[str]:
         """Generate meta-level insights about the reasoning"""
         insights = []
 
@@ -332,8 +332,8 @@ class LukhasCausalReasoningEngine:
         logger.info("🔗 Lukhas causal reasoning engine initialized")
 
     async def analyze_request_causality(
-        self, request: str, subsystem_responses: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, request: str, subsystem_responses: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze causal relationships in request processing"""
 
         analysis = {
@@ -350,8 +350,8 @@ class LukhasCausalReasoningEngine:
         return analysis
 
     async def _identify_causal_chains(
-        self, request: str, responses: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, request: str, responses: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify causal chains in the processing"""
         chains = []
 
@@ -369,7 +369,7 @@ class LukhasCausalReasoningEngine:
 
         return chains
 
-    async def _identify_interventions(self, request: str) -> List[str]:
+    async def _identify_interventions(self, request: str) -> list[str]:
         """Identify potential intervention points"""
         interventions = []
 
@@ -385,8 +385,8 @@ class LukhasCausalReasoningEngine:
         return interventions
 
     async def _predict_outcomes(
-        self, request: str, responses: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, request: str, responses: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Predict outcomes based on causal analysis"""
         predictions = []
 
@@ -419,8 +419,8 @@ class LukhasAutonomousGoalEngine:
         logger.info("🎯 Lukhas autonomous goal engine initialized")
 
     async def evaluate_goal_formation(
-        self, request: str, meta_analysis: Dict, subsystem_responses: Dict
-    ) -> List[Dict[str, Any]]:
+        self, request: str, meta_analysis: dict, subsystem_responses: dict
+    ) -> list[dict[str, Any]]:
         """Evaluate if new autonomous goals should be formed"""
 
         goals = []
@@ -455,7 +455,7 @@ class LukhasAutonomousGoalEngine:
 
         return goals
 
-    async def discover_higher_purpose(self, current_actions: List[str]) -> List[str]:
+    async def discover_higher_purpose(self, current_actions: list[str]) -> list[str]:
         """Discover higher-level purposes from current actions"""
         purposes = []
 
@@ -518,8 +518,8 @@ class LukhasCuriosityEngine:
         logger.info("🔍 Lukhas curiosity engine initialized")
 
     async def identify_learning_opportunities(
-        self, request: str, responses: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, request: str, responses: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify learning opportunities from processing"""
 
         opportunities = []
@@ -548,7 +548,7 @@ class LukhasCuriosityEngine:
 
         return opportunities
 
-    async def express_curiosity(self, observation: Any) -> Dict[str, Any]:
+    async def express_curiosity(self, observation: Any) -> dict[str, Any]:
         """Express curiosity about observations"""
 
         surprise_level = await self._calculate_surprise(observation)
@@ -589,7 +589,7 @@ class LukhasCuriosityEngine:
 
         return min(1.0, max(0.0, surprise))
 
-    async def _generate_questions(self, observation: Any) -> List[str]:
+    async def _generate_questions(self, observation: Any) -> list[str]:
         """Generate questions about the observation"""
         return [
             f"Why did {observation} occur?",
@@ -598,7 +598,7 @@ class LukhasCuriosityEngine:
             f"What would happen if we modified {observation}?",
         ]
 
-    async def _suggest_explorations(self, observation: Any) -> List[str]:
+    async def _suggest_explorations(self, observation: Any) -> list[str]:
         """Suggest explorations based on observation"""
         return [
             f"Analyze similar cases to {observation}",
@@ -623,8 +623,8 @@ class LukhasTheoryOfMindEngine:
         logger.info("👤 Lukhas theory of mind engine initialized")
 
     async def model_user_intent(
-        self, request: str, context: Optional[Dict]
-    ) -> Dict[str, Any]:
+        self, request: str, context: Optional[dict]
+    ) -> dict[str, Any]:
         """Model user intent and mental state"""
 
         model = {
@@ -706,7 +706,7 @@ class LukhasTheoryOfMindEngine:
         else:
             return "neutral"
 
-    async def _infer_expectations(self, request: str) -> List[str]:
+    async def _infer_expectations(self, request: str) -> list[str]:
         """Infer user expectations"""
         expectations = []
 
@@ -722,8 +722,8 @@ class LukhasTheoryOfMindEngine:
         return expectations or ["helpful_response"]
 
     async def _infer_preferences(
-        self, request: str, context: Optional[Dict]
-    ) -> Dict[str, Any]:
+        self, request: str, context: Optional[dict]
+    ) -> dict[str, Any]:
         """Infer user preferences"""
         preferences = {
             "communication_style": "professional",
@@ -755,9 +755,9 @@ class LukhasNarrativeIntelligenceEngine:
     async def create_unified_narrative(
         self,
         request: str,
-        meta_analysis: Dict,
-        subsystem_responses: Dict,
-        causal_insights: Dict,
+        meta_analysis: dict,
+        subsystem_responses: dict,
+        causal_insights: dict,
     ) -> str:
         """Create a unified narrative explanation"""
 
@@ -812,8 +812,8 @@ class LukhasDimensionalIntelligenceEngine:
         logger.info("🌐 Lukhas dimensional intelligence engine initialized")
 
     async def analyze_multi_dimensional(
-        self, problem: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, problem: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze problem across all dimensions"""
 
         analysis = {}
@@ -828,7 +828,7 @@ class LukhasDimensionalIntelligenceEngine:
 
         return analysis
 
-    async def _find_intersections(self, analysis: Dict[str, Any]) -> List[str]:
+    async def _find_intersections(self, analysis: dict[str, Any]) -> list[str]:
         """Find where dimensions align"""
         intersections = []
 
@@ -846,7 +846,7 @@ class LukhasDimensionalIntelligenceEngine:
 
         return intersections
 
-    async def _find_conflicts(self, analysis: Dict[str, Any]) -> List[str]:
+    async def _find_conflicts(self, analysis: dict[str, Any]) -> list[str]:
         """Find dimensional conflicts"""
         conflicts = []
 
@@ -859,7 +859,7 @@ class LukhasDimensionalIntelligenceEngine:
 
         return conflicts
 
-    async def _synthesize_solution(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+    async def _synthesize_solution(self, analysis: dict[str, Any]) -> dict[str, Any]:
         """Synthesize optimal multi-dimensional solution"""
 
         # Weight different dimensions
@@ -906,8 +906,8 @@ class LukhasSubsystemOrchestrator:
         logger.info("🎼 Lukhas subsystem orchestrator initialized")
 
     async def coordinate_subsystems(
-        self, subsystems: Dict, request: str
-    ) -> Dict[str, Any]:
+        self, subsystems: dict, request: str
+    ) -> dict[str, Any]:
         """Coordinate multiple subsystems for optimal performance"""
 
         coordination = {
@@ -922,19 +922,19 @@ class LukhasSubsystemOrchestrator:
         return coordination
 
     async def _determine_execution_order(
-        self, subsystems: Dict, request: str
-    ) -> List[str]:
+        self, subsystems: dict, request: str
+    ) -> list[str]:
         """Determine optimal execution order for subsystems"""
         # Simple heuristic - in practice, this would consider dependencies
         return list(subsystems.keys())
 
-    async def _allocate_resources(self, subsystems: Dict) -> Dict[str, float]:
+    async def _allocate_resources(self, subsystems: dict) -> dict[str, float]:
         """Allocate computational resources to subsystems"""
         # Equal allocation by default
         allocation = 1.0 / len(subsystems) if subsystems else 0.0
         return dict.fromkeys(subsystems.keys(), allocation)
 
-    async def _plan_communication(self, subsystems: Dict) -> Dict[str, Any]:
+    async def _plan_communication(self, subsystems: dict) -> dict[str, Any]:
         """Plan communication between subsystems"""
         return {
             "communication_pattern": "sequential",
@@ -942,7 +942,7 @@ class LukhasSubsystemOrchestrator:
             "feedback_loops": list(subsystems.keys()),
         }
 
-    async def _define_success_metrics(self, request: str) -> Dict[str, Any]:
+    async def _define_success_metrics(self, request: str) -> dict[str, Any]:
         """Define success metrics for the coordination"""
         return {
             "response_quality": 0.8,
@@ -956,7 +956,7 @@ class LukhasSubsystemOrchestrator:
 class LukhasTechnicalDimension:
     """Technical analysis dimension"""
 
-    async def analyze(self, problem: Dict[str, Any]) -> Dict[str, Any]:
+    async def analyze(self, problem: dict[str, Any]) -> dict[str, Any]:
         return {
             "complexity": "moderate",
             "resource_requirements": "medium",
@@ -972,7 +972,7 @@ class LukhasTechnicalDimension:
 class LukhasCognitiveDimension:
     """Cognitive analysis dimension"""
 
-    async def analyze(self, problem: Dict[str, Any]) -> Dict[str, Any]:
+    async def analyze(self, problem: dict[str, Any]) -> dict[str, Any]:
         return {
             "cognitive_load": "manageable",
             "learning_curve": "moderate",
@@ -988,7 +988,7 @@ class LukhasCognitiveDimension:
 class LukhasTemporalDimension:
     """Temporal analysis dimension"""
 
-    async def analyze(self, problem: Dict[str, Any]) -> Dict[str, Any]:
+    async def analyze(self, problem: dict[str, Any]) -> dict[str, Any]:
         return {
             "urgency": "medium",
             "development_time": "moderate",
@@ -1004,7 +1004,7 @@ class LukhasTemporalDimension:
 class LukhasSocialDimension:
     """Social analysis dimension"""
 
-    async def analyze(self, problem: Dict[str, Any]) -> Dict[str, Any]:
+    async def analyze(self, problem: dict[str, Any]) -> dict[str, Any]:
         return {
             "user_impact": "positive",
             "team_collaboration": "enhanced",
@@ -1020,7 +1020,7 @@ class LukhasSocialDimension:
 class LukhasEthicalDimension:
     """Ethical analysis dimension"""
 
-    async def analyze(self, problem: Dict[str, Any]) -> Dict[str, Any]:
+    async def analyze(self, problem: dict[str, Any]) -> dict[str, Any]:
         return {
             "privacy_impact": "minimal",
             "fairness": "high",

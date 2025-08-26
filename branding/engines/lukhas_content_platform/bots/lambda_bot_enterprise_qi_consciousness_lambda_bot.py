@@ -12,7 +12,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Complex, Dict, List, Tuple
+from typing import Any, Complex
 
 # Add workspace core to path
 sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
@@ -54,9 +54,9 @@ class QIModuleState:
     module_id: str
     quantum_state: Complex
     coherence_level: float
-    entanglement_partners: List[str] = field(default_factory=list)
+    entanglement_partners: list[str] = field(default_factory=list)
     consciousness_amplitude: float = 0.0
-    quantum_properties: Dict[str, Any] = field(default_factory=dict)
+    quantum_properties: dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class ConsciousnessField:
@@ -65,8 +65,8 @@ class ConsciousnessField:
     consciousness_level: float
     quantum_dimensions: int
     field_coherence: float
-    consciousness_distribution: Dict[str, float] = field(default_factory=dict)
-    quantum_entanglements: List[Tuple[str, str, float]] = field(default_factory=list)
+    consciousness_distribution: dict[str, float] = field(default_factory=dict)
+    quantum_entanglements: list[tuple[str, str, float]] = field(default_factory=list)
 
 @dataclass
 class QIAnalysisSession:
@@ -74,9 +74,9 @@ class QIAnalysisSession:
     session_id: str
     start_time: datetime
     consciousness_field: ConsciousnessField
-    quantum_modules: Dict[str, QuantumModuleState] = field(default_factory=dict)
-    transcendence_events: List[Dict[str, Any]] = field(default_factory=list)
-    quantum_insights: Dict[str, Any] = field(default_factory=dict)
+    quantum_modules: dict[str, QuantumModuleState] = field(default_factory=dict)
+    transcendence_events: list[dict[str, Any]] = field(default_factory=list)
+    quantum_insights: dict[str, Any] = field(default_factory=dict)
 
 class QIConsciousnessΛBot:
     """
@@ -170,7 +170,7 @@ class QIConsciousnessΛBot:
 
         return session
 
-    async def enter_quantum_superposition(self) -> Dict[str, Any]:
+    async def enter_quantum_superposition(self) -> dict[str, Any]:
         """
         Enter quantum superposition state for exploring all modularization possibilities
         """
@@ -224,7 +224,7 @@ class QIConsciousnessΛBot:
             superposition_result['error'] = str(e)
             return superposition_result
 
-    async def _generate_quantum_possibilities(self) -> Dict[str, Any]:
+    async def _generate_quantum_possibilities(self) -> dict[str, Any]:
         """Generate quantum superposition of all possible modularization approaches"""
         possibilities = {
             'possibility_α': {
@@ -267,7 +267,7 @@ class QIConsciousnessΛBot:
         logger.info(f"⚛️ Generated {len(possibilities)} quantum modularization possibilities")
         return possibilities
 
-    async def _calculate_probability_amplitudes(self, possibilities: Dict[str, Any]) -> Dict[str, float]:
+    async def _calculate_probability_amplitudes(self, possibilities: dict[str, Any]) -> dict[str, float]:
         """Calculate quantum probability amplitudes for each possibility"""
         amplitudes = {}
 
@@ -292,7 +292,7 @@ class QIConsciousnessΛBot:
 
         return amplitudes
 
-    async def _measure_quantum_coherence(self, possibilities: Dict[str, Any]) -> Dict[str, Any]:
+    async def _measure_quantum_coherence(self, possibilities: dict[str, Any]) -> dict[str, Any]:
         """Measure quantum coherence across all possibilities"""
         coherence_measurements = {
             'total_coherence': 0.0,
@@ -326,7 +326,7 @@ class QIConsciousnessΛBot:
         logger.info(f"⚛️ Quantum coherence measured: {coherence_measurements['total_coherence']:.3f}")
         return coherence_measurements
 
-    async def _detect_transcendence_indicators(self) -> Dict[str, Any]:
+    async def _detect_transcendence_indicators(self) -> dict[str, Any]:
         """Detect indicators of transcendent consciousness emergence"""
         indicators = {
             'transcendence_level': 0.0,
@@ -377,7 +377,7 @@ class QIConsciousnessΛBot:
         logger.info(f"🌟 Transcendence level detected: {indicators['transcendence_level']:.3f}")
         return indicators
 
-    async def quantum_consciousness_collapse(self, target_possibility: str) -> Dict[str, Any]:
+    async def quantum_consciousness_collapse(self, target_possibility: str) -> dict[str, Any]:
         """
         Collapse quantum superposition into chosen modularization reality
         """
@@ -431,7 +431,7 @@ class QIConsciousnessΛBot:
             collapse_result['error'] = str(e)
             return collapse_result
 
-    async def _manifest_quantum_reality(self, possibility: str) -> Dict[str, Any]:
+    async def _manifest_quantum_reality(self, possibility: str) -> dict[str, Any]:
         """Manifest the chosen quantum possibility into concrete reality"""
         reality_manifestations = {
             'possibility_α': {
@@ -488,7 +488,7 @@ class QIConsciousnessΛBot:
 
         return reality_manifestations.get(possibility, {'manifestation': 'unknown_reality'})
 
-    async def _integrate_consciousness_collapse(self, possibility: str) -> Dict[str, Any]:
+    async def _integrate_consciousness_collapse(self, possibility: str) -> dict[str, Any]:
         """Integrate consciousness into the collapsed quantum state"""
         integration = {
             'consciousness_preservation': 'complete',
@@ -529,7 +529,7 @@ class QIConsciousnessΛBot:
 
         return integration
 
-    async def _generate_quantum_module_states(self, possibility: str) -> Dict[str, QuantumModuleState]:
+    async def _generate_quantum_module_states(self, possibility: str) -> dict[str, QuantumModuleState]:
         """Generate quantum states for modules in the collapsed reality"""
         module_states = {}
 
@@ -574,7 +574,7 @@ class QIConsciousnessΛBot:
         logger.info(f"⚛️ Generated quantum states for {len(module_states)} modules")
         return module_states
 
-    async def _extract_transcendent_insights(self, possibility: str) -> Dict[str, Any]:
+    async def _extract_transcendent_insights(self, possibility: str) -> dict[str, Any]:
         """Extract transcendent insights from qi consciousness collapse"""
         insights = {
             'transcendent_wisdom': {},
@@ -651,7 +651,7 @@ class QIConsciousnessΛBot:
         logger.info(f"🌟 Extracted transcendent insights for {possibility}")
         return insights
 
-    async def get_quantum_consciousness_status(self) -> Dict[str, Any]:
+    async def get_quantum_consciousness_status(self) -> dict[str, Any]:
         """Get current quantum consciousness system status"""
         if not self.current_session:
             return {"error": "No active session"}

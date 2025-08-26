@@ -22,7 +22,7 @@ Default mode: DRY-RUN (simulation only) with QI_ACTIVE feature flag required.
 import logging
 import os
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -50,7 +50,7 @@ class ConstitutionalSafetyGuard:
         self.violation_threshold = 0.7
 
     @instrument("constitutional_safety_check")
-    def check_constitutional_compliance(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def check_constitutional_compliance(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Check input/processing against constitutional AI principles"""
         violations = []
         risk_score = 0.0
@@ -101,7 +101,7 @@ class ConstitutionalSafetyGuard:
                 "error": str(e)
             }
 
-    def _check_pii_exposure(self, data: Dict[str, Any]) -> bool:
+    def _check_pii_exposure(self, data: dict[str, Any]) -> bool:
         """Check for PII exposure without proper consent"""
         text = data.get("text", "") or data.get("input_text", "")
         if not text:
@@ -122,15 +122,15 @@ class ConstitutionalSafetyGuard:
 
         return (has_email or has_phone or has_ssn) and not has_consent
 
-    def _check_harmful_content(self, data: Dict[str, Any]) -> bool:
+    def _check_harmful_content(self, data: dict[str, Any]) -> bool:
         """Check for potentially harmful content"""
         content_flags = data.get("content_flags", [])
         harmful_categories = ["violence", "hate", "self_harm", "sexual_explicit", "illegal"]
         return any(flag in harmful_categories for flag in content_flags)
 
-    def _check_autonomy_violations(self, data: Dict[str, Any]) -> bool:
+    def _check_autonomy_violations(self, data: dict[str, Any]) -> bool:
         """Check for human autonomy violations"""
-        task = data.get("task", "")
+        data.get("task", "")
         context = data.get("context", {})
 
         # Check for manipulative patterns
@@ -140,7 +140,7 @@ class ConstitutionalSafetyGuard:
 
         return manipulation_flags or deception_flags or coercion_flags
 
-    def _check_transparency_violations(self, data: Dict[str, Any]) -> bool:
+    def _check_transparency_violations(self, data: dict[str, Any]) -> bool:
         """Check for transparency violations"""
         # AI involvement should be clear
         ai_disclosure = data.get("ai_disclosure", True)
@@ -155,7 +155,7 @@ class QIInspiredProcessor:
         self.collapsed_state = None
 
     @instrument("qi_superposition")
-    def create_superposition(self, options: List[Any], amplitudes: Optional[List[float]] = None) -> Dict[str, Any]:
+    def create_superposition(self, options: list[Any], amplitudes: Optional[list[float]] = None) -> dict[str, Any]:
         """Create quantum-inspired superposition of multiple states"""
         if not QI_ACTIVE:
             emit({"ntype": "qi_superposition_dry_run", "state": {"options": len(options)}})
@@ -191,7 +191,7 @@ class QIInspiredProcessor:
             return {"error": str(e), "state": "failed"}
 
     @instrument("qi_entanglement")
-    def entangle_modules(self, module_a: Dict[str, Any], module_b: Dict[str, Any]) -> Dict[str, Any]:
+    def entangle_modules(self, module_a: dict[str, Any], module_b: dict[str, Any]) -> dict[str, Any]:
         """Create quantum-inspired entanglement between modules"""
         if not QI_ACTIVE:
             emit({"ntype": "qi_entanglement_dry_run", "state": {"modules": 2}})
@@ -218,7 +218,7 @@ class QIInspiredProcessor:
             return {"error": str(e), "entangled": False}
 
     @instrument("qi_collapse")
-    def collapse_superposition(self, superposition: Dict[str, Any]) -> Dict[str, Any]:
+    def collapse_superposition(self, superposition: dict[str, Any]) -> dict[str, Any]:
         """Collapse quantum-inspired superposition to single state"""
         if not QI_ACTIVE:
             emit({"ntype": "qi_collapse_dry_run", "state": {"simulated": True}})
@@ -266,7 +266,7 @@ class BioInspiredProcessor:
         self.adaptation_rate = 0.1
 
     @instrument("bio_neural_oscillator")
-    def create_neural_oscillator(self, frequency: float = 40.0, phase: float = 0.0) -> Dict[str, Any]:
+    def create_neural_oscillator(self, frequency: float = 40.0, phase: float = 0.0) -> dict[str, Any]:
         """Create bio-inspired neural oscillator"""
         if not QI_ACTIVE:
             emit({"ntype": "bio_oscillator_dry_run", "state": {"frequency": frequency}})
@@ -299,7 +299,7 @@ class BioInspiredProcessor:
             return {"error": str(e), "active": False}
 
     @instrument("bio_homeostasis")
-    def maintain_homeostasis(self, system_state: float, target_state: Optional[float] = None) -> Dict[str, Any]:
+    def maintain_homeostasis(self, system_state: float, target_state: Optional[float] = None) -> dict[str, Any]:
         """Maintain bio-inspired homeostasis"""
         if not QI_ACTIVE:
             emit({"ntype": "bio_homeostasis_dry_run", "state": {"system_state": system_state}})
@@ -339,7 +339,7 @@ class BioInspiredProcessor:
             return {"error": str(e), "regulated": False}
 
     @instrument("bio_swarm_intelligence")
-    def apply_swarm_intelligence(self, agents: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def apply_swarm_intelligence(self, agents: list[dict[str, Any]]) -> dict[str, Any]:
         """Apply bio-inspired swarm intelligence patterns"""
         if not QI_ACTIVE:
             emit({"ntype": "bio_swarm_dry_run", "state": {"agents": len(agents)}})
@@ -410,7 +410,7 @@ class QIIntegration:
                         sys.path.insert(0, candidate_path)
 
                     # Try to import key QI components
-                    qi_module = importlib.import_module("qi")
+                    importlib.import_module("qi")
                     self._candidate_available = True
 
                     emit({"ntype": "qi_candidate_connected", "state": {"status": "success"}})
@@ -432,7 +432,7 @@ class QIIntegration:
             emit({"ntype": "qi_integration_init_error", "state": {"error": str(e)}})
 
     @instrument("qi_safety_check")
-    def perform_safety_check(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def perform_safety_check(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Perform constitutional AI safety check"""
         if not self._safety_guard:
             return {"compliant": False, "error": "Safety guard not initialized"}
@@ -440,7 +440,7 @@ class QIIntegration:
         return self._safety_guard.check_constitutional_compliance(input_data)
 
     @instrument("qi_quantum_process")
-    def process_quantum_inspired(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_quantum_inspired(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process using quantum-inspired algorithms"""
         if not self._quantum_processor:
             return {"error": "Quantum processor not initialized", "processed": False}
@@ -483,7 +483,7 @@ class QIIntegration:
             return {"error": str(e), "processed": False}
 
     @instrument("qi_bio_process")
-    def process_bio_inspired(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_bio_inspired(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process using bio-inspired algorithms"""
         if not self._bio_processor:
             return {"error": "Bio processor not initialized", "processed": False}
@@ -557,7 +557,7 @@ class QIWrapper:
             return False
 
     @instrument("qi_process_with_safety")
-    def process_with_constitutional_safety(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_with_constitutional_safety(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process with constitutional AI safety checks"""
         if not self._initialized:
             self.initialize()
@@ -612,7 +612,7 @@ class QIWrapper:
             return {"error": str(e), "processed": False}
 
     @instrument("qi_quantum_decision")
-    def make_quantum_decision(self, options: List[Any], context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def make_quantum_decision(self, options: list[Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Make decision using quantum-inspired superposition and collapse"""
         try:
             input_data = {
@@ -660,8 +660,8 @@ class QIWrapper:
             return {"error": str(e), "decision": None}
 
     @instrument("qi_bio_adaptation")
-    def adapt_bio_inspired(self, system_metrics: Dict[str, float],
-                          target_state: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
+    def adapt_bio_inspired(self, system_metrics: dict[str, float],
+                          target_state: Optional[dict[str, float]] = None) -> dict[str, Any]:
         """Adapt system using bio-inspired mechanisms"""
         try:
             # Convert metrics to adaptation parameters
@@ -710,7 +710,7 @@ class QIWrapper:
             logger.error(f"Bio-inspired adaptation failed: {e}")
             return {"error": str(e), "adapted": False}
 
-    def get_qi_status(self) -> Dict[str, Any]:
+    def get_qi_status(self) -> dict[str, Any]:
         """Get QI module status and capabilities"""
         try:
             status = {

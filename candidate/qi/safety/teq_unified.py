@@ -14,7 +14,7 @@ from collections import deque
 from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import yaml
 
@@ -41,7 +41,7 @@ class TEQEvent:
     energy: float
     allowed: bool
     gate_state: str
-    metadata: Dict = None
+    metadata: dict = None
 
     def to_dict(self):
         return asdict(self)
@@ -51,8 +51,8 @@ class TEQEvent:
 @dataclass
 class PolicyGateResult:
     allowed: bool
-    reasons: List[str]
-    remedies: List[str]
+    reasons: list[str]
+    remedies: list[str]
     jurisdiction: str
 
 class PolicyPack:
@@ -68,7 +68,7 @@ class PolicyPack:
         with open(p, encoding="utf-8") as f:
             return yaml.safe_load(f)
 
-    def _load_tests(self, folder: str) -> List[Dict[str, Any]]:
+    def _load_tests(self, folder: str) -> list[dict[str, Any]]:
         out = []
         if not os.path.isdir(folder):
             return out
@@ -115,7 +115,7 @@ class UnifiedTEQCoupler:
         self.transient_start = None
 
         # Module profiles
-        self.module_profiles: Dict[str, Dict] = {}
+        self.module_profiles: dict[str, dict] = {}
 
         # Safety limits
         self.max_risk = 0.9
@@ -137,9 +137,9 @@ class UnifiedTEQCoupler:
         action: str,
         risk_level: float,
         energy: float = 1.0,
-        context: Dict[str, Any] = None,
-        metadata: Dict = None
-    ) -> Tuple[bool, str, Dict]:
+        context: dict[str, Any] = None,
+        metadata: dict = None
+    ) -> tuple[bool, str, dict]:
         """
         Unified evaluation through both state and policy systems
         """
@@ -217,8 +217,8 @@ class UnifiedTEQCoupler:
         action: str,
         risk_level: float,
         energy: float,
-        metadata: Dict
-    ) -> Tuple[bool, str, Dict]:
+        metadata: dict
+    ) -> tuple[bool, str, dict]:
         """State-based evaluation (energy/risk management)"""
 
         # Update state
@@ -291,7 +291,7 @@ class UnifiedTEQCoupler:
 
         return allowed, reason, suggestions
 
-    def _evaluate_policy(self, task: str, context: Dict[str, Any]) -> PolicyGateResult:
+    def _evaluate_policy(self, task: str, context: dict[str, Any]) -> PolicyGateResult:
         """Policy-based evaluation (compliance checks)"""
         checks = self._checks_for_task(task)
         reasons, remedies = [], []
@@ -311,7 +311,7 @@ class UnifiedTEQCoupler:
             jurisdiction=self.jurisdiction
         )
 
-    def _checks_for_task(self, task: str) -> List[Dict[str, Any]]:
+    def _checks_for_task(self, task: str) -> list[dict[str, Any]]:
         """Get checks for a specific task from policy pack"""
         if not self.policy_pack:
             return []
@@ -320,7 +320,7 @@ class UnifiedTEQCoupler:
         specific = tasks.get(task, [])
         return [*generic, *specific]
 
-    def _run_check(self, chk: Dict[str, Any], ctx: Dict[str, Any]) -> Tuple[bool, str, str]:
+    def _run_check(self, chk: dict[str, Any], ctx: dict[str, Any]) -> tuple[bool, str, str]:
         """Run a specific policy check"""
         kind = chk.get("kind")
 
@@ -382,9 +382,8 @@ class UnifiedTEQCoupler:
                 self._enter_stable_state()
 
         # Check lockdown release
-        if self.current_state == GateState.LOCKED:
-            if self.risk_accumulator < 10.0:
-                self._begin_recovery()
+        if self.current_state == GateState.LOCKED and self.risk_accumulator < 10.0:
+            self._begin_recovery()
 
     def _enter_transient_state(self):
         self.current_state = GateState.TRANSIENT
@@ -436,7 +435,7 @@ class UnifiedTEQCoupler:
         elif not event.allowed and event.risk_level > 0.8:
             profile["trust_score"] = max(0.0, profile["trust_score"] - 0.02)
 
-    def get_status(self) -> Dict:
+    def get_status(self) -> dict:
         """Get comprehensive status"""
         stability_score = 1.0
 

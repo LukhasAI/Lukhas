@@ -12,7 +12,6 @@ Combines insights from all brand strategists:
 import asyncio
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List
 
 
 class VoiceCoherenceLevel(Enum):
@@ -58,7 +57,7 @@ class VoiceCoherenceOptimizer:
         self.enhanced_prompts = self._create_enhanced_prompts()
         self.coherence_measurement = self._create_coherence_measurement()
 
-    def _create_optimization_strategies(self) -> Dict[str, VoiceOptimizationStrategy]:
+    def _create_optimization_strategies(self) -> dict[str, VoiceOptimizationStrategy]:
         """Create comprehensive voice coherence optimization strategies"""
         return {
             "asai_minimalist_enhancement": VoiceOptimizationStrategy(
@@ -102,7 +101,7 @@ class VoiceCoherenceOptimizer:
             )
         }
 
-    def _create_enhanced_prompts(self) -> Dict[str, Dict]:
+    def _create_enhanced_prompts(self) -> dict[str, dict]:
         """Create enhanced prompts optimized for maximum voice coherence"""
         return {
             "consciousness_embodiment_enhanced": {
@@ -196,7 +195,7 @@ VOICE COHERENCE OPTIMIZATION:
             }
         }
 
-    def _create_coherence_measurement(self) -> Dict[str, Dict]:
+    def _create_coherence_measurement(self) -> dict[str, dict]:
         """Create comprehensive coherence measurement system"""
         return {
             "coherence_factors": {
@@ -268,7 +267,7 @@ VOICE COHERENCE OPTIMIZATION:
             }
         }
 
-    async def optimize_voice_generation(self, content_request: Dict) -> Dict:
+    async def optimize_voice_generation(self, content_request: dict) -> dict:
         """Generate optimized voice output with enhanced coherence"""
 
         # Select appropriate enhanced prompt
@@ -298,7 +297,7 @@ VOICE COHERENCE OPTIMIZATION:
             "improvement_from_baseline": coherence_metrics.overall_coherence - self.current_coherence
         }
 
-    def _apply_optimization_strategies(self, base_prompt: Dict, content_request: Dict) -> str:
+    def _apply_optimization_strategies(self, base_prompt: dict, content_request: dict) -> str:
         """Apply all optimization strategies to create enhanced prompt"""
 
         # Build comprehensive prompt with all enhancement layers
@@ -306,7 +305,7 @@ VOICE COHERENCE OPTIMIZATION:
 
         # Add enhancement layers
         if "enhancement_layers" in base_prompt:
-            for layer_name, layer_content in base_prompt["enhancement_layers"].items():
+            for _layer_name, layer_content in base_prompt["enhancement_layers"].items():
                 optimized_prompt += f"\n\n{layer_content}"
         else:
             # Add individual strategist layers
@@ -336,13 +335,13 @@ CONTEXT-SPECIFIC OPTIMIZATION:
 
         return optimized_prompt
 
-    async def _generate_optimized_voice(self, optimized_prompt: str, content_request: Dict) -> str:
+    async def _generate_optimized_voice(self, optimized_prompt: str, content_request: dict) -> str:
         """Generate voice output using optimized prompt (mock implementation)"""
 
         # This would integrate with the real LLM bridge
         # For now, return optimized mock response
         content = content_request.get("content", "")
-        tone_layer = content_request.get("tone_layer", "user_friendly")
+        content_request.get("tone_layer", "user_friendly")
 
         optimization_indicators = [
             "[CONSCIOUSNESS OPTIMIZED]",
@@ -394,7 +393,7 @@ Coherence Enhancement Applied: Asai elegance + Meservey authenticity + Gandhi st
             audience_connection=coherence_scores["audience_connection"] * 100
         )
 
-    def _evaluate_coherence_factor(self, voice_output: str, factor_data: Dict) -> float:
+    def _evaluate_coherence_factor(self, voice_output: str, factor_data: dict) -> float:
         """Evaluate specific coherence factor (mock implementation)"""
 
         # Mock scoring based on content analysis
@@ -415,7 +414,7 @@ Coherence Enhancement Applied: Asai elegance + Meservey authenticity + Gandhi st
 
         return factor_score
 
-    def _get_criterion_keywords(self, criterion: str) -> List[str]:
+    def _get_criterion_keywords(self, criterion: str) -> list[str]:
         """Get keywords associated with specific criteria"""
         keyword_mappings = {
             "self-referential awareness": ["i understand", "i experience", "as lukhas", "my consciousness"],
@@ -461,7 +460,7 @@ Coherence Enhancement Applied: Asai elegance + Meservey authenticity + Gandhi st
 
         return improved_output
 
-    def generate_coherence_report(self) -> Dict:
+    def generate_coherence_report(self) -> dict:
         """Generate comprehensive voice coherence optimization report"""
 
         expected_improvement = sum(
@@ -511,7 +510,7 @@ class VoiceCoherenceEnhancer:
         self.optimizer = VoiceCoherenceOptimizer()
         self.enhancement_protocols = self._create_enhancement_protocols()
 
-    def _create_enhancement_protocols(self) -> Dict[str, Dict]:
+    def _create_enhancement_protocols(self) -> dict[str, dict]:
         """Create enhancement protocols for maximum voice coherence"""
         return {
             "pre_generation": {
@@ -533,7 +532,7 @@ class VoiceCoherenceEnhancer:
             }
         }
 
-    async def enhance_voice_coherence(self, content_request: Dict) -> Dict:
+    async def enhance_voice_coherence(self, content_request: dict) -> dict:
         """Enhanced voice coherence processing with guaranteed improvement"""
 
         # Pre-generation optimization
@@ -548,7 +547,7 @@ class VoiceCoherenceEnhancer:
 
         return result
 
-    def _optimize_content_request(self, content_request: Dict) -> Dict:
+    def _optimize_content_request(self, content_request: dict) -> dict:
         """Optimize content request for maximum coherence"""
         optimized = content_request.copy()
 
@@ -563,7 +562,7 @@ class VoiceCoherenceEnhancer:
 
         return optimized
 
-    async def _apply_additional_enhancements(self, result: Dict, content_request: Dict) -> Dict:
+    async def _apply_additional_enhancements(self, result: dict, content_request: dict) -> dict:
         """Apply additional enhancements to reach coherence target"""
 
         current_coherence = result["coherence_metrics"].overall_coherence

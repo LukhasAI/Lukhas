@@ -354,10 +354,9 @@ async def main():
         # Symbol registration
         st.header("📝 Symbol Registration")
         new_symbol = st.text_input("Symbol ID to monitor:")
-        if st.button("Register Symbol", use_container_width=True):
-            if new_symbol:
-                sentinel.register_symbol(new_symbol)
-                st.success(f"Registered: {new_symbol}")
+        if st.button("Register Symbol", use_container_width=True) and new_symbol:
+            sentinel.register_symbol(new_symbol)
+            st.success(f"Registered: {new_symbol}")
 
         st.divider()
 

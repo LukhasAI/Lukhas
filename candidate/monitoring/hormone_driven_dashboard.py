@@ -7,11 +7,12 @@ analytics, real-time monitoring, and contextual insights driven by endocrine sta
 """
 
 import asyncio
+import contextlib
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import structlog
 
@@ -41,9 +42,7 @@ except Exception:
 try:
     pass
 except Exception:
-    try:
-        pass
-    except Exception:
+    with contextlib.suppress(Exception):
         pass
 
 logger = structlog.get_logger(__name__)
@@ -95,8 +94,8 @@ class DashboardAlert:
     source: str = ""
     metric_name: Optional[str] = None
     current_value: Optional[float] = None
-    expected_range: Optional[Tuple[float, float]] = None
-    recommended_actions: List[str] = field(default_factory=list)
+    expected_range: Optional[tuple[float, float]] = None
+    recommended_actions: list[str] = field(default_factory=list)
     resolved: bool = False
     auto_resolve: bool = True
 
@@ -113,7 +112,7 @@ class PredictionInsight:
     trend_direction: str  # "increasing", "decreasing", "stable"
     risk_level: str = "low"  # "low", "medium", "high"
     biological_driver: Optional[str] = None
-    recommendations: List[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -123,12 +122,12 @@ class DashboardWidget:
     widget_id: str
     title: str
     visualization_type: VisualizationType
-    data_sources: List[str]
+    data_sources: list[str]
     refresh_interval: float = 5.0
-    size: Tuple[int, int] = (300, 200)
-    position: Tuple[int, int] = (0, 0)
+    size: tuple[int, int] = (300, 200)
+    position: tuple[int, int] = (0, 0)
     visible: bool = True
-    configuration: Dict[str, Any] = field(default_factory=dict)
+    configuration: dict[str, Any] = field(default_factory=dict)
 
 
 class HormoneDrivenDashboard:
@@ -140,7 +139,7 @@ class HormoneDrivenDashboard:
     def __init__(
         self,
         signal_bus: Optional[SignalBus] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         # Lazy import for global bus getter to avoid circulars
         if signal_bus is None:
@@ -169,28 +168,28 @@ class HormoneDrivenDashboard:
         # Current system state
         self.current_endocrine_state: Optional[EndocrineSnapshot] = None
         self.current_context = MetricContext.NORMAL_OPERATION
-        self.current_metrics: Dict[str, float] = {}
+        self.current_metrics: dict[str, float] = {}
         self.current_coherence: Optional[float] = None
 
         # Dashboard data
-        self.active_alerts: Dict[str, DashboardAlert] = {}
-        self.predictions: Dict[str, PredictionInsight] = {}
+        self.active_alerts: dict[str, DashboardAlert] = {}
+        self.predictions: dict[str, PredictionInsight] = {}
         self.adaptation_timeline: deque = deque(maxlen=100)
         self.performance_history: deque = deque(maxlen=200)
 
         # Widget management
-        self.widgets: Dict[str, DashboardWidget] = {}
-        self.widget_data_cache: Dict[str, Any] = {}
-        self.last_update_times: Dict[str, datetime] = {}
+        self.widgets: dict[str, DashboardWidget] = {}
+        self.widget_data_cache: dict[str, Any] = {}
+        self.last_update_times: dict[str, datetime] = {}
 
         # Biological insights
-        self.hormone_correlations: Dict[str, Dict[str, float]] = defaultdict(dict)
-        self.biological_patterns: Dict[str, Any] = {}
-        self.adaptation_effectiveness: Dict[PlasticityTriggerType, float] = {}
+        self.hormone_correlations: dict[str, dict[str, float]] = defaultdict(dict)
+        self.biological_patterns: dict[str, Any] = {}
+        self.adaptation_effectiveness: dict[PlasticityTriggerType, float] = {}
 
         # Predictive models
-        self.trend_predictors: Dict[str, TrendPredictor] = {}
-        self.anomaly_predictors: Dict[str, AnomalyPredictor] = {}
+        self.trend_predictors: dict[str, TrendPredictor] = {}
+        self.anomaly_predictors: dict[str, AnomalyPredictor] = {}
 
         # Initialize default widgets
         self._initialize_default_widgets()
@@ -439,7 +438,7 @@ class HormoneDrivenDashboard:
             self.widget_data_cache[widget_id] = widget_data
             self.last_update_times[widget_id] = datetime.now(timezone.utc)
 
-    async def _generate_widget_data(self, widget: DashboardWidget) -> Dict[str, Any]:
+    async def _generate_widget_data(self, widget: DashboardWidget) -> dict[str, Any]:
         """Generate data for a specific widget"""
 
         if widget.visualization_type == VisualizationType.HORMONE_RADAR:
@@ -470,7 +469,7 @@ class HormoneDrivenDashboard:
 
     async def _generate_hormone_radar_data(
         self, widget: DashboardWidget
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate hormone radar chart data"""
 
         if not self.current_endocrine_state:
@@ -516,7 +515,7 @@ class HormoneDrivenDashboard:
 
     async def _generate_coherence_gauge_data(
         self, widget: DashboardWidget
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate coherence gauge data"""
 
         coherence_value = self.current_coherence or 0.5
@@ -551,7 +550,7 @@ class HormoneDrivenDashboard:
 
     async def _generate_time_series_data(
         self, widget: DashboardWidget
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate time series chart data"""
 
         time_series_data = {
@@ -586,7 +585,7 @@ class HormoneDrivenDashboard:
 
     async def _generate_correlation_matrix_data(
         self, widget: DashboardWidget
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate correlation matrix data"""
 
         correlation_data = {
@@ -629,7 +628,7 @@ class HormoneDrivenDashboard:
 
     async def _generate_adaptation_timeline_data(
         self, widget: DashboardWidget
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate adaptation timeline data"""
 
         if not self.plasticity_manager:
@@ -673,7 +672,7 @@ class HormoneDrivenDashboard:
 
     async def _generate_prediction_chart_data(
         self, widget: DashboardWidget
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate prediction chart data"""
 
         prediction_data = {
@@ -703,7 +702,7 @@ class HormoneDrivenDashboard:
 
     async def _generate_alert_panel_data(
         self, widget: DashboardWidget
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate alert panel data"""
 
         alert_data = {
@@ -774,7 +773,7 @@ class HormoneDrivenDashboard:
     async def _update_predictions(self):
         """Update predictive insights"""
 
-        for metric_name in self.current_metrics.keys():
+        for metric_name in self.current_metrics:
             if metric_name not in self.trend_predictors:
                 self.trend_predictors[metric_name] = TrendPredictor(metric_name)
 
@@ -929,7 +928,7 @@ class HormoneDrivenDashboard:
 
     def _get_alert_recommendations(
         self, severity: AlertSeverity, metric_name: Optional[str]
-    ) -> List[str]:
+    ) -> list[str]:
         """Get recommendations for an alert"""
 
         recommendations = []
@@ -998,7 +997,7 @@ class HormoneDrivenDashboard:
                     if key == "visible":
                         self.widgets[widget_id].visible = value
 
-    def get_dashboard_state(self) -> Dict[str, Any]:
+    def get_dashboard_state(self) -> dict[str, Any]:
         """Get current dashboard state"""
         return {
             "mode": self.current_mode.value,
@@ -1021,14 +1020,14 @@ class HormoneDrivenDashboard:
             "coherence_level": self.current_coherence,
         }
 
-    def get_widget_data(self, widget_id: str) -> Optional[Dict[str, Any]]:
+    def get_widget_data(self, widget_id: str) -> Optional[dict[str, Any]]:
         """Get data for a specific widget"""
         return self.widget_data_cache.get(widget_id)
 
     # ---- Public wrappers expected by tests ----
     async def generate_predictive_insights(
-        self, current_state: Optional[Dict[str, Any]] = None
-    ) -> List[Any]:
+        self, current_state: Optional[dict[str, Any]] = None
+    ) -> list[Any]:
         """Public wrapper to generate and return predictive insights as dicts.
 
         If current_state provides 'metrics' or 'endocrine', seed the current values
@@ -1090,7 +1089,7 @@ class HormoneDrivenDashboard:
         except Exception:
             pass
         # Return objects with attributes used by tests: category, prediction, confidence
-        insights: List[Any] = []
+        insights: list[Any] = []
         for metric_name, pred in self.predictions.items():
             obj = type(
                 "PredictiveInsight",
@@ -1118,8 +1117,8 @@ class HormoneDrivenDashboard:
         return insights
 
     async def evaluate_alerts(
-        self, current_state: Optional[Dict[str, Any]] = None
-    ) -> List[Any]:
+        self, current_state: Optional[dict[str, Any]] = None
+    ) -> list[Any]:
         """Public wrapper to process and return active alerts as dicts."""
         try:
             if current_state and isinstance(current_state, dict):
@@ -1189,7 +1188,7 @@ class HormoneDrivenDashboard:
         except Exception:
             pass
         # Collect unresolved alerts and return objects with .level.value and .message
-        alerts: List[Any] = []
+        alerts: list[Any] = []
         for a in self.active_alerts.values():
             if not a.resolved:
                 level_obj = type("Level", (), {"value": a.severity.name})()
@@ -1261,8 +1260,8 @@ class HormoneDrivenDashboard:
             )
 
     async def generate_hormone_radar_data(
-        self, hormone_levels: Optional[Dict[str, float]] = None
-    ) -> Dict[str, Any]:
+        self, hormone_levels: Optional[dict[str, float]] = None
+    ) -> dict[str, Any]:
         """Public wrapper to generate hormone radar visualization data."""
         # If provided levels, create a transient snapshot-like holder
         if hormone_levels and isinstance(hormone_levels, dict):
@@ -1290,8 +1289,8 @@ class HormoneDrivenDashboard:
         return await self._generate_hormone_radar_data(widget)
 
     async def predict_recovery_timeline(
-        self, current_state: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        self, current_state: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """Estimate a simple recovery timeline based on hormone balance and stress.
 
         Returns a dict with 'estimated_minutes' and 'confidence'.
@@ -1408,7 +1407,7 @@ class TrendPredictor:
         }
         return drivers.get(self.metric_name)
 
-    def _generate_recommendations(self, trend: str, risk_level: str) -> List[str]:
+    def _generate_recommendations(self, trend: str, risk_level: str) -> list[str]:
         """Generate recommendations based on prediction"""
         recommendations = []
 
@@ -1448,7 +1447,7 @@ class AnomalyPredictor:
         self.metric_name = metric_name
         self.baseline_window = 30
 
-    def predict_anomaly_probability(self, recent_values: List[float]) -> float:
+    def predict_anomaly_probability(self, recent_values: list[float]) -> float:
         """Predict probability of anomaly"""
         if len(recent_values) < 10:
             return 0.0
@@ -1463,7 +1462,7 @@ class AnomalyPredictor:
 
 # Factory function
 def create_hormone_driven_dashboard(
-    signal_bus: SignalBus, config: Optional[Dict[str, Any]] = None
+    signal_bus: SignalBus, config: Optional[dict[str, Any]] = None
 ) -> HormoneDrivenDashboard:
     """Create and return a HormoneDrivenDashboard instance"""
     return HormoneDrivenDashboard(signal_bus, config)

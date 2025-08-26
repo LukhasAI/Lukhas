@@ -12,7 +12,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 # Add workspace core to path
 sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
@@ -55,8 +55,8 @@ class BioSymbolicPattern:
     biological_analogy: str
     symbolic_representation: str
     confidence: float
-    locations: List[str] = field(default_factory=list)
-    relationships: List[str] = field(default_factory=list)
+    locations: list[str] = field(default_factory=list)
+    relationships: list[str] = field(default_factory=list)
     modularization_impact: str = ""
 
 @dataclass
@@ -65,10 +65,10 @@ class SymbolicAnalysisSession:
     session_id: str
     start_time: datetime
     target_path: str
-    patterns_discovered: List[BioSymbolicPattern] = field(default_factory=list)
-    symbolic_mappings: Dict[str, Any] = field(default_factory=dict)
-    bio_insights: Dict[str, Any] = field(default_factory=dict)
-    modularization_recommendations: List[str] = field(default_factory=list)
+    patterns_discovered: list[BioSymbolicPattern] = field(default_factory=list)
+    symbolic_mappings: dict[str, Any] = field(default_factory=dict)
+    bio_insights: dict[str, Any] = field(default_factory=dict)
+    modularization_recommendations: list[str] = field(default_factory=list)
 
 class BioSymbolicΛBot:
     """
@@ -196,7 +196,7 @@ class BioSymbolicΛBot:
 
         return session
 
-    async def discover_bio_symbolic_patterns(self) -> List[BioSymbolicPattern]:
+    async def discover_bio_symbolic_patterns(self) -> list[BioSymbolicPattern]:
         """
         Discover bio-symbolic patterns in the codebase
         """
@@ -239,7 +239,7 @@ class BioSymbolicΛBot:
             logger.error(f"❌ Bio-symbolic pattern discovery failed: {e}")
             return []
 
-    async def _discover_cellular_patterns(self) -> List[BioSymbolicPattern]:
+    async def _discover_cellular_patterns(self) -> list[BioSymbolicPattern]:
         """Discover cellular architecture patterns"""
         patterns = []
 
@@ -263,7 +263,7 @@ class BioSymbolicΛBot:
         logger.info(f"🦠 Discovered cellular pattern: {cellular_pattern.biological_analogy}")
         return patterns
 
-    async def _discover_neural_patterns(self) -> List[BioSymbolicPattern]:
+    async def _discover_neural_patterns(self) -> list[BioSymbolicPattern]:
         """Discover neural network connection patterns"""
         patterns = []
 
@@ -287,7 +287,7 @@ class BioSymbolicΛBot:
         logger.info(f"🧠 Discovered neural pattern: {neural_pattern.biological_analogy}")
         return patterns
 
-    async def _discover_dna_patterns(self) -> List[BioSymbolicPattern]:
+    async def _discover_dna_patterns(self) -> list[BioSymbolicPattern]:
         """Discover DNA-like inheritance patterns"""
         patterns = []
 
@@ -311,7 +311,7 @@ class BioSymbolicΛBot:
         logger.info(f"🧬 Discovered DNA pattern: {dna_pattern.biological_analogy}")
         return patterns
 
-    async def _discover_ecosystem_patterns(self) -> List[BioSymbolicPattern]:
+    async def _discover_ecosystem_patterns(self) -> list[BioSymbolicPattern]:
         """Discover ecosystem interaction patterns"""
         patterns = []
 
@@ -336,7 +336,7 @@ class BioSymbolicΛBot:
         logger.info(f"🌿 Discovered ecosystem pattern: {ecosystem_pattern.biological_analogy}")
         return patterns
 
-    async def _discover_emergent_patterns(self) -> List[BioSymbolicPattern]:
+    async def _discover_emergent_patterns(self) -> list[BioSymbolicPattern]:
         """Discover emergent evolutionary patterns"""
         patterns = []
 
@@ -360,7 +360,7 @@ class BioSymbolicΛBot:
         logger.info(f"🌱 Discovered emergent pattern: {emergent_pattern.biological_analogy}")
         return patterns
 
-    async def generate_bio_inspired_modularization_strategy(self, patterns: List[BioSymbolicPattern]) -> Dict[str, Any]:
+    async def generate_bio_inspired_modularization_strategy(self, patterns: list[BioSymbolicPattern]) -> dict[str, Any]:
         """
         Generate modularization strategy based on bio-symbolic patterns
         """
@@ -513,7 +513,7 @@ class BioSymbolicΛBot:
         logger.info(f"🧬 Bio-inspired strategy generated with {len(implementation_phases)} phases")
         return strategy
 
-    async def get_bio_symbolic_insights(self) -> Dict[str, Any]:
+    async def get_bio_symbolic_insights(self) -> dict[str, Any]:
         """Get insights from bio-symbolic analysis"""
         if not self.current_session:
             return {"error": "No active session"}

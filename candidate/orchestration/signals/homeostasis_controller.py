@@ -14,7 +14,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 from candidate.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
@@ -73,7 +73,7 @@ class HomeostasisPolicy:
     global_cooldown_ms: int = 100
 
     # Specific hormone policies
-    hormone_policies: Dict[str, Dict[str, Any]] = field(
+    hormone_policies: dict[str, dict[str, Any]] = field(
         default_factory=lambda: {
             "stress": {
                 "threshold": 0.6,
@@ -145,17 +145,17 @@ class HomeostasisController:
 
         # Current state
         self.state = HomeostasisState.BALANCED
-        self.current_hormones: Dict[str, float] = {}
+        self.current_hormones: dict[str, float] = {}
         self.metrics = SystemMetrics()
 
         # Emission tracking
         self.emission_history: deque = deque(maxlen=1000)
-        self.last_emission_time: Dict[str, float] = {}
+        self.last_emission_time: dict[str, float] = {}
         self.emissions_this_minute = 0
         self.minute_start = time.time()
 
         # Event handlers
-        self.event_handlers: Dict[str, Callable] = {}
+        self.event_handlers: dict[str, Callable] = {}
 
         # Feedback tracking
         self.feedback_scores: deque = deque(maxlen=100)
@@ -191,8 +191,8 @@ class HomeostasisController:
         logger.info("Homeostasis controller stopped")
 
     def process_event(
-        self, event_type: str, event_data: Dict[str, Any], source: str = "unknown"
-    ) -> List[Signal]:
+        self, event_type: str, event_data: dict[str, Any], source: str = "unknown"
+    ) -> list[Signal]:
         """
         Process a system event and emit appropriate hormones.
 
@@ -225,7 +225,7 @@ class HomeostasisController:
 
         return emitted_signals
 
-    def _update_metrics_from_event(self, event_type: str, event_data: Dict[str, Any]):
+    def _update_metrics_from_event(self, event_type: str, event_data: dict[str, Any]):
         """Update system metrics based on event"""
         # Update based on event type
         if event_type == "request":
@@ -257,8 +257,8 @@ class HomeostasisController:
             self.metrics.queue_depth = event_data.get("depth", self.metrics.queue_depth)
 
     def _evaluate_hormone_needs(
-        self, event_type: str, event_data: Dict[str, Any]
-    ) -> List[Tuple[str, float, str]]:
+        self, event_type: str, event_data: dict[str, Any]
+    ) -> list[tuple[str, float, str]]:
         """
         Evaluate which hormones need to be emitted.
 
@@ -364,8 +364,8 @@ class HomeostasisController:
         return min(stress, 1.0)
 
     def _apply_rate_limits(
-        self, hormones: List[Tuple[str, float, str]]
-    ) -> List[Tuple[str, float, str]]:
+        self, hormones: list[tuple[str, float, str]]
+    ) -> list[tuple[str, float, str]]:
         """Apply rate limiting and cooldowns to hormone emissions"""
         current_time = time.time()
         allowed = []
@@ -601,7 +601,7 @@ class HomeostasisController:
         with open(self.audit_path, "a") as f:
             f.write(json.dumps(audit_entry) + "\n")
 
-    def record_feedback(self, score: float, context: Optional[Dict[str, Any]] = None):
+    def record_feedback(self, score: float, context: Optional[dict[str, Any]] = None):
         """
         Record feedback for adaptive tuning.
 
@@ -641,7 +641,7 @@ class HomeostasisController:
                     0.1, hormone_policy["threshold"] * (1 - sensitivity * 0.05)
                 )
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current homeostasis status"""
         return {
             "state": self.state.value,

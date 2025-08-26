@@ -7,7 +7,7 @@ context tracking, symbolic reasoning, and workflow analysis.
 
 import time
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 
 class TaskIntelligence:
@@ -16,10 +16,10 @@ class TaskIntelligence:
     """
 
     def __init__(self):
-        self.learning_patterns: Dict[str, Any] = {}
-        self.task_embeddings: Dict[str, List[float]] = {}
+        self.learning_patterns: dict[str, Any] = {}
+        self.task_embeddings: dict[str, list[float]] = {}
 
-    def analyze_task_complexity(self, task_description: str, context: Dict) -> Dict[str, Any]:
+    def analyze_task_complexity(self, task_description: str, context: dict) -> dict[str, Any]:
         """Analyze task complexity using AI patterns"""
         complexity_indicators = {
             "simple": ["fix", "update", "change", "quick"],
@@ -55,7 +55,7 @@ class TaskIntelligence:
         else:
             return "Full design phase required, team collaboration needed"
 
-    def _identify_risk_factors(self, description: str, context: Dict) -> List[str]:
+    def _identify_risk_factors(self, description: str, context: dict) -> list[str]:
         """Identify potential risk factors"""
         risks = []
         description_lower = description.lower()
@@ -77,10 +77,10 @@ class PriorityOptimizer:
     """
 
     def __init__(self):
-        self.historical_priorities: List[Dict] = []
-        self.optimization_patterns: Dict[str, float] = {}
+        self.historical_priorities: list[dict] = []
+        self.optimization_patterns: dict[str, float] = {}
 
-    def optimize_priorities(self, tasks: List[Dict]) -> List[Dict]:
+    def optimize_priorities(self, tasks: list[dict]) -> list[dict]:
         """Optimize task priorities using AI-powered analysis"""
         optimized_tasks = []
 
@@ -94,7 +94,7 @@ class PriorityOptimizer:
         # Sort by optimized priority
         return sorted(optimized_tasks, key=lambda x: x["optimized_priority"], reverse=True)
 
-    def _calculate_dynamic_priority(self, task: Dict) -> float:
+    def _calculate_dynamic_priority(self, task: dict) -> float:
         """Calculate dynamic priority score"""
         base_score = 5.0
 
@@ -126,7 +126,7 @@ class PriorityOptimizer:
 
         return min(10.0, base_score)
 
-    def _explain_priority_decision(self, task: Dict, priority_score: float) -> str:
+    def _explain_priority_decision(self, task: dict, priority_score: float) -> str:
         """Provide human-readable explanation for priority decision"""
         explanations = []
 
@@ -162,10 +162,10 @@ class ContextTracker:
     """
 
     def __init__(self):
-        self.context_history: List[Dict] = []
-        self.pattern_cache: Dict[str, Any] = {}
+        self.context_history: list[dict] = []
+        self.pattern_cache: dict[str, Any] = {}
 
-    def track_context(self, task_id: str, context: Dict) -> Dict[str, Any]:
+    def track_context(self, task_id: str, context: dict) -> dict[str, Any]:
         """Track and analyze task context patterns"""
         context_entry = {
             "task_id": task_id,
@@ -186,7 +186,7 @@ class ContextTracker:
             "related_contexts": self._find_related_contexts(context)
         }
 
-    def _detect_context_patterns(self, context: Dict) -> List[str]:
+    def _detect_context_patterns(self, context: dict) -> list[str]:
         """Detect patterns in task context"""
         patterns = []
 
@@ -199,7 +199,7 @@ class ContextTracker:
 
         return patterns
 
-    def _analyze_context_insights(self, context: Dict) -> Dict[str, Any]:
+    def _analyze_context_insights(self, context: dict) -> dict[str, Any]:
         """Analyze context for actionable insights"""
         insights = {
             "context_type": "standard",
@@ -218,7 +218,7 @@ class ContextTracker:
 
         return insights
 
-    def _predict_context_needs(self, context: Dict) -> List[str]:
+    def _predict_context_needs(self, context: dict) -> list[str]:
         """Predict likely future context needs"""
         predictions = []
 
@@ -232,7 +232,7 @@ class ContextTracker:
 
         return predictions
 
-    def _find_related_contexts(self, context: Dict) -> List[Dict]:
+    def _find_related_contexts(self, context: dict) -> list[dict]:
         """Find related contexts from history"""
         related = []
 
@@ -247,7 +247,7 @@ class ContextTracker:
 
         return sorted(related, key=lambda x: x["similarity_score"], reverse=True)[:5]
 
-    def _calculate_context_similarity(self, context1: Dict, context2: Dict) -> float:
+    def _calculate_context_similarity(self, context1: dict, context2: dict) -> float:
         """Calculate similarity between two contexts"""
         common_keys = set(context1.keys()) & set(context2.keys())
         if not common_keys:
@@ -264,10 +264,10 @@ class SymbolicReasoner:
     """
 
     def __init__(self):
-        self.reasoning_rules: Dict[str, Any] = self._initialize_reasoning_rules()
-        self.inference_cache: Dict[str, Any] = {}
+        self.reasoning_rules: dict[str, Any] = self._initialize_reasoning_rules()
+        self.inference_cache: dict[str, Any] = {}
 
-    def _initialize_reasoning_rules(self) -> Dict[str, Any]:
+    def _initialize_reasoning_rules(self) -> dict[str, Any]:
         """Initialize symbolic reasoning rules"""
         return {
             "dependency_rules": {
@@ -297,7 +297,7 @@ class SymbolicReasoner:
             }
         }
 
-    def apply_reasoning(self, task: Dict, context: Dict) -> Dict[str, Any]:
+    def apply_reasoning(self, task: dict, context: dict) -> dict[str, Any]:
         """Apply symbolic reasoning to task and context"""
         reasoning_result = {
             "inferences": [],
@@ -319,7 +319,7 @@ class SymbolicReasoner:
 
         return reasoning_result
 
-    def _apply_dependency_reasoning(self, task: Dict, context: Dict) -> List[Dict]:
+    def _apply_dependency_reasoning(self, task: dict, context: dict) -> list[dict]:
         """Apply dependency reasoning rules"""
         inferences = []
         task_description = task.get("description", "").lower()
@@ -336,7 +336,7 @@ class SymbolicReasoner:
 
         return inferences
 
-    def _apply_priority_reasoning(self, task: Dict, context: Dict) -> List[Dict]:
+    def _apply_priority_reasoning(self, task: dict, context: dict) -> list[dict]:
         """Apply priority reasoning rules"""
         inferences = []
         task_description = task.get("description", "").lower()
@@ -362,10 +362,10 @@ class WorkflowAnalyzer:
     """
 
     def __init__(self):
-        self.workflow_patterns: Dict[str, Any] = {}
-        self.performance_metrics: Dict[str, List[float]] = {}
+        self.workflow_patterns: dict[str, Any] = {}
+        self.performance_metrics: dict[str, list[float]] = {}
 
-    def analyze_workflow(self, tasks: List[Dict], timeframe_days: int = 7) -> Dict[str, Any]:
+    def analyze_workflow(self, tasks: list[dict], timeframe_days: int = 7) -> dict[str, Any]:
         """Analyze workflow patterns and performance"""
         analysis = {
             "efficiency_score": 0.0,
@@ -397,7 +397,7 @@ class WorkflowAnalyzer:
 
         return analysis
 
-    def _identify_bottlenecks(self, tasks: List[Dict]) -> List[Dict]:
+    def _identify_bottlenecks(self, tasks: list[dict]) -> list[dict]:
         """Identify workflow bottlenecks"""
         bottlenecks = []
 
@@ -436,7 +436,7 @@ class WorkflowAnalyzer:
 
         return bottlenecks
 
-    def _generate_optimization_suggestions(self, tasks: List[Dict], bottlenecks: List[Dict]) -> List[str]:
+    def _generate_optimization_suggestions(self, tasks: list[dict], bottlenecks: list[dict]) -> list[str]:
         """Generate workflow optimization suggestions"""
         suggestions = []
 
@@ -465,7 +465,7 @@ class WorkflowAnalyzer:
 
         return list(set(suggestions))  # Remove duplicates
 
-    def _extract_workflow_insights(self, tasks: List[Dict]) -> Dict[str, Any]:
+    def _extract_workflow_insights(self, tasks: list[dict]) -> dict[str, Any]:
         """Extract actionable workflow insights"""
         insights = {}
 
@@ -494,7 +494,7 @@ class WorkflowAnalyzer:
 
         return insights
 
-    def _task_age_days(self, task: Dict) -> float:
+    def _task_age_days(self, task: dict) -> float:
         """Calculate task age in days"""
         created_at = task.get("created_at")
         if not created_at:

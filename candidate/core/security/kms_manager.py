@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 # For Vault integration
 try:
@@ -68,7 +68,7 @@ class SecretMetadata:
     last_rotated: datetime
     rotation_policy: RotationPolicy
     version: int = 1
-    tags: Dict[str, str] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
     lid: Optional[str] = None  # LUKHAS ID association
 
     def needs_rotation(self) -> bool:
@@ -87,7 +87,7 @@ class QIInspireModuleStatus:
     status: str = "DEPRECATED"
     recommendation: str = "ARCHIVE"
     assessment_date: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    reasons: List[str] = field(default_factory=lambda: [
+    reasons: list[str] = field(default_factory=lambda: [
         "Module uses outdated quantum simulation APIs",
         "Security vulnerabilities in dependency chain",
         "Replaced by quantum/ directory with modern implementation",
@@ -121,7 +121,7 @@ class VaultClient:
                 logger.error(f"Vault connection error: {e}")
                 self.client = None
 
-    def store_secret(self, path: str, secret_data: Dict) -> bool:
+    def store_secret(self, path: str, secret_data: dict) -> bool:
         """Store secret in Vault"""
         if not self.client:
             return False
@@ -136,7 +136,7 @@ class VaultClient:
             logger.error(f"Vault store error: {e}")
             return False
 
-    def retrieve_secret(self, path: str) -> Optional[Dict]:
+    def retrieve_secret(self, path: str) -> Optional[dict]:
         """Retrieve secret from Vault"""
         if not self.client:
             return None
@@ -180,7 +180,7 @@ class AWSKMSClient:
                 logger.error(f"AWS KMS connection error: {e}")
                 self.client = None
 
-    def create_key(self, description: str, tags: List[Dict] = None) -> Optional[str]:
+    def create_key(self, description: str, tags: list[dict] = None) -> Optional[str]:
         """Create new KMS key"""
         if not self.client:
             return None
@@ -253,13 +253,13 @@ class SecretScanner:
         "jwt_secret": re.compile(r'[jJ][wW][tT][-_]?[sS][eE][cC][rR][eE][tT].*[=:].*[\'"][0-9a-zA-Z]{16,}[\'"]'),
     }
 
-    def __init__(self, exclude_dirs: List[str] = None):
+    def __init__(self, exclude_dirs: list[str] = None):
         self.exclude_dirs = exclude_dirs or [
             ".git", "__pycache__", ".venv", "venv",
             "node_modules", ".pytest_cache", "build", "dist"
         ]
 
-    def scan_file(self, file_path: Path) -> List[Dict]:
+    def scan_file(self, file_path: Path) -> list[dict]:
         """Scan single file for secrets"""
         findings = []
 
@@ -286,7 +286,7 @@ class SecretScanner:
 
         return findings
 
-    def scan_directory(self, directory: Path) -> List[Dict]:
+    def scan_directory(self, directory: Path) -> list[dict]:
         """Scan directory recursively for secrets"""
         all_findings = []
 
@@ -305,7 +305,7 @@ class SecretScanner:
 
         return all_findings
 
-    def run_gitleaks(self, repo_path: str = ".") -> Dict:
+    def run_gitleaks(self, repo_path: str = ".") -> dict:
         """Run gitleaks for comprehensive secret scanning"""
         try:
             result = subprocess.run(
@@ -332,7 +332,7 @@ class SBOMGenerator:
     def __init__(self, project_path: str = "."):
         self.project_path = Path(project_path)
 
-    def generate_python_sbom(self) -> Dict:
+    def generate_python_sbom(self) -> dict:
         """Generate SBOM for Python dependencies"""
         sbom = {
             "format": "CycloneDX",
@@ -366,7 +366,7 @@ class SBOMGenerator:
 
         return sbom
 
-    def check_vulnerabilities(self, sbom: Dict) -> List[Dict]:
+    def check_vulnerabilities(self, sbom: dict) -> list[dict]:
         """Check SBOM components for known vulnerabilities"""
         vulnerabilities = []
 
@@ -409,11 +409,11 @@ class LukhasKMSManager:
         self.sbom_generator = SBOMGenerator()
 
         # Local secure storage fallback
-        self.local_storage: Dict[str, Tuple[bytes, SecretMetadata]] = {}
-        self.metadata_store: Dict[str, SecretMetadata] = {}
+        self.local_storage: dict[str, tuple[bytes, SecretMetadata]] = {}
+        self.metadata_store: dict[str, SecretMetadata] = {}
 
         # Rotation scheduler
-        self.rotation_tasks: List[asyncio.Task] = []
+        self.rotation_tasks: list[asyncio.Task] = []
         self.rotation_running = False
 
         # QIM assessment
@@ -425,7 +425,7 @@ class LukhasKMSManager:
                     secret_type: SecretType,
                     rotation_policy: RotationPolicy = RotationPolicy.MONTHLY,
                     lid: Optional[str] = None,
-                    tags: Dict[str, str] = None) -> bool:
+                    tags: dict[str, str] = None) -> bool:
         """
         Store secret with automatic rotation policy
         Integrates with Vault or falls back to encrypted local storage
@@ -559,7 +559,7 @@ class LukhasKMSManager:
         self.rotation_tasks.append(task)
         logger.info("🔄 Secret rotation scheduler started")
 
-    def scan_for_secrets(self, path: str = ".") -> Dict:
+    def scan_for_secrets(self, path: str = ".") -> dict:
         """Scan codebase for exposed secrets"""
         logger.info(f"🔍 Scanning {path} for exposed secrets...")
 
@@ -578,7 +578,7 @@ class LukhasKMSManager:
             "scan_time": datetime.now(timezone.utc).isoformat()
         }
 
-    def generate_sbom(self) -> Dict:
+    def generate_sbom(self) -> dict:
         """Generate Software Bill of Materials"""
         logger.info("📦 Generating SBOM...")
 
@@ -592,7 +592,7 @@ class LukhasKMSManager:
             "generated_at": datetime.now(timezone.utc).isoformat()
         }
 
-    def assess_qim(self) -> Dict:
+    def assess_qim(self) -> dict:
         """Assess Quantum Inspire Module for deprecation"""
         logger.info("🔬 Assessing Quantum Inspire Module...")
 
@@ -645,7 +645,7 @@ class LukhasKMSManager:
         }
         logger.info(f"📝 Audit: {audit_event}")
 
-    def get_status(self) -> Dict:
+    def get_status(self) -> dict:
         """Get KMS status and metrics"""
         return {
             "vault_connected": bool(self.vault_client.client),
@@ -656,7 +656,7 @@ class LukhasKMSManager:
             "pending_rotations": sum(1 for m in self.metadata_store.values() if m.needs_rotation())
         }
 
-    def _count_by_type(self) -> Dict[str, int]:
+    def _count_by_type(self) -> dict[str, int]:
         """Count secrets by type"""
         counts = {}
         for metadata in self.metadata_store.values():

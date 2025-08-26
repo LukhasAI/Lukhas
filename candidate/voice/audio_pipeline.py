@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 from collections.abc import AsyncGenerator
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -68,7 +68,7 @@ class PipelineConfig:
     target_quality: ProcessingQuality = ProcessingQuality.STANDARD
 
     # Enabled stages
-    enabled_stages: List[PipelineStage] = field(default_factory=lambda: [
+    enabled_stages: list[PipelineStage] = field(default_factory=lambda: [
         PipelineStage.INPUT_VALIDATION,
         PipelineStage.TTS_SYNTHESIS,
         PipelineStage.AUDIO_PROCESSING,
@@ -76,10 +76,10 @@ class PipelineConfig:
     ])
 
     # Stage configurations
-    tts_config: Dict[str, Any] = field(default_factory=dict)
-    modulation_config: Dict[str, Any] = field(default_factory=dict)
-    effects_config: Dict[str, Any] = field(default_factory=dict)
-    audio_processing_config: Dict[str, Any] = field(default_factory=dict)
+    tts_config: dict[str, Any] = field(default_factory=dict)
+    modulation_config: dict[str, Any] = field(default_factory=dict)
+    effects_config: dict[str, Any] = field(default_factory=dict)
+    audio_processing_config: dict[str, Any] = field(default_factory=dict)
 
     # Performance settings
     max_parallel_workers: int = 4
@@ -90,7 +90,7 @@ class PipelineConfig:
     output_sample_rate: int = 44100
     output_channels: int = 1
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "mode": self.mode.value,
@@ -119,18 +119,18 @@ class PipelineInput:
     emotion: Optional[str] = None
     modulation_mode: Optional[VoiceModulationMode] = None
     effects_preset: Optional[str] = None
-    custom_effects: List[Tuple[VoiceEffectType, Dict[str, Any]]] = field(default_factory=list)
+    custom_effects: list[tuple[VoiceEffectType, dict[str, Any]]] = field(default_factory=list)
 
     # Context information
     user_id: Optional[str] = None
     session_id: Optional[str] = None
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
     # Quality preferences
     quality_preference: ProcessingQuality = ProcessingQuality.STANDARD
     latency_target_ms: Optional[float] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "text": self.text,
@@ -159,20 +159,20 @@ class PipelineOutput:
 
     # Processing information
     total_processing_time_ms: float = 0.0
-    stages_completed: List[PipelineStage] = field(default_factory=list)
-    stage_times: Dict[str, float] = field(default_factory=dict)
+    stages_completed: list[PipelineStage] = field(default_factory=list)
+    stage_times: dict[str, float] = field(default_factory=dict)
 
     # Quality metrics
-    quality_metrics: Dict[str, float] = field(default_factory=dict)
+    quality_metrics: dict[str, float] = field(default_factory=dict)
 
     # Error information
     error_message: Optional[str] = None
     error_stage: Optional[PipelineStage] = None
 
     # Metadata from each stage
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "success": self.success,
@@ -199,7 +199,7 @@ class PipelineStageProcessor(ABC):
         self.logger = get_logger(f"{__name__}.{stage.value.title()}Stage")
 
     @abstractmethod
-    async def process(self, input_data: Any, context: Dict[str, Any]) -> Tuple[Any, Dict[str, Any]]:
+    async def process(self, input_data: Any, context: dict[str, Any]) -> tuple[Any, dict[str, Any]]:
         """Process data for this stage"""
         pass
 
@@ -215,7 +215,7 @@ class InputValidationStage(PipelineStageProcessor):
         super().__init__(PipelineStage.INPUT_VALIDATION)
         self.guardian = GuardianValidator()
 
-    async def process(self, input_data: PipelineInput, context: Dict[str, Any]) -> Tuple[PipelineInput, Dict[str, Any]]:
+    async def process(self, input_data: PipelineInput, context: dict[str, Any]) -> tuple[PipelineInput, dict[str, Any]]:
         """Validate input data"""
         # Guardian validation
         validation_result = await self.guardian.validate_operation({
@@ -251,11 +251,11 @@ class InputValidationStage(PipelineStageProcessor):
 class TTSSynthesisStage(PipelineStageProcessor):
     """TTS synthesis stage"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         super().__init__(PipelineStage.TTS_SYNTHESIS)
         self.tts_service = LUKHASTTSService(config)
 
-    async def process(self, input_data: PipelineInput, context: Dict[str, Any]) -> Tuple[AudioBuffer, Dict[str, Any]]:
+    async def process(self, input_data: PipelineInput, context: dict[str, Any]) -> tuple[AudioBuffer, dict[str, Any]]:
         """Synthesize speech from text"""
         # Create TTS request
         tts_request = TTSRequest(
@@ -301,11 +301,11 @@ class TTSSynthesisStage(PipelineStageProcessor):
 class VoiceModulationStage(PipelineStageProcessor):
     """Voice modulation stage"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         super().__init__(PipelineStage.VOICE_MODULATION)
         self.voice_modulator = VoiceModulator(config)
 
-    async def process(self, input_data: Tuple[AudioBuffer, PipelineInput], context: Dict[str, Any]) -> Tuple[AudioBuffer, Dict[str, Any]]:
+    async def process(self, input_data: tuple[AudioBuffer, PipelineInput], context: dict[str, Any]) -> tuple[AudioBuffer, dict[str, Any]]:
         """Apply voice modulation"""
         audio_buffer, pipeline_input = input_data
 
@@ -343,11 +343,11 @@ class VoiceModulationStage(PipelineStageProcessor):
 class EffectsProcessingStage(PipelineStageProcessor):
     """Effects processing stage"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         super().__init__(PipelineStage.EFFECTS_PROCESSING)
         self.effects_processor = VoiceEffectsProcessor()
 
-    async def process(self, input_data: Tuple[AudioBuffer, PipelineInput], context: Dict[str, Any]) -> Tuple[AudioBuffer, Dict[str, Any]]:
+    async def process(self, input_data: tuple[AudioBuffer, PipelineInput], context: dict[str, Any]) -> tuple[AudioBuffer, dict[str, Any]]:
         """Apply voice effects"""
         audio_buffer, pipeline_input = input_data
 
@@ -398,11 +398,11 @@ class EffectsProcessingStage(PipelineStageProcessor):
 class AudioProcessingStage(PipelineStageProcessor):
     """Audio signal processing stage"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         super().__init__(PipelineStage.AUDIO_PROCESSING)
         self.audio_processor = LUKHASAudioProcessor(config)
 
-    async def process(self, input_data: Tuple[AudioBuffer, PipelineInput], context: Dict[str, Any]) -> Tuple[AudioBuffer, Dict[str, Any]]:
+    async def process(self, input_data: tuple[AudioBuffer, PipelineInput], context: dict[str, Any]) -> tuple[AudioBuffer, dict[str, Any]]:
         """Apply audio signal processing"""
         audio_buffer, pipeline_input = input_data
 
@@ -443,7 +443,7 @@ class OutputFormattingStage(PipelineStageProcessor):
         super().__init__(PipelineStage.OUTPUT_FORMATTING)
         self.config = config
 
-    async def process(self, input_data: AudioBuffer, context: Dict[str, Any]) -> Tuple[bytes, Dict[str, Any]]:
+    async def process(self, input_data: AudioBuffer, context: dict[str, Any]) -> tuple[bytes, dict[str, Any]]:
         """Format audio output"""
         audio_buffer = input_data
 
@@ -620,7 +620,7 @@ class LUKHASAudioPipeline:
 
             return output
 
-    async def process_streaming(self, input_data: PipelineInput) -> AsyncGenerator[Dict[str, Any], None]:
+    async def process_streaming(self, input_data: PipelineInput) -> AsyncGenerator[dict[str, Any], None]:
         """
         Process audio with streaming output
 
@@ -644,7 +644,7 @@ class LUKHASAudioPipeline:
         result = await self.process(input_data)
         yield {"type": "completed", "result": result.to_dict(), "timestamp": time.time()}
 
-    def get_pipeline_stats(self) -> Dict[str, Any]:
+    def get_pipeline_stats(self) -> dict[str, Any]:
         """Get pipeline processing statistics"""
         return self.stats.copy()
 

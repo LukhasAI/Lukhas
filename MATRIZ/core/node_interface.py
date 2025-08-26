@@ -16,7 +16,7 @@ import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 
 @dataclass
@@ -57,8 +57,8 @@ class NodeReflection:
     """Introspective log about this node's processing"""
     reflection_type: str  # regret, affirmation, dissonance_resolution, moral_conflict, self_question
     timestamp: int  # epoch milliseconds
-    old_state: Optional[Dict] = None
-    new_state: Optional[Dict] = None
+    old_state: Optional[dict] = None
+    new_state: Optional[dict] = None
     cause: Optional[str] = None
 
 
@@ -66,14 +66,14 @@ class NodeReflection:
 class NodeProvenance:
     """Complete provenance tracking for governance"""
     producer: str  # Module path or service name
-    capabilities: List[str]  # What this producer can do
+    capabilities: list[str]  # What this producer can do
     tenant: str  # Tenant identifier
     trace_id: str  # Execution trace ID
-    consent_scopes: List[str]  # What consent scopes apply
+    consent_scopes: list[str]  # What consent scopes apply
     subject_pseudonym: Optional[str] = None
     model_signature: Optional[str] = None
     policy_version: Optional[str] = None
-    colony: Optional[Dict] = None  # Colony/swarm metadata
+    colony: Optional[dict] = None  # Colony/swarm metadata
 
 
 class CognitiveNode(ABC):
@@ -89,7 +89,7 @@ class CognitiveNode(ABC):
     The MATRIZ format ensures complete auditability and governance.
     """
 
-    def __init__(self, node_name: str, capabilities: List[str], tenant: str = "default"):
+    def __init__(self, node_name: str, capabilities: list[str], tenant: str = "default"):
         """
         Initialize the cognitive node.
 
@@ -101,10 +101,10 @@ class CognitiveNode(ABC):
         self.node_name = node_name
         self.capabilities = capabilities
         self.tenant = tenant
-        self.processing_history: List[Dict] = []
+        self.processing_history: list[dict] = []
 
     @abstractmethod
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process input data and return result with MATRIZ node.
 
@@ -127,7 +127,7 @@ class CognitiveNode(ABC):
         pass
 
     @abstractmethod
-    def validate_output(self, output: Dict[str, Any]) -> bool:
+    def validate_output(self, output: dict[str, Any]) -> bool:
         """
         Validate the output of this node's processing.
 
@@ -145,7 +145,7 @@ class CognitiveNode(ABC):
         """
         pass
 
-    def get_trace(self) -> List[Dict]:
+    def get_trace(self) -> list[dict]:
         """
         Return the complete processing trace for interpretability.
 
@@ -157,14 +157,14 @@ class CognitiveNode(ABC):
     def create_matriz_node(
         self,
         node_type: str,
-        state: Union[NodeState, Dict],
-        links: Optional[List[NodeLink]] = None,
-        triggers: Optional[List[NodeTrigger]] = None,
-        reflections: Optional[List[NodeReflection]] = None,
-        evolves_to: Optional[List[str]] = None,
+        state: Union[NodeState, dict],
+        links: Optional[list[NodeLink]] = None,
+        triggers: Optional[list[NodeTrigger]] = None,
+        reflections: Optional[list[NodeReflection]] = None,
+        evolves_to: Optional[list[str]] = None,
         trace_id: Optional[str] = None,
-        additional_data: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        additional_data: Optional[dict] = None
+    ) -> dict[str, Any]:
         """
         Create a complete MATRIZ format node.
 
@@ -259,7 +259,7 @@ class CognitiveNode(ABC):
 
         return matriz_node
 
-    def validate_matriz_node(self, node: Dict[str, Any]) -> bool:
+    def validate_matriz_node(self, node: dict[str, Any]) -> bool:
         """
         Validate that a node conforms to MATRIZ schema.
 
@@ -290,11 +290,7 @@ class CognitiveNode(ABC):
             # Check provenance required fields
             provenance = node.get("provenance", {})
             prov_required = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-            for field in prov_required:
-                if field not in provenance:
-                    return False
-
-            return True
+            return all(field in provenance for field in prov_required)
 
         except Exception:
             return False
@@ -303,8 +299,8 @@ class CognitiveNode(ABC):
         self,
         reflection_type: str,
         cause: str,
-        old_state: Optional[Dict] = None,
-        new_state: Optional[Dict] = None
+        old_state: Optional[dict] = None,
+        new_state: Optional[dict] = None
     ) -> NodeReflection:
         """
         Create a reflection about this node's processing.
@@ -367,7 +363,7 @@ class CognitiveNode(ABC):
             explanation=explanation
         )
 
-    def get_deterministic_hash(self, input_data: Dict[str, Any]) -> str:
+    def get_deterministic_hash(self, input_data: dict[str, Any]) -> str:
         """
         Generate a deterministic hash for reproducible processing.
 

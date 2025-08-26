@@ -7,7 +7,7 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ComplianceMatrizAdapter:
@@ -18,10 +18,10 @@ class ComplianceMatrizAdapter:
     @staticmethod
     def create_node(
         node_type: str,
-        state: Dict[str, float],
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        state: dict[str, float],
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for compliance events"""
 
         node = {
@@ -57,8 +57,8 @@ class ComplianceMatrizAdapter:
     def emit_compliance_check(
         regulation: str,
         status: str,
-        violations: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        violations: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Emit a compliance validation node"""
 
         is_compliant = status == "compliant"
@@ -91,7 +91,7 @@ class ComplianceMatrizAdapter:
         action: str,
         consent_given: bool,
         scope: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a consent verification node"""
 
         return ComplianceMatrizAdapter.create_node(
@@ -119,7 +119,7 @@ class ComplianceMatrizAdapter:
         entity: str,
         action: str,
         risk_level: str = "low"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit an audit trail node"""
 
         risk_urgency = {
@@ -151,7 +151,7 @@ class ComplianceMatrizAdapter:
         purpose: str,
         lawful_basis: str,
         retention_days: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a GDPR compliance node"""
 
         return ComplianceMatrizAdapter.create_node(
@@ -172,7 +172,7 @@ class ComplianceMatrizAdapter:
         )
 
     @staticmethod
-    def validate_node(node: Dict[str, Any]) -> bool:
+    def validate_node(node: dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
 
@@ -182,14 +182,10 @@ class ComplianceMatrizAdapter:
 
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-        for field in required_prov:
-            if field not in node.get("provenance", {}):
-                return False
-
-        return True
+        return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
-    def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+    def save_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/compliance")

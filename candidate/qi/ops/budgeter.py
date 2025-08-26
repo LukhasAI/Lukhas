@@ -5,7 +5,7 @@ import math
 import os
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 BUDGET_FILE = os.path.join(STATE, "budget_state.json")
@@ -15,9 +15,9 @@ CONF_FILE   = os.path.join(STATE, "budget_config.json")
 class BudgetConfig:
     default_token_cap: int = 200_000     # per-run soft cap
     default_latency_ms: int = 10_000
-    user_overrides: Dict[str, Dict[str, Any]] = None  # {user_id: {"token_cap":..., "latency_ms":...}}
-    task_overrides: Dict[str, Dict[str, Any]] = None  # {task: {...}}
-    model_costs: Dict[str, Dict[str, float]] = None   # {model: {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
+    user_overrides: dict[str, dict[str, Any]] = None  # {user_id: {"token_cap":..., "latency_ms":...}}
+    task_overrides: dict[str, dict[str, Any]] = None  # {task: {...}}
+    model_costs: dict[str, dict[str, float]] = None   # {model: {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
 
     def to_dict(self):
         return {
@@ -56,7 +56,7 @@ class Budgeter:
         _save_json(BUDGET_FILE, self.state)
 
     # ---- planning ----
-    def plan(self, *, text: str = "", model: str = "default", target_tokens: Optional[int] = None) -> Dict[str, Any]:
+    def plan(self, *, text: str = "", model: str = "default", target_tokens: int | None = None) -> dict[str, Any]:
         # Ensure model_costs has default
         if not self.conf.model_costs:
             self.conf.model_costs = {"default": {"tok_per_char": 0.35, "lat_ms_per_tok": 0.02}}
@@ -73,7 +73,7 @@ class Budgeter:
         return {"tokens_planned": tokens_planned, "latency_est_ms": latency_ms, "energy_wh": energy_wh, "input_tokens": input_tok, "gen_tokens": gen_tok, "model": model}
 
     # ---- limits ----
-    def _caps(self, user_id: Optional[str], task: Optional[str]) -> Dict[str, int]:
+    def _caps(self, user_id: str | None, task: str | None) -> dict[str, int]:
         cap = self.conf.default_token_cap
         lat = self.conf.default_latency_ms
         if task and (self.conf.task_overrides or {}).get(task):
@@ -86,7 +86,7 @@ class Budgeter:
             lat = int(u.get("latency_ms", lat))
         return {"token_cap": cap, "latency_ms": lat}
 
-    def check(self, *, user_id: Optional[str], task: Optional[str], plan: Dict[str, Any]) -> Dict[str, Any]:
+    def check(self, *, user_id: str | None, task: str | None, plan: dict[str, Any]) -> dict[str, Any]:
         caps = self._caps(user_id, task)
         reasons = []
         if plan["tokens_planned"] > caps["token_cap"]:
@@ -96,7 +96,7 @@ class Budgeter:
         return {"ok": not reasons, "reasons": reasons, "caps": caps}
 
     # ---- accounting ----
-    def commit(self, *, user_id: Optional[str], task: Optional[str], actual_tokens: int, latency_ms: int, meta: Dict[str, Any] | None=None):
+    def commit(self, *, user_id: str | None, task: str | None, actual_tokens: int, latency_ms: int, meta: dict[str, Any] | None=None):
         self.state["runs"].append({
             "ts": time.time(), "user": user_id, "task": task,
             "tokens": int(actual_tokens), "latency_ms": int(latency_ms),

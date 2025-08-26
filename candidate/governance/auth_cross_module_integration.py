@@ -26,7 +26,7 @@ import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 # LUKHAS imports
 try:
@@ -83,8 +83,8 @@ class AuthModuleMessage:
     user_id: str
     session_id: Optional[str]
     glyph_encoding: str
-    payload: Dict[str, Any]
-    trinity_context: Dict[str, str]
+    payload: dict[str, Any]
+    trinity_context: dict[str, str]
     timestamp: datetime
     priority: str = "normal"  # low, normal, high, critical
     requires_response: bool = False
@@ -97,13 +97,13 @@ class ModuleAuthContext:
     module_type: ModuleType
     user_id: str
     tier_level: str
-    scopes: List[str]
+    scopes: list[str]
     session_id: str
     symbolic_identity: str
     constitutional_status: str
     guardian_status: str
     last_updated: datetime
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -139,7 +139,7 @@ class TrinityFrameworkIntegration:
             ModuleType.CORE: "guardian"
         }
 
-    def get_trinity_context_for_module(self, module_type: ModuleType, auth_context: Dict[str, Any]) -> Dict[str, str]:
+    def get_trinity_context_for_module(self, module_type: ModuleType, auth_context: dict[str, Any]) -> dict[str, str]:
         """Get Trinity Framework context for specific module"""
         primary_aspect = self.module_trinity_mapping.get(module_type, "identity")
 
@@ -159,7 +159,7 @@ class TrinityFrameworkIntegration:
             "integration_level": self._calculate_integration_level(auth_context)
         }
 
-    def _calculate_integration_level(self, auth_context: Dict[str, Any]) -> str:
+    def _calculate_integration_level(self, auth_context: dict[str, Any]) -> str:
         """Calculate Trinity Framework integration level"""
         score = 0
 
@@ -200,10 +200,10 @@ class AuthCrossModuleIntegrator:
         self.trinity_integration = TrinityFrameworkIntegration()
 
         # Module registrations and contexts
-        self.registered_modules: Dict[ModuleType, Dict[str, Any]] = {}
-        self.active_contexts: Dict[str, ModuleAuthContext] = {}  # user_id -> context
-        self.message_handlers: Dict[ModuleType, Callable] = {}
-        self.pending_messages: List[AuthModuleMessage] = []
+        self.registered_modules: dict[ModuleType, dict[str, Any]] = {}
+        self.active_contexts: dict[str, ModuleAuthContext] = {}  # user_id -> context
+        self.message_handlers: dict[ModuleType, Callable] = {}
+        self.pending_messages: list[AuthModuleMessage] = []
 
         # Integration statistics
         self.integration_stats = {
@@ -235,7 +235,7 @@ class AuthCrossModuleIntegrator:
 
     async def register_module(self,
                             module_type: ModuleType,
-                            module_config: Dict[str, Any],
+                            module_config: dict[str, Any],
                             message_handler: Optional[Callable] = None) -> bool:
         """Register a LUKHAS module for authentication integration"""
         try:
@@ -279,8 +279,8 @@ class AuthCrossModuleIntegrator:
     async def propagate_auth_context(self,
                                    user_id: str,
                                    auth_event: AuthEventType,
-                                   auth_context: Dict[str, Any],
-                                   target_modules: Optional[List[ModuleType]] = None) -> Dict[str, bool]:
+                                   auth_context: dict[str, Any],
+                                   target_modules: Optional[list[ModuleType]] = None) -> dict[str, bool]:
         """Propagate authentication context to LUKHAS modules"""
         try:
             results = {}
@@ -320,7 +320,7 @@ class AuthCrossModuleIntegrator:
 
     async def _create_module_auth_context(self,
                                         user_id: str,
-                                        auth_context: Dict[str, Any]) -> ModuleAuthContext:
+                                        auth_context: dict[str, Any]) -> ModuleAuthContext:
         """Create authentication context for module consumption"""
         # Extract key authentication information
         tier_level = auth_context.get('tier_level', 'T1')
@@ -355,7 +355,7 @@ class AuthCrossModuleIntegrator:
                                          module_type: ModuleType,
                                          user_id: str,
                                          auth_event: AuthEventType,
-                                         auth_context: Dict[str, Any]) -> bool:
+                                         auth_context: dict[str, Any]) -> bool:
         """Send authentication context to specific module"""
         try:
             # Get module adapter
@@ -478,7 +478,7 @@ class AuthCrossModuleIntegrator:
     async def _send_internal_message(self,
                                    target_module: ModuleType,
                                    message_type: str,
-                                   payload: Dict[str, Any]) -> None:
+                                   payload: dict[str, Any]) -> None:
         """Send internal system message"""
         try:
             message = AuthModuleMessage(
@@ -502,9 +502,9 @@ class AuthCrossModuleIntegrator:
 
     # Module Adapter Creation Methods
 
-    def _create_consciousness_adapter(self) -> Dict[str, Callable]:
+    def _create_consciousness_adapter(self) -> dict[str, Callable]:
         """Create consciousness module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'consciousness_integration': True,
                 'user_identity': auth_context.get('user_id'),
@@ -522,9 +522,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'consciousness'
         }
 
-    def _create_memory_adapter(self) -> Dict[str, Callable]:
+    def _create_memory_adapter(self) -> dict[str, Callable]:
         """Create memory module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'memory_integration': True,
                 'user_identity': auth_context.get('user_id'),
@@ -541,9 +541,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'consciousness'
         }
 
-    def _create_reasoning_adapter(self) -> Dict[str, Callable]:
+    def _create_reasoning_adapter(self) -> dict[str, Callable]:
         """Create reasoning module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'reasoning_integration': True,
                 'user_context': auth_context.get('user_id'),
@@ -560,9 +560,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'consciousness'
         }
 
-    def _create_emotion_adapter(self) -> Dict[str, Callable]:
+    def _create_emotion_adapter(self) -> dict[str, Callable]:
         """Create emotion module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'emotion_integration': True,
                 'user_emotional_context': auth_context.get('user_id'),
@@ -579,9 +579,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'consciousness'
         }
 
-    def _create_creativity_adapter(self) -> Dict[str, Callable]:
+    def _create_creativity_adapter(self) -> dict[str, Callable]:
         """Create creativity module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'creativity_integration': True,
                 'creative_user': auth_context.get('user_id'),
@@ -598,9 +598,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'consciousness'
         }
 
-    def _create_quantum_adapter(self) -> Dict[str, Callable]:
+    def _create_quantum_adapter(self) -> dict[str, Callable]:
         """Create quantum module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'qi_integration': True,
                 'qi_user': auth_context.get('user_id'),
@@ -617,9 +617,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'identity'
         }
 
-    def _create_bio_adapter(self) -> Dict[str, Callable]:
+    def _create_bio_adapter(self) -> dict[str, Callable]:
         """Create bio module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'bio_integration': True,
                 'bio_user': auth_context.get('user_id'),
@@ -636,9 +636,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'identity'
         }
 
-    def _create_identity_adapter(self) -> Dict[str, Callable]:
+    def _create_identity_adapter(self) -> dict[str, Callable]:
         """Create identity module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'identity_integration': True,
                 'lambda_id': auth_context.get('user_id'),
@@ -655,9 +655,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'identity'
         }
 
-    def _create_guardian_adapter(self) -> Dict[str, Callable]:
+    def _create_guardian_adapter(self) -> dict[str, Callable]:
         """Create guardian module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'guardian_integration': True,
                 'protected_user': auth_context.get('user_id'),
@@ -676,9 +676,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'guardian'
         }
 
-    def _create_bridge_adapter(self) -> Dict[str, Callable]:
+    def _create_bridge_adapter(self) -> dict[str, Callable]:
         """Create bridge module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'bridge_integration': True,
                 'bridged_user': auth_context.get('user_id'),
@@ -695,9 +695,9 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'guardian'
         }
 
-    def _create_core_adapter(self) -> Dict[str, Callable]:
+    def _create_core_adapter(self) -> dict[str, Callable]:
         """Create core module adapter"""
-        async def prepare_payload(auth_context: Dict[str, Any]) -> Dict[str, Any]:
+        async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
                 'core_integration': True,
                 'core_user': auth_context.get('user_id'),
@@ -715,14 +715,14 @@ class AuthCrossModuleIntegrator:
             'trinity_aspect': 'guardian'
         }
 
-    async def get_user_module_contexts(self, user_id: str) -> Dict[str, Any]:
+    async def get_user_module_contexts(self, user_id: str) -> dict[str, Any]:
         """Get authentication contexts for user across all modules"""
         context = self.active_contexts.get(user_id)
         if not context:
             return {}
 
         module_contexts = {}
-        for module_type in self.registered_modules.keys():
+        for module_type in self.registered_modules:
             adapter = self.module_adapters.get(module_type)
             if adapter:
                 module_contexts[module_type.value] = await adapter['prepare_payload'](context.metadata)
@@ -760,13 +760,13 @@ class AuthCrossModuleIntegrator:
             print(f"Error cleaning up contexts for user {user_id}: {e}")
             return False
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get cross-module integration status"""
         return {
             'registered_modules': len(self.registered_modules),
             'active_contexts': len(self.active_contexts),
             'pending_messages': len(self.pending_messages),
-            'module_types': [m.value for m in self.registered_modules.keys()],
+            'module_types': [m.value for m in self.registered_modules],
             'trinity_integration': True,
             'glyph_communication': auth_glyph_registry is not None,
             'kernel_bus_available': self.kernel_bus is not None,

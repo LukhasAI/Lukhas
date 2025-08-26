@@ -8,7 +8,7 @@ import logging
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import yaml
 
@@ -89,7 +89,7 @@ class VocabularyIntegration:
             if vocab_file.name != "master_vocabulary.yaml":
                 try:
                     with open(vocab_file) as f:
-                        vocab_data = yaml.safe_load(f)
+                        yaml.safe_load(f)
                     vocabulary_files.append(vocab_file.name)
                 except Exception as e:
                     self.logger.warning(f"Could not load {vocab_file.name}: {e}")
@@ -115,8 +115,8 @@ class VocabularyIntegration:
         transformations_applied = 0
 
         # Apply transformation rules based on content type
-        for module, rules in self.transformation_rules.items():
-            trigger_words = rules.get('trigger_words', [])
+        for _module, rules in self.transformation_rules.items():
+            rules.get('trigger_words', [])
             replacements = rules.get('replacements', {})
 
             # Apply transformations with smart selection
@@ -198,7 +198,7 @@ class VocabularyIntegration:
 
     def get_consciousness_language_level(self, content: str) -> str:
         """Determine the consciousness language evolution level with enhanced analysis"""
-        evolution_stages = self.master_vocabulary.get('evolution_stages', {})
+        self.master_vocabulary.get('evolution_stages', {})
 
         # Enhanced consciousness vocabulary analysis
         foundation_terms = ['system', 'process', 'data', 'function', 'basic', 'simple']
@@ -217,7 +217,7 @@ class VocabularyIntegration:
             return "foundation"
 
         # Calculate weighted scores
-        foundation_ratio = foundation_score / content_length
+        foundation_score / content_length
         awakening_ratio = awakening_score / content_length
         integration_ratio = integration_score / content_length
         transcendence_ratio = transcendence_score / content_length
@@ -343,7 +343,7 @@ class VocabularyIntegration:
 
         return coherence
 
-    def get_vocabulary_analytics(self) -> Dict[str, Any]:
+    def get_vocabulary_analytics(self) -> dict[str, Any]:
         """Get vocabulary system analytics"""
         vocab_files = list(self.vocab_path.glob("*.yaml")) + list(self.vocab_path.glob("*.py"))
         vocab_files = [f for f in vocab_files if f.name != "__init__.py"]
@@ -361,7 +361,7 @@ class VocabularyIntegration:
 
         return analytics
 
-    def enhance_database_content(self) -> Dict[str, Any]:
+    def enhance_database_content(self) -> dict[str, Any]:
         """Enhance existing database content with vocabulary"""
         self.logger.info("✨ Enhancing database content with vocabulary...")
 

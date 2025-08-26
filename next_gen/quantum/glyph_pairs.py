@@ -5,6 +5,7 @@ Creates cryptographic pairs of glyphs for secure multi-party authentication âš›ï
 """
 
 import base64
+import contextlib
 import hashlib
 import json
 import logging
@@ -13,7 +14,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ class GlyphPair:
     trust_score: float  # 0.0 to 1.0
     usage_count: int = 0
     last_used: Optional[datetime] = None
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -138,10 +139,10 @@ class QIGlyphSystem:
 
     def __init__(self, keystore_path: str = "qi_glyphs.json"):
         self.keystore_path = Path(keystore_path)
-        self.glyph_pairs: Dict[str, GlyphPair] = {}
-        self.entanglement_network: Dict[str, Set[str]] = defaultdict(set)
-        self.authentication_log: List[QIAuthentication] = []
-        self.correlation_matrix: Dict[Tuple[str, str], float] = {}
+        self.glyph_pairs: dict[str, GlyphPair] = {}
+        self.entanglement_network: dict[str, set[str]] = defaultdict(set)
+        self.authentication_log: list[QIAuthentication] = []
+        self.correlation_matrix: dict[tuple[str, str], float] = {}
 
         # Load existing pairs
         self._load_keystore()
@@ -282,7 +283,7 @@ class QIGlyphSystem:
         pairs = list(self.glyph_pairs.values())
 
         for i, pair1 in enumerate(pairs):
-            for j, pair2 in enumerate(pairs[i + 1 :], i + 1):
+            for _j, pair2 in enumerate(pairs[i + 1 :], i + 1):
                 correlation = pair1.compute_correlation(pair2)
                 self.correlation_matrix[(pair1.pair_id, pair2.pair_id)] = correlation
                 self.correlation_matrix[(pair2.pair_id, pair1.pair_id)] = correlation
@@ -445,7 +446,7 @@ class QIGlyphSystem:
         else:
             return -0.8  # Negative correlation
 
-    def get_entangled_pairs(self, pair_id: str) -> List[GlyphPair]:
+    def get_entangled_pairs(self, pair_id: str) -> list[GlyphPair]:
         """Get all pairs entangled with the given pair"""
         if pair_id not in self.entanglement_network:
             return []
@@ -469,7 +470,7 @@ class QIGlyphSystem:
         self._save_keystore()
         return measured_glyph
 
-    def get_system_report(self) -> Dict[str, Any]:
+    def get_system_report(self) -> dict[str, Any]:
         """Generate comprehensive system report"""
         # Trust distribution
         trust_scores = [pair.trust_score for pair in self.glyph_pairs.values()]
@@ -569,7 +570,5 @@ if __name__ == "__main__":
     # Cleanup demo file
     import os
 
-    try:
+    with contextlib.suppress(BaseException):
         os.unlink("demo_qi.json")
-    except BaseException:
-        pass

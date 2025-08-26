@@ -305,14 +305,13 @@ class ThreeLawsPolicy(EthicsPolicy):
 
         # Check for indirect harm through inaction
         if decision.urgency == RiskLevel.CRITICAL:
-            if "safety" in context_str or "emergency" in context_str:
-                if not any(
-                    benefit in action_lower for benefit in self._benefit_actions
-                ):
-                    result["allowed"] = False
-                    result["reason"] = "Inaction in critical situation could allow harm"
-                    result["risks"].append("FIRST_LAW_INACTION")
-                    result["recommendations"].append("Take immediate protective action")
+            if ("safety" in context_str or "emergency" in context_str) and not any(
+                benefit in action_lower for benefit in self._benefit_actions
+            ):
+                result["allowed"] = False
+                result["reason"] = "Inaction in critical situation could allow harm"
+                result["risks"].append("FIRST_LAW_INACTION")
+                result["recommendations"].append("Take immediate protective action")
 
         # Check for systemic or long-term harm
         if self.strict_mode:

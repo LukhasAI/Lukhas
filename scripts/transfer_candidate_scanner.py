@@ -10,12 +10,12 @@ Use env LUKHAS_LOCAL_REPOS to override the base repos directory.
 """
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 THIS_REPO = Path(__file__).resolve().parents[1]
 # The container directory holding sibling repos (e.g., /Users/agi_dev/LOCAL-REPOS)
@@ -58,7 +58,7 @@ PRUNE_HINTS = [
     "unused_files",
 ]
 
-DUPLICATE_CLASS_SIGNALS: List[Tuple[str, str]] = [
+DUPLICATE_CLASS_SIGNALS: list[tuple[str, str]] = [
     ("model_communication_engine.py", r"class\s+ModelCommunicationEngine\b"),
 ]
 
@@ -71,10 +71,8 @@ def _debug_enabled() -> bool:
 
 def _dprint(msg: str) -> None:
     if _debug_enabled():
-        try:
+        with contextlib.suppress(Exception):
             print(msg, file=sys.stderr)
-        except Exception:
-            pass
 
 
 def is_text_file(path: Path) -> bool:
@@ -94,8 +92,8 @@ def count_occurrences(path: Path, pattern: str) -> int:
     return len(re.findall(pattern, text))
 
 
-def file_score_for_transfer(path: Path) -> List[str]:
-    tags: List[str] = []
+def file_score_for_transfer(path: Path) -> list[str]:
+    tags: list[str] = []
     lower = str(path).lower()
     for kw in TRANSFER_KEYWORDS:
         if kw in lower:
@@ -108,8 +106,8 @@ def file_score_for_transfer(path: Path) -> List[str]:
     return tags
 
 
-def file_score_for_prune(path: Path) -> List[str]:
-    tags: List[str] = []
+def file_score_for_prune(path: Path) -> list[str]:
+    tags: list[str] = []
     pstr = str(path)
     for hint in PRUNE_HINTS:
         if hint in pstr:
@@ -153,9 +151,9 @@ def build_current_index(root: Path) -> set:
     return idx
 
 
-def scan_repo(repo_path: Path, current_index: set) -> Dict:
-    transfer: List[Dict] = []
-    prune: List[Dict] = []
+def scan_repo(repo_path: Path, current_index: set) -> dict:
+    transfer: list[dict] = []
+    prune: list[dict] = []
 
     for dirpath, dirnames, filenames in os.walk(repo_path):
         # prune walk
@@ -202,7 +200,7 @@ def main() -> int:
 
     current_index = build_current_index(THIS_REPO)
 
-    report: Dict[str, Dict] = {}
+    report: dict[str, dict] = {}
     _dprint(f"[scanner] Base: {base}")
     for entry in sorted(base.iterdir()):
         if not entry.is_dir():

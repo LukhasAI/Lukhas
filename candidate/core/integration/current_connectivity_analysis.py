@@ -127,12 +127,11 @@ class ConnectivityAnalyzer:
 
             # Check for if __name__ == "__main__"
             for node in ast.walk(tree):
-                if isinstance(node, ast.If):
-                    if isinstance(node.test, ast.Compare) and (
-                        isinstance(node.test.left, ast.Name)
-                        and node.test.left.id == "__name__"
-                    ):
-                        metrics["has_main"] = True
+                if isinstance(node, ast.If) and isinstance(node.test, ast.Compare) and (
+                    isinstance(node.test.left, ast.Name)
+                    and node.test.left.id == "__name__"
+                ):
+                    metrics["has_main"] = True
 
         except Exception as e:
             print(f"  ⚠️  Error analyzing {relative_path}: {e}")

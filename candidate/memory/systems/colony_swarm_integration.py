@@ -356,9 +356,8 @@ class SwarmConsensusManager:
 
         # Always include arbiters
         for colony_id, profile in self.colonies.items():
-            if colony_id != proposing_colony:
-                if profile.role == ColonyRole.ARBITER:
-                    validators.append(colony_id)
+            if colony_id != proposing_colony and profile.role == ColonyRole.ARBITER:
+                validators.append(colony_id)
 
         # Add specialists if tags match
         for colony_id, profile in self.colonies.items():

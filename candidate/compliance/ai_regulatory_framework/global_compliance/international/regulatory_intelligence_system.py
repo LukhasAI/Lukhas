@@ -5,7 +5,7 @@ Monitors and analyzes global regulatory developments.
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from candidate.core.interfaces import CoreInterface
 
@@ -29,7 +29,7 @@ class RegulatoryIntelligenceSystem(CoreInterface):
         self._initialized = True
         logger.info("Regulatory Intelligence System initialized")
 
-    async def analyze_framework(self, framework: str) -> Dict[str, Any]:
+    async def analyze_framework(self, framework: str) -> dict[str, Any]:
         """Analyze a regulatory framework's requirements"""
 
         if framework in self.framework_database:

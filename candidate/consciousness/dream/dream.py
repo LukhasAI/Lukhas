@@ -6,7 +6,7 @@ This module consolidates access to the complex dream system through a simple int
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +59,7 @@ class DreamSystem:
         else:
             logger.warning("No dream engines available")
 
-    async def generate_dream(self, seed: Any = None) -> Dict[str, Any]:
+    async def generate_dream(self, seed: Any = None) -> dict[str, Any]:
         """Generate a dream from a seed"""
         self.initialize()
 
@@ -84,7 +84,7 @@ class DreamSystem:
             "engine": "none"
         }
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get dream system status"""
         self.initialize()
         return {

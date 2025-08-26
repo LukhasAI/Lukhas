@@ -8,7 +8,7 @@ import os
 import sys
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
@@ -41,7 +41,7 @@ orchestrator = ContextBusOrchestrator()
 # WebSocket connection manager
 class ConnectionManager:
     def __init__(self):
-        self.active_connections: Dict[str, WebSocket] = {}
+        self.active_connections: dict[str, WebSocket] = {}
 
     async def connect(self, websocket: WebSocket, client_id: str):
         await websocket.accept()
@@ -71,18 +71,18 @@ class LoginRequest(BaseModel):
 
 class PasskeyAuthRequest(BaseModel):
     lid: str
-    credential: Dict[str, Any]
+    credential: dict[str, Any]
 
 class ConsentRequest(BaseModel):
     lid: str
     resource_type: str
-    scopes: List[str]
+    scopes: list[str]
     purpose: str
 
 class WorkflowRequest(BaseModel):
     lid: str
     workflow_name: str
-    context: Optional[Dict[str, Any]] = None
+    context: Optional[dict[str, Any]] = None
 
 class FeedbackSubmission(BaseModel):
     lid: str

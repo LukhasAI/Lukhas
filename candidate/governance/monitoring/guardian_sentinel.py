@@ -13,7 +13,7 @@ import time
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Optional
 
 import websockets
 
@@ -30,11 +30,11 @@ class ThreatIndicator:
     severity: float  # 0.0 to 1.0
     source: str
     timestamp: datetime
-    details: Dict
+    details: dict
     recommended_action: str
     governance_escalation: bool = False
-    trinity_impact: Dict[str, float] = None
-    symbolic_signature: List[str] = None
+    trinity_impact: dict[str, float] = None
+    symbolic_signature: list[str] = None
 
     def __post_init__(self):
         if self.trinity_impact is None:
@@ -42,7 +42,7 @@ class ThreatIndicator:
         if self.symbolic_signature is None:
             self.symbolic_signature = ["⚠️", "🔍", "🛡️"]
 
-    def to_alert(self) -> Dict:
+    def to_alert(self) -> dict:
         """Convert to enhanced WebSocket alert format"""
         return {
             "type": "guardian_alert",
@@ -127,14 +127,14 @@ class GuardianSentinel(GlyphIntegrationMixin):
         self.guardian_health_history = deque(maxlen=50)
 
         # Enhanced threat tracking with governance
-        self.active_threats: List[ThreatIndicator] = []
-        self.intervention_history: List[Dict] = []
-        self.governance_escalations: List[Dict] = []
+        self.active_threats: list[ThreatIndicator] = []
+        self.intervention_history: list[dict] = []
+        self.governance_escalations: list[dict] = []
 
         # System state with governance integration
         self.monitoring_active = False
         self.websocket: Optional[websockets.WebSocketServerProtocol] = None
-        self.governance_log: List[Dict] = []
+        self.governance_log: list[dict] = []
 
         # Trinity Framework monitoring state
         self.trinity_components = {
@@ -685,7 +685,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
 
     # Enhanced intervention methods
 
-    async def _intervene_drift_spike(self, threat: ThreatIndicator) -> Dict:
+    async def _intervene_drift_spike(self, threat: ThreatIndicator) -> dict:
         """Intervene for drift spike with governance validation"""
         return {
             "action": "drift_dampening",
@@ -698,7 +698,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             }
         }
 
-    async def _intervene_entropy_surge(self, threat: ThreatIndicator) -> Dict:
+    async def _intervene_entropy_surge(self, threat: ThreatIndicator) -> dict:
         """Intervene for entropy surge with Trinity Framework consideration"""
         return {
             "action": "entropy_cooling",
@@ -708,7 +708,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             "symbolic_reinforcement": threat.symbolic_signature
         }
 
-    async def _intervene_pattern_anomaly(self, threat: ThreatIndicator) -> Dict:
+    async def _intervene_pattern_anomaly(self, threat: ThreatIndicator) -> dict:
         """Intervene for pattern anomaly with enhanced symbolic processing"""
         return {
             "action": "pattern_reinforcement",
@@ -721,7 +721,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             "symbolic_signature": threat.symbolic_signature
         }
 
-    async def _intervene_consciousness_instability(self, threat: ThreatIndicator) -> Dict:
+    async def _intervene_consciousness_instability(self, threat: ThreatIndicator) -> dict:
         """Intervene for consciousness instability with Trinity integration"""
         return {
             "action": "consciousness_anchoring",
@@ -731,7 +731,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             "consciousness_protection": threat.trinity_impact.get("consciousness", 0) > 0.7
         }
 
-    async def _intervene_governance_drift(self, threat: ThreatIndicator) -> Dict:
+    async def _intervene_governance_drift(self, threat: ThreatIndicator) -> dict:
         """Intervene for governance drift"""
         return {
             "action": "governance_restoration",
@@ -741,7 +741,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             "human_oversight_required": True
         }
 
-    async def _intervene_trinity_desync(self, threat: ThreatIndicator) -> Dict:
+    async def _intervene_trinity_desync(self, threat: ThreatIndicator) -> dict:
         """Intervene for Trinity Framework desynchronization"""
         return {
             "action": "trinity_resynchronization",
@@ -754,7 +754,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             }
         }
 
-    async def _intervene_identity_compromise(self, threat: ThreatIndicator) -> Dict:
+    async def _intervene_identity_compromise(self, threat: ThreatIndicator) -> dict:
         """Intervene for identity compromise"""
         return {
             "action": "identity_security_lockdown",
@@ -764,7 +764,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
             "trinity_protection": True
         }
 
-    async def _intervene_guardian_malfunction(self, threat: ThreatIndicator) -> Dict:
+    async def _intervene_guardian_malfunction(self, threat: ThreatIndicator) -> dict:
         """Intervene for guardian malfunction"""
         return {
             "action": "guardian_system_restoration",
@@ -863,7 +863,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         variance = sum((h - avg_health) ** 2 for h in healths) / len(healths)
         return max(0.0, 1.0 - variance * 4)  # Higher variance = lower sync
 
-    def _get_trinity_component_health(self) -> Dict[str, float]:
+    def _get_trinity_component_health(self) -> dict[str, float]:
         """Get current Trinity component health"""
         return {comp: data["health"] for comp, data in self.trinity_components.items()}
 
@@ -908,7 +908,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
         import random
         return random.uniform(0.85, 1.0)
 
-    async def _log_governance_action(self, action: str, metadata: Dict):
+    async def _log_governance_action(self, action: str, metadata: dict):
         """Log action in governance audit system"""
         if not self.governance_enabled:
             return
@@ -929,7 +929,7 @@ class GuardianSentinel(GlyphIntegrationMixin):
 
         logger.debug(f"🔍 Guardian Sentinel governance action logged: {action}")
 
-    def get_enhanced_threat_report(self) -> Dict:
+    def get_enhanced_threat_report(self) -> dict:
         """Generate enhanced threat analysis report with governance and Trinity metrics"""
         active_count = len([
             t for t in self.active_threats

@@ -14,7 +14,6 @@ import os
 import subprocess
 import sys
 from datetime import datetime
-from typing import Dict, List, Tuple
 
 import aiohttp
 import click
@@ -29,7 +28,7 @@ class SecurityFixer:
         self.vulnerabilities = []
         self.fixes_applied = []
 
-    def get_known_vulnerabilities(self) -> Dict:
+    def get_known_vulnerabilities(self) -> dict:
         """Get the vulnerabilities we identified from the Safety CLI scan"""
         return {
             "fastapi": {
@@ -121,7 +120,7 @@ class SecurityFixer:
             }
         }
 
-    async def analyze_fix_with_ollama(self, package: str, vuln_info: Dict) -> Dict:
+    async def analyze_fix_with_ollama(self, package: str, vuln_info: dict) -> dict:
         """Get AI-powered analysis and fix recommendations"""
         prompt = f"""You are a Python security expert. Analyze this vulnerability and provide fix recommendations:
 
@@ -141,20 +140,19 @@ Provide a JSON response with:
 Response must be valid JSON only."""
 
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    f"{self.ollama_host}/api/generate",
-                    json={
-                        "model": self.model,
-                        "prompt": prompt,
-                        "stream": False,
-                        "format": "json"
-                    },
-                    timeout=45
-                ) as resp:
-                    if resp.status == 200:
-                        data = await resp.json()
-                        return json.loads(data.get("response", "{}"))
+            async with aiohttp.ClientSession() as session, session.post(
+                f"{self.ollama_host}/api/generate",
+                json={
+                    "model": self.model,
+                    "prompt": prompt,
+                    "stream": False,
+                    "format": "json"
+                },
+                timeout=45
+            ) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    return json.loads(data.get("response", "{}"))
         except Exception as e:
             return {
                 "risk_assessment": f"Failed to analyze: {e}",
@@ -210,7 +208,7 @@ Response must be valid JSON only."""
 
         return False
 
-    def test_imports(self, packages: List[str]) -> Tuple[bool, List[str]]:
+    def test_imports(self, packages: list[str]) -> tuple[bool, list[str]]:
         """Test if packages can be imported after updates"""
         failed_imports = []
 
@@ -242,7 +240,7 @@ Response must be valid JSON only."""
 
         return len(failed_imports) == 0, failed_imports
 
-    async def fix_vulnerability(self, package: str, vuln_info: Dict) -> bool:
+    async def fix_vulnerability(self, package: str, vuln_info: dict) -> bool:
         """Fix a specific vulnerability"""
         click.echo(f"\n🔧 Fixing {package} vulnerability...")
         click.echo(f"   Current: {vuln_info['current']} → Target: {vuln_info['fixed']}")

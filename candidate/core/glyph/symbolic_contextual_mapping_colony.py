@@ -320,7 +320,7 @@ class ContextualMappingColony(BaseColony):
 
         # Quantum states
         if "quantum" in context:
-            quantum = context["quantum"]
+            context["quantum"]
             features["coherence_level"] = qi.get("coherence", 0.5)
             features["entanglement_strength"] = qi.get("entanglement", 0)
             features["superposition_count"] = qi.get("superposition_count", 0)
@@ -494,7 +494,7 @@ class ContextualMappingColony(BaseColony):
             modulated *= 0.5 + tolerance
 
         # Quantum modulation
-        quantum = context_features.get(ContextLayer.QUANTUM, {})
+        context_features.get(ContextLayer.QUANTUM, {})
         coherence = qi.get("coherence_level", 0.5)
         if coherence > 0.8:
             # High coherence amplifies all activations
@@ -585,7 +585,7 @@ class ContextualMappingColony(BaseColony):
         context_features: dict[ContextLayer, dict[str, Any]],
     ) -> dict[str, float]:
         """Process quantum superposition of GLYPHs."""
-        quantum = context_features.get(ContextLayer.QUANTUM, {})
+        context_features.get(ContextLayer.QUANTUM, {})
         superposition_count = qi.get("superposition_count", 0)
 
         if superposition_count > 0:
@@ -640,7 +640,7 @@ class ContextualMappingColony(BaseColony):
         confidence_factors.append(min(context_completeness, 1.0))
 
         # Factor 4: Quantum coherence
-        quantum = context_features.get(ContextLayer.QUANTUM, {})
+        context_features.get(ContextLayer.QUANTUM, {})
         coherence = qi.get("coherence_level", 0.5)
         confidence_factors.append(coherence)
 

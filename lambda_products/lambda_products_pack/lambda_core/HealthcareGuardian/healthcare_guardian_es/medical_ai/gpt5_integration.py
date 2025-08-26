@@ -8,7 +8,7 @@ import logging
 import os
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -19,11 +19,11 @@ class MedicationSchedule:
     name: str
     dosage: str
     frequency: str
-    times: List[str]
+    times: list[str]
     purpose: str
-    warnings: List[str]
-    interactions: List[str]
-    taken_today: List[bool]
+    warnings: list[str]
+    interactions: list[str]
+    taken_today: list[bool]
 
 
 @dataclass
@@ -31,8 +31,8 @@ class HealthQuery:
     """Health query with context"""
     query: str
     user_age: int
-    medical_history: List[str]
-    current_medications: List[str]
+    medical_history: list[str]
+    current_medications: list[str]
     language: str = "andaluz_spanish"
     urgency: str = "normal"  # normal, urgent, emergency
 
@@ -43,7 +43,7 @@ class GPT5HealthcareClient:
     Provides medical AI capabilities with Spanish localization
     """
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         """
         Initialize GPT-5 healthcare client
 
@@ -143,7 +143,7 @@ class GPT5HealthcareClient:
             }
         }
 
-    async def process_health_query(self, query: str, user_context: Dict = None) -> str:
+    async def process_health_query(self, query: str, user_context: dict = None) -> str:
         """
         Process a health query using GPT-5 healthcare capabilities
 
@@ -217,7 +217,7 @@ class GPT5HealthcareClient:
             "4. Tenga su lista de medicamentos a mano"
         )
 
-    def _prepare_medical_context(self, query: str, user_context: Dict = None) -> Dict:
+    def _prepare_medical_context(self, query: str, user_context: dict = None) -> dict:
         """Prepare context for GPT-5 medical query"""
         context = {
             'query': query,
@@ -239,7 +239,7 @@ class GPT5HealthcareClient:
 
         return context
 
-    async def _call_gpt5_healthcare(self, context: Dict) -> str:
+    async def _call_gpt5_healthcare(self, context: dict) -> str:
         """
         Call GPT-5 Healthcare API (simulated for now)
 
@@ -350,7 +350,7 @@ class GPT5HealthcareClient:
         disclaimer = disclaimers.get(urgency, '')
         return response + disclaimer
 
-    async def check_drug_interactions(self, medications: List[str]) -> Dict[str, Any]:
+    async def check_drug_interactions(self, medications: list[str]) -> dict[str, Any]:
         """
         Check for drug interactions between medications
 
@@ -394,7 +394,7 @@ class GPT5HealthcareClient:
 
         return interactions
 
-    def _check_interaction_pair(self, med1: str, med2: str) -> Optional[Dict]:
+    def _check_interaction_pair(self, med1: str, med2: str) -> Optional[dict]:
         """Check interaction between two medications"""
         # Known dangerous interactions
         dangerous_pairs = {
@@ -477,12 +477,10 @@ class GPT5HealthcareClient:
         # Format schedule for voice output
         current_hour = datetime.now().hour
 
-        if current_hour < 12:
-            period = "esta mañana"
-        elif current_hour < 20:
-            period = "esta tarde"
+        if current_hour < 12 or current_hour < 20:
+            pass
         else:
-            period = "esta noche"
+            pass
 
         # Find next medication
         next_med = None
@@ -516,7 +514,7 @@ class GPT5HealthcareClient:
         """
         # Extract medication name from query
         med_name = None
-        for med in self.medications.keys():
+        for med in self.medications:
             if med in query.lower():
                 med_name = med
                 break

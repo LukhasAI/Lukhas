@@ -27,7 +27,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 # Third-Party Imports
 import structlog
@@ -288,8 +288,8 @@ class EnhancedCoreIntegrator:
         self.component_status: dict[str, dict[str, Any]] = {}
 
         # Context Bus performance tracking
-        self._event_metrics: Dict[str, List[float]] = defaultdict(list)
-        self._context_handoff_times: List[float] = []
+        self._event_metrics: dict[str, list[float]] = defaultdict(list)
+        self._context_handoff_times: list[float] = []
         self._event_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="LUKHAS_Event")
         self._subscription_lock = threading.Lock()
 
@@ -687,7 +687,7 @@ class EnhancedCoreIntegrator:
         callback_function: Callable,
         component_id: Optional[str] = None,
         priority_level: str = "normal",
-        context_requirements: Optional[Dict[str, Any]] = None,
+        context_requirements: Optional[dict[str, Any]] = None,
     ) -> bool:
         """
         Subscribes a component's callback to a specific event type with orchestration support.
@@ -789,7 +789,7 @@ class EnhancedCoreIntegrator:
             )
             return False
 
-    def _handle_orchestration_workflows(self, event_type: str, event: Dict[str, Any]) -> None:
+    def _handle_orchestration_workflows(self, event_type: str, event: dict[str, Any]) -> None:
         """
         Handle orchestration-specific workflows based on event type.
         Implements transparent logging and step-by-step narrative generation.
@@ -851,8 +851,8 @@ class EnhancedCoreIntegrator:
 
     def _dispatch_event_to_subscribers(
         self,
-        subscribers: List[Dict[str, Any]],
-        event: Dict[str, Any],
+        subscribers: list[dict[str, Any]],
+        event: dict[str, Any],
         priority: str
     ) -> int:
         """
@@ -910,8 +910,8 @@ class EnhancedCoreIntegrator:
 
     def _meets_context_requirements(
         self,
-        event: Dict[str, Any],
-        subscriber: Dict[str, Any]
+        event: dict[str, Any],
+        subscriber: dict[str, Any]
     ) -> bool:
         """Check if event meets subscriber's context requirements."""
         requirements = subscriber.get("context_requirements", {})
@@ -926,8 +926,8 @@ class EnhancedCoreIntegrator:
 
     def _invoke_subscriber_callback(
         self,
-        subscriber: Dict[str, Any],
-        event: Dict[str, Any]
+        subscriber: dict[str, Any],
+        event: dict[str, Any]
     ) -> bool:
         """Invoke a single subscriber callback with performance tracking."""
         start_time = time.time()
@@ -1014,7 +1014,7 @@ class EnhancedCoreIntegrator:
                 error=str(e)
             )
 
-    def get_context_bus_metrics(self) -> Dict[str, Any]:
+    def get_context_bus_metrics(self) -> dict[str, Any]:
         """
         Get Context Bus performance metrics for monitoring and optimization.
         """

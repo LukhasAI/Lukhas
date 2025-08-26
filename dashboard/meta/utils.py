@@ -8,10 +8,10 @@ import json
 import statistics
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 
-def load_meta_metrics(path: Optional[Path] = None) -> Dict[str, Any]:
+def load_meta_metrics(path: Optional[Path] = None) -> dict[str, Any]:
     """
     Load meta metrics from JSON file.
 
@@ -43,7 +43,7 @@ def load_meta_metrics(path: Optional[Path] = None) -> Dict[str, Any]:
         return {}
 
 
-def parse_jsonl_snapshots(path: Optional[Path] = None) -> List[Dict[str, Any]]:
+def parse_jsonl_snapshots(path: Optional[Path] = None) -> list[dict[str, Any]]:
     """
     Parse JSONL snapshot file for drift history.
 
@@ -71,8 +71,8 @@ def parse_jsonl_snapshots(path: Optional[Path] = None) -> List[Dict[str, Any]]:
 
 
 def calculate_drift_trends(
-    snapshots: List[Dict[str, Any]], window_hours: int = 24
-) -> Dict[str, Any]:
+    snapshots: list[dict[str, Any]], window_hours: int = 24
+) -> dict[str, Any]:
     """
     Calculate drift trends from snapshots.
 
@@ -155,7 +155,7 @@ def calculate_drift_trends(
     }
 
 
-def entropy_color_code(entropy: float) -> Tuple[str, str]:
+def entropy_color_code(entropy: float) -> tuple[str, str]:
     """
     Get color code and status for entropy level.
 
@@ -177,7 +177,7 @@ def entropy_color_code(entropy: float) -> Tuple[str, str]:
         return "#ff0000", "critical"
 
 
-def format_persona_distribution(distribution: Dict[str, int]) -> List[Dict[str, Any]]:
+def format_persona_distribution(distribution: dict[str, int]) -> list[dict[str, Any]]:
     """
     Format persona distribution for visualization.
 
@@ -227,7 +227,7 @@ def get_persona_emoji(persona: str) -> str:
     return emoji_map.get(persona, "❓")
 
 
-def calculate_system_health(metrics: Dict[str, Any]) -> Dict[str, Any]:
+def calculate_system_health(metrics: dict[str, Any]) -> dict[str, Any]:
     """
     Calculate overall system health score.
 
@@ -295,7 +295,7 @@ def calculate_system_health(metrics: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def get_health_recommendation(score: float, issues: List[str]) -> str:
+def get_health_recommendation(score: float, issues: list[str]) -> str:
     """Get health recommendation based on score and issues"""
     if score >= 90:
         return "System operating optimally. Continue monitoring."

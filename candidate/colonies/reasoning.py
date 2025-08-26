@@ -4,7 +4,7 @@ Distributed reasoning and logic processing
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .base import BaseColony, ColonyAgent, ColonyRole, ColonyTask
 
@@ -75,7 +75,7 @@ class ReasoningColony(BaseColony):
             },
         ]
 
-    def get_default_capabilities(self) -> List[str]:
+    def get_default_capabilities(self) -> list[str]:
         """Default capabilities for reasoning agents"""
         return [
             "logical_inference",
@@ -105,7 +105,7 @@ class ReasoningColony(BaseColony):
         else:
             return {"status": "unknown_task_type", "task_type": task_type}
 
-    def _perform_logical_inference(self, premises: Dict[str, Any]) -> Dict[str, Any]:
+    def _perform_logical_inference(self, premises: dict[str, Any]) -> dict[str, Any]:
         """Perform logical inference from premises"""
         facts = premises.get("facts", [])
         rules = premises.get("rules", [])
@@ -125,7 +125,7 @@ class ReasoningColony(BaseColony):
 
         # Apply rules iteratively
         max_iterations = 10
-        for iteration in range(max_iterations):
+        for _iteration in range(max_iterations):
             new_facts = set()
 
             for rule in rules + self.inference_rules:
@@ -209,7 +209,7 @@ class ReasoningColony(BaseColony):
             return consequent
         return None
 
-    def _analyze_causality(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_causality(self, data: dict[str, Any]) -> dict[str, Any]:
         """Analyze causal relationships"""
         events = data.get("events", [])
 
@@ -237,7 +237,7 @@ class ReasoningColony(BaseColony):
 
         return result
 
-    def _recognize_patterns(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _recognize_patterns(self, data: dict[str, Any]) -> dict[str, Any]:
         """Recognize patterns in data"""
         sequence = data.get("sequence", [])
 
@@ -273,7 +273,7 @@ class ReasoningColony(BaseColony):
 
         return result
 
-    def _test_hypothesis(self, hypothesis_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _test_hypothesis(self, hypothesis_data: dict[str, Any]) -> dict[str, Any]:
         """Test a hypothesis against evidence"""
         hypothesis = hypothesis_data.get("hypothesis", "")
         evidence = hypothesis_data.get("evidence", [])
@@ -316,7 +316,7 @@ class ReasoningColony(BaseColony):
 
         return result
 
-    def _validate_argument(self, argument: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_argument(self, argument: dict[str, Any]) -> dict[str, Any]:
         """Validate logical structure of argument"""
         premises = argument.get("premises", [])
         conclusion = argument.get("conclusion", "")
@@ -359,7 +359,7 @@ class ReasoningColony(BaseColony):
 
         return result
 
-    def _map_concepts(self, concept_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _map_concepts(self, concept_data: dict[str, Any]) -> dict[str, Any]:
         """Map relationships between concepts"""
         concepts = concept_data.get("concepts", [])
 

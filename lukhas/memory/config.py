@@ -6,7 +6,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 import os
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import Any
 
 
 @dataclass
@@ -64,7 +64,7 @@ class MemoryConfig:
             importance_pruning_threshold=float(os.getenv("MEMORY_PRUNING_THRESHOLD", "0.1")),
         )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert config to dictionary"""
         return {
             "max_folds": self.max_folds,
@@ -91,7 +91,7 @@ class MemoryConfig:
             },
         }
 
-    def validate(self) -> Dict[str, Any]:
+    def validate(self) -> dict[str, Any]:
         """Validate configuration settings"""
         issues = []
 

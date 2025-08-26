@@ -6,7 +6,7 @@ Consolidated interface definitions to reduce duplication.
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class BaseInterface(ABC):
@@ -21,7 +21,7 @@ class BaseInterface(ABC):
         """Shutdown the component"""
 
     @abstractmethod
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get component status"""
 
 
@@ -84,10 +84,10 @@ class ModuleInfo:
     name: str
     version: str
     description: str
-    dependencies: List[str]
+    dependencies: list[str]
     status: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "name": self.name,

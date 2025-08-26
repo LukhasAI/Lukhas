@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from datetime import timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
@@ -62,25 +62,25 @@ class AuditEntry:
     confidence: float = 0.0
 
     # Context
-    input_data: Dict[str, Any] = field(default_factory=dict)
-    output_data: Dict[str, Any] = field(default_factory=dict)
-    system_state: Dict[str, Any] = field(default_factory=dict)
+    input_data: dict[str, Any] = field(default_factory=dict)
+    output_data: dict[str, Any] = field(default_factory=dict)
+    system_state: dict[str, Any] = field(default_factory=dict)
 
     # Influences
-    signals: Dict[str, float] = field(default_factory=dict)  # Active signals
-    policies: List[str] = field(default_factory=list)  # Applied policies
-    overrides: List[str] = field(default_factory=list)  # Manual overrides
+    signals: dict[str, float] = field(default_factory=dict)  # Active signals
+    policies: list[str] = field(default_factory=list)  # Applied policies
+    overrides: list[str] = field(default_factory=list)  # Manual overrides
 
     # Traceability
     parent_id: Optional[str] = None  # Parent decision
-    child_ids: List[str] = field(default_factory=list)  # Child decisions
-    related_ids: List[str] = field(default_factory=list)  # Related decisions
+    child_ids: list[str] = field(default_factory=list)  # Child decisions
+    related_ids: list[str] = field(default_factory=list)  # Related decisions
 
     # Metadata
     model_version: str = ""
     component: str = ""  # Component making decision
     user_id: Optional[str] = None
-    tags: Set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
 
     # Integrity
     checksum: str = ""  # Computed after creation
@@ -144,7 +144,7 @@ class AuditTrail:
         self._init_database()
 
         # Active session tracking
-        self.active_sessions: Dict[str, List[str]] = {}
+        self.active_sessions: dict[str, list[str]] = {}
 
         # Statistics
         self.stats = {
@@ -236,8 +236,8 @@ class AuditTrail:
         decision: str,
         reasoning: str = "",
         confidence: float = 0.0,
-        input_data: Optional[Dict[str, Any]] = None,
-        output_data: Optional[Dict[str, Any]] = None,
+        input_data: Optional[dict[str, Any]] = None,
+        output_data: Optional[dict[str, Any]] = None,
         session_id: str = "",
         parent_id: Optional[str] = None,
         **kwargs,
@@ -405,7 +405,7 @@ class AuditTrail:
         # Save explanations
         self._save_explanation(entry.audit_id, explanations)
 
-    def _save_explanation(self, audit_id: str, explanations: Dict[str, Any]):
+    def _save_explanation(self, audit_id: str, explanations: dict[str, Any]):
         """Save explanation to database"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -442,7 +442,7 @@ class AuditTrail:
             return self._row_to_entry(row)
         return None
 
-    def get_session_trail(self, session_id: str) -> List[AuditEntry]:
+    def get_session_trail(self, session_id: str) -> list[AuditEntry]:
         """Get complete audit trail for a session"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -456,7 +456,7 @@ class AuditTrail:
 
         return [self._row_to_entry(row) for row in rows]
 
-    def get_decision_chain(self, audit_id: str) -> List[AuditEntry]:
+    def get_decision_chain(self, audit_id: str) -> list[AuditEntry]:
         """Get complete decision chain (parents and children)"""
         entries = []
         visited = set()
@@ -484,7 +484,7 @@ class AuditTrail:
         entries.sort(key=lambda e: e.timestamp)
         return entries
 
-    def _row_to_entry(self, row: Tuple) -> AuditEntry:
+    def _row_to_entry(self, row: tuple) -> AuditEntry:
         """Convert database row to AuditEntry"""
         entry = AuditEntry(
             audit_id=row[0],
@@ -513,7 +513,7 @@ class AuditTrail:
         )
         return entry
 
-    def explain_decision(self, audit_id: str) -> Dict[str, Any]:
+    def explain_decision(self, audit_id: str) -> dict[str, Any]:
         """Get human-readable explanation for a decision"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -563,7 +563,7 @@ class AuditTrail:
         min_confidence: Optional[float] = None,
         component: Optional[str] = None,
         limit: int = 100,
-    ) -> List[AuditEntry]:
+    ) -> list[AuditEntry]:
         """
         Search audit trail with filters.
 
@@ -653,7 +653,7 @@ class AuditTrail:
         if deleted > 0:
             print(f"Cleaned up {deleted} old audit entries")
 
-    def get_statistics(self, time_window: Optional[timedelta] = None) -> Dict[str, Any]:
+    def get_statistics(self, time_window: Optional[timedelta] = None) -> dict[str, Any]:
         """Get audit trail statistics"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()

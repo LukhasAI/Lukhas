@@ -25,7 +25,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Security-specific imports
 try:
@@ -98,11 +98,11 @@ class SecurityAuditReport:
 
     audit_id: str
     timestamp: str
-    findings: List[SecurityFinding]
-    summary: Dict[str, int]
-    guardian_status: Dict[str, Any]
-    recommendations: List[str]
-    compliance_status: Dict[str, bool]
+    findings: list[SecurityFinding]
+    summary: dict[str, int]
+    guardian_status: dict[str, Any]
+    recommendations: list[str]
+    compliance_status: dict[str, bool]
 
 
 class SecretDetector:
@@ -156,7 +156,7 @@ class SecretDetector:
             r"<[A-Z_]+>",  # Template variables
         ]
 
-    def scan_content(self, content: str, file_path: str) -> List[SecurityFinding]:
+    def scan_content(self, content: str, file_path: str) -> list[SecurityFinding]:
         """Scan content for secrets"""
         findings = []
 
@@ -212,7 +212,7 @@ class DependencyScanner:
             "pillow": ["8.2.0", "8.3.1"],
         }
 
-    async def scan_requirements(self, requirements_file: str) -> List[SecurityFinding]:
+    async def scan_requirements(self, requirements_file: str) -> list[SecurityFinding]:
         """Scan requirements file for vulnerable dependencies"""
         findings = []
 
@@ -284,7 +284,7 @@ class CodeSecurityScanner:
             ],
         }
 
-    def scan_file(self, file_path: str) -> List[SecurityFinding]:
+    def scan_file(self, file_path: str) -> list[SecurityFinding]:
         """Scan a single file for security issues"""
         findings = []
 
@@ -354,7 +354,7 @@ class AdapterSecurityAuditor:
             ],
         }
 
-    async def audit_adapter_security(self, adapter_path: str) -> List[SecurityFinding]:
+    async def audit_adapter_security(self, adapter_path: str) -> list[SecurityFinding]:
         """Audit specific adapter for security issues"""
         findings = []
 
@@ -520,7 +520,7 @@ class SecurityAuditEngine:
         self.logger.info(f"Security audit completed: {len(findings)} findings")
         return report
 
-    async def _scan_for_secrets(self) -> List[SecurityFinding]:
+    async def _scan_for_secrets(self) -> list[SecurityFinding]:
         """Scan for exposed secrets"""
         findings = []
 
@@ -571,7 +571,7 @@ class SecurityAuditEngine:
 
         return findings
 
-    async def _scan_dependencies(self) -> List[SecurityFinding]:
+    async def _scan_dependencies(self) -> list[SecurityFinding]:
         """Scan for dependency vulnerabilities"""
         findings = []
 
@@ -596,7 +596,7 @@ class SecurityAuditEngine:
 
         return findings
 
-    async def _scan_code_security(self) -> List[SecurityFinding]:
+    async def _scan_code_security(self) -> list[SecurityFinding]:
         """Scan code for security vulnerabilities"""
         findings = []
 
@@ -610,7 +610,7 @@ class SecurityAuditEngine:
 
         return findings
 
-    async def _audit_access_controls(self) -> List[SecurityFinding]:
+    async def _audit_access_controls(self) -> list[SecurityFinding]:
         """Audit access control configurations"""
         findings = []
 
@@ -647,7 +647,7 @@ class SecurityAuditEngine:
 
         return findings
 
-    async def _audit_adapter_security(self) -> List[SecurityFinding]:
+    async def _audit_adapter_security(self) -> list[SecurityFinding]:
         """Audit adapter security configurations (Canary Pack 4)"""
         findings = []
 
@@ -675,7 +675,7 @@ class SecurityAuditEngine:
 
         return findings
 
-    async def _check_guardian_status(self) -> Dict[str, Any]:
+    async def _check_guardian_status(self) -> dict[str, Any]:
         """Check Guardian System status"""
         if not self.guardian_system:
             return {
@@ -693,7 +693,7 @@ class SecurityAuditEngine:
         except Exception as e:
             return {"status": "error", "reason": str(e)}
 
-    def _generate_summary(self, findings: List[SecurityFinding]) -> Dict[str, int]:
+    def _generate_summary(self, findings: list[SecurityFinding]) -> dict[str, int]:
         """Generate summary statistics"""
         summary = {
             "total_findings": len(findings),
@@ -713,7 +713,7 @@ class SecurityAuditEngine:
 
         return summary
 
-    def _generate_recommendations(self, findings: List[SecurityFinding]) -> List[str]:
+    def _generate_recommendations(self, findings: list[SecurityFinding]) -> list[str]:
         """Generate security recommendations"""
         recommendations = []
 
@@ -767,8 +767,8 @@ class SecurityAuditEngine:
         return recommendations
 
     def _check_compliance_status(
-        self, findings: List[SecurityFinding]
-    ) -> Dict[str, bool]:
+        self, findings: list[SecurityFinding]
+    ) -> dict[str, bool]:
         """Check compliance with security standards"""
         compliance = {
             "gdpr_data_protection": True,

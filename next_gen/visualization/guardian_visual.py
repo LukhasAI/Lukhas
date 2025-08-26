@@ -9,7 +9,6 @@ import math
 import random
 import sys
 import time
-from typing import Dict, List
 
 
 # Console control sequences
@@ -144,7 +143,7 @@ class GuardianVisualizer:
     def __init__(self, update_interval: float = 0.1):
         self.update_interval = update_interval
         self.current_status = "monitoring"
-        self.active_threats: List[Dict] = []
+        self.active_threats: list[dict] = []
         self.running = False
         self.start_time = time.time()
 
@@ -265,7 +264,7 @@ class GuardianVisualizer:
             end="",
         )
 
-    async def _draw_status_display(self, pattern: Dict):
+    async def _draw_status_display(self, pattern: dict):
         """Draw current Guardian status with glyph and description"""
         # Status line
         print(Console.move_cursor(5, 20), end="")
@@ -296,7 +295,7 @@ class GuardianVisualizer:
             end="",
         )
 
-    async def _draw_chevron_array(self, pattern: Dict):
+    async def _draw_chevron_array(self, pattern: dict):
         """Draw animated chevron array showing Guardian activity"""
         chevron_char = pattern["chevron"]
         base_color = pattern["color"]

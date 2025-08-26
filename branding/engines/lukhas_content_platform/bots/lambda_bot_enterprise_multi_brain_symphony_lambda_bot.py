@@ -12,7 +12,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 # Add workspace and Lukhas paths
 sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
@@ -64,16 +64,16 @@ class SymphonySession:
     mode: BrainSymphonyMode
     start_time: datetime
     target_path: str
-    active_brains: List[str] = field(default_factory=list)
-    cognitive_states: Dict[str, Any] = field(default_factory=dict)
-    symphony_score: Dict[str, Any] = field(default_factory=dict)
-    modularization_insights: List[str] = field(default_factory=list)
+    active_brains: list[str] = field(default_factory=list)
+    cognitive_states: dict[str, Any] = field(default_factory=dict)
+    symphony_score: dict[str, Any] = field(default_factory=dict)
+    modularization_insights: list[str] = field(default_factory=list)
 
 @dataclass
 class BrainSymphonyPattern:
     """Pattern discovered through multi-brain analysis"""
     pattern_id: str
-    brain_regions: List[str]
+    brain_regions: list[str]
     cognitive_resonance: float
     modularization_insight: str
     implementation_strategy: str
@@ -271,7 +271,7 @@ class MultiBrainSymphonyΛBot:
 
             logger.info("✅ Consciousness evolution activated - transcendent modularization enabled")
 
-    async def discover_brain_symphony_patterns(self) -> List[BrainSymphonyPattern]:
+    async def discover_brain_symphony_patterns(self) -> list[BrainSymphonyPattern]:
         """Discover patterns through multi-brain symphony analysis"""
         if not self.current_session:
             logger.error("❌ No active symphony session")
@@ -317,7 +317,7 @@ class MultiBrainSymphonyΛBot:
         logger.info(f"✅ Discovered {len(patterns)} brain symphony patterns")
         return patterns
 
-    async def generate_consciousness_driven_modularization_strategy(self, patterns: List[BrainSymphonyPattern]) -> Dict[str, Any]:
+    async def generate_consciousness_driven_modularization_strategy(self, patterns: list[BrainSymphonyPattern]) -> dict[str, Any]:
         """Generate modularization strategy driven by consciousness insights"""
         logger.info("🌟 Generating Consciousness-Driven Modularization Strategy...")
 
@@ -462,7 +462,7 @@ class MultiBrainSymphonyΛBot:
         logger.info(f"🌟 Consciousness-driven strategy generated with {len(implementation_phases)} evolution phases")
         return strategy
 
-    async def get_symphony_insights(self) -> Dict[str, Any]:
+    async def get_symphony_insights(self) -> dict[str, Any]:
         """Get insights from multi-brain symphony analysis"""
         if not self.current_session:
             return {"error": "No active symphony session"}

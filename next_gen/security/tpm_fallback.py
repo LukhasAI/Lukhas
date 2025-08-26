@@ -13,7 +13,7 @@ import secrets
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
@@ -31,7 +31,7 @@ class TPMKey:
     created_at: datetime
     usage_count: int = 0
     last_used: Optional[datetime] = None
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -60,10 +60,10 @@ class TPMFallback:
     ):
         self.keystore_path = Path(keystore_path)
         self.master_key_file = Path(master_key_file)
-        self.keys: Dict[str, TPMKey] = {}
-        self.key_data: Dict[str, bytes] = {}  # Encrypted key storage
+        self.keys: dict[str, TPMKey] = {}
+        self.key_data: dict[str, bytes] = {}  # Encrypted key storage
         self.master_key: Optional[bytes] = None
-        self.platform_measurements: Dict[str, str] = {}
+        self.platform_measurements: dict[str, str] = {}
 
         # Initialize TPM simulation
         self._initialize_tpm()
@@ -360,11 +360,11 @@ class TPMFallback:
             logger.error(f"Failed to decrypt data: {e}")
             return None
 
-    def get_platform_measurements(self) -> Dict[str, str]:
+    def get_platform_measurements(self) -> dict[str, str]:
         """Get platform configuration measurements"""
         return self.platform_measurements.copy()
 
-    def attest_platform(self, nonce: bytes) -> Dict[str, Any]:
+    def attest_platform(self, nonce: bytes) -> dict[str, Any]:
         """Generate platform attestation (simulated)"""
         # Create attestation data
         attestation_data = {
@@ -389,14 +389,14 @@ class TPMFallback:
             "signing_key": platform_key_id,
         }
 
-    def get_key_info(self, key_id: str) -> Optional[Dict]:
+    def get_key_info(self, key_id: str) -> Optional[dict]:
         """Get key information"""
         if key_id not in self.keys:
             return None
 
         return asdict(self.keys[key_id])
 
-    def list_keys(self) -> List[Dict]:
+    def list_keys(self) -> list[dict]:
         """List all keys"""
         return [asdict(key) for key in self.keys.values()]
 
@@ -417,7 +417,7 @@ class TPMFallback:
         """Generate cryptographically secure random bytes"""
         return secrets.token_bytes(length)
 
-    def health_check(self) -> Dict[str, Any]:
+    def health_check(self) -> dict[str, Any]:
         """Perform TPM health check"""
         total_keys = len(self.keys)
         active_keys = sum(1 for k in self.keys.values() if k.usage_count > 0)

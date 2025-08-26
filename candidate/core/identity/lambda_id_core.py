@@ -12,7 +12,7 @@ import secrets
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 import jwt
 
@@ -86,7 +86,7 @@ class LukhasIDGenerator:
         self.entropy_source = secrets.SystemRandom()
         self._namespace_cache = {}
 
-    def generate_lid(self, namespace: str, metadata: Dict[str, Any]) -> str:
+    def generate_lid(self, namespace: str, metadata: dict[str, Any]) -> str:
         """Generate unique ΛID with namespace validation"""
         start = time.perf_counter()
 
@@ -226,8 +226,8 @@ class OIDCProvider:
             logger.error(f"❌ Failed to issue ID token for ΛID {lid}: {str(e)}")
             raise InvalidTokenError(f"Token issuance failed: {str(e)}") from e
 
-    def issue_access_token(self, lid: str, scope: List[str],
-                          client_id: str) -> Dict[str, Any]:
+    def issue_access_token(self, lid: str, scope: list[str],
+                          client_id: str) -> dict[str, Any]:
         """Issue OAuth2 access token with validation"""
         try:
             # Input validation
@@ -262,7 +262,7 @@ class OIDCProvider:
             logger.error(f"❌ Failed to issue access token for ΛID {lid}: {str(e)}")
             raise InvalidTokenError(f"Access token issuance failed: {str(e)}") from e
 
-    def validate_token(self, token: str) -> Dict[str, Any]:
+    def validate_token(self, token: str) -> dict[str, Any]:
         """Validate and decode token"""
         try:
             # For ID tokens (JWT)
@@ -303,7 +303,7 @@ class WebAuthnPasskeyManager:
 
         logger.info("🛡️ WebAuthn Passkey Manager initialized with security monitoring")
 
-    def initiate_registration(self, lid: str, user_email: str) -> Dict[str, Any]:
+    def initiate_registration(self, lid: str, user_email: str) -> dict[str, Any]:
         """Start passkey registration ceremony with security validation"""
         try:
             # Input validation
@@ -359,7 +359,7 @@ class WebAuthnPasskeyManager:
             logger.error(f"❌ WebAuthn registration failed for {lid}: {str(e)}")
             raise AuthenticationError(f"Registration initiation failed: {str(e)}") from e
 
-    def complete_registration(self, lid: str, credential: Dict) -> bool:
+    def complete_registration(self, lid: str, credential: dict) -> bool:
         """Complete passkey registration"""
         if lid not in self.challenges:
             return False
@@ -381,7 +381,7 @@ class WebAuthnPasskeyManager:
         del self.challenges[lid]
         return True
 
-    def initiate_authentication(self, lid: str) -> Dict[str, Any]:
+    def initiate_authentication(self, lid: str) -> dict[str, Any]:
         """Start passkey authentication ceremony"""
         challenge = base64.urlsafe_b64encode(secrets.token_bytes(32)).decode()
 
@@ -400,7 +400,7 @@ class WebAuthnPasskeyManager:
             }
         }
 
-    def verify_authentication(self, lid: str, assertion: Dict) -> bool:
+    def verify_authentication(self, lid: str, assertion: dict) -> bool:
         """Verify passkey authentication"""
         if lid not in self.challenges:
             return False
@@ -437,7 +437,7 @@ class WebAuthnPasskeyManager:
         if len(self._failed_attempts[key]) >= max_attempts:
             raise AuthenticationError(f"Rate limit exceeded for {operation}")
 
-    def _log_security_event(self, lid: str, event_type: str, details: Dict[str, Any]) -> None:
+    def _log_security_event(self, lid: str, event_type: str, details: dict[str, Any]) -> None:
         """🛡️ Log security events for audit trail"""
         event = {
             'timestamp': time.time(),
@@ -465,7 +465,7 @@ class FallbackAuthMethods:
         return base64.b32encode(secrets.token_bytes(20)).decode()
 
     @staticmethod
-    def generate_backup_codes(count: int = 10) -> List[str]:
+    def generate_backup_codes(count: int = 10) -> list[str]:
         """Generate recovery codes"""
         codes = []
         for _ in range(count):
@@ -520,7 +520,7 @@ class LukhasIdentityService:
         logger.info("⚛️🧠🛡️ LUKHAS Identity Service initialized with Trinity Framework integration")
 
     def register_user(self, email: str, display_name: str,
-                     consent_id: Optional[str] = None) -> Dict[str, Any]:
+                     consent_id: Optional[str] = None) -> dict[str, Any]:
         """Register new user with ΛID"""
         start = time.perf_counter()
 
@@ -556,7 +556,7 @@ class LukhasIdentityService:
         }
 
     def authenticate(self, lid: str, method: str = "passkey",
-                    credential: Optional[Dict] = None) -> Dict[str, Any]:
+                    credential: Optional[dict] = None) -> dict[str, Any]:
         """Authenticate user with specified method"""
         start = time.perf_counter()
 
@@ -598,7 +598,7 @@ class LukhasIdentityService:
         }
 
     @property
-    def trinity_status(self) -> Dict[str, bool]:
+    def trinity_status(self) -> dict[str, bool]:
         """
         Trinity Framework integration status
         ⚛️ Identity: Core identity authentication system
@@ -608,7 +608,7 @@ class LukhasIdentityService:
         return self._trinity_framework_active.copy()
 
     @property
-    def performance_metrics(self) -> Dict[str, Union[float, int, bool]]:
+    def performance_metrics(self) -> dict[str, Union[float, int, bool]]:
         """
         Real-time performance metrics for Trinity Framework consciousness
         Tracks authentication latency against <100ms target
@@ -663,19 +663,19 @@ class LukhasIdentityService:
         logger.debug(f"🛡️ Checking rate limit for {lid}")
         pass
 
-    def _verify_otp(self, lid: str, credential: Optional[Dict]) -> bool:
+    def _verify_otp(self, lid: str, credential: Optional[dict]) -> bool:
         """🛡️ Verify OTP credential"""
         # Placeholder for OTP verification implementation
         logger.debug(f"🛡️ OTP verification for {lid}")
         return False  # Not implemented yet
 
-    def _verify_backup_code(self, lid: str, credential: Optional[Dict]) -> bool:
+    def _verify_backup_code(self, lid: str, credential: Optional[dict]) -> bool:
         """🛡️ Verify backup code credential"""
         # Placeholder for backup code verification implementation
         logger.debug(f"🛡️ Backup code verification for {lid}")
         return False  # Not implemented yet
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """🧠 Get current performance and security metrics (Legacy method)"""
         return {
             "performance": self.metrics,
@@ -700,7 +700,7 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
         trace_id = f"LT-{secrets.token_hex(16)}"
 
         # Create audit record with Trinity Framework context
-        audit_record = {
+        {
             'trace_id': trace_id,
             'lid': lid,
             'action': action,
@@ -724,7 +724,7 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
         return f"LT-ERROR-{secrets.token_hex(8)}"
 
 
-def validate_trinity_framework() -> Dict[str, bool]:
+def validate_trinity_framework() -> dict[str, bool]:
     """
     Validate Trinity Framework integration
     ⚛️ Identity 🧠 Consciousness 🛡️ Guardian

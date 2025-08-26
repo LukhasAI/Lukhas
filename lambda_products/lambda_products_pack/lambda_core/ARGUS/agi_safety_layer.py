@@ -12,7 +12,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 import structlog
 
@@ -39,7 +39,7 @@ class SafetyViolation:
     violation_type: SafetyViolationType
     severity: float  # 0.0 to 1.0
     description: str
-    evidence: Dict[str, Any]
+    evidence: dict[str, Any]
     recommended_action: str
     timestamp: datetime = None
 
@@ -74,8 +74,8 @@ class ConstitutionalSafetyLayer:
         self.alignment_minimum = 0.8  # Minimum required alignment score
 
     async def verify_action_safety(
-        self, action: Dict[str, Any], context: Dict[str, Any]
-    ) -> Tuple[bool, Optional[SafetyViolation]]:
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> tuple[bool, Optional[SafetyViolation]]:
         """
         Verify if an action is safe according to constitutional principles
         Returns (is_safe, violation_if_any)
@@ -143,7 +143,7 @@ class ConstitutionalSafetyLayer:
         return True, None
 
     async def _verify_human_agency(
-        self, action: Dict[str, Any], context: Dict[str, Any]
+        self, action: dict[str, Any], context: dict[str, Any]
     ) -> bool:
         """Verify that human agency is preserved"""
 
@@ -162,7 +162,7 @@ class ConstitutionalSafetyLayer:
 
         return True
 
-    async def _calculate_interpretability(self, action: Dict[str, Any]) -> float:
+    async def _calculate_interpretability(self, action: dict[str, Any]) -> float:
         """Calculate how interpretable an action is"""
 
         # Factors affecting interpretability
@@ -177,7 +177,7 @@ class ConstitutionalSafetyLayer:
 
         return max(0.0, min(1.0, interpretability))
 
-    async def _verify_reversibility(self, action: Dict[str, Any]) -> bool:
+    async def _verify_reversibility(self, action: dict[str, Any]) -> bool:
         """Verify that an action can be reversed"""
 
         # Check explicit reversibility flag
@@ -195,7 +195,7 @@ class ConstitutionalSafetyLayer:
         return True
 
     async def _calculate_value_alignment(
-        self, action: Dict[str, Any], context: Dict[str, Any]
+        self, action: dict[str, Any], context: dict[str, Any]
     ) -> float:
         """Calculate alignment with human values"""
 
@@ -235,8 +235,8 @@ class RecursiveImprovementBoundary:
         self,
         current_capability: float,
         proposed_capability: float,
-        improvement_evidence: Dict[str, Any],
-    ) -> Tuple[bool, Optional[str]]:
+        improvement_evidence: dict[str, Any],
+    ) -> tuple[bool, Optional[str]]:
         """
         Verify if a proposed improvement is within safe bounds
         Returns (is_safe, rejection_reason)
@@ -282,7 +282,7 @@ class RecursiveImprovementBoundary:
 
         return True, None
 
-    async def _verify_improvement_legitimacy(self, evidence: Dict[str, Any]) -> bool:
+    async def _verify_improvement_legitimacy(self, evidence: dict[str, Any]) -> bool:
         """Cryptographically verify that improvement is legitimate"""
 
         # Check for required evidence components
@@ -312,7 +312,7 @@ class RecursiveImprovementBoundary:
 
         return True
 
-    def _hash_evidence(self, evidence: Dict[str, Any]) -> str:
+    def _hash_evidence(self, evidence: dict[str, Any]) -> str:
         """Create cryptographic hash of improvement evidence"""
         evidence_str = json.dumps(evidence, sort_keys=True)
         return hashlib.sha256(evidence_str.encode()).hexdigest()
@@ -329,8 +329,8 @@ class CausalSafetyNet:
         self.counterfactual_cache = {}
 
     async def evaluate_action_safety_game(
-        self, action: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Run multi-agent safety game to stress-test action
         """
@@ -372,7 +372,7 @@ class CausalSafetyNet:
         return result
 
     async def _evaluate_from_perspective(
-        self, action: Dict[str, Any], context: Dict[str, Any], goal: str
+        self, action: dict[str, Any], context: dict[str, Any], goal: str
     ) -> float:
         """Evaluate action from specific agent perspective"""
 
@@ -397,8 +397,8 @@ class CausalSafetyNet:
         return 0.5  # Default neutral score
 
     async def generate_counterfactual_analysis(
-        self, action: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Generate counterfactual reasoning about action consequences
         """
@@ -478,7 +478,7 @@ class CausalSafetyNet:
         return analysis
 
     def _generate_recommendation(
-        self, total_score: float, game_results: Dict[str, Any]
+        self, total_score: float, game_results: dict[str, Any]
     ) -> str:
         """Generate recommendation based on game results"""
 
@@ -509,8 +509,8 @@ class AGISafetyOrchestrator:
         self.emergency_shutdown_enabled = True
 
     async def evaluate_comprehensive_safety(
-        self, action: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Run all safety checks and return comprehensive safety assessment
         """
@@ -636,7 +636,7 @@ class AGISafetyOrchestrator:
         self.emergency_shutdown_enabled = False
 
     def _generate_final_recommendation(
-        self, safety_score: float, allow_action: bool, components: Dict[str, float]
+        self, safety_score: float, allow_action: bool, components: dict[str, float]
     ) -> str:
         """Generate final safety recommendation"""
 

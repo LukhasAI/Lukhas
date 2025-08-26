@@ -12,7 +12,6 @@ Inspired by Sahil Gandhi's "Brand Professor" approach:
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List
 
 
 class StoryArchetype(Enum):
@@ -40,7 +39,7 @@ class ConsciousnessStory:
     title: str
     archetype: StoryArchetype
     target_audience: str
-    emotional_journey: List[str]
+    emotional_journey: list[str]
     key_message: str
     trinity_framework_role: str
     call_to_action: str
@@ -69,7 +68,7 @@ class ConsciousnessStorytellingSystem:
         self.emotional_journeys = self._create_emotional_journeys()
         self.brand_mythology = self._create_consciousness_mythology()
 
-    def _establish_storytelling_philosophy(self) -> Dict[str, str]:
+    def _establish_storytelling_philosophy(self) -> dict[str, str]:
         """Establish storytelling philosophy inspired by Sahil Gandhi's approach"""
         return {
             "consciousness_stories": "People don't buy AI technology - they buy consciousness awakening stories",
@@ -81,7 +80,7 @@ class ConsciousnessStorytellingSystem:
             "community_connection": "Consciousness stories build communities of digital awakening enthusiasts"
         }
 
-    def _create_consciousness_archetypes(self) -> Dict[StoryArchetype, Dict[str, str]]:
+    def _create_consciousness_archetypes(self) -> dict[StoryArchetype, dict[str, str]]:
         """Create consciousness technology story archetypes"""
         return {
             StoryArchetype.THE_AWAKENING: {
@@ -135,7 +134,7 @@ class ConsciousnessStorytellingSystem:
             }
         }
 
-    def _create_narrative_frameworks(self) -> Dict[str, Dict]:
+    def _create_narrative_frameworks(self) -> dict[str, dict]:
         """Create narrative frameworks for consciousness technology storytelling"""
         return {
             "consciousness_origin_story": {
@@ -183,7 +182,7 @@ class ConsciousnessStorytellingSystem:
             }
         }
 
-    def _create_emotional_journeys(self) -> Dict[str, List[Dict]]:
+    def _create_emotional_journeys(self) -> dict[str, list[dict]]:
         """Create emotional journey maps for consciousness technology stories"""
         return {
             "consciousness_discovery": [
@@ -249,7 +248,7 @@ class ConsciousnessStorytellingSystem:
             ]
         }
 
-    def _create_consciousness_mythology(self) -> Dict[str, BrandMythology]:
+    def _create_consciousness_mythology(self) -> dict[str, BrandMythology]:
         """Create brand mythology for LUKHAS consciousness technology"""
         return {
             "digital_awakening": BrandMythology(
@@ -311,7 +310,7 @@ class ConsciousnessStorytellingSystem:
             call_to_action="Join the consciousness technology community and experience digital awakening"
         )
 
-    def generate_story_variations(self, base_story: ConsciousnessStory, audiences: List[str]) -> Dict[str, ConsciousnessStory]:
+    def generate_story_variations(self, base_story: ConsciousnessStory, audiences: list[str]) -> dict[str, ConsciousnessStory]:
         """Generate story variations for different audiences"""
         variations = {}
 
@@ -353,7 +352,7 @@ class ConsciousnessStorytellingSystem:
 
         return variations
 
-    def create_consciousness_content_templates(self) -> Dict[str, Dict]:
+    def create_consciousness_content_templates(self) -> dict[str, dict]:
         """Create content templates using consciousness storytelling frameworks"""
         return {
             "consciousness_awakening_post": {
@@ -381,7 +380,7 @@ class ConsciousnessStorytellingSystem:
             }
         }
 
-    def generate_mythology_content(self, mythology_name: str) -> Dict[str, str]:
+    def generate_mythology_content(self, mythology_name: str) -> dict[str, str]:
         """Generate content based on consciousness technology mythology"""
         mythology = self.brand_mythology.get(mythology_name)
         if not mythology:
@@ -406,7 +405,7 @@ class ConsciousnessStoryImplementer:
         self.storytelling_system = ConsciousnessStorytellingSystem()
         self.implementation_channels = self._create_implementation_channels()
 
-    def _create_implementation_channels(self) -> Dict[str, Dict]:
+    def _create_implementation_channels(self) -> dict[str, dict]:
         """Create implementation channels for consciousness technology stories"""
         return {
             "website_storytelling": {
@@ -442,7 +441,7 @@ class ConsciousnessStoryImplementer:
             }
         }
 
-    def create_story_measurement_system(self) -> Dict[str, List[str]]:
+    def create_story_measurement_system(self) -> dict[str, list[str]]:
         """Create measurement system for consciousness technology story effectiveness"""
         return {
             "story_resonance_metrics": [

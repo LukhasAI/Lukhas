@@ -407,13 +407,12 @@ class AdvancedHaikuGenerator:
             branded_haiku = get_brand_voice(enhanced_haiku, brand_context)
 
             # Validate for brand compliance
-            validation_result = validate_output(branded_haiku, brand_context)
+            validate_output(branded_haiku, brand_context)
 
             # Apply normalization if needed
             final_haiku = normalize_output_text(branded_haiku, brand_context)
         else:
             final_haiku = enhanced_haiku
-            validation_result = {"valid": True, "issues": []}
 
         # Ensure perfect syllable structure
         final_haiku = self._ensure_syllable_structure(final_haiku)

@@ -1,6 +1,6 @@
 import os
 import time
-from typing import Any, Dict
+from typing import Any
 
 from lukhas.observability.matriz_decorators import instrument
 
@@ -11,7 +11,7 @@ def _rate_limit_ok() -> bool:
     return True
 
 @instrument("CONTEXT", label="orchestration:handoff", salience=0.4, urgency=0.7)
-def handoff_context(ctx: Dict[str, Any]) -> Dict[str, Any]:
+def handoff_context(ctx: dict[str, Any]) -> dict[str, Any]:
     """
     Minimal, safe context bus handoff.
     - In Phase 3, wire to bus providers via registry if FEATURE enabled

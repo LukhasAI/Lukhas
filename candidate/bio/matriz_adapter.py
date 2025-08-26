@@ -7,7 +7,7 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class BioMatrizAdapter:
@@ -18,10 +18,10 @@ class BioMatrizAdapter:
     @staticmethod
     def create_node(
         node_type: str,
-        state: Dict[str, float],
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        state: dict[str, float],
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for bio events"""
 
         node = {
@@ -59,7 +59,7 @@ class BioMatrizAdapter:
         amplitude: float,
         phase: float,
         oscillator_type: str = "neural"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit an oscillator state node"""
 
         return BioMatrizAdapter.create_node(
@@ -84,7 +84,7 @@ class BioMatrizAdapter:
         coherence_score: float,
         entanglement_level: float,
         system: str = "default"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a quantum-inspired coherence node"""
 
         return BioMatrizAdapter.create_node(
@@ -110,7 +110,7 @@ class BioMatrizAdapter:
         fitness_before: float,
         fitness_after: float,
         mutation_rate: float = 0.01
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a bio-inspired adaptation event node"""
 
         improvement = fitness_after - fitness_before
@@ -136,8 +136,8 @@ class BioMatrizAdapter:
     @staticmethod
     def emit_awareness_pulse(
         awareness_level: float,
-        sensory_inputs: Dict[str, float]
-    ) -> Dict[str, Any]:
+        sensory_inputs: dict[str, float]
+    ) -> dict[str, Any]:
         """Emit a bio-awareness pulse node"""
 
         avg_sensory = sum(sensory_inputs.values()) / len(sensory_inputs) if sensory_inputs else 0
@@ -160,7 +160,7 @@ class BioMatrizAdapter:
         )
 
     @staticmethod
-    def validate_node(node: Dict[str, Any]) -> bool:
+    def validate_node(node: dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
 
@@ -170,14 +170,10 @@ class BioMatrizAdapter:
 
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-        for field in required_prov:
-            if field not in node.get("provenance", {}):
-                return False
-
-        return True
+        return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
-    def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+    def save_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/bio")

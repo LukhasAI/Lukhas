@@ -12,7 +12,6 @@ import sys
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List
 
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -57,7 +56,7 @@ class EliteContentOrchestrator:
         self.databases_path = self.base_path / "databases"
 
         self.voice_analyzer = VoiceCoherenceAnalyzer()
-        self.systems: List[ContentSystem] = []
+        self.systems: list[ContentSystem] = []
         self.elite_threshold = 85.0  # 85%+ voice coherence for elite status
 
         # LUKHAS AI consciousness technology brand standards
@@ -101,7 +100,7 @@ class EliteContentOrchestrator:
 
         return logger
 
-    async def discover_systems(self) -> List[ContentSystem]:
+    async def discover_systems(self) -> list[ContentSystem]:
         """Discover all content systems in elite architecture"""
         self.logger.info("🔍 Discovering LUKHAS AI content systems...")
 
@@ -313,7 +312,7 @@ class EliteContentOrchestrator:
                 timestamp=datetime.now().isoformat()
             )
 
-    async def _generate_orchestration_report(self, systems: List[ContentSystem], avg_coherence: float):
+    async def _generate_orchestration_report(self, systems: list[ContentSystem], avg_coherence: float):
         """Generate comprehensive orchestration report"""
         report_path = self.base_path / "ELITE_ORCHESTRATION_REPORT.md"
 
@@ -387,7 +386,7 @@ class EliteContentOrchestrator:
 
         self.logger.info(f"📊 Generated orchestration report: {report_path}")
 
-    async def _save_systems_configuration(self, systems: List[ContentSystem]):
+    async def _save_systems_configuration(self, systems: list[ContentSystem]):
         """Save systems configuration for tracking"""
         config_path = self.base_path / "elite_systems_configuration.json"
 

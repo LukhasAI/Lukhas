@@ -9,7 +9,6 @@ import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -33,9 +32,9 @@ class GlyphMutation:
     user_id: str
     drift_delta: float
     reason: str
-    metadata: Dict = field(default_factory=dict)
+    metadata: dict = field(default_factory=dict)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         return {
             "timestamp": self.timestamp.isoformat(),
             "from_glyph": self.from_glyph,
@@ -58,12 +57,12 @@ class ConsentNode:
     """Node in the consent lineage tree"""
 
     node_id: str
-    glyphs: List[str]
+    glyphs: list[str]
     action: str
     outcome: str
     drift_score: float
-    children: List["ConsentNode"] = field(default_factory=list)
-    mutations: List[GlyphMutation] = field(default_factory=list)
+    children: list["ConsentNode"] = field(default_factory=list)
+    mutations: list[GlyphMutation] = field(default_factory=list)
 
     def add_child(self, child: "ConsentNode"):
         self.children.append(child)
@@ -118,8 +117,8 @@ class SymbolicMutationTree:
             drift_score=0.0,
         )
         self.current_drift = 0.0
-        self.mutation_history: List[GlyphMutation] = []
-        self.active_paths: Dict[str, ConsentNode] = {}
+        self.mutation_history: list[GlyphMutation] = []
+        self.active_paths: dict[str, ConsentNode] = {}
 
         logger.info(
             f"🌳 TrustHelix initialized with genesis: {self.genesis_hash[:16]}..."
@@ -131,8 +130,8 @@ class SymbolicMutationTree:
         return "60baf875152a4453a62a908e110fe6acb7b093ac3678536867ba9e55b4cd512a"
 
     def track_action(
-        self, user_id: str, glyphs: List[str], action: str, outcome: str = "success"
-    ) -> Tuple[List[str], float]:
+        self, user_id: str, glyphs: list[str], action: str, outcome: str = "success"
+    ) -> tuple[list[str], float]:
         """
         Track a user action and return mutated glyphs with new drift score
         """
@@ -244,7 +243,7 @@ class SymbolicMutationTree:
         else:
             return DriftState.UNSTABLE
 
-    def get_consent_path(self, user_id: str) -> List[Dict]:
+    def get_consent_path(self, user_id: str) -> list[dict]:
         """Get consent path for a specific user"""
         path = []
 
@@ -268,7 +267,7 @@ class SymbolicMutationTree:
 
         return list(reversed(path))
 
-    def export_mutation_log(self) -> List[Dict]:
+    def export_mutation_log(self) -> list[dict]:
         """Export full mutation history"""
         return [m.to_dict() for m in self.mutation_history]
 

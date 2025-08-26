@@ -9,7 +9,7 @@ complete MATRIZ format nodes.
 
 import re
 import time
-from typing import Any, Dict
+from typing import Any
 
 try:
     from .node_interface import CognitiveNode, NodeReflection, NodeState
@@ -40,7 +40,7 @@ class MathReasoningNode(CognitiveNode):
         )
         self.supported_operations = ['+', '-', '*', '/', '**', '(', ')']
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process mathematical expressions and return results with MATRIZ node.
 
@@ -164,7 +164,7 @@ class MathReasoningNode(CognitiveNode):
             'processing_time': processing_time
         }
 
-    def validate_output(self, output: Dict[str, Any]) -> bool:
+    def validate_output(self, output: dict[str, Any]) -> bool:
         """
         Validate the mathematical reasoning output.
 

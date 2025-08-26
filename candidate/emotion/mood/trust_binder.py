@@ -49,7 +49,6 @@
 
 import json
 from datetime import datetime
-from typing import Dict
 
 from candidate.core.bio_systems.stability_anchor import StabilityAnchor
 from candidate.core.bio_systems.stress_signal import StressSignal
@@ -66,7 +65,7 @@ class TrustBinder:
         self.stress_signal = StressSignal()
         self.stability_anchor = StabilityAnchor()
 
-    def process_affect(self, affect_vector: Dict[str, float]) -> Dict[str, float]:
+    def process_affect(self, affect_vector: dict[str, float]) -> dict[str, float]:
         """
         Processes the affect vector and returns the affect deltas.
 

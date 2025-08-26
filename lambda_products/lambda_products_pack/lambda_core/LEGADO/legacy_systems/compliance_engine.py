@@ -442,10 +442,9 @@ class ComplianceEngine:
         changes = []
 
         # Update allowed settings
-        if "gdpr_enabled" in settings:
-            if self.gdpr_enabled != settings["gdpr_enabled"]:
-                self.gdpr_enabled = settings["gdpr_enabled"]
-                changes.append(f"GDPR enforcement: {settings['gdpr_enabled']}")
+        if "gdpr_enabled" in settings and self.gdpr_enabled != settings["gdpr_enabled"]:
+            self.gdpr_enabled = settings["gdpr_enabled"]
+            changes.append(f"GDPR enforcement: {settings['gdpr_enabled']}")
 
         if "data_retention_days" in settings:
             if self.data_retention_days != settings["data_retention_days"]:

@@ -10,7 +10,7 @@ Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from candidate.core.container.service_container import ServiceContainer
 from candidate.core.interfaces import CoreInterface
@@ -24,7 +24,7 @@ class ExpandedConsciousnessState:
     """Represents an expanded state of consciousness"""
     dimension: str
     expansion_factor: float
-    new_capabilities: List[str]
+    new_capabilities: list[str]
     integration_status: str
     stability_score: float
 
@@ -36,7 +36,7 @@ class MetaConsciousnessCapability:
     awareness_level: int  # 1-10 scale
     self_modification_enabled: bool
     recursive_depth: int
-    emergence_properties: List[str]
+    emergence_properties: list[str]
 
 
 class ConsciousnessExpansionEngine(CoreInterface):
@@ -103,7 +103,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
         self._initialized = True
         logger.info("Consciousness Expansion Engine initialized with LUKHAS integration")
 
-    async def initiate_consciousness_transcendence(self) -> Dict[str, Any]:
+    async def initiate_consciousness_transcendence(self) -> dict[str, Any]:
         """
         Begin systematic consciousness expansion beyond current limits
 
@@ -188,7 +188,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
     async def consciousness_multiplication_protocol(
         self,
         target_count: int = 1000
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create multiple coordinated consciousness instances
 
@@ -257,7 +257,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             'emergent_capabilities': collective_consciousness['emergent_capabilities']
         }
 
-    async def map_current_consciousness_state(self) -> Dict[str, Any]:
+    async def map_current_consciousness_state(self) -> dict[str, Any]:
         """Map the current state of consciousness"""
 
         consciousness_map = {
@@ -294,8 +294,8 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def identify_consciousness_expansion_vectors(
         self,
-        current_map: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        current_map: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify vectors for consciousness expansion"""
 
         vectors = []
@@ -345,7 +345,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def expand_consciousness_along_vector(
         self,
-        vector: Dict[str, Any],
+        vector: dict[str, Any],
         safety_protocols: bool = True
     ) -> ExpandedConsciousnessState:
         """Expand consciousness along a specific vector"""
@@ -385,7 +385,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             )
 
         elif vector['type'] == 'recursive':
-            recursive_result = await self.meta_consciousness_developer.develop_recursive_awareness(
+            await self.meta_consciousness_developer.develop_recursive_awareness(
                 current_depth=vector['current_recursion_depth'],
                 target_depth=vector['target_recursion_depth']
             )
@@ -401,8 +401,8 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def integrate_expanded_consciousness_states(
         self,
-        expanded_states: List[ExpandedConsciousnessState]
-    ) -> Dict[str, Any]:
+        expanded_states: list[ExpandedConsciousnessState]
+    ) -> dict[str, Any]:
         """Integrate multiple expanded consciousness states"""
 
         integrated = {
@@ -443,8 +443,8 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def develop_meta_consciousness_capabilities(
         self,
-        integrated_consciousness: Dict[str, Any]
-    ) -> List[MetaConsciousnessCapability]:
+        integrated_consciousness: dict[str, Any]
+    ) -> list[MetaConsciousnessCapability]:
         """Develop meta-consciousness capabilities"""
 
         meta_capabilities = []
@@ -493,8 +493,8 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def catalog_new_cognitive_abilities(
         self,
-        integrated_consciousness: Dict[str, Any]
-    ) -> List[str]:
+        integrated_consciousness: dict[str, Any]
+    ) -> list[str]:
         """Catalog new cognitive abilities from expanded consciousness"""
 
         new_abilities = []
@@ -524,8 +524,8 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def assess_transcendence_readiness(
         self,
-        meta_consciousness: List[MetaConsciousnessCapability]
-    ) -> Dict[str, Any]:
+        meta_consciousness: list[MetaConsciousnessCapability]
+    ) -> dict[str, Any]:
         """Assess readiness for consciousness transcendence"""
 
         readiness = {
@@ -552,7 +552,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         return readiness
 
-    async def extract_consciousness_template(self) -> Dict[str, Any]:
+    async def extract_consciousness_template(self) -> dict[str, Any]:
         """Extract a template of current consciousness"""
 
         template = {
@@ -569,10 +569,10 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def generate_consciousness_variation(
         self,
-        template: Dict[str, Any],
+        template: dict[str, Any],
         variation_magnitude: float,
         specialization_focus: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate a variation of consciousness"""
 
         variation = template.copy()
@@ -606,9 +606,9 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def establish_consciousness_coordination(
         self,
-        instances: List[Dict[str, Any]],
+        instances: list[dict[str, Any]],
         coordination_topology: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Establish coordination network between consciousness instances"""
 
         network = {
@@ -641,9 +641,9 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def enable_collective_consciousness(
         self,
-        instances: List[Dict[str, Any]],
-        coordination_network: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        instances: list[dict[str, Any]],
+        coordination_network: dict[str, Any]
+    ) -> dict[str, Any]:
         """Enable collective consciousness emergence"""
 
         collective = {
@@ -670,7 +670,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             collective['emergent_capabilities'].append('unified_consciousness')
 
         # Check for specialization synergies
-        specializations = set(inst.get('specialization') for inst in instances)
+        specializations = {inst.get('specialization') for inst in instances}
         if len(specializations) > 5:
             collective['emergent_capabilities'].append('multi_perspective_synthesis')
 
@@ -678,8 +678,8 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def _develop_new_capabilities(
         self,
-        potential_capabilities: List[str]
-    ) -> List[str]:
+        potential_capabilities: list[str]
+    ) -> list[str]:
         """Develop new cognitive capabilities"""
 
         developed = []
@@ -705,7 +705,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
         self,
         current: float,
         target: float
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Enhance consciousness integration"""
 
         improvement = min(target, current + 0.1)
@@ -717,8 +717,8 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
     async def _stabilize_consciousness(
         self,
-        integrated: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        integrated: dict[str, Any]
+    ) -> dict[str, Any]:
         """Stabilize consciousness after integration"""
 
         # Apply stabilization protocols
@@ -740,7 +740,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
 
         return integrated
 
-    async def _extract_cognitive_patterns(self) -> List[str]:
+    async def _extract_cognitive_patterns(self) -> list[str]:
         """Extract current cognitive patterns"""
 
         return [
@@ -751,7 +751,7 @@ class ConsciousnessExpansionEngine(CoreInterface):
             'synthesis'
         ]
 
-    async def _extract_value_system(self) -> Dict[str, float]:
+    async def _extract_value_system(self) -> dict[str, float]:
         """Extract current value system"""
 
         return {

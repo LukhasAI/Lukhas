@@ -10,7 +10,7 @@ Integration with LUKHAS Trinity Framework (⚛️🧠🛡️)
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from core.container.service_container import ServiceContainer
 from core.interfaces import CoreInterface
@@ -27,18 +27,18 @@ class MarketOpportunity:
     time_horizon_years: int
     disruption_potential: float
     confidence_score: float
-    strategic_advantages: List[str]
-    implementation_requirements: Dict[str, Any]
-    risk_factors: List[str]
+    strategic_advantages: list[str]
+    implementation_requirements: dict[str, Any]
+    risk_factors: list[str]
 
 
 @dataclass
 class CompetitiveAnalysis:
     """Competitive landscape analysis result"""
     competitor: str
-    innovation_patterns: Dict[str, Any]
-    intervention_opportunities: List[Dict[str, Any]]
-    counter_strategies: List[Dict[str, Any]]
+    innovation_patterns: dict[str, Any]
+    intervention_opportunities: list[dict[str, Any]]
+    counter_strategies: list[dict[str, Any]]
     estimated_market_impact: float
 
 
@@ -103,8 +103,8 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def create_trillion_dollar_markets(
         self,
-        innovation_domains: List[str]
-    ) -> Dict[str, Any]:
+        innovation_domains: list[str]
+    ) -> dict[str, Any]:
         """
         Identify and create new trillion-dollar markets through AI innovation
 
@@ -172,8 +172,8 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def manipulate_competitive_landscape(
         self,
-        target_competitors: List[str]
-    ) -> Dict[str, Any]:
+        target_competitors: list[str]
+    ) -> dict[str, Any]:
         """
         Strategic competitive positioning through innovation timing
 
@@ -232,7 +232,7 @@ class EconomicRealityManipulator(CoreInterface):
     async def design_market_architecture(
         self,
         opportunity: MarketOpportunity
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Design the architecture for a new market"""
 
         # Use value creation synthesizer to design market structure
@@ -259,8 +259,8 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def implement_market_creation(
         self,
-        market_design: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        market_design: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute market creation strategy"""
 
         implementation_results = {
@@ -296,8 +296,8 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def optimize_market_dynamics(
         self,
-        market_implementation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        market_implementation: dict[str, Any]
+    ) -> dict[str, Any]:
         """Optimize market dynamics for maximum value capture"""
 
         # Analyze current market dynamics
@@ -332,7 +332,7 @@ class EconomicRealityManipulator(CoreInterface):
     async def analyze_competitor_innovation_patterns(
         self,
         competitor: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Analyze a competitor's innovation patterns"""
 
         return await self.market_intelligence_engine.analyze_competitor_patterns(
@@ -344,8 +344,8 @@ class EconomicRealityManipulator(CoreInterface):
     async def identify_intervention_opportunities(
         self,
         competitor: str,
-        innovation_patterns: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        innovation_patterns: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify strategic intervention points in competitor's innovation cycle"""
 
         return await self.competitive_landscape_controller.identify_interventions(
@@ -357,8 +357,8 @@ class EconomicRealityManipulator(CoreInterface):
     async def generate_competitive_counter_strategies(
         self,
         competitor: str,
-        intervention_opportunities: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        intervention_opportunities: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Generate counter-strategies for competitive positioning"""
 
         strategies = []
@@ -374,7 +374,7 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def estimate_competitive_impact(
         self,
-        counter_strategies: List[Dict[str, Any]]
+        counter_strategies: list[dict[str, Any]]
     ) -> float:
         """Estimate the market impact of competitive counter-strategies"""
 
@@ -394,8 +394,8 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def calculate_competitive_advantages(
         self,
-        created_markets: List[Dict[str, Any]]
-    ) -> List[Dict[str, str]]:
+        created_markets: list[dict[str, Any]]
+    ) -> list[dict[str, str]]:
         """Calculate competitive advantages from created markets"""
 
         advantages = []
@@ -410,8 +410,8 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def analyze_strategic_positioning(
         self,
-        created_markets: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        created_markets: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Analyze overall strategic positioning from market creation"""
 
         return await self.competitive_landscape_controller.analyze_positioning(
@@ -422,8 +422,8 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def generate_strategic_recommendations(
         self,
-        competitor_analysis: Dict[str, CompetitiveAnalysis]
-    ) -> List[Dict[str, Any]]:
+        competitor_analysis: dict[str, CompetitiveAnalysis]
+    ) -> list[dict[str, Any]]:
         """Generate strategic recommendations based on competitive analysis"""
 
         recommendations = []
@@ -439,9 +439,9 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def generate_implementation_phases(
         self,
-        market_structure: Dict[str, Any],
-        causality_chains: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        market_structure: dict[str, Any],
+        causality_chains: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate implementation phases for market creation"""
 
         phases = []
@@ -482,9 +482,9 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def apply_optimization_strategy(
         self,
-        market: Dict[str, Any],
-        strategy: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        market: dict[str, Any],
+        strategy: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply an optimization strategy to a market"""
 
         optimized = market.copy()
@@ -509,7 +509,7 @@ class EconomicRealityManipulator(CoreInterface):
 
     async def calculate_projected_value(
         self,
-        market: Dict[str, Any]
+        market: dict[str, Any]
     ) -> float:
         """Calculate the projected value of a market"""
 

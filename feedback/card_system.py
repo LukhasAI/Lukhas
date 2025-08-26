@@ -12,7 +12,7 @@ from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -40,25 +40,25 @@ class FeedbackCard:
 
     # User-provided feedback
     note: Optional[str] = None
-    symbols: List[str] = field(default_factory=list)  # User-selected symbols
-    tags: List[str] = field(default_factory=list)  # System-generated tags
+    symbols: list[str] = field(default_factory=list)  # User-selected symbols
+    tags: list[str] = field(default_factory=list)  # System-generated tags
 
     # Context for learning
     prompt: Optional[str] = None
     response: Optional[str] = None
-    signal_state: Dict[str, float] = field(default_factory=dict)
-    modulation_params: Dict[str, Any] = field(default_factory=dict)
+    signal_state: dict[str, float] = field(default_factory=dict)
+    modulation_params: dict[str, Any] = field(default_factory=dict)
 
     # Privacy
     user_id_hash: Optional[str] = None  # Hashed user ID for privacy
     session_id: Optional[str] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for storage"""
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "FeedbackCard":
+    def from_dict(cls, data: dict[str, Any]) -> "FeedbackCard":
         """Create from dictionary"""
         # Convert rating to enum
         if "rating" in data and not isinstance(data["rating"], FeedbackRating):
@@ -76,15 +76,15 @@ class PatternSet:
     confidence: float  # 0.0 to 1.0
 
     # Pattern details
-    conditions: Dict[str, Any] = field(default_factory=dict)
-    preferred_params: Dict[str, Any] = field(default_factory=dict)
-    avoided_params: Dict[str, Any] = field(default_factory=dict)
+    conditions: dict[str, Any] = field(default_factory=dict)
+    preferred_params: dict[str, Any] = field(default_factory=dict)
+    avoided_params: dict[str, Any] = field(default_factory=dict)
 
     # Symbol associations
-    positive_symbols: List[str] = field(default_factory=list)
-    negative_symbols: List[str] = field(default_factory=list)
+    positive_symbols: list[str] = field(default_factory=list)
+    negative_symbols: list[str] = field(default_factory=list)
 
-    def matches(self, context: Dict[str, Any]) -> bool:
+    def matches(self, context: dict[str, Any]) -> bool:
         """Check if pattern matches current context"""
         for key, value in self.conditions.items():
             if key not in context or context[key] != value:
@@ -98,12 +98,12 @@ class PolicyUpdate:
 
     update_id: str
     timestamp: float
-    pattern_ids: List[str]  # Patterns that triggered this update
+    pattern_ids: list[str]  # Patterns that triggered this update
 
     # Proposed changes
-    parameter_adjustments: Dict[str, float] = field(default_factory=dict)
-    weight_adjustments: Dict[str, float] = field(default_factory=dict)
-    threshold_adjustments: Dict[str, float] = field(default_factory=dict)
+    parameter_adjustments: dict[str, float] = field(default_factory=dict)
+    weight_adjustments: dict[str, float] = field(default_factory=dict)
+    threshold_adjustments: dict[str, float] = field(default_factory=dict)
 
     # Safety bounds
     max_change: float = 0.2  # Maximum parameter change per update
@@ -135,18 +135,18 @@ class LearningReport:
     improvement_trend: float  # Positive if improving over time
 
     # Discovered preferences
-    preferred_styles: List[str] = field(default_factory=list)
-    preferred_temperature_range: Tuple[float, float] = (0.5, 0.8)
+    preferred_styles: list[str] = field(default_factory=list)
+    preferred_temperature_range: tuple[float, float] = (0.5, 0.8)
     preferred_response_length: str = "medium"
 
     # Symbol dictionary
-    personal_symbols: Dict[str, str] = field(default_factory=dict)
+    personal_symbols: dict[str, str] = field(default_factory=dict)
 
     # Patterns
-    identified_patterns: List[PatternSet] = field(default_factory=list)
+    identified_patterns: list[PatternSet] = field(default_factory=list)
 
     # Recommendations
-    recommended_adjustments: Dict[str, Any] = field(default_factory=dict)
+    recommended_adjustments: dict[str, Any] = field(default_factory=dict)
 
 
 class FeedbackCardSystem:
@@ -165,13 +165,13 @@ class FeedbackCardSystem:
         self.storage_path.mkdir(parents=True, exist_ok=True)
 
         # In-memory caches
-        self.feedback_cards: List[FeedbackCard] = []
-        self.patterns: Dict[str, PatternSet] = {}
-        self.policy_updates: List[PolicyUpdate] = []
+        self.feedback_cards: list[FeedbackCard] = []
+        self.patterns: dict[str, PatternSet] = {}
+        self.policy_updates: list[PolicyUpdate] = []
 
         # User-specific data (privacy-preserving)
-        self.user_preferences: Dict[str, Dict[str, Any]] = defaultdict(dict)
-        self.user_symbols: Dict[str, Dict[str, str]] = defaultdict(dict)
+        self.user_preferences: dict[str, dict[str, Any]] = defaultdict(dict)
+        self.user_symbols: dict[str, dict[str, str]] = defaultdict(dict)
 
         # Load existing data
         self._load_feedback_data()
@@ -223,8 +223,8 @@ class FeedbackCardSystem:
         action_id: str,
         rating: int,
         note: Optional[str] = None,
-        symbols: Optional[List[str]] = None,
-        context: Optional[Dict[str, Any]] = None,
+        symbols: Optional[list[str]] = None,
+        context: Optional[dict[str, Any]] = None,
         user_id: Optional[str] = None,
     ) -> FeedbackCard:
         """
@@ -301,7 +301,7 @@ class FeedbackCardSystem:
             for param, value in card.modulation_params.items():
                 prefs["preferred_params"][param].append(value)
 
-    def extract_patterns(self, cards: List[FeedbackCard]) -> List[PatternSet]:
+    def extract_patterns(self, cards: list[FeedbackCard]) -> list[PatternSet]:
         """
         Extract patterns from feedback cards.
 
@@ -400,7 +400,7 @@ class FeedbackCardSystem:
 
         return patterns
 
-    def update_policy(self, patterns: List[PatternSet]) -> Optional[PolicyUpdate]:
+    def update_policy(self, patterns: list[PatternSet]) -> Optional[PolicyUpdate]:
         """
         Generate bounded policy modifications from patterns.
 
@@ -600,7 +600,7 @@ class FeedbackCardSystem:
         logger.info(f"Generated learning report for user {user_id_hash}")
         return report
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get system metrics"""
         return {
             **self.metrics,

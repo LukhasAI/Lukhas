@@ -5,7 +5,7 @@ Orchestrates AI system deployment across global markets.
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from candidate.core.interfaces import CoreInterface
 
@@ -31,8 +31,8 @@ class GlobalDeploymentOrchestrator(CoreInterface):
 
     async def plan_global_deployment(
         self,
-        compliance_status: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        compliance_status: dict[str, Any]
+    ) -> dict[str, Any]:
         """Plan deployment based on compliance status"""
 
         deployment_plan = {

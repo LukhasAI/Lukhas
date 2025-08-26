@@ -55,7 +55,7 @@ class GestureChallenge(BaseModel):
     challenge_id: str = Field(..., description="Unique challenge identifier")
     lid: str = Field(..., description="Canonical ΛID")
     action: str = Field(..., description="Action requiring approval")
-    action_context: Dict[str, Any] = Field(..., description="Action-specific context")
+    action_context: dict[str, Any] = Field(..., description="Action-specific context")
     required_gesture_type: GestureType = Field(..., description="Required gesture type")
     expires_at: datetime = Field(..., description="Challenge expiration")
     nonce: str = Field(..., description="Cryptographic nonce")
@@ -67,7 +67,7 @@ class GestureApproval(BaseModel):
     challenge_id: str = Field(..., description="Associated challenge")
     lid: str = Field(..., description="User who approved")
     action: str = Field(..., description="Approved action")
-    action_context: Dict[str, Any] = Field(..., description="Specific action context")
+    action_context: dict[str, Any] = Field(..., description="Specific action context")
     gesture_features: GestureFeatures = Field(..., description="Gesture used for approval")
     approved_at: datetime = Field(..., description="Approval timestamp")
     expires_at: datetime = Field(..., description="Approval expiration (≤60s)")
@@ -114,17 +114,17 @@ class GestureRecognizer(ABC):
     """
 
     @abstractmethod
-    def extract_features(self, raw_gesture_data: Any) -> List[float]:
+    def extract_features(self, raw_gesture_data: Any) -> list[float]:
         """Extract kinematic features from raw gesture data"""
         pass
 
     @abstractmethod
-    def hash_features(self, features: List[float], salt: str) -> str:
+    def hash_features(self, features: list[float], salt: str) -> str:
         """Hash features with salt for privacy"""
         pass
 
     @abstractmethod
-    def calculate_quality_score(self, features: List[float]) -> float:
+    def calculate_quality_score(self, features: list[float]) -> float:
         """Calculate gesture quality score (0.0-1.0)"""
         pass
 

@@ -5,7 +5,7 @@ Simple client library for interacting with LUKHAS PWM API
 
 import json
 import time
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 from urllib.parse import urljoin
 
 import requests
@@ -61,9 +61,9 @@ class LukhasClient:
         self,
         method: str,
         endpoint: str,
-        data: Optional[Dict] = None,
-        params: Optional[Dict] = None,
-    ) -> Dict[str, Any]:
+        data: Optional[dict] = None,
+        params: Optional[dict] = None,
+    ) -> dict[str, Any]:
         """Make HTTP request to API"""
         url = urljoin(self.base_url, endpoint)
 
@@ -85,10 +85,10 @@ class LukhasClient:
     def complete(
         self,
         message: str,
-        context: Optional[List[str]] = None,
-        signals: Optional[Dict[str, float]] = None,
+        context: Optional[list[str]] = None,
+        signals: Optional[dict[str, float]] = None,
         safety_mode: Optional[str] = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Send a message for completion with optional modulation.
 
@@ -120,7 +120,7 @@ class LukhasClient:
         rating: int,
         note: Optional[str] = None,
         user_id: str = "default",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Submit feedback for an action.
 
@@ -146,17 +146,17 @@ class LukhasClient:
         response = self._request("POST", "/feedback/card", data=data)
         return response.get("lut", {})
 
-    def get_feedback_lut(self) -> Dict[str, Any]:
+    def get_feedback_lut(self) -> dict[str, Any]:
         """Get current feedback LUT (style adjustments)"""
         return self._request("GET", "/feedback/lut")
 
-    def check_health(self) -> Dict[str, Any]:
+    def check_health(self) -> dict[str, Any]:
         """Check system health status"""
         return self._request("GET", "/feedback/health")
 
     # === Audit Methods ===
 
-    def get_audit(self, audit_id: str) -> Dict[str, Any]:
+    def get_audit(self, audit_id: str) -> dict[str, Any]:
         """
         Retrieve audit details for a specific action.
 
@@ -168,7 +168,7 @@ class LukhasClient:
         """
         return self._request("GET", f"/audit/{audit_id}")
 
-    def log_audit(self, bundle: Dict[str, Any]) -> Dict[str, Any]:
+    def log_audit(self, bundle: dict[str, Any]) -> dict[str, Any]:
         """
         Log an audit bundle (for custom integrations).
 
@@ -185,22 +185,22 @@ class LukhasClient:
 
     # === Tools Methods ===
 
-    def get_tools_registry(self) -> Dict[str, Any]:
+    def get_tools_registry(self) -> dict[str, Any]:
         """Get all available tool schemas"""
         return self._request("GET", "/tools/registry")
 
-    def get_tool_names(self) -> List[str]:
+    def get_tool_names(self) -> list[str]:
         """Get list of available tool names"""
         response = self._request("GET", "/tools/available")
         return response.get("tools", [])
 
-    def get_tool_schema(self, tool_name: str) -> Dict[str, Any]:
+    def get_tool_schema(self, tool_name: str) -> dict[str, Any]:
         """Get schema for a specific tool"""
         return self._request("GET", f"/tools/{tool_name}")
 
     # === Admin Methods (requires API key) ===
 
-    def get_admin_summary(self, window_seconds: int = 86400) -> Dict[str, Any]:
+    def get_admin_summary(self, window_seconds: int = 86400) -> dict[str, Any]:
         """
         Get admin summary (requires FLAG_ADMIN_DASHBOARD=true).
 
@@ -213,7 +213,7 @@ class LukhasClient:
         params = {"window_s": window_seconds}
         return self._request("GET", "/admin/summary.json", params=params)
 
-    def get_incidents(self, format: str = "json") -> Union[Dict, str]:
+    def get_incidents(self, format: str = "json") -> Union[dict, str]:
         """
         Get security incidents.
 
@@ -246,10 +246,10 @@ class LukhasClient:
 
     def batch_complete(
         self,
-        messages: List[str],
-        shared_context: Optional[List[str]] = None,
-        shared_signals: Optional[Dict[str, float]] = None,
-    ) -> List[Dict[str, Any]]:
+        messages: list[str],
+        shared_context: Optional[list[str]] = None,
+        shared_signals: Optional[dict[str, float]] = None,
+    ) -> list[dict[str, Any]]:
         """
         Process multiple messages with shared context/signals.
 

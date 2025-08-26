@@ -15,7 +15,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 # Add paths for other agent imports
 sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
@@ -58,7 +58,7 @@ class ContextHandoff:
     handoff_id: str = field(default_factory=lambda: f"CTX-{uuid.uuid4().hex}")
     source_step: str = ""
     target_step: str = ""
-    context_data: Dict[str, Any] = field(default_factory=dict)
+    context_data: dict[str, Any] = field(default_factory=dict)
     lid: str = ""  # LUKHAS ID
     timestamp: float = field(default_factory=time.time)
 
@@ -85,13 +85,13 @@ class WorkflowStep:
     step_id: str
     name: str
     handler: Callable
-    required_scopes: List[str] = field(default_factory=list)
+    required_scopes: list[str] = field(default_factory=list)
     timeout_ms: int = 5000
     retry_on_failure: bool = True
 
     # Policy enforcement
     requires_policy_check: bool = True
-    policy_context: Dict[str, Any] = field(default_factory=dict)
+    policy_context: dict[str, Any] = field(default_factory=dict)
 
 
 class RateLimiter:
@@ -149,7 +149,7 @@ class RateLimiter:
 
         return False
 
-    def get_metrics(self) -> Dict:
+    def get_metrics(self) -> dict:
         """Export circuit breaker metrics"""
         return {
             "total_requests": self.total_requests,
@@ -234,9 +234,9 @@ class ContextBusOrchestrator:
         self,
         lid: str,
         workflow_name: str,
-        steps: List[WorkflowStep],
-        initial_context: Optional[Dict] = None,
-    ) -> Dict:
+        steps: list[WorkflowStep],
+        initial_context: Optional[dict] = None,
+    ) -> dict:
         """
         Execute multi-step workflow with policy enforcement at each step
         Implements <250ms context handoff target
@@ -374,7 +374,7 @@ class ContextBusOrchestrator:
                 "narrative": self.workflow_narratives[workflow_id],
             }
 
-    async def _check_policy(self, lid: str, action: str, context: Dict) -> Dict:
+    async def _check_policy(self, lid: str, action: str, context: dict) -> dict:
         """
         Check policy engine (integrates with Agent 2)
         Default-deny on conflicting risk signals
@@ -394,7 +394,7 @@ class ContextBusOrchestrator:
 
         return policy_result
 
-    def _detect_risk_conflicts(self, context: Dict) -> bool:
+    def _detect_risk_conflicts(self, context: dict) -> bool:
         """Detect conflicting risk signals (tripwires)"""
         risk_indicators = context.get("risk_indicators", [])
 
@@ -411,7 +411,7 @@ class ContextBusOrchestrator:
         # Conflict if multiple high-risk patterns detected
         return len(detected_risks) > 1
 
-    async def _pause_for_step_up(self, workflow_id: str, policy_result: Dict):
+    async def _pause_for_step_up(self, workflow_id: str, policy_result: dict):
         """
         Pause pipeline for step-up authentication
         Surface require_step_up (GTΨ/UL) to user
@@ -440,7 +440,7 @@ class ContextBusOrchestrator:
                 raise Exception("Step-up authentication timeout")
             await asyncio.sleep(1)
 
-    async def _execute_step(self, step: WorkflowStep, context: ContextHandoff) -> Dict:
+    async def _execute_step(self, step: WorkflowStep, context: ContextHandoff) -> dict:
         """Execute individual workflow step with timeout"""
         try:
             # Execute with timeout
@@ -495,7 +495,7 @@ class ContextBusOrchestrator:
         self.workflow_narratives[workflow_id].append(narrative_entry)
         logger.info(f"Workflow {workflow_id}: {message}")
 
-    async def publish_event(self, event_type: str, data: Dict):
+    async def publish_event(self, event_type: str, data: dict):
         """Publish event to subscribers"""
         for subscriber in self.event_subscribers.get(event_type, []):
             try:
@@ -507,7 +507,7 @@ class ContextBusOrchestrator:
         """Subscribe to event type"""
         self.event_subscribers[event_type].append(handler)
 
-    def get_workflow_status(self, workflow_id: str) -> Dict:
+    def get_workflow_status(self, workflow_id: str) -> dict:
         """Get current workflow status"""
         if workflow_id not in self.workflows:
             return {"error": "workflow_not_found"}
@@ -522,7 +522,7 @@ class ContextBusOrchestrator:
             "narrative": self.workflow_narratives.get(workflow_id, []),
         }
 
-    def get_performance_metrics(self) -> Dict:
+    def get_performance_metrics(self) -> dict:
         """Get system performance metrics"""
         return {
             "workflows": {
@@ -550,7 +550,7 @@ class WorkflowPipelines:
     @staticmethod
     def create_travel_analysis_pipeline(
         orchestrator: ContextBusOrchestrator,
-    ) -> List[WorkflowStep]:
+    ) -> list[WorkflowStep]:
         """
         Create pipeline for MVP demo: Travel document analysis
         Integrates all agents' capabilities

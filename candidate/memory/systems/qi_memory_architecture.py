@@ -17,7 +17,7 @@
 │   3. Retrieve memories using quantum associative recall
 └────────────────────────────────────────────────────────────────────────────
 """
-from typing import Dict, Optional
+from typing import Optional
 
 import numpy as np
 from qiskit import QICircuit
@@ -32,7 +32,7 @@ class QIAssociativeMemoryBank:
         self.capacity = 2**capacity_qubits
         self.memory_register = QIRegister(capacity_qubits, "memory")
         self.query_register = QIRegister(capacity_qubits, "query")
-        self.oracle_circuits: Dict[str, QICircuit] = {}
+        self.oracle_circuits: dict[str, QICircuit] = {}
 
         # Quantum error correction
         self.error_correction = SurfaceCodeErrorCorrection(

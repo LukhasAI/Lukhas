@@ -9,7 +9,7 @@ import glob
 import hashlib
 import json
 import os
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 _ORIG_OPEN = builtins.open
 
@@ -23,11 +23,11 @@ try:
 except Exception:
     _HAS_VERIFY = False
 
-def _read_json(path: str) -> Dict[str, Any]:
+def _read_json(path: str) -> dict[str, Any]:
     with _ORIG_OPEN(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-def _load_receipt(receipt_id: Optional[str], path: Optional[str]) -> Dict[str, Any]:
+def _load_receipt(receipt_id: str | None, path: str | None) -> dict[str, Any]:
     if path:
         return _read_json(path)
     if not receipt_id:
@@ -41,7 +41,7 @@ def _load_receipt(receipt_id: Optional[str], path: Optional[str]) -> Dict[str, A
         p = cand[0]
     return _read_json(p)
 
-def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
+def _policy_fingerprint(policy_root: str, overlays_dir: str | None) -> str:
     """Stable hash over the policy pack + overlays (filenames + contents)."""
     h = hashlib.sha256()
     def add_file(fp: str):
@@ -60,7 +60,7 @@ def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
         if os.path.exists(ov): add_file(ov)
     return h.hexdigest()
 
-def _verify_attestation_pointer(att: Optional[Dict[str, Any]]) -> Optional[bool]:
+def _verify_attestation_pointer(att: dict[str, Any] | None) -> bool | None:
     if not att or not _HAS_VERIFY:
         return None
     path = att.get("chain_path")
@@ -72,7 +72,7 @@ def _verify_attestation_pointer(att: Optional[Dict[str, Any]]) -> Optional[bool]
     except Exception:
         return False
 
-def _build_teq_context(receipt: Dict[str, Any], provenance_record: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+def _build_teq_context(receipt: dict[str, Any], provenance_record: dict[str, Any] | None) -> dict[str, Any]:
     """Construct a minimal context consistent with your TEQ checks."""
     user_id = None
     for a in receipt.get("agents", []):
@@ -95,7 +95,7 @@ def _build_teq_context(receipt: Dict[str, Any], provenance_record: Optional[Dict
     }
     return ctx
 
-def _load_provenance_record(artifact_sha: Optional[str]) -> Optional[Dict[str, Any]]:
+def _load_provenance_record(artifact_sha: str | None) -> dict[str, Any] | None:
     if not artifact_sha:
         return None
     try:
@@ -104,7 +104,7 @@ def _load_provenance_record(artifact_sha: Optional[str]) -> Optional[Dict[str, A
     except Exception:
         return None
 
-def _task_from_receipt(receipt: Dict[str, Any]) -> Tuple[str, Optional[str], Optional[str], Optional[str]]:
+def _task_from_receipt(receipt: dict[str, Any]) -> tuple[str, str | None, str | None, str | None]:
     act = receipt.get("activity", {})
     task = act.get("type") or "unknown"
     jurisdiction = act.get("jurisdiction")
@@ -116,7 +116,7 @@ def _task_from_receipt(receipt: Dict[str, Any]) -> Tuple[str, Optional[str], Opt
             break
     return task, jurisdiction, context, user
 
-def _run_teq(policy_root: str, jurisdiction: Optional[str], task: str, ctx: Dict[str, Any]) -> Dict[str, Any]:
+def _run_teq(policy_root: str, jurisdiction: str | None, task: str, ctx: dict[str, Any]) -> dict[str, Any]:
     from qi.safety.teq_gate import TEQCoupler
     teq = TEQCoupler(policy_dir=policy_root, jurisdiction=jurisdiction or "global")
     res = teq.run(task=task, context=ctx)
@@ -128,7 +128,7 @@ def _run_teq(policy_root: str, jurisdiction: Optional[str], task: str, ctx: Dict
     }
     return out
 
-def _pretty_table(d: Dict[str, Any]) -> str:
+def _pretty_table(d: dict[str, Any]) -> str:
     allowed = "✅ ALLOWED" if d["replay"]["allowed"] else "❌ BLOCKED"
     lines = [
         "# TEQ Replay",
@@ -155,12 +155,12 @@ def _pretty_table(d: Dict[str, Any]) -> str:
 
 def replay_from_receipt(
     *,
-    receipt: Dict[str, Any],
+    receipt: dict[str, Any],
     policy_root: str,
-    overlays_dir: Optional[str],
+    overlays_dir: str | None,
     verify_receipt_attestation: bool = False,
     verify_provenance_attestation: bool = False,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     task, jurisdiction, context, _user = _task_from_receipt(receipt)
 
     artifact_sha = (receipt.get("entity") or {}).get("digest_sha256")

@@ -9,7 +9,7 @@ and categorizing different types of symbolic content and operations.
 
 import logging
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ class SymbolicTag:
         content: Any,
         scope: TagScope,
         permission: TagPermission = TagPermission.PUBLIC,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
         lifespan: Optional[float] = None
     ):
         self.tag_id = tag_id
@@ -75,7 +75,7 @@ class SymbolicTag:
 
         logger.debug(f"Created symbolic tag {tag_id} with scope {scope.value}")
 
-    def is_accessible(self, requester_id: str, requester_privileges: List[str] = None) -> bool:
+    def is_accessible(self, requester_id: str, requester_privileges: list[str] = None) -> bool:
         """
         Check if the tag is accessible to the requester.
 
@@ -107,7 +107,7 @@ class SymbolicTag:
         """Increment the access counter."""
         self.access_count += 1
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert tag to dictionary representation."""
         return {
             "tag_id": self.tag_id,
@@ -121,7 +121,7 @@ class SymbolicTag:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "SymbolicTag":
+    def from_dict(cls, data: dict[str, Any]) -> "SymbolicTag":
         """Create tag from dictionary representation."""
         tag = cls(
             tag_id=data["tag_id"],
@@ -142,8 +142,8 @@ class TagManager:
     """
 
     def __init__(self):
-        self.tags: Dict[str, SymbolicTag] = {}
-        self.tag_index: Dict[TagScope, List[str]] = {scope: [] for scope in TagScope}
+        self.tags: dict[str, SymbolicTag] = {}
+        self.tag_index: dict[TagScope, list[str]] = {scope: [] for scope in TagScope}
 
         logger.info("TagManager initialized")
 
@@ -155,7 +155,7 @@ class TagManager:
         permission: TagPermission = TagPermission.PUBLIC,
         owner_id: str = None,
         lifespan: Optional[float] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None
     ) -> SymbolicTag:
         """
         Create a new symbolic tag.
@@ -191,7 +191,7 @@ class TagManager:
         logger.debug(f"Created tag {tag_id} with scope {scope.value}")
         return tag
 
-    def get_tag(self, tag_id: str, requester_id: str = None, requester_privileges: List[str] = None) -> Optional[SymbolicTag]:
+    def get_tag(self, tag_id: str, requester_id: str = None, requester_privileges: list[str] = None) -> Optional[SymbolicTag]:
         """
         Retrieve a tag by ID with access control.
 
@@ -215,7 +215,7 @@ class TagManager:
         tag.increment_access()
         return tag
 
-    def get_tags_by_scope(self, scope: TagScope, requester_id: str = None, requester_privileges: List[str] = None) -> List[SymbolicTag]:
+    def get_tags_by_scope(self, scope: TagScope, requester_id: str = None, requester_privileges: list[str] = None) -> list[SymbolicTag]:
         """
         Get all accessible tags within a scope.
 
@@ -267,7 +267,7 @@ class TagManager:
         logger.debug(f"Removed tag {tag_id}")
         return True
 
-    def get_tag_stats(self) -> Dict[str, Any]:
+    def get_tag_stats(self) -> dict[str, Any]:
         """Get statistics about managed tags."""
         stats = {
             "total_tags": len(self.tags),

@@ -34,7 +34,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -116,12 +116,12 @@ class ConsentPurpose:
     purpose_id: str
     name: str
     description: str
-    data_categories: List[DataCategory]
+    data_categories: list[DataCategory]
     retention_period: int               # Days
     legal_basis: ConsentType
     required: bool = False              # Whether consent is mandatory
     parent_purpose: Optional[str] = None # Hierarchical purposes
-    child_purposes: List[str] = field(default_factory=list)
+    child_purposes: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -152,24 +152,24 @@ class ConsentRecord:
     privacy_policy_version: str = ""    # Privacy policy version at time of consent
     ip_address: Optional[str] = None    # IP address when granted
     user_agent: Optional[str] = None    # User agent string
-    geolocation: Optional[Dict] = None  # Geographic context
+    geolocation: Optional[dict] = None  # Geographic context
 
     # Withdrawal information
     withdrawal_method: Optional[ConsentMethod] = None
     withdrawal_reason: Optional[str] = None
 
     # Compliance context
-    applicable_regimes: List[ComplianceRegime] = field(default_factory=lambda: [ComplianceRegime.GDPR])
-    consent_evidence: Dict[str, Any] = field(default_factory=dict)
+    applicable_regimes: list[ComplianceRegime] = field(default_factory=lambda: [ComplianceRegime.GDPR])
+    consent_evidence: dict[str, Any] = field(default_factory=dict)
 
     # Technical details
     consent_hash: Optional[str] = None  # Integrity hash
     signature: Optional[str] = None     # Digital signature if applicable
 
     # Trinity Framework integration
-    identity_context: Dict[str, Any] = field(default_factory=dict)    # ⚛️
-    consciousness_context: Dict[str, Any] = field(default_factory=dict) # 🧠
-    guardian_validations: List[str] = field(default_factory=list)     # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)    # ⚛️
+    consciousness_context: dict[str, Any] = field(default_factory=dict) # 🧠
+    guardian_validations: list[str] = field(default_factory=list)     # 🛡️
 
 
 @dataclass
@@ -179,11 +179,11 @@ class ConsentReceipt:
     receipt_id: str
     user_id: str
     issued_at: datetime
-    purposes_consented: List[str]
-    data_controller: Dict[str, str]     # Name, contact details
+    purposes_consented: list[str]
+    data_controller: dict[str, str]     # Name, contact details
     privacy_policy_url: str
     withdrawal_instructions: str
-    contact_info: Dict[str, str]        # DPO contact information
+    contact_info: dict[str, str]        # DPO contact information
     receipt_hash: str                   # Integrity verification
     digital_signature: Optional[str] = None
 
@@ -196,11 +196,11 @@ class AdvancedConsentManager:
     capabilities with full audit trails and multi-jurisdictional support.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.consent_records: Dict[str, ConsentRecord] = {}
-        self.consent_purposes: Dict[str, ConsentPurpose] = {}
-        self.consent_receipts: Dict[str, ConsentReceipt] = {}
+        self.consent_records: dict[str, ConsentRecord] = {}
+        self.consent_purposes: dict[str, ConsentPurpose] = {}
+        self.consent_receipts: dict[str, ConsentReceipt] = {}
 
         # Default configuration
         self.default_retention_days = self.config.get("default_retention_days", 365)
@@ -294,10 +294,10 @@ class AdvancedConsentManager:
     async def request_consent(
         self,
         user_id: str,
-        purpose_ids: List[str],
+        purpose_ids: list[str],
         method: ConsentMethod,
-        context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, ConsentRecord]:
+        context: Optional[dict[str, Any]] = None
+    ) -> dict[str, ConsentRecord]:
         """
         Request consent for specific purposes
 
@@ -365,7 +365,7 @@ class AdvancedConsentManager:
     async def withdraw_consent(
         self,
         user_id: str,
-        purpose_ids: Optional[List[str]] = None,
+        purpose_ids: Optional[list[str]] = None,
         method: ConsentMethod = ConsentMethod.WEB_FORM,
         reason: Optional[str] = None
     ) -> bool:
@@ -436,8 +436,8 @@ class AdvancedConsentManager:
         self,
         user_id: str,
         purpose_id: str,
-        data_categories: Optional[List[DataCategory]] = None
-    ) -> Dict[str, Any]:
+        data_categories: Optional[list[DataCategory]] = None
+    ) -> dict[str, Any]:
         """
         Validate if user has valid consent for specific purpose and data categories
 
@@ -524,7 +524,7 @@ class AdvancedConsentManager:
         user_id: str,
         purpose: ConsentPurpose,
         method: ConsentMethod,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> ConsentRecord:
         """Create a new consent record"""
 
@@ -578,8 +578,8 @@ class AdvancedConsentManager:
     async def _validate_gdpr_article_7(
         self,
         consent_record: ConsentRecord,
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate GDPR Article 7 requirements"""
 
         validation_issues = []
@@ -631,7 +631,7 @@ class AdvancedConsentManager:
     async def _generate_consent_receipt(
         self,
         user_id: str,
-        purpose_ids: List[str]
+        purpose_ids: list[str]
     ) -> ConsentReceipt:
         """Generate GDPR-compliant consent receipt"""
 
@@ -707,7 +707,7 @@ class AdvancedConsentManager:
         self,
         user_id: str,
         status_filter: Optional[ConsentStatus] = None
-    ) -> List[ConsentRecord]:
+    ) -> list[ConsentRecord]:
         """Get all consent records for a user"""
 
         user_consents = [
@@ -726,7 +726,7 @@ class AdvancedConsentManager:
     async def _trigger_data_processing_updates(
         self,
         user_id: str,
-        withdrawn_consents: List[ConsentRecord]
+        withdrawn_consents: list[ConsentRecord]
     ):
         """Trigger updates to data processing systems when consent is withdrawn"""
 
@@ -777,7 +777,7 @@ class AdvancedConsentManager:
 
         self.metrics["consent_by_purpose"] = purpose_counts
 
-    async def get_user_consent_dashboard(self, user_id: str) -> Dict[str, Any]:
+    async def get_user_consent_dashboard(self, user_id: str) -> dict[str, Any]:
         """Get consent dashboard data for a user"""
 
         user_consents = await self._get_user_consents(user_id)
@@ -810,7 +810,7 @@ class AdvancedConsentManager:
 
         return dashboard_data
 
-    async def export_consent_audit_trail(self, user_id: Optional[str] = None) -> List[Dict[str, Any]]:
+    async def export_consent_audit_trail(self, user_id: Optional[str] = None) -> list[dict[str, Any]]:
         """Export complete audit trail for consent records"""
 
         consents_to_export = []
@@ -878,7 +878,7 @@ class AdvancedConsentManager:
 
         return audit_trail
 
-    async def get_system_metrics(self) -> Dict[str, Any]:
+    async def get_system_metrics(self) -> dict[str, Any]:
         """Get comprehensive system metrics"""
         return self.metrics.copy()
 

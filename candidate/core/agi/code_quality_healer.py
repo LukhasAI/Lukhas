@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from candidate.bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
 from lukhas.core.agi.self_healing import (
@@ -95,10 +95,10 @@ class CodeQualityHealer:
         self.metrics = CodeQualityMetrics()
 
         # Memory for learning patterns
-        self.fix_patterns: Dict[str, List[Dict]] = {}
-        self.successful_strategies: List[str] = []
+        self.fix_patterns: dict[str, list[dict]] = {}
+        self.successful_strategies: list[str] = []
 
-    async def scan_codebase(self) -> List[SystemFailure]:
+    async def scan_codebase(self) -> list[SystemFailure]:
         """Scan codebase for quality issues"""
         failures = []
         python_files = list(self.workspace_path.rglob("*.py"))
@@ -392,7 +392,7 @@ Code Quality Metrics:
 - Formatting Issues: {self.metrics.formatting_issues}
         """)
 
-    def get_health_status(self) -> Dict[str, Any]:
+    def get_health_status(self) -> dict[str, Any]:
         """Get current health status"""
         return {
             "healthy": self.metrics.improvement_rate > 0.5,

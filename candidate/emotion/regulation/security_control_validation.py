@@ -20,7 +20,7 @@ Comprehensive security control testing and validation for AI systems:
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -79,8 +79,8 @@ class SecurityControl:
     description: str
     category: ControlCategory
     control_type: ControlType
-    validation_methods: List[ValidationMethod]
-    compliance_frameworks: List[str]
+    validation_methods: list[ValidationMethod]
+    compliance_frameworks: list[str]
     criticality: str  # High, Medium, Low
     implementation_status: str
 
@@ -108,9 +108,9 @@ class ValidationResult:
     validation_date: datetime
     status: ControlStatus
     effectiveness_score: float  # 0-100
-    findings: List[str]
-    evidence: Dict[str, Any]
-    recommendations: List[str]
+    findings: list[str]
+    evidence: dict[str, Any]
+    recommendations: list[str]
     remediation_priority: str
 
 
@@ -297,7 +297,7 @@ class SecurityControlRegistry:
 
     def get_controls_by_category(
         self, category: ControlCategory
-    ) -> List[SecurityControl]:
+    ) -> list[SecurityControl]:
         """Get all controls in a category"""
         return [
             control
@@ -305,7 +305,7 @@ class SecurityControlRegistry:
             if control.category == category
         ]
 
-    def get_critical_controls(self) -> List[SecurityControl]:
+    def get_critical_controls(self) -> list[SecurityControl]:
         """Get all critical controls"""
         return [
             control
@@ -313,7 +313,7 @@ class SecurityControlRegistry:
             if control.criticality == "High"
         ]
 
-    def get_all_controls(self) -> List[SecurityControl]:
+    def get_all_controls(self) -> list[SecurityControl]:
         """Get all registered controls"""
         return list(self.controls.values())
 
@@ -436,7 +436,7 @@ class ControlValidationEngine:
             self.validation_tests[test.control_id] = []
         self.validation_tests[test.control_id].append(test)
 
-    async def validate_control(self, control_id: str) -> List[ValidationResult]:
+    async def validate_control(self, control_id: str) -> list[ValidationResult]:
         """Validate a specific security control"""
 
         control = self.control_registry.get_control(control_id)
@@ -453,7 +453,7 @@ class ControlValidationEngine:
 
         return results
 
-    async def validate_all_controls(self) -> Dict[str, List[ValidationResult]]:
+    async def validate_all_controls(self) -> dict[str, list[ValidationResult]]:
         """Validate all security controls"""
 
         all_results = {}
@@ -466,7 +466,7 @@ class ControlValidationEngine:
 
         return all_results
 
-    async def validate_critical_controls(self) -> Dict[str, List[ValidationResult]]:
+    async def validate_critical_controls(self) -> dict[str, list[ValidationResult]]:
         """Validate only critical security controls"""
 
         critical_results = {}
@@ -604,8 +604,8 @@ class ControlValidationEngine:
         )
 
     async def generate_validation_report(
-        self, validation_results: Dict[str, List[ValidationResult]]
-    ) -> Dict[str, Any]:
+        self, validation_results: dict[str, list[ValidationResult]]
+    ) -> dict[str, Any]:
         """Generate comprehensive validation report"""
 
         total_tests = sum(len(results) for results in validation_results.values())
@@ -672,8 +672,8 @@ class ControlValidationEngine:
         return report
 
     async def _analyze_by_category(
-        self, validation_results: Dict[str, List[ValidationResult]]
-    ) -> Dict[str, Any]:
+        self, validation_results: dict[str, list[ValidationResult]]
+    ) -> dict[str, Any]:
         """Analyze results by control category"""
 
         category_scores = {}
@@ -708,8 +708,8 @@ class ControlValidationEngine:
         return category_analysis
 
     async def _identify_critical_findings(
-        self, results: List[ValidationResult]
-    ) -> List[Dict[str, Any]]:
+        self, results: list[ValidationResult]
+    ) -> list[dict[str, Any]]:
         """Identify critical findings requiring immediate attention"""
 
         critical_findings = []
@@ -737,8 +737,8 @@ class ControlValidationEngine:
         return critical_findings
 
     async def _generate_remediation_plan(
-        self, results: List[ValidationResult]
-    ) -> Dict[str, List[Dict[str, Any]]]:
+        self, results: list[ValidationResult]
+    ) -> dict[str, list[dict[str, Any]]]:
         """Generate prioritized remediation plan"""
 
         remediation_plan = {"High": [], "Medium": [], "Low": []}
@@ -762,8 +762,8 @@ class ControlValidationEngine:
         return remediation_plan
 
     async def _assess_compliance_status(
-        self, validation_results: Dict[str, List[ValidationResult]]
-    ) -> Dict[str, Any]:
+        self, validation_results: dict[str, list[ValidationResult]]
+    ) -> dict[str, Any]:
         """Assess compliance status against frameworks"""
 
         frameworks = ["NIST", "ISO27001", "GDPR", "EU AI Act"]
@@ -801,8 +801,8 @@ class ControlValidationEngine:
         return compliance_status
 
     async def _generate_recommendations(
-        self, results: List[ValidationResult]
-    ) -> List[str]:
+        self, results: list[ValidationResult]
+    ) -> list[str]:
         """Generate high-level recommendations"""
 
         avg_effectiveness = (

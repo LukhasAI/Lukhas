@@ -6,7 +6,7 @@ Connects to real Guardian implementations where available, provides stubs as fal
 import warnings
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 
 class RiskLevel(Enum):
@@ -24,7 +24,7 @@ class Decision:
     approved: bool
     reasoning: str
     risk_level: RiskLevel
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         if self.metadata is None:
@@ -34,7 +34,7 @@ class Decision:
 class MEGPolicyBridge:
     """MEG (Multi-Ethics-Guardian) Policy Bridge with real Guardian integration"""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self._guardian = None
         self._use_real_guardian = self._try_load_guardian()
@@ -51,7 +51,7 @@ class MEGPolicyBridge:
         except ImportError:
             return False
 
-    def evaluate(self, context: Dict[str, Any]) -> Decision:
+    def evaluate(self, context: dict[str, Any]) -> Decision:
         """Evaluate context against MEG policies"""
         if self._use_real_guardian and self._guardian:
             # Use real Guardian evaluation
@@ -81,7 +81,7 @@ class MEGPolicyBridge:
             risk_level=RiskLevel.LOW
         )
 
-    def _sync_guardian_evaluate(self, action_proposal: Dict[str, Any]) -> Dict[str, Any]:
+    def _sync_guardian_evaluate(self, action_proposal: dict[str, Any]) -> dict[str, Any]:
         """Synchronous wrapper for Guardian evaluation"""
         # Simple synchronous fallback for now
         return {
@@ -102,7 +102,7 @@ class MEGPolicyBridge:
         return mapping.get(severity, RiskLevel.LOW)
 
 
-def create_meg_bridge(config: Optional[Dict] = None) -> MEGPolicyBridge:
+def create_meg_bridge(config: Optional[dict] = None) -> MEGPolicyBridge:
     """Factory for MEG bridge"""
     return MEGPolicyBridge(config)
 
@@ -110,7 +110,7 @@ def create_meg_bridge(config: Optional[Dict] = None) -> MEGPolicyBridge:
 class EthicsEngine:
     """Ethics engine with Guardian integration"""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self._guardian = None
         self._use_real_guardian = self._try_load_guardian()
@@ -127,7 +127,7 @@ class EthicsEngine:
         except ImportError:
             return False
 
-    async def evaluate(self, action: str, context: Dict[str, Any]) -> Decision:
+    async def evaluate(self, action: str, context: dict[str, Any]) -> Decision:
         """Evaluate ethical implications"""
         if self._use_real_guardian and self._guardian:
             try:
@@ -158,7 +158,7 @@ class EthicsEngine:
             risk_level=RiskLevel.LOW
         )
 
-    async def _async_guardian_evaluate(self, action_proposal: Dict[str, Any]) -> Decision:
+    async def _async_guardian_evaluate(self, action_proposal: dict[str, Any]) -> Decision:
         """Async wrapper for Guardian evaluation"""
         # Simple implementation for now
         action = action_proposal.get("description", "")
@@ -178,7 +178,7 @@ class EthicsEngine:
 class SafetyChecker:
     """Safety checker stub"""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         warnings.warn("Using SafetyChecker stub", UserWarning)
 

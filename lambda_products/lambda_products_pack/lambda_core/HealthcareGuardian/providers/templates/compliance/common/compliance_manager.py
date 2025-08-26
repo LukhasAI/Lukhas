@@ -9,7 +9,7 @@ import logging
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ class ComplianceFramework(Enum):
 class BaseComplianceManager(ABC):
     """Base class for compliance management"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.compliance_level = ComplianceLevel(config.get('compliance_level', 'standard'))
         self.frameworks = [ComplianceFramework(f) for f in config.get('frameworks', ['gdpr'])]
@@ -45,7 +45,7 @@ class BaseComplianceManager(ABC):
 
     @abstractmethod
     async def validate_data_processing(self,
-                                     data: Dict[str, Any],
+                                     data: dict[str, Any],
                                      purpose: str,
                                      legal_basis: str) -> bool:
         """Validate if data processing is compliant"""
@@ -55,7 +55,7 @@ class BaseComplianceManager(ABC):
     async def check_consent(self,
                           subject_id: str,
                           purpose: str,
-                          data_types: List[str]) -> bool:
+                          data_types: list[str]) -> bool:
         """Check if consent exists for data processing"""
         pass
 
@@ -63,7 +63,7 @@ class BaseComplianceManager(ABC):
     async def log_data_access(self,
                             user_id: str,
                             subject_id: str,
-                            data_accessed: List[str],
+                            data_accessed: list[str],
                             purpose: str) -> None:
         """Log data access for audit purposes"""
         pass
@@ -71,13 +71,13 @@ class BaseComplianceManager(ABC):
 class UnifiedComplianceManager(BaseComplianceManager):
     """Unified compliance manager supporting multiple frameworks"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         super().__init__(config)
         self.data_retention_days = config.get('data_retention_days', 2555)  # 7 years default
         self.consent_cache = {}
 
     async def validate_data_processing(self,
-                                     data: Dict[str, Any],
+                                     data: dict[str, Any],
                                      purpose: str,
                                      legal_basis: str) -> bool:
         """Validate data processing across all configured frameworks"""
@@ -97,7 +97,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         return True
 
     async def _validate_gdpr_processing(self,
-                                      data: Dict[str, Any],
+                                      data: dict[str, Any],
                                       purpose: str,
                                       legal_basis: str) -> bool:
         """Validate GDPR compliance"""
@@ -120,7 +120,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         return True
 
     async def _validate_hipaa_processing(self,
-                                       data: Dict[str, Any],
+                                       data: dict[str, Any],
                                        purpose: str,
                                        legal_basis: str) -> bool:
         """Validate HIPAA compliance"""
@@ -138,7 +138,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         return True
 
     async def _validate_lopd_processing(self,
-                                      data: Dict[str, Any],
+                                      data: dict[str, Any],
                                       purpose: str,
                                       legal_basis: str) -> bool:
         """Validate Spanish LOPD compliance"""
@@ -146,7 +146,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         # LOPD follows similar principles to GDPR
         return await self._validate_gdpr_processing(data, purpose, legal_basis)
 
-    def _check_data_minimization(self, data: Dict[str, Any], purpose: str) -> bool:
+    def _check_data_minimization(self, data: dict[str, Any], purpose: str) -> bool:
         """Check if data collection follows minimization principle"""
 
         # Define purpose-specific data requirements
@@ -169,7 +169,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
     async def check_consent(self,
                           subject_id: str,
                           purpose: str,
-                          data_types: List[str]) -> bool:
+                          data_types: list[str]) -> bool:
         """Check consent across all frameworks"""
 
         # Check cache first
@@ -199,7 +199,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
     async def _check_gdpr_consent(self,
                                 subject_id: str,
                                 purpose: str,
-                                data_types: List[str]) -> bool:
+                                data_types: list[str]) -> bool:
         """Check GDPR consent requirements"""
 
         # GDPR requires explicit consent for sensitive data
@@ -216,7 +216,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
     async def _check_hipaa_authorization(self,
                                        subject_id: str,
                                        purpose: str,
-                                       data_types: List[str]) -> bool:
+                                       data_types: list[str]) -> bool:
         """Check HIPAA authorization requirements"""
 
         # HIPAA allows disclosure for TPO without authorization
@@ -244,7 +244,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
     async def log_data_access(self,
                             user_id: str,
                             subject_id: str,
-                            data_accessed: List[str],
+                            data_accessed: list[str],
                             purpose: str) -> None:
         """Log data access for audit purposes"""
 

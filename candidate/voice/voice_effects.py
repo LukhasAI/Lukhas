@@ -9,7 +9,7 @@ Advanced voice effect processing with real-time capabilities and Trinity Framewo
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -68,9 +68,9 @@ class EffectParameters:
     delay_time: Optional[float] = None
 
     # Custom parameters
-    custom_params: Dict[str, Any] = field(default_factory=dict)
+    custom_params: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "intensity": self.intensity.value,
@@ -379,7 +379,6 @@ class PitchShiftEffect(VoiceEffect):
             return buffer
 
         data = buffer.data.copy()
-        sample_rate = buffer.sample_rate
 
         # Pitch shift amount in semitones
         semitones = parameters.custom_params.get("semitones", 0)
@@ -583,7 +582,7 @@ class VoiceEffectsProcessor:
     async def apply_effect_chain(
         self,
         buffer: AudioBuffer,
-        effect_chain: List[Tuple[VoiceEffectType, EffectParameters]]
+        effect_chain: list[tuple[VoiceEffectType, EffectParameters]]
     ) -> AudioBuffer:
         """Apply chain of effects to audio buffer"""
         current_buffer = buffer
@@ -634,11 +633,11 @@ class VoiceEffectsProcessor:
 
         return result
 
-    def get_available_effects(self) -> List[VoiceEffectType]:
+    def get_available_effects(self) -> list[VoiceEffectType]:
         """Get list of available effects"""
         return list(self.effects.keys())
 
-    def get_available_presets(self) -> List[str]:
+    def get_available_presets(self) -> list[str]:
         """Get list of available presets"""
         return list(self.presets.keys())
 
@@ -648,14 +647,14 @@ class VoiceEffectsProcessor:
             return self.effects[effect_type].get_latency_ms()
         return 0.0
 
-    def get_chain_latency(self, effect_chain: List[VoiceEffectType]) -> float:
+    def get_chain_latency(self, effect_chain: list[VoiceEffectType]) -> float:
         """Get total latency for effect chain"""
         return sum(self.get_effect_latency(effect_type) for effect_type in effect_chain)
 
     def add_custom_preset(
         self,
         name: str,
-        effect_chain: List[Tuple[VoiceEffectType, EffectParameters]]
+        effect_chain: list[tuple[VoiceEffectType, EffectParameters]]
     ):
         """Add custom preset"""
         self.presets[name] = effect_chain

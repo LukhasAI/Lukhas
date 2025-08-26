@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field, validator
 
@@ -20,13 +20,13 @@ class FeedbackContext(BaseModel):
 class FeedbackData(BaseModel):
     """User feedback data."""
     satisfaction: float = Field(..., ge=0.0, le=1.0, description="Satisfaction score 0-1")
-    issues: List[str] = Field(default_factory=list, description="List of issue types")
-    note_hash: Optional[str] = Field(None, description="HMAC hash of user note")
+    issues: list[str] = Field(default_factory=list, description="List of issue types")
+    note_hash: str | None = Field(None, description="HMAC hash of user note")
 
 class ProposedTuning(BaseModel):
     """Proposed tuning parameters."""
-    style: Optional[str] = Field(None, description="Proposed style")
-    threshold_delta: Optional[float] = Field(None, description="Threshold adjustment")
+    style: str | None = Field(None, description="Proposed style")
+    threshold_delta: float | None = Field(None, description="Threshold adjustment")
 
     @validator("style")
     def validate_style(cls, v):
@@ -50,7 +50,7 @@ class FeedbackAttestation(BaseModel):
     alg: str = Field(..., description="Algorithm (dilithium3, ed25519)")
     sig: str = Field(..., description="Signature")
     content_hash: str = Field(..., description="SHA3-512 hash of content")
-    pubkey_id: Optional[str] = Field(None, description="Public key identifier")
+    pubkey_id: str | None = Field(None, description="Public key identifier")
 
 class FeedbackCard(BaseModel):
     """Complete feedback card schema."""
@@ -60,9 +60,9 @@ class FeedbackCard(BaseModel):
     session_hash: str = Field(..., description="HMAC SHA3-512 of session ID")
     context: FeedbackContext
     feedback: FeedbackData
-    proposed_tuning: Optional[ProposedTuning] = None
+    proposed_tuning: ProposedTuning | None = None
     constraints: FeedbackConstraints = Field(default_factory=FeedbackConstraints)
-    attestation: Optional[FeedbackAttestation] = None
+    attestation: FeedbackAttestation | None = None
 
     class Config:
         json_encoders = {
@@ -71,9 +71,9 @@ class FeedbackCard(BaseModel):
 
 class PolicySafePatch(BaseModel):
     """Policy-safe configuration patch."""
-    style: Optional[str] = Field(None, description="Style adjustment")
-    threshold_delta: Optional[float] = Field(None, description="Threshold adjustment")
-    explain_depth: Optional[int] = Field(None, ge=1, le=5, description="Explanation depth")
+    style: str | None = Field(None, description="Style adjustment")
+    threshold_delta: float | None = Field(None, description="Threshold adjustment")
+    explain_depth: int | None = Field(None, ge=1, le=5, description="Explanation depth")
 
     @validator("style")
     def validate_style(cls, v):
@@ -92,13 +92,13 @@ class ChangeProposal(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     author: str = Field(..., description="Author of the proposal")
     target_file: str = Field(..., description="Target configuration file")
-    patch: Dict[str, Any] = Field(..., description="Configuration patch to apply")
+    patch: dict[str, Any] = Field(..., description="Configuration patch to apply")
     risk: Literal["low", "medium", "high"] = Field("low")
     ttl_sec: int = Field(3600, description="Time to live in seconds")
     status: Literal["pending", "approved", "rejected", "applied"] = Field("pending")
     created_at: datetime = Field(default_factory=datetime.utcnow)
-    feedback_ref: Optional[str] = Field(None, description="Reference to feedback card")
-    cluster_id: Optional[str] = Field(None, description="Reference to feedback cluster")
+    feedback_ref: str | None = Field(None, description="Reference to feedback card")
+    cluster_id: str | None = Field(None, description="Reference to feedback cluster")
 
     class Config:
         json_encoders = {
@@ -110,12 +110,12 @@ class FeedbackCluster(BaseModel):
     cluster_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     task: str = Field(..., description="Task type")
     jurisdiction: str = Field(..., description="Jurisdiction")
-    feedback_ids: List[str] = Field(..., description="List of feedback card IDs")
+    feedback_ids: list[str] = Field(..., description="List of feedback card IDs")
     sat_mean: float = Field(..., description="Mean satisfaction score")
     sat_var: float = Field(..., description="Satisfaction variance")
     n_samples: int = Field(..., description="Number of samples")
-    common_issues: List[str] = Field(default_factory=list, description="Common issues")
-    drift_delta: Optional[float] = Field(None, description="Observed drift from baseline")
+    common_issues: list[str] = Field(default_factory=list, description="Common issues")
+    drift_delta: float | None = Field(None, description="Observed drift from baseline")
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:

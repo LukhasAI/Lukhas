@@ -4,14 +4,14 @@ Following DeepMind's approach to responsible AI governance
 """
 
 from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import APIRouter, HTTPException
 
 router = APIRouter()
 
 @router.get("/compliance-matrix")
-async def get_compliance_matrix() -> Dict[str, Any]:
+async def get_compliance_matrix() -> dict[str, Any]:
     """Get comprehensive compliance status across all regulations"""
     return {
         "overall_compliance": 85.3,
@@ -75,7 +75,7 @@ async def get_compliance_matrix() -> Dict[str, Any]:
     }
 
 @router.get("/ethics-board")
-async def get_ethics_board_status() -> Dict[str, Any]:
+async def get_ethics_board_status() -> dict[str, Any]:
     """Get AI ethics board decisions and pending reviews"""
     return {
         "board_members": 7,
@@ -121,7 +121,7 @@ async def get_ethics_board_status() -> Dict[str, Any]:
     }
 
 @router.get("/audit-trail")
-async def get_audit_trail(limit: int = 100) -> Dict[str, Any]:
+async def get_audit_trail(limit: int = 100) -> dict[str, Any]:
     """Get comprehensive audit trail of all system actions"""
     return {
         "total_events": 48392,
@@ -166,7 +166,7 @@ async def get_audit_trail(limit: int = 100) -> Dict[str, Any]:
     }
 
 @router.get("/data-privacy")
-async def get_data_privacy_metrics() -> Dict[str, Any]:
+async def get_data_privacy_metrics() -> dict[str, Any]:
     """Get data privacy and protection metrics"""
     return {
         "privacy_score": 96.8,
@@ -208,7 +208,7 @@ async def get_data_privacy_metrics() -> Dict[str, Any]:
     }
 
 @router.get("/policy-engine")
-async def get_policy_engine_status() -> Dict[str, Any]:
+async def get_policy_engine_status() -> dict[str, Any]:
     """Get policy engine rules and enforcement status"""
     return {
         "engine_version": "3.2.1",
@@ -249,7 +249,7 @@ async def get_policy_engine_status() -> Dict[str, Any]:
     }
 
 @router.get("/stakeholder-dashboard/{stakeholder_type}")
-async def get_stakeholder_dashboard(stakeholder_type: str) -> Dict[str, Any]:
+async def get_stakeholder_dashboard(stakeholder_type: str) -> dict[str, Any]:
     """Get customized dashboard for different stakeholders"""
 
     dashboards = {
@@ -320,7 +320,7 @@ async def get_stakeholder_dashboard(stakeholder_type: str) -> Dict[str, Any]:
     }
 
 @router.post("/compliance-report/generate")
-async def generate_compliance_report(regulation: str) -> Dict[str, Any]:
+async def generate_compliance_report(regulation: str) -> dict[str, Any]:
     """Generate a compliance report for specific regulation"""
     return {
         "report_id": f"RPT-{regulation}-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}",

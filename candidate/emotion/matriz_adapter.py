@@ -7,7 +7,7 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class EmotionMatrizAdapter:
@@ -18,10 +18,10 @@ class EmotionMatrizAdapter:
     @staticmethod
     def create_node(
         node_type: str,
-        state: Dict[str, float],
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        state: dict[str, float],
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for emotion events"""
 
         node = {
@@ -59,7 +59,7 @@ class EmotionMatrizAdapter:
         arousal: float,
         dominance: float,
         emotion_label: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a VAD emotion state node"""
 
         labels = ["emotion:vad"]
@@ -86,10 +86,10 @@ class EmotionMatrizAdapter:
 
     @staticmethod
     def emit_mood_drift(
-        current_mood: Dict[str, float],
-        target_mood: Dict[str, float],
+        current_mood: dict[str, float],
+        target_mood: dict[str, float],
         drift_score: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a mood drift detection node"""
 
         return EmotionMatrizAdapter.create_node(
@@ -115,8 +115,8 @@ class EmotionMatrizAdapter:
     def emit_emotion_intent(
         intent: str,
         confidence: float,
-        context: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Emit an emotion-intent mapping node"""
 
         return EmotionMatrizAdapter.create_node(
@@ -139,7 +139,7 @@ class EmotionMatrizAdapter:
         emotion: str,
         duration_ms: int,
         threshold_ms: int = 5000
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit an affect stagnation detection node"""
 
         stagnation_ratio = duration_ms / threshold_ms
@@ -162,7 +162,7 @@ class EmotionMatrizAdapter:
         )
 
     @staticmethod
-    def validate_node(node: Dict[str, Any]) -> bool:
+    def validate_node(node: dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
 
@@ -172,14 +172,10 @@ class EmotionMatrizAdapter:
 
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-        for field in required_prov:
-            if field not in node.get("provenance", {}):
-                return False
-
-        return True
+        return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
-    def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+    def save_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/emotion")

@@ -42,7 +42,7 @@ class EthicalViolation:
     severity: EscalationTier
     description: str
     timestamp: datetime
-    context: Optional[Dict[str, Any]] = None
+    context: Optional[dict[str, Any]] = None
 
 
 class EthicalDriftSentinel:
@@ -52,12 +52,12 @@ class EthicalDriftSentinel:
         self.threshold = threshold
         self.violations = []
 
-    def detect_violation(self, context: Dict[str, Any]) -> Optional[EthicalViolation]:
+    def detect_violation(self, context: dict[str, Any]) -> Optional[EthicalViolation]:
         """Detect ethical violations in context"""
         # Basic implementation - can be enhanced
         return None
 
-    def escalate(self, violation: EthicalViolation) -> Dict[str, Any]:
+    def escalate(self, violation: EthicalViolation) -> dict[str, Any]:
         """Escalate ethical violation"""
         self.violations.append(violation)
         return {

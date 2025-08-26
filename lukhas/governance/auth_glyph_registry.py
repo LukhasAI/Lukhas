@@ -24,7 +24,7 @@ import hashlib
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 # LUKHAS imports
 try:
@@ -62,7 +62,7 @@ class AuthGlyph:
     description: str
     tier_level: Optional[str] = None
     security_level: Optional[str] = None
-    metadata: Dict[str, Any] = None
+    metadata: dict[str, Any] = None
     created_at: datetime = None
 
     def __post_init__(self):
@@ -82,7 +82,7 @@ class SymbolicIdentity:
     constitutional_glyph: str
     trinity_glyph: str
     composite_glyph: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     created_at: datetime
     expires_at: Optional[datetime] = None
 
@@ -101,11 +101,11 @@ class AuthGlyphRegistry:
         self.glyph_factory = GlyphFactory() if GlyphFactory else None
 
         # Registry storage
-        self.registered_glyphs: Dict[str, AuthGlyph] = {}
-        self.category_index: Dict[AuthGlyphCategory, Set[str]] = {
+        self.registered_glyphs: dict[str, AuthGlyph] = {}
+        self.category_index: dict[AuthGlyphCategory, set[str]] = {
             category: set() for category in AuthGlyphCategory
         }
-        self.symbolic_identities: Dict[str, SymbolicIdentity] = {}
+        self.symbolic_identities: dict[str, SymbolicIdentity] = {}
 
         # Initialize core authentication GLYPHs
         self._initialize_core_glyphs()
@@ -311,7 +311,7 @@ class AuthGlyphRegistry:
         """Get a registered GLYPH by ID"""
         return self.registered_glyphs.get(glyph_id)
 
-    def get_glyphs_by_category(self, category: AuthGlyphCategory) -> List[AuthGlyph]:
+    def get_glyphs_by_category(self, category: AuthGlyphCategory) -> list[AuthGlyph]:
         """Get all GLYPHs in a specific category"""
         glyph_ids = self.category_index.get(category, set())
         return [self.registered_glyphs[glyph_id] for glyph_id in glyph_ids]
@@ -324,8 +324,8 @@ class AuthGlyphRegistry:
     def create_symbolic_identity(self,
                                user_id: str,
                                tier_level: str,
-                               access_context: Dict[str, Any],
-                               session_context: Dict[str, Any]) -> SymbolicIdentity:
+                               access_context: dict[str, Any],
+                               session_context: dict[str, Any]) -> SymbolicIdentity:
         """Create symbolic identity representation for user"""
         try:
             # Get tier GLYPH
@@ -396,7 +396,7 @@ class AuthGlyphRegistry:
                 created_at=datetime.now()
             )
 
-    def _create_trinity_glyph(self, access_context: Dict[str, Any], session_context: Dict[str, Any]) -> str:
+    def _create_trinity_glyph(self, access_context: dict[str, Any], session_context: dict[str, Any]) -> str:
         """Create Trinity Framework GLYPH"""
         # Get Trinity symbols
         identity_symbol = self.get_glyph('trinity_identity').symbol
@@ -429,9 +429,9 @@ class AuthGlyphRegistry:
     def encode_jwt_glyph_claims(self,
                               user_id: str,
                               tier_level: str,
-                              scopes: List[str],
+                              scopes: list[str],
                               session_id: str,
-                              metadata: Dict[str, Any]) -> Dict[str, Any]:
+                              metadata: dict[str, Any]) -> dict[str, Any]:
         """Encode GLYPH claims for JWT token"""
         try:
             # Get or create symbolic identity
@@ -517,7 +517,7 @@ class AuthGlyphRegistry:
 
         return scope_symbols.get(scope, '🔹')
 
-    def decode_glyph_claims(self, glyph_claims: Dict[str, Any]) -> Dict[str, Any]:
+    def decode_glyph_claims(self, glyph_claims: dict[str, Any]) -> dict[str, Any]:
         """Decode GLYPH claims from JWT token"""
         try:
             decoded = {
@@ -544,7 +544,7 @@ class AuthGlyphRegistry:
         except Exception as e:
             return {'error': str(e), 'decoded': False}
 
-    def _analyze_glyph_security(self, glyph_claims: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_glyph_security(self, glyph_claims: dict[str, Any]) -> dict[str, Any]:
         """Analyze GLYPH claims for security insights"""
         analysis = {
             'risk_level': 'low',
@@ -580,7 +580,7 @@ class AuthGlyphRegistry:
     def get_cross_module_glyph_message(self,
                                      target_module: str,
                                      message_type: str,
-                                     auth_context: Dict[str, Any]) -> str:
+                                     auth_context: dict[str, Any]) -> str:
         """Create GLYPH message for cross-module communication"""
         try:
             # Get user symbolic identity
@@ -624,7 +624,7 @@ class AuthGlyphRegistry:
         except Exception as e:
             return f"MSG[ERROR:{str(e)[:8]}]"
 
-    def get_registry_stats(self) -> Dict[str, Any]:
+    def get_registry_stats(self) -> dict[str, Any]:
         """Get authentication GLYPH registry statistics"""
         stats = {
             'total_glyphs': len(self.registered_glyphs),

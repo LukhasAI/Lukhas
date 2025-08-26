@@ -7,7 +7,7 @@ with AI-powered optimization and real-time processing capabilities.
 
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class TaskProcessor:
@@ -16,11 +16,11 @@ class TaskProcessor:
     """
 
     def __init__(self):
-        self.processing_patterns: Dict[str, Any] = {}
-        self.task_templates: Dict[str, Dict] = self._initialize_templates()
-        self.processing_cache: Dict[str, Any] = {}
+        self.processing_patterns: dict[str, Any] = {}
+        self.task_templates: dict[str, dict] = self._initialize_templates()
+        self.processing_cache: dict[str, Any] = {}
 
-    def _initialize_templates(self) -> Dict[str, Dict]:
+    def _initialize_templates(self) -> dict[str, dict]:
         """Initialize task processing templates"""
         return {
             "bug_fix": {
@@ -53,7 +53,7 @@ class TaskProcessor:
             }
         }
 
-    def process_task(self, task_data: Dict) -> Dict[str, Any]:
+    def process_task(self, task_data: dict) -> dict[str, Any]:
         """Process task with AI-powered enhancements"""
         start_time = time.time()
 
@@ -78,7 +78,7 @@ class TaskProcessor:
 
         return processed_task
 
-    def _match_template(self, task_data: Dict) -> Optional[Dict]:
+    def _match_template(self, task_data: dict) -> Optional[dict]:
         """Match task to appropriate template using AI pattern recognition"""
         description = task_data.get("description", "").lower()
         title = task_data.get("title", "").lower()
@@ -99,12 +99,12 @@ class TaskProcessor:
 
         return best_match
 
-    def _calculate_template_match_score(self, text: str, patterns: List[str]) -> float:
+    def _calculate_template_match_score(self, text: str, patterns: list[str]) -> float:
         """Calculate how well text matches template patterns"""
         matches = sum(1 for pattern in patterns if pattern in text)
         return matches / len(patterns) if patterns else 0.0
 
-    def _apply_template(self, task_data: Dict, template: Dict) -> Dict:
+    def _apply_template(self, task_data: dict, template: dict) -> dict:
         """Apply template defaults and enhancements to task"""
         enhanced_task = task_data.copy()
 
@@ -126,7 +126,7 @@ class TaskProcessor:
 
         return enhanced_task
 
-    def _apply_ai_enhancements(self, task_data: Dict) -> Dict[str, Any]:
+    def _apply_ai_enhancements(self, task_data: dict) -> dict[str, Any]:
         """Apply AI-powered task enhancements"""
         enhancements = {}
 
@@ -150,7 +150,7 @@ class TaskProcessor:
 
         return enhancements
 
-    def _ai_estimate_duration(self, task_data: Dict) -> int:
+    def _ai_estimate_duration(self, task_data: dict) -> int:
         """AI-powered duration estimation in minutes"""
         description = task_data.get("description", "").lower()
 
@@ -166,7 +166,7 @@ class TaskProcessor:
         else:
             return 120  # Default
 
-    def _ai_suggest_tags(self, task_data: Dict) -> List[str]:
+    def _ai_suggest_tags(self, task_data: dict) -> list[str]:
         """AI-powered tag suggestions"""
         description = task_data.get("description", "").lower()
         title = task_data.get("title", "").lower()
@@ -190,7 +190,7 @@ class TaskProcessor:
 
         return suggested_tags
 
-    def _ai_assess_risks(self, task_data: Dict) -> Dict[str, Any]:
+    def _ai_assess_risks(self, task_data: dict) -> dict[str, Any]:
         """AI-powered risk assessment"""
         description = task_data.get("description", "").lower()
 
@@ -222,7 +222,7 @@ class TaskProcessor:
 
         return risks
 
-    def _ai_suggest_success_criteria(self, task_data: Dict) -> List[str]:
+    def _ai_suggest_success_criteria(self, task_data: dict) -> list[str]:
         """AI-powered success criteria suggestions"""
         description = task_data.get("description", "").lower()
 
@@ -248,10 +248,10 @@ class TagProcessor:
     """
 
     def __init__(self):
-        self.tag_hierarchy: Dict[str, List[str]] = self._initialize_tag_hierarchy()
-        self.tag_analytics: Dict[str, Dict] = {}
+        self.tag_hierarchy: dict[str, list[str]] = self._initialize_tag_hierarchy()
+        self.tag_analytics: dict[str, dict] = {}
 
-    def _initialize_tag_hierarchy(self) -> Dict[str, List[str]]:
+    def _initialize_tag_hierarchy(self) -> dict[str, list[str]]:
         """Initialize hierarchical tag structure"""
         return {
             "technology": ["frontend", "backend", "mobile", "devops", "database"],
@@ -261,7 +261,7 @@ class TagProcessor:
             "team": ["engineering", "design", "product", "qa", "devops"]
         }
 
-    def process_tags(self, tags: List[str], context: Optional[Dict] = None) -> Dict[str, Any]:
+    def process_tags(self, tags: list[str], context: Optional[dict] = None) -> dict[str, Any]:
         """Process and enhance tags with intelligent categorization"""
         processed = {
             "original_tags": tags,
@@ -274,7 +274,7 @@ class TagProcessor:
 
         return processed
 
-    def _normalize_tags(self, tags: List[str]) -> List[str]:
+    def _normalize_tags(self, tags: list[str]) -> list[str]:
         """Normalize tag formatting and handle aliases"""
         normalized = []
 
@@ -303,10 +303,10 @@ class TagProcessor:
 
         return normalized
 
-    def _suggest_additional_tags(self, current_tags: List[str], context: Dict) -> List[str]:
+    def _suggest_additional_tags(self, current_tags: list[str], context: dict) -> list[str]:
         """Suggest additional relevant tags"""
         suggestions = []
-        current_set = set(tag.lower() for tag in current_tags)
+        current_set = {tag.lower() for tag in current_tags}
 
         # Context-based suggestions
         if context.get("repo"):
@@ -326,7 +326,7 @@ class TagProcessor:
 
         return suggestions
 
-    def _categorize_tags(self, tags: List[str]) -> Dict[str, List[str]]:
+    def _categorize_tags(self, tags: list[str]) -> dict[str, list[str]]:
         """Categorize tags by hierarchy"""
         categorized = {}
 
@@ -346,7 +346,7 @@ class TagProcessor:
 
         return categorized
 
-    def _detect_tag_conflicts(self, tags: List[str]) -> List[Dict[str, Any]]:
+    def _detect_tag_conflicts(self, tags: list[str]) -> list[dict[str, Any]]:
         """Detect conflicting tags"""
         conflicts = []
         tags_lower = [tag.lower() for tag in tags]
@@ -371,7 +371,7 @@ class TagProcessor:
 
         return conflicts
 
-    def _analyze_tag_usage(self, tags: List[str]) -> Dict[str, Any]:
+    def _analyze_tag_usage(self, tags: list[str]) -> dict[str, Any]:
         """Analyze tag usage patterns"""
         return {
             "tag_count": len(tags),
@@ -380,7 +380,7 @@ class TagProcessor:
             "optimization_suggestions": self._suggest_tag_optimizations(tags)
         }
 
-    def _calculate_tag_completeness(self, tags: List[str]) -> float:
+    def _calculate_tag_completeness(self, tags: list[str]) -> float:
         """Calculate how complete the tag set is"""
         categories = self._categorize_tags(tags)
         important_categories = ["technology", "type", "priority"]
@@ -388,7 +388,7 @@ class TagProcessor:
         coverage = sum(1 for cat in important_categories if cat in categories)
         return coverage / len(important_categories)
 
-    def _suggest_tag_optimizations(self, tags: List[str]) -> List[str]:
+    def _suggest_tag_optimizations(self, tags: list[str]) -> list[str]:
         """Suggest tag optimizations"""
         suggestions = []
 
@@ -411,10 +411,10 @@ class AttentionProcessor:
     """
 
     def __init__(self):
-        self.attention_patterns: Dict[str, Any] = {}
-        self.focus_sessions: List[Dict] = []
+        self.attention_patterns: dict[str, Any] = {}
+        self.focus_sessions: list[dict] = []
 
-    def process_attention_request(self, request: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+    def process_attention_request(self, request: str, context: Optional[dict] = None) -> dict[str, Any]:
         """Process attention/focus requests with AI optimization"""
         attention_analysis = {
             "focus_type": self._classify_focus_type(request),
@@ -455,7 +455,7 @@ class AttentionProcessor:
 
         return duration_map.get(focus_type, 50)
 
-    def _suggest_distraction_mitigation(self, request: str) -> List[str]:
+    def _suggest_distraction_mitigation(self, request: str) -> list[str]:
         """Suggest ways to minimize distractions"""
         suggestions = [
             "Close unnecessary browser tabs",
@@ -480,7 +480,7 @@ class AttentionProcessor:
 
         return suggestions
 
-    def _calculate_attention_score(self, context: Dict) -> float:
+    def _calculate_attention_score(self, context: dict) -> float:
         """Calculate current attention readiness score"""
         base_score = 7.0
 
@@ -507,10 +507,10 @@ class SolutionProcessor:
     """
 
     def __init__(self):
-        self.solution_database: Dict[str, Any] = {}
-        self.pattern_library: Dict[str, List[Dict]] = {}
+        self.solution_database: dict[str, Any] = {}
+        self.pattern_library: dict[str, list[dict]] = {}
 
-    def process_solution(self, problem: str, solution: str, context: Optional[Dict] = None) -> Dict[str, Any]:
+    def process_solution(self, problem: str, solution: str, context: Optional[dict] = None) -> dict[str, Any]:
         """Process and store solution with intelligent categorization"""
         solution_record = {
             "problem": problem,
@@ -542,7 +542,7 @@ class SolutionProcessor:
         content = f"{problem}{solution}{time.time()}"
         return hashlib.md5(content.encode()).hexdigest()[:12]
 
-    def _categorize_solution(self, problem: str, solution: str) -> List[str]:
+    def _categorize_solution(self, problem: str, solution: str) -> list[str]:
         """Categorize solution for better organization"""
         categories = []
         combined_text = f"{problem} {solution}".lower()
@@ -569,7 +569,7 @@ class SolutionProcessor:
 
         return categories if categories else ["general_solution"]
 
-    def _find_related_solutions(self, problem: str, solution: str) -> List[str]:
+    def _find_related_solutions(self, problem: str, solution: str) -> list[str]:
         """Find related solutions using similarity matching"""
         related = []
 
@@ -592,7 +592,7 @@ class SolutionProcessor:
 
         return len(intersection) / len(union) if union else 0.0
 
-    def _update_pattern_library(self, solution_record: Dict):
+    def _update_pattern_library(self, solution_record: dict):
         """Update pattern library with new solution"""
         for category in solution_record["categories"]:
             if category not in self.pattern_library:
@@ -631,7 +631,7 @@ class SolutionProcessor:
         else:
             return "custom_solution"
 
-    def _calculate_reusability_score(self, solution_record: Dict) -> float:
+    def _calculate_reusability_score(self, solution_record: dict) -> float:
         """Calculate how reusable this solution is"""
         score = 5.0
 

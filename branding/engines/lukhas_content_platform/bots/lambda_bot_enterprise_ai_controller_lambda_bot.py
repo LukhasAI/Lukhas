@@ -12,7 +12,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 # Add workspace core to path
 sys.path.append('/Users/agi_dev/AGI-Consolidation-Repo/core')
@@ -54,8 +54,8 @@ class ModularizationSession:
     start_time: datetime
     consciousness_level: ConsciousnessState = ConsciousnessState.DORMANT
     compliance_status: str = "pending"
-    module_progress: Dict[str, float] = field(default_factory=dict)
-    ethical_checkpoints: List[str] = field(default_factory=list)
+    module_progress: dict[str, float] = field(default_factory=dict)
+    ethical_checkpoints: list[str] = field(default_factory=list)
     gdpr_validated: bool = False
     ccpa_validated: bool = False
 
@@ -145,7 +145,7 @@ class AGIControllerΛBot:
             logger.error(f"❌ Consciousness control initialization failed: {e}")
             return False
 
-    async def start_consciousness_modularization_session(self, project_path: str, compliance_requirements: List[str] = None) -> ModularizationSession:
+    async def start_consciousness_modularization_session(self, project_path: str, compliance_requirements: list[str] = None) -> ModularizationSession:
         """Start a consciousness-controlled modularization session"""
         session_id = f"agi_mod_{int(time.time())}"
 
@@ -177,7 +177,7 @@ class AGIControllerΛBot:
         logger.info("✅ Consciousness modularization session active")
         return session
 
-    async def consciousness_guided_analysis(self, analysis_target: str) -> Dict[str, Any]:
+    async def consciousness_guided_analysis(self, analysis_target: str) -> dict[str, Any]:
         """
         Perfrom consciousness-guided analysis of modularization targets
         """
@@ -229,7 +229,7 @@ class AGIControllerΛBot:
             analysis_results['error'] = str(e)
             return analysis_results
 
-    async def _perform_consciousness_analysis(self, target: str) -> Dict[str, Any]:
+    async def _perform_consciousness_analysis(self, target: str) -> dict[str, Any]:
         """Perfrom consciousness-level analysis"""
         insights = {
             'consciousness_level': 'aware',
@@ -257,7 +257,7 @@ class AGIControllerΛBot:
         logger.info(f"🧠 Consciousness analysis: {insights['consciousness_insights']['system_awareness']}")
         return insights
 
-    async def _perform_compliance_validation(self, target: str) -> Dict[str, Any]:
+    async def _perform_compliance_validation(self, target: str) -> dict[str, Any]:
         """Perfrom GDPR/CCPA compliance validation"""
         validation = {
             'compliance_framework': 'enterprise_grade',
@@ -286,7 +286,7 @@ class AGIControllerΛBot:
         logger.info(f"🔒 Compliance validation: Score {validation['compliance_score']}")
         return validation
 
-    async def _perform_ethical_assessment(self, target: str) -> Dict[str, Any]:
+    async def _perform_ethical_assessment(self, target: str) -> dict[str, Any]:
         """Perfrom ethical reasoning assessment"""
         assessment = {
             'ethical_framework': 'consciousness_aware_ethics',
@@ -315,7 +315,7 @@ class AGIControllerΛBot:
         logger.info(f"⚖️ Ethical assessment: {assessment['ethical_score']} - {assessment['assessment_status']}")
         return assessment
 
-    async def _generate_consciousness_strategy(self, consciousness: Dict, compliance: Dict, ethics: Dict) -> Dict[str, Any]:
+    async def _generate_consciousness_strategy(self, consciousness: dict, compliance: dict, ethics: dict) -> dict[str, Any]:
         """Generate consciousness-guided modularization strategy"""
         strategy = {
             'strategy_type': 'consciousness_guided_modularization',
@@ -373,7 +373,7 @@ class AGIControllerΛBot:
         logger.info(f"🎯 Consciousness strategy generated with {len(strategy['implementation_phases'])} phases")
         return strategy
 
-    async def _validate_compliance_requirements(self, requirements: List[str]) -> bool:
+    async def _validate_compliance_requirements(self, requirements: list[str]) -> bool:
         """Validate compliance requirements"""
         if not self.compliance_engine:
             logger.warning("⚠️ Compliance engine not available")
@@ -393,7 +393,7 @@ class AGIControllerΛBot:
             logger.error(f"❌ Compliance validation error: {e}")
             return False
 
-    async def monitor_consciousness_session(self) -> Dict[str, Any]:
+    async def monitor_consciousness_session(self) -> dict[str, Any]:
         """Monitor the current consciousness session"""
         if not self.current_session:
             return {"error": "No active session"}

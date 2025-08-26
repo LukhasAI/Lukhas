@@ -9,7 +9,7 @@ Advanced audio filtering with real-time capabilities and Trinity Framework integ
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Optional, Tuple
+from typing import Optional
 
 import numpy as np
 from scipy import signal
@@ -271,7 +271,7 @@ class LUKHASAudioFilterBank:
     async def apply_filter_chain(
         self,
         buffer: AudioBuffer,
-        filter_chain: List[Tuple[FilterType, FilterParameters]]
+        filter_chain: list[tuple[FilterType, FilterParameters]]
     ) -> AudioBuffer:
         """Apply chain of filters"""
         current_buffer = buffer

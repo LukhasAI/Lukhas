@@ -5,7 +5,7 @@ Ensures data sovereignty and jurisdictional compliance.
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from candidate.core.interfaces import CoreInterface
 
@@ -29,7 +29,7 @@ class SovereigntyPreservationSystem(CoreInterface):
         self._initialized = True
         logger.info("Sovereignty Preservation System initialized")
 
-    async def analyze_requirements(self, jurisdiction: str) -> Dict[str, Any]:
+    async def analyze_requirements(self, jurisdiction: str) -> dict[str, Any]:
         """Analyze sovereignty requirements for a jurisdiction"""
 
         if jurisdiction in self.sovereignty_requirements:
@@ -44,8 +44,8 @@ class SovereigntyPreservationSystem(CoreInterface):
     async def implement_data_localization(
         self,
         jurisdiction: str,
-        requirements: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        requirements: dict[str, Any]
+    ) -> dict[str, Any]:
         """Implement data localization for a jurisdiction"""
 
         return {
@@ -58,8 +58,8 @@ class SovereigntyPreservationSystem(CoreInterface):
     async def ensure_processing_constraints(
         self,
         jurisdiction: str,
-        requirements: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        requirements: dict[str, Any]
+    ) -> dict[str, Any]:
         """Ensure processing constraints are met"""
 
         return {

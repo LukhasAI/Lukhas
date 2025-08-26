@@ -20,9 +20,9 @@ class EmotionalMemoryManager:
     """
 
     def __init__(self):
-        self.emotional_memories: List[Dict] = []
-        self.emotion_patterns: Dict[str, List] = {}
-        self.memory_folds: List[Dict] = []
+        self.emotional_memories: list[dict] = []
+        self.emotion_patterns: dict[str, list] = {}
+        self.memory_folds: list[dict] = []
         self.max_folds = 1000  # Maximum memory folds
         self.emotional_threshold = 0.5  # Threshold for emotional significance
 
@@ -34,7 +34,7 @@ class EmotionalMemoryManager:
         content: Any,
         emotion_type: str,
         intensity: float,
-        context: Optional[Dict] = None
+        context: Optional[dict] = None
     ) -> str:
         """
         Store an emotional memory.
@@ -76,7 +76,7 @@ class EmotionalMemoryManager:
 
         return memory_id
 
-    def retrieve_emotional_memory(self, memory_id: str) -> Optional[Dict]:
+    def retrieve_emotional_memory(self, memory_id: str) -> Optional[dict]:
         """
         Retrieve an emotional memory by ID.
 
@@ -93,7 +93,7 @@ class EmotionalMemoryManager:
 
         return None
 
-    def get_memories_by_emotion(self, emotion_type: str) -> List[Dict]:
+    def get_memories_by_emotion(self, emotion_type: str) -> list[dict]:
         """
         Get all memories associated with a specific emotion.
 
@@ -113,7 +113,7 @@ class EmotionalMemoryManager:
 
         return memories
 
-    def get_recent_emotional_state(self, window_size: int = 10) -> Dict[str, float]:
+    def get_recent_emotional_state(self, window_size: int = 10) -> dict[str, float]:
         """
         Get recent emotional state based on recent memories.
 
@@ -146,7 +146,7 @@ class EmotionalMemoryManager:
 
         return emotional_state
 
-    def _create_memory_fold(self, memory: Dict):
+    def _create_memory_fold(self, memory: dict):
         """
         Create a memory fold for significant emotional memories.
 
@@ -174,7 +174,7 @@ class EmotionalMemoryManager:
         self.memory_folds.append(fold)
         logger.debug(f"Created memory fold {fold['fold_index']} for memory {memory['id']}")
 
-    def consolidate_memories(self, time_window: float = 86400.0) -> Dict[str, Any]:
+    def consolidate_memories(self, time_window: float = 86400.0) -> dict[str, Any]:
         """
         Consolidate emotional memories within a time window.
 
@@ -264,13 +264,13 @@ def get_emotional_memory_manager() -> EmotionalMemoryManager:
 
 
 # Convenience functions
-def store_emotion(content: Any, emotion: str, intensity: float, context: Optional[Dict] = None) -> str:
+def store_emotion(content: Any, emotion: str, intensity: float, context: Optional[dict] = None) -> str:
     """Store an emotional memory."""
     manager = get_emotional_memory_manager()
     return manager.store_emotional_memory(content, emotion, intensity, context)
 
 
-def get_emotional_state() -> Dict[str, float]:
+def get_emotional_state() -> dict[str, float]:
     """Get current emotional state."""
     manager = get_emotional_memory_manager()
     return manager.get_recent_emotional_state()

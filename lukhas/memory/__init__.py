@@ -27,7 +27,7 @@ except ImportError:
 
 # Module-level convenience functions
 def create_fold(
-    content: Any, causal_chain: Optional[List[str]] = None, **kwargs
+    content: Any, causal_chain: Optional[list[str]] = None, **kwargs
 ) -> Optional[Any]:
     """Create a memory fold (dry-run by default)"""
     if not MEMORY_AVAILABLE:
@@ -39,7 +39,7 @@ def create_fold(
     return None
 
 
-def consolidate_memory(**kwargs) -> Dict[str, Any]:
+def consolidate_memory(**kwargs) -> dict[str, Any]:
     """Consolidate memory folds (dry-run by default)"""
     if not MEMORY_AVAILABLE:
         return {"ok": False, "error": "memory_not_available"}
@@ -50,7 +50,7 @@ def consolidate_memory(**kwargs) -> Dict[str, Any]:
     return {"ok": False, "error": "manager_not_available"}
 
 
-def access_memory(query: Dict[str, Any], **kwargs) -> Dict[str, Any]:
+def access_memory(query: dict[str, Any], **kwargs) -> dict[str, Any]:
     """Access memory with query (dry-run by default)"""
     if not MEMORY_AVAILABLE:
         return {"ok": False, "error": "memory_not_available"}
@@ -61,7 +61,7 @@ def access_memory(query: Dict[str, Any], **kwargs) -> Dict[str, Any]:
     return {"ok": False, "error": "manager_not_available"}
 
 
-def dump_state(output_path: str) -> Dict[str, Any]:
+def dump_state(output_path: str) -> dict[str, Any]:
     """Dump current memory state to JSON file"""
     import hashlib
     import json

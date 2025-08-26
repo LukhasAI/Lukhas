@@ -12,12 +12,11 @@ This module implements an entropy delta calculator from memory and affect traces
 """
 
 import math
-from typing import Dict, List
 
 
 # LUKHAS_TAG: symbolic_entropy
 def calculate_entropy_delta(
-    memory_traces: List[Dict], affect_traces: List[Dict]
+    memory_traces: list[dict], affect_traces: list[dict]
 ) -> float:
     """
     Calculates the entropy delta from memory and affect traces.
@@ -58,8 +57,8 @@ def calculate_entropy_delta(
 
 
 def entropy_state_snapshot(
-    memory_traces: List[Dict], affect_traces: List[Dict]
-) -> Dict:
+    memory_traces: list[dict], affect_traces: list[dict]
+) -> dict:
     """
     Exposes the entropy levels to Jules 05 and Codex C.
 

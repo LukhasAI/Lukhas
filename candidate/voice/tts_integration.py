@@ -11,7 +11,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from candidate.bridge.voice.systems.voice_synthesis import (
     CoquiProvider,
@@ -62,14 +62,14 @@ class TTSRequest:
     # Context parameters
     user_id: Optional[str] = None
     session_id: Optional[str] = None
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
     # Processing options
     apply_audio_processing: bool = True
     audio_processing_quality: ProcessingQuality = ProcessingQuality.STANDARD
     modulation_mode: Optional[VoiceModulationMode] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "text": self.text,
@@ -108,16 +108,16 @@ class TTSResponse:
     modulation_applied: bool = False
 
     # Quality metrics
-    quality_metrics: Dict[str, float] = field(default_factory=dict)
+    quality_metrics: dict[str, float] = field(default_factory=dict)
 
     # Error information
     error_message: Optional[str] = None
     error_code: Optional[str] = None
 
     # Metadata
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "success": self.success,
@@ -151,7 +151,7 @@ class TTSProviderAdapter(ABC):
         pass
 
     @abstractmethod
-    def get_supported_voices(self) -> List[Dict[str, Any]]:
+    def get_supported_voices(self) -> list[dict[str, Any]]:
         """Get list of supported voices"""
         pass
 
@@ -236,7 +236,7 @@ class LegacyTTSProviderAdapter(TTSProviderAdapter):
         """Check if legacy provider is available"""
         return self.provider.is_available()
 
-    def get_supported_voices(self) -> List[Dict[str, Any]]:
+    def get_supported_voices(self) -> list[dict[str, Any]]:
         """Get supported voices from legacy provider"""
         try:
             if hasattr(self.provider, 'get_available_voices'):
@@ -255,7 +255,7 @@ class LegacyTTSProviderAdapter(TTSProviderAdapter):
 class OpenAITTSAdapter(TTSProviderAdapter):
     """Adapter for OpenAI TTS API"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.api_key = config.get("api_key")
         self.logger = get_logger(f"{__name__}.OpenAITTSAdapter")
@@ -329,7 +329,7 @@ class OpenAITTSAdapter(TTSProviderAdapter):
         """Check if OpenAI TTS is available"""
         return self.api_key is not None and len(self.api_key) > 0
 
-    def get_supported_voices(self) -> List[Dict[str, Any]]:
+    def get_supported_voices(self) -> list[dict[str, Any]]:
         """Get OpenAI supported voices"""
         return [
             {"voice_id": "alloy", "name": "Alloy", "gender": "neutral"},
@@ -348,12 +348,12 @@ class OpenAITTSAdapter(TTSProviderAdapter):
 class TTSProviderManager:
     """Manager for multiple TTS providers"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.logger = get_logger(f"{__name__}.TTSProviderManager")
 
         # Initialize providers
-        self.providers: Dict[TTSProviderType, TTSProviderAdapter] = {}
+        self.providers: dict[TTSProviderType, TTSProviderAdapter] = {}
         self._initialize_providers()
 
         # Provider selection strategy
@@ -397,7 +397,7 @@ class TTSProviderManager:
 
         self.logger.info(f"Initialized {len(self.providers)} TTS providers")
 
-    def get_available_providers(self) -> List[TTSProviderType]:
+    def get_available_providers(self) -> list[TTSProviderType]:
         """Get list of available providers"""
         available = []
         for provider_type, provider in self.providers.items():
@@ -422,7 +422,7 @@ class TTSProviderManager:
 
         return None
 
-    def get_all_voices(self) -> Dict[str, List[Dict[str, Any]]]:
+    def get_all_voices(self) -> dict[str, list[dict[str, Any]]]:
         """Get all voices from all providers"""
         all_voices = {}
         for provider_type, provider in self.providers.items():
@@ -438,7 +438,7 @@ class TTSProviderManager:
 class LUKHASTTSService:
     """Main LUKHAS TTS service with Trinity Framework integration"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(f"{__name__}.LUKHASTTSService")
         self.guardian = GuardianValidator()
@@ -615,11 +615,11 @@ class LUKHASTTSService:
         }
         return str(hash(json.dumps(key_params, sort_keys=True)))
 
-    async def get_available_voices(self) -> Dict[str, List[Dict[str, Any]]]:
+    async def get_available_voices(self) -> dict[str, list[dict[str, Any]]]:
         """Get all available voices from all providers"""
         return self.provider_manager.get_all_voices()
 
-    async def get_service_health(self) -> Dict[str, Any]:
+    async def get_service_health(self) -> dict[str, Any]:
         """Get service health status"""
         available_providers = self.provider_manager.get_available_providers()
 
@@ -636,7 +636,7 @@ class LUKHASTTSService:
         self.response_cache.clear()
         self.logger.info("TTS response cache cleared")
 
-    async def preload_voices(self, provider_types: Optional[List[TTSProviderType]] = None):
+    async def preload_voices(self, provider_types: Optional[list[TTSProviderType]] = None):
         """Preload voice information from providers"""
         if provider_types is None:
             provider_types = list(self.provider_manager.providers.keys())

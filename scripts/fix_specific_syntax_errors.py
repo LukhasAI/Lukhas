@@ -6,10 +6,9 @@ Targets specific common syntax errors found in the codebase.
 
 import re
 from pathlib import Path
-from typing import List, Tuple
 
 
-def fix_malformed_function_definitions(content: str) -> Tuple[str, List[str]]:
+def fix_malformed_function_definitions(content: str) -> tuple[str, list[str]]:
     """Fix function definitions with syntax errors like 'def function(:'."""
     fixes = []
     lines = content.split('\n')
@@ -38,7 +37,7 @@ def fix_malformed_function_definitions(content: str) -> Tuple[str, List[str]]:
 
     return '\n'.join(fixed_lines), fixes
 
-def fix_unclosed_f_strings(content: str) -> Tuple[str, List[str]]:
+def fix_unclosed_f_strings(content: str) -> tuple[str, list[str]]:
     """Fix unclosed f-strings in multiline statements."""
     fixes = []
     lines = content.split('\n')
@@ -87,7 +86,7 @@ def fix_unclosed_f_strings(content: str) -> Tuple[str, List[str]]:
 
     return '\n'.join(fixed_lines), fixes
 
-def fix_conditional_expressions(content: str) -> Tuple[str, List[str]]:
+def fix_conditional_expressions(content: str) -> tuple[str, list[str]]:
     """Fix conditional expressions with incorrect colons."""
     fixes = []
     lines = content.split('\n')
@@ -106,7 +105,7 @@ def fix_conditional_expressions(content: str) -> Tuple[str, List[str]]:
 
     return '\n'.join(fixed_lines), fixes
 
-def fix_multiline_conditionals(content: str) -> Tuple[str, List[str]]:
+def fix_multiline_conditionals(content: str) -> tuple[str, list[str]]:
     """Fix multiline conditional statements with syntax errors."""
     fixes = []
     lines = content.split('\n')
@@ -157,7 +156,6 @@ def process_file(file_path: Path) -> bool:
         with open(file_path, encoding='utf-8') as f:
             content = f.read()
 
-        original_content = content
         all_fixes = []
 
         # Apply fixes in order
@@ -220,9 +218,8 @@ def main():
     fixed_count = 0
     for file_str in problem_files:
         file_path = Path(file_str)
-        if file_path.exists():
-            if process_file(file_path):
-                fixed_count += 1
+        if file_path.exists() and process_file(file_path):
+            fixed_count += 1
 
     print("\n" + "=" * 50)
     print(f"✅ Fixed {fixed_count}/{len(problem_files)} files")

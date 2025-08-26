@@ -966,13 +966,12 @@ class QISteganographyEngine:
                 )
 
             # Check temporal lock
-            if payload.temporal_lock:
-                if datetime.now() < payload.temporal_lock:
-                    return ExtractionResult(
-                        success=False,
-                        extraction_method=mode,
-                        error_message=f"Temporal lock active until {payload.temporal_lock}",
-                    )
+            if payload.temporal_lock and datetime.now() < payload.temporal_lock:
+                return ExtractionResult(
+                    success=False,
+                    extraction_method=mode,
+                    error_message=f"Temporal lock active until {payload.temporal_lock}",
+                )
 
             # Decrypt if we have the key
             if extraction_key or payload.encryption_key:

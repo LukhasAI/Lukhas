@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -57,7 +57,7 @@ class TrainingData:
     sample_rate: int = 44100
     duration_seconds: float = 0.0
     quality_score: float = 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         if self.duration_seconds == 0.0:
@@ -95,7 +95,7 @@ class TrainingConfig:
     save_checkpoints: bool = True
     checkpoint_frequency: int = 10
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "objective": self.objective.value,
             "batch_size": self.batch_size,
@@ -137,7 +137,7 @@ class TrainingMetrics:
     training_time_seconds: float = 0.0
     gpu_memory_used: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "epoch": self.epoch,
             "total_loss": self.total_loss,
@@ -156,7 +156,7 @@ class VoiceTrainingModel(ABC):
     """Abstract base class for voice training models"""
 
     @abstractmethod
-    async def prepare_data(self, training_data: List[TrainingData]) -> Any:
+    async def prepare_data(self, training_data: list[TrainingData]) -> Any:
         """Prepare training data"""
         pass
 
@@ -171,7 +171,7 @@ class VoiceTrainingModel(ABC):
         pass
 
     @abstractmethod
-    async def save_model(self, path: str, metadata: Dict[str, Any]) -> bool:
+    async def save_model(self, path: str, metadata: dict[str, Any]) -> bool:
         """Save trained model"""
         pass
 
@@ -188,7 +188,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
         self.logger = get_logger(f"{__name__}.MockVoiceTrainingModel")
         self.current_epoch = 0
 
-    async def prepare_data(self, training_data: List[TrainingData]) -> Dict[str, Any]:
+    async def prepare_data(self, training_data: list[TrainingData]) -> dict[str, Any]:
         """Prepare training data (mock implementation)"""
         # In real implementation, this would:
         # - Extract mel spectrograms
@@ -210,7 +210,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
             }
         }
 
-    async def train_epoch(self, data_loader: List[TrainingData], epoch: int) -> TrainingMetrics:
+    async def train_epoch(self, data_loader: list[TrainingData], epoch: int) -> TrainingMetrics:
         """Train single epoch (mock implementation)"""
         self.current_epoch = epoch
 
@@ -223,7 +223,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
         num_batches = (total_samples + batch_size - 1) // batch_size
 
         total_loss = 0.0
-        for batch_idx in range(num_batches):
+        for _batch_idx in range(num_batches):
             # Simulate batch processing
             await asyncio.sleep(0.01)
 
@@ -247,7 +247,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
             gpu_memory_used=2.5 + np.random.rand() * 0.5  # GB
         )
 
-    async def validate(self, data_loader: List[TrainingData], epoch: int) -> TrainingMetrics:
+    async def validate(self, data_loader: list[TrainingData], epoch: int) -> TrainingMetrics:
         """Validate model (mock implementation)"""
         # Simulate validation
         await asyncio.sleep(0.05)
@@ -262,7 +262,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
             samples_processed=len(data_loader)
         )
 
-    async def save_model(self, path: str, metadata: Dict[str, Any]) -> bool:
+    async def save_model(self, path: str, metadata: dict[str, Any]) -> bool:
         """Save trained model (mock implementation)"""
         try:
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -314,9 +314,9 @@ class LUKHASVoiceTrainer:
 
         # Training state
         self.current_stage = TrainingStage.DATA_PREPARATION
-        self.training_data: List[TrainingData] = []
+        self.training_data: list[TrainingData] = []
         self.model: Optional[VoiceTrainingModel] = None
-        self.training_metrics: List[TrainingMetrics] = []
+        self.training_metrics: list[TrainingMetrics] = []
 
         # Callbacks
         self.progress_callback: Optional[Callable[[TrainingStage, float], None]] = None
@@ -345,7 +345,7 @@ class LUKHASVoiceTrainer:
                 return False
 
             # Quality assessment
-            buffer = AudioBuffer(
+            AudioBuffer(
                 data=audio_data,
                 sample_rate=sample_rate,
                 channels=1,
@@ -573,7 +573,7 @@ class LUKHASVoiceTrainer:
 
             return False
 
-    async def _evaluate_model(self, val_loader: List[TrainingData]) -> TrainingMetrics:
+    async def _evaluate_model(self, val_loader: list[TrainingData]) -> TrainingMetrics:
         """Evaluate trained model"""
         if not self.model:
             raise ValueError("No trained model available")
@@ -595,7 +595,7 @@ class LUKHASVoiceTrainer:
         if self.progress_callback:
             self.progress_callback(stage, 0.0)
 
-    def get_training_summary(self) -> Dict[str, Any]:
+    def get_training_summary(self) -> dict[str, Any]:
         """Get training summary"""
         if not self.training_metrics:
             return {"status": "no_training_data"}
@@ -613,7 +613,7 @@ class LUKHASVoiceTrainer:
             "config": self.config.to_dict()
         }
 
-    def get_training_metrics(self) -> List[Dict[str, Any]]:
+    def get_training_metrics(self) -> list[dict[str, Any]]:
         """Get all training metrics"""
         return [metrics.to_dict() for metrics in self.training_metrics]
 
@@ -623,7 +623,7 @@ async def train_voice_model(
     speaker_id: str,
     objective: TrainingObjective = TrainingObjective.VOICE_CLONING,
     num_epochs: int = 50
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Simple voice model training
 

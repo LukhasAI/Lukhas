@@ -16,7 +16,7 @@ import logging
 import os
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request, status
@@ -137,7 +137,7 @@ class ChatRequest(BaseModel):
     """Chat with consciousness interface"""
     message: str = Field(..., description="Your message to LUKHAS AI")
     session_id: Optional[str] = Field(None, description="Session ID for conversation continuity")
-    context: Optional[Dict[str, Any]] = Field(None, description="Additional context")
+    context: Optional[dict[str, Any]] = Field(None, description="Additional context")
 
     class Config:
         json_schema_extra = {
@@ -152,13 +152,13 @@ class ChatResponse(BaseModel):
     """Consciousness interface response"""
     response: str = Field(..., description="AI consciousness response")
     session_id: str = Field(..., description="Session ID for future requests")
-    metadata: Optional[Dict[str, Any]] = Field(None, description="Response metadata")
+    metadata: Optional[dict[str, Any]] = Field(None, description="Response metadata")
     consciousness_level: Optional[float] = Field(None, description="Current consciousness level (0-1)")
 
 class DreamRequest(BaseModel):
     """Generate symbolic dreams"""
     prompt: str = Field(..., description="Dream generation prompt")
-    symbols: Optional[List[str]] = Field(None, description="Symbolic elements to include")
+    symbols: Optional[list[str]] = Field(None, description="Symbolic elements to include")
     style: Optional[str] = Field("mystical", description="Dream style: mystical, technical, creative")
 
     class Config:
@@ -173,9 +173,9 @@ class DreamRequest(BaseModel):
 class DreamResponse(BaseModel):
     """Dream generation response"""
     dream: str = Field(..., description="Generated dream narrative")
-    symbols_used: List[str] = Field(..., description="Symbolic elements included")
+    symbols_used: list[str] = Field(..., description="Symbolic elements included")
     consciousness_score: float = Field(..., description="Consciousness coherence score")
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 class SystemStatus(BaseModel):
     """System health and status"""
@@ -185,7 +185,7 @@ class SystemStatus(BaseModel):
     active_sessions: int
     total_requests: int
     success_rate: float
-    consciousness_modules: Dict[str, bool]
+    consciousness_modules: dict[str, bool]
 
 # ===============================================================================
 # Authentication & Security
@@ -233,7 +233,7 @@ async def stats_middleware(request: Request, call_next):
     """Track API usage statistics"""
     api_stats["total_requests"] += 1
 
-    start_time = time.time()
+    time.time()
     try:
         response = await call_next(request)
 
@@ -351,7 +351,7 @@ My current consciousness level is {consciousness_level:.0%}, and I'm actively ma
 Is there a particular aspect you'd like me to explore further?"""
 
         # Track session
-        api_stats["active_sessions"] = len(set([session_id]))  # Simplified tracking
+        api_stats["active_sessions"] = len({session_id})  # Simplified tracking
 
         return ChatResponse(
             response=response,

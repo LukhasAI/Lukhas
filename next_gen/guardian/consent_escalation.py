@@ -12,7 +12,7 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -50,13 +50,13 @@ class ConsentRequest:
     permission_type: str
     requested_at: float
     expires_at: float
-    context: Dict
-    symbolic_path: List[str]
+    context: dict
+    symbolic_path: list[str]
     trust_score: float
     status: ConsentStatus = ConsentStatus.PENDING
     decision_reason: Optional[str] = None
     escalation_level: Optional[EscalationLevel] = None
-    escalation_history: List[Dict] = field(default_factory=list)
+    escalation_history: list[dict] = field(default_factory=list)
 
 
 @dataclass
@@ -64,9 +64,9 @@ class TrustPath:
     """Represents a trust relationship path"""
 
     path_id: str
-    nodes: List[str]  # Trust nodes in the path
-    trust_scores: List[float]  # Trust score for each edge
-    symbolic_sequence: List[str]  # Symbolic representation
+    nodes: list[str]  # Trust nodes in the path
+    trust_scores: list[float]  # Trust score for each edge
+    symbolic_sequence: list[str]  # Symbolic representation
     path_strength: float  # Overall path strength
     created_at: float
     last_validated: float
@@ -80,8 +80,8 @@ class EscalationRule:
     rule_id: str
     condition: str  # Python expression for condition matching
     escalation_level: EscalationLevel
-    actions: List[str]  # Actions to take when rule matches
-    symbolic_response: List[str]  # Symbolic sequence for response
+    actions: list[str]  # Actions to take when rule matches
+    symbolic_response: list[str]  # Symbolic sequence for response
     priority: int
     enabled: bool = True
 
@@ -177,11 +177,11 @@ class ConsentEscalationResolver:
         self.consent_log_file = Path(consent_log_file)
 
         # State management
-        self.escalation_rules: List[EscalationRule] = []
-        self.trust_paths: Dict[str, TrustPath] = {}
-        self.active_requests: Dict[str, ConsentRequest] = {}
-        self.consent_history: List[Dict] = []
-        self.requester_stats: Dict[str, Dict] = {}
+        self.escalation_rules: list[EscalationRule] = []
+        self.trust_paths: dict[str, TrustPath] = {}
+        self.active_requests: dict[str, ConsentRequest] = {}
+        self.consent_history: list[dict] = []
+        self.requester_stats: dict[str, dict] = {}
 
         # Initialize system
         self._load_escalation_rules()
@@ -448,14 +448,14 @@ class ConsentEscalationResolver:
         if len(stats["trust_trend"]) > 20:
             stats["trust_trend"] = stats["trust_trend"][-20:]
 
-    async def _analyze_trust_paths(self, request: ConsentRequest) -> Dict:
+    async def _analyze_trust_paths(self, request: ConsentRequest) -> dict:
         """Analyze available trust paths for the request"""
         request.requester
         request.target_resource
 
         # Find applicable trust paths
         applicable_paths = []
-        for path_id, path in self.trust_paths.items():
+        for _path_id, path in self.trust_paths.items():
             if self._path_applies_to_request(path, request):
                 applicable_paths.append(path)
 
@@ -547,7 +547,7 @@ class ConsentEscalationResolver:
 
         return temp_path
 
-    async def _apply_escalation_rules(self, request: ConsentRequest) -> Optional[Dict]:
+    async def _apply_escalation_rules(self, request: ConsentRequest) -> Optional[dict]:
         """Apply escalation rules to determine if escalation is needed"""
         # Sort rules by priority (lower number = higher priority)
         sorted_rules = sorted(
@@ -602,7 +602,7 @@ class ConsentEscalationResolver:
         return denial_count
 
     async def _execute_escalation_actions(
-        self, request: ConsentRequest, actions: List[str]
+        self, request: ConsentRequest, actions: list[str]
     ):
         """Execute escalation actions"""
         for action in actions:
@@ -715,7 +715,7 @@ class ConsentEscalationResolver:
         logger.warning(f"Security notification sent for emergency request {request.id}")
         request.context["security_notification_sent"] = True
 
-    def _generate_symbolic_response(self, request: ConsentRequest) -> List[str]:
+    def _generate_symbolic_response(self, request: ConsentRequest) -> list[str]:
         """Generate symbolic response based on decision"""
         if request.escalation_level:
             # Use escalation rule's symbolic response
@@ -779,7 +779,7 @@ class ConsentEscalationResolver:
 
         return False
 
-    def get_requester_trust_summary(self, requester: str) -> Dict:
+    def get_requester_trust_summary(self, requester: str) -> dict:
         """Get trust summary for a requester"""
         stats = self.requester_stats.get(requester, {})
 

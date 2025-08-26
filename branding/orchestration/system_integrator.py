@@ -10,16 +10,15 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List
 
 
 @dataclass
 class SystemIntegration:
     """System integration configuration"""
     system_name: str
-    database_tables: List[str]
-    api_endpoints: List[str]
-    data_flows: List[str]
+    database_tables: list[str]
+    api_endpoints: list[str]
+    data_flows: list[str]
     update_frequency: str
 
 class SystemIntegrator:
@@ -253,7 +252,7 @@ db = LukhasDatabaseIntegration()
 
         # Read existing content
         with open(content_platform_path) as f:
-            existing_content = f.read()
+            f.read()
 
         # Create upgraded version with database integration
         upgraded_content = '''#!/usr/bin/env python3

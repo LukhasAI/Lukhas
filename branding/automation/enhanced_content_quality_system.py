@@ -14,7 +14,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -49,8 +49,8 @@ class EnhancedQualityResult:
     # Status and recommendations
     approved: bool
     quality_grade: str  # A, B, C, D, F
-    improvement_suggestions: List[str]
-    auto_corrections: Dict[str, str]
+    improvement_suggestions: list[str]
+    auto_corrections: dict[str, str]
 
     # Performance data
     target_achieved: bool  # 90%+ quality
@@ -220,7 +220,7 @@ class EnhancedContentQualitySystem:
         voice_result,
         brand_result,
         overall_quality: float
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate comprehensive improvement suggestions"""
 
         suggestions = []
@@ -286,7 +286,7 @@ class EnhancedContentQualitySystem:
                     self.improvement_patterns[suggestion_key] = 0
                 self.improvement_patterns[suggestion_key] += 1
 
-    def get_performance_summary(self) -> Dict[str, Any]:
+    def get_performance_summary(self) -> dict[str, Any]:
         """Get comprehensive performance summary"""
 
         if not self.analysis_history:
@@ -335,7 +335,7 @@ class EnhancedContentQualitySystem:
         content: str,
         content_id: str,
         target_quality: float = 0.90
-    ) -> Tuple[str, EnhancedQualityResult]:
+    ) -> tuple[str, EnhancedQualityResult]:
         """
         Automatically improve content to reach target quality level
         """
@@ -364,7 +364,7 @@ class EnhancedContentQualitySystem:
 
         return improved_content, final_result
 
-    def _apply_improvement_suggestions(self, content: str, suggestions: List[str]) -> str:
+    def _apply_improvement_suggestions(self, content: str, suggestions: list[str]) -> str:
         """Apply improvement suggestions to content (simplified implementation)"""
 
         improved_content = content

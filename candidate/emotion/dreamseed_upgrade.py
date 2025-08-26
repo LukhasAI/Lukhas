@@ -40,7 +40,7 @@ import os
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -107,7 +107,7 @@ class EmotionalAccessContext:
     tier_level: EmotionalTier
     trust_score: float
     dream_phase: Optional[str] = None
-    codreamer_ids: List[str] = field(default_factory=list)
+    codreamer_ids: list[str] = field(default_factory=list)
     safety_override: bool = False
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
@@ -118,15 +118,15 @@ class EmotionalAccessContext:
 class SymbolicEmotionState:
     """Enhanced emotion state with symbolic tagging and safety metrics."""
 
-    emotion_vector: Dict[str, float]
-    symbolic_tags: List[str] = field(default_factory=list)
+    emotion_vector: dict[str, float]
+    symbolic_tags: list[str] = field(default_factory=list)
     tier_level: EmotionalTier = EmotionalTier.T2
     safety_level: EmotionalSafetyLevel = EmotionalSafetyLevel.STABLE
     drift_score: float = 0.0
     harmony_score: float = 0.0
     empathy_resonance: float = 0.0
     codreamer_isolation: bool = False
-    ethical_flags: List[str] = field(default_factory=list)
+    ethical_flags: list[str] = field(default_factory=list)
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
@@ -136,13 +136,13 @@ class SymbolicEmotionState:
 class DriftRegulationResult:
     """Result of drift-based emotional regulation."""
 
-    original_emotion: Dict[str, float]
-    regulated_emotion: Dict[str, float]
+    original_emotion: dict[str, float]
+    regulated_emotion: dict[str, float]
     drift_score: float
     regulation_applied: bool
     safety_intervention: bool
-    symbolic_tags_added: List[str]
-    ethical_flags: List[str]
+    symbolic_tags_added: list[str]
+    ethical_flags: list[str]
     regulation_strength: float
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
@@ -153,12 +153,12 @@ class DriftRegulationResult:
 class CodreamerIsolationResult:
     """Result of co-dreamer affect isolation."""
 
-    user_emotion: Dict[str, float]
-    codreamer_signatures: Dict[str, Dict[str, float]]
+    user_emotion: dict[str, float]
+    codreamer_signatures: dict[str, dict[str, float]]
     isolation_strength: float
     bleed_through_detected: bool
     cross_contamination_risk: float
-    isolation_tags: List[str]
+    isolation_tags: list[str]
     timestamp: str = field(
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
@@ -241,13 +241,13 @@ class DreamSeedEmotionEngine:
         self.ethical_governor = ethical_governor or create_ethical_governor()
 
         # Session tracking
-        self.session_contexts: Dict[str, EmotionalAccessContext] = {}
-        self.regulation_history: List[DriftRegulationResult] = []
-        self.isolation_history: List[CodreamerIsolationResult] = []
+        self.session_contexts: dict[str, EmotionalAccessContext] = {}
+        self.regulation_history: list[DriftRegulationResult] = []
+        self.isolation_history: list[CodreamerIsolationResult] = []
 
         # Safety monitoring
-        self.safety_interventions: List[Dict[str, Any]] = []
-        self.tier_access_log: List[Dict[str, Any]] = []
+        self.safety_interventions: list[dict[str, Any]] = []
+        self.tier_access_log: list[dict[str, Any]] = []
 
         # Logging paths
         self.logs_dir = "/Users/agi_dev/Downloads/Consolidation-Repo/logs/emotion"
@@ -269,7 +269,7 @@ class DreamSeedEmotionEngine:
     # TODO: Replace with unified tier system
     # @emotional_tier_required("T1")  # Minimum tier to assign tiers
     def assign_emotional_tier(
-        self, user_id: str, context: Optional[Dict[str, Any]] = None
+        self, user_id: str, context: Optional[dict[str, Any]] = None
     ) -> int:
         """
         Returns emotional access tier based on context, trust level, or dream phase.
@@ -361,7 +361,7 @@ class DreamSeedEmotionEngine:
         return base_tier.value
 
     # LUKHAS_TAG: symbolic_tagging_engine
-    def inject_symbolic_tags(self, emotion_state: Dict[str, Any]) -> List[str]:
+    def inject_symbolic_tags(self, emotion_state: dict[str, Any]) -> list[str]:
         """
         Adds ΛMOOD, ΛCALM, ΛHARMONY, or ΛDISSONANCE tags based on affect
         distribution and narrative entropy.
@@ -453,7 +453,7 @@ class DreamSeedEmotionEngine:
 
     def _calculate_harmony_score(
         self,
-        emotion_vector: Dict[str, float],
+        emotion_vector: dict[str, float],
         valence: float,
         arousal: float,
         dominance: float,
@@ -488,8 +488,8 @@ class DreamSeedEmotionEngine:
 
     # LUKHAS_TAG: drift_regulation_engine
     def regulate_drift_feedback(
-        self, drift_score: float, emotion_state: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, drift_score: float, emotion_state: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Adjusts emotion outputs or memory injections based on symbolic drift level.
         Higher drift = emotional dampening or stabilization.
@@ -593,8 +593,8 @@ class DreamSeedEmotionEngine:
 
     # LUKHAS_TAG: codreamer_isolation_engine
     def isolate_codreamer_affect(
-        self, input_emotion: Dict[str, Any], codreamer_id: str
-    ) -> Dict[str, Any]:
+        self, input_emotion: dict[str, Any], codreamer_id: str
+    ) -> dict[str, Any]:
         """
         Separates user-driven vs. codreamer emotional signatures, preventing
         bleed-through or bias pollution.
@@ -690,7 +690,7 @@ class DreamSeedEmotionEngine:
         return user_emotion
 
     # LUKHAS_TAG: ethical_safety_enforcement
-    def enforce_emotional_safety(self, emotion_state: Dict[str, Any]) -> bool:
+    def enforce_emotional_safety(self, emotion_state: dict[str, Any]) -> bool:
         """
         Applies ethical thresholds: triggers governor, suppresses feedback,
         or emits freeze warning.
@@ -798,7 +798,7 @@ class DreamSeedEmotionEngine:
     # TODO: Add unified tier validation
     # @require_identity(required_tier="LAMBDA_TIER_2", check_consent="emotion_processing")
     def process_dreamseed_emotion(
-        self, emotion_input: Dict[str, Any], access_context: EmotionalAccessContext
+        self, emotion_input: dict[str, Any], access_context: EmotionalAccessContext
     ) -> SymbolicEmotionState:
         """
         Complete DREAMSEED emotion processing pipeline with all safety and
@@ -890,7 +890,7 @@ class DreamSeedEmotionEngine:
 
         return symbolic_state
 
-    def _log_to_file(self, data: Dict[str, Any], file_path: str):
+    def _log_to_file(self, data: dict[str, Any], file_path: str):
         """Write log entry to file."""
         try:
             with open(file_path, "a", encoding="utf-8") as f:
@@ -899,7 +899,7 @@ class DreamSeedEmotionEngine:
             logger.error("Failed to write log entry", file_path=file_path, error=str(e))
 
     # LUKHAS_TAG: metrics_and_diagnostics
-    def get_session_metrics(self, session_id: str) -> Dict[str, Any]:
+    def get_session_metrics(self, session_id: str) -> dict[str, Any]:
         """Get comprehensive metrics for a session."""
         context = self.session_contexts.get(session_id)
         if not context:
@@ -937,7 +937,7 @@ class DreamSeedEmotionEngine:
             "LUKHAS_TAG": "session_metrics",
         }
 
-    def get_system_health_report(self) -> Dict[str, Any]:
+    def get_system_health_report(self) -> dict[str, Any]:
         """Generate comprehensive system health report."""
         now = datetime.now(timezone.utc)
         last_24h = now - timedelta(hours=24)

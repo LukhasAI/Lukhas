@@ -790,10 +790,9 @@ class AutonomousAgent(MailboxActor):
 
         for required_skill, _ in task.required_skills:
             for skill in self.skills:
-                if skill.name == required_skill:
-                    if skill.avg_completion_time > 0:
-                        total_time += skill.avg_completion_time
-                        count += 1
+                if skill.name == required_skill and skill.avg_completion_time > 0:
+                    total_time += skill.avg_completion_time
+                    count += 1
 
         if count > 0:
             return total_time / count

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import os
-from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import Response
@@ -24,9 +23,9 @@ def healthz(): return {"ok": True}
 @app.get("/trace/{receipt_id}.svg")
 def trace_svg(receipt_id: str,
               policy_root: str = Query(default="qi/safety/policy_packs"),
-              overlays: Optional[str] = Query(default=None),
-              link_base: Optional[str] = Query(default=None),
-              prov_base: Optional[str] = Query(default=None)):
+              overlays: str | None = Query(default=None),
+              link_base: str | None = Query(default=None),
+              prov_base: str | None = Query(default=None)):
     try:
         r = _load_receipt(receipt_id, None)
         prov = _load_prov((r.get("entity") or {}).get("digest_sha256"))

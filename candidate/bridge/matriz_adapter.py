@@ -7,7 +7,7 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class BridgeMatrizAdapter:
@@ -18,10 +18,10 @@ class BridgeMatrizAdapter:
     @staticmethod
     def create_node(
         node_type: str,
-        state: Dict[str, float],
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        state: dict[str, float],
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for bridge events"""
 
         node = {
@@ -60,7 +60,7 @@ class BridgeMatrizAdapter:
         endpoint: str,
         latency_ms: int,
         success: bool
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit an external API call event"""
 
         urgency = 0.1 if success else 0.8
@@ -90,7 +90,7 @@ class BridgeMatrizAdapter:
         model: str,
         tokens_used: int,
         response_quality: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit an LLM interaction event"""
 
         return BridgeMatrizAdapter.create_node(
@@ -114,10 +114,10 @@ class BridgeMatrizAdapter:
     @staticmethod
     def emit_orchestration_event(
         orchestration_id: str,
-        services: List[str],
+        services: list[str],
         coordination_type: str,
         success_rate: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a multi-service orchestration event"""
 
         return BridgeMatrizAdapter.create_node(
@@ -141,10 +141,10 @@ class BridgeMatrizAdapter:
     @staticmethod
     def emit_consensus_event(
         consensus_id: str,
-        models: List[str],
+        models: list[str],
         agreement_score: float,
         final_decision: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a multi-model consensus event"""
 
         return BridgeMatrizAdapter.create_node(
@@ -166,7 +166,7 @@ class BridgeMatrizAdapter:
         )
 
     @staticmethod
-    def validate_node(node: Dict[str, Any]) -> bool:
+    def validate_node(node: dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
 
@@ -176,14 +176,10 @@ class BridgeMatrizAdapter:
 
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-        for field in required_prov:
-            if field not in node.get("provenance", {}):
-                return False
-
-        return True
+        return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
-    def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+    def save_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/bridge")

@@ -11,6 +11,7 @@ Common resilience, telemetry, and consent validation for all adapters
 """
 
 import asyncio
+import contextlib
 import os
 import sys
 import time
@@ -19,7 +20,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from functools import wraps
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Add paths for LUKHAS AI module imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
@@ -79,8 +80,8 @@ class CapabilityToken:
     """Capability token per global schema"""
     token_id: str
     lid: str
-    scope: List[str]
-    resource_ids: List[str]
+    scope: list[str]
+    resource_ids: list[str]
     ttl: int
     audience: str
     issued_at: str
@@ -170,7 +171,7 @@ class TelemetryCollector:
 
     def record_request(self, lid: str, action: str, resource: str,
                       capability_token: Optional[CapabilityToken],
-                      latency_ms: float, success: bool, context: Optional[Dict] = None):
+                      latency_ms: float, success: bool, context: Optional[dict] = None):
         """Enhanced request recording with comprehensive audit trail and Λ-trace integration"""
 
         # Update basic metrics
@@ -255,7 +256,7 @@ class TelemetryCollector:
         if len(self.audit_trail) > 1000:
             self.audit_trail = self.audit_trail[-1000:]
 
-    def _assess_security_level(self, action: str, context: Optional[Dict]) -> str:
+    def _assess_security_level(self, action: str, context: Optional[dict]) -> str:
         """Assess security level of operation for audit purposes"""
         if context and context.get("denial_type"):
             return "high_risk"
@@ -266,7 +267,7 @@ class TelemetryCollector:
         else:
             return "medium_risk"
 
-    def get_metrics(self) -> Dict:
+    def get_metrics(self) -> dict:
         """Get current metrics"""
         avg_latency = (self.metrics["total_latency_ms"] /
                       max(self.metrics["request_count"], 1))
@@ -433,7 +434,7 @@ class BaseServiceAdapter(ABC):
 
         return True
 
-    async def check_consent(self, lid: str, action: str, context: Optional[Dict] = None) -> bool:
+    async def check_consent(self, lid: str, action: str, context: Optional[dict] = None) -> bool:
         """🛡️ Check consent before accessing external service - Guardian integration"""
 
         # Guardian system validation
@@ -462,7 +463,7 @@ class BaseServiceAdapter(ABC):
         )
         return consent_check["allowed"]
 
-    async def authenticate_with_identity(self, lid: str, credentials: Dict) -> Dict:
+    async def authenticate_with_identity(self, lid: str, credentials: dict) -> dict:
         """⚛️ Authenticate with Identity module integration"""
         if self.identity_core:
             try:
@@ -479,7 +480,7 @@ class BaseServiceAdapter(ABC):
         # Fallback to service-specific authentication
         return await self.authenticate(credentials)
 
-    async def notify_consciousness(self, event_type: str, data: Dict):
+    async def notify_consciousness(self, event_type: str, data: dict):
         """🧠 Notify consciousness system of important events"""
         if self.kernel_bus and self.consciousness_active:
             try:
@@ -494,17 +495,17 @@ class BaseServiceAdapter(ABC):
                 pass
 
     @abstractmethod
-    async def authenticate(self, credentials: Dict) -> Dict:
+    async def authenticate(self, credentials: dict) -> dict:
         """Authenticate with external service"""
         pass
 
     @abstractmethod
     async def fetch_resource(self, lid: str, resource_id: str,
-                           capability_token: CapabilityToken) -> Dict:
+                           capability_token: CapabilityToken) -> dict:
         """Fetch resource from external service"""
         pass
 
-    def get_health_status(self) -> Dict:
+    def get_health_status(self) -> dict:
         """⚛️🧠🛡️ Get adapter health status with Trinity Framework integration"""
         status = {
             "service": self.service_name,
@@ -522,14 +523,12 @@ class BaseServiceAdapter(ABC):
 
         # Add consciousness system status if available
         if self.kernel_bus and self.consciousness_active:
-            try:
+            with contextlib.suppress(Exception):
                 status["consciousness_status"] = self.kernel_bus.get_service_status(f"adapter.{self.service_name}")
-            except Exception:
-                pass
 
         return status
 
-    async def persist_state(self, state_data: Dict) -> bool:
+    async def persist_state(self, state_data: dict) -> bool:
         """Persist adapter state using Memory service"""
         if self.memory_service:
             try:
@@ -542,7 +541,7 @@ class BaseServiceAdapter(ABC):
                 return False
         return False
 
-    async def restore_state(self) -> Optional[Dict]:
+    async def restore_state(self) -> Optional[dict]:
         """Restore adapter state from Memory service"""
         if self.memory_service:
             try:
@@ -552,7 +551,7 @@ class BaseServiceAdapter(ABC):
                 return None
         return None
 
-    async def detect_duress_signal(self, lid: str, request_data: Dict) -> Dict[str, Any]:
+    async def detect_duress_signal(self, lid: str, request_data: dict) -> dict[str, Any]:
         """🚨 Detect duress/shadow gestures (Canary Pack 5)"""
 
         duress_indicators = {
@@ -627,7 +626,7 @@ class DryRunPlanner:
     def __init__(self):
         self.planned_operations = []
 
-    def plan_operation(self, operation: str, params: Dict) -> Dict:
+    def plan_operation(self, operation: str, params: dict) -> dict:
         """Plan an operation without executing"""
         plan = {
             "operation": operation,
@@ -651,7 +650,7 @@ class DryRunPlanner:
         }
         return estimates.get(operation, 500)
 
-    def _get_required_scopes(self, operation: str) -> List[str]:
+    def _get_required_scopes(self, operation: str) -> list[str]:
         """Get required scopes"""
         scope_map = {
             "list": ["read", "list"],
@@ -662,7 +661,7 @@ class DryRunPlanner:
         }
         return scope_map.get(operation, ["read"])
 
-    def _predict_errors(self, operation: str, params: Dict) -> List[str]:
+    def _predict_errors(self, operation: str, params: dict) -> list[str]:
         """Predict potential errors"""
         errors = []
 
@@ -688,7 +687,7 @@ class RateLimiter:
         self.window_seconds = window_seconds
         self.requests = {}  # lid -> [(timestamp, action), ...]
 
-    def is_allowed(self, lid: str, action: str) -> Dict[str, Any]:
+    def is_allowed(self, lid: str, action: str) -> dict[str, Any]:
         """Check if request is within rate limits"""
         now = time.time()
 

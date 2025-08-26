@@ -6,7 +6,7 @@ import statistics
 import time
 from collections import Counter, defaultdict
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from qi.feedback.schema import FeedbackCluster
 from qi.feedback.store import get_store
@@ -20,14 +20,14 @@ class FeedbackTriage:
         self.dedup_window_minutes = 5  # Dedup window
         self.min_cluster_size = 3  # Minimum samples for clustering
 
-    def _dedup_key(self, fc: Dict[str, Any]) -> str:
+    def _dedup_key(self, fc: dict[str, Any]) -> str:
         """Generate deduplication key."""
         session = fc.get("session_hash", "")
         task = fc.get("context", {}).get("task", "")
         jurisdiction = fc.get("context", {}).get("jurisdiction", "")
         return f"{session}:{task}:{jurisdiction}"
 
-    def deduplicate(self, feedback: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def deduplicate(self, feedback: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Remove duplicate feedback within time window."""
         seen = {}
         deduped = []
@@ -51,7 +51,7 @@ class FeedbackTriage:
 
         return deduped
 
-    def cluster_by_task(self, feedback: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def cluster_by_task(self, feedback: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Cluster feedback by task and jurisdiction."""
         clusters = defaultdict(list)
 
@@ -103,7 +103,7 @@ class FeedbackTriage:
 
         return cluster_list
 
-    def compute_task_weights(self, clusters: List[Dict[str, Any]]) -> Dict[str, float]:
+    def compute_task_weights(self, clusters: list[dict[str, Any]]) -> dict[str, float]:
         """Compute calibration weights based on satisfaction."""
         weights = {}
 
@@ -127,7 +127,7 @@ class FeedbackTriage:
 
         return weights
 
-    def run_triage(self, limit: int = 1000) -> Dict[str, Any]:
+    def run_triage(self, limit: int = 1000) -> dict[str, Any]:
         """Run full triage pipeline."""
         # Read recent feedback
         feedback = self.store.read_feedback(limit=limit)
@@ -155,7 +155,7 @@ class FeedbackTriage:
 
         return stats
 
-    def get_cluster_by_id(self, cluster_id: str) -> Optional[Dict[str, Any]]:
+    def get_cluster_by_id(self, cluster_id: str) -> dict[str, Any] | None:
         """Get a specific cluster by ID."""
         clusters = self.store.read_clusters()
         for cluster in clusters:
@@ -163,7 +163,7 @@ class FeedbackTriage:
                 return cluster
         return None
 
-    def get_clusters_for_task(self, task: str) -> List[Dict[str, Any]]:
+    def get_clusters_for_task(self, task: str) -> list[dict[str, Any]]:
         """Get all clusters for a specific task."""
         clusters = self.store.read_clusters()
         return [c for c in clusters if c.get("task") == task]

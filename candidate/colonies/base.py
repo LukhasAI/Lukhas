@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ColonyRole(Enum):
@@ -39,11 +39,11 @@ class ColonyAgent:
 
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     role: ColonyRole = ColonyRole.WORKER
-    capabilities: List[str] = field(default_factory=list)
+    capabilities: list[str] = field(default_factory=list)
     status: ColonyStatus = ColonyStatus.INITIALIZING
     load: float = 0.0  # 0.0 to 1.0
     last_active: datetime = field(default_factory=datetime.now)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -54,7 +54,7 @@ class ColonyTask:
     task_type: str = ""
     payload: Any = None
     priority: int = 5  # 1-10, 10 = highest
-    required_capabilities: List[str] = field(default_factory=list)
+    required_capabilities: list[str] = field(default_factory=list)
     assigned_agent: Optional[str] = None
     status: str = "pending"  # pending, assigned, processing, completed, failed
     created_at: datetime = field(default_factory=datetime.now)
@@ -69,9 +69,9 @@ class BaseColony(ABC):
     def __init__(self, name: str, max_agents: int = 10):
         self.name = name
         self.max_agents = max_agents
-        self.agents: Dict[str, ColonyAgent] = {}
-        self.task_queue: List[ColonyTask] = []
-        self.completed_tasks: Dict[str, ColonyTask] = {}
+        self.agents: dict[str, ColonyAgent] = {}
+        self.task_queue: list[ColonyTask] = []
+        self.completed_tasks: dict[str, ColonyTask] = {}
         self.status = ColonyStatus.INITIALIZING
         self.trinity_aligned = True
         self.created_at = datetime.now()
@@ -88,7 +88,7 @@ class BaseColony(ABC):
         self.agents[coordinator.id] = coordinator
 
         # Create default workers
-        for i in range(min(3, self.max_agents - 1)):
+        for _i in range(min(3, self.max_agents - 1)):
             worker = ColonyAgent(
                 role=ColonyRole.WORKER,
                 capabilities=self.get_default_capabilities(),
@@ -99,7 +99,7 @@ class BaseColony(ABC):
         self.status = ColonyStatus.ACTIVE
 
     @abstractmethod
-    def get_default_capabilities(self) -> List[str]:
+    def get_default_capabilities(self) -> list[str]:
         """Get default capabilities for this colony type"""
         pass
 
@@ -113,7 +113,7 @@ class BaseColony(ABC):
         task_type: str,
         payload: Any,
         priority: int = 5,
-        required_capabilities: List[str] = None,
+        required_capabilities: list[str] = None,
     ) -> ColonyTask:
         """Submit a task to the colony"""
         task = ColonyTask(
@@ -159,7 +159,7 @@ class BaseColony(ABC):
 
         return best_agent.id
 
-    def process_queue(self) -> Dict[str, Any]:
+    def process_queue(self) -> dict[str, Any]:
         """Process pending tasks in queue"""
         processed = 0
         failed = 0
@@ -168,11 +168,10 @@ class BaseColony(ABC):
             task = self.task_queue.pop(0)
 
             # Assign if not already assigned
-            if not task.assigned_agent:
-                if not self.assign_task(task):
-                    # No available agents, put back at front
-                    self.task_queue.insert(0, task)
-                    break
+            if not task.assigned_agent and not self.assign_task(task):
+                # No available agents, put back at front
+                self.task_queue.insert(0, task)
+                break
 
             try:
                 task.status = "processing"
@@ -210,7 +209,7 @@ class BaseColony(ABC):
             ),
         }
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get colony status"""
         return {
             "name": self.name,
@@ -225,7 +224,7 @@ class BaseColony(ABC):
             "uptime": (datetime.now() - self.created_at).total_seconds(),
         }
 
-    def trinity_sync(self) -> Dict[str, Any]:
+    def trinity_sync(self) -> dict[str, Any]:
         """Synchronize with Trinity Framework"""
         return {
             "identity": "⚛️",
@@ -236,7 +235,7 @@ class BaseColony(ABC):
         }
 
     def add_agent(
-        self, capabilities: List[str] = None, role: ColonyRole = ColonyRole.WORKER
+        self, capabilities: list[str] = None, role: ColonyRole = ColonyRole.WORKER
     ) -> ColonyAgent:
         """Add new agent to colony"""
         if len(self.agents) >= self.max_agents:
@@ -274,8 +273,8 @@ class ColonyRegistry:
     """Registry for managing all colonies"""
 
     def __init__(self):
-        self.colonies: Dict[str, BaseColony] = {}
-        self.task_routes: Dict[str, str] = {}  # task_type -> colony_name
+        self.colonies: dict[str, BaseColony] = {}
+        self.task_routes: dict[str, str] = {}  # task_type -> colony_name
 
     def register_colony(self, colony: BaseColony):
         """Register a colony"""
@@ -317,11 +316,11 @@ class ColonyRegistry:
         """Get colony by name"""
         return self.colonies.get(name)
 
-    def get_all_colonies(self) -> Dict[str, BaseColony]:
+    def get_all_colonies(self) -> dict[str, BaseColony]:
         """Get all registered colonies"""
         return self.colonies.copy()
 
-    def process_all_queues(self) -> Dict[str, Any]:
+    def process_all_queues(self) -> dict[str, Any]:
         """Process queues for all active colonies"""
         results = {}
 
@@ -331,7 +330,7 @@ class ColonyRegistry:
 
         return results
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get overall colony system status"""
         total_agents = sum(len(c.agents) for c in self.colonies.values())
         total_tasks = sum(len(c.task_queue) for c in self.colonies.values())

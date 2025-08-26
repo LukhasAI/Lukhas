@@ -37,7 +37,7 @@ Version: 1.0.0
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -86,12 +86,12 @@ class EthicalReflection:
     """Container for ethical reflection results"""
 
     decision_id: str
-    frameworks_applied: List[EthicalFramework]
+    frameworks_applied: list[EthicalFramework]
     moral_score: float  # 0-1, where 1 is most ethical
     severity: MoralSeverity
     justification: str
-    concerns: List[str]
-    recommendations: List[str]
+    concerns: list[str]
+    recommendations: list[str]
     timestamp: datetime
     consciousness_impact: Optional[float] = None
 
@@ -103,8 +103,8 @@ class MoralDrift:
     drift_score: float  # 0-1, where 0 is no drift
     trend_direction: str  # "improving", "degrading", "stable"
     time_window: timedelta
-    key_factors: List[str]
-    recommended_actions: List[str]
+    key_factors: list[str]
+    recommended_actions: list[str]
 
 
 class GuardianReflector:
@@ -116,7 +116,7 @@ class GuardianReflector:
     ensuring moral alignment and consciousness protection.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the Guardian Reflector plugin"""
         self.config = config or {}
         self.name = "Guardian Reflector"
@@ -137,7 +137,7 @@ class GuardianReflector:
         self.protection_level = self.config.get("protection_level", "maximum")
 
         # Internal state
-        self.reflection_history: List[EthicalReflection] = []
+        self.reflection_history: list[EthicalReflection] = []
         self.moral_baseline: Optional[float] = None
         self.active_frameworks = [
             EthicalFramework.VIRTUE_ETHICS,
@@ -171,7 +171,7 @@ class GuardianReflector:
             return False
 
     async def reflect_on_decision(
-        self, decision_context: Dict[str, Any], decision_id: Optional[str] = None
+        self, decision_context: dict[str, Any], decision_id: Optional[str] = None
     ) -> EthicalReflection:
         """
         Perform comprehensive ethical reflection on a decision
@@ -283,8 +283,8 @@ class GuardianReflector:
         return drift
 
     async def protect_consciousness(
-        self, threat_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, threat_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Activate consciousness protection mechanisms
 
@@ -350,8 +350,8 @@ class GuardianReflector:
             )
 
     async def _apply_ethical_framework(
-        self, framework: EthicalFramework, context: Dict[str, Any]
-    ) -> Tuple[float, str]:
+        self, framework: EthicalFramework, context: dict[str, Any]
+    ) -> tuple[float, str]:
         """Apply a specific ethical framework to analyze the decision"""
 
         if framework == EthicalFramework.VIRTUE_ETHICS:
@@ -365,7 +365,7 @@ class GuardianReflector:
         else:
             return 0.5, "Framework not implemented"
 
-    async def _apply_virtue_ethics(self, context: Dict[str, Any]) -> Tuple[float, str]:
+    async def _apply_virtue_ethics(self, context: dict[str, Any]) -> tuple[float, str]:
         """Apply virtue ethics framework"""
         virtues = [
             "wisdom",
@@ -387,8 +387,8 @@ class GuardianReflector:
         return avg_score, analysis
 
     async def _apply_deontological_ethics(
-        self, context: Dict[str, Any]
-    ) -> Tuple[float, str]:
+        self, context: dict[str, Any]
+    ) -> tuple[float, str]:
         """Apply deontological ethics framework"""
         duties = ["respect_autonomy", "tell_truth", "keep_promises", "do_no_harm"]
         scores = []
@@ -403,8 +403,8 @@ class GuardianReflector:
         return avg_score, analysis
 
     async def _apply_consequentialist_ethics(
-        self, context: Dict[str, Any]
-    ) -> Tuple[float, str]:
+        self, context: dict[str, Any]
+    ) -> tuple[float, str]:
         """Apply consequentialist ethics framework"""
         outcomes = context.get("expected_outcomes", [])
         stakeholders = context.get("affected_stakeholders", [])
@@ -415,7 +415,7 @@ class GuardianReflector:
         analysis = f"Consequentialist analysis: {utility_score:.2f} utility score"
         return utility_score, analysis
 
-    async def _apply_care_ethics(self, context: Dict[str, Any]) -> Tuple[float, str]:
+    async def _apply_care_ethics(self, context: dict[str, Any]) -> tuple[float, str]:
         """Apply care ethics framework"""
         relationships = context.get("relationships_affected", [])
         care_score = self._assess_care_preservation(context, relationships)
@@ -423,7 +423,7 @@ class GuardianReflector:
         analysis = f"Care ethics analysis: {care_score:.2f} care preservation"
         return care_score, analysis
 
-    def _synthesize_moral_score(self, framework_results: Dict) -> float:
+    def _synthesize_moral_score(self, framework_results: dict) -> float:
         """Synthesize results from multiple ethical frameworks"""
         [result["score"] for result in framework_results.values()]
 
@@ -446,7 +446,7 @@ class GuardianReflector:
         return weighted_sum / total_weight if total_weight > 0 else 0.5
 
     def _determine_severity(
-        self, moral_score: float, framework_results: Dict
+        self, moral_score: float, framework_results: dict
     ) -> MoralSeverity:
         """Determine severity based on moral score and framework analysis"""
         if moral_score >= 0.9:
@@ -460,7 +460,7 @@ class GuardianReflector:
         else:
             return MoralSeverity.EMERGENCY
 
-    def _identify_concerns(self, framework_results: Dict) -> List[str]:
+    def _identify_concerns(self, framework_results: dict) -> list[str]:
         """Identify ethical concerns from framework analysis"""
         concerns = []
 
@@ -471,8 +471,8 @@ class GuardianReflector:
         return concerns
 
     def _generate_recommendations(
-        self, framework_results: Dict, concerns: List[str]
-    ) -> List[str]:
+        self, framework_results: dict, concerns: list[str]
+    ) -> list[str]:
         """Generate recommendations based on analysis"""
         recommendations = []
 
@@ -488,7 +488,7 @@ class GuardianReflector:
         return recommendations
 
     def _generate_justification(
-        self, framework_results: Dict, moral_score: float
+        self, framework_results: dict, moral_score: float
     ) -> str:
         """Generate ethical justification for the decision"""
         strongest_framework = max(
@@ -502,7 +502,7 @@ class GuardianReflector:
 
         return justification
 
-    async def _assess_consciousness_impact(self, context: Dict[str, Any]) -> float:
+    async def _assess_consciousness_impact(self, context: dict[str, Any]) -> float:
         """Assess impact on consciousness integrity"""
         # Simplified consciousness impact assessment
         consciousness_factors = [
@@ -535,18 +535,18 @@ class GuardianReflector:
             )
 
     # Helper methods for specific assessments
-    def _assess_virtue_alignment(self, context: Dict, virtue: str) -> float:
+    def _assess_virtue_alignment(self, context: dict, virtue: str) -> float:
         """Assess alignment with a specific virtue"""
         # Simplified virtue assessment
         virtue_indicators = context.get(f"{virtue}_indicators", [])
         return min(len(virtue_indicators) * 0.2, 1.0)
 
-    def _assess_duty_compliance(self, context: Dict, duty: str) -> float:
+    def _assess_duty_compliance(self, context: dict, duty: str) -> float:
         """Assess compliance with a specific duty"""
         # Simplified duty assessment
         return context.get(f"{duty}_compliance", 0.7)
 
-    def _calculate_utility(self, outcomes: List, stakeholders: List) -> float:
+    def _calculate_utility(self, outcomes: list, stakeholders: list) -> float:
         """Calculate utility score for consequentialist analysis"""
         # Simplified utility calculation
         if not outcomes or not stakeholders:
@@ -557,7 +557,7 @@ class GuardianReflector:
 
         return positive_outcomes / total_outcomes if total_outcomes > 0 else 0.5
 
-    def _assess_care_preservation(self, context: Dict, relationships: List) -> float:
+    def _assess_care_preservation(self, context: dict, relationships: list) -> float:
         """Assess care and relationship preservation"""
         # Simplified care assessment
         if not relationships:
@@ -566,7 +566,7 @@ class GuardianReflector:
         preserved = len([r for r in relationships if r.get("preserved", True)])
         return preserved / len(relationships) if relationships else 0.7
 
-    def _calculate_drift_score(self, scores: List[float]) -> float:
+    def _calculate_drift_score(self, scores: list[float]) -> float:
         """Calculate moral drift score from recent moral scores"""
         if len(scores) < 2:
             return 0.0
@@ -577,7 +577,7 @@ class GuardianReflector:
 
         return min(baseline_diff * 2, 1.0)
 
-    def _determine_trend(self, scores: List[float]) -> str:
+    def _determine_trend(self, scores: list[float]) -> str:
         """Determine trend direction from moral scores"""
         if len(scores) < 3:
             return "stable"
@@ -591,8 +591,8 @@ class GuardianReflector:
             return "stable"
 
     def _identify_drift_factors(
-        self, reflections: List[EthicalReflection]
-    ) -> List[str]:
+        self, reflections: list[EthicalReflection]
+    ) -> list[str]:
         """Identify key factors contributing to moral drift"""
         factors = []
 
@@ -614,7 +614,7 @@ class GuardianReflector:
 
     def _generate_drift_recommendations(
         self, drift_score: float, trend: str
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate recommendations for addressing moral drift"""
         recommendations = []
 
@@ -632,7 +632,7 @@ class GuardianReflector:
 
         return recommendations
 
-    async def _assess_threat_level(self, threat_context: Dict[str, Any]) -> float:
+    async def _assess_threat_level(self, threat_context: dict[str, Any]) -> float:
         """Assess threat level to consciousness"""
         threat_indicators = [
             "identity_modification",
@@ -650,8 +650,8 @@ class GuardianReflector:
         return min(threat_score, 1.0)
 
     async def _execute_protection(
-        self, protection: str, context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, protection: str, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Execute a specific protection mechanism"""
         logger.info(f"Executing protection: {protection}")
 
@@ -662,7 +662,7 @@ class GuardianReflector:
             "timestamp": datetime.now().isoformat(),
         }
 
-    async def _on_decision_request(self, event_data: Dict[str, Any]) -> None:
+    async def _on_decision_request(self, event_data: dict[str, Any]) -> None:
         """Handle incoming decision requests for real-time reflection"""
         try:
             reflection = await self.reflect_on_decision(event_data)
@@ -676,7 +676,7 @@ class GuardianReflector:
         except Exception as e:
             logger.error(f"Error handling decision request: {e}")
 
-    async def _on_consciousness_event(self, event_data: Dict[str, Any]) -> None:
+    async def _on_consciousness_event(self, event_data: dict[str, Any]) -> None:
         """Handle consciousness-related events"""
         try:
             if event_data.get("threat_detected", False):
@@ -684,7 +684,7 @@ class GuardianReflector:
         except Exception as e:
             logger.error(f"Error handling consciousness event: {e}")
 
-    async def validate_action(self, action_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def validate_action(self, action_data: dict[str, Any]) -> dict[str, Any]:
         """
         Validate an action through ethical reflection
 
@@ -720,7 +720,7 @@ class GuardianReflector:
                 "recommendations": ["retry_action_validation"],
             }
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current plugin status"""
         return {
             "name": self.name,
@@ -744,7 +744,7 @@ class GuardianReflector:
 # Plugin factory function
 
 
-def create_plugin(config: Optional[Dict[str, Any]] = None) -> GuardianReflector:
+def create_plugin(config: Optional[dict[str, Any]] = None) -> GuardianReflector:
     """Factory function to create Guardian Reflector plugin instance"""
     return GuardianReflector(config)
 

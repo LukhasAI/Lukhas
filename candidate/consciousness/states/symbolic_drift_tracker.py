@@ -719,11 +719,10 @@ class SymbolicDriftTracker:
         # Simple oscillation detection: alternating high/low values
         oscillations = 0
         for i in range(1, len(values) - 1):
-            if (values[i] > values[i - 1] and values[i] > values[i + 1]) or (
+            if ((values[i] > values[i - 1] and values[i] > values[i + 1]) or (
                 values[i] < values[i - 1] and values[i] < values[i + 1]
-            ):
-                if abs(values[i] - values[i - 1]) > threshold:
-                    oscillations += 1
+            )) and abs(values[i] - values[i - 1]) > threshold:
+                oscillations += 1
 
         return oscillations >= 2
 

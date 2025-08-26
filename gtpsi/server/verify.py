@@ -18,7 +18,7 @@ import json
 import secrets
 import time
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import asyncpg
 from pydantic import BaseModel, Field, validator
@@ -61,7 +61,7 @@ class ActionApprovalRequest(BaseModel):
     lid: str = Field(..., description="Canonical ΛID")
     approval_id: str = Field(..., description="GTΨ approval record ID")
     action: str = Field(..., description="Action being performed")
-    action_context: Dict[str, Any] = Field(..., description="Action-specific context")
+    action_context: dict[str, Any] = Field(..., description="Action-specific context")
 
 
 class ActionApprovalResponse(BaseModel):
@@ -87,9 +87,9 @@ class GTΨVerificationService:
         self.db_pool = None
 
         # In-memory storage for development (production uses PostgreSQL)
-        self.stored_gestures: Dict[str, List[GestureFeatures]] = {}  # lid -> gestures
-        self.active_challenges: Dict[str, GestureChallenge] = {}     # challenge_id -> challenge
-        self.approvals: Dict[str, GestureApproval] = {}             # approval_id -> approval
+        self.stored_gestures: dict[str, list[GestureFeatures]] = {}  # lid -> gestures
+        self.active_challenges: dict[str, GestureChallenge] = {}     # challenge_id -> challenge
+        self.approvals: dict[str, GestureApproval] = {}             # approval_id -> approval
 
     async def initialize(self):
         """Initialize database connection and create tables"""
@@ -181,7 +181,7 @@ class GTΨVerificationService:
         self,
         lid: str,
         action: str,
-        action_context: Dict[str, Any]
+        action_context: dict[str, Any]
     ) -> GestureChallenge:
         """
         Generate GTΨ challenge for high-risk action.
@@ -460,7 +460,7 @@ class GTΨVerificationService:
 
         return best_score
 
-    async def cleanup_expired(self) -> Dict[str, int]:
+    async def cleanup_expired(self) -> dict[str, int]:
         """Clean up expired challenges and approvals"""
         now = datetime.now(timezone.utc)
 
@@ -496,7 +496,7 @@ class GTΨVerificationService:
         approval_id: Optional[str] = None,
         success: bool = True,
         error_message: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None
     ):
         """Log audit event for GTΨ operations"""
         log_entry = {
@@ -513,7 +513,7 @@ class GTΨVerificationService:
 
         print(f"GTΨ AUDIT: {json.dumps(log_entry, indent=2)}")
 
-    def get_system_stats(self) -> Dict[str, Any]:
+    def get_system_stats(self) -> dict[str, Any]:
         """Get GTΨ system statistics"""
         now = datetime.now(timezone.utc)
 

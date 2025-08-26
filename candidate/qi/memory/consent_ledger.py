@@ -7,7 +7,7 @@ import json
 import os
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 LEDGER_DIR = os.path.join(STATE, "consent")
@@ -33,22 +33,22 @@ class ConsentEvent:
     user: str
     purpose: str
     kind: str                     # "grant" | "revoke"
-    fields: List[str]
+    fields: list[str]
     duration_days: int
-    meta: Dict[str, Any]
-    receipt: Dict[str, Any]       # attestation pointers (chain_path, signature, etc.)
+    meta: dict[str, Any]
+    receipt: dict[str, Any]       # attestation pointers (chain_path, signature, etc.)
     event_id: str                 # deterministic id (sha256)
 
-def _sha(d: Dict[str, Any]) -> str:
+def _sha(d: dict[str, Any]) -> str:
     return hashlib.sha256(json.dumps(d, sort_keys=True, separators=(",",":")).encode("utf-8")).hexdigest()
 
-def _read_index() -> Dict[str, Dict[str, Dict[str, Any]]]:
+def _read_index() -> dict[str, dict[str, dict[str, Any]]]:
     try:
         return json.load(open(IDX, encoding="utf-8"))
     except Exception:
         return {}
 
-def _write_index(ix: Dict[str, Any]) -> None:
+def _write_index(ix: dict[str, Any]) -> None:
     tmp = IDX + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(ix, f, indent=2)
@@ -77,7 +77,7 @@ def _fanout(evt: ConsentEvent) -> None:
         except Exception:
             pass
 
-def _sign_receipt(grant: Dict[str, Any]) -> Dict[str, Any]:
+def _sign_receipt(grant: dict[str, Any]) -> dict[str, Any]:
     if not _HAS_ATTEST:
         return {"note": "attestation disabled (pynacl not installed)"}
     steps = [
@@ -98,7 +98,7 @@ def _append_event(evt: ConsentEvent) -> None:
     with open(RECS, "a", encoding="utf-8") as f:
         f.write(json.dumps(asdict(evt)) + "\n")
 
-def record(user: str, purpose: str, fields: List[str], duration_days: int, meta: Optional[Dict[str,Any]] = None) -> ConsentEvent:
+def record(user: str, purpose: str, fields: list[str], duration_days: int, meta: dict[str, Any] | None = None) -> ConsentEvent:
     now = time.time()
     grant = {"ts": now, "user": user, "purpose": purpose, "kind":"grant",
              "fields": sorted(set(fields)), "duration_days": int(duration_days), "meta": meta or {}}
@@ -116,7 +116,7 @@ def record(user: str, purpose: str, fields: List[str], duration_days: int, meta:
     _fanout(evt)
     return evt
 
-def revoke(user: str, purpose: Optional[str] = None, reason: Optional[str] = None, meta: Optional[Dict[str,Any]] = None) -> ConsentEvent:
+def revoke(user: str, purpose: str | None = None, reason: str | None = None, meta: dict[str, Any] | None = None) -> ConsentEvent:
     now = time.time()
     p = purpose or "ALL"
     rec = {"ts": now, "user": user, "purpose": p, "kind":"revoke",
@@ -136,7 +136,7 @@ def revoke(user: str, purpose: Optional[str] = None, reason: Optional[str] = Non
     _fanout(evt)
     return evt
 
-def is_allowed(user: str, purpose: str, *, require_fields: Optional[List[str]] = None, now: Optional[float] = None, within_days: Optional[int] = None) -> bool:
+def is_allowed(user: str, purpose: str, *, require_fields: list[str] | None = None, now: float | None = None, within_days: int | None = None) -> bool:
     """
     Returns True if there is a non-revoked, non-expired consent for user+purpose.
     - require_fields: if set, the granted fields must be a superset.
@@ -161,7 +161,7 @@ def is_allowed(user: str, purpose: str, *, require_fields: Optional[List[str]] =
             return False
     return True
 
-def list_user(user: str) -> Dict[str, Any]:
+def list_user(user: str) -> dict[str, Any]:
     return _read_index().get(user, {})
 
 # ---------------- CLI ----------------

@@ -13,7 +13,7 @@ Version: 1.0.0
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 # Import LUKHAS components
 try:
@@ -39,11 +39,11 @@ logger = logging.getLogger(__name__)
 class ConsciousnessState:
     """Represents the current consciousness state"""
     awareness_level: float
-    attention_focus: List[str]
+    attention_focus: list[str]
     decision_confidence: float
     reasoning_depth: int
     timestamp: datetime
-    active_contexts: Dict[str, Any]
+    active_contexts: dict[str, Any]
 
 
 class AutoConsciousness:
@@ -58,7 +58,7 @@ class AutoConsciousness:
         """Initialize Auto Consciousness system"""
         self.consciousness_id = f"auto_consciousness_{datetime.now().timestamp()}"
         self.active = True
-        self.state_history: List[ConsciousnessState] = []
+        self.state_history: list[ConsciousnessState] = []
 
         # Initialize components
         self.components = {}
@@ -94,7 +94,7 @@ class AutoConsciousness:
 
         logger.info(f"Auto Consciousness initialized: {self.consciousness_id}")
 
-    async def assess_awareness(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def assess_awareness(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Assess awareness level based on input stimuli
 
@@ -160,7 +160,7 @@ class AutoConsciousness:
                 "timestamp": datetime.now().isoformat()
             }
 
-    async def make_decision(self, decision_input: Dict[str, Any]) -> Dict[str, Any]:
+    async def make_decision(self, decision_input: dict[str, Any]) -> dict[str, Any]:
         """
         Make a decision based on input scenario and options
 
@@ -237,7 +237,7 @@ class AutoConsciousness:
                 "timestamp": datetime.now().isoformat()
             }
 
-    async def get_consciousness_state(self) -> Dict[str, Any]:
+    async def get_consciousness_state(self) -> dict[str, Any]:
         """Get current consciousness state"""
         return {
             "consciousness_id": self.consciousness_id,
@@ -254,7 +254,7 @@ class AutoConsciousness:
             "state_history_length": len(self.state_history)
         }
 
-    async def process_stimulus(self, stimulus: Any) -> Dict[str, Any]:
+    async def process_stimulus(self, stimulus: Any) -> dict[str, Any]:
         """Process a stimulus through the consciousness system"""
         # Convert stimulus to standard format
         if isinstance(stimulus, str):

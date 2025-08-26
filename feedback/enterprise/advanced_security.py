@@ -14,7 +14,7 @@ import secrets
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -56,12 +56,12 @@ class SecurityContext:
     user_id: str
     session_id: str
     clearance_level: SecurityLevel
-    authentication_factors: List[str]
+    authentication_factors: list[str]
     encryption_key: bytes
     integrity_hash: str
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     threat_score: float = 0.0
-    audit_trail: List[Dict[str, Any]] = field(default_factory=list)
+    audit_trail: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -70,7 +70,7 @@ class ThreatIntelligence:
 
     threat_type: ThreatType
     severity: float  # 0-1
-    indicators: List[str]
+    indicators: list[str]
     mitigation: str
     detected_at: datetime
     source_ip: Optional[str] = None
@@ -83,32 +83,32 @@ class AdvancedSecuritySystem(CoreInterface):
     with OpenAI's scale security requirements.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize security system"""
         self.config = config or {}
         self.operational = False
 
         # Encryption keys (in production, use HSM)
         self.master_key = None
-        self.session_keys: Dict[str, bytes] = {}
+        self.session_keys: dict[str, bytes] = {}
 
         # Threat detection
         self.threat_patterns = self._load_threat_patterns()
-        self.blocked_ips: Set[str] = set()
-        self.rate_limits: Dict[str, List[datetime]] = {}
+        self.blocked_ips: set[str] = set()
+        self.rate_limits: dict[str, list[datetime]] = {}
 
         # Blockchain for audit
-        self.security_blockchain: List[Dict[str, Any]] = []
+        self.security_blockchain: list[dict[str, Any]] = []
 
         # Zero-trust components
-        self.trust_scores: Dict[str, float] = {}
-        self.verified_sessions: Set[str] = set()
+        self.trust_scores: dict[str, float] = {}
+        self.verified_sessions: set[str] = set()
 
         # Quantum-resistant preparation
         self.qi_safe_algorithms = ["AES-256", "SHA3-512", "Dilithium"]
 
         # Privacy preservation
-        self.anonymization_keys: Dict[str, str] = {}
+        self.anonymization_keys: dict[str, str] = {}
         self.k_anonymity_threshold = config.get("k_anonymity", 5)
 
     async def initialize(self) -> None:
@@ -128,7 +128,7 @@ class AdvancedSecuritySystem(CoreInterface):
         self.operational = True
         logger.info("Advanced Security System initialized")
 
-    def _load_threat_patterns(self) -> Dict[ThreatType, List[str]]:
+    def _load_threat_patterns(self) -> dict[ThreatType, list[str]]:
         """Load threat detection patterns"""
         return {
             ThreatType.SQL_INJECTION: [
@@ -185,7 +185,7 @@ class AdvancedSecuritySystem(CoreInterface):
         }
 
     async def create_security_context(
-        self, user_id: str, session_id: str, auth_factors: List[str]
+        self, user_id: str, session_id: str, auth_factors: list[str]
     ) -> SecurityContext:
         """Create security context for user session"""
         # Determine clearance level based on auth factors
@@ -217,7 +217,7 @@ class AdvancedSecuritySystem(CoreInterface):
 
         return context
 
-    def _determine_clearance_level(self, auth_factors: List[str]) -> SecurityLevel:
+    def _determine_clearance_level(self, auth_factors: list[str]) -> SecurityLevel:
         """Determine security clearance based on authentication"""
         if "biometric" in auth_factors and "hardware_key" in auth_factors:
             return SecurityLevel.TOP_SECRET
@@ -280,7 +280,7 @@ class AdvancedSecuritySystem(CoreInterface):
 
     async def validate_feedback_security(
         self, feedback: FeedbackItem, context: SecurityContext
-    ) -> Tuple[bool, Optional[ThreatIntelligence]]:
+    ) -> tuple[bool, Optional[ThreatIntelligence]]:
         """
         Validate feedback for security threats.
 
@@ -342,7 +342,7 @@ class AdvancedSecuritySystem(CoreInterface):
         return True
 
     async def _detect_content_threats(
-        self, content: Dict[str, Any]
+        self, content: dict[str, Any]
     ) -> Optional[ThreatIntelligence]:
         """Detect threats in feedback content"""
         # Convert content to string for analysis
@@ -472,7 +472,7 @@ class AdvancedSecuritySystem(CoreInterface):
 
     async def decrypt_feedback(
         self, encrypted_data: bytes, context: SecurityContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Decrypt feedback"""
         # Extract components
         nonce = encrypted_data[:12]
@@ -494,8 +494,8 @@ class AdvancedSecuritySystem(CoreInterface):
         return json.loads(plaintext.decode())
 
     async def apply_differential_privacy(
-        self, feedback_data: Dict[str, Any], epsilon: float = 1.0
-    ) -> Dict[str, Any]:
+        self, feedback_data: dict[str, Any], epsilon: float = 1.0
+    ) -> dict[str, Any]:
         """Apply differential privacy to feedback data"""
         import numpy as np
 
@@ -526,7 +526,7 @@ class AdvancedSecuritySystem(CoreInterface):
 
         return self.anonymization_keys[user_id]
 
-    async def check_k_anonymity(self, feedback_attributes: Dict[str, Any]) -> bool:
+    async def check_k_anonymity(self, feedback_attributes: dict[str, Any]) -> bool:
         """Check if feedback meets k-anonymity requirements"""
         # In production, check against database
         # For demo, simulate check
@@ -589,7 +589,7 @@ class AdvancedSecuritySystem(CoreInterface):
             }
         )
 
-    def _calculate_block_hash(self, block: Dict[str, Any]) -> str:
+    def _calculate_block_hash(self, block: dict[str, Any]) -> str:
         """Calculate hash for audit block"""
         block_str = json.dumps(block, sort_keys=True)
 
@@ -682,7 +682,7 @@ class AdvancedSecuritySystem(CoreInterface):
 
     # Required interface methods
 
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process security request"""
         action = data.get("action", "validate")
 
@@ -720,7 +720,7 @@ class AdvancedSecuritySystem(CoreInterface):
             "active_sessions": len(self.verified_sessions),
         }
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get security system status"""
         return {
             "operational": self.operational,

@@ -14,7 +14,7 @@ Trinity Framework: ⚛️🧠🛡️
 import math
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Literal
+from typing import Any, Literal
 
 import yaml
 
@@ -66,11 +66,11 @@ class ModulationParams:
     retrieval_k: int = 5
     reasoning_depth: int = 2
     memory_write: float = 0.5
-    tool_allowlist: List[str] = None
+    tool_allowlist: list[str] = None
     prompt_style: str = "balanced"
 
     # Audit and context
-    signal_context: Dict[str, float] = None
+    signal_context: dict[str, float] = None
     audit_id: str = ""
 
     def __post_init__(self):
@@ -79,7 +79,7 @@ class ModulationParams:
         if self.signal_context is None:
             self.signal_context = {}
 
-    def apply_bounds(self, bounds: Dict[str, List[float]]):
+    def apply_bounds(self, bounds: dict[str, list[float]]):
         """Apply parameter bounds from policy configuration"""
         for param_name, (min_val, max_val) in bounds.items():
             if hasattr(self, param_name):
@@ -100,9 +100,9 @@ class SignalModulator:
             # Fallback to minimal policy
             self.policy = self._default_policy()
 
-        self.signal_history: List[Signal] = []
+        self.signal_history: list[Signal] = []
 
-    def combine_signals(self, signals: List[Signal]) -> ModulationParams:
+    def combine_signals(self, signals: list[Signal]) -> ModulationParams:
         """Combine multiple signals into modulation parameters"""
         # Filter expired signals and apply decay
         decayed_signals = self._process_signals(signals)
@@ -134,7 +134,7 @@ class SignalModulator:
 
         return params
 
-    def _process_signals(self, signals: List[Signal]) -> Dict[str, float]:
+    def _process_signals(self, signals: list[Signal]) -> dict[str, float]:
         """Filter expired signals and apply decay"""
         # Filter expired signals
         active_signals = [s for s in signals if not s.is_expired()]
@@ -161,7 +161,7 @@ class SignalModulator:
         params: ModulationParams,
         signal_name: str,
         level: float,
-        signal_map: Dict[str, str],
+        signal_map: dict[str, str],
     ) -> ModulationParams:
         """Apply individual signal modulation using expression evaluation"""
         for param_name, expression in signal_map.items():
@@ -193,7 +193,7 @@ class SignalModulator:
 
         return params
 
-    def _apply_tool_gates(self, signals: Dict[str, float]) -> List[str]:
+    def _apply_tool_gates(self, signals: dict[str, float]) -> list[str]:
         """Determine allowed tools based on signal levels"""
         default_tools = self.policy.get("available_tools", ["search", "retrieval"])
 
@@ -207,7 +207,7 @@ class SignalModulator:
 
         return default_tools
 
-    def _select_prompt_style(self, signals: Dict[str, float]) -> str:
+    def _select_prompt_style(self, signals: dict[str, float]) -> str:
         """Select prompt style based on dominant signals"""
         alignment_risk = signals.get("alignment_risk", 0.0)
         stress = signals.get("stress", 0.0)
@@ -226,7 +226,7 @@ class SignalModulator:
         else:
             return "balanced"
 
-    def _default_policy(self) -> Dict[str, Any]:
+    def _default_policy(self) -> dict[str, Any]:
         """Fallback minimal policy if file not found"""
         return {
             "signals": [

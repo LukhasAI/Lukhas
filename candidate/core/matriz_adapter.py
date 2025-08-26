@@ -7,7 +7,7 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class CoreMatrizAdapter:
@@ -18,10 +18,10 @@ class CoreMatrizAdapter:
     @staticmethod
     def create_node(
         node_type: str,
-        state: Dict[str, float],
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        state: dict[str, float],
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for core events"""
 
         node = {
@@ -57,8 +57,8 @@ class CoreMatrizAdapter:
     def emit_glyph_event(
         glyph: str,
         operation: str,
-        context: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        context: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Emit a GLYPH processing event node"""
 
         return CoreMatrizAdapter.create_node(
@@ -83,7 +83,7 @@ class CoreMatrizAdapter:
         action: str,
         status: str,
         latency_ms: Optional[int] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit an orchestration event node"""
 
         urgency = 0.1 if status == "success" else 0.8
@@ -115,7 +115,7 @@ class CoreMatrizAdapter:
         inference_type: str,
         confidence: float,
         conclusion: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a symbolic reasoning event node"""
 
         labels = [
@@ -143,7 +143,7 @@ class CoreMatrizAdapter:
         actor_id: str,
         event_type: str,
         message_type: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit an actor system event node"""
 
         return CoreMatrizAdapter.create_node(
@@ -168,7 +168,7 @@ class CoreMatrizAdapter:
         target_module: str,
         operation: str,
         success: bool
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit an integration event between modules"""
 
         return CoreMatrizAdapter.create_node(
@@ -190,7 +190,7 @@ class CoreMatrizAdapter:
         )
 
     @staticmethod
-    def validate_node(node: Dict[str, Any]) -> bool:
+    def validate_node(node: dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
 
@@ -200,14 +200,10 @@ class CoreMatrizAdapter:
 
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-        for field in required_prov:
-            if field not in node.get("provenance", {}):
-                return False
-
-        return True
+        return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
-    def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+    def save_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/core")

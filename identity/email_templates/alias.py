@@ -6,7 +6,7 @@ version tracking, and history preservation.
 """
 
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Optional
 
 from .engine import EmailTemplate, LanguageCode, TemplateEngine
 
@@ -213,7 +213,7 @@ class AliasRotationTemplates:
         # Default fallback
         return 'System Process'
 
-    def get_rotation_reasons(self, language: LanguageCode = 'en') -> List[Dict[str, str]]:
+    def get_rotation_reasons(self, language: LanguageCode = 'en') -> list[dict[str, str]]:
         """
         Get list of valid rotation reasons with descriptions.
 
@@ -271,7 +271,7 @@ class AliasRotationTemplates:
                 }
             ]
 
-    def validate_alias_rotation(self, old_alias: str, new_alias: str) -> Dict[str, bool]:
+    def validate_alias_rotation(self, old_alias: str, new_alias: str) -> dict[str, bool]:
         """
         Validate an alias rotation for security and format compliance.
 

@@ -12,7 +12,7 @@ from collections import deque
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import psutil
 
@@ -126,7 +126,7 @@ class EnergyManager:
         self.throttle_active = False
 
         # Energy tracking
-        self.energy_events: List[Dict] = []
+        self.energy_events: list[dict] = []
         self.profile_switches = 0
         self.monitoring_active = False
 
@@ -360,7 +360,7 @@ class EnergyManager:
 
         return False
 
-    async def _execute_operation(self, operation: Dict):
+    async def _execute_operation(self, operation: dict):
         """Execute an operation with energy tracking"""
         self.active_operations += 1
         start_time = time.time()
@@ -396,7 +396,7 @@ class EnergyManager:
         operation_type: str,
         duration: float = 1.0,
         priority: str = "normal",
-        metadata: Optional[Dict] = None,
+        metadata: Optional[dict] = None,
     ) -> str:
         """Queue an operation for energy-aware execution"""
         operation_id = f"op_{datetime.utcnow().timestamp()}_{operation_type}"
@@ -436,7 +436,7 @@ class EnergyManager:
         logger.info(f"🔧 Manual profile switch: {old_profile} → {profile_name}")
         return True
 
-    def _log_energy_event(self, event_type: str, data: Dict):
+    def _log_energy_event(self, event_type: str, data: dict):
         """Log energy management events"""
         event = {
             "timestamp": datetime.utcnow().isoformat(),
@@ -451,7 +451,7 @@ class EnergyManager:
         with open(self.log_file, "a") as f:
             f.write(json.dumps(event) + "\n")
 
-    def get_energy_report(self) -> Dict[str, Any]:
+    def get_energy_report(self) -> dict[str, Any]:
         """Generate comprehensive energy management report"""
         current_metrics = self.metrics_history[-1] if self.metrics_history else None
 

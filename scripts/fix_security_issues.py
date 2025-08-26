@@ -12,7 +12,6 @@ import asyncio
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
 
 import aiohttp
 import click
@@ -54,7 +53,7 @@ class SecurityIssueFixer:
 
         return high_severity, medium_severity, low_severity
 
-    def get_fixable_issue_types(self) -> Dict:
+    def get_fixable_issue_types(self) -> dict:
         """Define which issue types we can automatically fix"""
         return {
             "hardcoded_password_string": {
@@ -101,7 +100,7 @@ class SecurityIssueFixer:
             },
         }
 
-    async def analyze_issue_with_ollama(self, issue: Dict) -> Dict:
+    async def analyze_issue_with_ollama(self, issue: dict) -> dict:
         """Use Ollama to analyze a specific security issue and suggest fixes"""
 
         prompt = f"""
@@ -173,7 +172,7 @@ Focus on practical, secure solutions that maintain functionality.
             return str(backup_file)
         return ""
 
-    def fix_hardcoded_password(self, issue: Dict) -> bool:
+    def fix_hardcoded_password(self, issue: dict) -> bool:
         """Fix hardcoded password issues"""
         file_path = issue["filename"].lstrip("./")
         line_num = issue["line_number"]
@@ -205,7 +204,7 @@ Focus on practical, secure solutions that maintain functionality.
             click.echo(f"❌ Failed to fix {file_path}: {e}")
             return False
 
-    def fix_bind_all_interfaces(self, issue: Dict) -> bool:
+    def fix_bind_all_interfaces(self, issue: dict) -> bool:
         """Fix binding to all interfaces (0.0.0.0)"""
         file_path = issue["filename"].lstrip("./")
         line_num = issue["line_number"]
@@ -243,7 +242,7 @@ Focus on practical, secure solutions that maintain functionality.
             click.echo(f"❌ Failed to fix {file_path}: {e}")
             return False
 
-    def fix_insecure_hash(self, issue: Dict) -> bool:
+    def fix_insecure_hash(self, issue: dict) -> bool:
         """Fix insecure hash function usage"""
         file_path = issue["filename"].lstrip("./")
 
@@ -273,7 +272,7 @@ Focus on practical, secure solutions that maintain functionality.
             return False
 
     async def fix_high_priority_issues(
-        self, high_issues: List[Dict], medium_issues: List[Dict]
+        self, high_issues: list[dict], medium_issues: list[dict]
     ):
         """Fix high and medium priority security issues"""
 
@@ -327,7 +326,7 @@ Focus on practical, secure solutions that maintain functionality.
                 else:
                     click.echo(f"⚠️ Could not auto-fix {issue_type}")
 
-    def add_security_comment(self, issue: Dict) -> bool:
+    def add_security_comment(self, issue: dict) -> bool:
         """Add security comment to subprocess issues"""
         file_path = issue["filename"].lstrip("./")
         line_num = issue["line_number"]

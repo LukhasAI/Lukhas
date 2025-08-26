@@ -33,7 +33,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -72,13 +72,13 @@ class IdentityValidation:
     credential_score: Optional[float] = None
 
     # Risk factors
-    risk_factors: List[str] = field(default_factory=list)
-    anomalies_detected: List[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
+    anomalies_detected: list[str] = field(default_factory=list)
 
     # Context
-    validation_context: Dict[str, Any] = field(default_factory=dict)
+    validation_context: dict[str, Any] = field(default_factory=dict)
     device_fingerprint: Optional[str] = None
-    location_context: Optional[Dict] = None
+    location_context: Optional[dict] = None
 
     # Trinity Framework integration
     identity_coherence: float = 1.0        # ⚛️
@@ -112,13 +112,13 @@ class AdvancedIdentityValidator:
     factors with continuous monitoring and adaptive risk assessment.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Identity profiles and validation history
-        self.biometric_profiles: Dict[str, BiometricProfile] = {}
+        self.biometric_profiles: dict[str, BiometricProfile] = {}
         self.validation_history: deque = deque(maxlen=100000)
-        self.behavioral_baselines: Dict[str, Dict] = {}
+        self.behavioral_baselines: dict[str, dict] = {}
 
         # Risk assessment
         self.risk_thresholds = {
@@ -163,8 +163,8 @@ class AdvancedIdentityValidator:
         self,
         user_id: str,
         validation_method: ValidationMethod,
-        identity_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
+        identity_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None
     ) -> IdentityValidation:
         """
         Validate user identity using specified method
@@ -249,7 +249,7 @@ class AdvancedIdentityValidator:
     async def _validate_biometric(
         self,
         validation: IdentityValidation,
-        identity_data: Dict[str, Any]
+        identity_data: dict[str, Any]
     ):
         """Validate biometric identity data"""
 
@@ -296,7 +296,7 @@ class AdvancedIdentityValidator:
     async def _validate_behavioral(
         self,
         validation: IdentityValidation,
-        identity_data: Dict[str, Any]
+        identity_data: dict[str, Any]
     ):
         """Validate behavioral patterns"""
 
@@ -350,7 +350,7 @@ class AdvancedIdentityValidator:
     async def _validate_credential(
         self,
         validation: IdentityValidation,
-        identity_data: Dict[str, Any]
+        identity_data: dict[str, Any]
     ):
         """Validate credentials"""
 
@@ -389,7 +389,7 @@ class AdvancedIdentityValidator:
     async def _validate_multi_factor(
         self,
         validation: IdentityValidation,
-        identity_data: Dict[str, Any]
+        identity_data: dict[str, Any]
     ):
         """Validate using multiple factors"""
 
@@ -425,8 +425,8 @@ class AdvancedIdentityValidator:
     async def _assess_identity_risk(
         self,
         validation: IdentityValidation,
-        identity_data: Dict[str, Any],
-        context: Dict[str, Any]
+        identity_data: dict[str, Any],
+        context: dict[str, Any]
     ) -> IdentityRisk:
         """Assess identity-related risks"""
 
@@ -480,8 +480,8 @@ class AdvancedIdentityValidator:
     async def _integrate_trinity_framework(
         self,
         validation: IdentityValidation,
-        identity_data: Dict[str, Any],
-        context: Dict[str, Any]
+        identity_data: dict[str, Any],
+        context: dict[str, Any]
     ):
         """Integrate Trinity Framework considerations"""
 
@@ -526,7 +526,7 @@ class AdvancedIdentityValidator:
 
         return validation.confidence_score >= threshold and validation.guardian_clearance
 
-    async def get_identity_profile(self, user_id: str) -> Optional[Dict[str, Any]]:
+    async def get_identity_profile(self, user_id: str) -> Optional[dict[str, Any]]:
         """Get user identity profile summary"""
 
         profile = self.biometric_profiles.get(user_id)
@@ -558,7 +558,7 @@ class AdvancedIdentityValidator:
             "risk_assessment": "low" if success_rate > 0.9 else "medium" if success_rate > 0.7 else "high"
         }
 
-    async def get_system_metrics(self) -> Dict[str, Any]:
+    async def get_system_metrics(self) -> dict[str, Any]:
         """Get identity validation system metrics"""
         return self.metrics.copy()
 

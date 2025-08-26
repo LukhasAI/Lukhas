@@ -7,7 +7,7 @@ import functools
 import os
 import warnings
 from pathlib import Path
-from typing import Callable, Dict
+from typing import Callable
 
 import yaml
 
@@ -16,8 +16,8 @@ class FeatureFlags:
     """Centralized feature flag management"""
 
     _instance = None
-    _flags: Dict[str, bool] = {}
-    _overrides: Dict[str, bool] = {}
+    _flags: dict[str, bool] = {}
+    _overrides: dict[str, bool] = {}
 
     def __new__(cls):
         if cls._instance is None:
@@ -73,7 +73,7 @@ class FeatureFlags:
         """Clear all temporary overrides"""
         self._overrides.clear()
 
-    def all_flags(self) -> Dict[str, bool]:
+    def all_flags(self) -> dict[str, bool]:
         """Get all flags with overrides applied"""
         result = self._flags.copy()
         result.update(self._overrides)
@@ -84,7 +84,7 @@ class FeatureFlags:
 _flags = FeatureFlags()
 
 
-def get_flags() -> Dict[str, bool]:
+def get_flags() -> dict[str, bool]:
     """Get all current feature flags"""
     return _flags.all_flags()
 

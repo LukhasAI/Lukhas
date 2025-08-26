@@ -6,7 +6,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 import time
 import uuid
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from lukhas.observability.matriz_decorators import matriz_record
@@ -46,10 +46,10 @@ class MemoryMatrizAdapter:
     def create_node(
         self,
         node_type: str,
-        state: Dict[str, Any],
-        labels: Optional[List[str]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        state: dict[str, Any],
+        labels: Optional[list[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """Create a MATRIZ node for memory operations"""
 
         node_id = f"{self.node_prefix}-{str(uuid.uuid4())[:8].upper()}"
@@ -77,7 +77,7 @@ class MemoryMatrizAdapter:
         importance: float,
         causal_chain_length: int,
         mode: str = "dry_run",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit MATRIZ node for fold creation"""
 
         state = {
@@ -104,7 +104,7 @@ class MemoryMatrizAdapter:
     @emit_node("memory:matriz:memory_accessed")
     def emit_memory_accessed(
         self, query_type: str, results_count: int, operation_time_ms: float, mode: str = "dry_run"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit MATRIZ node for memory access"""
 
         state = {
@@ -133,7 +133,7 @@ class MemoryMatrizAdapter:
         fold_count_after: int,
         operation_time_ms: float,
         mode: str = "dry_run",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit MATRIZ node for memory consolidation"""
 
         consolidation_ratio = fold_count_after / max(fold_count_before, 1)
@@ -161,7 +161,7 @@ class MemoryMatrizAdapter:
     @emit_node("memory:matriz:cascade_prevention")
     def emit_cascade_prevention(
         self, fold_count: int, folds_removed: int, prevention_rate: float, trigger_reason: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit MATRIZ node for cascade prevention events"""
 
         state = {
@@ -193,7 +193,7 @@ class MemoryMatrizAdapter:
         total_operations: int,
         error_count: int,
         memory_health_status: str,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit MATRIZ node for performance metrics"""
 
         error_rate = error_count / max(total_operations, 1)
@@ -227,7 +227,7 @@ class MemoryMatrizAdapter:
     @emit_node("memory:matriz:error")
     def emit_error(
         self, operation: str, error_message: str, error_type: str, mode: str = "dry_run"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit MATRIZ node for memory errors"""
 
         state = {

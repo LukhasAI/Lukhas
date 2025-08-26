@@ -19,7 +19,7 @@ import signal
 import sys
 import time
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Add project root to Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -217,8 +217,7 @@ class LUKHASProduction:
             identity_available = False
             try:
                 from CLAUDE_ARMY.mvp_demo import LukhasMinimalMVP
-                mvp = LukhasMinimalMVP()
-                identity_service = mvp.identity_service
+                LukhasMinimalMVP()
                 identity_available = True
                 logger.info("✅ MVP identity service integrated")
             except Exception:
@@ -279,7 +278,7 @@ class LUKHASProduction:
                 from branding.automation.social_media_orchestrator import (
                     SocialMediaOrchestrator,
                 )
-                orchestrator = SocialMediaOrchestrator()
+                SocialMediaOrchestrator()
                 dreams_available = True
                 logger.info("✅ Social media orchestrator integrated")
             except Exception:
@@ -418,7 +417,7 @@ class LUKHASProduction:
 
         logger.info("✅ All systems stopped")
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
         uptime = time.time() - self.startup_time
 
@@ -499,9 +498,6 @@ async def main():
 
 if __name__ == "__main__":
     # Check Python version
-    if sys.version_info < (3, 8):
-        print("❌ Python 3.8+ required")
-        sys.exit(1)
 
     # Run the main function
     exit_code = asyncio.run(main())

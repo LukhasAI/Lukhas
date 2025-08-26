@@ -11,7 +11,7 @@ Interactive demonstration of the complete LUKHAS system with:
 import asyncio
 import json
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any
 
 import aiohttp
 
@@ -42,73 +42,69 @@ class IntegratedLukhasDemo:
         print("• How your feedback influences future AI decisions")
         print("\nStarting interactive session...\n")
 
-    async def chat_interaction(self, message: str) -> Dict[str, Any]:
+    async def chat_interaction(self, message: str) -> dict[str, Any]:
         """Send chat message and get response"""
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                f"{self.api_url}/chat",
-                json={
-                    "message": message,
-                    "session_id": self.session_id,
-                    "user_id": self.user_id,
-                    "enable_feedback": True,
-                    "region": "global",
-                },
-            ) as response:
-                data = await response.json()
-                self.session_id = data["session_id"]
-                self.action_history.append(data["action_id"])
-                return data
+        async with aiohttp.ClientSession() as session, session.post(
+            f"{self.api_url}/chat",
+            json={
+                "message": message,
+                "session_id": self.session_id,
+                "user_id": self.user_id,
+                "enable_feedback": True,
+                "region": "global",
+            },
+        ) as response:
+            data = await response.json()
+            self.session_id = data["session_id"]
+            self.action_history.append(data["action_id"])
+            return data
 
     async def submit_feedback(
-        self, action_id: str, feedback_type: str, content: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action_id: str, feedback_type: str, content: dict[str, Any]
+    ) -> dict[str, Any]:
         """Submit feedback for an action"""
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                f"{self.api_url}/feedback",
-                json={
+        async with aiohttp.ClientSession() as session, session.post(
+            f"{self.api_url}/feedback",
+            json={
+                "action_id": action_id,
+                "user_id": self.user_id,
+                "feedback_type": feedback_type,
+                "content": content,
+            },
+        ) as response:
+            data = await response.json()
+            self.feedback_history.append(
+                {
                     "action_id": action_id,
-                    "user_id": self.user_id,
-                    "feedback_type": feedback_type,
+                    "type": feedback_type,
                     "content": content,
-                },
-            ) as response:
-                data = await response.json()
-                self.feedback_history.append(
-                    {
-                        "action_id": action_id,
-                        "type": feedback_type,
-                        "content": content,
-                        "timestamp": datetime.now(timezone.utc),
-                    }
-                )
-                return data
+                    "timestamp": datetime.now(timezone.utc),
+                }
+            )
+            return data
 
-    async def get_dashboard_data(self) -> Dict[str, Any]:
+    async def get_dashboard_data(self) -> dict[str, Any]:
         """Get dashboard data"""
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                f"{self.api_url}/dashboard",
-                json={
-                    "user_id": self.user_id,
-                    "session_id": self.session_id,
-                    "time_range": "1h",
-                    "include_feedback": True,
-                    "include_decisions": True,
-                },
-            ) as response:
-                return await response.json()
+        async with aiohttp.ClientSession() as session, session.post(
+            f"{self.api_url}/dashboard",
+            json={
+                "user_id": self.user_id,
+                "session_id": self.session_id,
+                "time_range": "1h",
+                "include_feedback": True,
+                "include_decisions": True,
+            },
+        ) as response:
+            return await response.json()
 
-    async def get_feedback_influence(self) -> Dict[str, Any]:
+    async def get_feedback_influence(self) -> dict[str, Any]:
         """See how feedback has influenced decisions"""
-        async with aiohttp.ClientSession() as session:
-            async with session.get(
-                f"{self.api_url}/feedback/influence/{self.user_id}"
-            ) as response:
-                return await response.json()
+        async with aiohttp.ClientSession() as session, session.get(
+            f"{self.api_url}/feedback/influence/{self.user_id}"
+        ) as response:
+            return await response.json()
 
-    def display_response(self, response_data: Dict[str, Any]):
+    def display_response(self, response_data: dict[str, Any]):
         """Display chat response with formatting"""
         print(f"\n🤖 LUKHAS: {response_data['response']}")
 
@@ -360,17 +356,16 @@ class IntegratedLukhasDemo:
 
             elif user_input.lower() == "export":
                 # Export session data
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(
-                        f"{self.api_url}/sessions/{self.session_id}/export"
-                    ) as response:
-                        export_data = await response.json()
+                async with aiohttp.ClientSession() as session, session.get(
+                    f"{self.api_url}/sessions/{self.session_id}/export"
+                ) as response:
+                    export_data = await response.json()
 
-                        filename = f"lukhas_session_{self.session_id}.json"
-                        with open(filename, "w") as f:
-                            json.dump(export_data, f, indent=2)
+                    filename = f"lukhas_session_{self.session_id}.json"
+                    with open(filename, "w") as f:
+                        json.dump(export_data, f, indent=2)
 
-                        print(f"✅ Session exported to {filename}")
+                    print(f"✅ Session exported to {filename}")
                 continue
 
             elif user_input.lower() == "demo":

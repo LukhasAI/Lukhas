@@ -41,7 +41,7 @@ COLORS = {
 }
 
 # Terminology normalization patterns
-_REPLACEMENTS: Tuple[Tuple[re.Pattern[str], str], ...] = (
+_REPLACEMENTS: tuple[tuple[re.Pattern[str], str], ...] = (
     # Lukhas AGI -> Lukhas AI (various caseings)
     (re.compile(r"\bLUKHAS\s+AGI\b", re.IGNORECASE), "LUKHAS AI"),
     # quantum process family -> quantum-inspired

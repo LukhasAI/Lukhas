@@ -11,7 +11,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -59,7 +59,7 @@ class AudioBuffer:
     channels: int
     format: AudioFormat
     timestamp: float = field(default_factory=time.time)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def duration(self) -> float:
@@ -320,7 +320,7 @@ class LimiterProcessor(AudioSignalProcessor):
 class EqualizerProcessor(AudioSignalProcessor):
     """Parametric equalizer"""
 
-    def __init__(self, bands: List[Dict[str, float]] = None):
+    def __init__(self, bands: list[dict[str, float]] = None):
         # Default EQ bands if none provided
         self.bands = bands or [
             {"freq": 100, "gain": 0, "q": 1.0, "type": "high_pass"},
@@ -349,7 +349,7 @@ class EqualizerProcessor(AudioSignalProcessor):
         self,
         data: np.ndarray,
         sample_rate: int,
-        band: Dict[str, float]
+        band: dict[str, float]
     ) -> np.ndarray:
         """Apply single EQ band"""
         from scipy import signal
@@ -463,7 +463,7 @@ class ReverbProcessor(AudioSignalProcessor):
 class AudioProcessingChain:
     """Chain of audio processors"""
 
-    def __init__(self, processors: List[AudioSignalProcessor] = None):
+    def __init__(self, processors: list[AudioSignalProcessor] = None):
         self.processors = processors or []
         self.logger = get_logger(f"{__name__}.AudioProcessingChain")
 
@@ -498,7 +498,7 @@ class AudioProcessingChain:
 class LUKHASAudioProcessor:
     """Main LUKHAS audio processor with Trinity Framework integration"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(f"{__name__}.LUKHASAudioProcessor")
         self.guardian = GuardianValidator()
@@ -578,8 +578,8 @@ class LUKHASAudioProcessor:
         channels: int = 1,
         format: AudioFormat = AudioFormat.PCM_16,
         quality: ProcessingQuality = ProcessingQuality.STANDARD,
-        context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[bytes, Dict[str, Any]]:
+        context: Optional[dict[str, Any]] = None
+    ) -> tuple[bytes, dict[str, Any]]:
         """
         Process audio data through LUKHAS audio processing pipeline
 
@@ -762,15 +762,15 @@ class LUKHASAudioProcessor:
             **kwargs
         })
 
-    def get_supported_formats(self) -> List[AudioFormat]:
+    def get_supported_formats(self) -> list[AudioFormat]:
         """Get list of supported audio formats"""
         return list(AudioFormat)
 
-    def get_processing_qualities(self) -> List[ProcessingQuality]:
+    def get_processing_qualities(self) -> list[ProcessingQuality]:
         """Get list of processing quality levels"""
         return list(ProcessingQuality)
 
-    async def analyze_audio_quality(self, audio_buffer: AudioBuffer) -> Dict[str, float]:
+    async def analyze_audio_quality(self, audio_buffer: AudioBuffer) -> dict[str, float]:
         """Analyze audio quality metrics"""
         data = audio_buffer.data
 

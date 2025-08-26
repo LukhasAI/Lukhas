@@ -4,7 +4,7 @@ import argparse
 import json
 import os
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 
@@ -31,14 +31,14 @@ DEFAULT_CFG = {
 class RoutePlan:
     tier: str
     score: float
-    actions: List[str]
+    actions: list[str]
     notes: str = ""
 
 class RiskOrchestrator:
     def __init__(self, cfg_path: str | None = None):
         self.cfg = self._load_cfg(cfg_path)
 
-    def _load_cfg(self, path: str | None) -> Dict[str, Any]:
+    def _load_cfg(self, path: str | None) -> dict[str, Any]:
         if path and os.path.exists(path):
             return yaml.safe_load(open(path, encoding="utf-8"))
         # allow jurisdictional override under policy packs
@@ -59,7 +59,7 @@ class RiskOrchestrator:
         s += w["content_flag"] * float(content_flags)
         return round(s, 3)
 
-    def _tier(self, score: float) -> Dict[str, Any]:
+    def _tier(self, score: float) -> dict[str, Any]:
         best = sorted(self.cfg["tiers"], key=lambda x: x["min"])
         chosen = best[0]
         for tier in best:
@@ -67,7 +67,7 @@ class RiskOrchestrator:
                 chosen = tier
         return chosen
 
-    def route(self, *, task: str, ctx: Dict[str,Any]) -> RoutePlan:
+    def route(self, *, task: str, ctx: dict[str,Any]) -> RoutePlan:
         conf = float(ctx.get("calibrated_confidence", 0.5))
         pii_hits = len(ctx.get("pii",{}).get("_auto_hits",[]))
         flags = len(ctx.get("content_flags",[]))

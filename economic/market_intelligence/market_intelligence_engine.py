@@ -7,7 +7,7 @@ Provides comprehensive market analysis and opportunity detection capabilities.
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from core.interfaces import CoreInterface
 
@@ -53,11 +53,11 @@ class MarketIntelligenceEngine(CoreInterface):
 
     async def scan_global_opportunities(
         self,
-        domains: List[str],
+        domains: list[str],
         min_market_size: float = 1e12,
         time_horizon_years: int = 10,
         disruption_potential_threshold: float = 0.9
-    ) -> List[Any]:
+    ) -> list[Any]:
         """
         Scan global markets for opportunities meeting criteria
 
@@ -109,7 +109,7 @@ class MarketIntelligenceEngine(CoreInterface):
         competitor: str,
         analysis_depth: str = "comprehensive",
         time_window_years: int = 5
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Analyze competitor innovation patterns
 
@@ -285,7 +285,7 @@ class MarketIntelligenceEngine(CoreInterface):
 
         return min(1.0, confidence)
 
-    async def _identify_strategic_advantages(self, domain: str) -> List[str]:
+    async def _identify_strategic_advantages(self, domain: str) -> list[str]:
         """Identify strategic advantages in a domain"""
 
         advantages = []
@@ -309,7 +309,7 @@ class MarketIntelligenceEngine(CoreInterface):
 
         return advantages
 
-    async def _analyze_requirements(self, domain: str) -> Dict[str, Any]:
+    async def _analyze_requirements(self, domain: str) -> dict[str, Any]:
         """Analyze implementation requirements for a domain"""
 
         requirements = {
@@ -337,7 +337,7 @@ class MarketIntelligenceEngine(CoreInterface):
 
         return requirements
 
-    async def _identify_risk_factors(self, domain: str) -> List[str]:
+    async def _identify_risk_factors(self, domain: str) -> list[str]:
         """Identify risk factors for a domain"""
 
         risks = ["market_timing_risk", "competitive_response_risk"]
@@ -357,7 +357,7 @@ class MarketIntelligenceEngine(CoreInterface):
         self,
         competitor: str,
         time_window: int
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Analyze competitor innovation cycles"""
 
         cycles = []
@@ -374,7 +374,7 @@ class MarketIntelligenceEngine(CoreInterface):
 
         return cycles
 
-    async def _identify_tech_focus(self, competitor: str) -> List[str]:
+    async def _identify_tech_focus(self, competitor: str) -> list[str]:
         """Identify competitor technology focus areas"""
 
         # Simulate based on competitor name patterns
@@ -393,7 +393,7 @@ class MarketIntelligenceEngine(CoreInterface):
         self,
         competitor: str,
         time_window: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Analyze competitor investment patterns"""
 
         return {
@@ -404,7 +404,7 @@ class MarketIntelligenceEngine(CoreInterface):
             "investment_velocity": "accelerating"
         }
 
-    async def _analyze_partnerships(self, competitor: str) -> List[Dict[str, str]]:
+    async def _analyze_partnerships(self, competitor: str) -> list[dict[str, str]]:
         """Analyze competitor partnership strategies"""
 
         return [
@@ -413,7 +413,7 @@ class MarketIntelligenceEngine(CoreInterface):
             {"type": "research", "focus": "qi_computing"}
         ]
 
-    async def _analyze_market_entries(self, competitor: str) -> List[Dict[str, Any]]:
+    async def _analyze_market_entries(self, competitor: str) -> list[dict[str, Any]]:
         """Analyze competitor market entry patterns"""
 
         return [
@@ -434,8 +434,8 @@ class MarketIntelligenceEngine(CoreInterface):
     async def _identify_weaknesses(
         self,
         competitor: str,
-        patterns: Dict[str, Any]
-    ) -> List[str]:
+        patterns: dict[str, Any]
+    ) -> list[str]:
         """Identify competitor weaknesses"""
 
         weaknesses = []

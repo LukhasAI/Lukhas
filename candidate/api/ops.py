@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter
 
@@ -14,7 +14,7 @@ def _last_success_path() -> Path:
     return p
 
 
-def _read_json(path: Path) -> Optional[Dict[str, Any]]:
+def _read_json(path: Path) -> Optional[dict[str, Any]]:
     if not path.exists():
         return None
     try:

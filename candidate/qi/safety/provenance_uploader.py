@@ -8,7 +8,7 @@ import mimetypes
 import os
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 # --------- ENV & defaults ---------
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
@@ -60,21 +60,21 @@ class ProvenanceRecord:
 
     # Context
     created_at: float                 # epoch seconds
-    model_id: Optional[str] = None
-    prompt_hash: Optional[str] = None
-    parameters: Optional[Dict[str, Any]] = None
-    metadata: Optional[Dict[str, Any]] = None
+    model_id: str | None = None
+    prompt_hash: str | None = None
+    parameters: dict[str, Any] | None = None
+    metadata: dict[str, Any] | None = None
 
     # Links (optional)
-    attestation: Optional[Dict[str, Any]] = None      # from qi.ops.provenance.attest()
-    extra_attachments: Optional[List[Dict[str, Any]]] = None  # e.g., list of {"path","sha256","storage_url"}
+    attestation: dict[str, Any] | None = None      # from qi.ops.provenance.attest()
+    extra_attachments: list[dict[str, Any]] | None = None  # e.g., list of {"path","sha256","storage_url"}
 
     # Versioning
     schema_version: str = "1.0.0"
 
 # --------- upload backends ----------
 class Uploader:
-    def put(self, *, local_path: str, key_hint: Optional[str] = None) -> Tuple[str, str]:
+    def put(self, *, local_path: str, key_hint: str | None = None) -> tuple[str, str]:
         """Return (storage_url, sha256)."""
         raise NotImplementedError
 
@@ -82,7 +82,7 @@ class LocalUploader(Uploader):
     def __init__(self, base_dir: str = LOCAL_DIR):
         self.base = base_dir
         os.makedirs(self.base, exist_ok=True)
-    def put(self, *, local_path: str, key_hint: Optional[str] = None) -> Tuple[str, str]:
+    def put(self, *, local_path: str, key_hint: str | None = None) -> tuple[str, str]:
         sha = sha256_file(local_path)
         ext = os.path.splitext(local_path)[1].lower()
         rel = os.path.join(sha[:2], f"{sha}{ext or ''}")
@@ -107,7 +107,7 @@ class S3Uploader(Uploader):
         self.s3 = boto3.client("s3")
         self.bucket = bucket
         self.prefix = prefix.rstrip("/") + "/"
-    def put(self, *, local_path: str, key_hint: Optional[str] = None) -> Tuple[str, str]:
+    def put(self, *, local_path: str, key_hint: str | None = None) -> tuple[str, str]:
         sha = sha256_file(local_path)
         ext = os.path.splitext(local_path)[1].lower()
         key = f"{self.prefix}{sha[:2]}/{sha}{ext or ''}"
@@ -124,7 +124,7 @@ class GCSUploader(Uploader):
         self.client = storage.Client()
         self.bucket = self.client.bucket(bucket)
         self.prefix = prefix.rstrip("/") + "/"
-    def put(self, *, local_path: str, key_hint: Optional[str] = None) -> Tuple[str, str]:
+    def put(self, *, local_path: str, key_hint: str | None = None) -> tuple[str, str]:
         sha = sha256_file(local_path)
         ext = os.path.splitext(local_path)[1].lower()
         key = f"{self.prefix}{sha[:2]}/{sha}{ext or ''}"
@@ -149,12 +149,12 @@ def resolve_uploader() -> Uploader:
 def record_artifact(
     artifact_path: str,
     *,
-    model_id: Optional[str] = None,
-    prompt: Optional[str] = None,
-    parameters: Optional[Dict[str, Any]] = None,
-    metadata: Optional[Dict[str, Any]] = None,
-    attestation_steps: Optional[List[Dict[str, Any]]] = None,
-    extra_files: Optional[List[str]] = None,
+    model_id: str | None = None,
+    prompt: str | None = None,
+    parameters: dict[str, Any] | None = None,
+    metadata: dict[str, Any] | None = None,
+    attestation_steps: list[dict[str, Any]] | None = None,
+    extra_files: list[str] | None = None,
 ) -> ProvenanceRecord:
     """
     - Hashes local artifact
@@ -170,7 +170,7 @@ def record_artifact(
     uploader = resolve_uploader()
     storage_url, sha = uploader.put(local_path=artifact_path)
 
-    att: Optional[Dict[str, Any]] = None
+    att: dict[str, Any] | None = None
     if attestation_steps and _HAVE_ATTEST:
         chain = merkle_chain(attestation_steps)
         att_obj = _attest(chain, tag="prod")  # write signed attestation
@@ -181,7 +181,7 @@ def record_artifact(
             "root_hash": att_obj.root_hash,
         }
 
-    extras: List[Dict[str, Any]] = []
+    extras: list[dict[str, Any]] = []
     if extra_files:
         for p in extra_files:
             p = os.path.abspath(p)
@@ -214,14 +214,14 @@ def record_artifact(
 
     return rec
 
-def load_record_by_sha(sha: str) -> Dict[str, Any]:
+def load_record_by_sha(sha: str) -> dict[str, Any]:
     """Load a local JSON record by artifact SHA."""
     path = os.path.join(LOCAL_DIR, "records", sha[:2], f"{sha}.json")
     if not os.path.exists(path):
         raise FileNotFoundError(f"Record not found: {path}")
     return json.load(open(path, encoding="utf-8"))
 
-def verify_artifact(local_path: str, record: Dict[str, Any]) -> Dict[str, Any]:
+def verify_artifact(local_path: str, record: dict[str, Any]) -> dict[str, Any]:
     """Verify local file hash matches the recorded hash. Returns dict with 'ok' and details."""
     if not os.path.exists(local_path):
         return {"ok": False, "reason": "local_file_missing"}

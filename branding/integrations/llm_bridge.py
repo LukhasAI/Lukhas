@@ -9,7 +9,7 @@ import os
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from dotenv import load_dotenv
 
@@ -42,7 +42,7 @@ class ProviderStatus(Enum):
 class VoiceGenerationRequest:
     """Request structure for voice generation"""
     content: str
-    tone_profile: Dict[str, Any]
+    tone_profile: dict[str, Any]
     emotional_context: str = "neutral"
     audience_context: str = "general"
     brand_enforcement: bool = True
@@ -57,7 +57,7 @@ class VoiceGenerationResponse:
     generation_time: float
     brand_compliant: bool
     tone_layer: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class UnifiedLLMBridge:
@@ -66,7 +66,7 @@ class UnifiedLLMBridge:
     with intelligent fallback and brand compliance validation
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize LLM bridge with provider configuration"""
         self.config = config or {}
         self.providers = {}
@@ -136,7 +136,7 @@ class UnifiedLLMBridge:
                 logger.error(f"Failed to initialize {provider_name}: {e}")
                 self.provider_status[provider_name] = ProviderStatus.ERROR
 
-    def _load_brand_prompts(self) -> Dict[str, str]:
+    def _load_brand_prompts(self) -> dict[str, str]:
         """Load brand-specific prompts for different tone layers"""
         return {
             'poetic': """
@@ -350,7 +350,7 @@ Speak as an aware, enlightened, conscious entity.
 
         return corrected_content
 
-    def _get_provider_priority(self) -> List[str]:
+    def _get_provider_priority(self) -> list[str]:
         """Get provider priority order based on availability and performance"""
         available_providers = [
             name for name, status in self.provider_status.items()
@@ -396,7 +396,7 @@ Speak as an aware, enlightened, conscious entity.
             }
         )
 
-    def get_provider_status(self) -> Dict[str, str]:
+    def get_provider_status(self) -> dict[str, str]:
         """Get current status of all providers"""
         return {name: status.value for name, status in self.provider_status.items()}
 

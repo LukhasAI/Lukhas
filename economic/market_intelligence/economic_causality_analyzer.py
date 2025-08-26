@@ -7,7 +7,7 @@ Analyzes economic cause-and-effect relationships for strategic decision making.
 import logging
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from core.interfaces import CoreInterface
 
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 class CausalityChain:
     """Represents a causal chain in economic systems"""
     trigger: str
-    effects: List[str]
+    effects: list[str]
     probability: float
     time_delay_days: int
     impact_magnitude: float
@@ -52,9 +52,9 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def analyze_causality_chains(
         self,
-        market_structure: Dict[str, Any],
+        market_structure: dict[str, Any],
         disruption_potential: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Analyze causality chains in a market structure
 
@@ -96,8 +96,8 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def analyze_market_dynamics(
         self,
-        market_implementation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        market_implementation: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Analyze current market dynamics
 
@@ -144,8 +144,8 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def estimate_strategy_impact(
         self,
-        strategy: Dict[str, Any],
-        market_factors: Dict[str, Any]
+        strategy: dict[str, Any],
+        market_factors: dict[str, Any]
     ) -> float:
         """
         Estimate the impact of a strategy on the market
@@ -263,9 +263,9 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _analyze_foundation_causality(
         self,
-        market_structure: Dict[str, Any],
+        market_structure: dict[str, Any],
         disruption_potential: float
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Analyze foundation phase causality"""
 
         paths = []
@@ -300,9 +300,9 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _analyze_entry_causality(
         self,
-        market_structure: Dict[str, Any],
+        market_structure: dict[str, Any],
         disruption_potential: float
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Analyze market entry phase causality"""
 
         paths = []
@@ -337,9 +337,9 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _analyze_expansion_causality(
         self,
-        market_structure: Dict[str, Any],
+        market_structure: dict[str, Any],
         disruption_potential: float
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Analyze expansion phase causality"""
 
         paths = []
@@ -374,9 +374,9 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _analyze_dominance_causality(
         self,
-        market_structure: Dict[str, Any],
+        market_structure: dict[str, Any],
         disruption_potential: float
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Analyze dominance phase causality"""
 
         paths = []
@@ -411,8 +411,8 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _analyze_competitive_forces(
         self,
-        market_implementation: Dict[str, Any]
-    ) -> Dict[str, float]:
+        market_implementation: dict[str, Any]
+    ) -> dict[str, float]:
         """Analyze Porter's Five Forces"""
 
         return {
@@ -425,8 +425,8 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _identify_market_trends(
         self,
-        market_implementation: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        market_implementation: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify current market trends"""
 
         trends = []
@@ -453,8 +453,8 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _detect_inflection_points(
         self,
-        market_implementation: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        market_implementation: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Detect market inflection points"""
 
         inflection_points = []
@@ -479,8 +479,8 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _identify_feedback_loops(
         self,
-        market_implementation: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        market_implementation: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify market feedback loops"""
 
         loops = []
@@ -505,7 +505,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _determine_equilibrium(
         self,
-        dynamics: Dict[str, Any]
+        dynamics: dict[str, Any]
     ) -> str:
         """Determine market equilibrium state"""
 
@@ -524,7 +524,7 @@ class EconomicCausalityAnalyzer(CoreInterface):
 
     async def _calculate_causality_multiplier(
         self,
-        strategy: Dict[str, Any]
+        strategy: dict[str, Any]
     ) -> float:
         """Calculate causality multiplier for strategy impact"""
 

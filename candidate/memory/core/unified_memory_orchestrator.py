@@ -15,6 +15,7 @@
 """
 
 import asyncio
+import contextlib
 import hashlib
 import json
 from collections import defaultdict, deque
@@ -1602,10 +1603,8 @@ class UnifiedMemoryOrchestrator:
         for task in self.background_tasks:
             if not task.done():
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         # Clear all memory structures
         self.hippocampal_buffer.clear()

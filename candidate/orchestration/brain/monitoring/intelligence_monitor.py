@@ -16,7 +16,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import psutil
 
@@ -53,9 +53,9 @@ class PerformanceMetric:
     timestamp: datetime
     agent_id: Optional[str] = None
     intelligence_engine: Optional[str] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {**asdict(self), "timestamp": self.timestamp.isoformat()}
 
 
@@ -72,13 +72,13 @@ class AlertEvent:
     threshold: Optional[float] = None
     timestamp: Optional[datetime] = None
     resolved: bool = False
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
     def __post_init__(self):
         if self.timestamp is None:
             self.timestamp = datetime.now()
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             **asdict(self),
             "timestamp": self.timestamp.isoformat(),
@@ -129,7 +129,7 @@ class LukhasIntelligenceMonitor:
         self._monitoring_active = False
         self._lock = threading.Lock()
 
-    def _initialize_alert_thresholds(self) -> Dict[str, Dict[str, float]]:
+    def _initialize_alert_thresholds(self) -> dict[str, dict[str, float]]:
         """Initialize alert thresholds for different metrics"""
         return {
             "response_time": {
@@ -204,7 +204,7 @@ class LukhasIntelligenceMonitor:
         metric_type: MetricType = MetricType.PERFORMANCE,
         agent_id: Optional[str] = None,
         intelligence_engine: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """Record a metric value"""
         with self._lock:
@@ -264,7 +264,7 @@ class LukhasIntelligenceMonitor:
         success: bool,
         confidence: float = 0.0,
         safety_score: float = 0.0,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """Record the completion of an intelligence operation"""
         end_time = time.time()
@@ -350,7 +350,7 @@ class LukhasIntelligenceMonitor:
         consciousness_score: float,
         guardian_score: float,
         agent_id: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None,
+        metadata: Optional[dict[str, Any]] = None,
     ):
         """Record Trinity Framework compliance scores"""
         timestamp = datetime.now()
@@ -619,7 +619,7 @@ class LukhasIntelligenceMonitor:
 
                 # Calculate overall Trinity compliance
                 trinity_scores = []
-                for component, metrics in self.trinity_metrics.items():
+                for _component, metrics in self.trinity_metrics.items():
                     if metrics and isinstance(metrics, deque):
                         recent_scores = [
                             m["score"]
@@ -705,7 +705,7 @@ class LukhasIntelligenceMonitor:
             del self.active_alerts[alert_id]
             logger.info(f"✅ Resolved alert: {alert_id}")
 
-    def get_real_time_metrics(self) -> Dict[str, Any]:
+    def get_real_time_metrics(self) -> dict[str, Any]:
         """Get current real-time metrics"""
         with self._lock:
             return {
@@ -713,7 +713,7 @@ class LukhasIntelligenceMonitor:
                 for name, metric in self.real_time_metrics.items()
             }
 
-    def get_agent_metrics(self, agent_id: Optional[str] = None) -> Dict[str, Any]:
+    def get_agent_metrics(self, agent_id: Optional[str] = None) -> dict[str, Any]:
         """Get agent-specific metrics"""
         with self._lock:
             if agent_id:
@@ -726,7 +726,7 @@ class LukhasIntelligenceMonitor:
                 for agent, metrics in self.agent_metrics.items()
             }
 
-    def get_engine_metrics(self, engine: Optional[str] = None) -> Dict[str, Any]:
+    def get_engine_metrics(self, engine: Optional[str] = None) -> dict[str, Any]:
         """Get intelligence engine specific metrics"""
         with self._lock:
             if engine:
@@ -739,11 +739,11 @@ class LukhasIntelligenceMonitor:
                 for eng, metrics in self.engine_metrics.items()
             }
 
-    def get_active_alerts(self) -> List[Dict[str, Any]]:
+    def get_active_alerts(self) -> list[dict[str, Any]]:
         """Get current active alerts"""
         return [alert.to_dict() for alert in self.active_alerts.values()]
 
-    def get_trinity_compliance_summary(self) -> Dict[str, Any]:
+    def get_trinity_compliance_summary(self) -> dict[str, Any]:
         """Get Trinity Framework compliance summary"""
         summary = {}
 
@@ -765,7 +765,7 @@ class LukhasIntelligenceMonitor:
 
         return summary
 
-    def get_system_health_summary(self) -> Dict[str, Any]:
+    def get_system_health_summary(self) -> dict[str, Any]:
         """Get system health summary"""
         health_metrics = [
             "cpu_usage",
@@ -802,7 +802,7 @@ class LukhasIntelligenceMonitor:
 
     def export_metrics(
         self, start_time: Optional[datetime] = None, end_time: Optional[datetime] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Export metrics for external analysis"""
         if start_time is None:
             start_time = datetime.now() - timedelta(hours=1)
@@ -859,7 +859,7 @@ def record_operation_metric(
     unit: str = "",
     agent_id: Optional[str] = None,
     intelligence_engine: Optional[str] = None,
-    metadata: Optional[Dict[str, Any]] = None,
+    metadata: Optional[dict[str, Any]] = None,
 ):
     """Convenience function to record a metric"""
     monitor = get_monitor()
@@ -888,7 +888,7 @@ def complete_operation_tracking(
     success: bool,
     confidence: float = 0.0,
     safety_score: float = 0.0,
-    metadata: Optional[Dict[str, Any]] = None,
+    metadata: Optional[dict[str, Any]] = None,
 ):
     """Convenience function to complete operation tracking"""
     monitor = get_monitor()

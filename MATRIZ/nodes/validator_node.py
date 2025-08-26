@@ -21,7 +21,7 @@ import math
 import operator
 import re
 import time
-from typing import Any, Dict, List, Union
+from typing import Any, Union
 
 try:
     from ..core.node_interface import (
@@ -113,7 +113,7 @@ class ValidatorNode(CognitiveNode):
         # Known facts for verification
         self.known_facts = self._build_validation_knowledge_base()
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Validate outputs from other cognitive nodes.
 
@@ -236,7 +236,7 @@ class ValidatorNode(CognitiveNode):
             'processing_time': processing_time
         }
 
-    def validate_output(self, output: Dict[str, Any]) -> bool:
+    def validate_output(self, output: dict[str, Any]) -> bool:
         """
         Validate the validation node's own output.
 
@@ -325,7 +325,7 @@ class ValidatorNode(CognitiveNode):
         except Exception:
             return False
 
-    def _perform_validation(self, target_output: Dict[str, Any], validation_type: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _perform_validation(self, target_output: dict[str, Any], validation_type: str, context: dict[str, Any]) -> dict[str, Any]:
         """
         Perform comprehensive validation of target output.
 
@@ -369,7 +369,7 @@ class ValidatorNode(CognitiveNode):
 
         return validation_results
 
-    def _validate_structure(self, target_output: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_structure(self, target_output: dict[str, Any]) -> dict[str, Any]:
         """
         Validate the structural integrity of the target output.
 
@@ -439,7 +439,7 @@ class ValidatorNode(CognitiveNode):
                 'details': {}
             }
 
-    def _validate_mathematical_content(self, target_output: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_mathematical_content(self, target_output: dict[str, Any]) -> dict[str, Any]:
         """
         Validate mathematical accuracy of the target output.
 
@@ -519,7 +519,7 @@ class ValidatorNode(CognitiveNode):
                 'details': {}
             }
 
-    def _validate_factual_content(self, target_output: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_factual_content(self, target_output: dict[str, Any]) -> dict[str, Any]:
         """
         Validate factual accuracy of the target output.
 
@@ -584,7 +584,7 @@ class ValidatorNode(CognitiveNode):
                 'details': {}
             }
 
-    def _validate_logical_consistency(self, target_output: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_logical_consistency(self, target_output: dict[str, Any]) -> dict[str, Any]:
         """
         Validate logical consistency of the target output.
 
@@ -663,7 +663,7 @@ class ValidatorNode(CognitiveNode):
                 'details': {}
             }
 
-    def _perform_cross_validation(self, validation_results: Dict[str, Any]) -> Dict[str, Any]:
+    def _perform_cross_validation(self, validation_results: dict[str, Any]) -> dict[str, Any]:
         """
         Perform cross-validation analysis across multiple validation strategies.
 
@@ -736,7 +736,7 @@ class ValidatorNode(CognitiveNode):
                 'details': {}
             }
 
-    def _calculate_overall_confidence(self, validation_results: Dict[str, Any]) -> float:
+    def _calculate_overall_confidence(self, validation_results: dict[str, Any]) -> float:
         """
         Calculate overall confidence from individual validation results.
 
@@ -772,7 +772,7 @@ class ValidatorNode(CognitiveNode):
 
         return min(1.0, base_confidence)
 
-    def _check_critical_failures(self, validation_results: Dict[str, Any]) -> bool:
+    def _check_critical_failures(self, validation_results: dict[str, Any]) -> bool:
         """
         Check if there are critical failures that should cause overall validation to fail.
 
@@ -804,7 +804,7 @@ class ValidatorNode(CognitiveNode):
 
         return False
 
-    def _create_validation_summary(self, validation_results: Dict[str, Any]) -> str:
+    def _create_validation_summary(self, validation_results: dict[str, Any]) -> str:
         """
         Create a human-readable summary of validation results.
 
@@ -859,11 +859,7 @@ class ValidatorNode(CognitiveNode):
             r'answer\s+is\s+\d+',    # Answer statement
         ]
 
-        for pattern in math_patterns:
-            if re.search(pattern, text, re.IGNORECASE):
-                return True
-
-        return False
+        return any(re.search(pattern, text, re.IGNORECASE) for pattern in math_patterns)
 
     def _contains_factual_content(self, text: str) -> bool:
         """Check if text contains factual content."""
@@ -994,7 +990,7 @@ class ValidatorNode(CognitiveNode):
         # Extract key terms from both answers
         def extract_key_terms(text):
             words = re.findall(r'\b\w+\b', text.lower())
-            return set(word for word in words if len(word) > 2)
+            return {word for word in words if len(word) > 2}
 
         answer_terms = extract_key_terms(answer)
         known_terms = extract_key_terms(known_answer)
@@ -1005,7 +1001,7 @@ class ValidatorNode(CognitiveNode):
 
         return overlap / union > 0.5 if union > 0 else False
 
-    def _check_factual_consistency(self, answer: str) -> List[str]:
+    def _check_factual_consistency(self, answer: str) -> list[str]:
         """Check for obvious factual inconsistencies in answer."""
         issues = []
 
@@ -1040,7 +1036,7 @@ class ValidatorNode(CognitiveNode):
         matches = sum(1 for keyword in keywords if keyword in answer_lower)
         return min(0.9, 0.5 + (matches / len(keywords)) * 0.4)
 
-    def _check_logical_contradictions(self, answer: str) -> List[str]:
+    def _check_logical_contradictions(self, answer: str) -> list[str]:
         """Check for logical contradictions in answer text."""
         issues = []
 
@@ -1056,7 +1052,7 @@ class ValidatorNode(CognitiveNode):
 
         return issues
 
-    def _build_validation_knowledge_base(self) -> Dict[str, Dict]:
+    def _build_validation_knowledge_base(self) -> dict[str, dict]:
         """Build knowledge base for fact validation."""
         return {
             "what is the capital of france": {
@@ -1089,11 +1085,11 @@ class ValidatorNode(CognitiveNode):
     def _create_error_response(
         self,
         error_message: str,
-        input_data: Dict[str, Any],
+        input_data: dict[str, Any],
         trace_id: str,
         start_time: float,
-        triggers: List[NodeTrigger]
-    ) -> Dict[str, Any]:
+        triggers: list[NodeTrigger]
+    ) -> dict[str, Any]:
         """Create standardized error response with MATRIZ node."""
         confidence = 0.1
 

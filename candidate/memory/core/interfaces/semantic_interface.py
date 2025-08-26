@@ -447,9 +447,8 @@ class SemanticMemoryInterface(BaseMemoryInterface):
             for memory_id, content in self.semantic_memories.items():
                 match = True
 
-                if "concept" in query:
-                    if query["concept"] not in content.concept_nodes:
-                        match = False
+                if "concept" in query and query["concept"] not in content.concept_nodes:
+                    match = False
 
                 if "category" in query:
                     category_match = False

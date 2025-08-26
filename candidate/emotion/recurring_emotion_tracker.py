@@ -9,7 +9,7 @@
 # {ΛDRIFT}
 # {ΛTRACE}
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -29,7 +29,7 @@ class RecurringEmotionTracker:
         self,
         emotional_memory: EmotionalMemory,
         bio_oscillator: Optional[Any] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         self.emotional_memory = emotional_memory
         self.bio_oscillator = bio_oscillator
@@ -41,7 +41,7 @@ class RecurringEmotionTracker:
             self.emotional_memory, config
         )
 
-    def check_for_recurrence(self) -> Optional[Dict[str, Any]]:
+    def check_for_recurrence(self) -> Optional[dict[str, Any]]:
         """
         Checks for recurring emotional states and stagnation.
 
@@ -71,8 +71,8 @@ class RecurringEmotionTracker:
         return None
 
     def _check_recurrence(
-        self, current_emotion: Dict[str, Any], emotional_history: List[Dict[str, Any]]
-    ) -> Optional[Dict[str, Any]]:
+        self, current_emotion: dict[str, Any], emotional_history: list[dict[str, Any]]
+    ) -> Optional[dict[str, Any]]:
         """
         Checks for recurring emotional patterns.
         """
@@ -116,7 +116,7 @@ class RecurringEmotionTracker:
             }
         return None
 
-    def _find_origin_dream(self, emotion_entry: Dict[str, Any]) -> Optional[str]:
+    def _find_origin_dream(self, emotion_entry: dict[str, Any]) -> Optional[str]:
         """
         Finds the dream that originated a specific emotional state.
         This is a conceptual implementation and needs to be connected to the actual dream log.

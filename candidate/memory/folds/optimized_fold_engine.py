@@ -27,7 +27,7 @@ from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from dataclasses import dataclass, field
 from functools import partial
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -68,7 +68,7 @@ class OptimizedMemoryFold:
     key: str
     content_hash: str  # Hash of content for deduplication
     compressed_content: Optional[bytes] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     # Performance metrics
     access_count: int = 0
@@ -123,10 +123,10 @@ class FoldIndex:
 
     def __init__(self, use_bloom_filter: bool = True):
         # Primary indexes
-        self.by_key: Dict[str, OptimizedMemoryFold] = {}
-        self.by_hash: Dict[str, Set[str]] = defaultdict(set)  # Content deduplication
-        self.by_tag: Dict[str, Set[str]] = defaultdict(set)
-        self.by_time: OrderedDict[float, Set[str]] = OrderedDict()
+        self.by_key: dict[str, OptimizedMemoryFold] = {}
+        self.by_hash: dict[str, set[str]] = defaultdict(set)  # Content deduplication
+        self.by_tag: dict[str, set[str]] = defaultdict(set)
+        self.by_time: OrderedDict[float, set[str]] = OrderedDict()
 
         # Bloom filter for fast existence checks
         if use_bloom_filter and BloomFilter:
@@ -167,9 +167,8 @@ class FoldIndex:
 
     def exists(self, key: str) -> bool:
         """Fast existence check using bloom filter"""
-        if self.bloom_filter:
-            if key not in self.bloom_filter:
-                return False  # Definitely not present
+        if self.bloom_filter and key not in self.bloom_filter:
+            return False  # Definitely not present
         return key in self.by_key
 
     def get(self, key: str) -> Optional[OptimizedMemoryFold]:
@@ -177,12 +176,12 @@ class FoldIndex:
         with self._lock:
             return self.by_key.get(key)
 
-    def find_duplicates(self, content_hash: str) -> Set[str]:
+    def find_duplicates(self, content_hash: str) -> set[str]:
         """Find all folds with same content"""
         with self._lock:
             return self.by_hash.get(content_hash, set()).copy()
 
-    def get_by_tags(self, tags: List[str]) -> Set[str]:
+    def get_by_tags(self, tags: list[str]) -> set[str]:
         """Get folds matching all tags"""
         with self._lock:
             if not tags:
@@ -194,11 +193,11 @@ class FoldIndex:
 
             return result
 
-    def get_oldest(self, n: int = 10) -> List[str]:
+    def get_oldest(self, n: int = 10) -> list[str]:
         """Get n oldest accessed folds"""
         with self._lock:
             result = []
-            for timestamp, keys in self.by_time.items():
+            for _timestamp, keys in self.by_time.items():
                 result.extend(keys)
                 if len(result) >= n:
                     break
@@ -296,7 +295,7 @@ class OptimizedFoldEngine:
         self.mmap_offset = 0
 
     def create_fold(
-        self, key: str, content: Any, tags: Optional[List[str]] = None, **metadata
+        self, key: str, content: Any, tags: Optional[list[str]] = None, **metadata
     ) -> OptimizedMemoryFold:
         """
         Create optimized memory fold
@@ -424,8 +423,8 @@ class OptimizedFoldEngine:
         return fold
 
     async def batch_create(
-        self, items: List[Tuple[str, Any, Dict[str, Any]]]
-    ) -> List[OptimizedMemoryFold]:
+        self, items: list[tuple[str, Any, dict[str, Any]]]
+    ) -> list[OptimizedMemoryFold]:
         """
         Create multiple folds in parallel
         """
@@ -444,7 +443,7 @@ class OptimizedFoldEngine:
 
     async def parallel_search(
         self, predicate: Callable[[OptimizedMemoryFold], bool], max_results: int = 100
-    ) -> List[OptimizedMemoryFold]:
+    ) -> list[OptimizedMemoryFold]:
         """
         Search folds in parallel
         """
@@ -457,7 +456,7 @@ class OptimizedFoldEngine:
             all_keys[i : i + chunk_size] for i in range(0, len(all_keys), chunk_size)
         ]
 
-        async def search_chunk(keys: List[str]) -> List[OptimizedMemoryFold]:
+        async def search_chunk(keys: list[str]) -> list[OptimizedMemoryFold]:
             chunk_results = []
             for key in keys:
                 fold = self.get_fold(key)
@@ -470,7 +469,7 @@ class OptimizedFoldEngine:
         # Search chunks in parallel using threads invoking sync function
         loop = asyncio.get_running_loop()
 
-        def _search_chunk_sync(keys: List[str]) -> List[OptimizedMemoryFold]:
+        def _search_chunk_sync(keys: list[str]) -> list[OptimizedMemoryFold]:
             # Synchronous wrapper around the async search to run in executor
             return asyncio.run(search_chunk(keys))
 
@@ -495,7 +494,7 @@ class OptimizedFoldEngine:
         """
         duplicates_removed = 0
 
-        for content_hash, keys in self.index.by_hash.items():
+        for _content_hash, keys in self.index.by_hash.items():
             if len(keys) > 1:
                 # Keep first, remove rest
                 keys_list = list(keys)
@@ -513,7 +512,7 @@ class OptimizedFoldEngine:
         """
         optimized_count = 0
 
-        for key, fold in self.index.by_key.items():
+        for _key, fold in self.index.by_key.items():
             # Skip if recently accessed
             if time.time() - fold.last_accessed < 3600:  # 1 hour
                 continue
@@ -571,7 +570,7 @@ class OptimizedFoldEngine:
             self.mmap_index = new_index
             self.mmap_offset = new_offset
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get performance statistics"""
         total_folds = len(self.index.by_key)
 

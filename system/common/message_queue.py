@@ -8,7 +8,7 @@ import asyncio
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ class Message:
     id: str
     source: str
     target: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     priority: int = 0
     timestamp: datetime = None
 
@@ -33,8 +33,8 @@ class MessageQueue:
     """Priority message queue for module communication"""
 
     def __init__(self, max_size: int = 10000):
-        self._queues: Dict[str, asyncio.PriorityQueue] = {}
-        self._processors: Dict[str, Callable] = {}
+        self._queues: dict[str, asyncio.PriorityQueue] = {}
+        self._processors: dict[str, Callable] = {}
         self._max_size = max_size
         self._running = False
         self._metrics = {
@@ -105,7 +105,7 @@ class MessageQueue:
 
         # Start processors for each module
         tasks = []
-        for module in self._queues.keys():
+        for module in self._queues:
             task = asyncio.create_task(self.process_module_queue(module))
             tasks.append(task)
 
@@ -139,7 +139,7 @@ class MessageQueue:
                 alpha * latency + (1 - alpha) * self._metrics["average_latency_ms"]
             )
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get queue metrics"""
         metrics = self._metrics.copy()
         metrics["queue_sizes"] = {
@@ -157,8 +157,8 @@ class CacheLayer:
     """Caching layer for reducing bottleneck load"""
 
     def __init__(self, ttl_seconds: int = 300):
-        self._cache: Dict[str, Any] = {}
-        self._timestamps: Dict[str, datetime] = {}
+        self._cache: dict[str, Any] = {}
+        self._timestamps: dict[str, datetime] = {}
         self._ttl = ttl_seconds
         self._hits = 0
         self._misses = 0
@@ -188,7 +188,7 @@ class CacheLayer:
         self._cache.clear()
         self._timestamps.clear()
 
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -> dict[str, int]:
         """Get cache statistics"""
         total = self._hits + self._misses
         hit_rate = self._hits / total if total > 0 else 0

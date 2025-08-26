@@ -7,7 +7,7 @@ This is the production-ready actor system that supports the colony architecture.
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ class ActorSystem:
     """Basic actor system for managing actors"""
 
     def __init__(self):
-        self.actors: Dict[str, Actor] = {}
+        self.actors: dict[str, Actor] = {}
         logger.info("ActorSystem initialized")
 
     def send(self, actor_id: str, message: Any) -> None:
@@ -69,7 +69,7 @@ class Actor:
 
     def __init__(self, actor_id: str):
         self.actor_id = actor_id
-        self.handlers: Dict[str, Any] = {}
+        self.handlers: dict[str, Any] = {}
 
     def register_handler(self, message_type: str, handler: Any) -> None:
         """Register a message handler for a specific message type"""
@@ -97,11 +97,11 @@ class AIAgentActor(Actor):
     Lightweight, stateful AI agent that can handle tasks.
     """
 
-    def __init__(self, actor_id: str, capabilities: Optional[List[str]] = None):
+    def __init__(self, actor_id: str, capabilities: Optional[list[str]] = None):
         super().__init__(actor_id)
         self.capabilities = capabilities or []
-        self.current_tasks: Dict[str, Dict] = {}
-        self.memory: Dict[str, Any] = {}
+        self.current_tasks: dict[str, dict] = {}
+        self.memory: dict[str, Any] = {}
         self.energy_level = 100.0  # Energy efficiency tracking
         self.state = "idle"  # idle, working, error
 
@@ -110,7 +110,7 @@ class AIAgentActor(Actor):
         if capability not in self.capabilities:
             self.capabilities.append(capability)
 
-    def assign_task(self, task_id: str, task_data: Dict) -> None:
+    def assign_task(self, task_id: str, task_data: dict) -> None:
         """Assign a new task to the agent"""
         self.current_tasks[task_id] = task_data
         self.state = "working"

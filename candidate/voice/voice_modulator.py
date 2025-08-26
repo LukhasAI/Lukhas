@@ -10,7 +10,7 @@ import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 
@@ -62,9 +62,9 @@ class VoiceParameters:
 
     # Context parameters
     context_adaptation: float = 1.0  # Context adaptation strength
-    personality_blend: Dict[str, float] = field(default_factory=dict)
+    personality_blend: dict[str, float] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "pitch_shift": self.pitch_shift,
@@ -83,7 +83,7 @@ class VoiceParameters:
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'VoiceParameters':
+    def from_dict(cls, data: dict[str, Any]) -> 'VoiceParameters':
         """Create from dictionary"""
         return cls(
             pitch_shift=data.get("pitch_shift", 1.0),
@@ -111,12 +111,12 @@ class VoiceModulationEngine(ABC):
         audio_data: bytes,
         parameters: VoiceParameters,
         sample_rate: int = 44100
-    ) -> Tuple[bytes, Dict[str, Any]]:
+    ) -> tuple[bytes, dict[str, Any]]:
         """Modulate audio data with given parameters"""
         pass
 
     @abstractmethod
-    def get_supported_formats(self) -> List[AudioFormat]:
+    def get_supported_formats(self) -> list[AudioFormat]:
         """Get list of supported audio formats"""
         pass
 
@@ -124,7 +124,7 @@ class VoiceModulationEngine(ABC):
 class LUKHASVoiceModulationEngine(VoiceModulationEngine):
     """LUKHAS AI voice modulation engine with advanced capabilities"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.guardian = GuardianValidator()
         self.logger = get_logger(f"{__name__}.LUKHASVoiceModulationEngine")
@@ -169,7 +169,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
         audio_data: bytes,
         parameters: VoiceParameters,
         sample_rate: int = 44100
-    ) -> Tuple[bytes, Dict[str, Any]]:
+    ) -> tuple[bytes, dict[str, Any]]:
         """
         Modulate audio data with advanced voice parameters.
         Implements Trinity Framework compliance with Guardian validation.
@@ -282,7 +282,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
                 "original_returned": True
             }
 
-    def get_supported_formats(self) -> List[AudioFormat]:
+    def get_supported_formats(self) -> list[AudioFormat]:
         """Get supported audio formats"""
         return [AudioFormat.WAV, AudioFormat.MP3, AudioFormat.FLAC]
 
@@ -309,7 +309,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
     async def _apply_pitch_shift(
         self, audio: np.ndarray, shift_factor: float, sample_rate: int
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """Apply pitch shifting using PSOLA-like algorithm"""
         # Simplified pitch shifting implementation
         # In production, use more sophisticated algorithms like PSOLA or phase vocoder
@@ -341,14 +341,12 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
     async def _apply_speed_change(
         self, audio: np.ndarray, speed_factor: float, sample_rate: int
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """Apply speed change without pitch shift (time stretching)"""
         if abs(speed_factor - 1.0) < 0.01:
             return audio, {"applied": False}
 
         # Simple time stretching using overlap-add
-        hop_length = 512
-        frame_length = 2048
 
         # Calculate new length
         new_length = int(len(audio) / speed_factor)
@@ -384,7 +382,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
     async def _apply_formant_shift(
         self, audio: np.ndarray, shift_factor: float, sample_rate: int
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """Apply formant frequency shifting"""
         if abs(shift_factor - 1.0) < 0.01:
             return audio, {"applied": False}
@@ -481,7 +479,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
     async def _calculate_quality_metrics(
         self, original: np.ndarray, processed: np.ndarray, sample_rate: int
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate audio quality metrics"""
         # Signal-to-Noise Ratio
         signal_power = np.mean(original ** 2)
@@ -510,7 +508,7 @@ class VoiceModulator:
     Provides high-level interface for voice modulation operations
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(f"{__name__}.VoiceModulator")
 
@@ -538,9 +536,9 @@ class VoiceModulator:
         self,
         audio_data: bytes,
         mode: Union[VoiceModulationMode, str],
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
         custom_parameters: Optional[VoiceParameters] = None
-    ) -> Tuple[bytes, Dict[str, Any]]:
+    ) -> tuple[bytes, dict[str, Any]]:
         """
         Modulate audio with specified mode and context
 
@@ -586,7 +584,7 @@ class VoiceModulator:
     def determine_parameters(
         self,
         mode: VoiceModulationMode,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> VoiceParameters:
         """
         Determine voice parameters based on mode and context
@@ -604,7 +602,7 @@ class VoiceModulator:
 
         return adapted_parameters
 
-    def _get_natural_parameters(self, context: Dict[str, Any]) -> VoiceParameters:
+    def _get_natural_parameters(self, context: dict[str, Any]) -> VoiceParameters:
         """Get parameters for natural voice mode"""
         return VoiceParameters(
             pitch_shift=1.0,
@@ -614,7 +612,7 @@ class VoiceModulator:
             context_adaptation=1.0
         )
 
-    def _get_emotional_parameters(self, context: Dict[str, Any]) -> VoiceParameters:
+    def _get_emotional_parameters(self, context: dict[str, Any]) -> VoiceParameters:
         """Get parameters for emotional voice mode"""
         emotion = context.get("emotion", "neutral")
 
@@ -630,7 +628,7 @@ class VoiceModulator:
 
         return base_params
 
-    def _get_robotic_parameters(self, context: Dict[str, Any]) -> VoiceParameters:
+    def _get_robotic_parameters(self, context: dict[str, Any]) -> VoiceParameters:
         """Get parameters for robotic voice mode"""
         return VoiceParameters(
             pitch_shift=0.85,
@@ -643,7 +641,7 @@ class VoiceModulator:
             arousal=-0.1
         )
 
-    def _get_whisper_parameters(self, context: Dict[str, Any]) -> VoiceParameters:
+    def _get_whisper_parameters(self, context: dict[str, Any]) -> VoiceParameters:
         """Get parameters for whisper voice mode"""
         return VoiceParameters(
             pitch_shift=0.9,
@@ -655,7 +653,7 @@ class VoiceModulator:
             arousal=-0.3
         )
 
-    def _get_dramatic_parameters(self, context: Dict[str, Any]) -> VoiceParameters:
+    def _get_dramatic_parameters(self, context: dict[str, Any]) -> VoiceParameters:
         """Get parameters for dramatic voice mode"""
         return VoiceParameters(
             pitch_shift=1.1,
@@ -668,7 +666,7 @@ class VoiceModulator:
             arousal=0.6
         )
 
-    def _get_professional_parameters(self, context: Dict[str, Any]) -> VoiceParameters:
+    def _get_professional_parameters(self, context: dict[str, Any]) -> VoiceParameters:
         """Get parameters for professional voice mode"""
         return VoiceParameters(
             pitch_shift=0.98,
@@ -680,7 +678,7 @@ class VoiceModulator:
             arousal=0.0
         )
 
-    def _get_creative_parameters(self, context: Dict[str, Any]) -> VoiceParameters:
+    def _get_creative_parameters(self, context: dict[str, Any]) -> VoiceParameters:
         """Get parameters for creative voice mode"""
         return VoiceParameters(
             pitch_shift=1.05,
@@ -693,7 +691,7 @@ class VoiceModulator:
             arousal=0.4
         )
 
-    def _get_therapeutic_parameters(self, context: Dict[str, Any]) -> VoiceParameters:
+    def _get_therapeutic_parameters(self, context: dict[str, Any]) -> VoiceParameters:
         """Get parameters for therapeutic voice mode"""
         return VoiceParameters(
             pitch_shift=0.95,
@@ -708,7 +706,7 @@ class VoiceModulator:
     def _adapt_to_context(
         self,
         base_parameters: VoiceParameters,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> VoiceParameters:
         """Adapt parameters based on context"""
         adapted = VoiceParameters(
@@ -762,7 +760,7 @@ class LucasVoiceSystem:
     Compatibility wrapper providing FILES_LIBRARY LucasVoiceSystem interface
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.voice_modulator = VoiceModulator(config.get("voice_settings", {}))
         self.logger = get_logger(f"{__name__}.LucasVoiceSystem")
@@ -776,8 +774,8 @@ class LucasVoiceSystem:
     async def process_input(
         self,
         text: str,
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process text input through voice system"""
         try:
             # Extract voice profile and parameters

@@ -12,7 +12,7 @@ Integration Points:
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Planned imports for WALLET integration
 # from lambda_products_pack.lambda_core.WALLET.identity_manager import IdentityManager
@@ -47,7 +47,7 @@ class AuthWalletBridge:
         self.symbolic_vault = None
         self.qi_identity_core = None
 
-    async def initialize(self) -> Dict[str, Any]:
+    async def initialize(self) -> dict[str, Any]:
         """Initialize WALLET integration components"""
         try:
             # TODO: Initialize when WALLET components are wired
@@ -76,8 +76,8 @@ class AuthWalletBridge:
     async def authenticate_with_wallet(
         self,
         user_id: str,
-        symbolic_credentials: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        symbolic_credentials: dict[str, Any]
+    ) -> dict[str, Any]:
         """Authenticate using WALLET symbolic vault"""
         # TODO: Implement when WALLET is integrated
         return {
@@ -89,8 +89,8 @@ class AuthWalletBridge:
     async def store_auth_symbols(
         self,
         user_id: str,
-        auth_symbols: List[str]
-    ) -> Dict[str, Any]:
+        auth_symbols: list[str]
+    ) -> dict[str, Any]:
         """Store authentication symbols in WALLET symbolic vault"""
         # TODO: Implement when WALLET is integrated
         return {
@@ -101,8 +101,8 @@ class AuthWalletBridge:
 
     async def verify_qi_identity(
         self,
-        identity_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        identity_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Verify identity using QI-enhanced algorithms"""
         # TODO: Implement when WALLET QI core is integrated
         return {

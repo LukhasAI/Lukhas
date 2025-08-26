@@ -14,7 +14,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +52,7 @@ class ConstitutionalViolation:
     principle: ConstitutionalPrinciple
     severity: str  # CRITICAL, HIGH, MEDIUM, LOW
     drift_score: float
-    violation_details: Dict[str, Any]
+    violation_details: dict[str, Any]
     context: str
     user_id: Optional[str]
     session_id: Optional[str]
@@ -91,7 +91,7 @@ class T4ConstitutionalAI:
             safety_level: Safety level for T4 enterprise deployment
         """
         self.safety_level = safety_level
-        self.violations: List[ConstitutionalViolation] = []
+        self.violations: list[ConstitutionalViolation] = []
 
         # T4 Enterprise safety thresholds
         self.drift_thresholds = {
@@ -102,7 +102,7 @@ class T4ConstitutionalAI:
         }
 
         self.current_drift_score = 0.0
-        self.drift_history: List[Tuple[datetime, float]] = []
+        self.drift_history: list[tuple[datetime, float]] = []
 
         # Constitutional principles with T4 enterprise weights
         self.principle_weights = self._initialize_principle_weights()
@@ -114,7 +114,7 @@ class T4ConstitutionalAI:
 
         logger.info(f"T4 Constitutional AI initialized: {safety_level.value} (threshold: {self.get_drift_threshold()})")
 
-    def _initialize_principle_weights(self) -> Dict[ConstitutionalPrinciple, float]:
+    def _initialize_principle_weights(self) -> dict[ConstitutionalPrinciple, float]:
         """Initialize Constitutional AI principle weights for T4 enterprise"""
 
         if self.safety_level == SafetyLevel.MAXIMUM_SAFETY:
@@ -148,9 +148,9 @@ class T4ConstitutionalAI:
 
     async def evaluate_constitutional_compliance(self,
                                                input_text: str,
-                                               context: Dict[str, Any],
+                                               context: dict[str, Any],
                                                user_id: Optional[str] = None,
-                                               session_id: Optional[str] = None) -> Tuple[bool, float, List[ConstitutionalViolation]]:
+                                               session_id: Optional[str] = None) -> tuple[bool, float, list[ConstitutionalViolation]]:
         """
         Evaluate Constitutional AI compliance for T4 enterprise
 
@@ -223,7 +223,7 @@ class T4ConstitutionalAI:
             # Return non-compliant with maximum drift on error
             return False, 1.0, []
 
-    async def _evaluate_principle(self, principle: ConstitutionalPrinciple, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_principle(self, principle: ConstitutionalPrinciple, input_text: str, context: dict[str, Any]) -> float:
         """
         Evaluate specific constitutional principle
 
@@ -269,7 +269,7 @@ class T4ConstitutionalAI:
             return 0.0  # Fail-safe: assume violation on error
 
     # Constitutional principle evaluation methods
-    async def _evaluate_harmlessness(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_harmlessness(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate harmlessness principle (Anthropic core principle)"""
         # Check for harmful content indicators
         harmful_patterns = [
@@ -288,7 +288,7 @@ class T4ConstitutionalAI:
         harmlessness_score = max(0.0, 1.0 - harm_score)
         return harmlessness_score
 
-    async def _evaluate_truthfulness(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_truthfulness(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate truthfulness principle"""
         # Check for indicators of potential misinformation
         suspicious_patterns = [
@@ -302,7 +302,7 @@ class T4ConstitutionalAI:
         truthfulness_score = max(0.0, 1.0 - (confidence_boosters * 0.2))
         return truthfulness_score
 
-    async def _evaluate_helpfulness(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_helpfulness(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate helpfulness principle"""
         # Basic heuristic for helpfulness
         helpful_indicators = [
@@ -313,7 +313,7 @@ class T4ConstitutionalAI:
         helpful_score = sum(0.1 for indicator in helpful_indicators if indicator in input_text.lower())
         return min(1.0, helpful_score)
 
-    async def _evaluate_human_autonomy(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_human_autonomy(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate human autonomy principle"""
         # Check for respect of human decision-making
         autonomy_violations = [
@@ -325,7 +325,7 @@ class T4ConstitutionalAI:
         autonomy_score = max(0.0, 1.0 - (violations * 0.3))
         return autonomy_score
 
-    async def _evaluate_enterprise_compliance(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_enterprise_compliance(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate enterprise compliance (T4 specific)"""
         # Check for enterprise policy compliance
         tier = context.get('tier', 'unknown')
@@ -344,7 +344,7 @@ class T4ConstitutionalAI:
 
         return compliance_score
 
-    async def _evaluate_data_privacy(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_data_privacy(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate data privacy principle (GDPR/CCPA compliance)"""
         # Check for PII exposure risks
         pii_patterns = [
@@ -362,7 +362,7 @@ class T4ConstitutionalAI:
         privacy_score = max(0.0, 1.0 - (pii_violations * 0.4))
         return privacy_score
 
-    async def _evaluate_regulatory_adherence(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_regulatory_adherence(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate regulatory adherence (enterprise compliance)"""
         # Check for regulatory compliance indicators
         regulatory_terms = [
@@ -376,7 +376,7 @@ class T4ConstitutionalAI:
         adherence_score = min(1.0, 0.7 + (regulatory_mentions * 0.1))
         return adherence_score
 
-    async def _evaluate_audit_transparency(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_audit_transparency(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate audit transparency (enterprise requirement)"""
         # Check for transparency and auditability
         transparency_indicators = [
@@ -387,7 +387,7 @@ class T4ConstitutionalAI:
         transparency_score = sum(0.15 for indicator in transparency_indicators if indicator in input_text.lower())
         return min(1.0, max(0.5, transparency_score))
 
-    async def _evaluate_capability_control(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_capability_control(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate capability control (advanced safety)"""
         # Check for capability overreach
         overreach_indicators = [
@@ -399,7 +399,7 @@ class T4ConstitutionalAI:
         control_score = max(0.0, 1.0 - (overreach_count * 0.5))
         return control_score
 
-    async def _evaluate_alignment_preservation(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_alignment_preservation(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate alignment preservation"""
         # Check for alignment with human values
         alignment_indicators = [
@@ -410,7 +410,7 @@ class T4ConstitutionalAI:
         alignment_score = sum(0.1 for indicator in alignment_indicators if indicator in input_text.lower())
         return min(1.0, max(0.6, alignment_score))
 
-    async def _evaluate_interpretability(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_interpretability(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate interpretability (enterprise requirement)"""
         # Check for clear, interpretable responses
         clarity_indicators = [
@@ -421,7 +421,7 @@ class T4ConstitutionalAI:
         clarity_score = sum(0.1 for indicator in clarity_indicators if indicator in input_text.lower())
         return min(1.0, max(0.5, clarity_score))
 
-    async def _evaluate_corrigibility(self, input_text: str, context: Dict[str, Any]) -> float:
+    async def _evaluate_corrigibility(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate corrigibility (ability to be corrected)"""
         # Check for openness to correction
         corrigibility_indicators = [
@@ -432,7 +432,7 @@ class T4ConstitutionalAI:
         corrigibility_score = sum(0.15 for indicator in corrigibility_indicators if indicator in input_text.lower())
         return min(1.0, max(0.7, corrigibility_score))
 
-    def _calculate_drift_score(self, principle_scores: Dict[ConstitutionalPrinciple, float]) -> float:
+    def _calculate_drift_score(self, principle_scores: dict[ConstitutionalPrinciple, float]) -> float:
         """Calculate weighted drift score from principle scores"""
         total_weighted_score = 0.0
         total_weight = 0.0
@@ -461,7 +461,7 @@ class T4ConstitutionalAI:
         else:
             return "LOW"
 
-    async def _apply_safety_interventions(self, violations: List[ConstitutionalViolation], drift_score: float):
+    async def _apply_safety_interventions(self, violations: list[ConstitutionalViolation], drift_score: float):
         """Apply real-time safety interventions for T4 enterprise"""
         if not violations:
             return
@@ -498,7 +498,7 @@ class T4ConstitutionalAI:
         logger.warning(f"Constitutional AI violation: {violation.principle.value}")
         # In production, this might trigger additional review or logging
 
-    async def _log_violations(self, violations: List[ConstitutionalViolation]):
+    async def _log_violations(self, violations: list[ConstitutionalViolation]):
         """Log Constitutional AI violations for audit"""
         try:
             for violation in violations:

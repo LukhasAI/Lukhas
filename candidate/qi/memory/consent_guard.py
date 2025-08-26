@@ -12,7 +12,7 @@ import os
 import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 
 @dataclass
@@ -22,21 +22,21 @@ class Consent:
     granted: bool
     timestamp: float
     ttl_seconds: int = 86400 * 30  # 30 days default
-    metadata: Dict[str, Any] | None = None
+    metadata: dict[str, Any] | None = None
 
     def is_valid(self) -> bool:
         if not self.granted:
             return False
         return time.time() < (self.timestamp + self.ttl_seconds)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
 class ConsentGuard:
     def __init__(self, storage_path: str = "~/.lukhas/consent/ledger.jsonl"):
         self.storage_path = os.path.expanduser(storage_path)
         os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
-        self.cache: Dict[str, Consent] = {}
+        self.cache: dict[str, Consent] = {}
         self._load_cache()
 
     def _consent_key(self, user_id: str, purpose: str) -> str:
@@ -60,7 +60,7 @@ class ConsentGuard:
                     continue
 
     def grant(self, user_id: str, purpose: str, ttl_seconds: int = 86400 * 30,
-              metadata: Dict[str, Any] | None = None) -> Consent:
+              metadata: dict[str, Any] | None = None) -> Consent:
         """Grant consent for a specific purpose"""
         consent = Consent(
             user_id=user_id,
@@ -101,7 +101,7 @@ class ConsentGuard:
 
         return consent
 
-    def check(self, user_id: str, purpose: str) -> Tuple[bool, Optional[Consent]]:
+    def check(self, user_id: str, purpose: str) -> tuple[bool, Consent | None]:
         """Check if valid consent exists"""
         key = self._consent_key(user_id, purpose)
 
@@ -136,7 +136,7 @@ class ConsentGuard:
 
         return False, None
 
-    def list_active(self, user_id: Optional[str] = None) -> List[Consent]:
+    def list_active(self, user_id: str | None = None) -> list[Consent]:
         """List all active consents, optionally filtered by user"""
         active = []
         seen = set()
@@ -164,7 +164,7 @@ class ConsentGuard:
 
         return active
 
-    def audit_trail(self, user_id: str, since_hours: int = 24 * 7) -> List[Dict[str, Any]]:
+    def audit_trail(self, user_id: str, since_hours: int = 24 * 7) -> list[dict[str, Any]]:
         """Get audit trail of consent changes for a user"""
         trail = []
         cutoff = time.time() - (since_hours * 3600)
@@ -194,7 +194,7 @@ class ConsentGuard:
         return len(expired_keys)
 
 # TEQ Integration Hook
-def require_consent(guard: ConsentGuard, user_id: str, purpose: str) -> Tuple[bool, str]:
+def require_consent(guard: ConsentGuard, user_id: str, purpose: str) -> tuple[bool, str]:
     """
     TEQ gate hook for consent checking
     Returns: (allowed, reason)
@@ -244,7 +244,7 @@ def main():
     audit_p.add_argument("--hours", type=int, default=168, help="Look back N hours")
 
     # Test consent flow
-    test_p = sub.add_parser("test", help="Run consent tests")
+    sub.add_parser("test", help="Run consent tests")
 
     args = ap.parse_args()
 

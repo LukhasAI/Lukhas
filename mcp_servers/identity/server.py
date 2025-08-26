@@ -19,7 +19,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add project root to Python path
 project_root = os.environ.get(
@@ -54,7 +54,7 @@ class LukhosIdentityServer:
         """Define MCP resources for identity system access"""
 
         @self.server.list_resources()
-        async def list_resources() -> List[Resource]:
+        async def list_resources() -> list[Resource]:
             """List available LUKHAS identity resources"""
             return [
                 Resource(
@@ -110,7 +110,7 @@ class LukhosIdentityServer:
         """Define MCP tools for identity system interaction"""
 
         @self.server.list_tools()
-        async def list_tools() -> List[Tool]:
+        async def list_tools() -> list[Tool]:
             """List available LUKHAS identity tools"""
             return [
                 Tool(
@@ -225,7 +225,7 @@ class LukhosIdentityServer:
             ]
 
         @self.server.call_tool()
-        async def call_tool(name: str, arguments: Dict[str, Any]) -> List[TextContent]:
+        async def call_tool(name: str, arguments: dict[str, Any]) -> list[TextContent]:
             """Execute LUKHAS identity tool"""
 
             if name == "validate_lambda_id":
@@ -476,7 +476,7 @@ class LukhosIdentityServer:
         return json.dumps(integrations, indent=2)
 
     # Tool implementations
-    async def _validate_lambda_id(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_lambda_id(self, args: dict[str, Any]) -> dict[str, Any]:
         """Validate a ΛID"""
         lambda_id = args.get("lambda_id", "")
         validation_level = args.get("validation_level", "standard")
@@ -512,7 +512,7 @@ class LukhosIdentityServer:
 
         return validation_result
 
-    async def _check_tier_eligibility(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _check_tier_eligibility(self, args: dict[str, Any]) -> dict[str, Any]:
         """Check tier eligibility"""
         user_id = args.get("user_id", "")
         target_tier = args.get("target_tier", 0)
@@ -549,11 +549,11 @@ class LukhosIdentityServer:
 
         return eligibility_result
 
-    async def _generate_qr_entropy(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _generate_qr_entropy(self, args: dict[str, Any]) -> dict[str, Any]:
         """Generate QR with entropy"""
         session_id = args.get("session_id", "")
         entropy_bytes = args.get("entropy_bytes", 32)
-        user_context = args.get("user_context", {})
+        args.get("user_context", {})
 
         qr_result = {
             "qr_entropy_generation": {
@@ -585,7 +585,7 @@ class LukhosIdentityServer:
 
         return qr_result
 
-    async def _analyze_auth_performance(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _analyze_auth_performance(self, args: dict[str, Any]) -> dict[str, Any]:
         """Analyze authentication performance"""
         time_range = args.get("time_range", "24h")
         include_breakdown = args.get("include_breakdown", True)
@@ -661,7 +661,7 @@ class LukhosIdentityServer:
 
         return performance_analysis
 
-    async def _sync_cross_device_tokens(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _sync_cross_device_tokens(self, args: dict[str, Any]) -> dict[str, Any]:
         """Sync tokens across devices"""
         user_id = args.get("user_id", "")
         source_device = args.get("source_device", "")
@@ -702,7 +702,7 @@ class LukhosIdentityServer:
 
         return sync_result
 
-    async def _identity_health_check(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    async def _identity_health_check(self, args: dict[str, Any]) -> dict[str, Any]:
         """Perform identity system health check"""
         include_performance = args.get("include_performance", True)
         check_integrations = args.get("check_integrations", True)

@@ -193,13 +193,12 @@ class EntanglementBridge:
                     * (1 - self.decoherence_rate * distance)
                 )
 
-                if propagated_strength > self.min_entanglement_strength:
-                    if (
-                        partner not in reachable
-                        or propagated_strength > reachable[partner]
-                    ):
-                        reachable[partner] = propagated_strength
-                        queue.append((partner, propagated_strength, distance + 1))
+                if propagated_strength > self.min_entanglement_strength and (
+                    partner not in reachable
+                    or propagated_strength > reachable[partner]
+                ):
+                    reachable[partner] = propagated_strength
+                    queue.append((partner, propagated_strength, distance + 1))
 
         return reachable
 

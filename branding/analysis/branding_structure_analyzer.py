@@ -10,7 +10,7 @@ import os
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Set
+from typing import Any
 
 
 @dataclass
@@ -19,11 +19,11 @@ class ComponentAnalysis:
     name: str
     path: str
     type: str  # class, function, module, directory
-    dependencies: Set[str]
-    dependents: Set[str]
-    functionality: List[str]
+    dependencies: set[str]
+    dependents: set[str]
+    functionality: list[str]
     is_orphaned: bool
-    overlaps_with: List[str]
+    overlaps_with: list[str]
     elite_score: float
 
 class BrandingStructureAnalyzer:
@@ -38,7 +38,7 @@ class BrandingStructureAnalyzer:
         self.dependencies = defaultdict(set)
         self.functionalities = defaultdict(list)
 
-    def analyze_complete_structure(self) -> Dict[str, Any]:
+    def analyze_complete_structure(self) -> dict[str, Any]:
         """Complete analysis of branding structure"""
         print("🔍 Analyzing LUKHAS AI Branding Structure...")
 
@@ -70,7 +70,7 @@ class BrandingStructureAnalyzer:
             'recommendations': self._generate_elite_recommendations()
         }
 
-    def _analyze_directory_structure(self) -> Dict[str, Any]:
+    def _analyze_directory_structure(self) -> dict[str, Any]:
         """Analyze directory structure and empty directories"""
         print("📁 Analyzing directory structure...")
 
@@ -100,7 +100,7 @@ class BrandingStructureAnalyzer:
             'directory_details': directories
         }
 
-    def _analyze_code_components(self) -> Dict[str, Any]:
+    def _analyze_code_components(self) -> dict[str, Any]:
         """Analyze Python code components"""
         print("🐍 Analyzing code components...")
 
@@ -151,7 +151,7 @@ class BrandingStructureAnalyzer:
             'modules': modules
         }
 
-    def _analyze_dependencies(self) -> Dict[str, Any]:
+    def _analyze_dependencies(self) -> dict[str, Any]:
         """Analyze component dependencies"""
         print("🔗 Analyzing dependencies...")
 
@@ -173,16 +173,15 @@ class BrandingStructureAnalyzer:
                     if isinstance(node, ast.Import):
                         for alias in node.names:
                             dependencies[file_key].add(alias.name)
-                    elif isinstance(node, ast.ImportFrom):
-                        if node.module:
-                            dependencies[file_key].add(node.module)
+                    elif isinstance(node, ast.ImportFrom) and node.module:
+                        dependencies[file_key].add(node.module)
 
             except Exception:
                 continue
 
         return dict(dependencies)
 
-    def _detect_overlaps(self) -> Dict[str, Any]:
+    def _detect_overlaps(self) -> dict[str, Any]:
         """Detect overlapping functionality"""
         print("🔍 Detecting overlaps...")
 
@@ -218,7 +217,7 @@ class BrandingStructureAnalyzer:
 
         return overlaps
 
-    def _identify_elite_gaps(self) -> List[str]:
+    def _identify_elite_gaps(self) -> list[str]:
         """Identify missing elite capabilities"""
         print("🎯 Identifying elite gaps...")
 
@@ -257,7 +256,7 @@ class BrandingStructureAnalyzer:
 
         return gaps
 
-    def _identify_automation_opportunities(self) -> List[Dict[str, Any]]:
+    def _identify_automation_opportunities(self) -> list[dict[str, Any]]:
         """Identify automation opportunities"""
         print("🤖 Identifying automation opportunities...")
 
@@ -296,7 +295,7 @@ class BrandingStructureAnalyzer:
 
         return opportunities
 
-    def _generate_elite_recommendations(self) -> Dict[str, Any]:
+    def _generate_elite_recommendations(self) -> dict[str, Any]:
         """Generate elite organizational recommendations"""
         print("💎 Generating elite recommendations...")
 

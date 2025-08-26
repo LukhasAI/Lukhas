@@ -85,7 +85,7 @@ def check_secrets():
             continue
 
         try:
-            with open(file, 'r') as f:
+            with open(file) as f:
                 content = f.read().lower()
 
                 for pattern in secret_patterns:

@@ -10,7 +10,7 @@ import logging
 import sqlite3
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -21,13 +21,13 @@ class ConsentEntry:
 
     timestamp: datetime
     user_id: str
-    glyphs: List[str]
+    glyphs: list[str]
     action: str
     outcome: str
     drift_score: float
     consent_hash: str
     parent_hash: Optional[str]
-    metadata: Dict
+    metadata: dict
 
     def compute_hash(self) -> str:
         """Compute SHA3-256 hash of consent entry"""
@@ -173,11 +173,11 @@ class ConsentPathLogger:
     def log_consent(
         self,
         user_id: str,
-        glyphs: List[str],
+        glyphs: list[str],
         action: str,
         outcome: str = "success",
         drift_score: float = 0.0,
-        metadata: Dict = None,
+        metadata: dict = None,
     ) -> ConsentEntry:
         """Log a consent decision to the immutable chain"""
         # Get last entry for this user
@@ -221,7 +221,7 @@ class ConsentPathLogger:
             result = cursor.fetchone()
             return result[0] if result else self.genesis_hash
 
-    def get_user_path(self, user_id: str, limit: int = 100) -> List[ConsentEntry]:
+    def get_user_path(self, user_id: str, limit: int = 100) -> list[ConsentEntry]:
         """Get consent path for a specific user"""
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
@@ -252,7 +252,7 @@ class ConsentPathLogger:
 
             return list(reversed(entries))  # Return chronological order
 
-    def verify_path_integrity(self, user_id: str) -> Tuple[bool, List[str]]:
+    def verify_path_integrity(self, user_id: str) -> tuple[bool, list[str]]:
         """Verify the integrity of a user's consent path"""
         path = self.get_user_path(user_id)
         errors = []
@@ -323,7 +323,7 @@ class ConsentPathLogger:
 
     def generate_audit_report(
         self, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None
-    ) -> Dict:
+    ) -> dict:
         """Generate audit report for date range"""
         with sqlite3.connect(self.db_path) as conn:
             # Build query
@@ -343,7 +343,7 @@ class ConsentPathLogger:
 
             # Analyze data
             total_entries = len(entries)
-            unique_users = len(set(row[2] for row in entries))  # user_id column
+            unique_users = len({row[2] for row in entries})  # user_id column
 
             # Action distribution
             action_counts = {}

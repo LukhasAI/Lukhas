@@ -9,7 +9,7 @@ import logging
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Add parent directory to path for LUKHAS imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
@@ -77,7 +77,7 @@ class HealthcareGuardian:
         logger.info("🚨 Emergency response: READY")
         logger.info("💊 Medication management: ACTIVE")
 
-    def _load_config(self, config_path: Optional[str]) -> Dict[str, Any]:
+    def _load_config(self, config_path: Optional[str]) -> dict[str, Any]:
         """Load configuration from file or use defaults"""
         import yaml
 

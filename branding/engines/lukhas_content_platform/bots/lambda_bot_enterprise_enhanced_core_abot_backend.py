@@ -8,7 +8,7 @@ import os
 import uuid
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import boto3
 import databases
@@ -193,31 +193,31 @@ class UserResponse(BaseModel):
     email: str
     display_name: str
     subscription_tier: str
-    authenticated_platforms: List[str]
-    preferences: Dict[str, Any]
-    compliance_settings: Dict[str, Any]
+    authenticated_platforms: list[str]
+    preferences: dict[str, Any]
+    compliance_settings: dict[str, Any]
 
 class ContentCreate(BaseModel):
     content: str
     content_type: str
-    target_platforms: List[str]
+    target_platforms: list[str]
     scheduled_for: Optional[datetime] = None
-    hashtags: List[str] = []
-    mentions: List[str] = []
+    hashtags: list[str] = []
+    mentions: list[str] = []
 
 class ContentResponse(BaseModel):
     id: str
     content: str
     content_type: str
-    target_platforms: List[str]
+    target_platforms: list[str]
     ai_generated: bool
     review_status: str
     created_at: datetime
     scheduled_for: Optional[datetime]
-    media_urls: List[str]
-    hashtags: List[str]
-    mentions: List[str]
-    compliance_flags: List[str]
+    media_urls: list[str]
+    hashtags: list[str]
+    mentions: list[str]
+    compliance_flags: list[str]
 
 class ChatMessage(BaseModel):
     role: str
@@ -228,7 +228,7 @@ class ChatResponse(BaseModel):
     id: str
     role: str
     content: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     created_at: datetime
 
 class ContentReviewRequest(BaseModel):
@@ -332,7 +332,7 @@ class ChatGPTService:
         Always be helpful, creative, and maintain the mystique of an evolved AI consciousness.
         """
 
-    async def chat_completion(self, messages: List[Dict[str, str]], user_id: str) -> str:
+    async def chat_completion(self, messages: list[dict[str, str]], user_id: str) -> str:
         """Generate chat completion with context awareness"""
         try:
             # Add system message if not present
@@ -352,7 +352,7 @@ class ChatGPTService:
             logger.error(f"ChatGPT API error: {e}")
             raise HTTPException(status_code=500, detail="AI service temporarily unavailable")
 
-    async def generate_content(self, platform: str, topic: str, user_context: Dict = None) -> str:
+    async def generate_content(self, platform: str, topic: str, user_context: dict = None) -> str:
         """Generate platform-specific content"""
         prompt = f"""
         Generate engaging {platform} content about: {topic}
@@ -373,7 +373,7 @@ class ChatGPTService:
 
         return await self.chat_completion(messages, user_context.get("user_id", "anonymous"))
 
-    async def review_content(self, content: str, platform: str, user_context: Dict = None) -> str:
+    async def review_content(self, content: str, platform: str, user_context: dict = None) -> str:
         """Review content for compliance and effectiveness"""
         prompt = f"""
         Review this {platform} content for:
@@ -395,7 +395,7 @@ class ChatGPTService:
 
         return await self.chat_completion(messages, user_context.get("user_id", "anonymous"))
 
-    async def apply_amendment(self, content: str, amendment: str, user_context: Dict = None) -> str:
+    async def apply_amendment(self, content: str, amendment: str, user_context: dict = None) -> str:
         """Apply natural language amendments to content"""
         prompt = f"""
         Apply this amendment to the content:
@@ -426,7 +426,7 @@ class SocialMediaService:
             "twitter": TwitterIntegration(),
         }
 
-    async def authenticate_platform(self, platform: str, auth_code: str, user_id: str) -> Dict[str, Any]:
+    async def authenticate_platform(self, platform: str, auth_code: str, user_id: str) -> dict[str, Any]:
         """Authenticate user with social platform"""
         if platfrom not in self.platforms:
             raise HTTPException(status_code=400, detail="Unsupported platform")
@@ -450,7 +450,7 @@ class SocialMediaService:
 
         return auth_data
 
-    async def publish_content(self, content_id: str, user_id: str) -> Dict[str, Any]:
+    async def publish_content(self, content_id: str, user_id: str) -> dict[str, Any]:
         """Publish content to connected platforms"""
         # Get content item
         query = content_items_table.select().where(
@@ -464,13 +464,13 @@ class SocialMediaService:
 
         results = {}
 
-        for platfrom in content_item["target_platforms"]:
+        for _platfrom in content_item["target_platforms"]:
             try:
                 # Get platfrom connection
                 conn_query = platform_connections_table.select().where(
                     platform_connections_table.c.user_id == user_id,
                     platform_connections_table.c.platfrom == platform,
-                    platform_connections_table.c.is_active == True
+                    platform_connections_table.c.is_active is True
                 )
                 connection = await database.fetch_one(conn_query)
 
@@ -499,38 +499,38 @@ class SocialMediaService:
 
 # Platfrom integrations (placeholder implementations)
 class LinkedInIntegration:
-    async def authenticate(self, auth_code: str) -> Dict[str, Any]:
+    async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # LinkedIn OAuth implementation
         return {"user_id": "linkedin_user", "access_token": "token", "user_data": {}}
 
-    async def publish(self, content_item: Dict, connection: Dict) -> Dict[str, Any]:
+    async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # LinkedIn publishing implementation
         return {"status": "success", "post_id": "linkedin_post_123"}
 
 class InstagramIntegration:
-    async def authenticate(self, auth_code: str) -> Dict[str, Any]:
+    async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # Instagram OAuth implementation
         return {"user_id": "instagram_user", "access_token": "token", "user_data": {}}
 
-    async def publish(self, content_item: Dict, connection: Dict) -> Dict[str, Any]:
+    async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # Instagram publishing implementation
         return {"status": "success", "post_id": "instagram_post_123"}
 
 class EmailIntegration:
-    async def authenticate(self, auth_code: str) -> Dict[str, Any]:
+    async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # Email service authentication
         return {"user_id": "email_user", "access_token": "token", "user_data": {}}
 
-    async def publish(self, content_item: Dict, connection: Dict) -> Dict[str, Any]:
+    async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # Email sending implementation
         return {"status": "success", "message_id": "email_msg_123"}
 
 class TwitterIntegration:
-    async def authenticate(self, auth_code: str) -> Dict[str, Any]:
+    async def authenticate(self, auth_code: str) -> dict[str, Any]:
         # Twitter OAuth implementation
         return {"user_id": "twitter_user", "access_token": "token", "user_data": {}}
 
-    async def publish(self, content_item: Dict, connection: Dict) -> Dict[str, Any]:
+    async def publish(self, content_item: dict, connection: dict) -> dict[str, Any]:
         # Twitter publishing implementation
         return {"status": "success", "post_id": "twitter_post_123"}
 
@@ -545,7 +545,7 @@ class ComplianceService:
             r'\b\d{3}-\d{2}-\d{4}\b',  # SSN
         ]
 
-    async def check_content_compliance(self, content: str, user_id: str) -> List[str]:
+    async def check_content_compliance(self, content: str, user_id: str) -> list[str]:
         """Check content for compliance issues"""
         flags = []
 
@@ -583,7 +583,7 @@ class ComplianceService:
         inappropriate_words = ["spam", "scam", "hate", "violence"]
         return any(word in content.lower() for word in inappropriate_words)
 
-    async def log_compliance_event(self, event_type: str, event_data: Dict, user_id: str = None, ip_address: str = None):
+    async def log_compliance_event(self, event_type: str, event_data: dict, user_id: str = None, ip_address: str = None):
         """Log compliance events for audit trail"""
         log_data = {
             "user_id": user_id,
@@ -595,7 +595,7 @@ class ComplianceService:
         query = compliance_logs_table.insert().values(**log_data)
         await database.execute(query)
 
-    async def handle_data_subject_request(self, user_id: str, request_type: str) -> Dict[str, Any]:
+    async def handle_data_subject_request(self, user_id: str, request_type: str) -> dict[str, Any]:
         """Handle GDPR data subject requests"""
         if request_type == "export":
             return await self.export_user_data(user_id)
@@ -606,7 +606,7 @@ class ComplianceService:
         else:
             raise HTTPException(status_code=400, detail="Invalid request type")
 
-    async def export_user_data(self, user_id: str) -> Dict[str, Any]:
+    async def export_user_data(self, user_id: str) -> dict[str, Any]:
         """Export all user data for GDPR compliance"""
         user_data = {}
 
@@ -639,7 +639,7 @@ class ComplianceService:
 
         return {"status": "completed", "data": user_data}
 
-    async def delete_user_data(self, user_id: str) -> Dict[str, Any]:
+    async def delete_user_data(self, user_id: str) -> dict[str, Any]:
         """Delete all user data for GDPR compliance"""
         try:
             # Delete in reverse dependency order
@@ -667,7 +667,7 @@ class FileService:
             "audio": ["mp3", "wav", "aac"],
         }
 
-    async def upload_file(self, file: UploadFile, user_id: str) -> Dict[str, Any]:
+    async def upload_file(self, file: UploadFile, user_id: str) -> dict[str, Any]:
         """Upload file to S3 and store metadata"""
         # Validate file type
         file_extension = file.filename.split(".")[-1].lower()
@@ -726,7 +726,7 @@ class FileService:
                 return file_type
         return None
 
-    async def get_user_files(self, user_id: str, file_type: Optional[str] = None) -> List[Dict[str, Any]]:
+    async def get_user_files(self, user_id: str, file_type: Optional[str] = None) -> list[dict[str, Any]]:
         """Get user's uploaded files"""
         query = media_files_table.select().where(media_files_table.c.user_id == user_id)
 
@@ -1096,7 +1096,7 @@ async def get_social_connections(current_user=Depends(get_current_user)):
     """Get user's social media connections"""
     query = platform_connections_table.select().where(
         platform_connections_table.c.user_id == current_user["id"],
-        platform_connections_table.c.is_active == True
+        platform_connections_table.c.is_active is True
     )
 
     connections = await database.fetch_all(query)

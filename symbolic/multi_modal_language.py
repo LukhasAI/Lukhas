@@ -16,7 +16,7 @@ import math
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 from PIL import Image
@@ -59,7 +59,7 @@ class ModalityFeatures:
     raw_data: Any
     features: np.ndarray
     entropy_bits: float
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -68,10 +68,10 @@ class UniversalConcept:
 
     concept_id: str
     meaning: str
-    modalities: List[ModalityFeatures]
+    modalities: list[ModalityFeatures]
     embedding: np.ndarray
     entropy_total: float
-    cultural_validations: Dict[str, float] = field(default_factory=dict)
+    cultural_validations: dict[str, float] = field(default_factory=dict)
     creation_time: float = field(default_factory=time.time)
     usage_count: int = 0
 
@@ -81,12 +81,12 @@ class HighEntropyPassword:
     """Ultra-high entropy password using multi-modal elements"""
 
     password_id: str
-    elements: Dict[ModalityType, Any]
+    elements: dict[ModalityType, Any]
     entropy_bits: float
     memorability_score: float
     visual_hash: str
     audio_hash: Optional[str] = None
-    gesture_sequence: Optional[List[Dict]] = None
+    gesture_sequence: Optional[list[dict]] = None
     creation_time: float = field(default_factory=time.time)
 
     def to_secure_string(self) -> str:
@@ -124,7 +124,7 @@ class MultiModalLanguageBuilder:
         self.universal_exchange = UniversalSymbolExchange(self.signal_bus)
 
         # Concept storage
-        self.concepts: Dict[str, UniversalConcept] = {}
+        self.concepts: dict[str, UniversalConcept] = {}
 
         # Entropy tracking
         self.entropy_sources = {
@@ -151,7 +151,7 @@ class MultiModalLanguageBuilder:
         }
 
     async def build_concept(
-        self, meaning: str, inputs: Dict[ModalityType, Any]
+        self, meaning: str, inputs: dict[ModalityType, Any]
     ) -> UniversalConcept:
         """Build a universal concept from multi-modal inputs"""
 
@@ -202,7 +202,7 @@ class MultiModalLanguageBuilder:
         self,
         target_entropy: int = 256,
         memorability_weight: float = 0.5,
-        use_modalities: Optional[List[ModalityType]] = None,
+        use_modalities: Optional[list[ModalityType]] = None,
     ) -> HighEntropyPassword:
         """Generate an ultra-high entropy password"""
 
@@ -317,7 +317,7 @@ class MultiModalLanguageBuilder:
             metadata={"char_freq": char_freq},
         )
 
-    async def _extract_emoji_features(self, emojis: List[str]) -> ModalityFeatures:
+    async def _extract_emoji_features(self, emojis: list[str]) -> ModalityFeatures:
         """Extract features from emojis"""
         # Emoji category analysis
         categories = {
@@ -398,7 +398,7 @@ class MultiModalLanguageBuilder:
             entropy_bits=entropy,
         )
 
-    async def _extract_gesture_features(self, gestures: List[Dict]) -> ModalityFeatures:
+    async def _extract_gesture_features(self, gestures: list[dict]) -> ModalityFeatures:
         """Extract features from gesture sequence"""
         if not gestures:
             gestures = [{"type": "tap", "timing": 0.5, "pressure": 0.5}]
@@ -429,7 +429,7 @@ class MultiModalLanguageBuilder:
         )
 
     async def _extract_color_features(
-        self, colors: List[Tuple[int, int, int]]
+        self, colors: list[tuple[int, int, int]]
     ) -> ModalityFeatures:
         """Extract features from color pattern"""
         if not colors:
@@ -474,7 +474,7 @@ class MultiModalLanguageBuilder:
             entropy_bits=entropy,
         )
 
-    async def _extract_rhythm_features(self, rhythm: List[float]) -> ModalityFeatures:
+    async def _extract_rhythm_features(self, rhythm: list[float]) -> ModalityFeatures:
         """Extract features from rhythm pattern"""
         if not rhythm:
             rhythm = [0.5, 0.5, 1.0]
@@ -500,7 +500,7 @@ class MultiModalLanguageBuilder:
         )
 
     def _create_embedding(
-        self, modality_features: List[ModalityFeatures]
+        self, modality_features: list[ModalityFeatures]
     ) -> np.ndarray:
         """Create unified embedding from multiple modalities"""
         if not modality_features:
@@ -550,7 +550,7 @@ class MultiModalLanguageBuilder:
 
         return "".join(text)
 
-    def _select_memorable_emojis(self, count: int) -> List[str]:
+    def _select_memorable_emojis(self, count: int) -> list[str]:
         """Select memorable emojis with meaning"""
         import random
 
@@ -573,7 +573,7 @@ class MultiModalLanguageBuilder:
 
         return selected[:count]
 
-    def _generate_gesture_sequence(self, count: int) -> List[Dict[str, Any]]:
+    def _generate_gesture_sequence(self, count: int) -> list[dict[str, Any]]:
         """Generate memorable gesture sequence"""
         import random
 
@@ -603,7 +603,7 @@ class MultiModalLanguageBuilder:
 
         return gestures
 
-    def _generate_color_pattern(self, count: int) -> List[Tuple[int, int, int]]:
+    def _generate_color_pattern(self, count: int) -> list[tuple[int, int, int]]:
         """Generate memorable color pattern"""
         import random
 
@@ -622,7 +622,7 @@ class MultiModalLanguageBuilder:
 
         return colors
 
-    def _hsv_to_rgb(self, h: float, s: float, v: float) -> Tuple[int, int, int]:
+    def _hsv_to_rgb(self, h: float, s: float, v: float) -> tuple[int, int, int]:
         """Convert HSV to RGB color"""
         c = v * s
         x = c * (1 - abs((h / 60) % 2 - 1))
@@ -643,7 +643,7 @@ class MultiModalLanguageBuilder:
 
         return (int((r + m) * 255), int((g + m) * 255), int((b + m) * 255))
 
-    async def _emit_signal(self, signal_type: SignalType, level: float, metadata: Dict):
+    async def _emit_signal(self, signal_type: SignalType, level: float, metadata: dict):
         """Emit signal through signal bus"""
         signal = Signal(
             name=signal_type,
@@ -653,7 +653,7 @@ class MultiModalLanguageBuilder:
         )
         self.signal_bus.publish(signal)
 
-    def export_language_model(self) -> Dict[str, Any]:
+    def export_language_model(self) -> dict[str, Any]:
         """Export the language model for sharing"""
         return {
             "user_id": self.user_id,

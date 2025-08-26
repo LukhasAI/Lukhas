@@ -13,7 +13,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from candidate.orchestration.agent_orchestrator.intelligence_bridge import (
     AgentType,
@@ -42,12 +42,12 @@ class IntelligenceSymbolicMessage:
     event_type: IntelligenceEvent
     intelligence_engine: str
     agent_id: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     confidence: float
     processing_time: float
     timestamp: datetime
-    symbolic_effects: List[str] = None
-    trinity_compliance: Dict[str, bool] = None
+    symbolic_effects: list[str] = None
+    trinity_compliance: dict[str, bool] = None
 
     def __post_init__(self):
         if self.symbolic_effects is None:
@@ -103,9 +103,9 @@ class LukhasIntelligenceOrchestrationAdapter:
     async def coordinate_intelligence_with_orchestration(
         self,
         agent_type: AgentType,
-        intelligence_request: Dict[str, Any],
-        orchestration_context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        intelligence_request: dict[str, Any],
+        orchestration_context: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
         """
         Coordinate intelligence operations with orchestration system
 
@@ -172,8 +172,8 @@ class LukhasIntelligenceOrchestrationAdapter:
             raise
 
     async def _process_intelligence_request(
-        self, agent_type: AgentType, request: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, agent_type: AgentType, request: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process intelligence request through agent bridge"""
 
         # Map request to appropriate intelligence request type
@@ -199,7 +199,7 @@ class LukhasIntelligenceOrchestrationAdapter:
         return response.result
 
     def _map_to_intelligence_request_type(
-        self, request: Dict[str, Any]
+        self, request: dict[str, Any]
     ) -> IntelligenceRequestType:
         """Map generic request to specific intelligence request type"""
         request_content = str(request).lower()
@@ -223,9 +223,9 @@ class LukhasIntelligenceOrchestrationAdapter:
 
     async def _integrate_with_orchestration(
         self,
-        intelligence_response: Dict[str, Any],
-        orchestration_context: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        intelligence_response: dict[str, Any],
+        orchestration_context: dict[str, Any],
+    ) -> dict[str, Any]:
         """Integrate intelligence response with orchestration context"""
 
         integrated_response = {
@@ -252,7 +252,7 @@ class LukhasIntelligenceOrchestrationAdapter:
 
         return integrated_response
 
-    async def _get_brain_orchestration_context(self) -> Dict[str, Any]:
+    async def _get_brain_orchestration_context(self) -> dict[str, Any]:
         """Get context from brain orchestration system"""
         # This would integrate with the actual brain orchestrator
         # For now, return a structured context
@@ -266,9 +266,9 @@ class LukhasIntelligenceOrchestrationAdapter:
 
     async def _generate_symbolic_recommendations(
         self,
-        intelligence_response: Dict[str, Any],
-        orchestration_context: Dict[str, Any],
-    ) -> List[Dict[str, Any]]:
+        intelligence_response: dict[str, Any],
+        orchestration_context: dict[str, Any],
+    ) -> list[dict[str, Any]]:
         """Generate symbolic processing recommendations"""
         recommendations = []
 
@@ -308,9 +308,9 @@ class LukhasIntelligenceOrchestrationAdapter:
     async def _generate_symbolic_effects(
         self,
         agent_type: AgentType,
-        intelligence_response: Dict[str, Any],
-        orchestrated_response: Dict[str, Any],
-    ) -> List[str]:
+        intelligence_response: dict[str, Any],
+        orchestrated_response: dict[str, Any],
+    ) -> list[str]:
         """Generate symbolic effects for kernel bus"""
         effects = []
 
@@ -337,7 +337,7 @@ class LukhasIntelligenceOrchestrationAdapter:
 
         return list(set(effects))  # Remove duplicates
 
-    def _determine_event_type(self, request: Dict[str, Any]) -> IntelligenceEvent:
+    def _determine_event_type(self, request: dict[str, Any]) -> IntelligenceEvent:
         """Determine the appropriate intelligence event type"""
         request_content = str(request).lower()
 
@@ -459,7 +459,7 @@ class LukhasIntelligenceOrchestrationAdapter:
         ) / total_ops
         self.performance_metrics["trinity_compliance_rate"] = new_compliance
 
-    async def get_performance_metrics(self) -> Dict[str, Any]:
+    async def get_performance_metrics(self) -> dict[str, Any]:
         """Get current performance metrics"""
         return {
             **self.performance_metrics,
@@ -468,7 +468,7 @@ class LukhasIntelligenceOrchestrationAdapter:
             "initialized": self._initialized,
         }
 
-    async def get_orchestration_status(self) -> Dict[str, Any]:
+    async def get_orchestration_status(self) -> dict[str, Any]:
         """Get orchestration integration status"""
         return {
             "agent_bridge_connected": self.agent_bridge is not None,
@@ -496,9 +496,9 @@ async def get_orchestration_adapter() -> LukhasIntelligenceOrchestrationAdapter:
 # Convenience functions for orchestration integration
 async def coordinate_agent_intelligence(
     agent_type: AgentType,
-    intelligence_request: Dict[str, Any],
-    orchestration_context: Optional[Dict[str, Any]] = None,
-) -> Dict[str, Any]:
+    intelligence_request: dict[str, Any],
+    orchestration_context: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
     """Convenience function to coordinate agent intelligence with orchestration"""
     adapter = await get_orchestration_adapter()
     return await adapter.coordinate_intelligence_with_orchestration(

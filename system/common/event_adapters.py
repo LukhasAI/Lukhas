@@ -5,7 +5,7 @@ Adapts existing module communication to use event bus.
 """
 
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from .event_bus import Event, EventTypes, event_bus
 
@@ -28,7 +28,7 @@ class ConsciousnessEventAdapter:
         if event.source_module != "consciousness":
             logger.info(f"Consciousness aware of {event.source_module} initialization")
 
-    async def emit_awareness_changed(self, new_state: Dict[str, Any]):
+    async def emit_awareness_changed(self, new_state: dict[str, Any]):
         """Emit awareness changed event"""
         await event_bus.publish(
             Event(
@@ -56,7 +56,7 @@ class MemoryEventAdapter:
         """Handle memory stored events"""
         # Could trigger related operations
 
-    async def emit_fold_created(self, fold_id: str, fold_data: Dict[str, Any]):
+    async def emit_fold_created(self, fold_id: str, fold_data: dict[str, Any]):
         """Emit fold created event"""
         await event_bus.publish(
             Event(

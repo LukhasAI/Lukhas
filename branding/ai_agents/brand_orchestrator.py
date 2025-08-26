@@ -7,7 +7,7 @@ import asyncio
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -73,8 +73,8 @@ except ImportError as e:
             class ValidationResult:
                 is_compliant: bool = True
                 severity: ValidationSeverity = ValidationSeverity.INFO
-                issues: List = None
-                auto_corrections: Dict = None
+                issues: list = None
+                auto_corrections: dict = None
 
                 def __post_init__(self):
                     if self.issues is None:
@@ -86,7 +86,7 @@ except ImportError as e:
 
 class BrandOrchestrationTask:
     """Represents a brand orchestration task"""
-    def __init__(self, task_id: str, task_type: str, priority: int, data: Dict[str, Any]):
+    def __init__(self, task_id: str, task_type: str, priority: int, data: dict[str, Any]):
         self.task_id = task_id
         self.task_type = task_type
         self.priority = priority  # 1-5, where 5 is highest priority
@@ -130,7 +130,7 @@ class BrandOrchestratorAgent:
         # Callbacks for different orchestration events
         self.event_callbacks = {}
 
-    def _load_orchestration_config(self) -> Dict[str, Any]:
+    def _load_orchestration_config(self) -> dict[str, Any]:
         """Load brand orchestration configuration"""
         return {
             "task_priorities": {
@@ -161,7 +161,7 @@ class BrandOrchestratorAgent:
             }
         }
 
-    def _load_brand_strategy(self) -> Dict[str, Any]:
+    def _load_brand_strategy(self) -> dict[str, Any]:
         """Load comprehensive brand strategy configuration"""
         return {
             "brand_objectives": {
@@ -300,7 +300,7 @@ class BrandOrchestratorAgent:
                 strategy_review = await self._conduct_strategic_review()
 
                 # Optimize orchestration parameters
-                optimization_updates = self._optimize_orchestration_parameters(strategy_review)
+                self._optimize_orchestration_parameters(strategy_review)
 
                 # Generate strategic recommendations
                 strategic_recommendations = self._generate_strategic_recommendations(strategy_review)
@@ -336,10 +336,10 @@ class BrandOrchestratorAgent:
 
     async def orchestrate_content_creation(
         self,
-        content_request: Dict[str, Any],
+        content_request: dict[str, Any],
         context: str = "general",
-        quality_requirements: Optional[Dict[str, float]] = None
-    ) -> Dict[str, Any]:
+        quality_requirements: Optional[dict[str, float]] = None
+    ) -> dict[str, Any]:
         """
         Orchestrate comprehensive content creation with brand consistency
         """
@@ -453,9 +453,9 @@ class BrandOrchestratorAgent:
     async def orchestrate_brand_crisis_response(
         self,
         crisis_type: str,
-        crisis_data: Dict[str, Any],
+        crisis_data: dict[str, Any],
         urgency_level: str = "high"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Orchestrate response to brand crisis situations
         """
@@ -506,13 +506,13 @@ class BrandOrchestratorAgent:
     def _assess_content_quality(
         self,
         final_content: str,
-        creativity_result: Dict[str, Any],
-        voice_result: Dict[str, Any],
-        personality_result: Dict[str, Any],
+        creativity_result: dict[str, Any],
+        voice_result: dict[str, Any],
+        personality_result: dict[str, Any],
         validation_result: Any,
         sentiment_result: Any,
-        quality_requirements: Dict[str, float]
-    ) -> Dict[str, Any]:
+        quality_requirements: dict[str, float]
+    ) -> dict[str, Any]:
         """Assess overall content quality against brand standards"""
 
         # Brand consistency from validation
@@ -559,10 +559,10 @@ class BrandOrchestratorAgent:
 
     def _generate_content_recommendations(
         self,
-        quality_assessment: Dict[str, Any],
+        quality_assessment: dict[str, Any],
         validation_result: Any,
         sentiment_result: Any
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate recommendations for content improvement"""
 
         recommendations = []
@@ -625,7 +625,7 @@ class BrandOrchestratorAgent:
         for task in high_priority_tasks:
             await self._process_orchestration_task(task)
 
-    async def _assess_comprehensive_brand_health(self) -> Dict[str, Any]:
+    async def _assess_comprehensive_brand_health(self) -> dict[str, Any]:
         """Assess comprehensive brand health across all dimensions"""
 
         # Collect metrics from monitoring adapter
@@ -653,7 +653,7 @@ class BrandOrchestratorAgent:
             "overall_health_score": self._calculate_overall_health_score(brand_metrics, sentiment_trends, intelligence_status)
         }
 
-    def _assess_strategy_alignment(self, brand_health: Dict[str, Any]) -> Dict[str, Any]:
+    def _assess_strategy_alignment(self, brand_health: dict[str, Any]) -> dict[str, Any]:
         """Assess alignment with brand strategy targets"""
 
         target_metrics = self.brand_strategy["target_brand_metrics"]
@@ -683,7 +683,7 @@ class BrandOrchestratorAgent:
             "overall_alignment": sum(score["alignment"] for score in alignment_scores.values()) / len(alignment_scores)
         }
 
-    async def _generate_improvement_tasks(self, strategy_alignment: Dict[str, Any]) -> None:
+    async def _generate_improvement_tasks(self, strategy_alignment: dict[str, Any]) -> None:
         """Generate improvement tasks based on strategy alignment"""
 
         for metric, alignment_data in strategy_alignment["alignment_scores"].items():
@@ -695,7 +695,7 @@ class BrandOrchestratorAgent:
                     "improvement_needed": alignment_data["target"] - alignment_data["current"]
                 }, priority=3)
 
-    def _update_orchestration_metrics(self, brand_health: Dict[str, Any]) -> None:
+    def _update_orchestration_metrics(self, brand_health: dict[str, Any]) -> None:
         """Update orchestration performance metrics"""
 
         overall_health = brand_health.get("overall_health_score", 0.0)
@@ -709,9 +709,9 @@ class BrandOrchestratorAgent:
 
     def _calculate_overall_health_score(
         self,
-        brand_metrics: Dict[str, Any],
-        sentiment_trends: Dict[str, Any],
-        intelligence_status: Dict[str, Any]
+        brand_metrics: dict[str, Any],
+        sentiment_trends: dict[str, Any],
+        intelligence_status: dict[str, Any]
     ) -> float:
         """Calculate overall brand health score"""
 
@@ -729,7 +729,7 @@ class BrandOrchestratorAgent:
 
         return min(1.0, max(0.0, overall_score))
 
-    async def _add_orchestration_task(self, task_type: str, data: Dict[str, Any], priority: int = 3) -> None:
+    async def _add_orchestration_task(self, task_type: str, data: dict[str, Any], priority: int = 3) -> None:
         """Add a task to the orchestration queue"""
 
         task_id = f"task_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}"
@@ -765,7 +765,7 @@ class BrandOrchestratorAgent:
             del self.active_tasks[task.task_id]
         self.completed_tasks.append(task)
 
-    async def _handle_immediate_attention_task(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _handle_immediate_attention_task(self, data: dict[str, Any]) -> dict[str, Any]:
         """Handle immediate attention tasks"""
 
         indicator = data.get("indicator", "unknown")
@@ -792,7 +792,7 @@ class BrandOrchestratorAgent:
             "improvement_needed": threshold - value
         }
 
-    async def _handle_improvement_task(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _handle_improvement_task(self, data: dict[str, Any]) -> dict[str, Any]:
         """Handle improvement tasks"""
 
         metric = data.get("metric", "unknown")
@@ -812,7 +812,7 @@ class BrandOrchestratorAgent:
             "improvement_plan": improvement_plan
         }
 
-    async def _handle_monitoring_task(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _handle_monitoring_task(self, data: dict[str, Any]) -> dict[str, Any]:
         """Handle monitoring tasks"""
 
         return {
@@ -821,7 +821,7 @@ class BrandOrchestratorAgent:
             "data": data
         }
 
-    def _get_improvement_actions(self, metric: str) -> List[str]:
+    def _get_improvement_actions(self, metric: str) -> list[str]:
         """Get improvement actions for specific metrics"""
 
         improvement_actions = {
@@ -849,7 +849,7 @@ class BrandOrchestratorAgent:
 
         return improvement_actions.get(metric, ["General brand enhancement measures"])
 
-    async def _trigger_orchestration_callbacks(self, event_type: str, data: Dict[str, Any]) -> None:
+    async def _trigger_orchestration_callbacks(self, event_type: str, data: dict[str, Any]) -> None:
         """Trigger registered orchestration callbacks"""
 
         if event_type in self.event_callbacks:
@@ -869,7 +869,7 @@ class BrandOrchestratorAgent:
             self.event_callbacks[event_type] = []
         self.event_callbacks[event_type].append(callback)
 
-    def get_orchestration_status(self) -> Dict[str, Any]:
+    def get_orchestration_status(self) -> dict[str, Any]:
         """Get current orchestration system status"""
 
         return {
@@ -883,7 +883,7 @@ class BrandOrchestratorAgent:
             "recent_performance": self._get_recent_performance_summary()
         }
 
-    def _get_recent_performance_summary(self) -> Dict[str, Any]:
+    def _get_recent_performance_summary(self) -> dict[str, Any]:
         """Get summary of recent orchestration performance"""
 
         # Analyze recent completed tasks
@@ -902,7 +902,7 @@ class BrandOrchestratorAgent:
         }
 
     # Additional helper methods for crisis management and strategic operations
-    def _assess_crisis_severity(self, crisis_type: str, crisis_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _assess_crisis_severity(self, crisis_type: str, crisis_data: dict[str, Any]) -> dict[str, Any]:
         """Assess the severity of a brand crisis"""
 
         severity_matrix = {
@@ -933,7 +933,7 @@ class BrandOrchestratorAgent:
             "requires_immediate_action": final_severity >= 3
         }
 
-    def _generate_crisis_response_strategy(self, crisis_assessment: Dict[str, Any], urgency_level: str) -> Dict[str, Any]:
+    def _generate_crisis_response_strategy(self, crisis_assessment: dict[str, Any], urgency_level: str) -> dict[str, Any]:
         """Generate crisis response strategy"""
 
         return {
@@ -951,7 +951,7 @@ class BrandOrchestratorAgent:
             "escalation_timeline": "immediate" if urgency_level == "critical" else "1_hour"
         }
 
-    async def _execute_immediate_crisis_actions(self, response_strategy: Dict[str, Any]) -> Dict[str, Any]:
+    async def _execute_immediate_crisis_actions(self, response_strategy: dict[str, Any]) -> dict[str, Any]:
         """Execute immediate crisis response actions"""
 
         actions_taken = []
@@ -970,7 +970,7 @@ class BrandOrchestratorAgent:
             "response_effectiveness": "monitoring_initiated"
         }
 
-    def _create_crisis_monitoring_plan(self, crisis_assessment: Dict[str, Any]) -> Dict[str, Any]:
+    def _create_crisis_monitoring_plan(self, crisis_assessment: dict[str, Any]) -> dict[str, Any]:
         """Create monitoring plan for crisis resolution"""
 
         severity_level = crisis_assessment["severity_level"]
@@ -997,42 +997,42 @@ class BrandOrchestratorAgent:
             }
         }
 
-    async def _store_crisis_response(self, crisis_response: Dict[str, Any]) -> None:
+    async def _store_crisis_response(self, crisis_response: dict[str, Any]) -> None:
         """Store crisis response for analysis and learning"""
 
         # This would store to persistent storage
         print(f"Storing crisis response: {crisis_response['crisis_id']}")
 
     # Placeholder methods for additional orchestration loops
-    async def _coordinate_intelligence_systems(self) -> Dict[str, Any]:
+    async def _coordinate_intelligence_systems(self) -> dict[str, Any]:
         """Coordinate intelligence gathering across systems"""
         return {"status": "intelligence_coordinated", "timestamp": datetime.now().isoformat()}
 
-    async def _analyze_brand_trends(self, intelligence_update: Dict[str, Any]) -> Dict[str, Any]:
+    async def _analyze_brand_trends(self, intelligence_update: dict[str, Any]) -> dict[str, Any]:
         """Analyze brand trends from intelligence data"""
         return {"trends": "positive", "confidence": 0.85}
 
-    def _generate_strategic_insights(self, trend_analysis: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_strategic_insights(self, trend_analysis: dict[str, Any]) -> dict[str, Any]:
         """Generate strategic insights from trend analysis"""
         return {"insights": "brand_strengthening", "strategy_update_needed": False}
 
-    async def _update_brand_strategy(self, strategic_insights: Dict[str, Any]) -> None:
+    async def _update_brand_strategy(self, strategic_insights: dict[str, Any]) -> None:
         """Update brand strategy based on insights"""
         print(f"Updating brand strategy based on insights: {strategic_insights}")
 
-    async def _conduct_strategic_review(self) -> Dict[str, Any]:
+    async def _conduct_strategic_review(self) -> dict[str, Any]:
         """Conduct comprehensive strategic review"""
         return {"review_status": "completed", "recommendations": ["maintain_current_strategy"]}
 
-    def _optimize_orchestration_parameters(self, strategy_review: Dict[str, Any]) -> Dict[str, Any]:
+    def _optimize_orchestration_parameters(self, strategy_review: dict[str, Any]) -> dict[str, Any]:
         """Optimize orchestration parameters"""
         return {"optimization_applied": True, "parameters_updated": []}
 
-    def _generate_strategic_recommendations(self, strategy_review: Dict[str, Any]) -> List[Dict[str, str]]:
+    def _generate_strategic_recommendations(self, strategy_review: dict[str, Any]) -> list[dict[str, str]]:
         """Generate strategic recommendations"""
         return [{"category": "optimization", "recommendation": "maintain_current_approach"}]
 
-    async def _store_strategic_review(self, strategy_review: Dict[str, Any], recommendations: List[Dict[str, str]]) -> None:
+    async def _store_strategic_review(self, strategy_review: dict[str, Any], recommendations: list[dict[str, str]]) -> None:
         """Store strategic review results"""
         print(f"Storing strategic review: {len(recommendations)} recommendations")
 

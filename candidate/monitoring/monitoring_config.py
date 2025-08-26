@@ -10,7 +10,7 @@ import json
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import structlog
 import yaml
@@ -38,7 +38,7 @@ class EndocrineMonitoringConfig:
     coherence_calculation_interval: float = 10.0
 
     # Hormone thresholds for plasticity triggers
-    hormone_thresholds: Dict[str, Dict[str, float]] = field(
+    hormone_thresholds: dict[str, dict[str, float]] = field(
         default_factory=lambda: {
             "cortisol": {
                 "low": 0.2,
@@ -121,7 +121,7 @@ class MetricsCollectionConfig:
     """Configuration for adaptive metrics collection"""
 
     # Collection intervals by context
-    collection_intervals: Dict[str, float] = field(
+    collection_intervals: dict[str, float] = field(
         default_factory=lambda: {
             "normal_operation": 5.0,
             "high_stress": 1.0,
@@ -170,7 +170,7 @@ class PlasticityConfig:
     pattern_learning_enabled: bool = True
 
     # Triggers configuration
-    trigger_priorities: Dict[str, int] = field(
+    trigger_priorities: dict[str, int] = field(
         default_factory=lambda: {
             "stress_adaptation": 5,
             "performance_optimization": 4,
@@ -184,7 +184,7 @@ class PlasticityConfig:
     )
 
     # Cooldown periods (minutes)
-    trigger_cooldowns: Dict[str, int] = field(
+    trigger_cooldowns: dict[str, int] = field(
         default_factory=lambda: {
             "stress_adaptation": 10,
             "performance_optimization": 30,
@@ -208,7 +208,7 @@ class DashboardConfig:
     refresh_interval: float = 1.0
 
     # Widget configuration
-    widget_update_intervals: Dict[str, float] = field(
+    widget_update_intervals: dict[str, float] = field(
         default_factory=lambda: {
             "hormone_radar": 2.0,
             "coherence_gauge": 3.0,
@@ -220,7 +220,7 @@ class DashboardConfig:
     )
 
     # Alert settings
-    alert_severity_thresholds: Dict[str, float] = field(
+    alert_severity_thresholds: dict[str, float] = field(
         default_factory=lambda: {
             "info": 0.1,
             "low": 0.3,
@@ -234,7 +234,7 @@ class DashboardConfig:
     max_active_alerts: int = 20
 
     # Prediction settings
-    prediction_horizons: Dict[str, int] = field(
+    prediction_horizons: dict[str, int] = field(
         default_factory=lambda: {
             "short_term": 5,  # minutes
             "medium_term": 30,  # minutes
@@ -266,7 +266,7 @@ class LearningConfig:
     knowledge_retention_limit: int = 1000
 
     # Learning goals
-    default_learning_goals: List[str] = field(
+    default_learning_goals: list[str] = field(
         default_factory=lambda: [
             "performance_optimization",
             "stress_adaptation",
@@ -331,7 +331,7 @@ class ComprehensiveMonitoringConfig:
     data_directory: str = "data/monitoring"
 
     # Feature flags
-    features: Dict[str, bool] = field(
+    features: dict[str, bool] = field(
         default_factory=lambda: {
             "endocrine_monitoring": True,
             "plasticity_adaptation": True,
@@ -346,7 +346,7 @@ class ComprehensiveMonitoringConfig:
     )
 
     # Security and safety
-    security: Dict[str, Any] = field(
+    security: dict[str, Any] = field(
         default_factory=lambda: {
             "max_adaptation_impact": 0.3,
             "require_validation": True,
@@ -365,7 +365,7 @@ class MonitoringConfigManager:
             Path(config_path) if config_path else Path("config/monitoring.yaml")
         )
         self.config: Optional[ComprehensiveMonitoringConfig] = None
-        self.profile_configs: Dict[MonitoringProfile, Dict[str, Any]] = {}
+        self.profile_configs: dict[MonitoringProfile, dict[str, Any]] = {}
 
         # Initialize profile-specific configurations
         self._initialize_profile_configs()
@@ -525,7 +525,7 @@ class MonitoringConfigManager:
             logger.error("Failed to save configuration", error=str(e))
 
     def _apply_overrides(
-        self, config: ComprehensiveMonitoringConfig, overrides: Dict[str, Any]
+        self, config: ComprehensiveMonitoringConfig, overrides: dict[str, Any]
     ) -> ComprehensiveMonitoringConfig:
         """Apply configuration overrides"""
 
@@ -548,7 +548,7 @@ class MonitoringConfigManager:
 
         return config
 
-    def get_component_config(self, component_name: str) -> Dict[str, Any]:
+    def get_component_config(self, component_name: str) -> dict[str, Any]:
         """Get configuration for a specific component"""
 
         if not self.config:
@@ -570,7 +570,7 @@ class MonitoringConfigManager:
 
     def validate_config(
         self, config: Optional[ComprehensiveMonitoringConfig] = None
-    ) -> List[str]:
+    ) -> list[str]:
         """Validate configuration and return list of issues"""
 
         if config is None:
@@ -661,7 +661,7 @@ def save_monitoring_config(
     manager.save_config(config)
 
 
-def validate_monitoring_config(config: ComprehensiveMonitoringConfig) -> List[str]:
+def validate_monitoring_config(config: ComprehensiveMonitoringConfig) -> list[str]:
     """Validate monitoring configuration"""
 
     manager = MonitoringConfigManager()

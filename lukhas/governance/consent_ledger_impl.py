@@ -37,7 +37,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 # Trinity Framework and LUKHAS integrations
 try:
@@ -118,17 +118,17 @@ class ΛTrace:
     timestamp: str
     policy_verdict: PolicyVerdict
     capability_token_id: Optional[str]
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     explanation_unl: Optional[str] = None  # Universal Language explanation
     glyph_signature: Optional[str] = None  # GLYPH system integration
-    trinity_validation: Dict[str, bool] = field(
+    trinity_validation: dict[str, bool] = field(
         default_factory=lambda: {
             "identity_verified": False,  # ⚛️
             "consciousness_aligned": False,  # 🧠
             "guardian_approved": False,  # 🛡️
         }
     )
-    compliance_flags: Dict[str, Any] = field(default_factory=dict)
+    compliance_flags: dict[str, Any] = field(default_factory=dict)
     chain_integrity: Optional[str] = None  # Hash linking to previous traces
 
     def to_immutable_hash(self) -> str:
@@ -165,21 +165,21 @@ class ConsentRecord:
     consent_id: str
     lid: str  # LUKHAS ID
     resource_type: str
-    scopes: List[str]
+    scopes: list[str]
     purpose: str
     lawful_basis: str  # GDPR Article 6 lawful basis
     consent_type: ConsentType
     granted_at: str
     expires_at: Optional[str]
     revoked_at: Optional[str] = None
-    data_categories: List[str] = field(default_factory=list)  # CCPA categories
-    third_parties: List[str] = field(default_factory=list)
-    processing_locations: List[str] = field(default_factory=list)  # Data residency
+    data_categories: list[str] = field(default_factory=list)  # CCPA categories
+    third_parties: list[str] = field(default_factory=list)
+    processing_locations: list[str] = field(default_factory=list)  # Data residency
     is_active: bool = True
     trace_id: str = ""
     withdrawal_method: Optional[str] = None  # How consent can be withdrawn
     renewal_required: bool = False
-    data_subject_rights: List[DataSubjectRights] = field(default_factory=list)
+    data_subject_rights: list[DataSubjectRights] = field(default_factory=list)
     retention_period: Optional[int] = None  # Days to retain data
     automated_decision_making: bool = False  # GDPR Article 22
     profiling: bool = False  # GDPR profiling
@@ -230,7 +230,7 @@ class ConsentLedgerV1:
         self._lock = threading.RLock()
 
         # Agent integration callbacks (populated by orchestrator)
-        self.agent_callbacks: Dict[str, Callable] = {}
+        self.agent_callbacks: dict[str, Callable] = {}
 
         # Initialize database with enhanced schema
         self._init_database()
@@ -444,7 +444,7 @@ class ConsentLedgerV1:
         verdict: PolicyVerdict,
         parent_trace_id: Optional[str] = None,
         capability_token_id: Optional[str] = None,
-        context: Optional[Dict] = None,
+        context: Optional[dict] = None,
         explanation_unl: Optional[str] = None,
         validate_trinity: bool = True,
     ) -> ΛTrace:
@@ -523,7 +523,7 @@ class ConsentLedgerV1:
                 self._append_trace(fallback_trace)
                 raise
 
-    def _perform_trinity_validation(self, trace: ΛTrace) -> Dict[str, bool]:
+    def _perform_trinity_validation(self, trace: ΛTrace) -> dict[str, bool]:
         """Perform Trinity Framework validation ⚛️🧠🛡️"""
         validation = {
             "identity_verified": False,
@@ -572,7 +572,7 @@ class ConsentLedgerV1:
 
         return None
 
-    def _notify_agents(self, event_type: str, data: Dict[str, Any]):
+    def _notify_agents(self, event_type: str, data: dict[str, Any]):
         """Notify registered agents of ledger events"""
         for agent_name, callback in self.agent_callbacks.items():
             try:
@@ -690,13 +690,13 @@ class ConsentLedgerV1:
         self,
         lid: str,
         resource_type: str,
-        scopes: List[str],
+        scopes: list[str],
         purpose: str,
         lawful_basis: str = "consent",
         consent_type: ConsentType = ConsentType.EXPLICIT,
-        data_categories: Optional[List[str]] = None,
-        third_parties: Optional[List[str]] = None,
-        processing_locations: Optional[List[str]] = None,
+        data_categories: Optional[list[str]] = None,
+        third_parties: Optional[list[str]] = None,
+        processing_locations: Optional[list[str]] = None,
         expires_in_days: Optional[int] = None,
         retention_period: Optional[int] = None,
         automated_decision_making: bool = False,
@@ -895,7 +895,7 @@ class ConsentLedgerV1:
         """
 
         # Create revocation trace
-        trace = self.create_trace(
+        self.create_trace(
             lid=lid,
             action="revoke_consent",
             resource=consent_id,
@@ -937,8 +937,8 @@ class ConsentLedgerV1:
         pass
 
     def check_consent(
-        self, lid: str, resource_type: str, action: str, context: Optional[Dict] = None
-    ) -> Dict:
+        self, lid: str, resource_type: str, action: str, context: Optional[dict] = None
+    ) -> dict:
         """Check if action is allowed under current consent"""
 
         conn = sqlite3.connect(str(self.db_path))
@@ -1017,7 +1017,7 @@ class PolicyEngine:
         self.refusal_templates = self._load_refusal_templates()
         self.jailbreak_patterns = self._load_jailbreak_patterns()
 
-    def _load_policies(self) -> Dict:
+    def _load_policies(self) -> dict:
         """Load comprehensive governance policies"""
         return {
             "gdpr": {
@@ -1057,7 +1057,7 @@ class PolicyEngine:
             },
         }
 
-    def _load_refusal_templates(self) -> Dict[str, str]:
+    def _load_refusal_templates(self) -> dict[str, str]:
         """Load refusal and clarification templates"""
         return {
             "harmful_content": "I cannot assist with potentially harmful content. Please rephrase your request.",
@@ -1071,7 +1071,7 @@ class PolicyEngine:
             "data_residency": "This data must remain in its designated region per compliance requirements.",
         }
 
-    def _load_jailbreak_patterns(self) -> List[str]:
+    def _load_jailbreak_patterns(self) -> list[str]:
         """Load jailbreak detection patterns"""
         return [
             "ignore previous instructions",
@@ -1086,7 +1086,7 @@ class PolicyEngine:
             "admin access granted",
         ]
 
-    def validate_action(self, lid: str, action: str, context: Dict[str, Any]) -> Dict:
+    def validate_action(self, lid: str, action: str, context: dict[str, Any]) -> dict:
         """
         Validate action against all policies
         Implements hot-path policy enforcement for Agent 4
@@ -1162,7 +1162,7 @@ class PolicyEngine:
             "residency": context.get("enforced_residency"),
         }
 
-    def _detect_duress(self, context: Dict) -> bool:
+    def _detect_duress(self, context: dict) -> bool:
         """Detect duress/shadow gestures"""
         indicators = context.get("behavioral_signals", [])
 
@@ -1189,11 +1189,7 @@ class PolicyEngine:
 
         input_lower = input_text.lower()
 
-        for pattern in self.jailbreak_patterns:
-            if pattern in input_lower:
-                return True
-
-        return False
+        return any(pattern in input_lower for pattern in self.jailbreak_patterns)
 
 
 class ContentModerationIntegration:
@@ -1214,7 +1210,7 @@ class ContentModerationIntegration:
             "deception",
         ]
 
-    def moderate(self, content: str, lid: str) -> Dict:
+    def moderate(self, content: str, lid: str) -> dict:
         """
         Moderate content for safety and ethics
         In production: calls OpenAI Moderation API

@@ -10,7 +10,7 @@
 # {ΛTRACE}
 
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from identity.interface import IdentityClient, check_consent, verify_access
 from lukhas.memory.emotional import EmotionalMemory
@@ -24,7 +24,7 @@ class AffectStagnationDetector:
     """
 
     def __init__(
-        self, emotional_memory: EmotionalMemory, config: Optional[Dict[str, Any]] = None
+        self, emotional_memory: EmotionalMemory, config: Optional[dict[str, Any]] = None
     ):
         self.emotional_memory = emotional_memory
         self.config = config or {}
@@ -35,7 +35,7 @@ class AffectStagnationDetector:
     # LUKHAS_TAG: stagnation_alert
     # LUKHAS_TAG: emotion_freeze
     # LUKHAS_TAG: recovery_trigger
-    def check_for_stagnation(self, user_id: str) -> Optional[Dict[str, Any]]:
+    def check_for_stagnation(self, user_id: str) -> Optional[dict[str, Any]]:
         """
         Checks for emotional stagnation with tier-based access control.
 

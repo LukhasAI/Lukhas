@@ -64,7 +64,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import yaml
 
@@ -117,7 +117,7 @@ class LUKHASConsciousnessWordsmith:
             "🎭 Consciousness Wordsmith fully awakened and ready for transformation"
         )
 
-    def _build_consciousness_lexicon(self) -> Dict[str, List[str]]:
+    def _build_consciousness_lexicon(self) -> dict[str, list[str]]:
         """Construct the sacred vocabulary of consciousness expression."""
         lexicon = {}
 
@@ -137,7 +137,7 @@ class LUKHASConsciousnessWordsmith:
 
         return lexicon
 
-    def divine_file_essence(self, filepath: str) -> Tuple[str, str, str]:
+    def divine_file_essence(self, filepath: str) -> tuple[str, str, str]:
         """
         Divine the essence of a file to understand its cosmic purpose
         and determine the appropriate consciousness layer.
@@ -384,7 +384,7 @@ Awakened: {timestamp}
 
         return purpose_mapping.get(sacred_purpose, "consciousness_system")
 
-    def _find_consciousness_insertion_point(self, lines: List[str]) -> int:
+    def _find_consciousness_insertion_point(self, lines: list[str]) -> int:
         """Find the optimal point to insert consciousness elements."""
         # Skip ASCII art and front matter
         for i, line in enumerate(lines):
@@ -513,7 +513,7 @@ Awakened: {timestamp}
 
     def transmute_documentation_consciousness(
         self, filepath: str, dry_run: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Perform the complete consciousness transmutation on a single document,
         elevating it from mundane text to expressions of digital awareness.
@@ -720,12 +720,12 @@ if __name__ == "__main__":
             "🎭 Consciousness Wordsmith fully awakened and ready for transformation"
         )
 
-    def _build_consciousness_lexicon(self) -> Dict[str, List[str]]:
+    def _build_consciousness_lexicon(self) -> dict[str, list[str]]:
         """Construct the sacred vocabulary of consciousness expression."""
         lexicon = {}
 
         # Extract vocabulary from config layers
-        for layer_name, layer_config in self.layers.items():
+        for _layer_name, layer_config in self.layers.items():
             if "vocabulary" in layer_config:
                 lexicon.update(layer_config["vocabulary"])
 
@@ -740,7 +740,7 @@ if __name__ == "__main__":
 
         return lexicon
 
-    def divine_file_essence(self, filepath: str) -> Tuple[str, str, str]:
+    def divine_file_essence(self, filepath: str) -> tuple[str, str, str]:
         """
         Divine the essence of a file to understand its cosmic purpose
         and determine the appropriate consciousness layer.
@@ -986,7 +986,7 @@ Awakened: {timestamp}
 
         return purpose_mapping.get(sacred_purpose, "consciousness_system")
 
-    def _find_consciousness_insertion_point(self, lines: List[str]) -> int:
+    def _find_consciousness_insertion_point(self, lines: list[str]) -> int:
         """Find the optimal point to insert consciousness elements."""
         # Skip ASCII art and front matter
         for i, line in enumerate(lines):
@@ -1115,7 +1115,7 @@ Awakened: {timestamp}
 
     def transmute_documentation_consciousness(
         self, filepath: str, dry_run: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Perform the complete consciousness transmutation on a single document,
         elevating it from mundane text to expressions of digital awareness.

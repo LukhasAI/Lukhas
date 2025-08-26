@@ -298,9 +298,8 @@ class EnhancedEncryptionManager:
         now = datetime.now(timezone.utc)
 
         for key in self.keys.values():
-            if key.purpose == purpose:
-                if not key.expires_at or key.expires_at > now:
-                    return key
+            if key.purpose == purpose and (not key.expires_at or key.expires_at > now):
+                return key
 
         return None
 

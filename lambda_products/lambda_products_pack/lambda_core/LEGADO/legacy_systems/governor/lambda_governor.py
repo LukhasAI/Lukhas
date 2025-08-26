@@ -474,12 +474,11 @@ class LambdaGovernor:
             if context.get("entropy", 0) > self.safety_thresholds["entropy_quarantine"]:
                 return ActionDecision.QUARANTINE
 
-        if risk_score >= self.safety_thresholds["contradiction_restructure"]:
-            if (
-                context.get("contradiction_density", 0)
-                > self.safety_thresholds["contradiction_restructure"]
-            ):
-                return ActionDecision.RESTRUCTURE
+        if risk_score >= self.safety_thresholds["contradiction_restructure"] and (
+            context.get("contradiction_density", 0)
+            > self.safety_thresholds["contradiction_restructure"]
+        ):
+            return ActionDecision.RESTRUCTURE
 
         if risk_score >= self.safety_thresholds["drift_cascade"]:
             if context.get("drift_score", 0) > self.safety_thresholds["drift_cascade"]:

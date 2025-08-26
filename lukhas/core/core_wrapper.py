@@ -10,7 +10,7 @@ import logging
 import os
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Protocol
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -38,23 +38,23 @@ class GlyphResult:
     symbol: str
     concept: str
     success: bool
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 @dataclass
 class SymbolicResult:
     """Result from symbolic processing operations"""
-    symbols: List[str]
-    relationships: List[Dict[str, Any]]
-    patterns: List[Dict[str, Any]]
-    reasoning: Dict[str, Any]
+    symbols: list[str]
+    relationships: list[dict[str, Any]]
+    patterns: list[dict[str, Any]]
+    reasoning: dict[str, Any]
     success: bool
 
 
 # Protocol definitions for registry pattern
 class GlyphEngine(Protocol):
     """Protocol for GLYPH engine implementations"""
-    def encode_concept(self, concept: str, emotion: Optional[Dict[str, float]] = None) -> Any: ...
+    def encode_concept(self, concept: str, emotion: dict[str, float] | None = None) -> Any: ...
     def decode_glyph(self, glyph_repr: Any) -> Any: ...
     def create_trinity_glyph(self, emphasis: str) -> Any: ...
 
@@ -67,20 +67,20 @@ class ActorSystem(Protocol):
 
 class SymbolicWorld(Protocol):
     """Protocol for symbolic world implementations"""
-    symbols: Dict[str, Any]
-    def create_symbol(self, name: str, properties: Dict[str, Any]) -> None: ...
-    def link_symbols(self, symbol1: Any, symbol2: Any, relationship_type: str, properties: Dict[str, Any]) -> None: ...
-    def get_related_symbols(self, symbol: Any) -> List[Any]: ...
+    symbols: dict[str, Any]
+    def create_symbol(self, name: str, properties: dict[str, Any]) -> None: ...
+    def link_symbols(self, symbol1: Any, symbol2: Any, relationship_type: str, properties: dict[str, Any]) -> None: ...
+    def get_related_symbols(self, symbol: Any) -> list[Any]: ...
 
 
 class SymbolicReasoner(Protocol):
     """Protocol for symbolic reasoner implementations"""
-    def reason(self, symbol: Any) -> Dict[str, Any]: ...
-    def find_patterns(self, symbols: List[Any]) -> List[Dict[str, Any]]: ...
+    def reason(self, symbol: Any) -> dict[str, Any]: ...
+    def find_patterns(self, symbols: list[Any]) -> list[dict[str, Any]]: ...
 
 
 # Registry for implementations (populated by candidate modules at runtime)
-_REGISTRY: Dict[str, Any] = {
+_REGISTRY: dict[str, Any] = {
     "glyph_engine": None,
     "actor_system": None,
     "symbolic_world": None,
@@ -154,27 +154,27 @@ class CoreWrapper:
             logger.error(f"Core system initialization failed: {e}")
 
     @property
-    def _glyph_engine(self) -> Optional[GlyphEngine]:
+    def _glyph_engine(self) -> GlyphEngine | None:
         """Get GLYPH engine from registry"""
         return _REGISTRY.get("glyph_engine")
 
     @property
-    def _actor_system(self) -> Optional[ActorSystem]:
+    def _actor_system(self) -> ActorSystem | None:
         """Get actor system from registry"""
         return _REGISTRY.get("actor_system")
 
     @property
-    def _symbolic_world(self) -> Optional[SymbolicWorld]:
+    def _symbolic_world(self) -> SymbolicWorld | None:
         """Get symbolic world from registry"""
         return _REGISTRY.get("symbolic_world")
 
     @property
-    def _symbolic_reasoner(self) -> Optional[SymbolicReasoner]:
+    def _symbolic_reasoner(self) -> SymbolicReasoner | None:
         """Get symbolic reasoner from registry"""
         return _REGISTRY.get("symbolic_reasoner")
 
     # GLYPH Engine Interface
-    def encode_concept(self, concept: str, emotion: Optional[Dict[str, float]] = None, mode: str = "dry_run") -> GlyphResult:
+    def encode_concept(self, concept: str, emotion: dict[str, float] | None = None, mode: str = "dry_run") -> GlyphResult:
         """
         Encode a concept into GLYPH representation for symbolic communication.
 
@@ -263,7 +263,7 @@ class CoreWrapper:
             )
 
     # Symbolic Processing Interface
-    def create_symbol(self, name: str, properties: Dict[str, Any], mode: str = "dry_run") -> bool:
+    def create_symbol(self, name: str, properties: dict[str, Any], mode: str = "dry_run") -> bool:
         """
         Create a symbolic representation in the symbolic world.
 
@@ -287,7 +287,7 @@ class CoreWrapper:
             return False
 
     def link_symbols(self, symbol1_name: str, symbol2_name: str,
-                    relationship_type: str, properties: Optional[Dict[str, Any]] = None,
+                    relationship_type: str, properties: dict[str, Any] | None = None,
                     mode: str = "dry_run") -> bool:
         """
         Create a relationship between symbols in the symbolic world.
@@ -428,7 +428,7 @@ class CoreWrapper:
             return False
 
     # System Status and Control
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current core system status and capabilities"""
         return {
             "status": self._status.value,
@@ -481,7 +481,7 @@ def get_core() -> CoreWrapper:
 
 
 # Convenience functions for common operations
-def encode_concept(concept: str, emotion: Optional[Dict[str, float]] = None, mode: str = "dry_run") -> GlyphResult:
+def encode_concept(concept: str, emotion: dict[str, float] | None = None, mode: str = "dry_run") -> GlyphResult:
     """Encode a concept using the global core instance"""
     return get_core().encode_concept(concept, emotion, mode)
 
@@ -491,7 +491,7 @@ def create_trinity_glyph(emphasis: str = "balanced", mode: str = "dry_run") -> G
     return get_core().create_trinity_glyph(emphasis, mode)
 
 
-def get_core_status() -> Dict[str, Any]:
+def get_core_status() -> dict[str, Any]:
     """Get core system status using the global core instance"""
     return get_core().get_status()
 
@@ -499,10 +499,10 @@ def get_core_status() -> Dict[str, Any]:
 # Decision engine support (for policy decisions)
 class DecisionEngine(Protocol):
     """Protocol for decision engine implementations"""
-    def decide(self, policy_input: Dict[str, Any]) -> Dict[str, Any]: ...
+    def decide(self, policy_input: dict[str, Any]) -> dict[str, Any]: ...
 
 
-_DECISION_REGISTRY: Dict[str, DecisionEngine] = {}
+_DECISION_REGISTRY: dict[str, DecisionEngine] = {}
 
 
 def register_decision_engine(name: str, impl: DecisionEngine) -> None:
@@ -511,7 +511,7 @@ def register_decision_engine(name: str, impl: DecisionEngine) -> None:
     logger.info(f"Decision engine '{name}' registered")
 
 
-def decide(policy_input: Dict[str, Any], *, engine: Optional[str] = None, mode: str = "dry_run") -> Dict[str, Any]:
+def decide(policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run") -> dict[str, Any]:
     """
     Make a policy decision using registered decision engines.
 

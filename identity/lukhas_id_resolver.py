@@ -15,7 +15,7 @@ ACK GUARDRAILS
 import re
 import secrets
 import time
-from typing import Dict, Optional, Tuple
+from typing import Optional
 from urllib.parse import urlencode
 
 from fastapi import APIRouter, HTTPException
@@ -38,7 +38,7 @@ class LukhasIDParser:
     EMOJI_PATTERN = re.compile(r'[\U0001F300-\U0001FAD6\U00002600-\U000026FF]')
 
     @classmethod
-    def parse_canonical(cls, input_str: str) -> Tuple[Optional[str], str]:
+    def parse_canonical(cls, input_str: str) -> tuple[Optional[str], str]:
         """
         Parse canonical ΛID core: {namespace?}:{username}
 
@@ -77,7 +77,7 @@ class LukhasIDParser:
         return namespace, username
 
     @classmethod
-    def parse_full(cls, input_str: str) -> Dict[str, Optional[str]]:
+    def parse_full(cls, input_str: str) -> dict[str, Optional[str]]:
         """
         Parse full ΛID with optional provider/locale/emoji:
         #ΛID {namespace?}:{username} [@{provider?}] [~{locale?}] [{emoji?}]
@@ -170,7 +170,7 @@ class LukhasIDResolver:
             'github': {'verified': True, 'tier': 'T2'}
         }
 
-    def resolve_login(self, input_str: str, provider: Optional[str] = None) -> Dict[str, str]:
+    def resolve_login(self, input_str: str, provider: Optional[str] = None) -> dict[str, str]:
         """
         Core resolution endpoint: POST /identity/resolve-login
 
@@ -248,11 +248,11 @@ class LukhasIDResolver:
         # In production: write to audit log table
         print(f"RESOLUTION: {lid} -> {provider} ({resolution_time_ms:.2f}ms)")
 
-    def get_oidc_configuration(self) -> Dict:
+    def get_oidc_configuration(self) -> dict:
         """GET /.well-known/openid-configuration"""
         return self.oidc_config
 
-    def get_jwks(self) -> Dict:
+    def get_jwks(self) -> dict:
         """GET /.well-known/jwks.json - JSON Web Key Set for token verification"""
         # In production: use actual RSA keys from KMS/enclave
         return {
