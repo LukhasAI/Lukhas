@@ -2,6 +2,27 @@ name: CI
 on: [push, pull_request]
 
 jobs:
+  # Phase Gate: Lane Guard (candidate -> lukhas imports)
+  lane-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ripgrep
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ripgrep
+      - name: Enforce no candidate imports in lukhas
+        run: |
+          bash tools/ci/lane_guard.sh
+
+  waiver-ratchet:
+    needs: [lane-guard]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Waiver ratchet
+        run: |
+          bash tools/ci/waiver_ratchet.sh
   # Phase Gate: Quarantine Guard
   quarantine-guard:
     runs-on: ubuntu-latest
@@ -82,7 +103,7 @@ jobs:
           PY
 
   lint:
-    needs: [quarantine-guard, pii-scan, matriz-validation]
+    needs: [lane-guard, waiver-ratchet, quarantine-guard, pii-scan, matriz-validation]
     runs-on: ubuntu-latest
     strategy:
       matrix:

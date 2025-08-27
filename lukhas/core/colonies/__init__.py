@@ -1,9 +1,9 @@
 """
 LUKHAS AI Colony System
-Provides base colony infrastructure and imports from candidate implementations
+Provides base colony infrastructure for the stable lane.
 Trinity Framework: ⚛️🧠🛡️
 
-This module bridges the gap between candidate and production colony implementations.
+This module intentionally avoids any cross-lane imports from `candidate`.
 """
 
 import importlib
@@ -37,101 +37,49 @@ def import_with_fallback(
     raise ImportError(f"Could not import {item_name} from any of: {paths_to_try}")
 
 
-# Try to import BaseColony from candidate implementation
-# NOTE: Disabled to fix cross-lane import violation (lukhas should not import from candidate)
-# This will use the stub implementation below instead
-try:
-    if False:  # Disabled cross-lane import
-        from candidate.core.colonies.base_colony import BaseColony
-        from candidate.core.colonies.base_colony import ConsensusResult
-        logger.info("Imported BaseColony from candidate.core.colonies")
-    else:
-        # Force use of stub implementation to avoid cross-lane imports
-        raise ImportError("Using stub implementation to avoid cross-lane imports")
-except ImportError:
-    logger.warning("BaseColony not found, creating stub")
-    # Create a minimal BaseColony stub if not found
-    from abc import ABC
-    from abc import abstractmethod
-    from dataclasses import dataclass
-    from dataclasses import field
-    from typing import Any
-    from typing import Dict
-    from typing import List
+logger.warning("Using BaseColony stub (no cross-lane imports)")
+# Define a minimal BaseColony stub (stable lane only)
+from abc import ABC
+from abc import abstractmethod
+from dataclasses import dataclass
+from dataclasses import field
 
-    @dataclass
-    class ConsensusResult:
-        """Result of a consensus operation in a colony."""
 
-        consensus_reached: bool
-        decision: Any
-        confidence: float
-        votes: dict[str, Any]
-        participation_rate: float
-        dissent_reasons: list[str] = field(default_factory=list)
+@dataclass
+class ConsensusResult:
+    """Result of a consensus operation in a colony."""
 
-    class BaseColony(ABC):
-        """Base class for all agent colonies (stub implementation)"""
+    consensus_reached: bool
+    decision: Any
+    confidence: float
+    votes: dict[str, Any]
+    participation_rate: float
+    dissent_reasons: list[str] = field(default_factory=list)
 
-        def __init__(self, colony_id: str, capabilities: list[str]):
-            self.colony_id = colony_id
-            self.capabilities = capabilities
-            self.actors = {}
 
-        @abstractmethod
-        def process(self, task: Any) -> Any:
-            """Process a task in the colony"""
+class BaseColony(ABC):
+    """Base class for all agent colonies (stub implementation)"""
 
-        @abstractmethod
-        def reach_consensus(self, proposal: Any) -> ConsensusResult:
-            """Reach consensus on a proposal"""
+    def __init__(self, colony_id: str, capabilities: list[str]):
+        self.colony_id = colony_id
+        self.capabilities = capabilities
+        self.actors = {}
+
+    @abstractmethod
+    def process(self, task: Any) -> Any:
+        """Process a task in the colony"""
+
+    @abstractmethod
+    def reach_consensus(self, proposal: Any) -> ConsensusResult:
+        """Reach consensus on a proposal"""
 
 
 # Import colony types with fallback
 colony_types = {}
 
-# Try to import specific colony types
-colony_imports = [
-    (
-        "MemoryColony",
-        ["candidate.core.colonies.memory_colony", "candidate.colonies.memory"],
-    ),
-    (
-        "GovernanceColony",
-        ["candidate.core.colonies.governance_colony", "candidate.colonies.governance"],
-    ),
-    (
-        "CreativityColony",
-        ["candidate.core.colonies.creativity_colony", "candidate.colonies.creativity"],
-    ),
-    (
-        "ReasoningColony",
-        ["candidate.core.colonies.reasoning_colony", "candidate.colonies.reasoning"],
-    ),
-    (
-        "TemporalColony",
-        ["candidate.core.colonies.temporal_colony", "candidate.colonies.temporal"],
-    ),
-    (
-        "OracleColony",
-        ["candidate.core.colonies.oracle_colony", "candidate.colonies.oracle"],
-    ),
-    (
-        "EthicsSwarmColony",
-        ["candidate.core.colonies.ethics_swarm_colony", "candidate.colonies.ethics"],
-    ),
-]
-
-for colony_name, module_paths in colony_imports:
-    for module_path in module_paths:
-        try:
-            module = importlib.import_module(module_path)
-            if hasattr(module, colony_name):
-                colony_types[colony_name] = getattr(module, colony_name)
-                logger.debug(f"Imported {colony_name} from {module_path}")
-                break
-        except ImportError:
-            continue
+# Stable lane does not import candidate colonies dynamically.
+# If/when stable implementations exist under lukhas.*, they should be added here.
+logger.debug("No dynamic colony imports configured for stable lane")
 
 # Export available colonies
 for name, cls in colony_types.items():
@@ -235,17 +183,11 @@ except ImportError as e:
         LOCAL = "local"
 
 
-# Add SwarmAgent fallback
-# NOTE: Disabled cross-lane import from candidate
-if False:  # Disabled to avoid cross-lane import
-    from candidate.core.swarm import SwarmAgent
-else:
+class SwarmAgent:
+    """Placeholder for swarm agent"""
 
-    class SwarmAgent:
-        """Placeholder for swarm agent"""
-
-        def __init__(self, agent_id: str):
-            self.agent_id = agent_id
+    def __init__(self, agent_id: str):
+        self.agent_id = agent_id
 
 
 # Export public interface

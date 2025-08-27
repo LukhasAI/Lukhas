@@ -29,12 +29,7 @@ try:
 except ImportError:
     WALLET_AVAILABLE = False
 
-# NOTE: Disabled cross-lane import from candidate
-# try:
-#     from candidate.core.orchestration.brain.identity_manager import IdentityManager
-#     IDENTITY_MANAGER_AVAILABLE = True
-# except ImportError:
-#     IDENTITY_MANAGER_AVAILABLE = False
+# Cross-lane imports from `candidate` are not allowed in stable lane.
 IDENTITY_MANAGER_AVAILABLE = False  # Disabled to avoid cross-lane import
 
 logger = logging.getLogger(__name__)

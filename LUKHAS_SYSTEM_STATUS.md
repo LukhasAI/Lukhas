@@ -1,8 +1,8 @@
-# LUKHAS System Status — Reality (SHA: 2d07fecc)
-Generated: Wed Aug 27 16:20:01 BST 2025
-Artifacts: verification_artifacts/2d07fecc/
+# LUKHAS System Status — Reality (SHA: 3a1f65c9)
+Generated: Wed Aug 27 16:35:36 BST 2025
+Artifacts: verification_artifacts/3a1f65c9/
 
 ## Recent Changes
-- ✅ fix(core): resolve indentation errors in colonies module
+- ✅ chore(ci): add lane_guard and audit-status; enable pytest smoke
 
 ## System Status: OPERATIONAL

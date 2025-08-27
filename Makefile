@@ -107,6 +107,7 @@ install:
 setup-hooks:
 	@echo "🔗 Setting up pre-commit hooks..."
 	pre-commit install
+	pre-commit install --install-hooks
 	pre-commit autoupdate
 	@echo "✅ Pre-commit hooks installed!"
 
