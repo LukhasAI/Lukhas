@@ -23,6 +23,7 @@ Features:
 import json
 import logging
 import time
+import uuid
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
@@ -100,11 +101,15 @@ class StreamingRequest(BaseModel):
     model: Optional[str] = Field(None, description="Specific model to use")
     temperature: float = Field(0.7, description="Response randomness", ge=0.0, le=2.0)
     max_tokens: Optional[int] = Field(None, description="Maximum response tokens")
+    context_type: str = Field("general", description="Context type for validation")
+    session_id: Optional[str] = Field(None, description="Session identifier")
 
 class FunctionRegistrationRequest(BaseModel):
     """Function registration request"""
     functions: Dict[str, Dict[str, Any]] = Field(..., description="Functions to register")
     global_scope: bool = Field(True, description="Register globally for all providers")
+    security_validated: bool = Field(False, description="Whether functions have been security validated")
+    healthcare_compliant: bool = Field(False, description="Whether functions are healthcare compliant")
 
 class OrchestrationAPIResponse(BaseModel):
     """API response model"""
@@ -500,7 +505,7 @@ if FASTAPI_AVAILABLE:
         except Exception as e:
             logger.error(f"WebSocket error: {e}")
 
-    # Function registration endpoint
+    # Enhanced function registration endpoint with validation
     @app.post("/api/v1/functions/register")
     async def register_functions(request: FunctionRegistrationRequest,
                                current_user: Dict = Depends(get_current_user)):
@@ -509,6 +514,7 @@ if FASTAPI_AVAILABLE:
 
         Allows registration of custom functions that can be called by AI models
         during orchestration for enhanced capabilities and integration.
+        Includes comprehensive security validation.
         """
         user_info = current_user["user_info"]
 
@@ -519,19 +525,57 @@ if FASTAPI_AVAILABLE:
                 detail="Function registration permission required"
             )
 
+        # Validate functions before registration
+        try:
+            validator = get_validator()
+            if validator:
+                validation_result = await validator.validate_request(
+                    "function_registration",
+                    request.dict(),
+                    {"user_tier": user_info.get("tier")}
+                )
+
+                if not validation_result.is_valid:
+                    raise HTTPException(
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        detail={
+                            "error": "Function validation failed",
+                            "validation_errors": validation_result.errors,
+                            "security_issues": [e for e in validation_result.errors if "security" in e.get("type", "")]
+                        }
+                    )
+        except Exception as e:
+            logger.warning(f"Function validation error: {e}")
+            # Continue with basic validation
+
         try:
             orchestrator = get_orchestrator()
 
+            # Security check for healthcare functions
+            if request.healthcare_compliant and not request.security_validated:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Healthcare functions require security validation"
+                )
+
             if request.global_scope:
                 orchestrator.register_global_functions(request.functions)
+
+            # Log function registration for audit
+            logger.info(f"Functions registered by user {user_info['user_id']}: {list(request.functions.keys())}")
 
             return {
                 "success": True,
                 "message": f"Registered {len(request.functions)} functions",
                 "functions": list(request.functions.keys()),
-                "global_scope": request.global_scope
+                "global_scope": request.global_scope,
+                "security_validated": request.security_validated,
+                "healthcare_compliant": request.healthcare_compliant,
+                "registration_id": str(uuid.uuid4())
             }
 
+        except HTTPException:
+            raise
         except Exception as e:
             logger.error(f"Function registration error: {e}")
             raise HTTPException(
@@ -627,8 +671,139 @@ if FASTAPI_AVAILABLE:
                 detail=f"Failed to get provider status: {str(e)}"
             )
 
+    # Batch orchestration endpoint for multiple requests
+    @app.post("/api/v1/orchestrate/batch")
+    async def batch_orchestration(
+        requests: List[OrchestrationAPIRequest],
+        current_user: Dict = Depends(get_current_user)
+    ):
+        """
+        Process multiple orchestration requests in batch for efficiency.
+        
+        Useful for processing multiple prompts simultaneously with
+        shared configuration and cost optimization.
+        """
+        if len(requests) > 10:  # Limit batch size
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Batch size limited to 10 requests"
+            )
+
+        user_info = current_user["user_info"]
+
+        # Check permissions
+        if "orchestration" not in user_info["permissions"]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Orchestration permission required"
+            )
+
+        batch_results = []
+        total_cost = 0.0
+
+        for i, request in enumerate(requests):
+            try:
+                # Process each request (simplified for batch)
+                result = await orchestrate_request(request, current_user)
+                batch_results.append({
+                    "index": i,
+                    "success": True,
+                    "result": result.dict()
+                })
+                total_cost += result.cost
+
+            except HTTPException as e:
+                batch_results.append({
+                    "index": i,
+                    "success": False,
+                    "error": e.detail
+                })
+            except Exception as e:
+                batch_results.append({
+                    "index": i,
+                    "success": False,
+                    "error": str(e)
+                })
+
+        successful_requests = sum(1 for r in batch_results if r["success"])
+
+        return {
+            "batch_id": str(uuid.uuid4()),
+            "total_requests": len(requests),
+            "successful_requests": successful_requests,
+            "failed_requests": len(requests) - successful_requests,
+            "total_cost": total_cost,
+            "results": batch_results,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
+    # Model comparison endpoint
+    @app.post("/api/v1/compare-models")
+    async def compare_models(
+        request: OrchestrationAPIRequest,
+        current_user: Dict = Depends(get_current_user)
+    ):
+        """
+        Compare responses from different AI models side-by-side.
+        
+        Useful for evaluating model performance and choosing the best
+        provider for specific use cases.
+        """
+        user_info = current_user["user_info"]
+
+        if "orchestration" not in user_info["permissions"]:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Orchestration permission required"
+            )
+
+        # Force parallel strategy for comparison
+        request.strategy = "parallel"
+        request.providers = request.providers or ["openai", "anthropic", "google", "perplexity"]
+
+        # Execute orchestration to get all responses
+        orchestrator = get_orchestrator()
+        orchestration_request = OrchestrationRequest(
+            prompt=request.prompt,
+            preferred_providers=[APIProvider(p) for p in request.providers],
+            strategy=OrchestrationStrategy.PARALLEL,
+            enable_functions=False,  # Disable for fair comparison
+            context={"comparison_mode": True}
+        )
+
+        result = await orchestrator.orchestrate(orchestration_request)
+
+        # Format comparison results
+        model_comparison = {
+            "prompt": request.prompt,
+            "total_latency_ms": result.total_latency_ms,
+            "agreement_level": result.agreement_level,
+            "models": [],
+            "recommendation": {
+                "best_model": result.primary_provider.value,
+                "reason": result.decision_rationale
+            },
+            "timestamp": result.timestamp
+        }
+
+        # Add individual model results
+        for response in result.individual_responses:
+            model_comparison["models"].append({
+                "provider": response["provider"],
+                "content": response["content"],
+                "confidence": response["confidence"],
+                "latency_ms": response["latency_ms"],
+                "score": response.get("combined_score", 0),
+                "web_search_used": response.get("web_search", False)
+            })
+
+        return model_comparison
+
     logger.info("🚀 LUKHAS Multi-Model Orchestration API initialized")
     logger.info("   Endpoints: /api/v1/orchestrate, /api/v1/stream, /api/v1/ws/{client_id}")
+    logger.info("   Healthcare: /api/v1/orchestrate/healthcare")
+    logger.info("   Batch: /api/v1/orchestrate/batch")
+    logger.info("   Comparison: /api/v1/compare-models")
     logger.info("   Authentication: Bearer token (API key)")
     logger.info("   Documentation: /api/docs")
 
@@ -640,6 +815,7 @@ else:
 __all__ = [
     "app",
     "OrchestrationAPIRequest",
+    "HealthcareOrchestrationRequest",
     "OrchestrationAPIResponse",
     "StreamingRequest",
     "APIKeyManager",

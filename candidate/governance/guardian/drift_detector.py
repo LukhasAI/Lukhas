@@ -1159,6 +1159,39 @@ class AdvancedDriftDetector:
 
         return report
 
+    async def _update_metrics(self, measurement: DriftMeasurement) -> None:
+        """Update drift detection metrics with new measurement"""
+        try:
+            # Update metrics based on measurement
+            self.metrics["total_measurements"] += 1
+
+            # Update severity metrics
+            severity_key = f"{measurement.severity.value}_count"
+            self.metrics[severity_key] = self.metrics.get(severity_key, 0) + 1
+
+            # Update type metrics
+            type_key = f"{measurement.drift_type.value}_measurements"
+            self.metrics[type_key] = self.metrics.get(type_key, 0) + 1
+
+            # Update drift score statistics
+            if "drift_scores" not in self.metrics:
+                self.metrics["drift_scores"] = []
+
+            self.metrics["drift_scores"].append(measurement.drift_score)
+
+            # Keep only recent scores (last 100)
+            if len(self.metrics["drift_scores"]) > 100:
+                self.metrics["drift_scores"] = self.metrics["drift_scores"][-100:]
+
+            # Calculate running statistics
+            scores = self.metrics["drift_scores"]
+            self.metrics["avg_drift_score"] = sum(scores) / len(scores)
+            self.metrics["max_drift_score"] = max(scores)
+            self.metrics["min_drift_score"] = min(scores)
+
+        except Exception as e:
+            logger.warning(f"⚠️ Metrics update failed: {e}")
+
     async def get_system_metrics(self) -> dict[str, Any]:
         """Get drift detection system metrics"""
         return self.metrics.copy()
