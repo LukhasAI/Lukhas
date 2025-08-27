@@ -22,15 +22,7 @@ from lukhas.core.agi.self_healing import (
     SystemFailure,
 )
 
-# from lukhas.governance.guardian import GuardianSystem  # TODO: Fix import
-
-# Temporary mock for Guardian System
-class GuardianSystem:
-    def __init__(self, drift_threshold=0.15):
-        self.drift_threshold = drift_threshold
-
-    async def check_drift(self, data):
-        return 0.1  # Mock drift score below threshold
+from candidate.governance.guardian import GuardianSystem
 
 logger = logging.getLogger(__name__)
 
