@@ -1,6 +1,6 @@
 import unittest
 import base64
-from fastapi.testclient import TestClient
+from starlette.testclient import TestClient
 
 # Import the FastAPI app and the auth system
 from public_api import app

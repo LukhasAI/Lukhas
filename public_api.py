@@ -23,7 +23,7 @@ import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
@@ -142,14 +142,15 @@ class ChatRequest(BaseModel):
     session_id: Optional[str] = Field(None, description="Session ID for conversation continuity")
     context: Optional[dict[str, Any]] = Field(None, description="Additional context")
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "message": "What is consciousness technology?",
                 "session_id": "session_123",
                 "context": {"user_preferences": {"style": "detailed"}}
             }
         }
+    )
 
 class ChatResponse(BaseModel):
     """Consciousness interface response"""
@@ -164,14 +165,15 @@ class DreamRequest(BaseModel):
     symbols: Optional[list[str]] = Field(None, description="Symbolic elements to include")
     style: Optional[str] = Field("mystical", description="Dream style: mystical, technical, creative")
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "prompt": "A vision of quantum consciousness awakening",
                 "symbols": ["⚛️", "🧠", "🌌"],
                 "style": "mystical"
             }
         }
+    )
 
 class DreamResponse(BaseModel):
     """Dream generation response"""

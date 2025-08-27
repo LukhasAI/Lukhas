@@ -10,6 +10,7 @@ passlib>=1.7.4
 # Web Framework for Testing
 flask>=2.3.0
 flask-testing>=0.8.1
+fastapi>=0.104.0
 click>=8.0.0
 
 # Additional Testing Tools
