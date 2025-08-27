@@ -54,13 +54,13 @@ except ImportError:
             consensus_reached: bool
             decision: Any
             confidence: float
-            votes: Dict[str, Any]
+            votes: dict[str, Any]
             participation_rate: float
-            dissent_reasons: List[str] = field(default_factory=list)
+            dissent_reasons: list[str] = field(default_factory=list)
 
         class BaseColony(ABC):
             """Base class for all agent colonies (stub implementation)"""
-            def __init__(self, colony_id: str, capabilities: List[str]):
+            def __init__(self, colony_id: str, capabilities: list[str]):
                 self.colony_id = colony_id
                 self.capabilities = capabilities
                 self.actors = {}
@@ -107,7 +107,7 @@ for name, cls in colony_types.items():
 
 
 # Helper functions for colony management
-def create_colony(colony_type: str, colony_id: str, capabilities: Optional[List[str]] = None) -> BaseColony:
+def create_colony(colony_type: str, colony_id: str, capabilities: Optional[list[str]] = None) -> BaseColony:
     """
     Factory function to create a colony instance.
 
@@ -126,7 +126,7 @@ def create_colony(colony_type: str, colony_id: str, capabilities: Optional[List[
     return colony_class(colony_id, capabilities or [])
 
 
-def list_available_colonies() -> List[str]:
+def list_available_colonies() -> list[str]:
     """Get list of available colony types"""
     return list(colony_types.keys())
 

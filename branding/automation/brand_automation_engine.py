@@ -11,7 +11,7 @@ import sys
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -25,7 +25,7 @@ class AutomationTask:
     task_type: str
     schedule: str
     target_system: str
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
     last_run: Optional[str] = None
     success_rate: float = 100.0
     enabled: bool = True
@@ -147,7 +147,7 @@ class BrandAutomationEngine:
         with open(self.config_path, 'w') as f:
             json.dump(config_data, f, indent=2)
 
-    async def run_voice_coherence_check(self, parameters: Dict[str, Any]) -> Dict[str, Any]:
+    async def run_voice_coherence_check(self, parameters: dict[str, Any]) -> dict[str, Any]:
         """Automated voice coherence checking and optimization"""
         self.logger.info("🎯 Running voice coherence check...")
 
@@ -193,13 +193,11 @@ class BrandAutomationEngine:
 
         return result
 
-    async def _improve_voice_coherence(self, content: Dict[str, Any]) -> float:
+    async def _improve_voice_coherence(self, content: dict[str, Any]) -> float:
         """Improve voice coherence for content"""
         content_text = content.get('content', '')
 
         # Simple coherence improvement algorithm
-        trinity_terms = ['⚛️🧠🛡️', 'Trinity Framework', 'consciousness technology']
-        lukhas_terms = ['LUKHAS AI', 'quantum-inspired', 'bio-inspired']
 
         improvements = 0
 
@@ -221,7 +219,7 @@ class BrandAutomationEngine:
 
         return new_coherence
 
-    async def run_brand_consistency_scan(self, parameters: Dict[str, Any]) -> Dict[str, Any]:
+    async def run_brand_consistency_scan(self, parameters: dict[str, Any]) -> dict[str, Any]:
         """Automated brand consistency scanning"""
         self.logger.info("🔍 Running brand consistency scan...")
 
@@ -271,7 +269,7 @@ class BrandAutomationEngine:
 
         return result
 
-    async def run_social_media_generation(self, parameters: Dict[str, Any]) -> Dict[str, Any]:
+    async def run_social_media_generation(self, parameters: dict[str, Any]) -> dict[str, Any]:
         """Automated social media content generation"""
         self.logger.info("📱 Running social media content generation...")
 
@@ -281,7 +279,7 @@ class BrandAutomationEngine:
         generated_posts = []
 
         # Get recent content for inspiration
-        recent_content = db.get_all_content(10)
+        db.get_all_content(10)
 
         post_templates = [
             "🚀 LUKHAS AI consciousness technology continues to evolve! {topic} {trinity}",
@@ -335,7 +333,7 @@ class BrandAutomationEngine:
 
         return result
 
-    async def run_performance_optimization(self, parameters: Dict[str, Any]) -> Dict[str, Any]:
+    async def run_performance_optimization(self, parameters: dict[str, Any]) -> dict[str, Any]:
         """Automated performance monitoring and optimization"""
         self.logger.info("⚡ Running performance optimization...")
 
@@ -368,7 +366,7 @@ class BrandAutomationEngine:
 
         return result
 
-    async def run_self_healing_check(self, parameters: Dict[str, Any]) -> Dict[str, Any]:
+    async def run_self_healing_check(self, parameters: dict[str, Any]) -> dict[str, Any]:
         """Automated self-healing system check"""
         self.logger.info("🔧 Running self-healing check...")
 
@@ -402,7 +400,7 @@ class BrandAutomationEngine:
 
         return result
 
-    async def _detect_naming_issues(self) -> List[str]:
+    async def _detect_naming_issues(self) -> list[str]:
         """Detect naming consistency issues"""
         issues = []
 
@@ -416,7 +414,7 @@ class BrandAutomationEngine:
 
         return issues[:10]  # Limit to 10 issues
 
-    async def _detect_outdated_content(self) -> List[str]:
+    async def _detect_outdated_content(self) -> list[str]:
         """Detect outdated content that needs updating"""
         actions = []
 
@@ -439,7 +437,7 @@ class BrandAutomationEngine:
 
         return actions
 
-    async def run_automation_cycle(self) -> Dict[str, Any]:
+    async def run_automation_cycle(self) -> dict[str, Any]:
         """Run complete automation cycle"""
         self.logger.info("🚀 Starting automation cycle...")
 
@@ -503,7 +501,7 @@ class BrandAutomationEngine:
 
         return summary
 
-    def get_automation_status(self) -> Dict[str, Any]:
+    def get_automation_status(self) -> dict[str, Any]:
         """Get current automation status"""
         status = {
             'engine_status': 'active',

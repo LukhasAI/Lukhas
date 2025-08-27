@@ -7,7 +7,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 __module__ = "bio.awareness"
 __trinity__ = "⚛️🧠🛡️"
@@ -30,7 +30,7 @@ class BioAwareness:
         self.history = []
         self.timestamp = datetime.now()
 
-    def sense(self, input_data: Any) -> Dict[str, Any]:
+    def sense(self, input_data: Any) -> dict[str, Any]:
         """Process sensory input"""
         self.history.append(input_data)
         return {

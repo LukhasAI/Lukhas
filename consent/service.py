@@ -19,7 +19,7 @@ import json
 import secrets
 import time
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import asyncpg
 from pydantic import BaseModel, Field, validator
@@ -37,7 +37,7 @@ class ConsentGrantRequest(BaseModel):
     """Request model for granting consent"""
     lid: str = Field(..., description="Canonical ΛID")
     service: str = Field(..., description="Service name (gmail, drive, etc.)")
-    scopes: List[str] = Field(..., description="Requested scopes")
+    scopes: list[str] = Field(..., description="Requested scopes")
     purpose: str = Field(..., description="Human-readable purpose")
     ttl_minutes: int = Field(60, description="Time-to-live in minutes")
     resource_pattern: Optional[str] = Field(None, description="Resource filter pattern")
@@ -60,7 +60,7 @@ class ConsentRevokeRequest(BaseModel):
     lid: str = Field(..., description="Canonical ΛID")
     grant_id: Optional[str] = Field(None, description="Specific grant ID to revoke")
     service: Optional[str] = Field(None, description="Service name filter")
-    scopes: Optional[List[str]] = Field(None, description="Scope name filters")
+    scopes: Optional[list[str]] = Field(None, description="Scope name filters")
     reason: str = Field("User requested", description="Revocation reason")
 
 
@@ -68,9 +68,9 @@ class CapabilityToken(BaseModel):
     """Capability token with macaroon caveats"""
     token: str = Field(..., description="Macaroon token string")
     expires_at: datetime = Field(..., description="Token expiration")
-    scopes: List[str] = Field(..., description="Granted scopes")
-    resource_ids: Optional[List[str]] = Field(None, description="Specific resource IDs")
-    caveats: Dict[str, Any] = Field(..., description="Token caveats/restrictions")
+    scopes: list[str] = Field(..., description="Granted scopes")
+    resource_ids: Optional[list[str]] = Field(None, description="Specific resource IDs")
+    caveats: dict[str, Any] = Field(..., description="Token caveats/restrictions")
 
 
 class ConsentLedgerEntry(BaseModel):
@@ -78,7 +78,7 @@ class ConsentLedgerEntry(BaseModel):
     grant_id: str
     service: str
     purpose: str
-    scopes: List[str]
+    scopes: list[str]
     granted_at: datetime
     expires_at: datetime
     last_used_at: Optional[datetime]
@@ -124,8 +124,8 @@ class ConsentService:
         self,
         request: ConsentGrantRequest,
         client_ip: Optional[str] = None,
-        client_context: Dict[str, Any] = None
-    ) -> Tuple[str, CapabilityToken]:
+        client_context: dict[str, Any] = None
+    ) -> tuple[str, CapabilityToken]:
         """
         Grant consent and issue capability token.
 
@@ -237,7 +237,7 @@ class ConsentService:
         lid: str,
         service: Optional[str] = None,
         active_only: bool = True
-    ) -> List[ConsentLedgerEntry]:
+    ) -> list[ConsentLedgerEntry]:
         """
         Get human-readable consent ledger for user.
         """
@@ -282,9 +282,9 @@ class ConsentService:
     async def verify_capability_token(
         self,
         token: str,
-        required_scopes: List[str],
+        required_scopes: list[str],
         resource_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Verify capability token and check caveats.
 
@@ -357,7 +357,7 @@ class ConsentService:
 
         return capability_token
 
-    async def cleanup_expired(self) -> Dict[str, int]:
+    async def cleanup_expired(self) -> dict[str, int]:
         """Clean up expired grants and tokens"""
         async with self.db_pool.acquire() as conn:
             result = await conn.fetchrow("SELECT * FROM consent.cleanup_expired()")
@@ -368,7 +368,7 @@ class ConsentService:
 
     # Private helper methods
 
-    async def _validate_service_and_scopes(self, conn, service_name: str, scopes: List[str]) -> Dict:
+    async def _validate_service_and_scopes(self, conn, service_name: str, scopes: list[str]) -> dict:
         """Validate that service and scopes exist"""
         service_query = """
             SELECT s.service_id, s.service_name, s.max_scope_level,
@@ -392,7 +392,7 @@ class ConsentService:
 
         return dict(service_info)
 
-    def _calculate_effective_ttl(self, scope_levels: List[str], requested_ttl: int) -> int:
+    def _calculate_effective_ttl(self, scope_levels: list[str], requested_ttl: int) -> int:
         """Calculate effective TTL based on scope security levels"""
         max_level = 'metadata'
 
@@ -413,7 +413,7 @@ class ConsentService:
 
     async def _issue_capability_token(
         self, conn, grant_id: str, lid: str, service: str,
-        scopes: List[str], ttl_minutes: int, resource_pattern: Optional[str],
+        scopes: list[str], ttl_minutes: int, resource_pattern: Optional[str],
         client_ip: Optional[str]
     ) -> CapabilityToken:
         """Issue capability token with macaroon caveats"""
@@ -478,7 +478,7 @@ class ConsentService:
             caveats=caveats
         )
 
-    def _verify_macaroon(self, macaroon, required_scopes: List[str], resource_id: Optional[str]) -> Dict[str, Any]:
+    def _verify_macaroon(self, macaroon, required_scopes: list[str], resource_id: Optional[str]) -> dict[str, Any]:
         """Verify macaroon caveats (production implementation)"""
         # In production: implement full macaroon verification
         # For now, extract basic claims
@@ -516,7 +516,7 @@ class ConsentService:
             'resource_pattern': caveat_dict.get('resource_pattern')
         }
 
-    def _mock_verify_token(self, token: str, required_scopes: List[str], resource_id: Optional[str]) -> Dict[str, Any]:
+    def _mock_verify_token(self, token: str, required_scopes: list[str], resource_id: Optional[str]) -> dict[str, Any]:
         """Mock token verification for development"""
         if not token.startswith('mock_macaroon_'):
             raise ValueError("Invalid mock token format")
@@ -551,7 +551,7 @@ class ConsentService:
         except (json.JSONDecodeError, KeyError) as e:
             raise ValueError(f"Invalid mock token data: {e}")
 
-    def _get_content_escalation_scopes(self, service: str) -> List[str]:
+    def _get_content_escalation_scopes(self, service: str) -> list[str]:
         """Get appropriate content scopes for escalation"""
         escalation_map = {
             'gmail': ['email.read.content'],
@@ -577,11 +577,11 @@ class ConsentService:
 
     async def _log_audit_event(
         self, conn, event_type: str, user_lid: str, service_name: str,
-        grant_id: Optional[str] = None, scopes: Optional[List[str]] = None,
+        grant_id: Optional[str] = None, scopes: Optional[list[str]] = None,
         purpose: Optional[str] = None, resource_identifier: Optional[str] = None,
         client_ip: Optional[str] = None, processing_time_ms: Optional[float] = None,
         success: bool = True, error_message: Optional[str] = None,
-        metadata: Optional[Dict] = None
+        metadata: Optional[dict] = None
     ):
         """Log audit event"""
         await conn.execute("""

@@ -11,7 +11,7 @@ import subprocess
 import time
 from collections.abc import Iterable
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 AUDIT_DIR = os.path.join(STATE, "audit"); os.makedirs(AUDIT_DIR, exist_ok=True)
@@ -29,7 +29,7 @@ _ORIG_RMDIR = os.rmdir
 def _now() -> float: return time.time()
 def _sha(s: str) -> str: return hashlib.sha256(s.encode("utf-8")).hexdigest()
 
-def _audit_write(kind: str, rec: Dict[str, Any]):
+def _audit_write(kind: str, rec: dict[str, Any]):
     """Write audit JSONL using original OS functions to avoid FileGuard recursion."""
     try:
         payload = {"ts": _now(), "kind": kind, **rec}
@@ -45,16 +45,16 @@ def _audit_write(kind: str, rec: Dict[str, Any]):
 @dataclass
 class Lease:
     subject: str                 # e.g., "user:gonzalo" or "service:api"
-    caps: List[str]              # e.g., ["net", "fs:read:/data/*.json", "api:google", "fs:write:/tmp/**"]
+    caps: list[str]              # e.g., ["net", "fs:read:/data/*.json", "api:google", "fs:write:/tmp/**"]
     ttl_sec: int                 # seconds from issued_at
     issued_at: float
-    meta: Dict[str, Any]
+    meta: dict[str, Any]
 
     @property
     def expires_at(self) -> float:
         return self.issued_at + self.ttl_sec
 
-    def alive(self, now: Optional[float] = None) -> bool:
+    def alive(self, now: float | None = None) -> bool:
         return (now or _now()) < self.expires_at
 
 class CapError(Exception): pass
@@ -72,13 +72,13 @@ class CapManager:
     """
     def __init__(self, persist_path: str = LEASES_PATH):
         self.persist_path = persist_path
-        self._leases: Dict[str, List[Lease]] = self._load()
+        self._leases: dict[str, list[Lease]] = self._load()
 
-    def _load(self) -> Dict[str, List[Lease]]:
+    def _load(self) -> dict[str, list[Lease]]:
         try:
             with _ORIG_OPEN(self.persist_path, "r", encoding="utf-8") as f:
                 raw = json.load(f)
-            out: Dict[str, List[Lease]] = {}
+            out: dict[str, list[Lease]] = {}
             for subj, arr in raw.items():
                 out[subj] = [Lease(**x) for x in arr]
             return out
@@ -93,14 +93,14 @@ class CapManager:
             json.dump(payload, f, indent=2)
         os.replace(tmp, self.persist_path)
 
-    def grant(self, subject: str, caps: List[str], ttl_sec: int, meta: Optional[Dict[str,Any]] = None, persist: bool = False) -> Lease:
+    def grant(self, subject: str, caps: list[str], ttl_sec: int, meta: dict[str, Any] | None = None, persist: bool = False) -> Lease:
         lease = Lease(subject=subject, caps=list(dict.fromkeys(caps)), ttl_sec=int(ttl_sec), issued_at=_now(), meta=meta or {})
         self._leases.setdefault(subject, []).append(lease)
         if persist: self._save()
         _audit_write("lease_grant", {"subject": subject, "caps": lease.caps, "ttl_sec": ttl_sec, "persist": persist})
         return lease
 
-    def revoke(self, subject: str, cap_prefix: Optional[str] = None, persist: bool = False) -> int:
+    def revoke(self, subject: str, cap_prefix: str | None = None, persist: bool = False) -> int:
         arr = self._leases.get(subject, [])
         before = len(arr)
         if cap_prefix is None:
@@ -113,7 +113,7 @@ class CapManager:
         _audit_write("lease_revoke", {"subject": subject, "cap_prefix": cap_prefix, "removed": removed})
         return removed
 
-    def list(self, subject: str, now: Optional[float] = None) -> List[Lease]:
+    def list(self, subject: str, now: float | None = None) -> list[Lease]:
         now = now or _now()
         return [l for l in self._leases.get(subject, []) if l.alive(now)]
 
@@ -155,16 +155,16 @@ class CapManager:
 # ----------------- ENV & FS sandbox -----------------
 @dataclass
 class EnvSpec:
-    allow: List[str] = None        # prefixes allowed
-    inject: Dict[str, str] = None  # explicit env vars
+    allow: list[str] = None        # prefixes allowed
+    inject: dict[str, str] = None  # explicit env vars
 
 @dataclass
 class FsSpec:
-    read: List[str] = None   # glob patterns
-    write: List[str] = None  # glob patterns
-    cwd: Optional[str] = None
+    read: list[str] = None   # glob patterns
+    write: list[str] = None  # glob patterns
+    cwd: str | None = None
 
-def _env_build(spec: Optional[EnvSpec]) -> Dict[str, str]:
+def _env_build(spec: EnvSpec | None) -> dict[str, str]:
     base = {}
     if spec and spec.inject:
         base.update(spec.inject)
@@ -176,10 +176,7 @@ def _env_build(spec: Optional[EnvSpec]) -> Dict[str, str]:
 
 def _check_path_allowed(path: str, allowed_globs: Iterable[str]) -> bool:
     ap = os.path.abspath(path)
-    for patt in allowed_globs:
-        if fnmatch.fnmatch(ap, os.path.abspath(patt)):
-            return True
-    return False
+    return any(fnmatch.fnmatch(ap, os.path.abspath(patt)) for patt in allowed_globs)
 
 class FileGuard:
     """
@@ -264,8 +261,8 @@ class SandboxPlan:
     subject: str
     env: EnvSpec
     fs: FsSpec
-    require: List[str]  # caps to check before run
-    meta: Dict[str, Any]
+    require: list[str]  # caps to check before run
+    meta: dict[str, Any]
 
 class Sandbox:
     def __init__(self, manager: CapManager):
@@ -295,7 +292,7 @@ class Sandbox:
             finally:
                 _audit_write("sandbox_exit", {"subject": plan.subject})
 
-    def run_cmd(self, plan: SandboxPlan, cmd: List[str], timeout: Optional[int] = None) -> Tuple[int, str]:
+    def run_cmd(self, plan: SandboxPlan, cmd: list[str], timeout: int | None = None) -> tuple[int, str]:
         with self.activate(plan) as env:
             # merge env with minimal PATH (unless provided)
             if "PATH" not in env:

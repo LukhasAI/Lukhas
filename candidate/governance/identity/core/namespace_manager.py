@@ -24,7 +24,7 @@ import secrets
 import time
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class NamespaceType(Enum):
@@ -41,7 +41,7 @@ class NamespaceType(Enum):
 class NamespacePolicy:
     """Namespace security and access policies"""
 
-    def __init__(self, policy_data: Dict[str, Any]):
+    def __init__(self, policy_data: dict[str, Any]):
         self.namespace_id = policy_data.get('namespace_id', '')
         self.access_control = policy_data.get('access_control', 'strict')
         self.cross_namespace_allowed = policy_data.get('cross_namespace_allowed', False)
@@ -55,7 +55,7 @@ class NamespacePolicy:
         self.created_at = policy_data.get('created_at', datetime.utcnow().isoformat())
         self.updated_at = policy_data.get('updated_at', datetime.utcnow().isoformat())
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert policy to dictionary"""
         return {
             'namespace_id': self.namespace_id,
@@ -76,7 +76,7 @@ class NamespacePolicy:
 class IdentityNamespace:
     """Identity namespace with isolation and security properties"""
 
-    def __init__(self, namespace_data: Dict[str, Any]):
+    def __init__(self, namespace_data: dict[str, Any]):
         self.namespace_id = namespace_data.get('namespace_id', '')
         self.parent_namespace = namespace_data.get('parent_namespace', '')
         self.namespace_type = NamespaceType(namespace_data.get('namespace_type', 'tenant'))
@@ -98,7 +98,7 @@ class IdentityNamespace:
         self.cache_ttl = namespace_data.get('cache_ttl', 300)
         self.rate_limit_per_minute = namespace_data.get('rate_limit_per_minute', 1000)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert namespace to dictionary"""
         return {
             'namespace_id': self.namespace_id,
@@ -139,13 +139,13 @@ class IdentityNamespace:
 class NamespaceManager:
     """⚛️🧠🛡️ Trinity-compliant namespace manager for identity isolation"""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
 
         # Storage (in production, would use database)
-        self.namespaces: Dict[str, IdentityNamespace] = {}
-        self.policies: Dict[str, NamespacePolicy] = {}
-        self.cross_namespace_mappings: Dict[str, Dict[str, str]] = {}
+        self.namespaces: dict[str, IdentityNamespace] = {}
+        self.policies: dict[str, NamespacePolicy] = {}
+        self.cross_namespace_mappings: dict[str, dict[str, str]] = {}
 
         # Performance optimization
         self.resolution_cache = {}
@@ -213,7 +213,7 @@ class NamespaceManager:
     def resolve_namespace(
         self,
         domain_or_identifier: str,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None
     ) -> Optional[IdentityNamespace]:
         """⚛️ Resolve namespace from domain or identifier"""
         try:
@@ -271,8 +271,8 @@ class NamespaceManager:
         display_name: str,
         owner_id: str,
         parent_namespace: Optional[str] = None,
-        metadata: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        metadata: Optional[dict] = None
+    ) -> dict[str, Any]:
         """🏠 Create new identity namespace"""
         try:
             start_time = time.time()
@@ -382,9 +382,9 @@ class NamespaceManager:
     def update_namespace_policy(
         self,
         namespace_id: str,
-        policy_updates: Dict[str, Any],
+        policy_updates: dict[str, Any],
         updater_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """🔄 Update namespace policy"""
         try:
             if namespace_id not in self.policies:
@@ -431,9 +431,9 @@ class NamespaceManager:
         self,
         source_namespace: str,
         target_namespace: str,
-        identity_mapping: Dict[str, str],
+        identity_mapping: dict[str, str],
         creator_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """🔗 Create cross-namespace identity mapping"""
         try:
             # Validate both namespaces exist
@@ -519,7 +519,7 @@ class NamespaceManager:
         self,
         namespace_type: Optional[NamespaceType] = None,
         parent_namespace: Optional[str] = None
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """📋 List namespaces with optional filtering"""
         namespaces = []
 
@@ -547,7 +547,7 @@ class NamespaceManager:
 
         return sorted(namespaces, key=lambda x: x['namespace_id'])
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """📊 Get namespace system status"""
         total_namespaces = len(self.namespaces)
         active_namespaces = sum(1 for ns in self.namespaces.values() if ns.active)
@@ -604,7 +604,7 @@ class NamespaceManager:
 
         return identifier
 
-    def _resolve_by_pattern(self, identifier: str, context: Optional[Dict] = None) -> Optional[IdentityNamespace]:
+    def _resolve_by_pattern(self, identifier: str, context: Optional[dict] = None) -> Optional[IdentityNamespace]:
         """Resolve namespace by pattern matching"""
         # Try exact match first
         for namespace_id, namespace in self.namespaces.items():

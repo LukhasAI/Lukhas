@@ -5,7 +5,7 @@ This module provides integration points for Kaiser Permanente's
 comprehensive healthcare system, including both insurance and healthcare delivery.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ....interfaces.ehr_interface import EHRInterface
 from ....security.security_utils import AuditLogger, EncryptionHandler
@@ -14,7 +14,7 @@ from ....security.security_utils import AuditLogger, EncryptionHandler
 class KaiserPermanenteInterface(EHRInterface):
     """Implementation of EHR interface for Kaiser Permanente"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize Kaiser Permanente interface with configuration
 
@@ -44,7 +44,7 @@ class KaiserPermanenteInterface(EHRInterface):
             if field not in self.config:
                 raise ValueError(f"Missing required Kaiser configuration: {field}")
 
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize connection to Kaiser Permanente systems"""
         # Implement Kaiser-specific initialization
         # - Set up Epic integration
@@ -54,7 +54,7 @@ class KaiserPermanenteInterface(EHRInterface):
 
     async def get_patient_record(self,
                                patient_id: str,
-                               record_types: Optional[List[str]] = None) -> Dict[str, Any]:
+                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from Kaiser
 
@@ -72,7 +72,7 @@ class KaiserPermanenteInterface(EHRInterface):
 
     async def check_member_eligibility(self,
                                     member_id: str,
-                                    service_type: str) -> Dict[str, Any]:
+                                    service_type: str) -> dict[str, Any]:
         """
         Check member eligibility for services
 
@@ -90,14 +90,14 @@ class KaiserPermanenteInterface(EHRInterface):
 
     async def schedule_appointment(self,
                                 member_id: str,
-                                appointment_data: Dict[str, Any]) -> str:
+                                appointment_data: dict[str, Any]) -> str:
         """Schedule appointment in Kaiser system"""
         # Implement appointment scheduling
         pass
 
     async def get_lab_results(self,
                             patient_id: str,
-                            test_codes: List[str]) -> List[Dict[str, Any]]:
+                            test_codes: list[str]) -> list[dict[str, Any]]:
         """Retrieve lab results from Kaiser HealthConnect"""
         self.audit.log_access(
             user_id=self.config['facility_id'],
@@ -109,7 +109,7 @@ class KaiserPermanenteInterface(EHRInterface):
 
     async def send_prescription(self,
                               patient_id: str,
-                              prescription_data: Dict[str, Any]) -> str:
+                              prescription_data: dict[str, Any]) -> str:
         """Send prescription to Kaiser pharmacy"""
         self.audit.log_access(
             user_id=self.config['facility_id'],

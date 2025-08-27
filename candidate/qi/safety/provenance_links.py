@@ -6,7 +6,7 @@ import json
 import os
 import re
 import urllib.parse
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 
@@ -15,7 +15,7 @@ _S3_RE = re.compile(r"^s3://([^/]+)/(.+)$")
 _GS_RE = re.compile(r"^gs://([^/]+)/(.+)$")
 _FILE_RE = re.compile(r"^file://(.+)$")
 
-def _parse_storage_url(url: str) -> Tuple[str, str, str]:
+def _parse_storage_url(url: str) -> tuple[str, str, str]:
     """
     Returns (scheme, bucket_or_root, key_or_path).
     Supports s3://, gs://, file://
@@ -29,14 +29,14 @@ def _parse_storage_url(url: str) -> Tuple[str, str, str]:
         return ("file", os.path.dirname(p) or "/", os.path.basename(p))
     raise ValueError(f"Unsupported storage_url: {url}")
 
-def _load_record_by_sha(sha: str) -> Dict[str, Any]:
+def _load_record_by_sha(sha: str) -> dict[str, Any]:
     rec_path = os.path.join(STATE, "provenance", "records", sha[:2], f"{sha}.json")
     if not os.path.exists(rec_path):
         raise FileNotFoundError(f"Record not found: {rec_path}")
     return json.load(open(rec_path, encoding="utf-8"))
 
 # ---------- S3 presign ----------
-def _s3_presign(bucket: str, key: str, expires: int, *, filename: Optional[str], content_type: Optional[str]) -> str:
+def _s3_presign(bucket: str, key: str, expires: int, *, filename: str | None, content_type: str | None) -> str:
     try:
         import boto3  # type: ignore
     except Exception as e:
@@ -54,7 +54,7 @@ def _s3_presign(bucket: str, key: str, expires: int, *, filename: Optional[str],
     )
 
 # ---------- GCS presign (V4) ----------
-def _gcs_presign(bucket: str, key: str, expires: int, *, filename: Optional[str], content_type: Optional[str]) -> str:
+def _gcs_presign(bucket: str, key: str, expires: int, *, filename: str | None, content_type: str | None) -> str:
     try:
         from google.cloud import storage  # type: ignore
     except Exception as e:
@@ -82,9 +82,9 @@ def presign_url(
     storage_url: str,
     *,
     expires: int = 900,
-    filename: Optional[str] = None,
-    content_type: Optional[str] = None,
-) -> Dict[str, Any]:
+    filename: str | None = None,
+    content_type: str | None = None,
+) -> dict[str, Any]:
     """
     Return a dict: {"url": ..., "expires_in": seconds, "backend": "s3|gcs|file", "note": "..."}.
     """
@@ -106,11 +106,11 @@ def presign_url(
     raise ValueError(f"Unsupported scheme for {storage_url}")
 
 def presign_for_record(
-    record_or_sha: Dict[str, Any] | str,
+    record_or_sha: dict[str, Any] | str,
     *,
     expires: int = 900,
-    filename: Optional[str] = None,
-) -> Dict[str, Any]:
+    filename: str | None = None,
+) -> dict[str, Any]:
     """
     Accepts:
       - sha (str): loads record from ~/.lukhas/state/provenance/records/..

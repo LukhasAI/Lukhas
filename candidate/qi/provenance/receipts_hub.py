@@ -6,7 +6,7 @@ import json
 import os
 import sys
 import time
-from typing import Any, Dict
+from typing import Any
 
 from qi.provenance.receipt_standard import build_receipt, to_json
 
@@ -16,6 +16,7 @@ os.makedirs(OUT_DIR, exist_ok=True)
 
 # ---- safe I/O (avoid sandbox recursion) ----
 import builtins
+import contextlib
 
 _ORIG_OPEN = builtins.open
 
@@ -49,10 +50,10 @@ def _s3():
     cli = boto3.client("s3")
     return (cli, (bucket, prefix))
 
-def _stable_key(d: Dict[str, Any]) -> str:
+def _stable_key(d: dict[str, Any]) -> str:
     return hashlib.sha256(json.dumps({"id": d.get("id")}, sort_keys=True).encode()).hexdigest()
 
-def emit_receipt(**kwargs) -> Dict[str, Any]:
+def emit_receipt(**kwargs) -> dict[str, Any]:
     """
     Build, persist locally, and push to configured sinks.
     Returns the JSON dict.
@@ -85,10 +86,8 @@ def emit_receipt(**kwargs) -> Dict[str, Any]:
         bucket, prefix = s3cfg
         ymd = time.strftime("%Y%m%d", time.gmtime(data.get("created_at", time.time())))
         key = f"{prefix.rstrip('/')}/{ymd}/{r.id}.json"
-        try:
+        with contextlib.suppress(Exception):
             cli.put_object(Bucket=bucket, Key=key, Body=json.dumps(data).encode("utf-8"), ContentType="application/json")
-        except Exception:
-            pass
 
     return data
 

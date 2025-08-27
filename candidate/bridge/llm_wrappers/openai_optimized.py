@@ -16,7 +16,7 @@ from collections import OrderedDict, deque
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import openai
 from openai import AsyncOpenAI, OpenAI
@@ -37,7 +37,7 @@ class CacheEntry:
     """Cache entry for API responses"""
     key: str
     prompt: str
-    response: Dict[str, Any]
+    response: dict[str, Any]
     timestamp: float
     ttl: float  # Time to live in seconds
     hits: int = 0
@@ -66,7 +66,7 @@ class RateLimitConfig:
     backoff_multiplier: float = 2.0
 
     # Model-specific limits
-    model_limits: Dict[str, Dict[str, int]] = field(default_factory=lambda: {
+    model_limits: dict[str, dict[str, int]] = field(default_factory=lambda: {
         "gpt-4": {"rpm": 40, "tpm": 40000},
         "gpt-3.5-turbo": {"rpm": 90, "tpm": 90000},
         "text-embedding-ada-002": {"rpm": 1000, "tpm": 1000000}
@@ -183,7 +183,7 @@ class OptimizedOpenAIClient:
         self,
         key: str,
         prompt: str,
-        response: Dict[str, Any],
+        response: dict[str, Any],
         model: str,
         tokens_used: int
     ):
@@ -283,7 +283,7 @@ class OptimizedOpenAIClient:
         temperature: float = 0.7,
         use_cache: bool = True,
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Complete a prompt with caching and rate limiting.
 
@@ -357,7 +357,7 @@ class OptimizedOpenAIClient:
         text: str,
         model: str = "text-embedding-ada-002",
         use_cache: bool = True
-    ) -> List[float]:
+    ) -> list[float]:
         """
         Generate embeddings with caching.
 
@@ -467,7 +467,7 @@ class OptimizedOpenAIClient:
         except Exception as e:
             logger.error(f"Failed to load cache: {e}")
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get client statistics"""
         cache_hit_rate = (
             self.stats["cache_hits"] / (self.stats["cache_hits"] + self.stats["cache_misses"])
@@ -507,11 +507,11 @@ class BatchProcessor:
 
     async def process_batch(
         self,
-        prompts: List[str],
+        prompts: list[str],
         model: str = "gpt-3.5-turbo",
         max_concurrent: int = 5,
         **kwargs
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Process multiple prompts concurrently with rate limiting.
 
@@ -526,7 +526,7 @@ class BatchProcessor:
         """
         semaphore = asyncio.Semaphore(max_concurrent)
 
-        async def process_one(prompt: str) -> Dict[str, Any]:
+        async def process_one(prompt: str) -> dict[str, Any]:
             async with semaphore:
                 return await self.client.complete(prompt, model, **kwargs)
 

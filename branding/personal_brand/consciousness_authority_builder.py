@@ -11,7 +11,6 @@ Inspired by Bhavik Sarkhedi's "Ohh My Brand" approach:
 """
 
 from dataclasses import dataclass
-from typing import Dict, List
 
 
 @dataclass
@@ -20,7 +19,7 @@ class PersonalBrandMetrics:
     thought_leadership_mentions: int
     industry_recognition_score: float
     engagement_rate: float
-    authority_indicators: List[str]
+    authority_indicators: list[str]
     consciousness_technology_positioning: str
 
 
@@ -40,7 +39,7 @@ class ContentPillar:
     name: str
     consciousness_theme: str
     target_audience: str
-    content_types: List[str]
+    content_types: list[str]
     posting_frequency: str
     engagement_strategy: str
 
@@ -58,7 +57,7 @@ class ConsciousnessAuthorityBuilder:
         self.engagement_systems = self._create_engagement_systems()
         self.thought_leadership_framework = self._create_thought_leadership_framework()
 
-    def _establish_brand_philosophy(self) -> Dict[str, str]:
+    def _establish_brand_philosophy(self) -> dict[str, str]:
         """Establish personal brand philosophy inspired by Bhavik Sarkhedi's approach"""
         return {
             "consciousness_pioneer": "Position as the definitive consciousness technology pioneer and thought leader",
@@ -70,7 +69,7 @@ class ConsciousnessAuthorityBuilder:
             "science_backed_approach": "Use data-driven methods to optimize personal brand performance and authority building"
         }
 
-    def _create_authority_strategies(self) -> Dict[str, AuthorityBuildingStrategy]:
+    def _create_authority_strategies(self) -> dict[str, AuthorityBuildingStrategy]:
         """Create authority building strategies for consciousness technology thought leadership"""
         return {
             "consciousness_thought_leadership": AuthorityBuildingStrategy(
@@ -114,7 +113,7 @@ class ConsciousnessAuthorityBuilder:
             )
         }
 
-    def _create_content_pillars(self) -> Dict[str, ContentPillar]:
+    def _create_content_pillars(self) -> dict[str, ContentPillar]:
         """Create content pillars for consciousness technology personal brand"""
         return {
             "consciousness_insights": ContentPillar(
@@ -163,7 +162,7 @@ class ConsciousnessAuthorityBuilder:
             )
         }
 
-    def _create_engagement_systems(self) -> Dict[str, Dict]:
+    def _create_engagement_systems(self) -> dict[str, dict]:
         """Create engagement systems for maximum consciousness technology authority building"""
         return {
             "linkedin_authority_building": {
@@ -232,7 +231,7 @@ class ConsciousnessAuthorityBuilder:
             }
         }
 
-    def _create_thought_leadership_framework(self) -> Dict[str, Dict]:
+    def _create_thought_leadership_framework(self) -> dict[str, dict]:
         """Create thought leadership framework for consciousness technology authority"""
         return {
             "consciousness_expertise_areas": {
@@ -300,7 +299,7 @@ class ConsciousnessAuthorityBuilder:
             }
         }
 
-    def generate_personal_brand_strategy(self) -> Dict[str, Dict]:
+    def generate_personal_brand_strategy(self) -> dict[str, dict]:
         """Generate comprehensive personal brand strategy for consciousness technology authority"""
         return {
             "brand_positioning": {
@@ -387,7 +386,7 @@ class ConsciousnessAuthorityBuilder:
             }
         }
 
-    def _create_optimal_posting_schedule(self) -> Dict[str, Dict]:
+    def _create_optimal_posting_schedule(self) -> dict[str, dict]:
         """Create optimal posting schedule for consciousness technology authority building"""
         return {
             "linkedin": {
@@ -420,7 +419,7 @@ class ConsciousnessAuthorityBuilder:
             }
         }
 
-    def _create_content_themes(self) -> Dict[str, List[str]]:
+    def _create_content_themes(self) -> dict[str, list[str]]:
         """Create content themes for consciousness technology authority"""
         return {
             "consciousness_technology_insights": [
@@ -448,7 +447,7 @@ class ConsciousnessAuthorityBuilder:
             ]
         }
 
-    def _create_engagement_optimization(self) -> Dict[str, List[str]]:
+    def _create_engagement_optimization(self) -> dict[str, list[str]]:
         """Create engagement optimization strategies"""
         return {
             "consciousness_technology_discussion_starters": [
@@ -476,7 +475,7 @@ class ConsciousnessAuthorityBuilder:
             ]
         }
 
-    def _create_engagement_targets(self) -> Dict[str, float]:
+    def _create_engagement_targets(self) -> dict[str, float]:
         """Create engagement targets for authority building"""
         return {
             "linkedin_engagement_rate": 0.08,
@@ -488,7 +487,7 @@ class ConsciousnessAuthorityBuilder:
             "authority_score": 0.95
         }
 
-    def _create_thought_leadership_indicators(self) -> List[str]:
+    def _create_thought_leadership_indicators(self) -> list[str]:
         """Create thought leadership indicators for consciousness technology"""
         return [
             "Featured as consciousness technology expert in major publications",
@@ -500,7 +499,7 @@ class ConsciousnessAuthorityBuilder:
             "Established as definitive consciousness technology voice in media"
         ]
 
-    def _create_roi_measurement(self) -> Dict[str, str]:
+    def _create_roi_measurement(self) -> dict[str, str]:
         """Create ROI measurement for personal brand authority building"""
         return {
             "business_opportunities": "Consciousness technology consulting and speaking revenue",

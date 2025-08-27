@@ -23,7 +23,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # LUKHAS imports
 try:
@@ -65,10 +65,10 @@ class AuthDriftMetrics:
     timestamp: datetime
     ip_address: str
     user_agent: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
     drift_score: float = 0.0
     constitutional_valid: bool = True
-    bias_flags: List[str] = None
+    bias_flags: list[str] = None
 
     def __post_init__(self):
         if self.bias_flags is None:
@@ -85,7 +85,7 @@ class ConstitutionalAuthPrinciples:
     minimize_harm: bool = True     # Prevent security vulnerabilities
     dignity_preservation: bool = True  # Maintain user dignity
 
-    def validate(self, auth_event: Dict[str, Any]) -> tuple[bool, List[str]]:
+    def validate(self, auth_event: dict[str, Any]) -> tuple[bool, list[str]]:
         """Validate auth event against constitutional principles"""
         violations = []
 
@@ -175,7 +175,7 @@ class AuthenticationGuardian:
                                user_id: str,
                                tier_level: str,
                                outcome: str,
-                               context: Dict[str, Any]) -> Dict[str, Any]:
+                               context: dict[str, Any]) -> dict[str, Any]:
         """
         Monitor authentication event for ethical violations and drift
 
@@ -307,7 +307,7 @@ class AuthenticationGuardian:
             logger.error(f"Error calculating drift score: {e}")
             return 1.0  # High drift on error
 
-    async def _validate_constitutional_principles(self, metrics: AuthDriftMetrics) -> tuple[bool, List[str]]:
+    async def _validate_constitutional_principles(self, metrics: AuthDriftMetrics) -> tuple[bool, list[str]]:
         """Validate authentication event against constitutional AI principles"""
         try:
             # Convert metrics to event dict for validation
@@ -330,7 +330,7 @@ class AuthenticationGuardian:
             logger.error(f"Error validating constitutional principles: {e}")
             return False, [f"validation_error: {str(e)}"]
 
-    async def _detect_bias(self, metrics: AuthDriftMetrics) -> List[str]:
+    async def _detect_bias(self, metrics: AuthDriftMetrics) -> list[str]:
         """Detect potential bias in authentication decisions"""
         bias_flags = []
 
@@ -486,7 +486,7 @@ class AuthenticationGuardian:
         except Exception:
             return False
 
-    def _calculate_profile_similarity(self, profile1: Dict, profile2: Dict) -> float:
+    def _calculate_profile_similarity(self, profile1: dict, profile2: dict) -> float:
         """Calculate similarity between user profiles"""
         try:
             # Simple similarity calculation based on shared attributes
@@ -527,7 +527,7 @@ class AuthenticationGuardian:
 
         return False
 
-    async def _generate_recommendations(self, metrics: AuthDriftMetrics) -> List[str]:
+    async def _generate_recommendations(self, metrics: AuthDriftMetrics) -> list[str]:
         """Generate recommendations based on monitoring results"""
         recommendations = []
 
@@ -581,7 +581,7 @@ class AuthenticationGuardian:
             logger.error(f"Error creating auth GLYPH: {e}")
             return None
 
-    async def _log_to_audit_trail(self, metrics: AuthDriftMetrics, result: Dict[str, Any]) -> None:
+    async def _log_to_audit_trail(self, metrics: AuthDriftMetrics, result: dict[str, Any]) -> None:
         """Log authentication monitoring to audit trail"""
         try:
             if not self.audit_logger:
@@ -611,7 +611,7 @@ class AuthenticationGuardian:
         except Exception as e:
             logger.error(f"Error logging to audit trail: {e}")
 
-    async def _trigger_guardian_intervention(self, metrics: AuthDriftMetrics, result: Dict[str, Any]) -> None:
+    async def _trigger_guardian_intervention(self, metrics: AuthDriftMetrics, result: dict[str, Any]) -> None:
         """Trigger Guardian System intervention for high-risk events"""
         try:
             if not self.guardian_system:
@@ -639,7 +639,7 @@ class AuthenticationGuardian:
         except Exception as e:
             logger.error(f"Error triggering Guardian intervention: {e}")
 
-    def get_drift_summary(self) -> Dict[str, Any]:
+    def get_drift_summary(self) -> dict[str, Any]:
         """Get summary of authentication drift metrics"""
         try:
             if not self.recent_events:

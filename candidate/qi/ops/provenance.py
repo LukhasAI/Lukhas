@@ -7,7 +7,7 @@ import json
 import os
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 PROV_DIR = os.path.join(STATE, "prov"); os.makedirs(PROV_DIR, exist_ok=True)
@@ -40,7 +40,7 @@ def _file_sha256(path: str) -> str:
             h.update(chunk)
     return h.hexdigest()
 
-def _safe_body(d: Dict[str, Any]) -> Dict[str, Any]:
+def _safe_body(d: dict[str, Any]) -> dict[str, Any]:
     # Normalize and only keep serializable primitives (plus 'attachments' with file hashes)
     body = {}
     for k, v in d.items():
@@ -61,10 +61,10 @@ def _safe_body(d: Dict[str, Any]) -> Dict[str, Any]:
                 body[k] = str(v)
     return body
 
-def merkle_chain(steps: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def merkle_chain(steps: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Create a simple hash-linked list. Each node: ts, body, prev, hash."""
     prev = None
-    out: List[Dict[str, Any]] = []
+    out: list[dict[str, Any]] = []
     for s in steps:
         body = _safe_body(s)
         node = {"ts": round(time.time(), 6), "body": body, "prev": prev}
@@ -94,7 +94,7 @@ def _load_keypair(tag: str) -> tuple[bytes, bytes]:
     sk_path, pk_path = _key_paths(tag)
     return open(sk_path,"rb").read(), open(pk_path,"rb").read()
 
-def attest(chain: List[Dict[str, Any]], tag: str) -> Attestation:
+def attest(chain: list[dict[str, Any]], tag: str) -> Attestation:
     # write chain
     chain_path = os.path.join(PROV_DIR, f"{int(time.time())}_{tag}.jsonl")
     with open(chain_path, "w", encoding="utf-8") as f:

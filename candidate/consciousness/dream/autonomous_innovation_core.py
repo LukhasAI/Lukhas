@@ -19,7 +19,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from candidate.core.common import GLYPHSymbol, GLYPHToken, get_logger
 from candidate.core.common.exceptions import LukhasError
@@ -54,9 +54,9 @@ class MarketOpportunity:
     market_size: float  # In dollars
     time_to_market: int  # In months
     competition_level: float  # 0.0-1.0
-    innovation_requirements: List[str]
+    innovation_requirements: list[str]
     breakthrough_threshold: float = 0.95
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -69,8 +69,8 @@ class InnovationHypothesis:
     breakthrough_potential: float  # 0.0-1.0
     feasibility_score: float  # 0.0-1.0
     impact_magnitude: float  # 0.0-1.0
-    evidence: List[Dict[str, Any]] = field(default_factory=list)
-    reality_branches: List[str] = field(default_factory=list)
+    evidence: list[dict[str, Any]] = field(default_factory=list)
+    reality_branches: list[str] = field(default_factory=list)
     validation_status: str = "pending"
 
 
@@ -83,12 +83,12 @@ class BreakthroughInnovation:
     title: str
     description: str
     breakthrough_score: float
-    impact_assessment: Dict[str, float]
-    implementation_plan: Dict[str, Any]
-    patent_potential: List[str]
-    validated_in_realities: List[str]
+    impact_assessment: dict[str, float]
+    implementation_plan: dict[str, Any]
+    patent_potential: list[str]
+    validated_in_realities: list[str]
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class AutonomousInnovationCore(CoreInterface):
@@ -108,10 +108,10 @@ class AutonomousInnovationCore(CoreInterface):
         self.safety_framework = ParallelRealitySafetyFramework(safety_config)
 
         # Innovation components
-        self.domain_engines: Dict[InnovationDomain, Any] = {}
-        self.innovation_memory: List[BreakthroughInnovation] = []
-        self.pattern_library: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
-        self.hypothesis_pool: List[InnovationHypothesis] = []
+        self.domain_engines: dict[InnovationDomain, Any] = {}
+        self.innovation_memory: list[BreakthroughInnovation] = []
+        self.pattern_library: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        self.hypothesis_pool: list[InnovationHypothesis] = []
 
         # Metrics tracking
         self.metrics = {
@@ -155,7 +155,7 @@ class AutonomousInnovationCore(CoreInterface):
         self,
         domain: InnovationDomain,
         market_threshold: float = 1_000_000_000,  # $1B minimum
-    ) -> List[MarketOpportunity]:
+    ) -> list[MarketOpportunity]:
         """
         Scan for high-value innovation opportunities in specified domain.
 
@@ -213,7 +213,7 @@ class AutonomousInnovationCore(CoreInterface):
         market_gap: MarketOpportunity,
         hypothesis_count: int = 100,
         breakthrough_threshold: float = 0.95,
-    ) -> List[InnovationHypothesis]:
+    ) -> list[InnovationHypothesis]:
         """
         Generate innovation hypotheses for a market opportunity.
 
@@ -268,7 +268,7 @@ class AutonomousInnovationCore(CoreInterface):
         hypothesis: InnovationHypothesis,
         reality_count: int = 50,
         exploration_depth: int = 10,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Explore innovation hypothesis across multiple parallel realities.
 
@@ -324,7 +324,7 @@ class AutonomousInnovationCore(CoreInterface):
         return results
 
     async def validate_and_synthesize_innovation(
-        self, hypothesis: InnovationHypothesis, reality_results: List[Dict[str, Any]]
+        self, hypothesis: InnovationHypothesis, reality_results: list[dict[str, Any]]
     ) -> Optional[BreakthroughInnovation]:
         """
         Validate hypothesis results and synthesize into breakthrough innovation.
@@ -447,13 +447,13 @@ class AutonomousInnovationCore(CoreInterface):
 
     # Private helper methods
 
-    async def _create_domain_engine(self, domain: InnovationDomain) -> Dict[str, Any]:
+    async def _create_domain_engine(self, domain: InnovationDomain) -> dict[str, Any]:
         """Create specialized engine for innovation domain"""
         return {"domain": domain, "strategies": [], "patterns": [], "success_rate": 0.0}
 
     async def _explore_single_reality(
         self, branch: Any, hypothesis: InnovationHypothesis, depth: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Explore innovation in a single reality branch"""
         # Simulate exploration (simplified for implementation)
         exploration_result = {
@@ -473,8 +473,8 @@ class AutonomousInnovationCore(CoreInterface):
         return exploration_result
 
     def _generate_implementation_phases(
-        self, hypothesis: InnovationHypothesis, results: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        self, hypothesis: InnovationHypothesis, results: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Generate implementation phases for innovation"""
         return [
             {"phase": 1, "name": "Research", "duration": 3},
@@ -483,11 +483,11 @@ class AutonomousInnovationCore(CoreInterface):
             {"phase": 4, "name": "Deployment", "duration": 6},
         ]
 
-    def _estimate_timeline(self, results: List[Dict[str, Any]]) -> int:
+    def _estimate_timeline(self, results: list[dict[str, Any]]) -> int:
         """Estimate implementation timeline in months"""
         return 18  # Default 18 months
 
-    def _estimate_resources(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _estimate_resources(self, results: list[dict[str, Any]]) -> dict[str, Any]:
         """Estimate required resources"""
         return {
             "budget": 10_000_000,  # $10M
@@ -496,8 +496,8 @@ class AutonomousInnovationCore(CoreInterface):
         }
 
     def _identify_patent_opportunities(
-        self, hypothesis: InnovationHypothesis, results: List[Dict[str, Any]]
-    ) -> List[str]:
+        self, hypothesis: InnovationHypothesis, results: list[dict[str, Any]]
+    ) -> list[str]:
         """Identify patentable aspects of innovation"""
         patents = []
 
@@ -514,7 +514,7 @@ class AutonomousInnovationCore(CoreInterface):
         return patents
 
     def _update_pattern_library(
-        self, innovation: BreakthroughInnovation, results: List[Dict[str, Any]]
+        self, innovation: BreakthroughInnovation, results: list[dict[str, Any]]
     ) -> None:
         """Update pattern library with successful innovation patterns"""
         pattern = {
@@ -532,7 +532,7 @@ class AutonomousInnovationCore(CoreInterface):
     ) -> None:
         """Trigger downstream processes for innovation implementation"""
         # Emit innovation event through LUKHAS event system
-        event = GLYPHToken(
+        GLYPHToken(
             symbol=GLYPHSymbol.INNOVATION,
             value=innovation.__dict__,
             metadata={
@@ -572,7 +572,7 @@ class AutonomousInnovationCore(CoreInterface):
 
         logger.info("🧠 Meta-learning: Innovation process improved")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current status of innovation core"""
         return {
             "operational": self.operational,
@@ -585,11 +585,10 @@ class AutonomousInnovationCore(CoreInterface):
     async def process(self, input_data: Any) -> Any:
         """Process input through innovation core"""
         # Implement CoreInterface abstract method
-        if isinstance(input_data, dict):
-            if "domain" in input_data:
-                domain = InnovationDomain[input_data["domain"].upper()]
-                opportunities = await self.scan_innovation_opportunities(domain)
-                return {"opportunities": opportunities}
+        if isinstance(input_data, dict) and "domain" in input_data:
+            domain = InnovationDomain[input_data["domain"].upper()]
+            opportunities = await self.scan_innovation_opportunities(domain)
+            return {"opportunities": opportunities}
         return {"status": "processed"}
 
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:

@@ -8,7 +8,7 @@ Shows hallucination prevention, drift monitoring, and safety rollbacks.
 
 import asyncio
 import json
-from typing import Any, Dict
+from typing import Any
 
 from core.common import get_logger
 from lukhas.consciousness.dream.parallel_reality_safety import (
@@ -65,8 +65,8 @@ class SafetyDemo:
         logger.info(f"Safety demo initialized with level: {safety_level.value}")
 
     async def _mock_guardian(
-        self, action: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Mock guardian with variable responses"""
         state = action.get("state", {})
 

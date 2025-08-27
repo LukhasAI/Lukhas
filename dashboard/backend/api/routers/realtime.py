@@ -5,7 +5,7 @@ Realtime Router - WebSocket and real-time data streaming
 import asyncio
 import random
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
@@ -14,7 +14,7 @@ router = APIRouter()
 # Store active WebSocket connections
 class ConnectionManager:
     def __init__(self):
-        self.active_connections: List[WebSocket] = []
+        self.active_connections: list[WebSocket] = []
 
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
@@ -197,7 +197,7 @@ def generate_log_message() -> str:
     return random.choice(messages)
 
 @router.get("/stream-status")
-async def get_stream_status() -> Dict[str, Any]:
+async def get_stream_status() -> dict[str, Any]:
     """Get status of real-time streams"""
     return {
         "active_connections": len(manager.active_connections),

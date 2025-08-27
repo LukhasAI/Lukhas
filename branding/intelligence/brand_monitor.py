@@ -6,7 +6,7 @@ Real-time brand consistency tracking and intelligence analytics
 import asyncio
 import re
 from datetime import datetime, timedelta
-from typing import Any, Dict, List
+from typing import Any
 
 
 class BrandIntelligenceMonitor:
@@ -22,7 +22,7 @@ class BrandIntelligenceMonitor:
         self.monitoring_active = False
         self.alert_thresholds = self._load_alert_thresholds()
 
-    def _load_monitoring_config(self) -> Dict[str, Any]:
+    def _load_monitoring_config(self) -> dict[str, Any]:
         """Load comprehensive brand monitoring configuration"""
         return {
             "brand_identity_elements": {
@@ -67,7 +67,7 @@ class BrandIntelligenceMonitor:
             }
         }
 
-    def _compile_brand_patterns(self) -> Dict[str, re.Pattern]:
+    def _compile_brand_patterns(self) -> dict[str, re.Pattern]:
         """Compile regex patterns for efficient brand element detection"""
         patterns = {}
 
@@ -109,7 +109,7 @@ class BrandIntelligenceMonitor:
 
         return patterns
 
-    def _load_alert_thresholds(self) -> Dict[str, Dict[str, float]]:
+    def _load_alert_thresholds(self) -> dict[str, dict[str, float]]:
         """Load alert thresholds for different brand metrics"""
         return {
             "brand_consistency": {
@@ -253,7 +253,7 @@ class BrandIntelligenceMonitor:
                 alert_summary = self._analyze_alert_patterns()
 
                 # Generate alert dashboard update
-                dashboard_update = self._generate_alert_dashboard_update(alert_summary)
+                self._generate_alert_dashboard_update(alert_summary)
 
                 # Send notifications if needed
                 if alert_summary.get("critical_alerts", 0) > 0:
@@ -266,7 +266,7 @@ class BrandIntelligenceMonitor:
                 print(f"Error in alert system monitoring: {e}")
                 await asyncio.sleep(10)
 
-    def analyze_brand_consistency(self, content: Dict[str, Any]) -> Dict[str, Any]:
+    def analyze_brand_consistency(self, content: dict[str, Any]) -> dict[str, Any]:
         """
         Analyze content for brand consistency across all dimensions
         """
@@ -312,7 +312,7 @@ class BrandIntelligenceMonitor:
             )
         }
 
-    def _analyze_terminology_compliance(self, content_text: str) -> Dict[str, Any]:
+    def _analyze_terminology_compliance(self, content_text: str) -> dict[str, Any]:
         """Analyze compliance with LUKHAS terminology standards"""
 
         # Count required terminology usage
@@ -340,7 +340,7 @@ class BrandIntelligenceMonitor:
             "terminology_health": "good" if compliance_score > 0.8 else "needs_improvement"
         }
 
-    def _analyze_trinity_presence(self, content_text: str) -> Dict[str, Any]:
+    def _analyze_trinity_presence(self, content_text: str) -> dict[str, Any]:
         """Analyze Trinity Framework presence and coherence"""
 
         # Check for Trinity symbols
@@ -382,7 +382,7 @@ class BrandIntelligenceMonitor:
             "trinity_coherence": "strong" if trinity_score > 0.7 else "weak"
         }
 
-    def _analyze_tone_layer_consistency(self, content_text: str, content_type: str) -> Dict[str, Any]:
+    def _analyze_tone_layer_consistency(self, content_text: str, content_type: str) -> dict[str, Any]:
         """Analyze tone layer consistency and appropriateness"""
 
         # Detect tone indicators
@@ -416,7 +416,7 @@ class BrandIntelligenceMonitor:
             "tone_consistency": "good" if max(tone_scores.values()) > 0.5 else "unclear"
         }
 
-    def _analyze_lambda_usage(self, content_text: str) -> Dict[str, Any]:
+    def _analyze_lambda_usage(self, content_text: str) -> dict[str, Any]:
         """Analyze proper Lambda (Λ) symbol usage"""
 
         # Check for proper Lambda usage
@@ -440,10 +440,10 @@ class BrandIntelligenceMonitor:
 
     def _calculate_consistency_score(
         self,
-        terminology: Dict[str, Any],
-        trinity: Dict[str, Any],
-        tone: Dict[str, Any],
-        lambda_usage: Dict[str, Any]
+        terminology: dict[str, Any],
+        trinity: dict[str, Any],
+        tone: dict[str, Any],
+        lambda_usage: dict[str, Any]
     ) -> float:
         """Calculate overall brand consistency score"""
 
@@ -493,11 +493,11 @@ class BrandIntelligenceMonitor:
 
     def _generate_improvement_suggestions(
         self,
-        terminology: Dict[str, Any],
-        trinity: Dict[str, Any],
-        tone: Dict[str, Any],
-        lambda_usage: Dict[str, Any]
-    ) -> List[str]:
+        terminology: dict[str, Any],
+        trinity: dict[str, Any],
+        tone: dict[str, Any],
+        lambda_usage: dict[str, Any]
+    ) -> list[str]:
         """Generate specific improvement suggestions"""
 
         suggestions = []
@@ -532,7 +532,7 @@ class BrandIntelligenceMonitor:
 
         return suggestions
 
-    def perform_comprehensive_brand_analysis(self, content_batch: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def perform_comprehensive_brand_analysis(self, content_batch: list[dict[str, Any]]) -> dict[str, Any]:
         """Perform comprehensive analysis on a batch of content"""
 
         # Analyze each piece of content
@@ -562,7 +562,7 @@ class BrandIntelligenceMonitor:
             "recommendations": self._generate_batch_recommendations(aggregated_results, trends)
         }
 
-    def generate_brand_intelligence(self, deep_dataset: Dict[str, Any]) -> Dict[str, Any]:
+    def generate_brand_intelligence(self, deep_dataset: dict[str, Any]) -> dict[str, Any]:
         """Generate comprehensive brand intelligence insights"""
 
         # This would implement sophisticated intelligence algorithms
@@ -595,7 +595,7 @@ class BrandIntelligenceMonitor:
             }
         }
 
-    def generate_brand_predictions(self, intelligence_insights: Dict[str, Any]) -> Dict[str, Any]:
+    def generate_brand_predictions(self, intelligence_insights: dict[str, Any]) -> dict[str, Any]:
         """Generate brand evolution predictions"""
 
         return {
@@ -623,7 +623,7 @@ class BrandIntelligenceMonitor:
             ]
         }
 
-    def generate_brand_recommendations(self, intelligence_insights: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def generate_brand_recommendations(self, intelligence_insights: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate strategic brand recommendations"""
 
         return [
@@ -651,7 +651,7 @@ class BrandIntelligenceMonitor:
         ]
 
     # Additional helper methods for monitoring system
-    async def _collect_real_time_content(self) -> List[Dict[str, Any]]:
+    async def _collect_real_time_content(self) -> list[dict[str, Any]]:
         """Collect real-time content samples for monitoring"""
         # Mock implementation - would integrate with actual content systems
         return [
@@ -663,21 +663,21 @@ class BrandIntelligenceMonitor:
             }
         ]
 
-    async def _collect_periodic_content(self) -> List[Dict[str, Any]]:
+    async def _collect_periodic_content(self) -> list[dict[str, Any]]:
         """Collect periodic content batch for analysis"""
         # Mock implementation
         return []
 
-    async def _collect_deep_analysis_data(self) -> Dict[str, Any]:
+    async def _collect_deep_analysis_data(self) -> dict[str, Any]:
         """Collect comprehensive dataset for deep analysis"""
         # Mock implementation
         return {"size": 1000, "timespan": "24_hours"}
 
-    async def _trigger_brand_alert(self, alert_type: str, alert_data: Dict[str, Any], context: Dict[str, Any]) -> None:
+    async def _trigger_brand_alert(self, alert_type: str, alert_data: dict[str, Any], context: dict[str, Any]) -> None:
         """Trigger brand consistency alert"""
         print(f"BRAND ALERT [{alert_type}]: {alert_data}")
 
-    def _cache_consistency_result(self, result: Dict[str, Any]) -> None:
+    def _cache_consistency_result(self, result: dict[str, Any]) -> None:
         """Cache consistency result for trend analysis"""
         timestamp = result.get("timestamp", datetime.now().isoformat())
         if "consistency_trends" not in self.intelligence_cache:
@@ -696,19 +696,19 @@ class BrandIntelligenceMonitor:
             if datetime.fromisoformat(trend["timestamp"]) > cutoff_time
         ]
 
-    def _update_intelligence_cache(self, analysis_type: str, results: Dict[str, Any]) -> None:
+    def _update_intelligence_cache(self, analysis_type: str, results: dict[str, Any]) -> None:
         """Update intelligence cache with analysis results"""
         self.intelligence_cache[analysis_type] = {
             "results": results,
             "timestamp": datetime.now().isoformat()
         }
 
-    def _store_intelligence_results(self, intelligence_data: Dict[str, Any]) -> None:
+    def _store_intelligence_results(self, intelligence_data: dict[str, Any]) -> None:
         """Store intelligence results for historical analysis"""
         # This would store to persistent storage
         print(f"Storing intelligence results: {intelligence_data.keys()}")
 
-    def _analyze_alert_patterns(self) -> Dict[str, Any]:
+    def _analyze_alert_patterns(self) -> dict[str, Any]:
         """Analyze patterns in brand alerts"""
         return {
             "critical_alerts": 0,
@@ -716,7 +716,7 @@ class BrandIntelligenceMonitor:
             "trend_alerts": 1
         }
 
-    def _generate_alert_dashboard_update(self, alert_summary: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_alert_dashboard_update(self, alert_summary: dict[str, Any]) -> dict[str, Any]:
         """Generate dashboard update with alert information"""
         return {
             "dashboard_timestamp": datetime.now().isoformat(),
@@ -724,11 +724,11 @@ class BrandIntelligenceMonitor:
             "system_status": "monitoring_active"
         }
 
-    async def _send_critical_brand_notification(self, alert_summary: Dict[str, Any]) -> None:
+    async def _send_critical_brand_notification(self, alert_summary: dict[str, Any]) -> None:
         """Send critical brand notifications"""
         print(f"CRITICAL BRAND NOTIFICATION: {alert_summary}")
 
-    def _aggregate_brand_analyses(self, individual_analyses: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _aggregate_brand_analyses(self, individual_analyses: list[dict[str, Any]]) -> dict[str, Any]:
         """Aggregate individual brand analyses into summary statistics"""
         if not individual_analyses:
             return {}
@@ -746,7 +746,7 @@ class BrandIntelligenceMonitor:
             "distribution_by_alert_level": self._calculate_alert_distribution(individual_analyses)
         }
 
-    def _calculate_alert_distribution(self, analyses: List[Dict[str, Any]]) -> Dict[str, int]:
+    def _calculate_alert_distribution(self, analyses: list[dict[str, Any]]) -> dict[str, int]:
         """Calculate distribution of content by alert level"""
         distribution = {"critical": 0, "warning": 0, "normal": 0, "excellent": 0}
 
@@ -756,7 +756,7 @@ class BrandIntelligenceMonitor:
 
         return distribution
 
-    def _identify_brand_trends(self, analyses: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _identify_brand_trends(self, analyses: list[dict[str, Any]]) -> dict[str, Any]:
         """Identify trends in brand consistency and quality"""
         return {
             "consistency_trend": "improving",
@@ -764,7 +764,7 @@ class BrandIntelligenceMonitor:
             "trinity_integration_trend": "strengthening"
         }
 
-    def _calculate_brand_health_metrics(self, aggregated_results: Dict[str, Any]) -> Dict[str, Any]:
+    def _calculate_brand_health_metrics(self, aggregated_results: dict[str, Any]) -> dict[str, Any]:
         """Calculate comprehensive brand health metrics"""
         return {
             "overall_health_score": aggregated_results.get("average_consistency_score", 0),
@@ -775,10 +775,10 @@ class BrandIntelligenceMonitor:
 
     def _generate_brand_insights(
         self,
-        aggregated_results: Dict[str, Any],
-        trends: Dict[str, Any],
-        health_metrics: Dict[str, Any]
-    ) -> List[str]:
+        aggregated_results: dict[str, Any],
+        trends: dict[str, Any],
+        health_metrics: dict[str, Any]
+    ) -> list[str]:
         """Generate actionable brand insights"""
         return [
             "Trinity Framework integration showing strong consistency across content",
@@ -788,9 +788,9 @@ class BrandIntelligenceMonitor:
 
     def _generate_batch_recommendations(
         self,
-        aggregated_results: Dict[str, Any],
-        trends: Dict[str, Any]
-    ) -> List[Dict[str, str]]:
+        aggregated_results: dict[str, Any],
+        trends: dict[str, Any]
+    ) -> list[dict[str, str]]:
         """Generate recommendations based on batch analysis"""
         return [
             {

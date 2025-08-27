@@ -8,7 +8,7 @@ for task management, collaboration, and workflow optimization.
 
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # In a real implementation, this would use FastAPI, Flask, or similar
 # For now, we'll create a mock API structure that shows the interface design
@@ -27,14 +27,14 @@ class LucasDASTAPI:
     def __init__(self, dast_engine):
         self.dast_engine = dast_engine
         self.api_version = "v2.0"
-        self.request_log: List[Dict] = []
-        self.performance_metrics: Dict[str, List[float]] = {}
+        self.request_log: list[dict] = []
+        self.performance_metrics: dict[str, list[float]] = {}
 
     # ========================================
     # 🎯 CORE TASK MANAGEMENT ENDPOINTS
     # ========================================
 
-    async def post_tasks(self, request_data: Dict) -> Dict[str, Any]:
+    async def post_tasks(self, request_data: dict) -> dict[str, Any]:
         """
         POST /api/v2/tasks
         Create a new task with AI-powered enhancements
@@ -77,7 +77,7 @@ class LucasDASTAPI:
         except Exception as e:
             return self._error_response(f"Task creation failed: {str(e)}", 500)
 
-    async def get_tasks(self, query_params: Dict) -> Dict[str, Any]:
+    async def get_tasks(self, query_params: dict) -> dict[str, Any]:
         """
         GET /api/v2/tasks
         Get tasks with intelligent filtering and prioritization
@@ -122,7 +122,7 @@ class LucasDASTAPI:
         except Exception as e:
             return self._error_response(f"Task retrieval failed: {str(e)}", 500)
 
-    async def get_task_by_id(self, task_id: str) -> Dict[str, Any]:
+    async def get_task_by_id(self, task_id: str) -> dict[str, Any]:
         """
         GET /api/v2/tasks/{task_id}
         Get detailed task information
@@ -156,7 +156,7 @@ class LucasDASTAPI:
         except Exception as e:
             return self._error_response(f"Task retrieval failed: {str(e)}", 500)
 
-    async def put_task_progress(self, task_id: str, request_data: Dict) -> Dict[str, Any]:
+    async def put_task_progress(self, task_id: str, request_data: dict) -> dict[str, Any]:
         """
         PUT /api/v2/tasks/{task_id}/progress
         Update task progress with AI insights
@@ -184,7 +184,7 @@ class LucasDASTAPI:
         except Exception as e:
             return self._error_response(f"Progress update failed: {str(e)}", 500)
 
-    async def delete_task(self, task_id: str) -> Dict[str, Any]:
+    async def delete_task(self, task_id: str) -> dict[str, Any]:
         """
         DELETE /api/v2/tasks/{task_id}
         Delete a task
@@ -209,7 +209,7 @@ class LucasDASTAPI:
     # 🤝 COLLABORATION ENDPOINTS
     # ========================================
 
-    async def post_collaborate(self, request_data: Dict) -> Dict[str, Any]:
+    async def post_collaborate(self, request_data: dict) -> dict[str, Any]:
         """
         POST /api/v2/collaborate
         Human-AI collaborative task management
@@ -237,7 +237,7 @@ class LucasDASTAPI:
         except Exception as e:
             return self._error_response(f"Collaboration failed: {str(e)}", 500)
 
-    async def get_focus(self, query_params: Dict) -> Dict[str, Any]:
+    async def get_focus(self, query_params: dict) -> dict[str, Any]:
         """
         GET /api/v2/focus
         Get intelligently prioritized tasks for immediate attention
@@ -271,7 +271,7 @@ class LucasDASTAPI:
     # 📊 ANALYTICS & INSIGHTS ENDPOINTS
     # ========================================
 
-    async def get_analytics(self, query_params: Dict) -> Dict[str, Any]:
+    async def get_analytics(self, query_params: dict) -> dict[str, Any]:
         """
         GET /api/v2/analytics
         Get workflow analytics and performance insights
@@ -305,7 +305,7 @@ class LucasDASTAPI:
         except Exception as e:
             return self._error_response(f"Analytics generation failed: {str(e)}", 500)
 
-    async def get_insights(self, query_params: Dict) -> Dict[str, Any]:
+    async def get_insights(self, query_params: dict) -> dict[str, Any]:
         """
         GET /api/v2/insights
         Get AI-powered insights and recommendations
@@ -331,7 +331,7 @@ class LucasDASTAPI:
     # 🔧 SYSTEM & HEALTH ENDPOINTS
     # ========================================
 
-    async def get_health(self) -> Dict[str, Any]:
+    async def get_health(self) -> dict[str, Any]:
         """
         GET /api/v2/health
         System health check with performance metrics
@@ -370,7 +370,7 @@ class LucasDASTAPI:
         except Exception as e:
             return self._error_response(f"Health check failed: {str(e)}", 500)
 
-    async def get_version(self) -> Dict[str, Any]:
+    async def get_version(self) -> dict[str, Any]:
         """
         GET /api/v2/version
         API version and capabilities
@@ -405,8 +405,8 @@ class LucasDASTAPI:
     # 🛠️ UTILITY METHODS
     # ========================================
 
-    def _apply_filters(self, tasks: List, query: Optional[str], priority_filter: Optional[str],
-                      status_filter: Optional[str]) -> List:
+    def _apply_filters(self, tasks: list, query: Optional[str], priority_filter: Optional[str],
+                      status_filter: Optional[str]) -> list:
         """Apply filters to task list"""
         filtered = tasks
 
@@ -427,7 +427,7 @@ class LucasDASTAPI:
 
         return filtered
 
-    def _format_tasks_for_api(self, tasks: List) -> List[Dict]:
+    def _format_tasks_for_api(self, tasks: list) -> list[dict]:
         """Format tasks for API response"""
         formatted_tasks = []
 
@@ -447,7 +447,7 @@ class LucasDASTAPI:
 
         return formatted_tasks
 
-    def _generate_performance_analytics(self, stats: Dict, timeframe: int) -> Dict:
+    def _generate_performance_analytics(self, stats: dict, timeframe: int) -> dict:
         """Generate performance analytics"""
         return {
             "type": "performance",
@@ -465,7 +465,7 @@ class LucasDASTAPI:
             ]
         }
 
-    def _generate_workflow_analytics(self, timeframe: int) -> Dict:
+    def _generate_workflow_analytics(self, timeframe: int) -> dict:
         """Generate workflow analytics"""
         tasks = list(self.dast_engine.tasks.values())
 
@@ -495,7 +495,7 @@ class LucasDASTAPI:
             }
         }
 
-    def _generate_trend_analytics(self, timeframe: int) -> Dict:
+    def _generate_trend_analytics(self, timeframe: int) -> dict:
         """Generate trend analytics"""
         return {
             "type": "trends",
@@ -512,7 +512,7 @@ class LucasDASTAPI:
             }
         }
 
-    def _generate_comprehensive_analytics(self, timeframe: int) -> Dict:
+    def _generate_comprehensive_analytics(self, timeframe: int) -> dict:
         """Generate comprehensive analytics"""
         performance = self._generate_performance_analytics(
             self.dast_engine.get_performance_stats(), timeframe
@@ -534,7 +534,7 @@ class LucasDASTAPI:
             ]
         }
 
-    def _generate_productivity_insights(self) -> Dict:
+    def _generate_productivity_insights(self) -> dict:
         """Generate productivity insights"""
         return {
             "current_productivity_score": 8.5,
@@ -547,7 +547,7 @@ class LucasDASTAPI:
             ]
         }
 
-    def _analyze_bottlenecks(self) -> Dict:
+    def _analyze_bottlenecks(self) -> dict:
         """Analyze workflow bottlenecks"""
         tasks = list(self.dast_engine.tasks.values())
         blocked_tasks = [t for t in tasks if t.status.value == "blocked"]
@@ -563,7 +563,7 @@ class LucasDASTAPI:
             ]
         }
 
-    def _generate_optimization_suggestions(self) -> List[str]:
+    def _generate_optimization_suggestions(self) -> list[str]:
         """Generate optimization suggestions"""
         return [
             "Use AI-powered task prioritization for better focus",
@@ -573,7 +573,7 @@ class LucasDASTAPI:
             "Use collaborative planning for complex projects"
         ]
 
-    def _generate_ai_predictions(self) -> Dict:
+    def _generate_ai_predictions(self) -> dict:
         """Generate AI predictions"""
         return {
             "task_completion_prediction": "85% of current tasks will complete on time",
@@ -585,7 +585,7 @@ class LucasDASTAPI:
             ]
         }
 
-    def _analyze_performance_trends(self) -> Dict:
+    def _analyze_performance_trends(self) -> dict:
         """Analyze performance trends"""
         return {
             "response_time_trend": "stable",
@@ -632,7 +632,7 @@ class LucasDASTAPI:
         # In a real implementation, this would track actual errors
         return 0.001  # 0.1% error rate
 
-    def _success_response(self, data: Any, status_code: int = 200) -> Dict[str, Any]:
+    def _success_response(self, data: Any, status_code: int = 200) -> dict[str, Any]:
         """Create standardized success response"""
         return {
             "success": True,
@@ -642,7 +642,7 @@ class LucasDASTAPI:
             "api_version": self.api_version
         }
 
-    def _error_response(self, message: str, status_code: int) -> Dict[str, Any]:
+    def _error_response(self, message: str, status_code: int) -> dict[str, Any]:
         """Create standardized error response"""
         return {
             "success": False,

@@ -212,10 +212,10 @@ class IdentitySystem:
 
     def authenticate_user(
         self,
-        credentials: Dict[str, Any],
+        credentials: dict[str, Any],
         tier: str = 'T1',
         namespace: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """⚛️ Authenticate user with tiered approach"""
         try:
             # Namespace resolution
@@ -258,7 +258,7 @@ class IdentitySystem:
             logger.error(f"Authentication failed: {e}")
             return {"success": False, "error": "Authentication system error"}
 
-    def _basic_auth(self, credentials: Dict[str, Any]) -> Dict[str, Any]:
+    def _basic_auth(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """T1: Basic authentication (email + password)"""
         # Simplified implementation
         user_id = credentials.get('user_id')
@@ -274,7 +274,7 @@ class IdentitySystem:
 
         return {"success": False, "error": "Invalid credentials"}
 
-    def _enhanced_auth(self, credentials: Dict[str, Any]) -> Dict[str, Any]:
+    def _enhanced_auth(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """T2: Enhanced authentication (passkey + biometric)"""
         user_id = credentials.get('user_id')
 
@@ -290,7 +290,7 @@ class IdentitySystem:
         # Fallback to basic auth
         return self._basic_auth(credentials)
 
-    def _consciousness_auth(self, credentials: Dict[str, Any], tier: str) -> Dict[str, Any]:
+    def _consciousness_auth(self, credentials: dict[str, Any], tier: str) -> dict[str, Any]:
         """T3+: Consciousness-based authentication"""
         user_id = credentials.get('user_id')
 
@@ -307,7 +307,7 @@ class IdentitySystem:
         # Fallback to enhanced auth
         return self._enhanced_auth(credentials)
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get identity system status"""
         return {
             "system": "LUKHAS Identity System",
@@ -333,7 +333,7 @@ class IdentitySystem:
 default_system = IdentitySystem()
 
 # Convenience functions
-def authenticate_user(credentials: Dict[str, Any], tier: str = 'T1') -> Dict[str, Any]:
+def authenticate_user(credentials: dict[str, Any], tier: str = 'T1') -> dict[str, Any]:
     """Authenticate user using default system"""
     return default_system.authenticate_user(credentials, tier)
 

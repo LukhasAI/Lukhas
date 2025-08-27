@@ -46,7 +46,7 @@ class WalletAuthBridge:
             self.logger.error("WALLET bridge initialization failed: %s", e)
             raise
 
-    async def authenticate_identity(self, credentials: Dict[str, Any]) -> Dict[str, Any]:
+    async def authenticate_identity(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """Authenticate using WALLET identity management"""
         if not self._initialized:
             await self.initialize()

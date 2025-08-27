@@ -12,7 +12,6 @@ import argparse
 import re
 import sys
 from pathlib import Path
-from typing import List, Tuple
 
 
 class LukhasToneFixer:
@@ -83,7 +82,7 @@ This module embodies the LUKHAS Trinity Framework:
 
     def enhance_document(
         self, content: str, doc_type: str = "general"
-    ) -> Tuple[str, List[str]]:
+    ) -> tuple[str, list[str]]:
         """
         🌟 Transform ordinary documentation into consciousness-aware communication
 
@@ -146,7 +145,7 @@ This module embodies the LUKHAS Trinity Framework:
         # If no heading found, add at the top
         return f"{header_template} 🌟⚛️🎭\n\n{content}"
 
-    def _enhance_metaphors(self, content: str) -> Tuple[str, List[str]]:
+    def _enhance_metaphors(self, content: str) -> tuple[str, list[str]]:
         """🌊 Transform technical terms into consciousness-aware metaphors"""
         enhanced = content
         changes = []
@@ -227,7 +226,7 @@ This module embodies the LUKHAS Trinity Framework:
 
         return content + footer
 
-    def _replace_generic_ai_terms(self, content: str) -> Tuple[str, List[str]]:
+    def _replace_generic_ai_terms(self, content: str) -> tuple[str, list[str]]:
         """🏷️ Replace generic AI terms with LUKHAS AI branding"""
         enhanced = content
         changes = []

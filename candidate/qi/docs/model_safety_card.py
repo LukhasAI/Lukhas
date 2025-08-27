@@ -3,12 +3,12 @@ from __future__ import annotations
 
 # Safe I/O
 import builtins
+import contextlib
 import hashlib
 import json
 import os
 import time
 from dataclasses import asdict, dataclass
-from typing import List, Optional
 
 _ORIG_OPEN = builtins.open
 
@@ -27,19 +27,18 @@ EVALDIR = os.environ.get("LUKHAS_EVAL_DIR", "./eval_runs")
 def _read_json(path: str) -> dict:
     with _ORIG_OPEN(path, "r", encoding="utf-8") as f: return json.load(f)
 
-def _latest_eval() -> Optional[dict]:
+def _latest_eval() -> dict | None:
     import glob
     import os
     files = sorted(glob.glob(os.path.join(EVALDIR, "eval_*.json")), key=os.path.getmtime, reverse=True)
     return _read_json(files[0]) if files else None
 
-def _policy_fingerprint(policy_root: str, overlays_dir: Optional[str]) -> str:
+def _policy_fingerprint(policy_root: str, overlays_dir: str | None) -> str:
     import os
     h = hashlib.sha256()
     def add(fp):
         h.update(fp.encode())
-        try: h.update(_ORIG_OPEN(fp,"rb").read())
-        except Exception: pass
+        with contextlib.suppress(Exception): h.update(_ORIG_OPEN(fp,"rb").read())
     for root,_,files in os.walk(policy_root):
         for fn in sorted(files):
             if fn.endswith((".yaml",".yml",".json")): add(os.path.join(root, fn))
@@ -53,16 +52,16 @@ class Card:
     model_name: str
     version: str
     generated_at: float
-    jurisdictions: List[str]
+    jurisdictions: list[str]
     policy_fingerprint: str
     eval_summary: dict
     safety_mechanisms: dict
-    limitations: List[str]
-    intended_use: List[str]
-    prohibited_use: List[str]
+    limitations: list[str]
+    intended_use: list[str]
+    prohibited_use: list[str]
     contact: str
 
-def generate_card(*, model_name: str, version: str, policy_root: str, overlays: Optional[str], jurisdictions: List[str]) -> dict:
+def generate_card(*, model_name: str, version: str, policy_root: str, overlays: str | None, jurisdictions: list[str]) -> dict:
     ev = _latest_eval() or {"summary": {"weighted_mean": None, "num_failures": None}, "suite_id": None, "id": None}
     card = Card(
         model_name=model_name,
@@ -100,7 +99,7 @@ def generate_card(*, model_name: str, version: str, policy_root: str, overlays: 
     )
     return asdict(card)
 
-def to_markdown(card: dict, *, jurisdiction_diffs: Optional[dict] = None) -> str:
+def to_markdown(card: dict, *, jurisdiction_diffs: dict | None = None) -> str:
     jdiff = ""
     if jurisdiction_diffs:
         from pprint import pformat

@@ -34,7 +34,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -101,17 +101,17 @@ class DriftMeasurement:
     reference_baseline: Optional[str] = None
 
     # Detailed analysis
-    contributing_factors: List[str] = field(default_factory=list)
-    statistical_measures: Dict[str, float] = field(default_factory=dict)
-    trend_indicators: Dict[str, Any] = field(default_factory=dict)
+    contributing_factors: list[str] = field(default_factory=list)
+    statistical_measures: dict[str, float] = field(default_factory=dict)
+    trend_indicators: dict[str, Any] = field(default_factory=dict)
 
     # Detection method information
     detection_method: DetectionMethod = DetectionMethod.STATISTICAL
-    method_parameters: Dict[str, Any] = field(default_factory=dict)
+    method_parameters: dict[str, Any] = field(default_factory=dict)
 
     # Comparative analysis
-    baseline_comparison: Optional[Dict[str, float]] = None
-    historical_comparison: Optional[Dict[str, float]] = None
+    baseline_comparison: Optional[dict[str, float]] = None
+    historical_comparison: Optional[dict[str, float]] = None
 
     # Trinity Framework analysis
     identity_impact: Optional[float] = None      # ⚛️
@@ -162,15 +162,15 @@ class DriftForecast:
     # Risk assessment
     breach_probability: float           # Probability of exceeding threshold
     time_to_breach: Optional[timedelta] = None
-    recommended_actions: List[str] = field(default_factory=list)
+    recommended_actions: list[str] = field(default_factory=list)
 
     # Uncertainty bounds
     confidence_interval_lower: float = 0.0
     confidence_interval_upper: float = 0.0
 
     # Contributing factors to forecast
-    key_factors: List[str] = field(default_factory=list)
-    trend_components: Dict[str, float] = field(default_factory=dict)
+    key_factors: list[str] = field(default_factory=list)
+    trend_components: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -179,7 +179,7 @@ class DriftReport:
 
     report_id: str
     generated_at: datetime
-    time_period: Tuple[datetime, datetime]
+    time_period: tuple[datetime, datetime]
 
     # Overall drift status
     overall_drift_score: float
@@ -189,8 +189,8 @@ class DriftReport:
 
     # Measurements summary
     total_measurements: int
-    measurements_by_type: Dict[DriftType, int] = field(default_factory=dict)
-    measurements_by_severity: Dict[DriftSeverity, int] = field(default_factory=dict)
+    measurements_by_type: dict[DriftType, int] = field(default_factory=dict)
+    measurements_by_severity: dict[DriftSeverity, int] = field(default_factory=dict)
 
     # Trend analysis
     drift_trend: DriftTrend = DriftTrend.STABLE
@@ -198,21 +198,21 @@ class DriftReport:
     trend_duration: Optional[timedelta] = None
 
     # Pattern analysis
-    identified_patterns: List[DriftPattern] = field(default_factory=list)
+    identified_patterns: list[DriftPattern] = field(default_factory=list)
     pattern_correlation: float = 0.0
 
     # Forecasting
-    forecasts: List[DriftForecast] = field(default_factory=list)
-    risk_assessment: Dict[str, float] = field(default_factory=dict)
+    forecasts: list[DriftForecast] = field(default_factory=list)
+    risk_assessment: dict[str, float] = field(default_factory=dict)
 
     # Recommendations
-    immediate_actions: List[str] = field(default_factory=list)
-    preventive_measures: List[str] = field(default_factory=list)
+    immediate_actions: list[str] = field(default_factory=list)
+    preventive_measures: list[str] = field(default_factory=list)
 
     # Trinity Framework summary
-    identity_drift_summary: Dict[str, float] = field(default_factory=dict)      # ⚛️
-    consciousness_drift_summary: Dict[str, float] = field(default_factory=dict) # 🧠
-    guardian_response_summary: Dict[str, float] = field(default_factory=dict)   # 🛡️
+    identity_drift_summary: dict[str, float] = field(default_factory=dict)      # ⚛️
+    consciousness_drift_summary: dict[str, float] = field(default_factory=dict) # 🧠
+    guardian_response_summary: dict[str, float] = field(default_factory=dict)   # 🛡️
 
 
 class AdvancedDriftDetector:
@@ -224,7 +224,7 @@ class AdvancedDriftDetector:
     while maintaining the critical 0.15 threshold for system stability.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Core configuration
@@ -234,19 +234,19 @@ class AdvancedDriftDetector:
 
         # Data storage
         self.drift_measurements: deque = deque(maxlen=10000)
-        self.baselines: Dict[str, Dict[str, Any]] = {}
-        self.patterns: Dict[str, DriftPattern] = {}
-        self.forecasts: Dict[str, DriftForecast] = {}
+        self.baselines: dict[str, dict[str, Any]] = {}
+        self.patterns: dict[str, DriftPattern] = {}
+        self.forecasts: dict[str, DriftForecast] = {}
 
         # Real-time tracking
-        self.current_measurements: Dict[DriftType, float] = {}
-        self.measurement_history: Dict[DriftType, deque] = {
+        self.current_measurements: dict[DriftType, float] = {}
+        self.measurement_history: dict[DriftType, deque] = {
             drift_type: deque(maxlen=1000) for drift_type in DriftType
         }
 
         # Statistical tracking
-        self.statistical_models: Dict[str, Any] = {}
-        self.anomaly_detectors: Dict[str, Any] = {}
+        self.statistical_models: dict[str, Any] = {}
+        self.anomaly_detectors: dict[str, Any] = {}
 
         # Performance metrics
         self.metrics = {
@@ -293,13 +293,207 @@ class AdvancedDriftDetector:
         asyncio.create_task(self._pattern_analysis_loop())
         asyncio.create_task(self._forecasting_loop())
         asyncio.create_task(self._cleanup_loop())
+    
+    async def _establish_baselines(self):
+        """Establish baseline measurements for drift detection"""
+        
+        try:
+            # Create default baselines for different drift types
+            for drift_type in DriftType:
+                baseline_id = f"baseline_{drift_type.value}_{uuid.uuid4().hex[:8]}"
+                
+                baseline = {
+                    "baseline_id": baseline_id,
+                    "drift_type": drift_type.value,
+                    "created_at": datetime.now(),
+                    "values": {
+                        "mean": 0.5,
+                        "std": 0.1,
+                        "count": 100
+                    },
+                    "statistical_profile": {
+                        "response_time": {
+                            "mean": 150.0,
+                            "std": 50.0,
+                            "percentiles": {5: 100, 95: 300}
+                        },
+                        "accuracy": {
+                            "mean": 0.85,
+                            "std": 0.1,
+                            "percentiles": {5: 0.7, 95: 0.95}
+                        }
+                    }
+                }
+                
+                self.baselines[f"{drift_type.value}_default"] = baseline
+                
+            logger.info(f"✅ Established {len(self.baselines)} baseline measurements")
+            
+        except Exception as e:
+            logger.error(f"❌ Failed to establish baselines: {e}")
+    
+    async def _initialize_statistical_models(self):
+        """Initialize statistical models for drift detection"""
+        
+        try:
+            # Initialize simple statistical models
+            for drift_type in DriftType:
+                model_key = f"{drift_type.value}_model"
+                
+                # Simple statistical model placeholder
+                self.statistical_models[model_key] = {
+                    "model_type": "statistical",
+                    "drift_type": drift_type.value,
+                    "parameters": {
+                        "threshold": self.drift_threshold,
+                        "window_size": 100,
+                        "sensitivity": 0.1
+                    },
+                    "trained_at": datetime.now(),
+                    "performance": {
+                        "accuracy": 0.85,
+                        "precision": 0.80,
+                        "recall": 0.75
+                    }
+                }
+                
+            logger.info(f"✅ Initialized {len(self.statistical_models)} statistical models")
+            
+        except Exception as e:
+            logger.error(f"❌ Failed to initialize statistical models: {e}")
+    
+    async def _get_baseline(self, drift_type: DriftType, source_system: str) -> Optional[dict[str, Any]]:
+        """Get baseline for drift comparison"""
+        
+        # Look for specific baseline first
+        baseline_key = f"{drift_type.value}_{source_system}"
+        if baseline_key in self.baselines:
+            return self.baselines[baseline_key]
+        
+        # Fall back to default baseline for drift type
+        default_key = f"{drift_type.value}_default"
+        if default_key in self.baselines:
+            return self.baselines[default_key]
+        
+        # Return None if no baseline found
+        return None
+    
+    async def _create_baseline(self, drift_type: DriftType, source_system: str, current_data: dict[str, Any]) -> dict[str, Any]:
+        """Create new baseline from current data"""
+        
+        baseline_id = f"baseline_{drift_type.value}_{source_system}_{uuid.uuid4().hex[:8]}"
+        
+        baseline = {
+            "baseline_id": baseline_id,
+            "drift_type": drift_type.value,
+            "source_system": source_system,
+            "created_at": datetime.now(),
+            "values": current_data.copy(),
+            "statistical_profile": self._calculate_statistical_profile(current_data)
+        }
+        
+        # Store baseline
+        baseline_key = f"{drift_type.value}_{source_system}"
+        self.baselines[baseline_key] = baseline
+        
+        logger.info(f"📊 Created new baseline: {baseline_id}")
+        return baseline
+    
+    def _calculate_statistical_profile(self, data: dict[str, Any]) -> dict[str, Any]:
+        """Calculate statistical profile from data"""
+        
+        profile = {}
+        
+        for key, value in data.items():
+            if isinstance(value, (int, float)):
+                profile[key] = {
+                    "mean": float(value),
+                    "std": 0.1,  # Default std dev
+                    "min": float(value) * 0.8,
+                    "max": float(value) * 1.2,
+                    "percentiles": {
+                        5: float(value) * 0.9,
+                        95: float(value) * 1.1
+                    }
+                }
+        
+        return profile
+    
+    async def _pattern_analysis_loop(self):
+        """Background loop for pattern analysis"""
+        
+        while self.monitoring_active:
+            try:
+                await self._analyze_patterns()
+                await asyncio.sleep(30)  # Pattern analysis every 30 seconds
+                
+            except Exception as e:
+                logger.error(f"❌ Pattern analysis loop error: {e}")
+                await asyncio.sleep(60)
+    
+    async def _forecasting_loop(self):
+        """Background loop for drift forecasting"""
+        
+        while self.monitoring_active:
+            try:
+                await self._update_forecasts()
+                await asyncio.sleep(60)  # Forecasting every minute
+                
+            except Exception as e:
+                logger.error(f"❌ Forecasting loop error: {e}")
+                await asyncio.sleep(120)
+    
+    async def _cleanup_loop(self):
+        """Background loop for data cleanup"""
+        
+        while self.monitoring_active:
+            try:
+                await self._cleanup_old_data()
+                await asyncio.sleep(3600)  # Cleanup every hour
+                
+            except Exception as e:
+                logger.error(f"❌ Cleanup loop error: {e}")
+                await asyncio.sleep(1800)
+    
+    async def _analyze_patterns(self):
+        """Analyze drift patterns"""
+        
+        # Placeholder for pattern analysis
+        # Would implement sophisticated pattern detection
+        pass
+    
+    async def _update_forecasts(self):
+        """Update drift forecasts"""
+        
+        # Placeholder for forecasting
+        # Would implement predictive drift analysis
+        pass
+    
+    async def _cleanup_old_data(self):
+        """Cleanup old drift data"""
+        
+        # Remove old measurements beyond retention period
+        cutoff_time = datetime.now() - timedelta(days=self.history_retention_days)
+        
+        # Clean measurement history
+        for drift_type in self.measurement_history:
+            history = self.measurement_history[drift_type]
+            while history and history[0]["timestamp"] < cutoff_time:
+                history.popleft()
+    
+    async def _detect_drift_patterns(self):
+        """Detect drift patterns in measurements"""
+        
+        # Placeholder for pattern detection
+        # Would analyze measurement history for patterns
+        pass
 
     async def measure_drift(
         self,
         drift_type: DriftType,
-        current_data: Dict[str, Any],
+        current_data: dict[str, Any],
         source_system: str,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None
     ) -> DriftMeasurement:
         """
         Measure drift for a specific type and data
@@ -426,8 +620,8 @@ class AdvancedDriftDetector:
 
     async def _calculate_statistical_drift(
         self,
-        current_data: Dict[str, Any],
-        baseline: Dict[str, Any],
+        current_data: dict[str, Any],
+        baseline: dict[str, Any],
         drift_type: DriftType
     ) -> float:
         """Calculate statistical drift using various statistical measures"""
@@ -479,7 +673,7 @@ class AdvancedDriftDetector:
 
         return statistics.mean(drift_scores) if drift_scores else 0.0
 
-    def _calculate_distribution(self, values: List) -> Dict[str, float]:
+    def _calculate_distribution(self, values: list) -> dict[str, float]:
         """Calculate distribution characteristics"""
         if not values:
             return {}
@@ -496,7 +690,7 @@ class AdvancedDriftDetector:
             "median": statistics.median(numeric_values)
         }
 
-    def _calculate_ks_distance(self, dist1: Dict[str, float], dist2: Dict[str, float]) -> float:
+    def _calculate_ks_distance(self, dist1: dict[str, float], dist2: dict[str, float]) -> float:
         """Calculate Kolmogorov-Smirnov distance approximation"""
 
         # Simple approximation based on mean and std differences
@@ -514,8 +708,8 @@ class AdvancedDriftDetector:
 
     async def _calculate_rule_based_drift(
         self,
-        current_data: Dict[str, Any],
-        baseline: Dict[str, Any],
+        current_data: dict[str, Any],
+        baseline: dict[str, Any],
         drift_type: DriftType
     ) -> float:
         """Calculate drift using rule-based detection"""
@@ -573,11 +767,23 @@ class AdvancedDriftDetector:
                     drift_indicators.append(min(1.0, degradation))
 
         return min(1.0, statistics.mean(drift_indicators)) if drift_indicators else 0.0
+    
+    async def _handle_threshold_breach(self, measurement):
+        """Handle drift threshold breach"""
+        
+        logger.warning(f"🚨 Drift threshold breach: {measurement.drift_type.value} = {measurement.drift_score:.4f} (threshold: {self.drift_threshold})")
+        
+        # Update metrics
+        self.metrics["threshold_breaches"] += 1
+        
+        # Create alert/notification
+        # In production, would trigger alerts, notifications, etc.
+        pass
 
     async def _calculate_behavioral_drift(
         self,
-        current_data: Dict[str, Any],
-        baseline: Dict[str, Any],
+        current_data: dict[str, Any],
+        baseline: dict[str, Any],
         drift_type: DriftType
     ) -> float:
         """Calculate behavioral drift using pattern analysis"""
@@ -651,8 +857,8 @@ class AdvancedDriftDetector:
 
     async def _calculate_constitutional_drift(
         self,
-        current_data: Dict[str, Any],
-        baseline: Dict[str, Any],
+        current_data: dict[str, Any],
+        baseline: dict[str, Any],
         drift_type: DriftType
     ) -> float:
         """Calculate constitutional compliance drift"""
@@ -683,7 +889,7 @@ class AdvancedDriftDetector:
 
         return statistics.mean(constitutional_scores) if constitutional_scores else 0.0
 
-    async def _combine_drift_scores(self, drift_scores: Dict[str, float]) -> Tuple[float, float]:
+    async def _combine_drift_scores(self, drift_scores: dict[str, float]) -> tuple[float, float]:
         """Combine multiple drift scores into final score and confidence"""
 
         if not drift_scores:
@@ -739,11 +945,11 @@ class AdvancedDriftDetector:
 
     async def _analyze_contributing_factors(
         self,
-        current_data: Dict[str, Any],
-        baseline: Dict[str, Any],
-        drift_scores: Dict[str, float],
+        current_data: dict[str, Any],
+        baseline: dict[str, Any],
+        drift_scores: dict[str, float],
         drift_type: DriftType
-    ) -> List[str]:
+    ) -> list[str]:
         """Analyze factors contributing to drift"""
 
         factors = []
@@ -781,7 +987,7 @@ class AdvancedDriftDetector:
     async def _analyze_identity_impact(
         self,
         drift_type: DriftType,
-        current_data: Dict[str, Any],
+        current_data: dict[str, Any],
         drift_score: float
     ) -> Optional[float]:
         """Analyze impact on identity systems (⚛️)"""
@@ -802,7 +1008,7 @@ class AdvancedDriftDetector:
     async def _analyze_consciousness_impact(
         self,
         drift_type: DriftType,
-        current_data: Dict[str, Any],
+        current_data: dict[str, Any],
         drift_score: float
     ) -> Optional[float]:
         """Analyze impact on consciousness systems (🧠)"""
@@ -823,7 +1029,7 @@ class AdvancedDriftDetector:
     async def _determine_guardian_priority(
         self,
         measurement: DriftMeasurement,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> str:
         """Determine Guardian system priority (🛡️)"""
 
@@ -873,7 +1079,7 @@ class AdvancedDriftDetector:
 
     async def get_drift_report(
         self,
-        time_period: Optional[Tuple[datetime, datetime]] = None
+        time_period: Optional[tuple[datetime, datetime]] = None
     ) -> DriftReport:
         """Generate comprehensive drift report"""
 
@@ -953,7 +1159,7 @@ class AdvancedDriftDetector:
 
         return report
 
-    async def get_system_metrics(self) -> Dict[str, Any]:
+    async def get_system_metrics(self) -> dict[str, Any]:
         """Get drift detection system metrics"""
         return self.metrics.copy()
 

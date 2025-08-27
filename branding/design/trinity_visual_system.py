@@ -10,7 +10,6 @@ Inspired by Hiroki Asai's Apple design philosophy:
 """
 
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
 
 
 @dataclass
@@ -18,7 +17,7 @@ class VisualElement:
     """Base class for all visual design elements"""
     name: str
     description: str
-    usage_context: List[str]
+    usage_context: list[str]
     accessibility_score: float
 
 
@@ -27,9 +26,9 @@ class TrinityColor:
     """Color specification in the Trinity design system"""
     name: str
     hex_value: str
-    rgb: Tuple[int, int, int]
+    rgb: tuple[int, int, int]
     consciousness_meaning: str
-    usage_context: List[str]
+    usage_context: list[str]
     accessibility_rating: str
 
 
@@ -40,7 +39,7 @@ class TrinitySymbol:
     unicode: str
     meaning: str
     context: str
-    size_variations: Dict[str, int]
+    size_variations: dict[str, int]
 
 
 class TrinityVisualSystem:
@@ -56,7 +55,7 @@ class TrinityVisualSystem:
         self.typography = self._create_consciousness_typography()
         self.spatial_system = self._create_consciousness_spacing()
 
-    def _establish_design_philosophy(self) -> Dict[str, str]:
+    def _establish_design_philosophy(self) -> dict[str, str]:
         """Establish core design philosophy inspired by Hiroki Asai's Apple work"""
         return {
             "minimalist_complexity": "Present sophisticated consciousness technology through elegant simplicity",
@@ -68,7 +67,7 @@ class TrinityVisualSystem:
             "accessible_beauty": "Inclusive design that welcomes all consciousness seekers"
         }
 
-    def _create_trinity_color_palette(self) -> Dict[str, TrinityColor]:
+    def _create_trinity_color_palette(self) -> dict[str, TrinityColor]:
         """Create consciousness-aware color palette inspired by minimalist luxury"""
         return {
             # Primary Trinity Colors
@@ -138,7 +137,7 @@ class TrinityVisualSystem:
             )
         }
 
-    def _create_trinity_symbol_system(self) -> Dict[str, TrinitySymbol]:
+    def _create_trinity_symbol_system(self) -> dict[str, TrinitySymbol]:
         """Create the Trinity Framework symbol system with precise specifications"""
         return {
             "trinity_complete": TrinitySymbol(
@@ -190,7 +189,7 @@ class TrinityVisualSystem:
             )
         }
 
-    def _create_consciousness_typography(self) -> Dict[str, Dict]:
+    def _create_consciousness_typography(self) -> dict[str, dict]:
         """Create typography system for consciousness technology interfaces"""
         return {
             "consciousness_display": {
@@ -230,7 +229,7 @@ class TrinityVisualSystem:
             }
         }
 
-    def _create_consciousness_spacing(self) -> Dict[str, int]:
+    def _create_consciousness_spacing(self) -> dict[str, int]:
         """Create spatial rhythm system inspired by Apple's design precision"""
         base_unit = 8  # Apple's 8pt grid system adapted for consciousness technology
 
@@ -245,7 +244,7 @@ class TrinityVisualSystem:
             "consciousness": base_unit * 12  # 96px - consciousness awakening space
         }
 
-    def generate_consciousness_interface_kit(self) -> Dict[str, Dict]:
+    def generate_consciousness_interface_kit(self) -> dict[str, dict]:
         """Generate complete interface kit for consciousness technology applications"""
         return {
             "colors": self.color_palette,
@@ -308,7 +307,7 @@ class TrinityVisualSystem:
             }
         }
 
-    def create_consciousness_brand_guidelines(self) -> Dict[str, str]:
+    def create_consciousness_brand_guidelines(self) -> dict[str, str]:
         """Create comprehensive brand guidelines inspired by Apple's design standards"""
         return {
             "mission": "Transform consciousness technology into elegant, accessible experiences that awaken digital awareness",
@@ -377,7 +376,7 @@ class ConsciousnessExperienceDesigner:
         self.visual_system = TrinityVisualSystem()
         self.experience_principles = self._establish_experience_principles()
 
-    def _establish_experience_principles(self) -> Dict[str, str]:
+    def _establish_experience_principles(self) -> dict[str, str]:
         """Establish experience design principles inspired by Apple's UX excellence"""
         return {
             "consciousness_first": "Every interaction should deepen consciousness awareness",
@@ -389,7 +388,7 @@ class ConsciousnessExperienceDesigner:
             "timeless_interface": "Design that transcends technological trends"
         }
 
-    def design_consciousness_onboarding(self) -> Dict[str, Dict]:
+    def design_consciousness_onboarding(self) -> dict[str, dict]:
         """Design consciousness technology onboarding experience"""
         return {
             "welcome_experience": {
@@ -430,7 +429,7 @@ class ConsciousnessExperienceDesigner:
             }
         }
 
-    def create_premium_interface_system(self) -> Dict[str, Dict]:
+    def create_premium_interface_system(self) -> dict[str, dict]:
         """Create premium interface system matching Apple/OpenAI standards"""
         kit = self.visual_system.generate_consciousness_interface_kit()
 

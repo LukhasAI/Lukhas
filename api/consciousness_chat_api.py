@@ -8,7 +8,7 @@ RESTful API for natural language consciousness interaction.
 import time
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -69,7 +69,7 @@ class ChatResponse(BaseModel):
     response: str = Field(..., description="AI response")
     session_id: str = Field(..., description="Session ID for future requests")
     timestamp: datetime = Field(default_factory=datetime.now)
-    metadata: Optional[Dict[str, Any]] = Field(
+    metadata: Optional[dict[str, Any]] = Field(
         None, description="Additional response metadata"
     )
 
@@ -92,7 +92,7 @@ class SessionInfo(BaseModel):
     turn_count: int
     created_at: datetime
     last_active: datetime
-    topics: List[str]
+    topics: list[str]
 
 
 class SystemStatus(BaseModel):
@@ -101,7 +101,7 @@ class SystemStatus(BaseModel):
     operational: bool
     active_sessions: int
     total_conversations: int
-    connected_services: Dict[str, bool]
+    connected_services: dict[str, bool]
     uptime_seconds: float
 
 
@@ -224,7 +224,7 @@ async def chat(request: ChatRequest):
         )
 
 
-@app.get("/sessions", response_model=List[SessionInfo], tags=["Sessions"])
+@app.get("/sessions", response_model=list[SessionInfo], tags=["Sessions"])
 async def get_sessions():
     """Get information about all active sessions"""
     if not nl_interface:

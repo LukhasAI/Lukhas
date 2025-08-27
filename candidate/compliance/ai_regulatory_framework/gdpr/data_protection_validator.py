@@ -11,7 +11,7 @@ Full GDPR compliance validation will be implemented in the comprehensive update.
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class LawfulBasis(Enum):
@@ -56,10 +56,10 @@ class DataProcessingActivity:
     description: str
     controller: str
     processor: Optional[str] = None
-    data_categories: List[DataCategory] = field(default_factory=list)
+    data_categories: list[DataCategory] = field(default_factory=list)
     lawful_basis: LawfulBasis = LawfulBasis.CONSENT
-    purposes: List[ProcessingPurpose] = field(default_factory=list)
-    data_subjects: List[str] = field(default_factory=list)
+    purposes: list[ProcessingPurpose] = field(default_factory=list)
+    data_subjects: list[str] = field(default_factory=list)
     retention_period: str = "1 year"
     international_transfers: bool = False
     automated_decision_making: bool = False
@@ -73,8 +73,8 @@ class GDPRAssessment:
     activity_id: str
     assessment_date: datetime
     overall_score: float  # 0.0 to 1.0
-    violations: List[Dict[str, Any]] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    violations: list[dict[str, Any]] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
     compliance_status: str = "UNKNOWN"
 
 
@@ -141,11 +141,11 @@ class GDPRValidator:
             compliance_status=status,
         )
 
-    def get_supported_jurisdictions(self) -> List[str]:
+    def get_supported_jurisdictions(self) -> list[str]:
         """Get list of supported jurisdictions"""
         return ["EU", "EEA"]
 
-    def get_validator_info(self) -> Dict[str, Any]:
+    def get_validator_info(self) -> dict[str, Any]:
         """Get validator information"""
         return {
             "name": self.name,

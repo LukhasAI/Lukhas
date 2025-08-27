@@ -31,7 +31,7 @@ except ImportError:
 
     @dataclass  # type: ignore
     class LogData:
-        attributes: typing.Dict[str, Any]
+        attributes: dict[str, Any]
         body: Optional[str]  # Simplified placeholder # type: ignore
 
     class LogExporter:  # type: ignore
@@ -54,7 +54,7 @@ class InMemoryLogExporter(LogExporter):  # type: ignore
     """
 
     def __init__(self):
-        self._logs: typing.List[LogData] = []
+        self._logs: list[LogData] = []
         self._lock = threading.Lock()
         self._stopped = False
 
@@ -63,7 +63,7 @@ class InMemoryLogExporter(LogExporter):  # type: ignore
         with self._lock:
             self._logs.clear()
 
-    def get_finished_logs(self) -> typing.Tuple[LogData, ...]:
+    def get_finished_logs(self) -> tuple[LogData, ...]:
         """Returns a tuple of all LogData records collected so far."""
         with self._lock:
             return tuple(self._logs)

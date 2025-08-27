@@ -15,7 +15,7 @@ from base64 import urlsafe_b64encode
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
@@ -51,16 +51,16 @@ class SymbolMapping:
     usage_count: int = 0
     created_at: float = field(default_factory=time.time)
     last_used: float = field(default_factory=time.time)
-    evolution_history: List[Dict[str, Any]] = field(default_factory=list)
+    evolution_history: list[dict[str, Any]] = field(default_factory=list)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         data = asdict(self)
         data["gesture_type"] = self.gesture_type.value
         return data
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "SymbolMapping":
+    def from_dict(cls, data: dict[str, Any]) -> "SymbolMapping":
         """Create from dictionary"""
         data = data.copy()
         data["gesture_type"] = GestureType(data["gesture_type"])
@@ -72,12 +72,12 @@ class GesturePattern:
     """Pattern recognition for gestures"""
 
     pattern_id: str
-    gesture_sequence: List[str]
-    timing: List[float]  # Time between gestures
+    gesture_sequence: list[str]
+    timing: list[float]  # Time between gestures
     confidence_threshold: float = 0.8
     matched_symbol: Optional[str] = None
 
-    def matches(self, sequence: List[str], timings: List[float]) -> bool:
+    def matches(self, sequence: list[str], timings: list[float]) -> bool:
         """Check if a sequence matches this pattern"""
         if len(sequence) != len(self.gesture_sequence):
             return False
@@ -110,16 +110,16 @@ class PersonalSymbolDictionary:
         self.storage_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Symbol mappings
-        self.mappings: Dict[str, SymbolMapping] = {}
-        self.gesture_patterns: Dict[str, GesturePattern] = {}
+        self.mappings: dict[str, SymbolMapping] = {}
+        self.gesture_patterns: dict[str, GesturePattern] = {}
 
         # Privacy settings
         self.encryption_key: Optional[bytes] = None
         self.is_locked = True
 
         # Evolution tracking
-        self.evolution_history: List[Dict[str, Any]] = []
-        self.feedback_scores: Dict[str, float] = {}
+        self.evolution_history: list[dict[str, Any]] = []
+        self.feedback_scores: dict[str, float] = {}
 
         # Initialize with base gesture symbols
         self._initialize_base_symbols()
@@ -188,7 +188,7 @@ class PersonalSymbolDictionary:
         meaning: str,
         gesture_type: GestureType,
         context: str = "",
-        gesture_sequence: Optional[List[str]] = None,
+        gesture_sequence: Optional[list[str]] = None,
     ) -> bool:
         """Add a new symbol mapping"""
         if self.is_locked:
@@ -232,7 +232,7 @@ class PersonalSymbolDictionary:
         return None
 
     def detect_gesture(
-        self, gesture_sequence: List[str], timings: Optional[List[float]] = None
+        self, gesture_sequence: list[str], timings: Optional[list[float]] = None
     ) -> Optional[str]:
         """Detect symbol from gesture sequence"""
         for pattern in self.gesture_patterns.values():
@@ -282,7 +282,7 @@ class PersonalSymbolDictionary:
 
             logger.info(f"Evolved symbol {symbol}: {old_meaning} -> {new_meaning}")
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get usage statistics for the dictionary"""
         if self.is_locked:
             return {"status": "locked"}
@@ -317,7 +317,7 @@ class PersonalSymbolDictionary:
 
     def export_public_symbols(
         self, confidence_threshold: float = 0.8
-    ) -> Dict[str, str]:
+    ) -> dict[str, str]:
         """
         Export high-confidence symbols for universal exchange.
         Only exports symbols above confidence threshold with no personal context.
@@ -341,7 +341,7 @@ class PersonalSymbolDictionary:
 
         return public_symbols
 
-    def import_universal_symbols(self, universal_symbols: Dict[str, float]):
+    def import_universal_symbols(self, universal_symbols: dict[str, float]):
         """Import symbols from universal exchange with confidence scores"""
         if self.is_locked:
             return

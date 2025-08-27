@@ -7,6 +7,7 @@ with contextual awareness, biological correlation, and predictive analysis.
 """
 
 import asyncio
+import contextlib
 import math
 import statistics
 import time
@@ -14,7 +15,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Optional
 
 import structlog
 
@@ -93,12 +94,12 @@ class MetricDefinition:
     collection_interval: float = 5.0  # seconds
     retention_limit: int = 1000
     aggregation_window: int = 60  # seconds for rolling aggregation
-    correlation_targets: List[str] = field(default_factory=list)
+    correlation_targets: list[str] = field(default_factory=list)
     context_sensitive: bool = True
     biological_relevance: float = 0.0  # 0-1 scale
     predictive_value: float = 0.0  # 0-1 scale
     anomaly_detection: bool = True
-    normalization_range: Tuple[float, float] = (0.0, 1.0)
+    normalization_range: tuple[float, float] = (0.0, 1.0)
 
 
 @dataclass
@@ -108,10 +109,10 @@ class MetricDataPoint:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     value: float = 0.0
     context: MetricContext = MetricContext.NORMAL_OPERATION
-    biological_correlation: Dict[str, float] = field(default_factory=dict)
+    biological_correlation: dict[str, float] = field(default_factory=dict)
     quality_score: float = 1.0  # Data quality indicator
     anomaly_score: float = 0.0  # Anomaly detection score
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -120,13 +121,13 @@ class ContextualAnalysis:
 
     context: MetricContext
     time_window: timedelta
-    metric_statistics: Dict[str, Dict[str, float]] = field(default_factory=dict)
-    correlations: Dict[str, float] = field(default_factory=dict)
-    trends: Dict[str, str] = field(
+    metric_statistics: dict[str, dict[str, float]] = field(default_factory=dict)
+    correlations: dict[str, float] = field(default_factory=dict)
+    trends: dict[str, str] = field(
         default_factory=dict
     )  # "improving", "declining", "stable"
-    anomalies: List[Dict[str, Any]] = field(default_factory=list)
-    predictions: Dict[str, float] = field(default_factory=dict)
+    anomalies: list[dict[str, Any]] = field(default_factory=list)
+    predictions: dict[str, float] = field(default_factory=dict)
 
 
 class AdaptiveMetricsCollector:
@@ -138,41 +139,39 @@ class AdaptiveMetricsCollector:
     def __init__(
         self,
         signal_bus: Optional[SignalBus] = None,
-        config: Optional[Dict[str, Any]] = None,
+        config: Optional[dict[str, Any]] = None,
     ):
         # Allow no-arg construction for tests/demos by falling back to global bus
         if signal_bus is None and _get_global_signal_bus is not None:
-            try:
+            with contextlib.suppress(Exception):
                 signal_bus = _get_global_signal_bus()
-            except Exception:
-                pass
         self.signal_bus = signal_bus  # May be None in minimal test contexts
         self.config = config or {}
 
         # Core collection state
         self.is_collecting = False
-        self.collection_tasks: Dict[str, asyncio.Task] = {}
+        self.collection_tasks: dict[str, asyncio.Task] = {}
 
         # Metric definitions and storage
-        self.metric_definitions: Dict[str, MetricDefinition] = {}
-        self.metric_data: Dict[str, deque] = {}
+        self.metric_definitions: dict[str, MetricDefinition] = {}
+        self.metric_data: dict[str, deque] = {}
         self.context_history: deque = deque(maxlen=1000)
         self.current_context = MetricContext.NORMAL_OPERATION
 
         # Analysis and correlation
-        self.correlation_matrix: Dict[str, Dict[str, float]] = defaultdict(dict)
-        self.contextual_analyses: Dict[MetricContext, ContextualAnalysis] = {}
-        self.anomaly_detectors: Dict[str, AnomalyDetector] = {}
-        self.predictive_models: Dict[str, PredictiveModel] = {}
+        self.correlation_matrix: dict[str, dict[str, float]] = defaultdict(dict)
+        self.contextual_analyses: dict[MetricContext, ContextualAnalysis] = {}
+        self.anomaly_detectors: dict[str, AnomalyDetector] = {}
+        self.predictive_models: dict[str, PredictiveModel] = {}
 
         # Biological integration
         self.biological_correlator = BiologicalCorrelator()
         self.current_endocrine_state: Optional[EndocrineSnapshot] = None
 
         # Adaptive behavior
-        self.adaptive_intervals: Dict[str, float] = {}
-        self.context_triggers: Dict[MetricContext, List[Callable]] = defaultdict(list)
-        self.collection_priorities: Dict[str, float] = {}
+        self.adaptive_intervals: dict[str, float] = {}
+        self.context_triggers: dict[MetricContext, list[Callable]] = defaultdict(list)
+        self.collection_priorities: dict[str, float] = {}
 
         # Performance optimization
         self.collection_batch_size = self.config.get("batch_size", 10)
@@ -591,7 +590,7 @@ class AdaptiveMetricsCollector:
 
     async def _correlate_with_biology(
         self, metric_name: str, value: float
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Correlate metric with current biological state"""
         correlations = {}
 
@@ -618,7 +617,7 @@ class AdaptiveMetricsCollector:
 
         return quality
 
-    async def _gather_metric_metadata(self, metric_name: str) -> Dict[str, Any]:
+    async def _gather_metric_metadata(self, metric_name: str) -> dict[str, Any]:
         """Gather additional metadata for the metric"""
         return {
             "context": self.current_context.value,
@@ -769,7 +768,7 @@ class AdaptiveMetricsCollector:
         """Update current endocrine state for biological correlation"""
         self.current_endocrine_state = endocrine_state
 
-    def get_current_metrics(self) -> Dict[str, float]:
+    def get_current_metrics(self) -> dict[str, float]:
         """Get current values for all metrics"""
         current_metrics = {}
         for metric_name in self.metric_definitions:
@@ -781,7 +780,7 @@ class AdaptiveMetricsCollector:
 
     def get_metric_trend(
         self, metric_name: str, lookback_minutes: int = 30
-    ) -> List[float]:
+    ) -> list[float]:
         """Get trend data for a specific metric"""
         if metric_name not in self.metric_data:
             return []
@@ -840,7 +839,7 @@ class AdaptiveMetricsCollector:
 
         return analysis
 
-    def get_collection_statistics(self) -> Dict[str, Any]:
+    def get_collection_statistics(self) -> dict[str, Any]:
         """Get statistics about the collection process"""
         return {
             "is_collecting": self.is_collecting,
@@ -856,8 +855,8 @@ class AdaptiveMetricsCollector:
     async def collect_context_metrics(
         self,
         context: OperationalContext,
-        current_data: Dict[str, Any],
-    ) -> Dict[str, float]:
+        current_data: dict[str, Any],
+    ) -> dict[str, float]:
         """Collect context-aware metrics from provided snapshot-like data.
 
         Returns a small, consistent set of synthesized metrics so tests have
@@ -914,8 +913,8 @@ class AdaptiveMetricsCollector:
         }
 
     async def analyze_biological_correlations(
-        self, data: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, data: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Return simple pairwise correlation-like strengths between inputs.
 
         The output is a list of dicts: { metric_pair: str, strength: float }.
@@ -924,7 +923,7 @@ class AdaptiveMetricsCollector:
         perf = data.get("performance_metrics", {})
         emo = data.get("emotional_state", {})
 
-        pairs: List[Tuple[str, float, str, float]] = []
+        pairs: list[tuple[str, float, str, float]] = []
         for h_name, h_val in hormone_levels.items():
             for p_name, p_val in perf.items():
                 pairs.append(
@@ -945,7 +944,7 @@ class AdaptiveMetricsCollector:
                     )
                 )
 
-        results: List[Dict[str, Any]] = []
+        results: list[dict[str, Any]] = []
         for label, v1, _, v2 in pairs:
             # simple similarity as correlation proxy
             strength = max(0.0, 1.0 - abs(v1 - v2))
@@ -959,8 +958,8 @@ class AdaptiveMetricsCollector:
         return results
 
     async def detect_anomalies(
-        self, metric_name: str, values: List[float]
-    ) -> List[int]:
+        self, metric_name: str, values: list[float]
+    ) -> list[int]:
         """Detect indices of anomalous values using a simple z-score rule."""
         if not values:
             return []
@@ -971,7 +970,7 @@ class AdaptiveMetricsCollector:
             return []
         if std_val == 0.0:
             return []
-        anomalies: List[int] = []
+        anomalies: list[int] = []
         for idx, v in enumerate(values):
             z = abs(v - mean_val) / std_val
             if z > 2.0:  # align sensitivity for test anomaly detection
@@ -1074,7 +1073,7 @@ class BiologicalCorrelator:
 
     def calculate_correlations(
         self, metric_name: str, metric_value: float, endocrine_state: EndocrineSnapshot
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate correlations between metric and biological state"""
         correlations = {}
 
@@ -1125,7 +1124,7 @@ class BiologicalCorrelator:
 
 # Factory function
 def create_adaptive_metrics_collector(
-    signal_bus: SignalBus, config: Optional[Dict[str, Any]] = None
+    signal_bus: SignalBus, config: Optional[dict[str, Any]] = None
 ) -> AdaptiveMetricsCollector:
     """Create and return an AdaptiveMetricsCollector instance"""
     return AdaptiveMetricsCollector(signal_bus, config)

@@ -13,7 +13,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -31,12 +31,12 @@ class ThresholdConfig:
     max_value: float
     description: str
     metric_type: str  # 'entropy', 'drift', 'stability', 'trust', 'performance'
-    symbolic_pattern: List[str]
+    symbolic_pattern: list[str]
     adjustment_sensitivity: float = 0.1  # How quickly to adjust (0.0-1.0)
     stability_window: int = 20  # Number of samples for stability analysis
     last_adjusted: float = 0.0
     adjustment_count: int = 0
-    performance_history: List[float] = field(default_factory=list)
+    performance_history: list[float] = field(default_factory=list)
 
 
 @dataclass
@@ -65,7 +65,7 @@ class AdjustmentEvent:
     old_value: float
     new_value: float
     reason: str
-    symbolic_sequence: List[str]
+    symbolic_sequence: list[str]
     performance_impact: Optional[float] = None
     confidence: float = 0.5
 
@@ -210,10 +210,10 @@ class SymbolicThresholdAutotuner:
         self.update_interval = update_interval
 
         # System state
-        self.thresholds: Dict[str, ThresholdConfig] = {}
+        self.thresholds: dict[str, ThresholdConfig] = {}
         self.metrics_history: deque = deque(maxlen=1000)  # Last 1000 metric samples
-        self.adjustment_history: List[AdjustmentEvent] = []
-        self.performance_baseline: Dict[str, float] = {}
+        self.adjustment_history: list[AdjustmentEvent] = []
+        self.performance_baseline: dict[str, float] = {}
 
         # Tuning parameters
         self.learning_rate = 0.05
@@ -222,8 +222,8 @@ class SymbolicThresholdAutotuner:
         self.confidence_threshold = 0.7  # Minimum confidence for adjustment
 
         # Symbolic analysis
-        self.pattern_effectiveness: Dict[str, List[float]] = defaultdict(list)
-        self.symbolic_feedback: Dict[str, float] = {}
+        self.pattern_effectiveness: dict[str, list[float]] = defaultdict(list)
+        self.symbolic_feedback: dict[str, float] = {}
 
         # Initialize system
         self._load_threshold_config()
@@ -430,7 +430,7 @@ class SymbolicThresholdAutotuner:
             return
 
         # Analyze each threshold
-        for threshold_name, threshold in self.thresholds.items():
+        for _threshold_name, threshold in self.thresholds.items():
             # Check cooldown period
             if current_time - threshold.last_adjusted < self.adjustment_cooldown:
                 continue
@@ -473,7 +473,7 @@ class SymbolicThresholdAutotuner:
 
     async def _analyze_threshold_performance(
         self, threshold: ThresholdConfig, current_metrics: SystemPerformanceMetrics
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """Analyze performance for a specific threshold"""
 
         # Get recent performance data
@@ -508,9 +508,9 @@ class SymbolicThresholdAutotuner:
     async def _analyze_entropy_threshold(
         self,
         threshold: ThresholdConfig,
-        recent_metrics: List[SystemPerformanceMetrics],
+        recent_metrics: list[SystemPerformanceMetrics],
         current_metrics: SystemPerformanceMetrics,
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """Analyze entropy threshold performance"""
 
         # Calculate entropy statistics
@@ -588,9 +588,9 @@ class SymbolicThresholdAutotuner:
     async def _analyze_drift_threshold(
         self,
         threshold: ThresholdConfig,
-        recent_metrics: List[SystemPerformanceMetrics],
+        recent_metrics: list[SystemPerformanceMetrics],
         current_metrics: SystemPerformanceMetrics,
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """Analyze drift threshold performance"""
 
         drift_values = [m.drift_velocity for m in recent_metrics]
@@ -640,9 +640,9 @@ class SymbolicThresholdAutotuner:
     async def _analyze_stability_threshold(
         self,
         threshold: ThresholdConfig,
-        recent_metrics: List[SystemPerformanceMetrics],
+        recent_metrics: list[SystemPerformanceMetrics],
         current_metrics: SystemPerformanceMetrics,
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """Analyze consciousness stability threshold performance"""
 
         stability_values = [m.consciousness_stability for m in recent_metrics]
@@ -692,9 +692,9 @@ class SymbolicThresholdAutotuner:
     async def _analyze_trust_threshold(
         self,
         threshold: ThresholdConfig,
-        recent_metrics: List[SystemPerformanceMetrics],
+        recent_metrics: list[SystemPerformanceMetrics],
         current_metrics: SystemPerformanceMetrics,
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """Analyze trust threshold performance"""
 
         false_positives = statistics.mean(
@@ -745,9 +745,9 @@ class SymbolicThresholdAutotuner:
     async def _analyze_performance_threshold(
         self,
         threshold: ThresholdConfig,
-        recent_metrics: List[SystemPerformanceMetrics],
+        recent_metrics: list[SystemPerformanceMetrics],
         current_metrics: SystemPerformanceMetrics,
-    ) -> Optional[Dict]:
+    ) -> Optional[dict]:
         """Analyze performance threshold"""
 
         if threshold.name == "response_time_max":
@@ -800,7 +800,7 @@ class SymbolicThresholdAutotuner:
         return None
 
     async def _apply_threshold_adjustment(
-        self, threshold: ThresholdConfig, adjustment: Dict
+        self, threshold: ThresholdConfig, adjustment: dict
     ):
         """Apply a threshold adjustment"""
 
@@ -990,13 +990,13 @@ class SymbolicThresholdAutotuner:
         logger.info(f"Recent adjustments: {len(report['recent_adjustments'])}")
         logger.info(f"Performance trends tracked: {len(report['performance_trends'])}")
 
-    def get_current_thresholds(self) -> Dict[str, float]:
+    def get_current_thresholds(self) -> dict[str, float]:
         """Get current threshold values"""
         return {
             name: threshold.current_value for name, threshold in self.thresholds.items()
         }
 
-    def get_threshold_info(self, threshold_name: str) -> Optional[Dict]:
+    def get_threshold_info(self, threshold_name: str) -> Optional[dict]:
         """Get detailed information about a specific threshold"""
         if threshold_name not in self.thresholds:
             return None

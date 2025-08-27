@@ -5,7 +5,6 @@ Minimal implementation to support dream and consciousness systems.
 """
 
 import logging
-from typing import Dict
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +54,7 @@ class QIBioOscillator:
         self.active = False
         logger.info("QIBioOscillator stopped")
 
-    async def get_current_state(self) -> Dict[str, float]:
+    async def get_current_state(self) -> dict[str, float]:
         """Get current oscillator state"""
         return {
             "frequency": self.frequency,

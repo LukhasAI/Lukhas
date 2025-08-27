@@ -11,7 +11,7 @@ import wave
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -49,7 +49,7 @@ class CodecParameters:
     # Codec-specific parameters
     compression_level: int = 5  # 0-9 for FLAC, etc.
     variable_bitrate: bool = True
-    metadata: Dict[str, str] = None
+    metadata: dict[str, str] = None
 
 class AudioEncoder(ABC):
     """Abstract base class for audio encoders"""
@@ -68,7 +68,7 @@ class AudioDecoder(ABC):
     """Abstract base class for audio decoders"""
 
     @abstractmethod
-    async def decode(self, encoded_data: bytes) -> Tuple[np.ndarray, Dict[str, Any]]:
+    async def decode(self, encoded_data: bytes) -> tuple[np.ndarray, dict[str, Any]]:
         """Decode audio data"""
         pass
 
@@ -104,7 +104,7 @@ class WAVEncoder(AudioEncoder):
 class WAVDecoder(AudioDecoder):
     """WAV decoder implementation"""
 
-    async def decode(self, encoded_data: bytes) -> Tuple[np.ndarray, Dict[str, Any]]:
+    async def decode(self, encoded_data: bytes) -> tuple[np.ndarray, dict[str, Any]]:
         """Decode WAV data"""
         buffer = io.BytesIO(encoded_data)
 
@@ -277,7 +277,7 @@ class LUKHASAudioCodecManager:
         audio_data: np.ndarray,
         codec: AudioCodec,
         params: CodecParameters,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None
     ) -> bytes:
         """
         Encode audio data using specified codec
@@ -337,8 +337,8 @@ class LUKHASAudioCodecManager:
         self,
         encoded_data: bytes,
         codec: AudioCodec,
-        context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[np.ndarray, Dict[str, Any]]:
+        context: Optional[dict[str, Any]] = None
+    ) -> tuple[np.ndarray, dict[str, Any]]:
         """
         Decode audio data from specified codec
 
@@ -390,14 +390,14 @@ class LUKHASAudioCodecManager:
             })
             raise
 
-    def get_supported_codecs(self) -> Dict[str, List[AudioCodec]]:
+    def get_supported_codecs(self) -> dict[str, list[AudioCodec]]:
         """Get supported codecs for encoding and decoding"""
         return {
             "encoders": list(self.encoders.keys()),
             "decoders": list(self.decoders.keys())
         }
 
-    def get_codec_info(self, codec: AudioCodec) -> Dict[str, Any]:
+    def get_codec_info(self, codec: AudioCodec) -> dict[str, Any]:
         """Get information about a specific codec"""
         codec_info = {
             AudioCodec.PCM_WAV: {
@@ -425,7 +425,7 @@ class LUKHASAudioCodecManager:
 
         return codec_info.get(codec, {"name": codec.value, "description": "Unknown codec"})
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get codec usage statistics"""
         return self.stats.copy()
 
@@ -446,7 +446,7 @@ async def encode_to_wav(
     )
     return await codec_manager.encode_audio(audio_data, AudioCodec.PCM_WAV, params)
 
-async def decode_from_wav(encoded_data: bytes) -> Tuple[np.ndarray, Dict[str, Any]]:
+async def decode_from_wav(encoded_data: bytes) -> tuple[np.ndarray, dict[str, Any]]:
     """Simple WAV decoding"""
     codec_manager = LUKHASAudioCodecManager()
     return await codec_manager.decode_audio(encoded_data, AudioCodec.PCM_WAV)

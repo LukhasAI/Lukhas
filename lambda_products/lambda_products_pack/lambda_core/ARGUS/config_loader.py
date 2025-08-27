@@ -7,12 +7,12 @@ Loads monitoring configuration with environment variable overrides
 
 import os
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import yaml
 
 
-def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
+def load_config(config_path: Optional[str] = None) -> dict[str, Any]:
     """
     Load monitoring configuration with environment variable overrides.
 
@@ -38,7 +38,7 @@ def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
     return config
 
 
-def _apply_environment_overrides(config: Dict[str, Any]) -> Dict[str, Any]:
+def _apply_environment_overrides(config: dict[str, Any]) -> dict[str, Any]:
     """Apply environment variable overrides to configuration."""
 
     # Dashboard Configuration
@@ -282,7 +282,7 @@ def _str_to_bool(value: Union[str, bool]) -> bool:
     return str(value).lower() in ("true", "1", "yes", "on", "enabled")
 
 
-def get_config_value(config: Dict[str, Any], key_path: str, default: Any = None) -> Any:
+def get_config_value(config: dict[str, Any], key_path: str, default: Any = None) -> Any:
     """
     Get a nested configuration value using dot notation.
 
@@ -305,7 +305,7 @@ def get_config_value(config: Dict[str, Any], key_path: str, default: Any = None)
         return default
 
 
-def validate_config(config: Dict[str, Any]) -> Dict[str, Any]:
+def validate_config(config: dict[str, Any]) -> dict[str, Any]:
     """
     Validate configuration and return validation results.
 
@@ -368,7 +368,7 @@ def validate_config(config: Dict[str, Any]) -> Dict[str, Any]:
 # Convenience function to load and validate config
 def load_validated_config(
     config_path: Optional[str] = None,
-) -> tuple[Dict[str, Any], Dict[str, Any]]:
+) -> tuple[dict[str, Any], dict[str, Any]]:
     """
     Load configuration and return both config and validation results.
 

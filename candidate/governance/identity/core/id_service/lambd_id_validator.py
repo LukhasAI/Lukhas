@@ -26,7 +26,7 @@ Updated: 2025-07-05 (Enhanced with collision prevention)
 import re
 from datetime import datetime
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 
 class ValidationLevel(Enum):
@@ -368,7 +368,7 @@ class LambdaIDValidator:
 
             # Calculate checksum using SHA-256 based algorithm
             checksum_input = f"{tier}{timestamp_hash}{symbolic_char}{entropy_hash}LUKHAS_CHECKSUM_SALT"
-            calculated_checksum = hashlib.sha256(checksum_input.encode()).hexdigest()[
+            hashlib.sha256(checksum_input.encode()).hexdigest()[
                 :4
             ]
 
@@ -450,7 +450,7 @@ class LambdaIDValidator:
         except Exception:
             return False
 
-    def _get_tier_symbols(self, tier: int) -> List[str]:
+    def _get_tier_symbols(self, tier: int) -> list[str]:
         """Get valid symbols for tier"""
         tier_symbol_map = {
             0: ["◊", "○", "□"],

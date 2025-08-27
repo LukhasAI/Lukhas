@@ -11,7 +11,7 @@ import os
 import shutil
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import yaml
 
@@ -64,13 +64,13 @@ class ChangeProposal:
     ttl_sec: int
     kind: str                   # e.g., "config_patch", "router_threshold", "eval_weight_adjust"
     target_path: str            # file to patch (for config/threshold kinds)
-    current_checksum: Optional[str]
-    patch: Dict[str, Any]       # structured change (not shell)
+    current_checksum: str | None
+    patch: dict[str, Any]       # structured change (not shell)
     rationale: str
-    dry_run_diff: Optional[str] = None
-    attestation: Optional[Dict[str, Any]] = None
+    dry_run_diff: str | None = None
+    attestation: dict[str, Any] | None = None
 
-def _read_json(path: str) -> Dict[str, Any]:
+def _read_json(path: str) -> dict[str, Any]:
     with _ORIG_OPEN(path, "r", encoding="utf-8") as f: return json.load(f)
 
 def _write_json(path: str, obj: Any):
@@ -79,7 +79,7 @@ def _write_json(path: str, obj: Any):
     with _ORIG_OPEN(tmp, "w", encoding="utf-8") as f: json.dump(obj, f, indent=2)
     os.replace(tmp, path)
 
-def _file_checksum(path: str) -> Optional[str]:
+def _file_checksum(path: str) -> str | None:
     try:
         with _ORIG_OPEN(path, "rb") as f: import hashlib; return hashlib.sha256(f.read()).hexdigest()
     except Exception:
@@ -88,7 +88,7 @@ def _file_checksum(path: str) -> Optional[str]:
 def _diff(old: str, new: str) -> str:
     return "".join(difflib.unified_diff(old.splitlines(keepends=True), new.splitlines(keepends=True), fromfile="before", tofile="after"))
 
-def _attest(steps: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
+def _attest(steps: list[dict[str, Any]]) -> dict[str, Any] | None:
     if not _HAS_ATT: return None
     try:
         ch = merkle_chain(steps)
@@ -98,7 +98,7 @@ def _attest(steps: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
         return None
 
 # ---------- Observer & Planner ----------
-def observe_signals(eval_dir: str = os.environ.get("LUKHAS_EVAL_DIR","./eval_runs")) -> Dict[str, Any]:
+def observe_signals(eval_dir: str = os.environ.get("LUKHAS_EVAL_DIR","./eval_runs")) -> dict[str, Any]:
     """Read latest eval + drift to produce a compact signal summary."""
     try:
         from pathlib import Path
@@ -129,7 +129,7 @@ def _path_allowed(path: str, allowed: list[str] | None, denied: list[str] | None
             return True
     return False
 
-def plan_proposals(signals: Dict[str, Any], *, config_targets: List[str]) -> List[ChangeProposal]:
+def plan_proposals(signals: dict[str, Any], *, config_targets: list[str]) -> list[ChangeProposal]:
     """Heuristic planner: if mean below SLA or failures >0, propose gentle nudges."""
     gov = _load_governance()
     rule = (gov.get("change_kinds", {}).get("config_patch") or {})
@@ -138,10 +138,10 @@ def plan_proposals(signals: Dict[str, Any], *, config_targets: List[str]) -> Lis
     ttl = int(rule.get("ttl_sec", 3600))
     risk_class = str(rule.get("risk", "medium"))
 
-    props: List[ChangeProposal] = []
+    props: list[ChangeProposal] = []
     mean = signals.get("eval_weighted_mean") or 1.0
     fails = signals.get("eval_failures") or 0
-    suite = signals.get("suite_id") or "unknown"
+    signals.get("suite_id") or "unknown"
 
     if mean < 0.85 or fails > 0:
         # Example: propose to slightly increase safety threshold or adjust eval weights
@@ -201,7 +201,7 @@ def _queue_proposal(p: ChangeProposal):
     _write_json(qpath, asdict(p))
     _audit("proposal_queued", {"id": p.id, "target": p.target_path, "risk": p.risk})
 
-def _audit(kind: str, rec: Dict[str, Any]):
+def _audit(kind: str, rec: dict[str, Any]):
     try:
         with _ORIG_OPEN(os.path.join(ADIR, "selfheal.jsonl"), "a", encoding="utf-8") as f:
             rec = {"ts": _now(), "kind": kind, **rec}
@@ -210,7 +210,7 @@ def _audit(kind: str, rec: Dict[str, Any]):
         pass
 
 # ---------- Approval & Apply ----------
-def list_proposals() -> List[Dict[str, Any]]:
+def list_proposals() -> list[dict[str, Any]]:
     out=[]
     for fn in sorted(os.listdir(QDIR)):
         if not fn.endswith(".json"): continue
@@ -222,7 +222,7 @@ def _required_reviewers(kind: str) -> int:
     gov = _load_governance()
     return int(gov.get("change_kinds", {}).get(kind, {}).get("reviewers_required", 1))
 
-def approve(proposal_id: str, approver: str, reason: str = "") -> Dict[str, Any]:
+def approve(proposal_id: str, approver: str, reason: str = "") -> dict[str, Any]:
     p = _read_json(os.path.join(QDIR, f"{proposal_id}.json"))
     ap_path = os.path.join(PDIR, f"{proposal_id}.approval.json")
     approvals = {"status":"pending","approvers":[], "ts": _now(), "kind": p.get("kind")}
@@ -236,8 +236,8 @@ def approve(proposal_id: str, approver: str, reason: str = "") -> Dict[str, Any]
     _write_json(ap_path, approvals); _audit("proposal_approved", {"id": proposal_id, "approver": approver, "status": approvals["status"]})
     return approvals
 
-def reject(proposal_id: str, approver: str, reason: str = "") -> Dict[str, Any]:
-    p = _read_json(os.path.join(QDIR, f"{proposal_id}.json"))
+def reject(proposal_id: str, approver: str, reason: str = "") -> dict[str, Any]:
+    _read_json(os.path.join(QDIR, f"{proposal_id}.json"))
     ack = {"id": proposal_id, "status":"rejected", "approver": approver, "reason": reason, "ts": _now()}
     _write_json(os.path.join(PDIR, f"{proposal_id}.approval.json"), ack)
     _audit("proposal_rejected", {"id": proposal_id, "approver": approver})
@@ -250,7 +250,7 @@ def _approved(proposal_id: str) -> bool:
     need = _required_reviewers(j.get("kind","config_patch"))
     return j.get("status") == "approved" and len(j.get("approvers",[])) >= need
 
-def apply(proposal_id: str, subject_user: str = "system") -> Dict[str, Any]:
+def apply(proposal_id: str, subject_user: str = "system") -> dict[str, Any]:
     """
     Apply only if approved and within TTL. Uses sandbox w/ FS caps for target_path.
     """
@@ -318,7 +318,7 @@ def apply(proposal_id: str, subject_user: str = "system") -> Dict[str, Any]:
     _audit("proposal_applied", {"id": proposal_id, "target": target, "backup": backup})
     return {"ok": True, "proposal": proposal_id, "backup": backup, "receipt_id": receipt_id}
 
-def _apply_patch(target: str, backup: str, patch: Dict[str, Any]):
+def _apply_patch(target: str, backup: str, patch: dict[str, Any]):
     """Apply configuration patch with backup and rollback."""
     try:
         old = _ORIG_OPEN(target, "r", encoding="utf-8").read()
@@ -366,7 +366,7 @@ def main():
     s2 = sub.add_parser("plan")
     s2.add_argument("--targets", nargs="+", default=["qi/safety/policy_packs/global/mappings.yaml"])
 
-    s3 = sub.add_parser("list")
+    sub.add_parser("list")
 
     s4 = sub.add_parser("approve")
     s4.add_argument("--id", required=True)

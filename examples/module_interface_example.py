@@ -9,7 +9,7 @@ that integrates with Memory, Consciousness, and Guardian systems.
 import asyncio
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import GLYPHSymbol, GLYPHToken, get_logger
 from core.common.exceptions import LukhasError, ValidationError
@@ -31,7 +31,7 @@ logger = get_logger(__name__)
 class AnalysisRequest:
     """Request for data analysis"""
 
-    data: Dict[str, Any]
+    data: dict[str, Any]
     analysis_type: str
     priority: str = "normal"
     ethical_check: bool = True
@@ -42,7 +42,7 @@ class AnalysisResult:
     """Result of analysis"""
 
     request_id: str
-    findings: Dict[str, Any]
+    findings: dict[str, Any]
     confidence: float
     memory_id: Optional[str] = None
     ethical_approval: Optional[bool] = None
@@ -63,7 +63,7 @@ class DataAnalyzer(CoreInterface):
     - Performance monitoring
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize the data analyzer module"""
         self.config = config or {}
         self.operational = False
@@ -81,7 +81,7 @@ class DataAnalyzer(CoreInterface):
         }
 
         # Internal state
-        self._analysis_history: List[AnalysisResult] = []
+        self._analysis_history: list[AnalysisResult] = []
 
     async def initialize(self) -> None:
         """
@@ -195,7 +195,7 @@ class DataAnalyzer(CoreInterface):
             logger.error(f"Analysis failed: {e}")
             raise
 
-    async def _validate_with_guardian(self, request: AnalysisRequest) -> Dict[str, Any]:
+    async def _validate_with_guardian(self, request: AnalysisRequest) -> dict[str, Any]:
         """Validate analysis request with Guardian system"""
         action = {
             "type": "data_analysis",
@@ -210,7 +210,7 @@ class DataAnalyzer(CoreInterface):
 
     async def _get_consciousness_input(
         self, request: AnalysisRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get consciousness assessment for the analysis"""
         # Assess what aspects to focus on
         awareness = await self.consciousness_service.assess_awareness(
@@ -236,8 +236,8 @@ class DataAnalyzer(CoreInterface):
         }
 
     async def _perform_analysis(
-        self, request: AnalysisRequest, consciousness_input: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, request: AnalysisRequest, consciousness_input: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Perform the actual data analysis"""
         # Simulate analysis based on type
         findings = {
@@ -266,13 +266,13 @@ class DataAnalyzer(CoreInterface):
 
         return findings
 
-    def _detect_patterns(self, data: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _detect_patterns(self, data: dict[str, Any]) -> list[dict[str, Any]]:
         """Detect patterns in data (simplified example)"""
         patterns = []
 
         # Example: Find repeated values
         values = []
-        for key, value in data.items():
+        for _key, value in data.items():
             if isinstance(value, (str, int, float)):
                 values.append(value)
 
@@ -289,7 +289,7 @@ class DataAnalyzer(CoreInterface):
 
         return patterns
 
-    def _assess_complexity(self, data: Dict[str, Any]) -> float:
+    def _assess_complexity(self, data: dict[str, Any]) -> float:
         """Assess data complexity (0.0-1.0)"""
         # Simple heuristic based on structure
         complexity = 0.0
@@ -322,7 +322,7 @@ class DataAnalyzer(CoreInterface):
         else:
             return current_depth
 
-    def _assess_significance(self, findings: Dict[str, Any]) -> float:
+    def _assess_significance(self, findings: dict[str, Any]) -> float:
         """Assess significance of findings (0.0-1.0)"""
         significance = 0.0
 
@@ -375,7 +375,7 @@ class DataAnalyzer(CoreInterface):
 
     # Required interface methods
 
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process data through the module (interface requirement)"""
         if not self.operational:
             raise LukhasError("Module not operational")
@@ -441,7 +441,7 @@ class DataAnalyzer(CoreInterface):
             payload=response_payload,
         )
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get module status (interface requirement)"""
         health_score = self._calculate_health_score()
 

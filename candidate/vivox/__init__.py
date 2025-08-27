@@ -7,6 +7,7 @@ NOTE: This is a candidate module. Enable with feature flag:
   VIVOX_LITE=true
 """
 
+import contextlib
 import os
 import warnings
 
@@ -20,7 +21,5 @@ warnings.warn(
 # Check if feature flag is enabled
 flag_name = "VIVOX_LITE"
 if os.getenv(flag_name, "false").lower() == "true":
-    try:
+    with contextlib.suppress(ImportError):
         from lukhas.candidate.vivox import *
-    except ImportError:
-        pass

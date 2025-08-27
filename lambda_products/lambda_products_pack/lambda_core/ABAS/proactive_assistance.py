@@ -8,7 +8,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 
 class UserState(Enum):
@@ -66,7 +66,7 @@ class UserAction:
     success: bool = True
     duration: float = 0.0
     error_code: Optional[str] = None
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -75,7 +75,7 @@ class StuckPattern:
 
     pattern_id: str
     name: str
-    indicators: List[str]
+    indicators: list[str]
     threshold: float
     confidence: float = 0.0
     occurrences: int = 0
@@ -92,7 +92,7 @@ class AssistanceOffer:
     action_required: bool = False
     auto_dismiss_time: Optional[float] = None
     priority: int = 1
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
 
 class ProactiveAssistanceSystem:
@@ -102,11 +102,11 @@ class ProactiveAssistanceSystem:
     """
 
     def __init__(self):
-        self.user_states: Dict[str, UserState] = {}
-        self.action_history: Dict[str, List[UserAction]] = {}
+        self.user_states: dict[str, UserState] = {}
+        self.action_history: dict[str, list[UserAction]] = {}
         self.stuck_patterns = self._initialize_stuck_patterns()
-        self.assistance_history: Dict[str, List[AssistanceOffer]] = {}
-        self.pain_points: Dict[str, List[PainPointType]] = {}
+        self.assistance_history: dict[str, list[AssistanceOffer]] = {}
+        self.pain_points: dict[str, list[PainPointType]] = {}
 
         # Detection thresholds
         self.idle_threshold = 10.0  # seconds
@@ -124,8 +124,8 @@ class ProactiveAssistanceSystem:
 
         # Assistance configuration
         self.assistance_cooldown = 60.0  # seconds between offers
-        self.last_assistance_time: Dict[str, datetime] = {}
-        self.dismissed_offers: Set[str] = set()
+        self.last_assistance_time: dict[str, datetime] = {}
+        self.dismissed_offers: set[str] = set()
 
     def track_user_action(
         self,
@@ -133,7 +133,7 @@ class ProactiveAssistanceSystem:
         action_type: str,
         target: Optional[str] = None,
         success: bool = True,
-        context: Optional[Dict] = None,
+        context: Optional[dict] = None,
     ) -> None:
         """Track user action for pattern detection"""
         if user_id not in self.action_history:
@@ -163,7 +163,7 @@ class ProactiveAssistanceSystem:
 
     def check_user_needs_help(
         self, user_id: str
-    ) -> Tuple[bool, Optional[AssistanceOffer]]:
+    ) -> tuple[bool, Optional[AssistanceOffer]]:
         """
         Check if user needs help and generate appropriate assistance
         Returns (needs_help, assistance_offer)
@@ -216,7 +216,7 @@ class ProactiveAssistanceSystem:
 
         return False, None
 
-    def identify_pain_points(self, user_id: Optional[str] = None) -> Dict[str, Any]:
+    def identify_pain_points(self, user_id: Optional[str] = None) -> dict[str, Any]:
         """
         Identify pain points from user behavior
         Can be for specific user or across all users
@@ -243,8 +243,8 @@ class ProactiveAssistanceSystem:
         return pain_points_analysis
 
     def optimize_ui_from_behavior(
-        self, behavioral_data: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, behavioral_data: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """
         Generate UI optimization suggestions based on behavior
         """
@@ -327,7 +327,7 @@ class ProactiveAssistanceSystem:
         # Learn from response
         self._learn_from_assistance_response(user_id, offer_id, response, helpful)
 
-    def _initialize_stuck_patterns(self) -> List[StuckPattern]:
+    def _initialize_stuck_patterns(self) -> list[StuckPattern]:
         """Initialize patterns that indicate user is stuck"""
         patterns = [
             StuckPattern(
@@ -449,7 +449,7 @@ class ProactiveAssistanceSystem:
                     pattern.occurrences += 1
                     pattern.confidence = min(1.0, pattern.occurrences * 0.3)
 
-    def _check_repeated_actions(self, actions: List[UserAction]) -> bool:
+    def _check_repeated_actions(self, actions: list[UserAction]) -> bool:
         """Check for repeated same actions"""
         if len(actions) < 3:
             return False
@@ -459,7 +459,7 @@ class ProactiveAssistanceSystem:
         action_types = [a.action_type for a in last_3]
         return len(set(action_types)) == 1
 
-    def _check_circular_navigation(self, actions: List[UserAction]) -> bool:
+    def _check_circular_navigation(self, actions: list[UserAction]) -> bool:
         """Check for back-and-forth navigation"""
         if len(actions) < 4:
             return False
@@ -471,12 +471,12 @@ class ProactiveAssistanceSystem:
         # Check for A-B-A-B pattern
         return targets[0] == targets[2] and targets[1] == targets[3]
 
-    def _check_error_loop(self, actions: List[UserAction]) -> bool:
+    def _check_error_loop(self, actions: list[UserAction]) -> bool:
         """Check for repeated errors"""
         error_actions = [a for a in actions[-5:] if not a.success]
         return len(error_actions) >= 3
 
-    def _detect_random_behavior(self, actions: List[UserAction]) -> bool:
+    def _detect_random_behavior(self, actions: list[UserAction]) -> bool:
         """Detect random/confused behavior"""
         if len(actions) < 5:
             return False
@@ -659,7 +659,7 @@ class ProactiveAssistanceSystem:
 
         return "what you need"
 
-    def _analyze_user_pain_points(self, user_id: str) -> Dict[str, Any]:
+    def _analyze_user_pain_points(self, user_id: str) -> dict[str, Any]:
         """Analyze pain points for specific user"""
         if user_id not in self.action_history:
             return {}
@@ -683,7 +683,7 @@ class ProactiveAssistanceSystem:
 
         return pain_points
 
-    def _analyze_aggregate_pain_points(self) -> Dict[str, Any]:
+    def _analyze_aggregate_pain_points(self) -> dict[str, Any]:
         """Analyze pain points across all users"""
         all_pain_points = {
             "common_errors": {},
@@ -692,7 +692,7 @@ class ProactiveAssistanceSystem:
             "help_hotspots": [],
         }
 
-        for user_id, actions in self.action_history.items():
+        for _user_id, actions in self.action_history.items():
             # Collect error types
             for action in actions:
                 if not action.success and action.error_code:
@@ -710,8 +710,8 @@ class ProactiveAssistanceSystem:
         return all_pain_points
 
     def _generate_pain_point_recommendations(
-        self, pain_points: Dict[str, Any]
-    ) -> List[str]:
+        self, pain_points: dict[str, Any]
+    ) -> list[str]:
         """Generate recommendations based on pain points"""
         recommendations = []
 
@@ -734,12 +734,12 @@ class ProactiveAssistanceSystem:
         return recommendations
 
     def _identify_frequently_searched_features(
-        self, behavioral_data: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, behavioral_data: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify features users frequently search for"""
         search_counts = {}
 
-        for user_id, actions in self.action_history.items():
+        for _user_id, actions in self.action_history.items():
             for action in actions:
                 if "search" in action.action_type.lower() and action.context.get(
                     "query"
@@ -754,12 +754,12 @@ class ProactiveAssistanceSystem:
         return [{"name": s[0], "count": s[1]} for s in sorted_searches[:5]]
 
     def _identify_abandonment_points(
-        self, behavioral_data: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, behavioral_data: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify where users abandon tasks"""
         abandonment_points = []
 
-        for user_id, actions in self.action_history.items():
+        for _user_id, actions in self.action_history.items():
             # Look for long idle periods after specific actions
             for i in range(len(actions) - 1):
                 time_gap = (
@@ -776,13 +776,13 @@ class ProactiveAssistanceSystem:
         return abandonment_points[:5]
 
     def _identify_confusion_areas(
-        self, behavioral_data: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, behavioral_data: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify areas causing confusion"""
         confusion_areas = []
 
         # Look for areas with random clicking or repeated actions
-        for user_id, actions in self.action_history.items():
+        for _user_id, actions in self.action_history.items():
             targets_with_confusion = set()
             for i in range(len(actions) - 3):
                 window = actions[i : i + 4]
@@ -799,8 +799,8 @@ class ProactiveAssistanceSystem:
         return confusion_areas[:5]
 
     def _identify_inefficient_workflows(
-        self, behavioral_data: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        self, behavioral_data: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Identify workflows that could be optimized"""
         workflows = []
 
@@ -810,7 +810,7 @@ class ProactiveAssistanceSystem:
 
         return workflows
 
-    def _count_navigation_issues(self, actions: List[UserAction]) -> int:
+    def _count_navigation_issues(self, actions: list[UserAction]) -> int:
         """Count navigation-related issues"""
         return sum(
             1
@@ -818,14 +818,14 @@ class ProactiveAssistanceSystem:
             if "navigation" in a.action_type.lower() and not a.success
         )
 
-    def _calculate_error_frequency(self, actions: List[UserAction]) -> float:
+    def _calculate_error_frequency(self, actions: list[UserAction]) -> float:
         """Calculate error frequency"""
         if not actions:
             return 0.0
         errors = sum(1 for a in actions if not a.success)
         return errors / len(actions)
 
-    def _count_abandoned_tasks(self, actions: List[UserAction]) -> int:
+    def _count_abandoned_tasks(self, actions: list[UserAction]) -> int:
         """Count abandoned tasks"""
         # Simplified - would need task tracking
         abandoned = 0
@@ -835,7 +835,7 @@ class ProactiveAssistanceSystem:
                 abandoned += 1
         return abandoned
 
-    def _calculate_avg_task_time(self, actions: List[UserAction]) -> float:
+    def _calculate_avg_task_time(self, actions: list[UserAction]) -> float:
         """Calculate average task completion time"""
         # Simplified - would need task boundaries
         if not actions:
@@ -853,11 +853,11 @@ class ProactiveAssistanceSystem:
 
         return statistics.mean(task_times) if task_times else 0.0
 
-    def _count_help_requests(self, actions: List[UserAction]) -> int:
+    def _count_help_requests(self, actions: list[UserAction]) -> int:
         """Count explicit help requests"""
         return sum(1 for a in actions if "help" in a.action_type.lower())
 
-    def _identify_abandonment_point(self, actions: List[UserAction]) -> Optional[str]:
+    def _identify_abandonment_point(self, actions: list[UserAction]) -> Optional[str]:
         """Identify where user abandoned task"""
         if not actions:
             return None
@@ -889,7 +889,7 @@ if __name__ == "__main__":
     user_id = "user_123"
 
     # User tries same action multiple times
-    for i in range(3):
+    for _i in range(3):
         assistance_system.track_user_action(
             user_id,
             "click_submit",

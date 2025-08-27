@@ -15,7 +15,7 @@ import os
 import uuid
 from collections import defaultdict, deque
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable
 
 from lukhas.observability.matriz_decorators import instrument
 
@@ -41,7 +41,7 @@ class KernelBus:
 
     def __init__(self, max_history: int = 100):
         """Initialize the kernel bus"""
-        self._subscribers: Dict[str, List[Callable]] = defaultdict(list)
+        self._subscribers: dict[str, list[Callable]] = defaultdict(list)
         self._event_history: deque = deque(maxlen=max_history)
         self._metrics = {
             "events_emitted": 0,
@@ -55,14 +55,14 @@ class KernelBus:
     def emit(
         self,
         event: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         *,
         source: str = "unknown",
         priority: EventPriority = EventPriority.NORMAL,
-        correlation_id: Optional[str] = None,
+        correlation_id: str | None = None,
         mode: str = "dry_run",
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Emit an event to the kernel bus.
 
@@ -122,7 +122,7 @@ class KernelBus:
         *,
         mode: str = "dry_run",
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Subscribe to an event type.
 
@@ -153,7 +153,7 @@ class KernelBus:
         }
 
     @instrument("AWARENESS", label="orchestration:status", capability="orchestrator:monitor")
-    def get_status(self, *, mode: str = "dry_run", **kwargs) -> Dict[str, Any]:
+    def get_status(self, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
         """
         Get kernel bus status and metrics.
 
@@ -169,7 +169,7 @@ class KernelBus:
             "mode": mode
         }
 
-    def _dispatch_event(self, event: str, event_record: Dict[str, Any]) -> int:
+    def _dispatch_event(self, event: str, event_record: dict[str, Any]) -> int:
         """
         Dispatch event to subscribers.
 
@@ -193,7 +193,7 @@ class KernelBus:
 
 
 # Global instance (lazy initialization)
-_kernel_bus_instance: Optional[KernelBus] = None
+_kernel_bus_instance: KernelBus | None = None
 
 
 def get_kernel_bus() -> KernelBus:
@@ -205,7 +205,7 @@ def get_kernel_bus() -> KernelBus:
 
 
 @instrument("AWARENESS", label="orchestration:emit_global", capability="orchestrator:events")
-def emit(event: str, payload: Dict[str, Any], *, mode: str = "dry_run", **kwargs) -> Dict[str, Any]:
+def emit(event: str, payload: dict[str, Any], *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """
     Emit an event to the global kernel bus.
 
@@ -222,7 +222,7 @@ def emit(event: str, payload: Dict[str, Any], *, mode: str = "dry_run", **kwargs
 
 
 @instrument("DECISION", label="orchestration:subscribe_global", capability="orchestrator:events")
-def subscribe(event: str, callback: Callable, *, mode: str = "dry_run", **kwargs) -> Dict[str, Any]:
+def subscribe(event: str, callback: Callable, *, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
     """
     Subscribe to an event on the global kernel bus.
 

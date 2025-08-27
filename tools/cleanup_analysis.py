@@ -5,9 +5,9 @@ Identifies truly unused code vs test/experimental/backup code
 Trinity Framework: ⚛️🧠🛡️
 """
 
+import contextlib
 import json
 from pathlib import Path
-from typing import Dict, List
 
 
 def analyze_cleanup_candidates():
@@ -70,7 +70,7 @@ def analyze_cleanup_candidates():
 
     return categories
 
-def generate_cleanup_script(categories: Dict[str, List[str]]):
+def generate_cleanup_script(categories: dict[str, list[str]]):
     """Generate shell script to perform cleanup"""
 
     script = """#!/bin/bash
@@ -169,10 +169,8 @@ def main():
     total_size = 0
     for category, files in categories.items():
         for file in files:
-            try:
+            with contextlib.suppress(Exception):
                 total_size += Path(file).stat().st_size
-            except:
-                pass
 
     print(f"\n💾 Estimated space savings: {total_size / 1024 / 1024:.1f} MB")
 

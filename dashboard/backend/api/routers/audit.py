@@ -5,7 +5,7 @@ Audit Router - Comprehensive code quality and system health monitoring
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 
@@ -14,7 +14,7 @@ router = APIRouter()
 REPORTS_DIR = Path("reports")
 
 @router.get("/status")
-async def get_audit_status() -> Dict[str, Any]:
+async def get_audit_status() -> dict[str, Any]:
     """Get current audit status and last run information"""
     try:
         # Check for existing audit reports
@@ -41,7 +41,7 @@ async def get_audit_status() -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/trigger")
-async def trigger_audit(background_tasks: BackgroundTasks) -> Dict[str, Any]:
+async def trigger_audit(background_tasks: BackgroundTasks) -> dict[str, Any]:
     """Trigger a new comprehensive audit"""
     try:
         # Add audit to background tasks
@@ -56,7 +56,7 @@ async def trigger_audit(background_tasks: BackgroundTasks) -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/metrics/summary")
-async def get_audit_summary() -> Dict[str, Any]:
+async def get_audit_summary() -> dict[str, Any]:
     """Get summarized audit metrics"""
     try:
         metrics = {
@@ -100,7 +100,7 @@ async def get_audit_summary() -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/reports/{report_name}")
-async def get_specific_report(report_name: str) -> Dict[str, Any]:
+async def get_specific_report(report_name: str) -> dict[str, Any]:
     """Get a specific audit report by name"""
     try:
         report_path = REPORTS_DIR / report_name
@@ -128,7 +128,7 @@ async def get_specific_report(report_name: str) -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/trends")
-async def get_audit_trends() -> Dict[str, Any]:
+async def get_audit_trends() -> dict[str, Any]:
     """Get historical audit trends"""
     # This would typically query a database with historical data
     # For now, return mock data
@@ -154,7 +154,7 @@ async def get_audit_trends() -> Dict[str, Any]:
     }
 
 @router.get("/dead-code")
-async def get_dead_code_analysis() -> Dict[str, Any]:
+async def get_dead_code_analysis() -> dict[str, Any]:
     """Get dead code analysis results"""
     try:
         dead_code = {
@@ -184,7 +184,7 @@ async def get_dead_code_analysis() -> Dict[str, Any]:
         raise HTTPException(status_code=500, detail=str(e))
 
 # Helper functions
-def calculate_health_score(metrics: Dict) -> int:
+def calculate_health_score(metrics: dict) -> int:
     """Calculate overall health score from metrics"""
     score = 100
 

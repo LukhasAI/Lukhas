@@ -19,7 +19,7 @@ import time
 import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import uvicorn
 from fastapi import (
@@ -63,7 +63,7 @@ logger = logging.getLogger(__name__)
 
 # Global orchestrator instance
 orchestrator: Optional[CognitiveOrchestrator] = None
-websocket_connections: List[WebSocket] = []
+websocket_connections: list[WebSocket] = []
 
 
 # Pydantic models for request/response validation
@@ -71,7 +71,7 @@ class QueryRequest(BaseModel):
     """Request model for cognitive query processing"""
     query: str = Field(..., min_length=1, max_length=10000, description="Query to process")
     trace_id: Optional[str] = Field(None, description="Optional execution trace ID")
-    context: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Additional context")
+    context: Optional[dict[str, Any]] = Field(default_factory=dict, description="Additional context")
     include_trace: bool = Field(default=True, description="Include detailed execution trace")
     include_nodes: bool = Field(default=True, description="Include MATRIZ nodes in response")
 
@@ -95,9 +95,9 @@ class QueryResponse(BaseModel):
     processing_time: float = Field(..., ge=0.0, description="Processing time in seconds")
     trace_id: str = Field(..., description="Execution trace identifier")
     timestamp: str = Field(..., description="ISO timestamp of processing")
-    matriz_nodes: Optional[List[Dict[str, Any]]] = Field(None, description="Generated MATRIZ nodes")
-    trace: Optional[Dict[str, Any]] = Field(None, description="Detailed execution trace")
-    reasoning_chain: Optional[List[str]] = Field(None, description="Human-readable reasoning steps")
+    matriz_nodes: Optional[list[dict[str, Any]]] = Field(None, description="Generated MATRIZ nodes")
+    trace: Optional[dict[str, Any]] = Field(None, description="Detailed execution trace")
+    reasoning_chain: Optional[list[str]] = Field(None, description="Human-readable reasoning steps")
 
 
 class HealthResponse(BaseModel):
@@ -114,14 +114,14 @@ class HealthResponse(BaseModel):
 class NodeInfo(BaseModel):
     """Information about a cognitive node"""
     name: str = Field(..., description="Node name")
-    capabilities: List[str] = Field(..., description="Node capabilities")
+    capabilities: list[str] = Field(..., description="Node capabilities")
     tenant: str = Field(..., description="Node tenant")
     processing_history_count: int = Field(..., description="Number of processed items")
 
 
 class SystemInfo(BaseModel):
     """System information and diagnostics"""
-    nodes: List[NodeInfo] = Field(..., description="Registered cognitive nodes")
+    nodes: list[NodeInfo] = Field(..., description="Registered cognitive nodes")
     matriz_graph_size: int = Field(..., description="Number of nodes in MATRIZ graph")
     execution_trace_count: int = Field(..., description="Number of execution traces")
     memory_nodes: int = Field(..., description="Nodes in context memory")
@@ -130,7 +130,7 @@ class SystemInfo(BaseModel):
 class WebSocketMessage(BaseModel):
     """WebSocket message format"""
     type: str = Field(..., description="Message type: query, response, error, ping, pong")
-    data: Optional[Dict[str, Any]] = Field(None, description="Message data")
+    data: Optional[dict[str, Any]] = Field(None, description="Message data")
     trace_id: Optional[str] = Field(None, description="Trace identifier")
     timestamp: str = Field(..., description="ISO timestamp")
 
@@ -599,7 +599,7 @@ async def websocket_endpoint(websocket: WebSocket):
             websocket_connections.remove(websocket)
 
 
-async def broadcast_to_websockets(message: Dict[str, Any]):
+async def broadcast_to_websockets(message: dict[str, Any]):
     """Broadcast message to all connected WebSocket clients"""
     if not websocket_connections:
         return

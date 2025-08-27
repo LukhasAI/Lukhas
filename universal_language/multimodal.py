@@ -11,7 +11,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -40,7 +40,7 @@ class ModalityFeatures:
     features: Optional[np.ndarray] = None
     entropy_bits: float = 0.0
     fingerprint: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         if self.entropy_bits == 0.0:
@@ -100,7 +100,7 @@ class ModalityFeatures:
         # Default fingerprint
         return hashlib.sha256(str(self.raw_data).encode()).hexdigest()[:16]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "modality": self.modality.value,
@@ -114,10 +114,10 @@ class ModalityFeatures:
 class MultiModalMessage:
     """A message containing multiple modalities"""
     message_id: str
-    modalities: List[ModalityFeatures]
+    modalities: list[ModalityFeatures]
     combined_entropy: float = 0.0
     timestamp: float = field(default_factory=time.time)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         if not self.message_id:
@@ -137,7 +137,7 @@ class MultiModalMessage:
         total = sum(m.entropy_bits for m in self.modalities)
 
         # Add bonus for multi-modal diversity
-        diversity_bonus = len(set(m.modality for m in self.modalities)) * 8.0
+        diversity_bonus = len({m.modality for m in self.modalities}) * 8.0
 
         return total + diversity_bonus
 
@@ -235,10 +235,7 @@ class ModalityProcessor:
     def process_gesture(self, gesture_data: Any, modality_type: ModalityType) -> ModalityFeatures:
         """Process gesture modality"""
         # Gesture as sequence of points or vectors
-        if isinstance(gesture_data, list):
-            points = gesture_data
-        else:
-            points = []
+        points = gesture_data if isinstance(gesture_data, list) else []
 
         features = {
             "point_count": len(points),
@@ -304,19 +301,19 @@ class ModalityProcessor:
         # TODO: Implement actual language detection
         return "en"
 
-    def get_emoji_categories(self, emoji: str) -> List[str]:
+    def get_emoji_categories(self, emoji: str) -> list[str]:
         """Get emoji categories (simplified)"""
         # TODO: Implement emoji categorization
         return ["emotion"]
 
-    def hex_to_rgb(self, hex_color: str) -> Tuple[int, int, int]:
+    def hex_to_rgb(self, hex_color: str) -> tuple[int, int, int]:
         """Convert hex color to RGB"""
         hex_color = hex_color.lstrip("#")
         return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
-    def rgb_to_hsv(self, rgb: Tuple[int, int, int]) -> Tuple[float, float, float]:
+    def rgb_to_hsv(self, rgb: tuple[int, int, int]) -> tuple[float, float, float]:
         """Convert RGB to HSV"""
-        r, g, b = [x / 255.0 for x in rgb]
+        r, g, b = (x / 255.0 for x in rgb)
         max_c = max(r, g, b)
         min_c = min(r, g, b)
         diff = max_c - min_c
@@ -340,12 +337,12 @@ class ModalityProcessor:
 
         return (h, s, v)
 
-    def calculate_luminance(self, rgb: Tuple[int, int, int]) -> float:
+    def calculate_luminance(self, rgb: tuple[int, int, int]) -> float:
         """Calculate perceived luminance"""
-        r, g, b = [x / 255.0 for x in rgb]
+        r, g, b = (x / 255.0 for x in rgb)
         return 0.2126 * r + 0.7152 * g + 0.0722 * b
 
-    def calculate_gesture_complexity(self, points: List) -> float:
+    def calculate_gesture_complexity(self, points: list) -> float:
         """Calculate complexity of a gesture path"""
         if len(points) < 2:
             return 0.0
@@ -363,10 +360,10 @@ class MultiModalProcessor:
 
     def __init__(self):
         self.modality_processor = ModalityProcessor()
-        self.message_cache: Dict[str, MultiModalMessage] = {}
+        self.message_cache: dict[str, MultiModalMessage] = {}
         logger.info("MultiModal Processor initialized")
 
-    def create_message(self, inputs: Dict[ModalityType, Any]) -> MultiModalMessage:
+    def create_message(self, inputs: dict[ModalityType, Any]) -> MultiModalMessage:
         """Create a multi-modal message from inputs"""
         modalities = []
 
@@ -393,7 +390,7 @@ class MultiModalProcessor:
         # Find modality with highest entropy
         return max(message.modalities, key=lambda m: m.entropy_bits)
 
-    def combine_modalities(self, message: MultiModalMessage) -> Dict[str, Any]:
+    def combine_modalities(self, message: MultiModalMessage) -> dict[str, Any]:
         """Combine multiple modalities into unified representation"""
         combined = {
             "message_id": message.message_id,
@@ -456,7 +453,7 @@ class MultiModalProcessor:
 
         return 0.0
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get statistics about processed messages"""
         if not self.message_cache:
             return {"total_messages": 0}

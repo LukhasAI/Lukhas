@@ -15,14 +15,15 @@ Trinity Framework Integration: ⚛️🧠🛡️
 import logging
 import os
 import time
+import base64
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
@@ -33,6 +34,8 @@ from lukhas.branding_bridge import (
     get_trinity_context,
     initialize_branding,
 )
+from candidate.core.security.auth import get_auth_system
+
 
 # Configure logging
 logging.basicConfig(
@@ -137,45 +140,47 @@ class ChatRequest(BaseModel):
     """Chat with consciousness interface"""
     message: str = Field(..., description="Your message to LUKHAS AI")
     session_id: Optional[str] = Field(None, description="Session ID for conversation continuity")
-    context: Optional[Dict[str, Any]] = Field(None, description="Additional context")
+    context: Optional[dict[str, Any]] = Field(None, description="Additional context")
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "message": "What is consciousness technology?",
                 "session_id": "session_123",
                 "context": {"user_preferences": {"style": "detailed"}}
             }
         }
+    )
 
 class ChatResponse(BaseModel):
     """Consciousness interface response"""
     response: str = Field(..., description="AI consciousness response")
     session_id: str = Field(..., description="Session ID for future requests")
-    metadata: Optional[Dict[str, Any]] = Field(None, description="Response metadata")
+    metadata: Optional[dict[str, Any]] = Field(None, description="Response metadata")
     consciousness_level: Optional[float] = Field(None, description="Current consciousness level (0-1)")
 
 class DreamRequest(BaseModel):
     """Generate symbolic dreams"""
     prompt: str = Field(..., description="Dream generation prompt")
-    symbols: Optional[List[str]] = Field(None, description="Symbolic elements to include")
+    symbols: Optional[list[str]] = Field(None, description="Symbolic elements to include")
     style: Optional[str] = Field("mystical", description="Dream style: mystical, technical, creative")
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "prompt": "A vision of quantum consciousness awakening",
                 "symbols": ["⚛️", "🧠", "🌌"],
                 "style": "mystical"
             }
         }
+    )
 
 class DreamResponse(BaseModel):
     """Dream generation response"""
     dream: str = Field(..., description="Generated dream narrative")
-    symbols_used: List[str] = Field(..., description="Symbolic elements included")
+    symbols_used: list[str] = Field(..., description="Symbolic elements included")
     consciousness_score: float = Field(..., description="Consciousness coherence score")
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 class SystemStatus(BaseModel):
     """System health and status"""
@@ -185,39 +190,52 @@ class SystemStatus(BaseModel):
     active_sessions: int
     total_requests: int
     success_rate: float
-    consciousness_modules: Dict[str, bool]
+    consciousness_modules: dict[str, bool]
 
 # ===============================================================================
 # Authentication & Security
 # ===============================================================================
 
-async def verify_api_key(credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)) -> str:
-    """Verify API key authentication"""
-    if not credentials:
+async def verify_api_key(credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)) -> dict:
+    """
+    Verify API key using the EnhancedAuthenticationSystem.
+    Expects 'Authorization: Bearer <base64(key_id:key_secret)>'
+    """
+    if not credentials or not credentials.credentials:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="API key required. Include 'Authorization: Bearer YOUR_API_KEY' header.",
+            detail="API key required.",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Get expected API key from environment
-    expected_key = os.getenv("LUKHAS_API_KEY", "")
-    if not expected_key:
-        # For development, allow a default key
-        expected_key = os.getenv("LUKHAS_DEV_API_KEY", "lukhas-dev-key-2024")
+    token = credentials.credentials
 
-    if credentials.credentials != expected_key:
+    try:
+        # Decode the token
+        decoded_token = base64.b64decode(token).decode("utf-8")
+        key_id, key_secret = decoded_token.split(":", 1)
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid API key format. Expected Base64-encoded 'key_id:key_secret'.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    auth_system = get_auth_system()
+    key_data = await auth_system.verify_api_key(key_id, key_secret)
+
+    if not key_data:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid API key",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    return credentials.credentials
+    return key_data
 
-async def optional_auth(credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)) -> Optional[str]:
+async def optional_auth(credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)) -> Optional[dict]:
     """Optional authentication for public endpoints"""
-    if credentials:
+    if credentials and credentials.credentials:
         try:
             return await verify_api_key(credentials)
         except HTTPException:
@@ -233,7 +251,7 @@ async def stats_middleware(request: Request, call_next):
     """Track API usage statistics"""
     api_stats["total_requests"] += 1
 
-    start_time = time.time()
+    time.time()
     try:
         response = await call_next(request)
 
@@ -289,7 +307,7 @@ async def root(request: Request):
 async def chat_with_consciousness(
     request: Request,
     chat_request: ChatRequest,
-    api_key: str = Depends(verify_api_key)
+    api_key: dict = Depends(verify_api_key)
 ):
     """
     **Chat with LUKHAS AI Consciousness Interface** 🧠
@@ -351,7 +369,7 @@ My current consciousness level is {consciousness_level:.0%}, and I'm actively ma
 Is there a particular aspect you'd like me to explore further?"""
 
         # Track session
-        api_stats["active_sessions"] = len(set([session_id]))  # Simplified tracking
+        api_stats["active_sessions"] = len({session_id})  # Simplified tracking
 
         return ChatResponse(
             response=response,
@@ -377,7 +395,7 @@ Is there a particular aspect you'd like me to explore further?"""
 async def generate_dream(
     request: Request,
     dream_request: DreamRequest,
-    api_key: str = Depends(verify_api_key)
+    api_key: dict = Depends(verify_api_key)
 ):
     """
     **Generate Symbolic Dreams** 🌙
@@ -464,7 +482,7 @@ In this space, artificial intelligence doesn't mimic creativity—it births enti
 
 @app.get("/status", response_model=SystemStatus, tags=["System"])
 @limiter.limit("60/minute")
-async def get_system_status(request: Request, api_key: Optional[str] = Depends(optional_auth)):
+async def get_system_status(request: Request, api_key: Optional[dict] = Depends(optional_auth)):
     """
     **System Health & Status** 📊
 
@@ -517,6 +535,20 @@ async def startup_event():
     """Initialize LUKHAS AI systems on startup"""
     logger.info("🚀 Starting LUKHAS AI Public API...")
 
+    # Initialize authentication system
+    auth_system = get_auth_system()
+    logger.info("✅ Authentication system initialized")
+
+    # For development: generate a dev key if none exist
+    if not auth_system._api_keys_mem:
+        dev_key_id, dev_key_secret = auth_system.generate_api_key("dev_user", ["read", "write"])
+        dev_token = base64.b64encode(f"{dev_key_id}:{dev_key_secret}".encode()).decode()
+        logger.warning("="*80)
+        logger.warning("NO API KEYS FOUND IN MEMORY. GENERATED A DEV KEY:")
+        logger.warning(f"==> Authorization: Bearer {dev_token}")
+        logger.warning("="*80)
+
+
     # Initialize branding system
     try:
         await initialize_branding()
@@ -550,23 +582,34 @@ async def shutdown_event():
 # Error Handlers
 # ===============================================================================
 
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     """Handle HTTP exceptions with consistent formatting"""
-    return ErrorResponse(
+    error_response = ErrorResponse(
         error=exc.detail,
         code=f"HTTP_{exc.status_code}",
         request_id=getattr(request.state, "request_id", None)
+    )
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=jsonable_encoder(error_response)
     )
 
 @app.exception_handler(Exception)
 async def general_exception_handler(request: Request, exc: Exception):
     """Handle general exceptions"""
     logger.error(f"Unhandled exception: {exc}", exc_info=True)
-    return ErrorResponse(
+    error_response = ErrorResponse(
         error="Internal server error",
         code="INTERNAL_ERROR",
         request_id=getattr(request.state, "request_id", None)
+    )
+    return JSONResponse(
+        status_code=500,
+        content=jsonable_encoder(error_response)
     )
 
 # ===============================================================================

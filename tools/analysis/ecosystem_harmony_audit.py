@@ -155,11 +155,10 @@ class EcosystemHarmonyAuditor:
                                 m in alias.name for m in self.modules if m != module
                             ):
                                 metrics["imports_out"] += 1
-                    elif isinstance(node, ast.ImportFrom):
-                        if node.module and any(
-                            m in node.module for m in self.modules if m != module
-                        ):
-                            metrics["imports_out"] += 1
+                    elif isinstance(node, ast.ImportFrom) and node.module and any(
+                        m in node.module for m in self.modules if m != module
+                    ):
+                        metrics["imports_out"] += 1
 
                 # Check for common issues
                 if len(lines) > 500:
@@ -400,14 +399,13 @@ class EcosystemHarmonyAuditor:
                     with open(py_file, encoding="utf-8") as f:
                         tree = ast.parse(f.read())
                         for node in ast.walk(tree):
-                            if isinstance(node, ast.ImportFrom):
-                                if node.module:
-                                    for other_module in self.modules:
-                                        if (
-                                            other_module != module
-                                            and other_module in node.module
-                                        ):
-                                            dep_graph[module].add(other_module)
+                            if isinstance(node, ast.ImportFrom) and node.module:
+                                for other_module in self.modules:
+                                    if (
+                                        other_module != module
+                                        and other_module in node.module
+                                    ):
+                                        dep_graph[module].add(other_module)
                 except BaseException:
                     pass
 

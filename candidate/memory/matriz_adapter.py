@@ -7,7 +7,7 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class MemoryMatrizAdapter:
@@ -18,10 +18,10 @@ class MemoryMatrizAdapter:
     @staticmethod
     def create_node(
         node_type: str,
-        state: Dict[str, float],
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        state: dict[str, float],
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for memory events"""
 
         node = {
@@ -59,7 +59,7 @@ class MemoryMatrizAdapter:
         fold_type: str,
         depth: int,
         emotional_valence: float = 0.0
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a memory fold creation event"""
 
         return MemoryMatrizAdapter.create_node(
@@ -86,7 +86,7 @@ class MemoryMatrizAdapter:
         recall_accuracy: float,
         latency_ms: int,
         fold_count: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a memory recall event"""
 
         return MemoryMatrizAdapter.create_node(
@@ -112,7 +112,7 @@ class MemoryMatrizAdapter:
         cascade_id: str,
         prevention_success: bool,
         affected_folds: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a cascade prevention event (99.7% success rate)"""
 
         urgency = 0.1 if prevention_success else 0.9
@@ -141,7 +141,7 @@ class MemoryMatrizAdapter:
         coherence: float,
         memory_integration: float,
         fold_depth: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a dream state memory consolidation event"""
 
         return MemoryMatrizAdapter.create_node(
@@ -167,7 +167,7 @@ class MemoryMatrizAdapter:
         consolidation_id: str,
         memories_merged: int,
         compression_ratio: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a memory consolidation event"""
 
         return MemoryMatrizAdapter.create_node(
@@ -188,7 +188,7 @@ class MemoryMatrizAdapter:
         )
 
     @staticmethod
-    def validate_node(node: Dict[str, Any]) -> bool:
+    def validate_node(node: dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
 
@@ -198,14 +198,10 @@ class MemoryMatrizAdapter:
 
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-        for field in required_prov:
-            if field not in node.get("provenance", {}):
-                return False
-
-        return True
+        return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
-    def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+    def save_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/memory")

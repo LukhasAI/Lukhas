@@ -492,14 +492,12 @@ class EpisodicMemoryIntegration:
                 self.metadata = kwargs.get("metadata", {})
 
                 # Add event type to content if provided
-                if "event_type" in kwargs:
-                    if isinstance(self.content, dict):
-                        self.content["event_type"] = kwargs["event_type"]
+                if "event_type" in kwargs and isinstance(self.content, dict):
+                    self.content["event_type"] = kwargs["event_type"]
 
                 # Add context to content if provided
-                if "context" in kwargs:
-                    if isinstance(self.content, dict):
-                        self.content["context"] = kwargs["context"]
+                if "context" in kwargs and isinstance(self.content, dict):
+                    self.content["context"] = kwargs["context"]
 
         return MockOperation(operation_type, **kwargs)
 

@@ -93,7 +93,7 @@ except ImportError as e:
             self._initialized = True
             return True
 
-        def process_with_constitutional_safety(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+        def process_with_constitutional_safety(self, input_data: dict[str, Any]) -> dict[str, Any]:
             return {
                 "processed": False,
                 "fallback": True,
@@ -101,7 +101,7 @@ except ImportError as e:
                 "dry_run": True
             }
 
-        def make_quantum_decision(self, options: List[Any], context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        def make_quantum_decision(self, options: list[Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
             # Simple fallback decision
             import random
             decision = random.choice(options) if options else None
@@ -111,15 +111,15 @@ except ImportError as e:
                 "method": "random_fallback"
             }
 
-        def adapt_bio_inspired(self, system_metrics: Dict[str, float],
-                              target_state: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
+        def adapt_bio_inspired(self, system_metrics: dict[str, float],
+                              target_state: Optional[dict[str, float]] = None) -> dict[str, Any]:
             return {
                 "adapted": False,
                 "fallback": True,
                 "message": "Bio-inspired adaptation not available"
             }
 
-        def get_qi_status(self) -> Dict[str, Any]:
+        def get_qi_status(self) -> dict[str, Any]:
             return {
                 "initialized": self._initialized,
                 "fallback": True,
@@ -149,7 +149,7 @@ def initialize_qi_module() -> bool:
         logger.error(f"QI module initialization failed: {e}")
         return False
 
-def get_qi_status() -> Dict[str, Any]:
+def get_qi_status() -> dict[str, Any]:
     """Get QI module status"""
     global _global_qi_wrapper
 
@@ -169,7 +169,7 @@ def get_qi_status() -> Dict[str, Any]:
 
     return status
 
-def process_quantum_inspired(input_data: Dict[str, Any]) -> Dict[str, Any]:
+def process_quantum_inspired(input_data: dict[str, Any]) -> dict[str, Any]:
     """Process data using quantum-inspired algorithms with safety checks"""
     global _global_qi_wrapper
 
@@ -178,7 +178,7 @@ def process_quantum_inspired(input_data: Dict[str, Any]) -> Dict[str, Any]:
 
     return _global_qi_wrapper.process_with_constitutional_safety(input_data)
 
-def make_quantum_decision(options: List[Any], context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def make_quantum_decision(options: list[Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     """Make decision using quantum-inspired superposition and collapse"""
     global _global_qi_wrapper
 
@@ -187,8 +187,8 @@ def make_quantum_decision(options: List[Any], context: Optional[Dict[str, Any]] 
 
     return _global_qi_wrapper.make_quantum_decision(options, context)
 
-def adapt_bio_inspired(system_metrics: Dict[str, float],
-                      target_state: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
+def adapt_bio_inspired(system_metrics: dict[str, float],
+                      target_state: Optional[dict[str, float]] = None) -> dict[str, Any]:
     """Adapt system using bio-inspired mechanisms"""
     global _global_qi_wrapper
 
@@ -198,7 +198,7 @@ def adapt_bio_inspired(system_metrics: Dict[str, float],
     return _global_qi_wrapper.adapt_bio_inspired(system_metrics, target_state)
 
 # Module health check
-def validate_qi_module() -> Dict[str, Any]:
+def validate_qi_module() -> dict[str, Any]:
     """Validate QI module health and capabilities"""
     validation = {
         "wrapper_available": _QI_WRAPPER_AVAILABLE,

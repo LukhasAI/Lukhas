@@ -17,10 +17,10 @@ There doesn't seem to be any obvious issues in this Python script. However, it d
 2. The Python imports at the start of the file could be wrong. It's not clear from this code snippet what modules are being imported, so double-check against the rest of your project for consistency and errors. In general, it is considered good practice to use absolute paths in Python imports unless you have a specific reason to do otherwise.
 3. There doesn't seem to be any executable logic in this script. It seems more like a blueprint or module initialization file that might need further development before being used. If not using as intended, it will likely result in runtime errors.
 4. The `__all__` variable should list the names of all public objects defined in this module for Python's built-in `dir()` function and similar tools to work correctly. Make sure these are indeed exported by your modules.
-5. There is also a potential security risk here if there are any hardcoded credentials or sensitive data that should not be shared with others (not shown in the snippet). 
+5. There is also a potential security risk here if there are any hardcoded credentials or sensitive data that should not be shared with others (not shown in the snippet).
 6. Lastly, it's worth considering readability and formatting of this script as well to make sure it follows Python's best practices such as PEP8 style guide.
 
-Note: No runtime problems or bugs found based on a static analysis of your code sample. The provided code doesn't seem executable due to lack of actual logic, import errors etc. 
+Note: No runtime problems or bugs found based on a static analysis of your code sample. The provided code doesn't seem executable due to lack of actual logic, import errors etc.
 
 If these are not issues and there is no clear logical error or edge case identified then I would recommend running the program to see if it runs without any syntax or runtime issues.
 [LUKHAS-LLM] ⚠️  Found issues in 2 analysis(es)
@@ -44,7 +44,7 @@ Private key found: packages/auth/src/jwt.ts
 Block trivial tests......................................................Passed
 Block wildcard/sneaky mocks..............................................Passed
 Block suspicious skip/xfail..............................................Passed
-(.venv) agi_dev@g Lukhas % 
+(.venv) agi_dev@g Lukhas %
 
 
 ..... then it goes:

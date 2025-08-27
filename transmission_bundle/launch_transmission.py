@@ -11,7 +11,6 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
 
 # Configure logging
 logging.basicConfig(
@@ -36,8 +35,8 @@ class LUKHASTransmission:
         self.base_path = Path(__file__).parent.parent
         self.lukhas_next_gen = self.base_path / "next_gen"
         self.launch_time = datetime.utcnow()
-        self.component_status: Dict[str, str] = {}
-        self.active_processes: List[subprocess.Popen] = []
+        self.component_status: dict[str, str] = {}
+        self.active_processes: list[subprocess.Popen] = []
 
         # Component configuration
         self.components = {

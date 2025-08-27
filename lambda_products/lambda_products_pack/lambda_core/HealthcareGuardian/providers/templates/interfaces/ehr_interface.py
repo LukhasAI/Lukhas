@@ -7,28 +7,28 @@ Providers must implement these interfaces to ensure compatibility.
 
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class EHRInterface(ABC):
     """Abstract base class for EHR system integration"""
 
     @abstractmethod
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize the EHR connection with configuration"""
         pass
 
     @abstractmethod
     async def get_patient_record(self,
                                patient_id: str,
-                               record_types: Optional[List[str]] = None) -> Dict[str, Any]:
+                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """Retrieve patient records from the EHR system"""
         pass
 
     @abstractmethod
     async def update_patient_record(self,
                                   patient_id: str,
-                                  data: Dict[str, Any],
+                                  data: dict[str, Any],
                                   update_type: str) -> bool:
         """Update patient records in the EHR system"""
         pass
@@ -36,7 +36,7 @@ class EHRInterface(ABC):
     @abstractmethod
     async def create_encounter(self,
                              patient_id: str,
-                             encounter_data: Dict[str, Any]) -> str:
+                             encounter_data: dict[str, Any]) -> str:
         """Create a new patient encounter record"""
         pass
 
@@ -44,7 +44,7 @@ class EHRInterface(ABC):
     async def get_provider_schedule(self,
                                   provider_id: str,
                                   start_date: datetime,
-                                  end_date: datetime) -> List[Dict[str, Any]]:
+                                  end_date: datetime) -> list[dict[str, Any]]:
         """Get provider's schedule for a date range"""
         pass
 
@@ -66,13 +66,13 @@ class ProviderNotificationInterface(ABC):
     async def send_notification(self,
                               provider_id: str,
                               notification_type: str,
-                              content: Dict[str, Any],
+                              content: dict[str, Any],
                               priority: str = "normal") -> bool:
         """Send notification to healthcare provider"""
         pass
 
     @abstractmethod
     async def get_notification_preferences(self,
-                                        provider_id: str) -> Dict[str, Any]:
+                                        provider_id: str) -> dict[str, Any]:
         """Get provider's notification preferences"""
         pass

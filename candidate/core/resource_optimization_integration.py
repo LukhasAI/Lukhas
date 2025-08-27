@@ -548,10 +548,9 @@ class ResourceOptimizationCoordinator:
                 can_proceed = False
                 wait_time = 5.0
                 logger.warning(f"Deferring {operation_name} due to critical resources")
-        elif self.resource_state == ResourceState.CONSTRAINED:
-            if priority == "low":
-                can_proceed = False
-                wait_time = 2.0
+        elif self.resource_state == ResourceState.CONSTRAINED and priority == "low":
+            can_proceed = False
+            wait_time = 2.0
 
         if not can_proceed:
             await asyncio.sleep(wait_time)

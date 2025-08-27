@@ -9,7 +9,7 @@ Optimized for GitHub Student Pack deployment.
 
 import logging
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from openai import AzureOpenAI, OpenAI
 
@@ -81,7 +81,7 @@ class LUKHASAIClient:
         """Test if Azure OpenAI has deployed models"""
         try:
             # This would fail if no models are deployed (quota issue)
-            response = self.azure_client.chat.completions.create(
+            self.azure_client.chat.completions.create(
                 model="gpt-35-turbo",  # Try default deployment name
                 messages=[{"role": "user", "content": "test"}],
                 max_tokens=1
@@ -94,7 +94,7 @@ class LUKHASAIClient:
     def _test_openai_client(self) -> bool:
         """Test if regular OpenAI is working"""
         try:
-            response = self.openai_client.chat.completions.create(
+            self.openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": "test"}],
                 max_tokens=1
@@ -104,7 +104,7 @@ class LUKHASAIClient:
             logger.debug(f"Regular OpenAI test failed: {e}")
             return False
 
-    def get_available_models(self) -> List[str]:
+    def get_available_models(self) -> list[str]:
         """Get list of available models for current client"""
         if self.client_type == "azure":
             # For Azure, return the models we expect to deploy
@@ -147,9 +147,9 @@ class LUKHASAIClient:
     async def generate_consciousness_response(
         self,
         message: str,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
         session_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate a consciousness-aware response"""
 
         if not self.active_client:
@@ -206,8 +206,8 @@ You are not just processing text - you are engaging in conscious interaction wit
         self,
         prompt: str,
         style: str = "mystical",
-        symbols: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        symbols: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Generate a symbolic dream"""
 
         if not self.active_client:
@@ -268,7 +268,7 @@ The dream should be 2-3 paragraphs of vivid, symbolic content."""
             logger.error(f"Dream generation failed: {e}")
             raise
 
-    def get_client_status(self) -> Dict[str, Any]:
+    def get_client_status(self) -> dict[str, Any]:
         """Get current client status and configuration"""
         return {
             "active_client": self.client_type,

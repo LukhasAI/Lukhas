@@ -7,7 +7,7 @@ import asyncio
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add bridge module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "bridge"))
@@ -36,7 +36,7 @@ except ImportError:
 
     # Compatibility classes for voice systems
     class VoicePersonalityIntegrator:
-        def adapt_to_emotion(self, emotion: str, intensity: float = 0.5, **kwargs) -> Dict[str, Any]:
+        def adapt_to_emotion(self, emotion: str, intensity: float = 0.5, **kwargs) -> dict[str, Any]:
             return {"pitch": 1.0, "rate": 1.0, "volume": 1.0, "emphasis": 0.5}
 
         def enhance_text_expression(self, text: str, emotion: str, **kwargs) -> str:
@@ -80,7 +80,7 @@ class BrandVoiceAdapter:
         self._voice_cache = {}
         self._cache_max_size = 100
 
-    def _load_brand_voice_profiles(self) -> Dict[str, Dict[str, Any]]:
+    def _load_brand_voice_profiles(self) -> dict[str, dict[str, Any]]:
         """Load LUKHAS brand-specific voice profiles"""
         return {
             "poetic": {
@@ -133,7 +133,7 @@ class BrandVoiceAdapter:
         emotional_context: str = "neutral",
         audience_context: str = "general",
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate voice output using real LLM integration
         while ensuring brand compliance and voice consistency
@@ -171,7 +171,7 @@ class BrandVoiceAdapter:
     def _enhance_content_with_brand_voice(
         self,
         content: str,
-        brand_profile: Dict[str, Any],
+        brand_profile: dict[str, Any],
         tone_layer: str
     ) -> str:
         """Enhance content with LUKHAS brand voice characteristics"""
@@ -194,7 +194,7 @@ class BrandVoiceAdapter:
     def _ensure_brand_voice_compliance(
         self,
         voice_output: str,
-        brand_profile: Dict[str, Any],
+        brand_profile: dict[str, Any],
         tone_layer: str
     ) -> str:
         """Ensure voice output meets LUKHAS brand voice standards"""
@@ -225,11 +225,11 @@ class BrandVoiceAdapter:
 
     def _generate_voice_metadata(
         self,
-        brand_profile: Dict[str, Any],
+        brand_profile: dict[str, Any],
         tone_layer: str,
         emotional_context: str,
         audience_context: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate comprehensive voice metadata for brand analysis"""
         return {
             "expressiveness_level": brand_profile.get("expressiveness", 0.5),
@@ -244,7 +244,7 @@ class BrandVoiceAdapter:
             }
         }
 
-    def _calculate_brand_alignment_score(self, brand_profile: Dict[str, Any]) -> float:
+    def _calculate_brand_alignment_score(self, brand_profile: dict[str, Any]) -> float:
         """Calculate how well the voice profile aligns with LUKHAS brand"""
         alignment_factors = [
             brand_profile.get("consciousness_terminology", False),
@@ -255,7 +255,7 @@ class BrandVoiceAdapter:
 
         return sum(alignment_factors) / len(alignment_factors)
 
-    def _get_recommended_use_cases(self, tone_layer: str) -> List[str]:
+    def _get_recommended_use_cases(self, tone_layer: str) -> list[str]:
         """Get recommended use cases for each tone layer"""
         use_cases = {
             "poetic": [
@@ -280,7 +280,7 @@ class BrandVoiceAdapter:
 
         return use_cases.get(tone_layer, ["General purpose communication"])
 
-    def _get_emotional_range(self, emotional_context: str) -> List[str]:
+    def _get_emotional_range(self, emotional_context: str) -> list[str]:
         """Get appropriate emotional range for context"""
         emotional_ranges = {
             "neutral": ["calm", "balanced", "professional"],
@@ -294,17 +294,10 @@ class BrandVoiceAdapter:
     def _assess_audience_appropriateness(
         self,
         audience_context: str,
-        brand_profile: Dict[str, Any]
+        brand_profile: dict[str, Any]
     ) -> str:
         """Assess how appropriate the voice profile is for the target audience"""
 
-        appropriateness_matrix = {
-            "developers": ["academic", "user_friendly"],
-            "executives": ["academic", "consciousness_embodiment"],
-            "general_users": ["user_friendly", "poetic"],
-            "researchers": ["academic", "consciousness_embodiment"],
-            "creative_professionals": ["poetic", "consciousness_embodiment"]
-        }
 
         # This would need the actual voice profile name, but for now we'll use a general assessment
         return "highly_appropriate"  # Placeholder
@@ -312,12 +305,12 @@ class BrandVoiceAdapter:
     async def _generate_with_llm_bridge(
         self,
         content: str,
-        brand_profile: Dict[str, Any],
+        brand_profile: dict[str, Any],
         tone_layer: str,
         emotional_context: str,
         audience_context: str,
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate voice using real LLM bridge"""
         try:
             # Create voice generation request
@@ -379,12 +372,12 @@ class BrandVoiceAdapter:
     def _generate_with_fallback(
         self,
         content: str,
-        brand_profile: Dict[str, Any],
+        brand_profile: dict[str, Any],
         tone_layer: str,
         emotional_context: str,
         audience_context: str,
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Enhanced fallback generation when LLM bridge is unavailable"""
         # Enhance content with brand voice context
         brand_enhanced_content = self._enhance_content_with_brand_voice(
@@ -445,7 +438,7 @@ class BrandVoiceAdapter:
         # Changed from MD5 for security
         return hashlib.sha256(key_components.encode()).hexdigest()
 
-    def _cache_result(self, cache_key: str, result: Dict[str, Any]):
+    def _cache_result(self, cache_key: str, result: dict[str, Any]):
         """Cache voice generation result"""
         if len(self._voice_cache) >= self._cache_max_size:
             # Remove oldest entry
@@ -458,7 +451,7 @@ class BrandVoiceAdapter:
         """Clear voice generation cache"""
         self._voice_cache.clear()
 
-    def get_cache_stats(self) -> Dict[str, Any]:
+    def get_cache_stats(self) -> dict[str, Any]:
         """Get cache statistics"""
         return {
             'cache_size': len(self._voice_cache),
@@ -485,7 +478,7 @@ class BrandVoiceAdapter:
         current_voice: str,
         target_audience: str,
         desired_outcome: str
-    ) -> List[str]:
+    ) -> list[str]:
         """Get suggestions for adapting voice to specific contexts"""
 
         suggestions = []

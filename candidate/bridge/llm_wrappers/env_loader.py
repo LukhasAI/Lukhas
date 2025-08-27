@@ -58,7 +58,7 @@ def load_lukhas_env() -> dict[str, str]:
     env_files = [
         "/Users/A_G_I/L_U_K_H_A_C_O_X/.env",
         "/Users/agi_dev/Library/Mobile Documents/com~apple~CloudDocs/Prototype/Lukhas-ecosystem/ABot/LukhasBot/.env",
-        "/Users/agi_dev/AGI-Consolidation-Repo/.env",
+        "/Users/agi_dev/LOCAL-REPOS/Lukhas/.env",
     ]
 
     env_vars = {}

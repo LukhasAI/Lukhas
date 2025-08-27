@@ -98,3 +98,42 @@ This cleanup reduces workspace clutter while preserving all historical data.
 🤖 Generated with [Claude Code](https://claude.ai/code)
 
 Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
+{"timestamp":"2025-08-26T16:37:09Z","commit":"d703756fd4a778f99d92bf0f52810f21ba98a0a9","branch":"main","author":"LUKHΛS AGI Developer","message":"fix: restore .rgignore with proper patterns and configure pre-commit hooks
+
+- Restored .rgignore with comprehensive ignore patterns for efficient ripgrep searches
+- Configured relaxed pre-commit hooks with ruff linting and basic file checks
+- Allows commits while maintaining code quality validation
+- Identified 2,177 lint issues for systematic future resolution","security_scan":"pending"}
+{"timestamp":"2025-08-26T16:45:59Z","commit":"2f1772172b0afc0ef23bbd15c4fc373b9c4b3009","branch":"main","author":"LUKHΛS AGI Developer","message":"feat: Add universal LLM wrapper system with monitoring and log guidance
+
+🚀 Universal Wrapper System:
+- tools/ci/run_with_indicator.py - Progress spinner, heartbeat, timeout control
+- Wraps LUKHAS-LLM analysis with visual feedback and monitoring
+- Configurable timeout via LUKHAS_LLM_TIMEOUT environment variable
+
+🔧 Pre-commit Integration:
+- Updated .pre-commit-config.yaml to use wrapper for LLM analysis
+- Enhanced with lukhas-llm-analyzer hook using run_with_indicator.py
+
+📊 VS Code Monitoring:
+- Added 'T4: Watch LLM Heartbeat' task for real-time monitoring
+- Added 'T4: Kill LLM Analyzer' task for stuck process cleanup
+- Keybindings: Cmd+Shift+H (watch), Cmd+Shift+K (kill)
+
+📋 Log Location Guide:
+- Created comprehensive LUKHAS_LOG_LOCATIONS_AND_ISSUES_GUIDE.md
+- Documents where logs are saved: reports/, security-reports/, terminal output
+- Current lint issues: 13,000+ total (F821, syntax errors, ARG002 top issues)
+- Commands for viewing and analyzing specific issue types
+
+🛠️ Utility Scripts:
+- tools/ci/find_logs_and_issues.py - Log finder and issue analyzer
+- tools/ci/test_wrapper.py - Test script for wrapper validation
+
+Benefits:
+✅ No more 'frozen' LLM analysis - clear progress indicators
+✅ Timeout protection prevents infinite hangs
+✅ Heartbeat monitoring for process health
+✅ One-keystroke process management
+✅ Clear documentation of log locations and current issues","security_scan":"pending"}
+{"timestamp":"2025-08-26T17:31:46Z","commit":"ea95e0b1c4cd44b48e89fd450a1d6ab3fd1a9cb0","branch":"main","author":"LUKHΛS AGI Developer","message":"🛡️ System Recovery & Terminal Safety Implementation","security_scan":"pending"}

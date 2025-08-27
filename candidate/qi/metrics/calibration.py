@@ -9,7 +9,7 @@ import math
 import os
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 _ORIG_OPEN = builtins.open
 
@@ -24,15 +24,15 @@ RECDIR = os.path.join(STATE, "provenance", "exec_receipts")
 class CalibParams:
     fitted_at: float
     source: str                 # "eval"|"receipts"
-    bins: List[Dict[str, float]]          # global reliability
+    bins: list[dict[str, float]]          # global reliability
     ece: float                               # global ECE
     temperature: float                       # global temperature
     min_conf_clip: float
     max_conf_clip: float
     # NEW:
-    per_task_temperature: Dict[str, float] = None   # e.g. {"generate_summary": 1.12, ...}
-    per_task_ece: Dict[str, float] = None           # e.g. {"generate_summary": 0.041, ...}
-    per_task_bins: Dict[str, List[Dict[str, float]]] = None  # (optional; keep last fitted)
+    per_task_temperature: dict[str, float] = None   # e.g. {"generate_summary": 1.12, ...}
+    per_task_ece: dict[str, float] = None           # e.g. {"generate_summary": 0.041, ...}
+    per_task_bins: dict[str, list[dict[str, float]]] = None  # (optional; keep last fitted)
 
 def _read_json(p: str) -> dict:
     with _ORIG_OPEN(p, "r", encoding="utf-8") as f: return json.load(f)
@@ -42,7 +42,7 @@ def _write_json(p: str, obj: Any):
     with _ORIG_OPEN(tmp, "w", encoding="utf-8") as f: json.dump(obj, f, indent=2)
     os.replace(tmp, p)
 
-def _collect_eval() -> List[Tuple[float, int, str]]:
+def _collect_eval() -> list[tuple[float, int, str]]:
     """Return list of (confidence, correct, task) from eval runs if available.
        For now assumes each task has 'score' in [0,1] and pass/fail."""
     files = sorted(glob.glob(os.path.join(EVALDIR, "eval_*.json")))
@@ -59,7 +59,7 @@ def _collect_eval() -> List[Tuple[float, int, str]]:
             continue
     return out
 
-def _collect_receipts() -> List[Tuple[float, int, str]]:
+def _collect_receipts() -> list[tuple[float, int, str]]:
     """Fallback: infer confidence from runtime metadata; requires your pipeline to log a 'confidence' field & correctness."""
     paths = sorted(glob.glob(os.path.join(RECDIR, "*.json")))
     out=[]
@@ -75,7 +75,7 @@ def _collect_receipts() -> List[Tuple[float, int, str]]:
             continue
     return out
 
-def reliability_diagram(samples: List[Tuple[float,int,str]], bins: int = 10, task: Optional[str]=None):
+def reliability_diagram(samples: list[tuple[float,int,str]], bins: int = 10, task: str | None=None):
     if task is not None:
         samples = [s for s in samples if s[2] == task]
     buckets = [ {"lower":i/bins, "upper":(i+1)/bins, "count":0, "acc":0.0, "conf":0.0 } for i in range(bins) ]
@@ -101,7 +101,7 @@ def expected_calibration_error(diag) -> float:
         e += (b["count"]/total) * gap
     return float(round(e, 6))
 
-def fit_temperature(samples: List[Tuple[float,int,str]], weights: Optional[Dict[str, float]] = None) -> float:
+def fit_temperature(samples: list[tuple[float,int,str]], weights: dict[str, float] | None = None) -> float:
     """Simple 1D temperature on confidence → minimize logloss (Newton steps) with optional per-task weights."""
     if not samples: return 1.0
     # Apply weights if provided
@@ -128,7 +128,7 @@ def fit_temperature(samples: List[Tuple[float,int,str]], weights: Optional[Dict[
         if abs(step) < 1e-6: break
     return float(round(T, 6))
 
-def fit_and_save(source_preference: str = "eval", feedback_weights: Optional[Dict[str, float]] = None) -> CalibParams:
+def fit_and_save(source_preference: str = "eval", feedback_weights: dict[str, float] | None = None) -> CalibParams:
     samples = _collect_eval() if source_preference == "eval" else _collect_receipts()
     if not samples:
         # fallback to the other source
@@ -183,12 +183,12 @@ def fit_and_save(source_preference: str = "eval", feedback_weights: Optional[Dic
     _write_json(PARAMS_PATH, asdict(params))
     return params
 
-def load_params() -> Optional[CalibParams]:
+def load_params() -> CalibParams | None:
     if not os.path.exists(PARAMS_PATH): return None
     j = _read_json(PARAMS_PATH)
     return CalibParams(**j)
 
-def apply_calibration(conf: float, params: Optional[CalibParams] = None) -> float:
+def apply_calibration(conf: float, params: CalibParams | None = None) -> float:
     p = params or load_params()
     if p is None: return conf
     c = min(max(conf, p.min_conf_clip), p.max_conf_clip)
@@ -198,7 +198,7 @@ def apply_calibration(conf: float, params: Optional[CalibParams] = None) -> floa
     out = 1.0/(1.0+math.exp(-zT))
     return float(max(0.0, min(1.0, out)))
 
-def reliability_svg(task: Optional[str]=None, width=640, height=320) -> str:
+def reliability_svg(task: str | None=None, width=640, height=320) -> str:
     """Render reliability diagram + ECE/Temp as SVG using current params (or latest fit)."""
     p = load_params()
     if not p:

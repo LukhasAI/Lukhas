@@ -9,7 +9,7 @@ This module provides bio-inspired utilities for creativity and supervision.
 import logging
 import math
 import random
-from typing import Any, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -150,7 +150,7 @@ class BioUtilities:
         return base_value * modulation
 
     @staticmethod
-    def calculate_swarm_consensus(opinions: List[float], influence_weights: Optional[List[float]] = None) -> float:
+    def calculate_swarm_consensus(opinions: list[float], influence_weights: Optional[list[float]] = None) -> float:
         """
         Calculate swarm consensus from multiple opinions.
 
@@ -201,7 +201,7 @@ class BioUtilities:
         entity1_strength: float,
         entity2_strength: float,
         compatibility: float = 0.5
-    ) -> Tuple[float, float]:
+    ) -> tuple[float, float]:
         """
         Calculate mutual benefit from symbiotic relationship.
 
@@ -229,7 +229,7 @@ def calculate_bio_energy(complexity: float, duration: float = 1.0) -> float:
     return BioUtilities.calculate_energy_cost(complexity, duration)
 
 
-def apply_evolution(population: List[Any], fitness_func: callable, mutation_rate: float = 0.01) -> List[Any]:
+def apply_evolution(population: list[Any], fitness_func: callable, mutation_rate: float = 0.01) -> list[Any]:
     """
     Apply evolutionary selection and mutation to a population.
 

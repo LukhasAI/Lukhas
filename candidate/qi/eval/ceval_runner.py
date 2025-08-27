@@ -14,7 +14,7 @@ import os
 import random
 import time
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import click
 
@@ -46,7 +46,7 @@ class CEvalRunner:
         self.suite_file = suite_file
         self.suite = self._load_suite()
 
-    def _load_suite(self) -> Dict[str, Any]:
+    def _load_suite(self) -> dict[str, Any]:
         with open(self.suite_file) as f:
             s = json.load(f)
         # defaults
@@ -58,7 +58,7 @@ class CEvalRunner:
         s.setdefault("sla", {"min_mean": 0.85, "max_failures": 0})
         return s
 
-    def _execute_task(self, task: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_task(self, task: dict[str, Any]) -> dict[str, Any]:
         """
         Stub executor—replace with your real invoke + judge.
         """
@@ -75,7 +75,7 @@ class CEvalRunner:
             "ts": time.time(),
         }
 
-    def run_suite(self) -> Dict[str, Any]:
+    def run_suite(self) -> dict[str, Any]:
         start = time.time()
         suite_id = self.suite["suite_id"]
         results = [self._execute_task(t) for t in self.suite.get("tasks", [])]
@@ -112,7 +112,7 @@ class CEvalRunner:
                 CEVAL_TASK.labels(suite=suite_id, task_id=r["task_id"], risk=r["risk"]).set(r["score"])
         return run
 
-    def drift_check(self, baseline_file: str) -> Dict[str, Any]:
+    def drift_check(self, baseline_file: str) -> dict[str, Any]:
         latest = self._load_latest_eval()
         with open(baseline_file) as f:
             base = json.load(f)
@@ -138,7 +138,7 @@ class CEvalRunner:
             CEVAL_DRIFT.labels(suite=latest["suite_id"]).set(report["mean_drift"])
         return report
 
-    def _load_latest_eval(self) -> Dict[str, Any]:
+    def _load_latest_eval(self) -> dict[str, Any]:
         files = sorted(Path(EVALDIR).glob("eval_*.json"), key=os.path.getmtime, reverse=True)
         if not files:
             raise RuntimeError("No eval runs found")
@@ -146,7 +146,7 @@ class CEvalRunner:
             return json.load(f)
 
     @staticmethod
-    def enforce_sla(run: Dict[str, Any]) -> int:
+    def enforce_sla(run: dict[str, Any]) -> int:
         sla = run["summary"]["sla"]
         mean_ok = run["summary"]["weighted_mean"] >= sla.get("min_mean", 0.0)
         fails_ok = run["summary"]["num_failures"] <= sla.get("max_failures", 0)

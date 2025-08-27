@@ -7,18 +7,18 @@ import argparse
 import builtins
 import json
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 _ORIG_OPEN = builtins.open
 
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE, "provenance", "exec_receipts")
 
-def _read_json(path: str) -> Dict[str, Any]:
+def _read_json(path: str) -> dict[str, Any]:
     with _ORIG_OPEN(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-def _load_receipt(receipt_id: Optional[str]=None, receipt_path: Optional[str]=None) -> Dict[str, Any]:
+def _load_receipt(receipt_id: str | None=None, receipt_path: str | None=None) -> dict[str, Any]:
     if receipt_path:
         return _read_json(receipt_path)
     if not receipt_id:
@@ -27,7 +27,7 @@ def _load_receipt(receipt_id: Optional[str]=None, receipt_path: Optional[str]=No
     if not os.path.exists(p): raise FileNotFoundError(p)
     return _read_json(p)
 
-def _load_prov(artifact_sha: Optional[str]) -> Optional[Dict[str, Any]]:
+def _load_prov(artifact_sha: str | None) -> dict[str, Any] | None:
     if not artifact_sha: return None
     try:
         from qi.safety.provenance_uploader import load_record_by_sha
@@ -35,7 +35,7 @@ def _load_prov(artifact_sha: Optional[str]) -> Optional[Dict[str, Any]]:
     except Exception:
         return None
 
-def _teq_replay(receipt: Dict[str, Any], policy_root: str, overlays_dir: Optional[str]) -> Dict[str, Any]:
+def _teq_replay(receipt: dict[str, Any], policy_root: str, overlays_dir: str | None) -> dict[str, Any]:
     from qi.safety.teq_replay import replay_from_receipt
     return replay_from_receipt(
         receipt=receipt,
@@ -54,11 +54,11 @@ def _fmt_ts(ts: float) -> str:
 
 def build_dot(
     *,
-    receipt: Dict[str, Any],
-    prov: Optional[Dict[str, Any]],
-    replay: Optional[Dict[str, Any]] = None,
-    link_base: Optional[str] = None,      # e.g., http://127.0.0.1:8095 (receipts API)
-    prov_base: Optional[str] = None,      # e.g., http://127.0.0.1:8088 (provenance proxy)
+    receipt: dict[str, Any],
+    prov: dict[str, Any] | None,
+    replay: dict[str, Any] | None = None,
+    link_base: str | None = None,      # e.g., http://127.0.0.1:8095 (receipts API)
+    prov_base: str | None = None,      # e.g., http://127.0.0.1:8088 (provenance proxy)
 ) -> str:
     """
     Returns Graphviz DOT with clickable nodes. Caller can render to SVG/PNG.
@@ -89,7 +89,7 @@ def build_dot(
     prov_url = f"{prov_base.rstrip('/')}/provenance/{sha}/link" if (prov_base and sha) else None
 
     # Begin DOT
-    lines: List[str] = []
+    lines: list[str] = []
     lines.append('digraph lukhas_trace {')
     lines.append('  rankdir=LR;')
     lines.append('  node [shape=box, style="rounded,filled", color="#444444", fillcolor="#F7F9FB", fontname="Inter"];')
@@ -139,7 +139,7 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
                 reasons.append(f"{r.get('kind','?')}: {r.get('reason','')}")
             else:
                 reasons.append(str(r))
-    teq_lines = "<br/>".join([verdict or "(no replay)"] + [x for x in reasons[:6]])
+    teq_lines = "<br/>".join([verdict or "(no replay)"] + list(reasons[:6]))
     pol_label = f"""<<b>TEQ Policy</b><br/>{pol_id_or_dash(policy_id)}<br/>{escape_html(teq_lines)}>"""
     lines.append('  subgraph cluster_policy { label="Policy & Decision"; color="#DDE7F0";')
     lines.append(f'    teq [label={pol_label}, fillcolor="#FFF8F0"];')
@@ -171,10 +171,10 @@ mime: {mime or "-"} | size: {size or "-"}<br/>>"""
     lines.append('}')
     return "\n".join(lines)
 
-def pol_id_or_dash(pid: Optional[str]) -> str:
+def pol_id_or_dash(pid: str | None) -> str:
     return f"policy: {pid}" if pid else "policy: -"
 
-def escape_html(s: Optional[str]) -> str:
+def escape_html(s: str | None) -> str:
     if s is None: return ""
     return (s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;"))
 

@@ -121,9 +121,8 @@ class ComplianceValidator:
         # Higher tiers get more detailed compliance checks
         if tier.value >= AccessTier.T3:
             # Check GDPR for sensitive operations
-            if "personal_data" in content:
-                if not content.get("consent_verified"):
-                    violations.append("GDPR: Missing consent verification")
+            if "personal_data" in content and not content.get("consent_verified"):
+                violations.append("GDPR: Missing consent verification")
 
         # Basic accessibility for all tiers
         if "interface_elements" in content:

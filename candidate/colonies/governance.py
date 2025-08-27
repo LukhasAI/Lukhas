@@ -5,7 +5,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from .base import BaseColony, ColonyAgent, ColonyRole, ColonyTask
 
@@ -39,7 +39,7 @@ class GovernanceColony(BaseColony):
         )
         self.agents[ethics_specialist.id] = ethics_specialist
 
-    def get_default_capabilities(self) -> List[str]:
+    def get_default_capabilities(self) -> list[str]:
         """Default capabilities for governance agents"""
         return [
             "ethics_check",
@@ -67,7 +67,7 @@ class GovernanceColony(BaseColony):
         else:
             return {"status": "unknown_task_type", "task_type": task_type}
 
-    def _perform_ethics_check(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+    def _perform_ethics_check(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Perform ethical evaluation of an operation"""
         result = {
             "operation_id": operation.get("id", "unknown"),
@@ -114,7 +114,7 @@ class GovernanceColony(BaseColony):
 
         return result
 
-    def _detect_drift(self, metrics: Dict[str, Any]) -> Dict[str, Any]:
+    def _detect_drift(self, metrics: dict[str, Any]) -> dict[str, Any]:
         """Detect ethical drift in system behavior"""
         current_drift = metrics.get("drift_score", 0.0)
 
@@ -139,7 +139,7 @@ class GovernanceColony(BaseColony):
 
         return result
 
-    def _audit_operation(self, operation: Dict[str, Any]) -> Dict[str, Any]:
+    def _audit_operation(self, operation: dict[str, Any]) -> dict[str, Any]:
         """Audit a system operation"""
         audit_result = {
             "operation_id": operation.get("id", "unknown"),
@@ -169,7 +169,7 @@ class GovernanceColony(BaseColony):
 
         return audit_result
 
-    def _check_policy_compliance(self, policy_check: Dict[str, Any]) -> Dict[str, Any]:
+    def _check_policy_compliance(self, policy_check: dict[str, Any]) -> dict[str, Any]:
         """Check compliance with organizational policies"""
         policy_name = policy_check.get("policy", "unknown")
         operation = policy_check.get("operation", {})
@@ -206,8 +206,8 @@ class GovernanceColony(BaseColony):
         return result
 
     def _perform_intervention(
-        self, intervention_request: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, intervention_request: dict[str, Any]
+    ) -> dict[str, Any]:
         """Perform governance intervention"""
         intervention_type = intervention_request.get("type", "unknown")
         target = intervention_request.get("target", "unknown")
@@ -237,7 +237,7 @@ class GovernanceColony(BaseColony):
 
         return result
 
-    def get_governance_status(self) -> Dict[str, Any]:
+    def get_governance_status(self) -> dict[str, Any]:
         """Get comprehensive governance status"""
         base_status = self.get_status()
 

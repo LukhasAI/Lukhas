@@ -8,7 +8,6 @@ for consciousness states in the LUKHΛS system.
 """
 
 from enum import Enum
-from typing import Dict, List, Tuple
 
 
 class GPTInteractionStyle(Enum):
@@ -197,7 +196,7 @@ class GPTSymbolicBridge:
             return f"The system has collapsed to {glyph} - a unique symbolic state awaiting interpretation."
 
     @staticmethod
-    def get_gpt_style(glyph: str) -> Tuple[GPTInteractionStyle, Dict]:
+    def get_gpt_style(glyph: str) -> tuple[GPTInteractionStyle, dict]:
         """
         Get the GPT interaction style for a given glyph.
 
@@ -216,7 +215,7 @@ class GPTSymbolicBridge:
 
     @staticmethod
     def create_gpt_prompt_context(
-        collapsed_glyphs: List[str], entropy_level: float, trinity_coherence: float
+        collapsed_glyphs: list[str], entropy_level: float, trinity_coherence: float
     ) -> str:
         """
         Create context for GPT based on collapsed states.
@@ -252,7 +251,7 @@ class GPTSymbolicBridge:
         return "\n".join(context_parts)
 
     @staticmethod
-    def suggest_gpt_parameters(glyph: str) -> Dict:
+    def suggest_gpt_parameters(glyph: str) -> dict:
         """
         Suggest GPT parameters based on symbolic state.
 
@@ -277,7 +276,7 @@ class GPTSymbolicBridge:
         }
 
     @staticmethod
-    def create_symbolic_dialogue(session_glyphs: List[str]) -> List[Dict]:
+    def create_symbolic_dialogue(session_glyphs: list[str]) -> list[dict]:
         """
         Create a symbolic dialogue based on session glyphs.
 
@@ -337,7 +336,7 @@ def get_gpt_style_for_glyph(glyph: str) -> str:
 
 
 def create_gpt_context(
-    collapsed_glyphs: List[str], entropy: float = 0.5, coherence: float = 0.8
+    collapsed_glyphs: list[str], entropy: float = 0.5, coherence: float = 0.8
 ) -> str:
     """Create GPT context from qi state"""
     return GPTSymbolicBridge.create_gpt_prompt_context(

@@ -359,9 +359,8 @@ class ClassicalDreamEngine:
                     if values[-1] > values[0]:
                         base_likelihood += 0.1
                 # Negative emotions decreasing = good
-                elif emotion in ["fear", "stress", "anger"]:
-                    if values[-1] < values[0]:
-                        base_likelihood += 0.1
+                elif emotion in ["fear", "stress", "anger"] and values[-1] < values[0]:
+                    base_likelihood += 0.1
 
         # Path length factor (shorter paths slightly preferred)
         length_factor = 1.0 - (len(path) - 3) * 0.05

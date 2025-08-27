@@ -1,6 +1,7 @@
 # path: qi/safety/receipts_sink.py
 from __future__ import annotations
 
+import contextlib
 import glob
 import hashlib
 import json
@@ -9,7 +10,7 @@ import sys
 import time
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any
 
 STATE_DIR = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 RECEIPTS_DIR = os.path.join(STATE_DIR, "provenance", "receipts")
@@ -47,17 +48,17 @@ def _maybe_s3_client():
 
 @dataclass
 class SinkConfig:
-    kafka_topic: Optional[str]
-    s3_bucket: Optional[str]
+    kafka_topic: str | None
+    s3_bucket: str | None
     s3_prefix: str
 
-def _load_offsets() -> Dict[str, int]:
+def _load_offsets() -> dict[str, int]:
     try:
         return json.load(open(OFFSETS_PATH, encoding="utf-8"))
     except Exception:
         return {}
 
-def _save_offsets(ofs: Dict[str, int]):
+def _save_offsets(ofs: dict[str, int]):
     os.makedirs(os.path.dirname(OFFSETS_PATH), exist_ok=True)
     tmp = OFFSETS_PATH + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
@@ -74,7 +75,7 @@ def _iter_lines(path: str, start: int) -> Iterable[tuple[int, str]]:
                 continue
             yield idx, line
 
-def _rec_key(rec: Dict[str, Any]) -> str:
+def _rec_key(rec: dict[str, Any]) -> str:
     # Stable id: sha + event + rounded ts
     h = hashlib.sha256(json.dumps({"sha": rec.get("artifact_sha"), "e": rec.get("event"), "t": int(rec.get("ts", 0))}, sort_keys=True).encode()).hexdigest()
     return h
@@ -132,10 +133,8 @@ def ship_once(cfg: SinkConfig, once: bool = False, poll_sec: float = 1.0) -> Non
             changed = True
 
     if prod is not None:
-        try:
+        with contextlib.suppress(Exception):
             prod.flush(2.0)
-        except Exception:
-            pass
 
     if changed:
         _save_offsets(ofs)

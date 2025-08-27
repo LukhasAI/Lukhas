@@ -10,7 +10,7 @@ from collections import Counter, deque
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class SpindleState:
 
     rotation_speed: float  # 0.0 to 1.0
     coherence: float  # 0.0 to 1.0
-    dominant_glyphs: List[str]
+    dominant_glyphs: list[str]
     entropy_class: str  # stable, neutral, unstable
     pattern_strength: float
     active_memories: int
@@ -72,20 +72,20 @@ class MemorySpindle:
         self.log_file = Path(log_file)
         self.memory_window = deque(maxlen=window_size)
         self.glyph_history = deque(maxlen=window_size * 3)
-        self.pattern_cache: Dict[str, float] = {}
+        self.pattern_cache: dict[str, float] = {}
         self.current_state: Optional[SpindleState] = None
         self.spin_cycles = 0
 
         # Pattern detection
-        self.recurring_sequences: Dict[str, int] = {}
-        self.emergent_patterns: List[Dict] = []
+        self.recurring_sequences: dict[str, int] = {}
+        self.emergent_patterns: list[dict] = []
 
         logger.info("🌀 Memory Spindle initialized")
         logger.info(f"   Window size: {window_size}")
         logger.info(f"   Log file: {log_file}")
 
     def add_memory(
-        self, glyphs: List[str], entropy_score: float, entropy_class: str, content: Dict
+        self, glyphs: list[str], entropy_score: float, entropy_class: str, content: dict
     ):
         """Add a memory to the spindle"""
         self.memory_window.append(
@@ -166,7 +166,7 @@ class MemorySpindle:
 
         return self.current_state
 
-    def _detect_patterns(self) -> List[Tuple[str, int]]:
+    def _detect_patterns(self) -> list[tuple[str, int]]:
         """Detect recurring glyph sequences"""
         patterns = []
 
@@ -190,7 +190,7 @@ class MemorySpindle:
 
         return patterns[:10]  # Top 10 patterns
 
-    def _calculate_pattern_strength(self, patterns: List[Tuple[str, int]]) -> float:
+    def _calculate_pattern_strength(self, patterns: list[tuple[str, int]]) -> float:
         """Calculate overall pattern strength"""
         if not patterns:
             return 0.0
@@ -233,7 +233,7 @@ class MemorySpindle:
 
         return max(0.0, min(1.0, coherence))
 
-    def _check_emergence(self, patterns: List[Tuple[str, int]], strength: float):
+    def _check_emergence(self, patterns: list[tuple[str, int]], strength: float):
         """Check for emergent symbolic patterns"""
         if strength > self.PATTERN_THRESHOLDS["strong"]:
             # Strong pattern detected
@@ -255,7 +255,7 @@ class MemorySpindle:
 
             self._log_event("emergence", emergence)
 
-    def _generate_insight(self, patterns: List[Tuple[str, int]]) -> str:
+    def _generate_insight(self, patterns: list[tuple[str, int]]) -> str:
         """Generate symbolic insight from patterns"""
         if not patterns:
             return "No clear pattern"
@@ -299,7 +299,7 @@ class MemorySpindle:
             timestamp=datetime.utcnow(),
         )
 
-    def _log_event(self, event_type: str, data: Dict):
+    def _log_event(self, event_type: str, data: dict):
         """Log spindle events to file"""
         log_entry = {
             "timestamp": datetime.utcnow().isoformat(),
@@ -310,7 +310,7 @@ class MemorySpindle:
         with open(self.log_file, "a") as f:
             f.write(json.dumps(log_entry) + "\n")
 
-    def get_recall_recommendations(self) -> List[Dict]:
+    def get_recall_recommendations(self) -> list[dict]:
         """Get memory recall recommendations based on patterns"""
         if not self.current_state:
             return []
@@ -352,7 +352,7 @@ class MemorySpindle:
 
         return recommendations
 
-    def export_spindle_state(self) -> Dict:
+    def export_spindle_state(self) -> dict:
         """Export complete spindle state and patterns"""
         return {
             "current_state": asdict(self.current_state) if self.current_state else None,

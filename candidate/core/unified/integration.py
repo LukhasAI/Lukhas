@@ -5,7 +5,7 @@ Minimal implementation to support system component integration.
 """
 
 import logging
-from typing import Any, Callable, Dict, List
+from typing import Any, Callable
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +73,7 @@ class UnifiedIntegration:
             del self.message_handlers[component_id]
             logger.debug(f"Component unregistered: {component_id}")
 
-    async def send_message(self, component_id: str, message: Dict[str, Any]):
+    async def send_message(self, component_id: str, message: dict[str, Any]):
         """Send message to registered component"""
         if component_id in self.message_handlers:
             handler = self.message_handlers[component_id]
@@ -94,7 +94,7 @@ class UnifiedIntegration:
         """Get data from unified storage"""
         return self.data_stores.get(key)
 
-    async def broadcast_message(self, message: Dict[str, Any]):
+    async def broadcast_message(self, message: dict[str, Any]):
         """Broadcast message to all registered components"""
         for component_id, handler in self.message_handlers.items():
             try:
@@ -103,11 +103,11 @@ class UnifiedIntegration:
             except Exception as e:
                 logger.error(f"Error broadcasting to {component_id}: {e}")
 
-    def get_registered_components(self) -> List[str]:
+    def get_registered_components(self) -> list[str]:
         """Get list of registered components"""
         return list(self.message_handlers.keys())
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """Get system integration status"""
         return {
             "active": self.active,

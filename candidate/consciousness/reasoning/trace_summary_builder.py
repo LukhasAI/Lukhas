@@ -187,9 +187,8 @@ class TraceSummaryBuilder:
             return True
 
         # Nodes with significant content
-        if isinstance(node.content, dict):
-            if node.content.get("significance", 0) > 0.7:
-                return True
+        if isinstance(node.content, dict) and node.content.get("significance", 0) > 0.7:
+            return True
 
         return False
 

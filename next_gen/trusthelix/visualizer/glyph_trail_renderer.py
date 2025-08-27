@@ -7,7 +7,7 @@ Creates visual representations of glyph transformations over time
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -17,10 +17,10 @@ class GlyphTrail:
     """Visual representation of a glyph's journey"""
 
     glyph_type: str  # "trust", "biometric", "consent"
-    trail: List[str]
-    timestamps: List[datetime]
-    mutations: List[Dict[str, str]]
-    reversals: List[int]  # Indices where reversals occurred
+    trail: list[str]
+    timestamps: list[datetime]
+    mutations: list[dict[str, str]]
+    reversals: list[int]  # Indices where reversals occurred
 
     def to_visual_string(self) -> str:
         """Convert trail to visual string with arrows"""
@@ -36,7 +36,7 @@ class GlyphTrail:
 
         return " ".join(visual)
 
-    def get_journey_summary(self) -> Dict:
+    def get_journey_summary(self) -> dict:
         """Summarize the glyph's journey"""
         return {
             "type": self.glyph_type,
@@ -72,8 +72,8 @@ class GlyphTrailRenderer:
     }
 
     def __init__(self):
-        self.user_trails: Dict[str, Dict[str, GlyphTrail]] = {}
-        self.global_patterns: List[Dict] = []
+        self.user_trails: dict[str, dict[str, GlyphTrail]] = {}
+        self.global_patterns: list[dict] = []
         logger.info("🎨 Glyph Trail Renderer initialized")
 
     def track_mutation(
@@ -138,7 +138,7 @@ class GlyphTrailRenderer:
                 return category
         return None
 
-    def _is_reversal(self, trail: List[str], new_glyph: str) -> bool:
+    def _is_reversal(self, trail: list[str], new_glyph: str) -> bool:
         """Check if this mutation represents a reversal"""
         if len(trail) < 2:
             return False
@@ -178,7 +178,7 @@ class GlyphTrailRenderer:
         }
         self.global_patterns.append(pattern)
 
-    def render_user_journey(self, user_id: str) -> Dict[str, str]:
+    def render_user_journey(self, user_id: str) -> dict[str, str]:
         """Render complete journey for a user"""
         if user_id not in self.user_trails:
             return {"error": "User not found"}
@@ -197,7 +197,7 @@ class GlyphTrailRenderer:
         drift_trail = self.user_trails[user_id]["drift"]
         return drift_trail.to_visual_string()
 
-    def get_reversal_report(self, user_id: Optional[str] = None) -> Dict:
+    def get_reversal_report(self, user_id: Optional[str] = None) -> dict:
         """Generate report on reversals"""
         if user_id:
             if user_id not in self.user_trails:
@@ -241,7 +241,7 @@ class GlyphTrailRenderer:
                 "common_reversals": self._get_common_reversals(),
             }
 
-    def _get_common_reversals(self) -> List[Dict]:
+    def _get_common_reversals(self) -> list[dict]:
         """Find most common reversal patterns"""
         reversal_counts = {}
 
@@ -260,7 +260,7 @@ class GlyphTrailRenderer:
             for pattern, count in sorted_reversals[:5]
         ]
 
-    def export_visual_manifest(self) -> Dict:
+    def export_visual_manifest(self) -> dict:
         """Export complete visual manifest"""
         manifest = {
             "generated_at": datetime.utcnow().isoformat(),
@@ -285,7 +285,7 @@ class GlyphTrailRenderer:
 
         return manifest
 
-    def _get_category_distribution(self) -> Dict[str, int]:
+    def _get_category_distribution(self) -> dict[str, int]:
         """Get distribution of mutations by category"""
         distribution = {}
         for pattern in self.global_patterns:
@@ -293,7 +293,7 @@ class GlyphTrailRenderer:
             distribution[category] = distribution.get(category, 0) + 1
         return distribution
 
-    def _get_mutation_frequency(self) -> List[Dict]:
+    def _get_mutation_frequency(self) -> list[dict]:
         """Get most frequent mutations"""
         mutation_counts = {}
 
@@ -311,7 +311,7 @@ class GlyphTrailRenderer:
             for mutation, count in sorted_mutations[:10]
         ]
 
-    def render_symbolic_reversal(self, glyph_sequence: List[str]) -> str:
+    def render_symbolic_reversal(self, glyph_sequence: list[str]) -> str:
         """Render a symbolic reversal sequence with special formatting"""
         if not glyph_sequence:
             return ""

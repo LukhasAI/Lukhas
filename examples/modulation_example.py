@@ -20,7 +20,6 @@ import asyncio
 import os
 import sys
 import time
-from typing import List
 
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -80,7 +79,7 @@ def test_signal_system():
     return signals
 
 
-def test_modulation_system(signals: List[Signal]):
+def test_modulation_system(signals: list[Signal]):
     """Test signal modulation system"""
     print("🎛️ Testing Modulation System...")
 
@@ -109,7 +108,7 @@ def test_modulation_system(signals: List[Signal]):
         return None, None
 
 
-def test_openai_integration(modulator: SignalModulator, signals: List[Signal]):
+def test_openai_integration(modulator: SignalModulator, signals: list[Signal]):
     """Test OpenAI integration (without making API calls)"""
     print("🔌 Testing OpenAI Integration...")
 

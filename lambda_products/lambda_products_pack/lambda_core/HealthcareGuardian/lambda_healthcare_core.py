@@ -16,7 +16,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # LUKHAS Core Imports - Full Trinity Framework Integration
 try:
@@ -196,13 +196,13 @@ class HealthcareContext:
     """Patient healthcare context"""
     patient_id: str
     age: int
-    conditions: List[str]
-    medications: List[str]
-    allergies: List[str]
-    emergency_contacts: List[Dict[str, str]]
+    conditions: list[str]
+    medications: list[str]
+    allergies: list[str]
+    emergency_contacts: list[dict[str, str]]
     language: str = "es-AN"  # Andalusian Spanish
     consent_level: str = "enhanced"
-    privacy_settings: Dict[str, bool] = None
+    privacy_settings: dict[str, bool] = None
 
 
 @dataclass
@@ -216,7 +216,7 @@ class MedicalDecision:
     justification: str
     timestamp: datetime
     guardian_approved: bool
-    fallback_options: List[str]
+    fallback_options: list[str]
 
 
 class LambdaHealthcareGuardian:
@@ -421,7 +421,7 @@ class LambdaHealthcareGuardian:
         request: str,
         context: HealthcareContext,
         emergency: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Process medical request with full Trinity Framework protection
 
@@ -481,8 +481,8 @@ class LambdaHealthcareGuardian:
         self,
         emergency_type: str,
         context: HealthcareContext,
-        location: Optional[Dict[str, float]] = None
-    ) -> Dict[str, Any]:
+        location: Optional[dict[str, float]] = None
+    ) -> dict[str, Any]:
         """
         Handle medical emergency with Lambda priority and fallbacks
 
@@ -497,10 +497,7 @@ class LambdaHealthcareGuardian:
         self.emergency_state = EmergencyLevel.CRITICAL
 
         # Lambda priority processing
-        if self.lambda_emergency_priority:
-            priority = "LAMBDA_PRIORITY"
-        else:
-            priority = "STANDARD"
+        priority = "LAMBDA_PRIORITY" if self.lambda_emergency_priority else "STANDARD"
 
         # Multiple fallback layers
         responses = []
@@ -556,7 +553,7 @@ class LambdaHealthcareGuardian:
         self,
         image_path: str,
         context: HealthcareContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Scan medication with Lambda-enhanced OCR verification
 
@@ -605,7 +602,7 @@ class LambdaHealthcareGuardian:
         specialty: str,
         context: HealthcareContext,
         preferred_time: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Book SAS appointment with consent and fallback handling
 
@@ -683,7 +680,7 @@ class LambdaHealthcareGuardian:
         patient_id: str,
         country: str,
         insurance_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Verify insurance coverage across multiple countries
 
@@ -719,9 +716,9 @@ class LambdaHealthcareGuardian:
 
     async def analyze_with_bio_patterns(
         self,
-        patient_data: Dict[str, Any],
+        patient_data: dict[str, Any],
         context: HealthcareContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Analyze patient data using bio-inspired pattern recognition
 
@@ -765,7 +762,7 @@ class LambdaHealthcareGuardian:
     async def store_in_dna_vault(
         self,
         patient_id: str,
-        medical_record: Dict[str, Any],
+        medical_record: dict[str, Any],
         encryption_level: str = "quantum"
     ) -> bool:
         """
@@ -805,10 +802,10 @@ class LambdaHealthcareGuardian:
 
     async def reason_medical_decision(
         self,
-        symptoms: List[str],
-        history: Dict[str, Any],
+        symptoms: list[str],
+        history: dict[str, Any],
         context: HealthcareContext
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Use causal reasoning and advanced colonies for medical decisions
 
@@ -872,7 +869,7 @@ class LambdaHealthcareGuardian:
         self,
         patient_id: str,
         event: str,
-        data: Dict[str, Any]
+        data: dict[str, Any]
     ) -> bool:
         """
         Track patient journey using episodic memory
@@ -920,7 +917,7 @@ class LambdaHealthcareGuardian:
             )
         return True  # Default allow if no consent manager
 
-    async def _validate_ethics(self, response: Dict, context: HealthcareContext) -> float:
+    async def _validate_ethics(self, response: dict, context: HealthcareContext) -> float:
         """Validate ethical score of response"""
         if self.ethics_engine:
             return await self.ethics_engine.evaluate(
@@ -934,7 +931,7 @@ class LambdaHealthcareGuardian:
         request: str,
         context: HealthcareContext,
         error: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Handle fallback scenarios"""
         self.fallback_active = True
 
@@ -967,7 +964,7 @@ class LambdaHealthcareGuardian:
 
         return min(risk_score, 1.0)
 
-    async def _store_standard(self, patient_id: str, medical_record: Dict[str, Any]) -> bool:
+    async def _store_standard(self, patient_id: str, medical_record: dict[str, Any]) -> bool:
         """Standard storage fallback when DNA vault unavailable"""
         try:
             # Store in regular memory folds
@@ -984,7 +981,7 @@ class LambdaHealthcareGuardian:
 
     async def _validate_medical_ethics(
         self,
-        decision: Dict[str, Any],
+        decision: dict[str, Any],
         context: HealthcareContext
     ) -> bool:
         """Validate medical decision against ethical guidelines"""
@@ -996,7 +993,7 @@ class LambdaHealthcareGuardian:
             return score > 0.7
         return True
 
-    async def _provide_manual_booking(self, specialty: str, error: str) -> Dict[str, Any]:
+    async def _provide_manual_booking(self, specialty: str, error: str) -> dict[str, Any]:
         """Provide manual booking guidance when automated fails"""
         return {
             "success": False,
@@ -1026,7 +1023,7 @@ class LambdaHealthcareGuardian:
 class ThreatMonitor:
     """Advanced threat monitoring from Guardian Dashboard"""
 
-    async def monitor_threats(self) -> List[Dict]:
+    async def monitor_threats(self) -> list[dict]:
         """Monitor healthcare-specific threats"""
         threats = []
         # Implementation from Guardian Dashboard
@@ -1036,7 +1033,7 @@ class ThreatMonitor:
 class DashboardMetrics:
     """Real-time metrics dashboard"""
 
-    def get_metrics(self) -> Dict[str, float]:
+    def get_metrics(self) -> dict[str, float]:
         """Get current system metrics"""
         return {
             "system_health": 0.98,
@@ -1049,7 +1046,7 @@ class DashboardMetrics:
 class EthicalReflector:
     """Ethical reflection system from Guardian Reflector"""
 
-    async def reflect_on_decision(self, decision: MedicalDecision) -> Dict:
+    async def reflect_on_decision(self, decision: MedicalDecision) -> dict:
         """Perform ethical reflection on medical decision"""
         return {
             "ethical_score": decision.ethical_score,
@@ -1061,7 +1058,7 @@ class EthicalReflector:
 class MedicalProtocols:
     """Enhanced medical protocols from Guardian Medical"""
 
-    def get_protocol(self, condition: str) -> Dict:
+    def get_protocol(self, condition: str) -> dict:
         """Get medical protocol for condition"""
         protocols = {
             "cardiac_arrest": {
@@ -1093,7 +1090,7 @@ class ProviderManager:
 class GDPRComplianceManager:
     """EU GDPR compliance management"""
 
-    async def ensure_compliance(self, action: str, data: Dict) -> bool:
+    async def ensure_compliance(self, action: str, data: dict) -> bool:
         """Ensure GDPR compliance for action"""
         # Check data minimization
         # Verify purpose limitation
@@ -1114,7 +1111,7 @@ class HIPAAComplianceManager:
 class LOPDComplianceManager:
     """Spanish LOPD data protection compliance"""
 
-    async def check_spanish_compliance(self, data: Dict) -> bool:
+    async def check_spanish_compliance(self, data: dict) -> bool:
         """Check Spanish data protection laws"""
         # Verify AEPD requirements
         # Check data localization
@@ -1131,7 +1128,7 @@ class FallbackManager:
             "data": ["sas", "cache", "offline"]
         }
 
-    async def execute_fallback_chain(self, chain_type: str, context: Dict) -> Any:
+    async def execute_fallback_chain(self, chain_type: str, context: dict) -> Any:
         """Execute fallback chain for resilience"""
         chain = self.fallback_chains.get(chain_type, ["manual"])
 
@@ -1147,7 +1144,7 @@ class FallbackManager:
 
         return {"error": "All fallbacks exhausted", "manual_action_required": True}
 
-    async def _try_fallback(self, fallback: str, context: Dict) -> Any:
+    async def _try_fallback(self, fallback: str, context: dict) -> Any:
         """Try individual fallback option"""
         # Implementation for each fallback type
         pass

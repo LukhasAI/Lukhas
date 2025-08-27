@@ -11,7 +11,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # T4 Enterprise component imports
 try:
@@ -77,7 +77,7 @@ class T4ServiceStatus:
     response_time_ms: float
     error_count: int
     uptime_percentage: float
-    details: Dict[str, Any]
+    details: dict[str, Any]
 
 @dataclass
 class T4EnterpriseMetrics:
@@ -122,7 +122,7 @@ class T4EnterpriseOrchestrator:
     def __init__(self):
         """Initialize T4 Enterprise Orchestrator"""
         self.system_status = T4SystemStatus.INITIALIZING
-        self.services: Dict[str, T4ServiceStatus] = {}
+        self.services: dict[str, T4ServiceStatus] = {}
         self.start_time = datetime.now()
 
         # T4 Enterprise Components
@@ -378,7 +378,7 @@ class T4EnterpriseOrchestrator:
         except Exception as e:
             logger.error(f"Health checks failed: {e}")
 
-    async def _check_service_health(self, service_name: str) -> Dict[str, Any]:
+    async def _check_service_health(self, service_name: str) -> dict[str, Any]:
         """Check health of specific service"""
 
         try:
@@ -626,7 +626,7 @@ class T4EnterpriseOrchestrator:
                 logger.error(f"Health check loop error: {e}")
                 await asyncio.sleep(120)  # Wait longer on error
 
-    def get_system_status_report(self) -> Dict[str, Any]:
+    def get_system_status_report(self) -> dict[str, Any]:
         """Get comprehensive T4 system status report"""
 
         uptime_seconds = (datetime.now() - self.start_time).total_seconds()

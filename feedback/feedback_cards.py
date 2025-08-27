@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 from uuid import uuid4
 
 import numpy as np
@@ -58,13 +58,13 @@ class FeedbackCard:
     # Context
     user_input: str = ""
     ai_response: str = ""
-    system_state: Dict[str, Any] = field(default_factory=dict)
+    system_state: dict[str, Any] = field(default_factory=dict)
 
     # Feedback request
     feedback_type: FeedbackType = FeedbackType.RATING
     category: FeedbackCategory = FeedbackCategory.HELPFULNESS
     prompt: str = "Please rate this response"
-    options: List[str] = field(default_factory=list)
+    options: list[str] = field(default_factory=list)
 
     # User feedback
     rating: Optional[int] = None  # 1-5
@@ -78,7 +78,7 @@ class FeedbackCard:
     user_id: Optional[str] = None
     model_version: str = ""
     experiment_id: Optional[str] = None
-    tags: Set[str] = field(default_factory=set)
+    tags: set[str] = field(default_factory=set)
 
     # Processing
     processed: bool = False
@@ -106,7 +106,7 @@ class FeedbackCardsManager:
         self._init_database()
 
         # Active cards awaiting feedback
-        self.active_cards: Dict[str, FeedbackCard] = {}
+        self.active_cards: dict[str, FeedbackCard] = {}
 
         # Feedback statistics
         self.stats = {
@@ -541,10 +541,7 @@ class FeedbackCardsManager:
 
         # Factor 2: Accuracy validation rate (when available)
         validations = [row[2] for row in history if row[2] is not None]
-        if validations:
-            accuracy_rate = sum(validations) / len(validations)
-        else:
-            accuracy_rate = 0.5
+        accuracy_rate = sum(validations) / len(validations) if validations else 0.5
 
         # Factor 3: Activity level (more feedback = more reliable)
         activity_score = min(total_feedback / 20.0, 1.0)  # Max at 20 feedbacks
@@ -576,8 +573,8 @@ class FeedbackCardsManager:
         self,
         min_impact: float = 0.3,
         limit: int = 100,
-        categories: Optional[List[FeedbackCategory]] = None,
-    ) -> List[FeedbackCard]:
+        categories: Optional[list[FeedbackCategory]] = None,
+    ) -> list[FeedbackCard]:
         """
         Get feedback cards ready for training.
 
@@ -620,7 +617,7 @@ class FeedbackCardsManager:
 
         return cards
 
-    def _row_to_card(self, row: Tuple) -> FeedbackCard:
+    def _row_to_card(self, row: tuple) -> FeedbackCard:
         """Convert database row to FeedbackCard"""
         card = FeedbackCard(
             card_id=row[0],
@@ -650,7 +647,7 @@ class FeedbackCardsManager:
         )
         return card
 
-    def mark_as_applied(self, card_ids: List[str]):
+    def mark_as_applied(self, card_ids: list[str]):
         """Mark cards as applied to training"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -664,7 +661,7 @@ class FeedbackCardsManager:
         conn.commit()
         conn.close()
 
-    def get_statistics(self, time_window: Optional[timedelta] = None) -> Dict[str, Any]:
+    def get_statistics(self, time_window: Optional[timedelta] = None) -> dict[str, Any]:
         """
         Get feedback statistics.
 

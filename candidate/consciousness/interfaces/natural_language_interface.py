@@ -929,7 +929,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             # Add Trinity Framework context for consciousness responses
             if intent == ConversationIntent.QUERY_AWARENESS:
                 trinity_context = self.branding_bridge.get_trinity_context("consciousness")
-                consciousness_desc = trinity_context["consciousness"]["description"]
+                trinity_context["consciousness"]["description"]
                 # Enhance with consciousness symbol if not already present
                 if "🧠" not in branded_response:
                     branded_response = f"🧠 {branded_response}"

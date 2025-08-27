@@ -12,7 +12,7 @@ import logging
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 # Add LUKHAS modules to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -121,9 +121,9 @@ class AutoImprover:
 
     async def run_improvement_cycle(
         self,
-        target_files: Optional[List[str]] = None,
+        target_files: Optional[list[str]] = None,
         max_issues: int = 100
-    ) -> Dict:
+    ) -> dict:
         """Run a single improvement cycle"""
 
         print("\n🚀 Starting LUKHAS Auto-Improvement Cycle")
@@ -168,7 +168,7 @@ class AutoImprover:
 
         return results
 
-    async def _run_quick_fixes(self, target_files: Optional[List[str]] = None) -> Dict:
+    async def _run_quick_fixes(self, target_files: Optional[list[str]] = None) -> dict:
         """Run quick fixes using standard tools"""
         results = {
             "black": 0,
@@ -214,9 +214,9 @@ class AutoImprover:
 
     async def _run_llm_fixes(
         self,
-        target_files: Optional[List[str]] = None,
+        target_files: Optional[list[str]] = None,
         max_issues: int = 100
-    ) -> Dict:
+    ) -> dict:
         """Run LLM-powered fixes"""
         results = {
             "files_analyzed": 0,
@@ -267,7 +267,7 @@ class AutoImprover:
 
         return results
 
-    async def _run_healing_cycle(self, max_issues: int = 100) -> Dict:
+    async def _run_healing_cycle(self, max_issues: int = 100) -> dict:
         """Run self-healing cycle"""
         results = {
             "issues_detected": 0,
@@ -301,7 +301,7 @@ class AutoImprover:
 
         return results
 
-    async def _run_guardian_validation(self) -> Dict:
+    async def _run_guardian_validation(self) -> dict:
         """Run Guardian validation on changes"""
         results = {
             "drift_score": 0.0,
@@ -328,7 +328,7 @@ class AutoImprover:
 
         return results
 
-    async def _trigger_improvement_events(self, results: Dict):
+    async def _trigger_improvement_events(self, results: dict):
         """Trigger improvement events on kernel bus"""
         try:
             # Trigger awareness update
@@ -362,7 +362,7 @@ class AutoImprover:
         except Exception as e:
             logger.error(f"Event trigger failed: {e}")
 
-    def _report_results(self, results: Dict):
+    def _report_results(self, results: dict):
         """Generate and print results report"""
         print("\n" + "=" * 50)
         print("📊 IMPROVEMENT RESULTS")
@@ -403,7 +403,7 @@ class AutoImprover:
         else:
             print("✅ Changes applied successfully!")
 
-    def _save_results(self, results: Dict):
+    def _save_results(self, results: dict):
         """Save results to file"""
         results_file = Path("reports/auto_improvement_results.json")
         results_file.parent.mkdir(exist_ok=True)

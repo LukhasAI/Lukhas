@@ -49,7 +49,7 @@ class QRGAuthBridge:
             self.logger.error("QRG bridge initialization failed: %s", e)
             raise
 
-    async def verify_qr_authentication(self, qr_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def verify_qr_authentication(self, qr_data: dict[str, Any]) -> dict[str, Any]:
         """Verify QR-based authentication using QRG components"""
         if not self._initialized:
             await self.initialize()

@@ -7,7 +7,7 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ConsciousnessMatrizAdapter:
@@ -18,10 +18,10 @@ class ConsciousnessMatrizAdapter:
     @staticmethod
     def create_node(
         node_type: str,
-        state: Dict[str, float],
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        state: dict[str, float],
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for consciousness events"""
 
         node = {
@@ -57,8 +57,8 @@ class ConsciousnessMatrizAdapter:
     def emit_awareness_state(
         awareness_level: float,
         focus_target: str,
-        attention_distribution: Dict[str, float]
-    ) -> Dict[str, Any]:
+        attention_distribution: dict[str, float]
+    ) -> dict[str, Any]:
         """Emit a consciousness awareness state node"""
 
         return ConsciousnessMatrizAdapter.create_node(
@@ -84,7 +84,7 @@ class ConsciousnessMatrizAdapter:
         decision_type: str,
         confidence: float,
         alternatives: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a consciousness decision node"""
 
         return ConsciousnessMatrizAdapter.create_node(
@@ -110,7 +110,7 @@ class ConsciousnessMatrizAdapter:
         lucidity: float,
         coherence: float,
         emotional_tone: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a dream consciousness state node"""
 
         return ConsciousnessMatrizAdapter.create_node(
@@ -136,7 +136,7 @@ class ConsciousnessMatrizAdapter:
         metacognition_type: str,
         self_awareness: float,
         reflection_depth: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a metacognitive awareness event"""
 
         return ConsciousnessMatrizAdapter.create_node(
@@ -162,7 +162,7 @@ class ConsciousnessMatrizAdapter:
         flow_rate: float,
         coherence: float,
         thought_count: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a stream of consciousness event"""
 
         return ConsciousnessMatrizAdapter.create_node(
@@ -184,7 +184,7 @@ class ConsciousnessMatrizAdapter:
         )
 
     @staticmethod
-    def validate_node(node: Dict[str, Any]) -> bool:
+    def validate_node(node: dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
 
@@ -194,14 +194,10 @@ class ConsciousnessMatrizAdapter:
 
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-        for field in required_prov:
-            if field not in node.get("provenance", {}):
-                return False
-
-        return True
+        return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
-    def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+    def save_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/consciousness")

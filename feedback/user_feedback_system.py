@@ -20,7 +20,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from core.common import get_logger
 from core.common.exceptions import LukhasError, ValidationError
@@ -78,15 +78,15 @@ class FeedbackItem:
     action_id: str  # The action/decision this feedback is about
     timestamp: datetime
     feedback_type: FeedbackType
-    content: Dict[str, Any]  # Rating value, emoji, text, etc.
-    context: Dict[str, Any]  # What the system did that prompted feedback
-    processed_sentiment: Optional[Dict[str, float]] = None
+    content: dict[str, Any]  # Rating value, emoji, text, etc.
+    context: dict[str, Any]  # What the system did that prompted feedback
+    processed_sentiment: Optional[dict[str, float]] = None
     compliance_region: ComplianceRegion = ComplianceRegion.GLOBAL
     is_editable: bool = True
     is_deleted: bool = False
-    edit_history: List[Dict[str, Any]] = field(default_factory=list)
+    edit_history: list[dict[str, Any]] = field(default_factory=list)
 
-    def to_audit_entry(self) -> Dict[str, Any]:
+    def to_audit_entry(self) -> dict[str, Any]:
         """Convert to audit trail entry"""
         return {
             "feedback_id": self.feedback_id,
@@ -124,11 +124,11 @@ class FeedbackSummary:
     action_type: str
     total_feedback: int
     average_rating: Optional[float]
-    sentiment_distribution: Dict[str, float]
-    emoji_distribution: Dict[str, int]
-    common_themes: List[str]
-    improvement_suggestions: List[str]
-    time_period: Tuple[datetime, datetime]
+    sentiment_distribution: dict[str, float]
+    emoji_distribution: dict[str, int]
+    common_themes: list[str]
+    improvement_suggestions: list[str]
+    time_period: tuple[datetime, datetime]
 
 
 @dataclass
@@ -136,7 +136,7 @@ class UserFeedbackProfile:
     """User's feedback preferences and history"""
 
     user_id: str
-    preferred_feedback_types: Set[FeedbackType]
+    preferred_feedback_types: set[FeedbackType]
     feedback_frequency: str  # "always", "sometimes", "rarely"
     total_feedback_given: int
     consent_given: bool
@@ -151,7 +151,7 @@ class UserFeedbackSystem(CoreInterface):
     compliance management, and interpretability support.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize feedback system"""
         self.config = config or {}
         self.operational = False
@@ -163,23 +163,23 @@ class UserFeedbackSystem(CoreInterface):
         self.guardian_service = None
 
         # Feedback storage
-        self.feedback_items: Dict[str, FeedbackItem] = {}
-        self.user_profiles: Dict[str, UserFeedbackProfile] = {}
-        self.action_feedback: Dict[str, List[str]] = defaultdict(
+        self.feedback_items: dict[str, FeedbackItem] = {}
+        self.user_profiles: dict[str, UserFeedbackProfile] = {}
+        self.action_feedback: dict[str, list[str]] = defaultdict(
             list
         )  # action_id -> feedback_ids
         # Rate limiting clocks
         # Per-user last feedback timestamp (global across actions)
-        self._last_feedback_by_user: Dict[str, datetime] = {}
+        self._last_feedback_by_user: dict[str, datetime] = {}
         # Kept for potential future granularity (currently unused)
-        self._last_feedback_times: Dict[Tuple[str, str], datetime] = {}
+        self._last_feedback_times: dict[tuple[str, str], datetime] = {}
 
         # Compliance configuration
         self.compliance_rules = self._load_compliance_rules()
         self.default_retention_days = self.config.get("retention_days", 90)
 
         # Analytics cache
-        self.feedback_summaries: Dict[str, FeedbackSummary] = {}
+        self.feedback_summaries: dict[str, FeedbackSummary] = {}
 
         # Configuration
         self.min_feedback_interval = self.config.get(
@@ -196,7 +196,7 @@ class UserFeedbackSystem(CoreInterface):
             "user_satisfaction_score": 0.0,
         }
 
-    def _load_compliance_rules(self) -> Dict[ComplianceRegion, Dict[str, Any]]:
+    def _load_compliance_rules(self) -> dict[ComplianceRegion, dict[str, Any]]:
         """Load compliance rules for different regions"""
         return {
             ComplianceRegion.EU: {
@@ -259,8 +259,8 @@ class UserFeedbackSystem(CoreInterface):
         session_id: str,
         action_id: str,
         feedback_type: FeedbackType,
-        content: Dict[str, Any],
-        context: Dict[str, Any],
+        content: dict[str, Any],
+        context: dict[str, Any],
         region: ComplianceRegion = ComplianceRegion.GLOBAL,
     ) -> str:
         """
@@ -358,7 +358,7 @@ class UserFeedbackSystem(CoreInterface):
         self,
         user_id: str,
         region: ComplianceRegion,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
     ) -> bool:
         """Check if user has given consent for feedback collection.
 
@@ -394,7 +394,7 @@ class UserFeedbackSystem(CoreInterface):
         delta = (datetime.now(timezone.utc) - last_time).total_seconds()
         return delta >= 0.05
 
-    async def _process_text_feedback(self, text: str) -> Dict[str, float]:
+    async def _process_text_feedback(self, text: str) -> dict[str, float]:
         """Process natural language feedback"""
         if self.nl_interface:
             try:
@@ -435,7 +435,7 @@ class UserFeedbackSystem(CoreInterface):
         else:
             return {"positive": 0.5, "negative": 0.5}
 
-    def _process_emoji_feedback(self, emoji: str) -> Dict[str, float]:
+    def _process_emoji_feedback(self, emoji: str) -> dict[str, float]:
         """Process emoji feedback into sentiment"""
         emoji_sentiments = {
             EmotionEmoji.VERY_HAPPY.value: {"positive": 1.0, "negative": 0.0},
@@ -452,7 +452,7 @@ class UserFeedbackSystem(CoreInterface):
 
         return emoji_sentiments.get(emoji, {"positive": 0.5, "negative": 0.5})
 
-    def _process_rating_feedback(self, rating: int) -> Dict[str, float]:
+    def _process_rating_feedback(self, rating: int) -> dict[str, float]:
         """Process star rating into sentiment"""
         if rating >= 4:
             return {
@@ -464,7 +464,7 @@ class UserFeedbackSystem(CoreInterface):
         else:
             return {"positive": 0.2 * rating, "negative": 1.0 - 0.2 * rating}
 
-    def _process_quick_feedback(self, content: Dict[str, Any]) -> Dict[str, float]:
+    def _process_quick_feedback(self, content: dict[str, Any]) -> dict[str, float]:
         """Process quick thumbs up/down feedback into sentiment."""
         # Accept common shapes: {"thumbs_up": True/False}, {"vote": "up"|"down"}
         vote = content.get("vote")
@@ -509,7 +509,7 @@ class UserFeedbackSystem(CoreInterface):
                 profile.feedback_frequency = "sometimes"
 
     async def edit_feedback(
-        self, feedback_id: str, user_id: str, new_content: Dict[str, Any]
+        self, feedback_id: str, user_id: str, new_content: dict[str, Any]
     ) -> bool:
         """
         Allow user to edit their feedback.
@@ -606,7 +606,7 @@ class UserFeedbackSystem(CoreInterface):
 
     async def get_user_feedback_history(
         self, user_id: str, limit: int = 50
-    ) -> List[FeedbackItem]:
+    ) -> list[FeedbackItem]:
         """Get user's feedback history"""
         user_feedback = []
 
@@ -732,7 +732,7 @@ class UserFeedbackSystem(CoreInterface):
         }
         return mapping.get(emoji)
 
-    def _quick_to_rating(self, content: Dict[str, Any]) -> Optional[int]:
+    def _quick_to_rating(self, content: dict[str, Any]) -> Optional[int]:
         """Map quick feedback to an implicit rating (thumbs up=5, down=1)."""
         vote = content.get("vote")
         thumbs_up = content.get("thumbs_up")
@@ -750,7 +750,7 @@ class UserFeedbackSystem(CoreInterface):
                 return 1
         return None
 
-    def _extract_common_themes(self, text_feedback: List[str]) -> List[str]:
+    def _extract_common_themes(self, text_feedback: list[str]) -> list[str]:
         """Extract common themes from text feedback"""
         if not text_feedback:
             return []
@@ -784,7 +784,7 @@ class UserFeedbackSystem(CoreInterface):
         sorted_keywords = sorted(keywords.items(), key=lambda x: x[1], reverse=True)
         return [word for word, count in sorted_keywords[:5] if count > 1]
 
-    def _extract_improvement_suggestions(self, text_feedback: List[str]) -> List[str]:
+    def _extract_improvement_suggestions(self, text_feedback: list[str]) -> list[str]:
         """Extract improvement suggestions from feedback"""
         suggestions = []
 
@@ -808,7 +808,7 @@ class UserFeedbackSystem(CoreInterface):
 
     async def generate_feedback_report(
         self, start_date: datetime, end_date: datetime, anonymize: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate comprehensive feedback report"""
         report = {
             "period": {"start": start_date.isoformat(), "end": end_date.isoformat()},
@@ -858,7 +858,7 @@ class UserFeedbackSystem(CoreInterface):
 
         return report
 
-    async def export_user_data(self, user_id: str) -> Dict[str, Any]:
+    async def export_user_data(self, user_id: str) -> dict[str, Any]:
         """Export all user feedback data (GDPR compliance)"""
         user_data = {
             "user_id": user_id,
@@ -917,7 +917,7 @@ class UserFeedbackSystem(CoreInterface):
 
     # Required interface methods
 
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process feedback request"""
         action = data.get("action", "collect")
 
@@ -964,7 +964,7 @@ class UserFeedbackSystem(CoreInterface):
         """Handle GLYPH communication"""
         return {"operational": self.operational, "metrics": self.metrics}
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get system status"""
         return {
             "operational": self.operational,

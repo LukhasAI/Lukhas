@@ -41,8 +41,8 @@ class AuthenticationResult:
     ethical_compliance: Optional[bool] = None
     wallet_connected: Optional[bool] = None
     qrg_verified: Optional[bool] = None
-    trinity_validation: Optional[Dict[str, bool]] = None
-    metadata: Optional[Dict[str, Any]] = None
+    trinity_validation: Optional[dict[str, bool]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 class LUKHASAuthenticationSystem:
@@ -108,7 +108,7 @@ class LUKHASAuthenticationSystem:
 
     async def authenticate(
         self,
-        credentials: Dict[str, Any],
+        credentials: dict[str, Any],
         auth_level: AuthenticationLevel = AuthenticationLevel.CONSCIOUSNESS
     ) -> AuthenticationResult:
         """
@@ -195,15 +195,15 @@ class LUKHASAuthenticationSystem:
         # Ensure all Trinity components are properly integrated
         pass
 
-    async def _validate_identity(self, credentials: Dict[str, Any]) -> bool:
+    async def _validate_identity(self, credentials: dict[str, Any]) -> bool:
         """⚛️ Identity validation with authentic consciousness characteristics"""
         return True  # Placeholder
 
-    async def _authenticate_consciousness(self, credentials: Dict[str, Any]) -> Dict[str, Any]:
+    async def _authenticate_consciousness(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """🧠 Consciousness-aware authentication with QI visualization"""
         return {'valid': True, 'score': 0.95}  # Placeholder
 
-    async def _validate_guardian(self, credentials: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_guardian(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """🛡️ Guardian ethical and cultural validation"""
         return {'valid': True, 'safety_score': 0.98, 'ethical_compliance': True}  # Placeholder
 
@@ -233,7 +233,7 @@ async def get_auth_system() -> LUKHASAuthenticationSystem:
     return _auth_system
 
 # Convenience functions
-async def authenticate(credentials: Dict[str, Any], auth_level: AuthenticationLevel = AuthenticationLevel.CONSCIOUSNESS) -> AuthenticationResult:
+async def authenticate(credentials: dict[str, Any], auth_level: AuthenticationLevel = AuthenticationLevel.CONSCIOUSNESS) -> AuthenticationResult:
     """Convenience function for authentication"""
     auth_system = await get_auth_system()
     return await auth_system.authenticate(credentials, auth_level)

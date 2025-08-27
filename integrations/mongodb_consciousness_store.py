@@ -17,7 +17,7 @@ import asyncio
 import logging
 import os
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import TEXT, IndexModel
@@ -120,7 +120,7 @@ class LUKHASConsciousnessStore:
         response: str,
         consciousness_level: float,
         model_used: str,
-        metadata: Dict[str, Any] = None
+        metadata: dict[str, Any] = None
     ) -> str:
         """Store a consciousness conversation interaction"""
 
@@ -151,7 +151,7 @@ class LUKHASConsciousnessStore:
         fold_type: str,
         importance_score: float,
         parent_fold: Optional[str] = None,
-        emotional_context: Dict[str, float] = None
+        emotional_context: dict[str, float] = None
     ) -> str:
         """Create a new memory fold with cascade prevention"""
 
@@ -174,7 +174,7 @@ class LUKHASConsciousnessStore:
             "cascade_protected": True
         }
 
-        result = await self.collections["memory_folds"].insert_one(fold_doc)
+        await self.collections["memory_folds"].insert_one(fold_doc)
 
         logger.info(f"🧠 Created memory fold: {fold_doc['fold_id']} (importance: {importance_score})")
         return fold_doc["fold_id"]
@@ -204,8 +204,8 @@ class LUKHASConsciousnessStore:
     async def update_consciousness_state(
         self,
         system_state: str,
-        trinity_balance: Dict[str, float],
-        performance_metrics: Dict[str, Any]
+        trinity_balance: dict[str, float],
+        performance_metrics: dict[str, Any]
     ):
         """Update system consciousness state"""
 
@@ -229,7 +229,7 @@ class LUKHASConsciousnessStore:
         query: str,
         limit: int = 10,
         min_consciousness_level: float = 0.0
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Search conversations using full-text search"""
 
         search_filter = {
@@ -249,7 +249,7 @@ class LUKHASConsciousnessStore:
         self,
         fold_type: Optional[str] = None,
         limit: int = 20
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get relevant memory context for consciousness processing"""
 
         query = {}
@@ -275,7 +275,7 @@ class LUKHASConsciousnessStore:
     async def get_consciousness_analytics(
         self,
         days: int = 7
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get consciousness system analytics"""
 
         start_date = datetime.utcnow() - timedelta(days=days)
@@ -356,7 +356,7 @@ async def main():
         return
 
     # Store a conversation
-    conversation_id = await store.store_conversation(
+    await store.store_conversation(
         session_id="demo_session_001",
         user_id="user_123",
         message="What is consciousness?",
@@ -367,7 +367,7 @@ async def main():
     )
 
     # Create a memory fold
-    fold_id = await store.create_memory_fold(
+    await store.create_memory_fold(
         content="User showed deep interest in consciousness theory",
         fold_type="learning",
         importance_score=0.8,

@@ -9,7 +9,7 @@ import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class Event:
     event_type: str
     source_module: str
     target_module: Optional[str] = None
-    payload: Dict[str, Any] = None
+    payload: dict[str, Any] = None
     timestamp: datetime = None
     correlation_id: Optional[str] = None
 
@@ -36,8 +36,8 @@ class EventBus:
     """Centralized event bus for module communication"""
 
     def __init__(self):
-        self._subscribers: Dict[str, List[Callable]] = defaultdict(list)
-        self._async_subscribers: Dict[str, List[Callable]] = defaultdict(list)
+        self._subscribers: dict[str, list[Callable]] = defaultdict(list)
+        self._async_subscribers: dict[str, list[Callable]] = defaultdict(list)
         self._event_queue: asyncio.Queue = asyncio.Queue()
         self._running = False
         self._metrics = {
@@ -143,7 +143,7 @@ class EventBus:
 
         logger.info("Event bus stopped")
 
-    def get_metrics(self) -> Dict[str, int]:
+    def get_metrics(self) -> dict[str, int]:
         """Get event bus metrics"""
         return self._metrics.copy()
 
@@ -185,14 +185,14 @@ class EventTypes:
 
 
 # Helper functions
-def emit_event(event_type: str, source: str, payload: Dict[str, Any] = None):
+def emit_event(event_type: str, source: str, payload: dict[str, Any] = None):
     """Helper to emit events synchronously"""
     event = Event(event_type=event_type, source_module=source, payload=payload)
     event_bus.publish_sync(event)
 
 
 async def emit_event_async(
-    event_type: str, source: str, payload: Dict[str, Any] = None
+    event_type: str, source: str, payload: dict[str, Any] = None
 ):
     """Helper to emit events asynchronously"""
     event = Event(event_type=event_type, source_module=source, payload=payload)

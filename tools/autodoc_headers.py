@@ -8,7 +8,6 @@ Trinity Framework: ⚛️🧠🛡️
 import ast
 import os
 from pathlib import Path
-from typing import Dict, List
 
 
 class DocHeaderGenerator:
@@ -28,7 +27,7 @@ class DocHeaderGenerator:
             }
         }
 
-    def scan_modules(self) -> List[Path]:
+    def scan_modules(self) -> list[Path]:
         """Scan for Python modules in accepted/"""
         modules = []
         for py_file in self.base_path.rglob("*.py"):
@@ -61,7 +60,7 @@ class DocHeaderGenerator:
 
         return False
 
-    def extract_module_info(self, file_path: Path) -> Dict[str, any]:
+    def extract_module_info(self, file_path: Path) -> dict[str, any]:
         """Extract key information from module"""
         info = {
             'path': file_path,
@@ -96,9 +95,8 @@ class DocHeaderGenerator:
                 elif isinstance(node, ast.Import):
                     for alias in node.names:
                         info['imports'].append(alias.name.split('.')[0])
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        info['imports'].append(node.module.split('.')[0])
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    info['imports'].append(node.module.split('.')[0])
 
             # Deduplicate imports
             info['imports'] = list(set(info['imports']))
@@ -130,11 +128,11 @@ class DocHeaderGenerator:
             else:
                 return '🧠'
 
-    def _infer_purpose(self, info: Dict) -> str:
+    def _infer_purpose(self, info: dict) -> str:
         """Infer module purpose from its contents"""
         name = info['name'].lower()
         classes = [c.lower() for c in info['classes']]
-        functions = [f.lower() for f in info['functions']]
+        [f.lower() for f in info['functions']]
 
         # Check for common patterns
         if 'adapter' in name:
@@ -173,7 +171,7 @@ class DocHeaderGenerator:
             else:
                 return 'Module implementation'
 
-    def generate_header(self, info: Dict) -> str:
+    def generate_header(self, info: dict) -> str:
         """Generate a 3-line docstring header"""
         # Line 1: Module name and package
         line1 = f"{info['package'].title()}.{info['name']} - {info['purpose']}"
@@ -204,11 +202,9 @@ class DocHeaderGenerator:
 
             # Check for shebang
             lines = content.split('\n')
-            insert_pos = 0
 
             if lines and lines[0].startswith('#!'):
                 # Insert after shebang
-                insert_pos = 1
                 new_content = lines[0] + '\n' + header + '\n'.join(lines[1:])
             else:
                 # Insert at beginning
@@ -225,7 +221,7 @@ class DocHeaderGenerator:
             self.report['errors'].append(f"Failed to add header to {file_path}: {e}")
             return False
 
-    def process_all(self, dry_run: bool = True) -> Dict:
+    def process_all(self, dry_run: bool = True) -> dict:
         """Process all modules and generate headers"""
         if dry_run:
             os.environ['AUTODOC_DRY_RUN'] = 'true'

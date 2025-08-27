@@ -1,10 +1,10 @@
 # path: qi/docs/jurisdiction_diff.py
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 
-def _diff_dict(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
+def _diff_dict(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
     """Structured diff: added/removed/changed (shallow+recursive on dicts)."""
     out={"added":{}, "removed":{}, "changed":{}}
     ak=set(a.keys()); bk=set(b.keys())
@@ -19,7 +19,7 @@ def _diff_dict(a: Dict[str, Any], b: Dict[str, Any]) -> Dict[str, Any]:
             out["changed"][k]={"from": av, "to": bv}
     return {k:v for k,v in out.items() if v}
 
-def compute_overlay_diff(overlay_mgr, j1: str, j2: str, *, context: str | None = None) -> Dict[str, Any]:
+def compute_overlay_diff(overlay_mgr, j1: str, j2: str, *, context: str | None = None) -> dict[str, Any]:
     """
     overlay_mgr: RiskOverlayManager instance
     Returns structured diff of merged policies(j1,context) vs (j2,context)

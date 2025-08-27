@@ -1,0 +1,32 @@
+name: T4 Weekly Hygiene
+on:
+  schedule:
+    - cron: "23 3 * * 1"   # Mondays 03:23 UTC
+  workflow_dispatch: {}
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff tomli
+      - name: Build weekly report
+        run: python tools/reports/weekly_hygiene.py
+      - name: Commit report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BR="autofix/hygiene-$(date +%Y%m%d)"
+          git checkout -B "$BR"
+          git add reports/autofix/weekly.md reports/lints/ruff_dash.json || true
+          git commit -m "chore(reports): weekly hygiene dashboard" || true
+          git push -u origin "$BR" || true
+          gh pr create --title "Weekly hygiene dashboard" --body "Automated dashboard for TODOs, lint debt, and nightly throughput." --base main --head "$BR" --label "report" || true

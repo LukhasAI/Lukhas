@@ -7,11 +7,12 @@ Real-time audio streaming with low latency and Trinity Framework integration.
 """
 
 import asyncio
+import contextlib
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -57,7 +58,7 @@ class StreamConfig:
     min_buffer_count: int = 2
     max_latency_ms: float = 200.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "sample_rate": self.sample_rate,
             "channels": self.channels,
@@ -79,7 +80,7 @@ class AudioChunk:
     sequence_number: int
     sample_rate: int = 44100
     channels: int = 1
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @property
     def duration_ms(self) -> float:
@@ -156,7 +157,7 @@ class LUKHASAudioStream:
         self.output_queue = asyncio.Queue(maxsize=config.max_buffer_count)
 
         # Processing
-        self.processors: List[AudioStreamProcessor] = [PassthroughProcessor()]
+        self.processors: list[AudioStreamProcessor] = [PassthroughProcessor()]
         self.processing_task: Optional[asyncio.Task] = None
 
         # Sequence tracking
@@ -223,10 +224,8 @@ class LUKHASAudioStream:
             # Cancel processing task
             if self.processing_task:
                 self.processing_task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await self.processing_task
-                except asyncio.CancelledError:
-                    pass
 
             # Clear queues
             while not self.input_queue.empty():
@@ -419,7 +418,7 @@ class LUKHASAudioStream:
         if processor in self.processors:
             self.processors.remove(processor)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get stream statistics"""
         return {
             "stream_id": self.stream_id,
@@ -443,7 +442,7 @@ class LUKHASAudioStreamManager:
 
     def __init__(self):
         self.logger = get_logger(f"{__name__}.LUKHASAudioStreamManager")
-        self.streams: Dict[str, LUKHASAudioStream] = {}
+        self.streams: dict[str, LUKHASAudioStream] = {}
         self.global_stats = {
             "streams_created": 0,
             "streams_active": 0,
@@ -498,11 +497,11 @@ class LUKHASAudioStreamManager:
             if stream.state == StreamState.ACTIVE:
                 await stream.stop()
 
-    def get_all_streams(self) -> Dict[str, LUKHASAudioStream]:
+    def get_all_streams(self) -> dict[str, LUKHASAudioStream]:
         """Get all streams"""
         return self.streams.copy()
 
-    def get_active_streams(self) -> Dict[str, LUKHASAudioStream]:
+    def get_active_streams(self) -> dict[str, LUKHASAudioStream]:
         """Get only active streams"""
         return {
             stream_id: stream
@@ -510,7 +509,7 @@ class LUKHASAudioStreamManager:
             if stream.state == StreamState.ACTIVE
         }
 
-    def get_global_stats(self) -> Dict[str, Any]:
+    def get_global_stats(self) -> dict[str, Any]:
         """Get global streaming statistics"""
         total_throughput = sum(
             stream.stats.throughput_kbps

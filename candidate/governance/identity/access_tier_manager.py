@@ -38,7 +38,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -94,8 +94,8 @@ class TierRequirements:
     security_clearance: bool = False
 
     # Special conditions
-    special_conditions: List[str] = field(default_factory=list)
-    prohibited_conditions: List[str] = field(default_factory=list)
+    special_conditions: list[str] = field(default_factory=list)
+    prohibited_conditions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -114,7 +114,7 @@ class UserAccessProfile:
     # Historical data
     account_created: datetime = field(default_factory=datetime.now)
     last_tier_change: datetime = field(default_factory=datetime.now)
-    tier_history: List[Dict[str, Any]] = field(default_factory=list)
+    tier_history: list[dict[str, Any]] = field(default_factory=list)
 
     # Current status
     verification_level: int = 1
@@ -124,8 +124,8 @@ class UserAccessProfile:
     security_clearance: bool = False
 
     # Temporary modifications
-    temporary_grants: List[Dict[str, Any]] = field(default_factory=list)
-    temporary_restrictions: List[Dict[str, Any]] = field(default_factory=list)
+    temporary_grants: list[dict[str, Any]] = field(default_factory=list)
+    temporary_restrictions: list[dict[str, Any]] = field(default_factory=list)
 
     # Trinity Framework integration
     identity_coherence: float = 1.0      # ⚛️
@@ -147,7 +147,7 @@ class AccessRequest:
     request_timestamp: datetime
 
     # Request context
-    request_context: Dict[str, Any] = field(default_factory=dict)
+    request_context: dict[str, Any] = field(default_factory=dict)
     urgency_level: str = "normal"
     business_justification: str = ""
 
@@ -155,7 +155,7 @@ class AccessRequest:
     decision: Optional[AccessDecision] = None
     decision_reason: str = ""
     granted_until: Optional[datetime] = None
-    conditions: List[str] = field(default_factory=list)
+    conditions: list[str] = field(default_factory=list)
 
     # Approval workflow
     requires_approval: bool = False
@@ -171,20 +171,20 @@ class ComprehensiveAccessTierManager:
     dynamic access control, and comprehensive monitoring capabilities.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # User profiles and tier management
-        self.user_profiles: Dict[str, UserAccessProfile] = {}
-        self.access_requests: Dict[str, AccessRequest] = {}
+        self.user_profiles: dict[str, UserAccessProfile] = {}
+        self.access_requests: dict[str, AccessRequest] = {}
         self.access_history: deque = deque(maxlen=100000)
 
         # Tier definitions and requirements
-        self.tier_requirements: Dict[AccessTier, TierRequirements] = {}
+        self.tier_requirements: dict[AccessTier, TierRequirements] = {}
 
         # Resource access mappings
-        self.resource_tier_mappings: Dict[str, AccessTier] = {}
-        self.tier_permissions: Dict[AccessTier, Set[str]] = {}
+        self.resource_tier_mappings: dict[str, AccessTier] = {}
+        self.tier_permissions: dict[AccessTier, set[str]] = {}
 
         # System configuration
         self.auto_tier_assessment = True
@@ -359,7 +359,7 @@ class ComprehensiveAccessTierManager:
         self,
         user_id: str,
         initial_tier: AccessTier = AccessTier.T1_BASIC,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None
     ) -> UserAccessProfile:
         """Create a new user access profile"""
 
@@ -391,7 +391,7 @@ class ComprehensiveAccessTierManager:
 
         return profile
 
-    async def assess_tier_eligibility(self, user_id: str) -> Dict[AccessTier, bool]:
+    async def assess_tier_eligibility(self, user_id: str) -> dict[AccessTier, bool]:
         """Assess user eligibility for each tier"""
 
         profile = self.user_profiles.get(user_id)
@@ -571,7 +571,7 @@ class ComprehensiveAccessTierManager:
         self,
         user_id: str,
         resource: str,
-        required_permissions: Optional[List[str]] = None
+        required_permissions: Optional[list[str]] = None
     ) -> AccessDecision:
         """Check if user can access a specific resource"""
 
@@ -650,7 +650,7 @@ class ComprehensiveAccessTierManager:
                 logger.error(f"❌ Tier assessment loop error: {e}")
                 await asyncio.sleep(3600)
 
-    async def get_user_tier_summary(self, user_id: str) -> Optional[Dict[str, Any]]:
+    async def get_user_tier_summary(self, user_id: str) -> Optional[dict[str, Any]]:
         """Get comprehensive tier summary for user"""
 
         profile = self.user_profiles.get(user_id)
@@ -691,7 +691,7 @@ class ComprehensiveAccessTierManager:
             "temporary_restrictions": len(profile.temporary_restrictions)
         }
 
-    async def get_system_metrics(self) -> Dict[str, Any]:
+    async def get_system_metrics(self) -> dict[str, Any]:
         """Get comprehensive system metrics"""
         return self.metrics.copy()
 

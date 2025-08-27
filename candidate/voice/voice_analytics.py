@@ -10,7 +10,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -62,9 +62,9 @@ class VoiceQualityScore:
     unit: str
     grade: QualityGrade
     confidence: float = 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "metric": self.metric.value,
@@ -83,7 +83,7 @@ class VoiceQualityReport:
     overall_grade: QualityGrade
 
     # Individual metric scores
-    scores: Dict[VoiceQualityMetric, VoiceQualityScore] = field(default_factory=dict)
+    scores: dict[VoiceQualityMetric, VoiceQualityScore] = field(default_factory=dict)
 
     # Audio characteristics
     duration_seconds: float = 0.0
@@ -93,16 +93,16 @@ class VoiceQualityReport:
 
     # Analysis metadata
     analysis_time_ms: float = 0.0
-    algorithms_used: List[str] = field(default_factory=list)
+    algorithms_used: list[str] = field(default_factory=list)
 
     # Recommendations
-    recommendations: List[str] = field(default_factory=list)
-    issues_detected: List[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
+    issues_detected: list[str] = field(default_factory=list)
 
     # Context information
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary"""
         return {
             "overall_score": self.overall_score,
@@ -481,7 +481,7 @@ class PitchStabilityAnalyzer(VoiceQualityAnalyzer):
 class LUKHASVoiceAnalytics:
     """Main LUKHAS voice analytics engine"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = get_logger(f"{__name__}.LUKHASVoiceAnalytics")
         self.guardian = GuardianValidator()
@@ -521,8 +521,8 @@ class LUKHASVoiceAnalytics:
         sample_rate: int = 44100,
         channels: int = 1,
         format: AudioFormat = AudioFormat.PCM_16,
-        metrics: Optional[List[VoiceQualityMetric]] = None,
-        context: Optional[Dict[str, Any]] = None
+        metrics: Optional[list[VoiceQualityMetric]] = None,
+        context: Optional[dict[str, Any]] = None
     ) -> VoiceQualityReport:
         """
         Analyze voice quality comprehensively
@@ -641,8 +641,8 @@ class LUKHASVoiceAnalytics:
 
     def _calculate_overall_quality(
         self,
-        scores: Dict[VoiceQualityMetric, VoiceQualityScore]
-    ) -> Tuple[float, QualityGrade]:
+        scores: dict[VoiceQualityMetric, VoiceQualityScore]
+    ) -> tuple[float, QualityGrade]:
         """Calculate overall quality score and grade"""
         if not scores:
             return 0.0, QualityGrade.VERY_POOR
@@ -667,10 +667,7 @@ class LUKHASVoiceAnalytics:
             weighted_sum += value * weight
             total_weight += weight
 
-        if total_weight == 0:
-            overall_score = 0.0
-        else:
-            overall_score = weighted_sum / total_weight
+        overall_score = 0.0 if total_weight == 0 else weighted_sum / total_weight
 
         # Convert score to grade
         if overall_score >= 90:
@@ -690,8 +687,8 @@ class LUKHASVoiceAnalytics:
 
     def _generate_recommendations(
         self,
-        scores: Dict[VoiceQualityMetric, VoiceQualityScore]
-    ) -> List[str]:
+        scores: dict[VoiceQualityMetric, VoiceQualityScore]
+    ) -> list[str]:
         """Generate quality improvement recommendations"""
         recommendations = []
 
@@ -712,8 +709,8 @@ class LUKHASVoiceAnalytics:
 
     def _detect_issues(
         self,
-        scores: Dict[VoiceQualityMetric, VoiceQualityScore]
-    ) -> List[str]:
+        scores: dict[VoiceQualityMetric, VoiceQualityScore]
+    ) -> list[str]:
         """Detect specific audio quality issues"""
         issues = []
 
@@ -732,10 +729,10 @@ class LUKHASVoiceAnalytics:
 
     async def batch_analyze(
         self,
-        audio_files: List[Tuple[str, bytes]],
+        audio_files: list[tuple[str, bytes]],
         sample_rate: int = 44100,
         format: AudioFormat = AudioFormat.PCM_16
-    ) -> List[VoiceQualityReport]:
+    ) -> list[VoiceQualityReport]:
         """
         Analyze multiple audio files in batch
 
@@ -770,11 +767,11 @@ class LUKHASVoiceAnalytics:
 
         return reports
 
-    def get_analytics_stats(self) -> Dict[str, Any]:
+    def get_analytics_stats(self) -> dict[str, Any]:
         """Get analytics statistics"""
         return self.stats.copy()
 
-    def get_supported_metrics(self) -> List[VoiceQualityMetric]:
+    def get_supported_metrics(self) -> list[VoiceQualityMetric]:
         """Get list of supported quality metrics"""
         return list(self.analyzers.keys())
 

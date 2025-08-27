@@ -12,7 +12,7 @@ import sys
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -128,7 +128,7 @@ class SelfHealingSystem:
 
         return None
 
-    async def detect_naming_issues(self) -> List[Dict[str, Any]]:
+    async def detect_naming_issues(self) -> list[dict[str, Any]]:
         """Detect naming consistency issues"""
         self.logger.info("🔍 Detecting naming issues...")
 
@@ -173,7 +173,7 @@ class SelfHealingSystem:
         self.logger.info(f"Found {len(issues)} naming issues")
         return issues
 
-    async def detect_empty_directories(self) -> List[Dict[str, Any]]:
+    async def detect_empty_directories(self) -> list[dict[str, Any]]:
         """Detect and categorize empty directories"""
         self.logger.info("📁 Detecting empty directories...")
 
@@ -204,7 +204,7 @@ class SelfHealingSystem:
     def _categorize_empty_directory(self, dir_path: Path) -> str:
         """Categorize empty directory by purpose"""
         dir_name = dir_path.name.lower()
-        parent_name = dir_path.parent.name.lower()
+        dir_path.parent.name.lower()
 
         # Core functionality directories - should have content
         if any(keyword in dir_name for keyword in ['api', 'core', 'engine', 'service']):
@@ -242,7 +242,7 @@ class SelfHealingSystem:
         }
         return actions.get(category, 'review_manually')
 
-    async def detect_brand_inconsistencies(self) -> List[Dict[str, Any]]:
+    async def detect_brand_inconsistencies(self) -> list[dict[str, Any]]:
         """Detect brand guideline inconsistencies"""
         self.logger.info("🎯 Detecting brand inconsistencies...")
 
@@ -286,7 +286,7 @@ class SelfHealingSystem:
         self.logger.info(f"Found {len(inconsistencies)} brand inconsistencies")
         return inconsistencies
 
-    async def fix_naming_issue(self, issue: Dict[str, Any]) -> HealingAction:
+    async def fix_naming_issue(self, issue: dict[str, Any]) -> HealingAction:
         """Fix a single naming issue"""
         current_path = self.base_path / issue['path']
         suggested_name = issue['suggested_name']
@@ -336,7 +336,7 @@ class SelfHealingSystem:
             self.logger.error(f"❌ Failed to fix naming for {issue['current_name']}: {e}")
             return action
 
-    async def handle_empty_directory(self, empty_dir: Dict[str, Any]) -> HealingAction:
+    async def handle_empty_directory(self, empty_dir: dict[str, Any]) -> HealingAction:
         """Handle an empty directory based on suggested action"""
         dir_path = Path(empty_dir['full_path'])
         action_type = empty_dir['action']
@@ -447,7 +447,7 @@ if __name__ == "__main__":
             self.logger.error(f"❌ Failed to handle empty directory {empty_dir['path']}: {e}")
             return action
 
-    async def fix_brand_inconsistency(self, inconsistency: Dict[str, Any]) -> HealingAction:
+    async def fix_brand_inconsistency(self, inconsistency: dict[str, Any]) -> HealingAction:
         """Fix a brand inconsistency in content"""
         content_id = inconsistency['content_id']
         issues = inconsistency['issues']
@@ -488,7 +488,7 @@ if __name__ == "__main__":
             self.logger.error(f"❌ Failed to fix brand inconsistency in content {content_id}: {e}")
             return action
 
-    async def run_comprehensive_healing(self) -> Dict[str, Any]:
+    async def run_comprehensive_healing(self) -> dict[str, Any]:
         """Run comprehensive self-healing cycle"""
         self.logger.info("🔧 Starting comprehensive self-healing cycle...")
 
@@ -576,7 +576,7 @@ if __name__ == "__main__":
 
         return healing_results
 
-    def get_healing_status(self) -> Dict[str, Any]:
+    def get_healing_status(self) -> dict[str, Any]:
         """Get current healing system status"""
         recent_actions = [action for action in self.healing_history if action.applied_at][-10:]
 

@@ -8,7 +8,7 @@ encryption, and audit logging.
 import json
 import logging
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class EncryptionHandler:
     """Handles data encryption for HIPAA compliance"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.algorithm = config.get('encryption_algorithm', 'AES-256-GCM')
 
@@ -40,7 +40,7 @@ class EncryptionHandler:
 class AuditLogger:
     """HIPAA-compliant audit logging"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.log_path = config.get('audit_log_path')
 
@@ -48,7 +48,7 @@ class AuditLogger:
                    user_id: str,
                    action: str,
                    resource_id: str,
-                   details: Optional[Dict[str, Any]] = None) -> None:
+                   details: Optional[dict[str, Any]] = None) -> None:
         """Log access to protected health information"""
         timestamp = datetime.utcnow().isoformat()
         log_entry = {
@@ -65,7 +65,7 @@ class AuditLogger:
     def log_security_event(self,
                           event_type: str,
                           severity: str,
-                          details: Dict[str, Any]) -> None:
+                          details: dict[str, Any]) -> None:
         """Log security-related events"""
         timestamp = datetime.utcnow().isoformat()
         log_entry = {
@@ -82,7 +82,7 @@ class AuditLogger:
 class AccessControl:
     """Role-based access control for provider plugin"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         self.config = config
         self.roles = config.get('roles', {})
 
@@ -94,7 +94,7 @@ class AccessControl:
         # Implement your access control logic
         return False  # Placeholder - implement proper verification
 
-    def get_user_permissions(self, user_id: str) -> Dict[str, Any]:
+    def get_user_permissions(self, user_id: str) -> dict[str, Any]:
         """Get all permissions for a user"""
         # Implement your permission lookup logic
         return {}  # Placeholder - implement proper permission lookup

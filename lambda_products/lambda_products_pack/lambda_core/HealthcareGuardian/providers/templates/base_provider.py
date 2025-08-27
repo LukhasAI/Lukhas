@@ -10,7 +10,7 @@ import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -66,15 +66,15 @@ class BaseHealthcareProvider(ABC):
     @abstractmethod
     async def get_patient_record(self,
                                patient_id: str,
-                               record_types: Optional[List[str]] = None
-                               ) -> Dict[str, Any]:
+                               record_types: Optional[list[str]] = None
+                               ) -> dict[str, Any]:
         """Retrieve patient records"""
         pass
 
     @abstractmethod
     async def update_patient_record(self,
                                   patient_id: str,
-                                  data: Dict[str, Any],
+                                  data: dict[str, Any],
                                   update_type: str) -> bool:
         """Update patient records"""
         pass
@@ -82,19 +82,19 @@ class BaseHealthcareProvider(ABC):
     @abstractmethod
     async def verify_coverage(self,
                             patient_id: str,
-                            service_code: str) -> Dict[str, Any]:
+                            service_code: str) -> dict[str, Any]:
         """Verify insurance coverage"""
         pass
 
     @abstractmethod
     async def submit_claim(self,
-                         claim_data: Dict[str, Any]) -> str:
+                         claim_data: dict[str, Any]) -> str:
         """Submit insurance claim"""
         pass
 
     @abstractmethod
     async def get_claim_status(self,
-                             claim_id: str) -> Dict[str, Any]:
+                             claim_id: str) -> dict[str, Any]:
         """Get status of submitted claim"""
         pass
 
@@ -102,7 +102,7 @@ class BaseHealthcareProvider(ABC):
     async def schedule_appointment(self,
                                 patient_id: str,
                                 provider_id: str,
-                                appointment_data: Dict[str, Any]) -> str:
+                                appointment_data: dict[str, Any]) -> str:
         """Schedule a medical appointment"""
         pass
 
@@ -110,7 +110,7 @@ class BaseHealthcareProvider(ABC):
     async def get_provider_schedule(self,
                                   provider_id: str,
                                   start_date: datetime,
-                                  end_date: datetime) -> List[Dict[str, Any]]:
+                                  end_date: datetime) -> list[dict[str, Any]]:
         """Get provider's schedule"""
         pass
 
@@ -124,7 +124,7 @@ class BaseHealthcareProvider(ABC):
                        user_id: str,
                        resource_id: str,
                        action: str,
-                       details: Optional[Dict[str, Any]] = None) -> None:
+                       details: Optional[dict[str, Any]] = None) -> None:
         """Log audit event"""
         event_data = {
             "timestamp": datetime.utcnow().isoformat(),
@@ -139,8 +139,8 @@ class BaseHealthcareProvider(ABC):
         logger.info(f"Audit event: {event_data}")
 
     def validate_data(self,
-                     data: Dict[str, Any],
-                     required_fields: List[str]) -> bool:
+                     data: dict[str, Any],
+                     required_fields: list[str]) -> bool:
         """Validate data against required fields"""
         missing_fields = [
             field for field in required_fields

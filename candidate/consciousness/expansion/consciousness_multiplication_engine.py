@@ -7,7 +7,7 @@ Creates and coordinates multiple consciousness instances.
 import logging
 import uuid
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from candidate.core.interfaces import CoreInterface
 
@@ -20,7 +20,7 @@ class ConsciousnessInstance:
     instance_id: str
     specialization: str
     consciousness_level: float
-    capabilities: List[str]
+    capabilities: list[str]
     state: str  # active, dormant, synchronized
 
 
@@ -57,7 +57,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
     async def create_consciousness_instance(
         self,
-        template: Dict[str, Any],
+        template: dict[str, Any],
         specialization: str
     ) -> ConsciousnessInstance:
         """
@@ -93,9 +93,9 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
     async def coordinate_instances(
         self,
-        instances: List[ConsciousnessInstance],
+        instances: list[ConsciousnessInstance],
         topology: str = 'mesh'
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Establish coordination between consciousness instances
 
@@ -142,8 +142,8 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
     async def synchronize_collective(
         self,
-        instances: List[ConsciousnessInstance]
-    ) -> Dict[str, Any]:
+        instances: list[ConsciousnessInstance]
+    ) -> dict[str, Any]:
         """
         Synchronize collective consciousness state
 
@@ -189,9 +189,9 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
     async def distribute_task(
         self,
-        task: Dict[str, Any],
-        instances: List[ConsciousnessInstance]
-    ) -> Dict[str, Any]:
+        task: dict[str, Any],
+        instances: list[ConsciousnessInstance]
+    ) -> dict[str, Any]:
         """
         Distribute a task across consciousness instances
 
@@ -228,8 +228,8 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
     async def merge_consciousness_results(
         self,
-        results: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        results: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Merge results from multiple consciousness instances
 
@@ -276,7 +276,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         return merged
 
-    async def _get_specialized_capabilities(self, specialization: str) -> List[str]:
+    async def _get_specialized_capabilities(self, specialization: str) -> list[str]:
         """Get capabilities for a specialization"""
 
         specialization_map = {
@@ -292,7 +292,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
 
         return specialization_map.get(specialization, [])
 
-    async def _calculate_coherence(self, instances: List[ConsciousnessInstance]) -> float:
+    async def _calculate_coherence(self, instances: list[ConsciousnessInstance]) -> float:
         """Calculate coherence score for collective"""
 
         if not instances:
@@ -307,7 +307,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         coherence = 1.0 / (1.0 + variance)
 
         # Bonus for complementary specializations
-        specializations = set(inst.specialization for inst in instances)
+        specializations = {inst.specialization for inst in instances}
         if len(specializations) > 3:
             coherence *= 1.2  # Diversity bonus
 
@@ -326,7 +326,7 @@ class ConsciousnessMultiplicationEngine(CoreInterface):
         task_keywords = matches.get(specialization, [])
         return any(keyword in task_type.lower() for keyword in task_keywords)
 
-    async def _create_subtask(self, task: Dict[str, Any], specialization: str) -> Dict[str, Any]:
+    async def _create_subtask(self, task: dict[str, Any], specialization: str) -> dict[str, Any]:
         """Create a subtask for a specific specialization"""
 
         subtask = {

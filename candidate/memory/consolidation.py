@@ -6,14 +6,14 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
 class ConsolidationTask:
     """Represents a memory consolidation task"""
 
-    source_memories: List[str]
+    source_memories: list[str]
     target_memory: Optional[str] = None
     consolidation_type: str = "compress"  # compress, merge, abstract
     priority: float = 0.5
@@ -25,8 +25,8 @@ class MemoryConsolidator:
     """Consolidates memories for long-term storage"""
 
     def __init__(self):
-        self.pending_tasks: List[ConsolidationTask] = []
-        self.completed_tasks: List[ConsolidationTask] = []
+        self.pending_tasks: list[ConsolidationTask] = []
+        self.completed_tasks: list[ConsolidationTask] = []
         self.consolidation_stats = {
             "total_consolidated": 0,
             "compression_ratio": 0.0,
@@ -34,7 +34,7 @@ class MemoryConsolidator:
         }
 
     def schedule_consolidation(
-        self, memory_ids: List[str], consolidation_type: str = "compress"
+        self, memory_ids: list[str], consolidation_type: str = "compress"
     ):
         """Schedule memories for consolidation"""
         task = ConsolidationTask(
@@ -46,7 +46,7 @@ class MemoryConsolidator:
         self.pending_tasks.append(task)
         return task
 
-    def consolidate_memories(self, memory_ids: List[str]) -> Dict[str, Any]:
+    def consolidate_memories(self, memory_ids: list[str]) -> dict[str, Any]:
         """Consolidate a set of memories"""
         # Simplified consolidation logic
         result = {
@@ -75,7 +75,7 @@ class MemoryConsolidator:
 
         return memory_content
 
-    def merge_memories(self, memories: List[Any]) -> Any:
+    def merge_memories(self, memories: list[Any]) -> Any:
         """Merge multiple memories into one"""
         # Simplified merging
         # In production, would use sophisticated merging algorithms
@@ -85,7 +85,7 @@ class MemoryConsolidator:
 
         return {"merged": memories, "count": len(memories)}
 
-    def abstract_memories(self, memories: List[Any]) -> Any:
+    def abstract_memories(self, memories: list[Any]) -> Any:
         """Extract abstract representation from memories"""
         # Simplified abstraction
         # In production, would use ML models for abstraction

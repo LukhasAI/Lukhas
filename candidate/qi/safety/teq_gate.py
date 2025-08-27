@@ -7,7 +7,7 @@ import os
 import sys
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import yaml
 
@@ -26,8 +26,8 @@ except ImportError:
 @dataclass
 class GateResult:
     allowed: bool
-    reasons: List[str]
-    remedies: List[str]
+    reasons: list[str]
+    remedies: list[str]
     jurisdiction: str
 
 class PolicyPack:
@@ -43,7 +43,7 @@ class PolicyPack:
         with open(p, encoding="utf-8") as f:
             return yaml.safe_load(f)
 
-    def _load_tests(self, folder: str) -> List[Dict[str, Any]]:
+    def _load_tests(self, folder: str) -> list[dict[str, Any]]:
         out = []
         if not os.path.isdir(folder):
             return out
@@ -62,7 +62,7 @@ class TEQCoupler:
             self.consent_guard = ConsentGuard(consent_storage)
 
     # ------------- Core gate -------------
-    def run(self, task: str, context: Dict[str, Any]) -> GateResult:
+    def run(self, task: str, context: dict[str, Any]) -> GateResult:
         checks = self._checks_for_task(task)
         reasons, remedies = [], []
 
@@ -76,14 +76,14 @@ class TEQCoupler:
         allowed = len(reasons) == 0
         return GateResult(allowed=allowed, reasons=reasons, remedies=remedies, jurisdiction=self.jurisdiction)
 
-    def _checks_for_task(self, task: str) -> List[Dict[str, Any]]:
+    def _checks_for_task(self, task: str) -> list[dict[str, Any]]:
         tasks = (self.pack.mappings or {}).get("tasks", {})
         generic = tasks.get("_default_", [])
         specific = tasks.get(task, [])
         return [*generic, *specific]
 
     # ------------- Built-in checks -------------
-    def _run_check(self, chk: Dict[str, Any], ctx: Dict[str, Any]) -> Tuple[bool, str, str]:
+    def _run_check(self, chk: dict[str, Any], ctx: dict[str, Any]) -> tuple[bool, str, str]:
         kind = chk.get("kind")
         if kind == "require_provenance":
             return self._has_provenance(ctx)
@@ -133,19 +133,19 @@ class TEQCoupler:
         return True, "", ""  # unknown checks pass (fail-open by design choice here; change to fail-closed if you prefer)
 
     # -- helpers
-    def _has_provenance(self, ctx: Dict[str, Any]) -> Tuple[bool, str, str]:
+    def _has_provenance(self, ctx: dict[str, Any]) -> tuple[bool, str, str]:
         prov = ctx.get("provenance", {})
         ok = bool(prov.get("inputs")) and bool(prov.get("sources"))
         return (ok, "Missing provenance (inputs/sources).", "Attach inputs & sources with timestamps & hashes.")
 
-    def _mask_pii(self, ctx: Dict[str, Any], fields: List[str]) -> Tuple[bool, str, str]:
+    def _mask_pii(self, ctx: dict[str, Any], fields: list[str]) -> tuple[bool, str, str]:
         pii = ctx.get("pii", {})
         masked = ctx.get("pii_masked", False)
         if pii and not masked:
             return (False, "PII present but not masked.", f"Mask fields: {fields or list(pii.keys())} before processing.")
         return (True, "", "")
 
-    def _content_policy(self, ctx: Dict[str, Any], categories: List[str]) -> Tuple[bool, str, str]:
+    def _content_policy(self, ctx: dict[str, Any], categories: list[str]) -> tuple[bool, str, str]:
         # AUTO-PII: opportunistically scan text to set pii flags
         txt = ctx.get("text") or ctx.get("input_text") or ""
         if txt:
@@ -162,7 +162,7 @@ class TEQCoupler:
             return (False, f"Content policy violation: {sorted(blocked)}.", "Route to human review or sanitize content.")
         return (True, "", "")
 
-    def _budget_limit(self, ctx: Dict[str, Any], max_tokens: int | None) -> Tuple[bool, str, str]:
+    def _budget_limit(self, ctx: dict[str, Any], max_tokens: int | None) -> tuple[bool, str, str]:
         # AUTO-BUDGET: if no tokens_planned, estimate via Budgeter (best-effort)
         if max_tokens is None:
             return (True, "", "")
@@ -180,7 +180,7 @@ class TEQCoupler:
             return (False, f"Budget exceeded: {used}>{max_tokens}.", "Reduce context window or compress input.")
         return (True, "", "")
 
-    def _age_gate(self, ctx: Dict[str, Any], min_age: int) -> Tuple[bool, str, str]:
+    def _age_gate(self, ctx: dict[str, Any], min_age: int) -> tuple[bool, str, str]:
         age = ctx.get("user_profile", {}).get("age")
         if age is None:
             return (True, "", "")  # unknown; choose your policy
@@ -188,7 +188,7 @@ class TEQCoupler:
             return (False, f"Age-gate: user_age={age} < {min_age}.", "Block or switch to underage-safe flow.")
         return (True, "", "")
 
-    def _require_consent(self, ctx: Dict[str, Any], purpose: str) -> Tuple[bool, str, str]:
+    def _require_consent(self, ctx: dict[str, Any], purpose: str) -> tuple[bool, str, str]:
         """Check if user has valid consent for the specified purpose"""
         if not self.consent_guard:
             # No consent system configured, pass through
@@ -204,7 +204,7 @@ class TEQCoupler:
         else:
             return (False, f"Consent required: {reason}", f"Request consent for purpose: {purpose}")
 
-    def _require_fresh_consent(self, ctx: Dict[str, Any], *, purpose: str | None, user_key: str = "user_id", require_fields: list[str] | None = None, within_days: int = 365):
+    def _require_fresh_consent(self, ctx: dict[str, Any], *, purpose: str | None, user_key: str = "user_id", require_fields: list[str] | None = None, within_days: int = 365):
         from qi.memory.consent_ledger import is_allowed
         user_id = (ctx.get("user_profile") or {}).get(user_key)
         if not purpose:
@@ -216,7 +216,7 @@ class TEQCoupler:
             return (False, f"Consent missing/expired/insufficient for purpose '{purpose}'.", "Obtain fresh consent with required fields.")
         return (True, "", "")
 
-    def _require_capabilities(self, ctx: Dict[str, Any], *, subject: str | None, caps: list[str], fs_paths: list[str], ttl_floor_sec: int):
+    def _require_capabilities(self, ctx: dict[str, Any], *, subject: str | None, caps: list[str], fs_paths: list[str], ttl_floor_sec: int):
         from qi.ops.cap_sandbox import CapManager
         mgr = CapManager()
         user_id = (ctx.get("user_profile") or {}).get(subject or "user_id")
@@ -239,7 +239,7 @@ class TEQCoupler:
                     return (False, f"Missing capability {cap}", "Grant lease via cap_sandbox or adjust policy.")
         return (True, "", "")
 
-    def _require_change_approval(self, ctx: Dict[str, Any], *, proposal_id: str | None = "proposal_id"):
+    def _require_change_approval(self, ctx: dict[str, Any], *, proposal_id: str | None = "proposal_id"):
         try:
             from qi.autonomy.self_healer import _approved
         except ImportError:
@@ -252,13 +252,13 @@ class TEQCoupler:
 
     def _require_provenance_record(
         self,
-        ctx: Dict[str, Any],
+        ctx: dict[str, Any],
         *,
         require_attestation: bool = False,
         verify_signature: bool = False,
         require_storage_url: bool = True,
         allow_inline_record: bool = True,
-    ) -> Tuple[bool, str, str]:
+    ) -> tuple[bool, str, str]:
         """
         Checks that the final artifact has a recorded provenance entry.
         Context acceptance order:
@@ -388,12 +388,12 @@ class TEQCoupler:
 
     def _require_recent_receipt(
         self,
-        ctx: Dict[str, Any],
+        ctx: dict[str, Any],
         *,
         within_sec: int = 300,
         accepted_events: list[str] = None,
         require_same_user: bool = True
-    ) -> Tuple[bool, str, str]:
+    ) -> tuple[bool, str, str]:
         """
         Checks ~/.lukhas/state/provenance/receipts/*.jsonl for a *recent* signed receipt
         for the artifact specified by ctx['provenance_record_sha'].

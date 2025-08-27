@@ -6,7 +6,7 @@ Abstracts LUKHAS personality features behind feature flags
 
 import asyncio
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 
 @dataclass
@@ -27,10 +27,10 @@ class DreamResponse:
 
     dream_id: str
     content: str
-    symbols: List[str]
-    themes: List[str]
+    symbols: list[str]
+    themes: list[str]
     emotional_tone: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class DreamCommerceAPI:
@@ -95,7 +95,7 @@ class DreamCommerceAPI:
 
         return response
 
-    async def analyze_dream(self, dream_content: str) -> Dict[str, Any]:
+    async def analyze_dream(self, dream_content: str) -> dict[str, Any]:
         """
         Analyze dream content for symbols and themes
 
@@ -134,7 +134,7 @@ class DreamCommerceAPI:
             # Personality features not available in this deployment
             pass
 
-    async def _generate_core_dream(self, dream_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _generate_core_dream(self, dream_data: dict[str, Any]) -> dict[str, Any]:
         """Generate dream using core engine"""
         # Simplified example - real implementation would use the engine
         return {
@@ -144,7 +144,7 @@ class DreamCommerceAPI:
             "emotional_tone": "contemplative",
         }
 
-    async def _add_narration(self, dream_result: Dict[str, Any]) -> str:
+    async def _add_narration(self, dream_result: dict[str, Any]) -> str:
         """Add narrative voice if personality is loaded"""
         if not self._narrator:
             return ""

@@ -12,7 +12,7 @@ import time
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -160,7 +160,7 @@ class MasterOrchestrator:
         with open(self.config_path, 'w') as f:
             json.dump(config_data, f, indent=2)
 
-    async def run_brand_automation_cycle(self) -> Dict[str, Any]:
+    async def run_brand_automation_cycle(self) -> dict[str, Any]:
         """Run brand automation engine cycle"""
         self.logger.info("🎯 Running brand automation cycle...")
 
@@ -192,7 +192,7 @@ class MasterOrchestrator:
                 'duration': time.time() - start_time
             }
 
-    async def run_self_healing_cycle(self) -> Dict[str, Any]:
+    async def run_self_healing_cycle(self) -> dict[str, Any]:
         """Run self-healing system cycle"""
         self.logger.info("🔧 Running self-healing cycle...")
 
@@ -223,7 +223,7 @@ class MasterOrchestrator:
                 'duration': time.time() - start_time
             }
 
-    async def generate_comprehensive_report(self) -> Dict[str, Any]:
+    async def generate_comprehensive_report(self) -> dict[str, Any]:
         """Generate comprehensive system report"""
         self.logger.info("📊 Generating comprehensive report...")
 
@@ -288,7 +288,7 @@ class MasterOrchestrator:
                 'duration': time.time() - start_time
             }
 
-    async def run_performance_analysis(self) -> Dict[str, Any]:
+    async def run_performance_analysis(self) -> dict[str, Any]:
         """Run performance analysis and optimization"""
         self.logger.info("⚡ Running performance analysis...")
 
@@ -301,7 +301,7 @@ class MasterOrchestrator:
             recent_analytics = [a for a in all_analytics if a.get('time')][-100:]  # Last 100 entries
 
             # Calculate metrics
-            systems_active = len(set(a['system'] for a in recent_analytics))
+            systems_active = len({a['system'] for a in recent_analytics})
             avg_activity = len(recent_analytics) / max(systems_active, 1)
 
             # Performance insights
@@ -349,7 +349,7 @@ class MasterOrchestrator:
                 'duration': time.time() - start_time
             }
 
-    async def run_deep_healing(self) -> Dict[str, Any]:
+    async def run_deep_healing(self) -> dict[str, Any]:
         """Run deep healing and maintenance"""
         self.logger.info("🛠️ Running deep healing and maintenance...")
 
@@ -397,7 +397,7 @@ class MasterOrchestrator:
                 'duration': time.time() - start_time
             }
 
-    async def _save_report(self, report: Dict[str, Any], report_type: str):
+    async def _save_report(self, report: dict[str, Any], report_type: str):
         """Save report to file"""
         self.reports_path.mkdir(exist_ok=True)
 
@@ -409,7 +409,7 @@ class MasterOrchestrator:
 
         self.logger.info(f"📊 Report saved: {report_file}")
 
-    async def run_orchestration_cycle(self) -> Dict[str, Any]:
+    async def run_orchestration_cycle(self) -> dict[str, Any]:
         """Run complete orchestration cycle"""
         self.logger.info("🚀 Starting orchestration cycle...")
 
@@ -517,7 +517,7 @@ class MasterOrchestrator:
 
         return cycle_results
 
-    def get_orchestration_status(self) -> Dict[str, Any]:
+    def get_orchestration_status(self) -> dict[str, Any]:
         """Get current orchestration status"""
         status = {
             'orchestrator_status': 'active' if self.is_running else 'idle',

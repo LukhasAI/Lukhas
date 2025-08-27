@@ -9,7 +9,7 @@ import logging
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Optional
 
 import numpy as np
 
@@ -26,7 +26,7 @@ class DriftEvent:
     user_id: str
     entropy: float
     state_emoji: str
-    metadata: Dict
+    metadata: dict
 
 
 class DriftTracker:
@@ -48,13 +48,13 @@ class DriftTracker:
 
     def __init__(self, max_history: int = 10000):
         self.history = deque(maxlen=max_history)
-        self.user_profiles: Dict[str, Dict] = {}
+        self.user_profiles: dict[str, dict] = {}
         self.global_drift = 0.0
-        self.alerts: List[Dict] = []
+        self.alerts: list[dict] = []
 
         # Entropy tracking
         self.entropy_window = deque(maxlen=100)
-        self.pattern_cache: Dict[str, int] = {}
+        self.pattern_cache: dict[str, int] = {}
 
         logger.info("🌀 Drift Tracker initialized")
 
@@ -64,7 +64,7 @@ class DriftTracker:
         drift_score: float,
         action: str,
         entropy: float,
-        metadata: Dict = None,
+        metadata: dict = None,
     ) -> DriftEvent:
         """Record a drift event and update trackers"""
         # Determine state emoji
@@ -183,7 +183,7 @@ class DriftTracker:
 
     def get_drift_analysis(
         self, user_id: Optional[str] = None, window: str = "short"
-    ) -> Dict:
+    ) -> dict:
         """Get comprehensive drift analysis"""
         # Filter events
         cutoff = datetime.utcnow() - self.WINDOWS.get(window, self.WINDOWS["short"])
@@ -255,8 +255,8 @@ class DriftTracker:
         }
 
     def _generate_recommendations(
-        self, avg_drift: float, max_drift: float, entropy_trend: str, state_dist: Dict
-    ) -> List[str]:
+        self, avg_drift: float, max_drift: float, entropy_trend: str, state_dist: dict
+    ) -> list[str]:
         """Generate actionable recommendations based on drift analysis"""
         recommendations = []
 
@@ -298,7 +298,7 @@ class DriftTracker:
 
         return recommendations
 
-    def get_pattern_insights(self) -> Dict:
+    def get_pattern_insights(self) -> dict:
         """Analyze patterns in drift behavior"""
         if not self.pattern_cache:
             return {"patterns": [], "insights": ["Insufficient data"]}
@@ -346,7 +346,7 @@ class DriftTracker:
             ),
         }
 
-    def export_report(self) -> Dict:
+    def export_report(self) -> dict:
         """Generate comprehensive drift report"""
         return {
             "generated": datetime.utcnow().isoformat(),
@@ -381,7 +381,7 @@ if __name__ == "__main__":
     users = ["user_001", "user_002", "user_003"]
     actions = ["authenticate", "unlock_profile", "view_data", "suspicious_attempt"]
 
-    for i in range(20):
+    for _i in range(20):
         user = random.choice(users)
         action = random.choice(actions)
 

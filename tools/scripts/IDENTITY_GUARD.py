@@ -9,7 +9,6 @@ Prevents unprotected API endpoints and missing user tracking from being committe
 import re
 import sys
 from pathlib import Path
-from typing import List, Tuple
 
 
 class IdentityGuard:
@@ -19,7 +18,7 @@ class IdentityGuard:
         self.violations = []
         self.warnings = []
 
-    def validate_file(self, file_path: Path) -> Tuple[bool, List[str]]:
+    def validate_file(self, file_path: Path) -> tuple[bool, list[str]]:
         """Validate a single file for identity compliance."""
 
         if not file_path.exists() or file_path.suffix != ".py":
@@ -55,7 +54,7 @@ class IdentityGuard:
         sensitive_dirs = ["consciousness", "quantum", "dream", "emotion", "governance"]
         return any(sens_dir in str(file_path) for sens_dir in sensitive_dirs)
 
-    def _check_api_protection(self, content: str, file_path: Path) -> List[str]:
+    def _check_api_protection(self, content: str, file_path: Path) -> list[str]:
         """Check API endpoints for proper authentication."""
         violations = []
 
@@ -104,7 +103,7 @@ class IdentityGuard:
 
         return violations
 
-    def _check_module_protection(self, content: str, file_path: Path) -> List[str]:
+    def _check_module_protection(self, content: str, file_path: Path) -> list[str]:
         """Check sensitive modules for tier protection."""
         violations = []
 
@@ -155,7 +154,7 @@ class IdentityGuard:
 
         return violations
 
-    def _check_user_tracking(self, content: str, file_path: Path) -> List[str]:
+    def _check_user_tracking(self, content: str, file_path: Path) -> list[str]:
         """Check for proper user ID tracking in data operations."""
         violations = []
 
@@ -186,7 +185,7 @@ class IdentityGuard:
 
         return violations
 
-    def validate_changes(self, changed_files: List[str] = None) -> bool:
+    def validate_changes(self, changed_files: list[str] = None) -> bool:
         """Validate changed files for identity compliance."""
 
         if changed_files is None:

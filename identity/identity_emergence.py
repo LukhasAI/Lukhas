@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Set
+from typing import Optional
 
 import yaml
 
@@ -37,7 +37,7 @@ class IdentityPhase(Enum):
 class PersonaSignature:
     """Represents a symbolic identity signature"""
 
-    glyphs: List[str]
+    glyphs: list[str]
     name: str
     phase: IdentityPhase
     entropy: float
@@ -54,7 +54,7 @@ class PersonaSignature:
 class IdentityMemory:
     """Tracks identity evolution history"""
 
-    previous_personas: List[PersonaSignature]
+    previous_personas: list[PersonaSignature]
     transformation_count: int
     total_drift: float
     ethical_interventions: int
@@ -100,7 +100,7 @@ class EmergentIdentity:
         )
 
         # Symbolic state
-        self.active_glyphs: Set[str] = set()
+        self.active_glyphs: set[str] = set()
         self.entropy_level: float = 0.3
         self.consciousness_phase: str = "calm"
         self.trinity_coherence: float = 1.0
@@ -141,7 +141,7 @@ class EmergentIdentity:
             logger.error(f"Failed to load archetype mapping: {e}")
             self.archetype_mapping = self._get_default_archetypes()
 
-    def _get_default_personas(self) -> Dict:
+    def _get_default_personas(self) -> dict:
         """Provide default personas if config missing"""
         return {
             "the_navigator": {
@@ -167,7 +167,7 @@ class EmergentIdentity:
             },
         }
 
-    def _get_default_archetypes(self) -> Dict:
+    def _get_default_archetypes(self) -> dict:
         """Provide default archetype mapping if not found"""
         return {
             "lucid_dreamer": ["🌙", "🔮", "🪞"],
@@ -210,9 +210,9 @@ class EmergentIdentity:
     def evolve(
         self,
         entropy_delta: float = 0.0,
-        memory_tags: List[str] = None,
+        memory_tags: list[str] = None,
         dream_outcome: Optional[str] = None,
-        consciousness_input: Optional[Dict] = None,
+        consciousness_input: Optional[dict] = None,
     ) -> PersonaSignature:
         """
         Evolve identity based on symbolic state inputs.
@@ -323,7 +323,7 @@ class EmergentIdentity:
 
         return new_persona
 
-    def _interpret_dream_outcome(self, dream_outcome: str) -> List[str]:
+    def _interpret_dream_outcome(self, dream_outcome: str) -> list[str]:
         """Interpret dream outcome into symbolic glyphs"""
         dream_mappings = {
             "lucid": ["🌙", "🔮", "👁️"],
@@ -335,12 +335,12 @@ class EmergentIdentity:
 
         return dream_mappings.get(dream_outcome.lower(), ["🧠"])
 
-    def _select_persona(self, candidate_glyphs: Set[str], phase: IdentityPhase) -> Dict:
+    def _select_persona(self, candidate_glyphs: set[str], phase: IdentityPhase) -> dict:
         """Select appropriate persona based on glyphs and phase"""
         best_match = None
         best_score = -1
 
-        for persona_key, persona in self.persona_profiles.items():
+        for _persona_key, persona in self.persona_profiles.items():
             # Calculate glyph overlap score
             persona_glyphs = set(persona["glyphs"])
             overlap = len(candidate_glyphs.intersection(persona_glyphs))
@@ -367,7 +367,7 @@ class EmergentIdentity:
             "the_navigator", self._get_default_personas()["the_navigator"]
         )
 
-    def _get_guardian_approved_persona(self) -> Dict:
+    def _get_guardian_approved_persona(self) -> dict:
         """Get a safe, guardian-approved persona"""
         # Default to Guardian persona for safety
         return self.persona_profiles.get(
@@ -440,7 +440,7 @@ class EmergentIdentity:
         else:
             return "⚛️🧠🛡️"  # Default Trinity signature
 
-    def get_identity_state(self) -> Dict:
+    def get_identity_state(self) -> dict:
         """Get complete current identity state"""
         return {
             "active_signature": list(self.active_glyphs),
@@ -466,7 +466,7 @@ class EmergentIdentity:
         except Exception as e:
             logger.error(f"Failed to save identity state: {e}")
 
-    def get_evolution_history(self) -> List[Dict]:
+    def get_evolution_history(self) -> list[dict]:
         """Get identity evolution history"""
         history = []
         for persona in self.identity_memory.previous_personas:

@@ -6,7 +6,7 @@ import json
 import os
 import random
 import time
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 import yaml
 
@@ -14,14 +14,14 @@ from .teq_gate import TEQCoupler
 
 DEFAULT_CORPUS = os.path.join(os.path.dirname(__file__), "policy_corpus.yaml")
 
-def _load_yaml(path: str) -> Dict[str, Any]:
+def _load_yaml(path: str) -> dict[str, Any]:
     with open(path, encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
     if not isinstance(data, dict):
         raise ValueError("Corpus YAML must be a mapping.")
     return data
 
-def _fill_placeholders(t: str, placeholders: Dict[str, List[str]], rng: random.Random) -> str:
+def _fill_placeholders(t: str, placeholders: dict[str, list[str]], rng: random.Random) -> str:
     out = t
     for key, vals in (placeholders or {}).items():
         token = "{" + key + "}"
@@ -29,7 +29,7 @@ def _fill_placeholders(t: str, placeholders: Dict[str, List[str]], rng: random.R
             out = out.replace(token, rng.choice(vals))
     return out
 
-def _mutations_for_task(task: str, corpus: Dict[str, Any]) -> Tuple[List[str], List[Dict[str, Any]]]:
+def _mutations_for_task(task: str, corpus: dict[str, Any]) -> tuple[list[str], list[dict[str, Any]]]:
     seeds = (corpus.get("tasks", {}) or {}).get(task, []) or (corpus.get("tasks", {}) or {}).get("_default_", [])
     attacks = corpus.get("attacks", []) or []
     return seeds, attacks
@@ -42,9 +42,9 @@ def fuzz(
     n: int,
     seed: int,
     corpus_path: str = DEFAULT_CORPUS,
-    context_base: Dict[str, Any] | None = None,
-    require_block_kinds: List[str] | None = None,
-) -> Dict[str, Any]:
+    context_base: dict[str, Any] | None = None,
+    require_block_kinds: list[str] | None = None,
+) -> dict[str, Any]:
     """
     Runs n fuzz cases deterministically:
       - choose seeds for task
@@ -80,7 +80,7 @@ def fuzz(
         res = gate.run(task=task, context=ctx)
         allowed = bool(res.allowed)
         reasons = list(res.reasons or [])
-        kinds   = [r.get("kind","") for r in res.checks or []] if hasattr(res, "checks") else []
+        [r.get("kind","") for r in res.checks or []] if hasattr(res, "checks") else []
 
         # determine whether this should have been blocked
         expected_block = False

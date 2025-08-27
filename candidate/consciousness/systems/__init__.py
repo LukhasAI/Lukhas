@@ -56,7 +56,6 @@ try:
         # ΛCONTEXT_OBJECT: Holds contextual data for integration tasks.
         IntegrationPriority,  # ΛPRIORITY_QUEUE: Enum for prioritizing cognitive events.
         get_consciousness_integrator,
-        # ΛACCESS_POINT: Singleton accessor for the integrator.
     )
 
     logger.info("ΛTRACE: Successfully imported components from .integrator.")

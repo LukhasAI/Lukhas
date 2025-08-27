@@ -257,7 +257,7 @@ def demonstrate():
     print("\n\n🎯 UNIQUE LUKHAS PHRASES:")
     print("─" * 60)
 
-    for i in range(5):
+    for _i in range(5):
         print(f"\n  • {LUKHASLexicon.get_random_unique_phrase()}")
 
     print("\n\n📊 THE LUKHAS VOCABULARY:")

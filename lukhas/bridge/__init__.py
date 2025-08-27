@@ -46,7 +46,7 @@ def get_bridge_wrapper():
             return None
     return _bridge_wrapper_instance
 
-def get_bridge_status() -> Dict[str, Any]:
+def get_bridge_status() -> dict[str, Any]:
     """Get Bridge module status and capabilities"""
     return {
         "module": MODULE_NAME,

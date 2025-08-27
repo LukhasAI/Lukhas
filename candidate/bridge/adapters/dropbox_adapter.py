@@ -8,7 +8,7 @@ import asyncio
 import hashlib
 import json
 from datetime import datetime, timezone
-from typing import Dict, Optional
+from typing import Optional
 
 import aiohttp
 
@@ -33,7 +33,7 @@ class DropboxAdapter(BaseServiceAdapter):
         self.oauth_tokens = {}  # In production: use Agent 7's KMS vault
         self.dry_run_planner = DryRunPlanner()
 
-    async def authenticate(self, credentials: Dict) -> Dict:
+    async def authenticate(self, credentials: dict) -> dict:
         """OAuth2 authentication flow for Dropbox"""
         if self.dry_run_mode:
             return {
@@ -76,7 +76,7 @@ class DropboxAdapter(BaseServiceAdapter):
     async def list_folder(self, lid: str, path: str = "",
                          recursive: bool = False,
                          capability_token: Optional[CapabilityToken] = None,
-                         limit: int = 100) -> Dict:
+                         limit: int = 100) -> dict:
         """
         List files and folders in Dropbox
         Emits Λ-trace for audit
@@ -157,7 +157,7 @@ class DropboxAdapter(BaseServiceAdapter):
 
     @with_resilience
     async def download_file(self, lid: str, path: str,
-                           capability_token: Optional[CapabilityToken] = None) -> Dict:
+                           capability_token: Optional[CapabilityToken] = None) -> dict:
         """Download file content from Dropbox"""
 
         # Validate capability token
@@ -220,7 +220,7 @@ class DropboxAdapter(BaseServiceAdapter):
     @with_resilience
     async def search_files(self, lid: str, query: str,
                           capability_token: Optional[CapabilityToken] = None,
-                          max_results: int = 50) -> Dict:
+                          max_results: int = 50) -> dict:
         """Search files in Dropbox"""
 
         # Validate capability token
@@ -289,7 +289,7 @@ class DropboxAdapter(BaseServiceAdapter):
     @with_resilience
     async def upload_file(self, lid: str, path: str, content: bytes,
                          capability_token: Optional[CapabilityToken] = None,
-                         autorename: bool = True) -> Dict:
+                         autorename: bool = True) -> dict:
         """Upload file to Dropbox"""
 
         # Validate capability token
@@ -363,7 +363,7 @@ class DropboxAdapter(BaseServiceAdapter):
 
         return False
 
-    def get_storage_info(self, lid: str) -> Dict:
+    def get_storage_info(self, lid: str) -> dict:
         """Get Dropbox storage information"""
         # In production: call Dropbox API for actual storage
         return {
@@ -386,7 +386,7 @@ class DropboxContextIntegration:
         self.adapter = dropbox_adapter
 
     async def workflow_fetch_travel_files(self, lid: str,
-                                         context: Dict) -> Dict:
+                                         context: dict) -> dict:
         """
         Workflow step: Fetch travel-related files from Dropbox
         Used in MVP demo scenario
@@ -485,7 +485,7 @@ if __name__ == "__main__":
         integration = DropboxContextIntegration(adapter)
         print("\n🔄 Testing workflow integration...")
 
-        workflow_result = await integration.workflow_fetch_travel_files(
+        await integration.workflow_fetch_travel_files(
             lid="USR-123456",
             context={"stage": "file_retrieval"}
         )

@@ -38,7 +38,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -105,10 +105,10 @@ class Permission:
     name: str
     description: str
     resource_type: str
-    access_types: Set[AccessType] = field(default_factory=set)
+    access_types: set[AccessType] = field(default_factory=set)
     required_tier: AccessTier = AccessTier.T1_BASIC
-    context_conditions: Dict[str, Any] = field(default_factory=dict)
-    time_restrictions: Optional[Dict[str, Any]] = None
+    context_conditions: dict[str, Any] = field(default_factory=dict)
+    time_restrictions: Optional[dict[str, Any]] = None
     created_at: datetime = field(default_factory=datetime.now)
 
 
@@ -120,9 +120,9 @@ class Role:
     name: str
     description: str
     tier: AccessTier
-    permissions: Set[str] = field(default_factory=set)  # Permission IDs
-    inherits_from: Set[str] = field(default_factory=set)  # Other role IDs
-    constraints: Dict[str, Any] = field(default_factory=dict)
+    permissions: set[str] = field(default_factory=set)  # Permission IDs
+    inherits_from: set[str] = field(default_factory=set)  # Other role IDs
+    constraints: dict[str, Any] = field(default_factory=dict)
     created_at: datetime = field(default_factory=datetime.now)
     updated_at: datetime = field(default_factory=datetime.now)
 
@@ -136,13 +136,13 @@ class User:
     email: str
     current_tier: AccessTier
     max_tier: AccessTier  # Maximum tier user can achieve
-    roles: Set[str] = field(default_factory=set)  # Role IDs
+    roles: set[str] = field(default_factory=set)  # Role IDs
 
     # Authentication
     password_hash: Optional[str] = None
     mfa_enabled: bool = False
     mfa_secret: Optional[str] = None
-    auth_methods: Set[AuthenticationMethod] = field(default_factory=set)
+    auth_methods: set[AuthenticationMethod] = field(default_factory=set)
 
     # Account status
     active: bool = True
@@ -153,7 +153,7 @@ class User:
 
     # Security context
     security_clearance: Optional[str] = None
-    access_restrictions: Dict[str, Any] = field(default_factory=dict)
+    access_restrictions: dict[str, Any] = field(default_factory=dict)
 
     # Trinity Framework integration
     identity_verified: bool = False      # ⚛️ Identity system verification
@@ -186,11 +186,11 @@ class AccessSession:
     mfa_verified: bool = False
 
     # Security context
-    security_context: Dict[str, Any] = field(default_factory=dict)
+    security_context: dict[str, Any] = field(default_factory=dict)
     risk_score: float = 0.0
 
     # Trinity Framework context
-    trinity_context: Dict[str, Any] = field(default_factory=dict)
+    trinity_context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -202,7 +202,7 @@ class AccessRequest:
     session_id: str
     resource: str
     access_type: AccessType
-    context: Dict[str, Any] = field(default_factory=dict)
+    context: dict[str, Any] = field(default_factory=dict)
     requested_at: datetime = field(default_factory=datetime.now)
 
 
@@ -221,10 +221,10 @@ class AccessAuditEntry:
     # Context information
     source_ip: Optional[str] = None
     user_agent: Optional[str] = None
-    risk_factors: List[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
 
     # Trinity Framework audit
-    trinity_validation: Dict[str, Any] = field(default_factory=dict)
+    trinity_validation: dict[str, Any] = field(default_factory=dict)
 
     timestamp: datetime = field(default_factory=datetime.now)
 
@@ -233,8 +233,8 @@ class PermissionManager:
     """Manages permissions and roles"""
 
     def __init__(self):
-        self.permissions: Dict[str, Permission] = {}
-        self.roles: Dict[str, Role] = {}
+        self.permissions: dict[str, Permission] = {}
+        self.roles: dict[str, Role] = {}
         self._initialize_standard_permissions()
         self._initialize_standard_roles()
 
@@ -404,7 +404,7 @@ class PermissionManager:
             logger.error(f"Failed to add role {role.role_id}: {e}")
             return False
 
-    def get_user_permissions(self, user: User) -> Set[str]:
+    def get_user_permissions(self, user: User) -> set[str]:
         """Get all permissions for a user based on their roles"""
         permissions = set()
 
@@ -414,7 +414,7 @@ class PermissionManager:
 
         return permissions
 
-    def _get_role_permissions(self, role_id: str) -> Set[str]:
+    def _get_role_permissions(self, role_id: str) -> set[str]:
         """Get all permissions for a role, including inherited"""
         if role_id not in self.roles:
             return set()
@@ -433,7 +433,7 @@ class SessionManager:
     """Manages user sessions and authentication"""
 
     def __init__(self):
-        self.active_sessions: Dict[str, AccessSession] = {}
+        self.active_sessions: dict[str, AccessSession] = {}
         self.jwt_secret = secrets.token_urlsafe(32)
         self.session_timeout = timedelta(hours=8)
 
@@ -606,8 +606,8 @@ class AccessControlEngine:
     def __init__(self):
         self.permission_manager = PermissionManager()
         self.session_manager = SessionManager()
-        self.users: Dict[str, User] = {}
-        self.audit_trail: List[AccessAuditEntry] = []
+        self.users: dict[str, User] = {}
+        self.audit_trail: list[AccessAuditEntry] = []
 
         # Access control configuration
         self.max_failed_attempts = 5
@@ -658,7 +658,7 @@ class AccessControlEngine:
         mfa_token: Optional[str] = None,
         source_ip: Optional[str] = None,
         user_agent: Optional[str] = None
-    ) -> Tuple[bool, Optional[AccessSession], str]:
+    ) -> tuple[bool, Optional[AccessSession], str]:
         """
         Authenticate user and create session
 
@@ -733,7 +733,7 @@ class AccessControlEngine:
                                   reason="Successful authentication", source_ip=source_ip)
 
             # Update metrics
-            self.metrics["active_users"] = len(set(s.user_id for s in self.session_manager.active_sessions.values()))
+            self.metrics["active_users"] = len({s.user_id for s in self.session_manager.active_sessions.values()})
             self.metrics["active_sessions"] = len(self.session_manager.active_sessions)
 
             logger.info(f"✅ User {username} authenticated successfully (tier: T{user.current_tier.value})")
@@ -785,8 +785,8 @@ class AccessControlEngine:
         session_id: str,
         resource: str,
         access_type: AccessType,
-        context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[AccessDecision, str]:
+        context: Optional[dict[str, Any]] = None
+    ) -> tuple[AccessDecision, str]:
         """
         Check if user has access to resource
 
@@ -865,11 +865,11 @@ class AccessControlEngine:
     async def _evaluate_access_permission(
         self,
         user: User,
-        user_permissions: Set[str],
+        user_permissions: set[str],
         resource: str,
         access_type: AccessType,
-        context: Dict[str, Any]
-    ) -> Tuple[AccessDecision, str]:
+        context: dict[str, Any]
+    ) -> tuple[AccessDecision, str]:
         """Evaluate if user has required permission"""
 
         # Find matching permissions
@@ -903,7 +903,7 @@ class AccessControlEngine:
         # Simple matching - could be more sophisticated with patterns
         return permission.resource_type in resource or permission.resource_type == "public"
 
-    def _check_context_conditions(self, permission: Permission, context: Dict[str, Any]) -> bool:
+    def _check_context_conditions(self, permission: Permission, context: dict[str, Any]) -> bool:
         """Check if context meets permission conditions"""
         if not permission.context_conditions:
             return True
@@ -920,10 +920,10 @@ class AccessControlEngine:
         session: AccessSession,
         resource: str,
         access_type: AccessType,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         current_decision: AccessDecision,
         current_reason: str
-    ) -> Tuple[AccessDecision, str]:
+    ) -> tuple[AccessDecision, str]:
         """Apply additional security policies"""
 
         # Time-based restrictions
@@ -948,10 +948,10 @@ class AccessControlEngine:
         session: AccessSession,
         resource: str,
         access_type: AccessType,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         current_decision: AccessDecision,
         current_reason: str
-    ) -> Tuple[AccessDecision, str]:
+    ) -> tuple[AccessDecision, str]:
         """Validate access against Trinity Framework"""
 
         trinity_issues = []
@@ -987,7 +987,7 @@ class AccessControlEngine:
         session_id: Optional[str],
         reason: str = "",
         source_ip: Optional[str] = None,
-        risk_factors: Optional[List[str]] = None
+        risk_factors: Optional[list[str]] = None
     ):
         """Audit access control event"""
 
@@ -1018,7 +1018,7 @@ class AccessControlEngine:
         access_type: AccessType,
         decision: AccessDecision,
         reason: str,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ):
         """Audit access control request"""
 
@@ -1035,8 +1035,8 @@ class AccessControlEngine:
         email: str,
         password: str,
         tier: AccessTier = AccessTier.T2_USER,
-        roles: Optional[Set[str]] = None
-    ) -> Tuple[bool, Optional[str], str]:
+        roles: Optional[set[str]] = None
+    ) -> tuple[bool, Optional[str], str]:
         """
         Create a new user
 
@@ -1095,7 +1095,7 @@ class AccessControlEngine:
             logger.error(f"Failed to create user {username}: {e}")
             return False, None, f"User creation failed: {str(e)}"
 
-    async def update_user_tier(self, user_id: str, new_tier: AccessTier) -> Tuple[bool, str]:
+    async def update_user_tier(self, user_id: str, new_tier: AccessTier) -> tuple[bool, str]:
         """Update user's access tier"""
 
         try:
@@ -1123,7 +1123,7 @@ class AccessControlEngine:
             logger.error(f"Failed to update user tier: {e}")
             return False, f"Tier update failed: {str(e)}"
 
-    async def get_access_status(self) -> Dict[str, Any]:
+    async def get_access_status(self) -> dict[str, Any]:
         """Get current access control system status"""
 
         return {
@@ -1140,7 +1140,7 @@ class AccessControlEngine:
             }
         }
 
-    async def generate_access_report(self) -> Dict[str, Any]:
+    async def generate_access_report(self) -> dict[str, Any]:
         """Generate comprehensive access control report"""
 
         report = {

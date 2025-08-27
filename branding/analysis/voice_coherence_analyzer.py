@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 class VoiceCoherenceLevel(Enum):
@@ -65,8 +65,8 @@ class ContentAnalysis:
     coherence_metrics: CoherenceMetrics
     coherence_level: VoiceCoherenceLevel
     word_count: int
-    brand_violations: List[str]
-    improvement_suggestions: List[str]
+    brand_violations: list[str]
+    improvement_suggestions: list[str]
     elite_brand_readiness: float
     analysis_timestamp: str
 
@@ -94,7 +94,7 @@ class VoiceCoherenceAnalyzer:
             "leadership", "thought leader", "industry pioneer"
         ]
 
-    def _load_brand_keywords(self) -> Dict[str, List[str]]:
+    def _load_brand_keywords(self) -> dict[str, list[str]]:
         """Load approved brand terminology"""
         return {
             "core_brand": [
@@ -177,7 +177,7 @@ class VoiceCoherenceAnalyzer:
         total_keywords = sum(len(keywords) for keywords in self.brand_keywords.values())
         found_keywords = 0
 
-        for category, keywords in self.brand_keywords.items():
+        for _category, keywords in self.brand_keywords.items():
             for keyword in keywords:
                 if keyword.lower() in content:
                     found_keywords += 1
@@ -271,7 +271,7 @@ class VoiceCoherenceAnalyzer:
         else:
             return VoiceCoherenceLevel.POOR
 
-    def _find_brand_violations(self, content: str) -> List[str]:
+    def _find_brand_violations(self, content: str) -> list[str]:
         """Find violations of brand standards"""
         violations = []
 
@@ -291,7 +291,7 @@ class VoiceCoherenceAnalyzer:
 
         return violations
 
-    def _generate_improvement_suggestions(self, content: str, metrics: CoherenceMetrics) -> List[str]:
+    def _generate_improvement_suggestions(self, content: str, metrics: CoherenceMetrics) -> list[str]:
         """Generate specific improvement suggestions"""
         suggestions = []
 
@@ -338,7 +338,7 @@ class VoiceCoherenceAnalyzer:
 
         return readiness
 
-    def analyze_content_system(self, system_path: str, system_name: str) -> Dict[str, Any]:
+    def analyze_content_system(self, system_path: str, system_name: str) -> dict[str, Any]:
         """Analyze entire content creation system for voice coherence"""
         system_analysis = {
             'system_name': system_name,
@@ -352,7 +352,6 @@ class VoiceCoherenceAnalyzer:
         # Find and analyze all content files
         content_files = self._find_content_files(system_path)
 
-        total_coherence = 0
         coherence_scores = []
 
         for file_path in content_files:
@@ -393,13 +392,13 @@ class VoiceCoherenceAnalyzer:
 
         return system_analysis
 
-    def _find_content_files(self, system_path: str) -> List[Path]:
+    def _find_content_files(self, system_path: str) -> list[Path]:
         """Find all content files in a system directory"""
         content_extensions = ['.md', '.html', '.txt', '.py']  # Add Python for docstrings
         content_files = []
 
         try:
-            for root, dirs, files in os.walk(system_path):
+            for root, _dirs, files in os.walk(system_path):
                 for file in files:
                     if any(file.endswith(ext) for ext in content_extensions):
                         file_path = Path(root) / file
@@ -428,7 +427,7 @@ class VoiceCoherenceAnalyzer:
         else:
             return ContentType.TECHNICAL_DOC
 
-    def generate_coherence_report(self, analyses: List[Dict[str, Any]]) -> str:
+    def generate_coherence_report(self, analyses: list[dict[str, Any]]) -> str:
         """Generate comprehensive voice coherence report"""
         report = []
         report.append("# 🎯 LUKHAS AI Voice Coherence Analysis Report")

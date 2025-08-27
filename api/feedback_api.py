@@ -7,7 +7,7 @@ RESTful API for collecting multi-modal user feedback with compliance support.
 
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -51,8 +51,8 @@ class FeedbackRequest(BaseModel):
     session_id: str = Field(..., description="Session identifier")
     action_id: str = Field(..., description="Action being given feedback on")
     feedback_type: FeedbackType = Field(..., description="Type of feedback")
-    content: Dict[str, Any] = Field(..., description="Feedback content")
-    context: Dict[str, Any] = Field(..., description="Context about the action")
+    content: dict[str, Any] = Field(..., description="Feedback content")
+    context: dict[str, Any] = Field(..., description="Context about the action")
     region: Optional[ComplianceRegion] = Field(
         ComplianceRegion.GLOBAL, description="User's regulatory region"
     )
@@ -99,7 +99,7 @@ class EmojiFeedbackRequest(BaseModel):
     session_id: str
     action_id: str
     emoji: str
-    context: Optional[Dict[str, Any]] = None
+    context: Optional[dict[str, Any]] = None
 
     @validator("emoji")
     def validate_emoji(cls, v):
@@ -116,7 +116,7 @@ class TextFeedbackRequest(BaseModel):
     session_id: str
     action_id: str
     text: str = Field(..., min_length=1, max_length=1000)
-    context: Optional[Dict[str, Any]] = None
+    context: Optional[dict[str, Any]] = None
 
 
 class FeedbackEditRequest(BaseModel):
@@ -124,7 +124,7 @@ class FeedbackEditRequest(BaseModel):
 
     feedback_id: str
     user_id: str
-    new_content: Dict[str, Any]
+    new_content: dict[str, Any]
 
 
 class FeedbackResponse(BaseModel):
@@ -140,7 +140,7 @@ class FeedbackHistoryResponse(BaseModel):
     """User feedback history"""
 
     user_id: str
-    feedback_items: List[Dict[str, Any]]
+    feedback_items: list[dict[str, Any]]
     total_count: int
 
 
@@ -150,10 +150,10 @@ class FeedbackSummaryResponse(BaseModel):
     action_id: str
     total_feedback: int
     average_rating: Optional[float]
-    sentiment_distribution: Dict[str, float]
-    emoji_distribution: Dict[str, int]
-    common_themes: List[str]
-    improvement_suggestions: List[str]
+    sentiment_distribution: dict[str, float]
+    emoji_distribution: dict[str, int]
+    common_themes: list[str]
+    improvement_suggestions: list[str]
 
 
 class ConsentRequest(BaseModel):

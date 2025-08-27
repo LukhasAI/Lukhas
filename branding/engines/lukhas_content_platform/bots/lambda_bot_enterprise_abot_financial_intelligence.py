@@ -9,7 +9,6 @@ import logging
 import os
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Dict, List
 
 logger = logging.getLogger("ABotFinancialIntelligence")
 
@@ -37,7 +36,7 @@ class FinancialMetrics:
     efficiency_score: float = 100.0
 
     # Usage patterns
-    peak_usage_days: List[str] = None
+    peak_usage_days: list[str] = None
     conservation_streak: int = 0
     last_call_reason: str = ""
 
@@ -102,7 +101,6 @@ class ABotFinancialIntelligence:
 
             # Add accumulated budget for missed days
             budget_to_add = self.metrics.daily_budget * days_passed
-            previous_balance = self.metrics.current_balance
 
             # Add to current balance (accumulation!)
             self.metrics.current_balance += budget_to_add
@@ -125,7 +123,7 @@ class ABotFinancialIntelligence:
 
             self._save_metrics()
 
-    def analyze_call_necessity(self, context: Dict) -> CallDecision:
+    def analyze_call_necessity(self, context: dict) -> CallDecision:
         """
         LUKHAS AI ΛBot's intelligent decision making: Should we make this API call?'
         Analyzes necessity, cost-benefit, and alternatives
@@ -137,7 +135,7 @@ class ABotFinancialIntelligence:
         user_request = context.get("user_request", False)
         urgency_level = context.get("urgency", "MEDIUM")
         estimated_cost = context.get("estimated_cost", 0.001)
-        alternative_available = context.get("alternative_available", False)
+        context.get("alternative_available", False)
 
         # Decision logic
         priority_level = "LOW"
@@ -245,7 +243,7 @@ class ABotFinancialIntelligence:
 
         self.metrics.efficiency_score = min(100, max(0, base_score + savings_score + conservation_score - penalty))
 
-    def get_financial_report(self) -> Dict:
+    def get_financial_report(self) -> dict:
         """Generate comprehensive financial report for Notion sync"""
         self._refresh_daily_budget()
 
@@ -286,7 +284,7 @@ class ABotFinancialIntelligence:
             "recommendations": self._generate_recommendations()
         }
 
-    def _generate_recommendations(self) -> List[str]:
+    def _generate_recommendations(self) -> list[str]:
         """LUKHAS AI ΛBot's financial recommendations"""
         recommendations = []
 
@@ -311,7 +309,7 @@ class ABotFinancialIntelligence:
 # Global financial intelligence instance
 abot_financial_intelligence = ABotFinancialIntelligence()
 
-def should_make_api_call(context: Dict) -> CallDecision:
+def should_make_api_call(context: dict) -> CallDecision:
     """Quick function to check if LUKHAS AI ΛBot should make an API call"""
     return abot_financial_intelligence.analyze_call_necessity(context)
 
@@ -319,7 +317,7 @@ def record_smart_api_call(cost: float, reason: str, success: bool = True):
     """Record an API call in LUKHAS AI ΛBot's financial intelligence system"""
     abot_financial_intelligence.record_api_call(cost, reason, success)
 
-def get_abot_financial_report() -> Dict:
+def get_abot_financial_report() -> dict:
     """Get LUKHAS AI ΛBot's financial intelligence report for Notion sync"""
     return abot_financial_intelligence.get_financial_report()
 

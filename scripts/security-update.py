@@ -12,7 +12,6 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 
 class SecurityUpdater:
@@ -24,7 +23,7 @@ class SecurityUpdater:
         self.updates_applied = []
         self.project_root = Path(__file__).parent.parent
 
-    def run_command(self, cmd: List[str]) -> Tuple[int, str, str]:
+    def run_command(self, cmd: list[str]) -> tuple[int, str, str]:
         """Run a shell command and return the result"""
         try:
             result = subprocess.run(
@@ -37,7 +36,7 @@ class SecurityUpdater:
         except Exception as e:
             return 1, "", str(e)
 
-    def check_vulnerabilities(self) -> List[Dict]:
+    def check_vulnerabilities(self) -> list[dict]:
         """Check for security vulnerabilities using multiple tools"""
         print("🔍 Scanning for security vulnerabilities...")
         vulnerabilities = []
@@ -88,7 +87,7 @@ class SecurityUpdater:
         self.vulnerabilities = vulnerabilities
         return vulnerabilities
 
-    def prioritize_updates(self, vulnerabilities: List[Dict]) -> List[Dict]:
+    def prioritize_updates(self, vulnerabilities: list[dict]) -> list[dict]:
         """Prioritize vulnerabilities by severity"""
         severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3, "unknown": 4}
         return sorted(

@@ -9,7 +9,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from universal_language.core import Concept, Symbol, SymbolicDomain
 from universal_language.glyph import get_glyph_engine
@@ -26,13 +26,13 @@ class DomainVocabulary:
     """
 
     domain: SymbolicDomain
-    symbols: Dict[str, Symbol] = field(default_factory=dict)
-    concepts: Dict[str, Concept] = field(default_factory=dict)
-    aliases: Dict[str, str] = field(default_factory=dict)  # alias -> symbol_id
-    relationships: Dict[str, List[str]] = field(
+    symbols: dict[str, Symbol] = field(default_factory=dict)
+    concepts: dict[str, Concept] = field(default_factory=dict)
+    aliases: dict[str, str] = field(default_factory=dict)  # alias -> symbol_id
+    relationships: dict[str, list[str]] = field(
         default_factory=dict
     )  # symbol_id -> related_ids
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def add_symbol(self, symbol: Symbol) -> bool:
         """Add a symbol to the vocabulary"""
@@ -98,7 +98,7 @@ class DomainVocabulary:
 
         return None
 
-    def get_related_symbols(self, symbol_id: str) -> List[Symbol]:
+    def get_related_symbols(self, symbol_id: str) -> list[Symbol]:
         """Get symbols related to a given symbol"""
         related_ids = self.relationships.get(symbol_id, [])
         return [self.symbols[sid] for sid in related_ids if sid in self.symbols]
@@ -110,8 +110,8 @@ class VocabularyManager:
     """
 
     def __init__(self):
-        self.vocabularies: Dict[SymbolicDomain, DomainVocabulary] = {}
-        self.global_index: Dict[str, SymbolicDomain] = {}  # symbol_id -> domain
+        self.vocabularies: dict[SymbolicDomain, DomainVocabulary] = {}
+        self.global_index: dict[str, SymbolicDomain] = {}  # symbol_id -> domain
         self._initialize_vocabularies()
         self._load_core_vocabularies()
 
@@ -418,21 +418,21 @@ class VocabularyManager:
 
         return None
 
-    def get_all_symbols(self) -> List[Symbol]:
+    def get_all_symbols(self) -> list[Symbol]:
         """Get all symbols across all domains"""
         all_symbols = []
         for vocab in self.vocabularies.values():
             all_symbols.extend(vocab.symbols.values())
         return all_symbols
 
-    def get_all_concepts(self) -> List[Concept]:
+    def get_all_concepts(self) -> list[Concept]:
         """Get all concepts across all domains"""
         all_concepts = []
         for vocab in self.vocabularies.values():
             all_concepts.extend(vocab.concepts.values())
         return all_concepts
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get vocabulary statistics"""
         stats = {
             "total_symbols": sum(len(v.symbols) for v in self.vocabularies.values()),
@@ -483,7 +483,7 @@ class UnifiedVocabulary:
             return vocab.add_concept(concept)
         return False
 
-    def lookup(self, term: str) -> Dict[str, Any]:
+    def lookup(self, term: str) -> dict[str, Any]:
         """Look up a term in the vocabulary"""
         results = {"term": term, "symbols": [], "concepts": [], "glyphs": []}
 
@@ -506,7 +506,7 @@ class UnifiedVocabulary:
 
         return results
 
-    def get_domain_vocabulary(self, domain: SymbolicDomain) -> Dict[str, Any]:
+    def get_domain_vocabulary(self, domain: SymbolicDomain) -> dict[str, Any]:
         """Get all vocabulary for a domain"""
         vocab = self.manager.get_vocabulary(domain)
         if vocab:
@@ -519,7 +519,7 @@ class UnifiedVocabulary:
             }
         return {}
 
-    def export_vocabulary(self, path: Optional[Path] = None) -> Dict[str, Any]:
+    def export_vocabulary(self, path: Optional[Path] = None) -> dict[str, Any]:
         """Export the entire vocabulary"""
         export_data = {
             "version": "1.0.0",
@@ -536,12 +536,12 @@ class UnifiedVocabulary:
 
         return export_data
 
-    def import_vocabulary(self, data: Dict[str, Any]) -> bool:
+    def import_vocabulary(self, data: dict[str, Any]) -> bool:
         """Import vocabulary data"""
         try:
             # Import domain vocabularies
             if "domains" in data:
-                for domain_name, _domain_data in data["domains"].items():
+                for _domain_name, _domain_data in data["domains"].items():
                     # TODO: Implement import logic
                     pass
 

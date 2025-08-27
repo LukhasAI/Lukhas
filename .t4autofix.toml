@@ -5,7 +5,7 @@
 # File patterns to include in autofix operations
 allow_patterns = [
     "lukhas/**",
-    "api/**", 
+    "api/**",
     "identity/**",
     "vivox/**",
     "consciousness/**",
@@ -16,10 +16,10 @@ allow_patterns = [
     "tools/**"
 ]
 
-# File patterns to exclude from autofix operations  
+# File patterns to exclude from autofix operations
 deny_patterns = [
     "tests/**",
-    "examples/**", 
+    "examples/**",
     "docs/**",
     "**/migrations/**",
     "**/.git/**",
@@ -32,7 +32,7 @@ deny_patterns = [
 auto_fix = [
     "UP006",  # Use PEP585 generic types
     "UP035",  # Import from typing_extensions deprecated
-    "F841",   # Local variable assigned but never used  
+    "F841",   # Local variable assigned but never used
     "E711",   # Comparison to None should be 'if cond is None'
     "E712",   # Comparison to True should be 'if cond is True'
     "W292",   # No newline at end of file
@@ -44,7 +44,7 @@ auto_fix = [
 # Rules requiring human review
 manual_review = [
     "C901",   # Function is too complex
-    "N806",   # Variable in function should be lowercase  
+    "N806",   # Variable in function should be lowercase
     "PLR0913", # Too many arguments in function definition
     "PLR2004"  # Magic value used in comparison
 ]
@@ -53,7 +53,7 @@ manual_review = [
 # Protected interface patterns that should not be auto-modified
 protected_patterns = [
     "**/api/**",
-    "**/public_api.py", 
+    "**/public_api.py",
     "**/*_interface.py",
     "**/protocol/**"
 ]
@@ -62,12 +62,12 @@ protected_patterns = [
 # Trinity Framework consciousness patterns
 preserve_consciousness = [
     "⚛️", "🧠", "🛡️",  # Trinity symbols
-    "ΛID", "Λ",         # Lambda consciousness markers  
+    "ΛID", "Λ",         # Lambda consciousness markers
     "_trace_",          # Audit trail patterns
     "_fold_"            # Memory fold patterns
 ]
 
-# Security-sensitive patterns  
+# Security-sensitive patterns
 security_sensitive = [
     "password", "secret", "key", "token",
     "auth", "credential", "cert"

@@ -321,9 +321,8 @@ class EpisodicMemoryInterface(BaseMemoryInterface):
             elif isinstance(query, dict):
                 match = True
 
-                if "event_type" in query:
-                    if content.event_type != query["event_type"]:
-                        match = False
+                if "event_type" in query and content.event_type != query["event_type"]:
+                    match = False
 
                 if "emotional_valence" in query:
                     valence_range = query["emotional_valence"]

@@ -8,7 +8,7 @@ Trinity Framework: ⚛️🧠🛡️
 #TAG:colony
 """
 
-from typing import Any, Dict
+from typing import Any
 
 
 class EthicalEvaluator:
@@ -21,7 +21,7 @@ class EthicalEvaluator:
         self.ethics_threshold = 0.15
         self.violations = []
 
-    def evaluate(self, action: str, context: Dict[str, Any]) -> Dict[str, Any]:
+    def evaluate(self, action: str, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate ethical implications of an action"""
         # Simple implementation for testing
         is_ethical = context.get("risk_score", 0) < self.ethics_threshold

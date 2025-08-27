@@ -6,7 +6,7 @@ TTL warnings, and enumeration-safe content.
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, Optional
+from typing import Optional
 
 from .engine import EmailTemplate, LanguageCode, TemplateEngine
 
@@ -139,7 +139,7 @@ class GuardianTemplates:
 
         return template
 
-    def validate_guardian_urls(self, approve_url: str, decline_url: str) -> Dict[str, bool]:
+    def validate_guardian_urls(self, approve_url: str, decline_url: str) -> dict[str, bool]:
         """
         Validate guardian action URLs for security.
 

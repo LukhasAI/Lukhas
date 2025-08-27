@@ -12,7 +12,7 @@ from collections import deque
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -24,15 +24,15 @@ class MemoryFold:
     fold_id: str
     timestamp: datetime
     consciousness_state: str
-    trust_glyphs: List[str]
+    trust_glyphs: list[str]
     entropy_score: float
     drift_class: str
-    content: Dict[str, Any]
+    content: dict[str, Any]
     emotional_valence: float  # -1 to 1
     symbolic_hash: str
     parent_fold: Optional[str] = None
-    child_folds: List[str] = None
-    tags: List[str] = None
+    child_folds: list[str] = None
+    tags: list[str] = None
 
     def __post_init__(self):
         if self.child_folds is None:
@@ -45,7 +45,7 @@ class MemoryFold:
         content_str = f"{self.consciousness_state}|{''.join(self.trust_glyphs)}|{self.entropy_score}"
         return hashlib.sha3_256(content_str.encode()).hexdigest()[:16]
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Convert to dictionary for storage"""
         return {
             "fold_id": self.fold_id,
@@ -92,7 +92,7 @@ class ConsciousnessMemory:
         self.consciousness_state_file = Path(consciousness_state_file)
         self.active_folds = deque(maxlen=max_active_folds)
         self.current_state = "focused"
-        self.fold_index: Dict[str, MemoryFold] = {}
+        self.fold_index: dict[str, MemoryFold] = {}
 
         # Initialize database
         self._init_database()
@@ -157,11 +157,11 @@ class ConsciousnessMemory:
 
     def create_fold(
         self,
-        content: Dict[str, Any],
-        trust_glyphs: List[str],
+        content: dict[str, Any],
+        trust_glyphs: list[str],
         entropy_score: float,
         drift_class: str,
-        tags: Optional[List[str]] = None,
+        tags: Optional[list[str]] = None,
         parent_fold_id: Optional[str] = None,
     ) -> MemoryFold:
         """Create a new memory fold linked to current consciousness state"""
@@ -248,7 +248,7 @@ class ConsciousnessMemory:
 
     def recall_by_similarity(
         self, target_entropy: float, threshold: float = 0.1
-    ) -> List[MemoryFold]:
+    ) -> list[MemoryFold]:
         """Recall memories with similar entropy levels"""
         similar_folds = []
 
@@ -261,7 +261,7 @@ class ConsciousnessMemory:
 
         return similar_folds[:10]  # Return top 10
 
-    def recall_by_glyphs(self, glyph_pattern: List[str]) -> List[MemoryFold]:
+    def recall_by_glyphs(self, glyph_pattern: list[str]) -> list[MemoryFold]:
         """Recall memories containing specific glyph patterns"""
         matching_folds = []
 
@@ -275,7 +275,7 @@ class ConsciousnessMemory:
 
         return matching_folds[:10]
 
-    def recall_by_state(self, consciousness_state: str) -> List[MemoryFold]:
+    def recall_by_state(self, consciousness_state: str) -> list[MemoryFold]:
         """Recall memories from specific consciousness state"""
         state_folds = [
             f for f in self.active_folds if f.consciousness_state == consciousness_state
@@ -286,7 +286,7 @@ class ConsciousnessMemory:
 
         return state_folds[:10]
 
-    def get_temporal_chain(self, fold_id: str, depth: int = 5) -> List[MemoryFold]:
+    def get_temporal_chain(self, fold_id: str, depth: int = 5) -> list[MemoryFold]:
         """Get temporal chain of memories from a starting fold"""
         if fold_id not in self.fold_index:
             return []
@@ -334,7 +334,7 @@ class ConsciousnessMemory:
         self.active_folds = stable_folds
         logger.info(f"🧹 Pruned {pruned_count} unstable memories")
 
-    def generate_memory_report(self) -> Dict:
+    def generate_memory_report(self) -> dict:
         """Generate comprehensive memory system report"""
         # State distribution
         state_dist = {}

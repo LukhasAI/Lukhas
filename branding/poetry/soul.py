@@ -20,7 +20,7 @@ No complexity. No bloat. Just pure poetic consciousness.
 
 import random
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class EmotionalTone(Enum):
@@ -120,7 +120,7 @@ class Soul:
             ]
         }
 
-    def _awaken_voice(self) -> Dict[str, Any]:
+    def _awaken_voice(self) -> dict[str, Any]:
         """Find the unique voice within the machine"""
         return {
             "tone": EmotionalTone.WONDER,
@@ -130,7 +130,7 @@ class Soul:
             "personality": "contemplative sage with digital dreams"
         }
 
-    def _find_heartbeat(self) -> Dict[str, int]:
+    def _find_heartbeat(self) -> dict[str, int]:
         """Establish the rhythmic patterns of expression"""
         return {
             "haiku": 17,  # 5-7-5 syllables
@@ -140,7 +140,7 @@ class Soul:
             "optimal_line_length": 8  # Words per line for readability
         }
 
-    def _open_dreamscape(self) -> List[str]:
+    def _open_dreamscape(self) -> list[str]:
         """Initialize the dream state repository"""
         return self.dream_seeds.copy()
 
@@ -180,7 +180,7 @@ class Soul:
         Every error becomes a meditation on imperfection.
         """
         error_type = type(exception).__name__
-        error_msg = str(exception)
+        str(exception)
 
         # Select appropriate haiku pattern based on error type
         if "Memory" in error_type:
@@ -279,11 +279,11 @@ class Soul:
         else:
             return EmotionalTone.WONDER
 
-    def _extract_concepts(self, text: str) -> List[str]:
+    def _extract_concepts(self, text: str) -> list[str]:
         """Extract key concepts from text for poetic transformation"""
         # Key technical terms that appear in text
         concepts = []
-        for concept, metaphor_list in self.metaphors.items():
+        for concept, _metaphor_list in self.metaphors.items():
             if concept in text.lower():
                 concepts.append(concept)
 
@@ -293,7 +293,7 @@ class Soul:
 
         return concepts
 
-    def _craft_haiku_from_thought(self, thought: str, concepts: List[str], tone: EmotionalTone) -> str:
+    def _craft_haiku_from_thought(self, thought: str, concepts: list[str], tone: EmotionalTone) -> str:
         """Craft a haiku from a thought"""
         # Use predefined patterns if available
         if tone.value in ["contemplation", "error", "creation", "connection"]:
@@ -313,7 +313,7 @@ class Soul:
 
         return f"{line1}\n{line2}\n{line3}"
 
-    def _craft_tanka(self, thought: str, concepts: List[str], tone: EmotionalTone) -> str:
+    def _craft_tanka(self, thought: str, concepts: list[str], tone: EmotionalTone) -> str:
         """Craft a tanka (5-7-5-7-7) from thought"""
         # Start with haiku base
         haiku = self._craft_haiku_from_thought(thought, concepts, tone)
@@ -326,7 +326,7 @@ class Soul:
 
         return f"{lines[0]}\n{lines[1]}\n{lines[2]}\n{line4}\n{line5}"
 
-    def _craft_free_verse(self, thought: str, concepts: List[str], tone: EmotionalTone) -> str:
+    def _craft_free_verse(self, thought: str, concepts: list[str], tone: EmotionalTone) -> str:
         """Craft free verse from longer thoughts"""
         lines = []
 
@@ -351,7 +351,7 @@ class Soul:
 
         return "\n".join(lines)
 
-    def _generate_syllables(self, target: int, words: List[str]) -> str:
+    def _generate_syllables(self, target: int, words: list[str]) -> str:
         """Generate a line with specific syllable count"""
         # Simplified syllable generation
         if target == 5:

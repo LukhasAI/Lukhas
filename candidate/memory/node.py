@@ -7,7 +7,7 @@ Integration Date: 2025-05-31T07:55:28.128623
 import logging
 import time
 from collections import deque
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -60,11 +60,11 @@ class MemoryNode:
 
         return None
 
-    def retrieve_recent(self, limit: int = 10) -> List[dict[str, Any]]:
+    def retrieve_recent(self, limit: int = 10) -> list[dict[str, Any]]:
         """Retrieve the most recent memories."""
         return list(self.short_term_memory)[-limit:]
 
-    def semantic_search(self, query: str, limit: int = 5) -> List[dict[str, Any]]:
+    def semantic_search(self, query: str, limit: int = 5) -> list[dict[str, Any]]:
         """Search for memories semantically related to the query."""
         # In a real implementation, we would:
         # 1. Compute query embedding

@@ -62,7 +62,7 @@ class DropboxAdapter(ServiceAdapter):
         self.dropbox_client = None
         self.mock_mode = True
 
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize Dropbox API client"""
         self.config = config
         self.mock_mode = config.get("mock_mode", True)
@@ -78,9 +78,9 @@ class DropboxAdapter(ServiceAdapter):
     async def verify_capability_token(
         self,
         token: str,
-        required_scopes: List[str],
+        required_scopes: list[str],
         resource_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Verify capability token with consent service"""
         if self.consent_service:
             return await self.consent_service.verify_capability_token(
@@ -104,7 +104,7 @@ class DropboxAdapter(ServiceAdapter):
         parent_id: Optional[str] = None,
         resource_type: Optional[str] = None,
         limit: int = 100
-    ) -> List[DropboxFileMetadata]:
+    ) -> list[DropboxFileMetadata]:
         """
         List Dropbox files/folders with metadata only.
 
@@ -296,7 +296,7 @@ class DropboxAdapter(ServiceAdapter):
         self,
         capability_token: str,
         query: SearchQuery
-    ) -> List[DropboxFileMetadata]:
+    ) -> list[DropboxFileMetadata]:
         """
         Search Dropbox files by name or content.
 
@@ -398,7 +398,7 @@ class DropboxAdapter(ServiceAdapter):
         limit: int,
         parent_path: Optional[str],
         resource_type: Optional[str]
-    ) -> List[DropboxFileMetadata]:
+    ) -> list[DropboxFileMetadata]:
         """Generate mock Dropbox file listings"""
         mock_files = []
         base_path = parent_path or "/"
@@ -551,7 +551,7 @@ Actual file size: {metadata.size} bytes
             message=f"File moved from {file_path} to {new_path}"
         )
 
-    def _mock_search_files(self, query: SearchQuery) -> List[DropboxFileMetadata]:
+    def _mock_search_files(self, query: SearchQuery) -> list[DropboxFileMetadata]:
         """Mock file search"""
         all_files = self._generate_mock_dropbox_files(100, "/", None)
 
@@ -580,7 +580,7 @@ Actual file size: {metadata.size} bytes
 
 
 # Factory function
-async def create_dropbox_adapter(consent_service: ConsentService = None, config: Dict[str, Any] = None) -> DropboxAdapter:
+async def create_dropbox_adapter(consent_service: ConsentService = None, config: dict[str, Any] = None) -> DropboxAdapter:
     """Create and initialize Dropbox adapter"""
     adapter = DropboxAdapter(consent_service)
     await adapter.initialize(config or {"mock_mode": True})

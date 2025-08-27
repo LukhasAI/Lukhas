@@ -19,7 +19,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from core.common import get_logger
 from core.common.exceptions import LukhasError, ValidationError
@@ -50,13 +50,13 @@ class DecisionTrace:
     timestamp: datetime
     module: str
     decision_type: str
-    input_data: Dict[str, Any]
-    reasoning_steps: List[Dict[str, Any]]
-    output: Dict[str, Any]
+    input_data: dict[str, Any]
+    reasoning_steps: list[dict[str, Any]]
+    output: dict[str, Any]
     confidence: float
-    alternatives_considered: List[Dict[str, Any]]
-    feedback_received: List[Dict[str, Any]] = field(default_factory=list)
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
+    alternatives_considered: list[dict[str, Any]]
+    feedback_received: list[dict[str, Any]] = field(default_factory=list)
+    performance_metrics: dict[str, float] = field(default_factory=dict)
 
     def get_explanation(self) -> str:
         """Generate human-readable explanation"""
@@ -117,7 +117,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
     combining decision explanations with user feedback.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize interpretability dashboard"""
         self.config = config or {}
         self.operational = False
@@ -130,12 +130,12 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         self.explainability_framework = None
 
         # Data storage
-        self.decision_traces: Dict[str, DecisionTrace] = {}
+        self.decision_traces: dict[str, DecisionTrace] = {}
         # Backward-compatible alias expected by some tests
-        self.decisions: Dict[str, Dict[str, Any]] = {}
+        self.decisions: dict[str, dict[str, Any]] = {}
         self.system_metrics: deque = deque(maxlen=1000)  # Keep last 1000 metrics
-        self.module_health: Dict[str, ModuleHealth] = {}
-        self.active_sessions: Dict[str, Dict[str, Any]] = {}
+        self.module_health: dict[str, ModuleHealth] = {}
+        self.active_sessions: dict[str, dict[str, Any]] = {}
 
         # Real-time data streams
         self.decision_stream: deque = deque(maxlen=100)
@@ -304,11 +304,11 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         decision_id: str,
         module: str,
         decision_type: str,
-        input_data: Dict[str, Any],
-        reasoning_steps: List[Dict[str, Any]],
-        output: Dict[str, Any],
+        input_data: dict[str, Any],
+        reasoning_steps: list[dict[str, Any]],
+        output: dict[str, Any],
         confidence: float,
-        alternatives: Optional[List[Dict[str, Any]]] = None,
+        alternatives: Optional[list[dict[str, Any]]] = None,
     ) -> None:
         """
         Track a decision for interpretability.
@@ -365,7 +365,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         logger.debug(f"Tracked decision {decision_id} from {module}")
 
     async def integrate_feedback(
-        self, decision_id: str, feedback_data: Dict[str, Any]
+        self, decision_id: str, feedback_data: dict[str, Any]
     ) -> None:
         """
         Integrate user feedback with decision trace.
@@ -402,7 +402,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
 
     async def get_decision_explanation(
         self, decision_id: str, include_feedback: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get comprehensive explanation for a decision.
 
@@ -464,7 +464,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
 
         return explanation
 
-    def _summarize_input(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _summarize_input(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Create summary of input data for display"""
         summary = {}
 
@@ -480,7 +480,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
 
         return summary
 
-    async def get_dashboard_view(self, view: DashboardView) -> Dict[str, Any]:
+    async def get_dashboard_view(self, view: DashboardView) -> dict[str, Any]:
         """
         Get data for specific dashboard view.
 
@@ -511,7 +511,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         else:
             raise ValidationError(f"Unknown view: {view}")
 
-    async def _get_overview_data(self) -> Dict[str, Any]:
+    async def _get_overview_data(self) -> dict[str, Any]:
         """Get overview dashboard data"""
         recent_metrics = list(self.system_metrics)[-1] if self.system_metrics else None
 
@@ -548,7 +548,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             "alerts": list(self.alert_stream)[-5:],
         }
 
-    async def _get_decisions_data(self) -> Dict[str, Any]:
+    async def _get_decisions_data(self) -> dict[str, Any]:
         """Get decisions view data"""
         decisions_by_module = defaultdict(list)
         decisions_by_type = defaultdict(list)
@@ -592,7 +592,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             ],
         }
 
-    async def _get_feedback_data(self) -> Dict[str, Any]:
+    async def _get_feedback_data(self) -> dict[str, Any]:
         """Get feedback view data"""
         if not self.feedback_system:
             return {"error": "Feedback system not available"}
@@ -628,7 +628,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             "trends": self._analyze_feedback_trends(),
         }
 
-    async def _get_consciousness_data(self) -> Dict[str, Any]:
+    async def _get_consciousness_data(self) -> dict[str, Any]:
         """Get consciousness view data"""
         if not self.consciousness_service:
             return {"error": "Consciousness service not available"}
@@ -666,7 +666,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             logger.error(f"Error getting consciousness data: {e}")
             return {"error": str(e)}
 
-    async def _get_memory_data(self) -> Dict[str, Any]:
+    async def _get_memory_data(self) -> dict[str, Any]:
         """Get memory view data"""
         if not self.memory_service:
             return {"error": "Memory service not available"}
@@ -698,7 +698,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             logger.error(f"Error getting memory data: {e}")
             return {"error": str(e)}
 
-    async def _get_performance_data(self) -> Dict[str, Any]:
+    async def _get_performance_data(self) -> dict[str, Any]:
         """Get performance view data"""
         metrics_list = list(self.system_metrics)
 
@@ -729,7 +729,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             },
         }
 
-    async def _get_audit_trail_data(self) -> Dict[str, Any]:
+    async def _get_audit_trail_data(self) -> dict[str, Any]:
         """Get audit trail view data"""
         if not self.audit_service:
             return {"error": "Audit service not available"}
@@ -764,7 +764,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             logger.error(f"Error getting audit trail: {e}")
             return {"error": str(e)}
 
-    async def _get_health_data(self) -> Dict[str, Any]:
+    async def _get_health_data(self) -> dict[str, Any]:
         """Get health view data"""
         return {
             "overall_health": self._calculate_overall_health(),
@@ -864,8 +864,8 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         return sum(ratings) / len(ratings) / 5.0  # Normalize to 0-1
 
     def _aggregate_sentiments(
-        self, feedbacks: List[Dict[str, Any]]
-    ) -> Dict[str, float]:
+        self, feedbacks: list[dict[str, Any]]
+    ) -> dict[str, float]:
         """Aggregate sentiments from multiple feedbacks"""
         aggregated = defaultdict(float)
         count = 0
@@ -881,7 +881,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
 
         return {}
 
-    def _analyze_feedback_trends(self) -> Dict[str, Any]:
+    def _analyze_feedback_trends(self) -> dict[str, Any]:
         """Analyze trends in feedback"""
         if not self.feedback_stream:
             return {"trend": "insufficient_data"}
@@ -916,7 +916,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             "sample_size": len(recent_feedback),
         }
 
-    def _get_awareness_history(self) -> List[Dict[str, Any]]:
+    def _get_awareness_history(self) -> list[dict[str, Any]]:
         """Get historical awareness data"""
         # Simplified - in production, track actual history
         return [
@@ -928,8 +928,8 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         ]
 
     def _analyze_consciousness_patterns(
-        self, decisions: List[DecisionTrace]
-    ) -> Dict[str, Any]:
+        self, decisions: list[DecisionTrace]
+    ) -> dict[str, Any]:
         """Analyze patterns in consciousness decisions"""
         if not decisions:
             return {"patterns": "insufficient_data"}
@@ -949,7 +949,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             "confidence_trend": "stable",  # Simplified
         }
 
-    def _analyze_memory_trends(self) -> Dict[str, Any]:
+    def _analyze_memory_trends(self) -> dict[str, Any]:
         """Analyze memory usage trends"""
         # Simplified - in production, track actual memory metrics
         return {
@@ -958,7 +958,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
             "consolidation_rate": "normal",
         }
 
-    def _generate_health_recommendations(self) -> List[str]:
+    def _generate_health_recommendations(self) -> list[str]:
         """Generate health improvement recommendations"""
         recommendations = []
 
@@ -1016,7 +1016,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         alert_type: str,
         severity: str,
         message: str,
-        details: Optional[Dict[str, Any]] = None,
+        details: Optional[dict[str, Any]] = None,
     ):
         """Create system alert"""
         alert = {
@@ -1036,7 +1036,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
 
     # Required interface methods
 
-    async def process(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    async def process(self, data: dict[str, Any]) -> dict[str, Any]:
         """Process dashboard request"""
         action = data.get("action", "get_view")
 
@@ -1077,7 +1077,7 @@ class UnifiedInterpretabilityDashboard(CoreInterface):
         """Handle GLYPH communication"""
         return {"operational": self.operational, "metrics": self.dashboard_metrics}
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get dashboard status"""
         return {
             "operational": self.operational,

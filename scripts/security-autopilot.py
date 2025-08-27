@@ -16,7 +16,7 @@ import time
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 # Configure logging
 logging.basicConfig(
@@ -43,9 +43,9 @@ class SecurityReport:
     """Security scan report"""
 
     timestamp: datetime
-    vulnerabilities: List[Vulnerability]
+    vulnerabilities: list[Vulnerability]
     scan_duration: float
-    scanners_used: List[str]
+    scanners_used: list[str]
     total_packages_scanned: int
 
     def to_json(self) -> str:
@@ -80,7 +80,7 @@ class SecurityAutopilot:
             "semgrep": self.scan_with_semgrep,
         }
 
-    def load_config(self) -> Dict[str, Any]:
+    def load_config(self) -> dict[str, Any]:
         """Load or create configuration"""
         default_config = {
             "auto_fix": True,
@@ -108,7 +108,7 @@ class SecurityAutopilot:
 
         return default_config
 
-    def run_command(self, cmd: List[str], capture: bool = True) -> Tuple[int, str, str]:
+    def run_command(self, cmd: list[str], capture: bool = True) -> tuple[int, str, str]:
         """Run a shell command"""
         try:
             if capture:
@@ -123,7 +123,7 @@ class SecurityAutopilot:
             logger.error(f"Command failed: {e}")
             return 1, "", str(e)
 
-    async def scan_with_safety(self) -> List[Vulnerability]:
+    async def scan_with_safety(self) -> list[Vulnerability]:
         """Scan with safety"""
         logger.info("🔍 Scanning with Safety...")
 
@@ -152,7 +152,7 @@ class SecurityAutopilot:
 
         return vulnerabilities
 
-    async def scan_with_pip_audit(self) -> List[Vulnerability]:
+    async def scan_with_pip_audit(self) -> list[Vulnerability]:
         """Scan with pip-audit"""
         logger.info("🔍 Scanning with pip-audit...")
 
@@ -183,7 +183,7 @@ class SecurityAutopilot:
 
         return vulnerabilities
 
-    async def scan_with_bandit(self) -> List[Vulnerability]:
+    async def scan_with_bandit(self) -> list[Vulnerability]:
         """Scan code with Bandit for security issues"""
         logger.info("🔍 Scanning code with Bandit...")
 
@@ -204,7 +204,7 @@ class SecurityAutopilot:
 
         return []  # Bandit doesn't report package vulnerabilities
 
-    async def scan_with_semgrep(self) -> List[Vulnerability]:
+    async def scan_with_semgrep(self) -> list[Vulnerability]:
         """Scan with Semgrep for security patterns"""
         logger.info("🔍 Scanning with Semgrep...")
 
@@ -304,7 +304,7 @@ class SecurityAutopilot:
 
         return None
 
-    def fix_vulnerabilities(self, report: SecurityReport) -> Tuple[bool, List[str]]:
+    def fix_vulnerabilities(self, report: SecurityReport) -> tuple[bool, list[str]]:
         """Attempt to fix vulnerabilities"""
         if not report.vulnerabilities:
             logger.info("✅ No vulnerabilities to fix")
@@ -405,7 +405,7 @@ class SecurityAutopilot:
             # Don't fail completely if some tests fail
             return True
 
-    def create_commit(self, fixed_packages: List[str]) -> bool:
+    def create_commit(self, fixed_packages: list[str]) -> bool:
         """Create a git commit with fixes"""
         if not self.config["auto_commit"]:
             return False
@@ -442,7 +442,7 @@ Automated security fix by LUKHAS Security Autopilot
         return False
 
     def send_notification(
-        self, report: SecurityReport, fixed: bool, fixed_packages: List[str]
+        self, report: SecurityReport, fixed: bool, fixed_packages: list[str]
     ):
         """Send notification about security status"""
         if not self.config["notification_webhook"]:
@@ -535,7 +535,7 @@ Automated security fix by LUKHAS Security Autopilot
                     break
                 await asyncio.sleep(60)  # Wait a minute before retry
 
-    def status(self) -> Dict[str, Any]:
+    def status(self) -> dict[str, Any]:
         """Get current security status"""
         # Find latest report
         reports = sorted(self.reports_dir.glob("security-report-*.json"))

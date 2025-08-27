@@ -18,7 +18,7 @@ Agent 10 Advanced Systems Implementation
 """
 
 import asyncio
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import priority emotion components with fallbacks
 try:
@@ -54,8 +54,8 @@ class EmotionHub:
     """Central hub for emotion system coordination"""
 
     def __init__(self):
-        self.services: Dict[str, Any] = {}
-        self.emotional_state: Dict[str, Any] = {}
+        self.services: dict[str, Any] = {}
+        self.emotional_state: dict[str, Any] = {}
         self.initialized = False
 
         # Initialize core emotion services
@@ -165,8 +165,8 @@ class EmotionHub:
             logger.debug("emotion_integration_connection_failed", error=str(e))
 
     async def process_emotional_input(
-        self, input_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, input_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Process emotional input and update emotional state"""
         try:
             results = {}
@@ -199,8 +199,8 @@ class EmotionHub:
             return {"error": str(e)}
 
     async def _analyze_affect_stagnation(
-        self, input_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, input_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Analyze input for affect stagnation patterns"""
         try:
             detector = self.services["affect_detection"]
@@ -211,7 +211,7 @@ class EmotionHub:
         except Exception as e:
             return {"error": str(e)}
 
-    async def _track_emotions(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _track_emotions(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Track emotional patterns and recurrence"""
         try:
             tracker = self.services["emotion_tracking"]
@@ -222,7 +222,7 @@ class EmotionHub:
         except Exception as e:
             return {"error": str(e)}
 
-    async def _regulate_mood(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _regulate_mood(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Apply mood regulation algorithms"""
         try:
             regulator = self.services["mood_regulation"]
@@ -233,7 +233,7 @@ class EmotionHub:
         except Exception as e:
             return {"error": str(e)}
 
-    def _update_emotional_state(self, analysis_results: Dict[str, Any]) -> None:
+    def _update_emotional_state(self, analysis_results: dict[str, Any]) -> None:
         """Update the current emotional state based on analysis"""
         try:
             # Extract emotional indicators from analysis
@@ -268,11 +268,11 @@ class EmotionHub:
         """Get a registered emotion service"""
         return self.services.get(name)
 
-    def get_emotional_state(self) -> Dict[str, Any]:
+    def get_emotional_state(self) -> dict[str, Any]:
         """Get the current emotional state"""
         return self.emotional_state.copy()
 
-    def list_services(self) -> List[str]:
+    def list_services(self) -> list[str]:
         """List all registered emotion services"""
         return list(self.services.keys())
 

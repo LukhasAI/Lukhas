@@ -7,7 +7,7 @@ emotional expression, and vocal communication.
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from ..core import VoiceEmotion, VoiceProvider
 
@@ -19,8 +19,8 @@ class Voicesymbol:
     symbol: str
     meaning: str
     emotional_weight: float
-    vocal_properties: Dict[str, Any]
-    usage_contexts: List[str]
+    vocal_properties: dict[str, Any]
+    usage_contexts: list[str]
 
 
 class Voicesymbolicvocabulary:
@@ -33,7 +33,7 @@ class Voicesymbolicvocabulary:
         self.quality_symbols = self._init_quality_symbols()
         self.expression_symbols = self._init_expression_symbols()
 
-    def _init_synthesis_symbols(self) -> Dict[str, VoiceSymbol]:
+    def _init_synthesis_symbols(self) -> dict[str, VoiceSymbol]:
         """Initialize voice synthesis symbolic elements."""
         return {
             "🎤": VoiceSymbol(
@@ -80,7 +80,7 @@ class Voicesymbolicvocabulary:
             ),
         }
 
-    def _init_emotion_symbols(self) -> Dict[str, VoiceSymbol]:
+    def _init_emotion_symbols(self) -> dict[str, VoiceSymbol]:
         """Initialize emotional voice symbolic elements."""
         return {
             "😊": VoiceSymbol(
@@ -173,7 +173,7 @@ class Voicesymbolicvocabulary:
             ),
         }
 
-    def _init_provider_symbols(self) -> Dict[str, VoiceSymbol]:
+    def _init_provider_symbols(self) -> dict[str, VoiceSymbol]:
         """Initialize voice provider symbolic elements."""
         return {
             "🎭": VoiceSymbol(
@@ -222,7 +222,7 @@ class Voicesymbolicvocabulary:
             ),
         }
 
-    def _init_quality_symbols(self) -> Dict[str, VoiceSymbol]:
+    def _init_quality_symbols(self) -> dict[str, VoiceSymbol]:
         """Initialize voice quality symbolic elements."""
         return {
             "💎": VoiceSymbol(
@@ -271,7 +271,7 @@ class Voicesymbolicvocabulary:
             ),
         }
 
-    def _init_expression_symbols(self) -> Dict[str, VoiceSymbol]:
+    def _init_expression_symbols(self) -> dict[str, VoiceSymbol]:
         """Initialize vocal expression symbolic elements."""
         return {
             "📚": VoiceSymbol(
@@ -382,7 +382,7 @@ class Voicesymbolicvocabulary:
 
         return " ".join(symbols)
 
-    def get_all_symbols(self) -> Dict[str, VoiceSymbol]:
+    def get_all_symbols(self) -> dict[str, VoiceSymbol]:
         """Get all voice symbolic elements."""
         all_symbols = {}
         all_symbols.update(self.synthesis_symbols)
@@ -392,7 +392,7 @@ class Voicesymbolicvocabulary:
         all_symbols.update(self.expression_symbols)
         return all_symbols
 
-    def get_context_symbols(self, context: str) -> List[str]:
+    def get_context_symbols(self, context: str) -> list[str]:
         """Get symbols relevant to a specific context."""
         relevant_symbols = []
         all_symbols = self.get_all_symbols()

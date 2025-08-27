@@ -10,7 +10,7 @@ import os
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 try:
     import sentry_sdk
@@ -135,7 +135,7 @@ class T4SentryMonitoring:
             }
         )
 
-    def _sanitize_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def _sanitize_data(self, data: dict[str, Any]) -> dict[str, Any]:
         """
         Sanitize sensitive data for T4 enterprise privacy
         Implements Constitutional AI privacy principles
@@ -240,7 +240,7 @@ class T4SentryMonitoring:
             logger.error(f"Failed to track T4 performance metrics: {e}")
             return False
 
-    def capture_sla_violation(self, violation_type: str, context: Dict[str, Any]) -> None:
+    def capture_sla_violation(self, violation_type: str, context: dict[str, Any]) -> None:
         """
         Capture T4 Enterprise SLA violations
 
@@ -279,7 +279,7 @@ class T4SentryMonitoring:
         except Exception as e:
             logger.error(f"Failed to capture SLA violation: {e}")
 
-    def capture_constitutional_ai_event(self, event_type: str, drift_score: float, context: Dict[str, Any]) -> None:
+    def capture_constitutional_ai_event(self, event_type: str, drift_score: float, context: dict[str, Any]) -> None:
         """
         Capture Constitutional AI safety events (Dario Amodei standards)
 
@@ -331,7 +331,7 @@ class T4SentryMonitoring:
             logger.error(f"Failed to capture Constitutional AI event: {e}")
 
     @contextmanager
-    def track_enterprise_operation(self, operation_name: str, user_context: Optional[Dict[str, Any]] = None):
+    def track_enterprise_operation(self, operation_name: str, user_context: Optional[dict[str, Any]] = None):
         """
         Context manager for tracking T4 enterprise operations
 
@@ -374,7 +374,7 @@ class T4SentryMonitoring:
                 sentry_sdk.capture_exception(e)
                 raise
 
-    def create_enterprise_alerts(self) -> List[Dict[str, Any]]:
+    def create_enterprise_alerts(self) -> list[dict[str, Any]]:
         """
         Configure enterprise alert rules in Sentry
 
@@ -443,7 +443,7 @@ class T4SentryMonitoring:
         logger.info(f"Configured {len(alerts)} T4 enterprise alert rules")
         return alerts
 
-    def get_enterprise_dashboard_data(self) -> Dict[str, Any]:
+    def get_enterprise_dashboard_data(self) -> dict[str, Any]:
         """
         Get enterprise dashboard data for T4 monitoring
 

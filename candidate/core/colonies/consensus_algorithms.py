@@ -21,7 +21,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 import numpy as np
 
@@ -56,8 +56,8 @@ class AdvancedConsensusMethod(Enum):
 class QIVote:
     """Quantum superposition vote"""
     agent_id: str
-    amplitudes: Dict[VoteType, complex]  # Quantum amplitudes for each vote type
-    entangled_with: List[str] = field(default_factory=list)  # Entangled agent IDs
+    amplitudes: dict[VoteType, complex]  # Quantum amplitudes for each vote type
+    entangled_with: list[str] = field(default_factory=list)  # Entangled agent IDs
     collapse_time: Optional[float] = None
     measurement_basis: str = "computational"
 
@@ -105,10 +105,10 @@ class SwarmParticle:
 class GeneticVote:
     """Vote with genetic evolution properties"""
     agent_id: str
-    genome: List[float]  # Genetic encoding of vote
+    genome: list[float]  # Genetic encoding of vote
     fitness: float = 0.0
     generation: int = 0
-    mutations: List[str] = field(default_factory=list)
+    mutations: list[str] = field(default_factory=list)
 
     def mutate(self, mutation_rate: float = 0.1):
         """Apply genetic mutation"""
@@ -129,31 +129,31 @@ class AdvancedColonyConsensus(ColonyConsensus):
         super().__init__(colony_id, **kwargs)
 
         # Quantum consensus state
-        self.qi_votes: Dict[str, List[QIVote]] = defaultdict(list)
-        self.entanglement_graph: Dict[str, Set[str]] = defaultdict(set)
+        self.qi_votes: dict[str, list[QIVote]] = defaultdict(list)
+        self.entanglement_graph: dict[str, set[str]] = defaultdict(set)
 
         # Swarm intelligence state
-        self.swarm_particles: Dict[str, SwarmParticle] = {}
+        self.swarm_particles: dict[str, SwarmParticle] = {}
         self.global_best_position: Optional[np.ndarray] = None
         self.global_best_score: float = float('-inf')
 
         # Genetic evolution state
-        self.genetic_population: Dict[str, List[GeneticVote]] = defaultdict(list)
-        self.evolution_history: List[Dict[str, Any]] = []
+        self.genetic_population: dict[str, list[GeneticVote]] = defaultdict(list)
+        self.evolution_history: list[dict[str, Any]] = []
 
         # Neural consensus state
         self.neural_weights: np.ndarray = None
         self.neural_bias: np.ndarray = None
 
         # Liquid democracy delegations
-        self.delegations: Dict[str, str] = {}  # agent_id -> delegate_id
+        self.delegations: dict[str, str] = {}  # agent_id -> delegate_id
         self.delegation_depth_limit = 5
 
         # Conviction voting state
-        self.conviction_scores: Dict[str, Dict[str, float]] = defaultdict(dict)
+        self.conviction_scores: dict[str, dict[str, float]] = defaultdict(dict)
 
         # Reputation scores
-        self.reputation_scores: Dict[str, float] = defaultdict(lambda: 1.0)
+        self.reputation_scores: dict[str, float] = defaultdict(lambda: 1.0)
         self.reputation_history: deque = deque(maxlen=100)
 
         # Learning parameters
@@ -164,8 +164,8 @@ class AdvancedColonyConsensus(ColonyConsensus):
         self,
         proposal_id: str,
         agent_id: str,
-        amplitudes: Dict[VoteType, complex],
-        entangle_with: Optional[List[str]] = None
+        amplitudes: dict[VoteType, complex],
+        entangle_with: Optional[list[str]] = None
     ) -> bool:
         """
         Cast a quantum superposition vote
@@ -195,7 +195,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
     async def _quantum_consensus(
         self,
         proposal: ConsensusProposal,
-        qi_votes: List[QIVote]
+        qi_votes: list[QIVote]
     ) -> ConsensusOutcome:
         """
         Quantum superposition consensus mechanism
@@ -253,7 +253,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
         return outcome
 
-    def _find_entangled_cluster(self, agent_id: str) -> Set[str]:
+    def _find_entangled_cluster(self, agent_id: str) -> set[str]:
         """Find all agents entangled with given agent"""
         cluster = set()
         to_visit = {agent_id}
@@ -266,7 +266,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
         return cluster
 
-    def _get_entanglement_clusters(self) -> List[Set[str]]:
+    def _get_entanglement_clusters(self) -> list[set[str]]:
         """Get all entanglement clusters"""
         clusters = []
         visited = set()
@@ -279,7 +279,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
         return clusters
 
-    def _collapse_quantum_state(self, amplitudes: Dict[VoteType, complex]) -> VoteType:
+    def _collapse_quantum_state(self, amplitudes: dict[VoteType, complex]) -> VoteType:
         """Collapse quantum state to classical vote"""
         probabilities = {}
         total_prob = 0
@@ -308,7 +308,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
     async def _swarm_intelligence_consensus(
         self,
         proposal: ConsensusProposal,
-        votes: List[AgentVote]
+        votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Swarm intelligence consensus using particle swarm optimization
@@ -338,7 +338,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
         # Run swarm optimization
         max_iterations = 50
-        for iteration in range(max_iterations):
+        for _iteration in range(max_iterations):
             for particle in self.swarm_particles.values():
                 # Update velocity
                 cognitive_component = 2.0 * random.random() * (particle.personal_best - particle.position)
@@ -413,7 +413,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
     async def _genetic_evolution_consensus(
         self,
         proposal: ConsensusProposal,
-        votes: List[AgentVote]
+        votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Genetic evolution consensus mechanism
@@ -489,7 +489,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
         return outcome
 
-    def _evaluate_genome(self, genome: List[float], votes: List[AgentVote]) -> float:
+    def _evaluate_genome(self, genome: list[float], votes: list[AgentVote]) -> float:
         """Evaluate fitness of a genetic genome"""
         # Convert genome to vote weights
         weights = np.array(genome[:3])  # First 3 genes for vote types
@@ -510,7 +510,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
 
         return agreement_score + 0.1 * diversity
 
-    def _genome_to_vote(self, genome: List[float]) -> VoteType:
+    def _genome_to_vote(self, genome: list[float]) -> VoteType:
         """Convert genome to vote decision"""
         weights = np.array(genome[:3])
         weights = np.exp(weights) / np.sum(np.exp(weights))
@@ -526,7 +526,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
     async def _liquid_democracy_consensus(
         self,
         proposal: ConsensusProposal,
-        votes: List[AgentVote]
+        votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Liquid democracy with transitive delegations
@@ -577,7 +577,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
     async def _conviction_voting_consensus(
         self,
         proposal: ConsensusProposal,
-        votes: List[AgentVote]
+        votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Conviction voting where votes gain strength over time
@@ -635,7 +635,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
     async def _quadratic_voting_consensus(
         self,
         proposal: ConsensusProposal,
-        votes: List[AgentVote]
+        votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Quadratic voting where cost increases quadratically with vote strength
@@ -678,7 +678,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
     async def _holographic_consensus(
         self,
         proposal: ConsensusProposal,
-        votes: List[AgentVote]
+        votes: list[AgentVote]
     ) -> ConsensusOutcome:
         """
         Holographic consensus with fractal decision structure
@@ -779,7 +779,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
     async def multi_stage_consensus(
         self,
         proposal: ConsensusProposal,
-        stages: List[ConsensusMethod]
+        stages: list[ConsensusMethod]
     ) -> ConsensusOutcome:
         """
         Run multi-stage consensus pipeline

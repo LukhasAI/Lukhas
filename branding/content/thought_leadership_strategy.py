@@ -11,7 +11,6 @@ Combines insights from:
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List
 
 
 class ContentType(Enum):
@@ -32,7 +31,7 @@ class ThoughtLeadershipPiece:
     content_type: ContentType
     consciousness_theme: str
     target_audience: str
-    platforms: List[str]
+    platforms: list[str]
     expected_engagement: float
     trinity_integration: bool
     strategist_approach: str
@@ -42,9 +41,9 @@ class ThoughtLeadershipPiece:
 class ContentCalendar:
     """Content calendar for thought leadership strategy"""
     month: str
-    weekly_themes: List[str]
-    content_pieces: List[ThoughtLeadershipPiece]
-    campaigns: List[str]
+    weekly_themes: list[str]
+    content_pieces: list[ThoughtLeadershipPiece]
+    campaigns: list[str]
     expected_reach: int
 
 
@@ -61,7 +60,7 @@ class ThoughtLeadershipStrategy:
         self.measurement_system = self._create_measurement_system()
         self.campaign_calendar = self._create_campaign_calendar()
 
-    def _establish_strategy_foundation(self) -> Dict[str, str]:
+    def _establish_strategy_foundation(self) -> dict[str, str]:
         """Establish thought leadership strategy foundation"""
         return {
             "consciousness_authority": "Establish definitive consciousness technology thought leadership",
@@ -73,7 +72,7 @@ class ThoughtLeadershipStrategy:
             "multi_platform_dominance": "Achieve thought leadership across all relevant platforms"
         }
 
-    def _create_content_frameworks(self) -> Dict[str, Dict]:
+    def _create_content_frameworks(self) -> dict[str, dict]:
         """Create content frameworks integrating all strategist approaches"""
         return {
             "asai_minimalist_framework": {
@@ -125,7 +124,7 @@ class ThoughtLeadershipStrategy:
             }
         }
 
-    def _create_distribution_strategy(self) -> Dict[str, Dict]:
+    def _create_distribution_strategy(self) -> dict[str, dict]:
         """Create multi-platform distribution strategy"""
         return {
             "linkedin_thought_leadership": {
@@ -189,7 +188,7 @@ class ThoughtLeadershipStrategy:
             }
         }
 
-    def _create_measurement_system(self) -> Dict[str, Dict]:
+    def _create_measurement_system(self) -> dict[str, dict]:
         """Create comprehensive measurement system for thought leadership"""
         return {
             "authority_metrics": {
@@ -226,7 +225,7 @@ class ThoughtLeadershipStrategy:
             }
         }
 
-    def _create_campaign_calendar(self) -> Dict[str, ContentCalendar]:
+    def _create_campaign_calendar(self) -> dict[str, ContentCalendar]:
         """Create comprehensive campaign calendar for thought leadership"""
 
         campaigns = {}
@@ -338,7 +337,7 @@ class ThoughtLeadershipStrategy:
 
         return campaigns
 
-    def create_content_production_system(self) -> Dict[str, Dict]:
+    def create_content_production_system(self) -> dict[str, dict]:
         """Create comprehensive content production system"""
         return {
             "content_creation_process": {
@@ -392,7 +391,7 @@ class ThoughtLeadershipStrategy:
             }
         }
 
-    def generate_thought_leadership_roadmap(self) -> Dict[str, Dict]:
+    def generate_thought_leadership_roadmap(self) -> dict[str, dict]:
         """Generate comprehensive thought leadership roadmap"""
         return {
             "quarterly_objectives": {
@@ -495,7 +494,7 @@ if __name__ == "__main__":
         print(f"  {platform}: {details['focus']} - {details['posting_frequency']}")
 
     print(f"\n📅 Campaign Calendar ({len(thought_leadership.campaign_calendar)} months):")
-    for month, calendar in thought_leadership.campaign_calendar.items():
+    for _month, calendar in thought_leadership.campaign_calendar.items():
         print(f"  {calendar.month}: {len(calendar.content_pieces)} pieces, {calendar.expected_reach:,} reach")
 
     print("\n🎯 Quarterly Objectives:")

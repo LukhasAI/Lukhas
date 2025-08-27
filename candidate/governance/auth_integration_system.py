@@ -29,7 +29,7 @@ import logging
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from .auth_cross_module_integration import ModuleType, auth_cross_module_integrator
 from .auth_glyph_registry import (
@@ -57,7 +57,7 @@ class IntegrationHealthStatus:
     policy_status: str
     cross_module_status: str
     compliance_score: float
-    active_alerts: List[str]
+    active_alerts: list[str]
     last_checked: datetime
 
 
@@ -86,7 +86,7 @@ class LUKHASAuthIntegrationSystem:
     """
 
     def __init__(self,
-                 config: Optional[Dict[str, Any]] = None,
+                 config: Optional[dict[str, Any]] = None,
                  enable_guardian: bool = True,
                  enable_glyph_registry: bool = True,
                  enable_policies: bool = True,
@@ -123,7 +123,7 @@ class LUKHASAuthIntegrationSystem:
         self.cross_module_integrator = auth_cross_module_integrator if enable_cross_module else None
 
         # Integration state
-        self.active_sessions: Dict[str, Dict[str, Any]] = {}
+        self.active_sessions: dict[str, dict[str, Any]] = {}
         self.integration_metrics = AuthIntegrationMetrics(
             total_authentications=0,
             guardian_alerts=0,
@@ -161,7 +161,7 @@ class LUKHASAuthIntegrationSystem:
 
         logger.info(f"LUKHAS Authentication Integration System initialized: {self.system_id}")
 
-    def _get_default_config(self) -> Dict[str, Any]:
+    def _get_default_config(self) -> dict[str, Any]:
         """Get default integration configuration"""
         return {
             'guardian': {
@@ -227,9 +227,9 @@ class LUKHASAuthIntegrationSystem:
     async def process_authentication_event(self,
                                          user_id: str,
                                          event_type: str,
-                                         auth_context: Dict[str, Any],
+                                         auth_context: dict[str, Any],
                                          tier_level: str,
-                                         outcome: str) -> Dict[str, Any]:
+                                         outcome: str) -> dict[str, Any]:
         """
         Process authentication event through complete integration pipeline
 
@@ -496,7 +496,7 @@ class LUKHASAuthIntegrationSystem:
     def _determine_target_modules(self,
                                 event_type: str,
                                 outcome: str,
-                                auth_context: Dict[str, Any]) -> List[ModuleType]:
+                                auth_context: dict[str, Any]) -> list[ModuleType]:
         """Determine target modules for cross-module propagation"""
         target_modules = []
 
@@ -540,7 +540,7 @@ class LUKHASAuthIntegrationSystem:
 
         return unique_modules
 
-    def _update_integration_metrics(self, result: Dict[str, Any]) -> None:
+    def _update_integration_metrics(self, result: dict[str, Any]) -> None:
         """Update integration metrics based on processing result"""
         # Update compliance rate
         total_auth = self.integration_metrics.total_authentications
@@ -680,7 +680,7 @@ class LUKHASAuthIntegrationSystem:
         except Exception as e:
             logger.error(f"Error processing alerts: {e}")
 
-    async def get_integration_status(self) -> Dict[str, Any]:
+    async def get_integration_status(self) -> dict[str, Any]:
         """Get comprehensive integration system status"""
         return {
             'system_id': self.system_id,
@@ -703,7 +703,7 @@ class LUKHASAuthIntegrationSystem:
 
     async def export_integration_report(self,
                                       include_sessions: bool = False,
-                                      include_metrics: bool = True) -> Dict[str, Any]:
+                                      include_metrics: bool = True) -> dict[str, Any]:
         """Export comprehensive integration report"""
         report = {
             'report_id': str(uuid.uuid4()),

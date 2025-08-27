@@ -13,10 +13,11 @@ Core Integration Points:
 """
 
 import asyncio
+import contextlib
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 import numpy as np
 
@@ -63,8 +64,8 @@ class CognitiveState:
     qi_coherence: float = 1.0
     memory_load: float = 0.0
     consensus_confidence: float = 0.0
-    active_symbols: Set[str] = field(default_factory=set)
-    pending_decisions: List[str] = field(default_factory=list)
+    active_symbols: set[str] = field(default_factory=set)
+    pending_decisions: list[str] = field(default_factory=list)
 
     def to_symbol(self) -> UniversalSymbol:
         """Convert cognitive state to universal symbol"""
@@ -282,7 +283,7 @@ class UnifiedCognitiveOrchestrator:
             related = self.glyph_engine.find_related_symbols(symbol, max_depth=2)
 
             # Create cross-module links
-            for module, symbols in related.items():
+            for _module, symbols in related.items():
                 for related_symbol in symbols[:3]:  # Limit connections
                     self.glyph_engine.create_cross_module_link(
                         symbol, related_symbol, link_type="semantic"
@@ -332,7 +333,7 @@ class UnifiedCognitiveOrchestrator:
 
     def _calculate_vote_amplitudes(
         self, module: str, decision: str
-    ) -> Dict[VoteType, complex]:
+    ) -> dict[VoteType, complex]:
         """Calculate quantum vote amplitudes for a module"""
         # Module-specific voting patterns
         if module == "governance":
@@ -517,7 +518,7 @@ class UnifiedCognitiveOrchestrator:
             )
 
     async def process_thought(
-        self, thought: str, context: Optional[Dict[str, Any]] = None
+        self, thought: str, context: Optional[dict[str, Any]] = None
     ):
         """
         Process a thought through the unified cognitive system.
@@ -571,7 +572,7 @@ class UnifiedCognitiveOrchestrator:
             },
         }
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
         memory_stats = self.memory_engine.get_statistics()
         qi_stats = self.qi_processor.get_statistics()
@@ -615,10 +616,8 @@ class UnifiedCognitiveOrchestrator:
 
         if self._cognitive_loop_task:
             self._cognitive_loop_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._cognitive_loop_task
-            except asyncio.CancelledError:
-                pass
 
         # Final checkpoint
         await self._checkpoint_cognitive_state()

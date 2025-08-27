@@ -9,7 +9,7 @@ import asyncio
 import logging
 from contextlib import asynccontextmanager
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 import uvicorn
 from fastapi import FastAPI, WebSocket
@@ -76,7 +76,7 @@ async def health_check():
 
 # AGI Readiness Score endpoint
 @app.get("/api/v1/agi-readiness")
-async def get_agi_readiness() -> Dict[str, Any]:
+async def get_agi_readiness() -> dict[str, Any]:
     """Get comprehensive AGI readiness metrics"""
     return {
         "overall_score": 82,
@@ -93,7 +93,7 @@ async def get_agi_readiness() -> Dict[str, Any]:
 
 # Executive Summary endpoint
 @app.get("/api/v1/executive-summary")
-async def get_executive_summary() -> Dict[str, Any]:
+async def get_executive_summary() -> dict[str, Any]:
     """Get C-suite level summary dashboard data"""
     return {
         "kpis": {

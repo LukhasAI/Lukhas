@@ -1,3 +1,0 @@
-"""
-Creative_Engine Module
-"""

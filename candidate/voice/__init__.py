@@ -133,7 +133,7 @@ class LUKHASVoiceSystem:
     Main entry point for all voice and audio operations
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize LUKHAS Voice System
 
@@ -355,7 +355,7 @@ class LUKHASVoiceSystem:
 
         return await self.stream_manager.create_stream(stream_id, config)
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
         return {
             "version": __version__,

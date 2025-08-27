@@ -5,7 +5,7 @@ Smart interface to consciousness/creativity/ systems for brand-aware creative op
 
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add consciousness module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "consciousness"))
@@ -39,7 +39,7 @@ class BrandCreativityAdapter:
         self.voice_personality = VoicePersonality()
         self.brand_constraints = self._load_brand_constraints()
 
-    def _load_brand_constraints(self) -> Dict[str, Any]:
+    def _load_brand_constraints(self) -> dict[str, Any]:
         """Load brand-specific creative constraints"""
         return {
             "tone_layers": ["poetic", "user_friendly", "academic"],
@@ -62,7 +62,7 @@ class BrandCreativityAdapter:
         tone_layer: str = "user_friendly",
         creative_style: str = "consciousness_inspired",
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate creative content that leverages core creativity systems
         while ensuring brand compliance
@@ -162,7 +162,7 @@ class BrandCreativityAdapter:
 
         return alignment_score >= 2  # At least 2 trinity concepts present
 
-    def get_brand_creative_suggestions(self, content_type: str) -> List[str]:
+    def get_brand_creative_suggestions(self, content_type: str) -> list[str]:
         """Get brand-specific creative suggestions"""
         suggestions = {
             "haiku": [

@@ -8,7 +8,7 @@ import os
 import time
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable, Dict
+from typing import Any, Callable
 
 try:
     from opentelemetry import trace
@@ -51,7 +51,7 @@ class NoOpSpan:
         """No-op status setter"""
         pass
 
-    def add_event(self, name: str, attributes: Dict[str, Any] = None):
+    def add_event(self, name: str, attributes: dict[str, Any] = None):
         """No-op event adder"""
         pass
 
@@ -113,7 +113,7 @@ class LukhasTracer:
         self._initialized = True
 
     @contextmanager
-    def span(self, name: str, attributes: Dict[str, Any] = None):
+    def span(self, name: str, attributes: dict[str, Any] = None):
         """
         Create a span context manager with automatic timing
 
@@ -217,7 +217,7 @@ class LukhasTracer:
         else:
             return sync_wrapper
 
-    def export_metrics(self) -> Dict[str, Any]:
+    def export_metrics(self) -> dict[str, Any]:
         """Export current metrics (for testing)"""
         if not self._initialized:
             return {"status": "not_initialized"}

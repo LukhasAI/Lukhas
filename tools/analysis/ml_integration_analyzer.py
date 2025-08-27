@@ -36,7 +36,7 @@ import sys
 import textwrap
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 try:
     import numpy as np
@@ -50,7 +50,7 @@ class Audit:
     """Simple append-only audit trail with timestamps."""
 
     def __init__(self) -> None:
-        self.events: List[Dict[str, Any]] = []
+        self.events: list[dict[str, Any]] = []
 
     def log(self, action: str, **data: Any) -> None:
         self.events.append({
@@ -59,7 +59,7 @@ class Audit:
             **data,
         })
 
-    def to_list(self) -> List[Dict[str, Any]]:
+    def to_list(self) -> list[dict[str, Any]]:
         return self.events
 
 
@@ -111,11 +111,11 @@ DANGEROUS_CALLS = ["eval(", "exec(", "os.system(", "subprocess.Popen("]
 @dataclass
 class FunctionSig:
     name: str
-    args: List[str]
+    args: list[str]
     lineno: int
     end_lineno: int
     source: str
-    docstring: Optional[str]
+    docstring: str | None
 
 
 @dataclass
@@ -123,9 +123,9 @@ class ModuleView:
     path: Path
     code: str
     ast: ast.AST
-    functions: List[FunctionSig]
-    imports: List[str]
-    comments: List[str]
+    functions: list[FunctionSig]
+    imports: list[str]
+    comments: list[str]
 
 
 def read_text(path: Path) -> str:
@@ -138,7 +138,7 @@ def read_text(path: Path) -> str:
 def extract_module_view(py_path: Path) -> ModuleView:
     code = read_text(py_path)
     tree = ast.parse(code)
-    funcs: List[FunctionSig] = []
+    funcs: list[FunctionSig] = []
 
     for node in ast.walk(tree):
         if isinstance(node, ast.FunctionDef):
@@ -173,7 +173,7 @@ def extract_module_view(py_path: Path) -> ModuleView:
 class EmbeddingAdapter:
     """Pluggable embedding provider. Defaults to OpenAI if available."""
 
-    def __init__(self, provider: str = "openai", model: str = "text-embedding-3-small", dimensions: Optional[int] = None) -> None:
+    def __init__(self, provider: str = "openai", model: str = "text-embedding-3-small", dimensions: int | None = None) -> None:
         self.provider = provider
         self.model = model
         self.dimensions = dimensions
@@ -185,7 +185,7 @@ class EmbeddingAdapter:
             except Exception:  # pragma: no cover
                 self._client = None
 
-    def encode(self, text: str) -> List[float]:
+    def encode(self, text: str) -> list[float]:
         if self.provider == "openai" and self._client is not None:
             kwargs = {"model": self.model, "input": text}
             if self.dimensions:
@@ -195,7 +195,7 @@ class EmbeddingAdapter:
         # Fallback: deterministic hash-based pseudo-embedding (low-quality but stable)
         return self._hash_embed(text)
 
-    def encode_batch(self, texts: List[str]) -> List[List[float]]:
+    def encode_batch(self, texts: list[str]) -> list[list[float]]:
         if self.provider == "openai" and self._client is not None:
             kwargs = {"model": self.model, "input": texts}
             if self.dimensions:
@@ -205,7 +205,7 @@ class EmbeddingAdapter:
         return [self._hash_embed(t) for t in texts]
 
     @staticmethod
-    def _hash_embed(text: str, dim: int = 256) -> List[float]:
+    def _hash_embed(text: str, dim: int = 256) -> list[float]:
         # Simple locality-preserving bag-of-hash embedding
         vec = [0.0] * dim
         for token in re.findall(r"\w+", text.lower()):
@@ -299,7 +299,7 @@ class ReasonerAdapter:
 # Similarity
 # -----------------------------
 
-def cosine_similarity(a: List[float], b: List[float]) -> float:
+def cosine_similarity(a: list[float], b: list[float]) -> float:
     if np is not None:
         aa = np.array(a)
         bb = np.array(b)
@@ -317,7 +317,7 @@ def cosine_similarity(a: List[float], b: List[float]) -> float:
 @dataclass
 class SWOTEntry:
     description: str
-    meta: Dict[str, Any] = field(default_factory=dict)
+    meta: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -328,13 +328,13 @@ class LineMapping:
     target_line: int
     suggested_merge: str
     confidence: float
-    required_adaptations: List[str]
+    required_adaptations: list[str]
     # new:
-    source_context_before: List[str] = field(default_factory=list)
-    source_context_after: List[str] = field(default_factory=list)
-    target_context_before: List[str] = field(default_factory=list)
-    target_context_after: List[str] = field(default_factory=list)
-    param_rename_map: Dict[str, str] = field(default_factory=dict)
+    source_context_before: list[str] = field(default_factory=list)
+    source_context_after: list[str] = field(default_factory=list)
+    target_context_before: list[str] = field(default_factory=list)
+    target_context_after: list[str] = field(default_factory=list)
+    param_rename_map: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -342,15 +342,15 @@ class IntegrationStrategy:
     strategy: str
     effort_estimate: str
     risk_level: str
-    pros: List[str]
-    cons: List[str]
+    pros: list[str]
+    cons: list[str]
 
 
 @dataclass
 class RiskAssessment:
-    security_scan: Dict[str, Any]
-    dependency_analysis: Dict[str, Any]
-    performance_impact: Dict[str, Any]
+    security_scan: dict[str, Any]
+    dependency_analysis: dict[str, Any]
+    performance_impact: dict[str, Any]
 
 
 # -----------------------------
@@ -361,11 +361,11 @@ class IntegrationAnalyzer:
 
     def __init__(
         self,
-        audit: Optional[Audit] = None,
-        embedder: Optional[EmbeddingAdapter] = None,
-        reasoner: Optional[ReasonerAdapter] = None,
+        audit: Audit | None = None,
+        embedder: EmbeddingAdapter | None = None,
+        reasoner: ReasonerAdapter | None = None,
         confidence_threshold: float = 0.75,
-        style_prefs: Optional[Dict[str, Any]] = None,
+        style_prefs: dict[str, Any] | None = None,
     ) -> None:
         self.audit = audit or Audit()
         self.embedder = embedder or EmbeddingAdapter()
@@ -378,13 +378,13 @@ class IntegrationAnalyzer:
         }
 
     # ---------- Discovery ----------
-    def discover_python_files(self, root: Path) -> List[Path]:
+    def discover_python_files(self, root: Path) -> list[Path]:
         files = [p for p in root.rglob("*.py") if p.is_file() and ".venv" not in p.parts and "__pycache__" not in p.parts]
         self.audit.log("discover_files", root=str(root), count=len(files))
         return files
 
-    def parse_repository(self, root: Path) -> List[ModuleView]:
-        views: List[ModuleView] = []
+    def parse_repository(self, root: Path) -> list[ModuleView]:
+        views: list[ModuleView] = []
         for p in self.discover_python_files(root):
             try:
                 views.append(extract_module_view(p))
@@ -394,29 +394,29 @@ class IntegrationAnalyzer:
         return views
 
     # ---------- Embedding & Matching ----------
-    def build_function_embeddings(self, views: List[ModuleView]) -> Dict[Tuple[str, str], List[float]]:
+    def build_function_embeddings(self, views: list[ModuleView]) -> dict[tuple[str, str], list[float]]:
         texts = []
-        keys: List[Tuple[str, str]] = []
+        keys: list[tuple[str, str]] = []
         for v in views:
             for f in v.functions:
                 snippet = f"def {f.name}({', '.join(f.args)}):\n{f.source}\n\nDoc: {f.docstring or ''}"
                 texts.append(snippet)
                 keys.append((str(v.path), f.name))
         embs = self.embedder.encode_batch(texts) if texts else []
-        table: Dict[Tuple[str, str], List[float]] = {k: e for k, e in zip(keys, embs)}
+        table: dict[tuple[str, str], list[float]] = dict(zip(keys, embs))
         self.audit.log("build_embeddings", count=len(table))
         return table
 
     def semantic_function_matcher(
         self,
         orphan_func: FunctionSig,
-        target_views: List[ModuleView],
-        target_embs: Dict[Tuple[str, str], List[float]],
-    ) -> List[Tuple[str, str, float]]:
+        target_views: list[ModuleView],
+        target_embs: dict[tuple[str, str], list[float]],
+    ) -> list[tuple[str, str, float]]:
         orphan_text = f"def {orphan_func.name}({', '.join(orphan_func.args)}):\n{orphan_func.source}\n\nDoc: {orphan_func.docstring or ''}"
         orphan_emb = self.embedder.encode(orphan_text)
 
-        scored: List[Tuple[str, str, float]] = []
+        scored: list[tuple[str, str, float]] = []
         for (path, fname), emb in target_embs.items():
             s = cosine_similarity(orphan_emb, emb)
             scored.append((path, fname, s))
@@ -424,13 +424,13 @@ class IntegrationAnalyzer:
         return scored
 
     # ---------- Security & Style ----------
-    def security_scan(self, code: str) -> Dict[str, Any]:
+    def security_scan(self, code: str) -> dict[str, Any]:
         def idx_to_line(i: int) -> int:
             return code.count("\n", 0, i) + 1
 
-        issues: List[str] = []
-        critical: List[str] = []
-        snippets: List[Dict[str, Any]] = []
+        issues: list[str] = []
+        critical: list[str] = []
+        snippets: list[dict[str, Any]] = []
 
         # SQL-like patterns
         for p in SQL_PATTERNS:
@@ -478,7 +478,7 @@ class IntegrationAnalyzer:
             "snippets": snippets,
         }
 
-    def style_scan(self, code: str) -> Dict[str, Any]:
+    def style_scan(self, code: str) -> dict[str, Any]:
         indent_candidates = re.findall(r"^( +)\S", code, re.MULTILINE)
         indent = min((len(s) for s in indent_candidates), default=self.style_prefs["indent"]) if indent_candidates else self.style_prefs["indent"]
         bracket_style = "same-line" if re.search(r"def .+\):\n\s+\"\"\"", code) else "newline"
@@ -494,8 +494,8 @@ class IntegrationAnalyzer:
         }
 
     # ---------- Dependency Inspection ----------
-    def read_requirements(self, root: Path) -> Dict[str, str]:
-        reqs: Dict[str, str] = {}
+    def read_requirements(self, root: Path) -> dict[str, str]:
+        reqs: dict[str, str] = {}
         for fn in ("requirements.txt", "pyproject.toml", "Pipfile"):
             p = root / fn
             if not p.exists():
@@ -515,7 +515,7 @@ class IntegrationAnalyzer:
                     reqs[m.group(1).lower()] = m.group(2)
         return reqs
 
-    def dependency_diff(self, orphan_root: Path, target_root: Path) -> Dict[str, Any]:
+    def dependency_diff(self, orphan_root: Path, target_root: Path) -> dict[str, Any]:
         orphan = self.read_requirements(orphan_root)
         target = self.read_requirements(target_root)
         outdated = [k for k in orphan if k not in target]
@@ -535,7 +535,7 @@ class IntegrationAnalyzer:
         }
 
     # ---------- Naming Harmonization ----------
-    def naming_analysis(self, func: FunctionSig, lukhas_funcs: List[str]) -> Dict[str, Any]:
+    def naming_analysis(self, func: FunctionSig, lukhas_funcs: list[str]) -> dict[str, Any]:
         convention = detect_naming_convention(func.name)
         verb_pattern = ""
         if re.match(r"^(get|set|process|validate|compute|update|create)", func.name, re.IGNORECASE):
@@ -576,11 +576,11 @@ class IntegrationAnalyzer:
     def line_by_line_mapping(
         self,
         orphan_view: ModuleView,
-        target_views: List[ModuleView],
-        matches: List[Tuple[str, str, float]],
+        target_views: list[ModuleView],
+        matches: list[tuple[str, str, float]],
         context_lines: int = 3,
-    ) -> List[LineMapping]:
-        result: List[LineMapping] = []
+    ) -> list[LineMapping]:
+        result: list[LineMapping] = []
         if not matches:
             return result
         best_path = Path(matches[0][0])
@@ -617,7 +617,7 @@ class IntegrationAnalyzer:
             tgt_after = target_lines[target_line-1: min(len(target_lines), target_line-1+context_lines)]
 
             # Param rename mapping
-            param_map: Dict[str, str] = {}
+            param_map: dict[str, str] = {}
             for a in f.args:
                 a_new = camel_to_snake(a) if self.style_prefs.get("naming") == "snake_case" else a
                 param_map[a] = a_new
@@ -643,7 +643,7 @@ class IntegrationAnalyzer:
         name = camel_to_snake(f.name) if self.style_prefs.get("naming") == "snake_case" else f.name
         return f"def {name}({args}):"
 
-    def _required_adaptations(self, f: FunctionSig) -> List[str]:
+    def _required_adaptations(self, f: FunctionSig) -> list[str]:
         reqs = []
         if detect_naming_convention(f.name) != self.style_prefs.get("naming"):
             reqs.append("Rename function to match LUKHAS convention")
@@ -655,8 +655,8 @@ class IntegrationAnalyzer:
             reqs.append("Replace prints with structured logging")
         return reqs
 
-    def function_summaries(self, view: ModuleView) -> List[Dict[str, Any]]:
-        summaries: List[Dict[str, Any]] = []
+    def function_summaries(self, view: ModuleView) -> list[dict[str, Any]]:
+        summaries: list[dict[str, Any]] = []
         for f in view.functions:
             loc = f.end_lineno - f.lineno + 1
             summaries.append({
@@ -670,18 +670,18 @@ class IntegrationAnalyzer:
             })
         return summaries
 
-    def generate_naming_map(self, orphan_view: ModuleView, lukhas_funcs: List[str]) -> Dict[str, Any]:
-        forward: Dict[str, str] = {}
+    def generate_naming_map(self, orphan_view: ModuleView, lukhas_funcs: list[str]) -> dict[str, Any]:
+        forward: dict[str, str] = {}
         for f in orphan_view.functions:
             na = self.naming_analysis(f, lukhas_funcs)
             forward[f.name] = na["target_conventions"]["preferred_naming"]
-        inverse: Dict[str, List[str]] = {}
+        inverse: dict[str, list[str]] = {}
         for k, v in forward.items():
             inverse.setdefault(v, []).append(k)
         return {"forward": forward, "inverse": inverse}
 
-    def generate_patch(self, orphan_view: ModuleView, mappings: List[LineMapping]) -> str:
-        lines: List[str] = []
+    def generate_patch(self, orphan_view: ModuleView, mappings: list[LineMapping]) -> str:
+        lines: list[str] = []
         lines.append(f"# Simulated patch for {orphan_view.path.name}")
         for m in mappings:
             lines.append(f"--- {m.target_file}")
@@ -691,8 +691,8 @@ class IntegrationAnalyzer:
             lines.append(f"+ {m.suggested_merge}  # confidence={m.confidence}")
         return "\n".join(lines)
 
-    def generate_test_scaffolding(self, orphan_view: ModuleView, naming_map: Dict[str, Any]) -> List[Dict[str, str]]:
-        tests: List[Dict[str, str]] = []
+    def generate_test_scaffolding(self, orphan_view: ModuleView, naming_map: dict[str, Any]) -> list[dict[str, str]]:
+        tests: list[dict[str, str]] = []
         fwd = naming_map.get("forward", {})
         for f in orphan_view.functions:
             snake = camel_to_snake(f.name)
@@ -766,12 +766,12 @@ jobs:
             })""".strip()
 
     # ---------- Scoring ----------
-    def value_effort_score(self, strengths: List[SWOTEntry], weaknesses: List[SWOTEntry]) -> Tuple[float, float]:
+    def value_effort_score(self, strengths: list[SWOTEntry], weaknesses: list[SWOTEntry]) -> tuple[float, float]:
         value = min(1.0, 0.5 + 0.1 * len(strengths))
         effort = min(1.0, 0.3 + 0.15 * len(weaknesses))
         return value, effort
 
-    def integration_cost_model(self, weaknesses: List[SWOTEntry], mappings: List[LineMapping]) -> str:
+    def integration_cost_model(self, weaknesses: list[SWOTEntry], mappings: list[LineMapping]) -> str:
         base_hours = 6 + 2 * len(mappings)
         for w in weaknesses:
             sev = w.meta.get("severity", "low")
@@ -801,7 +801,7 @@ jobs:
             return "git analysis failed"
 
     # ---------- LLM Enhancement ----------
-    def llm_enhance_swot(self, orphan_view: ModuleView, lukhas_context: str, model_override: Optional[str] = None) -> Dict[str, List[SWOTEntry]]:
+    def llm_enhance_swot(self, orphan_view: ModuleView, lukhas_context: str, model_override: str | None = None) -> dict[str, list[SWOTEntry]]:
         sys_prompt = (
             "You are an expert software integration analyst for the LUKHAS symbolic AGI project. "
             "Output concise, high-signal SWOT bullets. Include severity/confidence when relevant."
@@ -822,10 +822,10 @@ jobs:
         """
         raw = self.reasoner.analyze_on_model(model_override, sys_prompt, user_prompt) if model_override else self.reasoner.analyze(sys_prompt, user_prompt)
         # Minimal parse: extract lines starting with -, then map
-        strengths: List[SWOTEntry] = []
-        weaknesses: List[SWOTEntry] = []
-        opportunities: List[SWOTEntry] = []
-        threats: List[SWOTEntry] = []
+        strengths: list[SWOTEntry] = []
+        weaknesses: list[SWOTEntry] = []
+        opportunities: list[SWOTEntry] = []
+        threats: list[SWOTEntry] = []
         bucket = None
         for line in raw.splitlines():
             head = line.strip()
@@ -869,16 +869,16 @@ jobs:
         self,
         orphan_path: Path,
         lukhas_root: Path,
-        module_name: Optional[str] = None,
+        module_name: str | None = None,
         use_openai: bool = True,
-        model_versions: Optional[Dict[str, str]] = None,
+        model_versions: dict[str, str] | None = None,
         cheap_first: bool = False,
-        cascade_models: Optional[List[str]] = None,
+        cascade_models: list[str] | None = None,
         extra_info: bool = False,
-        simulate_out: Optional[Path] = None,
-        naming_map_out: Optional[Path] = None,
+        simulate_out: Path | None = None,
+        naming_map_out: Path | None = None,
         context_lines: int = 3,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         self.audit.log("start_analysis", orphan=str(orphan_path), target=str(lukhas_root), cheap_first=cheap_first)
         orphan_view = extract_module_view(orphan_path)
         lukhas_views = self.parse_repository(lukhas_root)
@@ -890,7 +890,7 @@ jobs:
         ])
 
         # Semantic matching for each orphan function against LUKHAS codebase
-        all_matches: List[Tuple[str, str, float]] = []
+        all_matches: list[tuple[str, str, float]] = []
         for f in orphan_view.functions:
             m = self.semantic_function_matcher(f, lukhas_views, lukhas_embs)[:5]
             all_matches.extend(m)
@@ -932,7 +932,7 @@ jobs:
             "threats": [],
         }
 
-        cascade_audit: List[Dict[str, Any]] = []
+        cascade_audit: list[dict[str, Any]] = []
         final_model = getattr(self.reasoner, "model", None)
         if use_openai and cheap_first:
             models = cascade_models or os.getenv("LUKHAS_CASCADE_MODELS", "gpt-5-nano,gpt-5-mini,gpt-5").split(",")
@@ -1078,7 +1078,7 @@ jobs:
 # Helpers
 # -----------------------------
 
-def shutil_which(cmd: str) -> Optional[str]:
+def shutil_which(cmd: str) -> str | None:
     from shutil import which
     return which(cmd)
 
@@ -1122,7 +1122,7 @@ Examples:
 """
 
 
-def _cli(argv: List[str]) -> int:
+def _cli(argv: list[str]) -> int:
     import argparse
 
     p = argparse.ArgumentParser(description="LUKHΛS ML-Powered Integration Analyzer", formatter_class=argparse.RawDescriptionHelpFormatter, epilog=CLI_HELP)

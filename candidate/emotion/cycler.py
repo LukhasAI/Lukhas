@@ -4,7 +4,7 @@ Emotion Cycler
 Cycles emotional states to stabilize drift feedback loops.
 """
 
-from typing import List, Optional
+from typing import Optional
 
 from lukhas.memory.emotional import EmotionalMemory
 
@@ -17,7 +17,7 @@ class EmotionCycler:
     """Cycle through a predefined set of emotions."""
 
     def __init__(
-        self, emotional_memory: EmotionalMemory, cycle_map: Optional[List[str]] = None
+        self, emotional_memory: EmotionalMemory, cycle_map: Optional[list[str]] = None
     ):
         self.emotional_memory = emotional_memory
         self.cycle_map = cycle_map or ["neutral", "curious", "joy", "reflective"]

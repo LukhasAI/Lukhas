@@ -5,7 +5,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 __module__ = "bio.symbolic"
 __trinity__ = "⚛️🧠🛡️"
@@ -25,7 +25,7 @@ class BioSymbolicProcessor:
     """Processes bio-symbolic information"""
 
     def __init__(self):
-        self.symbols: Dict[str, BioSymbol] = {}
+        self.symbols: dict[str, BioSymbol] = {}
         self.active = True
         self._init_default_symbols()
 
@@ -36,7 +36,7 @@ class BioSymbolicProcessor:
         self.symbols["growth"] = BioSymbol("🌱", "Growth/Adaptation", 0.6)
         self.symbols["balance"] = BioSymbol("☯️", "Homeostasis", 0.5)
 
-    def process(self, input_data: Any) -> Dict[str, Any]:
+    def process(self, input_data: Any) -> dict[str, Any]:
         """Process input through bio-symbolic transformation"""
         if not self.active:
             return {"status": "inactive"}
@@ -53,7 +53,7 @@ class BioSymbolicProcessor:
         """Add a new bio symbol"""
         self.symbols[key] = symbol
 
-    def get_active_symbols(self) -> List[BioSymbol]:
+    def get_active_symbols(self) -> list[BioSymbol]:
         """Get all active symbols"""
         return [s for s in self.symbols.values() if s.active]
 
@@ -62,7 +62,7 @@ class SymbolicResonator:
     """Creates resonance between bio symbols"""
 
     def __init__(self):
-        self.resonance_map: Dict[str, float] = {}
+        self.resonance_map: dict[str, float] = {}
 
     def resonate(self, symbol1: BioSymbol, symbol2: BioSymbol) -> float:
         """Calculate resonance between two symbols"""

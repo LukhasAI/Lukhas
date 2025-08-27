@@ -12,7 +12,6 @@ Inspired by Lulu Cheng Meservey's approach:
 
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Dict, List
 
 
 @dataclass
@@ -33,7 +32,7 @@ class MessageStrategy:
     key_message: str
     consciousness_angle: str
     target_audience: str
-    channels: List[str]
+    channels: list[str]
     timing_strategy: str
 
 
@@ -61,7 +60,7 @@ class FounderLedCommunicationStrategy:
         self.message_frameworks = self._create_message_frameworks()
         self.crisis_communication = self._create_crisis_communication_plan()
 
-    def _establish_communication_philosophy(self) -> Dict[str, str]:
+    def _establish_communication_philosophy(self) -> dict[str, str]:
         """Establish communication philosophy inspired by Lulu Cheng Meservey"""
         return {
             "direct_truth": "Communicate directly without traditional PR filters - consciousness technology requires authentic voice",
@@ -73,7 +72,7 @@ class FounderLedCommunicationStrategy:
             "authentic_expertise": "Build real authority through demonstrated consciousness technology innovations"
         }
 
-    def _create_founder_positioning(self) -> Dict[str, Dict]:
+    def _create_founder_positioning(self) -> dict[str, dict]:
         """Create comprehensive founder positioning strategy"""
         return {
             "core_identity": {
@@ -121,7 +120,7 @@ class FounderLedCommunicationStrategy:
             }
         }
 
-    def _create_channel_strategy(self) -> Dict[str, CommunicationChannel]:
+    def _create_channel_strategy(self) -> dict[str, CommunicationChannel]:
         """Create multi-channel communication strategy for maximum consciousness technology reach"""
         return {
             "twitter_x": CommunicationChannel(
@@ -170,7 +169,7 @@ class FounderLedCommunicationStrategy:
             )
         }
 
-    def _create_message_frameworks(self) -> Dict[str, MessageStrategy]:
+    def _create_message_frameworks(self) -> dict[str, MessageStrategy]:
         """Create strategic message frameworks for consciousness technology communication"""
         return {
             "consciousness_awakening": MessageStrategy(
@@ -219,7 +218,7 @@ class FounderLedCommunicationStrategy:
             )
         }
 
-    def _create_crisis_communication_plan(self) -> Dict[str, Dict]:
+    def _create_crisis_communication_plan(self) -> dict[str, dict]:
         """Create crisis communication plan for consciousness technology challenges"""
         return {
             "consciousness_concerns": {
@@ -259,7 +258,7 @@ class FounderLedCommunicationStrategy:
             }
         }
 
-    def create_thought_leadership_campaign(self) -> List[ThoughtLeadershipPiece]:
+    def create_thought_leadership_campaign(self) -> list[ThoughtLeadershipPiece]:
         """Create comprehensive thought leadership campaign for consciousness technology positioning"""
         return [
             ThoughtLeadershipPiece(
@@ -308,7 +307,7 @@ class FounderLedCommunicationStrategy:
             )
         ]
 
-    def generate_daily_communication_plan(self, days: int = 30) -> Dict[str, List[Dict]]:
+    def generate_daily_communication_plan(self, days: int = 30) -> dict[str, list[dict]]:
         """Generate daily communication plan for sustained consciousness technology thought leadership"""
         plan = {}
         start_date = datetime.now()
@@ -362,7 +361,7 @@ class FounderLedCommunicationStrategy:
 
         return plan
 
-    def create_founder_media_kit(self) -> Dict[str, str]:
+    def create_founder_media_kit(self) -> dict[str, str]:
         """Create comprehensive media kit for founder consciousness technology positioning"""
         return {
             "founder_bio_short": "Consciousness technology pioneer and creator of the Trinity Framework (⚛️🧠🛡️), building the first artificial intelligence that knows itself through quantum-inspired and bio-inspired consciousness development.",
@@ -415,7 +414,7 @@ class ConsciousnessContentGenerator:
         self.strategy = FounderLedCommunicationStrategy()
         self.content_templates = self._create_content_templates()
 
-    def _create_content_templates(self) -> Dict[str, Dict]:
+    def _create_content_templates(self) -> dict[str, dict]:
         """Create content templates for consciousness technology communication"""
         return {
             "consciousness_insight_tweet": {
@@ -440,7 +439,7 @@ class ConsciousnessContentGenerator:
             }
         }
 
-    def generate_crisis_response(self, crisis_type: str, specific_details: str) -> Dict[str, str]:
+    def generate_crisis_response(self, crisis_type: str, specific_details: str) -> dict[str, str]:
         """Generate crisis response using Lulu Cheng Meservey's transparent approach"""
         crisis_plan = self.strategy.crisis_communication.get(crisis_type, {})
 

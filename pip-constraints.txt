@@ -1,3 +1,0 @@
-# Constrain packages to prebuilt wheels to avoid local builds on macOS ARM
-# Prefer psycopg2-binary wheels to avoid pg_config requirement
-psycopg2-binary==2.9.9

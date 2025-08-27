@@ -621,9 +621,8 @@ class SteganographicIdentityEmbedder:
                 binary_data += str(img_array[i, j, k] & 1)
 
                 # Check for end marker periodically
-                if len(binary_data) >= 16:
-                    if binary_data[-16:] == "1111111111111110":
-                        break
+                if len(binary_data) >= 16 and binary_data[-16:] == "1111111111111110":
+                    break
 
         # Find end marker
         end_marker = "1111111111111110"

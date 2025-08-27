@@ -224,8 +224,8 @@ class LukhasMinimalMVP:
         self.context_bus.publish("workflow_start", {"steps": len(workflow_steps)})
 
         # Simulate adapter calls
-        gmail_data = self.adapters["gmail"].fetch_emails("travel", auth['token'])
-        dropbox_data = self.adapters["dropbox"].get_files("/travel", auth['token'])
+        self.adapters["gmail"].fetch_emails("travel", auth['token'])
+        self.adapters["dropbox"].get_files("/travel", auth['token'])
 
         # Execute pipeline
         results = self.context_bus.execute_pipeline(workflow_steps)

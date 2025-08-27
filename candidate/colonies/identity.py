@@ -5,7 +5,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from datetime import datetime
-from typing import Any, List
+from typing import Any
 
 from .base import BaseColony, ColonyTask
 
@@ -18,7 +18,7 @@ class IdentityColony(BaseColony):
         self.auth_sessions = {}
         super().__init__("identity", max_agents)
 
-    def get_default_capabilities(self) -> List[str]:
+    def get_default_capabilities(self) -> list[str]:
         return [
             "identity_verification",
             "authentication",

@@ -10,7 +10,7 @@ import importlib
 import inspect
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import structlog
 
@@ -304,7 +304,7 @@ class LukhasRealDataCollector:
                 return 0.4
         return 0.4
 
-    async def _get_memory_fold_stats(self) -> Dict[str, Any]:
+    async def _get_memory_fold_stats(self) -> dict[str, Any]:
         gen = self.fallback_generators.get("memory")
         if callable(gen):
             try:
@@ -336,7 +336,7 @@ class LukhasRealDataCollector:
             pass
         return 0.6
 
-    async def _get_nl_emotional_analysis(self) -> Dict[str, float]:
+    async def _get_nl_emotional_analysis(self) -> dict[str, float]:
         return {"valence": 0.5, "arousal": 0.5, "dominance": 0.5}
 
     async def _connect_reasoning_modules(self):
@@ -361,8 +361,8 @@ class LukhasRealDataCollector:
             pass
 
     async def _calculate_comprehensive_derived_metrics(
-        self, data: Dict[str, Any]
-    ) -> Dict[str, float]:
+        self, data: dict[str, Any]
+    ) -> dict[str, float]:
         # Compute a small set of derived metrics used in integration formatting
         hormones = data.get("biological", {}).get("hormone_levels", {})
         stress = (
@@ -406,7 +406,7 @@ class LukhasRealDataCollector:
         # Fallback: analyze system load and activity
         return self._estimate_awareness_from_system_state()
 
-    async def _get_consciousness_attention(self) -> List[str]:
+    async def _get_consciousness_attention(self) -> list[str]:
         """Get attention targets from consciousness module"""
 
         consciousness = self.module_connections.get("consciousness")
@@ -454,7 +454,7 @@ class LukhasRealDataCollector:
         # Fallback: estimate from system memory usage
         return self._estimate_memory_load_from_system()
 
-    async def _get_hormone_levels(self) -> Dict[str, float]:
+    async def _get_hormone_levels(self) -> dict[str, float]:
         """Get actual hormone levels from endocrine system"""
 
         endocrine = self.module_connections.get("endocrine")
@@ -477,7 +477,7 @@ class LukhasRealDataCollector:
         # Fallback: simulate based on system state
         return self._simulate_hormone_levels_from_system_state()
 
-    async def _get_emotional_state(self) -> Dict[str, float]:
+    async def _get_emotional_state(self) -> dict[str, float]:
         """Get actual emotional state from emotion service"""
 
         emotion = self.module_connections.get("emotion")
@@ -502,7 +502,7 @@ class LukhasRealDataCollector:
         # Fallback: estimate from system behavior
         return self._estimate_emotional_state_from_behavior()
 
-    async def collect_comprehensive_data(self) -> Dict[str, Any]:
+    async def collect_comprehensive_data(self) -> dict[str, Any]:
         """Collect comprehensive data from all connected LUKHAS  modules"""
 
         logger.debug("Collecting comprehensive data from LUKHAS  modules")
@@ -654,7 +654,7 @@ class LukhasRealDataCollector:
 
             return 0.7 + 0.2 * (time.time() % 20) / 20
 
-    def _simulate_hormone_levels_from_system_state(self) -> Dict[str, float]:
+    def _simulate_hormone_levels_from_system_state(self) -> dict[str, float]:
         """Simulate hormone levels based on actual system state"""
 
         try:
@@ -681,7 +681,7 @@ class LukhasRealDataCollector:
             # Use fallback generator
             return self.fallback_generators.get("endocrine", lambda: {})()
 
-    def _infer_attention_from_activity(self) -> List[str]:
+    def _infer_attention_from_activity(self) -> list[str]:
         """Infer attention targets from recent system activity (fallback)."""
         awareness = self._estimate_awareness_from_system_state()
         if awareness > 0.7:
@@ -690,7 +690,7 @@ class LukhasRealDataCollector:
             return ["system_monitoring", "background_learning"]
         return ["idle_recovery"]
 
-    async def get_monitoring_system_integration_data(self) -> Dict[str, Any]:
+    async def get_monitoring_system_integration_data(self) -> dict[str, Any]:
         """Get data specifically formatted for monitoring system integration"""
 
         raw_data = await self.collect_comprehensive_data()
@@ -754,7 +754,7 @@ async def demonstrate_real_data_collection():
     await collector.initialize_real_connections()
 
     print(f"✅ Connected to {len(collector.module_connections)} modules:")
-    for module_name in collector.module_connections.keys():
+    for module_name in collector.module_connections:
         print(f"   • {module_name}")
 
     print("\n📊 Collecting comprehensive data...")

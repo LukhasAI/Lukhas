@@ -24,7 +24,7 @@ be used if the main pydantic-based config system fails.
 
 import logging
 import os
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ class FallbackSettings:
             "Using fallback configuration system - some features may be limited"
         )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "OPENAI_API_KEY": self.OPENAI_API_KEY,
@@ -66,7 +66,7 @@ def get_fallback_settings() -> FallbackSettings:
     return FallbackSettings()
 
 
-def validate_fallback_config(settings: FallbackSettings) -> Dict[str, Any]:
+def validate_fallback_config(settings: FallbackSettings) -> dict[str, Any]:
     """Validate fallback configuration."""
     status = {
         "openai_configured": settings.OPENAI_API_KEY is not None,

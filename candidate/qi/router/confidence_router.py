@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
-from typing import Any, Dict
+from typing import Any
 
 STATE = os.environ.get("LUKHAS_STATE", os.path.expanduser("~/.lukhas/state"))
 CAL_PATH = os.path.join(STATE, "calibration.json")
@@ -26,7 +26,7 @@ class ConfidenceRouter:
         except Exception:
             return {}
 
-    def decide(self, *, calibrated_conf: float, last_path: str | None = None) -> Dict[str, Any]:
+    def decide(self, *, calibrated_conf: float, last_path: str | None = None) -> dict[str, Any]:
         """
         Hysteresis: avoid flapping between adjacent paths by requiring a margin.
         """

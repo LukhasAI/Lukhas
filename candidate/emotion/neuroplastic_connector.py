@@ -3,7 +3,7 @@ Neuroplastic Connector for EMOTION Module
 Auto-generated connector that integrates isolated components
 """
 
-from typing import Any, Dict
+from typing import Any
 
 from candidate.core.common import get_logger
 
@@ -26,7 +26,7 @@ class EmotionConnector:
         """Emit hormone signal for neuroplastic response"""
         self.hormone_tags[hormone] = intensity
 
-    def get_stress_response(self) -> Dict[str, float]:
+    def get_stress_response(self) -> dict[str, float]:
         """Get current stress hormones for neuroplastic reorganization"""
         return {
             "cortisol": self.hormone_tags.get("cortisol", 0.0),

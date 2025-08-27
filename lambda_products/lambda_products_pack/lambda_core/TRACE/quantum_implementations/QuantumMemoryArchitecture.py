@@ -18,7 +18,7 @@
 └────────────────────────────────────────────────────────────────────────────
 """
 
-from typing import List, Optional
+from typing import Optional
 
 import numpy as np
 from qiskit import QICircuit
@@ -48,7 +48,7 @@ class QIAssociativeMemoryBank:
         self,
         memory_id: str,
         qi_state: QIState,
-        associations: List[str]
+        associations: list[str]
     ):
         """
         Store information in quantum superposition
@@ -74,7 +74,7 @@ class QIAssociativeMemoryBank:
         self,
         query: QIQuery,
         num_iterations: Optional[int] = None
-    ) -> List[QIMemory]:
+    ) -> list[QIMemory]:
         """
         Retrieve memories using quantum parallelism
         """
@@ -102,7 +102,7 @@ class QIAssociativeMemoryBank:
     def _create_grover_oracle(
         self,
         memory_id: str,
-        associations: List[str]
+        associations: list[str]
     ) -> QICircuit:
         """
         Create Grover oracle for specific memory pattern

@@ -10,7 +10,6 @@ import re
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import List
 
 
 class UserIDInjector:
@@ -65,7 +64,7 @@ class UserIDInjector:
         ]
 
     def inject_user_tracking(
-        self, target_modules: List[str] = None, dry_run: bool = False
+        self, target_modules: list[str] = None, dry_run: bool = False
     ):
         """Inject user ID tracking into specified modules."""
         print("🔗 LUKHAS  User ID Injector")

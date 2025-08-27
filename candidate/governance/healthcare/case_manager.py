@@ -9,7 +9,7 @@ and ethical oversight systems.
 import logging
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
@@ -25,7 +25,7 @@ class CaseManager(GlyphIntegrationMixin):
     ethical standards.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize case manager with configuration"""
         super().__init__()
         self.config = config or {}
@@ -48,11 +48,11 @@ class CaseManager(GlyphIntegrationMixin):
     async def create_case(
         self,
         user_id: str,
-        symptoms: List[str],
-        ai_assessment: Dict[str, Any],
+        symptoms: list[str],
+        ai_assessment: dict[str, Any],
         priority: str = "normal",
         consent_token: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create a new clinical case with governance validation
 
@@ -125,8 +125,8 @@ class CaseManager(GlyphIntegrationMixin):
     async def get_provider_cases(
         self,
         provider_id: str,
-        filters: Optional[Dict[str, Any]] = None
-    ) -> List[Dict[str, Any]]:
+        filters: Optional[dict[str, Any]] = None
+    ) -> list[dict[str, Any]]:
         """
         Get cases for a specific provider with governance filtering
 
@@ -175,9 +175,9 @@ class CaseManager(GlyphIntegrationMixin):
 
     def _case_matches_filters(
         self,
-        case: Dict[str, Any],
+        case: dict[str, Any],
         provider_id: str,
-        filters: Dict[str, Any]
+        filters: dict[str, Any]
     ) -> bool:
         """Check if a case matches the given filters with governance rules"""
         # Check provider assignment or general access
@@ -205,7 +205,7 @@ class CaseManager(GlyphIntegrationMixin):
                 return False
 
         # Check governance compliance
-        if not case.get("governance", {}).get("compliance_status") == "validated":
+        if case.get("governance", {}).get("compliance_status") != "validated":
             return False
 
         return True
@@ -213,9 +213,9 @@ class CaseManager(GlyphIntegrationMixin):
     async def update_case(
         self,
         case_id: str,
-        update_data: Dict[str, Any],
+        update_data: dict[str, Any],
         provider_id: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Update a case with provider review and governance validation
 
@@ -296,7 +296,7 @@ class CaseManager(GlyphIntegrationMixin):
         user_id: str,
         consultation_type: str,
         consent_token: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create a new consultation session with governance oversight
 
@@ -356,7 +356,7 @@ class CaseManager(GlyphIntegrationMixin):
             logger.error(f"Error creating consultation: {str(e)}")
             raise
 
-    async def get_case(self, case_id: str, requestor_id: str) -> Dict[str, Any]:
+    async def get_case(self, case_id: str, requestor_id: str) -> dict[str, Any]:
         """
         Get case details by ID with access validation
 
@@ -401,9 +401,9 @@ class CaseManager(GlyphIntegrationMixin):
     async def _validate_case_ethics(
         self,
         user_id: str,
-        symptoms: List[str],
-        ai_assessment: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        symptoms: list[str],
+        ai_assessment: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate case creation against ethical guidelines"""
         # TODO: Integrate with LUKHAS ethical engine
         return {
@@ -432,7 +432,7 @@ class CaseManager(GlyphIntegrationMixin):
         # TODO: Implement role-based access control
         return True
 
-    def _get_case_symbolic_pattern(self, case: Dict[str, Any]) -> List[str]:
+    def _get_case_symbolic_pattern(self, case: dict[str, Any]) -> list[str]:
         """Get symbolic pattern based on case status and priority"""
         status = case.get("status", "unknown")
         priority = case.get("priority", "normal")
@@ -452,7 +452,7 @@ class CaseManager(GlyphIntegrationMixin):
         self,
         entity_id: str,
         action: str,
-        metadata: Dict[str, Any]
+        metadata: dict[str, Any]
     ):
         """Log action in governance audit trail"""
         if not hasattr(self, 'case_audit_trail'):
@@ -473,7 +473,7 @@ class CaseManager(GlyphIntegrationMixin):
 
     # Public API methods for governance integration
 
-    def get_governance_summary(self) -> Dict[str, Any]:
+    def get_governance_summary(self) -> dict[str, Any]:
         """Get governance and compliance summary"""
         total_cases = len(self.cases)
         compliant_cases = len([
@@ -490,7 +490,7 @@ class CaseManager(GlyphIntegrationMixin):
             "audit_trail_entries": sum(len(trail) for trail in self.case_audit_trail.values())
         }
 
-    def get_case_statistics(self) -> Dict[str, Any]:
+    def get_case_statistics(self) -> dict[str, Any]:
         """Get case management statistics"""
         if not self.cases:
             return {"total_cases": 0}

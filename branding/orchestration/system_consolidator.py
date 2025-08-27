@@ -12,13 +12,12 @@ import sqlite3
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List
 
 
 @dataclass
 class ConsolidationResult:
     """Result of system consolidation operation"""
-    source_systems: List[str]
+    source_systems: list[str]
     target_system: str
     files_merged: int
     databases_consolidated: int
@@ -522,7 +521,7 @@ if __name__ == "__main__":
                 message=f"Content platform consolidation failed: {str(e)}"
             )
 
-    async def consolidate_all_systems(self) -> Dict[str, ConsolidationResult]:
+    async def consolidate_all_systems(self) -> dict[str, ConsolidationResult]:
         """Consolidate all 14 systems into optimized single solutions"""
         self.logger.info("🎯 Starting complete system consolidation...")
 
@@ -544,7 +543,7 @@ if __name__ == "__main__":
 
         return results
 
-    async def _generate_consolidation_report(self, results: Dict[str, ConsolidationResult]):
+    async def _generate_consolidation_report(self, results: dict[str, ConsolidationResult]):
         """Generate comprehensive consolidation report"""
         report_path = self.base_path / "SYSTEM_CONSOLIDATION_REPORT.md"
 

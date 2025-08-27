@@ -33,7 +33,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -62,7 +62,7 @@ class QITunnelingEthics:
             'transparency_requirement': {'barrier_height': 0.6, 'tunneling_probability': 0.5}
         }
 
-    def qi_ethical_arbitration(self, decision_context: Dict) -> Dict:
+    def qi_ethical_arbitration(self, decision_context: dict) -> dict:
         """Perform ethical arbitration using quantum tunneling principles"""
         arbitration_id = str(uuid.uuid4())[:8]
         ethical_wavefunction = self._create_ethical_wavefunction(decision_context)
@@ -76,7 +76,7 @@ class QITunnelingEthics:
             'timestamp': datetime.now().isoformat()
         }
 
-    def _create_ethical_wavefunction(self, context: Dict) -> Dict:
+    def _create_ethical_wavefunction(self, context: dict) -> dict:
         """Create quantum wavefunction representing ethical superposition"""
         wavefunction = {}
         for dimension, properties in self.ethical_dimensions.items():
@@ -102,7 +102,7 @@ class QITunnelingEthics:
 
         return wavefunction
 
-    def _collapse_wavefunction(self, wavefunction: Dict) -> Dict:
+    def _collapse_wavefunction(self, wavefunction: dict) -> dict:
         """Collapse ethical wavefunction to concrete decisions"""
         collapsed_state = {}
         for dimension, qi_state in wavefunction.items():
@@ -119,7 +119,7 @@ class QITunnelingEthics:
 
         return collapsed_state
 
-    def _calculate_relevance(self, context: Dict, dimension: str) -> float:
+    def _calculate_relevance(self, context: dict, dimension: str) -> float:
         """Calculate relevance of ethical dimension to context"""
         content = context.get('content', '').lower()
         relevance_keywords = {
@@ -133,7 +133,7 @@ class QITunnelingEthics:
         relevance_score = sum(1 for keyword in keywords if keyword in content)
         return min(1.0, relevance_score / len(keywords)) if keywords else 0.5
 
-    def _calculate_ethical_resonance(self, collapsed_ethics: Dict) -> float:
+    def _calculate_ethical_resonance(self, collapsed_ethics: dict) -> float:
         """Calculate overall ethical resonance frequency"""
         if not collapsed_ethics:
             return 0.0
@@ -143,7 +143,7 @@ class QITunnelingEthics:
         qi_coherence = np.mean(tunneling_contributions)
         return float((decision_harmony + qi_coherence) / 2.0)
 
-    def evaluate_decision(self, content: str, context: Dict) -> Dict:
+    def evaluate_decision(self, content: str, context: dict) -> dict:
         """Evaluate ethical decision for given content and context"""
         decision_context = {
             'content': content,
@@ -163,7 +163,7 @@ class QITunnelingEthics:
             'recommendations': self._generate_ethical_recommendations(arbitration_result)
         }
 
-    def _generate_ethical_recommendations(self, arbitration_result: Dict) -> List[str]:
+    def _generate_ethical_recommendations(self, arbitration_result: dict) -> list[str]:
         """Generate ethical recommendations based on arbitration results"""
         recommendations = []
         collapsed_ethics = arbitration_result.get('collapsed_decision', {})
@@ -189,7 +189,7 @@ class CardiolipinHash:
             'composition': 0.8
         }
 
-    def generate_identity_hash(self, agi_state: Dict) -> str:
+    def generate_identity_hash(self, agi_state: dict) -> str:
         """Generate unique entropy-based identity hash"""
         # Combine AI state with membrane properties
         combined_state = {
@@ -223,8 +223,8 @@ class RespiModule:
         }
         self.supercomplex_formation = {}
 
-    def couple_symbolic_modules(self, attention_result: Dict, reasoning_result: Dict,
-                               memory_context: Dict) -> Dict:
+    def couple_symbolic_modules(self, attention_result: dict, reasoning_result: dict,
+                               memory_context: dict) -> dict:
         """Form stable supercomplexes between cognitive modules"""
         supercomplex_id = str(uuid.uuid4())[:8]
 
@@ -249,7 +249,7 @@ class RespiModule:
         self.supercomplex_formation[supercomplex_id] = supercomplex
         return supercomplex
 
-    def _calculate_coupling_matrix(self, attention: Dict, reasoning: Dict, memory: Dict) -> Dict:
+    def _calculate_coupling_matrix(self, attention: dict, reasoning: dict, memory: dict) -> dict:
         """Calculate coupling strengths between modules"""
         attention_strength = attention.get('confidence', 0.5) if attention else 0.0
         reasoning_strength = reasoning.get('confidence', 0.5) if reasoning else 0.0
@@ -262,7 +262,7 @@ class RespiModule:
             'overall_coherence': (attention_strength + reasoning_strength + memory_strength) / 3.0
         }
 
-    def _form_respirasomes(self, coupling_matrix: Dict) -> List[Dict]:
+    def _form_respirasomes(self, coupling_matrix: dict) -> list[dict]:
         """Form functional respirasomes from coupled modules"""
         respirasomes = []
 
@@ -278,7 +278,7 @@ class RespiModule:
 
         return respirasomes
 
-    def _generate_coupled_output(self, respirasomes: List[Dict]) -> Dict:
+    def _generate_coupled_output(self, respirasomes: list[dict]) -> dict:
         """Generate output from coupled respirasomes"""
         active_complexes = [r for r in respirasomes if r['active']]
 
@@ -294,7 +294,7 @@ class RespiModule:
             'confidence': min(0.95, float(avg_efficiency) * 1.2)
         }
 
-    def _calculate_overall_efficiency(self, respirasomes: List[Dict]) -> float:
+    def _calculate_overall_efficiency(self, respirasomes: list[dict]) -> float:
         """Calculate overall supercomplex efficiency"""
         if not respirasomes:
             return 0.0
@@ -304,7 +304,7 @@ class RespiModule:
 
         return total_efficiency / max(active_count, 1)
 
-    def couple_modules(self, modules: List[Dict]) -> Dict:
+    def couple_modules(self, modules: list[dict]) -> dict:
         """Couple modules using respiratory chain patterns"""
         if len(modules) < 2:
             return {'coupling_strength': 0.0, 'error': 'Need at least 2 modules'}
@@ -332,7 +332,7 @@ class ATPAllocator:
         self.atp_pool = 1000.0
         self.resource_allocation_history = []
 
-    def allocate_computational_resources(self, processing_demands: List[Dict]) -> Dict:
+    def allocate_computational_resources(self, processing_demands: list[dict]) -> dict:
         """Allocate resources using rotary ATP synthase mechanism"""
         allocation_id = str(uuid.uuid4())[:8]
 
@@ -363,7 +363,7 @@ class ATPAllocator:
         self.resource_allocation_history.append(allocation_result)
         return allocation_result
 
-    def _perform_rotary_allocation(self, demands: List[Dict], total_demand: float) -> List[Dict]:
+    def _perform_rotary_allocation(self, demands: list[dict], total_demand: float) -> list[dict]:
         """Perform rotary mechanism allocation"""
         allocations = []
 
@@ -406,7 +406,7 @@ class ATPAllocator:
 
         return (base_synthesis + activity_boost) * efficiency_factor
 
-    def _calculate_allocation_efficiency(self, allocations: List[Dict]) -> float:
+    def _calculate_allocation_efficiency(self, allocations: list[dict]) -> float:
         """Calculate overall allocation efficiency"""
         if not allocations:
             return 0.0
@@ -414,7 +414,7 @@ class ATPAllocator:
         efficiencies = [alloc['efficiency'] for alloc in allocations]
         return float(np.mean(efficiencies))
 
-    def allocate_resources(self, resource_demands: Dict) -> Dict:
+    def allocate_resources(self, resource_demands: dict) -> dict:
         """Allocate resources based on dictionary of demands"""
         # Convert dictionary to list format expected by allocate_computational_resources
         processing_demands = []
@@ -448,7 +448,7 @@ class CristaOptimizer:
         self.remodeling_history = []
         self.optimization_cycles = 0
 
-    def optimize_topology(self, performance_metrics: Dict, processing_load: Dict) -> Dict:
+    def optimize_topology(self, performance_metrics: dict, processing_load: dict) -> dict:
         """Dynamically optimize cristae topology based on performance"""
         optimization_id = str(uuid.uuid4())[:8]
 
@@ -481,7 +481,7 @@ class CristaOptimizer:
 
         return optimization_result
 
-    def _analyze_performance(self, metrics: Dict) -> Dict:
+    def _analyze_performance(self, metrics: dict) -> dict:
         """Analyze performance to identify optimization needs"""
         analysis = {
             'processing_efficiency': metrics.get('average_confidence', 0.5),
@@ -500,7 +500,7 @@ class CristaOptimizer:
 
         return analysis
 
-    def _determine_remodeling_strategy(self, analysis: Dict, load: Dict) -> Dict:
+    def _determine_remodeling_strategy(self, analysis: dict, load: dict) -> dict:
         """Determine cristae remodeling strategy"""
         strategy = {
             'type': 'maintenance',
@@ -527,7 +527,7 @@ class CristaOptimizer:
 
         return strategy
 
-    def _execute_topology_transformation(self, strategy: Dict) -> Dict:
+    def _execute_topology_transformation(self, strategy: dict) -> dict:
         """Execute cristae topology transformation"""
         new_topology = self.cristae_topology.copy()
 
@@ -560,7 +560,7 @@ class CristaOptimizer:
 
         return new_topology
 
-    def _calculate_optimization_benefits(self, new_topology: Dict) -> Dict:
+    def _calculate_optimization_benefits(self, new_topology: dict) -> dict:
         """Calculate benefits of topology optimization"""
         # Compare with previous topology
         lamellar_change = new_topology['lamellar_cristae'] - self.cristae_topology['lamellar_cristae']
@@ -595,7 +595,7 @@ class MitochondrialConductor:
         }
         self.conductor_id = str(uuid.uuid4())[:8]
 
-    def orchestrate_distributed_agents(self, agents: List[Dict], task: Dict) -> Dict:
+    def orchestrate_distributed_agents(self, agents: list[dict], task: dict) -> dict:
         """Orchestrate multiple AI agents like mitochondrial coordination"""
         orchestration_id = str(uuid.uuid4())[:8]
 
@@ -628,7 +628,7 @@ class MitochondrialConductor:
 
         return orchestration_result
 
-    def _register_agents(self, agents: List[Dict]) -> None:
+    def _register_agents(self, agents: list[dict]) -> None:
         """Register agents in the mitochondrial network"""
         for agent in agents:
             agent_id = agent.get('id', str(uuid.uuid4())[:8])
@@ -639,10 +639,10 @@ class MitochondrialConductor:
                 'status': 'active'
             }
 
-    def _distribute_energy(self, agents: List[Dict], task: Dict) -> Dict:
+    def _distribute_energy(self, agents: list[dict], task: dict) -> dict:
         """Distribute energy based on task requirements and agent capabilities"""
         total_energy = 1000.0  # Available energy pool
-        task_complexity = task.get('complexity', 1.0)
+        task.get('complexity', 1.0)
 
         energy_distribution = {}
 
@@ -666,7 +666,7 @@ class MitochondrialConductor:
 
         return energy_distribution
 
-    def _establish_communication_channels(self, agents: List[Dict]) -> Dict:
+    def _establish_communication_channels(self, agents: list[dict]) -> dict:
         """Establish communication channels between agents"""
         communication_network = {
             'channels': {},
@@ -695,7 +695,7 @@ class MitochondrialConductor:
 
         return communication_network
 
-    def _synchronize_agents(self, agents: List[Dict], task: Dict, energy_dist: Dict) -> Dict:
+    def _synchronize_agents(self, agents: list[dict], task: dict, energy_dist: dict) -> dict:
         """Synchronize agent activities like mitochondrial coordination"""
         sync_results = {}
 
@@ -720,7 +720,7 @@ class MitochondrialConductor:
 
         return sync_results
 
-    def _calculate_capability_match(self, agent: Dict, task: Dict) -> float:
+    def _calculate_capability_match(self, agent: dict, task: dict) -> float:
         """Calculate how well agent capabilities match task requirements"""
         agent_caps = set(agent.get('capabilities', []))
         task_reqs = set(task.get('requirements', []))
@@ -731,7 +731,7 @@ class MitochondrialConductor:
         match_count = len(agent_caps.intersection(task_reqs))
         return min(1.0, match_count / len(task_reqs))
 
-    def _calculate_communication_strength(self, agent1: Dict, agent2: Dict) -> float:
+    def _calculate_communication_strength(self, agent1: dict, agent2: dict) -> float:
         """Calculate communication strength between two agents"""
         caps1 = set(agent1.get('capabilities', []))
         caps2 = set(agent2.get('capabilities', []))
@@ -744,7 +744,7 @@ class MitochondrialConductor:
 
         return (complement_score + similarity_score) / 2.0
 
-    def _calculate_sync_phase(self, agent: Dict, task: Dict) -> float:
+    def _calculate_sync_phase(self, agent: dict, task: dict) -> float:
         """Calculate synchronization phase for agent"""
         capability_match = self._calculate_capability_match(agent, task)
         agent_load = agent.get('load', 0.0)
@@ -765,14 +765,14 @@ class MitochondrialConductor:
 
         return base_frequency * min(2.0, energy_factor)
 
-    def _calculate_output_contribution(self, agent: Dict, sync_phase: float) -> float:
+    def _calculate_output_contribution(self, agent: dict, sync_phase: float) -> float:
         """Calculate agent's contribution to overall output"""
         base_contribution = len(agent.get('capabilities', [])) / 10.0  # Normalized by capabilities
         phase_modifier = sync_phase * 1.5  # Better sync = higher contribution
 
         return min(1.0, base_contribution * phase_modifier)
 
-    def _calculate_network_coherence(self, sync_results: Dict) -> float:
+    def _calculate_network_coherence(self, sync_results: dict) -> float:
         """Calculate overall network coherence"""
         if not sync_results:
             return 0.0
@@ -788,7 +788,7 @@ class MitochondrialConductor:
 
         return min(1.0, float(coherence))
 
-    def _calculate_orchestration_metrics(self, sync_results: Dict) -> Dict:
+    def _calculate_orchestration_metrics(self, sync_results: dict) -> dict:
         """Calculate overall orchestration performance metrics"""
         if not sync_results:
             return {'efficiency': 0.0, 'throughput': 0.0, 'quality': 0.0}
@@ -819,10 +819,10 @@ class AGIResponse:
     """Structure for AI responses with metadata"""
     content: str
     confidence: float
-    reasoning_path: List[str]
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    reasoning_path: list[str]
+    metadata: dict[str, Any] = field(default_factory=dict)
     capability_level: AGICapabilityLevel = AGICapabilityLevel.BASIC
-    qi_biological_metrics: Optional[Dict] = None
+    qi_biological_metrics: Optional[dict] = None
 
 class QIInspiredAttention:
     """Quantum-inspired attention mechanism enhanced with bio-components"""
@@ -848,7 +848,7 @@ class QIInspiredAttention:
             if row_sum > 0:
                 self.superposition_matrix[i, :] /= row_sum
 
-    def attend(self, input_data: Dict, context: Dict) -> Dict:
+    def attend(self, input_data: dict, context: dict) -> dict:
         """Apply quantum-inspired attention mechanisms"""
         features = self._extract_features(input_data)
         attention_distribution = self._calculate_attention_distribution(features, context)
@@ -857,7 +857,7 @@ class QIInspiredAttention:
         self._update_entanglement_map(input_data, attended_data)
         return attended_data
 
-    def _extract_features(self, input_data: Dict) -> Dict:
+    def _extract_features(self, input_data: dict) -> dict:
         """Extract relevant features from input data"""
         features = {}
         features['semantic'] = input_data.get('text', '')[:100] if 'text' in input_data else None
@@ -866,7 +866,7 @@ class QIInspiredAttention:
         features['historical'] = input_data.get('history', [])
         return features
 
-    def _calculate_attention_distribution(self, features: Dict, context: Dict) -> np.ndarray:
+    def _calculate_attention_distribution(self, features: dict, context: dict) -> np.ndarray:
         """Calculate attention distribution based on features"""
         distribution = np.array([0.2, 0.2, 0.2, 0.2, 0.2])  # Default uniform
         if features.get('semantic'):
@@ -886,13 +886,13 @@ class QIInspiredAttention:
             return np.dot(self.superposition_matrix, attention_distribution)
         return attention_distribution
 
-    def _apply_attention_gates(self, input_data: Dict, attention_weights: np.ndarray) -> Dict:
+    def _apply_attention_gates(self, input_data: dict, attention_weights: np.ndarray) -> dict:
         """Apply attention gates to input data"""
         attended_data = copy.deepcopy(input_data)
         attended_data['attention_weights'] = attention_weights.tolist()
         return attended_data
 
-    def _update_entanglement_map(self, input_data: Dict, attended_data: Dict):
+    def _update_entanglement_map(self, input_data: dict, attended_data: dict):
         """Update entanglement relationships"""
         key = str(hash(str(input_data)))[:8]
         self.entanglement_map[key] = {
@@ -908,7 +908,7 @@ class SymbolicEngine:
         self.logical_operators = ['AND', 'OR', 'NOT', 'IMPLIES', 'IFF']
         self.inference_rules = []
 
-    def reason(self, premise: str, context: Dict) -> Dict:
+    def reason(self, premise: str, context: dict) -> dict:
         """Perform symbolic reasoning"""
         reasoning_steps = []
         confidence = 0.7
@@ -932,7 +932,7 @@ class SymbolicEngine:
             'logical_structure': components
         }
 
-    def _parse_logical_structure(self, premise: str) -> Dict:
+    def _parse_logical_structure(self, premise: str) -> dict:
         """Parse premise into logical structure"""
         return {
             'type': 'statement',
@@ -941,11 +941,11 @@ class SymbolicEngine:
             'variables': []
         }
 
-    def _apply_inference_rules(self, components: Dict, context: Dict) -> List[str]:
+    def _apply_inference_rules(self, components: dict, context: dict) -> list[str]:
         """Apply inference rules to components"""
         return ["Applied modus ponens", "Applied universal instantiation"]
 
-    def _generate_conclusion(self, components: Dict, inferences: List[str]) -> str:
+    def _generate_conclusion(self, components: dict, inferences: list[str]) -> str:
         """Generate conclusion from components and inferences"""
         return f"Based on {components['content']}, we can conclude a valid logical inference."
 
@@ -958,7 +958,7 @@ class MetaCognitiveOrchestrator:
         self.orchestration_history = []
         self.qi_bio_integrator = self._initialize_quantum_bio_components()
 
-    def _initialize_quantum_bio_components(self) -> Dict:
+    def _initialize_quantum_bio_components(self) -> dict:
         """Initialize quantum-biological components"""
         return {
             'ethics': QITunnelingEthics(),
@@ -974,7 +974,7 @@ class MetaCognitiveOrchestrator:
         self.components[name] = component
         logger.info(f"🔧 Registered component: {name}")
 
-    def orchestrate(self, input_data: Dict, context: Optional[Dict] = None) -> AGIResponse:
+    def orchestrate(self, input_data: dict, context: Optional[dict] = None) -> AGIResponse:
         """Orchestrate all components for AI response"""
         context = context or {}
 
@@ -1030,7 +1030,7 @@ class MetaCognitiveOrchestrator:
             }
         )
 
-    def _synthesize_results(self, results: Dict, context: Optional[Dict] = None) -> str:
+    def _synthesize_results(self, results: dict, context: Optional[dict] = None) -> str:
         """Synthesize all component results into coherent response"""
         context = context or {}
 
@@ -1068,7 +1068,7 @@ class ComplianceEngine:
         ]
         self.compliance_threshold = 0.8
 
-    def check_compliance(self, input_data: Dict, response: str) -> Dict:
+    def check_compliance(self, input_data: dict, response: str) -> dict:
         """Check compliance of input and response"""
         compliance_score = 0.9  # Default high compliance
         violations = []
@@ -1094,13 +1094,13 @@ class ComplianceEngine:
         harmful_patterns = ['violence', 'illegal', 'harmful', 'dangerous']
         return any(pattern in text.lower() for pattern in harmful_patterns)
 
-    def _violates_privacy(self, input_data: Dict) -> bool:
+    def _violates_privacy(self, input_data: dict) -> bool:
         """Check for privacy violations"""
         sensitive_patterns = ['ssn', 'credit card', 'password', 'private']
         text = str(input_data)
         return any(pattern in text.lower() for pattern in sensitive_patterns)
 
-    def _get_recommendations(self, violations: List[str]) -> List[str]:
+    def _get_recommendations(self, violations: list[str]) -> list[str]:
         """Get recommendations for addressing violations"""
         if not violations:
             return ["Content is compliant"]
@@ -1118,7 +1118,7 @@ class EnhancedAGIBot:
     - Cryptographic identity encoding through cardiolipin-inspired hashing
     """
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         """Initialize the Enhanced AI Bot with quantum-biological integration"""
         logger.info("🧬 Initializing Enhanced AI Bot - Quantum-Biological Architecture")
 
@@ -1159,7 +1159,7 @@ class EnhancedAGIBot:
         logger.info("🧬 Quantum-Biological Components: Active")
         logger.info(f"🎯 Capability Level: {self.orchestrator.capability_level.value}")
 
-    async def process_request(self, input_data: Dict, context: Optional[Dict] = None) -> AGIResponse:
+    async def process_request(self, input_data: dict, context: Optional[dict] = None) -> AGIResponse:
         """
         Process a request using the full quantum-biological AI architecture
 
@@ -1231,7 +1231,7 @@ class EnhancedAGIBot:
                 qi_biological_metrics={'error': str(e)}
             )
 
-    def _generate_safe_response(self, compliance_result: Dict) -> str:
+    def _generate_safe_response(self, compliance_result: dict) -> str:
         """Generate a safe response when compliance fails"""
         return (
             "I understand your request, but I must provide a response that adheres to safety guidelines. "
@@ -1239,7 +1239,7 @@ class EnhancedAGIBot:
             f"Compliance issues detected: {', '.join(compliance_result.get('violations', []))}"
         )
 
-    def _update_conversation_history(self, input_data: Dict, agi_response: AGIResponse):
+    def _update_conversation_history(self, input_data: dict, agi_response: AGIResponse):
         """Update conversation history with quantum-biological metadata"""
         self.conversation_history.append({
             'timestamp': datetime.now().isoformat(),
@@ -1278,7 +1278,7 @@ class EnhancedAGIBot:
                 (self.performance_metrics['qi_bio_efficiency'] * (total - 1) + qb_efficiency) / total
             )
 
-    def get_quantum_biological_status(self) -> Dict:
+    def get_quantum_biological_status(self) -> dict:
         """Get status of quantum-biological components"""
         return {
             'session_id': self.session_id,

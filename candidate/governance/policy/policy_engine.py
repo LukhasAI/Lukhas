@@ -30,7 +30,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 from candidate.core.common import get_logger
 
@@ -132,12 +132,12 @@ class PolicyRule:
     priority: PolicyPriority
 
     # Conditions that must be met for rule to trigger
-    conditions: List[PolicyCondition] = field(default_factory=list)
+    conditions: list[PolicyCondition] = field(default_factory=list)
     condition_logic: str = "AND"           # AND, OR, or custom expression
 
     # Actions to take when rule triggers
     action: PolicyAction = PolicyAction.LOG
-    action_parameters: Dict[str, Any] = field(default_factory=dict)
+    action_parameters: dict[str, Any] = field(default_factory=dict)
 
     # Rule metadata
     enabled: bool = True
@@ -147,16 +147,16 @@ class PolicyRule:
     version: str = "1.0.0"
 
     # Context and targeting
-    target_modules: Set[str] = field(default_factory=set)
-    target_users: Set[str] = field(default_factory=set)
-    context_tags: Set[str] = field(default_factory=set)
+    target_modules: set[str] = field(default_factory=set)
+    target_users: set[str] = field(default_factory=set)
+    context_tags: set[str] = field(default_factory=set)
 
     # Dependencies and relationships
-    depends_on: List[str] = field(default_factory=list)  # Other rule IDs
-    conflicts_with: List[str] = field(default_factory=list)
+    depends_on: list[str] = field(default_factory=list)  # Other rule IDs
+    conflicts_with: list[str] = field(default_factory=list)
 
     # Validation and testing
-    test_cases: List[Dict[str, Any]] = field(default_factory=list)
+    test_cases: list[dict[str, Any]] = field(default_factory=list)
     last_tested: Optional[datetime] = None
 
     # Performance and monitoring
@@ -178,12 +178,12 @@ class PolicyViolation:
 
     # Violation details
     description: str
-    context: Dict[str, Any] = field(default_factory=dict)
-    evidence: List[str] = field(default_factory=list)
+    context: dict[str, Any] = field(default_factory=dict)
+    evidence: list[str] = field(default_factory=list)
 
     # Actions taken
     action_taken: PolicyAction = PolicyAction.LOG
-    action_details: Dict[str, Any] = field(default_factory=dict)
+    action_details: dict[str, Any] = field(default_factory=dict)
 
     # Status and resolution
     status: str = "open"                    # open, resolved, ignored
@@ -207,9 +207,9 @@ class PolicyEvaluationResult:
     """Result of policy evaluation"""
 
     evaluation_id: str
-    context: Dict[str, Any]
-    triggered_rules: List[str] = field(default_factory=list)
-    violations: List[PolicyViolation] = field(default_factory=list)
+    context: dict[str, Any]
+    triggered_rules: list[str] = field(default_factory=list)
+    violations: list[PolicyViolation] = field(default_factory=list)
 
     # Overall result
     final_action: PolicyAction = PolicyAction.ALLOW
@@ -221,8 +221,8 @@ class PolicyEvaluationResult:
     rules_evaluated: int = 0
 
     # Additional information
-    warnings: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
     # Timestamp
     evaluated_at: datetime = field(default_factory=datetime.now)
@@ -232,12 +232,12 @@ class PolicyRuleEngine:
     """Core engine for policy rule management and evaluation"""
 
     def __init__(self):
-        self.rules: Dict[str, PolicyRule] = {}
-        self.rule_dependencies: Dict[str, List[str]] = {}
-        self.compiled_conditions: Dict[str, Callable] = {}
+        self.rules: dict[str, PolicyRule] = {}
+        self.rule_dependencies: dict[str, list[str]] = {}
+        self.compiled_conditions: dict[str, Callable] = {}
 
         # Performance optimization
-        self.rule_cache: Dict[str, Any] = {}
+        self.rule_cache: dict[str, Any] = {}
         self.cache_ttl = 300  # 5 minutes
 
         logger.info("🔧 Policy Rule Engine initialized")
@@ -279,7 +279,7 @@ class PolicyRuleEngine:
             logger.error(f"❌ Failed to add policy rule {rule.rule_id}: {e}")
             return False
 
-    def _validate_rule(self, rule: PolicyRule) -> Dict[str, Any]:
+    def _validate_rule(self, rule: PolicyRule) -> dict[str, Any]:
         """Validate policy rule syntax and logic"""
 
         errors = []
@@ -324,7 +324,7 @@ class PolicyRuleEngine:
             "warnings": warnings
         }
 
-    def _check_rule_conflicts(self, rule: PolicyRule) -> List[str]:
+    def _check_rule_conflicts(self, rule: PolicyRule) -> list[str]:
         """Check for rule conflicts"""
 
         conflicts = []
@@ -348,7 +348,7 @@ class PolicyRuleEngine:
 
         return conflicts
 
-    def _conditions_similar(self, conditions1: List[PolicyCondition], conditions2: List[PolicyCondition]) -> bool:
+    def _conditions_similar(self, conditions1: list[PolicyCondition], conditions2: list[PolicyCondition]) -> bool:
         """Check if two sets of conditions are similar"""
 
         if len(conditions1) != len(conditions2):
@@ -367,7 +367,7 @@ class PolicyRuleEngine:
             return None
 
         try:
-            def compiled_evaluator(context: Dict[str, Any]) -> bool:
+            def compiled_evaluator(context: dict[str, Any]) -> bool:
                 condition_results = []
 
                 for condition in rule.conditions:
@@ -399,7 +399,7 @@ class PolicyRuleEngine:
             logger.error(f"Failed to compile conditions for rule {rule.rule_id}: {e}")
             return None
 
-    def _evaluate_single_condition(self, condition: PolicyCondition, context: Dict[str, Any]) -> bool:
+    def _evaluate_single_condition(self, condition: PolicyCondition, context: dict[str, Any]) -> bool:
         """Evaluate a single policy condition"""
 
         # Get field value from context
@@ -457,7 +457,7 @@ class PolicyRuleEngine:
             logger.error(f"Error evaluating condition {condition.field} {condition.operator.value} {condition.value}: {e}")
             return False
 
-    def _get_field_value(self, context: Dict[str, Any], field_path: str) -> Any:
+    def _get_field_value(self, context: dict[str, Any], field_path: str) -> Any:
         """Get field value from context using dot notation"""
 
         try:
@@ -481,8 +481,8 @@ class PolicyRuleEngine:
         self,
         policy_type: Optional[PolicyType] = None,
         scope: Optional[PolicyScope] = None,
-        context: Optional[Dict[str, Any]] = None
-    ) -> List[PolicyRule]:
+        context: Optional[dict[str, Any]] = None
+    ) -> list[PolicyRule]:
         """Get rules applicable to given criteria"""
 
         applicable_rules = []
@@ -546,8 +546,8 @@ class PolicyEnforcementEngine:
 
     def __init__(self):
         self.rule_engine = PolicyRuleEngine()
-        self.violation_history: List[PolicyViolation] = []
-        self.evaluation_history: List[PolicyEvaluationResult] = []
+        self.violation_history: list[PolicyViolation] = []
+        self.evaluation_history: list[PolicyEvaluationResult] = []
 
         # Performance metrics
         self.metrics = {
@@ -715,7 +715,7 @@ class PolicyEnforcementEngine:
 
     async def evaluate_policies(
         self,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         operation: str = "general",
         user_id: Optional[str] = None
     ) -> PolicyEvaluationResult:
@@ -817,10 +817,10 @@ class PolicyEnforcementEngine:
 
     async def _enhance_context(
         self,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         operation: str,
         user_id: Optional[str]
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Enhance context with additional information for policy evaluation"""
 
         enhanced = context.copy()
@@ -849,8 +849,8 @@ class PolicyEnforcementEngine:
     async def _evaluate_rule(
         self,
         rule: PolicyRule,
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate a single policy rule"""
 
         rule_start = datetime.now()
@@ -924,7 +924,7 @@ class PolicyEnforcementEngine:
     async def _create_violation(
         self,
         rule: PolicyRule,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> PolicyViolation:
         """Create a policy violation from triggered rule"""
 
@@ -963,7 +963,7 @@ class PolicyEnforcementEngine:
         self.violation_history.append(violation)
         return violation
 
-    async def _assess_identity_impact(self, rule: PolicyRule, context: Dict[str, Any]) -> Optional[str]:
+    async def _assess_identity_impact(self, rule: PolicyRule, context: dict[str, Any]) -> Optional[str]:
         """Assess impact on Identity component (⚛️)"""
 
         if rule.policy_type in [PolicyType.PRIVACY, PolicyType.USER_CONSENT, PolicyType.ACCESS_CONTROL]:
@@ -974,7 +974,7 @@ class PolicyEnforcementEngine:
 
         return None
 
-    async def _assess_consciousness_impact(self, rule: PolicyRule, context: Dict[str, Any]) -> Optional[str]:
+    async def _assess_consciousness_impact(self, rule: PolicyRule, context: dict[str, Any]) -> Optional[str]:
         """Assess impact on Consciousness component (🧠)"""
 
         if rule.policy_type in [PolicyType.ETHICAL, PolicyType.SYSTEM_BEHAVIOR, PolicyType.CONSTITUTIONAL]:
@@ -985,7 +985,7 @@ class PolicyEnforcementEngine:
 
         return None
 
-    async def _assess_guardian_impact(self, rule: PolicyRule, context: Dict[str, Any]) -> Optional[str]:
+    async def _assess_guardian_impact(self, rule: PolicyRule, context: dict[str, Any]) -> Optional[str]:
         """Assess impact on Guardian component (🛡️)"""
 
         if rule.policy_type in [PolicyType.SECURITY, PolicyType.COMPLIANCE, PolicyType.CONSTITUTIONAL]:
@@ -999,8 +999,8 @@ class PolicyEnforcementEngine:
     async def _generate_rule_recommendations(
         self,
         rule: PolicyRule,
-        context: Dict[str, Any]
-    ) -> List[str]:
+        context: dict[str, Any]
+    ) -> list[str]:
         """Generate recommendations based on triggered rule"""
 
         recommendations = []
@@ -1025,10 +1025,10 @@ class PolicyEnforcementEngine:
 
     async def _determine_final_action(
         self,
-        triggered_rules: List[str],
-        violations: List[PolicyViolation],
-        applicable_rules: List[PolicyRule]
-    ) -> Tuple[PolicyAction, str]:
+        triggered_rules: list[str],
+        violations: list[PolicyViolation],
+        applicable_rules: list[PolicyRule]
+    ) -> tuple[PolicyAction, str]:
         """Determine the final action based on all triggered rules"""
 
         if not triggered_rules:
@@ -1113,7 +1113,7 @@ class PolicyEnforcementEngine:
         """Add a new policy rule"""
         return self.rule_engine.add_rule(rule)
 
-    async def update_policy_rule(self, rule_id: str, updates: Dict[str, Any]) -> bool:
+    async def update_policy_rule(self, rule_id: str, updates: dict[str, Any]) -> bool:
         """Update an existing policy rule"""
 
         if rule_id not in self.rule_engine.rules:
@@ -1144,7 +1144,7 @@ class PolicyEnforcementEngine:
         """Enable a policy rule"""
         return await self.update_policy_rule(rule_id, {"enabled": True})
 
-    async def get_policy_status(self) -> Dict[str, Any]:
+    async def get_policy_status(self) -> dict[str, Any]:
         """Get current policy enforcement status"""
 
         active_rules = [r for r in self.rule_engine.rules.values() if r.enabled]
@@ -1168,7 +1168,7 @@ class PolicyEnforcementEngine:
             )
         }
 
-    async def export_policy_report(self, include_history: bool = True) -> Dict[str, Any]:
+    async def export_policy_report(self, include_history: bool = True) -> dict[str, Any]:
         """Export comprehensive policy report"""
 
         report = {

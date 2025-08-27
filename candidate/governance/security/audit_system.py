@@ -33,7 +33,7 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -164,21 +164,21 @@ class AuditEvent:
     user_agent: Optional[str] = None
 
     # Event data
-    event_data: Dict[str, Any] = field(default_factory=dict)
-    tags: Set[str] = field(default_factory=set)
+    event_data: dict[str, Any] = field(default_factory=dict)
+    tags: set[str] = field(default_factory=set)
 
     # Security context
     risk_score: float = 0.0
-    threat_indicators: List[str] = field(default_factory=list)
+    threat_indicators: list[str] = field(default_factory=list)
 
     # Trinity Framework context
-    identity_context: Dict[str, Any] = field(default_factory=dict)      # ⚛️
-    consciousness_context: Dict[str, Any] = field(default_factory=dict) # 🧠
-    guardian_context: Dict[str, Any] = field(default_factory=dict)      # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)      # ⚛️
+    consciousness_context: dict[str, Any] = field(default_factory=dict) # 🧠
+    guardian_context: dict[str, Any] = field(default_factory=dict)      # 🛡️
 
     # Compliance context
     compliance_relevant: bool = False
-    compliance_frameworks: Set[str] = field(default_factory=set)
+    compliance_frameworks: set[str] = field(default_factory=set)
     retention_policy: RetentionPolicy = RetentionPolicy.MEDIUM_TERM
 
     # Integrity verification
@@ -227,19 +227,19 @@ class AuditQuery:
     end_time: Optional[datetime] = None
 
     # Event filters
-    event_types: Optional[Set[AuditEventType]] = None
-    categories: Optional[Set[AuditCategory]] = None
-    levels: Optional[Set[AuditLevel]] = None
+    event_types: Optional[set[AuditEventType]] = None
+    categories: Optional[set[AuditCategory]] = None
+    levels: Optional[set[AuditLevel]] = None
 
     # Context filters
-    user_ids: Optional[Set[str]] = None
-    session_ids: Optional[Set[str]] = None
-    source_modules: Optional[Set[str]] = None
-    source_ips: Optional[Set[str]] = None
+    user_ids: Optional[set[str]] = None
+    session_ids: Optional[set[str]] = None
+    source_modules: Optional[set[str]] = None
+    source_ips: Optional[set[str]] = None
 
     # Content filters
     message_contains: Optional[str] = None
-    tags: Optional[Set[str]] = None
+    tags: Optional[set[str]] = None
 
     # Security filters
     min_risk_score: Optional[float] = None
@@ -247,7 +247,7 @@ class AuditQuery:
 
     # Compliance filters
     compliance_relevant_only: bool = False
-    compliance_frameworks: Optional[Set[str]] = None
+    compliance_frameworks: Optional[set[str]] = None
 
     # Result parameters
     limit: int = 1000
@@ -261,9 +261,9 @@ class AuditStatistics:
     """Audit system statistics"""
 
     total_events: int = 0
-    events_by_level: Dict[str, int] = field(default_factory=dict)
-    events_by_category: Dict[str, int] = field(default_factory=dict)
-    events_by_type: Dict[str, int] = field(default_factory=dict)
+    events_by_level: dict[str, int] = field(default_factory=dict)
+    events_by_category: dict[str, int] = field(default_factory=dict)
+    events_by_type: dict[str, int] = field(default_factory=dict)
 
     # Time-based statistics
     events_last_hour: int = 0
@@ -337,7 +337,7 @@ class AuditStorage:
             logger.error(f"Failed to store audit event {event.event_id}: {e}")
             return False
 
-    async def store_events_batch(self, events: List[AuditEvent]) -> int:
+    async def store_events_batch(self, events: list[AuditEvent]) -> int:
         """Store multiple events in batch"""
         stored_count = 0
 
@@ -371,7 +371,7 @@ class AuditStorage:
 
         return stored_count
 
-    async def query_events(self, query: AuditQuery) -> List[AuditEvent]:
+    async def query_events(self, query: AuditQuery) -> list[AuditEvent]:
         """Query events from storage"""
         events = []
 
@@ -422,7 +422,7 @@ class AuditStorage:
         events.sort(key=lambda e: e.timestamp, reverse=(query.sort_order == "desc"))
         return events[query.offset:query.offset + query.limit]
 
-    def _reconstruct_event(self, event_data: Dict[str, Any]) -> AuditEvent:
+    def _reconstruct_event(self, event_data: dict[str, Any]) -> AuditEvent:
         """Reconstruct AuditEvent from stored data"""
 
         # Convert string enums back to enum values
@@ -504,7 +504,7 @@ class AuditEventProcessor:
 
         logger.info("🔍 Audit Event Processor initialized")
 
-    async def process_event(self, event: AuditEvent) -> Dict[str, Any]:
+    async def process_event(self, event: AuditEvent) -> dict[str, Any]:
         """Process a single audit event"""
 
         processing_result = {
@@ -601,7 +601,7 @@ class AuditEventProcessor:
         if not self.statistics.newest_event or event.timestamp > self.statistics.newest_event:
             self.statistics.newest_event = event.timestamp
 
-    async def _check_alert_rules(self, event: AuditEvent) -> List[Dict[str, Any]]:
+    async def _check_alert_rules(self, event: AuditEvent) -> list[dict[str, Any]]:
         """Check event against alert rules"""
 
         alerts = []
@@ -654,7 +654,7 @@ class AuditEventProcessor:
 
         return alerts
 
-    async def _detect_patterns(self, event: AuditEvent) -> List[Dict[str, Any]]:
+    async def _detect_patterns(self, event: AuditEvent) -> list[dict[str, Any]]:
         """Detect suspicious patterns in events"""
 
         patterns = []
@@ -680,7 +680,7 @@ class AuditEventProcessor:
 
         return patterns
 
-    async def _generate_recommendations(self, event: AuditEvent) -> List[str]:
+    async def _generate_recommendations(self, event: AuditEvent) -> list[str]:
         """Generate recommendations based on event"""
 
         recommendations = []
@@ -709,9 +709,9 @@ class AuditEventProcessor:
     async def _take_automated_actions(
         self,
         event: AuditEvent,
-        alerts: List[Dict[str, Any]],
-        patterns: List[Dict[str, Any]]
-    ) -> List[str]:
+        alerts: list[dict[str, Any]],
+        patterns: list[dict[str, Any]]
+    ) -> list[str]:
         """Take automated actions based on event analysis"""
 
         actions = []
@@ -746,7 +746,7 @@ class ComprehensiveAuditSystem:
         self.processor = AuditEventProcessor()
 
         # In-memory event buffer for real-time processing
-        self.event_buffer: List[AuditEvent] = []
+        self.event_buffer: list[AuditEvent] = []
         self.buffer_size = 1000
         self.flush_interval = 60  # seconds
 
@@ -772,7 +772,7 @@ class ComprehensiveAuditSystem:
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
         source_module: Optional[str] = None,
-        event_data: Optional[Dict[str, Any]] = None,
+        event_data: Optional[dict[str, Any]] = None,
         **kwargs
     ) -> str:
         """
@@ -827,7 +827,7 @@ class ComprehensiveAuditSystem:
         logger.debug(f"Audit event logged: {event_id}")
         return event_id
 
-    async def _handle_critical_alert(self, event: AuditEvent, alert: Dict[str, Any]):
+    async def _handle_critical_alert(self, event: AuditEvent, alert: dict[str, Any]):
         """Handle critical security alerts"""
 
         logger.critical(f"🚨 CRITICAL AUDIT ALERT: {alert['message']} (Event: {event.event_id})")
@@ -906,7 +906,7 @@ class ComprehensiveAuditSystem:
             # For now, just log what would be cleaned up
             logger.info(f"Would clean up {policy.value} events older than {cutoff_time}")
 
-    async def query_events(self, query: AuditQuery) -> List[AuditEvent]:
+    async def query_events(self, query: AuditQuery) -> list[AuditEvent]:
         """Query audit events"""
 
         # First check buffer for recent events
@@ -929,7 +929,7 @@ class ComprehensiveAuditSystem:
         """Get audit system statistics"""
         return self.processor.statistics
 
-    async def verify_audit_integrity(self) -> Dict[str, Any]:
+    async def verify_audit_integrity(self) -> dict[str, Any]:
         """Verify integrity of audit trail"""
 
         verification_result = {
@@ -970,7 +970,7 @@ class ComprehensiveAuditSystem:
         start_date: datetime,
         end_date: datetime,
         include_recommendations: bool = True
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate compliance audit report"""
 
         report_id = f"compliance_{framework}_{uuid.uuid4().hex[:8]}"
@@ -1029,9 +1029,9 @@ class ComprehensiveAuditSystem:
 
     async def _generate_compliance_recommendations(
         self,
-        events: List[AuditEvent],
+        events: list[AuditEvent],
         framework: str
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate compliance recommendations based on audit events"""
 
         recommendations = []
@@ -1153,7 +1153,7 @@ async def audit_security_violation(violation_type: str, details: str, risk_score
     )
 
 
-async def audit_trinity_event(component: str, event_details: Dict[str, Any], user_id: str = None) -> str:
+async def audit_trinity_event(component: str, event_details: dict[str, Any], user_id: str = None) -> str:
     """Audit Trinity Framework event"""
     audit_system = ComprehensiveAuditSystem()
 

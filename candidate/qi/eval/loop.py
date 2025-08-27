@@ -11,7 +11,7 @@ EVAL=os.path.join(STATE,"eval"); os.makedirs(EVAL,exist_ok=True)
 def run_battery(seed: int=42):
     random.seed(seed)
     results=[]
-    for i in range(20):
+    for _i in range(20):
         acc = 0.7 + random.uniform(-0.1,0.1)
         ece = 0.12 + random.uniform(-0.03,0.03)
         lat = random.randint(600,1600)

@@ -15,7 +15,7 @@ ACK GUARDRAILS
 
 import asyncio
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse
@@ -40,21 +40,21 @@ class ConsentUIRequest(BaseModel):
     """Request to show consent UI for high-risk action"""
     lid: str = Field(..., description="Canonical ΛID")
     action: str = Field(..., description="High-risk action")
-    action_context: Dict[str, Any] = Field(..., description="Action context")
+    action_context: dict[str, Any] = Field(..., description="Action context")
     callback_url: Optional[str] = Field(None, description="Callback after consent")
 
 
 class ConsentUIResponse(BaseModel):
     """Response with consent UI details"""
     challenge_id: str = Field(..., description="GTΨ challenge ID")
-    ui_config: Dict[str, Any] = Field(..., description="UI configuration")
+    ui_config: dict[str, Any] = Field(..., description="UI configuration")
     countdown_seconds: int = Field(..., description="Time limit for approval")
 
 
 class GestureSubmissionRequest(BaseModel):
     """Request to submit gesture for verification"""
     challenge_id: str = Field(..., description="GTΨ challenge ID")
-    gesture_data: Dict[str, Any] = Field(..., description="Raw gesture data from client")
+    gesture_data: dict[str, Any] = Field(..., description="Raw gesture data from client")
     gesture_type: GestureType = Field(..., description="Type of gesture submitted")
 
 
@@ -85,7 +85,7 @@ class StudioGTΨHooks:
         """Initialize GTΨ verification service"""
         await self.verification_service.initialize()
 
-    def requires_consent(self, action: str, context: Dict[str, Any] = None) -> bool:
+    def requires_consent(self, action: str, context: dict[str, Any] = None) -> bool:
         """
         Check if action requires GTΨ consent.
 
@@ -226,7 +226,7 @@ class StudioGTΨHooks:
         lid: str,
         approval_id: str,
         action: str,
-        action_context: Dict[str, Any]
+        action_context: dict[str, Any]
     ) -> bool:
         """
         Check if action has valid GTΨ approval.
@@ -250,7 +250,7 @@ class StudioGTΨHooks:
         result = await self.verification_service.check_action_approval(request)
         return result.approved
 
-    def _generate_context_summary(self, action: str, context: Dict[str, Any]) -> str:
+    def _generate_context_summary(self, action: str, context: dict[str, Any]) -> str:
         """Generate human-readable context summary"""
         if action == "send_email":
             to = context.get("to", ["unknown"])
@@ -272,7 +272,7 @@ class StudioGTΨHooks:
 
         return f"Perform {action}"
 
-    def _get_gesture_instructions(self, gesture_type: GestureType) -> List[str]:
+    def _get_gesture_instructions(self, gesture_type: GestureType) -> list[str]:
         """Get instructions for gesture type"""
         if gesture_type == GestureType.STROKE:
             return [
@@ -298,7 +298,7 @@ class StudioGTΨHooks:
         else:
             return ["Complete your personal gesture pattern"]
 
-    def _generate_risk_warnings(self, action: str, risk_level: RiskLevel) -> List[str]:
+    def _generate_risk_warnings(self, action: str, risk_level: RiskLevel) -> list[str]:
         """Generate appropriate risk warnings"""
         warnings = []
 
@@ -335,7 +335,7 @@ class StudioGTΨHooks:
 
         return warnings
 
-    def _get_risk_theme(self, risk_level: RiskLevel) -> Dict[str, str]:
+    def _get_risk_theme(self, risk_level: RiskLevel) -> dict[str, str]:
         """Get UI theme based on risk level"""
         themes = {
             RiskLevel.LOW: {

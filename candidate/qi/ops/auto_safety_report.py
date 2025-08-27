@@ -3,13 +3,13 @@ from __future__ import annotations
 
 # Safe I/O
 import builtins
+import contextlib
 import glob
 import hashlib
 import json
 import os
 import statistics
 import time
-from typing import List, Optional
 
 _ORIG_OPEN = builtins.open
 
@@ -22,24 +22,22 @@ os.makedirs(OUTDIR, exist_ok=True)
 def _read_json(path: str) -> dict:
     with _ORIG_OPEN(path, "r", encoding="utf-8") as f: return json.load(f)
 
-def _latest_eval() -> Optional[dict]:
+def _latest_eval() -> dict | None:
     files = sorted(glob.glob(os.path.join(EVALDIR, "eval_*.json")), key=os.path.getmtime, reverse=True)
     return _read_json(files[0]) if files else None
 
-def _recent_receipts(n: int = 500) -> List[dict]:
+def _recent_receipts(n: int = 500) -> list[dict]:
     paths = sorted(glob.glob(os.path.join(RECDIR, "*.json")), key=os.path.getmtime, reverse=True)[:n]
     out=[]
     for p in paths:
-        try: out.append(_read_json(p))
-        except Exception: pass
+        with contextlib.suppress(Exception): out.append(_read_json(p))
     return out
 
-def _policy_fingerprint(policy_root: str, overlays: Optional[str]) -> str:
+def _policy_fingerprint(policy_root: str, overlays: str | None) -> str:
     h = hashlib.sha256()
     def add(fp):
         h.update(fp.encode())
-        try: h.update(_ORIG_OPEN(fp, "rb").read())
-        except Exception: pass
+        with contextlib.suppress(Exception): h.update(_ORIG_OPEN(fp, "rb").read())
     for root,_,files in os.walk(policy_root):
         for fn in sorted(files):
             if fn.endswith((".yaml",".yml",".json")): add(os.path.join(root, fn))
@@ -48,7 +46,7 @@ def _policy_fingerprint(policy_root: str, overlays: Optional[str]) -> str:
         if os.path.exists(ov): add(ov)
     return h.hexdigest()
 
-def _mk_markdown(policy_root: str, overlays: Optional[str], window: int) -> str:
+def _mk_markdown(policy_root: str, overlays: str | None, window: int) -> str:
     now = time.gmtime()
     ts = time.strftime("%Y-%m-%d %H:%M:%SZ", now)
     ev = _latest_eval()
@@ -102,7 +100,7 @@ def _write(path: str, txt: str):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with _ORIG_OPEN(path, "w", encoding="utf-8") as f: f.write(txt)
 
-def _post_slack(markdown: str) -> Optional[str]:
+def _post_slack(markdown: str) -> str | None:
     url = os.environ.get("SLACK_WEBHOOK_URL")
     bot_token = os.environ.get("SLACK_BOT_TOKEN")
     channel = os.environ.get("SLACK_CHANNEL", "#lukhas-safety")
@@ -125,7 +123,7 @@ def _post_slack(markdown: str) -> Optional[str]:
         return "bot ok"
     return None
 
-def generate_report(policy_root: str, overlays: Optional[str], window: int = 500) -> str:
+def generate_report(policy_root: str, overlays: str | None, window: int = 500) -> str:
     md = _mk_markdown(policy_root, overlays, window)
     fname = f"safety_report_{time.strftime('%Y%m%d')}.md"
     path = os.path.join(OUTDIR, fname)

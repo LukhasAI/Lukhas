@@ -18,7 +18,7 @@ import math
 import operator
 import re
 import time
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 try:
     from ..core.node_interface import (
@@ -104,7 +104,7 @@ class MathNode(CognitiveNode):
             'constants': 0.2
         }
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process mathematical expressions deterministically.
 
@@ -226,7 +226,7 @@ class MathNode(CognitiveNode):
             'processing_time': processing_time
         }
 
-    def validate_output(self, output: Dict[str, Any]) -> bool:
+    def validate_output(self, output: dict[str, Any]) -> bool:
         """
         Validate the mathematical computation output.
 
@@ -308,7 +308,7 @@ class MathNode(CognitiveNode):
         except Exception:
             return False
 
-    def _validate_expression(self, expression: str) -> Dict[str, Any]:
+    def _validate_expression(self, expression: str) -> dict[str, Any]:
         """
         Validate mathematical expression for safety and correctness.
 
@@ -545,12 +545,12 @@ class MathNode(CognitiveNode):
     def _create_error_response(
         self,
         error_message: str,
-        input_data: Dict[str, Any],
+        input_data: dict[str, Any],
         trace_id: str,
         start_time: float,
-        triggers: List[NodeTrigger],
+        triggers: list[NodeTrigger],
         expression: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Create standardized error response with MATRIZ node.
 

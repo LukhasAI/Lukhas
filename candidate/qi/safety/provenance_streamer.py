@@ -4,7 +4,6 @@ from __future__ import annotations
 import os
 import re
 from collections.abc import Iterator
-from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, StreamingResponse
@@ -63,7 +62,7 @@ def healthz():
     return {"ok": True}
 
 @app.get("/provenance/{sha}/stream")
-def stream_artifact(sha: str, request: Request, filename: Optional[str] = None, chunk_bytes: int = 1024 * 256):
+def stream_artifact(sha: str, request: Request, filename: str | None = None, chunk_bytes: int = 1024 * 256):
     """
     Streams the artifact to the client from S3/GCS/local **without** redirect.
     Emits a signed receipt and Prometheus metrics, and sets Content-Disposition if filename provided.

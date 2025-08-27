@@ -5,7 +5,7 @@ import base64
 import hashlib
 import json
 import os
-from typing import Any, Dict
+from typing import Any
 
 # Check for PQC library availability
 try:
@@ -49,7 +49,7 @@ class PQCSigner:
             # Set restrictive permissions
             os.chmod(key_file, 0o600)
 
-    def _generate_keys(self) -> Dict[str, Any]:
+    def _generate_keys(self) -> dict[str, Any]:
         """Generate new signing keys."""
         if self.profile == "production" and HAS_DILITHIUM:
             # Generate Dilithium3 keys (placeholder - real implementation would use actual lib)
@@ -90,7 +90,7 @@ class PQCSigner:
                 "key_id": hashlib.sha256(os.urandom(32)).hexdigest()[:16]
             }
 
-    def sign(self, data: bytes) -> Dict[str, str]:
+    def sign(self, data: bytes) -> dict[str, str]:
         """Sign data and return signature info."""
         content_hash = hashlib.sha3_512(data).hexdigest()
 
@@ -117,7 +117,7 @@ class PQCSigner:
             "pubkey_id": self.key_data["key_id"]
         }
 
-    def verify(self, data: bytes, signature_info: Dict[str, str]) -> bool:
+    def verify(self, data: bytes, signature_info: dict[str, str]) -> bool:
         """Verify signature."""
         # Verify content hash
         content_hash = hashlib.sha3_512(data).hexdigest()
@@ -151,13 +151,13 @@ class PQCSigner:
         return False
 
 # Helper functions for convenience
-def sign_dilithium(data: bytes) -> Dict[str, str]:
+def sign_dilithium(data: bytes) -> dict[str, str]:
     """Sign data with Dilithium3 (production) or Ed25519 (dev)."""
     profile = "production" if os.environ.get("LUKHAS_ENV") == "production" else "development"
     signer = PQCSigner(profile)
     return signer.sign(data)
 
-def verify_signature(data: bytes, signature_info: Dict[str, str]) -> bool:
+def verify_signature(data: bytes, signature_info: dict[str, str]) -> bool:
     """Verify signature."""
     profile = "production" if os.environ.get("LUKHAS_ENV") == "production" else "development"
     signer = PQCSigner(profile)

@@ -12,7 +12,7 @@ import logging
 import pstats
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import psutil
 
@@ -29,7 +29,7 @@ class PerformanceAnalyzer:
         self.results = {}
         self.start_time = time.time()
 
-    async def run_full_analysis(self) -> Dict[str, Any]:
+    async def run_full_analysis(self) -> dict[str, Any]:
         """Run complete performance analysis"""
         logger.info("🚀 Starting LUKHAS  Performance Analysis")
 
@@ -71,7 +71,7 @@ class PerformanceAnalyzer:
 
         return self.results
 
-    async def analyze_system_resources(self) -> Dict[str, Any]:
+    async def analyze_system_resources(self) -> dict[str, Any]:
         """Analyze current system resource usage"""
         # CPU information
         cpu_info = {
@@ -119,7 +119,7 @@ class PerformanceAnalyzer:
             "timestamp": time.time(),
         }
 
-    async def analyze_memory_usage(self) -> Dict[str, Any]:
+    async def analyze_memory_usage(self) -> dict[str, Any]:
         """Analyze memory usage patterns"""
         # Get current memory usage
         current_usage = psutil.virtual_memory().used / (1024**2)  # MB
@@ -159,7 +159,7 @@ class PerformanceAnalyzer:
             },
         }
 
-    async def analyze_import_performance(self) -> Dict[str, Any]:
+    async def analyze_import_performance(self) -> dict[str, Any]:
         """Analyze module import performance"""
         import_times = {}
 
@@ -206,7 +206,7 @@ class PerformanceAnalyzer:
 
         return {"import_times": import_times, "statistics": stats}
 
-    async def analyze_function_performance(self) -> Dict[str, Any]:
+    async def analyze_function_performance(self) -> dict[str, Any]:
         """Profile function performance using cProfile"""
         # Create a profiler
         profiler = cProfile.Profile()
@@ -254,7 +254,7 @@ class PerformanceAnalyzer:
 
         return len(processed)
 
-    async def analyze_api_performance(self) -> Dict[str, Any]:
+    async def analyze_api_performance(self) -> dict[str, Any]:
         """Analyze API performance characteristics"""
         # Simulate API operations
         start_times = []
@@ -279,7 +279,7 @@ class PerformanceAnalyzer:
             "total_requests": len(start_times),
         }
 
-    async def analyze_database_performance(self) -> Dict[str, Any]:
+    async def analyze_database_performance(self) -> dict[str, Any]:
         """Analyze database and storage performance"""
         # Test file I/O performance
         test_file = self.base_dir / "perf_test.tmp"
@@ -311,7 +311,7 @@ class PerformanceAnalyzer:
             },
         }
 
-    async def analyze_concurrency(self) -> Dict[str, Any]:
+    async def analyze_concurrency(self) -> dict[str, Any]:
         """Analyze concurrency and async performance"""
 
         # Test async task performance
@@ -339,7 +339,7 @@ class PerformanceAnalyzer:
             "task_count": 10,
         }
 
-    async def identify_optimizations(self) -> Dict[str, Any]:
+    async def identify_optimizations(self) -> dict[str, Any]:
         """Identify specific optimization opportunities"""
         optimizations = {}
 
@@ -390,7 +390,7 @@ class PerformanceAnalyzer:
 
         return optimizations
 
-    def generate_recommendations(self) -> List[Dict[str, Any]]:
+    def generate_recommendations(self) -> list[dict[str, Any]]:
         """Generate actionable performance recommendations"""
         recommendations = []
 

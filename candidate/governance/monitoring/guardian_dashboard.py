@@ -14,7 +14,7 @@ import time
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 import yaml
 
@@ -71,8 +71,8 @@ class ThreatEvent:
     confidence: float
     timestamp: float
     source: str
-    symbolic_pattern: List[str]
-    metadata: Dict
+    symbolic_pattern: list[str]
+    metadata: dict
     intervention_triggered: bool = False
     resolved: bool = False
     resolution_time: Optional[float] = None
@@ -102,10 +102,10 @@ class EmergencyState:
 
     active_emergency_level: Optional[str]
     emergency_description: str
-    symbolic_pattern: List[str]
+    symbolic_pattern: list[str]
     activated_at: Optional[float]
-    response_actions: List[str]
-    escalation_history: List[Dict]
+    response_actions: list[str]
+    escalation_history: list[dict]
     governance_approval: bool = True
     human_oversight_required: bool = False
 
@@ -116,9 +116,9 @@ class ThreatPredictor:
     def __init__(self, history_window: int = 100):
         self.history_window = history_window
         self.threat_history: deque = deque(maxlen=history_window)
-        self.pattern_frequencies: Dict[str, int] = defaultdict(int)
-        self.sequence_patterns: Dict[str, List[str]] = defaultdict(list)
-        self.governance_factors: Dict[str, float] = {}
+        self.pattern_frequencies: dict[str, int] = defaultdict(int)
+        self.sequence_patterns: dict[str, list[str]] = defaultdict(list)
+        self.governance_factors: dict[str, float] = {}
 
     def add_threat(self, threat: ThreatEvent):
         """Add threat to prediction model with governance analysis"""
@@ -148,7 +148,7 @@ class ThreatPredictor:
         if threat.intervention_triggered and threat.resolved:
             self.governance_factors["intervention_success"] = self.governance_factors.get("intervention_success", 0.5) + 0.1
 
-    def predict_next_threat(self) -> Dict[str, float]:
+    def predict_next_threat(self) -> dict[str, float]:
         """Predict probability of next threat types with governance weighting"""
         if len(self.threat_history) < 3:
             return {}
@@ -189,7 +189,7 @@ class ThreatPredictor:
 
         return dict(prediction_scores)
 
-    def get_pattern_analysis(self) -> Dict[str, any]:
+    def get_pattern_analysis(self) -> dict[str, any]:
         """Get detailed pattern analysis with governance insights"""
         if not self.threat_history:
             return {}
@@ -337,8 +337,8 @@ class GuardianDashboard(GlyphIntegrationMixin):
         self.start_time = time.time()
 
         # Threat tracking
-        self.active_threats: List[ThreatEvent] = []
-        self.resolved_threats: List[ThreatEvent] = []
+        self.active_threats: list[ThreatEvent] = []
+        self.resolved_threats: list[ThreatEvent] = []
         self.threat_predictor = ThreatPredictor()
 
         # System metrics with governance
@@ -369,9 +369,9 @@ class GuardianDashboard(GlyphIntegrationMixin):
         )
 
         # Emergency manifest data
-        self.emergency_manifest: Dict = {}
-        self.emergency_trigger_conditions: Dict = {}
-        self.emergency_response_actions: Dict = {}
+        self.emergency_manifest: dict = {}
+        self.emergency_trigger_conditions: dict = {}
+        self.emergency_response_actions: dict = {}
 
         # Dashboard state
         self.current_view = "overview"  # overview, threats, predictions, analysis, emergency, governance
@@ -381,8 +381,8 @@ class GuardianDashboard(GlyphIntegrationMixin):
         self.emergency_simulation_enabled = False
 
         # Governance tracking
-        self.governance_log: List[Dict] = []
-        self.dashboard_log: List[Dict] = []
+        self.governance_log: list[dict] = []
+        self.dashboard_log: list[dict] = []
 
         # Load emergency manifest
         self._load_emergency_manifest()
@@ -725,7 +725,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
         severity = base_severity + system_stress * 0.3 + (time.time() % 1 - 0.5) * 0.2
         return max(0.1, min(1.0, severity))
 
-    def _generate_symbolic_pattern(self, threat_type: str) -> List[str]:
+    def _generate_symbolic_pattern(self, threat_type: str) -> list[str]:
         """Generate symbolic pattern for threat type with governance context"""
         patterns = {
             "drift_spike": ["⚛️", "🌪️", "🛡️"],
@@ -738,7 +738,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
         }
         return patterns.get(threat_type, ["⚠️", "🔍", "🛡️"])
 
-    def _generate_threat_metadata(self, threat_type: str) -> Dict:
+    def _generate_threat_metadata(self, threat_type: str) -> dict:
         """Generate metadata for threat with governance information"""
         return {
             "detection_method": "guardian.sentinel",
@@ -756,7 +756,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
             }
         }
 
-    async def _log_governance_action(self, action: str, metadata: Dict):
+    async def _log_governance_action(self, action: str, metadata: dict):
         """Log action in governance audit system"""
         log_entry = {
             "timestamp": time.time(),
@@ -1125,7 +1125,7 @@ class GuardianDashboard(GlyphIntegrationMixin):
 
     # Public API methods for governance integration
 
-    def get_governance_summary(self) -> Dict[str, any]:
+    def get_governance_summary(self) -> dict[str, any]:
         """Get governance monitoring summary"""
         governance_threats = [t for t in self.active_threats if t.type in ["governance_drift", "ethics_violation"]]
 

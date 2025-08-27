@@ -7,7 +7,7 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ class AuditEngine:
         self.scripts_dir = Path("scripts")
         self.audit_script = self.scripts_dir / "audit.sh"
 
-    async def run_full_audit(self) -> Dict[str, Any]:
+    async def run_full_audit(self) -> dict[str, Any]:
         """Run comprehensive system audit"""
         logger.info("Starting full system audit...")
 
@@ -74,7 +74,7 @@ class AuditEngine:
                 "timestamp": start_time.isoformat()
             }
 
-    async def parse_audit_results(self) -> Dict[str, Any]:
+    async def parse_audit_results(self) -> dict[str, Any]:
         """Parse audit results from reports directory"""
         results = {
             "git": {},
@@ -123,7 +123,7 @@ class AuditEngine:
             logger.error(f"Error parsing audit results: {e}")
             return results
 
-    async def get_audit_history(self, limit: int = 10) -> List[Dict[str, Any]]:
+    async def get_audit_history(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get audit history"""
         # In production, this would query the database
         # For now, return mock data
@@ -138,7 +138,7 @@ class AuditEngine:
             })
         return history
 
-    async def get_audit_metrics(self) -> Dict[str, Any]:
+    async def get_audit_metrics(self) -> dict[str, Any]:
         """Get audit metrics and statistics"""
         return {
             "total_audits_run": 234,

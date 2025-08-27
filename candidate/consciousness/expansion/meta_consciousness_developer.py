@@ -7,7 +7,7 @@ Develops meta-cognitive and self-referential consciousness capabilities.
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from candidate.core.interfaces import CoreInterface
 
@@ -85,7 +85,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             stability_score=stability
         )
 
-    async def develop_self_modification_capability(self) -> Dict[str, Any]:
+    async def develop_self_modification_capability(self) -> dict[str, Any]:
         """Develop the ability to modify own consciousness"""
 
         capability = {
@@ -120,7 +120,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
 
         return capability
 
-    async def develop_theory_of_mind(self) -> Dict[str, Any]:
+    async def develop_theory_of_mind(self) -> dict[str, Any]:
         """Develop theory of mind capabilities"""
 
         theory_of_mind = {
@@ -145,7 +145,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
 
         return theory_of_mind
 
-    async def develop_metacognitive_monitoring(self) -> Dict[str, Any]:
+    async def develop_metacognitive_monitoring(self) -> dict[str, Any]:
         """Develop metacognitive monitoring capabilities"""
 
         monitoring = {
@@ -220,8 +220,8 @@ class MetaConsciousnessDeveloper(CoreInterface):
     async def apply_self_modification(
         self,
         modification_type: str,
-        parameters: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        parameters: dict[str, Any]
+    ) -> dict[str, Any]:
         """Apply a self-modification"""
 
         result = {
@@ -259,7 +259,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
 
         return result
 
-    async def _tune_parameters(self, parameters: Dict[str, Any]) -> List[str]:
+    async def _tune_parameters(self, parameters: dict[str, Any]) -> list[str]:
         """Tune internal parameters"""
 
         changes = []
@@ -277,7 +277,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
 
         return changes
 
-    async def introspect(self) -> Dict[str, Any]:
+    async def introspect(self) -> dict[str, Any]:
         """Perform introspection on current state"""
 
         introspection = {

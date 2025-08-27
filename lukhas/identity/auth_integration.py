@@ -12,7 +12,7 @@ This module provides the integration points between:
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Add paths for dynamic imports
 LUKHAS_ROOT = Path(__file__).parent.parent.parent
@@ -160,15 +160,15 @@ class AuthenticationIntegration:
             self.logger.error("Failed to initialize bridges: %s", e)
             raise
 
-    def get_component_paths(self) -> Dict[str, Any]:
+    def get_component_paths(self) -> dict[str, Any]:
         """Get all loaded component paths"""
         return self._components.copy()
 
-    def get_bridge_paths(self) -> Dict[str, str]:
+    def get_bridge_paths(self) -> dict[str, str]:
         """Get all initialized bridge paths"""
         return self._bridges.copy()
 
-    def get_integration_status(self) -> Dict[str, Any]:
+    def get_integration_status(self) -> dict[str, Any]:
         """Get current integration status"""
         return {
             'components_loaded': len(self._components),

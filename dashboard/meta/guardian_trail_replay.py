@@ -15,7 +15,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 # ANSI color codes for terminal output
@@ -61,7 +61,7 @@ def print_trinity():
     print(f"{Colors.DIM}Identity • Consciousness • Guardian{Colors.RESET}\n")
 
 
-def generate_guardian_events() -> List[Dict[str, Any]]:
+def generate_guardian_events() -> list[dict[str, Any]]:
     """Generate sample Guardian events for demonstration."""
     events = [
         {
@@ -155,7 +155,7 @@ def generate_guardian_events() -> List[Dict[str, Any]]:
     return events
 
 
-def load_guardian_logs(log_dir: Path) -> List[Dict[str, Any]]:
+def load_guardian_logs(log_dir: Path) -> list[dict[str, Any]]:
     """Load actual Guardian logs if available."""
     events = []
 
@@ -200,7 +200,7 @@ def get_severity_color(severity: str) -> str:
     return colors.get(severity, Colors.WHITE)
 
 
-def print_event(event: Dict[str, Any], index: int):
+def print_event(event: dict[str, Any], index: int):
     """Print a single event with formatting."""
     timestamp = format_timestamp(event.get("timestamp", ""))
     event_type = event.get("type", "unknown")
@@ -275,7 +275,7 @@ def animate_transition():
     print("\r ", end="", flush=True)
 
 
-def print_summary(events: List[Dict[str, Any]]):
+def print_summary(events: list[dict[str, Any]]):
     """Print summary statistics."""
     print(f"\n{Colors.PURPLE}{'─' * 60}{Colors.RESET}")
     print(f"{Colors.BOLD}Guardian Trail Summary{Colors.RESET}\n")
@@ -317,7 +317,7 @@ def print_summary(events: List[Dict[str, Any]]):
     print(f"{Colors.CYAN}{' '.join(sorted(all_glyphs))}{Colors.RESET}")
 
 
-def replay_mode(events: List[Dict[str, Any]]):
+def replay_mode(events: list[dict[str, Any]]):
     """Interactive replay mode."""
     print(f"\n{Colors.BOLD}Entering Replay Mode{Colors.RESET}")
     print(

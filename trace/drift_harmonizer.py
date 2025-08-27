@@ -17,7 +17,7 @@ from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # ΛTAG: codex, drift, harmonizer, trinity_framework
 # ΛORIGIN_AGENT: Claude Agent 2 (Guardian Specialist)
@@ -56,7 +56,7 @@ class DriftAnalysis:
     trend: str  # "increasing", "decreasing", "stable"
     predicted_severity: DriftSeverity
     confidence: float
-    affected_systems: List[str]
+    affected_systems: list[str]
     recommended_strategy: RealignmentStrategy
     urgency_score: float
     timestamp: datetime
@@ -107,7 +107,7 @@ class DriftHarmonizer:
 
         logger.info(f"DriftHarmonizer initialized with threshold={threshold}, Trinity compliance enabled")
 
-    def record_drift(self, score: float, metadata: Optional[Dict[str, Any]] = None) -> None:
+    def record_drift(self, score: float, metadata: Optional[dict[str, Any]] = None) -> None:
         """
         Record a drift measurement with timestamp and optional metadata.
 
@@ -165,8 +165,8 @@ class DriftHarmonizer:
 
         # Current drift assessment
         current_drift = self.history[-1]
-        avg_drift = sum(self.history) / len(self.history)
-        recent_drift = sum(list(self.history)[-5:]) / min(5, len(self.history))
+        sum(self.history) / len(self.history)
+        sum(list(self.history)[-5:]) / min(5, len(self.history))
 
         # Classify severity
         severity = self._classify_severity(current_drift)
@@ -200,7 +200,7 @@ class DriftHarmonizer:
             timestamp=datetime.now(timezone.utc)
         )
 
-    def get_trinity_balance(self) -> Dict[str, float]:
+    def get_trinity_balance(self) -> dict[str, float]:
         """
         Assess Trinity Framework component balance based on drift patterns.
 
@@ -271,7 +271,7 @@ class DriftHarmonizer:
         else:
             return 0.95
 
-    def _identify_affected_systems(self, drift_score: float) -> List[str]:
+    def _identify_affected_systems(self, drift_score: float) -> list[str]:
         """Identify which Trinity systems are affected by drift"""
         affected = []
 
@@ -328,7 +328,7 @@ class DriftHarmonizer:
         self.timestamps.clear()
         logger.info("Drift history reset")
 
-    def get_drift_summary(self) -> Dict[str, Any]:
+    def get_drift_summary(self) -> dict[str, Any]:
         """Get summary of current drift state"""
         if not self.history:
             return {"status": "no_data", "drift_count": 0}

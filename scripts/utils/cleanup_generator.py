@@ -7,7 +7,6 @@ Works with the Codebase Analyzer to create actionable cleanup commands
 import json
 import re
 from pathlib import Path
-from typing import List
 
 
 class CleanupGenerator:
@@ -55,7 +54,7 @@ class CleanupGenerator:
 
         return "\n".join(script_lines)
 
-    def _generate_safety_checks(self) -> List[str]:
+    def _generate_safety_checks(self) -> list[str]:
         """Generate safety checks for the script"""
         return [
             "# Safety checks",
@@ -76,7 +75,7 @@ class CleanupGenerator:
             "",
         ]
 
-    def _generate_stub_removal(self) -> List[str]:
+    def _generate_stub_removal(self) -> list[str]:
         """Generate commands to remove stub files"""
         if "stub_files" not in self.analysis["issues"]:
             return []
@@ -94,7 +93,7 @@ class CleanupGenerator:
 
         return lines
 
-    def _generate_prefix_fixes(self) -> List[str]:
+    def _generate_prefix_fixes(self) -> list[str]:
         """Generate commands to fix redundant prefixes"""
         if "redundant_prefixes" not in self.analysis["issues"]:
             return []
@@ -137,7 +136,7 @@ class CleanupGenerator:
         new_path = path.parent / f"{new_filename}{path.suffix}"
         return str(new_path)
 
-    def _generate_documentation_moves(self) -> List[str]:
+    def _generate_documentation_moves(self) -> list[str]:
         """Generate commands to move documentation files"""
         if "documentation_in_code" not in self.analysis["issues"]:
             return []
@@ -178,7 +177,7 @@ class CleanupGenerator:
         else:
             return f"docs/{path.name}"
 
-    def _generate_file_reorganization(self) -> List[str]:
+    def _generate_file_reorganization(self) -> list[str]:
         """Generate commands to reorganize misplaced files"""
         if "misplaced_files" not in self.analysis["issues"]:
             return []
@@ -211,7 +210,7 @@ class CleanupGenerator:
 
         return lines
 
-    def _generate_import_fixes(self) -> List[str]:
+    def _generate_import_fixes(self) -> list[str]:
         """Generate commands to help fix broken imports"""
         if "broken_imports" not in self.analysis["issues"]:
             return []

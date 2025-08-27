@@ -136,14 +136,13 @@ class WorkspaceGuardian:
         }
 
         # Critical file protection
-        if file_name in self.critical_files:
-            if operation in ["delete", "rm", "remove"]:
-                return {
-                    "allowed": False,
-                    "reason": f"🛡️ Critical file protected: {file_name}",
-                    "action": "block_critical_file_deletion",
-                    "severity": "critical",
-                }
+        if file_name in self.critical_files and operation in ["delete", "rm", "remove"]:
+            return {
+                "allowed": False,
+                "reason": f"🛡️ Critical file protected: {file_name}",
+                "action": "block_critical_file_deletion",
+                "severity": "critical",
+            }
 
         # Critical directory protection
         if any(critical_dir in file_path for critical_dir in self.critical_directories):

@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import os
-from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse
@@ -35,7 +34,7 @@ def healthz():
     return {"ok": True}
 
 @app.get("/provenance/{sha}/link")
-def get_presigned_link(sha: str, request: Request, expires: int = 600, filename: Optional[str] = None):
+def get_presigned_link(sha: str, request: Request, expires: int = 600, filename: str | None = None):
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:
@@ -58,7 +57,7 @@ def get_presigned_link(sha: str, request: Request, expires: int = 600, filename:
     return {"record": _summary_record(sha, rec), "link": link}
 
 @app.get("/provenance/{sha}/download")
-def download(sha: str, request: Request, expires: int = 600, filename: Optional[str] = None):
+def download(sha: str, request: Request, expires: int = 600, filename: str | None = None):
     try:
         rec = load_record_by_sha(sha)
     except Exception as e:

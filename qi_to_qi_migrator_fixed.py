@@ -9,7 +9,6 @@ LUKHAS AI Agent Army - Trinity Framework Migration
 
 import re
 from pathlib import Path
-from typing import List, Tuple
 
 
 class QIToQIMigrator:
@@ -17,9 +16,9 @@ class QIToQIMigrator:
 
     def __init__(self, root_path: str = "."):
         self.root = Path(root_path)
-        self.file_renames: List[Tuple[Path, Path]] = []
-        self.class_renames: List[Tuple[Path, str, str]] = []
-        self.content_updates: List[Path] = []
+        self.file_renames: list[tuple[Path, Path]] = []
+        self.class_renames: list[tuple[Path, str, str]] = []
+        self.content_updates: list[Path] = []
 
         # Naming patterns to migrate
         self.file_patterns = [
@@ -51,7 +50,7 @@ class QIToQIMigrator:
         filename = filepath.name.lower()
         return any(preserve in filename for preserve in self.preserve_files)
 
-    def find_quantum_files(self) -> List[Path]:
+    def find_quantum_files(self) -> list[Path]:
         """Find all files containing quantum in their names"""
         quantum_files = []
 
@@ -74,7 +73,7 @@ class QIToQIMigrator:
 
         return sorted(set(quantum_files))
 
-    def find_quantum_classes(self) -> List[Tuple[Path, str]]:
+    def find_quantum_classes(self) -> list[tuple[Path, str]]:
         """Find all class definitions with Quantum in their names"""
         quantum_classes = []
 
@@ -92,7 +91,7 @@ class QIToQIMigrator:
 
         return quantum_classes
 
-    def find_files_with_quantum_references(self) -> List[Path]:
+    def find_files_with_quantum_references(self) -> list[Path]:
         """Find all files that reference quantum in content"""
         files_with_refs = []
 

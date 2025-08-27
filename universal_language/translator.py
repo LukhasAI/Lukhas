@@ -10,7 +10,7 @@ import hashlib
 import logging
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from universal_language.core import Concept, ConceptType, Symbol, SymbolicDomain
 from universal_language.glyph import GLYPHSequence, GLYPHToken, get_glyph_engine
@@ -38,14 +38,14 @@ class TranslationResult:
     target: Any
     translation_type: TranslationType
     confidence: float = 1.0
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    trace: List[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    trace: list[str] = field(default_factory=list)
 
     def is_successful(self) -> bool:
         """Check if translation was successful"""
         return self.target is not None and self.confidence > 0.5
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation"""
         return {
             "source": str(self.source),
@@ -65,8 +65,8 @@ class ConceptMapper:
 
     def __init__(self):
         self.vocabulary = get_unified_vocabulary()
-        self.concept_cache: Dict[str, Concept] = {}
-        self.symbol_cache: Dict[str, Symbol] = {}
+        self.concept_cache: dict[str, Concept] = {}
+        self.symbol_cache: dict[str, Symbol] = {}
 
     def symbol_to_concept(self, symbol: Symbol) -> Optional[Concept]:
         """Convert a symbol to its corresponding concept"""
@@ -87,7 +87,7 @@ class ConceptMapper:
         self.concept_cache[symbol.id] = concept
         return concept
 
-    def symbols_to_composite_concept(self, symbols: List[Symbol]) -> Concept:
+    def symbols_to_composite_concept(self, symbols: list[Symbol]) -> Concept:
         """Combine multiple symbols into a composite concept"""
         # Determine primary domain
         domains = [s.domain for s in symbols]
@@ -108,7 +108,7 @@ class ConceptMapper:
 
         return concept
 
-    def concept_to_symbols(self, concept: Concept) -> List[Symbol]:
+    def concept_to_symbols(self, concept: Concept) -> list[Symbol]:
         """Extract symbols from a concept"""
         if concept.symbols:
             return concept.symbols
@@ -138,7 +138,7 @@ class ConceptMapper:
 
         return symbols
 
-    def find_related_concepts(self, concept: Concept, max_depth: int = 2) -> List[Concept]:
+    def find_related_concepts(self, concept: Concept, max_depth: int = 2) -> list[Concept]:
         """Find concepts related to a given concept"""
         related = []
 
@@ -212,7 +212,7 @@ class CrossModalTranslator:
         self.vocabulary = get_unified_vocabulary()
         self.modality_mappings = self._initialize_mappings()
 
-    def _initialize_mappings(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_mappings(self) -> dict[str, dict[str, Any]]:
         """Initialize modality mappings"""
         return {
             "text_to_glyph": {},
@@ -298,11 +298,11 @@ class UniversalTranslator:
         self.cross_modal = CrossModalTranslator()
         self.vocabulary = get_unified_vocabulary()
         self.glyph_engine = get_glyph_engine()
-        self.translation_cache: Dict[str, TranslationResult] = {}
+        self.translation_cache: dict[str, TranslationResult] = {}
         logger.info("Universal Translator initialized")
 
     def translate(self, source: Any, target_type: str,
-                 context: Optional[Dict[str, Any]] = None) -> TranslationResult:
+                 context: Optional[dict[str, Any]] = None) -> TranslationResult:
         """
         Translate from any source to target type.
 
@@ -351,7 +351,7 @@ class UniversalTranslator:
             return "unknown"
 
     def _perform_translation(self, source: Any, source_type: str, target_type: str,
-                           trace: List[str], context: Optional[Dict[str, Any]]) -> TranslationResult:
+                           trace: list[str], context: Optional[dict[str, Any]]) -> TranslationResult:
         """Perform the actual translation"""
         target = None
         translation_type = None
@@ -442,7 +442,7 @@ class UniversalTranslator:
 
         return new_symbol
 
-    def private_to_universal(self, private_tokens: List[Any]) -> List[str]:
+    def private_to_universal(self, private_tokens: list[Any]) -> list[str]:
         """
         Translate private tokens to universal concept IDs.
 
@@ -471,8 +471,8 @@ class UniversalTranslator:
 
         return concept_ids
 
-    def universal_to_private(self, concept_ids: List[str],
-                           user_preferences: Optional[Dict[str, Any]] = None) -> List[Any]:
+    def universal_to_private(self, concept_ids: list[str],
+                           user_preferences: Optional[dict[str, Any]] = None) -> list[Any]:
         """
         Translate universal concept IDs to user's private representation.
 
@@ -521,7 +521,7 @@ class UniversalTranslator:
 
         return private_tokens
 
-    def get_translation_stats(self) -> Dict[str, Any]:
+    def get_translation_stats(self) -> dict[str, Any]:
         """Get translation statistics"""
         successful = sum(1 for r in self.translation_cache.values() if r.is_successful())
         failed = len(self.translation_cache) - successful

@@ -12,7 +12,7 @@ import time
 from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 import numpy as np
 
@@ -53,8 +53,8 @@ class MemoryTrace:
     strength: float = 1.0  # Synaptic strength
     activation_count: int = 0
     last_activation: Optional[float] = None
-    context: Dict[str, Any] = field(default_factory=dict)
-    associations: Set[str] = field(default_factory=set)  # Connected traces
+    context: dict[str, Any] = field(default_factory=dict)
+    associations: set[str] = field(default_factory=set)  # Connected traces
     emotional_valence: float = 0.0  # -1 to 1
     importance: float = 0.5  # 0 to 1
     decay_rate: float = 0.01  # How fast it fades
@@ -75,7 +75,7 @@ class MemoryTrace:
         """Check if trace is above activation threshold"""
         return self.strength > 0.1
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "trace_id": self.trace_id,
             "memory_type": self.memory_type.value,
@@ -95,16 +95,16 @@ class EpisodicMemory:
     Like the hippocampus encoding specific experiences.
     """
     episode_id: str
-    symbols_used: List[Symbol]
-    context: Dict[str, Any]
+    symbols_used: list[Symbol]
+    context: dict[str, Any]
     outcome: Optional[str] = None
     timestamp: float = field(default_factory=time.time)
     location_encoding: Optional[np.ndarray] = None  # Place cells
     time_encoding: Optional[np.ndarray] = None  # Time cells
-    emotional_context: Dict[str, float] = field(default_factory=dict)
+    emotional_context: dict[str, float] = field(default_factory=dict)
     replay_count: int = 0  # Memory replay during consolidation
 
-    def to_semantic(self) -> Dict[str, Any]:
+    def to_semantic(self) -> dict[str, Any]:
         """Extract semantic knowledge from episodic memory"""
         return {
             "symbols": [s.name for s in self.symbols_used],
@@ -112,7 +112,7 @@ class EpisodicMemory:
             "associations": self._extract_associations()
         }
 
-    def _extract_patterns(self) -> List[str]:
+    def _extract_patterns(self) -> list[str]:
         """Extract patterns from symbol sequence"""
         patterns = []
         for i in range(len(self.symbols_used) - 1):
@@ -120,7 +120,7 @@ class EpisodicMemory:
             patterns.append(pattern)
         return patterns
 
-    def _extract_associations(self) -> Dict[str, List[str]]:
+    def _extract_associations(self) -> dict[str, list[str]]:
         """Extract symbol associations"""
         associations = {}
         for symbol in self.symbols_used:
@@ -141,8 +141,8 @@ class HippocampalBuffer:
     def __init__(self, capacity: int = 1000):
         self.capacity = capacity
         self.buffer: deque = deque(maxlen=capacity)
-        self.pattern_separator: Dict[str, List[MemoryTrace]] = {}
-        self.consolidation_queue: List[MemoryTrace] = []
+        self.pattern_separator: dict[str, list[MemoryTrace]] = {}
+        self.consolidation_queue: list[MemoryTrace] = []
 
     def encode(self, trace: MemoryTrace):
         """Encode new memory trace"""
@@ -158,7 +158,7 @@ class HippocampalBuffer:
         if trace.importance > 0.7:
             self.consolidation_queue.append(trace)
 
-    def replay(self, n_replays: int = 10) -> List[MemoryTrace]:
+    def replay(self, n_replays: int = 10) -> list[MemoryTrace]:
         """
         Sharp-wave ripple replay for consolidation.
 
@@ -175,7 +175,7 @@ class HippocampalBuffer:
 
         return replayed
 
-    def pattern_complete(self, partial: Dict[str, Any]) -> Optional[MemoryTrace]:
+    def pattern_complete(self, partial: dict[str, Any]) -> Optional[MemoryTrace]:
         """
         Pattern completion from partial cues.
 
@@ -203,7 +203,7 @@ class HippocampalBuffer:
         ]
         return "_".join(key_parts)
 
-    def _compute_similarity(self, dict1: Dict, dict2: Dict) -> float:
+    def _compute_similarity(self, dict1: dict, dict2: dict) -> float:
         """Compute similarity between two contexts"""
         if not dict1 or not dict2:
             return 0.0
@@ -224,12 +224,12 @@ class CorticalNetwork:
     """
 
     def __init__(self):
-        self.semantic_nodes: Dict[str, Dict[str, Any]] = {}
-        self.connections: Dict[str, Set[str]] = {}  # Synaptic connections
+        self.semantic_nodes: dict[str, dict[str, Any]] = {}
+        self.connections: dict[str, set[str]] = {}  # Synaptic connections
         self.activation_threshold = 0.3
         self.spread_decay = 0.5
 
-    def store_semantic(self, concept_id: str, attributes: Dict[str, Any]):
+    def store_semantic(self, concept_id: str, attributes: dict[str, Any]):
         """Store semantic knowledge"""
         if concept_id not in self.semantic_nodes:
             self.semantic_nodes[concept_id] = {
@@ -253,7 +253,7 @@ class CorticalNetwork:
                     self._add_connection(concept_id, other_id, similarity)
 
     def spreading_activation(self, start_concept: str,
-                           max_spread: int = 3) -> List[Tuple[str, float]]:
+                           max_spread: int = 3) -> list[tuple[str, float]]:
         """
         Spreading activation through semantic network.
 
@@ -305,7 +305,7 @@ class CorticalNetwork:
         # Store connection strength (simplified)
         # In production, would use weighted edges
 
-    def _compute_attribute_similarity(self, attrs1: Dict, attrs2: Dict) -> float:
+    def _compute_attribute_similarity(self, attrs1: dict, attrs2: dict) -> float:
         """Compute similarity between attribute sets"""
         if not attrs1 or not attrs2:
             return 0.0
@@ -329,7 +329,7 @@ class WorkingMemory:
 
     def __init__(self, capacity: int = 7):  # Miller's magical number 7±2
         self.capacity = capacity
-        self.items: List[Tuple[Any, float]] = []  # (item, activation)
+        self.items: list[tuple[Any, float]] = []  # (item, activation)
         self.focus: Optional[Any] = None  # Current focus of attention
         self.rehearsal_rate = 0.1
 
@@ -363,7 +363,7 @@ class WorkingMemory:
 
     def retrieve(self, cue: Any) -> Optional[Any]:
         """Retrieve item from working memory"""
-        for item, activation in self.items:
+        for item, _activation in self.items:
             if self._matches_cue(item, cue):
                 # Boost activation on retrieval
                 self.items = [
@@ -402,14 +402,14 @@ class NeuroSymbolicMemory:
         self.hippocampus = HippocampalBuffer()
         self.cortex = CorticalNetwork()
         self.working_memory = WorkingMemory()
-        self.episodic_memories: Dict[str, EpisodicMemory] = {}
-        self.memory_traces: Dict[str, MemoryTrace] = {}
+        self.episodic_memories: dict[str, EpisodicMemory] = {}
+        self.memory_traces: dict[str, MemoryTrace] = {}
         self.consolidation_cycles = 0
 
         logger.info("NeuroSymbolic Memory System initialized")
 
-    def encode_symbol_experience(self, symbols: List[Symbol],
-                                context: Dict[str, Any],
+    def encode_symbol_experience(self, symbols: list[Symbol],
+                                context: dict[str, Any],
                                 outcome: Optional[str] = None) -> str:
         """
         Encode a new symbol usage experience.
@@ -454,7 +454,7 @@ class NeuroSymbolicMemory:
 
         return episode.episode_id
 
-    def recall_by_symbol(self, symbol: Symbol) -> List[EpisodicMemory]:
+    def recall_by_symbol(self, symbol: Symbol) -> list[EpisodicMemory]:
         """Recall episodes containing a symbol"""
         recalled = []
 
@@ -465,7 +465,7 @@ class NeuroSymbolicMemory:
 
         return recalled
 
-    def semantic_search(self, concept: str) -> List[Tuple[str, float]]:
+    def semantic_search(self, concept: str) -> list[tuple[str, float]]:
         """
         Search semantic memory using spreading activation.
         """
@@ -496,7 +496,7 @@ class NeuroSymbolicMemory:
 
             self.consolidation_cycles += 1
 
-    def dream_recombination(self, n_symbols: int = 5) -> List[Symbol]:
+    def dream_recombination(self, n_symbols: int = 5) -> list[Symbol]:
         """
         Dream-like recombination of memory traces.
 
@@ -563,7 +563,7 @@ class NeuroSymbolicMemory:
         logger.info(f"Pruned {len(pruned)} weak memory traces")
         return pruned
 
-    def get_memory_stats(self) -> Dict[str, Any]:
+    def get_memory_stats(self) -> dict[str, Any]:
         """Get comprehensive memory statistics"""
         return {
             "total_traces": len(self.memory_traces),
@@ -577,7 +577,7 @@ class NeuroSymbolicMemory:
             ]) if self.memory_traces else 0
         }
 
-    def _calculate_importance(self, symbol: Symbol, context: Dict[str, Any],
+    def _calculate_importance(self, symbol: Symbol, context: dict[str, Any],
                             outcome: Optional[str]) -> float:
         """Calculate importance of a memory"""
         importance = 0.5  # Base importance

@@ -7,7 +7,7 @@ image interpretation, and visual communication.
 """
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 from ..core import AnalysisType, VisionProvider
 
@@ -19,9 +19,9 @@ class Visualsymbol:
     symbol: str
     meaning: str
     visual_weight: float
-    analysis_properties: Dict[str, Any]
-    usage_contexts: List[str]
-    color_associations: List[Tuple[int, int, int]]
+    analysis_properties: dict[str, Any]
+    usage_contexts: list[str]
+    color_associations: list[tuple[int, int, int]]
 
 
 class Visionsymbolicvocabulary:
@@ -37,7 +37,7 @@ class Visionsymbolicvocabulary:
         self.quality_symbols = self._init_quality_symbols()
         self.symbolic_elements = self._init_symbolic_elements()
 
-    def _init_analysis_symbols(self) -> Dict[str, VisualSymbol]:
+    def _init_analysis_symbols(self) -> dict[str, VisualSymbol]:
         """Initialize visual analysis symbolic elements."""
         return {
             "👁️": VisualSymbol(
@@ -110,7 +110,7 @@ class Visionsymbolicvocabulary:
             ),
         }
 
-    def _init_object_symbols(self) -> Dict[str, VisualSymbol]:
+    def _init_object_symbols(self) -> dict[str, VisualSymbol]:
         """Initialize object detection symbolic elements."""
         return {
             "🏠": VisualSymbol(
@@ -174,7 +174,7 @@ class Visionsymbolicvocabulary:
             ),
         }
 
-    def _init_color_symbols(self) -> Dict[str, VisualSymbol]:
+    def _init_color_symbols(self) -> dict[str, VisualSymbol]:
         """Initialize color analysis symbolic elements."""
         return {
             "🔴": VisualSymbol(
@@ -275,7 +275,7 @@ class Visionsymbolicvocabulary:
             ),
         }
 
-    def _init_emotion_symbols(self) -> Dict[str, VisualSymbol]:
+    def _init_emotion_symbols(self) -> dict[str, VisualSymbol]:
         """Initialize emotional visual symbolic elements."""
         return {
             "😊": VisualSymbol(
@@ -376,7 +376,7 @@ class Visionsymbolicvocabulary:
             ),
         }
 
-    def _init_composition_symbols(self) -> Dict[str, VisualSymbol]:
+    def _init_composition_symbols(self) -> dict[str, VisualSymbol]:
         """Initialize composition analysis symbolic elements."""
         return {
             "📐": VisualSymbol(
@@ -477,7 +477,7 @@ class Visionsymbolicvocabulary:
             ),
         }
 
-    def _init_provider_symbols(self) -> Dict[str, VisualSymbol]:
+    def _init_provider_symbols(self) -> dict[str, VisualSymbol]:
         """Initialize vision provider symbolic elements."""
         return {
             "🤖": VisualSymbol(
@@ -530,7 +530,7 @@ class Visionsymbolicvocabulary:
             ),
         }
 
-    def _init_quality_symbols(self) -> Dict[str, VisualSymbol]:
+    def _init_quality_symbols(self) -> dict[str, VisualSymbol]:
         """Initialize quality assessment symbolic elements."""
         return {
             "💎": VisualSymbol(
@@ -591,7 +591,7 @@ class Visionsymbolicvocabulary:
             ),
         }
 
-    def _init_symbolic_elements(self) -> Dict[str, VisualSymbol]:
+    def _init_symbolic_elements(self) -> dict[str, VisualSymbol]:
         """Initialize meta-symbolic visual elements."""
         return {
             "🔮": VisualSymbol(
@@ -720,7 +720,7 @@ class Visionsymbolicvocabulary:
         }
         return provider_map.get(provider, "👁️")
 
-    def get_dominant_color_symbol(self, rgb_color: Tuple[int, int, int]) -> str:
+    def get_dominant_color_symbol(self, rgb_color: tuple[int, int, int]) -> str:
         """Get symbol for dominant color based on RGB values."""
         r, g, b = rgb_color
 
@@ -766,7 +766,7 @@ class Visionsymbolicvocabulary:
 
         return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
 
-    def get_emotional_color_mapping(self, emotion: str) -> List[Tuple[int, int, int]]:
+    def get_emotional_color_mapping(self, emotion: str) -> list[tuple[int, int, int]]:
         """Get color associations for emotional content."""
         emotion_colors = {
             "joy": [(255, 255, 0), (255, 192, 203), (255, 165, 0)],
@@ -779,7 +779,7 @@ class Visionsymbolicvocabulary:
         }
         return emotion_colors.get(emotion.lower(), [(128, 128, 128)])
 
-    def analyze_symbolic_composition(self, detected_objects: List[str]) -> List[str]:
+    def analyze_symbolic_composition(self, detected_objects: list[str]) -> list[str]:
         """Analyze symbolic composition based on detected objects."""
         symbolic_elements = []
 
@@ -832,7 +832,7 @@ class Visionsymbolicvocabulary:
 
         return " ".join(symbols)
 
-    def get_all_symbols(self) -> Dict[str, VisualSymbol]:
+    def get_all_symbols(self) -> dict[str, VisualSymbol]:
         """Get all vision symbolic elements."""
         all_symbols = {}
         all_symbols.update(self.analysis_symbols)
@@ -845,7 +845,7 @@ class Visionsymbolicvocabulary:
         all_symbols.update(self.symbolic_elements)
         return all_symbols
 
-    def get_context_symbols(self, context: str) -> List[str]:
+    def get_context_symbols(self, context: str) -> list[str]:
         """Get symbols relevant to a specific visual context."""
         relevant_symbols = []
         all_symbols = self.get_all_symbols()
@@ -856,7 +856,7 @@ class Visionsymbolicvocabulary:
 
         return relevant_symbols
 
-    def calculate_visual_harmony(self, colors: List[Tuple[int, int, int]]) -> float:
+    def calculate_visual_harmony(self, colors: list[tuple[int, int, int]]) -> float:
         """Calculate visual harmony score based on color relationships."""
         if not colors:
             return 0.0
@@ -865,7 +865,7 @@ class Visionsymbolicvocabulary:
         harmony_score = 0.0
 
         for i, color1 in enumerate(colors):
-            for j, color2 in enumerate(colors[i + 1 :], i + 1):
+            for _j, color2 in enumerate(colors[i + 1 :], i + 1):
                 # Calculate color distance
                 r_diff = abs(color1[0] - color2[0])
                 g_diff = abs(color1[1] - color2[1])

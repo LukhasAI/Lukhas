@@ -11,7 +11,7 @@ import re
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class MedicationInfo:
     strength: Optional[str]
     form: Optional[str]  # comprimidos, cápsulas, jarabe, etc.
     instructions: Optional[str]
-    warnings: List[str]
+    warnings: list[str]
     expiration_date: Optional[date]
     lot_number: Optional[str]
     manufacturer: Optional[str]
@@ -121,7 +121,7 @@ class MedicationOCRSystem:
         }
     }
 
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: dict[str, Any] = None):
         """
         Initialize Medication OCR System
 
@@ -294,14 +294,14 @@ class MedicationOCRSystem:
 
         return info if info.confidence_score > self.confidence_threshold else None
 
-    def _extract_medication_name(self, lines: List[str]) -> str:
+    def _extract_medication_name(self, lines: list[str]) -> str:
         """Extract medication name from text lines"""
         # Usually the first non-empty line or the largest text
         for line in lines:
             line = line.strip()
             if line and len(line) > 3:
                 # Check if it matches known medications
-                for med in self.SPANISH_MEDICATIONS.keys():
+                for med in self.SPANISH_MEDICATIONS:
                     if med.lower() in line.lower():
                         return line
 
@@ -311,7 +311,7 @@ class MedicationOCRSystem:
 
         return "Desconocido"
 
-    def _extract_dosage(self, text: str) -> Tuple[Optional[str], Optional[str]]:
+    def _extract_dosage(self, text: str) -> tuple[Optional[str], Optional[str]]:
         """Extract strength and dosage from text"""
         strength = None
         dosage = None
@@ -365,7 +365,7 @@ class MedicationOCRSystem:
 
         return " ".join(instructions) if instructions else None
 
-    def _extract_warnings(self, text: str) -> List[str]:
+    def _extract_warnings(self, text: str) -> list[str]:
         """Extract warnings from text"""
         warnings = []
         text_lower = text.lower()
@@ -391,10 +391,7 @@ class MedicationOCRSystem:
                     year_str = match.group(2)
 
                     # Handle 2-digit year
-                    if len(year_str) == 2:
-                        year = 2000 + int(year_str)
-                    else:
-                        year = int(year_str)
+                    year = 2000 + int(year_str) if len(year_str) == 2 else int(year_str)
 
                     # Create date (last day of month)
                     import calendar
@@ -451,7 +448,7 @@ class MedicationOCRSystem:
         """Match extracted name with known medications"""
         name_lower = name.lower()
 
-        for med_name in self.SPANISH_MEDICATIONS.keys():
+        for med_name in self.SPANISH_MEDICATIONS:
             if med_name in name_lower:
                 return med_name
 
@@ -568,7 +565,7 @@ class MedicationOCRSystem:
         """Generate cache key for image"""
         return hashlib.md5(image_path.encode()).hexdigest()
 
-    async def check_expiration(self, medication: MedicationInfo) -> Dict[str, Any]:
+    async def check_expiration(self, medication: MedicationInfo) -> dict[str, Any]:
         """
         Check if medication is expired or expiring soon
 

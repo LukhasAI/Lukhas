@@ -7,7 +7,6 @@ Combines traditional poetry craft with LUKHAS-specific innovations.
 """
 
 import random
-from typing import List
 
 
 class PoeticTechniques:
@@ -347,7 +346,7 @@ class PoeticTechniques:
             return pattern
         return ""
 
-    def create_rich_description(self, concept: str, techniques: List[str] = None) -> str:
+    def create_rich_description(self, concept: str, techniques: list[str] = None) -> str:
         """
         Create a rich poetic description using multiple techniques.
 

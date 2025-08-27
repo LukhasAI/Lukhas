@@ -3,14 +3,13 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import List, Tuple
 
 
 @dataclass
 class PIIHit:
     kind: str
     value: str
-    span: Tuple[int, int]
+    span: tuple[int, int]
 
 _EMAIL = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
 _PHONE = re.compile(r"(?:(?:\+?\d{1,3}[-.\s]?)?(?:\(?\d{2,4}\)?[-.\s]?)?\d{3}[-.\s]?\d{4,6})")
@@ -35,8 +34,8 @@ def _luhn(cc: str) -> bool:
         odd = not odd
     return total % 10 == 0
 
-def detect_pii(text: str) -> List[PIIHit]:
-    hits: List[PIIHit] = []
+def detect_pii(text: str) -> list[PIIHit]:
+    hits: list[PIIHit] = []
     for m in _EMAIL.finditer(text):
         hits.append(PIIHit("email", m.group(0), (m.start(), m.end())))
     for m in _PHONE.finditer(text):

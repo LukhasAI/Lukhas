@@ -10,7 +10,7 @@ LANES = {
     "quarantine": ROOT / "quarantine",
     "archive": ROOT / "archive",
 }
-def list_py(d): return [p for p in d.rglob("*.py")] if d.exists() else []
+def list_py(d): return list(d.rglob("*.py")) if d.exists() else []
 def has_init(p): return (p / "__init__.py").exists()
 def count_lines(files):
     tot = 0

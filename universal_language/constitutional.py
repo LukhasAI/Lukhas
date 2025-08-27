@@ -11,7 +11,7 @@ import logging
 import time
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 from universal_language.core import Concept, Symbol, SymbolicDomain
 
@@ -40,7 +40,7 @@ class ConstitutionalRule:
     severity: str = "warning"  # warning, error, critical
     active: bool = True
 
-    def validate(self, symbol: Symbol) -> Tuple[bool, Optional[str]]:
+    def validate(self, symbol: Symbol) -> tuple[bool, Optional[str]]:
         """Validate a symbol against this rule"""
         try:
             if not self.active:
@@ -70,7 +70,7 @@ class ConstitutionalViolation:
     timestamp: float = field(default_factory=time.time)
     resolved: bool = False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "violation_id": self.violation_id,
             "symbol_id": self.symbol_id,
@@ -91,9 +91,9 @@ class ConstitutionalValidator:
     """
 
     def __init__(self):
-        self.rules: Dict[str, ConstitutionalRule] = {}
-        self.violations: List[ConstitutionalViolation] = []
-        self.exemptions: Set[str] = set()  # Symbol IDs exempt from validation
+        self.rules: dict[str, ConstitutionalRule] = {}
+        self.violations: list[ConstitutionalViolation] = []
+        self.exemptions: set[str] = set()  # Symbol IDs exempt from validation
         self._initialize_core_rules()
 
         logger.info("Constitutional Validator initialized with core rules")
@@ -164,7 +164,7 @@ class ConstitutionalValidator:
             del self.rules[rule_id]
             logger.info(f"Removed constitutional rule: {rule_id}")
 
-    def validate_symbol(self, symbol: Symbol) -> Tuple[bool, List[ConstitutionalViolation]]:
+    def validate_symbol(self, symbol: Symbol) -> tuple[bool, list[ConstitutionalViolation]]:
         """
         Validate a symbol against all constitutional rules.
 
@@ -196,7 +196,7 @@ class ConstitutionalValidator:
 
         return not has_critical, violations
 
-    def validate_concept(self, concept: Concept) -> Tuple[bool, List[ConstitutionalViolation]]:
+    def validate_concept(self, concept: Concept) -> tuple[bool, list[ConstitutionalViolation]]:
         """Validate all symbols in a concept"""
         all_violations = []
 
@@ -217,7 +217,7 @@ class ConstitutionalValidator:
         self.exemptions.discard(symbol_id)
         logger.info(f"Removed exemption for symbol {symbol_id}")
 
-    def get_violations_for_symbol(self, symbol_id: str) -> List[ConstitutionalViolation]:
+    def get_violations_for_symbol(self, symbol_id: str) -> list[ConstitutionalViolation]:
         """Get all violations for a specific symbol"""
         return [v for v in self.violations if v.symbol_id == symbol_id and not v.resolved]
 
@@ -281,11 +281,7 @@ class ConstitutionalValidator:
             "age_restricted", "ability_restricted"
         ]
 
-        for indicator in bias_indicators:
-            if indicator in symbol.attributes:
-                return True
-
-        return False
+        return any(indicator in symbol.attributes for indicator in bias_indicators)
 
     def _generate_violation_id(self) -> str:
         """Generate unique violation ID"""
@@ -301,8 +297,8 @@ class ConstitutionalGuardrails:
 
     def __init__(self):
         self.validator = ConstitutionalValidator()
-        self.generation_constraints: Dict[str, Any] = {}
-        self.blocked_patterns: Set[str] = set()
+        self.generation_constraints: dict[str, Any] = {}
+        self.blocked_patterns: set[str] = set()
         self._initialize_guardrails()
 
     def _initialize_guardrails(self):
@@ -323,7 +319,7 @@ class ConstitutionalGuardrails:
             "allow_anonymous": False
         }
 
-    def can_generate(self, proposed_symbol: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
+    def can_generate(self, proposed_symbol: dict[str, Any]) -> tuple[bool, Optional[str]]:
         """Check if a symbol can be generated safely"""
         # Check blocked patterns
         name = proposed_symbol.get("name", "").lower()
@@ -379,9 +375,9 @@ class SymbolSandbox:
     """
 
     def __init__(self):
-        self.sandbox_symbols: Dict[str, Symbol] = {}
+        self.sandbox_symbols: dict[str, Symbol] = {}
         self.guardrails = ConstitutionalGuardrails()
-        self.test_results: List[Dict[str, Any]] = []
+        self.test_results: list[dict[str, Any]] = []
         self.is_active = False
 
     def enter_sandbox(self):
@@ -390,7 +386,7 @@ class SymbolSandbox:
         self.sandbox_symbols.clear()
         logger.info("Entered sandbox mode")
 
-    def exit_sandbox(self) -> List[Symbol]:
+    def exit_sandbox(self) -> list[Symbol]:
         """Exit sandbox and return validated symbols"""
         self.is_active = False
         validated = []
@@ -407,7 +403,7 @@ class SymbolSandbox:
         logger.info(f"Exited sandbox with {len(validated)} validated symbols")
         return validated
 
-    def test_symbol(self, symbol: Symbol) -> Dict[str, Any]:
+    def test_symbol(self, symbol: Symbol) -> dict[str, Any]:
         """Test a symbol in sandbox"""
         if not self.is_active:
             raise RuntimeError("Sandbox not active")
@@ -434,11 +430,11 @@ class SymbolSandbox:
 
         return result
 
-    def batch_test(self, symbols: List[Symbol]) -> List[Dict[str, Any]]:
+    def batch_test(self, symbols: list[Symbol]) -> list[dict[str, Any]]:
         """Test multiple symbols in sandbox"""
         return [self.test_symbol(s) for s in symbols]
 
-    def get_test_report(self) -> Dict[str, Any]:
+    def get_test_report(self) -> dict[str, Any]:
         """Get comprehensive test report"""
         if not self.test_results:
             return {"message": "No tests run"}
@@ -476,7 +472,7 @@ class ConstitutionalAPI:
         self.validator = ConstitutionalValidator()
         self.guardrails = ConstitutionalGuardrails()
         self.sandbox = SymbolSandbox()
-        self.audit_log: List[Dict[str, Any]] = []
+        self.audit_log: list[dict[str, Any]] = []
 
     def create_safe_symbol(self, name: str, domain: SymbolicDomain,
                           value: Any, **attributes) -> Optional[Symbol]:
@@ -526,7 +522,7 @@ class ConstitutionalAPI:
 
         return safe_symbol
 
-    def validate_batch(self, symbols: List[Symbol]) -> Dict[str, Any]:
+    def validate_batch(self, symbols: list[Symbol]) -> dict[str, Any]:
         """Validate a batch of symbols"""
         results = {
             "total": len(symbols),
@@ -548,7 +544,7 @@ class ConstitutionalAPI:
 
         return results
 
-    def experiment_safely(self, experimental_symbols: List[Symbol]) -> List[Symbol]:
+    def experiment_safely(self, experimental_symbols: list[Symbol]) -> list[Symbol]:
         """
         Experiment with symbols in sandbox.
 
@@ -573,7 +569,7 @@ class ConstitutionalAPI:
         self.validator.add_rule(rule)
         self._log_event("rule_added", {"rule_id": rule.rule_id}, None)
 
-    def get_audit_trail(self) -> List[Dict[str, Any]]:
+    def get_audit_trail(self) -> list[dict[str, Any]]:
         """Get audit trail of constitutional actions"""
         return self.audit_log.copy()
 

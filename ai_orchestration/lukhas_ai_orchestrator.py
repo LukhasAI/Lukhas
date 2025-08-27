@@ -18,7 +18,7 @@ import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import aiohttp
 import openai
@@ -29,7 +29,7 @@ from anthropic import AsyncAnthropic
 class AIProvider:
     name: str
     endpoint: str
-    strengths: List[str]
+    strengths: list[str]
     api_key: Optional[str] = None
     model: Optional[str] = None
 
@@ -42,7 +42,7 @@ class LUKHASAIOrchestrator:
         self.providers = self._initialize_providers()
         self.lukhas_context = self._load_lukhas_context()
 
-    def _initialize_providers(self) -> Dict[str, AIProvider]:
+    def _initialize_providers(self) -> dict[str, AIProvider]:
         """Initialize AI providers with LUKHAS-aware configurations"""
         return {
             "claude": AIProvider(
@@ -90,7 +90,7 @@ class LUKHASAIOrchestrator:
         return "\n".join(context_parts)
 
     async def route_request(
-        self, task_type: str, content: str, context: Dict[str, Any] = None
+        self, task_type: str, content: str, context: dict[str, Any] = None
     ) -> str:
         """🧠 Route requests to optimal AI provider based on task type"""
         routing_map = {
@@ -131,7 +131,7 @@ class LUKHASAIOrchestrator:
             raise Exception(f"All AI providers failed: {e}")
 
     async def _call_provider(
-        self, provider_name: str, content: str, context: Dict[str, Any]
+        self, provider_name: str, content: str, context: dict[str, Any]
     ) -> str:
         """🎯 Call specific AI provider with LUKHAS context"""
         self.providers[provider_name]
@@ -145,7 +145,7 @@ class LUKHASAIOrchestrator:
         else:
             raise ValueError(f"Unknown provider: {provider_name}")
 
-    async def _call_claude(self, content: str, context: Dict[str, Any]) -> str:
+    async def _call_claude(self, content: str, context: dict[str, Any]) -> str:
         """Call Claude with LUKHAS system message"""
         if not self.providers["claude"].api_key:
             raise Exception("Claude API key not configured")
@@ -164,7 +164,7 @@ class LUKHASAIOrchestrator:
 
         return response.content[0].text
 
-    async def _call_gpt(self, content: str, context: Dict[str, Any]) -> str:
+    async def _call_gpt(self, content: str, context: dict[str, Any]) -> str:
         """Call GPT with LUKHAS system message"""
         if not self.providers["gpt"].api_key:
             raise Exception("OpenAI API key not configured")
@@ -185,7 +185,7 @@ class LUKHASAIOrchestrator:
 
         return response.choices[0].message.content
 
-    async def _call_ollama(self, content: str, context: Dict[str, Any]) -> str:
+    async def _call_ollama(self, content: str, context: dict[str, Any]) -> str:
         """Call Ollama local model"""
         async with aiohttp.ClientSession() as session:
             payload = {
@@ -206,7 +206,7 @@ class LUKHASAIOrchestrator:
 
     async def trinity_documentation_generation(
         self, element_signature: str, element_type: str = "function"
-    ) -> Dict[str, str]:
+    ) -> dict[str, str]:
         """🎭 Generate Trinity Framework documentation using best available AI"""
         prompt = f"""
         Generate LUKHAS Trinity Framework documentation for this {element_type}:
@@ -225,7 +225,7 @@ class LUKHASAIOrchestrator:
         response = await self.route_request("trinity_documentation", prompt)
         return self._parse_trinity_response(response)
 
-    def _parse_trinity_response(self, response: str) -> Dict[str, str]:
+    def _parse_trinity_response(self, response: str) -> dict[str, str]:
         """Parse Trinity Framework response into structured format"""
         layers = {"poetic": "", "human": "", "technical": ""}
 
@@ -249,7 +249,7 @@ class LUKHASAIOrchestrator:
 
     async def lukhas_code_review(
         self, code: str, file_path: str = ""
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """🛡️ Comprehensive LUKHAS code review"""
         prompt = f"""
         Review this code for LUKHAS compliance and suggest improvements:
@@ -275,7 +275,7 @@ class LUKHASAIOrchestrator:
 
     async def suggest_lukhas_naming(
         self, purpose: str, element_type: str, domain: str = ""
-    ) -> List[str]:
+    ) -> list[str]:
         """🧠 Generate LUKHAS-compliant naming suggestions"""
         prompt = f"""
         Suggest LUKHAS-compliant names for a {element_type} that {purpose}.

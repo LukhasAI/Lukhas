@@ -11,6 +11,7 @@ This module consolidates all consciousness-related components:
 - Colony systems
 """
 
+import contextlib
 from typing import Optional
 
 # Version info
@@ -38,10 +39,8 @@ except ImportError:
     pass
 
 # Import engines
-try:
+with contextlib.suppress(ImportError):
     from .engines.expansion import ExpansionEngine
-except ImportError:
-    pass
 
 # Import LUKHAS AI branding system for consciousness outputs
 try:

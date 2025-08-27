@@ -5,7 +5,7 @@ This directory contains comprehensive analysis reports of TODO items marked with
 ## TODO Types
 
 - **T4-AUTOFIX**: Items that can be safely automated through T4 system transformations
-- **T4-MANUAL**: Items requiring human review and manual intervention  
+- **T4-MANUAL**: Items requiring human review and manual intervention
 - **T4-RESEARCH**: Items needing investigation before implementation decisions
 - **T4-SECURITY**: Security-sensitive changes requiring extra careful review
 
@@ -32,7 +32,7 @@ This directory contains comprehensive analysis reports of TODO items marked with
 ## Metrics Tracked
 
 - Total TODO count and breakdown by type
-- Average age of TODO items 
+- Average age of TODO items
 - Resolution velocity by category
 - Hot spots (files/modules with high TODO density)
 - Sprint burn-down of T4-AUTOFIX items

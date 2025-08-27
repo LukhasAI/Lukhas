@@ -20,7 +20,7 @@ import secrets
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
@@ -54,8 +54,8 @@ class LocalSymbolStore:
     def __init__(self, storage_path: str = "ul/local_map.enc"):
         self.storage_path = Path(storage_path)
         self.encryption_key = None
-        self.symbols: Dict[str, PersonalSymbol] = {}
-        self.compositions: Dict[str, Dict[str, Any]] = {}
+        self.symbols: dict[str, PersonalSymbol] = {}
+        self.compositions: dict[str, dict[str, Any]] = {}
 
     def initialize(self, device_key: str):
         """
@@ -70,7 +70,7 @@ class LocalSymbolStore:
             salt=b'lukhas_ul_salt',  # In production: random salt per device
             iterations=100000,
         )
-        key = kdf.derive(device_key.encode())
+        kdf.derive(device_key.encode())
         self.encryption_key = Fernet(Fernet.generate_key())  # Mock for now
 
         # Load existing symbols if file exists
@@ -118,7 +118,7 @@ class LocalSymbolStore:
 
         return symbol
 
-    def find_symbols_by_meaning(self, meaning: str) -> List[PersonalSymbol]:
+    def find_symbols_by_meaning(self, meaning: str) -> list[PersonalSymbol]:
         """Find all symbols bound to a specific meaning"""
         return [
             symbol for symbol in self.symbols.values()
@@ -149,7 +149,7 @@ class LocalSymbolStore:
 
         return False
 
-    def create_composition(self, name: str, symbol_ids: List[str], operators: List[str], meaning: str) -> str:
+    def create_composition(self, name: str, symbol_ids: list[str], operators: list[str], meaning: str) -> str:
         """
         Create a symbol composition.
 
@@ -176,11 +176,10 @@ class LocalSymbolStore:
 
         try:
             # Read encrypted content
-            encrypted_data = self.storage_path.read_bytes()
+            self.storage_path.read_bytes()
 
             # Decrypt (mock for development)
             # In production: use Fernet or similar
-            decrypted_data = encrypted_data  # Mock: pretend it's decrypted
 
             # Parse JSON (if it were real encrypted data)
             # data = json.loads(decrypted_data)
@@ -208,7 +207,7 @@ class LocalSymbolStore:
         self.storage_path.parent.mkdir(parents=True, exist_ok=True)
         self.storage_path.write_bytes(encrypted_data)
 
-    def _serialize_symbols(self) -> Dict[str, Any]:
+    def _serialize_symbols(self) -> dict[str, Any]:
         """Serialize symbols for storage"""
         return {
             "version": "1.0",
@@ -240,14 +239,14 @@ class ULChallengeService:
     """
 
     def __init__(self):
-        self.active_challenges: Dict[str, CompositionChallenge] = {}
-        self.verified_signatures: Dict[str, ULSignature] = {}
+        self.active_challenges: dict[str, CompositionChallenge] = {}
+        self.verified_signatures: dict[str, ULSignature] = {}
 
     async def generate_challenge(
         self,
         lid: str,
         action: str,
-        required_meanings: List[str]
+        required_meanings: list[str]
     ) -> CompositionChallenge:
         """
         Generate composition challenge for user.
@@ -331,7 +330,7 @@ class ULChallengeService:
         self,
         lid: str,
         action: str,
-        symbol_proofs: List[str],
+        symbol_proofs: list[str],
         composition_proof: Optional[CompositionProof] = None
     ) -> ULSignature:
         """
@@ -481,7 +480,7 @@ class UniversalLanguageService:
     async def solve_challenge(
         self,
         challenge: CompositionChallenge,
-        symbol_data_list: List[Tuple[Any, SymbolType]]
+        symbol_data_list: list[tuple[Any, SymbolType]]
     ) -> CompositionProof:
         """
         Solve composition challenge locally.
@@ -576,14 +575,14 @@ async def demonstrate_ul_workflow():
     # 1. Bind personal symbols
     print("📝 Binding personal symbols...")
 
-    power_symbol_id = await service.bind_symbol(
+    await service.bind_symbol(
         SymbolType.EMOJI,
         "⚡️💪",  # Lightning + muscle = power
         MeaningType.CONCEPT,
         "power"
     )
 
-    responsibility_symbol_id = await service.bind_symbol(
+    await service.bind_symbol(
         SymbolType.WORD,
         "with great power",
         MeaningType.CONCEPT,

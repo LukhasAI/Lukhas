@@ -6,7 +6,7 @@ Synthesizes value creation strategies and optimization paths.
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from core.interfaces import CoreInterface
 
@@ -16,9 +16,9 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ValueStructure:
     """Represents a value creation structure"""
-    value_drivers: List[str]
-    value_capture_mechanisms: List[str]
-    value_distribution: Dict[str, float]
+    value_drivers: list[str]
+    value_capture_mechanisms: list[str]
+    value_distribution: dict[str, float]
     sustainability_score: float
 
 
@@ -53,7 +53,7 @@ class ValueCreationSynthesizer(CoreInterface):
         domain: str,
         market_size: float,
         time_horizon: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Synthesize a value creation structure for a market
 
@@ -93,9 +93,9 @@ class ValueCreationSynthesizer(CoreInterface):
 
     async def generate_optimizations(
         self,
-        current_dynamics: Dict[str, Any],
-        target_metrics: Dict[str, float]
-    ) -> List[Dict[str, Any]]:
+        current_dynamics: dict[str, Any],
+        target_metrics: dict[str, float]
+    ) -> list[dict[str, Any]]:
         """
         Generate optimization strategies for market dynamics
 
@@ -126,9 +126,9 @@ class ValueCreationSynthesizer(CoreInterface):
 
     async def identify_advantages(
         self,
-        market: Dict[str, Any],
-        advantage_types: List[str]
-    ) -> List[Dict[str, str]]:
+        market: dict[str, Any],
+        advantage_types: list[str]
+    ) -> list[dict[str, str]]:
         """
         Identify competitive advantages from a market position
 
@@ -232,7 +232,7 @@ class ValueCreationSynthesizer(CoreInterface):
             ]
         }
 
-    async def _define_value_layers(self, domain: str) -> List[Dict[str, Any]]:
+    async def _define_value_layers(self, domain: str) -> list[dict[str, Any]]:
         """Define value layers for a domain"""
 
         layers = []
@@ -271,7 +271,7 @@ class ValueCreationSynthesizer(CoreInterface):
 
         return layers
 
-    async def _map_value_chain(self, domain: str) -> List[Dict[str, Any]]:
+    async def _map_value_chain(self, domain: str) -> list[dict[str, Any]]:
         """Map the value chain for a domain"""
 
         chain = []
@@ -325,7 +325,7 @@ class ValueCreationSynthesizer(CoreInterface):
         domain: str,
         market_size: float,
         time_horizon: int
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Design monetization models for a market"""
 
         models = []
@@ -373,9 +373,9 @@ class ValueCreationSynthesizer(CoreInterface):
 
     async def _calculate_value_distribution(
         self,
-        value_layers: List[Dict[str, Any]],
+        value_layers: list[dict[str, Any]],
         market_size: float
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate value distribution across layers"""
 
         distribution = {}
@@ -389,9 +389,9 @@ class ValueCreationSynthesizer(CoreInterface):
 
     async def _analyze_performance_gaps(
         self,
-        current_dynamics: Dict[str, Any],
-        target_metrics: Dict[str, float]
-    ) -> Dict[str, float]:
+        current_dynamics: dict[str, Any],
+        target_metrics: dict[str, float]
+    ) -> dict[str, float]:
         """Analyze gaps between current and target performance"""
 
         gaps = {}
@@ -417,8 +417,8 @@ class ValueCreationSynthesizer(CoreInterface):
         self,
         gap_type: str,
         gap_magnitude: float,
-        current_dynamics: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        current_dynamics: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate strategies to close performance gaps"""
 
         strategies = []
@@ -438,8 +438,8 @@ class ValueCreationSynthesizer(CoreInterface):
 
     async def _prioritize_optimizations(
         self,
-        optimizations: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        optimizations: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """Prioritize optimization strategies"""
 
         # Score each optimization
@@ -457,8 +457,8 @@ class ValueCreationSynthesizer(CoreInterface):
 
     async def _identify_tech_advantages(
         self,
-        market: Dict[str, Any]
-    ) -> List[Dict[str, str]]:
+        market: dict[str, Any]
+    ) -> list[dict[str, str]]:
         """Identify technological advantages"""
 
         advantages = []
@@ -481,8 +481,8 @@ class ValueCreationSynthesizer(CoreInterface):
 
     async def _identify_network_advantages(
         self,
-        market: Dict[str, Any]
-    ) -> List[Dict[str, str]]:
+        market: dict[str, Any]
+    ) -> list[dict[str, str]]:
         """Identify network effect advantages"""
 
         advantages = []
@@ -505,8 +505,8 @@ class ValueCreationSynthesizer(CoreInterface):
 
     async def _identify_data_advantages(
         self,
-        market: Dict[str, Any]
-    ) -> List[Dict[str, str]]:
+        market: dict[str, Any]
+    ) -> list[dict[str, str]]:
         """Identify data advantages"""
 
         advantages = []
@@ -529,8 +529,8 @@ class ValueCreationSynthesizer(CoreInterface):
 
     async def _identify_ecosystem_advantages(
         self,
-        market: Dict[str, Any]
-    ) -> List[Dict[str, str]]:
+        market: dict[str, Any]
+    ) -> list[dict[str, str]]:
         """Identify ecosystem advantages"""
 
         advantages = []

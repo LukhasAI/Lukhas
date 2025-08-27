@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 
 class AIComplianceManager:
@@ -26,8 +26,8 @@ class AIComplianceManager:
         }
 
     async def validate_ai_action(
-        self, action: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Validate AI action against all applicable regulations"""
         result = {"compliant": True, "validations": [], "required_actions": []}
 
@@ -45,7 +45,7 @@ class AIComplianceManager:
 
         return result
 
-    def get_transparency_report(self) -> Dict[str, Any]:
+    def get_transparency_report(self) -> dict[str, Any]:
         """Generate transparency report for AI system"""
         return {
             "timestamp": datetime.now().isoformat(),
@@ -54,7 +54,7 @@ class AIComplianceManager:
             "data_processing_purposes": self._get_processing_purposes(),
         }
 
-    def _get_processing_purposes(self) -> Dict[str, str]:
+    def _get_processing_purposes(self) -> dict[str, str]:
         return {
             "intent_detection": "Understand user requests and context",
             "emotion_analysis": "Improve interaction quality (requires consent)",

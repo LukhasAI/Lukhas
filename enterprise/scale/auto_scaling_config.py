@@ -12,7 +12,7 @@ import os
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import yaml
 
@@ -82,7 +82,7 @@ class T4ScalingConfig:
     predictive_scaling: bool = True
     advanced_monitoring: bool = True
 
-    scaling_actions: List[ScalingAction] = None
+    scaling_actions: list[ScalingAction] = None
 
 class T4AutoScalingManager:
     """
@@ -104,7 +104,7 @@ class T4AutoScalingManager:
 
         logger.info(f"T4 Auto-Scaling Manager initialized for {config.environment}")
 
-    def _create_default_scaling_actions(self) -> List[ScalingAction]:
+    def _create_default_scaling_actions(self) -> list[ScalingAction]:
         """Create default scaling actions for T4 enterprise"""
 
         # Latency-based scaling (Sam Altman priority)
@@ -224,7 +224,7 @@ class T4AutoScalingManager:
 
         return [latency_action, cpu_action, memory_action, users_action, rate_action]
 
-    def generate_kubernetes_config(self) -> Dict[str, Any]:
+    def generate_kubernetes_config(self) -> dict[str, Any]:
         """
         Generate Kubernetes Horizontal Pod Autoscaler (HPA) configuration
 
@@ -291,7 +291,7 @@ class T4AutoScalingManager:
 
         return hpa_config
 
-    def _generate_k8s_metric(self, action: ScalingAction) -> Optional[Dict[str, Any]]:
+    def _generate_k8s_metric(self, action: ScalingAction) -> Optional[dict[str, Any]]:
         """Generate Kubernetes metric configuration from scaling action"""
 
         trigger = action.metric.trigger
@@ -369,7 +369,7 @@ class T4AutoScalingManager:
 
         return None
 
-    def generate_azure_config(self) -> Dict[str, Any]:
+    def generate_azure_config(self) -> dict[str, Any]:
         """
         Generate Azure Container Apps auto-scaling configuration
 
@@ -428,7 +428,7 @@ class T4AutoScalingManager:
 
         return azure_config
 
-    def _generate_azure_scaling_rule(self, action: ScalingAction) -> Optional[Dict[str, Any]]:
+    def _generate_azure_scaling_rule(self, action: ScalingAction) -> Optional[dict[str, Any]]:
         """Generate Azure Container Apps scaling rule"""
 
         trigger = action.metric.trigger
@@ -469,7 +469,7 @@ class T4AutoScalingManager:
 
         return None
 
-    def generate_monitoring_config(self) -> Dict[str, Any]:
+    def generate_monitoring_config(self) -> dict[str, Any]:
         """
         Generate monitoring configuration for auto-scaling
 
@@ -529,7 +529,7 @@ class T4AutoScalingManager:
 
         return monitoring_config
 
-    def export_configurations(self, output_dir: str = "enterprise/deployment") -> Dict[str, str]:
+    def export_configurations(self, output_dir: str = "enterprise/deployment") -> dict[str, str]:
         """
         Export all auto-scaling configurations to files
 

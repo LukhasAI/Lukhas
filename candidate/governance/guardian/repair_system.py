@@ -33,7 +33,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -83,12 +83,12 @@ class RepairOperation:
 
     # Issue details
     issue_description: str
-    affected_components: List[str] = field(default_factory=list)
+    affected_components: list[str] = field(default_factory=list)
     root_cause: Optional[str] = None
 
     # Repair strategy
     repair_strategy: str = ""
-    repair_steps: List[str] = field(default_factory=list)
+    repair_steps: list[str] = field(default_factory=list)
     estimated_duration: Optional[timedelta] = None
 
     # Execution tracking
@@ -99,12 +99,12 @@ class RepairOperation:
     # Results and metrics
     success_rate: float = 0.0
     effectiveness_score: float = 0.0
-    resource_usage: Dict[str, float] = field(default_factory=dict)
+    resource_usage: dict[str, float] = field(default_factory=dict)
 
     # Side effects and validation
-    side_effects: List[str] = field(default_factory=list)
-    validation_results: List[str] = field(default_factory=list)
-    rollback_plan: List[str] = field(default_factory=list)
+    side_effects: list[str] = field(default_factory=list)
+    validation_results: list[str] = field(default_factory=list)
+    rollback_plan: list[str] = field(default_factory=list)
 
     # Trinity Framework integration
     identity_impact: Optional[str] = None        # ⚛️
@@ -112,8 +112,8 @@ class RepairOperation:
     guardian_oversight: bool = True              # 🛡️
 
     # Audit trail
-    audit_log: List[str] = field(default_factory=list)
-    repair_log: List[str] = field(default_factory=list)
+    audit_log: list[str] = field(default_factory=list)
+    repair_log: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -125,7 +125,7 @@ class SystemHealth:
     overall_health_score: float
 
     # Component health scores
-    component_health: Dict[str, float] = field(default_factory=dict)
+    component_health: dict[str, float] = field(default_factory=dict)
 
     # Health indicators
     performance_score: float = 1.0
@@ -134,9 +134,9 @@ class SystemHealth:
     compliance_score: float = 1.0
 
     # Issues detected
-    critical_issues: List[str] = field(default_factory=list)
-    warnings: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    critical_issues: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
     # Trends
     health_trend: str = "stable"
@@ -153,21 +153,21 @@ class AutomatedRepairSystem:
     and Trinity Framework integration.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Repair operations tracking
-        self.active_repairs: Dict[str, RepairOperation] = {}
+        self.active_repairs: dict[str, RepairOperation] = {}
         self.repair_history: deque = deque(maxlen=5000)
-        self.repair_queue: List[RepairOperation] = []
+        self.repair_queue: list[RepairOperation] = []
 
         # System health tracking
         self.current_health: Optional[SystemHealth] = None
         self.health_history: deque = deque(maxlen=1000)
 
         # Repair strategies and handlers
-        self.repair_handlers: Dict[RepairType, Callable] = {}
-        self.repair_strategies: Dict[str, Dict] = {}
+        self.repair_handlers: dict[RepairType, Callable] = {}
+        self.repair_strategies: dict[str, dict] = {}
 
         # Configuration
         self.auto_repair_enabled = True
@@ -227,9 +227,9 @@ class AutomatedRepairSystem:
         self,
         repair_type: RepairType,
         issue_description: str,
-        affected_components: List[str],
+        affected_components: list[str],
         priority: RepairPriority = RepairPriority.NORMAL,
-        context: Optional[Dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None
     ) -> RepairOperation:
         """Schedule a repair operation"""
 
@@ -548,7 +548,7 @@ class AutomatedRepairSystem:
         """Get current system health assessment"""
         return self.current_health
 
-    async def get_repair_status(self, operation_id: str) -> Optional[Dict[str, Any]]:
+    async def get_repair_status(self, operation_id: str) -> Optional[dict[str, Any]]:
         """Get repair operation status"""
 
         # Check active repairs
@@ -581,7 +581,7 @@ class AutomatedRepairSystem:
             "repair_log": operation.repair_log[-10:]  # Last 10 entries
         }
 
-    async def get_system_metrics(self) -> Dict[str, Any]:
+    async def get_system_metrics(self) -> dict[str, Any]:
         """Get repair system metrics"""
         return self.metrics.copy()
 

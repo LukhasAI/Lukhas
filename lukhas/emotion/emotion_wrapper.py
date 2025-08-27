@@ -9,7 +9,7 @@ Provides budget-optimized emotion processing with memory integration.
 """
 
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from lukhas.observability.matriz_decorators import instrument
 from lukhas.observability.matriz_emit import emit
@@ -49,7 +49,7 @@ class EmotionMemoryIntegration:
             emit({"ntype": "emotion_consciousness_unavailable", "state": {"error": str(e)}})
 
     @instrument("emotion_store_memory")
-    def store_emotional_memory(self, emotion_data: Dict[str, Any]) -> bool:
+    def store_emotional_memory(self, emotion_data: dict[str, Any]) -> bool:
         """Store emotional experience in memory system"""
         if not self._memory_available:
             emit({"ntype": "emotion_memory_store_skipped", "state": {"reason": "memory_unavailable"}})
@@ -87,7 +87,7 @@ class EmotionMemoryIntegration:
             return False
 
     @instrument("emotion_recall_patterns")
-    def recall_emotional_patterns(self, emotion_type: Optional[str] = None) -> List[Dict[str, Any]]:
+    def recall_emotional_patterns(self, emotion_type: Optional[str] = None) -> list[dict[str, Any]]:
         """Recall similar emotional patterns from memory"""
         if not self._memory_available:
             emit({"ntype": "emotion_memory_recall_skipped", "state": {"reason": "memory_unavailable"}})
@@ -123,7 +123,7 @@ class EmotionMemoryIntegration:
             return []
 
     @instrument("emotion_consciousness_sync")
-    def sync_with_consciousness(self, emotion_data: Dict[str, Any]) -> Dict[str, Any]:
+    def sync_with_consciousness(self, emotion_data: dict[str, Any]) -> dict[str, Any]:
         """Sync emotional state with consciousness system"""
         if not self._consciousness_available:
             emit({"ntype": "emotion_consciousness_sync_skipped", "state": {"reason": "consciousness_unavailable"}})
@@ -189,7 +189,7 @@ class AdvancedEmotionWrapper:
             return False
 
     @instrument("advanced_emotion_process")
-    def process_emotion_with_memory(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_emotion_with_memory(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process emotion with memory integration and pattern learning"""
         if not self._initialized:
             self.initialize()
@@ -236,7 +236,7 @@ class AdvancedEmotionWrapper:
 
     @instrument("advanced_mood_regulate")
     def regulate_mood_with_learning(self, target_state: Optional[str] = None,
-                                   hormone_context: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
+                                   hormone_context: Optional[dict[str, float]] = None) -> dict[str, Any]:
         """Regulate mood with learning from past successful regulations"""
         try:
             # Get base mood regulation
@@ -272,7 +272,7 @@ class AdvancedEmotionWrapper:
             emit({"ntype": "advanced_mood_regulate_error", "state": {"error": str(e)}})
             return {"error": str(e), "regulation_applied": False}
 
-    def get_emotional_insights(self) -> Dict[str, Any]:
+    def get_emotional_insights(self) -> dict[str, Any]:
         """Get insights from emotional memory and patterns"""
         try:
             # Get recent emotional patterns

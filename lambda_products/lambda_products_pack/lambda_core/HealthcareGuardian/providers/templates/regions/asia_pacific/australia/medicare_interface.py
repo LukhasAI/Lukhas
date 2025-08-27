@@ -5,7 +5,7 @@ This module provides integration points for Australia's Medicare system,
 including both public healthcare and pharmaceutical benefits scheme (PBS).
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ...interfaces.ehr_interface import EHRInterface
 from ...security.security_utils import AuditLogger, EncryptionHandler
@@ -14,7 +14,7 @@ from ...security.security_utils import AuditLogger, EncryptionHandler
 class MedicareAustraliaInterface(EHRInterface):
     """Implementation of EHR interface for Medicare Australia"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize Medicare interface with configuration
 
@@ -44,7 +44,7 @@ class MedicareAustraliaInterface(EHRInterface):
             if field not in self.config:
                 raise ValueError(f"Missing required Medicare configuration: {field}")
 
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize connection to Medicare systems"""
         # Implement Medicare-specific initialization
         # - Set up PRODA authentication
@@ -54,7 +54,7 @@ class MedicareAustraliaInterface(EHRInterface):
 
     async def get_patient_record(self,
                                patient_id: str,
-                               record_types: Optional[List[str]] = None) -> Dict[str, Any]:
+                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from MyHealthRecord
 
@@ -72,7 +72,7 @@ class MedicareAustraliaInterface(EHRInterface):
 
     async def verify_medicare_eligibility(self,
                                        medicare_number: str,
-                                       service_type: str) -> Dict[str, Any]:
+                                       service_type: str) -> dict[str, Any]:
         """
         Verify Medicare eligibility for services
 
@@ -90,7 +90,7 @@ class MedicareAustraliaInterface(EHRInterface):
 
     async def submit_claim(self,
                          patient_id: str,
-                         claim_data: Dict[str, Any]) -> str:
+                         claim_data: dict[str, Any]) -> str:
         """Submit bulk billing claim to Medicare"""
         self.audit.log_access(
             user_id=self.config['provider_number'],
@@ -102,7 +102,7 @@ class MedicareAustraliaInterface(EHRInterface):
 
     async def check_pbs_item(self,
                            item_code: str,
-                           patient_id: str) -> Dict[str, Any]:
+                           patient_id: str) -> dict[str, Any]:
         """Check PBS item eligibility and restrictions"""
         self.audit.log_access(
             user_id=self.config['provider_number'],
@@ -115,7 +115,7 @@ class MedicareAustraliaInterface(EHRInterface):
 
     async def upload_clinical_document(self,
                                     patient_id: str,
-                                    document_data: Dict[str, Any]) -> str:
+                                    document_data: dict[str, Any]) -> str:
         """Upload clinical document to MyHealthRecord"""
         self.audit.log_access(
             user_id=self.config['provider_number'],

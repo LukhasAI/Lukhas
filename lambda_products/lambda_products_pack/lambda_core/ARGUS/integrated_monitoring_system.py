@@ -14,7 +14,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import structlog
 
@@ -309,8 +309,8 @@ class IntegratedMonitoringSystem:
 
     def __init__(
         self,
-        signal_bus: Optional[SignalBus] = None,
-        config: Optional[Dict[str, Any]] = None,
+        signal_bus: SignalBus | None = None,
+        config: dict[str, Any] | None = None,
         data_dir: str = "data/integrated_monitoring",
     ):
         self.signal_bus = signal_bus or SignalBus()
@@ -1001,7 +1001,7 @@ class IntegratedMonitoringSystem:
 
         self.health_check_interval = config["health_check_interval"]
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
 
         latest_health = self.health_history[-1] if self.health_history else None
@@ -1032,11 +1032,11 @@ class IntegratedMonitoringSystem:
             "existing_systems_connected": self.existing_systems_connected,
         }
 
-    def get_unified_insights(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def get_unified_insights(self, limit: int = 10) -> list[dict[str, Any]]:
         """Get recent unified insights"""
         return self.unified_insights[-limit:]
 
-    def get_system_health_trend(self, hours: int = 24) -> List[SystemHealthMetrics]:
+    def get_system_health_trend(self, hours: int = 24) -> list[SystemHealthMetrics]:
         """Get system health trend over specified hours"""
 
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
@@ -1048,7 +1048,7 @@ class IntegratedMonitoringSystem:
 
 # Factory function
 def create_integrated_monitoring_system(
-    signal_bus: SignalBus, config: Optional[Dict[str, Any]] = None
+    signal_bus: SignalBus, config: dict[str, Any] | None = None
 ) -> IntegratedMonitoringSystem:
     """Create and return an IntegratedMonitoringSystem instance"""
     return IntegratedMonitoringSystem(signal_bus, config)
@@ -1056,7 +1056,7 @@ def create_integrated_monitoring_system(
 
 # Helper function to start the complete system
 async def start_complete_monitoring_system(
-    signal_bus: SignalBus, config: Optional[Dict[str, Any]] = None
+    signal_bus: SignalBus, config: dict[str, Any] | None = None
 ) -> IntegratedMonitoringSystem:
     """
     Start the complete integrated monitoring system with all components.

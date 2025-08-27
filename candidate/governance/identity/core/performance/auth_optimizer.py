@@ -21,7 +21,7 @@ import time
 import weakref
 from concurrent.futures import ThreadPoolExecutor
 from functools import wraps
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 
 class PerformanceMetrics:
@@ -156,7 +156,7 @@ class HighPerformanceCache:
 
             return len(expired_keys)
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get cache statistics"""
         with self.cache_lock:
             return {
@@ -182,8 +182,8 @@ class AsyncAuthProcessor:
         self.semaphore = asyncio.Semaphore(max_workers)
 
     async def process_parallel_validations(
-        self, validation_tasks: List[Tuple[str, Any]]
-    ) -> Dict[str, Any]:
+        self, validation_tasks: list[tuple[str, Any]]
+    ) -> dict[str, Any]:
         """Process multiple validation tasks in parallel"""
 
         async def process_single_validation(task_id: str, validation_func, *args):
@@ -212,7 +212,7 @@ class AsyncAuthProcessor:
 class AuthenticationOptimizer:
     """⚛️🧠🛡️ Main authentication performance optimizer"""
 
-    def __init__(self, config: Optional[Dict] = None):
+    def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
         self.metrics = PerformanceMetrics()
         self.cache = HighPerformanceCache(
@@ -280,7 +280,7 @@ class AuthenticationOptimizer:
     @performance_measure("lambda_id_validation")
     def optimize_lambda_id_validation(
         self, lambda_id: str, validation_level: str = "standard"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Optimized ΛID validation with caching"""
         cache_key = f"lambda_id_validation:{lambda_id}:{validation_level}"
 
@@ -318,7 +318,7 @@ class AuthenticationOptimizer:
     @performance_measure("tier_validation")
     def optimize_tier_validation(
         self, user_id: str, required_tier: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Optimized tier validation with predictive caching"""
         cache_key = f"tier_validation:{user_id}:{required_tier}"
 
@@ -357,7 +357,7 @@ class AuthenticationOptimizer:
     @performance_measure("token_validation")
     def optimize_token_validation(
         self, token: str, token_type: str = "access_token"
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Optimized token validation with smart caching"""
         # Use token hash for cache key to avoid storing sensitive data
         token_hash = hashlib.sha256(token.encode()).hexdigest()[:16]
@@ -395,8 +395,8 @@ class AuthenticationOptimizer:
         return result
 
     async def optimize_parallel_auth_flow(
-        self, auth_operations: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, auth_operations: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Optimize authentication flow with parallel processing"""
         if not self.enable_async_operations:
             # Fall back to sequential processing
@@ -467,8 +467,8 @@ class AuthenticationOptimizer:
         }
 
     def _sequential_auth_processing(
-        self, auth_operations: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        self, auth_operations: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Fallback sequential processing"""
         start_time = time.time()
         results = {}
@@ -529,11 +529,11 @@ class AuthenticationOptimizer:
             while True:
                 try:
                     # Clean expired cache entries
-                    expired_count = self.cache.clear_expired()
+                    self.cache.clear_expired()
 
                     # Check performance metrics
                     p95_latency = self.metrics.get_p95_latency()
-                    cache_hit_rate = self.metrics.get_cache_hit_rate()
+                    self.metrics.get_cache_hit_rate()
 
                     # Auto-adjust cache size if performance is poor
                     if p95_latency > self.target_p95_latency * 1.2:  # 20% over target
@@ -553,7 +553,7 @@ class AuthenticationOptimizer:
         monitor_thread = threading.Thread(target=monitor_performance, daemon=True)
         monitor_thread.start()
 
-    def get_performance_report(self) -> Dict[str, Any]:
+    def get_performance_report(self) -> dict[str, Any]:
         """Generate comprehensive performance report"""
         p95_latency = self.metrics.get_p95_latency()
         cache_hit_rate = self.metrics.get_cache_hit_rate()
@@ -592,7 +592,7 @@ class AuthenticationOptimizer:
 
     def _generate_optimization_recommendations(
         self, p95_latency: float, cache_hit_rate: float
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate optimization recommendations based on current performance"""
         recommendations = []
 
@@ -623,7 +623,7 @@ class AuthenticationOptimizer:
 
         return recommendations
 
-    def health_check(self) -> Dict[str, Any]:
+    def health_check(self) -> dict[str, Any]:
         """Perform optimizer health check"""
         try:
             p95_latency = self.metrics.get_p95_latency()

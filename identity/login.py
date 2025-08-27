@@ -4,7 +4,7 @@ Routes to identity_core.py
 """
 
 import re
-from typing import Any, Dict
+from typing import Any
 
 from .identity_core import AccessTier, identity_core
 
@@ -49,7 +49,7 @@ def validate_password(password: str):
     return True, "Password is valid"
 
 
-def login_user(email: str, password: str) -> Dict[str, Any]:
+def login_user(email: str, password: str) -> dict[str, Any]:
     """Enhanced login function with password validation"""
     # Validate password strength
     is_valid, error_message = validate_password(password)

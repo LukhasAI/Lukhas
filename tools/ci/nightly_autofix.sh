@@ -76,6 +76,17 @@ if [[ -f tools/ci/mark_todos.py ]]; then
     }
 fi
 
+# 3.5. Collect coverage data for golden nudge
+log "📈 Collecting coverage data..."
+mkdir -p reports/autofix
+if command -v coverage >/dev/null 2>&1 || pip install coverage pytest-cov 2>/dev/null; then
+    coverage run -m pytest -q tests/test_imports.py tests/test_integration.py tests/golden/ 2>/dev/null || true
+    coverage json -o reports/autofix/coverage.json 2>/dev/null || true
+    log "✅ Coverage data collected"
+else
+    warn "Coverage tools not available, skipping coverage collection"
+fi
+
 # 4. Generate TODO summary report
 log "📊 Generating TODO summary..."
 {
@@ -83,19 +94,19 @@ log "📊 Generating TODO summary..."
     echo "Generated: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo ""
     echo "## Statistics"
-    
+
     # Count different TODO types
     todo_autofix=$(grep -r "TODO\[T4-AUTOFIX\]" . --include="*.py" 2>/dev/null | wc -l || echo 0)
     todo_manual=$(grep -r "TODO\[T4-MANUAL\]" . --include="*.py" 2>/dev/null | wc -l || echo 0)
     todo_research=$(grep -r "TODO\[T4-RESEARCH\]" . --include="*.py" 2>/dev/null | wc -l || echo 0)
     todo_security=$(grep -r "TODO\[T4-SECURITY\]" . --include="*.py" 2>/dev/null | wc -l || echo 0)
-    
+
     echo "- T4-AUTOFIX: $todo_autofix"
     echo "- T4-MANUAL: $todo_manual"
     echo "- T4-RESEARCH: $todo_research"
     echo "- T4-SECURITY: $todo_security"
     echo ""
-    
+
     if [[ $todo_autofix -gt 0 ]]; then
         echo "## Pending Autofix TODOs"
         grep -rn "TODO\[T4-AUTOFIX\]" . --include="*.py" 2>/dev/null | head -20 | while IFS= read -r line; do
@@ -103,13 +114,40 @@ log "📊 Generating TODO summary..."
         done
         echo ""
     fi
-    
+
     echo "## System Health"
     echo "- Last nightly run: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo "- Git status: $(git status --porcelain | wc -l) uncommitted changes"
     echo "- Repository size: $(du -sh . 2>/dev/null | cut -f1 || echo 'unknown')"
-    
+
 } > "$REPORT_FILE"
+
+# 4.5. Add ownership routing if CODEOWNERS exists and we have TODOs
+if [[ -f "CODEOWNERS" ]] && [[ -f "reports/todos/index.json" ]]; then
+    python3 - << 'PY'
+from pathlib import Path
+import json
+import sys
+sys.path.insert(0, str(Path.cwd()))
+try:
+    from tools.ci.owners_from_codeowners import map_files_to_owners
+    todos = Path("reports/todos/index.json")
+    body = Path("reports/todos/summary.md")
+    if todos.exists() and body.exists():
+        data = json.loads(todos.read_text() or "{}")
+        files = sorted(list(data.get("files", {}).keys()))
+        if files:
+            mapping = map_files_to_owners(files)
+            lines = ["\n## Ownership Routing", "", "| File | Owners |", "|---|---|"]
+            for f in files:
+                owners = " ".join(mapping.get(f, [])) or "_unowned_"
+                lines.append(f"| `{f}` | {owners} |")
+            body.write_text(body.read_text() + "\n" + "\n".join(lines) + "\n")
+            print("✅ Added ownership routing to summary")
+except Exception as e:
+    print(f"⚠️ Could not add ownership routing: {e}")
+PY
+fi
 
 # 5. Check if we have meaningful changes
 final_changes=$(git diff --name-only | wc -l)
@@ -117,7 +155,7 @@ total_changes=$((final_changes - initial_changes))
 
 if [[ $total_changes -gt 0 ]]; then
     log "📋 Found $total_changes changes, preparing commit..."
-    
+
     # Create commit with detailed message
     {
         echo "chore(autofix): nightly T4 maintenance $(date +%Y-%m-%d)"
@@ -136,14 +174,14 @@ if [[ $total_changes -gt 0 ]]; then
         echo "Config: $T4_CONFIG"
         echo "Log: $LOG_FILE"
     } > data/nightly_commit_message.txt
-    
+
     # Stage all changes
     git add .
-    
+
     # Commit changes
     if git commit -F data/nightly_commit_message.txt; then
         log "✅ Committed nightly autofix changes"
-        
+
         # For significant changes, consider creating a PR
         if [[ $total_changes -gt 20 ]] && [[ "${CREATE_NIGHTLY_PR:-}" == "1" ]]; then
             log "🔄 Creating PR for significant changes..."

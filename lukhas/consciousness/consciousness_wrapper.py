@@ -23,7 +23,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Protocol
+from typing import Any, Optional, Protocol
 
 try:
     from ..observability.matriz_decorators import matriz_trace
@@ -56,7 +56,7 @@ except ImportError:
         reason: str
         severity: EthicalSeverity
         confidence: float = 0.0
-        recommendations: Optional[List[str]] = None
+        recommendations: Optional[list[str]] = None
         drift_score: Optional[float] = None
 
     GUARDIAN_AVAILABLE = False
@@ -81,12 +81,12 @@ REASONING_ACTIVE = os.getenv("REASONING_ACTIVE", "false").lower() == "true"
 # Protocol for consciousness system implementations
 class ConsciousnessSystem(Protocol):
     """Protocol for consciousness system implementations"""
-    def process_awareness(self, stimulus: Dict[str, Any]) -> Dict[str, Any]: ...
-    def reflect(self, thought: str) -> Dict[str, Any]: ...
-    def dream(self, seed: Any) -> Dict[str, Any]: ...
+    def process_awareness(self, stimulus: dict[str, Any]) -> dict[str, Any]: ...
+    def reflect(self, thought: str) -> dict[str, Any]: ...
+    def dream(self, seed: Any) -> dict[str, Any]: ...
 
 # Registry for consciousness implementations
-_CONSCIOUSNESS_REGISTRY: Dict[str, ConsciousnessSystem] = {}
+_CONSCIOUSNESS_REGISTRY: dict[str, ConsciousnessSystem] = {}
 
 def register_consciousness_system(name: str, impl: ConsciousnessSystem) -> None:
     """Register a consciousness system implementation"""
@@ -163,7 +163,7 @@ class ConsciousnessWrapper:
         self.candidate_system = _CONSCIOUSNESS_REGISTRY.get("default")
 
     @matriz_trace("consciousness.check_awareness")
-    async def check_awareness(self, stimulus: Dict[str, Any], mode: str = "dry_run") -> Dict[str, Any]:
+    async def check_awareness(self, stimulus: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """
         Check awareness level for given stimulus
 
@@ -210,7 +210,7 @@ class ConsciousnessWrapper:
             return self._error_response("awareness_check", str(e))
 
     @matriz_trace("consciousness.initiate_reflection")
-    async def initiate_reflection(self, context: Dict[str, Any], mode: str = "dry_run") -> Dict[str, Any]:
+    async def initiate_reflection(self, context: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
         """
         Initiate consciousness reflection process
 
@@ -261,7 +261,7 @@ class ConsciousnessWrapper:
             return self._error_response("reflection", str(e))
 
     @matriz_trace("consciousness.make_decision")
-    async def make_conscious_decision(self, options: List[Dict[str, Any]], mode: str = "dry_run") -> Dict[str, Any]:
+    async def make_conscious_decision(self, options: list[dict[str, Any]], mode: str = "dry_run") -> dict[str, Any]:
         """
         Make consciousness-informed decision
 
@@ -310,7 +310,7 @@ class ConsciousnessWrapper:
             return self._error_response("decision_making", str(e))
 
     @matriz_trace("consciousness.get_state")
-    def get_consciousness_state(self, mode: str = "dry_run") -> Dict[str, Any]:
+    def get_consciousness_state(self, mode: str = "dry_run") -> dict[str, Any]:
         """
         Get current consciousness state
 
@@ -358,7 +358,7 @@ class ConsciousnessWrapper:
 
     # Safety and fallback methods
 
-    def _dry_run_awareness_response(self, stimulus: Dict[str, Any]) -> Dict[str, Any]:
+    def _dry_run_awareness_response(self, stimulus: dict[str, Any]) -> dict[str, Any]:
         """Safe mock response for awareness checks"""
         return {
             "awareness_level": 0.5,
@@ -372,7 +372,7 @@ class ConsciousnessWrapper:
             }
         }
 
-    def _dry_run_reflection_response(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _dry_run_reflection_response(self, context: dict[str, Any]) -> dict[str, Any]:
         """Safe mock response for reflection"""
         return {
             "reflection_status": "simulated",
@@ -386,7 +386,7 @@ class ConsciousnessWrapper:
             }
         }
 
-    def _dry_run_decision_response(self, options: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _dry_run_decision_response(self, options: list[dict[str, Any]]) -> dict[str, Any]:
         """Safe mock response for decisions"""
         return {
             "chosen_option": options[0] if options else {},
@@ -400,7 +400,7 @@ class ConsciousnessWrapper:
             }
         }
 
-    def _fallback_awareness_response(self, stimulus: Dict[str, Any]) -> Dict[str, Any]:
+    def _fallback_awareness_response(self, stimulus: dict[str, Any]) -> dict[str, Any]:
         """Fallback when candidate system unavailable"""
         return {
             "awareness_level": 0.3,
@@ -413,7 +413,7 @@ class ConsciousnessWrapper:
             }
         }
 
-    def _fallback_reflection_response(self, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _fallback_reflection_response(self, context: dict[str, Any]) -> dict[str, Any]:
         """Fallback reflection processing"""
         return {
             "reflection_status": "fallback",
@@ -425,7 +425,7 @@ class ConsciousnessWrapper:
             }
         }
 
-    def _blocked_response(self, operation: str, reason: str) -> Dict[str, Any]:
+    def _blocked_response(self, operation: str, reason: str) -> dict[str, Any]:
         """Response when operation blocked by Guardian"""
         return {
             "status": "blocked",
@@ -437,7 +437,7 @@ class ConsciousnessWrapper:
             }
         }
 
-    def _drift_blocked_response(self, drift_score: float) -> Dict[str, Any]:
+    def _drift_blocked_response(self, drift_score: float) -> dict[str, Any]:
         """Response when drift threshold exceeded"""
         return {
             "status": "blocked",
@@ -450,7 +450,7 @@ class ConsciousnessWrapper:
             }
         }
 
-    def _error_response(self, operation: str, error: str) -> Dict[str, Any]:
+    def _error_response(self, operation: str, error: str) -> dict[str, Any]:
         """Error response with safety information"""
         return {
             "status": "error",
@@ -462,7 +462,7 @@ class ConsciousnessWrapper:
             }
         }
 
-    async def _validate_ethics(self, action_type: str, context: Dict[str, Any]) -> EthicalDecision:
+    async def _validate_ethics(self, action_type: str, context: dict[str, Any]) -> EthicalDecision:
         """Validate action against ethical principles"""
         # Simplified ethics validation for production safety
         # In full implementation, would integrate with Guardian system
@@ -483,7 +483,7 @@ class ConsciousnessWrapper:
             confidence=0.7
         )
 
-    async def _detect_drift(self, context: Dict[str, Any]) -> float:
+    async def _detect_drift(self, context: dict[str, Any]) -> float:
         """Detect symbolic drift in consciousness state"""
         # Simplified drift detection for production safety
         # In full implementation, would use comprehensive drift scoring

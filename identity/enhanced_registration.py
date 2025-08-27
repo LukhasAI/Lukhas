@@ -7,7 +7,7 @@ Maintains backward compatibility with existing email-based ID generation.
 
 import re
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 from .identity_core import AccessTier, identity_core
 
@@ -23,7 +23,7 @@ class UserIDValidator:
         'quantum', 'dream', 'emotion', 'governance'
     }
 
-    def validate_user_id(self, user_id: str) -> Tuple[bool, str, List[str]]:
+    def validate_user_id(self, user_id: str) -> tuple[bool, str, list[str]]:
         """
         Validate a proposed user ID.
 
@@ -76,7 +76,7 @@ class UserIDValidator:
         taken_usernames = {'john', 'alice', 'test123', 'demo_user'}
         return user_id.lower() in taken_usernames
 
-    def _generate_suggestions(self, base_user_id: str) -> List[str]:
+    def _generate_suggestions(self, base_user_id: str) -> list[str]:
         """Generate alternative user ID suggestions."""
         suggestions = []
         base = base_user_id.lower()
@@ -102,7 +102,7 @@ class UserIDValidator:
         """Generate user ID from email (backward compatibility)."""
         return email.split("@")[0].replace(".", "_").lower()
 
-    def suggest_from_email(self, email: str) -> List[str]:
+    def suggest_from_email(self, email: str) -> list[str]:
         """Generate suggestions based on email."""
         base = self.generate_from_email(email)
         name_part = email.split("@")[0]
@@ -138,7 +138,7 @@ class EnhancedRegistrationSystem:
         requested_tier: Optional[str] = None,
         custom_user_id: Optional[str] = None,
         display_name: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Enhanced user registration with custom user ID support.
 
@@ -218,7 +218,7 @@ class EnhancedRegistrationSystem:
             "email": email
         }
 
-    def check_user_id_availability(self, user_id: str) -> Dict[str, Any]:
+    def check_user_id_availability(self, user_id: str) -> dict[str, Any]:
         """Check if a user ID is available and get suggestions."""
         is_valid, error_msg, suggestions = self.validator.validate_user_id(user_id)
 
@@ -229,7 +229,7 @@ class EnhancedRegistrationSystem:
             "suggestions": suggestions
         }
 
-    def get_user_id_suggestions(self, email: str) -> Dict[str, Any]:
+    def get_user_id_suggestions(self, email: str) -> dict[str, Any]:
         """Get user ID suggestions based on email."""
         suggestions = self.validator.suggest_from_email(email)
 
@@ -257,7 +257,7 @@ def register_user_with_custom_id(
     custom_user_id: str,
     requested_tier: Optional[str] = None,
     display_name: Optional[str] = None
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Register user with custom user ID."""
     return enhanced_registration.register_user_enhanced(
         email=email,
@@ -268,12 +268,12 @@ def register_user_with_custom_id(
     )
 
 
-def check_username_availability(user_id: str) -> Dict[str, Any]:
+def check_username_availability(user_id: str) -> dict[str, Any]:
     """Check if username is available."""
     return enhanced_registration.check_user_id_availability(user_id)
 
 
-def get_username_suggestions(email: str) -> Dict[str, Any]:
+def get_username_suggestions(email: str) -> dict[str, Any]:
     """Get username suggestions from email."""
     return enhanced_registration.get_user_id_suggestions(email)
 
@@ -281,7 +281,7 @@ def get_username_suggestions(email: str) -> Dict[str, Any]:
 # Backward compatibility wrapper
 def register_user(
     email: str, password: str, requested_tier: Optional[str] = None
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Legacy registration function with enhanced features."""
     return enhanced_registration.register_user_enhanced(
         email=email,

@@ -10,7 +10,7 @@ This replaces the basic glyph_engine.py with full multi-modal support.
 
 import asyncio
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Set, cast
+from typing import Any, Optional, cast
 
 from lukhas.core.events.contracts import GlyphCreated, SymbolTranslated
 
@@ -63,9 +63,9 @@ class EnhancedGlyphEngine:
     def encode_concept(
         self,
         concept: str,
-        emotion: Optional[Dict[str, float]] = None,
-        modalities: Optional[Set[SymbolModality]] = None,
-        domains: Optional[Set[SymbolDomain]] = None,
+        emotion: Optional[dict[str, float]] = None,
+        modalities: Optional[set[SymbolModality]] = None,
+        domains: Optional[set[SymbolDomain]] = None,
         source_module: Optional[str] = None,
     ) -> UniversalSymbol:
         """
@@ -244,7 +244,7 @@ class EnhancedGlyphEngine:
 
         self.stats["cross_module_links"] += 1
 
-    def get_module_symbols(self, module_name: str) -> List[UniversalSymbol]:
+    def get_module_symbols(self, module_name: str) -> list[UniversalSymbol]:
         """Get all symbols created by a specific module"""
         module_symbols = []
         for _, reg_entry in self.global_symbol_registry.items():
@@ -277,7 +277,7 @@ class EnhancedGlyphEngine:
 
     def expand_module_state(
         self, compressed_state: UniversalSymbol
-    ) -> List[UniversalSymbol]:
+    ) -> list[UniversalSymbol]:
         """
         Expand a compressed module state back to individual symbols.
         """
@@ -285,7 +285,7 @@ class EnhancedGlyphEngine:
 
     def find_related_symbols(
         self, query_symbol: UniversalSymbol, max_depth: int = 2
-    ) -> Dict[str, List[UniversalSymbol]]:
+    ) -> dict[str, list[UniversalSymbol]]:
         """
         Find symbols related to the query across all modules.
         Returns symbols grouped by module.
@@ -328,13 +328,13 @@ class EnhancedGlyphEngine:
         return related_by_module
 
     def create_cognitive_chain(
-        self, concepts: List[str], source_module: str = "consciousness"
-    ) -> List[UniversalSymbol]:
+        self, concepts: list[str], source_module: str = "consciousness"
+    ) -> list[UniversalSymbol]:
         """
         Create a chain of causally linked symbols representing a cognitive process.
         Used by consciousness and reasoning modules.
         """
-        symbols: List[UniversalSymbol] = []
+        symbols: list[UniversalSymbol] = []
         for concept in concepts:
             # Determine domains based on concept type
             if "decide" in concept.lower() or "choose" in concept.lower():
@@ -356,7 +356,7 @@ class EnhancedGlyphEngine:
         # Create causal chain
         return self.universal_protocol.create_causal_chain(symbols)
 
-    def get_system_statistics(self) -> Dict[str, Any]:
+    def get_system_statistics(self) -> dict[str, Any]:
         """Get comprehensive statistics about symbol usage"""
         module_stats = {}
 
@@ -385,7 +385,7 @@ class EnhancedGlyphEngine:
         return self._glyph_cache.get(glyph_repr)
 
     def create_memory_glyph(
-        self, memory_content: str, emotion: Optional[Dict[str, float]] = None
+        self, memory_content: str, emotion: Optional[dict[str, float]] = None
     ) -> Glyph:
         """Backward compatibility method"""
         symbol = self.encode_concept(
@@ -395,7 +395,7 @@ class EnhancedGlyphEngine:
         )
         return cast(Glyph, symbol.core_glyph)
 
-    def create_emotion_glyph(self, emotion: Dict[str, float]) -> Glyph:
+    def create_emotion_glyph(self, emotion: dict[str, float]) -> Glyph:
         """Backward compatibility method"""
         symbol = self.encode_concept(
             "emotional_state",

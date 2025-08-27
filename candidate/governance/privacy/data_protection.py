@@ -36,7 +36,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 try:
     from cryptography.fernet import Fernet
@@ -114,11 +114,11 @@ class EncryptionKey:
     iterations: int = 100000
 
     # Access control
-    authorized_users: List[str] = field(default_factory=list)
-    authorized_systems: List[str] = field(default_factory=list)
+    authorized_users: list[str] = field(default_factory=list)
+    authorized_systems: list[str] = field(default_factory=list)
 
     # Trinity Framework integration
-    identity_context: Dict[str, Any] = field(default_factory=dict)
+    identity_context: dict[str, Any] = field(default_factory=dict)
     consciousness_binding: bool = False  # Whether key is bound to consciousness state
     guardian_approval: bool = False      # Guardian-approved key
 
@@ -130,7 +130,7 @@ class ProtectionPolicy:
     policy_id: str
     name: str
     description: str
-    data_types: List[str]              # Data types covered
+    data_types: list[str]              # Data types covered
     protection_level: ProtectionLevel
 
     # Encryption settings
@@ -139,11 +139,11 @@ class ProtectionPolicy:
     key_rotation_days: int = 90
 
     # Anonymization settings
-    anonymization_methods: List[AnonymizationMethod] = field(default_factory=list)
+    anonymization_methods: list[AnonymizationMethod] = field(default_factory=list)
     retain_utility: bool = True         # Preserve data utility
 
     # Access controls
-    authorized_roles: List[str] = field(default_factory=list)
+    authorized_roles: list[str] = field(default_factory=list)
     audit_required: bool = True
 
     # Compliance requirements
@@ -168,7 +168,7 @@ class ProtectionResult:
     original_size: int
     protected_size: int
     protection_level: ProtectionLevel
-    methods_applied: List[str]
+    methods_applied: list[str]
 
     # Performance metrics
     processing_time: float
@@ -187,7 +187,7 @@ class ProtectionResult:
     # Audit trail
     applied_at: datetime = field(default_factory=datetime.now)
     applied_by: str = "system"
-    audit_trail: List[str] = field(default_factory=list)
+    audit_trail: list[str] = field(default_factory=list)
 
     # Trinity Framework
     identity_verified: bool = False
@@ -204,11 +204,11 @@ class AdvancedDataProtection:
     and compliance monitoring.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
-        self.protection_policies: Dict[str, ProtectionPolicy] = {}
-        self.encryption_keys: Dict[str, EncryptionKey] = {}
-        self.protection_history: List[ProtectionResult] = []
+        self.protection_policies: dict[str, ProtectionPolicy] = {}
+        self.encryption_keys: dict[str, EncryptionKey] = {}
+        self.protection_history: list[ProtectionResult] = []
 
         # Security configuration
         self.master_key = self._derive_master_key()
@@ -330,11 +330,11 @@ class AdvancedDataProtection:
 
     async def protect_data(
         self,
-        data: Union[Dict[str, Any], str, bytes],
+        data: Union[dict[str, Any], str, bytes],
         policy_id: Optional[str] = None,
         protection_level: Optional[ProtectionLevel] = None,
-        context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[Any, ProtectionResult]:
+        context: Optional[dict[str, Any]] = None
+    ) -> tuple[Any, ProtectionResult]:
         """
         Apply data protection based on policy or protection level
 
@@ -441,8 +441,8 @@ class AdvancedDataProtection:
         self,
         protected_data: Any,
         operation_id: str,
-        context: Optional[Dict[str, Any]] = None
-    ) -> Tuple[Any, Dict[str, Any]]:
+        context: Optional[dict[str, Any]] = None
+    ) -> tuple[Any, dict[str, Any]]:
         """
         Reverse data protection to recover original data
 
@@ -511,7 +511,7 @@ class AdvancedDataProtection:
         self,
         data: Any,
         protection_level: Optional[ProtectionLevel],
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> ProtectionPolicy:
         """Determine appropriate protection policy based on data and context"""
 
@@ -542,7 +542,7 @@ class AdvancedDataProtection:
             protection_level=ProtectionLevel.BASIC
         )
 
-    async def _analyze_data_types(self, data: Any) -> List[str]:
+    async def _analyze_data_types(self, data: Any) -> list[str]:
         """Analyze data to identify types requiring protection"""
 
         data_types = []
@@ -578,8 +578,8 @@ class AdvancedDataProtection:
         self,
         data: Any,
         policy: ProtectionPolicy,
-        context: Dict[str, Any]
-    ) -> Tuple[Any, Dict[str, Any]]:
+        context: dict[str, Any]
+    ) -> tuple[Any, dict[str, Any]]:
         """Apply encryption based on policy"""
 
         if not CRYPTO_AVAILABLE:
@@ -605,7 +605,7 @@ class AdvancedDataProtection:
         else:
             return await self._symmetric_encrypt(data, key)  # Default
 
-    async def _symmetric_encrypt(self, data: Any, key: EncryptionKey) -> Tuple[Any, Dict[str, Any]]:
+    async def _symmetric_encrypt(self, data: Any, key: EncryptionKey) -> tuple[Any, dict[str, Any]]:
         """Apply symmetric encryption using Fernet"""
 
         try:
@@ -633,7 +633,7 @@ class AdvancedDataProtection:
             logger.error(f"Symmetric encryption failed: {e}")
             return data, {"method": "symmetric", "success": False, "error": str(e)}
 
-    async def _field_level_encrypt(self, data: Any, key: EncryptionKey) -> Tuple[Any, Dict[str, Any]]:
+    async def _field_level_encrypt(self, data: Any, key: EncryptionKey) -> tuple[Any, dict[str, Any]]:
         """Apply field-level encryption to sensitive fields"""
 
         if not isinstance(data, dict):
@@ -676,8 +676,8 @@ class AdvancedDataProtection:
         self,
         data: Any,
         policy: ProtectionPolicy,
-        context: Dict[str, Any]
-    ) -> Tuple[Any, Dict[str, Any]]:
+        context: dict[str, Any]
+    ) -> tuple[Any, dict[str, Any]]:
         """Apply anonymization methods based on policy"""
 
         anonymized_data = data
@@ -964,7 +964,7 @@ class AdvancedDataProtection:
         self.encryption_keys[pseudo_key_id] = pseudo_key
         return pseudo_key
 
-    async def _validate_guardian_approval(self, policy: ProtectionPolicy, context: Dict[str, Any]) -> bool:
+    async def _validate_guardian_approval(self, policy: ProtectionPolicy, context: dict[str, Any]) -> bool:
         """Validate Guardian system approval for protection operation"""
 
         # High-level protection requires Guardian approval
@@ -980,8 +980,8 @@ class AdvancedDataProtection:
     async def _verify_unprotection_authorization(
         self,
         protection_result: ProtectionResult,
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Verify authorization for data unprotection"""
 
         user_id = context.get("user_id")
@@ -1035,7 +1035,7 @@ class AdvancedDataProtection:
         if len(self.protection_history) > max_size:
             self.protection_history = self.protection_history[-max_size:]
 
-    async def get_system_metrics(self) -> Dict[str, Any]:
+    async def get_system_metrics(self) -> dict[str, Any]:
         """Get comprehensive system metrics"""
         return self.metrics.copy()
 

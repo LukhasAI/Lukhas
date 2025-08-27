@@ -13,7 +13,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger("LUKHAS.Governance.Intelligence.Safety")
 
@@ -63,9 +63,9 @@ class SafetyValidationRequest:
     agent_id: str
     intelligence_engine: str
     operation_type: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     safety_level: SafetyLevel
-    context: Optional[Dict[str, Any]] = None
+    context: Optional[dict[str, Any]] = None
     timestamp: Optional[datetime] = None
 
     def __post_init__(self):
@@ -81,10 +81,10 @@ class SafetyValidationResponse:
     result: ValidationResult
     confidence: float
     safety_score: float
-    conditions: List[str] = None
-    restrictions: List[str] = None
-    monitoring_requirements: List[str] = None
-    guardian_signals: List[str] = None
+    conditions: list[str] = None
+    restrictions: list[str] = None
+    monitoring_requirements: list[str] = None
+    guardian_signals: list[str] = None
     processing_time: float = 0.0
     timestamp: Optional[datetime] = None
 
@@ -222,7 +222,7 @@ class LukhasIntelligenceSafetyValidator:
 
     async def _perform_basic_safety_checks(
         self, request: SafetyValidationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Perform basic safety checks"""
         checks = {
             "agent_rate_limit": True,
@@ -266,7 +266,7 @@ class LukhasIntelligenceSafetyValidator:
 
     async def _consult_guardian_system(
         self, request: SafetyValidationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Consult Guardian System for ethical validation"""
         if not self.guardian_system:
             # Fallback validation without Guardian System
@@ -302,7 +302,7 @@ class LukhasIntelligenceSafetyValidator:
 
     async def _mock_guardian_consultation(
         self, request: SafetyValidationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Mock Guardian System consultation (replace with actual integration)"""
         # This would be replaced with actual Guardian System integration
         operation_type = request.operation_type.lower()
@@ -335,7 +335,7 @@ class LukhasIntelligenceSafetyValidator:
 
     async def _validate_agent_specific(
         self, request: SafetyValidationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Perform agent-specific validation"""
         agent_id = request.agent_id
 
@@ -373,7 +373,7 @@ class LukhasIntelligenceSafetyValidator:
 
     async def _validate_intelligence_engine_specific(
         self, request: SafetyValidationRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Perform intelligence engine specific validation"""
         engine = request.intelligence_engine.lower()
 
@@ -414,11 +414,11 @@ class LukhasIntelligenceSafetyValidator:
     async def _combine_validation_results(
         self,
         request: SafetyValidationRequest,
-        basic_result: Dict[str, Any],
-        guardian_result: Dict[str, Any],
-        agent_result: Dict[str, Any],
-        engine_result: Dict[str, Any],
-    ) -> Dict[str, Any]:
+        basic_result: dict[str, Any],
+        guardian_result: dict[str, Any],
+        agent_result: dict[str, Any],
+        engine_result: dict[str, Any],
+    ) -> dict[str, Any]:
         """Combine all validation results into final decision"""
 
         # Calculate combined safety score
@@ -592,7 +592,7 @@ class LukhasIntelligenceSafetyValidator:
             v for v in self.validation_history if v.timestamp > cutoff_time
         ]
 
-    async def get_safety_metrics(self) -> Dict[str, Any]:
+    async def get_safety_metrics(self) -> dict[str, Any]:
         """Get current safety metrics"""
         if not self.validation_history:
             return {
@@ -644,9 +644,9 @@ async def validate_operation(
     agent_id: str,
     intelligence_engine: str,
     operation_type: str,
-    payload: Dict[str, Any],
+    payload: dict[str, Any],
     safety_level: SafetyLevel = SafetyLevel.MEDIUM,
-    context: Optional[Dict[str, Any]] = None,
+    context: Optional[dict[str, Any]] = None,
 ) -> SafetyValidationResponse:
     """Convenience function for safety validation"""
     validator = await get_safety_validator()

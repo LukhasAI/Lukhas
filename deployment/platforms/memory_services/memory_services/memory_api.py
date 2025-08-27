@@ -7,7 +7,7 @@ import asyncio
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 @dataclass
@@ -17,8 +17,8 @@ class MemoryItem:
     id: str
     content: Any
     type: str  # text, image, embedding, structured
-    tags: List[str]
-    metadata: Dict[str, Any]
+    tags: list[str]
+    metadata: dict[str, Any]
     timestamp: datetime
     importance: float = 0.5
 
@@ -28,7 +28,7 @@ class MemoryQuery:
     """Memory retrieval query"""
 
     query: str
-    filters: Optional[Dict[str, Any]] = None
+    filters: Optional[dict[str, Any]] = None
     limit: int = 10
     include_metadata: bool = True
     similarity_threshold: float = 0.7
@@ -40,8 +40,8 @@ class MemoryStore:
 
     content: Any
     type: str
-    tags: Optional[List[str]] = None
-    metadata: Optional[Dict[str, Any]] = None
+    tags: Optional[list[str]] = None
+    metadata: Optional[dict[str, Any]] = None
     importance: float = 0.5
     use_quantum_encoding: bool = False
 
@@ -121,7 +121,7 @@ class MemoryServicesAPI:
 
         return memory_id
 
-    async def retrieve(self, query: MemoryQuery) -> List[MemoryItem]:
+    async def retrieve(self, query: MemoryQuery) -> list[MemoryItem]:
         """
         Retrieve memories based on query
 
@@ -148,7 +148,7 @@ class MemoryServicesAPI:
 
         return results
 
-    async def update(self, memory_id: str, updates: Dict[str, Any]) -> bool:
+    async def update(self, memory_id: str, updates: dict[str, Any]) -> bool:
         """
         Update an existing memory
 
@@ -199,7 +199,7 @@ class MemoryServicesAPI:
         except Exception:
             return False
 
-    async def get_stats(self) -> Dict[str, Any]:
+    async def get_stats(self) -> dict[str, Any]:
         """
         Get memory service statistics
 
@@ -225,7 +225,7 @@ class MemoryServicesAPI:
         """Store using quantum encoding"""
         # Simplified - real implementation would use quantum features
 
-    async def _search_memories(self, query: str, **kwargs) -> List[MemoryItem]:
+    async def _search_memories(self, query: str, **kwargs) -> list[MemoryItem]:
         """Search memories"""
         # Simplified - real implementation would use memory manager
         return []
@@ -246,7 +246,7 @@ class MemoryServicesAPI:
         """Count total memories"""
         return 0
 
-    async def _get_type_distribution(self) -> Dict[str, int]:
+    async def _get_type_distribution(self) -> dict[str, int]:
         """Get distribution of memory types"""
         return {}
 

@@ -6,7 +6,7 @@ import os
 import time
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from fastapi import BackgroundTasks, Body, FastAPI, HTTPException, Query
 from pydantic import ValidationError
@@ -28,11 +28,11 @@ async def ingest_feedback(
     task: str = Body(..., description="Task type"),
     jurisdiction: str = Body("global", description="Jurisdiction"),
     satisfaction: float = Body(..., ge=0.0, le=1.0, description="Satisfaction score"),
-    issues: List[str] = Body(default=[], description="Issue types"),
-    note: Optional[str] = Body(None, description="User note (will be HMACed)"),
-    style: Optional[str] = Body(None, description="Proposed style"),
-    threshold_delta: Optional[float] = Body(None, description="Proposed threshold adjustment")
-) -> Dict[str, Any]:
+    issues: list[str] = Body(default=[], description="Issue types"),
+    note: str | None = Body(None, description="User note (will be HMACed)"),
+    style: str | None = Body(None, description="Proposed style"),
+    threshold_delta: float | None = Body(None, description="Proposed threshold adjustment")
+) -> dict[str, Any]:
     """Ingest a feedback card with HMAC redaction and validation."""
     try:
         store = get_store()
@@ -96,10 +96,10 @@ async def ingest_feedback(
 
 @app.get("/feedback/list")
 async def list_feedback(
-    task: Optional[str] = Query(None, description="Filter by task"),
-    jurisdiction: Optional[str] = Query(None, description="Filter by jurisdiction"),
+    task: str | None = Query(None, description="Filter by task"),
+    jurisdiction: str | None = Query(None, description="Filter by jurisdiction"),
     limit: int = Query(100, le=1000, description="Maximum results")
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """List recent feedback cards with optional filters."""
     try:
         store = get_store()
@@ -144,7 +144,7 @@ async def list_feedback(
 async def run_clustering(
     background_tasks: BackgroundTasks,
     limit: int = Query(1000, description="Feedback to process")
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Run clustering job (can be triggered as offline job)."""
     try:
         # Run triage immediately for API call
@@ -165,8 +165,8 @@ async def run_clustering(
 
 @app.get("/feedback/clusters")
 async def get_clusters(
-    task: Optional[str] = Query(None, description="Filter by task")
-) -> Dict[str, Any]:
+    task: str | None = Query(None, description="Filter by task")
+) -> dict[str, Any]:
     """Get computed clusters."""
     try:
         store = get_store()
@@ -188,10 +188,10 @@ async def get_clusters(
 
 @app.post("/feedback/promote")
 async def promote_to_proposal(
-    fc_id: Optional[str] = Query(None, description="Feedback card ID"),
-    cluster_id: Optional[str] = Query(None, description="Cluster ID"),
+    fc_id: str | None = Query(None, description="Feedback card ID"),
+    cluster_id: str | None = Query(None, description="Cluster ID"),
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml")
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Promote a feedback card or cluster to a change proposal."""
     try:
         if not fc_id and not cluster_id:
@@ -220,7 +220,7 @@ async def promote_to_proposal(
 # ------------- Digest Endpoints -------------
 
 @app.post("/feedback/digest")
-async def generate_digest() -> Dict[str, Any]:
+async def generate_digest() -> dict[str, Any]:
     """Generate weekly Merkle digest with signature."""
     try:
         store = get_store()

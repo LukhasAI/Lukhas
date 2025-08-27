@@ -8,7 +8,7 @@ high-entropy password generation, and OpenAI integration.
 import logging
 import math
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -67,14 +67,14 @@ class MultiModalInput(BaseModel):
     emoji: Optional[str] = None
     image_url: Optional[str] = None
     audio_url: Optional[str] = None
-    gesture_sequence: Optional[List[str]] = None
+    gesture_sequence: Optional[list[str]] = None
 
 
 class SymbolUnderstandingRequest(BaseModel):
     """Request for symbol understanding"""
 
     input: MultiModalInput
-    context: Optional[Dict[str, Any]] = {}
+    context: Optional[dict[str, Any]] = {}
     user_id: str
 
 
@@ -85,22 +85,22 @@ class SymbolUnderstandingResponse(BaseModel):
     confidence: float
     universal_symbol: Optional[str] = None
     entropy_bits: float
-    metadata: Dict[str, Any] = {}
+    metadata: dict[str, Any] = {}
 
 
 class PasswordGenerationRequest(BaseModel):
     """Request for password generation"""
 
     entropy_bits: int = Field(default=256, ge=128, le=512)
-    modalities: List[str] = ["text", "emoji", "gesture"]
+    modalities: list[str] = ["text", "emoji", "gesture"]
     memorability_score: float = Field(default=0.8, ge=0.0, le=1.0)
-    user_preferences: Optional[Dict[str, Any]] = {}
+    user_preferences: Optional[dict[str, Any]] = {}
 
 
 class PasswordGenerationResponse(BaseModel):
     """Response from password generation"""
 
-    password_elements: Dict[str, Any]
+    password_elements: dict[str, Any]
     entropy_bits: float
     memorability_score: float
     strength_rating: str
@@ -110,7 +110,7 @@ class PasswordGenerationResponse(BaseModel):
 class ExchangeInitiationRequest(BaseModel):
     """Request to initiate symbol exchange"""
 
-    participants: List[str]
+    participants: list[str]
     protocol: str = "differential"
     privacy_level: str = "high"
 
@@ -118,11 +118,11 @@ class ExchangeInitiationRequest(BaseModel):
 class LanguageBuildRequest(BaseModel):
     """Request to build universal language element"""
 
-    words: List[str]
-    symbols: List[str]
-    images: Optional[List[str]] = []
-    sounds: Optional[List[str]] = []
-    gestures: Optional[List[Dict[str, Any]]] = []
+    words: list[str]
+    symbols: list[str]
+    images: Optional[list[str]] = []
+    sounds: Optional[list[str]] = []
+    gestures: Optional[list[dict[str, Any]]] = []
     target_meaning: str
 
 
@@ -132,13 +132,13 @@ class ColonyConsensusRequest(BaseModel):
     proposal: str
     method: str = "weighted_vote"
     urgency: float = Field(default=0.5, ge=0.0, le=1.0)
-    participants: Optional[List[str]] = None
+    participants: Optional[list[str]] = None
 
 
 # ==================== Helper Functions ====================
 
 
-def calculate_entropy(elements: Dict[str, Any]) -> float:
+def calculate_entropy(elements: dict[str, Any]) -> float:
     """Calculate entropy from multi-modal elements"""
     entropy_bits = 0.0
 

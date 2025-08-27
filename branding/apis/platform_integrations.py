@@ -11,7 +11,7 @@ import os
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import aiohttp
 
@@ -63,7 +63,7 @@ class PostResult:
     post_id: Optional[str] = None
     url: Optional[str] = None
     error: Optional[str] = None
-    response_data: Optional[Dict] = None
+    response_data: Optional[dict] = None
     rate_limit_remaining: Optional[int] = None
     rate_limit_reset: Optional[datetime] = None
 
@@ -88,9 +88,9 @@ class PlatformAPIManager:
         self.logs_path = self.base_path / "logs"
 
         # Initialize components
-        self.credentials: Dict[str, APICredentials] = {}
-        self.rate_limits: Dict[str, RateLimitInfo] = {}
-        self.platform_clients: Dict[str, Any] = {}
+        self.credentials: dict[str, APICredentials] = {}
+        self.rate_limits: dict[str, RateLimitInfo] = {}
+        self.platform_clients: dict[str, Any] = {}
         self.logger = self._setup_logging()
 
         # Load credentials and initialize clients
@@ -182,7 +182,7 @@ class PlatformAPIManager:
                 self.credentials[platform] = APICredentials(**creds)
                 self.logger.info(f"Loaded {platform} credentials from environment")
 
-    def _validate_credentials(self, platform: str, creds: Dict[str, str]) -> bool:
+    def _validate_credentials(self, platform: str, creds: dict[str, str]) -> bool:
         """Validate that we have minimum required credentials for a platform"""
 
         required_fields = {
@@ -260,7 +260,7 @@ class PlatformAPIManager:
         if "instagram" in self.credentials:
             self.logger.info("✅ Instagram API credentials loaded (custom implementation)")
 
-    async def post_to_twitter(self, content: str, media_paths: List[str] = None) -> PostResult:
+    async def post_to_twitter(self, content: str, media_paths: list[str] = None) -> PostResult:
         """Post to Twitter/𝕏 using API v2"""
 
         if "twitter" not in self.platform_clients:
@@ -330,7 +330,7 @@ class PlatformAPIManager:
                 error=str(e)
             )
 
-    async def post_to_linkedin(self, content: str, media_paths: List[str] = None) -> PostResult:
+    async def post_to_linkedin(self, content: str, media_paths: list[str] = None) -> PostResult:
         """Post to LinkedIn using custom API implementation"""
 
         if "linkedin" not in self.credentials:
@@ -475,7 +475,7 @@ class PlatformAPIManager:
             )
 
         try:
-            creds = self.credentials["instagram"]
+            self.credentials["instagram"]
 
             # Check rate limits
             if not await self._check_rate_limit("instagram"):
@@ -489,7 +489,7 @@ class PlatformAPIManager:
             # This is a simplified version - full implementation would handle
             # image uploads, video uploads, and carousel posts
 
-            async with aiohttp.ClientSession() as session:
+            async with aiohttp.ClientSession():
                 # For now, return a placeholder implementation
                 # Real implementation would:
                 # 1. Upload media to Instagram servers
@@ -547,7 +547,7 @@ class PlatformAPIManager:
             self.rate_limits[platform].requests_remaining -= 1
             self.rate_limits[platform].last_request = datetime.now()
 
-    def get_platform_status(self) -> Dict[str, Any]:
+    def get_platform_status(self) -> dict[str, Any]:
         """Get status of all platform integrations"""
 
         status = {}
@@ -585,7 +585,7 @@ class PlatformAPIManager:
         return availability.get(platform, False)
 
     async def post_content(self, platform: str, content: str, title: str = None,
-                          media_paths: List[str] = None, **kwargs) -> PostResult:
+                          media_paths: list[str] = None, **kwargs) -> PostResult:
         """Universal posting method for any platform"""
 
         self.logger.info(f"📤 Posting to {platform}: {title or content[:50]}...")

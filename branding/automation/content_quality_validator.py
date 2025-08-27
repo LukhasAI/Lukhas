@@ -10,7 +10,6 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -27,8 +26,8 @@ class QualityScore:
     brand_consistency: float
     vocabulary_richness: float
     platform_optimization: float
-    issues: List[str]
-    recommendations: List[str]
+    issues: list[str]
+    recommendations: list[str]
     approved: bool
 
 class ContentQualityValidator:
@@ -135,7 +134,7 @@ class ContentQualityValidator:
 
         return quality_score
 
-    def _check_platform_optimization(self, content: str, platform: str, issues: List[str], recommendations: List[str]) -> float:
+    def _check_platform_optimization(self, content: str, platform: str, issues: list[str], recommendations: list[str]) -> float:
         """Check platform-specific optimization"""
         if platform not in self.platform_limits:
             issues.append(f"CRITICAL: Unknown platform '{platform}'")
@@ -169,13 +168,12 @@ class ContentQualityValidator:
             if not self._has_discussion_elements(content):
                 recommendations.append("Add more discussion elements for Reddit engagement")
 
-        elif platform == "instagram":
-            if not self._has_visual_elements(content):
-                recommendations.append("Emphasize visual elements for Instagram audience")
+        elif platform == "instagram" and not self._has_visual_elements(content):
+            recommendations.append("Emphasize visual elements for Instagram audience")
 
         return max(score, 0.0)
 
-    def _assess_readability(self, content: str, issues: List[str], recommendations: List[str]) -> float:
+    def _assess_readability(self, content: str, issues: list[str], recommendations: list[str]) -> float:
         """Assess content readability with consciousness awareness"""
         score = 85.0  # Start with generous base score
 
@@ -209,14 +207,14 @@ class ContentQualityValidator:
         consciousness_words = ['consciousness', 'awareness', 'mindful', 'understanding', 'wisdom',
                               'insight', 'perception', 'evolving', 'emerging', 'trinity']
         consciousness_count = sum(1 for word in consciousness_words if word.lower() in content.lower())
-        total_words = len(content.split())
+        len(content.split())
 
         if consciousness_count > 0:
             score += min(10, consciousness_count * 2)  # Bonus for consciousness language
 
         return max(score, 0.0)
 
-    def _assess_engagement_factors(self, content: str, content_type: str, issues: List[str], recommendations: List[str]) -> float:
+    def _assess_engagement_factors(self, content: str, content_type: str, issues: list[str], recommendations: list[str]) -> float:
         """Assess engagement potential with consciousness awareness"""
         score = 85.0  # Start with generous base score
 
@@ -265,7 +263,7 @@ class ContentQualityValidator:
 
         return max(score, 0.0)
 
-    def _validate_brand_consistency(self, content: str, issues: List[str], recommendations: List[str]) -> float:
+    def _validate_brand_consistency(self, content: str, issues: list[str], recommendations: list[str]) -> float:
         """Validate LUKHAS AI brand consistency with improved scoring"""
         score = 85.0  # Start with generous base score
 
@@ -315,7 +313,7 @@ class ContentQualityValidator:
 
         return max(score, 0.0)
 
-    def _evaluate_vocabulary_richness(self, content: str, content_type: str, issues: List[str], recommendations: List[str]) -> float:
+    def _evaluate_vocabulary_richness(self, content: str, content_type: str, issues: list[str], recommendations: list[str]) -> float:
         """Evaluate vocabulary richness using consciousness language"""
         vocabulary_coherence = self.vocabulary.calculate_vocabulary_coherence(content)
         language_level = self.vocabulary.get_consciousness_language_level(content)

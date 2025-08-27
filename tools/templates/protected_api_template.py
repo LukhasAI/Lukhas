@@ -8,7 +8,7 @@ Copy this template when creating new API endpoints.
 
 # Configure logging
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -59,7 +59,7 @@ class BaseRequest(BaseModel):
     class Config:
         extra = "allow"
 
-    def add_user_context(self, user: AuthContext) -> Dict[str, Any]:
+    def add_user_context(self, user: AuthContext) -> dict[str, Any]:
         """Add user context to request data."""
         data = self.dict()
         data.update(
@@ -79,7 +79,7 @@ class BaseResponse(BaseModel):
 
     success: bool = True
     message: Optional[str] = None
-    user_context: Optional[Dict[str, str]] = None
+    user_context: Optional[dict[str, str]] = None
 
     @classmethod
     def create_success(
@@ -215,7 +215,7 @@ async def consciousness_endpoint(
         )
 
     try:
-        data = request.add_user_context(user)
+        request.add_user_context(user)
 
         # Your consciousness logic here
         # from consciousness import process_consciousness_request
@@ -259,7 +259,7 @@ async def qi_endpoint(
         )
 
     try:
-        data = request.add_user_context(user)
+        request.add_user_context(user)
 
         # Your quantum logic here
         # from qi import process_quantum_computation
@@ -303,7 +303,7 @@ async def admin_endpoint(
         )
 
     try:
-        data = request.add_user_context(user)
+        request.add_user_context(user)
 
         # Your admin logic here
         # from governance import process_admin_request

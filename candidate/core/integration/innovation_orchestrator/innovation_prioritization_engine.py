@@ -5,7 +5,7 @@ Prioritizes innovations based on impact and feasibility.
 """
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from lukhas.core.interfaces import CoreInterface
 
@@ -38,8 +38,8 @@ class InnovationPrioritizationEngine(CoreInterface):
 
     async def prioritize_innovations(
         self,
-        innovations: List[Dict[str, Any]]
-    ) -> List[Dict[str, Any]]:
+        innovations: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
         """
         Prioritize innovations based on multiple criteria
 
@@ -65,7 +65,7 @@ class InnovationPrioritizationEngine(CoreInterface):
 
     async def _calculate_priority_score(
         self,
-        innovation: Dict[str, Any]
+        innovation: dict[str, Any]
     ) -> float:
         """Calculate priority score for an innovation"""
 

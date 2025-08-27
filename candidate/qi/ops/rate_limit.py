@@ -1,10 +1,11 @@
 # path: qi/ops/rate_limit.py
 from __future__ import annotations
 
+import contextlib
 import time
 from collections.abc import Awaitable
 from dataclasses import dataclass
-from typing import Callable, Dict, Tuple
+from typing import Callable
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
@@ -67,11 +68,11 @@ class RateLimiter(BaseHTTPMiddleware):
       where matcher is a callable(Request) -> bool
     If no rule matches, request passes through unmetered.
     """
-    def __init__(self, app, buckets: Dict[str, BucketConfig], rules: list[tuple[Callable[[Request], bool], str]]):
+    def __init__(self, app, buckets: dict[str, BucketConfig], rules: list[tuple[Callable[[Request], bool], str]]):
         super().__init__(app)
         self.buckets_cfg = buckets
         self.rules = rules
-        self.state: Dict[Tuple[str, str], TokenBucket] = {}  # (bucket_key, bucket_name) -> bucket
+        self.state: dict[tuple[str, str], TokenBucket] = {}  # (bucket_key, bucket_name) -> bucket
 
     def _key(self, req: Request) -> str:
         user = req.headers.get("x-user-id")
@@ -113,17 +114,13 @@ class RateLimiter(BaseHTTPMiddleware):
 
         ok = bucket.take(1.0)
         if _PROM:
-            try:
+            with contextlib.suppress(Exception):
                 RL_TOKENS.labels(bucket=f"{key}:{bucket_name}").set(bucket.tokens)
-            except Exception:
-                pass
 
         if not ok:
             if _PROM:
-                try:
+                with contextlib.suppress(Exception):
                     RL_BLOCKS.labels(bucket=bucket_name, path=path_group).inc()
-                except Exception:
-                    pass
             retry_after = max(1, int((1.0 - bucket.tokens) / cfg.refill_per_sec)) if cfg.refill_per_sec > 0 else 60
             return JSONResponse(
                 {"error": "rate_limited", "bucket": bucket_name, "path": path_group, "retry_after_sec": retry_after},

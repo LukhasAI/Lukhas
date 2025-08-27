@@ -148,10 +148,7 @@ def get_logger(name: str, module_name: Optional[str] = None) -> logging.Logger:
 def _configure_logger(logger: logging.Logger) -> None:
     """Apply configuration to a logger"""
     # Get underlying logger if this is an adapter
-    if hasattr(logger, 'logger'):
-        actual_logger = logger.logger
-    else:
-        actual_logger = logger
+    actual_logger = logger.logger if hasattr(logger, "logger") else logger
 
     # Clear existing handlers
     actual_logger.handlers.clear()

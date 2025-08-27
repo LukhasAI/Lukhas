@@ -215,14 +215,13 @@ def require_identity(
                 )
 
             # Check consent if specified
-            if check_consent:
-                if not client.check_consent(user_id, check_consent):
-                    logger.warning(
-                        f"Consent denied for {func.__name__}",
-                        user_id=user_id,
-                        consent_action=check_consent,
-                    )
-                    raise PermissionError(f"Consent not granted for: {check_consent}")
+            if check_consent and not client.check_consent(user_id, check_consent):
+                logger.warning(
+                    f"Consent denied for {func.__name__}",
+                    user_id=user_id,
+                    consent_action=check_consent,
+                )
+                raise PermissionError(f"Consent not granted for: {check_consent}")
 
             # Log activity
             client.log_activity(

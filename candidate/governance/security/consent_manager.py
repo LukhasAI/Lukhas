@@ -15,7 +15,7 @@ from collections import defaultdict
 from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
@@ -50,15 +50,15 @@ class ConsentRequest:
     permission_type: str
     requested_at: float
     expires_at: float
-    context: Dict[str, Any]
-    symbolic_path: List[str]
+    context: dict[str, Any]
+    symbolic_path: list[str]
     trust_score: float
     status: ConsentStatus = ConsentStatus.PENDING
     decision_reason: Optional[str] = None
     escalation_level: Optional[EscalationLevel] = None
-    escalation_history: List[Dict] = None
+    escalation_history: list[dict] = None
     governance_validated: bool = False
-    trinity_impact: Dict[str, float] = None
+    trinity_impact: dict[str, float] = None
 
     def __post_init__(self):
         if self.escalation_history is None:
@@ -78,8 +78,8 @@ class TrustPath:
     created_at: float
     last_validated: float
     validation_count: int
-    symbolic_signature: List[str]
-    metadata: Dict[str, Any]
+    symbolic_signature: list[str]
+    metadata: dict[str, Any]
     governance_approved: bool = True
 
 
@@ -172,14 +172,14 @@ class ConsentManager(GlyphIntegrationMixin):
         self.trust_db_path.parent.mkdir(parents=True, exist_ok=True)
 
         # State management with governance tracking
-        self.active_requests: Dict[str, ConsentRequest] = {}
-        self.consent_history: List[Dict] = []
-        self.trust_paths: Dict[str, TrustPath] = {}
+        self.active_requests: dict[str, ConsentRequest] = {}
+        self.consent_history: list[dict] = []
+        self.trust_paths: dict[str, TrustPath] = {}
         self.escalation_rules = self.DEFAULT_ESCALATION_RULES.copy()
-        self.governance_log: List[Dict] = []
+        self.governance_log: list[dict] = []
 
         # Enhanced requester statistics with governance metrics
-        self.requester_stats: Dict[str, Dict] = defaultdict(lambda: {
+        self.requester_stats: dict[str, dict] = defaultdict(lambda: {
             "total_requests": 0,
             "granted": 0,
             "denied": 0,
@@ -490,7 +490,7 @@ class ConsentManager(GlyphIntegrationMixin):
             if request.status in [ConsentStatus.GRANTED, ConsentStatus.DENIED]:
                 self.active_requests.pop(request.id, None)
 
-    async def _validate_governance_compliance(self, request: ConsentRequest) -> Dict[str, Any]:
+    async def _validate_governance_compliance(self, request: ConsentRequest) -> dict[str, Any]:
         """Validate request against governance policies"""
         # Check user tier requirements
         user_tier = request.context.get("user_tier", 1)
@@ -550,7 +550,7 @@ class ConsentManager(GlyphIntegrationMixin):
         trinity_resources = ["identity", "consciousness", "guardian", "trinity", "core", "system"]
         return any(term in resource for term in trinity_resources)
 
-    async def _analyze_trinity_impact(self, request: ConsentRequest) -> Dict[str, Any]:
+    async def _analyze_trinity_impact(self, request: ConsentRequest) -> dict[str, Any]:
         """Analyze potential impact on Trinity Framework components"""
         impact_scores = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
 
@@ -607,7 +607,7 @@ class ConsentManager(GlyphIntegrationMixin):
         if len(stats["trinity_impact_history"]) > 20:
             stats["trinity_impact_history"] = stats["trinity_impact_history"][-20:]
 
-    async def _analyze_trust_paths(self, request: ConsentRequest) -> Dict:
+    async def _analyze_trust_paths(self, request: ConsentRequest) -> dict:
         """Analyze available trust paths with governance validation"""
         # Find applicable trust paths
         applicable_paths = []
@@ -729,7 +729,7 @@ class ConsentManager(GlyphIntegrationMixin):
             governance_approved=request.governance_validated
         )
 
-    async def _apply_escalation_rules(self, request: ConsentRequest) -> Optional[Dict]:
+    async def _apply_escalation_rules(self, request: ConsentRequest) -> Optional[dict]:
         """Apply escalation rules with governance and Trinity Framework awareness"""
         # Build enhanced evaluation context
         eval_context = {
@@ -767,7 +767,7 @@ class ConsentManager(GlyphIntegrationMixin):
 
         return None
 
-    def _evaluate_enhanced_condition(self, condition: str, context: Dict) -> bool:
+    def _evaluate_enhanced_condition(self, condition: str, context: dict) -> bool:
         """Enhanced condition evaluation with Trinity Framework and governance support"""
         try:
             # Handle Trinity Framework conditions
@@ -820,7 +820,7 @@ class ConsentManager(GlyphIntegrationMixin):
 
         return count
 
-    async def _execute_escalation_actions(self, request: ConsentRequest, actions: List[str]):
+    async def _execute_escalation_actions(self, request: ConsentRequest, actions: list[str]):
         """Execute escalation actions with governance integration"""
         for action in actions:
             try:
@@ -871,7 +871,7 @@ class ConsentManager(GlyphIntegrationMixin):
             except Exception as e:
                 logger.error(f"Failed to execute action '{action}': {e}")
 
-    def _generate_symbolic_response(self, request: ConsentRequest) -> List[str]:
+    def _generate_symbolic_response(self, request: ConsentRequest) -> list[str]:
         """Generate symbolic response with governance and Trinity Framework awareness"""
         if request.escalation_level:
             # Use escalation rule's symbols
@@ -924,7 +924,7 @@ class ConsentManager(GlyphIntegrationMixin):
             "trinity_impact": request.trinity_impact,
             "governance_escalation": any(
                 "governance" in action
-                for action in request.context.keys()
+                for action in request.context
                 if "governance" in action.lower()
             )
         }
@@ -957,7 +957,7 @@ class ConsentManager(GlyphIntegrationMixin):
             }
         )
 
-    def _log_governance_action(self, action: str, metadata: Dict[str, Any]):
+    def _log_governance_action(self, action: str, metadata: dict[str, Any]):
         """Log action in governance audit system"""
         log_entry = {
             "timestamp": time.time(),
@@ -996,7 +996,7 @@ class ConsentManager(GlyphIntegrationMixin):
 
         return False
 
-    def get_requester_trust_summary(self, requester: str) -> Dict:
+    def get_requester_trust_summary(self, requester: str) -> dict:
         """Get enhanced trust summary with governance and Trinity metrics"""
         stats = self.requester_stats[requester]
 
@@ -1037,7 +1037,7 @@ class ConsentManager(GlyphIntegrationMixin):
             "governance_compliant": governance_escalation_rate < 0.1
         }
 
-    def get_enhanced_consent_statistics(self) -> Dict:
+    def get_enhanced_consent_statistics(self) -> dict:
         """Get comprehensive consent system statistics with governance metrics"""
         total_requests = len(self.consent_history)
         if total_requests == 0:

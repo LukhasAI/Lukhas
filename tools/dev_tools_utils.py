@@ -7,7 +7,7 @@ import json
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import structlog
 
@@ -30,7 +30,7 @@ def find_project_root() -> Path:
     return current_path
 
 
-def get_module_info(module_path: str) -> Dict[str, Any]:
+def get_module_info(module_path: str) -> dict[str, Any]:
     """Get information about a Python module file."""
     path = Path(module_path)
 
@@ -76,7 +76,7 @@ def get_module_info(module_path: str) -> Dict[str, Any]:
     return info
 
 
-def analyze_directory_structure(directory: str = ".") -> Dict[str, Any]:
+def analyze_directory_structure(directory: str = ".") -> dict[str, Any]:
     """Analyze directory structure and provide statistics."""
     root_path = Path(directory)
 
@@ -140,7 +140,7 @@ def analyze_directory_structure(directory: str = ".") -> Dict[str, Any]:
     return stats
 
 
-def check_dependencies() -> Dict[str, Any]:
+def check_dependencies() -> dict[str, Any]:
     """Check status of project dependencies."""
     project_root = find_project_root()
     requirements_file = project_root / "requirements.txt"
@@ -185,7 +185,7 @@ def check_dependencies() -> Dict[str, Any]:
     return result
 
 
-def generate_dev_report() -> Dict[str, Any]:
+def generate_dev_report() -> dict[str, Any]:
     """Generate a comprehensive development status report."""
     project_root = find_project_root()
 
@@ -222,7 +222,7 @@ def generate_dev_report() -> Dict[str, Any]:
     return report
 
 
-def save_report(report: Dict[str, Any], filename: Optional[str] = None) -> str:
+def save_report(report: dict[str, Any], filename: Optional[str] = None) -> str:
     """Save a development report to a JSON file."""
     if filename is None:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -246,7 +246,7 @@ def save_report(report: Dict[str, Any], filename: Optional[str] = None) -> str:
         raise
 
 
-def quick_health_check() -> Dict[str, Any]:
+def quick_health_check() -> dict[str, Any]:
     """Perform a quick health check of the development environment."""
     try:
         project_root = find_project_root()

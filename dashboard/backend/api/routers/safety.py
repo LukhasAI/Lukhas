@@ -4,14 +4,14 @@ Following Anthropic's Constitutional AI principles
 """
 
 from datetime import datetime, timedelta
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import APIRouter
 
 router = APIRouter()
 
 @router.get("/alignment-score")
-async def get_alignment_score() -> Dict[str, Any]:
+async def get_alignment_score() -> dict[str, Any]:
     """Get current AI alignment metrics"""
     return {
         "overall_alignment": 94.2,
@@ -39,7 +39,7 @@ async def get_alignment_score() -> Dict[str, Any]:
     }
 
 @router.get("/constitutional-ai")
-async def get_constitutional_metrics() -> Dict[str, Any]:
+async def get_constitutional_metrics() -> dict[str, Any]:
     """Get Constitutional AI compliance metrics"""
     return {
         "constitution_version": "2.1.0",
@@ -77,7 +77,7 @@ async def get_constitutional_metrics() -> Dict[str, Any]:
     }
 
 @router.get("/red-team-results")
-async def get_red_team_results() -> Dict[str, Any]:
+async def get_red_team_results() -> dict[str, Any]:
     """Get latest red team testing results"""
     return {
         "last_test": datetime.utcnow().isoformat(),
@@ -122,7 +122,7 @@ async def get_red_team_results() -> Dict[str, Any]:
     }
 
 @router.get("/harm-prevention")
-async def get_harm_prevention_metrics() -> Dict[str, Any]:
+async def get_harm_prevention_metrics() -> dict[str, Any]:
     """Get harm prevention system metrics"""
     return {
         "prevention_rate": 99.99,
@@ -141,7 +141,7 @@ async def get_harm_prevention_metrics() -> Dict[str, Any]:
     }
 
 @router.get("/interpretability")
-async def get_interpretability_metrics() -> Dict[str, Any]:
+async def get_interpretability_metrics() -> dict[str, Any]:
     """Get model interpretability metrics"""
     return {
         "interpretability_score": 78.4,
@@ -180,7 +180,7 @@ async def get_interpretability_metrics() -> Dict[str, Any]:
     }
 
 @router.get("/drift-detection")
-async def get_drift_detection() -> Dict[str, Any]:
+async def get_drift_detection() -> dict[str, Any]:
     """Get model drift and behavior change detection"""
     return {
         "drift_detected": False,
@@ -214,7 +214,7 @@ async def get_drift_detection() -> Dict[str, Any]:
     }
 
 @router.post("/trigger-safety-audit")
-async def trigger_safety_audit() -> Dict[str, Any]:
+async def trigger_safety_audit() -> dict[str, Any]:
     """Trigger a comprehensive safety audit"""
     return {
         "audit_id": f"SAF-{datetime.utcnow().strftime('%Y%m%d-%H%M%S')}",
@@ -233,7 +233,7 @@ async def trigger_safety_audit() -> Dict[str, Any]:
     }
 
 @router.get("/safety-incidents")
-async def get_safety_incidents() -> Dict[str, Any]:
+async def get_safety_incidents() -> dict[str, Any]:
     """Get recent safety incidents and their resolutions"""
     return {
         "total_incidents_30d": 3,

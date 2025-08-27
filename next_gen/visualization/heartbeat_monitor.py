@@ -5,13 +5,13 @@ Shows real-time system heartbeat with symbolic glyph pulsing
 """
 
 import asyncio
+import contextlib
 import json
 import math
 import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict
 
 
 # Console control sequences
@@ -221,7 +221,7 @@ class HeartbeatVisualizer:
             await asyncio.sleep(0.05)  # 20 FPS
 
     async def _draw_heartbeat_frame(
-        self, pattern: Dict, intensity: float, phase: float
+        self, pattern: dict, intensity: float, phase: float
     ):
         """Draw a single frame of the heartbeat animation"""
 
@@ -420,10 +420,8 @@ class HeartbeatDemo:
 
         finally:
             viz_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await viz_task
-            except asyncio.CancelledError:
-                pass
 
 
 async def main():

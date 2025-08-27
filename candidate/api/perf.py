@@ -2,7 +2,7 @@ import json
 import os
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, Body, Header, HTTPException, Query
 
@@ -34,7 +34,7 @@ def _require_enabled(x_api_key: Optional[str]):
 
 @router.post("/k6")
 def ingest_k6_summary(
-    payload: Dict[str, Any] = Body(...), x_api_key: Optional[str] = Header(default=None)
+    payload: dict[str, Any] = Body(...), x_api_key: Optional[str] = Header(default=None)
 ):
     """Ingests k6 summary.json (or a subset). Stores p95 per endpoint with timestamp."""
     _require_enabled(x_api_key)
@@ -66,7 +66,7 @@ def series(
     """Returns recent (ts, p95_ms) for the requested endpoint."""
     now = int(time.time() * 1000)
     window_ms = hours * 3600 * 1000
-    out: List[Dict[str, Any]] = []
+    out: list[dict[str, Any]] = []
 
     if not _SERIES.exists():
         return {"points": out}

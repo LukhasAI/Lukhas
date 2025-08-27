@@ -13,7 +13,6 @@ import time
 from collections import deque
 from dataclasses import dataclass
 from enum import Enum
-from typing import Dict, List
 
 from ..common import GlyphIntegrationMixin
 
@@ -39,11 +38,11 @@ class ThreatIndicator:
     timestamp: float
     source: str
     description: str
-    context: Dict
-    recommended_actions: List[str]
-    symbolic_signature: List[str]
-    governance_metadata: Dict
-    trinity_impact: Dict  # Impact on Identity, Consciousness, Guardian
+    context: dict
+    recommended_actions: list[str]
+    symbolic_signature: list[str]
+    governance_metadata: dict
+    trinity_impact: dict  # Impact on Identity, Consciousness, Guardian
 
 
 class EnhancedThreatMonitor(GlyphIntegrationMixin):
@@ -100,12 +99,12 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
 
         # Monitoring state
         self.is_monitoring = False
-        self.monitoring_tasks: List[asyncio.Task] = []
+        self.monitoring_tasks: list[asyncio.Task] = []
 
         # Threat tracking with governance
-        self.active_threats: List[ThreatIndicator] = []
-        self.threat_history: List[ThreatIndicator] = []
-        self.governance_log: List[Dict] = []
+        self.active_threats: list[ThreatIndicator] = []
+        self.threat_history: list[ThreatIndicator] = []
+        self.governance_log: list[dict] = []
 
         # Enhanced metrics history with Trinity Framework monitoring
         self.consciousness_history = deque(maxlen=history_size)
@@ -759,9 +758,9 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                           severity: ThreatLevel,
                           confidence: float,
                           description: str,
-                          context: Dict,
-                          recommended_actions: List[str],
-                          trinity_impact: Dict):
+                          context: dict,
+                          recommended_actions: list[str],
+                          trinity_impact: dict):
         """Raise a threat alert with enhanced governance integration"""
 
         # Generate governance metadata
@@ -1225,7 +1224,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 logger.error(f"Data cleanup error: {e}")
                 await asyncio.sleep(3600)
 
-    async def _log_governance_action(self, action: str, metadata: Dict):
+    async def _log_governance_action(self, action: str, metadata: dict):
         """Log action in governance audit system"""
         log_entry = {
             "timestamp": time.time(),
@@ -1254,7 +1253,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
 
         return monitoring_healthy and governance_healthy and trinity_healthy
 
-    def get_enhanced_threat_summary(self) -> Dict:
+    def get_enhanced_threat_summary(self) -> dict:
         """Get comprehensive threat summary with governance and Trinity Framework data"""
         active_by_severity = {}
         for level in ThreatLevel:
@@ -1294,7 +1293,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             "trinity_framework_health": self.detection_stats["trinity_framework_health"]
         }
 
-    def get_enhanced_system_metrics(self) -> Dict:
+    def get_enhanced_system_metrics(self) -> dict:
         """Get comprehensive system metrics including governance and Trinity Framework"""
         current_time = time.time()
 

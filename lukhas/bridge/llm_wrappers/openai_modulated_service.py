@@ -10,7 +10,7 @@ without complex signal modulation dependencies.
 import logging
 import time
 import uuid
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Use fallback imports
 try:
@@ -72,11 +72,11 @@ class OpenAIModulatedService:
         self,
         prompt: str,
         model: Optional[str] = None,
-        context: Optional[Dict[str, Any]] = None,
+        context: Optional[dict[str, Any]] = None,
         conversation_id: Optional[str] = None,
         stream: bool = False,
         **kwargs,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate a response using OpenAI.
 
@@ -143,8 +143,8 @@ class OpenAIModulatedService:
     def _build_messages(
         self,
         prompt: str,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> list[Dict[str, Any]]:
+        context: Optional[dict[str, Any]] = None,
+    ) -> list[dict[str, Any]]:
         """Build messages array for OpenAI API"""
         messages = []
 
@@ -163,7 +163,7 @@ class OpenAIModulatedService:
 
         return messages
 
-    def _normalize_response(self, response: Dict[str, Any]) -> Dict[str, Any]:
+    def _normalize_response(self, response: dict[str, Any]) -> dict[str, Any]:
         """Normalize OpenAI response to standard format"""
         if not response.get("choices"):
             return {
@@ -193,7 +193,7 @@ class OpenAIModulatedService:
         self,
         text: str,
         model: str = "text-embedding-ada-002",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate embeddings for text.
 
@@ -236,7 +236,7 @@ class OpenAIModulatedService:
         """Clear a conversation"""
         return self.client.clear_conversation(conversation_id)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get service metrics"""
         avg_time = (
             self._metrics["total_time"] / self._metrics["requests"]
@@ -256,7 +256,7 @@ class OpenAIModulatedService:
             "total_time": self._metrics["total_time"],
         }
 
-    def health_check(self) -> Dict[str, Any]:
+    def health_check(self) -> dict[str, Any]:
         """Perform health check"""
         try:
             # Simple check - verify client is initialized

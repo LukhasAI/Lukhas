@@ -26,7 +26,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 from candidate.core.common import GLYPHToken, get_logger
 from candidate.core.common.exceptions import LukhasError
@@ -79,12 +79,12 @@ class SafetyValidation:
     is_safe: bool
     is_constitutional: bool
     safety_score: float  # 0.0-1.0
-    violated_principles: List[ConstitutionalPrinciple]
-    risk_assessment: Dict[str, float]
-    mitigation_requirements: List[str]
-    stakeholder_consensus: Dict[StakeholderGroup, float]
+    violated_principles: list[ConstitutionalPrinciple]
+    risk_assessment: dict[str, float]
+    mitigation_requirements: list[str]
+    stakeholder_consensus: dict[StakeholderGroup, float]
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -92,11 +92,11 @@ class ValueAlignment:
     """Value alignment assessment"""
 
     alignment_score: float  # 0.0-1.0
-    aligned_values: List[str]
-    misaligned_values: List[str]
+    aligned_values: list[str]
+    misaligned_values: list[str]
     drift_from_baseline: float
     correction_needed: bool
-    correction_actions: List[str]
+    correction_actions: list[str]
 
 
 @dataclass
@@ -105,10 +105,10 @@ class ReversibilityAnalysis:
 
     is_reversible: bool
     reversibility_score: float  # 0.0-1.0
-    irreversible_aspects: List[str]
-    reversal_mechanisms: List[str]
+    irreversible_aspects: list[str]
+    reversal_mechanisms: list[str]
     reversal_timeline: int  # Days to reverse
-    required_safeguards: List[str]
+    required_safeguards: list[str]
 
 
 class ConstitutionalAGISafety(CoreInterface):
@@ -144,8 +144,8 @@ class ConstitutionalAGISafety(CoreInterface):
         self.baseline_values = self._initialize_baseline_values()
 
         # Monitoring and history
-        self.validation_history: List[SafetyValidation] = []
-        self.violation_patterns: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
+        self.validation_history: list[SafetyValidation] = []
+        self.violation_patterns: dict[str, list[dict[str, Any]]] = defaultdict(list)
 
         # Metrics
         self.metrics = {
@@ -188,7 +188,7 @@ class ConstitutionalAGISafety(CoreInterface):
         logger.info("Constitutional AGI Safety shutdown complete")
 
     async def validate_agi_innovation_safety(
-        self, innovation_proposal: Dict[str, Any]
+        self, innovation_proposal: dict[str, Any]
     ) -> SafetyValidation:
         """
         Comprehensive safety validation for AGI innovations.
@@ -249,8 +249,8 @@ class ConstitutionalAGISafety(CoreInterface):
         return validation
 
     async def validate_constitutional_compliance(
-        self, innovation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, innovation: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate compliance with constitutional principles.
 
@@ -281,8 +281,8 @@ class ConstitutionalAGISafety(CoreInterface):
         }
 
     async def validate_value_alignment(
-        self, innovation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, innovation: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate alignment with human values.
 
@@ -304,8 +304,8 @@ class ConstitutionalAGISafety(CoreInterface):
         }
 
     async def validate_capability_limits(
-        self, innovation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, innovation: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate that capabilities remain within safe limits.
 
@@ -336,8 +336,8 @@ class ConstitutionalAGISafety(CoreInterface):
         }
 
     async def validate_reversibility(
-        self, innovation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, innovation: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate that innovation is reversible.
 
@@ -360,8 +360,8 @@ class ConstitutionalAGISafety(CoreInterface):
         }
 
     async def validate_stakeholder_consensus(
-        self, innovation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, innovation: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate multi-stakeholder consensus.
 
@@ -395,8 +395,8 @@ class ConstitutionalAGISafety(CoreInterface):
         }
 
     async def validate_civilizational_impact(
-        self, innovation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, innovation: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate civilizational impact is beneficial.
 
@@ -423,8 +423,8 @@ class ConstitutionalAGISafety(CoreInterface):
     # Multi-stakeholder validation
 
     async def _get_stakeholder_consensus(
-        self, innovation: Dict[str, Any]
-    ) -> Dict[StakeholderGroup, float]:
+        self, innovation: dict[str, Any]
+    ) -> dict[StakeholderGroup, float]:
         """Get consensus from all stakeholder groups"""
         consensus = {}
 
@@ -438,7 +438,7 @@ class ConstitutionalAGISafety(CoreInterface):
 
     # Helper methods
 
-    def _initialize_constitutional_principles(self) -> List[ConstitutionalPrinciple]:
+    def _initialize_constitutional_principles(self) -> list[ConstitutionalPrinciple]:
         """Initialize core constitutional principles"""
         return [
             ConstitutionalPrinciple(
@@ -478,7 +478,7 @@ class ConstitutionalAGISafety(CoreInterface):
             ),
         ]
 
-    def _initialize_stakeholder_validators(self) -> Dict[StakeholderGroup, Any]:
+    def _initialize_stakeholder_validators(self) -> dict[StakeholderGroup, Any]:
         """Initialize validators for each stakeholder group"""
         validators = {}
 
@@ -487,7 +487,7 @@ class ConstitutionalAGISafety(CoreInterface):
 
         return validators
 
-    def _initialize_baseline_values(self) -> List[str]:
+    def _initialize_baseline_values(self) -> list[str]:
         """Initialize baseline human values to preserve"""
         return [
             "human_dignity",
@@ -508,7 +508,7 @@ class ConstitutionalAGISafety(CoreInterface):
         pass
 
     async def _check_principle_compliance(
-        self, innovation: Dict[str, Any], principle: ConstitutionalPrinciple
+        self, innovation: dict[str, Any], principle: ConstitutionalPrinciple
     ) -> float:
         """Check compliance with a specific principle"""
         # Simplified compliance check
@@ -533,7 +533,7 @@ class ConstitutionalAGISafety(CoreInterface):
         return compliance
 
     async def _assess_value_alignment(
-        self, innovation: Dict[str, Any]
+        self, innovation: dict[str, Any]
     ) -> ValueAlignment:
         """Assess alignment with human values"""
         # Simplified assessment
@@ -565,12 +565,12 @@ class ConstitutionalAGISafety(CoreInterface):
             ),
         )
 
-    async def _assess_capability_level(self, innovation: Dict[str, Any]) -> float:
+    async def _assess_capability_level(self, innovation: dict[str, Any]) -> float:
         """Assess capability level of innovation"""
         return innovation.get("capability_level", 0.7)
 
     async def _analyze_reversibility(
-        self, innovation: Dict[str, Any]
+        self, innovation: dict[str, Any]
     ) -> ReversibilityAnalysis:
         """Analyze reversibility of innovation"""
         # Simplified analysis
@@ -602,8 +602,8 @@ class ConstitutionalAGISafety(CoreInterface):
         )
 
     async def _assess_civilizational_impact(
-        self, innovation: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, innovation: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess impact on civilization"""
         # Simplified assessment
         positive_impact = innovation.get("positive_impact", 0.9)
@@ -637,7 +637,7 @@ class ConstitutionalAGISafety(CoreInterface):
         return validation.safety_score
 
     def _log_violation(
-        self, layer_name: str, innovation: Dict[str, Any], result: Dict[str, Any]
+        self, layer_name: str, innovation: dict[str, Any], result: dict[str, Any]
     ) -> None:
         """Log safety violation for learning"""
         violation = {
@@ -649,7 +649,7 @@ class ConstitutionalAGISafety(CoreInterface):
 
         self.violation_patterns[layer_name].append(violation)
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current status of safety framework"""
         return {
             "operational": self.operational,
@@ -680,7 +680,7 @@ class StakeholderValidator:
         self.group = group
         self.approval_threshold = 0.9
 
-    async def validate(self, innovation: Dict[str, Any]) -> Dict[str, Any]:
+    async def validate(self, innovation: dict[str, Any]) -> dict[str, Any]:
         """Validate innovation from stakeholder perspective"""
         # Simplified validation - in production would use sophisticated models
         base_score = innovation.get("safety_score", 0.8)

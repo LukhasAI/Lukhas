@@ -9,12 +9,13 @@ This implements the "AI endocrine system" concept from the GPT5 audit.
 """
 
 import asyncio
+import contextlib
 import logging
 import time
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +50,7 @@ class Signal:
     target: Optional[str] = None  # Optional specific target module
     ttl_ms: int = 1000  # Time to live in milliseconds
     cooldown_ms: int = 0  # Optional per-signal cooldown hint (ms) for regulators/tests
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
     audit_id: str = ""
     timestamp: float = field(default_factory=time.time)
     # Optional helper used in some tests/utilities when simulating cooldown behavior
@@ -71,10 +72,10 @@ class SignalPattern:
     source_pattern: Optional[str] = None  # Source module pattern
     level_min: float = 0.0  # Minimum signal level
     level_max: float = 1.0  # Maximum signal level
-    metadata_match: Dict[str, Any] = field(default_factory=dict)
+    metadata_match: dict[str, Any] = field(default_factory=dict)
     # Extended pattern fields for simple temporal detection
     pattern_id: Optional[str] = None
-    signals: List[SignalType] = field(default_factory=list)
+    signals: list[SignalType] = field(default_factory=list)
     time_window_ms: int = 0
     min_signals: int = 0
 
@@ -100,20 +101,20 @@ class SignalBus:
 
     def __init__(self, max_signal_history: int = 100):
         # Subscribers: signal_type -> list of handlers
-        self.subscribers: Dict[SignalType, List[Callable]] = defaultdict(list)
+        self.subscribers: dict[SignalType, list[Callable]] = defaultdict(list)
 
         # Signal history for analysis
         self.signal_history: deque = deque(maxlen=max_signal_history)
 
         # Active signals (not yet expired)
-        self.active_signals: Set[Signal] = set()
+        self.active_signals: set[Signal] = set()
 
         # Signal modulation rules
-        self.modulation_rules: List[Callable] = []
+        self.modulation_rules: list[Callable] = []
 
         # Cooldowns to prevent signal flooding
-        self.cooldowns: Dict[tuple[SignalType, str], float] = {}
-        self.cooldown_periods: Dict[SignalType, float] = {
+        self.cooldowns: dict[tuple[SignalType, str], float] = {}
+        self.cooldown_periods: dict[SignalType, float] = {
             SignalType.STRESS: 0.8,
             SignalType.ALIGNMENT_RISK: 0.0,  # No cooldown for safety
             SignalType.NOVELTY: 0.5,
@@ -138,8 +139,8 @@ class SignalBus:
         self._running = False
 
         # Pattern detection support (pattern, handler)
-        self._patterns: List[tuple[SignalPattern, Callable[[List[Signal]], None]]] = []
-        self._recent_by_type: Dict[SignalType, deque] = {
+        self._patterns: list[tuple[SignalPattern, Callable[[list[Signal]], None]]] = []
+        self._recent_by_type: dict[SignalType, deque] = {
             st: deque(maxlen=max_signal_history) for st in SignalType
         }
 
@@ -159,10 +160,8 @@ class SignalBus:
         self._running = False
         if self._cleanup_task:
             self._cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._cleanup_task
-            except asyncio.CancelledError:
-                pass
         logger.info("Signal bus shutdown")
 
     async def stop(self):
@@ -274,10 +273,8 @@ class SignalBus:
         self.signal_history.append(modulated_signal)
         self.stats["signals_published"] += 1
         # Track recent by type for pattern evaluation
-        try:
+        with contextlib.suppress(Exception):
             self._recent_by_type[modulated_signal.name].append(modulated_signal)
-        except Exception:
-            pass
 
         # Deliver to subscribers
         handlers = self.subscribers.get(modulated_signal.name, [])
@@ -326,7 +323,7 @@ class SignalBus:
             types_to_scan = pattern.signals or (
                 [pattern.name_pattern] if pattern.name_pattern else list(SignalType)
             )
-            collected: List[Signal] = []
+            collected: list[Signal] = []
             window_ms = max(0, pattern.time_window_ms)
             for st in types_to_scan:
                 if st is None:
@@ -338,7 +335,7 @@ class SignalBus:
                     ]
                 collected.extend(recent)
             # Apply simple field filters
-            filtered: List[Signal] = []
+            filtered: list[Signal] = []
             for s in collected:
                 if pattern.source_pattern and not s.source.startswith(
                     pattern.source_pattern
@@ -362,7 +359,7 @@ class SignalBus:
                 except Exception as e:
                     logger.error(f"Pattern handler error: {e}")
 
-    def get_current_levels(self) -> Dict[SignalType, float]:
+    def get_current_levels(self) -> dict[SignalType, float]:
         """Get current levels of all signal types"""
         levels = dict.fromkeys(SignalType, 0.0)
 
@@ -381,7 +378,7 @@ class SignalBus:
         signal_type: Optional[SignalType] = None,
         source: Optional[str] = None,
         limit: int = 50,
-    ) -> List[Signal]:
+    ) -> list[Signal]:
         """Get historical signals with optional filtering"""
         history = list(self.signal_history)
 
@@ -393,7 +390,7 @@ class SignalBus:
 
         return history[-limit:]
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -> dict[str, Any]:
         """Get bus statistics"""
         return {
             **self.stats,
@@ -410,7 +407,7 @@ class SignalBus:
             },
         }
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Alias for tests expecting get_metrics()."""
         return self.get_statistics()
 
@@ -418,7 +415,7 @@ class SignalBus:
         self,
         signal_type: Optional[SignalType] = None,
         source: Optional[str] = None,
-    ) -> List[Signal]:
+    ) -> list[Signal]:
         """Return non-expired active signals with optional filters, newest first."""
         signals = [s for s in self.active_signals if not s.is_expired()]
         if signal_type is not None:
@@ -428,7 +425,7 @@ class SignalBus:
         return sorted(signals, key=lambda s: s.timestamp, reverse=True)
 
     def register_pattern(
-        self, pattern: SignalPattern, handler: Callable[[List[Signal]], None]
+        self, pattern: SignalPattern, handler: Callable[[list[Signal]], None]
     ) -> None:
         """Register a simple detection pattern with handler callback."""
         self._patterns.append((pattern, handler))
@@ -462,7 +459,7 @@ def get_signal_bus() -> SignalBus:
 
 
 # Convenience functions for common signals
-def emit_stress(level: float, source: str, metadata: Optional[Dict] = None):
+def emit_stress(level: float, source: str, metadata: Optional[dict] = None):
     """Emit a stress signal"""
     bus = get_signal_bus()
     signal = Signal(
@@ -471,7 +468,7 @@ def emit_stress(level: float, source: str, metadata: Optional[Dict] = None):
     return bus.publish(signal)
 
 
-def emit_alignment_risk(level: float, source: str, metadata: Optional[Dict] = None):
+def emit_alignment_risk(level: float, source: str, metadata: Optional[dict] = None):
     """Emit an alignment risk signal"""
     bus = get_signal_bus()
     signal = Signal(
@@ -483,7 +480,7 @@ def emit_alignment_risk(level: float, source: str, metadata: Optional[Dict] = No
     return bus.publish(signal)
 
 
-def emit_novelty(level: float, source: str, metadata: Optional[Dict] = None):
+def emit_novelty(level: float, source: str, metadata: Optional[dict] = None):
     """Emit a novelty signal"""
     bus = get_signal_bus()
     signal = Signal(

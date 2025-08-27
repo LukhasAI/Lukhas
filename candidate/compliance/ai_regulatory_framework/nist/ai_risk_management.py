@@ -14,7 +14,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Safe numpy import with fallback
 try:
@@ -67,7 +67,7 @@ class AISystemMetrics:
     accuracy: Optional[float]
     precision: Optional[float]
     recall: Optional[float]
-    fairness_metrics: Dict[str, float]
+    fairness_metrics: dict[str, float]
     explainability_score: Optional[float]
     robustness_score: Optional[float]
     privacy_preservation_score: Optional[float]
@@ -82,10 +82,10 @@ class RiskAssessment:
     assessment_date: datetime
     lifecycle_stage: AILifecycleStage
     risk_level: RiskLevel
-    trustworthy_scores: Dict[TrustworthyCharacteristic, float]
-    identified_risks: List[str]
-    mitigation_strategies: List[str]
-    monitoring_requirements: List[str]
+    trustworthy_scores: dict[TrustworthyCharacteristic, float]
+    identified_risks: list[str]
+    mitigation_strategies: list[str]
+    monitoring_requirements: list[str]
     next_assessment_date: datetime
 
 
@@ -194,7 +194,7 @@ class NISTAIRiskManager:
 
     async def _assess_trustworthy_characteristics(
         self, metrics: AISystemMetrics
-    ) -> Dict[TrustworthyCharacteristic, float]:
+    ) -> dict[TrustworthyCharacteristic, float]:
         """Assess trustworthy AI characteristics"""
         scores = {}
 
@@ -239,8 +239,8 @@ class NISTAIRiskManager:
     async def _identify_risks(
         self,
         metrics: AISystemMetrics,
-        trustworthy_scores: Dict[TrustworthyCharacteristic, float],
-    ) -> List[str]:
+        trustworthy_scores: dict[TrustworthyCharacteristic, float],
+    ) -> list[str]:
         """Identify AI risks based on metrics and scores"""
         risks = []
 
@@ -286,8 +286,8 @@ class NISTAIRiskManager:
 
     async def _calculate_risk_level(
         self,
-        trustworthy_scores: Dict[TrustworthyCharacteristic, float],
-        identified_risks: List[str],
+        trustworthy_scores: dict[TrustworthyCharacteristic, float],
+        identified_risks: list[str],
     ) -> RiskLevel:
         """Calculate overall risk level"""
 
@@ -316,9 +316,9 @@ class NISTAIRiskManager:
 
     async def _generate_mitigation_strategies(
         self,
-        risks: List[str],
-        trustworthy_scores: Dict[TrustworthyCharacteristic, float],
-    ) -> List[str]:
+        risks: list[str],
+        trustworthy_scores: dict[TrustworthyCharacteristic, float],
+    ) -> list[str]:
         """Generate risk mitigation strategies"""
         strategies = []
 
@@ -398,7 +398,7 @@ class NISTAIRiskManager:
 
     async def _define_monitoring_requirements(
         self, risk_level: RiskLevel, lifecycle_stage: AILifecycleStage
-    ) -> List[str]:
+    ) -> list[str]:
         """Define monitoring requirements based on risk level"""
         requirements = []
 
@@ -465,7 +465,7 @@ class NISTAIRiskManager:
 
     async def generate_trustworthy_ai_scorecard(
         self, assessment: RiskAssessment
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate trustworthy AI scorecard"""
 
         scorecard = {
@@ -522,7 +522,7 @@ class NISTAIRiskManager:
         else:
             return "Non-Compliant"
 
-    async def _generate_recommendations(self, assessment: RiskAssessment) -> List[str]:
+    async def _generate_recommendations(self, assessment: RiskAssessment) -> list[str]:
         """Generate actionable recommendations"""
         recommendations = []
 

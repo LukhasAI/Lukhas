@@ -10,7 +10,7 @@ import logging
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +47,7 @@ class AndaluzVoiceEngine:
     Handles dialect recognition and synthesis with medical context
     """
 
-    def __init__(self, config: Dict[str, Any] = None, consciousness=None):
+    def __init__(self, config: dict[str, Any] = None, consciousness=None):
         """
         Initialize Andaluz voice engine
 

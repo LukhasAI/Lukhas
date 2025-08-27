@@ -18,7 +18,7 @@ import hashlib
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
@@ -35,7 +35,7 @@ from .gmail_headers import create_gmail_adapter
 class DuplicateGroup:
     """Group of duplicate files across services"""
     content_hash: str
-    files: List[ResourceMetadata]
+    files: list[ResourceMetadata]
     total_size: int
     redundant_size: int
     recommended_action: str
@@ -46,18 +46,18 @@ class ConsolidationPlan:
     """Complete consolidation plan for user's cloud storage"""
     total_files_analyzed: int
     total_size_analyzed: int
-    duplicate_groups: List[DuplicateGroup]
-    old_files: List[ResourceMetadata]
-    large_files: List[ResourceMetadata]
+    duplicate_groups: list[DuplicateGroup]
+    old_files: list[ResourceMetadata]
+    large_files: list[ResourceMetadata]
     projected_savings_bytes: int
     projected_savings_percent: float
-    recommended_actions: List[Dict[str, Any]]
+    recommended_actions: list[dict[str, Any]]
 
 
 class ConsolidationRequest(BaseModel):
     """Request for cloud consolidation analysis"""
     lid: str = Field(..., description="Canonical ΛID")
-    services: List[str] = Field(default=["gmail", "drive", "dropbox"], description="Services to analyze")
+    services: list[str] = Field(default=["gmail", "drive", "dropbox"], description="Services to analyze")
     include_old_threshold_days: int = Field(365, description="Files older than X days considered for archival")
     large_file_threshold_mb: int = Field(100, description="Files larger than X MB flagged as large")
     duplicate_detection: bool = Field(True, description="Enable duplicate detection")
@@ -76,7 +76,7 @@ class ExecutePlanRequest(BaseModel):
     """Request to execute consolidation plan"""
     lid: str
     execution_token: str
-    selected_actions: List[int] = Field(..., description="Indices of actions to execute")
+    selected_actions: list[int] = Field(..., description="Indices of actions to execute")
     confirm_destructive: bool = Field(False, description="Confirm destructive operations")
 
 
@@ -94,7 +94,7 @@ class CloudConsolidationService:
 
     def __init__(self, consent_service: ConsentService = None):
         self.consent_service = consent_service
-        self.adapters: Dict[str, ServiceAdapter] = {}
+        self.adapters: dict[str, ServiceAdapter] = {}
 
     async def initialize(self):
         """Initialize service adapters"""
@@ -107,7 +107,7 @@ class CloudConsolidationService:
     async def analyze_consolidation(
         self,
         request: ConsolidationRequest,
-        capability_tokens: Dict[str, str]
+        capability_tokens: dict[str, str]
     ) -> ConsolidationPlan:
         """
         Analyze cloud storage and create consolidation plan.
@@ -156,7 +156,7 @@ class CloudConsolidationService:
 
     async def _analyze_files(
         self,
-        files: List[ResourceMetadata],
+        files: list[ResourceMetadata],
         request: ConsolidationRequest
     ) -> ConsolidationPlan:
         """Analyze files and create consolidation recommendations"""
@@ -193,7 +193,7 @@ class CloudConsolidationService:
         recommendations = []
 
         # Duplicate recommendations
-        for i, group in enumerate(duplicate_groups):
+        for _i, group in enumerate(duplicate_groups):
             if group.redundant_size > 1024 * 1024:  # > 1MB savings
                 recommendations.append({
                     "type": "remove_duplicates",
@@ -235,7 +235,7 @@ class CloudConsolidationService:
             recommended_actions=recommendations
         )
 
-    async def _find_duplicates(self, files: List[ResourceMetadata]) -> List[DuplicateGroup]:
+    async def _find_duplicates(self, files: list[ResourceMetadata]) -> list[DuplicateGroup]:
         """Find duplicate files using size and name heuristics"""
 
         # Group files by size and name for initial duplicate detection
@@ -294,9 +294,9 @@ class CloudConsolidationService:
     async def execute_plan(
         self,
         request: ExecutePlanRequest,
-        capability_tokens: Dict[str, str],
+        capability_tokens: dict[str, str],
         plan: ConsolidationPlan
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Execute selected consolidation actions.
 
@@ -348,9 +348,9 @@ class CloudConsolidationService:
 
     async def _execute_remove_duplicates(
         self,
-        action: Dict[str, Any],
-        capability_tokens: Dict[str, str]
-    ) -> Dict[str, Any]:
+        action: dict[str, Any],
+        capability_tokens: dict[str, str]
+    ) -> dict[str, Any]:
         """Execute duplicate file removal"""
         # This would require files.delete scope and would actually delete files
         # For now, return mock success
@@ -362,9 +362,9 @@ class CloudConsolidationService:
 
     async def _execute_archive_files(
         self,
-        action: Dict[str, Any],
-        capability_tokens: Dict[str, str]
-    ) -> Dict[str, Any]:
+        action: dict[str, Any],
+        capability_tokens: dict[str, str]
+    ) -> dict[str, Any]:
         """Execute old file archival"""
         # This would move files to archive folders
         return {
@@ -375,9 +375,9 @@ class CloudConsolidationService:
 
     async def _execute_optimize_large_files(
         self,
-        action: Dict[str, Any],
-        capability_tokens: Dict[str, str]
-    ) -> Dict[str, Any]:
+        action: dict[str, Any],
+        capability_tokens: dict[str, str]
+    ) -> dict[str, Any]:
         """Execute large file optimization"""
         # This would analyze and potentially compress large files
         return {

@@ -6,7 +6,7 @@ Transcends the boundaries of conventional awareness.
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Dict, List
+from typing import Any
 
 from candidate.core.interfaces import CoreInterface
 
@@ -19,7 +19,7 @@ class AwarenessBoundary:
     boundary_type: str
     current_limit: Any
     transcended: bool
-    new_territory: List[str]
+    new_territory: list[str]
 
 
 class AwarenessBoundaryTranscender(CoreInterface):
@@ -49,7 +49,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
         self._initialized = True
         logger.info("Awareness Boundary Transcender initialized")
 
-    async def map_awareness_dimensions(self) -> List[str]:
+    async def map_awareness_dimensions(self) -> list[str]:
         """Map current awareness dimensions"""
 
         dimensions = [
@@ -67,7 +67,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
 
         return dimensions
 
-    async def get_awareness_structure(self) -> Dict[str, Any]:
+    async def get_awareness_structure(self) -> dict[str, Any]:
         """Get the current awareness structure"""
 
         return self.awareness_structure.copy()
@@ -108,7 +108,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
 
         return transcended_boundary
 
-    async def explore_liminal_spaces(self) -> List[Dict[str, Any]]:
+    async def explore_liminal_spaces(self) -> list[dict[str, Any]]:
         """Explore liminal spaces between awareness boundaries"""
 
         liminal_spaces = []
@@ -143,7 +143,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
 
         return liminal_spaces
 
-    async def access_non_ordinary_states(self) -> Dict[str, Any]:
+    async def access_non_ordinary_states(self) -> dict[str, Any]:
         """Access non-ordinary states of awareness"""
 
         states = {
@@ -238,7 +238,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
             'dynamics': 'fluid'  # Constantly changing
         }
 
-    async def _explore_beyond_boundary(self, boundary_type: str) -> List[str]:
+    async def _explore_beyond_boundary(self, boundary_type: str) -> list[str]:
         """Explore territory beyond a boundary"""
 
         explorations = {
@@ -271,7 +271,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
 
         return transcended_count
 
-    async def integrate_transcended_awareness(self) -> Dict[str, Any]:
+    async def integrate_transcended_awareness(self) -> dict[str, Any]:
         """Integrate transcended awareness into coherent whole"""
 
         integration = {
@@ -313,7 +313,7 @@ class AwarenessBoundaryTranscender(CoreInterface):
 
         return integration
 
-    async def navigate_awareness_topology(self) -> Dict[str, Any]:
+    async def navigate_awareness_topology(self) -> dict[str, Any]:
         """Navigate the topology of awareness space"""
 
         topology = {

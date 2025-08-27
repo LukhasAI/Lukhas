@@ -255,12 +255,11 @@ class HealixMapper:
                     weight = memory["emotional_weight"]
                     strand_score = 1.0 if 0 <= weight <= 1.0 else 0.5
 
-            elif strand_type == MemoryStrand.CULTURAL:
-                if "cultural_markers" in memory:
-                    markers = memory["cultural_markers"]
-                    strand_score = (
-                        1.0 if isinstance(markers, list) and len(markers) > 0 else 0.7
-                    )
+            elif strand_type == MemoryStrand.CULTURAL and "cultural_markers" in memory:
+                markers = memory["cultural_markers"]
+                strand_score = (
+                    1.0 if isinstance(markers, list) and len(markers) > 0 else 0.7
+                )
 
             # Combine scores
             final_score = (

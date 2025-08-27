@@ -6,7 +6,7 @@ The Poetry System of LUKHAS
 One module. Three methods. Infinite expression.
 """
 
-from poetry.soul import EmotionalTone, Soul, awaken, dream, error_haiku, express
+from .soul import EmotionalTone, Soul, awaken, dream, error_haiku, express
 
 __all__ = [
     'Soul',

@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 import yaml  # pip install pyyaml
 
@@ -17,7 +17,7 @@ DEFAULT_PRESETS_PATH = os.path.join("qi", "router", "presets.yaml")
 class ConfigError(Exception):
     pass
 
-def _load_yaml(path: str) -> Dict[str, Any]:
+def _load_yaml(path: str) -> dict[str, Any]:
     if not os.path.exists(path):
         raise ConfigError(f"Preset file not found: {path}")
     with open(path, encoding="utf-8") as f:
@@ -26,13 +26,13 @@ def _load_yaml(path: str) -> Dict[str, Any]:
         raise ConfigError("presets.yaml must be a YAML mapping at the top level.")
     return data
 
-def _validate(cfg: Dict[str, Any]) -> None:
+def _validate(cfg: dict[str, Any]) -> None:
     allowed_keys = {"defaults", "tasks", "models"}
     unknown = set(cfg.keys()) - allowed_keys
     if unknown:
         raise ConfigError(f"Unknown top-level keys in presets: {sorted(unknown)}")
 
-    def _check_plan(plan: Dict[str, Any], ctx: str):
+    def _check_plan(plan: dict[str, Any], ctx: str):
         # soft schema
         for k in plan:
             if k not in {
@@ -75,7 +75,7 @@ class TaskRouter:
       3) Task-specific overrides from YAML (applies to the named task)
     Then applies safety caps (cap_tokens, cap_latency_ms) if present.
     """
-    def __init__(self, presets_path: Optional[str] = None, conf_thresholds: Tuple[float,float,float] = (0.8, 0.6, 0.4)):
+    def __init__(self, presets_path: str | None = None, conf_thresholds: tuple[float,float,float] = (0.8, 0.6, 0.4)):
         self.presets_path = os.environ.get(PRESETS_PATH_ENV) or presets_path or DEFAULT_PRESETS_PATH
         self.cfg = _load_yaml(self.presets_path)
         _validate(self.cfg)
@@ -90,10 +90,10 @@ class TaskRouter:
         *,
         task: str,
         calibrated_conf: float,
-        last_path: Optional[str] = None,
-        model_id: Optional[str] = None,
-        input_tokens_est: Optional[int] = None
-    ) -> Dict[str, Any]:
+        last_path: str | None = None,
+        model_id: str | None = None,
+        input_tokens_est: int | None = None
+    ) -> dict[str, Any]:
         # 1) base route from confidence
         base = self.conf_router.decide(calibrated_conf=calibrated_conf, last_path=last_path)  # has: path, gen_tokens, retrieval, passes, temperature, confidence
 

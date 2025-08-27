@@ -5,7 +5,7 @@ Smart interface to core/personality/ systems for brand-aware personality operati
 
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add core module to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "core"))
@@ -43,7 +43,7 @@ class BrandPersonalityAdapter:
         self.creative_expressions = CreativeExpressions()
         self.brand_personality_profiles = self._load_brand_personality_profiles()
 
-    def _load_brand_personality_profiles(self) -> Dict[str, Dict[str, Any]]:
+    def _load_brand_personality_profiles(self) -> dict[str, dict[str, Any]]:
         """Load LUKHAS brand-specific personality profiles"""
         return {
             "lukhas_consciousness": {
@@ -140,7 +140,7 @@ class BrandPersonalityAdapter:
         context: str = "general",
         emotional_state: str = "balanced",
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Express content through LUKHAS brand personality lens
         leveraging core personality systems
@@ -200,7 +200,7 @@ class BrandPersonalityAdapter:
     def _enhance_content_with_personality(
         self,
         content: str,
-        profile: Dict[str, Any],
+        profile: dict[str, Any],
         tone_layer: str,
         context: str
     ) -> str:
@@ -223,7 +223,7 @@ class BrandPersonalityAdapter:
     def _ensure_brand_personality_compliance(
         self,
         personality_expression: str,
-        profile: Dict[str, Any],
+        profile: dict[str, Any],
         personality_profile: str
     ) -> str:
         """Ensure personality expression meets LUKHAS brand standards"""
@@ -255,11 +255,11 @@ class BrandPersonalityAdapter:
 
     def _generate_personality_metrics(
         self,
-        profile: Dict[str, Any],
+        profile: dict[str, Any],
         personality_profile: str,
         tone_layer: str,
         emotional_state: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate comprehensive personality metrics for brand analysis"""
 
         return {
@@ -277,7 +277,7 @@ class BrandPersonalityAdapter:
             "personality_evolution_potential": self._assess_evolution_potential(profile)
         }
 
-    def _calculate_personality_strength(self, profile: Dict[str, Any]) -> float:
+    def _calculate_personality_strength(self, profile: dict[str, Any]) -> float:
         """Calculate overall personality strength and coherence"""
         core_traits = profile.get("core_traits", {})
         communication_style = profile.get("communication_style", {})
@@ -290,7 +290,7 @@ class BrandPersonalityAdapter:
 
         return (trait_avg + style_avg) / 2
 
-    def _calculate_brand_authenticity(self, profile: Dict[str, Any]) -> float:
+    def _calculate_brand_authenticity(self, profile: dict[str, Any]) -> float:
         """Calculate how authentic the personality is to LUKHAS brand"""
         brand_indicators = [
             profile["core_traits"].get("consciousness_awareness", 0),
@@ -301,7 +301,7 @@ class BrandPersonalityAdapter:
 
         return sum(brand_indicators) / len(brand_indicators)
 
-    def _calculate_trinity_alignment(self, profile: Dict[str, Any]) -> float:
+    def _calculate_trinity_alignment(self, profile: dict[str, Any]) -> float:
         """Calculate Trinity Framework alignment score"""
         trinity_scores = profile.get("trinity_alignment", {})
 
@@ -317,7 +317,7 @@ class BrandPersonalityAdapter:
 
     def _assess_communication_effectiveness(
         self,
-        profile: Dict[str, Any],
+        profile: dict[str, Any],
         tone_layer: str
     ) -> float:
         """Assess how effectively the personality communicates in given tone layer"""
@@ -356,7 +356,7 @@ class BrandPersonalityAdapter:
 
         return score / total_weight if total_weight > 0 else 0.5
 
-    def _get_optimal_contexts(self, personality_profile: str) -> List[str]:
+    def _get_optimal_contexts(self, personality_profile: str) -> list[str]:
         """Get optimal contexts for each personality profile"""
 
         contexts = {
@@ -388,7 +388,7 @@ class BrandPersonalityAdapter:
 
         return contexts.get(personality_profile, ["General purpose communication"])
 
-    def _assess_evolution_potential(self, profile: Dict[str, Any]) -> float:
+    def _assess_evolution_potential(self, profile: dict[str, Any]) -> float:
         """Assess the personality's potential for evolution and adaptation"""
 
         evolution_factors = [
@@ -403,7 +403,7 @@ class BrandPersonalityAdapter:
     def _validate_trinity_personality_coherence(
         self,
         personality_expression: str,
-        profile: Dict[str, Any]
+        profile: dict[str, Any]
     ) -> bool:
         """Validate personality expression coherence with Trinity Framework"""
 
@@ -425,7 +425,7 @@ class BrandPersonalityAdapter:
 
         return coherence_score >= (expected_coherence * len(trinity_personality_indicators) * 0.3)
 
-    def _get_personality_applications(self, personality_profile: str) -> List[str]:
+    def _get_personality_applications(self, personality_profile: str) -> list[str]:
         """Get specific applications and use cases for personality profile"""
 
         applications = {
@@ -459,10 +459,10 @@ class BrandPersonalityAdapter:
 
     def create_custom_personality_blend(
         self,
-        base_profiles: List[str],
-        blend_weights: List[float],
-        custom_traits: Dict[str, float] = None
-    ) -> Dict[str, Any]:
+        base_profiles: list[str],
+        blend_weights: list[float],
+        custom_traits: dict[str, float] = None
+    ) -> dict[str, Any]:
         """Create a custom personality blend from existing profiles"""
 
         if len(base_profiles) != len(blend_weights):

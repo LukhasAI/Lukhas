@@ -12,7 +12,7 @@ import sys
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Live API integration imports
 try:
@@ -40,7 +40,7 @@ class ContentPost:
     title: str
     content: str
     media_path: Optional[str] = None
-    hashtags: List[str] = None
+    hashtags: list[str] = None
     scheduled_time: Optional[str] = None
     approved: bool = False
     published: bool = False
@@ -558,7 +558,7 @@ class SocialMediaOrchestrator:
             scheduled_time=datetime.now().isoformat(),
         )
 
-    async def generate_daily_content_batch(self) -> List[ContentPost]:
+    async def generate_daily_content_batch(self) -> list[ContentPost]:
         """Generate a daily batch of diverse content"""
         self.logger.info("🎨 Generating daily content batch...")
 
@@ -659,7 +659,7 @@ class SocialMediaOrchestrator:
         self.logger.info(f"✅ Generated {len(daily_posts)} posts for admin approval")
         return daily_posts
 
-    def get_pending_approval_posts(self) -> List[ContentPost]:
+    def get_pending_approval_posts(self) -> list[ContentPost]:
         """Get posts pending admin approval"""
         return [
             post
@@ -698,7 +698,7 @@ class SocialMediaOrchestrator:
         )
         return True
 
-    async def publish_approved_posts(self, live_mode: bool = None) -> Dict[str, Any]:
+    async def publish_approved_posts(self, live_mode: bool = None) -> dict[str, Any]:
         """Publish approved posts with live API integration or simulation"""
         approved_posts = [
             post for post in self.content_queue if post.approved and not post.published
@@ -846,7 +846,7 @@ class SocialMediaOrchestrator:
             else 0,
         }
 
-    def get_content_analytics(self) -> Dict[str, Any]:
+    def get_content_analytics(self) -> dict[str, Any]:
         """Get content generation analytics"""
         total_posts = len(self.content_queue)
         approved_posts = len([p for p in self.content_queue if p.approved])
@@ -895,7 +895,7 @@ class SocialMediaOrchestrator:
             else "🎭 SIMULATION",
         }
 
-    def get_api_status(self) -> Dict[str, Any]:
+    def get_api_status(self) -> dict[str, Any]:
         """Get detailed API integration status"""
         if not self.api_manager:
             return {

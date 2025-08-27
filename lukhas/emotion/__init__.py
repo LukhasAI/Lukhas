@@ -68,7 +68,7 @@ class EmotionWrapper:
             return False
 
     @instrument("emotion_process")
-    def process_emotion(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_emotion(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process emotional input using VAD model
 
@@ -107,7 +107,7 @@ class EmotionWrapper:
 
     @instrument("emotion_regulate_mood")
     def regulate_mood(self, target_state: Optional[str] = None,
-                     hormone_context: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
+                     hormone_context: Optional[dict[str, float]] = None) -> dict[str, Any]:
         """
         Regulate mood with hormone receptor influence
 
@@ -142,7 +142,7 @@ class EmotionWrapper:
             return {"error": str(e), "regulation_applied": False}
 
     @instrument("emotion_track_valence")
-    def track_valence(self, window_size: int = 10) -> Dict[str, Any]:
+    def track_valence(self, window_size: int = 10) -> dict[str, Any]:
         """
         Track valence trends over time
 
@@ -175,7 +175,7 @@ class EmotionWrapper:
             emit({"ntype": "valence_track_error", "state": {"error": str(e)}})
             return {"error": str(e), "current_valence": 0.0}
 
-    def _analyze_vad_affect(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_vad_affect(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Analyze VAD affect from input data (active mode only)"""
         # Simplified VAD analysis for budget efficiency
         text = input_data.get("text", "")
@@ -258,7 +258,7 @@ class EmotionWrapper:
             return "neutral"
 
     def _apply_mood_regulation(self, target_state: Optional[str],
-                              hormone_context: Optional[Dict[str, float]]) -> Dict[str, Any]:
+                              hormone_context: Optional[dict[str, float]]) -> dict[str, Any]:
         """Apply mood regulation algorithms (active mode only)"""
         current_valence = self._emotional_state["valence"]
         regulation_applied = False
@@ -294,7 +294,7 @@ class EmotionWrapper:
             "stability": 0.8
         }
 
-    def _analyze_valence_trends(self, window_size: int) -> Dict[str, Any]:
+    def _analyze_valence_trends(self, window_size: int) -> dict[str, Any]:
         """Analyze valence trends over recent history (active mode only)"""
         if len(self._emotion_history) < 2:
             return {
@@ -334,11 +334,11 @@ class EmotionWrapper:
             "trend_slope": trend_slope if 'trend_slope' in locals() else 0.0
         }
 
-    def get_emotional_state(self) -> Dict[str, Any]:
+    def get_emotional_state(self) -> dict[str, Any]:
         """Get current emotional state"""
         return self._emotional_state.copy()
 
-    def get_feature_flag_status(self) -> Dict[str, Any]:
+    def get_feature_flag_status(self) -> dict[str, Any]:
         """Get emotion feature flag status"""
         return {
             "EMOTION_ACTIVE": EMOTION_ACTIVE,
@@ -357,16 +357,16 @@ def get_emotion_wrapper() -> EmotionWrapper:
     return _emotion_wrapper
 
 # Convenience functions for direct access
-def process_emotion(input_data: Dict[str, Any]) -> Dict[str, Any]:
+def process_emotion(input_data: dict[str, Any]) -> dict[str, Any]:
     """Process emotional input using VAD model"""
     return get_emotion_wrapper().process_emotion(input_data)
 
 def regulate_mood(target_state: Optional[str] = None,
-                 hormone_context: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
+                 hormone_context: Optional[dict[str, float]] = None) -> dict[str, Any]:
     """Regulate mood with hormone receptor influence"""
     return get_emotion_wrapper().regulate_mood(target_state, hormone_context)
 
-def track_valence(window_size: int = 10) -> Dict[str, Any]:
+def track_valence(window_size: int = 10) -> dict[str, Any]:
     """Track valence trends over time"""
     return get_emotion_wrapper().track_valence(window_size)
 

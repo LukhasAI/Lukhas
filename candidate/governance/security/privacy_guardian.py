@@ -17,7 +17,7 @@ import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
@@ -32,10 +32,10 @@ class PrivacyPolicy:
     data_retention_days: int
     encryption_required: bool
     anonymization_level: str  # none, basic, advanced, full
-    sharing_permissions: Dict[str, bool]
+    sharing_permissions: dict[str, bool]
     consent_required: bool
     audit_logging: bool
-    geographic_restrictions: List[str]
+    geographic_restrictions: list[str]
     governance_approved: bool = True
     trinity_protection: bool = False
 
@@ -46,13 +46,13 @@ class DataClassification:
     classification_id: str
     data_type: str
     sensitivity_level: str  # public, internal, confidential, restricted
-    regulatory_requirements: List[str]  # HIPAA, GDPR, CCPA, etc.
+    regulatory_requirements: list[str]  # HIPAA, GDPR, CCPA, etc.
     retention_period: int
     encryption_required: bool
-    access_restrictions: List[str]
-    anonymization_rules: List[str]
+    access_restrictions: list[str]
+    anonymization_rules: list[str]
     governance_validated: bool = True
-    trinity_impact: Dict[str, float] = None
+    trinity_impact: dict[str, float] = None
 
     def __post_init__(self):
         if self.trinity_impact is None:
@@ -65,15 +65,15 @@ class PrivacyIncident:
     incident_id: str
     incident_type: str
     severity_level: str
-    affected_data_types: List[str]
+    affected_data_types: list[str]
     discovery_time: datetime
     containment_time: Optional[datetime]
     resolution_time: Optional[datetime]
-    impact_assessment: Dict
-    remediation_actions: List[str]
+    impact_assessment: dict
+    remediation_actions: list[str]
     notification_required: bool
     governance_escalated: bool = False
-    trinity_components_affected: List[str] = None
+    trinity_components_affected: list[str] = None
 
     def __post_init__(self):
         if self.trinity_components_affected is None:
@@ -211,21 +211,21 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         self.governance_enabled = governance_enabled
 
         # Privacy policies and classifications with governance
-        self.privacy_policies: Dict[str, PrivacyPolicy] = {}
-        self.data_classifications: Dict[str, DataClassification] = {}
-        self.active_regulations: List[str] = ["GDPR", "HIPAA", "LUKHAS_GOVERNANCE"]
+        self.privacy_policies: dict[str, PrivacyPolicy] = {}
+        self.data_classifications: dict[str, DataClassification] = {}
+        self.active_regulations: list[str] = ["GDPR", "HIPAA", "LUKHAS_GOVERNANCE"]
 
         # Encryption and anonymization with governance oversight
         self.encryption_enabled = True
         self.default_anonymization = "basic"
         self.encryption_key = self._generate_encryption_key()
-        self.governance_validated_keys: Dict[str, bool] = {}
+        self.governance_validated_keys: dict[str, bool] = {}
 
         # Enhanced privacy incidents and auditing
-        self.privacy_incidents: List[PrivacyIncident] = []
-        self.audit_events: List[Dict] = []
-        self.consent_records: Dict[str, Dict] = {}
-        self.governance_log: List[Dict] = []
+        self.privacy_incidents: list[PrivacyIncident] = []
+        self.audit_events: list[dict] = []
+        self.consent_records: dict[str, dict] = {}
+        self.governance_log: list[dict] = []
 
         # Enhanced compliance tracking with Trinity Framework
         self.compliance_status = {
@@ -590,7 +590,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         logger.info("🛡️ Governance integration initialized")
 
-    async def classify_data(self, data: Dict, data_type: str = None, context: Dict = None) -> Dict:
+    async def classify_data(self, data: dict, data_type: str = None, context: dict = None) -> dict:
         """Enhanced data classification with governance validation and Trinity Framework assessment"""
         start_time = time.time()
         context = context or {}
@@ -684,7 +684,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
             }
 
-    def _detect_data_type(self, data: Dict) -> str:
+    def _detect_data_type(self, data: dict) -> str:
         """Enhanced data type detection with Trinity Framework awareness"""
         # Convert data to string for analysis
         content_str = json.dumps(data).lower()
@@ -724,7 +724,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 return classification
         return None
 
-    async def _detect_sensitive_patterns(self, data: Dict) -> List[str]:
+    async def _detect_sensitive_patterns(self, data: dict) -> list[str]:
         """Enhanced sensitive pattern detection with Trinity Framework patterns"""
         patterns = []
 
@@ -772,7 +772,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         return patterns
 
-    async def _analyze_trinity_impact_for_data(self, data: Dict, data_type: str, context: Dict) -> Dict:
+    async def _analyze_trinity_impact_for_data(self, data: dict, data_type: str, context: dict) -> dict:
         """Analyze Trinity Framework impact for data classification"""
         impact_scores = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
 
@@ -814,7 +814,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
     async def _adjust_classification_for_patterns(
         self,
         classification: DataClassification,
-        patterns: List[str]
+        patterns: list[str]
     ) -> DataClassification:
         """Enhanced classification adjustment with Trinity Framework and governance awareness"""
         trinity_patterns = {"identity_data", "consciousness_data", "guardian_data"}
@@ -852,8 +852,8 @@ class PrivacyGuardian(GlyphIntegrationMixin):
     async def _validate_classification_governance(
         self,
         classification: DataClassification,
-        context: Dict
-    ) -> Dict[str, Any]:
+        context: dict
+    ) -> dict[str, Any]:
         """Validate classification against governance policies"""
         if not self.governance_enabled:
             return {"approved": True, "reason": "Governance not enabled"}
@@ -878,7 +878,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         return {"approved": True, "reason": "Governance validation passed"}
 
-    def _get_classification_symbols(self, classification: DataClassification) -> List[str]:
+    def _get_classification_symbols(self, classification: DataClassification) -> list[str]:
         """Get symbolic signature for classification with governance and Trinity context"""
         base_symbols = self.PRIVACY_SYMBOLS["protected"].copy()
 
@@ -898,7 +898,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         return base_symbols[:5]  # Limit to 5 symbols
 
-    async def encrypt_data(self, data: Any, encryption_level: str = "standard", context: Dict = None) -> Dict:
+    async def encrypt_data(self, data: Any, encryption_level: str = "standard", context: dict = None) -> dict:
         """Enhanced data encryption with governance validation and Trinity Framework protection"""
         start_time = time.time()
         context = context or {}
@@ -974,7 +974,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
                 "symbolic_signature": self.PRIVACY_SYMBOLS["incident"]
             }
 
-    async def _validate_encryption_governance(self, data: Any, encryption_level: str, context: Dict) -> Dict[str, Any]:
+    async def _validate_encryption_governance(self, data: Any, encryption_level: str, context: dict) -> dict[str, Any]:
         """Validate encryption request against governance policies"""
         # Check if high-level encryption requires approval
         if encryption_level in ["high", "trinity_protected"]:
@@ -996,7 +996,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         return {"approved": True, "reason": "Encryption governance validation passed"}
 
-    def _enhanced_encrypt(self, data: str, level: str, context: Dict) -> str:
+    def _enhanced_encrypt(self, data: str, level: str, context: dict) -> str:
         """Enhanced encryption with governance and Trinity Framework support"""
         # Enhanced base64 encoding for demo (NOT for production use)
         encoded = base64.b64encode(data.encode()).decode()
@@ -1015,7 +1015,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         return f"ENC:{governance_prefix}{level}:{encoded}"
 
-    async def _log_audit_event(self, event: Dict):
+    async def _log_audit_event(self, event: dict):
         """Enhanced privacy audit event logging with governance integration"""
         try:
             event["event_id"] = str(uuid.uuid4())
@@ -1039,7 +1039,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         except Exception as e:
             logger.error(f"Enhanced audit logging failed: {e}")
 
-    async def _log_governance_action(self, action: str, metadata: Dict[str, Any]):
+    async def _log_governance_action(self, action: str, metadata: dict[str, Any]):
         """Log action in governance audit system"""
         log_entry = {
             "timestamp": time.time(),
@@ -1057,7 +1057,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         logger.debug(f"🔍 Privacy governance action logged: {action}")
 
-    def get_enhanced_privacy_statistics(self) -> Dict[str, Any]:
+    def get_enhanced_privacy_statistics(self) -> dict[str, Any]:
         """Get comprehensive privacy protection statistics with governance metrics"""
         stats = self.stats.copy()
 

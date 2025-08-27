@@ -33,7 +33,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +65,7 @@ class SentinelAlert:
     detected_at: datetime
     source_component: str
     confidence_score: float
-    recommended_actions: List[str] = field(default_factory=list)
+    recommended_actions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -74,9 +74,9 @@ class MonitoringProfile:
     profile_id: str
     name: str
     scope: MonitoringScope
-    thresholds: Dict[str, float] = field(default_factory=dict)
+    thresholds: dict[str, float] = field(default_factory=dict)
     monitoring_frequency: float = 1.0
-    alert_conditions: List[str] = field(default_factory=list)
+    alert_conditions: list[str] = field(default_factory=list)
 
 
 class GuardianSentinel:
@@ -87,12 +87,12 @@ class GuardianSentinel:
     threat detection, pattern analysis, and automated alerting.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.status = SentinelStatus.ACTIVE
-        self.monitoring_profiles: Dict[str, MonitoringProfile] = {}
+        self.monitoring_profiles: dict[str, MonitoringProfile] = {}
         self.alerts: deque = deque(maxlen=10000)
-        self.monitoring_data: Dict[str, Any] = {}
+        self.monitoring_data: dict[str, Any] = {}
 
         # Performance metrics
         self.metrics = {
@@ -172,7 +172,7 @@ class GuardianSentinel:
 
                 await self._generate_alert(alert)
 
-    async def _collect_current_metrics(self, scope: MonitoringScope) -> Dict[str, float]:
+    async def _collect_current_metrics(self, scope: MonitoringScope) -> dict[str, float]:
         """Collect current system metrics"""
         # Simulate metric collection
         return {
@@ -190,7 +190,7 @@ class GuardianSentinel:
 
         logger.warning(f"🚨 Sentinel Alert: {alert.message}")
 
-    async def get_status(self) -> Dict[str, Any]:
+    async def get_status(self) -> dict[str, Any]:
         """Get sentinel status"""
         return {
             "status": self.status.value,

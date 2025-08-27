@@ -5,7 +5,7 @@ Comprehensive voice profile configurations for consistent LUKHAS brand expressio
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class VoiceContext(Enum):
@@ -51,7 +51,7 @@ class LukhasBrandVoiceProfiles:
         self.audience_adaptations = self._initialize_audience_adaptations()
         self.trinity_voice_elements = self._initialize_trinity_voice_elements()
 
-    def _initialize_voice_profiles(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_voice_profiles(self) -> dict[str, dict[str, Any]]:
         """Initialize core voice profiles"""
 
         return {
@@ -272,7 +272,7 @@ class LukhasBrandVoiceProfiles:
             }
         }
 
-    def _initialize_context_mappings(self) -> Dict[VoiceContext, Dict[str, Any]]:
+    def _initialize_context_mappings(self) -> dict[VoiceContext, dict[str, Any]]:
         """Map contexts to optimal voice profiles and adaptations"""
 
         return {
@@ -412,7 +412,7 @@ class LukhasBrandVoiceProfiles:
             }
         }
 
-    def _initialize_audience_adaptations(self) -> Dict[AudienceType, Dict[str, Any]]:
+    def _initialize_audience_adaptations(self) -> dict[AudienceType, dict[str, Any]]:
         """Define audience-specific voice adaptations"""
 
         return {
@@ -564,7 +564,7 @@ class LukhasBrandVoiceProfiles:
             }
         }
 
-    def _initialize_trinity_voice_elements(self) -> Dict[str, Dict[str, Any]]:
+    def _initialize_trinity_voice_elements(self) -> dict[str, dict[str, Any]]:
         """Initialize Trinity Framework voice elements"""
 
         return {
@@ -631,8 +631,8 @@ class LukhasBrandVoiceProfiles:
         profile_name: str,
         context: Optional[VoiceContext] = None,
         audience: Optional[AudienceType] = None,
-        trinity_emphasis: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        trinity_emphasis: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """
         Get a complete voice profile with optional context and audience adaptations
         """
@@ -672,8 +672,8 @@ class LukhasBrandVoiceProfiles:
         self,
         context: VoiceContext,
         audience: Optional[AudienceType] = None,
-        custom_blend: Optional[Dict[str, float]] = None
-    ) -> Dict[str, Any]:
+        custom_blend: Optional[dict[str, float]] = None
+    ) -> dict[str, Any]:
         """
         Get a contextual voice blend based on context mapping
         """
@@ -716,7 +716,7 @@ class LukhasBrandVoiceProfiles:
 
         return blended_profile
 
-    def _apply_context_adaptations(self, profile: Dict[str, Any], context_config: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_context_adaptations(self, profile: dict[str, Any], context_config: dict[str, Any]) -> dict[str, Any]:
         """Apply context-specific adaptations to a voice profile"""
 
         adapted_profile = profile.copy()
@@ -758,7 +758,7 @@ class LukhasBrandVoiceProfiles:
 
         return adapted_profile
 
-    def _apply_audience_adaptations(self, profile: Dict[str, Any], audience_config: Dict[str, Any]) -> Dict[str, Any]:
+    def _apply_audience_adaptations(self, profile: dict[str, Any], audience_config: dict[str, Any]) -> dict[str, Any]:
         """Apply audience-specific adaptations to a voice profile"""
 
         adapted_profile = profile.copy()
@@ -798,7 +798,7 @@ class LukhasBrandVoiceProfiles:
 
         return adapted_profile
 
-    def _apply_trinity_emphasis(self, profile: Dict[str, Any], trinity_emphasis: List[str]) -> Dict[str, Any]:
+    def _apply_trinity_emphasis(self, profile: dict[str, Any], trinity_emphasis: list[str]) -> dict[str, Any]:
         """Apply Trinity Framework emphasis to voice profile"""
 
         emphasized_profile = profile.copy()
@@ -831,10 +831,10 @@ class LukhasBrandVoiceProfiles:
 
     def _blend_voice_profiles(
         self,
-        primary_profile: Dict[str, Any],
-        secondary_profile: Dict[str, Any],
-        blend_ratios: Dict[str, float]
-    ) -> Dict[str, Any]:
+        primary_profile: dict[str, Any],
+        secondary_profile: dict[str, Any],
+        blend_ratios: dict[str, float]
+    ) -> dict[str, Any]:
         """Blend two voice profiles according to specified ratios"""
 
         primary_weight = blend_ratios.get("primary", 0.7)
@@ -875,11 +875,11 @@ class LukhasBrandVoiceProfiles:
 
         return blended_profile
 
-    def get_all_profile_names(self) -> List[str]:
+    def get_all_profile_names(self) -> list[str]:
         """Get list of all available voice profile names"""
         return list(self.voice_profiles.keys())
 
-    def get_context_recommendations(self, context: VoiceContext) -> Dict[str, Any]:
+    def get_context_recommendations(self, context: VoiceContext) -> dict[str, Any]:
         """Get voice recommendations for a specific context"""
 
         if context not in self.context_mappings:
@@ -896,7 +896,7 @@ class LukhasBrandVoiceProfiles:
             "adaptations": context_config["context_adaptations"]
         }
 
-    def get_audience_recommendations(self, audience: AudienceType) -> Dict[str, Any]:
+    def get_audience_recommendations(self, audience: AudienceType) -> dict[str, Any]:
         """Get voice recommendations for a specific audience"""
 
         if audience not in self.audience_adaptations:

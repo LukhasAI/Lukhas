@@ -682,9 +682,8 @@ class MemoryPlanner:
                     lines[i] = DeallocFromPoolLine(
                         self.wrapper, name_to_group[line.node.get_name()]
                     )
-            elif isinstance(line, ReuseLine):
-                if line.node.get_name() in name_to_group:
-                    line.delete_old = False
+            elif isinstance(line, ReuseLine) and line.node.get_name() in name_to_group:
+                line.delete_old = False
 
     def compute_live_ranges(self, lines):
         """Populate every BufferGroup.live_ranges field based on first/last usage"""

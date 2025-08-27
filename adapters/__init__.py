@@ -29,8 +29,8 @@ class ResourceMetadata(BaseModel):
     modified_at: Optional[datetime] = Field(None, description="Last modified timestamp")
     created_at: Optional[datetime] = Field(None, description="Creation timestamp")
     owner: Optional[str] = Field(None, description="Resource owner")
-    sharing: Optional[Dict[str, Any]] = Field(None, description="Sharing permissions")
-    tags: Optional[List[str]] = Field(None, description="Tags or labels")
+    sharing: Optional[dict[str, Any]] = Field(None, description="Sharing permissions")
+    tags: Optional[list[str]] = Field(None, description="Tags or labels")
     parent_id: Optional[str] = Field(None, description="Parent folder/container ID")
     mime_type: Optional[str] = Field(None, description="MIME type for files")
     url: Optional[str] = Field(None, description="Access URL if applicable")
@@ -53,7 +53,7 @@ class SearchQuery(BaseModel):
     modified_after: Optional[datetime] = Field(None, description="Modified after date")
     modified_before: Optional[datetime] = Field(None, description="Modified before date")
     owner_filter: Optional[str] = Field(None, description="Owner filter")
-    tags_filter: Optional[List[str]] = Field(None, description="Tags filter")
+    tags_filter: Optional[list[str]] = Field(None, description="Tags filter")
     limit: int = Field(100, ge=1, le=1000, description="Result limit")
     offset: int = Field(0, ge=0, description="Result offset for pagination")
 
@@ -63,7 +63,7 @@ class WatchRequest(BaseModel):
     resource_id: Optional[str] = Field(None, description="Specific resource to watch")
     resource_type: Optional[str] = Field(None, description="Type of resources to watch")
     webhook_url: str = Field(..., description="Webhook URL for notifications")
-    events: List[str] = Field(default=["created", "updated", "deleted"], description="Events to watch")
+    events: list[str] = Field(default=["created", "updated", "deleted"], description="Events to watch")
 
 
 class OperationResult(BaseModel):
@@ -71,7 +71,7 @@ class OperationResult(BaseModel):
     success: bool
     resource_id: Optional[str] = None
     message: str
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
 
 
 class ServiceAdapter(ABC):
@@ -90,7 +90,7 @@ class ServiceAdapter(ABC):
         self.consent_service = consent_service
 
     @abstractmethod
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize the adapter with configuration"""
         pass
 
@@ -98,9 +98,9 @@ class ServiceAdapter(ABC):
     async def verify_capability_token(
         self,
         token: str,
-        required_scopes: List[str],
+        required_scopes: list[str],
         resource_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Verify capability token has required scopes for operation"""
         pass
 
@@ -113,7 +113,7 @@ class ServiceAdapter(ABC):
         parent_id: Optional[str] = None,
         resource_type: Optional[str] = None,
         limit: int = 100
-    ) -> List[ResourceMetadata]:
+    ) -> list[ResourceMetadata]:
         """List resources with metadata only (requires metadata scope)"""
         pass
 
@@ -163,7 +163,7 @@ class ServiceAdapter(ABC):
         self,
         capability_token: str,
         query: SearchQuery
-    ) -> List[ResourceMetadata]:
+    ) -> list[ResourceMetadata]:
         """Search resources (requires appropriate scope based on search depth)"""
         pass
 
@@ -193,7 +193,7 @@ class ServiceAdapter(ABC):
         resource_id: Optional[str] = None,
         success: bool = True,
         error: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None
     ):
         """Log operation for audit trail"""
         # This would integrate with the consent service audit log
@@ -208,7 +208,7 @@ class ServiceAdapter(ABC):
         }
         print(f"AUDIT: {log_entry}")  # In production: send to audit service
 
-    def _extract_required_scopes(self, operation: str, resource_type: str = None) -> List[str]:
+    def _extract_required_scopes(self, operation: str, resource_type: str = None) -> list[str]:
         """Extract required scopes based on operation and resource type"""
         scope_map = {
             "list": [f"{resource_type or 'files'}.list.metadata"],

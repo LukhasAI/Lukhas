@@ -6,7 +6,7 @@ healthcare system SAS (Servicio Andaluz de Salud).
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ...interfaces.ehr_interface import EHRInterface
 from ...security.security_utils import AuditLogger, EncryptionHandler
@@ -15,7 +15,7 @@ from ...security.security_utils import AuditLogger, EncryptionHandler
 class SASInterface(EHRInterface):
     """Implementation of EHR interface for Servicio Andaluz de Salud"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize SAS interface with configuration
 
@@ -43,7 +43,7 @@ class SASInterface(EHRInterface):
             if field not in self.config:
                 raise ValueError(f"Missing required SAS configuration: {field}")
 
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize connection to SAS systems"""
         # Implement SAS-specific initialization
         # - Load digital certificate
@@ -53,7 +53,7 @@ class SASInterface(EHRInterface):
 
     async def get_patient_record(self,
                                patient_id: str,
-                               record_types: Optional[List[str]] = None) -> Dict[str, Any]:
+                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from SAS
 
@@ -71,7 +71,7 @@ class SASInterface(EHRInterface):
 
     async def update_patient_record(self,
                                   patient_id: str,
-                                  data: Dict[str, Any],
+                                  data: dict[str, Any],
                                   update_type: str) -> bool:
         """Update patient records in SAS"""
         self.audit.log_access(
@@ -85,7 +85,7 @@ class SASInterface(EHRInterface):
 
     async def create_encounter(self,
                              patient_id: str,
-                             encounter_data: Dict[str, Any]) -> str:
+                             encounter_data: dict[str, Any]) -> str:
         """Create new patient encounter in SAS"""
         # Implement SAS-specific encounter creation
         pass
@@ -93,7 +93,7 @@ class SASInterface(EHRInterface):
     async def get_provider_schedule(self,
                                   provider_id: str,
                                   start_date: datetime,
-                                  end_date: datetime) -> List[Dict[str, Any]]:
+                                  end_date: datetime) -> list[dict[str, Any]]:
         """Get provider's schedule from SAS scheduling system"""
         # Implement SAS-specific schedule retrieval
         pass

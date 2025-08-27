@@ -11,7 +11,7 @@ import json
 import re
 import struct
 import zlib
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 
 # PNG chunk utilities
@@ -25,7 +25,7 @@ def _make_png_chunk(chunk_type: bytes, data: bytes) -> bytes:
     crc = struct.pack('>I', _crc32(chunk_type + data))
     return length + chunk_type + data + crc
 
-def _parse_png_chunks(png_bytes: bytes) -> list[Tuple[bytes, bytes]]:
+def _parse_png_chunks(png_bytes: bytes) -> list[tuple[bytes, bytes]]:
     """Parse PNG chunks."""
     chunks = []
     if png_bytes[:8] != b'\x89PNG\r\n\x1a\n':
@@ -58,7 +58,7 @@ def _parse_png_chunks(png_bytes: bytes) -> list[Tuple[bytes, bytes]]:
 
     return chunks
 
-def embed_in_png(png_bytes: bytes, seal: Dict[str, Any], sig: Dict[str, Any]) -> bytes:
+def embed_in_png(png_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]) -> bytes:
     """
     Embed GLYPH seal in PNG using iTXt chunk.
 
@@ -105,7 +105,7 @@ def embed_in_png(png_bytes: bytes, seal: Dict[str, Any], sig: Dict[str, Any]) ->
 
     return result
 
-def extract_from_png(png_bytes: bytes) -> Optional[Dict[str, Any]]:
+def extract_from_png(png_bytes: bytes) -> dict[str, Any] | None:
     """
     Extract GLYPH seal from PNG iTXt chunk.
 
@@ -133,7 +133,7 @@ def extract_from_png(png_bytes: bytes) -> Optional[Dict[str, Any]]:
 
     return None
 
-def embed_in_text(text_bytes: bytes, seal: Dict[str, Any], sig: Dict[str, Any]) -> bytes:
+def embed_in_text(text_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]) -> bytes:
     """
     Embed GLYPH seal in text using front-matter.
 
@@ -162,7 +162,7 @@ X-Lukhas-Glyph: {seal_b64}
 
     return front_matter.encode('utf-8') + text_bytes
 
-def extract_from_text(text_bytes: bytes) -> Optional[Dict[str, Any]]:
+def extract_from_text(text_bytes: bytes) -> dict[str, Any] | None:
     """
     Extract GLYPH seal from text front-matter.
 
@@ -196,7 +196,7 @@ def extract_from_text(text_bytes: bytes) -> Optional[Dict[str, Any]]:
     except Exception:
         return None
 
-def embed_qr_data(seal: Dict[str, Any], sig: Dict[str, Any]) -> str:
+def embed_qr_data(seal: dict[str, Any], sig: dict[str, Any]) -> str:
     """
     Create compact QR-friendly representation.
 
@@ -228,7 +228,7 @@ def embed_qr_data(seal: Dict[str, Any], sig: Dict[str, Any]) -> str:
     # For now use base64 as base45 requires additional library
     return base64.b64encode(compact.encode('utf-8')).decode('ascii')
 
-def parse_qr_data(qr_data: str) -> Optional[Dict[str, Any]]:
+def parse_qr_data(qr_data: str) -> dict[str, Any] | None:
     """
     Parse QR code data back to seal components.
 

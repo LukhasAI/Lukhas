@@ -12,7 +12,7 @@ from collections import Counter, deque
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -26,12 +26,12 @@ class EntropyEntry:
     previous_state: str
     current_state: str
     drift_class: str  # stable, neutral, unstable
-    symbolic_path: List[str]
+    symbolic_path: list[str]
     transition_type: str
     notes: str = ""
-    tags: List[str] = None
+    tags: list[str] = None
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         """Convert to dictionary for JSON serialization"""
         return {
             "timestamp": self.timestamp.isoformat(),
@@ -89,7 +89,7 @@ class EntropyTracker:
         self.transition_history = deque(maxlen=window_size)
         self.entropy_history = deque(maxlen=window_size)
         self.current_state = "neutral"
-        self.journal_entries: List[EntropyEntry] = []
+        self.journal_entries: list[EntropyEntry] = []
 
         # Load existing journal
         self._load_journal()
@@ -149,7 +149,7 @@ class EntropyTracker:
         with open(self.journal_path, "w") as f:
             json.dump(data, f, indent=2)
 
-    def calculate_shannon_entropy(self, transitions: List[Tuple[str, str]]) -> float:
+    def calculate_shannon_entropy(self, transitions: list[tuple[str, str]]) -> float:
         """
         Calculate Shannon entropy for state transitions
         H = -Σ p(x) * log2(p(x))
@@ -186,7 +186,7 @@ class EntropyTracker:
 
     def generate_symbolic_path(
         self, transition_type: str, entropy_score: float
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate symbolic representation of the drift path"""
         path = []
 
@@ -218,7 +218,7 @@ class EntropyTracker:
         transition_type: str,
         new_state: Optional[str] = None,
         notes: str = "",
-        tags: List[str] = None,
+        tags: list[str] = None,
     ) -> EntropyEntry:
         """
         Track a state transition and calculate entropy
@@ -283,7 +283,7 @@ class EntropyTracker:
 
         return entry
 
-    def get_drift_vector(self, window: Optional[int] = None) -> List[str]:
+    def get_drift_vector(self, window: Optional[int] = None) -> list[str]:
         """Get symbolic drift vector over time window"""
         entries = self.journal_entries[-(window or self.window_size) :]
 
@@ -299,7 +299,7 @@ class EntropyTracker:
 
         return vector
 
-    def get_entropy_statistics(self) -> Dict:
+    def get_entropy_statistics(self) -> dict:
         """Calculate entropy statistics"""
         if not self.entropy_history:
             return {
@@ -341,7 +341,7 @@ class EntropyTracker:
 
     def export_report(
         self, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None
-    ) -> Dict:
+    ) -> dict:
         """Export entropy analysis report"""
         # Filter entries by date
         entries = self.journal_entries
@@ -364,7 +364,7 @@ class EntropyTracker:
             },
             "summary": {
                 "total_transitions": len(entries),
-                "unique_states": len(set(e.current_state for e in entries)),
+                "unique_states": len({e.current_state for e in entries}),
                 "entropy_stats": self.get_entropy_statistics(),
             },
             "transitions": dict(transition_counts),

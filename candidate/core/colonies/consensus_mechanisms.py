@@ -335,14 +335,12 @@ class ColonyConsensus:
             adjusted_confidence = vote.confidence
 
             # High stress reduces confidence in risky decisions
-            if self.hormone_levels["stress"] > 0.7:
-                if vote.vote == VoteType.APPROVE:
-                    adjusted_confidence *= 0.7
+            if self.hormone_levels["stress"] > 0.7 and vote.vote == VoteType.APPROVE:
+                adjusted_confidence *= 0.7
 
             # High trust increases confidence in approvals
-            if self.hormone_levels["trust"] > 0.7:
-                if vote.vote == VoteType.APPROVE:
-                    adjusted_confidence *= 1.3
+            if self.hormone_levels["trust"] > 0.7 and vote.vote == VoteType.APPROVE:
+                adjusted_confidence *= 1.3
 
             # High ambiguity increases abstentions
             if self.hormone_levels["ambiguity"] > 0.7:

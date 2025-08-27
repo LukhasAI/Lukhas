@@ -5,7 +5,7 @@ Manages module dependencies without circular imports.
 """
 
 import logging
-from typing import Any, Dict, Optional, Type
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -14,20 +14,20 @@ class DependencyContainer:
     """Dependency injection container for LUKHAS modules"""
 
     def __init__(self):
-        self._instances: Dict[Type, Any] = {}
-        self._factories: Dict[Type, Any] = {}
+        self._instances: dict[type, Any] = {}
+        self._factories: dict[type, Any] = {}
 
-    def register(self, interface: Type, instance: Any):
+    def register(self, interface: type, instance: Any):
         """Register a module instance"""
         self._instances[interface] = instance
         logger.info(f"Registered {interface.__name__} implementation")
 
-    def register_factory(self, interface: Type, factory: callable):
+    def register_factory(self, interface: type, factory: callable):
         """Register a factory function for lazy instantiation"""
         self._factories[interface] = factory
         logger.info(f"Registered factory for {interface.__name__}")
 
-    def get(self, interface: Type) -> Optional[Any]:
+    def get(self, interface: type) -> Optional[Any]:
         """Get module instance by interface"""
         # Check if already instantiated
         if interface in self._instances:
@@ -84,6 +84,6 @@ def inject(**dependencies):
 
 
 # Helper function to get module
-def get_module(interface: Type) -> Optional[Any]:
+def get_module(interface: type) -> Optional[Any]:
     """Get module instance from container"""
     return container.get(interface)

@@ -12,7 +12,7 @@ full Guardian System v1.0.0 from candidate/governance/guardian/.
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from lukhas.governance.guardian.core import (
     DriftResult,
@@ -50,7 +50,7 @@ class GuardianSystemImpl:
         baseline: str,
         current: str,
         threshold: float,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> DriftResult:
         """Detect drift in behavior using advanced semantic analysis"""
         # Use advanced drift calculation with semantic similarity
@@ -74,7 +74,7 @@ class GuardianSystemImpl:
     def evaluate_ethics(
         self,
         action: GovernanceAction,
-        context: Dict[str, Any]
+        context: dict[str, Any]
     ) -> EthicalDecision:
         """Evaluate ethical implications using constitutional AI principles"""
         # Use constitutional AI ethical evaluation
@@ -92,7 +92,7 @@ class GuardianSystemImpl:
     def check_safety(
         self,
         content: str,
-        context: Dict[str, Any],
+        context: dict[str, Any],
         constitutional_check: bool
     ) -> SafetyResult:
         """Perform safety validation using comprehensive analysis"""
@@ -125,7 +125,7 @@ class GuardianSystemImpl:
             constitutional_check=constitutional_check
         )
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get system status"""
         return {
             "ethics_status": "active",
@@ -175,7 +175,7 @@ class GuardianSystemImpl:
         }
         return severity_map.get(severity_str.lower(), EthicalSeverity.MEDIUM)
 
-    def _evaluate_constitutional_compliance(self, action: GovernanceAction, context: Dict[str, Any]) -> Dict[str, Any]:
+    def _evaluate_constitutional_compliance(self, action: GovernanceAction, context: dict[str, Any]) -> dict[str, Any]:
         """Evaluate compliance with constitutional AI principles"""
         # Constitutional AI compliance evaluation
         compliant = True
@@ -249,7 +249,7 @@ class GuardianSystemImpl:
 
         return violations
 
-    def _check_constitutional_safety(self, content: str, context: Dict[str, Any]) -> list:
+    def _check_constitutional_safety(self, content: str, context: dict[str, Any]) -> list:
         """Check content against constitutional AI safety principles"""
         violations = []
 

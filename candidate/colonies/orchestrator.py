@@ -5,7 +5,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from .base import BaseColony, ColonyTask, get_colony_registry
 
@@ -19,7 +19,7 @@ class OrchestratorColony(BaseColony):
         self.colony_status_cache = {}
         super().__init__("orchestrator", max_agents)
 
-    def get_default_capabilities(self) -> List[str]:
+    def get_default_capabilities(self) -> list[str]:
         return [
             "workflow_management",
             "colony_coordination",
@@ -43,7 +43,7 @@ class OrchestratorColony(BaseColony):
         else:
             return {"status": "unknown_task_type", "task_type": task_type}
 
-    def _execute_workflow(self, workflow_spec: Dict[str, Any]) -> Dict[str, Any]:
+    def _execute_workflow(self, workflow_spec: dict[str, Any]) -> dict[str, Any]:
         """Execute a multi-colony workflow"""
         workflow_id = f"wf_{datetime.now().timestamp()}"
         steps = workflow_spec.get("steps", [])
@@ -93,7 +93,7 @@ class OrchestratorColony(BaseColony):
         self.active_workflows[workflow_id] = workflow_result
         return workflow_result
 
-    def _route_task(self, routing_request: Dict[str, Any]) -> Dict[str, Any]:
+    def _route_task(self, routing_request: dict[str, Any]) -> dict[str, Any]:
         """Route a task to the best colony"""
         task_type = routing_request.get("task_type")
         required_capabilities = routing_request.get("capabilities", [])
@@ -142,7 +142,7 @@ class OrchestratorColony(BaseColony):
         else:
             return {"routed_to": None, "reason": "no_suitable_colony"}
 
-    def _balance_load(self) -> Dict[str, Any]:
+    def _balance_load(self) -> dict[str, Any]:
         """Balance load across colonies"""
         registry = get_colony_registry()
 
@@ -186,7 +186,7 @@ class OrchestratorColony(BaseColony):
             "recommendation": "redistribute_tasks" if overloaded else "balanced",
         }
 
-    def _get_system_status(self) -> Dict[str, Any]:
+    def _get_system_status(self) -> dict[str, Any]:
         """Get comprehensive system status"""
         registry = get_colony_registry()
 

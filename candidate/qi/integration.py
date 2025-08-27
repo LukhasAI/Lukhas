@@ -5,7 +5,7 @@ Integration module for QI (Quantum-Inspired) components with LUKHAS AI
 
 import logging
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Optional
 
 from .metrics.calibration import UncertaintyCalibrationEngine
 from .safety.teq_gate import TEQCoupler
@@ -39,8 +39,8 @@ class QIIntegration:
         confidence: float,
         risk_estimate: float = None,
         energy: float = 1.0,
-        metadata: Dict = None
-    ) -> Tuple[bool, Dict[str, Any]]:
+        metadata: dict = None
+    ) -> tuple[bool, dict[str, Any]]:
         """
         Evaluate an action through both calibration and TEQ systems
 
@@ -101,7 +101,7 @@ class QIIntegration:
             correct=success
         )
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get overall QI system status"""
         return {
             "calibration": {

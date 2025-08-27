@@ -14,7 +14,7 @@ import secrets
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ class SecurityViolation:
     control: SecurityControl
     severity: str  # CRITICAL, HIGH, MEDIUM, LOW
     description: str
-    evidence: Dict[str, Any]
+    evidence: dict[str, Any]
     remediation_required: bool
     remediation_deadline: Optional[datetime]
     assigned_to: Optional[str]
@@ -69,14 +69,14 @@ class ComplianceReport:
     timestamp: datetime
     tier: str
     reporting_period: str
-    standards_assessed: List[ComplianceStandard]
+    standards_assessed: list[ComplianceStandard]
     overall_compliance_score: float  # 0-100
-    compliance_by_standard: Dict[ComplianceStandard, float]
+    compliance_by_standard: dict[ComplianceStandard, float]
     critical_violations: int
     total_violations: int
     remediation_progress: float
     next_assessment_date: datetime
-    certifications_status: Dict[ComplianceStandard, ComplianceStatus]
+    certifications_status: dict[ComplianceStandard, ComplianceStatus]
 
 class T4SecurityComplianceFramework:
     """
@@ -92,8 +92,8 @@ class T4SecurityComplianceFramework:
             tier: Enterprise tier level
         """
         self.tier = tier
-        self.violations: List[SecurityViolation] = []
-        self.compliance_history: List[ComplianceReport] = []
+        self.violations: list[SecurityViolation] = []
+        self.compliance_history: list[ComplianceReport] = []
 
         # T4 Enterprise compliance requirements
         self.required_standards = {
@@ -120,7 +120,7 @@ class T4SecurityComplianceFramework:
 
         logger.info(f"T4 Security Compliance Framework initialized: {len(self.required_standards)} required standards")
 
-    def _initialize_control_requirements(self) -> Dict[ComplianceStandard, Set[SecurityControl]]:
+    def _initialize_control_requirements(self) -> dict[ComplianceStandard, set[SecurityControl]]:
         """Initialize security control requirements by compliance standard"""
 
         return {
@@ -182,7 +182,7 @@ class T4SecurityComplianceFramework:
         }
 
     async def assess_compliance(self,
-                              standards: Optional[List[ComplianceStandard]] = None,
+                              standards: Optional[list[ComplianceStandard]] = None,
                               include_evidence: bool = True) -> ComplianceReport:
         """
         Perform comprehensive compliance assessment
@@ -281,7 +281,7 @@ class T4SecurityComplianceFramework:
                 certifications_status=dict.fromkeys(standards, ComplianceStatus.UNDER_REVIEW)
             )
 
-    async def _assess_standard(self, standard: ComplianceStandard, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_standard(self, standard: ComplianceStandard, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """
         Assess compliance for a specific standard
 
@@ -317,7 +317,7 @@ class T4SecurityComplianceFramework:
             logger.error(f"Failed to assess standard {standard.value}: {e}")
             return 0.0, []
 
-    async def _assess_security_control(self, standard: ComplianceStandard, control: SecurityControl, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_security_control(self, standard: ComplianceStandard, control: SecurityControl, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """Assess specific security control compliance"""
 
         violations = []
@@ -352,7 +352,7 @@ class T4SecurityComplianceFramework:
             return 0.0, []
 
     # Security control assessment methods
-    async def _assess_access_control(self, standard: ComplianceStandard, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_access_control(self, standard: ComplianceStandard, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """Assess access control compliance"""
         violations = []
         score = 100.0
@@ -413,7 +413,7 @@ class T4SecurityComplianceFramework:
             logger.error(f"Access control assessment failed: {e}")
             return 0.0, []
 
-    async def _assess_data_protection(self, standard: ComplianceStandard, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_data_protection(self, standard: ComplianceStandard, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """Assess data protection compliance"""
         violations = []
         score = 100.0
@@ -465,7 +465,7 @@ class T4SecurityComplianceFramework:
             logger.error(f"Data protection assessment failed: {e}")
             return 0.0, []
 
-    async def _assess_encryption(self, standard: ComplianceStandard, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_encryption(self, standard: ComplianceStandard, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """Assess encryption compliance"""
         violations = []
         score = 100.0
@@ -519,7 +519,7 @@ class T4SecurityComplianceFramework:
             logger.error(f"Encryption assessment failed: {e}")
             return 0.0, []
 
-    async def _assess_audit_logging(self, standard: ComplianceStandard, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_audit_logging(self, standard: ComplianceStandard, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """Assess audit logging compliance"""
         violations = []
         score = 100.0
@@ -569,7 +569,7 @@ class T4SecurityComplianceFramework:
             logger.error(f"Audit logging assessment failed: {e}")
             return 0.0, []
 
-    async def _assess_incident_response(self, standard: ComplianceStandard, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_incident_response(self, standard: ComplianceStandard, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """Assess incident response compliance"""
         violations = []
         score = 100.0
@@ -621,7 +621,7 @@ class T4SecurityComplianceFramework:
             logger.error(f"Incident response assessment failed: {e}")
             return 0.0, []
 
-    async def _assess_vulnerability_management(self, standard: ComplianceStandard, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_vulnerability_management(self, standard: ComplianceStandard, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """Assess vulnerability management compliance"""
         violations = []
         score = 100.0
@@ -675,7 +675,7 @@ class T4SecurityComplianceFramework:
             logger.error(f"Vulnerability management assessment failed: {e}")
             return 0.0, []
 
-    async def _assess_network_security(self, standard: ComplianceStandard, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_network_security(self, standard: ComplianceStandard, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """Assess network security compliance"""
         violations = []
         score = 100.0
@@ -725,7 +725,7 @@ class T4SecurityComplianceFramework:
             logger.error(f"Network security assessment failed: {e}")
             return 0.0, []
 
-    async def _assess_change_management(self, standard: ComplianceStandard, include_evidence: bool) -> Tuple[float, List[SecurityViolation]]:
+    async def _assess_change_management(self, standard: ComplianceStandard, include_evidence: bool) -> tuple[float, list[SecurityViolation]]:
         """Assess change management compliance"""
         violations = []
         score = 100.0

@@ -9,7 +9,6 @@ import ast
 import json
 import os
 from pathlib import Path
-from typing import Dict, List, Set
 
 
 class ModuleInternalAnalyzer:
@@ -28,7 +27,7 @@ class ModuleInternalAnalyzer:
         ]
         self.results = {}
 
-    def analyze_module(self, module_name: str) -> Dict:
+    def analyze_module(self, module_name: str) -> dict:
         """Analyze internal connections for a single module"""
         print(f"\n🔍 Analyzing {module_name} module...")
 
@@ -80,7 +79,7 @@ class ModuleInternalAnalyzer:
             "sample_orphans": list(orphaned_files)[:20]
         }
 
-    def find_entry_points(self, module_path: Path) -> Set[str]:
+    def find_entry_points(self, module_path: Path) -> set[str]:
         """Find module entry points"""
         entry_points = set()
 
@@ -105,7 +104,7 @@ class ModuleInternalAnalyzer:
 
         return entry_points if entry_points else {"__init__.py"}
 
-    def trace_connections(self, module_path: Path, entry_points: Set[str]) -> Set[str]:
+    def trace_connections(self, module_path: Path, entry_points: set[str]) -> set[str]:
         """Trace which files are connected from entry points"""
         connected = set(entry_points)
         to_check = list(entry_points)
@@ -143,7 +142,7 @@ class ModuleInternalAnalyzer:
 
         return connected
 
-    def find_imports(self, file_path: Path, module_name: str) -> List[str]:
+    def find_imports(self, file_path: Path, module_name: str) -> list[str]:
         """Find all internal imports in a file"""
         imports = []
         try:
@@ -155,12 +154,11 @@ class ModuleInternalAnalyzer:
                     for alias in node.names:
                         if alias.name.startswith(module_name):
                             imports.append(alias.name[len(module_name)+1:])
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        if node.module.startswith(module_name):
-                            imports.append(node.module[len(module_name)+1:])
-                        elif node.level > 0:  # Relative import
-                            imports.append('.' + (node.module or ''))
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    if node.module.startswith(module_name):
+                        imports.append(node.module[len(module_name)+1:])
+                    elif node.level > 0:  # Relative import
+                        imports.append('.' + (node.module or ''))
         except:
             pass
         return imports
@@ -185,11 +183,7 @@ class ModuleInternalAnalyzer:
             pass
 
         # Check name
-        for word in high_value_words:
-            if word in name:
-                return True
-
-        return False
+        return any(word in name for word in high_value_words)
 
     def count_lines(self, file_path: Path) -> int:
         """Count lines in a file"""

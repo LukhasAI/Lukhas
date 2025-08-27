@@ -8,7 +8,7 @@ with LUKHAS ethical governance and safety systems.
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
@@ -23,7 +23,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
     ethical compliance, human oversight, and safety guardrails.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """Initialize clinical decision support system"""
         super().__init__()
         self.config = config or {}
@@ -100,9 +100,9 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def analyze_case(
         self,
-        case_data: Dict[str, Any],
-        provider_context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        case_data: dict[str, Any],
+        provider_context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Analyze a case and provide clinical insights with governance oversight
 
@@ -180,9 +180,9 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def get_recommendations(
         self,
-        case_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        case_data: dict[str, Any],
+        context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Get AI-powered clinical recommendations with governance validation
 
@@ -257,10 +257,10 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def _generate_differential(
         self,
-        symptoms: List[str],
-        medical_history: Dict[str, Any],
-        patient_context: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        symptoms: list[str],
+        medical_history: dict[str, Any],
+        patient_context: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Generate differential diagnosis with governance validation"""
         # TODO: Implement AI-powered differential diagnosis with safety checks
         # For now, return structured placeholder with governance metadata
@@ -297,10 +297,10 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def _assess_risk(
         self,
-        symptoms: List[str],
-        medical_history: Dict[str, Any],
-        patient_context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        symptoms: list[str],
+        medical_history: dict[str, Any],
+        patient_context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Assess patient risk factors with governance validation"""
         # TODO: Implement comprehensive risk assessment
 
@@ -326,10 +326,10 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def _suggest_tests(
         self,
-        symptoms: List[str],
-        medical_history: Dict[str, Any],
-        patient_context: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+        symptoms: list[str],
+        medical_history: dict[str, Any],
+        patient_context: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Suggest relevant diagnostic tests with governance oversight"""
         # TODO: Implement evidence-based test suggestion
 
@@ -365,8 +365,8 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def _get_relevant_guidelines(
         self,
-        symptoms: List[str]
-    ) -> List[Dict[str, Any]]:
+        symptoms: list[str]
+    ) -> list[dict[str, Any]]:
         """Get relevant clinical guidelines with governance metadata"""
         relevant_guidelines = []
 
@@ -383,7 +383,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
         return relevant_guidelines
 
-    def _calculate_confidence(self, analysis: Dict[str, Any]) -> float:
+    def _calculate_confidence(self, analysis: dict[str, Any]) -> float:
         """Calculate confidence score with governance validation"""
         # TODO: Implement sophisticated confidence calculation
         base_confidence = 0.85
@@ -399,8 +399,8 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def _get_evidence(
         self,
-        diagnoses: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        diagnoses: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Get supporting evidence with governance validation"""
         # TODO: Implement evidence gathering from validated sources
         return {
@@ -416,9 +416,9 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     def _prioritize_tests(
         self,
-        tests: List[Dict[str, Any]],
-        symptoms: List[str]
-    ) -> List[Dict[str, Any]]:
+        tests: list[dict[str, Any]],
+        symptoms: list[str]
+    ) -> list[dict[str, Any]]:
         """Prioritize suggested tests with governance considerations"""
         # Sort by urgency, evidence level, and governance requirements
         def priority_score(test):
@@ -440,10 +440,10 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def _generate_treatment_plan(
         self,
-        analysis: Dict[str, Any],
-        case_data: Dict[str, Any],
-        context: Optional[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        analysis: dict[str, Any],
+        case_data: dict[str, Any],
+        context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Generate treatment plan with governance validation"""
         # TODO: Implement evidence-based treatment planning
         return {
@@ -461,9 +461,9 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     async def _suggest_follow_up(
         self,
-        analysis: Dict[str, Any],
-        case_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        analysis: dict[str, Any],
+        case_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """Suggest follow-up actions with governance oversight"""
         # TODO: Implement follow-up suggestion logic
         return {
@@ -478,12 +478,12 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     # Governance and validation methods
 
-    async def _validate_case_data(self, case_data: Dict[str, Any]) -> bool:
+    async def _validate_case_data(self, case_data: dict[str, Any]) -> bool:
         """Validate case data integrity and completeness"""
         required_fields = ["symptoms"]
         return all(field in case_data for field in required_fields)
 
-    async def _validate_analysis_ethics(self, case_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_analysis_ethics(self, case_data: dict[str, Any]) -> dict[str, Any]:
         """Validate analysis against ethical guidelines"""
         # TODO: Integrate with LUKHAS ethical engine
         return {
@@ -492,12 +492,12 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "confidence": 0.95
         }
 
-    def _requires_human_review(self, symptoms: List[str]) -> bool:
+    def _requires_human_review(self, symptoms: list[str]) -> bool:
         """Determine if human review is required"""
         high_risk_symptoms = ["chest pain", "shortness of breath", "severe headache", "loss of consciousness"]
         return any(symptom.lower() in [s.lower() for s in symptoms] for symptom in high_risk_symptoms)
 
-    async def _check_emergency_conditions(self, analysis: Dict[str, Any]) -> bool:
+    async def _check_emergency_conditions(self, analysis: dict[str, Any]) -> bool:
         """Check for emergency conditions requiring immediate escalation"""
         # Check differential diagnosis for emergency conditions
         differential = analysis.get("differential_diagnosis", [])
@@ -512,7 +512,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
         return False
 
-    def _get_analysis_symbolic_pattern(self, symptoms: List[str]) -> List[str]:
+    def _get_analysis_symbolic_pattern(self, symptoms: list[str]) -> list[str]:
         """Get symbolic pattern based on analysis"""
         emergency_symptoms = ["chest pain", "shortness of breath"]
 
@@ -521,7 +521,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         else:
             return ["🧠", "📊", "🏥"]
 
-    def _get_escalation_rules(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+    def _get_escalation_rules(self, analysis: dict[str, Any]) -> dict[str, Any]:
         """Get escalation rules based on analysis"""
         return {
             "immediate_escalation": analysis.get("governance", {}).get("emergency_escalation", False),
@@ -530,7 +530,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "emergency_services": analysis.get("governance", {}).get("emergency_escalation", False)
         }
 
-    async def _validate_recommendation_safety(self, recommendations: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_recommendation_safety(self, recommendations: dict[str, Any]) -> dict[str, Any]:
         """Validate recommendations against safety guidelines"""
         # TODO: Implement comprehensive safety validation
         return {
@@ -544,7 +544,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         self,
         action: str,
         case_id: Optional[str],
-        metadata: Dict[str, Any]
+        metadata: dict[str, Any]
     ):
         """Log action in governance audit trail"""
         audit_entry = {
@@ -562,7 +562,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
     # Public API methods
 
-    def get_governance_summary(self) -> Dict[str, Any]:
+    def get_governance_summary(self) -> dict[str, Any]:
         """Get governance and compliance summary"""
         return {
             "governance_enabled": self.governance_enabled,
@@ -574,7 +574,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "audit_trail_entries": len(self.audit_trail)
         }
 
-    def get_clinical_guidelines_summary(self) -> Dict[str, Any]:
+    def get_clinical_guidelines_summary(self) -> dict[str, Any]:
         """Get summary of available clinical guidelines"""
         guidelines_count = {
             "diagnostic": len(self.guidelines.get("diagnostic", {})),

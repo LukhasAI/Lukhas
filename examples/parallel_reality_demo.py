@@ -8,7 +8,7 @@ Demonstrates the enhanced dream parallel reality simulation capabilities.
 import asyncio
 from collections import defaultdict
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from core.common import get_logger
 from lukhas.consciousness.dream.parallel_reality_simulator import (
@@ -71,8 +71,8 @@ class ParallelRealityDemo:
         logger.info("Demo setup complete")
 
     async def _mock_guardian_validation(
-        self, action: Dict[str, Any], context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, action: dict[str, Any], context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Mock guardian validation with varying responses"""
         # Simulate different ethical scores based on reality content
         state = action.get("state", {})
@@ -379,7 +379,7 @@ class ParallelRealityDemo:
             }
         )
 
-    def _format_insight(self, insight: Dict[str, Any]) -> str:
+    def _format_insight(self, insight: dict[str, Any]) -> str:
         """Format insight for display"""
         if insight["type"] == "probability_analysis":
             return f"Selected probability {insight['selected_probability']:.2f} (percentile: {insight['percentile']:.0%})"

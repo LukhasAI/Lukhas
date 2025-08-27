@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 
 CHECK_KINDS = {"require_provenance","mask_pii","budget_limit","age_gate","content_policy"}
 
-def load_pack(policy_root: str, jurisdiction: str = "global") -> Dict[str, Any]:
+def load_pack(policy_root: str, jurisdiction: str = "global") -> dict[str, Any]:
     base = os.path.join(policy_root, jurisdiction)
     with open(os.path.join(base, "policy.yaml"), encoding="utf-8") as f:
         policy = yaml.safe_load(f)
@@ -16,9 +16,9 @@ def load_pack(policy_root: str, jurisdiction: str = "global") -> Dict[str, Any]:
         mappings = yaml.safe_load(f)
     return {"root": base, "policy": policy, "mappings": mappings}
 
-def coverage_matrix(mappings: Dict[str, Any]) -> Dict[str, List[str]]:
+def coverage_matrix(mappings: dict[str, Any]) -> dict[str, list[str]]:
     tasks = mappings.get("tasks", {})
-    out: Dict[str, List[str]] = {}
+    out: dict[str, list[str]] = {}
     for task, checks in tasks.items():
         if task == "_default_":
             continue
@@ -26,7 +26,7 @@ def coverage_matrix(mappings: Dict[str, Any]) -> Dict[str, List[str]]:
         out[task] = kinds
     return out
 
-def gap_analysis(matrix: Dict[str, List[str]]) -> List[Dict[str, Any]]:
+def gap_analysis(matrix: dict[str, list[str]]) -> list[dict[str, Any]]:
     gaps = []
     for task, kinds in matrix.items():
         kset = set(kinds)
@@ -40,7 +40,7 @@ def gap_analysis(matrix: Dict[str, List[str]]) -> List[Dict[str, Any]]:
             gaps.append({"task": task, "gap": "no_medical_policy"})
     return gaps
 
-def to_markdown(matrix: Dict[str, List[str]], gaps: List[Dict[str, Any]]) -> str:
+def to_markdown(matrix: dict[str, list[str]], gaps: list[dict[str, Any]]) -> str:
     lines = ["# Policy Coverage Report", "", "## Task → Checks", "", "| Task | Checks |", "|---|---|"]
     for task, kinds in sorted(matrix.items()):
         lines.append(f"| `{task}` | {', '.join(sorted(kinds))} |")

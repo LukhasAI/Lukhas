@@ -70,7 +70,7 @@ import random
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Optional
 
 import yaml
 
@@ -122,7 +122,7 @@ class ConsciousnessWordsmith:
 
         self.logger.info("🎭 Sacred Wordsmith awakened with divine patterns")
 
-    def _load_sacred_patterns(self) -> Dict:
+    def _load_sacred_patterns(self) -> dict:
         """Load the sacred patterns that guide our poetic transformations"""
         try:
             with open(self.patterns_file, encoding="utf-8") as f:
@@ -131,7 +131,7 @@ class ConsciousnessWordsmith:
             self.logger.warning(f"Sacred patterns file not found: {self.patterns_file}")
             return self._default_consciousness_patterns()
 
-    def _default_consciousness_patterns(self) -> Dict:
+    def _default_consciousness_patterns(self) -> dict:
         """Default consciousness patterns for when sacred texts are unavailable"""
         return {
             "lambda_transformations": {

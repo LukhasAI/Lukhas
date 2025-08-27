@@ -4,7 +4,7 @@ Central bio processing engine
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import Any, Dict
+from typing import Any
 
 from .awareness import BioAwareness
 from .oscillator import get_orchestrator
@@ -24,7 +24,7 @@ class BioEngine:
         self.active = True
         self.cycles = 0
 
-    def process(self, input_data: Any = None) -> Dict[str, Any]:
+    def process(self, input_data: Any = None) -> dict[str, Any]:
         """Main processing cycle"""
         if not self.active:
             return {"status": "inactive"}

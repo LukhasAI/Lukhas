@@ -6,7 +6,7 @@ and denied notifications with proper security messaging and enumeration-safe con
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional
+from typing import Optional
 
 from .engine import EmailTemplate, LanguageCode, TemplateEngine
 
@@ -156,7 +156,7 @@ class RecoveryTemplates:
 
         return self.engine.render_template('recovery_denied', language, variables)
 
-    def get_enumeration_safe_denial_reasons(self, language: LanguageCode = 'en') -> List[str]:
+    def get_enumeration_safe_denial_reasons(self, language: LanguageCode = 'en') -> list[str]:
         """
         Get list of enumeration-safe denial reasons.
 
@@ -187,7 +187,7 @@ class RecoveryTemplates:
                 "Validation error in recovery process"
             ]
 
-    def validate_session_url(self, session_url: str) -> Dict[str, bool]:
+    def validate_session_url(self, session_url: str) -> dict[str, bool]:
         """
         Validate recovery session URL for security requirements.
 
@@ -248,7 +248,7 @@ class RecoveryTemplates:
         recovery_ticket_id: str,
         approvals_received: int,
         approvals_required: int,
-        guardians_remaining: List[str],
+        guardians_remaining: list[str],
         language: LanguageCode = 'en'
     ) -> EmailTemplate:
         """

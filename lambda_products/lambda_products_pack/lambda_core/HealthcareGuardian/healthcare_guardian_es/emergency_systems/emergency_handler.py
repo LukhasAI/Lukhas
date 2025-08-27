@@ -12,7 +12,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ class EmergencyContact:
     phone: str
     relationship: str
     priority: int
-    languages: List[str]
+    languages: list[str]
     notify_automatically: bool
 
 
@@ -54,13 +54,13 @@ class EmergencyIncident:
     emergency_type: EmergencyType
     severity: EmergencySeverity
     timestamp: datetime
-    location: Optional[Tuple[float, float]]  # GPS coordinates
+    location: Optional[tuple[float, float]]  # GPS coordinates
     location_address: Optional[str]
     description: str
-    symptoms: List[str]
-    user_vitals: Optional[Dict]
-    actions_taken: List[str]
-    contacts_notified: List[str]
+    symptoms: list[str]
+    user_vitals: Optional[dict]
+    actions_taken: list[str]
+    contacts_notified: list[str]
     response_time: Optional[float]
     status: str  # active, resolved, dispatched
 
@@ -120,7 +120,7 @@ class EmergencyResponseSystem:
         }
     }
 
-    def __init__(self, config: Dict[str, Any] = None, guardian=None):
+    def __init__(self, config: dict[str, Any] = None, guardian=None):
         """
         Initialize Emergency Response System
 
@@ -198,7 +198,7 @@ class EmergencyResponseSystem:
         # Sort by priority
         self.emergency_contacts.sort(key=lambda x: x.priority)
 
-    async def assess_severity(self, input_text: str, vitals: Dict = None) -> str:
+    async def assess_severity(self, input_text: str, vitals: dict = None) -> str:
         """
         Assess the severity of an emergency from user input
 
@@ -248,7 +248,7 @@ class EmergencyResponseSystem:
     async def handle_emergency(self,
                              description: str,
                              emergency_type: EmergencyType = EmergencyType.UNKNOWN,
-                             location: Tuple[float, float] = None) -> EmergencyIncident:
+                             location: tuple[float, float] = None) -> EmergencyIncident:
         """
         Handle an emergency situation
 
@@ -305,7 +305,7 @@ class EmergencyResponseSystem:
         }
         return mapping.get(severity_str, EmergencySeverity.MEDIUM)
 
-    def _extract_symptoms(self, description: str) -> List[str]:
+    def _extract_symptoms(self, description: str) -> list[str]:
         """Extract symptoms from emergency description"""
         symptoms = []
         description_lower = description.lower()
@@ -461,7 +461,7 @@ class EmergencyResponseSystem:
                 # Would trigger voice check-in
                 logger.info(f"Check-in for incident {incident.incident_id}")
 
-    async def detect_fall(self, sensor_data: Dict) -> bool:
+    async def detect_fall(self, sensor_data: dict) -> bool:
         """
         Detect potential fall from sensor data
 
@@ -496,7 +496,7 @@ class EmergencyResponseSystem:
 
         return False
 
-    async def handle_fall_detection(self, sensor_data: Dict):
+    async def handle_fall_detection(self, sensor_data: dict):
         """Handle detected fall"""
         if await self.detect_fall(sensor_data):
             # Create fall emergency
@@ -517,7 +517,7 @@ class EmergencyResponseSystem:
         self.last_known_location = (latitude, longitude)
         logger.debug(f"Location updated: {latitude}, {longitude}")
 
-    async def _get_address_from_location(self, location: Tuple[float, float]) -> Optional[str]:
+    async def _get_address_from_location(self, location: tuple[float, float]) -> Optional[str]:
         """
         Convert GPS coordinates to address
 
@@ -555,7 +555,7 @@ class EmergencyResponseSystem:
 
         return False
 
-    def get_emergency_status(self) -> Dict:
+    def get_emergency_status(self) -> dict:
         """Get current emergency system status"""
         return {
             'system_active': True,

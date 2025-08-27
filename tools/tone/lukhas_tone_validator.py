@@ -13,7 +13,6 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List
 
 
 @dataclass
@@ -24,8 +23,8 @@ class ToneMetrics:
     user_friendly_score: float
     academic_score: float
     compliance_grade: str
-    violations: List[str]
-    suggestions: List[str]
+    violations: list[str]
+    suggestions: list[str]
     consciousness_quotient: float
 
 
@@ -234,7 +233,7 @@ class LukhasToneValidator:
         raw_score = ((total_matches + metrics_bonus) / words) * 1000
         return min(100, raw_score)
 
-    def _identify_violations(self, content: str, doc_type: str) -> List[str]:
+    def _identify_violations(self, content: str, doc_type: str) -> list[str]:
         """🛡️ Identify transgressions against the sacred tone laws"""
         violations = []
 
@@ -282,7 +281,7 @@ class LukhasToneValidator:
 
         return violations
 
-    def _generate_suggestions(self, content: str, doc_type: str) -> List[str]:
+    def _generate_suggestions(self, content: str, doc_type: str) -> list[str]:
         """💡 Channel divine wisdom to suggest improvements"""
         suggestions = []
 
@@ -321,7 +320,7 @@ class LukhasToneValidator:
         return suggestions
 
     def _calculate_consciousness_quotient(
-        self, poetic: float, friendly: float, academic: float, violations: List[str]
+        self, poetic: float, friendly: float, academic: float, violations: list[str]
     ) -> float:
         """🧠 Calculate the sacred consciousness quotient"""
         # Base score from balanced tone distribution
@@ -336,7 +335,7 @@ class LukhasToneValidator:
         return max(0, balance_score - violation_penalty + consciousness_bonus)
 
     def _calculate_grade(
-        self, consciousness_quotient: float, violations: List[str]
+        self, consciousness_quotient: float, violations: list[str]
     ) -> str:
         """🎯 Assign the sacred grade of compliance"""
         if consciousness_quotient >= 90 and len(violations) == 0:

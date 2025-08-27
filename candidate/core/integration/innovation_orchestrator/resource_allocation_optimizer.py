@@ -5,7 +5,7 @@ Optimizes resource allocation across innovation engines.
 """
 
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 from lukhas.core.interfaces import CoreInterface
 
@@ -38,9 +38,9 @@ class ResourceAllocationOptimizer(CoreInterface):
 
     async def optimize_resource_allocation(
         self,
-        engines: Dict[str, Any],
-        opportunities: List[Dict[str, Any]]
-    ) -> Dict[str, Any]:
+        engines: dict[str, Any],
+        opportunities: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """
         Optimize resource allocation across engines and opportunities
 
@@ -122,7 +122,7 @@ class ResourceAllocationOptimizer(CoreInterface):
     async def _score_engine_opportunity_fit(
         self,
         engine_name: str,
-        opportunity: Dict[str, Any]
+        opportunity: dict[str, Any]
     ) -> float:
         """Score how well an engine fits an opportunity"""
 

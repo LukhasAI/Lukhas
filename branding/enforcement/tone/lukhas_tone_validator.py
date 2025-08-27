@@ -6,7 +6,7 @@ Basic tone validation for LUKHAS consciousness platform
 
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 
 class LukhasToneValidator:
@@ -39,7 +39,7 @@ class LukhasToneValidator:
 
     def validate_content(
         self, content: str, filepath: str = ""
-    ) -> Tuple[bool, List[str]]:
+    ) -> tuple[bool, list[str]]:
         """Validate content against LUKHAS tone requirements"""
         issues = []
 
@@ -60,7 +60,7 @@ class LukhasToneValidator:
         # Success if no critical issues
         return len(issues) == 0, issues
 
-    def validate_file(self, filepath: Path) -> Tuple[bool, List[str]]:
+    def validate_file(self, filepath: Path) -> tuple[bool, list[str]]:
         """Validate a single file"""
         try:
             if filepath.suffix in [".py", ".md", ".yaml", ".yml", ".json"]:
@@ -70,7 +70,7 @@ class LukhasToneValidator:
         except Exception as e:
             return False, [f"Error reading file: {e}"]
 
-    def validate_files(self, filepaths: List[str]) -> Dict[str, Any]:
+    def validate_files(self, filepaths: list[str]) -> dict[str, Any]:
         """Validate multiple files and return summary"""
         results = {
             "total_files": len(filepaths),

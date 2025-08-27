@@ -1,4 +1,6 @@
-import json, os, sys, subprocess
+import json
+import subprocess
+import sys
 from pathlib import Path
 
 try:
@@ -71,7 +73,7 @@ def load_ruff(allowed_codes):
     for item in raw:
         code = item.get("code")
         fname = item.get("filename")
-        if not isinstance(fname, str): 
+        if not isinstance(fname, str):
             continue
         if code in allowed_codes:
             by_file.setdefault(fname, set()).add(code)
@@ -149,7 +151,7 @@ def main():
         ok, stats = apply_fixes(fname, ruff_by_file.get(fname, set()))
         ledger.append({
             "file": fname,
-            "rules_considered": sorted(list(ruff_by_file.get(fname, set()))),
+            "rules_considered": sorted(ruff_by_file.get(fname, set())),
             "changed": ok,
             "stats": stats,
         })
@@ -161,7 +163,7 @@ def main():
             "allow_globs": allow_globs,
             "deny_globs": deny_globs,
             "iface_deny": iface_deny,
-            "allow_codes": sorted(list(allow_codes)),
+            "allow_codes": sorted(allow_codes),
         },
         "changed_files": changed,
         "entries": ledger,

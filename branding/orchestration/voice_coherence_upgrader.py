@@ -13,7 +13,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add branding modules to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -36,7 +36,7 @@ class UpgradeResult:
     original_coherence: float
     upgraded_coherence: float
     changes_made: int
-    upgrade_categories: List[str]
+    upgrade_categories: list[str]
     success: bool
 
 class EliteVoiceCoherenceUpgrader:
@@ -85,7 +85,7 @@ class EliteVoiceCoherenceUpgrader:
 
         return logger
 
-    def _define_upgrade_rules(self) -> List[UpgradeRule]:
+    def _define_upgrade_rules(self) -> list[UpgradeRule]:
         """Define comprehensive upgrade rules for elite voice coherence"""
         return [
             # Brand Terminology Upgrades (Lucas → LUKHAS AI)
@@ -201,7 +201,7 @@ class EliteVoiceCoherenceUpgrader:
             ),
         ]
 
-    async def upgrade_system_voice_coherence(self, system_path: str, system_name: str) -> List[UpgradeResult]:
+    async def upgrade_system_voice_coherence(self, system_path: str, system_name: str) -> list[UpgradeResult]:
         """Upgrade voice coherence for an entire content system"""
         self.logger.info(f"🚀 Upgrading voice coherence for {system_name}...")
 
@@ -320,7 +320,7 @@ class EliteVoiceCoherenceUpgrader:
                 success=False
             )
 
-    async def upgrade_all_systems(self) -> Dict[str, Any]:
+    async def upgrade_all_systems(self) -> dict[str, Any]:
         """Upgrade voice coherence for all content systems"""
         self.logger.info("🎯 Starting elite voice coherence upgrade for all systems...")
 
@@ -368,7 +368,7 @@ class EliteVoiceCoherenceUpgrader:
 
         return upgrade_results
 
-    async def _generate_upgrade_report(self, upgrade_results: Dict[str, Any], total_files: int, total_changes: int):
+    async def _generate_upgrade_report(self, upgrade_results: dict[str, Any], total_files: int, total_changes: int):
         """Generate comprehensive upgrade report"""
         report_path = self.base_path / "VOICE_COHERENCE_UPGRADE_REPORT.md"
 

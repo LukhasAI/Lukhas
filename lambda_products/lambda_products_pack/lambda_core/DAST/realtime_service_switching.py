@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class ServiceType(Enum):
@@ -63,8 +63,8 @@ class ServiceProvider:
     cost_per_request: float = 0.0
     max_requests_per_second: int = 100
     timeout: float = 30.0
-    capabilities: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    capabilities: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -88,8 +88,8 @@ class ServiceRequest:
 
     request_id: str
     service_type: ServiceType
-    payload: Dict[str, Any]
-    requirements: Dict[str, Any] = field(default_factory=dict)
+    payload: dict[str, Any]
+    requirements: dict[str, Any] = field(default_factory=dict)
     max_retries: int = 3
     timeout_override: Optional[float] = None
 
@@ -114,11 +114,11 @@ class RealTimeServiceSwitcher:
     """
 
     def __init__(self):
-        self.service_providers: Dict[str, List[ServiceProvider]] = {}
-        self.service_health: Dict[str, ServiceHealth] = {}
+        self.service_providers: dict[str, list[ServiceProvider]] = {}
+        self.service_health: dict[str, ServiceHealth] = {}
         self.failover_strategy = FailoverStrategy.PERFORMANCE_BASED
-        self.request_history: List[ServiceRequest] = []
-        self.response_history: List[ServiceResponse] = []
+        self.request_history: list[ServiceRequest] = []
+        self.response_history: list[ServiceResponse] = []
 
         # Health check configuration
         self.health_check_interval = 30.0  # seconds
@@ -128,13 +128,13 @@ class RealTimeServiceSwitcher:
 
         # Performance tracking
         self.performance_window = 100  # Last N requests for performance calculation
-        self.performance_metrics: Dict[str, List[float]] = {}
+        self.performance_metrics: dict[str, list[float]] = {}
 
         # Circuit breaker configuration
         self.circuit_breaker_enabled = True
         self.circuit_breaker_threshold = 5  # failures before opening
         self.circuit_breaker_timeout = 60.0  # seconds before attempting recovery
-        self.circuit_breakers: Dict[str, datetime] = {}
+        self.circuit_breakers: dict[str, datetime] = {}
 
         # Executor for async operations
         self.executor = ThreadPoolExecutor(max_workers=10)
@@ -205,7 +205,7 @@ class RealTimeServiceSwitcher:
 
     def get_service_status(
         self, service_type: Optional[ServiceType] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get current status of services"""
         status = {
             "overall_health": self._calculate_overall_health(),
@@ -246,7 +246,7 @@ class RealTimeServiceSwitcher:
 
         return status
 
-    async def perform_health_checks(self) -> Dict[str, ServiceHealth]:
+    async def perform_health_checks(self) -> dict[str, ServiceHealth]:
         """Perform health checks on all providers"""
         health_results = {}
 
@@ -268,7 +268,7 @@ class RealTimeServiceSwitcher:
         return health_results
 
     def configure_failover_strategy(
-        self, strategy: FailoverStrategy, config: Optional[Dict[str, Any]] = None
+        self, strategy: FailoverStrategy, config: Optional[dict[str, Any]] = None
     ) -> None:
         """Configure the failover strategy"""
         self.failover_strategy = strategy
@@ -281,7 +281,7 @@ class RealTimeServiceSwitcher:
             if "circuit_breaker_enabled" in config:
                 self.circuit_breaker_enabled = config["circuit_breaker_enabled"]
 
-    def get_performance_report(self) -> Dict[str, Any]:
+    def get_performance_report(self) -> dict[str, Any]:
         """Get performance report for all services"""
         report = {
             "summary": {},
@@ -397,7 +397,7 @@ class RealTimeServiceSwitcher:
 
     def _get_available_providers(
         self, service_type: ServiceType
-    ) -> List[ServiceProvider]:
+    ) -> list[ServiceProvider]:
         """Get available providers for service type"""
         if service_type not in self.service_providers:
             return []
@@ -421,8 +421,8 @@ class RealTimeServiceSwitcher:
         return available
 
     def _get_backup_providers(
-        self, service_type: ServiceType, exclude: List[str]
-    ) -> List[ServiceProvider]:
+        self, service_type: ServiceType, exclude: list[str]
+    ) -> list[ServiceProvider]:
         """Get backup providers excluding specific ones"""
         available = self._get_available_providers(service_type)
         return [p for p in available if p.provider_id not in exclude]
@@ -610,12 +610,12 @@ class RealTimeServiceSwitcher:
             if provider_id in self.service_health:
                 self.service_health[provider_id].status = ServiceStatus.RECOVERING
 
-    def _select_by_priority(self, providers: List[ServiceProvider]) -> ServiceProvider:
+    def _select_by_priority(self, providers: list[ServiceProvider]) -> ServiceProvider:
         """Select provider by priority"""
         return min(providers, key=lambda p: p.priority)
 
     def _select_by_performance(
-        self, providers: List[ServiceProvider]
+        self, providers: list[ServiceProvider]
     ) -> ServiceProvider:
         """Select provider by performance"""
         best_score = -1
@@ -629,11 +629,11 @@ class RealTimeServiceSwitcher:
 
         return best_provider
 
-    def _select_by_cost(self, providers: List[ServiceProvider]) -> ServiceProvider:
+    def _select_by_cost(self, providers: list[ServiceProvider]) -> ServiceProvider:
         """Select provider by cost"""
         return min(providers, key=lambda p: p.cost_per_request)
 
-    def _select_by_latency(self, providers: List[ServiceProvider]) -> ServiceProvider:
+    def _select_by_latency(self, providers: list[ServiceProvider]) -> ServiceProvider:
         """Select provider by latency"""
         best_latency = float("inf")
         best_provider = providers[0]
@@ -647,7 +647,7 @@ class RealTimeServiceSwitcher:
         return best_provider
 
     def _select_by_load_balance(
-        self, providers: List[ServiceProvider]
+        self, providers: list[ServiceProvider]
     ) -> ServiceProvider:
         """Select provider using load balancing"""
         # Count recent requests per provider
@@ -663,7 +663,7 @@ class RealTimeServiceSwitcher:
         # Select provider with least recent requests
         return min(providers, key=lambda p: request_counts.get(p.provider_id, 0))
 
-    def _select_round_robin(self, providers: List[ServiceProvider]) -> ServiceProvider:
+    def _select_round_robin(self, providers: list[ServiceProvider]) -> ServiceProvider:
         """Select provider using round robin"""
         # Simple round robin based on request count
         import random
@@ -717,7 +717,7 @@ class RealTimeServiceSwitcher:
         """Count available providers for a service type"""
         return len(self._get_available_providers(service_type))
 
-    def _generate_recommendations(self) -> List[str]:
+    def _generate_recommendations(self) -> list[str]:
         """Generate recommendations based on current state"""
         recommendations = []
 
@@ -773,7 +773,7 @@ class RealTimeServiceSwitcher:
         recent_responses = self.response_history[-100:]
         return statistics.mean(r.response_time_ms for r in recent_responses)
 
-    def _calculate_percentile(self, values: List[float], percentile: int) -> float:
+    def _calculate_percentile(self, values: list[float], percentile: int) -> float:
         """Calculate percentile value"""
         if not values:
             return 0.0
@@ -796,7 +796,7 @@ class RealTimeServiceSwitcher:
 
         return request_count * provider.cost_per_request
 
-    def _get_recent_failover_events(self) -> List[Dict]:
+    def _get_recent_failover_events(self) -> list[dict]:
         """Get recent failover events"""
         events = []
 
@@ -813,7 +813,7 @@ class RealTimeServiceSwitcher:
 
         return events[-10:]  # Last 10 events
 
-    def _identify_optimizations(self) -> List[str]:
+    def _identify_optimizations(self) -> list[str]:
         """Identify optimization opportunities"""
         optimizations = []
 

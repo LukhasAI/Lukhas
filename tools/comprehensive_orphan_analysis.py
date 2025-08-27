@@ -11,7 +11,6 @@ import os
 import re
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Set
 
 
 class ComprehensiveOrphanAnalyzer:
@@ -112,10 +111,7 @@ class ComprehensiveOrphanAnalyzer:
 
     def is_excluded_file(self, file_path: str) -> bool:
         """Check if file should be excluded based on patterns"""
-        for pattern in self.excluded_patterns:
-            if re.search(pattern, file_path):
-                return True
-        return False
+        return any(re.search(pattern, file_path) for pattern in self.excluded_patterns)
 
     def is_library_import(self, import_name: str) -> bool:
         """Check if an import is from standard library or common packages"""
@@ -238,7 +234,7 @@ class ComprehensiveOrphanAnalyzer:
                     if not self.is_excluded_file(str(relative_path)):
                         self.all_python_files.add(str(relative_path))
 
-    def extract_imports(self, file_path: str) -> Set[str]:
+    def extract_imports(self, file_path: str) -> set[str]:
         """Extract imports from a Python file"""
         imports = set()
         full_path = self.root_path / file_path
@@ -263,7 +259,7 @@ class ComprehensiveOrphanAnalyzer:
 
         return imports
 
-    def resolve_import_to_file(self, import_name: str) -> List[str]:
+    def resolve_import_to_file(self, import_name: str) -> list[str]:
         """Resolve an import to actual file paths in our codebase"""
         possible_files = []
 
@@ -325,7 +321,7 @@ class ComprehensiveOrphanAnalyzer:
 
         return import_graph, imported_by
 
-    def find_reachable_files(self, import_graph: Dict) -> Set[str]:
+    def find_reachable_files(self, import_graph: dict) -> set[str]:
         """Find all files reachable from entry points"""
         reachable = set()
         to_visit = list(self.entry_points)
@@ -344,7 +340,7 @@ class ComprehensiveOrphanAnalyzer:
 
         return reachable
 
-    def categorize_by_directory(self, files: Set[str]) -> Dict[str, List[str]]:
+    def categorize_by_directory(self, files: set[str]) -> dict[str, list[str]]:
         """Categorize files by their parent directory"""
         categories = defaultdict(list)
 
@@ -363,7 +359,7 @@ class ComprehensiveOrphanAnalyzer:
 
         return dict(categories)
 
-    def analyze_directory_usage(self) -> Dict[str, Dict]:
+    def analyze_directory_usage(self) -> dict[str, dict]:
         """Analyze usage statistics for each directory"""
         dir_stats = defaultdict(
             lambda: {
@@ -378,20 +374,14 @@ class ComprehensiveOrphanAnalyzer:
         # Count all files
         for file in self.all_python_files:
             parts = Path(file).parts
-            if len(parts) > 1:
-                dir_name = parts[0]
-            else:
-                dir_name = "root"
+            dir_name = parts[0] if len(parts) > 1 else "root"
             dir_stats[dir_name]["total"] += 1
             dir_stats[dir_name]["files"].append(file)
 
         # Count orphaned files
         for file in self.orphaned_files:
             parts = Path(file).parts
-            if len(parts) > 1:
-                dir_name = parts[0]
-            else:
-                dir_name = "root"
+            dir_name = parts[0] if len(parts) > 1 else "root"
             dir_stats[dir_name]["orphaned"] += 1
             dir_stats[dir_name]["orphaned_files"].append(file)
 
@@ -408,7 +398,7 @@ class ComprehensiveOrphanAnalyzer:
 
         return dict(dir_stats)
 
-    def identify_module_patterns(self, orphaned_by_dir: Dict) -> Dict[str, str]:
+    def identify_module_patterns(self, orphaned_by_dir: dict) -> dict[str, str]:
         """Identify patterns in orphaned modules to understand why they're unused"""
         patterns = {}
 
@@ -449,7 +439,7 @@ class ComprehensiveOrphanAnalyzer:
 
         return patterns
 
-    def generate_report(self) -> Dict:
+    def generate_report(self) -> dict:
         """Generate comprehensive orphan analysis report"""
         print("🔍 Finding all Python files (excluding libraries)...")
         self.find_all_python_files()
@@ -481,7 +471,7 @@ class ComprehensiveOrphanAnalyzer:
             import_counts[file] = len(importers)
 
         most_imported = sorted(
-            [(f, c) for f, c in import_counts.items()], key=lambda x: x[1], reverse=True
+            import_counts.items(), key=lambda x: x[1], reverse=True
         )[:20]
 
         # Calculate statistics
@@ -509,7 +499,7 @@ class ComprehensiveOrphanAnalyzer:
 
         return report
 
-    def generate_recommendations(self, dir_stats: Dict, patterns: Dict) -> List[Dict]:
+    def generate_recommendations(self, dir_stats: dict, patterns: dict) -> list[dict]:
         """Generate actionable recommendations based on analysis"""
         recommendations = []
 
@@ -588,7 +578,7 @@ class ComprehensiveOrphanAnalyzer:
         return recommendations
 
 
-def print_report(report: Dict):
+def print_report(report: dict):
     """Print formatted report to console"""
     print("\n" + "=" * 80)
     print("📋 COMPREHENSIVE ORPHAN ANALYSIS REPORT")

@@ -14,7 +14,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from lukhas.consciousness.reasoning.advanced_engines.intelligence_engines import (
     LukhasAutonomousGoalEngine,
@@ -61,10 +61,10 @@ class AgentRequest:
     agent_id: str
     agent_type: AgentType
     request_type: IntelligenceRequestType
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     priority: int = 5  # 1-10, 10 being highest
     timeout: float = 30.0  # seconds
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
     timestamp: Optional[datetime] = None
 
     def __post_init__(self):
@@ -79,11 +79,11 @@ class IntelligenceResponse:
     request_id: str
     agent_id: str
     success: bool
-    result: Optional[Dict[str, Any]] = None
+    result: Optional[dict[str, Any]] = None
     error: Optional[str] = None
     processing_time: Optional[float] = None
     confidence: Optional[float] = None
-    metadata: Optional[Dict[str, Any]] = None
+    metadata: Optional[dict[str, Any]] = None
     timestamp: Optional[datetime] = None
 
     def __post_init__(self):
@@ -215,7 +215,7 @@ class LukhasAgentBridge:
 
         return response
 
-    async def _route_request(self, request: AgentRequest) -> Dict[str, Any]:
+    async def _route_request(self, request: AgentRequest) -> dict[str, Any]:
         """Route request to appropriate intelligence engine based on request type"""
 
         request_type = request.request_type
@@ -249,8 +249,8 @@ class LukhasAgentBridge:
             raise ValueError(f"Unknown request type: {request_type}")
 
     async def _handle_meta_cognitive_request(
-        self, payload: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle meta-cognitive analysis requests"""
         engine = self.intelligence_engines["meta_cognitive"]
 
@@ -266,8 +266,8 @@ class LukhasAgentBridge:
         }
 
     async def _handle_causal_reasoning_request(
-        self, payload: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle causal reasoning requests"""
         engine = self.intelligence_engines["causal"]
 
@@ -285,8 +285,8 @@ class LukhasAgentBridge:
         }
 
     async def _handle_goal_formation_request(
-        self, payload: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle autonomous goal formation requests"""
         engine = self.intelligence_engines["autonomous_goals"]
 
@@ -305,8 +305,8 @@ class LukhasAgentBridge:
         }
 
     async def _handle_curiosity_request(
-        self, payload: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle curiosity exploration requests"""
         engine = self.intelligence_engines["curiosity"]
 
@@ -321,8 +321,8 @@ class LukhasAgentBridge:
         }
 
     async def _handle_theory_of_mind_request(
-        self, payload: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle theory of mind requests"""
         engine = self.intelligence_engines["theory_of_mind"]
 
@@ -338,8 +338,8 @@ class LukhasAgentBridge:
         }
 
     async def _handle_narrative_request(
-        self, payload: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle narrative creation requests"""
         engine = self.intelligence_engines["narrative"]
 
@@ -359,8 +359,8 @@ class LukhasAgentBridge:
         }
 
     async def _handle_dimensional_analysis_request(
-        self, payload: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle multi-dimensional analysis requests"""
         engine = self.intelligence_engines["dimensional"]
 
@@ -375,8 +375,8 @@ class LukhasAgentBridge:
         }
 
     async def _handle_orchestration_request(
-        self, payload: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, payload: dict[str, Any]
+    ) -> dict[str, Any]:
         """Handle orchestration coordination requests"""
         engine = self.intelligence_engines["orchestrator"]
 
@@ -412,13 +412,13 @@ class LukhasAgentBridge:
 
     async def get_agent_performance_metrics(
         self, agent_type: Optional[AgentType] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get performance metrics for agents"""
         if agent_type:
             return self.agent_performance_metrics.get(agent_type.value, {})
         return self.agent_performance_metrics
 
-    async def get_system_status(self) -> Dict[str, Any]:
+    async def get_system_status(self) -> dict[str, Any]:
         """Get overall system status"""
         active_requests_count = len(self.active_requests)
         total_requests = sum(
@@ -449,7 +449,7 @@ async def create_agent_request(
     agent_id: str,
     agent_type: AgentType,
     request_type: IntelligenceRequestType,
-    payload: Dict[str, Any],
+    payload: dict[str, Any],
     priority: int = 5,
     timeout: float = 30.0,
 ) -> AgentRequest:
@@ -483,7 +483,7 @@ class AgentHelpers:
 
     @staticmethod
     async def consciousness_architect_analyze(
-        request: str, context: Optional[Dict] = None
+        request: str, context: Optional[dict] = None
     ) -> IntelligenceResponse:
         """Helper for Consciousness Architect meta-cognitive analysis"""
         bridge = await get_agent_bridge()
@@ -500,7 +500,7 @@ class AgentHelpers:
 
     @staticmethod
     async def consciousness_developer_implement(
-        implementation_request: str, technical_context: Optional[Dict] = None
+        implementation_request: str, technical_context: Optional[dict] = None
     ) -> IntelligenceResponse:
         """Helper for Consciousness Developer implementation analysis"""
         bridge = await get_agent_bridge()
@@ -522,7 +522,7 @@ class AgentHelpers:
 
     @staticmethod
     async def guardian_engineer_validate(
-        safety_request: str, risk_context: Optional[Dict] = None
+        safety_request: str, risk_context: Optional[dict] = None
     ) -> IntelligenceResponse:
         """Helper for Guardian Engineer safety validation"""
         bridge = await get_agent_bridge()
@@ -542,7 +542,7 @@ class AgentHelpers:
 
     @staticmethod
     async def velocity_lead_optimize(
-        optimization_target: str, performance_context: Optional[Dict] = None
+        optimization_target: str, performance_context: Optional[dict] = None
     ) -> IntelligenceResponse:
         """Helper for Velocity Lead performance optimization"""
         bridge = await get_agent_bridge()

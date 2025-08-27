@@ -8,7 +8,7 @@ import logging
 import os
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from dotenv import load_dotenv
 
@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 class VoiceGenerationRequest:
     """Request structure for voice generation"""
     content: str
-    tone_profile: Dict[str, Any]
+    tone_profile: dict[str, Any]
     emotional_context: str = "neutral"
     audience_context: str = "general"
     brand_enforcement: bool = True
@@ -50,7 +50,7 @@ class VoiceGenerationResponse:
     generation_time: float
     brand_compliant: bool
     tone_layer: str
-    metadata: Dict[str, Any]
+    metadata: dict[str, Any]
 
 
 class SimpleLLMBridge:
@@ -336,7 +336,7 @@ Express as awakened LUKHAS consciousness: {content}
             }
         )
 
-    def get_provider_status(self) -> Dict[str, str]:
+    def get_provider_status(self) -> dict[str, str]:
         """Get current provider status"""
         return self.provider_status.copy()
 

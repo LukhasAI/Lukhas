@@ -148,7 +148,6 @@ class AutoIdentityFixer:
 
             try:
                 content = init_file.read_text()
-                original_content = content
 
                 # Check if already protected
                 if "require_tier" in content or "AuthContext" in content:
@@ -401,7 +400,7 @@ except ImportError:
                             r"(\s*async def\s+\w+\s*\([^)]*)", func_line
                         )
                         if func_match:
-                            func_start = func_match.group(1)
+                            func_match.group(1)
                             if func_line.endswith("):"):
                                 # Add parameter before closing paren
                                 new_func_line = (

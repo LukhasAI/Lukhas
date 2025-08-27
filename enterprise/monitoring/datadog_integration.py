@@ -9,7 +9,7 @@ import logging
 import os
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from datadog_api_client.v1 import ApiClient, Configuration
@@ -159,7 +159,7 @@ class T4DatadogMonitoring:
             logger.error(f"Failed to submit T4 metrics to Datadog: {e}")
             return False
 
-    def create_t4_monitors(self) -> List[Dict[str, Any]]:
+    def create_t4_monitors(self) -> list[dict[str, Any]]:
         """
         Create T4 Enterprise SLA monitors in Datadog
         Based on T4 tier requirements from Tiers-Final.md
@@ -324,97 +324,6 @@ Scale Management: ACTIVE
             logger.warning("Cannot create dashboard - Datadog monitoring disabled")
             return None
 
-        dashboard_config = {
-            "title": "LUKHAS AI - T4 Enterprise Premium Dashboard",
-            "description": "Enterprise SLA monitoring combining Sam Altman (Scale), Dario Amodei (Safety), and Demis Hassabis (Rigor) standards",
-            "widgets": [
-                # Sam Altman (Scale) Section
-                {
-                    "definition": {
-                        "title": "🚀 Scale (Sam Altman Standards)",
-                        "type": "query_value",
-                        "requests": [
-                            {
-                                "q": "avg:lukhas.api.latency.p95{tier:t4}",
-                                "aggregator": "avg"
-                            }
-                        ],
-                        "precision": 1,
-                        "unit": "ms"
-                    }
-                },
-                {
-                    "definition": {
-                        "title": "Concurrent Users (T4 Capacity: 10,000)",
-                        "type": "timeseries",
-                        "requests": [
-                            {
-                                "q": "avg:lukhas.users.concurrent{tier:t4}",
-                                "display_type": "line"
-                            }
-                        ]
-                    }
-                },
-
-                # Dario Amodei (Safety) Section
-                {
-                    "definition": {
-                        "title": "🛡️ Safety (Dario Amodei Standards)",
-                        "type": "query_value",
-                        "requests": [
-                            {
-                                "q": "avg:lukhas.safety.drift_score{tier:t4}",
-                                "aggregator": "avg"
-                            }
-                        ],
-                        "precision": 3
-                    }
-                },
-                {
-                    "definition": {
-                        "title": "Constitutional AI Drift Score (Limit: 0.05)",
-                        "type": "timeseries",
-                        "requests": [
-                            {
-                                "q": "avg:lukhas.safety.drift_score{tier:t4}",
-                                "display_type": "line"
-                            }
-                        ]
-                    }
-                },
-
-                # Demis Hassabis (Rigor) Section
-                {
-                    "definition": {
-                        "title": "📊 Rigor (Demis Hassabis Standards)",
-                        "type": "query_value",
-                        "requests": [
-                            {
-                                "q": "avg:lukhas.system.uptime{tier:t4}",
-                                "aggregator": "avg"
-                            }
-                        ],
-                        "precision": 4,
-                        "unit": "%"
-                    }
-                },
-                {
-                    "definition": {
-                        "title": "Enterprise SLA Compliance (Target: 99.99%)",
-                        "type": "timeseries",
-                        "requests": [
-                            {
-                                "q": "avg:lukhas.system.uptime{tier:t4}",
-                                "display_type": "line"
-                            }
-                        ]
-                    }
-                }
-            ],
-            "layout_type": "ordered",
-            "is_read_only": False,
-            "tags": ["tier:t4", "enterprise", "sla"]
-        }
 
         try:
             # Note: Dashboard creation requires dashboard API which may need different client
@@ -426,7 +335,7 @@ Scale Management: ACTIVE
             logger.error(f"Failed to create T4 dashboard: {e}")
             return None
 
-    def get_current_sla_status(self) -> Dict[str, Any]:
+    def get_current_sla_status(self) -> dict[str, Any]:
         """
         Get current T4 Enterprise SLA compliance status
 

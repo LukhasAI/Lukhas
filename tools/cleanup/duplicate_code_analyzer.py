@@ -10,7 +10,6 @@ import hashlib
 import os
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict
 
 
 class DuplicateCodeAnalyzer:
@@ -24,7 +23,7 @@ class DuplicateCodeAnalyzer:
         self.similar_files = []
         self.conflicting_imports = defaultdict(list)
 
-    def analyze(self) -> Dict:
+    def analyze(self) -> dict:
         """Run complete duplicate analysis"""
         print("🔍 Analyzing codebase for duplicates...")
 
@@ -67,7 +66,7 @@ class DuplicateCodeAnalyzer:
                     self._analyze_function(node, file_path)
                 elif isinstance(node, ast.ClassDef):
                     self._analyze_class(node, file_path)
-                elif isinstance(node, ast.Import) or isinstance(node, ast.ImportFrom):
+                elif isinstance(node, (ast.Import, ast.ImportFrom)):
                     self._analyze_import(node, file_path)
 
         except Exception:
@@ -119,19 +118,18 @@ class DuplicateCodeAnalyzer:
                         "as": alias.asname,
                     }
                 )
-        elif isinstance(node, ast.ImportFrom):
-            if node.module:
-                for alias in node.names:
-                    import_str = f"{node.module}.{alias.name}"
-                    self.conflicting_imports[import_str].append(
-                        {
-                            "file": str(file_path.relative_to(self.root_path)),
-                            "line": node.lineno,
-                            "from": node.module,
-                            "import": alias.name,
-                            "as": alias.asname,
-                        }
-                    )
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            for alias in node.names:
+                import_str = f"{node.module}.{alias.name}"
+                self.conflicting_imports[import_str].append(
+                    {
+                        "file": str(file_path.relative_to(self.root_path)),
+                        "line": node.lineno,
+                        "from": node.module,
+                        "import": alias.name,
+                        "as": alias.asname,
+                    }
+                )
 
     def _hash_node(self, node) -> str:
         """Create hash of AST node"""
@@ -150,7 +148,7 @@ class DuplicateCodeAnalyzer:
             return f"{self._get_name(node.value)}.{node.attr}"
         return "unknown"
 
-    def _generate_report(self) -> Dict:
+    def _generate_report(self) -> dict:
         """Generate duplicate analysis report"""
         report = {
             "summary": {},
@@ -169,7 +167,7 @@ class DuplicateCodeAnalyzer:
                 for loc in locations:
                     hash_groups[loc["body_hash"]].append(loc)
 
-                for body_hash, group in hash_groups.items():
+                for _body_hash, group in hash_groups.items():
                     if len(group) > 1:
                         duplicate_count += len(group) - 1
                         report["duplicate_functions"].append(
@@ -207,7 +205,7 @@ class DuplicateCodeAnalyzer:
                     {
                         "module": module,
                         "import_count": len(imports),
-                        "files": list(set(imp["file"] for imp in imports))[:10],
+                        "files": list({imp["file"] for imp in imports})[:10],
                     }
                 )
 
@@ -295,7 +293,7 @@ def main():
         generate_cleanup_script(report)
 
 
-def generate_cleanup_script(report: Dict):
+def generate_cleanup_script(report: dict):
     """Generate a cleanup script for duplicates"""
     script = """#!/usr/bin/env python3
 \"\"\"

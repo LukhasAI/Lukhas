@@ -6,7 +6,7 @@ Trinity Framework: ⚛️🧠🛡️
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -21,9 +21,9 @@ class SupervisorAgent:
 
     def __init__(self, supervisor_id: str = "supervisor-1"):
         self.supervisor_id = supervisor_id
-        self.escalation_history: List[Dict] = []
+        self.escalation_history: list[dict] = []
         self.max_history = 1000
-        self.active_escalations: Dict[str, Dict] = {}
+        self.active_escalations: dict[str, dict] = {}
 
         logger.info(f"SupervisorAgent {supervisor_id} initialized")
 
@@ -31,8 +31,8 @@ class SupervisorAgent:
         self,
         colony_id: str,
         task_id: str,
-        task_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        task_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Review an escalated task from a colony.
 
@@ -83,7 +83,7 @@ class SupervisorAgent:
             "timestamp": escalation["timestamp"]
         }
 
-    async def _analyze_task(self, task_data: Dict[str, Any]) -> Dict[str, Any]:
+    async def _analyze_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
         """
         Analyze the escalated task for complexity and risk.
 
@@ -127,7 +127,7 @@ class SupervisorAgent:
 
         return analysis
 
-    def _record_escalation(self, escalation: Dict[str, Any]):
+    def _record_escalation(self, escalation: dict[str, Any]):
         """Record escalation in history."""
         self.escalation_history.append(escalation)
 
@@ -135,7 +135,7 @@ class SupervisorAgent:
         if len(self.escalation_history) > self.max_history:
             self.escalation_history.pop(0)
 
-    def get_escalation_stats(self) -> Dict[str, Any]:
+    def get_escalation_stats(self) -> dict[str, Any]:
         """Get statistics about escalations."""
         total_escalations = len(self.escalation_history)
 
@@ -165,11 +165,11 @@ class SupervisorAgent:
             "supervisor_id": self.supervisor_id
         }
 
-    def get_active_escalations(self) -> List[Dict[str, Any]]:
+    def get_active_escalations(self) -> list[dict[str, Any]]:
         """Get list of currently active escalations."""
         return list(self.active_escalations.values())
 
-    def get_escalation_history(self, limit: Optional[int] = None) -> List[Dict[str, Any]]:
+    def get_escalation_history(self, limit: Optional[int] = None) -> list[dict[str, Any]]:
         """
         Get escalation history.
 

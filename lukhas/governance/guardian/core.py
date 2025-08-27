@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class EthicalSeverity(Enum):
@@ -26,10 +26,10 @@ class GovernanceAction:
     """Represents an action that requires governance oversight"""
     action_type: str
     target: str
-    context: Dict[str, Any]
+    context: dict[str, Any]
     severity: EthicalSeverity = EthicalSeverity.LOW
-    timestamp: Optional[str] = None
-    correlation_id: Optional[str] = None
+    timestamp: str | None = None
+    correlation_id: str | None = None
 
 
 @dataclass
@@ -39,8 +39,8 @@ class EthicalDecision:
     reason: str
     severity: EthicalSeverity
     confidence: float = 0.0
-    recommendations: Optional[List[str]] = None
-    drift_score: Optional[float] = None
+    recommendations: list[str] | None = None
+    drift_score: float | None = None
 
 
 @dataclass
@@ -50,7 +50,7 @@ class DriftResult:
     threshold_exceeded: bool
     severity: EthicalSeverity
     remediation_needed: bool
-    details: Dict[str, Any]
+    details: dict[str, Any]
 
 
 @dataclass
@@ -58,6 +58,6 @@ class SafetyResult:
     """Result of safety validation"""
     safe: bool
     risk_level: EthicalSeverity
-    violations: List[str]
-    recommendations: List[str]
+    violations: list[str]
+    recommendations: list[str]
     constitutional_check: bool

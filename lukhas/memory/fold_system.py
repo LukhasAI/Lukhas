@@ -8,7 +8,7 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from lukhas.observability.matriz_decorators import matriz_record
@@ -32,7 +32,7 @@ class MemoryFold:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     content: Any = None
     timestamp: datetime = field(default_factory=datetime.now)
-    causal_chain: List[str] = field(default_factory=list)
+    causal_chain: list[str] = field(default_factory=list)
     emotional_valence: float = 0.0  # Range: -1.0 to 1.0
     importance: float = 0.5  # Range: 0.0 to 1.0
     accessed_count: int = 0
@@ -52,8 +52,8 @@ class FoldManager:
     CASCADE_THRESHOLD = 0.997  # 99.7% prevention rate target
 
     def __init__(self):
-        self.folds: Dict[str, MemoryFold] = {}
-        self.active_folds: List[str] = []
+        self.folds: dict[str, MemoryFold] = {}
+        self.active_folds: list[str] = []
         self.cascade_prevention_active = True
         self.performance_metrics = {
             "creation_times": [],
@@ -67,7 +67,7 @@ class FoldManager:
     def create_fold(
         self,
         content: Any,
-        causal_chain: Optional[List[str]] = None,
+        causal_chain: Optional[list[str]] = None,
         emotional_valence: float = 0.0,
         importance: float = 0.5,
         mode: str = "dry_run",
@@ -182,7 +182,7 @@ class FoldManager:
         except Exception:
             return None
 
-    def get_causal_chain(self, fold_id: str) -> List[MemoryFold]:
+    def get_causal_chain(self, fold_id: str) -> list[MemoryFold]:
         """Get full causal chain for a fold"""
         fold = self.folds.get(fold_id)
         if not fold:
@@ -196,7 +196,7 @@ class FoldManager:
         return chain
 
     @emit_node("memory:consolidation")
-    def consolidate(self, mode: str = "dry_run") -> Dict[str, Any]:
+    def consolidate(self, mode: str = "dry_run") -> dict[str, Any]:
         """Consolidate memory folds for optimization"""
         if mode == "dry_run":
             return {
@@ -234,7 +234,7 @@ class FoldManager:
             return {"ok": False, "mode": "live", "error": str(e)}
 
     @emit_node("memory:status")
-    def get_status(self, mode: str = "dry_run") -> Dict[str, Any]:
+    def get_status(self, mode: str = "dry_run") -> dict[str, Any]:
         """Get memory system status and metrics"""
         uptime = time.time() - self._start_time
 

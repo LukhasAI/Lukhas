@@ -12,7 +12,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 import aiohttp
 import click
@@ -38,8 +38,8 @@ class OllamaSecurityAnalyzer:
     def __init__(self, ollama_host: str = "http://localhost:11434"):
         self.ollama_host = ollama_host
         self.model = "deepseek-coder:6.7b"  # Best for code analysis
-        self.vulnerabilities: List[Vulnerability] = []
-        self.fixes: Dict[str, str] = {}
+        self.vulnerabilities: list[Vulnerability] = []
+        self.fixes: dict[str, str] = {}
 
     async def check_ollama_available(self) -> bool:
         """Check if Ollama is running and model is available"""
@@ -71,7 +71,7 @@ class OllamaSecurityAnalyzer:
         except subprocess.CalledProcessError:
             click.echo(f"❌ Failed to pull model {self.model}")
 
-    def scan_vulnerabilities(self) -> List[Vulnerability]:
+    def scan_vulnerabilities(self) -> list[Vulnerability]:
         """Scan for vulnerabilities using pip-audit and safety"""
         vulnerabilities = []
 
@@ -149,20 +149,19 @@ Please provide:
 Format your response as JSON with keys: risk_assessment, fix_command, breaking_changes, alternatives"""
 
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    f"{self.ollama_host}/api/generate",
-                    json={
-                        "model": self.model,
-                        "prompt": prompt,
-                        "stream": False,
-                        "format": "json"
-                    },
-                    timeout=30
-                ) as resp:
-                    if resp.status == 200:
-                        data = await resp.json()
-                        return data.get("response", "")
+            async with aiohttp.ClientSession() as session, session.post(
+                f"{self.ollama_host}/api/generate",
+                json={
+                    "model": self.model,
+                    "prompt": prompt,
+                    "stream": False,
+                    "format": "json"
+                },
+                timeout=30
+            ) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    return data.get("response", "")
         except Exception as e:
             return f"Error analyzing: {e}"
 
@@ -189,23 +188,22 @@ The script should:
 Return ONLY the bash script, no explanations."""
 
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    f"{self.ollama_host}/api/generate",
-                    json={
-                        "model": self.model,
-                        "prompt": prompt,
-                        "stream": False
-                    },
-                    timeout=60
-                ) as resp:
-                    if resp.status == 200:
-                        data = await resp.json()
-                        return data.get("response", "")
+            async with aiohttp.ClientSession() as session, session.post(
+                f"{self.ollama_host}/api/generate",
+                json={
+                    "model": self.model,
+                    "prompt": prompt,
+                    "stream": False
+                },
+                timeout=60
+            ) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    return data.get("response", "")
         except Exception as e:
             return f"#!/bin/bash\necho 'Error generating script: {e}'"
 
-    async def analyze_all(self) -> Dict:
+    async def analyze_all(self) -> dict:
         """Analyze all vulnerabilities and generate report"""
         if not await self.check_ollama_available():
             return {"error": "Ollama not available"}

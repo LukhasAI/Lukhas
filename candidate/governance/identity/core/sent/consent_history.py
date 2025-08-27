@@ -94,9 +94,8 @@ class ConsentHistoryManager:
                 return False
 
             # Verify chain linkage
-            if i > 0:
-                if record.get("previous_hash") != chain[i - 1]["hash"]:
-                    return False
+            if i > 0 and record.get("previous_hash") != chain[i - 1]["hash"]:
+                return False
 
         return True
 

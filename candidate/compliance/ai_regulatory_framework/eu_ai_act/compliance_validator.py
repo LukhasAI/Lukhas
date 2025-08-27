@@ -14,7 +14,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -45,9 +45,9 @@ class AISystemProfile:
     name: str
     description: str
     intended_use: str
-    deployment_context: List[str]
-    data_types: List[str]
-    algorithms_used: List[str]
+    deployment_context: list[str]
+    data_types: list[str]
+    algorithms_used: list[str]
     human_oversight_level: str
     automated_decision_making: bool
     affects_fundamental_rights: bool
@@ -61,9 +61,9 @@ class ComplianceAssessment:
     risk_category: AISystemRiskCategory
     compliance_status: ComplianceStatus
     assessment_date: datetime
-    requirements: List[str]
-    violations: List[str]
-    recommendations: List[str]
+    requirements: list[str]
+    violations: list[str]
+    recommendations: list[str]
     next_review_date: datetime
     confidence_score: float
 
@@ -192,7 +192,7 @@ class EUAIActValidator:
 
     async def _validate_compliance(
         self, system_profile: AISystemProfile, risk_category: AISystemRiskCategory
-    ) -> List[str]:
+    ) -> list[str]:
         """Validate compliance requirements"""
         violations = []
 
@@ -217,7 +217,7 @@ class EUAIActValidator:
 
     async def _validate_high_risk_requirements(
         self, system_profile: AISystemProfile
-    ) -> List[str]:
+    ) -> list[str]:
         """Validate high-risk AI system requirements"""
         violations = []
 
@@ -248,7 +248,7 @@ class EUAIActValidator:
 
     async def _validate_transparency_requirements(
         self, system_profile: AISystemProfile
-    ) -> List[str]:
+    ) -> list[str]:
         """Validate transparency requirements"""
         violations = []
 
@@ -260,7 +260,7 @@ class EUAIActValidator:
 
     async def _generate_requirements(
         self, risk_category: AISystemRiskCategory
-    ) -> List[str]:
+    ) -> list[str]:
         """Generate applicable compliance requirements"""
         requirements = []
 
@@ -297,8 +297,8 @@ class EUAIActValidator:
         return requirements
 
     async def _generate_recommendations(
-        self, violations: List[str], risk_category: AISystemRiskCategory
-    ) -> List[str]:
+        self, violations: list[str], risk_category: AISystemRiskCategory
+    ) -> list[str]:
         """Generate compliance recommendations"""
         recommendations = []
 
@@ -319,7 +319,7 @@ class EUAIActValidator:
         recommendations.append("Stay updated on regulatory developments")
         return recommendations
 
-    def _calculate_compliance_status(self, violations: List[str]) -> ComplianceStatus:
+    def _calculate_compliance_status(self, violations: list[str]) -> ComplianceStatus:
         """Calculate overall compliance status"""
         if not violations:
             return ComplianceStatus.COMPLIANT
@@ -329,7 +329,7 @@ class EUAIActValidator:
             return ComplianceStatus.NON_COMPLIANT
 
     async def _calculate_confidence(
-        self, system_profile: AISystemProfile, violations: List[str]
+        self, system_profile: AISystemProfile, violations: list[str]
     ) -> float:
         """Calculate confidence score for assessment"""
         base_confidence = 0.8
@@ -358,7 +358,7 @@ class EUAIActValidator:
 
     async def generate_compliance_report(
         self, assessment: ComplianceAssessment
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate comprehensive compliance report"""
 
         report = {
@@ -380,7 +380,7 @@ class EUAIActValidator:
 
         return report
 
-    async def _generate_next_steps(self, assessment: ComplianceAssessment) -> List[str]:
+    async def _generate_next_steps(self, assessment: ComplianceAssessment) -> list[str]:
         """Generate actionable next steps"""
         next_steps = []
 
@@ -414,7 +414,7 @@ class EUAIActValidator:
 
     async def _get_regulatory_references(
         self, risk_category: AISystemRiskCategory
-    ) -> List[str]:
+    ) -> list[str]:
         """Get relevant regulatory references"""
         references = [
             "EU AI Act (Regulation (EU) 2024/1689)",

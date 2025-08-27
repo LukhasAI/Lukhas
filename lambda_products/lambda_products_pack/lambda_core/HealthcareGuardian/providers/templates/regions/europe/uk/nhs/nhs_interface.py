@@ -6,7 +6,7 @@ National Health Service (NHS) systems.
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ...interfaces.ehr_interface import EHRInterface
 from ...security.security_utils import AuditLogger, EncryptionHandler
@@ -15,7 +15,7 @@ from ...security.security_utils import AuditLogger, EncryptionHandler
 class NHSInterface(EHRInterface):
     """Implementation of EHR interface for NHS"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize NHS interface with configuration
 
@@ -45,7 +45,7 @@ class NHSInterface(EHRInterface):
             if field not in self.config:
                 raise ValueError(f"Missing required NHS configuration: {field}")
 
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize connection to NHS systems"""
         # Implement NHS-specific initialization
         # - Set up Spine connectivity
@@ -55,7 +55,7 @@ class NHSInterface(EHRInterface):
 
     async def get_patient_record(self,
                                patient_id: str,
-                               record_types: Optional[List[str]] = None) -> Dict[str, Any]:
+                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from NHS
 
@@ -73,7 +73,7 @@ class NHSInterface(EHRInterface):
 
     async def update_patient_record(self,
                                   patient_id: str,
-                                  data: Dict[str, Any],
+                                  data: dict[str, Any],
                                   update_type: str) -> bool:
         """Update patient records in NHS systems"""
         self.audit.log_access(
@@ -87,7 +87,7 @@ class NHSInterface(EHRInterface):
 
     async def create_encounter(self,
                              patient_id: str,
-                             encounter_data: Dict[str, Any]) -> str:
+                             encounter_data: dict[str, Any]) -> str:
         """Create new patient encounter in NHS systems"""
         # Implement NHS-specific encounter creation
         pass
@@ -95,7 +95,7 @@ class NHSInterface(EHRInterface):
     async def get_provider_schedule(self,
                                   provider_id: str,
                                   start_date: datetime,
-                                  end_date: datetime) -> List[Dict[str, Any]]:
+                                  end_date: datetime) -> list[dict[str, Any]]:
         """Get provider's schedule from NHS scheduling system"""
         # Implement NHS-specific schedule retrieval
         pass

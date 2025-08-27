@@ -61,7 +61,7 @@ def analyze_vocabulary_usage(directory: Path):
     total_files = 0
 
     # Search Python files for vocabulary
-    for root, dirs, files in os.walk(directory):
+    for root, _dirs, files in os.walk(directory):
         for file in files:
             if file.endswith('.py'):
                 filepath = Path(root) / file
@@ -71,14 +71,14 @@ def analyze_vocabulary_usage(directory: Path):
                         total_files += 1
 
                         # Count clichés
-                        for category, words in CLICHES.items():
+                        for _category, words in CLICHES.items():
                             for word in words:
                                 count = len(re.findall(r'\b' + word + r'\b', content))
                                 if count > 0:
                                     cliche_counts[word] += count
 
                         # Count unique LUKHAS terms
-                        for category, words in UNIQUE_LUKHAS.items():
+                        for _category, words in UNIQUE_LUKHAS.items():
                             for word in words:
                                 count = len(re.findall(r'\b' + word.lower() + r'\b', content))
                                 if count > 0:

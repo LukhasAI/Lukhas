@@ -7,7 +7,6 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict
 
 __module__ = "bio.oscillator"
 __trinity__ = "⚛️🧠🛡️"
@@ -81,14 +80,14 @@ class BioOrchestrator:
     """Orchestrates multiple bio oscillators"""
 
     def __init__(self):
-        self.oscillators: Dict[str, BaseOscillator] = {}
+        self.oscillators: dict[str, BaseOscillator] = {}
         self.active = True
 
     def add_oscillator(self, name: str, oscillator: BaseOscillator):
         """Add an oscillator to the orchestrator"""
         self.oscillators[name] = oscillator
 
-    def step(self) -> Dict[str, float]:
+    def step(self) -> dict[str, float]:
         """Step all oscillators forward"""
         results = {}
         if self.active:

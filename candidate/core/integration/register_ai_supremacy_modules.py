@@ -9,7 +9,7 @@ Integration point for MISSING_PIECES.md modules.
 
 import asyncio
 import logging
-from typing import Any, Dict
+from typing import Any
 
 from lukhas.core.container.service_container import ServiceContainer
 from lukhas.core.interfaces.dependency_injection import get_service, register_service
@@ -17,7 +17,7 @@ from lukhas.core.interfaces.dependency_injection import get_service, register_se
 logger = logging.getLogger(__name__)
 
 
-async def initialize_agi_supremacy_modules() -> Dict[str, Any]:
+async def initialize_agi_supremacy_modules() -> dict[str, Any]:
     """
     Initialize complete AGI supremacy capability by registering all missing modules.
 
@@ -150,7 +150,7 @@ async def initialize_agi_supremacy_modules() -> Dict[str, Any]:
     return registration_status
 
 
-async def verify_agi_supremacy_integration() -> Dict[str, Any]:
+async def verify_agi_supremacy_integration() -> dict[str, Any]:
     """
     Verify that all AGI supremacy modules are properly integrated.
 
@@ -212,7 +212,7 @@ async def verify_agi_supremacy_integration() -> Dict[str, Any]:
     return verification_results
 
 
-async def run_agi_supremacy_demo() -> Dict[str, Any]:
+async def run_agi_supremacy_demo() -> dict[str, Any]:
     """
     Run a demonstration of the AGI supremacy capabilities.
 

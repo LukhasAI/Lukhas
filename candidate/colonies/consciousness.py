@@ -5,7 +5,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
 from datetime import datetime
-from typing import Any, List
+from typing import Any
 
 from .base import BaseColony, ColonyTask
 
@@ -19,7 +19,7 @@ class ConsciousnessColony(BaseColony):
         self.reflection_history = []
         super().__init__("consciousness", max_agents)
 
-    def get_default_capabilities(self) -> List[str]:
+    def get_default_capabilities(self) -> list[str]:
         return [
             "awareness_processing",
             "reflection",

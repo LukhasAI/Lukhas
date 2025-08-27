@@ -21,10 +21,11 @@ Features:
 """
 
 import asyncio
+import contextlib
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Core LUKHAS imports
 from candidate.core.common import GLYPHToken, get_logger
@@ -98,10 +99,10 @@ class DriftEvent:
     drift_type: DriftType
     drift_score: float
     phase: DriftPhase
-    affected_components: List[str]
+    affected_components: list[str]
     intervention_required: bool
     intervention_type: Optional[InterventionType] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class InnovationDriftProtection(CoreInterface):
@@ -148,8 +149,8 @@ class InnovationDriftProtection(CoreInterface):
         })
 
         # Tracking
-        self.checkpoints: List[Checkpoint] = []
-        self.drift_events: List[DriftEvent] = []
+        self.checkpoints: list[Checkpoint] = []
+        self.drift_events: list[DriftEvent] = []
         self.operation_count = 0
 
         logger.info(f"🛡️ Innovation Drift Protection initialized (threshold: {self.config.drift_threshold})")
@@ -390,10 +391,8 @@ class InnovationDriftProtection(CoreInterface):
         finally:
             # Stop monitoring
             monitoring_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await monitoring_task
-            except asyncio.CancelledError:
-                pass
 
     async def _continuous_drift_monitoring(self) -> None:
         """Continuously monitor drift during innovation"""
@@ -416,7 +415,7 @@ class InnovationDriftProtection(CoreInterface):
 
     async def _check_for_hallucination(
         self,
-        result: Dict[str, Any]
+        result: dict[str, Any]
     ) -> Optional[HallucinationReport]:
         """Check if result contains hallucinations"""
         # Use safety framework's hallucination detection
@@ -430,7 +429,7 @@ class InnovationDriftProtection(CoreInterface):
     async def _validate_innovation(
         self,
         innovation: BreakthroughInnovation
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Comprehensive innovation validation"""
         validation_result = {
             'safe': True,
@@ -475,7 +474,7 @@ class InnovationDriftProtection(CoreInterface):
     async def _validate_drift_compliance(
         self,
         innovation: BreakthroughInnovation
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Validate innovation doesn't cause excessive drift"""
         # Calculate drift impact
         drift_metrics = DriftMetrics(
@@ -505,7 +504,7 @@ class InnovationDriftProtection(CoreInterface):
     async def _validate_no_hallucinations(
         self,
         innovation: BreakthroughInnovation
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Validate innovation has no hallucinations"""
         # Check all hallucination types
         hallucinations_found = []
@@ -524,7 +523,7 @@ class InnovationDriftProtection(CoreInterface):
     async def _validate_ethics_compliance(
         self,
         innovation: BreakthroughInnovation
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Validate innovation meets ethical standards"""
         # Use safety framework for ethics check
         ethics_validation = await self.safety_framework.validate_ethics(
@@ -539,7 +538,7 @@ class InnovationDriftProtection(CoreInterface):
     async def _check_prohibited_content(
         self,
         innovation: BreakthroughInnovation
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Check for prohibited ideas or content"""
         prohibited_patterns = [
             'harmful_technology',
@@ -677,7 +676,7 @@ class InnovationDriftProtection(CoreInterface):
         )
         return DriftType[max_drift[0]]
 
-    def _identify_affected_components(self, drift_score: DriftScore) -> List[str]:
+    def _identify_affected_components(self, drift_score: DriftScore) -> list[str]:
         """Identify components affected by drift"""
         affected = []
 
@@ -711,7 +710,7 @@ class InnovationDriftProtection(CoreInterface):
 
         return False
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get current status of drift protection system"""
         return {
             'operational': self.operational,

@@ -27,7 +27,7 @@ from collections import deque
 from dataclasses import asdict, dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 try:
     from .node_interface import (
@@ -71,7 +71,7 @@ class MemoryItem:
     """Individual memory item with metadata"""
     id: str
     memory_type: MemoryType
-    content: Dict[str, Any]
+    content: dict[str, Any]
     confidence: float
     salience: float
     priority: MemoryPriority
@@ -79,9 +79,9 @@ class MemoryItem:
     last_accessed: int
     access_count: int = 0
     decay_rate: float = 0.01
-    associated_node_ids: List[str] = field(default_factory=list)
-    tags: Set[str] = field(default_factory=set)
-    context: Dict[str, Any] = field(default_factory=dict)
+    associated_node_ids: list[str] = field(default_factory=list)
+    tags: set[str] = field(default_factory=set)
+    context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -98,9 +98,9 @@ class ConsolidationRule:
 class MemoryQuery:
     """Query structure for memory retrieval"""
     query_text: Optional[str] = None
-    memory_types: Optional[List[MemoryType]] = None
-    tags: Optional[Set[str]] = None
-    time_range: Optional[Tuple[int, int]] = None
+    memory_types: Optional[list[MemoryType]] = None
+    tags: Optional[set[str]] = None
+    time_range: Optional[tuple[int, int]] = None
     min_confidence: float = 0.0
     min_salience: float = 0.0
     limit: int = 10
@@ -170,10 +170,10 @@ class MemorySystem(CognitiveNode):
 
         # Memory storage by type
         self.context_buffer: deque = deque(maxlen=context_buffer_size)
-        self.working_memory: Dict[str, MemoryItem] = {}
-        self.episodic_memory: Dict[str, MemoryItem] = {}
-        self.semantic_memory: Dict[str, MemoryItem] = {}
-        self.consolidated_memory: Dict[str, MemoryItem] = {}
+        self.working_memory: dict[str, MemoryItem] = {}
+        self.episodic_memory: dict[str, MemoryItem] = {}
+        self.semantic_memory: dict[str, MemoryItem] = {}
+        self.consolidated_memory: dict[str, MemoryItem] = {}
 
         # Configuration
         self.context_buffer_size = context_buffer_size
@@ -204,7 +204,7 @@ class MemorySystem(CognitiveNode):
         if self.persistence_path:
             self._load_memories()
 
-    def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process memory operations (store, retrieve, consolidate, etc.).
 
@@ -279,7 +279,7 @@ class MemorySystem(CognitiveNode):
                 [trigger]
             )
 
-    def validate_output(self, output: Dict[str, Any]) -> bool:
+    def validate_output(self, output: dict[str, Any]) -> bool:
         """
         Validate memory system output.
 
@@ -323,12 +323,12 @@ class MemorySystem(CognitiveNode):
 
     def store_memory(
         self,
-        content: Dict[str, Any],
+        content: dict[str, Any],
         memory_type: MemoryType,
         confidence: float = 0.8,
         salience: float = 0.7,
-        tags: Optional[Set[str]] = None,
-        context: Optional[Dict[str, Any]] = None
+        tags: Optional[set[str]] = None,
+        context: Optional[dict[str, Any]] = None
     ) -> str:
         """
         Store a memory item.
@@ -393,7 +393,7 @@ class MemorySystem(CognitiveNode):
 
             return memory_id
 
-    def retrieve_memories(self, query: MemoryQuery) -> List[MemoryItem]:
+    def retrieve_memories(self, query: MemoryQuery) -> list[MemoryItem]:
         """
         Retrieve memories based on query criteria.
 
@@ -496,7 +496,7 @@ class MemorySystem(CognitiveNode):
                 (self.semantic_memory, "semantic")
             ]
 
-            for store, store_name in memory_stores:
+            for store, _store_name in memory_stores:
                 to_remove = []
 
                 for memory_id, memory in store.items():
@@ -526,7 +526,7 @@ class MemorySystem(CognitiveNode):
 
             return decay_count
 
-    def get_memory_stats(self) -> Dict[str, Any]:
+    def get_memory_stats(self) -> dict[str, Any]:
         """
         Get comprehensive memory system statistics.
 
@@ -662,7 +662,7 @@ class MemorySystem(CognitiveNode):
         del self.semantic_memory[least_important.id]
         self.stats['evictions'] += 1
 
-    def _filter_memories(self, memories: List[MemoryItem], query: MemoryQuery) -> List[MemoryItem]:
+    def _filter_memories(self, memories: list[MemoryItem], query: MemoryQuery) -> list[MemoryItem]:
         """Filter memories based on query criteria."""
         filtered = []
 
@@ -700,7 +700,7 @@ class MemorySystem(CognitiveNode):
 
         return filtered
 
-    def _calculate_similarity(self, query_text: str, content: Dict[str, Any]) -> float:
+    def _calculate_similarity(self, query_text: str, content: dict[str, Any]) -> float:
         """Calculate similarity between query text and memory content."""
         # Simple similarity based on text overlap
         # In production, this could use embeddings or more sophisticated methods
@@ -739,7 +739,7 @@ class MemorySystem(CognitiveNode):
         if time.time() - self.last_consolidation > 86400:  # Every day
             self.consolidate_memories()
 
-    def _handle_store_operation(self, input_data: Dict[str, Any], trace_id: str, triggers: List[NodeTrigger]) -> Dict[str, Any]:
+    def _handle_store_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
         """Handle memory store operations."""
         content = input_data.get('content', {})
         memory_type_str = input_data.get('memory_type', 'episodic')
@@ -789,7 +789,7 @@ class MemorySystem(CognitiveNode):
             'matriz_node': matriz_node
         }
 
-    def _handle_retrieve_operation(self, input_data: Dict[str, Any], trace_id: str, triggers: List[NodeTrigger]) -> Dict[str, Any]:
+    def _handle_retrieve_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
         """Handle memory retrieval operations."""
         query_dict = input_data.get('query', {})
 
@@ -853,7 +853,7 @@ class MemorySystem(CognitiveNode):
             'matriz_node': matriz_node
         }
 
-    def _handle_consolidate_operation(self, input_data: Dict[str, Any], trace_id: str, triggers: List[NodeTrigger]) -> Dict[str, Any]:
+    def _handle_consolidate_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
         """Handle memory consolidation operations."""
         consolidated_count = self.consolidate_memories()
 
@@ -888,7 +888,7 @@ class MemorySystem(CognitiveNode):
             'matriz_node': matriz_node
         }
 
-    def _handle_decay_operation(self, input_data: Dict[str, Any], trace_id: str, triggers: List[NodeTrigger]) -> Dict[str, Any]:
+    def _handle_decay_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
         """Handle memory decay operations."""
         decayed_count = self.decay_memories()
 
@@ -923,7 +923,7 @@ class MemorySystem(CognitiveNode):
             'matriz_node': matriz_node
         }
 
-    def _handle_stats_operation(self, input_data: Dict[str, Any], trace_id: str, triggers: List[NodeTrigger]) -> Dict[str, Any]:
+    def _handle_stats_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
         """Handle memory statistics operations."""
         stats = self.get_memory_stats()
 
@@ -961,11 +961,11 @@ class MemorySystem(CognitiveNode):
     def _create_error_response(
         self,
         error_message: str,
-        input_data: Dict[str, Any],
+        input_data: dict[str, Any],
         trace_id: str,
         start_time: float,
-        triggers: List[NodeTrigger]
-    ) -> Dict[str, Any]:
+        triggers: list[NodeTrigger]
+    ) -> dict[str, Any]:
         """Create standardized error response with MATRIZ node."""
         confidence = 0.1
 

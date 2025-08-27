@@ -7,7 +7,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class SentimentPolarity(Enum):
@@ -32,9 +32,9 @@ class SentimentResult:
     overall_sentiment: float  # -1.0 to 1.0
     polarity: SentimentPolarity
     confidence: float  # 0.0 to 1.0
-    brand_dimensions: Dict[BrandDimension, float]
-    trinity_sentiment: Dict[str, float]  # Identity, Consciousness, Guardian
-    emotional_indicators: Dict[str, float]
+    brand_dimensions: dict[BrandDimension, float]
+    trinity_sentiment: dict[str, float]  # Identity, Consciousness, Guardian
+    emotional_indicators: dict[str, float]
     context_appropriateness: float
 
 class BrandSentimentEngine:
@@ -51,7 +51,7 @@ class BrandSentimentEngine:
         self.context_analyzers = self._build_context_analyzers()
         self.sentiment_history = []
 
-    def _build_brand_sentiment_lexicon(self) -> Dict[str, Dict[str, float]]:
+    def _build_brand_sentiment_lexicon(self) -> dict[str, dict[str, float]]:
         """Build LUKHAS-specific sentiment lexicon"""
         return {
             # Positive brand indicators
@@ -101,7 +101,7 @@ class BrandSentimentEngine:
             "lambda_function": {"sentiment": -0.6, "brand_relevance": 0.8, "trinity_component": "consciousness"}
         }
 
-    def _build_trinity_sentiment_lexicon(self) -> Dict[str, Dict[str, Any]]:
+    def _build_trinity_sentiment_lexicon(self) -> dict[str, dict[str, Any]]:
         """Build Trinity Framework-specific sentiment indicators"""
         return {
             "identity": {
@@ -142,7 +142,7 @@ class BrandSentimentEngine:
             }
         }
 
-    def _compile_emotion_patterns(self) -> Dict[str, re.Pattern]:
+    def _compile_emotion_patterns(self) -> dict[str, re.Pattern]:
         """Compile regex patterns for emotion detection"""
         return {
             "excitement": re.compile(r"excit|amazing|incredible|fantastic|wonderful|brilliant", re.IGNORECASE),
@@ -155,7 +155,7 @@ class BrandSentimentEngine:
             "disappointment": re.compile(r"disappoint|let down|expected more|not what|underwhelm", re.IGNORECASE)
         }
 
-    def _build_brand_dimension_indicators(self) -> Dict[BrandDimension, Dict[str, List[str]]]:
+    def _build_brand_dimension_indicators(self) -> dict[BrandDimension, dict[str, list[str]]]:
         """Build indicators for different brand dimensions"""
         return {
             BrandDimension.INNOVATION: {
@@ -188,7 +188,7 @@ class BrandSentimentEngine:
             }
         }
 
-    def _build_context_analyzers(self) -> Dict[str, Dict[str, Any]]:
+    def _build_context_analyzers(self) -> dict[str, dict[str, Any]]:
         """Build context-specific sentiment analyzers"""
         return {
             "user_feedback": {
@@ -217,7 +217,7 @@ class BrandSentimentEngine:
         self,
         text: str,
         context: str = "general",
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None
     ) -> SentimentResult:
         """
         Perform comprehensive sentiment analysis with LUKHAS brand focus
@@ -290,7 +290,7 @@ class BrandSentimentEngine:
         # Normalize to -1.0 to 1.0 range
         return max(-1.0, min(1.0, weighted_sentiment))
 
-    def _analyze_brand_dimensions(self, text: str) -> Dict[BrandDimension, float]:
+    def _analyze_brand_dimensions(self, text: str) -> dict[BrandDimension, float]:
         """Analyze sentiment for each brand dimension"""
 
         dimension_scores = {}
@@ -310,7 +310,7 @@ class BrandSentimentEngine:
 
         return dimension_scores
 
-    def _analyze_trinity_sentiment(self, text: str) -> Dict[str, float]:
+    def _analyze_trinity_sentiment(self, text: str) -> dict[str, float]:
         """Analyze sentiment for each Trinity Framework component"""
 
         trinity_scores = {}
@@ -334,7 +334,7 @@ class BrandSentimentEngine:
 
         return trinity_scores
 
-    def _analyze_emotional_indicators(self, text: str) -> Dict[str, float]:
+    def _analyze_emotional_indicators(self, text: str) -> dict[str, float]:
         """Analyze emotional indicators in the text"""
 
         emotional_scores = {}
@@ -408,7 +408,7 @@ class BrandSentimentEngine:
         self,
         text: str,
         overall_sentiment: float,
-        brand_dimensions: Dict[BrandDimension, float]
+        brand_dimensions: dict[BrandDimension, float]
     ) -> float:
         """Calculate confidence in sentiment analysis"""
 
@@ -450,8 +450,8 @@ class BrandSentimentEngine:
         self,
         base_sentiment: float,
         context: str,
-        brand_dimensions: Dict[BrandDimension, float],
-        emotional_indicators: Dict[str, float]
+        brand_dimensions: dict[BrandDimension, float],
+        emotional_indicators: dict[str, float]
     ) -> float:
         """Apply context-specific adjustments to sentiment score"""
 
@@ -481,7 +481,7 @@ class BrandSentimentEngine:
         result: SentimentResult,
         text: str,
         context: str,
-        metadata: Optional[Dict[str, Any]]
+        metadata: Optional[dict[str, Any]]
     ) -> None:
         """Store sentiment result for historical analysis"""
 
@@ -502,7 +502,7 @@ class BrandSentimentEngine:
         if len(self.sentiment_history) > 1000:
             self.sentiment_history = self.sentiment_history[-1000:]
 
-    def get_sentiment_trends(self, time_period: str = "24h") -> Dict[str, Any]:
+    def get_sentiment_trends(self, time_period: str = "24h") -> dict[str, Any]:
         """Get sentiment trends over specified time period"""
 
         # Parse time period
@@ -566,7 +566,7 @@ class BrandSentimentEngine:
             "sentiment_distribution": self._calculate_sentiment_distribution(overall_sentiments)
         }
 
-    def _calculate_sentiment_distribution(self, sentiments: List[float]) -> Dict[str, float]:
+    def _calculate_sentiment_distribution(self, sentiments: list[float]) -> dict[str, float]:
         """Calculate distribution of sentiments across polarity categories"""
 
         distribution = {polarity.value: 0 for polarity in SentimentPolarity}
@@ -582,7 +582,7 @@ class BrandSentimentEngine:
 
         return distribution
 
-    def analyze_brand_perception_evolution(self, time_periods: List[str] = None) -> Dict[str, Any]:
+    def analyze_brand_perception_evolution(self, time_periods: list[str] = None) -> dict[str, Any]:
         """Analyze how brand perception has evolved over time"""
 
         if time_periods is None:
@@ -641,7 +641,7 @@ class BrandSentimentEngine:
 
         return evolution_analysis
 
-    def generate_sentiment_report(self, context: str = "general") -> Dict[str, Any]:
+    def generate_sentiment_report(self, context: str = "general") -> dict[str, Any]:
         """Generate comprehensive sentiment analysis report"""
 
         # Get recent trends
@@ -673,7 +673,7 @@ class BrandSentimentEngine:
             "recommendations": self._generate_sentiment_recommendations(recent_trends, evolution, context)
         }
 
-    def _generate_context_specific_insights(self, context: str, trends: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_context_specific_insights(self, context: str, trends: dict[str, Any]) -> dict[str, Any]:
         """Generate insights specific to the given context"""
 
         if context not in self.context_analyzers:
@@ -701,7 +701,7 @@ class BrandSentimentEngine:
             ) else "moderate"
         }
 
-    def _identify_key_strength(self, trends: Dict[str, Any]) -> str:
+    def _identify_key_strength(self, trends: dict[str, Any]) -> str:
         """Identify the key brand strength from sentiment trends"""
 
         dimension_trends = trends.get("brand_dimension_trends", {})
@@ -711,7 +711,7 @@ class BrandSentimentEngine:
         strongest_dimension = max(dimension_trends.items(), key=lambda x: x[1]["average"])
         return strongest_dimension[0].replace("_", " ").title()
 
-    def _identify_primary_opportunity(self, trends: Dict[str, Any]) -> str:
+    def _identify_primary_opportunity(self, trends: dict[str, Any]) -> str:
         """Identify the primary improvement opportunity"""
 
         dimension_trends = trends.get("brand_dimension_trends", {})
@@ -723,10 +723,10 @@ class BrandSentimentEngine:
 
     def _generate_sentiment_recommendations(
         self,
-        recent_trends: Dict[str, Any],
-        evolution: Dict[str, Any],
+        recent_trends: dict[str, Any],
+        evolution: dict[str, Any],
         context: str
-    ) -> List[Dict[str, str]]:
+    ) -> list[dict[str, str]]:
         """Generate actionable recommendations based on sentiment analysis"""
 
         recommendations = []

@@ -14,7 +14,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List
+from typing import Any
 
 # Import other compliance modules
 from ..eu_ai_act.compliance_validator import AISystemProfile, EUAIActValidator
@@ -56,12 +56,12 @@ class GlobalComplianceProfile:
 
     system_id: str
     name: str
-    jurisdictions: List[Jurisdiction]
-    frameworks: List[ComplianceFramework]
-    deployment_regions: List[str]
-    data_residency_requirements: Dict[str, str]
+    jurisdictions: list[Jurisdiction]
+    frameworks: list[ComplianceFramework]
+    deployment_regions: list[str]
+    data_residency_requirements: dict[str, str]
     cross_border_transfers: bool
-    regulatory_notifications: List[str]
+    regulatory_notifications: list[str]
 
 
 @dataclass
@@ -71,10 +71,10 @@ class GlobalComplianceReport:
     system_id: str
     assessment_date: datetime
     overall_status: str
-    jurisdiction_compliance: Dict[Jurisdiction, Dict[str, Any]]
-    framework_compliance: Dict[ComplianceFramework, Dict[str, Any]]
-    cross_jurisdiction_issues: List[str]
-    harmonization_recommendations: List[str]
+    jurisdiction_compliance: dict[Jurisdiction, dict[str, Any]]
+    framework_compliance: dict[ComplianceFramework, dict[str, Any]]
+    cross_jurisdiction_issues: list[str]
+    harmonization_recommendations: list[str]
     next_assessment_date: datetime
 
 
@@ -203,7 +203,7 @@ class GlobalComplianceEngine:
         system_profile: AISystemProfile = None,
         data_activity: DataProcessingActivity = None,
         metrics: AISystemMetrics = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assess compliance for specific jurisdiction"""
 
         required_frameworks = self.jurisdiction_requirements.get(jurisdiction, [])
@@ -250,7 +250,7 @@ class GlobalComplianceEngine:
         system_profile: AISystemProfile = None,
         data_activity: DataProcessingActivity = None,
         metrics: AISystemMetrics = None,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assess compliance for specific framework"""
 
         try:
@@ -310,7 +310,7 @@ class GlobalComplianceEngine:
 
     async def _assess_other_framework(
         self, framework: ComplianceFramework, profile: GlobalComplianceProfile
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Assess other compliance frameworks"""
 
         # Placeholder assessments for frameworks not yet implemented
@@ -363,9 +363,9 @@ class GlobalComplianceEngine:
 
     async def _identify_cross_jurisdiction_issues(
         self,
-        jurisdiction_compliance: Dict[Jurisdiction, Dict[str, Any]],
+        jurisdiction_compliance: dict[Jurisdiction, dict[str, Any]],
         profile: GlobalComplianceProfile,
-    ) -> List[str]:
+    ) -> list[str]:
         """Identify cross-jurisdiction compliance issues"""
         issues = []
 
@@ -383,7 +383,7 @@ class GlobalComplianceEngine:
 
         # Framework conflicts
         framework_scores = {}
-        for jurisdiction, compliance in jurisdiction_compliance.items():
+        for _jurisdiction, compliance in jurisdiction_compliance.items():
             for framework_name, framework_result in compliance.get(
                 "frameworks", {}
             ).items():
@@ -411,9 +411,9 @@ class GlobalComplianceEngine:
 
     async def _generate_harmonization_recommendations(
         self,
-        framework_compliance: Dict[ComplianceFramework, Dict[str, Any]],
-        cross_jurisdiction_issues: List[str],
-    ) -> List[str]:
+        framework_compliance: dict[ComplianceFramework, dict[str, Any]],
+        cross_jurisdiction_issues: list[str],
+    ) -> list[str]:
         """Generate recommendations for compliance harmonization"""
         recommendations = []
 
@@ -456,8 +456,8 @@ class GlobalComplianceEngine:
 
     def _calculate_overall_status(
         self,
-        jurisdiction_compliance: Dict[Jurisdiction, Dict[str, Any]],
-        framework_compliance: Dict[ComplianceFramework, Dict[str, Any]],
+        jurisdiction_compliance: dict[Jurisdiction, dict[str, Any]],
+        framework_compliance: dict[ComplianceFramework, dict[str, Any]],
     ) -> str:
         """Calculate overall compliance status"""
 
@@ -499,7 +499,7 @@ class GlobalComplianceEngine:
 
     async def _get_jurisdiction_specific_requirements(
         self, jurisdiction: Jurisdiction
-    ) -> List[str]:
+    ) -> list[str]:
         """Get jurisdiction-specific requirements"""
 
         requirements_map = {
@@ -552,7 +552,7 @@ class GlobalComplianceEngine:
 
     async def generate_compliance_dashboard(
         self, report: GlobalComplianceReport
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate compliance dashboard data"""
 
         dashboard = {
@@ -592,7 +592,7 @@ class GlobalComplianceEngine:
 
     async def _generate_action_items(
         self, report: GlobalComplianceReport
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Generate prioritized action items"""
         action_items = []
 

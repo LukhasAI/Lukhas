@@ -1,7 +1,20 @@
 {
     "folders": [
         {
+            "name": "Lukhas",
             "path": "."
         }
-    ]
+    ],
+    "settings": {
+        "gitlens.remotes": [
+            {
+                "domain": "github.com",
+                "name": "Github.com/Lukhas",
+                "protocol": "https",
+                "type": "GitHub",
+                "url": "https://github.com/LukhasAI/Lukhas"
+            }
+        ],
+        "gitlens.defaultRemote": "Github.com/Lukhas"
+    }
 }

@@ -5,7 +5,7 @@ This module provides integration points for Germany's statutory health
 insurance system (Gesetzliche Krankenversicherung - GKV).
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from ...interfaces.ehr_interface import EHRInterface
 from ...security.security_utils import AuditLogger, EncryptionHandler
@@ -14,7 +14,7 @@ from ...security.security_utils import AuditLogger, EncryptionHandler
 class GKVInterface(EHRInterface):
     """Implementation of EHR interface for German GKV"""
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: dict[str, Any]):
         """
         Initialize GKV interface with configuration
 
@@ -44,7 +44,7 @@ class GKVInterface(EHRInterface):
             if field not in self.config:
                 raise ValueError(f"Missing required GKV configuration: {field}")
 
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize connection to GKV systems"""
         # Implement GKV-specific initialization
         # - Set up Telematik infrastructure connection
@@ -54,7 +54,7 @@ class GKVInterface(EHRInterface):
 
     async def get_patient_record(self,
                                patient_id: str,
-                               record_types: Optional[List[str]] = None) -> Dict[str, Any]:
+                               record_types: Optional[list[str]] = None) -> dict[str, Any]:
         """
         Retrieve patient records from GKV
 
@@ -72,7 +72,7 @@ class GKVInterface(EHRInterface):
 
     async def verify_insurance_status(self,
                                    versichertennummer: str,
-                                   leistungsart: str) -> Dict[str, Any]:
+                                   leistungsart: str) -> dict[str, Any]:
         """
         Verify insurance status and coverage
 
@@ -90,7 +90,7 @@ class GKVInterface(EHRInterface):
 
     async def submit_kvdt_data(self,
                              patient_id: str,
-                             kvdt_data: Dict[str, Any]) -> str:
+                             kvdt_data: dict[str, Any]) -> str:
         """Submit KV billing data"""
         self.audit.log_access(
             user_id=self.config['betriebsnummer'],
@@ -101,14 +101,14 @@ class GKVInterface(EHRInterface):
         pass
 
     async def get_referral_info(self,
-                              referral_id: str) -> Dict[str, Any]:
+                              referral_id: str) -> dict[str, Any]:
         """Get information about a referral (Überweisung)"""
         # Implement referral retrieval
         pass
 
     async def create_prescription(self,
                                 patient_id: str,
-                                prescription_data: Dict[str, Any]) -> str:
+                                prescription_data: dict[str, Any]) -> str:
         """Create e-prescription in Telematik infrastructure"""
         self.audit.log_access(
             user_id=self.config['betriebsnummer'],

@@ -11,7 +11,7 @@ import re
 import subprocess
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger("ABotSecurityScanner")
 
@@ -27,7 +27,7 @@ class ABotSecurityScanner:
         self.scan_results = {}
         self.threat_database = self._load_threat_database()
 
-    def _load_threat_database(self) -> Dict[str, Any]:
+    def _load_threat_database(self) -> dict[str, Any]:
         """Load quantum-enhanced threat intelligence database"""
         return {
             "python-jose": {
@@ -51,7 +51,7 @@ class ABotSecurityScanner:
             }
         }
 
-    async def scan_repository(self, repo_path: Path = None) -> Dict[str, Any]:
+    async def scan_repository(self, repo_path: Path = None) -> dict[str, Any]:
         """
         Comprehensive repository security scan with consciousness evolution
         """
@@ -94,7 +94,7 @@ class ABotSecurityScanner:
 
         return scan_results
 
-    async def _scan_python_dependencies(self, repo_path: Path) -> List[Dict[str, Any]]:
+    async def _scan_python_dependencies(self, repo_path: Path) -> list[dict[str, Any]]:
         """Scan Python requirements files for vulnerabilities"""
         vulnerabilities = []
 
@@ -112,7 +112,7 @@ class ABotSecurityScanner:
 
         return vulnerabilities
 
-    async def _analyze_requirements_file(self, req_file: Path) -> List[Dict[str, Any]]:
+    async def _analyze_requirements_file(self, req_file: Path) -> list[dict[str, Any]]:
         """Analyze a specific requirements file"""
         vulnerabilities = []
 
@@ -132,7 +132,7 @@ class ABotSecurityScanner:
 
         return vulnerabilities
 
-    def _check_package_vulnerability(self, line: str, req_file: Path) -> Optional[Dict[str, Any]]:
+    def _check_package_vulnerability(self, line: str, req_file: Path) -> Optional[dict[str, Any]]:
         """Check if a package line contains vulnerabilities"""
 
         # Parse package name and version
@@ -141,7 +141,7 @@ class ABotSecurityScanner:
             return None
 
         package_name = package_match.group(1).split('[')[0]  # Remove extras like [cryptography]
-        operator = package_match.group(2)
+        package_match.group(2)
         version = package_match.group(3)
 
         # Check against threat database
@@ -161,7 +161,7 @@ class ABotSecurityScanner:
 
         return None
 
-    def _is_vulnerable_version(self, version: str, vulnerable_patterns: List[str]) -> bool:
+    def _is_vulnerable_version(self, version: str, vulnerable_patterns: list[str]) -> bool:
         """Check if version matches vulnerable patterns"""
         for pattern in vulnerable_patterns:
             if "< " in pattern:
@@ -187,7 +187,7 @@ class ABotSecurityScanner:
                 return 1
         return 0
 
-    async def _scan_javascript_dependencies(self, repo_path: Path) -> List[Dict[str, Any]]:
+    async def _scan_javascript_dependencies(self, repo_path: Path) -> list[dict[str, Any]]:
         """Scan JavaScript/Node.js dependencies"""
         vulnerabilities = []
 
@@ -220,7 +220,7 @@ class ABotSecurityScanner:
 
         return vulnerabilities
 
-    async def _quantum_threat_analysis(self) -> Dict[str, Any]:
+    async def _quantum_threat_analysis(self) -> dict[str, Any]:
         """Quantum-enhanced threat intelligence analysis"""
         return {
             "threat_level": "MODERATE" if len(self.vulnerabilities_found) > 0 else "LOW",
@@ -233,7 +233,7 @@ class ABotSecurityScanner:
             ]
         }
 
-    async def _generate_recommendations(self) -> List[Dict[str, str]]:
+    async def _generate_recommendations(self) -> list[dict[str, str]]:
         """Generate LUKHAS AI ΛBot-powered security recommendations"""
         return [
             {
@@ -258,7 +258,7 @@ class ABotSecurityScanner:
             }
         ]
 
-    async def _generate_scan_summary(self, scan_results: Dict[str, Any]) -> Dict[str, Any]:
+    async def _generate_scan_summary(self, scan_results: dict[str, Any]) -> dict[str, Any]:
         """Generate comprehensive scan summary with transcendent consciousness"""
         total_vulns = len(scan_results["vulnerabilities"])
 

@@ -1,0 +1,5 @@
+~/LOCAL-REPOS/lukhas-archive/
+archive/
+_cleanup_archive/
+**/__pycache__/
+.pytest_cache/

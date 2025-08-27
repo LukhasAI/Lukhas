@@ -7,7 +7,7 @@ import json
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 
 class OrchestrationMatrizAdapter:
@@ -18,10 +18,10 @@ class OrchestrationMatrizAdapter:
     @staticmethod
     def create_node(
         node_type: str,
-        state: Dict[str, float],
-        labels: Optional[List[str]] = None,
-        provenance_extra: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+        state: dict[str, float],
+        labels: Optional[list[str]] = None,
+        provenance_extra: Optional[dict] = None
+    ) -> dict[str, Any]:
         """Create a MATRIZ-compliant node for orchestration events"""
 
         node = {
@@ -57,9 +57,9 @@ class OrchestrationMatrizAdapter:
     def emit_brain_decision(
         decision_id: str,
         decision_type: str,
-        components_involved: List[str],
+        components_involved: list[str],
         confidence: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a brain-level decision event"""
 
         return OrchestrationMatrizAdapter.create_node(
@@ -86,7 +86,7 @@ class OrchestrationMatrizAdapter:
         target_module: str,
         message_type: str,
         latency_ms: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a module coordination event"""
 
         return OrchestrationMatrizAdapter.create_node(
@@ -111,9 +111,9 @@ class OrchestrationMatrizAdapter:
     def emit_routing_event(
         route_id: str,
         event_type: str,
-        route_path: List[str],
+        route_path: list[str],
         success: bool
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit an event routing decision"""
 
         return OrchestrationMatrizAdapter.create_node(
@@ -141,7 +141,7 @@ class OrchestrationMatrizAdapter:
         event_type: str,
         subscribers: int,
         broadcast_latency_ms: int
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Emit a kernel bus broadcast event"""
 
         return OrchestrationMatrizAdapter.create_node(
@@ -163,7 +163,7 @@ class OrchestrationMatrizAdapter:
         )
 
     @staticmethod
-    def validate_node(node: Dict[str, Any]) -> bool:
+    def validate_node(node: dict[str, Any]) -> bool:
         """Validate that a node meets MATRIZ requirements"""
         required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
 
@@ -173,14 +173,10 @@ class OrchestrationMatrizAdapter:
 
         # Check required provenance fields
         required_prov = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
-        for field in required_prov:
-            if field not in node.get("provenance", {}):
-                return False
-
-        return True
+        return all(field in node.get("provenance", {}) for field in required_prov)
 
     @staticmethod
-    def save_node(node: Dict[str, Any], output_dir: Optional[Path] = None) -> Path:
+    def save_node(node: dict[str, Any], output_dir: Optional[Path] = None) -> Path:
         """Save a MATRIZ node to disk for audit"""
         if output_dir is None:
             output_dir = Path("memory/inbox/orchestration")
