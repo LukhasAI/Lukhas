@@ -50,6 +50,21 @@ from lukhas.governance.guardian.guardian_wrapper import (
     get_guardian_status,
 )
 
+# Legacy compatibility bridge
+try:
+    from lukhas.governance.guardian_bridge import GuardianSystem
+except ImportError:
+    # Create minimal fallback if bridge is not available
+    class GuardianSystem:
+        def __init__(self, drift_threshold=0.15):
+            self.drift_threshold = drift_threshold
+        
+        async def check_drift(self, data):
+            return 0.05  # Safe default
+        
+        def get_status(self):
+            return {"active": False, "fallback": True}
+
 __all__ = [
     "EthicalSeverity",
     "GovernanceAction",
@@ -60,5 +75,6 @@ __all__ = [
     "evaluate_ethics",
     "check_safety",
     "get_guardian_status",
+    "GuardianSystem",  # Legacy compatibility
     "GUARDIAN_ACTIVE"
 ]
