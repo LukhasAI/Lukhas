@@ -5,6 +5,7 @@ Connects to real Guardian implementations where available, provides stubs as fal
 
 import warnings
 import asyncio
+import logging
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
