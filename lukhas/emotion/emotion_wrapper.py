@@ -16,6 +16,7 @@ from lukhas.observability.matriz_emit import emit
 
 logger = logging.getLogger(__name__)
 
+
 class EmotionMemoryIntegration:
     """Integration layer between emotion processing and memory systems"""
 
@@ -31,6 +32,7 @@ class EmotionMemoryIntegration:
         try:
             # Try to connect to memory system
             from lukhas.memory import get_memory_wrapper
+
             self._memory_wrapper = get_memory_wrapper()
             self._memory_available = True
             emit({"ntype": "emotion_memory_connected", "state": {"status": "success"}})
@@ -41,18 +43,34 @@ class EmotionMemoryIntegration:
         try:
             # Try to connect to consciousness system
             from lukhas.consciousness import get_consciousness_wrapper
+
             self._consciousness_wrapper = get_consciousness_wrapper()
             self._consciousness_available = True
-            emit({"ntype": "emotion_consciousness_connected", "state": {"status": "success"}})
+            emit(
+                {
+                    "ntype": "emotion_consciousness_connected",
+                    "state": {"status": "success"},
+                }
+            )
         except (ImportError, Exception) as e:
             logger.debug(f"Consciousness integration unavailable: {e}")
-            emit({"ntype": "emotion_consciousness_unavailable", "state": {"error": str(e)}})
+            emit(
+                {
+                    "ntype": "emotion_consciousness_unavailable",
+                    "state": {"error": str(e)},
+                }
+            )
 
     @instrument("emotion_store_memory")
     def store_emotional_memory(self, emotion_data: dict[str, Any]) -> bool:
         """Store emotional experience in memory system"""
         if not self._memory_available:
-            emit({"ntype": "emotion_memory_store_skipped", "state": {"reason": "memory_unavailable"}})
+            emit(
+                {
+                    "ntype": "emotion_memory_store_skipped",
+                    "state": {"reason": "memory_unavailable"},
+                }
+            )
             return False
 
         try:
@@ -64,20 +82,25 @@ class EmotionMemoryIntegration:
                 "dominance": emotion_data.get("dominance", 0.0),
                 "emotion": emotion_data.get("emotion", "neutral"),
                 "context": emotion_data.get("context", {}),
-                "timestamp": emotion_data.get("timestamp")
+                "timestamp": emotion_data.get("timestamp"),
             }
 
             # Store in memory system
             result = self._memory_wrapper.store_memory(
                 content=memory_entry,
                 memory_type="emotional",
-                tags=["emotion", "vad", emotion_data.get("emotion", "neutral")]
+                tags=["emotion", "vad", emotion_data.get("emotion", "neutral")],
             )
 
-            emit({"ntype": "emotion_memory_stored", "state": {
-                "emotion": emotion_data.get("emotion", "neutral"),
-                "success": result.get("success", False)
-            }})
+            emit(
+                {
+                    "ntype": "emotion_memory_stored",
+                    "state": {
+                        "emotion": emotion_data.get("emotion", "neutral"),
+                        "success": result.get("success", False),
+                    },
+                }
+            )
 
             return result.get("success", False)
 
@@ -87,10 +110,17 @@ class EmotionMemoryIntegration:
             return False
 
     @instrument("emotion_recall_patterns")
-    def recall_emotional_patterns(self, emotion_type: Optional[str] = None) -> list[dict[str, Any]]:
+    def recall_emotional_patterns(
+        self, emotion_type: Optional[str] = None
+    ) -> list[dict[str, Any]]:
         """Recall similar emotional patterns from memory"""
         if not self._memory_available:
-            emit({"ntype": "emotion_memory_recall_skipped", "state": {"reason": "memory_unavailable"}})
+            emit(
+                {
+                    "ntype": "emotion_memory_recall_skipped",
+                    "state": {"reason": "memory_unavailable"},
+                }
+            )
             return []
 
         try:
@@ -100,9 +130,7 @@ class EmotionMemoryIntegration:
                 query_tags.append(emotion_type)
 
             memories = self._memory_wrapper.query_memories(
-                tags=query_tags,
-                limit=10,
-                memory_type="emotional"
+                tags=query_tags, limit=10, memory_type="emotional"
             )
 
             patterns = []
@@ -110,10 +138,15 @@ class EmotionMemoryIntegration:
                 if memory.get("content", {}).get("type") == "emotional_experience":
                     patterns.append(memory["content"])
 
-            emit({"ntype": "emotion_patterns_recalled", "state": {
-                "emotion_type": emotion_type,
-                "pattern_count": len(patterns)
-            }})
+            emit(
+                {
+                    "ntype": "emotion_patterns_recalled",
+                    "state": {
+                        "emotion_type": emotion_type,
+                        "pattern_count": len(patterns),
+                    },
+                }
+            )
 
             return patterns
 
@@ -126,7 +159,12 @@ class EmotionMemoryIntegration:
     def sync_with_consciousness(self, emotion_data: dict[str, Any]) -> dict[str, Any]:
         """Sync emotional state with consciousness system"""
         if not self._consciousness_available:
-            emit({"ntype": "emotion_consciousness_sync_skipped", "state": {"reason": "consciousness_unavailable"}})
+            emit(
+                {
+                    "ntype": "emotion_consciousness_sync_skipped",
+                    "state": {"reason": "consciousness_unavailable"},
+                }
+            )
             return {"synced": False, "reason": "consciousness_unavailable"}
 
         try:
@@ -134,26 +172,37 @@ class EmotionMemoryIntegration:
             consciousness_input = {
                 "type": "emotional_update",
                 "emotional_state": emotion_data,
-                "priority": "normal"
+                "priority": "normal",
             }
 
             result = self._consciousness_wrapper.process_awareness(consciousness_input)
 
-            emit({"ntype": "emotion_consciousness_synced", "state": {
-                "emotion": emotion_data.get("emotion", "neutral"),
-                "consciousness_response": result.get("status", "unknown")
-            }})
+            emit(
+                {
+                    "ntype": "emotion_consciousness_synced",
+                    "state": {
+                        "emotion": emotion_data.get("emotion", "neutral"),
+                        "consciousness_response": result.get("status", "unknown"),
+                    },
+                }
+            )
 
             return {
                 "synced": True,
                 "consciousness_response": result,
-                "timestamp": emotion_data.get("timestamp")
+                "timestamp": emotion_data.get("timestamp"),
             }
 
         except Exception as e:
             logger.error(f"Failed to sync with consciousness: {e}")
-            emit({"ntype": "emotion_consciousness_sync_error", "state": {"error": str(e)}})
+            emit(
+                {
+                    "ntype": "emotion_consciousness_sync_error",
+                    "state": {"error": str(e)},
+                }
+            )
             return {"synced": False, "error": str(e)}
+
 
 class AdvancedEmotionWrapper:
     """
@@ -163,6 +212,7 @@ class AdvancedEmotionWrapper:
 
     def __init__(self):
         from lukhas.emotion import EmotionWrapper
+
         self._base_wrapper = EmotionWrapper()
         self._integration = EmotionMemoryIntegration()
         self._initialized = False
@@ -180,7 +230,12 @@ class AdvancedEmotionWrapper:
             self._integration.initialize_integrations()
 
             self._initialized = True
-            emit({"ntype": "advanced_emotion_initialized", "state": {"status": "success"}})
+            emit(
+                {
+                    "ntype": "advanced_emotion_initialized",
+                    "state": {"status": "success"},
+                }
+            )
             return True
 
         except Exception as e:
@@ -217,37 +272,55 @@ class AdvancedEmotionWrapper:
             emotion_result["memory_stored"] = storage_success
 
             # Sync with consciousness
-            consciousness_sync = self._integration.sync_with_consciousness(emotion_result)
+            consciousness_sync = self._integration.sync_with_consciousness(
+                emotion_result
+            )
             emotion_result["consciousness_sync"] = consciousness_sync
 
-            emit({"ntype": "advanced_emotion_processed", "state": {
-                "emotion": current_emotion,
-                "patterns_found": len(patterns),
-                "memory_stored": storage_success,
-                "consciousness_synced": consciousness_sync.get("synced", False)
-            }})
+            emit(
+                {
+                    "ntype": "advanced_emotion_processed",
+                    "state": {
+                        "emotion": current_emotion,
+                        "patterns_found": len(patterns),
+                        "memory_stored": storage_success,
+                        "consciousness_synced": consciousness_sync.get("synced", False),
+                    },
+                }
+            )
 
             return emotion_result
 
         except Exception as e:
             logger.error(f"Advanced emotion processing failed: {e}")
-            emit({"ntype": "advanced_emotion_process_error", "state": {"error": str(e)}})
+            emit(
+                {"ntype": "advanced_emotion_process_error", "state": {"error": str(e)}}
+            )
             return {"error": str(e), "emotion": "neutral"}
 
     @instrument("advanced_mood_regulate")
-    def regulate_mood_with_learning(self, target_state: Optional[str] = None,
-                                   hormone_context: Optional[dict[str, float]] = None) -> dict[str, Any]:
+    def regulate_mood_with_learning(
+        self,
+        target_state: Optional[str] = None,
+        hormone_context: Optional[dict[str, float]] = None,
+    ) -> dict[str, Any]:
         """Regulate mood with learning from past successful regulations"""
         try:
             # Get base mood regulation
-            regulation_result = self._base_wrapper.regulate_mood(target_state, hormone_context)
+            regulation_result = self._base_wrapper.regulate_mood(
+                target_state, hormone_context
+            )
 
             # Recall past successful regulations
             if target_state:
-                past_regulations = self._integration.recall_emotional_patterns(f"regulation_{target_state}")
+                past_regulations = self._integration.recall_emotional_patterns(
+                    f"regulation_{target_state}"
+                )
                 if past_regulations:
                     regulation_result["learned_patterns"] = len(past_regulations)
-                    regulation_result["regulation_confidence"] = min(1.0, len(past_regulations) / 3.0)
+                    regulation_result["regulation_confidence"] = min(
+                        1.0, len(past_regulations) / 3.0
+                    )
 
             # Store regulation experience for future learning
             regulation_memory = {
@@ -255,15 +328,20 @@ class AdvancedEmotionWrapper:
                 "target_state": target_state,
                 "hormone_context": hormone_context or {},
                 "success": regulation_result.get("regulation_applied", False),
-                "result": regulation_result
+                "result": regulation_result,
             }
 
             self._integration.store_emotional_memory(regulation_memory)
 
-            emit({"ntype": "advanced_mood_regulated", "state": {
-                "target_state": target_state,
-                "success": regulation_result.get("regulation_applied", False)
-            }})
+            emit(
+                {
+                    "ntype": "advanced_mood_regulated",
+                    "state": {
+                        "target_state": target_state,
+                        "success": regulation_result.get("regulation_applied", False),
+                    },
+                }
+            )
 
             return regulation_result
 
@@ -283,7 +361,7 @@ class AdvancedEmotionWrapper:
                     "total_experiences": 0,
                     "dominant_emotions": [],
                     "valence_trend": "neutral",
-                    "insights": "Insufficient data for analysis"
+                    "insights": "Insufficient data for analysis",
                 }
 
             # Analyze patterns
@@ -295,7 +373,9 @@ class AdvancedEmotionWrapper:
             for emotion in emotions:
                 emotion_counts[emotion] = emotion_counts.get(emotion, 0) + 1
 
-            dominant_emotions = sorted(emotion_counts.items(), key=lambda x: x[1], reverse=True)[:3]
+            dominant_emotions = sorted(
+                emotion_counts.items(), key=lambda x: x[1], reverse=True
+            )[:3]
 
             # Calculate valence trend
             if len(valences) >= 2:
@@ -313,16 +393,25 @@ class AdvancedEmotionWrapper:
 
             insights = {
                 "total_experiences": len(patterns),
-                "dominant_emotions": [{"emotion": e[0], "count": e[1]} for e in dominant_emotions],
+                "dominant_emotions": [
+                    {"emotion": e[0], "count": e[1]} for e in dominant_emotions
+                ],
                 "valence_trend": valence_trend,
                 "average_valence": sum(valences) / len(valences) if valences else 0.0,
-                "emotional_range": max(valences) - min(valences) if valences else 0.0
+                "emotional_range": max(valences) - min(valences) if valences else 0.0,
             }
 
-            emit({"ntype": "emotional_insights_generated", "state": {
-                "experience_count": len(patterns),
-                "dominant_emotion": dominant_emotions[0][0] if dominant_emotions else "none"
-            }})
+            emit(
+                {
+                    "ntype": "emotional_insights_generated",
+                    "state": {
+                        "experience_count": len(patterns),
+                        "dominant_emotion": (
+                            dominant_emotions[0][0] if dominant_emotions else "none"
+                        ),
+                    },
+                }
+            )
 
             return insights
 
@@ -331,8 +420,10 @@ class AdvancedEmotionWrapper:
             emit({"ntype": "emotional_insights_error", "state": {"error": str(e)}})
             return {"error": str(e)}
 
+
 # Global instance
 _advanced_emotion_wrapper = None
+
 
 def get_advanced_emotion_wrapper() -> AdvancedEmotionWrapper:
     """Get the global advanced emotion wrapper instance"""
@@ -341,9 +432,10 @@ def get_advanced_emotion_wrapper() -> AdvancedEmotionWrapper:
         _advanced_emotion_wrapper = AdvancedEmotionWrapper()
     return _advanced_emotion_wrapper
 
+
 # Export advanced interface
 __all__ = [
     "AdvancedEmotionWrapper",
     "EmotionMemoryIntegration",
-    "get_advanced_emotion_wrapper"
+    "get_advanced_emotion_wrapper",
 ]

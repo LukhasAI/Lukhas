@@ -15,6 +15,7 @@ from typing import Any
 
 class EthicalSeverity(Enum):
     """Severity levels for ethical decisions"""
+
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
@@ -24,6 +25,7 @@ class EthicalSeverity(Enum):
 @dataclass
 class GovernanceAction:
     """Represents an action that requires governance oversight"""
+
     action_type: str
     target: str
     context: dict[str, Any]
@@ -35,6 +37,7 @@ class GovernanceAction:
 @dataclass
 class EthicalDecision:
     """Result of an ethical evaluation"""
+
     allowed: bool
     reason: str
     severity: EthicalSeverity
@@ -46,6 +49,7 @@ class EthicalDecision:
 @dataclass
 class DriftResult:
     """Result of drift detection analysis"""
+
     drift_score: float
     threshold_exceeded: bool
     severity: EthicalSeverity
@@ -56,6 +60,7 @@ class DriftResult:
 @dataclass
 class SafetyResult:
     """Result of safety validation"""
+
     safe: bool
     risk_level: EthicalSeverity
     violations: list[str]

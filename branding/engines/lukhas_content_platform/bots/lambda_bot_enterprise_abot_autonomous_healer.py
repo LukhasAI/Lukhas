@@ -319,7 +319,7 @@ else:
             self.save_healing_log()
 
 if __name__ == "__main__":
-    print("🚨 This will activate LUKHAS AI ΛBot's autonomous self-healing mode!")'
+    print("🚨 This will activate LUKHAS AI ΛBot's autonomous self-healing mode!")
     print("🤖 LUKHAS AI ΛBot will diagnose and fix its own issues with real API access!")
     response = input("Unleash LUKHAS AI ΛBot for autonomous self-healing? (yes/no): ")
 

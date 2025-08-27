@@ -24,14 +24,16 @@ GUARDIAN_SYMBOL = "🛡️"
 
 class AuthenticationLevel(Enum):
     """Authentication security levels aligned with Trinity Framework"""
-    BASIC = "basic"           # ⚛️ Basic identity verification
+
+    BASIC = "basic"  # ⚛️ Basic identity verification
     CONSCIOUSNESS = "consciousness"  # 🧠 Consciousness-aware authentication
-    GUARDIAN = "guardian"     # 🛡️ Full ethical and cultural validation
+    GUARDIAN = "guardian"  # 🛡️ Full ethical and cultural validation
 
 
 @dataclass
 class AuthenticationResult:
     """Unified authentication result with Trinity Framework integration"""
+
     success: bool
     user_id: Optional[str] = None
     auth_level: Optional[AuthenticationLevel] = None
@@ -77,7 +79,7 @@ class LUKHASAuthenticationSystem:
         self._trinity_validators = {
             IDENTITY_SYMBOL: self._validate_identity,
             CONSCIOUSNESS_SYMBOL: self._validate_consciousness,
-            GUARDIAN_SYMBOL: self._validate_guardian
+            GUARDIAN_SYMBOL: self._validate_guardian,
         }
 
     async def initialize(self):
@@ -99,7 +101,9 @@ class LUKHASAuthenticationSystem:
             await self._validate_trinity_framework()
 
             self._initialized = True
-            self.logger.info(f"{IDENTITY_SYMBOL}{CONSCIOUSNESS_SYMBOL}{GUARDIAN_SYMBOL} LUKHAS Authentication System initialized")
+            self.logger.info(
+                f"{IDENTITY_SYMBOL}{CONSCIOUSNESS_SYMBOL}{GUARDIAN_SYMBOL} LUKHAS Authentication System initialized"
+            )
 
         except Exception as e:
             self.logger.error(f"Authentication system initialization failed: {e}")
@@ -108,7 +112,7 @@ class LUKHASAuthenticationSystem:
     async def authenticate(
         self,
         credentials: dict[str, Any],
-        auth_level: AuthenticationLevel = AuthenticationLevel.CONSCIOUSNESS
+        auth_level: AuthenticationLevel = AuthenticationLevel.CONSCIOUSNESS,
     ) -> AuthenticationResult:
         """
         Unified authentication with Trinity Framework validation
@@ -134,10 +138,17 @@ class LUKHASAuthenticationSystem:
                 return result
 
             # Phase 2: Consciousness authentication 🧠
-            if auth_level in [AuthenticationLevel.CONSCIOUSNESS, AuthenticationLevel.GUARDIAN]:
-                consciousness_result = await self._authenticate_consciousness(credentials)
-                result.consciousness_score = consciousness_result.get('score', 0.0)
-                result.trinity_validation[CONSCIOUSNESS_SYMBOL] = consciousness_result.get('valid', False)
+            if auth_level in [
+                AuthenticationLevel.CONSCIOUSNESS,
+                AuthenticationLevel.GUARDIAN,
+            ]:
+                consciousness_result = await self._authenticate_consciousness(
+                    credentials
+                )
+                result.consciousness_score = consciousness_result.get("score", 0.0)
+                result.trinity_validation[CONSCIOUSNESS_SYMBOL] = (
+                    consciousness_result.get("valid", False)
+                )
 
                 if not result.trinity_validation[CONSCIOUSNESS_SYMBOL]:
                     return result
@@ -145,9 +156,13 @@ class LUKHASAuthenticationSystem:
             # Phase 3: Guardian ethical validation 🛡️
             if auth_level == AuthenticationLevel.GUARDIAN:
                 guardian_result = await self._validate_guardian(credentials)
-                result.cultural_safety_score = guardian_result.get('safety_score', 0.0)
-                result.ethical_compliance = guardian_result.get('ethical_compliance', False)
-                result.trinity_validation[GUARDIAN_SYMBOL] = guardian_result.get('valid', False)
+                result.cultural_safety_score = guardian_result.get("safety_score", 0.0)
+                result.ethical_compliance = guardian_result.get(
+                    "ethical_compliance", False
+                )
+                result.trinity_validation[GUARDIAN_SYMBOL] = guardian_result.get(
+                    "valid", False
+                )
 
                 if not result.trinity_validation[GUARDIAN_SYMBOL]:
                     return result
@@ -155,23 +170,23 @@ class LUKHASAuthenticationSystem:
             # Phase 4: WALLET integration
             if self._wallet_bridge:
                 wallet_result = await self._wallet_bridge.authenticate(credentials)
-                result.wallet_connected = wallet_result.get('connected', False)
+                result.wallet_connected = wallet_result.get("connected", False)
 
             # Phase 5: QRG integration
             if self._qrg_bridge:
                 qrg_result = await self._qrg_bridge.verify(credentials)
-                result.qrg_verified = qrg_result.get('verified', False)
+                result.qrg_verified = qrg_result.get("verified", False)
 
             # Final validation
             result.success = self._validate_final_result(result, auth_level)
             result.auth_level = auth_level if result.success else None
-            result.user_id = credentials.get('user_id') if result.success else None
+            result.user_id = credentials.get("user_id") if result.success else None
 
             return result
 
         except Exception as e:
             self.logger.error(f"Authentication failed: {e}")
-            result.metadata = {'error': str(e)}
+            result.metadata = {"error": str(e)}
             return result
 
     async def _load_consciousness_components(self):
@@ -198,30 +213,41 @@ class LUKHASAuthenticationSystem:
         """⚛️ Identity validation with authentic consciousness characteristics"""
         return True  # Placeholder
 
-    async def _authenticate_consciousness(self, credentials: dict[str, Any]) -> dict[str, Any]:
+    async def _authenticate_consciousness(
+        self, credentials: dict[str, Any]
+    ) -> dict[str, Any]:
         """🧠 Consciousness-aware authentication with QI visualization"""
-        return {'valid': True, 'score': 0.95}  # Placeholder
+        return {"valid": True, "score": 0.95}  # Placeholder
 
     async def _validate_guardian(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """🛡️ Guardian ethical and cultural validation"""
-        return {'valid': True, 'safety_score': 0.98, 'ethical_compliance': True}  # Placeholder
+        return {
+            "valid": True,
+            "safety_score": 0.98,
+            "ethical_compliance": True,
+        }  # Placeholder
 
-    def _validate_final_result(self, result: AuthenticationResult, auth_level: AuthenticationLevel) -> bool:
+    def _validate_final_result(
+        self, result: AuthenticationResult, auth_level: AuthenticationLevel
+    ) -> bool:
         """Validate final authentication result"""
         trinity_valid = result.trinity_validation or {}
 
         if auth_level == AuthenticationLevel.BASIC:
             return trinity_valid.get(IDENTITY_SYMBOL, False)
         elif auth_level == AuthenticationLevel.CONSCIOUSNESS:
-            return (trinity_valid.get(IDENTITY_SYMBOL, False) and
-                   trinity_valid.get(CONSCIOUSNESS_SYMBOL, False))
+            return trinity_valid.get(IDENTITY_SYMBOL, False) and trinity_valid.get(
+                CONSCIOUSNESS_SYMBOL, False
+            )
         elif auth_level == AuthenticationLevel.GUARDIAN:
             return all(trinity_valid.values())
 
         return False
 
+
 # Global authentication system instance
 _auth_system = None
+
 
 async def get_auth_system() -> LUKHASAuthenticationSystem:
     """Get the global authentication system instance"""
@@ -231,20 +257,25 @@ async def get_auth_system() -> LUKHASAuthenticationSystem:
         await _auth_system.initialize()
     return _auth_system
 
+
 # Convenience functions
-async def authenticate(credentials: dict[str, Any], auth_level: AuthenticationLevel = AuthenticationLevel.CONSCIOUSNESS) -> AuthenticationResult:
+async def authenticate(
+    credentials: dict[str, Any],
+    auth_level: AuthenticationLevel = AuthenticationLevel.CONSCIOUSNESS,
+) -> AuthenticationResult:
     """Convenience function for authentication"""
     auth_system = await get_auth_system()
     return await auth_system.authenticate(credentials, auth_level)
 
+
 # Export key components
 __all__ = [
-    'LUKHASAuthenticationSystem',
-    'AuthenticationResult',
-    'AuthenticationLevel',
-    'get_auth_system',
-    'authenticate',
-    'IDENTITY_SYMBOL',
-    'CONSCIOUSNESS_SYMBOL',
-    'GUARDIAN_SYMBOL'
+    "LUKHASAuthenticationSystem",
+    "AuthenticationResult",
+    "AuthenticationLevel",
+    "get_auth_system",
+    "authenticate",
+    "IDENTITY_SYMBOL",
+    "CONSCIOUSNESS_SYMBOL",
+    "GUARDIAN_SYMBOL",
 ]

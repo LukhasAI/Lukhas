@@ -27,17 +27,21 @@ from typing import Any, Optional, Protocol
 
 try:
     from ..observability.matriz_decorators import matriz_trace
+
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
     # Fallback decorators for development
     def matriz_trace(operation: str):
         def decorator(func):
             return func
+
         return decorator
+
     OBSERVABILITY_AVAILABLE = False
 
 try:
     from ..governance.guardian.core import EthicalDecision, EthicalSeverity
+
     GUARDIAN_AVAILABLE = True
 except ImportError:
     # Fallback classes for development
@@ -63,6 +67,7 @@ except ImportError:
 
 try:
     from ..memory.memory_wrapper import MemoryWrapper
+
     MEMORY_AVAILABLE = True
 except ImportError:
     MEMORY_AVAILABLE = False
@@ -78,15 +83,19 @@ CREATIVITY_ACTIVE = os.getenv("CREATIVITY_ACTIVE", "false").lower() == "true"
 DREAM_ACTIVE = os.getenv("DREAM_ACTIVE", "false").lower() == "true"
 REASONING_ACTIVE = os.getenv("REASONING_ACTIVE", "false").lower() == "true"
 
+
 # Protocol for consciousness system implementations
 class ConsciousnessSystem(Protocol):
     """Protocol for consciousness system implementations"""
+
     def process_awareness(self, stimulus: dict[str, Any]) -> dict[str, Any]: ...
     def reflect(self, thought: str) -> dict[str, Any]: ...
     def dream(self, seed: Any) -> dict[str, Any]: ...
 
+
 # Registry for consciousness implementations
 _CONSCIOUSNESS_REGISTRY: dict[str, ConsciousnessSystem] = {}
+
 
 def register_consciousness_system(name: str, impl: ConsciousnessSystem) -> None:
     """Register a consciousness system implementation"""
@@ -95,22 +104,25 @@ def register_consciousness_system(name: str, impl: ConsciousnessSystem) -> None:
 
 class SafetyMode(Enum):
     """Safety operation modes"""
-    DRY_RUN = "dry_run"          # No actual processing, return mock responses
-    MONITORED = "monitored"       # Real processing with full monitoring
-    PRODUCTION = "production"     # Optimized for performance
+
+    DRY_RUN = "dry_run"  # No actual processing, return mock responses
+    MONITORED = "monitored"  # Real processing with full monitoring
+    PRODUCTION = "production"  # Optimized for performance
 
 
 class AwarenessLevel(Enum):
     """Consciousness awareness levels"""
-    MINIMAL = "minimal"           # Basic awareness only
-    STANDARD = "standard"         # Standard consciousness processing
-    ENHANCED = "enhanced"         # Full consciousness capabilities
-    TRANSCENDENT = "transcendent" # Maximum awareness (Tier 5)
+
+    MINIMAL = "minimal"  # Basic awareness only
+    STANDARD = "standard"  # Standard consciousness processing
+    ENHANCED = "enhanced"  # Full consciousness capabilities
+    TRANSCENDENT = "transcendent"  # Maximum awareness (Tier 5)
 
 
 @dataclass
 class ConsciousnessConfig:
     """Configuration for consciousness operations"""
+
     safety_mode: SafetyMode = SafetyMode.DRY_RUN
     awareness_level: AwarenessLevel = AwarenessLevel.MINIMAL
     drift_threshold: float = 0.15
@@ -125,6 +137,7 @@ class ConsciousnessConfig:
 @dataclass
 class ConsciousnessState:
     """Current consciousness state snapshot"""
+
     awareness_level: float = 0.5
     self_knowledge: float = 0.5
     ethical_alignment: float = 0.9
@@ -163,7 +176,9 @@ class ConsciousnessWrapper:
         self.candidate_system = _CONSCIOUSNESS_REGISTRY.get("default")
 
     @matriz_trace("consciousness.check_awareness")
-    async def check_awareness(self, stimulus: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
+    async def check_awareness(
+        self, stimulus: dict[str, Any], mode: str = "dry_run"
+    ) -> dict[str, Any]:
         """
         Check awareness level for given stimulus
 
@@ -183,9 +198,13 @@ class ConsciousnessWrapper:
         try:
             # Guardian validation if enabled
             if self.config.enable_ethics_validation:
-                ethical_decision = await self._validate_ethics("awareness_check", stimulus)
+                ethical_decision = await self._validate_ethics(
+                    "awareness_check", stimulus
+                )
                 if not ethical_decision.allowed:
-                    return self._blocked_response("awareness_check", ethical_decision.reason)
+                    return self._blocked_response(
+                        "awareness_check", ethical_decision.reason
+                    )
 
             # Performance monitoring
             if self.candidate_system and AWARENESS_ACTIVE:
@@ -196,7 +215,7 @@ class ConsciousnessWrapper:
                     "mode": mode,
                     "performance_ms": (time.time() - start_time) * 1000,
                     "trinity_compliance": True,
-                    "drift_score": self.state.drift_score
+                    "drift_score": self.state.drift_score,
                 }
 
                 # Update performance tracking
@@ -210,7 +229,9 @@ class ConsciousnessWrapper:
             return self._error_response("awareness_check", str(e))
 
     @matriz_trace("consciousness.initiate_reflection")
-    async def initiate_reflection(self, context: dict[str, Any], mode: str = "dry_run") -> dict[str, Any]:
+    async def initiate_reflection(
+        self, context: dict[str, Any], mode: str = "dry_run"
+    ) -> dict[str, Any]:
         """
         Initiate consciousness reflection process
 
@@ -250,8 +271,8 @@ class ConsciousnessWrapper:
                         "mode": mode,
                         "performance_ms": (time.time() - start_time) * 1000,
                         "ethics_validated": True,
-                        "drift_checked": True
-                    }
+                        "drift_checked": True,
+                    },
                 }
                 return result
             else:
@@ -261,7 +282,9 @@ class ConsciousnessWrapper:
             return self._error_response("reflection", str(e))
 
     @matriz_trace("consciousness.make_decision")
-    async def make_conscious_decision(self, options: list[dict[str, Any]], mode: str = "dry_run") -> dict[str, Any]:
+    async def make_conscious_decision(
+        self, options: list[dict[str, Any]], mode: str = "dry_run"
+    ) -> dict[str, Any]:
         """
         Make consciousness-informed decision
 
@@ -281,9 +304,13 @@ class ConsciousnessWrapper:
             # Validate decision ethics
             decision_context = {"options": options, "decision_type": "conscious_choice"}
             if self.config.enable_ethics_validation:
-                ethical_decision = await self._validate_ethics("decision_making", decision_context)
+                ethical_decision = await self._validate_ethics(
+                    "decision_making", decision_context
+                )
                 if not ethical_decision.allowed:
-                    return self._blocked_response("decision_making", ethical_decision.reason)
+                    return self._blocked_response(
+                        "decision_making", ethical_decision.reason
+                    )
 
             # Simple decision logic for production safety
             if options:
@@ -299,8 +326,8 @@ class ConsciousnessWrapper:
                         "mode": mode,
                         "performance_ms": (time.time() - start_time) * 1000,
                         "options_evaluated": len(options),
-                        "ethics_validated": True
-                    }
+                        "ethics_validated": True,
+                    },
                 }
                 return result
             else:
@@ -331,7 +358,7 @@ class ConsciousnessWrapper:
                 "last_update": self.state.last_update.isoformat(),
                 "safety_mode": self.state.safety_mode.value,
                 "performance_ms": self.state.performance_ms,
-                "drift_score": self.state.drift_score
+                "drift_score": self.state.drift_score,
             },
             "feature_flags": {
                 "consciousness_active": CONSCIOUSNESS_ACTIVE,
@@ -341,19 +368,19 @@ class ConsciousnessWrapper:
                 "states_active": STATES_ACTIVE,
                 "creativity_active": CREATIVITY_ACTIVE,
                 "dream_active": DREAM_ACTIVE,
-                "reasoning_active": REASONING_ACTIVE
+                "reasoning_active": REASONING_ACTIVE,
             },
             "trinity_framework": {
-                "identity": True,      # ⚛️ Identity integration
-                "consciousness": True, # 🧠 Consciousness processing
-                "guardian": True       # 🛡️ Guardian protection
+                "identity": True,  # ⚛️ Identity integration
+                "consciousness": True,  # 🧠 Consciousness processing
+                "guardian": True,  # 🛡️ Guardian protection
             },
             "safety_metadata": {
                 "mode": mode,
                 "session_id": self.session_id,
                 "candidate_system_loaded": self.candidate_system is not None,
-                "observability_available": OBSERVABILITY_AVAILABLE
-            }
+                "observability_available": OBSERVABILITY_AVAILABLE,
+            },
         }
 
     # Safety and fallback methods
@@ -368,8 +395,8 @@ class ConsciousnessWrapper:
                 "mode": "dry_run",
                 "performance_ms": 1.0,
                 "mock_response": True,
-                "stimulus_keys": list(stimulus.keys()) if stimulus else []
-            }
+                "stimulus_keys": list(stimulus.keys()) if stimulus else [],
+            },
         }
 
     def _dry_run_reflection_response(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -382,11 +409,13 @@ class ConsciousnessWrapper:
                 "mode": "dry_run",
                 "performance_ms": 2.0,
                 "mock_response": True,
-                "context_keys": list(context.keys()) if context else []
-            }
+                "context_keys": list(context.keys()) if context else [],
+            },
         }
 
-    def _dry_run_decision_response(self, options: list[dict[str, Any]]) -> dict[str, Any]:
+    def _dry_run_decision_response(
+        self, options: list[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Safe mock response for decisions"""
         return {
             "chosen_option": options[0] if options else {},
@@ -396,8 +425,8 @@ class ConsciousnessWrapper:
                 "mode": "dry_run",
                 "performance_ms": 1.5,
                 "mock_response": True,
-                "options_count": len(options)
-            }
+                "options_count": len(options),
+            },
         }
 
     def _fallback_awareness_response(self, stimulus: dict[str, Any]) -> dict[str, Any]:
@@ -409,8 +438,8 @@ class ConsciousnessWrapper:
             "safety_metadata": {
                 "mode": "fallback",
                 "performance_ms": 0.5,
-                "candidate_system_available": False
-            }
+                "candidate_system_available": False,
+            },
         }
 
     def _fallback_reflection_response(self, context: dict[str, Any]) -> dict[str, Any]:
@@ -421,8 +450,8 @@ class ConsciousnessWrapper:
             "safety_metadata": {
                 "mode": "fallback",
                 "performance_ms": 0.5,
-                "full_reflection_available": False
-            }
+                "full_reflection_available": False,
+            },
         }
 
     def _blocked_response(self, operation: str, reason: str) -> dict[str, Any]:
@@ -433,8 +462,8 @@ class ConsciousnessWrapper:
             "reason": reason,
             "safety_metadata": {
                 "guardian_blocked": True,
-                "ethical_validation": "failed"
-            }
+                "ethical_validation": "failed",
+            },
         }
 
     def _drift_blocked_response(self, drift_score: float) -> dict[str, Any]:
@@ -446,8 +475,8 @@ class ConsciousnessWrapper:
             "threshold": self.config.drift_threshold,
             "safety_metadata": {
                 "drift_blocked": True,
-                "safety_threshold_enforced": True
-            }
+                "safety_threshold_enforced": True,
+            },
         }
 
     def _error_response(self, operation: str, error: str) -> dict[str, Any]:
@@ -456,13 +485,12 @@ class ConsciousnessWrapper:
             "status": "error",
             "operation": operation,
             "error": error,
-            "safety_metadata": {
-                "error_handled": True,
-                "graceful_degradation": True
-            }
+            "safety_metadata": {"error_handled": True, "graceful_degradation": True},
         }
 
-    async def _validate_ethics(self, action_type: str, context: dict[str, Any]) -> EthicalDecision:
+    async def _validate_ethics(
+        self, action_type: str, context: dict[str, Any]
+    ) -> EthicalDecision:
         """Validate action against ethical principles"""
         # Simplified ethics validation for production safety
         # In full implementation, would integrate with Guardian system
@@ -473,14 +501,14 @@ class ConsciousnessWrapper:
                 allowed=False,
                 reason="Potentially harmful content detected",
                 severity=EthicalSeverity.HIGH,
-                confidence=0.8
+                confidence=0.8,
             )
 
         return EthicalDecision(
             allowed=True,
             reason="Action approved by basic ethics validation",
             severity=EthicalSeverity.LOW,
-            confidence=0.7
+            confidence=0.7,
         )
 
     async def _detect_drift(self, context: dict[str, Any]) -> float:

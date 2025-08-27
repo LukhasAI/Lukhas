@@ -6,9 +6,11 @@ from lukhas.observability.matriz_decorators import instrument
 
 FEATURE = os.getenv("FEATURE_ORCHESTRATION_HANDOFF", "false").lower() == "true"
 
+
 def _rate_limit_ok() -> bool:
     # Minimal placeholder; expand later
     return True
+
 
 @instrument("CONTEXT", label="orchestration:handoff", salience=0.4, urgency=0.7)
 def handoff_context(ctx: dict[str, Any]) -> dict[str, Any]:
@@ -27,5 +29,5 @@ def handoff_context(ctx: dict[str, Any]) -> dict[str, Any]:
         "ok": True,
         "mode": "dryrun" if not FEATURE else "feature",
         "latency_ms": int((t1 - t0) * 1000),
-        "context_size": len(str(ctx)) if ctx else 0
+        "context_size": len(str(ctx)) if ctx else 0,
     }

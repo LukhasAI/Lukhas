@@ -120,7 +120,7 @@ class MemoryCodon:
     def from_memory_fragment(fragment: str, position: int) -> "MemoryCodon":
         """Convert memory fragment to codon"""
         # Hash fragment to get consistent "amino acid"
-        hash_val = hashlib.sha256(  # Changed from MD5 for securityf"{fragment}:{position}".encode()).hexdigest()
+        hash_val = hashlib.sha256(f"{fragment}:{position}".encode()).hexdigest()  # Changed from MD5 for security
         amino_acid = hash_val[:3]  # 3-letter code like real amino acids
 
         return MemoryCodon(

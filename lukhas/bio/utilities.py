@@ -37,7 +37,9 @@ class BioUtilities:
         return base_cost * complexity_factor * duration
 
     @staticmethod
-    def apply_homeostasis(current_value: float, target_value: float, rate: float = 0.1) -> float:
+    def apply_homeostasis(
+        current_value: float, target_value: float, rate: float = 0.1
+    ) -> float:
         """
         Apply homeostatic regulation to gradually move towards target value.
 
@@ -54,7 +56,9 @@ class BioUtilities:
         return current_value + adjustment
 
     @staticmethod
-    def calculate_adaptation_rate(stress_level: float, resilience: float = 0.5) -> float:
+    def calculate_adaptation_rate(
+        stress_level: float, resilience: float = 0.5
+    ) -> float:
         """
         Calculate adaptation rate based on stress and resilience.
 
@@ -93,7 +97,7 @@ class BioUtilities:
                     pos = random.randint(0, len(value) - 1)
                     chars = list(value)
                     chars[pos] = chr((ord(chars[pos]) + 1) % 128)
-                    return ''.join(chars)
+                    return "".join(chars)
             elif isinstance(value, list):
                 # List mutation (swap two elements)
                 if len(value) > 1:
@@ -105,7 +109,9 @@ class BioUtilities:
         return value
 
     @staticmethod
-    def calculate_fitness(performance: float, efficiency: float, adaptability: float) -> float:
+    def calculate_fitness(
+        performance: float, efficiency: float, adaptability: float
+    ) -> float:
         """
         Calculate overall fitness score for evolutionary selection.
 
@@ -118,16 +124,12 @@ class BioUtilities:
             Overall fitness score
         """
         # Weighted combination with emphasis on performance
-        weights = {
-            'performance': 0.5,
-            'efficiency': 0.3,
-            'adaptability': 0.2
-        }
+        weights = {"performance": 0.5, "efficiency": 0.3, "adaptability": 0.2}
 
         fitness = (
-            performance * weights['performance'] +
-            efficiency * weights['efficiency'] +
-            adaptability * weights['adaptability']
+            performance * weights["performance"]
+            + efficiency * weights["efficiency"]
+            + adaptability * weights["adaptability"]
         )
 
         return min(1.0, max(0.0, fitness))
@@ -145,12 +147,14 @@ class BioUtilities:
             Modulated value following circadian pattern
         """
         # Peak at 0.5 (midday), trough at 0.0/1.0 (midnight)
-        rhythm = math.sin(2 * math.pi * time_of_day - math.pi/2) * 0.5 + 0.5
+        rhythm = math.sin(2 * math.pi * time_of_day - math.pi / 2) * 0.5 + 0.5
         modulation = 0.7 + (0.3 * rhythm)  # 70% to 100% range
         return base_value * modulation
 
     @staticmethod
-    def calculate_swarm_consensus(opinions: list[float], influence_weights: Optional[list[float]] = None) -> float:
+    def calculate_swarm_consensus(
+        opinions: list[float], influence_weights: Optional[list[float]] = None
+    ) -> float:
         """
         Calculate swarm consensus from multiple opinions.
 
@@ -177,7 +181,9 @@ class BioUtilities:
         return sum(opinions) / len(opinions)
 
     @staticmethod
-    def generate_growth_pattern(current_size: float, growth_rate: float, carrying_capacity: float) -> float:
+    def generate_growth_pattern(
+        current_size: float, growth_rate: float, carrying_capacity: float
+    ) -> float:
         """
         Generate growth following logistic growth pattern (S-curve).
 
@@ -198,9 +204,7 @@ class BioUtilities:
 
     @staticmethod
     def calculate_symbiosis_benefit(
-        entity1_strength: float,
-        entity2_strength: float,
-        compatibility: float = 0.5
+        entity1_strength: float, entity2_strength: float, compatibility: float = 0.5
     ) -> tuple[float, float]:
         """
         Calculate mutual benefit from symbiotic relationship.
@@ -229,7 +233,9 @@ def calculate_bio_energy(complexity: float, duration: float = 1.0) -> float:
     return BioUtilities.calculate_energy_cost(complexity, duration)
 
 
-def apply_evolution(population: list[Any], fitness_func: callable, mutation_rate: float = 0.01) -> list[Any]:
+def apply_evolution(
+    population: list[Any], fitness_func: callable, mutation_rate: float = 0.01
+) -> list[Any]:
     """
     Apply evolutionary selection and mutation to a population.
 
@@ -248,8 +254,10 @@ def apply_evolution(population: list[Any], fitness_func: callable, mutation_rate
     fitness_scores = [fitness_func(individual) for individual in population]
 
     # Select top performers (natural selection)
-    sorted_pop = sorted(zip(fitness_scores, population), key=lambda x: x[0], reverse=True)
-    survivors = [ind for _, ind in sorted_pop[:len(population)//2]]
+    sorted_pop = sorted(
+        zip(fitness_scores, population), key=lambda x: x[0], reverse=True
+    )
+    survivors = [ind for _, ind in sorted_pop[: len(population) // 2]]
 
     # Create next generation
     next_generation = survivors.copy()
@@ -259,12 +267,8 @@ def apply_evolution(population: list[Any], fitness_func: callable, mutation_rate
         offspring = BioUtilities.apply_mutation(survivor, mutation_rate)
         next_generation.append(offspring)
 
-    return next_generation[:len(population)]
+    return next_generation[: len(population)]
 
 
 # Export public interface
-__all__ = [
-    "BioUtilities",
-    "calculate_bio_energy",
-    "apply_evolution"
-]
+__all__ = ["BioUtilities", "calculate_bio_energy", "apply_evolution"]

@@ -83,8 +83,8 @@ def review(pr_number: int, auto_merge: bool, consciousness_level: str):
 
     async def run_review():
         try:
-            from LUKHAS AI ΛBot.specialists.ABotPRReviewer import ABotPRReviewer
-            from LUKHAS AI ΛBot.specialists.ABotDocumentationHub import ABotDocumentationHub
+            from lukhas_ai_lambda_bot.specialists.ABotPRReviewer import ABotPRReviewer
+            from lukhas_ai_lambda_bot.specialists.ABotDocumentationHub import ABotDocumentationHub
 
             # Use documentation hub for comprehensive review
             hub = ABotDocumentationHub()

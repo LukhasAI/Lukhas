@@ -27,14 +27,16 @@ class EmotionalMemoryManager:
         self.emotional_threshold = 0.5  # Threshold for emotional significance
 
         logger.info("EmotionalMemoryManager initialized")
-        logger.info(f"Max folds: {self.max_folds}, Emotional threshold: {self.emotional_threshold}")
+        logger.info(
+            f"Max folds: {self.max_folds}, Emotional threshold: {self.emotional_threshold}"
+        )
 
     def store_emotional_memory(
         self,
         content: Any,
         emotion_type: str,
         intensity: float,
-        context: Optional[dict] = None
+        context: Optional[dict] = None,
     ) -> str:
         """
         Store an emotional memory.
@@ -58,7 +60,7 @@ class EmotionalMemoryManager:
             "intensity": intensity,
             "context": context or {},
             "accessed_count": 0,
-            "decay_rate": 0.01  # How fast the memory fades
+            "decay_rate": 0.01,  # How fast the memory fades
         }
 
         self.emotional_memories.append(memory)
@@ -72,7 +74,9 @@ class EmotionalMemoryManager:
         if intensity >= self.emotional_threshold:
             self._create_memory_fold(memory)
 
-        logger.debug(f"Stored emotional memory: {memory_id} ({emotion_type}, intensity: {intensity})")
+        logger.debug(
+            f"Stored emotional memory: {memory_id} ({emotion_type}, intensity: {intensity})"
+        )
 
         return memory_id
 
@@ -123,7 +127,11 @@ class EmotionalMemoryManager:
         Returns:
             Dictionary of emotion types and their average intensities
         """
-        recent_memories = self.emotional_memories[-window_size:] if len(self.emotional_memories) > window_size else self.emotional_memories
+        recent_memories = (
+            self.emotional_memories[-window_size:]
+            if len(self.emotional_memories) > window_size
+            else self.emotional_memories
+        )
 
         emotional_state = {}
         emotion_counts = {}
@@ -163,7 +171,7 @@ class EmotionalMemoryManager:
             "emotion_type": memory["emotion_type"],
             "intensity": memory["intensity"],
             "fold_index": len(self.memory_folds),
-            "causal_links": []  # Links to other related memories
+            "causal_links": [],  # Links to other related memories
         }
 
         # Find causal links to recent memories with similar emotions
@@ -172,7 +180,9 @@ class EmotionalMemoryManager:
                 fold["causal_links"].append(recent_fold["memory_id"])
 
         self.memory_folds.append(fold)
-        logger.debug(f"Created memory fold {fold['fold_index']} for memory {memory['id']}")
+        logger.debug(
+            f"Created memory fold {fold['fold_index']} for memory {memory['id']}"
+        )
 
     def consolidate_memories(self, time_window: float = 86400.0) -> dict[str, Any]:
         """
@@ -189,7 +199,7 @@ class EmotionalMemoryManager:
             "patterns": {},
             "dominant_emotions": [],
             "memory_count": 0,
-            "fold_count": len(self.memory_folds)
+            "fold_count": len(self.memory_folds),
         }
 
         for memory in self.emotional_memories:
@@ -203,29 +213,37 @@ class EmotionalMemoryManager:
                     consolidated["patterns"][emotion] = {
                         "count": 0,
                         "total_intensity": 0,
-                        "peak_intensity": 0
+                        "peak_intensity": 0,
                     }
 
                 pattern = consolidated["patterns"][emotion]
                 pattern["count"] += 1
                 pattern["total_intensity"] += memory["intensity"]
-                pattern["peak_intensity"] = max(pattern["peak_intensity"], memory["intensity"])
+                pattern["peak_intensity"] = max(
+                    pattern["peak_intensity"], memory["intensity"]
+                )
 
                 consolidated["memory_count"] += 1
 
         # Calculate averages and find dominant emotions
         for emotion, pattern in consolidated["patterns"].items():
             if pattern["count"] > 0:
-                pattern["average_intensity"] = pattern["total_intensity"] / pattern["count"]
+                pattern["average_intensity"] = (
+                    pattern["total_intensity"] / pattern["count"]
+                )
 
-                consolidated["dominant_emotions"].append({
-                    "emotion": emotion,
-                    "strength": pattern["average_intensity"],
-                    "frequency": pattern["count"]
-                })
+                consolidated["dominant_emotions"].append(
+                    {
+                        "emotion": emotion,
+                        "strength": pattern["average_intensity"],
+                        "frequency": pattern["count"],
+                    }
+                )
 
         # Sort by strength
-        consolidated["dominant_emotions"].sort(key=lambda x: x["strength"], reverse=True)
+        consolidated["dominant_emotions"].sort(
+            key=lambda x: x["strength"], reverse=True
+        )
 
         return consolidated
 
@@ -264,7 +282,9 @@ def get_emotional_memory_manager() -> EmotionalMemoryManager:
 
 
 # Convenience functions
-def store_emotion(content: Any, emotion: str, intensity: float, context: Optional[dict] = None) -> str:
+def store_emotion(
+    content: Any, emotion: str, intensity: float, context: Optional[dict] = None
+) -> str:
     """Store an emotional memory."""
     manager = get_emotional_memory_manager()
     return manager.store_emotional_memory(content, emotion, intensity, context)
@@ -281,5 +301,5 @@ __all__ = [
     "EmotionalMemoryManager",
     "get_emotional_memory_manager",
     "store_emotion",
-    "get_emotional_state"
+    "get_emotional_state",
 ]

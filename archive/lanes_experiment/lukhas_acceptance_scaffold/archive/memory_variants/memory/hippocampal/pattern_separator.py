@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-══════════════════════════════════════════════════════════════════════════════════
+══════════════════════════════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - PATTERN SEPARATOR
 ║ Dentate gyrus-inspired pattern separation for distinct memory encoding
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
@@ -14,9 +14,12 @@
 
 import hashlib
 import json
+import logging
 from typing import Any
 
 import numpy as np
+
+logger = logging.getLogger(__name__)
 
 
 class PatternSeparator:
@@ -175,7 +178,7 @@ class PatternSeparator:
                 ngram = content_str[i : i + n]
 
                 # Hash to get index and value
-                hash_obj = hashlib.sha256(  # Changed from MD5 for securityngram.encode())
+                hash_obj = hashlib.sha256(ngram.encode())  # Changed from MD5 for security
                 hash_bytes = hash_obj.digest()
 
                 # Use first 4 bytes for index

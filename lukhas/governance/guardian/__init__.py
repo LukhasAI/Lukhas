@@ -26,6 +26,7 @@ _guardian_system = None
 if GUARDIAN_ACTIVE:
     try:
         from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
+
         _guardian_system = GuardianSystemImpl()
     except ImportError:
         pass
@@ -62,6 +63,7 @@ except ImportError:
         def get_status(self):
             return {"active": False, "fallback": True}
 
+
 __all__ = [
     "EthicalSeverity",
     "GovernanceAction",
@@ -73,5 +75,5 @@ __all__ = [
     "check_safety",
     "get_guardian_status",
     "GuardianSystem",  # Legacy compatibility
-    "GUARDIAN_ACTIVE"
+    "GUARDIAN_ACTIVE",
 ]

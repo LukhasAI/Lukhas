@@ -6,10 +6,6 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from .vivox_wrapper import ConsciousnessLevel, VivoxConfig, VivoxWrapper
 
-__all__ = [
-    "VivoxWrapper",
-    "VivoxConfig",
-    "ConsciousnessLevel"
-]
+__all__ = ["VivoxWrapper", "VivoxConfig", "ConsciousnessLevel"]
 
 __version__ = "1.0.0"

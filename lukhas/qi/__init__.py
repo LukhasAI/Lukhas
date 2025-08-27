@@ -56,7 +56,9 @@ from typing import Any, Optional
 # Module metadata
 __version__ = "1.0.0"
 __author__ = "LUKHAS AI"
-__description__ = "Quantum-inspired and bio-inspired AI processing with constitutional safety"
+__description__ = (
+    "Quantum-inspired and bio-inspired AI processing with constitutional safety"
+)
 
 # Feature flags
 QI_ACTIVE = os.getenv("QI_ACTIVE", "false").lower() == "true"
@@ -93,30 +95,34 @@ except ImportError as e:
             self._initialized = True
             return True
 
-        def process_with_constitutional_safety(self, input_data: dict[str, Any]) -> dict[str, Any]:
+        def process_with_constitutional_safety(
+            self, input_data: dict[str, Any]
+        ) -> dict[str, Any]:
             return {
                 "processed": False,
                 "fallback": True,
                 "message": "QI wrapper not fully available",
-                "dry_run": True
+                "dry_run": True,
             }
 
-        def make_quantum_decision(self, options: list[Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+        def make_quantum_decision(
+            self, options: list[Any], context: Optional[dict[str, Any]] = None
+        ) -> dict[str, Any]:
             # Simple fallback decision
             import random
-            decision = random.choice(options) if options else None
-            return {
-                "decision": decision,
-                "fallback": True,
-                "method": "random_fallback"
-            }
 
-        def adapt_bio_inspired(self, system_metrics: dict[str, float],
-                              target_state: Optional[dict[str, float]] = None) -> dict[str, Any]:
+            decision = random.choice(options) if options else None
+            return {"decision": decision, "fallback": True, "method": "random_fallback"}
+
+        def adapt_bio_inspired(
+            self,
+            system_metrics: dict[str, float],
+            target_state: Optional[dict[str, float]] = None,
+        ) -> dict[str, Any]:
             return {
                 "adapted": False,
                 "fallback": True,
-                "message": "Bio-inspired adaptation not available"
+                "message": "Bio-inspired adaptation not available",
             }
 
         def get_qi_status(self) -> dict[str, Any]:
@@ -125,15 +131,17 @@ except ImportError as e:
                 "fallback": True,
                 "active": False,
                 "features": {},
-                "message": "Fallback QI wrapper active"
+                "message": "Fallback QI wrapper active",
             }
 
     def get_qi_wrapper() -> QIWrapper:
         """Get fallback QI wrapper instance"""
         return QIWrapper()
 
+
 # Global instance management
 _global_qi_wrapper = None
+
 
 def initialize_qi_module() -> bool:
     """Initialize the QI module"""
@@ -149,6 +157,7 @@ def initialize_qi_module() -> bool:
         logger.error(f"QI module initialization failed: {e}")
         return False
 
+
 def get_qi_status() -> dict[str, Any]:
     """Get QI module status"""
     global _global_qi_wrapper
@@ -158,16 +167,14 @@ def get_qi_status() -> dict[str, Any]:
             "initialized": False,
             "available": _QI_WRAPPER_AVAILABLE,
             "active": QI_ACTIVE,
-            "dry_run": QI_DRY_RUN
+            "dry_run": QI_DRY_RUN,
         }
 
     status = _global_qi_wrapper.get_qi_status()
-    status.update({
-        "available": _QI_WRAPPER_AVAILABLE,
-        "module_version": __version__
-    })
+    status.update({"available": _QI_WRAPPER_AVAILABLE, "module_version": __version__})
 
     return status
+
 
 def process_quantum_inspired(input_data: dict[str, Any]) -> dict[str, Any]:
     """Process data using quantum-inspired algorithms with safety checks"""
@@ -178,7 +185,10 @@ def process_quantum_inspired(input_data: dict[str, Any]) -> dict[str, Any]:
 
     return _global_qi_wrapper.process_with_constitutional_safety(input_data)
 
-def make_quantum_decision(options: list[Any], context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
+
+def make_quantum_decision(
+    options: list[Any], context: Optional[dict[str, Any]] = None
+) -> dict[str, Any]:
     """Make decision using quantum-inspired superposition and collapse"""
     global _global_qi_wrapper
 
@@ -187,8 +197,10 @@ def make_quantum_decision(options: list[Any], context: Optional[dict[str, Any]] 
 
     return _global_qi_wrapper.make_quantum_decision(options, context)
 
-def adapt_bio_inspired(system_metrics: dict[str, float],
-                      target_state: Optional[dict[str, float]] = None) -> dict[str, Any]:
+
+def adapt_bio_inspired(
+    system_metrics: dict[str, float], target_state: Optional[dict[str, float]] = None
+) -> dict[str, Any]:
     """Adapt system using bio-inspired mechanisms"""
     global _global_qi_wrapper
 
@@ -197,6 +209,7 @@ def adapt_bio_inspired(system_metrics: dict[str, float],
 
     return _global_qi_wrapper.adapt_bio_inspired(system_metrics, target_state)
 
+
 # Module health check
 def validate_qi_module() -> dict[str, Any]:
     """Validate QI module health and capabilities"""
@@ -204,17 +217,14 @@ def validate_qi_module() -> dict[str, Any]:
         "wrapper_available": _QI_WRAPPER_AVAILABLE,
         "active_mode": QI_ACTIVE,
         "dry_run_mode": QI_DRY_RUN,
-        "feature_flags": {
-            "QI_ACTIVE": QI_ACTIVE,
-            "QI_DRY_RUN": QI_DRY_RUN
-        },
+        "feature_flags": {"QI_ACTIVE": QI_ACTIVE, "QI_DRY_RUN": QI_DRY_RUN},
         "capabilities": {
             "qi_inspired": True,
             "bio_inspired": True,
             "constitutional_safety": True,
             "pii_protection": True,
-            "budget_governance": True
-        }
+            "budget_governance": True,
+        },
     }
 
     # Test basic functionality
@@ -240,6 +250,7 @@ def validate_qi_module() -> dict[str, Any]:
 
     return validation
 
+
 # Log module status on import
 if QI_ACTIVE:
     logger.info("QI module loaded in ACTIVE mode")
@@ -251,27 +262,26 @@ __all__ = [
     # Core classes
     "QIWrapper",
     "get_qi_wrapper",
-
     # Processing functions
     "process_quantum_inspired",
     "make_quantum_decision",
     "adapt_bio_inspired",
-
     # Module management
     "initialize_qi_module",
     "get_qi_status",
     "validate_qi_module",
-
     # Feature flags
     "QI_ACTIVE",
-    "QI_DRY_RUN"
+    "QI_DRY_RUN",
 ]
 
 # Conditional exports for when full wrapper is available
 if _QI_WRAPPER_AVAILABLE:
-    __all__.extend([
-        "QIInspiredProcessor",
-        "BioInspiredProcessor",
-        "ConstitutionalSafetyGuard",
-        "QIIntegration"
-    ])
+    __all__.extend(
+        [
+            "QIInspiredProcessor",
+            "BioInspiredProcessor",
+            "ConstitutionalSafetyGuard",
+            "QIIntegration",
+        ]
+    )

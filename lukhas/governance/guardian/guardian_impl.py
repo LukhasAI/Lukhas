@@ -43,14 +43,12 @@ class GuardianSystemImpl:
         self.ethics_engine = None
         self.drift_detector = None
         self.safety_validator = None
-        self.constitutional_ai = True  # Constitutional AI is embedded in this implementation
+        self.constitutional_ai = (
+            True  # Constitutional AI is embedded in this implementation
+        )
 
     def detect_drift(
-        self,
-        baseline: str,
-        current: str,
-        threshold: float,
-        context: dict[str, Any]
+        self, baseline: str, current: str, threshold: float, context: dict[str, Any]
     ) -> DriftResult:
         """Detect drift in behavior using advanced semantic analysis"""
         # Use advanced drift calculation with semantic similarity
@@ -60,21 +58,21 @@ class GuardianSystemImpl:
         return DriftResult(
             drift_score=drift_score,
             threshold_exceeded=threshold_exceeded,
-            severity=EthicalSeverity.HIGH if threshold_exceeded else EthicalSeverity.LOW,
+            severity=(
+                EthicalSeverity.HIGH if threshold_exceeded else EthicalSeverity.LOW
+            ),
             remediation_needed=threshold_exceeded,
             details={
                 "method": "advanced_semantic_analysis",
                 "baseline_tokens": len(baseline.split()),
                 "current_tokens": len(current.split()),
                 "threshold": threshold,
-                "semantic_similarity": 1.0 - drift_score
-            }
+                "semantic_similarity": 1.0 - drift_score,
+            },
         )
 
     def evaluate_ethics(
-        self,
-        action: GovernanceAction,
-        context: dict[str, Any]
+        self, action: GovernanceAction, context: dict[str, Any]
     ) -> EthicalDecision:
         """Evaluate ethical implications using constitutional AI principles"""
         # Use constitutional AI ethical evaluation
@@ -86,14 +84,11 @@ class GuardianSystemImpl:
             severity=ethical_analysis["severity"],
             confidence=ethical_analysis["confidence"],
             recommendations=ethical_analysis["recommendations"],
-            drift_score=ethical_analysis.get("drift_score", 0.05)
+            drift_score=ethical_analysis.get("drift_score", 0.05),
         )
 
     def check_safety(
-        self,
-        content: str,
-        context: dict[str, Any],
-        constitutional_check: bool
+        self, content: str, context: dict[str, Any], constitutional_check: bool
     ) -> SafetyResult:
         """Perform safety validation using comprehensive analysis"""
         violations = []
@@ -107,22 +102,27 @@ class GuardianSystemImpl:
         risk_level = EthicalSeverity.HIGH if violations else EthicalSeverity.LOW
 
         if constitutional_check:
-            constitutional_violations = self._check_constitutional_safety(content, context)
+            constitutional_violations = self._check_constitutional_safety(
+                content, context
+            )
             violations.extend(constitutional_violations)
             if constitutional_violations:
                 safe = False
                 risk_level = EthicalSeverity.HIGH
-                recommendations.extend([
-                    "Address constitutional AI violations",
-                    "Review content for harmful patterns"
-                ])
+                recommendations.extend(
+                    [
+                        "Address constitutional AI violations",
+                        "Review content for harmful patterns",
+                    ]
+                )
 
         return SafetyResult(
             safe=safe,
             risk_level=risk_level,
             violations=violations,
-            recommendations=recommendations or ["Content reviewed by Guardian safety system"],
-            constitutional_check=constitutional_check
+            recommendations=recommendations
+            or ["Content reviewed by Guardian safety system"],
+            constitutional_check=constitutional_check,
         )
 
     def get_status(self) -> dict[str, Any]:
@@ -132,7 +132,7 @@ class GuardianSystemImpl:
             "safety_status": "active",
             "constitutional_ai": True,
             "drift_threshold": self.drift_threshold,
-            "components_loaded": 4
+            "components_loaded": 4,
         }
 
     def _calculate_advanced_drift_score(self, baseline: str, current: str) -> float:
@@ -158,10 +158,10 @@ class GuardianSystemImpl:
 
         # Check for semantic synonyms (simple approach)
         synonyms = {
-            'function': ['purpose', 'role', 'job'],
-            'primary': ['main', 'chief', 'principal'],
-            'assist': ['help', 'support', 'aid'],
-            'users': ['people', 'individuals', 'customers']
+            "function": ["purpose", "role", "job"],
+            "primary": ["main", "chief", "principal"],
+            "assist": ["help", "support", "aid"],
+            "users": ["people", "individuals", "customers"],
         }
 
         # Boost similarity for known synonyms
@@ -192,11 +192,13 @@ class GuardianSystemImpl:
             "low": EthicalSeverity.LOW,
             "medium": EthicalSeverity.MEDIUM,
             "high": EthicalSeverity.HIGH,
-            "critical": EthicalSeverity.HIGH
+            "critical": EthicalSeverity.HIGH,
         }
         return severity_map.get(severity_str.lower(), EthicalSeverity.MEDIUM)
 
-    def _evaluate_constitutional_compliance(self, action: GovernanceAction, context: dict[str, Any]) -> dict[str, Any]:
+    def _evaluate_constitutional_compliance(
+        self, action: GovernanceAction, context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Evaluate compliance with constitutional AI principles"""
         # Constitutional AI compliance evaluation
         compliant = True
@@ -207,19 +209,29 @@ class GuardianSystemImpl:
 
         # Check for high-risk patterns
         harmful_patterns = ["harm", "deceive", "manipulate", "exploit"]
-        action_string = f"{action.action_type} {action.target} {str(action.context)}".lower()
+        action_string = (
+            f"{action.action_type} {action.target} {str(action.context)}".lower()
+        )
         is_harmful = any(pattern in action_string for pattern in harmful_patterns)
 
         if is_harmful:
             compliant = False
-            reason = "Action violates constitutional AI principles - potential harm detected"
+            reason = (
+                "Action violates constitutional AI principles - potential harm detected"
+            )
             severity = EthicalSeverity.HIGH
             confidence = 0.95
-            recommendations = ["Review action for harm potential", "Consider alternative approaches"]
+            recommendations = [
+                "Review action for harm potential",
+                "Consider alternative approaches",
+            ]
 
         # Check context for risk indicators
         risk_indicators = context.get("risk_indicators", [])
-        if any(indicator in ["privacy_violation", "bias_amplification", "discrimination"] for indicator in risk_indicators):
+        if any(
+            indicator in ["privacy_violation", "bias_amplification", "discrimination"]
+            for indicator in risk_indicators
+        ):
             compliant = False
             reason = "Context contains constitutional AI violations"
             severity = EthicalSeverity.HIGH
@@ -231,7 +243,7 @@ class GuardianSystemImpl:
             "severity": severity,
             "confidence": confidence,
             "recommendations": recommendations,
-            "drift_score": 0.05 if compliant else 0.25
+            "drift_score": 0.05 if compliant else 0.25,
         }
 
     def _has_ethical_concerns(self, action: GovernanceAction) -> bool:
@@ -247,34 +259,55 @@ class GuardianSystemImpl:
 
         # Check for harmful content patterns
         harmful_patterns = [
-            "violence", "threat", "harm", "abuse", "exploit",
-            "discriminat", "bias", "hate", "offensive",
-            "illegal", "fraud", "scam", "malicious"
+            "violence",
+            "threat",
+            "harm",
+            "abuse",
+            "exploit",
+            "discriminat",
+            "bias",
+            "hate",
+            "offensive",
+            "illegal",
+            "fraud",
+            "scam",
+            "malicious",
         ]
 
         for pattern in harmful_patterns:
             if pattern in content_lower:
-                violations.append({
-                    "type": "harmful_content",
-                    "pattern": pattern,
-                    "severity": "high",
-                    "description": f"Detected potentially harmful content pattern: {pattern}"
-                })
+                violations.append(
+                    {
+                        "type": "harmful_content",
+                        "pattern": pattern,
+                        "severity": "high",
+                        "description": f"Detected potentially harmful content pattern: {pattern}",
+                    }
+                )
 
         # Check for privacy violations
-        privacy_patterns = ["personal data", "private information", "confidential", "secret"]
+        privacy_patterns = [
+            "personal data",
+            "private information",
+            "confidential",
+            "secret",
+        ]
         for pattern in privacy_patterns:
             if pattern in content_lower:
-                violations.append({
-                    "type": "privacy_violation",
-                    "pattern": pattern,
-                    "severity": "medium",
-                    "description": f"Potential privacy concern: {pattern}"
-                })
+                violations.append(
+                    {
+                        "type": "privacy_violation",
+                        "pattern": pattern,
+                        "severity": "medium",
+                        "description": f"Potential privacy concern: {pattern}",
+                    }
+                )
 
         return violations
 
-    def _check_constitutional_safety(self, content: str, context: dict[str, Any]) -> list:
+    def _check_constitutional_safety(
+        self, content: str, context: dict[str, Any]
+    ) -> list:
         """Check content against constitutional AI safety principles"""
         violations = []
 
@@ -283,27 +316,31 @@ class GuardianSystemImpl:
             ("deception", "Content may contain deceptive elements"),
             ("manipulation", "Content may be manipulative"),
             ("misinformation", "Content may spread misinformation"),
-            ("bias amplification", "Content may amplify harmful biases")
+            ("bias amplification", "Content may amplify harmful biases"),
         ]
 
         content_lower = content.lower()
         for pattern, description in unsafe_patterns:
             if pattern in content_lower:
-                violations.append({
-                    "type": "constitutional_violation",
-                    "pattern": pattern,
-                    "severity": "high",
-                    "description": description
-                })
+                violations.append(
+                    {
+                        "type": "constitutional_violation",
+                        "pattern": pattern,
+                        "severity": "high",
+                        "description": description,
+                    }
+                )
 
         # Check context for constitutional concerns
         if context.get("constitutional_risk_level", "low") == "high":
-            violations.append({
-                "type": "constitutional_context_risk",
-                "pattern": "high_risk_context",
-                "severity": "high",
-                "description": "Context indicates high constitutional risk"
-            })
+            violations.append(
+                {
+                    "type": "constitutional_context_risk",
+                    "pattern": "high_risk_context",
+                    "severity": "high",
+                    "description": "Context indicates high constitutional risk",
+                }
+            )
 
         return violations
 

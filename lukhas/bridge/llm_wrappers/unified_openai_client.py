@@ -18,27 +18,35 @@ from openai import AsyncOpenAI, OpenAI
 # Use proper lukhas imports
 try:
     from lukhas.core.common import get_logger, retry, with_timeout
+
     logger = get_logger(__name__, "BRIDGE")
 except ImportError:
     # Fallback to standard logging if lukhas.core.common not available
     import logging
+
     logger = logging.getLogger(__name__)
 
     def retry(*args, **kwargs):
         """Fallback retry decorator"""
+
         def decorator(func):
             return func
+
         return decorator
 
     def with_timeout(*args, **kwargs):
         """Fallback timeout decorator"""
+
         def decorator(func):
             return func
+
         return decorator
+
 
 # Import centralized environment configuration
 try:
     from config.env import get_lukhas_config
+
     _config = get_lukhas_config()
 except ImportError:
     # Fallback for environments where config module isn't available
@@ -76,16 +84,12 @@ class ConversationState:
 
     def add_message(self, role: str, content: str, **metadata) -> ConversationMessage:
         """Add a message to the conversation"""
-        message = ConversationMessage(
-            role=role,
-            content=content,
-            metadata=metadata
-        )
+        message = ConversationMessage(role=role, content=content, metadata=metadata)
         self.messages.append(message)
 
         # Trim history if needed
         if len(self.messages) > self.max_history:
-            self.messages = self.messages[-self.max_history:]
+            self.messages = self.messages[-self.max_history :]
 
         return message
 
@@ -95,10 +99,7 @@ class ConversationState:
 
         # Add system prompt if present
         if self.system_prompt:
-            messages.append({
-                "role": "system",
-                "content": self.system_prompt
-            })
+            messages.append({"role": "system", "content": self.system_prompt})
 
         # Add conversation messages
         messages.extend([msg.to_openai_format() for msg in self.messages])
@@ -135,7 +136,9 @@ class UnifiedOpenAIClient:
         # Use centralized config if available, fallback to os.getenv
         if _config:
             self.api_key = api_key or _config.openai_api_key
-            self.organization = organization or os.getenv("OPENAI_ORG_ID")  # TODO[T4-AUDIT]: Add organization to centralized config
+            self.organization = organization or os.getenv(
+                "OPENAI_ORG_ID"
+            )  # TODO[T4-AUDIT]: Add organization to centralized config
         else:
             self.api_key = api_key or os.getenv("OPENAI_API_KEY")
             self.organization = organization or os.getenv("OPENAI_ORG_ID")
@@ -145,7 +148,9 @@ class UnifiedOpenAIClient:
         self.timeout = timeout
 
         if not self.api_key:
-            raise ValueError("OpenAI API key must be provided or set in OPENAI_API_KEY environment variable")
+            raise ValueError(
+                "OpenAI API key must be provided or set in OPENAI_API_KEY environment variable"
+            )
 
         # Initialize clients
         client_args = {
@@ -276,11 +281,23 @@ class UnifiedOpenAIClient:
                         }
                         for choice in response.choices
                     ],
-                    "usage": {
-                        "prompt_tokens": response.usage.prompt_tokens if response.usage else 0,
-                        "completion_tokens": response.usage.completion_tokens if response.usage else 0,
-                        "total_tokens": response.usage.total_tokens if response.usage else 0,
-                    } if response.usage else None,
+                    "usage": (
+                        {
+                            "prompt_tokens": (
+                                response.usage.prompt_tokens if response.usage else 0
+                            ),
+                            "completion_tokens": (
+                                response.usage.completion_tokens
+                                if response.usage
+                                else 0
+                            ),
+                            "total_tokens": (
+                                response.usage.total_tokens if response.usage else 0
+                            ),
+                        }
+                        if response.usage
+                        else None
+                    ),
                 }
 
         except Exception as e:
@@ -296,7 +313,9 @@ class UnifiedOpenAIClient:
         assistant_content_parts = []
 
         try:
-            async for chunk in await self.async_client.chat.completions.create(**api_params):
+            async for chunk in await self.async_client.chat.completions.create(
+                **api_params
+            ):
                 chunk_dict = {
                     "id": chunk.id,
                     "object": chunk.object,
@@ -307,14 +326,16 @@ class UnifiedOpenAIClient:
 
                 if chunk.choices:
                     choice = chunk.choices[0]
-                    chunk_dict["choices"] = [{
-                        "index": choice.index,
-                        "delta": {
-                            "role": getattr(choice.delta, "role", None),
-                            "content": getattr(choice.delta, "content", None),
-                        },
-                        "finish_reason": choice.finish_reason,
-                    }]
+                    chunk_dict["choices"] = [
+                        {
+                            "index": choice.index,
+                            "delta": {
+                                "role": getattr(choice.delta, "role", None),
+                                "content": getattr(choice.delta, "content", None),
+                            },
+                            "finish_reason": choice.finish_reason,
+                        }
+                    ]
 
                     # Collect content for conversation tracking
                     if choice.delta.content:
@@ -368,10 +389,14 @@ class UnifiedOpenAIClient:
                     for item in response.data
                 ],
                 "model": response.model,
-                "usage": {
-                    "prompt_tokens": response.usage.prompt_tokens,
-                    "total_tokens": response.usage.total_tokens,
-                } if response.usage else None,
+                "usage": (
+                    {
+                        "prompt_tokens": response.usage.prompt_tokens,
+                        "total_tokens": response.usage.total_tokens,
+                    }
+                    if response.usage
+                    else None
+                ),
             }
 
         except Exception as e:
@@ -385,7 +410,9 @@ class UnifiedOpenAIClient:
             return True
         return False
 
-    def get_conversation_history(self, conversation_id: str) -> Optional[list[dict[str, Any]]]:
+    def get_conversation_history(
+        self, conversation_id: str
+    ) -> Optional[list[dict[str, Any]]]:
         """Get conversation history in OpenAI format"""
         conversation = self.conversations.get(conversation_id)
         if conversation:

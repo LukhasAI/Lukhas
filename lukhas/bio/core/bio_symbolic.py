@@ -118,7 +118,7 @@ class BioSymbolic:
             "glyph": glyph.value,
             "frequency": frequency,
             "amplitude": amplitude,
-            "coherence": self.calculate_coherence(data)
+            "coherence": self.calculate_coherence(data),
         }
 
     def process_energy(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -139,7 +139,7 @@ class BioSymbolic:
             "type": "energy",
             "glyph": glyph.value,
             "level": level,
-            "coherence": self.calculate_coherence(data)
+            "coherence": self.calculate_coherence(data),
         }
 
     def process_dna(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -151,7 +151,7 @@ class BioSymbolic:
             "structure": SymbolicGlyph.DNA_STRUCTURE,
             "initiate": SymbolicGlyph.DNA_INITIATE,
             "pattern": SymbolicGlyph.DNA_PATTERN,
-            "express": SymbolicGlyph.DNA_EXPRESS
+            "express": SymbolicGlyph.DNA_EXPRESS,
         }
 
         glyph = glyph_map.get(operation, SymbolicGlyph.DNA_EXPRESS)
@@ -160,7 +160,7 @@ class BioSymbolic:
             "type": "dna",
             "glyph": glyph.value,
             "operation": operation,
-            "coherence": self.calculate_coherence(data)
+            "coherence": self.calculate_coherence(data),
         }
 
     def process_stress(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -172,7 +172,7 @@ class BioSymbolic:
             "transform": SymbolicGlyph.STRESS_TRANSFORM,
             "adapt": SymbolicGlyph.STRESS_ADAPT,
             "buffer": SymbolicGlyph.STRESS_BUFFER,
-            "flow": SymbolicGlyph.STRESS_FLOW
+            "flow": SymbolicGlyph.STRESS_FLOW,
         }
 
         glyph = glyph_map.get(response_type, SymbolicGlyph.STRESS_ADAPT)
@@ -182,7 +182,7 @@ class BioSymbolic:
             "glyph": glyph.value,
             "stress_level": stress_level,
             "response": response_type,
-            "coherence": self.calculate_coherence(data)
+            "coherence": self.calculate_coherence(data),
         }
 
     def process_homeostasis(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -203,7 +203,7 @@ class BioSymbolic:
             "type": "homeostasis",
             "glyph": glyph.value,
             "balance": balance,
-            "coherence": self.calculate_coherence(data)
+            "coherence": self.calculate_coherence(data),
         }
 
     def process_dream(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -213,7 +213,7 @@ class BioSymbolic:
         glyph_map = {
             "explore": SymbolicGlyph.DREAM_EXPLORE,
             "integrate": SymbolicGlyph.DREAM_INTEGRATE,
-            "process": SymbolicGlyph.DREAM_PROCESS
+            "process": SymbolicGlyph.DREAM_PROCESS,
         }
 
         glyph = glyph_map.get(dream_phase, SymbolicGlyph.DREAM_PROCESS)
@@ -222,7 +222,7 @@ class BioSymbolic:
             "type": "dream",
             "glyph": glyph.value,
             "phase": dream_phase,
-            "coherence": self.calculate_coherence(data)
+            "coherence": self.calculate_coherence(data),
         }
 
     def process_generic(self, data: dict[str, Any]) -> dict[str, Any]:
@@ -230,7 +230,7 @@ class BioSymbolic:
         return {
             "type": "generic",
             "data": data,
-            "coherence": self.calculate_coherence(data)
+            "coherence": self.calculate_coherence(data),
         }
 
     def calculate_coherence(self, data: dict[str, Any]) -> float:
@@ -271,9 +271,10 @@ class BioSymbolic:
             "bio_data": bio_data,
             "symbolic_data": symbolic_data,
             "coherence": (
-                self.calculate_coherence(bio_data) +
-                self.calculate_coherence(symbolic_data)
-            ) / 2
+                self.calculate_coherence(bio_data)
+                + self.calculate_coherence(symbolic_data)
+            )
+            / 2,
         }
 
         self.integration_events.append(integration_event)
@@ -281,7 +282,7 @@ class BioSymbolic:
         return {
             "integrated": True,
             "bio_symbolic": integration_event,
-            "glyph": symbolic_data.get("glyph", "ΛUNKNOWN")
+            "glyph": symbolic_data.get("glyph", "ΛUNKNOWN"),
         }
 
 
@@ -313,13 +314,15 @@ class BioSymbolicOrchestrator:
             results.append(processed)
 
         # Calculate overall coherence
-        overall_coherence = sum(r.get("coherence", 0) for r in results) / len(results) if results else 0
+        overall_coherence = (
+            sum(r.get("coherence", 0) for r in results) / len(results) if results else 0
+        )
 
         orchestration_result = {
             "timestamp": datetime.now().isoformat(),
             "results": results,
             "overall_coherence": overall_coherence,
-            "threshold_met": overall_coherence >= self.bio_symbolic.coherence_threshold
+            "threshold_met": overall_coherence >= self.bio_symbolic.coherence_threshold,
         }
 
         self.orchestration_events.append(orchestration_result)
@@ -360,5 +363,5 @@ __all__ = [
     "BioSymbolic",
     "BioSymbolicOrchestrator",
     "symbolic_bio_symbolic",
-    "symbolic_bio_symbolic_orchestrator"
+    "symbolic_bio_symbolic_orchestrator",
 ]

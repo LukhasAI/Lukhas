@@ -45,6 +45,7 @@ except ImportError:
 
 class ModuleType(Enum):
     """LUKHAS AI module types"""
+
     CONSCIOUSNESS = "consciousness"
     MEMORY = "memory"
     REASONING = "reasoning"
@@ -60,6 +61,7 @@ class ModuleType(Enum):
 
 class AuthMessageType(Enum):
     """Authentication message types for cross-module communication"""
+
     AUTH_SUCCESS = "auth_success"
     AUTH_FAILURE = "auth_failure"
     SESSION_START = "session_start"
@@ -76,6 +78,7 @@ class AuthMessageType(Enum):
 @dataclass
 class AuthModuleMessage:
     """Authentication message for cross-module communication"""
+
     id: str
     message_type: AuthMessageType
     source_module: ModuleType
@@ -94,6 +97,7 @@ class AuthModuleMessage:
 @dataclass
 class ModuleAuthContext:
     """Authentication context for a specific module"""
+
     module_type: ModuleType
     user_id: str
     tier_level: str
@@ -120,9 +124,9 @@ class TrinityFrameworkIntegration:
     def __init__(self):
         """Initialize Trinity Framework integration"""
         self.trinity_aspects = {
-            "identity": "⚛️",      # Identity aspect
+            "identity": "⚛️",  # Identity aspect
             "consciousness": "🧠",  # Consciousness aspect
-            "guardian": "🛡️"       # Guardian aspect
+            "guardian": "🛡️",  # Guardian aspect
         }
 
         self.module_trinity_mapping = {
@@ -136,17 +140,19 @@ class TrinityFrameworkIntegration:
             ModuleType.BIO: "identity",
             ModuleType.GUARDIAN: "guardian",
             ModuleType.BRIDGE: "guardian",
-            ModuleType.CORE: "guardian"
+            ModuleType.CORE: "guardian",
         }
 
-    def get_trinity_context_for_module(self, module_type: ModuleType, auth_context: dict[str, Any]) -> dict[str, str]:
+    def get_trinity_context_for_module(
+        self, module_type: ModuleType, auth_context: dict[str, Any]
+    ) -> dict[str, str]:
         """Get Trinity Framework context for specific module"""
         primary_aspect = self.module_trinity_mapping.get(module_type, "identity")
 
         # Determine emphasis based on authentication context
-        if auth_context.get('guardian_alert', False):
+        if auth_context.get("guardian_alert", False):
             emphasis = "guardian"
-        elif auth_context.get('consciousness_integration', False):
+        elif auth_context.get("consciousness_integration", False):
             emphasis = "consciousness"
         else:
             emphasis = "identity"
@@ -156,7 +162,7 @@ class TrinityFrameworkIntegration:
             "emphasis": emphasis,
             "symbol": self.trinity_aspects[emphasis],
             "framework": "⚛️🧠🛡️",
-            "integration_level": self._calculate_integration_level(auth_context)
+            "integration_level": self._calculate_integration_level(auth_context),
         }
 
     def _calculate_integration_level(self, auth_context: dict[str, Any]) -> str:
@@ -164,15 +170,15 @@ class TrinityFrameworkIntegration:
         score = 0
 
         # Identity integration
-        if auth_context.get('symbolic_identity'):
+        if auth_context.get("symbolic_identity"):
             score += 1
 
         # Consciousness integration
-        if auth_context.get('consciousness_aware', False):
+        if auth_context.get("consciousness_aware", False):
             score += 1
 
         # Guardian integration
-        if auth_context.get('guardian_monitoring', False):
+        if auth_context.get("guardian_monitoring", False):
             score += 1
 
         if score >= 3:
@@ -207,11 +213,11 @@ class AuthCrossModuleIntegrator:
 
         # Integration statistics
         self.integration_stats = {
-            'messages_sent': 0,
-            'messages_received': 0,
-            'active_sessions': 0,
-            'module_connections': 0,
-            'last_updated': datetime.now()
+            "messages_sent": 0,
+            "messages_received": 0,
+            "active_sessions": 0,
+            "module_connections": 0,
+            "last_updated": datetime.now(),
         }
 
         # Initialize module adapters
@@ -230,22 +236,24 @@ class AuthCrossModuleIntegrator:
             ModuleType.IDENTITY: self._create_identity_adapter(),
             ModuleType.GUARDIAN: self._create_guardian_adapter(),
             ModuleType.BRIDGE: self._create_bridge_adapter(),
-            ModuleType.CORE: self._create_core_adapter()
+            ModuleType.CORE: self._create_core_adapter(),
         }
 
-    async def register_module(self,
-                            module_type: ModuleType,
-                            module_config: dict[str, Any],
-                            message_handler: Optional[Callable] = None) -> bool:
+    async def register_module(
+        self,
+        module_type: ModuleType,
+        module_config: dict[str, Any],
+        message_handler: Optional[Callable] = None,
+    ) -> bool:
         """Register a LUKHAS module for authentication integration"""
         try:
             # Register module
             self.registered_modules[module_type] = {
-                'config': module_config,
-                'registered_at': datetime.now(),
-                'active': True,
-                'message_count': 0,
-                'last_message': None
+                "config": module_config,
+                "registered_at": datetime.now(),
+                "active": True,
+                "message_count": 0,
+                "last_message": None,
             }
 
             # Register message handler
@@ -253,21 +261,24 @@ class AuthCrossModuleIntegrator:
                 self.message_handlers[module_type] = message_handler
 
             # Update statistics
-            self.integration_stats['module_connections'] = len(self.registered_modules)
-            self.integration_stats['last_updated'] = datetime.now()
+            self.integration_stats["module_connections"] = len(self.registered_modules)
+            self.integration_stats["last_updated"] = datetime.now()
 
             # Send registration confirmation
             if auth_glyph_registry:
                 registration_glyph = auth_glyph_registry.get_cross_module_glyph_message(
                     target_module=module_type.value,
-                    message_type='module_registered',
-                    auth_context={'module_type': module_type.value}
+                    message_type="module_registered",
+                    auth_context={"module_type": module_type.value},
                 )
 
                 await self._send_internal_message(
                     module_type,
-                    'registration_confirmed',
-                    {'glyph': registration_glyph, 'timestamp': datetime.now().isoformat()}
+                    "registration_confirmed",
+                    {
+                        "glyph": registration_glyph,
+                        "timestamp": datetime.now().isoformat(),
+                    },
                 )
 
             return True
@@ -276,11 +287,13 @@ class AuthCrossModuleIntegrator:
             print(f"Error registering module {module_type.value}: {e}")
             return False
 
-    async def propagate_auth_context(self,
-                                   user_id: str,
-                                   auth_event: AuthEventType,
-                                   auth_context: dict[str, Any],
-                                   target_modules: Optional[list[ModuleType]] = None) -> dict[str, bool]:
+    async def propagate_auth_context(
+        self,
+        user_id: str,
+        auth_event: AuthEventType,
+        auth_context: dict[str, Any],
+        target_modules: Optional[list[ModuleType]] = None,
+    ) -> dict[str, bool]:
         """Propagate authentication context to LUKHAS modules"""
         try:
             results = {}
@@ -290,7 +303,9 @@ class AuthCrossModuleIntegrator:
                 target_modules = list(self.registered_modules.keys())
 
             # Create module auth context
-            module_context = await self._create_module_auth_context(user_id, auth_context)
+            module_context = await self._create_module_auth_context(
+                user_id, auth_context
+            )
 
             # Store context
             self.active_contexts[user_id] = module_context
@@ -299,18 +314,15 @@ class AuthCrossModuleIntegrator:
             for module_type in target_modules:
                 if module_type in self.registered_modules:
                     success = await self._send_auth_context_to_module(
-                        module_type,
-                        user_id,
-                        auth_event,
-                        auth_context
+                        module_type, user_id, auth_event, auth_context
                     )
                     results[module_type.value] = success
                 else:
                     results[module_type.value] = False
 
             # Update statistics
-            self.integration_stats['messages_sent'] += len(target_modules)
-            self.integration_stats['active_sessions'] = len(self.active_contexts)
+            self.integration_stats["messages_sent"] += len(target_modules)
+            self.integration_stats["active_sessions"] = len(self.active_contexts)
 
             return results
 
@@ -318,14 +330,14 @@ class AuthCrossModuleIntegrator:
             print(f"Error propagating auth context: {e}")
             return {}
 
-    async def _create_module_auth_context(self,
-                                        user_id: str,
-                                        auth_context: dict[str, Any]) -> ModuleAuthContext:
+    async def _create_module_auth_context(
+        self, user_id: str, auth_context: dict[str, Any]
+    ) -> ModuleAuthContext:
         """Create authentication context for module consumption"""
         # Extract key authentication information
-        tier_level = auth_context.get('tier_level', 'T1')
-        scopes = auth_context.get('scopes', [])
-        session_id = auth_context.get('session_id', str(uuid.uuid4()))
+        tier_level = auth_context.get("tier_level", "T1")
+        scopes = auth_context.get("scopes", [])
+        session_id = auth_context.get("session_id", str(uuid.uuid4()))
 
         # Get symbolic identity
         symbolic_identity = "GLYPH[DEFAULT]"
@@ -335,8 +347,14 @@ class AuthCrossModuleIntegrator:
                 symbolic_identity = symbolic_identity_obj.composite_glyph
 
         # Determine constitutional and guardian status
-        constitutional_status = "valid" if auth_context.get('constitutional_valid', True) else "violation"
-        guardian_status = "monitoring" if auth_context.get('guardian_monitoring', False) else "inactive"
+        constitutional_status = (
+            "valid" if auth_context.get("constitutional_valid", True) else "violation"
+        )
+        guardian_status = (
+            "monitoring"
+            if auth_context.get("guardian_monitoring", False)
+            else "inactive"
+        )
 
         return ModuleAuthContext(
             module_type=ModuleType.CORE,  # Will be updated per module
@@ -348,14 +366,16 @@ class AuthCrossModuleIntegrator:
             constitutional_status=constitutional_status,
             guardian_status=guardian_status,
             last_updated=datetime.now(),
-            metadata=auth_context
+            metadata=auth_context,
         )
 
-    async def _send_auth_context_to_module(self,
-                                         module_type: ModuleType,
-                                         user_id: str,
-                                         auth_event: AuthEventType,
-                                         auth_context: dict[str, Any]) -> bool:
+    async def _send_auth_context_to_module(
+        self,
+        module_type: ModuleType,
+        user_id: str,
+        auth_event: AuthEventType,
+        auth_context: dict[str, Any],
+    ) -> bool:
         """Send authentication context to specific module"""
         try:
             # Get module adapter
@@ -374,7 +394,7 @@ class AuthCrossModuleIntegrator:
                 glyph_message = auth_glyph_registry.get_cross_module_glyph_message(
                     target_module=module_type.value,
                     message_type=auth_event.value,
-                    auth_context=auth_context
+                    auth_context=auth_context,
                 )
 
             # Create module message
@@ -384,12 +404,12 @@ class AuthCrossModuleIntegrator:
                 source_module=ModuleType.IDENTITY,
                 target_module=module_type,
                 user_id=user_id,
-                session_id=auth_context.get('session_id'),
+                session_id=auth_context.get("session_id"),
                 glyph_encoding=glyph_message,
-                payload=await adapter['prepare_payload'](auth_context),
+                payload=await adapter["prepare_payload"](auth_context),
                 trinity_context=trinity_context,
                 timestamp=datetime.now(),
-                priority=self._determine_message_priority(auth_event)
+                priority=self._determine_message_priority(auth_event),
             )
 
             # Send message
@@ -397,8 +417,8 @@ class AuthCrossModuleIntegrator:
 
             # Update module statistics
             if success and module_type in self.registered_modules:
-                self.registered_modules[module_type]['message_count'] += 1
-                self.registered_modules[module_type]['last_message'] = datetime.now()
+                self.registered_modules[module_type]["message_count"] += 1
+                self.registered_modules[module_type]["last_message"] = datetime.now()
 
             return success
 
@@ -411,7 +431,7 @@ class AuthCrossModuleIntegrator:
         high_priority_events = {
             AuthEventType.CONSTITUTIONAL_VIOLATION,
             AuthEventType.BIAS_DETECTION,
-            AuthEventType.LOGIN_FAILURE
+            AuthEventType.LOGIN_FAILURE,
         }
 
         critical_priority_events = {
@@ -456,29 +476,30 @@ class AuthCrossModuleIntegrator:
 
             # Convert to kernel bus format
             kernel_message = {
-                'type': 'auth_context',
-                'source': 'lambda_auth',
-                'target': message.target_module.value,
-                'user_id': message.user_id,
-                'session_id': message.session_id,
-                'glyph': message.glyph_encoding,
-                'payload': message.payload,
-                'trinity': message.trinity_context,
-                'timestamp': message.timestamp.isoformat(),
-                'priority': message.priority
+                "type": "auth_context",
+                "source": "lambda_auth",
+                "target": message.target_module.value,
+                "user_id": message.user_id,
+                "session_id": message.session_id,
+                "glyph": message.glyph_encoding,
+                "payload": message.payload,
+                "trinity": message.trinity_context,
+                "timestamp": message.timestamp.isoformat(),
+                "priority": message.priority,
             }
 
-            await self.kernel_bus.publish(f"auth.{message.target_module.value}", kernel_message)
+            await self.kernel_bus.publish(
+                f"auth.{message.target_module.value}", kernel_message
+            )
             return True
 
         except Exception as e:
             print(f"Error sending via kernel bus: {e}")
             return False
 
-    async def _send_internal_message(self,
-                                   target_module: ModuleType,
-                                   message_type: str,
-                                   payload: dict[str, Any]) -> None:
+    async def _send_internal_message(
+        self, target_module: ModuleType, message_type: str, payload: dict[str, Any]
+    ) -> None:
         """Send internal system message"""
         try:
             message = AuthModuleMessage(
@@ -492,7 +513,7 @@ class AuthCrossModuleIntegrator:
                 payload=payload,
                 trinity_context={"aspect": "system", "symbol": "⚙️"},
                 timestamp=datetime.now(),
-                priority="normal"
+                priority="normal",
             )
 
             await self._deliver_message(message)
@@ -504,215 +525,236 @@ class AuthCrossModuleIntegrator:
 
     def _create_consciousness_adapter(self) -> dict[str, Callable]:
         """Create consciousness module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'consciousness_integration': True,
-                'user_identity': auth_context.get('user_id'),
-                'awareness_level': auth_context.get('tier_level', 'T1'),
-                'cognitive_permissions': auth_context.get('scopes', []),
-                'consciousness_state': 'authenticated',
-                'trinity_aspect': 'consciousness',
-                'symbolic_identity': auth_context.get('symbolic_identity'),
-                'memory_access': 'consciousness:access' in auth_context.get('scopes', [])
+                "consciousness_integration": True,
+                "user_identity": auth_context.get("user_id"),
+                "awareness_level": auth_context.get("tier_level", "T1"),
+                "cognitive_permissions": auth_context.get("scopes", []),
+                "consciousness_state": "authenticated",
+                "trinity_aspect": "consciousness",
+                "symbolic_identity": auth_context.get("symbolic_identity"),
+                "memory_access": "consciousness:access"
+                in auth_context.get("scopes", []),
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.CONSCIOUSNESS,
-            'trinity_aspect': 'consciousness'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.CONSCIOUSNESS,
+            "trinity_aspect": "consciousness",
         }
 
     def _create_memory_adapter(self) -> dict[str, Callable]:
         """Create memory module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'memory_integration': True,
-                'user_identity': auth_context.get('user_id'),
-                'memory_permissions': [s for s in auth_context.get('scopes', []) if 'memory:' in s],
-                'fold_access_level': auth_context.get('tier_level', 'T1'),
-                'identity_persistence': True,
-                'symbolic_memory': auth_context.get('symbolic_identity'),
-                'consciousness_aware': True
+                "memory_integration": True,
+                "user_identity": auth_context.get("user_id"),
+                "memory_permissions": [
+                    s for s in auth_context.get("scopes", []) if "memory:" in s
+                ],
+                "fold_access_level": auth_context.get("tier_level", "T1"),
+                "identity_persistence": True,
+                "symbolic_memory": auth_context.get("symbolic_identity"),
+                "consciousness_aware": True,
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.MEMORY,
-            'trinity_aspect': 'consciousness'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.MEMORY,
+            "trinity_aspect": "consciousness",
         }
 
     def _create_reasoning_adapter(self) -> dict[str, Callable]:
         """Create reasoning module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'reasoning_integration': True,
-                'user_context': auth_context.get('user_id'),
-                'reasoning_scope': auth_context.get('scopes', []),
-                'logic_tier': auth_context.get('tier_level', 'T1'),
-                'constitutional_reasoning': auth_context.get('constitutional_valid', True),
-                'bias_aware': True,
-                'symbolic_logic': auth_context.get('symbolic_identity')
+                "reasoning_integration": True,
+                "user_context": auth_context.get("user_id"),
+                "reasoning_scope": auth_context.get("scopes", []),
+                "logic_tier": auth_context.get("tier_level", "T1"),
+                "constitutional_reasoning": auth_context.get(
+                    "constitutional_valid", True
+                ),
+                "bias_aware": True,
+                "symbolic_logic": auth_context.get("symbolic_identity"),
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.REASONING,
-            'trinity_aspect': 'consciousness'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.REASONING,
+            "trinity_aspect": "consciousness",
         }
 
     def _create_emotion_adapter(self) -> dict[str, Callable]:
         """Create emotion module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'emotion_integration': True,
-                'user_emotional_context': auth_context.get('user_id'),
-                'emotional_permissions': auth_context.get('scopes', []),
-                'mood_tier': auth_context.get('tier_level', 'T1'),
-                'constitutional_emotion': auth_context.get('constitutional_valid', True),
-                'empathy_enabled': True,
-                'symbolic_emotion': auth_context.get('symbolic_identity')
+                "emotion_integration": True,
+                "user_emotional_context": auth_context.get("user_id"),
+                "emotional_permissions": auth_context.get("scopes", []),
+                "mood_tier": auth_context.get("tier_level", "T1"),
+                "constitutional_emotion": auth_context.get(
+                    "constitutional_valid", True
+                ),
+                "empathy_enabled": True,
+                "symbolic_emotion": auth_context.get("symbolic_identity"),
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.EMOTION,
-            'trinity_aspect': 'consciousness'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.EMOTION,
+            "trinity_aspect": "consciousness",
         }
 
     def _create_creativity_adapter(self) -> dict[str, Callable]:
         """Create creativity module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'creativity_integration': True,
-                'creative_user': auth_context.get('user_id'),
-                'creative_permissions': auth_context.get('scopes', []),
-                'creative_tier': auth_context.get('tier_level', 'T1'),
-                'constitutional_creativity': auth_context.get('constitutional_valid', True),
-                'imagination_enabled': True,
-                'symbolic_creativity': auth_context.get('symbolic_identity')
+                "creativity_integration": True,
+                "creative_user": auth_context.get("user_id"),
+                "creative_permissions": auth_context.get("scopes", []),
+                "creative_tier": auth_context.get("tier_level", "T1"),
+                "constitutional_creativity": auth_context.get(
+                    "constitutional_valid", True
+                ),
+                "imagination_enabled": True,
+                "symbolic_creativity": auth_context.get("symbolic_identity"),
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.CREATIVITY,
-            'trinity_aspect': 'consciousness'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.CREATIVITY,
+            "trinity_aspect": "consciousness",
         }
 
     def _create_quantum_adapter(self) -> dict[str, Callable]:
         """Create quantum module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'qi_integration': True,
-                'qi_user': auth_context.get('user_id'),
-                'qi_permissions': auth_context.get('scopes', []),
-                'qi_tier': auth_context.get('tier_level', 'T1'),
-                'qi_identity': auth_context.get('symbolic_identity'),
-                'entanglement_enabled': True,
-                'superposition_access': 'quantum:' in str(auth_context.get('scopes', []))
+                "qi_integration": True,
+                "qi_user": auth_context.get("user_id"),
+                "qi_permissions": auth_context.get("scopes", []),
+                "qi_tier": auth_context.get("tier_level", "T1"),
+                "qi_identity": auth_context.get("symbolic_identity"),
+                "entanglement_enabled": True,
+                "superposition_access": "quantum:"
+                in str(auth_context.get("scopes", [])),
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.QUANTUM,
-            'trinity_aspect': 'identity'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.QUANTUM,
+            "trinity_aspect": "identity",
         }
 
     def _create_bio_adapter(self) -> dict[str, Callable]:
         """Create bio module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'bio_integration': True,
-                'bio_user': auth_context.get('user_id'),
-                'bio_permissions': auth_context.get('scopes', []),
-                'bio_tier': auth_context.get('tier_level', 'T1'),
-                'bio_identity': auth_context.get('symbolic_identity'),
-                'adaptation_enabled': True,
-                'oscillation_access': 'bio:' in str(auth_context.get('scopes', []))
+                "bio_integration": True,
+                "bio_user": auth_context.get("user_id"),
+                "bio_permissions": auth_context.get("scopes", []),
+                "bio_tier": auth_context.get("tier_level", "T1"),
+                "bio_identity": auth_context.get("symbolic_identity"),
+                "adaptation_enabled": True,
+                "oscillation_access": "bio:" in str(auth_context.get("scopes", [])),
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.BIO,
-            'trinity_aspect': 'identity'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.BIO,
+            "trinity_aspect": "identity",
         }
 
     def _create_identity_adapter(self) -> dict[str, Callable]:
         """Create identity module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'identity_integration': True,
-                'lambda_id': auth_context.get('user_id'),
-                'identity_permissions': auth_context.get('scopes', []),
-                'identity_tier': auth_context.get('tier_level', 'T1'),
-                'symbolic_self': auth_context.get('symbolic_identity'),
-                'autonomy_enabled': True,
-                'self_modification': 'identity:' in str(auth_context.get('scopes', []))
+                "identity_integration": True,
+                "lambda_id": auth_context.get("user_id"),
+                "identity_permissions": auth_context.get("scopes", []),
+                "identity_tier": auth_context.get("tier_level", "T1"),
+                "symbolic_self": auth_context.get("symbolic_identity"),
+                "autonomy_enabled": True,
+                "self_modification": "identity:" in str(auth_context.get("scopes", [])),
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.IDENTITY,
-            'trinity_aspect': 'identity'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.IDENTITY,
+            "trinity_aspect": "identity",
         }
 
     def _create_guardian_adapter(self) -> dict[str, Callable]:
         """Create guardian module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'guardian_integration': True,
-                'protected_user': auth_context.get('user_id'),
-                'guardian_permissions': auth_context.get('scopes', []),
-                'protection_tier': auth_context.get('tier_level', 'T1'),
-                'guardian_identity': auth_context.get('symbolic_identity'),
-                'monitoring_enabled': True,
-                'ethical_oversight': auth_context.get('constitutional_valid', True),
-                'bias_detection': auth_context.get('bias_flags', []),
-                'drift_score': auth_context.get('drift_score', 0.0)
+                "guardian_integration": True,
+                "protected_user": auth_context.get("user_id"),
+                "guardian_permissions": auth_context.get("scopes", []),
+                "protection_tier": auth_context.get("tier_level", "T1"),
+                "guardian_identity": auth_context.get("symbolic_identity"),
+                "monitoring_enabled": True,
+                "ethical_oversight": auth_context.get("constitutional_valid", True),
+                "bias_detection": auth_context.get("bias_flags", []),
+                "drift_score": auth_context.get("drift_score", 0.0),
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.GUARDIAN,
-            'trinity_aspect': 'guardian'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.GUARDIAN,
+            "trinity_aspect": "guardian",
         }
 
     def _create_bridge_adapter(self) -> dict[str, Callable]:
         """Create bridge module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'bridge_integration': True,
-                'bridged_user': auth_context.get('user_id'),
-                'bridge_permissions': auth_context.get('scopes', []),
-                'bridge_tier': auth_context.get('tier_level', 'T1'),
-                'bridge_identity': auth_context.get('symbolic_identity'),
-                'communication_enabled': True,
-                'api_access': 'api:' in str(auth_context.get('scopes', []))
+                "bridge_integration": True,
+                "bridged_user": auth_context.get("user_id"),
+                "bridge_permissions": auth_context.get("scopes", []),
+                "bridge_tier": auth_context.get("tier_level", "T1"),
+                "bridge_identity": auth_context.get("symbolic_identity"),
+                "communication_enabled": True,
+                "api_access": "api:" in str(auth_context.get("scopes", [])),
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.BRIDGE,
-            'trinity_aspect': 'guardian'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.BRIDGE,
+            "trinity_aspect": "guardian",
         }
 
     def _create_core_adapter(self) -> dict[str, Callable]:
         """Create core module adapter"""
+
         async def prepare_payload(auth_context: dict[str, Any]) -> dict[str, Any]:
             return {
-                'core_integration': True,
-                'core_user': auth_context.get('user_id'),
-                'core_permissions': auth_context.get('scopes', []),
-                'core_tier': auth_context.get('tier_level', 'T1'),
-                'core_identity': auth_context.get('symbolic_identity'),
-                'system_access': True,
-                'glyph_enabled': True,
-                'trinity_integrated': True
+                "core_integration": True,
+                "core_user": auth_context.get("user_id"),
+                "core_permissions": auth_context.get("scopes", []),
+                "core_tier": auth_context.get("tier_level", "T1"),
+                "core_identity": auth_context.get("symbolic_identity"),
+                "system_access": True,
+                "glyph_enabled": True,
+                "trinity_integrated": True,
             }
 
         return {
-            'prepare_payload': prepare_payload,
-            'module_type': ModuleType.CORE,
-            'trinity_aspect': 'guardian'
+            "prepare_payload": prepare_payload,
+            "module_type": ModuleType.CORE,
+            "trinity_aspect": "guardian",
         }
 
     async def get_user_module_contexts(self, user_id: str) -> dict[str, Any]:
@@ -725,16 +767,18 @@ class AuthCrossModuleIntegrator:
         for module_type in self.registered_modules:
             adapter = self.module_adapters.get(module_type)
             if adapter:
-                module_contexts[module_type.value] = await adapter['prepare_payload'](context.metadata)
+                module_contexts[module_type.value] = await adapter["prepare_payload"](
+                    context.metadata
+                )
 
         return {
-            'user_id': user_id,
-            'base_context': asdict(context),
-            'module_contexts': module_contexts,
-            'trinity_integration': self.trinity_integration.get_trinity_context_for_module(
+            "user_id": user_id,
+            "base_context": asdict(context),
+            "module_contexts": module_contexts,
+            "trinity_integration": self.trinity_integration.get_trinity_context_for_module(
                 ModuleType.CORE, context.metadata
             ),
-            'last_updated': datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat(),
         }
 
     async def cleanup_user_contexts(self, user_id: str) -> bool:
@@ -748,11 +792,11 @@ class AuthCrossModuleIntegrator:
             cleanup_results = await self.propagate_auth_context(
                 user_id=user_id,
                 auth_event=AuthEventType.SESSION_END,
-                auth_context={'cleanup': True, 'user_id': user_id}
+                auth_context={"cleanup": True, "user_id": user_id},
             )
 
             # Update statistics
-            self.integration_stats['active_sessions'] = len(self.active_contexts)
+            self.integration_stats["active_sessions"] = len(self.active_contexts)
 
             return all(cleanup_results.values())
 
@@ -763,15 +807,15 @@ class AuthCrossModuleIntegrator:
     def get_integration_status(self) -> dict[str, Any]:
         """Get cross-module integration status"""
         return {
-            'registered_modules': len(self.registered_modules),
-            'active_contexts': len(self.active_contexts),
-            'pending_messages': len(self.pending_messages),
-            'module_types': [m.value for m in self.registered_modules],
-            'trinity_integration': True,
-            'glyph_communication': auth_glyph_registry is not None,
-            'kernel_bus_available': self.kernel_bus is not None,
-            'statistics': self.integration_stats,
-            'last_updated': datetime.now().isoformat()
+            "registered_modules": len(self.registered_modules),
+            "active_contexts": len(self.active_contexts),
+            "pending_messages": len(self.pending_messages),
+            "module_types": [m.value for m in self.registered_modules],
+            "trinity_integration": True,
+            "glyph_communication": auth_glyph_registry is not None,
+            "kernel_bus_available": self.kernel_bus is not None,
+            "statistics": self.integration_stats,
+            "last_updated": datetime.now().isoformat(),
         }
 
 
@@ -781,11 +825,11 @@ auth_cross_module_integrator = AuthCrossModuleIntegrator()
 
 # Export main classes and instance
 __all__ = [
-    'AuthCrossModuleIntegrator',
-    'TrinityFrameworkIntegration',
-    'AuthModuleMessage',
-    'ModuleAuthContext',
-    'ModuleType',
-    'AuthMessageType',
-    'auth_cross_module_integrator'
+    "AuthCrossModuleIntegrator",
+    "TrinityFrameworkIntegration",
+    "AuthModuleMessage",
+    "ModuleAuthContext",
+    "ModuleType",
+    "AuthMessageType",
+    "auth_cross_module_integrator",
 ]

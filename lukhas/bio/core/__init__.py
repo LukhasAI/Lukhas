@@ -18,5 +18,5 @@ __all__ = [
     "BioSymbolic",
     "BioSymbolicOrchestrator",
     "symbolic_bio_symbolic",
-    "symbolic_bio_symbolic_orchestrator"
+    "symbolic_bio_symbolic_orchestrator",
 ]

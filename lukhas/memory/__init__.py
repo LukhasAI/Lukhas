@@ -82,7 +82,7 @@ def dump_state(output_path: str) -> dict[str, Any]:
             try:
                 # Get fold count from manager
                 fold_count = len(getattr(manager.fold_manager, "folds", {}))
-            except:
+            except Exception:
                 fold_count = 0
         else:
             fold_count = 0

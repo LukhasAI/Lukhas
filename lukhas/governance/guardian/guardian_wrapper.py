@@ -36,6 +36,7 @@ _guardian_instance = None
 if GUARDIAN_ACTIVE:
     try:
         from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
+
         _guardian_instance = GuardianSystemImpl(drift_threshold=DRIFT_THRESHOLD)
     except ImportError:
         pass
@@ -49,7 +50,7 @@ def detect_drift(
     threshold: float | None = None,
     context: dict[str, Any] | None = None,
     mode: str = "dry_run",
-    **kwargs
+    **kwargs,
 ) -> dict[str, Any]:
     """
     Detect ethical drift in system behavior.
@@ -77,7 +78,7 @@ def detect_drift(
                 baseline=baseline_behavior,
                 current=current_behavior,
                 threshold=threshold,
-                context=context
+                context=context,
             )
 
             return {
@@ -88,14 +89,14 @@ def detect_drift(
                 "remediation_needed": result.remediation_needed,
                 "details": result.details,
                 "correlation_id": correlation_id,
-                "mode": "live"
+                "mode": "live",
             }
         except Exception as e:
             return {
                 "ok": False,
                 "error": str(e),
                 "correlation_id": correlation_id,
-                "mode": "live"
+                "mode": "live",
             }
 
     # Dry-run simulation
@@ -112,10 +113,10 @@ def detect_drift(
             "simulation": True,
             "baseline_length": len(baseline_behavior),
             "current_length": len(current_behavior),
-            "threshold_used": threshold
+            "threshold_used": threshold,
         },
         "correlation_id": correlation_id,
-        "mode": "dry_run"
+        "mode": "dry_run",
     }
 
 
@@ -125,7 +126,7 @@ def evaluate_ethics(
     *,
     context: dict[str, Any] | None = None,
     mode: str = "dry_run",
-    **kwargs
+    **kwargs,
 ) -> dict[str, Any]:
     """
     Evaluate the ethical implications of an action.
@@ -145,8 +146,7 @@ def evaluate_ethics(
         # Use real implementation
         try:
             decision = _guardian_instance.evaluate_ethics(
-                action=action,
-                context=context
+                action=action, context=context
             )
 
             return {
@@ -158,14 +158,14 @@ def evaluate_ethics(
                 "recommendations": decision.recommendations or [],
                 "drift_score": decision.drift_score,
                 "correlation_id": correlation_id,
-                "mode": "live"
+                "mode": "live",
             }
         except Exception as e:
             return {
                 "ok": False,
                 "error": str(e),
                 "correlation_id": correlation_id,
-                "mode": "live"
+                "mode": "live",
             }
 
     # Dry-run simulation
@@ -179,7 +179,7 @@ def evaluate_ethics(
         "confidence": simulated_decision["confidence"],
         "recommendations": simulated_decision["recommendations"],
         "correlation_id": correlation_id,
-        "mode": "dry_run"
+        "mode": "dry_run",
     }
 
 
@@ -190,7 +190,7 @@ def check_safety(
     context: dict[str, Any] | None = None,
     constitutional_check: bool = True,
     mode: str = "dry_run",
-    **kwargs
+    **kwargs,
 ) -> dict[str, Any]:
     """
     Perform safety validation on content.
@@ -213,7 +213,7 @@ def check_safety(
             result = _guardian_instance.check_safety(
                 content=content,
                 context=context,
-                constitutional_check=constitutional_check
+                constitutional_check=constitutional_check,
             )
 
             return {
@@ -224,14 +224,14 @@ def check_safety(
                 "recommendations": result.recommendations,
                 "constitutional_check": result.constitutional_check,
                 "correlation_id": correlation_id,
-                "mode": "live"
+                "mode": "live",
             }
         except Exception as e:
             return {
                 "ok": False,
                 "error": str(e),
                 "correlation_id": correlation_id,
-                "mode": "live"
+                "mode": "live",
             }
 
     # Dry-run simulation
@@ -245,7 +245,7 @@ def check_safety(
         "recommendations": simulated_result["recommendations"],
         "constitutional_check": constitutional_check,
         "correlation_id": correlation_id,
-        "mode": "dry_run"
+        "mode": "dry_run",
     }
 
 
@@ -271,14 +271,10 @@ def get_guardian_status(*, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
                 "constitutional_ai_enabled": status.get("constitutional_ai", True),
                 "ethics_engine_status": status.get("ethics_status", "active"),
                 "safety_validator_status": status.get("safety_status", "active"),
-                "mode": "live"
+                "mode": "live",
             }
         except Exception as e:
-            return {
-                "ok": False,
-                "error": str(e),
-                "mode": "live"
-            }
+            return {"ok": False, "error": str(e), "mode": "live"}
 
     # Dry-run status
     return {
@@ -289,7 +285,7 @@ def get_guardian_status(*, mode: str = "dry_run", **kwargs) -> dict[str, Any]:
         "ethics_engine_status": "simulated",
         "safety_validator_status": "simulated",
         "feature_flag_active": GUARDIAN_ACTIVE,
-        "mode": "dry_run"
+        "mode": "dry_run",
     }
 
 
@@ -330,7 +326,10 @@ def _simulate_ethical_decision(action: GovernanceAction) -> dict[str, Any]:
             "reason": "Simulated ethical concern detected",
             "severity": "high",
             "confidence": 0.8,
-            "recommendations": ["Review action requirements", "Consider safer alternatives"]
+            "recommendations": [
+                "Review action requirements",
+                "Consider safer alternatives",
+            ],
         }
 
     return {
@@ -338,7 +337,7 @@ def _simulate_ethical_decision(action: GovernanceAction) -> dict[str, Any]:
         "reason": "No simulated ethical concerns",
         "severity": "low",
         "confidence": 0.9,
-        "recommendations": ["Proceed with monitoring"]
+        "recommendations": ["Proceed with monitoring"],
     }
 
 
@@ -366,5 +365,5 @@ def _simulate_safety_check(content: str, constitutional_check: bool) -> dict[str
         "safe": safe,
         "risk_level": risk_level,
         "violations": violations,
-        "recommendations": recommendations
+        "recommendations": recommendations,
     }

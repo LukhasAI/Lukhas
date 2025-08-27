@@ -23,6 +23,7 @@ LAMBDA_CORE_PATH = LUKHAS_ROOT / "lambda_products_pack" / "lambda_core"
 sys.path.insert(0, str(CANDIDATE_AUTH_PATH))
 sys.path.insert(0, str(LAMBDA_CORE_PATH))
 
+
 class AuthenticationIntegration:
     """
     🎖️ LUKHAS Authentication Integration Bridge
@@ -54,7 +55,9 @@ class AuthenticationIntegration:
             # Initialize integration bridges
             await self._initialize_bridges()
 
-            self.logger.info("LUKHAS Authentication Integration initialized successfully")
+            self.logger.info(
+                "LUKHAS Authentication Integration initialized successfully"
+            )
 
         except Exception as e:
             self.logger.error("Integration initialization failed: %s", e)
@@ -66,27 +69,27 @@ class AuthenticationIntegration:
             # Core consciousness components
             auth_core_path = CANDIDATE_AUTH_PATH / "auth"
             if auth_core_path.exists():
-                self._components['auth_core'] = str(auth_core_path)
+                self._components["auth_core"] = str(auth_core_path)
 
             # Backend services
             auth_backend_path = CANDIDATE_AUTH_PATH / "auth_backend"
             if auth_backend_path.exists():
-                self._components['auth_backend'] = str(auth_backend_path)
+                self._components["auth_backend"] = str(auth_backend_path)
 
             # Web components
             auth_web_path = CANDIDATE_AUTH_PATH / "auth_web"
             if auth_web_path.exists():
-                self._components['auth_web'] = str(auth_web_path)
+                self._components["auth_web"] = str(auth_web_path)
 
             # Utility components
             auth_utils_path = CANDIDATE_AUTH_PATH / "auth_utils"
             if auth_utils_path.exists():
-                self._components['auth_utils'] = str(auth_utils_path)
+                self._components["auth_utils"] = str(auth_utils_path)
 
             # Integration bridges
             auth_integrations_path = CANDIDATE_AUTH_PATH / "auth_integrations"
             if auth_integrations_path.exists():
-                self._components['auth_integrations'] = str(auth_integrations_path)
+                self._components["auth_integrations"] = str(auth_integrations_path)
 
             self.logger.info("Consolidated auth components loaded")
 
@@ -99,14 +102,14 @@ class AuthenticationIntegration:
         try:
             wallet_path = LAMBDA_CORE_PATH / "WALLET"
             if wallet_path.exists():
-                self._components['wallet'] = {
-                    'path': str(wallet_path),
-                    'components': {
-                        'identity_manager': wallet_path / "identity_manager.py",
-                        'qi_identity_core': wallet_path / "qi_identity_core.py",
-                        'symbolic_vault': wallet_path / "symbolic_vault.py",
-                        'wallet_core': wallet_path / "wallet_core.py"
-                    }
+                self._components["wallet"] = {
+                    "path": str(wallet_path),
+                    "components": {
+                        "identity_manager": wallet_path / "identity_manager.py",
+                        "qi_identity_core": wallet_path / "qi_identity_core.py",
+                        "symbolic_vault": wallet_path / "symbolic_vault.py",
+                        "wallet_core": wallet_path / "wallet_core.py",
+                    },
                 }
                 self.logger.info("WALLET components loaded")
             else:
@@ -121,15 +124,15 @@ class AuthenticationIntegration:
         try:
             qrg_path = LAMBDA_CORE_PATH / "QRG"
             if qrg_path.exists():
-                self._components['qrg'] = {
-                    'path': str(qrg_path),
-                    'components': {
-                        'qrg_core': qrg_path / "qrg_core.py",
-                        'animation_engine': qrg_path / "animation_engine.py",
-                        'steganography': qrg_path / "steganography.py",
-                        'consciousness_layer': qrg_path / "consciousness_layer.py",
-                        'qi_entropy': qrg_path / "qi_entropy.py"
-                    }
+                self._components["qrg"] = {
+                    "path": str(qrg_path),
+                    "components": {
+                        "qrg_core": qrg_path / "qrg_core.py",
+                        "animation_engine": qrg_path / "animation_engine.py",
+                        "steganography": qrg_path / "steganography.py",
+                        "consciousness_layer": qrg_path / "consciousness_layer.py",
+                        "qi_entropy": qrg_path / "qi_entropy.py",
+                    },
                 }
                 self.logger.info("QRG components loaded")
             else:
@@ -143,16 +146,20 @@ class AuthenticationIntegration:
         """Initialize integration bridges between components"""
         try:
             # Initialize WALLET bridge if available
-            if 'wallet' in self._components:
-                wallet_bridge_path = CANDIDATE_AUTH_PATH / "auth_integrations" / "wallet_bridge.py"
+            if "wallet" in self._components:
+                wallet_bridge_path = (
+                    CANDIDATE_AUTH_PATH / "auth_integrations" / "wallet_bridge.py"
+                )
                 if wallet_bridge_path.exists():
-                    self._bridges['wallet'] = str(wallet_bridge_path)
+                    self._bridges["wallet"] = str(wallet_bridge_path)
 
             # Initialize QRG bridge if available
-            if 'qrg' in self._components:
-                qrg_bridge_path = CANDIDATE_AUTH_PATH / "auth_integrations" / "qrg_bridge.py"
+            if "qrg" in self._components:
+                qrg_bridge_path = (
+                    CANDIDATE_AUTH_PATH / "auth_integrations" / "qrg_bridge.py"
+                )
                 if qrg_bridge_path.exists():
-                    self._bridges['qrg'] = str(qrg_bridge_path)
+                    self._bridges["qrg"] = str(qrg_bridge_path)
 
             self.logger.info("Integration bridges initialized")
 
@@ -171,19 +178,21 @@ class AuthenticationIntegration:
     def get_integration_status(self) -> dict[str, Any]:
         """Get current integration status"""
         return {
-            'components_loaded': len(self._components),
-            'bridges_initialized': len(self._bridges),
-            'components': list(self._components.keys()),
-            'bridges': list(self._bridges.keys()),
-            'paths': {
-                'candidate_auth': str(CANDIDATE_AUTH_PATH),
-                'lambda_core': str(LAMBDA_CORE_PATH),
-                'lukhas_root': str(LUKHAS_ROOT)
-            }
+            "components_loaded": len(self._components),
+            "bridges_initialized": len(self._bridges),
+            "components": list(self._components.keys()),
+            "bridges": list(self._bridges.keys()),
+            "paths": {
+                "candidate_auth": str(CANDIDATE_AUTH_PATH),
+                "lambda_core": str(LAMBDA_CORE_PATH),
+                "lukhas_root": str(LUKHAS_ROOT),
+            },
         }
+
 
 # Global integration instance
 _integration = None
+
 
 async def get_integration() -> AuthenticationIntegration:
     """Get the global authentication integration instance"""
@@ -193,11 +202,12 @@ async def get_integration() -> AuthenticationIntegration:
         await _integration.initialize()
     return _integration
 
+
 # Export key components
 __all__ = [
-    'AuthenticationIntegration',
-    'get_integration',
-    'LUKHAS_ROOT',
-    'CANDIDATE_AUTH_PATH',
-    'LAMBDA_CORE_PATH'
+    "AuthenticationIntegration",
+    "get_integration",
+    "LUKHAS_ROOT",
+    "CANDIDATE_AUTH_PATH",
+    "LAMBDA_CORE_PATH",
 ]

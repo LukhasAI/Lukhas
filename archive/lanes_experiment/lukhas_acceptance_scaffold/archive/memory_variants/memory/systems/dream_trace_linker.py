@@ -232,7 +232,8 @@ class DreamTraceLinker:
         logger.info(f"Linking dream to memory: dream_id={dream_id}")
 
         # Generate trace ID
-        trace_id = f"ΛTRACE::MEM.{hashlib.sha256(  # Changed from MD5 for securityf'{dream_id}_{datetime.now()}'.encode()).hexdigest()[:5].upper()}"
+        # Changed from MD5 for security
+        trace_id = f"ΛTRACE::MEM.{hashlib.sha256(f'{dream_id}_{datetime.now()}'.encode()).hexdigest()[:5].upper()}"
 
         # Extract GLYPH signatures
         glyph_signatures = self._extract_glyph_signatures(dream_content, dream_metadata)

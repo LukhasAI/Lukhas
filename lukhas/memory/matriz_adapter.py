@@ -98,12 +98,19 @@ class MemoryMatrizAdapter:
         }
 
         return self.create_node(
-            node_type="memory:fold:create", state=state, labels=labels, metadata=metadata
+            node_type="memory:fold:create",
+            state=state,
+            labels=labels,
+            metadata=metadata,
         )
 
     @emit_node("memory:matriz:memory_accessed")
     def emit_memory_accessed(
-        self, query_type: str, results_count: int, operation_time_ms: float, mode: str = "dry_run"
+        self,
+        query_type: str,
+        results_count: int,
+        operation_time_ms: float,
+        mode: str = "dry_run",
     ) -> dict[str, Any]:
         """Emit MATRIZ node for memory access"""
 
@@ -155,12 +162,19 @@ class MemoryMatrizAdapter:
         }
 
         return self.create_node(
-            node_type="memory:consolidation", state=state, labels=labels, metadata=metadata
+            node_type="memory:consolidation",
+            state=state,
+            labels=labels,
+            metadata=metadata,
         )
 
     @emit_node("memory:matriz:cascade_prevention")
     def emit_cascade_prevention(
-        self, fold_count: int, folds_removed: int, prevention_rate: float, trigger_reason: str
+        self,
+        fold_count: int,
+        folds_removed: int,
+        prevention_rate: float,
+        trigger_reason: str,
     ) -> dict[str, Any]:
         """Emit MATRIZ node for cascade prevention events"""
 
@@ -182,7 +196,10 @@ class MemoryMatrizAdapter:
         }
 
         return self.create_node(
-            node_type="memory:cascade:prevention", state=state, labels=labels, metadata=metadata
+            node_type="memory:cascade:prevention",
+            state=state,
+            labels=labels,
+            metadata=metadata,
         )
 
     @emit_node("memory:matriz:performance_metrics")
@@ -221,7 +238,10 @@ class MemoryMatrizAdapter:
         }
 
         return self.create_node(
-            node_type="memory:performance:metrics", state=state, labels=labels, metadata=metadata
+            node_type="memory:performance:metrics",
+            state=state,
+            labels=labels,
+            metadata=metadata,
         )
 
     @emit_node("memory:matriz:error")

@@ -238,3 +238,5 @@ security_backup_cleanup_report_*.txt
 
 # Phase 1 Verification Artifacts
 verification_artifacts/
+
+errors.md

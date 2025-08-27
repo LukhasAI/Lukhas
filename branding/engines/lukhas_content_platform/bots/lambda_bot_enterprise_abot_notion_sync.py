@@ -73,7 +73,7 @@ class ABotNotionSync:
     def get_financial_data(self) -> Dict[str, Any]:
         """Get financial intelligence data"""
         try:
-            from LUKHAS AI ΛBot.core.abot_financial_intelligence import ABotFinancialIntelligence
+            from lukhas_ai_lambda_bot.core.abot_financial_intelligence import ABotFinancialIntelligence
             fi = ABotFinancialIntelligence()
             status = fi.get_financial_report()
 
@@ -150,7 +150,7 @@ class ABotNotionSync:
             health_data["status"] = "degraded"
 
         try:
-            from LUKHAS AI ΛBot.core.abot_financial_intelligence import ABotFinancialIntelligence
+            from lukhas_ai_lambda_bot.core.abot_financial_intelligence import ABotFinancialIntelligence
             health_data["financial_intelligence"] = "✅ Online"
         except Exception as e:
             health_data["financial_intelligence"] = f"❌ Error: {e}"

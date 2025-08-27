@@ -19,6 +19,7 @@ from lukhas.observability.matriz_emit import emit
 
 logger = logging.getLogger(__name__)
 
+
 class ExternalServiceIntegration:
     """Integration layer for external services and APIs"""
 
@@ -33,7 +34,9 @@ class ExternalServiceIntegration:
     def initialize_services(self) -> dict[str, Any]:
         """Initialize external service connections safely"""
         if not self._active:
-            emit({"ntype": "bridge_init_skipped", "state": {"reason": "bridge_inactive"}})
+            emit(
+                {"ntype": "bridge_init_skipped", "state": {"reason": "bridge_inactive"}}
+            )
             return {"initialized": False, "reason": "bridge_inactive"}
 
         try:
@@ -50,7 +53,7 @@ class ExternalServiceIntegration:
                 "dry_run": self._dry_run,
                 "llm_providers": llm_status,
                 "service_adapters": adapter_status,
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
             emit({"ntype": "bridge_services_initialized", "state": status})
@@ -156,7 +159,7 @@ class ExternalServiceIntegration:
                 "prompt": prompt[:50] + "..." if len(prompt) > 50 else prompt,
                 "result": f"[DRY_RUN] Simulated response from {provider}",
                 "dry_run": True,
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         # In production, would make actual API calls
@@ -164,11 +167,13 @@ class ExternalServiceIntegration:
             "provider": provider,
             "result": f"[MOCK] Response from {provider}",
             "dry_run": False,
-            "error": "production_mode_not_implemented"
+            "error": "production_mode_not_implemented",
         }
 
     @instrument("bridge_service_call")
-    def call_service_adapter(self, service: str, operation: str, **kwargs) -> dict[str, Any]:
+    def call_service_adapter(
+        self, service: str, operation: str, **kwargs
+    ) -> dict[str, Any]:
         """Call a service adapter with safety measures"""
         if not self._active:
             return {"error": "bridge_inactive", "result": None}
@@ -180,7 +185,7 @@ class ExternalServiceIntegration:
                 "operation": operation,
                 "result": f"[DRY_RUN] Simulated {operation} on {service}",
                 "dry_run": True,
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         # In production, would make actual service calls
@@ -189,8 +194,9 @@ class ExternalServiceIntegration:
             "operation": operation,
             "result": f"[MOCK] {operation} on {service}",
             "dry_run": False,
-            "error": "production_mode_not_implemented"
+            "error": "production_mode_not_implemented",
         }
+
 
 class MultiModelOrchestrator:
     """Orchestrates multiple AI models for consensus and enhanced processing"""
@@ -200,7 +206,9 @@ class MultiModelOrchestrator:
         self._consensus_threshold = 0.7
 
     @instrument("bridge_consensus_process")
-    async def consensus_process(self, query: str, models: Optional[list[str]] = None) -> dict[str, Any]:
+    async def consensus_process(
+        self, query: str, models: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Process query through multiple models and synthesize consensus"""
         if models is None:
             models = ["openai", "anthropic", "gemini"]
@@ -209,9 +217,7 @@ class MultiModelOrchestrator:
             # Process query through multiple models in parallel
             tasks = []
             for model in models:
-                task = asyncio.create_task(
-                    self._process_with_model(model, query)
-                )
+                task = asyncio.create_task(self._process_with_model(model, query))
                 tasks.append(task)
 
             # Wait for all models to respond
@@ -221,19 +227,21 @@ class MultiModelOrchestrator:
             valid_responses = []
             for i, response in enumerate(responses):
                 if isinstance(response, dict) and "error" not in response:
-                    valid_responses.append({
-                        "model": models[i],
-                        "response": response
-                    })
+                    valid_responses.append({"model": models[i], "response": response})
 
             # Synthesize consensus
             consensus = self._synthesize_consensus(valid_responses, query)
 
-            emit({"ntype": "bridge_consensus_completed", "state": {
-                "models_used": models,
-                "valid_responses": len(valid_responses),
-                "consensus_confidence": consensus.get("confidence", 0.0)
-            }})
+            emit(
+                {
+                    "ntype": "bridge_consensus_completed",
+                    "state": {
+                        "models_used": models,
+                        "valid_responses": len(valid_responses),
+                        "consensus_confidence": consensus.get("confidence", 0.0),
+                    },
+                }
+            )
 
             return consensus
 
@@ -249,10 +257,7 @@ class MultiModelOrchestrator:
             await asyncio.sleep(0.1)
 
             result = self._integration.call_llm_provider(
-                provider=model,
-                prompt=query,
-                max_tokens=150,
-                temperature=0.7
+                provider=model, prompt=query, max_tokens=150, temperature=0.7
             )
 
             return result
@@ -260,14 +265,16 @@ class MultiModelOrchestrator:
         except Exception as e:
             return {"error": str(e), "model": model}
 
-    def _synthesize_consensus(self, responses: list[dict[str, Any]], query: str) -> dict[str, Any]:
+    def _synthesize_consensus(
+        self, responses: list[dict[str, Any]], query: str
+    ) -> dict[str, Any]:
         """Synthesize consensus from multiple model responses"""
         if not responses:
             return {
                 "consensus": "No valid responses received",
                 "confidence": 0.0,
                 "models_used": [],
-                "query": query
+                "query": query,
             }
 
         # Simple consensus synthesis (in production, would be more sophisticated)
@@ -286,8 +293,9 @@ class MultiModelOrchestrator:
             "models_used": [r["model"] for r in responses],
             "individual_responses": responses,
             "query": query,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
+
 
 class BridgeWrapper:
     """
@@ -309,7 +317,12 @@ class BridgeWrapper:
 
             if init_result.get("initialized", False):
                 self._initialized = True
-                emit({"ntype": "bridge_wrapper_initialized", "state": {"status": "success"}})
+                emit(
+                    {
+                        "ntype": "bridge_wrapper_initialized",
+                        "state": {"status": "success"},
+                    }
+                )
                 return True
             else:
                 emit({"ntype": "bridge_wrapper_init_failed", "state": init_result})
@@ -321,7 +334,9 @@ class BridgeWrapper:
             return False
 
     @instrument("bridge_multi_model_query")
-    async def multi_model_query(self, query: str, models: Optional[list[str]] = None) -> dict[str, Any]:
+    async def multi_model_query(
+        self, query: str, models: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Query multiple AI models and return consensus response"""
         if not self._initialized:
             self.initialize()
@@ -329,43 +344,57 @@ class BridgeWrapper:
         try:
             result = await self._orchestrator.consensus_process(query, models)
 
-            emit({"ntype": "bridge_multi_model_query_completed", "state": {
-                "query_length": len(query),
-                "models": models or ["openai", "anthropic", "gemini"],
-                "success": "error" not in result
-            }})
+            emit(
+                {
+                    "ntype": "bridge_multi_model_query_completed",
+                    "state": {
+                        "query_length": len(query),
+                        "models": models or ["openai", "anthropic", "gemini"],
+                        "success": "error" not in result,
+                    },
+                }
+            )
 
             return result
 
         except Exception as e:
             logger.error(f"Multi-model query failed: {e}")
-            emit({"ntype": "bridge_multi_model_query_error", "state": {"error": str(e)}})
+            emit(
+                {"ntype": "bridge_multi_model_query_error", "state": {"error": str(e)}}
+            )
             return {"error": str(e)}
 
     @instrument("bridge_service_operation")
-    def service_operation(self, service: str, operation: str, **kwargs) -> dict[str, Any]:
+    def service_operation(
+        self, service: str, operation: str, **kwargs
+    ) -> dict[str, Any]:
         """Perform operation on external service"""
         if not self._initialized:
             self.initialize()
 
         try:
             result = self._service_integration.call_service_adapter(
-                service=service,
-                operation=operation,
-                **kwargs
+                service=service, operation=operation, **kwargs
             )
 
-            emit({"ntype": "bridge_service_operation_completed", "state": {
-                "service": service,
-                "operation": operation,
-                "success": "error" not in result
-            }})
+            emit(
+                {
+                    "ntype": "bridge_service_operation_completed",
+                    "state": {
+                        "service": service,
+                        "operation": operation,
+                        "success": "error" not in result,
+                    },
+                }
+            )
 
             return result
 
         except Exception as e:
             logger.error(f"Service operation failed: {e}")
-            emit({"ntype": "bridge_service_operation_error", "state": {"error": str(e)}})
+            emit(
+                {"ntype": "bridge_service_operation_error", "state": {"error": str(e)}}
+            )
             return {"error": str(e)}
 
     def get_status(self) -> dict[str, Any]:
@@ -379,8 +408,8 @@ class BridgeWrapper:
                 "multi_model_orchestration": True,
                 "service_integrations": True,
                 "consensus_processing": True,
-                "safety_measures": True
-            }
+                "safety_measures": True,
+            },
         }
 
     def get_supported_providers(self) -> dict[str, list[str]]:
@@ -389,11 +418,13 @@ class BridgeWrapper:
             "llm_providers": ["openai", "anthropic", "gemini", "perplexity"],
             "service_adapters": ["gmail", "drive", "dropbox"],
             "protocols": ["rest", "websocket", "grpc"],
-            "authentication": ["oauth2", "api_key", "jwt"]
+            "authentication": ["oauth2", "api_key", "jwt"],
         }
+
 
 # Global instance
 _bridge_wrapper = None
+
 
 def get_bridge_wrapper() -> BridgeWrapper:
     """Get the global bridge wrapper instance"""
@@ -402,10 +433,11 @@ def get_bridge_wrapper() -> BridgeWrapper:
         _bridge_wrapper = BridgeWrapper()
     return _bridge_wrapper
 
+
 # Export main interface
 __all__ = [
     "BridgeWrapper",
     "ExternalServiceIntegration",
     "MultiModelOrchestrator",
-    "get_bridge_wrapper"
+    "get_bridge_wrapper",
 ]

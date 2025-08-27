@@ -15,9 +15,11 @@ from typing import Any, Optional
 # Use fallback imports
 try:
     from lukhas.core.common import get_logger
+
     logger = get_logger(__name__, "BRIDGE")
 except ImportError:
     import logging
+
     logger = logging.getLogger(__name__)
 
 try:
@@ -150,16 +152,10 @@ class OpenAIModulatedService:
 
         # Add system message if context provides one
         if context and context.get("system_prompt"):
-            messages.append({
-                "role": "system",
-                "content": context["system_prompt"]
-            })
+            messages.append({"role": "system", "content": context["system_prompt"]})
 
         # Add user prompt
-        messages.append({
-            "role": "user",
-            "content": prompt
-        })
+        messages.append({"role": "user", "content": prompt})
 
         return messages
 

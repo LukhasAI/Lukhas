@@ -9,8 +9,14 @@ from pathlib import Path
 from typing import Any
 
 # Import WALLET components
-WALLET_PATH = Path(__file__).parent.parent.parent / "lambda_products_pack" / "lambda_core" / "WALLET"
+WALLET_PATH = (
+    Path(__file__).parent.parent.parent
+    / "lambda_products_pack"
+    / "lambda_core"
+    / "WALLET"
+)
 sys.path.insert(0, str(WALLET_PATH))
+
 
 class WalletAuthBridge:
     """
@@ -46,7 +52,9 @@ class WalletAuthBridge:
             self.logger.error("WALLET bridge initialization failed: %s", e)
             raise
 
-    async def authenticate_identity(self, credentials: dict[str, Any]) -> dict[str, Any]:
+    async def authenticate_identity(
+        self, credentials: dict[str, Any]
+    ) -> dict[str, Any]:
         """Authenticate using WALLET identity management"""
         if not self._initialized:
             await self.initialize()
@@ -54,23 +62,24 @@ class WalletAuthBridge:
         try:
             # Use WALLET identity manager for authentication
             result = {
-                'success': True,
-                'identity_verified': True,
-                'symbolic_vault_connected': True,
-                'qi_identity_processed': True,
-                'wallet_authenticated': True
+                "success": True,
+                "identity_verified": True,
+                "symbolic_vault_connected": True,
+                "qi_identity_processed": True,
+                "wallet_authenticated": True,
             }
 
             return result
 
         except Exception as e:
             self.logger.error("WALLET authentication failed: %s", e)
-            return {'success': False, 'error': str(e)}
+            return {"success": False, "error": str(e)}
 
     async def _load_wallet_components(self):
         """Load WALLET components"""
         # Components will be loaded dynamically when available
         self.logger.info("WALLET components loading deferred until runtime")
 
+
 # Export
-__all__ = ['WalletAuthBridge']
+__all__ = ["WalletAuthBridge"]

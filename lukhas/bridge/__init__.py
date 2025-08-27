@@ -34,17 +34,20 @@ MODULE_NAME = "bridge"
 # Global instance for singleton pattern
 _bridge_wrapper_instance = None
 
+
 def get_bridge_wrapper():
     """Get the Bridge wrapper instance (singleton)"""
     global _bridge_wrapper_instance
     if _bridge_wrapper_instance is None:
         try:
             from .bridge_wrapper import BridgeWrapper
+
             _bridge_wrapper_instance = BridgeWrapper()
         except ImportError as e:
             logger.warning(f"Failed to import BridgeWrapper: {e}")
             return None
     return _bridge_wrapper_instance
+
 
 def get_bridge_status() -> dict[str, Any]:
     """Get Bridge module status and capabilities"""
@@ -57,9 +60,10 @@ def get_bridge_status() -> dict[str, Any]:
             "llm_providers": ["openai", "anthropic", "gemini", "perplexity"],
             "service_adapters": ["gmail", "drive", "dropbox"],
             "api_support": ["rest", "websocket", "grpc"],
-            "security": ["oauth2", "circuit_breakers", "rate_limiting"]
-        }
+            "security": ["oauth2", "circuit_breakers", "rate_limiting"],
+        },
     }
+
 
 # Export main interface
 __all__ = [
@@ -67,5 +71,5 @@ __all__ = [
     "get_bridge_status",
     "BRIDGE_ACTIVE",
     "BRIDGE_DRY_RUN",
-    "MODULE_VERSION"
+    "MODULE_VERSION",
 ]

@@ -467,7 +467,7 @@ class HierarchicalDataStore:
         # Placeholder for symbolic compression
         symbol = {
             "type": "symbol",
-            "id": hashlib.sha256(  # Changed from MD5 for securitystr(content).encode()).hexdigest()[:8],
+            "id": hashlib.sha256(str(content).encode()).hexdigest()[:8],  # Changed from MD5 for security
         }
         return json.dumps(symbol).encode()
 

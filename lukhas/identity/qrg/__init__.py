@@ -9,7 +9,9 @@ from pathlib import Path
 from typing import Any
 
 # Import QRG components
-QRG_PATH = Path(__file__).parent.parent.parent / "lambda_products_pack" / "lambda_core" / "QRG"
+QRG_PATH = (
+    Path(__file__).parent.parent.parent / "lambda_products_pack" / "lambda_core" / "QRG"
+)
 sys.path.insert(0, str(QRG_PATH))
 
 
@@ -57,19 +59,19 @@ class QRGAuthBridge:
         try:
             # Use QRG components for advanced QR verification
             result = {
-                'success': True,
-                'qr_verified': True,
-                'animation_processed': True,
-                'steganography_decoded': True,
-                'consciousness_validated': True,
-                'qi_entropy_verified': True
+                "success": True,
+                "qr_verified": True,
+                "animation_processed": True,
+                "steganography_decoded": True,
+                "consciousness_validated": True,
+                "qi_entropy_verified": True,
             }
 
             return result
 
         except Exception as e:
             self.logger.error("QRG verification failed: %s", e)
-            return {'success': False, 'error': str(e)}
+            return {"success": False, "error": str(e)}
 
     async def _load_qrg_components(self):
         """Load QRG components"""
@@ -78,4 +80,4 @@ class QRGAuthBridge:
 
 
 # Export
-__all__ = ['QRGAuthBridge']
+__all__ = ["QRGAuthBridge"]

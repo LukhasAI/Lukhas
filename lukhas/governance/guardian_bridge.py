@@ -53,7 +53,7 @@ class GuardianSystem:
             context = {
                 "component": data.get("component", "unknown"),
                 "severity": data.get("severity", 0.1),
-                "action": data.get("action", "unknown")
+                "action": data.get("action", "unknown"),
             }
 
             # Use the new guardian system
@@ -76,7 +76,7 @@ class GuardianSystem:
             "active": True,
             "drift_threshold": self.drift_threshold,
             "version": "legacy_compatibility_bridge",
-            "guardian_system_active": True
+            "guardian_system_active": True,
         }
 
 

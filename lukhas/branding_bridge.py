@@ -153,7 +153,9 @@ BRANDING_AVAILABLE = True
 try:
     from branding.adapters.voice_adapter import BrandVoiceAdapter
     from branding.enforcement.real_time_validator import RealTimeBrandValidator
-    from branding.intelligence.brand_monitor import BrandIntelligenceMonitor as BrandMonitor
+    from branding.intelligence.brand_monitor import (
+        BrandIntelligenceMonitor as BrandMonitor,
+    )
 
     ADVANCED_BRANDING_AVAILABLE = True
 except ImportError as e:
