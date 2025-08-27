@@ -3,6 +3,8 @@ Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: mito_quantum_attention.py
 Advanced: mito_quantum_attention.py
 Integration Date: 2025-05-31T07:55:28.187065
+
+TODO[T4-AUDIT]:triage - Large legacy symbolic processing system. Need migration strategy vs preservation decision.
 """
 
 """
