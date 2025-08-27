@@ -166,6 +166,18 @@ make api                                   # API server (port 8000)
 python tools/analysis/functional_analysis.py  # System status
 ```
 
+### **Environment Configuration**
+Use `config/env.py` for centralized env access:
+```python
+from config import env
+
+JWT_SECRET = env.require("JWT_PRIVATE_KEY")  # raises if missing
+FRONTEND_ORIGIN = env.get("FRONTEND_ORIGIN", "http://localhost:3000")
+```
+Examples:
+- Copy `config/.env.example` and set required values.
+- `serve/main.py` reads `FRONTEND_ORIGIN` for CORS; authentication reads `LUKHAS_API_KEY` if set.
+
 ### **Agent Deployment**
 ```bash
 # Deploy Claude agent coordination system

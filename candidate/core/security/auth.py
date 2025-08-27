@@ -10,6 +10,15 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
+# Centralized env access
+try:
+    from config.env import get as env_get
+except Exception:  # Fallback if module not available in some envs
+    import os
+
+    def env_get(key: str, default=None):
+        return os.getenv(key, default)
+
 # Try to import optional dependencies with fallbacks
 try:
     import pyotp
@@ -205,8 +214,8 @@ class EnhancedAuthenticationSystem:
     """
 
     def __init__(self, redis_url: Optional[str] = None):
-        # JWT configuration
-        self.jwt_secret = secrets.token_urlsafe(32)
+        # JWT configuration (allow override via env)
+        self.jwt_secret = env_get("JWT_PRIVATE_KEY", secrets.token_urlsafe(32))
         self.jwt_algorithm = "HS256"
         self.jwt_expiry_hours = 24
 
@@ -216,7 +225,8 @@ class EnhancedAuthenticationSystem:
         self.require_mfa_for_sensitive = True
 
         # MFA configuration
-        self.totp_issuer = "LUKHAS AGI"
+        # Branding: use "LUKHAS AI" and allow env override via OIDC_ISSUER
+        self.totp_issuer = env_get("OIDC_ISSUER", "LUKHAS AI")
         self.totp_window = 1  # Allow 1 time step drift
         self.backup_code_length = 8
         self.backup_code_count = 10
