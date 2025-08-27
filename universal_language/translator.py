@@ -526,13 +526,19 @@ class UniversalTranslator:
         successful = sum(1 for r in self.translation_cache.values() if r.is_successful())
         failed = len(self.translation_cache) - successful
 
+        translation_types = {}
+        for r in self.translation_cache.values():
+            if r.translation_type:
+                type_name = r.translation_type.value
+                translation_types[type_name] = translation_types.get(type_name, 0) + 1
+
         return {
             "total_translations": len(self.translation_cache),
             "successful": successful,
             "failed": failed,
             "success_rate": successful / max(1, len(self.translation_cache)),
             "cache_size": len(self.translation_cache),
-            "translation_types": {}  # TODO: Count by type
+            "translation_types": translation_types
         }
 
 

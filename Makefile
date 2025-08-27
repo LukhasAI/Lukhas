@@ -636,4 +636,4 @@ hook-install:
 
 .PHONY: pc-all
 pc-all:
-\tpre-commit run --all-files || true
+	pre-commit run --all-files || true
