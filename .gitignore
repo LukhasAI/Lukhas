@@ -107,6 +107,8 @@ test_report.md
 reports/*
 # Exception: Track deep search indexes for external auditor
 !reports/deep_search/
+# Exception: Track linting reports for code quality analysis
+!reports/lints/
 .pytest_cache/
 .venv/
 .venv_test/
