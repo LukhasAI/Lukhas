@@ -13,7 +13,7 @@ from .trace_models import (
 __all__ = [
     "TraceResponse",
     "ExecutionTraceResponse",
-    "TraceNotFoundResponse", 
+    "TraceNotFoundResponse",
     "TraceErrorResponse",
     "TraceValidationErrorResponse",
 ]

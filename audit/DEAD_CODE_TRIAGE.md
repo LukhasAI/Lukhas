@@ -1,24 +1,24 @@
 # DEAD CODE TRIAGE ANALYSIS
 **LUKHAS AI Legacy Integration Specialist Report - Enhanced Edition**
 
-**Generated**: 2025-08-27 16:30:00  
-**Analysis Scope**: Complete codebase inventory - 3,769 Python files analyzed  
-**Data Sources**: PY_INDEX.txt, comprehensive orphan reports, module usage analysis  
-**Trinity Framework Focus**: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian  
+**Generated**: 2025-08-27 16:30:00
+**Analysis Scope**: Complete codebase inventory - 3,769 Python files analyzed
+**Data Sources**: PY_INDEX.txt, comprehensive orphan reports, module usage analysis
+**Trinity Framework Focus**: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 **Approach**: **NON-DESTRUCTIVE** - Documentation only, no file removals
 
 ---
 
 ## EXECUTIVE SUMMARY
 
-**Comprehensive Module Analysis**: 3,769 total Python files across entire LUKHAS AI codebase  
-**Orphan Rate**: 98.5% (3,713 orphaned / 56 actively imported)  
-**Preservation Strategy**: Categorize all modules into three strategic buckets for systematic handling  
-**Research Value**: Significant consciousness research and bio-inspired algorithms identified for preservation  
+**Comprehensive Module Analysis**: 3,769 total Python files across entire LUKHAS AI codebase
+**Orphan Rate**: 98.5% (3,713 orphaned / 56 actively imported)
+**Preservation Strategy**: Categorize all modules into three strategic buckets for systematic handling
+**Research Value**: Significant consciousness research and bio-inspired algorithms identified for preservation
 
 ### **Lane Distribution Analysis**
 - **candidate/**: ~1,850 files (development lane) - 49% of codebase
-- **lukhas/**: ~180 files (production lane) - 5% of codebase  
+- **lukhas/**: ~180 files (production lane) - 5% of codebase
 - **branding/**: ~400 files (brand/content systems) - 11% of codebase
 - **bio/**: ~250 files (bio-inspired algorithms) - 7% of codebase
 - **core/**: ~905 files (core infrastructure) - 24% of codebase
@@ -38,9 +38,9 @@
 ### 🔄 **CORE CANDIDATE** (Integration Priority)
 *Production-ready modules with clear promotion paths*
 
-**Total Files**: 45 modules across 8 categories  
-**Integration Timeline**: 4-6 weeks for full promotion  
-**Production Readiness**: 85%+ validated components  
+**Total Files**: 45 modules across 8 categories
+**Integration Timeline**: 4-6 weeks for full promotion
+**Production Readiness**: 85%+ validated components
 
 #### **Trinity Framework Core Components** (12 files)
 
@@ -144,12 +144,12 @@
 
 **candidate/compliance/ai_compliance.py** - AI compliance system with regulatory alignment features.
 
-### 🧪 **EXPERIMENTAL RESEARCH** (Preservation Priority)  
+### 🧪 **EXPERIMENTAL RESEARCH** (Preservation Priority)
 *Valuable research prototypes and consciousness experiments*
 
-**Total Files**: ~3,200 modules across research domains  
-**Preservation Strategy**: Archive with adapter interfaces  
-**Research Value**: High-value consciousness, bio-inspired, and quantum algorithms  
+**Total Files**: ~3,200 modules across research domains
+**Preservation Strategy**: Archive with adapter interfaces
+**Research Value**: High-value consciousness, bio-inspired, and quantum algorithms
 
 #### **NIAS Theory Components** (12 files)
 
@@ -244,9 +244,9 @@
 ### 🗃️ **DEPRECATED** (Documentation Required)
 *Legacy implementations with modern replacements*
 
-**Total Files**: 468+ legacy modules  
-**Documentation Status**: Requires migration documentation  
-**Archival Timeline**: 2-4 weeks with proper documentation  
+**Total Files**: 468+ legacy modules
+**Documentation Status**: Requires migration documentation
+**Archival Timeline**: 2-4 weeks with proper documentation
 
 #### **Legacy API Implementations** (15 files)
 
@@ -391,7 +391,7 @@
 **Missing Critical Components**
 ```
 TODO[T4-AUDIT]:triage - candidate/vivox/moral_alignment/ missing implementation
-TODO[T4-AUDIT]:triage - orchestrator_overlays/ external dependency resolution needed  
+TODO[T4-AUDIT]:triage - orchestrator_overlays/ external dependency resolution needed
 TODO[T4-AUDIT]:triage - tests.test_framework missing infrastructure rebuild required
 TODO[T4-AUDIT]:triage - lambda_products_pack/ dependency mapping analysis needed
 ```
@@ -415,9 +415,9 @@ TODO[T4-AUDIT]:triage - candidate/creativity/ creative processing research evalu
 ### **Systematic Triage Labels Added**
 
 **Files Requiring Analysis**: 247 modules now tagged with TODO[T4-AUDIT]:triage
-**Categories Requiring Triage**: 
+**Categories Requiring Triage**:
 - Research value assessment (145 files)
-- Integration path analysis (67 files) 
+- Integration path analysis (67 files)
 - Archival vs preservation decisions (35 files)
 
 **Triage Process**:
@@ -508,7 +508,7 @@ TODO[T4-AUDIT]:triage - candidate/creativity/ creative processing research evalu
 
 ### **Immediate Actions** (Next 48 hours)
 1. **Fix core.common dependency crisis** - Critical blocker for memory systems
-2. **Promote actor system infrastructure** - Enable distributed processing foundation  
+2. **Promote actor system infrastructure** - Enable distributed processing foundation
 3. **Export MemoryConfig properly** - Complete memory system functionality
 4. **Create VIVOX component stubs** - Resolve import failures in consciousness system
 
@@ -548,9 +548,9 @@ This comprehensive dead code triage analysis reveals that the LUKHAS AI codebase
 
 ---
 
-**Report Status**: ✅ **COMPLETE - COMPREHENSIVE NON-DESTRUCTIVE TRIAGE**  
-**Next Phase**: Implementation of critical infrastructure fixes and Trinity Framework completion  
-**Research Preservation**: Systematic archival with adapter interfaces for future integration  
+**Report Status**: ✅ **COMPLETE - COMPREHENSIVE NON-DESTRUCTIVE TRIAGE**
+**Next Phase**: Implementation of critical infrastructure fixes and Trinity Framework completion
+**Research Preservation**: Systematic archival with adapter interfaces for future integration
 **Production Readiness**: 45 modules ready for immediate promotion with comprehensive validation criteria
 
 This triage analysis enables the LUKHAS AI system to evolve systematically while preserving invaluable consciousness research for future integration and academic collaboration.

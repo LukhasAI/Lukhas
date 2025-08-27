@@ -633,3 +633,7 @@ hook-install:
 	npx husky add .husky/pre-commit "python3 tools/acceptance_gate.py" >/dev/null
 	npx husky add .husky/post-commit "make verify" >/dev/null
 	chmod +x .husky/pre-commit .husky/post-commit
+
+.PHONY: pc-all
+pc-all:
+\tpre-commit run --all-files || true

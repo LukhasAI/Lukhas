@@ -10,10 +10,10 @@ Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
 
 import re
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from .identity_core import AccessTier, identity_core
-from .store import create_user, verify_user, User
+from .store import create_user, verify_user
 
 logger = logging.getLogger(__name__)
 
@@ -61,39 +61,39 @@ def validate_password(password: str):
 def normalize_email(email: str) -> str:
     """
     Normalize email address for consistent processing.
-    
+
     Args:
         email: Raw email address
-        
+
     Returns:
         Normalized email address
     """
     if not email or "@" not in email:
         raise ValueError("Invalid email format")
-    
+
     # Basic email validation
     parts = email.split("@")
     if len(parts) != 2 or not parts[0] or not parts[1] or "." not in parts[1]:
         raise ValueError("Invalid email format")
-    
+
     return email.lower().strip()
 
 
 def signup(email: str, password: str) -> dict[str, Any]:
     """
     Create a new user account with email and password.
-    
+
     Args:
         email: User email address
         password: Plain text password
-        
+
     Returns:
         Dictionary with success status and user/token info
     """
     try:
         # Normalize email
         normalized_email = normalize_email(email)
-        
+
         # Validate password strength
         is_valid, error_message = validate_password(password)
         if not is_valid:
@@ -103,7 +103,7 @@ def signup(email: str, password: str) -> dict[str, Any]:
                 "user_id": None,
                 "token": None
             }
-        
+
         # Create user in database
         try:
             user = create_user(normalized_email, password)
@@ -116,7 +116,7 @@ def signup(email: str, password: str) -> dict[str, Any]:
                     "token": None
                 }
             raise
-        
+
         if not user:
             return {
                 "success": False,
@@ -124,10 +124,10 @@ def signup(email: str, password: str) -> dict[str, Any]:
                 "user_id": None,
                 "token": None
             }
-        
+
         # Generate user_id for token (backward compatibility)
         user_id = normalized_email.split("@")[0].replace(".", "_").lower()
-        
+
         # Create metadata for token
         metadata = {
             "email": normalized_email,
@@ -140,12 +140,12 @@ def signup(email: str, password: str) -> dict[str, Any]:
             "security_level": "enhanced" if CRYPTO_AVAILABLE else "basic",
             "mfa_level": user.mfa_level,
         }
-        
+
         # Create JWT token using existing identity_core
         token = identity_core.create_token(user_id, AccessTier.T2, metadata)
-        
+
         logger.info(f"User signup successful: {normalized_email} (ID: {user.id})")
-        
+
         return {
             "success": True,
             "token": token,
@@ -154,7 +154,7 @@ def signup(email: str, password: str) -> dict[str, Any]:
             "tier": "T2",
             "glyphs": identity_core.generate_identity_glyph(normalized_email),
         }
-        
+
     except ValueError as e:
         logger.warning(f"Signup validation error: {e}")
         return {
@@ -176,21 +176,21 @@ def signup(email: str, password: str) -> dict[str, Any]:
 def login_user(email: str, password: str) -> dict[str, Any]:
     """
     Enhanced login function with database authentication.
-    
+
     Args:
         email: User email address
         password: Plain text password
-        
+
     Returns:
         Dictionary with success status and user/token info
     """
     try:
         # Normalize email
         normalized_email = normalize_email(email)
-        
+
         # Authenticate against database
         user = verify_user(normalized_email, password)
-        
+
         if not user:
             return {
                 "success": False,
@@ -198,10 +198,10 @@ def login_user(email: str, password: str) -> dict[str, Any]:
                 "user_id": None,
                 "token": None
             }
-        
+
         # Generate user_id for token (backward compatibility)
         user_id = normalized_email.split("@")[0].replace(".", "_").lower()
-        
+
         # Create metadata for token
         metadata = {
             "email": normalized_email,
@@ -214,12 +214,12 @@ def login_user(email: str, password: str) -> dict[str, Any]:
             "security_level": "enhanced" if CRYPTO_AVAILABLE else "basic",
             "mfa_level": user.mfa_level,
         }
-        
+
         # Create JWT token using existing identity_core
         token = identity_core.create_token(user_id, AccessTier.T2, metadata)
-        
+
         logger.info(f"User login successful: {normalized_email} (ID: {user.id})")
-        
+
         return {
             "success": True,
             "token": token,
@@ -228,7 +228,7 @@ def login_user(email: str, password: str) -> dict[str, Any]:
             "tier": "T2",
             "glyphs": identity_core.generate_identity_glyph(normalized_email),
         }
-        
+
     except ValueError as e:
         logger.warning(f"Login validation error: {e}")
         return {

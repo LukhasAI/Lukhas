@@ -14,7 +14,7 @@ from .trace_provider import (
 
 __all__ = [
     "TraceStorageProvider",
-    "FileTraceStorageProvider", 
+    "FileTraceStorageProvider",
     "create_trace_storage_provider",
     "get_default_trace_provider",
 ]

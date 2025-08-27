@@ -1,8 +1,8 @@
-# LUKHAS System Status — Reality (SHA: 3a1f65c9)
-Generated: Wed Aug 27 16:35:36 BST 2025
-Artifacts: verification_artifacts/3a1f65c9/
+# LUKHAS System Status — Reality (SHA: 87845326)
+Generated: Wed Aug 27 17:03:05 BST 2025
+Artifacts: verification_artifacts/87845326/
 
 ## Recent Changes
-- ✅ chore(ci): add lane_guard and audit-status; enable pytest smoke
+- ✅ chore(ci): add waiver ratchet system
 
 ## System Status: OPERATIONAL

@@ -1,8 +1,8 @@
 # MATRIZ Trace API Test Results
 
-**Date**: August 27, 2025  
-**Feature**: GET /v1/matriz/trace/{trace_id} endpoint  
-**Test Suite**: `tests/matriz/test_trace_fetch.py`  
+**Date**: August 27, 2025
+**Feature**: GET /v1/matriz/trace/{trace_id} endpoint
+**Test Suite**: `tests/matriz/test_trace_fetch.py`
 **Status**: ✅ All tests passing
 
 ## Executive Summary
@@ -83,7 +83,7 @@ tests/matriz/test_trace_fetch.py ............                            [100%]
 
 ### Primary Endpoint: `GET /v1/matriz/trace/{trace_id}`
 - ✅ **Success Response (200)**: Returns complete ExecutionTraceResponse with all fields
-- ✅ **Not Found (404)**: Returns structured error for missing traces  
+- ✅ **Not Found (404)**: Returns structured error for missing traces
 - ✅ **Bad Request (400)**: Returns validation error for malformed UUIDs
 - ✅ **Unauthorized (401)**: Returns auth error when credentials missing/invalid
 - ✅ **Internal Error (500)**: Handles storage provider errors gracefully
@@ -184,6 +184,6 @@ The MATRIZ trace API test suite demonstrates comprehensive coverage and 100% rel
 **Overall Status**: ✅ **PRODUCTION READY**
 
 ---
-*Generated on August 27, 2025*  
-*Test Suite: tests/matriz/test_trace_fetch.py*  
+*Generated on August 27, 2025*
+*Test Suite: tests/matriz/test_trace_fetch.py*
 *Commit: bf4ee05f - feat(observability): GET trace by id*

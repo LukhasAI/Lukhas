@@ -9,7 +9,7 @@ from fastapi import HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 try:
-    from config.env import get as env_get, require as env_require
+    from config.env import get as env_get
 except Exception:
     import os as _os
 

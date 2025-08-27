@@ -115,7 +115,7 @@ provider = create_trace_storage_provider(
 ## Integration Points
 
 - **TraceMemoryLogger**: Seamless integration with existing trace system
-- **FastAPI**: Proper dependency injection and async support  
+- **FastAPI**: Proper dependency injection and async support
 - **Authentication**: Uses existing API key patterns from main.py
 - **LUKHAS Architecture**: Follows candidate/lukhas lane system
 - **Environment Config**: Compatible with existing config.env patterns
@@ -129,7 +129,7 @@ provider = create_trace_storage_provider(
 
 ## Files Modified/Created
 - ✅ **NEW**: `serve/storage/trace_provider.py` - Storage provider interface
-- ✅ **NEW**: `serve/storage/__init__.py` - Package exports  
+- ✅ **NEW**: `serve/storage/__init__.py` - Package exports
 - ✅ **UPDATED**: `serve/models/trace_models.py` - Added ExecutionTraceResponse
 - ✅ **UPDATED**: `serve/models/__init__.py` - Updated exports
 - ✅ **UPDATED**: `serve/routes_traces.py` - Enhanced endpoints with provider integration

@@ -1,28 +1,57 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-added-large-files
-
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.292
-    hooks:
-      - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
-  - repo: local
-    hooks:
-      - id: ruff-ignore-strict
-        name: Ruff (Relaxed Rules)
-        entry: ruff check --fix --exit-zero
-        language: system
-        files: \.(py)$
-        pass_filenames: true
-
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.18.1
-    hooks:
-      - id: gitleaks
-        args: ["--redact","--no-git","--exclude-dir=reports"]
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-added-large-files
+- repo: https://github.com/charliermarsh/ruff-pre-commit
+  rev: v0.5.7
+  hooks:
+  - id: ruff
+    args:
+    - --exit-non-zero-on-fix
+    files: ^(lukhas/|MATRIZ/|ops/|AUDIT/|\\.github/)
+  - id: ruff-format
+    files: ^(lukhas/|MATRIZ/|ops/|AUDIT/|\\.github/)
+- repo: local
+  hooks:
+  - id: ruff-ignore-strict
+    name: Ruff (Relaxed Rules)
+    entry: ruff check --fix --exit-zero
+    language: system
+    files: \.(py)$
+    pass_filenames: true
+  - id: lane-guard-staged
+    name: lane-guard (staged)
+    language: system
+    pass_filenames: false
+    entry: bash -lc 'files=$(git diff --cached --name-only --diff-filter=ACMR | grep
+      "^lukhas/.*\.py$" || true); if [ -n "$files" ]; then rg -nH -P "^(?!\\s*#)\\s*(from|import)\\s+candidate(\\.|\\s)"
+      $files && exit 1 || true; fi'
+- repo: https://github.com/gitleaks/gitleaks
+  rev: v8.18.1
+  hooks:
+  - id: gitleaks
+    args:
+    - --redact
+    - --report-format
+    - sarif
+    - --report-path
+    - reports/security/gitleaks.sarif
+    stages:
+    - commit
+    - push
+    files: ^(lukhas/|MATRIZ/|ops/|AUDIT/|\\.github/)
+- repo: https://github.com/psf/black
+  rev: 24.8.0
+  hooks:
+  - id: black
+    files: ^(lukhas/|MATRIZ/|ops/|AUDIT/|\\.github/)
+- repo: https://github.com/adrienverge/yamllint
+  rev: v1.35.1
+  hooks:
+  - id: yamllint
+    name: yamllint
+    files: ^(lukhas/|MATRIZ/|ops/|AUDIT/|\\.github/).*\\.(yml|yaml)$

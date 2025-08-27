@@ -174,7 +174,7 @@ az ad sp create-for-rbac --name "lukhas-ai-rotation-$(date +%Y%m%d)"
 
 # 2. Update environment
 export AZURE_CLIENT_ID="new-client-id"
-export AZURE_CLIENT_SECRET="new-client-secret" 
+export AZURE_CLIENT_SECRET="new-client-secret"
 export AZURE_TENANT_ID="tenant-id"
 
 # 3. Test Azure access
@@ -237,13 +237,13 @@ Create entry in `security/rotation_log.md`:
 ```markdown
 ## Rotation: YYYY-MM-DD
 
-**Operator**: [Name]  
-**Reason**: Scheduled rotation / Security incident / Key exposure  
+**Operator**: [Name]
+**Reason**: Scheduled rotation / Security incident / Key exposure
 **Systems Affected**: [List systems]
 
 ### Secrets Rotated
 - [ ] OpenAI API Key
-- [ ] Anthropic API Key  
+- [ ] Anthropic API Key
 - [ ] Google API Key
 - [ ] JWT Secret
 - [ ] LUKHAS ID Secret
@@ -299,7 +299,7 @@ tail -100 logs/lukhas.log
 - **Audit access**: Log all secret retrievals
 - **Encrypt at rest**: Even in secure vaults
 
-### Rotation Hygiene  
+### Rotation Hygiene
 - **Document everything**: Every rotation must be logged
 - **Test before deploy**: Always validate new secrets work
 - **Gradual rollout**: Deploy to staging first

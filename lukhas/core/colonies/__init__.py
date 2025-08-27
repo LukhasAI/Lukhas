@@ -8,7 +8,6 @@ This module intentionally avoids any cross-lane imports from `candidate`.
 
 import importlib
 import logging
-import sys
 from typing import Any
 from typing import Optional
 

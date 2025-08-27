@@ -31,10 +31,10 @@ def get_trace_storage_provider() -> TraceStorageProvider:
 def validate_trace_id(trace_id: str) -> None:
     """
     Validate that trace_id is a valid UUID format.
-    
+
     Args:
         trace_id: The trace ID to validate
-        
+
     Raises:
         HTTPException: If trace_id is not a valid UUID
     """
@@ -64,11 +64,11 @@ def require_api_key(x_api_key: Optional[str] = Header(default=None)) -> str:
     except ImportError:
         import os
         expected_key = os.getenv("LUKHAS_API_KEY", "")
-    
+
     if expected_key and x_api_key != expected_key:
         logger.warning(f"Unauthorized trace access attempt from API key: {x_api_key}")
         raise HTTPException(
-            status_code=401, 
+            status_code=401,
             detail={
                 "error": "unauthorized",
                 "message": "Invalid or missing API key"
@@ -121,21 +121,21 @@ async def get_recent_traces(
 ) -> list[ExecutionTraceResponse]:
     """
     Retrieve recent traces with optional filtering.
-    
+
     Args:
         limit: Maximum number of traces to return (default: 10, max: 100)
         level: Filter by trace level (0-7)
         tag: Filter by specific tag
         api_key: API key for authentication (from header)
         storage: Trace storage provider instance (injected)
-        
+
     Returns:
         List of recent trace entries
     """
     try:
         # Limit the maximum number of traces to prevent resource issues
         limit = min(limit, 100)
-        
+
         # Validate level if provided
         if level is not None and not (0 <= level <= 7):
             raise HTTPException(
@@ -147,12 +147,12 @@ async def get_recent_traces(
                     "value": level
                 }
             )
-        
+
         logger.info(f"Recent traces request: limit={limit}, level={level}, tag={tag}")
-        
+
         # Get recent traces from storage
         traces_data = await storage.get_recent_traces(limit=limit, level=level, tag=tag)
-        
+
         # Convert to response models
         responses = []
         for trace_data in traces_data:
@@ -162,14 +162,14 @@ async def get_recent_traces(
             except Exception as e:
                 logger.warning(f"Skipping malformed trace {trace_data.get('trace_id', 'unknown')}: {e}")
                 continue
-        
+
         logger.info(f"Returning {len(responses)} recent traces")
         return responses
-        
+
     except HTTPException:
         # Re-raise HTTP exceptions (validation, auth errors)
         raise
-        
+
     except Exception as e:
         # Handle unexpected errors
         logger.error(f"Error retrieving recent traces: {str(e)}", exc_info=True)
@@ -203,31 +203,31 @@ async def get_trace(
 ) -> Union[ExecutionTraceResponse, JSONResponse]:
     """
     Retrieve a trace by its unique identifier.
-    
+
     This endpoint integrates with the TraceStorageProvider to provide structured access
     to trace data with proper error handling and authentication.
-    
+
     Args:
         trace_id: UUID of the trace to retrieve
         api_key: API key for authentication (from header)
         storage: Trace storage provider instance (injected)
-        
+
     Returns:
         ExecutionTraceResponse: The trace data if found
-        
+
     Raises:
         HTTPException: For various error conditions (400, 401, 404, 500)
     """
     # Validate trace ID format
     validate_trace_id(trace_id)
-    
+
     try:
         # Log the API request
         logger.info(f"Trace lookup request for ID: {trace_id}")
-        
+
         # Attempt to retrieve the trace using storage provider
         trace_data = await storage.get_trace_by_id(trace_id)
-        
+
         if trace_data is None:
             # Trace not found
             logger.info(f"Trace not found: {trace_id}")
@@ -239,28 +239,28 @@ async def get_trace(
                 status_code=404,
                 content=error_response.model_dump()
             )
-        
+
         # Convert to enhanced response model
         # Use ExecutionTraceResponse for better compatibility with enhanced fields
         try:
             response = ExecutionTraceResponse(**trace_data)
         except Exception:
             # Fallback to basic TraceResponse if extra fields cause issues
-            basic_fields = {k: v for k, v in trace_data.items() 
+            basic_fields = {k: v for k, v in trace_data.items()
                           if k in TraceResponse.__fields__}
             response = ExecutionTraceResponse(**basic_fields)
-        
+
         logger.info(f"Trace retrieved successfully: {trace_id}")
         return response
-        
+
     except HTTPException:
         # Re-raise HTTP exceptions (validation, auth errors)
         raise
-        
+
     except Exception as e:
         # Handle unexpected errors
         logger.error(f"Error retrieving trace {trace_id}: {str(e)}", exc_info=True)
-        
+
         error_response = TraceErrorResponse(
             error="internal_error",
             message="An internal error occurred while retrieving the trace",
