@@ -13,13 +13,13 @@ for dir in $LUKHAS_DIRS; do
     if [ -d "$dir" ]; then
         echo "  Indexing $dir..."
         DIR_UPPER=$(echo "$dir" | tr '[:lower:]' '[:upper:]')
-        
+
         # All files in this directory
         find "$dir" -type f -not -path "*/__pycache__/*" -not -path "*/node_modules/*" -not -name "*.pyc" -not -name ".DS_Store" | sort > "$OUT/DIR_${DIR_UPPER}_ALL.txt"
-        
-        # Python files in this directory  
+
+        # Python files in this directory
         find "$dir" -type f -name "*.py" -not -path "*/__pycache__/*" -not -path "*/node_modules/*" -not -name "*.pyc" | sort > "$OUT/DIR_${DIR_UPPER}_PY.txt"
-        
+
         # Import samples for this directory only
         : > "$OUT/DIR_${DIR_UPPER}_IMPORTS.txt"
         while IFS= read -r f; do
@@ -70,7 +70,7 @@ echo "Running health analysis..."
 # candidate used by lukhas
 find lukhas/ -name "*.py" -not -path "*/__pycache__/*" -exec grep -Hn "from candidate\." {} \; 2>/dev/null | sort > "$OUT/CANDIDATE_USED_BY_LUKHAS.txt" || true
 
-# symlinks - LUKHAS source only  
+# symlinks - LUKHAS source only
 {
     for dir in $LUKHAS_DIRS; do
         if [ -d "$dir" ]; then
@@ -108,7 +108,7 @@ done
 echo ""
 echo "📋 Master Index Summary:"
 echo "  Total files: $(wc -l < "$OUT/FILE_INDEX_MASTER.txt")"
-echo "  Python files: $(wc -l < "$OUT/PY_INDEX_MASTER.txt")"  
+echo "  Python files: $(wc -l < "$OUT/PY_INDEX_MASTER.txt")"
 echo "  Symlinks: $(wc -l < "$OUT/SYMLINKS.txt")"
 echo "  Zero-byte files: $(wc -l < "$OUT/ZERO_BYTES.txt")"
 echo "  Wrong core imports: $(wc -l < "$OUT/WRONG_CORE_IMPORTS.txt")"

@@ -16,7 +16,7 @@ Transform complex consciousness technology research into accessible, engaging po
 ### **🎭 Three-Layer Communication Strategy**
 Every resource is built around our proprietary 3-Layer Tone System:
 - **🎨 Poetic Layer (25-35%)**: Consciousness metaphors and inspiring narratives
-- **💬 User-Friendly Layer (40-55%)**: Accessible explanations and practical applications  
+- **💬 User-Friendly Layer (40-55%)**: Accessible explanations and practical applications
 - **📚 Academic Layer (20-40%)**: Technical precision and research-backed insights
 
 ---
@@ -55,7 +55,7 @@ Every resource is built around our proprietary 3-Layer Tone System:
 
 ### **❌ Prohibited Content**
 - **Production-ready claims** without explicit approval
-- **Financial projections** or revenue forecasts  
+- **Financial projections** or revenue forecasts
 - **Overstated consciousness capabilities** beyond current research
 - **AGI terminology** - use "LUKHAS AI" only
 
@@ -94,7 +94,7 @@ Every podcast appearance guided by this documentation pack will:
 - Maintain consistent brand voice across all appearances
 - Share authentic research journey and discoveries
 
-### **🧠 Consciousness - Intelligent Discourse** 
+### **🧠 Consciousness - Intelligent Discourse**
 - Demonstrate deep technical understanding through accessible explanation
 - Show learning and adaptation in real-time during conversations
 - Connect abstract concepts to practical human benefits

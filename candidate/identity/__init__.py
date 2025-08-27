@@ -17,8 +17,7 @@ Performance Targets:
 """
 
 import logging
-import warnings
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 

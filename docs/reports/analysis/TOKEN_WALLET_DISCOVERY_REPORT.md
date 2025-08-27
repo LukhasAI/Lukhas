@@ -37,7 +37,7 @@ Complete discovery of token systems, wallet implementations, iOS wallet work, do
 ### Key Characteristics
 
 - **Native Token**: Purpose-built for LUKHAS ecosystem transactions
-- **Symbolic Value**: Represents computational resources and AI consciousness access  
+- **Symbolic Value**: Represents computational resources and AI consciousness access
 - **Blockchain Integration**: Built-in blockchain infrastructure for immutable audit trails
 - **Economic Layer**: Powers token economy for decentralized agent interactions
 

@@ -245,7 +245,7 @@ def main():
     # Call LLM to generate patch
     print("🤖 Generating patch with LLM...")
     patch = call_ollama(prompt, args.model)
-    
+
     # Add LLM provenance header
     from datetime import datetime
     model_used = args.model or os.environ.get("T4_LLM_MODEL","deepseek-coder")

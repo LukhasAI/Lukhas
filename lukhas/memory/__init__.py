@@ -4,7 +4,7 @@ Fold-based memory with cascade prevention and emotional valence tracking
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Version info
 __version__ = "1.0.0"

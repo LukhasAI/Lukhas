@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     // Extract the JSON from the output (it's usually the last line)
     const outputLines = pythonOutput.trim().split('\n');
     const jsonLine = outputLines[outputLines.length - 1];
-    
+
     try {
       const dreamManifest = JSON.parse(jsonLine);
       return NextResponse.json(dreamManifest);

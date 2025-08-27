@@ -299,29 +299,29 @@ jobs:
         import json
         import os
         from pathlib import Path
-        
+
         print('=== LUKHAS AI Phase 2 Quality Gate Analysis ===')
-        
+
         quality_gates = {
           'integration_tests': False,
-          'security_compliance': False, 
+          'security_compliance': False,
           'performance_benchmarks': False,
           'coverage_target': False
         }
-        
+
         # Check if all needed artifacts exist
         artifacts = [
           'integration-test-results-3.11',
-          'security-compliance-results', 
+          'security-compliance-results',
           'performance-benchmark-results',
           'coverage-analysis-results'
         ]
-        
+
         missing_artifacts = []
         for artifact in artifacts:
           if not os.path.exists(artifact):
             missing_artifacts.append(artifact)
-        
+
         if missing_artifacts:
           print(f'❌ Missing artifacts: {missing_artifacts}')
         else:
@@ -329,7 +329,7 @@ jobs:
           quality_gates['integration_tests'] = True
           quality_gates['security_compliance'] = True
           quality_gates['performance_benchmarks'] = True
-        
+
         # Check coverage if available
         coverage_file = 'coverage-analysis-results/coverage.json'
         if os.path.exists(coverage_file):
@@ -338,20 +338,20 @@ jobs:
           coverage_pct = coverage_data['totals']['percent_covered']
           quality_gates['coverage_target'] = coverage_pct >= 85.0
           print(f'Coverage: {coverage_pct:.1f}% (target: 85%)')
-        
+
         # Summary
         passed_gates = sum(quality_gates.values())
         total_gates = len(quality_gates)
-        
+
         print(f'\\nQuality Gates: {passed_gates}/{total_gates} passed')
         for gate, passed in quality_gates.items():
           status = '✅' if passed else '❌'
           print(f'  {status} {gate}')
-        
+
         # Promotion readiness assessment
         promotion_ready = passed_gates >= 3  # Allow for some CI limitations
         print(f'\\n🚀 Phase 2 → lukhas/ Promotion Ready: {promotion_ready}')
-        
+
         # Export results
         results = {
           'timestamp': '$(date -Iseconds)',
@@ -360,10 +360,10 @@ jobs:
           'passed_gates': passed_gates,
           'total_gates': total_gates
         }
-        
+
         with open('phase2_quality_report.json', 'w') as f:
           json.dump(results, f, indent=2)
-        
+
         if not promotion_ready:
           print('\\n❌ Quality gates not met - Phase 2 needs more work')
           exit(1)
@@ -394,11 +394,11 @@ jobs:
         echo "Ref: ${{ github.ref }}"
         echo "SHA: ${{ github.sha }}"
         echo ""
-        
+
         if [[ "${{ needs.phase2-quality-gates.result }}" == "success" ]]; then
           echo "✅ PHASE 2 VALIDATION SUCCESSFUL"
           echo "🚀 Systems ready for lukhas/ promotion"
         else
-          echo "❌ PHASE 2 VALIDATION FAILED"  
+          echo "❌ PHASE 2 VALIDATION FAILED"
           echo "🔧 Review failed components before promotion"
         fi

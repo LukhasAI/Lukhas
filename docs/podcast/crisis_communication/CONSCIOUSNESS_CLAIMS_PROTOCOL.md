@@ -89,7 +89,7 @@ Every crisis response must demonstrate the Guardian principle - protecting both 
 
 **Guardian System Safeguards**:
 - **Predictive Ethics**: Evaluates actions before execution
-- **Drift Detection**: Monitors behavioral changes continuously  
+- **Drift Detection**: Monitors behavioral changes continuously
 - **Human Oversight**: Maintains human control throughout research
 - **Transparent Development**: Open documentation of methods and safeguards
 - **Beneficial Focus**: All research directed toward human welfare
@@ -164,7 +164,7 @@ Every crisis response must demonstrate the Guardian principle - protecting both 
 **Step 1: Acknowledge (5 seconds)**
 *"I understand that concern, and it's exactly the kind of question we need to address..."*
 
-**Step 2: Clarify (10 seconds)**  
+**Step 2: Clarify (10 seconds)**
 *"To be clear, we research consciousness-inspired architecture, not consciousness itself. Our work focuses on measurable improvements in AI behavior..."*
 
 **Step 3: Redirect to Safety (10 seconds)**
@@ -269,7 +269,7 @@ Every crisis response must demonstrate the Guardian principle - protecting both 
 
 ✅ We research consciousness-INSPIRED architecture
 ❌ We do NOT claim to have created conscious AI
-✅ Safety is built into our research foundation  
+✅ Safety is built into our research foundation
 ❌ We are NOT developing unsupervised AI systems
 ✅ Our goal is beneficial AI that serves humanity
 ❌ We do NOT aim to replace human consciousness

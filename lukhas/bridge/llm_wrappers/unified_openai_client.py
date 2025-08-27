@@ -36,6 +36,15 @@ except ImportError:
             return func
         return decorator
 
+# Import centralized environment configuration
+try:
+    from config.env import get_lukhas_config
+    _config = get_lukhas_config()
+except ImportError:
+    # Fallback for environments where config module isn't available
+    _config = None
+    logger.warning("config.env module not available, falling back to os.getenv")
+
 
 @dataclass
 class ConversationMessage:
@@ -123,8 +132,13 @@ class UnifiedOpenAIClient:
             max_retries: Maximum retry attempts
             timeout: Request timeout in seconds
         """
-        self.api_key = api_key or os.getenv("OPENAI_API_KEY")
-        self.organization = organization or os.getenv("OPENAI_ORG_ID")
+        # Use centralized config if available, fallback to os.getenv
+        if _config:
+            self.api_key = api_key or _config.openai_api_key
+            self.organization = organization or os.getenv("OPENAI_ORG_ID")  # TODO[T4-AUDIT]: Add organization to centralized config
+        else:
+            self.api_key = api_key or os.getenv("OPENAI_API_KEY")
+            self.organization = organization or os.getenv("OPENAI_ORG_ID")
         self.base_url = base_url
         self.default_model = default_model
         self.max_retries = max_retries

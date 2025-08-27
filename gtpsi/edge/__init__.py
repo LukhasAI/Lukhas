@@ -16,12 +16,11 @@ ACK GUARDRAILS
 import hashlib
 import json
 import math
-from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
 import numpy as np
 
-from .. import GestureFeatures, GestureRecognizer, GestureType
+from .. import GestureRecognizer, GestureType
 
 
 class StrokeGestureRecognizer(GestureRecognizer):

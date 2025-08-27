@@ -1,11 +1,11 @@
 /**
  * LUKHAS Trinity Framework Stigg Integration Example
- * 
+ *
  * This component demonstrates how to use Stigg within the LUKHAS ecosystem
  * while maintaining Trinity Framework principles (⚛️🧠🛡️):
- * 
+ *
  * ⚛️ Identity: Billing tied to user identity and authentication state
- * 🧠 Consciousness: Usage awareness and intelligent plan recommendations  
+ * 🧠 Consciousness: Usage awareness and intelligent plan recommendations
  * 🛡️ Guardian: Ethical billing practices and transparent pricing
  */
 
@@ -21,12 +21,12 @@ interface StiggExampleProps {
 
 export function StiggExample({ userId, className = '' }: StiggExampleProps) {
   const [isVisible, setIsVisible] = useState(false)
-  
+
   // Stigg SDK hooks - gracefully handle when not available
   let stiggData = null
   let plans = null
   let customerPortal = null
-  
+
   try {
     stiggData = useStigg()
     plans = usePlans()
@@ -54,7 +54,7 @@ export function StiggExample({ userId, className = '' }: StiggExampleProps) {
           <span className="text-sm text-gray-300">Billing System Status</span>
         </div>
         <p className="text-sm text-gray-400">
-          Stigg billing integration is in development mode. 
+          Stigg billing integration is in development mode.
           Full billing features will be available in production.
         </p>
         <div className="mt-3 text-xs text-gray-500">
@@ -70,7 +70,7 @@ export function StiggExample({ userId, className = '' }: StiggExampleProps) {
         <div className="w-2 h-2 bg-green-500 rounded-full" />
         <span className="text-sm text-gray-300">LUKHAS Billing Integration</span>
       </div>
-      
+
       {/* Trinity Framework Integration */}
       <div className="space-y-2 mb-4">
         <div className="flex items-center space-x-2">

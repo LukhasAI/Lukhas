@@ -50,7 +50,7 @@ done
 if [ -z "$FOUND_COMMIT" ]; then
     echo "  ❌ No content found in recent git history"
     echo "  💡 Trying stashes instead..."
-    
+
     # Check stashes
     for i in {0..2}; do
         if git stash show "stash@{$i}" --name-only | grep -q "^$TEST_FILE$"; then
@@ -64,7 +64,7 @@ else
     echo "  📋 Content preview from $FOUND_COMMIT:"
     git show "$FOUND_COMMIT":"$TEST_FILE" | head -10
     echo "  ... (truncated)"
-    
+
     echo ""
     echo "🔧 SAFE RESTORE TEST:"
     echo "Would you like to:"

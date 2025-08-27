@@ -12,7 +12,6 @@ This module consolidates all consciousness-related components:
 """
 
 import contextlib
-from typing import Optional
 
 # Version info
 __version__ = "2.0.0"

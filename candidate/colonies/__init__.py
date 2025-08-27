@@ -2,6 +2,8 @@
 LUKHAS AI Colony System
 Distributed agent colonies for specialized processing
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
+
+TODO[T4-AUDIT]:triage - Colony system implementation status unclear. Need integration assessment with actor system.
 """
 
 __version__ = "1.0.0"

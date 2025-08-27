@@ -59,7 +59,7 @@ def main():
 
     # Preserve important requirements backups
     if requirements_backups:
-        print(f"\n💾 Consolidating requirements backups...")
+        print("\n💾 Consolidating requirements backups...")
 
         # Keep the first and last requirements backup
         important_backups = [requirements_backups[0]]
@@ -87,21 +87,21 @@ def main():
         except Exception as e:
             print(f"  ❌ Failed to remove {backup_dir}: {e}")
 
-    print(f"\n📊 Cleanup Summary:")
+    print("\n📊 Cleanup Summary:")
     print(f"  🗑️  Removed directories: {removed_count}")
     print(f"  💾 Preserved backups: {consolidated_dir}")
     print(f"  📋 Important files preserved: {len(requirements_backups) * 3} requirements.txt files")
 
     # Show space saved
     if removed_count > 0:
-        print(f"\n💾 Space cleanup completed!")
+        print("\n💾 Space cleanup completed!")
         print(f"  📁 Consolidated backup location: {consolidated_dir}")
         print(f"  🧹 Removed {removed_count} redundant backup directories")
 
     # Create cleanup report
     report_file = f"security_backup_cleanup_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
     with open(report_file, 'w') as f:
-        f.write(f"Security Backup Cleanup Report\n")
+        f.write("Security Backup Cleanup Report\n")
         f.write(f"Generated: {datetime.now().isoformat()}\n\n")
         f.write(f"Original backup directories: {len(backup_dirs)}\n")
         f.write(f"Requirements backups found: {len(requirements_backups)}\n")

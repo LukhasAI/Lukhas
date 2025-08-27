@@ -21,4 +21,3 @@ See `ops/matriz.yaml` for lanes, owners, promotion rules, and invariants.
 ## Known Notes
 - Archive/quarantine may contain dead code — excluded by invariants.
 - Some `UP006/UP035` modernizations pending; nightly autofix annotates `TODO[T4-AUTOFIX]`.
-

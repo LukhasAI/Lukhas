@@ -100,10 +100,10 @@ async def test_new_feature():
     """Test description"""
     # Arrange
     audit = get_audit_trail()
-    
+
     # Act
     result = await audit.some_method()
-    
+
     # Assert
     assert result is not None
 ```
@@ -149,14 +149,14 @@ jobs:
 def test_audit_performance(benchmark):
     """Benchmark audit event logging"""
     audit = get_audit_trail()
-    
+
     def log_event():
         audit.log_event(
             AuditEventType.SYSTEM_START,
             "test",
             {"data": "test"}
         )
-    
+
     benchmark(log_event)
 ```
 

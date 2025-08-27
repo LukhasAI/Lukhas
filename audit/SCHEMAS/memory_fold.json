@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://lukhas.ai/schemas/memory_fold.json", 
+  "$id": "https://lukhas.ai/schemas/memory_fold.json",
   "title": "Memory Fold Schema",
   "description": "Schema for LUKHAS AI fold-based memory storage with causal chain preservation",
   "type": "object",
@@ -15,7 +15,7 @@
       "type": "string",
       "enum": [
         "WORKING",
-        "EPISODIC", 
+        "EPISODIC",
         "SEMANTIC",
         "PROCEDURAL",
         "EMOTIONAL",
@@ -72,7 +72,7 @@
           "description": "Emotional valence (-1=negative, +1=positive)"
         },
         "arousal": {
-          "type": "number", 
+          "type": "number",
           "minimum": 0,
           "maximum": 1,
           "description": "Emotional arousal intensity"
@@ -133,7 +133,7 @@
         },
         "interference_sources": {
           "type": "array",
-          "items": {"type": "string"}, 
+          "items": {"type": "string"},
           "description": "Interfering memories"
         }
       }
@@ -221,7 +221,7 @@
       "importance": 0.7,
       "causal_chain": [
         {
-          "event_id": "glyph_login_attempt_001", 
+          "event_id": "glyph_login_attempt_001",
           "timestamp": 1735689598.123,
           "causal_strength": 0.9,
           "event_type": "USER_ACTION"
@@ -235,7 +235,7 @@
       ],
       "emotional_context": {
         "valence": 0.6,
-        "arousal": 0.3, 
+        "arousal": 0.3,
         "dominance": 0.8,
         "emotion_tags": ["relief", "satisfaction", "security"]
       },
@@ -269,7 +269,7 @@
         },
         {
           "target_fold_id": "fold_security_event_002",
-          "association_type": "CAUSAL", 
+          "association_type": "CAUSAL",
           "strength": 0.8,
           "bidirectional": false
         }

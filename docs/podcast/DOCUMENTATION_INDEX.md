@@ -78,7 +78,7 @@ docs/podcast/
 
 ---
 
-### **👥 host_briefing/COMPLETE_HOST_BRIEFING.md**  
+### **👥 host_briefing/COMPLETE_HOST_BRIEFING.md**
 **Comprehensive preparation for podcast hosts conducting LUKHAS AI interviews**
 
 **Key Components**:

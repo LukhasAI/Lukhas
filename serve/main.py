@@ -19,6 +19,7 @@ except Exception:
 from .feedback_routes import router as feedback_router
 from .openai_routes import router as openai_router
 from .routes import router
+from .routes_traces import r as traces_router
 
 logging.basicConfig(level=logging.INFO)
 
@@ -63,6 +64,14 @@ app.add_middleware(
 app.include_router(router)
 app.include_router(openai_router)
 app.include_router(feedback_router)
+app.include_router(traces_router)
+
+
+# Health check endpoint
+@app.get("/healthz")
+def healthz():
+    """Health check endpoint for monitoring."""
+    return {"status": "ok"}
 
 
 # Expose raw OpenAPI for artifacting

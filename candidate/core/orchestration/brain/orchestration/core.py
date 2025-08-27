@@ -185,7 +185,7 @@ class OrchestrationCore:
             logger.warning("MemoryManager not available - using fallback")
             self.memory_manager = None
             return
-            
+
         try:
             # Check if MemoryManager requires specific initialization parameters
             if hasattr(MemoryManager, '__init__'):
@@ -201,11 +201,11 @@ class OrchestrationCore:
                         self.memory_manager = MemoryManager(config=self.config.get("memory", {}))
                     except TypeError:
                         self.memory_manager = MemoryManager()
-                
+
                 # Try to initialize if method exists
                 if hasattr(self.memory_manager, 'initialize'):
                     await self.memory_manager.initialize()
-                    
+
             logger.info("Memory system initialized")
         except Exception as e:
             logger.error(f"Memory system initialization failed: {e}")
@@ -217,7 +217,7 @@ class OrchestrationCore:
             logger.warning("BioCore not available - using fallback")
             self.bio_core = None
             return
-            
+
         try:
             # BioEngine/BioCore may not require specific parameters
             if hasattr(BioCore, '__init__'):
@@ -229,11 +229,11 @@ class OrchestrationCore:
                 except TypeError:
                     # Try basic initialization
                     self.bio_core = BioCore()
-                    
+
                 # Try to initialize if method exists
                 if hasattr(self.bio_core, 'initialize'):
                     await self.bio_core.initialize()
-                    
+
             logger.info("Bio-core system initialized")
         except Exception as e:
             logger.error(f"Bio-core initialization failed: {e}")
@@ -245,22 +245,22 @@ class OrchestrationCore:
             logger.warning("BioAwarenessSystem not available - using fallback")
             self.awareness_system = None
             return
-            
+
         try:
             # Try initialization with parameters
             try:
                 self.awareness_system = BioAwarenessSystem(
-                    bio_core=self.bio_core, 
+                    bio_core=self.bio_core,
                     memory_manager=self.memory_manager
                 )
             except TypeError:
                 # Try basic initialization
                 self.awareness_system = BioAwarenessSystem()
-                
+
             # Try to initialize if method exists
             if hasattr(self.awareness_system, 'initialize'):
                 await self.awareness_system.initialize()
-                
+
             logger.info("Awareness system initialized")
         except Exception as e:
             logger.error(f"Awareness system initialization failed: {e}")
@@ -278,7 +278,7 @@ class OrchestrationCore:
                     self.ethics_core = EthicsCore(config=self.config.get("ethics", {}))
                 except TypeError:
                     self.ethics_core = EthicsCore()
-                    
+
                 if hasattr(self.ethics_core, 'initialize'):
                     await self.ethics_core.initialize()
             except Exception as e:
@@ -298,7 +298,7 @@ class OrchestrationCore:
                     )
                 except TypeError:
                     self.compliance_engine = ComplianceEngine()
-                    
+
                 if hasattr(self.compliance_engine, 'initialize'):
                     await self.compliance_engine.initialize()
             except Exception as e:
@@ -313,7 +313,7 @@ class OrchestrationCore:
             logger.warning("DreamEngine not available - using fallback")
             self.dream_engine = None
             return
-            
+
         try:
             # Try initialization with parameters
             try:
@@ -325,11 +325,11 @@ class OrchestrationCore:
             except TypeError:
                 # Try basic initialization
                 self.dream_engine = DreamEngine()
-                
+
             # Try to initialize if method exists
             if hasattr(self.dream_engine, 'initialize'):
                 await self.dream_engine.initialize()
-                
+
             logger.info("Dream engine initialized")
         except Exception as e:
             logger.error(f"Dream engine initialization failed: {e}")

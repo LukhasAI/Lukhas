@@ -1,7 +1,8 @@
 # tools/reports/weekly_hygiene.py
 from __future__ import annotations
-import json, subprocess, sys
-from datetime import datetime, timedelta
+import json
+import subprocess
+import sys
 from pathlib import Path
 
 def todo_count():
@@ -22,7 +23,7 @@ def lint_debt():
     pol = Path(".t4autofix.toml")
     if not pol.exists():
         return 0
-    
+
     import tomllib
     try:
         allowed = set(tomllib.loads(pol.read_text()).get("rules",{}).get("allow", []))
@@ -34,12 +35,12 @@ def lint_debt():
             allowed = {"UP006","UP035","SIM102","SIM103","F841","B007","C401"}
     except Exception:
         allowed = {"UP006","UP035","SIM102","SIM103","F841","B007","C401"}
-    
+
     try:
         data = json.loads(Path("reports/lints/ruff_dash.json").read_text() or "[]")
     except Exception:
         return 0
-    
+
     return sum(1 for d in data if d.get("code") in allowed)
 
 def nightly_prs_last_7():
@@ -61,7 +62,7 @@ def main():
     todos = todo_count()
     debt  = lint_debt()
     prs   = nightly_prs_last_7()
-    
+
     Path("reports/autofix").mkdir(parents=True, exist_ok=True)
     Path("reports/autofix/weekly.md").write_text(
         "# Weekly Hygiene\n\n"

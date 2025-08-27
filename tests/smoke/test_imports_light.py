@@ -1,4 +1,7 @@
-import importlib, os, pytest, yaml, pathlib
+import importlib
+import pytest
+import yaml
+import pathlib
 
 OPS = pathlib.Path("ops/matriz.yaml")
 LANES = []

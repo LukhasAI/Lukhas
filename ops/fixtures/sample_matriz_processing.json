@@ -31,7 +31,7 @@
       }
     },
     {
-      "id": "matriz_attention_demo_002", 
+      "id": "matriz_attention_demo_002",
       "type": "ATTENTION",
       "data": {
         "focus_targets": ["quantum_computing", "learning_progress"],
@@ -57,7 +57,7 @@
     },
     {
       "id": "matriz_thought_demo_003",
-      "type": "THOUGHT", 
+      "type": "THOUGHT",
       "data": {
         "reasoning_chain": [
           "Retrieved quantum computing notes from yesterday",
@@ -76,7 +76,7 @@
       "connections": ["matriz_decision_demo_004"],
       "timestamp": 1735689600.345,
       "metadata": {
-        "processing_stage": "COMPLETED", 
+        "processing_stage": "COMPLETED",
         "priority": 8,
         "processing_duration_ms": 445.2,
         "confidence": 0.88
@@ -165,7 +165,7 @@
         },
         "conscious_access": [
           "quantum_computing_knowledge",
-          "user_learning_preferences", 
+          "user_learning_preferences",
           "study_schedule_constraints",
           "consciousness_quantum_connections"
         ]

@@ -201,11 +201,16 @@ class TestAuthenticationPerformance:
     """Test authentication system performance"""
 
     @pytest.fixture
-    def identity_system(self):
+    def identity_system(self, monkeypatch):
         """Create identity system for performance testing"""
+        # Use monkeypatch to set test environment variables
+        test_jwt_secret = "test_secret_key_for_performance_testing"
+        monkeypatch.setenv("JWT_SECRET", test_jwt_secret)
+        monkeypatch.setenv("DATABASE_URL", "sqlite:///:memory:")
+
         return IdentitySystem(
             database_url="sqlite:///:memory:",
-            jwt_secret="test_secret_key_for_performance_testing",
+            jwt_secret=test_jwt_secret,  # TODO[T4-AUDIT]: Update IdentitySystem to use centralized config
         )
 
     @pytest.fixture

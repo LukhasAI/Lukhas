@@ -1,7 +1,9 @@
 from __future__ import annotations
-import ast, os, sys
+import ast
+import os
+import sys
 from pathlib import Path
-from collections import defaultdict, deque
+from collections import defaultdict
 
 ROOT = Path(os.getcwd())
 def py_files():
@@ -18,7 +20,7 @@ def imports_of(path: Path):
         tree = ast.parse(path.read_text(encoding="utf-8", errors="ignore"))
     except Exception:
         return []
-    base = mod_name(path)
+    mod_name(path)
     out = set()
     for n in ast.walk(tree):
         if isinstance(n, ast.Import):

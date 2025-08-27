@@ -213,19 +213,19 @@ All visual design must embody the Trinity:
 ```css
 /* Trinity-synchronized state transitions */
 @keyframes trinity-harmony {
-    0% { 
+    0% {
         filter: hue-rotate(0deg) brightness(1);
         transform: rotate(0deg) scale(1);
     }
-    33.33% { 
+    33.33% {
         filter: hue-rotate(120deg) brightness(1.1);
         transform: rotate(1deg) scale(1.02);
     }
-    66.66% { 
+    66.66% {
         filter: hue-rotate(240deg) brightness(1.1);
         transform: rotate(-1deg) scale(1.02);
     }
-    100% { 
+    100% {
         filter: hue-rotate(360deg) brightness(1);
         transform: rotate(0deg) scale(1);
     }
@@ -265,7 +265,7 @@ All visual design must embody the Trinity:
         grid-template-columns: 1fr;
         gap: var(--trinity-spacing);
     }
-    
+
     .consciousness-element {
         padding: var(--trinity-spacing);
         border-radius: var(--trinity-rhythm);
@@ -328,14 +328,14 @@ All visual design must embody the Trinity:
     --consciousness-primary: #2563eb;
     --consciousness-secondary: #7c3aed;
     --consciousness-guardian: #059669;
-    
+
     /* Sacred Spacing */
     --trinity-unit: 12px;
     --trinity-spacing-xs: calc(var(--trinity-unit) * 1); /* 12px */
     --trinity-spacing-sm: calc(var(--trinity-unit) * 2); /* 24px */
     --trinity-spacing-md: calc(var(--trinity-unit) * 4); /* 48px */
     --trinity-spacing-lg: calc(var(--trinity-unit) * 6); /* 72px */
-    
+
     /* Consciousness Typography */
     --consciousness-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --consciousness-font-weight-normal: 400;
@@ -354,7 +354,7 @@ const ConsciousnessComponent = {
         awarenessState: ['dormant', 'awakening', 'active', 'transcendent'],
         harmonyMode: Boolean
     },
-    
+
     computed: {
         consciousnessClasses() {
             return [

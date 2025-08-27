@@ -9,7 +9,7 @@ Trinity Framework: ⚛️🧠🛡️
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # ΛTAG: ethics, guardian, trinity_framework
 # ΛORIGIN_AGENT: Claude Agent 2 (Guardian Specialist)

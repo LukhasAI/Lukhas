@@ -1,3 +1,5 @@
+# TODO[T4-AUTOFIX]: Extensive syntax errors throughout file - missing colons, malformed f-strings, broken list comprehensions
+# Suggest: Complete syntax review and rewrite of corrupted sections
 #!/usr/bin/env python3
 """
 LUKHAS Comprehensive System Status Report
@@ -660,8 +662,8 @@ class SystemHealthAnalyzer:
         # API recommendations
         offline_apis = [
             name
-            for name, info in self.results["api_systems"].items():
-            if info.get("status") != "online":
+            for name, info in self.results["api_systems"].items()
+            if info.get("status") != "online"
         ]
         if offline_apis:
             recommendations.append(f"Start offline APIs: {', '.join(offline_apis)}")
@@ -669,14 +671,14 @@ class SystemHealthAnalyzer:
         # File recommendations
         missing_files = [
             name
-            for name, info in self.results["file_integrity"].items():
-            if not info.get("exists", False):
+            for name, info in self.results["file_integrity"].items()
+            if not info.get("exists", False)
         ]
         if missing_files:
             recommendations.append(f"Restore missing files: {', '.join(missing_files)}")
 
         # Performance recommendations
-        if (:
+        if (
             self.results["performance_metrics"]
             .get("lukhas_embedding", {})
             .get("performance_rating")

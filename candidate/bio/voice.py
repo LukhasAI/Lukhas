@@ -21,7 +21,7 @@ class VoiceBioAdapter:
         """Register voice processing modules"""
         if not hasattr(self, '_registered_modules'):
             self._registered_modules = {}
-        
+
         if modules:
             for module_name, module_instance in modules.items():
                 self._registered_modules[module_name] = {
@@ -30,15 +30,15 @@ class VoiceBioAdapter:
                     'registered_at': datetime.now().isoformat(),
                     'status': 'ready'
                 }
-        
+
         # Initialize default bio-inspired voice modules
         default_modules = [
             'vocal_tract_simulator',
-            'breath_pattern_analyzer', 
+            'breath_pattern_analyzer',
             'emotional_resonance_modulator',
             'harmonic_bio_adapter'
         ]
-        
+
         for module in default_modules:
             if module not in self._registered_modules:
                 self._registered_modules[module] = {
@@ -47,7 +47,7 @@ class VoiceBioAdapter:
                     'registered_at': datetime.now().isoformat(),
                     'status': 'stub'
                 }
-        
+
         return list(self._registered_modules.keys())
 
     def process_audio_chunk(self, audio_data, chunk_size=1024, bio_enhancement=True):
@@ -55,7 +55,7 @@ class VoiceBioAdapter:
         try:
             if not audio_data:
                 return {'status': 'empty', 'processed_data': None}
-            
+
             # Initialize processing context
             processing_context = {
                 'chunk_size': chunk_size,
@@ -63,37 +63,37 @@ class VoiceBioAdapter:
                 'timestamp': datetime.now().isoformat(),
                 'input_length': len(audio_data) if hasattr(audio_data, '__len__') else 0
             }
-            
+
             # Bio-inspired processing stages
             processed_data = audio_data
-            
+
             # Stage 1: Breath pattern analysis
             if bio_enhancement and 'breath_pattern_analyzer' in self._registered_modules:
                 breath_info = self._analyze_breath_patterns(processed_data)
                 processing_context['breath_analysis'] = breath_info
-            
+
             # Stage 2: Vocal tract simulation
             if 'vocal_tract_simulator' in self._registered_modules:
                 vocal_params = self._simulate_vocal_tract(processed_data)
                 processing_context['vocal_simulation'] = vocal_params
-            
+
             # Stage 3: Emotional resonance modulation
             if bio_enhancement and 'emotional_resonance_modulator' in self._registered_modules:
                 emotion_data = self._modulate_emotional_resonance(processed_data)
                 processing_context['emotional_modulation'] = emotion_data
-            
+
             # Stage 4: Harmonic bio-adaptation
             if 'harmonic_bio_adapter' in self._registered_modules:
                 harmonic_data = self._adapt_harmonics(processed_data)
                 processing_context['harmonic_adaptation'] = harmonic_data
-            
+
             return {
                 'status': 'processed',
                 'processed_data': processed_data,
                 'context': processing_context,
                 'bio_enhanced': bio_enhancement
             }
-            
+
         except Exception as e:
             return {
                 'status': 'error',
@@ -109,7 +109,7 @@ class VoiceBioAdapter:
             'quality_level': quality_level,  # 'fast', 'balanced', 'quality'
             'optimization_timestamp': datetime.now().isoformat()
         }
-        
+
         # Configure processing based on quality level
         if quality_level == 'fast':
             optimization_config.update({
@@ -133,13 +133,13 @@ class VoiceBioAdapter:
                 'processing_threads': 4,
                 'enable_advanced_bio_processing': True
             })
-        
+
         # Store optimization settings
         if not hasattr(self, '_optimization_config'):
             self._optimization_config = {}
-        
+
         self._optimization_config.update(optimization_config)
-        
+
         return optimization_config
 
     def get_voice_metrics(self):
@@ -148,13 +148,13 @@ class VoiceBioAdapter:
             'timestamp': datetime.now().isoformat(),
             'registered_modules': len(getattr(self, '_registered_modules', {})),
             'active_modules': sum(
-                1 for m in getattr(self, '_registered_modules', {}).values() 
+                1 for m in getattr(self, '_registered_modules', {}).values()
                 if m.get('active', False)
             ),
             'optimization_active': hasattr(self, '_optimization_config'),
             'processing_history': getattr(self, '_processing_count', 0)
         }
-        
+
         # Module status breakdown
         if hasattr(self, '_registered_modules'):
             metrics['module_status'] = {}
@@ -164,7 +164,7 @@ class VoiceBioAdapter:
                     'status': info.get('status', 'unknown'),
                     'type': 'implemented' if info.get('instance') else 'stub'
                 }
-        
+
         # Performance metrics
         if hasattr(self, '_performance_history'):
             recent_performance = self._performance_history[-10:]  # Last 10 operations
@@ -172,13 +172,13 @@ class VoiceBioAdapter:
                 avg_processing_time = sum(recent_performance) / len(recent_performance)
                 metrics['avg_processing_time_ms'] = avg_processing_time
                 metrics['performance_samples'] = len(recent_performance)
-        
+
         # Optimization metrics
         if hasattr(self, '_optimization_config'):
             metrics['optimization'] = self._optimization_config.copy()
-        
+
         return metrics
-    
+
     # Helper methods for bio-inspired processing
     def _analyze_breath_patterns(self, audio_data):
         """Analyze breathing patterns in audio (stub implementation)"""
@@ -188,7 +188,7 @@ class VoiceBioAdapter:
             'rhythm_stability': 0.8,
             'depth_variation': 0.3
         }
-    
+
     def _simulate_vocal_tract(self, audio_data):
         """Simulate vocal tract mechanics (stub implementation)"""
         return {
@@ -196,7 +196,7 @@ class VoiceBioAdapter:
             'formant_frequencies': [730, 1090, 2440],  # Hz, example formants
             'articulation_mode': 'normal'
         }
-    
+
     def _modulate_emotional_resonance(self, audio_data):
         """Apply emotional resonance modulation (stub implementation)"""
         return {
@@ -204,7 +204,7 @@ class VoiceBioAdapter:
             'resonance_frequency': 440.0,  # Hz
             'modulation_depth': 0.1
         }
-    
+
     def _adapt_harmonics(self, audio_data):
         """Adapt harmonic content bio-inspired (stub implementation)"""
         return {

@@ -16,7 +16,7 @@
       "enum": [
         "CONSCIOUSNESS_UPDATE",
         "MEMORY_FOLD_CREATED",
-        "IDENTITY_VERIFIED", 
+        "IDENTITY_VERIFIED",
         "MATRIZ_PROCESSED",
         "GUARDIAN_ALERT",
         "DREAM_STATE_CHANGE",
@@ -35,7 +35,7 @@
           "type": "string",
           "enum": [
             "consciousness",
-            "memory", 
+            "memory",
             "identity",
             "matriz",
             "governance",
@@ -51,7 +51,7 @@
           "description": "Specific component within module"
         },
         "lane": {
-          "type": "string", 
+          "type": "string",
           "enum": ["lukhas", "candidate", "core"],
           "description": "Development lane of source"
         }

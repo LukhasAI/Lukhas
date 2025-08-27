@@ -157,14 +157,14 @@ class TestMultiModelOrchestration:
         }
 
         # Execute with context
-        result1 = await orchestrator.execute_single_model(
+        await orchestrator.execute_single_model(
             provider=ModelProvider.OPENAI_GPT4,
             prompt="First message",
             context=initial_context,
         )
 
         # Execute with same context (should preserve)
-        result2 = await orchestrator.execute_single_model(
+        await orchestrator.execute_single_model(
             provider=ModelProvider.ANTHROPIC_CLAUDE,
             prompt="Follow up message",
             context=initial_context,
@@ -321,7 +321,7 @@ class TestPerformanceValidation:
         start_time = time.time()
 
         # Mock validation call
-        result = await asyncio.get_event_loop().run_in_executor(
+        await asyncio.get_event_loop().run_in_executor(
             None, guardian.evaluate_compliance, "Test content for validation"
         )
 
