@@ -1,8 +1,8 @@
-# LUKHAS System Status — Reality (SHA: c0d7632f)
-Generated: Wed Aug 27 01:48:22 BST 2025
-Artifacts: verification_artifacts/c0d7632f/
+# LUKHAS System Status — Reality (SHA: 4e456b0d)
+Generated: Wed Aug 27 01:55:03 BST 2025
+Artifacts: verification_artifacts/4e456b0d/
 
 ## Recent Changes
-- ✅ Update system status and orchestration improvements
+- ✅ Fix Guardian tests parameter structure for GovernanceAction
 
 ## System Status: OPERATIONAL
