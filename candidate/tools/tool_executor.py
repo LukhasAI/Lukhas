@@ -9,29 +9,17 @@ import hashlib
 import json
 import logging
 import os
-import re
-import subprocess
-import tempfile
 import time
-from datetime import datetime, timedelta
+import tempfile
+import shutil
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 from urllib.parse import urlparse
 
-import aiohttp
-import docker
+import httpx
 from bs4 import BeautifulSoup
-
-# Guardian System Integration
-try:
-    from candidate.governance.guardian_system import GuardianSystem
-except ImportError:
-    GuardianSystem = None
-    
-try:
-    from candidate.core.security import AGISecuritySystem
-except ImportError:
-    AGISecuritySystem = None
+import docker
 
 logger = logging.getLogger("ΛTRACE.tools.executor")
 
@@ -58,30 +46,17 @@ class ToolExecutor:
             os.getenv("LUKHAS_ENABLE_SCHEDULER", "true").lower() == "true"
         )
         self.code_exec_enabled = (
-            os.getenv("LUKHAS_ENABLE_CODE_EXEC", "true").lower() == "true"
+            os.getenv("LUKHAS_ENABLE_CODE_EXEC", "true").lower() == "true" # Enabled for dev
+     main
         )
 
         # Queue directory for scheduled tasks
         self.schedule_queue_dir = Path("data/scheduled_tasks")
         self.schedule_queue_dir.mkdir(parents=True, exist_ok=True)
 
-        # Security configuration
-        self.security_config = self._init_security_config()
-        
-        # Rate limiting
-        self._rate_limiter = {}
-        self._request_timestamps = {}
-
-        # Resource monitoring
-        self._active_executions = 0
-        self._max_concurrent_executions = int(os.getenv("LUKHAS_MAX_CONCURRENT_EXECUTIONS", "10"))
-        
-        # Docker client for sandboxed execution
-        self._docker_client = None
-        
-        # Audit logging
-        self.audit_log = Path("data/audit/tool_execution.log")
-        self.audit_log.parent.mkdir(parents=True, exist_ok=True)
+        # Rate limiting for browsing
+        self.domain_last_request = {}
+        self.rate_limit_seconds = self.config.get("rate_limit_seconds", 2)
 
         # Track execution metrics
         self.metrics = {
@@ -123,7 +98,11 @@ class ToolExecutor:
                 return f"Tool '{tool_name}' is not available."
 
             # Execute with safety checks
-            result = await handler(args)
+            if tool_name == "exec_code": # This is a sync function
+                 result = self._exec_code(args)
+            else:
+                 result = await handler(args)
+
             self.metrics[tool_name] = self.metrics.get(tool_name, 0) + 1
 
             logger.info(
@@ -131,11 +110,11 @@ class ToolExecutor:
                 extra={
                     "tool": tool_name,
                     "args": args,
-                    "result_length": len(result),
+                    "result_length": len(str(result)),
                 },
             )
 
-            return result
+            return str(result)
 
         except Exception as e:
             logger.error(f"Tool execution failed: {tool_name}", exc_info=e)
@@ -204,21 +183,65 @@ class ToolExecutor:
         if not url.startswith(("http://", "https://")):
             return f"Invalid URL format: {url}"
 
+        parsed_url = urlparse(url)
+        domain = parsed_url.netloc
+
         # Check against allowlist if configured
         allowed_domains = self.config.get("allowed_domains", [])
-        if allowed_domains:
-            from urllib.parse import urlparse
+        if allowed_domains and domain not in allowed_domains:
+            self.metrics["blocked"] += 1
+            return f"Domain {domain} is not in the allowlist."
 
-            domain = urlparse(url).netloc
-            if domain not in allowed_domains:
-                return f"Domain {domain} is not in the allowlist."
+        # Rate limiting
+        current_time = time.time()
+        last_request_time = self.domain_last_request.get(domain, 0)
+        if current_time - last_request_time < self.rate_limit_seconds:
+            self.metrics["blocked"] += 1
+            return f"Rate limit exceeded for {domain}. Please wait a moment before trying again."
+        self.domain_last_request[domain] = current_time
 
-        # Implement comprehensive safe web scraping
         try:
-            return await self._safe_web_scraper(url)
+            async with httpx.AsyncClient(follow_redirects=True, timeout=15) as client:
+                headers = {
+                    "User-Agent": "LUKHAS-AI-Tool-Executor/1.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                    "Accept-Language": "en-US,en;q=0.5",
+                    "Accept-Encoding": "gzip, deflate, br",
+                }
+                response = await client.get(url, headers=headers)
+                response.raise_for_status()
+
+                content_type = response.headers.get("content-type", "")
+                if "text/html" not in content_type.lower():
+                    return f"Cannot parse content of type '{content_type}'. Only HTML is supported."
+
+                if len(response.content) > 2 * 1024 * 1024:  # 2MB limit
+                    return "Page content is too large to process (limit is 2MB)."
+
+                soup = BeautifulSoup(response.content, "lxml")
+
+                for tag in soup(["script", "style", "nav", "footer", "aside"]):
+                    tag.decompose()
+
+                title = soup.title.string if soup.title else ""
+                body_text = soup.body.get_text(separator=' ', strip=True) if soup.body else ""
+
+                full_text = f"Title: {title}\n\n{body_text}".strip()
+
+                max_length = self.config.get("max_content_length", 8000)
+                if len(full_text) > max_length:
+                    full_text = full_text[:max_length] + f"... (truncated from {len(full_text)} chars)"
+
+                return f"Successfully retrieved and parsed content from {url}:\n\n{full_text}"
+
+        except httpx.TimeoutException:
+            return f"Request to {url} timed out."
+        except httpx.RequestError as e:
+            logger.warning(f"Failed to open URL {url}: {e}")
+            return f"Error fetching URL: {e}"
         except Exception as e:
-            logger.error(f"Web scraping failed for {url}: {str(e)}", exc_info=True)
-            return f"Failed to access {url}: {str(e)}"
+            logger.error(f"An unexpected error occurred while opening URL {url}", exc_info=e)
+            return f"An unexpected error occurred: {str(e)}"
 
     async def _schedule_task(self, args: dict[str, Any]) -> str:
         """
@@ -259,9 +282,9 @@ class ToolExecutor:
 
         return f"✅ Task scheduled (ID: {task_id}): '{note}' for {when}. Task saved to queue."
 
-    async def _exec_code(self, args: dict[str, Any]) -> str:
+    def _exec_code(self, args: dict[str, Any]) -> str:
         """
-        Execute code in a sandboxed environment.
+        Execute code in a sandboxed environment using Docker.
 
         Args:
             args: {"language": str, "source": str}
@@ -281,29 +304,116 @@ class ToolExecutor:
         # Validate language
         allowed_languages = ["python", "javascript", "bash"]
         if language not in allowed_languages:
-            return f"Language '{language}' is not supported. Use: {allowed_languages}"
+            return f"Language '{language}' is not supported. Use one of: {allowed_languages}"
 
-        # Security checks
-        dangerous_patterns = [
-            "import os",
-            "exec",
-            "eval",
-            "__import__",
-            "subprocess",
-            "socket",
-        ]
-        for pattern in dangerous_patterns:
-            if pattern in source.lower():
-                return (
-                    f"Security violation: '{pattern}' is not allowed in code execution."
+        # Basic security check on source before handing to Docker
+        dangerous_patterns = {
+            "python": ["__import__", "socket", "os", "subprocess", "eval", "exec"],
+            "javascript": ["require('fs')", "require('child_process')", "eval"],
+            "bash": [":(){:|:&};:", "rm -rf"], # fork bomb and dangerous rm
+        }
+        for pattern in dangerous_patterns.get(language, []):
+            if pattern in source:
+                self.metrics["blocked"] += 1
+                return f"Security violation: pattern '{pattern}' is not allowed for {language}."
+
+        try:
+            client = docker.from_env(timeout=60)
+        except docker.errors.DockerException:
+            return "Docker is not available or configured correctly. Cannot execute code."
+
+        temp_dir = tempfile.mkdtemp()
+
+        try:
+            dockerfile_content, filename, cmd = self._get_docker_config(language)
+
+            with open(os.path.join(temp_dir, filename), "w", encoding="utf-8") as f:
+                f.write(source)
+
+            with open(os.path.join(temp_dir, "Dockerfile"), "w", encoding="utf-8") as f:
+                f.write(dockerfile_content.format(filename=filename))
+
+            image_tag = f"lukhas-exec-{hashlib.md5(source.encode()).hexdigest()[:12]}"
+
+            # Build the image
+            try:
+                logger.info(f"Building docker image {image_tag} for {language} code.")
+                image, _ = client.images.build(path=temp_dir, tag=image_tag, rm=True, forcerm=True, timeout=120)
+            except docker.errors.BuildError as e:
+                logger.error(f"Docker build failed for {language}: {e}")
+                log_str = "\n".join([str(line) for line in e.build_log])
+                return f"Docker build failed:\n{log_str[:2000]}"
+
+            # Run the container
+            container = None
+            try:
+                logger.info(f"Running container for image {image_tag}.")
+                container = client.containers.run(
+                    image.id,
+                    command=cmd.format(filename=filename),
+                    detach=True,
+                    mem_limit="256m",
+                    cpus=0.5,
+                    network_disabled=True,
                 )
 
-        # Implement Docker-based sandboxed execution
-        try:
-            return await self._sandboxed_code_execution(language, source)
+                # Wait for container to finish, with timeout
+                try:
+                    container.wait(timeout=30)
+                    stdout = container.logs(stdout=True, stderr=False).decode('utf-8', 'ignore')
+                    stderr = container.logs(stdout=False, stderr=True).decode('utf-8', 'ignore')
+                    output = f"STDOUT:\n{stdout}\nSTDERR:\n{stderr}"
+                except Exception as wait_e: # Container ran too long
+                    container.kill()
+                    output = f"Execution timed out after 30 seconds."
+
+            except docker.errors.ContainerError as e:
+                logger.error(f"Docker container failed for {language}: {e}")
+                return f"Container execution failed: {e.stderr.decode('utf-8', 'ignore') if e.stderr else str(e)}"
+            finally:
+                if container:
+                    try:
+                        container.remove(force=True)
+                    except docker.errors.NotFound:
+                        pass
+                # Clean up the image
+                try:
+                    client.images.remove(image.id, force=True)
+                except docker.errors.ImageNotFound:
+                    pass
+                except Exception as e:
+                    logger.warning(f"Failed to remove docker image {image_tag}: {e}")
+
+            return f"Execution successful:\n---\n{output[:8000]}"
+
         except Exception as e:
-            logger.error(f"Sandboxed execution failed: {str(e)}", exc_info=True)
-            return f"Code execution failed: {str(e)}"
+            logger.error(f"An unexpected error occurred during code execution: {e}", exc_info=True)
+            return f"An unexpected error occurred during execution: {str(e)}"
+        finally:
+            shutil.rmtree(temp_dir)
+
+    def _get_docker_config(self, language: str) -> tuple[str, str, str]:
+        if language == "python":
+            return """
+FROM python:3.11-slim
+WORKDIR /app
+COPY {filename} .
+""", "script.py", "python {filename}"
+        elif language == "javascript":
+            return """
+FROM node:20-slim
+WORKDIR /app
+COPY {filename} .
+""", "script.js", "node {filename}"
+        elif language == "bash":
+            return """
+FROM bash:5.2
+WORKDIR /app
+COPY {filename} .
+RUN chmod +x {filename}
+""", "script.sh", "./{filename}"
+        else:
+            raise ValueError(f"Unsupported language: {language}")
 
     def get_metrics(self) -> dict[str, int]:
         """Get execution metrics"""
@@ -330,10 +440,15 @@ class ToolExecutor:
             arguments = function.get("arguments", "{}")
 
             # Execute tool
-            result = await self.execute(name, arguments)
+            if name == "exec_code":
+                # Run sync function in async context
+                loop = asyncio.get_event_loop()
+                result = await loop.run_in_executor(None, self._exec_code, json.loads(arguments))
+            else:
+                result = await self.execute(name, arguments)
 
             # Format for OpenAI
-            results.append({"tool_call_id": tool_id, "role": "tool", "content": result})
+            results.append({"tool_call_id": tool_id, "role": "tool", "content": str(result)})
 
         return results
 
@@ -866,6 +981,6 @@ async def execute_and_resume(
     messages.extend(tool_results)
 
     # Resume conversation
-    response = await client.chat_completion(messages=messages, **kwargs)
+    response = await client.chat.completions.create(messages=messages, **kwargs)
 
     return response
