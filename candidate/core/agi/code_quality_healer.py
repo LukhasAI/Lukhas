@@ -15,22 +15,14 @@ from pathlib import Path
 from typing import Any, Optional
 
 from candidate.bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
-from lukhas.core.agi.self_healing import (
+from candidate.core.agi.self_healing import (
     FailureType,
     HealingAction,
     HealingStrategy,
     SystemFailure,
 )
 
-# from lukhas.governance.guardian import GuardianSystem  # TODO: Fix import
-
-# Temporary mock for Guardian System
-class GuardianSystem:
-    def __init__(self, drift_threshold=0.15):
-        self.drift_threshold = drift_threshold
-
-    async def check_drift(self, data):
-        return 0.1  # Mock drift score below threshold
+from lukhas.governance.guardian import GuardianSystem
 
 logger = logging.getLogger(__name__)
 
