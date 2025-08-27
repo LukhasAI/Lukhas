@@ -13,7 +13,7 @@ lukhas==0.0.1
 matplotlib==3.10.5
 numpy==2.2.5
 openai==1.102.0
-pandas==2.2.3
+pandas==2.3.2
 Pillow==11.3.0
 plotly==6.3.0
 pycryptodome==3.23.0
