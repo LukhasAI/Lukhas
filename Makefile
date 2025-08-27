@@ -3,6 +3,7 @@
 .PHONY: security security-scan security-update security-audit security-fix
 .PHONY: policy policy-review policy-brand policy-tone policy-registries
 .PHONY: verify phase1 status hook-install
+.PHONY: lane-guard
 
 # Default target
 help:
@@ -267,6 +268,10 @@ admin:
 lint-status:
 	@python tools/scripts/check_progress.py
 
+# Lane guard: forbid lukhas -> candidate imports (belt-and-suspenders)
+lane-guard:
+	@bash tools/ci/lane_guard.sh
+
 # API specification
 api-spec:
 	@echo "Starting server to export OpenAPI spec..."
@@ -324,6 +329,30 @@ organize-watch:
 # Install and setup everything
 bootstrap: install setup-hooks
 	@echo "🚀 Bootstrap complete! Run 'make fix' to clean up existing issues."
+
+.PHONY: audit-status
+audit-status:
+	@echo "📊 LUKHAS Audit Status"
+	@echo "======================"
+	@echo ""
+	@echo "🔧 Branch Status:"
+	@git status -s && git rev-parse --abbrev-ref HEAD || echo "No changes"
+	@echo ""
+	@echo "📝 Recent Commits:"
+	@git log --oneline -3 || echo "No commits"
+	@echo ""
+	@echo "🔍 Tool Versions:"
+	@echo -n "  Ruff: " && python3 -m ruff --version 2>/dev/null || echo "Not available"
+	@echo -n "  Pytest: " && python3 -m pytest --version 2>/dev/null || echo "Not available"
+	@echo ""
+	@echo "🧪 Smoke Tests:"
+	@source .venv/bin/activate 2>/dev/null && python3 -m pytest -q tests/smoke 2>/dev/null || echo "  No smoke tests or pytest unavailable"
+	@echo ""
+	@echo "📊 Deep Search Reports:"
+	@ls -1 reports/deep_search 2>/dev/null | head -10 || echo "  No deep search reports"
+	@echo ""
+	@echo "🚦 Lane Guard:"
+	@./tools/ci/lane_guard.sh 2>/dev/null || echo "  ❌ Lane violations detected"
 
 # Security operations
 security: security-audit security-scan
