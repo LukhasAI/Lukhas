@@ -46,6 +46,7 @@ except ImportError:
     # For direct execution
     import sys
     from pathlib import Path
+
     sys.path.insert(0, str(Path(__file__).parent.parent))
     from nodes.fact_node import FactNode
     from nodes.math_node import MathNode
@@ -56,8 +57,7 @@ except ImportError:
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -69,50 +69,74 @@ websocket_connections: list[WebSocket] = []
 # Pydantic models for request/response validation
 class QueryRequest(BaseModel):
     """Request model for cognitive query processing"""
-    query: str = Field(..., min_length=1, max_length=10000, description="Query to process")
-    trace_id: Optional[str] = Field(None, description="Optional execution trace ID")
-    context: Optional[dict[str, Any]] = Field(default_factory=dict, description="Additional context")
-    include_trace: bool = Field(default=True, description="Include detailed execution trace")
-    include_nodes: bool = Field(default=True, description="Include MATRIZ nodes in response")
 
-    @validator('query')
+    query: str = Field(
+        ..., min_length=1, max_length=10000, description="Query to process"
+    )
+    trace_id: Optional[str] = Field(None, description="Optional execution trace ID")
+    context: Optional[dict[str, Any]] = Field(
+        default_factory=dict, description="Additional context"
+    )
+    include_trace: bool = Field(
+        default=True, description="Include detailed execution trace"
+    )
+    include_nodes: bool = Field(
+        default=True, description="Include MATRIZ nodes in response"
+    )
+
+    @validator("query")
     def validate_query(cls, v):
         if not v or not v.strip():
-            raise ValueError('Query cannot be empty')
+            raise ValueError("Query cannot be empty")
         return v.strip()
 
-    @validator('trace_id')
+    @validator("trace_id")
     def validate_trace_id(cls, v):
         if v and len(v) < 8:
-            raise ValueError('Trace ID must be at least 8 characters')
+            raise ValueError("Trace ID must be at least 8 characters")
         return v
 
 
 class QueryResponse(BaseModel):
     """Response model for cognitive query processing"""
+
     answer: str = Field(..., description="Processing result")
     confidence: float = Field(..., ge=0.0, le=1.0, description="Confidence in result")
-    processing_time: float = Field(..., ge=0.0, description="Processing time in seconds")
+    processing_time: float = Field(
+        ..., ge=0.0, description="Processing time in seconds"
+    )
     trace_id: str = Field(..., description="Execution trace identifier")
     timestamp: str = Field(..., description="ISO timestamp of processing")
-    matriz_nodes: Optional[list[dict[str, Any]]] = Field(None, description="Generated MATRIZ nodes")
-    trace: Optional[dict[str, Any]] = Field(None, description="Detailed execution trace")
-    reasoning_chain: Optional[list[str]] = Field(None, description="Human-readable reasoning steps")
+    matriz_nodes: Optional[list[dict[str, Any]]] = Field(
+        None, description="Generated MATRIZ nodes"
+    )
+    trace: Optional[dict[str, Any]] = Field(
+        None, description="Detailed execution trace"
+    )
+    reasoning_chain: Optional[list[str]] = Field(
+        None, description="Human-readable reasoning steps"
+    )
 
 
 class HealthResponse(BaseModel):
     """Health check response model"""
+
     status: str = Field(..., description="Service status")
     timestamp: str = Field(..., description="ISO timestamp")
     version: str = Field(..., description="API version")
     uptime_seconds: float = Field(..., description="Service uptime in seconds")
-    registered_nodes: int = Field(..., description="Number of registered cognitive nodes")
+    registered_nodes: int = Field(
+        ..., description="Number of registered cognitive nodes"
+    )
     total_queries: int = Field(..., description="Total queries processed")
-    active_websockets: int = Field(..., description="Number of active WebSocket connections")
+    active_websockets: int = Field(
+        ..., description="Number of active WebSocket connections"
+    )
 
 
 class NodeInfo(BaseModel):
     """Information about a cognitive node"""
+
     name: str = Field(..., description="Node name")
     capabilities: list[str] = Field(..., description="Node capabilities")
     tenant: str = Field(..., description="Node tenant")
@@ -121,6 +145,7 @@ class NodeInfo(BaseModel):
 
 class SystemInfo(BaseModel):
     """System information and diagnostics"""
+
     nodes: list[NodeInfo] = Field(..., description="Registered cognitive nodes")
     matriz_graph_size: int = Field(..., description="Number of nodes in MATRIZ graph")
     execution_trace_count: int = Field(..., description="Number of execution traces")
@@ -129,7 +154,10 @@ class SystemInfo(BaseModel):
 
 class WebSocketMessage(BaseModel):
     """WebSocket message format"""
-    type: str = Field(..., description="Message type: query, response, error, ping, pong")
+
+    type: str = Field(
+        ..., description="Message type: query, response, error, ping, pong"
+    )
     data: Optional[dict[str, Any]] = Field(None, description="Message data")
     trace_id: Optional[str] = Field(None, description="Trace identifier")
     timestamp: str = Field(..., description="ISO timestamp")
@@ -218,8 +246,11 @@ app = FastAPI(
     lifespan=lifespan,
     servers=[
         {"url": "http://localhost:8000", "description": "Development server"},
-        {"url": "https://api.matriz-agi.example.com", "description": "Production server"}
-    ]
+        {
+            "url": "https://api.matriz-agi.example.com",
+            "description": "Production server",
+        },
+    ],
 )
 
 # Configure CORS
@@ -243,8 +274,8 @@ async def global_exception_handler(request, exc):
             "error": "Internal server error",
             "detail": str(exc),
             "timestamp": datetime.now().isoformat(),
-            "trace_id": str(uuid.uuid4())
-        }
+            "trace_id": str(uuid.uuid4()),
+        },
     )
 
 
@@ -268,7 +299,7 @@ async def health_check():
         uptime_seconds=time.time() - start_time,
         registered_nodes=len(orchestrator.available_nodes) if orchestrator else 0,
         total_queries=total_queries,
-        active_websockets=len(websocket_connections)
+        active_websockets=len(websocket_connections),
     )
 
 
@@ -292,7 +323,7 @@ async def liveness_check():
 async def process_query(
     request: QueryRequest,
     background_tasks: BackgroundTasks,
-    orch: CognitiveOrchestrator = Depends(get_orchestrator)
+    orch: CognitiveOrchestrator = Depends(get_orchestrator),
 ):
     """
     Process a cognitive query through MATRIZ nodes
@@ -320,7 +351,7 @@ async def process_query(
             "confidence": result.get("confidence", 0.0),
             "processing_time": time.time() - start_time_req,
             "trace_id": trace_id,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Include optional data based on request
@@ -332,20 +363,25 @@ async def process_query(
             response_data["reasoning_chain"] = result.get("reasoning_chain", [])
 
         # Log successful processing
-        logger.info(f"Query processed successfully (trace: {trace_id}, time: {response_data['processing_time']:.3f}s)")
+        logger.info(
+            f"Query processed successfully (trace: {trace_id}, time: {response_data['processing_time']:.3f}s)"
+        )
 
         # Send to WebSocket clients in background
         if websocket_connections:
-            background_tasks.add_task(broadcast_to_websockets, {
-                "type": "query_processed",
-                "data": {
-                    "query": request.query,
-                    "answer": response_data["answer"],
-                    "confidence": response_data["confidence"],
-                    "trace_id": trace_id
+            background_tasks.add_task(
+                broadcast_to_websockets,
+                {
+                    "type": "query_processed",
+                    "data": {
+                        "query": request.query,
+                        "answer": response_data["answer"],
+                        "confidence": response_data["confidence"],
+                        "trace_id": trace_id,
+                    },
+                    "timestamp": response_data["timestamp"],
                 },
-                "timestamp": response_data["timestamp"]
-            })
+            )
 
         return QueryResponse(**response_data)
 
@@ -357,8 +393,8 @@ async def process_query(
                 "error": "Query processing failed",
                 "message": str(e),
                 "trace_id": trace_id,
-                "timestamp": datetime.now().isoformat()
-            }
+                "timestamp": datetime.now().isoformat(),
+            },
         )
 
 
@@ -369,18 +405,20 @@ async def system_info(orch: CognitiveOrchestrator = Depends(get_orchestrator)):
 
     nodes = []
     for name, node in orch.available_nodes.items():
-        nodes.append(NodeInfo(
-            name=name,
-            capabilities=node.capabilities,
-            tenant=node.tenant,
-            processing_history_count=len(node.processing_history)
-        ))
+        nodes.append(
+            NodeInfo(
+                name=name,
+                capabilities=node.capabilities,
+                tenant=node.tenant,
+                processing_history_count=len(node.processing_history),
+            )
+        )
 
     return SystemInfo(
         nodes=nodes,
         matriz_graph_size=len(orch.matriz_graph),
         execution_trace_count=len(orch.execution_trace),
-        memory_nodes=len(orch.context_memory)
+        memory_nodes=len(orch.context_memory),
     )
 
 
@@ -394,15 +432,14 @@ async def list_nodes(orch: CognitiveOrchestrator = Depends(get_orchestrator)):
             "capabilities": node.capabilities,
             "tenant": node.tenant,
             "class": node.__class__.__name__,
-            "processing_history_count": len(node.processing_history)
+            "processing_history_count": len(node.processing_history),
         }
     return {"nodes": nodes}
 
 
 @app.get("/system/nodes/{node_name}", tags=["System"])
 async def get_node_details(
-    node_name: str,
-    orch: CognitiveOrchestrator = Depends(get_orchestrator)
+    node_name: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)
 ):
     """Get detailed information about a specific cognitive node"""
     if node_name not in orch.available_nodes:
@@ -416,28 +453,26 @@ async def get_node_details(
         "tenant": node.tenant,
         "class": node.__class__.__name__,
         "processing_history_count": len(node.processing_history),
-        "recent_traces": node.get_trace()[-5:] if node.get_trace() else []
+        "recent_traces": node.get_trace()[-5:] if node.get_trace() else [],
     }
 
 
 @app.get("/system/graph", tags=["System"])
 async def get_matriz_graph(
-    orch: CognitiveOrchestrator = Depends(get_orchestrator),
-    limit: int = 100
+    orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 100
 ):
     """Get the MATRIZ graph nodes (limited for performance)"""
     nodes = list(orch.matriz_graph.values())[-limit:]
     return {
         "total_nodes": len(orch.matriz_graph),
         "returned_nodes": len(nodes),
-        "nodes": nodes
+        "nodes": nodes,
     }
 
 
 @app.get("/system/trace", tags=["System"])
 async def get_execution_trace(
-    orch: CognitiveOrchestrator = Depends(get_orchestrator),
-    limit: int = 50
+    orch: CognitiveOrchestrator = Depends(get_orchestrator), limit: int = 50
 ):
     """Get recent execution traces"""
     traces = orch.execution_trace[-limit:]
@@ -450,24 +485,20 @@ async def get_execution_trace(
                 "node_id": trace.node_id,
                 "processing_time": trace.processing_time,
                 "validation_result": trace.validation_result,
-                "reasoning_chain": trace.reasoning_chain
-            } for trace in traces
-        ]
+                "reasoning_chain": trace.reasoning_chain,
+            }
+            for trace in traces
+        ],
     }
 
 
 @app.get("/system/causal/{node_id}", tags=["System"])
 async def get_causal_chain(
-    node_id: str,
-    orch: CognitiveOrchestrator = Depends(get_orchestrator)
+    node_id: str, orch: CognitiveOrchestrator = Depends(get_orchestrator)
 ):
     """Get the causal chain for a specific MATRIZ node"""
     chain = orch.get_causal_chain(node_id)
-    return {
-        "node_id": node_id,
-        "chain_length": len(chain),
-        "causal_chain": chain
-    }
+    return {"node_id": node_id, "chain_length": len(chain), "causal_chain": chain}
 
 
 # WebSocket endpoint
@@ -489,15 +520,19 @@ async def websocket_endpoint(websocket: WebSocket):
     logger.info(f"WebSocket client connected: {client_id}")
 
     # Send welcome message
-    await websocket.send_json({
-        "type": "connected",
-        "data": {
-            "client_id": client_id,
-            "message": "Connected to MATRIZ-AGI WebSocket",
-            "available_nodes": list(orchestrator.available_nodes.keys()) if orchestrator else []
-        },
-        "timestamp": datetime.now().isoformat()
-    })
+    await websocket.send_json(
+        {
+            "type": "connected",
+            "data": {
+                "client_id": client_id,
+                "message": "Connected to MATRIZ-AGI WebSocket",
+                "available_nodes": (
+                    list(orchestrator.available_nodes.keys()) if orchestrator else []
+                ),
+            },
+            "timestamp": datetime.now().isoformat(),
+        }
+    )
 
     try:
         while True:
@@ -511,11 +546,13 @@ async def websocket_endpoint(websocket: WebSocket):
 
                 if ws_message.type == "ping":
                     # Respond to ping
-                    await websocket.send_json({
-                        "type": "pong",
-                        "data": ws_message.data,
-                        "timestamp": datetime.now().isoformat()
-                    })
+                    await websocket.send_json(
+                        {
+                            "type": "pong",
+                            "data": ws_message.data,
+                            "timestamp": datetime.now().isoformat(),
+                        }
+                    )
 
                 elif ws_message.type == "query":
                     # Process query
@@ -523,11 +560,13 @@ async def websocket_endpoint(websocket: WebSocket):
                     query_text = query_data.get("query", "")
 
                     if not query_text:
-                        await websocket.send_json({
-                            "type": "error",
-                            "data": {"error": "No query provided"},
-                            "timestamp": datetime.now().isoformat()
-                        })
+                        await websocket.send_json(
+                            {
+                                "type": "error",
+                                "data": {"error": "No query provided"},
+                                "timestamp": datetime.now().isoformat(),
+                            }
+                        )
                         continue
 
                     # Process through orchestrator
@@ -536,18 +575,20 @@ async def websocket_endpoint(websocket: WebSocket):
                     processing_time = time.time() - start_time_ws
 
                     # Send response
-                    await websocket.send_json({
-                        "type": "response",
-                        "data": {
-                            "answer": result.get("answer", "No answer"),
-                            "confidence": result.get("confidence", 0.0),
-                            "processing_time": processing_time,
-                            "matriz_nodes": result.get("matriz_nodes", []),
-                            "reasoning_chain": result.get("reasoning_chain", [])
-                        },
-                        "trace_id": ws_message.trace_id or str(uuid.uuid4()),
-                        "timestamp": datetime.now().isoformat()
-                    })
+                    await websocket.send_json(
+                        {
+                            "type": "response",
+                            "data": {
+                                "answer": result.get("answer", "No answer"),
+                                "confidence": result.get("confidence", 0.0),
+                                "processing_time": processing_time,
+                                "matriz_nodes": result.get("matriz_nodes", []),
+                                "reasoning_chain": result.get("reasoning_chain", []),
+                            },
+                            "trace_id": ws_message.trace_id or str(uuid.uuid4()),
+                            "timestamp": datetime.now().isoformat(),
+                        }
+                    )
 
                     global total_queries
                     total_queries += 1
@@ -559,36 +600,54 @@ async def websocket_endpoint(websocket: WebSocket):
                         for name, node in orchestrator.available_nodes.items():
                             nodes[name] = {
                                 "capabilities": node.capabilities,
-                                "processing_history_count": len(node.processing_history)
+                                "processing_history_count": len(
+                                    node.processing_history
+                                ),
                             }
 
-                    await websocket.send_json({
-                        "type": "system_info",
-                        "data": {
-                            "nodes": nodes,
-                            "matriz_graph_size": len(orchestrator.matriz_graph) if orchestrator else 0,
-                            "execution_trace_count": len(orchestrator.execution_trace) if orchestrator else 0,
-                            "total_queries": total_queries,
-                            "uptime_seconds": time.time() - start_time
-                        },
-                        "timestamp": datetime.now().isoformat()
-                    })
+                    await websocket.send_json(
+                        {
+                            "type": "system_info",
+                            "data": {
+                                "nodes": nodes,
+                                "matriz_graph_size": (
+                                    len(orchestrator.matriz_graph)
+                                    if orchestrator
+                                    else 0
+                                ),
+                                "execution_trace_count": (
+                                    len(orchestrator.execution_trace)
+                                    if orchestrator
+                                    else 0
+                                ),
+                                "total_queries": total_queries,
+                                "uptime_seconds": time.time() - start_time,
+                            },
+                            "timestamp": datetime.now().isoformat(),
+                        }
+                    )
 
                 else:
                     # Unknown message type
-                    await websocket.send_json({
-                        "type": "error",
-                        "data": {"error": f"Unknown message type: {ws_message.type}"},
-                        "timestamp": datetime.now().isoformat()
-                    })
+                    await websocket.send_json(
+                        {
+                            "type": "error",
+                            "data": {
+                                "error": f"Unknown message type: {ws_message.type}"
+                            },
+                            "timestamp": datetime.now().isoformat(),
+                        }
+                    )
 
             except Exception as e:
                 logger.error(f"WebSocket message processing error: {str(e)}")
-                await websocket.send_json({
-                    "type": "error",
-                    "data": {"error": str(e)},
-                    "timestamp": datetime.now().isoformat()
-                })
+                await websocket.send_json(
+                    {
+                        "type": "error",
+                        "data": {"error": str(e)},
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                )
 
     except WebSocketDisconnect:
         logger.info(f"WebSocket client disconnected: {client_id}")
@@ -624,7 +683,7 @@ def run_server(
     host: str = "0.0.0.0",
     port: int = 8000,
     reload: bool = False,
-    log_level: str = "info"
+    log_level: str = "info",
 ):
     """
     Run the FastAPI server with uvicorn
@@ -643,7 +702,7 @@ def run_server(
         port=port,
         reload=reload,
         log_level=log_level,
-        access_log=True
+        access_log=True,
     )
 
 
@@ -660,8 +719,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     run_server(
-        host=args.host,
-        port=args.port,
-        reload=args.reload,
-        log_level=args.log_level
+        host=args.host, port=args.port, reload=args.reload, log_level=args.log_level
     )

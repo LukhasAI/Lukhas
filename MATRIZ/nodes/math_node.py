@@ -31,6 +31,7 @@ except ImportError:
     # For direct execution
     import sys
     from pathlib import Path
+
     sys.path.insert(0, str(Path(__file__).parent.parent))
     from core.node_interface import (
         CognitiveNode,
@@ -65,15 +66,11 @@ class MathNode(CognitiveNode):
         ast.Div: operator.truediv,
         ast.Pow: operator.pow,
         ast.USub: operator.neg,
-        ast.UAdd: operator.pos
+        ast.UAdd: operator.pos,
     }
 
     # Mathematical constants
-    MATH_CONSTANTS = {
-        'pi': math.pi,
-        'e': math.e,
-        'tau': math.tau
-    }
+    MATH_CONSTANTS = {"pi": math.pi, "e": math.e, "tau": math.tau}
 
     def __init__(self, tenant: str = "default", precision: int = 10):
         """
@@ -90,18 +87,18 @@ class MathNode(CognitiveNode):
                 "expression_parsing",
                 "mathematical_computation",
                 "deterministic_calculation",
-                "confidence_assessment"
+                "confidence_assessment",
             ],
-            tenant=tenant
+            tenant=tenant,
         )
 
         self.precision = precision
         self.complexity_weights = {
-            'numbers': 0.1,
-            'operators': 0.2,
-            'parentheses': 0.3,
-            'exponents': 0.4,
-            'constants': 0.2
+            "numbers": 0.1,
+            "operators": 0.2,
+            "parentheses": 0.3,
+            "exponents": 0.4,
+            "constants": 0.2,
         }
 
     def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
@@ -124,15 +121,15 @@ class MathNode(CognitiveNode):
         start_time = time.time()
 
         # Extract and validate input
-        expression = input_data.get('expression', '').strip()
-        trace_id = input_data.get('trace_id', self.get_deterministic_hash(input_data))
-        context = input_data.get('context', {})
+        expression = input_data.get("expression", "").strip()
+        trace_id = input_data.get("trace_id", self.get_deterministic_hash(input_data))
+        context = input_data.get("context", {})
 
         # Create initial trigger
         trigger = NodeTrigger(
             event_type="mathematical_computation_request",
             timestamp=int(time.time() * 1000),
-            effect="expression_evaluation"
+            effect="expression_evaluation",
         )
 
         if not expression:
@@ -141,34 +138,40 @@ class MathNode(CognitiveNode):
                 input_data,
                 trace_id,
                 start_time,
-                [trigger]
+                [trigger],
             )
 
         # Validate and sanitize expression
         validation_result = self._validate_expression(expression)
-        if not validation_result['valid']:
+        if not validation_result["valid"]:
             return self._create_error_response(
                 f"Invalid expression: {validation_result['error']}",
                 input_data,
                 trace_id,
                 start_time,
-                [trigger]
+                [trigger],
             )
 
         # Evaluate the expression
         try:
             result = self._evaluate_expression(expression)
             complexity_score = self._calculate_complexity(expression)
-            confidence = self._calculate_confidence(expression, result, complexity_score)
+            confidence = self._calculate_confidence(
+                expression, result, complexity_score
+            )
 
             # Create success state
             state = NodeState(
                 confidence=confidence,
-                salience=min(0.9, 0.5 + complexity_score * 0.4),  # Higher complexity = higher salience
+                salience=min(
+                    0.9, 0.5 + complexity_score * 0.4
+                ),  # Higher complexity = higher salience
                 valence=0.8,  # Positive - successful computation
                 utility=0.9,  # High utility for mathematical results
                 novelty=max(0.1, complexity_score),  # Novelty based on complexity
-                arousal=min(0.7, 0.3 + complexity_score * 0.4)  # Arousal based on complexity
+                arousal=min(
+                    0.7, 0.3 + complexity_score * 0.4
+                ),  # Arousal based on complexity
             )
 
             # Create affirmation reflection
@@ -176,11 +179,11 @@ class MathNode(CognitiveNode):
                 reflection_type="affirmation",
                 cause="Successfully evaluated mathematical expression",
                 new_state={
-                    'expression': expression,
-                    'result': result,
-                    'confidence': confidence,
-                    'complexity_score': complexity_score
-                }
+                    "expression": expression,
+                    "result": result,
+                    "confidence": confidence,
+                    "complexity_score": complexity_score,
+                },
             )
 
             # Create MATRIZ node for successful computation
@@ -191,18 +194,17 @@ class MathNode(CognitiveNode):
                 triggers=[trigger],
                 reflections=[reflection],
                 additional_data={
-                    'expression': expression,
-                    'result': result,
-                    'result_type': type(result).__name__,
-                    'complexity_score': complexity_score,
-                    'evaluation_method': 'ast_safe_eval',
-                    'precision': self.precision,
-                    'context': context,
-                    'deterministic_hash': self.get_deterministic_hash({
-                        'expression': expression,
-                        'precision': self.precision
-                    })
-                }
+                    "expression": expression,
+                    "result": result,
+                    "result_type": type(result).__name__,
+                    "complexity_score": complexity_score,
+                    "evaluation_method": "ast_safe_eval",
+                    "precision": self.precision,
+                    "context": context,
+                    "deterministic_hash": self.get_deterministic_hash(
+                        {"expression": expression, "precision": self.precision}
+                    ),
+                },
             )
 
             answer = f"The result is {self._format_result(result)}"
@@ -214,16 +216,16 @@ class MathNode(CognitiveNode):
                 trace_id,
                 start_time,
                 [trigger],
-                expression=expression
+                expression=expression,
             )
 
         processing_time = time.time() - start_time
 
         return {
-            'answer': answer,
-            'confidence': confidence,
-            'matriz_node': matriz_node,
-            'processing_time': processing_time
+            "answer": answer,
+            "confidence": confidence,
+            "matriz_node": matriz_node,
+            "processing_time": processing_time,
         }
 
     def validate_output(self, output: dict[str, Any]) -> bool:
@@ -245,42 +247,42 @@ class MathNode(CognitiveNode):
         """
         try:
             # Check required top-level fields
-            required_fields = ['answer', 'confidence', 'matriz_node', 'processing_time']
+            required_fields = ["answer", "confidence", "matriz_node", "processing_time"]
             for field in required_fields:
                 if field not in output:
                     return False
 
             # Validate field types
-            if not isinstance(output['answer'], str):
+            if not isinstance(output["answer"], str):
                 return False
-            if not isinstance(output['confidence'], (int, float)):
+            if not isinstance(output["confidence"], (int, float)):
                 return False
-            if not isinstance(output['processing_time'], (int, float)):
+            if not isinstance(output["processing_time"], (int, float)):
                 return False
 
             # Validate confidence range
-            confidence = output['confidence']
+            confidence = output["confidence"]
             if not (0 <= confidence <= 1):
                 return False
 
             # Validate MATRIZ node
-            matriz_node = output['matriz_node']
+            matriz_node = output["matriz_node"]
             if not self.validate_matriz_node(matriz_node):
                 return False
 
             # Check node type is COMPUTATION
-            if matriz_node.get('type') != 'COMPUTATION':
+            if matriz_node.get("type") != "COMPUTATION":
                 return False
 
             # Validate mathematical computation specific fields
-            state = matriz_node.get('state', {})
+            state = matriz_node.get("state", {})
 
             # Check for expression in state
-            if 'expression' not in state:
+            if "expression" not in state:
                 return False
 
             # Validate result consistency
-            result = state.get('result')
+            result = state.get("result")
             if result is not None:
                 # If we have a numeric result, confidence should be reasonable
                 if isinstance(result, (int, float)) and confidence < 0.3:
@@ -291,7 +293,7 @@ class MathNode(CognitiveNode):
                     return False
 
             # Check complexity score if present
-            complexity_score = state.get('complexity_score')
+            complexity_score = state.get("complexity_score")
             if complexity_score is not None:
                 if not isinstance(complexity_score, (int, float)):
                     return False
@@ -299,8 +301,11 @@ class MathNode(CognitiveNode):
                     return False
 
             # Validate provenance
-            provenance = matriz_node.get('provenance', {})
-            if 'producer' not in provenance or 'mathematical_computation' not in provenance.get('capabilities', []):
+            provenance = matriz_node.get("provenance", {})
+            if (
+                "producer" not in provenance
+                or "mathematical_computation" not in provenance.get("capabilities", [])
+            ):
                 return False
 
             return True
@@ -321,37 +326,43 @@ class MathNode(CognitiveNode):
         try:
             # Check length limits
             if len(expression) > 1000:
-                return {'valid': False, 'error': 'Expression too long (max 1000 characters)'}
+                return {
+                    "valid": False,
+                    "error": "Expression too long (max 1000 characters)",
+                }
 
             # Check for empty expression
             if not expression.strip():
-                return {'valid': False, 'error': 'Empty expression'}
+                return {"valid": False, "error": "Empty expression"}
 
             # Replace constants with placeholder values for parsing
             test_expr = expression.lower()
             for const in self.MATH_CONSTANTS:
-                test_expr = test_expr.replace(const, '1')
+                test_expr = test_expr.replace(const, "1")
 
             # Check for allowed characters only
-            allowed_pattern = r'^[0-9+\-*/().\s**eE]+$'
+            allowed_pattern = r"^[0-9+\-*/().\s**eE]+$"
             if not re.match(allowed_pattern, test_expr):
-                return {'valid': False, 'error': 'Expression contains invalid characters'}
+                return {
+                    "valid": False,
+                    "error": "Expression contains invalid characters",
+                }
 
             # Check for balanced parentheses
-            if test_expr.count('(') != test_expr.count(')'):
-                return {'valid': False, 'error': 'Unbalanced parentheses'}
+            if test_expr.count("(") != test_expr.count(")"):
+                return {"valid": False, "error": "Unbalanced parentheses"}
 
             # Try to parse with AST
             try:
-                parsed = ast.parse(test_expr, mode='eval')
+                parsed = ast.parse(test_expr, mode="eval")
                 self._validate_ast_node(parsed.body)
             except (SyntaxError, ValueError) as e:
-                return {'valid': False, 'error': f'Syntax error: {str(e)}'}
+                return {"valid": False, "error": f"Syntax error: {str(e)}"}
 
-            return {'valid': True, 'error': None}
+            return {"valid": True, "error": None}
 
         except Exception as e:
-            return {'valid': False, 'error': f'Validation error: {str(e)}'}
+            return {"valid": False, "error": f"Validation error: {str(e)}"}
 
     def _validate_ast_node(self, node: ast.AST) -> None:
         """
@@ -399,10 +410,12 @@ class MathNode(CognitiveNode):
             # Replace constants
             expr_with_constants = expression.lower()
             for const_name, const_value in self.MATH_CONSTANTS.items():
-                expr_with_constants = expr_with_constants.replace(const_name, str(const_value))
+                expr_with_constants = expr_with_constants.replace(
+                    const_name, str(const_value)
+                )
 
             # Parse and evaluate
-            parsed = ast.parse(expr_with_constants, mode='eval')
+            parsed = ast.parse(expr_with_constants, mode="eval")
             result = self._eval_ast_node(parsed.body)
 
             # Handle special float values
@@ -466,19 +479,19 @@ class MathNode(CognitiveNode):
             expr_lower = expression.lower()
 
             # Count different components
-            numbers = len(re.findall(r'\d+(?:\.\d+)?', expression))
-            operators = len(re.findall(r'[+\-*/]', expression))
-            parentheses = expression.count('(') + expression.count(')')
-            exponents = expression.count('**')
+            numbers = len(re.findall(r"\d+(?:\.\d+)?", expression))
+            operators = len(re.findall(r"[+\-*/]", expression))
+            parentheses = expression.count("(") + expression.count(")")
+            exponents = expression.count("**")
             constants = sum(1 for const in self.MATH_CONSTANTS if const in expr_lower)
 
             # Calculate weighted complexity
             complexity = (
-                min(numbers * self.complexity_weights['numbers'], 0.3) +
-                min(operators * self.complexity_weights['operators'], 0.4) +
-                min(parentheses * self.complexity_weights['parentheses'], 0.3) +
-                min(exponents * self.complexity_weights['exponents'], 0.4) +
-                min(constants * self.complexity_weights['constants'], 0.2)
+                min(numbers * self.complexity_weights["numbers"], 0.3)
+                + min(operators * self.complexity_weights["operators"], 0.4)
+                + min(parentheses * self.complexity_weights["parentheses"], 0.3)
+                + min(exponents * self.complexity_weights["exponents"], 0.4)
+                + min(constants * self.complexity_weights["constants"], 0.2)
             )
 
             return min(complexity, 1.0)
@@ -486,7 +499,9 @@ class MathNode(CognitiveNode):
         except Exception:
             return 0.5  # Default complexity if calculation fails
 
-    def _calculate_confidence(self, expression: str, result: Union[float, int], complexity: float) -> float:
+    def _calculate_confidence(
+        self, expression: str, result: Union[float, int], complexity: float
+    ) -> float:
         """
         Calculate confidence score based on expression and result.
 
@@ -510,7 +525,7 @@ class MathNode(CognitiveNode):
                     complexity_penalty += 0.1
 
             # Reduce confidence for expressions with many operations
-            operation_count = len(re.findall(r'[+\-*/()]', expression))
+            operation_count = len(re.findall(r"[+\-*/()]", expression))
             if operation_count > 10:
                 complexity_penalty += 0.1
 
@@ -537,7 +552,7 @@ class MathNode(CognitiveNode):
                 return str(int(result))
             else:
                 # Format with appropriate precision
-                formatted = f"{result:.{self.precision}f}".rstrip('0').rstrip('.')
+                formatted = f"{result:.{self.precision}f}".rstrip("0").rstrip(".")
                 return formatted if formatted else "0"
         else:
             return str(result)
@@ -549,7 +564,7 @@ class MathNode(CognitiveNode):
         trace_id: str,
         start_time: float,
         triggers: list[NodeTrigger],
-        expression: Optional[str] = None
+        expression: Optional[str] = None,
     ) -> dict[str, Any]:
         """
         Create standardized error response with MATRIZ node.
@@ -571,16 +586,16 @@ class MathNode(CognitiveNode):
             confidence=confidence,
             salience=0.3,
             valence=-0.6,  # Negative - failed to compute
-            risk=0.8,      # High risk due to error
-            utility=0.1    # Low utility - no result provided
+            risk=0.8,  # High risk due to error
+            utility=0.1,  # Low utility - no result provided
         )
 
         # Create regret reflection
         reflection = self.create_reflection(
             reflection_type="regret",
             cause=f"Mathematical computation failed: {error_message}",
-            old_state={'expression': expression} if expression else None,
-            new_state={'error': error_message}
+            old_state={"expression": expression} if expression else None,
+            new_state={"error": error_message},
         )
 
         matriz_node = self.create_matriz_node(
@@ -590,21 +605,21 @@ class MathNode(CognitiveNode):
             triggers=triggers,
             reflections=[reflection],
             additional_data={
-                'expression': expression,
-                'error': error_message,
-                'result': None,
-                'evaluation_method': 'failed',
-                'context': input_data.get('context', {})
-            }
+                "expression": expression,
+                "error": error_message,
+                "result": None,
+                "evaluation_method": "failed",
+                "context": input_data.get("context", {}),
+            },
         )
 
         processing_time = time.time() - start_time
 
         return {
-            'answer': f"Error: {error_message}",
-            'confidence': confidence,
-            'matriz_node': matriz_node,
-            'processing_time': processing_time
+            "answer": f"Error: {error_message}",
+            "confidence": confidence,
+            "matriz_node": matriz_node,
+            "processing_time": processing_time,
         }
 
 
@@ -620,32 +635,25 @@ if __name__ == "__main__":
         {"expression": "15 * 3", "expected_type": "success"},
         {"expression": "100 / 4", "expected_type": "success"},
         {"expression": "10 - 3", "expected_type": "success"},
-
         # Parentheses and order of operations
         {"expression": "(10 + 5) * 2", "expected_type": "success"},
         {"expression": "2 * (3 + 4)", "expected_type": "success"},
         {"expression": "((2 + 3) * 4) / 5", "expected_type": "success"},
-
         # Exponents
         {"expression": "2 ** 3", "expected_type": "success"},
         {"expression": "10 ** 2", "expected_type": "success"},
         {"expression": "2 ** (3 + 1)", "expected_type": "success"},
-
         # Mathematical constants
         {"expression": "pi * 2", "expected_type": "success"},
         {"expression": "e ** 1", "expected_type": "success"},
-
         # Decimal numbers
         {"expression": "3.14 + 2.86", "expected_type": "success"},
         {"expression": "10.5 / 2.5", "expected_type": "success"},
-
         # Negative numbers
         {"expression": "-5 + 3", "expected_type": "success"},
         {"expression": "10 + (-3)", "expected_type": "success"},
-
         # Complex expressions
         {"expression": "((2 + 3) * 4 - 1) / (2 ** 2)", "expected_type": "success"},
-
         # Error cases
         {"expression": "1 / 0", "expected_type": "error"},
         {"expression": "", "expected_type": "error"},
@@ -670,10 +678,9 @@ if __name__ == "__main__":
 
         try:
             # Process the expression
-            result = math_node.process({
-                'expression': expression,
-                'context': {'test_case': i}
-            })
+            result = math_node.process(
+                {"expression": expression, "context": {"test_case": i}}
+            )
 
             # Validate output
             is_valid = math_node.validate_output(result)
@@ -684,30 +691,36 @@ if __name__ == "__main__":
             print(f"Output valid: {is_valid}")
 
             # Check if result matches expected type
-            is_error = result['answer'].startswith("Error:")
+            is_error = result["answer"].startswith("Error:")
             actual_type = "error" if is_error else "success"
             type_matches = actual_type == expected_type
 
-            print(f"Expected: {expected_type}, Got: {actual_type}, Match: {type_matches}")
+            print(
+                f"Expected: {expected_type}, Got: {actual_type}, Match: {type_matches}"
+            )
 
             # Show MATRIZ node details
-            matriz_node = result['matriz_node']
+            matriz_node = result["matriz_node"]
             print(f"MATRIZ Node ID: {matriz_node['id'][:8]}...")
             print(f"Node Type: {matriz_node['type']}")
 
-            state = matriz_node['state']
+            state = matriz_node["state"]
             print(f"State: conf={state['confidence']:.3f}, sal={state['salience']:.3f}")
 
-            if 'result' in state and state['result'] is not None:
-                print(f"Result: {state['result']} ({state.get('result_type', 'unknown')})")
+            if "result" in state and state["result"] is not None:
+                print(
+                    f"Result: {state['result']} ({state.get('result_type', 'unknown')})"
+                )
 
-            if 'complexity_score' in state:
+            if "complexity_score" in state:
                 print(f"Complexity: {state['complexity_score']:.3f}")
 
             # Check reflections
-            if matriz_node['reflections']:
-                reflection = matriz_node['reflections'][0]
-                print(f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}...")
+            if matriz_node["reflections"]:
+                reflection = matriz_node["reflections"][0]
+                print(
+                    f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}..."
+                )
 
             if is_valid and type_matches:
                 success_count += 1
@@ -719,13 +732,15 @@ if __name__ == "__main__":
             print(f"✗ EXCEPTION: {str(e)}")
 
     print("\n" + "=" * 50)
-    print(f"Test Results: {success_count}/{total_tests} passed ({success_count/total_tests*100:.1f}%)")
+    print(
+        f"Test Results: {success_count}/{total_tests} passed ({success_count/total_tests*100:.1f}%)"
+    )
     print(f"Processing History: {len(math_node.get_trace())} MATRIZ nodes created")
 
     # Show deterministic behavior
     print("\nDeterministic Test:")
     test_expr = "2 + 3 * 4"
-    hash1 = math_node.get_deterministic_hash({'expression': test_expr})
-    hash2 = math_node.get_deterministic_hash({'expression': test_expr})
+    hash1 = math_node.get_deterministic_hash({"expression": test_expr})
+    hash2 = math_node.get_deterministic_hash({"expression": test_expr})
     print(f"Same input produces same hash: {hash1 == hash2}")
     print(f"Hash: {hash1[:16]}...")

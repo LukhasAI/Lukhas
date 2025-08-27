@@ -16,11 +16,21 @@ from interfaces.api_server import run_server
 
 def main():
     parser = argparse.ArgumentParser(description="Launch MATADA-AGI FastAPI Server")
-    parser.add_argument("--host", default="127.0.0.1", help="Host to bind to (default: 127.0.0.1)")
-    parser.add_argument("--port", type=int, default=8000, help="Port to listen on (default: 8000)")
-    parser.add_argument("--reload", action="store_true", help="Enable auto-reload for development")
-    parser.add_argument("--log-level", default="info", choices=["debug", "info", "warning", "error"],
-                       help="Log level (default: info)")
+    parser.add_argument(
+        "--host", default="127.0.0.1", help="Host to bind to (default: 127.0.0.1)"
+    )
+    parser.add_argument(
+        "--port", type=int, default=8000, help="Port to listen on (default: 8000)"
+    )
+    parser.add_argument(
+        "--reload", action="store_true", help="Enable auto-reload for development"
+    )
+    parser.add_argument(
+        "--log-level",
+        default="info",
+        choices=["debug", "info", "warning", "error"],
+        help="Log level (default: info)",
+    )
 
     args = parser.parse_args()
 
@@ -32,16 +42,14 @@ def main():
 
     try:
         run_server(
-            host=args.host,
-            port=args.port,
-            reload=args.reload,
-            log_level=args.log_level
+            host=args.host, port=args.port, reload=args.reload, log_level=args.log_level
         )
     except KeyboardInterrupt:
         print("\n🛑 Server stopped by user")
     except Exception as e:
         print(f"❌ Server failed to start: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

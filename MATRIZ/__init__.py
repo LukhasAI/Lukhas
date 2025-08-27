@@ -27,16 +27,16 @@ from .core import (
     NodeTrigger,
 )
 
-__version__ = '1.0.0'
-__author__ = 'LUKHAS AI Team'
+__version__ = "1.0.0"
+__author__ = "LUKHAS AI Team"
 
 __all__ = [
-    'CognitiveNode',
-    'CognitiveOrchestrator',
-    'NodeState',
-    'NodeLink',
-    'NodeTrigger',
-    'NodeReflection',
-    'NodeProvenance',
-    'ExecutionTrace'
+    "CognitiveNode",
+    "CognitiveOrchestrator",
+    "NodeState",
+    "NodeLink",
+    "NodeTrigger",
+    "NodeReflection",
+    "NodeProvenance",
+    "ExecutionTrace",
 ]

@@ -22,20 +22,22 @@ from typing import Any, Optional, Union
 @dataclass
 class NodeState:
     """Standard state structure for MATRIZ nodes"""
+
     confidence: float  # 0.0 - 1.0
-    salience: float    # 0.0 - 1.0
-    valence: Optional[float] = None      # -1.0 to 1.0 (emotional valence)
-    arousal: Optional[float] = None      # 0.0 - 1.0 (emotional arousal)
-    novelty: Optional[float] = None      # 0.0 - 1.0 (how novel this is)
-    urgency: Optional[float] = None      # 0.0 - 1.0 (time pressure)
-    shock_factor: Optional[float] = None # 0.0 - 1.0 (unexpected factor)
-    risk: Optional[float] = None         # 0.0 - 1.0 (risk assessment)
-    utility: Optional[float] = None      # 0.0 - 1.0 (value/usefulness)
+    salience: float  # 0.0 - 1.0
+    valence: Optional[float] = None  # -1.0 to 1.0 (emotional valence)
+    arousal: Optional[float] = None  # 0.0 - 1.0 (emotional arousal)
+    novelty: Optional[float] = None  # 0.0 - 1.0 (how novel this is)
+    urgency: Optional[float] = None  # 0.0 - 1.0 (time pressure)
+    shock_factor: Optional[float] = None  # 0.0 - 1.0 (unexpected factor)
+    risk: Optional[float] = None  # 0.0 - 1.0 (risk assessment)
+    utility: Optional[float] = None  # 0.0 - 1.0 (value/usefulness)
 
 
 @dataclass
 class NodeLink:
     """Connection between MATRIZ nodes"""
+
     target_node_id: str
     link_type: str  # temporal, causal, semantic, emotional, spatial, evidence
     direction: str  # bidirectional, unidirectional
@@ -46,6 +48,7 @@ class NodeLink:
 @dataclass
 class NodeTrigger:
     """Event that triggered this node's creation or update"""
+
     event_type: str
     timestamp: int  # epoch milliseconds
     trigger_node_id: Optional[str] = None
@@ -55,7 +58,10 @@ class NodeTrigger:
 @dataclass
 class NodeReflection:
     """Introspective log about this node's processing"""
-    reflection_type: str  # regret, affirmation, dissonance_resolution, moral_conflict, self_question
+
+    reflection_type: (
+        str  # regret, affirmation, dissonance_resolution, moral_conflict, self_question
+    )
     timestamp: int  # epoch milliseconds
     old_state: Optional[dict] = None
     new_state: Optional[dict] = None
@@ -65,6 +71,7 @@ class NodeReflection:
 @dataclass
 class NodeProvenance:
     """Complete provenance tracking for governance"""
+
     producer: str  # Module path or service name
     capabilities: list[str]  # What this producer can do
     tenant: str  # Tenant identifier
@@ -89,7 +96,9 @@ class CognitiveNode(ABC):
     The MATRIZ format ensures complete auditability and governance.
     """
 
-    def __init__(self, node_name: str, capabilities: list[str], tenant: str = "default"):
+    def __init__(
+        self, node_name: str, capabilities: list[str], tenant: str = "default"
+    ):
         """
         Initialize the cognitive node.
 
@@ -163,7 +172,7 @@ class CognitiveNode(ABC):
         reflections: Optional[list[NodeReflection]] = None,
         evolves_to: Optional[list[str]] = None,
         trace_id: Optional[str] = None,
-        additional_data: Optional[dict] = None
+        additional_data: Optional[dict] = None,
     ) -> dict[str, Any]:
         """
         Create a complete MATRIZ format node.
@@ -188,23 +197,43 @@ class CognitiveNode(ABC):
 
         # Validate node type
         allowed_types = [
-            "SENSORY_IMG", "SENSORY_AUD", "SENSORY_VID", "SENSORY_TOUCH",
-            "EMOTION", "INTENT", "DECISION", "CONTEXT", "MEMORY", "REFLECTION",
-            "CAUSAL", "TEMPORAL", "AWARENESS", "HYPOTHESIS", "REPLAY", "DRM",
+            "SENSORY_IMG",
+            "SENSORY_AUD",
+            "SENSORY_VID",
+            "SENSORY_TOUCH",
+            "EMOTION",
+            "INTENT",
+            "DECISION",
+            "CONTEXT",
+            "MEMORY",
+            "REFLECTION",
+            "CAUSAL",
+            "TEMPORAL",
+            "AWARENESS",
+            "HYPOTHESIS",
+            "REPLAY",
+            "DRM",
             "COMPUTATION",  # Add COMPUTATION as valid type for mathematical nodes
-            "VALIDATION"    # Add VALIDATION as valid type for validation nodes
+            "VALIDATION",  # Add VALIDATION as valid type for validation nodes
         ]
         if node_type not in allowed_types:
-            raise ValueError(f"Invalid node type '{node_type}'. Must be one of: {allowed_types}")
+            raise ValueError(
+                f"Invalid node type '{node_type}'. Must be one of: {allowed_types}"
+            )
 
         # Convert state to dict if NodeState object
         if isinstance(state, NodeState):
-            state_dict = {
-                "confidence": state.confidence,
-                "salience": state.salience
-            }
+            state_dict = {"confidence": state.confidence, "salience": state.salience}
             # Add optional fields if not None
-            for field in ['valence', 'arousal', 'novelty', 'urgency', 'shock_factor', 'risk', 'utility']:
+            for field in [
+                "valence",
+                "arousal",
+                "novelty",
+                "urgency",
+                "shock_factor",
+                "risk",
+                "utility",
+            ]:
                 value = getattr(state, field)
                 if value is not None:
                     state_dict[field] = value
@@ -216,7 +245,7 @@ class CognitiveNode(ABC):
             state_dict.update(additional_data)
 
         # Ensure required state fields
-        if 'confidence' not in state_dict or 'salience' not in state_dict:
+        if "confidence" not in state_dict or "salience" not in state_dict:
             raise ValueError("State must include 'confidence' and 'salience' fields")
 
         # Create provenance
@@ -225,7 +254,7 @@ class CognitiveNode(ABC):
             capabilities=self.capabilities,
             tenant=self.tenant,
             trace_id=trace_id or str(uuid.uuid4()),
-            consent_scopes=["cognitive_processing"]  # Default scope
+            consent_scopes=["cognitive_processing"],  # Default scope
         )
 
         # Build the MATRIZ node
@@ -234,24 +263,28 @@ class CognitiveNode(ABC):
             "id": node_id,
             "type": node_type,
             "state": state_dict,
-            "timestamps": {
-                "created_ts": current_time
-            },
+            "timestamps": {"created_ts": current_time},
             "provenance": {
                 "producer": provenance.producer,
                 "capabilities": provenance.capabilities,
                 "tenant": provenance.tenant,
                 "trace_id": provenance.trace_id,
-                "consent_scopes": provenance.consent_scopes
+                "consent_scopes": provenance.consent_scopes,
             },
-            "links": [link.__dict__ if isinstance(link, NodeLink) else link
-                     for link in (links or [])],
+            "links": [
+                link.__dict__ if isinstance(link, NodeLink) else link
+                for link in (links or [])
+            ],
             "evolves_to": evolves_to or [],
-            "triggers": [trigger.__dict__ if isinstance(trigger, NodeTrigger) else trigger
-                        for trigger in (triggers or [])],
-            "reflections": [refl.__dict__ if isinstance(refl, NodeReflection) else refl
-                           for refl in (reflections or [])],
-            "schema_ref": "lukhas://schemas/matriz_node_v1.json"
+            "triggers": [
+                trigger.__dict__ if isinstance(trigger, NodeTrigger) else trigger
+                for trigger in (triggers or [])
+            ],
+            "reflections": [
+                refl.__dict__ if isinstance(refl, NodeReflection) else refl
+                for refl in (reflections or [])
+            ],
+            "schema_ref": "lukhas://schemas/matriz_node_v1.json",
         }
 
         # Store in processing history
@@ -271,7 +304,14 @@ class CognitiveNode(ABC):
         """
         try:
             # Check required top-level fields
-            required_fields = ["version", "id", "type", "state", "timestamps", "provenance"]
+            required_fields = [
+                "version",
+                "id",
+                "type",
+                "state",
+                "timestamps",
+                "provenance",
+            ]
             for field in required_fields:
                 if field not in node:
                     return False
@@ -289,7 +329,13 @@ class CognitiveNode(ABC):
 
             # Check provenance required fields
             provenance = node.get("provenance", {})
-            prov_required = ["producer", "capabilities", "tenant", "trace_id", "consent_scopes"]
+            prov_required = [
+                "producer",
+                "capabilities",
+                "tenant",
+                "trace_id",
+                "consent_scopes",
+            ]
             return all(field in provenance for field in prov_required)
 
         except Exception:
@@ -300,7 +346,7 @@ class CognitiveNode(ABC):
         reflection_type: str,
         cause: str,
         old_state: Optional[dict] = None,
-        new_state: Optional[dict] = None
+        new_state: Optional[dict] = None,
     ) -> NodeReflection:
         """
         Create a reflection about this node's processing.
@@ -314,16 +360,24 @@ class CognitiveNode(ABC):
         Returns:
             NodeReflection object
         """
-        allowed_types = ["regret", "affirmation", "dissonance_resolution", "moral_conflict", "self_question"]
+        allowed_types = [
+            "regret",
+            "affirmation",
+            "dissonance_resolution",
+            "moral_conflict",
+            "self_question",
+        ]
         if reflection_type not in allowed_types:
-            raise ValueError(f"Invalid reflection type. Must be one of: {allowed_types}")
+            raise ValueError(
+                f"Invalid reflection type. Must be one of: {allowed_types}"
+            )
 
         return NodeReflection(
             reflection_type=reflection_type,
             timestamp=int(time.time() * 1000),
             old_state=old_state,
             new_state=new_state,
-            cause=cause
+            cause=cause,
         )
 
     def create_link(
@@ -332,7 +386,7 @@ class CognitiveNode(ABC):
         link_type: str,
         direction: str = "unidirectional",
         weight: Optional[float] = None,
-        explanation: Optional[str] = None
+        explanation: Optional[str] = None,
     ) -> NodeLink:
         """
         Create a link to another MATRIZ node.
@@ -347,7 +401,14 @@ class CognitiveNode(ABC):
         Returns:
             NodeLink object
         """
-        allowed_link_types = ["temporal", "causal", "semantic", "emotional", "spatial", "evidence"]
+        allowed_link_types = [
+            "temporal",
+            "causal",
+            "semantic",
+            "emotional",
+            "spatial",
+            "evidence",
+        ]
         if link_type not in allowed_link_types:
             raise ValueError(f"Invalid link type. Must be one of: {allowed_link_types}")
 
@@ -360,7 +421,7 @@ class CognitiveNode(ABC):
             link_type=link_type,
             direction=direction,
             weight=weight,
-            explanation=explanation
+            explanation=explanation,
         )
 
     def get_deterministic_hash(self, input_data: dict[str, Any]) -> str:
@@ -380,13 +441,13 @@ class CognitiveNode(ABC):
         import json
 
         # Create deterministic JSON representation
-        canonical_json = json.dumps(input_data, sort_keys=True, separators=(',', ':'))
+        canonical_json = json.dumps(input_data, sort_keys=True, separators=(",", ":"))
 
         # Add node identifier for uniqueness
         hash_input = f"{self.node_name}:{canonical_json}"
 
         # Generate SHA-256 hash
-        return hashlib.sha256(hash_input.encode('utf-8')).hexdigest()
+        return hashlib.sha256(hash_input.encode("utf-8")).hexdigest()
 
     def __repr__(self) -> str:
         """String representation of the node"""

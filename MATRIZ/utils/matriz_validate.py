@@ -18,6 +18,7 @@ ALLOWED_SCHEMA_REFS = {
 _schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
 _validator = Draft202012Validator(_schema)
 
+
 def validate_node(node: dict) -> None:
     sr = node.get("schema_ref")
     if sr and sr not in ALLOWED_SCHEMA_REFS:
@@ -30,12 +31,14 @@ def validate_node(node: dict) -> None:
 
     _validator.validate(node_copy)
 
+
 def validate_nodes(nodes: Iterable[dict]) -> None:
     for i, n in enumerate(nodes):
         try:
             validate_node(n)
         except Exception as e:
             raise ValueError(f"Node index {i} failed validation: {e}") from e
+
 
 def _validate_file(f: pathlib.Path) -> int:
     try:
@@ -51,9 +54,13 @@ def _validate_file(f: pathlib.Path) -> int:
         print(f"ERR {f}: {e}", file=sys.stderr)
         return 1
 
+
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python -m MATRIZ.utils.matriz_validate <file_or_dir> [...]", file=sys.stderr)
+        print(
+            "Usage: python -m MATRIZ.utils.matriz_validate <file_or_dir> [...]",
+            file=sys.stderr,
+        )
         sys.exit(2)
     paths = [pathlib.Path(p) for p in sys.argv[1:]]
     errors = 0
@@ -64,6 +71,7 @@ def main():
         else:
             errors += _validate_file(p)
     sys.exit(1 if errors else 0)
+
 
 if __name__ == "__main__":
     main()

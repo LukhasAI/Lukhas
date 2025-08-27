@@ -34,6 +34,7 @@ except ImportError:
     # For direct execution
     import sys
     from pathlib import Path
+
     sys.path.insert(0, str(Path(__file__).parent.parent))
     from core.node_interface import (
         CognitiveNode,
@@ -77,26 +78,26 @@ class ValidatorNode(CognitiveNode):
                 "logical_consistency_checking",
                 "output_validation",
                 "confidence_assessment",
-                "cross_validation"
+                "cross_validation",
             ],
-            tenant=tenant
+            tenant=tenant,
         )
 
         # Validation thresholds
         self.validation_thresholds = {
-            'mathematical_accuracy': 0.95,
-            'fact_accuracy': 0.90,
-            'logical_consistency': 0.85,
-            'format_compliance': 0.99
+            "mathematical_accuracy": 0.95,
+            "fact_accuracy": 0.90,
+            "logical_consistency": 0.85,
+            "format_compliance": 0.99,
         }
 
         # Confidence weights for different validation types
         self.confidence_weights = {
-            'mathematical': 0.95,  # High confidence in math validation
-            'factual': 0.85,      # Good confidence in fact checking
-            'logical': 0.80,      # Moderate confidence in logic validation
-            'structural': 0.99,   # Very high confidence in structure validation
-            'cross_validation_bonus': 0.10  # Bonus for multiple validation agreement
+            "mathematical": 0.95,  # High confidence in math validation
+            "factual": 0.85,  # Good confidence in fact checking
+            "logical": 0.80,  # Moderate confidence in logic validation
+            "structural": 0.99,  # Very high confidence in structure validation
+            "cross_validation_bonus": 0.10,  # Bonus for multiple validation agreement
         }
 
         # Mathematical operators for expression validation
@@ -107,7 +108,7 @@ class ValidatorNode(CognitiveNode):
             ast.Div: operator.truediv,
             ast.Pow: operator.pow,
             ast.USub: operator.neg,
-            ast.UAdd: operator.pos
+            ast.UAdd: operator.pos,
         }
 
         # Known facts for verification
@@ -134,16 +135,16 @@ class ValidatorNode(CognitiveNode):
         start_time = time.time()
 
         # Extract and validate input
-        target_output = input_data.get('target_output', {})
-        validation_type = input_data.get('validation_type', 'comprehensive')
-        trace_id = input_data.get('trace_id', self.get_deterministic_hash(input_data))
-        context = input_data.get('context', {})
+        target_output = input_data.get("target_output", {})
+        validation_type = input_data.get("validation_type", "comprehensive")
+        trace_id = input_data.get("trace_id", self.get_deterministic_hash(input_data))
+        context = input_data.get("context", {})
 
         # Create initial trigger
         trigger = NodeTrigger(
             event_type="output_validation_request",
             timestamp=int(time.time() * 1000),
-            effect="validation_analysis"
+            effect="validation_analysis",
         )
 
         if not target_output:
@@ -152,12 +153,14 @@ class ValidatorNode(CognitiveNode):
                 input_data,
                 trace_id,
                 start_time,
-                [trigger]
+                [trigger],
             )
 
         # Perform validation based on type
         try:
-            validation_results = self._perform_validation(target_output, validation_type, context)
+            validation_results = self._perform_validation(
+                target_output, validation_type, context
+            )
 
             # Calculate overall confidence and create summary
             overall_confidence = self._calculate_overall_confidence(validation_results)
@@ -170,12 +173,22 @@ class ValidatorNode(CognitiveNode):
             # Create state based on validation results
             state = NodeState(
                 confidence=overall_confidence,
-                salience=min(0.9, 0.6 + (1 - overall_confidence) * 0.3),  # Higher salience for concerning results
-                valence=0.7 if is_valid else -0.3,  # Positive if valid, negative if invalid
+                salience=min(
+                    0.9, 0.6 + (1 - overall_confidence) * 0.3
+                ),  # Higher salience for concerning results
+                valence=(
+                    0.7 if is_valid else -0.3
+                ),  # Positive if valid, negative if invalid
                 utility=0.9,  # High utility for validation results
-                novelty=max(0.1, 1 - overall_confidence),  # Higher novelty for unexpected results
-                arousal=min(0.8, 0.3 + (1 - overall_confidence) * 0.5),  # Higher arousal for concerning results
-                risk=max(0.1, 1 - overall_confidence)  # Higher risk for low confidence validation
+                novelty=max(
+                    0.1, 1 - overall_confidence
+                ),  # Higher novelty for unexpected results
+                arousal=min(
+                    0.8, 0.3 + (1 - overall_confidence) * 0.5
+                ),  # Higher arousal for concerning results
+                risk=max(
+                    0.1, 1 - overall_confidence
+                ),  # Higher risk for low confidence validation
             )
 
             # Create appropriate reflection
@@ -186,11 +199,11 @@ class ValidatorNode(CognitiveNode):
                 reflection_type=reflection_type,
                 cause=reflection_cause,
                 new_state={
-                    'validation_results': validation_results,
-                    'overall_confidence': overall_confidence,
-                    'is_valid': is_valid,
-                    'validation_type': validation_type
-                }
+                    "validation_results": validation_results,
+                    "overall_confidence": overall_confidence,
+                    "is_valid": is_valid,
+                    "validation_type": validation_type,
+                },
             )
 
             # Create MATRIZ node for validation
@@ -201,22 +214,26 @@ class ValidatorNode(CognitiveNode):
                 triggers=[trigger],
                 reflections=[reflection],
                 additional_data={
-                    'target_output': target_output,
-                    'validation_type': validation_type,
-                    'validation_results': validation_results,
-                    'overall_confidence': overall_confidence,
-                    'is_valid': is_valid,
-                    'validation_summary': validation_summary,
-                    'validation_strategies_used': list(validation_results.keys()),
-                    'context': context,
-                    'deterministic_hash': self.get_deterministic_hash({
-                        'target_output': target_output,
-                        'validation_type': validation_type
-                    })
-                }
+                    "target_output": target_output,
+                    "validation_type": validation_type,
+                    "validation_results": validation_results,
+                    "overall_confidence": overall_confidence,
+                    "is_valid": is_valid,
+                    "validation_summary": validation_summary,
+                    "validation_strategies_used": list(validation_results.keys()),
+                    "context": context,
+                    "deterministic_hash": self.get_deterministic_hash(
+                        {
+                            "target_output": target_output,
+                            "validation_type": validation_type,
+                        }
+                    ),
+                },
             )
 
-            answer = f"Validation {'PASSED' if is_valid else 'FAILED'}: {validation_summary}"
+            answer = (
+                f"Validation {'PASSED' if is_valid else 'FAILED'}: {validation_summary}"
+            )
 
         except Exception as e:
             return self._create_error_response(
@@ -224,16 +241,16 @@ class ValidatorNode(CognitiveNode):
                 input_data,
                 trace_id,
                 start_time,
-                [trigger]
+                [trigger],
             )
 
         processing_time = time.time() - start_time
 
         return {
-            'answer': answer,
-            'confidence': overall_confidence,
-            'matriz_node': matriz_node,
-            'processing_time': processing_time
+            "answer": answer,
+            "confidence": overall_confidence,
+            "matriz_node": matriz_node,
+            "processing_time": processing_time,
         }
 
     def validate_output(self, output: dict[str, Any]) -> bool:
@@ -255,69 +272,82 @@ class ValidatorNode(CognitiveNode):
         """
         try:
             # Check required top-level fields
-            required_fields = ['answer', 'confidence', 'matriz_node', 'processing_time']
+            required_fields = ["answer", "confidence", "matriz_node", "processing_time"]
             for field in required_fields:
                 if field not in output:
                     return False
 
             # Validate field types
-            if not isinstance(output['answer'], str):
+            if not isinstance(output["answer"], str):
                 return False
-            if not isinstance(output['confidence'], (int, float)):
+            if not isinstance(output["confidence"], (int, float)):
                 return False
-            if not isinstance(output['processing_time'], (int, float)):
+            if not isinstance(output["processing_time"], (int, float)):
                 return False
 
             # Validate confidence range
-            confidence = output['confidence']
+            confidence = output["confidence"]
             if not (0 <= confidence <= 1):
                 return False
 
             # Validate MATRIZ node
-            matriz_node = output['matriz_node']
+            matriz_node = output["matriz_node"]
             if not self.validate_matriz_node(matriz_node):
                 return False
 
             # Check node type is VALIDATION
-            if matriz_node.get('type') != 'VALIDATION':
+            if matriz_node.get("type") != "VALIDATION":
                 return False
 
             # Validate validation-specific fields
-            state = matriz_node.get('state', {})
+            state = matriz_node.get("state", {})
 
             # Check for validation results
-            if 'validation_results' not in state:
+            if "validation_results" not in state:
                 return False
 
-            validation_results = state['validation_results']
+            validation_results = state["validation_results"]
             if not isinstance(validation_results, dict):
                 return False
 
             # Check overall confidence consistency
-            if 'overall_confidence' not in state:
+            if "overall_confidence" not in state:
                 return False
 
-            state_confidence = state['overall_confidence']
+            state_confidence = state["overall_confidence"]
             if not isinstance(state_confidence, (int, float)):
                 return False
-            if abs(state_confidence - confidence) > 0.001:  # Allow small floating point differences
+            if (
+                abs(state_confidence - confidence) > 0.001
+            ):  # Allow small floating point differences
                 return False
 
             # Check validation status
-            if 'is_valid' not in state:
+            if "is_valid" not in state:
                 return False
-            if not isinstance(state['is_valid'], bool):
+            if not isinstance(state["is_valid"], bool):
                 return False
 
             # Validate answer format
-            answer = output['answer']
-            if not (answer.startswith("Validation PASSED:") or answer.startswith("Validation FAILED:") or answer.startswith("Error:")):
+            answer = output["answer"]
+            if not (
+                answer.startswith("Validation PASSED:")
+                or answer.startswith("Validation FAILED:")
+                or answer.startswith("Error:")
+            ):
                 return False
 
             # Validate provenance
-            provenance = matriz_node.get('provenance', {})
-            expected_capabilities = ['mathematical_validation', 'fact_verification', 'logical_consistency_checking']
-            if not any(cap in provenance.get('capabilities', []) for cap in expected_capabilities):
+            provenance = matriz_node.get("provenance", {})
+            expected_capabilities = [
+                "mathematical_validation",
+                "fact_verification",
+                "logical_consistency_checking",
+            ]
+            if not any(
+                cap in provenance.get("capabilities", [])
+                for cap in expected_capabilities
+            ):
                 return False
 
             return True
@@ -325,7 +355,12 @@ class ValidatorNode(CognitiveNode):
         except Exception:
             return False
 
-    def _perform_validation(self, target_output: dict[str, Any], validation_type: str, context: dict[str, Any]) -> dict[str, Any]:
+    def _perform_validation(
+        self,
+        target_output: dict[str, Any],
+        validation_type: str,
+        context: dict[str, Any],
+    ) -> dict[str, Any]:
         """
         Perform comprehensive validation of target output.
 
@@ -340,32 +375,44 @@ class ValidatorNode(CognitiveNode):
         validation_results = {}
 
         # Always perform structural validation
-        validation_results['structural'] = self._validate_structure(target_output)
+        validation_results["structural"] = self._validate_structure(target_output)
 
         # Determine what type of content we're validating
-        answer = target_output.get('answer', '')
-        matriz_node = target_output.get('matriz_node', {})
-        node_type = matriz_node.get('type', '')
+        answer = target_output.get("answer", "")
+        matriz_node = target_output.get("matriz_node", {})
+        node_type = matriz_node.get("type", "")
 
         # Mathematical validation for COMPUTATION nodes or mathematical content
-        if (validation_type in ['comprehensive', 'mathematical'] or
-            node_type == 'COMPUTATION' or
-            self._contains_mathematical_content(answer)):
-            validation_results['mathematical'] = self._validate_mathematical_content(target_output)
+        if (
+            validation_type in ["comprehensive", "mathematical"]
+            or node_type == "COMPUTATION"
+            or self._contains_mathematical_content(answer)
+        ):
+            validation_results["mathematical"] = self._validate_mathematical_content(
+                target_output
+            )
 
         # Factual validation for MEMORY nodes or factual content
-        if (validation_type in ['comprehensive', 'factual'] or
-            node_type == 'MEMORY' or
-            self._contains_factual_content(answer)):
-            validation_results['factual'] = self._validate_factual_content(target_output)
+        if (
+            validation_type in ["comprehensive", "factual"]
+            or node_type == "MEMORY"
+            or self._contains_factual_content(answer)
+        ):
+            validation_results["factual"] = self._validate_factual_content(
+                target_output
+            )
 
         # Logical consistency validation
-        if validation_type in ['comprehensive', 'logical']:
-            validation_results['logical'] = self._validate_logical_consistency(target_output)
+        if validation_type in ["comprehensive", "logical"]:
+            validation_results["logical"] = self._validate_logical_consistency(
+                target_output
+            )
 
         # Cross-validation if multiple strategies were used
         if len(validation_results) > 2:  # More than just structural + one other
-            validation_results['cross_validation'] = self._perform_cross_validation(validation_results)
+            validation_results["cross_validation"] = self._perform_cross_validation(
+                validation_results
+            )
 
         return validation_results
 
@@ -384,62 +431,76 @@ class ValidatorNode(CognitiveNode):
             confidence = 1.0
 
             # Check required fields
-            required_fields = ['answer', 'confidence', 'matriz_node', 'processing_time']
+            required_fields = ["answer", "confidence", "matriz_node", "processing_time"]
             for field in required_fields:
                 if field not in target_output:
                     issues.append(f"Missing required field: {field}")
                     confidence -= 0.2
 
             # Check field types
-            if 'answer' in target_output and not isinstance(target_output['answer'], str):
+            if "answer" in target_output and not isinstance(
+                target_output["answer"], str
+            ):
                 issues.append("Answer field is not a string")
                 confidence -= 0.1
 
-            if 'confidence' in target_output:
-                conf = target_output['confidence']
+            if "confidence" in target_output:
+                conf = target_output["confidence"]
                 if not isinstance(conf, (int, float)) or not (0 <= conf <= 1):
                     issues.append("Invalid confidence value")
                     confidence -= 0.2
 
             # Validate MATRIZ node structure
-            if 'matriz_node' in target_output:
-                matriz_node = target_output['matriz_node']
+            if "matriz_node" in target_output:
+                matriz_node = target_output["matriz_node"]
                 if not isinstance(matriz_node, dict):
                     issues.append("MATRIZ node is not a dictionary")
                     confidence -= 0.3
                 else:
                     # Check MATRIZ node required fields
-                    matriz_required = ['version', 'id', 'type', 'state', 'timestamps', 'provenance']
+                    matriz_required = [
+                        "version",
+                        "id",
+                        "type",
+                        "state",
+                        "timestamps",
+                        "provenance",
+                    ]
                     for field in matriz_required:
                         if field not in matriz_node:
                             issues.append(f"MATRIZ node missing field: {field}")
                             confidence -= 0.1
 
             confidence = max(0.0, confidence)
-            is_valid = confidence >= self.validation_thresholds['format_compliance']
+            is_valid = confidence >= self.validation_thresholds["format_compliance"]
 
             return {
-                'strategy': 'structural',
-                'confidence': confidence,
-                'is_valid': is_valid,
-                'issues': issues,
-                'details': {
-                    'required_fields_present': len([f for f in required_fields if f in target_output]),
-                    'total_required_fields': len(required_fields),
-                    'matriz_node_valid': 'matriz_node' in target_output and isinstance(target_output['matriz_node'], dict)
-                }
+                "strategy": "structural",
+                "confidence": confidence,
+                "is_valid": is_valid,
+                "issues": issues,
+                "details": {
+                    "required_fields_present": len(
+                        [f for f in required_fields if f in target_output]
+                    ),
+                    "total_required_fields": len(required_fields),
+                    "matriz_node_valid": "matriz_node" in target_output
+                    and isinstance(target_output["matriz_node"], dict),
+                },
             }
 
         except Exception as e:
             return {
-                'strategy': 'structural',
-                'confidence': 0.0,
-                'is_valid': False,
-                'issues': [f"Structural validation error: {str(e)}"],
-                'details': {}
+                "strategy": "structural",
+                "confidence": 0.0,
+                "is_valid": False,
+                "issues": [f"Structural validation error: {str(e)}"],
+                "details": {},
             }
 
-    def _validate_mathematical_content(self, target_output: dict[str, Any]) -> dict[str, Any]:
+    def _validate_mathematical_content(
+        self, target_output: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate mathematical accuracy of the target output.
 
@@ -452,13 +513,13 @@ class ValidatorNode(CognitiveNode):
         try:
             issues = []
             confidence = 0.95
-            answer = target_output.get('answer', '')
-            matriz_node = target_output.get('matriz_node', {})
-            state = matriz_node.get('state', {})
+            answer = target_output.get("answer", "")
+            matriz_node = target_output.get("matriz_node", {})
+            state = matriz_node.get("state", {})
 
             # Extract mathematical expression and result if available
-            expression = state.get('expression', '')
-            result = state.get('result', None)
+            expression = state.get("expression", "")
+            result = state.get("result", None)
 
             if expression and result is not None:
                 # Validate the mathematical computation
@@ -466,13 +527,17 @@ class ValidatorNode(CognitiveNode):
                     # Re-evaluate the expression to verify correctness
                     verified_result = self._safe_eval_expression(expression)
 
-                    if isinstance(result, (int, float)) and isinstance(verified_result, (int, float)):
+                    if isinstance(result, (int, float)) and isinstance(
+                        verified_result, (int, float)
+                    ):
                         # Compare results with tolerance for floating point
                         tolerance = 1e-10
                         if abs(result - verified_result) <= tolerance:
                             confidence = 0.98
                         else:
-                            issues.append(f"Mathematical result mismatch: expected {verified_result}, got {result}")
+                            issues.append(
+                                f"Mathematical result mismatch: expected {verified_result}, got {result}"
+                            )
                             confidence = 0.2
                     else:
                         issues.append("Unable to verify mathematical result types")
@@ -495,31 +560,35 @@ class ValidatorNode(CognitiveNode):
                 confidence = 0.8  # Neutral confidence when no math to validate
                 issues.append("No mathematical content detected for validation")
 
-            is_valid = confidence >= self.validation_thresholds['mathematical_accuracy']
+            is_valid = confidence >= self.validation_thresholds["mathematical_accuracy"]
 
             return {
-                'strategy': 'mathematical',
-                'confidence': confidence,
-                'is_valid': is_valid,
-                'issues': issues,
-                'details': {
-                    'expression': expression,
-                    'result': result,
-                    'verification_attempted': bool(expression and result is not None),
-                    'math_content_detected': self._contains_mathematical_content(answer)
-                }
+                "strategy": "mathematical",
+                "confidence": confidence,
+                "is_valid": is_valid,
+                "issues": issues,
+                "details": {
+                    "expression": expression,
+                    "result": result,
+                    "verification_attempted": bool(expression and result is not None),
+                    "math_content_detected": self._contains_mathematical_content(
+                        answer
+                    ),
+                },
             }
 
         except Exception as e:
             return {
-                'strategy': 'mathematical',
-                'confidence': 0.0,
-                'is_valid': False,
-                'issues': [f"Mathematical validation error: {str(e)}"],
-                'details': {}
+                "strategy": "mathematical",
+                "confidence": 0.0,
+                "is_valid": False,
+                "issues": [f"Mathematical validation error: {str(e)}"],
+                "details": {},
             }
 
-    def _validate_factual_content(self, target_output: dict[str, Any]) -> dict[str, Any]:
+    def _validate_factual_content(
+        self, target_output: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate factual accuracy of the target output.
 
@@ -532,12 +601,12 @@ class ValidatorNode(CognitiveNode):
         try:
             issues = []
             confidence = 0.85
-            answer = target_output.get('answer', '')
-            matriz_node = target_output.get('matriz_node', {})
-            state = matriz_node.get('state', {})
+            answer = target_output.get("answer", "")
+            matriz_node = target_output.get("matriz_node", {})
+            state = matriz_node.get("state", {})
 
             # Check if this is a known fact
-            question = state.get('question', '')
+            question = state.get("question", "")
             if question and answer:
                 fact_confidence = self._verify_known_fact(question, answer)
                 confidence = fact_confidence
@@ -554,37 +623,43 @@ class ValidatorNode(CognitiveNode):
                 confidence *= 0.7
 
             # Verify against knowledge category if available
-            category = state.get('knowledge_category', '')
-            if category and category != 'unknown':
-                category_confidence = self._verify_category_consistency(answer, category)
+            category = state.get("knowledge_category", "")
+            if category and category != "unknown":
+                category_confidence = self._verify_category_consistency(
+                    answer, category
+                )
                 confidence = (confidence + category_confidence) / 2
 
-            is_valid = confidence >= self.validation_thresholds['fact_accuracy']
+            is_valid = confidence >= self.validation_thresholds["fact_accuracy"]
 
             return {
-                'strategy': 'factual',
-                'confidence': confidence,
-                'is_valid': is_valid,
-                'issues': issues,
-                'details': {
-                    'question': question,
-                    'answer_text': answer[:100] + '...' if len(answer) > 100 else answer,
-                    'knowledge_category': category,
-                    'fact_verification_attempted': bool(question and answer),
-                    'consistency_checks_performed': len(consistency_issues) == 0
-                }
+                "strategy": "factual",
+                "confidence": confidence,
+                "is_valid": is_valid,
+                "issues": issues,
+                "details": {
+                    "question": question,
+                    "answer_text": (
+                        answer[:100] + "..." if len(answer) > 100 else answer
+                    ),
+                    "knowledge_category": category,
+                    "fact_verification_attempted": bool(question and answer),
+                    "consistency_checks_performed": len(consistency_issues) == 0,
+                },
             }
 
         except Exception as e:
             return {
-                'strategy': 'factual',
-                'confidence': 0.0,
-                'is_valid': False,
-                'issues': [f"Factual validation error: {str(e)}"],
-                'details': {}
+                "strategy": "factual",
+                "confidence": 0.0,
+                "is_valid": False,
+                "issues": [f"Factual validation error: {str(e)}"],
+                "details": {},
             }
 
-    def _validate_logical_consistency(self, target_output: dict[str, Any]) -> dict[str, Any]:
+    def _validate_logical_consistency(
+        self, target_output: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Validate logical consistency of the target output.
 
@@ -597,39 +672,56 @@ class ValidatorNode(CognitiveNode):
         try:
             issues = []
             confidence = 0.80
-            answer = target_output.get('answer', '')
-            matriz_node = target_output.get('matriz_node', {})
+            answer = target_output.get("answer", "")
+            matriz_node = target_output.get("matriz_node", {})
 
             # Check confidence-answer consistency
-            output_confidence = target_output.get('confidence', 0)
+            output_confidence = target_output.get("confidence", 0)
             if answer.startswith("Error:") and output_confidence > 0.3:
                 issues.append("High confidence for error response is inconsistent")
                 confidence -= 0.3
-            elif answer == "I don't know the answer to that question." and output_confidence > 0.3:
-                issues.append("High confidence for 'don't know' response is inconsistent")
+            elif (
+                answer == "I don't know the answer to that question."
+                and output_confidence > 0.3
+            ):
+                issues.append(
+                    "High confidence for 'don't know' response is inconsistent"
+                )
                 confidence -= 0.2
-            elif not answer.startswith("Error:") and not answer.startswith("I don't know") and output_confidence < 0.3:
-                issues.append("Low confidence for substantive answer is potentially inconsistent")
+            elif (
+                not answer.startswith("Error:")
+                and not answer.startswith("I don't know")
+                and output_confidence < 0.3
+            ):
+                issues.append(
+                    "Low confidence for substantive answer is potentially inconsistent"
+                )
                 confidence -= 0.1
 
             # Check state consistency within MATRIZ node
-            state = matriz_node.get('state', {})
-            state_confidence = state.get('confidence', 0)
+            state = matriz_node.get("state", {})
+            state_confidence = state.get("confidence", 0)
             if abs(output_confidence - state_confidence) > 0.01:
-                issues.append("Confidence mismatch between output and MATRIZ node state")
+                issues.append(
+                    "Confidence mismatch between output and MATRIZ node state"
+                )
                 confidence -= 0.2
 
             # Check reflection consistency
-            reflections = matriz_node.get('reflections', [])
+            reflections = matriz_node.get("reflections", [])
             if reflections:
                 reflection = reflections[0]
-                reflection_type = reflection.get('reflection_type', '')
+                reflection_type = reflection.get("reflection_type", "")
 
-                if output_confidence > 0.7 and reflection_type == 'regret':
-                    issues.append("High confidence with regret reflection is inconsistent")
+                if output_confidence > 0.7 and reflection_type == "regret":
+                    issues.append(
+                        "High confidence with regret reflection is inconsistent"
+                    )
                     confidence -= 0.2
-                elif output_confidence < 0.3 and reflection_type == 'affirmation':
-                    issues.append("Low confidence with affirmation reflection is inconsistent")
+                elif output_confidence < 0.3 and reflection_type == "affirmation":
+                    issues.append(
+                        "Low confidence with affirmation reflection is inconsistent"
+                    )
                     confidence -= 0.2
 
             # Check for logical contradictions in answer text
@@ -638,32 +730,34 @@ class ValidatorNode(CognitiveNode):
                 issues.extend(contradiction_issues)
                 confidence *= 0.6
 
-            is_valid = confidence >= self.validation_thresholds['logical_consistency']
+            is_valid = confidence >= self.validation_thresholds["logical_consistency"]
 
             return {
-                'strategy': 'logical',
-                'confidence': confidence,
-                'is_valid': is_valid,
-                'issues': issues,
-                'details': {
-                    'confidence_consistency_checked': True,
-                    'reflection_consistency_checked': len(reflections) > 0,
-                    'contradiction_analysis_performed': True,
-                    'output_confidence': output_confidence,
-                    'state_confidence': state_confidence
-                }
+                "strategy": "logical",
+                "confidence": confidence,
+                "is_valid": is_valid,
+                "issues": issues,
+                "details": {
+                    "confidence_consistency_checked": True,
+                    "reflection_consistency_checked": len(reflections) > 0,
+                    "contradiction_analysis_performed": True,
+                    "output_confidence": output_confidence,
+                    "state_confidence": state_confidence,
+                },
             }
 
         except Exception as e:
             return {
-                'strategy': 'logical',
-                'confidence': 0.0,
-                'is_valid': False,
-                'issues': [f"Logical validation error: {str(e)}"],
-                'details': {}
+                "strategy": "logical",
+                "confidence": 0.0,
+                "is_valid": False,
+                "issues": [f"Logical validation error: {str(e)}"],
+                "details": {},
             }
 
-    def _perform_cross_validation(self, validation_results: dict[str, Any]) -> dict[str, Any]:
+    def _perform_cross_validation(
+        self, validation_results: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Perform cross-validation analysis across multiple validation strategies.
 
@@ -675,20 +769,22 @@ class ValidatorNode(CognitiveNode):
         """
         try:
             # Exclude cross_validation from analysis to avoid recursion
-            strategies = {k: v for k, v in validation_results.items() if k != 'cross_validation'}
+            strategies = {
+                k: v for k, v in validation_results.items() if k != "cross_validation"
+            }
 
             if len(strategies) < 2:
                 return {
-                    'strategy': 'cross_validation',
-                    'confidence': 0.5,
-                    'is_valid': True,
-                    'issues': ["Insufficient strategies for cross-validation"],
-                    'details': {'strategies_analyzed': list(strategies.keys())}
+                    "strategy": "cross_validation",
+                    "confidence": 0.5,
+                    "is_valid": True,
+                    "issues": ["Insufficient strategies for cross-validation"],
+                    "details": {"strategies_analyzed": list(strategies.keys())},
                 }
 
             # Calculate agreement between strategies
-            validities = [result['is_valid'] for result in strategies.values()]
-            confidences = [result['confidence'] for result in strategies.values()]
+            validities = [result["is_valid"] for result in strategies.values()]
+            confidences = [result["confidence"] for result in strategies.values()]
 
             # Check for agreement
             all_agree_valid = all(validities)
@@ -702,7 +798,9 @@ class ValidatorNode(CognitiveNode):
             # Check confidence variance
             confidence_variance = max(confidences) - min(confidences)
             if confidence_variance > 0.4:
-                issues.append(f"High confidence variance across strategies: {confidence_variance:.3f}")
+                issues.append(
+                    f"High confidence variance across strategies: {confidence_variance:.3f}"
+                )
 
             # Calculate cross-validation confidence
             if all_agree_valid or all_agree_invalid:
@@ -715,28 +813,32 @@ class ValidatorNode(CognitiveNode):
             cross_confidence = (base_confidence + avg_confidence) / 2
 
             return {
-                'strategy': 'cross_validation',
-                'confidence': cross_confidence,
-                'is_valid': cross_confidence >= 0.7,
-                'issues': issues,
-                'details': {
-                    'strategies_analyzed': list(strategies.keys()),
-                    'agreement_level': 'full' if (all_agree_valid or all_agree_invalid) else 'partial',
-                    'confidence_variance': confidence_variance,
-                    'average_confidence': avg_confidence
-                }
+                "strategy": "cross_validation",
+                "confidence": cross_confidence,
+                "is_valid": cross_confidence >= 0.7,
+                "issues": issues,
+                "details": {
+                    "strategies_analyzed": list(strategies.keys()),
+                    "agreement_level": (
+                        "full" if (all_agree_valid or all_agree_invalid) else "partial"
+                    ),
+                    "confidence_variance": confidence_variance,
+                    "average_confidence": avg_confidence,
+                },
             }
 
         except Exception as e:
             return {
-                'strategy': 'cross_validation',
-                'confidence': 0.0,
-                'is_valid': False,
-                'issues': [f"Cross-validation error: {str(e)}"],
-                'details': {}
+                "strategy": "cross_validation",
+                "confidence": 0.0,
+                "is_valid": False,
+                "issues": [f"Cross-validation error: {str(e)}"],
+                "details": {},
             }
 
-    def _calculate_overall_confidence(self, validation_results: dict[str, Any]) -> float:
+    def _calculate_overall_confidence(
+        self, validation_results: dict[str, Any]
+    ) -> float:
         """
         Calculate overall confidence from individual validation results.
 
@@ -753,7 +855,7 @@ class ValidatorNode(CognitiveNode):
         total_weight = 0.0
 
         for strategy, result in validation_results.items():
-            confidence = result.get('confidence', 0.0)
+            confidence = result.get("confidence", 0.0)
             weight = self.confidence_weights.get(strategy, 0.5)
 
             weighted_confidence += confidence * weight
@@ -765,10 +867,10 @@ class ValidatorNode(CognitiveNode):
         base_confidence = weighted_confidence / total_weight
 
         # Apply cross-validation bonus if available
-        if 'cross_validation' in validation_results:
-            cross_result = validation_results['cross_validation']
-            if cross_result.get('is_valid', False):
-                base_confidence += self.confidence_weights['cross_validation_bonus']
+        if "cross_validation" in validation_results:
+            cross_result = validation_results["cross_validation"]
+            if cross_result.get("is_valid", False):
+                base_confidence += self.confidence_weights["cross_validation_bonus"]
 
         return min(1.0, base_confidence)
 
@@ -783,23 +885,23 @@ class ValidatorNode(CognitiveNode):
             True if there are critical failures, False otherwise
         """
         # Structural validation is always critical
-        if 'structural' in validation_results:
-            if not validation_results['structural'].get('is_valid', False):
+        if "structural" in validation_results:
+            if not validation_results["structural"].get("is_valid", False):
                 return True
 
         # Mathematical validation is critical for COMPUTATION nodes
-        if 'mathematical' in validation_results:
-            math_result = validation_results['mathematical']
-            if not math_result.get('is_valid', False):
+        if "mathematical" in validation_results:
+            math_result = validation_results["mathematical"]
+            if not math_result.get("is_valid", False):
                 # Check if this was a serious mathematical error
-                if math_result.get('confidence', 0) < 0.5:
+                if math_result.get("confidence", 0) < 0.5:
                     return True
 
         # Logical consistency failures with very low confidence are critical
-        if 'logical' in validation_results:
-            logical_result = validation_results['logical']
-            if not logical_result.get('is_valid', False):
-                if logical_result.get('confidence', 0) < 0.5:
+        if "logical" in validation_results:
+            logical_result = validation_results["logical"]
+            if not logical_result.get("is_valid", False):
+                if logical_result.get("confidence", 0) < 0.5:
                     return True
 
         return False
@@ -821,7 +923,7 @@ class ValidatorNode(CognitiveNode):
         failed_strategies = []
 
         for strategy, result in validation_results.items():
-            if result.get('is_valid', False):
+            if result.get("is_valid", False):
                 passed_strategies.append(strategy)
             else:
                 failed_strategies.append(strategy)
@@ -837,7 +939,7 @@ class ValidatorNode(CognitiveNode):
         # Add key issues
         all_issues = []
         for result in validation_results.values():
-            all_issues.extend(result.get('issues', []))
+            all_issues.extend(result.get("issues", []))
 
         if all_issues:
             key_issues = all_issues[:3]  # Show top 3 issues
@@ -852,11 +954,11 @@ class ValidatorNode(CognitiveNode):
 
         # Look for mathematical patterns
         math_patterns = [
-            r'\d+\s*[+\-*/]\s*\d+',  # Basic arithmetic
-            r'\d+\s*\*\*\s*\d+',     # Exponents
-            r'=\s*\d+',              # Equals with number
-            r'result\s+is\s+\d+',    # Result statement
-            r'answer\s+is\s+\d+',    # Answer statement
+            r"\d+\s*[+\-*/]\s*\d+",  # Basic arithmetic
+            r"\d+\s*\*\*\s*\d+",  # Exponents
+            r"=\s*\d+",  # Equals with number
+            r"result\s+is\s+\d+",  # Result statement
+            r"answer\s+is\s+\d+",  # Answer statement
         ]
 
         return any(re.search(pattern, text, re.IGNORECASE) for pattern in math_patterns)
@@ -868,14 +970,14 @@ class ValidatorNode(CognitiveNode):
 
         # Look for factual patterns
         factual_patterns = [
-            r'capital of \w+',
-            r'president of \w+',
-            r'largest \w+',
-            r'smallest \w+',
-            r'when did \w+',
-            r'who was \w+',
-            r'what is \w+',
-            r'how many \w+',
+            r"capital of \w+",
+            r"president of \w+",
+            r"largest \w+",
+            r"smallest \w+",
+            r"when did \w+",
+            r"who was \w+",
+            r"what is \w+",
+            r"how many \w+",
         ]
 
         for pattern in factual_patterns:
@@ -893,12 +995,12 @@ class ValidatorNode(CognitiveNode):
 
             # Replace constants
             expr = expression.lower()
-            math_constants = {'pi': math.pi, 'e': math.e, 'tau': math.tau}
+            math_constants = {"pi": math.pi, "e": math.e, "tau": math.tau}
             for const, value in math_constants.items():
                 expr = expr.replace(const, str(value))
 
             # Parse and evaluate safely
-            parsed = ast.parse(expr, mode='eval')
+            parsed = ast.parse(expr, mode="eval")
             result = self._eval_ast_node(parsed.body)
 
             if isinstance(result, float) and result.is_integer():
@@ -932,20 +1034,23 @@ class ValidatorNode(CognitiveNode):
         """Verify mathematical content in answer text."""
         try:
             # Extract mathematical expressions and verify them
-            numbers = re.findall(r'\d+(?:\.\d+)?', answer)
+            numbers = re.findall(r"\d+(?:\.\d+)?", answer)
             if len(numbers) < 2:
                 return 0.8  # Neutral confidence if minimal math content
 
             # Look for simple arithmetic expressions
-            expr_match = re.search(r'(\d+(?:\.\d+)?)\s*([+\-*/])\s*(\d+(?:\.\d+)?)\s*=\s*(\d+(?:\.\d+)?)', answer)
+            expr_match = re.search(
+                r"(\d+(?:\.\d+)?)\s*([+\-*/])\s*(\d+(?:\.\d+)?)\s*=\s*(\d+(?:\.\d+)?)",
+                answer,
+            )
             if expr_match:
                 left, op, right, result = expr_match.groups()
                 try:
                     expected = {
-                        '+': float(left) + float(right),
-                        '-': float(left) - float(right),
-                        '*': float(left) * float(right),
-                        '/': float(left) / float(right) if float(right) != 0 else None
+                        "+": float(left) + float(right),
+                        "-": float(left) - float(right),
+                        "*": float(left) * float(right),
+                        "/": float(left) / float(right) if float(right) != 0 else None,
                     }.get(op)
 
                     if expected is not None and abs(expected - float(result)) < 1e-10:
@@ -969,9 +1074,9 @@ class ValidatorNode(CognitiveNode):
             # Check against known facts
             for known_q, known_data in self.known_facts.items():
                 if self._questions_similar(question_lower, known_q):
-                    known_answer = known_data['answer'].lower()
+                    known_answer = known_data["answer"].lower()
                     if self._answers_consistent(answer_lower, known_answer):
-                        return known_data.get('certainty', 0.9)
+                        return known_data.get("certainty", 0.9)
                     else:
                         return 0.1  # Answer conflicts with known fact
 
@@ -983,13 +1088,15 @@ class ValidatorNode(CognitiveNode):
     def _questions_similar(self, q1: str, q2: str) -> bool:
         """Check if two questions are asking the same thing."""
         import difflib
+
         return difflib.SequenceMatcher(None, q1, q2).ratio() > 0.7
 
     def _answers_consistent(self, answer: str, known_answer: str) -> bool:
         """Check if answer is consistent with known answer."""
+
         # Extract key terms from both answers
         def extract_key_terms(text):
-            words = re.findall(r'\b\w+\b', text.lower())
+            words = re.findall(r"\b\w+\b", text.lower())
             return {word for word in words if len(word) > 2}
 
         answer_terms = extract_key_terms(answer)
@@ -1007,9 +1114,12 @@ class ValidatorNode(CognitiveNode):
 
         # Check for contradictory statements
         contradictions = [
-            (r'the largest.*is.*smallest', "Claims something is both largest and smallest"),
-            (r'never.*always', "Contains contradictory temporal claims"),
-            (r'impossible.*possible', "Contains contradictory possibility claims"),
+            (
+                r"the largest.*is.*smallest",
+                "Claims something is both largest and smallest",
+            ),
+            (r"never.*always", "Contains contradictory temporal claims"),
+            (r"impossible.*possible", "Contains contradictory possibility claims"),
         ]
 
         for pattern, issue in contradictions:
@@ -1021,10 +1131,17 @@ class ValidatorNode(CognitiveNode):
     def _verify_category_consistency(self, answer: str, category: str) -> float:
         """Verify answer is consistent with its category."""
         category_keywords = {
-            'geography': ['country', 'city', 'capital', 'continent', 'ocean', 'mountain'],
-            'history': ['year', 'century', 'war', 'battle', 'revolution', 'empire'],
-            'science': ['element', 'molecule', 'planet', 'speed', 'mass', 'energy'],
-            'mathematics': ['number', 'equation', 'formula', 'calculate', 'result']
+            "geography": [
+                "country",
+                "city",
+                "capital",
+                "continent",
+                "ocean",
+                "mountain",
+            ],
+            "history": ["year", "century", "war", "battle", "revolution", "empire"],
+            "science": ["element", "molecule", "planet", "speed", "mass", "energy"],
+            "mathematics": ["number", "equation", "formula", "calculate", "result"],
         }
 
         if category not in category_keywords:
@@ -1041,13 +1158,13 @@ class ValidatorNode(CognitiveNode):
         issues = []
 
         # Check for obvious logical contradictions
-        if re.search(r'both.*and.*not', answer, re.IGNORECASE):
+        if re.search(r"both.*and.*not", answer, re.IGNORECASE):
             issues.append("Contains potential logical contradiction")
 
-        if re.search(r'always.*never', answer, re.IGNORECASE):
+        if re.search(r"always.*never", answer, re.IGNORECASE):
             issues.append("Contains contradictory temporal claims")
 
-        if re.search(r'all.*none', answer, re.IGNORECASE):
+        if re.search(r"all.*none", answer, re.IGNORECASE):
             issues.append("Contains contradictory universal claims")
 
         return issues
@@ -1058,28 +1175,28 @@ class ValidatorNode(CognitiveNode):
             "what is the capital of france": {
                 "answer": "The capital of France is Paris.",
                 "certainty": 1.0,
-                "category": "geography"
+                "category": "geography",
             },
             "what is the capital of japan": {
                 "answer": "The capital of Japan is Tokyo.",
                 "certainty": 1.0,
-                "category": "geography"
+                "category": "geography",
             },
             "what is 2 + 2": {
                 "answer": "4",
                 "certainty": 1.0,
-                "category": "mathematics"
+                "category": "mathematics",
             },
             "what is the speed of light": {
                 "answer": "The speed of light in a vacuum is approximately 299,792,458 meters per second.",
                 "certainty": 1.0,
-                "category": "science"
+                "category": "science",
             },
             "how many planets are in our solar system": {
                 "answer": "There are 8 planets in our solar system.",
                 "certainty": 1.0,
-                "category": "science"
-            }
+                "category": "science",
+            },
         }
 
     def _create_error_response(
@@ -1088,7 +1205,7 @@ class ValidatorNode(CognitiveNode):
         input_data: dict[str, Any],
         trace_id: str,
         start_time: float,
-        triggers: list[NodeTrigger]
+        triggers: list[NodeTrigger],
     ) -> dict[str, Any]:
         """Create standardized error response with MATRIZ node."""
         confidence = 0.1
@@ -1097,14 +1214,14 @@ class ValidatorNode(CognitiveNode):
             confidence=confidence,
             salience=0.4,
             valence=-0.7,  # Negative - validation failed
-            risk=0.9,      # High risk due to validation error
-            utility=0.2    # Low utility - no validation performed
+            risk=0.9,  # High risk due to validation error
+            utility=0.2,  # Low utility - no validation performed
         )
 
         reflection = self.create_reflection(
             reflection_type="regret",
             cause=f"Validation process failed: {error_message}",
-            new_state={'error': error_message}
+            new_state={"error": error_message},
         )
 
         matriz_node = self.create_matriz_node(
@@ -1114,22 +1231,22 @@ class ValidatorNode(CognitiveNode):
             triggers=triggers,
             reflections=[reflection],
             additional_data={
-                'error': error_message,
-                'validation_type': 'failed',
-                'validation_results': {},
-                'overall_confidence': confidence,
-                'is_valid': False,
-                'context': input_data.get('context', {})
-            }
+                "error": error_message,
+                "validation_type": "failed",
+                "validation_results": {},
+                "overall_confidence": confidence,
+                "is_valid": False,
+                "context": input_data.get("context", {}),
+            },
         )
 
         processing_time = time.time() - start_time
 
         return {
-            'answer': f"Error: {error_message}",
-            'confidence': confidence,
-            'matriz_node': matriz_node,
-            'processing_time': processing_time
+            "answer": f"Error: {error_message}",
+            "confidence": confidence,
+            "matriz_node": matriz_node,
+            "processing_time": processing_time,
         }
 
 
@@ -1143,168 +1260,167 @@ if __name__ == "__main__":
         {
             "name": "Valid Math Output",
             "target_output": {
-                'answer': 'The result is 8',
-                'confidence': 0.95,
-                'matriz_node': {
-                    'version': 1,
-                    'id': 'test-math-node',
-                    'type': 'COMPUTATION',
-                    'state': {
-                        'confidence': 0.95,
-                        'salience': 0.7,
-                        'expression': '2 + 6',
-                        'result': 8,
-                        'result_type': 'int'
+                "answer": "The result is 8",
+                "confidence": 0.95,
+                "matriz_node": {
+                    "version": 1,
+                    "id": "test-math-node",
+                    "type": "COMPUTATION",
+                    "state": {
+                        "confidence": 0.95,
+                        "salience": 0.7,
+                        "expression": "2 + 6",
+                        "result": 8,
+                        "result_type": "int",
                     },
-                    'timestamps': {'created_ts': int(time.time() * 1000)},
-                    'provenance': {
-                        'producer': 'test.math_node',
-                        'capabilities': ['mathematical_computation'],
-                        'tenant': 'default',
-                        'trace_id': 'test-trace',
-                        'consent_scopes': ['cognitive_processing']
+                    "timestamps": {"created_ts": int(time.time() * 1000)},
+                    "provenance": {
+                        "producer": "test.math_node",
+                        "capabilities": ["mathematical_computation"],
+                        "tenant": "default",
+                        "trace_id": "test-trace",
+                        "consent_scopes": ["cognitive_processing"],
                     },
-                    'links': [],
-                    'evolves_to': [],
-                    'triggers': [],
-                    'reflections': []
+                    "links": [],
+                    "evolves_to": [],
+                    "triggers": [],
+                    "reflections": [],
                 },
-                'processing_time': 0.001
+                "processing_time": 0.001,
             },
             "validation_type": "mathematical",
-            "expected_result": "PASSED"
+            "expected_result": "PASSED",
         },
         {
             "name": "Invalid Math Output",
             "target_output": {
-                'answer': 'The result is 10',
-                'confidence': 0.95,
-                'matriz_node': {
-                    'version': 1,
-                    'id': 'test-math-node-invalid',
-                    'type': 'COMPUTATION',
-                    'state': {
-                        'confidence': 0.95,
-                        'salience': 0.7,
-                        'expression': '2 + 6',
-                        'result': 10,  # Wrong result!
-                        'result_type': 'int'
+                "answer": "The result is 10",
+                "confidence": 0.95,
+                "matriz_node": {
+                    "version": 1,
+                    "id": "test-math-node-invalid",
+                    "type": "COMPUTATION",
+                    "state": {
+                        "confidence": 0.95,
+                        "salience": 0.7,
+                        "expression": "2 + 6",
+                        "result": 10,  # Wrong result!
+                        "result_type": "int",
                     },
-                    'timestamps': {'created_ts': int(time.time() * 1000)},
-                    'provenance': {
-                        'producer': 'test.math_node',
-                        'capabilities': ['mathematical_computation'],
-                        'tenant': 'default',
-                        'trace_id': 'test-trace',
-                        'consent_scopes': ['cognitive_processing']
+                    "timestamps": {"created_ts": int(time.time() * 1000)},
+                    "provenance": {
+                        "producer": "test.math_node",
+                        "capabilities": ["mathematical_computation"],
+                        "tenant": "default",
+                        "trace_id": "test-trace",
+                        "consent_scopes": ["cognitive_processing"],
                     },
-                    'links': [],
-                    'evolves_to': [],
-                    'triggers': [],
-                    'reflections': []
+                    "links": [],
+                    "evolves_to": [],
+                    "triggers": [],
+                    "reflections": [],
                 },
-                'processing_time': 0.001
+                "processing_time": 0.001,
             },
             "validation_type": "mathematical",
-            "expected_result": "FAILED"
+            "expected_result": "FAILED",
         },
         {
             "name": "Valid Fact Output",
             "target_output": {
-                'answer': 'The capital of France is Paris.',
-                'confidence': 0.95,
-                'matriz_node': {
-                    'version': 1,
-                    'id': 'test-fact-node',
-                    'type': 'MEMORY',
-                    'state': {
-                        'confidence': 0.95,
-                        'salience': 0.8,
-                        'question': 'What is the capital of France?',
-                        'answer': 'The capital of France is Paris.',
-                        'knowledge_category': 'geography'
+                "answer": "The capital of France is Paris.",
+                "confidence": 0.95,
+                "matriz_node": {
+                    "version": 1,
+                    "id": "test-fact-node",
+                    "type": "MEMORY",
+                    "state": {
+                        "confidence": 0.95,
+                        "salience": 0.8,
+                        "question": "What is the capital of France?",
+                        "answer": "The capital of France is Paris.",
+                        "knowledge_category": "geography",
                     },
-                    'timestamps': {'created_ts': int(time.time() * 1000)},
-                    'provenance': {
-                        'producer': 'test.fact_node',
-                        'capabilities': ['factual_knowledge_retrieval'],
-                        'tenant': 'default',
-                        'trace_id': 'test-trace',
-                        'consent_scopes': ['cognitive_processing']
+                    "timestamps": {"created_ts": int(time.time() * 1000)},
+                    "provenance": {
+                        "producer": "test.fact_node",
+                        "capabilities": ["factual_knowledge_retrieval"],
+                        "tenant": "default",
+                        "trace_id": "test-trace",
+                        "consent_scopes": ["cognitive_processing"],
                     },
-                    'links': [],
-                    'evolves_to': [],
-                    'triggers': [],
-                    'reflections': []
+                    "links": [],
+                    "evolves_to": [],
+                    "triggers": [],
+                    "reflections": [],
                 },
-                'processing_time': 0.002
+                "processing_time": 0.002,
             },
             "validation_type": "factual",
-            "expected_result": "PASSED"
+            "expected_result": "PASSED",
         },
         {
             "name": "Inconsistent Confidence Output",
             "target_output": {
-                'answer': "Error: No expression provided",
-                'confidence': 0.95,  # High confidence for error is inconsistent
-                'matriz_node': {
-                    'version': 1,
-                    'id': 'test-inconsistent-node',
-                    'type': 'COMPUTATION',
-                    'state': {
-                        'confidence': 0.95,
-                        'salience': 0.3,
-                        'error': 'No expression provided'
+                "answer": "Error: No expression provided",
+                "confidence": 0.95,  # High confidence for error is inconsistent
+                "matriz_node": {
+                    "version": 1,
+                    "id": "test-inconsistent-node",
+                    "type": "COMPUTATION",
+                    "state": {
+                        "confidence": 0.95,
+                        "salience": 0.3,
+                        "error": "No expression provided",
                     },
-                    'timestamps': {'created_ts': int(time.time() * 1000)},
-                    'provenance': {
-                        'producer': 'test.math_node',
-                        'capabilities': ['mathematical_computation'],
-                        'tenant': 'default',
-                        'trace_id': 'test-trace',
-                        'consent_scopes': ['cognitive_processing']
+                    "timestamps": {"created_ts": int(time.time() * 1000)},
+                    "provenance": {
+                        "producer": "test.math_node",
+                        "capabilities": ["mathematical_computation"],
+                        "tenant": "default",
+                        "trace_id": "test-trace",
+                        "consent_scopes": ["cognitive_processing"],
                     },
-                    'links': [],
-                    'evolves_to': [],
-                    'triggers': [],
-                    'reflections': [{'reflection_type': 'regret', 'cause': 'Failed to process'}]
+                    "links": [],
+                    "evolves_to": [],
+                    "triggers": [],
+                    "reflections": [
+                        {"reflection_type": "regret", "cause": "Failed to process"}
+                    ],
                 },
-                'processing_time': 0.001
+                "processing_time": 0.001,
             },
             "validation_type": "logical",
-            "expected_result": "FAILED"
+            "expected_result": "FAILED",
         },
         {
             "name": "Malformed Output",
             "target_output": {
-                'answer': 'Some answer',
+                "answer": "Some answer",
                 # Missing confidence field
-                'matriz_node': {
-                    'version': 1,
-                    'id': 'test-malformed-node',
+                "matriz_node": {
+                    "version": 1,
+                    "id": "test-malformed-node",
                     # Missing type field
-                    'state': {
-                        'confidence': 0.5,
-                        'salience': 0.5
+                    "state": {"confidence": 0.5, "salience": 0.5},
+                    "timestamps": {"created_ts": int(time.time() * 1000)},
+                    "provenance": {
+                        "producer": "test.node",
+                        "capabilities": ["test"],
+                        "tenant": "default",
+                        "trace_id": "test-trace",
+                        "consent_scopes": ["cognitive_processing"],
                     },
-                    'timestamps': {'created_ts': int(time.time() * 1000)},
-                    'provenance': {
-                        'producer': 'test.node',
-                        'capabilities': ['test'],
-                        'tenant': 'default',
-                        'trace_id': 'test-trace',
-                        'consent_scopes': ['cognitive_processing']
-                    },
-                    'links': [],
-                    'evolves_to': [],
-                    'triggers': [],
-                    'reflections': []
+                    "links": [],
+                    "evolves_to": [],
+                    "triggers": [],
+                    "reflections": [],
                 },
-                'processing_time': 0.001
+                "processing_time": 0.001,
             },
             "validation_type": "structural",
-            "expected_result": "FAILED"
-        }
+            "expected_result": "FAILED",
+        },
     ]
 
     print("MATRIZ Validation Node Test")
@@ -1324,11 +1440,13 @@ if __name__ == "__main__":
 
         try:
             # Perform validation
-            result = validator_node.process({
-                'target_output': target_output,
-                'validation_type': validation_type,
-                'context': {'test_case': i}
-            })
+            result = validator_node.process(
+                {
+                    "target_output": target_output,
+                    "validation_type": validation_type,
+                    "context": {"test_case": i},
+                }
+            )
 
             # Validate output
             is_valid = validator_node.validate_output(result)
@@ -1339,33 +1457,45 @@ if __name__ == "__main__":
             print(f"Output valid: {is_valid}")
 
             # Check if result matches expected outcome
-            actual_result = "PASSED" if result['answer'].startswith("Validation PASSED:") else "FAILED"
+            actual_result = (
+                "PASSED"
+                if result["answer"].startswith("Validation PASSED:")
+                else "FAILED"
+            )
             result_matches = actual_result == expected_result
 
-            print(f"Expected: {expected_result}, Got: {actual_result}, Match: {result_matches}")
+            print(
+                f"Expected: {expected_result}, Got: {actual_result}, Match: {result_matches}"
+            )
 
             # Show MATRIZ node details
-            matriz_node = result['matriz_node']
+            matriz_node = result["matriz_node"]
             print(f"MATRIZ Node ID: {matriz_node['id'][:8]}...")
             print(f"Node Type: {matriz_node['type']}")
 
-            state = matriz_node['state']
-            print(f"State: conf={state['confidence']:.3f}, sal={state['salience']:.3f}, valid={state['is_valid']}")
+            state = matriz_node["state"]
+            print(
+                f"State: conf={state['confidence']:.3f}, sal={state['salience']:.3f}, valid={state['is_valid']}"
+            )
 
             # Show validation details
-            validation_results = state.get('validation_results', {})
+            validation_results = state.get("validation_results", {})
             print(f"Validation strategies: {list(validation_results.keys())}")
 
             for strategy, strategy_result in validation_results.items():
-                print(f"  {strategy}: conf={strategy_result['confidence']:.3f}, valid={strategy_result['is_valid']}")
+                print(
+                    f"  {strategy}: conf={strategy_result['confidence']:.3f}, valid={strategy_result['is_valid']}"
+                )
 
-            if state.get('validation_summary'):
+            if state.get("validation_summary"):
                 print(f"Summary: {state['validation_summary']}")
 
             # Check reflections
-            if matriz_node['reflections']:
-                reflection = matriz_node['reflections'][0]
-                print(f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}...")
+            if matriz_node["reflections"]:
+                reflection = matriz_node["reflections"][0]
+                print(
+                    f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}..."
+                )
 
             if is_valid and result_matches:
                 success_count += 1
@@ -1377,7 +1507,9 @@ if __name__ == "__main__":
             print(f"✗ EXCEPTION: {str(e)}")
 
     print("\n" + "=" * 50)
-    print(f"Test Results: {success_count}/{total_tests} passed ({success_count/total_tests*100:.1f}%)")
+    print(
+        f"Test Results: {success_count}/{total_tests} passed ({success_count/total_tests*100:.1f}%)"
+    )
     print(f"Processing History: {len(validator_node.get_trace())} MATRIZ nodes created")
 
     # Show validation capabilities

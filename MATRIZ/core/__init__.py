@@ -26,14 +26,14 @@ from .node_interface import (
 from .orchestrator import CognitiveOrchestrator, ExecutionTrace
 
 __all__ = [
-    'CognitiveNode',
-    'NodeState',
-    'NodeLink',
-    'NodeTrigger',
-    'NodeReflection',
-    'NodeProvenance',
-    'CognitiveOrchestrator',
-    'ExecutionTrace'
+    "CognitiveNode",
+    "NodeState",
+    "NodeLink",
+    "NodeTrigger",
+    "NodeReflection",
+    "NodeProvenance",
+    "CognitiveOrchestrator",
+    "ExecutionTrace",
 ]
 
-__version__ = '1.0.0'
+__version__ = "1.0.0"

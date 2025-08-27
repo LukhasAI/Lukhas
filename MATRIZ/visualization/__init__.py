@@ -20,5 +20,5 @@ Example:
 
 from .graph_viewer import LinkTypeConfig, MATRIZGraphViewer, NodeTypeConfig
 
-__all__ = ['MATRIZGraphViewer', 'NodeTypeConfig', 'LinkTypeConfig']
-__version__ = '1.0.0'
+__all__ = ["MATRIZGraphViewer", "NodeTypeConfig", "LinkTypeConfig"]
+__version__ = "1.0.0"

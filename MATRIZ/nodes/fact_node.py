@@ -30,6 +30,7 @@ except ImportError:
     # For direct execution
     import sys
     from pathlib import Path
+
     sys.path.insert(0, str(Path(__file__).parent.parent))
     from core.node_interface import (
         CognitiveNode,
@@ -73,9 +74,9 @@ class FactNode(CognitiveNode):
                 "historical_facts",
                 "scientific_knowledge",
                 "general_knowledge_qa",
-                "confidence_assessment"
+                "confidence_assessment",
             ],
-            tenant=tenant
+            tenant=tenant,
         )
 
         # Initialize knowledge base
@@ -86,12 +87,12 @@ class FactNode(CognitiveNode):
 
         # Confidence scoring weights
         self.confidence_weights = {
-            'exact_match': 1.0,
-            'high_similarity': 0.9,
-            'medium_similarity': 0.7,
-            'low_similarity': 0.5,
-            'fact_certainty': 0.95,  # How certain we are about stored facts
-            'fuzzy_penalty': 0.1     # Penalty for fuzzy matches
+            "exact_match": 1.0,
+            "high_similarity": 0.9,
+            "medium_similarity": 0.7,
+            "low_similarity": 0.5,
+            "fact_certainty": 0.95,  # How certain we are about stored facts
+            "fuzzy_penalty": 0.1,  # Penalty for fuzzy matches
         }
 
     def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
@@ -114,24 +115,20 @@ class FactNode(CognitiveNode):
         start_time = time.time()
 
         # Extract and validate input
-        question = input_data.get('question', '').strip()
-        trace_id = input_data.get('trace_id', self.get_deterministic_hash(input_data))
-        context = input_data.get('context', {})
+        question = input_data.get("question", "").strip()
+        trace_id = input_data.get("trace_id", self.get_deterministic_hash(input_data))
+        context = input_data.get("context", {})
 
         # Create initial trigger
         trigger = NodeTrigger(
             event_type="factual_knowledge_request",
             timestamp=int(time.time() * 1000),
-            effect="knowledge_retrieval"
+            effect="knowledge_retrieval",
         )
 
         if not question:
             return self._create_error_response(
-                "No question provided",
-                input_data,
-                trace_id,
-                start_time,
-                [trigger]
+                "No question provided", input_data, trace_id, start_time, [trigger]
             )
 
         # Clean and normalize the question
@@ -143,18 +140,20 @@ class FactNode(CognitiveNode):
         if search_results:
             # Found matches - return best match
             best_match = search_results[0]
-            answer = best_match['answer']
-            confidence = best_match['confidence']
-            match_info = best_match['match_info']
+            answer = best_match["answer"]
+            confidence = best_match["confidence"]
+            match_info = best_match["match_info"]
 
             # Create success state
             state = NodeState(
                 confidence=confidence,
-                salience=min(0.9, 0.4 + confidence * 0.5),  # Higher confidence = higher salience
-                valence=0.7,   # Positive - found answer
-                utility=0.8,   # High utility for factual information
+                salience=min(
+                    0.9, 0.4 + confidence * 0.5
+                ),  # Higher confidence = higher salience
+                valence=0.7,  # Positive - found answer
+                utility=0.8,  # High utility for factual information
                 novelty=max(0.1, 1.0 - confidence),  # Lower confidence = higher novelty
-                arousal=0.4    # Moderate arousal for knowledge retrieval
+                arousal=0.4,  # Moderate arousal for knowledge retrieval
             )
 
             # Create affirmation reflection
@@ -162,12 +161,12 @@ class FactNode(CognitiveNode):
                 reflection_type="affirmation",
                 cause=f"Successfully retrieved factual knowledge: {match_info['match_type']} match",
                 new_state={
-                    'question': question,
-                    'answer': answer,
-                    'confidence': confidence,
-                    'match_type': match_info['match_type'],
-                    'similarity_score': match_info['similarity_score']
-                }
+                    "question": question,
+                    "answer": answer,
+                    "confidence": confidence,
+                    "match_type": match_info["match_type"],
+                    "similarity_score": match_info["similarity_score"],
+                },
             )
 
             # Create MATRIZ node for successful knowledge retrieval
@@ -178,19 +177,19 @@ class FactNode(CognitiveNode):
                 triggers=[trigger],
                 reflections=[reflection],
                 additional_data={
-                    'question': question,
-                    'normalized_question': normalized_question,
-                    'answer': answer,
-                    'knowledge_category': match_info.get('category', 'general'),
-                    'match_type': match_info['match_type'],
-                    'similarity_score': match_info['similarity_score'],
-                    'fact_source': match_info.get('source', 'built_in_knowledge'),
-                    'retrieval_method': 'fuzzy_search',
-                    'context': context,
-                    'deterministic_hash': self.get_deterministic_hash({
-                        'question': normalized_question
-                    })
-                }
+                    "question": question,
+                    "normalized_question": normalized_question,
+                    "answer": answer,
+                    "knowledge_category": match_info.get("category", "general"),
+                    "match_type": match_info["match_type"],
+                    "similarity_score": match_info["similarity_score"],
+                    "fact_source": match_info.get("source", "built_in_knowledge"),
+                    "retrieval_method": "fuzzy_search",
+                    "context": context,
+                    "deterministic_hash": self.get_deterministic_hash(
+                        {"question": normalized_question}
+                    ),
+                },
             )
 
         else:
@@ -201,11 +200,11 @@ class FactNode(CognitiveNode):
             # Create uncertainty state
             state = NodeState(
                 confidence=confidence,
-                salience=0.3,   # Moderate salience for unknown answers
-                valence=-0.2,   # Slightly negative - couldn't help
-                utility=0.2,    # Low utility - no answer provided
-                novelty=0.8,    # High novelty - unknown question
-                arousal=0.2     # Low arousal for simple "don't know"
+                salience=0.3,  # Moderate salience for unknown answers
+                valence=-0.2,  # Slightly negative - couldn't help
+                utility=0.2,  # Low utility - no answer provided
+                novelty=0.8,  # High novelty - unknown question
+                arousal=0.2,  # Low arousal for simple "don't know"
             )
 
             # Create regret reflection
@@ -213,11 +212,11 @@ class FactNode(CognitiveNode):
                 reflection_type="regret",
                 cause="Could not find answer in knowledge base",
                 new_state={
-                    'question': question,
-                    'answer': answer,
-                    'confidence': confidence,
-                    'search_attempted': True
-                }
+                    "question": question,
+                    "answer": answer,
+                    "confidence": confidence,
+                    "search_attempted": True,
+                },
             )
 
             # Create MATRIZ node for unknown answer
@@ -228,28 +227,28 @@ class FactNode(CognitiveNode):
                 triggers=[trigger],
                 reflections=[reflection],
                 additional_data={
-                    'question': question,
-                    'normalized_question': normalized_question,
-                    'answer': answer,
-                    'knowledge_category': 'unknown',
-                    'match_type': 'no_match',
-                    'similarity_score': 0.0,
-                    'fact_source': 'none',
-                    'retrieval_method': 'fuzzy_search',
-                    'context': context,
-                    'deterministic_hash': self.get_deterministic_hash({
-                        'question': normalized_question
-                    })
-                }
+                    "question": question,
+                    "normalized_question": normalized_question,
+                    "answer": answer,
+                    "knowledge_category": "unknown",
+                    "match_type": "no_match",
+                    "similarity_score": 0.0,
+                    "fact_source": "none",
+                    "retrieval_method": "fuzzy_search",
+                    "context": context,
+                    "deterministic_hash": self.get_deterministic_hash(
+                        {"question": normalized_question}
+                    ),
+                },
             )
 
         processing_time = time.time() - start_time
 
         return {
-            'answer': answer,
-            'confidence': confidence,
-            'matriz_node': matriz_node,
-            'processing_time': processing_time
+            "answer": answer,
+            "confidence": confidence,
+            "matriz_node": matriz_node,
+            "processing_time": processing_time,
         }
 
     def validate_output(self, output: dict[str, Any]) -> bool:
@@ -271,55 +270,61 @@ class FactNode(CognitiveNode):
         """
         try:
             # Check required top-level fields
-            required_fields = ['answer', 'confidence', 'matriz_node', 'processing_time']
+            required_fields = ["answer", "confidence", "matriz_node", "processing_time"]
             for field in required_fields:
                 if field not in output:
                     return False
 
             # Validate field types
-            if not isinstance(output['answer'], str):
+            if not isinstance(output["answer"], str):
                 return False
-            if not isinstance(output['confidence'], (int, float)):
+            if not isinstance(output["confidence"], (int, float)):
                 return False
-            if not isinstance(output['processing_time'], (int, float)):
+            if not isinstance(output["processing_time"], (int, float)):
                 return False
 
             # Validate confidence range
-            confidence = output['confidence']
+            confidence = output["confidence"]
             if not (0 <= confidence <= 1):
                 return False
 
             # Validate MATRIZ node
-            matriz_node = output['matriz_node']
+            matriz_node = output["matriz_node"]
             if not self.validate_matriz_node(matriz_node):
                 return False
 
             # Check node type is MEMORY
-            if matriz_node.get('type') != 'MEMORY':
+            if matriz_node.get("type") != "MEMORY":
                 return False
 
             # Validate knowledge retrieval specific fields
-            state = matriz_node.get('state', {})
+            state = matriz_node.get("state", {})
 
             # Check for question in state
-            if 'question' not in state:
+            if "question" not in state:
                 return False
 
             # Validate answer consistency
-            answer = output['answer']
+            answer = output["answer"]
             if not answer or len(answer.strip()) == 0:
                 return False
 
             # Check match type if present
-            match_type = state.get('match_type')
+            match_type = state.get("match_type")
             if match_type is not None:
-                valid_match_types = ['exact_match', 'high_similarity', 'medium_similarity',
-                                   'low_similarity', 'no_match', 'error']
+                valid_match_types = [
+                    "exact_match",
+                    "high_similarity",
+                    "medium_similarity",
+                    "low_similarity",
+                    "no_match",
+                    "error",
+                ]
                 if match_type not in valid_match_types:
                     return False
 
             # Check similarity score if present
-            similarity_score = state.get('similarity_score')
+            similarity_score = state.get("similarity_score")
             if similarity_score is not None:
                 if not isinstance(similarity_score, (int, float)):
                     return False
@@ -341,8 +346,12 @@ class FactNode(CognitiveNode):
                     return False
 
             # Validate provenance
-            provenance = matriz_node.get('provenance', {})
-            if 'producer' not in provenance or 'factual_knowledge_retrieval' not in provenance.get('capabilities', []):
+            provenance = matriz_node.get("provenance", {})
+            if (
+                "producer" not in provenance
+                or "factual_knowledge_retrieval"
+                not in provenance.get("capabilities", [])
+            ):
                 return False
 
             return True
@@ -365,50 +374,50 @@ class FactNode(CognitiveNode):
                 "answer": "The capital of France is Paris.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["france", "capital", "paris"]
+                "keywords": ["france", "capital", "paris"],
             },
             "what is the capital of japan": {
                 "answer": "The capital of Japan is Tokyo.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["japan", "capital", "tokyo"]
+                "keywords": ["japan", "capital", "tokyo"],
             },
             "what is the capital of italy": {
                 "answer": "The capital of Italy is Rome.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["italy", "capital", "rome"]
+                "keywords": ["italy", "capital", "rome"],
             },
             "what is the capital of germany": {
                 "answer": "The capital of Germany is Berlin.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["germany", "capital", "berlin"]
+                "keywords": ["germany", "capital", "berlin"],
             },
             "what is the capital of spain": {
                 "answer": "The capital of Spain is Madrid.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["spain", "capital", "madrid"]
+                "keywords": ["spain", "capital", "madrid"],
             },
             "what is the capital of united kingdom": {
                 "answer": "The capital of the United Kingdom is London.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["united kingdom", "uk", "britain", "capital", "london"]
+                "keywords": ["united kingdom", "uk", "britain", "capital", "london"],
             },
             "what is the capital of canada": {
                 "answer": "The capital of Canada is Ottawa.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["canada", "capital", "ottawa"]
+                "keywords": ["canada", "capital", "ottawa"],
             },
             "what is the capital of australia": {
                 "answer": "The capital of Australia is Canberra.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["australia", "capital", "canberra"]
-            }
+                "keywords": ["australia", "capital", "canberra"],
+            },
         }
         knowledge.update(capitals)
 
@@ -418,26 +427,26 @@ class FactNode(CognitiveNode):
                 "answer": "World War 2 ended in 1945.",
                 "category": "history",
                 "certainty": 1.0,
-                "keywords": ["world war 2", "ww2", "wwii", "end", "1945"]
+                "keywords": ["world war 2", "ww2", "wwii", "end", "1945"],
             },
             "when did the berlin wall fall": {
                 "answer": "The Berlin Wall fell on November 9, 1989.",
                 "category": "history",
                 "certainty": 1.0,
-                "keywords": ["berlin wall", "fall", "1989", "november"]
+                "keywords": ["berlin wall", "fall", "1989", "november"],
             },
             "when was the declaration of independence signed": {
                 "answer": "The Declaration of Independence was signed on July 4, 1776.",
                 "category": "history",
                 "certainty": 1.0,
-                "keywords": ["declaration of independence", "signed", "1776", "july"]
+                "keywords": ["declaration of independence", "signed", "1776", "july"],
             },
             "when did the titanic sink": {
                 "answer": "The Titanic sank on April 15, 1912.",
                 "category": "history",
                 "certainty": 1.0,
-                "keywords": ["titanic", "sink", "sank", "1912", "april"]
-            }
+                "keywords": ["titanic", "sink", "sank", "1912", "april"],
+            },
         }
         knowledge.update(history)
 
@@ -447,32 +456,37 @@ class FactNode(CognitiveNode):
                 "answer": "The speed of light in a vacuum is approximately 299,792,458 meters per second.",
                 "category": "science",
                 "certainty": 1.0,
-                "keywords": ["speed of light", "light speed", "meters per second", "vacuum"]
+                "keywords": [
+                    "speed of light",
+                    "light speed",
+                    "meters per second",
+                    "vacuum",
+                ],
             },
             "how many planets are in our solar system": {
                 "answer": "There are 8 planets in our solar system.",
                 "category": "science",
                 "certainty": 1.0,
-                "keywords": ["planets", "solar system", "eight", "8"]
+                "keywords": ["planets", "solar system", "eight", "8"],
             },
             "what is the largest planet": {
                 "answer": "Jupiter is the largest planet in our solar system.",
                 "category": "science",
                 "certainty": 1.0,
-                "keywords": ["largest planet", "jupiter", "biggest planet"]
+                "keywords": ["largest planet", "jupiter", "biggest planet"],
             },
             "what is the chemical symbol for gold": {
                 "answer": "The chemical symbol for gold is Au.",
                 "category": "science",
                 "certainty": 1.0,
-                "keywords": ["chemical symbol", "gold", "au", "element"]
+                "keywords": ["chemical symbol", "gold", "au", "element"],
             },
             "what is the chemical symbol for water": {
                 "answer": "The chemical formula for water is H2O.",
                 "category": "science",
                 "certainty": 1.0,
-                "keywords": ["chemical formula", "water", "h2o", "molecule"]
-            }
+                "keywords": ["chemical formula", "water", "h2o", "molecule"],
+            },
         }
         knowledge.update(science)
 
@@ -482,14 +496,21 @@ class FactNode(CognitiveNode):
                 "answer": "Pi (π) is approximately 3.14159, representing the ratio of a circle's circumference to its diameter.",
                 "category": "mathematics",
                 "certainty": 1.0,
-                "keywords": ["pi", "π", "3.14159", "circle", "circumference", "diameter"]
+                "keywords": [
+                    "pi",
+                    "π",
+                    "3.14159",
+                    "circle",
+                    "circumference",
+                    "diameter",
+                ],
             },
             "what is the square root of 144": {
                 "answer": "The square root of 144 is 12.",
                 "category": "mathematics",
                 "certainty": 1.0,
-                "keywords": ["square root", "144", "12", "sqrt"]
-            }
+                "keywords": ["square root", "144", "12", "sqrt"],
+            },
         }
         knowledge.update(math_facts)
 
@@ -499,20 +520,30 @@ class FactNode(CognitiveNode):
                 "answer": "There are 365 days in a regular year and 366 days in a leap year.",
                 "category": "general",
                 "certainty": 1.0,
-                "keywords": ["days", "year", "365", "366", "leap year"]
+                "keywords": ["days", "year", "365", "366", "leap year"],
             },
             "how many continents are there": {
                 "answer": "There are 7 continents: Asia, Africa, North America, South America, Antarctica, Europe, and Australia.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["continents", "seven", "7", "asia", "africa", "america", "antarctica", "europe", "australia"]
+                "keywords": [
+                    "continents",
+                    "seven",
+                    "7",
+                    "asia",
+                    "africa",
+                    "america",
+                    "antarctica",
+                    "europe",
+                    "australia",
+                ],
             },
             "what is the largest ocean": {
                 "answer": "The Pacific Ocean is the largest ocean on Earth.",
                 "category": "geography",
                 "certainty": 1.0,
-                "keywords": ["largest ocean", "pacific ocean", "biggest ocean"]
-            }
+                "keywords": ["largest ocean", "pacific ocean", "biggest ocean"],
+            },
         }
         knowledge.update(general)
 
@@ -532,13 +563,13 @@ class FactNode(CognitiveNode):
         normalized = question.lower().strip()
 
         # Remove punctuation
-        normalized = re.sub(r'[^\w\s]', '', normalized)
+        normalized = re.sub(r"[^\w\s]", "", normalized)
 
         # Remove extra whitespace
-        normalized = re.sub(r'\s+', ' ', normalized)
+        normalized = re.sub(r"\s+", " ", normalized)
 
         # Only remove minimal stop words to preserve meaning
-        minimal_stop_words = ['the', 'a', 'an']
+        minimal_stop_words = ["the", "a", "an"]
         words = normalized.split()
         filtered_words = [word for word in words if word not in minimal_stop_words]
 
@@ -546,7 +577,7 @@ class FactNode(CognitiveNode):
         if len(filtered_words) < 2 and len(words) > 2:
             return normalized
 
-        return ' '.join(filtered_words)
+        return " ".join(filtered_words)
 
     def _search_knowledge_base(self, question: str) -> list[dict[str, Any]]:
         """
@@ -563,14 +594,20 @@ class FactNode(CognitiveNode):
         for kb_question, kb_data in self.knowledge_base.items():
             # Calculate similarity scores
             exact_match = question == kb_question
-            similarity_score = difflib.SequenceMatcher(None, question, kb_question).ratio()
+            similarity_score = difflib.SequenceMatcher(
+                None, question, kb_question
+            ).ratio()
 
             # Check keyword matches
             question_words = set(question.split())
-            keyword_matches = sum(1 for keyword in kb_data['keywords']
-                                if any(keyword in word or word in keyword
-                                      for word in question_words))
-            keyword_ratio = keyword_matches / len(kb_data['keywords']) if kb_data['keywords'] else 0
+            keyword_matches = sum(
+                1
+                for keyword in kb_data["keywords"]
+                if any(keyword in word or word in keyword for word in question_words)
+            )
+            keyword_ratio = (
+                keyword_matches / len(kb_data["keywords"]) if kb_data["keywords"] else 0
+            )
 
             # Combine similarity scores with better weighting
             # Only use keyword matching if there's some baseline similarity
@@ -582,39 +619,53 @@ class FactNode(CognitiveNode):
             # Determine match type and confidence
             if exact_match:
                 match_type = "exact_match"
-                confidence = self.confidence_weights['exact_match'] * kb_data['certainty']
+                confidence = (
+                    self.confidence_weights["exact_match"] * kb_data["certainty"]
+                )
             elif combined_score >= 0.7:
                 match_type = "high_similarity"
-                confidence = self.confidence_weights['high_similarity'] * kb_data['certainty']
+                confidence = (
+                    self.confidence_weights["high_similarity"] * kb_data["certainty"]
+                )
             elif combined_score >= 0.5:
                 match_type = "medium_similarity"
-                confidence = self.confidence_weights['medium_similarity'] * kb_data['certainty']
+                confidence = (
+                    self.confidence_weights["medium_similarity"] * kb_data["certainty"]
+                )
             elif combined_score >= self.match_threshold:
                 match_type = "low_similarity"
-                confidence = self.confidence_weights['low_similarity'] * kb_data['certainty']
+                confidence = (
+                    self.confidence_weights["low_similarity"] * kb_data["certainty"]
+                )
             else:
                 continue  # Below threshold, skip
 
             # Apply fuzzy penalty if not exact match (but less aggressive)
             if not exact_match:
-                confidence -= self.confidence_weights['fuzzy_penalty'] * (1 - combined_score) * 0.5
+                confidence -= (
+                    self.confidence_weights["fuzzy_penalty"]
+                    * (1 - combined_score)
+                    * 0.5
+                )
 
             # Ensure confidence is in valid range
             confidence = max(0.1, min(1.0, confidence))
 
-            results.append({
-                'answer': kb_data['answer'],
-                'confidence': confidence,
-                'match_info': {
-                    'match_type': match_type,
-                    'similarity_score': combined_score,
-                    'category': kb_data['category'],
-                    'source': 'built_in_knowledge'
+            results.append(
+                {
+                    "answer": kb_data["answer"],
+                    "confidence": confidence,
+                    "match_info": {
+                        "match_type": match_type,
+                        "similarity_score": combined_score,
+                        "category": kb_data["category"],
+                        "source": "built_in_knowledge",
+                    },
                 }
-            })
+            )
 
         # Sort by confidence (highest first)
-        results.sort(key=lambda x: x['confidence'], reverse=True)
+        results.sort(key=lambda x: x["confidence"], reverse=True)
 
         return results
 
@@ -625,7 +676,7 @@ class FactNode(CognitiveNode):
         trace_id: str,
         start_time: float,
         triggers: list[NodeTrigger],
-        question: Optional[str] = None
+        question: Optional[str] = None,
     ) -> dict[str, Any]:
         """
         Create standardized error response with MATRIZ node.
@@ -647,16 +698,16 @@ class FactNode(CognitiveNode):
             confidence=confidence,
             salience=0.3,
             valence=-0.6,  # Negative - failed to process
-            risk=0.7,      # Moderate risk due to error
-            utility=0.1    # Low utility - no answer provided
+            risk=0.7,  # Moderate risk due to error
+            utility=0.1,  # Low utility - no answer provided
         )
 
         # Create regret reflection
         reflection = self.create_reflection(
             reflection_type="regret",
             cause=f"Knowledge retrieval failed: {error_message}",
-            old_state={'question': question} if question else None,
-            new_state={'error': error_message}
+            old_state={"question": question} if question else None,
+            new_state={"error": error_message},
         )
 
         matriz_node = self.create_matriz_node(
@@ -666,24 +717,24 @@ class FactNode(CognitiveNode):
             triggers=triggers,
             reflections=[reflection],
             additional_data={
-                'question': question,
-                'error': error_message,
-                'answer': None,
-                'knowledge_category': 'error',
-                'match_type': 'error',
-                'similarity_score': 0.0,
-                'retrieval_method': 'failed',
-                'context': input_data.get('context', {})
-            }
+                "question": question,
+                "error": error_message,
+                "answer": None,
+                "knowledge_category": "error",
+                "match_type": "error",
+                "similarity_score": 0.0,
+                "retrieval_method": "failed",
+                "context": input_data.get("context", {}),
+            },
         )
 
         processing_time = time.time() - start_time
 
         return {
-            'answer': f"Error: {error_message}",
-            'confidence': confidence,
-            'matriz_node': matriz_node,
-            'processing_time': processing_time
+            "answer": f"Error: {error_message}",
+            "confidence": confidence,
+            "matriz_node": matriz_node,
+            "processing_time": processing_time,
         }
 
 
@@ -695,34 +746,49 @@ if __name__ == "__main__":
     # Comprehensive test cases
     test_cases = [
         # Exact matches
-        {"question": "What is the capital of France?", "expected_type": "high_confidence"},
-        {"question": "What is the capital of Japan?", "expected_type": "high_confidence"},
+        {
+            "question": "What is the capital of France?",
+            "expected_type": "high_confidence",
+        },
+        {
+            "question": "What is the capital of Japan?",
+            "expected_type": "high_confidence",
+        },
         {"question": "When did World War 2 end?", "expected_type": "high_confidence"},
-
         # Similar questions (fuzzy matching)
-        {"question": "What's the capital of France?", "expected_type": "high_confidence"},
+        {
+            "question": "What's the capital of France?",
+            "expected_type": "high_confidence",
+        },
         {"question": "Capital of France?", "expected_type": "medium_confidence"},
         {"question": "France capital", "expected_type": "medium_confidence"},
-        {"question": "What city is the capital of France", "expected_type": "high_confidence"},
-
+        {
+            "question": "What city is the capital of France",
+            "expected_type": "high_confidence",
+        },
         # Scientific facts
         {"question": "What is the speed of light?", "expected_type": "high_confidence"},
-        {"question": "How many planets are in our solar system?", "expected_type": "high_confidence"},
+        {
+            "question": "How many planets are in our solar system?",
+            "expected_type": "high_confidence",
+        },
         {"question": "What is the largest planet?", "expected_type": "high_confidence"},
-
         # Mathematical facts
         {"question": "What is pi?", "expected_type": "high_confidence"},
         {"question": "What is the value of pi?", "expected_type": "medium_confidence"},
-
         # General knowledge
-        {"question": "How many days are in a year?", "expected_type": "high_confidence"},
-        {"question": "How many continents are there?", "expected_type": "high_confidence"},
-
+        {
+            "question": "How many days are in a year?",
+            "expected_type": "high_confidence",
+        },
+        {
+            "question": "How many continents are there?",
+            "expected_type": "high_confidence",
+        },
         # Unknown questions (should return "I don't know")
         {"question": "What is the meaning of life?", "expected_type": "unknown"},
         {"question": "Who will win the next election?", "expected_type": "unknown"},
         {"question": "What is my favorite color?", "expected_type": "unknown"},
-
         # Edge cases
         {"question": "", "expected_type": "error"},
         {"question": "   ", "expected_type": "error"},
@@ -744,10 +810,9 @@ if __name__ == "__main__":
 
         try:
             # Process the question
-            result = fact_node.process({
-                'question': question,
-                'context': {'test_case': i}
-            })
+            result = fact_node.process(
+                {"question": question, "context": {"test_case": i}}
+            )
 
             # Validate output
             is_valid = fact_node.validate_output(result)
@@ -758,8 +823,8 @@ if __name__ == "__main__":
             print(f"Output valid: {is_valid}")
 
             # Determine actual result type
-            confidence = result['confidence']
-            answer = result['answer']
+            confidence = result["confidence"]
+            answer = result["answer"]
 
             if answer.startswith("Error:"):
                 actual_type = "error"
@@ -773,29 +838,33 @@ if __name__ == "__main__":
                 actual_type = "low_confidence"
 
             type_matches = actual_type == expected_type
-            print(f"Expected: {expected_type}, Got: {actual_type}, Match: {type_matches}")
+            print(
+                f"Expected: {expected_type}, Got: {actual_type}, Match: {type_matches}"
+            )
 
             # Show MATRIZ node details
-            matriz_node = result['matriz_node']
+            matriz_node = result["matriz_node"]
             print(f"MATRIZ Node ID: {matriz_node['id'][:8]}...")
             print(f"Node Type: {matriz_node['type']}")
 
-            state = matriz_node['state']
+            state = matriz_node["state"]
             print(f"State: conf={state['confidence']:.3f}, sal={state['salience']:.3f}")
 
-            if 'knowledge_category' in state:
+            if "knowledge_category" in state:
                 print(f"Category: {state['knowledge_category']}")
 
-            if 'match_type' in state:
+            if "match_type" in state:
                 print(f"Match Type: {state['match_type']}")
 
-            if 'similarity_score' in state:
+            if "similarity_score" in state:
                 print(f"Similarity: {state['similarity_score']:.3f}")
 
             # Check reflections
-            if matriz_node['reflections']:
-                reflection = matriz_node['reflections'][0]
-                print(f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}...")
+            if matriz_node["reflections"]:
+                reflection = matriz_node["reflections"][0]
+                print(
+                    f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:50]}..."
+                )
 
             if is_valid and type_matches:
                 success_count += 1
@@ -807,22 +876,24 @@ if __name__ == "__main__":
             print(f"✗ EXCEPTION: {str(e)}")
 
     print("\n" + "=" * 55)
-    print(f"Test Results: {success_count}/{total_tests} passed ({success_count/total_tests*100:.1f}%)")
+    print(
+        f"Test Results: {success_count}/{total_tests} passed ({success_count/total_tests*100:.1f}%)"
+    )
     print(f"Processing History: {len(fact_node.get_trace())} MATRIZ nodes created")
     print(f"Knowledge Base Size: {len(fact_node.knowledge_base)} facts")
 
     # Show deterministic behavior
     print("\nDeterministic Test:")
     test_question = "What is the capital of France?"
-    hash1 = fact_node.get_deterministic_hash({'question': test_question})
-    hash2 = fact_node.get_deterministic_hash({'question': test_question})
+    hash1 = fact_node.get_deterministic_hash({"question": test_question})
+    hash2 = fact_node.get_deterministic_hash({"question": test_question})
     print(f"Same input produces same hash: {hash1 == hash2}")
     print(f"Hash: {hash1[:16]}...")
 
     # Show knowledge categories
     categories = {}
     for kb_data in fact_node.knowledge_base.values():
-        category = kb_data['category']
+        category = kb_data["category"]
         categories[category] = categories.get(category, 0) + 1
 
     print("\nKnowledge Categories:")

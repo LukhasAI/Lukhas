@@ -41,6 +41,7 @@ except ImportError:
     # For direct execution
     import sys
     from pathlib import Path
+
     sys.path.insert(0, str(Path(__file__).parent.parent))
     from core.node_interface import (
         CognitiveNode,
@@ -51,24 +52,27 @@ except ImportError:
 
 class MemoryType(Enum):
     """Types of memory supported by the system"""
-    CONTEXT = "context"          # Short-term context buffer
-    EPISODIC = "episodic"       # Query-response experiences
-    SEMANTIC = "semantic"       # Knowledge and concepts
-    WORKING = "working"         # Active processing memory
-    CONSOLIDATED = "consolidated" # Long-term consolidated memory
+
+    CONTEXT = "context"  # Short-term context buffer
+    EPISODIC = "episodic"  # Query-response experiences
+    SEMANTIC = "semantic"  # Knowledge and concepts
+    WORKING = "working"  # Active processing memory
+    CONSOLIDATED = "consolidated"  # Long-term consolidated memory
 
 
 class MemoryPriority(Enum):
     """Priority levels for memory items"""
-    CRITICAL = "critical"       # Must not be forgotten (confidence > 0.9)
-    HIGH = "high"              # Important (confidence > 0.7)
-    MEDIUM = "medium"          # Standard (confidence > 0.5)
-    LOW = "low"                # Can be forgotten easily (confidence <= 0.5)
+
+    CRITICAL = "critical"  # Must not be forgotten (confidence > 0.9)
+    HIGH = "high"  # Important (confidence > 0.7)
+    MEDIUM = "medium"  # Standard (confidence > 0.5)
+    LOW = "low"  # Can be forgotten easily (confidence <= 0.5)
 
 
 @dataclass
 class MemoryItem:
     """Individual memory item with metadata"""
+
     id: str
     memory_type: MemoryType
     content: dict[str, Any]
@@ -87,6 +91,7 @@ class MemoryItem:
 @dataclass
 class ConsolidationRule:
     """Rules for memory consolidation"""
+
     min_access_count: int = 3
     min_confidence: float = 0.6
     time_window_hours: int = 24
@@ -97,6 +102,7 @@ class ConsolidationRule:
 @dataclass
 class MemoryQuery:
     """Query structure for memory retrieval"""
+
     query_text: Optional[str] = None
     memory_types: Optional[list[MemoryType]] = None
     tags: Optional[set[str]] = None
@@ -137,7 +143,7 @@ class MemorySystem(CognitiveNode):
         semantic_memory_size: int = 5000,
         decay_enabled: bool = True,
         consolidation_enabled: bool = True,
-        persistence_path: Optional[str] = None
+        persistence_path: Optional[str] = None,
     ):
         """
         Initialize the memory system.
@@ -163,9 +169,9 @@ class MemorySystem(CognitiveNode):
                 "memory_retrieval",
                 "similarity_search",
                 "memory_decay",
-                "provenance_tracking"
+                "provenance_tracking",
             ],
-            tenant=tenant
+            tenant=tenant,
         )
 
         # Memory storage by type
@@ -192,12 +198,12 @@ class MemorySystem(CognitiveNode):
 
         # Statistics and metrics
         self.stats = {
-            'total_stores': 0,
-            'total_retrievals': 0,
-            'cache_hits': 0,
-            'consolidations': 0,
-            'decays': 0,
-            'evictions': 0
+            "total_stores": 0,
+            "total_retrievals": 0,
+            "cache_hits": 0,
+            "consolidations": 0,
+            "decays": 0,
+            "evictions": 0,
         }
 
         # Load persisted memories if path provided
@@ -225,14 +231,14 @@ class MemorySystem(CognitiveNode):
         """
         start_time = time.time()
 
-        operation = input_data.get('operation', '').strip().lower()
-        trace_id = input_data.get('trace_id', self.get_deterministic_hash(input_data))
+        operation = input_data.get("operation", "").strip().lower()
+        trace_id = input_data.get("trace_id", self.get_deterministic_hash(input_data))
 
         # Create initial trigger
         trigger = NodeTrigger(
             event_type=f"memory_{operation}_request",
             timestamp=int(time.time() * 1000),
-            effect="memory_system_operation"
+            effect="memory_system_operation",
         )
 
         if not operation:
@@ -241,20 +247,24 @@ class MemorySystem(CognitiveNode):
                 input_data,
                 trace_id,
                 start_time,
-                [trigger]
+                [trigger],
             )
 
         try:
             # Route to appropriate operation
-            if operation == 'store':
+            if operation == "store":
                 result = self._handle_store_operation(input_data, trace_id, [trigger])
-            elif operation == 'retrieve':
-                result = self._handle_retrieve_operation(input_data, trace_id, [trigger])
-            elif operation == 'consolidate':
-                result = self._handle_consolidate_operation(input_data, trace_id, [trigger])
-            elif operation == 'decay':
+            elif operation == "retrieve":
+                result = self._handle_retrieve_operation(
+                    input_data, trace_id, [trigger]
+                )
+            elif operation == "consolidate":
+                result = self._handle_consolidate_operation(
+                    input_data, trace_id, [trigger]
+                )
+            elif operation == "decay":
                 result = self._handle_decay_operation(input_data, trace_id, [trigger])
-            elif operation == 'stats':
+            elif operation == "stats":
                 result = self._handle_stats_operation(input_data, trace_id, [trigger])
             else:
                 return self._create_error_response(
@@ -262,11 +272,11 @@ class MemorySystem(CognitiveNode):
                     input_data,
                     trace_id,
                     start_time,
-                    [trigger]
+                    [trigger],
                 )
 
             processing_time = time.time() - start_time
-            result['processing_time'] = processing_time
+            result["processing_time"] = processing_time
 
             return result
 
@@ -276,7 +286,7 @@ class MemorySystem(CognitiveNode):
                 input_data,
                 trace_id,
                 start_time,
-                [trigger]
+                [trigger],
             )
 
     def validate_output(self, output: dict[str, Any]) -> bool:
@@ -291,29 +301,29 @@ class MemorySystem(CognitiveNode):
         """
         try:
             # Check required fields
-            required_fields = ['result', 'confidence', 'matriz_node', 'processing_time']
+            required_fields = ["result", "confidence", "matriz_node", "processing_time"]
             for field in required_fields:
                 if field not in output:
                     return False
 
             # Validate types
-            if not isinstance(output['confidence'], (int, float)):
+            if not isinstance(output["confidence"], (int, float)):
                 return False
-            if not isinstance(output['processing_time'], (int, float)):
+            if not isinstance(output["processing_time"], (int, float)):
                 return False
 
             # Validate confidence range
-            confidence = output['confidence']
+            confidence = output["confidence"]
             if not (0 <= confidence <= 1):
                 return False
 
             # Validate MATRIZ node
-            matriz_node = output['matriz_node']
+            matriz_node = output["matriz_node"]
             if not self.validate_matriz_node(matriz_node):
                 return False
 
             # Check node type is MEMORY
-            if matriz_node.get('type') != 'MEMORY':
+            if matriz_node.get("type") != "MEMORY":
                 return False
 
             return True
@@ -328,7 +338,7 @@ class MemorySystem(CognitiveNode):
         confidence: float = 0.8,
         salience: float = 0.7,
         tags: Optional[set[str]] = None,
-        context: Optional[dict[str, Any]] = None
+        context: Optional[dict[str, Any]] = None,
     ) -> str:
         """
         Store a memory item.
@@ -368,7 +378,7 @@ class MemorySystem(CognitiveNode):
                 created_timestamp=current_time,
                 last_accessed=current_time,
                 tags=tags or set(),
-                context=context or {}
+                context=context or {},
             )
 
             # Store in appropriate memory store
@@ -383,7 +393,7 @@ class MemorySystem(CognitiveNode):
             elif memory_type == MemoryType.CONSOLIDATED:
                 self.consolidated_memory[memory_id] = memory_item
 
-            self.stats['total_stores'] += 1
+            self.stats["total_stores"] += 1
 
             # Trigger automatic maintenance if needed
             if self.decay_enabled:
@@ -429,11 +439,11 @@ class MemorySystem(CognitiveNode):
                 memory.last_accessed = int(time.time() * 1000)
                 memory.access_count += 1
 
-            self.stats['total_retrievals'] += 1
+            self.stats["total_retrievals"] += 1
             if filtered_memories:
-                self.stats['cache_hits'] += 1
+                self.stats["cache_hits"] += 1
 
-            return filtered_memories[:query.limit]
+            return filtered_memories[: query.limit]
 
     def consolidate_memories(self) -> int:
         """
@@ -450,17 +460,25 @@ class MemorySystem(CognitiveNode):
             # Find candidates for consolidation from episodic and working memory
             candidates = []
 
-            for memory in list(self.episodic_memory.values()) + list(self.working_memory.values()):
-                if (memory.access_count >= self.consolidation_rules.min_access_count and
-                    memory.confidence >= self.consolidation_rules.min_confidence and
-                    current_time - memory.created_timestamp >= time_window):
+            for memory in list(self.episodic_memory.values()) + list(
+                self.working_memory.values()
+            ):
+                if (
+                    memory.access_count >= self.consolidation_rules.min_access_count
+                    and memory.confidence >= self.consolidation_rules.min_confidence
+                    and current_time - memory.created_timestamp >= time_window
+                ):
                     candidates.append(memory)
 
             # Consolidate candidates
             for memory in candidates:
                 # Boost priority and confidence for consolidation
-                memory.confidence = min(1.0, memory.confidence + self.consolidation_rules.priority_boost)
-                memory.salience = min(1.0, memory.salience + self.consolidation_rules.priority_boost)
+                memory.confidence = min(
+                    1.0, memory.confidence + self.consolidation_rules.priority_boost
+                )
+                memory.salience = min(
+                    1.0, memory.salience + self.consolidation_rules.priority_boost
+                )
 
                 # Move to consolidated memory
                 self.consolidated_memory[memory.id] = memory
@@ -473,7 +491,7 @@ class MemorySystem(CognitiveNode):
 
                 consolidation_count += 1
 
-            self.stats['consolidations'] += consolidation_count
+            self.stats["consolidations"] += consolidation_count
             self.last_consolidation = time.time()
 
             return consolidation_count
@@ -493,7 +511,7 @@ class MemorySystem(CognitiveNode):
             memory_stores = [
                 (self.working_memory, "working"),
                 (self.episodic_memory, "episodic"),
-                (self.semantic_memory, "semantic")
+                (self.semantic_memory, "semantic"),
             ]
 
             for store, _store_name in memory_stores:
@@ -512,8 +530,10 @@ class MemorySystem(CognitiveNode):
                     memory.salience = max(0.0, memory.salience - decay_factor * 0.5)
 
                     # Remove if confidence drops too low (unless critical priority)
-                    if (memory.confidence < 0.1 and
-                        memory.priority != MemoryPriority.CRITICAL):
+                    if (
+                        memory.confidence < 0.1
+                        and memory.priority != MemoryPriority.CRITICAL
+                    ):
                         to_remove.append(memory_id)
 
                 # Remove decayed memories
@@ -521,7 +541,7 @@ class MemorySystem(CognitiveNode):
                     del store[memory_id]
                     decay_count += 1
 
-            self.stats['decays'] += decay_count
+            self.stats["decays"] += decay_count
             self.last_decay = time.time()
 
             return decay_count
@@ -535,30 +555,30 @@ class MemorySystem(CognitiveNode):
         """
         with self._lock:
             return {
-                'memory_counts': {
-                    'context': len(self.context_buffer),
-                    'working': len(self.working_memory),
-                    'episodic': len(self.episodic_memory),
-                    'semantic': len(self.semantic_memory),
-                    'consolidated': len(self.consolidated_memory)
+                "memory_counts": {
+                    "context": len(self.context_buffer),
+                    "working": len(self.working_memory),
+                    "episodic": len(self.episodic_memory),
+                    "semantic": len(self.semantic_memory),
+                    "consolidated": len(self.consolidated_memory),
                 },
-                'capacity_limits': {
-                    'context': self.context_buffer_size,
-                    'working': self.working_memory_size,
-                    'episodic': self.episodic_memory_size,
-                    'semantic': self.semantic_memory_size
+                "capacity_limits": {
+                    "context": self.context_buffer_size,
+                    "working": self.working_memory_size,
+                    "episodic": self.episodic_memory_size,
+                    "semantic": self.semantic_memory_size,
                 },
-                'utilization': {
-                    'context': len(self.context_buffer) / self.context_buffer_size,
-                    'working': len(self.working_memory) / self.working_memory_size,
-                    'episodic': len(self.episodic_memory) / self.episodic_memory_size,
-                    'semantic': len(self.semantic_memory) / self.semantic_memory_size
+                "utilization": {
+                    "context": len(self.context_buffer) / self.context_buffer_size,
+                    "working": len(self.working_memory) / self.working_memory_size,
+                    "episodic": len(self.episodic_memory) / self.episodic_memory_size,
+                    "semantic": len(self.semantic_memory) / self.semantic_memory_size,
                 },
-                'operations': self.stats.copy(),
-                'last_maintenance': {
-                    'consolidation': self.last_consolidation,
-                    'decay': self.last_decay
-                }
+                "operations": self.stats.copy(),
+                "last_maintenance": {
+                    "consolidation": self.last_consolidation,
+                    "decay": self.last_decay,
+                },
             }
 
     def clear_memory_type(self, memory_type: MemoryType) -> int:
@@ -620,16 +640,14 @@ class MemorySystem(CognitiveNode):
 
         # Sort by importance (confidence * salience) and recency
         items = list(self.working_memory.values())
-        items.sort(key=lambda m: (
-            m.confidence * m.salience,
-            m.last_accessed,
-            m.priority.value
-        ))
+        items.sort(
+            key=lambda m: (m.confidence * m.salience, m.last_accessed, m.priority.value)
+        )
 
         # Remove the least important item
         least_important = items[0]
         del self.working_memory[least_important.id]
-        self.stats['evictions'] += 1
+        self.stats["evictions"] += 1
 
     def _evict_from_episodic_memory(self) -> None:
         """Evict least important items from episodic memory."""
@@ -637,15 +655,13 @@ class MemorySystem(CognitiveNode):
             return
 
         items = list(self.episodic_memory.values())
-        items.sort(key=lambda m: (
-            m.confidence * m.salience,
-            m.access_count,
-            m.last_accessed
-        ))
+        items.sort(
+            key=lambda m: (m.confidence * m.salience, m.access_count, m.last_accessed)
+        )
 
         least_important = items[0]
         del self.episodic_memory[least_important.id]
-        self.stats['evictions'] += 1
+        self.stats["evictions"] += 1
 
     def _evict_from_semantic_memory(self) -> None:
         """Evict least important items from semantic memory."""
@@ -653,16 +669,20 @@ class MemorySystem(CognitiveNode):
             return
 
         items = list(self.semantic_memory.values())
-        items.sort(key=lambda m: (
-            m.confidence * m.salience * (1 + m.access_count),
-            m.last_accessed
-        ))
+        items.sort(
+            key=lambda m: (
+                m.confidence * m.salience * (1 + m.access_count),
+                m.last_accessed,
+            )
+        )
 
         least_important = items[0]
         del self.semantic_memory[least_important.id]
-        self.stats['evictions'] += 1
+        self.stats["evictions"] += 1
 
-    def _filter_memories(self, memories: list[MemoryItem], query: MemoryQuery) -> list[MemoryItem]:
+    def _filter_memories(
+        self, memories: list[MemoryItem], query: MemoryQuery
+    ) -> list[MemoryItem]:
         """Filter memories based on query criteria."""
         filtered = []
 
@@ -685,18 +705,19 @@ class MemorySystem(CognitiveNode):
 
             # Text similarity filter
             if query.query_text and query.similarity_search:
-                similarity = self._calculate_similarity(query.query_text, memory.content)
+                similarity = self._calculate_similarity(
+                    query.query_text, memory.content
+                )
                 if similarity < 0.3:  # Minimum similarity threshold
                     continue
 
             filtered.append(memory)
 
         # Sort by relevance (combination of confidence, salience, recency, and similarity)
-        filtered.sort(key=lambda m: (
-            m.confidence * m.salience,
-            m.last_accessed,
-            m.access_count
-        ), reverse=True)
+        filtered.sort(
+            key=lambda m: (m.confidence * m.salience, m.last_accessed, m.access_count),
+            reverse=True,
+        )
 
         return filtered
 
@@ -739,34 +760,33 @@ class MemorySystem(CognitiveNode):
         if time.time() - self.last_consolidation > 86400:  # Every day
             self.consolidate_memories()
 
-    def _handle_store_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
+    def _handle_store_operation(
+        self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
+    ) -> dict[str, Any]:
         """Handle memory store operations."""
-        content = input_data.get('content', {})
-        memory_type_str = input_data.get('memory_type', 'episodic')
-        confidence = input_data.get('confidence', 0.8)
-        salience = input_data.get('salience', 0.7)
-        tags = set(input_data.get('tags', []))
-        context = input_data.get('context', {})
+        content = input_data.get("content", {})
+        memory_type_str = input_data.get("memory_type", "episodic")
+        confidence = input_data.get("confidence", 0.8)
+        salience = input_data.get("salience", 0.7)
+        tags = set(input_data.get("tags", []))
+        context = input_data.get("context", {})
 
         try:
             memory_type = MemoryType(memory_type_str)
         except ValueError:
             memory_type = MemoryType.EPISODIC
 
-        memory_id = self.store_memory(content, memory_type, confidence, salience, tags, context)
+        memory_id = self.store_memory(
+            content, memory_type, confidence, salience, tags, context
+        )
 
         # Create success state
-        state = NodeState(
-            confidence=0.95,
-            salience=0.8,
-            valence=0.7,
-            utility=0.9
-        )
+        state = NodeState(confidence=0.95, salience=0.8, valence=0.7, utility=0.9)
 
         reflection = self.create_reflection(
             reflection_type="affirmation",
             cause=f"Successfully stored {memory_type.value} memory",
-            new_state={'memory_id': memory_id, 'memory_type': memory_type.value}
+            new_state={"memory_id": memory_id, "memory_type": memory_type.value},
         )
 
         matriz_node = self.create_matriz_node(
@@ -776,31 +796,36 @@ class MemorySystem(CognitiveNode):
             triggers=triggers,
             reflections=[reflection],
             additional_data={
-                'operation': 'store',
-                'memory_id': memory_id,
-                'memory_type': memory_type.value,
-                'content_hash': hashlib.sha256(str(content).encode()).hexdigest()[:16]
-            }
+                "operation": "store",
+                "memory_id": memory_id,
+                "memory_type": memory_type.value,
+                "content_hash": hashlib.sha256(str(content).encode()).hexdigest()[:16],
+            },
         )
 
         return {
-            'result': {'memory_id': memory_id, 'status': 'stored'},
-            'confidence': 0.95,
-            'matriz_node': matriz_node
+            "result": {"memory_id": memory_id, "status": "stored"},
+            "confidence": 0.95,
+            "matriz_node": matriz_node,
         }
 
-    def _handle_retrieve_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
+    def _handle_retrieve_operation(
+        self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
+    ) -> dict[str, Any]:
         """Handle memory retrieval operations."""
-        query_dict = input_data.get('query', {})
+        query_dict = input_data.get("query", {})
 
         # Build memory query
         memory_query = MemoryQuery(
-            query_text=query_dict.get('text'),
-            memory_types=[MemoryType(t) for t in query_dict.get('types', [MemoryType.EPISODIC.value])],
-            tags=set(query_dict.get('tags', [])),
-            min_confidence=query_dict.get('min_confidence', 0.0),
-            min_salience=query_dict.get('min_salience', 0.0),
-            limit=query_dict.get('limit', 10)
+            query_text=query_dict.get("text"),
+            memory_types=[
+                MemoryType(t)
+                for t in query_dict.get("types", [MemoryType.EPISODIC.value])
+            ],
+            tags=set(query_dict.get("tags", [])),
+            min_confidence=query_dict.get("min_confidence", 0.0),
+            min_salience=query_dict.get("min_salience", 0.0),
+            limit=query_dict.get("limit", 10),
         )
 
         memories = self.retrieve_memories(memory_query)
@@ -808,16 +833,18 @@ class MemorySystem(CognitiveNode):
         # Convert memories to serializable format
         result_memories = []
         for memory in memories:
-            result_memories.append({
-                'id': memory.id,
-                'content': memory.content,
-                'confidence': memory.confidence,
-                'salience': memory.salience,
-                'memory_type': memory.memory_type.value,
-                'created_timestamp': memory.created_timestamp,
-                'access_count': memory.access_count,
-                'tags': list(memory.tags)
-            })
+            result_memories.append(
+                {
+                    "id": memory.id,
+                    "content": memory.content,
+                    "confidence": memory.confidence,
+                    "salience": memory.salience,
+                    "memory_type": memory.memory_type.value,
+                    "created_timestamp": memory.created_timestamp,
+                    "access_count": memory.access_count,
+                    "tags": list(memory.tags),
+                }
+            )
 
         confidence = 0.9 if memories else 0.3
 
@@ -825,13 +852,13 @@ class MemorySystem(CognitiveNode):
             confidence=confidence,
             salience=0.8,
             valence=0.5 if memories else -0.2,
-            utility=0.8 if memories else 0.2
+            utility=0.8 if memories else 0.2,
         )
 
         reflection = self.create_reflection(
             reflection_type="affirmation" if memories else "regret",
             cause=f"Retrieved {len(memories)} memories",
-            new_state={'memory_count': len(memories)}
+            new_state={"memory_count": len(memories)},
         )
 
         matriz_node = self.create_matriz_node(
@@ -841,33 +868,30 @@ class MemorySystem(CognitiveNode):
             triggers=triggers,
             reflections=[reflection],
             additional_data={
-                'operation': 'retrieve',
-                'query': query_dict,
-                'results_count': len(memories)
-            }
+                "operation": "retrieve",
+                "query": query_dict,
+                "results_count": len(memories),
+            },
         )
 
         return {
-            'result': {'memories': result_memories, 'count': len(memories)},
-            'confidence': confidence,
-            'matriz_node': matriz_node
+            "result": {"memories": result_memories, "count": len(memories)},
+            "confidence": confidence,
+            "matriz_node": matriz_node,
         }
 
-    def _handle_consolidate_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
+    def _handle_consolidate_operation(
+        self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
+    ) -> dict[str, Any]:
         """Handle memory consolidation operations."""
         consolidated_count = self.consolidate_memories()
 
-        state = NodeState(
-            confidence=0.9,
-            salience=0.7,
-            valence=0.6,
-            utility=0.8
-        )
+        state = NodeState(confidence=0.9, salience=0.7, valence=0.6, utility=0.8)
 
         reflection = self.create_reflection(
             reflection_type="affirmation",
             cause=f"Consolidated {consolidated_count} memories",
-            new_state={'consolidated_count': consolidated_count}
+            new_state={"consolidated_count": consolidated_count},
         )
 
         matriz_node = self.create_matriz_node(
@@ -877,32 +901,29 @@ class MemorySystem(CognitiveNode):
             triggers=triggers,
             reflections=[reflection],
             additional_data={
-                'operation': 'consolidate',
-                'consolidated_count': consolidated_count
-            }
+                "operation": "consolidate",
+                "consolidated_count": consolidated_count,
+            },
         )
 
         return {
-            'result': {'consolidated_count': consolidated_count},
-            'confidence': 0.9,
-            'matriz_node': matriz_node
+            "result": {"consolidated_count": consolidated_count},
+            "confidence": 0.9,
+            "matriz_node": matriz_node,
         }
 
-    def _handle_decay_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
+    def _handle_decay_operation(
+        self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
+    ) -> dict[str, Any]:
         """Handle memory decay operations."""
         decayed_count = self.decay_memories()
 
-        state = NodeState(
-            confidence=0.9,
-            salience=0.6,
-            valence=0.4,
-            utility=0.7
-        )
+        state = NodeState(confidence=0.9, salience=0.6, valence=0.4, utility=0.7)
 
         reflection = self.create_reflection(
             reflection_type="affirmation",
             cause=f"Applied decay to {decayed_count} memories",
-            new_state={'decayed_count': decayed_count}
+            new_state={"decayed_count": decayed_count},
         )
 
         matriz_node = self.create_matriz_node(
@@ -911,33 +932,27 @@ class MemorySystem(CognitiveNode):
             trace_id=trace_id,
             triggers=triggers,
             reflections=[reflection],
-            additional_data={
-                'operation': 'decay',
-                'decayed_count': decayed_count
-            }
+            additional_data={"operation": "decay", "decayed_count": decayed_count},
         )
 
         return {
-            'result': {'decayed_count': decayed_count},
-            'confidence': 0.9,
-            'matriz_node': matriz_node
+            "result": {"decayed_count": decayed_count},
+            "confidence": 0.9,
+            "matriz_node": matriz_node,
         }
 
-    def _handle_stats_operation(self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]) -> dict[str, Any]:
+    def _handle_stats_operation(
+        self, input_data: dict[str, Any], trace_id: str, triggers: list[NodeTrigger]
+    ) -> dict[str, Any]:
         """Handle memory statistics operations."""
         stats = self.get_memory_stats()
 
-        state = NodeState(
-            confidence=1.0,
-            salience=0.6,
-            valence=0.5,
-            utility=0.8
-        )
+        state = NodeState(confidence=1.0, salience=0.6, valence=0.5, utility=0.8)
 
         reflection = self.create_reflection(
             reflection_type="affirmation",
             cause="Retrieved memory system statistics",
-            new_state={'total_memories': sum(stats['memory_counts'].values())}
+            new_state={"total_memories": sum(stats["memory_counts"].values())},
         )
 
         matriz_node = self.create_matriz_node(
@@ -946,17 +961,10 @@ class MemorySystem(CognitiveNode):
             trace_id=trace_id,
             triggers=triggers,
             reflections=[reflection],
-            additional_data={
-                'operation': 'stats',
-                'stats': stats
-            }
+            additional_data={"operation": "stats", "stats": stats},
         )
 
-        return {
-            'result': stats,
-            'confidence': 1.0,
-            'matriz_node': matriz_node
-        }
+        return {"result": stats, "confidence": 1.0, "matriz_node": matriz_node}
 
     def _create_error_response(
         self,
@@ -964,23 +972,19 @@ class MemorySystem(CognitiveNode):
         input_data: dict[str, Any],
         trace_id: str,
         start_time: float,
-        triggers: list[NodeTrigger]
+        triggers: list[NodeTrigger],
     ) -> dict[str, Any]:
         """Create standardized error response with MATRIZ node."""
         confidence = 0.1
 
         state = NodeState(
-            confidence=confidence,
-            salience=0.3,
-            valence=-0.6,
-            risk=0.8,
-            utility=0.1
+            confidence=confidence, salience=0.3, valence=-0.6, risk=0.8, utility=0.1
         )
 
         reflection = self.create_reflection(
             reflection_type="regret",
             cause=f"Memory operation failed: {error_message}",
-            new_state={'error': error_message}
+            new_state={"error": error_message},
         )
 
         matriz_node = self.create_matriz_node(
@@ -990,19 +994,19 @@ class MemorySystem(CognitiveNode):
             triggers=triggers,
             reflections=[reflection],
             additional_data={
-                'operation': 'error',
-                'error': error_message,
-                'input_data': input_data
-            }
+                "operation": "error",
+                "error": error_message,
+                "input_data": input_data,
+            },
         )
 
         processing_time = time.time() - start_time
 
         return {
-            'result': {'error': error_message},
-            'confidence': confidence,
-            'matriz_node': matriz_node,
-            'processing_time': processing_time
+            "result": {"error": error_message},
+            "confidence": confidence,
+            "matriz_node": matriz_node,
+            "processing_time": processing_time,
         }
 
     def _load_memories(self) -> None:
@@ -1017,7 +1021,7 @@ class MemorySystem(CognitiveNode):
                     data = json.load(f)
 
                 # Load memories into appropriate stores
-                for memory_data in data.get('memories', []):
+                for memory_data in data.get("memories", []):
                     memory_item = MemoryItem(**memory_data)
                     memory_type = memory_item.memory_type
 
@@ -1031,7 +1035,7 @@ class MemorySystem(CognitiveNode):
                         self.consolidated_memory[memory_item.id] = memory_item
 
                 # Load statistics
-                self.stats.update(data.get('stats', {}))
+                self.stats.update(data.get("stats", {}))
 
         except Exception as e:
             print(f"Warning: Failed to load memories from {self.persistence_path}: {e}")
@@ -1056,23 +1060,23 @@ class MemorySystem(CognitiveNode):
 
             # Convert sets to lists for JSON serialization
             for memory_data in all_memories:
-                if isinstance(memory_data.get('tags'), set):
-                    memory_data['tags'] = list(memory_data['tags'])
-                if isinstance(memory_data.get('memory_type'), MemoryType):
-                    memory_data['memory_type'] = memory_data['memory_type'].value
-                if isinstance(memory_data.get('priority'), MemoryPriority):
-                    memory_data['priority'] = memory_data['priority'].value
+                if isinstance(memory_data.get("tags"), set):
+                    memory_data["tags"] = list(memory_data["tags"])
+                if isinstance(memory_data.get("memory_type"), MemoryType):
+                    memory_data["memory_type"] = memory_data["memory_type"].value
+                if isinstance(memory_data.get("priority"), MemoryPriority):
+                    memory_data["priority"] = memory_data["priority"].value
 
             data = {
-                'memories': all_memories,
-                'stats': self.stats,
-                'timestamp': int(time.time() * 1000)
+                "memories": all_memories,
+                "stats": self.stats,
+                "timestamp": int(time.time() * 1000),
             }
 
             persistence_file = Path(self.persistence_path)
             persistence_file.parent.mkdir(parents=True, exist_ok=True)
 
-            with open(persistence_file, 'w') as f:
+            with open(persistence_file, "w") as f:
                 json.dump(data, f, indent=2)
 
         except Exception as e:
@@ -1080,7 +1084,7 @@ class MemorySystem(CognitiveNode):
 
     def __del__(self):
         """Save memories on destruction if persistence is enabled."""
-        if hasattr(self, 'persistence_path') and self.persistence_path:
+        if hasattr(self, "persistence_path") and self.persistence_path:
             self._save_memories()
 
 
@@ -1092,7 +1096,7 @@ if __name__ == "__main__":
         working_memory_size=10,
         episodic_memory_size=100,
         semantic_memory_size=200,
-        persistence_path="test_memory.json"
+        persistence_path="test_memory.json",
     )
 
     print("MATRIZ Memory System Test")
@@ -1102,64 +1106,63 @@ if __name__ == "__main__":
     test_cases = [
         # Store operations
         {
-            'operation': 'store',
-            'memory_type': 'episodic',
-            'content': {'query': 'What is 2+2?', 'response': '4', 'timestamp': time.time()},
-            'confidence': 0.9,
-            'salience': 0.8,
-            'tags': ['math', 'arithmetic']
+            "operation": "store",
+            "memory_type": "episodic",
+            "content": {
+                "query": "What is 2+2?",
+                "response": "4",
+                "timestamp": time.time(),
+            },
+            "confidence": 0.9,
+            "salience": 0.8,
+            "tags": ["math", "arithmetic"],
         },
         {
-            'operation': 'store',
-            'memory_type': 'semantic',
-            'content': {'concept': 'addition', 'definition': 'mathematical operation of combining numbers'},
-            'confidence': 0.95,
-            'salience': 0.9,
-            'tags': ['math', 'concept']
+            "operation": "store",
+            "memory_type": "semantic",
+            "content": {
+                "concept": "addition",
+                "definition": "mathematical operation of combining numbers",
+            },
+            "confidence": 0.95,
+            "salience": 0.9,
+            "tags": ["math", "concept"],
         },
         {
-            'operation': 'store',
-            'memory_type': 'working',
-            'content': {'current_task': 'testing memory system', 'status': 'in_progress'},
-            'confidence': 0.8,
-            'salience': 1.0,
-            'tags': ['testing']
+            "operation": "store",
+            "memory_type": "working",
+            "content": {
+                "current_task": "testing memory system",
+                "status": "in_progress",
+            },
+            "confidence": 0.8,
+            "salience": 1.0,
+            "tags": ["testing"],
         },
-
         # Retrieve operations
         {
-            'operation': 'retrieve',
-            'query': {
-                'text': 'math',
-                'types': ['episodic', 'semantic'],
-                'min_confidence': 0.5,
-                'limit': 5
-            }
+            "operation": "retrieve",
+            "query": {
+                "text": "math",
+                "types": ["episodic", "semantic"],
+                "min_confidence": 0.5,
+                "limit": 5,
+            },
         },
         {
-            'operation': 'retrieve',
-            'query': {
-                'tags': ['arithmetic'],
-                'min_salience': 0.7
-            }
+            "operation": "retrieve",
+            "query": {"tags": ["arithmetic"], "min_salience": 0.7},
         },
-
         # Management operations
-        {
-            'operation': 'stats'
-        },
-        {
-            'operation': 'consolidate'
-        },
-        {
-            'operation': 'decay'
-        }
+        {"operation": "stats"},
+        {"operation": "consolidate"},
+        {"operation": "decay"},
     ]
 
     success_count = 0
 
     for i, test_case in enumerate(test_cases, 1):
-        operation = test_case['operation']
+        operation = test_case["operation"]
         print(f"\nTest {i:2d}: {operation.upper()} operation")
         print("-" * 30)
 
@@ -1176,26 +1179,28 @@ if __name__ == "__main__":
             print(f"Output valid: {is_valid}")
 
             # Show result details
-            operation_result = result['result']
+            operation_result = result["result"]
             if isinstance(operation_result, dict):
-                if 'memory_id' in operation_result:
+                if "memory_id" in operation_result:
                     print(f"Memory ID: {operation_result['memory_id'][:8]}...")
-                if 'count' in operation_result:
+                if "count" in operation_result:
                     print(f"Count: {operation_result['count']}")
-                if 'error' in operation_result:
+                if "error" in operation_result:
                     print(f"Error: {operation_result['error']}")
 
             # Show MATRIZ node details
-            matriz_node = result['matriz_node']
+            matriz_node = result["matriz_node"]
             print(f"MATRIZ Node ID: {matriz_node['id'][:8]}...")
             print(f"Node Type: {matriz_node['type']}")
 
-            state = matriz_node['state']
+            state = matriz_node["state"]
             print(f"State: conf={state['confidence']:.3f}, sal={state['salience']:.3f}")
 
-            if matriz_node['reflections']:
-                reflection = matriz_node['reflections'][0]
-                print(f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:40]}...")
+            if matriz_node["reflections"]:
+                reflection = matriz_node["reflections"][0]
+                print(
+                    f"Reflection: {reflection['reflection_type']} - {reflection['cause'][:40]}..."
+                )
 
             if is_valid:
                 success_count += 1
@@ -1208,11 +1213,13 @@ if __name__ == "__main__":
 
     # Final statistics
     print("\n" + "=" * 50)
-    print(f"Test Results: {success_count}/{len(test_cases)} passed ({success_count/len(test_cases)*100:.1f}%)")
+    print(
+        f"Test Results: {success_count}/{len(test_cases)} passed ({success_count/len(test_cases)*100:.1f}%)"
+    )
 
     # Show memory system statistics
-    stats_result = memory_system.process({'operation': 'stats'})
-    stats = stats_result['result']
+    stats_result = memory_system.process({"operation": "stats"})
+    stats = stats_result["result"]
 
     print("\nMemory System Statistics:")
     print(f"Memory Counts: {stats['memory_counts']}")
@@ -1225,32 +1232,34 @@ if __name__ == "__main__":
 
     # Store some memories directly
     mem_id1 = memory_system.store_memory(
-        {'fact': 'The sky is blue'},
+        {"fact": "The sky is blue"},
         MemoryType.SEMANTIC,
         confidence=0.9,
-        tags={'color', 'sky'}
+        tags={"color", "sky"},
     )
 
     mem_id2 = memory_system.store_memory(
-        {'user_query': 'What color is the sky?', 'response': 'Blue'},
+        {"user_query": "What color is the sky?", "response": "Blue"},
         MemoryType.EPISODIC,
         confidence=0.85,
-        tags={'question', 'color'}
+        tags={"question", "color"},
     )
 
     # Retrieve memories
     query = MemoryQuery(
-        query_text='sky color',
+        query_text="sky color",
         memory_types=[MemoryType.SEMANTIC, MemoryType.EPISODIC],
         min_confidence=0.8,
-        limit=5
+        limit=5,
     )
 
     retrieved = memory_system.retrieve_memories(query)
     print(f"Retrieved {len(retrieved)} memories matching 'sky color'")
 
     for memory in retrieved:
-        print(f"  - {memory.memory_type.value}: {memory.confidence:.2f} conf, {memory.salience:.2f} sal")
+        print(
+            f"  - {memory.memory_type.value}: {memory.confidence:.2f} conf, {memory.salience:.2f} sal"
+        )
         print(f"    Content: {str(memory.content)[:60]}...")
         print(f"    Tags: {memory.tags}")
 

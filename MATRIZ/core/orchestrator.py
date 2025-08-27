@@ -15,6 +15,7 @@ from typing import Any
 @dataclass
 class ExecutionTrace:
     """Complete trace of cognitive processing"""
+
     timestamp: datetime
     node_id: str
     input_data: dict
@@ -37,7 +38,7 @@ class CognitiveOrchestrator:
         self.execution_trace = []  # Full execution history
         self.matriz_graph = {}  # All MATRIZ nodes by ID
 
-    def register_node(self, name: str, node: 'CognitiveNode'):
+    def register_node(self, name: str, node: "CognitiveNode"):
         """Register a cognitive node that emits MATRIZ format"""
         self.available_nodes[name] = node
         print(f"✓ Registered node: {name}")
@@ -51,151 +52,152 @@ class CognitiveOrchestrator:
 
         # 1. Intent Analysis - Create INTENT node
         intent_node = self._analyze_intent(user_input)
-        self.matriz_graph[intent_node['id']] = intent_node
+        self.matriz_graph[intent_node["id"]] = intent_node
 
         # 2. Node Selection - Create DECISION node
         selected_node_name = self._select_node(intent_node)
         decision_node = self._create_decision_node(
             f"Selected {selected_node_name} for processing",
-            trigger_id=intent_node['id']
+            trigger_id=intent_node["id"],
         )
-        self.matriz_graph[decision_node['id']] = decision_node
+        self.matriz_graph[decision_node["id"]] = decision_node
 
         # 3. Process through selected node
         if selected_node_name not in self.available_nodes:
             return {
-                'error': f'No node available for {selected_node_name}',
-                'trace': self.execution_trace
+                "error": f"No node available for {selected_node_name}",
+                "trace": self.execution_trace,
             }
 
         node = self.available_nodes[selected_node_name]
-        result = node.process({'query': user_input})
+        result = node.process({"query": user_input})
 
         # 4. Validation
-        if 'validator' in self.available_nodes:
-            validator = self.available_nodes['validator']
+        if "validator" in self.available_nodes:
+            validator = self.available_nodes["validator"]
             validation = validator.validate_output(result)
 
             # Create validation reflection node
             reflection_node = self._create_reflection_node(
-                result_node=result['matriz_node'],
-                validation=validation
+                result_node=result["matriz_node"], validation=validation
             )
-            self.matriz_graph[reflection_node['id']] = reflection_node
+            self.matriz_graph[reflection_node["id"]] = reflection_node
 
         # 5. Build execution trace
         trace = ExecutionTrace(
             timestamp=datetime.now(),
             node_id=selected_node_name,
-            input_data={'query': user_input},
+            input_data={"query": user_input},
             output_data=result,
-            matriz_node=result.get('matriz_node', {}),
+            matriz_node=result.get("matriz_node", {}),
             processing_time=time.time() - start_time,
-            validation_result=validation if 'validator' in self.available_nodes else True,
-            reasoning_chain=self._build_reasoning_chain()
+            validation_result=(
+                validation if "validator" in self.available_nodes else True
+            ),
+            reasoning_chain=self._build_reasoning_chain(),
         )
         self.execution_trace.append(trace)
 
         return {
-            'answer': result.get('answer', 'No answer'),
-            'confidence': result.get('confidence', 0.0),
-            'matriz_nodes': list(self.matriz_graph.values()),
-            'trace': asdict(trace),
-            'reasoning_chain': trace.reasoning_chain
+            "answer": result.get("answer", "No answer"),
+            "confidence": result.get("confidence", 0.0),
+            "matriz_nodes": list(self.matriz_graph.values()),
+            "trace": asdict(trace),
+            "reasoning_chain": trace.reasoning_chain,
         }
 
     def _analyze_intent(self, user_input: str) -> dict:
         """Create INTENT MATRIZ node from user input"""
         intent_node = {
-            'id': str(uuid.uuid4()),
-            'type': 'INTENT',
-            'state': {
-                'confidence': 0.9,
-                'salience': 1.0,
-                'input_text': user_input
-            },
-            'timestamp': datetime.now().isoformat(),
-            'links': [],
-            'evolves_to': [],
-            'triggers': [],
-            'reflections': []
+            "id": str(uuid.uuid4()),
+            "type": "INTENT",
+            "state": {"confidence": 0.9, "salience": 1.0, "input_text": user_input},
+            "timestamp": datetime.now().isoformat(),
+            "links": [],
+            "evolves_to": [],
+            "triggers": [],
+            "reflections": [],
         }
 
         # Simple intent detection
-        if any(op in user_input for op in ['+', '-', '*', '/', '=']):
-            intent_node['state']['intent'] = 'mathematical'
-        elif '?' in user_input.lower():
-            intent_node['state']['intent'] = 'question'
-        elif 'dog' in user_input.lower() or 'see' in user_input.lower():
-            intent_node['state']['intent'] = 'perception'
+        if any(op in user_input for op in ["+", "-", "*", "/", "="]):
+            intent_node["state"]["intent"] = "mathematical"
+        elif "?" in user_input.lower():
+            intent_node["state"]["intent"] = "question"
+        elif "dog" in user_input.lower() or "see" in user_input.lower():
+            intent_node["state"]["intent"] = "perception"
         else:
-            intent_node['state']['intent'] = 'general'
+            intent_node["state"]["intent"] = "general"
 
         return intent_node
 
     def _select_node(self, intent_node: dict) -> str:
         """Select appropriate node based on intent"""
-        intent = intent_node['state'].get('intent', 'general')
+        intent = intent_node["state"].get("intent", "general")
 
-        if intent == 'mathematical':
-            return 'math'
-        elif intent == 'question':
-            return 'facts'
-        elif intent == 'perception':
-            return 'vision'  # Would handle "boy sees dog"
+        if intent == "mathematical":
+            return "math"
+        elif intent == "question":
+            return "facts"
+        elif intent == "perception":
+            return "vision"  # Would handle "boy sees dog"
         else:
-            return 'facts'  # Default
+            return "facts"  # Default
 
     def _create_decision_node(self, decision: str, trigger_id: str) -> dict:
         """Create DECISION MATRIZ node"""
         return {
-            'id': str(uuid.uuid4()),
-            'type': 'DECISION',
-            'state': {
-                'confidence': 0.85,
-                'salience': 0.9,
-                'decision': decision
-            },
-            'timestamp': datetime.now().isoformat(),
-            'links': [{'target': trigger_id, 'type': 'causal', 'weight': 1.0}],
-            'evolves_to': [],
-            'triggers': [trigger_id],
-            'reflections': []
+            "id": str(uuid.uuid4()),
+            "type": "DECISION",
+            "state": {"confidence": 0.85, "salience": 0.9, "decision": decision},
+            "timestamp": datetime.now().isoformat(),
+            "links": [{"target": trigger_id, "type": "causal", "weight": 1.0}],
+            "evolves_to": [],
+            "triggers": [trigger_id],
+            "reflections": [],
         }
 
     def _create_reflection_node(self, result_node: dict, validation: bool) -> dict:
         """Create REFLECTION MATRIZ node"""
-        reflection_type = 'affirmation' if validation else 'regret'
+        reflection_type = "affirmation" if validation else "regret"
         return {
-            'id': str(uuid.uuid4()),
-            'type': 'REFLECTION',
-            'state': {
-                'confidence': 1.0 if validation else 0.3,
-                'valence': 0.8 if validation else -0.5,
-                'reflection_type': reflection_type,
-                'validation_result': validation
+            "id": str(uuid.uuid4()),
+            "type": "REFLECTION",
+            "state": {
+                "confidence": 1.0 if validation else 0.3,
+                "valence": 0.8 if validation else -0.5,
+                "reflection_type": reflection_type,
+                "validation_result": validation,
             },
-            'timestamp': datetime.now().isoformat(),
-            'links': [{'target': result_node['id'], 'type': 'reflection', 'weight': 1.0}],
-            'evolves_to': [],
-            'triggers': [result_node['id']],
-            'reflections': [{
-                'type': reflection_type,
-                'cause': 'validation_check',
-                'timestamp': datetime.now().isoformat()
-            }]
+            "timestamp": datetime.now().isoformat(),
+            "links": [
+                {"target": result_node["id"], "type": "reflection", "weight": 1.0}
+            ],
+            "evolves_to": [],
+            "triggers": [result_node["id"]],
+            "reflections": [
+                {
+                    "type": reflection_type,
+                    "cause": "validation_check",
+                    "timestamp": datetime.now().isoformat(),
+                }
+            ],
         }
 
     def _build_reasoning_chain(self) -> list[str]:
         """Build human-readable reasoning chain from MATRIZ nodes"""
         chain = []
         for _node_id, node in self.matriz_graph.items():
-            if node['type'] == 'INTENT':
-                chain.append(f"Understood intent: {node['state'].get('intent', 'unknown')}")
-            elif node['type'] == 'DECISION':
+            if node["type"] == "INTENT":
+                chain.append(
+                    f"Understood intent: {node['state'].get('intent', 'unknown')}"
+                )
+            elif node["type"] == "DECISION":
                 chain.append(f"Decision: {node['state'].get('decision', 'unknown')}")
-            elif node['type'] == 'REFLECTION':
-                chain.append(f"Reflection: {node['state'].get('reflection_type', 'unknown')}")
+            elif node["type"] == "REFLECTION":
+                chain.append(
+                    f"Reflection: {node['state'].get('reflection_type', 'unknown')}"
+                )
         return chain
 
     def get_causal_chain(self, node_id: str) -> list[dict]:
@@ -217,7 +219,7 @@ class CognitiveOrchestrator:
             if node:
                 chain.append(node)
                 # Follow triggers backward
-                for trigger_id in node.get('triggers', []):
+                for trigger_id in node.get("triggers", []):
                     if trigger_id not in visited:
                         to_visit.append(trigger_id)
 

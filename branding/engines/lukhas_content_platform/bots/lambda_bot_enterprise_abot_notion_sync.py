@@ -105,7 +105,7 @@ class ABotNotionSync:
     def get_ai_routing_data(self) -> Dict[str, Any]:
         """Get AI routing system data"""
         try:
-            from LUKHAS AI ΛBot.core.abot_ai_router import ABotIntelligentAIRouter
+            from lukhas_ai_lambda_bot.core.abot_ai_router import ABotIntelligentAIRouter
             router = ABotIntelligentAIRouter()
 
             services = router.get_available_services()
@@ -143,7 +143,7 @@ class ABotNotionSync:
 
         # Check if core systems are accessible
         try:
-            from LUKHAS AI ΛBot.core_abot import CoreABot
+            from lukhas_ai_lambda_bot.core_abot import CoreABot
             health_data["core_abot"] = "✅ Online"
         except Exception as e:
             health_data["core_abot"] = f"❌ Error: {e}"
@@ -157,7 +157,7 @@ class ABotNotionSync:
             health_data["status"] = "degraded"
 
         try:
-            from LUKHAS AI ΛBot.core.abot_ai_router import ABotIntelligentAIRouter
+            from lukhas_ai_lambda_bot.core.abot_ai_router import ABotIntelligentAIRouter
             health_data["ai_router"] = "✅ Online"
         except Exception as e:
             health_data["ai_router"] = f"❌ Error: {e}"

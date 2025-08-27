@@ -220,9 +220,10 @@ class AuthenticationGuardian:
 
             # Perform constitutional AI validation
             if self.enable_constitutional_ai:
-                metrics.constitutional_valid, violations = (
-                    await self._validate_constitutional_principles(metrics)
-                )
+                (
+                    metrics.constitutional_valid,
+                    violations,
+                ) = await self._validate_constitutional_principles(metrics)
                 if violations:
                     metrics.metadata["constitutional_violations"] = violations
 
@@ -524,7 +525,6 @@ class AuthenticationGuardian:
                     event.event_type == AuthEventType.TIER_ASSIGNMENT
                     and event.user_id != metrics.user_id
                 ):
-
                     other_profile = event.metadata.get("user_profile", {})
                     similarity = self._calculate_profile_similarity(
                         user_profile, other_profile

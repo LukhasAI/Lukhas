@@ -12,18 +12,20 @@ from typing import Any
 from graph_viewer import MATRIZGraphViewer
 
 
-def create_sample_matriz_node(node_id: str,
-                             node_type: str,
-                             confidence: float = 0.8,
-                             salience: float = 0.7,
-                             additional_state: dict = None,
-                             links: list = None) -> dict[str, Any]:
+def create_sample_matriz_node(
+    node_id: str,
+    node_type: str,
+    confidence: float = 0.8,
+    salience: float = 0.7,
+    additional_state: dict = None,
+    links: list = None,
+) -> dict[str, Any]:
     """Create a sample MATRIZ node for demonstration."""
     state = {
         "confidence": confidence,
         "salience": salience,
         "valence": 0.5,
-        "arousal": 0.4
+        "arousal": 0.4,
     }
 
     if additional_state:
@@ -40,12 +42,12 @@ def create_sample_matriz_node(node_id: str,
             "capabilities": [f"{node_type.lower()}_processing"],
             "tenant": "demo",
             "trace_id": f"trace_{node_id}",
-            "consent_scopes": ["cognitive_processing"]
+            "consent_scopes": ["cognitive_processing"],
         },
         "links": links or [],
         "evolves_to": [],
         "triggers": [],
-        "reflections": []
+        "reflections": [],
     }
 
 
@@ -62,56 +64,73 @@ def main():
 
     # Sensory input
     sensory_node = create_sample_matriz_node(
-        "sensory_001", "SENSORY_IMG",
-        confidence=0.9, salience=0.8,
-        additional_state={"image_classification": "cat", "certainty": 0.92}
+        "sensory_001",
+        "SENSORY_IMG",
+        confidence=0.9,
+        salience=0.8,
+        additional_state={"image_classification": "cat", "certainty": 0.92},
     )
 
     # Memory retrieval
     memory_node = create_sample_matriz_node(
-        "memory_001", "MEMORY",
-        confidence=0.85, salience=0.7,
-        additional_state={"retrieved_facts": ["cats are mammals", "cats have whiskers"]},
-        links=[{
-            "target_node_id": "sensory_001",
-            "link_type": "semantic",
-            "direction": "unidirectional",
-            "weight": 0.8
-        }]
+        "memory_001",
+        "MEMORY",
+        confidence=0.85,
+        salience=0.7,
+        additional_state={
+            "retrieved_facts": ["cats are mammals", "cats have whiskers"]
+        },
+        links=[
+            {
+                "target_node_id": "sensory_001",
+                "link_type": "semantic",
+                "direction": "unidirectional",
+                "weight": 0.8,
+            }
+        ],
     )
 
     # Emotional response
     emotion_node = create_sample_matriz_node(
-        "emotion_001", "EMOTION",
-        confidence=0.75, salience=0.9,
+        "emotion_001",
+        "EMOTION",
+        confidence=0.75,
+        salience=0.9,
         additional_state={"emotion_type": "joy", "intensity": 0.6},
-        links=[{
-            "target_node_id": "sensory_001",
-            "link_type": "emotional",
-            "direction": "unidirectional",
-            "weight": 0.7
-        }]
+        links=[
+            {
+                "target_node_id": "sensory_001",
+                "link_type": "emotional",
+                "direction": "unidirectional",
+                "weight": 0.7,
+            }
+        ],
     )
 
     # Decision making
     decision_node = create_sample_matriz_node(
-        "decision_001", "DECISION",
-        confidence=0.88, salience=0.95,
-        additional_state={"decision": "approach the cat", "rationale": "positive emotional response"},
+        "decision_001",
+        "DECISION",
+        confidence=0.88,
+        salience=0.95,
+        additional_state={
+            "decision": "approach the cat",
+            "rationale": "positive emotional response",
+        },
         links=[
             {
                 "target_node_id": "memory_001",
                 "link_type": "causal",
                 "direction": "unidirectional",
-                "weight": 0.6
+                "weight": 0.6,
             },
             {
                 "target_node_id": "emotion_001",
                 "link_type": "causal",
                 "direction": "unidirectional",
-                "weight": 0.9
-            }
-        ]
+                "weight": 0.9,
+            },
+        ],
     )
 
     # Add all nodes
@@ -128,8 +147,7 @@ def main():
     # Example 3: Create interactive visualization
     print("\n3. Creating interactive visualization...")
     fig_interactive = viewer.create_interactive_plot(
-        layout='force_directed',
-        title="Cognitive Processing Chain - Interactive View"
+        layout="force_directed", title="Cognitive Processing Chain - Interactive View"
     )
 
     # Save to file
@@ -169,19 +187,21 @@ def main():
     for node_id in ["sensory_001", "decision_001"]:
         details = viewer.get_node_details(node_id)
         if details:
-            print(f"   {node_id}: {details['type']} - "
-                  f"Conf: {details['state']['confidence']:.2f}, "
-                  f"Sal: {details['state']['salience']:.2f}")
+            print(
+                f"   {node_id}: {details['type']} - "
+                f"Conf: {details['state']['confidence']:.2f}, "
+                f"Sal: {details['state']['salience']:.2f}"
+            )
 
     # Example 7: Export graph data
     print("\n7. Exporting graph data...")
 
     # Export as JSON
-    if viewer.export_graph("cognitive_chain.json", format='json'):
+    if viewer.export_graph("cognitive_chain.json", format="json"):
         print("   ✓ Exported as JSON")
 
     # Export as GraphML (for use with other tools)
-    if viewer.export_graph("cognitive_chain.graphml", format='graphml'):
+    if viewer.export_graph("cognitive_chain.graphml", format="graphml"):
         print("   ✓ Exported as GraphML")
 
     # Example 8: Graph metrics
@@ -196,12 +216,11 @@ def main():
     # Example 9: Different layout algorithms
     print("\n9. Creating visualizations with different layouts...")
 
-    layouts = ['force_directed', 'hierarchical', 'circular', 'spiral']
+    layouts = ["force_directed", "hierarchical", "circular", "spiral"]
     for layout in layouts:
         try:
             fig = viewer.create_interactive_plot(
-                layout=layout,
-                title=f"Cognitive Chain - {layout.title()} Layout"
+                layout=layout, title=f"Cognitive Chain - {layout.title()} Layout"
             )
             filename = f"cognitive_chain_{layout}.html"
             fig.write_html(filename)
@@ -209,7 +228,9 @@ def main():
         except Exception as e:
             print(f"   ✗ Failed {layout} layout: {e}")
 
-    print("\nExample completed! Check the generated HTML files to view the visualizations.")
+    print(
+        "\nExample completed! Check the generated HTML files to view the visualizations."
+    )
     print("Open the HTML files in a web browser to explore the interactive features.")
 
 

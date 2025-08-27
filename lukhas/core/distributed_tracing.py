@@ -545,7 +545,6 @@ def demo_distributed_tracing():
         "analyze_data",
         {"type": "reasoning", "complexity": "high"},
     ) as ctx:
-
         # Add some logs and tags
         agent1_tracer.add_log(ctx, "started_analysis", {"input_size": 1000})
 
@@ -558,7 +557,6 @@ def demo_distributed_tracing():
         with agent1_tracer.trace_agent_collaboration(
             "reasoning-001", "memory-001", "knowledge_sharing"
         ):
-
             # Memory agent operations (simulated)
             with agent2_tracer.trace_memory_operation(
                 "memory-001", "retrieve", memory_size=500

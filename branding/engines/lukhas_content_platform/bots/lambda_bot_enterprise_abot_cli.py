@@ -435,7 +435,7 @@ def test_security(pr_number: int):
         import sys
         sys.path.append('/Users/A_G_I/Λ')
 
-        from LUKHAS AI ΛBot.specialists.ABotΛiDSecurity import ABotΛiDIntegration
+        from lukhas_ai_lambda_bot.specialists.ABotΛiDSecurity import ABotΛiDIntegration
 
         async def run_test():
             abot_lid = ABotΛiDIntegration()
@@ -482,7 +482,7 @@ def heal(auto_fix: bool, safety_threshold: float, scope: str):
 
     async def run_healing():
         try:
-            from LUKHAS AI ΛBot.specialists.ABotAutonomousSecurityHealer import ABotAutonomousSecurityHealer
+            from lukhas_ai_lambda_bot.specialists.ABotAutonomousSecurityHealer import ABotAutonomousSecurityHealer
 
             healer = ABotAutonomousSecurityHealer()
             healer.auto_fix_enabled = auto_fix
@@ -518,7 +518,7 @@ def scan(format: str):
 
     async def run_scan():
         try:
-            from LUKHAS AI ΛBot.specialists.ABotAutonomousSecurityHealer import ABotAutonomousSecurityHealer
+            from lukhas_ai_lambda_bot.specialists.ABotAutonomousSecurityHealer import ABotAutonomousSecurityHealer
 
             healer = ABotAutonomousSecurityHealer()
             healer.auto_fix_enabled = False  # Scan only
@@ -657,14 +657,14 @@ jobs:
     click.echo("✅ LUKHAS AI ΛBot Security Healer workflow created!")
     click.echo("📁 File: .github/workflows/LUKHAS AI ΛBot-security-healer.yml")
     click.echo("🎯 LUKHAS AI ΛBot will now autonomously heal vulnerabilities daily!")
-    click.echo("🔥 Dependabot? We don't need no stinking Dependabot!")'
+    click.echo("🔥 Dependabot? We don't need no stinking Dependabot!")
 
 # AI Router Commands
 @ai.command()
 def status():
     """Check multi-AI routing system status"""
     try:
-        from LUKHAS AI ΛBot.core.abot_ai_router import ABotIntelligentAIRouter, get_ai_router_status
+        from lukhas_ai_lambda_bot.core.abot_ai_router import ABotIntelligentAIRouter, get_ai_router_status
 
         click.echo("🧠 LUKHAS AI ΛBot Multi-AI Router Status")
         click.echo("=" * 40)
@@ -701,7 +701,7 @@ def status():
 def route(task_type: str, prompt: str, priority: str):
     """Route a task to the best AI service"""
     try:
-        from LUKHAS AI ΛBot.core.abot_ai_router import ABotIntelligentAIRouter, TaskType
+        from lukhas_ai_lambda_bot.core.abot_ai_router import ABotIntelligentAIRouter, TaskType
 
         # Map string to TaskType enum
         task_types = {
@@ -749,7 +749,7 @@ def route(task_type: str, prompt: str, priority: str):
 def services():
     """List all available AI services and their capabilities"""
     try:
-        from LUKHAS AI ΛBot.core.abot_ai_router import ABotIntelligentAIRouter
+        from lukhas_ai_lambda_bot.core.abot_ai_router import ABotIntelligentAIRouter
 
         router = ABotIntelligentAIRouter()
 
@@ -784,7 +784,7 @@ def services():
 def analytics():
     """Show AI routing analytics and usage statistics"""
     try:
-        from LUKHAS AI ΛBot.core.abot_ai_router import ABotIntelligentAIRouter
+        from lukhas_ai_lambda_bot.core.abot_ai_router import ABotIntelligentAIRouter
 
         router = ABotIntelligentAIRouter()
         analytics = router.get_routing_analytics()
@@ -867,7 +867,7 @@ def setup(api_key: str, budget: float):
 def budget():
     """Check LUKHAS AI ΛBot's intelligent financial status"""
     try:
-        from LUKHAS AI ΛBot.core.openai_intelligent_controller import get_abot_financial_status
+        from lukhas_ai_lambda_bot.core.openai_intelligent_controller import get_abot_financial_status
         status = get_abot_financial_status()
 
         if "budget_status" in status:
@@ -910,7 +910,7 @@ def budget():
 def test(prompt: str, urgency: str, force: bool):
     """Test OpenAI with LUKHAS AI ΛBot's intelligent financial controls"""
     try:
-        from LUKHAS AI ΛBot.core.openai_intelligent_controller import make_smart_openai_request
+        from lukhas_ai_lambda_bot.core.openai_intelligent_controller import make_smart_openai_request
 
         click.echo(f"🧠 Testing LUKHAS AI ΛBot's intelligent OpenAI integration...")'
         click.echo(f"   Prompt: '{prompt}'")
@@ -936,7 +936,7 @@ def test(prompt: str, urgency: str, force: bool):
         click.echo(f"🤖 LUKHAS AI ΛBot Response: {response}")
 
         # Show updated financial status
-        from LUKHAS AI ΛBot.core.openai_intelligent_controller import get_abot_financial_status
+        from lukhas_ai_lambda_bot.core.openai_intelligent_controller import get_abot_financial_status
         status = get_abot_financial_status()
 
         if "budget_status" in status:
@@ -957,7 +957,7 @@ def test(prompt: str, urgency: str, force: bool):
 def reset():
     """Reset budget tracker (use carefully!)"""
     try:
-        from LUKHAS AI ΛBot.core.openai_controller import openai_controller
+        from lukhas_ai_lambda_bot.core.openai_controller import openai_controller
         openai_controller.reset_budget()
         click.echo("✅ Budget tracker reset successfully")
         click.echo("⚠️  All previous cost tracking has been cleared")
@@ -970,7 +970,7 @@ def reset():
 def notion_sync():
     """Sync LUKHAS AI ΛBot's financial intelligence to Notion"""
     try:
-        from LUKHAS AI ΛBot.core.openai_intelligent_controller import get_abot_financial_status
+        from lukhas_ai_lambda_bot.core.openai_intelligent_controller import get_abot_financial_status
 
         click.echo("📊 Preparing LUKHAS AI ΛBot Financial Intelligence Report for Notion...")
 
@@ -1021,7 +1021,7 @@ def notion_sync():
 def efficiency():
     """Show LUKHAS AI ΛBot's financial efficiency analysis"""
     try:
-        from LUKHAS AI ΛBot.core.openai_intelligent_controller import get_abot_financial_status
+        from lukhas_ai_lambda_bot.core.openai_intelligent_controller import get_abot_financial_status
 
         status = get_abot_financial_status()
 
@@ -1084,7 +1084,7 @@ def create_user(lambda_id_hash: str, consent: str, tier: int):
     try:
         import sys
         sys.path.append('/Users/A_G_I/Λ')
-        from LUKHAS AI ΛBot.core.lambda_id_manager import create_λid, validate_λid
+        from lukhas_ai_lambda_bot.core.lambda_id_manager import create_λid, validate_λid
         from ΛiD.ΛiD import ConsentLevel, AccessTier
 
         # Validate format first
@@ -1122,7 +1122,7 @@ def get_info(lambda_id_hash: str):
     try:
         import sys
         sys.path.append('/Users/A_G_I/Λ')
-        from LUKHAS AI ΛBot.core.lambda_id_manager import get_λid_info
+        from lukhas_ai_lambda_bot.core.lambda_id_manager import get_λid_info
 
         info = get_λid_info(lambda_id_hash)
 
@@ -1154,7 +1154,7 @@ def verify_consent(lambda_id_hash: str, required_consent: str):
     try:
         import sys
         sys.path.append('/Users/A_G_I/Λ')
-        from LUKHAS AI ΛBot.core.lambda_id_manager import verify_λsign
+        from lukhas_ai_lambda_bot.core.lambda_id_manager import verify_λsign
         from ΛiD.ΛiD import ConsentLevel
 
         required_level = ConsentLevel[required_consent]
@@ -1184,7 +1184,7 @@ def validate_format():
     try:
         import sys
         sys.path.append('/Users/A_G_I/Λ')
-        from LUKHAS AI ΛBot.core.lambda_id_manager import validate_λid, supported_countries, organization_codes
+        from lukhas_ai_lambda_bot.core.lambda_id_manager import validate_λid, supported_countries, organization_codes
 
         # Show supported countries
         countries = supported_countries()
@@ -1238,7 +1238,7 @@ def create_trace(action: str, user_ref: str, metadata: str):
         import sys
         import json
         sys.path.append('/Users/A_G_I/Λ')
-        from LUKHAS AI ΛBot.core.lambda_id_manager import create_λtrace
+        from lukhas_ai_lambda_bot.core.lambda_id_manager import create_λtrace
 
         metadata_dict = {}
         if metadata:
@@ -1263,7 +1263,7 @@ def list_traces(user_ref: str, action: str, limit: int):
     try:
         import sys
         sys.path.append('/Users/A_G_I/Λ')
-        from LUKHAS AI ΛBot.core.lambda_id_manager import get_λtraces
+        from lukhas_ai_lambda_bot.core.lambda_id_manager import get_λtraces
 
         traces = get_λtraces(user_ref, action)
 
@@ -1295,7 +1295,7 @@ def system_status():
     try:
         import sys
         sys.path.append('/Users/A_G_I/Λ')
-        from LUKHAS AI ΛBot.core.lambda_id_manager import lambda_id_manager
+        from lukhas_ai_lambda_bot.core.lambda_id_manager import lambda_id_manager
 
         status = lambda_id_manager.get_system_status()
 
