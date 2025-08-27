@@ -4,7 +4,7 @@ Bio-quantum consciousness integration and processing
 Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 # Version info
 __version__ = "1.0.0"

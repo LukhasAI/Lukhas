@@ -29,17 +29,17 @@ def get_logger(name: str) -> logging.Logger:
 
 
 def run_command(
-    cmd: Union[str, List[str]], 
-    cwd: Optional[Path] = None, 
+    cmd: Union[str, List[str]],
+    cwd: Optional[Path] = None,
     capture_output: bool = True,
     timeout: int = 30
 ) -> subprocess.CompletedProcess:
     """Run a shell command with proper error handling and timeout"""
     logger = get_logger("command")
-    
+
     if isinstance(cmd, str):
         cmd = cmd.split()
-    
+
     try:
         logger.debug(f"Running command: {' '.join(cmd)}")
         result = subprocess.run(
@@ -49,13 +49,13 @@ def run_command(
             text=True,
             timeout=timeout
         )
-        
+
         if result.returncode != 0:
             logger.error(f"Command failed with return code {result.returncode}")
             logger.error(f"stderr: {result.stderr}")
-        
+
         return result
-        
+
     except subprocess.TimeoutExpired:
         logger.error(f"Command timed out after {timeout} seconds")
         raise
@@ -67,11 +67,11 @@ def run_command(
 def safe_json_load(file_path: Path) -> Optional[Dict[str, Any]]:
     """Safely load JSON file with error handling"""
     logger = get_logger("json")
-    
+
     if not file_path.exists():
         logger.warning(f"JSON file not found: {file_path}")
         return None
-    
+
     try:
         with open(file_path, 'r') as f:
             return json.load(f)
@@ -86,7 +86,7 @@ def safe_json_load(file_path: Path) -> Optional[Dict[str, Any]]:
 def safe_json_save(data: Dict[str, Any], file_path: Path) -> bool:
     """Safely save data to JSON file"""
     logger = get_logger("json")
-    
+
     try:
         file_path.parent.mkdir(parents=True, exist_ok=True)
         with open(file_path, 'w') as f:
@@ -98,8 +98,8 @@ def safe_json_save(data: Dict[str, Any], file_path: Path) -> bool:
 
 
 def find_files(
-    directory: Path, 
-    pattern: str = "*.py", 
+    directory: Path,
+    pattern: str = "*.py",
     exclude_patterns: Optional[List[str]] = None
 ) -> List[Path]:
     """Find files matching pattern, excluding specified patterns"""
@@ -111,27 +111,27 @@ def find_files(
         "node_modules",
         ".pytest_cache"
     ])
-    
+
     files = []
     for file_path in directory.rglob(pattern):
         if any(exclude in str(file_path) for exclude in exclude_patterns):
             continue
         files.append(file_path)
-    
+
     return sorted(files)
 
 
 def validate_python_syntax(file_path: Path) -> bool:
     """Validate Python file syntax"""
     logger = get_logger("syntax")
-    
+
     try:
         with open(file_path, 'r') as f:
             source = f.read()
-        
+
         compile(source, str(file_path), 'exec')
         return True
-        
+
     except SyntaxError as e:
         logger.error(f"Syntax error in {file_path}: {e}")
         return False
@@ -143,25 +143,25 @@ def validate_python_syntax(file_path: Path) -> bool:
 def get_git_status() -> Optional[Dict[str, Any]]:
     """Get current git repository status"""
     logger = get_logger("git")
-    
+
     try:
         # Get current branch
         branch_result = run_command(["git", "rev-parse", "--abbrev-ref", "HEAD"])
         if branch_result.returncode != 0:
             return None
-        
+
         current_branch = branch_result.stdout.strip()
-        
+
         # Get status
         status_result = run_command(["git", "status", "--porcelain"])
         if status_result.returncode != 0:
             return None
-        
+
         # Parse status
         modified = []
         untracked = []
         staged = []
-        
+
         for line in status_result.stdout.splitlines():
             if line.startswith("M "):
                 modified.append(line[3:])
@@ -169,7 +169,7 @@ def get_git_status() -> Optional[Dict[str, Any]]:
                 untracked.append(line[3:])
             elif line.startswith("A "):
                 staged.append(line[3:])
-        
+
         return {
             "branch": current_branch,
             "modified": modified,
@@ -177,7 +177,7 @@ def get_git_status() -> Optional[Dict[str, Any]]:
             "staged": staged,
             "clean": len(modified) + len(untracked) + len(staged) == 0
         }
-        
+
     except Exception as e:
         logger.error(f"Error getting git status: {e}")
         return None
@@ -196,9 +196,9 @@ def get_file_info(file_path: Path) -> Dict[str, Any]:
     """Get comprehensive file information"""
     if not file_path.exists():
         return {"exists": False}
-    
+
     stat = file_path.stat()
-    
+
     info = {
         "exists": True,
         "size": stat.st_size,
@@ -210,7 +210,7 @@ def get_file_info(file_path: Path) -> Dict[str, Any]:
         "name": file_path.name,
         "parent": str(file_path.parent)
     }
-    
+
     # Line count for text files
     if file_path.is_file() and file_path.suffix in ['.py', '.md', '.txt', '.json', '.yaml', '.yml']:
         try:
@@ -218,7 +218,7 @@ def get_file_info(file_path: Path) -> Dict[str, Any]:
                 info["lines"] = len(f.readlines())
         except (UnicodeDecodeError, PermissionError):
             info["lines"] = None
-    
+
     return info
 
 
@@ -228,7 +228,7 @@ def retry_on_failure(max_attempts: int = 3, delay: float = 1.0):
         @wraps(func)
         def wrapper(*args, **kwargs):
             logger = get_logger("retry")
-            
+
             for attempt in range(max_attempts):
                 try:
                     return func(*args, **kwargs)
@@ -240,7 +240,7 @@ def retry_on_failure(max_attempts: int = 3, delay: float = 1.0):
                     else:
                         logger.error(f"All {max_attempts} attempts failed. Last error: {e}")
                         raise
-            
+
         return wrapper
     return decorator
 
@@ -258,7 +258,7 @@ def check_dependency(package_name: str) -> bool:
 def get_system_info() -> Dict[str, Any]:
     """Get basic system information for debugging"""
     import platform
-    
+
     return {
         "python_version": sys.version,
         "platform": platform.platform(),

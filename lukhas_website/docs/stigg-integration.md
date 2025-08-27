@@ -65,7 +65,7 @@ import { StiggExample } from '@/components/stigg-example'
 
 function BillingSection({ userId }: { userId: string }) {
   return (
-    <StiggExample 
+    <StiggExample
       userId={userId}
       className="mt-4"
     />
@@ -79,7 +79,7 @@ import { useLukhasBilling } from '@/components/stigg-example'
 
 function MyComponent() {
   const billing = useLukhasBilling()
-  
+
   return (
     <div>
       {billing.stiggAvailable ? (

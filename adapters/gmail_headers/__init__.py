@@ -13,11 +13,8 @@ System-wide guardrails applied:
 ACK GUARDRAILS
 """
 
-import base64
-import json
 from datetime import datetime, timezone
-from email.utils import parsedate_to_datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from consent.service import ConsentService
 

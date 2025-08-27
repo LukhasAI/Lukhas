@@ -7,7 +7,7 @@
 This directory contains configurations for our specialized LUKHAS AI agents, each designed around the Trinity Framework:
 
 - **⚛️ Identity**: Each agent has distinct personality and expertise domain
-- **🧠 Consciousness**: Agents learn and adapt through task execution patterns  
+- **🧠 Consciousness**: Agents learn and adapt through task execution patterns
 - **🛡️ Guardian**: All agents enforce safety, security, and ethical protocols
 
 ## 🌟 Agent Deployment Methods

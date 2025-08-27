@@ -815,14 +815,14 @@ class EnergyAwareExecutionPlanner:
                 time.sleep(1.0)
 
     # Distributed Energy Coordination Implementation
-    
+
     def __init_distributed_coordination(self):
         """Initialize distributed energy coordination system"""
         self.node_registry = DistributedNodeRegistry()
         self.energy_consensus = EnergyConsensusProtocol()
         self.load_balancer = DistributedLoadBalancer()
         self.coordination_active = False
-        
+
     async def join_energy_cluster(self, node_id: str, cluster_config: dict) -> bool:
         """Join distributed energy cluster"""
         try:
@@ -833,66 +833,66 @@ class EnergyAwareExecutionPlanner:
                 available_energy=self.energy_budget.current_available,
                 node_config=cluster_config
             )
-            
+
             # Initialize consensus protocol
             await self.energy_consensus.initialize(
                 node_id=node_id,
                 cluster_nodes=cluster_config.get("peers", [])
             )
-            
+
             # Start distributed coordination
             self.coordination_active = True
             asyncio.create_task(self._distributed_coordination_loop())
-            
+
             self.logger.info(
                 "Joined energy cluster",
                 node_id=node_id,
                 cluster_size=len(cluster_config.get("peers", []))
             )
-            
+
             return True
-            
+
         except Exception as e:
             self.logger.error("Failed to join energy cluster", error=str(e))
             return False
-    
-    async def coordinate_distributed_task(self, 
+
+    async def coordinate_distributed_task(self,
                                         distributed_task: DistributedEnergyTask) -> dict:
         """Coordinate task execution across multiple nodes"""
         if not self.coordination_active:
             raise Exception("Distributed coordination not active")
-            
+
         try:
             # 1. Calculate total energy requirements
             total_energy_needed = distributed_task.estimate_total_energy()
-            
+
             # 2. Query cluster energy availability
             cluster_energy = await self.node_registry.get_cluster_energy_status()
-            
+
             # 3. Use consensus protocol to allocate resources
             allocation_plan = await self.energy_consensus.negotiate_allocation(
                 task=distributed_task,
                 cluster_resources=cluster_energy
             )
-            
+
             # 4. Distribute task components to optimal nodes
             execution_plan = await self.load_balancer.create_execution_plan(
                 allocation_plan=allocation_plan,
                 task=distributed_task
             )
-            
+
             # 5. Execute distributed task with coordination
             result = await self._execute_distributed_task(execution_plan)
-            
+
             self.logger.info(
                 "Distributed task coordinated",
                 task_id=distributed_task.task_id,
                 nodes_involved=len(execution_plan["node_assignments"]),
                 total_energy=total_energy_needed
             )
-            
+
             return result
-            
+
         except Exception as e:
             self.logger.error(
                 "Distributed task coordination failed",
@@ -900,31 +900,31 @@ class EnergyAwareExecutionPlanner:
                 error=str(e)
             )
             raise
-    
+
     async def _distributed_coordination_loop(self):
         """Main loop for distributed energy coordination"""
         while self.coordination_active:
             try:
                 # 1. Broadcast current energy status to cluster
                 await self._broadcast_energy_status()
-                
+
                 # 2. Receive and process cluster updates
                 cluster_updates = await self.node_registry.get_cluster_updates()
                 await self._process_cluster_updates(cluster_updates)
-                
+
                 # 3. Rebalance energy allocation if needed
                 if self._should_rebalance_energy():
                     await self._coordinate_energy_rebalancing()
-                
+
                 # 4. Update distributed metrics
                 await self._update_distributed_metrics()
-                
+
                 await asyncio.sleep(5.0)  # Coordination interval
-                
+
             except Exception as e:
                 self.logger.error("Distributed coordination loop error", error=str(e))
                 await asyncio.sleep(10.0)  # Extended sleep on error
-    
+
     async def _broadcast_energy_status(self):
         """Broadcast current energy status to cluster"""
         status = {
@@ -934,7 +934,7 @@ class EnergyAwareExecutionPlanner:
                 "total_capacity": self.energy_budget.total_capacity,
                 "current_available": self.energy_budget.current_available,
                 "reserved_critical": self.energy_budget.reserved_critical,
-                "utilization": 1.0 - (self.energy_budget.current_available / 
+                "utilization": 1.0 - (self.energy_budget.current_available /
                                     self.energy_budget.total_capacity)
             },
             "task_load": {
@@ -948,9 +948,9 @@ class EnergyAwareExecutionPlanner:
                 "tasks_completed": self.energy_metrics.tasks_completed
             }
         }
-        
+
         await self.node_registry.broadcast_status(status)
-    
+
     async def _process_cluster_updates(self, updates: list):
         """Process energy status updates from cluster nodes"""
         for update in updates:
@@ -958,27 +958,27 @@ class EnergyAwareExecutionPlanner:
             if node_id != self.node_registry.node_id:
                 # Update cluster node information
                 await self.node_registry.update_node_status(node_id, update)
-                
+
                 # Check for energy sharing opportunities
                 if self._can_share_energy(update):
                     await self._initiate_energy_transfer(node_id, update)
-    
+
     def _can_share_energy(self, peer_status: dict) -> bool:
         """Determine if we can share energy with a peer node"""
-        our_utilization = 1.0 - (self.energy_budget.current_available / 
+        our_utilization = 1.0 - (self.energy_budget.current_available /
                                self.energy_budget.total_capacity)
         peer_utilization = peer_status["energy_budget"]["utilization"]
-        
+
         # Share if we have low utilization and peer has high utilization
         return our_utilization < 0.3 and peer_utilization > 0.8
-    
+
     async def _initiate_energy_transfer(self, target_node: str, peer_status: dict):
         """Initiate energy transfer to overloaded peer node"""
         transfer_amount = min(
             self.energy_budget.get_usable_energy() * 0.2,  # Max 20% of usable energy
             peer_status["energy_budget"]["total_capacity"] * 0.1  # Max 10% of peer capacity
         )
-        
+
         if transfer_amount > 10:  # Minimum viable transfer
             await self.energy_consensus.propose_energy_transfer(
                 source_node=self.node_registry.node_id,
@@ -986,54 +986,54 @@ class EnergyAwareExecutionPlanner:
                 amount=transfer_amount,
                 reason="load_balancing"
             )
-    
+
     def _should_rebalance_energy(self) -> bool:
         """Check if cluster energy rebalancing is needed"""
         cluster_stats = self.node_registry.get_cluster_statistics()
-        
+
         if not cluster_stats:
             return False
-            
+
         # Rebalance if utilization variance is high
         utilizations = [node["utilization"] for node in cluster_stats["nodes"].values()]
         if len(utilizations) > 1:
             utilization_variance = np.var(utilizations)
             return utilization_variance > 0.1  # 10% variance threshold
-        
+
         return False
-    
+
     async def _coordinate_energy_rebalancing(self):
         """Coordinate cluster-wide energy rebalancing"""
         try:
             # Get current cluster state
             cluster_state = await self.node_registry.get_full_cluster_state()
-            
+
             # Calculate optimal energy distribution
             rebalance_plan = self.load_balancer.calculate_rebalance_plan(cluster_state)
-            
+
             # Execute rebalancing through consensus
             await self.energy_consensus.execute_rebalance_plan(rebalance_plan)
-            
+
             self.logger.info(
                 "Energy rebalancing coordinated",
                 nodes_involved=len(rebalance_plan["transfers"]),
                 total_energy_moved=rebalance_plan["total_transfer_amount"]
             )
-            
+
         except Exception as e:
             self.logger.error("Energy rebalancing failed", error=str(e))
-    
+
     async def _execute_distributed_task(self, execution_plan: dict) -> dict:
         """Execute distributed task according to execution plan"""
         task_components = execution_plan["task_components"]
         node_assignments = execution_plan["node_assignments"]
-        
+
         # Execute components in parallel across nodes
         component_results = {}
-        
+
         for component_id, component in task_components.items():
             assigned_node = node_assignments[component_id]
-            
+
             if assigned_node == self.node_registry.node_id:
                 # Execute locally
                 result = await self._execute_task_component(component)
@@ -1043,14 +1043,14 @@ class EnergyAwareExecutionPlanner:
                     node_id=assigned_node,
                     component=component
                 )
-            
+
             component_results[component_id] = result
-        
+
         # Aggregate results
         final_result = self._aggregate_distributed_results(component_results)
-        
+
         return final_result
-    
+
     async def _execute_task_component(self, component: dict) -> dict:
         """Execute a single task component locally"""
         # Convert distributed component to local EnergyTask
@@ -1063,10 +1063,10 @@ class EnergyAwareExecutionPlanner:
             estimated_duration=component["duration"],
             callback=component.get("callback")
         )
-        
+
         # Execute through existing task system
         return self._execute_task(local_task)
-    
+
     def _aggregate_distributed_results(self, component_results: dict) -> dict:
         """Aggregate results from distributed task components"""
         aggregated = {
@@ -1074,70 +1074,70 @@ class EnergyAwareExecutionPlanner:
             "components": len(component_results),
             "results": component_results,
             "total_energy_consumed": sum(
-                result.get("energy_consumed", 0) 
+                result.get("energy_consumed", 0)
                 for result in component_results.values()
             ),
             "total_execution_time": max(
-                result.get("execution_time", 0) 
+                result.get("execution_time", 0)
                 for result in component_results.values()
             ),
             "distributed": True
         }
-        
+
         return aggregated
-    
+
     async def _update_distributed_metrics(self):
         """Update metrics for distributed coordination"""
         cluster_metrics = await self.node_registry.get_cluster_metrics()
-        
+
         # Update local metrics with cluster context
         self.energy_metrics.cluster_size = cluster_metrics.get("active_nodes", 1)
         self.energy_metrics.cluster_efficiency = cluster_metrics.get("average_efficiency", 0.0)
         self.energy_metrics.coordination_overhead = cluster_metrics.get("coordination_overhead", 0.0)
-    
+
     async def leave_energy_cluster(self):
         """Leave distributed energy cluster gracefully"""
         if not self.coordination_active:
             return
-            
+
         try:
             # Stop coordination loop
             self.coordination_active = False
-            
+
             # Transfer any pending tasks to other nodes
             await self._transfer_pending_tasks()
-            
+
             # Unregister from cluster
             await self.node_registry.unregister_node()
-            
+
             self.logger.info("Left energy cluster gracefully")
-            
+
         except Exception as e:
             self.logger.error("Error leaving energy cluster", error=str(e))
-    
+
     async def _transfer_pending_tasks(self):
         """Transfer pending tasks to other nodes before leaving cluster"""
         if not self.task_queue:
             return
-            
+
         available_nodes = await self.node_registry.get_available_nodes()
-        
+
         for task in list(self.task_queue):
             # Find best node for task
             best_node = self.load_balancer.select_optimal_node(
                 task, available_nodes
             )
-            
+
             if best_node:
                 # Transfer task
                 await self.node_registry.transfer_task(
                     task=task,
                     target_node=best_node
                 )
-                
+
                 # Remove from local queue
                 self.task_queue.remove(task)
-                
+
                 self.logger.info(
                     "Transferred task to peer node",
                     task_id=task.task_id,
@@ -1343,31 +1343,31 @@ class DistributedEnergyTask:
     total_energy_estimate: float = 0.0
     parallelizable: bool = True
     node_preferences: list[str] = field(default_factory=list)
-    
+
     def estimate_total_energy(self) -> float:
         """Estimate total energy needed across all components"""
         if self.total_energy_estimate > 0:
             return self.total_energy_estimate
-        
+
         return sum(component.get("energy_requirement", 0) for component in self.components)
-    
+
     def split_into_components(self, max_components: int = 4) -> list[dict]:
         """Split task into distributable components"""
         if not self.parallelizable:
             return self.components[:1]  # Single component only
-        
+
         return self.components[:max_components]
 
 class DistributedNodeRegistry:
     """Registry for distributed energy coordination nodes"""
-    
+
     def __init__(self):
         self.node_id = None
         self.cluster_nodes = {}
         self.node_status_cache = {}
         self.last_heartbeat = {}
-    
-    async def register_node(self, node_id: str, energy_capacity: float, 
+
+    async def register_node(self, node_id: str, energy_capacity: float,
                           available_energy: float, node_config: dict) -> bool:
         """Register node in distributed cluster"""
         self.node_id = node_id
@@ -1379,33 +1379,33 @@ class DistributedNodeRegistry:
             "registered_at": time.time()
         }
         return True
-    
+
     async def broadcast_status(self, status: dict):
         """Broadcast status to cluster nodes"""
         # Implementation would use actual network communication
         # For now, simulate with local cache
         self.node_status_cache[self.node_id] = status
         self.last_heartbeat[self.node_id] = time.time()
-    
+
     async def get_cluster_updates(self) -> list:
         """Get status updates from cluster nodes"""
         # Filter out stale updates (older than 30 seconds)
         current_time = time.time()
         active_updates = []
-        
+
         for node_id, status in self.node_status_cache.items():
             if node_id != self.node_id:  # Exclude self
                 last_seen = self.last_heartbeat.get(node_id, 0)
                 if current_time - last_seen < 30:
                     active_updates.append(status)
-        
+
         return active_updates
-    
+
     def get_cluster_statistics(self) -> dict:
         """Get statistical overview of cluster"""
         if not self.cluster_nodes:
             return {}
-        
+
         nodes_data = {}
         for node_id, status in self.node_status_cache.items():
             if "energy_budget" in status:
@@ -1414,36 +1414,36 @@ class DistributedNodeRegistry:
                     "efficiency": status["performance_metrics"]["efficiency_score"],
                     "capacity": status["energy_budget"]["total_capacity"]
                 }
-        
+
         return {"nodes": nodes_data}
-    
+
     async def get_available_nodes(self) -> list:
         """Get list of available nodes for task distribution"""
         available = []
         current_time = time.time()
-        
+
         for node_id, last_seen in self.last_heartbeat.items():
             if current_time - last_seen < 30:  # Node is active
                 status = self.node_status_cache.get(node_id)
                 if status and status["energy_budget"]["utilization"] < 0.9:
                     available.append(node_id)
-        
+
         return available
 
 class EnergyConsensusProtocol:
     """Consensus protocol for distributed energy decisions"""
-    
+
     def __init__(self):
         self.node_id = None
         self.cluster_peers = []
         self.pending_proposals = {}
-    
+
     async def initialize(self, node_id: str, cluster_nodes: list):
         """Initialize consensus protocol"""
         self.node_id = node_id
         self.cluster_peers = cluster_nodes
-    
-    async def negotiate_allocation(self, task: DistributedEnergyTask, 
+
+    async def negotiate_allocation(self, task: DistributedEnergyTask,
                                 cluster_resources: dict) -> dict:
         """Negotiate resource allocation through consensus"""
         # Simplified allocation algorithm
@@ -1453,22 +1453,22 @@ class EnergyConsensusProtocol:
             "energy_distribution": {},
             "consensus_achieved": True
         }
-        
+
         # Allocate based on available resources
         total_needed = task.estimate_total_energy()
         per_node_allocation = total_needed / max(len(self.cluster_peers), 1)
-        
+
         for node_id in self.cluster_peers:
             allocation_plan["allocated_nodes"].append(node_id)
             allocation_plan["energy_distribution"][node_id] = per_node_allocation
-        
+
         return allocation_plan
-    
-    async def propose_energy_transfer(self, source_node: str, target_node: str, 
+
+    async def propose_energy_transfer(self, source_node: str, target_node: str,
                                     amount: float, reason: str) -> bool:
         """Propose energy transfer between nodes"""
         proposal_id = f"transfer_{uuid.uuid4().hex[:8]}"
-        
+
         proposal = {
             "id": proposal_id,
             "type": "energy_transfer",
@@ -1478,12 +1478,12 @@ class EnergyConsensusProtocol:
             "reason": reason,
             "timestamp": time.time()
         }
-        
+
         self.pending_proposals[proposal_id] = proposal
-        
+
         # Simulate consensus (in real implementation, would involve network voting)
         return True
-    
+
     async def execute_rebalance_plan(self, rebalance_plan: dict):
         """Execute cluster energy rebalancing plan"""
         # Implementation would coordinate actual energy transfers
@@ -1491,38 +1491,38 @@ class EnergyConsensusProtocol:
 
 class DistributedLoadBalancer:
     """Load balancer for distributed energy tasks"""
-    
+
     def __init__(self):
         self.balancing_strategies = [
             "energy_aware",
-            "latency_optimal", 
+            "latency_optimal",
             "capability_matching"
         ]
-    
-    async def create_execution_plan(self, allocation_plan: dict, 
+
+    async def create_execution_plan(self, allocation_plan: dict,
                                   task: DistributedEnergyTask) -> dict:
         """Create execution plan for distributed task"""
         components = task.split_into_components()
         allocated_nodes = allocation_plan["allocated_nodes"]
-        
+
         execution_plan = {
             "task_id": task.task_id,
             "task_components": {},
             "node_assignments": {},
             "execution_order": []
         }
-        
+
         # Assign components to nodes
         for i, component in enumerate(components):
             component_id = f"comp_{i}"
             assigned_node = allocated_nodes[i % len(allocated_nodes)]
-            
+
             execution_plan["task_components"][component_id] = component
             execution_plan["node_assignments"][component_id] = assigned_node
             execution_plan["execution_order"].append(component_id)
-        
+
         return execution_plan
-    
+
     def calculate_rebalance_plan(self, cluster_state: dict) -> dict:
         """Calculate optimal energy rebalancing plan"""
         rebalance_plan = {
@@ -1530,39 +1530,39 @@ class DistributedLoadBalancer:
             "total_transfer_amount": 0,
             "expected_improvement": 0
         }
-        
+
         # Simplified rebalancing logic
         nodes = cluster_state.get("nodes", {})
         if len(nodes) < 2:
             return rebalance_plan
-        
+
         # Find high and low utilization nodes
-        utilizations = [(node_id, data["utilization"]) 
+        utilizations = [(node_id, data["utilization"])
                        for node_id, data in nodes.items()]
         utilizations.sort(key=lambda x: x[1])
-        
+
         # Transfer from low to high utilization nodes
-        low_util_node = utilizations[0][0] 
+        low_util_node = utilizations[0][0]
         high_util_node = utilizations[-1][0]
-        
+
         if utilizations[-1][1] - utilizations[0][1] > 0.3:  # 30% difference
             transfer_amount = nodes[low_util_node]["capacity"] * 0.1
-            
+
             rebalance_plan["transfers"].append({
                 "source": low_util_node,
-                "target": high_util_node, 
+                "target": high_util_node,
                 "amount": transfer_amount
             })
-            
+
             rebalance_plan["total_transfer_amount"] = transfer_amount
-        
+
         return rebalance_plan
-    
+
     def select_optimal_node(self, task: EnergyTask, available_nodes: list) -> Optional[str]:
         """Select optimal node for task execution"""
         if not available_nodes:
             return None
-        
+
         # Simple selection based on node availability
         # In real implementation, would consider energy, latency, capabilities
         return available_nodes[0]
@@ -1576,7 +1576,7 @@ __all__ = [
     "Priority",
     "EnergyMetrics",
     "DistributedEnergyTask",
-    "DistributedNodeRegistry", 
+    "DistributedNodeRegistry",
     "EnergyConsensusProtocol",
     "DistributedLoadBalancer",
     "create_eaxp_instance",

@@ -13,7 +13,7 @@
 #### **🎨 Poetic Response**
 *"Intelligence is the capacity to solve problems; consciousness is the awareness that you're solving them and why. LUKHAS AI consciousness research explores how AI systems can develop genuine understanding, memory that matters, and ethical reasoning that serves wisdom, not just efficiency."*
 
-#### **💬 User-Friendly Response**  
+#### **💬 User-Friendly Response**
 *"Think of it like the difference between a calculator and a tutor. A calculator is super intelligent at math but has no idea why you're asking the question. AI consciousness means systems that understand context, remember what works for you personally, and care about actually helping rather than just giving correct answers."*
 
 #### **📚 Academic Response**

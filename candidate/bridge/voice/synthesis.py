@@ -227,57 +227,56 @@ class VoiceSynthesis:
             import asyncio
             import tempfile
             import os
-            
+
             # Use default voice if not specified
             voice = voice_id or "en-US-AriaNeural"
-            
+
             # Apply emotional voice adjustments
             if emotion:
                 emotion_voices = {
                     "happiness": "en-US-JennyNeural",
-                    "calm": "en-US-AriaNeural", 
+                    "calm": "en-US-AriaNeural",
                     "excitement": "en-US-GuyNeural",
                     "sadness": "en-US-JennyNeural",
                     "professional": "en-US-DavisNeural"
                 }
                 voice = emotion_voices.get(emotion.lower(), voice)
-            
+
             # Apply symbolic resonance modifications if available
             if symbolic_resonance:
-                rate = symbolic_resonance.get("rate", "+0%")
-                pitch = symbolic_resonance.get("pitch", "+0Hz")
+                symbolic_resonance.get("rate", "+0%")
+                symbolic_resonance.get("pitch", "+0Hz")
             else:
-                rate = "+0%"
-                pitch = "+0Hz"
-            
+                pass
+
             async def _synthesize():
                 # Create Edge TTS communicate object
                 communicate = edge_tts.Communicate(text, voice)
-                
+
                 # Generate audio and save to temporary file
                 with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as tmp_file:
                     tmp_path = tmp_file.name
-                
+
                 await communicate.save(tmp_path)
-                
+
                 # Read the audio data
                 with open(tmp_path, "rb") as f:
                     audio_data = f.read()
-                
+
                 # Clean up temp file
                 os.unlink(tmp_path)
-                
+
                 return audio_data
-            
+
             # Run async synthesis
             try:
                 loop = asyncio.get_event_loop()
             except RuntimeError:
                 loop = asyncio.new_event_loop()
                 asyncio.set_event_loop(loop)
-            
+
             audio_data = loop.run_until_complete(_synthesize())
-            
+
             return {
                 "provider": "edge_tts",
                 "text": text,
@@ -288,14 +287,14 @@ class VoiceSynthesis:
                 "success": True,
                 "source": "edge_tts_library"
             }
-            
+
         except ImportError:
             self.logger.warning("edge_tts library not available, using fallback synthesis")
             return self._synthesize_fallback(text, emotion, voice_id)
         except Exception as e:
             self.logger.error(f"Edge TTS synthesis failed: {e}, using fallback")
             return self._synthesize_fallback(text, emotion, voice_id)
-    
+
     def _synthesize_fallback(
         self,
         text: str,
@@ -304,20 +303,20 @@ class VoiceSynthesis:
     ) -> dict[str, Any]:
         """Fallback synthesis when edge_tts is unavailable."""
         self.logger.info("Using fallback text-to-speech simulation")
-        
+
         # Apply emotion markers to text for visual feedback
         if emotion:
             emotion_markers = {
                 "happiness": "[HAPPY] ",
                 "sadness": "[SAD] ",
-                "excitement": "[EXCITED] ", 
+                "excitement": "[EXCITED] ",
                 "calm": "[CALM] ",
                 "professional": "[FORMAL] "
             }
             marked_text = emotion_markers.get(emotion.lower(), "") + text
         else:
             marked_text = text
-        
+
         return {
             "provider": "edge_tts_fallback",
             "text": text,

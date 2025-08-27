@@ -10,7 +10,6 @@ This module consolidates all memory-related components:
 - Colony systems
 """
 
-from typing import Optional
 
 # Version info
 __version__ = "2.0.0"

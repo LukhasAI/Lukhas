@@ -1,8 +1,8 @@
 # 🔧 JULES AGENT IMPORT FIX TASK ASSIGNMENTS
 **Specific Task Distribution for Import Path Resolution**
 
-*Generated: August 26, 2025*  
-*Agents Required: 3 Jules Agents*  
+*Generated: August 26, 2025*
+*Agents Required: 3 Jules Agents*
 *Estimated Completion: 4-6 hours*
 
 ---
@@ -30,9 +30,9 @@
 
 1. **Anthropic Wrapper Promotion** *(Priority: Critical)*
    - **Issue**: Missing `lukhas/bridge/anthropic_wrapper.py`
-   - **Source**: `candidate/bridge/anthropic_wrapper.py` 
+   - **Source**: `candidate/bridge/anthropic_wrapper.py`
    - **Action**: Promote to lukhas/ after validation
-   - **Requirements**: 
+   - **Requirements**:
      - Ensure 85%+ test coverage
      - Validate all imports work correctly
      - Run full integration test suite
@@ -41,7 +41,7 @@
 2. **Guardian System Import Resolution** *(Priority: High)*
    - **Issue**: `from lukhas.governance.guardian import GuardianSystem`
    - **Files Affected**: Multiple core modules
-   - **Action**: 
+   - **Action**:
      - Verify Guardian System location and correct import paths
      - Check if promotion from candidate/ needed
      - Ensure consistent import patterns across codebase
@@ -200,6 +200,6 @@
 
 ---
 
-*Task assignments ready for Jules agent execution*  
-*Framework: Trinity (⚛️🧠🛡️) Compliant*  
+*Task assignments ready for Jules agent execution*
+*Framework: Trinity (⚛️🧠🛡️) Compliant*
 *Quality Gate: 85%+ Test Coverage Required*

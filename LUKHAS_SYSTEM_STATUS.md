@@ -1,8 +1,8 @@
-# LUKHAS System Status — Reality (SHA: 28c52af3)
-Generated: Wed Aug 27 15:01:58 BST 2025
-Artifacts: verification_artifacts/28c52af3/
+# LUKHAS System Status — Reality (SHA: 121589b7)
+Generated: Wed Aug 27 16:03:16 BST 2025
+Artifacts: verification_artifacts/121589b7/
 
 ## Recent Changes
-- ✅ feat: Enhance LUKHAS AI podcast documentation with verified technical data
+- ✅ docs(audit): dead code triage (non-destructive)
 
 ## System Status: OPERATIONAL

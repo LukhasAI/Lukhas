@@ -224,7 +224,7 @@ class TestWebScrapingSafety:
     async def test_domain_whitelist_enforcement(self, safe_web_scraper):
         """Test domain whitelist prevents unauthorized scraping"""
         # Allowed domain should work
-        allowed_result = await safe_web_scraper.fetch_url("https://example.com")
+        await safe_web_scraper.fetch_url("https://example.com")
         # May fail due to network, but shouldn't be blocked for domain reasons
 
         # Blocked domain should be rejected

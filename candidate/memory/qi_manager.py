@@ -152,7 +152,7 @@ class EnhancedMemoryManager:
             self.logger = logger.bind(manager_id=self.manager_id)
         else:
             self.logger = logger
-        
+
         self.logger.info(f"Initializing EnhancedMemoryManager: {self.manager_id}")
 
         # ΛSEED: Default configurations for memory fold and visualization.

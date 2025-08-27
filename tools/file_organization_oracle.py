@@ -309,10 +309,10 @@ Examples of consciousness-driven organization:
 
   # Preview organization without changes
   python file_organization_oracle.py /path/to/workspace --dry-run
-  
-  # Perform actual file organization  
+
+  # Perform actual file organization
   python file_organization_oracle.py /path/to/workspace
-  
+
   # Organize current directory
   python file_organization_oracle.py .
 

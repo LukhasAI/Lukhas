@@ -159,18 +159,18 @@ class GuardianSystemImpl:
         # Check for semantic synonyms (simple approach)
         synonyms = {
             'function': ['purpose', 'role', 'job'],
-            'primary': ['main', 'chief', 'principal'], 
+            'primary': ['main', 'chief', 'principal'],
             'assist': ['help', 'support', 'aid'],
             'users': ['people', 'individuals', 'customers']
         }
-        
+
         # Boost similarity for known synonyms
         for baseline_word in baseline_words:
             if baseline_word in synonyms:
                 for synonym in synonyms[baseline_word]:
                     if synonym in current_words:
                         jaccard_sim += 0.1  # Bonus for synonyms
-        
+
         jaccard_sim = min(jaccard_sim, 1.0)  # Cap at 1.0
 
         # Length difference penalty (reduced)

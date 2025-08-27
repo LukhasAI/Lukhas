@@ -1,6 +1,6 @@
 # 🧠 MATRIZ System Readiness Documentation
 
-**Status**: Candidate → Production promotion candidate  
+**Status**: Candidate → Production promotion candidate
 **Coverage**: Interface contracts, invariants, and integration protocols
 
 ## MATRIZ Overview
@@ -12,7 +12,7 @@
 ```mermaid
 graph LR
     M[Memory] --> A[Attention]
-    A --> T[Thought] 
+    A --> T[Thought]
     T --> AC[Action]
     AC --> D[Decision]
     D --> AW[Awareness]
@@ -26,7 +26,7 @@ graph LR
 # Primary interface contract
 class MatrizNode:
     id: str              # Unique node identifier
-    type: NodeType       # MEMORY|ATTENTION|THOUGHT|ACTION|DECISION|AWARENESS  
+    type: NodeType       # MEMORY|ATTENTION|THOUGHT|ACTION|DECISION|AWARENESS
     data: Dict[str, Any] # Node payload
     connections: List[str] # Connected node IDs
     timestamp: float     # Creation timestamp
@@ -40,7 +40,7 @@ def process_matriz_event(event: Dict) -> MatrizResult:
     """
     INVARIANTS:
     - All events must have valid node_type and data
-    - Memory nodes preserve causal chains  
+    - Memory nodes preserve causal chains
     - Attention nodes maintain focus metrics
     - Processing latency < 250ms p95
     """
@@ -55,7 +55,7 @@ def process_matriz_event(event: Dict) -> MatrizResult:
 - **Persistence**: All critical decisions persisted with causal chains
 - **Retrieval**: <100ms average for working memory access
 
-### Attention Mechanisms  
+### Attention Mechanisms
 - **Focus Tracking**: Continuous attention weight calculation
 - **Context Switching**: <50ms transition between focus areas
 - **Salience Mapping**: Real-time importance ranking
@@ -77,7 +77,7 @@ def emit_matriz_event(event_type: str, data: Dict) -> GlyphToken:
     pass
 ```
 
-### Guardian System Integration  
+### Guardian System Integration
 ```python
 # All MATRIZ operations validated by Guardian
 def validate_matriz_operation(operation: MatrizOperation) -> GuardianResult:
@@ -89,7 +89,7 @@ def validate_matriz_operation(operation: MatrizOperation) -> GuardianResult:
 ```python
 # MATRIZ coordinates with fold-based memory
 def store_matriz_state(node: MatrizNode) -> MemoryFold:
-    """Persist MATRIZ processing state in memory folds"""  
+    """Persist MATRIZ processing state in memory folds"""
     pass
 ```
 
@@ -102,7 +102,7 @@ def store_matriz_state(node: MatrizNode) -> MemoryFold:
 - [x] Guardian validation hooks
 - [x] Memory fold coordination
 
-### 🔄 In Progress  
+### 🔄 In Progress
 - [ ] Performance optimization (latency targets)
 - [ ] Advanced reasoning algorithms
 - [ ] Meta-cognitive capabilities
@@ -126,7 +126,7 @@ def store_matriz_state(node: MatrizNode) -> MemoryFold:
 ### Integration Tests
 - GLYPH event emission/handling
 - Guardian system validation
-- Memory fold coordination  
+- Memory fold coordination
 - Cross-module communication
 
 ### Performance Tests
@@ -138,7 +138,7 @@ def store_matriz_state(node: MatrizNode) -> MemoryFold:
 ## Production Readiness Criteria
 
 1. **Test Coverage**: ≥90% for all MATRIZ components
-2. **Performance**: All latency targets met consistently  
+2. **Performance**: All latency targets met consistently
 3. **Integration**: Clean interfaces with all dependent systems
 4. **Security**: Guardian validation for all operations
 5. **Documentation**: Complete API and integration docs

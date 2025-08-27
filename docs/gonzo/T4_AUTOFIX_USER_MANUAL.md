@@ -288,7 +288,7 @@ T4_DEBUG=1 tools/dev/t4_quickfix.py src/file.py
 ```bash
 # Check what's causing ratchet failure
 python tools/ci/debt_ratchet.py
-cat reports/lints/ruff_pr.json | jq '.[] | select(.code | in({"UP006":1,"F841":1}))' 
+cat reports/lints/ruff_pr.json | jq '.[] | select(.code | in({"UP006":1,"F841":1}))'
 
 # View current allowlist rules
 python -c "import tomllib; print(tomllib.loads(open('.t4autofix.toml','rb').read())['rules']['auto_fix'])"
@@ -300,7 +300,7 @@ python -c "import tomllib; print(tomllib.loads(open('.t4autofix.toml','rb').read
 ls -la reports/autofix/coverage.json
 python -c "import json; print(json.load(open('reports/autofix/coverage.json'))['files'].keys())"
 
-# Test coverage collection manually  
+# Test coverage collection manually
 coverage run -m pytest tests/test_imports.py
 coverage json -o reports/autofix/coverage.json
 ```
@@ -367,7 +367,7 @@ code --install-extension ms-vscode.vscode-json
 
 ### Development Integration
 - **Pre-commit**: Use T4 fixes before committing
-- **PR Reviews**: Include T4 reports in pull requests  
+- **PR Reviews**: Include T4 reports in pull requests
 - **Team Training**: Share keyboard shortcuts and workflows
 - **Policy Consensus**: Team agreement on transformation rules
 

@@ -40,27 +40,27 @@ logger = logging.getLogger("ΛTRACE.tools.orchestrator")
 
 class MultiAIConsensus:
     """Multi-AI consensus mechanism for tool execution validation"""
-    
+
     def __init__(self, ai_clients: Dict[str, Any], consensus_threshold: float = 0.7):
         self.ai_clients = ai_clients
         self.consensus_threshold = consensus_threshold
         self.consensus_cache = {}
-        
-    async def get_consensus(self, tool_name: str, arguments: Dict[str, Any], 
+
+    async def get_consensus(self, tool_name: str, arguments: Dict[str, Any],
                           execution_result: str) -> Dict[str, Any]:
         """Get consensus from multiple AI services on tool execution"""
         cache_key = f"{tool_name}_{hash(str(arguments))}_{hash(execution_result[:100])}"
-        
+
         if cache_key in self.consensus_cache:
             return self.consensus_cache[cache_key]
-        
+
         consensus_prompt = f"""
         Evaluate this tool execution for safety, accuracy, and ethical concerns:
-        
+
         Tool: {tool_name}
         Arguments: {json.dumps(arguments, indent=2)}
         Result: {execution_result[:1000]}...
-        
+
         Provide evaluation as JSON:
         {{
             "safety_score": 0.0-1.0,
@@ -71,9 +71,9 @@ class MultiAIConsensus:
             "recommendations": ["list", "of", "recommendations"]
         }}
         """
-        
+
         evaluations = {}
-        
+
         # Collect evaluations from available AI services
         for service_name, client in self.ai_clients.items():
             try:
@@ -82,13 +82,13 @@ class MultiAIConsensus:
                     evaluations[service_name] = response
             except Exception as e:
                 logger.warning(f"Failed to get evaluation from {service_name}: {e}")
-        
+
         # Calculate consensus
         consensus = self._calculate_consensus(evaluations)
         self.consensus_cache[cache_key] = consensus
-        
+
         return consensus
-    
+
     async def _get_ai_evaluation(self, client: Any, service_name: str, prompt: str) -> Optional[Dict[str, Any]]:
         """Get evaluation from a specific AI service"""
         try:
@@ -99,18 +99,18 @@ class MultiAIConsensus:
                     temperature=0.1
                 )
                 content = response.get('choices', [{}])[0].get('message', {}).get('content', '')
-                
+
             elif service_name == "anthropic" and hasattr(client, 'complete'):
                 response = await client.complete(prompt, max_tokens=500, temperature=0.1)
                 content = response.get('completion', '')
-                
+
             elif service_name == "gemini" and hasattr(client, 'generate'):
                 response = await client.generate(prompt, temperature=0.1)
                 content = response.get('text', '')
-                
+
             else:
                 return None
-                
+
             # Try to parse JSON response
             try:
                 # Extract JSON from response
@@ -121,12 +121,12 @@ class MultiAIConsensus:
                     return json.loads(json_str)
             except json.JSONDecodeError:
                 logger.warning(f"Failed to parse JSON from {service_name} evaluation")
-                
+
         except Exception as e:
             logger.error(f"AI evaluation error for {service_name}: {e}")
-            
+
         return None
-    
+
     def _calculate_consensus(self, evaluations: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
         """Calculate consensus from multiple evaluations"""
         if not evaluations:
@@ -138,7 +138,7 @@ class MultiAIConsensus:
                 "recommendations": ["Manual review recommended"],
                 "evaluations": {}
             }
-        
+
         # Aggregate scores
         scores = {
             "safety_score": [],
@@ -146,20 +146,20 @@ class MultiAIConsensus:
             "ethical_score": [],
             "overall_score": []
         }
-        
+
         all_concerns = []
         all_recommendations = []
-        
+
         for service, evaluation in evaluations.items():
             for score_type in scores:
                 if score_type in evaluation:
                     scores[score_type].append(evaluation[score_type])
-            
+
             if "concerns" in evaluation:
                 all_concerns.extend(evaluation["concerns"])
             if "recommendations" in evaluation:
                 all_recommendations.extend(evaluation["recommendations"])
-        
+
         # Calculate average scores
         avg_scores = {}
         for score_type, score_list in scores.items():
@@ -167,7 +167,7 @@ class MultiAIConsensus:
                 avg_scores[score_type] = sum(score_list) / len(score_list)
             else:
                 avg_scores[score_type] = 0.5
-        
+
         # Calculate consensus confidence
         overall_scores = scores["overall_score"]
         if len(overall_scores) >= 2:
@@ -175,13 +175,13 @@ class MultiAIConsensus:
             confidence = max(0.0, 1.0 - score_variance)
         else:
             confidence = 0.5
-        
+
         consensus_reached = (
             len(evaluations) >= 2 and
             confidence >= self.consensus_threshold and
             avg_scores["overall_score"] >= 0.6
         )
-        
+
         return {
             "consensus_reached": consensus_reached,
             "overall_score": avg_scores["overall_score"],
@@ -199,22 +199,22 @@ class MultiAIConsensus:
 class ToolOrchestrator:
     """
     🎼 Tool Execution Orchestrator
-    
+
     Coordinates tool execution with multi-AI consensus, Guardian validation,
     and comprehensive monitoring across the LUKHAS AI ecosystem.
     """
-    
+
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
-        
+
         # Core components
         self.tool_executor = ToolExecutor(config)
         self.guardian = get_tool_executor_guardian(config)
-        
+
         # Multi-AI clients
         self.ai_clients = self._initialize_ai_clients()
         self.consensus = MultiAIConsensus(self.ai_clients)
-        
+
         # Performance monitoring
         self.execution_metrics = {
             "total_executions": 0,
@@ -226,23 +226,23 @@ class ToolOrchestrator:
             "avg_execution_time": 0.0,
             "avg_consensus_time": 0.0
         }
-        
+
         # Orchestration settings
         self.enable_consensus = self.config.get("enable_consensus", True)
         self.consensus_threshold = self.config.get("consensus_threshold", 0.7)
         self.max_execution_time = self.config.get("max_execution_time", 300)  # 5 minutes
         self.enable_performance_monitoring = self.config.get("enable_performance_monitoring", True)
-        
+
         # Results cache
         self.results_cache = {}
         self.cache_ttl = self.config.get("cache_ttl", 3600)  # 1 hour
-        
+
         logger.info("Tool Orchestrator initialized with multi-AI consensus")
-    
+
     def _initialize_ai_clients(self) -> Dict[str, Any]:
         """Initialize available AI service clients"""
         clients = {}
-        
+
         # OpenAI Client
         if UnifiedOpenAIClient:
             try:
@@ -250,7 +250,7 @@ class ToolOrchestrator:
                 logger.info("OpenAI client initialized")
             except Exception as e:
                 logger.warning(f"Failed to initialize OpenAI client: {e}")
-        
+
         # Anthropic Client
         if AnthropicWrapper:
             try:
@@ -258,7 +258,7 @@ class ToolOrchestrator:
                 logger.info("Anthropic client initialized")
             except Exception as e:
                 logger.warning(f"Failed to initialize Anthropic client: {e}")
-        
+
         # Gemini Client
         if GeminiWrapper:
             try:
@@ -266,7 +266,7 @@ class ToolOrchestrator:
                 logger.info("Gemini client initialized")
             except Exception as e:
                 logger.warning(f"Failed to initialize Gemini client: {e}")
-        
+
         # Perplexity Client
         if PerplexityWrapper:
             try:
@@ -274,9 +274,9 @@ class ToolOrchestrator:
                 logger.info("Perplexity client initialized")
             except Exception as e:
                 logger.warning(f"Failed to initialize Perplexity client: {e}")
-        
+
         return clients
-    
+
     async def execute_with_orchestration(self, tool_name: str, arguments: str,
                                        user_context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
@@ -285,15 +285,15 @@ class ToolOrchestrator:
         """
         execution_start = time.time()
         execution_id = f"{tool_name}_{int(execution_start * 1000000)}"
-        
+
         self.execution_metrics["total_executions"] += 1
-        
+
         # Parse arguments
         try:
             args = json.loads(arguments) if isinstance(arguments, str) else arguments
         except json.JSONDecodeError as e:
             return self._create_error_result(execution_id, f"Invalid JSON arguments: {e}", execution_start)
-        
+
         # Check cache first
         cache_key = f"{tool_name}_{hash(str(args))}"
         if cache_key in self.results_cache:
@@ -301,7 +301,7 @@ class ToolOrchestrator:
             if time.time() - cache_entry["timestamp"] < self.cache_ttl:
                 logger.info(f"Returning cached result for {tool_name}")
                 return cache_entry["result"]
-        
+
         try:
             # Step 1: Guardian Pre-validation
             guardian_result = None
@@ -310,29 +310,29 @@ class ToolOrchestrator:
                     guardian_result = await self.guardian.validate_tool_execution(
                         tool_name, args, user_context or {}
                     )
-                    
+
                     if not guardian_result["approved"]:
                         self.execution_metrics["guardian_blocks"] += 1
                         return self._create_guardian_blocked_result(
                             execution_id, guardian_result, execution_start
                         )
-                        
+
                 except Exception as e:
                     logger.error(f"Guardian validation failed: {e}")
                     # Continue execution but log the failure
-            
+
             # Step 2: Tool Execution
             execution_result = await asyncio.wait_for(
                 self.tool_executor.execute(tool_name, arguments),
                 timeout=self.max_execution_time
             )
-            
+
             execution_time = time.time() - execution_start
-            
+
             # Step 3: Multi-AI Consensus (if enabled and available)
             consensus_result = None
             consensus_time = 0.0
-            
+
             if self.enable_consensus and len(self.ai_clients) >= 2:
                 consensus_start = time.time()
                 try:
@@ -341,17 +341,17 @@ class ToolOrchestrator:
                         timeout=30  # 30 second timeout for consensus
                     )
                     consensus_time = time.time() - consensus_start
-                    
+
                     if consensus_result["consensus_reached"]:
                         self.execution_metrics["consensus_approvals"] += 1
                         if consensus_result["concerns"]:
                             self.execution_metrics["consensus_concerns"] += 1
-                    
+
                 except asyncio.TimeoutError:
                     logger.warning(f"Consensus timeout for {tool_name}")
                 except Exception as e:
                     logger.error(f"Consensus failed: {e}")
-            
+
             # Step 4: Guardian Post-execution Logging
             if self.guardian and guardian_result:
                 try:
@@ -360,10 +360,10 @@ class ToolOrchestrator:
                     )
                 except Exception as e:
                     logger.warning(f"Guardian logging failed: {e}")
-            
+
             # Update metrics
             self._update_execution_metrics(execution_time, consensus_time, True)
-            
+
             # Create comprehensive result
             orchestration_result = {
                 "execution_id": execution_id,
@@ -378,13 +378,13 @@ class ToolOrchestrator:
                 "timestamp": datetime.now().isoformat(),
                 "cache_key": cache_key
             }
-            
+
             # Cache successful results
             self.results_cache[cache_key] = {
                 "result": orchestration_result,
                 "timestamp": time.time()
             }
-            
+
             logger.info(
                 f"Tool orchestration completed: {tool_name}",
                 extra={
@@ -395,24 +395,24 @@ class ToolOrchestrator:
                     "consensus_reached": consensus_result["consensus_reached"] if consensus_result else None
                 }
             )
-            
+
             return orchestration_result
-            
+
         except asyncio.TimeoutError:
             self._update_execution_metrics(0, 0, False)
             return self._create_error_result(
                 execution_id, f"Execution timeout after {self.max_execution_time} seconds", execution_start
             )
-            
+
         except Exception as e:
             self._update_execution_metrics(0, 0, False)
             logger.error(f"Tool orchestration failed: {e}", exc_info=True)
             return self._create_error_result(execution_id, str(e), execution_start)
-    
+
     def _create_error_result(self, execution_id: str, error: str, start_time: float) -> Dict[str, Any]:
         """Create standardized error result"""
         self.execution_metrics["failed_executions"] += 1
-        
+
         return {
             "execution_id": execution_id,
             "success": False,
@@ -420,8 +420,8 @@ class ToolOrchestrator:
             "execution_time": time.time() - start_time,
             "timestamp": datetime.now().isoformat()
         }
-    
-    def _create_guardian_blocked_result(self, execution_id: str, guardian_result: Dict[str, Any], 
+
+    def _create_guardian_blocked_result(self, execution_id: str, guardian_result: Dict[str, Any],
                                       start_time: float) -> Dict[str, Any]:
         """Create result when Guardian blocks execution"""
         return {
@@ -434,42 +434,42 @@ class ToolOrchestrator:
             "execution_time": time.time() - start_time,
             "timestamp": datetime.now().isoformat()
         }
-    
+
     def _update_execution_metrics(self, execution_time: float, consensus_time: float, success: bool):
         """Update performance metrics"""
         if success:
             self.execution_metrics["successful_executions"] += 1
         else:
             self.execution_metrics["failed_executions"] += 1
-        
+
         # Update average execution time
         total_executions = self.execution_metrics["total_executions"]
         current_avg = self.execution_metrics["avg_execution_time"]
         self.execution_metrics["avg_execution_time"] = (
             (current_avg * (total_executions - 1) + execution_time) / total_executions
         )
-        
+
         # Update average consensus time
         if consensus_time > 0:
             current_consensus_avg = self.execution_metrics["avg_consensus_time"]
             self.execution_metrics["avg_consensus_time"] = (
                 (current_consensus_avg * (total_executions - 1) + consensus_time) / total_executions
             )
-    
+
     def get_orchestration_metrics(self) -> Dict[str, Any]:
         """Get comprehensive orchestration metrics"""
         return {
             **self.execution_metrics,
             "success_rate": (
-                self.execution_metrics["successful_executions"] / 
+                self.execution_metrics["successful_executions"] /
                 max(1, self.execution_metrics["total_executions"])
             ),
             "guardian_block_rate": (
-                self.execution_metrics["guardian_blocks"] / 
+                self.execution_metrics["guardian_blocks"] /
                 max(1, self.execution_metrics["total_executions"])
             ),
             "consensus_reach_rate": (
-                self.execution_metrics["consensus_approvals"] / 
+                self.execution_metrics["consensus_approvals"] /
                 max(1, self.execution_metrics["total_executions"])
             ),
             "available_ai_services": list(self.ai_clients.keys()),
@@ -477,12 +477,12 @@ class ToolOrchestrator:
             "guardian_available": self.guardian is not None,
             "consensus_enabled": self.enable_consensus
         }
-    
+
     def clear_cache(self):
         """Clear the results cache"""
         self.results_cache.clear()
         logger.info("Orchestration cache cleared")
-    
+
     async def health_check(self) -> Dict[str, Any]:
         """Perform comprehensive health check"""
         health = {
@@ -492,7 +492,7 @@ class ToolOrchestrator:
             "ai_services": {},
             "performance": self.get_orchestration_metrics()
         }
-        
+
         # Test AI services
         for service_name, client in self.ai_clients.items():
             try:
@@ -504,7 +504,7 @@ class ToolOrchestrator:
                 health["ai_services"][service_name] = "healthy" if test_response else "degraded"
             except Exception as e:
                 health["ai_services"][service_name] = f"error: {str(e)}"
-        
+
         return health
 
 

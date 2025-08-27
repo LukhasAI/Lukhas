@@ -77,8 +77,8 @@ function TexturedSceneContent({ manifest }: DreamSceneProps) {
       <pointLight position={[10, 10, 10]} />
       <mesh rotation={[0, 0, 0]}>
         <boxGeometry args={[3, 3, 3]} />
-        <meshStandardMaterial 
-          map={texture} 
+        <meshStandardMaterial
+          map={texture}
           color={primaryColor}
         />
       </mesh>
@@ -99,7 +99,7 @@ export function DreamScene({ manifest }: DreamSceneProps) {
 
   return (
     <div className="w-full h-[500px] bg-gray-950 rounded-lg border border-gray-700 mt-8">
-      <DreamErrorBoundary 
+      <DreamErrorBoundary
         fallback={
           <div className="flex items-center justify-center h-full">
             <div className="text-center">

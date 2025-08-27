@@ -7,7 +7,7 @@ EMOTION - vad Submodule
 """
 
 # Colony base for propagation
-from typing import Any, Dict
+from typing import Any
 
 
 class VadColony:

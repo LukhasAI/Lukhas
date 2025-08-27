@@ -30,18 +30,18 @@ echo "   2. Or close and reopen VS Code"
 # Check if we're in the correct directory
 if [[ $(pwd) == *"Lukhas_PWM"* ]]; then
     echo "✅ Current directory: $(pwd)"
-    
+
     # Activate virtual environment if available
     if [[ -f ".venv/bin/activate" ]]; then
         echo "🐍 Activating Python virtual environment..."
         source .venv/bin/activate
         echo "✅ Virtual environment activated"
     fi
-    
+
     # Check Git status
     echo "📊 Git status:"
     git status --porcelain | head -10
-    
+
 else
     echo "⚠️  Not in Lukhas_PWM directory. Navigating..."
     cd /Users/agi_dev/LOCAL-REPOS/Lukhas_PWM 2>/dev/null || {

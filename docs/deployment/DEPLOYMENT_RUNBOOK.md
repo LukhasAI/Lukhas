@@ -228,7 +228,7 @@ az containerapp ingress traffic set \
    ```bash
    # Health check
    curl -f https://lukhas.ai/health
-   
+
    # Component checks
    curl -f https://lukhas.ai/api/guardian/status
    curl -f https://lukhas.ai/api/tools/status
@@ -266,7 +266,7 @@ az containerapp ingress traffic set \
 ```bash
 # Database health check
 psql $DATABASE_URL -c "
-  SELECT 
+  SELECT
     schemaname,
     tablename,
     n_tup_ins,
@@ -280,7 +280,7 @@ psql $DATABASE_URL -c "VACUUM ANALYZE;"
 
 # Check index usage
 psql $DATABASE_URL -c "
-  SELECT 
+  SELECT
     schemaname,
     tablename,
     indexname,
@@ -304,10 +304,10 @@ psql $DATABASE_URL -c "
    ```bash
    # Check security logs
    curl https://lukhas.ai/api/security/audit | jq '.'
-   
+
    # Review Guardian decisions
    curl https://lukhas.ai/api/guardian/security-events
-   
+
    # Check tool executor blocks
    curl https://lukhas.ai/api/tools/security-violations
    ```

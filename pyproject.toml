@@ -19,7 +19,7 @@ python_functions = ["test_*"]
 addopts = "-q --disable-warnings"
 markers = [
     "unit: Unit tests",
-    "integration: Integration tests", 
+    "integration: Integration tests",
     "security: Security tests",
     "slow: Slow tests",
 ]
