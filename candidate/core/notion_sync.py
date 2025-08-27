@@ -52,7 +52,16 @@ from typing import Any, Optional
 from dotenv import load_dotenv
 
 # Core Notion and AI imports
-from notion_client import *  # TODO: Specify imports
+# Specific Notion client imports for security
+try:
+    from notion_client import Client
+    from notion_client.errors import APIResponseError, RequestTimeoutError
+except ImportError:
+    # Fallback if notion_client is not installed
+    print("⚠️ notion_client not installed. Some features will be limited.")
+    Client = None
+    APIResponseError = Exception
+    RequestTimeoutError = Exception
 
 # Security and reflection imports
 

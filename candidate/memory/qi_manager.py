@@ -81,9 +81,11 @@ except ImportError:
 
 # Configure module logger
 if structlog:
-    pass  # TODO: Implement
+    logger = structlog.get_logger(__name__)
 else:
-    logger = get_logger(__name__)
+    import logging
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
 
 # Module constants
 MODULE_VERSION = "2.0.0"
@@ -144,16 +146,19 @@ class EnhancedMemoryManager:
     """
 
     def __init__(self, base_path: Optional[str] = None):
-        self.logger = logger.bind(
-            manager_id=f"mem_mgr_{datetime.now().strftime('%H%M%S')}"
-        )
+        # Initialize logger with manager ID
+        self.manager_id = f"mem_mgr_{datetime.now().strftime('%H%M%S')}"
+        if structlog:
+            self.logger = logger.bind(manager_id=self.manager_id)
+        else:
+            self.logger = logger
+        
+        self.logger.info(f"Initializing EnhancedMemoryManager: {self.manager_id}")
 
         # ΛSEED: Default configurations for memory fold and visualization.
         self.memory_fold_config = MemoryFoldConfig()
         self.visualization_config = VisualizationConfig()
-        self.logger.debug(
-            "Default MemoryFoldConfig and VisualizationConfig initialized."
-        )
+        self.logger.debug("Default MemoryFoldConfig and VisualizationConfig initialized.")
 
         try:
             self.qi_oscillator = QIOscillator()

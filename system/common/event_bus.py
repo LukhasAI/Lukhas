@@ -196,4 +196,4 @@ async def emit_event_async(
 ):
     """Helper to emit events asynchronously"""
     event = Event(event_type=event_type, source_module=source, payload=payload)
-    await kernel_bus.emit(event)
+    await event_bus.publish(event)
