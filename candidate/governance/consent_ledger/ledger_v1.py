@@ -238,6 +238,9 @@ class ConsentLedgerV1:
         # Perform Trinity validation on startup
         if self.enable_trinity:
             self._validate_trinity_integration()
+            
+        # Initialize validation methods
+        self._init_validation_methods()
 
         logging.info("Consent Ledger v1 initialized with Trinity Framework support")
 
@@ -429,6 +432,61 @@ class ConsentLedgerV1:
             logging.info("Trinity Framework fully integrated")
 
         return validation_results
+    
+    def _init_validation_methods(self):
+        """Initialize validation helper methods"""
+        pass
+    
+    def _validate_consent_preconditions(self, lid: str, resource_type: str) -> bool:
+        """Validate preconditions for consent granting"""
+        
+        # Basic validation
+        if not lid or not resource_type:
+            return False
+            
+        # Check if user ID is valid format
+        if len(lid) < 3:
+            return False
+            
+        # Check if resource type is reasonable
+        if len(resource_type) < 1:
+            return False
+            
+        return True
+    
+    def _validate_gdpr_compliance(
+        self,
+        lawful_basis: str,
+        consent_type: ConsentType,
+        children_data: bool,
+        sensitive_data: bool,
+        automated_decision_making: bool,
+        processing_locations: Optional[list[str]]
+    ):
+        """Validate GDPR compliance requirements"""
+        
+        # Validate lawful basis
+        valid_bases = ["consent", "contract", "legal_obligation", "vital_interests", "public_task", "legitimate_interests"]
+        if lawful_basis not in valid_bases:
+            raise ValueError(f"Invalid lawful basis: {lawful_basis}")
+        
+        # Special handling for children's data (GDPR Article 8)
+        if children_data and consent_type != ConsentType.EXPLICIT:
+            raise ValueError("Children's data requires explicit consent")
+        
+        # Special handling for sensitive data (GDPR Article 9)
+        if sensitive_data and lawful_basis != "consent":
+            raise ValueError("Sensitive data processing requires explicit consent")
+        
+        # Automated decision making disclosure (GDPR Article 22)
+        if automated_decision_making and consent_type == ConsentType.IMPLIED:
+            raise ValueError("Automated decision making requires explicit disclosure")
+        
+        # Data residency validation
+        if processing_locations:
+            for location in processing_locations:
+                if not isinstance(location, str) or len(location) < 2:
+                    raise ValueError(f"Invalid processing location: {location}")
 
     def register_agent_callback(self, agent_name: str, callback: Callable):
         """Register callback for agent integration ⚛️🧠🛡️"""
@@ -934,7 +992,13 @@ class ConsentLedgerV1:
         """Cascade consent revocation to dependent services"""
         # This would trigger webhooks/events to adapters
         # Agent 3's adapters would invalidate their tokens
-        pass
+        
+        # Notify agents of consent revocation
+        self._notify_agents("consent_revoked", {
+            "consent_id": consent_id,
+            "lid": lid,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        })
 
     def check_consent(
         self, lid: str, resource_type: str, action: str, context: Optional[dict] = None

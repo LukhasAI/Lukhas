@@ -169,3 +169,4 @@ def test_exec_code_security_violation(executor):
     """Tests that dangerous patterns are blocked."""
     result = executor._exec_code({'language': 'python', 'source': 'import os; os.system("ls")'})
     assert "Security violation: pattern 'os' is not allowed" in result
+         main

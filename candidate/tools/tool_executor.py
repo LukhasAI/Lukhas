@@ -47,6 +47,7 @@ class ToolExecutor:
         )
         self.code_exec_enabled = (
             os.getenv("LUKHAS_ENABLE_CODE_EXEC", "true").lower() == "true" # Enabled for dev
+     main
         )
 
         # Queue directory for scheduled tasks
