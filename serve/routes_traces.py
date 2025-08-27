@@ -237,7 +237,7 @@ async def get_trace(
             )
             return JSONResponse(
                 status_code=404,
-                content=error_response.dict()
+                content=error_response.model_dump()
             )
         
         # Convert to enhanced response model
@@ -271,7 +271,7 @@ async def get_trace(
         )
         return JSONResponse(
             status_code=500,
-            content=error_response.dict()
+            content=error_response.model_dump()
         )
 
 

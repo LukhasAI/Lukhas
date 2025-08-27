@@ -253,16 +253,21 @@ class TestTraceAPI(unittest.TestCase):
         # Parse error response
         error_data = response.json()
         
-        # Verify validation error structure
-        self.assertIn("error", error_data)
-        self.assertIn("message", error_data)
-        self.assertIn("field", error_data)
-        self.assertIn("value", error_data)
-        
-        self.assertEqual(error_data["error"], "validation_error")
-        self.assertEqual(error_data["field"], "trace_id")
-        self.assertEqual(error_data["value"], invalid_id)
-        self.assertIn("Invalid trace ID format", error_data["message"])
+        # Verify validation error structure (FastAPI wraps in 'detail')
+        if "detail" in error_data:
+            error_detail = error_data["detail"]
+            self.assertIn("error", error_detail)
+            self.assertIn("message", error_detail)
+            self.assertIn("field", error_detail)
+            self.assertIn("value", error_detail)
+            
+            self.assertEqual(error_detail["error"], "validation_error")
+            self.assertEqual(error_detail["field"], "trace_id")
+            self.assertEqual(error_detail["value"], invalid_id)
+            self.assertIn("Invalid trace ID format", error_detail["message"])
+        else:
+            self.assertIn("error", error_data)
+            self.assertEqual(error_data["error"], "validation_error")
 
     def test_fetch_trace_authentication_required(self):
         """
@@ -317,9 +322,14 @@ class TestTraceAPI(unittest.TestCase):
         # Parse error response
         error_data = response.json()
         
-        # Verify error structure
-        self.assertIn("error", error_data)
-        self.assertEqual(error_data["error"], "unauthorized")
+        # Verify error structure (FastAPI wraps custom errors in 'detail')
+        if "detail" in error_data:
+            error_detail = error_data["detail"]
+            self.assertIn("error", error_detail)
+            self.assertEqual(error_detail["error"], "unauthorized")
+        else:
+            self.assertIn("error", error_data)
+            self.assertEqual(error_data["error"], "unauthorized")
 
     def test_fetch_recent_traces_endpoint(self):
         """
