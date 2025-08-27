@@ -8,8 +8,13 @@ jobs:
   check-autofix-label:
     runs-on: ubuntu-latest
     steps:
+      - name: Skip autofix check for Dependabot PRs
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+        run: |
+          echo "✅ Dependabot PR - skipping autofix check"
+          
       - name: Check for autofix-pending label
-        if: contains(github.event.pull_request.labels.*.name, 'autofix-pending')
+        if: github.event.pull_request.user.login != 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'autofix-pending')
         run: |
           echo "❌ PR has 'autofix-pending' label - merge blocked"
           echo "Please run local autofix first:"
@@ -18,6 +23,11 @@ jobs:
           exit 1
 
       - name: Success
-        if: "!contains(github.event.pull_request.labels.*.name, 'autofix-pending')"
+        if: github.event.pull_request.user.login != 'dependabot[bot]' && !contains(github.event.pull_request.labels.*.name, 'autofix-pending')
         run: |
           echo "✅ No autofix-pending label - merge allowed"
+          
+      - name: Success for Dependabot
+        if: github.event.pull_request.user.login == 'dependabot[bot]'
+        run: |
+          echo "✅ Dependabot PR approved - autofix not required"
