@@ -6,8 +6,6 @@
 Test LUKHAS MCP servers to ensure they're ready for Claude Desktop integration.
 """
 
-import asyncio
-import json
 import os
 import sys
 from pathlib import Path
@@ -22,18 +20,18 @@ def test_main_server():
     try:
         import importlib.util
         spec = importlib.util.spec_from_file_location(
-            "lukhas_mcp_server", 
+            "lukhas_mcp_server",
             project_root / "mcp_servers" / "lukhas_mcp_server.py"
         )
         server_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(server_module)
-        
+
         # Test knowledge base initialization
         kb = server_module.LUKHASKnowledgeBase(str(project_root))
-        print(f"   ✅ Knowledge base initialized")
+        print("   ✅ Knowledge base initialized")
         print(f"   📊 Patterns available: {len(kb.patterns)}")
         print(f"   📚 Vocabulary loaded: {len(kb.symbolic_vocabulary)}")
-        
+
         return True
     except Exception as e:
         print(f"   ❌ Error: {e}")
@@ -50,12 +48,12 @@ def test_consciousness_server():
         )
         server_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(server_module)
-        
+
         # Test server initialization
         server = server_module.LukhosConsciousnessServer(str(project_root))
-        print(f"   ✅ Consciousness server initialized")
+        print("   ✅ Consciousness server initialized")
         print(f"   🔧 Trinity status: {server.trinity_status}")
-        
+
         return True
     except Exception as e:
         print(f"   ❌ Error: {e}")
@@ -72,8 +70,8 @@ def test_identity_server():
         )
         server_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(server_module)
-        
-        print(f"   ✅ Identity server module loaded")
+
+        print("   ✅ Identity server module loaded")
         return True
     except Exception as e:
         print(f"   ❌ Error: {e}")
@@ -96,36 +94,36 @@ def main():
     """Run all MCP integration tests"""
     print("🤖 LUKHAS MCP Server Integration Test Suite")
     print("=" * 50)
-    
+
     # Set environment variables
     os.environ["LUKHAS_PROJECT_ROOT"] = str(project_root)
     os.environ["PYTHONPATH"] = str(project_root)
-    
+
     tests = [
         ("MCP SDK", test_mcp_imports),
         ("Main Server", test_main_server),
         ("Consciousness Server", test_consciousness_server),
         ("Identity Server", test_identity_server),
     ]
-    
+
     results = {}
     for test_name, test_func in tests:
         results[test_name] = test_func()
-    
+
     # Summary
     print("\n" + "=" * 50)
     print("🏆 Test Results Summary:")
     print("-" * 30)
-    
+
     total_tests = len(results)
     passed_tests = sum(results.values())
-    
+
     for test_name, result in results.items():
         status = "✅ PASS" if result else "❌ FAIL"
         print(f"   {test_name}: {status}")
-    
+
     print(f"\nOverall: {passed_tests}/{total_tests} tests passed")
-    
+
     if passed_tests == total_tests:
         print("\n🎉 All tests passed! MCP servers are ready for Claude Desktop.")
         print("\n📋 Next Steps:")

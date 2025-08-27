@@ -9,6 +9,6 @@ print(f"hasattr(AuditEvent, 'event_id'): {hasattr(AuditEvent, 'event_id')}")
 print(f"hasattr(AuditEvent, 'message'): {hasattr(AuditEvent, 'message')}")
 
 # Check AuditEvent annotations
-print(f"\n🔍 AuditEvent annotations:")
+print("\n🔍 AuditEvent annotations:")
 for field, annotation in AuditEvent.__annotations__.items():
     print(f"  {field}: {annotation}")

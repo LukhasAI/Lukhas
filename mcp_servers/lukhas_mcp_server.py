@@ -24,7 +24,7 @@ from typing import Any
 try:
     import mcp.server.stdio
     from mcp import types
-    from mcp.server import Server, NotificationOptions
+    from mcp.server import NotificationOptions, Server
     from mcp.server.models import InitializationOptions
 
     MCP_AVAILABLE = True

@@ -13,6 +13,30 @@
 *.tar.gz
 *.tar
 
+# Large HTML files (visualizations, demos)
+*.html
+!docs/**/*.html
+!**/templates/**/*.html
+!**/static/**/*.html
+!lukhas_website/**/*.html
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Large JSON/JSONL log files
+*.jsonl
+audit.jsonl
+*_log.jsonl
+*_audit.jsonl
+feedback.jsonl
+
+# Node.js package locks (auto-generated, huge files)
+package-lock.json
+yarn.lock
+
 # Model files
 *.bin
 *.pkl
@@ -47,6 +71,12 @@ htmlcov/
 *.pyd
 .Python
 *.so
+
+# Coverage files
+.coverage
+coverage.xml
+*.cover
+.hypothesis/
 
 # defensive: never commit local junk
 *.swp
@@ -240,3 +270,4 @@ security_backup_cleanup_report_*.txt
 verification_artifacts/
 
 errors.md
+pending.yaml 

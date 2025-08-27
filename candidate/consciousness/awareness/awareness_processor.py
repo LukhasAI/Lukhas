@@ -340,94 +340,94 @@ class AwarenessProcessor:
     async def _setup_awareness_monitoring(self):
         """Set up awareness state monitoring with Trinity Framework integration."""
         self.instance_logger.info("ΛTRACE: Setting up awareness monitoring system")
-        
+
         # Initialize awareness metrics tracking
         self.awareness_metrics = {
-            'consciousness_coherence': 0.0,
-            'identity_stability': 0.0,      # ⚛️ Identity tracking
-            'cognitive_load': 0.0,          # 🧠 Consciousness tracking
-            'guardian_compliance': 0.0,     # 🛡️ Guardian tracking
-            'response_latency': 0.0,
-            'error_rate': 0.0,
-            'last_updated': datetime.utcnow().isoformat()
+            "consciousness_coherence": 0.0,
+            "identity_stability": 0.0,      # ⚛️ Identity tracking
+            "cognitive_load": 0.0,          # 🧠 Consciousness tracking
+            "guardian_compliance": 0.0,     # 🛡️ Guardian tracking
+            "response_latency": 0.0,
+            "error_rate": 0.0,
+            "last_updated": datetime.utcnow().isoformat()
         }
-        
+
         # Initialize alerting thresholds
         self.monitoring_thresholds = {
-            'consciousness_coherence': {'min': 0.7, 'critical': 0.5},
-            'identity_stability': {'min': 0.8, 'critical': 0.6},
-            'cognitive_load': {'max': 0.8, 'critical': 0.9},
-            'guardian_compliance': {'min': 0.95, 'critical': 0.85},
-            'response_latency': {'max': 1000.0, 'critical': 2000.0},  # milliseconds
-            'error_rate': {'max': 5.0, 'critical': 10.0}  # percentage
+            "consciousness_coherence": {"min": 0.7, "critical": 0.5},
+            "identity_stability": {"min": 0.8, "critical": 0.6},
+            "cognitive_load": {"max": 0.8, "critical": 0.9},
+            "guardian_compliance": {"min": 0.95, "critical": 0.85},
+            "response_latency": {"max": 1000.0, "critical": 2000.0},  # milliseconds
+            "error_rate": {"max": 5.0, "critical": 10.0}  # percentage
         }
-        
+
         self.instance_logger.info("ΛTRACE: Awareness monitoring system initialized")
 
     async def _setup_consciousness_metrics(self):
         """Set up consciousness-specific metrics and monitoring."""
         self.instance_logger.info("ΛTRACE: Setting up consciousness metrics")
-        
+
         # Consciousness state tracking
         self.consciousness_state = {
-            'awareness_level': 0.0,      # 0.0 to 1.0 awareness intensity
-            'attention_focus': 0.0,      # Attention concentration level
-            'memory_coherence': 0.0,     # Memory system stability
-            'decision_confidence': 0.0,  # Decision-making confidence
-            'emotional_state': 0.0,      # Emotional processing stability
-            'symbolic_coherence': 0.0,   # GLYPH system coherence
-            'temporal_consistency': 0.0, # Time perception stability
-            'last_consciousness_update': datetime.utcnow().isoformat()
+            "awareness_level": 0.0,      # 0.0 to 1.0 awareness intensity
+            "attention_focus": 0.0,      # Attention concentration level
+            "memory_coherence": 0.0,     # Memory system stability
+            "decision_confidence": 0.0,  # Decision-making confidence
+            "emotional_state": 0.0,      # Emotional processing stability
+            "symbolic_coherence": 0.0,   # GLYPH system coherence
+            "temporal_consistency": 0.0, # Time perception stability
+            "last_consciousness_update": datetime.utcnow().isoformat()
         }
-        
+
         # Trinity Framework monitoring
         self.trinity_metrics = {
-            'identity_coherence': 0.0,      # ⚛️ Identity system health
-            'consciousness_depth': 0.0,    # 🧠 Consciousness processing depth
-            'guardian_protection': 0.0     # 🛡️ Guardian system effectiveness
+            "identity_coherence": 0.0,      # ⚛️ Identity system health
+            "consciousness_depth": 0.0,    # 🧠 Consciousness processing depth
+            "guardian_protection": 0.0     # 🛡️ Guardian system effectiveness
         }
-        
+
         self.instance_logger.info("ΛTRACE: Consciousness metrics system initialized")
 
     async def _setup_alerting_system(self):
         """Set up alerting system for awareness anomalies."""
         self.instance_logger.info("ΛTRACE: Setting up alerting system")
-        
+
         # Alert management
         self.active_alerts = {}
         self.alert_history = []
         self.alert_retention_limit = 100
-        
+
         # Alert severity levels
         self.alert_severities = {
-            'INFO': 0,
-            'WARNING': 1,
-            'CRITICAL': 2,
-            'EMERGENCY': 3
+            "INFO": 0,
+            "WARNING": 1,
+            "CRITICAL": 2,
+            "EMERGENCY": 3
         }
-        
+
         # Monitoring intervals (seconds)
         self.monitoring_intervals = {
-            'awareness_check': 1.0,
-            'consciousness_check': 5.0,
-            'trinity_check': 10.0,
-            'health_summary': 30.0
+            "awareness_check": 1.0,
+            "consciousness_check": 5.0,
+            "trinity_check": 10.0,
+            "health_summary": 30.0
         }
-        
+
         self.instance_logger.info("ΛTRACE: Alerting system initialized")
 
     async def _validate_awareness_monitoring(self) -> bool:
         """Validate awareness monitoring system health."""
         try:
             # Check if monitoring metrics are properly initialized
-            if not hasattr(self, 'awareness_metrics'):
+            if not hasattr(self, "awareness_metrics"):
                 return False
-            
+
             # Verify metric keys are present
-            required_metrics = ['consciousness_coherence', 'identity_stability', 'cognitive_load']
+            required_metrics = ["consciousness_coherence", "identity_stability", "cognitive_load"]
             if not all(key in self.awareness_metrics for key in required_metrics):
                 return False
-            
+
             self.instance_logger.debug("ΛTRACE: Awareness monitoring validation passed")
             return True
         except Exception as e:
@@ -438,18 +438,18 @@ class AwarenessProcessor:
         """Validate consciousness metrics system health."""
         try:
             # Check consciousness state tracking
-            if not hasattr(self, 'consciousness_state'):
+            if not hasattr(self, "consciousness_state"):
                 return False
-            
+
             # Verify Trinity Framework metrics
-            if not hasattr(self, 'trinity_metrics'):
+            if not hasattr(self, "trinity_metrics"):
                 return False
-                
+
             # Check required Trinity metrics
-            trinity_keys = ['identity_coherence', 'consciousness_depth', 'guardian_protection']
+            trinity_keys = ["identity_coherence", "consciousness_depth", "guardian_protection"]
             if not all(key in self.trinity_metrics for key in trinity_keys):
                 return False
-            
+
             self.instance_logger.debug("ΛTRACE: Consciousness metrics validation passed")
             return True
         except Exception as e:
@@ -460,17 +460,17 @@ class AwarenessProcessor:
         """Validate alerting system health."""
         try:
             # Check alert management structures
-            if not hasattr(self, 'active_alerts') or not hasattr(self, 'alert_history'):
+            if not hasattr(self, "active_alerts") or not hasattr(self, "alert_history"):
                 return False
-            
+
             # Verify alert severities
-            if not hasattr(self, 'alert_severities'):
+            if not hasattr(self, "alert_severities"):
                 return False
-            
+
             # Check monitoring thresholds
-            if not hasattr(self, 'monitoring_thresholds'):
+            if not hasattr(self, "monitoring_thresholds"):
                 return False
-                
+
             self.instance_logger.debug("ΛTRACE: Alerting system validation passed")
             return True
         except Exception as e:
@@ -488,23 +488,23 @@ class AwarenessProcessor:
             bool: True if update successful
         """
         try:
-            if not hasattr(self, 'awareness_metrics'):
+            if not hasattr(self, "awareness_metrics"):
                 await self._setup_awareness_monitoring()
-            
+
             # Update metrics with validation
             for metric_name, value in metrics_update.items():
                 if metric_name in self.awareness_metrics:
                     old_value = self.awareness_metrics[metric_name]
                     self.awareness_metrics[metric_name] = value
-                    self.awareness_metrics['last_updated'] = datetime.utcnow().isoformat()
-                    
+                    self.awareness_metrics["last_updated"] = datetime.utcnow().isoformat()
+
                     # Check thresholds and generate alerts if needed
                     await self._check_metric_threshold(metric_name, value, old_value)
-                    
+
                     self.instance_logger.debug(
                         f"ΛTRACE: Updated awareness metric {metric_name}: {old_value} -> {value}"
                     )
-            
+
             return True
         except Exception as e:
             self.instance_logger.error(f"ΛTRACE: Failed to update awareness metrics: {e}")
@@ -512,35 +512,35 @@ class AwarenessProcessor:
 
     async def _check_metric_threshold(self, metric_name: str, current_value: float, previous_value: float):
         """Check if metric exceeds thresholds and generate alerts."""
-        if not hasattr(self, 'monitoring_thresholds'):
+        if not hasattr(self, "monitoring_thresholds"):
             return
-            
+
         thresholds = self.monitoring_thresholds.get(metric_name, {})
         if not thresholds:
             return
-        
+
         # Check for threshold violations
         alert_severity = None
         alert_message = None
-        
+
         # Check minimum thresholds
-        if 'min' in thresholds and current_value < thresholds['min']:
-            alert_severity = 'WARNING'
+        if "min" in thresholds and current_value < thresholds["min"]:
+            alert_severity = "WARNING"
             alert_message = f"{metric_name} below threshold: {current_value} < {thresholds['min']}"
-            
-        if 'critical' in thresholds and current_value < thresholds['critical']:
-            alert_severity = 'CRITICAL'
+
+        if "critical" in thresholds and current_value < thresholds["critical"]:
+            alert_severity = "CRITICAL"
             alert_message = f"{metric_name} critically low: {current_value} < {thresholds['critical']}"
-        
+
         # Check maximum thresholds
-        if 'max' in thresholds and current_value > thresholds['max']:
-            alert_severity = 'WARNING'
+        if "max" in thresholds and current_value > thresholds["max"]:
+            alert_severity = "WARNING"
             alert_message = f"{metric_name} above threshold: {current_value} > {thresholds['max']}"
-            
-        if 'critical' in thresholds and current_value > thresholds['critical']:
-            alert_severity = 'CRITICAL'
+
+        if "critical" in thresholds and current_value > thresholds["critical"]:
+            alert_severity = "CRITICAL"
             alert_message = f"{metric_name} critically high: {current_value} > {thresholds['critical']}"
-        
+
         # Generate alert if threshold violated
         if alert_severity and alert_message:
             await self._generate_alert(metric_name, alert_severity, alert_message, current_value)
@@ -548,38 +548,38 @@ class AwarenessProcessor:
     async def _generate_alert(self, source: str, severity: str, message: str, metric_value: float):
         """Generate and store awareness alert."""
         alert_id = f"AWARE_{int(datetime.utcnow().timestamp() * 1000)}"
-        
+
         alert = {
-            'id': alert_id,
-            'timestamp': datetime.utcnow().isoformat(),
-            'source': source,
-            'severity': severity,
-            'message': message,
-            'metric_value': metric_value,
-            'user_context': self.user_id_context,
-            'resolved': False
+            "id": alert_id,
+            "timestamp": datetime.utcnow().isoformat(),
+            "source": source,
+            "severity": severity,
+            "message": message,
+            "metric_value": metric_value,
+            "user_context": self.user_id_context,
+            "resolved": False
         }
-        
+
         # Store active alert
-        if not hasattr(self, 'active_alerts'):
+        if not hasattr(self, "active_alerts"):
             self.active_alerts = {}
-        
+
         self.active_alerts[alert_id] = alert
-        
+
         # Add to history
-        if not hasattr(self, 'alert_history'):
+        if not hasattr(self, "alert_history"):
             self.alert_history = []
-            
+
         self.alert_history.append(alert)
-        
+
         # Maintain history limit
-        if hasattr(self, 'alert_retention_limit') and len(self.alert_history) > self.alert_retention_limit:
+        if hasattr(self, "alert_retention_limit") and len(self.alert_history) > self.alert_retention_limit:
             self.alert_history = self.alert_history[-self.alert_retention_limit:]
-        
+
         # Log alert based on severity
-        if severity == 'CRITICAL' or severity == 'EMERGENCY':
+        if severity == "CRITICAL" or severity == "EMERGENCY":
             self.instance_logger.error(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
-        elif severity == 'WARNING':
+        elif severity == "WARNING":
             self.instance_logger.warning(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
         else:
             self.instance_logger.info(f"ΛTRACE: AWARENESS ALERT [{severity}] {source}: {message}")
@@ -587,34 +587,34 @@ class AwarenessProcessor:
     def get_monitoring_status(self) -> dict[str, Any]:
         """Get comprehensive monitoring status including Trinity Framework metrics."""
         status = {
-            'component_name': self.__class__.__name__,
-            'monitoring_active': hasattr(self, 'awareness_metrics'),
-            'timestamp': datetime.utcnow().isoformat()
+            "component_name": self.__class__.__name__,
+            "monitoring_active": hasattr(self, "awareness_metrics"),
+            "timestamp": datetime.utcnow().isoformat()
         }
-        
+
         # Add awareness metrics if available
-        if hasattr(self, 'awareness_metrics'):
-            status['awareness_metrics'] = self.awareness_metrics.copy()
-        
+        if hasattr(self, "awareness_metrics"):
+            status["awareness_metrics"] = self.awareness_metrics.copy()
+
         # Add consciousness state if available
-        if hasattr(self, 'consciousness_state'):
-            status['consciousness_state'] = self.consciousness_state.copy()
-        
+        if hasattr(self, "consciousness_state"):
+            status["consciousness_state"] = self.consciousness_state.copy()
+
         # Add Trinity Framework metrics if available
-        if hasattr(self, 'trinity_metrics'):
-            status['trinity_framework'] = self.trinity_metrics.copy()
-        
+        if hasattr(self, "trinity_metrics"):
+            status["trinity_framework"] = self.trinity_metrics.copy()
+
         # Add alert summary
-        if hasattr(self, 'active_alerts'):
-            status['alerts'] = {
-                'active_count': len(self.active_alerts),
-                'recent_alerts': list(self.active_alerts.values())[-5:]  # Last 5 alerts
+        if hasattr(self, "active_alerts"):
+            status["alerts"] = {
+                "active_count": len(self.active_alerts),
+                "recent_alerts": list(self.active_alerts.values())[-5:]  # Last 5 alerts
             }
-        
+
         # Add thresholds
-        if hasattr(self, 'monitoring_thresholds'):
-            status['thresholds'] = self.monitoring_thresholds.copy()
-        
+        if hasattr(self, "monitoring_thresholds"):
+            status["thresholds"] = self.monitoring_thresholds.copy()
+
         return status
 
     # Human-readable comment: Gracefully shuts down the component.
