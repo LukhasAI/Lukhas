@@ -255,7 +255,7 @@ class BaseMemoryManager(ABC):
         """Generate unique memory ID with Λ-trace signature."""
         try:
             timestamp = datetime.now(timezone.utc).isoformat().replace(
-                ':', '-').replace('+', '_')
+                ":", "-").replace("+", "_")
             prefix = prefix or "mem"
 
             # Add Λ-trace signature for enhanced tracking
@@ -282,14 +282,14 @@ class BaseMemoryManager(ABC):
         else:
             return [
                 mid for mid, meta in self._memory_index.items()
-                if not meta.get('deleted', False)
+                if not meta.get("deleted", False)
             ]
 
     def _save_to_disk(self, memory_id: str, data: dict[str, Any]) -> None:
         """Save memory to disk."""
         file_path = self.base_path / f"{memory_id}.json"
         try:
-            with open(file_path, 'w') as f:
+            with open(file_path, "w") as f:
                 json.dump(data, f, indent=2)
             self.logger.debug("Memory saved to disk", memory_id=memory_id)
         except Exception as e:
@@ -328,7 +328,7 @@ class BaseMemoryManager(ABC):
         """Save memory index to disk."""
         index_path = self.base_path / "_index.json"
         try:
-            with open(index_path, 'w') as f:
+            with open(index_path, "w") as f:
                 json.dump(self._memory_index, f, indent=2)
         except Exception as e:
             self.logger.error("Failed to save memory index", error=str(e))
@@ -339,17 +339,17 @@ class BaseMemoryManager(ABC):
             # Enhanced metadata with Trinity Framework integration
             enhanced_metadata = {
                 **metadata,
-                'last_modified': datetime.now(timezone.utc).isoformat(),
-                'manager_type': self.__class__.__name__,
-                'trinity_identity': self._extract_identity_context(metadata),
-                'consciousness_pattern': self._analyze_consciousness_pattern(metadata),
-                'guardian_validation': self._validate_guardian_compliance(metadata)
+                "last_modified": datetime.now(timezone.utc).isoformat(),
+                "manager_type": self.__class__.__name__,
+                "trinity_identity": self._extract_identity_context(metadata),
+                "consciousness_pattern": self._analyze_consciousness_pattern(metadata),
+                "guardian_validation": self._validate_guardian_compliance(metadata)
             }
 
             self._memory_index[memory_id] = enhanced_metadata
 
             # Track Λ-traces for memory access patterns
-            if 'lambda_trace' not in self._lambda_traces:
+            if "lambda_trace" not in self._lambda_traces:
                 self._lambda_traces[memory_id] = []
             self._lambda_traces[memory_id].append(
                 f"index_update_{datetime.now(timezone.utc).isoformat()}"
@@ -411,12 +411,12 @@ class BaseMemoryManager(ABC):
             total_memories = len(self._memory_index)
             deleted_memories = sum(
                 1 for meta in self._memory_index.values()
-                if meta.get('deleted', False)
+                if meta.get("deleted", False)
             )
 
             # Trinity Framework specific metrics
             identity_contexts = {
-                meta.get('trinity_identity', '⚛️anonymous')
+                meta.get("trinity_identity", "⚛️anonymous")
                 for meta in self._memory_index.values()
             }
 
@@ -424,7 +424,7 @@ class BaseMemoryManager(ABC):
 
             guardian_compliant = sum(
                 1 for meta in self._memory_index.values()
-                if meta.get('guardian_validation', '').startswith('🛡️verified')
+                if meta.get("guardian_validation", "").startswith("🛡️verified")
             )
 
             stats = {
@@ -453,7 +453,7 @@ class BaseMemoryManager(ABC):
 
     def _extract_identity_context(self, metadata: dict[str, Any]) -> str:
         """Extract Trinity Identity context from metadata."""
-        identity_markers = ['user_id', 'agent_id', 'session_id', 'identity']
+        identity_markers = ["user_id", "agent_id", "session_id", "identity"]
         for marker in identity_markers:
             if marker in metadata:
                 return f"⚛️{metadata[marker]}"
@@ -461,7 +461,7 @@ class BaseMemoryManager(ABC):
 
     def _analyze_consciousness_pattern(self, metadata: dict[str, Any]) -> str:
         """Analyze consciousness patterns in memory metadata."""
-        consciousness_keywords = ['dream', 'awareness', 'learning', 'adaptation', 'reflection']
+        consciousness_keywords = ["dream", "awareness", "learning", "adaptation", "reflection"]
         for keyword in consciousness_keywords:
             if any(keyword in str(v).lower() for v in metadata.values()):
                 return f"🧠{keyword}_pattern"
@@ -470,17 +470,17 @@ class BaseMemoryManager(ABC):
     def _validate_guardian_compliance(self, metadata: dict[str, Any]) -> str:
         """Validate Guardian compliance for memory operations."""
         # Basic compliance check - can be enhanced with actual Guardian integration
-        if metadata.get('ethical_review', False):
+        if metadata.get("ethical_review", False):
             return "🛡️verified"
-        elif metadata.get('privacy_sensitive', False):
+        elif metadata.get("privacy_sensitive", False):
             return "🛡️review_required"
         return "🛡️standard"
 
     def _is_consciousness_related(self, metadata: dict[str, Any]) -> bool:
         """Determine if memory is consciousness-related."""
         consciousness_indicators = [
-            'consciousness', 'awareness', 'learning', 'adaptation',
-            'dream', 'reflection', 'meta_cognition'
+            "consciousness", "awareness", "learning", "adaptation",
+            "dream", "reflection", "meta_cognition"
         ]
         return any(
             indicator in str(metadata).lower()

@@ -47,7 +47,7 @@ def generate_symbolic_reply(score, emoji=None, notes=None):
     elif score == 2:
         responses = [
             "🖤 I hear your dissonance. Shall I try again?",
-            "🌫️ I may have drifted. Let’s recalibrate.",
+            "🌫️ I may have drifted. Let's recalibrate.",
             "⚠️ Emotional signal conflict detected — restoring harmony.",
         ]
     elif score == 1:

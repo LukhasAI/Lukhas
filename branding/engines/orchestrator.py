@@ -81,21 +81,21 @@ Generated through our integrated platform with real database integration.
 
         # Step 4: Create workflow summary
         workflow_result = {
-            'workflow_topic': topic,
-            'content_id': content_id,
-            'document_id': doc_result['id'],
-            'content_analytics': content_analytics,
-            'document_analytics': doc_analytics,
-            'system_activity': len(system_analytics),
-            'voice_coherence': doc_result['voice_coherence'],
-            'trinity_integration': True,
-            'systems_interconnected': True,
-            'workflow_completed': datetime.now().isoformat()
+            "workflow_topic": topic,
+            "content_id": content_id,
+            "document_id": doc_result["id"],
+            "content_analytics": content_analytics,
+            "document_analytics": doc_analytics,
+            "system_activity": len(system_analytics),
+            "voice_coherence": doc_result["voice_coherence"],
+            "trinity_integration": True,
+            "systems_interconnected": True,
+            "workflow_completed": datetime.now().isoformat()
         }
 
         # Log workflow completion
         db.log_system_activity("orchestrator", "workflow_completed",
-                              f"Complete workflow for: {topic}", doc_result['voice_coherence'])
+                              f"Complete workflow for: {topic}", doc_result["voice_coherence"])
 
         return workflow_result
 
@@ -107,24 +107,24 @@ Generated through our integrated platform with real database integration.
         system_analytics = db.get_system_analytics()
 
         # Calculate unified metrics
-        total_content = content_analytics['total_content_items']
-        total_docs = doc_analytics['total_documents']
-        avg_coherence = doc_analytics['average_voice_coherence']
+        total_content = content_analytics["total_content_items"]
+        total_docs = doc_analytics["total_documents"]
+        avg_coherence = doc_analytics["average_voice_coherence"]
 
         dashboard = {
-            'platform_status': 'ACTIVE',
-            'systems_integrated': 3,
-            'database_connected': True,
-            'trinity_framework_active': True,
-            'metrics': {
-                'total_content_items': total_content,
-                'total_documents': total_docs,
-                'average_voice_coherence': avg_coherence,
-                'recent_activity': len(system_analytics),
-                'specialist_bots': len(self.content_platform.get_specialist_bots()),
-                'document_formats': len(self.doc_engine.get_available_formats())
+            "platform_status": "ACTIVE",
+            "systems_integrated": 3,
+            "database_connected": True,
+            "trinity_framework_active": True,
+            "metrics": {
+                "total_content_items": total_content,
+                "total_documents": total_docs,
+                "average_voice_coherence": avg_coherence,
+                "recent_activity": len(system_analytics),
+                "specialist_bots": len(self.content_platform.get_specialist_bots()),
+                "document_formats": len(self.doc_engine.get_available_formats())
             },
-            'last_updated': datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat()
         }
 
         return dashboard

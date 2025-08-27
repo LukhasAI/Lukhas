@@ -388,11 +388,11 @@ class PoeticTechniques:
             # Occasionally replace with alliterative alternative
             if random.random() < 0.3 and i > 0:
                 prev_letter = words[i-1][0].lower()
-                if prev_letter in 'cqk':  # Group similar sounds
+                if prev_letter in "cqk":  # Group similar sounds
                     alternatives = ["cascading", "crystalline", "quantum", "kinetic"]
-                elif prev_letter in 'sfz':
+                elif prev_letter in "sfz":
                     alternatives = ["synaptic", "flowing", "synchronous", "zenith"]
-                elif prev_letter in 'mn':
+                elif prev_letter in "mn":
                     alternatives = ["neural", "memory", "manifold", "nascent"]
                 else:
                     alternatives = [word]
@@ -433,15 +433,15 @@ if __name__ == "__main__":
     print(f"  Anapestic: {techniques.generate_rhythmic_line('anapestic')}\n")
 
     print("▸ ANAPHORA (Repetition at beginning):")
-    print(techniques.apply_repetition_device('anaphora'))
+    print(techniques.apply_repetition_device("anaphora"))
     print()
 
     print("▸ CHIASMUS (Inverted parallelism):")
-    print(techniques.apply_repetition_device('chiasmus'))
+    print(techniques.apply_repetition_device("chiasmus"))
     print()
 
     print("▸ IMAGERY - SYNESTHESIA (Mixed senses):")
-    for image in random.sample(techniques.imagery_patterns['synesthesia'], 3):
+    for image in random.sample(techniques.imagery_patterns["synesthesia"], 3):
         print(f"  • {image}")
     print()
 

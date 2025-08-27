@@ -156,12 +156,12 @@ class TrueCoreAnalyzer:
         report_path = f"{self.workspace_path}/TRUE_CORE_ANALYSIS_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
 
         with open(report_path, "w") as f:
-            f.write("# lukhas True Core Analysis\n")
+            f.write(")  #  lukhas True Core Analysis\n"
             f.write(
                 f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
             )
 
-            f.write("## 📊 File Distribution Summary\n\n")
+            f.write("#)  #  📊 File Distribution Summary\n\n"
             total_files = sum(len(files) for files in self.categories.values())
 
             f.write(f"- **Total Files in lukhas/:** {total_files}\n")
@@ -185,7 +185,7 @@ class TrueCoreAnalyzer:
             )
 
             # True Core Analysis
-            f.write("## 🧠 True AI Core Components\n\n")
+            f.write("#)  #  🧠 True AI Core Components\n\n"
             f.write(
                 f"**{len(self.categories['true_core'])} files** - Your actual AI system\n\n"
             )
@@ -202,7 +202,7 @@ class TrueCoreAnalyzer:
                         core_by_module[module].append(file)
 
                 for module, files in sorted(core_by_module.items()):
-                    f.write(f"### {module}/ ({len(files)} files)\n")
+                    f.write(f"##")
                     for file in sorted(files)[:5]:  # Show first 5
                         f.write(f"- `{file}`\n")
                     if len(files) > 5:
@@ -210,7 +210,7 @@ class TrueCoreAnalyzer:
                     f.write("\n")
 
             # External Packages
-            f.write("## 📦 External Packages (Should be Dependencies)\n\n")
+            f.write("#)  #  📦 External Packages (Should be Dependencies\n\n")
             f.write(
                 f"**{len(self.categories['external_packages'])} files** - Not part of your AI core\n\n"
             )
@@ -231,14 +231,14 @@ class TrueCoreAnalyzer:
                     external_by_package[package].append(file)
 
                 for package, files in sorted(external_by_package.items()):
-                    f.write(f"### {package} ({len(files)} files)\n")
+                    f.write(f"##")
                     f.write(
                         "*These should be pip/npm dependencies, not included in core*\n\n"
                     )
 
             # Interface Bloat
             if self.categories["interface_bloat"]:
-                f.write("## 🖥️ Interface Bloat\n\n")
+                f.write("#)  #  🖥️ Interface Bloat\n\n"
                 f.write(
                     f"**{len(self.categories['interface_bloat'])} files** - Large interface packages\n\n"
                 )
@@ -247,7 +247,7 @@ class TrueCoreAnalyzer:
                 )
 
             # Recommendations
-            f.write("## 🎯 Recommendations\n\n")
+            f.write("#)  #  🎯 Recommendations\n\n"
 
             true_core_count = len(self.categories["true_core"])
             external_count = len(self.categories["external_packages"])
@@ -257,7 +257,7 @@ class TrueCoreAnalyzer:
                     "⚠️ **ALERT**: External packages outnumber your core AI files!\n\n"
                 )
 
-            f.write("### Immediate Actions:\n")
+            f.write("##)  #  Immediate Actions:\n"
             f.write(
                 "1. **Move External Packages** - Move video/audio generation to `external_dependencies/`\n"
             )
@@ -271,18 +271,18 @@ class TrueCoreAnalyzer:
                 "4. **Separate Interfaces** - Consider moving large UI packages to separate repos\n\n"
             )
 
-            f.write("### Target Structure:\n")
+            f.write("##)  #  Target Structure:\n"
             f.write("```\n")
             f.write("lukhas/\n")
-            f.write("├── core/           # YOUR AI SYSTEM (~100-300 files)\n")
-            f.write("├── interface/      # Lightweight interfaces\n")
-            f.write("├── docs/          # Documentation\n")
-            f.write("└── tests/         # Test suite\n")
+            f.write("├── core/           )  #  YOUR AI SYSTEM (~100-300 files\n")
+            f.write("├── interface/      )  #  Lightweight interfaces\n"
+            f.write("├── docs/          )  #  Documentation\n"
+            f.write("└── tests/         )  #  Test suite\n"
             f.write("\n")
-            f.write("external_dependencies/  # SEPARATE FROM CORE\n")
-            f.write("├── video_generation/   # Open-Sora, etc.\n")
-            f.write("├── audio_processing/   # TTS, Whisper, etc.\n")
-            f.write("└── requirements.txt    # pip install these\n")
+            f.write("external_dependencies/  )  #  SEPARATE FROM CORE\n"
+            f.write("├── video_generation/   )  #  Open-Sora, etc.\n"
+            f.write("├── audio_processing/   )  #  TTS, Whisper, etc.\n"
+            f.write("└── requirements.txt    )  #  pip install these\n"
             f.write("```\n")
 
         return report_path

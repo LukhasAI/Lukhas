@@ -329,7 +329,7 @@ class OptimizedOpenAIClient:
             response_dict = response.model_dump()
 
             # Track usage
-            tokens_used = response.usage.total_tokens if hasattr(response, 'usage') else estimated_tokens
+            tokens_used = response.usage.total_tokens if hasattr(response, "usage") else estimated_tokens
             self.request_history.append(time.time())
             self.token_history.append((time.time(), tokens_used))
             self.stats["tokens_used"] += tokens_used
@@ -495,7 +495,7 @@ class OptimizedOpenAIClient:
 
     def __del__(self):
         """Save cache on cleanup"""
-        if hasattr(self, 'cache') and self.cache:
+        if hasattr(self, "cache") and self.cache:
             self._save_cache()
 
 
@@ -593,7 +593,7 @@ if __name__ == "__main__":
         )
 
         for i, response in enumerate(responses):
-            content = response['choices'][0]['message']['content']
+            content = response["choices"][0]["message"]["content"]
             print(f"  {i+1}. {content[:50]}...")
 
         # Final stats

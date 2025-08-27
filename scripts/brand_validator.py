@@ -9,36 +9,36 @@ from pathlib import Path
 
 # Define brand rules
 DEPRECATED_TERMS = {
-    'MATADA': 'MΛTRIZ',  # Display form
-    'matada': 'matriz',  # Plain text form
-    'Matada': 'Matriz',  # Capitalized form
+    "MATADA": "MΛTRIZ",  # Display form
+    "matada": "matriz",  # Plain text form
+    "Matada": "Matriz",  # Capitalized form
 }
 
 DISPLAY_TERMS = {
-    'LUKHΛS': 'Display form - use in logos, headings, marketing',
-    'ΛI': 'Display form for AI - use in promotional content',
-    'ΛiD': 'Display form for identity system',
-    'MΛTRIZ': 'Display form for MATRIZ product'
+    "LUKHΛS": "Display form - use in logos, headings, marketing",
+    "ΛI": "Display form for AI - use in promotional content",
+    "ΛiD": "Display form for identity system",
+    "MΛTRIZ": "Display form for MATRIZ product"
 }
 
 PLAIN_TERMS = {
-    'Lukhas': 'Plain text form - use in body copy, SEO, accessibility',
-    'Lukhas AI': 'Plain text for AI product',
-    'Lukhas ID': 'Plain text for identity system',
-    'Matriz': 'Plain text for MATRIZ product'
+    "Lukhas": "Plain text form - use in body copy, SEO, accessibility",
+    "Lukhas AI": "Plain text for AI product",
+    "Lukhas ID": "Plain text for identity system",
+    "Matriz": "Plain text for MATRIZ product"
 }
 
 # File patterns to check
 INCLUDE_PATTERNS = [
-    '**/*.py', '**/*.js', '**/*.ts', '**/*.tsx', '**/*.jsx',
-    '**/*.md', '**/*.json', '**/*.yaml', '**/*.yml',
-    '**/*.html', '**/*.css', '**/*.scss'
+    "**/*.py", "**/*.js", "**/*.ts", "**/*.tsx", "**/*.jsx",
+    "**/*.md", "**/*.json", "**/*.yaml", "**/*.yml",
+    "**/*.html", "**/*.css", "**/*.scss"
 ]
 
 # Directories to exclude
 EXCLUDE_DIRS = [
-    '.git', 'node_modules', '.venv', 'venv', '__pycache__',
-    'dist', 'build', '.next', 'coverage', '.pytest_cache'
+    ".git", "node_modules", ".venv", "venv", "__pycache__",
+    "dist", "build", ".next", "coverage", ".pytest_cache"
 ]
 
 class BrandValidator:
@@ -52,9 +52,9 @@ class BrandValidator:
         violations = []
 
         try:
-            with open(filepath, encoding='utf-8') as f:
+            with open(filepath, encoding="utf-8") as f:
                 content = f.read()
-                lines = content.split('\n')
+                lines = content.split("\n")
 
             for line_num, line in enumerate(lines, 1):
                 # Check for deprecated terms
@@ -67,8 +67,8 @@ class BrandValidator:
                         ))
 
                 # Check for incorrect Lambda usage in URLs
-                if 'Λ' in line and ('href=' in line or 'url' in line.lower() or 'path' in line.lower()):
-                    if 'aria-label' not in line and 'display' not in line.lower():
+                if "Λ" in line and ("href=" in line or "url" in line.lower() or "path" in line.lower()):
+                    if "aria-label" not in line and "display" not in line.lower():
                         violations.append((
                             line_num,
                             "Lambda (Λ) found in URL/path context",
@@ -83,10 +83,10 @@ class BrandValidator:
     def validate_directory(self) -> dict[str, list]:
         """Validate entire directory tree"""
         results = {
-            'violations': [],
-            'warnings': [],
-            'files_checked': 0,
-            'files_with_issues': 0
+            "violations": [],
+            "warnings": [],
+            "files_checked": 0,
+            "files_with_issues": 0
         }
 
         for pattern in INCLUDE_PATTERNS:
@@ -95,19 +95,19 @@ class BrandValidator:
                 if any(excluded in filepath.parts for excluded in EXCLUDE_DIRS):
                     continue
 
-                results['files_checked'] += 1
+                results["files_checked"] += 1
                 violations = self.validate_file(filepath)
 
                 if violations:
-                    results['files_with_issues'] += 1
+                    results["files_with_issues"] += 1
                     relative_path = filepath.relative_to(self.root_dir)
 
                     for line_num, issue, suggestion in violations:
-                        results['violations'].append({
-                            'file': str(relative_path),
-                            'line': line_num,
-                            'issue': issue,
-                            'suggestion': suggestion
+                        results["violations"].append({
+                            "file": str(relative_path),
+                            "line": line_num,
+                            "issue": issue,
+                            "suggestion": suggestion
                         })
 
         return results
@@ -122,15 +122,15 @@ class BrandValidator:
         print(f"Files with issues: {results['files_with_issues']}")
         print(f"Total violations: {len(results['violations'])}")
 
-        if results['violations']:
+        if results["violations"]:
             print("\n" + "-"*60)
             print("VIOLATIONS FOUND:")
             print("-"*60)
 
             # Group by file
             by_file = {}
-            for violation in results['violations']:
-                file = violation['file']
+            for violation in results["violations"]:
+                file = violation["file"]
                 if file not in by_file:
                     by_file[file] = []
                 by_file[file].append(violation)
@@ -141,14 +141,14 @@ class BrandValidator:
                     print(f"  Line {v['line']}: {v['issue']}")
                     print(f"    → {v['suggestion']}")
 
-        if results['warnings']:
+        if results["warnings"]:
             print("\n" + "-"*60)
             print("WARNINGS:")
             print("-"*60)
-            for warning in results['warnings']:
+            for warning in results["warnings"]:
                 print(f"  ⚠️  {warning}")
 
-        if not results['violations']:
+        if not results["violations"]:
             print("\n✅ All brand guidelines are being followed!")
             return True
         else:

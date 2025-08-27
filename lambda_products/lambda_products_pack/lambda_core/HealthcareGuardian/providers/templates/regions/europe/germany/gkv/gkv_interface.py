@@ -34,11 +34,11 @@ class GKVInterface(EHRInterface):
     def _validate_config(self):
         """Validate GKV-specific configuration"""
         required_fields = [
-            'betriebsnummer',
-            'kv_bezirk',
-            'versicherten_status',
-            'api_credentials',
-            'telematik_id'
+            "betriebsnummer",
+            "kv_bezirk",
+            "versicherten_status",
+            "api_credentials",
+            "telematik_id"
         ]
         for field in required_fields:
             if field not in self.config:
@@ -63,7 +63,7 @@ class GKVInterface(EHRInterface):
             record_types: Types of records to retrieve
         """
         self.audit.log_access(
-            user_id=self.config['betriebsnummer'],
+            user_id=self.config["betriebsnummer"],
             action="get_patient_record",
             resource_id=patient_id
         )
@@ -81,7 +81,7 @@ class GKVInterface(EHRInterface):
             leistungsart: Type of medical service
         """
         self.audit.log_access(
-            user_id=self.config['betriebsnummer'],
+            user_id=self.config["betriebsnummer"],
             action="verify_insurance",
             resource_id=versichertennummer
         )
@@ -93,7 +93,7 @@ class GKVInterface(EHRInterface):
                              kvdt_data: dict[str, Any]) -> str:
         """Submit KV billing data"""
         self.audit.log_access(
-            user_id=self.config['betriebsnummer'],
+            user_id=self.config["betriebsnummer"],
             action="submit_kvdt",
             resource_id=patient_id
         )
@@ -111,7 +111,7 @@ class GKVInterface(EHRInterface):
                                 prescription_data: dict[str, Any]) -> str:
         """Create e-prescription in Telematik infrastructure"""
         self.audit.log_access(
-            user_id=self.config['betriebsnummer'],
+            user_id=self.config["betriebsnummer"],
             action="create_prescription",
             resource_id=patient_id
         )

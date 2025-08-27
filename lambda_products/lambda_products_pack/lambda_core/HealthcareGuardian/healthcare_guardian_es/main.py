@@ -12,13 +12,13 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Add parent directory to path for LUKHAS imports
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ except ImportError:
     from vision_systems.medication_ocr import MedicationOCRSystem
     from voice_andaluz.voice_engine import AndaluzVoiceEngine
 
-# Try to import LUKHAS components (will be available when integrated)
+# Try to import lukhas_components (will be available when integrated)
 try:
     from lukhas.consciousness import ConsciousnessEngine
     from lukhas.guardian import GuardianSystem
@@ -85,7 +85,7 @@ class HealthcareGuardian:
             config_path = Path(__file__).parent / "config" / "healthcare_config.yaml"
 
         if Path(config_path).exists():
-            with open(config_path, encoding='utf-8') as f:
+            with open(config_path, encoding="utf-8") as f:
                 return yaml.safe_load(f)
         else:
             # Return default configuration
@@ -134,35 +134,35 @@ class HealthcareGuardian:
         """Initialize healthcare-specific components"""
 
         # Voice Engine for Andalusian Spanish
-        self.components['voice'] = AndaluzVoiceEngine(
-            config=self.config.get('voice', {}),
-            consciousness=getattr(self, 'consciousness', None)
+        self.components["voice"] = AndaluzVoiceEngine(
+            config=self.config.get("voice", {}),
+            consciousness=getattr(self, "consciousness", None)
         )
         logger.info("🗣️ Andaluz voice engine initialized")
 
         # GPT-5 Healthcare Integration
-        self.components['medical_ai'] = GPT5HealthcareClient(
-            config=self.config.get('medical', {})
+        self.components["medical_ai"] = GPT5HealthcareClient(
+            config=self.config.get("medical", {})
         )
         logger.info("🤖 GPT-5 healthcare AI connected")
 
         # SAS Healthcare System Integration
-        if self.config.get('sas', {}).get('enabled'):
-            self.components['sas'] = SASHealthcareConnector(
-                config=self.config.get('sas', {})
+        if self.config.get("sas", {}).get("enabled"):
+            self.components["sas"] = SASHealthcareConnector(
+                config=self.config.get("sas", {})
             )
             logger.info("🏥 SAS healthcare system connected")
 
         # Emergency Response System
-        self.components['emergency'] = EmergencyResponseSystem(
-            config=self.config.get('emergency', {}),
-            guardian=getattr(self, 'guardian', None)
+        self.components["emergency"] = EmergencyResponseSystem(
+            config=self.config.get("emergency", {}),
+            guardian=getattr(self, "guardian", None)
         )
         logger.info("🚨 Emergency response system ready")
 
         # Medication OCR System
-        self.components['vision'] = MedicationOCRSystem(
-            config=self.config.get('vision', {})
+        self.components["vision"] = MedicationOCRSystem(
+            config=self.config.get("vision", {})
         )
         logger.info("📸 Medication OCR system initialized")
 
@@ -171,14 +171,14 @@ class HealthcareGuardian:
         logger.info("Starting Healthcare Guardian...")
 
         # Start voice interaction loop
-        if self.config.get('voice', {}).get('enabled'):
+        if self.config.get("voice", {}).get("enabled"):
             await self.start_voice_assistant()
         else:
             await self.start_text_interface()
 
     async def start_voice_assistant(self):
         """Start the voice-based assistant for elderly users"""
-        voice_engine = self.components['voice']
+        voice_engine = self.components["voice"]
 
         # Initial greeting in Andaluz Spanish
         greeting = (
@@ -224,9 +224,9 @@ class HealthcareGuardian:
             try:
                 command = input("\n> ").strip()
 
-                if command.lower() == 'exit':
+                if command.lower() == "exit":
                     break
-                elif command.lower() == 'help':
+                elif command.lower() == "help":
                     self.print_help()
                 else:
                     response = await self.process_command(command)
@@ -251,15 +251,15 @@ class HealthcareGuardian:
         command_lower = command.lower()
 
         # Emergency detection
-        if any(word in command_lower for word in ['socorro', 'ayuda', 'emergencia', 'dolor']):
+        if any(word in command_lower for word in ["socorro", "ayuda", "emergencia", "dolor"]):
             return await self.handle_emergency_command(command)
 
         # Medication queries
-        elif any(word in command_lower for word in ['medicina', 'pastilla', 'medicamento']):
+        elif any(word in command_lower for word in ["medicina", "pastilla", "medicamento"]):
             return await self.handle_medication_query(command)
 
         # Appointment queries
-        elif any(word in command_lower for word in ['cita', 'médico', 'doctor']):
+        elif any(word in command_lower for word in ["cita", "médico", "doctor"]):
             return await self.handle_appointment_query(command)
 
         # Health questions
@@ -268,12 +268,12 @@ class HealthcareGuardian:
 
     async def handle_emergency_command(self, command: str) -> str:
         """Handle emergency-related commands"""
-        emergency_system = self.components['emergency']
+        emergency_system = self.components["emergency"]
 
         # Analyze severity
         severity = await emergency_system.assess_severity(command)
 
-        if severity == 'critical':
+        if severity == "critical":
             await emergency_system.dispatch_emergency()
             return (
                 "He detectado una emergencia. Estoy llamando al 112 ahora mismo. "
@@ -287,15 +287,15 @@ class HealthcareGuardian:
 
     async def handle_medication_query(self, command: str) -> str:
         """Handle medication-related queries"""
-        medical_ai = self.components['medical_ai']
+        medical_ai = self.components["medical_ai"]
 
         # Check medication schedule
-        if 'hora' in command.lower() or 'cuándo' in command.lower():
+        if "hora" in command.lower() or "cuándo" in command.lower():
             schedule = await medical_ai.get_medication_schedule()
             return f"Su próxima medicina es {schedule}"
 
         # Check medication information
-        elif 'para qué' in command.lower():
+        elif "para qué" in command.lower():
             info = await medical_ai.explain_medication(command)
             return info
 
@@ -307,17 +307,17 @@ class HealthcareGuardian:
 
     async def handle_appointment_query(self, command: str) -> str:
         """Handle appointment-related queries"""
-        if 'sas' in self.components:
-            sas_connector = self.components['sas']
+        if "sas" in self.components:
+            sas_connector = self.components["sas"]
 
-            if 'próxima' in command.lower() or 'cuándo' in command.lower():
+            if "próxima" in command.lower() or "cuándo" in command.lower():
                 appointment = await sas_connector.get_next_appointment()
                 if appointment:
                     return f"Su próxima cita es {appointment}"
                 else:
                     return "No tiene citas programadas próximamente."
 
-            elif 'pedir' in command.lower() or 'nueva' in command.lower():
+            elif "pedir" in command.lower() or "nueva" in command.lower():
                 return (
                     "Voy a buscar citas disponibles para usted. "
                     "¿Prefiere por la mañana o por la tarde?"
@@ -327,7 +327,7 @@ class HealthcareGuardian:
 
     async def handle_health_query(self, command: str) -> str:
         """Handle general health queries using GPT-5"""
-        medical_ai = self.components['medical_ai']
+        medical_ai = self.components["medical_ai"]
 
         # Get response from GPT-5 healthcare
         response = await medical_ai.process_health_query(command)
@@ -344,7 +344,7 @@ class HealthcareGuardian:
 
     async def handle_emergency(self):
         """Handle detected emergency"""
-        emergency_system = self.components['emergency']
+        emergency_system = self.components["emergency"]
         await emergency_system.activate_emergency_protocol()
 
     def print_help(self):

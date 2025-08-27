@@ -61,13 +61,13 @@ class BrandingStructureAnalyzer:
         automation_analysis = self._identify_automation_opportunities()
 
         return {
-            'directory_structure': directory_analysis,
-            'code_components': code_analysis,
-            'dependencies': dependency_analysis,
-            'overlaps': overlap_analysis,
-            'elite_gaps': gaps_analysis,
-            'automation_opportunities': automation_analysis,
-            'recommendations': self._generate_elite_recommendations()
+            "directory_structure": directory_analysis,
+            "code_components": code_analysis,
+            "dependencies": dependency_analysis,
+            "overlaps": overlap_analysis,
+            "elite_gaps": gaps_analysis,
+            "automation_opportunities": automation_analysis,
+            "recommendations": self._generate_elite_recommendations()
         }
 
     def _analyze_directory_structure(self) -> dict[str, Any]:
@@ -81,23 +81,23 @@ class BrandingStructureAnalyzer:
             rel_path = Path(root).relative_to(self.base_path)
 
             # Check if directory is empty or only has __init__.py
-            meaningful_files = [f for f in files if f != '__init__.py' and not f.startswith('.')]
+            meaningful_files = [f for f in files if f != "__init__.py" and not f.startswith(".")]
 
             if not meaningful_files and not dirs:
                 empty_dirs.append(str(rel_path))
             else:
                 directories[str(rel_path)] = {
-                    'files': len(files),
-                    'subdirs': len(dirs),
-                    'python_files': len([f for f in files if f.endswith('.py')]),
-                    'config_files': len([f for f in files if f.endswith(('.yaml', '.yml', '.json'))]),
-                    'doc_files': len([f for f in files if f.endswith('.md')])
+                    "files": len(files),
+                    "subdirs": len(dirs),
+                    "python_files": len([f for f in files if f.endswith(".py")]),
+                    "config_files": len([f for f in files if f.endswith((".yaml", ".yml", ".json"))]),
+                    "doc_files": len([f for f in files if f.endswith(".md")])
                 }
 
         return {
-            'total_directories': len(directories),
-            'empty_directories': empty_dirs,
-            'directory_details': directories
+            "total_directories": len(directories),
+            "empty_directories": empty_dirs,
+            "directory_details": directories
         }
 
     def _analyze_code_components(self) -> dict[str, Any]:
@@ -109,11 +109,11 @@ class BrandingStructureAnalyzer:
         modules = {}
 
         for py_file in self.base_path.rglob("*.py"):
-            if '__pycache__' in str(py_file):
+            if "__pycache__" in str(py_file):
                 continue
 
             try:
-                with open(py_file, encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Parse AST to extract classes and functions
@@ -122,33 +122,33 @@ class BrandingStructureAnalyzer:
                 for node in ast.walk(tree):
                     if isinstance(node, ast.ClassDef):
                         classes[node.name] = {
-                            'file': str(py_file.relative_to(self.base_path)),
-                            'methods': [n.name for n in node.body if isinstance(n, ast.FunctionDef)],
-                            'docstring': ast.get_docstring(node) or ""
+                            "file": str(py_file.relative_to(self.base_path)),
+                            "methods": [n.name for n in node.body if isinstance(n, ast.FunctionDef)],
+                            "docstring": ast.get_docstring(node) or ""
                         }
                     elif isinstance(node, ast.FunctionDef) and not isinstance(node, ast.AsyncFunctionDef):
                         # Only top-level functions
-                        if isinstance(getattr(node, 'parent', None), ast.Module):
+                        if isinstance(getattr(node, "parent", None), ast.Module):
                             functions[node.name] = {
-                                'file': str(py_file.relative_to(self.base_path)),
-                                'docstring': ast.get_docstring(node) or ""
+                                "file": str(py_file.relative_to(self.base_path)),
+                                "docstring": ast.get_docstring(node) or ""
                             }
 
                 # Module-level analysis
                 modules[str(py_file.relative_to(self.base_path))] = {
-                    'classes': len([n for n in ast.walk(tree) if isinstance(n, ast.ClassDef)]),
-                    'functions': len([n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]),
-                    'lines': len(content.splitlines()),
-                    'imports': len([n for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom))])
+                    "classes": len([n for n in ast.walk(tree) if isinstance(n, ast.ClassDef)]),
+                    "functions": len([n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]),
+                    "lines": len(content.splitlines()),
+                    "imports": len([n for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom))])
                 }
 
             except Exception as e:
                 print(f"⚠️  Could not parse {py_file}: {e}")
 
         return {
-            'classes': classes,
-            'functions': functions,
-            'modules': modules
+            "classes": classes,
+            "functions": functions,
+            "modules": modules
         }
 
     def _analyze_dependencies(self) -> dict[str, Any]:
@@ -158,11 +158,11 @@ class BrandingStructureAnalyzer:
         dependencies = defaultdict(set)
 
         for py_file in self.base_path.rglob("*.py"):
-            if '__pycache__' in str(py_file):
+            if "__pycache__" in str(py_file):
                 continue
 
             try:
-                with open(py_file, encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     content = f.read()
 
                 # Find imports
@@ -189,12 +189,12 @@ class BrandingStructureAnalyzer:
 
         # Common functionality patterns to check for overlaps
         patterns = {
-            'voice_coherence': ['voice', 'coherence', 'tone'],
-            'content_generation': ['content', 'generate', 'create'],
-            'validation': ['validate', 'check', 'verify'],
-            'orchestration': ['orchestrate', 'coordinate', 'manage'],
-            'database': ['db', 'database', 'storage'],
-            'trinity': ['trinity', 'framework', '⚛️', '🧠', '🛡️']
+            "voice_coherence": ["voice", "coherence", "tone"],
+            "content_generation": ["content", "generate", "create"],
+            "validation": ["validate", "check", "verify"],
+            "orchestration": ["orchestrate", "coordinate", "manage"],
+            "database": ["db", "database", "storage"],
+            "trinity": ["trinity", "framework", "⚛️", "🧠", "🛡️"]
         }
 
         # Find files that might have overlapping functionality
@@ -202,7 +202,7 @@ class BrandingStructureAnalyzer:
             matching_files = []
 
             for py_file in self.base_path.rglob("*.py"):
-                with open(py_file, encoding='utf-8', errors='ignore') as f:
+                with open(py_file, encoding="utf-8", errors="ignore") as f:
                     content = f.read().lower()
 
                 if any(keyword in content for keyword in keywords):
@@ -210,9 +210,9 @@ class BrandingStructureAnalyzer:
 
             if len(matching_files) > 1:
                 overlaps.append({
-                    'category': category,
-                    'files': matching_files,
-                    'overlap_score': len(matching_files)
+                    "category": category,
+                    "files": matching_files,
+                    "overlap_score": len(matching_files)
                 })
 
         return overlaps
@@ -222,21 +222,21 @@ class BrandingStructureAnalyzer:
         print("🎯 Identifying elite gaps...")
 
         elite_requirements = [
-            'automated_self_healing',
-            'real_time_monitoring',
-            'adaptive_brand_evolution',
-            'social_media_automation',
-            'competitive_intelligence',
-            'brand_sentiment_tracking',
-            'automated_content_optimization',
-            'cross_platform_orchestration',
-            'predictive_brand_analytics',
-            'autonomous_crisis_management',
-            'multi_language_brand_adaptation',
-            'brand_performance_optimization',
-            'automated_compliance_checking',
-            'dynamic_voice_adjustment',
-            'intelligent_content_routing'
+            "automated_self_healing",
+            "real_time_monitoring",
+            "adaptive_brand_evolution",
+            "social_media_automation",
+            "competitive_intelligence",
+            "brand_sentiment_tracking",
+            "automated_content_optimization",
+            "cross_platform_orchestration",
+            "predictive_brand_analytics",
+            "autonomous_crisis_management",
+            "multi_language_brand_adaptation",
+            "brand_performance_optimization",
+            "automated_compliance_checking",
+            "dynamic_voice_adjustment",
+            "intelligent_content_routing"
         ]
 
         # Check which capabilities are missing
@@ -245,9 +245,9 @@ class BrandingStructureAnalyzer:
         for capability in elite_requirements:
             found = False
             for py_file in self.base_path.rglob("*.py"):
-                with open(py_file, encoding='utf-8', errors='ignore') as f:
+                with open(py_file, encoding="utf-8", errors="ignore") as f:
                     content = f.read().lower()
-                    if capability.replace('_', ' ') in content or capability in content:
+                    if capability.replace("_", " ") in content or capability in content:
                         found = True
                         break
 
@@ -262,34 +262,34 @@ class BrandingStructureAnalyzer:
 
         opportunities = [
             {
-                'name': 'Automated Voice Coherence Optimization',
-                'description': 'Self-optimizing voice coherence based on performance metrics',
-                'impact': 'high',
-                'complexity': 'medium'
+                "name": "Automated Voice Coherence Optimization",
+                "description": "Self-optimizing voice coherence based on performance metrics",
+                "impact": "high",
+                "complexity": "medium"
             },
             {
-                'name': 'Dynamic Brand Adaptation',
-                'description': 'Automatically adapt brand messaging based on audience response',
-                'impact': 'high',
-                'complexity': 'high'
+                "name": "Dynamic Brand Adaptation",
+                "description": "Automatically adapt brand messaging based on audience response",
+                "impact": "high",
+                "complexity": "high"
             },
             {
-                'name': 'Social Media Auto-Orchestration',
-                'description': 'Automated social media content generation and posting',
-                'impact': 'medium',
-                'complexity': 'medium'
+                "name": "Social Media Auto-Orchestration",
+                "description": "Automated social media content generation and posting",
+                "impact": "medium",
+                "complexity": "medium"
             },
             {
-                'name': 'Self-Healing Brand Consistency',
-                'description': 'Automatically detect and fix brand inconsistencies',
-                'impact': 'high',
-                'complexity': 'low'
+                "name": "Self-Healing Brand Consistency",
+                "description": "Automatically detect and fix brand inconsistencies",
+                "impact": "high",
+                "complexity": "low"
             },
             {
-                'name': 'Predictive Content Performance',
-                'description': 'Predict content performance before publishing',
-                'impact': 'medium',
-                'complexity': 'high'
+                "name": "Predictive Content Performance",
+                "description": "Predict content performance before publishing",
+                "impact": "medium",
+                "complexity": "high"
             }
         ]
 
@@ -300,28 +300,28 @@ class BrandingStructureAnalyzer:
         print("💎 Generating elite recommendations...")
 
         return {
-            'structural_improvements': [
-                'Consolidate overlapping voice coherence tools',
-                'Create unified automation layer',
-                'Implement self-healing architecture',
-                'Add predictive analytics module'
+            "structural_improvements": [
+                "Consolidate overlapping voice coherence tools",
+                "Create unified automation layer",
+                "Implement self-healing architecture",
+                "Add predictive analytics module"
             ],
-            'naming_conventions': [
+            "naming_conventions": [
                 'Remove "unified" from all file names',
-                'Use action-based naming (optimizer, orchestrator, guardian)',
-                'Consistent elite terminology across modules'
+                "Use action-based naming (optimizer, orchestrator, guardian)",
+                "Consistent elite terminology across modules"
             ],
-            'architecture_changes': [
-                'Separate core engines from utilities',
-                'Create automation layer above all components',
-                'Implement event-driven architecture',
-                'Add monitoring and analytics layer'
+            "architecture_changes": [
+                "Separate core engines from utilities",
+                "Create automation layer above all components",
+                "Implement event-driven architecture",
+                "Add monitoring and analytics layer"
             ],
-            'elite_additions': [
-                'Social media automation engine',
-                'Predictive brand analytics',
-                'Automated crisis management',
-                'Cross-platform orchestration'
+            "elite_additions": [
+                "Social media automation engine",
+                "Predictive brand analytics",
+                "Automated crisis management",
+                "Cross-platform orchestration"
             ]
         }
 
@@ -345,7 +345,7 @@ class BrandingStructureAnalyzer:
 ## 🔄 Overlapping Functionality
 """
 
-        for overlap in analysis['overlaps']:
+        for overlap in analysis["overlaps"]:
             report += f"""
 ### {overlap['category'].title()}
 **Files with overlap**: {overlap['overlap_score']}
@@ -359,7 +359,7 @@ class BrandingStructureAnalyzer:
 ## 🤖 Automation Opportunities
 """
 
-        for opp in analysis['automation_opportunities']:
+        for opp in analysis["automation_opportunities"]:
             report += f"""
 ### {opp['name']}
 **Impact**: {opp['impact']} | **Complexity**: {opp['complexity']}
@@ -394,7 +394,7 @@ if __name__ == "__main__":
     print(report)
 
     # Save report
-    with open(analyzer.base_path / "BRANDING_STRUCTURE_ANALYSIS.md", 'w') as f:
+    with open(analyzer.base_path / "BRANDING_STRUCTURE_ANALYSIS.md", "w") as f:
         f.write(report)
 
     print("\n📊 Analysis complete! Report saved to BRANDING_STRUCTURE_ANALYSIS.md")

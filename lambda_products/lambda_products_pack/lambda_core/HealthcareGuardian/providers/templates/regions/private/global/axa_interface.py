@@ -34,11 +34,11 @@ class AXAInterface(EHRInterface):
     def _validate_config(self):
         """Validate AXA-specific configuration"""
         required_fields = [
-            'provider_id',
-            'client_id',
-            'client_secret',
-            'region',
-            'product_line'
+            "provider_id",
+            "client_id",
+            "client_secret",
+            "region",
+            "product_line"
         ]
         for field in required_fields:
             if field not in self.config:
@@ -63,7 +63,7 @@ class AXAInterface(EHRInterface):
             record_types: Types of records to retrieve
         """
         self.audit.log_access(
-            user_id=self.config['provider_id'],
+            user_id=self.config["provider_id"],
             action="get_patient_record",
             resource_id=patient_id
         )
@@ -83,7 +83,7 @@ class AXAInterface(EHRInterface):
             provider_id: Healthcare provider ID
         """
         self.audit.log_access(
-            user_id=self.config['provider_id'],
+            user_id=self.config["provider_id"],
             action="verify_coverage",
             resource_id=member_id,
             details={"service_code": service_code}
@@ -96,10 +96,10 @@ class AXAInterface(EHRInterface):
                          claim_data: dict[str, Any]) -> str:
         """Submit insurance claim to AXA"""
         self.audit.log_access(
-            user_id=self.config['provider_id'],
+            user_id=self.config["provider_id"],
             action="submit_claim",
             resource_id=member_id,
-            details={"claim_type": claim_data.get('type')}
+            details={"claim_type": claim_data.get("type")}
         )
         # Implement claim submission
         pass

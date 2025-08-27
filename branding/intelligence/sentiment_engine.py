@@ -266,7 +266,7 @@ class BrandSentimentEngine:
     def _calculate_overall_sentiment(self, text: str) -> float:
         """Calculate overall sentiment score from -1.0 to 1.0"""
 
-        words = re.findall(r'\b\w+\b', text.lower())
+        words = re.findall(r"\b\w+\b", text.lower())
         sentiment_scores = []
         brand_relevance_weights = []
 

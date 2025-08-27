@@ -9,8 +9,7 @@ and categorizing different types of symbolic content and operations.
 
 import logging
 from enum import Enum
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 

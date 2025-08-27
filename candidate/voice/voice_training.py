@@ -276,7 +276,7 @@ class MockVoiceTrainingModel(VoiceTrainingModel):
                 "weights": f"mock_weights_epoch_{self.current_epoch}"
             }
 
-            with open(path, 'w') as f:
+            with open(path, "w") as f:
                 json.dump(model_data, f, indent=2)
 
             self.logger.info(f"Model saved to {path}")
@@ -424,9 +424,9 @@ class LUKHASVoiceTrainer:
                 self.logger.info(f"Would load audio file: {audio_file}")
 
                 # Look for corresponding transcript file
-                transcript_file = audio_file.with_suffix('.txt')
+                transcript_file = audio_file.with_suffix(".txt")
                 if transcript_file.exists():
-                    with open(transcript_file, encoding='utf-8') as f:
+                    with open(transcript_file, encoding="utf-8") as f:
                         transcript = f.read().strip()
                 else:
                     # Use speech recognition to generate transcript
@@ -493,7 +493,7 @@ class LUKHASVoiceTrainer:
             # Training loop
             self._set_stage(TrainingStage.MODEL_TRAINING)
 
-            best_val_loss = float('inf')
+            best_val_loss = float("inf")
             patience_counter = 0
 
             for epoch in range(self.config.num_epochs):

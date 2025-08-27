@@ -281,7 +281,7 @@ class MissingComponentHunter:
         """Determine the type of match"""
         line_stripped = line.strip()
 
-        if line_stripped.startswith("#"):
+        if line_stripped.startswith(")  # ":
             return "comment"
         elif "class " in line_stripped:
             return "class_name"

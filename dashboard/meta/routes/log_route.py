@@ -15,7 +15,6 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException
-
 from identity import AuthContext, get_current_user, require_t3_or_above
 
 logger = logging.getLogger(__name__)

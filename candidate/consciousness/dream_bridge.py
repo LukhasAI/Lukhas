@@ -5,10 +5,10 @@ Implements the critical connection between dream synthesis and consciousness.
 """
 from typing import Any
 
+from consciousness.bridge import ConsciousnessBridge
 from dream.engine import DreamEngine
 
 from candidate.orchestration.integration_hub import get_integration_hub
-from consciousness.bridge import ConsciousnessBridge
 from lukhas.memory.core import MemoryCore
 
 

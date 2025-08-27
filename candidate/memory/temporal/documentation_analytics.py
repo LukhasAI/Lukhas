@@ -884,7 +884,7 @@ class DocumentationAnalytics:
             )
 
         # Check heading hierarchy
-        headings = re.findall(r"^(#{1,6})\s+(.+)$", content, re.MULTILINE)
+        headings = re.findall(r"^()  # {1,6}\s+(.+)$", content, re.MULTILINE)
 
         structure_score = 70  # Base score
         recommendations = []
@@ -1155,7 +1155,7 @@ class DocumentationAnalytics:
                 )
 
         # Check for proper heading hierarchy
-        headings = re.findall(r"^(#{1,6})\s+(.+)$", content, re.MULTILINE)
+        headings = re.findall(r"^()  # {1,6}\s+(.+)$", content, re.MULTILINE)
         if headings:
             heading_levels = [len(h[0]) for h in headings]
             for i in range(1, len(heading_levels)):
@@ -1313,13 +1313,13 @@ class DocumentationAnalytics:
             UserBehaviorPattern(
                 pattern_id="nav_pattern_1",
                 pattern_type="navigation",
-                description="Users frequently navigate from API docs to tutorials",
+                description="Users frequently navigate from api_docs to tutorials",
                 frequency=234,
                 user_segments=["developers", "integrators"],
                 triggers=["api_documentation_view"],
                 outcomes={"tutorial_completion_rate": 0.73},
                 recommendations=[
-                    "Add direct links from API docs to relevant tutorials"
+                    "Add direct links from api_docs to relevant tutorials"
                 ],
             )
         ]

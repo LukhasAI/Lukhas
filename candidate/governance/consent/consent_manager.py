@@ -339,7 +339,7 @@ class AdvancedConsentManager:
                     logger.error(f"❌ GDPR Article 7 validation failed: {validation_result['reasons']}")
                     consent_record.status = ConsentStatus.INVALID
                     consent_record.guardian_validations.extend([
-                        f"GDPR validation failed: {reason}" for reason in validation_result['reasons']
+                        f"GDPR validation failed: {reason}" for reason in validation_result["reasons"]
                     ])
 
                 # Store consent record

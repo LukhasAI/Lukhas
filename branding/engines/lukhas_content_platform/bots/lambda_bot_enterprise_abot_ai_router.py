@@ -186,9 +186,9 @@ class ABotIntelligentAIRouter:
         """Get API key from Mac KeyChain"""
         try:
             result = subprocess.run([
-                'security', 'find-generic-password',
-                '-s', service,
-                '-w'
+                "security", "find-generic-password",
+                "-s", service,
+                "-w"
             ], capture_output=True, text=True, check=True)
             return result.stdout.strip()
         except subprocess.CalledProcessError:
@@ -405,7 +405,7 @@ if __name__ == "__main__":
     # Show status
     status = get_ai_router_status()
     print(f"🔍 Available Services: {status['services_overview']['available_services']}/{status['services_overview']['total_services']}")
-    if status['services_overview']['available_services'] > 0:
+    if status["services_overview"]["available_services"] > 0:
         print(f"💰 Cheapest: {status['services_overview']['cheapest_service']}")
         print(f"💎 Most Expensive: {status['services_overview']['most_expensive_service']}")
         print(f"📊 Cost range: ${status['cost_analysis']['cheapest_cost']:.4f} - ${status['cost_analysis']['most_expensive_cost']:.4f}")

@@ -310,17 +310,17 @@ class DASTAdapter:
         for issue in jira_issues:
             dast_task = {
                 "id": f"jira_{issue['key']}",
-                "title": issue['fields']['summary'],
-                "description": issue['fields'].get('description', ''),
-                "priority": self._map_jira_priority(issue['fields'].get('priority', {}).get('name', 'Medium')),
-                "status": self._map_jira_status(issue['fields']['status']['name']),
-                "tags": ["jira", issue['fields']['issuetype']['name'].lower()],
+                "title": issue["fields"]["summary"],
+                "description": issue["fields"].get("description", ""),
+                "priority": self._map_jira_priority(issue["fields"].get("priority", {}).get("name", "Medium")),
+                "status": self._map_jira_status(issue["fields"]["status"]["name"]),
+                "tags": ["jira", issue["fields"]["issuetype"]["name"].lower()],
                 "context": {
                     "source": "jira",
-                    "external_id": issue['key'],
-                    "external_url": issue['self']
+                    "external_id": issue["key"],
+                    "external_url": issue["self"]
                 },
-                "created_at": issue['fields']['created']
+                "created_at": issue["fields"]["created"]
             }
             dast_tasks.append(dast_task)
 
@@ -331,21 +331,21 @@ class DASTAdapter:
         dast_tasks = []
 
         for issue in github_issues:
-            labels = [label['name'] for label in issue.get('labels', [])]
+            labels = [label["name"] for label in issue.get("labels", [])]
 
             dast_task = {
                 "id": f"github_{issue['number']}",
-                "title": issue['title'],
-                "description": issue.get('body', ''),
+                "title": issue["title"],
+                "description": issue.get("body", ""),
                 "priority": self._map_github_priority(labels),
                 "status": "pending",  # GitHub issues are typically open
                 "tags": ["github"] + labels,
                 "context": {
                     "source": "github",
-                    "external_id": issue['number'],
-                    "external_url": issue['html_url']
+                    "external_id": issue["number"],
+                    "external_url": issue["html_url"]
                 },
-                "created_at": issue['created_at']
+                "created_at": issue["created_at"]
             }
             dast_tasks.append(dast_task)
 
@@ -358,17 +358,17 @@ class DASTAdapter:
         for task in legacy_tasks:
             dast_task = {
                 "id": f"legacy_{task['id']}",
-                "title": task['title'],
-                "description": task.get('description', ''),
-                "priority": task.get('priority', 'medium'),
-                "status": task.get('status', 'pending'),
-                "tags": ["legacy"] + task.get('tags', []),
+                "title": task["title"],
+                "description": task.get("description", ""),
+                "priority": task.get("priority", "medium"),
+                "status": task.get("status", "pending"),
+                "tags": ["legacy"] + task.get("tags", []),
                 "context": {
                     "source": "legacy_dast",
-                    "external_id": task['id'],
+                    "external_id": task["id"],
                     "migrated": True
                 },
-                "created_at": task.get('created_date', datetime.now().isoformat())
+                "created_at": task.get("created_date", datetime.now().isoformat())
             }
             dast_tasks.append(dast_task)
 
@@ -387,16 +387,16 @@ class DASTAdapter:
         """Convert single generic item to DAST format"""
         return {
             "id": f"generic_{item.get('id', 'unknown')}",
-            "title": item.get('title', item.get('name', 'Untitled')),
-            "description": item.get('description', ''),
-            "priority": item.get('priority', 'medium'),
-            "status": item.get('status', 'pending'),
-            "tags": ["external"] + item.get('tags', []),
+            "title": item.get("title", item.get("name", "Untitled")),
+            "description": item.get("description", ""),
+            "priority": item.get("priority", "medium"),
+            "status": item.get("status", "pending"),
+            "tags": ["external"] + item.get("tags", []),
             "context": {
                 "source": "generic_api",
                 "original_data": item
             },
-            "created_at": item.get('created_at', datetime.now().isoformat())
+            "created_at": item.get("created_at", datetime.now().isoformat())
         }
 
     def _convert_dast_to_jira_format(self, dast_task: dict) -> dict:
@@ -404,31 +404,31 @@ class DASTAdapter:
         return {
             "fields": {
                 "project": {"key": "TASK"},  # Would be configurable
-                "summary": dast_task['title'],
-                "description": dast_task.get('description', ''),
+                "summary": dast_task["title"],
+                "description": dast_task.get("description", ""),
                 "issuetype": {"name": "Task"},
-                "priority": {"name": self._map_dast_to_jira_priority(dast_task.get('priority', 'medium'))}
+                "priority": {"name": self._map_dast_to_jira_priority(dast_task.get("priority", "medium"))}
             }
         }
 
     def _convert_dast_to_github_format(self, dast_task: dict) -> dict:
         """Convert DAST task to GitHub issue format"""
         return {
-            "title": dast_task['title'],
-            "body": dast_task.get('description', ''),
-            "labels": dast_task.get('tags', [])
+            "title": dast_task["title"],
+            "body": dast_task.get("description", ""),
+            "labels": dast_task.get("tags", [])
         }
 
     def _convert_dast_to_legacy_format(self, dast_task: dict) -> dict:
         """Convert DAST task to legacy format"""
         return {
-            "id": dast_task['id'],
-            "title": dast_task['title'],
-            "description": dast_task.get('description', ''),
-            "priority": dast_task.get('priority', 'medium'),
-            "status": dast_task.get('status', 'pending'),
-            "tags": dast_task.get('tags', []),
-            "created_date": dast_task.get('created_at', datetime.now().isoformat())
+            "id": dast_task["id"],
+            "title": dast_task["title"],
+            "description": dast_task.get("description", ""),
+            "priority": dast_task.get("priority", "medium"),
+            "status": dast_task.get("status", "pending"),
+            "tags": dast_task.get("tags", []),
+            "created_date": dast_task.get("created_at", datetime.now().isoformat())
         }
 
     # ========================================

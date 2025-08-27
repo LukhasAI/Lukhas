@@ -10,8 +10,8 @@ from datetime import datetime
 
 # Using lukhas.identity or creating stubs for missing functions
 try:
-    from identity_legacy_backup.login import signup, login_user, validate_password
     from identity_legacy_backup.identity_core import validate_symbolic_token
+    from identity_legacy_backup.login import login_user, signup, validate_password
 except ImportError:
     # Create stub functions for testing
     def signup(email, password):

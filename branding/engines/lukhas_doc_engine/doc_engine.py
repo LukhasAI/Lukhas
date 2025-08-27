@@ -83,19 +83,19 @@ class DocEngine:
                               f"Generated {doc_type}: {title}", voice_coherence)
 
         return {
-            'id': doc_id,
-            'title': title,
-            'content': enhanced_content,
-            'doc_type': doc_type,
-            'voice_coherence': voice_coherence,
-            'knowledge_items_used': len(related_content),
-            'trinity_integrated': True
+            "id": doc_id,
+            "title": title,
+            "content": enhanced_content,
+            "doc_type": doc_type,
+            "voice_coherence": voice_coherence,
+            "knowledge_items_used": len(related_content),
+            "trinity_integrated": True
         }
 
     def _calculate_voice_coherence(self, content: str) -> float:
         """Calculate voice coherence score for generated content"""
-        trinity_terms = ['⚛️', '🧠', '🛡️', 'consciousness technology', 'Trinity Framework']
-        lukhas_terms = ['LUKHAS AI', 'consciousness', 'quantum-inspired', 'bio-inspired']
+        trinity_terms = ["⚛️", "🧠", "🛡️", "consciousness technology", "Trinity Framework"]
+        lukhas_terms = ["LUKHAS AI", "consciousness", "quantum-inspired", "bio-inspired"]
 
         total_words = len(content.split())
         if total_words == 0:
@@ -112,7 +112,7 @@ class DocEngine:
         if topic:
             # Get content related to topic
             all_content = db.get_all_content(100)
-            related = [c for c in all_content if topic.lower() in c['content'].lower()]
+            related = [c for c in all_content if topic.lower() in c["content"].lower()]
             knowledge = related[:limit]
         else:
             knowledge = db.get_all_content(limit)
@@ -138,20 +138,20 @@ class DocEngine:
 
         # Get document statistics
         all_docs = db.get_all_content(1000)
-        doc_engine_content = [d for d in all_docs if d['source_system'] == 'doc_engine']
+        doc_engine_content = [d for d in all_docs if d["source_system"] == "doc_engine"]
 
         avg_coherence = 0.0
         if doc_engine_content:
-            coherences = [d['voice_coherence'] for d in doc_engine_content if d['voice_coherence']]
+            coherences = [d["voice_coherence"] for d in doc_engine_content if d["voice_coherence"]]
             avg_coherence = sum(coherences) / len(coherences) if coherences else 0.0
 
         return {
-            'total_documents': len(doc_engine_content),
-            'average_voice_coherence': round(avg_coherence, 1),
-            'available_formats': len(self.get_available_formats()),
-            'knowledge_base_items': len(db.get_all_content(1000)),
-            'trinity_integration': True,
-            'database_connected': True
+            "total_documents": len(doc_engine_content),
+            "average_voice_coherence": round(avg_coherence, 1),
+            "available_formats": len(self.get_available_formats()),
+            "knowledge_base_items": len(db.get_all_content(1000)),
+            "trinity_integration": True,
+            "database_connected": True
         }
 
 if __name__ == "__main__":

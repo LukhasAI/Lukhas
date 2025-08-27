@@ -625,7 +625,7 @@ class ConsensusValidator:
     def _create_cache_key(self, actor_refs: list[ActorRef], query: str) -> str:
         """Create cache key for consensus query"""
         actor_ids = sorted([ref.actor_id for ref in actor_refs])
-        return hashlib.sha256(  # Changed from MD5 for securityf"{','.join(actor_ids)}:{query}".encode()).hexdigest()
+        return hashlib.sha256(  )  #  Changed from MD5 for securityf"{','.join(actor_ids}:{query}".encode()).hexdigest()
 
 
 class CascadePreventionSystem:

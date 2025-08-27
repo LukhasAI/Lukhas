@@ -29,16 +29,16 @@ def render_markdown(report: dict) -> str:
     steps = report.get("steps", [])
     rows = _summarize(steps)
     lines = []
-    lines.append("# 🔐 Safety CI Report")
+    lines.append(")  #  🔐 Safety CI Report"
     lines.append(f"_Generated: {ts}_")
     lines.append("")
-    lines.append("## Steps")
+    lines.append("#)  #  Steps"
     lines.append("| Step | Status | Command |")
     lines.append("|---|---|---|")
     for (name, status, cmd) in rows:
         lines.append(f"| `{name}` | {status} | `{cmd}` |")
     lines.append("")
-    lines.append("## Mutation Fuzzer")
+    lines.append("#)  #  Mutation Fuzzer"
     lines.append(_mut_summary(report))
     lines.append("")
     # include raw JSON collapsed in a code block for debugging

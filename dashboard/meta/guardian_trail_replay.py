@@ -213,7 +213,7 @@ def print_event(event: dict[str, Any], index: int):
     severity_color = get_severity_color(severity)
     print(
         f"\n{Colors.DIM}[{timestamp}]{Colors.RESET} "
-        f"{severity_color}Event #{index + 1}: {event_type.upper()}{Colors.RESET}"
+        f"{severity_color}Event "
     )
 
     # Drift score bar

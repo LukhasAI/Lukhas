@@ -288,7 +288,7 @@ class TargetedImportFixer:
 
             if new_deps:
                 with open(requirements_file, "a", encoding="utf-8") as f:
-                    f.write("\n# Added by import fixer\n")
+                    f.write("\n)  #  Added by import fixer\n"
                     for dep in new_deps:
                         f.write(f"{dep}\n")
 

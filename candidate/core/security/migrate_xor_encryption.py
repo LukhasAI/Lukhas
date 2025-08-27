@@ -200,7 +200,7 @@ class XORMigration:
         )
         report.append(f"Total XOR usages found: {len(findings)}\n")
 
-        report.append("## Files requiring migration:\n")
+        report.append("#)  #  Files requiring migration:\n"
 
         by_file = {}
         for file_path, line_num, line in findings:
@@ -209,11 +209,11 @@ class XORMigration:
             by_file[file_path].append((line_num, line))
 
         for file_path, occurrences in by_file.items():
-            report.append(f"\n### {file_path}")
+            report.append(f"\n##")
             for line_num, line in occurrences:
                 report.append(f"  Line {line_num}: `{line}`")
 
-        report.append("\n## Recommended actions:")
+        report.append("\n#)  #  Recommended actions:"
         report.append("1. Run migration with --apply flag to auto-patch simple cases")
         report.append("2. Manually review complex XOR usage")
         report.append("3. Update tests to use new encryption")

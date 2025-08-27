@@ -1,10 +1,12 @@
 # tools/ci/debt_ratchet.py
 from __future__ import annotations
+
 import json
+import os
 import subprocess
 import sys
-import os
 from pathlib import Path
+
 try:
     import tomllib
 except Exception:

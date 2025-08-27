@@ -174,7 +174,7 @@ class AWSKMSClient:
 
         if AWS_KMS_AVAILABLE:
             try:
-                self.client = boto3.client('kms', region_name=region)
+                self.client = boto3.client("kms", region_name=region)
                 logger.info("✅ Connected to AWS KMS")
             except Exception as e:
                 logger.error(f"AWS KMS connection error: {e}")
@@ -188,11 +188,11 @@ class AWSKMSClient:
         try:
             response = self.client.create_key(
                 Description=description,
-                KeyUsage='ENCRYPT_DECRYPT',
-                Origin='AWS_KMS',
+                KeyUsage="ENCRYPT_DECRYPT",
+                Origin="AWS_KMS",
                 Tags=tags or []
             )
-            return response['KeyMetadata']['KeyId']
+            return response["KeyMetadata"]["KeyId"]
         except Exception as e:
             logger.error(f"AWS KMS create key error: {e}")
             return None
@@ -207,7 +207,7 @@ class AWSKMSClient:
                 KeyId=key_id,
                 Plaintext=plaintext
             )
-            return response['CiphertextBlob']
+            return response["CiphertextBlob"]
         except Exception as e:
             logger.error(f"AWS KMS encrypt error: {e}")
             return None
@@ -221,7 +221,7 @@ class AWSKMSClient:
             response = self.client.decrypt(
                 CiphertextBlob=ciphertext
             )
-            return response['Plaintext']
+            return response["Plaintext"]
         except Exception as e:
             logger.error(f"AWS KMS decrypt error: {e}")
             return None
@@ -244,12 +244,12 @@ class SecretScanner:
 
     # Common secret patterns
     SECRET_PATTERNS = {
-        "aws_key": re.compile(r'AKIA[0-9A-Z]{16}'),
-        "aws_secret": re.compile(r'[0-9a-zA-Z/+=]{40}'),
+        "aws_key": re.compile(r"AKIA[0-9A-Z]{16}"),
+        "aws_secret": re.compile(r"[0-9a-zA-Z/+=]{40}"),
         "api_key": re.compile(r'[aA][pP][iI][-_]?[kK][eE][yY].*[=:].*[\'"][0-9a-zA-Z]{32,}[\'"]'),
-        "github_token": re.compile(r'ghp_[0-9a-zA-Z]{36}'),
-        "slack_token": re.compile(r'xox[baprs]-[0-9a-zA-Z-]+'),
-        "private_key": re.compile(r'-----BEGIN (RSA |EC |)PRIVATE KEY-----'),
+        "github_token": re.compile(r"ghp_[0-9a-zA-Z]{36}"),
+        "slack_token": re.compile(r"xox[baprs]-[0-9a-zA-Z-]+"),
+        "private_key": re.compile(r"-----BEGIN (RSA |EC |)PRIVATE KEY-----"),
         "jwt_secret": re.compile(r'[jJ][wW][tT][-_]?[sS][eE][cC][rR][eE][tT].*[=:].*[\'"][0-9a-zA-Z]{16,}[\'"]'),
     }
 
@@ -264,14 +264,14 @@ class SecretScanner:
         findings = []
 
         try:
-            with open(file_path, encoding='utf-8', errors='ignore') as f:
+            with open(file_path, encoding="utf-8", errors="ignore") as f:
                 content = f.read()
 
                 for secret_type, pattern in self.SECRET_PATTERNS.items():
                     matches = pattern.finditer(content)
                     for match in matches:
                         # Find line number
-                        line_num = content[:match.start()].count('\n') + 1
+                        line_num = content[:match.start()].count("\n") + 1
 
                         findings.append({
                             "file": str(file_path),
@@ -296,9 +296,9 @@ class SecretScanner:
 
             for file in files:
                 # Only scan text files
-                if file.endswith(('.py', '.js', '.ts', '.jsx', '.tsx', '.json',
-                              '.yaml', '.yml', '.env', '.config', '.conf',
-                              '.sh', '.bash', '.zsh')):
+                if file.endswith((".py", ".js", ".ts", ".jsx", ".tsx", ".json",
+                              ".yaml", ".yml", ".env", ".config", ".conf",
+                              ".sh", ".bash", ".zsh")):
                     file_path = Path(root) / file
                     findings = self.scan_file(file_path)
                     all_findings.extend(findings)

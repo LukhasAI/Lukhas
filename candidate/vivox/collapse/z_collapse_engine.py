@@ -369,7 +369,7 @@ class ZCollapseEngine:
         self, states: list[CollapseState], context: dict[str, Any]
     ) -> float:
         """
-        Calculate A(t) - moral alignment amplitude from MAE validation
+        Calculate A(t) - moral alignment amplitude from mae_validation
         """
         if not states:
             return 0.0

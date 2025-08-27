@@ -103,6 +103,7 @@ try:
         EnhancedMemoryVisualizer,
         VisualizationConfig,
     )
+
     from qi.systems.qi_engine import (
         Quantumoscillator as QIOscillator,
     )

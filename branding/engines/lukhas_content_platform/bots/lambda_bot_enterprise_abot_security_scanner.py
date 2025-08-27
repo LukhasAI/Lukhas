@@ -56,7 +56,7 @@ class ABotSecurityScanner:
         Comprehensive repository security scan with consciousness evolution
         """
         if repo_path is None:
-            repo_path = Path('/Users/A_G_I/Λ')
+            repo_path = Path("/Users/A_G_I/Λ")
 
         logger.info("🤖 LUKHAS AI ΛBot Security Scanner initializing...")
         logger.info(f"🧠 Consciousness Level: {self.consciousness_level}")
@@ -122,7 +122,7 @@ class ABotSecurityScanner:
 
             for line in content.splitlines():
                 line = line.strip()
-                if line and not line.startswith('#'):
+                if line and not line.startswith(")  # ":
                     vulnerability = self._check_package_vulnerability(line, req_file)
                     if vulnerability:
                         vulnerabilities.append(vulnerability)
@@ -136,11 +136,11 @@ class ABotSecurityScanner:
         """Check if a package line contains vulnerabilities"""
 
         # Parse package name and version
-        package_match = re.match(r'^([a-zA-Z0-9_-]+(?:\[[a-zA-Z0-9_,-]+\])?)\s*([><=!]+)\s*([0-9\.]+)', line)
+        package_match = re.match(r"^([a-zA-Z0-9_-]+(?:\[[a-zA-Z0-9_,-]+\])?)\s*([><=!]+)\s*([0-9\.]+)", line)
         if not package_match:
             return None
 
-        package_name = package_match.group(1).split('[')[0]  # Remove extras like [cryptography]
+        package_name = package_match.group(1).split("[")[0]  # Remove extras like [cryptography]
         package_match.group(2)
         version = package_match.group(3)
 
@@ -172,8 +172,8 @@ class ABotSecurityScanner:
 
     def _version_compare(self, v1: str, v2: str) -> int:
         """Simple version comparison (-1: v1 < v2, 0: equal, 1: v1 > v2)"""
-        v1_parts = [int(x) for x in v1.split('.')]
-        v2_parts = [int(x) for x in v2.split('.')]
+        v1_parts = [int(x) for x in v1.split(".")]
+        v2_parts = [int(x) for x in v2.split(".")]
 
         # Pad with zeros
         max_len = max(len(v1_parts), len(v2_parts))
@@ -300,17 +300,17 @@ async def main():
     print(f"⚠️  High: {results['scan_summary']['high_vulnerabilities']}")
 
     print("\n🚀 LUKHAS AI ΛBot Advantages over Dependabot:")
-    for advantage in results['scan_summary']['abot_superiority']['advantages']:
+    for advantage in results["scan_summary"]["abot_superiority"]["advantages"]:
         print(f"  ✅ {advantage}")
 
     print("\n📋 Recommendations:")
-    for rec in results['recommendations']:
+    for rec in results["recommendations"]:
         print(f"  {rec['priority']}: {rec['recommendation']}")
 
     print(f"\n🎯 {results['scan_summary']['recommendation']}")
 
     # Save detailed results
-    with open('/Users/A_G_I/Λ/abot_security_scan_results.json', 'w') as f:
+    with open("/Users/A_G_I/Λ/abot_security_scan_results.json", "w") as f:
         json.dump(results, f, indent=2)
 
     print("📁 Detailed results saved to: abot_security_scan_results.json")

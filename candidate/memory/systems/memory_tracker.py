@@ -159,7 +159,7 @@ class MemoryTracker:
             plt.figure()
             for y, label in zip(y_values, labels):
                 plt.plot(x, y, label=label)
-            plt.xlabel("# Operator Calls")
+            plt.xlabel(")  #  Operator Calls"
             plt.ylabel("Memory (MB)")
             plt.legend()
             for marker_name, marker in self._markers.items():

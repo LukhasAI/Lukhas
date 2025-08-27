@@ -64,7 +64,7 @@ def call_ollama(prompt: str, model: str = None) -> str:
 def extract_todo_at_line(file_path: str, line_num: int) -> Optional[dict]:
     """Extract TODO[T4-AUTOFIX] marker at specified line."""
     try:
-        with open(file_path, encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             lines = f.readlines()
 
         if line_num < 1 or line_num > len(lines):
@@ -92,7 +92,7 @@ def extract_todo_at_line(file_path: str, line_num: int) -> Optional[dict]:
 def get_context_lines(file_path: str, line_num: int, context: int = 30) -> str:
     """Get context lines around the TODO marker."""
     try:
-        with open(file_path, encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             lines = f.readlines()
 
         start = max(0, line_num - context - 1)
@@ -165,7 +165,7 @@ def write_patch(file_path: str, line_num: int, patch_content: str) -> Path:
     filename = f"t4_quickfix_{Path(file_path).stem}_L{line_num}.patch"
     patch_path = Path(tempfile.gettempdir()) / filename
 
-    with open(patch_path, 'w', encoding='utf-8') as f:
+    with open(patch_path, "w", encoding="utf-8") as f:
         f.write(patch_content)
 
     return patch_path
@@ -189,7 +189,7 @@ def run_tests(file_path: str = None) -> bool:
     """Run basic tests to validate changes."""
     try:
         # Try syntax check first
-        if file_path and file_path.endswith('.py'):
+        if file_path and file_path.endswith(".py"):
             run(["python3", "-m", "py_compile", file_path])
 
         # Run quick linting if available
@@ -247,10 +247,9 @@ def main():
     patch = call_ollama(prompt, args.model)
 
     # Add LLM provenance header
-    from datetime import datetime
     model_used = args.model or os.environ.get("T4_LLM_MODEL","deepseek-coder")
     timeout = int(os.environ.get("T4_LLM_TIMEOUT","30"))
-    prov = f"# T4-QuickFix provenance: model={model_used} timeout={timeout}s ts={datetime.utcnow().isoformat()}Z\n"
+    prov = ""
     if patch.startswith("--- a/"):
         patch = prov + patch
     else:

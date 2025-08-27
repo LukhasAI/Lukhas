@@ -39,9 +39,9 @@ class BaseComplianceManager(ABC):
 
     def __init__(self, config: dict[str, Any]):
         self.config = config
-        self.compliance_level = ComplianceLevel(config.get('compliance_level', 'standard'))
-        self.frameworks = [ComplianceFramework(f) for f in config.get('frameworks', ['gdpr'])]
-        self.audit_enabled = config.get('audit_enabled', True)
+        self.compliance_level = ComplianceLevel(config.get("compliance_level", "standard"))
+        self.frameworks = [ComplianceFramework(f) for f in config.get("frameworks", ["gdpr"])]
+        self.audit_enabled = config.get("audit_enabled", True)
 
     @abstractmethod
     async def validate_data_processing(self,
@@ -73,7 +73,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
     def __init__(self, config: dict[str, Any]):
         super().__init__(config)
-        self.data_retention_days = config.get('data_retention_days', 2555)  # 7 years default
+        self.data_retention_days = config.get("data_retention_days", 2555)  # 7 years default
         self.consent_cache = {}
 
     async def validate_data_processing(self,
@@ -104,8 +104,8 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
         # Check if legal basis is valid
         valid_legal_bases = [
-            'consent', 'contract', 'legal_obligation',
-            'vital_interests', 'public_task', 'legitimate_interests'
+            "consent", "contract", "legal_obligation",
+            "vital_interests", "public_task", "legitimate_interests"
         ]
 
         if legal_basis not in valid_legal_bases:
@@ -127,8 +127,8 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
         # Check if purpose is permitted under HIPAA
         permitted_purposes = [
-            'treatment', 'payment', 'healthcare_operations',
-            'public_health', 'research', 'oversight'
+            "treatment", "payment", "healthcare_operations",
+            "public_health", "research", "oversight"
         ]
 
         if purpose not in permitted_purposes:
@@ -151,16 +151,16 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
         # Define purpose-specific data requirements
         purpose_data_map = {
-            'treatment': ['medical_history', 'current_symptoms', 'medications'],
-            'payment': ['insurance_info', 'billing_address', 'service_codes'],
-            'appointment': ['contact_info', 'availability', 'medical_specialty']
+            "treatment": ["medical_history", "current_symptoms", "medications"],
+            "payment": ["insurance_info", "billing_address", "service_codes"],
+            "appointment": ["contact_info", "availability", "medical_specialty"]
         }
 
         allowed_fields = purpose_data_map.get(purpose, [])
 
         # Check if collected data exceeds what's necessary
         for field in data:
-            if field not in allowed_fields and field not in ['patient_id', 'timestamp']:
+            if field not in allowed_fields and field not in ["patient_id", "timestamp"]:
                 logger.warning(f"Excessive data collection: {field} not needed for {purpose}")
                 return False
 
@@ -176,8 +176,8 @@ class UnifiedComplianceManager(BaseComplianceManager):
         cache_key = f"{subject_id}:{purpose}:{':'.join(data_types)}"
         if cache_key in self.consent_cache:
             consent_data = self.consent_cache[cache_key]
-            if consent_data['expires'] > datetime.utcnow():
-                return consent_data['valid']
+            if consent_data["expires"] > datetime.utcnow():
+                return consent_data["valid"]
 
         # Validate consent for each framework
         consent_valid = True
@@ -190,8 +190,8 @@ class UnifiedComplianceManager(BaseComplianceManager):
 
         # Cache result
         self.consent_cache[cache_key] = {
-            'valid': consent_valid,
-            'expires': datetime.utcnow() + timedelta(hours=1)
+            "valid": consent_valid,
+            "expires": datetime.utcnow() + timedelta(hours=1)
         }
 
         return consent_valid
@@ -203,7 +203,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         """Check GDPR consent requirements"""
 
         # GDPR requires explicit consent for sensitive data
-        sensitive_data_types = ['health', 'genetic', 'biometric']
+        sensitive_data_types = ["health", "genetic", "biometric"]
 
         for data_type in data_types:
             if data_type in sensitive_data_types:
@@ -220,7 +220,7 @@ class UnifiedComplianceManager(BaseComplianceManager):
         """Check HIPAA authorization requirements"""
 
         # HIPAA allows disclosure for TPO without authorization
-        if purpose in ['treatment', 'payment', 'healthcare_operations']:
+        if purpose in ["treatment", "payment", "healthcare_operations"]:
             return True
 
         # Other purposes require authorization
@@ -249,13 +249,13 @@ class UnifiedComplianceManager(BaseComplianceManager):
         """Log data access for audit purposes"""
 
         access_log = {
-            'timestamp': datetime.utcnow().isoformat(),
-            'user_id': user_id,
-            'subject_id': subject_id,
-            'data_accessed': data_accessed,
-            'purpose': purpose,
-            'frameworks': [f.value for f in self.frameworks],
-            'compliance_level': self.compliance_level.value
+            "timestamp": datetime.utcnow().isoformat(),
+            "user_id": user_id,
+            "subject_id": subject_id,
+            "data_accessed": data_accessed,
+            "purpose": purpose,
+            "frameworks": [f.value for f in self.frameworks],
+            "compliance_level": self.compliance_level.value
         }
 
         logger.info(f"Data access logged: {access_log}")

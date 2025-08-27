@@ -34,10 +34,10 @@ class SASInterface(EHRInterface):
     def _validate_config(self):
         """Validate SAS-specific configuration"""
         required_fields = [
-            'centro_salud_id',
-            'provincia',
-            'certificado_digital',
-            'api_endpoints'
+            "centro_salud_id",
+            "provincia",
+            "certificado_digital",
+            "api_endpoints"
         ]
         for field in required_fields:
             if field not in self.config:
@@ -62,7 +62,7 @@ class SASInterface(EHRInterface):
             record_types: Types of records to retrieve
         """
         self.audit.log_access(
-            user_id=self.config['centro_salud_id'],
+            user_id=self.config["centro_salud_id"],
             action="get_patient_record",
             resource_id=patient_id
         )
@@ -75,7 +75,7 @@ class SASInterface(EHRInterface):
                                   update_type: str) -> bool:
         """Update patient records in SAS"""
         self.audit.log_access(
-            user_id=self.config['centro_salud_id'],
+            user_id=self.config["centro_salud_id"],
             action="update_patient_record",
             resource_id=patient_id,
             details={"update_type": update_type}
@@ -94,7 +94,7 @@ class SASInterface(EHRInterface):
                                   provider_id: str,
                                   start_date: datetime,
                                   end_date: datetime) -> list[dict[str, Any]]:
-        """Get provider's schedule from SAS scheduling system"""
+        """Get provider's schedule from sas_scheduling system"""
         # Implement SAS-specific schedule retrieval
         pass
 

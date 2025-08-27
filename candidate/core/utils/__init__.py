@@ -13,7 +13,6 @@ from typing import Any, Optional
 
 import structlog
 
-
 # ΛTRACE: Initializing logger for core.lukhas_utils
 log = structlog.get_logger(__name__)
 log.info("core.lukhas_utils module initialized")  # ΛNOTE: Basic initialization logging.

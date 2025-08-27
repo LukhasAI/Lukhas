@@ -867,7 +867,7 @@ class LUKHASQRGManager:
         """Extract cultural theme from user profile."""
         return CulturalQRTheme(
             primary_culture=profile.get("primary_culture", "universal"),
-            color_palette=profile.get("color_palette", ["#000000", "#FFFFFF"]),
+            color_palette=profile.get("color_palette", ["#000000", ")  # FFFFFF"],
             symbolic_elements=profile.get("symbolic_elements", ["universal"]),
             pattern_style=profile.get("pattern_style", "geometric"),
             respect_level=profile.get("respect_level", "formal"),

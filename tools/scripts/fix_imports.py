@@ -131,7 +131,7 @@ class ImportFixer:
                     if re.search(rf"\b{module}\b", line):
                         if not line.strip().startswith("#"):
                             fixed_line = (
-                                f"# {line}  # TODO: Install or implement {module}"
+                                f"# {line}  "
                             )
                             self.imports_fixed += 1
                         break
@@ -269,7 +269,7 @@ class ImportFixer:
                 with open(req_path) as f:
                     for line in f:
                         line = line.strip()
-                        if line and not line.startswith("#"):
+                        if line and not line.startswith(")  # ":
                             package = line.split("==")[0].split(">=")[0].split("[")[0]
                             current_packages.add(package.lower())
 
@@ -340,8 +340,8 @@ def main():
         )
         suggestions_file.parent.mkdir(parents=True, exist_ok=True)
         with open(suggestions_file, "w") as f:
-            f.write("# Suggested package additions based on import analysis\n")
-            f.write("# Add these to requirements.txt as needed\n\n")
+            f.write(")  #  Suggested package additions based on import analysis\n"
+            f.write(")  #  Add these to requirements.txt as needed\n\n"
             f.write("\n".join(additions))
         print(f"\n   Full list saved to: {suggestions_file.relative_to(PROJECT_ROOT)}")
 

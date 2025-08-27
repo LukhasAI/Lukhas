@@ -140,7 +140,7 @@ Examples:
     from qi.glyphs.embed import extract_from_png, extract_from_text
 
     blob = None
-    if args.path.lower().endswith(('.png', '.jpg', '.jpeg')):
+    if args.path.lower().endswith((".png", ".jpg", ".jpeg")):
         blob = extract_from_png(content)
     else:
         blob = extract_from_text(content)

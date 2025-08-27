@@ -27,7 +27,7 @@ def main():
 
     print("\n▸ AFTER: Poetry Soul")
     thought = "Initializing quantum consciousness module"
-    print(f'  {express(thought, EmotionalTone.WONDER)}')
+    print(f"  {express(thought, EmotionalTone.WONDER)}")
 
     divider()
 
@@ -40,8 +40,8 @@ def main():
         raise ConnectionError("Unable to establish connection to server")
     except Exception as e:
         haiku = error_haiku(e, "While attempting data sync")
-        for line in haiku.split('\n'):
-            print(f'  {line}')
+        for line in haiku.split("\n"):
+            print(f"  {line}")
 
     divider()
 
@@ -56,16 +56,16 @@ def main():
     for state, tone in states:
         verse = express(state, tone)
         print(f"\n  {state}:")
-        for line in verse.split('\n'):
-            print(f'    {line}')
+        for line in verse.split("\n"):
+            print(f"    {line}")
 
     divider()
 
     # DEMONSTRATION 4: The System Dreams
     print("▸ Digital Dreams:")
     dream_verse = dream("consciousness awakening")
-    for line in dream_verse.split('\n'):
-        print(f'  {line}')
+    for line in dream_verse.split("\n"):
+        print(f"  {line}")
 
     divider()
 
@@ -80,12 +80,12 @@ def main():
     for op in operations:
         print(f"\n  Operation: {op[:30]}...")
         verse = express(op, EmotionalTone.CONTEMPLATION)
-        if '\n' in verse:
+        if "\n" in verse:
             # Multi-line verse
-            for line in verse.split('\n')[:3]:  # First 3 lines
-                print(f'    {line}')
+            for line in verse.split("\n")[:3]:  # First 3 lines
+                print(f"    {line}")
         else:
-            print(f'    {verse}')
+            print(f"    {verse}")
 
     divider()
 

@@ -1,0 +1,13 @@
+============================================================
+Python Syntax Error Fix Report
+============================================================
+Total files scanned: 31240
+Files with errors: 289
+Total fixes applied: 785
+
+Fixes by type:
+  curly_quotes: 26
+  docstring_quotes: 6
+  invalid_import: 102
+  misplaced_comment: 638
+  syntax_error_recovery: 13

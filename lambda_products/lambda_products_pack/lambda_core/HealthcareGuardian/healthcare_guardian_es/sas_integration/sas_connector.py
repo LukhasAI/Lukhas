@@ -93,26 +93,26 @@ class SASHealthcareConnector:
 
         # Default configuration based on existing template
         self.sas_config = {
-            'environment': self.config.get('environment', 'production'),
-            'region': 'andalucia',
-            'api_endpoints': {
-                'base_url': 'https://api.sas.junta-andalucia.es',
-                'appointments': '/api/v1/citas',
-                'prescriptions': '/api/v1/recetas',
-                'medical_records': '/api/v1/historia',
-                'emergency': '/api/v1/urgencias'
+            "environment": self.config.get("environment", "production"),
+            "region": "andalucia",
+            "api_endpoints": {
+                "base_url": "https://api.sas.junta-andalucia.es",
+                "appointments": "/api/v1/citas",
+                "prescriptions": "/api/v1/recetas",
+                "medical_records": "/api/v1/historia",
+                "emergency": "/api/v1/urgencias"
             },
-            'centro_salud': self.config.get('centro_salud', ''),
-            'provincia': self.config.get('provincia', 'SEVILLA'),
-            'timeout': 30,
-            'retry_attempts': 3
+            "centro_salud": self.config.get("centro_salud", ""),
+            "provincia": self.config.get("provincia", "SEVILLA"),
+            "timeout": 30,
+            "retry_attempts": 3
         }
 
         # Load custom config if exists
         if config_path.exists():
             try:
                 import yaml
-                with open(config_path, encoding='utf-8') as f:
+                with open(config_path, encoding="utf-8") as f:
                     custom_config = yaml.safe_load(f)
                     self.sas_config.update(custom_config)
             except Exception as e:
@@ -160,7 +160,7 @@ class SASHealthcareConnector:
         if len(nuhsa) != 12:
             return False
 
-        if not nuhsa.startswith('AN'):
+        if not nuhsa.startswith("AN"):
             return False
 
         # Check if rest are digits
@@ -267,7 +267,7 @@ class SASHealthcareConnector:
         # Find next future appointment
         future_appointments = [
             apt for apt in appointments
-            if apt.date > datetime.now() and apt.status != 'cancelled'
+            if apt.date > datetime.now() and apt.status != "cancelled"
         ]
 
         if not future_appointments:
@@ -341,7 +341,7 @@ class SASHealthcareConnector:
                 date=apt_date,
                 time=apt_time,
                 location="Por determinar",
-                centro_salud=self.sas_config['centro_salud'],
+                centro_salud=self.sas_config["centro_salud"],
                 status="scheduled",
                 notes=f"Cita {urgency}"
             )
@@ -443,15 +443,15 @@ class SASHealthcareConnector:
             return {}
 
         emergency_info = {
-            'patient_name': record.name,
-            'nuhsa': record.nuhsa,
-            'birth_date': record.birth_date.strftime("%d/%m/%Y"),
-            'allergies': record.allergies,
-            'medical_conditions': record.medical_conditions,
-            'current_medications': record.current_medications,
-            'emergency_contacts': record.emergency_contacts,
-            'centro_salud': self.sas_config['centro_salud'],
-            'emergency_number': '112'
+            "patient_name": record.name,
+            "nuhsa": record.nuhsa,
+            "birth_date": record.birth_date.strftime("%d/%m/%Y"),
+            "allergies": record.allergies,
+            "medical_conditions": record.medical_conditions,
+            "current_medications": record.current_medications,
+            "emergency_contacts": record.emergency_contacts,
+            "centro_salud": self.sas_config["centro_salud"],
+            "emergency_number": "112"
         }
 
         return emergency_info
@@ -470,12 +470,12 @@ class SASHealthcareConnector:
         # For demo, return sample pharmacy
 
         pharmacy = {
-            'name': 'Farmacia García López',
-            'address': 'Calle Real 23, Sevilla',
-            'phone': '954123456',
-            'hours': 'Lunes-Viernes 9:00-21:00, Sábado 9:00-14:00',
-            'distance': '500 metros',
-            'has_emergency_service': True
+            "name": "Farmacia García López",
+            "address": "Calle Real 23, Sevilla",
+            "phone": "954123456",
+            "hours": "Lunes-Viernes 9:00-21:00, Sábado 9:00-14:00",
+            "distance": "500 metros",
+            "has_emergency_service": True
         }
 
         return pharmacy
@@ -492,9 +492,9 @@ class SASHealthcareConnector:
         """
         # Convert date to Spanish format
         months = {
-            1: 'enero', 2: 'febrero', 3: 'marzo', 4: 'abril',
-            5: 'mayo', 6: 'junio', 7: 'julio', 8: 'agosto',
-            9: 'septiembre', 10: 'octubre', 11: 'noviembre', 12: 'diciembre'
+            1: "enero", 2: "febrero", 3: "marzo", 4: "abril",
+            5: "mayo", 6: "junio", 7: "julio", 8: "agosto",
+            9: "septiembre", 10: "octubre", 11: "noviembre", 12: "diciembre"
         }
 
         day = appointment.date.day

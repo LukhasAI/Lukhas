@@ -223,10 +223,11 @@ class VoiceSynthesis:
         """Synthesize speech using Microsoft Edge TTS with fallback."""
         try:
             # Try importing edge_tts
-            import edge_tts
             import asyncio
-            import tempfile
             import os
+            import tempfile
+
+            import edge_tts
 
             # Use default voice if not specified
             voice = voice_id or "en-US-AriaNeural"

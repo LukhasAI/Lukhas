@@ -5,11 +5,12 @@ Secure environment variable loading with validation and optional YAML support
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 
+import logging
 import os
-import yaml
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-import logging
+
+import yaml
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ class EnvironmentConfig:
     def _load_yaml_config(self, yaml_path: str) -> None:
         """Load configuration from YAML file"""
         try:
-            with open(yaml_path, 'r') as file:
+            with open(yaml_path) as file:
                 self._yaml_config = yaml.safe_load(file) or {}
                 logger.info(f"Loaded configuration from {yaml_path}")
         except Exception as e:
@@ -85,7 +86,7 @@ class EnvironmentConfig:
         if isinstance(value, bool):
             return value
         if isinstance(value, str):
-            return value.lower() in ('true', '1', 'yes', 'on')
+            return value.lower() in ("true", "1", "yes", "on")
         return bool(value)
 
     def get_int(self, key: str, default: int = 0, required: bool = False) -> int:

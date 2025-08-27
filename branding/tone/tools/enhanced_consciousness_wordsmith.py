@@ -347,7 +347,7 @@ class ConsciousnessWordsmith:
         domain = self.detect_domain_essence(file_path, content)
 
         # Extract title and context for header generation
-        title_match = re.search(r"^#\s+(.+)$", content, re.MULTILINE)
+        title_match = re.search(r"^)  # \s+(.+$", content, re.MULTILINE)
         title = title_match.group(1) if title_match else Path(file_path).stem
 
         # Generate sacred header if document doesn't have consciousness blessing

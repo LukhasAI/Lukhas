@@ -92,21 +92,21 @@ class MultiAIConsensus:
     async def _get_ai_evaluation(self, client: Any, service_name: str, prompt: str) -> Optional[Dict[str, Any]]:
         """Get evaluation from a specific AI service"""
         try:
-            if service_name == "openai" and hasattr(client, 'chat_completion'):
+            if service_name == "openai" and hasattr(client, "chat_completion"):
                 response = await client.chat_completion(
                     messages=[{"role": "user", "content": prompt}],
                     model="gpt-4",
                     temperature=0.1
                 )
-                content = response.get('choices', [{}])[0].get('message', {}).get('content', '')
+                content = response.get("choices", [{}])[0].get("message", {}).get("content", "")
 
-            elif service_name == "anthropic" and hasattr(client, 'complete'):
+            elif service_name == "anthropic" and hasattr(client, "complete"):
                 response = await client.complete(prompt, max_tokens=500, temperature=0.1)
-                content = response.get('completion', '')
+                content = response.get("completion", "")
 
-            elif service_name == "gemini" and hasattr(client, 'generate'):
+            elif service_name == "gemini" and hasattr(client, "generate"):
                 response = await client.generate(prompt, temperature=0.1)
-                content = response.get('text', '')
+                content = response.get("text", "")
 
             else:
                 return None
@@ -114,8 +114,8 @@ class MultiAIConsensus:
             # Try to parse JSON response
             try:
                 # Extract JSON from response
-                json_start = content.find('{')
-                json_end = content.rfind('}') + 1
+                json_start = content.find("{")
+                json_end = content.rfind("}") + 1
                 if json_start >= 0 and json_end > json_start:
                     json_str = content[json_start:json_end]
                     return json.loads(json_str)

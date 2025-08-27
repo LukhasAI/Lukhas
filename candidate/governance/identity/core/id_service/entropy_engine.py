@@ -694,4 +694,4 @@ if __name__ == "__main__":
 EntropyEngine = LambdaIDEntropyEngine
 
 # Export classes
-__all__ = ['LambdaIDEntropyEngine', 'EntropyEngine', 'EntropyAnalysis', 'EntropyLevel']
+__all__ = ["LambdaIDEntropyEngine", "EntropyEngine", "EntropyAnalysis", "EntropyLevel"]

@@ -1397,9 +1397,9 @@ if __name__ == "__main__":
                 print(f"   Trinity Sync: {metrics['trinity_framework']['synchronization']:.2f}")
                 print(f"   Ethics Compliance: {metrics['governance']['ethics_compliance']:.2f}")
 
-                if summary['active_threats'] > 0:
-                    for threat in summary['recent_threats']:
-                        impact = threat['trinity_impact']
+                if summary["active_threats"] > 0:
+                    for threat in summary["recent_threats"]:
+                        impact = threat["trinity_impact"]
                         print(f"   🚨 {threat['type']} ({threat['severity']}) {threat['symbolic']} [I:{impact.get('identity',0):.1f}C:{impact.get('consciousness',0):.1f}G:{impact.get('guardian',0):.1f}]")
 
             # Final summary

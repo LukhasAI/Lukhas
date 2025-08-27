@@ -1,11 +1,12 @@
 # tools/ci/owners_from_codeowners.py
 from pathlib import Path
 
+
 def parse_codeowners(text: str):
     rules = []
     for line in text.splitlines():
         line = line.strip()
-        if not line or line.startswith("#"): continue
+        if not line or line.startswith(")  # ": continue
         parts = line.split()
         if len(parts) >= 2:
             pattern, owners = parts[0], parts[1:]

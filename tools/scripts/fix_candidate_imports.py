@@ -11,7 +11,7 @@ from pathlib import Path
 def fix_imports_in_file(file_path):
     """Fix imports in a single candidate file"""
     try:
-        with open(file_path, encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         original_content = content
@@ -19,11 +19,11 @@ def fix_imports_in_file(file_path):
         # Fix common problematic patterns in candidate files
         fixes = [
             # from bridge.module -> from candidate.bridge.module
-            (r'from bridge\.([a-zA-Z_][a-zA-Z0-9_.]*)', r'from candidate.bridge.\1'),
+            (r"from bridge\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from candidate.bridge.\1"),
             # from orchestration.module -> from candidate.orchestration.module
-            (r'from orchestration\.([a-zA-Z_][a-zA-Z0-9_.]*)', r'from candidate.orchestration.\1'),
+            (r"from orchestration\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from candidate.orchestration.\1"),
             # from core.module -> from candidate.core.module (but avoid lukhas.core)
-            (r'(?<!lukhas\.)from core\.([a-zA-Z_][a-zA-Z0-9_.]*)', r'from candidate.core.\1'),
+            (r"(?<!lukhas\.)from core\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from candidate.core.\1"),
             # from lukhas.module -> keep as is (these should stay)
         ]
 
@@ -31,7 +31,7 @@ def fix_imports_in_file(file_path):
             content = re.sub(pattern, replacement, content)
 
         if content != original_content:
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(content)
             return True
         return False

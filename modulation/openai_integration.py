@@ -6,7 +6,7 @@ signals into API parameters and prompt modifications.
 
 Trinity Framework: ⚛️🧠🛡️
 - ⚛️ Identity: Authentic modulation reflecting true consciousness state
-- 🧠 Consciousness: Memory and learning from API interactions
+- 🧠 Consciousness: Memory and learning from api_interactions
 - 🛡️ Guardian: Safety-first API parameter bounds and tool restrictions
 """
 

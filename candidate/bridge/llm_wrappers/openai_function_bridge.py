@@ -24,10 +24,11 @@ import json
 import logging
 import time
 import uuid
+from collections.abc import AsyncGenerator
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, AsyncGenerator, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from openai import AsyncOpenAI
 
@@ -229,7 +230,7 @@ class OpenAIFunctionBridge:
             function_calls = []
 
             # Process tool calls (function calls)
-            if hasattr(message, 'tool_calls') and message.tool_calls:
+            if hasattr(message, "tool_calls") and message.tool_calls:
                 for tool_call in message.tool_calls:
                     if tool_call.type == "function":
                         try:
@@ -330,7 +331,7 @@ class OpenAIFunctionBridge:
                         }
 
                     # Yield function call data
-                    if hasattr(choice.delta, 'tool_calls') and choice.delta.tool_calls:
+                    if hasattr(choice.delta, "tool_calls") and choice.delta.tool_calls:
                         for tool_call in choice.delta.tool_calls:
                             yield {
                                 "type": "function_call",
@@ -482,7 +483,7 @@ class OpenAIFunctionBridge:
 # Predefined function definitions for common LUKHAS operations
 LUKHAS_FUNCTION_DEFINITIONS = {
     "get_memory_fold": {
-        "description": "Retrieve a specific memory fold from LUKHAS memory system",
+        "description": "Retrieve a specific memory fold from lukhas_memory system",
         "parameters": {
             "type": "object",
             "properties": {

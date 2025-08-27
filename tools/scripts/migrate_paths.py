@@ -133,7 +133,7 @@ class PathMigrator:
                             insert_line = i + 1
                         elif (
                             line.strip()
-                            and not line.startswith("#")
+                            and not line.startswith(")  # "
                             and not line.startswith('"""')
                         ):
                             break

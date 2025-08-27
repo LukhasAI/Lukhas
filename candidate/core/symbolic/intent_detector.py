@@ -5,7 +5,6 @@ from datetime import datetime
 from typing import Any, Union
 
 import numpy as np
-
 from identity.backend.app.crypto import generate_collapse_hash
 
 # TAG:core

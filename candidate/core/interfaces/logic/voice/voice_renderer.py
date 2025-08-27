@@ -46,10 +46,10 @@ def render_voice(emotion_state, context=None):
     """
     profiles = {
         "neutral": "🔊 (Neutral tone) I am here and ready.",
-        "joyful": "😊 (Warm tone) That's exciting! Let’s dive in!",
-        "sad": "😔 (Soft tone) I hear you... let’s take it gently.",
+        "joyful": "😊 (Warm tone) That's exciting! Let's dive in!",
+        "sad": "😔 (Soft tone) I hear you... let's take it gently.",
         "alert": "⚠️ (Firm tone) That may require attention. Shall we pause?",
-        "dreamy": "🌙 (Airy tone) Let’s drift through this idea together...",
+        "dreamy": "🌙 (Airy tone) Let's drift through this idea together...",
     }
 
     return profiles.get(emotion_state, "🔈 (Default) How can I assist?")

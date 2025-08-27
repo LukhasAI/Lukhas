@@ -25,15 +25,15 @@
 import asyncio
 from typing import Any
 
+# New memory systems
+from memory.core import create_hybrid_memory_fold
+from memory.systems.attention_memory_layer import create_attention_orchestrator
+
 # Existing systems to integrate with
 from candidate.core.integration.connectivity_engine import ConnectivityEngine
 from lukhas.consciousness.reflection.unified_memory_manager import (
     EnhancedMemoryManager,
 )
-
-# New memory systems
-from memory.core import create_hybrid_memory_fold
-from memory.systems.attention_memory_layer import create_attention_orchestrator
 
 
 class EnhancedMemoryIntegration:

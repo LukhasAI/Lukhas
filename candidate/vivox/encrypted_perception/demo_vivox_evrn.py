@@ -11,7 +11,6 @@ import sys
 from datetime import datetime
 
 import numpy as np
-
 from vivox.encrypted_perception import (
     MotionDetector,
     MultimodalFusion,

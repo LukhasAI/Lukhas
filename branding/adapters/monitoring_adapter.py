@@ -616,6 +616,6 @@ if __name__ == "__main__":
     print(f"Health Score: {result['overall_brand_health']['overall_score']}")
     print(f"Recommendations: {len(result['recommendations'])}")
 
-    if result['brand_insights']:
+    if result["brand_insights"]:
         print(f"Key Findings: {len(result['brand_insights']['key_findings'])}")
         print(f"Opportunities: {len(result['brand_insights']['opportunities'])}")

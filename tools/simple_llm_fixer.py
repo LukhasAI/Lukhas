@@ -7,11 +7,13 @@ A simplified version that uses local LLM + Ruff to fix code issues systematicall
 Focuses on the most critical issues first with safe, automated fixes.
 """
 
-import os
 import json
+import os
 import subprocess
 from pathlib import Path
+
 import requests
+
 
 class SimpleLLMCodeFixer:
     """Simplified version of LLM code fixer"""
@@ -69,7 +71,7 @@ class SimpleLLMCodeFixer:
 
         # Read file content for context
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 lines = f.readlines()
 
             # Get context around the error line
@@ -179,7 +181,7 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
             print("✅ Ruff autofix completed")
             if result.stdout:
                 print("   Changes made:")
-                for line in result.stdout.split('\n')[:10]:  # First 10 lines
+                for line in result.stdout.split("\n")[:10]:  # First 10 lines
                     if line.strip():
                         print(f"   {line}")
 

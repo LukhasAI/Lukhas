@@ -210,7 +210,7 @@ class DropboxAdapter(BaseServiceAdapter):
                             "size": metadata.get("size"),
                             "modified": metadata.get("server_modified"),
                             "content_hash": hashlib.sha256(content).hexdigest(),
-                            "content_preview": content[:1000].decode('utf-8', errors='ignore') if content else ""
+                            "content_preview": content[:1000].decode("utf-8", errors="ignore") if content else ""
                         },
                         "trace_id": self.telemetry.metrics.get("last_trace_id")
                     }

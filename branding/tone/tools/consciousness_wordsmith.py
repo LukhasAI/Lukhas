@@ -389,7 +389,7 @@ Awakened: {timestamp}
         # Skip ASCII art and front matter
         for i, line in enumerate(lines):
             # Look for the first major heading after metadata
-            if line.startswith("#") and not line.startswith("##") and i > 10 or line.startswith("##") and any(
+            if line.startswith(")  # " and not line.startswith("#)  # " and i > 10 or line.startswith("#)  # " and any(
                 keyword in line.lower()
                 for keyword in ["overview", "introduction", "about"]
             ):
@@ -492,7 +492,7 @@ Awakened: {timestamp}
 
         # Look for architecture, overview, or framework sections
         for i, line in enumerate(lines):
-            if line.startswith("## ") and any(
+            if line.startswith("#)  #  " and any(
                 keyword in line.lower()
                 for keyword in [
                     "architecture",
@@ -991,7 +991,7 @@ Awakened: {timestamp}
         # Skip ASCII art and front matter
         for i, line in enumerate(lines):
             # Look for the first major heading after metadata
-            if line.startswith("#") and not line.startswith("##") and i > 10 or line.startswith("##") and any(
+            if line.startswith(")  # " and not line.startswith("#)  # " and i > 10 or line.startswith("#)  # " and any(
                 keyword in line.lower()
                 for keyword in ["overview", "introduction", "about"]
             ):
@@ -1094,7 +1094,7 @@ Awakened: {timestamp}
 
         # Look for architecture, overview, or framework sections
         for i, line in enumerate(lines):
-            if line.startswith("## ") and any(
+            if line.startswith("#)  #  " and any(
                 keyword in line.lower()
                 for keyword in [
                     "architecture",

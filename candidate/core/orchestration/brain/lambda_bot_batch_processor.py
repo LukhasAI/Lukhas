@@ -309,7 +309,7 @@ class BatchProcessor:
 
         # Process each ecosystem group
         for ecosystem, eco_vulns in ecosystem_groups.items():
-            pr_body_parts.append(f"\n#### {ecosystem.upper()} Ecosystem:")
+            pr_body_parts.append(f"\n###")
 
             for vuln in eco_vulns:
                 fix_result = self._apply_vulnerability_fix(vuln)
@@ -388,7 +388,7 @@ class BatchProcessor:
 
         for workflow_type, type_issues in workflow_types.items():
             pr_body_parts.append(
-                f"\n#### {workflow_type.replace('_', ' ').title()} Issues:"
+                f"\n###"_', ' ').title()} Issues:"
             )
 
             for issue in type_issues:

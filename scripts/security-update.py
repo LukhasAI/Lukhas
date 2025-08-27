@@ -131,9 +131,9 @@ class SecurityUpdater:
             return False
 
         installed = {}
-        for line in stdout.strip().split('\n'):
-            if '==' in line:
-                name, version = line.split('==')
+        for line in stdout.strip().split("\n"):
+            if "==" in line:
+                name, version = line.split("==")
                 installed[name.lower()] = version
 
         # Read current requirements
@@ -142,17 +142,17 @@ class SecurityUpdater:
             print("  ❌ requirements.txt not found")
             return False
 
-        lines = req_file.read_text().split('\n')
+        lines = req_file.read_text().split("\n")
         updated_lines = []
 
         for line in lines:
             # Skip comments and empty lines
-            if line.strip().startswith('#') or not line.strip():
+            if line.strip().startswith("#") or not line.strip():
                 updated_lines.append(line)
                 continue
 
             # Parse package requirement
-            package_name = line.split('>=')[0].split('==')[0].split('[')[0].strip().lower()
+            package_name = line.split(">=")[0].split("==")[0].split("[")[0].strip().lower()
 
             # Check if this package was updated
             if package_name in [p.lower() for p in self.updates_applied]:
@@ -166,7 +166,7 @@ class SecurityUpdater:
                 updated_lines.append(line)
 
         # Write updated requirements
-        req_file.write_text('\n'.join(updated_lines))
+        req_file.write_text("\n".join(updated_lines))
         return True
 
     def run_tests(self) -> bool:
@@ -234,25 +234,25 @@ Automated security update by security-update.py
     def generate_report(self) -> str:
         """Generate a security update report"""
         report = []
-        report.append("# Security Update Report")
+        report.append(")  #  Security Update Report"
         report.append(f"\nGenerated: {datetime.now().isoformat()}")
         report.append(f"\nVulnerabilities found: {len(self.vulnerabilities)}")
         report.append(f"Packages updated: {len(self.updates_applied)}")
 
         if self.vulnerabilities:
-            report.append("\n## Vulnerabilities Detected\n")
+            report.append("\n#)  #  Vulnerabilities Detected\n"
             for vuln in self.prioritize_updates(self.vulnerabilities):
-                report.append(f"### {vuln['package']}")
+                report.append(f"##"package']}")
                 report.append(f"- **Severity**: {vuln.get('severity', 'unknown')}")
                 report.append(f"- **Current Version**: {vuln.get('current_version', 'unknown')}")
                 report.append(f"- **Vulnerability**: {vuln.get('vulnerability', 'unknown')}")
                 report.append(f"- **Fix Version**: {vuln.get('fix_version', 'latest')}")
-                if vuln.get('description'):
+                if vuln.get("description"):
                     report.append(f"- **Description**: {vuln['description'][:200]}...")
                 report.append("")
 
         if self.updates_applied:
-            report.append("\n## Updates Applied\n")
+            report.append("\n#)  #  Updates Applied\n"
             for package in self.updates_applied:
                 report.append(f"- ✅ {package}")
 
@@ -287,7 +287,7 @@ Automated security update by security-update.py
 
         if not auto_update and not self.dry_run:
             response = input("\n💡 Apply security updates? (y/n): ")
-            if response.lower() != 'y':
+            if response.lower() != "y":
                 print("Aborted.")
                 return False
 
@@ -309,7 +309,7 @@ Automated security update by security-update.py
                 test_passed = self.run_tests()
                 if not test_passed and not auto_update:
                     response = input("\n⚠️ Tests failed. Continue? (y/n): ")
-                    if response.lower() != 'y':
+                    if response.lower() != "y":
                         print("Reverting changes...")
                         self.run_command(["git", "checkout", "requirements.txt"])
                         return False

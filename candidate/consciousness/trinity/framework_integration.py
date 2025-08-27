@@ -43,7 +43,6 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-
 # Configure Trinity Framework logging
 logger = logging.getLogger("ΛTRACE.consciousness.trinity.framework")
 logger.info("ΛTRACE: Initializing Trinity Framework Integration System v1.0.0")

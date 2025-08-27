@@ -391,7 +391,7 @@ class UniversalSymbolProtocol:
             emotion_values = [
                 getattr(symbol.emotional_state, attr, 0)
                 for attr in dir(symbol.emotional_state)
-                if not attr.startswith('_') and attr != 'intensity'
+                if not attr.startswith("_") and attr != "intensity"
             ]
             emotion_entropy = -sum([
                 v * np.log(v + 1e-10) for v in emotion_values if v > 0
@@ -454,7 +454,7 @@ class UniversalSymbolProtocol:
                 if symbol.emotional_state:
                     emotion_count += 1
                     for attr in dir(symbol.emotional_state):
-                        if not attr.startswith('_'):
+                        if not attr.startswith("_"):
                             val = getattr(symbol.emotional_state, attr, 0)
                             if attr not in emotion_sum:
                                 emotion_sum[attr] = 0
@@ -623,7 +623,7 @@ class UniversalSymbolProtocol:
         if symbol1.emotional_state and symbol2.emotional_state:
             emotion_attrs = {}
             for attr in dir(symbol1.emotional_state):
-                if not attr.startswith('_'):
+                if not attr.startswith("_"):
                     val1 = getattr(symbol1.emotional_state, attr, 0)
                     val2 = getattr(symbol2.emotional_state, attr, 0)
                     emotion_attrs[attr] = (val1 + val2) / 2

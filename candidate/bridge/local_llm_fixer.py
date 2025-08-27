@@ -88,7 +88,7 @@ class LocalLLMFixer:
             async with self.session.get(f"{self.ollama_host}/api/tags") as resp:
                 if resp.status == 200:
                     data = await resp.json()
-                    models = [m['name'] for m in data.get('models', [])]
+                    models = [m["name"] for m in data.get("models", [])]
                     return self.model in models
         except Exception as e:
             logger.error(f"Ollama not available: {e}")
@@ -139,11 +139,11 @@ class LocalLLMFixer:
                 for issue in ruff_issues:
                     issues.append(CodeIssue(
                         file_path=file_path,
-                        line_number=issue.get('location', {}).get('row', 0),
-                        issue_type=self._map_ruff_code(issue.get('code', '')),
-                        message=issue.get('message', ''),
+                        line_number=issue.get("location", {}).get("row", 0),
+                        issue_type=self._map_ruff_code(issue.get("code", "")),
+                        message=issue.get("message", ""),
                         code_context="",  # Will be filled later
-                        severity=0.7 if issue.get('code', '').startswith('F') else 0.5
+                        severity=0.7 if issue.get("code", "").startswith("F") else 0.5
                     ))
         except Exception as e:
             logger.error(f"Ruff analysis failed: {e}")
@@ -152,23 +152,23 @@ class LocalLLMFixer:
 
     def _map_ruff_code(self, code: str) -> FixType:
         """Map ruff error codes to FixType"""
-        if code.startswith('F821'):
+        if code.startswith("F821"):
             return FixType.UNDEFINED_NAME
-        elif code.startswith('F401'):
+        elif code.startswith("F401"):
             return FixType.UNUSED_IMPORT
-        elif code.startswith('E') or code.startswith('W'):
+        elif code.startswith("E") or code.startswith("W"):
             return FixType.FORMATTING
-        elif code.startswith('UP'):
+        elif code.startswith("UP"):
             return FixType.TYPE_ANNOTATION
         else:
             return FixType.FORMATTING
 
     def _get_context(self, content: str, line_number: int, context_lines: int = 3) -> str:
         """Get code context around a line"""
-        lines = content.split('\n')
+        lines = content.split("\n")
         start = max(0, line_number - context_lines - 1)
         end = min(len(lines), line_number + context_lines)
-        return '\n'.join(lines[start:end])
+        return "\n".join(lines[start:end])
 
     async def generate_fix(self, issue: CodeIssue) -> Optional[CodeFix]:
         """Generate a fix for a code issue using local LLM"""
@@ -180,7 +180,7 @@ class LocalLLMFixer:
         try:
             with open(issue.file_path) as f:
                 content = f.read()
-                lines = content.split('\n')
+                lines = content.split("\n")
         except Exception as e:
             logger.error(f"Cannot read file {issue.file_path}: {e}")
             return None
@@ -202,7 +202,7 @@ class LocalLLMFixer:
         """Create a prompt for the LLM to fix the issue"""
         context_start = max(0, issue.line_number - 5)
         context_end = min(len(lines), issue.line_number + 5)
-        code_context = '\n'.join(lines[context_start:context_end])
+        code_context = "\n".join(lines[context_start:context_end])
 
         prompt = f"""Fix the following Python code issue:
 
@@ -238,7 +238,7 @@ Fixed code:"""
             ) as resp:
                 if resp.status == 200:
                     data = await resp.json()
-                    return data.get('response', '')
+                    return data.get("response", "")
         except Exception as e:
             logger.error(f"Ollama API call failed: {e}")
         return None
@@ -254,8 +254,8 @@ Fixed code:"""
         fixed_code = response.strip()
 
         # Remove markdown if present
-        if '```' in fixed_code:
-            fixed_code = re.search(r'```(?:python)?\n?(.*?)\n?```', fixed_code, re.DOTALL)
+        if "```" in fixed_code:
+            fixed_code = re.search(r"```(?:python)?\n?(.*?)\n?```", fixed_code, re.DOTALL)
             fixed_code = fixed_code.group(1) if fixed_code else response.strip()
 
         # Get original code
@@ -306,10 +306,10 @@ Fixed code:"""
 
             # Apply the fix
             if fix.issue.line_number > 0 and fix.issue.line_number <= len(lines):
-                lines[fix.issue.line_number - 1] = fix.fixed_code + '\n'
+                lines[fix.issue.line_number - 1] = fix.fixed_code + "\n"
 
             if not dry_run:
-                with open(fix.issue.file_path, 'w') as f:
+                with open(fix.issue.file_path, "w") as f:
                     f.writelines(lines)
 
                 # Verify the fix didn't break syntax
@@ -320,8 +320,8 @@ Fixed code:"""
                     return True
                 except SyntaxError:
                     # Revert the fix
-                    lines[fix.issue.line_number - 1] = fix.original_code + '\n'
-                    with open(fix.issue.file_path, 'w') as f:
+                    lines[fix.issue.line_number - 1] = fix.original_code + "\n"
+                    with open(fix.issue.file_path, "w") as f:
                         f.writelines(lines)
                     self.failed_fixes.append(fix)
                     return False

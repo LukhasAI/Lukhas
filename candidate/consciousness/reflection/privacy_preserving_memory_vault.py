@@ -1171,13 +1171,13 @@ class PrivacyPreservingMemoryVault:
 
         if memory.encrypted_data:
             # Get original data length for consistent overwriting
-            data_length = len(memory.encrypted_data.encode('utf-8'))
+            data_length = len(memory.encrypted_data.encode("utf-8"))
 
             # Pass 1: Overwrite with 0x00
-            memory.encrypted_data = '\x00' * data_length
+            memory.encrypted_data = "\x00" * data_length
 
             # Pass 2: Overwrite with 0xFF
-            memory.encrypted_data = '\xFF' * data_length
+            memory.encrypted_data = "\xFF" * data_length
 
             # Pass 3: Overwrite with random data
             import secrets
@@ -1185,7 +1185,7 @@ class PrivacyPreservingMemoryVault:
             memory.encrypted_data = random_bytes.hex()
 
             # Pass 4: Final overwrite with 0x00
-            memory.encrypted_data = '\x00' * data_length
+            memory.encrypted_data = "\x00" * data_length
 
         # Clear all metadata
         memory.privacy_metadata.clear()
@@ -1252,8 +1252,8 @@ class PrivacyPreservingMemoryVault:
 
         # Get actual user context from request/session if available
         import contextvars
-        user_context = getattr(contextvars, 'user_context', None)
-        request_context = getattr(contextvars, 'request_context', None)
+        user_context = getattr(contextvars, "user_context", None)
+        request_context = getattr(contextvars, "request_context", None)
 
         actual_user = "system"
         actual_ip = "127.0.0.1"
@@ -1262,14 +1262,14 @@ class PrivacyPreservingMemoryVault:
         if user_context:
             try:
                 ctx = user_context.get()
-                actual_user = ctx.get('user_id', 'system') if ctx else 'system'
+                actual_user = ctx.get("user_id", "system") if ctx else "system"
             except LookupError:
                 pass
 
         if request_context:
             try:
                 ctx = request_context.get()
-                actual_ip = ctx.get('remote_addr', '127.0.0.1') if ctx else '127.0.0.1'
+                actual_ip = ctx.get("remote_addr", "127.0.0.1") if ctx else "127.0.0.1"
             except LookupError:
                 pass
 
@@ -1279,7 +1279,7 @@ class PrivacyPreservingMemoryVault:
             "details": details,
             "user": actual_user,
             "ip_address": actual_ip,
-            "session_id": getattr(request_context, 'session_id', None) if request_context else None,
+            "session_id": getattr(request_context, "session_id", None) if request_context else None,
         }
 
         self.audit_log.append(audit_entry)
@@ -1384,7 +1384,7 @@ class PrivacyPreservingMemoryVault:
                 requirements_met.append("transparent_information")
 
             # Article 15 - Right of access
-            if hasattr(self, 'export_memory_data'):
+            if hasattr(self, "export_memory_data"):
                 requirements_met.append("right_of_access")
 
             # Article 16 - Right to rectification
@@ -1397,7 +1397,7 @@ class PrivacyPreservingMemoryVault:
                 requirements_met.append("right_to_restriction")
 
             # Article 20 - Right to data portability
-            if hasattr(self, 'export_memory_data'):
+            if hasattr(self, "export_memory_data"):
                 requirements_met.append("data_portability")
 
             # Article 25 - Data protection by design
@@ -1480,7 +1480,7 @@ class PrivacyPreservingMemoryVault:
                 requirements_met.append("breach_notification")
 
             # Individual Rights
-            if hasattr(self, 'export_memory_data'):
+            if hasattr(self, "export_memory_data"):
                 requirements_met.append("individual_access_rights")
 
             if any(memory.deletion_requested for memory in self.encrypted_memories.values()):

@@ -81,43 +81,43 @@ class MedicationOCRSystem:
 
     # Common Spanish medication forms
     MEDICATION_FORMS = {
-        'comp': 'comprimidos',
-        'caps': 'cápsulas',
-        'sob': 'sobres',
-        'amp': 'ampollas',
-        'jar': 'jarabe',
-        'gotas': 'gotas',
-        'supos': 'supositorios',
-        'crema': 'crema',
-        'gel': 'gel'
+        "comp": "comprimidos",
+        "caps": "cápsulas",
+        "sob": "sobres",
+        "amp": "ampollas",
+        "jar": "jarabe",
+        "gotas": "gotas",
+        "supos": "supositorios",
+        "crema": "crema",
+        "gel": "gel"
     }
 
     # Spanish medication database (subset)
     SPANISH_MEDICATIONS = {
-        'paracetamol': {
-            'forms': ['comprimidos', 'sobres', 'jarabe'],
-            'strengths': ['500mg', '650mg', '1g'],
-            'brands': ['Gelocatil', 'Termalgin', 'Efferalgan']
+        "paracetamol": {
+            "forms": ["comprimidos", "sobres", "jarabe"],
+            "strengths": ["500mg", "650mg", "1g"],
+            "brands": ["Gelocatil", "Termalgin", "Efferalgan"]
         },
-        'ibuprofeno': {
-            'forms': ['comprimidos', 'sobres', 'jarabe'],
-            'strengths': ['400mg', '600mg'],
-            'brands': ['Neobrufen', 'Espidifen', 'Dalsy']
+        "ibuprofeno": {
+            "forms": ["comprimidos", "sobres", "jarabe"],
+            "strengths": ["400mg", "600mg"],
+            "brands": ["Neobrufen", "Espidifen", "Dalsy"]
         },
-        'omeprazol': {
-            'forms': ['cápsulas'],
-            'strengths': ['20mg', '40mg'],
-            'brands': ['Losec', 'Pepticum', 'Omeprazol Cinfa']
+        "omeprazol": {
+            "forms": ["cápsulas"],
+            "strengths": ["20mg", "40mg"],
+            "brands": ["Losec", "Pepticum", "Omeprazol Cinfa"]
         },
-        'enalapril': {
-            'forms': ['comprimidos'],
-            'strengths': ['5mg', '10mg', '20mg'],
-            'brands': ['Renitec', 'Enalapril Normon']
+        "enalapril": {
+            "forms": ["comprimidos"],
+            "strengths": ["5mg", "10mg", "20mg"],
+            "brands": ["Renitec", "Enalapril Normon"]
         },
-        'metformina': {
-            'forms': ['comprimidos'],
-            'strengths': ['500mg', '850mg', '1000mg'],
-            'brands': ['Dianben', 'Metformina Cinfa']
+        "metformina": {
+            "forms": ["comprimidos"],
+            "strengths": ["500mg", "850mg", "1000mg"],
+            "brands": ["Dianben", "Metformina Cinfa"]
         }
     }
 
@@ -131,12 +131,12 @@ class MedicationOCRSystem:
         self.config = config or {}
 
         # OCR settings
-        self.ocr_language = self.config.get('ocr_language', 'spa')
-        self.confidence_threshold = self.config.get('confidence_threshold', 0.7)
-        self.enable_pill_identification = self.config.get('auto_identify_pills', True)
+        self.ocr_language = self.config.get("ocr_language", "spa")
+        self.confidence_threshold = self.config.get("confidence_threshold", 0.7)
+        self.enable_pill_identification = self.config.get("auto_identify_pills", True)
 
         # Cache directory for processed images
-        self.cache_dir = Path(self.config.get('cache_dir', 'data/ocr_cache'))
+        self.cache_dir = Path(self.config.get("cache_dir", "data/ocr_cache"))
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
         # Initialize OCR engine
@@ -196,7 +196,7 @@ class MedicationOCRSystem:
             text = pytesseract.image_to_string(
                 processed,
                 lang=self.ocr_language,
-                config='--psm 6'  # Uniform block of text
+                config="--psm 6"  # Uniform block of text
             )
 
             # Extract medication information
@@ -243,7 +243,7 @@ class MedicationOCRSystem:
 
         # Clean text
         text = text.strip()
-        lines = text.split('\n')
+        lines = text.split("\n")
 
         # Initialize medication info
         info = MedicationInfo(
@@ -353,7 +353,7 @@ class MedicationOCRSystem:
 
         if "tomar" in text_lower:
             # Find the sentence with "tomar"
-            for line in text.split('\n'):
+            for line in text.split("\n"):
                 if "tomar" in line.lower():
                     instructions.append(line.strip())
 
@@ -373,7 +373,7 @@ class MedicationOCRSystem:
         for pattern in self.MEDICATION_PATTERNS["warnings"]:
             if re.search(pattern, text_lower):
                 # Find the full sentence containing the warning
-                for line in text.split('\n'):
+                for line in text.split("\n"):
                     if re.search(pattern, line.lower()):
                         warnings.append(line.strip())
 
@@ -418,7 +418,7 @@ class MedicationOCRSystem:
 
         # Return first match that looks like CN code
         for match in matches:
-            if match.startswith(('6', '7', '8', '9')):  # Common CN prefixes
+            if match.startswith(("6", "7", "8", "9")):  # Common CN prefixes
                 return match
 
         return None
@@ -454,7 +454,7 @@ class MedicationOCRSystem:
 
         # Check brand names
         for med_name, info in self.SPANISH_MEDICATIONS.items():
-            for brand in info.get('brands', []):
+            for brand in info.get("brands", []):
                 if brand.lower() in name_lower:
                     return med_name
 
@@ -554,9 +554,9 @@ class MedicationOCRSystem:
         # In production, use comprehensive pill database
 
         pill_database = {
-            ('redonda', 'blanco', None): 'Paracetamol 500mg',
-            ('ovalada', 'rosa', None): 'Ibuprofeno 600mg',
-            ('cápsula', 'azul', None): 'Omeprazol 20mg'
+            ("redonda", "blanco", None): "Paracetamol 500mg",
+            ("ovalada", "rosa", None): "Ibuprofeno 600mg",
+            ("cápsula", "azul", None): "Omeprazol 20mg"
         }
 
         return pill_database.get((shape, color, markings))
@@ -577,9 +577,9 @@ class MedicationOCRSystem:
         """
         if not medication.expiration_date:
             return {
-                'status': 'unknown',
-                'message': 'No se pudo leer la fecha de caducidad',
-                'safe': False
+                "status": "unknown",
+                "message": "No se pudo leer la fecha de caducidad",
+                "safe": False
             }
 
         today = date.today()
@@ -587,21 +587,21 @@ class MedicationOCRSystem:
 
         if days_until_expiration < 0:
             return {
-                'status': 'expired',
-                'message': f'⚠️ CADUCADO hace {abs(days_until_expiration)} días',
-                'safe': False
+                "status": "expired",
+                "message": f"⚠️ CADUCADO hace {abs(days_until_expiration)} días",
+                "safe": False
             }
         elif days_until_expiration < 30:
             return {
-                'status': 'expiring_soon',
-                'message': f'⚡ Caduca en {days_until_expiration} días',
-                'safe': True
+                "status": "expiring_soon",
+                "message": f"⚡ Caduca en {days_until_expiration} días",
+                "safe": True
             }
         else:
             return {
-                'status': 'valid',
-                'message': f'✅ Válido por {days_until_expiration} días',
-                'safe': True
+                "status": "valid",
+                "message": f"✅ Válido por {days_until_expiration} días",
+                "safe": True
             }
 
     def format_medication_for_voice(self, medication: MedicationInfo) -> str:

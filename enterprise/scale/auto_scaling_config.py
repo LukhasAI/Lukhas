@@ -547,21 +547,21 @@ class T4AutoScalingManager:
             # Kubernetes HPA configuration
             k8s_config = self.generate_kubernetes_config()
             k8s_file = os.path.join(output_dir, "t4-enterprise-hpa.yaml")
-            with open(k8s_file, 'w') as f:
+            with open(k8s_file, "w") as f:
                 yaml.dump(k8s_config, f, default_flow_style=False, indent=2)
             exported_files["kubernetes"] = k8s_file
 
             # Azure Container Apps configuration
             azure_config = self.generate_azure_config()
             azure_file = os.path.join(output_dir, "t4-enterprise-azure-scaling.json")
-            with open(azure_file, 'w') as f:
+            with open(azure_file, "w") as f:
                 json.dump(azure_config, f, indent=2)
             exported_files["azure"] = azure_file
 
             # Monitoring configuration
             monitoring_config = self.generate_monitoring_config()
             monitoring_file = os.path.join(output_dir, "t4-enterprise-monitoring.yaml")
-            with open(monitoring_file, 'w') as f:
+            with open(monitoring_file, "w") as f:
                 yaml.dump(monitoring_config, f, default_flow_style=False, indent=2)
             exported_files["monitoring"] = monitoring_file
 
@@ -583,7 +583,7 @@ class T4AutoScalingManager:
             }
 
             summary_file = os.path.join(output_dir, "t4-enterprise-scaling-summary.yaml")
-            with open(summary_file, 'w') as f:
+            with open(summary_file, "w") as f:
                 yaml.dump(summary, f, default_flow_style=False, indent=2)
             exported_files["summary"] = summary_file
 

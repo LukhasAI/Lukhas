@@ -239,7 +239,7 @@ class LegacyTTSProviderAdapter(TTSProviderAdapter):
     def get_supported_voices(self) -> list[dict[str, Any]]:
         """Get supported voices from legacy provider"""
         try:
-            if hasattr(self.provider, 'get_available_voices'):
+            if hasattr(self.provider, "get_available_voices"):
                 return self.provider.get_available_voices()
             else:
                 return []

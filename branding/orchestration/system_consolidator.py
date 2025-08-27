@@ -69,7 +69,7 @@ class SystemConsolidator:
 
         # Formatter
         formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
@@ -175,7 +175,7 @@ class SystemConsolidator:
                     # Migrate data with source system tracking
                     for table in tables:
                         table_name = table[0]
-                        if table_name != 'sqlite_sequence':
+                        if table_name != "sqlite_sequence":
                             try:
                                 source_cursor.execute(f"SELECT * FROM {table_name}")
                                 rows = source_cursor.fetchall()
@@ -285,7 +285,7 @@ class SystemConsolidator:
 
             # Create unified document engine main file
             engine_main = target_path / "lukhas_unified_doc_engine.py"
-            with open(engine_main, 'w') as f:
+            with open(engine_main, "w") as f:
                 f.write('''#!/usr/bin/env python3
 """
 LUKHAS AI Unified Document Engine
@@ -434,7 +434,7 @@ if __name__ == "__main__":
 
             # Create unified content platform main file
             platform_main = target_path / "lukhas_unified_content_platform.py"
-            with open(platform_main, 'w') as f:
+            with open(platform_main, "w") as f:
                 f.write('''#!/usr/bin/env python3
 """
 LUKHAS AI Unified Content Platform
@@ -602,7 +602,7 @@ if __name__ == "__main__":
 *LUKHAS AI System Consolidation - Elite Consciousness Technology Platform*
 """
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write(report_content)
 
         self.logger.info(f"📊 Generated consolidation report: {report_path}")

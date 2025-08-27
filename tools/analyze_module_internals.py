@@ -39,9 +39,9 @@ class ModuleInternalAnalyzer:
         all_files = set()
         for root, dirs, files in os.walk(module_path):
             # Skip __pycache__ and hidden directories
-            dirs[:] = [d for d in dirs if not d.startswith('.') and d != '__pycache__']
+            dirs[:] = [d for d in dirs if not d.startswith(".") and d != "__pycache__"]
             for file in files:
-                if file.endswith('.py'):
+                if file.endswith(".py"):
                     rel_path = os.path.relpath(os.path.join(root, file), module_path)
                     all_files.add(rel_path)
 
@@ -67,7 +67,7 @@ class ModuleInternalAnalyzer:
                 })
 
         # Sort by size
-        high_value_orphans.sort(key=lambda x: x['size'], reverse=True)
+        high_value_orphans.sort(key=lambda x: x["size"], reverse=True)
 
         return {
             "total_files": len(all_files),
@@ -125,14 +125,14 @@ class ModuleInternalAnalyzer:
 
             for imp in imports:
                 # Convert import to file path
-                if imp.startswith('.'):
+                if imp.startswith("."):
                     # Relative import
                     imp = imp[1:]  # Remove leading dot
 
                 # Convert module path to file path
                 possible_files = [
-                    imp.replace('.', '/') + '.py',
-                    imp.replace('.', '/') + '/__init__.py'
+                    imp.replace(".", "/") + ".py",
+                    imp.replace(".", "/") + "/__init__.py"
                 ]
 
                 for pf in possible_files:
@@ -158,7 +158,7 @@ class ModuleInternalAnalyzer:
                     if node.module.startswith(module_name):
                         imports.append(node.module[len(module_name)+1:])
                     elif node.level > 0:  # Relative import
-                        imports.append('.' + (node.module or ''))
+                        imports.append("." + (node.module or ""))
         except:
             pass
         return imports
@@ -169,9 +169,9 @@ class ModuleInternalAnalyzer:
 
         # High value indicators
         high_value_words = [
-            'core', 'engine', 'manager', 'system', 'processor',
-            'orchestrator', 'controller', 'service', 'api',
-            'model', 'algorithm', 'network', 'quantum', 'consciousness'
+            "core", "engine", "manager", "system", "processor",
+            "orchestrator", "controller", "service", "api",
+            "model", "algorithm", "network", "quantum", "consciousness"
         ]
 
         # Check file size
@@ -222,14 +222,14 @@ class ModuleInternalAnalyzer:
             print(f"  Connected: {data['connected_files']} ({data['connection_rate']})")
             print(f"  Orphaned: {data['orphaned_files']}")
 
-            if data['high_value_orphans']:
+            if data["high_value_orphans"]:
                 print("  High-value orphans:")
-                for orphan in data['high_value_orphans'][:3]:
+                for orphan in data["high_value_orphans"][:3]:
                     print(f"    - {orphan['file']} ({orphan['lines']} lines)")
 
     def save_report(self):
         """Save detailed report"""
-        with open('module_internal_analysis.json', 'w') as f:
+        with open("module_internal_analysis.json", "w") as f:
             json.dump(self.results, f, indent=2)
         print("\n💾 Detailed report saved to: module_internal_analysis.json")
 

@@ -356,7 +356,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         try:
             self.config_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(self.config_path, 'w') as f:
+            with open(self.config_path, "w") as f:
                 json.dump(default_config, f, indent=2)
 
             logger.info(f"Created default privacy configuration with governance: {self.config_path}")
@@ -464,7 +464,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
 
         try:
             self.policies_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(self.policies_path, 'w') as f:
+            with open(self.policies_path, "w") as f:
                 json.dump(default_policies, f, indent=2)
 
             # Load the policies we just created
@@ -732,13 +732,13 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         data_str = json.dumps(data)
 
         # Trinity Framework patterns
-        if re.search(r'\b(identity|auth|credential)[_-]?\w+', data_str, re.IGNORECASE):
+        if re.search(r"\b(identity|auth|credential)[_-]?\w+", data_str, re.IGNORECASE):
             patterns.append("identity_data")
 
-        if re.search(r'\b(consciousness|memory|thought)[_-]?\w+', data_str, re.IGNORECASE):
+        if re.search(r"\b(consciousness|memory|thought)[_-]?\w+", data_str, re.IGNORECASE):
             patterns.append("consciousness_data")
 
-        if re.search(r'\b(guardian|security|protection)[_-]?\w+', data_str, re.IGNORECASE):
+        if re.search(r"\b(guardian|security|protection)[_-]?\w+", data_str, re.IGNORECASE):
             patterns.append("guardian_data")
 
         # Traditional patterns
@@ -746,27 +746,27 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             patterns.append("email_address")
 
         # Phone number pattern
-        phone_pattern = r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b'
+        phone_pattern = r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b"
         if re.search(phone_pattern, data_str):
             patterns.append("phone_number")
 
         # SSN pattern
-        ssn_pattern = r'\b\d{3}-\d{2}-\d{4}\b'
+        ssn_pattern = r"\b\d{3}-\d{2}-\d{4}\b"
         if re.search(ssn_pattern, data_str):
             patterns.append("ssn")
 
         # Credit card pattern
-        cc_pattern = r'\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b'
+        cc_pattern = r"\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b"
         if re.search(cc_pattern, data_str):
             patterns.append("credit_card")
 
         # Medical record number pattern
-        mrn_pattern = r'\bMRN[-\s]?\d+\b'
+        mrn_pattern = r"\bMRN[-\s]?\d+\b"
         if re.search(mrn_pattern, data_str, re.IGNORECASE):
             patterns.append("medical_record_number")
 
         # API keys and tokens
-        api_pattern = r'\b[A-Za-z0-9]{32,}\b'
+        api_pattern = r"\b[A-Za-z0-9]{32,}\b"
         if re.search(api_pattern, data_str):
             patterns.append("api_key_or_token")
 
@@ -1026,7 +1026,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             self.stats["audit_events_logged"] += 1
 
             # Write to audit log file
-            with open(self.audit_log_path, 'a') as f:
+            with open(self.audit_log_path, "a") as f:
                 f.write(json.dumps(event) + "\n")
 
             # Log in governance system if enabled

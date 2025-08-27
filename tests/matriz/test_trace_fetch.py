@@ -21,7 +21,7 @@ import time
 import unittest
 import uuid
 from datetime import datetime, timezone
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 from starlette.testclient import TestClient
 
@@ -31,13 +31,16 @@ from serve.main import app
 # Import models for validation
 from serve.models.trace_models import (
     ExecutionTraceResponse,
-    TraceNotFoundResponse,
     TraceErrorResponse,
+    TraceNotFoundResponse,
     TraceValidationErrorResponse,
 )
 
 # Import storage provider for test data setup
-from serve.storage.trace_provider import FileTraceStorageProvider, reset_default_trace_provider
+from serve.storage.trace_provider import (
+    FileTraceStorageProvider,
+    reset_default_trace_provider,
+)
 
 # Try to import TraceMemoryLogger, handle gracefully if not available
 try:

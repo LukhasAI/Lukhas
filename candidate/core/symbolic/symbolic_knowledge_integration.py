@@ -43,7 +43,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-# Try to import LUKHAS components with fallbacks
+# Try to import lukhas_components with fallbacks
 try:
     from ...tools.parsers.knowledge_loader import (
         SymbolicConcept,

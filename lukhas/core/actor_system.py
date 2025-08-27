@@ -7,8 +7,7 @@ This is the production-ready actor system that supports the colony architecture.
 """
 
 import logging
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 

@@ -857,7 +857,7 @@ class TierValidator:
         return user_tier >= required_tier
 
 # Export classes
-__all__ = ['LambdaTierManager', 'TierManager', 'TierValidator', 'TierLevel', 'TierCapability']
+__all__ = ["LambdaTierManager", "TierManager", "TierValidator", "TierLevel", "TierCapability"]
 
 """
 ═══════════════════════════════════════════════════════════════════════════════

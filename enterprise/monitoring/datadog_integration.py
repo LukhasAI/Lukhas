@@ -53,8 +53,8 @@ class T4DatadogMonitoring:
             api_key: Datadog API key (from GitHub Student Pack)
             app_key: Datadog Application key
         """
-        self.api_key = api_key or os.getenv('DATADOG_API_KEY')
-        self.app_key = app_key or os.getenv('DATADOG_APP_KEY')
+        self.api_key = api_key or os.getenv("DATADOG_API_KEY")
+        self.app_key = app_key or os.getenv("DATADOG_APP_KEY")
 
         if not DATADOG_AVAILABLE:
             logger.warning("Datadog integration disabled - client not available")
@@ -68,8 +68,8 @@ class T4DatadogMonitoring:
 
         # Initialize Datadog client
         self.configuration = Configuration()
-        self.configuration.api_key['apiKeyAuth'] = self.api_key
-        self.configuration.api_key['appKeyAuth'] = self.app_key
+        self.configuration.api_key["apiKeyAuth"] = self.api_key
+        self.configuration.api_key["appKeyAuth"] = self.app_key
 
         self.api_client = ApiClient(self.configuration)
         self.metrics_api = MetricsApi(self.api_client)
@@ -99,53 +99,53 @@ class T4DatadogMonitoring:
             metric_series = [
                 # API Performance (Sam Altman - Scale)
                 Series(
-                    metric='lukhas.api.latency.p95',
+                    metric="lukhas.api.latency.p95",
                     points=[[timestamp, metrics.api_latency_p95]],
-                    tags=['environment:production', 'tier:t4', 'component:api']
+                    tags=["environment:production", "tier:t4", "component:api"]
                 ),
                 Series(
-                    metric='lukhas.api.latency.p99',
+                    metric="lukhas.api.latency.p99",
                     points=[[timestamp, metrics.api_latency_p99]],
-                    tags=['environment:production', 'tier:t4', 'component:api']
+                    tags=["environment:production", "tier:t4", "component:api"]
                 ),
                 Series(
-                    metric='lukhas.system.uptime',
+                    metric="lukhas.system.uptime",
                     points=[[timestamp, metrics.uptime_percentage]],
-                    tags=['environment:production', 'tier:t4', 'sla:uptime']
+                    tags=["environment:production", "tier:t4", "sla:uptime"]
                 ),
                 Series(
-                    metric='lukhas.api.error_rate',
+                    metric="lukhas.api.error_rate",
                     points=[[timestamp, metrics.error_rate]],
-                    tags=['environment:production', 'tier:t4', 'component:api']
+                    tags=["environment:production", "tier:t4", "component:api"]
                 ),
                 Series(
-                    metric='lukhas.users.concurrent',
+                    metric="lukhas.users.concurrent",
                     points=[[timestamp, metrics.concurrent_users]],
-                    tags=['environment:production', 'tier:t4', 'capacity:users']
+                    tags=["environment:production", "tier:t4", "capacity:users"]
                 ),
 
                 # System Resources
                 Series(
-                    metric='lukhas.system.memory.percent',
+                    metric="lukhas.system.memory.percent",
                     points=[[timestamp, metrics.memory_usage_percent]],
-                    tags=['environment:production', 'tier:t4', 'component:system']
+                    tags=["environment:production", "tier:t4", "component:system"]
                 ),
                 Series(
-                    metric='lukhas.system.cpu.percent',
+                    metric="lukhas.system.cpu.percent",
                     points=[[timestamp, metrics.cpu_usage_percent]],
-                    tags=['environment:production', 'tier:t4', 'component:system']
+                    tags=["environment:production", "tier:t4", "component:system"]
                 ),
 
                 # Safety Metrics (Dario Amodei - Safety)
                 Series(
-                    metric='lukhas.safety.drift_score',
+                    metric="lukhas.safety.drift_score",
                     points=[[timestamp, metrics.drift_score]],
-                    tags=['environment:production', 'tier:t4', 'component:guardian', 'safety:constitutional_ai']
+                    tags=["environment:production", "tier:t4", "component:guardian", "safety:constitutional_ai"]
                 ),
                 Series(
-                    metric='lukhas.security.incidents',
+                    metric="lukhas.security.incidents",
                     points=[[timestamp, metrics.security_incidents]],
-                    tags=['environment:production', 'tier:t4', 'component:security']
+                    tags=["environment:production", "tier:t4", "component:security"]
                 )
             ]
 

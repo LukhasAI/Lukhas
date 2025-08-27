@@ -239,12 +239,12 @@ class FunctionIndexGenerator:
 
         # LUKHAS-specific functions section
         if index["lukhas_functions"]:
-            lines.append("## LUKHAS-Specific Functions\n")
+            lines.append("#)  #  LUKHAS-Specific Functions\n"
             lines.append("Functions implementing core LUKHAS concepts:\n")
 
             for func_data in index["lukhas_functions"][:20]:
                 func = func_data["info"]
-                lines.append(f"### `{func_data['name']}`")
+                lines.append(f"##"name']}`")
                 lines.append(f"- **Module**: `{func_data['module']}`")
                 lines.append(f"- **File**: `{func['file']}:{func['line']}`")
 
@@ -260,14 +260,14 @@ class FunctionIndexGenerator:
                 lines.append("")
 
         # Module sections
-        lines.append("## Functions by Module\n")
+        lines.append("#)  #  Functions by Module\n"
 
         for module in sorted(index["index"].keys()):
             functions = index["index"][module]
             if not functions:
                 continue
 
-            lines.append(f"### {module}\n")
+            lines.append(f"##")
 
             # Group by functionality
             for func_name in sorted(functions.keys())[:20]:  # Limit to 20 per module

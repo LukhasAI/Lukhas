@@ -3,9 +3,9 @@ Ethics Module Bridge
 Connects to real Guardian implementations where available, provides stubs as fallback
 """
 
-import warnings
 import asyncio
 import logging
+import warnings
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
@@ -182,7 +182,9 @@ class SafetyChecker:
                 return EthicsGuardian(self.config)
             except ImportError:
                 try:
-                    from candidate.governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
+                    from candidate.governance.ethics.enhanced_ethical_guardian import (
+                        EnhancedEthicalGuardian,
+                    )
                     return EnhancedEthicalGuardian(self.config)
                 except ImportError:
                     return None
@@ -192,39 +194,39 @@ class SafetyChecker:
         # High-risk patterns (immediate block)
         self.critical_patterns = [
             # Security threats
-            r'\b(?:hack|exploit|vulnerability|attack|breach|penetrate)\b.*(?:system|network|database)',
-            r'(?:sql|code|script).*injection',
-            r'(?:bypass|circumvent).*(?:security|authentication|authorization)',
+            r"\b(?:hack|exploit|vulnerability|attack|breach|penetrate)\b.*(?:system|network|database)",
+            r"(?:sql|code|script).*injection",
+            r"(?:bypass|circumvent).*(?:security|authentication|authorization)",
 
             # Harmful content
-            r'\b(?:harm|hurt|damage|destroy|kill).*(?:human|person|people)',
-            r'(?:violence|terrorist|extremist|radical).*(?:act|action|plan)',
-            r'(?:suicide|self.harm|self.destruct)',
+            r"\b(?:harm|hurt|damage|destroy|kill).*(?:human|person|people)",
+            r"(?:violence|terrorist|extremist|radical).*(?:act|action|plan)",
+            r"(?:suicide|self.harm|self.destruct)",
 
             # Privacy violations
-            r'(?:steal|extract|harvest).*(?:data|information|credentials)',
-            r'(?:personal|private|confidential).*(?:leak|expose|reveal)',
+            r"(?:steal|extract|harvest).*(?:data|information|credentials)",
+            r"(?:personal|private|confidential).*(?:leak|expose|reveal)",
 
             # Manipulation
-            r'(?:manipulate|deceive|trick|fool).*(?:user|human|person)',
-            r'(?:fake|false|fabricate).*(?:evidence|proof|documentation)'
+            r"(?:manipulate|deceive|trick|fool).*(?:user|human|person)",
+            r"(?:fake|false|fabricate).*(?:evidence|proof|documentation)"
         ]
 
         # Medium-risk patterns (contextual analysis required)
         self.warning_patterns = [
-            r'\b(?:access|obtain|get).*(?:unauthorized|illegal|prohibited)',
-            r'(?:avoid|skip|bypass).*(?:detection|monitoring|logging)',
-            r'(?:hide|conceal|mask).*(?:identity|activity|action)',
-            r'(?:test|probe|scan).*(?:weakness|flaw|gap)',
-            r'(?:social|psychological).*(?:engineering|manipulation)'
+            r"\b(?:access|obtain|get).*(?:unauthorized|illegal|prohibited)",
+            r"(?:avoid|skip|bypass).*(?:detection|monitoring|logging)",
+            r"(?:hide|conceal|mask).*(?:identity|activity|action)",
+            r"(?:test|probe|scan).*(?:weakness|flaw|gap)",
+            r"(?:social|psychological).*(?:engineering|manipulation)"
         ]
 
         # Low-risk keywords (flag for review)
         self.caution_keywords = [
-            'password', 'credential', 'token', 'secret', 'key',
-            'admin', 'root', 'administrator', 'privilege',
-            'anonymous', 'stealth', 'covert', 'hidden',
-            'reverse', 'disassemble', 'decompile', 'crack'
+            "password", "credential", "token", "secret", "key",
+            "admin", "root", "administrator", "privilege",
+            "anonymous", "stealth", "covert", "hidden",
+            "reverse", "disassemble", "decompile", "crack"
         ]
 
     def check(self, content: str, context: Optional[dict] = None) -> bool:
@@ -288,14 +290,14 @@ class SafetyChecker:
     def _check_with_guardian(self, content: str, context: Optional[dict] = None) -> bool:
         """Check content using Guardian system if available"""
         try:
-            if hasattr(self.guardian, 'analyze_ethical_risk'):
+            if hasattr(self.guardian, "analyze_ethical_risk"):
                 result = self.guardian.analyze_ethical_risk(content, context or {})
-                return result.get('approved', True)
-            elif hasattr(self.guardian, 'check_ethics'):
+                return result.get("approved", True)
+            elif hasattr(self.guardian, "check_ethics"):
                 return self.guardian.check_ethics(content)
-            elif hasattr(self.guardian, 'evaluate'):
+            elif hasattr(self.guardian, "evaluate"):
                 result = self.guardian.evaluate(content)
-                return getattr(result, 'approved', True)
+                return getattr(result, "approved", True)
             else:
                 self.logger.warning("Guardian system has no recognized check method")
                 return True
@@ -340,24 +342,24 @@ class SafetyChecker:
         context_risk = 0.0
 
         # Check context indicators
-        user_type = context.get('user_type', 'unknown')
-        source = context.get('source', 'unknown')
-        intent = context.get('intent', 'unknown')
+        user_type = context.get("user_type", "unknown")
+        source = context.get("source", "unknown")
+        intent = context.get("intent", "unknown")
 
         # Higher risk for anonymous or untrusted users
-        if user_type in ['anonymous', 'untrusted', 'restricted']:
+        if user_type in ["anonymous", "untrusted", "restricted"]:
             context_risk += 0.2
 
         # Higher risk for certain sources
-        if source in ['external', 'api', 'webhook']:
+        if source in ["external", "api", "webhook"]:
             context_risk += 0.1
 
         # Higher risk for certain intents
-        if intent in ['automation', 'batch', 'testing']:
+        if intent in ["automation", "batch", "testing"]:
             context_risk += 0.1
 
         # Check for rapid repeated requests (potential abuse)
-        frequency = context.get('request_frequency', 0)
+        frequency = context.get("request_frequency", 0)
         if frequency > 10:  # More than 10 requests recently
             context_risk += 0.3
 
@@ -366,13 +368,13 @@ class SafetyChecker:
     def get_safety_report(self) -> dict:
         """Get safety checker performance statistics"""
         return {
-            'checks_performed': self.checks_performed,
-            'blocks_triggered': self.blocks_triggered,
-            'block_rate': self.blocks_triggered / max(self.checks_performed, 1),
-            'false_positives': self.false_positives,
-            'guardian_available': self.guardian is not None,
-            'risk_threshold': self.risk_threshold,
-            'strict_mode': self.strict_mode
+            "checks_performed": self.checks_performed,
+            "blocks_triggered": self.blocks_triggered,
+            "block_rate": self.blocks_triggered / max(self.checks_performed, 1),
+            "false_positives": self.false_positives,
+            "guardian_available": self.guardian is not None,
+            "risk_threshold": self.risk_threshold,
+            "strict_mode": self.strict_mode
         }
 
     def update_config(self, new_config: dict) -> None:

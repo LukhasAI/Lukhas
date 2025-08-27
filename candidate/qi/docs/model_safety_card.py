@@ -102,8 +102,7 @@ def generate_card(*, model_name: str, version: str, policy_root: str, overlays: 
 def to_markdown(card: dict, *, jurisdiction_diffs: dict | None = None) -> str:
     jdiff = ""
     if jurisdiction_diffs:
-        from pprint import pformat
-        jdiff = f"\n### Jurisdiction Diffs\n```\n{pformat(jurisdiction_diffs)}\n```\n"
+        jdiff = "\n##"
     return f"""# Model & Safety Card — {card['model_name']} (v{card['version']})
 
 **Generated:** {time.strftime('%Y-%m-%d %H:%M:%SZ', time.gmtime(card['generated_at']))}

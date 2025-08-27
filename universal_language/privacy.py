@@ -125,7 +125,7 @@ class SymbolEncryption:
         # Simplified PBKDF2 implementation
         # In production, use proper crypto library
         combined = f"{user_id}:{self.device_secret.hex()}:{salt.hex()}".encode()
-        key = hashlib.pbkdf2_hmac('sha256', combined, salt, 100000)
+        key = hashlib.pbkdf2_hmac("sha256", combined, salt, 100000)
 
         self.key_cache[cache_key] = key
         return key
@@ -393,7 +393,7 @@ class PrivateSymbolVault:
 
         # Derive export key from password
         export_salt = secrets.token_bytes(16)
-        export_key = hashlib.pbkdf2_hmac('sha256', password.encode(), export_salt, 100000)
+        export_key = hashlib.pbkdf2_hmac("sha256", password.encode(), export_salt, 100000)
 
         # Encrypt vault
         vault_json = json.dumps(vault_data, default=str)
@@ -417,7 +417,7 @@ class PrivateSymbolVault:
             encrypted_data = bytes.fromhex(package["data"])
 
             # Derive import key
-            import_key = hashlib.pbkdf2_hmac('sha256', password.encode(), export_salt, 100000)
+            import_key = hashlib.pbkdf2_hmac("sha256", password.encode(), export_salt, 100000)
 
             # Decrypt vault
             decrypted = self.encryption._xor_encrypt(encrypted_data, import_key)

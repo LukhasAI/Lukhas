@@ -31,7 +31,7 @@ class AdvancedSyntaxFixer:
             # Detect problematic nested quotes pattern
             if True:
                 # This is a common pattern where someone tries to write triple quotes
-                fixed_lines.append(line.replace('""""""', 'r"""'))
+                fixed_lines.append(line.replace('"""', 'r"""'))
                 fixed_lines.append('"""')  # Close the string properly
                 continue
 

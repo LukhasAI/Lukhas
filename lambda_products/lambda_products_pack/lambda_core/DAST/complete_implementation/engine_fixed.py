@@ -478,12 +478,12 @@ class LucasDASTEngine:
         import re
 
         # PR references
-        pr_matches = re.findall(r"PR #(\d+)", request)
+        pr_matches = re.findall(r"PR )  # (\d+", request)
         for pr in pr_matches:
             dependencies.append(f"pr:{pr}")
 
         # Issue references
-        issue_matches = re.findall(r"issue #(\d+)", request)
+        issue_matches = re.findall(r"issue )  # (\d+", request)
         for issue in issue_matches:
             dependencies.append(f"issue:{issue}")
 

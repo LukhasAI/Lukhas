@@ -508,7 +508,7 @@ class EnterpriseAuthenticationModule:
             # use proper SAML library)
             attributes = self._extract_saml_attributes(root)
 
-            # Create enterprise user from SAML attributes
+            # Create enterprise user from saml_attributes
             enterprise_user = self._create_enterprise_user_from_saml(attributes)
 
             # Generate tokens
@@ -954,7 +954,7 @@ class EnterpriseAuthenticationModule:
         return list(permissions)
 
     def _create_enterprise_user_from_ldap(self, ldap_entry) -> EnterpriseUser:
-        """Create EnterpriseUser from LDAP entry."""
+        """Create EnterpriseUser from ldap_entry."""
         # Extract attributes based on mapping
         mapping = self.ldap_config.attribute_mapping
 
@@ -1024,7 +1024,7 @@ class EnterpriseAuthenticationModule:
     def _create_enterprise_user_from_saml(
         self, attributes: dict[str, Any]
     ) -> EnterpriseUser:
-        """Create EnterpriseUser from SAML attributes."""
+        """Create EnterpriseUser from saml_attributes."""
         username = attributes.get("username", attributes.get("nameID"))
         email = attributes.get("email")
         display_name = attributes.get("displayName", username)
@@ -1083,7 +1083,7 @@ class EnterpriseAuthenticationModule:
         return user
 
     def _extract_saml_attributes(self, saml_root) -> dict[str, Any]:
-        """Extract attributes from SAML response (simplified)."""
+        """Extract attributes from saml_response (simplified)."""
         # This is a simplified implementation
         # Real implementation would use proper SAML parsing library
         attributes = {}

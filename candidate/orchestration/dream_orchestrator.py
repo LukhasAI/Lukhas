@@ -1,6 +1,7 @@
 import json
-import time
 import os
+import time
+
 from openai import OpenAI
 
 # Placeholder for actual LUKHAS module imports
@@ -171,12 +172,12 @@ class DreamOrchestrator:
             print(f"Error storing dream: {e}", file=sys.stderr)
             raise
 
-if __name__ == '__main__':
-    import sys
+if __name__ == "__main__":
     import argparse
+    import sys
 
     parser = argparse.ArgumentParser(description="Dream Weaver Orchestrator")
-    parser.add_argument('--store', action='store_true', help='Store a dream manifest instead of weaving a new one.')
+    parser.add_argument("--store", action="store_true", help="Store a dream manifest instead of weaving a new one.")
     args = parser.parse_args()
 
     orchestrator = DreamOrchestrator()

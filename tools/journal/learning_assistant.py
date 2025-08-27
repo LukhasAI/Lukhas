@@ -843,7 +843,7 @@ class LearningAssistant:
         # Add streak info
         streak = self.journal._calculate_streak()
         if streak > 0:
-            message += f"\n## 🔥 Learning Streak: {streak} days\n"
+            message += f"\n#"
             if streak % 7 == 0:
                 message += "Congrats on another week of consistent learning!\n"
 

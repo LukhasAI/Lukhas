@@ -248,7 +248,7 @@ async def test_plugin_discovery():
             # Create main.py file
             main_file = plugin_dir / "main.py"
             with open(main_file, "w") as f:
-                f.write('# Test plugin main file\nprint("Hello from test plugin")\n')
+                f.write(')  #  Test plugin main file\nprint("Hello from test plugin"\n')
 
             # Test discovery
             config = PluginDiscoveryConfig(plugin_dirs=[temp_path])

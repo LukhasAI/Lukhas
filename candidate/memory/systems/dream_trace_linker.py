@@ -1043,7 +1043,7 @@ class DreamTraceLinker:
     def _detect_volatility_cascade_risk(
         self, glyph_signatures: list[GlyphSignature]
     ) -> float:
-        """Detect risk of volatility cascades from GLYPH interactions."""
+        """Detect risk of volatility cascades from glyph_interactions."""
         if not glyph_signatures:
             return 0.0
 

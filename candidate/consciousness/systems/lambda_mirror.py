@@ -1917,7 +1917,7 @@ class LambdaMirror:
         """Generate markdown format reflection."""
         lines = []
 
-        lines.append(f"# 🪞 {reflection.title}")
+        lines.append(f"")
         lines.append("")
         lines.append(f"**Reflection ID:** `{reflection.reflection_id}`")
         lines.append(f"**Timestamp:** {reflection.timestamp}")
@@ -1932,19 +1932,19 @@ class LambdaMirror:
         lines.append(f"**Confidence:** {reflection.confidence:.3f}")
         lines.append("")
 
-        lines.append("## 💭 Narrative Reflection")
-        lines.append("")
+        lines.append("#)  #  💭 Narrative Reflection"
+        lines.append(")
         lines.append(reflection.narrative_voice)
         lines.append("")
 
         if reflection.key_insights:
-            lines.append("## 💡 Key Insights")
+            lines.append("#)  #  💡 Key Insights"
             lines.append("")
             for insight in reflection.key_insights:
                 lines.append(f"- {insight}")
             lines.append("")
 
-        lines.append("## 📊 Alignment Analysis")
+        lines.append("#)  #  📊 Alignment Analysis"
         lines.append("")
         lines.append(
             f"**Overall Score:** {reflection.alignment_score.overall_score:.3f}"
@@ -1953,7 +1953,7 @@ class LambdaMirror:
             f"**Status:** {reflection.alignment_score.status.value.replace('_', ' ').title()}"
         )
         lines.append("")
-        lines.append("### Component Scores")
+        lines.append("##)  #  Component Scores"
         lines.append(
             f"- **Emotional Coherence:** {reflection.alignment_score.emotional_coherence:.3f}"
         )
@@ -1975,13 +1975,13 @@ class LambdaMirror:
         lines.append("")
 
         if reflection.alignment_score.recommendations:
-            lines.append("### Recommendations")
+            lines.append("##)  #  Recommendations"
             for rec in reflection.alignment_score.recommendations:
                 lines.append(f"- {rec}")
             lines.append("")
 
         if reflection.emotional_drift:
-            lines.append("## 🌊 Emotional Drift Analysis")
+            lines.append("#)  #  🌊 Emotional Drift Analysis"
             lines.append("")
             lines.append(
                 f"**Baseline Tone:** {reflection.emotional_drift.baseline_tone.value.replace('_', ' ').title()}"
@@ -1998,7 +1998,7 @@ class LambdaMirror:
             lines.append("")
 
         if reflection.symbolic_themes:
-            lines.append("## 🔮 Symbolic Themes")
+            lines.append("#)  #  🔮 Symbolic Themes"
             lines.append("")
             for theme in reflection.symbolic_themes:
                 lines.append(f"- {theme}")

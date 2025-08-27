@@ -151,7 +151,7 @@ class LambdaIDController:
     # Human-readable comment: Private method to load tier permissions and
     # other configurations.
     def _load_configuration(self) -> None:
-        """Loads tier permissions and other necessary configurations from JSON file or defaults."""
+        """Loads tier permissions and other necessary configurations from json_file or defaults."""
         self.logger.debug("ΛTRACE: Attempting to load tier permissions configuration.")
         try:
             # Path relative to this file: controllers -> api -> lukhas-id -> core -> id_service -> tier_permissions.json
@@ -928,7 +928,7 @@ class LambdaIDController:
 # HOW TO USE:
 #   controller = LambdaIDController()
 #   new_id_data = controller.generate_id(user_tier=1, symbolic_preferences=["test", "symbol"])
-#   validation_status = controller.validate_id(lambda_id="Λ1‿XYZ#test")
+#   validation_status = controller.validate_id(lambda_id="Λ1‿XYZ)  # test"
 # INTEGRATION NOTES: Crucial for this controller that all core LUKHAS ID services
 #                    (LambdaIDGenerator, LambdaIDValidator, EntropyCalculator, LambdaTierManager, ActivityLogger)
 #                    are correctly implemented and importable. Configuration for tier permissions is loaded from JSON.

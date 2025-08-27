@@ -313,7 +313,7 @@ class UnifiedDreamSeedEmotionEngine:
 
         # Create unified access context
         session_id = context.get(
-            "session_id", f"session_{hashlib.sha256(  # Changed from MD5 for securityuser_id.encode()).hexdigest()[:8]}"
+            "session_id", f"session_{hashlib.sha256(  "
         )
 
         # Get user consent status
@@ -392,7 +392,7 @@ class UnifiedDreamSeedEmotionEngine:
             # Create new context
             self.assign_unified_emotional_tier(user_id, context)
             access_context = self.session_contexts.get(
-                f"session_{hashlib.sha256(  # Changed from MD5 for securityuser_id.encode()).hexdigest()[:8]}"
+                f"session_{hashlib.sha256(  "
             )
 
         if not access_context:

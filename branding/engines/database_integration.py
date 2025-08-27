@@ -77,16 +77,16 @@ class LukhasDatabaseIntegration:
         content_list = []
         for row in rows:
             content_list.append({
-                'id': row[0],
-                'source_system': row[1],
-                'content_type': row[2],
-                'title': row[3],
-                'content': row[4],
-                'trinity_identity': row[5],
-                'trinity_consciousness': row[6],
-                'trinity_guardian': row[7],
-                'voice_coherence': row[8],
-                'created_at': row[9]
+                "id": row[0],
+                "source_system": row[1],
+                "content_type": row[2],
+                "title": row[3],
+                "content": row[4],
+                "trinity_identity": row[5],
+                "trinity_consciousness": row[6],
+                "trinity_guardian": row[7],
+                "voice_coherence": row[8],
+                "created_at": row[9]
             })
 
         return content_list
@@ -107,9 +107,9 @@ class LukhasDatabaseIntegration:
         rows = cursor.fetchall()
         conn.close()
 
-        return [{'id': r[0], 'source_system': r[1], 'content_type': r[2],
-                'title': r[3], 'content': r[4], 'voice_coherence': r[5],
-                'created_at': r[6]} for r in rows]
+        return [{"id": r[0], "source_system": r[1], "content_type": r[2],
+                "title": r[3], "content": r[4], "voice_coherence": r[5],
+                "created_at": r[6]} for r in rows]
 
     def update_voice_coherence(self, content_id: int, new_coherence: float):
         """Update voice coherence for content (used by voice optimizer)"""
@@ -170,7 +170,7 @@ class LukhasDatabaseIntegration:
         rows = cursor.fetchall()
         conn.close()
 
-        return [{'system': r[0], 'metric': r[1], 'value': r[2], 'time': r[3]} for r in rows]
+        return [{"system": r[0], "metric": r[1], "value": r[2], "time": r[3]} for r in rows]
 
 # Global database instance for all systems
 db = LukhasDatabaseIntegration()

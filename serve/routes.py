@@ -2,20 +2,21 @@
 
 import logging
 
-from fastapi import APIRouter
-from fastapi import HTTPException
+from fastapi import APIRouter, HTTPException
 
 from config.config import TIER_PERMISSIONS
 
-from .schemas import DreamRequest
-from .schemas import DreamResponse
-from .schemas import GlyphFeedbackRequest
-from .schemas import GlyphFeedbackResponse
-from .schemas import MemoryDumpResponse
-from .schemas import PluginLoadRequest
-from .schemas import PluginLoadResponse
-from .schemas import TierAuthRequest
-from .schemas import TierAuthResponse
+from .schemas import (
+    DreamRequest,
+    DreamResponse,
+    GlyphFeedbackRequest,
+    GlyphFeedbackResponse,
+    MemoryDumpResponse,
+    PluginLoadRequest,
+    PluginLoadResponse,
+    TierAuthRequest,
+    TierAuthResponse,
+)
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -77,7 +78,7 @@ def compute_affect_delta(symbols: list[str]) -> float:
         symbol_text = " ".join(symbols) if symbols else "neutral"
         emotion_result = process_emotion({"text": symbol_text})
 
-        # Calculate affect delta from VAD values
+        # Calculate affect delta from vad_values
         valence = emotion_result.get("valence", 0.5)
         arousal = emotion_result.get("arousal", 0.5)
         dominance = emotion_result.get("dominance", 0.5)
@@ -248,8 +249,7 @@ async def plugin_load(req: PluginLoadRequest) -> PluginLoadResponse:
     # Implement plugin persistence
     try:
         import json
-        from datetime import datetime
-        from datetime import timezone
+        from datetime import datetime, timezone
         from pathlib import Path
 
         # Create plugins directory if it doesn't exist

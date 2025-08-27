@@ -3,13 +3,13 @@ import os
 
 # Get all stub directories
 stub_dirs = []
-for dir_name in os.listdir('.'):
-    if os.path.isdir(dir_name) and not dir_name.startswith('.'):
-        dir_path = os.path.join(dir_name, '__init__.py')
+for dir_name in os.listdir("."):
+    if os.path.isdir(dir_name) and not dir_name.startswith("."):
+        dir_path = os.path.join(dir_name, "__init__.py")
         if os.path.exists(dir_path):
             # Check if only __init__.py exists
-            files = [f for f in os.listdir(dir_name) if not f.startswith('.')]
-            if len(files) == 1 and files[0] == '__init__.py':
+            files = [f for f in os.listdir(dir_name) if not f.startswith(".")]
+            if len(files) == 1 and files[0] == "__init__.py":
                 # Check if it's a stub (small file)
                 with open(dir_path) as f:
                     lines = len(f.readlines())
@@ -30,12 +30,12 @@ for stub in sorted(stub_dirs):
     ]
 
     found = False
-    for root, dirs, files in os.walk('.'):
+    for root, dirs, files in os.walk("."):
         # Skip hidden and archive directories
-        dirs[:] = [d for d in dirs if not d.startswith('.') and d != stub]
+        dirs[:] = [d for d in dirs if not d.startswith(".") and d != stub]
 
         for file in files:
-            if file.endswith('.py'):
+            if file.endswith(".py"):
                 file_path = os.path.join(root, file)
                 try:
                     with open(file_path) as f:

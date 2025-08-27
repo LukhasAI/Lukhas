@@ -420,7 +420,7 @@ class DNAMemoryArchitecture:
         return node.id
 
     def decode_memory(self, memory_id):
-        """Decode memory from DNA helix structure"""
+        """Decode memory from dna_helix structure"""
         node = self._helix.get_node(memory_id)
         if node:
             return node.content

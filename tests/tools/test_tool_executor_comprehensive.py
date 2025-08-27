@@ -8,9 +8,7 @@ import os
 
 # Import tool execution components
 import sys
-from unittest.mock import AsyncMock
-from unittest.mock import MagicMock
-from unittest.mock import patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
@@ -19,8 +17,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../candidate/tools")
 from candidate.tools.external_service_integration import ExternalServiceIntegration
 from candidate.tools.tool_executor import ToolExecutor
 from candidate.tools.tool_executor_guardian import ToolExecutorGuardian
-from candidate.tools.tool_orchestrator import MultiAIConsensus
-from candidate.tools.tool_orchestrator import ToolOrchestrator
+from candidate.tools.tool_orchestrator import MultiAIConsensus, ToolOrchestrator
 
 
 @pytest.fixture

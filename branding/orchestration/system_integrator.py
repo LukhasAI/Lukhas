@@ -46,7 +46,7 @@ class SystemIntegrator:
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -62,7 +62,7 @@ class SystemIntegrator:
         # Create database integration module
         db_integration_path = self.engines_path / "database_integration.py"
 
-        with open(db_integration_path, 'w') as f:
+        with open(db_integration_path, "w") as f:
             f.write('''#!/usr/bin/env python3
 """
 LUKHAS AI Database Integration Layer
@@ -396,7 +396,7 @@ if __name__ == "__main__":
 '''
 
         # Write upgraded content platform
-        with open(content_platform_path, 'w') as f:
+        with open(content_platform_path, "w") as f:
             f.write(upgraded_content)
 
         self.logger.info("✅ Content platform upgraded with database integration")
@@ -580,7 +580,7 @@ if __name__ == "__main__":
 '''
 
         # Write upgraded document engine
-        with open(doc_engine_path, 'w') as f:
+        with open(doc_engine_path, "w") as f:
             f.write(upgraded_content)
 
         self.logger.info("✅ Document engine upgraded with database integration")
@@ -591,7 +591,7 @@ if __name__ == "__main__":
 
         orchestrator_path = self.engines_path / "lukhas_unified_orchestrator.py"
 
-        with open(orchestrator_path, 'w') as f:
+        with open(orchestrator_path, "w") as f:
             f.write('''#!/usr/bin/env python3
 """
 LUKHAS AI Unified System Orchestrator
@@ -767,19 +767,19 @@ if __name__ == "__main__":
 
         # Phase 1: Create database integration layer
         await self.create_database_integration()
-        results['database_integration'] = True
+        results["database_integration"] = True
 
         # Phase 2: Upgrade content platform with database
         await self.upgrade_content_platform()
-        results['content_platform_integrated'] = True
+        results["content_platform_integrated"] = True
 
         # Phase 3: Upgrade document engine with database
         await self.upgrade_document_engine()
-        results['document_engine_integrated'] = True
+        results["document_engine_integrated"] = True
 
         # Phase 4: Create unified orchestrator
         await self.create_system_orchestrator()
-        results['orchestrator_created'] = True
+        results["orchestrator_created"] = True
 
         # Generate integration report
         await self._generate_integration_report(results)
@@ -868,7 +868,7 @@ Run `python engines/lukhas_unified_orchestrator.py` to see:
 *LUKHAS AI System Integration - All Systems Fully Connected*
 """
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write(report_content)
 
         self.logger.info(f"📊 Generated integration report: {report_path}")

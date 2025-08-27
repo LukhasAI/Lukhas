@@ -63,7 +63,7 @@ except ImportError:
     GUARDIAN_AVAILABLE = False
 
 try:
-    from ..memory.memory_wrapper import MemoryWrapper, get_memory_manager
+    from ..memory.memory_wrapper import get_memory_manager
 
     MEMORY_AVAILABLE = True
 except ImportError:

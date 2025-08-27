@@ -26,7 +26,7 @@ Future-ready for integration with staking, slashing, and audit systems.
 # - 🧠 Modular base for staking, slashing, and AI scoring
 #
 # 💬 Symbolic Design:
-# This is not a cryptocurrency — it’s an ethical balance sheet
+# This is not a cryptocurrency — it's an ethical balance sheet
 # for symbolic cognition and participation.
 # ===============================================================
 

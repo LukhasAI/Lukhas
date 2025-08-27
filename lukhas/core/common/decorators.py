@@ -9,9 +9,7 @@ import functools
 import random
 import time
 from datetime import datetime
-from typing import Callable
-from typing import Optional
-from typing import Union
+from typing import Callable, Optional, Union
 
 from .exceptions import ModuleTimeoutError
 from .logger import get_logger

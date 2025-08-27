@@ -17,8 +17,7 @@ import asyncio
 import tempfile
 import time
 import uuid
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import pytest
@@ -27,12 +26,10 @@ import pytest
 try:
     from candidate.governance.guardian_system_integration import (
         GuardianSystemIntegration,
-    )
-    from candidate.governance.guardian_system_integration import (
         GuardianValidationRequest,
+        ValidationResult,
+        validate_ai_action,
     )
-    from candidate.governance.guardian_system_integration import ValidationResult
-    from candidate.governance.guardian_system_integration import validate_ai_action
 
     GUARDIAN_INTEGRATION_AVAILABLE = True
 except ImportError:
@@ -40,10 +37,12 @@ except ImportError:
     print("Guardian System Integration not available for testing")
 
 try:
-    from candidate.governance.consent_ledger.ledger_v1 import ConsentLedgerV1
-    from candidate.governance.consent_ledger.ledger_v1 import ConsentType
-    from candidate.governance.consent_ledger.ledger_v1 import DataSubjectRights
-    from candidate.governance.consent_ledger.ledger_v1 import PolicyVerdict
+    from candidate.governance.consent_ledger.ledger_v1 import (
+        ConsentLedgerV1,
+        ConsentType,
+        DataSubjectRights,
+        PolicyVerdict,
+    )
 
     CONSENT_LEDGER_AVAILABLE = True
 except ImportError:
@@ -51,9 +50,11 @@ except ImportError:
     print("Consent Ledger not available for testing")
 
 try:
-    from candidate.governance.guardian.drift_detector import AdvancedDriftDetector
-    from candidate.governance.guardian.drift_detector import DriftSeverity
-    from candidate.governance.guardian.drift_detector import DriftType
+    from candidate.governance.guardian.drift_detector import (
+        AdvancedDriftDetector,
+        DriftSeverity,
+        DriftType,
+    )
 
     DRIFT_DETECTOR_AVAILABLE = True
 except ImportError:
@@ -63,9 +64,9 @@ except ImportError:
 try:
     from candidate.governance.identity.core.sent.policy_engine import (
         ComprehensiveEthicsPolicyEngine,
+        EthicalFramework,
+        PolicyAction,
     )
-    from candidate.governance.identity.core.sent.policy_engine import EthicalFramework
-    from candidate.governance.identity.core.sent.policy_engine import PolicyAction
 
     ETHICS_ENGINE_AVAILABLE = True
 except ImportError:
@@ -73,8 +74,10 @@ except ImportError:
     print("Ethics Policy Engine not available for testing")
 
 try:
-    from candidate.governance.security.audit_system import AuditEventType
-    from candidate.governance.security.audit_system import ComprehensiveAuditSystem
+    from candidate.governance.security.audit_system import (
+        AuditEventType,
+        ComprehensiveAuditSystem,
+    )
 
     AUDIT_SYSTEM_AVAILABLE = True
 except ImportError:

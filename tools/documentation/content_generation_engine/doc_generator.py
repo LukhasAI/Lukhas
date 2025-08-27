@@ -201,7 +201,7 @@ class DocGenerator:
             )
 
     def _extract_type_hint(self, node: ast.AST) -> str:
-        """Extract type hint information from AST node."""
+        """Extract type hint information from ast_node."""
         if isinstance(node, ast.Name):
             return node.id
         elif isinstance(node, ast.Subscript):

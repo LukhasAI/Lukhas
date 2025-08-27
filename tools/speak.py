@@ -76,7 +76,7 @@ def main():
     voice = EMOTION_VOICES.get(args.emotion.lower(), DEFAULT_VOICE)
 
     print(f"🧠 Tier {tier} | 🎙️ Emotion: {args.emotion} | Voice: {voice}")
-    print(f"💬 Lucas would say: “{sentence}”")
+    print(f"💬 Lucas would say: "{sentence}")
     if not args.preview:
         asyncio.run(speak(sentence, voice=voice, preview=False))
     log_output(sentence, tier, voice)

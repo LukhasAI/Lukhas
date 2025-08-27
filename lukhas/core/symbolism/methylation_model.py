@@ -10,11 +10,9 @@ the lifecycle and decay patterns of symbolic tags within LUKHAS AI.
 import logging
 import math
 from datetime import datetime
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
-from .tags import SymbolicTag
-from .tags import TagScope
+from .tags import SymbolicTag, TagScope
 
 logger = logging.getLogger(__name__)
 

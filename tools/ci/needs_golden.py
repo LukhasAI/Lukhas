@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 
+
 def changed_lines():
     # naive: list changed files (nightly branch vs main), line granularity optional
     out = Path("reports/todos/index.json")

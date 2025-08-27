@@ -109,7 +109,7 @@ async def get_specific_report(report_name: str) -> dict[str, Any]:
             raise HTTPException(status_code=404, detail=f"Report {report_name} not found")
 
         # Handle different file types
-        if report_name.endswith('.json'):
+        if report_name.endswith(".json"):
             with open(report_path) as f:
                 content = json.load(f)
         else:

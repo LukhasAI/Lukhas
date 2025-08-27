@@ -60,11 +60,11 @@ class EnhancedSystemAwareness(BioAwareness):
         try:
             if stimulus is not None:
                 # Adjust awareness level based on stimulus intensity
-                intensity = getattr(stimulus, 'intensity', 0.5)
+                intensity = getattr(stimulus, "intensity", 0.5)
                 self.state.level = min(1.0, max(0.0, self.state.level + (intensity - 0.5) * 0.1))
 
                 # Update focus based on stimulus type
-                if hasattr(stimulus, 'type'):
+                if hasattr(stimulus, "type"):
                     self.state.focus = stimulus.type
 
                 # Log state change
@@ -105,7 +105,7 @@ class EnhancedSystemAwareness(BioAwareness):
     def _update_metrics(self, metric_name=None, value=None):
         """Update awareness metrics"""
         try:
-            if not hasattr(self, '_metrics'):
+            if not hasattr(self, "_metrics"):
                 self._metrics = {
                     "total_updates": 0,
                     "average_level": 0.5,
@@ -145,7 +145,7 @@ class EnhancedSystemAwareness(BioAwareness):
             self.history.append(error_entry)
 
             # Update error metrics
-            if hasattr(self, '_metrics'):
+            if hasattr(self, "_metrics"):
                 self._metrics["errors"] = self._metrics.get("errors", 0) + 1
 
             # Log error (would use proper logging in full implementation)

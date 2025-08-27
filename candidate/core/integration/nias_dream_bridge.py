@@ -73,7 +73,7 @@ class NIASDreamBridge:
     async def nias_to_dream(
         self, event_type: str, data: dict[str, Any]
     ) -> dict[str, Any]:
-        """Forward event from NIAS to Dream system"""
+        """Forward event from nias_to Dream system"""
         if not self.is_connected:
             await self.connect()
 
@@ -89,13 +89,13 @@ class NIASDreamBridge:
                 result = await self.dream_hub.process_event(
                     mapped_event, transformed_data
                 )
-                logger.debug(f"Forwarded {event_type} from NIAS to Dream")
+                logger.debug(f"Forwarded {event_type} from nias_to Dream")
                 return result
 
             return {"error": "dream hub not available"}
 
         except Exception as e:
-            logger.error(f"Error forwarding from NIAS to Dream: {e}")
+            logger.error(f"Error forwarding from nias_to Dream: {e}")
             return {"error": str(e)}
 
     async def dream_to_nias(
@@ -127,7 +127,7 @@ class NIASDreamBridge:
             return {"error": str(e)}
 
     def transform_data_nias_to_dream(self, data: dict[str, Any]) -> dict[str, Any]:
-        """Transform data format from NIAS to Dream"""
+        """Transform data format from nias_to Dream"""
         return {
             "source_system": "nias",
             "target_system": "dream",

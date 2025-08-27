@@ -38,7 +38,49 @@ auto_fix = [
     "W292",   # No newline at end of file
     "W293",   # Blank line contains whitespace
     "E225",   # Missing whitespace around operator
-    "E231"    # Missing whitespace after ','
+    "E231",   # Missing whitespace after ','
+    "Q000",   # Remove bad quotes
+    "Q001",   # Remove bad single quote multiline
+    "Q002",   # Remove bad double quote docstring
+    "Q003",   # Change outer quotes to avoid escapes
+    "I001",   # Import block is un-sorted or un-formatted
+    "UP004",  # Class inherits from object
+    "UP008",  # Use super() instead of super(__class__, self)
+    "UP009",  # UTF-8 encoding declaration is unnecessary
+    "UP010",  # Unnecessary __future__ import
+    "UP015",  # Unnecessary open mode parameters
+    "UP018",  # Unnecessary literal within dict/list/tuple call
+    "UP028",  # Replace yield with yield from
+    "UP030",  # Use implicit references for positional format
+    "UP031",  # Use f-string instead of percent formatting
+    "UP032",  # Use f-string instead of format() call
+    "F401",   # Module imported but unused
+    "F522",   # .format(...) unused named arguments
+    "F523",   # .format(...) unused positional arguments
+    "F541",   # f-string without placeholders
+    "W191",   # Indentation contains tabs
+    "E101",   # Indentation contains mixed spaces and tabs
+    "E111",   # Indentation is not a multiple of four
+    "E114",   # Indentation is not a multiple of four (comment)
+    "E117",   # Over-indented
+    "E201",   # Whitespace after '('
+    "E202",   # Whitespace before ')'
+    "E203",   # Whitespace before ':'
+    "E211",   # Whitespace before '('
+    "E221",   # Multiple spaces before operator
+    "E222",   # Multiple spaces after operator
+    "E223",   # Tab before operator
+    "E224",   # Tab after operator
+    "E251",   # Unexpected spaces around keyword/parameter equals
+    "E252",   # Missing whitespace around parameter equals
+    "E261",   # At least two spaces before inline comment
+    "E262",   # Inline comment should start with '# '
+    "E265",   # Block comment should start with '# '
+    "E271",   # Multiple spaces after keyword
+    "E272",   # Multiple spaces before keyword
+    "E273",   # Tab after keyword
+    "E274",   # Tab before keyword
+    "E275",   # Missing whitespace after keyword
 ]
 
 # Rules requiring human review
@@ -72,3 +114,41 @@ security_sensitive = [
     "password", "secret", "key", "token",
     "auth", "credential", "cert"
 ]
+
+[syntax_fixes]
+# Patterns for automatic syntax fixes
+quote_fixes = [
+    # Fix curly quotes
+    ["[""]", '"'],     # Double curly quotes
+    ["['']", "'"],     # Single curly quotes
+
+    # Fix unicode quotes
+    ["\\u201C", '"'],  # Left double quotation mark
+    ["\\u201D", '"'],  # Right double quotation mark
+    ["\\u2018", "'"],  # Left single quotation mark
+    ["\\u2019", "'"],  # Right single quotation mark
+]
+
+# Invalid import patterns to fix
+import_replacements = [
+    ["LUKHAS AI ΛBot", "lukhas_ai_lambda_bot"],
+    ["LUKHAS AI", "lukhas_ai"],
+    ["Λ", "lambda"],  # Lambda symbol in imports
+]
+
+# Common docstring issues
+docstring_patterns = [
+    ["\"\"\"\"\"\"", '"""'],  # Six quotes to three
+    ["''''''", "'''"],      # Six single quotes to three
+    ["\"\"", '"""'],         # Incomplete docstring
+]
+
+[syntax_validation]
+# Pre-commit syntax validation settings
+enable_pre_syntax_check = true
+run_custom_fixer_before_ruff = true
+custom_fixer_script = "tools/fix_syntax_errors.py"
+fail_on_syntax_error = true
+auto_fix_imports = true
+auto_fix_quotes = true
+auto_fix_docstrings = true

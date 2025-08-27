@@ -16,16 +16,16 @@ from typing import Any, Dict, List, Optional
 
 # Try to import visualization libraries
 try:
-    import matplotlib.pyplot as plt
     import matplotlib.patches as patches
+    import matplotlib.pyplot as plt
     from matplotlib.animation import FuncAnimation
     MATPLOTLIB_AVAILABLE = True
 except ImportError:
     MATPLOTLIB_AVAILABLE = False
 
 try:
-    import plotly.graph_objects as go
     import plotly.express as px
+    import plotly.graph_objects as go
     from plotly.subplots import make_subplots
     PLOTLY_AVAILABLE = True
 except ImportError:
@@ -33,7 +33,7 @@ except ImportError:
 
 # Import dashboard alternatives if available
 try:
-    from .dashboard_alternatives import SimpleDashboard, DashboardData
+    from .dashboard_alternatives import DashboardData, SimpleDashboard
     DASHBOARD_AVAILABLE = True
 except ImportError:
     DASHBOARD_AVAILABLE = False
@@ -235,7 +235,7 @@ class MemoryVisualizer:
             ax.scatter(node.x, node.y, s=node.size*100, c=node.color, alpha=0.7)
             if node.label:
                 ax.annotate(node.label, (node.x, node.y), xytext=(5, 5),
-                           textcoords='offset points', fontsize=8)
+                           textcoords="offset points", fontsize=8)
 
         # Plot connections
         for node in fold.nodes:
@@ -243,7 +243,7 @@ class MemoryVisualizer:
                 conn_node = next((n for n in fold.nodes if n.node_id == conn_id), None)
                 if conn_node:
                     ax.plot([node.x, conn_node.x], [node.y, conn_node.y],
-                           'b-', alpha=0.3, linewidth=1)
+                           "b-", alpha=0.3, linewidth=1)
 
         ax.set_title(f"Memory Fold: {fold.fold_id}")
         ax.set_xlabel("X Position")
@@ -256,7 +256,7 @@ class MemoryVisualizer:
         else:
             output_path = self.output_dir / f"fold_{fold.fold_id}_2d.png"
 
-        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
         plt.close()
 
         self.logger.info(f"Saved matplotlib visualization: {output_path}")
@@ -275,7 +275,7 @@ class MemoryVisualizer:
 
         fig.add_trace(go.Scatter(
             x=node_x, y=node_y,
-            mode='markers+text',
+            mode="markers+text",
             marker=dict(size=node_sizes, color=node_colors, opacity=0.7),
             text=node_labels,
             textposition="top center",
@@ -289,8 +289,8 @@ class MemoryVisualizer:
                 if conn_node:
                     fig.add_trace(go.Scatter(
                         x=[node.x, conn_node.x], y=[node.y, conn_node.y],
-                        mode='lines',
-                        line=dict(color='blue', width=1, dash='dash'),
+                        mode="lines",
+                        line=dict(color="blue", width=1, dash="dash"),
                         opacity=0.3,
                         showlegend=False
                     ))
@@ -327,7 +327,7 @@ class MemoryVisualizer:
 
         fig.add_trace(go.Scatter3d(
             x=node_x, y=node_y, z=node_z,
-            mode='markers+text',
+            mode="markers+text",
             marker=dict(size=node_sizes, color=node_colors, opacity=0.8),
             text=node_labels,
             name="Memory Nodes"
@@ -342,8 +342,8 @@ class MemoryVisualizer:
                         x=[node.x, conn_node.x],
                         y=[node.y, conn_node.y],
                         z=[node.z, conn_node.z],
-                        mode='lines',
-                        line=dict(color='blue', width=2),
+                        mode="lines",
+                        line=dict(color="blue", width=2),
                         opacity=0.4,
                         showlegend=False
                     ))
@@ -371,7 +371,7 @@ class MemoryVisualizer:
     def _visualize_fold_matplotlib_3d(self, fold: MemoryFold, save_path: Optional[str] = None) -> str:
         """Create 3D matplotlib visualization"""
         fig = plt.figure(figsize=(12, 8))
-        ax = fig.add_subplot(111, projection='3d')
+        ax = fig.add_subplot(111, projection="3d")
 
         # Plot 3D nodes
         for node in fold.nodes:
@@ -383,7 +383,7 @@ class MemoryVisualizer:
                 conn_node = next((n for n in fold.nodes if n.node_id == conn_id), None)
                 if conn_node:
                     ax.plot([node.x, conn_node.x], [node.y, conn_node.y],
-                           [node.z, conn_node.z], 'b-', alpha=0.3, linewidth=1)
+                           [node.z, conn_node.z], "b-", alpha=0.3, linewidth=1)
 
         ax.set_title(f"3D Memory Fold: {fold.fold_id}")
         ax.set_xlabel("X Position")
@@ -396,7 +396,7 @@ class MemoryVisualizer:
         else:
             output_path = self.output_dir / f"fold_{fold.fold_id}_3d.png"
 
-        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        plt.savefig(output_path, dpi=300, bbox_inches="tight")
         plt.close()
 
         self.logger.info(f"Saved 3D matplotlib visualization: {output_path}")
@@ -406,7 +406,7 @@ class MemoryVisualizer:
         """Create ASCII art visualization"""
         # Create simple ASCII representation
         width, height = 60, 20
-        canvas = [[' ' for _ in range(width)] for _ in range(height)]
+        canvas = [[" " for _ in range(width)] for _ in range(height)]
 
         # Normalize coordinates
         if not fold.nodes:
@@ -441,7 +441,7 @@ class MemoryVisualizer:
         else:
             output_path = self.output_dir / f"fold_{fold.fold_id}_ascii.txt"
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             f.write(ascii_art)
 
         self.logger.info(f"Saved ASCII visualization: {output_path}")
@@ -477,7 +477,7 @@ class MemoryVisualizer:
             }
             fold_data["nodes"].append(node_data)
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             json.dump(fold_data, f, indent=2)
 
         self.logger.info(f"Exported JSON data: {output_path}")
@@ -487,7 +487,7 @@ class MemoryVisualizer:
         """Export fold as CSV"""
         output_path = self.output_dir / f"fold_{fold.fold_id}_nodes.csv"
 
-        with open(output_path, 'w') as f:
+        with open(output_path, "w") as f:
             # Header
             f.write("node_id,x,y,z,size,color,label,num_connections,timestamp\n")
 

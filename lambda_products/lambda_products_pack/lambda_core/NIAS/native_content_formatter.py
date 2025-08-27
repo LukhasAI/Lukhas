@@ -492,7 +492,7 @@ class NativeContentFormatter:
         self, ad_content: dict, format_type: ContentFormat, context: ContentContext
     ) -> tuple[str, str]:
         """Generate CTA that feels natural"""
-        url = ad_content.get("url", "#")
+        url = ad_content.get("url", ")  # "
 
         cta_text_map = {
             ContentFormat.STORY: "Read More",

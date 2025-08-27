@@ -28,10 +28,10 @@ class BreakthroughSynthesisEngine(CoreInterface):
 
         # Define synthesis patterns
         self.synthesis_patterns = {
-            'convergence': 'Multiple innovations pointing to same breakthrough',
-            'emergence': 'New breakthrough from combining innovations',
-            'amplification': 'Innovations reinforcing each other',
-            'transcendence': 'Breakthrough beyond individual innovations'
+            "convergence": "Multiple innovations pointing to same breakthrough",
+            "emergence": "New breakthrough from combining innovations",
+            "amplification": "Innovations reinforcing each other",
+            "transcendence": "Breakthrough beyond individual innovations"
         }
 
         self._initialized = True
@@ -55,9 +55,9 @@ class BreakthroughSynthesisEngine(CoreInterface):
         # Group innovations by type
         grouped = {}
         for result in innovation_results:
-            if result.get('success') and result.get('output'):
-                output = result['output']
-                innovation_type = output.get('type', 'unknown')
+            if result.get("success") and result.get("output"):
+                output = result["output"]
+                innovation_type = output.get("type", "unknown")
 
                 if innovation_type not in grouped:
                     grouped[innovation_type] = []
@@ -98,40 +98,40 @@ class BreakthroughSynthesisEngine(CoreInterface):
         """Synthesize breakthrough from converging innovations"""
 
         breakthrough = {
-            'id': str(uuid.uuid4()),
-            'type': innovation_type,
-            'pattern': 'convergence',
-            'source_count': len(innovations),
-            'impact_score': 0.0,
-            'confidence': 0.0
+            "id": str(uuid.uuid4()),
+            "type": innovation_type,
+            "pattern": "convergence",
+            "source_count": len(innovations),
+            "impact_score": 0.0,
+            "confidence": 0.0
         }
 
         # Aggregate scores
         total_impact = 0.0
         for innovation in innovations:
-            if 'transcendence_level' in innovation:
-                total_impact += innovation['transcendence_level']
-            elif 'disruption_factor' in innovation:
-                total_impact += min(1.0, innovation['disruption_factor'] / 1000)
+            if "transcendence_level" in innovation:
+                total_impact += innovation["transcendence_level"]
+            elif "disruption_factor" in innovation:
+                total_impact += min(1.0, innovation["disruption_factor"] / 1000)
             else:
                 total_impact += 0.5
 
-        breakthrough['impact_score'] = min(1.0, total_impact / len(innovations) * 1.2)
-        breakthrough['confidence'] = min(1.0, len(innovations) / 5)  # More sources = higher confidence
+        breakthrough["impact_score"] = min(1.0, total_impact / len(innovations) * 1.2)
+        breakthrough["confidence"] = min(1.0, len(innovations) / 5)  # More sources = higher confidence
 
         # Extract key features
-        if innovation_type == 'consciousness_evolution':
-            breakthrough['consciousness_features'] = []
+        if innovation_type == "consciousness_evolution":
+            breakthrough["consciousness_features"] = []
             for inn in innovations:
-                if 'new_capabilities' in inn:
-                    breakthrough['consciousness_features'].extend(inn['new_capabilities'])
+                if "new_capabilities" in inn:
+                    breakthrough["consciousness_features"].extend(inn["new_capabilities"])
 
-        elif innovation_type == 'market_disruption':
-            breakthrough['total_market_value'] = sum(
-                inn.get('market_size', 0) for inn in innovations
+        elif innovation_type == "market_disruption":
+            breakthrough["total_market_value"] = sum(
+                inn.get("market_size", 0) for inn in innovations
             )
 
-        return breakthrough if breakthrough['impact_score'] > 0.5 else None
+        return breakthrough if breakthrough["impact_score"] > 0.5 else None
 
     async def _convert_to_breakthrough(
         self,
@@ -140,29 +140,29 @@ class BreakthroughSynthesisEngine(CoreInterface):
         """Convert single innovation to breakthrough format"""
 
         breakthrough = {
-            'id': str(uuid.uuid4()),
-            'type': innovation.get('type', 'unknown'),
-            'pattern': 'singular',
-            'source_count': 1,
-            'impact_score': 0.5,
-            'confidence': 0.6,
-            'details': innovation
+            "id": str(uuid.uuid4()),
+            "type": innovation.get("type", "unknown"),
+            "pattern": "singular",
+            "source_count": 1,
+            "impact_score": 0.5,
+            "confidence": 0.6,
+            "details": innovation
         }
 
         # Adjust scores based on type
-        if innovation.get('type') == 'paradigm_shift':
-            breakthrough['impact_score'] = 0.9
-            breakthrough['confidence'] = innovation.get('confidence', 0.8)
+        if innovation.get("type") == "paradigm_shift":
+            breakthrough["impact_score"] = 0.9
+            breakthrough["confidence"] = innovation.get("confidence", 0.8)
 
-        elif innovation.get('type') == 'consciousness_evolution':
-            breakthrough['impact_score'] = innovation.get('transcendence_level', 0.7)
-            breakthrough['confidence'] = 0.8
+        elif innovation.get("type") == "consciousness_evolution":
+            breakthrough["impact_score"] = innovation.get("transcendence_level", 0.7)
+            breakthrough["confidence"] = 0.8
 
-        elif innovation.get('type') == 'market_disruption':
-            disruption_factor = innovation.get('disruption_factor', 1)
-            breakthrough['impact_score'] = min(1.0, disruption_factor / 1000)
+        elif innovation.get("type") == "market_disruption":
+            disruption_factor = innovation.get("disruption_factor", 1)
+            breakthrough["impact_score"] = min(1.0, disruption_factor / 1000)
 
-        return breakthrough if breakthrough['impact_score'] > 0.3 else None
+        return breakthrough if breakthrough["impact_score"] > 0.3 else None
 
     async def _synthesize_emergence(
         self,
@@ -171,27 +171,27 @@ class BreakthroughSynthesisEngine(CoreInterface):
         """Detect emergent breakthroughs from diverse innovations"""
 
         # Check for consciousness + market combination
-        if 'consciousness_evolution' in grouped and 'market_disruption' in grouped:
+        if "consciousness_evolution" in grouped and "market_disruption" in grouped:
             return {
-                'id': str(uuid.uuid4()),
-                'type': 'emergent_consciousness_economy',
-                'pattern': 'emergence',
-                'source_types': ['consciousness_evolution', 'market_disruption'],
-                'impact_score': 0.95,
-                'confidence': 0.7,
-                'description': 'Consciousness-driven economic transformation'
+                "id": str(uuid.uuid4()),
+                "type": "emergent_consciousness_economy",
+                "pattern": "emergence",
+                "source_types": ["consciousness_evolution", "market_disruption"],
+                "impact_score": 0.95,
+                "confidence": 0.7,
+                "description": "Consciousness-driven economic transformation"
             }
 
         # Check for paradigm + consciousness combination
-        if 'paradigm_shift' in grouped and 'consciousness_evolution' in grouped:
+        if "paradigm_shift" in grouped and "consciousness_evolution" in grouped:
             return {
-                'id': str(uuid.uuid4()),
-                'type': 'transcendent_paradigm',
-                'pattern': 'emergence',
-                'source_types': ['paradigm_shift', 'consciousness_evolution'],
-                'impact_score': 1.0,
-                'confidence': 0.8,
-                'description': 'Reality-transcending paradigm shift'
+                "id": str(uuid.uuid4()),
+                "type": "transcendent_paradigm",
+                "pattern": "emergence",
+                "source_types": ["paradigm_shift", "consciousness_evolution"],
+                "impact_score": 1.0,
+                "confidence": 0.8,
+                "description": "Reality-transcending paradigm shift"
             }
 
         return None
@@ -209,13 +209,13 @@ class BreakthroughSynthesisEngine(CoreInterface):
             for b2 in breakthroughs[i+1:]:
                 if self._are_reinforcing(b1, b2):
                     amplification = {
-                        'id': str(uuid.uuid4()),
-                        'type': 'amplified_breakthrough',
-                        'pattern': 'amplification',
-                        'source_breakthroughs': [b1['id'], b2['id']],
-                        'impact_score': min(1.0, b1['impact_score'] + b2['impact_score']),
-                        'confidence': (b1['confidence'] + b2['confidence']) / 2,
-                        'amplification_factor': 1.5
+                        "id": str(uuid.uuid4()),
+                        "type": "amplified_breakthrough",
+                        "pattern": "amplification",
+                        "source_breakthroughs": [b1["id"], b2["id"]],
+                        "impact_score": min(1.0, b1["impact_score"] + b2["impact_score"]),
+                        "confidence": (b1["confidence"] + b2["confidence"]) / 2,
+                        "amplification_factor": 1.5
                     }
                     amplifications.append(amplification)
 
@@ -229,12 +229,12 @@ class BreakthroughSynthesisEngine(CoreInterface):
         """Check if two breakthroughs reinforce each other"""
 
         # Same type breakthroughs reinforce
-        if b1.get('type') == b2.get('type'):
+        if b1.get("type") == b2.get("type"):
             return True
 
         # Consciousness and paradigm shifts reinforce
-        if ('consciousness' in b1.get('type', '') and 'paradigm' in b2.get('type', '')) or \
-           ('paradigm' in b1.get('type', '') and 'consciousness' in b2.get('type', '')):
+        if ("consciousness" in b1.get("type", "") and "paradigm" in b2.get("type", "")) or \
+           ("paradigm" in b1.get("type", "") and "consciousness" in b2.get("type", "")):
             return True
 
         return False

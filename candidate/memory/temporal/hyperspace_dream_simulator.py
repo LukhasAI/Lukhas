@@ -100,13 +100,13 @@ except ImportError:
 
 # Lukhas Core Integration
 from dream.dream_feedback_propagator import DreamFeedbackPropagator
+from memory.emotional import EmotionalMemory
 
 from ethics.meta_ethics_governor import (
     CulturalContext,
     EthicalDecision,
     get_meg,
 )
-from memory.emotional import EmotionalMemory
 
 # JULES05_NOTE: Loop-safe guard added
 MAX_RECURSION_DEPTH = 10
@@ -816,7 +816,7 @@ class HyperspaceDreamSimulator:
         outcomes.extend(advanced_outcomes)
 
         # Use historical data and ML patterns for outcome prediction
-        if hasattr(self, 'historical_patterns'):
+        if hasattr(self, "historical_patterns"):
             pattern_based_outcomes = self._generate_pattern_based_outcomes(decision, outcomes)
             outcomes.extend(pattern_based_outcomes)
 
@@ -995,7 +995,7 @@ class HyperspaceDreamSimulator:
         # Perform convergence clustering analysis
         if len(timeline_positions) > 1:
             convergence_analysis = self._perform_convergence_clustering(timeline_positions)
-            convergence_points.extend(convergence_analysis.get('clusters', []))
+            convergence_points.extend(convergence_analysis.get("clusters", []))
 
         # Simple convergence detection based on position similarity
         if len(timeline_positions) >= 2:
@@ -1147,7 +1147,7 @@ class HyperspaceDreamSimulator:
         recommendations.extend(ml_recommendations)
 
         # Generate pattern-based recommendations from historical outcomes
-        if hasattr(scenario, 'historical_data'):
+        if hasattr(scenario, "historical_data"):
             historical_recommendations = self._generate_historical_recommendations(scenario)
             recommendations.extend(historical_recommendations)
 
@@ -1689,7 +1689,7 @@ class HyperspaceDreamSimulator:
         # Convert positions to comparable format
         position_vectors = []
         for pos in positions:
-            if hasattr(pos, 'dimensions') and pos.dimensions:
+            if hasattr(pos, "dimensions") and pos.dimensions:
                 # Use first few dimensions for clustering
                 vector = list(pos.dimensions.values())[:3]  # Max 3 dimensions
                 while len(vector) < 3:
@@ -1779,8 +1779,8 @@ class HyperspaceDreamSimulator:
             )
 
         # Resource optimization recommendations
-        if hasattr(scenario, 'resource_usage'):
-            resource_efficiency = getattr(scenario, 'resource_efficiency', 0.7)
+        if hasattr(scenario, "resource_usage"):
+            resource_efficiency = getattr(scenario, "resource_efficiency", 0.7)
             if resource_efficiency < 0.6:
                 recommendations.append(
                     "Resource efficiency below optimal - recommend resource reallocation"

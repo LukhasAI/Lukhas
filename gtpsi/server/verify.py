@@ -41,7 +41,7 @@ class GestureVerificationRequest(BaseModel):
     gesture_features: GestureFeatures = Field(..., description="Hashed gesture features")
     nonce: str = Field(..., description="Cryptographic nonce")
 
-    @validator('nonce')
+    @validator("nonce")
     def validate_nonce(cls, v):
         if len(v) < 16:
             raise ValueError("Nonce must be at least 16 characters")

@@ -328,8 +328,8 @@ class AuditStorage:
             event_json = json.dumps(asdict(event), default=str)
 
             # Append to file (create if doesn't exist)
-            with open(filepath, 'a', encoding='utf-8') as f:
-                f.write(event_json + '\n')
+            with open(filepath, "a", encoding="utf-8") as f:
+                f.write(event_json + "\n")
 
             return True
 
@@ -360,10 +360,10 @@ class AuditStorage:
                 filename = f"audit_{date_str}_{category}.jsonl"
                 filepath = os.path.join(storage_dir, filename)
 
-                with open(filepath, 'a', encoding='utf-8') as f:
+                with open(filepath, "a", encoding="utf-8") as f:
                     for event in event_group:
                         event_json = json.dumps(asdict(event), default=str)
-                        f.write(event_json + '\n')
+                        f.write(event_json + "\n")
                         stored_count += 1
 
             except Exception as e:
@@ -393,7 +393,7 @@ class AuditStorage:
                     filepath = os.path.join(retention_dir, filename)
 
                     try:
-                        with open(filepath, encoding='utf-8') as f:
+                        with open(filepath, encoding="utf-8") as f:
                             for line in f:
                                 if not line.strip():
                                     continue
@@ -426,18 +426,18 @@ class AuditStorage:
         """Reconstruct AuditEvent from stored data"""
 
         # Convert string enums back to enum values
-        event_data['event_type'] = AuditEventType(event_data['event_type'])
-        event_data['category'] = AuditCategory(event_data['category'])
-        event_data['level'] = AuditLevel(event_data['level'])
-        event_data['retention_policy'] = RetentionPolicy(event_data['retention_policy'])
+        event_data["event_type"] = AuditEventType(event_data["event_type"])
+        event_data["category"] = AuditCategory(event_data["category"])
+        event_data["level"] = AuditLevel(event_data["level"])
+        event_data["retention_policy"] = RetentionPolicy(event_data["retention_policy"])
 
         # Convert timestamp string back to datetime
-        event_data['timestamp'] = datetime.fromisoformat(event_data['timestamp'])
+        event_data["timestamp"] = datetime.fromisoformat(event_data["timestamp"])
 
         # Convert sets
-        event_data['tags'] = set(event_data.get('tags', []))
-        event_data['compliance_frameworks'] = set(event_data.get('compliance_frameworks', []))
-        event_data['threat_indicators'] = event_data.get('threat_indicators', [])
+        event_data["tags"] = set(event_data.get("tags", []))
+        event_data["compliance_frameworks"] = set(event_data.get("compliance_frameworks", []))
+        event_data["threat_indicators"] = event_data.get("threat_indicators", [])
 
         return AuditEvent(**event_data)
 

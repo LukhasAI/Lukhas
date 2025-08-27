@@ -18,7 +18,7 @@ import logging
 │ joy and sorrow dance in harmonious disarray. Each traversal through this         │
 │ ethereal landscape is akin to wandering through a gallery of recollections,      │
 │ where every brushstroke of memory tells a story, a vivid narrative etched        │
-│ into the soul’s architecture.                                                  │
+│ into the soul's architecture.                                                  │
 │                                                                                │
 │ As we traverse the rivers of time, we find ourselves not merely as passive      │
 │ observers but as active participants in the alchemy of memory. Through the      │

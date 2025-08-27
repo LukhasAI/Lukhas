@@ -163,7 +163,7 @@ def check_dependencies() -> dict[str, Any]:
         # Parse requirements
         for line in lines:
             line = line.strip()
-            if line and not line.startswith("#"):
+            if line and not line.startswith(")  # ":
                 # Extract package name (handle versions and extras)
                 package_name = line.split("==")[0].split(">=")[0].split("<=")[0]
                 package_name = package_name.split("[")[0].strip()

@@ -12,33 +12,33 @@ def update_file(filepath):
 
     # Update import patterns
     patterns = [
-        (r'from qim\.', 'from lukhas.qi.'),
-        (r'import lukhas.qi\.', 'import lukhas.qi.'),
-        (r'from qi ', 'from qi '),
-        (r'import lukhas.qi\b', 'import lukhas.qi'),
-        (r'from quantum\.', 'from lukhas.qi.'),
-        (r'import lukhas.qi\.', 'import lukhas.qi.'),
-        (r'from qi ', 'from qi '),
-        (r'import lukhas.qi\b', 'import lukhas.qi'),
+        (r"from qim\.", "from lukhas.qi."),
+        (r"import lukhas.qi\.", "import lukhas.qi."),
+        (r"from qi ", "from qi "),
+        (r"import lukhas.qi\b", "import lukhas.qi"),
+        (r"from quantum\.", "from lukhas.qi."),
+        (r"import lukhas.qi\.", "import lukhas.qi."),
+        (r"from qi ", "from qi "),
+        (r"import lukhas.qi\b", "import lukhas.qi"),
     ]
 
     for pattern, replacement in patterns:
         content = re.sub(pattern, replacement, content)
 
     if content != original:
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             f.write(content)
         return True
     return False
 
 # Find all Python files
 updated_files = []
-for root, dirs, files in os.walk('.'):
+for root, dirs, files in os.walk("."):
     # Skip hidden directories and qim/quantum dirs
-    dirs[:] = [d for d in dirs if not d.startswith('.') and d not in ['qim', 'quantum']]
+    dirs[:] = [d for d in dirs if not d.startswith(".") and d not in ["qim", "quantum"]]
 
     for file in files:
-        if file.endswith('.py'):
+        if file.endswith(".py"):
             filepath = os.path.join(root, file)
             if update_file(filepath):
                 updated_files.append(filepath)

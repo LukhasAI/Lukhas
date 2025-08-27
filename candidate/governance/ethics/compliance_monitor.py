@@ -747,12 +747,12 @@ class ComplianceMonitor:
             title=f"Violation: {rule.title}",
             description=f"Non-compliance with {rule.title}: {'. '.join(compliance_result.get('issues', []))}",
             affected_data_categories=rule.data_categories,
-            evidence=compliance_result.get('evidence', []),
+            evidence=compliance_result.get("evidence", []),
             remediation_required=True,
             remediation_deadline=deadline,
             context={
                 "rule_requirements": rule.requirements,
-                "compliance_confidence": compliance_result.get('confidence', 0.5)
+                "compliance_confidence": compliance_result.get("confidence", 0.5)
             }
         )
 

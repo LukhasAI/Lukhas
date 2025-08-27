@@ -22,11 +22,11 @@ class ModuleMigrator:
     def check_illegal_imports(self, module_path: Path) -> list[str]:
         """Check for imports from non-production lanes"""
         illegal = []
-        pattern = re.compile(r'^\s*(?:from|import)\s+(candidate|quarantine|archive)\b')
+        pattern = re.compile(r"^\s*(?:from|import)\s+(candidate|quarantine|archive)\b")
 
         for py_file in module_path.rglob("*.py"):
             try:
-                with open(py_file, encoding='utf-8') as f:
+                with open(py_file, encoding="utf-8") as f:
                     for line_no, line in enumerate(f, 1):
                         if pattern.search(line):
                             illegal.append(f"{py_file.relative_to(self.root)}:{line_no}: {line.strip()}")
@@ -44,17 +44,17 @@ class ModuleMigrator:
             return circular
 
         # Check what this module imports
-        other_modules = ['core', 'memory', 'consciousness', 'orchestration',
-                        'governance', 'identity', 'bridge', 'emotion']
+        other_modules = ["core", "memory", "consciousness", "orchestration",
+                        "governance", "identity", "bridge", "emotion"]
         other_modules.remove(module_name) if module_name in other_modules else None
 
         for other in other_modules:
             imports = []
-            pattern = re.compile(rf'^\s*(?:from\s+{other}|import\s+{other})\b')
+            pattern = re.compile(rf"^\s*(?:from\s+{other}|import\s+{other})\b")
 
             for py_file in module_path.rglob("*.py"):
                 try:
-                    with open(py_file, encoding='utf-8') as f:
+                    with open(py_file, encoding="utf-8") as f:
                         for _line_no, line in enumerate(f, 1):
                             if pattern.search(line):
                                 imports.append(f"{py_file.relative_to(module_path)}")
@@ -70,15 +70,15 @@ class ModuleMigrator:
     def check_matriz_compliance(self, module_path: Path) -> bool:
         """Check if module has MATRIZ node emission"""
         matriz_patterns = [
-            r'MATRIZ',
-            r'matriz_node',
-            r'schema_ref.*matriz_node_v1',
-            r'validate_node'
+            r"MATRIZ",
+            r"matriz_node",
+            r"schema_ref.*matriz_node_v1",
+            r"validate_node"
         ]
 
         for py_file in module_path.rglob("*.py"):
             try:
-                content = py_file.read_text(encoding='utf-8')
+                content = py_file.read_text(encoding="utf-8")
                 for pattern in matriz_patterns:
                     if re.search(pattern, content, re.IGNORECASE):
                         return True
@@ -112,7 +112,7 @@ class ModuleMigrator:
         if dest.exists():
             print(f"Warning: Destination {dest} already exists")
             response = input("Overwrite? (y/n): ")
-            if response.lower() != 'y':
+            if response.lower() != "y":
                 return False
             shutil.rmtree(dest)
 
@@ -125,7 +125,7 @@ class ModuleMigrator:
 
         # Remove source
         response = input(f"Remove source {source}? (y/n): ")
-        if response.lower() == 'y':
+        if response.lower() == "y":
             shutil.rmtree(source)
             print(f"Removed source {source}")
 
@@ -137,26 +137,26 @@ class ModuleMigrator:
 
         # Update imports in all Python files in the repo
         for py_file in self.root.rglob("*.py"):
-            if '.git' in str(py_file) or '__pycache__' in str(py_file):
+            if ".git" in str(py_file) or "__pycache__" in str(py_file):
                 continue
 
             try:
-                content = py_file.read_text(encoding='utf-8')
+                content = py_file.read_text(encoding="utf-8")
                 original = content
 
                 # Update various import patterns
                 patterns = [
-                    (rf'^from {module_name}\b', f'from lukhas.{module_name}'),
-                    (rf'^import {module_name}\b', f'import lukhas.{module_name}'),
-                    (rf'^from {module_name}\.', f'from lukhas.{module_name}.'),
-                    (rf'^import {module_name}\.', f'import lukhas.{module_name}.'),
+                    (rf"^from {module_name}\b", f"from lukhas.{module_name}"),
+                    (rf"^import {module_name}\b", f"import lukhas.{module_name}"),
+                    (rf"^from {module_name}\.", f"from lukhas.{module_name}."),
+                    (rf"^import {module_name}\.", f"import lukhas.{module_name}."),
                 ]
 
                 for pattern, replacement in patterns:
                     content = re.sub(pattern, replacement, content, flags=re.MULTILINE)
 
                 if content != original:
-                    py_file.write_text(content, encoding='utf-8')
+                    py_file.write_text(content, encoding="utf-8")
                     count += 1
 
             except Exception as e:
@@ -224,14 +224,14 @@ def main():
         print(f"MATRIZ Compliant: {'Yes' if report.get('matriz_compliant') else 'No'}")
         print(f"Ready for Migration: {'Yes' if report.get('ready') else 'No'}")
 
-        if report.get('illegal_imports'):
+        if report.get("illegal_imports"):
             print(f"\nIllegal Imports ({len(report['illegal_imports'])}):")
-            for imp in report['illegal_imports'][:5]:
+            for imp in report["illegal_imports"][:5]:
                 print(f"  - {imp}")
 
-        if report.get('circular_deps'):
+        if report.get("circular_deps"):
             print("\nCircular Dependencies:")
-            for dep, files in report['circular_deps'].items():
+            for dep, files in report["circular_deps"].items():
                 print(f"  {module_name} → {dep}: {len(files)} files")
 
     else:

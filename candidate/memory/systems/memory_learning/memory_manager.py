@@ -204,7 +204,7 @@ class MemoryManager:
     def process_dream_cycle(self) -> dict[str, Any]:
         """
         Process memories through dream reflection cycle to identify patterns
-        and generate new insights. Integrated from OXN dream engine.
+        and generate new insights. Integrated from oxn_dream engine.
 
         Returns:
             Dict[str, Any]: Results of dream processing

@@ -669,7 +669,7 @@ class DAOGovernanceNode:
         """
         # ΛTRACE
         with open("docs/audit/governance_ethics_sim_log.md", "a") as f:
-            f.write("\n\n## Governance Proposal\n\n")
+            f.write("\n\n#)  #  Governance Proposal\n\n"
             f.write(f"**Proposal ID:** {proposal['id']}\n")
             f.write(f"**Title:** {proposal['title']}\n")
             f.write(f"**Type:** {proposal['type']}\n")

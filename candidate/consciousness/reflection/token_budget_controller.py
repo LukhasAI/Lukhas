@@ -115,7 +115,7 @@ class TokenBudgetController:
 
         # Call logging for findings and recommendations
         self.call_log = []  # Detailed log of all API calls and decisions
-        self.findings_log = []  # Log of findings from API calls
+        self.findings_log = []  # Log of findings from api_calls
         self.recommendations_applied = []  # Track which recommendations were applied
 
         # ABot financial intelligence metrics

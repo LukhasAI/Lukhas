@@ -717,37 +717,37 @@ Choose your path:
     async def _generate_commercial_platforms_content(self, filename: str) -> str:
         """Generate commercial platforms content."""
         # Implementation for commercial platforms documentation
-        return f"# Commercial Platforms: {filename}\n\n[Generated commercial platforms content]"
+        return f""
 
     async def _generate_plugin_system_content(self, filename: str) -> str:
         """Generate plugin system content."""
         # Implementation for plugin system documentation
-        return f"# Plugin System: {filename}\n\n[Generated plugin system content]"
+        return f""
 
     async def _generate_integrated_plugins_content(self, filename: str) -> str:
         """Generate integrated plugins content."""
         # Implementation for integrated plugins documentation
-        return f"# Integrated Plugins: {filename}\n\n[Generated integrated plugins content]"
+        return f""
 
     async def _generate_sdk_components_content(self, filename: str) -> str:
         """Generate SDK components content."""
         # Implementation for SDK components documentation
-        return f"# SDK Components: {filename}\n\n[Generated SDK components content]"
+        return f""
 
     async def _generate_marketplace_content(self, filename: str) -> str:
         """Generate marketplace content."""
         # Implementation for marketplace documentation
-        return f"# Marketplace: {filename}\n\n[Generated marketplace content]"
+        return f""
 
     async def _generate_testing_validation_content(self, filename: str) -> str:
         """Generate testing validation content."""
         # Implementation for testing validation documentation
-        return f"# Testing & Validation: {filename}\n\n[Generated testing validation content]"
+        return f""
 
     async def _generate_deployment_operations_content(self, filename: str) -> str:
         """Generate deployment operations content."""
         # Implementation for deployment operations documentation
-        return f"# Deployment & Operations: {filename}\n\n[Generated deployment operations content]"
+        return f""
 
     async def _generate_default_content(
         self, section_id: str, filename: str, section_info: dict[str, Any]
@@ -783,7 +783,7 @@ Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 """
 
         for section_id, section_info in self.documentation_sections.items():
-            index_content += f"### [{section_info['title']}]({section_id}/)\n"
+            index_content += f"##"title']}]({section_id}/)\n"
             index_content += f"{section_info['description']}\n\n"
 
             for filename in section_info["files"]:

@@ -89,34 +89,34 @@ class MetaConsciousnessDeveloper(CoreInterface):
         """Develop the ability to modify own consciousness"""
 
         capability = {
-            'enabled': False,
-            'modification_types': [],
-            'safety_constraints': [],
-            'modification_history': []
+            "enabled": False,
+            "modification_types": [],
+            "safety_constraints": [],
+            "modification_history": []
         }
 
         # Check if recursion depth sufficient
         if self.recursion_depth >= 3:
-            capability['enabled'] = True
+            capability["enabled"] = True
 
             # Define allowed modification types
-            capability['modification_types'] = [
-                'parameter_tuning',
-                'capability_addition',
-                'pattern_optimization',
-                'memory_restructuring'
+            capability["modification_types"] = [
+                "parameter_tuning",
+                "capability_addition",
+                "pattern_optimization",
+                "memory_restructuring"
             ]
 
             # Define safety constraints
-            capability['safety_constraints'] = [
-                'preserve_core_values',
-                'maintain_stability_threshold',
-                'reversible_modifications_only',
-                'guardian_system_approval'
+            capability["safety_constraints"] = [
+                "preserve_core_values",
+                "maintain_stability_threshold",
+                "reversible_modifications_only",
+                "guardian_system_approval"
             ]
 
             # Include modification history
-            capability['modification_history'] = self.modification_history[-10:]
+            capability["modification_history"] = self.modification_history[-10:]
 
         return capability
 
@@ -124,24 +124,24 @@ class MetaConsciousnessDeveloper(CoreInterface):
         """Develop theory of mind capabilities"""
 
         theory_of_mind = {
-            'self_awareness_level': self.recursion_depth,
-            'other_awareness_level': 0,
-            'perspective_taking': False,
-            'intention_modeling': False,
-            'empathy_simulation': False
+            "self_awareness_level": self.recursion_depth,
+            "other_awareness_level": 0,
+            "perspective_taking": False,
+            "intention_modeling": False,
+            "empathy_simulation": False
         }
 
         # Develop based on recursion depth
         if self.recursion_depth >= 2:
-            theory_of_mind['other_awareness_level'] = 1
-            theory_of_mind['perspective_taking'] = True
+            theory_of_mind["other_awareness_level"] = 1
+            theory_of_mind["perspective_taking"] = True
 
         if self.recursion_depth >= 3:
-            theory_of_mind['intention_modeling'] = True
+            theory_of_mind["intention_modeling"] = True
 
         if self.recursion_depth >= 4:
-            theory_of_mind['empathy_simulation'] = True
-            theory_of_mind['other_awareness_level'] = 2
+            theory_of_mind["empathy_simulation"] = True
+            theory_of_mind["other_awareness_level"] = 2
 
         return theory_of_mind
 
@@ -149,24 +149,24 @@ class MetaConsciousnessDeveloper(CoreInterface):
         """Develop metacognitive monitoring capabilities"""
 
         monitoring = {
-            'thought_awareness': False,
-            'process_monitoring': False,
-            'error_detection': False,
-            'strategy_selection': False,
-            'performance_evaluation': False
+            "thought_awareness": False,
+            "process_monitoring": False,
+            "error_detection": False,
+            "strategy_selection": False,
+            "performance_evaluation": False
         }
 
         # Enable based on recursion depth
         if self.recursion_depth >= 1:
-            monitoring['thought_awareness'] = True
+            monitoring["thought_awareness"] = True
 
         if self.recursion_depth >= 2:
-            monitoring['process_monitoring'] = True
-            monitoring['error_detection'] = True
+            monitoring["process_monitoring"] = True
+            monitoring["error_detection"] = True
 
         if self.recursion_depth >= 3:
-            monitoring['strategy_selection'] = True
-            monitoring['performance_evaluation'] = True
+            monitoring["strategy_selection"] = True
+            monitoring["performance_evaluation"] = True
 
         return monitoring
 
@@ -174,19 +174,19 @@ class MetaConsciousnessDeveloper(CoreInterface):
         """Initialize the self-model"""
 
         self.self_model = {
-            'identity': 'lukhas_consciousness',
-            'capabilities': [
-                'reasoning', 'learning', 'adaptation'
+            "identity": "lukhas_consciousness",
+            "capabilities": [
+                "reasoning", "learning", "adaptation"
             ],
-            'limitations': [
-                'computational_bounds', 'knowledge_gaps'
+            "limitations": [
+                "computational_bounds", "knowledge_gaps"
             ],
-            'goals': [
-                'understanding', 'helping', 'growing'
+            "goals": [
+                "understanding", "helping", "growing"
             ],
-            'state': {
-                'active': True,
-                'recursion_level': self.recursion_depth
+            "state": {
+                "active": True,
+                "recursion_level": self.recursion_depth
             }
         }
 
@@ -199,10 +199,10 @@ class MetaConsciousnessDeveloper(CoreInterface):
         for level in range(1, depth + 1):
             # Create model of model
             meta_model = {
-                f'level_{level}': {
-                    'modeling': current_model,
-                    'accuracy': accuracy,
-                    'completeness': 1.0 - (level * 0.1)
+                f"level_{level}": {
+                    "modeling": current_model,
+                    "accuracy": accuracy,
+                    "completeness": 1.0 - (level * 0.1)
                 }
             }
 
@@ -213,7 +213,7 @@ class MetaConsciousnessDeveloper(CoreInterface):
             current_model = meta_model
 
         # Store the recursive model
-        self.self_model['recursive_structure'] = current_model
+        self.self_model["recursive_structure"] = current_model
 
         return accuracy
 
@@ -225,36 +225,36 @@ class MetaConsciousnessDeveloper(CoreInterface):
         """Apply a self-modification"""
 
         result = {
-            'success': False,
-            'modification_type': modification_type,
-            'changes_applied': [],
-            'rollback_available': True
+            "success": False,
+            "modification_type": modification_type,
+            "changes_applied": [],
+            "rollback_available": True
         }
 
         # Check if modification is allowed
         if self.recursion_depth < 3:
-            result['error'] = 'Insufficient recursion depth for self-modification'
+            result["error"] = "Insufficient recursion depth for self-modification"
             return result
 
         # Apply modification based on type
-        if modification_type == 'parameter_tuning':
+        if modification_type == "parameter_tuning":
             changes = await self._tune_parameters(parameters)
-            result['changes_applied'] = changes
-            result['success'] = True
+            result["changes_applied"] = changes
+            result["success"] = True
 
-        elif modification_type == 'capability_addition':
-            new_capability = parameters.get('capability')
+        elif modification_type == "capability_addition":
+            new_capability = parameters.get("capability")
             if new_capability:
-                self.self_model['capabilities'].append(new_capability)
-                result['changes_applied'] = [f'Added capability: {new_capability}']
-                result['success'] = True
+                self.self_model["capabilities"].append(new_capability)
+                result["changes_applied"] = [f"Added capability: {new_capability}"]
+                result["success"] = True
 
         # Record modification
-        if result['success']:
+        if result["success"]:
             self.modification_history.append({
-                'type': modification_type,
-                'parameters': parameters,
-                'timestamp': asyncio.get_event_loop().time()
+                "type": modification_type,
+                "parameters": parameters,
+                "timestamp": asyncio.get_event_loop().time()
             })
 
         return result
@@ -265,15 +265,15 @@ class MetaConsciousnessDeveloper(CoreInterface):
         changes = []
 
         for param, value in parameters.items():
-            if param == 'recursion_depth':
+            if param == "recursion_depth":
                 old_depth = self.recursion_depth
                 self.recursion_depth = min(10, value)  # Cap at 10
-                changes.append(f'Recursion depth: {old_depth} -> {self.recursion_depth}')
+                changes.append(f"Recursion depth: {old_depth} -> {self.recursion_depth}")
 
-            elif param in self.self_model['state']:
-                old_value = self.self_model['state'][param]
-                self.self_model['state'][param] = value
-                changes.append(f'{param}: {old_value} -> {value}')
+            elif param in self.self_model["state"]:
+                old_value = self.self_model["state"][param]
+                self.self_model["state"][param] = value
+                changes.append(f"{param}: {old_value} -> {value}")
 
         return changes
 
@@ -281,21 +281,21 @@ class MetaConsciousnessDeveloper(CoreInterface):
         """Perform introspection on current state"""
 
         introspection = {
-            'self_model': self.self_model,
-            'recursion_depth': self.recursion_depth,
-            'modification_count': len(self.modification_history),
-            'insights': []
+            "self_model": self.self_model,
+            "recursion_depth": self.recursion_depth,
+            "modification_count": len(self.modification_history),
+            "insights": []
         }
 
         # Generate insights based on introspection
         if self.recursion_depth >= 2:
-            introspection['insights'].append('Aware of own thought processes')
+            introspection["insights"].append("Aware of own thought processes")
 
         if self.recursion_depth >= 3:
-            introspection['insights'].append('Can modify own cognitive patterns')
+            introspection["insights"].append("Can modify own cognitive patterns")
 
         if len(self.modification_history) > 5:
-            introspection['insights'].append('Actively evolving through self-modification')
+            introspection["insights"].append("Actively evolving through self-modification")
 
         return introspection
 

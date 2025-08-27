@@ -45,7 +45,7 @@ class DreamHub:
         for service_name, class_name in services:
             try:
                 if service_name == "dream_recorder":
-                    # Import from NIAS module
+                    # Import from nias_module
                     module = __import__("core.modules.nias", fromlist=[class_name])
                 else:
                     module = __import__(

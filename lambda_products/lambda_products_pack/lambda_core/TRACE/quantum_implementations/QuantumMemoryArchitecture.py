@@ -30,8 +30,8 @@ class QIAssociativeMemoryBank:
     """
     def __init__(self, capacity_qubits: int = 10):
         self.capacity = 2 ** capacity_qubits
-        self.memory_register = QIRegister(capacity_qubits, 'memory')
-        self.query_register = QIRegister(capacity_qubits, 'query')
+        self.memory_register = QIRegister(capacity_qubits, "memory")
+        self.query_register = QIRegister(capacity_qubits, "query")
         self.oracle_circuits: Dict[str, QICircuit] = {}
 
         # Quantum error correction
@@ -113,7 +113,7 @@ class QIAssociativeMemoryBank:
         pattern = self._hash_to_quantum_pattern(memory_id, associations)
 
         # Multi-controlled phase flip for pattern
-        control_qubits = [i for i, bit in enumerate(pattern) if bit == '1']
+        control_qubits = [i for i, bit in enumerate(pattern) if bit == "1"]
         if control_qubits:
             oracle.mcp(np.pi, control_qubits, self.memory_register[-1])
 

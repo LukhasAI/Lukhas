@@ -44,13 +44,13 @@ try:
 except ImportError:
     SymbolicMemoryMapper = None
     logging.warning("SymbolicMemoryMapper not available")
-from dream.core.dream_memory_manager import DreamMemoryManager
-
 from consciousness.reflection.unified_memory_manager import (
     DriftMemoryManager,
     EnhancedMemoryManager,
     QIMemoryManager,
 )
+from dream.core.dream_memory_manager import DreamMemoryManager
+
 from lukhas.memory.distributed_state_manager import (
     DistributedStateManager,
     MultiNodeStateManager,

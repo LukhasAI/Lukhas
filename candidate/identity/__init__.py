@@ -212,7 +212,7 @@ class IdentitySystem:
     def authenticate_user(
         self,
         credentials: dict[str, Any],
-        tier: str = 'T1',
+        tier: str = "T1",
         namespace: Optional[str] = None
     ) -> dict[str, Any]:
         """⚛️ Authenticate user with tiered approach"""
@@ -224,32 +224,32 @@ class IdentitySystem:
                 resolved_namespace = "default"
 
             # Basic validation
-            if not credentials.get('user_id'):
+            if not credentials.get("user_id"):
                 return {"success": False, "error": "Missing user_id"}
 
-            user_id = credentials['user_id']
+            user_id = credentials["user_id"]
 
             # Tier-based authentication
-            if tier == 'T1':
+            if tier == "T1":
                 # Basic email + password
                 result = self._basic_auth(credentials)
-            elif tier == 'T2':
+            elif tier == "T2":
                 # Enhanced with biometric/passkey
                 result = self._enhanced_auth(credentials)
-            elif tier in ['T3', 'T4', 'T5']:
+            elif tier in ["T3", "T4", "T5"]:
                 # Advanced consciousness-based auth
                 result = self._consciousness_auth(credentials, tier)
             else:
                 return {"success": False, "error": f"Unsupported tier: {tier}"}
 
             # Generate identity token if successful
-            if result.get('success') and self.lambda_id_generator:
+            if result.get("success") and self.lambda_id_generator:
                 lambda_id = self.lambda_id_generator.generate_lambda_id(
                     user_id=user_id,
                     tier=tier,
                     namespace=resolved_namespace
                 )
-                result['lambda_id'] = lambda_id
+                result["lambda_id"] = lambda_id
 
             return result
 
@@ -260,8 +260,8 @@ class IdentitySystem:
     def _basic_auth(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """T1: Basic authentication (email + password)"""
         # Simplified implementation
-        user_id = credentials.get('user_id')
-        password = credentials.get('password')
+        user_id = credentials.get("user_id")
+        password = credentials.get("password")
 
         if user_id and password and len(password) >= 6:
             return {
@@ -275,10 +275,10 @@ class IdentitySystem:
 
     def _enhanced_auth(self, credentials: dict[str, Any]) -> dict[str, Any]:
         """T2: Enhanced authentication (passkey + biometric)"""
-        user_id = credentials.get('user_id')
+        user_id = credentials.get("user_id")
 
         # Check for passkey or biometric data
-        if credentials.get('passkey_response') or credentials.get('biometric_data'):
+        if credentials.get("passkey_response") or credentials.get("biometric_data"):
             return {
                 "success": True,
                 "user_id": user_id,
@@ -291,10 +291,10 @@ class IdentitySystem:
 
     def _consciousness_auth(self, credentials: dict[str, Any], tier: str) -> dict[str, Any]:
         """T3+: Consciousness-based authentication"""
-        user_id = credentials.get('user_id')
+        user_id = credentials.get("user_id")
 
         # Mock consciousness verification
-        consciousness_signature = credentials.get('consciousness_signature')
+        consciousness_signature = credentials.get("consciousness_signature")
         if consciousness_signature:
             return {
                 "success": True,
@@ -332,7 +332,7 @@ class IdentitySystem:
 default_system = IdentitySystem()
 
 # Convenience functions
-def authenticate_user(credentials: dict[str, Any], tier: str = 'T1') -> dict[str, Any]:
+def authenticate_user(credentials: dict[str, Any], tier: str = "T1") -> dict[str, Any]:
     """Authenticate user using default system"""
     return default_system.authenticate_user(credentials, tier)
 
@@ -344,7 +344,7 @@ def get_webauthn_manager() -> WebAuthnManager:
     """Get WebAuthn manager instance"""
     return default_system.webauthn_manager
 
-def generate_lambda_id(user_id: str, tier: str = 'T1') -> str:
+def generate_lambda_id(user_id: str, tier: str = "T1") -> str:
     """Generate λID for user"""
     if default_system.lambda_id_generator:
         try:
@@ -354,16 +354,16 @@ def generate_lambda_id(user_id: str, tier: str = 'T1') -> str:
             )
 
             tier_mapping = {
-                'T0': TierLevel.GUEST,
-                'T1': TierLevel.VISITOR,
-                'T2': TierLevel.FRIEND,
-                'T3': TierLevel.TRUSTED,
-                'T4': TierLevel.INNER_CIRCLE,
-                'T5': TierLevel.ROOT_DEV
+                "T0": TierLevel.GUEST,
+                "T1": TierLevel.VISITOR,
+                "T2": TierLevel.FRIEND,
+                "T3": TierLevel.TRUSTED,
+                "T4": TierLevel.INNER_CIRCLE,
+                "T5": TierLevel.ROOT_DEV
             }
 
             tier_enum = tier_mapping.get(tier, TierLevel.FRIEND)
-            user_context = {'user_id': user_id}
+            user_context = {"user_id": user_id}
 
             return default_system.lambda_id_generator.generate_lambda_id(
                 tier=tier_enum, user_context=user_context
@@ -372,7 +372,7 @@ def generate_lambda_id(user_id: str, tier: str = 'T1') -> str:
             pass
 
     # Fallback ID generation
-    tier_num = tier[1:] if tier.startswith('T') else '0'
+    tier_num = tier[1:] if tier.startswith("T") else "0"
     return f"LUKHAS{tier_num}-{user_id[:4].upper()}-○-FALL"
 
 # Module exports

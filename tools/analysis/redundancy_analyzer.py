@@ -155,7 +155,7 @@ class RedundancyAnalyzer:
         for line in lines:
             # Remove comments
             if "#" in line:
-                line = line[: line.index("#")]
+                line = line[: line.index(")  # "]
             # Strip whitespace
             line = line.strip()
             if line:

@@ -41,7 +41,6 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-
 # Configure bio-symbolic logging
 logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator")
 logger.info("ΛTRACE: Initializing Bio-Symbolic Coherence Validation System v1.0.0")
@@ -128,7 +127,7 @@ class BioRhythm:
         """Calculate current oscillatory value"""
         return self.amplitude * math.sin(self.phase)
 
-    def synchronize_with(self, other_rhythm: 'BioRhythm') -> float:
+    def synchronize_with(self, other_rhythm: "BioRhythm") -> float:
         """Synchronize with another bio-rhythm"""
         # Calculate phase difference
         phase_diff = abs(self.phase - other_rhythm.phase)

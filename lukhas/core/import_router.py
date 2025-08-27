@@ -13,8 +13,7 @@ This module provides a future-proof import system that handles:
 import importlib
 import logging
 from functools import lru_cache
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 

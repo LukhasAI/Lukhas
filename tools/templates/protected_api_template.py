@@ -8,15 +8,13 @@ Copy this template when creating new API endpoints.
 
 # Configure logging
 import logging
-from typing import Any, Optional
-
 from datetime import datetime
+from typing import Any, Optional
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
-from pydantic import BaseModel
 
 # LUKHAS Identity Integration - REQUIRED
 from identity.middleware import (
@@ -29,6 +27,7 @@ from identity.middleware import (
     require_t5,
     require_tier,
 )
+from pydantic import BaseModel
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

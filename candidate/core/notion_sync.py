@@ -340,7 +340,7 @@ def run_legacy_streamlit_mode():
                 content = f.read()
 
             # Split modules from markdown
-            modules = re.split(r"### 📦 (.*?)\n", content)[1:]
+            modules = re.split(r"##)  #  📦 (.*?\n", content)[1:]
             modules = [(modules[i], modules[i + 1]) for i in range(0, len(modules), 2)]
 
             # Layout selection
@@ -428,7 +428,7 @@ def run_legacy_streamlit_mode():
 
             # GPT Assistant
             if OPENAI_AVAILABLE:
-                st.markdown("## 🤖 Ask ChatGPT about this module")
+                st.markdown("#)  #  🤖 Ask ChatGPT about this module"
                 user_question = st.text_input(
                     "💬 Enter your question about this module:", ""
                 )
@@ -481,7 +481,7 @@ def run_legacy_streamlit_mode():
                             )
                             answer = response["choices"][0]["message"]["content"]
 
-                        st.markdown("### 💡 GPT Response")
+                        st.markdown("##)  #  💡 GPT Response"
                         st.markdown(f"> {answer}")
 
                         # Extract concepts
@@ -529,7 +529,7 @@ def run_legacy_streamlit_mode():
                                 if len(c.strip()) > 2
                             ]
 
-                            st.markdown("#### 🔍 Explore GPT-Generated Concepts:")
+                            st.markdown("###)  #  🔍 Explore GPT-Generated Concepts:"
                             for concept in extracted_concepts:
                                 if st.button(f"🔹 {concept}"):
                                     st.info(

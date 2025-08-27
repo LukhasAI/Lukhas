@@ -7,13 +7,14 @@ Real-time monitoring, alerting, and optimization for the LUKHAS AI tool executio
 import asyncio
 import json
 import logging
-import psutil
 import time
 from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+import psutil
 
 logger = logging.getLogger("ΛTRACE.tools.performance")
 
@@ -661,7 +662,7 @@ class PerformanceMonitor:
         timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = self.export_directory / f"performance_report_{timestamp_str}.json"
 
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 
         logger.info(f"Performance report exported to {report_file}")

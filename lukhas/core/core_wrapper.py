@@ -10,8 +10,7 @@ import logging
 import os
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
-from typing import Protocol
+from typing import Any, Protocol
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -37,7 +36,7 @@ class CoreStatus(Enum):
 
 @dataclass
 class GlyphResult:
-    """Result from GLYPH processing operations"""
+    """Result from glyph_processing operations"""
 
     glyph_id: str
     symbol: str

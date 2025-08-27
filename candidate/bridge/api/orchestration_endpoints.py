@@ -29,18 +29,28 @@ from typing import Any, Dict, List, Optional
 try:
     import jwt
     from fastapi import (
-        FastAPI, HTTPException, Depends, status, Request, Response,
-        WebSocket, WebSocketDisconnect
+        Depends,
+        FastAPI,
+        HTTPException,
+        Request,
+        Response,
+        WebSocket,
+        WebSocketDisconnect,
+        status,
     )
-    from fastapi.responses import StreamingResponse
-    from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
     from fastapi.middleware.cors import CORSMiddleware
+    from fastapi.responses import StreamingResponse
+    from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
     from pydantic import BaseModel, Field, ValidationError
 
     # LUKHAS imports
     from candidate.bridge.api.orchestration_api_bridge import (
-        ComprehensiveAPIOrchestrator, OrchestrationRequest, OrchestrationResponse,
-        APIProvider, OrchestrationStrategy, get_orchestrator
+        APIProvider,
+        ComprehensiveAPIOrchestrator,
+        OrchestrationRequest,
+        OrchestrationResponse,
+        OrchestrationStrategy,
+        get_orchestrator,
     )
 
     FASTAPI_AVAILABLE = True
@@ -379,7 +389,7 @@ if FASTAPI_AVAILABLE:
                     yield f"data: {chunk_data}\n\n"
 
                 # End stream
-                yield "data: {\"type\": \"stream_end\"}\n\n"
+                yield 'data: {"type": "stream_end"}\n\n'
 
             except Exception as e:
                 error_data = json.dumps({"type": "error", "error": str(e)})
@@ -581,7 +591,7 @@ if FASTAPI_AVAILABLE:
                     # Test provider with a simple request
                     test_start = time.perf_counter()
 
-                    if hasattr(bridge, 'get_metrics'):
+                    if hasattr(bridge, "get_metrics"):
                         bridge_metrics = bridge.get_metrics()
                         test_latency = (time.perf_counter() - test_start) * 1000
 

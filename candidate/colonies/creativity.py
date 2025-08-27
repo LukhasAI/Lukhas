@@ -33,7 +33,7 @@ class CreativityColony(BaseColony):
 
         if task_type == "generate_ideas":
             topic = payload.get("topic", "general")
-            ideas = [f"Creative idea about {topic} #{i}" for i in range(1, 4)]
+            ideas = [f"Creative idea about {topic} " for i in range(1, 4)]
             self.idea_bank.extend(ideas)
             return {"ideas": ideas, "topic": topic}
         elif task_type == "creative_synthesis":

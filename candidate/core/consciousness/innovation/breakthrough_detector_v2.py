@@ -192,9 +192,9 @@ class BreakthroughDetectorV2(CoreInterface):
 
         # Record in history
         self.detection_history.append({
-            'timestamp': datetime.now(timezone.utc),
-            'candidates': len(breakthrough_candidates),
-            'validated': len(validated_breakthroughs)
+            "timestamp": datetime.now(timezone.utc),
+            "candidates": len(breakthrough_candidates),
+            "validated": len(validated_breakthroughs)
         })
 
         # Emit detection completion event
@@ -210,13 +210,13 @@ class BreakthroughDetectorV2(CoreInterface):
             ))
 
         return {
-            'breakthrough_count': len(validated_breakthroughs),
-            'breakthroughs': validated_breakthroughs,
-            'civilizational_impact_score': await self.calculate_civilizational_impact(validated_breakthroughs),
-            'time_to_manifestation': await self.estimate_manifestation_timeline(validated_breakthroughs),
-            'competitive_advantage_duration': await self.estimate_competitive_advantage_duration(validated_breakthroughs),
-            'implementation_strategies': await self.generate_implementation_strategies(validated_breakthroughs),
-            'detection_confidence': await self.calculate_detection_confidence(validated_breakthroughs)
+            "breakthrough_count": len(validated_breakthroughs),
+            "breakthroughs": validated_breakthroughs,
+            "civilizational_impact_score": await self.calculate_civilizational_impact(validated_breakthroughs),
+            "time_to_manifestation": await self.estimate_manifestation_timeline(validated_breakthroughs),
+            "competitive_advantage_duration": await self.estimate_competitive_advantage_duration(validated_breakthroughs),
+            "implementation_strategies": await self.generate_implementation_strategies(validated_breakthroughs),
+            "detection_confidence": await self.calculate_detection_confidence(validated_breakthroughs)
         }
 
     async def synthesize_breakthrough_detections(
@@ -233,48 +233,48 @@ class BreakthroughDetectorV2(CoreInterface):
         # Process paradigm shifts
         for paradigm in paradigm_breakthroughs:
             breakthrough = {
-                'id': paradigm.paradigm_id,
-                'type': 'paradigm_shift',
-                'impact_score': paradigm.disruption_magnitude,
-                'domains': paradigm.affected_domains,
-                'confidence': paradigm.confidence_score,
-                'details': paradigm
+                "id": paradigm.paradigm_id,
+                "type": "paradigm_shift",
+                "impact_score": paradigm.disruption_magnitude,
+                "domains": paradigm.affected_domains,
+                "confidence": paradigm.confidence_score,
+                "details": paradigm
             }
             synthesized.append(breakthrough)
 
         # Process scientific revolutions
         for revolution in scientific_revolutions:
             breakthrough = {
-                'id': revolution.revolution_id,
-                'type': 'scientific_revolution',
-                'impact_score': revolution.revolution_probability,
-                'domains': [revolution.field],
-                'confidence': revolution.revolution_probability,
-                'details': revolution
+                "id": revolution.revolution_id,
+                "type": "scientific_revolution",
+                "impact_score": revolution.revolution_probability,
+                "domains": [revolution.field],
+                "confidence": revolution.revolution_probability,
+                "details": revolution
             }
             synthesized.append(breakthrough)
 
         # Process market disruptions
         for disruption in market_disruptions:
             breakthrough = {
-                'id': disruption.disruption_id,
-                'type': 'market_disruption',
-                'impact_score': np.log10(disruption.disruption_factor) / 3,  # Normalize
-                'domains': [disruption.market_segment],
-                'confidence': 1.0 - disruption.incumbent_vulnerability,
-                'details': disruption
+                "id": disruption.disruption_id,
+                "type": "market_disruption",
+                "impact_score": np.log10(disruption.disruption_factor) / 3,  # Normalize
+                "domains": [disruption.market_segment],
+                "confidence": 1.0 - disruption.incumbent_vulnerability,
+                "details": disruption
             }
             synthesized.append(breakthrough)
 
         # Process consciousness evolutions
         for evolution in consciousness_evolutions:
             breakthrough = {
-                'id': evolution.evolution_id,
-                'type': 'consciousness_evolution',
-                'impact_score': evolution.transcendence_level,
-                'domains': [evolution.consciousness_dimension],
-                'confidence': 0.9 if evolution.collective_impact else 0.7,
-                'details': evolution
+                "id": evolution.evolution_id,
+                "type": "consciousness_evolution",
+                "impact_score": evolution.transcendence_level,
+                "domains": [evolution.consciousness_dimension],
+                "confidence": 0.9 if evolution.collective_impact else 0.7,
+                "details": evolution
             }
             synthesized.append(breakthrough)
 
@@ -312,7 +312,7 @@ class BreakthroughDetectorV2(CoreInterface):
 
             # Accept if validation passes threshold
             if validation_score >= 0.7:
-                breakthrough['validation_score'] = validation_score
+                breakthrough["validation_score"] = validation_score
                 validated.append(breakthrough)
             else:
                 logger.info(f"Breakthrough {breakthrough['id']} failed validation: {validation_score:.2f}")
@@ -331,19 +331,19 @@ class BreakthroughDetectorV2(CoreInterface):
         total_impact = 0.0
 
         for breakthrough in breakthroughs:
-            base_impact = breakthrough.get('impact_score', 0)
+            base_impact = breakthrough.get("impact_score", 0)
 
             # Multiply by type modifier
             type_modifiers = {
-                'paradigm_shift': 3.0,
-                'scientific_revolution': 2.5,
-                'consciousness_evolution': 2.0,
-                'market_disruption': 1.5
+                "paradigm_shift": 3.0,
+                "scientific_revolution": 2.5,
+                "consciousness_evolution": 2.0,
+                "market_disruption": 1.5
             }
-            modifier = type_modifiers.get(breakthrough.get('type'), 1.0)
+            modifier = type_modifiers.get(breakthrough.get("type"), 1.0)
 
             # Add domain spread bonus
-            domain_count = len(breakthrough.get('domains', []))
+            domain_count = len(breakthrough.get("domains", []))
             domain_bonus = 1.0 + (domain_count * 0.1)
 
             total_impact += base_impact * modifier * domain_bonus
@@ -358,40 +358,40 @@ class BreakthroughDetectorV2(CoreInterface):
         """Estimate when breakthroughs will manifest"""
 
         timeline = {
-            'immediate': [],  # < 1 year
-            'short_term': [],  # 1-3 years
-            'medium_term': [],  # 3-5 years
-            'long_term': []  # 5+ years
+            "immediate": [],  # < 1 year
+            "short_term": [],  # 1-3 years
+            "medium_term": [],  # 3-5 years
+            "long_term": []  # 5+ years
         }
 
         for breakthrough in breakthroughs:
-            details = breakthrough.get('details')
+            details = breakthrough.get("details")
 
-            if breakthrough['type'] == 'market_disruption':
+            if breakthrough["type"] == "market_disruption":
                 # Market disruptions tend to be faster
-                timeline['short_term'].append(breakthrough['id'])
-            elif breakthrough['type'] == 'paradigm_shift':
+                timeline["short_term"].append(breakthrough["id"])
+            elif breakthrough["type"] == "paradigm_shift":
                 # Paradigm shifts take time to propagate
-                timeline['medium_term'].append(breakthrough['id'])
-            elif breakthrough['type'] == 'scientific_revolution':
+                timeline["medium_term"].append(breakthrough["id"])
+            elif breakthrough["type"] == "scientific_revolution":
                 # Scientific revolutions are slower
-                if hasattr(details, 'time_to_manifestation_years'):
+                if hasattr(details, "time_to_manifestation_years"):
                     if details.time_to_manifestation_years < 3:
-                        timeline['short_term'].append(breakthrough['id'])
+                        timeline["short_term"].append(breakthrough["id"])
                     else:
-                        timeline['long_term'].append(breakthrough['id'])
+                        timeline["long_term"].append(breakthrough["id"])
                 else:
-                    timeline['long_term'].append(breakthrough['id'])
-            elif breakthrough['type'] == 'consciousness_evolution':
+                    timeline["long_term"].append(breakthrough["id"])
+            elif breakthrough["type"] == "consciousness_evolution":
                 # Consciousness evolution varies
-                timeline['medium_term'].append(breakthrough['id'])
+                timeline["medium_term"].append(breakthrough["id"])
 
         return {
-            'immediate_count': len(timeline['immediate']),
-            'short_term_count': len(timeline['short_term']),
-            'medium_term_count': len(timeline['medium_term']),
-            'long_term_count': len(timeline['long_term']),
-            'average_years': 3.5  # Weighted average
+            "immediate_count": len(timeline["immediate"]),
+            "short_term_count": len(timeline["short_term"]),
+            "medium_term_count": len(timeline["medium_term"]),
+            "long_term_count": len(timeline["long_term"]),
+            "average_years": 3.5  # Weighted average
         }
 
     async def estimate_competitive_advantage_duration(
@@ -401,26 +401,26 @@ class BreakthroughDetectorV2(CoreInterface):
         """Estimate how long competitive advantage will last"""
 
         advantage_duration = {
-            'minimum_months': 6,
-            'maximum_months': 60,
-            'expected_months': 24,
-            'factors': []
+            "minimum_months": 6,
+            "maximum_months": 60,
+            "expected_months": 24,
+            "factors": []
         }
 
         for breakthrough in breakthroughs:
-            if breakthrough['type'] == 'paradigm_shift':
+            if breakthrough["type"] == "paradigm_shift":
                 # Paradigm shifts provide longest advantage
-                advantage_duration['expected_months'] = max(
-                    advantage_duration['expected_months'], 48
+                advantage_duration["expected_months"] = max(
+                    advantage_duration["expected_months"], 48
                 )
-                advantage_duration['factors'].append('paradigm_first_mover')
+                advantage_duration["factors"].append("paradigm_first_mover")
 
-            elif breakthrough['type'] == 'consciousness_evolution':
+            elif breakthrough["type"] == "consciousness_evolution":
                 # Consciousness evolution is hard to replicate
-                advantage_duration['expected_months'] = max(
-                    advantage_duration['expected_months'], 36
+                advantage_duration["expected_months"] = max(
+                    advantage_duration["expected_months"], 36
                 )
-                advantage_duration['factors'].append('consciousness_uniqueness')
+                advantage_duration["factors"].append("consciousness_uniqueness")
 
         return advantage_duration
 
@@ -434,64 +434,64 @@ class BreakthroughDetectorV2(CoreInterface):
 
         for breakthrough in breakthroughs:
             strategy = {
-                'breakthrough_id': breakthrough['id'],
-                'implementation_phases': [],
-                'resource_requirements': {},
-                'risk_mitigation': [],
-                'success_metrics': []
+                "breakthrough_id": breakthrough["id"],
+                "implementation_phases": [],
+                "resource_requirements": {},
+                "risk_mitigation": [],
+                "success_metrics": []
             }
 
             # Phase 1: Foundation
-            strategy['implementation_phases'].append({
-                'phase': 'foundation',
-                'duration_months': 3,
-                'objectives': ['research_validation', 'team_assembly', 'resource_allocation']
+            strategy["implementation_phases"].append({
+                "phase": "foundation",
+                "duration_months": 3,
+                "objectives": ["research_validation", "team_assembly", "resource_allocation"]
             })
 
             # Phase 2: Development
-            strategy['implementation_phases'].append({
-                'phase': 'development',
-                'duration_months': 6,
-                'objectives': ['prototype_creation', 'testing', 'refinement']
+            strategy["implementation_phases"].append({
+                "phase": "development",
+                "duration_months": 6,
+                "objectives": ["prototype_creation", "testing", "refinement"]
             })
 
             # Phase 3: Deployment
-            strategy['implementation_phases'].append({
-                'phase': 'deployment',
-                'duration_months': 3,
-                'objectives': ['market_launch', 'scaling', 'optimization']
+            strategy["implementation_phases"].append({
+                "phase": "deployment",
+                "duration_months": 3,
+                "objectives": ["market_launch", "scaling", "optimization"]
             })
 
             # Resource requirements based on type
-            if breakthrough['type'] == 'scientific_revolution':
-                strategy['resource_requirements'] = {
-                    'researchers': 20,
-                    'budget': 10e6,
-                    'compute': 'high',
-                    'equipment': 'specialized'
+            if breakthrough["type"] == "scientific_revolution":
+                strategy["resource_requirements"] = {
+                    "researchers": 20,
+                    "budget": 10e6,
+                    "compute": "high",
+                    "equipment": "specialized"
                 }
-            elif breakthrough['type'] == 'market_disruption':
-                strategy['resource_requirements'] = {
-                    'engineers': 50,
-                    'budget': 50e6,
-                    'marketing': 'aggressive',
-                    'partnerships': 'strategic'
+            elif breakthrough["type"] == "market_disruption":
+                strategy["resource_requirements"] = {
+                    "engineers": 50,
+                    "budget": 50e6,
+                    "marketing": "aggressive",
+                    "partnerships": "strategic"
                 }
 
             # Risk mitigation
-            strategy['risk_mitigation'] = [
-                'continuous_validation',
-                'incremental_rollout',
-                'fallback_options',
-                'regulatory_compliance'
+            strategy["risk_mitigation"] = [
+                "continuous_validation",
+                "incremental_rollout",
+                "fallback_options",
+                "regulatory_compliance"
             ]
 
             # Success metrics
-            strategy['success_metrics'] = [
-                'technical_milestones',
-                'adoption_rate',
-                'impact_measurement',
-                'competitive_position'
+            strategy["success_metrics"] = [
+                "technical_milestones",
+                "adoption_rate",
+                "impact_measurement",
+                "competitive_position"
             ]
 
             strategies.append(strategy)
@@ -508,12 +508,12 @@ class BreakthroughDetectorV2(CoreInterface):
             return 0.0
 
         # Average confidence across all breakthroughs
-        total_confidence = sum(b.get('confidence', 0) for b in breakthroughs)
+        total_confidence = sum(b.get("confidence", 0) for b in breakthroughs)
         avg_confidence = total_confidence / len(breakthroughs)
 
         # Apply validation score bonus
         validation_bonus = sum(
-            b.get('validation_score', 0) for b in breakthroughs
+            b.get("validation_score", 0) for b in breakthroughs
         ) / len(breakthroughs) * 0.2
 
         # Historical accuracy adjustment
@@ -529,21 +529,21 @@ class BreakthroughDetectorV2(CoreInterface):
         """Load breakthrough detection patterns"""
 
         self.pattern_library = {
-            'exponential_growth': {
-                'indicators': ['doubling_time', 'acceleration', 'compound_effect'],
-                'threshold': 0.8
+            "exponential_growth": {
+                "indicators": ["doubling_time", "acceleration", "compound_effect"],
+                "threshold": 0.8
             },
-            'paradigm_shift': {
-                'indicators': ['fundamental_assumption_change', 'incompatibility', 'revolution'],
-                'threshold': 0.9
+            "paradigm_shift": {
+                "indicators": ["fundamental_assumption_change", "incompatibility", "revolution"],
+                "threshold": 0.9
             },
-            'network_effect': {
-                'indicators': ['user_value_scaling', 'viral_growth', 'lock_in'],
-                'threshold': 0.7
+            "network_effect": {
+                "indicators": ["user_value_scaling", "viral_growth", "lock_in"],
+                "threshold": 0.7
             },
-            'consciousness_leap': {
-                'indicators': ['awareness_expansion', 'collective_emergence', 'transcendence'],
-                'threshold': 0.95
+            "consciousness_leap": {
+                "indicators": ["awareness_expansion", "collective_emergence", "transcendence"],
+                "threshold": 0.95
             }
         }
 
@@ -557,22 +557,22 @@ class BreakthroughDetectorV2(CoreInterface):
         for i, b1 in enumerate(breakthroughs):
             for _j, b2 in enumerate(breakthroughs[i+1:], i+1):
                 # Check for domain overlap
-                domains1 = set(b1.get('domains', []))
-                domains2 = set(b2.get('domains', []))
+                domains1 = set(b1.get("domains", []))
+                domains2 = set(b2.get("domains", []))
 
                 if domains1 & domains2:  # Intersection
                     # Boost confidence for related breakthroughs
-                    b1['confidence'] = min(1.0, b1.get('confidence', 0) * 1.1)
-                    b2['confidence'] = min(1.0, b2.get('confidence', 0) * 1.1)
+                    b1["confidence"] = min(1.0, b1.get("confidence", 0) * 1.1)
+                    b2["confidence"] = min(1.0, b2.get("confidence", 0) * 1.1)
 
                     # Note correlation
-                    if 'correlations' not in b1:
-                        b1['correlations'] = []
-                    if 'correlations' not in b2:
-                        b2['correlations'] = []
+                    if "correlations" not in b1:
+                        b1["correlations"] = []
+                    if "correlations" not in b2:
+                        b2["correlations"] = []
 
-                    b1['correlations'].append(b2['id'])
-                    b2['correlations'].append(b1['id'])
+                    b1["correlations"].append(b2["id"])
+                    b2["correlations"].append(b1["id"])
 
         return breakthroughs
 
@@ -583,9 +583,9 @@ class BreakthroughDetectorV2(CoreInterface):
         """Validate technical feasibility of breakthrough"""
 
         # Check against known physical laws and constraints
-        if breakthrough['type'] == 'scientific_revolution':
-            details = breakthrough.get('details')
-            if details and hasattr(details, 'experimental_validations'):
+        if breakthrough["type"] == "scientific_revolution":
+            details = breakthrough.get("details")
+            if details and hasattr(details, "experimental_validations"):
                 if details.experimental_validations:
                     return 0.9
             return 0.6
@@ -598,9 +598,9 @@ class BreakthroughDetectorV2(CoreInterface):
     ) -> float:
         """Validate market readiness for breakthrough"""
 
-        if breakthrough['type'] == 'market_disruption':
-            details = breakthrough.get('details')
-            if details and hasattr(details, 'incumbent_vulnerability'):
+        if breakthrough["type"] == "market_disruption":
+            details = breakthrough.get("details")
+            if details and hasattr(details, "incumbent_vulnerability"):
                 return details.incumbent_vulnerability
 
         return 0.7  # Default moderate readiness
@@ -611,9 +611,9 @@ class BreakthroughDetectorV2(CoreInterface):
     ) -> float:
         """Validate scientific soundness of breakthrough"""
 
-        if breakthrough['type'] == 'scientific_revolution':
-            details = breakthrough.get('details')
-            if details and hasattr(details, 'theoretical_shifts'):
+        if breakthrough["type"] == "scientific_revolution":
+            details = breakthrough.get("details")
+            if details and hasattr(details, "theoretical_shifts"):
                 if len(details.theoretical_shifts) > 2:
                     return 0.95  # Strong theoretical foundation
 
@@ -625,7 +625,7 @@ class BreakthroughDetectorV2(CoreInterface):
     ) -> float:
         """Validate the magnitude of impact"""
 
-        impact_score = breakthrough.get('impact_score', 0)
+        impact_score = breakthrough.get("impact_score", 0)
 
         # Exponential impact gets higher validation
         if impact_score > 0.9:
@@ -672,14 +672,14 @@ class ParadigmShiftDetector:
         paradigm_shifts = []
 
         # Analyze for paradigm indicators
-        if data.get('innovation_type') == 'fundamental':
+        if data.get("innovation_type") == "fundamental":
             shift = ParadigmShift(
                 paradigm_id=str(uuid.uuid4()),
-                old_paradigm=data.get('current_paradigm', 'conventional'),
-                new_paradigm=data.get('proposed_paradigm', 'revolutionary'),
+                old_paradigm=data.get("current_paradigm", "conventional"),
+                new_paradigm=data.get("proposed_paradigm", "revolutionary"),
                 disruption_magnitude=0.95,
-                affected_domains=data.get('domains', ['technology', 'science']),
-                transformation_timeline={'phases': 3, 'years': 5},
+                affected_domains=data.get("domains", ["technology", "science"]),
+                transformation_timeline={"phases": 3, "years": 5},
                 confidence_score=paradigm_break_threshold
             )
             paradigm_shifts.append(shift)
@@ -709,13 +709,13 @@ class ScientificRevolutionPredictor:
         revolutions = []
 
         # Check for revolution indicators
-        if data.get('theoretical_breakthrough'):
+        if data.get("theoretical_breakthrough"):
             revolution = ScientificRevolution(
                 revolution_id=str(uuid.uuid4()),
-                field=data.get('field', 'physics'),
-                breakthrough_concepts=data.get('concepts', ['qi_gravity']),
-                theoretical_shifts=['unification', 'emergence'],
-                experimental_validations=data.get('experiments', []),
+                field=data.get("field", "physics"),
+                breakthrough_concepts=data.get("concepts", ["qi_gravity"]),
+                theoretical_shifts=["unification", "emergence"],
+                experimental_validations=data.get("experiments", []),
                 revolution_probability=revolution_probability_threshold,
                 time_to_manifestation_years=3.0
             )
@@ -746,14 +746,14 @@ class MarketDisruptionAnalyzer:
         disruptions = []
 
         # Check for disruption indicators
-        improvement_factor = data.get('improvement_factor', 1)
+        improvement_factor = data.get("improvement_factor", 1)
         if improvement_factor >= disruption_magnitude_threshold:
             disruption = MarketDisruption(
                 disruption_id=str(uuid.uuid4()),
-                market_segment=data.get('market', 'technology'),
+                market_segment=data.get("market", "technology"),
                 disruption_factor=improvement_factor,
                 incumbent_vulnerability=0.8,
-                adoption_curve='exponential',
+                adoption_curve="exponential",
                 value_migration=1e12  # $1T
             )
             disruptions.append(disruption)
@@ -783,13 +783,13 @@ class ConsciousnessEmergenceMonitor:
         evolutions = []
 
         # Check for consciousness indicators
-        if data.get('consciousness_impact'):
+        if data.get("consciousness_impact"):
             evolution = ConsciousnessEvolution(
                 evolution_id=str(uuid.uuid4()),
-                consciousness_dimension=data.get('dimension', 'awareness'),
-                evolution_type='expansion',
+                consciousness_dimension=data.get("dimension", "awareness"),
+                evolution_type="expansion",
                 collective_impact=True,
-                emergence_properties=['collective_intelligence', 'transcendence'],
+                emergence_properties=["collective_intelligence", "transcendence"],
                 transcendence_level=consciousness_evolution_threshold
             )
             evolutions.append(evolution)

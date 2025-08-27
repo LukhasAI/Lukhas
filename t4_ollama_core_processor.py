@@ -13,12 +13,13 @@ T4 Lens Framework:
 🎨 Experience Discipline (Steve Jobs): Intelligent, elegant automation
 """
 
-import subprocess
-import json
-from pathlib import Path
-from datetime import datetime
-import hashlib
 import argparse
+import hashlib
+import json
+import subprocess
+from datetime import datetime
+from pathlib import Path
+
 
 class T4OllamaCoreProcessor:
     def __init__(self, workspace_path="/Users/agi_dev/LOCAL-REPOS/Lukhas"):
@@ -96,9 +97,9 @@ CONSTRAINTS:
 
                 # Find JSON block in response
                 try:
-                    if '{' in response and '}' in response:
-                        json_start = response.find('{')
-                        json_end = response.rfind('}') + 1
+                    if "{" in response and "}" in response:
+                        json_start = response.find("{")
+                        json_end = response.rfind("}") + 1
                         json_str = response[json_start:json_end]
                         return json.loads(json_str)
                 except json.JSONDecodeError:
@@ -150,24 +151,24 @@ CONSTRAINTS:
 
         try:
             # Create backup and calculate hash
-            backup_path = full_path.with_suffix(full_path.suffix + '.backup')
-            with open(full_path, 'rb') as f:
+            backup_path = full_path.with_suffix(full_path.suffix + ".backup")
+            with open(full_path, "rb") as f:
                 original_content = f.read()
                 original_hash = hashlib.sha256(original_content).hexdigest()
 
-            with open(backup_path, 'wb') as f:
+            with open(backup_path, "wb") as f:
                 f.write(original_content)
 
-            content = original_content.decode('utf-8')
+            content = original_content.decode("utf-8")
             modified = False
 
             # Apply simple fixes
             for fix in low_risk_fixes:
                 if fix.get("type") == "unused_import" and "Remove unused import" in fix.get("suggested_fix", ""):
                     # Very conservative: only remove imports that are clearly unused
-                    lines = content.split('\n')
+                    lines = content.split("\n")
                     for i, line in enumerate(lines):
-                        if line.strip().startswith('import ') and len(line.strip()) < 50:
+                        if line.strip().startswith("import ") and len(line.strip()) < 50:
                             # This is overly conservative - in production you'd want more sophisticated analysis
                             pass  # Skip automatic import removal for safety
 
@@ -190,7 +191,7 @@ CONSTRAINTS:
             }
 
             verification_file = self.verification_dir / f"ollama_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
-            with open(verification_file, 'w') as f:
+            with open(verification_file, "w") as f:
                 json.dump(verification, f, indent=2)
 
             # Clean up backup since we didn't modify the file
@@ -198,14 +199,14 @@ CONSTRAINTS:
 
         except Exception as e:
             print(f"❌ Error processing {file_path}: {e}")
-            if 'backup_path' in locals() and backup_path.exists():
+            if "backup_path" in locals() and backup_path.exists():
                 backup_path.unlink()
 
         return fixes_applied
 
     def process_batch(self, batch_num=1):
         """🎯 Process exactly 10 core LUKHAS files with Ollama LLM"""
-        print(f"🤖 T4 LENS + OLLAMA: Processing Core LUKHAS Batch #{batch_num}")
+        print("🤖 T4 LENS + OLLAMA: Processing Core LUKHAS Batch ")
         print("=" * 60)
 
         # Check if Ollama is available
@@ -245,7 +246,7 @@ CONSTRAINTS:
             try:
                 # Read file
                 full_path = self.workspace / file_path
-                with open(full_path, 'r', encoding='utf-8') as f:
+                with open(full_path, encoding="utf-8") as f:
                     content = f.read()
 
                 # Analyze with Ollama LLM

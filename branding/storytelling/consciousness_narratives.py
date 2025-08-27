@@ -347,7 +347,7 @@ class ConsciousnessStorytellingSystem:
                 emotional_journey=base_story.emotional_journey,
                 key_message=f"{base_story.key_message} - {adaptation['technical_focus']}",
                 trinity_framework_role=base_story.trinity_framework_role,
-                call_to_action=adaptation['call_to_action']
+                call_to_action=adaptation["call_to_action"]
             )
 
         return variations

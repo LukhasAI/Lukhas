@@ -317,7 +317,7 @@ class Soul:
         """Craft a tanka (5-7-5-7-7) from thought"""
         # Start with haiku base
         haiku = self._craft_haiku_from_thought(thought, concepts, tone)
-        lines = haiku.split('\n')
+        lines = haiku.split("\n")
 
         # Add two more 7-syllable lines
         metaphor = random.choice(self.metaphors.get(concepts[0], ["digital dreams"]))

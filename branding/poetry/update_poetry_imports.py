@@ -12,22 +12,22 @@ def update_imports(root_dir):
     """Update poetry-related imports in Python files"""
 
     old_imports = [
-        (r'from consciousness\.creativity import advanced_haiku_generator',
-         'from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py'),
-        (r'from branding.poetry import (.*)',
-         r'from branding.poetry import \1'),
-        (r'import poetry\.',
-         'import branding.poetry.'),
+        (r"from consciousness\.creativity import advanced_haiku_generator",
+         "from branding.poetry.legacy import advanced_haiku_generator  # TODO: Migrate to new soul.py"),
+        (r"from branding.poetry import (.*)",
+         r"from branding.poetry import \1"),
+        (r"import poetry\.",
+         "import branding.poetry."),
     ]
 
     updated_files = []
 
     for root, dirs, files in os.walk(root_dir):
         # Skip virtual environments and git
-        dirs[:] = [d for d in dirs if d not in {'.venv', '.git', 'node_modules', '__pycache__'}]
+        dirs[:] = [d for d in dirs if d not in {".venv", ".git", "node_modules", "__pycache__"}]
 
         for file in files:
-            if file.endswith('.py'):
+            if file.endswith(".py"):
                 filepath = Path(root) / file
 
                 try:
@@ -39,7 +39,7 @@ def update_imports(root_dir):
                         content = re.sub(old_pattern, new_pattern, content)
 
                     if content != original_content:
-                        with open(filepath, 'w') as f:
+                        with open(filepath, "w") as f:
                             f.write(content)
                         updated_files.append(str(filepath))
 

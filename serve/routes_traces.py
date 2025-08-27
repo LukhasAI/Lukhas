@@ -7,17 +7,17 @@ import logging
 import uuid
 from typing import Optional, Union
 
-from fastapi import APIRouter, HTTPException, Header, Depends
+from fastapi import APIRouter, Depends, Header, HTTPException
 from fastapi.responses import JSONResponse
 
-from .storage.trace_provider import TraceStorageProvider, get_default_trace_provider
 from .models.trace_models import (
-    TraceResponse,
     ExecutionTraceResponse,
-    TraceNotFoundResponse,
     TraceErrorResponse,
+    TraceNotFoundResponse,
+    TraceResponse,
     TraceValidationErrorResponse,
 )
+from .storage.trace_provider import TraceStorageProvider, get_default_trace_provider
 
 logger = logging.getLogger(__name__)
 r = APIRouter()

@@ -708,7 +708,7 @@ class LambdaAGIEliteConnectivityConsolidator:
             "broken_imports": broken_imports,
             "connectivity_percentage": connectivity_percentage,
             "consolidation_efficiency": 0.95,  # Based on elite enhancement
-            "system_stability": 0.98,  # High stability from AI optimization
+            "system_stability": 0.98,  # High stability from ai_optimization
             "enhancement_score": 0.97,  # Elite-tier enhancement score
         }
 

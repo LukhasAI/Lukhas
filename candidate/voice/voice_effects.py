@@ -142,13 +142,13 @@ class ReverbEffect(VoiceEffect):
             if delay_samples < len(data):
                 # Create delayed version with decay
                 decay = room_size * (0.7 ** i)  # Each delay decays more
-                delayed = np.pad(data[:-delay_samples], (delay_samples, 0), mode='constant')
+                delayed = np.pad(data[:-delay_samples], (delay_samples, 0), mode="constant")
 
                 # Apply damping (low-pass filter)
                 if damping > 0:
                     from scipy import signal
                     cutoff = 8000 * (1.0 - damping)
-                    sos = signal.butter(2, cutoff, btype='lowpass', fs=sample_rate, output='sos')
+                    sos = signal.butter(2, cutoff, btype="lowpass", fs=sample_rate, output="sos")
                     delayed = signal.sosfilt(sos, delayed)
 
                 reverb_signal += delayed * decay
@@ -408,7 +408,7 @@ class PitchShiftEffect(VoiceEffect):
         if len(pitched) > len(data):
             pitched = pitched[:len(data)]
         else:
-            pitched = np.pad(pitched, (0, len(data) - len(pitched)), mode='constant')
+            pitched = np.pad(pitched, (0, len(data) - len(pitched)), mode="constant")
 
         # Mix with original
         output = data * (1.0 - parameters.mix) + pitched * parameters.mix

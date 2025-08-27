@@ -4,12 +4,11 @@ Automatically generates and syncs daily reports with financial, AI routing, and 
 """
 
 import json
-import os
+import logging
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, Any, List, Optional
-import logging
-from dataclasses import dataclass, asdict
+from typing import Any, Dict, List
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -49,7 +48,7 @@ class ABotNotionSync:
         """Load Notion sync configuration"""
         try:
             if self.config_path.exists():
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path) as f:
                     data = json.load(f)
                 return NotionSyncConfig(**data)
             else:
@@ -65,7 +64,7 @@ class ABotNotionSync:
         """Save Notion sync configuration"""
         try:
             self.config_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(self.config_path, 'w') as f:
+            with open(self.config_path, "w") as f:
                 json.dump(asdict(config), f, indent=2)
         except Exception as e:
             logger.error(f"Error saving config: {e}")
@@ -73,7 +72,9 @@ class ABotNotionSync:
     def get_financial_data(self) -> Dict[str, Any]:
         """Get financial intelligence data"""
         try:
-            from lukhas_ai_lambda_bot.core.abot_financial_intelligence import ABotFinancialIntelligence
+            from lukhas_ai_lambda_bot.core.abot_financial_intelligence import (
+                ABotFinancialIntelligence,
+            )
             fi = ABotFinancialIntelligence()
             status = fi.get_financial_report()
 
@@ -143,21 +144,18 @@ class ABotNotionSync:
 
         # Check if core systems are accessible
         try:
-            from lukhas_ai_lambda_bot.core_abot import CoreABot
             health_data["core_abot"] = "✅ Online"
         except Exception as e:
             health_data["core_abot"] = f"❌ Error: {e}"
             health_data["status"] = "degraded"
 
         try:
-            from lukhas_ai_lambda_bot.core.abot_financial_intelligence import ABotFinancialIntelligence
             health_data["financial_intelligence"] = "✅ Online"
         except Exception as e:
             health_data["financial_intelligence"] = f"❌ Error: {e}"
             health_data["status"] = "degraded"
 
         try:
-            from lukhas_ai_lambda_bot.core.abot_ai_router import ABotIntelligentAIRouter
             health_data["ai_router"] = "✅ Online"
         except Exception as e:
             health_data["ai_router"] = f"❌ Error: {e}"
@@ -258,12 +256,12 @@ class ABotNotionSync:
             filename = f"abot_daily_report_{report.date}.json"
             filepath = self.output_path / filename
 
-            with open(filepath, 'w') as f:
+            with open(filepath, "w") as f:
                 json.dump(asdict(report), f, indent=2, default=str)
 
             # Also save as latest report
             latest_path = self.output_path / "latest_report.json"
-            with open(latest_path, 'w') as f:
+            with open(latest_path, "w") as f:
                 json.dump(asdict(report), f, indent=2, default=str)
 
             logger.info(f"Report saved to {filepath}")
@@ -290,15 +288,15 @@ class ABotNotionSync:
                 "Financial Status": "✅ Healthy" if not report.alerts else "⚠️ Issues",
                 "Current Balance": f"${report.financial_data.get('current_balance', 0):.4f}",
                 "Efficiency Score": f"{report.financial_data.get('efficiency_score', 0):.1f}%",
-                "AI Services": report.ai_routing_data.get('available_services', 0),
-                "System Health": report.system_health.get('status', 'unknown'),
+                "AI Services": report.ai_routing_data.get("available_services", 0),
+                "System Health": report.system_health.get("status", "unknown"),
                 "Recommendations": len(report.recommendations),
                 "Alerts": len(report.alerts),
                 "Raw Data": asdict(report)
             }
 
             notion_file = self.output_path / f"notion_import_{report.date}.json"
-            with open(notion_file, 'w') as f:
+            with open(notion_file, "w") as f:
                 json.dump(notion_data, f, indent=2, default=str)
 
             logger.info(f"✅ Notion import data saved to {notion_file}")
@@ -317,7 +315,7 @@ class ABotNotionSync:
                 filepath = self.output_path / f"abot_daily_report_{date}.json"
 
                 if filepath.exists():
-                    with open(filepath, 'r') as f:
+                    with open(filepath) as f:
                         data = json.load(f)
                     reports.append(DailyReport(**data))
         except Exception as e:

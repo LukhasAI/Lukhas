@@ -32,7 +32,7 @@ else:
         entries = [json.loads(line) for line in f if line.strip()]
 
     for i, dream in enumerate(entries, 1):
-        st.markdown(f"### 🧠 Dream {i}")
+        st.markdown("##")
         st.markdown(f"**Text:** {dream.get('text', '—')}")
         st.markdown(f"**Emotion Vector:** `{dream.get('emotion_vector', {})}`")
 
@@ -62,7 +62,7 @@ else:
 
 # ── Narration Log Viewer ───────────────────────────────────
 if LOG_PATH.exists():
-    st.markdown("### 📼 Narration Log (Recent)")
+    st.markdown("##)  #  📼 Narration Log (Recent")
     logs = []
     with open(LOG_PATH, encoding="utf-8") as f:
         for line in f:

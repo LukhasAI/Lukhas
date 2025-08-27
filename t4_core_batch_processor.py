@@ -13,11 +13,12 @@ T4 Lens Framework:
 🎨 Experience Discipline (Steve Jobs): User-focused, elegant implementation
 """
 
-import subprocess
-import json
-from pathlib import Path
-from datetime import datetime
 import hashlib
+import json
+import subprocess
+from datetime import datetime
+from pathlib import Path
+
 
 class T4CoreBatchProcessor:
     def __init__(self, workspace_path="/Users/agi_dev/LOCAL-REPOS/Lukhas"):
@@ -54,12 +55,12 @@ class T4CoreBatchProcessor:
 
         try:
             # Check for common issues using Python AST
-            with open(full_path, 'r', encoding='utf-8') as f:
+            with open(full_path, encoding="utf-8") as f:
                 content = f.read()
 
             # Basic syntax check
             try:
-                compile(content, str(full_path), 'exec')
+                compile(content, str(full_path), "exec")
             except SyntaxError as e:
                 issues.append(f"SYNTAX_ERROR: {e}")
 
@@ -93,15 +94,15 @@ class T4CoreBatchProcessor:
             return fixes_applied
 
         # Create backup
-        backup_path = full_path.with_suffix(full_path.suffix + '.backup')
+        backup_path = full_path.with_suffix(full_path.suffix + ".backup")
 
         try:
             # Calculate original file hash
-            with open(full_path, 'rb') as f:
+            with open(full_path, "rb") as f:
                 original_hash = hashlib.sha256(f.read()).hexdigest()
 
             # Copy to backup
-            subprocess.run(['cp', str(full_path), str(backup_path)], check=True)
+            subprocess.run(["cp", str(full_path), str(backup_path)], check=True)
 
             # Apply black formatting if available
             black_path = self.workspace / ".venv_test" / "bin" / "black"
@@ -116,7 +117,7 @@ class T4CoreBatchProcessor:
                     fixes_applied.append("BLACK_FORMATTING")
 
             # Check if file changed
-            with open(full_path, 'rb') as f:
+            with open(full_path, "rb") as f:
                 new_hash = hashlib.sha256(f.read()).hexdigest()
 
             if original_hash != new_hash:
@@ -131,7 +132,7 @@ class T4CoreBatchProcessor:
                 }
 
                 verification_file = self.verification_dir / f"fix_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{file_path.replace('/', '_')}.json"
-                with open(verification_file, 'w') as f:
+                with open(verification_file, "w") as f:
                     json.dump(verification, f, indent=2)
             else:
                 # Remove backup if no changes
@@ -140,7 +141,7 @@ class T4CoreBatchProcessor:
         except Exception as e:
             # Restore from backup on error
             if backup_path.exists():
-                subprocess.run(['cp', str(backup_path), str(full_path)], check=True)
+                subprocess.run(["cp", str(backup_path), str(full_path)], check=True)
                 backup_path.unlink()
             print(f"❌ Error fixing {file_path}: {e}")
 
@@ -148,7 +149,7 @@ class T4CoreBatchProcessor:
 
     def process_batch(self, batch_num=1):
         """🎯 Process exactly 10 core LUKHAS files"""
-        print(f"🚀 T4 LENS: Processing Core LUKHAS Batch #{batch_num}")
+        print("🚀 T4 LENS: Processing Core LUKHAS Batch ")
         print("=" * 50)
 
         # Discover core files

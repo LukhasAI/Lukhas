@@ -101,9 +101,9 @@ class BenchmarkResult:
     def to_dict(self) -> dict[str, Any]:
         return {
             **asdict(self),
-            'start_time': self.start_time.isoformat(),
-            'end_time': self.end_time.isoformat(),
-            'config': asdict(self.config)
+            "start_time": self.start_time.isoformat(),
+            "end_time": self.end_time.isoformat(),
+            "config": asdict(self.config)
         }
 
 
@@ -699,7 +699,7 @@ class LukhasIntelligenceBenchmarking:
         return {
             "cpu_percent": psutil.cpu_percent(),
             "memory_percent": psutil.virtual_memory().percent,
-            "disk_percent": psutil.disk_usage('/').percent,
+            "disk_percent": psutil.disk_usage("/").percent,
             "timestamp": time.time(),
         }
 
@@ -895,7 +895,7 @@ class LukhasIntelligenceBenchmarking:
             "benchmark_results": [result.to_dict() for result in self.benchmark_results],
         }
 
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             json.dump(export_data, f, indent=2)
 
         logger.info(f"📊 Benchmark results exported to {file_path}")

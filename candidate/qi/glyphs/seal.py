@@ -45,11 +45,11 @@ def canonicalize(obj: dict[str, Any]) -> bytes:
     # Remove None values
     cleaned = {k: v for k, v in obj.items() if v is not None}
     # Deterministic JSON with sorted keys
-    return json.dumps(cleaned, separators=(',', ':'), sort_keys=True).encode('utf-8')
+    return json.dumps(cleaned, separators=(",", ":"), sort_keys=True).encode("utf-8")
 
 def generate_nonce() -> str:
     """Generate cryptographic nonce."""
-    return base64.urlsafe_b64encode(uuid.uuid4().bytes).decode('ascii').rstrip('=')
+    return base64.urlsafe_b64encode(uuid.uuid4().bytes).decode("ascii").rstrip("=")
 
 def make_seal(
     *,
@@ -114,7 +114,7 @@ def make_seal(
         "protected": base64.urlsafe_b64encode(json.dumps({
             "alg": sig_info["alg"],
             "kid": sig_info.get("pubkey_id", "default")
-        }).encode()).decode().rstrip('='),
+        }).encode()).decode().rstrip("="),
         "signature": sig_info["sig"]
     }
 
@@ -149,7 +149,7 @@ def verify_seal(seal_bytes: bytes, sig: dict[str, Any], content_bytes: bytes | N
 
         # Decode COSE protected header
         protected = json.loads(base64.urlsafe_b64decode(
-            sig["protected"] + '=' * (4 - len(sig["protected"]) % 4)
+            sig["protected"] + "=" * (4 - len(sig["protected"]) % 4)
         ))
 
         sig_info = {

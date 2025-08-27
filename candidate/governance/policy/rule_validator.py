@@ -212,7 +212,7 @@ class AdvancedRuleValidator:
             RuleOperator.NOT_EQUALS: lambda x, y: x != y,
             RuleOperator.GREATER_THAN: lambda x, y: x > y if isinstance(x, (int, float)) else False,
             RuleOperator.LESS_THAN: lambda x, y: x < y if isinstance(x, (int, float)) else False,
-            RuleOperator.CONTAINS: lambda x, y: y in x if hasattr(x, '__contains__') else False,
+            RuleOperator.CONTAINS: lambda x, y: y in x if hasattr(x, "__contains__") else False,
             RuleOperator.MATCHES: self._regex_match
         }
 
@@ -558,7 +558,7 @@ class AdvancedRuleValidator:
     def _get_nested_field_value(self, data: dict[str, Any], field_path: str) -> Any:
         """Get value from nested dictionary using dot notation"""
         try:
-            keys = field_path.split('.')
+            keys = field_path.split(".")
             value = data
 
             for key in keys:

@@ -227,7 +227,7 @@ except ImportError as e:
             import_line = f"    from .connected.{filename[:-3]} import *"
             content = content.replace(
                 "    # Components will be added here during consolidation",
-                f"{import_line}\n    # Components will be added here during consolidation",
+                f"{import_line}\n    ",
             )
 
             with open(connector_path, "w") as f:

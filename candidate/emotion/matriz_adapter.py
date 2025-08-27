@@ -185,7 +185,7 @@ class EmotionMatrizAdapter:
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
 
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(node, f, indent=2)
 
         return filepath
@@ -197,12 +197,12 @@ def wrap_vad_detection(original_func):
     def wrapper(*args, **kwargs):
         result = original_func(*args, **kwargs)
 
-        if isinstance(result, dict) and all(k in result for k in ['valence', 'arousal', 'dominance']):
+        if isinstance(result, dict) and all(k in result for k in ["valence", "arousal", "dominance"]):
             node = EmotionMatrizAdapter.emit_emotion_state(
-                valence=result['valence'],
-                arousal=result['arousal'],
-                dominance=result['dominance'],
-                emotion_label=result.get('emotion')
+                valence=result["valence"],
+                arousal=result["arousal"],
+                dominance=result["dominance"],
+                emotion_label=result.get("emotion")
             )
             EmotionMatrizAdapter.save_node(node)
 

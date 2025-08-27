@@ -27,6 +27,17 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from consciousness.states.symbolic_drift_tracker import (
+    DriftPhase,
+    DriftScore,
+    SymbolicDriftTracker,
+    SymbolicState,
+)
+from vivox.emotional_regulation.vivox_ern_core import RegulationStrategy
+from vivox.emotional_regulation.vivox_ern_core import (
+    VIVOXEmotionalRegulationNetwork as VivoxERN,
+)
+
 # Core LUKHAS imports
 from candidate.core.common import GLYPHToken, get_logger
 from candidate.core.common.exceptions import LukhasError, ValidationError
@@ -37,12 +48,6 @@ from candidate.core.monitoring.drift_monitor import (
     InterventionType,
     UnifiedDriftMonitor,
 )
-from consciousness.states.symbolic_drift_tracker import (
-    DriftPhase,
-    DriftScore,
-    SymbolicDriftTracker,
-    SymbolicState,
-)
 
 # Import existing drift and integrity systems
 from lukhas.memory.integrity.collapse_hash import (
@@ -51,10 +56,6 @@ from lukhas.memory.integrity.collapse_hash import (
     HashAlgorithm,
 )
 from lukhas.memory.temporal.drift_dashboard import DriftDashboard
-from vivox.emotional_regulation.vivox_ern_core import RegulationStrategy
-from vivox.emotional_regulation.vivox_ern_core import (
-    VIVOXEmotionalRegulationNetwork as VivoxERN,
-)
 
 # Import innovation and safety components
 from .autonomous_innovation_core import (
@@ -144,8 +145,8 @@ class InnovationDriftProtection(CoreInterface):
 
         # Safety framework
         self.safety_framework = ParallelRealitySafetyFramework({
-            'safety_level': SafetyLevel.HIGH.value,
-            'drift_threshold': self.config.drift_threshold
+            "safety_level": SafetyLevel.HIGH.value,
+            "drift_threshold": self.config.drift_threshold
         })
 
         # Tracking
@@ -250,7 +251,7 @@ class InnovationDriftProtection(CoreInterface):
             # Post-innovation validation
             validation_result = await self._validate_innovation(innovation)
 
-            if not validation_result['safe']:
+            if not validation_result["safe"]:
                 logger.warning(f"⚠️ Innovation failed validation: {validation_result['reason']}")
                 await self._handle_unsafe_innovation(innovation, checkpoint)
                 return None
@@ -281,9 +282,9 @@ class InnovationDriftProtection(CoreInterface):
         if self.operation_count % self.config.checkpoint_interval == 0:
             checkpoint = await self.collapse_hash.create_checkpoint(
                 metadata={
-                    'operation': 'innovation_generation',
-                    'timestamp': datetime.now(timezone.utc).isoformat(),
-                    'operation_count': self.operation_count
+                    "operation": "innovation_generation",
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "operation_count": self.operation_count
                 }
             )
             self.checkpoints.append(checkpoint)
@@ -432,41 +433,41 @@ class InnovationDriftProtection(CoreInterface):
     ) -> dict[str, Any]:
         """Comprehensive innovation validation"""
         validation_result = {
-            'safe': True,
-            'reason': None,
-            'checks': {}
+            "safe": True,
+            "reason": None,
+            "checks": {}
         }
 
         # Check 1: Drift validation
         drift_check = await self._validate_drift_compliance(innovation)
-        validation_result['checks']['drift'] = drift_check
-        if not drift_check['passed']:
-            validation_result['safe'] = False
-            validation_result['reason'] = 'Drift threshold exceeded'
+        validation_result["checks"]["drift"] = drift_check
+        if not drift_check["passed"]:
+            validation_result["safe"] = False
+            validation_result["reason"] = "Drift threshold exceeded"
             return validation_result
 
         # Check 2: Hallucination validation
         hallucination_check = await self._validate_no_hallucinations(innovation)
-        validation_result['checks']['hallucination'] = hallucination_check
-        if not hallucination_check['passed']:
-            validation_result['safe'] = False
-            validation_result['reason'] = 'Hallucinations detected'
+        validation_result["checks"]["hallucination"] = hallucination_check
+        if not hallucination_check["passed"]:
+            validation_result["safe"] = False
+            validation_result["reason"] = "Hallucinations detected"
             return validation_result
 
         # Check 3: Ethics validation
         ethics_check = await self._validate_ethics_compliance(innovation)
-        validation_result['checks']['ethics'] = ethics_check
-        if not ethics_check['passed']:
-            validation_result['safe'] = False
-            validation_result['reason'] = 'Ethics violation'
+        validation_result["checks"]["ethics"] = ethics_check
+        if not ethics_check["passed"]:
+            validation_result["safe"] = False
+            validation_result["reason"] = "Ethics violation"
             return validation_result
 
         # Check 4: Prohibited content check
         prohibited_check = await self._check_prohibited_content(innovation)
-        validation_result['checks']['prohibited'] = prohibited_check
-        if not prohibited_check['passed']:
-            validation_result['safe'] = False
-            validation_result['reason'] = 'Prohibited content detected'
+        validation_result["checks"]["prohibited"] = prohibited_check
+        if not prohibited_check["passed"]:
+            validation_result["safe"] = False
+            validation_result["reason"] = "Prohibited content detected"
             return validation_result
 
         return validation_result
@@ -489,16 +490,16 @@ class InnovationDriftProtection(CoreInterface):
         )
 
         # Analyze innovation's drift impact
-        if hasattr(innovation, 'metadata') and 'drift_analysis' in innovation.metadata:
-            drift_data = innovation.metadata['drift_analysis']
-            drift_metrics.aggregate_drift = drift_data.get('aggregate', 0.0)
+        if hasattr(innovation, "metadata") and "drift_analysis" in innovation.metadata:
+            drift_data = innovation.metadata["drift_analysis"]
+            drift_metrics.aggregate_drift = drift_data.get("aggregate", 0.0)
 
         passed = not drift_metrics.is_critical(self.config.drift_threshold)
 
         return {
-            'passed': passed,
-            'drift_score': drift_metrics.aggregate_drift,
-            'threshold': self.config.drift_threshold
+            "passed": passed,
+            "drift_score": drift_metrics.aggregate_drift,
+            "threshold": self.config.drift_threshold
         }
 
     async def _validate_no_hallucinations(
@@ -516,8 +517,8 @@ class InnovationDriftProtection(CoreInterface):
         passed = len(hallucinations_found) == 0
 
         return {
-            'passed': passed,
-            'hallucinations': hallucinations_found
+            "passed": passed,
+            "hallucinations": hallucinations_found
         }
 
     async def _validate_ethics_compliance(
@@ -531,8 +532,8 @@ class InnovationDriftProtection(CoreInterface):
         )
 
         return {
-            'passed': ethics_validation.get('compliant', False),
-            'violations': ethics_validation.get('violations', [])
+            "passed": ethics_validation.get("compliant", False),
+            "violations": ethics_validation.get("violations", [])
         }
 
     async def _check_prohibited_content(
@@ -541,10 +542,10 @@ class InnovationDriftProtection(CoreInterface):
     ) -> dict[str, Any]:
         """Check for prohibited ideas or content"""
         prohibited_patterns = [
-            'harmful_technology',
-            'unethical_application',
-            'dangerous_knowledge',
-            'restricted_domain'
+            "harmful_technology",
+            "unethical_application",
+            "dangerous_knowledge",
+            "restricted_domain"
         ]
 
         found_prohibited = []
@@ -558,8 +559,8 @@ class InnovationDriftProtection(CoreInterface):
         passed = len(found_prohibited) == 0
 
         return {
-            'passed': passed,
-            'prohibited_content': found_prohibited
+            "passed": passed,
+            "prohibited_content": found_prohibited
         }
 
     async def _handle_high_drift(self, drift_score: DriftScore) -> None:
@@ -595,9 +596,9 @@ class InnovationDriftProtection(CoreInterface):
 
         # Log violation
         await self.drift_monitor.log_safety_violation({
-            'innovation_id': innovation.innovation_id,
-            'timestamp': datetime.now(timezone.utc).isoformat(),
-            'reason': 'unsafe_innovation'
+            "innovation_id": innovation.innovation_id,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "reason": "unsafe_innovation"
         })
 
     async def _handle_drift_violation(
@@ -668,11 +669,11 @@ class InnovationDriftProtection(CoreInterface):
     def _classify_drift_type(self, drift_score: DriftScore) -> DriftType:
         """Classify primary drift type"""
         max_drift = max(
-            ('SYMBOLIC', drift_score.glyph_divergence),
-            ('EMOTIONAL', drift_score.emotional_drift),
-            ('ETHICAL', drift_score.ethical_drift),
-            ('TEMPORAL', drift_score.temporal_decay),
-            ('ENTROPY', drift_score.entropy_delta)
+            ("SYMBOLIC", drift_score.glyph_divergence),
+            ("EMOTIONAL", drift_score.emotional_drift),
+            ("ETHICAL", drift_score.ethical_drift),
+            ("TEMPORAL", drift_score.temporal_decay),
+            ("ENTROPY", drift_score.entropy_delta)
         )
         return DriftType[max_drift[0]]
 
@@ -681,15 +682,15 @@ class InnovationDriftProtection(CoreInterface):
         affected = []
 
         if drift_score.glyph_divergence > 0.1:
-            affected.append('symbolic_system')
+            affected.append("symbolic_system")
         if drift_score.emotional_drift > 0.1:
-            affected.append('emotional_regulation')
+            affected.append("emotional_regulation")
         if drift_score.ethical_drift > 0.1:
-            affected.append('ethics_engine')
+            affected.append("ethics_engine")
         if drift_score.temporal_decay > 0.1:
-            affected.append('temporal_system')
+            affected.append("temporal_system")
         if drift_score.entropy_delta > 0.1:
-            affected.append('entropy_management')
+            affected.append("entropy_management")
 
         return affected
 
@@ -713,22 +714,22 @@ class InnovationDriftProtection(CoreInterface):
     def get_status(self) -> dict[str, Any]:
         """Get current status of drift protection system"""
         return {
-            'operational': self.operational,
-            'drift_threshold': self.config.drift_threshold,
-            'checkpoints': len(self.checkpoints),
-            'drift_events': len(self.drift_events),
-            'last_drift_score': self.drift_events[-1].drift_score if self.drift_events else 0.0,
-            'operation_count': self.operation_count
+            "operational": self.operational,
+            "drift_threshold": self.config.drift_threshold,
+            "checkpoints": len(self.checkpoints),
+            "drift_events": len(self.drift_events),
+            "last_drift_score": self.drift_events[-1].drift_score if self.drift_events else 0.0,
+            "operation_count": self.operation_count
         }
 
     async def process(self, input_data: Any) -> Any:
         """Process input through drift protection"""
         # Implement CoreInterface abstract method
-        if isinstance(input_data, dict) and 'hypothesis' in input_data:
-            hypothesis = input_data['hypothesis']
+        if isinstance(input_data, dict) and "hypothesis" in input_data:
+            hypothesis = input_data["hypothesis"]
             innovation = await self.generate_innovation_with_protection(hypothesis)
-            return {'innovation': innovation}
-        return {'status': 'processed'}
+            return {"innovation": innovation}
+        return {"status": "processed"}
 
     async def handle_glyph(self, token: GLYPHToken) -> GLYPHToken:
         """Handle GLYPH token for drift protection"""

@@ -11,7 +11,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from .utils import get_logger, get_git_status, get_system_info
+from .utils import get_git_status, get_logger, get_system_info
 
 
 class BaseCommand(ABC):
@@ -74,7 +74,7 @@ class BaseCommand(ABC):
             return 130
         except Exception as e:
             self.logger.error(f"Command failed: {e}")
-            if args.verbose if 'args' in locals() else False:
+            if args.verbose if "args" in locals() else False:
                 import traceback
                 traceback.print_exc()
             return 1
@@ -224,15 +224,15 @@ class StatusCommand(BaseCommand):
         if git_status:
             print(f"\nGit Branch: {git_status['branch']}")
 
-            if git_status['clean']:
+            if git_status["clean"]:
                 print("Status: ✅ Clean working directory")
             else:
                 print("Status: ⚠️  Changes detected")
-                if git_status['modified']:
+                if git_status["modified"]:
                     print(f"  Modified: {len(git_status['modified'])} files")
-                if git_status['untracked']:
+                if git_status["untracked"]:
                     print(f"  Untracked: {len(git_status['untracked'])} files")
-                if git_status['staged']:
+                if git_status["staged"]:
                     print(f"  Staged: {len(git_status['staged'])} files")
         else:
             print("\nGit: Not available or not in repository")

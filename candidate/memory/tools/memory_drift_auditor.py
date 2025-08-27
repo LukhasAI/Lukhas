@@ -127,7 +127,7 @@ class MemoryDriftAuditor:
 
     def load_memory_snapshots(self, fold_directory: str) -> dict[str, Any]:
         """
-        Load chronological symbolic memory folds from JSON format.
+        Load chronological symbolic memory folds from json_format.
 
         Args:
             fold_directory: Directory containing memory fold snapshots
@@ -2081,13 +2081,13 @@ class MemoryDriftAuditor:
         md_lines = []
 
         # Header
-        md_lines.append("# ΛAUDITOR Memory Drift Audit Report")
-        md_lines.append("")
+        md_lines.append(")  #  ΛAUDITOR Memory Drift Audit Report"
+        md_lines.append(")
         md_lines.append("**LUKHAS AGI Memory Forensics and Integrity Analysis**")
         md_lines.append("")
 
         # Metadata section
-        md_lines.append("## Audit Metadata")
+        md_lines.append("#)  #  Audit Metadata"
         md_lines.append("")
         md_lines.append(f"- **Session ID**: `{metadata['audit_session_id']}`")
         md_lines.append(f"- **Generation Time**: {metadata['generation_timestamp']}")
@@ -2101,7 +2101,7 @@ class MemoryDriftAuditor:
         md_lines.append("")
 
         # Executive Summary
-        md_lines.append("## Executive Summary")
+        md_lines.append("#)  #  Executive Summary"
         md_lines.append("")
         overall_health = audit_data["integrity_status"]["overall_health"]
         health_emoji = {
@@ -2116,7 +2116,7 @@ class MemoryDriftAuditor:
 
         # Summary statistics
         summary = audit_data["integrity_status"]
-        md_lines.append("### Key Findings")
+        md_lines.append("##)  #  Key Findings"
         md_lines.append("")
         md_lines.append(
             f"- **Drift Events Detected**: {audit_data['drift_analysis']['total_events']}"
@@ -2132,14 +2132,14 @@ class MemoryDriftAuditor:
 
         # Recommendations
         if summary.get("recommendations"):
-            md_lines.append("### Priority Recommendations")
+            md_lines.append("##)  #  Priority Recommendations"
             md_lines.append("")
             for i, rec in enumerate(summary["recommendations"], 1):
                 md_lines.append(f"{i}. **{rec}**")
             md_lines.append("")
 
         # Memory Analysis
-        md_lines.append("## Memory Snapshot Analysis")
+        md_lines.append("#)  #  Memory Snapshot Analysis"
         md_lines.append("")
         mem_data = audit_data["memory_snapshots"]
         md_lines.append(f"- **Total Snapshots**: {mem_data['total_count']}")
@@ -2150,7 +2150,7 @@ class MemoryDriftAuditor:
         md_lines.append("")
 
         # Memory type distribution
-        md_lines.append("### Memory Type Distribution")
+        md_lines.append("##)  #  Memory Type Distribution"
         md_lines.append("")
         md_lines.append("| Memory Type | Count | Percentage |")
         md_lines.append("|-------------|-------|------------|")
@@ -2164,12 +2164,12 @@ class MemoryDriftAuditor:
         md_lines.append("")
 
         # Drift Analysis
-        md_lines.append("## Drift Analysis")
+        md_lines.append("#)  #  Drift Analysis"
         md_lines.append("")
         drift_data = audit_data["drift_analysis"]
 
         if drift_data["total_events"] > 0:
-            md_lines.append("### Drift Event Summary")
+            md_lines.append("##)  #  Drift Event Summary"
             md_lines.append("")
 
             severity_dist = drift_data["severity_distribution"]
@@ -2188,7 +2188,7 @@ class MemoryDriftAuditor:
             md_lines.append("")
 
             # Event type breakdown
-            md_lines.append("### Drift Event Types")
+            md_lines.append("##)  #  Drift Event Types"
             md_lines.append("")
             event_types = drift_data["event_types"]
             for event_type, count in sorted(event_types.items()):
@@ -2201,12 +2201,12 @@ class MemoryDriftAuditor:
             md_lines.append("")
 
         # Collapse Analysis
-        md_lines.append("## Collapse Analysis")
+        md_lines.append("#)  #  Collapse Analysis"
         md_lines.append("")
         collapse_data = audit_data["collapse_analysis"]
 
         if collapse_data["total_events"] > 0:
-            md_lines.append("### Collapse Event Summary")
+            md_lines.append("##)  #  Collapse Event Summary"
             md_lines.append("")
 
             severity_dist = collapse_data["severity_distribution"]
@@ -2230,7 +2230,7 @@ class MemoryDriftAuditor:
             md_lines.append("")
 
             # Event type breakdown
-            md_lines.append("### Collapse Event Types")
+            md_lines.append("##)  #  Collapse Event Types"
             md_lines.append("")
             event_types = collapse_data["event_types"]
             for event_type, count in sorted(event_types.items()):

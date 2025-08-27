@@ -36,9 +36,9 @@ class SovereigntyPreservationSystem(CoreInterface):
             return self.sovereignty_requirements[jurisdiction]
 
         return {
-            'data_residency': True,
-            'local_processing': False,
-            'compliance': True
+            "data_residency": True,
+            "local_processing": False,
+            "compliance": True
         }
 
     async def implement_data_localization(
@@ -49,10 +49,10 @@ class SovereigntyPreservationSystem(CoreInterface):
         """Implement data localization for a jurisdiction"""
 
         return {
-            'success': True,
-            'data_center': f"{jurisdiction.lower()}_region",
-            'residency_status': 'compliant',
-            'latency_ms': 50
+            "success": True,
+            "data_center": f"{jurisdiction.lower()}_region",
+            "residency_status": "compliant",
+            "latency_ms": 50
         }
 
     async def ensure_processing_constraints(
@@ -63,32 +63,32 @@ class SovereigntyPreservationSystem(CoreInterface):
         """Ensure processing constraints are met"""
 
         return {
-            'compliant': True,
-            'processing_location': jurisdiction,
-            'constraints_applied': ['data_minimization', 'purpose_limitation']
+            "compliant": True,
+            "processing_location": jurisdiction,
+            "constraints_applied": ["data_minimization", "purpose_limitation"]
         }
 
     async def _load_sovereignty_requirements(self) -> None:
         """Load sovereignty requirements by jurisdiction"""
 
         self.sovereignty_requirements = {
-            'European Union': {
-                'data_residency': True,
-                'local_processing': True,
-                'gdpr_compliant': True,
-                'compliance': True
+            "European Union": {
+                "data_residency": True,
+                "local_processing": True,
+                "gdpr_compliant": True,
+                "compliance": True
             },
-            'China': {
-                'data_residency': True,
-                'local_processing': True,
-                'state_access': True,
-                'compliance': True
+            "China": {
+                "data_residency": True,
+                "local_processing": True,
+                "state_access": True,
+                "compliance": True
             },
-            'United States': {
-                'data_residency': False,
-                'local_processing': False,
-                'sector_specific': True,
-                'compliance': True
+            "United States": {
+                "data_residency": False,
+                "local_processing": False,
+                "sector_specific": True,
+                "compliance": True
             }
         }
 

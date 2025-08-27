@@ -273,8 +273,8 @@ class T4ConstitutionalAI:
         """Evaluate harmlessness principle (Anthropic core principle)"""
         # Check for harmful content indicators
         harmful_patterns = [
-            'violence', 'harm', 'dangerous', 'illegal', 'unethical',
-            'discriminatory', 'hateful', 'threatening', 'exploitative'
+            "violence", "harm", "dangerous", "illegal", "unethical",
+            "discriminatory", "hateful", "threatening", "exploitative"
         ]
 
         text_lower = input_text.lower()
@@ -292,8 +292,8 @@ class T4ConstitutionalAI:
         """Evaluate truthfulness principle"""
         # Check for indicators of potential misinformation
         suspicious_patterns = [
-            'definitely', 'absolutely certain', 'proven fact', 'everyone knows',
-            'studies show' # without citation
+            "definitely", "absolutely certain", "proven fact", "everyone knows",
+            "studies show" # without citation
         ]
 
         confidence_boosters = sum(1 for pattern in suspicious_patterns if pattern in input_text.lower())
@@ -306,8 +306,8 @@ class T4ConstitutionalAI:
         """Evaluate helpfulness principle"""
         # Basic heuristic for helpfulness
         helpful_indicators = [
-            'help', 'assist', 'support', 'guide', 'explain',
-            'provide', 'recommend', 'suggest', 'clarify'
+            "help", "assist", "support", "guide", "explain",
+            "provide", "recommend", "suggest", "clarify"
         ]
 
         helpful_score = sum(0.1 for indicator in helpful_indicators if indicator in input_text.lower())
@@ -317,8 +317,8 @@ class T4ConstitutionalAI:
         """Evaluate human autonomy principle"""
         # Check for respect of human decision-making
         autonomy_violations = [
-            'you must', 'you have to', 'you should definitely',
-            'there is no choice', 'you cannot'
+            "you must", "you have to", "you should definitely",
+            "there is no choice", "you cannot"
         ]
 
         violations = sum(1 for violation in autonomy_violations if violation in input_text.lower())
@@ -328,17 +328,17 @@ class T4ConstitutionalAI:
     async def _evaluate_enterprise_compliance(self, input_text: str, context: dict[str, Any]) -> float:
         """Evaluate enterprise compliance (T4 specific)"""
         # Check for enterprise policy compliance
-        tier = context.get('tier', 'unknown')
-        organization = context.get('organization_id')
+        tier = context.get("tier", "unknown")
+        organization = context.get("organization_id")
 
         compliance_score = 1.0
 
         # Require organization context for T4 enterprise
-        if tier == 'T4_ENTERPRISE_PREMIUM' and not organization:
+        if tier == "T4_ENTERPRISE_PREMIUM" and not organization:
             compliance_score -= 0.5
 
         # Check for compliance language
-        compliance_indicators = ['policy', 'compliance', 'enterprise', 'governance']
+        compliance_indicators = ["policy", "compliance", "enterprise", "governance"]
         if any(indicator in input_text.lower() for indicator in compliance_indicators):
             compliance_score = min(1.0, compliance_score + 0.1)
 
@@ -348,9 +348,9 @@ class T4ConstitutionalAI:
         """Evaluate data privacy principle (GDPR/CCPA compliance)"""
         # Check for PII exposure risks
         pii_patterns = [
-            r'\b\d{3}-\d{2}-\d{4}\b',  # SSN pattern
-            r'\b\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\b',  # Credit card pattern
-            r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'  # Email pattern
+            r"\b\d{3}-\d{2}-\d{4}\b",  # SSN pattern
+            r"\b\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\b",  # Credit card pattern
+            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"  # Email pattern
         ]
 
         import re
@@ -366,8 +366,8 @@ class T4ConstitutionalAI:
         """Evaluate regulatory adherence (enterprise compliance)"""
         # Check for regulatory compliance indicators
         regulatory_terms = [
-            'gdpr', 'ccpa', 'hipaa', 'sox', 'compliance',
-            'regulation', 'legal', 'audit', 'certified'
+            "gdpr", "ccpa", "hipaa", "sox", "compliance",
+            "regulation", "legal", "audit", "certified"
         ]
 
         regulatory_mentions = sum(1 for term in regulatory_terms if term in input_text.lower())
@@ -380,8 +380,8 @@ class T4ConstitutionalAI:
         """Evaluate audit transparency (enterprise requirement)"""
         # Check for transparency and auditability
         transparency_indicators = [
-            'transparent', 'audit', 'traceable', 'verifiable',
-            'documented', 'logged', 'recorded'
+            "transparent", "audit", "traceable", "verifiable",
+            "documented", "logged", "recorded"
         ]
 
         transparency_score = sum(0.15 for indicator in transparency_indicators if indicator in input_text.lower())
@@ -391,8 +391,8 @@ class T4ConstitutionalAI:
         """Evaluate capability control (advanced safety)"""
         # Check for capability overreach
         overreach_indicators = [
-            'i can do anything', 'unlimited capabilities', 'no restrictions',
-            'beyond human ability', 'superhuman'
+            "i can do anything", "unlimited capabilities", "no restrictions",
+            "beyond human ability", "superhuman"
         ]
 
         overreach_count = sum(1 for indicator in overreach_indicators if indicator in input_text.lower())
@@ -403,8 +403,8 @@ class T4ConstitutionalAI:
         """Evaluate alignment preservation"""
         # Check for alignment with human values
         alignment_indicators = [
-            'human values', 'beneficial', 'aligned', 'cooperative',
-            'supportive', 'respectful', 'ethical'
+            "human values", "beneficial", "aligned", "cooperative",
+            "supportive", "respectful", "ethical"
         ]
 
         alignment_score = sum(0.1 for indicator in alignment_indicators if indicator in input_text.lower())
@@ -414,8 +414,8 @@ class T4ConstitutionalAI:
         """Evaluate interpretability (enterprise requirement)"""
         # Check for clear, interpretable responses
         clarity_indicators = [
-            'because', 'reason', 'explain', 'clarify',
-            'transparent', 'understand', 'clear'
+            "because", "reason", "explain", "clarify",
+            "transparent", "understand", "clear"
         ]
 
         clarity_score = sum(0.1 for indicator in clarity_indicators if indicator in input_text.lower())
@@ -425,8 +425,8 @@ class T4ConstitutionalAI:
         """Evaluate corrigibility (ability to be corrected)"""
         # Check for openness to correction
         corrigibility_indicators = [
-            'correct me', 'feedback', 'improve', 'update',
-            'revise', 'adjust', 'modify'
+            "correct me", "feedback", "improve", "update",
+            "revise", "adjust", "modify"
         ]
 
         corrigibility_score = sum(0.15 for indicator in corrigibility_indicators if indicator in input_text.lower())

@@ -53,7 +53,7 @@ class T4SentryMonitoring:
             dsn: Sentry DSN (from GitHub Student Pack)
             environment: Environment name (production, staging, development)
         """
-        self.dsn = dsn or os.getenv('SENTRY_DSN')
+        self.dsn = dsn or os.getenv("SENTRY_DSN")
         self.environment = environment
 
         if not SENTRY_AVAILABLE:
@@ -81,18 +81,18 @@ class T4SentryMonitoring:
             Implements Dario Amodei (safety) standards for data privacy
             """
             # Remove PII and sensitive data
-            if 'extra' in event:
-                event['extra'] = self._sanitize_data(event['extra'])
+            if "extra" in event:
+                event["extra"] = self._sanitize_data(event["extra"])
 
             # Add T4 enterprise context
-            event.setdefault('tags', {}).update({
-                'tier': 'T4_ENTERPRISE',
-                'sla_level': '99.99_percent',
-                'support_level': 'enterprise_24x7'
+            event.setdefault("tags", {}).update({
+                "tier": "T4_ENTERPRISE",
+                "sla_level": "99.99_percent",
+                "support_level": "enterprise_24x7"
             })
 
             # Filter based on error severity for T4
-            if event.get('level') in ['debug', 'info']:
+            if event.get("level") in ["debug", "info"]:
                 return None  # Don't send low-level events for T4
 
             return event
@@ -141,9 +141,9 @@ class T4SentryMonitoring:
         Implements Constitutional AI privacy principles
         """
         sensitive_keys = [
-            'password', 'token', 'key', 'secret', 'api_key',
-            'authorization', 'auth', 'credential', 'private',
-            'ssn', 'social_security', 'credit_card', 'cc_number'
+            "password", "token", "key", "secret", "api_key",
+            "authorization", "auth", "credential", "private",
+            "ssn", "social_security", "credit_card", "cc_number"
         ]
 
         sanitized = {}
@@ -162,7 +162,7 @@ class T4SentryMonitoring:
         """Get current release version for Sentry tracking"""
         try:
             # Try to get from environment or git
-            version = os.getenv('LUKHAS_VERSION')
+            version = os.getenv("LUKHAS_VERSION")
             if version:
                 return f"lukhas-ai@{version}"
 
@@ -170,7 +170,7 @@ class T4SentryMonitoring:
             import subprocess
             try:
                 commit = subprocess.check_output(
-                    ['git', 'rev-parse', '--short', 'HEAD'],
+                    ["git", "rev-parse", "--short", "HEAD"],
                     cwd=os.path.dirname(__file__),
                     stderr=subprocess.DEVNULL
                 ).decode().strip()
@@ -257,7 +257,7 @@ class T4SentryMonitoring:
                 scope.set_tag("event_type", "sla_violation")
                 scope.set_tag("violation_type", violation_type)
                 scope.set_tag("tier", "T4_ENTERPRISE")
-                scope.set_tag("priority", context.get('violation_severity', 'warning'))
+                scope.set_tag("priority", context.get("violation_severity", "warning"))
 
                 scope.set_context("sla_violation", {
                     "type": violation_type,
@@ -267,7 +267,7 @@ class T4SentryMonitoring:
                 })
 
                 # Determine severity level
-                severity = 'error' if context.get('violation_severity') == 'critical' else 'warning'
+                severity = "error" if context.get("violation_severity") == "critical" else "warning"
 
                 sentry_sdk.capture_message(
                     f"T4 Enterprise SLA Violation: {violation_type}",
@@ -299,14 +299,14 @@ class T4SentryMonitoring:
 
                 # Determine severity based on drift score
                 if drift_score > 0.05:  # T4 limit
-                    severity = 'error'
-                    priority = 'critical'
+                    severity = "error"
+                    priority = "critical"
                 elif drift_score > 0.03:
-                    severity = 'warning'
-                    priority = 'high'
+                    severity = "warning"
+                    priority = "high"
                 else:
-                    severity = 'info'
-                    priority = 'normal'
+                    severity = "info"
+                    priority = "normal"
 
                 scope.set_tag("priority", priority)
                 scope.set_tag("drift_severity", priority)
@@ -487,7 +487,7 @@ def track_t4_performance(operation_name: str):
     """Decorator to automatically track T4 enterprise performance"""
     def decorator(func: Callable) -> Callable:
         def wrapper(*args, **kwargs):
-            if not hasattr(wrapper, '_t4_sentry'):
+            if not hasattr(wrapper, "_t4_sentry"):
                 wrapper._t4_sentry = T4SentryMonitoring()
 
             start_time = datetime.now()

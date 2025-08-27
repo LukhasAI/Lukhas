@@ -67,7 +67,7 @@ class LowPassFilter(AudioFilter):
         nyquist = buffer.sample_rate / 2
         normalized_freq = min(params.frequency / nyquist, 0.99)
 
-        sos = signal.butter(params.order, normalized_freq, btype='low', output='sos')
+        sos = signal.butter(params.order, normalized_freq, btype="low", output="sos")
         filtered_data = signal.sosfilt(sos, buffer.data)
 
         return AudioBuffer(
@@ -89,7 +89,7 @@ class HighPassFilter(AudioFilter):
         nyquist = buffer.sample_rate / 2
         normalized_freq = max(params.frequency / nyquist, 0.01)
 
-        sos = signal.butter(params.order, normalized_freq, btype='high', output='sos')
+        sos = signal.butter(params.order, normalized_freq, btype="high", output="sos")
         filtered_data = signal.sosfilt(sos, buffer.data)
 
         return AudioBuffer(
@@ -123,7 +123,7 @@ class BandPassFilter(AudioFilter):
         low_norm = max(low_freq / nyquist, 0.01)
         high_norm = min(high_freq / nyquist, 0.99)
 
-        sos = signal.butter(params.order, [low_norm, high_norm], btype='band', output='sos')
+        sos = signal.butter(params.order, [low_norm, high_norm], btype="band", output="sos")
         filtered_data = signal.sosfilt(sos, buffer.data)
 
         return AudioBuffer(
@@ -144,7 +144,7 @@ class NotchFilter(AudioFilter):
 
         nyquist = buffer.sample_rate / 2
 
-        # Calculate notch bandwidth from Q factor
+        # Calculate notch bandwidth from q_factor
         bandwidth = params.frequency / params.q_factor
         low_freq = params.frequency - bandwidth / 2
         high_freq = params.frequency + bandwidth / 2
@@ -152,7 +152,7 @@ class NotchFilter(AudioFilter):
         low_norm = max(low_freq / nyquist, 0.01)
         high_norm = min(high_freq / nyquist, 0.99)
 
-        sos = signal.butter(params.order, [low_norm, high_norm], btype='bandstop', output='sos')
+        sos = signal.butter(params.order, [low_norm, high_norm], btype="bandstop", output="sos")
         filtered_data = signal.sosfilt(sos, buffer.data)
 
         return AudioBuffer(

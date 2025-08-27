@@ -346,7 +346,7 @@ class TEQCoupler:
 
                     # Recompute root hash from chain
                     def _sha256_json(obj):
-                        return hashlib.sha256(json.dumps(obj, separators=(',', ':'), sort_keys=True).encode("utf-8")).hexdigest()
+                        return hashlib.sha256(json.dumps(obj, separators=(",", ":"), sort_keys=True).encode("utf-8")).hexdigest()
 
                     root = None
                     prev = None

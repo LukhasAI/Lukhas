@@ -35,11 +35,11 @@ class NHSInterface(EHRInterface):
     def _validate_config(self):
         """Validate NHS-specific configuration"""
         required_fields = [
-            'trust_id',
-            'api_key',
-            'environment',
-            'spine_asid',
-            'org_code'
+            "trust_id",
+            "api_key",
+            "environment",
+            "spine_asid",
+            "org_code"
         ]
         for field in required_fields:
             if field not in self.config:
@@ -64,7 +64,7 @@ class NHSInterface(EHRInterface):
             record_types: Types of records to retrieve
         """
         self.audit.log_access(
-            user_id=self.config['org_code'],
+            user_id=self.config["org_code"],
             action="get_patient_record",
             resource_id=patient_id
         )
@@ -77,7 +77,7 @@ class NHSInterface(EHRInterface):
                                   update_type: str) -> bool:
         """Update patient records in NHS systems"""
         self.audit.log_access(
-            user_id=self.config['org_code'],
+            user_id=self.config["org_code"],
             action="update_patient_record",
             resource_id=patient_id,
             details={"update_type": update_type}
@@ -96,7 +96,7 @@ class NHSInterface(EHRInterface):
                                   provider_id: str,
                                   start_date: datetime,
                                   end_date: datetime) -> list[dict[str, Any]]:
-        """Get provider's schedule from NHS scheduling system"""
+        """Get provider's schedule from nhs_scheduling system"""
         # Implement NHS-specific schedule retrieval
         pass
 

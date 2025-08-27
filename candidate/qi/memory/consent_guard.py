@@ -72,8 +72,8 @@ class ConsentGuard:
         )
 
         # Persist to ledger
-        with open(self.storage_path, 'a') as f:
-            f.write(json.dumps(consent.to_dict()) + '\n')
+        with open(self.storage_path, "a") as f:
+            f.write(json.dumps(consent.to_dict()) + "\n")
 
         # Update cache
         key = self._consent_key(user_id, purpose)
@@ -92,8 +92,8 @@ class ConsentGuard:
         )
 
         # Persist revocation
-        with open(self.storage_path, 'a') as f:
-            f.write(json.dumps(consent.to_dict()) + '\n')
+        with open(self.storage_path, "a") as f:
+            f.write(json.dumps(consent.to_dict()) + "\n")
 
         # Remove from cache
         key = self._consent_key(user_id, purpose)
@@ -122,7 +122,7 @@ class ConsentGuard:
                 for line in reversed(lines):
                     try:
                         data = json.loads(line.strip())
-                        if data['user_id'] == user_id and data['purpose'] == purpose:
+                        if data["user_id"] == user_id and data["purpose"] == purpose:
                             consent = Consent(**data)
                             if consent.is_valid():
                                 # Add to cache for next time
@@ -147,13 +147,13 @@ class ConsentGuard:
                 for line in reversed(lines):
                     try:
                         data = json.loads(line.strip())
-                        key = self._consent_key(data['user_id'], data['purpose'])
+                        key = self._consent_key(data["user_id"], data["purpose"])
 
                         if key in seen:
                             continue
                         seen.add(key)
 
-                        if user_id and data['user_id'] != user_id:
+                        if user_id and data["user_id"] != user_id:
                             continue
 
                         consent = Consent(**data)
@@ -174,12 +174,12 @@ class ConsentGuard:
                 for line in f:
                     try:
                         data = json.loads(line.strip())
-                        if data['user_id'] == user_id and data['timestamp'] >= cutoff:
+                        if data["user_id"] == user_id and data["timestamp"] >= cutoff:
                             trail.append(data)
                     except:
                         continue
 
-        return sorted(trail, key=lambda x: x['timestamp'])
+        return sorted(trail, key=lambda x: x["timestamp"])
 
     def cleanup_expired(self) -> int:
         """Remove expired consents from cache and return count"""
@@ -296,8 +296,8 @@ def main():
             print(f"No consent changes in last {args.hours} hours")
         else:
             for event in trail:
-                dt = datetime.fromtimestamp(event['timestamp'])
-                action = "GRANTED" if event['granted'] else "REVOKED"
+                dt = datetime.fromtimestamp(event["timestamp"])
+                action = "GRANTED" if event["granted"] else "REVOKED"
                 print(f"[{dt}] {action}: {event['purpose']}")
 
     elif args.cmd == "test":

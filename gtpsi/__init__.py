@@ -195,15 +195,15 @@ def get_max_approval_time(action: str) -> int:
 
 
 __all__ = [
-    'GestureType',
-    'RiskLevel',
-    'GestureFeatures',
-    'GestureChallenge',
-    'GestureApproval',
-    'GestureRecognizer',
-    'EdgeGestureProcessor',
-    'HIGH_RISK_ACTIONS',
-    'requires_gtpsi_approval',
-    'get_action_risk_level',
-    'get_max_approval_time'
+    "GestureType",
+    "RiskLevel",
+    "GestureFeatures",
+    "GestureChallenge",
+    "GestureApproval",
+    "GestureRecognizer",
+    "EdgeGestureProcessor",
+    "HIGH_RISK_ACTIONS",
+    "requires_gtpsi_approval",
+    "get_action_risk_level",
+    "get_max_approval_time"
 ]

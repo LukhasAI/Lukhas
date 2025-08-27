@@ -18,7 +18,7 @@ class EncryptionHandler:
 
     def __init__(self, config: dict[str, Any]):
         self.config = config
-        self.algorithm = config.get('encryption_algorithm', 'AES-256-GCM')
+        self.algorithm = config.get("encryption_algorithm", "AES-256-GCM")
 
     def encrypt_data(self, data: Any) -> bytes:
         """Encrypt data using configured algorithm"""
@@ -42,7 +42,7 @@ class AuditLogger:
 
     def __init__(self, config: dict[str, Any]):
         self.config = config
-        self.log_path = config.get('audit_log_path')
+        self.log_path = config.get("audit_log_path")
 
     def log_access(self,
                    user_id: str,
@@ -52,11 +52,11 @@ class AuditLogger:
         """Log access to protected health information"""
         timestamp = datetime.utcnow().isoformat()
         log_entry = {
-            'timestamp': timestamp,
-            'user_id': user_id,
-            'action': action,
-            'resource_id': resource_id,
-            'details': details or {}
+            "timestamp": timestamp,
+            "user_id": user_id,
+            "action": action,
+            "resource_id": resource_id,
+            "details": details or {}
         }
 
         # Implement secure logging mechanism
@@ -69,10 +69,10 @@ class AuditLogger:
         """Log security-related events"""
         timestamp = datetime.utcnow().isoformat()
         log_entry = {
-            'timestamp': timestamp,
-            'event_type': event_type,
-            'severity': severity,
-            'details': details
+            "timestamp": timestamp,
+            "event_type": event_type,
+            "severity": severity,
+            "details": details
         }
 
         # Implement secure logging mechanism
@@ -84,7 +84,7 @@ class AccessControl:
 
     def __init__(self, config: dict[str, Any]):
         self.config = config
-        self.roles = config.get('roles', {})
+        self.roles = config.get("roles", {})
 
     def verify_access(self,
                      user_id: str,

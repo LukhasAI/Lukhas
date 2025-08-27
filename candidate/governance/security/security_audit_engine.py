@@ -226,7 +226,7 @@ class DependencyScanner:
             # Parse requirements
             for line in content.split("\n"):
                 line = line.strip()
-                if not line or line.startswith("#"):
+                if not line or line.startswith(")  # ":
                     continue
 
                 # Extract package name and version

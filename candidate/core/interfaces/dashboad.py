@@ -55,7 +55,7 @@ if user_tier in ["Tier 3", "Tier 4", "Tier 5"]:
             dream_lines = [json.loads(l) for l in f if l.strip()]
         if dream_lines:
             dream = dream_lines[-1]
-            st.markdown("### 🌌 Latest Symbolic Dream")
+            st.markdown("##)  #  🌌 Latest Symbolic Dream"
             st.write(f"Theme: {dream.get('theme')}")
             st.image(
                 dream.get(
@@ -86,7 +86,7 @@ def build_publish_payload(latest):
 
 
 def show_social_post_preview(payload):
-    st.markdown("### 🌐 Symbolic Post Preview")
+    st.markdown("##)  #  🌐 Symbolic Post Preview"
     st.write(f"**{payload['title']}**")
     st.write(payload["summary"])
     st.image(payload["prompt"], caption="🖼️ Visual Prompt")
@@ -99,7 +99,7 @@ try:
         expressions = [json.loads(line) for line in f if line.strip()]
     if expressions:
         latest = expressions[-1]
-        st.markdown("### 🧠 Latest Symbolic Expression")
+        st.markdown("##)  #  🧠 Latest Symbolic Expression"
         st.write(f"Theme: {latest['theme']}")
         st.write(latest["summary"])
 except Exception as e:
@@ -128,7 +128,7 @@ st.markdown("---")
 st.markdown("🔗 **Your Lukhas_ID**: `lukhas://id/GLYMPS-378XQ9A`")
 st.markdown("🌱 Symbolic ID is tiered and tied to your consent signature.")
 
-st.markdown("### 🧠 Tier-Safe Tools (Coming Soon)")
+st.markdown("##)  #  🧠 Tier-Safe Tools (Coming Soon")
 st.write("• 📊 Ethical Drift Visualizer")
 st.write("• 🌌 Replay Dream Timeline")
 st.write("• 🧬 Symbolic Memory Export")
@@ -137,7 +137,7 @@ st.write("• 🧬 Symbolic Memory Export")
 st.markdown("---")
 st.header("👤 User Dashboard")
 st.markdown(
-    "Welcome back! Below you’ll find a summary of your latest interactions and symbolic insights."
+    "Welcome back! Below you'll find a summary of your latest interactions and symbolic insights."
 )
 
 # Display user session and consent data (mockup placeholder for now)

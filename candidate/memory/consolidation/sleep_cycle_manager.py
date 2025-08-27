@@ -51,7 +51,6 @@ from typing import Any, Callable, Optional
 from uuid import uuid4
 
 import numpy as np
-
 from memory.consolidation.consolidation_orchestrator import SleepStage
 
 

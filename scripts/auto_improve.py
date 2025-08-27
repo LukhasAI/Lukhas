@@ -23,7 +23,7 @@ from lukhas.orchestration.symbolic_kernel_bus import SymbolicEffect, SymbolicKer
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -186,7 +186,7 @@ class AutoImprover:
                 # Count files that would be/were reformatted
                 if "would be reformatted" in result.stdout or "reformatted" in result.stdout:
                     import re
-                    match = re.search(r'(\d+) file', result.stdout)
+                    match = re.search(r"(\d+) file", result.stdout)
                     if match:
                         results["black"] = int(match.group(1))
 
@@ -197,7 +197,7 @@ class AutoImprover:
                     cmd = ["ruff", "check", ".", "--statistics"]
                 result = subprocess.run(cmd, capture_output=True, text=True)
                 # Parse statistics
-                lines = result.stdout.strip().split('\n')
+                lines = result.stdout.strip().split("\n")
                 for line in lines:
                     if line.strip():
                         parts = line.split()
@@ -229,13 +229,13 @@ class AutoImprover:
             async with LocalLLMFixer() as fixer:
                 # Get Python files
                 if target_files:
-                    files = [Path(f) for f in target_files if f.endswith('.py')]
+                    files = [Path(f) for f in target_files if f.endswith(".py")]
                 else:
                     files = list(self.workspace_path.rglob("*.py"))[:50]  # Limit for demo
 
                 # Skip test and venv files
                 files = [f for f in files if not any(
-                    skip in str(f) for skip in ['test_', '__pycache__', '.venv', 'venv']
+                    skip in str(f) for skip in ["test_", "__pycache__", ".venv", "venv"]
                 )]
 
                 results["files_analyzed"] = len(files)

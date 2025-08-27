@@ -17,7 +17,7 @@
 ║ This module applies quantum-inspired mathematical transformations to boost
 ║ coherence through phase alignment and entropy optimization.
 ║
-║ Cherry-picked from VIVOX concepts to enhance current system performance.
+║ Cherry-picked from vivox_concepts to enhance current system performance.
 ║
 ║ ΛTAG: ΛQUANTUM, ΛCOHERENCE, ΛBIO_SYMBOLIC, ΛENHANCEMENT
 ╚══════════════════════════════════════════════════════════════════════════════════

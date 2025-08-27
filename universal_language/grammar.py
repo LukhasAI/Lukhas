@@ -106,7 +106,7 @@ class ParsedStructure:
         """Convert to dictionary representation"""
         return {
             "syntax_type": self.syntax_type.value,
-            "elements": [e.to_dict() if hasattr(e, 'to_dict') else str(e)
+            "elements": [e.to_dict() if hasattr(e, "to_dict") else str(e)
                         for e in self.elements],
             "roles": [r.value for r in self.roles],
             "rule": self.rule_applied.name if self.rule_applied else None,

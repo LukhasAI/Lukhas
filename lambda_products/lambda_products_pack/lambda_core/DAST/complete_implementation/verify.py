@@ -103,7 +103,7 @@ def check_design_compliance():
         engine = LucasDASTEngine()
 
         # Check if key methods exist
-        required_methods = ['track', 'focus', 'progress', 'collaborate']
+        required_methods = ["track", "focus", "progress", "collaborate"]
         for method in required_methods:
             if hasattr(engine, method):
                 checks.append(f"✅ One-line API method '{method}' exists")

@@ -286,7 +286,7 @@ class LucasDASTAPI:
             timeframe = int(query_params.get("timeframe", 7))
             analytics_type = query_params.get("type", "performance")
 
-            # Get performance stats from DAST engine
+            # Get performance stats from dast_engine
             performance_stats = self.dast_engine.get_performance_stats()
 
             # Generate analytics based on type

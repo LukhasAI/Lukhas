@@ -20,7 +20,7 @@ from .verify import GlyphVerifier, verify_compact_seal
 def hash_file(file_path: str) -> str:
     """Compute SHA3-512 hash of file content"""
     hasher = hashlib.sha3_512()
-    with open(file_path, 'rb') as f:
+    with open(file_path, "rb") as f:
         for chunk in iter(lambda: f.read(8192), b""):
             hasher.update(chunk)
     return f"sha3-512:{hasher.hexdigest()}"
@@ -33,7 +33,7 @@ def create_seal_command(args):
         print(f"Content hash: {content_hash}")
 
         # Read content for actual sealing
-        with open(args.file, 'rb') as f:
+        with open(args.file, "rb") as f:
             content_bytes = f.read()
 
         # Determine media type
@@ -79,7 +79,7 @@ def create_seal_command(args):
 
         # Save seal
         if args.output:
-            with open(args.output, 'w') as f:
+            with open(args.output, "w") as f:
                 json.dump(result, f, indent=2)
             print(f"Seal saved to: {args.output}")
         else:
@@ -115,7 +115,7 @@ def verify_seal_command(args):
     """Verify a GLYPH seal"""
     try:
         # Read content
-        with open(args.file, 'rb') as f:
+        with open(args.file, "rb") as f:
             content_bytes = f.read()
 
         # Load JWKS if provided
@@ -179,7 +179,7 @@ def extract_seal_command(args):
         if seal_data:
             # Save extracted seal
             output_file = args.output or f"{args.file}.seal.json"
-            with open(output_file, 'w') as f:
+            with open(output_file, "w") as f:
                 json.dump(seal_data, f, indent=2)
 
             print(f"✅ Seal extracted: {output_file}")
@@ -201,10 +201,10 @@ def extract_seal_command(args):
 
                 # Read original content
                 if clean_path:
-                    with open(clean_path, 'rb') as f:
+                    with open(clean_path, "rb") as f:
                         content_bytes = f.read()
                 else:
-                    with open(args.file, 'rb') as f:
+                    with open(args.file, "rb") as f:
                         content_bytes = f.read()
 
                 seal_data_inner = seal_data.get("seal", {})

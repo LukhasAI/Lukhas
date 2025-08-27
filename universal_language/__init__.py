@@ -68,7 +68,7 @@ class SymbolBinding(BaseModel):
     meaning_type: MeaningType = Field(..., description="Type of meaning")
     meaning_value: str = Field(..., description="Meaning to bind")
 
-    @validator('meaning_value')
+    @validator("meaning_value")
     def validate_meaning(cls, v):
         if not v or len(v.strip()) == 0:
             raise ValueError("Meaning value cannot be empty")
@@ -124,21 +124,21 @@ class EmojiEncoder(SymbolEncoder):
     def encode(self, symbol_data: Any) -> bytes:
         """Encode emoji or emoji sequence"""
         if isinstance(symbol_data, str):
-            return symbol_data.encode('utf-8')
+            return symbol_data.encode("utf-8")
         elif isinstance(symbol_data, list):
             # List of emojis
-            return ''.join(symbol_data).encode('utf-8')
+            return "".join(symbol_data).encode("utf-8")
         else:
             raise ValueError("Emoji data must be string or list")
 
     def extract_features(self, symbol_data: Any) -> list[float]:
         """Extract features from emoji"""
-        emoji_str = symbol_data if isinstance(symbol_data, str) else ''.join(symbol_data)
+        emoji_str = symbol_data if isinstance(symbol_data, str) else "".join(symbol_data)
 
         features = [
             len(emoji_str),                    # Length
             len(set(emoji_str)),               # Unique characters
-            emoji_str.count('😀') / len(emoji_str) if emoji_str else 0,  # Happiness ratio
+            emoji_str.count("😀") / len(emoji_str) if emoji_str else 0,  # Happiness ratio
             1.0 if any(ord(c) > 127462 for c in emoji_str) else 0.0     # Has complex emoji
         ]
 
@@ -153,7 +153,7 @@ class WordEncoder(SymbolEncoder):
         if isinstance(symbol_data, str):
             # Normalize: lowercase, strip whitespace
             normalized = symbol_data.lower().strip()
-            return normalized.encode('utf-8')
+            return normalized.encode("utf-8")
         else:
             raise ValueError("Word data must be string")
 
@@ -163,7 +163,7 @@ class WordEncoder(SymbolEncoder):
 
         features = [
             len(text),                         # Length
-            text.count(' ') + 1,               # Word count
+            text.count(" ") + 1,               # Word count
             len(set(text)),                    # Unique characters
             sum(1 for c in text if c.isalpha()) / len(text) if text else 0  # Letter ratio
         ]
@@ -179,7 +179,7 @@ class ColorEncoder(SymbolEncoder):
         if isinstance(symbol_data, list):
             # List of RGB tuples or hex codes
             color_str = json.dumps(symbol_data, sort_keys=True)
-            return color_str.encode('utf-8')
+            return color_str.encode("utf-8")
         else:
             raise ValueError("Color data must be list of colors")
 
@@ -271,7 +271,7 @@ def parse_composition(composition_str: str) -> tuple[list[str], list[str]]:
     Example: "calm + collapse" -> (["calm", "collapse"], ["+"])
     """
     # Define operator symbols
-    operators = ['+', '-', '*', '/', '~', '→']
+    operators = ["+", "-", "*", "/", "~", "→"]
 
     meanings = []
     ops = []
@@ -293,7 +293,7 @@ def parse_composition(composition_str: str) -> tuple[list[str], list[str]]:
     return meanings, ops
 
 
-# High-risk actions that benefit from UL entropy
+# High-risk actions that benefit from ul_entropy
 UL_ENHANCED_ACTIONS = {
     "grant_admin_scope": {
         "description": "Grant administrative capabilities",
@@ -338,25 +338,25 @@ def requires_composition(action: str) -> bool:
 
 
 __all__ = [
-    'SymbolType',
-    'MeaningType',
-    'PersonalSymbol',
-    'SymbolBinding',
-    'CompositionChallenge',
-    'CompositionProof',
-    'ULSignature',
-    'SymbolEncoder',
-    'EmojiEncoder',
-    'WordEncoder',
-    'ColorEncoder',
-    'create_symbol_encoder',
-    'hash_symbol',
-    'calculate_symbol_quality',
-    'compose_symbol_proof',
-    'CompositionOperator',
-    'parse_composition',
-    'UL_ENHANCED_ACTIONS',
-    'requires_ul_entropy',
-    'get_required_symbols',
-    'requires_composition'
+    "SymbolType",
+    "MeaningType",
+    "PersonalSymbol",
+    "SymbolBinding",
+    "CompositionChallenge",
+    "CompositionProof",
+    "ULSignature",
+    "SymbolEncoder",
+    "EmojiEncoder",
+    "WordEncoder",
+    "ColorEncoder",
+    "create_symbol_encoder",
+    "hash_symbol",
+    "calculate_symbol_quality",
+    "compose_symbol_proof",
+    "CompositionOperator",
+    "parse_composition",
+    "UL_ENHANCED_ACTIONS",
+    "requires_ul_entropy",
+    "get_required_symbols",
+    "requires_composition"
 ]

@@ -16,13 +16,13 @@ from datetime import datetime
 from typing import Any, Optional
 
 from fastapi import APIRouter, HTTPException, Query
-from pydantic import BaseModel, Field
 
 # Future import after refactoring
 # from memory import MemoryCore
 # from memory.drift_tracker import DriftMetrics
 # Current import
 from memory.core import HybridMemoryFold
+from pydantic import BaseModel, Field
 
 
 # Pydantic models for API

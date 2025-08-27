@@ -314,7 +314,7 @@ class SocialMediaOrchestrator:
             "#DigitalConsciousness",
             "#ArtificialCreativity",
             "#TechArt",
-            f"#{theme.replace(' ', '')}",
+            f"" ', '')}","
             "#AIPhilosophy",
         ]
 

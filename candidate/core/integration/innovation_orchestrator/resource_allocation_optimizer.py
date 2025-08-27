@@ -27,10 +27,10 @@ class ResourceAllocationOptimizer(CoreInterface):
 
         # Initialize resource pool
         self.resource_pool = {
-            'compute': 1000,  # Compute units
-            'memory': 1000,  # Memory units
-            'researchers': 100,  # Human resources
-            'budget': 100e6  # $100M budget
+            "compute": 1000,  # Compute units
+            "memory": 1000,  # Memory units
+            "researchers": 100,  # Human resources
+            "budget": 100e6  # $100M budget
         }
 
         self._initialized = True
@@ -52,9 +52,9 @@ class ResourceAllocationOptimizer(CoreInterface):
             Optimized resource allocation plan
         """
         allocation_plan = {
-            'allocations': [],
-            'total_resources_used': {},
-            'efficiency_score': 0.0
+            "allocations": [],
+            "total_resources_used": {},
+            "efficiency_score": 0.0
         }
 
         # Score each engine-opportunity pair
@@ -68,19 +68,19 @@ class ResourceAllocationOptimizer(CoreInterface):
                     engine_name, opportunity
                 )
                 scored_pairs.append({
-                    'engine': engine_name,
-                    'opportunity': opportunity,
-                    'score': score
+                    "engine": engine_name,
+                    "opportunity": opportunity,
+                    "score": score
                 })
 
         # Sort by score (highest first)
-        scored_pairs.sort(key=lambda x: x['score'], reverse=True)
+        scored_pairs.sort(key=lambda x: x["score"], reverse=True)
 
         # Allocate resources to highest scoring pairs
         remaining_resources = self.resource_pool.copy()
 
         for pair in scored_pairs:
-            required = pair['opportunity'].get('resource_requirements', {})
+            required = pair["opportunity"].get("resource_requirements", {})
 
             # Check if we have enough resources
             can_allocate = True
@@ -93,12 +93,12 @@ class ResourceAllocationOptimizer(CoreInterface):
             if can_allocate:
                 # Allocate resources
                 allocation = {
-                    'engine': pair['engine'],
-                    'opportunity': pair['opportunity'],
-                    'resources': required,
-                    'expected_roi': pair['score']
+                    "engine": pair["engine"],
+                    "opportunity": pair["opportunity"],
+                    "resources": required,
+                    "expected_roi": pair["score"]
                 }
-                allocation_plan['allocations'].append(allocation)
+                allocation_plan["allocations"].append(allocation)
 
                 # Deduct from remaining resources
                 for resource_type, amount in required.items():
@@ -106,16 +106,16 @@ class ResourceAllocationOptimizer(CoreInterface):
                         remaining_resources[resource_type] -= amount
 
         # Calculate total resources used
-        for allocation in allocation_plan['allocations']:
-            for resource_type, amount in allocation['resources'].items():
-                if resource_type not in allocation_plan['total_resources_used']:
-                    allocation_plan['total_resources_used'][resource_type] = 0
-                allocation_plan['total_resources_used'][resource_type] += amount
+        for allocation in allocation_plan["allocations"]:
+            for resource_type, amount in allocation["resources"].items():
+                if resource_type not in allocation_plan["total_resources_used"]:
+                    allocation_plan["total_resources_used"][resource_type] = 0
+                allocation_plan["total_resources_used"][resource_type] += amount
 
         # Calculate efficiency score
-        if allocation_plan['allocations']:
-            total_score = sum(a['expected_roi'] for a in allocation_plan['allocations'])
-            allocation_plan['efficiency_score'] = total_score / len(allocation_plan['allocations'])
+        if allocation_plan["allocations"]:
+            total_score = sum(a["expected_roi"] for a in allocation_plan["allocations"])
+            allocation_plan["efficiency_score"] = total_score / len(allocation_plan["allocations"])
 
         return allocation_plan
 
@@ -129,21 +129,21 @@ class ResourceAllocationOptimizer(CoreInterface):
         score = 0.5  # Base score
 
         # Domain matching
-        domain = opportunity.get('domain', '')
+        domain = opportunity.get("domain", "")
 
-        if 'consciousness' in engine_name and 'consciousness' in domain or 'economic' in engine_name and 'economic' in domain:
+        if "consciousness" in engine_name and "consciousness" in domain or "economic" in engine_name and "economic" in domain:
             score += 0.3
-        elif 'breakthrough' in engine_name:
+        elif "breakthrough" in engine_name:
             score += 0.2  # Breakthrough detector is generally useful
-        elif 'quantum' in engine_name and 'quantum' in domain:
+        elif "quantum" in engine_name and "quantum" in domain:
             score += 0.3
 
         # Impact score modifier
-        impact = opportunity.get('impact_score', 0.5)
+        impact = opportunity.get("impact_score", 0.5)
         score *= (1 + impact)
 
         # Feasibility modifier
-        feasibility = opportunity.get('feasibility', 0.5)
+        feasibility = opportunity.get("feasibility", 0.5)
         score *= feasibility
 
         return min(1.0, score)

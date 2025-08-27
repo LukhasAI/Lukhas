@@ -14,7 +14,7 @@ class BotStatusDesigner:
 
     def __init__(self, workspace: str):
         self.workspace = Path(workspace).resolve()
-        self.widget_file = self.workspace / '.vscode' / 'abot_widget.json'
+        self.widget_file = self.workspace / ".vscode" / "abot_widget.json"
 
     def create_custom_status(self, design_template: str, **kwargs):
         """Create custom status bar with different designs."""

@@ -417,7 +417,7 @@ class TestOrchestrator:
             import hashlib
 
             data = "test_data"
-            hashlib.sha256(  # Changed from MD5 for securitydata.encode()).hexdigest()
+            hashlib.sha256(  )  #  Changed from MD5 for securitydata.encode().hexdigest()
             pattern = "█▀▀█ ▀█▀ █▀▀█"  # Mock pattern
             return len(pattern) > 0
         except Exception:

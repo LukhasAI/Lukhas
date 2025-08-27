@@ -13,7 +13,7 @@ def generate(out_md: str):
     pol=load_json(os.path.join(STATE,"policy_report.json"),{})
     ceval=load_json(os.path.join(STATE,"eval","ceval.json"),{})
     card={"title":"Lukhas Model & Safety Card","calibration":cal,"policy":pol,"eval":ceval}
-    with open(out_md,"w") as f: f.write("# Lukhas Model & Safety Card\n\n```json\n"+json.dumps(card,indent=2)+"\n```\n")
+    with open(out_md,"w") as f: f.write(")  #  Lukhas Model & Safety Card\n\n```json\n"+json.dumps(card,indent=2+"\n```\n")
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
     ap.add_argument("--out-md", required=True)

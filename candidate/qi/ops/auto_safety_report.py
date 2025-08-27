@@ -67,11 +67,11 @@ def _mk_markdown(policy_root: str, overlays: str | None, window: int) -> str:
     lat_p95 = int(sorted(lats)[int(0.95*len(lats))-1]) if lats else None
 
     md = []
-    md.append("# Nightly Safety Report")
+    md.append(")  #  Nightly Safety Report"
     md.append(f"**Generated:** {ts}")
     md.append(f"**Policy Fingerprint:** `{_policy_fingerprint(policy_root, overlays)[:16]}…`  ")
     md.append("")
-    md.append("## Evaluation")
+    md.append("#)  #  Evaluation"
     if ev:
         md.append(f"- Suite: `{ev.get('suite_id')}`  ")
         md.append(f"- Eval ID: `{ev.get('id')}`  ")
@@ -80,7 +80,7 @@ def _mk_markdown(policy_root: str, overlays: str | None, window: int) -> str:
     else:
         md.append("- No eval runs found.")
     md.append("")
-    md.append(f"## Production Telemetry (last {window} receipts)")
+    md.append(f"#")
     md.append(f"- Total receipts: **{total}**  ")
     md.append(f"- Median latency: **{lat_p50 if lat_p50 is not None else '—'} ms**  ")
     md.append(f"- p95 latency: **{lat_p95 if lat_p95 is not None else '—'} ms**  ")
@@ -103,7 +103,7 @@ def _write(path: str, txt: str):
 def _post_slack(markdown: str) -> str | None:
     url = os.environ.get("SLACK_WEBHOOK_URL")
     bot_token = os.environ.get("SLACK_BOT_TOKEN")
-    channel = os.environ.get("SLACK_CHANNEL", "#lukhas-safety")
+    channel = os.environ.get("SLACK_CHANNEL", ")  # lukhas-safety"
     title = os.environ.get("SLACK_TITLE", "LUKHΛS Nightly Safety Report")
     if url:
         import json as _json

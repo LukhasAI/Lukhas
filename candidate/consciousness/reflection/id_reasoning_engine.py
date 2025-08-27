@@ -680,7 +680,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.logger.info(
             f"ΛTRACE ({req_id}): Attempting to register user. Initial tier: {initial_tier.name}. User data keys: {list(user_data.keys())}")
 
-        compliant, violations = self.compliance_monitor.check_compliance(  # ΛECHO (Delegates to compliance monitor)
+        compliant, violations = self.compliance_monitor.check_compliance(  )  #  ΛECHO (Delegates to compliance monitor
             'user_registration',
             {'user_consent': user_data.get('consent_given', False), 'data_excessive': len(
                 user_data.keys()) > 10}  # Example context
@@ -713,7 +713,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.logger.debug(
             f"ΛTRACE ({req_id}): User record created for {user_id}. Total users: {len(self.users)}")
 
-        await self._create_audit_log_entry(  # ΛTEMPORAL_HOOK (Audit log for this event)
+        await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this event
             user_id=user_id, tier=initial_tier, component="LukhasIdManager",
             action="user_registration", decision_logic="New user registered after compliance check.",
             privacy_impact="User data (potentially PII) stored with consent. Tier assigned."
@@ -760,7 +760,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
             # AIDENTITY_BRIDGE
             self.logger.warning(
                 f"ΛTRACE ({req_id}): Tier credential verification FAILED for user {user_id}, tier {access_tier.name}.")
-            await self._create_audit_log_entry(  # ΛTEMPORAL_HOOK (Audit log for this failure event)
+            await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this failure event
                 user_id=user_id, tier=access_tier, component="LukhasIdManager",
                 action="user_authentication_failed", decision_logic="Credential mismatch or tier requirement not met.",
                 emotional_state=emotional_state, privacy_impact="Login attempt failed, no session created."
@@ -801,7 +801,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.logger.debug(
             f"ΛTRACE ({req_id}): User record updated for {user_id}. Session count: {user_record['session_count']}")
 
-        await self._create_audit_log_entry(  # ΛTEMPORAL_HOOK (Audit log for success event)
+        await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for success event
             user_id=user_id, tier=access_tier, component="LukhasIdManager",
             action="user_authentication_success", decision_logic=f"Successfully authenticated at tier {access_tier.name}.",
             emotional_state=emotional_state, privacy_impact="User session created with tier-appropriate permissions."
@@ -1117,7 +1117,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.logger.info(
             f"ΛTRACE ({req_id}): Emotional memory {memory_id} stored for user {user_id} via TraumaLockedMemory.")
 
-        await self._create_audit_log_entry(  # ΛTEMPORAL_HOOK (Audit log for this storage event)
+        await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this storage event
             # AIDENTITY_BRIDGE
             user_id=user_id, tier=self.users[user_id]['access_tier'],
             component="LukhasIdManager.TraumaLockedMemory", action="memory_storage_initiated",
@@ -1159,7 +1159,7 @@ class LukhasIdManager:  # Renamed from LukhasIdEnhancedReasoningEngine:
         self.logger.info(
             f"ΛTRACE ({req_id}): TraumaLockedMemory unlock attempt for {memory_id} (User: {user_id}). Success: {bool(memory_data)}")
 
-        await self._create_audit_log_entry(  # ΛTEMPORAL_HOOK (Audit log for this retrieval attempt event)
+        await self._create_audit_log_entry(  )  #  ΛTEMPORAL_HOOK (Audit log for this retrieval attempt event
             # AIDENTITY_BRIDGE
             user_id=user_id, tier=self.users[user_id]['access_tier'],
             component="LukhasIdManager.TraumaLockedMemory", action="memory_retrieval_attempt_delegated",

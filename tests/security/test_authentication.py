@@ -16,31 +16,33 @@ Date: 2025-08-26
 
 import json
 import unittest
-from datetime import datetime
-from datetime import timedelta
-from datetime import timezone
+from datetime import datetime, timedelta, timezone
 
 import bcrypt
 import jwt
 from flask import Flask
 
-from candidate.bridge.api.flows import JWT_ALGORITHM
-from candidate.bridge.api.flows import JWT_SECRET_KEY
-from candidate.bridge.api.flows import _generate_access_token
-from candidate.bridge.api.flows import _generate_lambda_id
-from candidate.bridge.api.flows import _validate_jwt_token
-from candidate.bridge.api.flows import _validate_password_strength
-from candidate.bridge.api.flows import auth_bp
-from candidate.bridge.api.flows import blacklisted_tokens
-from candidate.bridge.api.flows import failed_login_attempts
-from candidate.bridge.api.flows import user_sessions
-from candidate.bridge.api.flows import users_db
+from candidate.bridge.api.flows import (
+    JWT_ALGORITHM,
+    JWT_SECRET_KEY,
+    _generate_access_token,
+    _generate_lambda_id,
+    _validate_jwt_token,
+    _validate_password_strength,
+    auth_bp,
+    blacklisted_tokens,
+    failed_login_attempts,
+    user_sessions,
+    users_db,
+)
 
 # Import our authentication modules
-from candidate.core.interfaces.api.v1.common.auth import _check_rate_limit
-from candidate.core.interfaces.api.v1.common.auth import _validate_key_format
-from candidate.core.interfaces.api.v1.common.auth import _verify_key_signature
-from candidate.core.interfaces.api.v1.common.auth import generate_api_key
+from candidate.core.interfaces.api.v1.common.auth import (
+    _check_rate_limit,
+    _validate_key_format,
+    _verify_key_signature,
+    generate_api_key,
+)
 
 
 class TestAPIKeyValidation(unittest.TestCase):
@@ -480,7 +482,7 @@ class TestSecurityCompliance(unittest.TestCase):
         self.assertTrue(bcrypt.checkpw(password.encode("utf-8"), hashed))
 
         # Verify wrong password fails
-        self.assertFalse(bcrypt.checkpw("wrong".encode("utf-8"), hashed))
+        self.assertFalse(bcrypt.checkpw(b"wrong", hashed))
 
     def test_session_security(self):
         """Test session security measures."""

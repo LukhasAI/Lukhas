@@ -239,7 +239,7 @@ def create_glyph(
 
 def parse_glyph(data: Union[str, dict[str, Any]]) -> GLYPHToken:
     """
-    Parse GLYPH token from JSON string or dictionary.
+    Parse GLYPH token from json_string or dictionary.
 
     Args:
         data: JSON string or dictionary

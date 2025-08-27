@@ -131,7 +131,7 @@ class MemoryFoldConfig:
 
     @classmethod
     def load_config(cls, config_path: Optional[Path] = None) -> dict[str, Any]:
-        """Load configuration from JSON file with fallback to defaults."""
+        """Load configuration from json_file with fallback to defaults."""
         config_path = config_path or cls.DEFAULT_CONFIG_PATH
 
         try:
@@ -558,7 +558,7 @@ class VisionPromptManager:
         self._load_prompts()
 
     def _load_prompts(self):
-        """Load prompts from JSON file with fallback."""
+        """Load prompts from json_file with fallback."""
         try:
             if self.prompts_path.exists():
                 with open(self.prompts_path) as f:

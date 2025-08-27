@@ -127,7 +127,7 @@ class HardcodedSecretsFixer:
                 line_clean = line.strip()
 
                 # Skip empty lines and comments
-                if not line_clean or line_clean.startswith("#"):
+                if not line_clean or line_clean.startswith(")  # ":
                     continue
 
                 # Check if this line contains a safe pattern (already secure)
@@ -296,20 +296,20 @@ class HardcodedSecretsFixer:
 
         summary = self.generate_fixes(apply_fixes=False)
 
-        report.append("## 📊 Executive Summary")
+        report.append("#)  #  📊 Executive Summary"
         report.append(f"- **Total Issues Found:** {summary['total_issues']}")
         report.append(f"- **Files Affected:** {summary['files_affected']}")
         report.append(f"- **Issue Types:** {len(summary['fixes_by_type'])}")
         report.append("")
 
-        report.append("## 🚨 Issues by Type")
+        report.append("#)  #  🚨 Issues by Type"
         for issue_type, count in summary["fixes_by_type"].items():
             report.append(f"- **{issue_type}:** {count} instances")
         report.append("")
 
-        report.append("## 📋 Detailed Findings")
+        report.append("#)  #  📋 Detailed Findings"
         for issue in self.issues_found[:20]:  # Show first 20 issues
-            report.append(f"### {issue.file_path}:{issue.line_number}")
+            report.append(f"##")
             report.append(f"**Type:** {issue.issue_type}")
             report.append(f"**Severity:** {issue.severity}")
             report.append(f"**Code:** `{issue.line_content.strip()}`")
@@ -319,7 +319,7 @@ class HardcodedSecretsFixer:
         if len(self.issues_found) > 20:
             report.append(f"... and {len(self.issues_found) - 20} more issues")
 
-        report.append("## 🛡️ Remediation Steps")
+        report.append("#)  #  🛡️ Remediation Steps"
         report.append("1. **Immediate:** Set up environment variables for all API keys")
         report.append("2. **Implement:** Use the LUKHAS Secret Management System")
         report.append("3. **Replace:** All hardcoded secrets with `get_secret()` calls")

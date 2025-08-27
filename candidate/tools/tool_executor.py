@@ -10,17 +10,18 @@ import json
 import logging
 import os
 import re
-import time
-import tempfile
 import shutil
+import tempfile
+import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
 from urllib.parse import urlparse
 
-import httpx
 import aiohttp
+import httpx
 from bs4 import BeautifulSoup
+
 import docker
 
 logger = logging.getLogger("ΛTRACE.tools.executor")
@@ -149,7 +150,7 @@ class ToolExecutor:
         # Integrate with actual RAG/vector store
         try:
             # Initialize vector store connection if not already done
-            if not hasattr(self, 'vector_store'):
+            if not hasattr(self, "vector_store"):
                 self._initialize_vector_store()
 
             # Perform semantic search
@@ -201,12 +202,12 @@ class ToolExecutor:
 
     async def _semantic_search(self, query: str, k: int = 5):
         """Perform semantic search using vector store"""
-        if hasattr(self, 'chroma_client') and self.vector_store:
+        if hasattr(self, "chroma_client") and self.vector_store:
             # ChromaDB semantic search
             results = self.vector_store.query(
                 query_texts=[query],
                 n_results=k,
-                include=['documents', 'metadatas', 'distances']
+                include=["documents", "metadatas", "distances"]
             )
             return results
         elif self.vector_store == "faiss":
@@ -218,14 +219,14 @@ class ToolExecutor:
 
     def _format_search_results(self, query: str, results):
         """Format vector search results"""
-        if not results or not results.get('documents'):
+        if not results or not results.get("documents"):
             return f"No relevant knowledge found for: {query}"
 
         formatted_results = [f"Retrieved knowledge for '{query}':\n"]
 
-        for i, (docs, metadatas) in enumerate(zip(results['documents'][0], results.get('metadatas', [[]])[0])):
+        for i, (docs, metadatas) in enumerate(zip(results["documents"][0], results.get("metadatas", [[]])[0])):
             formatted_results.append(f"{i+1}. {docs}")
-            if metadatas and 'source' in metadatas:
+            if metadatas and "source" in metadatas:
                 formatted_results.append(f"   Source: {metadatas['source']}")
 
         return "\n".join(formatted_results)
@@ -365,7 +366,7 @@ class ToolExecutor:
                     tag.decompose()
 
                 title = soup.title.string if soup.title else ""
-                body_text = soup.body.get_text(separator=' ', strip=True) if soup.body else ""
+                body_text = soup.body.get_text(separator=" ", strip=True) if soup.body else ""
 
                 full_text = f"Title: {title}\n\n{body_text}".strip()
 
@@ -501,8 +502,8 @@ class ToolExecutor:
                 # Wait for container to finish, with timeout
                 try:
                     container.wait(timeout=30)
-                    stdout = container.logs(stdout=True, stderr=False).decode('utf-8', 'ignore')
-                    stderr = container.logs(stdout=False, stderr=True).decode('utf-8', 'ignore')
+                    stdout = container.logs(stdout=True, stderr=False).decode("utf-8", "ignore")
+                    stderr = container.logs(stdout=False, stderr=True).decode("utf-8", "ignore")
                     output = f"STDOUT:\n{stdout}\nSTDERR:\n{stderr}"
                 except Exception: # Container ran too long
                     container.kill()
@@ -717,14 +718,14 @@ RUN chmod +x {filename}
 
                 async with session.get(url, allow_redirects=True, max_redirects=3) as response:
                     # Check content size
-                    content_length = response.headers.get('content-length')
+                    content_length = response.headers.get("content-length")
                     if content_length and int(content_length) > self.security_config["max_content_size"]:
                         await self._audit_log("content_too_large", {"url": url, "size": content_length})
                         return f"Content too large ({content_length} bytes). Maximum allowed: {self.security_config['max_content_size']}"
 
                     # Check content type
-                    content_type = response.headers.get('content-type', '').lower()
-                    if not any(ct in content_type for ct in ['text/', 'application/json', 'application/xml']):
+                    content_type = response.headers.get("content-type", "").lower()
+                    if not any(ct in content_type for ct in ["text/", "application/json", "application/xml"]):
                         await self._audit_log("unsupported_content_type", {"url": url, "content_type": content_type})
                         return f"Unsupported content type: {content_type}"
 
@@ -739,7 +740,7 @@ RUN chmod +x {filename}
                         content += chunk
 
                     # Parse and extract content
-                    text_content = content.decode('utf-8', errors='ignore')
+                    text_content = content.decode("utf-8", errors="ignore")
                     extracted = await self._extract_safe_content(text_content, url)
 
                     elapsed = time.time() - start_time
@@ -766,14 +767,14 @@ RUN chmod +x {filename}
     async def _extract_safe_content(self, html_content: str, url: str) -> str:
         """Extract and sanitize content from HTML"""
         try:
-            soup = BeautifulSoup(html_content, 'html.parser')
+            soup = BeautifulSoup(html_content, "html.parser")
 
             # Remove dangerous elements
             for element in soup(["script", "style", "meta", "link", "noscript"]):
                 element.decompose()
 
             # Extract title
-            title = soup.find('title')
+            title = soup.find("title")
             title_text = title.get_text(strip=True) if title else "No title"
 
             # Extract main content
@@ -781,25 +782,25 @@ RUN chmod +x {filename}
 
             # Try to find main content areas
             content_selectors = [
-                'main', 'article', '[role="main"]',
-                '.content', '.main-content', '.post-content',
-                '.entry-content', '.article-content'
+                "main", "article", '[role="main"]',
+                ".content", ".main-content", ".post-content",
+                ".entry-content", ".article-content"
             ]
 
             for selector in content_selectors:
                 elements = soup.select(selector)
                 if elements:
-                    main_content = "\n".join(el.get_text(strip=True, separator=' ') for el in elements[:3])
+                    main_content = "\n".join(el.get_text(strip=True, separator=" ") for el in elements[:3])
                     break
 
             # Fallback to paragraphs and headings
             if not main_content:
-                elements = soup.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'], limit=10)
+                elements = soup.find_all(["p", "h1", "h2", "h3", "h4", "h5", "h6"], limit=10)
                 main_content = "\n".join(el.get_text(strip=True) for el in elements if el.get_text(strip=True))
 
             # Extract metadata
-            description = soup.find('meta', attrs={'name': 'description'})
-            description_text = description.get('content', '') if description else ""
+            description = soup.find("meta", attrs={"name": "description"})
+            description_text = description.get("content", "") if description else ""
 
             # Format response
             response_parts = [f"Title: {title_text}"]
@@ -918,7 +919,7 @@ RUN chmod +x {filename}
                         **container_limits
                     )
 
-                    output = container.decode('utf-8') if isinstance(container, bytes) else str(container)
+                    output = container.decode("utf-8") if isinstance(container, bytes) else str(container)
 
                     await self._audit_log("code_execution_success", {
                         "execution_id": execution_id,
@@ -933,7 +934,7 @@ RUN chmod +x {filename}
                     return f"Execution completed successfully:\n\n{output}"
 
                 except docker.errors.ContainerError as e:
-                    error_output = e.stderr.decode('utf-8') if e.stderr else "No error details"
+                    error_output = e.stderr.decode("utf-8") if e.stderr else "No error details"
                     await self._audit_log("code_execution_container_error", {
                         "execution_id": execution_id,
                         "exit_code": e.exit_status,
@@ -1073,7 +1074,7 @@ RUN chmod +x {filename}
             }
 
             # Append to audit log
-            with open(self.audit_log, 'a') as f:
+            with open(self.audit_log, "a") as f:
                 f.write(json.dumps(log_entry) + "\n")
 
         except Exception as e:

@@ -565,7 +565,7 @@ class QICertificateManager:
         }
         # CSR should be signed by the new private key for authenticity
         csr["csr_signature"] = await self._sign_csr_data(
-            csr, new_key_pair[0], old_cert_data.get('qi_algorithm')
+            csr, new_key_pair[0], old_cert_data.get("qi_algorithm")
         )
         return csr
 
@@ -584,28 +584,28 @@ class QICertificateManager:
             csr_for_signing = {k: v for k, v in csr_data.items() if k != "csr_signature"}
 
             # Sort keys for deterministic serialization
-            canonical_csr = json.dumps(csr_for_signing, sort_keys=True, separators=(',', ':'))
+            canonical_csr = json.dumps(csr_for_signing, sort_keys=True, separators=(",", ":"))
 
             # Decode the private key
             try:
                 private_key_bytes = base64.b64decode(private_key_b64)
             except Exception as e:
                 self.log.warning(f"Failed to decode private key, using raw string: {e}")
-                private_key_bytes = private_key_b64.encode('utf-8')
+                private_key_bytes = private_key_b64.encode("utf-8")
 
             # Sign the canonical CSR representation
             if qi_algorithm and "kyber" in qi_algorithm.lower():
                 # For quantum-resistant algorithms, use a more sophisticated approach
                 # In production, this would use actual post-quantum cryptographic libraries
                 signature_data = hashlib.sha3_512(
-                    private_key_bytes + canonical_csr.encode('utf-8')
+                    private_key_bytes + canonical_csr.encode("utf-8")
                 ).hexdigest()
                 signature_method = f"PQC-{qi_algorithm}-SHA3-512"
             else:
                 # Standard HMAC-SHA256 signing
                 signature_data = hmac.new(
                     private_key_bytes,
-                    canonical_csr.encode('utf-8'),
+                    canonical_csr.encode("utf-8"),
                     hashlib.sha256
                 ).hexdigest()
                 signature_method = "HMAC-SHA256"
@@ -619,8 +619,8 @@ class QICertificateManager:
             }
 
             signature_b64 = base64.b64encode(
-                json.dumps(signature, separators=(',', ':')).encode('utf-8')
-            ).decode('utf-8')
+                json.dumps(signature, separators=(",", ":")).encode("utf-8")
+            ).decode("utf-8")
 
             self.log.debug(
                 "CSR signed successfully",
@@ -641,8 +641,8 @@ class QICertificateManager:
                     "signature": fallback_signature,
                     "algorithm": "SHA256-FALLBACK",
                     "timestamp": datetime.now(timezone.utc).isoformat()
-                }).encode('utf-8')
-            ).decode('utf-8')
+                }).encode("utf-8")
+            ).decode("utf-8")
 
     @lukhas_tier_required(3)
     async def _submit_renewal_request_to_ca(

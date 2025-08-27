@@ -8,12 +8,9 @@ This module intentionally avoids any cross-lane imports from `candidate`.
 
 import importlib
 import logging
-from abc import ABC
-from abc import abstractmethod
-from dataclasses import dataclass
-from dataclasses import field
-from typing import Any
-from typing import Optional
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -117,13 +114,14 @@ def list_available_colonies() -> list[str]:
 # Import real implementations from lukhas.core
 try:
     from ..distributed_tracing import create_ai_tracer
-    from ..efficient_communication import EfficientCommunicationFabric
-    from ..efficient_communication import MessagePriority
-    from ..efficient_communication import get_global_communication_fabric
+    from ..efficient_communication import (
+        EfficientCommunicationFabric,
+        MessagePriority,
+        get_global_communication_fabric,
+    )
     from ..event_sourcing import EventSourcedAggregate as AIAgentAggregate
     from ..event_sourcing import get_global_event_store
-    from ..supervisor_agent import SupervisorAgent
-    from ..supervisor_agent import get_supervisor_agent
+    from ..supervisor_agent import SupervisorAgent, get_supervisor_agent
     from ..symbolism import TagScope
 
     logger.info("Successfully imported real implementations from lukhas.core")

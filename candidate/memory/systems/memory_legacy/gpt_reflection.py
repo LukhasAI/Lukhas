@@ -133,10 +133,10 @@ def generate_gpt_reflection(:
         "You are LUKHAS (LUKHAS Universal Knowledge & Holistic AI System)... Summarize your 'state of being', focusing on symbolic meaning, emergent patterns, and potential future developments..."]
     if traits_summary:
         prompt_elements.append(
-            f"\n\n## Current Symbolic Profile & Traits:\n{traits_summary}")
+            f"\n\n#")
     if recent_reflections:
         prompt_elements.append(
-            f"\n\n## Recent Key Reflections / Events:\n{recent_reflections}")
+            f"\n\n#")
     if not traits_summary and not recent_reflections:
         prompt_elements.append(
             "\n\nDescribe your current internal state, focusing on emergent symbolic resonances or cognitive shifts.")

@@ -747,20 +747,20 @@ class DocumentationGenerator:
         filename = f"{documentation.doc_id}.md"
         output_path = output_dir / filename
 
-        content = f"# {documentation.title}\n\n"
+        content = ""
         content += f"*Generated on {documentation.generated_date.strftime('%Y-%m-%d %H:%M:%S')}*\n\n"
 
         for section in documentation.sections:
-            content += f"## {section.title}\n\n"
+            content += "#"
             content += f"{section.content}\n\n"
 
             # Add code examples
             for i, example in enumerate(section.code_examples):
-                content += f"### Example {i+1}\n\n```python\n{example}\n```\n\n"
+                content += "##"
 
             # Add subsections
             for subsection in section.subsections:
-                content += f"### {subsection.title}\n\n"
+                content += "##"
                 content += f"{subsection.content}\n\n"
 
         with open(output_path, "w", encoding="utf-8") as f:
@@ -966,7 +966,7 @@ The platform consists of {len(analysis_results)} main modules, each providing sp
 
     async def _generate_module_examples(self, result: CodeAnalysisResult) -> list[str]:
         """Generate examples for a specific module"""
-        return [f"# Example usage of {result.module_name}\nimport {result.module_name}"]
+        return [""]
 
     async def _generate_getting_started_content(
         self, analysis_results: list[CodeAnalysisResult]

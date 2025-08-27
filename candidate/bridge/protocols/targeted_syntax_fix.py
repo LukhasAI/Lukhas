@@ -68,7 +68,7 @@ def fix_specific_files():
                 content = f.read()
 
             # Fix nested triple quotes
-            content = content.replace('f.write(""""""', 'f.write("""')
+            content = content.replace('f.write("""', 'f.write("""')
 
             with open(filepath, "w", encoding="utf-8") as f:
                 f.write(content)

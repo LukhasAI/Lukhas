@@ -4,8 +4,7 @@
 Standardized exceptions for LUKHAS modules.
 """
 
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 
 class LukhasError(Exception):

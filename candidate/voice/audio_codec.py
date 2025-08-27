@@ -90,7 +90,7 @@ class WAVEncoder(AudioEncoder):
             pcm_data = (audio_data * 32767).astype(np.int16)
 
         # Write WAV file
-        with wave.open(buffer, 'wb') as wav_file:
+        with wave.open(buffer, "wb") as wav_file:
             wav_file.setnchannels(params.channels)
             wav_file.setsampwidth(params.bit_depth // 8)
             wav_file.setframerate(params.sample_rate)
@@ -108,7 +108,7 @@ class WAVDecoder(AudioDecoder):
         """Decode WAV data"""
         buffer = io.BytesIO(encoded_data)
 
-        with wave.open(buffer, 'rb') as wav_file:
+        with wave.open(buffer, "rb") as wav_file:
             channels = wav_file.getnchannels()
             sample_width = wav_file.getsampwidth()
             sample_rate = wav_file.getframerate()
@@ -182,7 +182,7 @@ class MP3Encoder(AudioEncoder):
                 audio_segment.export(temp_file.name, format="mp3", bitrate=bitrate)
 
                 # Read encoded data
-                with open(temp_file.name, 'rb') as f:
+                with open(temp_file.name, "rb") as f:
                     encoded_data = f.read()
 
                 # Clean up
@@ -232,7 +232,7 @@ class FLACEncoder(AudioEncoder):
                 )
 
                 # Read encoded data
-                with open(temp_file.name, 'rb') as f:
+                with open(temp_file.name, "rb") as f:
                     encoded_data = f.read()
 
                 # Clean up

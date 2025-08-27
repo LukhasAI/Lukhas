@@ -7,8 +7,8 @@ import secrets
 import time
 from typing import Dict, Optional
 
-from fastapi import Header, HTTPException, Request
 import structlog
+from fastapi import Header, HTTPException, Request
 
 # Initialize ΛTRACE logger for security events
 logger = structlog.get_logger("ΛTRACE.api_auth")
@@ -196,7 +196,7 @@ async def verify_api_key(x_api_key: str = Header(...), request: Request = None) 
     except Exception as e:
         # Log unexpected errors
         logger.error("Unexpected error in API key validation", error=str(e))
-        _audit_auth_attempt(api_key if 'api_key' in locals() else "", False, request)
+        _audit_auth_attempt(api_key if "api_key" in locals() else "", False, request)
         raise HTTPException(status_code=500, detail="Authentication service error")
 
 

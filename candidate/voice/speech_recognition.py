@@ -291,10 +291,10 @@ class WhisperOpenAIAdapter(SpeechRecognitionProviderAdapter):
 
                 # Create segments from response
                 segments = []
-                if hasattr(response, 'segments'):
+                if hasattr(response, "segments"):
                     for seg in response.segments:
                         words = []
-                        if hasattr(seg, 'words'):
+                        if hasattr(seg, "words"):
                             words = [
                                 WordTimestamp(
                                     word=w.word,
@@ -559,13 +559,13 @@ class GoogleSpeechAdapter(SpeechRecognitionProviderAdapter):
 
             # Create word timestamps if available
             words = []
-            if hasattr(best_alternative, 'words'):
+            if hasattr(best_alternative, "words"):
                 words = [
                     WordTimestamp(
                         word=w.word,
                         start_time=w.start_time.total_seconds(),
                         end_time=w.end_time.total_seconds(),
-                        confidence=w.confidence if hasattr(w, 'confidence') else 1.0
+                        confidence=w.confidence if hasattr(w, "confidence") else 1.0
                     )
                     for w in best_alternative.words
                 ]
@@ -843,7 +843,7 @@ class LUKHASSpeechRecognitionService:
         """
         try:
             # Read audio file
-            with open(file_path, 'rb') as f:
+            with open(file_path, "rb") as f:
                 audio_data = f.read()
 
             # Create request

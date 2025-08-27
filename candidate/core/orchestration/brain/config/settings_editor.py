@@ -142,7 +142,7 @@ if settings:
         )
 
         # Extended permissions
-        st.markdown("### 🔐 Extended Permissions")
+        st.markdown("##)  #  🔐 Extended Permissions"
         settings["system_behavior"]["access_gps"] = st.checkbox(
             "Allow Lukhas to Access Device Location",
             value=settings["system_behavior"].get("access_gps", False),
@@ -249,7 +249,7 @@ if settings:
         phrase = settings.get("persona", {}).get(
             "signature_phrase", "Let me translate that symbolically..."
         )
-        st.markdown(f"🗣️ _Lukhas will say:_ “{phrase}”")
+        st.markdown(f"🗣️ _Lukhas will say:_ "{phrase}"")
 
     # Restore Defaults Placeholder
     if st.button("♻️ Restore Defaults"):

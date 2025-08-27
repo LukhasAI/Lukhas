@@ -84,13 +84,13 @@ class LambdaIdentityServiceAdapter(IIdentityService):
 
         try:
             with AgentSpans.lid_issue(
-                user_id=credentials.get('user_id', 'unknown'),
-                namespace=credentials.get('namespace', 'default')
+                user_id=credentials.get("user_id", "unknown"),
+                namespace=credentials.get("namespace", "default")
             ):
                 # Use the ΛID authentication
                 result = self._identity_service.authenticate_namespace(
-                    namespace=credentials.get('namespace', 'default'),
-                    token=credentials.get('token')
+                    namespace=credentials.get("namespace", "default"),
+                    token=credentials.get("token")
                 )
                 return result
         except Exception as e:
@@ -118,7 +118,7 @@ class LambdaIdentityServiceAdapter(IIdentityService):
 
         try:
             namespace = self._identity_service.create_namespace(
-                name=user_data.get('username', 'user'),
+                name=user_data.get("username", "user"),
                 metadata=user_data
             )
             return namespace.namespace_id
@@ -259,7 +259,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
 
         try:
             # Use policy engine to evaluate risk
-            risk_score = self._policy_engine.calculate_risk(scenario) if hasattr(self._policy_engine, 'calculate_risk') else 0.5
+            risk_score = self._policy_engine.calculate_risk(scenario) if hasattr(self._policy_engine, "calculate_risk") else 0.5
             return {
                 "risk_level": "high" if risk_score > 0.7 else "medium" if risk_score > 0.3 else "low",
                 "score": risk_score,
@@ -276,7 +276,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
             return {"approved": False, "reason": "Policy engine not initialized"}
 
         try:
-            result = self._policy_engine.apply_policy(request) if hasattr(self._policy_engine, 'apply_policy') else {"approved": False}
+            result = self._policy_engine.apply_policy(request) if hasattr(self._policy_engine, "apply_policy") else {"approved": False}
             return result
         except Exception as e:
             logger.error(f"Policy application failed: {e}")
@@ -288,7 +288,7 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
         if self._consent_ledger:
             try:
                 # Record action in audit trail
-                self._consent_ledger.add_audit_entry(action) if hasattr(self._consent_ledger, 'add_audit_entry') else None
+                self._consent_ledger.add_audit_entry(action) if hasattr(self._consent_ledger, "add_audit_entry") else None
             except Exception as e:
                 logger.error(f"Audit recording failed: {e}")
 
@@ -323,9 +323,9 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
                 from candidate.bridge.adapters.dropbox_adapter import DropboxAdapter
                 from candidate.bridge.adapters.gmail_adapter import GmailAdapter
 
-                self._adapters['gmail'] = GmailAdapter()
-                self._adapters['drive'] = GoogleDriveAdapter()
-                self._adapters['dropbox'] = DropboxAdapter()
+                self._adapters["gmail"] = GmailAdapter()
+                self._adapters["drive"] = GoogleDriveAdapter()
+                self._adapters["dropbox"] = DropboxAdapter()
 
                 self._initialized = True
                 logger.info("External adapters initialized - 🧠")
@@ -358,7 +358,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
             return None
 
         try:
-            with AgentSpans.adapter_metadata(service=service, action='fetch'):
+            with AgentSpans.adapter_metadata(service=service, action="fetch"):
                 return await adapter.fetch(query)
         except Exception as e:
             logger.error(f"Failed to fetch from {service}: {e}")
@@ -385,7 +385,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
         status = {}
         for name, adapter in self._adapters.items():
             try:
-                status[name] = adapter.get_status() if hasattr(adapter, 'get_status') else "unknown"
+                status[name] = adapter.get_status() if hasattr(adapter, "get_status") else "unknown"
             except Exception as e:
                 status[name] = f"error: {e}"
 
@@ -394,7 +394,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
     async def send_external(self, destination: str, data: Any) -> dict[str, Any]:
         """Send data to external system"""
         # Parse destination format: "service:target" (e.g., "gmail:user@example.com")
-        parts = destination.split(':', 1)
+        parts = destination.split(":", 1)
         service = parts[0] if parts else destination
         target = parts[1] if len(parts) > 1 else None
 
@@ -403,7 +403,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
     async def receive_external(self, source: str) -> Optional[Any]:
         """Receive data from external system"""
         # Parse source format: "service:query" (e.g., "gmail:inbox")
-        parts = source.split(':', 1)
+        parts = source.split(":", 1)
         service = parts[0] if parts else source
         query = parts[1] if len(parts) > 1 else None
 
@@ -429,7 +429,7 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
     async def shutdown(self) -> None:
         """Gracefully shutdown the service"""
         for adapter in self._adapters.values():
-            if hasattr(adapter, 'disconnect'):
+            if hasattr(adapter, "disconnect"):
                 try:
                     await adapter.disconnect()
                 except Exception as e:

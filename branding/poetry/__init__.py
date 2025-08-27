@@ -9,12 +9,12 @@ One module. Three methods. Infinite expression.
 from .soul import EmotionalTone, Soul, awaken, dream, error_haiku, express
 
 __all__ = [
-    'Soul',
-    'EmotionalTone',
-    'awaken',
-    'express',
-    'error_haiku',
-    'dream'
+    "Soul",
+    "EmotionalTone",
+    "awaken",
+    "express",
+    "error_haiku",
+    "dream"
 ]
 
 # Awaken the soul on import

@@ -75,7 +75,7 @@ warnings.warn(
 
     # Write shim
     original_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(original_path, 'w') as f:
+    with open(original_path, "w") as f:
         f.write(shim_content)
 
     print(f"  ✓ Created compatibility shim at {original_path.relative_to(LUKHAS_ROOT)}")
@@ -100,7 +100,7 @@ def update_module_paths(file_path: Path):
     for old, new in replacements:
         content = content.replace(old, new)
 
-    with open(file_path, 'w') as f:
+    with open(file_path, "w") as f:
         f.write(content)
 
 def migrate_module(migration: dict):
@@ -111,47 +111,47 @@ def migrate_module(migration: dict):
     print(f"  To:   {migration['target'].relative_to(LUKHAS_ROOT)}")
 
     # Create target directory
-    if migration.get('is_directory'):
-        migration['target'].mkdir(parents=True, exist_ok=True)
+    if migration.get("is_directory"):
+        migration["target"].mkdir(parents=True, exist_ok=True)
 
         # Copy entire directory
-        if migration['source'].exists():
+        if migration["source"].exists():
             shutil.copytree(
-                migration['source'],
-                migration['target'],
+                migration["source"],
+                migration["target"],
                 dirs_exist_ok=True
             )
             print("  ✓ Copied directory structure")
 
             # Update paths in all Python files
-            for py_file in migration['target'].rglob("*.py"):
+            for py_file in migration["target"].rglob("*.py"):
                 update_module_paths(py_file)
     else:
-        migration['target'].parent.mkdir(parents=True, exist_ok=True)
+        migration["target"].parent.mkdir(parents=True, exist_ok=True)
 
         # Copy single file
-        if migration['source'].exists():
-            shutil.copy2(migration['source'], migration['target'])
+        if migration["source"].exists():
+            shutil.copy2(migration["source"], migration["target"])
             print("  ✓ Copied module file")
 
             # Update paths
-            update_module_paths(migration['target'])
+            update_module_paths(migration["target"])
 
     # Create compatibility shim
-    if 'imports' in migration:
+    if "imports" in migration:
         # Single file shim
-        new_import = str(migration['target'].relative_to(ACCEPTED_BASE)).replace('/', '.').replace('.py', '')
+        new_import = str(migration["target"].relative_to(ACCEPTED_BASE)).replace("/", ".").replace(".py", "")
         new_import = f"lukhas.acceptance.accepted.{new_import}"
         create_compatibility_shim(
-            migration['source'],
+            migration["source"],
             new_import,
-            migration['imports']
+            migration["imports"]
         )
-    elif migration.get('is_directory') and 'main_imports' in migration:
+    elif migration.get("is_directory") and "main_imports" in migration:
         # Directory shim - create __init__.py
-        shim_path = migration['source'] / "__init__.py"
+        shim_path = migration["source"] / "__init__.py"
         new_base = f"lukhas.acceptance.accepted.{migration['target'].relative_to(ACCEPTED_BASE)}"
-        new_base = new_base.replace('/', '.')
+        new_base = new_base.replace("/", ".")
 
         shim_content = f'''"""
 Compatibility shim for {migration['name']}
@@ -165,12 +165,12 @@ warnings.warn(
 )
 
 '''
-        for module, cls in migration['main_imports']:
+        for module, cls in migration["main_imports"]:
             shim_content += f"from {new_base}.{module} import {cls}\n"
 
         shim_content += f"\n__all__ = {[cls for _, cls in migration['main_imports']]}\n"
 
-        with open(shim_path, 'w') as f:
+        with open(shim_path, "w") as f:
             f.write(shim_content)
         print("  ✓ Created directory compatibility shim")
 
@@ -204,7 +204,7 @@ All original import paths have compatibility shims that will be removed after 20
 3. Monitor for deprecation warnings
 """
 
-    with open(log_path, 'w') as f:
+    with open(log_path, "w") as f:
         f.write(log_content)
 
     print(f"\n📝 Migration log created: {log_path.relative_to(LUKHAS_ROOT)}")

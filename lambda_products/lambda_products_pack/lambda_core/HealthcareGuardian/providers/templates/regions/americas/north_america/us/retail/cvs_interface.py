@@ -28,12 +28,12 @@ class CVSHealthInterface(BaseHealthcareProvider):
                 - pbm_connection: Caremark PBM connection details
         """
         provider_config = ProviderConfig(
-            provider_id=config['store_id'],
+            provider_id=config["store_id"],
             provider_name="CVS Health",
             provider_type="pharmacy_clinic",
             region="US",
-            environment=config.get('environment', 'production'),
-            api_version=config.get('api_version', '1.0'),
+            environment=config.get("environment", "production"),
+            api_version=config.get("api_version", "1.0"),
             compliance_mode="strict"
         )
         security_config = SecurityConfig(
@@ -50,12 +50,12 @@ class CVSHealthInterface(BaseHealthcareProvider):
     def _validate_config(self):
         """Validate CVS-specific configuration"""
         required_fields = [
-            'store_id',
-            'npi_number',
-            'pharmacy_ncpdp',
-            'minuteclinic_id',
-            'api_credentials',
-            'pbm_connection'
+            "store_id",
+            "npi_number",
+            "pharmacy_ncpdp",
+            "minuteclinic_id",
+            "api_credentials",
+            "pbm_connection"
         ]
         self.validate_data(self.config, required_fields)
 
@@ -63,10 +63,10 @@ class CVSHealthInterface(BaseHealthcareProvider):
                                      rx_number: str,
                                      store_id: Optional[str] = None) -> dict[str, Any]:
         """Check status of a prescription"""
-        store = store_id or self.config['store_id']
+        store = store_id or self.config["store_id"]
         self.log_audit_event(
             event_type="prescription_check",
-            user_id=self.config['npi_number'],
+            user_id=self.config["npi_number"],
             resource_id=rx_number,
             action="status_check",
             details={"store_id": store}
@@ -80,7 +80,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         """Verify insurance coverage for pharmacy services"""
         self.log_audit_event(
             event_type="insurance_verification",
-            user_id=self.config['pharmacy_ncpdp'],
+            user_id=self.config["pharmacy_ncpdp"],
             resource_id=patient_id,
             action="verify_coverage"
         )
@@ -94,7 +94,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         """Schedule MinuteClinic appointment"""
         self.log_audit_event(
             event_type="appointment_scheduling",
-            user_id=self.config['minuteclinic_id'],
+            user_id=self.config["minuteclinic_id"],
             resource_id=patient_id,
             action="create_appointment",
             details={"service_type": service_type}
@@ -107,8 +107,8 @@ class CVSHealthInterface(BaseHealthcareProvider):
         """Submit prescription claim to insurance"""
         self.log_audit_event(
             event_type="prescription_claim",
-            user_id=self.config['pharmacy_ncpdp'],
-            resource_id=rx_data.get('patient_id'),
+            user_id=self.config["pharmacy_ncpdp"],
+            resource_id=rx_data.get("patient_id"),
             action="submit_claim"
         )
         # Implement prescription claim submission
@@ -120,7 +120,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         """Check for drug interactions"""
         self.log_audit_event(
             event_type="drug_interaction_check",
-            user_id=self.config['pharmacy_ncpdp'],
+            user_id=self.config["pharmacy_ncpdp"],
             resource_id=patient_id,
             action="interaction_check"
         )
@@ -133,7 +133,7 @@ class CVSHealthInterface(BaseHealthcareProvider):
         """Retrieve patient's medication history"""
         self.log_audit_event(
             event_type="medication_history",
-            user_id=self.config['pharmacy_ncpdp'],
+            user_id=self.config["pharmacy_ncpdp"],
             resource_id=patient_id,
             action="get_history"
         )

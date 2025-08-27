@@ -285,7 +285,7 @@ class CloudConsolidationService:
 
     def _format_bytes(self, bytes_count: int) -> str:
         """Format bytes in human-readable format"""
-        for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
+        for unit in ["B", "KB", "MB", "GB", "TB"]:
             if bytes_count < 1024.0:
                 return f"{bytes_count:.1f} {unit}"
             bytes_count /= 1024.0

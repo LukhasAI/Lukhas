@@ -140,7 +140,7 @@ class MEGPolicyBridge:
         else:  # review_verdicts or unknown
             allowed = False  # Conservative approach
 
-        # Create risk flags from MEG evaluation
+        # Create risk flags from meg_evaluation
         risk_flags = []
         if meg_eval.verdict == EthicalVerdict.CULTURAL_CONFLICT:
             risk_flags.append("CULTURAL_CONFLICT")

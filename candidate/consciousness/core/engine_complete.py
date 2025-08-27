@@ -1507,16 +1507,16 @@ ConsciousnessEngine = AGIConsciousnessEngine
 
 # Public API exports
 __all__ = [
-    'AGIConsciousnessEngine',
-    'ConsciousnessEngine',
-    'ConsciousnessEngineConfig',
-    'ConsciousnessState',
-    'ConsciousnessPattern',
-    'AnthropicEthicsEngine',
-    'DefaultEthicsEngine',
-    'SelfAwareAdaptationModule',
-    'lukhas_tier_required',
-    'test_consciousness_engine'
+    "AGIConsciousnessEngine",
+    "ConsciousnessEngine",
+    "ConsciousnessEngineConfig",
+    "ConsciousnessState",
+    "ConsciousnessPattern",
+    "AnthropicEthicsEngine",
+    "DefaultEthicsEngine",
+    "SelfAwareAdaptationModule",
+    "lukhas_tier_required",
+    "test_consciousness_engine"
 ]
 
 # ═══════════════════════════════════════════════════════════════════════════

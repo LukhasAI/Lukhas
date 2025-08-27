@@ -165,7 +165,7 @@ def example_integration():
         qi.record_outcome(module, action, success)
     else:
         print(f"🚫 Action blocked: {context['reason']}")
-        if context['suggestions']:
+        if context["suggestions"]:
             print(f"   Suggestions: {context['suggestions']}")
 
     # Check system status

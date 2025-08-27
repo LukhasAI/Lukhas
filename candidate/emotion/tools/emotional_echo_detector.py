@@ -1726,7 +1726,7 @@ async def _continuous_watch(
 
 
 def _load_sample_data(file_path: str) -> list[dict[str, Any]]:
-    """Load sample data from JSONL file."""
+    """Load sample data from jsonl_file."""
     data = []
 
     try:

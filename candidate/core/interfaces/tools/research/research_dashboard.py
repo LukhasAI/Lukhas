@@ -87,7 +87,7 @@ with tab_docs:
             usage_guide_match = re.search(
                 r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL
             )
-            st.markdown(f"## 📘 Details for `{selected_module}`")
+            st.markdown(f"#")
             if header_info_match:
                 st.markdown(header_info_match.group(1))
             else:
@@ -224,7 +224,7 @@ with tab_compliance:
                 summary = trace_tools.summarize_trace(
                     "logs/symbolic_trace_dashboard.csv"
                 )
-                st.markdown("### 🔍 Summary")
+                st.markdown("##)  #  🔍 Summary"
                 st.json(summary)
 
                 if st.button("🧹 Filter Low Confidence Entries"):

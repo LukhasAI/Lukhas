@@ -23,26 +23,35 @@ import asyncio
 import json
 import logging
 import time
-from typing import Dict, Any
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from typing import Any, Dict
 
 try:
     import pytest
-    from httpx import AsyncClient
     import websockets
+    from httpx import AsyncClient
+
+    from candidate.bridge.api.orchestration_api_bridge import (
+        APIProvider,
+        ComprehensiveAPIOrchestrator,
+        OrchestrationRequest,
+        OrchestrationStrategy,
+    )
+    from candidate.bridge.api.orchestration_endpoints import app
+    from candidate.bridge.llm_wrappers.anthropic_function_bridge import (
+        AnthropicFunctionBridge,
+        ClaudeModel,
+        ToolDefinition,
+        ToolUseMode,
+    )
 
     # LUKHAS imports
     from candidate.bridge.llm_wrappers.openai_function_bridge import (
-        OpenAIFunctionBridge, FunctionDefinition, FunctionCallMode
+        FunctionCallMode,
+        FunctionDefinition,
+        OpenAIFunctionBridge,
     )
-    from candidate.bridge.llm_wrappers.anthropic_function_bridge import (
-        AnthropicFunctionBridge, ToolDefinition, ToolUseMode, ClaudeModel
-    )
-    from candidate.bridge.api.orchestration_api_bridge import (
-        ComprehensiveAPIOrchestrator, OrchestrationRequest, APIProvider, OrchestrationStrategy
-    )
-    from candidate.bridge.api.orchestration_endpoints import app
 
     TESTING_AVAILABLE = True
 except ImportError as e:
@@ -128,7 +137,7 @@ class OrchestrationTestSuite:
         """Test calculator function"""
         try:
             # Safe evaluation of simple mathematical expressions
-            allowed_chars = set('0123456789+-*/.()')
+            allowed_chars = set("0123456789+-*/.()")
             if not all(c in allowed_chars or c.isspace() for c in expression):
                 return {"error": "Invalid characters in expression"}
 
@@ -143,7 +152,7 @@ class OrchestrationTestSuite:
 
     async def _test_memory_handler(self, key: str, action: str, value: str = None, **kwargs) -> Dict[str, Any]:
         """Test memory storage function"""
-        if not hasattr(self, '_test_memory'):
+        if not hasattr(self, "_test_memory"):
             self._test_memory = {}
 
         if action == "store":
@@ -811,7 +820,7 @@ if __name__ == "__main__":
     results_file = f"orchestration_test_results_{timestamp}.json"
 
     try:
-        with open(results_file, 'w') as f:
+        with open(results_file, "w") as f:
             json.dump(results, f, indent=2, default=str)
         print(f"\n💾 Results saved to: {results_file}")
     except Exception as e:

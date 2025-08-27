@@ -242,8 +242,8 @@ class THDAnalyzer(VoiceQualityAnalyzer):
             unit="%",
             grade=grade,
             metadata={
-                "fundamental_frequency": float(f0) if 'f0' in locals() else None,
-                "fundamental_energy": float(fundamental_energy) if 'fundamental_energy' in locals() else None
+                "fundamental_frequency": float(f0) if "f0" in locals() else None,
+                "fundamental_energy": float(fundamental_energy) if "fundamental_energy" in locals() else None
             }
         )
 
@@ -298,8 +298,8 @@ class DynamicRangeAnalyzer(VoiceQualityAnalyzer):
             unit="dB",
             grade=grade,
             metadata={
-                "max_rms": float(max_rms) if 'max_rms' in locals() else None,
-                "min_rms": float(min_rms) if 'min_rms' in locals() else None,
+                "max_rms": float(max_rms) if "max_rms" in locals() else None,
+                "min_rms": float(min_rms) if "min_rms" in locals() else None,
                 "rms_windows": len(rms_values)
             }
         )
@@ -416,7 +416,7 @@ class PitchStabilityAnalyzer(VoiceQualityAnalyzer):
             frame = data[i:i + frame_size]
 
             # Autocorrelation-based pitch detection
-            autocorr = np.correlate(frame, frame, mode='full')
+            autocorr = np.correlate(frame, frame, mode="full")
             autocorr = autocorr[len(autocorr)//2:]
 
             # Find peak in pitch range (80-800 Hz)

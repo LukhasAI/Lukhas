@@ -10,8 +10,8 @@ import time
 from pathlib import Path
 
 # Add agent workspaces to path
-sys.path.append('workspaces/identity-auth-specialist/src')
-sys.path.append('workspaces/consent-compliance-specialist/src')
+sys.path.append("workspaces/identity-auth-specialist/src")
+sys.path.append("workspaces/consent-compliance-specialist/src")
 
 from consent_ledger import ConsentLedger, ContentModerationFilter, PolicyEngine
 from lambda_id import PERFORMANCE_TARGET_MS, IdentityService
@@ -112,7 +112,7 @@ class LukhasMinimalMVP:
             for step in steps:
                 print(f"  ⚙️ Executing: {step['name']}")
                 time.sleep(0.2)  # Simulate processing
-                results.append({"step": step['name'], "status": "completed"})
+                results.append({"step": step["name"], "status": "completed"})
             return results
 
     def run_demo(self):
@@ -141,16 +141,16 @@ class LukhasMinimalMVP:
         print("-" * 40)
 
         auth = self.identity_service.authenticate(
-            lid=user['lid'],
+            lid=user["lid"],
             passkey_response={"mock": "biometric_verified"}
         )
 
-        if auth['success']:
+        if auth["success"]:
             print("✅ Authentication successful")
             print("🎫 Token issued (JWT)")
             print(f"⚡ Performance: {auth['performance_ms']:.2f}ms")
-            self.ui_state['logged_in'] = True
-            self.ui_state['current_user'] = user['lid']
+            self.ui_state["logged_in"] = True
+            self.ui_state["current_user"] = user["lid"]
         print()
 
         # Step 3: User Request
@@ -161,7 +161,7 @@ class LukhasMinimalMVP:
 
         # Content moderation check
         moderation = self.content_filter.moderate_content(request)
-        if moderation['safe']:
+        if moderation["safe"]:
             print("✅ Request passed content moderation")
         print()
 
@@ -171,7 +171,7 @@ class LukhasMinimalMVP:
 
         # Request consent for Gmail
         gmail_consent = self.consent_ledger.grant_consent(
-            lid=user['lid'],
+            lid=user["lid"],
             resource_type="gmail",
             scope=["read", "list"],
             purpose="travel_document_analysis"
@@ -180,7 +180,7 @@ class LukhasMinimalMVP:
 
         # Request consent for Dropbox
         dropbox_consent = self.consent_ledger.grant_consent(
-            lid=user['lid'],
+            lid=user["lid"],
             resource_type="dropbox",
             scope=["read"],
             purpose="travel_document_analysis"
@@ -190,7 +190,7 @@ class LukhasMinimalMVP:
         # Generate Λ-trace audit
         from consent_ledger import PolicyVerdict
         trace = self.consent_ledger.generate_trace(
-            lid=user['lid'],
+            lid=user["lid"],
             action="analyze_documents",
             resource="gmail,dropbox",
             purpose="travel_summary",
@@ -205,7 +205,7 @@ class LukhasMinimalMVP:
 
         # Check policy
         policy_check = self.policy_engine.validate_action(
-            lid=user['lid'],
+            lid=user["lid"],
             action="read_emails",
             context={"resource_type": "gmail", "purpose": "analysis"}
         )
@@ -224,8 +224,8 @@ class LukhasMinimalMVP:
         self.context_bus.publish("workflow_start", {"steps": len(workflow_steps)})
 
         # Simulate adapter calls
-        self.adapters["gmail"].fetch_emails("travel", auth['token'])
-        self.adapters["dropbox"].get_files("/travel", auth['token'])
+        self.adapters["gmail"].fetch_emails("travel", auth["token"])
+        self.adapters["dropbox"].get_files("/travel", auth["token"])
 
         # Execute pipeline
         results = self.context_bus.execute_pipeline(workflow_steps)
@@ -286,13 +286,13 @@ class LukhasMinimalMVP:
         """Save demo results for testing"""
         results = {
             "demo_run": time.time(),
-            "user_lid": user['lid'],
-            "auth_success": auth['success'],
+            "user_lid": user["lid"],
+            "auth_success": auth["success"],
             "trace_id": trace.trace_id,
-            "feedback_rating": feedback['rating'],
+            "feedback_rating": feedback["rating"],
             "performance_metrics": {
-                "auth_ms": auth['performance_ms'],
-                "meets_target": auth['meets_target']
+                "auth_ms": auth["performance_ms"],
+                "meets_target": auth["meets_target"]
             }
         }
 
@@ -398,7 +398,7 @@ def create_ci_config():
     ci_file = Path("CLAUDE_ARMY/.github/workflows/ci.yml")
     ci_file.parent.mkdir(parents=True, exist_ok=True)
 
-    ci_content = '''name: LUKHAS MVP CI/CD
+    ci_content = """name: LUKHAS MVP CI/CD
 
 on:
   push:
@@ -436,7 +436,7 @@ jobs:
     - name: Check performance targets
       run: |
         python -c "from mvp_demo import LukhasMinimalMVP; mvp = LukhasMinimalMVP()"
-'''
+"""
 
     ci_file.write_text(ci_content)
     print(f"✅ CI/CD config created: {ci_file}")

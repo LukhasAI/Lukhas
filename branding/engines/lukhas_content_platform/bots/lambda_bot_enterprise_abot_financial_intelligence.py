@@ -82,7 +82,7 @@ class ABotFinancialIntelligence:
         """Save financial metrics"""
         try:
             os.makedirs(os.path.dirname(self.metrics_file), exist_ok=True)
-            with open(self.metrics_file, 'w') as f:
+            with open(self.metrics_file, "w") as f:
                 json.dump(asdict(self.metrics), f, indent=2)
         except Exception as e:
             logger.error(f"Could not save financial metrics: {e}")
@@ -250,7 +250,7 @@ class ABotFinancialIntelligence:
         # Calculate projections
         daily_average = self.metrics.month_spent / max(datetime.now().day, 1)
         monthly_projection = daily_average * 30
-        days_remaining_at_current_rate = self.metrics.current_balance / daily_average if daily_average > 0 else float('inf')
+        days_remaining_at_current_rate = self.metrics.current_balance / daily_average if daily_average > 0 else float("inf")
 
         return {
             "timestamp": datetime.now().isoformat(),

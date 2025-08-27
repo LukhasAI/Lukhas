@@ -57,7 +57,7 @@ try:
     )
 except ImportError as e:
     log.error(
-        "Failed to import LUKHAS Oscillators. Using mock fallbacks for qi_bio.",
+        "Failed to import lukhas_oscillators. Using mock fallbacks for qi_bio.",
         error_message=str(e),
         exc_info=True,
         timestamp=datetime.now(timezone.utc).isoformat(),

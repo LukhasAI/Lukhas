@@ -204,8 +204,8 @@ class EnhancedContentQualitySystem:
 
         # Bonus for sophisticated vocabulary
         sophisticated_terms = [
-            'consciousness', 'quantum-inspired', 'bio-inspired', 'transcendent',
-            'paradigm', 'sophisticated', 'profound', 'enlightened', 'mindful'
+            "consciousness", "quantum-inspired", "bio-inspired", "transcendent",
+            "paradigm", "sophisticated", "profound", "enlightened", "mindful"
         ]
         term_density = sum(1 for term in sophisticated_terms if term in content.lower()) / len(content.split())
         if term_density >= 0.05:  # 5% sophisticated terms
@@ -281,7 +281,7 @@ class EnhancedContentQualitySystem:
         # Track improvement patterns
         if result.improvement_suggestions:
             for suggestion in result.improvement_suggestions:
-                suggestion_key = suggestion.split(':')[0] if ':' in suggestion else suggestion[:30]
+                suggestion_key = suggestion.split(":")[0] if ":" in suggestion else suggestion[:30]
                 if suggestion_key not in self.improvement_patterns:
                     self.improvement_patterns[suggestion_key] = 0
                 self.improvement_patterns[suggestion_key] += 1

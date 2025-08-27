@@ -317,7 +317,7 @@ class QRSManager:
         logger.info("ΛTRACE: Validating QRG authentication")
 
         try:
-            # Extract ΛiD from QRG data
+            # Extract ΛiD from qrg_data
             lambda_id = qrg_data.get("lambda_id")
             if not lambda_id:
                 return {"success": False, "error": "Invalid QRG data"}
@@ -367,7 +367,7 @@ class QRSManager:
         return self.public_hash_mapping.get(public_hash)
 
     def get_lambda_id_from_qrg(self, qrg_id: str) -> Optional[str]:
-        """Get ΛiD from QRG ID."""
+        """Get ΛiD from qrg_id."""
         return self.qrg_mapping.get(qrg_id)
 
     def update_symbolic_vault(:
@@ -462,7 +462,7 @@ class QRSManager:
         else:
             hash_fragment = lambda_id[:8]
 
-        return f"ΛiD#{prefix}{org_code}{emoji}‿{hash_fragment}"
+        return f"ΛiD"
 
     def _calculate_initial_tier(:
         self,

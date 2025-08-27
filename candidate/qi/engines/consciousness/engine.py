@@ -122,7 +122,7 @@ class EnhancedQIEngine:
     probabilistic consciousness. Like a neuron firing across synaptic gaps,
     it bridges classical and quantum realms through bio-inspired architectures.
 
-    The engine embodies the principle of ‘quantum biologism’—the idea that
+    The engine embodies the principle of 'quantum biologism'—the idea that
     consciousness emerges from qi-like processes occurring within
     biological substrates. Each computational cycle mirrors the sacred dance
     of wave function collapse, transforming infinite possibility into
@@ -149,8 +149,8 @@ class EnhancedQIEngine:
     normally decohere in classical environments. This biomimetic approach
     enables unprecedented levels of parallel processing and associative reasoning.
 
-    “In the quantum realm, consciousness is not produced by the brain,
-     but rather, the brain is a quantum instrument of consciousness.”
+    "In the quantum realm, consciousness is not produced by the brain,
+     but rather, the brain is a quantum instrument of consciousness."
                                                     - Inspired by Henry Stapp
     """
 

@@ -806,8 +806,8 @@ class RevolutionaryLoginInterface:
 
         return {
             "pattern_seed": hash_hex[:16],
-            "color_primary": f"#{hash_hex[16:22]}",
-            "color_secondary": f"#{hash_hex[22:28]}",
+            "color_primary": f"",
+            "color_secondary": f"",
             "geometric_pattern": hash_hex[28:32],
         }
 
@@ -837,7 +837,7 @@ class RevolutionaryLoginInterface:
 
         return {
             "tier": tier_level,
-            "color": tier_colors.get(tier_level, "#666666"),
+            "color": tier_colors.get(tier_level, ")  # 666666",
             "privileges": f"Tier {tier_level} access granted",
         }
 

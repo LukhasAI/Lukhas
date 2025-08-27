@@ -48,14 +48,14 @@ try:
     from V1.systems.core.modules.dast.dast_logger import log_task_event
 
     # NIAS (Non-Intrusive Ad System) components
-    # Widget system from AGENT folder
+    # Widget system from agent_folder
     #     from AGENT.lukhas_widget_engine import WidgetEngine  # TODO: Install or implement AGENT
     # from AGENT.lukhas_nias_filter import evaluate_ad_permission  # TODO:
     # Install or implement AGENT
 
     V1_COMPONENTS_AVAILABLE = True
-except ImportError as e:
-    logging.warning(f"Could not # import V1  # External dependency components: {e}")
+except ImportError:
+    logging.warning("Could not # import V1  ")
     V1_COMPONENTS_AVAILABLE = False
 
 

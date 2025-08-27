@@ -32,7 +32,10 @@ from typing import Any, Dict, List, Optional, Union
 # Import LUKHAS components
 try:
     from candidate.orchestration.high_performance_context_bus import (
-        HighPerformanceContextBus, ContextMessage, ContextPriority, WorkflowStep
+        ContextMessage,
+        ContextPriority,
+        HighPerformanceContextBus,
+        WorkflowStep,
     )
 except ImportError as e:
     logging.warning(f"Context bus import failed: {e}")
@@ -55,9 +58,9 @@ except ImportError as e:
             pass
 
 try:
-    from lukhas.bridge.openai_bridge import OpenAIBridge
     from lukhas.bridge.anthropic_bridge import AnthropicBridge
     from lukhas.bridge.google_bridge import GoogleBridge
+    from lukhas.bridge.openai_bridge import OpenAIBridge
 except ImportError as e:
     logging.warning(f"Bridge imports failed: {e}")
     # Provide stubs

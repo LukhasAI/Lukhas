@@ -183,7 +183,7 @@ class BioMatrizAdapter:
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
 
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(node, f, indent=2)
 
         return filepath

@@ -319,21 +319,21 @@ class VoiceCoherenceAnalyzer:
         """Calculate readiness for elite brand deployment"""
         # Weight different metrics for elite readiness
         weights = {
-            'brand_terminology': 0.2,
-            'trinity_framework': 0.15,
-            'consciousness_tech': 0.2,
-            'tone_consistency': 0.15,
-            'founder_authority': 0.15,
-            'premium_positioning': 0.15
+            "brand_terminology": 0.2,
+            "trinity_framework": 0.15,
+            "consciousness_tech": 0.2,
+            "tone_consistency": 0.15,
+            "founder_authority": 0.15,
+            "premium_positioning": 0.15
         }
 
         readiness = (
-            metrics.brand_terminology_score * weights['brand_terminology'] +
-            metrics.trinity_framework_score * weights['trinity_framework'] +
-            metrics.consciousness_tech_score * weights['consciousness_tech'] +
-            metrics.tone_consistency_score * weights['tone_consistency'] +
-            metrics.founder_authority_score * weights['founder_authority'] +
-            metrics.premium_positioning_score * weights['premium_positioning']
+            metrics.brand_terminology_score * weights["brand_terminology"] +
+            metrics.trinity_framework_score * weights["trinity_framework"] +
+            metrics.consciousness_tech_score * weights["consciousness_tech"] +
+            metrics.tone_consistency_score * weights["tone_consistency"] +
+            metrics.founder_authority_score * weights["founder_authority"] +
+            metrics.premium_positioning_score * weights["premium_positioning"]
         ) * 100
 
         return readiness
@@ -341,12 +341,12 @@ class VoiceCoherenceAnalyzer:
     def analyze_content_system(self, system_path: str, system_name: str) -> dict[str, Any]:
         """Analyze entire content creation system for voice coherence"""
         system_analysis = {
-            'system_name': system_name,
-            'system_path': system_path,
-            'content_analyses': [],
-            'system_metrics': {},
-            'readiness_assessment': {},
-            'analysis_timestamp': datetime.now().isoformat()
+            "system_name": system_name,
+            "system_path": system_path,
+            "content_analyses": [],
+            "system_metrics": {},
+            "readiness_assessment": {},
+            "analysis_timestamp": datetime.now().isoformat()
         }
 
         # Find and analyze all content files
@@ -356,7 +356,7 @@ class VoiceCoherenceAnalyzer:
 
         for file_path in content_files:
             try:
-                with open(file_path, encoding='utf-8', errors='ignore') as f:
+                with open(file_path, encoding="utf-8", errors="ignore") as f:
                     content = f.read()
 
                 # Determine content type
@@ -364,7 +364,7 @@ class VoiceCoherenceAnalyzer:
 
                 # Analyze content
                 analysis = self.analyze_content(str(file_path), content, content_type)
-                system_analysis['content_analyses'].append(analysis.__dict__)
+                system_analysis["content_analyses"].append(analysis.__dict__)
 
                 coherence_scores.append(analysis.coherence_metrics.overall_coherence)
 
@@ -373,28 +373,28 @@ class VoiceCoherenceAnalyzer:
 
         # Calculate system-wide metrics
         if coherence_scores:
-            system_analysis['system_metrics'] = {
-                'average_coherence': sum(coherence_scores) / len(coherence_scores),
-                'max_coherence': max(coherence_scores),
-                'min_coherence': min(coherence_scores),
-                'total_content_pieces': len(coherence_scores),
-                'elite_ready_percentage': len([s for s in coherence_scores if s >= 85]) / len(coherence_scores) * 100
+            system_analysis["system_metrics"] = {
+                "average_coherence": sum(coherence_scores) / len(coherence_scores),
+                "max_coherence": max(coherence_scores),
+                "min_coherence": min(coherence_scores),
+                "total_content_pieces": len(coherence_scores),
+                "elite_ready_percentage": len([s for s in coherence_scores if s >= 85]) / len(coherence_scores) * 100
             }
 
             # Readiness assessment
-            avg_coherence = system_analysis['system_metrics']['average_coherence']
-            system_analysis['readiness_assessment'] = {
-                'current_level': self._determine_coherence_level(avg_coherence).value,
-                'elite_gap': max(0, 85 - avg_coherence),
-                'deployment_ready': avg_coherence >= 85,
-                'priority_level': 'high' if avg_coherence < 70 else 'medium' if avg_coherence < 80 else 'low'
+            avg_coherence = system_analysis["system_metrics"]["average_coherence"]
+            system_analysis["readiness_assessment"] = {
+                "current_level": self._determine_coherence_level(avg_coherence).value,
+                "elite_gap": max(0, 85 - avg_coherence),
+                "deployment_ready": avg_coherence >= 85,
+                "priority_level": "high" if avg_coherence < 70 else "medium" if avg_coherence < 80 else "low"
             }
 
         return system_analysis
 
     def _find_content_files(self, system_path: str) -> list[Path]:
         """Find all content files in a system directory"""
-        content_extensions = ['.md', '.html', '.txt', '.py']  # Add Python for docstrings
+        content_extensions = [".md", ".html", ".txt", ".py"]  # Add Python for docstrings
         content_files = []
 
         try:
@@ -414,15 +414,15 @@ class VoiceCoherenceAnalyzer:
         """Determine content type from file path and name"""
         file_path_lower = str(file_path).lower()
 
-        if 'blog' in file_path_lower or 'post' in file_path_lower:
+        if "blog" in file_path_lower or "post" in file_path_lower:
             return ContentType.BLOG_POST
-        elif 'landing' in file_path_lower or 'index.html' in file_path_lower:
+        elif "landing" in file_path_lower or "index.html" in file_path_lower:
             return ContentType.LANDING_PAGE
-        elif 'api' in file_path_lower and ('doc' in file_path_lower or '.md' in file_path_lower):
+        elif "api" in file_path_lower and ("doc" in file_path_lower or ".md" in file_path_lower):
             return ContentType.API_DOCUMENTATION
-        elif 'social' in file_path_lower or 'twitter' in file_path_lower or 'linkedin' in file_path_lower:
+        elif "social" in file_path_lower or "twitter" in file_path_lower or "linkedin" in file_path_lower:
             return ContentType.SOCIAL_MEDIA
-        elif 'marketing' in file_path_lower or 'copy' in file_path_lower:
+        elif "marketing" in file_path_lower or "copy" in file_path_lower:
             return ContentType.MARKETING_COPY
         else:
             return ContentType.TECHNICAL_DOC
@@ -430,8 +430,8 @@ class VoiceCoherenceAnalyzer:
     def generate_coherence_report(self, analyses: list[dict[str, Any]]) -> str:
         """Generate comprehensive voice coherence report"""
         report = []
-        report.append("# 🎯 LUKHAS AI Voice Coherence Analysis Report")
-        report.append("")
+        report.append(")  #  🎯 LUKHAS AI Voice Coherence Analysis Report"
+        report.append(")
         report.append("*Elite Brand Integration Assessment*")
         report.append("")
         report.append("---")
@@ -439,9 +439,9 @@ class VoiceCoherenceAnalyzer:
 
         # Overall summary
         total_systems = len(analyses)
-        elite_ready_systems = len([a for a in analyses if a.get('readiness_assessment', {}).get('deployment_ready', False)])
+        elite_ready_systems = len([a for a in analyses if a.get("readiness_assessment", {}).get("deployment_ready", False)])
 
-        report.append("## 📊 Executive Summary")
+        report.append("#)  #  📊 Executive Summary"
         report.append("")
         report.append(f"**Total Content Systems Analyzed**: {total_systems}")
         report.append(f"**Elite Brand Ready**: {elite_ready_systems}/{total_systems} ({elite_ready_systems/total_systems*100:.1f}%)")
@@ -449,15 +449,15 @@ class VoiceCoherenceAnalyzer:
 
         # System-by-system analysis
         for analysis in analyses:
-            system_name = analysis['system_name']
-            metrics = analysis.get('system_metrics', {})
-            readiness = analysis.get('readiness_assessment', {})
+            system_name = analysis["system_name"]
+            metrics = analysis.get("system_metrics", {})
+            readiness = analysis.get("readiness_assessment", {})
 
-            report.append(f"### 🤖 {system_name}")
+            report.append(f"##")
             report.append("")
 
             if metrics:
-                avg_coherence = metrics.get('average_coherence', 0)
+                avg_coherence = metrics.get("average_coherence", 0)
                 coherence_level = self._determine_coherence_level(avg_coherence)
 
                 report.append(f"**Voice Coherence**: {avg_coherence:.1f}% ({coherence_level.value.title()})")
@@ -467,7 +467,7 @@ class VoiceCoherenceAnalyzer:
                 report.append("")
 
                 # Elite readiness indicator
-                if readiness.get('deployment_ready', False):
+                if readiness.get("deployment_ready", False):
                     report.append("✅ **ELITE BRAND READY** - Ready for deployment")
                 else:
                     report.append(f"🔄 **UPGRADE REQUIRED** - {readiness.get('elite_gap', 0):.1f}% improvement needed")
@@ -478,26 +478,26 @@ class VoiceCoherenceAnalyzer:
             report.append("")
 
         # Deployment recommendations
-        report.append("## 🚀 Deployment Recommendations")
+        report.append("#)  #  🚀 Deployment Recommendations"
         report.append("")
 
-        high_priority = [a for a in analyses if a.get('readiness_assessment', {}).get('priority_level') == 'high']
-        medium_priority = [a for a in analyses if a.get('readiness_assessment', {}).get('priority_level') == 'medium']
+        high_priority = [a for a in analyses if a.get("readiness_assessment", {}).get("priority_level") == "high"]
+        medium_priority = [a for a in analyses if a.get("readiness_assessment", {}).get("priority_level") == "medium"]
 
         if high_priority:
-            report.append("### High Priority (Immediate Attention)")
+            report.append("##)  #  High Priority (Immediate Attention")
             for analysis in high_priority:
                 report.append(f"- **{analysis['system_name']}**: Major voice coherence upgrade required")
             report.append("")
 
         if medium_priority:
-            report.append("### Medium Priority (Phase 2 Integration)")
+            report.append("##)  #  Medium Priority (Phase 2 Integration")
             for analysis in medium_priority:
                 report.append(f"- **{analysis['system_name']}**: Moderate improvements needed")
             report.append("")
 
         # Target achievement pathway
-        report.append("## 🎯 Elite Brand Achievement Pathway")
+        report.append("#)  #  🎯 Elite Brand Achievement Pathway"
         report.append("")
         report.append("1. **Phase 1** (Days 1-3): Upgrade high-priority systems to 70%+ coherence")
         report.append("2. **Phase 2** (Days 4-7): Enhance medium-priority systems to 80%+ coherence")
@@ -519,20 +519,20 @@ def main():
     # Define content systems to analyze
     content_systems = [
         {
-            'name': 'ΛUCTOR Content Engine',
-            'path': '/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor'
+            "name": "ΛUCTOR Content Engine",
+            "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lambda_products_pack/auctor"
         },
         {
-            'name': 'ΛBot System',
-            'path': '/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo'
+            "name": "ΛBot System",
+            "path": "/Users/agi_dev/LOCAL-REPOS/AI-Consolidation-Repo"
         },
         {
-            'name': 'Lucas Knowledge Base',
-            'path': '/Users/agi_dev/LOCAL-REPOS/auctor'
+            "name": "Lucas Knowledge Base",
+            "path": "/Users/agi_dev/LOCAL-REPOS/auctor"
         },
         {
-            'name': 'LUKHAS Core Branding',
-            'path': '/Users/agi_dev/LOCAL-REPOS/Lukhas/branding'
+            "name": "LUKHAS Core Branding",
+            "path": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding"
         }
     ]
 
@@ -545,14 +545,14 @@ def main():
         print(f"\n📊 Analyzing {system['name']}...")
 
         try:
-            analysis = analyzer.analyze_content_system(system['path'], system['name'])
+            analysis = analyzer.analyze_content_system(system["path"], system["name"])
             analyses.append(analysis)
 
             # Quick summary
-            metrics = analysis.get('system_metrics', {})
+            metrics = analysis.get("system_metrics", {})
             if metrics:
-                coherence = metrics.get('average_coherence', 0)
-                ready = analysis.get('readiness_assessment', {}).get('deployment_ready', False)
+                coherence = metrics.get("average_coherence", 0)
+                ready = analysis.get("readiness_assessment", {}).get("deployment_ready", False)
                 print(f"   Voice Coherence: {coherence:.1f}%")
                 print(f"   Elite Ready: {'✅ Yes' if ready else '🔄 No'}")
 
@@ -564,13 +564,13 @@ def main():
     report = analyzer.generate_coherence_report(analyses)
 
     # Save report
-    report_path = '/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/analysis/VOICE_COHERENCE_REPORT.md'
-    with open(report_path, 'w') as f:
+    report_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/analysis/VOICE_COHERENCE_REPORT.md"
+    with open(report_path, "w") as f:
         f.write(report)
 
     # Save detailed analysis
-    analysis_path = '/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/analysis/voice_coherence_analysis.json'
-    with open(analysis_path, 'w') as f:
+    analysis_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/analysis/voice_coherence_analysis.json"
+    with open(analysis_path, "w") as f:
         json.dump(analyses, f, indent=2, default=str)
 
     print("✅ Analysis complete!")

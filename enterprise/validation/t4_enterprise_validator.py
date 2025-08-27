@@ -22,10 +22,10 @@ from typing import Any, Optional
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler('t4_enterprise_validation.log')
+        logging.FileHandler("t4_enterprise_validation.log")
     ]
 )
 logger = logging.getLogger(__name__)
@@ -929,7 +929,7 @@ class T4EnterpriseValidator:
                 "validation_report": asdict(report)
             }
 
-            with open(filename, 'w') as f:
+            with open(filename, "w") as f:
                 json.dump(export_data, f, indent=2, default=str)
 
             logger.info(f"T4 validation report exported to: {filename}")

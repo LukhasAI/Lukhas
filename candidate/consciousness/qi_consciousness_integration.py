@@ -556,8 +556,8 @@ class QICreativeConsciousness:
         )
         # Simplified fallback
         if boost > 1.15:
-            return f"🧠✨ Exploring {theme} via quantum consciousness! #QIConsciousness #{theme.replace(' ', '')}"
-        return f"🌟 {theme} with conscious awareness. #Consciousness #{theme.replace(' ', '')}"
+            return f"🧠✨ Exploring {theme} via quantum consciousness! #QIConsciousness " ', '')}""
+        return f"🌟 {theme} with conscious awareness. #Consciousness " ', '')}"
 
     # Human-readable comment: Generates a consciousness-enhanced story.
     async def _generate_conscious_story(

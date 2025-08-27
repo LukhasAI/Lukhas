@@ -462,7 +462,7 @@ class PolicyRuleEngine:
 
         try:
             value = context
-            for part in field_path.split('.'):
+            for part in field_path.split("."):
                 if isinstance(value, dict):
                     value = value.get(part)
                 elif hasattr(value, part):
@@ -503,19 +503,19 @@ class PolicyRuleEngine:
             if context:
                 # Check target modules
                 if rule.target_modules:
-                    current_module = context.get('module')
+                    current_module = context.get("module")
                     if current_module and current_module not in rule.target_modules:
                         continue
 
                 # Check target users
                 if rule.target_users:
-                    current_user = context.get('user')
+                    current_user = context.get("user")
                     if current_user and current_user not in rule.target_users:
                         continue
 
                 # Check context tags
                 if rule.context_tags:
-                    context_tags = set(context.get('tags', []))
+                    context_tags = set(context.get("tags", []))
                     if not rule.context_tags.intersection(context_tags):
                         continue
 
@@ -1123,7 +1123,7 @@ class PolicyEnforcementEngine:
             rule = self.rule_engine.rules[rule_id]
 
             # Update allowed fields
-            allowed_updates = ['enabled', 'priority', 'action', 'action_parameters', 'description']
+            allowed_updates = ["enabled", "priority", "action", "action_parameters", "description"]
             for field, value in updates.items():
                 if field in allowed_updates:
                     setattr(rule, field, value)

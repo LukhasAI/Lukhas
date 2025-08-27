@@ -6,17 +6,12 @@ Centralized GLYPH token handling for all modules.
 
 import json
 import uuid
-from dataclasses import asdict
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any
-from typing import Optional
-from typing import Union
+from typing import Any, Optional, Union
 
-from .exceptions import GLYPHError
-from .exceptions import ValidationError
+from .exceptions import GLYPHError, ValidationError
 
 
 class GLYPHSymbol(Enum):
@@ -244,7 +239,7 @@ def create_glyph(
 
 def parse_glyph(data: Union[str, dict[str, Any]]) -> GLYPHToken:
     """
-    Parse GLYPH token from JSON string or dictionary.
+    Parse GLYPH token from json_string or dictionary.
 
     Args:
         data: JSON string or dictionary

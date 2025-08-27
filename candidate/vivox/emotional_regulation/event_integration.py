@@ -220,25 +220,25 @@ class VIVOXEventBusIntegration:
                 event = user_id_or_shift
                 actual_user_id = event.user_id
                 # Extract parameters from the event for system event publishing
-                if hasattr(event, 'previous_state') and hasattr(event, 'new_state'):
+                if hasattr(event, "previous_state") and hasattr(event, "new_state"):
                     from .vivox_ern_core import VADVector
                     # Reconstruct VADVector from dict
                     if event.previous_state:
                         previous_state = VADVector(
-                            valence=event.previous_state.get('valence', 0.0),
-                            arousal=event.previous_state.get('arousal', 0.0),
-                            dominance=event.previous_state.get('dominance', 0.0),
-                            intensity=event.previous_state.get('intensity', 0.5)
+                            valence=event.previous_state.get("valence", 0.0),
+                            arousal=event.previous_state.get("arousal", 0.0),
+                            dominance=event.previous_state.get("dominance", 0.0),
+                            intensity=event.previous_state.get("intensity", 0.5)
                         )
                     else:
                         previous_state = None
 
                     if event.new_state:
                         new_state = VADVector(
-                            valence=event.new_state.get('valence', 0.0),
-                            arousal=event.new_state.get('arousal', 0.0),
-                            dominance=event.new_state.get('dominance', 0.0),
-                            intensity=event.new_state.get('intensity', 0.5)
+                            valence=event.new_state.get("valence", 0.0),
+                            arousal=event.new_state.get("arousal", 0.0),
+                            dominance=event.new_state.get("dominance", 0.0),
+                            intensity=event.new_state.get("intensity", 0.5)
                         )
                     else:
                         new_state = None
@@ -262,7 +262,7 @@ class VIVOXEventBusIntegration:
                 system_event = EmotionalStateChanged(
                     previous_vad=previous_state.to_dict(),
                     current_vad=new_state.to_dict(),
-                    trigger=str(context.get('trigger', 'vivox_shift')),
+                    trigger=str(context.get("trigger", "vivox_shift")),
                     intensity=new_state.intensity if new_state else 0.0,
                     source_module="vivox_ern"
                 )

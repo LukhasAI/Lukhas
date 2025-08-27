@@ -188,7 +188,7 @@ class ModuleEnhancer:
 
                         ## Submodules
 
-                        {''.join(f"### {module_name}.{submodule}\n{submodule.title()} functionality for {module_name}.\n\n" for submodule in module_info['submodules']).rstrip()}
+                        {''.join(f"##" for submodule in module_info['submodules']).rstrip()}
 
                         ## Testing
 

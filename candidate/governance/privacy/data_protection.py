@@ -273,7 +273,7 @@ class AdvancedDataProtection:
             return kdf.derive(master_secret)
         else:
             # Fallback basic key derivation
-            return hashlib.pbkdf2_hmac('sha256', master_secret, salt, 100000)
+            return hashlib.pbkdf2_hmac("sha256", master_secret, salt, 100000)
 
     async def _initialize_standard_policies(self):
         """Initialize standard protection policies"""
@@ -392,8 +392,8 @@ class AdvancedDataProtection:
                 protection_level=policy.protection_level,
                 methods_applied=methods_applied,
                 processing_time=processing_time,
-                encryption_key_id=encryption_result.get("key_id") if 'encryption_result' in locals() else None,
-                anonymization_score=anonymization_result.get("score") if 'anonymization_result' in locals() else None,
+                encryption_key_id=encryption_result.get("key_id") if "encryption_result" in locals() else None,
+                anonymization_score=anonymization_result.get("score") if "anonymization_result" in locals() else None,
                 is_reversible=policy.encryption_required and not any(
                     method in [AnonymizationMethod.SUPPRESSION, AnonymizationMethod.SYNTHETIC]
                     for method in policy.anonymization_methods

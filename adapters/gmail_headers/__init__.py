@@ -401,9 +401,9 @@ This is a mock email generated for development purposes.
 
         return ResourceContent(
             metadata=metadata,
-            content=email_body.encode('utf-8'),
-            encoding='utf-8',
-            content_type='text/plain'
+            content=email_body.encode("utf-8"),
+            encoding="utf-8",
+            content_type="text/plain"
         )
 
     def _mock_search_emails(self, query: SearchQuery) -> list[EmailHeaderMetadata]:

@@ -174,7 +174,7 @@ Response must be valid JSON only."""
 
         for req_file in all_files:
             if os.path.exists(req_file):
-                backup_path = os.path.join(backup_dir, req_file.replace('/', '_'))
+                backup_path = os.path.join(backup_dir, req_file.replace("/", "_"))
                 os.makedirs(os.path.dirname(backup_path), exist_ok=True)
                 subprocess.run(["cp", req_file, backup_path], check=True)
                 click.echo(f"  📁 Backed up {req_file} -> {backup_path}")
@@ -198,7 +198,7 @@ Response must be valid JSON only."""
                     break
 
             if updated:
-                with open(file_path, 'w') as f:
+                with open(file_path, "w") as f:
                     f.writelines(lines)
                 click.echo(f"    ✅ Updated {package}=={new_version} in {file_path}")
                 return True
@@ -317,7 +317,7 @@ Response must be valid JSON only."""
 
         # Save detailed report
         report_file = f"security_fix_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump({
                 "timestamp": datetime.now().isoformat(),
                 "backup_dir": backup_dir,

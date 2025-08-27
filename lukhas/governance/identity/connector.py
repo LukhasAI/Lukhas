@@ -19,11 +19,11 @@ class SecurityError(Exception):
 # Import real production-ready implementations
 # These provide full Constitutional AI compliance, tiered access control, and audit logging
 try:
-    from candidate.governance.identity.auth_backend.audit_logger import AuditLogger
     from candidate.governance.ethics.constitutional_ai import (
-        SafetyMonitor,
         ConstitutionalFramework,
+        SafetyMonitor,
     )
+    from candidate.governance.identity.auth_backend.audit_logger import AuditLogger
     from candidate.governance.security.access_control import AccessControlEngine
 
     REAL_IMPLEMENTATIONS_AVAILABLE = True
@@ -132,8 +132,8 @@ class IdentityConnector:
             def __init__(self):
                 # Import the real permission and role classes
                 from candidate.governance.security.access_control import (
-                    PermissionManager,
                     AccessTier,
+                    PermissionManager,
                 )
 
                 self.permission_manager = PermissionManager()
@@ -153,8 +153,8 @@ class IdentityConnector:
             def _create_system_admin(self):
                 """Create system administrator user"""
                 from candidate.governance.security.access_control import (
-                    User,
                     AccessTier,
+                    User,
                 )
 
                 system_admin = User(

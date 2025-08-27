@@ -13,21 +13,22 @@ Usage:
     ./launch_llm_code_fixer.py --fix-top-issues 50
 """
 
-import sys
 import subprocess
+import sys
 from pathlib import Path
+
 
 # Colors for terminal output
 class Colors:
-    RED = '\033[91m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    BLUE = '\033[94m'
-    PURPLE = '\033[95m'
-    CYAN = '\033[96m'
-    WHITE = '\033[97m'
-    BOLD = '\033[1m'
-    END = '\033[0m'
+    RED = "\033[91m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    BLUE = "\033[94m"
+    PURPLE = "\033[95m"
+    CYAN = "\033[96m"
+    WHITE = "\033[97m"
+    BOLD = "\033[1m"
+    END = "\033[0m"
 
 def print_banner():
     """Print the LUKHAS banner"""
@@ -98,7 +99,7 @@ def run_quick_analysis():
 
         if result.stdout:
             print(f"\n{Colors.CYAN}Current Code Quality Issues:{Colors.END}")
-            lines = result.stdout.strip().split('\n')
+            lines = result.stdout.strip().split("\n")
             for line in lines[-10:]:  # Show last 10 lines (summary)
                 if any(char.isdigit() for char in line):  # Lines with numbers
                     print(f"  {line}")

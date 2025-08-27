@@ -546,7 +546,7 @@ class MultiModalLanguageBuilder:
 
         # Add some numbers and symbols for entropy
         text.append(str(random.randint(0, 99)))
-        text.append(random.choice("!@#$%^&*"))
+        text.append(random.choice("!@)  # $%^&*")
 
         return "".join(text)
 

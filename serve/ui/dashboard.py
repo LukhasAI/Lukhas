@@ -7,14 +7,10 @@ Implements passkey login, workflow transparency, feedback collection
 import os
 import sys
 import uuid
-from datetime import datetime
-from datetime import timezone
-from typing import Any
-from typing import Optional
+from datetime import datetime, timezone
+from typing import Any, Optional
 
-from fastapi import FastAPI
-from fastapi import WebSocket
-from fastapi import WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
@@ -23,10 +19,11 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 
 # Import other agents' components
 from core.identity.lambda_id_core import LukhasIdentityService
-from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1
-from lukhas.governance.consent_ledger.ledger_v1 import PolicyEngine
-from lukhas.orchestration.context_bus_enhanced import ContextBusOrchestrator
-from lukhas.orchestration.context_bus_enhanced import WorkflowPipelines
+from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
+from lukhas.orchestration.context_bus_enhanced import (
+    ContextBusOrchestrator,
+    WorkflowPipelines,
+)
 
 # Initialize FastAPI app
 app = FastAPI(

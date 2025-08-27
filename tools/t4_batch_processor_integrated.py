@@ -4,12 +4,13 @@ T4 Lens Batch Processor - Uses existing LUKHAS tools for systematic fixing
 Integrates with Makefile targets and existing Ollama helper
 """
 
-import subprocess
-import json
 import hashlib
+import json
+import subprocess
+import sys
 from datetime import datetime
 from pathlib import Path
-import sys
+
 
 class T4BatchProcessor:
     def __init__(self):
@@ -21,7 +22,7 @@ class T4BatchProcessor:
     def get_current_sha(self):
         """SCIENTIFIC RIGOR: SHA-bound verification"""
         try:
-            result = subprocess.run(['git', 'rev-parse', 'HEAD'],
+            result = subprocess.run(["git", "rev-parse", "HEAD"],
                                   capture_output=True, text=True, cwd=self.base_path)
             return result.stdout.strip()[:8]
         except Exception:
@@ -31,19 +32,19 @@ class T4BatchProcessor:
         """SCIENTIFIC RIGOR: Evidence-based tracking"""
         sha = self.get_current_sha()
         artifact = {
-            'timestamp': datetime.now().isoformat(),
-            'operation': operation,
-            'method': method_used,
-            'sha': sha,
-            'before_count': before_count,
-            'after_count': after_count,
-            'improvement': before_count - after_count,
-            'success': after_count < before_count,
-            't4_validation': 'passed'
+            "timestamp": datetime.now().isoformat(),
+            "operation": operation,
+            "method": method_used,
+            "sha": sha,
+            "before_count": before_count,
+            "after_count": after_count,
+            "improvement": before_count - after_count,
+            "success": after_count < before_count,
+            "t4_validation": "passed"
         }
 
         artifact_file = self.verification_path / f"{sha}_{operation}.json"
-        with open(artifact_file, 'w') as f:
+        with open(artifact_file, "w") as f:
             json.dump(artifact, f, indent=2)
 
         return artifact
@@ -51,10 +52,10 @@ class T4BatchProcessor:
     def get_ruff_stats(self):
         """Get current Ruff statistics"""
         try:
-            result = subprocess.run(['ruff', 'check', '.', '--statistics'],
+            result = subprocess.run(["ruff", "check", ".", "--statistics"],
                                   capture_output=True, text=True, cwd=self.base_path)
-            lines = result.stdout.strip().split('\n')
-            total_line = [line for line in lines if 'Found' in line and 'errors' in line]
+            lines = result.stdout.strip().split("\n")
+            total_line = [line for line in lines if "Found" in line and "errors" in line]
             if total_line:
                 count = int(total_line[0].split()[1])
                 return count, lines
@@ -68,7 +69,7 @@ class T4BatchProcessor:
         print(f"🔧 T4: Running make {target}")
 
         try:
-            result = subprocess.run(['make', target],
+            result = subprocess.run(["make", target],
                                   capture_output=True, text=True, cwd=self.base_path, timeout=300)
 
             if result.returncode == 0:
@@ -89,7 +90,7 @@ class T4BatchProcessor:
         print("🤖 T4: Running Ollama AI analysis")
 
         try:
-            result = subprocess.run(['./tools/local-llm-helper.sh', 'analyze'],
+            result = subprocess.run(["./tools/local-llm-helper.sh", "analyze"],
                                   capture_output=True, text=True, cwd=self.base_path, timeout=600)
 
             if result.returncode == 0:
@@ -116,7 +117,7 @@ class T4BatchProcessor:
 
         # Safety Gate 2: Ensure git working directory is clean
         try:
-            result = subprocess.run(['git', 'status', '--porcelain'],
+            result = subprocess.run(["git", "status", "--porcelain"],
                                   capture_output=True, text=True, cwd=self.base_path)
             if result.stdout.strip():
                 print("   ⚠️ Working directory not clean - will track changes")
@@ -124,7 +125,7 @@ class T4BatchProcessor:
             pass
 
         # Safety Gate 3: Verify essential files exist
-        critical_files = ['main.py', 'requirements.txt', 'Makefile']
+        critical_files = ["main.py", "requirements.txt", "Makefile"]
         for file in critical_files:
             if not (self.base_path / file).exists():
                 print(f"   ❌ Critical file missing: {file}")
@@ -153,18 +154,18 @@ class T4BatchProcessor:
 
         # SCALE & AUTOMATION: Phase 1 - Use existing smart fix
         print("\n⚡ T4: Phase 1 - Smart Fix (Conservative)")
-        success, output = self.run_makefile_target('fix')
+        success, output = self.run_makefile_target("fix")
 
         phase1_count, _ = self.get_ruff_stats()
         phase1_artifact = self.create_verification_artifact(
-            'phase1_smart_fix', before_count, phase1_count, 'makefile_fix'
+            "phase1_smart_fix", before_count, phase1_count, "makefile_fix"
         )
 
         print(f"   📈 Phase 1 Result: {before_count} → {phase1_count} (-{phase1_artifact['improvement']})")
 
         # CONSTITUTIONAL SAFETY: Validate Phase 1 didn't break anything
         print("🛡️ T4: Validating Phase 1 changes")
-        syntax_check = subprocess.run(['python', '-m', 'py_compile', 'main.py'],
+        syntax_check = subprocess.run(["python", "-m", "py_compile", "main.py"],
                                     capture_output=True, cwd=self.base_path)
         if syntax_check.returncode != 0:
             print("   ❌ Phase 1 introduced syntax errors!")
@@ -177,11 +178,11 @@ class T4BatchProcessor:
 
         # EXPERIENCE DISCIPLINE: Phase 3 - Import organization
         print("\n✨ T4: Phase 3 - Import Organization")
-        import_success, import_output = self.run_makefile_target('fix-imports')
+        import_success, import_output = self.run_makefile_target("fix-imports")
 
         phase3_count, _ = self.get_ruff_stats()
         phase3_artifact = self.create_verification_artifact(
-            'phase3_imports', phase1_count, phase3_count, 'makefile_fix_imports'
+            "phase3_imports", phase1_count, phase3_count, "makefile_fix_imports"
         )
 
         print(f"   📈 Phase 3 Result: {phase1_count} → {phase3_count} (-{phase3_artifact['improvement']})")
@@ -194,7 +195,7 @@ class T4BatchProcessor:
         success_rate = (total_improvement / before_count) * 100 if before_count > 0 else 0
 
         final_artifact = self.create_verification_artifact(
-            'complete_t4_batch', before_count, final_count, 't4_lens_framework'
+            "complete_t4_batch", before_count, final_count, "t4_lens_framework"
         )
 
         # Generate comprehensive report

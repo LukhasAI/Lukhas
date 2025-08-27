@@ -164,10 +164,10 @@ class EconomicRealityManipulator(CoreInterface):
                 ))
 
         return {
-            'markets_created': created_markets,
-            'total_market_value': sum(m.get('projected_value', 0) for m in created_markets),
-            'competitive_advantages': await self.calculate_competitive_advantages(created_markets),
-            'strategic_positioning': await self.analyze_strategic_positioning(created_markets)
+            "markets_created": created_markets,
+            "total_market_value": sum(m.get("projected_value", 0) for m in created_markets),
+            "competitive_advantages": await self.calculate_competitive_advantages(created_markets),
+            "strategic_positioning": await self.analyze_strategic_positioning(created_markets)
         }
 
     async def manipulate_competitive_landscape(

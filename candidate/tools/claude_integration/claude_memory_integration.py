@@ -93,25 +93,25 @@ class ClaudeContextMemory:
 
         with open(filepath, "w") as f:
             f.write(
-                f"# Claude Code Context - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+                f""%Y-%m-%d %H:%M:%S')}\n\n"
             )
 
             # Session info
-            f.write("## Session Information\n")
+            f.write("#)  #  Session Information\n"
             metadata = context_data.get("metadata", {})
             for key, value in metadata.items():
                 f.write(f"- {key}: {value}\n")
             f.write("\n")
 
             # Messages
-            f.write("## Conversation\n\n")
+            f.write("#)  #  Conversation\n\n"
             for msg in context_data.get("messages", []):
-                f.write(f"### {msg['role']}\n")
+                f.write(f"##"role']}\n")
                 f.write(f"{msg['content']}\n\n")
 
             # Files modified
             if "files_modified" in context_data:
-                f.write("## Files Modified\n")
+                f.write("#)  #  Files Modified\n"
                 for file in context_data["files_modified"]:
                     f.write(f"- {file}\n")
                 f.write("\n")

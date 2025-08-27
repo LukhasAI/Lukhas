@@ -455,7 +455,7 @@ class CaseManager(GlyphIntegrationMixin):
         metadata: dict[str, Any]
     ):
         """Log action in governance audit trail"""
-        if not hasattr(self, 'case_audit_trail'):
+        if not hasattr(self, "case_audit_trail"):
             self.case_audit_trail = {}
 
         if entity_id not in self.case_audit_trail:

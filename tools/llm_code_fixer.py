@@ -19,15 +19,16 @@ Features:
 - Trinity Framework compliance validation
 """
 
-import os
-import sys
-import json
 import asyncio
+import json
+import os
 import subprocess
-from pathlib import Path
-from typing import Dict, List, Any, Optional
+import sys
 from dataclasses import dataclass
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import aiohttp
 
 # Add LUKHAS modules to path
@@ -63,7 +64,7 @@ class LocalLLMClient:
 
     def __init__(self, service: str = "ollama", base_url: str = "http://localhost:11434"):
         self.service = service
-        self.base_url = base_url.rstrip('/')
+        self.base_url = base_url.rstrip("/")
         self.session: Optional[aiohttp.ClientSession] = None
 
     async def __aenter__(self):
@@ -104,7 +105,7 @@ class LocalLLMClient:
 
     def _extract_context(self, file_content: str, issue: CodeIssue, context_lines: int) -> str:
         """Extract context lines around the issue"""
-        lines = file_content.split('\n')
+        lines = file_content.split("\n")
         start_line = max(0, issue.line_number - context_lines - 1)
         end_line = min(len(lines), issue.line_number + context_lines)
 
@@ -113,7 +114,7 @@ class LocalLLMClient:
             marker = ">>> " if i == issue.line_number - 1 else "    "
             context_with_numbers.append(f"{marker}{i+1:4d}: {lines[i]}")
 
-        return '\n'.join(context_with_numbers)
+        return "\n".join(context_with_numbers)
 
     def _build_fix_prompt(self, issue: CodeIssue, context: str) -> str:
         """Build Trinity Framework-aware prompt for code fixing"""
@@ -192,11 +193,11 @@ Focus on these common LUKHAS patterns:
                     result = await response.json()
                     # Try to parse JSON from response
                     try:
-                        fix_data = json.loads(result['response'].strip())
+                        fix_data = json.loads(result["response"].strip())
                         return fix_data
                     except json.JSONDecodeError:
                         # Fallback: extract code blocks from text response
-                        return self._parse_text_response(result['response'])
+                        return self._parse_text_response(result["response"])
                 else:
                     error_text = await response.text()
                     return {"error": f"Ollama API error {response.status}: {error_text}"}
@@ -227,7 +228,7 @@ Focus on these common LUKHAS patterns:
             ) as response:
                 if response.status == 200:
                     result = await response.json()
-                    content = result['choices'][0]['message']['content']
+                    content = result["choices"][0]["message"]["content"]
                     try:
                         return json.loads(content.strip())
                     except json.JSONDecodeError:
@@ -246,12 +247,12 @@ Focus on these common LUKHAS patterns:
 
         # Extract code blocks
         import re
-        code_blocks = re.findall(r'```(?:python)?\n(.*?)\n```', response_text, re.DOTALL)
+        code_blocks = re.findall(r"```(?:python)?\n(.*?)\n```", response_text, re.DOTALL)
 
         if code_blocks:
             return {
                 "fix_code": code_blocks[0].strip(),
-                "explanation": "Extracted from LLM text response",
+                "explanation": "Extracted from llm_text response",
                 "confidence": 0.7,
                 "trinity_compliance": {
                     "identity_authentic": True,
@@ -416,7 +417,7 @@ class LLMCodeFixer:
         """Load progress from previous runs"""
         if self.progress_file.exists():
             try:
-                with open(self.progress_file, 'r') as f:
+                with open(self.progress_file) as f:
                     return json.load(f)
             except Exception:
                 pass
@@ -431,7 +432,7 @@ class LLMCodeFixer:
     def _save_progress(self):
         """Save current progress"""
         self.progress["last_run"] = datetime.now().isoformat()
-        with open(self.progress_file, 'w') as f:
+        with open(self.progress_file, "w") as f:
             json.dump(self.progress, f, indent=2)
 
     async def run_intelligent_code_improvement(self):
@@ -565,7 +566,7 @@ class LLMCodeFixer:
                     error_message=f"File not found: {file_path}"
                 )
 
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 file_content = f.read()
 
             # Generate fix using LLM
@@ -596,7 +597,7 @@ class LLMCodeFixer:
                 # Backup original file
                 backup_path = self.backup_dir / file_path.name
                 backup_path.parent.mkdir(parents=True, exist_ok=True)
-                with open(backup_path, 'w') as f:
+                with open(backup_path, "w") as f:
                     f.write(file_content)
 
                 # Apply fix
@@ -627,15 +628,15 @@ class LLMCodeFixer:
         """Apply the LLM-generated fix to the file"""
 
         try:
-            lines = original_content.split('\n')
+            lines = original_content.split("\n")
 
             # Simple line replacement (can be made more sophisticated)
             if 0 < issue.line_number <= len(lines):
                 lines[issue.line_number - 1] = fix_code
 
                 # Write back to file
-                with open(file_path, 'w', encoding='utf-8') as f:
-                    f.write('\n'.join(lines))
+                with open(file_path, "w", encoding="utf-8") as f:
+                    f.write("\n".join(lines))
 
                 return True
             else:
@@ -695,7 +696,7 @@ All fixes applied follow LUKHAS Trinity Framework principles:
 *⚛️🧠🛡️ Trinity Framework Consciousness Technology*
 """
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write(report_content)
 
         print(f"\n📋 Final report generated: {report_path}")

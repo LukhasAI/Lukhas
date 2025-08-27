@@ -102,7 +102,7 @@ try:
     )
 except ImportError as e:
     log.error(
-        "Failed to import LUKHAS core components for QIBioOptimizationAdapter. Using mock fallbacks.",
+        "Failed to import lukhas_core components for QIBioOptimizationAdapter. Using mock fallbacks.",
         error_message=str(e),
         exc_info=True,
         tip="Ensure LUKHAS project structure and PYTHONPATH are correctly set.",

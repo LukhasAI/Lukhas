@@ -531,20 +531,20 @@ class DecisionExplainer:
         # Add tags based on decision type
         decision_type = context.get("decision_type", "").lower()
         if "ethical" in decision_type:
-            relevant_tags.add("#TAG:ethics")
+            relevant_tags.add(")  # TAG:ethics"
         if "emergency" in decision_type:
-            relevant_tags.add("#TAG:alert")
+            relevant_tags.add(")  # TAG:alert"
         if "resource" in decision_type:
-            relevant_tags.add("#TAG:resource")
+            relevant_tags.add(")  # TAG:resource"
         if "strategic" in decision_type:
-            relevant_tags.add("#TAG:strategy")
+            relevant_tags.add(")  # TAG:strategy"
 
         # Add tags based on system state
         hormonal_profile = self.endocrine_system.get_hormone_profile()
         if hormonal_profile.get("dominant_state") == "stressed":
-            relevant_tags.add("#TAG:cortisol")
+            relevant_tags.add(")  # TAG:cortisol"
         elif hormonal_profile.get("dominant_state") == "motivated":
-            relevant_tags.add("#TAG:dopamine")
+            relevant_tags.add(")  # TAG:dopamine"
 
         return relevant_tags
 

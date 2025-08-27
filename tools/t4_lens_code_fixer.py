@@ -4,11 +4,12 @@ T4 Lens Code Quality Automation
 Based on the four pillars: Scale, Safety, Rigor, Experience
 """
 
-import subprocess
-import json
 import hashlib
+import json
+import subprocess
 from datetime import datetime
 from pathlib import Path
+
 
 class T4LensCodeFixer:
     def __init__(self):
@@ -19,7 +20,7 @@ class T4LensCodeFixer:
     def get_current_sha(self):
         """SCIENTIFIC RIGOR: SHA-bound verification"""
         try:
-            result = subprocess.run(['git', 'rev-parse', 'HEAD'],
+            result = subprocess.run(["git", "rev-parse", "HEAD"],
                                   capture_output=True, text=True, cwd=self.base_path)
             return result.stdout.strip()[:8]
         except Exception:
@@ -29,18 +30,18 @@ class T4LensCodeFixer:
         """SCIENTIFIC RIGOR: Evidence-based tracking"""
         sha = self.get_current_sha()
         artifact = {
-            'timestamp': datetime.now().isoformat(),
-            'operation': operation,
-            'sha': sha,
-            'before_count': before_count,
-            'after_count': after_count,
-            'improvement': before_count - after_count,
-            'files_affected': files_affected,
-            'success': after_count < before_count
+            "timestamp": datetime.now().isoformat(),
+            "operation": operation,
+            "sha": sha,
+            "before_count": before_count,
+            "after_count": after_count,
+            "improvement": before_count - after_count,
+            "files_affected": files_affected,
+            "success": after_count < before_count
         }
 
         artifact_file = self.verification_path / f"{sha}_{operation}.json"
-        with open(artifact_file, 'w') as f:
+        with open(artifact_file, "w") as f:
             json.dump(artifact, f, indent=2)
 
         return artifact
@@ -48,10 +49,10 @@ class T4LensCodeFixer:
     def get_ruff_stats(self):
         """Get current Ruff statistics"""
         try:
-            result = subprocess.run(['ruff', 'check', '.', '--statistics'],
+            result = subprocess.run(["ruff", "check", ".", "--statistics"],
                                   capture_output=True, text=True, cwd=self.base_path)
-            lines = result.stdout.strip().split('\n')
-            total_line = [line for line in lines if 'Found' in line and 'errors' in line]
+            lines = result.stdout.strip().split("\n")
+            total_line = [line for line in lines if "Found" in line and "errors" in line]
             if total_line:
                 count = int(total_line[0].split()[1])
                 return count, lines
@@ -67,15 +68,15 @@ class T4LensCodeFixer:
         before_count, _ = self.get_ruff_stats()
 
         # Run safe fixes only (fail-closed approach)
-        subprocess.run(['ruff', 'check', '.', '--fix'],
+        subprocess.run(["ruff", "check", ".", "--fix"],
                       capture_output=True, text=True, cwd=self.base_path)
 
         after_count, stats = self.get_ruff_stats()
 
         # Create verification artifact
         artifact = self.create_verification_artifact(
-            'safe_fixes', before_count, after_count,
-            ['automated_safe_fixes']
+            "safe_fixes", before_count, after_count,
+            ["automated_safe_fixes"]
         )
 
         print(f"   ✅ Before: {before_count} issues")
@@ -91,21 +92,21 @@ class T4LensCodeFixer:
 
         _, stats = self.get_ruff_stats()
         categories = {
-            'CRITICAL_BLOCKERS': [],      # Syntax errors, undefined names
-            'AUTOMATION_READY': [],       # Import fixes, unused imports
-            'SAFETY_REVIEW': [],          # Bare except, error handling
-            'POLISH_ITEMS': []           # Style, naming, minor issues
+            "CRITICAL_BLOCKERS": [],      # Syntax errors, undefined names
+            "AUTOMATION_READY": [],       # Import fixes, unused imports
+            "SAFETY_REVIEW": [],          # Bare except, error handling
+            "POLISH_ITEMS": []           # Style, naming, minor issues
         }
 
         for line in stats:
-            if any(code in line for code in ['invalid-syntax', 'undefined-name']):
-                categories['CRITICAL_BLOCKERS'].append(line.strip())
-            elif any(code in line for code in ['E402', 'F401', 'unused-import']):
-                categories['AUTOMATION_READY'].append(line.strip())
-            elif any(code in line for code in ['E722', 'bare-except']):
-                categories['SAFETY_REVIEW'].append(line.strip())
+            if any(code in line for code in ["invalid-syntax", "undefined-name"]):
+                categories["CRITICAL_BLOCKERS"].append(line.strip())
+            elif any(code in line for code in ["E402", "F401", "unused-import"]):
+                categories["AUTOMATION_READY"].append(line.strip())
+            elif any(code in line for code in ["E722", "bare-except"]):
+                categories["SAFETY_REVIEW"].append(line.strip())
             elif line.strip() and line[0].isdigit():
-                categories['POLISH_ITEMS'].append(line.strip())
+                categories["POLISH_ITEMS"].append(line.strip())
 
         for category, items in categories.items():
             if items:
@@ -140,8 +141,8 @@ class T4LensCodeFixer:
 
         # Scale & Automation Recommendations
         print("\n⚡ T4 LENS: Scale & Automation - Next Steps")
-        critical_count = len(categories.get('CRITICAL_BLOCKERS', []))
-        automation_count = len(categories.get('AUTOMATION_READY', []))
+        critical_count = len(categories.get("CRITICAL_BLOCKERS", []))
+        automation_count = len(categories.get("AUTOMATION_READY", []))
 
         print(f"   🔥 Priority 1: {critical_count} critical blockers")
         print(f"   🤖 Priority 2: {automation_count} automation-ready fixes")

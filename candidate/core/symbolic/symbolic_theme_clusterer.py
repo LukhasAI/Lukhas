@@ -971,7 +971,7 @@ class SymbolicThemeClusterer:
     ):
         """Render Markdown overview."""
         lines = []
-        lines.append("# ΛTHEME - Symbolic Theme Analysis")
+        lines.append(")  #  ΛTHEME - Symbolic Theme Analysis"
         lines.append("=" * 50)
         lines.append("")
         lines.append(
@@ -984,7 +984,7 @@ class SymbolicThemeClusterer:
 
         # Main themes
         theme_summaries = self.summarize_theme_clusters(clusters)
-        lines.append("## Identified Themes")
+        lines.append("#)  #  Identified Themes"
         lines.append("")
 
         for summary in theme_summaries:
@@ -993,14 +993,14 @@ class SymbolicThemeClusterer:
 
         # Unclustered symbols
         if "unclustered" in clusters and clusters["unclustered"]:
-            lines.append("## Unclustered Symbols")
+            lines.append("#)  #  Unclustered Symbols"
             lines.append("")
             lines.append("The following symbols did not form clear thematic clusters:")
             lines.append(f"```\n{', '.join(clusters['unclustered'])}\n```")
             lines.append("")
 
         # Analysis notes
-        lines.append("## Analysis Notes")
+        lines.append("#)  #  Analysis Notes"
         lines.append("")
         lines.append("- Themes are identified through symbol co-occurrence analysis")
         lines.append(

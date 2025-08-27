@@ -274,7 +274,7 @@ def example_run_recall_memories():
     if recalled_data:
         log.info(f"Successfully recalled {len(recalled_data)} 'Lukhas' memories via example.")
         for i, item in enumerate(recalled_data):
-            log.info(f"Recalled Memory #{i+1} (Example):",
+            log.info(f"Recalled Memory ",
                      ts=item.get("timestamp_utc_iso", item.get("timestamp")),
                      event_preview=str(item.get("event_description", item.get("event", "N/A")))[:70]+"...")
     else:
@@ -287,7 +287,7 @@ if __name__ == "__main__":
 
 # --- LUKHAS AI System Footer ---
 # File Origin: LUKHAS Security & Memory Layer
-# Context: Utility for recalling and decrypting "Lukhas" (persona/sub-system) symbolic memories from SEEDRA vault.
+# Context: Utility for recalling and decrypting "Lukhas" (persona/sub-system) symbolic memories from seedra_vault.
 # ACCESSED_BY: ['LucasPersonaManager', 'SymbolicMemoryAuditor_Lukhas'] # Conceptual
 # MODIFIED_BY: ['CORE_DEV_SECURITY_TEAM', 'LUKHAS_VAULT_INTEGRATORS'] # Conceptual
 # Tier Access: Function (Effective Tier 3+ due to decryption of core data) # Conceptual

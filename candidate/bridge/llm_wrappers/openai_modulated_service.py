@@ -552,9 +552,9 @@ class OpenAIModulatedService:
                 # Extract content from results
                 context_notes = []
                 for result in results:
-                    content = result.get('content', '')
-                    metadata = result.get('metadata', {})
-                    source = metadata.get('source', 'unknown')
+                    content = result.get("content", "")
+                    metadata = result.get("metadata", {})
+                    source = metadata.get("source", "unknown")
 
                     # Format the retrieved context
                     formatted_note = f"[From {source}]: {content[:200]}..."
@@ -586,9 +586,9 @@ class OpenAIModulatedService:
             text = modulation.original_prompt.lower()
             import re
             # Extract words longer than 3 characters, excluding common stop words
-            stop_words = {'the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'had', 'her', 'was', 'one', 'our', 'out', 'day', 'get', 'has', 'him', 'his', 'how', 'man', 'new', 'now', 'old', 'see', 'two', 'way', 'who', 'boy', 'did', 'its', 'let', 'put', 'say', 'she', 'too', 'use'}
+            stop_words = {"the", "and", "for", "are", "but", "not", "you", "all", "can", "had", "her", "was", "one", "our", "out", "day", "get", "has", "him", "his", "how", "man", "new", "now", "old", "see", "two", "way", "who", "boy", "did", "its", "let", "put", "say", "she", "too", "use"}
 
-            keywords = [word for word in re.findall(r'\\b\\w+\\b', text)
+            keywords = [word for word in re.findall(r"\\b\\w+\\b", text)
                        if len(word) > 3 and word not in stop_words][:top_k]
 
             # Search memory service for relevant content

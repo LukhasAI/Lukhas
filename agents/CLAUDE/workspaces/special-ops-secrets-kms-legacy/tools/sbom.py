@@ -26,9 +26,9 @@ def generate_sbom():
         text=True
     )
 
-    for line in result.stdout.split('\n'):
-        if '==' in line:
-            name, version = line.split('==')
+    for line in result.stdout.split("\n"):
+        if "==" in line:
+            name, version = line.split("==")
             sbom["packages"].append({
                 "name": name,
                 "version": version,

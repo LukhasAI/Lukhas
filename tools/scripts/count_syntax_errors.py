@@ -15,11 +15,11 @@ def count_syntax_errors(base_path=None):
 
     for py_file in base_dir.rglob("*.py"):
         # Skip archive and backup directories
-        if any(part in str(py_file).lower() for part in ['archive', 'backup', '_cleanup', '.git']):
+        if any(part in str(py_file).lower() for part in ["archive", "backup", "_cleanup", ".git"]):
             continue
 
         try:
-            with open(py_file, encoding='utf-8', errors='ignore') as f:
+            with open(py_file, encoding="utf-8", errors="ignore") as f:
                 ast.parse(f.read())
         except SyntaxError as e:
             total_errors += 1

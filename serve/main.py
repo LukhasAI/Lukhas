@@ -3,9 +3,7 @@
 import logging
 from typing import Optional
 
-from fastapi import FastAPI
-from fastapi import Header
-from fastapi import HTTPException
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 try:

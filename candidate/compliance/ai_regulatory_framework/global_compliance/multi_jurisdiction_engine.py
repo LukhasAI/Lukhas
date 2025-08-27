@@ -373,7 +373,7 @@ class GlobalComplianceEngine:
         if profile.cross_border_transfers:
             if Jurisdiction.EU in profile.jurisdictions:
                 issues.append(
-                    "Cross-border data transfers from EU require adequacy decision or safeguards"
+                    "Cross-border data transfers from eu_require adequacy decision or safeguards"
                 )
 
             if Jurisdiction.CHINA in profile.jurisdictions:

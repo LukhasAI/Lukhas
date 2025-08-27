@@ -300,9 +300,9 @@ class CulturalIntelligenceEngine:
     def _get_cultural_colors(self, cultural_context: dict[str, Any]) -> dict[str, str]:
         """Get culturally appropriate colors"""
         return {
-            "primary": cultural_context.get("preferred_color", "#4A90E2"),
-            "accent": cultural_context.get("accent_color", "#7ED321"),
-            "warning": cultural_context.get("warning_color", "#F5A623"),
+            "primary": cultural_context.get("preferred_color", ")  # 4A90E2",
+            "accent": cultural_context.get("accent_color", ")  # 7ED321",
+            "warning": cultural_context.get("warning_color", ")  # F5A623",
         }
 
     def _get_cultural_symbols(self, cultural_context: dict[str, Any]) -> list[str]:

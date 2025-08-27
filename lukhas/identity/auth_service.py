@@ -13,8 +13,8 @@ import logging
 import secrets
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 # Standard library fallback imports
 try:
@@ -37,17 +37,17 @@ try:
     from candidate.governance.identity.access_tier_manager import (
         AccessTierManager,
     )
-    from candidate.governance.identity.identity_validator import (
-        IdentityValidator,
-    )
-    from candidate.qi.engines.identity.qi_identity_manager import (
-        QIIdentityManager,
-    )
     from candidate.governance.identity.auth_backend.audit_logger import (
         AuditLogger,
     )
     from candidate.governance.identity.auth_backend.authentication_server import (
         AuthenticationServer,
+    )
+    from candidate.governance.identity.identity_validator import (
+        IdentityValidator,
+    )
+    from candidate.qi.engines.identity.qi_identity_manager import (
+        QIIdentityManager,
     )
 
     REAL_IDENTITY_AVAILABLE = True
@@ -763,7 +763,7 @@ class AuthenticationService:
             return default
 
         try:
-            with open(file_path, "r") as f:
+            with open(file_path) as f:
                 return json.load(f)
         except Exception as e:
             self.logger.error(f"Error loading {file_path}: {e}")

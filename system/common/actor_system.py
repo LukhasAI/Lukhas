@@ -64,9 +64,9 @@ class Actor(ABC):
         self._task: Optional[asyncio.Task] = None
 
         # Actor management
-        self._parent: Optional['Actor'] = None
-        self._children: Set['Actor'] = set()
-        self._supervisor: Optional['ActorSupervisor'] = None
+        self._parent: Optional[Actor] = None
+        self._children: Set[Actor] = set()
+        self._supervisor: Optional[ActorSupervisor] = None
 
         # Performance metrics
         self._metrics = {
@@ -198,7 +198,7 @@ class Actor(ABC):
         )
 
         # Route through actor system
-        if hasattr(self, '_system'):
+        if hasattr(self, "_system"):
             await self._system.route_message(message)
         else:
             self.logger.warning(f"No actor system available to route message to {recipient}")
@@ -236,12 +236,12 @@ class Actor(ABC):
 
         self.logger.debug(f"Message loop ended for {self.actor_id}")
 
-    def add_child(self, child: 'Actor') -> None:
+    def add_child(self, child: "Actor") -> None:
         """Add a child actor"""
         child._parent = self
         self._children.add(child)
 
-    def remove_child(self, child: 'Actor') -> None:
+    def remove_child(self, child: "Actor") -> None:
         """Remove a child actor"""
         child._parent = None
         self._children.discard(child)
@@ -275,7 +275,7 @@ class ActorSupervisor:
         self.actors[actor.actor_id] = actor
 
         # Store policy for this actor
-        if not hasattr(self, '_policies'):
+        if not hasattr(self, "_policies"):
             self._policies = {}
         self._policies[actor.actor_id] = policy
 
@@ -283,7 +283,7 @@ class ActorSupervisor:
 
     async def handle_actor_error(self, actor: Actor, error: Exception) -> None:
         """Handle actor errors based on supervision policy"""
-        policy = getattr(self, '_policies', {}).get(actor.actor_id, "on_failure")
+        policy = getattr(self, "_policies", {}).get(actor.actor_id, "on_failure")
 
         self.logger.error(f"Actor {actor.actor_id} error: {error}, applying policy: {policy}")
 

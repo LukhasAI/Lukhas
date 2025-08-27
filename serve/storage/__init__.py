@@ -6,8 +6,8 @@ for various data types used by the LUKHAS API server.
 """
 
 from .trace_provider import (
-    TraceStorageProvider,
     FileTraceStorageProvider,
+    TraceStorageProvider,
     create_trace_storage_provider,
     get_default_trace_provider,
 )

@@ -51,17 +51,17 @@ class GPT5HealthcareClient:
             config: Configuration dictionary
         """
         self.config = config or {}
-        self.api_key = os.getenv('OPENAI_API_KEY') or self.config.get('api_key')
+        self.api_key = os.getenv("OPENAI_API_KEY") or self.config.get("api_key")
 
         # Healthcare-specific settings
         self.medical_config = {
-            'model': 'gpt-5-healthcare',  # Future GPT-5 healthcare model
-            'temperature': 0.3,  # Lower temperature for medical accuracy
-            'max_tokens': 500,
-            'language': 'spanish',
-            'dialect': 'andalusian',
-            'user_profile': 'elderly',
-            'safety_mode': 'maximum'
+            "model": "gpt-5-healthcare",  # Future GPT-5 healthcare model
+            "temperature": 0.3,  # Lower temperature for medical accuracy
+            "max_tokens": 500,
+            "language": "spanish",
+            "dialect": "andalusian",
+            "user_profile": "elderly",
+            "safety_mode": "maximum"
         }
 
         # Initialize medication database
@@ -80,66 +80,66 @@ class GPT5HealthcareClient:
         """Initialize Spanish medication database"""
         self.medications = {
             # Common elderly medications in Spain
-            'enalapril': {
-                'type': 'ACE inhibitor',
-                'purpose': 'control de la tensión arterial',
-                'common_dosage': '5-20mg',
-                'side_effects': ['tos seca', 'mareo', 'cansancio'],
-                'interactions': ['potasio', 'AINE', 'litio'],
-                'warnings': ['No tome con alimentos ricos en potasio']
+            "enalapril": {
+                "type": "ACE inhibitor",
+                "purpose": "control de la tensión arterial",
+                "common_dosage": "5-20mg",
+                "side_effects": ["tos seca", "mareo", "cansancio"],
+                "interactions": ["potasio", "AINE", "litio"],
+                "warnings": ["No tome con alimentos ricos en potasio"]
             },
-            'metformina': {
-                'type': 'antidiabético',
-                'purpose': 'control del azúcar en sangre',
-                'common_dosage': '500-1000mg',
-                'side_effects': ['náuseas', 'diarrea', 'dolor abdominal'],
-                'interactions': ['alcohol', 'contraste yodado'],
-                'warnings': ['Tome con las comidas']
+            "metformina": {
+                "type": "antidiabético",
+                "purpose": "control del azúcar en sangre",
+                "common_dosage": "500-1000mg",
+                "side_effects": ["náuseas", "diarrea", "dolor abdominal"],
+                "interactions": ["alcohol", "contraste yodado"],
+                "warnings": ["Tome con las comidas"]
             },
-            'omeprazol': {
-                'type': 'inhibidor de bomba de protones',
-                'purpose': 'protección del estómago',
-                'common_dosage': '20-40mg',
-                'side_effects': ['dolor de cabeza', 'náuseas'],
-                'interactions': ['clopidogrel', 'vitamina B12'],
-                'warnings': ['Tome 30 minutos antes del desayuno']
+            "omeprazol": {
+                "type": "inhibidor de bomba de protones",
+                "purpose": "protección del estómago",
+                "common_dosage": "20-40mg",
+                "side_effects": ["dolor de cabeza", "náuseas"],
+                "interactions": ["clopidogrel", "vitamina B12"],
+                "warnings": ["Tome 30 minutos antes del desayuno"]
             },
-            'simvastatina': {
-                'type': 'estatina',
-                'purpose': 'control del colesterol',
-                'common_dosage': '20-40mg',
-                'side_effects': ['dolor muscular', 'cansancio'],
-                'interactions': ['pomelo', 'amiodarona'],
-                'warnings': ['Tome por la noche']
+            "simvastatina": {
+                "type": "estatina",
+                "purpose": "control del colesterol",
+                "common_dosage": "20-40mg",
+                "side_effects": ["dolor muscular", "cansancio"],
+                "interactions": ["pomelo", "amiodarona"],
+                "warnings": ["Tome por la noche"]
             },
-            'paracetamol': {
-                'type': 'analgésico',
-                'purpose': 'alivio del dolor y fiebre',
-                'common_dosage': '500-1000mg',
-                'side_effects': ['raros con dosis normales'],
-                'interactions': ['warfarina', 'alcohol'],
-                'warnings': ['Máximo 4g al día']
+            "paracetamol": {
+                "type": "analgésico",
+                "purpose": "alivio del dolor y fiebre",
+                "common_dosage": "500-1000mg",
+                "side_effects": ["raros con dosis normales"],
+                "interactions": ["warfarina", "alcohol"],
+                "warnings": ["Máximo 4g al día"]
             }
         }
 
     def _init_symptom_checker(self):
         """Initialize symptom checking patterns"""
         self.symptom_patterns = {
-            'emergency': {
-                'keywords': ['dolor pecho', 'no puedo respirar', 'mareo fuerte',
-                            'confusión', 'desmayo', 'sangre', 'caída'],
-                'action': 'call_emergency',
-                'message': 'Síntomas de emergencia detectados. Llamando al 112.'
+            "emergency": {
+                "keywords": ["dolor pecho", "no puedo respirar", "mareo fuerte",
+                            "confusión", "desmayo", "sangre", "caída"],
+                "action": "call_emergency",
+                "message": "Síntomas de emergencia detectados. Llamando al 112."
             },
-            'urgent': {
-                'keywords': ['fiebre alta', 'dolor fuerte', 'vómitos', 'diarrea severa'],
-                'action': 'urgent_care',
-                'message': 'Necesita atención médica pronto. Contacte con su centro de salud.'
+            "urgent": {
+                "keywords": ["fiebre alta", "dolor fuerte", "vómitos", "diarrea severa"],
+                "action": "urgent_care",
+                "message": "Necesita atención médica pronto. Contacte con su centro de salud."
             },
-            'routine': {
-                'keywords': ['dolor leve', 'cansancio', 'tos', 'resfriado'],
-                'action': 'schedule_appointment',
-                'message': 'Síntomas leves. Considere pedir cita con su médico.'
+            "routine": {
+                "keywords": ["dolor leve", "cansancio", "tos", "resfriado"],
+                "action": "schedule_appointment",
+                "message": "Síntomas leves. Considere pedir cita con su médico."
             }
         }
 
@@ -157,7 +157,7 @@ class GPT5HealthcareClient:
         try:
             # Check for emergency keywords first
             urgency = self._assess_urgency(query)
-            if urgency == 'emergency':
+            if urgency == "emergency":
                 return await self._handle_emergency_query(query)
 
             # Prepare context for GPT-5
@@ -194,16 +194,16 @@ class GPT5HealthcareClient:
         query_lower = query.lower()
 
         # Check emergency patterns
-        for keyword in self.symptom_patterns['emergency']['keywords']:
+        for keyword in self.symptom_patterns["emergency"]["keywords"]:
             if keyword in query_lower:
-                return 'emergency'
+                return "emergency"
 
         # Check urgent patterns
-        for keyword in self.symptom_patterns['urgent']['keywords']:
+        for keyword in self.symptom_patterns["urgent"]["keywords"]:
             if keyword in query_lower:
-                return 'urgent'
+                return "urgent"
 
-        return 'routine'
+        return "routine"
 
     async def _handle_emergency_query(self, query: str) -> str:
         """Handle emergency health queries"""
@@ -220,22 +220,22 @@ class GPT5HealthcareClient:
     def _prepare_medical_context(self, query: str, user_context: dict = None) -> dict:
         """Prepare context for GPT-5 medical query"""
         context = {
-            'query': query,
-            'language': 'Spanish (Andalusian dialect)',
-            'user_profile': 'elderly (65+ years)',
-            'safety_level': 'maximum',
-            'response_style': 'simple, caring, non-technical',
-            'medical_context': user_context or {},
-            'timestamp': datetime.now().isoformat()
+            "query": query,
+            "language": "Spanish (Andalusian dialect)",
+            "user_profile": "elderly (65+ years)",
+            "safety_level": "maximum",
+            "response_style": "simple, caring, non-technical",
+            "medical_context": user_context or {},
+            "timestamp": datetime.now().isoformat()
         }
 
         # Add user's medication list if available
-        if user_context and 'medications' in user_context:
-            context['current_medications'] = user_context['medications']
+        if user_context and "medications" in user_context:
+            context["current_medications"] = user_context["medications"]
 
         # Add medical history if available
-        if user_context and 'conditions' in user_context:
-            context['medical_conditions'] = user_context['conditions']
+        if user_context and "conditions" in user_context:
+            context["medical_conditions"] = user_context["conditions"]
 
         return context
 
@@ -246,10 +246,10 @@ class GPT5HealthcareClient:
         In production, this would make actual API calls to GPT-5
         """
         # Simulate GPT-5 response based on context
-        query = context['query'].lower()
+        query = context["query"].lower()
 
         # Simulated responses for common queries
-        if 'dolor cabeza' in query:
+        if "dolor cabeza" in query:
             return (
                 "El dolor de cabeza puede tener muchas causas. "
                 "Asegúrese de estar bien hidratado y haber descansado. "
@@ -257,7 +257,7 @@ class GPT5HealthcareClient:
                 "Si el dolor es muy fuerte, repentino o con otros síntomas, "
                 "contacte con su médico."
             )
-        elif 'presión alta' in query or 'tensión alta' in query:
+        elif "presión alta" in query or "tensión alta" in query:
             return (
                 "La presión alta es importante controlarla. "
                 "Tome su medicación como le indicó el médico. "
@@ -265,7 +265,7 @@ class GPT5HealthcareClient:
                 "y mida su tensión regularmente. "
                 "Si tiene mareos o dolor de pecho, busque atención médica."
             )
-        elif 'diabetes' in query or 'azúcar' in query:
+        elif "diabetes" in query or "azúcar" in query:
             return (
                 "Para controlar el azúcar en sangre: "
                 "Tome su medicación regularmente, siga la dieta recomendada, "
@@ -292,25 +292,25 @@ class GPT5HealthcareClient:
         """
         # Medical term replacements
         replacements = {
-            'hipertensión': 'tensión alta',
-            'hipotensión': 'tensión baja',
-            'diabetes mellitus': 'el azúcar',
-            'insuficiencia cardíaca': 'el corazón débil',
-            'arritmia': 'latidos irregulares',
-            'medicamento': 'medicina',
-            'efectos adversos': 'cosas malas que puede causar',
-            'contraindicaciones': 'cuando no se debe tomar',
-            'interacciones': 'problemas con otras medicinas',
-            'dosis': 'cantidad',
-            'administrar': 'tomar',
-            'vía oral': 'por la boca',
-            'en ayunas': 'sin haber comido',
-            'síntomas': 'lo que siente',
-            'diagnóstico': 'lo que tiene',
-            'pronóstico': 'cómo va a evolucionar',
-            'patología': 'enfermedad',
-            'crónico': 'para siempre',
-            'agudo': 'de repente'
+            "hipertensión": "tensión alta",
+            "hipotensión": "tensión baja",
+            "diabetes mellitus": "el azúcar",
+            "insuficiencia cardíaca": "el corazón débil",
+            "arritmia": "latidos irregulares",
+            "medicamento": "medicina",
+            "efectos adversos": "cosas malas que puede causar",
+            "contraindicaciones": "cuando no se debe tomar",
+            "interacciones": "problemas con otras medicinas",
+            "dosis": "cantidad",
+            "administrar": "tomar",
+            "vía oral": "por la boca",
+            "en ayunas": "sin haber comido",
+            "síntomas": "lo que siente",
+            "diagnóstico": "lo que tiene",
+            "pronóstico": "cómo va a evolucionar",
+            "patología": "enfermedad",
+            "crónico": "para siempre",
+            "agudo": "de repente"
         }
 
         simplified = text
@@ -318,36 +318,36 @@ class GPT5HealthcareClient:
             simplified = simplified.replace(medical, simple)
 
         # Make sentences shorter and clearer
-        sentences = simplified.split('.')
+        sentences = simplified.split(".")
         short_sentences = []
         for sentence in sentences:
             if len(sentence) > 100:  # Long sentence
                 # Try to break it down
-                parts = sentence.split(',')
+                parts = sentence.split(",")
                 for part in parts:
                     if part.strip():
-                        short_sentences.append(part.strip() + '.')
+                        short_sentences.append(part.strip() + ".")
             else:
                 if sentence.strip():
-                    short_sentences.append(sentence.strip() + '.')
+                    short_sentences.append(sentence.strip() + ".")
 
-        return ' '.join(short_sentences)
+        return " ".join(short_sentences)
 
     def _add_safety_disclaimers(self, response: str, urgency: str) -> str:
         """Add appropriate safety disclaimers"""
         disclaimers = {
-            'emergency': (
+            "emergency": (
                 "\n\n⚠️ IMPORTANTE: Si es una emergencia, llame al 112 ahora."
             ),
-            'urgent': (
+            "urgent": (
                 "\n\n📞 Recomendación: Contacte con su centro de salud hoy."
             ),
-            'routine': (
+            "routine": (
                 "\n\n💡 Consejo: Hable con su médico en la próxima cita."
             )
         }
 
-        disclaimer = disclaimers.get(urgency, '')
+        disclaimer = disclaimers.get(urgency, "")
         return response + disclaimer
 
     async def check_drug_interactions(self, medications: list[str]) -> dict[str, Any]:
@@ -361,10 +361,10 @@ class GPT5HealthcareClient:
             Dictionary with interaction information
         """
         interactions = {
-            'safe': [],
-            'caution': [],
-            'dangerous': [],
-            'recommendations': []
+            "safe": [],
+            "caution": [],
+            "dangerous": [],
+            "recommendations": []
         }
 
         # Check each pair of medications
@@ -372,23 +372,23 @@ class GPT5HealthcareClient:
             for med2 in medications[i+1:]:
                 interaction = self._check_interaction_pair(med1, med2)
                 if interaction:
-                    interactions[interaction['severity']].append({
-                        'medications': [med1, med2],
-                        'description': interaction['description'],
-                        'action': interaction['action']
+                    interactions[interaction["severity"]].append({
+                        "medications": [med1, med2],
+                        "description": interaction["description"],
+                        "action": interaction["action"]
                     })
 
         # Add general recommendations
-        if interactions['dangerous']:
-            interactions['recommendations'].append(
+        if interactions["dangerous"]:
+            interactions["recommendations"].append(
                 "⚠️ Hay interacciones peligrosas. Consulte con su médico urgentemente."
             )
-        elif interactions['caution']:
-            interactions['recommendations'].append(
+        elif interactions["caution"]:
+            interactions["recommendations"].append(
                 "⚡ Hay algunas interacciones. Coméntelo con su médico."
             )
         else:
-            interactions['recommendations'].append(
+            interactions["recommendations"].append(
                 "✅ No hay interacciones peligrosas conocidas."
             )
 
@@ -398,34 +398,34 @@ class GPT5HealthcareClient:
         """Check interaction between two medications"""
         # Known dangerous interactions
         dangerous_pairs = {
-            ('warfarina', 'aspirina'): 'Riesgo de sangrado',
-            ('metformina', 'alcohol'): 'Riesgo de acidosis láctica',
-            ('simvastatina', 'amiodarona'): 'Riesgo de daño muscular'
+            ("warfarina", "aspirina"): "Riesgo de sangrado",
+            ("metformina", "alcohol"): "Riesgo de acidosis láctica",
+            ("simvastatina", "amiodarona"): "Riesgo de daño muscular"
         }
 
         # Known caution interactions
         caution_pairs = {
-            ('enalapril', 'ibuprofeno'): 'Puede reducir efecto antihipertensivo',
-            ('omeprazol', 'clopidogrel'): 'Puede reducir efecto antiagregante',
-            ('metformina', 'furosemida'): 'Vigilar función renal'
+            ("enalapril", "ibuprofeno"): "Puede reducir efecto antihipertensivo",
+            ("omeprazol", "clopidogrel"): "Puede reducir efecto antiagregante",
+            ("metformina", "furosemida"): "Vigilar función renal"
         }
 
         # Check dangerous interactions
         for pair, description in dangerous_pairs.items():
             if (med1.lower() in pair and med2.lower() in pair):
                 return {
-                    'severity': 'dangerous',
-                    'description': description,
-                    'action': 'Contacte con su médico inmediatamente'
+                    "severity": "dangerous",
+                    "description": description,
+                    "action": "Contacte con su médico inmediatamente"
                 }
 
         # Check caution interactions
         for pair, description in caution_pairs.items():
             if (med1.lower() in pair and med2.lower() in pair):
                 return {
-                    'severity': 'caution',
-                    'description': description,
-                    'action': 'Coméntelo en su próxima cita'
+                    "severity": "caution",
+                    "description": description,
+                    "action": "Coméntelo en su próxima cita"
                 }
 
         return None
@@ -486,7 +486,7 @@ class GPT5HealthcareClient:
         next_med = None
         for med in schedule:
             for time_str in med.times:
-                hour = int(time_str.split(':')[0])
+                hour = int(time_str.split(":")[0])
                 if hour > current_hour:
                     next_med = (med, time_str)
                     break
@@ -530,10 +530,10 @@ class GPT5HealthcareClient:
         explanation = f"{med_name.capitalize()} es una medicina {med_info['purpose']}. "
         explanation += f"Normalmente se toma {med_info['common_dosage']}. "
 
-        if med_info['warnings']:
+        if med_info["warnings"]:
             explanation += f"Recuerde: {med_info['warnings'][0]}. "
 
-        if med_info['side_effects']:
+        if med_info["side_effects"]:
             explanation += (
                 f"Puede causar {', '.join(med_info['side_effects'][:2])}, "
                 "pero no siempre pasa. "
@@ -554,7 +554,7 @@ class GPT5HealthcareClient:
             Personalized advice in Spanish
         """
         advice_templates = {
-            'hipertensión': (
+            "hipertensión": (
                 "Para controlar la tensión alta:\n"
                 "1. Tome su medicina todos los días\n"
                 "2. Reduzca la sal en las comidas\n"
@@ -562,7 +562,7 @@ class GPT5HealthcareClient:
                 "4. Mida su tensión regularmente\n"
                 "5. No fume y limite el alcohol"
             ),
-            'diabetes': (
+            "diabetes": (
                 "Para controlar el azúcar:\n"
                 "1. Tome su medicina como le indicaron\n"
                 "2. Coma a horas regulares\n"
@@ -570,7 +570,7 @@ class GPT5HealthcareClient:
                 "4. Haga ejercicio suave\n"
                 "5. Revise sus pies cada día"
             ),
-            'artritis': (
+            "artritis": (
                 "Para mejorar con la artritis:\n"
                 "1. Manténgase activo con ejercicio suave\n"
                 "2. Aplique calor o frío según le alivie\n"

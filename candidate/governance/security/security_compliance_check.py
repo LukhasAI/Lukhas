@@ -297,12 +297,12 @@ class SecurityComplianceChecker:
                 f"- {status_emoji} **{check_name.replace('_', ' ').title()}**: {check_result['status']}"
             )
 
-        report.extend(["", "## 🔍 Detailed Results", ""])
+        report.extend(["", "#)  #  🔍 Detailed Results", ""]
 
         for check_name, check_result in results["checks"].items():
             report.extend(
                 [
-                    f"### {check_name.replace('_', ' ').title()}",
+                    f"##"_', ' ').title()}",
                     f"**Status:** {check_result['status']}",
                     "",
                 ]

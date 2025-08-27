@@ -225,9 +225,9 @@ class ExplanationOutput:
         self.modality_content[modality] = ModalityContent(
             modality=modality,
             content=content,
-            format_info=kwargs.get('format_info', {}),
-            accessibility_metadata=kwargs.get('accessibility_metadata', {}),
-            confidence_score=kwargs.get('confidence_score', 1.0)
+            format_info=kwargs.get("format_info", {}),
+            accessibility_metadata=kwargs.get("accessibility_metadata", {}),
+            confidence_score=kwargs.get("confidence_score", 1.0)
         )
 
         # Update legacy field if text content
@@ -341,9 +341,9 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
                                    context: dict[str, Any],
                                    modality_pref: ModalityPreference) -> str:
         """Generate natural language explanation"""
-        decision = context.get('decision', 'Unknown decision')
-        reasoning = context.get('reasoning', 'No reasoning provided')
-        confidence = context.get('confidence', 0.0)
+        decision = context.get("decision", "Unknown decision")
+        reasoning = context.get("reasoning", "No reasoning provided")
+        confidence = context.get("confidence", 0.0)
 
         # Adapt to audience
         if request.audience == ExplanationAudience.TECHNICAL:
@@ -363,7 +363,7 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
             "nodes": [
                 {"id": "input", "label": "Input Data", "type": "input"},
                 {"id": "process", "label": "Processing", "type": "process"},
-                {"id": "decision", "label": context.get('decision', 'Decision'), "type": "decision"},
+                {"id": "decision", "label": context.get("decision", "Decision"), "type": "decision"},
                 {"id": "output", "label": "Result", "type": "output"}
             ],
             "edges": [
@@ -382,8 +382,8 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
                                    context: dict[str, Any],
                                    modality_pref: ModalityPreference) -> str:
         """Generate pseudocode explanation"""
-        decision = context.get('decision', 'decision')
-        reasoning = context.get('reasoning', 'reasoning_logic')
+        decision = context.get("decision", "decision")
+        reasoning = context.get("reasoning", "reasoning_logic")
 
         return f"""
 # Decision Algorithm Pseudocode
@@ -407,7 +407,7 @@ def make_decision(input_data):
                                    context: dict[str, Any],
                                    modality_pref: ModalityPreference) -> str:
         """Generate mathematical proof or formula"""
-        confidence = context.get('confidence', 0.0)
+        confidence = context.get("confidence", 0.0)
         return f"""
 Mathematical Justification:
 
@@ -429,14 +429,14 @@ Confidence C(d) = {confidence:.3f}
             "nodes": [
                 {"id": "cause1", "label": "Input Factors", "node_type": "cause"},
                 {"id": "mechanism", "label": "Decision Mechanism", "node_type": "mediator"},
-                {"id": "effect", "label": context.get('decision', 'Decision'), "node_type": "effect"}
+                {"id": "effect", "label": context.get("decision", "Decision"), "node_type": "effect"}
             ],
             "edges": [
                 {"from": "cause1", "to": "mechanism", "strength": 0.8},
                 {"from": "mechanism", "to": "effect", "strength": 0.9}
             ],
             "metadata": {
-                "causal_strength": context.get('confidence', 0.0),
+                "causal_strength": context.get("confidence", 0.0),
                 "counterfactual_analysis": "Available upon request"
             }
         }
@@ -474,7 +474,7 @@ Confidence C(d) = {confidence:.3f}
                 },
                 {
                     "type": "confidence_meter",
-                    "value": context.get('confidence', 0.0),
+                    "value": context.get("confidence", 0.0),
                     "interactive": True,
                     "hover_text": "Click to see confidence breakdown"
                 },
@@ -527,8 +527,8 @@ class NaturalLanguageGenerator(ExplanationGenerator):
         for template_path in template_paths:
             try:
                 if os.path.exists(template_path):
-                    with open(template_path, encoding='utf-8') as f:
-                        if template_path.endswith('.yaml') or template_path.endswith('.yml'):
+                    with open(template_path, encoding="utf-8") as f:
+                        if template_path.endswith(".yaml") or template_path.endswith(".yml"):
                             loaded_templates = yaml.safe_load(f)
                         else:
                             loaded_templates = json.load(f)
@@ -1251,7 +1251,7 @@ class ExplainabilityInterfaceLayer:
             words = explanation.split()
             word_count = len(words)
 
-            sentences = re.split(r'[.!?]+', explanation)
+            sentences = re.split(r"[.!?]+", explanation)
             sentences = [s.strip() for s in sentences if s.strip()]
             sentence_count = len(sentences)
 
@@ -1483,7 +1483,7 @@ class ExplainabilityInterfaceLayer:
         }
 
         # Store dialogue state for follow-up interactions
-        if not hasattr(self, 'active_dialogues'):
+        if not hasattr(self, "active_dialogues"):
             self.active_dialogues = {}
         self.active_dialogues[session_id] = dialogue_state
 
@@ -1783,7 +1783,7 @@ class ExplainabilityInterfaceLayer:
 
         for result in audit_results:
             explanation = result.get("explanation")
-            if explanation and hasattr(explanation, 'quality_metrics'):
+            if explanation and hasattr(explanation, "quality_metrics"):
                 metrics = explanation.quality_metrics
                 completeness_scores.append(metrics.get("completeness", 0.0))
                 accuracy_scores.append(metrics.get("accuracy", 0.0))
@@ -2054,7 +2054,7 @@ class ExplainabilityInterfaceLayer:
     ) -> str:
         """Assess the complexity level of a decision for dialogue adaptation"""
 
-        if not hasattr(explanation, 'natural_language'):
+        if not hasattr(explanation, "natural_language"):
             return "medium"
 
         text = explanation.natural_language

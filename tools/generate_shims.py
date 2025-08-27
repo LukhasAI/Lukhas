@@ -53,11 +53,11 @@ class ShimGenerator:
     def create_shim(self, old_module, new_module, deprecation_date):
         """Create a single compatibility shim"""
         # Convert module path to file path
-        old_path = Path(old_module.replace('.', '/'))
+        old_path = Path(old_module.replace(".", "/"))
 
         # Handle different import styles
-        if old_path.suffix != '.py':
-            old_path = old_path / '__init__.py'
+        if old_path.suffix != ".py":
+            old_path = old_path / "__init__.py"
 
         # Skip if shim already exists
         if old_path.exists():
@@ -100,7 +100,7 @@ class ShimGenerator:
             if not path.exists() or not self.is_real_module(path):
                 path.parent.mkdir(parents=True, exist_ok=True)
                 shim_content = SHIM_TEMPLATE.format(
-                    old_module=old_path.replace('/__init__.py', '').replace('/', '.'),
+                    old_module=old_path.replace("/__init__.py", "").replace("/", "."),
                     new_module=new_module,
                     deprecation_date="2025-11-01"
                 )
@@ -166,7 +166,7 @@ warnings.warn(
             if not path.exists() or not self.is_real_module(path):
                 path.parent.mkdir(parents=True, exist_ok=True)
                 shim_content = SHIM_TEMPLATE.format(
-                    old_module=old_path.replace('.py', '').replace('/', '.'),
+                    old_module=old_path.replace(".py", "").replace("/", "."),
                     new_module=new_module,
                     deprecation_date="2025-11-01"
                 )
@@ -225,7 +225,7 @@ if os.getenv(flag_name, "false").lower() == "true":
         if not path.exists():
             return False
 
-        content = path.read_text(errors='ignore')
+        content = path.read_text(errors="ignore")
 
         # Check if it's already a shim
         if "Compatibility shim" in content:

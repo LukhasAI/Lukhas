@@ -247,7 +247,7 @@ class HumanAdaptEngine:
                 "adaptation_type": prop_data.get("adaptation_type"),
                 "user_id": prop_data.get("user_id"),
                 "task_type": prop_data.get("task_type")
-            }]) if '_attest' in globals() else None
+            }]) if "_attest" in globals() else None
 
             _queue_proposal(change_prop)
 

@@ -53,7 +53,7 @@ try:
     from router.llm_multiverse_router import multiverse_route
 
     ROUTER_AVAILABLE = True
-    logger.info("ΛTRACE: Successfully imported 'multiverse_route' from AI router.")
+    logger.info("ΛTRACE: Successfully imported 'multiverse_route' from ai_router.")
 except ImportError as e:
     logger.error(
         f"ΛTRACE: Failed to import 'multiverse_route' from '{AI_ROUTER_PATH}'. AI interface will be non-functional. Error: {e}",

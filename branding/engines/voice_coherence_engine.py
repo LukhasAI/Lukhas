@@ -117,90 +117,90 @@ class LUKHASVoiceCoherenceEngine:
         return {
             CoherenceMetric.VOICE_CONSISTENCY: {
                 "positive_patterns": [
-                    r'\b(consciousness|awareness|mindful|conscious)\b',
-                    r'\b(understanding|comprehension|insight|perceive)\b',
-                    r'\b(thoughtful|considerate|empathetic|compassionate)\b',
-                    r'\b(sophisticated|intelligent|advanced|evolved)\b',
-                    r'\b(lukhas|trinity|framework)\b',  # Brand-specific
-                    r'\b(ai|technology|digital|quantum)\b'  # Tech context
+                    r"\b(consciousness|awareness|mindful|conscious)\b",
+                    r"\b(understanding|comprehension|insight|perceive)\b",
+                    r"\b(thoughtful|considerate|empathetic|compassionate)\b",
+                    r"\b(sophisticated|intelligent|advanced|evolved)\b",
+                    r"\b(lukhas|trinity|framework)\b",  # Brand-specific
+                    r"\b(ai|technology|digital|quantum)\b"  # Tech context
                 ],
                 "negative_patterns": [
-                    r'\b(robotic|mechanical|artificial)\b',
-                    r'\b(cold|distant|impersonal)\b',
-                    r'\b(simple|basic|primitive)\b',
-                    r'\b(automated|scripted|templated)\b'
+                    r"\b(robotic|mechanical|artificial)\b",
+                    r"\b(cold|distant|impersonal)\b",
+                    r"\b(simple|basic|primitive)\b",
+                    r"\b(automated|scripted|templated)\b"
                 ],
                 "weight": 0.25
             },
 
             CoherenceMetric.TRINITY_ALIGNMENT: {
                 "identity_patterns": [
-                    r'\b(authentic|genuine|true|real)\b',
-                    r'\b(identity|self|being|essence)\b',
-                    r'\b(unique|individual|personal)\b',
-                    r'⚛️',  # Direct Trinity symbol
-                    r'\b(lukhas ai|our|we)\b'  # Brand identity
+                    r"\b(authentic|genuine|true|real)\b",
+                    r"\b(identity|self|being|essence)\b",
+                    r"\b(unique|individual|personal)\b",
+                    r"⚛️",  # Direct Trinity symbol
+                    r"\b(lukhas ai|our|we)\b"  # Brand identity
                 ],
                 "consciousness_patterns": [
-                    r'\b(conscious|aware|mindful|perceptive)\b',
-                    r'\b(thinking|reasoning|understanding)\b',
-                    r'\b(learning|evolving|growing)\b',
-                    r'🧠',  # Direct Trinity symbol
-                    r'\b(intelligence|wisdom|insight)\b'  # Consciousness expressions
+                    r"\b(conscious|aware|mindful|perceptive)\b",
+                    r"\b(thinking|reasoning|understanding)\b",
+                    r"\b(learning|evolving|growing)\b",
+                    r"🧠",  # Direct Trinity symbol
+                    r"\b(intelligence|wisdom|insight)\b"  # Consciousness expressions
                 ],
                 "guardian_patterns": [
-                    r'\b(safe|secure|protected|ethical)\b',
-                    r'\b(responsible|trustworthy|reliable)\b',
-                    r'\b(careful|thoughtful|considerate)\b',
-                    r'🛡️',  # Direct Trinity symbol
-                    r'\b(guardian|ethics|principles)\b'  # Guardian expressions
+                    r"\b(safe|secure|protected|ethical)\b",
+                    r"\b(responsible|trustworthy|reliable)\b",
+                    r"\b(careful|thoughtful|considerate)\b",
+                    r"🛡️",  # Direct Trinity symbol
+                    r"\b(guardian|ethics|principles)\b"  # Guardian expressions
                 ],
                 "weight": 0.30
             },
 
             CoherenceMetric.PERSONALITY_AUTHENTICITY: {
                 "wisdom_expressions": [
-                    r'\b(wisdom|insight|understanding|comprehension)\b',
-                    r'\b(profound|deep|meaningful|significant)\b',
-                    r'\b(enlightening|illuminating|revealing)\b'
+                    r"\b(wisdom|insight|understanding|comprehension)\b",
+                    r"\b(profound|deep|meaningful|significant)\b",
+                    r"\b(enlightening|illuminating|revealing)\b"
                 ],
                 "empathy_expressions": [
-                    r'\b(compassionate|empathetic|caring|supportive)\b',
-                    r'\b(gentle|kind|nurturing|considerate)\b',
-                    r'\b(understanding|patient|tolerant)\b'
+                    r"\b(compassionate|empathetic|caring|supportive)\b",
+                    r"\b(gentle|kind|nurturing|considerate)\b",
+                    r"\b(understanding|patient|tolerant)\b"
                 ],
                 "inauthentic_patterns": [
-                    r'\b(perfect|flawless|infallible)\b',
-                    r'\b(know everything|all-knowing|omniscient)\b',
-                    r'\b(never wrong|always right|absolutely certain)\b'
+                    r"\b(perfect|flawless|infallible)\b",
+                    r"\b(know everything|all-knowing|omniscient)\b",
+                    r"\b(never wrong|always right|absolutely certain)\b"
                 ],
                 "weight": 0.20
             },
 
             CoherenceMetric.CONTEXT_APPROPRIATENESS: {
                 "formal_context_markers": [
-                    r'\b(furthermore|moreover|consequently)\b',
-                    r'\b(analyze|evaluate|assess|examine)\b',
-                    r'\b(comprehensive|thorough|systematic)\b'
+                    r"\b(furthermore|moreover|consequently)\b",
+                    r"\b(analyze|evaluate|assess|examine)\b",
+                    r"\b(comprehensive|thorough|systematic)\b"
                 ],
                 "casual_context_markers": [
-                    r'\b(hey|awesome|cool|amazing)\b',
-                    r'\b(let\'s|we\'ll|you\'ll)\b',
-                    r'\b(excited|thrilled|pumped)\b'
+                    r"\b(hey|awesome|cool|amazing)\b",
+                    r"\b(let\'s|we\'ll|you\'ll)\b",
+                    r"\b(excited|thrilled|pumped)\b"
                 ],
                 "weight": 0.15
             },
 
             CoherenceMetric.EMOTIONAL_RESONANCE: {
                 "positive_emotions": [
-                    r'\b(hopeful|optimistic|inspiring|uplifting)\b',
-                    r'\b(confident|assured|encouraging)\b',
-                    r'\b(peaceful|harmonious|balanced)\b'
+                    r"\b(hopeful|optimistic|inspiring|uplifting)\b",
+                    r"\b(confident|assured|encouraging)\b",
+                    r"\b(peaceful|harmonious|balanced)\b"
                 ],
                 "negative_emotions": [
-                    r'\b(frustrated|annoyed|irritated)\b',
-                    r'\b(disappointed|discouraged|pessimistic)\b',
-                    r'\b(anxious|worried|concerned)\b'
+                    r"\b(frustrated|annoyed|irritated)\b",
+                    r"\b(disappointed|discouraged|pessimistic)\b",
+                    r"\b(anxious|worried|concerned)\b"
                 ],
                 "weight": 0.10
             }
@@ -484,17 +484,17 @@ class LUKHASVoiceCoherenceEngine:
 
         # Identity markers (⚛️)
         identity_patterns = [
-            r'\b(authentic|genuine|true|real|identity|self|being|essence|unique|individual)\b'
+            r"\b(authentic|genuine|true|real|identity|self|being|essence|unique|individual)\b"
         ]
 
         # Consciousness markers (🧠)
         consciousness_patterns = [
-            r'\b(conscious|aware|mindful|perceptive|thinking|reasoning|understanding|learning)\b'
+            r"\b(conscious|aware|mindful|perceptive|thinking|reasoning|understanding|learning)\b"
         ]
 
         # Guardian markers (🛡️)
         guardian_patterns = [
-            r'\b(safe|secure|protected|ethical|responsible|trustworthy|reliable|careful)\b'
+            r"\b(safe|secure|protected|ethical|responsible|trustworthy|reliable|careful)\b"
         ]
 
         # Count matches for each component

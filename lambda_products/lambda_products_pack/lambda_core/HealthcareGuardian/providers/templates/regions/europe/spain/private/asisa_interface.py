@@ -26,12 +26,12 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
                 - digital_cert: Digital certificate for secure communication
         """
         provider_config = ProviderConfig(
-            provider_id=config['provider_id'],
+            provider_id=config["provider_id"],
             provider_name="ASISA",
             provider_type="private_healthcare",
             region="ES",
-            environment=config.get('environment', 'production'),
-            api_version=config.get('api_version', '1.0'),
+            environment=config.get("environment", "production"),
+            api_version=config.get("api_version", "1.0"),
             compliance_mode="strict"
         )
 
@@ -44,9 +44,9 @@ class ASISAHealthcareInterface(BaseHealthcareProvider):
         )
 
         super().__init__(provider_config, security_config)
-        self.clinic_id = config['clinic_id']
-        self.api_credentials = config['api_credentials']
-        self.digital_cert = config['digital_cert']
+        self.clinic_id = config["clinic_id"]
+        self.api_credentials = config["api_credentials"]
+        self.digital_cert = config["digital_cert"]
 
     async def verify_patient_coverage(self, patient_id: str) -> dict[str, Any]:
         """Verify patient's ASISA insurance coverage"""

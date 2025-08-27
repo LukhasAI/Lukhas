@@ -422,7 +422,7 @@ class OnboardingCLI:
 
         # Generate demo hash
         hash_input = f"{personality_type}{len(symbolic_elements)}{timestamp}"
-        public_hash = hashlib.sha256(  # Changed from MD5 for securityhash_input.encode()).hexdigest()[:16]
+        public_hash = hashlib.sha256(  )  #  Changed from MD5 for securityhash_input.encode().hexdigest()[:16]
 
         # Calculate demo tier and entropy
         tier_level = min(2 + len(symbolic_elements) // 3, 6)

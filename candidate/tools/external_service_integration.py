@@ -10,10 +10,13 @@ from typing import Any, Dict, List, Optional
 
 # Service Adapter Integration
 try:
-    from candidate.bridge.adapters.service_adapter_base import BaseServiceAdapter, CapabilityToken
-    from candidate.bridge.adapters.gmail_adapter import GmailAdapter
-    from candidate.bridge.adapters.dropbox_adapter import DropboxAdapter
     from candidate.bridge.adapters.drive_adapter import DriveAdapter
+    from candidate.bridge.adapters.dropbox_adapter import DropboxAdapter
+    from candidate.bridge.adapters.gmail_adapter import GmailAdapter
+    from candidate.bridge.adapters.service_adapter_base import (
+        BaseServiceAdapter,
+        CapabilityToken,
+    )
 except ImportError:
     BaseServiceAdapter = None
     CapabilityToken = None
@@ -153,7 +156,7 @@ class ExternalServiceIntegration:
         """Ensure adapter is authenticated for the user"""
         try:
             # Try identity-based authentication first
-            if hasattr(adapter, 'authenticate_with_identity'):
+            if hasattr(adapter, "authenticate_with_identity"):
                 auth_result = await adapter.authenticate_with_identity(lid, credentials)
             else:
                 auth_result = await adapter.authenticate(credentials)
@@ -179,7 +182,7 @@ class ExternalServiceIntegration:
                                      operation: str, arguments: Dict[str, Any]) -> bool:
         """Check if user has consented to the operation"""
         try:
-            if hasattr(adapter, 'check_consent'):
+            if hasattr(adapter, "check_consent"):
                 context = {
                     "operation": operation,
                     "arguments": arguments,

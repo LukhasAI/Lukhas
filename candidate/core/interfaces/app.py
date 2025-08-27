@@ -72,7 +72,7 @@ with tab_docs:
             usage_guide_match = re.search(
                 r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL
             )
-            st.markdown(f"## 📘 Details for `{selected_module}`")
+            st.markdown("#")
             if header_info_match:
                 st.markdown(header_info_match.group(1))
             else:

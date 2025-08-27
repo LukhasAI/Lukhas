@@ -826,7 +826,7 @@ if __name__ == "__main__":
     print(f"Trinity Score: {result['trinity_analysis']['trinity_score']:.3f}")
     print(f"Needs Attention: {result['needs_immediate_attention']}")
 
-    if result['improvement_suggestions']:
+    if result["improvement_suggestions"]:
         print("Suggestions:")
-        for suggestion in result['improvement_suggestions']:
+        for suggestion in result["improvement_suggestions"]:
             print(f"  - {suggestion}")

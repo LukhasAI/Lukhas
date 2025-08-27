@@ -376,7 +376,7 @@ def generate_fixes(report: dict) -> list[str]:
 
     # Fix syntax errors first
     if report["errors_by_type"].get("syntax"):
-        fixes.append("# Fix syntax errors:")
+        fixes.append(")  #  Fix syntax errors:"
         for error in report["errors_by_type"]["syntax"][:5]:
             fixes.append(f"  - {error['file']}:{error['line']}")
 
@@ -389,13 +389,13 @@ def generate_fixes(report: dict) -> list[str]:
             init_needed.add(package)
 
     if init_needed:
-        fixes.append("\n# Create missing __init__.py files:")
+        fixes.append("\n)  #  Create missing __init__.py files:"
         for package in sorted(init_needed)[:10]:
             fixes.append(f"  touch {package}/__init__.py")
 
     # Fix moved modules
     if report["common_patterns"]["moved_modules"]:
-        fixes.append("\n# Update import statements for moved modules:")
+        fixes.append("\n)  #  Update import statements for moved modules:"
         for module in report["common_patterns"]["moved_modules"][:5]:
             if module.startswith("lukhas."):
                 new_module = module.replace("lukhas.", "")
@@ -403,7 +403,7 @@ def generate_fixes(report: dict) -> list[str]:
 
     # Install missing external dependencies
     if report["common_patterns"]["external_deps"]:
-        fixes.append("\n# Install missing external dependencies:")
+        fixes.append("\n)  #  Install missing external dependencies:"
         unique_deps = {
             m.split(".")[0] for m in report["common_patterns"]["external_deps"]
         }

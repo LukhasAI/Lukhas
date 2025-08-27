@@ -129,7 +129,7 @@ class SimpleDashboard:
                 return
 
             # Create server
-            self.server = HTTPServer(('localhost', self.port), self._create_handler())
+            self.server = HTTPServer(("localhost", self.port), self._create_handler())
             self.running = True
 
             # Start server in background thread
@@ -174,7 +174,7 @@ class SimpleDashboard:
         """Check if a port is available"""
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.bind(('localhost', port))
+                s.bind(("localhost", port))
                 return True
         except OSError:
             return False
@@ -201,13 +201,13 @@ class SimpleDashboard:
                 try:
                     parsed_path = urlparse(self.path)
 
-                    if parsed_path.path == '/':
+                    if parsed_path.path == "/":
                         # Serve main dashboard page
                         self._serve_dashboard()
-                    elif parsed_path.path == '/data':
+                    elif parsed_path.path == "/data":
                         # Serve dashboard data as JSON
                         self._serve_data()
-                    elif parsed_path.path == '/health':
+                    elif parsed_path.path == "/health":
                         # Health check endpoint
                         self._serve_health()
                     else:
@@ -221,43 +221,43 @@ class SimpleDashboard:
             def _serve_dashboard(self):
                 """Serve the main dashboard HTML page"""
                 html = dashboard._generate_dashboard_html()
-                self._send_response(200, html, 'text/html')
+                self._send_response(200, html, "text/html")
 
             def _serve_data(self):
                 """Serve dashboard data as JSON"""
                 data = dashboard.data.to_dict()
                 json_data = json.dumps(data, indent=2)
-                self._send_response(200, json_data, 'application/json')
+                self._send_response(200, json_data, "application/json")
 
             def _serve_health(self):
                 """Serve health check"""
                 health = {"status": "healthy", "timestamp": time.time()}
                 json_data = json.dumps(health)
-                self._send_response(200, json_data, 'application/json')
+                self._send_response(200, json_data, "application/json")
 
             def _serve_404(self):
                 """Serve 404 error"""
                 html = "<html><body><h1>404 Not Found</h1></body></html>"
-                self._send_response(404, html, 'text/html')
+                self._send_response(404, html, "text/html")
 
             def _serve_error(self):
                 """Serve 500 error"""
                 html = "<html><body><h1>500 Internal Server Error</h1></body></html>"
-                self._send_response(500, html, 'text/html')
+                self._send_response(500, html, "text/html")
 
             def _send_response(self, status_code: int, content: str, content_type: str):
                 """Send HTTP response"""
                 self.send_response(status_code)
-                self.send_header('Content-type', content_type)
-                self.send_header('Access-Control-Allow-Origin', '*')
+                self.send_header("Content-type", content_type)
+                self.send_header("Access-Control-Allow-Origin", "*")
                 self.end_headers()
-                self.wfile.write(content.encode('utf-8'))
+                self.wfile.write(content.encode("utf-8"))
 
         return DashboardHandler
 
     def _generate_dashboard_html(self) -> str:
         """Generate the dashboard HTML page"""
-        return f'''<!DOCTYPE html>
+        return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -462,7 +462,7 @@ class SimpleDashboard:
         setTimeout(refreshDashboard, 1000);
     </script>
 </body>
-</html>'''
+</html>"""
 
     def _generate_metrics_html(self) -> str:
         """Generate HTML for metrics section"""
@@ -471,10 +471,10 @@ class SimpleDashboard:
 
         html = ""
         for key, metric in self.data.metrics.items():
-            html += f'''<div class="metric">
+            html += f"""<div class="metric">
                 <span>{key}</span>
                 <span class="metric-value">{metric["value"]} {metric["unit"]}</span>
-            </div>'''
+            </div>"""
         return html
 
     def _generate_charts_html(self) -> str:
@@ -484,10 +484,10 @@ class SimpleDashboard:
 
         html = ""
         for chart in self.data.charts:
-            html += f'''<div class="chart-placeholder">
+            html += f"""<div class="chart-placeholder">
                 📊 {chart["title"]}<br>
                 <small>{chart["type"]} chart with {len(chart["data"])} data points</small>
-            </div>'''
+            </div>"""
         return html
 
     def _generate_logs_html(self) -> str:

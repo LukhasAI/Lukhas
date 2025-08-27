@@ -221,7 +221,7 @@ class CodebaseHygieneExecutor:
                         with open(init_file) as f:
                             content = f.read()
                             if content.strip():
-                                consolidated_content.append(f"# --- {subdir} ---")
+                                consolidated_content.append("")
                                 consolidated_content.append(content)
                                 consolidated_content.append("")
 

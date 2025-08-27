@@ -274,7 +274,7 @@ class HealixVisualizer:
                     x=list(mutation_counts.keys()),
                     y=list(mutation_counts.values()),
                     marker_color=[
-                        self.mutation_colors.get(mut, "#95A5A6")
+                        self.mutation_colors.get(mut, ")  # 95A5A6"
                         for mut in mutation_counts
                     ],
                     showlegend=False,
@@ -617,7 +617,7 @@ class HealixVisualizer:
                         "label": all_nodes,
                         "color": [
                             (
-                                self.colors.get(node, "#95A5A6")
+                                self.colors.get(node, ")  # 95A5A6"
                                 if node in strand_names
                                 else self.mutation_colors.get(node.upper(), "#95A5A6")
                             )

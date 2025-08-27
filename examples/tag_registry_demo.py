@@ -73,11 +73,11 @@ def demonstrate_tag_registry():
 
     # 7. Show tag relationships
     print("\n🔗 Tag Relationships for #TAG:consciousness:")
-    consciousness_tag = registry.get_tag("#TAG:consciousness")
+    consciousness_tag = registry.get_tag(")  # TAG:consciousness"
     if consciousness_tag:
         print(f"  Related: {consciousness_tag.related_tags}")
         print(f"  Children: {consciousness_tag.child_tags}")
-        related_depth2 = registry.get_related_tags("#TAG:consciousness", depth=2)
+        related_depth2 = registry.get_related_tags(")  # TAG:consciousness", depth=2
         print(f"  All related (depth 2): {related_depth2}")
 
     # 8. High priority tags

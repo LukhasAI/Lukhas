@@ -467,7 +467,7 @@ class QIConsciousnessIntegration:
         content_templates = {
             "haiku": f"Quantum {theme} flows\nThrough consciousness streams bright\nMeaning crystallizes",
             "article": f"Exploring {theme} through the lens of consciousness reveals new dimensions of understanding. This {style} approach to {theme} demonstrates the power of conscious awareness in generating meaningful insights.",
-            "social_post": f"🌟 Discovering the conscious aspects of {theme} opens up infinite possibilities! #{theme.replace(' ', '')} #Consciousness",
+            "social_post": f"🌟 Discovering the conscious aspects of {theme} opens up infinite possibilities! " ', '')} #Consciousness","
             "story": f"In the realm of {theme}, consciousness became the key to unlocking deeper understanding. Through mindful exploration, new pathways of insight emerged.",
             "generic": f"Consciousness-enhanced perspective on {theme}: When we approach {theme} with elevated awareness, we discover hidden patterns and possibilities.",
         }

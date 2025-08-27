@@ -200,7 +200,7 @@ class AuthGlyphRegistry:
         ))
 
         # Tier GLYPHs
-        for tier in ['T1', 'T2', 'T3', 'T4', 'T5']:
+        for tier in ["T1", "T2", "T3", "T4", "T5"]:
             self.register_glyph(AuthGlyph(
                 id=f"tier_{tier.lower()}",
                 category=AuthGlyphCategory.TIER,
@@ -333,22 +333,22 @@ class AuthGlyphRegistry:
             tier_glyph = tier_glyph_obj.symbol if tier_glyph_obj else f"🏆{tier_level[-1]}"
 
             # Create access GLYPH based on context
-            if access_context.get('granted', False):
-                access_glyph = self.get_glyph('access_granted').symbol
+            if access_context.get("granted", False):
+                access_glyph = self.get_glyph("access_granted").symbol
             else:
-                access_glyph = self.get_glyph('access_denied').symbol
+                access_glyph = self.get_glyph("access_denied").symbol
 
             # Create session GLYPH
-            if session_context.get('active', False):
-                session_glyph = self.get_glyph('session_active').symbol
+            if session_context.get("active", False):
+                session_glyph = self.get_glyph("session_active").symbol
             else:
-                session_glyph = self.get_glyph('session_expired').symbol
+                session_glyph = self.get_glyph("session_expired").symbol
 
             # Create constitutional GLYPH
-            if access_context.get('constitutional_valid', True):
-                constitutional_glyph = self.get_glyph('constitutional_valid').symbol
+            if access_context.get("constitutional_valid", True):
+                constitutional_glyph = self.get_glyph("constitutional_valid").symbol
             else:
-                constitutional_glyph = self.get_glyph('constitutional_violation').symbol
+                constitutional_glyph = self.get_glyph("constitutional_violation").symbol
 
             # Create Trinity GLYPH
             trinity_glyph = self._create_trinity_glyph(access_context, session_context)
@@ -368,10 +368,10 @@ class AuthGlyphRegistry:
                 trinity_glyph=trinity_glyph,
                 composite_glyph=composite_glyph,
                 metadata={
-                    'tier_level': tier_level,
-                    'access_context': access_context,
-                    'session_context': session_context,
-                    'glyph_version': '1.0.0'
+                    "tier_level": tier_level,
+                    "access_context": access_context,
+                    "session_context": session_context,
+                    "glyph_version": "1.0.0"
                 },
                 created_at=datetime.now()
             )
@@ -392,21 +392,21 @@ class AuthGlyphRegistry:
                 constitutional_glyph="📜",
                 trinity_glyph="⚛️🧠🛡️",
                 composite_glyph="GLYPH[🏆🔍🔓📜:ERROR]",
-                metadata={'error': str(e)},
+                metadata={"error": str(e)},
                 created_at=datetime.now()
             )
 
     def _create_trinity_glyph(self, access_context: dict[str, Any], session_context: dict[str, Any]) -> str:
         """Create Trinity Framework GLYPH"""
         # Get Trinity symbols
-        identity_symbol = self.get_glyph('trinity_identity').symbol
-        consciousness_symbol = self.get_glyph('trinity_consciousness').symbol
-        guardian_symbol = self.get_glyph('trinity_guardian').symbol
+        identity_symbol = self.get_glyph("trinity_identity").symbol
+        consciousness_symbol = self.get_glyph("trinity_consciousness").symbol
+        guardian_symbol = self.get_glyph("trinity_guardian").symbol
 
         # Determine emphasis based on context
-        if access_context.get('requires_guardian_oversight', False):
+        if access_context.get("requires_guardian_oversight", False):
             return f"{guardian_symbol}{identity_symbol}{consciousness_symbol}"
-        elif session_context.get('consciousness_integration', False):
+        elif session_context.get("consciousness_integration", False):
             return f"{consciousness_symbol}{identity_symbol}{guardian_symbol}"
         else:
             return f"{identity_symbol}{consciousness_symbol}{guardian_symbol}"
@@ -415,7 +415,7 @@ class AuthGlyphRegistry:
         """Create composite GLYPH from components"""
         try:
             # Combine components
-            combined = ''.join(glyph_components)
+            combined = "".join(glyph_components)
 
             # Create hash for uniqueness
             glyph_hash = hashlib.sha256(combined.encode()).hexdigest()[:8]
@@ -439,16 +439,16 @@ class AuthGlyphRegistry:
             if not symbolic_identity:
                 # Create access context
                 access_context = {
-                    'granted': True,
-                    'scopes': scopes,
-                    'constitutional_valid': metadata.get('constitutional_valid', True)
+                    "granted": True,
+                    "scopes": scopes,
+                    "constitutional_valid": metadata.get("constitutional_valid", True)
                 }
 
                 # Create session context
                 session_context = {
-                    'active': True,
-                    'session_id': session_id,
-                    'consciousness_integration': metadata.get('consciousness_integration', False)
+                    "active": True,
+                    "session_id": session_id,
+                    "consciousness_integration": metadata.get("consciousness_integration", False)
                 }
 
                 symbolic_identity = self.create_symbolic_identity(
@@ -457,15 +457,15 @@ class AuthGlyphRegistry:
 
             # Create GLYPH claims
             glyph_claims = {
-                'glyph_identity': symbolic_identity.composite_glyph,
-                'glyph_tier': symbolic_identity.tier_glyph,
-                'glyph_access': symbolic_identity.access_glyph,
-                'glyph_session': symbolic_identity.session_glyph,
-                'glyph_constitutional': symbolic_identity.constitutional_glyph,
-                'glyph_trinity': symbolic_identity.trinity_glyph,
-                'glyph_version': '1.0.0',
-                'glyph_created': symbolic_identity.created_at.isoformat(),
-                'glyph_registry': 'lukhas_auth_v1'
+                "glyph_identity": symbolic_identity.composite_glyph,
+                "glyph_tier": symbolic_identity.tier_glyph,
+                "glyph_access": symbolic_identity.access_glyph,
+                "glyph_session": symbolic_identity.session_glyph,
+                "glyph_constitutional": symbolic_identity.constitutional_glyph,
+                "glyph_trinity": symbolic_identity.trinity_glyph,
+                "glyph_version": "1.0.0",
+                "glyph_created": symbolic_identity.created_at.isoformat(),
+                "glyph_registry": "lukhas_auth_v1"
             }
 
             # Add scope GLYPHs
@@ -474,106 +474,106 @@ class AuthGlyphRegistry:
                 scope_glyph = self._create_scope_glyph(scope)
                 scope_glyphs.append(scope_glyph)
 
-            glyph_claims['glyph_scopes'] = scope_glyphs
+            glyph_claims["glyph_scopes"] = scope_glyphs
 
             # Add Guardian GLYPHs if applicable
-            if metadata.get('guardian_monitoring', False):
-                guardian_glyph = self.get_glyph('guardian_monitoring')
-                glyph_claims['glyph_guardian'] = guardian_glyph.symbol if guardian_glyph else '🛡️'
+            if metadata.get("guardian_monitoring", False):
+                guardian_glyph = self.get_glyph("guardian_monitoring")
+                glyph_claims["glyph_guardian"] = guardian_glyph.symbol if guardian_glyph else "🛡️"
 
-            if metadata.get('drift_detected', False):
-                drift_glyph = self.get_glyph('drift_detected')
-                glyph_claims['glyph_drift'] = drift_glyph.symbol if drift_glyph else '⚡'
+            if metadata.get("drift_detected", False):
+                drift_glyph = self.get_glyph("drift_detected")
+                glyph_claims["glyph_drift"] = drift_glyph.symbol if drift_glyph else "⚡"
 
-            if metadata.get('bias_detected', False):
-                bias_glyph = self.get_glyph('bias_alert')
-                glyph_claims['glyph_bias'] = bias_glyph.symbol if bias_glyph else '⚖️'
+            if metadata.get("bias_detected", False):
+                bias_glyph = self.get_glyph("bias_alert")
+                glyph_claims["glyph_bias"] = bias_glyph.symbol if bias_glyph else "⚖️"
 
             return glyph_claims
 
         except Exception as e:
             print(f"Error encoding JWT GLYPH claims: {e}")
             return {
-                'glyph_error': str(e),
-                'glyph_version': '1.0.0',
-                'glyph_registry': 'lukhas_auth_v1'
+                "glyph_error": str(e),
+                "glyph_version": "1.0.0",
+                "glyph_registry": "lukhas_auth_v1"
             }
 
     def _create_scope_glyph(self, scope: str) -> str:
         """Create GLYPH representation for scope"""
         # Map common scopes to symbols
         scope_symbols = {
-            'matriz:read': '📖',
-            'matriz:write': '✏️',
-            'matriz:admin': '⚙️',
-            'api:read': '🔍',
-            'api:write': '✍️',
-            'consciousness:access': '🧠',
-            'memory:read': '🧠📚',
-            'memory:write': '🧠✏️',
-            'guardian:monitor': '🛡️👁',
-            'admin:full': '👑'
+            "matriz:read": "📖",
+            "matriz:write": "✏️",
+            "matriz:admin": "⚙️",
+            "api:read": "🔍",
+            "api:write": "✍️",
+            "consciousness:access": "🧠",
+            "memory:read": "🧠📚",
+            "memory:write": "🧠✏️",
+            "guardian:monitor": "🛡️👁",
+            "admin:full": "👑"
         }
 
-        return scope_symbols.get(scope, '🔹')
+        return scope_symbols.get(scope, "🔹")
 
     def decode_glyph_claims(self, glyph_claims: dict[str, Any]) -> dict[str, Any]:
         """Decode GLYPH claims from JWT token"""
         try:
             decoded = {
-                'identity_glyph': glyph_claims.get('glyph_identity'),
-                'tier_glyph': glyph_claims.get('glyph_tier'),
-                'access_glyph': glyph_claims.get('glyph_access'),
-                'session_glyph': glyph_claims.get('glyph_session'),
-                'constitutional_glyph': glyph_claims.get('glyph_constitutional'),
-                'trinity_glyph': glyph_claims.get('glyph_trinity'),
-                'scope_glyphs': glyph_claims.get('glyph_scopes', []),
-                'guardian_glyph': glyph_claims.get('glyph_guardian'),
-                'drift_glyph': glyph_claims.get('glyph_drift'),
-                'bias_glyph': glyph_claims.get('glyph_bias'),
-                'version': glyph_claims.get('glyph_version'),
-                'created': glyph_claims.get('glyph_created'),
-                'registry': glyph_claims.get('glyph_registry')
+                "identity_glyph": glyph_claims.get("glyph_identity"),
+                "tier_glyph": glyph_claims.get("glyph_tier"),
+                "access_glyph": glyph_claims.get("glyph_access"),
+                "session_glyph": glyph_claims.get("glyph_session"),
+                "constitutional_glyph": glyph_claims.get("glyph_constitutional"),
+                "trinity_glyph": glyph_claims.get("glyph_trinity"),
+                "scope_glyphs": glyph_claims.get("glyph_scopes", []),
+                "guardian_glyph": glyph_claims.get("glyph_guardian"),
+                "drift_glyph": glyph_claims.get("glyph_drift"),
+                "bias_glyph": glyph_claims.get("glyph_bias"),
+                "version": glyph_claims.get("glyph_version"),
+                "created": glyph_claims.get("glyph_created"),
+                "registry": glyph_claims.get("glyph_registry")
             }
 
             # Analyze GLYPHs for security insights
-            decoded['security_analysis'] = self._analyze_glyph_security(glyph_claims)
+            decoded["security_analysis"] = self._analyze_glyph_security(glyph_claims)
 
             return decoded
 
         except Exception as e:
-            return {'error': str(e), 'decoded': False}
+            return {"error": str(e), "decoded": False}
 
     def _analyze_glyph_security(self, glyph_claims: dict[str, Any]) -> dict[str, Any]:
         """Analyze GLYPH claims for security insights"""
         analysis = {
-            'risk_level': 'low',
-            'alerts': [],
-            'recommendations': []
+            "risk_level": "low",
+            "alerts": [],
+            "recommendations": []
         }
 
         # Check for Guardian alerts
-        if glyph_claims.get('glyph_drift'):
-            analysis['risk_level'] = 'high'
-            analysis['alerts'].append('Ethical drift detected')
-            analysis['recommendations'].append('Review authentication patterns')
+        if glyph_claims.get("glyph_drift"):
+            analysis["risk_level"] = "high"
+            analysis["alerts"].append("Ethical drift detected")
+            analysis["recommendations"].append("Review authentication patterns")
 
-        if glyph_claims.get('glyph_bias'):
-            analysis['risk_level'] = 'medium'
-            analysis['alerts'].append('Bias pattern detected')
-            analysis['recommendations'].append('Audit access decisions for fairness')
+        if glyph_claims.get("glyph_bias"):
+            analysis["risk_level"] = "medium"
+            analysis["alerts"].append("Bias pattern detected")
+            analysis["recommendations"].append("Audit access decisions for fairness")
 
         # Check constitutional compliance
-        constitutional_glyph = glyph_claims.get('glyph_constitutional', '')
-        if '❌' in constitutional_glyph:
-            analysis['risk_level'] = 'high'
-            analysis['alerts'].append('Constitutional AI violation')
-            analysis['recommendations'].append('Review authentication policies')
+        constitutional_glyph = glyph_claims.get("glyph_constitutional", "")
+        if "❌" in constitutional_glyph:
+            analysis["risk_level"] = "high"
+            analysis["alerts"].append("Constitutional AI violation")
+            analysis["recommendations"].append("Review authentication policies")
 
         # Check access patterns
-        access_glyph = glyph_claims.get('glyph_access', '')
-        if '🔴' in access_glyph:
-            analysis['alerts'].append('Access denied in session')
+        access_glyph = glyph_claims.get("glyph_access", "")
+        if "🔴" in access_glyph:
+            analysis["alerts"].append("Access denied in session")
 
         return analysis
 
@@ -584,33 +584,33 @@ class AuthGlyphRegistry:
         """Create GLYPH message for cross-module communication"""
         try:
             # Get user symbolic identity
-            user_id = auth_context.get('user_id')
+            user_id = auth_context.get("user_id")
             symbolic_identity = self.symbolic_identities.get(user_id) if user_id else None
 
             # Create message GLYPH
-            if target_module == 'consciousness':
-                module_symbol = '🧠'
-            elif target_module == 'memory':
-                module_symbol = '🧠📚'
-            elif target_module == 'guardian':
-                module_symbol = '🛡️'
-            elif target_module == 'quantum':
-                module_symbol = '⚛️'
+            if target_module == "consciousness":
+                module_symbol = "🧠"
+            elif target_module == "memory":
+                module_symbol = "🧠📚"
+            elif target_module == "guardian":
+                module_symbol = "🛡️"
+            elif target_module == "quantum":
+                module_symbol = "⚛️"
             else:
-                module_symbol = '🔹'
+                module_symbol = "🔹"
 
             # Message type symbols
             type_symbols = {
-                'auth_success': '✅',
-                'auth_failure': '❌',
-                'session_start': '🚀',
-                'session_end': '🛑',
-                'tier_change': '🔄',
-                'access_request': '🔍',
-                'guardian_alert': '🚨'
+                "auth_success": "✅",
+                "auth_failure": "❌",
+                "session_start": "🚀",
+                "session_end": "🛑",
+                "tier_change": "🔄",
+                "access_request": "🔍",
+                "guardian_alert": "🚨"
             }
 
-            message_symbol = type_symbols.get(message_type, '💬')
+            message_symbol = type_symbols.get(message_type, "💬")
 
             # Create composite message
             if symbolic_identity:
@@ -627,24 +627,24 @@ class AuthGlyphRegistry:
     def get_registry_stats(self) -> dict[str, Any]:
         """Get authentication GLYPH registry statistics"""
         stats = {
-            'total_glyphs': len(self.registered_glyphs),
-            'by_category': {},
-            'symbolic_identities': len(self.symbolic_identities),
-            'trinity_glyphs': 0,
-            'security_glyphs': 0,
-            'last_updated': datetime.now().isoformat()
+            "total_glyphs": len(self.registered_glyphs),
+            "by_category": {},
+            "symbolic_identities": len(self.symbolic_identities),
+            "trinity_glyphs": 0,
+            "security_glyphs": 0,
+            "last_updated": datetime.now().isoformat()
         }
 
         # Count by category
         for category in AuthGlyphCategory:
-            stats['by_category'][category.value] = len(self.category_index[category])
+            stats["by_category"][category.value] = len(self.category_index[category])
 
         # Count special types
         for glyph in self.registered_glyphs.values():
-            if glyph.metadata and glyph.metadata.get('trinity_core'):
-                stats['trinity_glyphs'] += 1
+            if glyph.metadata and glyph.metadata.get("trinity_core"):
+                stats["trinity_glyphs"] += 1
             if glyph.category == AuthGlyphCategory.SECURITY:
-                stats['security_glyphs'] += 1
+                stats["security_glyphs"] += 1
 
         return stats
 
@@ -655,9 +655,9 @@ auth_glyph_registry = AuthGlyphRegistry()
 
 # Export main classes and instance
 __all__ = [
-    'AuthGlyphRegistry',
-    'AuthGlyph',
-    'SymbolicIdentity',
-    'AuthGlyphCategory',
-    'auth_glyph_registry'
+    "AuthGlyphRegistry",
+    "AuthGlyph",
+    "SymbolicIdentity",
+    "AuthGlyphCategory",
+    "auth_glyph_registry"
 ]

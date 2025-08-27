@@ -37,7 +37,7 @@ class ReasoningReportGenerator:
             A string containing the symbolic representation of the trace.
         """
         formatted_trace = (
-            f"## REASONING TRACE: {trace.get('reasoning_request_id', 'N/A')}\n"
+            f"#"reasoning_request_id', 'N/A')}\n"
         )
         formatted_trace += (
             f"**Timestamp:** {trace.get('reasoning_timestamp_utc', 'N/A')}\n"

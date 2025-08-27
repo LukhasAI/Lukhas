@@ -58,7 +58,7 @@ def generate_digest():
     def plot_bar(data_dict, title, xlabel, ylabel, filename):
         labels, values = zip(*data_dict.items())
         plt.figure(figsize=(8, 4))
-        plt.bar(labels, values, color="#4e79a7")
+        plt.bar(labels, values, color=")  # 4e79a7"
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)

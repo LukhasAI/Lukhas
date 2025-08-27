@@ -693,18 +693,18 @@ def create_provider(provider_id: str) -> Optional[BaseHealthcareProvider]:
 
 # Export main classes
 __all__ = [
-    'ProviderRegistry',
-    'BaseHealthcareProvider',
-    'ProviderConfig',
-    'ProviderRegion',
-    'ProviderType',
-    'create_provider',
+    "ProviderRegistry",
+    "BaseHealthcareProvider",
+    "ProviderConfig",
+    "ProviderRegion",
+    "ProviderType",
+    "create_provider",
     # Specific providers
-    'NHSProvider',
-    'GKVProvider',
-    'SASProvider',
-    'KaiserProvider',
-    'CVSProvider',
-    'MedicareAustraliaProvider',
-    'AXAProvider',
+    "NHSProvider",
+    "GKVProvider",
+    "SASProvider",
+    "KaiserProvider",
+    "CVSProvider",
+    "MedicareAustraliaProvider",
+    "AXAProvider",
 ]

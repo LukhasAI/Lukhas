@@ -43,7 +43,7 @@ class FeatureFlags:
                 flag_name = key[12:].lower()  # Remove prefix
                 self._flags[flag_name] = os.environ[key].lower() in ("true", "1", "yes")
 
-        # Load from YAML if exists
+        # Load from yaml_if exists
         yaml_path = Path("lukhas_flags.yaml")
         if yaml_path.exists():
             try:

@@ -233,12 +233,12 @@ class LambdIDValidator:
         if not lambda_id or not isinstance(lambda_id, str):
             return False
 
-        parts = lambda_id.split('-')
+        parts = lambda_id.split("-")
         if len(parts) != 4:
             return False
 
         # Check format: LUKHAS{tier}-{hash}-{symbol}-{entropy}
-        if not parts[0].startswith('LUKHAS'):
+        if not parts[0].startswith("LUKHAS"):
             return False
 
         return True

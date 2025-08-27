@@ -214,7 +214,7 @@ class QREntropyGenerator:
 
         Args:
             session_id: Session identifier
-            scan_data: Data from QR scan
+            scan_data: Data from qr_scan
 
         Returns:
             True if scan is valid and recent

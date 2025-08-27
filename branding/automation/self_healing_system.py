@@ -72,7 +72,7 @@ class SelfHealingSystem:
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -88,7 +88,7 @@ class SelfHealingSystem:
                 with open(self.config_path) as f:
                     config_data = json.load(f)
 
-                self.healing_history = [HealingAction(**action) for action in config_data.get('healing_history', [])]
+                self.healing_history = [HealingAction(**action) for action in config_data.get("healing_history", [])]
                 self.logger.info(f"Loaded {len(self.healing_history)} healing actions from history")
             except Exception as e:
                 self.logger.error(f"Failed to load healing config: {e}")
@@ -104,14 +104,14 @@ class SelfHealingSystem:
         }
 
         self.config_path.parent.mkdir(exist_ok=True)
-        with open(self.config_path, 'w') as f:
+        with open(self.config_path, "w") as f:
             json.dump(config_data, f, indent=2)
 
     def create_backup(self, target_path: Path) -> Optional[Path]:
         """Create backup before making changes"""
         try:
             self.backup_path.mkdir(exist_ok=True)
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
             if target_path.is_file():
                 backup_file = self.backup_path / f"{target_path.name}_{timestamp}.backup"
@@ -142,32 +142,32 @@ class SelfHealingSystem:
             # Check for "elite" naming
             if "elite" in filename.lower():
                 issues.append({
-                    'type': 'elite_naming',
-                    'path': str(relative_path),
-                    'current_name': filename,
-                    'suggested_name': filename.lower().replace('elite', '').replace('__', '_').strip('_'),
-                    'severity': 'medium'
+                    "type": "elite_naming",
+                    "path": str(relative_path),
+                    "current_name": filename,
+                    "suggested_name": filename.lower().replace("elite", "").replace("__", "_").strip("_"),
+                    "severity": "medium"
                 })
 
             # Check for redundant "lukhas_unified" patterns
             if "lukhas_unified" in filename.lower():
-                suggested = filename.lower().replace('lukhas_unified_', '').replace('lukhas_', '')
+                suggested = filename.lower().replace("lukhas_unified_", "").replace("lukhas_", "")
                 issues.append({
-                    'type': 'redundant_naming',
-                    'path': str(relative_path),
-                    'current_name': filename,
-                    'suggested_name': suggested,
-                    'severity': 'low'
+                    "type": "redundant_naming",
+                    "path": str(relative_path),
+                    "current_name": filename,
+                    "suggested_name": suggested,
+                    "severity": "low"
                 })
 
             # Check for inconsistent naming patterns
-            if filename.count('_') > 4:  # Too many underscores
+            if filename.count("_") > 4:  # Too many underscores
                 issues.append({
-                    'type': 'excessive_underscores',
-                    'path': str(relative_path),
-                    'current_name': filename,
-                    'suggested_name': None,  # Requires manual review
-                    'severity': 'low'
+                    "type": "excessive_underscores",
+                    "path": str(relative_path),
+                    "current_name": filename,
+                    "suggested_name": None,  # Requires manual review
+                    "severity": "low"
                 })
 
         self.logger.info(f"Found {len(issues)} naming issues")
@@ -183,7 +183,7 @@ class SelfHealingSystem:
             if dir_path.is_dir() and dir_path != self.base_path:
                 # Check if directory is empty (no files, only __pycache__ allowed)
                 contents = list(dir_path.iterdir())
-                non_cache_contents = [item for item in contents if item.name != '__pycache__']
+                non_cache_contents = [item for item in contents if item.name != "__pycache__"]
 
                 if not non_cache_contents:
                     relative_path = dir_path.relative_to(self.base_path)
@@ -192,10 +192,10 @@ class SelfHealingSystem:
                     category = self._categorize_empty_directory(dir_path)
 
                     empty_dirs.append({
-                        'path': str(relative_path),
-                        'full_path': str(dir_path),
-                        'category': category,
-                        'action': self._suggest_empty_dir_action(category, dir_path)
+                        "path": str(relative_path),
+                        "full_path": str(dir_path),
+                        "category": category,
+                        "action": self._suggest_empty_dir_action(category, dir_path)
                     })
 
         self.logger.info(f"Found {len(empty_dirs)} empty directories")
@@ -207,40 +207,40 @@ class SelfHealingSystem:
         dir_path.parent.name.lower()
 
         # Core functionality directories - should have content
-        if any(keyword in dir_name for keyword in ['api', 'core', 'engine', 'service']):
-            return 'core_functionality'
+        if any(keyword in dir_name for keyword in ["api", "core", "engine", "service"]):
+            return "core_functionality"
 
         # Infrastructure directories - can remain empty temporarily
-        elif any(keyword in dir_name for keyword in ['logs', 'temp', 'cache', 'backup']):
-            return 'infrastructure'
+        elif any(keyword in dir_name for keyword in ["logs", "temp", "cache", "backup"]):
+            return "infrastructure"
 
         # Feature directories - should be developed or removed
-        elif any(keyword in dir_name for keyword in ['social', 'mobile', 'web', 'dashboard']):
-            return 'feature_placeholder'
+        elif any(keyword in dir_name for keyword in ["social", "mobile", "web", "dashboard"]):
+            return "feature_placeholder"
 
         # Test directories - need test files
-        elif 'test' in dir_name or 'tests' in dir_name:
-            return 'testing'
+        elif "test" in dir_name or "tests" in dir_name:
+            return "testing"
 
         # Documentation directories
-        elif any(keyword in dir_name for keyword in ['doc', 'docs', 'guide']):
-            return 'documentation'
+        elif any(keyword in dir_name for keyword in ["doc", "docs", "guide"]):
+            return "documentation"
 
         # Generic/unknown
         else:
-            return 'unknown'
+            return "unknown"
 
     def _suggest_empty_dir_action(self, category: str, dir_path: Path) -> str:
         """Suggest action for empty directory"""
         actions = {
-            'core_functionality': 'create_placeholder',
-            'infrastructure': 'keep',
-            'feature_placeholder': 'create_readme',
-            'testing': 'create_test_placeholder',
-            'documentation': 'create_readme',
-            'unknown': 'review_manually'
+            "core_functionality": "create_placeholder",
+            "infrastructure": "keep",
+            "feature_placeholder": "create_readme",
+            "testing": "create_test_placeholder",
+            "documentation": "create_readme",
+            "unknown": "review_manually"
         }
-        return actions.get(category, 'review_manually')
+        return actions.get(category, "review_manually")
 
     async def detect_brand_inconsistencies(self) -> list[dict[str, Any]]:
         """Detect brand guideline inconsistencies"""
@@ -252,35 +252,35 @@ class SelfHealingSystem:
         all_content = db.get_all_content(1000)
 
         for content in all_content:
-            content_text = content.get('content', '')
-            title = content.get('title', '')
+            content_text = content.get("content", "")
+            title = content.get("title", "")
 
             issues = []
 
             # Check Trinity Framework usage
             if len(content_text) > 200:  # Only check substantial content
-                if '⚛️🧠🛡️' not in content_text and 'Trinity Framework' not in content_text:
-                    issues.append('missing_trinity_framework')
+                if "⚛️🧠🛡️" not in content_text and "Trinity Framework" not in content_text:
+                    issues.append("missing_trinity_framework")
 
                 # Check for outdated terminology
-                if 'artificial intelligence' in content_text.lower():
-                    issues.append('outdated_ai_terminology')
+                if "artificial intelligence" in content_text.lower():
+                    issues.append("outdated_ai_terminology")
 
-                if 'AI system' in content_text and 'consciousness technology' not in content_text:
-                    issues.append('generic_ai_terminology')
+                if "AI system" in content_text and "consciousness technology" not in content_text:
+                    issues.append("generic_ai_terminology")
 
                 # Check voice coherence
-                voice_coherence = content.get('voice_coherence', 0)
+                voice_coherence = content.get("voice_coherence", 0)
                 if voice_coherence < 60:
-                    issues.append('low_voice_coherence')
+                    issues.append("low_voice_coherence")
 
             if issues:
                 inconsistencies.append({
-                    'content_id': content['id'],
-                    'title': title,
-                    'system': content['source_system'],
-                    'issues': issues,
-                    'voice_coherence': content.get('voice_coherence', 0)
+                    "content_id": content["id"],
+                    "title": title,
+                    "system": content["source_system"],
+                    "issues": issues,
+                    "voice_coherence": content.get("voice_coherence", 0)
                 })
 
         self.logger.info(f"Found {len(inconsistencies)} brand inconsistencies")
@@ -288,14 +288,14 @@ class SelfHealingSystem:
 
     async def fix_naming_issue(self, issue: dict[str, Any]) -> HealingAction:
         """Fix a single naming issue"""
-        current_path = self.base_path / issue['path']
-        suggested_name = issue['suggested_name']
+        current_path = self.base_path / issue["path"]
+        suggested_name = issue["suggested_name"]
 
-        if not suggested_name or suggested_name == issue['current_name']:
+        if not suggested_name or suggested_name == issue["current_name"]:
             return HealingAction(
                 action_id=f"naming_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
                 action_type="naming_fix",
-                target=issue['path'],
+                target=issue["path"],
                 description="Skipped - no valid suggestion",
                 applied_at=datetime.now().isoformat(),
                 success=False
@@ -312,7 +312,7 @@ class SelfHealingSystem:
             action = HealingAction(
                 action_id=f"naming_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
                 action_type="naming_fix",
-                target=issue['path'],
+                target=issue["path"],
                 description=f"Renamed {issue['current_name']} → {suggested_name}",
                 applied_at=datetime.now().isoformat(),
                 success=True,
@@ -327,7 +327,7 @@ class SelfHealingSystem:
             action = HealingAction(
                 action_id=f"naming_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
                 action_type="naming_fix",
-                target=issue['path'],
+                target=issue["path"],
                 description=f"Failed: {str(e)}",
                 applied_at=datetime.now().isoformat(),
                 success=False
@@ -338,19 +338,19 @@ class SelfHealingSystem:
 
     async def handle_empty_directory(self, empty_dir: dict[str, Any]) -> HealingAction:
         """Handle an empty directory based on suggested action"""
-        dir_path = Path(empty_dir['full_path'])
-        action_type = empty_dir['action']
+        dir_path = Path(empty_dir["full_path"])
+        action_type = empty_dir["action"]
 
         try:
             action_description = ""
 
-            if action_type == 'create_placeholder':
+            if action_type == "create_placeholder":
                 # Create a simple __init__.py
                 init_file = dir_path / "__init__.py"
                 init_file.write_text(f'"""\n{dir_path.name.replace("_", " ").title()} module\nPart of LUKHAS AI consciousness technology platform\n"""\n')
                 action_description = "Created __init__.py placeholder"
 
-            elif action_type == 'create_readme':
+            elif action_type == "create_readme":
                 # Create README.md with basic structure
                 readme_file = dir_path / "README.md"
                 readme_content = f"""# {dir_path.name.replace('_', ' ').title()}
@@ -383,7 +383,7 @@ Coming soon...
                 readme_file.write_text(readme_content)
                 action_description = "Created README.md placeholder"
 
-            elif action_type == 'create_test_placeholder':
+            elif action_type == "create_test_placeholder":
                 # Create basic test file
                 test_file = dir_path / f"test_{dir_path.name}.py"
                 test_content = f'''#!/usr/bin/env python3
@@ -416,7 +416,7 @@ if __name__ == "__main__":
                 test_file.write_text(test_content)
                 action_description = f"Created test_{dir_path.name}.py placeholder"
 
-            elif action_type == 'keep':
+            elif action_type == "keep":
                 action_description = "Kept infrastructure directory"
 
             else:  # review_manually
@@ -425,7 +425,7 @@ if __name__ == "__main__":
             action = HealingAction(
                 action_id=f"empty_dir_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
                 action_type="empty_directory",
-                target=empty_dir['path'],
+                target=empty_dir["path"],
                 description=action_description,
                 applied_at=datetime.now().isoformat(),
                 success=True
@@ -438,7 +438,7 @@ if __name__ == "__main__":
             action = HealingAction(
                 action_id=f"empty_dir_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
                 action_type="empty_directory",
-                target=empty_dir['path'],
+                target=empty_dir["path"],
                 description=f"Failed: {str(e)}",
                 applied_at=datetime.now().isoformat(),
                 success=False
@@ -449,17 +449,17 @@ if __name__ == "__main__":
 
     async def fix_brand_inconsistency(self, inconsistency: dict[str, Any]) -> HealingAction:
         """Fix a brand inconsistency in content"""
-        content_id = inconsistency['content_id']
-        issues = inconsistency['issues']
+        content_id = inconsistency["content_id"]
+        issues = inconsistency["issues"]
 
         try:
             # For now, just log the issue (actual content fixing would require more sophisticated NLP)
             action_description = f"Identified brand issues: {', '.join(issues)}"
 
             # Update voice coherence if it's low
-            if 'low_voice_coherence' in issues:
+            if "low_voice_coherence" in issues:
                 # Simple voice coherence improvement
-                new_coherence = min(inconsistency['voice_coherence'] + 10, 100)
+                new_coherence = min(inconsistency["voice_coherence"] + 10, 100)
                 db.update_voice_coherence(content_id, new_coherence)
                 action_description += f" | Improved voice coherence: {inconsistency['voice_coherence']} → {new_coherence}"
 
@@ -493,11 +493,11 @@ if __name__ == "__main__":
         self.logger.info("🔧 Starting comprehensive self-healing cycle...")
 
         healing_results = {
-            'cycle_started': datetime.now().isoformat(),
-            'actions_performed': [],
-            'issues_detected': {},
-            'issues_fixed': {},
-            'summary': {}
+            "cycle_started": datetime.now().isoformat(),
+            "actions_performed": [],
+            "issues_detected": {},
+            "issues_fixed": {},
+            "summary": {}
         }
 
         # Detect all issues
@@ -506,10 +506,10 @@ if __name__ == "__main__":
         empty_dirs = await self.detect_empty_directories()
         brand_issues = await self.detect_brand_inconsistencies()
 
-        healing_results['issues_detected'] = {
-            'naming_issues': len(naming_issues),
-            'empty_directories': len(empty_dirs),
-            'brand_inconsistencies': len(brand_issues)
+        healing_results["issues_detected"] = {
+            "naming_issues": len(naming_issues),
+            "empty_directories": len(empty_dirs),
+            "brand_inconsistencies": len(brand_issues)
         }
 
         # Fix issues
@@ -518,20 +518,20 @@ if __name__ == "__main__":
         # Fix naming issues (only safe ones)
         naming_fixes = 0
         for issue in naming_issues[:5]:  # Limit to 5 for safety
-            if issue['severity'] in ['low', 'medium'] and issue['suggested_name']:
+            if issue["severity"] in ["low", "medium"] and issue["suggested_name"]:
                 action = await self.fix_naming_issue(issue)
                 self.healing_history.append(action)
-                healing_results['actions_performed'].append(asdict(action))
+                healing_results["actions_performed"].append(asdict(action))
                 if action.success:
                     naming_fixes += 1
 
         # Handle empty directories
         empty_dir_fixes = 0
         for empty_dir in empty_dirs[:10]:  # Limit to 10
-            if empty_dir['action'] in ['create_placeholder', 'create_readme', 'create_test_placeholder']:
+            if empty_dir["action"] in ["create_placeholder", "create_readme", "create_test_placeholder"]:
                 action = await self.handle_empty_directory(empty_dir)
                 self.healing_history.append(action)
-                healing_results['actions_performed'].append(asdict(action))
+                healing_results["actions_performed"].append(asdict(action))
                 if action.success:
                     empty_dir_fixes += 1
 
@@ -540,29 +540,29 @@ if __name__ == "__main__":
         for inconsistency in brand_issues[:20]:  # Limit to 20
             action = await self.fix_brand_inconsistency(inconsistency)
             self.healing_history.append(action)
-            healing_results['actions_performed'].append(asdict(action))
+            healing_results["actions_performed"].append(asdict(action))
             if action.success:
                 brand_fixes += 1
 
-        healing_results['issues_fixed'] = {
-            'naming_issues': naming_fixes,
-            'empty_directories': empty_dir_fixes,
-            'brand_inconsistencies': brand_fixes
+        healing_results["issues_fixed"] = {
+            "naming_issues": naming_fixes,
+            "empty_directories": empty_dir_fixes,
+            "brand_inconsistencies": brand_fixes
         }
 
         # Generate summary
-        total_issues = sum(healing_results['issues_detected'].values())
-        total_fixes = sum(healing_results['issues_fixed'].values())
+        total_issues = sum(healing_results["issues_detected"].values())
+        total_fixes = sum(healing_results["issues_fixed"].values())
         success_rate = (total_fixes / total_issues * 100) if total_issues > 0 else 100
 
-        healing_results['summary'] = {
-            'total_issues_detected': total_issues,
-            'total_fixes_applied': total_fixes,
-            'success_rate': success_rate,
-            'system_health': 'excellent' if success_rate > 90 else 'good' if success_rate > 70 else 'needs_attention'
+        healing_results["summary"] = {
+            "total_issues_detected": total_issues,
+            "total_fixes_applied": total_fixes,
+            "success_rate": success_rate,
+            "system_health": "excellent" if success_rate > 90 else "good" if success_rate > 70 else "needs_attention"
         }
 
-        healing_results['cycle_completed'] = datetime.now().isoformat()
+        healing_results["cycle_completed"] = datetime.now().isoformat()
 
         # Save configuration
         self._save_healing_config()
@@ -581,13 +581,13 @@ if __name__ == "__main__":
         recent_actions = [action for action in self.healing_history if action.applied_at][-10:]
 
         status = {
-            'system_status': 'active',
-            'total_healing_actions': len(self.healing_history),
-            'recent_actions': len(recent_actions),
-            'success_rate': (len([a for a in self.healing_history if a.success]) / len(self.healing_history) * 100) if self.healing_history else 100,
-            'last_healing_cycle': recent_actions[-1].applied_at if recent_actions else None,
-            'backup_system': 'active',
-            'rollback_available': len([a for a in self.healing_history if a.rollback_available])
+            "system_status": "active",
+            "total_healing_actions": len(self.healing_history),
+            "recent_actions": len(recent_actions),
+            "success_rate": (len([a for a in self.healing_history if a.success]) / len(self.healing_history) * 100) if self.healing_history else 100,
+            "last_healing_cycle": recent_actions[-1].applied_at if recent_actions else None,
+            "backup_system": "active",
+            "rollback_available": len([a for a in self.healing_history if a.rollback_available])
         }
 
         return status

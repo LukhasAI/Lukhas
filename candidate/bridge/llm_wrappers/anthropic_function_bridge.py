@@ -23,10 +23,11 @@ import asyncio
 import logging
 import time
 import uuid
+from collections.abc import AsyncGenerator
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, AsyncGenerator, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 try:
     import anthropic
@@ -270,13 +271,13 @@ class AnthropicFunctionBridge:
             latency_ms = (request_end - request_start) * 1000
 
             # Extract content and tool uses
-            content_blocks = response.content if hasattr(response, 'content') else []
+            content_blocks = response.content if hasattr(response, "content") else []
             text_content = ""
             tool_uses = []
             reasoning_chain = []
 
             for block in content_blocks:
-                if hasattr(block, 'type'):
+                if hasattr(block, "type"):
                     if block.type == "text":
                         text_content += block.text
                         # Extract reasoning if present
@@ -309,9 +310,9 @@ class AnthropicFunctionBridge:
                 content=text_content,
                 tool_uses=tool_uses,
                 model=model.value,
-                usage=response.usage.model_dump() if hasattr(response, 'usage') else {},
+                usage=response.usage.model_dump() if hasattr(response, "usage") else {},
                 latency_ms=latency_ms,
-                stop_reason=response.stop_reason if hasattr(response, 'stop_reason') else "",
+                stop_reason=response.stop_reason if hasattr(response, "stop_reason") else "",
                 reasoning_chain=reasoning_chain,
                 constitutional_score=constitutional_score,
                 ethical_considerations=ethical_considerations
@@ -380,18 +381,18 @@ class AnthropicFunctionBridge:
 
             async with stream as stream_response:
                 async for event in stream_response:
-                    if hasattr(event, 'type'):
-                        if event.type == "content_block_delta" and hasattr(event, 'delta'):
+                    if hasattr(event, "type"):
+                        if event.type == "content_block_delta" and hasattr(event, "delta"):
                             # Text content delta
-                            if hasattr(event.delta, 'text'):
+                            if hasattr(event.delta, "text"):
                                 yield {
                                     "type": "content",
                                     "content": event.delta.text
                                 }
 
-                        elif event.type == "content_block_start" and hasattr(event, 'content_block'):
+                        elif event.type == "content_block_start" and hasattr(event, "content_block"):
                             # Tool use start
-                            if hasattr(event.content_block, 'type') and event.content_block.type == "tool_use":
+                            if hasattr(event.content_block, "type") and event.content_block.type == "tool_use":
                                 yield {
                                     "type": "tool_use_start",
                                     "tool_name": event.content_block.name,
@@ -401,7 +402,7 @@ class AnthropicFunctionBridge:
                         elif event.type == "message_stop":
                             yield {
                                 "type": "stream_end",
-                                "stop_reason": getattr(event, 'stop_reason', 'complete')
+                                "stop_reason": getattr(event, "stop_reason", "complete")
                             }
 
         except Exception as e:

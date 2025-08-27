@@ -70,7 +70,7 @@ def main():
             with open(github_event_path) as f:
                 event_data = json.load(f)
                 pr_number = event_data.get("pull_request", {}).get("number")
-                logger.info(f"Processing PR #{pr_number}")
+                logger.info("Processing PR ")
         except Exception as e:
             logger.error(f"Failed to parse event data: {e}")
 

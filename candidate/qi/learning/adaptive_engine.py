@@ -168,7 +168,7 @@ class AdaptiveLearningEngine:
                     kind="config_patch", target_path=tgt, current_checksum=None,
                     patch=cand.patch, rationale=f"Adaptive candidate {cand.id} (offline={cand.score_offline})"
                 )
-                prop.attestation = _attest([{"phase":"adaptive","candidate":asdict(cand)}]) if '_attest' in globals() else None
+                prop.attestation = _attest([{"phase":"adaptive","candidate":asdict(cand)}]) if "_attest" in globals() else None
                 _queue_proposal(prop)
                 planned.append(pid)
         return planned

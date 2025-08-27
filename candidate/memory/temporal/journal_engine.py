@@ -414,11 +414,11 @@ class JournalEngine:
 
         # Write each day
         for date_key in sorted(entries_by_date.keys(), reverse=True):
-            content.append(f"\n## {date_key}\n")
+            content.append(f"\n#")
 
             for entry in entries_by_date[date_key]:
                 content.append(
-                    f"### {entry.timestamp.strftime('%H:%M')} - {entry.type.title()}\n"
+                    f"##"%H:%M')} - {entry.type.title()}\n"
                 )
                 content.append(f"{entry.content}\n")
 

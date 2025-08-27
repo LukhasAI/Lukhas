@@ -2058,7 +2058,7 @@ class ΛSage:
                 conflict_types[conflict["conflict_type"]].append(conflict)
 
             for conflict_type, conflicts in conflict_types.items():
-                report += f"### {conflict_type.replace('_', ' ').title()} ({len(conflicts)} conflicts)\n\n"
+                report += f"##"_', ' ').title()} ({len(conflicts)} conflicts)\n\n"
 
                 for conflict in conflicts[:5]:  # Show top 5 conflicts per type:
                     severity_emoji = {

@@ -101,7 +101,7 @@ class LukhasIDGenerator:
             # Validate namespace
             ns_config = getattr(ΛIDNamespace, namespace.upper(), None)
             if not ns_config:
-                valid_namespaces = ['USER', 'AGENT', 'SERVICE', 'SYSTEM']
+                valid_namespaces = ["USER", "AGENT", "SERVICE", "SYSTEM"]
                 raise InvalidNamespaceError(f"Invalid namespace: {namespace}. Valid options: {valid_namespaces}")
 
             # Validate required fields
@@ -148,13 +148,13 @@ class LukhasIDGenerator:
             if not isinstance(lid, str) or not lid:
                 raise ΛIDError("ΛID must be a non-empty string")
 
-            parts = lid.split('-')
+            parts = lid.split("-")
             if len(parts) != 4:
                 raise ΛIDError(f"Invalid ΛID format. Expected 4 parts, got {len(parts)}")
 
             prefix = parts[0]
-            for ns_name in ['USER', 'AGENT', 'SERVICE', 'SYSTEM']:
-                if getattr(ΛIDNamespace, ns_name)['prefix'] == prefix:
+            for ns_name in ["USER", "AGENT", "SERVICE", "SYSTEM"]:
+                if getattr(ΛIDNamespace, ns_name)["prefix"] == prefix:
                     return ns_name.lower()
 
             raise ΛIDError(f"Unknown namespace prefix: {prefix}")
@@ -172,7 +172,7 @@ class OIDCProvider:
 
     def __init__(self, issuer: str = "https://lukhas.ai"):
         # Input validation
-        if not isinstance(issuer, str) or not issuer.startswith(('https://', 'http://')):
+        if not isinstance(issuer, str) or not issuer.startswith(("https://", "http://")):
             raise ΛIDError("Issuer must be a valid URL")
 
         self.issuer = issuer
@@ -239,7 +239,7 @@ class OIDCProvider:
                 raise InvalidTokenError("client_id must be a non-empty string")
 
             # Validate scope values
-            valid_scopes = ['openid', 'profile', 'email', 'offline_access']
+            valid_scopes = ["openid", "profile", "email", "offline_access"]
             invalid_scopes = [s for s in scope if s not in valid_scopes]
             if invalid_scopes:
                 raise InvalidTokenError(f"Invalid scopes: {invalid_scopes}. Valid: {valid_scopes}")
@@ -266,7 +266,7 @@ class OIDCProvider:
         """Validate and decode token"""
         try:
             # For ID tokens (JWT)
-            if token.count('.') == 2:  # JWT format
+            if token.count(".") == 2:  # JWT format
                 payload = jwt.decode(
                     token,
                     self.signing_key,
@@ -309,11 +309,11 @@ class WebAuthnPasskeyManager:
             # Input validation
             if not lid or not isinstance(lid, str):
                 raise AuthenticationError("ΛID must be a non-empty string")
-            if not user_email or '@' not in user_email:
+            if not user_email or "@" not in user_email:
                 raise AuthenticationError("Valid email address required")
 
             # Rate limiting check
-            self._check_rate_limit(lid, 'registration')
+            self._check_rate_limit(lid, "registration")
 
             challenge = base64.urlsafe_b64encode(secrets.token_bytes(32)).decode()
 
@@ -323,9 +323,9 @@ class WebAuthnPasskeyManager:
                 "type": "registration"
             }
 
-            self._log_security_event(lid, 'registration_initiated', {
-                'email': user_email,
-                'challenge_id': challenge
+            self._log_security_event(lid, "registration_initiated", {
+                "email": user_email,
+                "challenge_id": challenge
             })
 
             return {
@@ -338,7 +338,7 @@ class WebAuthnPasskeyManager:
                     "user": {
                         "id": base64.urlsafe_b64encode(lid.encode()).decode(),
                         "name": user_email,
-                        "displayName": user_email.split('@')[0]
+                        "displayName": user_email.split("@")[0]
                     },
                     "pubKeyCredParams": [
                         {"type": "public-key", "alg": -7},   # ES256
@@ -355,7 +355,7 @@ class WebAuthnPasskeyManager:
             }
 
         except Exception as e:
-            self._log_security_event(lid, 'registration_failed', {'error': str(e)})
+            self._log_security_event(lid, "registration_failed", {"error": str(e)})
             logger.error(f"❌ WebAuthn registration failed for {lid}: {str(e)}")
             raise AuthenticationError(f"Registration initiation failed: {str(e)}") from e
 
@@ -416,7 +416,7 @@ class WebAuthnPasskeyManager:
         # For MVP: Simplified validation
         del self.challenges[lid]
 
-        self._log_security_event(lid, 'authentication_success', {})
+        self._log_security_event(lid, "authentication_success", {})
         logger.info(f"⚛️ Passkey authentication successful for {lid}")
         return True
 
@@ -440,11 +440,11 @@ class WebAuthnPasskeyManager:
     def _log_security_event(self, lid: str, event_type: str, details: dict[str, Any]) -> None:
         """🛡️ Log security events for audit trail"""
         event = {
-            'timestamp': time.time(),
-            'lid': lid,
-            'event_type': event_type,
-            'details': details,
-            'trinity_guardian': True  # 🛡️ Guardian validation
+            "timestamp": time.time(),
+            "lid": lid,
+            "event_type": event_type,
+            "details": details,
+            "trinity_guardian": True  # 🛡️ Guardian validation
         }
 
         self._security_events.append(event)
@@ -471,7 +471,7 @@ class FallbackAuthMethods:
         for _ in range(count):
             # Format: XXXX-XXXX-XXXX
             parts = [secrets.token_hex(2).upper() for _ in range(3)]
-            codes.append('-'.join(parts))
+            codes.append("-".join(parts))
         return codes
 
     @staticmethod
@@ -679,10 +679,10 @@ class LukhasIdentityService:
         """🧠 Get current performance and security metrics (Legacy method)"""
         return {
             "performance": self.metrics,
-            "security": getattr(self, 'security_metrics', {}),
+            "security": getattr(self, "security_metrics", {}),
             "cache_performance": {
-                "hit_rate": getattr(self, 'cache_hit_rate', 0),
-                "cache_size": len(getattr(self, 'performance_cache', {}))
+                "hit_rate": getattr(self, "cache_hit_rate", 0),
+                "cache_size": len(getattr(self, "performance_cache", {}))
             },
             "trinity_status": self.trinity_status,
             "performance_summary": self.performance_metrics
@@ -701,16 +701,16 @@ def integrate_with_consent_ledger(lid: str, action: str) -> str:
 
         # Create audit record with Trinity Framework context
         {
-            'trace_id': trace_id,
-            'lid': lid,
-            'action': action,
-            'timestamp': time.time(),
-            'trinity_context': {
-                'identity': True,      # ⚛️ Identity system
-                'consciousness': False, # 🧠 Not consciousness event
-                'guardian': True       # 🛡️ Guardian audit
+            "trace_id": trace_id,
+            "lid": lid,
+            "action": action,
+            "timestamp": time.time(),
+            "trinity_context": {
+                "identity": True,      # ⚛️ Identity system
+                "consciousness": False, # 🧠 Not consciousness event
+                "guardian": True       # 🛡️ Guardian audit
             },
-            'system': 'lambda_id_core'
+            "system": "lambda_id_core"
         }
 
         # In production, this would call the actual consent ledger
@@ -730,9 +730,9 @@ def validate_trinity_framework() -> dict[str, bool]:
     ⚛️ Identity 🧠 Consciousness 🛡️ Guardian
     """
     return {
-        'identity': True,       # ⚛️ Core identity functions available
-        'consciousness': True,  # 🧠 Adaptive performance enabled
-        'guardian': True        # 🛡️ Security validation active
+        "identity": True,       # ⚛️ Core identity functions available
+        "consciousness": True,  # 🧠 Adaptive performance enabled
+        "guardian": True        # 🛡️ Security validation active
     }
 
 
@@ -769,7 +769,7 @@ if __name__ == "__main__":
 
         # Test authentication with enhanced features
         print("\n🔐 Testing authentication with Trinity Framework...")
-        auth = service.authenticate(result['lid'], "passkey", {"mock": True})
+        auth = service.authenticate(result["lid"], "passkey", {"mock": True})
         print(f"✅ Success: {auth['success']}")
         print(f"⚡ Latency: {auth['performance']['latency_ms']:.2f}ms")
         print(f"📊 P95 Latency: {auth['performance']['p95_latency']:.2f}ms")

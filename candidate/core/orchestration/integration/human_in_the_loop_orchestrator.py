@@ -291,16 +291,16 @@ class EmailNotification(ReviewerNotification):
             email_context = {
                 "decision_summary": {
                     "decision_id": decision.decision_id,
-                    "decision_type": getattr(decision, 'decision_type', 'general_review'),
-                    "urgency_level": getattr(decision, 'urgency_level', 'normal'),
-                    "created_at": getattr(decision, 'created_at', start_time.isoformat()),
-                    "deadline": getattr(decision, 'review_deadline', None)
+                    "decision_type": getattr(decision, "decision_type", "general_review"),
+                    "urgency_level": getattr(decision, "urgency_level", "normal"),
+                    "created_at": getattr(decision, "created_at", start_time.isoformat()),
+                    "deadline": getattr(decision, "review_deadline", None)
                 },
                 "reviewer_context": {
-                    "reviewer_name": getattr(reviewer, 'name', reviewer.reviewer_id),
-                    "expertise_area": getattr(reviewer, 'expertise_area', 'general'),
-                    "notification_preferences": getattr(reviewer, 'notification_preferences', {}),
-                    "contact_email": getattr(reviewer, 'email', f"{reviewer.reviewer_id}@company.com")
+                    "reviewer_name": getattr(reviewer, "name", reviewer.reviewer_id),
+                    "expertise_area": getattr(reviewer, "expertise_area", "general"),
+                    "notification_preferences": getattr(reviewer, "notification_preferences", {}),
+                    "contact_email": getattr(reviewer, "email", f"{reviewer.reviewer_id}@company.com")
                 },
                 "notification_metadata": {
                     "notification_type": notification_type,
@@ -317,8 +317,8 @@ class EmailNotification(ReviewerNotification):
                 "ΛTRACE_EMAIL_CONTENT_PREPARED",
                 notification_id=notification_id,
                 step="content_prepared",
-                email_subject_length=len(email_content.get('subject', '')),
-                email_body_length=len(email_content.get('body', '')),
+                email_subject_length=len(email_content.get("subject", "")),
+                email_body_length=len(email_content.get("body", "")),
                 narrative="Email content prepared with decision context integration"
             )
 
@@ -334,7 +334,7 @@ class EmailNotification(ReviewerNotification):
                 await self._track_notification_delivery(notification_id, email_context, delivery_result)
 
                 # Broadcast success event for workflow orchestration
-                if hasattr(self, '_broadcast_orchestration_event'):
+                if hasattr(self, "_broadcast_orchestration_event"):
                     await self._broadcast_orchestration_event(
                         "orchestration.notification.email_sent",
                         {
@@ -416,17 +416,17 @@ class SlackNotification(ReviewerNotification):
             slack_context = {
                 "decision_context": {
                     "decision_id": decision.decision_id,
-                    "decision_type": getattr(decision, 'decision_type', 'general_review'),
-                    "urgency_level": getattr(decision, 'urgency_level', 'normal'),
-                    "review_deadline": getattr(decision, 'review_deadline', None),
-                    "priority_score": getattr(decision, 'priority_score', 5)
+                    "decision_type": getattr(decision, "decision_type", "general_review"),
+                    "urgency_level": getattr(decision, "urgency_level", "normal"),
+                    "review_deadline": getattr(decision, "review_deadline", None),
+                    "priority_score": getattr(decision, "priority_score", 5)
                 },
                 "reviewer_context": {
                     "reviewer_id": reviewer.reviewer_id,
-                    "slack_user_id": getattr(reviewer, 'slack_user_id', f"@{reviewer.reviewer_id}"),
-                    "preferred_channel": getattr(reviewer, 'preferred_slack_channel', '#lukhas-decisions'),
-                    "notification_preferences": getattr(reviewer, 'slack_preferences', {}),
-                    "timezone": getattr(reviewer, 'timezone', 'UTC')
+                    "slack_user_id": getattr(reviewer, "slack_user_id", f"@{reviewer.reviewer_id}"),
+                    "preferred_channel": getattr(reviewer, "preferred_slack_channel", "#lukhas-decisions"),
+                    "notification_preferences": getattr(reviewer, "slack_preferences", {}),
+                    "timezone": getattr(reviewer, "timezone", "UTC")
                 },
                 "orchestration_metadata": {
                     "notification_type": notification_type,
@@ -445,8 +445,8 @@ class SlackNotification(ReviewerNotification):
                 "ΛTRACE_SLACK_MESSAGE_PREPARED",
                 notification_id=slack_notification_id,
                 step="message_prepared",
-                message_blocks_count=len(slack_message.get('blocks', [])),
-                has_interactive_elements=bool(slack_message.get('attachments')),
+                message_blocks_count=len(slack_message.get("blocks", [])),
+                has_interactive_elements=bool(slack_message.get("attachments")),
                 narrative="Interactive Slack message prepared with decision workflow actions"
             )
 
@@ -460,7 +460,7 @@ class SlackNotification(ReviewerNotification):
                 )
 
                 # Phase 5: Integrate with LUKHAS orchestration event system
-                if hasattr(self, '_broadcast_orchestration_event'):
+                if hasattr(self, "_broadcast_orchestration_event"):
                     await self._broadcast_orchestration_event(
                         "orchestration.notification.slack_sent",
                         {
@@ -916,9 +916,9 @@ class HumanInTheLoopOrchestrator:
 
         try:
             # Phase 1: Extract reviewer timezone and availability configuration
-            reviewer_timezone = getattr(reviewer, 'timezone', 'UTC')
-            work_schedule = getattr(reviewer, 'work_schedule', {})
-            availability_preferences = getattr(reviewer, 'availability_preferences', {})
+            reviewer_timezone = getattr(reviewer, "timezone", "UTC")
+            work_schedule = getattr(reviewer, "work_schedule", {})
+            availability_preferences = getattr(reviewer, "availability_preferences", {})
 
             # Get current time in reviewer's timezone
             current_utc = datetime.now(timezone.utc)
@@ -928,7 +928,7 @@ class HumanInTheLoopOrchestrator:
                 reviewer_local_time = current_utc.astimezone(reviewer_tz)
             except (ImportError, pytz.exceptions.UnknownTimeZoneError):
                 # Fallback to UTC offset if pytz not available
-                utc_offset = availability_preferences.get('utc_offset_hours', 0)
+                utc_offset = availability_preferences.get("utc_offset_hours", 0)
                 reviewer_local_time = current_utc + timedelta(hours=utc_offset)
 
             logger.debug(
@@ -994,7 +994,7 @@ class HumanInTheLoopOrchestrator:
             )
 
             # Phase 8: Broadcast availability event for workflow orchestration
-            if hasattr(self, '_broadcast_orchestration_event'):
+            if hasattr(self, "_broadcast_orchestration_event"):
                 asyncio.create_task(self._broadcast_orchestration_event(
                     "orchestration.reviewer.availability_checked",
                     {
@@ -1202,10 +1202,10 @@ class HumanInTheLoopOrchestrator:
                 "decision_context": {
                     "decision_id": context.decision_id,
                     "decision_type": context.decision_type,
-                    "ai_confidence": getattr(context, 'ai_confidence', 0.0),
-                    "risk_level": getattr(context, 'risk_level', 'unknown'),
-                    "complexity_score": getattr(context, 'complexity_score', 0.0),
-                    "stakeholder_impact": getattr(context, 'stakeholder_impact', 'unknown')
+                    "ai_confidence": getattr(context, "ai_confidence", 0.0),
+                    "risk_level": getattr(context, "risk_level", "unknown"),
+                    "complexity_score": getattr(context, "complexity_score", 0.0),
+                    "stakeholder_impact": getattr(context, "stakeholder_impact", "unknown")
                 },
                 "explanation_requirements": {
                     "target_audience": "human_reviewers",
@@ -1250,7 +1250,7 @@ class HumanInTheLoopOrchestrator:
                 )
 
                 # Phase 4: Integrate with orchestration event system
-                if hasattr(self, '_broadcast_orchestration_event'):
+                if hasattr(self, "_broadcast_orchestration_event"):
                     await self._broadcast_orchestration_event(
                         "orchestration.explanation.xil_generated",
                         {
@@ -1367,9 +1367,9 @@ class HumanInTheLoopOrchestrator:
                 "currency": escrow_details.currency,
                 "escrow_type": self._determine_escrow_type(escrow_details.currency),
                 "decision_context": {
-                    "decision_id": getattr(escrow_details, 'decision_id', 'unknown'),
-                    "urgency_level": getattr(escrow_details, 'urgency_level', 'normal'),
-                    "risk_assessment": getattr(escrow_details, 'risk_assessment', 'moderate')
+                    "decision_id": getattr(escrow_details, "decision_id", "unknown"),
+                    "urgency_level": getattr(escrow_details, "urgency_level", "normal"),
+                    "risk_assessment": getattr(escrow_details, "risk_assessment", "moderate")
                 },
                 "security_requirements": {
                     "multi_signature_required": escrow_details.amount > 10000,  # High value threshold
@@ -1410,7 +1410,7 @@ class HumanInTheLoopOrchestrator:
                 await self._create_escrow_audit_trail(escrow_details, escrow_config, escrow_result, escrow_orchestration_id)
 
                 # Phase 6: Integrate with LUKHAS orchestration event system
-                if hasattr(self, '_broadcast_orchestration_event'):
+                if hasattr(self, "_broadcast_orchestration_event"):
                     await self._broadcast_orchestration_event(
                         "orchestration.escrow.setup_complete",
                         {
@@ -1515,12 +1515,12 @@ class HumanInTheLoopOrchestrator:
                     "reviewer_id": response.reviewer_id,
                     "decision": response.decision,
                     "timestamp_utc": response.timestamp.isoformat(),
-                    "reasoning": getattr(response, 'reasoning', ''),
-                    "confidence_score": getattr(response, 'confidence_score', 0.0)
+                    "reasoning": getattr(response, "reasoning", ""),
+                    "confidence_score": getattr(response, "confidence_score", 0.0)
                 },
                 "integrity_context": {
-                    "decision_id": getattr(response, 'decision_id', 'unknown'),
-                    "review_session_id": getattr(response, 'review_session_id', 'unknown'),
+                    "decision_id": getattr(response, "decision_id", "unknown"),
+                    "review_session_id": getattr(response, "review_session_id", "unknown"),
                     "workflow_step": "human_review_response",
                     "orchestration_version": "1.0"
                 },
@@ -1603,7 +1603,7 @@ class HumanInTheLoopOrchestrator:
                 }
 
                 # Phase 5: Integrate with LUKHAS orchestration event system
-                if hasattr(self, '_broadcast_orchestration_event'):
+                if hasattr(self, "_broadcast_orchestration_event"):
                     await self._broadcast_orchestration_event(
                         "orchestration.signature.srd_created",
                         {

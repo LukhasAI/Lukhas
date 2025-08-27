@@ -112,7 +112,7 @@ def store_memory_echo(event_data):
 
 def generate_dream_digest():
     """
-    Synthesizes a reflective dream summary from the week’s emotional landscape.
+    Synthesizes a reflective dream summary from the week's emotional landscape.
     Can be triggered manually or via weekly ritual.
     """
 

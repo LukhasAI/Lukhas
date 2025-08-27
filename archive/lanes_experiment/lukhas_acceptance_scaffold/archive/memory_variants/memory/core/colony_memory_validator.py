@@ -439,7 +439,7 @@ class ColonyMemoryValidator:
             success = True
             validation_result = ValidationResult.VALID
             content_hash = (
-                hashlib.sha256(  # Changed from MD5 for securitystr(request.operation.content).encode()).hexdigest()
+                hashlib.sha256(  )  #  Changed from MD5 for securitystr(request.operation.content.encode()).hexdigest()
                 if request.operation.content
                 else None
             )

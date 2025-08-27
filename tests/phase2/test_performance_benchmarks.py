@@ -29,8 +29,7 @@ import statistics
 import time
 from dataclasses import dataclass
 from typing import Tuple
-from unittest.mock import AsyncMock
-from unittest.mock import Mock
+from unittest.mock import AsyncMock, Mock
 
 import psutil
 import pytest

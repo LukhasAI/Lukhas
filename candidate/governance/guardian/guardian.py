@@ -13,8 +13,9 @@ Integration Date: 2025-05-31T07:55:28.116923
 """
 
 # lukhas_guardian.py
-import logging
 import asyncio
+import logging
+
 from .guardian_system import EnhancedGuardianSystem
 
 logger = logging.getLogger(__name__)
@@ -57,8 +58,8 @@ class GuardianSystem:
     def __init__(self, drift_threshold: float = 0.15):
         # The __init__ will be called every time, but the instance is the same.
         # We can use a flag to do initialization only once.
-        if not hasattr(self, '_initialized'):
-            self._enhanced_system = EnhancedGuardianSystem(config={'drift_threshold': drift_threshold})
+        if not hasattr(self, "_initialized"):
+            self._enhanced_system = EnhancedGuardianSystem(config={"drift_threshold": drift_threshold})
             self.drift_threshold = drift_threshold
             self._initialized = True
 

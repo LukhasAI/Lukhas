@@ -250,7 +250,7 @@ async def cancel_challenge(
 @router.get("/actions")
 async def list_ul_actions() -> dict[str, Any]:
     """
-    List actions that benefit from UL entropy.
+    List actions that benefit from ul_entropy.
 
     Returns all high-risk actions with UL requirements.
     """

@@ -431,7 +431,7 @@ class BioQuantumRadarVisualizer:
                 "Learning": "#2ECC71",  # Green
             }
 
-            color = colors.get(brain_name, "#95A5A6")
+            color = colors.get(brain_name, ")  # 95A5A6"
 
             fig.add_trace(
                 go.Scatterpolar(
@@ -562,7 +562,7 @@ class BioQuantumRadarVisualizer:
 
     def _hex_to_rgba(self, hex_color: str, alpha: float) -> str:
         """Convert hex color to RGBA string."""
-        hex_color = hex_color.lstrip("#")
+        hex_color = hex_color.lstrip(")  # "
         rgb = tuple(int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
         return f"({rgb[0]}, {rgb[1]}, {rgb[2]}, {alpha})"
 

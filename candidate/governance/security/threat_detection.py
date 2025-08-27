@@ -306,7 +306,7 @@ class BehavioralAnalyzer:
                     details.append(f"Login at unusual hour: {current_hour}")
 
         # Check session duration
-        session_duration = activity_data.get('session_duration', 0)
+        session_duration = activity_data.get("session_duration", 0)
         if profile.average_session_duration > 0 and session_duration > 0:
             duration_ratio = session_duration / profile.average_session_duration
             if duration_ratio > 3.0 or duration_ratio < 0.3:  # 3x longer or 3x shorter
@@ -325,7 +325,7 @@ class BehavioralAnalyzer:
         score = 0.0
         details = []
 
-        accessed_resources = set(activity_data.get('accessed_resources', []))
+        accessed_resources = set(activity_data.get("accessed_resources", []))
 
         if profile.typical_resources and accessed_resources:
             # Check for access to unusual resources
@@ -352,21 +352,21 @@ class BehavioralAnalyzer:
         details = []
 
         # Check user agent anomaly
-        current_user_agent = activity_data.get('user_agent')
+        current_user_agent = activity_data.get("user_agent")
         if current_user_agent and profile.typical_user_agents:
             if current_user_agent not in profile.typical_user_agents:
                 score += 0.2
                 details.append("New user agent detected")
 
         # Check location anomaly (simplified)
-        current_location = activity_data.get('geo_location')
+        current_location = activity_data.get("geo_location")
         if current_location and profile.typical_login_locations:
             if current_location not in profile.typical_login_locations:
                 score += 0.3
                 details.append(f"Login from new location: {current_location}")
 
         # Check error rate anomaly
-        current_error_rate = activity_data.get('error_rate', 0.0)
+        current_error_rate = activity_data.get("error_rate", 0.0)
         if profile.error_rate > 0 and current_error_rate > profile.error_rate * 3:
             score += 0.2
             details.append(f"High error rate: {current_error_rate:.2f}")
@@ -384,20 +384,20 @@ class BehavioralAnalyzer:
         details = []
 
         # ⚛️ Identity behavioral analysis
-        identity_confidence = activity_data.get('identity_confidence', 1.0)
+        identity_confidence = activity_data.get("identity_confidence", 1.0)
         if identity_confidence < profile.identity_confidence * 0.7:
             score += 0.3
             details.append(f"Identity confidence drop: {identity_confidence:.2f}")
 
         # 🧠 Consciousness interaction analysis
-        consciousness_level = activity_data.get('consciousness_interaction', 0.5)
+        consciousness_level = activity_data.get("consciousness_interaction", 0.5)
         baseline = profile.consciousness_interaction
         if abs(consciousness_level - baseline) > 0.3:
             score += 0.2
             details.append(f"Unusual consciousness interaction pattern: {consciousness_level:.2f}")
 
         # 🛡️ Guardian trust score analysis
-        guardian_score = activity_data.get('guardian_trust_score', 1.0)
+        guardian_score = activity_data.get("guardian_trust_score", 1.0)
         if guardian_score < profile.guardian_trust_score * 0.8:
             score += 0.4
             details.append(f"Guardian trust score decline: {guardian_score:.2f}")
@@ -420,17 +420,17 @@ class BehavioralAnalyzer:
                 profile.typical_login_hours = profile.typical_login_hours[-50:]
 
         # Update location patterns
-        current_location = activity_data.get('geo_location')
+        current_location = activity_data.get("geo_location")
         if current_location:
             profile.typical_login_locations.add(current_location)
 
         # Update user agent patterns
-        user_agent = activity_data.get('user_agent')
+        user_agent = activity_data.get("user_agent")
         if user_agent:
             profile.typical_user_agents.add(user_agent)
 
         # Update session duration average
-        session_duration = activity_data.get('session_duration', 0)
+        session_duration = activity_data.get("session_duration", 0)
         if session_duration > 0:
             if profile.average_session_duration == 0:
                 profile.average_session_duration = session_duration
@@ -443,28 +443,28 @@ class BehavioralAnalyzer:
                 )
 
         # Update resource access patterns
-        accessed_resources = activity_data.get('accessed_resources', [])
+        accessed_resources = activity_data.get("accessed_resources", [])
         for resource in accessed_resources:
             profile.typical_resources.add(resource)
             profile.access_frequency[resource] = profile.access_frequency.get(resource, 0) + 1
 
         # Update Trinity Framework profiles
-        if 'identity_confidence' in activity_data:
+        if "identity_confidence" in activity_data:
             profile.identity_confidence = (
                 0.9 * profile.identity_confidence +
-                0.1 * activity_data['identity_confidence']
+                0.1 * activity_data["identity_confidence"]
             )
 
-        if 'consciousness_interaction' in activity_data:
+        if "consciousness_interaction" in activity_data:
             profile.consciousness_interaction = (
                 0.9 * profile.consciousness_interaction +
-                0.1 * activity_data['consciousness_interaction']
+                0.1 * activity_data["consciousness_interaction"]
             )
 
-        if 'guardian_trust_score' in activity_data:
+        if "guardian_trust_score" in activity_data:
             profile.guardian_trust_score = (
                 0.9 * profile.guardian_trust_score +
-                0.1 * activity_data['guardian_trust_score']
+                0.1 * activity_data["guardian_trust_score"]
             )
 
         profile.updated_at = datetime.now()

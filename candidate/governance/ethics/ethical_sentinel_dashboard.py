@@ -331,7 +331,7 @@ def format_violation(violation) -> str:
 async def main():
     """Main dashboard application."""
     st.title("⚖️ ΛGOVERNOR - Ethical Drift Sentinel Dashboard")
-    st.markdown("### Real-time ethical monitoring and intervention control")
+    st.markdown("##)  #  Real-time ethical monitoring and intervention control"
 
     # Initialize sentinel
     sentinel = initialize_sentinel()

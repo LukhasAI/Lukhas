@@ -257,7 +257,7 @@ class VocabularyAmplifier:
 
         result = original
         for generic, specific in replacements.items():
-            result = re.sub(r'\b' + generic + r'\b', specific, result, flags=re.IGNORECASE)
+            result = re.sub(r"\b" + generic + r"\b", specific, result, flags=re.IGNORECASE)
 
         return result
 

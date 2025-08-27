@@ -71,7 +71,7 @@ class AudioBuffer:
         """Get number of samples per channel"""
         return len(self.data) // self.channels
 
-    def to_mono(self) -> 'AudioBuffer':
+    def to_mono(self) -> "AudioBuffer":
         """Convert to mono"""
         if self.channels == 1:
             return self
@@ -86,7 +86,7 @@ class AudioBuffer:
             metadata=self.metadata.copy()
         )
 
-    def to_stereo(self) -> 'AudioBuffer':
+    def to_stereo(self) -> "AudioBuffer":
         """Convert to stereo"""
         if self.channels == 2:
             return self
@@ -201,7 +201,7 @@ class NoiseGateProcessor(AudioSignalProcessor):
         from scipy import signal
 
         # Design low-pass filter (10Hz cutoff)
-        sos = signal.butter(4, 10, btype='lowpass', fs=sample_rate, output='sos')
+        sos = signal.butter(4, 10, btype="lowpass", fs=sample_rate, output="sos")
         smoothed = signal.sosfilt(sos, gate_signal)
 
         # Ensure values are between 0 and 1
@@ -283,7 +283,7 @@ class LimiterProcessor(AudioSignalProcessor):
 
         if lookahead_samples > 0:
             # Add lookahead delay
-            padded_data = np.pad(data, (lookahead_samples, 0), mode='constant')
+            padded_data = np.pad(data, (lookahead_samples, 0), mode="constant")
             limited_data = np.zeros_like(padded_data)
 
             for i in range(len(padded_data)):
@@ -364,14 +364,14 @@ class EqualizerProcessor(AudioSignalProcessor):
 
         # Design filter based on type
         if band_type == "low_pass":
-            sos = signal.butter(4, freq, btype='lowpass', fs=sample_rate, output='sos')
+            sos = signal.butter(4, freq, btype="lowpass", fs=sample_rate, output="sos")
         elif band_type == "high_pass":
-            sos = signal.butter(4, freq, btype='highpass', fs=sample_rate, output='sos')
+            sos = signal.butter(4, freq, btype="highpass", fs=sample_rate, output="sos")
         elif band_type == "band_pass":
             bandwidth = freq / q
             low_freq = freq - bandwidth / 2
             high_freq = freq + bandwidth / 2
-            sos = signal.butter(4, [low_freq, high_freq], btype='bandpass', fs=sample_rate, output='sos')
+            sos = signal.butter(4, [low_freq, high_freq], btype="bandpass", fs=sample_rate, output="sos")
         elif band_type == "peaking":
             # Peaking EQ (boost/cut at specific frequency)
             w0 = 2 * np.pi * freq / sample_rate
@@ -436,11 +436,11 @@ class ReverbProcessor(AudioSignalProcessor):
         for delay in reverb_delays:
             if delay < len(data):
                 # Delayed and attenuated version
-                delayed = np.pad(data[:-delay], (delay, 0), mode='constant') * (0.3 * self.room_size)
+                delayed = np.pad(data[:-delay], (delay, 0), mode="constant") * (0.3 * self.room_size)
 
                 # Apply damping (low-pass filter)
                 from scipy import signal
-                sos = signal.butter(2, 8000, btype='lowpass', fs=sample_rate, output='sos')
+                sos = signal.butter(2, 8000, btype="lowpass", fs=sample_rate, output="sos")
                 delayed_filtered = signal.sosfilt(sos, delayed) * (1.0 - self.damping)
 
                 reverb_signal += delayed_filtered

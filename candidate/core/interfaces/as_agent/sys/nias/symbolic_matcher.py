@@ -24,7 +24,7 @@ DESCRIPTION:
 
 def match_message_to_context(message, user_context):
     """
-    Match a symbolic message to the user’s active symbolic context.
+    Match a symbolic message to the user's active symbolic context.
 
     Returns:
         dict: {

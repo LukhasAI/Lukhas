@@ -223,7 +223,7 @@ class ConsentManager(GlyphIntegrationMixin):
         """Save consent history to file with governance metadata"""
         history_file = self.data_dir / "consent_history.json"
         try:
-            with open(history_file, 'w') as f:
+            with open(history_file, "w") as f:
                 json.dump(self.consent_history, f, indent=2)
 
             # Log save action in governance
@@ -268,7 +268,7 @@ class ConsentManager(GlyphIntegrationMixin):
             for path_id, path in self.trust_paths.items():
                 trust_data[path_id] = asdict(path)
 
-            with open(self.trust_db_path, 'w') as f:
+            with open(self.trust_db_path, "w") as f:
                 json.dump(trust_data, f, indent=2)
 
             self._log_governance_action(

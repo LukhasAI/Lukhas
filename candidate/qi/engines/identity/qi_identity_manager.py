@@ -58,8 +58,9 @@ except ImportError:
 
 # Import identity infrastructure
 try:
-    from candidate.core.identity_integration import get_identity_client
     from identity.interface import IdentityClient
+
+    from candidate.core.identity_integration import get_identity_client
 
     IDENTITY_AVAILABLE = True
 except ImportError:

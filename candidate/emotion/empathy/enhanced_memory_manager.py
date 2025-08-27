@@ -21,7 +21,7 @@
 ║ information is left adrift in the vast ocean of oblivion. Like a skilled librarian,   ║
 ║ it sifts through the volumes of transient thoughts and fleeting computations,        ║
 ║ organizing them into a sanctuary of accessibility, where each byte finds its place,  ║
-║ awaiting the call of the coder’s intent.                                            ║
+║ awaiting the call of the coder's intent.                                            ║
 ║                                                                                     ║
 ║ With the heart of a sage and the precision of a clockmaker, this module acts as a    ║
 ║ bridge between the chaotic realms of memory allocation and the serene shores of      ║

@@ -97,14 +97,14 @@ class ContentPlatform:
 
         # Process analytics
         total_content = len(db.get_all_content(1000))
-        recent_activity = len([a for a in analytics if 'generated' in a['metric']])
+        recent_activity = len([a for a in analytics if "generated" in a["metric"]])
 
         return {
-            'total_content_items': total_content,
-            'recent_generations': recent_activity,
-            'analytics_entries': len(analytics),
-            'trinity_integration': True,
-            'database_connected': True
+            "total_content_items": total_content,
+            "recent_generations": recent_activity,
+            "analytics_entries": len(analytics),
+            "trinity_integration": True,
+            "database_connected": True
         }
 
     def get_premium_features(self) -> list:

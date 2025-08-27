@@ -15,6 +15,7 @@ from dast.integration.dast_integration_hub import DASTIntegrationHub
 
 # Learning and other systems
 from engines.learning_engine import Learningengine
+from identity.identity_hub import IdentityHub
 
 # from abas.integration.abas_integration_hub import ABASIntegrationHub
 from nias.integration.nias_integration_hub import NIASIntegrationHub
@@ -34,7 +35,6 @@ from ethics.self_reflective_debugger import SelfReflectiveDebugger
 
 # Ethics system imports
 from ethics.service import EthicsService
-from identity.identity_hub import IdentityHub
 from lukhas.consciousness.reflection.consciousness_hub import ConsciousnessHub
 from lukhas.consciousness.reflection.memory_hub import MemoryHub
 

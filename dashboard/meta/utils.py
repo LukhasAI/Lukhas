@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 def load_meta_metrics(path: Optional[Path] = None) -> dict[str, Any]:
     """
-    Load meta metrics from JSON file.
+    Load meta metrics from json_file.
 
     Args:
         path: Path to metrics file (defaults to data/meta_metrics.json)

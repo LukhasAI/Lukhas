@@ -34,11 +34,11 @@ class MedicareAustraliaInterface(EHRInterface):
     def _validate_config(self):
         """Validate Medicare-specific configuration"""
         required_fields = [
-            'provider_number',
-            'location_id',
-            'pbs_approval',
-            'api_credentials',
-            'my_health_record'
+            "provider_number",
+            "location_id",
+            "pbs_approval",
+            "api_credentials",
+            "my_health_record"
         ]
         for field in required_fields:
             if field not in self.config:
@@ -63,7 +63,7 @@ class MedicareAustraliaInterface(EHRInterface):
             record_types: Types of records to retrieve
         """
         self.audit.log_access(
-            user_id=self.config['provider_number'],
+            user_id=self.config["provider_number"],
             action="get_patient_record",
             resource_id=patient_id
         )
@@ -81,7 +81,7 @@ class MedicareAustraliaInterface(EHRInterface):
             service_type: Type of medical service
         """
         self.audit.log_access(
-            user_id=self.config['provider_number'],
+            user_id=self.config["provider_number"],
             action="verify_eligibility",
             resource_id=medicare_number
         )
@@ -93,7 +93,7 @@ class MedicareAustraliaInterface(EHRInterface):
                          claim_data: dict[str, Any]) -> str:
         """Submit bulk billing claim to Medicare"""
         self.audit.log_access(
-            user_id=self.config['provider_number'],
+            user_id=self.config["provider_number"],
             action="submit_claim",
             resource_id=patient_id
         )
@@ -105,7 +105,7 @@ class MedicareAustraliaInterface(EHRInterface):
                            patient_id: str) -> dict[str, Any]:
         """Check PBS item eligibility and restrictions"""
         self.audit.log_access(
-            user_id=self.config['provider_number'],
+            user_id=self.config["provider_number"],
             action="check_pbs_item",
             resource_id=patient_id,
             details={"item_code": item_code}
@@ -118,7 +118,7 @@ class MedicareAustraliaInterface(EHRInterface):
                                     document_data: dict[str, Any]) -> str:
         """Upload clinical document to MyHealthRecord"""
         self.audit.log_access(
-            user_id=self.config['provider_number'],
+            user_id=self.config["provider_number"],
             action="upload_document",
             resource_id=patient_id
         )

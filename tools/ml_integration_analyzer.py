@@ -11,9 +11,9 @@ Key Features
 - Integration pathway discovery (direct, wrapper, gradual migration) with line-by-line mapping hints
 - Scoring & risk assessment (value/effort, tech debt, security heuristics)
 - Continuous learning hooks (feedback registry for outcome-based calibration)
-- Safety & explainability (uncertainty quantification, audit log, “I don’t know” gating)
+- Safety & explainability (uncertainty quantification, audit log, "I don't know" gating)
 - Naming convention harmonization & code style alignment
-- OpenAI “ultimate analysis” assistant to refine SWOT and recommendations
+- OpenAI "ultimate analysis" assistant to refine SWOT and recommendations
 
 Design Notes
 ============
@@ -144,7 +144,7 @@ def extract_module_view(py_path: Path) -> ModuleView:
         if isinstance(node, ast.FunctionDef):
             args = [a.arg for a in node.args.args]
             start = node.lineno
-            end = getattr(node, 'end_lineno', node.lineno)
+            end = getattr(node, "end_lineno", node.lineno)
             lines = code.splitlines()
             source = "\n".join(lines[start - 1:end])
             doc = ast.get_docstring(node)
@@ -161,7 +161,7 @@ def extract_module_view(py_path: Path) -> ModuleView:
                          code, flags=re.MULTILINE)
     import_names = [a or b for a, b in imports]
 
-    comments = [m.group(0) for m in re.finditer(r"#.*$", code, re.MULTILINE)]
+    comments = [m.group(0) for m in re.finditer(r")  # .*$", code, re.MULTILINE]
 
     return ModuleView(path=py_path, code=code, ast=tree,
                       functions=funcs, imports=import_names, comments=comments)
@@ -682,13 +682,13 @@ class IntegrationAnalyzer:
 
     def generate_patch(self, orphan_view: ModuleView, mappings: list[LineMapping]) -> str:
         lines: list[str] = []
-        lines.append(f"# Simulated patch for {orphan_view.path.name}")
+        lines.append(f"")
         for m in mappings:
             lines.append(f"--- {m.target_file}")
             lines.append(f"+++ {m.target_file}")
             lines.append(f"@@ -{m.target_line},{m.target_line} +{m.target_line},{m.target_line} @@")
-            lines.append(f"- # insert near line {m.target_line}")
-            lines.append(f"+ {m.suggested_merge}  # confidence={m.confidence}")
+            lines.append(f"- ")
+            lines.append(f"+ {m.suggested_merge}  ")
         return "\n".join(lines)
 
     def generate_test_scaffolding(self, orphan_view: ModuleView, naming_map: dict[str, Any]) -> list[dict[str, str]]:
@@ -700,13 +700,13 @@ class IntegrationAnalyzer:
             stub = (
                 "import pytest\n\n"
                 f"def {test_name}():\n"
-                f"    # TODO: adapt imports and setup according to integration mapping\n"
-                f"    # Original: {f.name} -> Preferred: {fwd.get(f.name, snake)}\n"
-                f"    # Arrange\n"
-                f"    # TODO: build inputs matching signature: ({', '.join(f.args)})\n"
-                f"    # Act\n"
-                f"    # TODO: call target function and capture result\n"
-                f"    # Assert\n"
+                f"    "
+                f"    "
+                f"    "
+                f"    ", '.join(f.args)})\n"
+                f"    "
+                f"    "
+                f"    "
                 f"    assert True\n"
             )
             tests.append({"name": test_name, "stub": stub})
@@ -1229,7 +1229,7 @@ if __name__ == "__main__":  # pragma: no cover
 #    - Re-run to observe score/confidence changes
 #
 # Notes:
-# - The tool is conservative: if confidence < threshold, it will surface “I don’t know”-leaning outputs.
+# - The tool is conservative: if confidence < threshold, it will surface "I don't know"-leaning outputs.
 # - You can swap EmbeddingAdapter(provider="openai", model="text-embedding-3-small") with custom encoders.
 # - Extend ReasonerAdapter to other LLMs if desired.
 """

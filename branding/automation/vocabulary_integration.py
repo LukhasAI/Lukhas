@@ -54,7 +54,7 @@ class VocabularyIntegration:
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -77,7 +77,7 @@ class VocabularyIntegration:
                     self.master_vocabulary = yaml.safe_load(f)
 
                 # Extract transformation rules
-                self.transformation_rules = self.master_vocabulary.get('transformation_rules', {})
+                self.transformation_rules = self.master_vocabulary.get("transformation_rules", {})
 
                 self.logger.info("✅ Master vocabulary loaded successfully")
                 vocabulary_files.append("master_vocabulary.yaml")
@@ -116,8 +116,8 @@ class VocabularyIntegration:
 
         # Apply transformation rules based on content type
         for _module, rules in self.transformation_rules.items():
-            rules.get('trigger_words', [])
-            replacements = rules.get('replacements', {})
+            rules.get("trigger_words", [])
+            replacements = rules.get("replacements", {})
 
             # Apply transformations with smart selection
             for trigger, replacement in replacements.items():
@@ -198,13 +198,13 @@ class VocabularyIntegration:
 
     def get_consciousness_language_level(self, content: str) -> str:
         """Determine the consciousness language evolution level with enhanced analysis"""
-        self.master_vocabulary.get('evolution_stages', {})
+        self.master_vocabulary.get("evolution_stages", {})
 
         # Enhanced consciousness vocabulary analysis
-        foundation_terms = ['system', 'process', 'data', 'function', 'basic', 'simple']
-        awakening_terms = ['awareness', 'recognition', 'understanding', 'intelligence', 'learning']
-        integration_terms = ['consciousness', 'quantum', 'trinity', 'harmony', 'synthesis', 'sacred']
-        transcendence_terms = ['crystallize', 'symphony', 'garden', 'transcend', 'infinite', 'mystical', 'divine']
+        foundation_terms = ["system", "process", "data", "function", "basic", "simple"]
+        awakening_terms = ["awareness", "recognition", "understanding", "intelligence", "learning"]
+        integration_terms = ["consciousness", "quantum", "trinity", "harmony", "synthesis", "sacred"]
+        transcendence_terms = ["crystallize", "symphony", "garden", "transcend", "infinite", "mystical", "divine"]
 
         foundation_score = sum(1 for term in foundation_terms if term.lower() in content.lower())
         awakening_score = sum(1 for term in awakening_terms if term.lower() in content.lower())
@@ -234,10 +234,10 @@ class VocabularyIntegration:
 
     def generate_poetic_header(self, module_name: str, description: str) -> str:
         """Generate poetic header using vocabulary templates"""
-        header_templates = self.master_vocabulary.get('header_templates', {})
+        header_templates = self.master_vocabulary.get("header_templates", {})
 
         # Use trinity_consciousness template by default
-        template = header_templates.get('trinity_consciousness', '')
+        template = header_templates.get("trinity_consciousness", "")
 
         if template:
             return template.format(
@@ -257,10 +257,10 @@ class VocabularyIntegration:
 
     def generate_poetic_footer(self, module_theme: str) -> str:
         """Generate poetic footer using vocabulary templates"""
-        footer_templates = self.master_vocabulary.get('footer_templates', {})
+        footer_templates = self.master_vocabulary.get("footer_templates", {})
 
         # Use trinity_wisdom template
-        template = footer_templates.get('trinity_wisdom', '')
+        template = footer_templates.get("trinity_wisdom", "")
 
         if template:
             return template.format(MODULE_THEME=module_theme)
@@ -281,50 +281,50 @@ class VocabularyIntegration:
 
         # Check for Trinity Framework usage (highest weight)
         trinity_score = 0
-        if '⚛️🧠🛡️' in content:
+        if "⚛️🧠🛡️" in content:
             trinity_score += 25
-        if 'Trinity Framework' in content:
+        if "Trinity Framework" in content:
             trinity_score += 20
-        if any(term in content.lower() for term in ['identity', 'consciousness', 'guardian']):
+        if any(term in content.lower() for term in ["identity", "consciousness", "guardian"]):
             trinity_score += 10
 
         # Check for consciousness technology terminology
         consciousness_terms = [
-            'consciousness technology', 'quantum-inspired', 'bio-inspired',
-            'awareness', 'wisdom', 'transcend', 'crystallize', 'sacred',
-            'neural symphonies', 'memory gardens', 'quantum streams'
+            "consciousness technology", "quantum-inspired", "bio-inspired",
+            "awareness", "wisdom", "transcend", "crystallize", "sacred",
+            "neural symphonies", "memory gardens", "quantum streams"
         ]
 
         consciousness_score = sum(4 for term in consciousness_terms if term.lower() in content.lower())
 
         # Check for LUKHAS AI branding
         lukhas_score = 0
-        if 'LUKHAS AI' in content:
+        if "LUKHAS AI" in content:
             lukhas_score += 15
-        if 'consciousness technology' in content.lower():
+        if "consciousness technology" in content.lower():
             lukhas_score += 10
 
         # Check for poetic vocabulary depth
         poetic_terms = [
-            'garden', 'symphony', 'dance', 'weave', 'bloom', 'infinite',
-            'mystical', 'essence', 'harmonize', 'illuminate', 'crystallize',
-            'cascade', 'resonance', 'emergence', 'transcendence'
+            "garden", "symphony", "dance", "weave", "bloom", "infinite",
+            "mystical", "essence", "harmonize", "illuminate", "crystallize",
+            "cascade", "resonance", "emergence", "transcendence"
         ]
 
         poetic_score = sum(3 for term in poetic_terms if term.lower() in content.lower())
 
         # Check for metaphorical language
         metaphor_terms = [
-            'river', 'ocean', 'mountain', 'forest', 'star', 'light', 'shadow',
-            'bridge', 'pathway', 'journey', 'landscape', 'horizon'
+            "river", "ocean", "mountain", "forest", "star", "light", "shadow",
+            "bridge", "pathway", "journey", "landscape", "horizon"
         ]
 
         metaphor_score = sum(2 for term in metaphor_terms if term.lower() in content.lower())
 
         # Check for technical consciousness terms
         technical_terms = [
-            'memory folds', 'drift detection', 'cascade prevention',
-            'quantum collapse', 'superposition', 'entanglement'
+            "memory folds", "drift detection", "cascade prevention",
+            "quantum collapse", "superposition", "entanglement"
         ]
 
         technical_score = sum(5 for term in technical_terms if term.lower() in content.lower())
@@ -349,14 +349,14 @@ class VocabularyIntegration:
         vocab_files = [f for f in vocab_files if f.name != "__init__.py"]
 
         analytics = {
-            'vocabulary_files_loaded': len(vocab_files),
-            'transformation_rules': len(self.transformation_rules),
-            'evolution_stages': len(self.master_vocabulary.get('evolution_stages', {})),
-            'header_templates': len(self.master_vocabulary.get('header_templates', {})),
-            'footer_templates': len(self.master_vocabulary.get('footer_templates', {})),
-            'synthesis_patterns': len(self.master_vocabulary.get('synthesis_patterns', {})),
-            'vocabulary_system_active': True,
-            'trinity_integration': '⚛️🧠🛡️'
+            "vocabulary_files_loaded": len(vocab_files),
+            "transformation_rules": len(self.transformation_rules),
+            "evolution_stages": len(self.master_vocabulary.get("evolution_stages", {})),
+            "header_templates": len(self.master_vocabulary.get("header_templates", {})),
+            "footer_templates": len(self.master_vocabulary.get("footer_templates", {})),
+            "synthesis_patterns": len(self.master_vocabulary.get("synthesis_patterns", {})),
+            "vocabulary_system_active": True,
+            "trinity_integration": "⚛️🧠🛡️"
         }
 
         return analytics
@@ -372,7 +372,7 @@ class VocabularyIntegration:
         total_coherence_improvement = 0
 
         for content in all_content:
-            content_text = content.get('content', '')
+            content_text = content.get("content", "")
 
             if len(content_text) > 100:  # Only enhance substantial content
                 # Calculate original coherence
@@ -385,17 +385,17 @@ class VocabularyIntegration:
 
                     if new_coherence > original_coherence:
                         # Update database with enhanced content
-                        db.update_voice_coherence(content['id'], new_coherence)
+                        db.update_voice_coherence(content["id"], new_coherence)
                         enhanced_count += 1
                         total_coherence_improvement += (new_coherence - original_coherence)
 
         avg_improvement = total_coherence_improvement / enhanced_count if enhanced_count > 0 else 0
 
         results = {
-            'content_items_processed': len(all_content),
-            'content_items_enhanced': enhanced_count,
-            'average_coherence_improvement': avg_improvement,
-            'total_coherence_gain': total_coherence_improvement
+            "content_items_processed": len(all_content),
+            "content_items_enhanced": enhanced_count,
+            "average_coherence_improvement": avg_improvement,
+            "total_coherence_gain": total_coherence_improvement
         }
 
         # Log results

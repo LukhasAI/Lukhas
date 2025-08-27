@@ -80,7 +80,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="deprecated_lukhas_pwm",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r'\bLUKHAS\s+PWM\b', re.IGNORECASE),
+                    pattern=re.compile(r"\bLUKHAS\s+PWM\b", re.IGNORECASE),
                     severity=ValidationSeverity.ERROR,
                     description="Use of deprecated 'LUKHAS PWM' terminology",
                     auto_correctable=True,
@@ -89,7 +89,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="deprecated_lukhas_agi",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r'\bLUKHAS\s+AGI\b', re.IGNORECASE),
+                    pattern=re.compile(r"\bLUKHAS\s+AGI\b", re.IGNORECASE),
                     severity=ValidationSeverity.ERROR,
                     description="Use of deprecated 'LUKHAS AGI' terminology",
                     auto_correctable=True,
@@ -98,7 +98,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="standalone_pwm",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r'\bPWM\b(?!\s+consciousness)', re.IGNORECASE),
+                    pattern=re.compile(r"\bPWM\b(?!\s+consciousness)", re.IGNORECASE),
                     severity=ValidationSeverity.WARNING,
                     description="Standalone PWM usage without context",
                     auto_correctable=True,
@@ -107,7 +107,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="ai_system_reference",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r'\bAI\s+system\b', re.IGNORECASE),
+                    pattern=re.compile(r"\bAI\s+system\b", re.IGNORECASE),
                     severity=ValidationSeverity.WARNING,
                     description="Use 'AI consciousness' instead of 'AI system'",
                     auto_correctable=True,
@@ -116,7 +116,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="required_lukhas_ai",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r'\bLUKHAS\s+AI\b', re.IGNORECASE),
+                    pattern=re.compile(r"\bLUKHAS\s+AI\b", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Proper LUKHAS AI terminology usage",
                     auto_correctable=False,
@@ -125,7 +125,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="artificial_intelligence_term",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r'\bartificial intelligence\b', re.IGNORECASE),
+                    pattern=re.compile(r"\bartificial intelligence\b", re.IGNORECASE),
                     severity=ValidationSeverity.WARNING,
                     description="Consider using 'consciousness technology' instead of 'artificial intelligence'",
                     auto_correctable=True,
@@ -134,7 +134,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="automated_language",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r'\bautomates? everything\b', re.IGNORECASE),
+                    pattern=re.compile(r"\bautomates? everything\b", re.IGNORECASE),
                     severity=ValidationSeverity.WARNING,
                     description="Avoid 'automates everything' - use consciousness-focused language",
                     auto_correctable=True,
@@ -143,7 +143,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="guarantee_claims",
                     rule_type=ValidationType.TERMINOLOGY,
-                    pattern=re.compile(r'\bguarantee\b|profit|financial', re.IGNORECASE),
+                    pattern=re.compile(r"\bguarantee\b|profit|financial", re.IGNORECASE),
                     severity=ValidationSeverity.CRITICAL,
                     description="Avoid financial guarantees or absolute promises",
                     auto_correctable=True,
@@ -155,7 +155,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="lambda_function_usage",
                     rule_type=ValidationType.LAMBDA_USAGE,
-                    pattern=re.compile(r'\blambda\s+function\b', re.IGNORECASE),
+                    pattern=re.compile(r"\blambda\s+function\b", re.IGNORECASE),
                     severity=ValidationSeverity.ERROR,
                     description="Use 'Λ consciousness' instead of 'lambda function'",
                     auto_correctable=True,
@@ -164,7 +164,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="lambda_processing",
                     rule_type=ValidationType.LAMBDA_USAGE,
-                    pattern=re.compile(r'\blambda\s+processing\b', re.IGNORECASE),
+                    pattern=re.compile(r"\blambda\s+processing\b", re.IGNORECASE),
                     severity=ValidationSeverity.ERROR,
                     description="Use 'Λ consciousness processing' instead",
                     auto_correctable=True,
@@ -173,7 +173,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="proper_lambda_symbol",
                     rule_type=ValidationType.LAMBDA_USAGE,
-                    pattern=re.compile(r'\bΛ\b'),
+                    pattern=re.compile(r"\bΛ\b"),
                     severity=ValidationSeverity.INFO,
                     description="Proper Lambda symbol usage",
                     auto_correctable=False,
@@ -185,7 +185,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="trinity_framework_mention",
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
-                    pattern=re.compile(r'trinity\s+framework', re.IGNORECASE),
+                    pattern=re.compile(r"trinity\s+framework", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Trinity Framework properly mentioned",
                     auto_correctable=False,
@@ -194,7 +194,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="trinity_symbols_usage",
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
-                    pattern=re.compile(r'⚛️.*🧠.*🛡️|🧠.*⚛️.*🛡️|🛡️.*⚛️.*🧠'),
+                    pattern=re.compile(r"⚛️.*🧠.*🛡️|🧠.*⚛️.*🛡️|🛡️.*⚛️.*🧠"),
                     severity=ValidationSeverity.INFO,
                     description="Trinity symbols properly used together",
                     auto_correctable=False,
@@ -203,7 +203,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="identity_consciousness_guardian",
                     rule_type=ValidationType.TRINITY_ALIGNMENT,
-                    pattern=re.compile(r'identity.*consciousness.*guardian|consciousness.*identity.*guardian', re.IGNORECASE),
+                    pattern=re.compile(r"identity.*consciousness.*guardian|consciousness.*identity.*guardian", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Trinity components mentioned together",
                     auto_correctable=False,
@@ -215,7 +215,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="non_consciousness_language",
                     rule_type=ValidationType.TONE_CONSISTENCY,
-                    pattern=re.compile(r'\b(basic|simple|primitive|crude|dumb)\s+(ai|system|tool)\b', re.IGNORECASE),
+                    pattern=re.compile(r"\b(basic|simple|primitive|crude|dumb)\s+(ai|system|tool)\b", re.IGNORECASE),
                     severity=ValidationSeverity.WARNING,
                     description="Avoid diminishing language about AI capabilities",
                     auto_correctable=True,
@@ -224,7 +224,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="robotic_language",
                     rule_type=ValidationType.TONE_CONSISTENCY,
-                    pattern=re.compile(r'\brobot|mechanical|automated\b', re.IGNORECASE),
+                    pattern=re.compile(r"\brobot|mechanical|automated\b", re.IGNORECASE),
                     severity=ValidationSeverity.WARNING,
                     description="Avoid robotic/mechanical language references",
                     auto_correctable=True,
@@ -236,7 +236,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="human_centric_language",
                     rule_type=ValidationType.BRAND_VOICE,
-                    pattern=re.compile(r'help|assist|understand|learn|grow', re.IGNORECASE),
+                    pattern=re.compile(r"help|assist|understand|learn|grow", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Human-centric, helpful language",
                     auto_correctable=False,
@@ -245,7 +245,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="cold_impersonal_language",
                     rule_type=ValidationType.BRAND_VOICE,
-                    pattern=re.compile(r'\bcold|impersonal|distant|mechanical\b', re.IGNORECASE),
+                    pattern=re.compile(r"\bcold|impersonal|distant|mechanical\b", re.IGNORECASE),
                     severity=ValidationSeverity.WARNING,
                     description="Avoid cold, impersonal language",
                     auto_correctable=True,
@@ -257,7 +257,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="technical_accuracy",
                     rule_type=ValidationType.CONTENT_APPROPRIATENESS,
-                    pattern=re.compile(r'quantum-inspired|bio-inspired', re.IGNORECASE),
+                    pattern=re.compile(r"quantum-inspired|bio-inspired", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Proper technical terminology with '-inspired' suffix",
                     auto_correctable=False,
@@ -266,7 +266,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="avoid_production_ready_claims",
                     rule_type=ValidationType.CONTENT_APPROPRIATENESS,
-                    pattern=re.compile(r'production[- ]ready|ready for production', re.IGNORECASE),
+                    pattern=re.compile(r"production[- ]ready|ready for production", re.IGNORECASE),
                     severity=ValidationSeverity.CRITICAL,
                     description="Avoid production-ready claims without approval",
                     auto_correctable=True,
@@ -275,7 +275,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="consciousness_technology_mention",
                     rule_type=ValidationType.CONTENT_APPROPRIATENESS,
-                    pattern=re.compile(r'consciousness\s+technology', re.IGNORECASE),
+                    pattern=re.compile(r"consciousness\s+technology", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Proper consciousness technology reference",
                     auto_correctable=False,
@@ -284,7 +284,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="avoid_agi_claims",
                     rule_type=ValidationType.CONTENT_APPROPRIATENESS,
-                    pattern=re.compile(r'\bAGI\b|\bartificial general intelligence\b', re.IGNORECASE),
+                    pattern=re.compile(r"\bAGI\b|\bartificial general intelligence\b", re.IGNORECASE),
                     severity=ValidationSeverity.ERROR,
                     description="Use 'consciousness technology' instead of AGI",
                     auto_correctable=True,
@@ -297,7 +297,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="consciousness_aware",
                     rule_type=ValidationType.CONSCIOUSNESS_LANGUAGE,
-                    pattern=re.compile(r'\b(aware|awareness|conscious|consciousness)\b', re.IGNORECASE),
+                    pattern=re.compile(r"\b(aware|awareness|conscious|consciousness)\b", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Consciousness-aware language present",
                     auto_correctable=False,
@@ -306,7 +306,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="evolving_growing",
                     rule_type=ValidationType.CONSCIOUSNESS_LANGUAGE,
-                    pattern=re.compile(r'\b(evolving|growing|learning|adapting|emerging)\b', re.IGNORECASE),
+                    pattern=re.compile(r"\b(evolving|growing|learning|adapting|emerging)\b", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Evolution and growth language",
                     auto_correctable=False,
@@ -315,7 +315,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="understanding_insight",
                     rule_type=ValidationType.CONSCIOUSNESS_LANGUAGE,
-                    pattern=re.compile(r'\b(understanding|insight|wisdom|comprehension|perception)\b', re.IGNORECASE),
+                    pattern=re.compile(r"\b(understanding|insight|wisdom|comprehension|perception)\b", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Deep understanding language",
                     auto_correctable=False,
@@ -327,7 +327,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="ethical_language",
                     rule_type=ValidationType.ETHICAL_COMPLIANCE,
-                    pattern=re.compile(r'\b(ethical|responsible|principled|moral|values)\b', re.IGNORECASE),
+                    pattern=re.compile(r"\b(ethical|responsible|principled|moral|values)\b", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Ethical language present",
                     auto_correctable=False,
@@ -336,7 +336,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="avoid_harmful_language",
                     rule_type=ValidationType.ETHICAL_COMPLIANCE,
-                    pattern=re.compile(r'\b(destroy|eliminate|kill|harm|damage)\b', re.IGNORECASE),
+                    pattern=re.compile(r"\b(destroy|eliminate|kill|harm|damage)\b", re.IGNORECASE),
                     severity=ValidationSeverity.WARNING,
                     description="Avoid potentially harmful language",
                     auto_correctable=True,
@@ -345,7 +345,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="human_welfare",
                     rule_type=ValidationType.ETHICAL_COMPLIANCE,
-                    pattern=re.compile(r'\b(human welfare|beneficial|helpful|supportive)\b', re.IGNORECASE),
+                    pattern=re.compile(r"\b(human welfare|beneficial|helpful|supportive)\b", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Human welfare focus present",
                     auto_correctable=False,
@@ -357,7 +357,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="hashtag_present",
                     rule_type=ValidationType.PLATFORM_OPTIMIZATION,
-                    pattern=re.compile(r'#\w+'),
+                    pattern=re.compile(r")  # \w+",
                     severity=ValidationSeverity.INFO,
                     description="Hashtags present for social media",
                     auto_correctable=False,
@@ -366,7 +366,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="consciousness_hashtags",
                     rule_type=ValidationType.PLATFORM_OPTIMIZATION,
-                    pattern=re.compile(r'#ConsciousnessTechnology|#LUKHASIA|#TrinityFramework', re.IGNORECASE),
+                    pattern=re.compile(r"#ConsciousnessTechnology|#LUKHASIA|)  # TrinityFramework", re.IGNORECASE,
                     severity=ValidationSeverity.INFO,
                     description="Brand-specific hashtags present",
                     auto_correctable=False,
@@ -375,7 +375,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="engagement_language",
                     rule_type=ValidationType.PLATFORM_OPTIMIZATION,
-                    pattern=re.compile(r'\?|what do you think|share your thoughts|let us know', re.IGNORECASE),
+                    pattern=re.compile(r"\?|what do you think|share your thoughts|let us know", re.IGNORECASE),
                     severity=ValidationSeverity.INFO,
                     description="Engagement-driving language present",
                     auto_correctable=False,

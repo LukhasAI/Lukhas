@@ -31,12 +31,12 @@ def find_todo_markers(file_path: str) -> list[dict]:
     todos = []
 
     try:
-        with open(file_path, encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             lines = f.readlines()
 
         for line_num, line in enumerate(lines, 1):
             # Match TODO[T4-TYPE]: message patterns
-            todo_pattern = r'#\s*TODO\[T4-(\w+)\]:\s*(.+)'
+            todo_pattern = r"#\s*TODO\[T4-(\w+)\]:\s*(.+)"
             match = re.search(todo_pattern, line)
 
             if match:
@@ -44,12 +44,12 @@ def find_todo_markers(file_path: str) -> list[dict]:
                 message = match.group(2).strip()
 
                 todos.append({
-                    'file': file_path,
-                    'line': line_num,
-                    'type': todo_type,
-                    'message': message,
-                    'full_line': line.strip(),
-                    'context': get_function_context(lines, line_num)
+                    "file": file_path,
+                    "line": line_num,
+                    "type": todo_type,
+                    "message": message,
+                    "full_line": line.strip(),
+                    "context": get_function_context(lines, line_num)
                 })
 
     except Exception as e:
@@ -63,8 +63,8 @@ def get_function_context(lines: list[str], line_num: int) -> str:
     # Look backwards for function/class definition
     for i in range(line_num - 2, max(0, line_num - 20), -1):
         line = lines[i].strip()
-        if line.startswith('def ') or line.startswith('class '):
-            return line.split('(')[0].split(':')[0]
+        if line.startswith("def ") or line.startswith("class "):
+            return line.split("(")[0].split(":")[0]
     return "global"
 
 
@@ -74,12 +74,12 @@ def suggest_autofix_pattern(todo_type: str, message: str, context: str) -> str:
 
     # Common patterns and their fixes
     patterns = {
-        'list comprehension': 'Replace loop with [expr for item in items]',
-        'pathlib': 'Replace os.path with pathlib.Path',
-        'f-string': 'Replace .format() with f"string"',
-        'unused variable': 'Remove or prefix with underscore',
-        'type hint': 'Add type annotations',
-        'async': 'Convert to async/await pattern'
+        "list comprehension": "Replace loop with [expr for item in items]",
+        "pathlib": "Replace os.path with pathlib.Path",
+        "f-string": 'Replace .format() with f"string"',
+        "unused variable": "Remove or prefix with underscore",
+        "type hint": "Add type annotations",
+        "async": "Convert to async/await pattern"
     }
 
     message_lower = message.lower()
@@ -88,27 +88,27 @@ def suggest_autofix_pattern(todo_type: str, message: str, context: str) -> str:
             suggestions.append(suggestion)
 
     # T4-AUTOFIX specific
-    if todo_type == 'AUTOFIX':
+    if todo_type == "AUTOFIX":
         if not suggestions:
-            suggestions.append('Review code for safe automated transformations')
-        suggestions.append('Can be fixed with ⌘⇧, in VS Code')
+            suggestions.append("Review code for safe automated transformations")
+        suggestions.append("Can be fixed with ⌘⇧, in VS Code")
 
     # T4-MANUAL specific
-    elif todo_type == 'MANUAL':
-        suggestions.append('Requires human review and decision')
-        suggestions.append('Consider breaking into smaller T4-AUTOFIX items')
+    elif todo_type == "MANUAL":
+        suggestions.append("Requires human review and decision")
+        suggestions.append("Consider breaking into smaller T4-AUTOFIX items")
 
     # T4-RESEARCH specific
-    elif todo_type == 'RESEARCH':
-        suggestions.append('Investigate options and document findings')
-        suggestions.append('May become T4-MANUAL after research')
+    elif todo_type == "RESEARCH":
+        suggestions.append("Investigate options and document findings")
+        suggestions.append("May become T4-MANUAL after research")
 
     # T4-SECURITY specific
-    elif todo_type == 'SECURITY':
-        suggestions.append('Security-sensitive change - extra careful review')
-        suggestions.append('Consider security implications and testing')
+    elif todo_type == "SECURITY":
+        suggestions.append("Security-sensitive change - extra careful review")
+        suggestions.append("Consider security implications and testing")
 
-    return '; '.join(suggestions) if suggestions else 'No specific suggestions'
+    return "; ".join(suggestions) if suggestions else "No specific suggestions"
 
 
 def annotate_file(file_path: str, todos: list[dict], dry_run: bool = False) -> int:
@@ -117,7 +117,7 @@ def annotate_file(file_path: str, todos: list[dict], dry_run: bool = False) -> i
         return 0
 
     try:
-        with open(file_path, encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             lines = f.readlines()
     except Exception:
         return 0
@@ -126,22 +126,22 @@ def annotate_file(file_path: str, todos: list[dict], dry_run: bool = False) -> i
 
     # Process in reverse order to maintain line numbers
     for todo in reversed(todos):
-        line_idx = todo['line'] - 1
+        line_idx = todo["line"] - 1
 
         # Check if already annotated
-        if line_idx + 1 < len(lines) and '# T4-SUGGESTION:' in lines[line_idx + 1]:
+        if line_idx + 1 < len(lines) and "# T4-SUGGESTION:" in lines[line_idx + 1]:
             continue  # Already annotated
 
         # Generate suggestion
         suggestion = suggest_autofix_pattern(
-            todo['type'],
-            todo['message'],
-            todo['context']
+            todo["type"],
+            todo["message"],
+            todo["context"]
         )
 
         # Create annotation comment
         indent = len(lines[line_idx]) - len(lines[line_idx].lstrip())
-        annotation = ' ' * indent + f'# T4-SUGGESTION: {suggestion}\n'
+        annotation = " " * indent + ""
 
         # Insert annotation after TODO line
         lines.insert(line_idx + 1, annotation)
@@ -150,7 +150,7 @@ def annotate_file(file_path: str, todos: list[dict], dry_run: bool = False) -> i
     # Write back if not dry run
     if not dry_run and modifications > 0:
         try:
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.writelines(lines)
             print(f"✅ Annotated {modifications} TODOs in {file_path}")
         except Exception as e:
@@ -170,7 +170,7 @@ def generate_todo_report(all_todos: list[dict]) -> str:
     # Group by type
     by_type = {}
     for todo in all_todos:
-        todo_type = todo['type']
+        todo_type = todo["type"]
         if todo_type not in by_type:
             by_type[todo_type] = []
         by_type[todo_type].append(todo)
@@ -191,7 +191,7 @@ def generate_todo_report(all_todos: list[dict]) -> str:
 
     # Detailed breakdown
     for todo_type, todos in sorted(by_type.items()):
-        report_lines.append(f"## T4-{todo_type} Items ({len(todos)})")
+        report_lines.append("#")
         report_lines.append("")
 
         for todo in todos[:10]:  # Limit to first 10
@@ -230,7 +230,7 @@ def main():
     total_annotations = 0
 
     for path in args.paths:
-        if os.path.isfile(path) and path.endswith('.py'):
+        if os.path.isfile(path) and path.endswith(".py"):
             files_to_process = [path]
         else:
             files_to_process = []
@@ -239,7 +239,7 @@ def main():
                 dirs[:] = [d for d in dirs if not any(pattern in os.path.join(root, d) for pattern in deny_patterns)]
 
                 for file in files:
-                    if file.endswith('.py'):
+                    if file.endswith(".py"):
                         file_path = os.path.join(root, file)
                         rel_path = os.path.relpath(file_path)
 
@@ -271,7 +271,7 @@ def main():
 
     if args.output:
         os.makedirs(os.path.dirname(args.output), exist_ok=True)
-        with open(args.output, 'w') as f:
+        with open(args.output, "w") as f:
             f.write(report)
         print(f"📊 Report written to {args.output}")
     else:

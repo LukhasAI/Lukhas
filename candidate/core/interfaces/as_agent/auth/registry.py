@@ -203,7 +203,7 @@ def auto_login(device_id, current_ip):
 #    - Support wearable sync (e.g., Apple Watch, Oura, smart rings)
 #       - Sync steps, HRV, ring color, notifications, and fitness mode
 #
-#    - Add “Lukhas ID Everywhere” cloud selector:
+#    - Add "Lukhas ID Everywhere" cloud selector:
 #       - Grant cross-device access rights to trusted parties
 #       - One-tap switch between personal, business, travel profiles
 # ─────────────────────────────────────────────────────────────────────────────

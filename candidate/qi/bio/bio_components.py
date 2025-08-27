@@ -62,7 +62,7 @@ try:
     log.debug("LUKHAS Oscillators imported successfully for qi_bio_components.")
 except ImportError as e:
     log.error(
-        "Failed to import LUKHAS Oscillators for qi_bio_components. Using mock fallbacks.",
+        "Failed to import lukhas_oscillators for qi_bio_components. Using mock fallbacks.",
         error_message=str(e),
         exc_info=True,
         tip="Ensure the LUKHAS project is structured correctly or relevant packages are in PYTHONPATH.",

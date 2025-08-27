@@ -42,13 +42,13 @@ class ConsentGrantRequest(BaseModel):
     ttl_minutes: int = Field(60, description="Time-to-live in minutes")
     resource_pattern: Optional[str] = Field(None, description="Resource filter pattern")
 
-    @validator('scopes')
+    @validator("scopes")
     def validate_scopes(cls, v):
         if not v or len(v) == 0:
             raise ValueError("At least one scope required")
         return v
 
-    @validator('ttl_minutes')
+    @validator("ttl_minutes")
     def validate_ttl(cls, v):
         if v < 1 or v > 1440:  # Max 24 hours
             raise ValueError("TTL must be between 1 and 1440 minutes")
@@ -140,7 +140,7 @@ class ConsentService:
                 service_info = await self._validate_service_and_scopes(conn, request.service, request.scopes)
 
                 # Determine TTL based on scope levels
-                effective_ttl = self._calculate_effective_ttl(service_info['scope_levels'], request.ttl_minutes)
+                effective_ttl = self._calculate_effective_ttl(service_info["scope_levels"], request.ttl_minutes)
 
                 # Create consent grant using database function
                 grant_id = await conn.fetchval("""
@@ -166,7 +166,7 @@ class ConsentService:
                 # Log performance
                 processing_time = (time.perf_counter() - start_time) * 1000
                 await self._log_audit_event(
-                    conn, 'grant', request.lid, request.service,
+                    conn, "grant", request.lid, request.service,
                     grant_id=grant_id, scopes=request.scopes, purpose=request.purpose,
                     client_ip=client_ip, processing_time_ms=processing_time, success=True
                 )
@@ -177,7 +177,7 @@ class ConsentService:
                 # Log failure
                 processing_time = (time.perf_counter() - start_time) * 1000
                 await self._log_audit_event(
-                    conn, 'grant', request.lid, request.service,
+                    conn, "grant", request.lid, request.service,
                     scopes=request.scopes, purpose=request.purpose,
                     client_ip=client_ip, processing_time_ms=processing_time,
                     success=False, error_message=str(e)
@@ -213,10 +213,10 @@ class ConsentService:
                 # Log the revocation
                 processing_time = (time.perf_counter() - start_time) * 1000
                 await self._log_audit_event(
-                    conn, 'revoke', request.lid, request.service,
+                    conn, "revoke", request.lid, request.service,
                     scopes=request.scopes, purpose=request.reason,
                     client_ip=client_ip, processing_time_ms=processing_time,
-                    success=True, metadata={'revoked_count': revoked_count}
+                    success=True, metadata={"revoked_count": revoked_count}
                 )
 
                 return revoked_count
@@ -225,7 +225,7 @@ class ConsentService:
                 # Log failure
                 processing_time = (time.perf_counter() - start_time) * 1000
                 await self._log_audit_event(
-                    conn, 'revoke', request.lid, request.service,
+                    conn, "revoke", request.lid, request.service,
                     scopes=request.scopes, purpose=request.reason,
                     client_ip=client_ip, processing_time_ms=processing_time,
                     success=False, error_message=str(e)
@@ -257,7 +257,7 @@ class ConsentService:
 
             if active_only:
                 query += f" AND status = ${'3' if service else '2'}"
-                params.append('active')
+                params.append("active")
 
             query += " ORDER BY granted_at DESC"
 
@@ -265,16 +265,16 @@ class ConsentService:
 
             return [
                 ConsentLedgerEntry(
-                    grant_id=str(row['grant_id']),
-                    service=row['service_name'],
-                    purpose=row['purpose'],
-                    scopes=row['granted_scopes'],
-                    granted_at=row['granted_at'],
-                    expires_at=row['expires_at'],
-                    last_used_at=row['last_used_at'],
-                    use_count=row['use_count'],
-                    status=row['status'],
-                    active_tokens=row['active_tokens']
+                    grant_id=str(row["grant_id"]),
+                    service=row["service_name"],
+                    purpose=row["purpose"],
+                    scopes=row["granted_scopes"],
+                    granted_at=row["granted_at"],
+                    expires_at=row["expires_at"],
+                    last_used_at=row["last_used_at"],
+                    use_count=row["use_count"],
+                    status=row["status"],
+                    active_tokens=row["active_tokens"]
                 )
                 for row in rows
             ]
@@ -304,7 +304,7 @@ class ConsentService:
 
             # Update token usage
             async with self.db_pool.acquire() as conn:
-                await self._record_token_usage(conn, claims['token_id'], resource_id)
+                await self._record_token_usage(conn, claims["token_id"], resource_id)
 
             return claims
 
@@ -313,7 +313,7 @@ class ConsentService:
             async with self.db_pool.acquire() as conn:
                 processing_time = (time.perf_counter() - start_time) * 1000
                 await self._log_audit_event(
-                    conn, 'verify', 'unknown', 'unknown',
+                    conn, "verify", "unknown", "unknown",
                     scopes=required_scopes,
                     resource_identifier=resource_id,
                     processing_time_ms=processing_time,
@@ -350,7 +350,7 @@ class ConsentService:
         # Log escalation
         async with self.db_pool.acquire() as conn:
             await self._log_audit_event(
-                conn, 'escalate', lid, service,
+                conn, "escalate", lid, service,
                 scopes=content_scopes, purpose=purpose,
                 resource_identifier=resource_id, success=True
             )
@@ -362,8 +362,8 @@ class ConsentService:
         async with self.db_pool.acquire() as conn:
             result = await conn.fetchrow("SELECT * FROM consent.cleanup_expired()")
             return {
-                'expired_grants': result['expired_grants'],
-                'expired_tokens': result['expired_tokens']
+                "expired_grants": result["expired_grants"],
+                "expired_tokens": result["expired_tokens"]
             }
 
     # Private helper methods
@@ -385,7 +385,7 @@ class ConsentService:
             raise ValueError(f"Service not found: {service_name}")
 
         # Check that all requested scopes are available
-        available_scopes = service_info['available_scopes'] or []
+        available_scopes = service_info["available_scopes"] or []
         for scope in scopes:
             if scope not in available_scopes:
                 raise ValueError(f"Scope '{scope}' not available for service '{service_name}'")
@@ -394,19 +394,19 @@ class ConsentService:
 
     def _calculate_effective_ttl(self, scope_levels: list[str], requested_ttl: int) -> int:
         """Calculate effective TTL based on scope security levels"""
-        max_level = 'metadata'
+        max_level = "metadata"
 
         for level in scope_levels:
-            if level == 'admin':
-                max_level = 'admin'
+            if level == "admin":
+                max_level = "admin"
                 break
-            elif level == 'content' and max_level == 'metadata':
-                max_level = 'content'
+            elif level == "content" and max_level == "metadata":
+                max_level = "content"
 
         # Enforce security limits based on scope level
-        if max_level == 'admin':
+        if max_level == "admin":
             return min(requested_ttl, 5)  # Max 5 minutes for admin
-        elif max_level == 'content':
+        elif max_level == "content":
             return min(requested_ttl, 30)  # Max 30 minutes for content
         else:
             return min(requested_ttl, 240)  # Max 4 hours for metadata
@@ -423,33 +423,33 @@ class ConsentService:
         # Create macaroon with caveats
         if MACAROONS_AVAILABLE:
             macaroon = Macaroon(
-                location='https://consent.lukhas.com',
-                identifier=f'grant:{grant_id}',
+                location="https://consent.lukhas.com",
+                identifier=f"grant:{grant_id}",
                 key=self.macaroon_key
             )
 
             # Add caveats
-            macaroon.add_first_party_caveat(f'lid = {lid}')
-            macaroon.add_first_party_caveat(f'service = {service}')
+            macaroon.add_first_party_caveat(f"lid = {lid}")
+            macaroon.add_first_party_caveat(f"service = {service}")
             macaroon.add_first_party_caveat(f'scopes = {",".join(scopes)}')
-            macaroon.add_first_party_caveat(f'expires_at = {expires_at.isoformat()}')
+            macaroon.add_first_party_caveat(f"expires_at = {expires_at.isoformat()}")
 
             if resource_pattern:
-                macaroon.add_first_party_caveat(f'resource_pattern = {resource_pattern}')
+                macaroon.add_first_party_caveat(f"resource_pattern = {resource_pattern}")
             if client_ip:
-                macaroon.add_first_party_caveat(f'client_ip = {client_ip}')
+                macaroon.add_first_party_caveat(f"client_ip = {client_ip}")
 
             token_str = macaroon.serialize()
         else:
             # Mock token for development
             token_data = {
-                'grant_id': str(grant_id),
-                'lid': lid,
-                'service': service,
-                'scopes': scopes,
-                'expires_at': expires_at.isoformat(),
-                'resource_pattern': resource_pattern,
-                'client_ip': client_ip
+                "grant_id": str(grant_id),
+                "lid": lid,
+                "service": service,
+                "scopes": scopes,
+                "expires_at": expires_at.isoformat(),
+                "resource_pattern": resource_pattern,
+                "client_ip": client_ip
             }
             token_str = f"mock_macaroon_{secrets.token_urlsafe(32)}_{json.dumps(token_data)}"
 
@@ -464,10 +464,10 @@ class ConsentService:
 
         # Build caveats dict
         caveats = {
-            'service': service,
-            'ttl_minutes': ttl_minutes,
-            'resource_pattern': resource_pattern,
-            'client_ip': client_ip
+            "service": service,
+            "ttl_minutes": ttl_minutes,
+            "resource_pattern": resource_pattern,
+            "client_ip": client_ip
         }
 
         return CapabilityToken(
@@ -483,69 +483,69 @@ class ConsentService:
         # In production: implement full macaroon verification
         # For now, extract basic claims
         identifier = macaroon.identifier
-        if not identifier.startswith('grant:'):
+        if not identifier.startswith("grant:"):
             raise ValueError("Invalid macaroon identifier")
 
-        grant_id = identifier.split(':', 1)[1]
+        grant_id = identifier.split(":", 1)[1]
 
         # Check caveats (simplified)
         caveat_dict = {}
         for caveat in macaroon.caveats:
-            if ' = ' in caveat.caveat_id:
-                key, value = caveat.caveat_id.split(' = ', 1)
+            if " = " in caveat.caveat_id:
+                key, value = caveat.caveat_id.split(" = ", 1)
                 caveat_dict[key] = value
 
         # Verify expiration
-        if 'expires_at' in caveat_dict:
-            expires_at = datetime.fromisoformat(caveat_dict['expires_at'])
+        if "expires_at" in caveat_dict:
+            expires_at = datetime.fromisoformat(caveat_dict["expires_at"])
             if datetime.now(timezone.utc) > expires_at:
                 raise ValueError("Token expired")
 
         # Verify scopes
-        if 'scopes' in caveat_dict:
-            granted_scopes = caveat_dict['scopes'].split(',')
+        if "scopes" in caveat_dict:
+            granted_scopes = caveat_dict["scopes"].split(",")
             for scope in required_scopes:
                 if scope not in granted_scopes:
                     raise ValueError(f"Scope '{scope}' not granted")
 
         return {
-            'token_id': grant_id,
-            'lid': caveat_dict.get('lid'),
-            'service': caveat_dict.get('service'),
-            'scopes': caveat_dict.get('scopes', '').split(','),
-            'resource_pattern': caveat_dict.get('resource_pattern')
+            "token_id": grant_id,
+            "lid": caveat_dict.get("lid"),
+            "service": caveat_dict.get("service"),
+            "scopes": caveat_dict.get("scopes", "").split(","),
+            "resource_pattern": caveat_dict.get("resource_pattern")
         }
 
     def _mock_verify_token(self, token: str, required_scopes: list[str], resource_id: Optional[str]) -> dict[str, Any]:
         """Mock token verification for development"""
-        if not token.startswith('mock_macaroon_'):
+        if not token.startswith("mock_macaroon_"):
             raise ValueError("Invalid mock token format")
 
         try:
             # Extract JSON data from mock token
-            parts = token.split('_', 2)
+            parts = token.split("_", 2)
             if len(parts) < 3:
                 raise ValueError("Invalid mock token structure")
 
             token_data = json.loads(parts[2])
 
             # Check expiration
-            expires_at = datetime.fromisoformat(token_data['expires_at'])
+            expires_at = datetime.fromisoformat(token_data["expires_at"])
             if datetime.now(timezone.utc) > expires_at:
                 raise ValueError("Token expired")
 
             # Check scopes
-            granted_scopes = token_data['scopes']
+            granted_scopes = token_data["scopes"]
             for scope in required_scopes:
                 if scope not in granted_scopes:
                     raise ValueError(f"Scope '{scope}' not granted")
 
             return {
-                'token_id': token_data['grant_id'],
-                'lid': token_data['lid'],
-                'service': token_data['service'],
-                'scopes': token_data['scopes'],
-                'resource_pattern': token_data.get('resource_pattern')
+                "token_id": token_data["grant_id"],
+                "lid": token_data["lid"],
+                "service": token_data["service"],
+                "scopes": token_data["scopes"],
+                "resource_pattern": token_data.get("resource_pattern")
             }
 
         except (json.JSONDecodeError, KeyError) as e:
@@ -554,12 +554,12 @@ class ConsentService:
     def _get_content_escalation_scopes(self, service: str) -> list[str]:
         """Get appropriate content scopes for escalation"""
         escalation_map = {
-            'gmail': ['email.read.content'],
-            'drive': ['files.read.content'],
-            'dropbox': ['files.read.content'],
-            'icloud': ['files.read.content']
+            "gmail": ["email.read.content"],
+            "drive": ["files.read.content"],
+            "dropbox": ["files.read.content"],
+            "icloud": ["files.read.content"]
         }
-        return escalation_map.get(service, ['content.read'])
+        return escalation_map.get(service, ["content.read"])
 
     async def _record_token_usage(self, conn, token_id: str, resource_id: Optional[str]):
         """Record token usage for audit trail"""
@@ -571,7 +571,7 @@ class ConsentService:
 
         # Log usage
         await self._log_audit_event(
-            conn, 'use', 'token_user', 'token_service',
+            conn, "use", "token_user", "token_service",
             resource_identifier=resource_id, success=True
         )
 

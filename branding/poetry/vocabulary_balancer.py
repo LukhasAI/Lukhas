@@ -92,7 +92,7 @@ class VocabularyBalancer:
 
     def track_usage(self, text: str) -> None:
         """Track metaphor usage in text to detect overuse."""
-        words = re.findall(r'\b\w+\b', text.lower())
+        words = re.findall(r"\b\w+\b", text.lower())
         for word in words:
             # Track traditional metaphors
             for metaphor in self.traditional_metaphors:
@@ -167,7 +167,7 @@ class VocabularyBalancer:
         self.track_usage(text)
 
         # Split into words while preserving structure
-        words = re.split(r'(\W+)', text)
+        words = re.split(r"(\W+)", text)
         enriched_words = []
 
         for word in words:
@@ -178,7 +178,7 @@ class VocabularyBalancer:
             else:
                 enriched_words.append(word)
 
-        return ''.join(enriched_words)
+        return "".join(enriched_words)
 
     def reset_usage_tracking(self):
         """Reset usage counter for new document/session."""

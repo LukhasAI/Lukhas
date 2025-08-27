@@ -74,7 +74,7 @@ def nuclear_fix_file(filepath: Path):
                 else:
                     import_lines.append(line)  # Keep all from imports for safety
             else:
-                if line and not line.startswith("#"):
+                if line and not line.startswith(")  # ":
                     imports_done = True
                 other_lines.append(line)
 

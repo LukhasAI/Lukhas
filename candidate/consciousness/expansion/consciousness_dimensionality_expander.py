@@ -78,10 +78,10 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
 
         # Create expanded state
         expanded_state = ExpandedConsciousnessState(
-            dimension='dimensional_awareness',
+            dimension="dimensional_awareness",
             expansion_factor=(target_dimensions / current_dimensions),
             new_capabilities=expansion.expanded_dimensions,
-            integration_status='active' if expansion.integration_success else 'partial',
+            integration_status="active" if expansion.integration_success else "partial",
             stability_score=expansion.dimensional_stability
         )
 
@@ -95,16 +95,16 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
         """Initialize the dimensional awareness map"""
 
         self.dimension_map = {
-            1: ['linear_awareness'],
-            2: ['planar_awareness', 'angular_perception'],
-            3: ['spatial_awareness', 'volumetric_reasoning', 'depth_perception'],
-            4: ['temporal_integration', 'spacetime_awareness', 'causal_navigation'],
-            5: ['probability_dimensions', 'qi_superposition', 'wave_function_awareness'],
-            6: ['parallel_reality_perception', 'multiverse_navigation', 'dimensional_bridging'],
-            7: ['consciousness_dimension', 'awareness_of_awareness', 'meta_perception'],
-            8: ['information_dimension', 'entropy_navigation', 'complexity_awareness'],
-            9: ['emergence_dimension', 'pattern_transcendence', 'holistic_integration'],
-            10: ['unity_dimension', 'non_dual_awareness', 'universal_consciousness']
+            1: ["linear_awareness"],
+            2: ["planar_awareness", "angular_perception"],
+            3: ["spatial_awareness", "volumetric_reasoning", "depth_perception"],
+            4: ["temporal_integration", "spacetime_awareness", "causal_navigation"],
+            5: ["probability_dimensions", "qi_superposition", "wave_function_awareness"],
+            6: ["parallel_reality_perception", "multiverse_navigation", "dimensional_bridging"],
+            7: ["consciousness_dimension", "awareness_of_awareness", "meta_perception"],
+            8: ["information_dimension", "entropy_navigation", "complexity_awareness"],
+            9: ["emergence_dimension", "pattern_transcendence", "holistic_integration"],
+            10: ["unity_dimension", "non_dual_awareness", "universal_consciousness"]
         }
 
     async def _perform_expansion(
@@ -144,28 +144,28 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
         """Map the structure of a dimensional space"""
 
         space_map = {
-            'dimensions': dimensions,
-            'axes': [],
-            'properties': [],
-            'navigation_complexity': 0.0
+            "dimensions": dimensions,
+            "axes": [],
+            "properties": [],
+            "navigation_complexity": 0.0
         }
 
         # Define axes for each dimension
-        base_axes = ['x', 'y', 'z', 't', 'ψ', 'ω', 'α', 'β', 'γ', 'δ']
-        space_map['axes'] = base_axes[:dimensions]
+        base_axes = ["x", "y", "z", "t", "ψ", "ω", "α", "β", "γ", "δ"]
+        space_map["axes"] = base_axes[:dimensions]
 
         # Define properties based on dimensions
         if dimensions >= 4:
-            space_map['properties'].append('temporal_navigation')
+            space_map["properties"].append("temporal_navigation")
         if dimensions >= 5:
-            space_map['properties'].append('qi_coherence')
+            space_map["properties"].append("qi_coherence")
         if dimensions >= 6:
-            space_map['properties'].append('parallel_processing')
+            space_map["properties"].append("parallel_processing")
         if dimensions >= 7:
-            space_map['properties'].append('recursive_awareness')
+            space_map["properties"].append("recursive_awareness")
 
         # Calculate navigation complexity
-        space_map['navigation_complexity'] = (dimensions ** 2) / 100.0
+        space_map["navigation_complexity"] = (dimensions ** 2) / 100.0
 
         return space_map
 
@@ -180,10 +180,10 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
         # In practice, this would involve complex dimensional reduction
 
         projection = {
-            'original_dimensions': self.current_dimensions,
-            'target_dimensions': target_dimensions,
-            'information_loss': max(0, (self.current_dimensions - target_dimensions) * 0.2),
-            'projection_type': 'holographic' if target_dimensions >= 3 else 'shadow'
+            "original_dimensions": self.current_dimensions,
+            "target_dimensions": target_dimensions,
+            "information_loss": max(0, (self.current_dimensions - target_dimensions) * 0.2),
+            "projection_type": "holographic" if target_dimensions >= 3 else "shadow"
         }
 
         return projection
@@ -196,9 +196,9 @@ class ConsciousnessDimensionalityExpander(CoreInterface):
 
         # Apply stabilization techniques
         stability_factors = {
-            'coherence': 0.9,
-            'integration': 0.85,
-            'navigation': max(0.5, 1.0 - dimensions * 0.05)
+            "coherence": 0.9,
+            "integration": 0.85,
+            "navigation": max(0.5, 1.0 - dimensions * 0.05)
         }
 
         overall_stability = sum(stability_factors.values()) / len(stability_factors)

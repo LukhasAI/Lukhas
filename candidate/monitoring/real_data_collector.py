@@ -2,7 +2,7 @@
 """
 Real Data Collector
 ==================
-Actual implementation showing how monitoring system collects real data from LUKHAS  modules
+Actual implementation showing how monitoring system collects real data from lukhas__modules
 """
 
 import asyncio
@@ -390,7 +390,7 @@ class LukhasRealDataCollector:
             logger.warning("Could not initialize module instance", error=str(e))
 
     # ACTUAL DATA COLLECTION METHODS
-    # These methods show how to extract real data from LUKHAS  modules
+    # These methods show how to extract real data from lukhas__modules
 
     async def _get_consciousness_awareness(self) -> float:
         """Get actual awareness level from consciousness module"""

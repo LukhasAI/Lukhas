@@ -6,7 +6,7 @@ Force LUKHAS AI ΛBot to actually think and heal by bypassing its ultra-conserva
 import subprocess
 import sys
 
-sys.path.append('/Users/A_G_I/Λ')
+sys.path.append("/Users/A_G_I/Λ")
 
 def force_abot_to_heal():
     """Force LUKHAS AI ΛBot to actually perfrom healing by using user_request=True"""
@@ -28,10 +28,10 @@ def force_abot_to_heal():
 
         try:
             result = subprocess.run([
-                'python3', '-c', f'''
+                "python3", "-c", f"""
 import sys
 sys.path.append("/Users/A_G_I/Λ")
-from LUKHAS AI ΛBot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
+from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
 
 controller = ABotIntelligentOpenAIController()
 result = controller.make_intelligent_request(
@@ -51,8 +51,8 @@ if result.get("response"):
     print(f"🧠 Decision: {{result.get('financial_decision', 'Unknown')}}")
 else:
     print("❌ Forced healing failed:", result.get("error", "Unknown error"))
-'''
-            ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=120)
+"""
+            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=120)
 
             if result.stdout:
                 print(result.stdout)

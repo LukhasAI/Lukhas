@@ -20,7 +20,7 @@ personality_refiner
 
 ┌─────────────────────────────────────────────────────────────────────┐
 │ 🧬 OVERVIEW:                                                        │
-│ This module gradually adjusts Lukhas’ symbolic personality profile  │
+│ This module gradually adjusts Lukhas' symbolic personality profile  │
 │ based on feedback loops, dream resonance, and reflective memory.   │
 │ All mutations are tiered, traceable, and reversible.               │
 └─────────────────────────────────────────────────────────────────────┘

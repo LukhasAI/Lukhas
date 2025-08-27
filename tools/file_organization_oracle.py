@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
@@ -29,12 +28,13 @@ Version: 1.0.0-CONSCIOUSNESS-ENHANCED
 Authors: LUKHAS AI Organization Team
 """
 
-import shutil
-from pathlib import Path
-from typing import Dict, List, Tuple, Optional
-import yaml
 import logging
+import shutil
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+
+import yaml
 
 # Configure consciousness logger
 logging.basicConfig(

@@ -56,13 +56,17 @@ try:
     from candidate.memory.basic import MemoryManager
 except ImportError:
     try:
-        from candidate.memory.systems.memory_learning.memory_manager import MemoryManager
+        from candidate.memory.systems.memory_learning.memory_manager import (
+            MemoryManager,
+        )
     except ImportError:
         MemoryManager = None
 
 # Awareness Engine - Use candidate/consciousness/awareness/awareness_engine.py
 try:
-    from candidate.consciousness.awareness.awareness_engine import AwarenessEngine as BioAwarenessSystem
+    from candidate.consciousness.awareness.awareness_engine import (
+        AwarenessEngine as BioAwarenessSystem,
+    )
 except ImportError:
     BioAwarenessSystem = None
 
@@ -182,7 +186,7 @@ class OrchestrationCore:
 
         try:
             # Check if MemoryManager requires specific initialization parameters
-            if hasattr(MemoryManager, '__init__'):
+            if hasattr(MemoryManager, "__init__"):
                 # Try with session_id and config
                 try:
                     self.memory_manager = MemoryManager(
@@ -197,7 +201,7 @@ class OrchestrationCore:
                         self.memory_manager = MemoryManager()
 
                 # Try to initialize if method exists
-                if hasattr(self.memory_manager, 'initialize'):
+                if hasattr(self.memory_manager, "initialize"):
                     await self.memory_manager.initialize()
 
             logger.info("Memory system initialized")
@@ -214,7 +218,7 @@ class OrchestrationCore:
 
         try:
             # BioEngine/BioCore may not require specific parameters
-            if hasattr(BioCore, '__init__'):
+            if hasattr(BioCore, "__init__"):
                 try:
                     self.bio_core = BioCore(
                         memory_manager=self.memory_manager,
@@ -225,7 +229,7 @@ class OrchestrationCore:
                     self.bio_core = BioCore()
 
                 # Try to initialize if method exists
-                if hasattr(self.bio_core, 'initialize'):
+                if hasattr(self.bio_core, "initialize"):
                     await self.bio_core.initialize()
 
             logger.info("Bio-core system initialized")
@@ -252,7 +256,7 @@ class OrchestrationCore:
                 self.awareness_system = BioAwarenessSystem()
 
             # Try to initialize if method exists
-            if hasattr(self.awareness_system, 'initialize'):
+            if hasattr(self.awareness_system, "initialize"):
                 await self.awareness_system.initialize()
 
             logger.info("Awareness system initialized")
@@ -273,7 +277,7 @@ class OrchestrationCore:
                 except TypeError:
                     self.ethics_core = EthicsCore()
 
-                if hasattr(self.ethics_core, 'initialize'):
+                if hasattr(self.ethics_core, "initialize"):
                     await self.ethics_core.initialize()
             except Exception as e:
                 logger.error(f"Ethics core initialization failed: {e}")
@@ -293,7 +297,7 @@ class OrchestrationCore:
                 except TypeError:
                     self.compliance_engine = ComplianceEngine()
 
-                if hasattr(self.compliance_engine, 'initialize'):
+                if hasattr(self.compliance_engine, "initialize"):
                     await self.compliance_engine.initialize()
             except Exception as e:
                 logger.error(f"Compliance engine initialization failed: {e}")
@@ -321,7 +325,7 @@ class OrchestrationCore:
                 self.dream_engine = DreamEngine()
 
             # Try to initialize if method exists
-            if hasattr(self.dream_engine, 'initialize'):
+            if hasattr(self.dream_engine, "initialize"):
                 await self.dream_engine.initialize()
 
             logger.info("Dream engine initialized")

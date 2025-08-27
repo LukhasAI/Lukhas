@@ -231,13 +231,13 @@ class OrganizationScanner:
             report += f"- `{empty_dir}`\n"
 
         if self.issues["misplaced_md_files"]:
-            report += f"\n### 📄 Misplaced Documentation ({len(self.issues['misplaced_md_files'])})\n"
+            report += f"\n##"misplaced_md_files'])})\n"
             for md_file in self.issues["misplaced_md_files"][:5]:
                 report += f"- `{md_file}`\n"
 
         if self.issues["large_files"]:
             report += (
-                f"\n### 📊 Large Files (>1MB) ({len(self.issues['large_files'])})\n"
+                f"\n##"large_files'])})\n"
             )
             for large_file in sorted(
                 self.issues["large_files"], key=lambda x: x["size_mb"], reverse=True

@@ -536,7 +536,7 @@ class SymbolicWeaver:
         return fragments
 
     def _load_json_fragment(self, file_path: Path) -> Optional[SymbolicFragment]:
-        """Load fragment from JSON file."""
+        """Load fragment from json_file."""
         try:
             with open(file_path) as f:
                 data = json.load(f)
@@ -548,7 +548,7 @@ class SymbolicWeaver:
             return None
 
     def _load_jsonl_fragments(self, file_path: Path) -> list[SymbolicFragment]:
-        """Load fragments from JSONL file."""
+        """Load fragments from jsonl_file."""
         fragments = []
 
         try:
@@ -1313,7 +1313,7 @@ class SymbolicWeaver:
             + str(thread.ethical_alignment)
         )
 
-        return hashlib.sha256(  # Changed from MD5 for securitycontent_string.encode()).hexdigest()[:16]
+        return hashlib.sha256(  )  #  Changed from MD5 for securitycontent_string.encode().hexdigest()[:16]
 
     def evaluate_thread_alignment(
         self, thread: NarrativeThread = None

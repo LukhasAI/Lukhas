@@ -922,7 +922,7 @@ Found {len(self.detected_patterns)} patterns in your development workflow.
         if automations:
             report += "\n## 🤖 Automation Opportunities\n"
             for i, automation in enumerate(automations[:5], 1):
-                report += f"\n### {i}. {automation['pattern']}\n"
+                report += f"\n##"pattern']}\n"
                 report += f"- Type: {automation['automation_type']}\n"
                 report += f"- Implementation: {automation['implementation']}\n"
                 report += f"- Time saved: {automation['estimated_time_saved']}\n"

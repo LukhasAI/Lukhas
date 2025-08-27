@@ -654,7 +654,7 @@ class DΛST:
         if "time >=" in condition and "time <=" in condition:
             # Parse time range (simplified)
             import re
-            times = re.findall(r'time [><=]+ (\d{2}):(\d{2})', condition)
+            times = re.findall(r"time [><=]+ (\d{2}):(\d{2})", condition)
             if len(times) >= 2:
                 start_hour, start_min = map(int, times[0])
                 end_hour, end_min = map(int, times[1])
@@ -667,15 +667,15 @@ class DΛST:
 
         # Focus score conditions
         if "focus_score >=" in condition:
-            threshold_match = re.search(r'focus_score >= ([\d.]+)', condition)
+            threshold_match = re.search(r"focus_score >= ([\d.]+)", condition)
             if threshold_match:
                 threshold = float(threshold_match.group(1))
                 return context.focus_score >= threshold
 
         # Symbol age conditions
         if "symbol_age >=" in condition and "confidence <=" in condition:
-            age_match = re.search(r'symbol_age >= (\d+) hours', condition)
-            conf_match = re.search(r'confidence <= ([\d.]+)', condition)
+            age_match = re.search(r"symbol_age >= (\d+) hours", condition)
+            conf_match = re.search(r"confidence <= ([\d.]+)", condition)
 
             if age_match and conf_match:
                 age_threshold_hours = int(age_match.group(1))
@@ -720,8 +720,8 @@ class DΛST:
 
                 # Remove old, low-confidence symbols
                 if "symbol_age" in rule.condition and "confidence" in rule.condition:
-                    age_match = re.search(r'symbol_age >= (\d+) hours', rule.condition)
-                    conf_match = re.search(r'confidence <= ([\d.]+)', rule.condition)
+                    age_match = re.search(r"symbol_age >= (\d+) hours", rule.condition)
+                    conf_match = re.search(r"confidence <= ([\d.]+)", rule.condition)
 
                     if age_match and conf_match:
                         age_threshold_hours = int(age_match.group(1))

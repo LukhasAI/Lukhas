@@ -104,7 +104,7 @@ def _generate_grafana(path: str):
           "type": "timeseries",
           "title": "Receipts per second",
           "gridPos": {"h":8,"w":12,"x":0,"y":1},
-          "targets": [{"expr":"rate(lukhas_http_requests_total{path=\"/provenance/:sha/stream\"}[5m])","legendFormat":"streams","refId":"A"}]
+          "targets": [{"expr":'rate(lukhas_http_requests_total{path="/provenance/:sha/stream"}[5m])',"legendFormat":"streams","refId":"A"}]
         },
         {
           "type":"timeseries",

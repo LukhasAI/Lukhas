@@ -135,7 +135,7 @@ class AdvancedColonyConsensus(ColonyConsensus):
         # Swarm intelligence state
         self.swarm_particles: dict[str, SwarmParticle] = {}
         self.global_best_position: Optional[np.ndarray] = None
-        self.global_best_score: float = float('-inf')
+        self.global_best_score: float = float("-inf")
 
         # Genetic evolution state
         self.genetic_population: dict[str, list[GeneticVote]] = defaultdict(list)

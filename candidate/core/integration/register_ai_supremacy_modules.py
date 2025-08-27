@@ -172,7 +172,7 @@ async def verify_agi_supremacy_integration() -> dict[str, Any]:
             service = get_service(service_name)
             if service:
                 # Test basic functionality
-                if hasattr(service, '_initialized'):
+                if hasattr(service, "_initialized"):
                     verification_results[service_name] = {
                         "present": True,
                         "initialized": service._initialized,

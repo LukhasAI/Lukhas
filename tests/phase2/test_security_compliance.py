@@ -29,10 +29,12 @@ import pytest
 try:
     from candidate.compliance.ai_compliance import ComplianceEngine
     from candidate.governance.guardian_system import GuardianSystem
-    from candidate.security.authentication import generate_api_key
-    from candidate.security.authentication import generate_jwt_token
-    from candidate.security.authentication import validate_api_key
-    from candidate.security.authentication import validate_jwt_token
+    from candidate.security.authentication import (
+        generate_api_key,
+        generate_jwt_token,
+        validate_api_key,
+        validate_jwt_token,
+    )
     from lukhas.identity.core import IdentitySystem
 except ImportError as e:
     pytest.skip(f"Security modules not available: {e}", allow_module_level=True)

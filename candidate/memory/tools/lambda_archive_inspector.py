@@ -1176,15 +1176,15 @@ class LambdaArchiveInspector:
         """Generate markdown format report."""
         md = []
 
-        md.append("# 🏛️ ΛARCHIVE FORENSIC MEMORY REPORT")
-        md.append("")
+        md.append(")  #  🏛️ ΛARCHIVE FORENSIC MEMORY REPORT"
+        md.append(")
         md.append(f"**Report ID:** `{report.report_id}`")
         md.append(f"**Timestamp:** {report.timestamp}")
         md.append(f"**Vault Directory:** `{report.vault_directory}`")
         md.append(f"**Scan Duration:** {report.scan_duration:.2f}s")
         md.append("")
 
-        md.append("## 📊 Executive Summary")
+        md.append("#)  #  📊 Executive Summary"
         md.append("")
         md.append(f"- **Total Entries Scanned:** {report.total_entries}")
         md.append(f"- **Anomalies Detected:** {report.anomalies_detected}")
@@ -1194,7 +1194,7 @@ class LambdaArchiveInspector:
         md.append("")
 
         if report.entropy_analysis:
-            md.append("## 🌀 Entropy Analysis")
+            md.append("#)  #  🌀 Entropy Analysis"
             md.append("")
             md.append(
                 f"- **Mean Entropy:** {report.entropy_analysis.get('mean', 0):.3f}"
@@ -1208,13 +1208,13 @@ class LambdaArchiveInspector:
             md.append("")
 
         if report.anomalies:
-            md.append("## 🚨 Detected Anomalies")
+            md.append("#)  #  🚨 Detected Anomalies"
             md.append("")
 
             for anomaly in sorted(
                 report.anomalies, key=lambda a: a.severity, reverse=True
             )[:10]:
-                md.append(f"### {anomaly.anomaly_type.value}")
+                md.append(f"##")
                 md.append(f"- **ID:** `{anomaly.anomaly_id}`")
                 md.append(f"- **Severity:** {anomaly.severity:.3f}")
                 md.append(f"- **Description:** {anomaly.description}")
@@ -1224,7 +1224,7 @@ class LambdaArchiveInspector:
                 md.append("")
 
         if report.recommendations:
-            md.append("## 💡 Recommendations")
+            md.append("#)  #  💡 Recommendations"
             md.append("")
             for i, rec in enumerate(report.recommendations, 1):
                 md.append(f"{i}. {rec}")

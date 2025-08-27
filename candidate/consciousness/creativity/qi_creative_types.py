@@ -400,7 +400,7 @@ class QICodePoet(QICreativeComponent):
         self.poetry_patterns = ["sonnet", "haiku", "free_verse", "algorithmic"]
 
     async def process(self, theme: str) -> str:
-        return f"# Quantum code poem\n# Theme: {theme}\nwhile True:\n    beauty += qi_uncertainty"
+        return "# Quantum code poem\n"
 
 
 class QIChoreographer(QICreativeComponent):

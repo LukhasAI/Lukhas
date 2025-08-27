@@ -34,7 +34,7 @@ def validate_api_key(api_key: str) -> bool:
         return False
 
     # Character set validation - allow alphanumeric and common API key chars
-    if not re.match(r'^[a-zA-Z0-9_\-\.]+$', api_key):
+    if not re.match(r"^[a-zA-Z0-9_\-\.]+$", api_key):
         return False
 
     # Check against environment-configured valid keys if available
@@ -69,7 +69,7 @@ def _get_valid_api_keys() -> Optional[set]:
         for hash_str in key_hashes_env.split(","):
             hash_str = hash_str.strip()
             # Validate SHA256 hash format (64 hex characters)
-            if re.match(r'^[a-fA-F0-9]{64}$', hash_str):
+            if re.match(r"^[a-fA-F0-9]{64}$", hash_str):
                 hashes.add(hash_str.lower())
 
         return hashes if hashes else None
@@ -113,7 +113,7 @@ def is_valid_api_key_format(api_key: str) -> bool:
         return False
 
     # Character set check
-    if not re.match(r'^[a-zA-Z0-9_\-\.]+$', api_key):
+    if not re.match(r"^[a-zA-Z0-9_\-\.]+$", api_key):
         return False
 
     return True

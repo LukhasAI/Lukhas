@@ -952,7 +952,7 @@ class SymbolicLogicEngine:
         self, current_glyph: str, next_glyph: str, attractor_strength: float
     ) -> float:
         """Calculate entropy for a single reasoning step."""
-        # Base entropy from GLYPH transition
+        # Base entropy from glyph_transition
         transition_entropy = self._calculate_glyph_distance(current_glyph, next_glyph)
 
         # Modify based on attractor strength (strong attractors reduce entropy)

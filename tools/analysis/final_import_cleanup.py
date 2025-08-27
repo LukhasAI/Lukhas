@@ -156,13 +156,13 @@ class FinalImportCleanup:
                     # Comment out direct imports
                     content = re.sub(
                         f"^import {problematic}$",
-                        f"# import {problematic}  # External dependency",
+                        f"# import {problematic}  ",
                         content,
                         flags=re.MULTILINE,
                     )
                     content = re.sub(
                         f"^from {problematic}",
-                        f"# from {problematic}",
+                        "",
                         content,
                         flags=re.MULTILINE,
                     )

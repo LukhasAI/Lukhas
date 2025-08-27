@@ -246,7 +246,7 @@ def generate_dream_narrative(:
     ]
     if current_traits_data:
         prompt_text_parts.append(
-            f"\n\n## Current Traits Inspiring Dream:\n{json.dumps(current_traits_data, indent=2)}"
+            f"\n\n#"
         )
     if len(sampled_memories) > 0:
         # ΛNOTE (from core_dreams_alt.py): An alternative way to format memory fragments,
@@ -260,7 +260,7 @@ def generate_dream_narrative(:
             ]
         )
         prompt_text_parts.append(
-            f"\n\n## Memory Fragments Resonating in Dream State:\n{mem_frags_str}"
+            f"\n\n#"
         )
     final_dream_user_prompt = "".join(prompt_text_parts)
 

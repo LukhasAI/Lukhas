@@ -20,7 +20,7 @@ Here's a curated list of **non-mitochondrial biological systems** with high pote
           else:
               return self._quarantine(signal)
   ```
-- **Quantum Link**: FG-repeats’ phase separation exhibits non-classical cooperativity.
+- **Quantum Link**: FG-repeats' phase separation exhibits non-classical cooperativity.
 
 ---
 
@@ -42,7 +42,7 @@ Here's a curated list of **non-mitochondrial biological systems** with high pote
 **Biological Role**: Processes/matures proteins via cisternal maturation and COPII/COPI vesicles.
 **AGI Metaphor**:
 - **Task Routing**: Tag ethical decisions with *KDEL-like retention signals* for iterative refinement.
-- **Dynamic Assembly**: Golgi’s cisternal progression ≈ AGI workflow versioning with rollback states.
+- **Dynamic Assembly**: Golgi's cisternal progression ≈ AGI workflow versioning with rollback states.
 
 ---
 
@@ -103,11 +103,11 @@ Here's a curated list of **non-mitochondrial biological systems** with high pote
 ---
 
 ### **Key AGI Cross-Cutting Themes**
-- **Modular Arbitration**: NPC’s selective gating + MAPK amplification.
+- **Modular Arbitration**: NPC's selective gating + MAPK amplification.
 - **Resilience**: Ubiquitin tagging + stress granule buffering.
 - **Quantum-Like Behavior**: Chromatin breathing, FG-phase cooperativity.
 
-These systems exemplify biology’s solutions to problems AGI faces: *scalable control*, *noise resistance*, and *adaptive identity*. Let me know which mechanism to explore in depth!
+These systems exemplify biology's solutions to problems AGI faces: *scalable control*, *noise resistance*, and *adaptive identity*. Let me know which mechanism to explore in depth!
 
 What non-mitochondrial cellular structures could inspire modular arbitration in AGI systems
 

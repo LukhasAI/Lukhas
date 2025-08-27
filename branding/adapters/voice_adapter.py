@@ -316,11 +316,11 @@ class BrandVoiceAdapter:
             # Create voice generation request
             request = VoiceGenerationRequest(
                 content=content,
-                tone_profile={**brand_profile, 'tone_layer': tone_layer},
+                tone_profile={**brand_profile, "tone_layer": tone_layer},
                 emotional_context=emotional_context,
                 audience_context=audience_context,
-                brand_enforcement=kwargs.get('brand_enforcement', True),
-                max_tokens=kwargs.get('max_tokens')
+                brand_enforcement=kwargs.get("brand_enforcement", True),
+                max_tokens=kwargs.get("max_tokens")
             )
 
             # Generate with LLM bridge
@@ -329,7 +329,7 @@ class BrandVoiceAdapter:
             # Apply additional voice personality modulation
             if VOICE_SYSTEMS_AVAILABLE:
                 voice_modulation = self.core_voice_personality.adapt_to_emotion(
-                    emotional_context, intensity=brand_profile.get('emotional_resonance', 0.7)
+                    emotional_context, intensity=brand_profile.get("emotional_resonance", 0.7)
                 )
                 enhanced_output = self.core_voice_personality.enhance_text_expression(
                     response.voice_output, emotional_context
@@ -343,10 +343,10 @@ class BrandVoiceAdapter:
                 brand_profile, tone_layer, emotional_context, audience_context
             )
             voice_metadata.update({
-                'llm_provider': response.provider_used,
-                'generation_time': response.generation_time,
-                'voice_modulation': voice_modulation,
-                'original_llm_response': response.voice_output
+                "llm_provider": response.provider_used,
+                "generation_time": response.generation_time,
+                "voice_modulation": voice_modulation,
+                "original_llm_response": response.voice_output
             })
 
             return {
@@ -387,7 +387,7 @@ class BrandVoiceAdapter:
         # Apply voice personality modulation
         if VOICE_SYSTEMS_AVAILABLE:
             voice_modulation = self.core_voice_personality.adapt_to_emotion(
-                emotional_context, intensity=brand_profile.get('emotional_resonance', 0.7)
+                emotional_context, intensity=brand_profile.get("emotional_resonance", 0.7)
             )
             voice_output = self.core_voice_personality.enhance_text_expression(
                 brand_enhanced_content, emotional_context
@@ -412,10 +412,10 @@ class BrandVoiceAdapter:
             brand_profile, tone_layer, emotional_context, audience_context
         )
         voice_metadata.update({
-            'llm_provider': 'fallback',
-            'generation_time': 0.1,
-            'voice_modulation': voice_modulation,
-            'fallback_reason': 'LLM bridge unavailable'
+            "llm_provider": "fallback",
+            "generation_time": 0.1,
+            "voice_modulation": voice_modulation,
+            "fallback_reason": "LLM bridge unavailable"
         })
 
         return {
@@ -454,9 +454,9 @@ class BrandVoiceAdapter:
     def get_cache_stats(self) -> dict[str, Any]:
         """Get cache statistics"""
         return {
-            'cache_size': len(self._voice_cache),
-            'max_size': self._cache_max_size,
-            'hit_rate': getattr(self, '_cache_hits', 0) / max(getattr(self, '_cache_requests', 1), 1)
+            "cache_size": len(self._voice_cache),
+            "max_size": self._cache_max_size,
+            "hit_rate": getattr(self, "_cache_hits", 0) / max(getattr(self, "_cache_requests", 1), 1)
         }
 
     def _validate_trinity_voice_alignment(self, voice_output: str) -> bool:

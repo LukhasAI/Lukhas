@@ -503,7 +503,7 @@ class TutorialGenerator:
 - Ensuring fair and unbiased AI behavior
 
 **Key Concepts:**
-- **Risk Assessment**: Evaluating potential harms from AI systems
+- **Risk Assessment**: Evaluating potential harms from ai_systems
 - **Documentation**: Maintaining detailed records of AI system design and decisions
 - **Monitoring**: Continuous oversight of AI system performance and behavior
 - **Remediation**: Fixing issues when they are discovered

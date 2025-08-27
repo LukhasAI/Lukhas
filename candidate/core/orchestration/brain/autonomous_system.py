@@ -69,7 +69,7 @@ class FullyAutonomousAGI:
         cycle_start = datetime.now()
         self.processing_cycles += 1
 
-        self.logger.info(f"🤖 Starting autonomous cycle #{self.processing_cycles}")
+        self.logger.info("🤖 Starting autonomous cycle ")
 
         cycle_results = {
             "cycle_number": self.processing_cycles,
@@ -142,13 +142,13 @@ class FullyAutonomousAGI:
         except Exception as e:
             cycle_results["success"] = False
             cycle_results["errors"].append(str(e))
-            self.logger.error(f"Cycle #{self.processing_cycles} failed: {e}")
+            self.logger.error("Cycle ")
 
         cycle_results["end_time"] = datetime.now().isoformat()
         cycle_results["duration"] = (datetime.now() - cycle_start).total_seconds()
 
         self.logger.info(
-            f"✅ Cycle #{self.processing_cycles} complete: "
+            f"✅ Cycle "
             f"{cycle_results['vulnerabilities_processed'] + cycle_results['workflows_fixed']} issues, "
             f"{cycle_results['prs_created']} PRs, "
             f"${cycle_results['cost']:.4f} cost"

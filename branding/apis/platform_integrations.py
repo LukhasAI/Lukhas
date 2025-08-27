@@ -117,7 +117,7 @@ class PlatformAPIManager:
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -308,7 +308,7 @@ class PlatformAPIManager:
             await self._update_rate_limit("twitter")
 
             # Extract tweet URL
-            tweet_id = response.data['id']
+            tweet_id = response.data["id"]
             username = client.get_me().data.username
             tweet_url = f"https://twitter.com/{username}/status/{tweet_id}"
 

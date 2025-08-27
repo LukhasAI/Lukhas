@@ -187,7 +187,7 @@ class ΛBotAutonomousVulnerabilityFixer:
                 recommendations=[ai_response.get("reasoning", "")],
             )
 
-            # Create fix strategy from AI response
+            # Create fix strategy from ai_response
             fix_strategy = FixStrategy(
                 vulnerability_id=vulnerability.id,
                 repository=vulnerability.repository,
@@ -710,7 +710,7 @@ async def main():
         if results["pull_requests_created"]:
             print("\n🚀 PULL REQUESTS CREATED:")
             for pr in results["pull_requests_created"]:
-                print(f"   • PR #{pr['pr_number']}: {pr['pr_url']}")
+                print(f"   • PR "pr_number']}: {pr['pr_url']}")
 
         print("\n✅ Autonomous security sweep completed successfully!")
 

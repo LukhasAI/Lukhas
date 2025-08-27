@@ -21,7 +21,6 @@ from candidate.core.agi.self_healing import (
     HealingStrategy,
     SystemFailure,
 )
-
 from lukhas.governance.guardian import GuardianSystem
 
 logger = logging.getLogger(__name__)
@@ -101,7 +100,7 @@ class CodeQualityHealer:
         async with self.llm_fixer as fixer:
             for file_path in python_files:
                 # Skip test files and generated code
-                if any(skip in str(file_path) for skip in ['test_', '__pycache__', '.venv']):
+                if any(skip in str(file_path) for skip in ["test_", "__pycache__", ".venv"]):
                     continue
 
                 issues = await fixer.analyze_file(str(file_path))

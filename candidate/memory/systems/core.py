@@ -41,8 +41,8 @@ try:
     # ΛTRACE: Successfully imported LUKHAS common.base_module.
     log.debug("LUKHAS common.base_module imported successfully.")
 except ImportError:
-    # ΛTRACE: Failed to import LUKHAS common.base_module. Using placeholders.
-    log.warning("Failed to import LUKHAS common.base_module. Using placeholders.")
+    # ΛTRACE: Failed to import lukhas_common.base_module. Using placeholders.
+    log.warning("Failed to import lukhas_common.base_module. Using placeholders.")
 
     class BaseModule:  # type: ignore
         def __init__(self, module_name: str):

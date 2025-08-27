@@ -73,7 +73,7 @@ def safe_json_load(file_path: Path) -> Optional[Dict[str, Any]]:
         return None
 
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path) as f:
             return json.load(f)
     except json.JSONDecodeError as e:
         logger.error(f"Invalid JSON in {file_path}: {e}")
@@ -89,7 +89,7 @@ def safe_json_save(data: Dict[str, Any], file_path: Path) -> bool:
 
     try:
         file_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(file_path, 'w') as f:
+        with open(file_path, "w") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
         return True
     except Exception as e:
@@ -126,10 +126,10 @@ def validate_python_syntax(file_path: Path) -> bool:
     logger = get_logger("syntax")
 
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path) as f:
             source = f.read()
 
-        compile(source, str(file_path), 'exec')
+        compile(source, str(file_path), "exec")
         return True
 
     except SyntaxError as e:
@@ -185,7 +185,7 @@ def get_git_status() -> Optional[Dict[str, Any]]:
 
 def format_file_size(size_bytes: int) -> str:
     """Format file size in human readable format"""
-    for unit in ['B', 'KB', 'MB', 'GB']:
+    for unit in ["B", "KB", "MB", "GB"]:
         if size_bytes < 1024.0:
             return f"{size_bytes:.1f} {unit}"
         size_bytes /= 1024.0
@@ -212,9 +212,9 @@ def get_file_info(file_path: Path) -> Dict[str, Any]:
     }
 
     # Line count for text files
-    if file_path.is_file() and file_path.suffix in ['.py', '.md', '.txt', '.json', '.yaml', '.yml']:
+    if file_path.is_file() and file_path.suffix in [".py", ".md", ".txt", ".json", ".yaml", ".yml"]:
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, encoding="utf-8") as f:
                 info["lines"] = len(f.readlines())
         except (UnicodeDecodeError, PermissionError):
             info["lines"] = None

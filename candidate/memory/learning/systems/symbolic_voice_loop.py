@@ -48,7 +48,7 @@ def listen_and_log_feedback():
         return feedback
 
     except sr.UnknownValueError:
-        print("🤖 Sorry, I didn’t catch that.")
+        print("🤖 Sorry, I didn't catch that.")
         return None
     except Exception as e:
         print(f"❌ Error: {e}")

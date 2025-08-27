@@ -20,24 +20,24 @@ class AndaluzPhonetics:
     """Andalusian Spanish phonetic patterns"""
     # Seseo: s/c/z all pronounced as 's'
     seseo_replacements = {
-        'gracias': 'grasia',
-        'hacer': 'haser',
-        'medicina': 'medisina',
-        'corazón': 'corasón'
+        "gracias": "grasia",
+        "hacer": "haser",
+        "medicina": "medisina",
+        "corazón": "corasón"
     }
 
     # Aspiration of final consonants
     aspiration_patterns = {
-        'los ': 'loh ',
-        'más ': 'mah ',
-        'después': 'dehpué'
+        "los ": "loh ",
+        "más ": "mah ",
+        "después": "dehpué"
     }
 
     # Common Andalusian expressions
     expressions = {
-        'greeting': ['mi niño', 'mi niña', 'mi arma'],
-        'concern': ['¿qué le pasa?', '¿está malito?'],
-        'comfort': ['no se preocupe', 'tranquilo', 'ya verá como se mejora']
+        "greeting": ["mi niño", "mi niña", "mi arma"],
+        "concern": ["¿qué le pasa?", "¿está malito?"],
+        "comfort": ["no se preocupe", "tranquilo", "ya verá como se mejora"]
     }
 
 
@@ -61,11 +61,11 @@ class AndaluzVoiceEngine:
 
         # Voice settings for elderly users
         self.voice_settings = {
-            'speed': self.config.get('speed', 'slow'),  # Slower for elderly
-            'pitch': self.config.get('pitch', 'medium'),
-            'volume': self.config.get('volume', 'loud'),
-            'clarity': self.config.get('clarity', 'high'),
-            'elder_mode': self.config.get('elder_mode', True)
+            "speed": self.config.get("speed", "slow"),  # Slower for elderly
+            "pitch": self.config.get("pitch", "medium"),
+            "volume": self.config.get("volume", "loud"),
+            "clarity": self.config.get("clarity", "high"),
+            "elder_mode": self.config.get("elder_mode", True)
         }
 
         # Medical vocabulary in simplified Andalusian Spanish
@@ -84,35 +84,35 @@ class AndaluzVoiceEngine:
         # Default medical vocabulary
         self.medical_vocab = {
             # Medical terms -> Simple Andalusian
-            'hipertensión': 'tensión alta',
-            'diabetes': 'el azúcar',
-            'medicamento': 'medicina',
-            'prescripción': 'receta',
-            'síntomas': 'lo que siente',
-            'diagnóstico': 'lo que tiene',
-            'tratamiento': 'lo que hay que hacer',
-            'efectos secundarios': 'lo malo de la medicina',
-            'contraindicaciones': 'cuando no se puede tomar',
-            'posología': 'cuántas pastillas y cuándo',
+            "hipertensión": "tensión alta",
+            "diabetes": "el azúcar",
+            "medicamento": "medicina",
+            "prescripción": "receta",
+            "síntomas": "lo que siente",
+            "diagnóstico": "lo que tiene",
+            "tratamiento": "lo que hay que hacer",
+            "efectos secundarios": "lo malo de la medicina",
+            "contraindicaciones": "cuando no se puede tomar",
+            "posología": "cuántas pastillas y cuándo",
 
             # Body parts in familiar terms
-            'cardiovascular': 'del corazón',
-            'respiratorio': 'de los pulmones',
-            'gastrointestinal': 'del estómago',
-            'neurológico': 'de la cabeza',
+            "cardiovascular": "del corazón",
+            "respiratorio": "de los pulmones",
+            "gastrointestinal": "del estómago",
+            "neurológico": "de la cabeza",
 
             # Common medications
-            'enalapril': 'la pastilla del corazón',
-            'metformina': 'la pastilla del azúcar',
-            'omeprazol': 'la pastilla del estómago',
-            'paracetamol': 'la pastilla del dolor',
-            'ibuprofeno': 'la pastilla de la inflamación'
+            "enalapril": "la pastilla del corazón",
+            "metformina": "la pastilla del azúcar",
+            "omeprazol": "la pastilla del estómago",
+            "paracetamol": "la pastilla del dolor",
+            "ibuprofeno": "la pastilla de la inflamación"
         }
 
         # Load custom vocabulary if exists
         if vocab_path.exists():
             try:
-                with open(vocab_path, encoding='utf-8') as f:
+                with open(vocab_path, encoding="utf-8") as f:
                     custom_vocab = json.load(f)
                     self.medical_vocab.update(custom_vocab)
             except Exception as e:
@@ -131,7 +131,7 @@ class AndaluzVoiceEngine:
             self.microphone = sr.Microphone()
 
             # Adjust for elderly speech patterns
-            if self.voice_settings['elder_mode']:
+            if self.voice_settings["elder_mode"]:
                 self.recognizer.pause_threshold = 1.5  # Longer pauses
                 self.recognizer.energy_threshold = 300  # Lower voice energy
 
@@ -199,7 +199,7 @@ class AndaluzVoiceEngine:
             logger.error(f"Error in speech recognition: {e}")
             return None
 
-    async def speak(self, text: str, emotion: str = 'neutral'):
+    async def speak(self, text: str, emotion: str = "neutral"):
         """
         Speak text in Andalusian Spanish with appropriate emotion
 
@@ -223,25 +223,25 @@ class AndaluzVoiceEngine:
             andaluz_text = self._apply_andaluz_dialect(text)
 
             # Add emotional markers if integrated with consciousness
-            if self.consciousness and emotion != 'neutral':
+            if self.consciousness and emotion != "neutral":
                 andaluz_text = self._add_emotional_context(andaluz_text, emotion)
 
             # Create TTS with Spanish voice
             tts = gTTS(
                 text=andaluz_text,
-                lang='es',
-                slow=self.voice_settings['speed'] == 'slow'
+                lang="es",
+                slow=self.voice_settings["speed"] == "slow"
             )
 
             # Save to temporary file
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as f:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as f:
                 temp_file = f.name
                 tts.save(temp_file)
 
             # Play the audio
             pygame.mixer.music.load(temp_file)
             pygame.mixer.music.set_volume(
-                1.0 if self.voice_settings['volume'] == 'loud' else 0.7
+                1.0 if self.voice_settings["volume"] == "loud" else 0.7
             )
             pygame.mixer.music.play()
 
@@ -276,19 +276,19 @@ class AndaluzVoiceEngine:
         # Reverse common Andalusian phonetic changes for better understanding
         # Convert seseo back to standard Spanish
         reverse_seseo = {
-            'grasia': 'gracias',
-            'haser': 'hacer',
-            'medisina': 'medicina',
-            'corasón': 'corazón'
+            "grasia": "gracias",
+            "haser": "hacer",
+            "medisina": "medicina",
+            "corasón": "corazón"
         }
 
         for andaluz, standard in reverse_seseo.items():
             text = text.replace(andaluz, standard)
 
         # Handle aspirated consonants
-        text = re.sub(r'loh\s', 'los ', text)
-        text = re.sub(r'mah\s', 'más ', text)
-        text = re.sub(r'dehpué', 'después', text)
+        text = re.sub(r"loh\s", "los ", text)
+        text = re.sub(r"mah\s", "más ", text)
+        text = re.sub(r"dehpué", "después", text)
 
         return text.strip()
 
@@ -328,21 +328,21 @@ class AndaluzVoiceEngine:
             Text with emotional markers
         """
         emotional_prefixes = {
-            'caring': 'Con cariño, ',
-            'urgent': '¡Importante! ',
-            'happy': '¡Qué bien! ',
-            'concerned': 'Me preocupa que '
+            "caring": "Con cariño, ",
+            "urgent": "¡Importante! ",
+            "happy": "¡Qué bien! ",
+            "concerned": "Me preocupa que "
         }
 
         emotional_suffixes = {
-            'caring': ', mi niño.',
-            'urgent': ' ¡Es urgente!',
-            'happy': ' ¡Qué alegría!',
-            'concerned': '. ¿Está usted bien?'
+            "caring": ", mi niño.",
+            "urgent": " ¡Es urgente!",
+            "happy": " ¡Qué alegría!",
+            "concerned": ". ¿Está usted bien?"
         }
 
-        prefix = emotional_prefixes.get(emotion, '')
-        suffix = emotional_suffixes.get(emotion, '')
+        prefix = emotional_prefixes.get(emotion, "")
+        suffix = emotional_suffixes.get(emotion, "")
 
         # Add prefix/suffix if not already present
         if prefix and not text.startswith(prefix):
@@ -366,12 +366,12 @@ class AndaluzVoiceEngine:
         simplified = self.medical_vocab.get(term.lower(), term)
 
         # Further simplification patterns
-        if 'itis' in simplified:  # Inflammation conditions
-            simplified = simplified.replace('itis', ' inflamado')
-        if 'hiper' in simplified:  # Hyper conditions
-            simplified = simplified.replace('hiper', 'muy alto el ')
-        if 'hipo' in simplified:  # Hypo conditions
-            simplified = simplified.replace('hipo', 'muy bajo el ')
+        if "itis" in simplified:  # Inflammation conditions
+            simplified = simplified.replace("itis", " inflamado")
+        if "hiper" in simplified:  # Hyper conditions
+            simplified = simplified.replace("hiper", "muy alto el ")
+        if "hipo" in simplified:  # Hypo conditions
+            simplified = simplified.replace("hipo", "muy bajo el ")
 
         return simplified
 
@@ -393,20 +393,20 @@ class AndaluzVoiceEngine:
 
         # Add purpose based on medication type
         medication_purposes = {
-            'enalapril': 'Es para que el corazón funcione mejor y no suba la tensión.',
-            'metformina': 'Es para controlar el azúcar en la sangre.',
-            'omeprazol': 'Es para proteger el estómago y que no le duela.',
-            'paracetamol': 'Es para quitar el dolor y la fiebre.',
-            'ibuprofeno': 'Es para el dolor y la inflamación.'
+            "enalapril": "Es para que el corazón funcione mejor y no suba la tensión.",
+            "metformina": "Es para controlar el azúcar en la sangre.",
+            "omeprazol": "Es para proteger el estómago y que no le duela.",
+            "paracetamol": "Es para quitar el dolor y la fiebre.",
+            "ibuprofeno": "Es para el dolor y la inflamación."
         }
 
         purpose = medication_purposes.get(
             medication_name.lower(),
-            'Es una medicina importante para su salud.'
+            "Es una medicina importante para su salud."
         )
 
         explanation += purpose
-        explanation += ' Tómela como le dijo el médico.'
+        explanation += " Tómela como le dijo el médico."
 
         return explanation
 
@@ -443,40 +443,40 @@ class AndaluzMedicalPhrases:
     """Common medical phrases in Andalusian Spanish"""
 
     GREETINGS = {
-        'morning': "Buenos días, mi niño. ¿Cómo ha amanecido hoy?",
-        'afternoon': "Buenas tardes, mi alma. ¿Qué tal se encuentra?",
-        'evening': "Buenas noches, mi niño. ¿Cómo ha pasado el día?",
-        'check_in': "¿Cómo está usted? ¿Se encuentra bien?"
+        "morning": "Buenos días, mi niño. ¿Cómo ha amanecido hoy?",
+        "afternoon": "Buenas tardes, mi alma. ¿Qué tal se encuentra?",
+        "evening": "Buenas noches, mi niño. ¿Cómo ha pasado el día?",
+        "check_in": "¿Cómo está usted? ¿Se encuentra bien?"
     }
 
     MEDICATION = {
-        'reminder': "Es hora de su medicina, mi niño.",
-        'taken': "Muy bien, ya ha tomado su medicina.",
-        'missed': "Ay, se le ha pasado la medicina. Tómela ahora.",
-        'question': "¿Ha tomado ya su medicina?",
-        'explain': "Esta medicina es para {purpose}. Es importante tomarla."
+        "reminder": "Es hora de su medicina, mi niño.",
+        "taken": "Muy bien, ya ha tomado su medicina.",
+        "missed": "Ay, se le ha pasado la medicina. Tómela ahora.",
+        "question": "¿Ha tomado ya su medicina?",
+        "explain": "Esta medicina es para {purpose}. Es importante tomarla."
     }
 
     EMERGENCY = {
-        'assess': "¿Qué le pasa? ¿Dónde le duele?",
-        'calm': "Tranquilo, tranquilo. Ya viene la ayuda.",
-        'calling': "Estoy llamando al 112. No se preocupe.",
-        'family': "Voy a avisar a su familia también.",
-        'stay': "Quédese sentado y respire tranquilo."
+        "assess": "¿Qué le pasa? ¿Dónde le duele?",
+        "calm": "Tranquilo, tranquilo. Ya viene la ayuda.",
+        "calling": "Estoy llamando al 112. No se preocupe.",
+        "family": "Voy a avisar a su familia también.",
+        "stay": "Quédese sentado y respire tranquilo."
     }
 
     APPOINTMENTS = {
-        'next': "Su próxima cita es {date} a las {time}.",
-        'reminder': "Mañana tiene cita con el médico.",
-        'booking': "Voy a buscarle una cita. ¿Cuándo le viene bien?",
-        'confirmed': "Ya tiene la cita confirmada.",
-        'cancelled': "La cita se ha cancelado. ¿Quiere otra?"
+        "next": "Su próxima cita es {date} a las {time}.",
+        "reminder": "Mañana tiene cita con el médico.",
+        "booking": "Voy a buscarle una cita. ¿Cuándo le viene bien?",
+        "confirmed": "Ya tiene la cita confirmada.",
+        "cancelled": "La cita se ha cancelado. ¿Quiere otra?"
     }
 
     COMFORT = {
-        'dont_worry': "No se preocupe, todo va a salir bien.",
-        'im_here': "Estoy aquí para ayudarle.",
-        'take_time': "Tómese su tiempo, no hay prisa.",
-        'well_done': "Muy bien, lo está haciendo fenomenal.",
-        'rest': "Descanse un poquito, se lo merece."
+        "dont_worry": "No se preocupe, todo va a salir bien.",
+        "im_here": "Estoy aquí para ayudarle.",
+        "take_time": "Tómese su tiempo, no hay prisa.",
+        "well_done": "Muy bien, lo está haciendo fenomenal.",
+        "rest": "Descanse un poquito, se lo merece."
     }

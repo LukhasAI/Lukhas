@@ -182,10 +182,10 @@ class ClassRegistryGenerator:
         lines.append(f"Total Classes: {registry['summary']['total_classes']}\n")
 
         # Table of contents
-        lines.append("## Table of Contents\n")
+        lines.append("#)  #  Table of Contents\n"
         for module in sorted(registry["registry"].keys()):
             if registry["registry"][module]:
-                lines.append(f"- [{module}](#{module})")
+                lines.append(f"- [{module}](")
         lines.append("")
 
         # Module sections
@@ -194,11 +194,11 @@ class ClassRegistryGenerator:
             if not classes:
                 continue
 
-            lines.append(f"## {module}\n")
+            lines.append(f"#")
 
             for class_name in sorted(classes.keys()):
                 info = classes[class_name]
-                lines.append(f"### {class_name}\n")
+                lines.append(f"##")
                 lines.append(f"- **File**: `{info['file']}`")
                 lines.append(f"- **Line**: {info['line']}")
 

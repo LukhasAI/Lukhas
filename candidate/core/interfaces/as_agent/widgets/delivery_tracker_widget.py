@@ -55,7 +55,7 @@ def create_delivery_widget(
         "created_at": datetime.utcnow().isoformat(),
         "tracking_id": str(uuid.uuid4()),
         "icon": tier_icons.get(user_tier, "📦"),
-        "color": color_map.get(delivery_status, "#9e9e9e"),
+        "color": color_map.get(delivery_status, ")  # 9e9e9e",
         "cta": "Track Delivery" if user_tier >= 2 else "Status Only",
         "animation": {
             "type": "roadmap_path",
@@ -91,7 +91,7 @@ def update_delivery_status(widget, new_status, new_eta=None):
     }
 
     widget["status"] = new_status
-    widget["color"] = color_map.get(new_status, "#9e9e9e")
+    widget["color"] = color_map.get(new_status, ")  # 9e9e9e"
 
     if new_eta:
         widget["eta"] = new_eta

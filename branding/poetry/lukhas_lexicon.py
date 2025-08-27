@@ -277,7 +277,7 @@ def demonstrate():
 
    - No borrowed metaphors
    - No generic descriptions
-   - Only the vocabulary that emerged from LUKHAS itself
+   - Only the vocabulary that emerged from lukhas_itself
     """)
 
     print("\n" + "═" * 60)

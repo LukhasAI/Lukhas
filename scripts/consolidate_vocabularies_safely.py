@@ -12,24 +12,24 @@ from pathlib import Path
 def get_file_hash(filepath):
     """Get hash of file content, ignoring TAG comments."""
     with open(filepath) as f:
-        lines = [line for line in f if not line.startswith('#TAG:')]
-        content = ''.join(lines)
+        lines = [line for line in f if not line.startswith(")  # TAG:"]
+        content = "".join(lines)
         return hashlib.sha256(content.encode()).hexdigest()
 
 def analyze_vocabularies():
     """Analyze all vocabulary files for duplicates."""
     vocab_dirs = [
-        'core/symbolic',
-        'symbolic/vocabularies',
-        'core/symbolic_legacy/vocabularies',
-        'branding/unified/vocabularies'
+        "core/symbolic",
+        "symbolic/vocabularies",
+        "core/symbolic_legacy/vocabularies",
+        "branding/unified/vocabularies"
     ]
 
     vocab_files = {}
 
     for dir_path in vocab_dirs:
         if os.path.exists(dir_path):
-            for file in Path(dir_path).glob('*vocabulary*.py'):
+            for file in Path(dir_path).glob("*vocabulary*.py"):
                 if file.is_file():
                     file_hash = get_file_hash(file)
                     file_name = file.name
@@ -38,9 +38,9 @@ def analyze_vocabularies():
                         vocab_files[file_name] = []
 
                     vocab_files[file_name].append({
-                        'path': str(file),
-                        'hash': file_hash,
-                        'size': file.stat().st_size
+                        "path": str(file),
+                        "hash": file_hash,
+                        "size": file.stat().st_size
                     })
 
     # Report findings
@@ -52,9 +52,9 @@ def analyze_vocabularies():
         # Group by hash
         hash_groups = {}
         for loc in locations:
-            if loc['hash'] not in hash_groups:
-                hash_groups[loc['hash']] = []
-            hash_groups[loc['hash']].append(loc)
+            if loc["hash"] not in hash_groups:
+                hash_groups[loc["hash"]] = []
+            hash_groups[loc["hash"]].append(loc)
 
         if len(hash_groups) == 1:
             print(f"  ✓ All {len(locations)} copies are identical")

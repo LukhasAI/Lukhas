@@ -19,6 +19,14 @@ repos:
     exclude: ^(archive/|candidate/|.*backup.*/).*
 - repo: local
   hooks:
+  - id: python-syntax-fixer
+    name: Fix Python Syntax Errors
+    entry: python tools/fix_syntax_errors.py
+    language: system
+    files: \.py$
+    pass_filenames: true
+    stages: [commit]
+    description: Automatically fix common Python syntax errors before commit
   - id: ruff-ignore-strict
     name: Ruff (Relaxed Rules)
     entry: ruff check --fix --exit-zero

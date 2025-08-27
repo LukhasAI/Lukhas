@@ -125,7 +125,7 @@ class DriftHarmonizer:
             logger.warning(f"Significant drift recorded: {score:.3f} ({severity.value})")
 
         # Store metadata if provided
-        if metadata and hasattr(self, '_metadata'):
+        if metadata and hasattr(self, "_metadata"):
             self._metadata[timestamp] = metadata
 
     def suggest_realignment(self) -> str:

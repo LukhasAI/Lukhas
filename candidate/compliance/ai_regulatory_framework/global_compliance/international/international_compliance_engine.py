@@ -38,26 +38,26 @@ class InternationalComplianceEngine(CoreInterface):
         """Assess compliance with a specific framework"""
 
         assessment = {
-            'framework': framework,
-            'overall_score': 0.7,  # Base compliance
-            'requirements_met': {},
-            'timestamp': asyncio.get_event_loop().time()
+            "framework": framework,
+            "overall_score": 0.7,  # Base compliance
+            "requirements_met": {},
+            "timestamp": asyncio.get_event_loop().time()
         }
 
         # Check each requirement
         for req_category, req_list in requirements.items():
-            if req_category == 'mandatory':
+            if req_category == "mandatory":
                 for req in req_list:
                     # Simulate compliance check
-                    assessment['requirements_met'][req] = {
-                        'met': bool("safety" in req or "transparency" in req),
-                        'evidence': f"Implementation of {req}"
+                    assessment["requirements_met"][req] = {
+                        "met": bool("safety" in req or "transparency" in req),
+                        "evidence": f"Implementation of {req}"
                     }
 
         # Calculate score
-        total_reqs = len(assessment['requirements_met'])
-        met_reqs = sum(1 for r in assessment['requirements_met'].values() if r['met'])
-        assessment['overall_score'] = met_reqs / max(1, total_reqs)
+        total_reqs = len(assessment["requirements_met"])
+        met_reqs = sum(1 for r in assessment["requirements_met"].values() if r["met"])
+        assessment["overall_score"] = met_reqs / max(1, total_reqs)
 
         return assessment
 
@@ -69,21 +69,21 @@ class InternationalComplianceEngine(CoreInterface):
         """Implement a specific compliance requirement"""
 
         result = {
-            'requirement': requirement,
-            'success': True,
-            'cost': 50000,
-            'duration_days': action.get('estimated_days', 30)
+            "requirement": requirement,
+            "success": True,
+            "cost": 50000,
+            "duration_days": action.get("estimated_days", 30)
         }
 
         # Simulate implementation based on requirement type
-        if 'privacy' in requirement.lower():
-            result['implementation'] = 'privacy_preserving_mechanisms'
-        elif 'safety' in requirement.lower():
-            result['implementation'] = 'safety_guardrails'
-        elif 'transparency' in requirement.lower():
-            result['implementation'] = 'explainability_features'
+        if "privacy" in requirement.lower():
+            result["implementation"] = "privacy_preserving_mechanisms"
+        elif "safety" in requirement.lower():
+            result["implementation"] = "safety_guardrails"
+        elif "transparency" in requirement.lower():
+            result["implementation"] = "explainability_features"
         else:
-            result['implementation'] = 'general_compliance_measures'
+            result["implementation"] = "general_compliance_measures"
 
         return result
 
@@ -91,28 +91,28 @@ class InternationalComplianceEngine(CoreInterface):
         """Load compliance framework definitions"""
 
         self.compliance_frameworks = {
-            'EU_AI_ACT': {
-                'jurisdiction': 'European Union',
-                'risk_based': True,
-                'mandatory_requirements': [
-                    'risk_assessment', 'data_governance', 'transparency',
-                    'human_oversight', 'accuracy', 'robustness', 'cybersecurity'
+            "EU_AI_ACT": {
+                "jurisdiction": "European Union",
+                "risk_based": True,
+                "mandatory_requirements": [
+                    "risk_assessment", "data_governance", "transparency",
+                    "human_oversight", "accuracy", "robustness", "cybersecurity"
                 ]
             },
-            'US_NIST_FRAMEWORK': {
-                'jurisdiction': 'United States',
-                'voluntary': True,
-                'principles': [
-                    'valid_reliable', 'safe', 'secure_resilient',
-                    'accountable_transparent', 'explainable_interpretable',
-                    'privacy_enhanced', 'fair'
+            "US_NIST_FRAMEWORK": {
+                "jurisdiction": "United States",
+                "voluntary": True,
+                "principles": [
+                    "valid_reliable", "safe", "secure_resilient",
+                    "accountable_transparent", "explainable_interpretable",
+                    "privacy_enhanced", "fair"
                 ]
             },
-            'CHINA_AI_GOVERNANCE': {
-                'jurisdiction': 'China',
-                'state_directed': True,
-                'focus_areas': [
-                    'national_security', 'data_sovereignty', 'algorithm_transparency'
+            "CHINA_AI_GOVERNANCE": {
+                "jurisdiction": "China",
+                "state_directed": True,
+                "focus_areas": [
+                    "national_security", "data_sovereignty", "algorithm_transparency"
                 ]
             }
         }

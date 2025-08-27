@@ -150,7 +150,7 @@ def generate_comprehensive_report():
             for provider, stats in drift_data["summary"].items():
                 if stats.get("status") != "all_failed":
                     comprehensive_report["executive_summary"]["key_findings"].append(
-                        f"{provider}: Avg drift {stats['average_drift']: .3f},
+                        f"{provider}: Avg drift {stats['average_drift']: .3f},"
                         Trinity coherence {stats['average_trinity']: .3f}"
                     )
 

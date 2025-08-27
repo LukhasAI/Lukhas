@@ -25,11 +25,11 @@ import logging
 import time
 import uuid
 from collections import defaultdict, deque
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional
-from concurrent.futures import ThreadPoolExecutor
 
 # Performance optimization imports
 import uvloop  # High-performance event loop
@@ -268,7 +268,7 @@ class HighPerformanceContextBus:
         """Setup performance optimizations"""
         try:
             # Use uvloop for better async performance
-            if hasattr(uvloop, 'install'):
+            if hasattr(uvloop, "install"):
                 uvloop.install()
                 logger.info("📈 uvloop performance optimization enabled")
         except ImportError:

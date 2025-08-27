@@ -79,7 +79,7 @@ class FeedbackStore:
     def read_feedback(self, limit: int | None = None,
                      task_filter: str | None = None,
                      jurisdiction_filter: str | None = None) -> list[dict[str, Any]]:
-        """Read feedback from JSONL with optional filters."""
+        """Read feedback from jsonl_with optional filters."""
         if not os.path.exists(self.feedback_file):
             return []
 
@@ -113,7 +113,7 @@ class FeedbackStore:
             json.dump({"clusters": clusters, "generated_at": time.time()}, f, indent=2)
 
     def read_clusters(self) -> list[dict[str, Any]]:
-        """Read clusters from JSON file."""
+        """Read clusters from json_file."""
         if not os.path.exists(self.clusters_file):
             return []
 

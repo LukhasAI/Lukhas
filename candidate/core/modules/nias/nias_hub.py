@@ -93,7 +93,7 @@ class NIASHub:
             self.register_service("dream_bridge", self.dream_bridge)
             logger.debug("Registered NIAS-Dream bridge")
         except ImportError as e:
-            logger.warning(f"Could not import NIAS Dream Bridge: {e}")
+            logger.warning(f"Could not import nias_dream Bridge: {e}")
 
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""

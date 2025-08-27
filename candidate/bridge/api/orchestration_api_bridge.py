@@ -24,20 +24,28 @@ import asyncio
 import logging
 import time
 import uuid
+from collections.abc import AsyncGenerator
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, AsyncGenerator, Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 try:
-    from candidate.bridge.llm_wrappers.openai_function_bridge import (
-        OpenAIFunctionBridge, OpenAIResponse, FunctionCallMode
-    )
     from candidate.bridge.llm_wrappers.anthropic_function_bridge import (
-        AnthropicFunctionBridge, ClaudeResponse, ToolUseMode, ClaudeModel
+        AnthropicFunctionBridge,
+        ClaudeModel,
+        ClaudeResponse,
+        ToolUseMode,
+    )
+    from candidate.bridge.llm_wrappers.openai_function_bridge import (
+        FunctionCallMode,
+        OpenAIFunctionBridge,
+        OpenAIResponse,
     )
     from candidate.orchestration.multi_model_orchestration import (
-        MultiModelOrchestrator, ConsensusStrategy, OrchestrationMode
+        ConsensusStrategy,
+        MultiModelOrchestrator,
+        OrchestrationMode,
     )
     BRIDGES_AVAILABLE = True
 except ImportError as e:
@@ -222,9 +230,9 @@ class ComprehensiveAPIOrchestrator:
 
         # Register with individual bridges
         for provider, bridge in self.bridges.items():
-            if hasattr(bridge, 'register_functions_from_dict'):
+            if hasattr(bridge, "register_functions_from_dict"):
                 bridge.register_functions_from_dict(functions)
-            elif hasattr(bridge, 'register_tools_from_dict'):
+            elif hasattr(bridge, "register_tools_from_dict"):
                 bridge.register_tools_from_dict(functions)
 
         logger.info(f"📊 Registered {len(functions)} global functions")
@@ -326,7 +334,7 @@ class ComprehensiveAPIOrchestrator:
             # Convert request to provider-specific format
             messages = [{"role": "user", "content": request.prompt}]
 
-            if provider == APIProvider.OPENAI and hasattr(bridge, 'stream_with_functions'):
+            if provider == APIProvider.OPENAI and hasattr(bridge, "stream_with_functions"):
                 async for chunk in bridge.stream_with_functions(
                     messages=messages,
                     function_mode=FunctionCallMode.AUTO if request.enable_functions else FunctionCallMode.NONE
@@ -339,7 +347,7 @@ class ComprehensiveAPIOrchestrator:
                         **chunk
                     }
 
-            elif provider == APIProvider.ANTHROPIC and hasattr(bridge, 'stream_with_tools'):
+            elif provider == APIProvider.ANTHROPIC and hasattr(bridge, "stream_with_tools"):
                 async for chunk in bridge.stream_with_tools(
                     messages=messages,
                     tool_mode=ToolUseMode.ENABLED if request.enable_functions else ToolUseMode.DISABLED

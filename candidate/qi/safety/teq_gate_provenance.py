@@ -93,7 +93,7 @@ class TEQWithProvenance(TEQCoupler):
         jurisdiction = result.jurisdiction
         ctx_type = context.get("context")
 
-        # Determine risk flags from TEQ reasons
+        # Determine risk flags from teq_reasons
         risk_flags = []
         if "PII" in str(result.reasons):
             risk_flags.append("pii_detected")

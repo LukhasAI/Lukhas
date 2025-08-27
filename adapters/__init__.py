@@ -222,10 +222,10 @@ class ServiceAdapter(ABC):
 
 
 __all__ = [
-    'ServiceAdapter',
-    'ResourceMetadata',
-    'ResourceContent',
-    'SearchQuery',
-    'WatchRequest',
-    'OperationResult'
+    "ServiceAdapter",
+    "ResourceMetadata",
+    "ResourceContent",
+    "SearchQuery",
+    "WatchRequest",
+    "OperationResult"
 ]

@@ -159,7 +159,7 @@ class LukhasDataFeeder:
         print("🎭 Mock data sources created - simulating real LUKHAS  behavior")
 
     async def feed_continuous_data(self):
-        """Continuously feed data from LUKHAS modules to monitoring system"""
+        """Continuously feed data from lukhas_modules to monitoring system"""
 
         print("📊 Starting continuous data feed to monitoring system...")
 

@@ -847,12 +847,12 @@ class APIDocumentationGenerator:
 """
 
         for auth_type, auth_config in documentation.authentication.items():
-            content += f"### {auth_type.replace('_', ' ').title()}\n\n"
+            content += f"##"_', ' ').title()}\n\n"
             content += f"{auth_config.get('description', 'Authentication method')}\n\n"
 
         content += "## Rate Limits\n\n"
         for tier, limits in documentation.rate_limits.items():
-            content += f"### {tier.title()} Tier\n\n"
+            content += f"##"
             content += f"- Requests per minute: {limits['requests_per_minute']}\n"
             content += f"- Requests per hour: {limits['requests_per_hour']}\n"
             content += f"- Requests per day: {limits['requests_per_day']}\n\n"
@@ -868,10 +868,10 @@ class APIDocumentationGenerator:
             tagged_endpoints[tag].append(endpoint)
 
         for tag, endpoints in tagged_endpoints.items():
-            content += f"### {tag}\n\n"
+            content += f"##"
 
             for endpoint in endpoints:
-                content += f"#### {endpoint.method.value} {endpoint.path}\n\n"
+                content += f"###"
                 content += f"{endpoint.description}\n\n"
 
                 if endpoint.parameters:

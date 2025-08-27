@@ -424,13 +424,13 @@ class BrandOrchestratorAgent:
                 "personality": personality_result,
                 "validation": {
                     "is_compliant": validation_result.is_compliant,
-                    "severity": validation_result.severity.value if hasattr(validation_result.severity, 'value') else str(validation_result.severity),
+                    "severity": validation_result.severity.value if hasattr(validation_result.severity, "value") else str(validation_result.severity),
                     "issues_count": len(validation_result.issues),
                     "auto_corrections_applied": len(validation_result.auto_corrections) if validation_result.auto_corrections else 0
                 },
                 "sentiment": {
                     "overall_sentiment": sentiment_result.overall_sentiment,
-                    "polarity": sentiment_result.polarity.value if hasattr(sentiment_result.polarity, 'value') else str(sentiment_result.polarity),
+                    "polarity": sentiment_result.polarity.value if hasattr(sentiment_result.polarity, "value") else str(sentiment_result.polarity),
                     "confidence": sentiment_result.confidence
                 }
             },
@@ -887,7 +887,7 @@ class BrandOrchestratorAgent:
         """Get summary of recent orchestration performance"""
 
         # Analyze recent completed tasks
-        recent_tasks = [task for task in self.completed_tasks[-50:] if hasattr(task, 'result')]
+        recent_tasks = [task for task in self.completed_tasks[-50:] if hasattr(task, "result")]
 
         if not recent_tasks:
             return {"status": "no_recent_data"}
@@ -1066,9 +1066,9 @@ if __name__ == "__main__":
         print(f"Orchestration Time: {result['orchestration_performance']['total_time_ms']:.2f}ms")
         print(f"Meets Requirements: {result['orchestration_performance']['meets_quality_requirements']}")
 
-        if result['recommendations']:
+        if result["recommendations"]:
             print("Recommendations:")
-            for rec in result['recommendations'][:3]:
+            for rec in result["recommendations"][:3]:
                 print(f"  - {rec}")
 
         print("\n" + "="*50)

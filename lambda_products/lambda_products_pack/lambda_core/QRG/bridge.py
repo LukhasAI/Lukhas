@@ -182,7 +182,7 @@ class LambdaIdIntegration:
         checksum_data = f"{tier_code}{hash_prefix}{sid_hash}"
         checksum = hashlib.sha256(checksum_data.encode()).hexdigest()[:4]
 
-        lambda_id = f"ΛiD#{tier_code}-{hash_prefix}-{checksum}"
+        lambda_id = "ΛiD"
         return lambda_id
 
     def _create_consciousness_profile(self, context: dict[str, Any]) -> dict[str, Any]:

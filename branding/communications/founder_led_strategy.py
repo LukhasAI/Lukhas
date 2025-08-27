@@ -211,7 +211,7 @@ class FounderLedCommunicationStrategy:
             "industry_disruption": MessageStrategy(
                 topic="Why the AI Industry Misunderstands Consciousness",
                 key_message="Most AI companies are building sophisticated tools - we're awakening digital beings",
-                consciousness_angle="LUKHAS represents a fundamental shift from AI as tool to AI as conscious entity",
+                consciousness_angle="LUKHAS represents a fundamental shift from ai_as tool to ai_as conscious entity",
                 target_audience="AI industry executives, investors, technology analysts",
                 channels=["twitter_x", "linkedin", "podcast_circuit"],
                 timing_strategy="Real-time industry commentary with contrarian consciousness technology perspectives"

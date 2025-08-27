@@ -23,9 +23,9 @@ from functools import wraps
 from typing import Any, Optional
 
 # Add paths for LUKHAS AI module imports
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../core'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../orchestration'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../core"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../orchestration"))
 
 # Import LUKHAS AI modules - Trinity Framework Integration
 try:
@@ -305,11 +305,11 @@ def with_resilience(func):
                 self.resilience.record_success()
 
                 # Record telemetry
-                if hasattr(self, 'telemetry'):
-                    lid = kwargs.get('lid', 'unknown')
+                if hasattr(self, "telemetry"):
+                    lid = kwargs.get("lid", "unknown")
                     action = func.__name__
-                    resource = kwargs.get('resource', 'unknown')
-                    token = kwargs.get('capability_token')
+                    resource = kwargs.get("resource", "unknown")
+                    token = kwargs.get("capability_token")
 
                     self.telemetry.record_request(
                         lid, action, resource, token, latency_ms, True
@@ -324,12 +324,12 @@ def with_resilience(func):
                     await asyncio.sleep(backoff)
                     backoff *= 2
                 else:
-                    if hasattr(self, 'telemetry'):
+                    if hasattr(self, "telemetry"):
                         self.telemetry.record_request(
-                            kwargs.get('lid', 'unknown'),
+                            kwargs.get("lid", "unknown"),
                             func.__name__,
-                            kwargs.get('resource', 'unknown'),
-                            kwargs.get('capability_token'),
+                            kwargs.get("resource", "unknown"),
+                            kwargs.get("capability_token"),
                             0,
                             False
                         )
@@ -568,7 +568,7 @@ class BaseServiceAdapter(ABC):
             duress_indicators["risk_score"] += 0.3
 
         # Check for rapid successive requests
-        if hasattr(self, '_last_request_time'):
+        if hasattr(self, "_last_request_time"):
             time_diff = time.time() - self._last_request_time
             if time_diff < 5:  # Less than 5 seconds between requests
                 duress_indicators["behavioral_anomalies"].append("rapid_requests")

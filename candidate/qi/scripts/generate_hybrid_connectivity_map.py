@@ -397,7 +397,7 @@ def generate_html_visualization(connectivity):
         }
 
         function drawConnections() {
-            const svg = d3.select('#connections');
+            const svg = d3.select(')  # connections';
             svg.selectAll('*').remove();
 
             moduleNames.forEach(name => {

@@ -168,7 +168,7 @@ class MonitoringMatrizAdapter:
         filename = f"{node['id']}_{int(time.time())}.json"
         filepath = output_dir / filename
 
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             json.dump(node, f, indent=2)
 
         return filepath
@@ -181,10 +181,10 @@ def wrap_drift_detection(original_func):
         result = original_func(*args, **kwargs)
 
         # Extract drift score from result (adapt based on actual function)
-        if isinstance(result, dict) and 'drift_score' in result:
+        if isinstance(result, dict) and "drift_score" in result:
             node = MonitoringMatrizAdapter.emit_drift_detection(
-                drift_score=result['drift_score'],
-                component=result.get('component', 'unknown')
+                drift_score=result["drift_score"],
+                component=result.get("component", "unknown")
             )
             MonitoringMatrizAdapter.save_node(node)
 

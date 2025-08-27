@@ -39,7 +39,7 @@ class LambdaTrace:
         """Generate immutable hash of audit record"""
         data = asdict(self)
         # Convert PolicyVerdict enum to string
-        data['policy_verdict'] = data['policy_verdict'].value if isinstance(data['policy_verdict'], PolicyVerdict) else data['policy_verdict']
+        data["policy_verdict"] = data["policy_verdict"].value if isinstance(data["policy_verdict"], PolicyVerdict) else data["policy_verdict"]
         content = json.dumps(data, sort_keys=True, default=str)
         return hashlib.sha256(content.encode()).hexdigest()
 

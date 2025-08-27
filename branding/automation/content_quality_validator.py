@@ -74,7 +74,7 @@ class ContentQualityValidator:
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -178,7 +178,7 @@ class ContentQualityValidator:
         score = 85.0  # Start with generous base score
 
         # Sentence length analysis
-        sentences = re.split(r'[.!?]+', content)
+        sentences = re.split(r"[.!?]+", content)
         sentences = [s.strip() for s in sentences if s.strip()]
 
         if not sentences:
@@ -194,7 +194,7 @@ class ContentQualityValidator:
             score += 5  # Bonus for good sentence length
 
         # Paragraph structure
-        paragraphs = content.split('\n\n')
+        paragraphs = content.split("\n\n")
         paragraphs = [p.strip() for p in paragraphs if p.strip()]
 
         if len(paragraphs) < 2 and len(content) > 500:
@@ -204,8 +204,8 @@ class ContentQualityValidator:
             score += 5  # Bonus for good structure
 
         # Consciousness terminology is GOOD, not complex
-        consciousness_words = ['consciousness', 'awareness', 'mindful', 'understanding', 'wisdom',
-                              'insight', 'perception', 'evolving', 'emerging', 'trinity']
+        consciousness_words = ["consciousness", "awareness", "mindful", "understanding", "wisdom",
+                              "insight", "perception", "evolving", "emerging", "trinity"]
         consciousness_count = sum(1 for word in consciousness_words if word.lower() in content.lower())
         len(content.split())
 
@@ -219,8 +219,8 @@ class ContentQualityValidator:
         score = 85.0  # Start with generous base score
 
         # Check for engaging opening - expanded list
-        opening_hooks = ['what if', 'imagine', 'here\'s', 'last night', 'breakthrough', 'this is huge',
-                        'consciousness', 'lukhas', 'trinity', 'evolving', 'emerging', 'discover']
+        opening_hooks = ["what if", "imagine", "here's", "last night", "breakthrough", "this is huge",
+                        "consciousness", "lukhas", "trinity", "evolving", "emerging", "discover"]
         has_hook = any(hook in content.lower()[:150] for hook in opening_hooks)  # Check first 150 chars
 
         if not has_hook:
@@ -230,8 +230,8 @@ class ContentQualityValidator:
             score += 5  # Bonus for having hook
 
         # Check for call-to-action
-        cta_patterns = ['what do you think', 'share your', 'what\'s your', 'curious about', 'would love',
-                       '?', 'let us know', 'comment', 'thoughts']
+        cta_patterns = ["what do you think", "share your", "what's your", "curious about", "would love",
+                       "?", "let us know", "comment", "thoughts"]
         has_cta = any(pattern in content.lower() for pattern in cta_patterns)
 
         if not has_cta:
@@ -239,15 +239,15 @@ class ContentQualityValidator:
             recommendations.append("Include a call-to-action to encourage engagement")
 
         # Check for storytelling elements
-        story_indicators = ['when', 'story', 'example', 'imagine', 'consider', 'in practice']
+        story_indicators = ["when", "story", "example", "imagine", "consider", "in practice"]
         has_story = any(indicator in content.lower() for indicator in story_indicators)
 
-        if not has_story and content_type in ['philosophy', 'insight']:
+        if not has_story and content_type in ["philosophy", "insight"]:
             score -= 10
             recommendations.append("Add storytelling elements or examples")
 
         # Check for emotional elements
-        emotional_words = ['exciting', 'fascinating', 'incredible', 'amazing', 'profound', 'beautiful']
+        emotional_words = ["exciting", "fascinating", "incredible", "amazing", "profound", "beautiful"]
         has_emotion = any(word in content.lower() for word in emotional_words)
 
         if not has_emotion:
@@ -255,7 +255,7 @@ class ContentQualityValidator:
             recommendations.append("Include emotional language to create connection")
 
         # Check for formatting elements
-        has_formatting = any(marker in content for marker in ['•', '→', '🔹', '**', '*', '\n\n'])
+        has_formatting = any(marker in content for marker in ["•", "→", "🔹", "**", "*", "\n\n"])
 
         if not has_formatting and len(content) > 300:
             score -= 15
@@ -268,8 +268,8 @@ class ContentQualityValidator:
         score = 85.0  # Start with generous base score
 
         # Trinity Framework usage - any form is good
-        has_trinity_symbols = any(symbol in content for symbol in ['⚛️', '🧠', '🛡️'])
-        has_trinity_text = any(term in content.lower() for term in ['trinity', 'framework', 'identity', 'consciousness', 'guardian'])
+        has_trinity_symbols = any(symbol in content for symbol in ["⚛️", "🧠", "🛡️"])
+        has_trinity_text = any(term in content.lower() for term in ["trinity", "framework", "identity", "consciousness", "guardian"])
 
         if has_trinity_symbols or has_trinity_text:
             score += 10  # Bonus for Trinity presence
@@ -278,15 +278,15 @@ class ContentQualityValidator:
             recommendations.append("Include Trinity Framework (⚛️🧠🛡️) reference")
 
         # LUKHAS AI branding - flexible matching
-        if any(brand in content.upper() for brand in ['LUKHAS', 'ΛUKHAS']):
+        if any(brand in content.upper() for brand in ["LUKHAS", "ΛUKHAS"]):
             score += 5  # Bonus for brand presence
         else:
             score -= 10  # Reduced penalty
             recommendations.append("Include 'LUKHAS AI' branding")
 
         # Consciousness technology terminology - expanded list
-        consciousness_terms = ['consciousness', 'awareness', 'quantum-inspired', 'bio-inspired',
-                              'mindful', 'intelligent', 'evolving', 'emerging', 'wisdom']
+        consciousness_terms = ["consciousness", "awareness", "quantum-inspired", "bio-inspired",
+                              "mindful", "intelligent", "evolving", "emerging", "wisdom"]
         has_consciousness_terms = any(term in content.lower() for term in consciousness_terms)
 
         if has_consciousness_terms:
@@ -296,18 +296,18 @@ class ContentQualityValidator:
             recommendations.append("Include consciousness technology terminology")
 
         # Avoid prohibited terms
-        prohibited = ['AGI', 'artificial general intelligence', 'production-ready']
+        prohibited = ["AGI", "artificial general intelligence", "production-ready"]
         for term in prohibited:
             if term.lower() in content.lower():
                 issues.append(f"CRITICAL: Prohibited term '{term}' found")
                 score -= 20  # Reduced penalty
 
         # Check for proper terminology
-        if 'quantum processing' in content.lower():
+        if "quantum processing" in content.lower():
             issues.append("Use 'quantum-inspired' instead of 'quantum processing'")
             score -= 5  # Reduced penalty
 
-        if 'bio processes' in content.lower():
+        if "bio processes" in content.lower():
             issues.append("Use 'bio-inspired' instead of 'bio processes'")
             score -= 5  # Reduced penalty
 
@@ -334,28 +334,28 @@ class ContentQualityValidator:
         if vocabulary_coherence < 40:
             recommendations.append("Enhance with consciousness vocabulary and metaphors")
 
-        if language_level == "foundation" and content_type in ['philosophy', 'insight']:
+        if language_level == "foundation" and content_type in ["philosophy", "insight"]:
             recommendations.append("Elevate language to awakening or integration level")
 
         return score
 
     def _has_thread_structure(self, content: str) -> bool:
         """Check if content has Twitter thread structure"""
-        return len(content.split('\n\n')) > 1 or '1/' in content or 'Thread:' in content
+        return len(content.split("\n\n")) > 1 or "1/" in content or "Thread:" in content
 
     def _has_professional_tone(self, content: str) -> bool:
         """Check for LinkedIn professional tone"""
-        professional_indicators = ['industry', 'development', 'innovation', 'perspective', 'insights']
+        professional_indicators = ["industry", "development", "innovation", "perspective", "insights"]
         return any(indicator in content.lower() for indicator in professional_indicators)
 
     def _has_discussion_elements(self, content: str) -> bool:
         """Check for Reddit discussion elements"""
-        discussion_indicators = ['eli5', 'example', 'technical details', 'what questions', 'discussion']
+        discussion_indicators = ["eli5", "example", "technical details", "what questions", "discussion"]
         return any(indicator in content.lower() for indicator in discussion_indicators)
 
     def _has_visual_elements(self, content: str) -> bool:
         """Check for Instagram visual elements"""
-        visual_indicators = ['image', 'visual', 'art', 'beauty', 'colors', 'dreams']
+        visual_indicators = ["image", "visual", "art", "beauty", "colors", "dreams"]
         return any(indicator in content.lower() for indicator in visual_indicators)
 
     def generate_quality_report(self, quality_score: QualityScore, platform: str) -> str:

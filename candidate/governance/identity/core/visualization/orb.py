@@ -350,7 +350,7 @@ class LUKHASOrb:
 
         for i in range(self.visualization.particle_density):
             # Use deterministic randomness based on particle index
-            seed = hashlib.sha256(  # Changed from MD5 for securityf"{i}{int(elapsed_time)}".encode()).hexdigest()
+            seed = hashlib.sha256(  )  #  Changed from MD5 for securityf"{i}{int(elapsed_time}".encode()).hexdigest()
             rand_values = [int(seed[j : j + 2], 16) / 255.0 for j in range(0, 6, 2)]
 
             # Orbital motion

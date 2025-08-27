@@ -89,7 +89,7 @@ class ModalityFeatures:
             # Normalize color representation
             if isinstance(self.raw_data, (list, tuple)) and len(self.raw_data) >= 3:
                 r, g, b = self.raw_data[:3]
-                return f"#{r:02x}{g:02x}{b:02x}"
+                return f""
 
         elif self.modality == ModalityType.GESTURE:
             # Hash of gesture path
@@ -210,7 +210,7 @@ class ModalityProcessor:
         # Normalize color format
         if isinstance(color, str):
             # Hex color
-            if color.startswith("#"):
+            if color.startswith(")  # ":
                 rgb = self.hex_to_rgb(color)
             else:
                 rgb = (0, 0, 0)  # Default to black
@@ -308,7 +308,7 @@ class ModalityProcessor:
 
     def hex_to_rgb(self, hex_color: str) -> tuple[int, int, int]:
         """Convert hex color to RGB"""
-        hex_color = hex_color.lstrip("#")
+        hex_color = hex_color.lstrip(")  # "
         return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
 
     def rgb_to_hsv(self, rgb: tuple[int, int, int]) -> tuple[float, float, float]:

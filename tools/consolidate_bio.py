@@ -41,42 +41,42 @@ class BioConsolidator:
 
         # Categorize by functionality
         categories = {
-            'core': [],
-            'oscillator': [],
-            'symbolic': [],
-            'quantum': [],
-            'voice': [],
-            'awareness': [],
-            'adapters': [],
-            'utils': []
+            "core": [],
+            "oscillator": [],
+            "symbolic": [],
+            "quantum": [],
+            "voice": [],
+            "awareness": [],
+            "adapters": [],
+            "utils": []
         }
 
         for file_path in bio_files:
             path_str = str(file_path).lower()
 
-            if 'oscillator' in path_str:
-                categories['oscillator'].append(file_path)
-            elif 'symbolic' in path_str:
-                categories['symbolic'].append(file_path)
-            elif 'quantum' in path_str:
-                categories['quantum'].append(file_path)
-            elif 'voice' in path_str:
-                categories['voice'].append(file_path)
-            elif 'awareness' in path_str:
-                categories['awareness'].append(file_path)
-            elif 'adapter' in path_str:
-                categories['adapters'].append(file_path)
-            elif 'util' in path_str or 'helper' in path_str:
-                categories['utils'].append(file_path)
+            if "oscillator" in path_str:
+                categories["oscillator"].append(file_path)
+            elif "symbolic" in path_str:
+                categories["symbolic"].append(file_path)
+            elif "quantum" in path_str:
+                categories["quantum"].append(file_path)
+            elif "voice" in path_str:
+                categories["voice"].append(file_path)
+            elif "awareness" in path_str:
+                categories["awareness"].append(file_path)
+            elif "adapter" in path_str:
+                categories["adapters"].append(file_path)
+            elif "util" in path_str or "helper" in path_str:
+                categories["utils"].append(file_path)
             else:
-                categories['core'].append(file_path)
+                categories["core"].append(file_path)
 
         return categories
 
     def extract_classes_and_functions(self, file_path):
         """Extract all classes and functions from a Python file"""
         try:
-            content = file_path.read_text(errors='ignore')
+            content = file_path.read_text(errors="ignore")
             tree = ast.parse(content)
 
             classes = []
@@ -86,24 +86,24 @@ class BioConsolidator:
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
                     classes.append({
-                        'name': node.name,
-                        'bases': [base.id if isinstance(base, ast.Name) else str(base)
+                        "name": node.name,
+                        "bases": [base.id if isinstance(base, ast.Name) else str(base)
                                  for base in node.bases],
-                        'methods': [n.name for n in node.body if isinstance(n, ast.FunctionDef)]
+                        "methods": [n.name for n in node.body if isinstance(n, ast.FunctionDef)]
                     })
                 elif isinstance(node, ast.FunctionDef) and node.col_offset == 0:
                     functions.append({
-                        'name': node.name,
-                        'args': [arg.arg for arg in node.args.args]
+                        "name": node.name,
+                        "args": [arg.arg for arg in node.args.args]
                     })
                 elif isinstance(node, (ast.Import, ast.ImportFrom)):
                     imports.append(ast.unparse(node))
 
             return {
-                'classes': classes,
-                'functions': functions,
-                'imports': imports,
-                'content': content
+                "classes": classes,
+                "functions": functions,
+                "imports": imports,
+                "content": content
             }
         except Exception as e:
             print(f"  ⚠️  Error parsing {file_path}: {e}")
@@ -117,7 +117,7 @@ class BioConsolidator:
         print(f"\n🔄 Merging {category_name} ({len(file_paths)} files)...")
 
         # Create target directory
-        if category_name == 'core':
+        if category_name == "core":
             target_file = self.target_dir / "__init__.py"
         else:
             target_file = self.target_dir / f"{category_name}.py"
@@ -138,33 +138,33 @@ class BioConsolidator:
                 continue
 
             # Track unique imports
-            for imp in components['imports']:
+            for imp in components["imports"]:
                 # Skip internal bio imports (will be consolidated)
-                if 'bio' not in imp or 'lukhas.accepted.bio' in imp:
+                if "bio" not in imp or "lukhas.accepted.bio" in imp:
                     all_imports.add(imp)
 
             # Collect unique classes
-            for cls in components['classes']:
+            for cls in components["classes"]:
                 # Check for duplicates
-                if not any(c['name'] == cls['name'] for c in all_classes):
+                if not any(c["name"] == cls["name"] for c in all_classes):
                     all_classes.append(cls)
                 else:
                     # Handle duplicate class names
                     self.conflicts.append({
-                        'type': 'class',
-                        'name': cls['name'],
-                        'files': [str(file_path)]
+                        "type": "class",
+                        "name": cls["name"],
+                        "files": [str(file_path)]
                     })
 
             # Collect unique functions
-            for func in components['functions']:
-                if not any(f['name'] == func['name'] for f in all_functions):
+            for func in components["functions"]:
+                if not any(f["name"] == func["name"] for f in all_functions):
                     all_functions.append(func)
                 else:
                     self.conflicts.append({
-                        'type': 'function',
-                        'name': func['name'],
-                        'files': [str(file_path)]
+                        "type": "function",
+                        "name": func["name"],
+                        "files": [str(file_path)]
                     })
 
         # Generate consolidated module
@@ -190,14 +190,14 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
         # Add placeholder implementations for classes
         for cls in all_classes:
             content += f"\nclass {cls['name']}"
-            if cls['bases']:
+            if cls["bases"]:
                 content += f"({', '.join(cls['bases'])})"
             content += ":\n"
             content += f'    """Bio {category_name} - {cls["name"]}"""\n'
 
-            if cls['methods']:
-                for method in cls['methods']:
-                    if method == '__init__':
+            if cls["methods"]:
+                for method in cls["methods"]:
+                    if method == "__init__":
                         content += f"    def {method}(self, *args, **kwargs):\n"
                         content += "        pass\n\n"
                     else:
@@ -208,7 +208,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
         # Add placeholder implementations for functions
         for func in all_functions:
-            args = ', '.join(func['args']) if func['args'] else ''
+            args = ", ".join(func["args"]) if func["args"] else ""
             content += f"\ndef {func['name']}({args}):\n"
             content += f'    """Bio {category_name} function - {func["name"]}"""\n'
             content += "    raise NotImplementedError('Bio consolidation in progress')\n\n"

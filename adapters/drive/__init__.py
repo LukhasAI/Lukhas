@@ -514,9 +514,9 @@ File size: {metadata.size} bytes
 
         return ResourceContent(
             metadata=metadata,
-            content=document_content.encode('utf-8'),
-            encoding='utf-8',
-            content_type='text/plain'
+            content=document_content.encode("utf-8"),
+            encoding="utf-8",
+            content_type="text/plain"
         )
 
     def _mock_upload_file(

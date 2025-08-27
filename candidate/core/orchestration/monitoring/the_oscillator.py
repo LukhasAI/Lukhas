@@ -102,7 +102,7 @@ class GlobalComplianceFramework:
         logging.warning(message)
 
     def activate_safeguards(self):
-        """Enforce Article 5 safeguards from EU AI Act"""
+        """Enforce Article 5 safeguards from eu_ai Act"""
         self.safeguard_triggers += 1
         if self.safeguard_triggers > 3:
             self.recalibrate_safeguards()

@@ -166,7 +166,7 @@ class CodeIndexer:
     def classify_by_quality(self, path):
         """Classify based on code quality indicators"""
         try:
-            content = path.read_text(errors='ignore')
+            content = path.read_text(errors="ignore")
 
             # Check for quality indicators
             has_docstrings = '"""' in content or "'''" in content
@@ -193,28 +193,28 @@ class CodeIndexer:
         """Extract all imports from a Python file"""
         imports = []
         try:
-            content = path.read_text(errors='ignore')
+            content = path.read_text(errors="ignore")
             tree = ast.parse(content)
 
             for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.append({
-                            'module': alias.name,
-                            'type': 'absolute',
-                            'line': node.lineno
+                            "module": alias.name,
+                            "type": "absolute",
+                            "line": node.lineno
                         })
                 elif isinstance(node, ast.ImportFrom):
-                    module = node.module or ''
+                    module = node.module or ""
                     level = node.level
-                    import_type = 'relative' if level > 0 else 'absolute'
+                    import_type = "relative" if level > 0 else "absolute"
 
                     for alias in node.names:
                         full_import = f"{module}.{alias.name}" if module else alias.name
                         imports.append({
-                            'module': full_import,
-                            'type': import_type,
-                            'line': node.lineno
+                            "module": full_import,
+                            "type": import_type,
+                            "line": node.lineno
                         })
 
                         # Track import relationships
@@ -223,8 +223,8 @@ class CodeIndexer:
 
         except SyntaxError as e:
             self.module_stats["import_errors"].append({
-                'file': str(path),
-                'error': str(e)
+                "file": str(path),
+                "error": str(e)
             })
         except Exception:
             pass  # Ignore other parsing errors
@@ -234,19 +234,19 @@ class CodeIndexer:
     def analyze_file(self, path):
         """Analyze a single Python file"""
         try:
-            content = path.read_text(errors='ignore')
+            content = path.read_text(errors="ignore")
             lines = len(content.splitlines())
 
             # Extract metadata
             has_tests = "test_" in str(path) or "import pytest" in content
-            has_types = bool(re.search(r':\s*\w+\s*[=,)]|->\s*\w+', content))
+            has_types = bool(re.search(r":\s*\w+\s*[=,)]|->\s*\w+", content))
             has_trinity = any(marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"])
 
             # Classify module
             lane = self.classify_module(path)
 
             # Convert to module path
-            module_path = str(path.relative_to(self.root)).replace('/', '.').replace('.py', '')
+            module_path = str(path.relative_to(self.root)).replace("/", ".").replace(".py", "")
 
             # Store in database
             cursor = self.conn.cursor()
@@ -262,7 +262,7 @@ class CodeIndexer:
                 cursor.execute("""
                     INSERT INTO imports (from_file, to_module, import_type, line_number)
                     VALUES (?, ?, ?, ?)
-                """, (str(path), imp['module'], imp['type'], imp['line']))
+                """, (str(path), imp["module"], imp["type"], imp["line"]))
 
             self.conn.commit()
 
@@ -289,7 +289,7 @@ class CodeIndexer:
                 for path in paths:
                     # Check if has unique logic
                     has_unique = self.check_unique_logic(path)
-                    lines = len(Path(path).read_text(errors='ignore').splitlines())
+                    lines = len(Path(path).read_text(errors="ignore").splitlines())
 
                     cursor.execute("""
                         INSERT INTO duplicates (module_type, variant_name, file_path, line_count, has_unique_logic)
@@ -301,7 +301,7 @@ class CodeIndexer:
             if len(paths) > 1:
                 for path in paths:
                     has_unique = self.check_unique_logic(path)
-                    lines = len(Path(path).read_text(errors='ignore').splitlines())
+                    lines = len(Path(path).read_text(errors="ignore").splitlines())
 
                     cursor.execute("""
                         INSERT INTO duplicates (module_type, variant_name, file_path, line_count, has_unique_logic)
@@ -313,14 +313,14 @@ class CodeIndexer:
     def check_unique_logic(self, path):
         """Check if file has unique logic worth preserving"""
         try:
-            content = Path(path).read_text(errors='ignore')
+            content = Path(path).read_text(errors="ignore")
 
             # Check for unique patterns
             unique_patterns = [
-                r'class\s+\w+\(.*\):',  # Unique classes
-                r'def\s+\w+\(.*\):.*?return',  # Functions with logic
-                r'@\w+',  # Decorators
-                r'async\s+def',  # Async functions
+                r"class\s+\w+\(.*\):",  # Unique classes
+                r"def\s+\w+\(.*\):.*?return",  # Functions with logic
+                r"@\w+",  # Decorators
+                r"async\s+def",  # Async functions
             ]
 
             for pattern in unique_patterns:
@@ -492,7 +492,7 @@ Use these mappings to update your imports:
         cursor.execute("""
             SELECT old_import, new_import, deprecation_date
             FROM migrations
-            WHERE old_import NOT LIKE '%candidate%'
+            WHERE old_import not_like '%candidate%'
             ORDER BY old_import
         """)
 
@@ -581,7 +581,7 @@ def main():
         print(f"   - With Types: {stats['has_types']}")
         print(f"   - Trinity Modules: {stats['trinity_modules']}")
 
-        if stats['import_errors']:
+        if stats["import_errors"]:
             print(f"\n⚠️  Found {len(stats['import_errors'])} files with syntax errors")
 
     finally:

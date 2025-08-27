@@ -65,20 +65,20 @@ class AutoConsciousness:
 
         if enable_awareness and AwarenessEngine:
             try:
-                self.components['awareness'] = AwarenessEngine()
+                self.components["awareness"] = AwarenessEngine()
             except Exception as e:
                 logger.warning(f"Could not initialize AwarenessEngine: {e}")
 
         if enable_reasoning and ReasoningEngine:
             try:
-                self.components['reasoning'] = ReasoningEngine()
+                self.components["reasoning"] = ReasoningEngine()
             except Exception as e:
                 logger.warning(f"Could not initialize ReasoningEngine: {e}")
 
         # Initialize shared state
         if SharedState:
             try:
-                self.components['shared_state'] = SharedState()
+                self.components["shared_state"] = SharedState()
             except Exception as e:
                 logger.warning(f"Could not initialize SharedState: {e}")
 
@@ -310,4 +310,4 @@ class AutoConsciousness:
 
 
 # Export main class
-__all__ = ['AutoConsciousness']
+__all__ = ["AutoConsciousness"]

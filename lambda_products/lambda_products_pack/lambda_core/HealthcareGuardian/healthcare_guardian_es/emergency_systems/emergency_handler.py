@@ -132,9 +132,9 @@ class EmergencyResponseSystem:
         self.guardian = guardian
 
         # Emergency settings
-        self.emergency_number = self.config.get('number', '112')
-        self.auto_dispatch = self.config.get('auto_dispatch', False)
-        self.location_tracking = self.config.get('location_tracking', True)
+        self.emergency_number = self.config.get("number", "112")
+        self.auto_dispatch = self.config.get("auto_dispatch", False)
+        self.location_tracking = self.config.get("location_tracking", True)
 
         # Initialize emergency contacts
         self._load_emergency_contacts()
@@ -146,8 +146,8 @@ class EmergencyResponseSystem:
         self.last_known_location = None
 
         # Fall detection state
-        self.fall_detection_enabled = self.config.get('fall_detection', True)
-        self.fall_sensitivity = self.config.get('fall_sensitivity', 'medium')
+        self.fall_detection_enabled = self.config.get("fall_detection", True)
+        self.fall_sensitivity = self.config.get("fall_sensitivity", "medium")
 
         logger.info("🚨 Emergency Response System initialized")
         logger.info(f"Emergency number: {self.emergency_number}")
@@ -179,15 +179,15 @@ class EmergencyResponseSystem:
         ]
 
         # Load user's family contacts from config
-        family_contacts = self.config.get('family_contacts', [])
+        family_contacts = self.config.get("family_contacts", [])
         for contact in family_contacts:
             self.emergency_contacts.append(EmergencyContact(
-                name=contact.get('name'),
-                phone=contact.get('phone'),
-                relationship=contact.get('relationship', 'family'),
-                priority=contact.get('priority', 3),
-                languages=contact.get('languages', ['es']),
-                notify_automatically=contact.get('auto_notify', False)
+                name=contact.get("name"),
+                phone=contact.get("phone"),
+                relationship=contact.get("relationship", "family"),
+                priority=contact.get("priority", 3),
+                languages=contact.get("languages", ["es"]),
+                notify_automatically=contact.get("auto_notify", False)
             ))
 
         # Add default contacts if not already present
@@ -233,9 +233,9 @@ class EmergencyResponseSystem:
 
         # Check vitals if available
         if vitals:
-            if vitals.get('heart_rate', 70) > 120 or vitals.get('heart_rate', 70) < 50:
+            if vitals.get("heart_rate", 70) > 120 or vitals.get("heart_rate", 70) < 50:
                 return "critical"
-            if vitals.get('blood_pressure_systolic', 120) > 180:
+            if vitals.get("blood_pressure_systolic", 120) > 180:
                 return "critical"
 
         # Default to medium for any emergency keyword
@@ -297,11 +297,11 @@ class EmergencyResponseSystem:
     def _get_severity_enum(self, severity_str: str) -> EmergencySeverity:
         """Convert severity string to enum"""
         mapping = {
-            'low': EmergencySeverity.LOW,
-            'medium': EmergencySeverity.MEDIUM,
-            'high': EmergencySeverity.HIGH,
-            'critical': EmergencySeverity.CRITICAL,
-            'life_threatening': EmergencySeverity.LIFE_THREATENING
+            "low": EmergencySeverity.LOW,
+            "medium": EmergencySeverity.MEDIUM,
+            "high": EmergencySeverity.HIGH,
+            "critical": EmergencySeverity.CRITICAL,
+            "life_threatening": EmergencySeverity.LIFE_THREATENING
         }
         return mapping.get(severity_str, EmergencySeverity.MEDIUM)
 
@@ -311,23 +311,23 @@ class EmergencyResponseSystem:
         description_lower = description.lower()
 
         symptom_keywords = {
-            'dolor': 'dolor',
-            'mareo': 'mareo',
-            'náuseas': 'náuseas',
-            'vómitos': 'vómitos',
-            'fiebre': 'fiebre',
-            'confusión': 'confusión',
-            'dificultad respirar': 'dificultad respiratoria',
-            'sangrado': 'sangrado',
-            'caída': 'traumatismo por caída',
-            'desmayo': 'pérdida de consciencia'
+            "dolor": "dolor",
+            "mareo": "mareo",
+            "náuseas": "náuseas",
+            "vómitos": "vómitos",
+            "fiebre": "fiebre",
+            "confusión": "confusión",
+            "dificultad respirar": "dificultad respiratoria",
+            "sangrado": "sangrado",
+            "caída": "traumatismo por caída",
+            "desmayo": "pérdida de consciencia"
         }
 
         for keyword, symptom in symptom_keywords.items():
             if keyword in description_lower:
                 symptoms.append(symptom)
 
-        return symptoms or ['síntomas no especificados']
+        return symptoms or ["síntomas no especificados"]
 
     async def dispatch_emergency(self, incident: EmergencyIncident):
         """
@@ -385,15 +385,15 @@ class EmergencyResponseSystem:
 
         # Prepare emergency information
         emergency_data = {
-            'caller_id': 'LUKHAS Healthcare Guardian',
-            'patient_location': incident.location_address or 'Unknown',
-            'gps_coordinates': incident.location,
-            'emergency_type': incident.emergency_type.value,
-            'symptoms': incident.symptoms,
-            'patient_info': {
-                'age': 'elderly',
-                'conditions': self.config.get('medical_conditions', []),
-                'medications': self.config.get('medications', [])
+            "caller_id": "LUKHAS Healthcare Guardian",
+            "patient_location": incident.location_address or "Unknown",
+            "gps_coordinates": incident.location,
+            "emergency_type": incident.emergency_type.value,
+            "symptoms": incident.symptoms,
+            "patient_info": {
+                "age": "elderly",
+                "conditions": self.config.get("medical_conditions", []),
+                "medications": self.config.get("medications", [])
             }
         }
 
@@ -420,9 +420,9 @@ class EmergencyResponseSystem:
         # In production, this would send SMS/call
         logger.info(f"Notifying {contact.name} ({contact.relationship}): {message}")
 
-    def _create_emergency_message(self, incident: EmergencyIncident, language: str = 'es') -> str:
+    def _create_emergency_message(self, incident: EmergencyIncident, language: str = "es") -> str:
         """Create emergency notification message"""
-        if language == 'es':
+        if language == "es":
             message = (
                 f"ALERTA EMERGENCIA LUKHAS:\n"
                 f"Tipo: {incident.emergency_type.value}\n"
@@ -477,20 +477,20 @@ class EmergencyResponseSystem:
         # Simple fall detection algorithm
         # In production, use more sophisticated ML model
 
-        acceleration = sensor_data.get('acceleration', 0)
-        orientation_change = sensor_data.get('orientation_change', 0)
+        acceleration = sensor_data.get("acceleration", 0)
+        orientation_change = sensor_data.get("orientation_change", 0)
 
         # Thresholds based on sensitivity
         thresholds = {
-            'low': {'acceleration': 4.0, 'orientation': 90},
-            'medium': {'acceleration': 3.0, 'orientation': 70},
-            'high': {'acceleration': 2.0, 'orientation': 50}
+            "low": {"acceleration": 4.0, "orientation": 90},
+            "medium": {"acceleration": 3.0, "orientation": 70},
+            "high": {"acceleration": 2.0, "orientation": 50}
         }
 
-        threshold = thresholds.get(self.fall_sensitivity, thresholds['medium'])
+        threshold = thresholds.get(self.fall_sensitivity, thresholds["medium"])
 
-        if (acceleration > threshold['acceleration'] and
-            orientation_change > threshold['orientation']):
+        if (acceleration > threshold["acceleration"] and
+            orientation_change > threshold["orientation"]):
             logger.warning("Fall detected!")
             return True
 
@@ -558,11 +558,11 @@ class EmergencyResponseSystem:
     def get_emergency_status(self) -> dict:
         """Get current emergency system status"""
         return {
-            'system_active': True,
-            'auto_dispatch': self.auto_dispatch,
-            'fall_detection': self.fall_detection_enabled,
-            'active_incidents': len(self.active_incidents),
-            'emergency_number': self.emergency_number,
-            'contacts_configured': len(self.emergency_contacts),
-            'last_location': self.last_known_location is not None
+            "system_active": True,
+            "auto_dispatch": self.auto_dispatch,
+            "fall_detection": self.fall_detection_enabled,
+            "active_incidents": len(self.active_incidents),
+            "emergency_number": self.emergency_number,
+            "contacts_configured": len(self.emergency_contacts),
+            "last_location": self.last_known_location is not None
         }

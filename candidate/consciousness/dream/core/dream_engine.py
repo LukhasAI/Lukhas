@@ -549,7 +549,7 @@ DreamEngine = SimpleDreamEngine  # Simple, working dream engine
 AdvancedDreamEngine = EnhancedDreamEngine  # Full-featured dream engine
 
 # Default export for typical usage
-__all__ = ['DreamEngine', 'EnhancedDreamEngine', 'AdvancedDreamEngine', 'SimpleDreamEngine']
+__all__ = ["DreamEngine", "EnhancedDreamEngine", "AdvancedDreamEngine", "SimpleDreamEngine"]
 
 
 """

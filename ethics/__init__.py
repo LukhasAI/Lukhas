@@ -45,8 +45,8 @@ class PolicyEngines:
 # Create module-style attributes for imports like:
 # from ethics.ethics_engine import EthicsEngine
 # from ethics.safety_checks import SafetyChecker
-ethics_engine = type('Module', (), {'EthicsEngine': EthicsEngine})()
-safety_checks = type('Module', (), {'SafetyChecker': SafetyChecker})()
+ethics_engine = type("Module", (), {"EthicsEngine": EthicsEngine})()
+safety_checks = type("Module", (), {"SafetyChecker": SafetyChecker})()
 
 # Create aliases for backward compatibility
 meg_bridge = MegBridge

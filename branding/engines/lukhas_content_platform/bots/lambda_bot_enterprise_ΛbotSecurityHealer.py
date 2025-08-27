@@ -25,8 +25,8 @@ warnings.filterwarnings("ignore", category=UserWarning, module="pkg_resources")
 
 # Import LUKHAS AI ΛBot components
 try:
-    from LUKHAS AI ΛBot.specialists.ΛBotPRReviewer import ΛBotPRReviewer
-    from LUKHAS AI ΛBot.specialists.ABotΛiDSecurity import ΛTraceLogger
+    from lukhas_ai_lambda_bot.specialists.ΛBotPRReviewer import ΛBotPRReviewer
+    from lukhas_ai_lambda_bot.specialists.ABotΛiDSecurity import ΛTraceLogger
 except ImportError:
     # Fallback trace logger for standalone operation
     class ΛTraceLogger:
@@ -218,7 +218,7 @@ class ΛBotAutonomousSecurityHealer:
 
             for line_num, line in enumerate(lines, 1):
                 line = line.strip()
-                if line and not line.startswith('#'):
+                if line and not line.startswith(')  # ':
                     vuln = await self._check_package_vulnerability(line, str(req_file), line_num)
                     if vuln:
                         vulnerabilities.append(vuln)

@@ -984,7 +984,7 @@ class DistributedGLYPHColony(BaseColony):
         return hashlib.sha256(seed_data.encode()).digest()
 
     def _extract_consciousness_pattern(self, orb_state: OrbVisualization) -> np.ndarray:
-        """Extract consciousness pattern from ORB state."""
+        """Extract consciousness pattern from orb_state."""
         # This would extract actual consciousness data from ORB
         # For now, generate placeholder pattern
         size = (128, 128)

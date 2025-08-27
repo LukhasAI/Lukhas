@@ -145,7 +145,7 @@ class PRSecurityReviewTask:
                     if not reviews:
                         unreviewed_prs.append(pr)
                 else:
-                    logger.warning(f"Failed to get reviews for PR #{pr['number']}")
+                    logger.warning(f"Failed to get reviews for PR "number']}")
 
             logger.info(
                 f"Found {len(unreviewed_prs)} unreviewed PRs in {repo_full_name}"
@@ -259,7 +259,7 @@ class PRSecurityReviewTask:
             )
 
         except Exception as e:
-            logger.error(f"Error analyzing PR #{pr['number']} in {repo_full_name}: {e}")
+            logger.error(f"Error analyzing PR "number']} in {repo_full_name}: {e}")
             return SecurityPR(
                 pr_number=pr["number"],
                 repo_name=repo_full_name,
@@ -275,7 +275,7 @@ class PRSecurityReviewTask:
         try:
             if not security_pr.security_issues:
                 logger.info(
-                    f"No security issues found in PR  # {security_pr.pr_number},"
+                    f"No security issues found in PR  "
                     marking as reviewed"
                 )
                 return True
@@ -324,7 +324,7 @@ class PRSecurityReviewTask:
             response = self.session.post(url, json=data)
 
             if response.status_code in [200, 201]:
-                logger.info(f"Successfully added security review to PR #{pr_number}")
+                logger.info(f"Successfully added security review to PR ")
                 return True
             else:
                 logger.error(
@@ -335,7 +335,7 @@ class PRSecurityReviewTask:
 
         except Exception as e:
             logger.error(
-                f"Error adding security review to PR #{security_pr.pr_number}: {e}"
+                f"Error adding security review to PR "
             )
             return False
 
@@ -346,7 +346,7 @@ class PRSecurityReviewTask:
 
         try:
             logger.info(
-                f"Attempting to auto-fix security issues in PR #{security_pr.pr_number}"
+                f"Attempting to auto-fix security issues in PR "
             )
 
             # For dependency vulnerabilities, use vulnerability fixer
@@ -368,14 +368,14 @@ class PRSecurityReviewTask:
                 # 4. Create a new PR based on the original one
 
                 logger.info(
-                    f"Auto-fix attempt for PR #{security_pr.pr_number} completed"
+                    f"Auto-fix attempt for PR "
                 )
                 return True
 
             return False
 
         except Exception as e:
-            logger.error(f"Error auto-fixing PR #{security_pr.pr_number}: {e}")
+            logger.error(f"Error auto-fixing PR ")
             return False
 
     def process_all_repositories(self) -> dict[str, Any]:

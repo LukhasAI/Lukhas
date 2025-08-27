@@ -84,7 +84,7 @@ class CleanupGenerator:
 
         for issue in self.analysis["issues"]["stub_files"]:
             file_path = issue["file"]
-            lines.append(f"# Remove stub file: {file_path}")
+            lines.append("")
             lines.append(f"if [ -f '{file_path}' ]; then")
             lines.append(f"  echo 'Removing {file_path}'")
             lines.append(f"  rm '{file_path}'")
@@ -105,7 +105,7 @@ class CleanupGenerator:
             new_path = self._suggest_new_name(old_path)
 
             if old_path != new_path:
-                lines.append(f"# Fix redundant prefix: {old_path}")
+                lines.append("")
                 lines.append(f"if [ -f '{old_path}' ]; then")
                 lines.append(f"  echo 'Renaming {old_path} -> {new_path}'")
                 lines.append(f"  mv '{old_path}' '{new_path}'")
@@ -153,7 +153,7 @@ class CleanupGenerator:
             old_path = issue["file"]
             new_path = self._suggest_doc_location(old_path)
 
-            lines.append(f"# Move documentation: {old_path}")
+            lines.append("")
             lines.append(f"if [ -f '{old_path}' ]; then")
             lines.append(f"  echo 'Moving {old_path} -> {new_path}'")
             lines.append(f"  mkdir -p '$(dirname \"{new_path}\")'")
@@ -193,7 +193,7 @@ class CleanupGenerator:
             moves_by_dir[suggested_dir].append(issue)
 
         for target_dir, moves in moves_by_dir.items():
-            lines.append(f"# Create {target_dir} directory if needed")
+            lines.append("")
             lines.append(f"mkdir -p '{target_dir}'")
             lines.append("")
 
@@ -201,7 +201,7 @@ class CleanupGenerator:
                 old_path = issue["file"]
                 new_path = f"{target_dir}/{Path(old_path).name}"
 
-                lines.append(f"# Move {old_path} to {target_dir}/")
+                lines.append("")
                 lines.append(f"if [ -f '{old_path}' ]; then")
                 lines.append(f"  echo 'Moving {old_path} -> {new_path}'")
                 lines.append(f"  mv '{old_path}' '{new_path}'")

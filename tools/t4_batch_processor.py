@@ -4,13 +4,14 @@ T4 Lens Batch Processing System
 Processes code quality issues in batches with comprehensive validation
 """
 
-import subprocess
-import json
 import hashlib
+import json
+import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 
 class T4BatchProcessor:
     def __init__(self, batch_size: int = 50):
@@ -23,7 +24,7 @@ class T4BatchProcessor:
     def get_current_sha(self) -> str:
         """SCIENTIFIC RIGOR: SHA-bound verification"""
         try:
-            result = subprocess.run(['git', 'rev-parse', 'HEAD'],
+            result = subprocess.run(["git", "rev-parse", "HEAD"],
                                   capture_output=True, text=True, cwd=self.base_path)
             return result.stdout.strip()[:8]
         except Exception:
@@ -32,7 +33,7 @@ class T4BatchProcessor:
     def get_ruff_issues(self) -> List[Dict[str, Any]]:
         """Get detailed Ruff issues for batch processing"""
         try:
-            result = subprocess.run(['ruff', 'check', '.', '--output-format=json'],
+            result = subprocess.run(["ruff", "check", ".", "--output-format=json"],
                                   capture_output=True, text=True, cwd=self.base_path)
             if result.stdout.strip():
                 return json.loads(result.stdout)
@@ -44,10 +45,10 @@ class T4BatchProcessor:
     def get_ruff_stats(self) -> tuple[int, List[str]]:
         """Get current Ruff statistics"""
         try:
-            result = subprocess.run(['ruff', 'check', '.', '--statistics'],
+            result = subprocess.run(["ruff", "check", ".", "--statistics"],
                                   capture_output=True, text=True, cwd=self.base_path)
-            lines = result.stdout.strip().split('\n')
-            total_line = [line for line in lines if 'Found' in line and 'errors' in line]
+            lines = result.stdout.strip().split("\n")
+            total_line = [line for line in lines if "Found" in line and "errors" in line]
             if total_line:
                 count = int(total_line[0].split()[1])
                 return count, lines
@@ -59,27 +60,27 @@ class T4BatchProcessor:
     def categorize_issues(self, issues: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
         """EXPERIENCE DISCIPLINE: Categorize issues by T4 priority"""
         categories = {
-            'CRITICAL_BLOCKERS': [],      # Syntax errors - highest priority
-            'FUNCTIONALITY_ISSUES': [],   # Undefined names, imports
-            'SAFETY_REVIEW': [],          # Bare except, error handling
-            'QUALITY_POLISH': []          # Style, naming, minor issues
+            "CRITICAL_BLOCKERS": [],      # Syntax errors - highest priority
+            "FUNCTIONALITY_ISSUES": [],   # Undefined names, imports
+            "SAFETY_REVIEW": [],          # Bare except, error handling
+            "QUALITY_POLISH": []          # Style, naming, minor issues
         }
 
         for issue in issues:
-            code = issue.get('code', '')
+            code = issue.get("code", "")
 
             # Critical blockers (syntax errors)
-            if not code or 'syntax' in issue.get('message', '').lower():
-                categories['CRITICAL_BLOCKERS'].append(issue)
+            if not code or "syntax" in issue.get("message", "").lower():
+                categories["CRITICAL_BLOCKERS"].append(issue)
             # Functionality issues
-            elif code in ['F821', 'E402', 'F401', 'F811', 'F403']:
-                categories['FUNCTIONALITY_ISSUES'].append(issue)
+            elif code in ["F821", "E402", "F401", "F811", "F403"]:
+                categories["FUNCTIONALITY_ISSUES"].append(issue)
             # Safety review needed
-            elif code in ['E722', 'F706']:
-                categories['SAFETY_REVIEW'].append(issue)
+            elif code in ["E722", "F706"]:
+                categories["SAFETY_REVIEW"].append(issue)
             # Quality polish
             else:
-                categories['QUALITY_POLISH'].append(issue)
+                categories["QUALITY_POLISH"].append(issue)
 
         return categories
 
@@ -89,20 +90,20 @@ class T4BatchProcessor:
         timestamp = datetime.now().isoformat()
 
         artifact = {
-            'batch_id': f"batch_{self.batch_number:03d}",
-            'timestamp': timestamp,
-            'sha': sha,
-            'batch_info': batch_info,
-            't4_validation': {
-                'scale_automation': batch_info.get('automation_applied', False),
-                'constitutional_safety': batch_info.get('safety_validated', False),
-                'scientific_rigor': True,  # This artifact proves rigor
-                'experience_discipline': batch_info.get('prioritized_correctly', False)
+            "batch_id": f"batch_{self.batch_number:03d}",
+            "timestamp": timestamp,
+            "sha": sha,
+            "batch_info": batch_info,
+            "t4_validation": {
+                "scale_automation": batch_info.get("automation_applied", False),
+                "constitutional_safety": batch_info.get("safety_validated", False),
+                "scientific_rigor": True,  # This artifact proves rigor
+                "experience_discipline": batch_info.get("prioritized_correctly", False)
             }
         }
 
         artifact_file = self.verification_path / f"{sha}_batch_{self.batch_number:03d}.json"
-        with open(artifact_file, 'w') as f:
+        with open(artifact_file, "w") as f:
             json.dump(artifact, f, indent=2)
 
         return str(artifact_file)
@@ -112,46 +113,46 @@ class T4BatchProcessor:
         """T4 LENS: Comprehensive validation of batch processing"""
 
         validation = {
-            'timestamp': datetime.now().isoformat(),
-            'batch_number': self.batch_number,
-            'category': category,
-            'issues_processed': issues_processed,
-            'before_count': before_count,
-            'after_count': after_count,
-            'improvement': before_count - after_count,
-            'success': after_count < before_count
+            "timestamp": datetime.now().isoformat(),
+            "batch_number": self.batch_number,
+            "category": category,
+            "issues_processed": issues_processed,
+            "before_count": before_count,
+            "after_count": after_count,
+            "improvement": before_count - after_count,
+            "success": after_count < before_count
         }
 
         # SCALE & AUTOMATION (Sam Altman)
-        validation['scale_automation'] = {
-            'batch_size_optimal': issues_processed <= self.batch_size,
-            'automation_rate': (before_count - after_count) / max(before_count, 1),
-            'processing_efficient': True,
-            'scalable_approach': True
+        validation["scale_automation"] = {
+            "batch_size_optimal": issues_processed <= self.batch_size,
+            "automation_rate": (before_count - after_count) / max(before_count, 1),
+            "processing_efficient": True,
+            "scalable_approach": True
         }
 
         # CONSTITUTIONAL SAFETY (Dario Amodei)
-        validation['constitutional_safety'] = {
-            'fail_safe_applied': after_count <= before_count,  # Never increase issues
-            'risk_assessment': 'low' if category == 'QUALITY_POLISH' else 'medium',
-            'safety_gates_passed': True,
-            'regression_prevented': after_count <= before_count
+        validation["constitutional_safety"] = {
+            "fail_safe_applied": after_count <= before_count,  # Never increase issues
+            "risk_assessment": "low" if category == "QUALITY_POLISH" else "medium",
+            "safety_gates_passed": True,
+            "regression_prevented": after_count <= before_count
         }
 
         # SCIENTIFIC RIGOR (Demis Hassabis)
-        validation['scientific_rigor'] = {
-            'reproducible': True,
-            'evidence_based': True,
-            'measurable_outcome': validation['improvement'],
-            'sha_bound': self.get_current_sha()
+        validation["scientific_rigor"] = {
+            "reproducible": True,
+            "evidence_based": True,
+            "measurable_outcome": validation["improvement"],
+            "sha_bound": self.get_current_sha()
         }
 
         # EXPERIENCE DISCIPLINE (Steve Jobs)
-        validation['experience_discipline'] = {
-            'simple_process': True,
-            'opinionated_approach': True,
-            'user_focused': category in ['CRITICAL_BLOCKERS', 'FUNCTIONALITY_ISSUES'],
-            'clear_progress': validation['improvement'] >= 0
+        validation["experience_discipline"] = {
+            "simple_process": True,
+            "opinionated_approach": True,
+            "user_focused": category in ["CRITICAL_BLOCKERS", "FUNCTIONALITY_ISSUES"],
+            "clear_progress": validation["improvement"] >= 0
         }
 
         return validation
@@ -167,22 +168,22 @@ class T4BatchProcessor:
         print(f"📊 Before: {before_count} total issues")
 
         # Determine processing strategy based on category
-        if category == 'CRITICAL_BLOCKERS':
+        if category == "CRITICAL_BLOCKERS":
             print("🛡️ CONSTITUTIONAL SAFETY: Manual review required for syntax errors")
             # For now, just document - actual fixes would need careful review
             after_count = before_count  # No automated fixes for critical blockers
 
-        elif category == 'FUNCTIONALITY_ISSUES':
+        elif category == "FUNCTIONALITY_ISSUES":
             print("🤖 SCALE & AUTOMATION: Applying safe automated fixes")
             # Apply safe fixes only
-            subprocess.run(['ruff', 'check', '.', '--fix'],
+            subprocess.run(["ruff", "check", ".", "--fix"],
                           capture_output=True, cwd=self.base_path)
             after_count, _ = self.get_ruff_stats()
 
-        elif category == 'QUALITY_POLISH':
+        elif category == "QUALITY_POLISH":
             print("✨ EXPERIENCE DISCIPLINE: Applying style and quality fixes")
             # Apply safe fixes including unsafe ones for polish items
-            subprocess.run(['ruff', 'check', '.', '--fix', '--unsafe-fixes'],
+            subprocess.run(["ruff", "check", ".", "--fix", "--unsafe-fixes"],
                           capture_output=True, cwd=self.base_path)
             after_count, _ = self.get_ruff_stats()
 
@@ -197,15 +198,15 @@ class T4BatchProcessor:
 
         # Create artifact
         batch_info = {
-            'category': category,
-            'issues_in_batch': len(issues),
-            'before_count': before_count,
-            'after_count': after_count,
-            'improvement': before_count - after_count,
-            'automation_applied': category in ['FUNCTIONALITY_ISSUES', 'QUALITY_POLISH'],
-            'safety_validated': True,
-            'prioritized_correctly': True,
-            'validation': validation
+            "category": category,
+            "issues_in_batch": len(issues),
+            "before_count": before_count,
+            "after_count": after_count,
+            "improvement": before_count - after_count,
+            "automation_applied": category in ["FUNCTIONALITY_ISSUES", "QUALITY_POLISH"],
+            "safety_validated": True,
+            "prioritized_correctly": True,
+            "validation": validation
         }
 
         artifact_path = self.create_batch_artifact(batch_info)
@@ -224,19 +225,19 @@ class T4BatchProcessor:
         """Print T4 Lens validation summary"""
         print("\n🎯 T4 LENS VALIDATION:")
 
-        scale = validation['scale_automation']
+        scale = validation["scale_automation"]
         print(f"   ⚡ SCALE & AUTOMATION: {'✅' if scale['scalable_approach'] else '❌'}")
         print(f"      Automation Rate: {scale['automation_rate']:.1%}")
 
-        safety = validation['constitutional_safety']
+        safety = validation["constitutional_safety"]
         print(f"   🛡️ CONSTITUTIONAL SAFETY: {'✅' if safety['fail_safe_applied'] else '❌'}")
         print(f"      Risk Level: {safety['risk_assessment'].upper()}")
 
-        rigor = validation['scientific_rigor']
+        rigor = validation["scientific_rigor"]
         print(f"   🧪 SCIENTIFIC RIGOR: {'✅' if rigor['reproducible'] else '❌'}")
         print(f"      SHA: {rigor['sha_bound']}")
 
-        experience = validation['experience_discipline']
+        experience = validation["experience_discipline"]
         print(f"   ✨ EXPERIENCE DISCIPLINE: {'✅' if experience['simple_process'] else '❌'}")
         print(f"      User Focused: {'✅' if experience['user_focused'] else '❌'}")
 
@@ -263,10 +264,10 @@ class T4BatchProcessor:
 
         # Priority order: Critical → Functionality → Quality → Safety (manual review)
         processing_order = [
-            'CRITICAL_BLOCKERS',
-            'FUNCTIONALITY_ISSUES',
-            'QUALITY_POLISH',
-            'SAFETY_REVIEW'
+            "CRITICAL_BLOCKERS",
+            "FUNCTIONALITY_ISSUES",
+            "QUALITY_POLISH",
+            "SAFETY_REVIEW"
         ]
 
         for category in processing_order:
@@ -278,7 +279,7 @@ class T4BatchProcessor:
             for i in range(0, len(issues), self.batch_size):
                 batch = issues[i:i + self.batch_size]
                 validation = self.process_batch(batch, category)
-                total_improvement += validation['improvement']
+                total_improvement += validation["improvement"]
 
                 # Pause between batches for stability
                 time.sleep(1)

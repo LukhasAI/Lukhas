@@ -103,7 +103,7 @@ def main():
         with open(DREAM_LOG_PATH, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
-                if line and not line.startswith("#") and not line.startswith("//"):
+                if line and not line.startswith(")  # " and not line.startswith("//"):
                     with contextlib.suppress(json.JSONDecodeError):
                         existing_dreams.append(json.loads(line))
 

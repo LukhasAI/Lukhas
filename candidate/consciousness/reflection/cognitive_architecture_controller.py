@@ -186,7 +186,7 @@ class CognitiveConfig:
         return self.config.getfloat(section, key, fallback=default)
 
     def get_dict(self, section: str, key: str, default: Optional[dict] = None) -> dict:
-        """Get dictionary configuration value from JSON string."""
+        """Get dictionary configuration value from json_string."""
         try:
             return json.loads(self.config.get(section, key))
         except (

@@ -6,8 +6,9 @@ Registers dream services and related consciousness services for dependency injec
 
 import logging
 
-from candidate.core.interfaces.dependency_injection import register_service
 from consciousness.dream.core.dream_engine import DreamEngine
+
+from candidate.core.interfaces.dependency_injection import register_service
 
 logger = logging.getLogger(__name__)
 
@@ -61,8 +62,8 @@ def initialize_consciousness_services():
                     RealityType,
                 )
 
-                return type('Simulation', (), {
-                    'branches': [
+                return type("Simulation", (), {
+                    "branches": [
                         RealityBranch(
                             branch_id=f"branch_{i}",
                             probability=0.8 - i * 0.1,

@@ -34,11 +34,11 @@ class KaiserPermanenteInterface(EHRInterface):
     def _validate_config(self):
         """Validate Kaiser-specific configuration"""
         required_fields = [
-            'facility_id',
-            'region_code',
-            'api_credentials',
-            'epic_integration',
-            'facility_type'
+            "facility_id",
+            "region_code",
+            "api_credentials",
+            "epic_integration",
+            "facility_type"
         ]
         for field in required_fields:
             if field not in self.config:
@@ -63,7 +63,7 @@ class KaiserPermanenteInterface(EHRInterface):
             record_types: Types of records to retrieve
         """
         self.audit.log_access(
-            user_id=self.config['facility_id'],
+            user_id=self.config["facility_id"],
             action="get_patient_record",
             resource_id=patient_id
         )
@@ -81,7 +81,7 @@ class KaiserPermanenteInterface(EHRInterface):
             service_type: Type of medical service
         """
         self.audit.log_access(
-            user_id=self.config['facility_id'],
+            user_id=self.config["facility_id"],
             action="check_eligibility",
             resource_id=member_id
         )
@@ -100,7 +100,7 @@ class KaiserPermanenteInterface(EHRInterface):
                             test_codes: list[str]) -> list[dict[str, Any]]:
         """Retrieve lab results from Kaiser HealthConnect"""
         self.audit.log_access(
-            user_id=self.config['facility_id'],
+            user_id=self.config["facility_id"],
             action="get_lab_results",
             resource_id=patient_id
         )
@@ -112,7 +112,7 @@ class KaiserPermanenteInterface(EHRInterface):
                               prescription_data: dict[str, Any]) -> str:
         """Send prescription to Kaiser pharmacy"""
         self.audit.log_access(
-            user_id=self.config['facility_id'],
+            user_id=self.config["facility_id"],
             action="send_prescription",
             resource_id=patient_id
         )

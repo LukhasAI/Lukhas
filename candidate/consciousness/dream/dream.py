@@ -64,14 +64,14 @@ class DreamSystem:
         self.initialize()
 
         # Try the main engine first
-        if self.engine and hasattr(self.engine, 'generate_dream'):
+        if self.engine and hasattr(self.engine, "generate_dream"):
             try:
                 return await self.engine.generate_dream(seed)
             except Exception as e:
                 logger.error(f"Core engine dream generation failed: {e}")
 
         # Try oneiric
-        if self.oneiric and hasattr(self.oneiric, 'generate'):
+        if self.oneiric and hasattr(self.oneiric, "generate"):
             try:
                 return await self.oneiric.generate(seed)
             except Exception as e:
@@ -115,4 +115,4 @@ def get_status():
 # For backward compatibility
 DreamEngine = DreamSystem
 
-__all__ = ['DreamSystem', 'dream_system', 'initialize', 'generate_dream', 'get_status', 'DreamEngine']
+__all__ = ["DreamSystem", "dream_system", "initialize", "generate_dream", "get_status", "DreamEngine"]

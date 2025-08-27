@@ -315,7 +315,7 @@ if __name__ == "__main__":
 
     # Simulate authentication
     print("\n🔐 Authenticating...")
-    auth_result = service.authenticate(result['lid'], {"mock": "response"})
+    auth_result = service.authenticate(result["lid"], {"mock": "response"})
     if auth_result["success"]:
         print(f"Token issued: {auth_result['token'][:50]}...")
         print(f"Capabilities: {auth_result['capabilities']}")

@@ -362,7 +362,7 @@ class T4SecurityComplianceFramework:
             evidence = {}
 
             # Multi-factor authentication check
-            mfa_enabled = os.getenv('T4_MFA_ENABLED', 'false').lower() == 'true'
+            mfa_enabled = os.getenv("T4_MFA_ENABLED", "false").lower() == "true"
             if not mfa_enabled:
                 violation = SecurityViolation(
                     timestamp=datetime.now(),
@@ -472,7 +472,7 @@ class T4SecurityComplianceFramework:
 
         try:
             # Encryption at rest check
-            encryption_at_rest = os.getenv('ENCRYPTION_AT_REST_ENABLED', 'false').lower() == 'true'
+            encryption_at_rest = os.getenv("ENCRYPTION_AT_REST_ENABLED", "false").lower() == "true"
             if not encryption_at_rest:
                 violation = SecurityViolation(
                     timestamp=datetime.now(),
@@ -491,7 +491,7 @@ class T4SecurityComplianceFramework:
                 score -= 40
 
             # Encryption in transit check
-            encryption_in_transit = os.getenv('ENCRYPTION_IN_TRANSIT_ENABLED', 'true').lower() == 'true'
+            encryption_in_transit = os.getenv("ENCRYPTION_IN_TRANSIT_ENABLED", "true").lower() == "true"
             if not encryption_in_transit:
                 violation = SecurityViolation(
                     timestamp=datetime.now(),
@@ -526,7 +526,7 @@ class T4SecurityComplianceFramework:
 
         try:
             # Comprehensive audit logging check
-            audit_logging_enabled = os.getenv('AUDIT_LOGGING_ENABLED', 'true').lower() == 'true'
+            audit_logging_enabled = os.getenv("AUDIT_LOGGING_ENABLED", "true").lower() == "true"
             if not audit_logging_enabled:
                 violation = SecurityViolation(
                     timestamp=datetime.now(),
@@ -861,7 +861,7 @@ class T4SecurityComplianceFramework:
                 standard_violations = [v for v in self.violations if v.standard == standard]
                 export_data["violations_summary"]["violations_by_standard"][standard.value] = len(standard_violations)
 
-            with open(filename, 'w') as f:
+            with open(filename, "w") as f:
                 json.dump(export_data, f, indent=2, default=str)
 
             logger.info(f"T4 compliance report exported to: {filename}")

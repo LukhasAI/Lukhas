@@ -40,7 +40,7 @@ from sqlalchemy.sql import func
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger("EnhancedCoreABot")
 
@@ -57,8 +57,8 @@ AWS_BUCKET_NAME = os.getenv("AWS_BUCKET_NAME", "coreΛBot-media")
 app = FastAPI(title="Enhanced Core LUKHAS AI ΛBot API", version="2.0.0")
 database = databases.Database(DATABASE_URL)
 redis_client = redis.from_url(REDIS_URL)
-celery_app = Celery('coreΛBot', broker=REDIS_URL, backend=REDIS_URL)
-s3_client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+celery_app = Celery("coreΛBot", broker=REDIS_URL, backend=REDIS_URL)
+s3_client = boto3.client("s3", aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
@@ -540,9 +540,9 @@ class ComplianceService:
 
     def __init__(self):
         self.pii_patterns = [
-            r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b',  # Email
-            r'\b\d{3}-\d{3}-\d{4}\b',  # Phone
-            r'\b\d{3}-\d{2}-\d{4}\b',  # SSN
+            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",  # Email
+            r"\b\d{3}-\d{3}-\d{4}\b",  # Phone
+            r"\b\d{3}-\d{2}-\d{4}\b",  # SSN
         ]
 
     async def check_content_compliance(self, content: str, user_id: str) -> list[str]:

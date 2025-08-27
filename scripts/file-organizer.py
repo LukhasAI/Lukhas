@@ -22,7 +22,7 @@ import yaml
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -49,7 +49,7 @@ class FileOrganizer:
 
     def ensure_directories(self):
         """Create required directories"""
-        for dir_path in self.config.get('ensure_directories', []):
+        for dir_path in self.config.get("ensure_directories", []):
             full_path = self.root_path / dir_path
             if not full_path.exists():
                 if not self.dry_run:
@@ -58,17 +58,17 @@ class FileOrganizer:
 
     def should_keep_in_root(self, filename: str) -> bool:
         """Check if file should stay in root"""
-        keep_list = self.config.get('keep_in_root', [])
+        keep_list = self.config.get("keep_in_root", [])
         return filename in keep_list
 
     def find_destination(self, filename: str) -> Optional[tuple[str, str]]:
         """Find destination for a file based on rules"""
-        rules = self.config.get('organization_rules', [])
+        rules = self.config.get("organization_rules", [])
 
         for rule in rules:
-            pattern = rule.get('pattern')
+            pattern = rule.get("pattern")
             if pattern and re.match(pattern, filename):
-                return rule.get('destination'), rule.get('description')
+                return rule.get("destination"), rule.get("description")
 
         return None, None
 
@@ -77,11 +77,11 @@ class FileOrganizer:
         if self.dry_run:
             logger.info(f"[DRY RUN] Would move: {source.name} → {destination}")
             self.moves_log.append({
-                'file': source.name,
-                'from': str(source.parent),
-                'to': str(destination),
-                'description': description,
-                'dry_run': True
+                "file": source.name,
+                "from": str(source.parent),
+                "to": str(destination),
+                "description": description,
+                "dry_run": True
             })
             return True
 
@@ -95,11 +95,11 @@ class FileOrganizer:
             logger.info(f"✅ Moved: {source.name} → {destination}")
 
             self.moves_log.append({
-                'file': source.name,
-                'from': str(source.parent),
-                'to': str(destination),
-                'description': description,
-                'timestamp': datetime.now().isoformat()
+                "file": source.name,
+                "from": str(source.parent),
+                "to": str(destination),
+                "description": description,
+                "timestamp": datetime.now().isoformat()
             })
 
             return True
@@ -128,7 +128,7 @@ class FileOrganizer:
             filename = file_path.name
 
             # Skip hidden files (except specific ones)
-            if filename.startswith('.') and not filename.endswith('.backup'):
+            if filename.startswith(".") and not filename.endswith(".backup"):
                 continue
 
             # Check if should keep in root
@@ -138,21 +138,21 @@ class FileOrganizer:
                 continue
 
             # Check special cases
-            special = self.config.get('special_cases', {})
-            review_patterns = special.get('review_before_move', [])
+            special = self.config.get("special_cases", {})
+            review_patterns = special.get("review_before_move", [])
 
             needs_review = False
             for pattern in review_patterns:
-                if re.match(pattern.replace('*', '.*'), filename):
+                if re.match(pattern.replace("*", ".*"), filename):
                     needs_review = True
                     break
 
             if needs_review and interactive:
                 response = input(f"❓ Review: {filename} - Move? (y/n/s[kip]): ").lower()
-                if response == 'n':
+                if response == "n":
                     kept_count += 1
                     continue
-                elif response == 's':
+                elif response == "s":
                     reviewed_count += 1
                     continue
 
@@ -180,18 +180,18 @@ class FileOrganizer:
 
     def cleanup_old_files(self):
         """Clean up old files based on age rules"""
-        archive_rules = self.config.get('cleanup', {}).get('archive_after_days', {})
+        archive_rules = self.config.get("cleanup", {}).get("archive_after_days", {})
 
         for pattern, days in archive_rules.items():
             cutoff_date = datetime.now() - timedelta(days=days)
-            pattern_regex = pattern.replace('*', '.*')
+            pattern_regex = pattern.replace("*", ".*")
 
-            for file_path in self.root_path.rglob('*'):
+            for file_path in self.root_path.rglob("*"):
                 if file_path.is_file() and re.match(pattern_regex, file_path.name):
                     # Check file age
                     mtime = datetime.fromtimestamp(file_path.stat().st_mtime)
                     if mtime < cutoff_date:
-                        archive_path = self.root_path / 'archive' / 'aged' / file_path.name
+                        archive_path = self.root_path / "archive" / "aged" / file_path.name
                         logger.info(f"📦 Archiving old file: {file_path.name} (age: {(datetime.now() - mtime).days} days)")
                         if not self.dry_run:
                             archive_path.parent.mkdir(parents=True, exist_ok=True)
@@ -199,13 +199,13 @@ class FileOrganizer:
 
     def delete_unwanted_files(self):
         """Delete unwanted file types"""
-        delete_patterns = self.config.get('cleanup', {}).get('delete_patterns', [])
+        delete_patterns = self.config.get("cleanup", {}).get("delete_patterns", [])
 
         deleted_count = 0
         for pattern in delete_patterns:
-            pattern_regex = pattern.replace('*', '.*')
+            pattern_regex = pattern.replace("*", ".*")
 
-            for file_path in self.root_path.rglob('*'):
+            for file_path in self.root_path.rglob("*"):
                 if file_path.is_file() and re.match(pattern_regex, file_path.name):
                     logger.info(f"🗑️ Deleting: {file_path}")
                     if not self.dry_run:
@@ -217,10 +217,10 @@ class FileOrganizer:
 
     def generate_report(self):
         """Generate organization report"""
-        if not self.config.get('reporting', {}).get('generate_summary', True):
+        if not self.config.get("reporting", {}).get("generate_summary", True):
             return
 
-        report_path = self.root_path / 'docs' / 'organization_summary.md'
+        report_path = self.root_path / "docs" / "organization_summary.md"
         report_path.parent.mkdir(parents=True, exist_ok=True)
 
         report = [
@@ -236,19 +236,19 @@ class FileOrganizer:
             report.append(f"- `{dest}`: {count} files")
 
         if self.moves_log:
-            report.append("\n## Recent Moves\n")
+            report.append("\n#)  #  Recent Moves\n"
             for move in self.moves_log[-20:]:  # Last 20 moves
                 report.append(f"- `{move['file']}` → `{move['to']}`")
 
         report_content = "\n".join(report)
 
         if not self.dry_run:
-            with open(report_path, 'w') as f:
+            with open(report_path, "w") as f:
                 f.write(report_content)
             logger.info(f"📄 Report saved to: {report_path}")
 
         # Save detailed log
-        log_path = self.root_path / '.file_organization_log.json'
+        log_path = self.root_path / ".file_organization_log.json"
         if not self.dry_run:
             existing_log = []
             if log_path.exists():
@@ -260,7 +260,7 @@ class FileOrganizer:
             # Keep only last 1000 entries
             existing_log = existing_log[-1000:]
 
-            with open(log_path, 'w') as f:
+            with open(log_path, "w") as f:
                 json.dump(existing_log, f, indent=2)
 
     def suggest_new_rules(self):
@@ -284,9 +284,9 @@ class FileOrganizer:
 
             for filename in unmatched:
                 # Extract patterns
-                if filename.endswith('.md'):
-                    if '_' in filename:
-                        prefix = filename.split('_')[0]
+                if filename.endswith(".md"):
+                    if "_" in filename:
+                        prefix = filename.split("_")[0]
                         suggestions[f"^{prefix}_.*\\.md$"].append(filename)
                     else:
                         suggestions["^.*\\.md$"].append(filename)
@@ -324,7 +324,7 @@ class FileOrganizer:
 
     def restore_file(self, filename: str):
         """Restore a moved file back to root"""
-        log_path = self.root_path / '.file_organization_log.json'
+        log_path = self.root_path / ".file_organization_log.json"
 
         if not log_path.exists():
             logger.error("No move history found")
@@ -335,8 +335,8 @@ class FileOrganizer:
 
         # Find the file in history
         for entry in reversed(log):
-            if entry.get('file') == filename:
-                source = Path(entry['to'])
+            if entry.get("file") == filename:
+                source = Path(entry["to"])
                 destination = self.root_path / filename
 
                 if source.exists():
@@ -354,34 +354,34 @@ def main():
     """CLI interface"""
     parser = argparse.ArgumentParser(description="LUKHAS File Organizer")
     parser.add_argument(
-        'command',
-        choices=['organize', 'cleanup', 'suggest', 'watch', 'restore', 'report'],
-        help='Command to execute'
+        "command",
+        choices=["organize", "cleanup", "suggest", "watch", "restore", "report"],
+        help="Command to execute"
     )
     parser.add_argument(
-        '--dry-run',
-        action='store_true',
-        help='Simulate actions without making changes'
+        "--dry-run",
+        action="store_true",
+        help="Simulate actions without making changes"
     )
     parser.add_argument(
-        '--interactive',
-        action='store_true',
-        help='Ask before moving special files'
+        "--interactive",
+        action="store_true",
+        help="Ask before moving special files"
     )
     parser.add_argument(
-        '--interval',
+        "--interval",
         type=int,
         default=300,
-        help='Watch interval in seconds (default: 300)'
+        help="Watch interval in seconds (default: 300)"
     )
     parser.add_argument(
-        '--file',
-        help='File to restore (for restore command)'
+        "--file",
+        help="File to restore (for restore command)"
     )
     parser.add_argument(
-        '--config',
-        default='.file-organization.yaml',
-        help='Configuration file path'
+        "--config",
+        default=".file-organization.yaml",
+        help="Configuration file path"
     )
 
     args = parser.parse_args()
@@ -393,32 +393,32 @@ def main():
     if args.dry_run:
         logger.info("🔍 DRY RUN MODE - No changes will be made")
 
-    if args.command == 'organize':
+    if args.command == "organize":
         # Organize root directory
         organizer.clean_root(interactive=args.interactive)
         organizer.generate_report()
 
-    elif args.command == 'cleanup':
+    elif args.command == "cleanup":
         # Clean up old and unwanted files
         organizer.cleanup_old_files()
         organizer.delete_unwanted_files()
 
-    elif args.command == 'suggest':
+    elif args.command == "suggest":
         # Suggest new rules
         organizer.suggest_new_rules()
 
-    elif args.command == 'watch':
+    elif args.command == "watch":
         # Watch mode
         organizer.watch_mode(interval=args.interval)
 
-    elif args.command == 'restore':
+    elif args.command == "restore":
         # Restore a file
         if not args.file:
             logger.error("Please specify a file to restore with --file")
             sys.exit(1)
         organizer.restore_file(args.file)
 
-    elif args.command == 'report':
+    elif args.command == "report":
         # Generate report only
         organizer.generate_report()
 

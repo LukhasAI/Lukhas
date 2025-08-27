@@ -612,7 +612,7 @@ class OpenAICoreService:
             ),
         }
 
-        return hashlib.sha256(  # Changed from MD5 for securityjson.dumps(key_data, sort_keys=True).encode()).hexdigest()
+        return hashlib.sha256(  )  #  Changed from MD5 for securityjson.dumps(key_data, sort_keys=True.encode()).hexdigest()
 
     def _is_cache_valid(self, response: OpenAIResponse) -> bool:
         """Check if cached response is still valid."""
@@ -809,7 +809,7 @@ class OpenAIMockProvider:
 
     def _load_mock_responses(self) -> dict[str, Any]:
         """Load predefined mock responses."""
-        # Could load from JSON file for more complex mocks
+        # Could load from json_file for more complex mocks
         return {}
 
 

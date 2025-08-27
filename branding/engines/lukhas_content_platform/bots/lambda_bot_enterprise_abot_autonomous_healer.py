@@ -4,13 +4,14 @@ LUKHAS AI ΛBot Autonomous Self-Healing Mode
 Let LUKHAS AI ΛBot run completely free to diagnose, fix, and improve itself
 """
 
-import sys
-import time
-import subprocess
 import json
 import os
+import subprocess
+import sys
+import time
 from datetime import datetime
-sys.path.append('/Users/A_G_I/Λ')
+
+sys.path.append("/Users/A_G_I/Λ")
 
 class ABotAutonomousHealer:
     def __init__(self):
@@ -38,34 +39,34 @@ class ABotAutonomousHealer:
         # Check CLI functionality
         try:
             result = subprocess.run([
-                'python3', 'LUKHAS AI ΛBot/abot_cli.py', 'status'
-            ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=30)
-            diagnostics['cli_status'] = result.stdout
+                "python3", "LUKHAS AI ΛBot/abot_cli.py", "status"
+            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=30)
+            diagnostics["cli_status"] = result.stdout
             print("✅ CLI Status Check Complete")
         except Exception as e:
-            diagnostics['cli_status'] = f"ERROR: {e}"
+            diagnostics["cli_status"] = f"ERROR: {e}"
             print(f"❌ CLI Status Check Failed: {e}")
 
         # Check financial system
         try:
             result = subprocess.run([
-                'python3', 'LUKHAS AI ΛBot/abot_cli.py', 'openai', 'budget'
-            ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=30)
-            diagnostics['financial_status'] = result.stdout
+                "python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"
+            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=30)
+            diagnostics["financial_status"] = result.stdout
             print("✅ Financial System Check Complete")
         except Exception as e:
-            diagnostics['financial_status'] = f"ERROR: {e}"
+            diagnostics["financial_status"] = f"ERROR: {e}"
             print(f"❌ Financial System Check Failed: {e}")
 
         # Check AI router
         try:
             result = subprocess.run([
-                'python3', 'LUKHAS AI ΛBot/abot_cli.py', 'ai', 'status'
-            ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=30)
-            diagnostics['ai_router_status'] = result.stdout
+                "python3", "LUKHAS AI ΛBot/abot_cli.py", "ai", "status"
+            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=30)
+            diagnostics["ai_router_status"] = result.stdout
             print("✅ AI Router Check Complete")
         except Exception as e:
-            diagnostics['ai_router_status'] = f"ERROR: {e}"
+            diagnostics["ai_router_status"] = f"ERROR: {e}"
             print(f"❌ AI Router Check Failed: {e}")
 
         return diagnostics
@@ -88,10 +89,10 @@ class ABotAutonomousHealer:
 
         try:
             result = subprocess.run([
-                'python3', '-c', f'''
+                "python3", "-c", f'''
 import sys
 sys.path.append("/Users/A_G_I/Λ")
-from LUKHAS AI ΛBot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
+from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
 
 controller = ABotIntelligentOpenAIController()
 result = controller.make_intelligent_request(
@@ -111,7 +112,7 @@ if result.get("response"):
 else:
     print("❌ Self-analysis failed:", result.get("error", "Unknown error"))
 '''
-            ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=120)
+            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=120)
 
             if result.stdout:
                 print(result.stdout)
@@ -159,10 +160,10 @@ else:
                 """
 
                 result = subprocess.run([
-                    'python3', '-c', f'''
+                    "python3", "-c", f'''
 import sys
 sys.path.append("/Users/A_G_I/Λ")
-from LUKHAS AI ΛBot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
+from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
 
 controller = ABotIntelligentOpenAIController()
 result = controller.make_intelligent_request(
@@ -182,7 +183,7 @@ if result.get("response"):
 else:
     print("❌ Healing failed:", result.get("error", "Unknown error"))
 '''
-                ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=90)
+                ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=90)
 
                 if result.stdout:
                     print(result.stdout)
@@ -220,10 +221,10 @@ else:
 
             try:
                 result = subprocess.run([
-                    'python3', '-c', f'''
+                    "python3", "-c", f'''
 import sys
 sys.path.append("/Users/A_G_I/Λ")
-from LUKHAS AI ΛBot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
+from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
 
 controller = ABotIntelligentOpenAIController()
 result = controller.make_intelligent_request(
@@ -243,7 +244,7 @@ if result.get("response"):
 else:
     print("❌ Self-improvement failed:", result.get("error", "Unknown error"))
 '''
-                ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=90)
+                ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=90)
 
                 if result.stdout:
                     print(result.stdout)
@@ -262,7 +263,7 @@ else:
         log_file = f"/Users/A_G_I/Λ/logs/abot_healing_session_{int(time.time())}.json"
         os.makedirs(os.path.dirname(log_file), exist_ok=True)
 
-        with open(log_file, 'w') as f:
+        with open(log_file, "w") as f:
             json.dump({
                 "session_start": datetime.fromtimestamp(self.session_start).isoformat(),
                 "session_duration": time.time() - self.session_start,
@@ -302,11 +303,11 @@ else:
             # Final budget check
             try:
                 result = subprocess.run([
-                    'python3', 'LUKHAS AI ΛBot/abot_cli.py', 'openai', 'budget'
-                ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ')
+                    "python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"
+                ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ")
 
                 if "Balance:" in result.stdout:
-                    balance_line = [line for line in result.stdout.split('\n') if 'Balance:' in line][0]
+                    balance_line = [line for line in result.stdout.split("\n") if "Balance:" in line][0]
                     print(f"💰 Final {balance_line.strip()}")
             except:
                 pass
@@ -323,7 +324,7 @@ if __name__ == "__main__":
     print("🤖 LUKHAS AI ΛBot will diagnose and fix its own issues with real API access!")
     response = input("Unleash LUKHAS AI ΛBot for autonomous self-healing? (yes/no): ")
 
-    if response.lower() in ['yes', 'y']:
+    if response.lower() in ["yes", "y"]:
         healer = ABotAutonomousHealer()
         healer.run_autonomous_session()
     else:

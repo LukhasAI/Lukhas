@@ -83,7 +83,7 @@ class VoiceParameters:
         }
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> 'VoiceParameters':
+    def from_dict(cls, data: dict[str, Any]) -> "VoiceParameters":
         """Create from dictionary"""
         return cls(
             pitch_shift=data.get("pitch_shift", 1.0),
@@ -331,7 +331,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             pitched_audio = pitched_audio[:len(audio)]
         else:
             padding = len(audio) - len(pitched_audio)
-            pitched_audio = np.pad(pitched_audio, (0, padding), mode='constant')
+            pitched_audio = np.pad(pitched_audio, (0, padding), mode="constant")
 
         return pitched_audio, {
             "applied": True,
@@ -362,7 +362,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             stretched_audio = stretched_audio[:target_length]
         else:
             padding = target_length - len(stretched_audio)
-            stretched_audio = np.pad(stretched_audio, (0, padding), mode='constant')
+            stretched_audio = np.pad(stretched_audio, (0, padding), mode="constant")
 
         return stretched_audio, {
             "applied": True,
@@ -439,7 +439,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
 
         # High-pass filter the noise to simulate breath
         from scipy import signal
-        sos = signal.butter(6, 1000, btype='highpass', fs=sample_rate, output='sos')
+        sos = signal.butter(6, 1000, btype="highpass", fs=sample_rate, output="sos")
         filtered_noise = signal.sosfilt(sos, noise)
 
         # Mix with original audio
@@ -578,7 +578,7 @@ class VoiceModulator:
             return audio_data, {
                 "success": False,
                 "error": str(e),
-                "mode": mode.value if hasattr(mode, 'value') else str(mode)
+                "mode": mode.value if hasattr(mode, "value") else str(mode)
             }
 
     def determine_parameters(
@@ -617,7 +617,7 @@ class VoiceModulator:
         emotion = context.get("emotion", "neutral")
 
         # Use emotion mappings from engine
-        if hasattr(self.engine, 'emotion_mappings') and emotion in self.engine.emotion_mappings:
+        if hasattr(self.engine, "emotion_mappings") and emotion in self.engine.emotion_mappings:
             base_params = self.engine.emotion_mappings[emotion]
         else:
             base_params = VoiceParameters()

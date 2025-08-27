@@ -153,7 +153,7 @@ def create_drift_gauge(value: float, title: str, severity: DriftSeverity) -> go.
             number={"suffix": "%", "font": {"size": 30}},
             gauge={
                 "axis": {"range": [None, 100], "tickwidth": 1},
-                "bar": {"color": colors.get(severity, "#2196F3")},
+                "bar": {"color": colors.get(severity, ")  # 2196F3"},
                 "steps": [
                     {"range": [0, 20], "color": "rgba(76,175,80,0.1)"},
                     {"range": [20, 40], "color": "rgba(255,193,7,0.1)"},

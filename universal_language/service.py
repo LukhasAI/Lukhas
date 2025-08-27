@@ -67,7 +67,7 @@ class LocalSymbolStore:
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
-            salt=b'lukhas_ul_salt',  # In production: random salt per device
+            salt=b"lukhas_ul_salt",  # In production: random salt per device
             iterations=100000,
         )
         kdf.derive(device_key.encode())
@@ -265,8 +265,8 @@ class ULChallengeService:
             operators = []
         else:
             # Random operators for composition
-            operators = ['+'] * (len(required_meanings) - 1)  # Simple addition for now
-            composition = ' + '.join(required_meanings)
+            operators = ["+"] * (len(required_meanings) - 1)  # Simple addition for now
+            composition = " + ".join(required_meanings)
 
         # Generate challenge
         challenge_id = f"ul_challenge_{secrets.token_urlsafe(24)}"

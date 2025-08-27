@@ -26,7 +26,7 @@ class QIServiceAdapter(IQuantumService):
         """Initialize quantum components"""
         if not self._initialized:
             try:
-                # Try to import QIM components
+                # Try to import qim_components
                 from qi.engines.consciousness.engine import QIEngine
                 from qi.processing.qi_bio_coordinator import (
                     MockQuantumBioCoordinator,
@@ -45,7 +45,7 @@ class QIServiceAdapter(IQuantumService):
 
     async def shutdown(self) -> None:
         """Cleanup quantum resources"""
-        if self._quantum_coordinator and hasattr(self._quantum_coordinator, 'cleanup'):
+        if self._quantum_coordinator and hasattr(self._quantum_coordinator, "cleanup"):
             await self._quantum_coordinator.cleanup()
 
     def get_health(self) -> dict[str, Any]:

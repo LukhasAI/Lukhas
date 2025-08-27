@@ -18,23 +18,24 @@ Target Coverage: 85%+ for lukhas/ promotion readiness
 
 import asyncio
 import time
-from unittest.mock import AsyncMock
-from unittest.mock import Mock
+from unittest.mock import AsyncMock, Mock
 
 import pytest
 
 # Test imports with fallback handling
 try:
     from candidate.governance.guardian_system import GuardianSystem
-    from candidate.orchestration.high_performance_context_bus import ContextMessage
-    from candidate.orchestration.high_performance_context_bus import ContextPriority
     from candidate.orchestration.high_performance_context_bus import (
+        ContextMessage,
+        ContextPriority,
         HighPerformanceContextBus,
     )
-    from candidate.orchestration.multi_model_orchestration import ConsensusResult
-    from candidate.orchestration.multi_model_orchestration import ModelProvider
-    from candidate.orchestration.multi_model_orchestration import MultiModelOrchestrator
-    from candidate.orchestration.multi_model_orchestration import WorkflowExecution
+    from candidate.orchestration.multi_model_orchestration import (
+        ConsensusResult,
+        ModelProvider,
+        MultiModelOrchestrator,
+        WorkflowExecution,
+    )
     from lukhas.bridge.anthropic_bridge import AnthropicBridge
     from lukhas.bridge.google_bridge import GoogleBridge
     from lukhas.bridge.openai_bridge import OpenAIBridge

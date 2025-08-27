@@ -18,19 +18,6 @@ from __future__ import annotations
 
 import os
 
-# Feature flag for Guardian system
-GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
-
-# Guardian system imports (conditional)
-_guardian_system = None
-if GUARDIAN_ACTIVE:
-    try:
-        from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
-
-        _guardian_system = GuardianSystemImpl()
-    except ImportError:
-        pass
-
 # Re-export core types
 from lukhas.governance.guardian.core import (
     DriftResult,
@@ -47,6 +34,19 @@ from lukhas.governance.guardian.guardian_wrapper import (
     evaluate_ethics,
     get_guardian_status,
 )
+
+# Feature flag for Guardian system
+GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
+
+# Guardian system imports (conditional)
+_guardian_system = None
+if GUARDIAN_ACTIVE:
+    try:
+        from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
+
+        _guardian_system = GuardianSystemImpl()
+    except ImportError:
+        pass
 
 # Legacy compatibility bridge
 try:

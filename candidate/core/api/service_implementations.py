@@ -25,7 +25,7 @@ try:
     import sys
 
     # Add candidate path to ensure imports work
-    candidate_path = os.path.join(os.path.dirname(__file__), '../../..')
+    candidate_path = os.path.join(os.path.dirname(__file__), "../../..")
     if candidate_path not in sys.path:
         sys.path.insert(0, candidate_path)
 

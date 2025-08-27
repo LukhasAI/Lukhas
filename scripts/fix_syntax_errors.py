@@ -15,7 +15,7 @@ from typing import Optional
 def find_syntax_errors(file_path: Path) -> Optional[tuple[int, str]]:
     """Find syntax error in a Python file."""
     try:
-        with open(file_path, encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
             ast.parse(content)
         return None  # No syntax error
@@ -28,13 +28,13 @@ def find_syntax_errors(file_path: Path) -> Optional[tuple[int, str]]:
 def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
     """Fix common syntax error patterns."""
     fixes_applied = []
-    lines = content.split('\n')
+    lines = content.split("\n")
     fixed_lines = []
 
     for i, line in enumerate(lines, 1):
 
         # Pattern 1: Fix self._object.method() -> self._method()
-        pattern1 = re.match(r'(\s+)def\s+self\._(\w+)\.(\w+)\((.*?)\):', line)
+        pattern1 = re.match(r"(\s+)def\s+self\._(\w+)\.(\w+)\((.*?)\):", line)
         if pattern1:
             indent, obj, method, params = pattern1.groups()
             line = f"{indent}def _{method}({params}):"
@@ -43,33 +43,33 @@ def fix_common_syntax_patterns(content: str) -> tuple[str, list[str]]:
         # Pattern 2: Fix incomplete f-strings
         if 'f"' in line or "f'" in line:
             # Check for unclosed braces
-            if line.count('{') != line.count('}'):
+            if line.count("{") != line.count("}"):
                 # Try to fix by closing braces
-                if line.count('{') > line.count('}'):
-                    line = line + '}' * (line.count('{') - line.count('}'))
+                if line.count("{") > line.count("}"):
+                    line = line + "}" * (line.count("{") - line.count("}"))
                     fixes_applied.append(f"Line {i}: Fixed unclosed f-string braces")
 
         # Pattern 3: Fix invalid indentation (tabs to spaces)
-        if '\t' in line:
-            line = line.replace('\t', '    ')
+        if "\t" in line:
+            line = line.replace("\t", "    ")
             fixes_applied.append(f"Line {i}: Converted tabs to spaces")
 
         # Pattern 4: Fix trailing comma in function definitions
-        if re.match(r'.*\),$', line) and 'def ' in lines[max(0, i-2):i]:
-            line = line.rstrip(',')
+        if re.match(r".*\),$", line) and "def " in lines[max(0, i-2):i]:
+            line = line.rstrip(",")
             fixes_applied.append(f"Line {i}: Removed trailing comma in function definition")
 
         # Pattern 5: Fix missing colons in control structures
-        control_patterns = [r'^\s*(if|elif|else|for|while|try|except|finally|with|def|class)\s+']
+        control_patterns = [r"^\s*(if|elif|else|for|while|try|except|finally|with|def|class)\s+"]
         for pattern in control_patterns:
-            if re.match(pattern, line) and not line.rstrip().endswith(':') and not line.rstrip().endswith(','):
-                line = line.rstrip() + ':'
+            if re.match(pattern, line) and not line.rstrip().endswith(":") and not line.rstrip().endswith(","):
+                line = line.rstrip() + ":"
                 fixes_applied.append(f"Line {i}: Added missing colon")
                 break
 
         fixed_lines.append(line)
 
-    return '\n'.join(fixed_lines), fixes_applied
+    return "\n".join(fixed_lines), fixes_applied
 
 def process_file(file_path: Path, auto_fix: bool = True) -> bool:
     """Process a single Python file."""
@@ -87,7 +87,7 @@ def process_file(file_path: Path, auto_fix: bool = True) -> bool:
 
     # Try to fix the file
     try:
-        with open(file_path, encoding='utf-8') as f:
+        with open(file_path, encoding="utf-8") as f:
             content = f.read()
 
         fixed_content, fixes = fix_common_syntax_patterns(content)
@@ -100,7 +100,7 @@ def process_file(file_path: Path, auto_fix: bool = True) -> bool:
                 print(f"     ... and {len(fixes) - 5} more")
 
             # Write fixed content
-            with open(file_path, 'w', encoding='utf-8') as f:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(fixed_content)
 
             # Check if fixed
@@ -121,12 +121,12 @@ def process_file(file_path: Path, auto_fix: bool = True) -> bool:
 def main():
     """Main entry point."""
     directories_to_check = [
-        'tools',
-        'core',
-        'consciousness',
-        'memory',
-        'bridge',
-        'api'
+        "tools",
+        "core",
+        "consciousness",
+        "memory",
+        "bridge",
+        "api"
     ]
 
     print("🔧 LUKHAS Syntax Error Fixer")
@@ -146,7 +146,7 @@ def main():
 
         for py_file in dir_path.rglob("*.py"):
             # Skip __pycache__ and test files
-            if '__pycache__' in str(py_file) or 'test_' in py_file.name:
+            if "__pycache__" in str(py_file) or "test_" in py_file.name:
                 continue
 
             total_files += 1

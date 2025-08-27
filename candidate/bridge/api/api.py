@@ -88,7 +88,7 @@ try:
     )
 except ImportError as e_core:
     logger.error(
-        f"ΛTRACE: CRITICAL - Failed to import LUKHAS core components: {e_core}. Unified API functionality will be severely limited.",
+        f"ΛTRACE: CRITICAL - Failed to import lukhas_core components: {e_core}. Unified API functionality will be severely limited.",
         exc_info=True,
     )
 
@@ -810,7 +810,7 @@ class LukhasUnifiedAPI:
     async def _get_profile_endpoint_impl(self, lambda_id: str) -> dict[str, Any]:
         self.logger.info(f"ΛTRACE: Fetching profile for {lambda_id[:10]}...")
         try:
-            # Get profile data from QRS manager
+            # Get profile data from qrs_manager
             profile_result = await self.qrs_manager.get_lambda_id_profile(lambda_id)
 
             if profile_result.get("success"):
@@ -1115,7 +1115,7 @@ class LukhasUnifiedAPI:
         )
         try:
             # Validate biometric type
-            supported_types = ['face', 'voice', 'fingerprint', 'behavioral', 'gait']
+            supported_types = ["face", "voice", "fingerprint", "behavioral", "gait"]
             if request_data.biometric_type not in supported_types:
                 return {
                     "success": False,
@@ -1183,7 +1183,7 @@ class LukhasUnifiedAPI:
             )
 
             # Process verification result
-            if verification_result and hasattr(verification_result, 'success'):
+            if verification_result and hasattr(verification_result, "success"):
                 if verification_result.success:
                     self.logger.info(f"Biometric verification successful for {request_data.lambda_id[:10]}: {request_data.biometric_type}")
 
@@ -1194,7 +1194,7 @@ class LukhasUnifiedAPI:
                         "verification_status": "verified",
                         "verification_details": {
                             "confidence_score": verification_result.confidence_score,
-                            "match_quality": verification_result.match_quality.value if hasattr(verification_result.match_quality, 'value') else str(verification_result.match_quality),
+                            "match_quality": verification_result.match_quality.value if hasattr(verification_result.match_quality, "value") else str(verification_result.match_quality),
                             "tier_requirement_met": verification_result.tier_requirement_met,
                             "cultural_context_verified": verification_result.cultural_context_verified,
                             "consciousness_validated": verification_result.consciousness_validated,
@@ -1264,7 +1264,7 @@ class LukhasUnifiedAPI:
                     "enrolled_types": enrolled_types,
                     "enrollment_count": len(enrolled_types),
                     "enrollment_details": enrollment_details,
-                    "available_types": ['face', 'voice', 'fingerprint', 'behavioral', 'gait'],
+                    "available_types": ["face", "voice", "fingerprint", "behavioral", "gait"],
                     "enrollment_status": "active" if enrolled_types else "none"
                 }
             else:
@@ -1318,7 +1318,7 @@ class LukhasUnifiedAPI:
                 }
             }
 
-            # Try to get real analytics from QRS manager
+            # Try to get real analytics from qrs_manager
             try:
                 qrs_analytics = await self.qrs_manager.get_user_analytics(lambda_id)
                 if qrs_analytics.get("success"):

@@ -68,7 +68,7 @@ class BrandAutomationEngine:
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -84,7 +84,7 @@ class BrandAutomationEngine:
                 with open(self.config_path) as f:
                     config_data = json.load(f)
 
-                self.automation_tasks = [AutomationTask(**task) for task in config_data.get('tasks', [])]
+                self.automation_tasks = [AutomationTask(**task) for task in config_data.get("tasks", [])]
                 self.logger.info(f"Loaded {len(self.automation_tasks)} automation tasks")
             except Exception as e:
                 self.logger.error(f"Failed to load automation config: {e}")
@@ -144,7 +144,7 @@ class BrandAutomationEngine:
         }
 
         self.config_path.parent.mkdir(exist_ok=True)
-        with open(self.config_path, 'w') as f:
+        with open(self.config_path, "w") as f:
             json.dump(config_data, f, indent=2)
 
     async def run_voice_coherence_check(self, parameters: dict[str, Any]) -> dict[str, Any]:
@@ -161,29 +161,29 @@ class BrandAutomationEngine:
         fixes_applied = 0
 
         for content in all_content:
-            if content.get('voice_coherence', 0) < threshold:
+            if content.get("voice_coherence", 0) < threshold:
                 issue = {
-                    'content_id': content['id'],
-                    'title': content['title'],
-                    'current_coherence': content.get('voice_coherence', 0),
-                    'system': content['source_system']
+                    "content_id": content["id"],
+                    "title": content["title"],
+                    "current_coherence": content.get("voice_coherence", 0),
+                    "system": content["source_system"]
                 }
                 issues_found.append(issue)
 
                 if auto_fix:
                     # Apply automatic fixes
                     new_coherence = await self._improve_voice_coherence(content)
-                    if new_coherence > content.get('voice_coherence', 0):
-                        db.update_voice_coherence(content['id'], new_coherence)
+                    if new_coherence > content.get("voice_coherence", 0):
+                        db.update_voice_coherence(content["id"], new_coherence)
                         fixes_applied += 1
                         self.logger.info(f"Improved coherence for '{content['title']}': {content.get('voice_coherence', 0):.1f} → {new_coherence:.1f}")
 
         result = {
-            'issues_found': len(issues_found),
-            'fixes_applied': fixes_applied,
-            'threshold': threshold,
-            'total_content_checked': len(all_content),
-            'issues': issues_found[:10]  # First 10 for reporting
+            "issues_found": len(issues_found),
+            "fixes_applied": fixes_applied,
+            "threshold": threshold,
+            "total_content_checked": len(all_content),
+            "issues": issues_found[:10]  # First 10 for reporting
         }
 
         # Log results
@@ -195,26 +195,26 @@ class BrandAutomationEngine:
 
     async def _improve_voice_coherence(self, content: dict[str, Any]) -> float:
         """Improve voice coherence for content"""
-        content_text = content.get('content', '')
+        content_text = content.get("content", "")
 
         # Simple coherence improvement algorithm
 
         improvements = 0
 
         # Check for missing Trinity Framework branding
-        if '⚛️🧠🛡️' not in content_text:
+        if "⚛️🧠🛡️" not in content_text:
             improvements += 20
 
         # Check for LUKHAS AI branding
-        if 'LUKHAS AI' in content_text:
+        if "LUKHAS AI" in content_text:
             improvements += 10
 
         # Check for consciousness technology terminology
-        if 'consciousness technology' in content_text:
+        if "consciousness technology" in content_text:
             improvements += 15
 
         # Calculate new coherence score
-        current_coherence = content.get('voice_coherence', 0)
+        current_coherence = content.get("voice_coherence", 0)
         new_coherence = min(current_coherence + improvements, 100.0)
 
         return new_coherence
@@ -231,35 +231,35 @@ class BrandAutomationEngine:
         consistency_issues = []
 
         for content in all_content:
-            content_text = content.get('content', '')
-            title = content.get('title', '')
+            content_text = content.get("content", "")
+            title = content.get("title", "")
 
             issues = []
 
             if check_trinity:
-                if '⚛️🧠🛡️' not in content_text and 'Trinity Framework' not in content_text:
+                if "⚛️🧠🛡️" not in content_text and "Trinity Framework" not in content_text:
                     issues.append("Missing Trinity Framework branding")
 
             if check_terminology:
                 # Check for outdated terminology
-                if 'artificial intelligence' in content_text.lower():
+                if "artificial intelligence" in content_text.lower():
                     issues.append("Uses 'artificial intelligence' instead of 'consciousness technology'")
 
-                if 'AI system' in content_text and 'consciousness technology' not in content_text:
+                if "AI system" in content_text and "consciousness technology" not in content_text:
                     issues.append("Generic AI terminology without consciousness technology branding")
 
             if issues:
                 consistency_issues.append({
-                    'content_id': content['id'],
-                    'title': title,
-                    'system': content['source_system'],
-                    'issues': issues
+                    "content_id": content["id"],
+                    "title": title,
+                    "system": content["source_system"],
+                    "issues": issues
                 })
 
         result = {
-            'consistency_issues': len(consistency_issues),
-            'total_content_checked': len(all_content),
-            'issues': consistency_issues[:15]  # First 15 for reporting
+            "consistency_issues": len(consistency_issues),
+            "total_content_checked": len(all_content),
+            "issues": consistency_issues[:15]  # First 15 for reporting
         }
 
         # Log results
@@ -314,16 +314,16 @@ class BrandAutomationEngine:
                 )
 
                 generated_posts.append({
-                    'platform': platform,
-                    'content': post_content,
-                    'topic': topic,
-                    'post_id': post_id
+                    "platform": platform,
+                    "content": post_content,
+                    "topic": topic,
+                    "post_id": post_id
                 })
 
         result = {
-            'posts_generated': len(generated_posts),
-            'platforms': platforms,
-            'posts': generated_posts
+            "posts_generated": len(generated_posts),
+            "platforms": platforms,
+            "posts": generated_posts
         }
 
         # Log results
@@ -354,9 +354,9 @@ class BrandAutomationEngine:
             optimizations.append("Slow queries identified")
 
         result = {
-            'optimizations_applied': len(optimizations),
-            'optimizations': optimizations,
-            'performance_improvement': "15%"  # Simulated
+            "optimizations_applied": len(optimizations),
+            "optimizations": optimizations,
+            "performance_improvement": "15%"  # Simulated
         }
 
         # Log results
@@ -388,9 +388,9 @@ class BrandAutomationEngine:
                 healing_actions.extend(outdated_content)
 
         result = {
-            'healing_actions': len(healing_actions),
-            'actions': healing_actions,
-            'system_health': "optimal" if len(healing_actions) < 5 else "needs_attention"
+            "healing_actions": len(healing_actions),
+            "actions": healing_actions,
+            "system_health": "optimal" if len(healing_actions) < 5 else "needs_attention"
         }
 
         # Log results
@@ -425,7 +425,7 @@ class BrandAutomationEngine:
         outdated_count = 0
         for content in all_content:
             try:
-                created_at = datetime.fromisoformat(content.get('created_at', ''))
+                created_at = datetime.fromisoformat(content.get("created_at", ""))
                 if created_at < thirty_days_ago:
                     outdated_count += 1
             except:
@@ -485,17 +485,17 @@ class BrandAutomationEngine:
         total_tasks = len(cycle_results)
 
         summary = {
-            'cycle_completed': datetime.now().isoformat(),
-            'tasks_run': total_tasks,
-            'tasks_successful': successful_tasks,
-            'success_rate': (successful_tasks / total_tasks * 100) if total_tasks > 0 else 0,
-            'results': cycle_results
+            "cycle_completed": datetime.now().isoformat(),
+            "tasks_run": total_tasks,
+            "tasks_successful": successful_tasks,
+            "success_rate": (successful_tasks / total_tasks * 100) if total_tasks > 0 else 0,
+            "results": cycle_results
         }
 
         # Log cycle completion
         db.log_system_activity("brand_automation", "automation_cycle",
                               f"Completed automation cycle: {successful_tasks}/{total_tasks} successful",
-                              summary['success_rate'])
+                              summary["success_rate"])
 
         self.logger.info(f"✅ Automation cycle completed: {successful_tasks}/{total_tasks} tasks successful")
 
@@ -504,17 +504,17 @@ class BrandAutomationEngine:
     def get_automation_status(self) -> dict[str, Any]:
         """Get current automation status"""
         status = {
-            'engine_status': 'active',
-            'total_tasks': len(self.automation_tasks),
-            'enabled_tasks': len([t for t in self.automation_tasks if t.enabled]),
-            'average_success_rate': sum(t.success_rate for t in self.automation_tasks) / len(self.automation_tasks) if self.automation_tasks else 0,
-            'tasks': [
+            "engine_status": "active",
+            "total_tasks": len(self.automation_tasks),
+            "enabled_tasks": len([t for t in self.automation_tasks if t.enabled]),
+            "average_success_rate": sum(t.success_rate for t in self.automation_tasks) / len(self.automation_tasks) if self.automation_tasks else 0,
+            "tasks": [
                 {
-                    'task_id': t.task_id,
-                    'type': t.task_type,
-                    'enabled': t.enabled,
-                    'success_rate': t.success_rate,
-                    'last_run': t.last_run
+                    "task_id": t.task_id,
+                    "type": t.task_type,
+                    "enabled": t.enabled,
+                    "success_rate": t.success_rate,
+                    "last_run": t.last_run
                 } for t in self.automation_tasks
             ]
         }
@@ -543,8 +543,8 @@ async def main():
     print(f"   Success rate: {results['success_rate']:.1f}%")
 
     # Show specific results
-    for task_id, result in results['results'].items():
-        if 'error' not in result:
+    for task_id, result in results["results"].items():
+        if "error" not in result:
             print(f"   ✅ {task_id}: Success")
         else:
             print(f"   ❌ {task_id}: {result['error']}")

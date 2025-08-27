@@ -141,7 +141,7 @@ class LambdaWalletIdentity:
         trace_data = f"{self.lambda_id}:{action}:{metadata}:{timestamp}:{measurement}"
         signature = hashlib.sha3_512(trace_data.encode()).hexdigest()
 
-        return f"ΛTrace#{signature[:32]}"
+        return "ΛTrace"
 
     def generate_consent_signature(self, consent_text: str) -> str:
         """Generate consent signature for wallet permissions"""
@@ -151,7 +151,7 @@ class LambdaWalletIdentity:
         consent_data = f"{self.lambda_id}:{consent_text}:{timestamp}:{measurement}"
         signature = hashlib.sha3_256(consent_data.encode()).hexdigest()
 
-        consent_sig = f"ΛSign#{signature[:24]}"
+        consent_sig = "ΛSign"
         self.consent_signatures.append(consent_sig)
 
         return consent_sig

@@ -7,7 +7,7 @@ import subprocess
 import sys
 import time
 
-sys.path.append('/Users/A_G_I/Λ')
+sys.path.append("/Users/A_G_I/Λ")
 
 def run_free_abot_direct():
     """Run LUKHAS AI ΛBot directly without router to avoid the cost calculation bug"""
@@ -29,10 +29,10 @@ def run_free_abot_direct():
         try:
             # Use OpenAI directly instead of router to avoid cost calculation bug
             result = subprocess.run([
-                'python3', '-c', f'''
+                "python3", "-c", f"""
 import sys
 sys.path.append("/Users/A_G_I/Λ")
-from LUKHAS AI ΛBot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
+from lukhas_ai_lambda_bot.core.openai_intelligent_controller import ABotIntelligentOpenAIController
 
 controller = ABotIntelligentOpenAIController()
 result = controller.make_intelligent_request(
@@ -51,8 +51,8 @@ if result.get("response"):
     print(f"💰 Cost: ${{result.get('cost', 0):.6f}}")
 else:
     print("❌ Task failed:", result.get("error", "Unknown error"))
-'''
-            ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ', timeout=60)
+"""
+            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ", timeout=60)
 
             if result.stdout:
                 print(result.stdout)
@@ -65,11 +65,11 @@ else:
         # Check budget after each task
         try:
             budget_result = subprocess.run([
-                'python3', 'LUKHAS AI ΛBot/abot_cli.py', 'openai', 'budget'
-            ], capture_output=True, text=True, cwd='/Users/A_G_I/Λ')
+                "python3", "LUKHAS AI ΛBot/abot_cli.py", "openai", "budget"
+            ], capture_output=True, text=True, cwd="/Users/A_G_I/Λ")
 
             if "Balance:" in budget_result.stdout:
-                balance_line = [line for line in budget_result.stdout.split('\n') if 'Balance:' in line][0]
+                balance_line = [line for line in budget_result.stdout.split("\n") if "Balance:" in line][0]
                 print(f"💰 {balance_line.strip()}")
         except:
             pass

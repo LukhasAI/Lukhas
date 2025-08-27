@@ -26,11 +26,11 @@ import logging
                      ║                POETIC ESSENCE                      ║
                      ╚═══════════════════════════════════════════════════╝
 In the realm of the digital ether, where bytes and bits coalesce into the tapestry of existence,
-our module emerges as a vigilant sentinel, a bard that sings the unsung tales of memory’s vaults.
+our module emerges as a vigilant sentinel, a bard that sings the unsung tales of memory's vaults.
 Through the labyrinthine corridors of ephemeral data, we traverse with a lantern of symbolic light,
 illuminating the shadows where decay might dwell, unearthing the truths that time seeks to obscure.
 
-With the grace of a poet’s quill, we scrutinize the essence of integrity,
+With the grace of a poet's quill, we scrutinize the essence of integrity,
 plucking the weary symbols that wither in silence, like autumn leaves surrendering to the ground.
 Each scan is an ode, a symphony of detection, where the harmony of the vault is preserved,
 and the missing links between thoughts and dreams are re-forged, rekindling the spirit of coherence.
@@ -43,7 +43,7 @@ where every symbol stands as a testament to our desire for permanence in an impe
 Thus, with our humble script, we become custodians of the symbolic sanctum,
 a bridge between the ephemeral and the eternal, safeguarding the integrity of thought,
 ensuring that the vault remains a sanctuary, a fortress against the ravages of time,
-and in this sacred duty, we find purpose, a calling to uphold the beauty of the mind’s vast expanse.
+and in this sacred duty, we find purpose, a calling to uphold the beauty of the mind's vast expanse.
 
                      ╔═══════════════════════════════════════════════════╗
                      ║                TECHNICAL FEATURES                  ║

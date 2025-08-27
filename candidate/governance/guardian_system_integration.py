@@ -42,14 +42,21 @@ from typing import Any, Callable, Optional
 
 # Guardian System Components
 try:
-    from candidate.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
+    from candidate.governance.consent_ledger.ledger_v1 import (
+        ConsentLedgerV1,
+        PolicyVerdict,
+    )
 except ImportError:
     ConsentLedgerV1 = None
     PolicyVerdict = None
     logging.warning("ConsentLedgerV1 not available - using fallback")
 
 try:
-    from candidate.governance.guardian.drift_detector import AdvancedDriftDetector, DriftType, DriftSeverity
+    from candidate.governance.guardian.drift_detector import (
+        AdvancedDriftDetector,
+        DriftSeverity,
+        DriftType,
+    )
 except ImportError:
     AdvancedDriftDetector = None
     DriftType = None
@@ -57,7 +64,11 @@ except ImportError:
     logging.warning("AdvancedDriftDetector not available - using fallback")
 
 try:
-    from candidate.governance.identity.core.sent.policy_engine import ComprehensiveEthicsPolicyEngine, EthicalFramework, PolicyAction
+    from candidate.governance.identity.core.sent.policy_engine import (
+        ComprehensiveEthicsPolicyEngine,
+        EthicalFramework,
+        PolicyAction,
+    )
 except ImportError:
     ComprehensiveEthicsPolicyEngine = None
     EthicalFramework = None
@@ -65,7 +76,12 @@ except ImportError:
     logging.warning("ComprehensiveEthicsPolicyEngine not available - using fallback")
 
 try:
-    from candidate.governance.security.audit_system import ComprehensiveAuditSystem, AuditEventType, AuditCategory, AuditLevel
+    from candidate.governance.security.audit_system import (
+        AuditCategory,
+        AuditEventType,
+        AuditLevel,
+        ComprehensiveAuditSystem,
+    )
 except ImportError:
     ComprehensiveAuditSystem = None
     AuditEventType = None
@@ -339,10 +355,10 @@ class GuardianSystemIntegration:
         # Connect audit system to other components
         if self.audit_system:
             # Set audit system references in other components
-            if hasattr(self.ethics_engine, 'audit_system'):
+            if hasattr(self.ethics_engine, "audit_system"):
                 self.ethics_engine.audit_system = self.audit_system
 
-            if hasattr(self.consent_ledger, 'audit_system'):
+            if hasattr(self.consent_ledger, "audit_system"):
                 self.consent_ledger.audit_system = self.audit_system
 
         logger.info("🔗 Guardian System components connected")
@@ -548,10 +564,10 @@ class GuardianSystemIntegration:
             return {
                 "status": "completed",
                 "drift_score": measurement.drift_score,
-                "severity": measurement.severity.value if hasattr(measurement, 'severity') else "unknown",
+                "severity": measurement.severity.value if hasattr(measurement, "severity") else "unknown",
                 "threshold_exceeded": measurement.drift_score > 0.15,
-                "confidence": measurement.confidence if hasattr(measurement, 'confidence') else 0.0,
-                "contributing_factors": getattr(measurement, 'contributing_factors', [])
+                "confidence": measurement.confidence if hasattr(measurement, "confidence") else 0.0,
+                "contributing_factors": getattr(measurement, "contributing_factors", [])
             }
 
         except Exception as e:
@@ -1022,19 +1038,19 @@ class GuardianSystemIntegration:
         # This would implement actual health checks for each component
         # For now, just verify they exist and are responsive
 
-        if self.consent_ledger and hasattr(self.consent_ledger, '_validate_trinity_integration'):
+        if self.consent_ledger and hasattr(self.consent_ledger, "_validate_trinity_integration"):
             # Could check database connectivity, etc.
             pass
 
-        if self.drift_detector and hasattr(self.drift_detector, 'metrics'):
+        if self.drift_detector and hasattr(self.drift_detector, "metrics"):
             # Could check drift detection performance
             pass
 
-        if self.ethics_engine and hasattr(self.ethics_engine, 'metrics'):
+        if self.ethics_engine and hasattr(self.ethics_engine, "metrics"):
             # Could check ethics engine performance
             pass
 
-        if self.audit_system and hasattr(self.audit_system, 'get_audit_statistics'):
+        if self.audit_system and hasattr(self.audit_system, "get_audit_statistics"):
             # Could check audit system statistics
             pass
 

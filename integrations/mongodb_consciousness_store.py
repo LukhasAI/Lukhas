@@ -63,7 +63,7 @@ class LUKHASConsciousnessStore:
             self.client = AsyncIOMotorClient(self.connection_string)
 
             # Test connection
-            await self.client.admin.command('ping')
+            await self.client.admin.command("ping")
             logger.info("✅ Connected to MongoDB Atlas (GitHub Student Pack)")
 
             # Initialize database and collections

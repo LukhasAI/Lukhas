@@ -735,7 +735,7 @@ class WorkflowOrchestrator:
             )
 
             # Phase 3: Integrate with LUKHAS event system for orchestration
-            if hasattr(self, '_broadcast_orchestration_event'):
+            if hasattr(self, "_broadcast_orchestration_event"):
                 await self._broadcast_orchestration_event(
                     "orchestration.decision.meg_required",
                     {
@@ -915,7 +915,7 @@ class WorkflowOrchestrator:
             xil_request["explanation_workflow"] = explanation_workflow
 
             # Phase 5: Integrate with LUKHAS event system for orchestration
-            if hasattr(self, '_broadcast_orchestration_event'):
+            if hasattr(self, "_broadcast_orchestration_event"):
                 await self._broadcast_orchestration_event(
                     "orchestration.decision.xil_required",
                     {
@@ -1102,7 +1102,7 @@ class WorkflowOrchestrator:
             hitlo_context["engagement_workflow"] = engagement_workflow
 
             # Phase 5: Integrate with LUKHAS event system for orchestration
-            if hasattr(self, '_broadcast_orchestration_event'):
+            if hasattr(self, "_broadcast_orchestration_event"):
                 await self._broadcast_orchestration_event(
                     "orchestration.decision.hitlo_required",
                     {
@@ -1275,7 +1275,7 @@ class WorkflowOrchestrator:
             )
 
             # Phase 4: Integrate with LUKHAS event system for orchestration
-            if hasattr(self, '_broadcast_orchestration_event'):
+            if hasattr(self, "_broadcast_orchestration_event"):
                 await self._broadcast_orchestration_event(
                     "orchestration.decision.causal_ethical_mapped",
                     {
@@ -1472,7 +1472,7 @@ class WorkflowOrchestrator:
             privacy_context["privacy_workflow"] = privacy_workflow
 
             # Phase 6: Integrate with LUKHAS event system for orchestration
-            if hasattr(self, '_broadcast_orchestration_event'):
+            if hasattr(self, "_broadcast_orchestration_event"):
                 await self._broadcast_orchestration_event(
                     "orchestration.decision.privacy_context_created",
                     {

@@ -1,9 +1,11 @@
 # tools/reports/weekly_hygiene.py
 from __future__ import annotations
+
 import json
 import subprocess
 import sys
 from pathlib import Path
+
 
 def todo_count():
     p = Path("reports/todos/index.json")

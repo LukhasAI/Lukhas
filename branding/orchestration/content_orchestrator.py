@@ -90,7 +90,7 @@ class EliteContentOrchestrator:
 
         # Formatter
         formatter = logging.Formatter(
-            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
@@ -194,8 +194,8 @@ class EliteContentOrchestrator:
         try:
             # Find content files in the system
             content_files = []
-            for ext in ['.md', '.py', '.html', '.txt']:
-                content_files.extend(Path(system_path).rglob(f'*{ext}'))
+            for ext in [".md", ".py", ".html", ".txt"]:
+                content_files.extend(Path(system_path).rglob(f"*{ext}"))
 
             if not content_files:
                 return 0.0
@@ -206,7 +206,7 @@ class EliteContentOrchestrator:
 
             for file_path in sample_files:
                 try:
-                    with open(file_path, encoding='utf-8', errors='ignore') as f:
+                    with open(file_path, encoding="utf-8", errors="ignore") as f:
                         content = f.read()
 
                     if len(content.strip()) > 100:  # Skip very short files
@@ -231,9 +231,9 @@ class EliteContentOrchestrator:
             trinity_indicators = ["⚛️", "🧠", "🛡️", "Trinity Framework", "Identity", "Consciousness", "Guardian"]
 
             # Search in key files
-            for file_path in Path(system_path).rglob('*.md'):
+            for file_path in Path(system_path).rglob("*.md"):
                 try:
-                    with open(file_path, encoding='utf-8', errors='ignore') as f:
+                    with open(file_path, encoding="utf-8", errors="ignore") as f:
                         content = f.read().lower()
                         if any(indicator.lower() in content for indicator in trinity_indicators):
                             return True
@@ -254,9 +254,9 @@ class EliteContentOrchestrator:
             ]
 
             # Search in key files
-            for file_path in Path(system_path).rglob('*.md'):
+            for file_path in Path(system_path).rglob("*.md"):
                 try:
-                    with open(file_path, encoding='utf-8', errors='ignore') as f:
+                    with open(file_path, encoding="utf-8", errors="ignore") as f:
                         content = f.read().lower()
                         if any(term in content for term in consciousness_terms):
                             return True
@@ -381,7 +381,7 @@ class EliteContentOrchestrator:
 *LUKHAS AI Elite Content Orchestration - Powered by Consciousness Technology*
 """
 
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write(report_content)
 
         self.logger.info(f"📊 Generated orchestration report: {report_path}")
@@ -397,7 +397,7 @@ class EliteContentOrchestrator:
             "systems": [asdict(system) for system in systems]
         }
 
-        with open(config_path, 'w') as f:
+        with open(config_path, "w") as f:
             json.dump(config_data, f, indent=2)
 
         self.logger.info(f"💾 Saved systems configuration: {config_path}")

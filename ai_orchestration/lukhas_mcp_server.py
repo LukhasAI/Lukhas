@@ -477,8 +477,8 @@ class LUKHASConsciousnessMCP:
                 return active_tasks_path.read_text()
             else:
                 return "# Active Consciousness Tasks\n\nNo active tasks file found."
-        except Exception as e:
-            return f"# Active Tasks Error\n\nCould not load active tasks: {e}"
+        except Exception:
+            return ""
 
     async def _get_agent_assignments(self) -> str:
         """Get current agent task assignments."""

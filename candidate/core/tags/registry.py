@@ -554,7 +554,7 @@ class TagRegistry:
         relevant_tags = []
 
         # Always include decision tag
-        relevant_tags.append("#TAG:decision")
+        relevant_tags.append(")  # TAG:decision"
 
         # Add specific tags based on decision type
         decision_keywords = decision_type.lower().split()

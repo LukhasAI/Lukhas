@@ -37,7 +37,7 @@ except ImportError:
     class LogExporter:  # type: ignore
         def export(
             self,
-            batch: typing.Sequence[LogData]) -> 'LogExportResult': return LogExportResult(False)  # type: ignore
+            batch: typing.Sequence[LogData]) -> "LogExportResult": return LogExportResult(False)  # type: ignore
         def shutdown(self) -> None: pass
 
     @dataclass  # type: ignore

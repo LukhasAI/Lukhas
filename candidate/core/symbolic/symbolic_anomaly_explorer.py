@@ -290,7 +290,7 @@ class SymbolicAnomalyExplorer:
         return sessions
 
     def _load_session_from_file(self, file_path: Path) -> Optional[DreamSession]:
-        """Load dream session from JSON file."""
+        """Load dream session from json_file."""
         try:
             with open(file_path) as f:
                 data = json.load(f)

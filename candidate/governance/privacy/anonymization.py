@@ -344,9 +344,9 @@ class AdvancedAnonymizationEngine:
                 sensitivity_level=7,
                 allow_generalization=True,
                 generalization_hierarchy={
-                    "level_1": {"ranges": [(0, 30000), (30001, 50000), (50001, 80000), (80001, 120000), (120001, float('inf'))]},
-                    "level_2": {"ranges": [(0, 50000), (50001, 100000), (100001, float('inf'))]},
-                    "level_3": {"ranges": [(0, float('inf'))]}
+                    "level_1": {"ranges": [(0, 30000), (30001, 50000), (50001, 80000), (80001, 120000), (120001, float("inf"))]},
+                    "level_2": {"ranges": [(0, 50000), (50001, 100000), (100001, float("inf"))]},
+                    "level_3": {"ranges": [(0, float("inf"))]}
                 }
             )
         ]
@@ -601,7 +601,7 @@ class AdvancedAnonymizationEngine:
 
         # Apply generalization to achieve k-anonymity
         anonymized_dataset = []
-        min_k_achieved = float('inf')
+        min_k_achieved = float("inf")
 
         for _group_key, group_records in groups.items():
             group_size = len(group_records)
@@ -691,7 +691,7 @@ class AdvancedAnonymizationEngine:
             if isinstance(value, (int, float)):
                 for _i, (min_val, max_val) in enumerate(level_config["ranges"]):
                     if min_val <= value <= max_val:
-                        return f"{min_val}-{max_val}" if max_val != float('inf') else f"{min_val}+"
+                        return f"{min_val}-{max_val}" if max_val != float("inf") else f"{min_val}+"
 
         elif "digits" in level_config:
             # String prefix generalization (e.g., ZIP codes)
@@ -737,7 +737,7 @@ class AdvancedAnonymizationEngine:
 
         # Check l-diversity for each group
         diversified_dataset = []
-        min_l_achieved = float('inf')
+        min_l_achieved = float("inf")
 
         for _group_key, group_records in groups.items():
             for sensitive_attr in sensitive_attrs:
@@ -753,7 +753,7 @@ class AdvancedAnonymizationEngine:
 
             diversified_dataset.extend(group_records)
 
-        return diversified_dataset, {"l_achieved": int(min_l_achieved) if min_l_achieved != float('inf') else 0}
+        return diversified_dataset, {"l_achieved": int(min_l_achieved) if min_l_achieved != float("inf") else 0}
 
     async def _enhance_diversity(
         self,

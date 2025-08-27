@@ -136,7 +136,7 @@ This module was consolidated from `/{source_name}/` into `/{config['target']}/{c
         init_file = target_path / "__init__.py"
         if init_file.exists():
             with open(init_file, "a") as f:
-                f.write(f"\n# Consolidated from {source_name}\n")
+                f.write("\n")
                 f.write(f"from .{config['subdirectory']} import *\n")
     else:
         print(f"⚠️  No files to consolidate in {source_name}")

@@ -15,10 +15,10 @@ from .teq_unified import (
 TEQCoupler = UnifiedTEQCoupler
 
 __all__ = [
-    'UnifiedTEQCoupler',
-    'TEQCoupler',
-    'GateState',
-    'TEQEvent',
-    'PolicyGateResult',
-    'PolicyPack'
+    "UnifiedTEQCoupler",
+    "TEQCoupler",
+    "GateState",
+    "TEQEvent",
+    "PolicyGateResult",
+    "PolicyPack"
 ]

@@ -223,7 +223,7 @@ def register_user_endpoint():
             }), 400
 
         # Generate secure password hash
-        password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
         # Generate ΛiD
         lambda_id = _generate_lambda_id(username)
@@ -232,7 +232,7 @@ def register_user_endpoint():
         user_record = {
             "user_id": username,
             "lambda_id": lambda_id,
-            "password_hash": password_hash.decode('utf-8'),
+            "password_hash": password_hash.decode("utf-8"),
             "email": email,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "last_login": None,
@@ -357,7 +357,7 @@ def login_user_endpoint():
 
         # Verify password
         stored_password_hash = user_record["password_hash"]
-        if not bcrypt.checkpw(password.encode('utf-8'), stored_password_hash.encode('utf-8')):
+        if not bcrypt.checkpw(password.encode("utf-8"), stored_password_hash.encode("utf-8")):
             _record_failed_login(username)
             users_db[username]["failed_login_count"] = user_record.get("failed_login_count", 0) + 1
 
@@ -882,7 +882,7 @@ def change_password():
         user_record = users_db[user_id]
 
         # Verify current password
-        if not bcrypt.checkpw(current_password.encode('utf-8'), user_record["password_hash"].encode('utf-8')):
+        if not bcrypt.checkpw(current_password.encode("utf-8"), user_record["password_hash"].encode("utf-8")):
             logger.warning(f"ΛTRACE ({request_id}): Invalid current password for user {user_id}")
             return jsonify({
                 "success": False,
@@ -900,8 +900,8 @@ def change_password():
             }), 400
 
         # Update password
-        new_password_hash = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
-        users_db[user_id]["password_hash"] = new_password_hash.decode('utf-8')
+        new_password_hash = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
+        users_db[user_id]["password_hash"] = new_password_hash.decode("utf-8")
 
         logger.info(f"ΛTRACE ({request_id}): Password changed successfully for user {user_id}")
 

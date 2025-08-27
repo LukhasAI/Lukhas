@@ -61,10 +61,10 @@ class MasterOrchestrator:
         self.schedules = []
         self.is_running = False
         self.orchestration_stats = {
-            'cycles_completed': 0,
-            'total_automation_time': 0,
-            'avg_cycle_duration': 0,
-            'success_rate': 100.0
+            "cycles_completed": 0,
+            "total_automation_time": 0,
+            "avg_cycle_duration": 0,
+            "success_rate": 100.0
         }
 
         self.logger = self._setup_logging()
@@ -84,7 +84,7 @@ class MasterOrchestrator:
         file_handler = logging.FileHandler(log_file)
         console_handler = logging.StreamHandler()
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
         file_handler.setFormatter(formatter)
         console_handler.setFormatter(formatter)
 
@@ -100,8 +100,8 @@ class MasterOrchestrator:
                 with open(self.config_path) as f:
                     config_data = json.load(f)
 
-                self.schedules = [OrchestrationSchedule(**schedule) for schedule in config_data.get('schedules', [])]
-                self.orchestration_stats = config_data.get('stats', self.orchestration_stats)
+                self.schedules = [OrchestrationSchedule(**schedule) for schedule in config_data.get("schedules", [])]
+                self.orchestration_stats = config_data.get("stats", self.orchestration_stats)
                 self.logger.info(f"Loaded {len(self.schedules)} orchestration schedules")
             except Exception as e:
                 self.logger.error(f"Failed to load orchestration config: {e}")
@@ -157,7 +157,7 @@ class MasterOrchestrator:
         }
 
         self.config_path.parent.mkdir(exist_ok=True)
-        with open(self.config_path, 'w') as f:
+        with open(self.config_path, "w") as f:
             json.dump(config_data, f, indent=2)
 
     async def run_brand_automation_cycle(self) -> dict[str, Any]:
@@ -169,27 +169,27 @@ class MasterOrchestrator:
             results = await self.brand_engine.run_automation_cycle()
 
             cycle_time = time.time() - start_time
-            self.orchestration_stats['total_automation_time'] += cycle_time
+            self.orchestration_stats["total_automation_time"] += cycle_time
 
             # Log results
             db.log_system_activity("master_orchestrator", "brand_automation_cycle",
                                   f"Brand automation completed in {cycle_time:.1f}s",
-                                  results.get('success_rate', 0))
+                                  results.get("success_rate", 0))
 
             return {
-                'system': 'brand_automation',
-                'success': True,
-                'duration': cycle_time,
-                'results': results
+                "system": "brand_automation",
+                "success": True,
+                "duration": cycle_time,
+                "results": results
             }
 
         except Exception as e:
             self.logger.error(f"Brand automation cycle failed: {e}")
             return {
-                'system': 'brand_automation',
-                'success': False,
-                'error': str(e),
-                'duration': time.time() - start_time
+                "system": "brand_automation",
+                "success": False,
+                "error": str(e),
+                "duration": time.time() - start_time
             }
 
     async def run_self_healing_cycle(self) -> dict[str, Any]:
@@ -205,22 +205,22 @@ class MasterOrchestrator:
             # Log results
             db.log_system_activity("master_orchestrator", "self_healing_cycle",
                                   f"Self-healing completed in {cycle_time:.1f}s",
-                                  results['summary'].get('success_rate', 0))
+                                  results["summary"].get("success_rate", 0))
 
             return {
-                'system': 'self_healing',
-                'success': True,
-                'duration': cycle_time,
-                'results': results
+                "system": "self_healing",
+                "success": True,
+                "duration": cycle_time,
+                "results": results
             }
 
         except Exception as e:
             self.logger.error(f"Self-healing cycle failed: {e}")
             return {
-                'system': 'self_healing',
-                'success': False,
-                'error': str(e),
-                'duration': time.time() - start_time
+                "system": "self_healing",
+                "success": False,
+                "error": str(e),
+                "duration": time.time() - start_time
             }
 
     async def generate_comprehensive_report(self) -> dict[str, Any]:
@@ -236,34 +236,34 @@ class MasterOrchestrator:
 
             # Generate report
             report = {
-                'report_generated': datetime.now().isoformat(),
-                'system_overview': {
-                    'brand_automation_status': brand_status['engine_status'],
-                    'self_healing_status': healing_status['system_status'],
-                    'total_automation_tasks': brand_status['total_tasks'],
-                    'total_healing_actions': healing_status['total_healing_actions'],
-                    'orchestration_cycles': self.orchestration_stats['cycles_completed']
+                "report_generated": datetime.now().isoformat(),
+                "system_overview": {
+                    "brand_automation_status": brand_status["engine_status"],
+                    "self_healing_status": healing_status["system_status"],
+                    "total_automation_tasks": brand_status["total_tasks"],
+                    "total_healing_actions": healing_status["total_healing_actions"],
+                    "orchestration_cycles": self.orchestration_stats["cycles_completed"]
                 },
-                'performance_metrics': {
-                    'brand_automation_success_rate': brand_status['average_success_rate'],
-                    'self_healing_success_rate': healing_status['success_rate'],
-                    'total_system_activity': len(system_analytics),
-                    'avg_cycle_duration': self.orchestration_stats['avg_cycle_duration']
+                "performance_metrics": {
+                    "brand_automation_success_rate": brand_status["average_success_rate"],
+                    "self_healing_success_rate": healing_status["success_rate"],
+                    "total_system_activity": len(system_analytics),
+                    "avg_cycle_duration": self.orchestration_stats["avg_cycle_duration"]
                 },
-                'recent_activity': {
-                    'brand_tasks_enabled': brand_status['enabled_tasks'],
-                    'healing_actions_recent': healing_status['recent_actions'],
-                    'rollback_options': healing_status['rollback_available']
+                "recent_activity": {
+                    "brand_tasks_enabled": brand_status["enabled_tasks"],
+                    "healing_actions_recent": healing_status["recent_actions"],
+                    "rollback_options": healing_status["rollback_available"]
                 },
-                'trinity_framework': {
-                    'identity_integration': '⚛️ Active',
-                    'consciousness_processing': '🧠 Active',
-                    'guardian_protection': '🛡️ Active'
+                "trinity_framework": {
+                    "identity_integration": "⚛️ Active",
+                    "consciousness_processing": "🧠 Active",
+                    "guardian_protection": "🛡️ Active"
                 }
             }
 
             # Save report
-            await self._save_report(report, 'comprehensive_daily_report')
+            await self._save_report(report, "comprehensive_daily_report")
 
             cycle_time = time.time() - start_time
 
@@ -273,19 +273,19 @@ class MasterOrchestrator:
                                   len(system_analytics))
 
             return {
-                'system': 'comprehensive_report',
-                'success': True,
-                'duration': cycle_time,
-                'report': report
+                "system": "comprehensive_report",
+                "success": True,
+                "duration": cycle_time,
+                "report": report
             }
 
         except Exception as e:
             self.logger.error(f"Report generation failed: {e}")
             return {
-                'system': 'comprehensive_report',
-                'success': False,
-                'error': str(e),
-                'duration': time.time() - start_time
+                "system": "comprehensive_report",
+                "success": False,
+                "error": str(e),
+                "duration": time.time() - start_time
             }
 
     async def run_performance_analysis(self) -> dict[str, Any]:
@@ -298,33 +298,33 @@ class MasterOrchestrator:
             all_analytics = db.get_system_analytics()
 
             # Analyze performance trends
-            recent_analytics = [a for a in all_analytics if a.get('time')][-100:]  # Last 100 entries
+            recent_analytics = [a for a in all_analytics if a.get("time")][-100:]  # Last 100 entries
 
             # Calculate metrics
-            systems_active = len({a['system'] for a in recent_analytics})
+            systems_active = len({a["system"] for a in recent_analytics})
             avg_activity = len(recent_analytics) / max(systems_active, 1)
 
             # Performance insights
             performance_insights = {
-                'systems_active': systems_active,
-                'avg_activity_per_system': avg_activity,
-                'total_recent_activity': len(recent_analytics),
-                'automation_efficiency': self.orchestration_stats['success_rate'],
-                'recommendations': []
+                "systems_active": systems_active,
+                "avg_activity_per_system": avg_activity,
+                "total_recent_activity": len(recent_analytics),
+                "automation_efficiency": self.orchestration_stats["success_rate"],
+                "recommendations": []
             }
 
             # Generate recommendations
             if avg_activity < 5:
-                performance_insights['recommendations'].append("Consider increasing automation frequency")
+                performance_insights["recommendations"].append("Consider increasing automation frequency")
 
-            if self.orchestration_stats['success_rate'] < 95:
-                performance_insights['recommendations'].append("Review failed automation tasks")
+            if self.orchestration_stats["success_rate"] < 95:
+                performance_insights["recommendations"].append("Review failed automation tasks")
 
             if systems_active < 3:
-                performance_insights['recommendations'].append("Activate additional automation systems")
+                performance_insights["recommendations"].append("Activate additional automation systems")
 
-            if not performance_insights['recommendations']:
-                performance_insights['recommendations'].append("✅ System performance is optimal")
+            if not performance_insights["recommendations"]:
+                performance_insights["recommendations"].append("✅ System performance is optimal")
 
             cycle_time = time.time() - start_time
 
@@ -334,19 +334,19 @@ class MasterOrchestrator:
                                   systems_active)
 
             return {
-                'system': 'performance_analysis',
-                'success': True,
-                'duration': cycle_time,
-                'analysis': performance_insights
+                "system": "performance_analysis",
+                "success": True,
+                "duration": cycle_time,
+                "analysis": performance_insights
             }
 
         except Exception as e:
             self.logger.error(f"Performance analysis failed: {e}")
             return {
-                'system': 'performance_analysis',
-                'success': False,
-                'error': str(e),
-                'duration': time.time() - start_time
+                "system": "performance_analysis",
+                "success": False,
+                "error": str(e),
+                "duration": time.time() - start_time
             }
 
     async def run_deep_healing(self) -> dict[str, Any]:
@@ -368,10 +368,10 @@ class MasterOrchestrator:
             ]
 
             deep_healing_results = {
-                'healing_results': healing_results,
-                'maintenance_tasks': maintenance_tasks,
-                'deep_scan_completed': True,
-                'system_integrity': 'verified'
+                "healing_results": healing_results,
+                "maintenance_tasks": maintenance_tasks,
+                "deep_scan_completed": True,
+                "system_integrity": "verified"
             }
 
             cycle_time = time.time() - start_time
@@ -379,32 +379,32 @@ class MasterOrchestrator:
             # Log results
             db.log_system_activity("master_orchestrator", "deep_healing",
                                   f"Deep healing completed in {cycle_time:.1f}s",
-                                  healing_results['summary']['total_fixes_applied'])
+                                  healing_results["summary"]["total_fixes_applied"])
 
             return {
-                'system': 'deep_healing',
-                'success': True,
-                'duration': cycle_time,
-                'results': deep_healing_results
+                "system": "deep_healing",
+                "success": True,
+                "duration": cycle_time,
+                "results": deep_healing_results
             }
 
         except Exception as e:
             self.logger.error(f"Deep healing failed: {e}")
             return {
-                'system': 'deep_healing',
-                'success': False,
-                'error': str(e),
-                'duration': time.time() - start_time
+                "system": "deep_healing",
+                "success": False,
+                "error": str(e),
+                "duration": time.time() - start_time
             }
 
     async def _save_report(self, report: dict[str, Any], report_type: str):
         """Save report to file"""
         self.reports_path.mkdir(exist_ok=True)
 
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         report_file = self.reports_path / f"{report_type}_{timestamp}.json"
 
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 
         self.logger.info(f"📊 Report saved: {report_file}")
@@ -415,11 +415,11 @@ class MasterOrchestrator:
 
         cycle_start = time.time()
         cycle_results = {
-            'cycle_started': datetime.now().isoformat(),
-            'systems_executed': [],
-            'total_duration': 0,
-            'success_rate': 0,
-            'summary': {}
+            "cycle_started": datetime.now().isoformat(),
+            "systems_executed": [],
+            "total_duration": 0,
+            "success_rate": 0,
+            "summary": {}
         }
 
         # Execute systems based on schedule
@@ -464,45 +464,45 @@ class MasterOrchestrator:
                 elif schedule.system_name == "deep_healing":
                     result = await self.run_deep_healing()
                 else:
-                    result = {'system': schedule.system_name, 'success': False, 'error': 'Unknown system'}
+                    result = {"system": schedule.system_name, "success": False, "error": "Unknown system"}
 
-                cycle_results['systems_executed'].append(result)
+                cycle_results["systems_executed"].append(result)
                 schedule.last_run = current_time.isoformat()
 
             except Exception as e:
                 self.logger.error(f"Failed to execute {schedule.system_name}: {e}")
-                cycle_results['systems_executed'].append({
-                    'system': schedule.system_name,
-                    'success': False,
-                    'error': str(e)
+                cycle_results["systems_executed"].append({
+                    "system": schedule.system_name,
+                    "success": False,
+                    "error": str(e)
                 })
 
         # Calculate results
         cycle_duration = time.time() - cycle_start
-        successful_systems = len([r for r in cycle_results['systems_executed'] if r.get('success')])
-        total_systems = len(cycle_results['systems_executed'])
+        successful_systems = len([r for r in cycle_results["systems_executed"] if r.get("success")])
+        total_systems = len(cycle_results["systems_executed"])
         success_rate = (successful_systems / total_systems * 100) if total_systems > 0 else 100
 
-        cycle_results['total_duration'] = cycle_duration
-        cycle_results['success_rate'] = success_rate
-        cycle_results['cycle_completed'] = datetime.now().isoformat()
+        cycle_results["total_duration"] = cycle_duration
+        cycle_results["success_rate"] = success_rate
+        cycle_results["cycle_completed"] = datetime.now().isoformat()
 
         # Update orchestration stats
-        self.orchestration_stats['cycles_completed'] += 1
-        self.orchestration_stats['success_rate'] = (
-            (self.orchestration_stats['success_rate'] * (self.orchestration_stats['cycles_completed'] - 1) + success_rate) /
-            self.orchestration_stats['cycles_completed']
+        self.orchestration_stats["cycles_completed"] += 1
+        self.orchestration_stats["success_rate"] = (
+            (self.orchestration_stats["success_rate"] * (self.orchestration_stats["cycles_completed"] - 1) + success_rate) /
+            self.orchestration_stats["cycles_completed"]
         )
-        self.orchestration_stats['avg_cycle_duration'] = (
-            (self.orchestration_stats['avg_cycle_duration'] * (self.orchestration_stats['cycles_completed'] - 1) + cycle_duration) /
-            self.orchestration_stats['cycles_completed']
+        self.orchestration_stats["avg_cycle_duration"] = (
+            (self.orchestration_stats["avg_cycle_duration"] * (self.orchestration_stats["cycles_completed"] - 1) + cycle_duration) /
+            self.orchestration_stats["cycles_completed"]
         )
 
-        cycle_results['summary'] = {
-            'systems_executed': total_systems,
-            'systems_successful': successful_systems,
-            'cycle_duration': f"{cycle_duration:.1f}s",
-            'overall_health': 'excellent' if success_rate > 90 else 'good' if success_rate > 70 else 'needs_attention'
+        cycle_results["summary"] = {
+            "systems_executed": total_systems,
+            "systems_successful": successful_systems,
+            "cycle_duration": f"{cycle_duration:.1f}s",
+            "overall_health": "excellent" if success_rate > 90 else "good" if success_rate > 70 else "needs_attention"
         }
 
         # Save configuration
@@ -520,15 +520,15 @@ class MasterOrchestrator:
     def get_orchestration_status(self) -> dict[str, Any]:
         """Get current orchestration status"""
         status = {
-            'orchestrator_status': 'active' if self.is_running else 'idle',
-            'total_cycles_completed': self.orchestration_stats['cycles_completed'],
-            'average_success_rate': self.orchestration_stats['success_rate'],
-            'average_cycle_duration': f"{self.orchestration_stats['avg_cycle_duration']:.1f}s",
-            'scheduled_systems': len(self.schedules),
-            'enabled_systems': len([s for s in self.schedules if s.enabled]),
-            'brand_automation_status': self.brand_engine.get_automation_status()['engine_status'],
-            'self_healing_status': self.healing_system.get_healing_status()['system_status'],
-            'trinity_framework': '⚛️🧠🛡️ Active'
+            "orchestrator_status": "active" if self.is_running else "idle",
+            "total_cycles_completed": self.orchestration_stats["cycles_completed"],
+            "average_success_rate": self.orchestration_stats["success_rate"],
+            "average_cycle_duration": f"{self.orchestration_stats['avg_cycle_duration']:.1f}s",
+            "scheduled_systems": len(self.schedules),
+            "enabled_systems": len([s for s in self.schedules if s.enabled]),
+            "brand_automation_status": self.brand_engine.get_automation_status()["engine_status"],
+            "self_healing_status": self.healing_system.get_healing_status()["system_status"],
+            "trinity_framework": "⚛️🧠🛡️ Active"
         }
 
         return status
@@ -578,9 +578,9 @@ async def main():
 
     # Show individual system results
     print("\n🔍 System Results:")
-    for result in results['systems_executed']:
-        status_icon = "✅" if result.get('success') else "❌"
-        duration = f"({result.get('duration', 0):.1f}s)" if 'duration' in result else ""
+    for result in results["systems_executed"]:
+        status_icon = "✅" if result.get("success") else "❌"
+        duration = f"({result.get('duration', 0):.1f}s)" if "duration" in result else ""
         print(f"   {status_icon} {result['system']} {duration}")
 
     print("\n⚛️🧠🛡️ LUKHAS AI Master Orchestration Complete")

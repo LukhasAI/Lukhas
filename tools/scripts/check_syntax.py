@@ -13,7 +13,7 @@ def check_all_syntax_errors():
     # Check all Python files
     for py_file in base_dir.rglob("*.py"):
         # Skip archive and backup directories
-        if any(part in str(py_file).lower() for part in ['archive', 'backup', '_cleanup']):
+        if any(part in str(py_file).lower() for part in ["archive", "backup", "_cleanup"]):
             continue
 
         try:

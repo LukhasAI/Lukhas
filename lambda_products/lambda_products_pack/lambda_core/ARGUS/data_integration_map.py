@@ -2,7 +2,7 @@
 """
 Data Integration Map
 ===================
-Shows exactly how data flows from LUKHAS  modules into the monitoring system
+Shows exactly how data flows from lukhas__modules into the monitoring system
 """
 
 from dataclasses import dataclass

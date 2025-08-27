@@ -451,7 +451,7 @@ class DynamicQRGLYPHEngine:
         self.active_glyphs[glyph_id] = new_glyph
 
         logger.info(
-            f"🔄 Rotated GLYPH {glyph_id} to rotation #{new_metadata.rotation_count}"
+            f"🔄 Rotated GLYPH {glyph_id} to rotation "
         )
 
         return new_glyph

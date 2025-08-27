@@ -368,12 +368,12 @@ def trace(data):
             elif e["action"] == "free_requested":
                 addr, size = e["addr"], e["size"]
                 name, _, _ = allocation_addr_to_name.get(addr, (addr, None, None))
-                out.write(f"del {name} # {Bytes(size)}\n")
+                out.write(f"del {name} ")
             elif e["action"] == "free_completed":
                 addr, size = e["addr"], e["size"]
                 count -= size
                 name, _, _ = allocation_addr_to_name.get(addr, (addr, None, None))
-                out.write(f"# free completed for {name} {Bytes(size)}\n")
+                out.write("")
                 if name in allocation_addr_to_name:
                     free_names.append(name)
                     del allocation_addr_to_name[name]
@@ -386,7 +386,7 @@ def trace(data):
             elif e["action"] == "segment_free":
                 addr, size = e["addr"], e["size"]
                 name = segment_addr_to_name.get(addr, addr)
-                out.write(f"cudaFree({name}) # {Bytes(size)}\n")
+                out.write(f"cudaFree({name}) ")
                 if name in segment_addr_to_name:
                     free_names.append(name)
                     del segment_addr_to_name[name]
@@ -394,7 +394,7 @@ def trace(data):
                 size = e["size"]
                 free = e["device_free"]
                 out.write(
-                    f"raise OutOfMemoryError # {Bytes(size)} requested, {Bytes(free)} free in CUDA\n"
+                    "raise OutOfMemoryError "
                 )
             else:
                 out.write(f"{e}\n")

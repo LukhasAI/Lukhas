@@ -167,7 +167,7 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
                     example = "\n".join(example.split("\n")[1:-1])
 
                 technical_content += (
-                    f"### Example {i}\n\n```{language}\n{example}\n```\n\n"
+                    "##"
                 )
 
         return technical_content

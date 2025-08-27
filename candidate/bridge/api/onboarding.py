@@ -229,8 +229,8 @@ def collect_user_consent_endpoint():  # Renamed for clarity
             "session_id": session_id,
             "consent_timestamp": time.time(),
             "consent_version": "1.0",
-            "ip_address": request.environ.get('REMOTE_ADDR', 'unknown'),
-            "user_agent": request.headers.get('User-Agent', 'unknown'),
+            "ip_address": request.environ.get("REMOTE_ADDR", "unknown"),
+            "user_agent": request.headers.get("User-Agent", "unknown"),
             "consents": {
                 **{k: consent_choices.get(k, False) for k in required_consents},
                 **{k: consent_choices.get(k, False) for k in optional_consents}

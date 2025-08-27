@@ -270,7 +270,7 @@ class ToolExecutorGuardian:
         logger.info("Tool execution audit", extra={"audit": audit_entry})
 
         # If Guardian System is available, feed back for learning
-        if self.guardian_system and hasattr(self.guardian_system, 'learn_from_decision'):
+        if self.guardian_system and hasattr(self.guardian_system, "learn_from_decision"):
             try:
                 await self.guardian_system.learn_from_decision(audit_entry)
             except Exception as e:

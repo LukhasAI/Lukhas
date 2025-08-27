@@ -201,7 +201,7 @@ Return ONLY the bash script, no explanations."""
                     data = await resp.json()
                     return data.get("response", "")
         except Exception as e:
-            return f"#!/bin/bash\necho 'Error generating script: {e}'"
+            return f""Error generating script: {e}'"
 
     async def analyze_all(self) -> dict:
         """Analyze all vulnerabilities and generate report"""
@@ -248,8 +248,8 @@ def cli():
 
 
 @cli.command()
-@click.option('--json-output', is_flag=True, help='Output as JSON')
-@click.option('--save-report', help='Save report to file')
+@click.option("--json-output", is_flag=True, help="Output as JSON")
+@click.option("--save-report", help="Save report to file")
 def scan(json_output=False, save_report=None):
     """Scan for vulnerabilities and analyze with Ollama"""
     analyzer = OllamaSecurityAnalyzer()

@@ -174,7 +174,7 @@ class DistributedStateManager:
 
     def _get_shard_id(self, key: str) -> int:
         """Calculate shard ID for a given key"""
-        hash_value = int(hashlib.sha256(  # Changed from MD5 for securitykey.encode()).hexdigest(), 16)
+        hash_value = int(hashlib.sha256(  )  #  Changed from MD5 for securitykey.encode().hexdigest(), 16)
         return hash_value % self.num_shards
 
     def _start_background_tasks(self):

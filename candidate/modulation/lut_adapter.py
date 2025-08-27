@@ -4,7 +4,7 @@ from lukhas.feedback.store import get_lut
 
 
 def apply_lut(params: dict[str, Any]) -> dict[str, Any]:
-    """Apply bounded style nudges from LUT to modulated params.
+    """Apply bounded style nudges from lut_to modulated params.
     Safety invariants: does not relax safety_mode or exceed core bounds.
     """
     lut = get_lut()

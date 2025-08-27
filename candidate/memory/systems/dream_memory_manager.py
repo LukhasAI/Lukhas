@@ -25,7 +25,7 @@
 # memory formation, transforming the raw materials of thought into
 # profound concepts that transcend the boundaries of waking life.
 # Each function and process is a brushstroke on the canvas of cognition,
-# a testament to the beauty of the mind’s architecture, where chaos
+# a testament to the beauty of the mind's architecture, where chaos
 # harmonizes into clarity, and fragmentation gives rise to unity.
 
 # In the quiet sanctuary of the Dream Memory Manager, time becomes fluid,

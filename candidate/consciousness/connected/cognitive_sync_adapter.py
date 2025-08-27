@@ -1,7 +1,7 @@
 # cognitive_sync_adapter.py
 # Placeholder for Cognitive Sync Adapter module
 
-# This module will adjust sync rates based on the user’s cognitive load.
+# This module will adjust sync rates based on the user's cognitive load.
 
 
 class CognitiveSyncAdapter:

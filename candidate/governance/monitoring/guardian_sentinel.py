@@ -1020,7 +1020,7 @@ async def demo_enhanced_sentinel():
         print(f"   Governance escalations: {report['governance_escalations']}")
 
         print("\n⚛️🧠🛡️ Trinity Component Health:")
-        for comp, health in report['trinity_component_health'].items():
+        for comp, health in report["trinity_component_health"].items():
             status = "✅" if health > 0.8 else "⚠️" if health > 0.6 else "🚨"
             print(f"   {status} {comp.capitalize()}: {health:.2f}")
 
@@ -1031,7 +1031,7 @@ async def demo_enhanced_sentinel():
         print("\n🔍 Recent Threats:")
         for threat in report["recent_threats"]:
             trinity_str = f"I:{threat['trinity_impact']['identity']:.1f} C:{threat['trinity_impact']['consciousness']:.1f} G:{threat['trinity_impact']['guardian']:.1f}"
-            gov_indicator = "🛡️" if threat['governance_escalation'] else ""
+            gov_indicator = "🛡️" if threat["governance_escalation"] else ""
             print(f"   - {threat['indicator']} {gov_indicator} (severity: {threat['severity']:.2f}) [{trinity_str}] {'→'.join(threat['symbolic_signature'])}")
 
     finally:

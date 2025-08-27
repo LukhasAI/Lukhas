@@ -116,10 +116,9 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import BaseModel, Field
-
 # Import all regional frameworks
 from identity.backend.app.institution_manager import Jurisdiction, global_timestamp
+from pydantic import BaseModel, Field
 
 # ——— Global Institutional Compliance Framework ——————————————————————— #
 

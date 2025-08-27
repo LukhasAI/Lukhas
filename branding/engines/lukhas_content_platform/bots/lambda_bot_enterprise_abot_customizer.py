@@ -108,7 +108,7 @@ class BotCustomizer:
             if choice == "7":  # Custom
                 custom_text = input("Enter custom status text: ").strip()
                 if custom_text:
-                    selected['text'] = custom_text
+                    selected["text"] = custom_text
 
             self.current_design = selected
             print(f"Design preview: {selected['text']}")
@@ -169,20 +169,20 @@ class BotCustomizer:
         print("=" * 35)
         print()
 
-        if hasattr(self, 'current_design'):
+        if hasattr(self, "current_design"):
             print(f"Design: {self.current_design['name']}")
             print(f"Text: {self.current_design['text']}")
 
-        if hasattr(self, 'current_action'):
+        if hasattr(self, "current_action"):
             print(f"Click Action: {self.current_action['name']}")
             print(f"Command: {self.current_action['command']}")
 
-        if hasattr(self, 'current_colors'):
+        if hasattr(self, "current_colors"):
             print(f"Colors: {self.current_colors['name']}")
 
         print("\n📝 Sample Status Bar:")
-        sample_text = getattr(self, 'current_design', {}).get('text', '🤖 LUKHAS AI ΛBot')
-        sample_text = sample_text.replace('{status}', 'monitoring').replace('{violations}', '3').replace('{quality_score}', '95')
+        sample_text = getattr(self, "current_design", {}).get("text", "🤖 LUKHAS AI ΛBot")
+        sample_text = sample_text.replace("{status}", "monitoring").replace("{violations}", "3").replace("{quality_score}", "95")
         print(f"  {sample_text}")
 
         input("\nPress Enter to continue...")
@@ -195,7 +195,7 @@ class BotCustomizer:
 
         try:
             # Update the status bar widget
-            if hasattr(self, 'current_design') or hasattr(self, 'current_action') or hasattr(self, 'current_colors'):
+            if hasattr(self, "current_design") or hasattr(self, "current_action") or hasattr(self, "current_colors"):
                 self.update_status_bar_code()
                 print("✅ Status bar code updated")
 
@@ -232,28 +232,28 @@ class BotCustomizer:
 
         # For now, create a configuration file that the status bar can read
         config = {
-            "design": getattr(self, 'current_design', {}),
-            "action": getattr(self, 'current_action', {}),
-            "colors": getattr(self, 'current_colors', {}),
+            "design": getattr(self, "current_design", {}),
+            "action": getattr(self, "current_action", {}),
+            "colors": getattr(self, "current_colors", {}),
             "updated": datetime.now().isoformat()
         }
 
         config_file = self.workspace / ".vscode" / "abot_config.json"
-        with open(config_file, 'w') as f:
+        with open(config_file, "w") as f:
             json.dump(config, f, indent=2)
 
     def generate_widget_code(self):
         """Generate widget creation code."""
-        design = getattr(self, 'current_design', {})
-        action = getattr(self, 'current_action', {})
-        colors = getattr(self, 'current_colors', {})
+        design = getattr(self, "current_design", {})
+        action = getattr(self, "current_action", {})
+        colors = getattr(self, "current_colors", {})
 
         return f"""
         # Auto-generated widget configuration
         widget_data = {{
             "text": "{design.get('text', '🤖 LUKHAS AI ΛBot')}",
             "tooltip": "LUKHAS AI ΛBot Quality Monitor - Click for {action.get('name', 'actions')}",
-            "color": "{colors.get('success', '#28a745')}",
+            "color": "{colors.get('success', ')  # 28a745'}",
             "command": "{action.get('command', 'workbench.action.tasks.runTask')}",
             "arguments": {action.get('args', [])},
             "priority": 100,
@@ -283,7 +283,7 @@ class BotCustomizer:
     def clear_screen(self):
         """Clear the terminal screen."""
         import os
-        os.system('clear' if os.name == 'posix' else 'cls')
+        os.system("clear" if os.name == "posix" else "cls")
 
 def main():
     """Main entry point."""

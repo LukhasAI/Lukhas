@@ -66,9 +66,11 @@ except ImportError:
     GUARDIAN_AVAILABLE = False
 
 try:
-    from ..memory.memory_wrapper import MemoryWrapper
+    import importlib.util
 
-    MEMORY_AVAILABLE = True
+    MEMORY_AVAILABLE = (
+        importlib.util.find_spec("lukhas.memory.memory_wrapper") is not None
+    )
 except ImportError:
     MEMORY_AVAILABLE = False
 

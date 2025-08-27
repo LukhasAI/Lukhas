@@ -70,8 +70,9 @@ try:
 except ImportError:
     try:
         # Try alternative imports from root core
-        from core.glyph import GLYPH as GLYPHEngine
         from identity.lid_core import LIDCore
+
+        from core.glyph import glyph_as GLYPHEngine
         from lukhas.consciousness.awareness import ConsciousnessEngine
         from lukhas.governance.guardian_system import GuardianSystem
         from lukhas.memory.fold_manager import FoldManager
@@ -265,18 +266,18 @@ class LambdaHealthcareGuardian:
             self.memory_folds = FoldManager()
 
             # Enhanced Memory Architecture
-            self.episodic_memory = EpisodicMemory() if 'EpisodicMemory' in globals() else None
-            self.causal_reasoner = CausalReasoner() if 'CausalReasoner' in globals() else None
-            self.memory_consolidator = MemoryConsolidator() if 'MemoryConsolidator' in globals() else None
+            self.episodic_memory = EpisodicMemory() if "EpisodicMemory" in globals() else None
+            self.causal_reasoner = CausalReasoner() if "CausalReasoner" in globals() else None
+            self.memory_consolidator = MemoryConsolidator() if "MemoryConsolidator" in globals() else None
 
             # DNA Helix for Patient Data - Secure genetic-inspired storage
-            if 'DNAMemoryArchitecture' in globals():
+            if "DNAMemoryArchitecture" in globals():
                 self.dna_memory = DNAMemoryArchitecture()
                 self.helix_vault = HelixVault()
                 logger.info("🧬 DNA Helix patient data architecture initialized")
 
             # Bio-Inspired Healthcare Systems
-            if 'BioOscillator' in globals():
+            if "BioOscillator" in globals():
                 self.bio_oscillator = BioOscillator()  # Natural rhythm processing
                 self.qi_bio = QIBioProcessor()  # Quantum-bio hybrid processing
                 self.bio_awareness = BioAwareness()  # Biological pattern awareness
@@ -284,7 +285,7 @@ class LambdaHealthcareGuardian:
                 logger.info("🌿 Bio-inspired systems activated")
 
             # Advanced Colonies for Medical Reasoning
-            if 'CreativityColony' in globals():
+            if "CreativityColony" in globals():
                 self.creativity_colony = CreativityColony()  # Creative medical solutions
                 self.reasoning_colony = ReasoningColony()  # Medical logic reasoning
                 self.colony_orchestrator = ColonyOrchestrator()  # Coordinate all colonies
@@ -297,7 +298,7 @@ class LambdaHealthcareGuardian:
             self.drift_detector = DriftDetector()
 
             # Monitoring and Telemetry
-            if 'DriftTracker' in globals():
+            if "DriftTracker" in globals():
                 self.drift_tracker = DriftTracker()
                 self.telemetry = TelemetryEngine()
                 logger.info("📊 Advanced monitoring activated")
@@ -319,15 +320,15 @@ class LambdaHealthcareGuardian:
         """Setup communication between LUKHAS modules for healthcare"""
         try:
             # Connect bio-oscillator to voice processing for natural speech
-            if hasattr(self, 'bio_oscillator') and hasattr(self, 'voice_engine'):
+            if hasattr(self, "bio_oscillator") and hasattr(self, "voice_engine"):
                 self.voice_engine.set_oscillator(self.bio_oscillator)
 
             # Connect causal reasoner to medical decision making
-            if hasattr(self, 'causal_reasoner') and hasattr(self, 'clinical_support'):
+            if hasattr(self, "causal_reasoner") and hasattr(self, "clinical_support"):
                 self.clinical_support.set_reasoner(self.causal_reasoner)
 
             # Connect DNA memory for secure patient data
-            if hasattr(self, 'dna_memory'):
+            if hasattr(self, "dna_memory"):
                 self.patient_data_vault = self.dna_memory
 
             logger.info("🔗 Module communication established")
@@ -434,7 +435,7 @@ class LambdaHealthcareGuardian:
             Processed medical response with ethics validation
         """
         # Check Guardian approval
-        if self.guardian and hasattr(self.guardian, 'check_drift'):
+        if self.guardian and hasattr(self.guardian, "check_drift"):
             # EthicalDriftGovernor has different API
             drift_score = self.guardian.check_drift(
                 current_state={"action": "medical_request"},
@@ -535,7 +536,7 @@ class LambdaHealthcareGuardian:
         # Log with Guardian
         if self.guardian:
             # Log with guardian (non-async method)
-            if hasattr(self.guardian, 'add_checkpoint'):
+            if hasattr(self.guardian, "add_checkpoint"):
                 self.guardian.add_checkpoint(
                     checkpoint_type="emergency",
                     state={"type": emergency_type, "responses": len(responses)},
@@ -570,21 +571,21 @@ class LambdaHealthcareGuardian:
         if self.lambda_ocr_verification:
             # Double verification with GPT-5
             verified = await self.gpt5_client.verify_medication(
-                ocr_text=ocr_result['text'],
+                ocr_text=ocr_result["text"],
                 image_path=image_path
             )
-            ocr_result['lambda_verified'] = verified
+            ocr_result["lambda_verified"] = verified
 
         # Check interactions
         interactions = await self._check_interactions(
-            medication=ocr_result['medication_name'],
+            medication=ocr_result["medication_name"],
             current_meds=context.medications,
             conditions=context.conditions
         )
 
         # Ethics check for medication
         ethics_check = await self._validate_medication_ethics(
-            medication=ocr_result['medication_name'],
+            medication=ocr_result["medication_name"],
             patient_age=context.age,
             conditions=context.conditions
         )
@@ -592,9 +593,9 @@ class LambdaHealthcareGuardian:
         return {
             "medication": ocr_result,
             "interactions": interactions,
-            "ethics_approved": ethics_check['approved'],
-            "safety_score": ethics_check['safety_score'],
-            "lambda_verified": ocr_result.get('lambda_verified', False)
+            "ethics_approved": ethics_check["approved"],
+            "safety_score": ethics_check["safety_score"],
+            "lambda_verified": ocr_result.get("lambda_verified", False)
         }
 
     async def book_sas_appointment(
@@ -656,18 +657,18 @@ class LambdaHealthcareGuardian:
         Returns:
             Provider instance or None
         """
-        if not ProviderRegistry or not hasattr(self, 'provider_registry'):
+        if not ProviderRegistry or not hasattr(self, "provider_registry"):
             return None
 
         # Map country and type to provider ID
         provider_map = {
-            ('UK', 'public'): 'nhs_uk',
-            ('DE', 'public'): 'gkv_de',
-            ('ES', 'public'): 'sas_es',
-            ('US', 'private'): 'kaiser_us',
-            ('US', 'pharmacy'): 'cvs_us',
-            ('AU', 'public'): 'medicare_au',
-            ('GLOBAL', 'private'): 'axa_global'
+            ("UK", "public"): "nhs_uk",
+            ("DE", "public"): "gkv_de",
+            ("ES", "public"): "sas_es",
+            ("US", "private"): "kaiser_us",
+            ("US", "pharmacy"): "cvs_us",
+            ("AU", "public"): "medicare_au",
+            ("GLOBAL", "private"): "axa_global"
         }
 
         provider_id = provider_map.get((country.upper(), provider_type.lower()))
@@ -692,16 +693,16 @@ class LambdaHealthcareGuardian:
         Returns:
             Insurance verification result
         """
-        provider = await self.get_multi_country_provider(country, 'public')
+        provider = await self.get_multi_country_provider(country, "public")
         if not provider:
-            provider = await self.get_multi_country_provider(country, 'private')
+            provider = await self.get_multi_country_provider(country, "private")
 
         if provider:
             try:
                 result = await provider.verify_insurance(patient_id, insurance_id)
                 return {
                     "verified": True,
-                    "provider": provider.config['name'],
+                    "provider": provider.config["name"],
                     "country": country,
                     "coverage": result
                 }
@@ -729,13 +730,13 @@ class LambdaHealthcareGuardian:
         Returns:
             Bio-pattern analysis results
         """
-        if hasattr(self, 'bio_awareness') and hasattr(self, 'qi_bio'):
+        if hasattr(self, "bio_awareness") and hasattr(self, "qi_bio"):
             try:
                 # Use bio-oscillator for rhythm analysis
-                if hasattr(self, 'bio_oscillator'):
+                if hasattr(self, "bio_oscillator"):
                     rhythm_analysis = await self.bio_oscillator.analyze_patterns(
-                        patient_data.get('heart_rate', []),
-                        patient_data.get('breathing', [])
+                        patient_data.get("heart_rate", []),
+                        patient_data.get("breathing", [])
                     )
 
                 # Quantum-bio processing for complex patterns
@@ -749,7 +750,7 @@ class LambdaHealthcareGuardian:
 
                 return {
                     "bio_patterns_detected": True,
-                    "rhythm_analysis": rhythm_analysis if 'rhythm_analysis' in locals() else None,
+                    "rhythm_analysis": rhythm_analysis if "rhythm_analysis" in locals() else None,
                     "qi_bio_insights": qi_analysis,
                     "awareness_assessment": awareness_result,
                     "health_coherence": 0.85  # Example metric
@@ -776,7 +777,7 @@ class LambdaHealthcareGuardian:
         Returns:
             Success status
         """
-        if hasattr(self, 'helix_vault') and hasattr(self, 'dna_memory'):
+        if hasattr(self, "helix_vault") and hasattr(self, "dna_memory"):
             try:
                 # Encode in DNA memory architecture
                 encoded_data = await self.dna_memory.encode(
@@ -820,7 +821,7 @@ class LambdaHealthcareGuardian:
         decision = {"recommendation": "Consult healthcare provider", "confidence": 0.5}
 
         # Use causal reasoner for medical logic
-        if hasattr(self, 'causal_reasoner'):
+        if hasattr(self, "causal_reasoner"):
             try:
                 causal_analysis = await self.causal_reasoner.analyze(
                     inputs=symptoms,
@@ -833,7 +834,7 @@ class LambdaHealthcareGuardian:
                 logger.warning(f"Causal reasoning partial: {e}")
 
         # Use reasoning colony for advanced logic
-        if hasattr(self, 'reasoning_colony'):
+        if hasattr(self, "reasoning_colony"):
             try:
                 colony_reasoning = await self.reasoning_colony.process(
                     query="medical_diagnosis",
@@ -845,7 +846,7 @@ class LambdaHealthcareGuardian:
                 logger.warning(f"Colony reasoning partial: {e}")
 
         # Creative solutions from creativity colony
-        if hasattr(self, 'creativity_colony'):
+        if hasattr(self, "creativity_colony"):
             try:
                 creative_solutions = await self.creativity_colony.generate(
                     context="medical_treatment",
@@ -882,19 +883,19 @@ class LambdaHealthcareGuardian:
         Returns:
             Success status
         """
-        if hasattr(self, 'episodic_memory'):
+        if hasattr(self, "episodic_memory"):
             try:
                 # Store in episodic memory with emotional context
                 await self.episodic_memory.record(
                     subject=patient_id,
                     event=event,
                     data=data,
-                    emotional_valence=data.get('emotion', 'neutral'),
+                    emotional_valence=data.get("emotion", "neutral"),
                     timestamp=datetime.now()
                 )
 
                 # Consolidate memories if needed
-                if hasattr(self, 'memory_consolidator'):
+                if hasattr(self, "memory_consolidator"):
                     await self.memory_consolidator.consolidate(
                         subject=patient_id,
                         priority="health_critical"

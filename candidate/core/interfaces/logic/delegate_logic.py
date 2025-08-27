@@ -126,7 +126,7 @@ def delegate_action(
     """
     # ΛDOC: Executes or denies delegated action based on trust and emotion safety.
     # ΛARGS:
-    #   intent (str): The user’s desired task.
+    #   intent (str): The user's desired task.
     #   context (Any): Optional situation or task-specific info.
     #   user_profile (Dict[str, Any]): Includes tier and emotion state. Expected keys: "tier" (int), "emotion" (float).
     # ΛRETURNS:

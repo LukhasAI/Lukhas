@@ -117,7 +117,7 @@ with tabs[3]:
         selected_type = "reword_draft"
 
 if "result" in locals() and result:
-    st.markdown("### 🧠 Memory Options")
+    st.markdown("##)  #  🧠 Memory Options"
     save_memory = st.checkbox("Save this to Lukhas's memory", value=True)
     mark_qrg = st.checkbox("🔬 Apply QRG Stamp (Symbolic Identity Hash)", value=True)
     forgettable = st.checkbox(

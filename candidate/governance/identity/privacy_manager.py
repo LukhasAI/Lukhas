@@ -246,7 +246,7 @@ class PrivacyManager:
                 # Check if item has timestamp
                 if isinstance(item, dict) and "timestamp" in item:
                     try:
-                        # Parse timestamp from ISO format or check if it's a float
+                        # Parse timestamp from iso_format or check if it's a float
                         # timestamp
                         if isinstance(item["timestamp"], str):
                             item_time = datetime.fromisoformat(
