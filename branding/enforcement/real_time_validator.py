@@ -357,7 +357,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="hashtag_present",
                     rule_type=ValidationType.PLATFORM_OPTIMIZATION,
-                    pattern=re.compile(r")  # \w+",
+                    pattern=re.compile(r"#\w+"),  # Fixed hashtag pattern
                     severity=ValidationSeverity.INFO,
                     description="Hashtags present for social media",
                     auto_correctable=False,
@@ -366,7 +366,7 @@ class RealTimeBrandValidator:
                 BrandRule(
                     rule_id="consciousness_hashtags",
                     rule_type=ValidationType.PLATFORM_OPTIMIZATION,
-                    pattern=re.compile(r"#ConsciousnessTechnology|#LUKHASIA|)  # TrinityFramework", re.IGNORECASE,
+                    pattern=re.compile(r"#ConsciousnessTechnology|#LUKHASIA|#TrinityFramework", re.IGNORECASE),  # Fixed pattern
                     severity=ValidationSeverity.INFO,
                     description="Brand-specific hashtags present",
                     auto_correctable=False,

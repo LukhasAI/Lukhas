@@ -225,26 +225,26 @@ class QuantumToQIMigrator:
 
     def execute_migration(self):
         """Execute the actual migration (placeholder)"""
-            print("🚀 EXECUTING QUANTUM → QI MIGRATION")
-            print("=" * 60)
+        print("🚀 EXECUTING QUANTUM → QI MIGRATION")
+        print("=" * 60)
 
-            executed_operations = 0
-            errors = []
+        executed_operations = 0
+        errors = []
 
-            # 1. Execute file renames
-            print("🔄 Renaming files...")
-            for src, dst in file_renames:
-                try:
-                    if src.exists():
-                        dst.parent.mkdir(parents=True, exist_ok=True)
-                        src.rename(dst)
-                        executed_operations += 1
-                        print(f"✅ Renamed: {src.name} → {dst.name}")
-                    else:
-                        print(f"⚠️  File not found: {src}")
-                except Exception as e:
-                    error_msg = f"❌ Failed to rename {src} → {dst}: {e}"
-                    print(error_msg)
+        # 1. Execute file renames
+        print("🔄 Renaming files...")
+        for src, dst in file_renames:
+            try:
+                if src.exists():
+                    dst.parent.mkdir(parents=True, exist_ok=True)
+                    src.rename(dst)
+                    executed_operations += 1
+                    print(f"✅ Renamed: {src.name} → {dst.name}")
+                else:
+                    print(f"⚠️  File not found: {src}")
+            except Exception as e:
+                error_msg = f"❌ Failed to rename {src} → {dst}: {e}"
+                print(error_msg)
                     errors.append(error_msg)
 
             # 2. Execute class renames (content updates)

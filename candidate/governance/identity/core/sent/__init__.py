@@ -36,7 +36,7 @@ Usage:
 
 from .consent_history import ConsentHistoryManager
 from .consent_manager import LambdaConsentManager
-from .policy_engine import ConsentPolicyEngine
+from .policy_engine import ComprehensiveEthicsPolicyEngine
 from .symbolic_scopes import SymbolicScopesManager
 
 # Create alias for compatibility with interface.py
@@ -47,7 +47,7 @@ __all__ = [
     "ConsentManager",
     "SymbolicScopesManager",
     "ConsentHistoryManager",
-    "ConsentPolicyEngine",
+    "ComprehensiveEthicsPolicyEngine",
 ]
 
 # Symbolic consent system version

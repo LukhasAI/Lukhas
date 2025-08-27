@@ -258,22 +258,22 @@ class EnvValidator:
         ]
 
         for config in self.REQUIRED_VARS:
-            lines.append(f"")
+            lines.append(f"# {config.description}")
             if config.required:
-                lines.append(")  #  REQUIRED"
+                lines.append("# REQUIRED")
             else:
-                lines.append(f"")
+                lines.append("# OPTIONAL")
 
             if config.allowed_values:
                 lines.append(
-                    f"", '.join(map(str, config.allowed_values))}"
+                    f"# Allowed values: {', '.join(map(str, config.allowed_values))}"
                 )
             if config.min_length:
-                lines.append(f"")
+                lines.append(f"# Minimum length: {config.min_length}")
             if config.min_value is not None:
-                lines.append(f"")
+                lines.append(f"# Minimum value: {config.min_value}")
             if config.max_value is not None:
-                lines.append(f"")
+                lines.append(f"# Maximum value: {config.max_value}")
 
             # Generate example value
             if config.var_type == EnvVarType.SECRET:

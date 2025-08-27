@@ -168,7 +168,7 @@ class DocumentStructureAnalyzer:
         # Check header formatting
         headers = re.findall(r"#{1,6}\s+\w+", content)
         consistent_headers = (
-            len({len(h) - len(h.lstrip('#')) for h in headers})
+            len({len(h) - len(h.lstrip("#")) for h in headers})
             == len({re.sub(r"#+\s+", "", h) for h in headers})
             if headers
             else True

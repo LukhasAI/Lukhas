@@ -45,25 +45,27 @@ TODO: Implement quantum decision superposition for parallel evaluation
 AIDEA: Add emotional intelligence integration for empathetic decisions
 """
 
-import numpy as np
-import structlog
-from typing import Dict, List, Any, Optional, Tuple, Union, Callable
-from dataclasses import dataclass, field
-from enum import Enum
-from datetime import datetime, timezone, timedelta
 import json
-import asyncio
 from abc import ABC, abstractmethod
-import uuid
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
 
 # Import Lukhas core components
 try:
-    from candidate.core.integration.neuro_symbolic_fusion_layer import NeuroSymbolicFusionLayer
-    from candidate.core.utils.orchestration_energy_aware_execution_planner import EnergyAwareExecutionPlanner
+    from candidate.core.integration.neuro_symbolic_fusion_layer import (
+        NeuroSymbolicFusionLayer,
+    )
+    from candidate.core.utils.orchestration_energy_aware_execution_planner import (
+        EnergyAwareExecutionPlanner,
+    )
     from lukhas.memory.governance.ethical_drift_governor import EthicalDriftGovernor
     from reasoning.symbolic_reasoning import SymbolicEngine
-except ImportError as e:
-    from candidate.core.common import get_logger
+except ImportError:
+    pass
 
 
 class DecisionType(Enum):
@@ -921,7 +923,7 @@ def create_dmb_instance(config_path: Optional[str] = None) -> DecisionMakingBrid
     config = None
     if config_path:
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 config = json.load(f)
         except Exception as e:
             logger.warning(f"Failed to load config from {config_path}: {e}")
@@ -931,17 +933,17 @@ def create_dmb_instance(config_path: Optional[str] = None) -> DecisionMakingBrid
 
 # Export main classes and functions
 __all__ = [
-    'DecisionMakingBridge',
-    'DecisionContext',
-    'DecisionAlternative',
-    'DecisionEvaluation',
-    'DecisionOutcome',
-    'DecisionType',
-    'DecisionCriteria',
-    'ConfidenceLevel',
-    'DecisionStrategy',
-    'UtilityMaximizationStrategy',
-    'create_dmb_instance'
+    "DecisionMakingBridge",
+    "DecisionContext",
+    "DecisionAlternative",
+    "DecisionEvaluation",
+    "DecisionOutcome",
+    "DecisionType",
+    "DecisionCriteria",
+    "ConfidenceLevel",
+    "DecisionStrategy",
+    "UtilityMaximizationStrategy",
+    "create_dmb_instance"
 ]
 
 

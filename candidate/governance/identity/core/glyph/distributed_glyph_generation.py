@@ -16,6 +16,11 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+from PIL import Image
+
+# Import colony infrastructure
+from candidate.core.colonies.base_colony import BaseColony
+from candidate.core.swarm import AgentState, SwarmAgent
 
 # Import identity components
 from governance.identity.core.events import (
@@ -23,11 +28,6 @@ from governance.identity.core.events import (
     get_identity_event_publisher,
 )
 from governance.identity.core.visualization.lukhas_orb import OrbVisualization
-from PIL import Image
-
-# Import colony infrastructure
-from candidate.core.colonies.base_colony import BaseColony
-from candidate.core.swarm import AgentState, SwarmAgent
 
 logger = logging.getLogger("LUKHAS_DISTRIBUTED_GLYPH")
 

@@ -12,6 +12,10 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
+from candidate.core.enhanced_swarm import EnhancedSwarmHub
+
+# Import swarm infrastructure
+from candidate.core.swarm import SwarmTask, TaskPriority
 from governance.identity.core.colonies import (
     BiometricVerificationColony,
     ConsciousnessVerificationColony,
@@ -24,11 +28,6 @@ from governance.identity.core.events import (
     IdentityEventType,
     get_identity_event_publisher,
 )
-
-from candidate.core.enhanced_swarm import EnhancedSwarmHub
-
-# Import swarm infrastructure
-from candidate.core.swarm import SwarmTask, TaskPriority
 
 logger = logging.getLogger("LUKHAS_TIER_SWARM_HUB")
 

@@ -376,7 +376,7 @@ console.log(response.content);
                     "description": "Direct HTTP API calls",
                     "example": """
 curl -X POST https://api.lukhas.ai/v1/orchestrate \\
-  -H "Authorization: Bearer your-api-key" \\
+  -H "Authorization: Bearer YOUR_API_KEY_HERE" \\
   -H "Content-Type: application/json" \\
   -d '{
     "prompt": "Explain quantum computing",

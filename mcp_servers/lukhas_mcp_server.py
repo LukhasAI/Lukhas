@@ -23,9 +23,8 @@ from typing import Any
 # Note: Run `pip install mcp` to install the Model Context Protocol library
 try:
     import mcp.server.stdio
-    import mcp.types as types
-    from mcp import Server
-    from mcp.server import NotificationOptions, Server
+    from mcp import types
+    from mcp.server import Server, NotificationOptions
     from mcp.server.models import InitializationOptions
 
     MCP_AVAILABLE = True

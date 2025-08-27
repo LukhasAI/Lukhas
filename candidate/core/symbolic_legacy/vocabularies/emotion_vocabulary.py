@@ -13,8 +13,7 @@ EMOTION_VOCABULARY = {
     "joy": {
         "emoji": "😊",
         "symbol": "JOY◊",
-        "meaning": "A positive emotional state characterized by feelings of happiness,"
-        pleasure, and contentment.",
+        "meaning": "A positive emotional state characterized by feelings of happiness, pleasure, and contentment.",
         "resonance": "positive",
         "guardian_weight": 0.1,
         "contexts": ["happiness", "pleasure", "contentment"],
@@ -22,8 +21,7 @@ EMOTION_VOCABULARY = {
     "sadness": {
         "emoji": "😢",
         "symbol": "SAD◊",
-        "meaning": "A negative emotional state characterized by feelings of sorrow,
-        loss, and unhappiness.",
+        "meaning": "A negative emotional state characterized by feelings of sorrow, loss, and unhappiness.",
         "resonance": "negative",
         "guardian_weight": 0.4,
         "contexts": ["sorrow", "loss", "unhappiness"],
