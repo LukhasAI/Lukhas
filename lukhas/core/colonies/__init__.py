@@ -50,41 +50,41 @@ try:
         raise ImportError("Using stub implementation to avoid cross-lane imports")
 except ImportError:
     logger.warning("BaseColony not found, creating stub")
-        # Create a minimal BaseColony stub if not found
-        from abc import ABC
-        from abc import abstractmethod
-        from dataclasses import dataclass
-        from dataclasses import field
-        from typing import Any
-        from typing import Dict
-        from typing import List
+    # Create a minimal BaseColony stub if not found
+    from abc import ABC
+    from abc import abstractmethod
+    from dataclasses import dataclass
+    from dataclasses import field
+    from typing import Any
+    from typing import Dict
+    from typing import List
 
-        @dataclass
-        class ConsensusResult:
-            """Result of a consensus operation in a colony."""
+    @dataclass
+    class ConsensusResult:
+        """Result of a consensus operation in a colony."""
 
-            consensus_reached: bool
-            decision: Any
-            confidence: float
-            votes: dict[str, Any]
-            participation_rate: float
-            dissent_reasons: list[str] = field(default_factory=list)
+        consensus_reached: bool
+        decision: Any
+        confidence: float
+        votes: dict[str, Any]
+        participation_rate: float
+        dissent_reasons: list[str] = field(default_factory=list)
 
-        class BaseColony(ABC):
-            """Base class for all agent colonies (stub implementation)"""
+    class BaseColony(ABC):
+        """Base class for all agent colonies (stub implementation)"""
 
-            def __init__(self, colony_id: str, capabilities: list[str]):
-                self.colony_id = colony_id
-                self.capabilities = capabilities
-                self.actors = {}
+        def __init__(self, colony_id: str, capabilities: list[str]):
+            self.colony_id = colony_id
+            self.capabilities = capabilities
+            self.actors = {}
 
-            @abstractmethod
-            def process(self, task: Any) -> Any:
-                """Process a task in the colony"""
+        @abstractmethod
+        def process(self, task: Any) -> Any:
+            """Process a task in the colony"""
 
-            @abstractmethod
-            def reach_consensus(self, proposal: Any) -> ConsensusResult:
-                """Reach consensus on a proposal"""
+        @abstractmethod
+        def reach_consensus(self, proposal: Any) -> ConsensusResult:
+            """Reach consensus on a proposal"""
 
 
 # Import colony types with fallback
