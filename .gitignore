@@ -104,7 +104,9 @@ temp/
 setup_report.json
 test_results.json
 test_report.md
-reports/
+reports/*
+# Exception: Track deep search indexes for external auditor
+!reports/deep_search/
 .pytest_cache/
 .venv/
 .venv_test/

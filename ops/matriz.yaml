@@ -1,0 +1,74 @@
+version: 1
+owners:
+  default: ["@Gonzalo"]
+lanes:
+  - name: accepted
+    root: lukhas/
+    owners: ["@Gonzalo"]
+    depends_on: [core, matriz]
+    import_rules:
+      allow_from: ["lukhas/**","core/**","matriz/**","universal_language/**"]
+      deny_from: ["candidate/**"]
+    promotion:
+      from: candidate
+      labels_required: ["promotion","autofix-clear"]
+      checks:
+        - tests/smoke
+        - reality_imports
+        - no_safe_fixable_lints
+  - name: candidate
+    root: candidate/
+    owners: ["@Agent01"]
+    depends_on: [core, matriz]
+    import_rules:
+      allow_from: ["candidate/**","core/**","matriz/**","universal_language/**"]
+      deny_from: ["lukhas/**"]
+    promotion:
+      to: accepted
+      checks:
+        - tests/smoke
+  - name: core
+    root: lukhas/core/
+    owners: ["@Agent02"]
+    depends_on: []
+    import_rules:
+      allow_from: ["lukhas/**","candidate/**","core/**","universal_language/**"]
+      deny_from: []
+  - name: matriz
+    root: MATRIZ/
+    owners: ["@Agent03"]
+    depends_on: [core]
+    import_rules:
+      allow_from: ["MATRIZ/**","lukhas/**","candidate/**","universal_language/**"]
+      deny_from: []
+  - name: archive
+    root: archive/
+    owners: ["@Agent04"]
+    depends_on: []
+    import_rules:
+      allow_from: ["archive/**"]
+      deny_from: ["lukhas/**","candidate/**","core/**","MATRIZ/**","universal_language/**"]
+  - name: quarantine
+    root: quarantine/
+    owners: ["@Agent04"]
+    depends_on: []
+    import_rules:
+      allow_from: ["quarantine/**"]
+      deny_from: ["lukhas/**","candidate/**","core/**","MATRIZ/**","universal_language/**"]
+  - name: experimental
+    root: experimental/
+    owners: ["@Agent05"]
+    depends_on: [core]
+    import_rules:
+      allow_from: ["experimental/**","core/**","universal_language/**"]
+      deny_from: ["lukhas/**"]
+invariants:
+  imports:
+    - rule: "no cross import from candidate/ into lukhas/"
+      deny: ["lukhas/** <- candidate/**"]
+    - rule: "no archive/quarantine referenced by runtime lanes"
+      deny: ["archive/** -> **","quarantine/** -> **"]
+  secrets:
+    - pattern: "**/*.pem"
+    - pattern: "**/jwt.*"
+  zero_bytes_fail: true

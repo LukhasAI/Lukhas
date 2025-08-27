@@ -1,0 +1,16 @@
+security/.DS_Store
+security/__init__.py
+security/incident-response/agent-compromise-response.md
+security/incident-response/consciousness-threat-playbook.md
+security/incident-response/quantum-security-procedures.md
+security/scanning/__init__.py
+security/scanning/consciousness-security-rules.py
+security/scanning/consciousness_security_rules.py
+security/scanning/semgrep-rules.yaml
+security/scanning/trivy-config.yaml
+security/vault/.DS_Store
+security/vault/policies/agent-communication-policy.hcl
+security/vault/policies/consciousness-secrets-policy.hcl
+security/vault/policies/lukhas-identity-policy.hcl
+security/vault/scripts/rotate-consciousness-keys.sh
+security/vault/scripts/vault-setup.sh
