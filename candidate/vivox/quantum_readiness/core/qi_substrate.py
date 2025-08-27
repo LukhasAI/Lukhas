@@ -100,15 +100,15 @@ class QIEnvironment:
     connectivity: dict[int, list[int]] = field(
         default_factory=dict
     )  # Qubit connectivity
-    noise_model: dict[QuantumNoiseType, float] = field(default_factory=dict)
+    noise_model: dict[QINoiseType, float] = field(default_factory=dict)
 
     def __post_init__(self):
         """Initialize default noise model if not provided"""
         if not self.noise_model:
             self.noise_model = {
-                QuantumNoiseType.DECOHERENCE: 0.01,
-                QuantumNoiseType.DEPHASING: 0.005,
-                QuantumNoiseType.DEPOLARIZING: 0.001,
+                QINoiseType.DECOHERENCE: 0.01,
+                QINoiseType.DEPHASING: 0.005,
+                QINoiseType.DEPOLARIZING: 0.001,
             }
 
 
@@ -128,10 +128,10 @@ class QISubstrate:
         self.config = config or self._default_config()
 
         # Quantum environment
-        self.environment = QuantumEnvironment(**self.config.get("environment", {}))
+        self.environment = QIEnvironment(**self.config.get("environment", {}))
 
         # State management
-        self.quantum_states: dict[str, QIState] = {}
+        self.qi_states: dict[str, QIState] = {}
         self.state_history: list[QIState] = []
 
         # Noise mitigation
@@ -198,7 +198,7 @@ class QISubstrate:
         )
 
         # Store state
-        self.quantum_states[state.state_id] = state
+        self.qi_states[state.state_id] = state
         self.state_history.append(state)
 
         return state
@@ -220,7 +220,7 @@ class QISubstrate:
 
         # Apply different noise channels
         for noise_type, strength in self.environment.noise_model.items():
-            if noise_type == QuantumNoiseType.DECOHERENCE:
+            if noise_type == QINoiseType.DECOHERENCE:
                 # Amplitude damping
                 decay = np.exp(-time_evolution / self.environment.coherence_time)
                 noisy_state *= decay
@@ -229,7 +229,7 @@ class QISubstrate:
                     state.state_vector
                 )
 
-            elif noise_type == QuantumNoiseType.DEPHASING:
+            elif noise_type == QINoiseType.DEPHASING:
                 # Random phase errors
                 phases = np.exp(
                     1j
@@ -237,7 +237,7 @@ class QISubstrate:
                 )
                 noisy_state *= phases
 
-            elif noise_type == QuantumNoiseType.DEPOLARIZING:
+            elif noise_type == QINoiseType.DEPOLARIZING:
                 # Mix with maximally mixed state
                 p_error = 1 - np.exp(-strength * time_evolution)
                 maximally_mixed = np.ones_like(noisy_state) / len(noisy_state)
@@ -346,8 +346,8 @@ class QISubstrate:
             entanglement_map={state1_id: 1.0},
         )
 
-        self.quantum_states[state1.state_id] = state1
-        self.quantum_states[state2.state_id] = state2
+        self.qi_states[state1.state_id] = state1
+        self.qi_states[state2.state_id] = state2
 
         return state1, state2
 
@@ -436,13 +436,13 @@ class QISubstrate:
 
     def get_quantum_metrics(self) -> dict[str, Any]:
         """Get current quantum substrate metrics"""
-        active_states = [s for s in self.quantum_states.values() if s.fidelity > 0.5]
+        active_states = [s for s in self.qi_states.values() if s.fidelity > 0.5]
         entangled_states = [
             s for s in active_states if s.state_type == QIStateType.ENTANGLED
         ]
 
         return {
-            "total_states": len(self.quantum_states),
+            "total_states": len(self.qi_states),
             "active_states": len(active_states),
             "entangled_pairs": len(entangled_states) // 2,
             "average_fidelity": (
@@ -473,7 +473,7 @@ class QISubstrate:
             "entanglement_support": len(
                 [
                     s
-                    for s in self.quantum_states.values()
+                    for s in self.qi_states.values()
                     if s.state_type == QIStateType.ENTANGLED
                 ]
             )
@@ -492,7 +492,7 @@ class QISubstrate:
             "recommendations": self._generate_transition_recommendations(
                 readiness_checks
             ),
-            "quantum_metrics": self.get_quantum_metrics(),
+            "qi_metrics": self.get_quantum_metrics(),
         }
 
     def _generate_transition_recommendations(

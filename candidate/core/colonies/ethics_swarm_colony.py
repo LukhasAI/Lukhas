@@ -58,7 +58,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.colonies.base_colony import BaseColony
+from candidate.core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.ethics_swarm_colony")
 

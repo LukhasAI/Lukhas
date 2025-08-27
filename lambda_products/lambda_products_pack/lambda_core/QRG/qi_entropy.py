@@ -23,7 +23,7 @@ class QIEntropySource(Enum):
     """Available quantum entropy sources"""
 
     HARDWARE_RNG = "hardware_rng"
-    QUANTUM_API = "quantum_api"
+    QUANTUM_API = "qi_api"
     ATMOSPHERIC_NOISE = "atmospheric_noise"
     CRYPTOGRAPHIC_SECURE = "cryptographic_secure"
     HYBRID_ENSEMBLE = "hybrid_ensemble"
@@ -34,7 +34,7 @@ class EntropyProfile:
     """Profile for entropy generation requirements"""
 
     bits_required: int = 256
-    quality_level: str = "quantum_grade"  # quantum_grade, crypto_secure, standard
+    quality_level: str = "qi_grade"  # qi_grade, crypto_secure, standard
     refresh_rate: float = 1.0  # Hz
     bias_correction: bool = True
     von_neumann_extraction: bool = True
@@ -52,7 +52,7 @@ class TrueQuantumRandomness:
 
     def __init__(
         self,
-        entropy_source: QuantumEntropySource = QuantumEntropySource.HYBRID_ENSEMBLE,
+        entropy_source: QIEntropySource = QIEntropySource.HYBRID_ENSEMBLE,
     ):
         """
         Initialize quantum entropy generator
@@ -90,20 +90,20 @@ class TrueQuantumRandomness:
             with open("/dev/hwrng", "rb") as hwrng:
                 test_bytes = hwrng.read(32)
                 if len(test_bytes) == 32:
-                    self.entropy_sources[QuantumEntropySource.HARDWARE_RNG] = True
+                    self.entropy_sources[QIEntropySource.HARDWARE_RNG] = True
                     logger.info("🔧 Hardware RNG detected and available")
         except (FileNotFoundError, PermissionError):
-            self.entropy_sources[QuantumEntropySource.HARDWARE_RNG] = False
+            self.entropy_sources[QIEntropySource.HARDWARE_RNG] = False
 
         # Cryptographic secure random (always available)
-        self.entropy_sources[QuantumEntropySource.CRYPTOGRAPHIC_SECURE] = True
+        self.entropy_sources[QIEntropySource.CRYPTOGRAPHIC_SECURE] = True
 
         # Quantum API sources (simulated - in production would connect to quantum
         # services)
-        self.entropy_sources[QuantumEntropySource.QUANTUM_API] = True
+        self.entropy_sources[QIEntropySource.QUANTUM_API] = True
 
         # Atmospheric noise (simulated)
-        self.entropy_sources[QuantumEntropySource.ATMOSPHERIC_NOISE] = True
+        self.entropy_sources[QIEntropySource.ATMOSPHERIC_NOISE] = True
 
         logger.info(
             f"🌐 Initialized {sum(self.entropy_sources.values())} entropy sources"
@@ -147,11 +147,11 @@ class TrueQuantumRandomness:
         self._maintain_entropy_pool(num_bytes * 2)
 
         # Extract entropy based on source
-        if self.entropy_source == QuantumEntropySource.HYBRID_ENSEMBLE:
+        if self.entropy_source == QIEntropySource.HYBRID_ENSEMBLE:
             raw_bytes = self._extract_hybrid_entropy(num_bytes)
-        elif self.entropy_source == QuantumEntropySource.QUANTUM_API:
+        elif self.entropy_source == QIEntropySource.QUANTUM_API:
             raw_bytes = self._extract_quantum_api_entropy(num_bytes)
-        elif self.entropy_source == QuantumEntropySource.HARDWARE_RNG:
+        elif self.entropy_source == QIEntropySource.HARDWARE_RNG:
             raw_bytes = self._extract_hardware_entropy(num_bytes)
         else:
             raw_bytes = self._extract_cryptographic_entropy(num_bytes)
@@ -180,11 +180,11 @@ class TrueQuantumRandomness:
         sources_data = []
 
         # Quantum API source (simulated)
-        if self.entropy_sources.get(QuantumEntropySource.QUANTUM_API):
+        if self.entropy_sources.get(QIEntropySource.QUANTUM_API):
             sources_data.append(self._simulate_quantum_entropy(num_bytes))
 
         # Hardware RNG source
-        if self.entropy_sources.get(QuantumEntropySource.HARDWARE_RNG):
+        if self.entropy_sources.get(QIEntropySource.HARDWARE_RNG):
             sources_data.append(self._extract_hardware_entropy(num_bytes))
 
         # Cryptographic source
@@ -206,24 +206,24 @@ class TrueQuantumRandomness:
         # - ID Quantique quantum RNGs
 
         # Simulated quantum measurements
-        quantum_measurements = []
+        qi_measurements = []
         for _ in range(num_bytes * 8):
             # Simulate quantum bit measurement (0 or 1)
             # In reality, would measure quantum superposition collapse
             measurement = secrets.randbelow(2)
-            quantum_measurements.append(measurement)
+            qi_measurements.append(measurement)
 
         # Convert measurements to bytes
-        quantum_bytes = bytearray()
-        for i in range(0, len(quantum_measurements), 8):
-            byte_bits = quantum_measurements[i : i + 8]
+        qi_bytes = bytearray()
+        for i in range(0, len(qi_measurements), 8):
+            byte_bits = qi_measurements[i : i + 8]
             if len(byte_bits) == 8:
                 byte_value = sum(
                     bit * (2 ** (7 - idx)) for idx, bit in enumerate(byte_bits)
                 )
-                quantum_bytes.append(byte_value)
+                qi_bytes.append(byte_value)
 
-        return bytes(quantum_bytes[:num_bytes])
+        return bytes(qi_bytes[:num_bytes])
 
     def _extract_hardware_entropy(self, num_bytes: int) -> bytes:
         """Extract entropy from hardware RNG"""
@@ -255,14 +255,14 @@ class TrueQuantumRandomness:
             measurements.append(measurement)
 
         # Convert to bytes
-        quantum_bytes = bytearray()
+        qi_bytes = bytearray()
         for i in range(0, len(measurements), 8):
             bits = measurements[i : i + 8]
             if len(bits) == 8:
                 byte_val = sum(bit << (7 - j) for j, bit in enumerate(bits))
-                quantum_bytes.append(byte_val)
+                qi_bytes.append(byte_val)
 
-        return bytes(quantum_bytes[:num_bytes])
+        return bytes(qi_bytes[:num_bytes])
 
     def _simulate_atmospheric_noise(self, num_bytes: int) -> bytes:
         """Simulate atmospheric noise entropy"""
@@ -553,7 +553,7 @@ class TrueQuantumRandomness:
         if self.entropy_quality.get("entropy_rate", 1) < 0.9:
             recommendations.append("Verify entropy source quality")
 
-        if not self.entropy_sources.get(QuantumEntropySource.HARDWARE_RNG):
+        if not self.entropy_sources.get(QIEntropySource.HARDWARE_RNG):
             recommendations.append("Consider hardware RNG for enhanced security")
 
         return recommendations

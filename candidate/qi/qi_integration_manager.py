@@ -38,20 +38,20 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional
 
-from dream.quantum_dream_adapter import DreamQuantumConfig, QuantumDreamAdapter
+from dream.qi_dream_adapter import DreamQuantumConfig, QIDreamAdapter
 
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
 from candidate.core.unified_integration import UnifiedIntegration
 from qi.awareness_system import (
     AwarenessQuantumConfig,
-    QuantumAwarenessSystem,
+    QIAwarenessSystem,
 )
 from qi.dast_orchestrator import (
     DASTQuantumConfig,
-    QuantumDASTOrchestrator,
+    QIDASTOrchestrator,
 )
 
-logger = logging.getLogger("quantum_unified")
+logger = logging.getLogger("qi_unified")
 
 
 @dataclass
@@ -93,19 +93,19 @@ class UnifiedQuantumSystem:
         self.awareness_system = None
 
         if self.config.enable_dream_processing:
-            self.dream_adapter = QuantumDreamAdapter(
+            self.dream_adapter = QIDreamAdapter(
                 orchestrator=self.orchestrator, config=self.config.dream_config
             )
 
         if self.config.enable_dast_orchestration:
-            self.dast_orchestrator = QuantumDASTOrchestrator(
+            self.dast_orchestrator = QIDASTOrchestrator(
                 orchestrator=self.orchestrator,
                 integration=self.integration,
                 config=self.config.dast_config,
             )
 
         if self.config.enable_awareness_system:
-            self.awareness_system = QuantumAwarenessSystem(
+            self.awareness_system = QIAwarenessSystem(
                 orchestrator=self.orchestrator,
                 integration=self.integration,
                 config=self.config.awareness_config,
@@ -113,7 +113,7 @@ class UnifiedQuantumSystem:
             )
 
         # Register with integration layer
-        self.integration.register_component("quantum_unified", self.handle_message)
+        self.integration.register_component("qi_unified", self.handle_message)
 
         logger.info("Unified quantum system initialized")
 
@@ -187,7 +187,7 @@ class UnifiedQuantumSystem:
             system_state = self.awareness_system.get_system_state()
             status["system_monitoring"] = {
                 "active": self.awareness_system.active,
-                "quantum_coherence": system_state.quantum_coherence,
+                "qi_coherence": system_state.qi_coherence,
                 "system_health": system_state.system_health,
                 "alert_level": system_state.alert_level,
             }
@@ -223,7 +223,7 @@ class UnifiedQuantumSystem:
 
             response = {"type": "system_status", "status": status}
 
-            await self.integration.send_message("quantum_unified", response)
+            await self.integration.send_message("qi_unified", response)
 
         except Exception as e:
             logger.error(f"Error handling status request: {e}")
@@ -281,7 +281,7 @@ class UnifiedQuantumSystem:
 def __validate_module__():
     """Validate module initialization and compliance."""
     validations = {
-        "quantum_coherence": True,
+        "qi_coherence": True,
         "neuroplasticity_enabled": False,
         "ethics_compliance": True,
         "tier_2_access": True,
@@ -300,7 +300,7 @@ def __validate_module__():
 
 MODULE_HEALTH = {
     "initialization": "complete",
-    "quantum_features": "active",
+    "qi_features": "active",
     "bio_integration": "enabled",
     "last_update": "2025-07-27",
     "compliance_status": "verified",

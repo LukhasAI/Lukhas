@@ -612,7 +612,7 @@ class OpenAICoreService:
             ),
         }
 
-        return hashlib.sha256(  # Changed from MD5 for securityjson.dumps(key_data, sort_keys=True).encode()).hexdigest()
+        return hashlib.sha256(json.dumps(key_data, sort_keys=True).encode()).hexdigest()
 
     def _is_cache_valid(self, response: OpenAIResponse) -> bool:
         """Check if cached response is still valid."""

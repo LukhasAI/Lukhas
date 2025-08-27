@@ -12,9 +12,9 @@ from collections import defaultdict, deque
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.core.colonies.base_colony import BaseColony
+from candidate.core.colonies.base_colony import BaseColony
 from lukhas.core.efficient_communication import MessagePriority
-from lukhas.core.swarm import SwarmAgent
+from candidate.core.swarm import SwarmAgent
 
 logger = logging.getLogger(__name__)
 

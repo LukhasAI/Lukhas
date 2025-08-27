@@ -7,7 +7,7 @@ import logging
 from typing import Any, Optional
 
 try:
-    from .abas_quantum_specialist import QuantumBiologicalAGI
+    from .abas_quantum_specialist import QIBiologicalAGI
 
     QUANTUM_SPECIALIST_AVAILABLE = True
 except ImportError as e:
@@ -15,7 +15,7 @@ except ImportError as e:
     logging.warning(f"ABAS quantum specialist not available: {e}")
     # Try mock implementation
     try:
-        from .abas_quantum_specialist_mock import QuantumBiologicalAGI
+        from .abas_quantum_specialist_mock import QIBiologicalAGI
         from .abas_quantum_specialist_mock import (
             get_quantum_biological_agi as get_mock_quantum_agi,
         )
@@ -40,7 +40,7 @@ class ABASQuantumSpecialistWrapper:
             raise ImportError("ABAS quantum specialist module not available")
 
         # Initialize the quantum biological AGI
-        self.quantum_agi = QuantumBiologicalAGI()
+        self.qi_agi = QIBiologicalAGI()
 
         # Track integration status
         self.is_integrated = False
@@ -59,7 +59,7 @@ class ABASQuantumSpecialistWrapper:
         """Initialize and integrate with ethics system"""
         try:
             # Integrate with ethics engine
-            integration_success = await self.quantum_agi.integrate_with_ethics()
+            integration_success = await self.qi_agi.integrate_with_ethics()
             self.is_integrated = integration_success
 
             if integration_success:
@@ -80,7 +80,7 @@ class ABASQuantumSpecialistWrapper:
 
         try:
             # Process with quantum biology
-            response = await self.quantum_agi.process_with_quantum_biology(
+            response = await self.qi_agi.process_with_quantum_biology(
                 input_text, context
             )
 
@@ -90,11 +90,11 @@ class ABASQuantumSpecialistWrapper:
                 "average_bio_confidence", response.bio_confidence
             )
             self._update_average_metric(
-                "average_quantum_coherence", response.quantum_coherence
+                "average_quantum_coherence", response.qi_coherence
             )
 
             # Check for capability advancement
-            current_level = self.quantum_agi.capability_level
+            current_level = self.qi_agi.capability_level
             if (
                 hasattr(self, "_last_capability_level")
                 and current_level != self._last_capability_level
@@ -106,7 +106,7 @@ class ABASQuantumSpecialistWrapper:
             result = {
                 "content": response.content,
                 "bio_confidence": response.bio_confidence,
-                "quantum_coherence": response.quantum_coherence,
+                "qi_coherence": response.qi_coherence,
                 "atp_efficiency": response.atp_efficiency,
                 "ethical_resonance": response.ethical_resonance,
                 "cristae_topology": response.cristae_topology,
@@ -128,7 +128,7 @@ class ABASQuantumSpecialistWrapper:
                 "error": str(e),
                 "content": f"Processing error: {str(e)}",
                 "bio_confidence": 0.0,
-                "quantum_coherence": 0.0,
+                "qi_coherence": 0.0,
                 "atp_efficiency": 0.0,
                 "ethical_resonance": 0.0,
             }
@@ -148,8 +148,8 @@ class ABASQuantumSpecialistWrapper:
         self, decision_context: dict[str, Any]
     ) -> dict[str, Any]:
         """Get quantum tunneling ethical arbitration"""
-        if hasattr(self.quantum_agi, "quantum_ethics"):
-            return self.quantum_agi.quantum_ethics.quantum_ethical_arbitration(
+        if hasattr(self.qi_agi, "qi_ethics"):
+            return self.qi_agi.qi_ethics.qi_ethical_arbitration(
                 decision_context
             )
         return {"error": "Quantum ethics not available"}
@@ -158,8 +158,8 @@ class ABASQuantumSpecialistWrapper:
         self, input_data: dict[str, Any]
     ) -> dict[str, Any]:
         """Create proton motive attention gradient"""
-        if hasattr(self.quantum_agi, "proton_processor"):
-            return self.quantum_agi.proton_processor.create_attention_gradient(
+        if hasattr(self.qi_agi, "proton_processor"):
+            return self.qi_agi.proton_processor.create_attention_gradient(
                 input_data
             )
         return {"error": "Proton processor not available"}
@@ -170,15 +170,15 @@ class ABASQuantumSpecialistWrapper:
         performance_metrics: dict[str, Any],
     ) -> dict[str, Any]:
         """Optimize cristae topology for performance"""
-        if hasattr(self.quantum_agi, "cristae_manager"):
-            return self.quantum_agi.cristae_manager.optimize_cristae_topology(
+        if hasattr(self.qi_agi, "cristae_manager"):
+            return self.qi_agi.cristae_manager.optimize_cristae_topology(
                 current_state, performance_metrics
             )
         return {"error": "Cristae manager not available"}
 
     def get_biological_status(self) -> dict[str, Any]:
         """Get comprehensive biological AI status"""
-        base_status = self.quantum_agi.get_biological_status()
+        base_status = self.qi_agi.get_biological_status()
 
         # Add integration statistics
         base_status["integration_stats"] = self.integration_stats.copy()
@@ -188,7 +188,7 @@ class ABASQuantumSpecialistWrapper:
 
     def get_capability_level(self) -> str:
         """Get current capability level"""
-        return self.quantum_agi.capability_level.value
+        return self.qi_agi.capability_level.value
 
     async def shutdown(self):
         """Shutdown quantum specialist"""

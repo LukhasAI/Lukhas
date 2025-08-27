@@ -11,8 +11,8 @@
 ║ Quantum-enhanced memory management with entanglement capabilities
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 ╠══════════════════════════════════════════════════════════════════════════════════
-║ Module: quantum_memory_manager.py
-║ Path: lukhas/memory/quantum_memory_manager.py
+║ Module: qi_memory_manager.py
+║ Path: lukhas/memory/qi_memory_manager.py
 ║ Version: 1.0.0 | Created: 2025-07-26
 ║ Authors: LUKHAS AI Architecture Team
 ╚══════════════════════════════════════════════════════════════════════════════════
@@ -46,7 +46,7 @@ class QIMemoryManager(BaseMemoryManager):
         super().__init__(config, base_path)
 
         # Quantum-specific configuration
-        self.quantum_config = {
+        self.qi_config = {
             "coherence_threshold": 0.7,
             "entanglement_strength": 0.5,
             "superposition_limit": 8,
@@ -55,12 +55,12 @@ class QIMemoryManager(BaseMemoryManager):
         }
 
         # Quantum state tracking
-        self.quantum_like_states: dict[str, dict[str, Any]] = {}
+        self.qi_like_states: dict[str, dict[str, Any]] = {}
         self.entanglements: dict[str, set[str]] = {}
         self.coherence_scores: dict[str, float] = {}
 
         self.logger.info(
-            "QIMemoryManager initialized", quantum_config=self.quantum_config
+            "QIMemoryManager initialized", qi_config=self.qi_config
         )
 
     async def store(
@@ -80,14 +80,14 @@ class QIMemoryManager(BaseMemoryManager):
 
         try:
             # Initialize quantum-like state
-            quantum_like_state = self._initialize_quantum_like_state(memory_data)
-            self.quantum_like_states[memory_id] = quantum_like_state
+            qi_like_state = self._initialize_quantum_like_state(memory_data)
+            self.qi_like_states[memory_id] = qi_like_state
             self.coherence_scores[memory_id] = 1.0  # Perfect coherence at creation
 
             # Prepare enhanced metadata
             enhanced_metadata = {
                 **(metadata or {}),
-                "quantum_like_state": quantum_like_state,
+                "qi_like_state": qi_like_state,
                 "coherence": 1.0,
                 "created_at": datetime.now(timezone.utc).isoformat(),
             }
@@ -97,7 +97,7 @@ class QIMemoryManager(BaseMemoryManager):
                 "data": memory_data,
                 "metadata": enhanced_metadata,
                 "quantum": {
-                    "state": quantum_like_state,
+                    "state": qi_like_state,
                     "entanglements": [],
                     "coherence_history": [1.0],
                 },
@@ -112,13 +112,13 @@ class QIMemoryManager(BaseMemoryManager):
             self.logger.info(
                 "Quantum memory stored",
                 memory_id=memory_id,
-                quantum_dimensions=quantum_like_state.get("dimensions"),
+                qi_dimensions=qi_like_state.get("dimensions"),
             )
 
             return {
                 "status": "success",
                 "memory_id": memory_id,
-                "quantum_like_state": quantum_like_state,
+                "qi_like_state": qi_like_state,
                 "coherence": 1.0,
             }
 
@@ -144,14 +144,14 @@ class QIMemoryManager(BaseMemoryManager):
             coherence = self._apply_decoherence(memory_id)
 
             # Check if quantum-like state needs refreshing
-            if memory_id not in self.quantum_like_states:
-                self.quantum_like_states[memory_id] = memory_package["quantum"]["state"]
+            if memory_id not in self.qi_like_states:
+                self.qi_like_states[memory_id] = memory_package["quantum"]["state"]
                 self.coherence_scores[memory_id] = coherence
 
             # Handle context-aware retrieval
             if context and context.get("collapse_superposition"):
                 memory_data = self._collapse_superposition(
-                    memory_package["data"], self.quantum_like_states[memory_id]
+                    memory_package["data"], self.qi_like_states[memory_id]
                 )
             else:
                 memory_data = memory_package["data"]
@@ -193,9 +193,9 @@ class QIMemoryManager(BaseMemoryManager):
             updated_data = {**current["data"], **updates} if merge else updates
 
             # Evolve quantum-like state
-            if memory_id in self.quantum_like_states:
-                self.quantum_like_states[memory_id] = self._evolve_quantum_like_state(
-                    self.quantum_like_states[memory_id], updates
+            if memory_id in self.qi_like_states:
+                self.qi_like_states[memory_id] = self._evolve_quantum_like_state(
+                    self.qi_like_states[memory_id], updates
                 )
 
             # Store updated memory
@@ -221,8 +221,8 @@ class QIMemoryManager(BaseMemoryManager):
                 del self.entanglements[memory_id]
 
             # Clean up quantum-like states
-            if memory_id in self.quantum_like_states:
-                del self.quantum_like_states[memory_id]
+            if memory_id in self.qi_like_states:
+                del self.qi_like_states[memory_id]
             if memory_id in self.coherence_scores:
                 del self.coherence_scores[memory_id]
 
@@ -339,12 +339,12 @@ class QIMemoryManager(BaseMemoryManager):
 
             # Update quantum-like states to reflect entanglement
             if (
-                memory_id1 in self.quantum_like_states
-                and memory_id2 in self.quantum_like_states
+                memory_id1 in self.qi_like_states
+                and memory_id2 in self.qi_like_states
             ):
                 self._entangle_quantum_like_states(
-                    self.quantum_like_states[memory_id1],
-                    self.quantum_like_states[memory_id2],
+                    self.qi_like_states[memory_id1],
+                    self.qi_like_states[memory_id2],
                 )
 
             self.logger.info(
@@ -354,7 +354,7 @@ class QIMemoryManager(BaseMemoryManager):
             return {
                 "status": "success",
                 "entangled_ids": [memory_id1, memory_id2],
-                "entanglement_strength": self.quantum_config["entanglement_strength"],
+                "entanglement_strength": self.qi_config["entanglement_strength"],
             }
 
         except Exception as e:
@@ -381,22 +381,22 @@ class QIMemoryManager(BaseMemoryManager):
                 return memory
 
             # Get quantum-like state
-            quantum_like_state = self.quantum_like_states.get(memory_id, {})
+            qi_like_state = self.qi_like_states.get(memory_id, {})
 
             # Generate visualization data
             viz_data = {
                 "memory_id": memory_id,
-                "quantum_like_state": {
-                    "dimensions": quantum_like_state.get("dimensions", 0),
-                    "amplitude": quantum_like_state.get("amplitude", []),
-                    "phase": quantum_like_state.get("phase", []),
+                "qi_like_state": {
+                    "dimensions": qi_like_state.get("dimensions", 0),
+                    "amplitude": qi_like_state.get("amplitude", []),
+                    "phase": qi_like_state.get("phase", []),
                 },
                 "coherence": self.coherence_scores.get(memory_id, 0.0),
                 "entanglements": list(self.entanglements.get(memory_id, set())),
                 "visualization_type": (
-                    options.get("type", "quantum_sphere")
+                    options.get("type", "qi_sphere")
                     if options
-                    else "quantum_sphere"
+                    else "qi_sphere"
                 ),
             }
 
@@ -416,7 +416,7 @@ class QIMemoryManager(BaseMemoryManager):
         """Initialize quantum-like state for memory."""
         # Calculate dimensionality based on data complexity
         dimensions = min(
-            len(str(memory_data)), self.quantum_config["superposition_limit"]
+            len(str(memory_data)), self.qi_config["superposition_limit"]
         )
 
         # Initialize quantum amplitudes and phases
@@ -443,14 +443,14 @@ class QIMemoryManager(BaseMemoryManager):
         # Apply decoherence
         current_coherence = self.coherence_scores[memory_id]
         new_coherence = current_coherence * (
-            1 - self.quantum_config["decoherence_rate"]
+            1 - self.qi_config["decoherence_rate"]
         )
 
         self.coherence_scores[memory_id] = new_coherence
         return new_coherence
 
     def _collapse_superposition(
-        self, memory_data: dict[str, Any], quantum_like_state: dict[str, Any]
+        self, memory_data: dict[str, Any], qi_like_state: dict[str, Any]
     ) -> dict[str, Any]:
         """Collapse superposition-like state to classical state."""
         # Simple collapse - in real implementation would be more sophisticated
@@ -477,7 +477,7 @@ class QIMemoryManager(BaseMemoryManager):
         """Create entanglement between quantum-like states."""
         # Simplified entanglement - mix phases
         if "phase" in state1 and "phase" in state2:
-            strength = self.quantum_config["entanglement_strength"]
+            strength = self.qi_config["entanglement_strength"]
 
             # Mix phases based on entanglement strength
             for i in range(min(len(state1["phase"]), len(state2["phase"]))):
@@ -503,9 +503,9 @@ class QIMemoryManager(BaseMemoryManager):
         base_stats = await super().get_statistics()
 
         # Add quantum-specific stats
-        quantum_stats = {
+        qi_stats = {
             **base_stats,
-            "quantum_memories": len(self.quantum_like_states),
+            "qi_memories": len(self.qi_like_states),
             "total_entanglements": sum(len(e) for e in self.entanglements.values())
             // 2,
             "average_coherence": (
@@ -513,7 +513,7 @@ class QIMemoryManager(BaseMemoryManager):
                 if self.coherence_scores
                 else 0.0
             ),
-            "coherence_threshold": self.quantum_config["coherence_threshold"],
+            "coherence_threshold": self.qi_config["coherence_threshold"],
         }
 
-        return quantum_stats
+        return qi_stats

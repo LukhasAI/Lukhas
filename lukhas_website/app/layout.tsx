@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic'
 import StateLayout from '@/components/state-layout'
 import CMP from '@/components/cmp'
 import type { Metadata } from 'next'
+import { Providers } from '@/components/providers'
 import './globals.css'
 import '../styles/auth-accessibility.css'
 
@@ -22,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="text-white antialiased">
-        {bgEnabled && <NeuralBackground mode="landing" />}
-        <StateLayout>
-          {children}
-        </StateLayout>
-        <CMP />
+        <Providers>
+          {bgEnabled && <NeuralBackground mode="landing" />}
+          <StateLayout>
+            {children}
+          </StateLayout>
+          <CMP />
+        </Providers>
       </body>
     </html>
   )

@@ -3,7 +3,7 @@ Quantum System Hub
 Quantum processing
 
 This hub coordinates all quantum subsystem components and provides
-a unified interface for external systems to interact with quantum.
+a unified interface for external systems to interact with qi.
 
 """
 
@@ -11,26 +11,26 @@ import asyncio
 import logging
 from typing import Any, Optional
 
-from candidate.core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
+from candidate.core.bridges.qi_memory_bridge import get_quantum_memory_bridge
 from qi.bio.bio_optimizer import (
     MockBioOrchestrator,
     MockQIBioCoordinator,
     QIBioOptimizationAdapter,
 )
-from qi.coordinator import QuantumCoordinator
+from qi.coordinator import QICoordinator
 from qi.distributed_quantum_architecture import (
     DistributedQuantumSafeOrchestrator,
 )
 
-# MockQuantumCore is defined inside QuantumCoordinator, not exported directly
+# MockQuantumCore is defined inside QICoordinator, not exported directly
 # from qi.coordinator import MockBioCoordinator
 # from qi.coordinator import SimpleBioCoordinator
-from qi.metadata import QuantumMetadataManager
+from qi.metadata import QIMetadataManager
 from qi.post_quantum_crypto_enhanced import (
-    QuantumResistantKeyManager,
+    QIResistantKeyManager,
     SecureMemoryManager,
 )
-from qi.quantum_security_integration import (
+from qi.qi_security_integration import (
     create_quantum_security_integration,
 )
 
@@ -45,11 +45,11 @@ except ImportError as e:
     NEURO_SYMBOLIC_AVAILABLE = False
     logging.warning(f"Neuro symbolic integration not available: {e}")
 
-# from qi.validator import QuantumValidator
-# from qi.quantum_waveform import QuantumWaveform
-# from qi.system_orchestrator import QuantumAGISystem
-# from qi.web_integration import QuantumSecurityLevel
-# from qi.web_integration import QuantumWebSession
+# from qi.validator import QIValidator
+# from qi.qi_waveform import QIWaveform
+# from qi.system_orchestrator import QIAGISystem
+# from qi.web_integration import QISecurityLevel
+# from qi.web_integration import QIWebSession
 
 logger = logging.getLogger(__name__)
 
@@ -68,7 +68,7 @@ class QIHub:
         self.is_initialized = False
 
         # Initialize components
-        self.coordinator = QuantumCoordinator()
+        self.coordinator = QICoordinator()
         self.register_service("coordinator", self.coordinator)
         self.mock = MockQuantumCore()
         self.register_service("mock", self.mock)
@@ -76,13 +76,13 @@ class QIHub:
         self.register_service("mockbiocoordinator", self.mockbiocoordinator)
         self.simplebiocoordinator = SimpleBioCoordinator()
         self.register_service("simplebiocoordinator", self.simplebiocoordinator)
-        self.metadatamanager = QuantumMetadataManager()
+        self.metadatamanager = QIMetadataManager()
         self.register_service("metadatamanager", self.metadatamanager)
         self.mockbioorchestrator = MockBioOrchestrator()
         self.register_service("mockbioorchestrator", self.mockbioorchestrator)
         self.mockbiocoordinator = MockQIBioCoordinator()
         self.register_service("mockbiocoordinator", self.mockbiocoordinator)
-        self.resistantkeymanager = QuantumResistantKeyManager()
+        self.resistantkeymanager = QIResistantKeyManager()
         self.register_service("resistantkeymanager", self.resistantkeymanager)
         self.securememorymanager = SecureMemoryManager()
         self.register_service("securememorymanager", self.securememorymanager)
@@ -98,8 +98,8 @@ class QIHub:
         self.register_service("qi_bio_optimizer", self.bio_optimizer)
 
         # Quantum Security integration
-        self.quantum_security = create_quantum_security_integration()
-        self.register_service("quantum_security", self.quantum_security)
+        self.qi_security = create_quantum_security_integration()
+        self.register_service("qi_security", self.qi_security)
 
         # Neuro Symbolic integration
         if NEURO_SYMBOLIC_AVAILABLE:
@@ -119,8 +119,8 @@ class QIHub:
             return
 
         # Initialize quantum security first for system protection
-        if hasattr(self.quantum_security, "initialize"):
-            await self.quantum_security.initialize()
+        if hasattr(self.qi_security, "initialize"):
+            await self.qi_security.initialize()
             logger.info("Quantum security system initialized")
 
         # Initialize neuro symbolic system
@@ -132,7 +132,7 @@ class QIHub:
         # Initialize all registered services
         for name, service in self.services.items():
             if hasattr(service, "initialize") and name not in [
-                "quantum_security",
+                "qi_security",
                 "neuro_symbolic",
             ]:
                 try:
@@ -166,15 +166,15 @@ class QIHub:
     def _register_attention_services(self):
         """Register quantum attention system services"""
         attention_services = [
-            ("quantum_attention_economics", "QIAttentionEconomics"),
+            ("qi_attention_economics", "QIAttentionEconomics"),
             ("attention_allocator", "QIAttentionAllocator"),
-            ("focus_manager", "QuantumFocusManager"),
+            ("focus_manager", "QIFocusManager"),
         ]
 
         for service_name, class_name in attention_services:
             try:
                 module = __import__(
-                    f"quantum.attention.{service_name}", fromlist=[class_name]
+                    f"qi.attention.{service_name}", fromlist=[class_name]
                 )
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -187,16 +187,16 @@ class QIHub:
         """Register quantum state management services"""
         state_services = [
             ("qi_state_manager", "QIStateManager"),
-            ("quantum_superposition", "QuantumSuperposition"),
-            ("quantum_entanglement", "QuantumEntanglement"),
-            ("quantum_measurement", "QuantumMeasurement"),
+            ("qi_superposition", "QISuperposition"),
+            ("qi_entanglement", "QIEntanglement"),
+            ("qi_measurement", "QIMeasurement"),
             ("coherence_monitor", "CoherenceMonitor"),
         ]
 
         for service_name, class_name in state_services:
             try:
                 module = __import__(
-                    f"quantum.state.{service_name}", fromlist=[class_name]
+                    f"qi.state.{service_name}", fromlist=[class_name]
                 )
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -209,14 +209,14 @@ class QIHub:
         """Register quantum integration services"""
         integration_services = [
             ("qi_processor", "QIProcessor"),
-            ("quantum_error_correction", "QuantumErrorCorrection"),
-            ("quantum_optimizer", "QuantumOptimizer"),
-            ("quantum_simulator", "QuantumSimulator"),
+            ("qi_error_correction", "QIErrorCorrection"),
+            ("qi_optimizer", "QIOptimizer"),
+            ("qi_simulator", "QISimulator"),
         ]
 
         for service_name, class_name in integration_services:
             try:
-                module = __import__(f"quantum.{service_name}", fromlist=[class_name])
+                module = __import__(f"qi.{service_name}", fromlist=[class_name])
                 cls = getattr(module, class_name)
                 instance = cls()
                 self.register_service(service_name, instance)
@@ -227,7 +227,7 @@ class QIHub:
     def _register_bridge_services(self):
         """Register cross-system bridge services"""
         try:
-            from candidate.core.bridges.consciousness_quantum_bridge import (
+            from candidate.core.bridges.consciousness_qi_bridge import (
                 get_consciousness_quantum_bridge,
             )
 
@@ -249,13 +249,13 @@ class QIHub:
             # Register key services globally for cross-hub access
             key_services = [
                 "qi_processor",
-                "quantum_superposition",
-                "quantum_attention_economics",
+                "qi_superposition",
+                "qi_attention_economics",
                 "qi_state_manager",
-                "quantum_entanglement",
-                "quantum_measurement",
+                "qi_entanglement",
+                "qi_measurement",
                 "coherence_monitor",
-                "quantum_error_correction",
+                "qi_error_correction",
                 "consciousness_bridge",
                 "qi_bio_optimizer",
                 "neuro_symbolic",

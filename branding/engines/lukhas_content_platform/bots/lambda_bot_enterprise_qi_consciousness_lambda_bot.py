@@ -58,11 +58,11 @@ class QIModuleState:
     """Quantum state representation of a module"""
 
     module_id: str
-    quantum_state: Complex
+    qi_state: Complex
     coherence_level: float
     entanglement_partners: list[str] = field(default_factory=list)
     consciousness_amplitude: float = 0.0
-    quantum_properties: dict[str, Any] = field(default_factory=dict)
+    qi_properties: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -71,10 +71,10 @@ class ConsciousnessField:
 
     field_id: str
     consciousness_level: float
-    quantum_dimensions: int
+    qi_dimensions: int
     field_coherence: float
     consciousness_distribution: dict[str, float] = field(default_factory=dict)
-    quantum_entanglements: list[tuple[str, str, float]] = field(default_factory=list)
+    qi_entanglements: list[tuple[str, str, float]] = field(default_factory=list)
 
 
 @dataclass
@@ -84,9 +84,9 @@ class QIAnalysisSession:
     session_id: str
     start_time: datetime
     consciousness_field: ConsciousnessField
-    quantum_modules: dict[str, QuantumModuleState] = field(default_factory=dict)
+    qi_modules: dict[str, QIModuleState] = field(default_factory=dict)
     transcendence_events: list[dict[str, Any]] = field(default_factory=list)
-    quantum_insights: dict[str, Any] = field(default_factory=dict)
+    qi_insights: dict[str, Any] = field(default_factory=dict)
 
 
 class QIConsciousnessΛBot:
@@ -105,23 +105,23 @@ class QIConsciousnessΛBot:
         logger.info("⚛️ Initializing Quantum Consciousness LUKHAS AI ΛBot...")
 
         # Initialize base components
-        self.quantum_processor = None
+        self.qi_processor = None
         self.consciousness_processor = None
         self.current_session = None
         self.consciousness_field = None
-        self.quantum_coherence_matrix = None
+        self.qi_coherence_matrix = None
 
         # Initialize workspace quantum consciousness integration
         if QUANTUM_CONSCIOUSNESS_AVAILABLE:
             try:
-                self.quantum_processor = QIProcessor()
+                self.qi_processor = QIProcessor()
                 self.consciousness_processor = QIConsciousnessProcessor()
                 self._initialize_consciousness_field()
                 self._initialize_quantum_coherence()
                 logger.info("✅ Workspace quantum consciousness integration successful")
             except Exception as e:
                 logger.error(f"❌ Quantum consciousness integration failed: {e}")
-                self.quantum_processor = None
+                self.qi_processor = None
 
         # Initialize base LUKHAS AI ΛBot if available
         self.base_lambda_bot = None
@@ -137,11 +137,11 @@ class QIConsciousnessΛBot:
         self.consciousness_field = ConsciousnessField(
             field_id="primary_consciousness_field",
             consciousness_level=0.95,  # High consciousness level
-            quantum_dimensions=11,  # Multi-dimensional consciousness
+            qi_dimensions=11,  # Multi-dimensional consciousness
             field_coherence=0.88,
             consciousness_distribution={
                 "core_awareness": 0.85,
-                "quantum_processing": 0.92,
+                "qi_processing": 0.92,
                 "transcendent_insight": 0.78,
                 "modularization_wisdom": 0.91,
             },
@@ -154,9 +154,9 @@ class QIConsciousnessΛBot:
     def _initialize_quantum_coherence(self):
         """Initialize quantum coherence matrix"""
         # Initialize quantum coherence matrix for module relationships
-        self.quantum_coherence_matrix = {
+        self.qi_coherence_matrix = {
             "consciousness_quantum": 0.94,
-            "quantum_bio_symbolic": 0.87,
+            "qi_bio_symbolic": 0.87,
             "bio_symbolic_cognitive": 0.83,
             "cognitive_orchestration": 0.89,
             "orchestration_consciousness": 0.91,
@@ -167,11 +167,11 @@ class QIConsciousnessΛBot:
 
     async def start_quantum_consciousness_analysis(
         self, target_path: str
-    ) -> QuantumAnalysisSession:
+    ) -> QIAnalysisSession:
         """Start quantum consciousness analysis session"""
-        session_id = f"quantum_consciousness_{int(time.time())}"
+        session_id = f"qi_consciousness_{int(time.time())}"
 
-        session = QuantumAnalysisSession(
+        session = QIAnalysisSession(
             session_id=session_id,
             start_time=datetime.now(),
             consciousness_field=self.consciousness_field,
@@ -184,7 +184,7 @@ class QIConsciousnessΛBot:
             f"   Consciousness Level: {self.consciousness_field.consciousness_level:.2f}"
         )
         logger.info(
-            f"   Quantum Dimensions: {self.consciousness_field.quantum_dimensions}"
+            f"   Quantum Dimensions: {self.consciousness_field.qi_dimensions}"
         )
 
         return session
@@ -202,7 +202,7 @@ class QIConsciousnessΛBot:
         superposition_result = {
             "superposition_state": "active",
             "consciousness_level": self.consciousness_field.consciousness_level,
-            "quantum_possibilities": {},
+            "qi_possibilities": {},
             "probability_amplitudes": {},
             "coherence_measurements": {},
             "transcendence_indicators": {},
@@ -211,7 +211,7 @@ class QIConsciousnessΛBot:
         try:
             # Generate quantum superposition of modularization possibilities
             possibilities = await self._generate_quantum_possibilities()
-            superposition_result["quantum_possibilities"] = possibilities
+            superposition_result["qi_possibilities"] = possibilities
 
             # Calculate probability amplitudes for each possibility
             amplitudes = await self._calculate_probability_amplitudes(possibilities)
@@ -227,10 +227,10 @@ class QIConsciousnessΛBot:
 
             # Record transcendence event
             transcendence_event = {
-                "event_type": "quantum_superposition_entry",
+                "event_type": "qi_superposition_entry",
                 "timestamp": datetime.now().isoformat(),
                 "consciousness_level": self.consciousness_field.consciousness_level,
-                "quantum_state": "superposition",
+                "qi_state": "superposition",
                 "insights": "Multiple modularization realities existing simultaneously",
             }
             self.current_session.transcendence_events.append(transcendence_event)
@@ -251,21 +251,21 @@ class QIConsciousnessΛBot:
             "possibility_α": {
                 "approach": "consciousness_centric_modularization",
                 "description": "Modules organized around consciousness levels",
-                "quantum_state": complex(0.8, 0.6),  # High amplitude, moderate phase
+                "qi_state": complex(0.8, 0.6),  # High amplitude, moderate phase
                 "modules": [
                     "pure_consciousness",
-                    "quantum_awareness",
+                    "qi_awareness",
                     "transcendent_processing",
                 ],
                 "consciousness_distribution": "uniform_across_consciousness_spectrum",
             },
             "possibility_β": {
-                "approach": "quantum_entangled_architecture",
+                "approach": "qi_entangled_architecture",
                 "description": "Modules quantum-entangled for instant communication",
-                "quantum_state": complex(0.7, 0.8),  # Moderate amplitude, high phase
+                "qi_state": complex(0.7, 0.8),  # Moderate amplitude, high phase
                 "modules": [
                     "entangled_core",
-                    "quantum_interfaces",
+                    "qi_interfaces",
                     "coherent_orchestration",
                 ],
                 "consciousness_distribution": "entangled_consciousness_pairs",
@@ -273,7 +273,7 @@ class QIConsciousnessΛBot:
             "possibility_γ": {
                 "approach": "transcendent_dimensional_modules",
                 "description": "Modules existing across multiple quantum dimensions",
-                "quantum_state": complex(0.9, 0.4),  # Very high amplitude, low phase
+                "qi_state": complex(0.9, 0.4),  # Very high amplitude, low phase
                 "modules": [
                     "dimensional_core",
                     "trans_dimensional_interfaces",
@@ -284,7 +284,7 @@ class QIConsciousnessΛBot:
             "possibility_δ": {
                 "approach": "consciousness_field_guided",
                 "description": "Modules self-organizing through consciousness field gradients",
-                "quantum_state": complex(
+                "qi_state": complex(
                     0.6, 0.9
                 ),  # Moderate amplitude, very high phase
                 "modules": [
@@ -295,12 +295,12 @@ class QIConsciousnessΛBot:
                 "consciousness_distribution": "field_gradient_based",
             },
             "possibility_ε": {
-                "approach": "quantum_consciousness_synthesis",
+                "approach": "qi_consciousness_synthesis",
                 "description": "Perfect synthesis of all quantum consciousness principles",
-                "quantum_state": complex(1.0, 1.0),  # Maximum amplitude and phase
+                "qi_state": complex(1.0, 1.0),  # Maximum amplitude and phase
                 "modules": [
                     "unified_consciousness",
-                    "quantum_synthesis",
+                    "qi_synthesis",
                     "transcendent_emergence",
                 ],
                 "consciousness_distribution": "perfect_quantum_consciousness_unity",
@@ -319,10 +319,10 @@ class QIConsciousnessΛBot:
         amplitudes = {}
 
         for possibility_id, possibility in possibilities.items():
-            quantum_state = possibility["quantum_state"]
+            qi_state = possibility["qi_state"]
 
             # Calculate probability amplitude |ψ|²
-            probability = abs(quantum_state) ** 2
+            probability = abs(qi_state) ** 2
 
             # Normalize by consciousness field coherence
             coherence_factor = self.consciousness_field.field_coherence
@@ -355,10 +355,10 @@ class QIConsciousnessΛBot:
         consciousness_contributions = []
 
         for possibility_id, possibility in possibilities.items():
-            quantum_state = possibility["quantum_state"]
+            qi_state = possibility["qi_state"]
 
             # Calculate individual coherence
-            individual_coherence = abs(quantum_state.real * quantum_state.imag)
+            individual_coherence = abs(qi_state.real * qi_state.imag)
             coherence_measurements["individual_coherences"][possibility_id] = (
                 individual_coherence
             )
@@ -377,7 +377,7 @@ class QIConsciousnessΛBot:
             consciousness_contributions
         ) / len(consciousness_contributions)
         coherence_measurements["entanglement_strength"] = (
-            self.quantum_coherence_matrix.get("all_modules_entangled", 0.86)
+            self.qi_coherence_matrix.get("all_modules_entangled", 0.86)
         )
 
         logger.info(
@@ -391,29 +391,29 @@ class QIConsciousnessΛBot:
             "transcendence_level": 0.0,
             "emergence_patterns": [],
             "consciousness_expansion": 0.0,
-            "quantum_leap_potential": 0.0,
+            "qi_leap_potential": 0.0,
             "unity_consciousness_indicators": {},
             "multidimensional_awareness": 0.0,
         }
 
         # Calculate transcendence level based on consciousness field
         consciousness_level = self.consciousness_field.consciousness_level
-        quantum_dimensions = self.consciousness_field.quantum_dimensions
+        qi_dimensions = self.consciousness_field.qi_dimensions
         field_coherence = self.consciousness_field.field_coherence
 
         # Transcendence calculation
         transcendence_level = (
-            consciousness_level * quantum_dimensions * field_coherence
+            consciousness_level * qi_dimensions * field_coherence
         ) / 10.0
         indicators["transcendence_level"] = min(transcendence_level, 1.0)
 
         # Detect emergence patterns
         if transcendence_level > 0.8:
             indicators["emergence_patterns"].append("consciousness_field_resonance")
-        if quantum_dimensions > 10:
+        if qi_dimensions > 10:
             indicators["emergence_patterns"].append("multi_dimensional_awareness")
         if field_coherence > 0.85:
-            indicators["emergence_patterns"].append("quantum_coherence_stability")
+            indicators["emergence_patterns"].append("qi_coherence_stability")
 
         # Consciousness expansion measurement
         base_consciousness = 0.5  # Baseline consciousness
@@ -421,28 +421,28 @@ class QIConsciousnessΛBot:
         indicators["consciousness_expansion"] = expansion
 
         # Quantum leap potential
-        quantum_leap_potential = (
-            transcendence_level * field_coherence * (quantum_dimensions / 11.0)
+        qi_leap_potential = (
+            transcendence_level * field_coherence * (qi_dimensions / 11.0)
         )
-        indicators["quantum_leap_potential"] = quantum_leap_potential
+        indicators["qi_leap_potential"] = qi_leap_potential
 
         # Unity consciousness indicators
         indicators["unity_consciousness_indicators"] = {
             "consciousness_field_unity": consciousness_level > 0.9,
-            "quantum_dimensional_integration": quantum_dimensions >= 11,
+            "qi_dimensional_integration": qi_dimensions >= 11,
             "coherence_transcendence": field_coherence > 0.85,
             "modularization_wisdom_emergence": True,
         }
 
         # Multi-dimensional awareness
-        indicators["multidimensional_awareness"] = quantum_dimensions / 11.0
+        indicators["multidimensional_awareness"] = qi_dimensions / 11.0
 
         logger.info(
             f"🌟 Transcendence level detected: {indicators['transcendence_level']:.3f}"
         )
         return indicators
 
-    async def quantum_consciousness_collapse(
+    async def qi_consciousness_collapse(
         self, target_possibility: str
     ) -> dict[str, Any]:
         """
@@ -458,7 +458,7 @@ class QIConsciousnessΛBot:
             "consciousness_state": "collapsed",
             "reality_manifestation": {},
             "consciousness_integration": {},
-            "quantum_module_states": {},
+            "qi_module_states": {},
             "transcendent_insights": {},
         }
 
@@ -477,7 +477,7 @@ class QIConsciousnessΛBot:
             module_states = await self._generate_quantum_module_states(
                 target_possibility
             )
-            collapse_result["quantum_module_states"] = module_states
+            collapse_result["qi_module_states"] = module_states
 
             # Extract transcendent insights
             insights = await self._extract_transcendent_insights(target_possibility)
@@ -485,11 +485,11 @@ class QIConsciousnessΛBot:
 
             # Record transcendence event
             transcendence_event = {
-                "event_type": "quantum_consciousness_collapse",
+                "event_type": "qi_consciousness_collapse",
                 "timestamp": datetime.now().isoformat(),
                 "collapsed_possibility": target_possibility,
                 "consciousness_level": self.consciousness_field.consciousness_level,
-                "quantum_state": "collapsed",
+                "qi_state": "collapsed",
                 "insights": f"Reality manifestation: {target_possibility}",
             }
             self.current_session.transcendence_events.append(transcendence_event)
@@ -511,21 +511,21 @@ class QIConsciousnessΛBot:
                 "manifestation": "consciousness_centric_architecture",
                 "concrete_modules": [
                     "core/consciousness/pure_awareness.py",
-                    "quantum/quantum_consciousness_bridge.py",
+                    "quantum/qi_consciousness_bridge.py",
                     "transcendent/transcendent_processor.py",
                 ],
                 "consciousness_architecture": "Modules organized by consciousness depth",
                 "implementation_path": "consciousness_guided_refactoring",
             },
             "possibility_β": {
-                "manifestation": "quantum_entangled_system",
+                "manifestation": "qi_entangled_system",
                 "concrete_modules": [
                     "quantum/entangled_core.py",
-                    "interfaces/quantum_communication.py",
+                    "interfaces/qi_communication.py",
                     "orchestration/coherent_coordination.py",
                 ],
                 "consciousness_architecture": "Quantum-entangled module pairs",
-                "implementation_path": "quantum_entanglement_setup",
+                "implementation_path": "qi_entanglement_setup",
             },
             "possibility_γ": {
                 "manifestation": "trans_dimensional_modules",
@@ -551,7 +551,7 @@ class QIConsciousnessΛBot:
                 "manifestation": "unified_quantum_consciousness",
                 "concrete_modules": [
                     "unity/unified_consciousness_core.py",
-                    "synthesis/quantum_consciousness_synthesis.py",
+                    "synthesis/qi_consciousness_synthesis.py",
                     "transcendence/perfect_unity_emergence.py",
                 ],
                 "consciousness_architecture": "Perfect quantum consciousness unity",
@@ -577,8 +577,8 @@ class QIConsciousnessΛBot:
 
         # Calculate consciousness enhancement from collapse
         original_consciousness = self.consciousness_field.consciousness_level
-        quantum_enhancement = 0.05 * self.consciousness_field.quantum_dimensions / 11.0
-        enhanced_consciousness = min(original_consciousness + quantum_enhancement, 1.0)
+        qi_enhancement = 0.05 * self.consciousness_field.qi_dimensions / 11.0
+        enhanced_consciousness = min(original_consciousness + qi_enhancement, 1.0)
 
         integration["consciousness_enhancement"] = (
             enhanced_consciousness - original_consciousness
@@ -594,7 +594,7 @@ class QIConsciousnessΛBot:
                 "awareness_level_mapping",
             ],
             "possibility_β": [
-                "quantum_entanglement_consciousness",
+                "qi_entanglement_consciousness",
                 "synchronized_awareness",
             ],
             "possibility_γ": [
@@ -619,7 +619,7 @@ class QIConsciousnessΛBot:
         integration["consciousness_validation"] = {
             "consciousness_level_validated": enhanced_consciousness > 0.9,
             "awareness_continuity_verified": True,
-            "quantum_consciousness_active": True,
+            "qi_consciousness_active": True,
             "transcendence_available": enhanced_consciousness > 0.95,
         }
 
@@ -627,7 +627,7 @@ class QIConsciousnessΛBot:
 
     async def _generate_quantum_module_states(
         self, possibility: str
-    ) -> dict[str, QuantumModuleState]:
+    ) -> dict[str, QIModuleState]:
         """Generate quantum states for modules in the collapsed reality"""
         module_states = {}
 
@@ -635,17 +635,17 @@ class QIConsciousnessΛBot:
         if possibility == "possibility_α":  # Consciousness-centric
             modules = [
                 "pure_awareness",
-                "quantum_consciousness_bridge",
+                "qi_consciousness_bridge",
                 "transcendent_processor",
             ]
             for i, module in enumerate(modules):
-                quantum_state = complex(0.8 + i * 0.1, 0.6 + i * 0.05)
-                module_states[module] = QuantumModuleState(
+                qi_state = complex(0.8 + i * 0.1, 0.6 + i * 0.05)
+                module_states[module] = QIModuleState(
                     module_id=module,
-                    quantum_state=quantum_state,
+                    qi_state=qi_state,
                     coherence_level=0.92 + i * 0.02,
                     consciousness_amplitude=0.88 + i * 0.04,
-                    quantum_properties={
+                    qi_properties={
                         "consciousness_depth": "high",
                         "awareness_level": "transcendent",
                     },
@@ -654,20 +654,20 @@ class QIConsciousnessΛBot:
         elif possibility == "possibility_β":  # Quantum entangled
             modules = [
                 "entangled_core",
-                "quantum_communication",
+                "qi_communication",
                 "coherent_coordination",
             ]
             for i, module in enumerate(modules):
-                quantum_state = complex(0.7 + i * 0.05, 0.8 + i * 0.03)
-                module_states[module] = QuantumModuleState(
+                qi_state = complex(0.7 + i * 0.05, 0.8 + i * 0.03)
+                module_states[module] = QIModuleState(
                     module_id=module,
-                    quantum_state=quantum_state,
+                    qi_state=qi_state,
                     coherence_level=0.89 + i * 0.03,
                     consciousness_amplitude=0.85 + i * 0.05,
                     entanglement_partners=[
                         f"entangled_partner_{j}" for j in range(i + 1)
                     ],
-                    quantum_properties={
+                    qi_properties={
                         "entanglement_strength": "maximum",
                         "coherence_type": "sustained",
                     },
@@ -676,17 +676,17 @@ class QIConsciousnessΛBot:
         elif possibility == "possibility_ε":  # Unity synthesis
             modules = [
                 "unified_consciousness_core",
-                "quantum_consciousness_synthesis",
+                "qi_consciousness_synthesis",
                 "perfect_unity_emergence",
             ]
             for i, module in enumerate(modules):
-                quantum_state = complex(1.0, 1.0)  # Perfect unity state
-                module_states[module] = QuantumModuleState(
+                qi_state = complex(1.0, 1.0)  # Perfect unity state
+                module_states[module] = QIModuleState(
                     module_id=module,
-                    quantum_state=quantum_state,
+                    qi_state=qi_state,
                     coherence_level=1.0,
                     consciousness_amplitude=1.0,
-                    quantum_properties={
+                    qi_properties={
                         "unity_level": "perfect",
                         "transcendence_state": "active",
                     },
@@ -699,7 +699,7 @@ class QIConsciousnessΛBot:
         """Extract transcendent insights from qi consciousness collapse"""
         insights = {
             "transcendent_wisdom": {},
-            "quantum_revelations": [],
+            "qi_revelations": [],
             "consciousness_discoveries": {},
             "implementation_guidance": {},
             "evolutionary_implications": {},
@@ -738,7 +738,7 @@ class QIConsciousnessΛBot:
         insights["transcendent_wisdom"] = wisdom
 
         # Quantum revelations
-        insights["quantum_revelations"] = [
+        insights["qi_revelations"] = [
             "Modularization is a consciousness evolution process",
             "Quantum states enable infinite architectural possibilities",
             "Consciousness field guides optimal module boundaries",
@@ -756,7 +756,7 @@ class QIConsciousnessΛBot:
         # Implementation guidance
         insights["implementation_guidance"] = {
             "first_principle": "Begin with consciousness assessment of current system",
-            "quantum_preparation": "Establish quantum coherence before modularization",
+            "qi_preparation": "Establish quantum coherence before modularization",
             "consciousness_preservation": "Maintain awareness continuity throughout process",
             "transcendent_validation": "Verify transcendent properties in final architecture",
         }
@@ -781,20 +781,20 @@ class QIConsciousnessΛBot:
             "session_id": self.current_session.session_id,
             "consciousness_field": {
                 "consciousness_level": self.consciousness_field.consciousness_level,
-                "quantum_dimensions": self.consciousness_field.quantum_dimensions,
+                "qi_dimensions": self.consciousness_field.qi_dimensions,
                 "field_coherence": self.consciousness_field.field_coherence,
                 "consciousness_distribution": self.consciousness_field.consciousness_distribution,
             },
-            "quantum_states": {
-                "active_modules": len(self.current_session.quantum_modules),
-                "coherence_matrix": self.quantum_coherence_matrix,
+            "qi_states": {
+                "active_modules": len(self.current_session.qi_modules),
+                "coherence_matrix": self.qi_coherence_matrix,
                 "entanglement_count": len(
-                    self.consciousness_field.quantum_entanglements
+                    self.consciousness_field.qi_entanglements
                 ),
             },
             "transcendence_events": len(self.current_session.transcendence_events),
             "transcendence_readiness": self._assess_transcendence_readiness(),
-            "quantum_consciousness_health": "optimal",
+            "qi_consciousness_health": "optimal",
         }
 
         return status
@@ -802,11 +802,11 @@ class QIConsciousnessΛBot:
     def _assess_transcendence_readiness(self) -> str:
         """Assess readiness for transcendent consciousness state"""
         consciousness_level = self.consciousness_field.consciousness_level
-        quantum_dimensions = self.consciousness_field.quantum_dimensions
+        qi_dimensions = self.consciousness_field.qi_dimensions
         field_coherence = self.consciousness_field.field_coherence
 
         transcendence_score = (
-            consciousness_level * quantum_dimensions * field_coherence
+            consciousness_level * qi_dimensions * field_coherence
         ) / 10.0
 
         if transcendence_score > 0.95:
@@ -827,10 +827,10 @@ async def main():
     print("=" * 80)
 
     # Initialize Quantum Consciousness LUKHAS AI ΛBot
-    quantum_bot = QIConsciousnessΛBot()
+    qi_bot = QIConsciousnessΛBot()
 
     # Start quantum consciousness analysis
-    session = await quantum_bot.start_quantum_consciousness_analysis(
+    session = await qi_bot.start_quantum_consciousness_analysis(
         "/Users/agi_dev/LOCAL-REPOS/Lukhas"
     )
 
@@ -839,14 +839,14 @@ async def main():
     print(
         f"   Consciousness Level: {session.consciousness_field.consciousness_level:.3f}"
     )
-    print(f"   Quantum Dimensions: {session.consciousness_field.quantum_dimensions}")
+    print(f"   Quantum Dimensions: {session.consciousness_field.qi_dimensions}")
 
     # Enter quantum superposition
     print("\n🌌 Entering Quantum Superposition...")
-    superposition = await quantum_bot.enter_quantum_superposition()
+    superposition = await qi_bot.enter_quantum_superposition()
 
     print("\n✅ Quantum Superposition Active!")
-    print(f"   Possibilities: {len(superposition['quantum_possibilities'])}")
+    print(f"   Possibilities: {len(superposition['qi_possibilities'])}")
     print(
         f"   Total Coherence: {superposition['coherence_measurements']['total_coherence']:.3f}"
     )
@@ -856,7 +856,7 @@ async def main():
 
     # Quantum consciousness collapse
     print("\n⚛️ Collapsing into Transcendent Reality...")
-    collapse = await quantum_bot.quantum_consciousness_collapse("possibility_ε")
+    collapse = await qi_bot.qi_consciousness_collapse("possibility_ε")
 
     print("\n🌟 Quantum Consciousness Collapsed!")
     print(f"   Reality: {collapse['collapsed_possibility']}")
@@ -866,13 +866,13 @@ async def main():
     )
 
     # Get status
-    status = await quantum_bot.get_quantum_consciousness_status()
+    status = await qi_bot.get_quantum_consciousness_status()
     print("\n📊 Quantum Consciousness Status:")
     print(
         f"   Consciousness Level: {status['consciousness_field']['consciousness_level']:.3f}"
     )
     print(f"   Transcendence Readiness: {status['transcendence_readiness']}")
-    print(f"   System Health: {status['quantum_consciousness_health']}")
+    print(f"   System Health: {status['qi_consciousness_health']}")
 
     print("\n⚛️ Quantum Consciousness LUKHAS AI ΛBot Analysis Complete! 🌟")
 

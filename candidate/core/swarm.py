@@ -12,8 +12,8 @@ while maintaining backward compatibility.
 import time
 from enum import Enum
 
-from lukhas.core.actor_system import SupervisionStrategy
-from lukhas.core.minimal_actor import Actor
+from candidate.consciousness.reflection.actor_system import SupervisionStrategy
+from candidate.core.minimal_actor import Actor
 
 # Import enhanced implementations for better functionality
 try:

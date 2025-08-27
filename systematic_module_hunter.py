@@ -304,12 +304,12 @@ class SystematicModuleHunter:
         print("=" * 80)
 
         qi_modules = {
-            "qi": ["get_qi_status"],
-            "qi.bio.bio_integration": ["BioIntegration", "BioQIBridge"],
-            "qi.processing.qi_coordinator": ["QICoordinator"],
-            "qi.systems.consciousness_integration": ["ConsciousnessIntegration"],
-            "qi.coordination.coordinator": ["QICoordinator", "Coordinator"],
-            "qi.awareness_system.core_awareness": ["CoreAwareness", "AwarenessSystem"],
+            "candidate.qi": ["get_qi_status"],
+            "candidate.qi.bio.bio_integration": ["BioIntegration", "BioQIBridge"],
+            "candidate.qi.processing.qi_coordinator": ["QICoordinator"],
+            "candidate.qi.systems.consciousness_integration": ["ConsciousnessIntegration"],
+            "candidate.qi.coordination.coordinator": ["QICoordinator", "Coordinator"],
+            "candidate.qi.awareness_system.core_awareness": ["CoreAwareness", "AwarenessSystem"],
             "candidate.qi.qi_integration_manager": ["QIIntegrationManager"],
         }
 

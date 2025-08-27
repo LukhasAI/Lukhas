@@ -36,7 +36,7 @@ from typing import Any, Callable, Optional, Union
 
 from candidate.core.common import get_logger
 
-from .p2p_communication import P2PNode
+from candidate.core.p2p_communication import P2PNode
 
 # Import mailbox components if available
 try:

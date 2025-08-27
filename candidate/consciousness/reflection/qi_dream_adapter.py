@@ -7,7 +7,7 @@
 
 
 lukhas AI System - Function Library
-Path: lukhas/core/dreams/quantum_dream_adapter.py
+Path: lukhas/core/dreams/qi_dream_adapter.py
 Author: lukhas AI Team
 This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
@@ -29,9 +29,9 @@ from datetime import datetime
 from typing import Any, Optional
 
 from ..oscillator.orchestrator import BioOrchestrator
-from ..oscillator.quantum_inspired_layer import QuantumBioOscillator
+from ..oscillator.qi_inspired_layer import QIBioOscillator
 
-logger = logging.getLogger("quantum_dream")
+logger = logging.getLogger("qi_dream")
 
 
 @dataclass
@@ -60,9 +60,9 @@ class QIDreamAdapter:
         self.config = config or DreamQuantumConfig()
 
         # Initialize quantum oscillators for dream processing
-        self.dream_oscillator = QuantumBioOscillator(
+        self.dream_oscillator = QIBioOscillator(
             base_freq=self.config.consolidation_frequency,
-            quantum_config={
+            qi_config={
                 "coherence_threshold": self.config.coherence_threshold,
                 "entanglement_threshold": self.config.entanglement_threshold,
             },
@@ -160,11 +160,11 @@ class QIDreamAdapter:
         """Process dreams using superposition-like state"""
         try:
             # Get current quantum-like state
-            quantum_like_state = await self.dream_oscillator.get_quantum_like_state()
+            qi_like_state = await self.dream_oscillator.get_quantum_like_state()
 
-            if quantum_like_state["coherence"] >= self.config.coherence_threshold:
+            if qi_like_state["coherence"] >= self.config.coherence_threshold:
                 # Convert memory content to quantum format
-                qbits = await self._memories_to_qubits(quantum_like_state)
+                qbits = await self._memories_to_qubits(qi_like_state)
 
                 # Apply quantum transformations
                 transformed = await self.dream_oscillator.apply_transformations(qbits)
@@ -174,7 +174,7 @@ class QIDreamAdapter:
 
                 # Store processed state and insights
                 self._last_processed_state = {
-                    "quantum_like_state": quantum_like_state,
+                    "qi_like_state": qi_like_state,
                     "insights": insights,
                     "timestamp": datetime.utcnow().isoformat(),
                 }
@@ -182,12 +182,12 @@ class QIDreamAdapter:
         except Exception as e:
             logger.error(f"Error processing quantum dreams: {e}")
 
-    async def _memories_to_qubits(self, quantum_like_state: dict) -> Any:
+    async def _memories_to_qubits(self, qi_like_state: dict) -> Any:
         """Convert memory content to quantum representation"""
-        # Implementation depends on QuantumBioOscillator's qubit encoding scheme
-        return await self.dream_oscillator.encode_memory(quantum_like_state)
+        # Implementation depends on QIBioOscillator's qubit encoding scheme
+        return await self.dream_oscillator.encode_memory(qi_like_state)
 
-    async def _extract_insights(self, quantum_like_state: Any) -> list[dict]:
+    async def _extract_insights(self, qi_like_state: Any) -> list[dict]:
         """Extract insights from qi-like state"""
         insights = []
         try:
@@ -200,10 +200,10 @@ class QIDreamAdapter:
             # Convert to insight format
             insights = [
                 {
-                    "type": "quantum_insight",
+                    "type": "qi_insight",
                     "pattern": p["pattern"],
                     "confidence": p["probability"],
-                    "quantum_like_state": {
+                    "qi_like_state": {
                         "coherence": p["coherence"],
                         "entanglement": p["entanglement"],
                     },
@@ -288,7 +288,7 @@ class QIDreamAdapter:
 
             # Store and return state
             processed_state = {
-                "quantum_like_state": transformed,
+                "qi_like_state": transformed,
                 "insights": insights,
                 "timestamp": datetime.utcnow().isoformat(),
                 "coherence": await self.dream_oscillator.measure_coherence(),
@@ -300,7 +300,7 @@ class QIDreamAdapter:
         except Exception as e:
             logger.error(f"Error processing memories: {e}")
             return {
-                "quantum_like_state": None,
+                "qi_like_state": None,
                 "insights": [],
                 "timestamp": datetime.utcnow().isoformat(),
                 "coherence": 0.0,
@@ -394,7 +394,7 @@ class QIDreamAdapter:
                 "parallel_dreams": completed_dreams,
                 "convergent_insights": convergent_insights,
                 "overall_coherence": overall_coherence,
-                "quantum_superposition_achieved": overall_coherence
+                "qi_superposition_achieved": overall_coherence
                 > self.config.coherence_threshold,
                 "timestamp": datetime.utcnow().isoformat(),
             }
@@ -459,11 +459,11 @@ class QIDreamAdapter:
             }
 
             # Process through quantum-like superposition
-            quantum_state = await self._memories_to_qubits(enhanced_seed)
+            qi_state = await self._memories_to_qubits(enhanced_seed)
 
             # Apply path-specific transformations
             transformed_state = await self._apply_lens_transformations(
-                quantum_state, path_config
+                qi_state, path_config
             )
 
             # Extract path-specific insights
@@ -482,7 +482,7 @@ class QIDreamAdapter:
                 "success": True,
                 "path_id": path_id,
                 "dream_insights": path_insights,
-                "quantum_state": transformed_state,
+                "qi_state": transformed_state,
                 "branches": branches,
                 "coherence": await self.dream_oscillator.measure_coherence(),
                 "ethical_outcome": self._evaluate_ethical_outcome(
@@ -505,12 +505,12 @@ class QIDreamAdapter:
             }
 
     async def _apply_lens_transformations(
-        self, quantum_state: Any, path_config: dict[str, Any]
+        self, qi_state: Any, path_config: dict[str, Any]
     ) -> Any:
         """Apply lens-specific transformations to quantum state"""
         # Implementation would apply different transformations based on ethical,
         # emotional, and contextual lenses
-        return await self.dream_oscillator.apply_transformations(quantum_state)
+        return await self.dream_oscillator.apply_transformations(qi_state)
 
     async def _extract_path_insights(
         self, transformed_state: Any, path_config: dict[str, Any]

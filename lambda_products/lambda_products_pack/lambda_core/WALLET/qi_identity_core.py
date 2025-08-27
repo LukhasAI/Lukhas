@@ -2,7 +2,7 @@
 Quantum Identity Core for WΛLLET
 Post-quantum cryptographic identity system with lukhas_ID# generation.
 
-Integrated from existing quantum_identity_engine.py implementation.
+Integrated from existing qi_identity_engine.py implementation.
 """
 
 import base64
@@ -18,7 +18,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-logger = logging.getLogger("WΛLLET.QuantumIdentity")
+logger = logging.getLogger("WΛLLET.QIIdentity")
 
 
 class QITier(Enum):
@@ -83,8 +83,8 @@ class LambdaWalletIdentity:
     """Quantum-secured lambda identity for WΛLLET"""
 
     lambda_id: str
-    tier: QuantumTier
-    quantum_state: QIStateVector
+    tier: QITier
+    qi_state: QIStateVector
     creation_time: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_verified: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     biometric_hash: Optional[str] = None
@@ -96,14 +96,14 @@ class LambdaWalletIdentity:
     def generate(
         cls,
         emoji_seed: str,
-        tier: QuantumTier = QuantumTier.USER,
+        tier: QITier = QITier.USER,
         biometric_data: Optional[bytes] = None,
     ) -> "LambdaWalletIdentity":
         """Generate a new lambda wallet identity"""
         # Create quantum state from emoji seed
         seed_hash = hashlib.sha256(emoji_seed.encode()).digest()
         amplitudes = np.array([x / 255 for x in seed_hash[:8]], dtype=np.complex128)
-        quantum_state = QIStateVector(amplitudes)
+        qi_state = QIStateVector(amplitudes)
 
         # Generate lambda ID with wallet prefix
         timestamp = int(time.time() * 1000)
@@ -111,7 +111,7 @@ class LambdaWalletIdentity:
             "λwallet",
             base64.b32encode(seed_hash[:3]).decode(),
             format(timestamp, "x")[-6:],
-            quantum_state.measure(),
+            qi_state.measure(),
         ]
         lambda_id = "".join(id_components)
 
@@ -128,7 +128,7 @@ class LambdaWalletIdentity:
         return cls(
             lambda_id=lambda_id,
             tier=tier,
-            quantum_state=quantum_state,
+            qi_state=qi_state,
             biometric_hash=biometric_hash,
             wallet_address=wallet_address,
         )
@@ -136,7 +136,7 @@ class LambdaWalletIdentity:
     def generate_trace_signature(self, action: str, metadata: str) -> str:
         """Generate trace signature for wallet operations"""
         timestamp = datetime.now(timezone.utc).isoformat()
-        measurement = self.quantum_state.measure()
+        measurement = self.qi_state.measure()
 
         trace_data = f"{self.lambda_id}:{action}:{metadata}:{timestamp}:{measurement}"
         signature = hashlib.sha3_512(trace_data.encode()).hexdigest()
@@ -146,7 +146,7 @@ class LambdaWalletIdentity:
     def generate_consent_signature(self, consent_text: str) -> str:
         """Generate consent signature for wallet permissions"""
         timestamp = datetime.now(timezone.utc).isoformat()
-        measurement = self.quantum_state.measure()
+        measurement = self.qi_state.measure()
 
         consent_data = f"{self.lambda_id}:{consent_text}:{timestamp}:{measurement}"
         signature = hashlib.sha3_256(consent_data.encode()).hexdigest()
@@ -193,7 +193,7 @@ class QIWalletEngine:
         self.performance_metrics = {
             "total_identities": 0,
             "total_transactions": 0,
-            "quantum_operations": 0,
+            "qi_operations": 0,
             "security_incidents": 0,
         }
 
@@ -202,7 +202,7 @@ class QIWalletEngine:
     async def create_wallet_identity(
         self,
         emoji_seed: str,
-        tier: QuantumTier = QuantumTier.USER,
+        tier: QITier = QITier.USER,
         biometric_data: Optional[bytes] = None,
     ) -> LambdaWalletIdentity:
         """Create new WΛLLET identity with quantum security"""
@@ -224,7 +224,7 @@ class QIWalletEngine:
 
             # Update metrics
             self.performance_metrics["total_identities"] += 1
-            self.performance_metrics["quantum_operations"] += 1
+            self.performance_metrics["qi_operations"] += 1
 
             # Generate trace signature
             trace_sig = identity.generate_trace_signature(
@@ -331,7 +331,7 @@ class QIWalletEngine:
         ]
 
     async def authenticate_wallet(
-        self, lambda_id: str, quantum_challenge: Optional[bytes] = None
+        self, lambda_id: str, qi_challenge: Optional[bytes] = None
     ) -> bool:
         """Authenticate wallet identity using quantum verification"""
         try:
@@ -341,9 +341,9 @@ class QIWalletEngine:
             identity = self.identity_registry[lambda_id]
 
             # Quantum state verification
-            if quantum_challenge:
-                challenge_hash = hashlib.sha256(quantum_challenge).digest()
-                expected_response = identity.quantum_state.measure()
+            if qi_challenge:
+                challenge_hash = hashlib.sha256(qi_challenge).digest()
+                expected_response = identity.qi_state.measure()
 
                 challenge_int = int.from_bytes(challenge_hash[:4], "big") % 128
                 if abs(challenge_int - int(expected_response, 2)) > 10:
@@ -351,7 +351,7 @@ class QIWalletEngine:
 
             # Generate access trace
             trace_sig = identity.generate_trace_signature(
-                "WALLET_AUTH", f"quantum_verified={quantum_challenge is not None}"
+                "WALLET_AUTH", f"qi_verified={qi_challenge is not None}"
             )
 
             self.access_logs.append(
@@ -364,7 +364,7 @@ class QIWalletEngine:
                 }
             )
 
-            self.performance_metrics["quantum_operations"] += 1
+            self.performance_metrics["qi_operations"] += 1
             return True
 
         except Exception as e:
