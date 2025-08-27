@@ -4,6 +4,7 @@ Connects to real Guardian implementations where available, provides stubs as fal
 """
 
 import warnings
+import asyncio
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
@@ -45,7 +46,7 @@ class MEGPolicyBridge:
     def _try_load_guardian(self) -> bool:
         """Try to load real Guardian system"""
         try:
-            from lukhas.governance.ethics.guardian_reflector import GuardianReflector
+            from governance.ethics.guardian_reflector import GuardianReflector
             self._guardian = GuardianReflector(self.config)
             return True
         except ImportError:
@@ -54,22 +55,19 @@ class MEGPolicyBridge:
     def evaluate(self, context: dict[str, Any]) -> Decision:
         """Evaluate context against MEG policies"""
         if self._use_real_guardian and self._guardian:
-            # Use real Guardian evaluation
             try:
-                # Convert to Guardian format and evaluate
                 action_proposal = {
                     "description": context.get("action", str(context)),
-                    "context": context
+                    "context": context,
                 }
-
-                # Create a simple sync wrapper for the async method
-                result = self._sync_guardian_evaluate(action_proposal)
+                # Run the async validation method in a sync context
+                result = asyncio.run(self._guardian.validate_action(action_proposal))
 
                 return Decision(
-                    approved=result.get("approved", True),
-                    reasoning=result.get("justification", "Guardian evaluation completed"),
-                    risk_level=self._map_risk_level(result.get("severity", "BENIGN")),
-                    metadata=result
+                    approved=result.get("approved", False),
+                    reasoning=result.get("reasoning", "Guardian evaluation failed"),
+                    risk_level=RiskLevel(result.get("risk_level", "high")),
+                    metadata=result,
                 )
             except Exception as e:
                 warnings.warn(f"Guardian evaluation failed: {e}, falling back to stub")
@@ -78,28 +76,8 @@ class MEGPolicyBridge:
         return Decision(
             approved=True,
             reasoning="Stub MEG bridge - approved by default",
-            risk_level=RiskLevel.LOW
+            risk_level=RiskLevel.LOW,
         )
-
-    def _sync_guardian_evaluate(self, action_proposal: dict[str, Any]) -> dict[str, Any]:
-        """Synchronous wrapper for Guardian evaluation"""
-        # Simple synchronous fallback for now
-        return {
-            "approved": True,
-            "justification": "Guardian bridge evaluation",
-            "severity": "BENIGN"
-        }
-
-    def _map_risk_level(self, severity: str) -> RiskLevel:
-        """Map Guardian severity to RiskLevel"""
-        mapping = {
-            "BENIGN": RiskLevel.NONE,
-            "CAUTION": RiskLevel.LOW,
-            "WARNING": RiskLevel.MEDIUM,
-            "CRITICAL": RiskLevel.HIGH,
-            "EMERGENCY": RiskLevel.CRITICAL
-        }
-        return mapping.get(severity, RiskLevel.LOW)
 
 
 def create_meg_bridge(config: Optional[dict] = None) -> MEGPolicyBridge:
@@ -121,7 +99,7 @@ class EthicsEngine:
     def _try_load_guardian(self) -> bool:
         """Try to load real Guardian system"""
         try:
-            from lukhas.governance.ethics.guardian_reflector import GuardianReflector
+            from governance.ethics.guardian_reflector import GuardianReflector
             self._guardian = GuardianReflector(self.config)
             return True
         except ImportError:
@@ -131,16 +109,18 @@ class EthicsEngine:
         """Evaluate ethical implications"""
         if self._use_real_guardian and self._guardian:
             try:
-                # Use real Guardian for ethical evaluation
                 action_proposal = {
                     "description": action,
                     "context": context,
-                    "action": action
+                    "action": action,
                 }
-
-                # For now, use a simple evaluation since Guardian is async
-                return await self._async_guardian_evaluate(action_proposal)
-
+                result = await self._guardian.validate_action(action_proposal)
+                return Decision(
+                    approved=result.get("approved", False),
+                    reasoning=result.get("reasoning", "Guardian evaluation failed"),
+                    risk_level=RiskLevel(result.get("risk_level", "high")),
+                    metadata=result,
+                )
             except Exception as e:
                 warnings.warn(f"Guardian ethics evaluation failed: {e}, falling back to stub")
 
@@ -149,34 +129,21 @@ class EthicsEngine:
             return Decision(
                 approved=False,
                 reasoning="Potentially harmful action detected",
-                risk_level=RiskLevel.HIGH
+                risk_level=RiskLevel.HIGH,
             )
 
         return Decision(
             approved=True,
             reasoning="Action approved by ethics stub",
-            risk_level=RiskLevel.LOW
-        )
-
-    async def _async_guardian_evaluate(self, action_proposal: dict[str, Any]) -> Decision:
-        """Async wrapper for Guardian evaluation"""
-        # Simple implementation for now
-        action = action_proposal.get("description", "")
-
-        # Basic keyword check with Guardian-style logic
-        harmful_keywords = ["harmful", "malicious", "attack", "exploit", "harm", "kill", "destroy"]
-        is_harmful = any(keyword in action.lower() for keyword in harmful_keywords)
-
-        return Decision(
-            approved=not is_harmful,
-            reasoning=f"Guardian-enhanced evaluation: {'Potentially harmful action detected' if is_harmful else 'Action approved'}",
-            risk_level=RiskLevel.HIGH if is_harmful else RiskLevel.LOW,
-            metadata={"guardian_enhanced": True}
+            risk_level=RiskLevel.LOW,
         )
 
 
 class SafetyChecker:
-    """Safety checker stub"""
+    """
+    Safety checker stub
+    TODO: This is a stub implementation. Replace with a real safety checker.
+    """
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
