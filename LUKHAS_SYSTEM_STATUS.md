@@ -1,8 +1,8 @@
-# LUKHAS System Status — Reality (SHA: c5775c2e)
-Generated: Wed Aug 27 16:09:51 BST 2025
-Artifacts: verification_artifacts/c5775c2e/
+# LUKHAS System Status — Reality (SHA: 2d07fecc)
+Generated: Wed Aug 27 16:20:01 BST 2025
+Artifacts: verification_artifacts/2d07fecc/
 
 ## Recent Changes
-- ✅ Merge docs/audit-dead-code-triage-non-destructive
+- ✅ fix(core): resolve indentation errors in colonies module
 
 ## System Status: OPERATIONAL
