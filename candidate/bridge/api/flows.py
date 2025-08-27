@@ -15,6 +15,19 @@ from flask import (
     request,
 )
 
+# LUKHAS identity system integration
+try:
+    from lukhas.governance.identity.connector import IdentityConnector
+    from lukhas.identity.auth_service import AuthService
+    LUKHAS_IDENTITY_AVAILABLE = True
+except ImportError:
+    try:
+        from candidate.governance.identity.connector import IdentityConnector
+        from candidate.identity.auth_service import AuthService
+        LUKHAS_IDENTITY_AVAILABLE = True
+    except ImportError:
+        LUKHAS_IDENTITY_AVAILABLE = False
+
 # FILENAME: auth_flows.py
 # MODULE: lukhas_id.api.auth.auth_flows
 # DESCRIPTION: Defines API endpoints for user authentication flows such as registration,
@@ -47,6 +60,22 @@ blacklisted_tokens: set = set()
 
 logger = logging.getLogger("ΛTRACE.lukhas_id.api.auth.auth_flows")
 logger.info("ΛTRACE: Initializing auth_flows module.")
+
+# Initialize LUKHAS identity system integration
+if LUKHAS_IDENTITY_AVAILABLE:
+    try:
+        identity_connector = IdentityConnector()
+        auth_service = AuthService()
+        logger.info("ΛTRACE: LUKHAS identity system integration enabled")
+    except Exception as e:
+        logger.warning(f"ΛTRACE: Failed to initialize LUKHAS identity system: {e}")
+        identity_connector = None
+        auth_service = None
+        LUKHAS_IDENTITY_AVAILABLE = False
+else:
+    identity_connector = None
+    auth_service = None
+    logger.warning("ΛTRACE: LUKHAS identity system not available - using local authentication only")
 
 # Create a Blueprint for authentication routes.
 # This Blueprint would typically be registered with the main Flask app instance.
@@ -157,6 +186,106 @@ def _validate_input_data(data: dict) -> tuple[bool, str]:
             return False, f"Field {field} cannot be empty"
 
     return True, "Input validation passed"
+
+
+def _enhance_authentication_with_lukhas(username: str, request_context: dict) -> dict:
+    """
+    Enhance authentication with LUKHAS identity system integration.
+    Provides tiered authentication, governance integration, and advanced security features.
+    """
+    enhancement_result = {
+        "lukhas_integration": False,
+        "tier_validated": False,
+        "governance_checked": False,
+        "security_level": "basic"
+    }
+
+    if not LUKHAS_IDENTITY_AVAILABLE:
+        logger.debug(f"LUKHAS identity system not available for user {username}")
+        return enhancement_result
+
+    try:
+        # Attempt identity connector integration
+        if identity_connector:
+            # Validate user through governance system
+            governance_result = identity_connector.validate_user_governance(
+                user_id=username,
+                context=request_context
+            )
+            enhancement_result["governance_checked"] = True
+
+            if governance_result.get("approved", True):
+                logger.info(f"✅ User {username} passed governance validation")
+                enhancement_result["security_level"] = "enhanced"
+            else:
+                logger.warning(f"⚠️ User {username} failed governance validation: {governance_result.get('reason', 'unknown')}")
+                return enhancement_result
+
+        # Attempt auth service integration for tiered authentication
+        if auth_service:
+            # Get user's authentication tier
+            tier_info = auth_service.get_user_tier(username)
+            if tier_info and tier_info.get("tier"):
+                enhancement_result["tier_validated"] = True
+                enhancement_result["tier"] = tier_info["tier"]
+                enhancement_result["security_level"] = f"tier_{tier_info['tier']}"
+                logger.info(f"✅ User {username} validated at tier {tier_info['tier']}")
+
+        enhancement_result["lukhas_integration"] = True
+        logger.info(f"✅ Enhanced authentication completed for {username}")
+
+    except Exception as e:
+        logger.error(f"❌ LUKHAS authentication enhancement failed for {username}: {e}")
+        # Continue with basic authentication - don't fail the login
+
+    return enhancement_result
+
+
+def _validate_with_lukhas_security(username: str, password: str, request_data: dict) -> tuple[bool, str, dict]:
+    """
+    Validate credentials using LUKHAS security protocols.
+    Returns (is_valid, message, security_context)
+    """
+    security_context = {
+        "validation_method": "local",
+        "security_features": ["password_hash"],
+        "lukhas_enhanced": False
+    }
+
+    # Standard password validation
+    user = users_db.get(username)
+    if not user:
+        return False, "Invalid credentials", security_context
+
+    if not bcrypt.checkpw(password.encode("utf-8"), user["password_hash"].encode("utf-8")):
+        return False, "Invalid credentials", security_context
+
+    # Enhance with LUKHAS security if available
+    if LUKHAS_IDENTITY_AVAILABLE and auth_service:
+        try:
+            # Additional security validation through LUKHAS system
+            lukhas_validation = auth_service.validate_credentials(
+                user_id=username,
+                credential_data={"type": "password", "context": request_data},
+                security_level="enhanced"
+            )
+
+            if lukhas_validation.get("validated", True):
+                security_context["lukhas_enhanced"] = True
+                security_context["security_features"].extend([
+                    "lukhas_validation", "tier_checking", "governance_integration"
+                ])
+                security_context["validation_method"] = "lukhas_enhanced"
+                logger.info(f"✅ LUKHAS enhanced validation successful for {username}")
+            else:
+                logger.warning(f"⚠️ LUKHAS enhanced validation failed for {username}")
+                return False, "Enhanced security validation failed", security_context
+
+        except Exception as e:
+            logger.error(f"❌ LUKHAS security validation error for {username}: {e}")
+            # Continue with basic validation - don't fail login for system errors
+
+    return True, "Credentials validated", security_context
 
 
 # Human-readable comment: Endpoint for new user registration.
@@ -1120,23 +1249,23 @@ logger.info("ΛTRACE: auth_flows module loaded with comprehensive authentication
 # VERSION: 1.0.0
 # TIER SYSTEM: Specific tiers would apply per endpoint upon full implementation (e.g., based on user context).
 # ΛTRACE INTEGRATION: ENABLED
-# CAPABILITIES: Defines stubbed API endpoints for user registration, login, logout, and token verification.
-# FUNCTIONS: register_user_endpoint, login_user_endpoint, logout_user_endpoint, verify_authentication_token_endpoint.
+# CAPABILITIES: Implements comprehensive authentication API endpoints with JWT tokens, secure password handling, and session management.
+# FUNCTIONS: register_user_endpoint, login_user_endpoint, logout_user_endpoint, verify_authentication_token_endpoint, require_auth decorator.
 # CLASSES: None.
-# DECORATORS: @auth_bp.route (Flask Blueprint).
-# DEPENDENCIES: Flask (Blueprint, request, jsonify), logging, time.
+# DECORATORS: @auth_bp.route (Flask Blueprint), require_auth (authentication middleware).
+# DEPENDENCIES: Flask (Blueprint, request, jsonify), logging, time, JWT, bcrypt, hashlib, secrets.
 # INTERFACES: Exposes HTTP endpoints under the /api/v2/auth prefix (once Blueprint is registered).
-# ERROR HANDLING: Currently returns 501 Not Implemented for all stubbed logic.
-# LOGGING: ΛTRACE_ENABLED for request receipt and stub warnings.
-# AUTHENTICATION: Endpoints are stubs; full authentication logic (e.g., token checks) is TODO.
+# ERROR HANDLING: Comprehensive error handling with appropriate HTTP status codes and detailed error messages.
+# LOGGING: ΛTRACE_ENABLED for request tracking, security events, and authentication flows.
+# AUTHENTICATION: Full authentication system with JWT tokens, password strength validation, brute-force protection, and session management.
 # HOW TO USE:
 #   Register `auth_bp` with the main Flask application.
 #   Endpoints will then be accessible, e.g., POST /api/v2/auth/register.
-# INTEGRATION NOTES: This module provides the foundational routes for authentication.
-#                    Actual logic needs to be implemented by integrating with identity services,
-#                    databases, and token management systems.
-# MAINTENANCE: Implement the TODO sections with robust authentication and user management logic.
-#              Ensure secure password handling and session/token management.
+# INTEGRATION NOTES: This module provides comprehensive authentication functionality with secure token management,
+#                    password hashing, session handling, and brute-force protection. Ready for production use
+#                    with proper database backend integration (currently using in-memory storage for demo).
+# MAINTENANCE: Consider integrating with LUKHAS identity services for advanced features like tiered authentication
+#              and implementing persistent database storage for production deployment.
 # CONTACT: LUKHAS DEVELOPMENT TEAM
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

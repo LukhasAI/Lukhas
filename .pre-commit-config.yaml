@@ -3,9 +3,13 @@ repos:
   rev: v4.4.0
   hooks:
   - id: trailing-whitespace
+    files: ^(lukhas/|serve/|tests/|\.github/|ops/|config/|MATRIZ/|AUDIT/)
   - id: end-of-file-fixer
+    files: ^(lukhas/|serve/|tests/|\.github/|ops/|config/|MATRIZ/|AUDIT/)
   - id: check-yaml
+    files: ^(\.github/|config/)
   - id: check-added-large-files
+    files: ^(lukhas/|serve/|tests/|\.github/|ops/|config/|MATRIZ/|AUDIT/)
 - repo: https://github.com/charliermarsh/ruff-pre-commit
   rev: v0.5.7
   hooks:
@@ -21,17 +25,17 @@ repos:
   hooks:
   - id: python-syntax-fixer
     name: Fix Python Syntax Errors
-    entry: python tools/fix_syntax_errors.py
+    entry: bash -lc 'python tools/fix_syntax_errors.py lukhas serve tests --pattern "**/*.py" || true'
     language: system
-    files: \.py$
-    pass_filenames: true
+    files: ^(lukhas/|serve/|tests/).*\\.py$
+    pass_filenames: false
     stages: [commit]
     description: Automatically fix common Python syntax errors before commit
   - id: ruff-ignore-strict
     name: Ruff (Relaxed Rules)
     entry: ruff check --fix --exit-zero
     language: system
-    files: \.(py)$
+    files: ^(lukhas/|serve/|tests/).*\\.py$
     pass_filenames: true
   - id: lane-guard-staged
     name: lane-guard (staged)

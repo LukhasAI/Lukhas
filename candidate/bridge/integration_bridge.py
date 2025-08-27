@@ -28,51 +28,66 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Third-Party Imports
+import structlog
 
 # Initialize structlog logger for this module
+log = structlog.get_logger(__name__)
 
-# --- LUKHΛS System Imports & Path Modifications ---
-# ΛIMPORT_TODO: Critical: sys.path modifications are fragile. Resolve with proper packaging.
-#               If `plugin_base` and `plugin_loader` are part of this framework package,
-#               they should be imported relatively, e.g., `from .plugin_base import ...`.
-#               If `lukhas` is an installed package, `from ..` should work directly.
-# ΛNOTE: The sys.path appends below are for local/dev environments and may need removal
-#        or adjustment in a properly packaged system.
-# Example: If 'lukhas_project_root/lukhas/' and 'lukhas_project_root/integration/framework/'
-# current_file_dir = os.path.dirname(__file__)
-# project_root_approx = os.path.abspath(os.path.join(current_file_dir, '..', '..')) # Adjust depth as needed
-# sys.path.insert(0, project_root_approx) # Add project root to allow
-# top-level lukhas imports
-
-# Attempting to import LUKHΛS components.
-# These should be importable if the project structure and PYTHONPATH are correct,
-# or if 'lukhas' is an installed package.
+# --- LUKHΛS System Imports (Fixed: Removed sys.path modifications) ---
+# Fixed: Converted fragile sys.path modifications to robust absolute imports with fallback chains
 LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = False
 try:
-    from candidate.core.registry import (
-        core_registry,  # type: ignore # Assuming core is in path
-    )
-    from candidate.core.utils.base_module import (
-        BaseLucasModule,  # type: ignore # Assuming core is in path
-    )
-
-    from .plugin_base import (
-        LucasPlugin,  # Assuming relative import
+    # Try candidate lane first
+    from candidate.bridge.plugin_base import (
+        LucasPlugin,
         LucasPluginManifest,
     )
-    from .plugin_loader import PluginLoader  # Assuming relative import
+    from candidate.bridge.plugin_loader import PluginLoader
+    from candidate.core.registry import core_registry
+    from candidate.core.utils.base_module import BaseLucasModule
 
-    # Remove SymbolicLogger if BaseLucasModule no longer uses it or provides its own structlog-based logger.
-    # from candidate.core.utils.base_module import SymbolicLogger
     LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
-    log.info("LUKHΛS framework components for IntegrationBridge imported successfully.")
-except ImportError as e:
-    log.error(
-        "Failed to import LUKHΛS framework components for IntegrationBridge. Fallbacks/Mocks might be used or errors may occur.",
-        error_message=str(e),
-        missing_dependencies_note="Ensure 'plugin_base.py', 'plugin_loader.py' are in the same package, and the 'lukhas' package (common.base_module, core.registry) is installed or in PYTHONPATH.",
-    )
+    log.info("LUKHΛS framework components imported successfully from candidate lane.")
+except ImportError:
+    try:
+        # Fallback to production lane
+        from lukhas.bridge.plugin_base import (
+            LucasPlugin,
+            LucasPluginManifest,
+        )
+        from lukhas.bridge.plugin_loader import PluginLoader
+        from lukhas.core.registry import core_registry
+        from lukhas.core.utils.base_module import BaseLucasModule
 
+        LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
+        log.info("LUKHΛS framework components imported successfully from production lane.")
+    except ImportError:
+        try:
+            # Final fallback to relative imports for existing installations
+            from .plugin_base import (
+                LucasPlugin,
+                LucasPluginManifest,
+            )
+            from .plugin_loader import PluginLoader
+            # Try to import core components from common locations
+            try:
+                from candidate.core.registry import core_registry
+                from candidate.core.utils.base_module import BaseLucasModule
+            except ImportError:
+                from lukhas.core.registry import core_registry
+                from lukhas.core.utils.base_module import BaseLucasModule
+
+            LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
+            log.info("LUKHΛS framework components imported successfully via relative imports.")
+        except ImportError as e:
+            log.error(
+                "Failed to import LUKHΛS framework components for IntegrationBridge. Fallbacks/Mocks might be used or errors may occur.",
+                error_message=str(e),
+                missing_dependencies_note="Ensure 'plugin_base.py', 'plugin_loader.py' are in the same package, and the 'lukhas' package (common.base_module, core.registry) is installed or in PYTHONPATH.",
+            )
+            LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = False
+
+if not LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE:
     # Define fallbacks if necessary for the script to parse, though
     # functionality will be broken.
 

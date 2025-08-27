@@ -254,9 +254,8 @@ future_evolution:
     - "Community-driven evolution"
     - "Responsible AI deployment"
 
----
-# Document Integrity
-document_hash: "a8f2d5c9e3b7f1a6d4c8e2f9b3a5d1c7e4f8a2d6c9e1b5f3a7d2c8e4f9b1a3d6"
-verification_timestamp: "2025-08-04T01:30:00Z"
-signing_authority: "LUKHAS Trinity Framework - Joint Human-AI Attestation"
-symbolic_seal: "⚛️🧠🛡️"
+document_integrity:
+  document_hash: "a8f2d5c9e3b7f1a6d4c8e2f9b3a5d1c7e4f8a2d6c9e1b5f3a7d2c8e4f9b1a3d6"
+  verification_timestamp: "2025-08-04T01:30:00Z"
+  signing_authority: "LUKHAS Trinity Framework - Joint Human-AI Attestation"
+  symbolic_seal: "⚛️🧠🛡️"

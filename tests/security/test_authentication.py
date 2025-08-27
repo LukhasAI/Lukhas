@@ -413,6 +413,11 @@ class TestLambdaIDGeneration(unittest.TestCase):
 class TestJWTTokenSecurity(unittest.TestCase):
     """Test JWT token security implementation."""
 
+    def setUp(self):
+        """Set up test environment."""
+        # Clear blacklisted tokens before each test
+        blacklisted_tokens.clear()
+
     def test_jwt_token_generation_and_validation(self):
         """Test JWT token generation and validation."""
         user_id = "testuser"

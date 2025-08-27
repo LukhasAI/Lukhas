@@ -46,7 +46,7 @@ jobs:
       continue-on-error: true
 
     - name: Create Policy Report
-      if: failure()
+      if: ${{ failure() }}
       run: |
         echo "## 🚫 Policy Enforcement Failed" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
@@ -87,7 +87,7 @@ jobs:
 
     # Fail the job if policy linter failed
     - name: Check Policy Results
-      if: steps.policy-lint.outcome == 'failure'
+      if: ${{ steps.policy-lint.outcome == 'failure' }}
       run: |
         echo "❌ Comprehensive policy enforcement failed. See job summary for details."
         exit 1
@@ -95,7 +95,7 @@ jobs:
   brand-council-notification:
     needs: policy-enforcement
     runs-on: ubuntu-latest
-    if: failure() && github.event_name == 'pull_request'
+    if: ${{ failure() && github.event_name == 'pull_request' }}
 
     steps:
     - name: Notify Brand Council
@@ -103,30 +103,27 @@ jobs:
       with:
         script: |
           const { owner, repo, number } = context.issue;
-
-          await github.rest.issues.createComment({
-            owner,
-            repo,
-            issue_number: number,
-            body: `## 🚫 Brand Policy Violation Detected
-
-This PR contains brand policy violations that block the build process.
-
-### Required Actions:
-1. **Fix violations** listed in the CI job summary
-2. **Run locally**: \`npm run lint:policy\` in \`lukhas_website/\`
-3. **Re-push** when all violations are resolved
-
-### Brand Guidelines:
-- Use **"Matriz"** in body text, **"MΛTRIZ"** only in logos/headers
-- Add \`aria-label="Matriz"\` to all Λ usage
-- Avoid banned words: guaranteed, perfect, revolutionary, etc.
-- Limit poetic content to ≤40 words
-
-**📚 Full guidelines:** \`branding/BRAND_POLICY.md\`
-
-*This is an automated message from the Brand Council enforcement system.*`
-          });
+          const body = [
+            "## 🚫 Brand Policy Violation Detected",
+            "",
+            "This PR contains brand policy violations that block the build process.",
+            "",
+            "### Required Actions:",
+            "1. **Fix violations** listed in the CI job summary",
+            "2. **Run locally**: `npm run lint:policy` in `lukhas_website/`",
+            "3. **Re-push** when all violations are resolved",
+            "",
+            "### Brand Guidelines:",
+            "- Use \"Matriz\" in body text, \"MΛTRIZ\" only in logos/headers",
+            "- Add `aria-label=\"Matriz\"` to all Λ usage",
+            "- Avoid banned words: guaranteed, perfect, revolutionary, etc.",
+            "- Limit poetic content to ≤40 words",
+            "",
+            "**📚 Full guidelines:** `branding/BRAND_POLICY.md`",
+            "",
+            "*This is an automated message from the Brand Council enforcement system.*",
+          ].join("\n");
+          await github.rest.issues.createComment({ owner, repo, issue_number: number, body });
 
 # Weekly monitoring job
   weekly-brand-scan:

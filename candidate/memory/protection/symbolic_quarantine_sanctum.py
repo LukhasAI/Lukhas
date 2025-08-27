@@ -1712,18 +1712,18 @@ def main():
             else:
                 # Generate markdown report
                 lines = []
-                lines.append(")  #  🔐 ΛSANCTUM Audit Report"
-                lines.append(")
+                lines.append("# 🔐 ΛSANCTUM Audit Report")
+                lines.append("")
                 lines.append(f"**Report ID:** `{report['sanctum_id']}`")
                 lines.append(f"**Timestamp:** {report['timestamp']}")
                 lines.append("")
-                lines.append("#)  #  📊 Summary"
+                lines.append("## 📊 Summary")
                 for key, value in report["summary"].items():
                     lines.append(f"- **{key.replace('_', ' ').title()}:** {value}")
                 lines.append("")
 
                 if report.get("status_distribution"):
-                    lines.append("#)  #  📈 Status Distribution"
+                    lines.append("## 📈 Status Distribution")
                     for status, count in report["status_distribution"].items():
                         lines.append(f"- **{status}:** {count}")
                     lines.append("")

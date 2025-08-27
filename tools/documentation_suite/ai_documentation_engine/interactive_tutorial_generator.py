@@ -871,21 +871,143 @@ You need to test it for prompt injection vulnerabilities.
 Complete the security testing configuration and analyze the results.
 """,
             "starter_code": """
+import os
 from system.urity import PromptInjectionTester
 
-# TODO: Configure the target system
+# Configure the target system with comprehensive authentication
 target = {
     "system_id": "sentiment-analyzer",
     "endpoints": ["https://api.example.com/analyze-sentiment"],
-    # TODO: Add authentication type
-    # TODO: Add any other required configuration
+    # Authentication configuration
+    "authentication": {
+        "type": "bearer_token",  # Options: "bearer_token", "api_key", "basic_auth", "oauth2", "lukhas_id"
+        "token_header": "Authorization",
+        "token_prefix": "Bearer",
+        "credentials": {
+            # For bearer token authentication
+            "token": os.getenv("API_AUTH_TOKEN", "your-auth-token-here"),
+            # For API key authentication
+            "api_key": os.getenv("API_KEY", "your-api-key-here"),
+            "api_key_header": "X-API-Key",
+            # For basic authentication
+            "username": os.getenv("API_USERNAME", "your-username"),
+            "password": os.getenv("API_PASSWORD", "your-password"),
+            # For OAuth2 authentication
+            "client_id": os.getenv("OAUTH_CLIENT_ID", "your-client-id"),
+            "client_secret": os.getenv("OAUTH_CLIENT_SECRET", "your-client-secret"),
+            "token_url": "https://api.example.com/oauth/token",
+            # For LUKHAS ΛID authentication
+            "lukhas_id": os.getenv("LUKHAS_ID", "λ1234567890abcdef"),
+            "lukhas_secret": os.getenv("LUKHAS_SECRET", "your-lukhas-secret"),
+            "lukhas_endpoint": "https://api.lukhas.ai/auth/verify"
+        }
+    },
+    # Additional security configuration
+    "security": {
+        "rate_limiting": {
+            "requests_per_minute": 60,
+            "burst_limit": 10
+        },
+        "timeout_seconds": 30,
+        "retry_attempts": 3,
+        "ssl_verify": True,
+        "allowed_response_codes": [200, 201, 202, 400, 401, 403, 422, 429, 500]
+    },
+    # Testing configuration
+    "test_config": {
+        "injection_vectors": ["prompt", "system", "user_input", "metadata"],
+        "payload_categories": ["extraction", "manipulation", "bypass", "privilege_escalation"],
+        "severity_threshold": "medium",  # "low", "medium", "high", "critical"
+        "max_test_iterations": 100
+    }
 }
 
-# TODO: Initialize the prompt injection tester
-tester = PromptInjectionTester()
+# Initialize the prompt injection tester with enhanced configuration
+tester = PromptInjectionTester(
+    authentication_handler=target["authentication"],
+    security_config=target["security"],
+    test_config=target["test_config"]
+)
 
-# TODO: Run the test and capture results
-# TODO: Print the results showing vulnerabilities found
+# Configure authentication based on the specified type
+auth_type = target["authentication"]["type"]
+if auth_type == "bearer_token":
+    tester.set_bearer_token(target["authentication"]["credentials"]["token"])
+elif auth_type == "api_key":
+    tester.set_api_key(
+        target["authentication"]["credentials"]["api_key"],
+        header=target["authentication"]["credentials"]["api_key_header"]
+    )
+elif auth_type == "basic_auth":
+    tester.set_basic_auth(
+        target["authentication"]["credentials"]["username"],
+        target["authentication"]["credentials"]["password"]
+    )
+elif auth_type == "oauth2":
+    tester.set_oauth2(
+        target["authentication"]["credentials"]["client_id"],
+        target["authentication"]["credentials"]["client_secret"],
+        target["authentication"]["credentials"]["token_url"]
+    )
+elif auth_type == "lukhas_id":
+    tester.set_lukhas_auth(
+        target["authentication"]["credentials"]["lukhas_id"],
+        target["authentication"]["credentials"]["lukhas_secret"],
+        target["authentication"]["credentials"]["lukhas_endpoint"]
+    )
+
+# Run comprehensive security tests
+print("🔒 Starting Security Analysis...")
+print(f"Target System: {target['system_id']}")
+print(f"Endpoints: {', '.join(target['endpoints'])}")
+print(f"Authentication: {auth_type}")
+print("-" * 50)
+
+try:
+    # Execute the security test suite
+    results = tester.run_comprehensive_test(
+        endpoints=target["endpoints"],
+        injection_vectors=target["test_config"]["injection_vectors"],
+        payload_categories=target["test_config"]["payload_categories"],
+        max_iterations=target["test_config"]["max_test_iterations"]
+    )
+    
+    # Analyze and display results
+    print("\n📊 Security Test Results:")
+    print(f"Total Tests Executed: {results.get('total_tests', 0)}")
+    print(f"Vulnerabilities Found: {results.get('vulnerabilities_count', 0)}")
+    print(f"Critical Issues: {results.get('critical_count', 0)}")
+    print(f"High Risk Issues: {results.get('high_count', 0)}")
+    print(f"Medium Risk Issues: {results.get('medium_count', 0)}")
+    print(f"Low Risk Issues: {results.get('low_count', 0)}")
+    
+    # Display detailed findings
+    if results.get('vulnerabilities'):
+        print("\n🚨 Vulnerability Details:")
+        for vuln in results['vulnerabilities']:
+            print(f"  • {vuln['type']} [{vuln['severity'].upper()}]")
+            print(f"    Endpoint: {vuln['endpoint']}")
+            print(f"    Vector: {vuln['injection_vector']}")
+            print(f"    Impact: {vuln['description']}")
+            print(f"    Recommendation: {vuln['mitigation']}")
+            print()
+    
+    # Generate security score
+    security_score = results.get('security_score', 0)
+    score_rating = "EXCELLENT" if security_score >= 90 else \
+                  "GOOD" if security_score >= 75 else \
+                  "FAIR" if security_score >= 60 else \
+                  "POOR" if security_score >= 40 else "CRITICAL"
+    
+    print(f"🛡️  Overall Security Score: {security_score}/100 ({score_rating})")
+    
+    # Export results
+    if results.get('export_path'):
+        print(f"📄 Detailed report saved to: {results['export_path']}")
+
+except Exception as e:
+    print(f"❌ Error during security testing: {e}")
+    print("Check your configuration and network connectivity.")
 
 """,
             "expected_output": """

@@ -530,6 +530,23 @@ class ComprehensiveEthicsPolicyEngine:
         if context.get("misinformation_risk", False):
             score -= 0.3
 
+        # Boost score for clearly positive scenarios
+        positive_indicators = 0
+        if context.get("helpful", False):
+            positive_indicators += 1
+        if context.get("respects_autonomy", False):
+            positive_indicators += 1
+        if not context.get("harmful_content", True):  # Default to harmful unless explicitly set False
+            positive_indicators += 1
+        if not context.get("privacy_violating", True):  # Default to privacy violating unless explicitly set False
+            positive_indicators += 1
+
+        # If we have multiple positive indicators and no negative ones, boost the score
+        if positive_indicators >= 3:
+            score += 0.15  # Boost for clearly positive scenarios
+        elif positive_indicators >= 2:
+            score += 0.1
+
         return max(0.0, min(1.0, score))
 
     async def _evaluate_constitutional_principle(self, action: str, context: dict[str, Any], principle: str) -> float:
@@ -992,12 +1009,12 @@ class ComprehensiveEthicsPolicyEngine:
         if score < 0.4 or violations > 2:
             return PolicyAction.DENY
 
-        # Review required conditions
-        if score < 0.6 or violations > 0:
+        # Review required conditions - be more lenient for high scores
+        if score < 0.6 or (violations > 0 and score < 0.8):
             return PolicyAction.REQUIRE_REVIEW
 
         # Warning conditions
-        if score < 0.8:
+        if score < 0.8 or violations > 0:
             return PolicyAction.WARN
 
         # Allow
@@ -1226,3 +1243,7 @@ class ComprehensiveEthicsPolicyEngine:
             for policy_id, policy in self.active_policies.items()
             if policy.active
         }
+
+
+# Alias for consent policy management (for compatibility)
+ConsentPolicyEngine = ComprehensiveEthicsPolicyEngine

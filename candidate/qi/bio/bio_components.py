@@ -44,30 +44,51 @@ import structlog  # Standardized logging
 # Initialize structlog logger for this module
 log = structlog.get_logger(__name__)
 
-# AIMPORT_TODO: The triple-dot relative imports (e.g., `...qi_processing`) are highly
-#               dependent on the execution environment and how the LUKHAS project is structured.
-#               If `lukhas` is a top-level package available in PYTHONPATH, these should be
-# changed to absolute imports like `from qi_processing.qi_engine
-# import QIOscillator`.
+# Fixed: Converted fragile relative imports to robust absolute imports with proper fallback chains
 LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
-    from ...bio_core.oscillator.qi_inspired_layer import (
+    # Try absolute imports first (candidate lane structure)
+    from candidate.bridge.voice.bio_core.oscillator.qi_layer import (
         QIBioOscillator,  # type: ignore
     )
-    from .qi_processing.qi_engine import (
+    from candidate.qi.processing.qi_engine import (
         QIOscillator,  # type: ignore
     )
 
     LUKHAS_OSCILLATORS_AVAILABLE = True
-    log.debug("LUKHAS Oscillators imported successfully for qi_bio_components.")
-except ImportError as e:
-    log.error(
-        "Failed to import lukhas_oscillators for qi_bio_components. Using mock fallbacks.",
-        error_message=str(e),
-        exc_info=True,
-        tip="Ensure the LUKHAS project is structured correctly or relevant packages are in PYTHONPATH.",
-    )
-    LUKHAS_OSCILLATORS_AVAILABLE = False
+    log.debug("LUKHAS Oscillators imported successfully from candidate lane.")
+except ImportError:
+    try:
+        # Fallback to production lane if available
+        from lukhas.bridge.voice.bio_core.oscillator.qi_layer import (
+            QIBioOscillator,  # type: ignore
+        )
+        from lukhas.qi.processing.qi_engine import (
+            QIOscillator,  # type: ignore
+        )
+
+        LUKHAS_OSCILLATORS_AVAILABLE = True
+        log.debug("LUKHAS Oscillators imported successfully from production lane.")
+    except ImportError:
+        try:
+            # Fallback to relative imports for existing installations
+            from ...bridge.voice.bio_core.oscillator.qi_layer import (
+                QIBioOscillator,  # type: ignore
+            )
+            from ..processing.qi_engine import (
+                QIOscillator,  # type: ignore
+            )
+
+            LUKHAS_OSCILLATORS_AVAILABLE = True
+            log.debug("LUKHAS Oscillators imported successfully via relative imports.")
+        except ImportError as e:
+            log.error(
+                "Failed to import LUKHAS oscillators. Using mock fallbacks.",
+                error_message=str(e),
+                exc_info=True,
+                tip="Ensure the LUKHAS project is structured correctly or relevant packages are in PYTHONPATH.",
+            )
+            LUKHAS_OSCILLATORS_AVAILABLE = False
 
     class QIOscillator:  # type: ignore
         def qi_modulate(self, signal: np.ndarray) -> np.ndarray:
@@ -152,7 +173,7 @@ class ProtonGradient:
                     total_numeric_sum / max(1, len(numeric_values))
                     if numeric_values
                     else 0
-                ) + " + "(
+                ) + (
                     total_string_len_sum / max(1, len(string_lengths)) / 10.0
                     if string_lengths
                     else 0
@@ -493,7 +514,7 @@ def __validate_module__():
 
     failed = [k for k, v in validations.items() if not v]
     if failed:
-        logger.warning(f"Module validation warnings: {failed}")
+        log.warning(f"Module validation warnings: {failed}")
 
     return len(failed) == 0
 

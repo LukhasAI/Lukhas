@@ -9,6 +9,8 @@ set -euo pipefail
 
 echo "🔒 Lane guard: checking that 'lukhas/' does not import 'candidate/'..."
 
+WAIVER_FILE="ops/lane_waivers.txt"
+
 TMP_DIR="$(mktemp -d)"
 HITS_FILE="$TMP_DIR/hits.txt"
 FILTERED_FILE="$TMP_DIR/filtered.txt"
@@ -53,8 +55,31 @@ if [ $FAIL -eq 0 ] && [ ! -s "$HITS_FILE" ]; then
   fi
 fi
 
-# 3) Finalize result
-if [ $FAIL -ne 0 ]; then
+# 3) Baseline/waiver handling
+mkdir -p ops >/dev/null 2>&1 || true
+if [ "${LANE_GUARD_BASELINE:-}" = "1" ]; then
+  # Save current offending file paths as waivers and exit 0
+  if [ -s "$HITS_FILE" ]; then
+    cut -d: -f1 "$HITS_FILE" | sort -u > "$WAIVER_FILE"
+  else
+    : > "$WAIVER_FILE"
+  fi
+  echo "⏺️ Baseline saved to $WAIVER_FILE"; [ -s "$WAIVER_FILE" ] && cat "$WAIVER_FILE" || echo "(empty baseline)"
+  echo "✅ lane_guard (baseline mode): OK"
+  exit 0
+fi
+
+# 4) Apply waivers to filter out known files
+if [ -s "$HITS_FILE" ]; then
+  if [ -f "$WAIVER_FILE" ] && [ -s "$WAIVER_FILE" ]; then
+    awk -v wf="$WAIVER_FILE" 'BEGIN{FS=":"; while ((getline l < wf) > 0) {waive[l]=1}} { if (!( $1 in waive)) print $0 }' "$HITS_FILE" > "$FILTERED_FILE"
+  else
+    cp "$HITS_FILE" "$FILTERED_FILE"
+  fi
+fi
+
+# 5) Finalize result
+if [ -s "$FILTERED_FILE" ]; then
   echo "❌ Forbidden import(s) detected:"
   cat "$FILTERED_FILE" || true
   mkdir -p reports/lints

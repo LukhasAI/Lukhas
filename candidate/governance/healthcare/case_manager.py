@@ -13,6 +13,17 @@ from typing import Any, Optional
 
 from ..common import GlyphIntegrationMixin
 
+# Authentication and authorization imports
+try:
+    from ..identity.core.unified_auth_manager import UnifiedAuthManager
+    from ..identity.lambda_id_auth import AuthTier
+    AUTH_AVAILABLE = True
+except ImportError:
+    # Fallback for development/testing
+    AUTH_AVAILABLE = False
+    logger = logging.getLogger(__name__)
+    logger.warning("Authentication system not available, using development fallback")
+
 logger = logging.getLogger(__name__)
 
 
@@ -31,6 +42,7 @@ class CaseManager(GlyphIntegrationMixin):
         self.config = config or {}
         self._init_case_storage()
         self._init_governance_integration()
+        self._init_authentication()
         logger.info("🏥 Healthcare CaseManager initialized")
 
     def _init_case_storage(self):
@@ -44,6 +56,17 @@ class CaseManager(GlyphIntegrationMixin):
         self.governance_enabled = True
         self.ethical_checks_enabled = True
         self.consent_required = True
+
+    def _init_authentication(self):
+        """Initialize authentication and authorization system"""
+        if AUTH_AVAILABLE:
+            self.auth_manager = UnifiedAuthManager()
+            self.auth_enabled = True
+            logger.info("🔐 Authentication system initialized")
+        else:
+            self.auth_manager = None
+            self.auth_enabled = False
+            logger.warning("⚠️  Running with authentication fallback - not for production")
 
     async def create_case(
         self,
@@ -414,18 +437,151 @@ class CaseManager(GlyphIntegrationMixin):
 
     async def _validate_provider_access(self, provider_id: str) -> bool:
         """Validate provider access permissions"""
-        # TODO: Integrate with identity/auth system
-        return True
+        if not self.auth_enabled:
+            logger.warning("⚠️  Authentication disabled - allowing access for development")
+            return True
+
+        try:
+            # Verify provider identity and permissions
+            auth_result = await self.auth_manager.validate_provider_credentials(provider_id)
+
+            # Check minimum tier requirement for healthcare providers
+            required_tier = AuthTier.TIER_2  # Healthcare providers need at least Tier 2
+            if auth_result.tier.value < required_tier.value:
+                logger.warning(f"Provider {provider_id} insufficient tier: {auth_result.tier} < {required_tier}")
+                return False
+
+            # Check healthcare-specific permissions
+            has_healthcare_scope = await self.auth_manager.check_scope(provider_id, "healthcare.provider.access")
+            if not has_healthcare_scope:
+                logger.warning(f"Provider {provider_id} missing healthcare.provider.access scope")
+                return False
+
+            logger.info(f"✅ Provider {provider_id} access validated (tier: {auth_result.tier})")
+            return True
+
+        except Exception as e:
+            logger.error(f"❌ Provider access validation failed for {provider_id}: {e}")
+            return False
 
     async def _validate_case_update_permission(self, case_id: str, provider_id: str) -> bool:
         """Validate provider permission to update specific case"""
-        # TODO: Implement case-specific permission checking
-        return True
+        if not self.auth_enabled:
+            logger.warning("⚠️  Authentication disabled - allowing case updates for development")
+            return True
+
+        # First validate general provider access
+        if not await self._validate_provider_access(provider_id):
+            return False
+
+        try:
+            # Check if case exists
+            if case_id not in self.cases:
+                logger.warning(f"Case {case_id} not found")
+                return False
+
+            case = self.cases[case_id]
+
+            # Check if provider is assigned to this case
+            if provider_id in case.get("assigned_providers", []):
+                logger.info(f"✅ Provider {provider_id} is assigned to case {case_id}")
+                return True
+
+            # Check if provider has supervisor role and sufficient tier
+            auth_result = await self.auth_manager.validate_provider_credentials(provider_id)
+            has_supervisor_scope = await self.auth_manager.check_scope(provider_id, "healthcare.case.supervise")
+
+            if has_supervisor_scope and auth_result.tier.value >= AuthTier.TIER_3.value:
+                logger.info(f"✅ Provider {provider_id} has supervisor access to case {case_id}")
+                return True
+
+            # Check emergency access permissions
+            has_emergency_scope = await self.auth_manager.check_scope(provider_id, "healthcare.emergency.access")
+            if has_emergency_scope and case.get("priority") == "emergency":
+                logger.info(f"✅ Provider {provider_id} has emergency access to case {case_id}")
+                return True
+
+            logger.warning(f"❌ Provider {provider_id} denied access to case {case_id}")
+            return False
+
+        except Exception as e:
+            logger.error(f"❌ Case update permission validation failed for {case_id}/{provider_id}: {e}")
+            return False
 
     async def _validate_case_access(self, case_id: str, requestor_id: str) -> bool:
-        """Validate access to case details"""
-        # TODO: Implement access control logic
-        return True
+        """Validate access to case details with comprehensive authentication"""
+        if not self.auth_enabled:
+            logger.warning("⚠️  Authentication disabled - allowing case access for development")
+            return True
+
+        try:
+            # Check if case exists
+            if case_id not in self.cases:
+                logger.warning(f"Case {case_id} not found")
+                return False
+
+            case = self.cases[case_id]
+
+            # Check if requestor is the patient (owns the case)
+            if requestor_id == case.get("user_id"):
+                logger.info(f"✅ Patient {requestor_id} accessing own case {case_id}")
+                return True
+
+            # Validate if requestor is a healthcare provider
+            if not await self._validate_provider_access(requestor_id):
+                logger.warning(f"❌ Non-provider {requestor_id} denied access to case {case_id}")
+                return False
+
+            # Check if provider is assigned to this case
+            if requestor_id in case.get("assigned_providers", []):
+                logger.info(f"✅ Assigned provider {requestor_id} accessing case {case_id}")
+                return True
+
+            # Check provider tier and permissions
+            auth_result = await self.auth_manager.validate_provider_credentials(requestor_id)
+
+            # Tier 3+ providers with supervisor scope can access any case
+            has_supervisor_scope = await self.auth_manager.check_scope(requestor_id, "healthcare.case.supervise")
+            if has_supervisor_scope and auth_result.tier.value >= AuthTier.TIER_3.value:
+                logger.info(f"✅ Supervisor {requestor_id} accessing case {case_id}")
+                return True
+
+            # Emergency access for urgent/emergency cases
+            case_priority = case.get("priority", "normal")
+            if case_priority in ["urgent", "emergency"]:
+                has_emergency_scope = await self.auth_manager.check_scope(requestor_id, "healthcare.emergency.access")
+                if has_emergency_scope and auth_result.tier.value >= AuthTier.TIER_2.value:
+                    logger.info(f"✅ Emergency access granted to {requestor_id} for case {case_id}")
+                    return True
+
+            # Check if requestor has consent from patient for this specific case
+            consent_token = case.get("governance", {}).get("consent_token")
+            if consent_token:
+                has_consent_access = await self.auth_manager.verify_patient_consent(
+                    requestor_id, case.get("user_id"), consent_token
+                )
+                if has_consent_access:
+                    logger.info(f"✅ Consent-based access granted to {requestor_id} for case {case_id}")
+                    return True
+
+            # Check general healthcare read permissions for Tier 2+ providers
+            has_read_scope = await self.auth_manager.check_scope(requestor_id, "healthcare.case.read")
+            if has_read_scope and auth_result.tier.value >= AuthTier.TIER_2.value:
+                # Additional check: ensure case is not marked as restricted
+                if not case.get("governance", {}).get("restricted_access", False):
+                    logger.info(f"✅ General read access granted to {requestor_id} for case {case_id}")
+                    return True
+                else:
+                    logger.warning(f"❌ Case {case_id} has restricted access, denied to {requestor_id}")
+                    return False
+
+            logger.warning(f"❌ Access denied to {requestor_id} for case {case_id} - insufficient permissions")
+            return False
+
+        except Exception as e:
+            logger.error(f"❌ Case access validation failed for {case_id}/{requestor_id}: {e}")
+            # Fail secure - deny access on any error
+            return False
 
     def _has_general_access(self, provider_id: str) -> bool:
         """Check if provider has general case access"""
