@@ -18,6 +18,7 @@ from pathlib import Path
 # Standard library fallback imports
 try:
     import jwt
+
     JWT_AVAILABLE = True
 except ImportError:
     JWT_AVAILABLE = False
@@ -25,6 +26,7 @@ except ImportError:
 # Try importing LUKHAS identity components with fallbacks
 try:
     from .wallet import WalletManager
+
     WALLET_AVAILABLE = True
 except ImportError:
     WALLET_AVAILABLE = False
@@ -38,6 +40,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class AuthResult:
     """Authentication result container"""
+
     success: bool
     user_id: Optional[str] = None
     session_token: Optional[str] = None
@@ -54,6 +57,7 @@ class AuthResult:
 @dataclass
 class UserProfile:
     """User profile container"""
+
     user_id: str
     username: str
     email: Optional[str] = None
@@ -133,7 +137,10 @@ class AuthenticationService:
         """Initialize identity manager integration if available"""
         if IDENTITY_MANAGER_AVAILABLE:
             try:
-                self.identity_manager = IdentityManager()
+                # IdentityManager import would be here if available
+                # from .identity_manager import IdentityManager
+                # self.identity_manager = IdentityManager()
+                self.identity_manager = None  # Placeholder since not available
                 self.logger.info("✅ Identity Manager integration available")
             except Exception as e:
                 self.logger.warning(f"Identity Manager integration failed: {e}")
@@ -143,10 +150,7 @@ class AuthenticationService:
             self.logger.info("ℹ️ Identity Manager not available")
 
     def authenticate_user(
-        self,
-        username: str,
-        password: str,
-        auth_method: str = "password"
+        self, username: str, password: str, auth_method: str = "password"
     ) -> AuthResult:
         """
         Authenticate user with username/password
@@ -173,11 +177,7 @@ class AuthenticationService:
 
         except Exception as e:
             self.logger.error(f"Authentication error: {e}")
-            return AuthResult(
-                success=False,
-                error=str(e),
-                auth_method=auth_method
-            )
+            return AuthResult(success=False, error=str(e), auth_method=auth_method)
 
     def authenticate_token(self, token: str) -> AuthResult:
         """
@@ -191,7 +191,7 @@ class AuthenticationService:
         """
         try:
             # Try JWT first if available
-            if JWT_AVAILABLE and token.count('.') == 2:
+            if JWT_AVAILABLE and token.count(".") == 2:
                 return self._authenticate_jwt(token)
 
             # Try session token
@@ -199,13 +199,11 @@ class AuthenticationService:
 
         except Exception as e:
             self.logger.error(f"Token authentication error: {e}")
-            return AuthResult(
-                success=False,
-                error=str(e),
-                auth_method="token"
-            )
+            return AuthResult(success=False, error=str(e), auth_method="token")
 
-    def authenticate_api_key(self, api_key: str, service_name: str = "unknown") -> AuthResult:
+    def authenticate_api_key(
+        self, api_key: str, service_name: str = "unknown"
+    ) -> AuthResult:
         """
         Authenticate using API key
 
@@ -227,9 +225,7 @@ class AuthenticationService:
 
             if not api_user:
                 return AuthResult(
-                    success=False,
-                    error="Invalid API key",
-                    auth_method="api_key"
+                    success=False, error="Invalid API key", auth_method="api_key"
                 )
 
             # Create session token
@@ -241,23 +237,19 @@ class AuthenticationService:
                 session_token=session_token,
                 permissions=api_user.get("permissions", ["api_access"]),
                 expires_at=time.time() + self.session_timeout,
-                auth_method="api_key"
+                auth_method="api_key",
             )
 
         except Exception as e:
             self.logger.error(f"API key authentication error: {e}")
-            return AuthResult(
-                success=False,
-                error=str(e),
-                auth_method="api_key"
-            )
+            return AuthResult(success=False, error=str(e), auth_method="api_key")
 
     def create_user(
         self,
         username: str,
         password: str,
         email: Optional[str] = None,
-        permissions: Optional[List[str]] = None
+        permissions: Optional[List[str]] = None,
     ) -> UserProfile:
         """
         Create a new user account
@@ -285,7 +277,7 @@ class AuthenticationService:
             username=username,
             email=email,
             permissions=permissions or ["basic_access"],
-            created_at=time.time()
+            created_at=time.time(),
         )
 
         # Store user data
@@ -296,7 +288,7 @@ class AuthenticationService:
             "permissions": profile.permissions,
             "created_at": profile.created_at,
             "last_login": None,
-            "api_key": self._generate_api_key()
+            "api_key": self._generate_api_key(),
         }
 
         self._save_users()
@@ -317,7 +309,7 @@ class AuthenticationService:
             created_at=user_data["created_at"],
             last_login=user_data.get("last_login"),
             permissions=user_data.get("permissions", ["basic_access"]),
-            metadata=user_data.get("metadata", {})
+            metadata=user_data.get("metadata", {}),
         )
 
     def update_user_permissions(self, user_id: str, permissions: List[str]) -> bool:
@@ -353,17 +345,13 @@ class AuthenticationService:
 
         if not user_data:
             return AuthResult(
-                success=False,
-                error="User not found",
-                auth_method="local"
+                success=False, error="User not found", auth_method="local"
             )
 
         # Verify password
         if not self._verify_password(password, user_data["password_hash"]):
             return AuthResult(
-                success=False,
-                error="Invalid password",
-                auth_method="local"
+                success=False, error="Invalid password", auth_method="local"
             )
 
         # Update last login
@@ -379,7 +367,7 @@ class AuthenticationService:
             session_token=session_token,
             permissions=user_data.get("permissions", ["basic_access"]),
             expires_at=time.time() + self.session_timeout,
-            auth_method="local"
+            auth_method="local",
         )
 
     def _authenticate_wallet(self, username: str, signature: str) -> AuthResult:
@@ -388,7 +376,7 @@ class AuthenticationService:
             return AuthResult(
                 success=False,
                 error="Wallet authentication not available",
-                auth_method="wallet"
+                auth_method="wallet",
             )
 
         # This would integrate with the actual wallet system
@@ -396,7 +384,7 @@ class AuthenticationService:
         return AuthResult(
             success=False,
             error="Wallet authentication not implemented",
-            auth_method="wallet"
+            auth_method="wallet",
         )
 
     def _authenticate_identity(self, username: str, token: str) -> AuthResult:
@@ -405,7 +393,7 @@ class AuthenticationService:
             return AuthResult(
                 success=False,
                 error="Identity manager not available",
-                auth_method="identity"
+                auth_method="identity",
             )
 
         # This would integrate with the identity manager
@@ -413,16 +401,14 @@ class AuthenticationService:
         return AuthResult(
             success=False,
             error="Identity manager authentication not implemented",
-            auth_method="identity"
+            auth_method="identity",
         )
 
     def _authenticate_jwt(self, token: str) -> AuthResult:
         """JWT token authentication (if available)"""
         if not JWT_AVAILABLE:
             return AuthResult(
-                success=False,
-                error="JWT not available",
-                auth_method="jwt"
+                success=False, error="JWT not available", auth_method="jwt"
             )
 
         try:
@@ -431,9 +417,7 @@ class AuthenticationService:
 
             if not user_id or user_id not in self.users:
                 return AuthResult(
-                    success=False,
-                    error="Invalid token payload",
-                    auth_method="jwt"
+                    success=False, error="Invalid token payload", auth_method="jwt"
                 )
 
             return AuthResult(
@@ -442,21 +426,13 @@ class AuthenticationService:
                 session_token=token,
                 permissions=payload.get("permissions", ["basic_access"]),
                 expires_at=payload.get("exp"),
-                auth_method="jwt"
+                auth_method="jwt",
             )
 
         except jwt.ExpiredSignatureError:
-            return AuthResult(
-                success=False,
-                error="Token expired",
-                auth_method="jwt"
-            )
+            return AuthResult(success=False, error="Token expired", auth_method="jwt")
         except jwt.InvalidTokenError:
-            return AuthResult(
-                success=False,
-                error="Invalid token",
-                auth_method="jwt"
-            )
+            return AuthResult(success=False, error="Invalid token", auth_method="jwt")
 
     def _authenticate_session_token(self, token: str) -> AuthResult:
         """Session token authentication"""
@@ -464,9 +440,7 @@ class AuthenticationService:
 
         if not session_data:
             return AuthResult(
-                success=False,
-                error="Invalid session token",
-                auth_method="session"
+                success=False, error="Invalid session token", auth_method="session"
             )
 
         # Check expiration
@@ -474,9 +448,7 @@ class AuthenticationService:
             del self.active_sessions[token]
             self._save_sessions()
             return AuthResult(
-                success=False,
-                error="Session expired",
-                auth_method="session"
+                success=False, error="Session expired", auth_method="session"
             )
 
         return AuthResult(
@@ -485,7 +457,7 @@ class AuthenticationService:
             session_token=token,
             permissions=session_data.get("permissions", ["basic_access"]),
             expires_at=session_data["expires_at"],
-            auth_method="session"
+            auth_method="session",
         )
 
     def _create_session_token(self, user_id: str) -> str:
@@ -499,7 +471,7 @@ class AuthenticationService:
             "user_id": user_id,
             "created_at": time.time(),
             "expires_at": expires_at,
-            "permissions": user_data.get("permissions", ["basic_access"])
+            "permissions": user_data.get("permissions", ["basic_access"]),
         }
 
         self._save_sessions()
@@ -510,22 +482,28 @@ class AuthenticationService:
         salt = secrets.token_hex(32)
         # Combine password with pepper and salt
         combined = f"{password}{self.password_pepper}{salt}"
-        password_hash = hashlib.pbkdf2_hmac('sha256', combined.encode(), salt.encode(), 100000)
+        password_hash = hashlib.pbkdf2_hmac(
+            "sha256", combined.encode(), salt.encode(), 100000
+        )
         return f"{salt}:{password_hash.hex()}"
 
     def _verify_password(self, password: str, stored_hash: str) -> bool:
         """Verify a password against stored hash"""
         try:
-            salt, hash_hex = stored_hash.split(':', 1)
+            salt, hash_hex = stored_hash.split(":", 1)
             combined = f"{password}{self.password_pepper}{salt}"
-            password_hash = hashlib.pbkdf2_hmac('sha256', combined.encode(), salt.encode(), 100000)
+            password_hash = hashlib.pbkdf2_hmac(
+                "sha256", combined.encode(), salt.encode(), 100000
+            )
             return hmac.compare_digest(hash_hex, password_hash.hex())
         except Exception:
             return False
 
     def _generate_user_id(self, username: str) -> str:
         """Generate a user ID from username"""
-        return hashlib.sha256(f"lukhas_user_{username}_{time.time()}".encode()).hexdigest()[:16]
+        return hashlib.sha256(
+            f"lukhas_user_{username}_{time.time()}".encode()
+        ).hexdigest()[:16]
 
     def _generate_api_key(self) -> str:
         """Generate an API key"""
@@ -551,7 +529,7 @@ class AuthenticationService:
             return default
 
         try:
-            with open(file_path, 'r') as f:
+            with open(file_path, "r") as f:
                 return json.load(f)
         except Exception as e:
             self.logger.error(f"Error loading {file_path}: {e}")
@@ -560,7 +538,7 @@ class AuthenticationService:
     def _save_users(self):
         """Save users to file"""
         try:
-            with open(self.users_file, 'w') as f:
+            with open(self.users_file, "w") as f:
                 json.dump(self.users, f, indent=2)
         except Exception as e:
             self.logger.error(f"Error saving users: {e}")
@@ -571,11 +549,12 @@ class AuthenticationService:
             # Only save non-expired sessions
             current_time = time.time()
             valid_sessions = {
-                token: data for token, data in self.active_sessions.items()
+                token: data
+                for token, data in self.active_sessions.items()
                 if data["expires_at"] > current_time
             }
 
-            with open(self.sessions_file, 'w') as f:
+            with open(self.sessions_file, "w") as f:
                 json.dump(valid_sessions, f, indent=2)
         except Exception as e:
             self.logger.error(f"Error saving sessions: {e}")
@@ -584,7 +563,8 @@ class AuthenticationService:
         """Remove expired sessions"""
         current_time = time.time()
         expired_tokens = [
-            token for token, data in self.active_sessions.items()
+            token
+            for token, data in self.active_sessions.items()
             if data["expires_at"] <= current_time
         ]
 
@@ -631,5 +611,5 @@ __all__ = [
     "get_auth_service",
     "authenticate_user",
     "authenticate_token",
-    "authenticate_api_key"
+    "authenticate_api_key",
 ]

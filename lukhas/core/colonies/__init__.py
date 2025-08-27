@@ -8,6 +8,10 @@ This module intentionally avoids any cross-lane imports from `candidate`.
 
 import importlib
 import logging
+from abc import ABC
+from abc import abstractmethod
+from dataclasses import dataclass
+from dataclasses import field
 from typing import Any
 from typing import Optional
 
@@ -38,10 +42,6 @@ def import_with_fallback(
 
 logger.warning("Using BaseColony stub (no cross-lane imports)")
 # Define a minimal BaseColony stub (stable lane only)
-from abc import ABC
-from abc import abstractmethod
-from dataclasses import dataclass
-from dataclasses import field
 
 
 @dataclass

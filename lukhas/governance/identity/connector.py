@@ -3,16 +3,19 @@
 Identity System Connector
 Ensures all systems properly integrate with identity and safety checks.
 """
+
 import functools
 from typing import Any, Callable
+
+from identity.audit_logger import AuditLogger
+from identity.safety_monitor import SafetyMonitor
+from identity.tiered_access import TieredAccessControl
+
 
 # No cross-lane imports from `candidate` in stable lane; provide a stub instead.
 def get_integration_hub():
     """Stub for integration hub to avoid cross-lane import"""
     return None
-from identity.audit_logger import AuditLogger
-from identity.safety_monitor import SafetyMonitor
-from identity.tiered_access import TieredAccessControl
 
 
 class IdentityConnector:
