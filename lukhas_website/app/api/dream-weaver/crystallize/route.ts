@@ -9,8 +9,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Valid Dream Manifest is required' }, { status: 400 })
     }
 
-    const pythonProcess = spawn('python3', ['candidate/orchestration/dream_orchestrator.py', '--store'], {
-      cwd: process.cwd()
+    const pythonProcess = spawn('python3', ['../candidate/orchestration/dream_orchestrator.py', '--store'], {
+      cwd: process.cwd(),
+      env: {
+        ...process.env,
+        PYTHONPATH: '/Users/agi_dev/LOCAL-REPOS/Lukhas',
+        // Pass through API keys from the main LUKHAS .env
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY || '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'
+      }
     });
 
     pythonProcess.stdin.write(JSON.stringify(dreamManifest));

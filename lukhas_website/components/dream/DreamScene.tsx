@@ -2,7 +2,6 @@
 
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, useTexture } from '@react-three/drei'
-import { motion } from 'framer-motion-3d'
 import { useEffect, useRef } from 'react'
 
 // Define the structure of the Dream Manifest for TypeScript
@@ -34,13 +33,10 @@ function SceneContent({ manifest }: DreamSceneProps) {
     <>
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} />
-      <motion.mesh
-        animate={{ rotateY: [0, Math.PI * 2] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-      >
+      <mesh rotation={[0, 0, 0]}>
         <boxGeometry args={[3, 3, 3]} />
         <meshStandardMaterial map={texture} />
-      </motion.mesh>
+      </mesh>
     </>
   )
 }

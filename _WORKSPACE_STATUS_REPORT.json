@@ -1,0 +1,625 @@
+{
+  "timestamp": "2025-08-01T05:50:00Z",
+  "workspace_overview": {
+    "total_python_files": 3878,
+    "total_root_systems": 76,
+    "working_systems": 47,
+    "broken_systems": 0,
+    "isolated_files": 11
+  },
+  "working_systems": [
+    {
+      "name": "modulation",
+      "path": "modulation",
+      "file_count": 4,
+      "connected_files": 4,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 3,
+      "status": "working"
+    },
+    {
+      "name": "candidate",
+      "path": "candidate",
+      "file_count": 2735,
+      "connected_files": 2735,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 600,
+      "status": "working"
+    },
+    {
+      "name": "branding",
+      "path": "branding",
+      "file_count": 108,
+      "connected_files": 108,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 73,
+      "status": "working"
+    },
+    {
+      "name": "lukhas_website",
+      "path": "lukhas_website",
+      "file_count": 4,
+      "connected_files": 4,
+      "isolated_files": 0,
+      "has_init": false,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "tools",
+      "path": "tools",
+      "file_count": 232,
+      "connected_files": 232,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 152,
+      "status": "working"
+    },
+    {
+      "name": "bio",
+      "path": "bio",
+      "file_count": 17,
+      "connected_files": 17,
+      "isolated_files": 0,
+      "has_init": false,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "trace",
+      "path": "trace",
+      "file_count": 3,
+      "connected_files": 3,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "core",
+      "path": "core",
+      "file_count": 20,
+      "connected_files": 0,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "structured"
+    },
+    {
+      "name": "identity",
+      "path": "identity",
+      "file_count": 48,
+      "connected_files": 48,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 4,
+      "status": "working"
+    },
+    {
+      "name": "archive",
+      "path": "archive",
+      "file_count": 8,
+      "connected_files": 8,
+      "isolated_files": 0,
+      "has_init": false,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "enterprise",
+      "path": "enterprise",
+      "file_count": 8,
+      "connected_files": 8,
+      "isolated_files": 0,
+      "has_init": false,
+      "has_main": true,
+      "executable_files": 8,
+      "status": "working"
+    },
+    {
+      "name": "config",
+      "path": "config",
+      "file_count": 5,
+      "connected_files": 5,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "next_gen",
+      "path": "next_gen",
+      "file_count": 32,
+      "connected_files": 32,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 19,
+      "status": "working"
+    },
+    {
+      "name": "security",
+      "path": "security",
+      "file_count": 4,
+      "connected_files": 4,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "personality",
+      "path": "personality",
+      "file_count": 3,
+      "connected_files": 3,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "economic",
+      "path": "economic",
+      "file_count": 7,
+      "connected_files": 7,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "tests",
+      "path": "tests",
+      "file_count": 18,
+      "connected_files": 18,
+      "isolated_files": 0,
+      "has_init": false,
+      "has_main": true,
+      "executable_files": 9,
+      "status": "working"
+    },
+    {
+      "name": "agents",
+      "path": "agents",
+      "file_count": 13,
+      "connected_files": 13,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 4,
+      "status": "working"
+    },
+    {
+      "name": "ai_orchestration",
+      "path": "ai_orchestration",
+      "file_count": 5,
+      "connected_files": 5,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 4,
+      "status": "working"
+    },
+    {
+      "name": "matriz",
+      "path": "matriz",
+      "file_count": 18,
+      "connected_files": 18,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 10,
+      "status": "working"
+    },
+    {
+      "name": "reasoning",
+      "path": "reasoning",
+      "file_count": 13,
+      "connected_files": 13,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "qi",
+      "path": "qi",
+      "file_count": 15,
+      "connected_files": 15,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "feedback",
+      "path": "feedback",
+      "file_count": 9,
+      "connected_files": 9,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 2,
+      "status": "working"
+    },
+    {
+      "name": "dashboard",
+      "path": "dashboard",
+      "file_count": 25,
+      "connected_files": 25,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 5,
+      "status": "working"
+    },
+    {
+      "name": "integrations",
+      "path": "integrations",
+      "file_count": 1,
+      "connected_files": 1,
+      "isolated_files": 0,
+      "has_init": false,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "adapters",
+      "path": "adapters",
+      "file_count": 5,
+      "connected_files": 5,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "system",
+      "path": "system",
+      "file_count": 13,
+      "connected_files": 13,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "ethics",
+      "path": "ethics",
+      "file_count": 40,
+      "connected_files": 40,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "consent",
+      "path": "consent",
+      "file_count": 3,
+      "connected_files": 3,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 2,
+      "status": "working"
+    },
+    {
+      "name": "sdk",
+      "path": "sdk",
+      "file_count": 6,
+      "connected_files": 6,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "deployment",
+      "path": "deployment",
+      "file_count": 11,
+      "connected_files": 11,
+      "isolated_files": 0,
+      "has_init": false,
+      "has_main": true,
+      "executable_files": 3,
+      "status": "working"
+    },
+    {
+      "name": "hooks",
+      "path": "hooks",
+      "file_count": 2,
+      "connected_files": 2,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "examples",
+      "path": "examples",
+      "file_count": 14,
+      "connected_files": 14,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 12,
+      "status": "working"
+    },
+    {
+      "name": "transmission_bundle",
+      "path": "transmission_bundle",
+      "file_count": 2,
+      "connected_files": 2,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "scripts",
+      "path": "scripts",
+      "file_count": 43,
+      "connected_files": 43,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 35,
+      "status": "working"
+    },
+    {
+      "name": "diagnostics",
+      "path": "diagnostics",
+      "file_count": 2,
+      "connected_files": 2,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "mcp_servers",
+      "path": "mcp_servers",
+      "file_count": 6,
+      "connected_files": 6,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 3,
+      "status": "working"
+    },
+    {
+      "name": "api",
+      "path": "api",
+      "file_count": 6,
+      "connected_files": 6,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 4,
+      "status": "working"
+    },
+    {
+      "name": "symbolic",
+      "path": "symbolic",
+      "file_count": 16,
+      "connected_files": 16,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 6,
+      "status": "working"
+    },
+    {
+      "name": "serve",
+      "path": "serve",
+      "file_count": 8,
+      "connected_files": 8,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "performance",
+      "path": "performance",
+      "file_count": 4,
+      "connected_files": 4,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 3,
+      "status": "working"
+    },
+    {
+      "name": "lambda_products",
+      "path": "lambda_products",
+      "file_count": 236,
+      "connected_files": 236,
+      "isolated_files": 0,
+      "has_init": false,
+      "has_main": true,
+      "executable_files": 65,
+      "status": "working"
+    },
+    {
+      "name": "demos",
+      "path": "demos",
+      "file_count": 3,
+      "connected_files": 3,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "lukhas",
+      "path": "lukhas",
+      "file_count": 87,
+      "connected_files": 87,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 4,
+      "status": "working"
+    },
+    {
+      "name": "governance_extended",
+      "path": "governance_extended",
+      "file_count": 4,
+      "connected_files": 4,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": false,
+      "executable_files": 0,
+      "status": "working"
+    },
+    {
+      "name": "universal_language",
+      "path": "universal_language",
+      "file_count": 14,
+      "connected_files": 14,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 1,
+      "status": "working"
+    },
+    {
+      "name": "gtpsi",
+      "path": "gtpsi",
+      "file_count": 5,
+      "connected_files": 5,
+      "isolated_files": 0,
+      "has_init": true,
+      "has_main": true,
+      "executable_files": 2,
+      "status": "working"
+    }
+  ],
+  "broken_systems": [],
+  "isolated_files": [
+    {
+      "path": "setup.py",
+      "size": 2064,
+      "lines": 73,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "tests/test_imports.py",
+      "size": 296,
+      "lines": 18,
+      "functions": 1,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "next_gen/entropy_log/__init__.py",
+      "size": 27,
+      "lines": 4,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "performance/__init__.py",
+      "size": 27,
+      "lines": 4,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "next_gen/__init__.py",
+      "size": 24,
+      "lines": 4,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "next_gen/spindle/__init__.py",
+      "size": 23,
+      "lines": 4,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "next_gen/quantum/__init__.py",
+      "size": 23,
+      "lines": 4,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "next_gen/bridge/__init__.py",
+      "size": 22,
+      "lines": 4,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "hooks/__init__.py",
+      "size": 21,
+      "lines": 4,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "serve/ui/__init__.py",
+      "size": 18,
+      "lines": 4,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    },
+    {
+      "path": "serve/__init__.py",
+      "size": 0,
+      "lines": 1,
+      "functions": 0,
+      "classes": 0,
+      "is_executable": false
+    }
+  ],
+  "connectivity_stats": {
+    "files_with_imports": 2470,
+    "files_with_exports": 3857,
+    "highly_connected": 3843
+  }
+}

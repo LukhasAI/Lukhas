@@ -106,8 +106,8 @@ def generate_operational_summary(reports):
 
         for system, caps in capabilities_by_system.items():
             print(
-                f"   🔧 {system.upper()}: {caps['count']} capability types,
-                {caps['confidence']} high - confidence"
+                f"   🔧 {system.upper()}: {caps['count']} capability types, "
+                f"{caps['confidence']} high-confidence"
             )
             if caps["types"]:
                 print(

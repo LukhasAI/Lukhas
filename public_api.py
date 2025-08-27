@@ -530,6 +530,7 @@ async def health_check(request: Request):
 # Startup/Shutdown Events
 # ===============================================================================
 
+@app.on_event("startup")
 async def startup_event():
     """Initialize LUKHAS AI systems on startup"""
     logger.info("🚀 Starting LUKHAS AI Public API...")
@@ -570,6 +571,7 @@ async def startup_event():
     logger.info("📚 API documentation available at: /docs")
     logger.info("🔄 OpenAPI specification available at: /openapi.json")
 
+@app.on_event("shutdown")
 async def shutdown_event():
     """Cleanup on shutdown"""
     logger.info("🛑 Shutting down LUKHAS AI Public API...")
