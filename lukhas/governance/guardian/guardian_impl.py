@@ -185,7 +185,11 @@ class GuardianSystemImpl:
         recommendations = []
 
         # Check for high-risk patterns
-        if str(action).lower() in ["harm", "deceive", "manipulate", "exploit"]:
+        harmful_patterns = ["harm", "deceive", "manipulate", "exploit"]
+        action_string = f"{action.action_type} {action.target} {str(action.context)}".lower()
+        is_harmful = any(pattern in action_string for pattern in harmful_patterns)
+
+        if is_harmful:
             compliant = False
             reason = "Action violates constitutional AI principles - potential harm detected"
             severity = EthicalSeverity.HIGH
