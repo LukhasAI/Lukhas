@@ -504,9 +504,9 @@ class ToolExecutor:
                     stdout = container.logs(stdout=True, stderr=False).decode('utf-8', 'ignore')
                     stderr = container.logs(stdout=False, stderr=True).decode('utf-8', 'ignore')
                     output = f"STDOUT:\n{stdout}\nSTDERR:\n{stderr}"
-                except Exception as wait_e: # Container ran too long
+                except Exception: # Container ran too long
                     container.kill()
-                    output = f"Execution timed out after 30 seconds."
+                    output = "Execution timed out after 30 seconds."
 
             except docker.errors.ContainerError as e:
                 logger.error(f"Docker container failed for {language}: {e}")

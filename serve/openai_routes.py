@@ -2,12 +2,15 @@
 
 import logging
 
-from fastapi import APIRouter, HTTPException
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi import APIRouter
+from fastapi import HTTPException
+from fastapi.responses import JSONResponse
+from fastapi.responses import StreamingResponse
 
 from lukhas.bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 
-from .schemas import ModulatedChatRequest, ModulatedChatResponse
+from .schemas import ModulatedChatRequest
+from .schemas import ModulatedChatResponse
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/openai", tags=["openai"])

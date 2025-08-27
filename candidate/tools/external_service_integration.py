@@ -4,11 +4,8 @@ External Service Integration for Tool Executor
 Integrates tool execution with external service adapters (Gmail, Dropbox, etc.)
 """
 
-import asyncio
-import json
 import logging
 from datetime import datetime
-from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 # Service Adapter Integration

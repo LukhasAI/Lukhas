@@ -11,13 +11,11 @@ Date: 2025-08-26
 """
 
 import sys
-import os
 import time
 import hashlib
 import secrets
 import bcrypt
-import jwt
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 
 # Add the project root to the Python path
 sys.path.insert(0, '/Users/agi_dev/LOCAL-REPOS/Lukhas')
@@ -72,9 +70,7 @@ def test_authentication_flows():
             _generate_access_token,
             _generate_refresh_token,
             _validate_jwt_token,
-            users_db,
-            JWT_SECRET_KEY,
-            JWT_ALGORITHM
+            users_db
         )
         
         # Clear test data

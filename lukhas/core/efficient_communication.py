@@ -14,15 +14,19 @@ import threading
 import time
 import uuid
 from collections import defaultdict
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any
+from typing import Callable
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
 
 class MessagePriority(Enum):
     """Message priority levels for efficient routing"""
+
     CRITICAL = 1
     HIGH = 2
     NORMAL = 3
@@ -32,15 +36,17 @@ class MessagePriority(Enum):
 
 class CommunicationMode(Enum):
     """Communication modes for different traffic types"""
-    EVENT_BUS = "event_bus"        # Lightweight coordination
-    P2P_DIRECT = "p2p_direct"      # High-volume data transfer
-    MULTICAST = "multicast"        # Efficient broadcast
-    GOSSIP = "gossip"              # Epidemic protocols
+
+    EVENT_BUS = "event_bus"  # Lightweight coordination
+    P2P_DIRECT = "p2p_direct"  # High-volume data transfer
+    MULTICAST = "multicast"  # Efficient broadcast
+    GOSSIP = "gossip"  # Epidemic protocols
 
 
 @dataclass
 class Message:
     """Optimized message structure for minimal overhead"""
+
     message_id: str
     source: str
     destination: str
@@ -49,7 +55,7 @@ class Message:
     priority: MessagePriority
     mode: CommunicationMode
     timestamp: float
-    ttl: int = 30                  # Time to live in seconds
+    ttl: int = 30  # Time to live in seconds
     compression: bool = False
     size_bytes: int = 0
     energy_cost: float = 0.0
@@ -73,10 +79,10 @@ class Message:
         }[self.priority]
 
         mode_factor = {
-            CommunicationMode.P2P_DIRECT: 0.7,    # Most efficient for large data
-            CommunicationMode.EVENT_BUS: 1.0,     # Standard efficiency
-            CommunicationMode.MULTICAST: 0.6,     # Efficient for many recipients
-            CommunicationMode.GOSSIP: 1.3,        # Higher overhead
+            CommunicationMode.P2P_DIRECT: 0.7,  # Most efficient for large data
+            CommunicationMode.EVENT_BUS: 1.0,  # Standard efficiency
+            CommunicationMode.MULTICAST: 0.6,  # Efficient for many recipients
+            CommunicationMode.GOSSIP: 1.3,  # Higher overhead
         }[self.mode]
 
         return base_cost * size_factor * priority_factor * mode_factor
@@ -579,5 +585,5 @@ __all__ = [
     "EventBus",
     "P2PChannel",
     "EnergyMonitor",
-    "get_global_communication_fabric"
+    "get_global_communication_fabric",
 ]

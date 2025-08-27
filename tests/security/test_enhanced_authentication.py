@@ -1,6 +1,8 @@
-import unittest
 import asyncio
+import unittest
+
 from candidate.core.security.auth import EnhancedAuthenticationSystem
+
 
 class TestEnhancedAuthenticationSystem(unittest.TestCase):
     def setUp(self):
@@ -75,6 +77,7 @@ class TestEnhancedAuthenticationSystem(unittest.TestCase):
             self.assertIsNone(key_data_after)
 
         asyncio.run(run_test())
+
 
 if __name__ == "__main__":
     unittest.main()

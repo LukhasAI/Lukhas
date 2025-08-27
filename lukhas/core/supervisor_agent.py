@@ -6,7 +6,8 @@ Trinity Framework: ⚛️🧠🛡️
 
 import logging
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -28,10 +29,7 @@ class SupervisorAgent:
         logger.info(f"SupervisorAgent {supervisor_id} initialized")
 
     async def review_task(
-        self,
-        colony_id: str,
-        task_id: str,
-        task_data: dict[str, Any]
+        self, colony_id: str, task_id: str, task_data: dict[str, Any]
     ) -> dict[str, Any]:
         """
         Review an escalated task from a colony.
@@ -53,7 +51,7 @@ class SupervisorAgent:
             "timestamp": datetime.now().isoformat(),
             "task_data": task_data,
             "supervisor_id": self.supervisor_id,
-            "status": "under_review"
+            "status": "under_review",
         }
 
         # Store active escalation
@@ -63,11 +61,13 @@ class SupervisorAgent:
         review_result = await self._analyze_task(task_data)
 
         # Update escalation with result
-        escalation.update({
-            "review_result": review_result,
-            "status": "reviewed",
-            "reviewed_at": datetime.now().isoformat()
-        })
+        escalation.update(
+            {
+                "review_result": review_result,
+                "status": "reviewed",
+                "reviewed_at": datetime.now().isoformat(),
+            }
+        )
 
         # Move to history
         self._record_escalation(escalation)
@@ -80,7 +80,7 @@ class SupervisorAgent:
             "colony": colony_id,
             "supervisor_id": self.supervisor_id,
             "review_result": review_result,
-            "timestamp": escalation["timestamp"]
+            "timestamp": escalation["timestamp"],
         }
 
     async def _analyze_task(self, task_data: dict[str, Any]) -> dict[str, Any]:
@@ -97,7 +97,7 @@ class SupervisorAgent:
             "complexity": "medium",
             "risk_level": "low",
             "approval": "approved",
-            "recommendations": []
+            "recommendations": [],
         }
 
         # Check task type
@@ -109,8 +109,10 @@ class SupervisorAgent:
             analysis["recommendations"].append("Requires manual oversight")
 
         # Check for sensitive operations
-        if any(keyword in str(task_data).lower() for keyword in
-               ["delete", "remove", "override", "bypass", "escalate"]):
+        if any(
+            keyword in str(task_data).lower()
+            for keyword in ["delete", "remove", "override", "bypass", "escalate"]
+        ):
             analysis["risk_level"] = "medium"
             analysis["recommendations"].append("Monitor for side effects")
 
@@ -144,17 +146,22 @@ class SupervisorAgent:
                 "total_escalations": 0,
                 "active_escalations": len(self.active_escalations),
                 "approval_rate": 0.0,
-                "average_risk_level": "unknown"
+                "average_risk_level": "unknown",
             }
 
         # Calculate approval rate
-        approved = sum(1 for e in self.escalation_history
-                      if e.get("review_result", {}).get("approval") == "approved")
+        approved = sum(
+            1
+            for e in self.escalation_history
+            if e.get("review_result", {}).get("approval") == "approved"
+        )
         approval_rate = approved / total_escalations
 
         # Calculate risk distribution
-        risk_levels = [e.get("review_result", {}).get("risk_level", "unknown")
-                      for e in self.escalation_history]
+        risk_levels = [
+            e.get("review_result", {}).get("risk_level", "unknown")
+            for e in self.escalation_history
+        ]
         risk_counts = {level: risk_levels.count(level) for level in set(risk_levels)}
 
         return {
@@ -162,14 +169,16 @@ class SupervisorAgent:
             "active_escalations": len(self.active_escalations),
             "approval_rate": approval_rate,
             "risk_distribution": risk_counts,
-            "supervisor_id": self.supervisor_id
+            "supervisor_id": self.supervisor_id,
         }
 
     def get_active_escalations(self) -> list[dict[str, Any]]:
         """Get list of currently active escalations."""
         return list(self.active_escalations.values())
 
-    def get_escalation_history(self, limit: Optional[int] = None) -> list[dict[str, Any]]:
+    def get_escalation_history(
+        self, limit: Optional[int] = None
+    ) -> list[dict[str, Any]]:
         """
         Get escalation history.
 

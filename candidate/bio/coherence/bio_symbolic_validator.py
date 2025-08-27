@@ -37,11 +37,10 @@ import time
 import uuid
 from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Callable
+from typing import Any, Dict, List, Optional, Set, Tuple
 
-import numpy as np
 
 # Configure bio-symbolic logging
 logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator")
@@ -1029,7 +1028,7 @@ async def main():
     # Get comprehensive coherence report
     report = await validator.validate_comprehensive_coherence()
     
-    print(f"Coherence Report:")
+    print("Coherence Report:")
     print(f"  Overall Coherence: {report.overall_coherence:.3f}")
     print(f"  Coherence State: {report.coherence_state.value}")
     print(f"  Neural Oscillator: {report.neural_oscillator_coherence:.3f}")

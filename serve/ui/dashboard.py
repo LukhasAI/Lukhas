@@ -7,29 +7,32 @@ Implements passkey login, workflow transparency, feedback collection
 import os
 import sys
 import uuid
-from datetime import datetime, timezone
-from typing import Any, Optional
+from datetime import datetime
+from datetime import timezone
+from typing import Any
+from typing import Optional
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI
+from fastapi import WebSocket
+from fastapi import WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
 # Add paths for agent imports
-sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
 
 # Import other agents' components
 from core.identity.lambda_id_core import LukhasIdentityService
-from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
-from lukhas.orchestration.context_bus_enhanced import (
-    ContextBusOrchestrator,
-    WorkflowPipelines,
-)
+from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1
+from lukhas.governance.consent_ledger.ledger_v1 import PolicyEngine
+from lukhas.orchestration.context_bus_enhanced import ContextBusOrchestrator
+from lukhas.orchestration.context_bus_enhanced import WorkflowPipelines
 
 # Initialize FastAPI app
 app = FastAPI(
     title="LUKHAS AI Dashboard",
     description="User interface for LUKHAS AI with passkey authentication and workflow transparency",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # Initialize services
@@ -37,6 +40,7 @@ identity_service = LukhasIdentityService()
 consent_ledger = ConsentLedgerV1()
 policy_engine = PolicyEngine(consent_ledger)
 orchestrator = ContextBusOrchestrator()
+
 
 # WebSocket connection manager
 class ConnectionManager:
@@ -59,19 +63,23 @@ class ConnectionManager:
         for connection in self.active_connections.values():
             await connection.send_text(message)
 
+
 manager = ConnectionManager()
 
 # Feedback storage (in production: use database)
 feedback_storage = []
+
 
 # Request/Response models
 class LoginRequest(BaseModel):
     email: str
     display_name: Optional[str] = None
 
+
 class PasskeyAuthRequest(BaseModel):
     lid: str
     credential: dict[str, Any]
+
 
 class ConsentRequest(BaseModel):
     lid: str
@@ -79,10 +87,12 @@ class ConsentRequest(BaseModel):
     scopes: list[str]
     purpose: str
 
+
 class WorkflowRequest(BaseModel):
     lid: str
     workflow_name: str
     context: Optional[dict[str, Any]] = None
+
 
 class FeedbackSubmission(BaseModel):
     lid: str
@@ -90,6 +100,7 @@ class FeedbackSubmission(BaseModel):
     rating: int  # 1-5 stars
     comment: Optional[str] = None
     timestamp: Optional[str] = None
+
 
 # HTML Templates (inline for simplicity)
 LOGIN_HTML = """
@@ -561,32 +572,33 @@ DASHBOARD_HTML = """
 
 # API Endpoints
 
+
 @app.get("/")
 async def home():
     """Login page"""
     return HTMLResponse(content=LOGIN_HTML)
+
 
 @app.get("/dashboard")
 async def dashboard():
     """Main dashboard"""
     return HTMLResponse(content=DASHBOARD_HTML)
 
+
 @app.post("/api/register")
 async def register(request: LoginRequest):
     """Register user with ΛID"""
     result = identity_service.register_user(
-        email=request.email,
-        display_name=request.display_name or request.email
+        email=request.email, display_name=request.display_name or request.email
     )
     return result
+
 
 @app.post("/api/authenticate")
 async def authenticate(request: PasskeyAuthRequest):
     """Authenticate with passkey"""
     result = identity_service.authenticate(
-        lid=request.lid,
-        method="passkey",
-        credential=request.credential
+        lid=request.lid, method="passkey", credential=request.credential
     )
 
     if result["success"]:
@@ -595,10 +607,11 @@ async def authenticate(request: PasskeyAuthRequest):
             "success": True,
             "lid": request.lid,
             "token": result["tokens"]["id_token"],
-            "performance": result["performance"]
+            "performance": result["performance"],
         }
 
     return {"success": False, "error": "Authentication failed"}
+
 
 @app.post("/api/consent/grant")
 async def grant_consent(request: ConsentRequest):
@@ -608,19 +621,18 @@ async def grant_consent(request: ConsentRequest):
         resource_type=request.resource_type,
         scopes=request.scopes,
         purpose=request.purpose,
-        expires_in_days=90
+        expires_in_days=90,
     )
 
-    return {
-        "consent_id": consent.consent_id,
-        "granted": True
-    }
+    return {"consent_id": consent.consent_id, "granted": True}
+
 
 @app.post("/api/consent/revoke")
 async def revoke_consent(lid: str, consent_id: str):
     """Revoke consent"""
     success = consent_ledger.revoke_consent(consent_id, lid)
     return {"revoked": success}
+
 
 @app.post("/api/workflow/execute")
 async def execute_workflow(request: WorkflowRequest):
@@ -639,15 +651,17 @@ async def execute_workflow(request: WorkflowRequest):
         lid=request.lid,
         workflow_name=request.workflow_name,
         steps=pipeline,
-        initial_context=request.context
+        initial_context=request.context,
     )
 
     return result
+
 
 @app.get("/api/workflow/status/{workflow_id}")
 async def get_workflow_status(workflow_id: str):
     """Get workflow status"""
     return orchestrator.get_workflow_status(workflow_id)
+
 
 @app.post("/api/feedback/submit")
 async def submit_feedback(feedback: FeedbackSubmission):
@@ -662,13 +676,11 @@ async def submit_feedback(feedback: FeedbackSubmission):
         resource=feedback.workflow_id,
         purpose="user_feedback",
         verdict=policy_engine.PolicyVerdict.ALLOW,
-        context={
-            "rating": feedback.rating,
-            "comment": feedback.comment
-        }
+        context={"rating": feedback.rating, "comment": feedback.comment},
     )
 
     return {"success": True, "feedback_id": f"FB-{uuid.uuid4().hex}"}
+
 
 @app.get("/api/feedback/summary")
 async def get_feedback_summary():
@@ -680,8 +692,11 @@ async def get_feedback_summary():
     return {
         "average_rating": sum(ratings) / len(ratings),
         "total_feedback": len(feedback_storage),
-        "recent_comments": [f["comment"] for f in feedback_storage[-5:] if f.get("comment")]
+        "recent_comments": [
+            f["comment"] for f in feedback_storage[-5:] if f.get("comment")
+        ],
     }
+
 
 @app.get("/api/metrics")
 async def get_metrics():
@@ -697,8 +712,9 @@ async def get_metrics():
         "handoff_latency_ms": perf_metrics["handoff_performance"]["p95_ms"],
         "active_consents": active_consents,
         "workflows_completed": perf_metrics["workflows"]["completed"],
-        "success_rate": perf_metrics["workflows"]["success_rate"]
+        "success_rate": perf_metrics["workflows"]["success_rate"],
     }
+
 
 @app.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
@@ -714,10 +730,14 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
     except WebSocketDisconnect:
         manager.disconnect(client_id)
 
+
 @app.get("/logout")
 async def logout():
     """Logout endpoint"""
-    return HTMLResponse(content="<script>localStorage.clear(); location.href='/';</script>")
+    return HTMLResponse(
+        content="<script>localStorage.clear(); location.href='/';</script>"
+    )
+
 
 # Privacy Dashboard Extension
 @app.get("/privacy")
@@ -782,8 +802,10 @@ async def privacy_dashboard():
     """
     return HTMLResponse(content=privacy_html)
 
+
 if __name__ == "__main__":
     import uvicorn
+
     print("🎨 Starting LUKHAS UI Dashboard...")
     print("📍 Access at: http://localhost:8000")
     print("⚡ Features: Passkey login, Workflow transparency, Feedback collection")

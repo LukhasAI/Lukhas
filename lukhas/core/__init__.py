@@ -5,72 +5,58 @@ Trinity Framework: Identity, Consciousness, Guardian
 """
 
 # Actor system imports
-from .actor_system import (
-    Actor,
-    ActorRef,
-    ActorSystem,
-    AIAgentActor,
-    default_actor_system,
-    get_global_actor_system,
-)
-from .core_wrapper import (
-    CoreStatus,
-    CoreWrapper,
-    GlyphResult,
-    SymbolicResult,
-    create_trinity_glyph,
-    encode_concept,
-    get_core,
-    get_core_status,
-)
-from .distributed_tracing import (
-    AIAgentTracer,
-    DistributedTracer,
-    TraceCollector,
-    TraceContext,
-    TraceSpan,
-    create_ai_tracer,
-    get_global_collector,
-    get_global_tracer,
-)
+from .actor_system import Actor
+from .actor_system import ActorRef
+from .actor_system import ActorSystem
+from .actor_system import AIAgentActor
+from .actor_system import default_actor_system
+from .actor_system import get_global_actor_system
+from .core_wrapper import CoreStatus
+from .core_wrapper import CoreWrapper
+from .core_wrapper import GlyphResult
+from .core_wrapper import SymbolicResult
+from .core_wrapper import create_trinity_glyph
+from .core_wrapper import encode_concept
+from .core_wrapper import get_core
+from .core_wrapper import get_core_status
+from .distributed_tracing import AIAgentTracer
+from .distributed_tracing import DistributedTracer
+from .distributed_tracing import TraceCollector
+from .distributed_tracing import TraceContext
+from .distributed_tracing import TraceSpan
+from .distributed_tracing import create_ai_tracer
+from .distributed_tracing import get_global_collector
+from .distributed_tracing import get_global_tracer
 
 # Communication and coordination imports
-from .efficient_communication import (
-    EfficientCommunicationFabric,
-    EnergyMonitor,
-    EventBus,
-    MessagePriority,
-    MessageRouter,
-    P2PChannel,
-    get_global_communication_fabric,
-)
+from .efficient_communication import EfficientCommunicationFabric
+from .efficient_communication import EnergyMonitor
+from .efficient_communication import EventBus
+from .efficient_communication import MessagePriority
+from .efficient_communication import MessageRouter
+from .efficient_communication import P2PChannel
+from .efficient_communication import get_global_communication_fabric
 
 # Event sourcing and tracing
-from .event_sourcing import (
-    AIAgentAggregate,
-    Event,
-    EventReplayService,
-    EventSourcedAggregate,
-    EventStore,
-    get_global_event_store,
-)
+from .event_sourcing import AIAgentAggregate
+from .event_sourcing import Event
+from .event_sourcing import EventReplayService
+from .event_sourcing import EventSourcedAggregate
+from .event_sourcing import EventStore
+from .event_sourcing import get_global_event_store
 
 # Supervision and oversight
-from .supervisor_agent import (
-    SupervisorAgent,
-    get_supervisor_agent,
-)
+from .supervisor_agent import SupervisorAgent
+from .supervisor_agent import get_supervisor_agent
 
 # Symbolic system imports
-from .symbolism import (
-    MethylationModel,
-    SymbolicTag,
-    TagManager,
-    TagPermission,
-    TagScope,
-    get_methylation_model,
-    get_tag_manager,
-)
+from .symbolism import MethylationModel
+from .symbolism import SymbolicTag
+from .symbolism import TagManager
+from .symbolism import TagPermission
+from .symbolism import TagScope
+from .symbolism import get_methylation_model
+from .symbolism import get_tag_manager
 
 # Version and module info
 __version__ = "2.0.0"
@@ -82,7 +68,7 @@ TRINITY_SYMBOLS = {
     "identity": "⚛️",
     "consciousness": "🧠",
     "guardian": "🛡️",
-    "framework": "⚛️🧠🛡️"
+    "framework": "⚛️🧠🛡️",
 }
 
 # Export public interface

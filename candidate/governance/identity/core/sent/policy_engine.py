@@ -23,11 +23,10 @@ sub-100ms ethical decision validation and comprehensive audit trails.
 Integrates with Guardian System v1.0.0, drift detection, and consent management.
 """
 
-import asyncio
 import json
 import logging
 import uuid
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Optional

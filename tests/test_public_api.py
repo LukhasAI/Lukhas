@@ -1,10 +1,13 @@
-import unittest
 import base64
+import unittest
+
 from starlette.testclient import TestClient
+
+from candidate.core.security.auth import get_auth_system
 
 # Import the FastAPI app and the auth system
 from public_api import app
-from candidate.core.security.auth import get_auth_system
+
 
 class TestPublicAPI(unittest.TestCase):
     def setUp(self):
@@ -50,18 +53,14 @@ class TestPublicAPI(unittest.TestCase):
     def test_chat_endpoint_invalid_auth(self):
         """Test that the chat endpoint fails with an invalid API key."""
         response = self.client.post(
-            "/v1/chat",
-            json={"message": "hello"},
-            headers=self.invalid_auth_header
+            "/v1/chat", json={"message": "hello"}, headers=self.invalid_auth_header
         )
         self.assertEqual(response.status_code, 401)
 
     def test_chat_endpoint_valid_auth(self):
         """Test that the chat endpoint succeeds with a valid API key."""
         response = self.client.post(
-            "/v1/chat",
-            json={"message": "hello"},
-            headers=self.valid_auth_header
+            "/v1/chat", json={"message": "hello"}, headers=self.valid_auth_header
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn("response", response.json())
@@ -74,9 +73,7 @@ class TestPublicAPI(unittest.TestCase):
     def test_dreams_endpoint_valid_auth(self):
         """Test that the dreams endpoint succeeds with a valid API key."""
         response = self.client.post(
-            "/v1/dreams",
-            json={"prompt": "a dream"},
-            headers=self.valid_auth_header
+            "/v1/dreams", json={"prompt": "a dream"}, headers=self.valid_auth_header
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn("dream", response.json())
@@ -92,6 +89,7 @@ class TestPublicAPI(unittest.TestCase):
         response_with_auth = self.client.get("/status", headers=self.valid_auth_header)
         self.assertEqual(response_with_auth.status_code, 200)
         self.assertTrue(response_with_auth.json()["operational"])
+
 
 if __name__ == "__main__":
     unittest.main()

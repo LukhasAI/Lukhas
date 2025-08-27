@@ -4,8 +4,6 @@ Tool Executor Guardian Integration
 Guardian System integration for ethical validation of tool executions.
 """
 
-import asyncio
-import json
 import logging
 from datetime import datetime
 from typing import Any, Dict, Optional

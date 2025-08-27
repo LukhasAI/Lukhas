@@ -12,9 +12,8 @@ import threading
 import time
 from dataclasses import asdict, dataclass
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import urlparse
 
 logger = logging.getLogger(__name__)
 

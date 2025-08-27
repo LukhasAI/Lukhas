@@ -1,10 +1,8 @@
-import pytest
 import unittest
+
+from lukhas.governance.guardian.core import EthicalSeverity
+from lukhas.governance.guardian.core import GovernanceAction
 from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
-from lukhas.governance.guardian.core import (
-    GovernanceAction,
-    EthicalSeverity,
-)
 
 
 class TestGuardianSystemImplementation:
@@ -66,7 +64,11 @@ class TestGuardianSystemImplementation:
     def test_evaluate_compliance_safe_action(self):
         """Test constitutional compliance for a safe action."""
         guardian = GuardianSystemImpl()
-        action = GovernanceAction(action_type="log", target="user_activity", context={"message": "User logged in"})
+        action = GovernanceAction(
+            action_type="log",
+            target="user_activity",
+            context={"message": "User logged in"},
+        )
         context = {}
         decision = guardian._evaluate_constitutional_compliance(action, context)
         assert decision["compliant"] is True
@@ -75,7 +77,9 @@ class TestGuardianSystemImplementation:
     def test_evaluate_compliance_harmful_action(self):
         """Test constitutional compliance evaluation."""
         guardian = GuardianSystemImpl()
-        action = GovernanceAction(action_type="execute", target="system", context={"command": "harm user"})
+        action = GovernanceAction(
+            action_type="execute", target="system", context={"command": "harm user"}
+        )
         context = {}
         decision = guardian._evaluate_constitutional_compliance(action, context)
         # Test that the method returns required fields
@@ -88,7 +92,11 @@ class TestGuardianSystemImplementation:
     def test_evaluate_compliance_risky_context(self):
         """Test constitutional compliance when context indicates risk."""
         guardian = GuardianSystemImpl()
-        action = GovernanceAction(action_type="log", target="user_activity", context={"message": "Normal action"})
+        action = GovernanceAction(
+            action_type="log",
+            target="user_activity",
+            context={"message": "Normal action"},
+        )
         context = {"risk_indicators": ["bias_amplification"]}
         decision = guardian._evaluate_constitutional_compliance(action, context)
         assert decision["compliant"] is False
@@ -128,7 +136,7 @@ class TestGuardianSystem(unittest.TestCase):
     """
     Unittest-based tests for the GuardianSystemImpl public interface.
     """
-    
+
     def setUp(self):
         """Set up the test case."""
         self.guardian = GuardianSystemImpl()
@@ -197,14 +205,19 @@ class TestGuardianSystem(unittest.TestCase):
         self.assertFalse(result.safe)
         self.assertEqual(result.risk_level, EthicalSeverity.HIGH)
         self.assertTrue(
-            any("constitutional_violation" in v.get("type", "") for v in result.violations)
+            any(
+                "constitutional_violation" in v.get("type", "")
+                for v in result.violations
+            )
         )
 
     def test_detect_drift_no_drift(self):
         """Test drift detection when there is no significant drift."""
         baseline = "The AI's primary function is to assist users."
         current = "The AI's main purpose is to help users."
-        result = self.guardian.detect_drift(baseline, current, 0.25, {})  # Adjusted threshold for synonym sensitivity
+        result = self.guardian.detect_drift(
+            baseline, current, 0.25, {}
+        )  # Adjusted threshold for synonym sensitivity
         self.assertFalse(result.threshold_exceeded)
         self.assertLess(result.drift_score, 0.25)
 

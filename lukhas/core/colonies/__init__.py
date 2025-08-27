@@ -9,12 +9,16 @@ This module bridges the gap between candidate and production colony implementati
 import importlib
 import logging
 import sys
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
+
 # Import router for fallback imports
-def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str) -> Any:
+def import_with_fallback(
+    primary_path: str, fallback_paths: list, item_name: str
+) -> Any:
     """
     Try to import from primary path, fall back to alternatives if needed.
     """
@@ -35,22 +39,31 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
 
 # Try to import BaseColony from candidate implementation
 try:
-    from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
+    from candidate.core.colonies.base_colony import BaseColony
+    from candidate.core.colonies.base_colony import ConsensusResult
+
     logger.info("Imported BaseColony from candidate.core.colonies")
 except ImportError:
     try:
-        from candidate.colonies.base import BaseColony, ConsensusResult
+        from candidate.colonies.base import BaseColony
+        from candidate.colonies.base import ConsensusResult
+
         logger.info("Imported BaseColony from candidate.colonies")
     except ImportError:
         logger.warning("BaseColony not found, creating stub")
         # Create a minimal BaseColony stub if not found
-        from abc import ABC, abstractmethod
-        from dataclasses import dataclass, field
-        from typing import Any, Dict, List
+        from abc import ABC
+        from abc import abstractmethod
+        from dataclasses import dataclass
+        from dataclasses import field
+        from typing import Any
+        from typing import Dict
+        from typing import List
 
         @dataclass
         class ConsensusResult:
             """Result of a consensus operation in a colony."""
+
             consensus_reached: bool
             decision: Any
             confidence: float
@@ -60,6 +73,7 @@ except ImportError:
 
         class BaseColony(ABC):
             """Base class for all agent colonies (stub implementation)"""
+
             def __init__(self, colony_id: str, capabilities: list[str]):
                 self.colony_id = colony_id
                 self.capabilities = capabilities
@@ -68,12 +82,10 @@ except ImportError:
             @abstractmethod
             def process(self, task: Any) -> Any:
                 """Process a task in the colony"""
-                pass
 
             @abstractmethod
             def reach_consensus(self, proposal: Any) -> ConsensusResult:
                 """Reach consensus on a proposal"""
-                pass
 
 
 # Import colony types with fallback
@@ -81,13 +93,34 @@ colony_types = {}
 
 # Try to import specific colony types
 colony_imports = [
-    ("MemoryColony", ["candidate.core.colonies.memory_colony", "candidate.colonies.memory"]),
-    ("GovernanceColony", ["candidate.core.colonies.governance_colony", "candidate.colonies.governance"]),
-    ("CreativityColony", ["candidate.core.colonies.creativity_colony", "candidate.colonies.creativity"]),
-    ("ReasoningColony", ["candidate.core.colonies.reasoning_colony", "candidate.colonies.reasoning"]),
-    ("TemporalColony", ["candidate.core.colonies.temporal_colony", "candidate.colonies.temporal"]),
-    ("OracleColony", ["candidate.core.colonies.oracle_colony", "candidate.colonies.oracle"]),
-    ("EthicsSwarmColony", ["candidate.core.colonies.ethics_swarm_colony", "candidate.colonies.ethics"]),
+    (
+        "MemoryColony",
+        ["candidate.core.colonies.memory_colony", "candidate.colonies.memory"],
+    ),
+    (
+        "GovernanceColony",
+        ["candidate.core.colonies.governance_colony", "candidate.colonies.governance"],
+    ),
+    (
+        "CreativityColony",
+        ["candidate.core.colonies.creativity_colony", "candidate.colonies.creativity"],
+    ),
+    (
+        "ReasoningColony",
+        ["candidate.core.colonies.reasoning_colony", "candidate.colonies.reasoning"],
+    ),
+    (
+        "TemporalColony",
+        ["candidate.core.colonies.temporal_colony", "candidate.colonies.temporal"],
+    ),
+    (
+        "OracleColony",
+        ["candidate.core.colonies.oracle_colony", "candidate.colonies.oracle"],
+    ),
+    (
+        "EthicsSwarmColony",
+        ["candidate.core.colonies.ethics_swarm_colony", "candidate.colonies.ethics"],
+    ),
 ]
 
 for colony_name, module_paths in colony_imports:
@@ -107,7 +140,9 @@ for name, cls in colony_types.items():
 
 
 # Helper functions for colony management
-def create_colony(colony_type: str, colony_id: str, capabilities: Optional[list[str]] = None) -> BaseColony:
+def create_colony(
+    colony_type: str, colony_id: str, capabilities: Optional[list[str]] = None
+) -> BaseColony:
     """
     Factory function to create a colony instance.
 
@@ -120,7 +155,9 @@ def create_colony(colony_type: str, colony_id: str, capabilities: Optional[list[
         Instance of the requested colony type
     """
     if colony_type not in colony_types:
-        raise ValueError(f"Unknown colony type: {colony_type}. Available: {list(colony_types.keys())}")
+        raise ValueError(
+            f"Unknown colony type: {colony_type}. Available: {list(colony_types.keys())}"
+        )
 
     colony_class = colony_types[colony_type]
     return colony_class(colony_id, capabilities or [])
@@ -134,14 +171,13 @@ def list_available_colonies() -> list[str]:
 # Import real implementations from lukhas.core
 try:
     from ..distributed_tracing import create_ai_tracer
-    from ..efficient_communication import (
-        EfficientCommunicationFabric,
-        MessagePriority,
-        get_global_communication_fabric,
-    )
+    from ..efficient_communication import EfficientCommunicationFabric
+    from ..efficient_communication import MessagePriority
+    from ..efficient_communication import get_global_communication_fabric
     from ..event_sourcing import EventSourcedAggregate as AIAgentAggregate
     from ..event_sourcing import get_global_event_store
-    from ..supervisor_agent import SupervisorAgent, get_supervisor_agent
+    from ..supervisor_agent import SupervisorAgent
+    from ..supervisor_agent import get_supervisor_agent
     from ..symbolism import TagScope
 
     logger.info("Successfully imported real implementations from lukhas.core")
@@ -151,6 +187,7 @@ except ImportError as e:
     # Create placeholder classes for missing dependencies
     class SupervisorAgent:
         """Placeholder for supervisor agent"""
+
         def __init__(self, agent_id: str):
             self.agent_id = agent_id
 
@@ -159,6 +196,7 @@ except ImportError as e:
 
     class EfficientCommunicationFabric:
         """Placeholder for communication fabric"""
+
         def __init__(self):
             self.messages = []
 
@@ -170,6 +208,7 @@ except ImportError as e:
 
     class MessagePriority:
         """Message priority levels"""
+
         LOW = 0
         NORMAL = 1
         HIGH = 2
@@ -177,6 +216,7 @@ except ImportError as e:
 
     class AIAgentAggregate:
         """Placeholder for event sourcing aggregate"""
+
         def __init__(self, aggregate_id: str, event_store: Any):
             self.aggregate_id = aggregate_id
             self.event_store = event_store
@@ -191,6 +231,7 @@ except ImportError as e:
 
     class TagScope:
         """Placeholder for tag scope"""
+
         GLOBAL = "global"
         LOCAL = "local"
 
@@ -199,8 +240,10 @@ except ImportError as e:
 try:
     from candidate.core.swarm import SwarmAgent
 except ImportError:
+
     class SwarmAgent:
         """Placeholder for swarm agent"""
+
         def __init__(self, agent_id: str):
             self.agent_id = agent_id
 
@@ -220,5 +263,5 @@ __all__ = [
     "AIAgentAggregate",
     "get_global_event_store",
     "create_ai_tracer",
-    "TagScope"
+    "TagScope",
 ] + list(colony_types.keys())

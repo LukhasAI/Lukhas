@@ -10,9 +10,11 @@ the lifecycle and decay patterns of symbolic tags within LUKHAS AI.
 import logging
 import math
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
-from .tags import SymbolicTag, TagScope
+from .tags import SymbolicTag
+from .tags import TagScope
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +31,7 @@ class MethylationModel:
         self,
         genetic_decay_factor: float = 0.5,
         temporal_decay_rate: float = 0.1,
-        ethical_preservation_bonus: float = 1.5
+        ethical_preservation_bonus: float = 1.5,
     ):
         """
         Initialize the methylation model.
@@ -49,16 +51,18 @@ class MethylationModel:
             TagScope.LOCAL: {"stability": 0.6, "inheritance": 0.3},
             TagScope.ETHICAL: {"stability": 0.95, "inheritance": 0.9},
             TagScope.TEMPORAL: {"stability": 0.3, "inheritance": 0.1},
-            TagScope.GENETIC: {"stability": 0.8, "inheritance": 0.95}
+            TagScope.GENETIC: {"stability": 0.8, "inheritance": 0.95},
         }
 
-        logger.info(f"MethylationModel initialized with genetic_decay_factor={genetic_decay_factor}")
+        logger.info(
+            f"MethylationModel initialized with genetic_decay_factor={genetic_decay_factor}"
+        )
 
     def adjust_lifespan(
         self,
         scope: TagScope,
         lifespan: Optional[float],
-        tag_metadata: Optional[dict[str, Any]] = None
+        tag_metadata: Optional[dict[str, Any]] = None,
     ) -> Optional[float]:
         """
         Adjust tag lifespan based on methylation patterns.
@@ -112,7 +116,9 @@ class MethylationModel:
         min_lifespan = self._get_minimum_lifespan(scope)
         adjusted_lifespan = max(adjusted_lifespan, min_lifespan)
 
-        logger.debug(f"Adjusted lifespan for {scope.value}: {lifespan} -> {adjusted_lifespan}")
+        logger.debug(
+            f"Adjusted lifespan for {scope.value}: {lifespan} -> {adjusted_lifespan}"
+        )
         return adjusted_lifespan
 
     def calculate_decay_rate(self, tag: SymbolicTag, current_time: datetime) -> float:
@@ -160,7 +166,7 @@ class MethylationModel:
             decay_rate = decay_progress
 
         # Apply stability factor
-        decay_rate *= (1.0 - stability * 0.5)
+        decay_rate *= 1.0 - stability * 0.5
 
         # Consider access patterns
         if tag.access_count > 0:
@@ -202,7 +208,9 @@ class MethylationModel:
 
         return False
 
-    def inherit_tag(self, parent_tag: SymbolicTag, generation_id: str) -> Optional[SymbolicTag]:
+    def inherit_tag(
+        self, parent_tag: SymbolicTag, generation_id: str
+    ) -> Optional[SymbolicTag]:
         """
         Create an inherited tag from a parent tag.
 
@@ -240,7 +248,7 @@ class MethylationModel:
             scope=parent_tag.scope,
             permission=parent_tag.permission,
             metadata=inherited_metadata,
-            lifespan=inherited_lifespan
+            lifespan=inherited_lifespan,
         )
 
         logger.debug(f"Inherited tag {inherited_id} from {parent_tag.tag_id}")
@@ -249,11 +257,11 @@ class MethylationModel:
     def _get_minimum_lifespan(self, scope: TagScope) -> float:
         """Get minimum lifespan for a scope."""
         minimums = {
-            TagScope.GLOBAL: 3600.0,     # 1 hour
-            TagScope.LOCAL: 1800.0,      # 30 minutes
-            TagScope.ETHICAL: 86400.0,   # 24 hours
-            TagScope.TEMPORAL: 300.0,    # 5 minutes
-            TagScope.GENETIC: 7200.0     # 2 hours
+            TagScope.GLOBAL: 3600.0,  # 1 hour
+            TagScope.LOCAL: 1800.0,  # 30 minutes
+            TagScope.ETHICAL: 86400.0,  # 24 hours
+            TagScope.TEMPORAL: 300.0,  # 5 minutes
+            TagScope.GENETIC: 7200.0,  # 2 hours
         }
         return minimums.get(scope, 1800.0)  # Default 30 minutes
 
@@ -264,9 +272,8 @@ class MethylationModel:
             "temporal_decay_rate": self.temporal_decay_rate,
             "ethical_preservation_bonus": self.ethical_preservation_bonus,
             "scope_patterns": {
-                scope.value: pattern
-                for scope, pattern in self.scope_patterns.items()
-            }
+                scope.value: pattern for scope, pattern in self.scope_patterns.items()
+            },
         }
 
 

@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, Optional, Set
 
-from .event_bus import event_bus, Event, EventTypes, emit_event
+from .event_bus import EventTypes, emit_event
 
 logger = logging.getLogger(__name__)
 

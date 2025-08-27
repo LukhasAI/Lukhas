@@ -16,16 +16,20 @@
 ║ and aggregate pattern for AI agent state reconstruction.
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import json
 import logging
 import sqlite3
 import threading
 import time
 import uuid
-from abc import ABC, abstractmethod
-from dataclasses import asdict, dataclass
+from abc import ABC
+from abc import abstractmethod
+from dataclasses import asdict
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

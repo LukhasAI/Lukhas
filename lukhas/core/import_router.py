@@ -13,7 +13,8 @@ This module provides a future-proof import system that handles:
 import importlib
 import logging
 from functools import lru_cache
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +36,6 @@ class ModuleRouter:
             "candidate.colonies",
             "core.colonies",
         ],
-
         # Bio modules
         "lukhas.bio.utilities": [
             "candidate.bio.bio_utilities",
@@ -47,7 +47,6 @@ class ModuleRouter:
             "candidate.consciousness.unified.symbolic_bio_symbolic_orchestrator",
             "bio.core.symbolic_bio_symbolic",
         ],
-
         # Memory modules
         "lukhas.memory.emotional": [
             "candidate.memory.emotional_memory_manager_unified",
@@ -55,7 +54,6 @@ class ModuleRouter:
             "candidate.consciousness.states.emotional_memory_manager",
             "memory.emotional",
         ],
-
         # QI modules
         "qi.bio.bio_integration": [
             "candidate.qi.bio",
@@ -70,13 +68,11 @@ class ModuleRouter:
             "candidate.qi.engines.consciousness.engine",
             "candidate.qi.states.integration",
         ],
-
         # Bridge modules
         "lukhas.bridge.openai_core_service": [
             "candidate.bridge.openai_core_service",
             "bridge.openai_core_service",
         ],
-
         # Communication modules
         "lukhas.core.efficient_communication": [
             "candidate.core.efficient_communication",
@@ -89,7 +85,10 @@ class ModuleRouter:
         "AIAgentActor": ("lukhas.core.actor_system", "AIAgentActor"),
         "BaseColony": ("lukhas.core.colonies", "BaseColony"),
         "ConsensusResult": ("lukhas.core.colonies", "ConsensusResult"),
-        "EfficientCommunicationFabric": ("lukhas.core.colonies", "EfficientCommunicationFabric"),
+        "EfficientCommunicationFabric": (
+            "lukhas.core.colonies",
+            "EfficientCommunicationFabric",
+        ),
         "SupervisorAgent": ("lukhas.core.colonies", "SupervisorAgent"),
     }
 
@@ -124,7 +123,10 @@ class ModuleRouter:
         for path in paths_to_try:
             try:
                 importlib.import_module(path)
-                if path != module_path and module_path not in self._deprecation_warnings:
+                if (
+                    path != module_path
+                    and module_path not in self._deprecation_warnings
+                ):
                     self._deprecation_warnings.add(module_path)
                     logger.info(f"Module '{module_path}' resolved to '{path}'")
                 return path
@@ -133,7 +135,9 @@ class ModuleRouter:
 
         return None
 
-    def import_module(self, module_path: str, raise_on_error: bool = True) -> Optional[Any]:
+    def import_module(
+        self, module_path: str, raise_on_error: bool = True
+    ) -> Optional[Any]:
         """
         Import a module with fallback resolution.
 
@@ -158,18 +162,24 @@ class ModuleRouter:
                 return module
             except ImportError as e:
                 if raise_on_error:
-                    raise ImportError(f"Failed to import '{module_path}' (resolved to '{actual_path}'): {e}")
+                    raise ImportError(
+                        f"Failed to import '{module_path}' (resolved to '{actual_path}'): {e}"
+                    )
                 else:
                     logger.warning(f"Failed to import '{module_path}': {e}")
                     return None
         else:
             if raise_on_error:
-                raise ImportError(f"Module '{module_path}' not found in registry or filesystem")
+                raise ImportError(
+                    f"Module '{module_path}' not found in registry or filesystem"
+                )
             else:
                 logger.warning(f"Module '{module_path}' not found")
                 return None
 
-    def import_class(self, class_name: str, module_hint: Optional[str] = None) -> Optional[Any]:
+    def import_class(
+        self, class_name: str, module_hint: Optional[str] = None
+    ) -> Optional[Any]:
         """
         Import a class by name, with optional module hint.
 
@@ -226,7 +236,9 @@ class ModuleRouter:
         # Clear cache to reflect new mapping
         self.resolve_module_path.cache_clear()
 
-    def add_class_alias(self, class_name: str, module_path: str, actual_name: Optional[str] = None):
+    def add_class_alias(
+        self, class_name: str, module_path: str, actual_name: Optional[str] = None
+    ):
         """
         Add a class alias mapping.
 
@@ -243,7 +255,9 @@ _router = ModuleRouter()
 
 
 # Convenience functions
-def import_with_fallback(module_path: str, fallback_paths: Optional[list[str]] = None) -> Any:
+def import_with_fallback(
+    module_path: str, fallback_paths: Optional[list[str]] = None
+) -> Any:
     """
     Import a module with fallback paths.
 
@@ -284,8 +298,8 @@ def resolve_import(import_str: str) -> Any:
     Returns:
         The imported object
     """
-    if ':' in import_str:
-        module_path, obj_name = import_str.split(':', 1)
+    if ":" in import_str:
+        module_path, obj_name = import_str.split(":", 1)
         module = _router.import_module(module_path)
         if module and hasattr(module, obj_name):
             return getattr(module, obj_name)
@@ -300,7 +314,9 @@ def add_module_mapping(canonical_path: str, alternative_paths: list[str]):
     _router.add_module_mapping(canonical_path, alternative_paths)
 
 
-def add_class_alias(class_name: str, module_path: str, actual_name: Optional[str] = None):
+def add_class_alias(
+    class_name: str, module_path: str, actual_name: Optional[str] = None
+):
     """Add a class alias to the global router."""
     _router.add_class_alias(class_name, module_path, actual_name)
 

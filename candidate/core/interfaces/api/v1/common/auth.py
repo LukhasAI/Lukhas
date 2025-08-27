@@ -8,9 +8,6 @@ import time
 from typing import Dict, Optional
 
 from fastapi import Header, HTTPException, Request
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import structlog
 
 # Initialize ΛTRACE logger for security events

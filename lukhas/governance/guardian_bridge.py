@@ -14,10 +14,8 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from __future__ import annotations
 
-import os
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
-from lukhas.governance.guardian.core import DriftResult, EthicalSeverity
 from lukhas.governance.guardian.guardian_wrapper import detect_drift
 
 
@@ -64,7 +62,7 @@ class GuardianSystem:
             # Return just the drift score for legacy compatibility
             return result.drift_score
             
-        except Exception as e:
+        except Exception:
             # Fallback to safe default on any error
             return 0.05  # Low drift score
     

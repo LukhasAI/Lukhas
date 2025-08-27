@@ -20,12 +20,11 @@ Features:
 - Trinity Framework integration
 """
 
-import asyncio
 import json
 import logging
 import time
-from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional, Union
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
 
 try:
     import jwt

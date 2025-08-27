@@ -7,7 +7,8 @@ This is the production-ready actor system that supports the colony architecture.
 """
 
 import logging
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -88,7 +89,9 @@ class Actor:
 
     def handle_unknown_message(self, message: Any) -> None:
         """Handle unknown message types. Override for custom behavior."""
-        logger.debug(f"Actor {self.actor_id} received unknown message type: {type(message).__name__}")
+        logger.debug(
+            f"Actor {self.actor_id} received unknown message type: {type(message).__name__}"
+        )
 
 
 class AIAgentActor(Actor):
@@ -127,8 +130,8 @@ class AIAgentActor(Actor):
     def receive(self, message: Any) -> None:
         """Process incoming messages"""
         # Handle task-related messages
-        if hasattr(message, '__dict__'):
-            if hasattr(message, 'task_id'):
+        if hasattr(message, "__dict__"):
+            if hasattr(message, "task_id"):
                 self.assign_task(message.task_id, vars(message))
         else:
             super().receive(message)
@@ -141,5 +144,5 @@ __all__ = [
     "Actor",
     "AIAgentActor",
     "get_global_actor_system",
-    "default_actor_system"
+    "default_actor_system",
 ]

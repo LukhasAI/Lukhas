@@ -34,7 +34,7 @@ class DreamOrchestrator:
 
     def _simulate_lukhas_guardian_check(self, text: str) -> bool:
         """Simulates the LUKHAS guardian safety check."""
-        print(f"Simulating LUKHAS guardian check for text.")
+        print("Simulating LUKHAS guardian check for text.")
         # A real system would have a sophisticated safety model.
         if "unsafe" in text.lower():
             return False

@@ -9,9 +9,9 @@ import argparse
 import sys
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Dict, List, Optional
 
-from .utils import get_logger, run_command, get_git_status, get_system_info
+from .utils import get_logger, get_git_status, get_system_info
 
 
 class BaseCommand(ABC):

@@ -21,7 +21,6 @@ Generated: Phase 2 Core Implementation
 """
 
 import asyncio
-import json
 import logging
 import time
 import uuid
@@ -29,14 +28,11 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional
 from concurrent.futures import ThreadPoolExecutor
-import threading
 
 # Performance optimization imports
 import uvloop  # High-performance event loop
-import aiofiles  # Async file operations
-from async_lru import alru_cache  # Async LRU cache
 
 logger = logging.getLogger(__name__)
 
@@ -264,7 +260,7 @@ class HighPerformanceContextBus:
         self._setup_performance_optimizations()
         
         logger.info("🚀 High-Performance Context Bus initialized")
-        logger.info(f"   Target: <250ms handoffs")
+        logger.info("   Target: <250ms handoffs")
         logger.info(f"   Workers: {worker_count}")
         logger.info(f"   Queue size: {max_queue_size}")
     

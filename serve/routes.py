@@ -2,21 +2,20 @@
 
 import logging
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
+from fastapi import HTTPException
 
 from config.config import TIER_PERMISSIONS
 
-from .schemas import (
-    DreamRequest,
-    DreamResponse,
-    GlyphFeedbackRequest,
-    GlyphFeedbackResponse,
-    MemoryDumpResponse,
-    PluginLoadRequest,
-    PluginLoadResponse,
-    TierAuthRequest,
-    TierAuthResponse,
-)
+from .schemas import DreamRequest
+from .schemas import DreamResponse
+from .schemas import GlyphFeedbackRequest
+from .schemas import GlyphFeedbackResponse
+from .schemas import MemoryDumpResponse
+from .schemas import PluginLoadRequest
+from .schemas import PluginLoadResponse
+from .schemas import TierAuthRequest
+from .schemas import TierAuthResponse
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -45,7 +44,7 @@ def compute_drift_score(symbols: list[str]) -> float:
             baseline=baseline_content,
             current=current_content,
             threshold=0.15,
-            context={"symbols": symbols, "computation": "api_endpoint"}
+            context={"symbols": symbols, "computation": "api_endpoint"},
         )
 
         return min(drift_result.drift_score, 1.0)  # Cap at 1.0
@@ -70,7 +69,8 @@ def compute_affect_delta(symbols: list[str]) -> float:
     try:
         # Import emotion processing if available
         import os
-        os.environ['EMOTION_ACTIVE'] = 'true'
+
+        os.environ["EMOTION_ACTIVE"] = "true"
         from lukhas.emotion import process_emotion
 
         # Process symbols through emotion engine
@@ -104,9 +104,15 @@ def compute_affect_delta(symbols: list[str]) -> float:
         negative_indicators = ["fear", "anger", "sad", "dark", "chaos", "conflict"]
         high_arousal_indicators = ["exciting", "intense", "energy", "dynamic", "active"]
 
-        positive_score = sum(1 for indicator in positive_indicators if indicator in symbol_text)
-        negative_score = sum(1 for indicator in negative_indicators if indicator in symbol_text)
-        arousal_score = sum(1 for indicator in high_arousal_indicators if indicator in symbol_text)
+        positive_score = sum(
+            1 for indicator in positive_indicators if indicator in symbol_text
+        )
+        negative_score = sum(
+            1 for indicator in negative_indicators if indicator in symbol_text
+        )
+        arousal_score = sum(
+            1 for indicator in high_arousal_indicators if indicator in symbol_text
+        )
 
         # Calculate affect delta
         valence_intensity = abs(positive_score - negative_score) / len(symbols)
@@ -138,7 +144,7 @@ async def generate_dream(req: DreamRequest) -> DreamResponse:
             "symbols": req.symbols,
             "drift_score": drift_score,
             "affect_delta": affect_delta,
-            "dreamer_state": "active"
+            "dreamer_state": "active",
         }
 
         dream = consciousness.generate_dream_narrative(dream_context)
@@ -184,18 +190,26 @@ async def glyph_feedback(req: GlyphFeedbackRequest) -> GlyphFeedbackResponse:
     # Drift-based suggestions
     if req.driftScore > 0.15:  # High drift threshold
         if req.driftScore > 0.5:
-            suggestions.append("High drift detected - consider simplifying symbol complexity")
+            suggestions.append(
+                "High drift detected - consider simplifying symbol complexity"
+            )
             suggestions.append("Reduce symbolic noise by filtering redundant elements")
         else:
-            suggestions.append(f"Moderate drift (score: {req.driftScore:.3f}) - fine-tune symbol alignment")
+            suggestions.append(
+                f"Moderate drift (score: {req.driftScore:.3f}) - fine-tune symbol alignment"
+            )
     else:
-        suggestions.append("Drift within acceptable range - maintain current configuration")
+        suggestions.append(
+            "Drift within acceptable range - maintain current configuration"
+        )
 
     # Collapse hash-based suggestions
     if req.collapseHash:
         hash_value = abs(hash(req.collapseHash)) % 1000
         if hash_value > 800:
-            suggestions.append("Collapse hash indicates high symbolic density - consider expansion")
+            suggestions.append(
+                "Collapse hash indicates high symbolic density - consider expansion"
+            )
         elif hash_value > 400:
             suggestions.append("Balanced symbolic collapse - optimize for coherence")
         else:
@@ -206,7 +220,9 @@ async def glyph_feedback(req: GlyphFeedbackRequest) -> GlyphFeedbackResponse:
     if combined_score > 0.3:
         suggestions.append("Apply Guardian drift correction protocols")
     elif combined_score < 0.1:
-        suggestions.append("Symbolic stability achieved - ready for consciousness integration")
+        suggestions.append(
+            "Symbolic stability achieved - ready for consciousness integration"
+        )
 
     # Ensure we always have meaningful suggestions
     if not suggestions:
@@ -232,7 +248,8 @@ async def plugin_load(req: PluginLoadRequest) -> PluginLoadResponse:
     # Implement plugin persistence
     try:
         import json
-        from datetime import datetime, timezone
+        from datetime import datetime
+        from datetime import timezone
         from pathlib import Path
 
         # Create plugins directory if it doesn't exist
@@ -253,11 +270,11 @@ async def plugin_load(req: PluginLoadRequest) -> PluginLoadResponse:
                 "registered_at": datetime.now(timezone.utc).isoformat(),
                 "status": "active",
                 "symbol_type": "plugin_symbol",
-                "load_count": plugin_registry.get(symbol, {}).get("load_count", 0) + 1
+                "load_count": plugin_registry.get(symbol, {}).get("load_count", 0) + 1,
             }
 
         # Persist updated registry
-        with open(registry_file, 'w') as f:
+        with open(registry_file, "w") as f:
             json.dump(plugin_registry, f, indent=2)
 
         logger.info(f"Persisted {len(req.symbols)} plugins to registry")
@@ -287,23 +304,29 @@ async def memory_dump() -> MemoryDumpResponse:
         folds = []
 
         for fold in memory_folds:
-            folds.append({
-                "id": fold.get("fold_id", f"fold_{len(folds)}"),
-                "content": fold.get("content", "memory content"),
-                "timestamp": fold.get("created_at", ""),
-                "emotional_context": fold.get("emotional_context", {}),
-                "symbolic_weight": fold.get("symbolic_weight", 1.0)
-            })
+            folds.append(
+                {
+                    "id": fold.get("fold_id", f"fold_{len(folds)}"),
+                    "content": fold.get("content", "memory content"),
+                    "timestamp": fold.get("created_at", ""),
+                    "emotional_context": fold.get("emotional_context", {}),
+                    "symbolic_weight": fold.get("symbolic_weight", 1.0),
+                }
+            )
 
         # Calculate real affect delta from memory emotional contexts
-        os.environ['EMOTION_ACTIVE'] = 'true'
+        os.environ["EMOTION_ACTIVE"] = "true"
 
         # Process emotional states from memory folds
         emotional_texts = [fold.get("content", "") for fold in memory_folds]
-        combined_text = " ".join(emotional_texts) if emotional_texts else "neutral memory state"
+        combined_text = (
+            " ".join(emotional_texts) if emotional_texts else "neutral memory state"
+        )
 
         emotion_result = process_emotion({"text": combined_text})
-        affect_delta = abs(emotion_result.get("valence", 0.5) - 0.5) * 2.0  # Scale to 0-1
+        affect_delta = (
+            abs(emotion_result.get("valence", 0.5) - 0.5) * 2.0
+        )  # Scale to 0-1
 
         emotional_state = {
             "affect_delta": affect_delta,
@@ -311,7 +334,7 @@ async def memory_dump() -> MemoryDumpResponse:
             "arousal": emotion_result.get("arousal", 0.5),
             "dominance": emotion_result.get("dominance", 0.5),
             "memory_fold_count": len(folds),
-            "emotional_coherence": min(1.0, len(folds) * 0.1)
+            "emotional_coherence": min(1.0, len(folds) * 0.1),
         }
 
     except (ImportError, Exception) as e:
@@ -325,22 +348,22 @@ async def memory_dump() -> MemoryDumpResponse:
                 "content": "Trinity Framework consciousness integration",
                 "timestamp": "recent",
                 "emotional_context": {"valence": 0.8, "arousal": 0.6},
-                "symbolic_weight": 1.2
+                "symbolic_weight": 1.2,
             },
             {
                 "id": "fold_002",
                 "content": "Guardian ethical decision validation",
                 "timestamp": "recent",
                 "emotional_context": {"valence": 0.7, "arousal": 0.4},
-                "symbolic_weight": 1.0
+                "symbolic_weight": 1.0,
             },
             {
                 "id": "fold_003",
                 "content": "Identity system authentication success",
                 "timestamp": "recent",
                 "emotional_context": {"valence": 0.9, "arousal": 0.3},
-                "symbolic_weight": 0.8
-            }
+                "symbolic_weight": 0.8,
+            },
         ]
 
         # Calculate affect delta from fold emotional contexts
@@ -355,7 +378,7 @@ async def memory_dump() -> MemoryDumpResponse:
             "dominance": 0.6,
             "memory_fold_count": len(folds),
             "emotional_coherence": 0.8,
-            "status": "fallback_mode"
+            "status": "fallback_mode",
         }
 
     logger.info(

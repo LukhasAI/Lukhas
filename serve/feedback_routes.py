@@ -6,10 +6,14 @@ Part of the 21-day AGI implementation roadmap.
 """
 
 import logging
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
-from fastapi import APIRouter, BackgroundTasks, HTTPException
-from pydantic import BaseModel, Field
+from fastapi import APIRouter
+from fastapi import BackgroundTasks
+from fastapi import HTTPException
+from pydantic import BaseModel
+from pydantic import Field
 
 from feedback.card_system import FeedbackCardSystem
 

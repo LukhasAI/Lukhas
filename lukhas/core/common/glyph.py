@@ -6,12 +6,17 @@ Centralized GLYPH token handling for all modules.
 
 import json
 import uuid
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict
+from dataclasses import dataclass
+from dataclasses import field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Optional, Union
+from typing import Any
+from typing import Optional
+from typing import Union
 
-from .exceptions import GLYPHError, ValidationError
+from .exceptions import GLYPHError
+from .exceptions import ValidationError
 
 
 class GLYPHSymbol(Enum):

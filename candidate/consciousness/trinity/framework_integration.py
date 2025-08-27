@@ -35,16 +35,14 @@
 
 import asyncio
 import logging
-import math
 import statistics
 import time
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple, Callable
+from typing import Any, Dict, List, Optional
 
-import numpy as np
 
 # Configure Trinity Framework logging
 logger = logging.getLogger("ΛTRACE.consciousness.trinity.framework")
@@ -797,7 +795,7 @@ class TrinityFrameworkIntegration:
                 await self.balance_controller.apply_balance_adjustments(balance_adjustments)
                 
                 self.balance_adjustments_made += 1
-                logger.info(f"ΛTRACE: Applied adaptive Trinity balancing adjustments")
+                logger.info("ΛTRACE: Applied adaptive Trinity balancing adjustments")
                 
             except Exception as e:
                 logger.error(f"ΛTRACE: Failed to perform adaptive balancing: {e}")

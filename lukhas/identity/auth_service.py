@@ -12,7 +12,7 @@ import logging
 import secrets
 import time
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 from pathlib import Path
 
 # Standard library fallback imports
@@ -21,7 +21,6 @@ try:
     JWT_AVAILABLE = True
 except ImportError:
     JWT_AVAILABLE = False
-    import base64
 
 # Try importing LUKHAS identity components with fallbacks
 try:

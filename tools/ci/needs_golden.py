@@ -1,5 +1,6 @@
 # tools/ci/needs_golden.py
-import json, sys
+import json
+import sys
 from pathlib import Path
 
 def changed_lines():

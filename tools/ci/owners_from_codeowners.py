@@ -1,6 +1,5 @@
 # tools/ci/owners_from_codeowners.py
 from pathlib import Path
-import re
 
 def parse_codeowners(text: str):
     rules = []

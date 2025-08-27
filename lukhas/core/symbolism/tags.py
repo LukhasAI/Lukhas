@@ -9,7 +9,8 @@ and categorizing different types of symbolic content and operations.
 
 import logging
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +63,7 @@ class SymbolicTag:
         scope: TagScope,
         permission: TagPermission = TagPermission.PUBLIC,
         metadata: Optional[dict[str, Any]] = None,
-        lifespan: Optional[float] = None
+        lifespan: Optional[float] = None,
     ):
         self.tag_id = tag_id
         self.content = content
@@ -75,7 +76,9 @@ class SymbolicTag:
 
         logger.debug(f"Created symbolic tag {tag_id} with scope {scope.value}")
 
-    def is_accessible(self, requester_id: str, requester_privileges: list[str] = None) -> bool:
+    def is_accessible(
+        self, requester_id: str, requester_privileges: list[str] = None
+    ) -> bool:
         """
         Check if the tag is accessible to the requester.
 
@@ -92,8 +95,10 @@ class SymbolicTag:
             return True
         elif self.permission == TagPermission.PROTECTED:
             # Allow if requester is the owner or has protected access
-            return (requester_id == self.metadata.get("owner") or
-                    "protected_access" in requester_privileges)
+            return (
+                requester_id == self.metadata.get("owner")
+                or "protected_access" in requester_privileges
+            )
         elif self.permission == TagPermission.PRIVATE:
             # Only owner can access
             return requester_id == self.metadata.get("owner")
@@ -117,7 +122,7 @@ class SymbolicTag:
             "metadata": self.metadata,
             "lifespan": self.lifespan,
             "created_at": self.created_at,
-            "access_count": self.access_count
+            "access_count": self.access_count,
         }
 
     @classmethod
@@ -129,7 +134,7 @@ class SymbolicTag:
             scope=TagScope(data["scope"]),
             permission=TagPermission(data["permission"]),
             metadata=data.get("metadata", {}),
-            lifespan=data.get("lifespan")
+            lifespan=data.get("lifespan"),
         )
         tag.created_at = data.get("created_at")
         tag.access_count = data.get("access_count", 0)
@@ -155,7 +160,7 @@ class TagManager:
         permission: TagPermission = TagPermission.PUBLIC,
         owner_id: str = None,
         lifespan: Optional[float] = None,
-        metadata: Optional[dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None,
     ) -> SymbolicTag:
         """
         Create a new symbolic tag.
@@ -191,7 +196,12 @@ class TagManager:
         logger.debug(f"Created tag {tag_id} with scope {scope.value}")
         return tag
 
-    def get_tag(self, tag_id: str, requester_id: str = None, requester_privileges: list[str] = None) -> Optional[SymbolicTag]:
+    def get_tag(
+        self,
+        tag_id: str,
+        requester_id: str = None,
+        requester_privileges: list[str] = None,
+    ) -> Optional[SymbolicTag]:
         """
         Retrieve a tag by ID with access control.
 
@@ -209,13 +219,20 @@ class TagManager:
 
         # Check access permissions
         if requester_id and not tag.is_accessible(requester_id, requester_privileges):
-            logger.warning(f"Access denied to tag {tag_id} for requester {requester_id}")
+            logger.warning(
+                f"Access denied to tag {tag_id} for requester {requester_id}"
+            )
             return None
 
         tag.increment_access()
         return tag
 
-    def get_tags_by_scope(self, scope: TagScope, requester_id: str = None, requester_privileges: list[str] = None) -> list[SymbolicTag]:
+    def get_tags_by_scope(
+        self,
+        scope: TagScope,
+        requester_id: str = None,
+        requester_privileges: list[str] = None,
+    ) -> list[SymbolicTag]:
         """
         Get all accessible tags within a scope.
 
@@ -269,11 +286,7 @@ class TagManager:
 
     def get_tag_stats(self) -> dict[str, Any]:
         """Get statistics about managed tags."""
-        stats = {
-            "total_tags": len(self.tags),
-            "by_scope": {},
-            "by_permission": {}
-        }
+        stats = {"total_tags": len(self.tags), "by_scope": {}, "by_permission": {}}
 
         # Count by scope
         for scope in TagScope:

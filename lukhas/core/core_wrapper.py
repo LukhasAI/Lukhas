@@ -10,7 +10,8 @@ import logging
 import os
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Protocol
+from typing import Any
+from typing import Protocol
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -19,12 +20,15 @@ logger = logging.getLogger(__name__)
 LUKHAS_DRY_RUN_MODE = os.getenv("LUKHAS_DRY_RUN_MODE", "true").lower() == "true"
 CORE_ACTIVE = os.getenv("CORE_ACTIVE", "false").lower() == "true"
 GLYPH_ENGINE_ENABLED = os.getenv("GLYPH_ENGINE_ENABLED", "true").lower() == "true"
-SYMBOLIC_PROCESSING_ENABLED = os.getenv("SYMBOLIC_PROCESSING_ENABLED", "true").lower() == "true"
+SYMBOLIC_PROCESSING_ENABLED = (
+    os.getenv("SYMBOLIC_PROCESSING_ENABLED", "true").lower() == "true"
+)
 ACTOR_SYSTEM_ENABLED = os.getenv("ACTOR_SYSTEM_ENABLED", "true").lower() == "true"
 
 
 class CoreStatus(Enum):
     """Core system status enumeration"""
+
     INACTIVE = "inactive"
     INITIALIZING = "initializing"
     ACTIVE = "active"
@@ -34,6 +38,7 @@ class CoreStatus(Enum):
 @dataclass
 class GlyphResult:
     """Result from GLYPH processing operations"""
+
     glyph_id: str
     symbol: str
     concept: str
@@ -44,6 +49,7 @@ class GlyphResult:
 @dataclass
 class SymbolicResult:
     """Result from symbolic processing operations"""
+
     symbols: list[str]
     relationships: list[dict[str, Any]]
     patterns: list[dict[str, Any]]
@@ -54,27 +60,40 @@ class SymbolicResult:
 # Protocol definitions for registry pattern
 class GlyphEngine(Protocol):
     """Protocol for GLYPH engine implementations"""
-    def encode_concept(self, concept: str, emotion: dict[str, float] | None = None) -> Any: ...
+
+    def encode_concept(
+        self, concept: str, emotion: dict[str, float] | None = None
+    ) -> Any: ...
     def decode_glyph(self, glyph_repr: Any) -> Any: ...
     def create_trinity_glyph(self, emphasis: str) -> Any: ...
 
 
 class ActorSystem(Protocol):
     """Protocol for actor system implementations"""
+
     def send(self, actor_id: str, message: Any) -> None: ...
     def register(self, actor_id: str, actor: Any) -> None: ...
 
 
 class SymbolicWorld(Protocol):
     """Protocol for symbolic world implementations"""
+
     symbols: dict[str, Any]
+
     def create_symbol(self, name: str, properties: dict[str, Any]) -> None: ...
-    def link_symbols(self, symbol1: Any, symbol2: Any, relationship_type: str, properties: dict[str, Any]) -> None: ...
+    def link_symbols(
+        self,
+        symbol1: Any,
+        symbol2: Any,
+        relationship_type: str,
+        properties: dict[str, Any],
+    ) -> None: ...
     def get_related_symbols(self, symbol: Any) -> list[Any]: ...
 
 
 class SymbolicReasoner(Protocol):
     """Protocol for symbolic reasoner implementations"""
+
     def reason(self, symbol: Any) -> dict[str, Any]: ...
     def find_patterns(self, symbols: list[Any]) -> list[dict[str, Any]]: ...
 
@@ -84,7 +103,7 @@ _REGISTRY: dict[str, Any] = {
     "glyph_engine": None,
     "actor_system": None,
     "symbolic_world": None,
-    "symbolic_reasoner": None
+    "symbolic_reasoner": None,
 }
 
 
@@ -131,7 +150,7 @@ class CoreWrapper:
             "identity": "⚛️",
             "consciousness": "🧠",
             "guardian": "🛡️",
-            "framework": "⚛️🧠🛡️"
+            "framework": "⚛️🧠🛡️",
         }
 
         if CORE_ACTIVE and not LUKHAS_DRY_RUN_MODE:
@@ -174,7 +193,12 @@ class CoreWrapper:
         return _REGISTRY.get("symbolic_reasoner")
 
     # GLYPH Engine Interface
-    def encode_concept(self, concept: str, emotion: dict[str, float] | None = None, mode: str = "dry_run") -> GlyphResult:
+    def encode_concept(
+        self,
+        concept: str,
+        emotion: dict[str, float] | None = None,
+        mode: str = "dry_run",
+    ) -> GlyphResult:
         """
         Encode a concept into GLYPH representation for symbolic communication.
 
@@ -193,7 +217,7 @@ class CoreWrapper:
                 symbol="⚡",
                 concept=concept,
                 success=True,
-                metadata={"mode": "dry_run", "emotion": emotion}
+                metadata={"mode": "dry_run", "emotion": emotion},
             )
 
         try:
@@ -208,8 +232,8 @@ class CoreWrapper:
                 metadata={
                     "glyph_repr": glyph_repr,
                     "emotion": emotion,
-                    "trinity_context": self._trinity_context
-                }
+                    "trinity_context": self._trinity_context,
+                },
             )
         except Exception as e:
             logger.error(f"Concept encoding failed: {e}")
@@ -218,10 +242,12 @@ class CoreWrapper:
                 symbol="⚠️",
                 concept=concept,
                 success=False,
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
-    def create_trinity_glyph(self, emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
+    def create_trinity_glyph(
+        self, emphasis: str = "balanced", mode: str = "dry_run"
+    ) -> GlyphResult:
         """
         Create a Trinity Framework glyph for LUKHAS AI operations.
 
@@ -240,7 +266,7 @@ class CoreWrapper:
                 symbol=symbol,
                 concept=f"Trinity Framework ({emphasis})",
                 success=True,
-                metadata={"mode": "dry_run", "emphasis": emphasis}
+                metadata={"mode": "dry_run", "emphasis": emphasis},
             )
 
         try:
@@ -250,7 +276,10 @@ class CoreWrapper:
                 symbol=glyph_obj.symbol,
                 concept=f"Trinity Framework ({emphasis})",
                 success=True,
-                metadata={"emphasis": emphasis, "trinity_context": self._trinity_context}
+                metadata={
+                    "emphasis": emphasis,
+                    "trinity_context": self._trinity_context,
+                },
             )
         except Exception as e:
             logger.error(f"Trinity glyph creation failed: {e}")
@@ -259,11 +288,13 @@ class CoreWrapper:
                 symbol="⚠️",
                 concept="Trinity Framework",
                 success=False,
-                metadata={"error": str(e)}
+                metadata={"error": str(e)},
             )
 
     # Symbolic Processing Interface
-    def create_symbol(self, name: str, properties: dict[str, Any], mode: str = "dry_run") -> bool:
+    def create_symbol(
+        self, name: str, properties: dict[str, Any], mode: str = "dry_run"
+    ) -> bool:
         """
         Create a symbolic representation in the symbolic world.
 
@@ -286,9 +317,14 @@ class CoreWrapper:
             logger.error(f"Symbol creation failed: {e}")
             return False
 
-    def link_symbols(self, symbol1_name: str, symbol2_name: str,
-                    relationship_type: str, properties: dict[str, Any] | None = None,
-                    mode: str = "dry_run") -> bool:
+    def link_symbols(
+        self,
+        symbol1_name: str,
+        symbol2_name: str,
+        relationship_type: str,
+        properties: dict[str, Any] | None = None,
+        mode: str = "dry_run",
+    ) -> bool:
         """
         Create a relationship between symbols in the symbolic world.
 
@@ -303,7 +339,9 @@ class CoreWrapper:
             Success status
         """
         if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not self._symbolic_world:
-            logger.info(f"[DRY-RUN] Would link: {symbol1_name} -> {symbol2_name} ({relationship_type})")
+            logger.info(
+                f"[DRY-RUN] Would link: {symbol1_name} -> {symbol2_name} ({relationship_type})"
+            )
             return True
 
         try:
@@ -315,13 +353,17 @@ class CoreWrapper:
                 logger.error("One or both symbols not found")
                 return False
 
-            self._symbolic_world.link_symbols(symbol1, symbol2, relationship_type, properties or {})
+            self._symbolic_world.link_symbols(
+                symbol1, symbol2, relationship_type, properties or {}
+            )
             return True
         except Exception as e:
             logger.error(f"Symbol linking failed: {e}")
             return False
 
-    def perform_symbolic_reasoning(self, symbol_name: str, mode: str = "dry_run") -> SymbolicResult:
+    def perform_symbolic_reasoning(
+        self, symbol_name: str, mode: str = "dry_run"
+    ) -> SymbolicResult:
         """
         Perform symbolic reasoning on a symbol to derive conclusions.
 
@@ -338,7 +380,7 @@ class CoreWrapper:
                 relationships=[{"type": "dry_run_relation"}],
                 patterns=[{"pattern": "dry_run_pattern"}],
                 reasoning={"mode": "dry_run", "symbol": symbol_name},
-                success=True
+                success=True,
             )
 
         try:
@@ -349,7 +391,7 @@ class CoreWrapper:
                     relationships=[],
                     patterns=[],
                     reasoning={"error": "Symbol not found"},
-                    success=False
+                    success=False,
                 )
 
             # Perform reasoning
@@ -367,7 +409,7 @@ class CoreWrapper:
                 relationships=[],  # TODO: Extract relationship data
                 patterns=patterns,
                 reasoning=reasoning_result,
-                success=True
+                success=True,
             )
 
         except Exception as e:
@@ -377,11 +419,13 @@ class CoreWrapper:
                 relationships=[],
                 patterns=[],
                 reasoning={"error": str(e)},
-                success=False
+                success=False,
             )
 
     # Actor System Interface
-    def send_actor_message(self, actor_id: str, message: Any, mode: str = "dry_run") -> bool:
+    def send_actor_message(
+        self, actor_id: str, message: Any, mode: str = "dry_run"
+    ) -> bool:
         """
         Send a message to an actor in the actor system.
 
@@ -437,7 +481,7 @@ class CoreWrapper:
             "capabilities": {
                 "glyph_engine": self._glyph_engine is not None,
                 "actor_system": self._actor_system is not None,
-                "symbolic_processing": self._symbolic_world is not None
+                "symbolic_processing": self._symbolic_world is not None,
             },
             "trinity_framework": self._trinity_context,
             "feature_flags": {
@@ -445,8 +489,8 @@ class CoreWrapper:
                 "CORE_ACTIVE": CORE_ACTIVE,
                 "GLYPH_ENGINE_ENABLED": GLYPH_ENGINE_ENABLED,
                 "SYMBOLIC_PROCESSING_ENABLED": SYMBOLIC_PROCESSING_ENABLED,
-                "ACTOR_SYSTEM_ENABLED": ACTOR_SYSTEM_ENABLED
-            }
+                "ACTOR_SYSTEM_ENABLED": ACTOR_SYSTEM_ENABLED,
+            },
         }
 
     def restart_core(self, mode: str = "dry_run") -> bool:
@@ -481,12 +525,16 @@ def get_core() -> CoreWrapper:
 
 
 # Convenience functions for common operations
-def encode_concept(concept: str, emotion: dict[str, float] | None = None, mode: str = "dry_run") -> GlyphResult:
+def encode_concept(
+    concept: str, emotion: dict[str, float] | None = None, mode: str = "dry_run"
+) -> GlyphResult:
     """Encode a concept using the global core instance"""
     return get_core().encode_concept(concept, emotion, mode)
 
 
-def create_trinity_glyph(emphasis: str = "balanced", mode: str = "dry_run") -> GlyphResult:
+def create_trinity_glyph(
+    emphasis: str = "balanced", mode: str = "dry_run"
+) -> GlyphResult:
     """Create a Trinity Framework glyph using the global core instance"""
     return get_core().create_trinity_glyph(emphasis, mode)
 
@@ -499,6 +547,7 @@ def get_core_status() -> dict[str, Any]:
 # Decision engine support (for policy decisions)
 class DecisionEngine(Protocol):
     """Protocol for decision engine implementations"""
+
     def decide(self, policy_input: dict[str, Any]) -> dict[str, Any]: ...
 
 
@@ -511,7 +560,9 @@ def register_decision_engine(name: str, impl: DecisionEngine) -> None:
     logger.info(f"Decision engine '{name}' registered")
 
 
-def decide(policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run") -> dict[str, Any]:
+def decide(
+    policy_input: dict[str, Any], *, engine: str | None = None, mode: str = "dry_run"
+) -> dict[str, Any]:
     """
     Make a policy decision using registered decision engines.
 
@@ -523,7 +574,12 @@ def decide(policy_input: dict[str, Any], *, engine: str | None = None, mode: str
     Returns:
         Decision result with action and metadata
     """
-    if mode == "dry_run" or LUKHAS_DRY_RUN_MODE or not engine or engine not in _DECISION_REGISTRY:
+    if (
+        mode == "dry_run"
+        or LUKHAS_DRY_RUN_MODE
+        or not engine
+        or engine not in _DECISION_REGISTRY
+    ):
         return {"decision": "allow", "explain": "dry_run skeleton", "risk": 0.1}
 
     return _DECISION_REGISTRY[engine].decide(policy_input)
@@ -545,5 +601,5 @@ __all__ = [
     "register_symbolic_world",
     "register_symbolic_reasoner",
     "register_decision_engine",
-    "decide"
+    "decide",
 ]

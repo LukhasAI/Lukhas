@@ -1,6 +1,9 @@
 # tools/ci/debt_ratchet.py
 from __future__ import annotations
-import json, subprocess, sys, os
+import json
+import subprocess
+import sys
+import os
 from pathlib import Path
 try:
     import tomllib

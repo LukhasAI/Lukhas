@@ -1,6 +1,5 @@
 # ═══════════════════════════════════════════════════════════════════════════
 import hashlib
-import json
 import logging
 import os
 import secrets
@@ -15,7 +14,6 @@ from flask import (
     jsonify,
     request,
 )
-from werkzeug.security import check_password_hash, generate_password_hash
 
 # FILENAME: auth_flows.py
 # MODULE: lukhas_id.api.auth.auth_flows
