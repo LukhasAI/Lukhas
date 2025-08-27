@@ -432,24 +432,24 @@ class Phase2ValidationRunner:
     def _generate_markdown_summary(self, output_file: Path):
         """Generate markdown summary report"""
         with open(output_file, "w") as f:
-            f.write(")  #  LUKHAS AI Phase 2 Validation Summary\n\n"
+            f.write("# LUKHAS AI Phase 2 Validation Summary\n\n")
             f.write(f"**Generated:** {self.validation_results['timestamp']}\n")
             f.write(f"**Mode:** {self.validation_results['mode']}\n")
             f.write(f"**Execution Time:** {self.validation_results.get('total_execution_time', 0):.1f}s\n\n")
 
             # Quality Gates
             gates = self.validation_results["quality_gates"]["gates"]
-            f.write("#)  #  Quality Gates\n\n"
+            f.write("## Quality Gates\n\n")
             for gate, passed in gates.items():
                 status = "✅ PASS" if passed else "❌ FAIL"
                 f.write(f"- {status} {gate}\n")
 
             # Promotion Status
             if self.validation_results["promotion_readiness"]:
-                f.write("\n#)  #  🚀 Promotion Status: READY\n"
+                f.write("\n## 🚀 Promotion Status: READY\n")
                 f.write("Phase 2 systems meet quality gates and are ready for lukhas/ promotion.\n")
             else:
-                f.write("\n#)  #  ⚠️ Promotion Status: NOT READY\n"
+                f.write("\n## ⚠️ Promotion Status: NOT READY\n")
                 f.write("Phase 2 systems need additional work before lukhas/ promotion.\n")
 
 

@@ -234,15 +234,15 @@ Automated security update by security-update.py
     def generate_report(self) -> str:
         """Generate a security update report"""
         report = []
-        report.append(")  #  Security Update Report"
+        report.append("# Security Update Report")
         report.append(f"\nGenerated: {datetime.now().isoformat()}")
         report.append(f"\nVulnerabilities found: {len(self.vulnerabilities)}")
         report.append(f"Packages updated: {len(self.updates_applied)}")
 
         if self.vulnerabilities:
-            report.append("\n#)  #  Vulnerabilities Detected\n"
+            report.append("\n## Vulnerabilities Detected\n")
             for vuln in self.prioritize_updates(self.vulnerabilities):
-                report.append(f"##"package']}")
+                report.append(f"### {vuln['package']}\n")
                 report.append(f"- **Severity**: {vuln.get('severity', 'unknown')}")
                 report.append(f"- **Current Version**: {vuln.get('current_version', 'unknown')}")
                 report.append(f"- **Vulnerability**: {vuln.get('vulnerability', 'unknown')}")
@@ -252,7 +252,7 @@ Automated security update by security-update.py
                 report.append("")
 
         if self.updates_applied:
-            report.append("\n#)  #  Updates Applied\n"
+            report.append("\n## Updates Applied\n")
             for package in self.updates_applied:
                 report.append(f"- ✅ {package}")
 

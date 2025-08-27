@@ -430,8 +430,8 @@ class VoiceCoherenceAnalyzer:
     def generate_coherence_report(self, analyses: list[dict[str, Any]]) -> str:
         """Generate comprehensive voice coherence report"""
         report = []
-        report.append(")  #  🎯 LUKHAS AI Voice Coherence Analysis Report"
-        report.append(")
+        report.append("# 🎯 LUKHAS AI Voice Coherence Analysis Report")
+        report.append("")
         report.append("*Elite Brand Integration Assessment*")
         report.append("")
         report.append("---")
@@ -441,7 +441,7 @@ class VoiceCoherenceAnalyzer:
         total_systems = len(analyses)
         elite_ready_systems = len([a for a in analyses if a.get("readiness_assessment", {}).get("deployment_ready", False)])
 
-        report.append("#)  #  📊 Executive Summary"
+        report.append("## 📊 Executive Summary")
         report.append("")
         report.append(f"**Total Content Systems Analyzed**: {total_systems}")
         report.append(f"**Elite Brand Ready**: {elite_ready_systems}/{total_systems} ({elite_ready_systems/total_systems*100:.1f}%)")
@@ -453,7 +453,7 @@ class VoiceCoherenceAnalyzer:
             metrics = analysis.get("system_metrics", {})
             readiness = analysis.get("readiness_assessment", {})
 
-            report.append(f"##")
+            report.append(f"### {system_name}")
             report.append("")
 
             if metrics:
@@ -478,26 +478,26 @@ class VoiceCoherenceAnalyzer:
             report.append("")
 
         # Deployment recommendations
-        report.append("#)  #  🚀 Deployment Recommendations"
+        report.append("## 🚀 Deployment Recommendations")
         report.append("")
 
         high_priority = [a for a in analyses if a.get("readiness_assessment", {}).get("priority_level") == "high"]
         medium_priority = [a for a in analyses if a.get("readiness_assessment", {}).get("priority_level") == "medium"]
 
         if high_priority:
-            report.append("##)  #  High Priority (Immediate Attention")
+            report.append("### High Priority (Immediate Attention)")
             for analysis in high_priority:
                 report.append(f"- **{analysis['system_name']}**: Major voice coherence upgrade required")
             report.append("")
 
         if medium_priority:
-            report.append("##)  #  Medium Priority (Phase 2 Integration")
+            report.append("### Medium Priority (Phase 2 Integration)")
             for analysis in medium_priority:
                 report.append(f"- **{analysis['system_name']}**: Moderate improvements needed")
             report.append("")
 
         # Target achievement pathway
-        report.append("#)  #  🎯 Elite Brand Achievement Pathway"
+        report.append("## 🎯 Elite Brand Achievement Pathway")
         report.append("")
         report.append("1. **Phase 1** (Days 1-3): Upgrade high-priority systems to 70%+ coherence")
         report.append("2. **Phase 2** (Days 4-7): Enhance medium-priority systems to 80%+ coherence")

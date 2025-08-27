@@ -54,9 +54,9 @@ class DocumentStructureAnalyzer:
 
         # Count section depths
         depths = Counter(
-            len(re.match(r"^)  # +", section.group(0))
+            len(re.match(r"#+", section).group(0))
             for section in sections
-            if section.startswith(")  # "
+            if section.startswith("#")
         )
 
         # Calculate depth score
@@ -98,7 +98,7 @@ class DocumentStructureAnalyzer:
                 <= 2
             )
 
-            has_comments = any(re.search(r")  # |//|/\*|\*/", line for line in lines)
+            has_comments = any(re.search(r"#|//|/\*|\*/", line) for line in lines)
 
             avg_line_length = sum(len(line) for line in lines) / len(lines)
             good_length = 20 <= avg_line_length <= 100
@@ -139,7 +139,7 @@ class DocumentStructureAnalyzer:
         # Check for formatting variety
         has_lists = bool(re.search(r"[-*]\s+\w+", content))
         has_emphasis = bool(re.search(r"\*\w+\*|_\w+_", content))
-        has_structure = bool(re.search(r")  # {1,6}\s+\w+", content)
+        has_structure = bool(re.search(r"#{1,6}\s+\w+", content))
 
         format_score = 0.4 * has_lists + 0.3 * has_emphasis + 0.3 * has_structure
 
@@ -166,10 +166,10 @@ class DocumentStructureAnalyzer:
         )
 
         # Check header formatting
-        headers = re.findall(r")  # {1,6}\s+\w+", content
+        headers = re.findall(r"#{1,6}\s+\w+", content)
         consistent_headers = (
-            len({len(h) - len(h.lstrip(")  # ") for h in headers})
-            == len({re.sub(r"^)  # +\s+", "", h for h in headers})
+            len({len(h) - len(h.lstrip('#')) for h in headers})
+            == len({re.sub(r"#+\s+", "", h) for h in headers})
             if headers
             else True
         )

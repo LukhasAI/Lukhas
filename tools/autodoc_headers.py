@@ -261,20 +261,20 @@ class DocHeaderGenerator:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with open(output_path, "w") as f:
-            f.write(")  #  LUKHAS AI Documentation Status Report\n\n"
-            f.write("#)  #  Summary\n\n"
+            f.write("#  LUKHAS AI Documentation Status Report\n\n")
+            f.write("## Summary\n\n")
             f.write(f"- **Total Modules**: {self.report['stats']['total_files']}\n")
             f.write(f"- **Documented**: {self.report['stats']['documented']}\n")
             f.write(f"- **Undocumented**: {self.report['stats']['undocumented']}\n")
             f.write(f"- **Headers Added**: {self.report['stats']['headers_added']}\n\n")
 
             if self.report["processed"]:
-                f.write("#)  #  Modules Needing Documentation\n\n"
+                f.write("## Modules Needing Documentation\n\n")
 
                 # In dry-run mode, show what would be added
                 if isinstance(self.report["processed"][0], dict):
                     for item in self.report["processed"]:
-                        f.write(f"##"path']}`\n\n")
+                        f.write(f"### `{item['path']}`\n\n")
                         f.write("Suggested header:\n```python\n")
                         f.write(item["header"])
                         f.write("```\n\n")
@@ -288,7 +288,7 @@ class DocHeaderGenerator:
                         f.write(f"- `{path}`\n")
 
             if self.report["errors"]:
-                f.write("\n#)  #  Errors\n\n"
+                f.write("\n## Errors\n\n")
                 for error in self.report["errors"]:
                     f.write(f"- {error}\n")
 

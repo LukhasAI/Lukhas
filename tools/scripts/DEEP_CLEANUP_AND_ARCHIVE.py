@@ -469,12 +469,12 @@ Setup.py:
         # Save report
         report_path = self.workspace / "CLEANUP_REPORT.md"
         with open(report_path, "w") as f:
-            f.write(")  #  Workspace Cleanup Report\n\n"
+            f.write("# Workspace Cleanup Report\n\n")
             f.write(f"**Date:** {datetime.now().isoformat()}\n\n")
-            f.write("#)  #  Statistics\n\n"
+            f.write("## Statistics\n\n")
             for key, value in self.stats.items():
                 f.write(f"- **{key.replace('_', ' ').title()}:** {value}\n")
-            f.write("\n#)  #  Archive Location\n\n"
+            f.write("\n## Archive Location\n\n")
             f.write(f"`{self.archive_dir}`\n")
 
     def run_deep_cleanup(self):
