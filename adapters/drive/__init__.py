@@ -13,7 +13,6 @@ ACK GUARDRAILS
 """
 
 import hashlib
-import json
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
@@ -529,7 +528,7 @@ File size: {metadata.size} bytes
     ) -> str:
         """Mock file upload"""
         # Generate mock file ID based on content hash
-        content_hash = hashlib.sha256(  # Changed from MD5 for securitycontent).hexdigest()[:16]
+        content_hash = hashlib.sha256(content).hexdigest()[:16]  # Changed from MD5 for security
         file_id = f"upload_{content_hash}"
         return file_id
 

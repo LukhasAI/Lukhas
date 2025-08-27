@@ -68,6 +68,7 @@ class BaseRequest(BaseModel):
                 "user_email": user.email,
                 "user_tier": user.tier,
                 "lambda_id": user.lambda_id,
+                # TODO[T4-AUTOFIX]: Undefined datetime - suggest: from datetime import datetime
                 "timestamp": str(datetime.utcnow()),
             }
         )
@@ -373,6 +374,7 @@ async def http_exception_handler(request, exc: HTTPException):
             "tier": user_context.tier,
         }
 
+    # TODO[T4-AUTOFIX]: Undefined JSONResponse - suggest: from fastapi.responses import JSONResponse
     return JSONResponse(status_code=exc.status_code, content=response_data)
 
 

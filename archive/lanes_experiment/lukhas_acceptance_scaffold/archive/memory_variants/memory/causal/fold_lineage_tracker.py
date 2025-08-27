@@ -177,6 +177,7 @@ class FoldLineageTracker:
             causation_id: Unique identifier for this causal relationship
         """
         # JULES05_NOTE: Loop-safe guard added
+        # TODO[T4-AUTOFIX]: Undefined logger - suggest: import logging; logger = logging.getLogger(__name__)
         logger.bind(drift_level=recursion_depth)
         if recursion_depth > MAX_RECURSION_DEPTH:
             logger.warning(

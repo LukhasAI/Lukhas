@@ -25,6 +25,7 @@ EMOTION_VOICES = {
 
 
 async def speak(text, voice=DEFAULT_VOICE, preview=False):
+    # TODO[T4-AUTOFIX]: Undefined Communicate - suggest: from edge_tts import Communicate
     communicate = Communicate(text=text, voice=voice)
     await communicate.save("lucas_output.mp3")
     if not preview:
