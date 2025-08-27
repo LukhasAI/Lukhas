@@ -1,0 +1,201 @@
+# LUKHAS AI Alerting Rules
+# Comprehensive alerts for production monitoring
+
+groups:
+  - name: lukhas-critical
+    interval: 30s
+    rules:
+      # High-priority alerts for immediate response
+
+      - alert: LUKHASServiceDown
+        expr: up{job="lukhas-ai"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: infrastructure
+        annotations:
+          summary: "LUKHAS AI service is down"
+          description: "The main LUKHAS AI service has been down for more than 1 minute"
+          runbook_url: "https://docs.lukhas.ai/runbooks/service-down"
+
+      - alert: GuardianSystemFailure
+        expr: up{job="lukhas-guardian"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          component: guardian
+        annotations:
+          summary: "Guardian System is offline"
+          description: "The Guardian System is not responding - security monitoring disabled"
+          runbook_url: "https://docs.lukhas.ai/runbooks/guardian-failure"
+
+      - alert: HighDriftScore
+        expr: lukhas_guardian_drift_score > 0.15
+        for: 2m
+        labels:
+          severity: critical
+          component: guardian
+        annotations:
+          summary: "High ethical drift detected"
+          description: "Drift score is {{ $value }}, exceeding critical threshold of 0.15"
+          runbook_url: "https://docs.lukhas.ai/runbooks/high-drift"
+
+      - alert: HighErrorRate
+        expr: rate(lukhas_http_requests_total{status=~"5.."}[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: critical
+          component: application
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} over the last 5 minutes"
+
+  - name: lukhas-warning
+    interval: 60s
+    rules:
+      # Warning alerts for degraded performance
+
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(lukhas_http_request_duration_seconds_bucket[5m])) > 0.25
+        for: 5m
+        labels:
+          severity: warning
+          component: performance
+        annotations:
+          summary: "High response time detected"
+          description: "95th percentile response time is {{ $value }}s, exceeding 250ms target"
+
+      - alert: ToolExecutorSecurityViolations
+        expr: increase(lukhas_tool_security_violations_total[15m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+          component: tools
+        annotations:
+          summary: "Multiple tool security violations"
+          description: "{{ $value }} security violations in tool executor over 15 minutes"
+
+      - alert: MemoryUsageHigh
+        expr: (process_resident_memory_bytes{job="lukhas-ai"} / process_virtual_memory_max_bytes) > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }} of available memory"
+
+      - alert: GuardianResponseTimeSlow
+        expr: histogram_quantile(0.95, rate(lukhas_guardian_response_duration_seconds_bucket[10m])) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          component: guardian
+        annotations:
+          summary: "Guardian system response time degraded"
+          description: "95th percentile Guardian response time is {{ $value }}s"
+
+  - name: lukhas-consciousness
+    interval: 60s
+    rules:
+      # Consciousness and memory system monitoring
+
+      - alert: ConsciousnessModuleUnresponsive
+        expr: up{job="lukhas-consciousness"} == 0
+        for: 3m
+        labels:
+          severity: warning
+          component: consciousness
+        annotations:
+          summary: "Consciousness module unresponsive"
+          description: "Consciousness module has not responded for 3 minutes"
+
+      - alert: MemoryFoldOverflow
+        expr: lukhas_memory_fold_count > 950  # 95% of 1000 fold limit
+        for: 1m
+        labels:
+          severity: warning
+          component: memory
+        annotations:
+          summary: "Memory fold limit approaching"
+          description: "Current fold count: {{ $value }}/1000. Memory cleanup may be needed"
+
+      - alert: ConsciousnessStateIncoherent
+        expr: lukhas_consciousness_coherence_score < 0.7
+        for: 10m
+        labels:
+          severity: warning
+          component: consciousness
+        annotations:
+          summary: "Consciousness coherence degraded"
+          description: "Coherence score is {{ $value }}, below 0.7 threshold"
+
+  - name: lukhas-performance
+    interval: 30s
+    rules:
+      # Performance monitoring and SLA tracking
+
+      - alert: ThroughputDegraded
+        expr: rate(lukhas_http_requests_total[5m]) < 10
+        for: 10m
+        labels:
+          severity: warning
+          component: performance
+        annotations:
+          summary: "Request throughput below expected"
+          description: "Request rate is {{ $value }} req/s, below 10 req/s target"
+
+      - alert: ContextHandoffSlow
+        expr: histogram_quantile(0.95, rate(lukhas_context_handoff_duration_seconds_bucket[5m])) > 0.25
+        for: 3m
+        labels:
+          severity: warning
+          component: orchestration
+        annotations:
+          summary: "Context handoff performance degraded"
+          description: "95th percentile context handoff time is {{ $value }}s, exceeding 250ms target"
+
+      - alert: ToolExecutionTimeout
+        expr: increase(lukhas_tool_execution_timeouts_total[10m]) > 3
+        for: 1m
+        labels:
+          severity: warning
+          component: tools
+        annotations:
+          summary: "Tool execution timeouts increasing"
+          description: "{{ $value }} tool execution timeouts in the last 10 minutes"
+
+  - name: lukhas-business
+    interval: 300s  # 5 minute intervals for business metrics
+    rules:
+      # Business logic and user experience monitoring
+
+      - alert: UserRequestFailureRate
+        expr: (rate(lukhas_user_requests_failed_total[15m]) / rate(lukhas_user_requests_total[15m])) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          component: user-experience
+        annotations:
+          summary: "High user request failure rate"
+          description: "{{ $value | humanizePercentage }} of user requests are failing"
+
+      - alert: EthicalPolicyViolations
+        expr: increase(lukhas_ethical_violations_total[30m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+          component: ethics
+        annotations:
+          summary: "Ethical policy violations detected"
+          description: "{{ $value }} ethical policy violations in the last 30 minutes"
+
+      - alert: TrinityFrameworkImbalance
+        expr: abs(lukhas_trinity_identity_score - lukhas_trinity_consciousness_score) > 0.3 or abs(lukhas_trinity_consciousness_score - lukhas_trinity_guardian_score) > 0.3
+        for: 15m
+        labels:
+          severity: warning
+          component: trinity
+        annotations:
+          summary: "Trinity Framework imbalance detected"
+          description: "Significant imbalance in Trinity Framework components detected"

@@ -9,15 +9,17 @@ import hashlib
 import json
 import logging
 import os
+import re
 import time
 import tempfile
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 from urllib.parse import urlparse
 
 import httpx
+import aiohttp
 from bs4 import BeautifulSoup
 import docker
 
@@ -67,6 +69,15 @@ class ToolExecutor:
             "security_violations": 0,
             "rate_limited": 0,
         }
+        
+        # Initialize security configuration and missing attributes
+        self.security_config = self._init_security_config()
+        self._request_timestamps = {}
+        self._docker_client = None
+        self._active_executions = 0
+        self._max_concurrent_executions = 3
+        self.audit_log = Path("data/audit/tool_executor.jsonl")
+        self.audit_log.parent.mkdir(parents=True, exist_ok=True)
 
     async def execute(self, tool_name: str, arguments: str) -> str:
         """

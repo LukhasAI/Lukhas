@@ -35,11 +35,44 @@ try:
     from candidate.orchestration.high_performance_context_bus import (
         HighPerformanceContextBus, ContextMessage, ContextPriority, WorkflowStep
     )
+except ImportError as e:
+    logging.warning(f"Context bus import failed: {e}")
+    # Provide stub for missing class
+    class HighPerformanceContextBus:
+        def __init__(self, *args, **kwargs):
+            pass
+    
+    class ContextMessage:
+        def __init__(self, *args, **kwargs):
+            pass
+    
+    class ContextPriority:
+        HIGH = "high"
+        NORMAL = "normal"
+        LOW = "low"
+    
+    class WorkflowStep:
+        def __init__(self, *args, **kwargs):
+            pass
+
+try:
     from lukhas.bridge.openai_bridge import OpenAIBridge
     from lukhas.bridge.anthropic_bridge import AnthropicBridge  
     from lukhas.bridge.google_bridge import GoogleBridge
 except ImportError as e:
-    logging.warning(f"Import warning in multi-model orchestration: {e}")
+    logging.warning(f"Bridge imports failed: {e}")
+    # Provide stubs
+    class OpenAIBridge:
+        def __init__(self, *args, **kwargs):
+            pass
+    
+    class AnthropicBridge:
+        def __init__(self, *args, **kwargs):
+            pass
+    
+    class GoogleBridge:
+        def __init__(self, *args, **kwargs):
+            pass
 
 logger = logging.getLogger(__name__)
 
