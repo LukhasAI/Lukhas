@@ -41,8 +41,8 @@ repos:
     - --report-path
     - reports/security/gitleaks.sarif
     stages:
-    - commit
-    - push
+    - pre-commit
+    - pre-push
     files: ^(lukhas/|MATRIZ/|ops/|AUDIT/|\\.github/)
 - repo: https://github.com/psf/black
   rev: 24.8.0
