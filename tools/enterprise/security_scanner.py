@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import re
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
@@ -226,6 +227,7 @@ class SecurityScanner:
         """
         Perform comprehensive security scan
         """
+        start_time = time.time()
         logger.info(
             "security_scan_started",
             scan_id=self._generate_scan_id(),
@@ -276,8 +278,9 @@ class SecurityScanner:
                     elif "sbom" in result:
                         results["sbom"] = result["sbom"]
 
+            duration = time.time() - start_time
             # Generate summary
-            results["summary"] = self._generate_summary(results)
+            results["summary"] = self._generate_summary(results, duration)
 
             # Audit log
             self.audit_logger.info(
@@ -477,7 +480,7 @@ class SecurityScanner:
 
         return {"sbom": sbom}
 
-    def _generate_summary(self, results: dict[str, Any]) -> dict[str, Any]:
+    def _generate_summary(self, results: dict[str, Any], duration: float) -> dict[str, Any]:
         """Generate scan summary with risk assessment"""
         critical_vulns = [
             v
@@ -501,7 +504,7 @@ class SecurityScanner:
             "total_risk_score": round(total_risk_score, 2),
             "requires_immediate_action": len(critical_vulns) > 0
             or len(results["secrets"]) > 0,
-            "scan_duration_seconds": 0,  # TODO: Track actual duration
+            "scan_duration_seconds": round(duration, 2),
         }
 
     def _generate_scan_id(self) -> str:

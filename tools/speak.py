@@ -9,7 +9,7 @@ import json
 import os
 from datetime import datetime
 
-# from edge_tts import Communicate  # TODO: Install or implement edge_tts
+from edge_tts import Communicate
 from core.compliance.tier_manager import get_user_tier
 
 DEFAULT_VOICE = "en-US-AriaNeural"
@@ -25,7 +25,6 @@ EMOTION_VOICES = {
 
 
 async def speak(text, voice=DEFAULT_VOICE, preview=False):
-    # TODO[T4-AUTOFIX]: Undefined Communicate - suggest: from edge_tts import Communicate
     communicate = Communicate(text=text, voice=voice)
     await communicate.save("lucas_output.mp3")
     if not preview:
@@ -76,7 +75,7 @@ def main():
     voice = EMOTION_VOICES.get(args.emotion.lower(), DEFAULT_VOICE)
 
     print(f"🧠 Tier {tier} | 🎙️ Emotion: {args.emotion} | Voice: {voice}")
-    print(f"💬 Lucas would say: "{sentence}")
+    print(f'💬 Lucas would say: "{sentence}"')
     if not args.preview:
         asyncio.run(speak(sentence, voice=voice, preview=False))
     log_output(sentence, tier, voice)
