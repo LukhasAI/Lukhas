@@ -10,8 +10,11 @@ Copy this template when creating new API endpoints.
 import logging
 from typing import Any, Optional
 
+from datetime import datetime
+
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
 from pydantic import BaseModel
 
@@ -68,8 +71,7 @@ class BaseRequest(BaseModel):
                 "user_email": user.email,
                 "user_tier": user.tier,
                 "lambda_id": user.lambda_id,
-                # TODO[T4-AUTOFIX]: Undefined datetime - suggest: from datetime import datetime
-                "timestamp": str(datetime.utcnow()),
+                "timestamp": datetime.utcnow().isoformat(),
             }
         )
         return data
@@ -121,7 +123,7 @@ async def root():
 @app.get("/health", tags=["System"])
 async def health_check():
     """Public health check - no authentication required."""
-    return {"status": "healthy", "timestamp": str(datetime.utcnow())}
+    return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
 
 
 # ==================== T2 Protected Endpoints (Creator Tier) ====================
@@ -374,7 +376,6 @@ async def http_exception_handler(request, exc: HTTPException):
             "tier": user_context.tier,
         }
 
-    # TODO[T4-AUTOFIX]: Undefined JSONResponse - suggest: from fastapi.responses import JSONResponse
     return JSONResponse(status_code=exc.status_code, content=response_data)
 
 
