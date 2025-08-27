@@ -3,27 +3,15 @@ import sys
 import warnings
 import lukhas
 
->>> ./lukhas_paths.py
-from lukhas_paths import paths
-from pathlib import Path
-from typing import Optional, Union
-
 >>> ./main.py
 import asyncio
 import logging
 import os
 
->>> ./non_core_module_analysis.py
-
 >>> ./production_main.py
 import asyncio
 import logging
 import os
-
->>> ./public_api.py
-import logging
-import os
-import time
 
 >>> ./qi_migration_report.py
 from pathlib import Path
@@ -32,11 +20,6 @@ from pathlib import Path
 import os
 import re
 import shutil
-
->>> ./qi_to_qi_migrator_fixed.py
-import re
-from pathlib import Path
-    import sys
 
 >>> ./setup.py
 from pathlib import Path
@@ -47,15 +30,43 @@ import importlib
 import re
 import sys
 
->>> ./test_non_core_modules.py
-import importlib
+>>> agents/CLAUDE/__init__.py
+
+>>> agents/CLAUDE/mvp_demo.py
+import json
 import sys
 import time
 
->>> ./validate_auth_implementation.py
-import sys
-import time
+>>> agents/CLAUDE/workspaces/__init__.py
+
+>>> agents/CLAUDE/workspaces/consent-compliance-specialist/__init__.py
+
+>>> agents/CLAUDE/workspaces/consent-compliance-specialist/src/__init__.py
+
+>>> agents/CLAUDE/workspaces/consent-compliance-specialist/src/consent_ledger.py
 import hashlib
+import json
+import sqlite3
+
+>>> agents/CLAUDE/workspaces/identity-auth-specialist/__init__.py
+
+>>> agents/CLAUDE/workspaces/identity-auth-specialist/src/__init__.py
+
+>>> agents/CLAUDE/workspaces/identity-auth-specialist/src/lambda_id.py
+import base64
+import hashlib
+import secrets
+
+>>> agents/CLAUDE/workspaces/special-ops-secrets-kms-legacy/__init__.py
+
+>>> agents/CLAUDE/workspaces/special-ops-secrets-kms-legacy/tools/__init__.py
+
+>>> agents/CLAUDE/workspaces/special-ops-secrets-kms-legacy/tools/sbom.py
+import json
+import subprocess
+from datetime import datetime
+
+>>> agents/__init__.py
 
 >>> api/__init__.py
 
@@ -116,6 +127,464 @@ from lukhas.accepted.bio.symbolic import *
 >>> bio/symbolic/glyph_id_hash/__init__.py
 
 >>> bio/symbolic/symbolic_world/__init__.py
+
+>>> branding/__init__.py
+
+>>> branding/adapters/__init__.py
+
+>>> branding/adapters/creativity_adapter.py
+import sys
+from pathlib import Path
+from typing import Any
+
+>>> branding/adapters/monitoring_adapter.py
+import sys
+from datetime import datetime
+from pathlib import Path
+
+>>> branding/adapters/personality_adapter.py
+import sys
+from pathlib import Path
+from typing import Any
+
+>>> branding/adapters/voice_adapter.py
+import asyncio
+import logging
+import sys
+
+>>> branding/ai_agents/__init__.py
+
+>>> branding/ai_agents/brand_orchestrator.py
+import asyncio
+import sys
+from datetime import datetime
+
+>>> branding/analysis/branding_structure_analyzer.py
+import ast
+import os
+from collections import defaultdict
+
+>>> branding/analysis/voice_coherence_analyzer.py
+import json
+import os
+from dataclasses import dataclass
+
+>>> branding/apis/platform_integrations.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/__init__.py
+
+>>> branding/automation/brand_automation_engine.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/brand_manager.py
+
+>>> branding/automation/brand_scan.py
+from __future__ import annotations
+import re
+import sys
+
+>>> branding/automation/content_quality_validator.py
+import logging
+import re
+import sys
+
+>>> branding/automation/enhanced_content_quality_system.py
+import asyncio
+import sys
+from dataclasses import dataclass
+
+>>> branding/automation/master_orchestrator.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/self_healing_system.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/social_media_orchestrator.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/vocabulary_integration.py
+import logging
+import sys
+from datetime import datetime
+
+>>> branding/communications/founder_led_strategy.py
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+
+>>> branding/content/thought_leadership_strategy.py
+from dataclasses import dataclass
+from enum import Enum
+
+>>> branding/design/trinity_visual_system.py
+from dataclasses import dataclass
+
+>>> branding/enforcement/__init__.py
+    from .real_time_validator import RealTimeBrandValidator
+
+>>> branding/enforcement/real_time_validator.py
+import asyncio
+import re
+from dataclasses import dataclass
+
+>>> branding/enforcement/tone/__init__.py
+
+>>> branding/enforcement/tone/advanced_vocabulary_engine.py
+
+>>> branding/enforcement/tone/consciousness_wordsmith.py
+
+>>> branding/enforcement/tone/enhanced_consciousness_wordsmith.py
+
+>>> branding/enforcement/tone/lukhas_tone_fixer.py
+import sys
+from pathlib import Path
+from typing import Any
+
+>>> branding/enforcement/tone/lukhas_tone_validator.py
+import sys
+from pathlib import Path
+from typing import Any
+
+>>> branding/engines/database_integration.py
+import sqlite3
+from datetime import datetime
+from pathlib import Path
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_ai_router.py
+import logging
+import subprocess
+from dataclasses import dataclass
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_ai_router_fixed.py
+import logging
+import subprocess
+from dataclasses import dataclass
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_ai_router_old.py
+import os
+import json
+import logging
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_autonomous_healer.py
+import sys
+import time
+import subprocess
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py
+import click
+import asyncio
+import json
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_click_actions.py
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_customizer.py
+import json
+import sys
+from datetime import datetime
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_designer.py
+from pathlib import Path
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_financial_intelligence.py
+import json
+import logging
+import os
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py
+import json
+import os
+from datetime import datetime, timedelta
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_security_scanner.py
+import asyncio
+import json
+import logging
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_bio_symbolic_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_core_abot.py
+import asyncio
+import logging
+import os
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_enhanced_core_abot_backend.py
+import logging
+import os
+import uuid
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_force_abot_healing.py
+import subprocess
+import sys
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py
+import subprocess
+import sys
+import time
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_mode.py
+import sys
+import time
+import subprocess
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_master_lambda_bot_orchestrator.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ΛbotSecurityHealer.py
+import asyncio
+import json
+import logging
+
+>>> branding/engines/lukhas_content_platform/content_platform.py
+import sys
+from pathlib import Path
+from database_integration import db
+
+>>> branding/engines/lukhas_doc_engine/doc_engine.py
+import sys
+from pathlib import Path
+from database_integration import db
+
+>>> branding/engines/orchestrator.py
+import sys
+from datetime import datetime
+from pathlib import Path
+
+>>> branding/engines/voice_coherence_engine.py
+import asyncio
+import re
+import sys
+
+>>> branding/integrations/__init__.py
+from .llm_bridge import UnifiedLLMBridge
+
+>>> branding/integrations/llm_bridge.py
+import asyncio
+import logging
+import os
+
+>>> branding/integrations/simple_llm_bridge.py
+import asyncio
+import logging
+import os
+
+>>> branding/intelligence/__init__.py
+
+>>> branding/intelligence/brand_monitor.py
+import asyncio
+import re
+from datetime import datetime, timedelta
+
+>>> branding/intelligence/sentiment_engine.py
+import re
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+
+>>> branding/optimization/voice_coherence_optimizer.py
+import asyncio
+from dataclasses import dataclass
+from enum import Enum
+
+>>> branding/orchestration/content_orchestrator.py
+import asyncio
+import json
+import logging
+
+>>> branding/orchestration/system_consolidator.py
+import asyncio
+import logging
+import shutil
+
+>>> branding/orchestration/system_integrator.py
+import asyncio
+import logging
+from dataclasses import dataclass
+
+>>> branding/orchestration/trinity_framework_deployer.py
+import asyncio
+import json
+import logging
+
+>>> branding/orchestration/voice_coherence_upgrader.py
+import asyncio
+import json
+import logging
+
+>>> branding/personal_brand/consciousness_authority_builder.py
+from dataclasses import dataclass
+
+>>> branding/poetry/__init__.py
+from .soul import EmotionalTone, Soul, awaken, dream, error_haiku, express
+        from branding.poetry import integrate
+
+>>> branding/poetry/cliche_analysis.py
+import os
+import re
+from collections import Counter
+
+>>> branding/poetry/demo.py
+from soul import EmotionalTone, dream, error_haiku, express
+
+>>> branding/poetry/expanded_lexicon.py
+import random
+from dataclasses import dataclass
+from enum import Enum
+
+>>> branding/poetry/legacy/advanced_haiku_generator.py
+import logging
+import asyncio
+import random
+
+>>> branding/poetry/lukhas_lexicon.py
+        import random
+
+>>> branding/poetry/poetic_techniques.py
+import random
+
+>>> branding/poetry/soul.py
+import random
+from enum import Enum
+from typing import Any, Optional
+
+>>> branding/poetry/update_poetry_imports.py
+import os
+import re
+from pathlib import Path
+
+>>> branding/poetry/vocabulary_amplifier.py
+import random
+import re
+    from .expanded_lexicon import ExpandedLUKHASLexicon
+
+>>> branding/poetry/vocabulary_balancer.py
+import random
+import re
+from collections import Counter
+
+>>> branding/policy/__init__.py
+
+>>> branding/policy/terminology.py
+from __future__ import annotations
+import re
+
+>>> branding/profiles/__init__.py
+
+>>> branding/profiles/brand_voice_profiles.py
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Optional
+
+>>> branding/storytelling/consciousness_narratives.py
+from dataclasses import dataclass
+from enum import Enum
+
+>>> branding/tone/__init__.py
+    from .consciousness_wordsmith import ConsciousnessWordsmith
+
+>>> branding/tone/consciousness_wordsmith.py
+from .tools.consciousness_wordsmith import LUKHASConsciousnessWordsmith
+
+>>> branding/tone/tools/__init__.py
+
+>>> branding/tone/tools/advanced_vocabulary_engine.py
+import random
+import re
+from dataclasses import dataclass
+
+>>> branding/tone/tools/consciousness_wordsmith.py
+import argparse
+import logging
+import random
+
+>>> branding/tone/tools/enhanced_consciousness_wordsmith.py
+import logging
+import random
+import re
+
+>>> branding/tone/tools/lukhas_tone_fixer.py
+import argparse
+import re
+import sys
+
+>>> branding/tone/tools/lukhas_tone_validator.py
+import argparse
+import re
+import sys
+
+>>> branding/vocabularies/__init__.py
+    from .bio_vocabulary import BIO_SYMBOLS, DEVICE_SYMBOLS, EMOTION_SYMBOLS
+    from .dream_vocabulary import (
+    from .identity_vocabulary import IDENTITY_SYMBOLIC_VOCABULARY
+
+>>> branding/vocabularies/bio_vocabulary.py
+
+>>> branding/vocabularies/dream_vocabulary.py
+    import random
+    import random
+
+>>> branding/vocabularies/emotion_vocabulary.py
+
+>>> branding/vocabularies/identity_vocabulary.py
+
+>>> branding/vocabularies/usage_examples.py
+from symbolic.vocabularies import (
+
+>>> branding/vocabularies/vision_vocabulary.py
+from dataclasses import dataclass
+from typing import Any
+from ..core import AnalysisType, VisionProvider
+
+>>> branding/vocabularies/vocabulary.py
+from core.utils.__init__ import symbolic_message
+    import random
+    import random
+
+>>> branding/vocabularies/vocabulary_creativity_engine.py
+from dataclasses import dataclass
+from typing import Any
+from ..core import AnalysisType, VisionProvider
+
+>>> branding/vocabularies/vocabulary_template.py
+
+>>> branding/vocabularies/voice_vocabulary.py
+from dataclasses import dataclass
+from typing import Any
+from ..core import VoiceEmotion, VoiceProvider
 
 >>> candidate/__init__.py
 
@@ -11058,6 +11527,22 @@ import asyncio
 import json
 import os
 
+>>> config/__init__.py
+
+>>> config/config.py
+import structlog
+
+>>> config/fallback_settings.py
+import logging
+import os
+from typing import Any, Optional
+
+>>> config/read_settings.py
+import structlog
+from .settings_loader import (
+
+>>> config/settings.py
+
 >>> identity/__init__.py
 import logging
 import sys
@@ -11617,6 +12102,199 @@ import os
 import time
 from dataclasses import dataclass, field
 
+>>> scripts/__init__.py
+
+>>> scripts/activate_core_systems.py
+import asyncio
+import logging
+import sys
+
+>>> scripts/analysis/agi_module_analyzer.py
+import ast
+import json
+from collections import defaultdict
+
+>>> scripts/analysis/ai_consolidator.py
+import asyncio
+import json
+from pathlib import Path
+
+>>> scripts/analysis/analyze_init_files.py
+import os
+
+>>> scripts/analysis/codebase_analyzer.py
+import json
+import os
+import re
+
+>>> scripts/auto_improve.py
+import argparse
+import asyncio
+import json
+
+>>> scripts/backup_create.py
+import argparse
+import fnmatch
+import hashlib
+
+>>> scripts/brand_validator.py
+import sys
+from pathlib import Path
+
+>>> scripts/cleanup_security_backups.py
+import os
+import shutil
+from datetime import datetime
+
+>>> scripts/colony_dna_smoke.py
+from lukhas.colony.adapters.consensus_to_dna import (
+from lukhas.colony.contracts import ConsensusResult
+from lukhas.dna.memory_inmem import InMemoryHelix
+
+>>> scripts/consolidate_vocabularies_safely.py
+import hashlib
+import os
+from pathlib import Path
+
+>>> scripts/file-organizer.py
+import argparse
+import json
+import logging
+
+>>> scripts/fix_imports.py
+import re
+from pathlib import Path
+    import sys
+
+>>> scripts/fix_security_issues.py
+import asyncio
+import json
+from datetime import datetime
+
+>>> scripts/fix_security_vulnerabilities.py
+import asyncio
+import json
+import os
+
+>>> scripts/fix_specific_syntax_errors.py
+import re
+from pathlib import Path
+    import sys
+
+>>> scripts/fix_syntax_errors.py
+import ast
+import re
+import sys
+
+>>> scripts/integration/__init__.py
+
+>>> scripts/integration/demo_tool_gating.py
+import time
+from typing import Any
+    from lukhas.audit.store import audit_log_write
+
+>>> scripts/integration/demo_tool_governance.py
+import json
+import sys
+import uuid
+
+>>> scripts/integration/governance_extended.py
+
+>>> scripts/kpi_badge.py
+import argparse
+import json
+from pathlib import Path
+
+>>> scripts/lukhas_mcp_server.py
+import asyncio
+import json
+import logging
+
+>>> scripts/lukhas_mcp_server_simple.py
+import asyncio
+import json
+import logging
+
+>>> scripts/migrate_memory_to_dna.py
+import argparse
+import json
+import time
+
+>>> scripts/migrate_top3_to_production.py
+import shutil
+from datetime import datetime
+from pathlib import Path
+
+>>> scripts/ollama_manager.py
+import asyncio
+import subprocess
+import time
+
+>>> scripts/ollama_security_analyzer.py
+import asyncio
+import json
+import subprocess
+
+>>> scripts/report_kpi_backup.py
+import json
+import argparse
+import time
+
+>>> scripts/restore.py
+import argparse
+import json
+import os
+
+>>> scripts/rotate_secrets.py
+import json
+import os
+import re
+
+>>> scripts/run_phase2_validation.py
+import argparse
+import asyncio
+import json
+
+>>> scripts/security-autopilot.py
+import argparse
+import asyncio
+import json
+
+>>> scripts/security-update.py
+import argparse
+import json
+import subprocess
+
+>>> scripts/security_scheduler.py
+import json
+import os
+import subprocess
+
+>>> scripts/transfer_candidate_scanner.py
+from __future__ import annotations
+import contextlib
+import json
+
+>>> scripts/utilities/IMMEDIATE_CONFIG_ANALYSIS.py
+import os
+
+>>> scripts/utilities/__init__.py
+
+>>> scripts/utils/check_stubs.py
+import os
+
+>>> scripts/utils/cleanup_generator.py
+import json
+import re
+from pathlib import Path
+
+>>> scripts/utils/launch_transmission.py
+from transmission_bundle.launch_transmission import *  # noqa: F401,F403
+
+>>> scripts/utils/update_qi_imports.py
+import os
+import re
+
 >>> security/__init__.py
 
 >>> security/scanning/__init__.py
@@ -11624,4 +12302,88 @@ from dataclasses import dataclass, field
 >>> security/scanning/consciousness-security-rules.py
 
 >>> security/scanning/consciousness_security_rules.py
+
+>>> tests/candidate/tools/test_tool_executor.py
+from unittest.mock import AsyncMock
+from unittest.mock import MagicMock
+from unittest.mock import patch
+
+>>> tests/conftest.py
+import os
+import pytest
+
+>>> tests/golden/test_memory_contract.py
+import json
+import pytest
+    from lukhas.memory import dump_state
+
+>>> tests/golden/test_system_reality.py
+
+>>> tests/governance/__init__.py
+
+>>> tests/governance/test_guardian.py
+import unittest
+from lukhas.governance.guardian.core import EthicalSeverity
+from lukhas.governance.guardian.core import GovernanceAction
+
+>>> tests/phase2/test_orchestration_integration.py
+import asyncio
+import time
+from unittest.mock import AsyncMock
+
+>>> tests/phase2/test_performance_benchmarks.py
+import asyncio
+import json
+import statistics
+
+>>> tests/phase2/test_security_compliance.py
+import datetime
+import secrets
+import time
+
+>>> tests/phase2/test_tool_execution_safety.py
+import time
+from unittest.mock import patch
+import pytest
+
+>>> tests/security/test_authentication.py
+import json
+import unittest
+from datetime import datetime
+
+>>> tests/security/test_enhanced_authentication.py
+import asyncio
+import unittest
+from candidate.core.security.auth import EnhancedAuthenticationSystem
+
+>>> tests/smoke/test_imports_light.py
+import importlib, os, pytest, yaml, pathlib
+
+>>> tests/test_basic_functions.py
+import pytest
+    from lukhas.memory import MemoryWrapper
+    from lukhas.core.common import get_logger
+
+>>> tests/test_guardian_system.py
+import asyncio
+import tempfile
+import time
+
+>>> tests/test_imports.py
+import importlib
+import pytest
+
+>>> tests/test_integration.py
+import pytest
+    from lukhas.memory import MemoryWrapper
+
+>>> tests/test_public_api.py
+import base64
+import unittest
+from starlette.testclient import TestClient
+
+>>> tests/tools/test_tool_executor_comprehensive.py
+import os
+import sys
+from unittest.mock import AsyncMock
 

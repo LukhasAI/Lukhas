@@ -1,0 +1,467 @@
+>>> branding/__init__.py
+
+>>> branding/adapters/__init__.py
+
+>>> branding/adapters/creativity_adapter.py
+import sys
+from pathlib import Path
+from typing import Any
+
+>>> branding/adapters/monitoring_adapter.py
+import sys
+from datetime import datetime
+from pathlib import Path
+
+>>> branding/adapters/personality_adapter.py
+import sys
+from pathlib import Path
+from typing import Any
+
+>>> branding/adapters/voice_adapter.py
+import asyncio
+import logging
+import sys
+
+>>> branding/ai_agents/__init__.py
+
+>>> branding/ai_agents/brand_orchestrator.py
+import asyncio
+import sys
+from datetime import datetime
+
+>>> branding/analysis/branding_structure_analyzer.py
+import ast
+import os
+from collections import defaultdict
+
+>>> branding/analysis/voice_coherence_analyzer.py
+import json
+import os
+from dataclasses import dataclass
+
+>>> branding/apis/platform_integrations.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/__init__.py
+
+>>> branding/automation/brand_automation_engine.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/brand_manager.py
+
+>>> branding/automation/brand_scan.py
+from __future__ import annotations
+import re
+import sys
+
+>>> branding/automation/content_quality_validator.py
+import logging
+import re
+import sys
+
+>>> branding/automation/enhanced_content_quality_system.py
+import asyncio
+import sys
+from dataclasses import dataclass
+
+>>> branding/automation/master_orchestrator.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/self_healing_system.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/social_media_orchestrator.py
+import asyncio
+import json
+import logging
+
+>>> branding/automation/vocabulary_integration.py
+import logging
+import sys
+from datetime import datetime
+
+>>> branding/communications/founder_led_strategy.py
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+
+>>> branding/content/thought_leadership_strategy.py
+from dataclasses import dataclass
+from enum import Enum
+
+>>> branding/design/trinity_visual_system.py
+from dataclasses import dataclass
+
+>>> branding/enforcement/__init__.py
+    from .real_time_validator import RealTimeBrandValidator
+
+>>> branding/enforcement/real_time_validator.py
+import asyncio
+import re
+from dataclasses import dataclass
+
+>>> branding/enforcement/tone/__init__.py
+
+>>> branding/enforcement/tone/advanced_vocabulary_engine.py
+import random
+import re
+from dataclasses import dataclass
+
+>>> branding/enforcement/tone/consciousness_wordsmith.py
+import argparse
+import logging
+import random
+
+>>> branding/enforcement/tone/enhanced_consciousness_wordsmith.py
+import logging
+import random
+import re
+
+>>> branding/enforcement/tone/lukhas_tone_fixer.py
+import sys
+from pathlib import Path
+from typing import Any
+
+>>> branding/enforcement/tone/lukhas_tone_validator.py
+import sys
+from pathlib import Path
+from typing import Any
+
+>>> branding/engines/database_integration.py
+import sqlite3
+from datetime import datetime
+from pathlib import Path
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_ai_router.py
+import logging
+import subprocess
+from dataclasses import dataclass
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_ai_router_fixed.py
+import logging
+import subprocess
+from dataclasses import dataclass
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_ai_router_old.py
+import os
+import json
+import logging
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_autonomous_healer.py
+import sys
+import time
+import subprocess
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py
+import click
+import asyncio
+import json
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_click_actions.py
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_customizer.py
+import json
+import sys
+from datetime import datetime
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_designer.py
+from pathlib import Path
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_financial_intelligence.py
+import json
+import logging
+import os
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py
+import json
+import os
+from datetime import datetime, timedelta
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_security_scanner.py
+import asyncio
+import json
+import logging
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ai_controller_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_bio_symbolic_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_core_abot.py
+import asyncio
+import logging
+import os
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_enhanced_core_abot_backend.py
+import logging
+import os
+import uuid
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_force_abot_healing.py
+import subprocess
+import sys
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py
+import subprocess
+import sys
+import time
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_mode.py
+import sys
+import time
+import subprocess
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_master_lambda_bot_orchestrator.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_qi_consciousness_lambda_bot.py
+import asyncio
+import logging
+import sys
+
+>>> branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_ΛbotSecurityHealer.py
+import asyncio
+import json
+import logging
+
+>>> branding/engines/lukhas_content_platform/content_platform.py
+import sys
+from pathlib import Path
+from database_integration import db
+
+>>> branding/engines/lukhas_doc_engine/doc_engine.py
+import sys
+from pathlib import Path
+from database_integration import db
+
+>>> branding/engines/orchestrator.py
+import sys
+from datetime import datetime
+from pathlib import Path
+
+>>> branding/engines/voice_coherence_engine.py
+import asyncio
+import re
+import sys
+
+>>> branding/integrations/__init__.py
+from .llm_bridge import UnifiedLLMBridge
+
+>>> branding/integrations/llm_bridge.py
+import asyncio
+import logging
+import os
+
+>>> branding/integrations/simple_llm_bridge.py
+import asyncio
+import logging
+import os
+
+>>> branding/intelligence/__init__.py
+
+>>> branding/intelligence/brand_monitor.py
+import asyncio
+import re
+from datetime import datetime, timedelta
+
+>>> branding/intelligence/sentiment_engine.py
+import re
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+
+>>> branding/optimization/voice_coherence_optimizer.py
+import asyncio
+from dataclasses import dataclass
+from enum import Enum
+
+>>> branding/orchestration/content_orchestrator.py
+import asyncio
+import json
+import logging
+
+>>> branding/orchestration/system_consolidator.py
+import asyncio
+import logging
+import shutil
+
+>>> branding/orchestration/system_integrator.py
+import asyncio
+import logging
+from dataclasses import dataclass
+
+>>> branding/orchestration/trinity_framework_deployer.py
+import asyncio
+import json
+import logging
+
+>>> branding/orchestration/voice_coherence_upgrader.py
+import asyncio
+import json
+import logging
+
+>>> branding/personal_brand/consciousness_authority_builder.py
+from dataclasses import dataclass
+
+>>> branding/poetry/__init__.py
+from .soul import EmotionalTone, Soul, awaken, dream, error_haiku, express
+        from branding.poetry import integrate
+
+>>> branding/poetry/cliche_analysis.py
+import os
+import re
+from collections import Counter
+
+>>> branding/poetry/demo.py
+from soul import EmotionalTone, dream, error_haiku, express
+
+>>> branding/poetry/expanded_lexicon.py
+import random
+from dataclasses import dataclass
+from enum import Enum
+
+>>> branding/poetry/legacy/advanced_haiku_generator.py
+import logging
+import asyncio
+import random
+
+>>> branding/poetry/lukhas_lexicon.py
+        import random
+
+>>> branding/poetry/poetic_techniques.py
+import random
+
+>>> branding/poetry/soul.py
+import random
+from enum import Enum
+from typing import Any, Optional
+
+>>> branding/poetry/update_poetry_imports.py
+import os
+import re
+from pathlib import Path
+
+>>> branding/poetry/vocabulary_amplifier.py
+import random
+import re
+    from .expanded_lexicon import ExpandedLUKHASLexicon
+
+>>> branding/poetry/vocabulary_balancer.py
+import random
+import re
+from collections import Counter
+
+>>> branding/policy/__init__.py
+
+>>> branding/policy/terminology.py
+from __future__ import annotations
+import re
+
+>>> branding/profiles/__init__.py
+
+>>> branding/profiles/brand_voice_profiles.py
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Optional
+
+>>> branding/storytelling/consciousness_narratives.py
+from dataclasses import dataclass
+from enum import Enum
+
+>>> branding/tone/__init__.py
+    from .consciousness_wordsmith import ConsciousnessWordsmith
+
+>>> branding/tone/consciousness_wordsmith.py
+from .tools.consciousness_wordsmith import LUKHASConsciousnessWordsmith
+
+>>> branding/tone/tools/__init__.py
+
+>>> branding/tone/tools/advanced_vocabulary_engine.py
+import random
+import re
+from dataclasses import dataclass
+
+>>> branding/tone/tools/consciousness_wordsmith.py
+import argparse
+import logging
+import random
+
+>>> branding/tone/tools/enhanced_consciousness_wordsmith.py
+import logging
+import random
+import re
+
+>>> branding/tone/tools/lukhas_tone_fixer.py
+import argparse
+import re
+import sys
+
+>>> branding/tone/tools/lukhas_tone_validator.py
+import argparse
+import re
+import sys
+
+>>> branding/vocabularies/__init__.py
+    from .bio_vocabulary import BIO_SYMBOLS, DEVICE_SYMBOLS, EMOTION_SYMBOLS
+    from .dream_vocabulary import (
+    from .identity_vocabulary import IDENTITY_SYMBOLIC_VOCABULARY
+
+>>> branding/vocabularies/bio_vocabulary.py
+
+>>> branding/vocabularies/dream_vocabulary.py
+    import random
+    import random
+
+>>> branding/vocabularies/emotion_vocabulary.py
+
+>>> branding/vocabularies/identity_vocabulary.py
+
+>>> branding/vocabularies/usage_examples.py
+from symbolic.vocabularies import (
+
+>>> branding/vocabularies/vision_vocabulary.py
+from dataclasses import dataclass
+from typing import Any
+from ..core import AnalysisType, VisionProvider
+
+>>> branding/vocabularies/vocabulary.py
+from core.utils.__init__ import symbolic_message
+    import random
+    import random
+
+>>> branding/vocabularies/vocabulary_creativity_engine.py
+from dataclasses import dataclass
+from typing import Any
+from ..core import AnalysisType, VisionProvider
+
+>>> branding/vocabularies/vocabulary_template.py
+
+>>> branding/vocabularies/voice_vocabulary.py
+from dataclasses import dataclass
+from typing import Any
+from ..core import VoiceEmotion, VoiceProvider
+

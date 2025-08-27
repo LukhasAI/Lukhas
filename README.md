@@ -40,6 +40,8 @@ category: "overview"
 ![Lane System](https://img.shields.io/badge/Lanes-candidate%2Flukhas-blue)
 ![Trinity Framework](https://img.shields.io/badge/Trinity-⚛️🧠🛡️-purple)
 
+**🔍 For External Auditors**: [View Comprehensive Audit Documentation](AUDIT/INDEX.md)
+
 ---
 
 ## 🌱 **What We're Building**

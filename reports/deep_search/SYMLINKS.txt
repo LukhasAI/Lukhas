@@ -1,1 +1,2 @@
+lrwxr-xr-x@ 1 agi_dev  staff  45 Aug 25 23:59 ./core -> /Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/core
 lrwxr-xr-x@ 1 agi_dev  staff  45 Aug 25 23:59 core -> /Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/core

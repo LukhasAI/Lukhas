@@ -1,11 +1,9 @@
-lukhas/.DS_Store
 lukhas/__init__.py
 lukhas/bio/__init__.py
 lukhas/bio/core/__init__.py
 lukhas/bio/core/bio_symbolic.py
 lukhas/bio/utilities.py
 lukhas/branding_bridge.py
-lukhas/bridge/.DS_Store
 lukhas/bridge/MODULE_MANIFEST.json
 lukhas/bridge/__init__.py
 lukhas/bridge/bridge_wrapper.py
@@ -15,7 +13,6 @@ lukhas/bridge/llm_wrappers/unified_openai_client.py
 lukhas/consciousness/MODULE_MANIFEST.json
 lukhas/consciousness/__init__.py
 lukhas/consciousness/consciousness_wrapper.py
-lukhas/core/.DS_Store
 lukhas/core/MODULE_MANIFEST.json
 lukhas/core/__init__.py
 lukhas/core/actor_system.py

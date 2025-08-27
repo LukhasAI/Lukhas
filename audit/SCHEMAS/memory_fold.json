@@ -1,0 +1,279 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://lukhas.ai/schemas/memory_fold.json", 
+  "title": "Memory Fold Schema",
+  "description": "Schema for LUKHAS AI fold-based memory storage with causal chain preservation",
+  "type": "object",
+  "required": ["id", "type", "content", "timestamp"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^fold_[a-zA-Z0-9_-]+$",
+      "description": "Unique memory fold identifier"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "WORKING",
+        "EPISODIC", 
+        "SEMANTIC",
+        "PROCEDURAL",
+        "EMOTIONAL",
+        "CREATIVE",
+        "META_COGNITIVE"
+      ],
+      "description": "Memory fold classification"
+    },
+    "content": {
+      "type": "object",
+      "description": "Memory fold content payload",
+      "additionalProperties": true
+    },
+    "timestamp": {
+      "type": "number",
+      "description": "Fold creation timestamp (Unix)"
+    },
+    "connections": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Connected memory fold IDs"
+    },
+    "importance": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Memory importance weight"
+    },
+    "causal_chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event_id": {"type": "string"},
+          "timestamp": {"type": "number"},
+          "causal_strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "event_type": {"type": "string"}
+        },
+        "required": ["event_id", "timestamp"]
+      },
+      "description": "Causal chain leading to this memory"
+    },
+    "emotional_context": {
+      "type": "object",
+      "properties": {
+        "valence": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "Emotional valence (-1=negative, +1=positive)"
+        },
+        "arousal": {
+          "type": "number", 
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Emotional arousal intensity"
+        },
+        "dominance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Emotional dominance/control"
+        },
+        "emotion_tags": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Associated emotion labels"
+        }
+      },
+      "description": "Emotional context of memory formation"
+    },
+    "access_patterns": {
+      "type": "object",
+      "properties": {
+        "access_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of times accessed"
+        },
+        "last_accessed": {
+          "type": "number",
+          "description": "Last access timestamp"
+        },
+        "access_frequency": {
+          "type": "number",
+          "description": "Accesses per time unit"
+        },
+        "retrieval_latency_ms": {
+          "type": "number",
+          "description": "Average retrieval time"
+        }
+      }
+    },
+    "consolidation": {
+      "type": "object",
+      "properties": {
+        "consolidation_level": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Memory consolidation strength"
+        },
+        "decay_rate": {
+          "type": "number",
+          "description": "Natural forgetting rate"
+        },
+        "reinforcement_events": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Events that reinforced this memory"
+        },
+        "interference_sources": {
+          "type": "array",
+          "items": {"type": "string"}, 
+          "description": "Interfering memories"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "source_module": {
+          "type": "string",
+          "description": "Module that created this fold"
+        },
+        "fold_depth": {
+          "type": "integer",
+          "description": "Nesting depth in fold hierarchy"
+        },
+        "cascade_risk": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Risk of cascade failure"
+        },
+        "compression_ratio": {
+          "type": "number",
+          "description": "Content compression efficiency"
+        },
+        "guardian_validated": {
+          "type": "boolean",
+          "description": "Guardian system validation status"
+        },
+        "privacy_level": {
+          "type": "string",
+          "enum": ["PUBLIC", "PRIVATE", "CONFIDENTIAL", "RESTRICTED"],
+          "description": "Memory privacy classification"
+        },
+        "retention_policy": {
+          "type": "string",
+          "enum": ["PERMANENT", "LONG_TERM", "MEDIUM_TERM", "SHORT_TERM"],
+          "description": "Memory retention requirements"
+        }
+      }
+    },
+    "associations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "target_fold_id": {"type": "string"},
+          "association_type": {
+            "type": "string",
+            "enum": ["SEMANTIC", "TEMPORAL", "CAUSAL", "EMOTIONAL", "SPATIAL"]
+          },
+          "strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "bidirectional": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": ["target_fold_id", "association_type", "strength"]
+      },
+      "description": "Associative links to other memory folds"
+    }
+  },
+  "examples": [
+    {
+      "id": "fold_user_auth_success_20250827_001",
+      "type": "EPISODIC",
+      "content": {
+        "event": "user_authentication",
+        "user_id": "user123",
+        "authentication_tier": "T3",
+        "method": "webauthn",
+        "success": true,
+        "context": {
+          "ip_address": "192.168.1.100",
+          "user_agent": "Mozilla/5.0...",
+          "session_id": "sess_abc123"
+        }
+      },
+      "timestamp": 1735689600.789,
+      "connections": ["fold_user_profile_001", "fold_security_event_002"],
+      "importance": 0.7,
+      "causal_chain": [
+        {
+          "event_id": "glyph_login_attempt_001", 
+          "timestamp": 1735689598.123,
+          "causal_strength": 0.9,
+          "event_type": "USER_ACTION"
+        },
+        {
+          "event_id": "glyph_webauthn_challenge_001",
+          "timestamp": 1735689599.456,
+          "causal_strength": 0.8,
+          "event_type": "SECURITY_VALIDATION"
+        }
+      ],
+      "emotional_context": {
+        "valence": 0.6,
+        "arousal": 0.3, 
+        "dominance": 0.8,
+        "emotion_tags": ["relief", "satisfaction", "security"]
+      },
+      "access_patterns": {
+        "access_count": 3,
+        "last_accessed": 1735689650.123,
+        "access_frequency": 0.002,
+        "retrieval_latency_ms": 12.5
+      },
+      "consolidation": {
+        "consolidation_level": 0.85,
+        "decay_rate": 0.01,
+        "reinforcement_events": ["fold_successful_api_call_001"],
+        "interference_sources": []
+      },
+      "metadata": {
+        "source_module": "identity",
+        "fold_depth": 1,
+        "cascade_risk": 0.05,
+        "compression_ratio": 0.72,
+        "guardian_validated": true,
+        "privacy_level": "PRIVATE",
+        "retention_policy": "LONG_TERM"
+      },
+      "associations": [
+        {
+          "target_fold_id": "fold_user_profile_001",
+          "association_type": "SEMANTIC",
+          "strength": 0.9,
+          "bidirectional": true
+        },
+        {
+          "target_fold_id": "fold_security_event_002",
+          "association_type": "CAUSAL", 
+          "strength": 0.8,
+          "bidirectional": false
+        }
+      ]
+    }
+  ]
+}

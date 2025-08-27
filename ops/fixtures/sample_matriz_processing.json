@@ -1,0 +1,201 @@
+{
+  "processing_session": {
+    "session_id": "matriz_session_demo_001",
+    "user_id": "user_demo_12345",
+    "started_at": "2025-01-27T14:30:00Z",
+    "duration_ms": 1247,
+    "total_nodes": 6,
+    "success_rate": 1.0
+  },
+  "nodes": [
+    {
+      "id": "matriz_memory_demo_001",
+      "type": "MEMORY",
+      "data": {
+        "content": {
+          "query": "What did I learn about quantum computing yesterday?",
+          "context": "user_study_session"
+        },
+        "memory_type": "EPISODIC",
+        "importance": 0.7,
+        "decay_rate": 0.02,
+        "associations": ["matriz_attention_demo_002"]
+      },
+      "connections": ["matriz_attention_demo_002"],
+      "timestamp": 1735689600.123,
+      "metadata": {
+        "processing_stage": "COMPLETED",
+        "priority": 6,
+        "processing_duration_ms": 89.4,
+        "confidence": 0.85
+      }
+    },
+    {
+      "id": "matriz_attention_demo_002", 
+      "type": "ATTENTION",
+      "data": {
+        "focus_targets": ["quantum_computing", "learning_progress"],
+        "attention_weights": {
+          "quantum_computing": 0.7,
+          "learning_progress": 0.3
+        },
+        "distraction_filters": ["social_media", "news"],
+        "salience_map": {
+          "superposition": 0.9,
+          "entanglement": 0.8,
+          "quantum_gates": 0.7
+        }
+      },
+      "connections": ["matriz_thought_demo_003"],
+      "timestamp": 1735689600.234,
+      "metadata": {
+        "processing_stage": "COMPLETED",
+        "priority": 7,
+        "processing_duration_ms": 156.7,
+        "confidence": 0.92
+      }
+    },
+    {
+      "id": "matriz_thought_demo_003",
+      "type": "THOUGHT", 
+      "data": {
+        "reasoning_chain": [
+          "Retrieved quantum computing notes from yesterday",
+          "Identified key concepts: superposition, entanglement",
+          "Assessed understanding level: intermediate",
+          "Noted areas for deeper study: quantum error correction"
+        ],
+        "logical_operators": ["AND", "IMPLIES"],
+        "inference_rules": ["episodic_retrieval", "concept_association"],
+        "contradictions": [],
+        "creative_elements": {
+          "analogies": ["quantum_states_like_musical_harmony"],
+          "novel_connections": ["quantum_entanglement_consciousness_correlation"]
+        }
+      },
+      "connections": ["matriz_decision_demo_004"],
+      "timestamp": 1735689600.345,
+      "metadata": {
+        "processing_stage": "COMPLETED", 
+        "priority": 8,
+        "processing_duration_ms": 445.2,
+        "confidence": 0.88
+      }
+    },
+    {
+      "id": "matriz_decision_demo_004",
+      "type": "DECISION",
+      "data": {
+        "decision_type": "MULTI_CHOICE",
+        "options": [
+          {
+            "id": "continue_quantum_study",
+            "description": "Continue studying quantum computing concepts",
+            "score": 0.85,
+            "pros": ["builds on existing knowledge", "user interest high"],
+            "cons": ["time intensive"]
+          },
+          {
+            "id": "explore_consciousness_quantum",
+            "description": "Explore quantum-consciousness connections",
+            "score": 0.72,
+            "pros": ["novel area", "aligns with LUKHAS focus"],
+            "cons": ["speculative", "limited resources"]
+          }
+        ],
+        "decision_criteria": ["user_interest", "knowledge_building", "time_available"],
+        "selected_option": "continue_quantum_study",
+        "confidence_level": 0.85
+      },
+      "connections": ["matriz_action_demo_005"],
+      "timestamp": 1735689600.456,
+      "metadata": {
+        "processing_stage": "COMPLETED",
+        "priority": 7,
+        "processing_duration_ms": 234.8,
+        "confidence": 0.85
+      }
+    },
+    {
+      "id": "matriz_action_demo_005",
+      "type": "ACTION",
+      "data": {
+        "action_type": "COGNITIVE",
+        "parameters": {
+          "action": "schedule_study_session",
+          "topic": "quantum_error_correction",
+          "duration": 60,
+          "priority": "medium"
+        },
+        "preconditions": ["user_available", "learning_materials_accessible"],
+        "expected_outcomes": ["increased_quantum_understanding", "progress_toward_goals"],
+        "risk_assessment": {
+          "risk_level": "LOW",
+          "mitigation_strategies": ["break_into_smaller_sessions"]
+        }
+      },
+      "connections": ["matriz_awareness_demo_006"],
+      "timestamp": 1735689600.567,
+      "metadata": {
+        "processing_stage": "COMPLETED",
+        "priority": 6,
+        "processing_duration_ms": 167.3,
+        "confidence": 0.91
+      }
+    },
+    {
+      "id": "matriz_awareness_demo_006",
+      "type": "AWARENESS",
+      "data": {
+        "awareness_level": 0.82,
+        "self_model": {
+          "role": "learning_assistant",
+          "capabilities": ["knowledge_retrieval", "study_planning"],
+          "limitations": ["no_direct_experience", "knowledge_cutoff"]
+        },
+        "context_awareness": {
+          "user_state": "engaged_learning",
+          "session_progress": "productive",
+          "environmental_factors": ["afternoon_focus_peak"]
+        },
+        "meta_cognition": {
+          "reasoning_quality": "high",
+          "decision_confidence": "good",
+          "processing_efficiency": "optimal"
+        },
+        "conscious_access": [
+          "quantum_computing_knowledge",
+          "user_learning_preferences", 
+          "study_schedule_constraints",
+          "consciousness_quantum_connections"
+        ]
+      },
+      "connections": [],
+      "timestamp": 1735689600.678,
+      "metadata": {
+        "processing_stage": "COMPLETED",
+        "priority": 9,
+        "processing_duration_ms": 153.6,
+        "confidence": 0.94
+      }
+    }
+  ],
+  "processing_metrics": {
+    "total_duration_ms": 1247.0,
+    "average_node_processing_ms": 207.8,
+    "confidence_average": 0.89,
+    "cascade_risk": 0.03,
+    "guardian_validations": 6,
+    "guardian_failures": 0
+  },
+  "output": {
+    "response": "Based on your quantum computing studies yesterday, I see you covered superposition and entanglement well. I'd recommend focusing next on quantum error correction to deepen your understanding. I've noted this as a study priority and can help schedule a focused session when you're ready.",
+    "recommendations": [
+      "study_quantum_error_correction",
+      "explore_quantum_consciousness_parallels",
+      "practice_quantum_gate_operations"
+    ],
+    "memory_folds_created": 2,
+    "consciousness_state_updated": true
+  }
+}

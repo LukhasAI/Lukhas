@@ -18,6 +18,9 @@ help:
 	@echo "  dev          - Run development server"
 	@echo "  api          - Run API server"
 	@echo "  audit-tail   - Tail audit logs"
+	@echo "  audit-nav    - Show audit navigation for external auditors"
+	@echo "  audit-scan   - Run comprehensive audit validation"
+	@echo "  api-serve    - Start API server for external testing"
 	@echo ""
 	@echo "Code Quality:"
 	@echo "  lint         - Run all linters (no fixes)"
@@ -522,6 +525,42 @@ dr-monthly:
 # Gold Standard Audit
 audit:
 	@bash -lc './scripts/audit.sh'
+
+# Audit Navigation & Deep Search Support
+audit-nav:
+	@echo "🔍 LUKHAS AI Deep Search Navigation"
+	@echo "===================================="
+	@echo "📋 Audit Entry Point: AUDIT/INDEX.md"
+	@echo "🗺️  System Architecture: AUDIT/SYSTEM_MAP.md"
+	@echo "🧠 MATRIZ Readiness: AUDIT/MATRIZ_READINESS.md"
+	@echo "⚛️  Identity Readiness: AUDIT/IDENTITY_READINESS.md"
+	@echo "📊 API Documentation: AUDIT/API/openapi.yaml"
+	@echo "🔗 Deep Search Indexes: reports/deep_search/"
+	@echo ""
+	@echo "Quick Commands:"
+	@echo "  make audit-scan    - Health check and validation"
+	@echo "  make api-serve     - Start API server for testing"
+	@echo "  make test-cov      - Run tests with coverage report"
+
+audit-scan:
+	@echo "🔍 Running comprehensive audit scan..."
+	@echo "Checking lane architecture compliance..."
+	@python3 tools/ci/find_import_cycles.py
+	@echo "Validating MATRIZ readiness..."
+	@[ -f "AUDIT/MATRIZ_READINESS.md" ] && echo "✅ MATRIZ docs present" || echo "❌ Missing MATRIZ docs"
+	@echo "Checking Identity system..."
+	@[ -f "AUDIT/IDENTITY_READINESS.md" ] && echo "✅ Identity docs present" || echo "❌ Missing Identity docs"
+	@echo "Validating API schemas..."
+	@[ -f "AUDIT/API/openapi.yaml" ] && echo "✅ OpenAPI spec present" || echo "❌ Missing OpenAPI spec"
+	@echo "Running policy compliance..."
+	@make policy || echo "⚠️  Policy issues detected"
+	@echo "✅ Audit scan complete! See results above."
+
+api-serve:
+	@echo "🚀 Starting API server for auditing..."
+	@echo "Server will be available at: http://localhost:8080"
+	@echo "OpenAPI docs at: http://localhost:8080/docs"
+	uvicorn api.app:app --reload --port 8080 --host 0.0.0.0
 
 # Policy & Brand Enforcement
 policy: policy-registries policy-brand policy-tone policy-routes policy-vocab

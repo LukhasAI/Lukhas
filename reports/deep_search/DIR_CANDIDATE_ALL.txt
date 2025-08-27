@@ -16,7 +16,6 @@ candidate/audit/__init__.py
 candidate/audit/analytics_read.py
 candidate/audit/store.py
 candidate/audit/tool_analytics.py
-candidate/bio/.DS_Store
 candidate/bio/__init__.py
 candidate/bio/adapters.py
 candidate/bio/advanced_quantum_bio/__init__.py
@@ -60,7 +59,6 @@ candidate/bio/voice.py
 candidate/branding/__init__.py
 candidate/branding/terminology.py
 candidate/branding_bridge.py
-candidate/bridge/.DS_Store
 candidate/bridge/MODULE_MANIFEST.json
 candidate/bridge/Makefile
 candidate/bridge/README.md
@@ -145,7 +143,6 @@ candidate/bridge/explainability_interface_layer.py
 candidate/bridge/external/TrueCoreAnalyzer.py
 candidate/bridge/external/__init__.py
 candidate/bridge/integration_bridge.py
-candidate/bridge/llm_wrappers/.DS_Store
 candidate/bridge/llm_wrappers/README.md
 candidate/bridge/llm_wrappers/__init__.py
 candidate/bridge/llm_wrappers/anthropic_function_bridge.py
@@ -252,7 +249,6 @@ candidate/colonies/identity.py
 candidate/colonies/memory.py
 candidate/colonies/orchestrator.py
 candidate/colonies/reasoning.py
-candidate/colony/.DS_Store
 candidate/colony/__init__.py
 candidate/colony/adapters/__init__.py
 candidate/colony/adapters/consensus_to_dna.py
@@ -282,7 +278,6 @@ candidate/compliance/compliance_registry.py
 candidate/compliance/entropy_tuning.py
 candidate/compliance/matriz_adapter.py
 candidate/compliance/symbolic_governance_checker.py
-candidate/consciousness/.DS_Store
 candidate/consciousness/CONSCIOUSNESS_MODULE_ANALYSIS.md
 candidate/consciousness/DEV_GUIDE.md
 candidate/consciousness/MODULE_MANIFEST.json
@@ -710,7 +705,6 @@ candidate/consciousness/unified/auto_consciousness.py
 candidate/consciousness/unified/consolidate_consciousness_unification.py
 candidate/consciousness/unified/oscillator.py
 candidate/consciousness/unified/symbolic_bio_symbolic_orchestrator.py
-candidate/core/.DS_Store
 candidate/core/AGENT_COORDINATION.md
 candidate/core/AGI_Core_System.md
 candidate/core/API_INDEX.md
@@ -760,7 +754,6 @@ candidate/core/api/service_implementations.py
 candidate/core/api/service_stubs.py
 candidate/core/api_diff_analyzer.py
 candidate/core/api_fixes.json
-candidate/core/architectures/.DS_Store
 candidate/core/architectures/__init__.py
 candidate/core/architectures/abas/__init__.py
 candidate/core/architectures/abas/core/__init__.py
@@ -923,7 +916,6 @@ candidate/core/infrastructure/node_collection.py
 candidate/core/infrastructure/node_manager.py
 candidate/core/infrastructure/node_registry.py
 candidate/core/integrated_system.py
-candidate/core/integration/.DS_Store
 candidate/core/integration/__init__.py
 candidate/core/integration/connectivity_engine.py
 candidate/core/integration/consolidate_bio_symbolic_coherence.py
@@ -959,7 +951,6 @@ candidate/core/integrations/nias_dream_bridge.py
 candidate/core/integrator.py
 candidate/core/interaction/__init__.py
 candidate/core/interaction/symptom_reporter.py
-candidate/core/interfaces/.DS_Store
 candidate/core/interfaces/README.md
 candidate/core/interfaces/README_interfaces.md
 candidate/core/interfaces/README_interfaces_trace.md
@@ -1234,7 +1225,6 @@ candidate/core/neural/__init__.py
 candidate/core/neural/integrate_isolated_components.py
 candidate/core/neural/master_integration.py
 candidate/core/neural/topology_manager.py
-candidate/core/neural_architectures/.DS_Store
 candidate/core/neural_architectures/README.md
 candidate/core/neural_architectures/__init__.py
 candidate/core/neural_architectures/abas/__init__.py
@@ -1251,7 +1241,6 @@ candidate/core/observability/collector.py
 candidate/core/observability_steering.py
 candidate/core/observatory.py
 candidate/core/oracle_nervous_system.py
-candidate/core/orchestration/.DS_Store
 candidate/core/orchestration/MIGRATION_GUIDE.md
 candidate/core/orchestration/__init__.py
 candidate/core/orchestration/agent_orchestrator.py
@@ -1599,7 +1588,6 @@ candidate/core/security/crypto.py
 candidate/core/security/kms_manager.py
 candidate/core/security/migrate_xor_encryption.py
 candidate/core/security/security_integration.py
-candidate/core/services/.DS_Store
 candidate/core/services/__init__.py
 candidate/core/services/location/__init__.py
 candidate/core/services/location/geofencing_manager.py
@@ -1617,7 +1605,6 @@ candidate/core/state_management.py
 candidate/core/supervision.py
 candidate/core/swarm.py
 candidate/core/swarm_visualizer.py
-candidate/core/symbolic/.DS_Store
 candidate/core/symbolic/EthicalAuditor.py
 candidate/core/symbolic/HYBRID_COMPONENT.json
 candidate/core/symbolic/SymbolicReasoning.py
@@ -1696,7 +1683,6 @@ candidate/core/symbolic_bridge/integrator.py
 candidate/core/symbolic_bridge/token_map.py
 candidate/core/symbolic_diagnostics/__init__.py
 candidate/core/symbolic_diagnostics/trace_repair_engine.py
-candidate/core/symbolic_legacy/.DS_Store
 candidate/core/symbolic_legacy/MIGRATION_GUIDE.md
 candidate/core/symbolic_legacy/README.md
 candidate/core/symbolic_legacy/__init__.py
@@ -1796,7 +1782,6 @@ candidate/dna/helix/dna_memory_architecture.py
 candidate/dna/helix/helix_vault.py
 candidate/dna/interfaces.py
 candidate/dna/memory_inmem.py
-candidate/emotion/.DS_Store
 candidate/emotion/DEV_GUIDE.md
 candidate/emotion/EMOTION_MODULE_ANALYSIS.md
 candidate/emotion/MODULE_MANIFEST.json
@@ -1846,11 +1831,9 @@ candidate/feedback/store.py
 candidate/flags.py
 candidate/flags/__init__.py
 candidate/flags/ff.py
-candidate/governance/.DS_Store
 candidate/governance/Makefile
 candidate/governance/PHASE_7_INTEGRATION_COMPLETE.md
 candidate/governance/README.md
-candidate/governance/audit/.DS_Store
 candidate/governance/audit/README.md
 candidate/governance/audit/__init__.py
 candidate/governance/audit/exports/__init__.py
@@ -1875,7 +1858,6 @@ candidate/governance/consent_ledger.db
 candidate/governance/consent_ledger/__init__.py
 candidate/governance/consent_ledger/ledger_v1.py
 candidate/governance/drift_governor.py
-candidate/governance/ethics/.DS_Store
 candidate/governance/ethics/HEADER_FOOTER_TEMPLATE.py
 candidate/governance/ethics/HYBRID_COMPONENT.json
 candidate/governance/ethics/LGOV_validator.py
@@ -2324,7 +2306,6 @@ candidate/governance/security/security_audit_engine.py
 candidate/governance/security/security_compliance_check.py
 candidate/governance/security/threat_detection.py
 candidate/identity/__init__.py
-candidate/memory/.DS_Store
 candidate/memory/.coverage
 candidate/memory/AFTER_FOLD.md
 candidate/memory/API_REFERENCE.md
@@ -2846,7 +2827,6 @@ candidate/monitoring/trigger_flow_example.py
 candidate/monitoring/unified_dashboard.py
 candidate/openai/__init__.py
 candidate/openai/tooling.py
-candidate/orchestration/.DS_Store
 candidate/orchestration/KERNEL_BUS_MIGRATION_REPORT.md
 candidate/orchestration/README.md
 candidate/orchestration/agent_orchestrator/__init__.py
@@ -2939,7 +2919,6 @@ candidate/orchestration/orchestrator_core/__init__.py
 candidate/orchestration/resonance_orchestrator/__init__.py
 candidate/orchestration/service_registry/__init__.py
 candidate/orchestration/signal_router/__init__.py
-candidate/orchestration/signals/.DS_Store
 candidate/orchestration/signals/__init__.py
 candidate/orchestration/signals/homeostasis.py
 candidate/orchestration/signals/homeostasis_controller.py
@@ -2959,11 +2938,9 @@ candidate/qi/attention_economics.py
 candidate/qi/autonomy/approver_api.py
 candidate/qi/autonomy/governance.yaml
 candidate/qi/autonomy/self_healer.py
-candidate/qi/awareness_system/.DS_Store
 candidate/qi/awareness_system/__init__.py
 candidate/qi/awareness_system/attention.py
 candidate/qi/awareness_system/awareness.py
-candidate/qi/bio/.DS_Store
 candidate/qi/bio/__init__.py
 candidate/qi/bio/affect_model.py
 candidate/qi/bio/awareness_bio.py
@@ -3006,7 +2983,6 @@ candidate/qi/config/dashboard/__init__.py
 candidate/qi/config/dashboard/dashboard_settings.py
 candidate/qi/config/dashboard/interface_dashboard_settings.py
 candidate/qi/consensus_system.py
-candidate/qi/coordination/.DS_Store
 candidate/qi/coordination/__init__.py
 candidate/qi/coordination/dast_orchestrator/__init__.py
 candidate/qi/coordination/orchestration/__init__.py
@@ -3019,9 +2995,7 @@ candidate/qi/docs/ARCHITECTURE.md
 candidate/qi/docs/NAMING_RATIONALE.md
 candidate/qi/docs/jurisdiction_diff.py
 candidate/qi/docs/model_safety_card.py
-candidate/qi/engines/.DS_Store
 candidate/qi/engines/__init__.py
-candidate/qi/engines/consciousness/.DS_Store
 candidate/qi/engines/consciousness/__init__.py
 candidate/qi/engines/consciousness/engine.py
 candidate/qi/engines/creativity/__init__.py
@@ -3094,7 +3068,6 @@ candidate/qi/post_quantum_crypto_v2.py
 candidate/qi/privacy/__init__.py
 candidate/qi/privacy/post_quantum_crypto.py
 candidate/qi/privacy/zero_knowledge_system.py
-candidate/qi/processing/.DS_Store
 candidate/qi/processing/__init__.py
 candidate/qi/processing/consensus_system.py
 candidate/qi/processing/neural_symbolic_processor.py
@@ -3179,7 +3152,6 @@ candidate/qi/states/ΛBot_qi_security.py
 candidate/qi/superposition/HYBRID_COMPONENT.json
 candidate/qi/superposition/__init__.py
 candidate/qi/superposition/gen_module_header.py
-candidate/qi/systems/.DS_Store
 candidate/qi/systems/__init__.py
 candidate/qi/systems/qi_engine.py
 candidate/qi/systems/qi_entanglement.py

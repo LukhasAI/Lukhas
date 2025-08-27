@@ -15,12 +15,12 @@ from typing import Any, Optional, Union
 
 from openai import AsyncOpenAI, OpenAI
 
-# Use fallback imports for core.common
+# Use proper lukhas imports
 try:
-    from core.common import get_logger, retry, with_timeout
+    from lukhas.core.common import get_logger, retry, with_timeout
     logger = get_logger(__name__, "BRIDGE")
 except ImportError:
-    # Fallback to standard logging if core.common not available
+    # Fallback to standard logging if lukhas.core.common not available
     import logging
     logger = logging.getLogger(__name__)
 

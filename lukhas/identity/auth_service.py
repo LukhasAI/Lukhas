@@ -29,11 +29,13 @@ try:
 except ImportError:
     WALLET_AVAILABLE = False
 
-try:
-    from candidate.core.orchestration.brain.identity_manager import IdentityManager
-    IDENTITY_MANAGER_AVAILABLE = True
-except ImportError:
-    IDENTITY_MANAGER_AVAILABLE = False
+# NOTE: Disabled cross-lane import from candidate
+# try:
+#     from candidate.core.orchestration.brain.identity_manager import IdentityManager
+#     IDENTITY_MANAGER_AVAILABLE = True
+# except ImportError:
+#     IDENTITY_MANAGER_AVAILABLE = False
+IDENTITY_MANAGER_AVAILABLE = False  # Disabled to avoid cross-lane import
 
 logger = logging.getLogger(__name__)
 

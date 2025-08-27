@@ -1,0 +1,445 @@
+openapi: 3.0.3
+info:
+  title: LUKHAS AI Platform API
+  description: |
+    LUKHAS AI consciousness technology platform APIs for identity, memory, 
+    MATRIZ processing, and consciousness interactions.
+    
+    Built around Trinity Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
+  version: 1.0.0
+  contact:
+    name: LUKHAS AI Support
+    url: https://lukhas.ai/support
+    email: support@lukhas.ai
+  license:
+    name: Proprietary
+    url: https://lukhas.ai/license
+
+servers:
+  - url: https://api.lukhas.ai/v1
+    description: Production API
+  - url: https://staging-api.lukhas.ai/v1  
+    description: Staging API
+  - url: http://localhost:8080/v1
+    description: Local development
+
+security:
+  - bearerAuth: []
+  - lambdaAuth: []
+
+paths:
+  # Identity & Authentication
+  /auth/login:
+    post:
+      summary: Authenticate user and obtain tokens
+      tags: [Identity]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/webauthn/begin:
+    post:
+      summary: Initiate WebAuthn authentication
+      tags: [Identity]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+      responses:
+        200:
+          description: WebAuthn challenge created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebAuthnChallenge'
+
+  /identity/profile:
+    get:
+      summary: Get user identity profile
+      tags: [Identity]
+      responses:
+        200:
+          description: User profile information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityProfile'
+
+  # MATRIZ Processing
+  /matriz/process:
+    post:
+      summary: Submit event for MATRIZ processing
+      tags: [MATRIZ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatrizEvent'
+      responses:
+        200:
+          description: Processing initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatrizResult'
+        429:
+          $ref: '#/components/responses/RateLimit'
+
+  /matriz/nodes/{nodeId}:
+    get:
+      summary: Retrieve MATRIZ node by ID
+      tags: [MATRIZ]
+      parameters:
+        - name: nodeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatrizNode'
+
+  # Consciousness
+  /consciousness/chat:
+    post:
+      summary: Interact with consciousness system
+      tags: [Consciousness]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsciousnessChat'
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsciousnessChatResponse'
+
+  /consciousness/state:
+    get:
+      summary: Get current consciousness state
+      tags: [Consciousness]
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsciousnessState'
+
+  # Memory
+  /memory/folds:
+    get:
+      summary: List memory folds
+      tags: [Memory]
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            maximum: 1000
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  folds:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemoryFold'
+
+    post:
+      summary: Create new memory fold
+      tags: [Memory]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMemoryFold'
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryFold'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      
+    lambdaAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: "Lambda Identity Token"
+
+  schemas:
+    # Authentication Schemas
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+        tier:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: "Requested authentication tier"
+
+    AuthResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        expires_in:
+          type: integer
+        token_type:
+          type: string
+          default: "Bearer"
+        user_id:
+          type: string
+        tier:
+          type: integer
+
+    WebAuthnChallenge:
+      type: object
+      properties:
+        challenge:
+          type: string
+        timeout:
+          type: integer
+        allowCredentials:
+          type: array
+          items:
+            type: object
+
+    IdentityProfile:
+      type: object
+      properties:
+        user_id:
+          type: string
+        namespace:
+          type: string
+        tier:
+          type: integer
+        permissions:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+
+    # MATRIZ Schemas
+    MatrizEvent:
+      type: object
+      required: [type, data]
+      properties:
+        type:
+          type: string
+          enum: [MEMORY, ATTENTION, THOUGHT, ACTION, DECISION, AWARENESS]
+        data:
+          type: object
+          additionalProperties: true
+        priority:
+          type: integer
+          minimum: 1
+          maximum: 10
+        metadata:
+          type: object
+
+    MatrizNode:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [MEMORY, ATTENTION, THOUGHT, ACTION, DECISION, AWARENESS]
+        data:
+          type: object
+        connections:
+          type: array
+          items:
+            type: string
+        timestamp:
+          type: number
+        metadata:
+          type: object
+
+    MatrizResult:
+      type: object
+      properties:
+        node_id:
+          type: string
+        status:
+          type: string
+          enum: [PROCESSING, COMPLETED, FAILED]
+        result:
+          type: object
+        processing_time_ms:
+          type: integer
+
+    # Consciousness Schemas  
+    ConsciousnessChat:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+        context:
+          type: object
+        consciousness_level:
+          type: string
+          enum: [BASIC, ENHANCED, VIVOX]
+
+    ConsciousnessChatResponse:
+      type: object
+      properties:
+        response:
+          type: string
+        consciousness_state:
+          $ref: '#/components/schemas/ConsciousnessState'
+        metadata:
+          type: object
+
+    ConsciousnessState:
+      type: object
+      properties:
+        awareness_level:
+          type: number
+          minimum: 0
+          maximum: 1
+        active_folds:
+          type: integer
+        processing_load:
+          type: number
+        dream_state:
+          type: boolean
+
+    # Memory Schemas
+    MemoryFold:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [WORKING, EPISODIC, SEMANTIC, PROCEDURAL]
+        content:
+          type: object
+        connections:
+          type: array
+          items:
+            type: string
+        importance:
+          type: number
+          minimum: 0
+          maximum: 1
+        created_at:
+          type: string
+          format: date-time
+
+    CreateMemoryFold:
+      type: object
+      required: [type, content]
+      properties:
+        type:
+          type: string
+          enum: [WORKING, EPISODIC, SEMANTIC, PROCEDURAL]
+        content:
+          type: object
+        connections:
+          type: array
+          items:
+            type: string
+        importance:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    # Error Schemas
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+
+  responses:
+    Unauthorized:
+      description: Authentication required or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    RateLimit:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+
+tags:
+  - name: Identity
+    description: Authentication and identity management
+  - name: MATRIZ
+    description: Memory-Attention-Thought-Action-Decision-Awareness processing
+  - name: Consciousness  
+    description: Consciousness interaction and state management
+  - name: Memory
+    description: Fold-based memory system

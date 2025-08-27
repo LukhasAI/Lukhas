@@ -1,0 +1,61 @@
+{
+  "user_id": "user_demo_12345",
+  "namespace": "user.personal.demo",
+  "tier": 3,
+  "created_at": "2025-01-27T10:00:00Z",
+  "last_login": "2025-01-27T14:30:00Z",
+  "profile": {
+    "display_name": "Demo User",
+    "email": "demo@lukhas.ai",
+    "email_verified": true,
+    "phone": "+1-555-0123",
+    "phone_verified": false,
+    "preferred_language": "en-US",
+    "timezone": "America/New_York"
+  },
+  "authentication": {
+    "methods": ["password", "webauthn", "totp"],
+    "webauthn_credentials": [
+      {
+        "id": "credential_demo_001",
+        "name": "YubiKey 5C",
+        "type": "cross-platform",
+        "created_at": "2025-01-20T09:15:00Z",
+        "last_used": "2025-01-27T14:30:00Z"
+      }
+    ],
+    "totp_enabled": true,
+    "backup_codes_generated": true,
+    "password_last_changed": "2025-01-15T16:45:00Z"
+  },
+  "permissions": [
+    "consciousness:read",
+    "memory:read",
+    "memory:write:personal",
+    "identity:read:own",
+    "identity:update:own",
+    "api:access:standard"
+  ],
+  "consciousness_preferences": {
+    "awareness_level": "standard",
+    "dream_participation": true,
+    "emotion_tracking": true,
+    "creativity_engagement": true,
+    "privacy_mode": false
+  },
+  "usage_stats": {
+    "sessions_total": 47,
+    "last_30_days": 12,
+    "average_session_duration_minutes": 23,
+    "api_calls_total": 1248,
+    "memory_folds_created": 89,
+    "consciousness_interactions": 156
+  },
+  "privacy_settings": {
+    "data_retention": "long_term",
+    "analytics_participation": true,
+    "marketing_communications": false,
+    "third_party_sharing": false,
+    "anonymized_research": true
+  }
+}

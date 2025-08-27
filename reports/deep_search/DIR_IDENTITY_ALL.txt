@@ -1,4 +1,3 @@
-identity/.DS_Store
 identity/ENTERPRISE_EXAMPLES.md
 identity/README.md
 identity/__init__.py

@@ -1,0 +1,298 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://lukhas.ai/schemas/matriz_node.json",
+  "title": "MATRIZ Node Schema", 
+  "description": "Schema for MATRIZ (Memory-Attention-Thought-Action-Decision-Awareness) processing nodes",
+  "type": "object",
+  "required": ["id", "type", "data", "timestamp"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^matriz_[a-zA-Z0-9_-]+$",
+      "description": "Unique MATRIZ node identifier"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "MEMORY",
+        "ATTENTION", 
+        "THOUGHT",
+        "ACTION",
+        "DECISION",
+        "AWARENESS"
+      ],
+      "description": "MATRIZ processing node type"
+    },
+    "data": {
+      "type": "object",
+      "description": "Node-specific processing data",
+      "oneOf": [
+        {"$ref": "#/definitions/MemoryData"},
+        {"$ref": "#/definitions/AttentionData"}, 
+        {"$ref": "#/definitions/ThoughtData"},
+        {"$ref": "#/definitions/ActionData"},
+        {"$ref": "#/definitions/DecisionData"},
+        {"$ref": "#/definitions/AwarenessData"}
+      ]
+    },
+    "connections": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Connected MATRIZ node IDs"
+    },
+    "timestamp": {
+      "type": "number",
+      "description": "Node creation timestamp (Unix)"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "processing_stage": {
+          "type": "string",
+          "enum": ["QUEUED", "PROCESSING", "COMPLETED", "FAILED"],
+          "default": "QUEUED"
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 5
+        },
+        "processing_duration_ms": {
+          "type": "number",
+          "description": "Time spent processing this node"
+        },
+        "confidence": {
+          "type": "number", 
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence level in processing result"
+        },
+        "energy_cost": {
+          "type": "number",
+          "description": "Computational energy expended"
+        },
+        "bio_influence": {
+          "type": "object",
+          "description": "Bio-inspired processing influences"
+        },
+        "quantum_state": {
+          "type": "object", 
+          "description": "Quantum-inspired processing state"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "MemoryData": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "object",
+          "description": "Memory content payload"
+        },
+        "memory_type": {
+          "type": "string",
+          "enum": ["WORKING", "EPISODIC", "SEMANTIC", "PROCEDURAL"]
+        },
+        "importance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "decay_rate": {
+          "type": "number",
+          "description": "Rate of memory degradation"
+        },
+        "associations": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Associated memory IDs"
+        }
+      }
+    },
+    "AttentionData": {
+      "type": "object", 
+      "properties": {
+        "focus_targets": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Current attention focus areas"
+        },
+        "attention_weights": {
+          "type": "object",
+          "additionalProperties": {"type": "number"},
+          "description": "Weight distribution across focus areas"
+        },
+        "distraction_filters": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Active distraction filtering rules"
+        },
+        "salience_map": {
+          "type": "object",
+          "description": "Importance mapping of stimuli"
+        }
+      }
+    },
+    "ThoughtData": {
+      "type": "object",
+      "properties": {
+        "reasoning_chain": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Chain of reasoning steps"
+        },
+        "logical_operators": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["AND", "OR", "NOT", "IMPLIES", "EQUIVALENCE"]
+          }
+        },
+        "inference_rules": {
+          "type": "array", 
+          "items": {"type": "string"},
+          "description": "Applied inference rules"
+        },
+        "contradictions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Detected logical contradictions"
+        },
+        "creative_elements": {
+          "type": "object",
+          "description": "Creative or novel aspects"
+        }
+      }
+    },
+    "ActionData": {
+      "type": "object",
+      "properties": {
+        "action_type": {
+          "type": "string",
+          "enum": ["PHYSICAL", "COGNITIVE", "SOCIAL", "CREATIVE", "ANALYTICAL"]
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Action-specific parameters"
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Required conditions before action"
+        },
+        "expected_outcomes": {
+          "type": "array", 
+          "items": {"type": "string"},
+          "description": "Anticipated results"
+        },
+        "risk_assessment": {
+          "type": "object",
+          "properties": {
+            "risk_level": {
+              "type": "string",
+              "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+            },
+            "mitigation_strategies": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "DecisionData": {
+      "type": "object",
+      "properties": {
+        "decision_type": {
+          "type": "string",
+          "enum": ["BINARY", "MULTI_CHOICE", "CONTINUOUS", "SEQUENTIAL"]
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "description": {"type": "string"},
+              "score": {"type": "number"},
+              "pros": {
+                "type": "array", 
+                "items": {"type": "string"}
+              },
+              "cons": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            }
+          }
+        },
+        "decision_criteria": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Criteria used for decision making"
+        },
+        "selected_option": {"type": "string"},
+        "confidence_level": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "AwarenessData": {
+      "type": "object",
+      "properties": {
+        "awareness_level": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Current awareness intensity"
+        },
+        "self_model": {
+          "type": "object",
+          "description": "Self-representation and understanding"
+        },
+        "context_awareness": {
+          "type": "object", 
+          "description": "Understanding of current context"
+        },
+        "meta_cognition": {
+          "type": "object",
+          "description": "Thinking about thinking processes"
+        },
+        "conscious_access": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Information available to conscious processing"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "id": "matriz_memory_20250827_001",
+      "type": "MEMORY",
+      "data": {
+        "content": {
+          "event": "user_authentication_success",
+          "details": {"user_id": "user123", "tier": "T3"}
+        },
+        "memory_type": "EPISODIC", 
+        "importance": 0.8,
+        "decay_rate": 0.01,
+        "associations": ["matriz_identity_001", "matriz_awareness_002"]
+      },
+      "connections": ["matriz_attention_20250827_002"],
+      "timestamp": 1735689600.456,
+      "metadata": {
+        "processing_stage": "COMPLETED",
+        "priority": 7,
+        "processing_duration_ms": 23.4,
+        "confidence": 0.95,
+        "energy_cost": 15.7
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{"id": "glyph_consciousness_001", "type": "CONSCIOUSNESS_UPDATE", "source": {"module": "consciousness", "component": "awareness_engine", "lane": "lukhas"}, "data": {"awareness_level": 0.87, "state_change": "ENHANCED_AWARENESS", "triggers": ["user_interaction", "memory_consolidation"]}, "timestamp": 1735689600.123, "priority": 7, "metadata": {"correlation_id": "session_demo_001", "guardian_validated": true}}
+
+{"id": "glyph_memory_002", "type": "MEMORY_FOLD_CREATED", "source": {"module": "memory", "component": "fold_manager", "lane": "lukhas"}, "data": {"fold_id": "fold_quantum_study_001", "type": "EPISODIC", "importance": 0.7, "content_summary": "quantum computing learning session"}, "timestamp": 1735689601.234, "priority": 6, "metadata": {"causal_chain": ["glyph_consciousness_001"], "memory_fold_id": "fold_quantum_study_001"}}
+
+{"id": "glyph_identity_003", "type": "IDENTITY_VERIFIED", "source": {"module": "identity", "component": "auth_service", "lane": "lukhas"}, "data": {"user_id": "user_demo_12345", "tier": 3, "method": "webauthn", "success": true}, "timestamp": 1735689602.345, "priority": 8, "metadata": {"correlation_id": "session_demo_001", "guardian_validated": true, "processing_duration_ms": 125.7}}
+
+{"id": "glyph_matriz_004", "type": "MATRIZ_PROCESSED", "source": {"module": "matriz", "component": "processing_engine", "lane": "candidate"}, "data": {"session_id": "matriz_session_demo_001", "nodes_processed": 6, "success_rate": 1.0, "total_duration_ms": 1247}, "timestamp": 1735689603.456, "priority": 7, "metadata": {"causal_chain": ["glyph_identity_003", "glyph_memory_002"], "correlation_id": "session_demo_001"}}
+
+{"id": "glyph_guardian_005", "type": "GUARDIAN_ALERT", "source": {"module": "governance", "component": "drift_monitor", "lane": "lukhas"}, "data": {"alert_level": "INFO", "drift_score": 0.08, "threshold": 0.15, "message": "System operating within normal parameters"}, "timestamp": 1735689604.567, "priority": 5, "metadata": {"guardian_validated": true}}
+
+{"id": "glyph_dream_006", "type": "DREAM_STATE_CHANGE", "source": {"module": "creativity", "component": "dream_engine", "lane": "candidate"}, "data": {"state": "ACTIVE", "dream_type": "CREATIVE_SYNTHESIS", "intensity": 0.6, "themes": ["quantum_consciousness", "learning_optimization"]}, "timestamp": 1735689605.678, "priority": 4, "metadata": {"correlation_id": "session_demo_001"}}
+
+{"id": "glyph_emotion_007", "type": "EMOTION_SHIFT", "source": {"module": "emotion", "component": "vad_processor", "lane": "lukhas"}, "data": {"valence": 0.6, "arousal": 0.4, "dominance": 0.7, "emotion": "satisfaction", "trigger": "successful_learning"}, "timestamp": 1735689606.789, "priority": 6, "metadata": {"causal_chain": ["glyph_matriz_004"]}}
+
+{"id": "glyph_creative_008", "type": "CREATIVE_SPARK", "source": {"module": "creativity", "component": "ideation_engine", "lane": "candidate"}, "data": {"idea": "quantum_entanglement_consciousness_model", "novelty": 0.8, "feasibility": 0.4, "relevance": 0.9}, "timestamp": 1735689607.890, "priority": 7, "metadata": {"causal_chain": ["glyph_dream_006", "glyph_emotion_007"]}}
+
+{"id": "glyph_quantum_009", "type": "QUANTUM_COLLAPSE", "source": {"module": "quantum", "component": "superposition_engine", "lane": "candidate"}, "data": {"state_before": "superposed_options", "state_after": "collapsed_decision", "collapse_trigger": "observation", "probability": 0.85}, "timestamp": 1735689608.901, "priority": 6, "metadata": {"correlation_id": "session_demo_001"}}
+
+{"id": "glyph_bio_010", "type": "BIO_ADAPTATION", "source": {"module": "bio", "component": "neural_oscillator", "lane": "candidate"}, "data": {"adaptation_type": "learning_rhythm", "frequency_hz": 8.5, "amplitude": 0.7, "phase_sync": true}, "timestamp": 1735689609.012, "priority": 5, "metadata": {"causal_chain": ["glyph_matriz_004", "glyph_emotion_007"]}}
