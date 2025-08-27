@@ -32,7 +32,7 @@ def load_allowed():
 def run_ruff(paths, out_json):
     paths = paths or ["."]
     try:
-        subprocess.run(["ruff","check","--output-format","json","-o", out_json, *paths], 
+        subprocess.run(["ruff","check","--output-format","json","-o", out_json, *paths],
                       capture_output=True, check=False)
     except Exception:
         # If ruff fails, create empty results
@@ -78,7 +78,7 @@ def main():
         return 0
 
     Path("reports/lints").mkdir(parents=True, exist_ok=True)
-    
+
     # current PR
     run_ruff(["."], "reports/lints/ruff_pr.json")
     pr_counts = count_by_pkg("reports/lints/ruff_pr.json")
@@ -94,18 +94,18 @@ def main():
     except Exception as e:
         print(f"Warning: Could not fetch main branch: {e}")
         base_counts = {}
-    
+
     bad = []
     for pkg in pkgs_touched:
         if pr_counts.get(pkg,0) > base_counts.get(pkg,0):
             bad.append((pkg, base_counts.get(pkg,0), pr_counts.get(pkg,0)))
-    
+
     if bad:
         print("❌ Debt ratchet failed (allowlist lint increased):")
         for pkg, base, cur in bad:
             print(f"  {pkg}: {base} → {cur}")
         return 1
-    
+
     print("✅ Debt ratchet OK.")
     return 0
 

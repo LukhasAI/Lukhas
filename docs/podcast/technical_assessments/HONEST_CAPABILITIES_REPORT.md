@@ -43,7 +43,7 @@
 - **Bio-Inspired Processing**: ✅ Neural oscillators and adaptation mechanisms
 - **Z_C Formula Discovery**: ✅ Original LUKHAS AI research for ethical collapse computation
 
-#### **Integration Capabilities**  
+#### **Integration Capabilities**
 - **API Systems**: ✅ FastAPI endpoints operational (port 8080)
 - **External Bridge**: ✅ OpenAI, Anthropic, Google, Perplexity integration
 - **Web Interface**: ✅ Next.js consciousness visualization website

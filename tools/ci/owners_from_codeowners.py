@@ -23,7 +23,7 @@ def owners_for(path: str, rules):
         if pattern.endswith("/"):
             # Directory pattern
             pattern = pattern + "*"
-        
+
         # Check if path matches pattern
         if "*" in pattern or "?" in pattern:
             if fnmatch(path, pattern):

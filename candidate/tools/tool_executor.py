@@ -69,7 +69,7 @@ class ToolExecutor:
             "security_violations": 0,
             "rate_limited": 0,
         }
-        
+
         # Initialize security configuration and missing attributes
         self.security_config = self._init_security_config()
         self._request_timestamps = {}
@@ -151,7 +151,7 @@ class ToolExecutor:
             # Initialize vector store connection if not already done
             if not hasattr(self, 'vector_store'):
                 self._initialize_vector_store()
-            
+
             # Perform semantic search
             if self.vector_store:
                 search_results = await self._semantic_search(query, k)
@@ -159,11 +159,11 @@ class ToolExecutor:
             else:
                 # Fallback to enhanced contextual responses
                 return self._enhanced_contextual_search(query)
-                
+
         except Exception as e:
             logger.warning(f"RAG search failed, using contextual fallback: {e}")
             return self._enhanced_contextual_search(query)
-    
+
     def _initialize_vector_store(self):
         """Initialize vector store connection"""
         try:
@@ -179,7 +179,7 @@ class ToolExecutor:
                 return
             except ImportError:
                 pass
-            
+
             try:
                 import faiss
                 import numpy as np
@@ -190,15 +190,15 @@ class ToolExecutor:
                 return
             except ImportError:
                 pass
-            
+
             # If no vector store available, use in-memory search
             self.vector_store = None
             logger.warning("No vector store libraries available, using contextual search")
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize vector store: {e}")
             self.vector_store = None
-    
+
     async def _semantic_search(self, query: str, k: int = 5):
         """Perform semantic search using vector store"""
         if hasattr(self, 'chroma_client') and self.vector_store:
@@ -215,25 +215,25 @@ class ToolExecutor:
             return {"documents": [["FAISS search result placeholder"]], "metadatas": [[{}]]}
         else:
             return None
-    
+
     def _format_search_results(self, query: str, results):
         """Format vector search results"""
         if not results or not results.get('documents'):
             return f"No relevant knowledge found for: {query}"
-        
+
         formatted_results = [f"Retrieved knowledge for '{query}':\n"]
-        
+
         for i, (docs, metadatas) in enumerate(zip(results['documents'][0], results.get('metadatas', [[]])[0])):
             formatted_results.append(f"{i+1}. {docs}")
             if metadatas and 'source' in metadatas:
                 formatted_results.append(f"   Source: {metadatas['source']}")
-        
+
         return "\n".join(formatted_results)
-    
+
     def _enhanced_contextual_search(self, query: str) -> str:
         """Enhanced contextual search with broader knowledge base"""
         query_lower = query.lower()
-        
+
         # Ethical AI knowledge
         if "ethical ai" in query_lower or "ai ethics" in query_lower:
             return """Retrieved knowledge about ethical AI:
@@ -242,7 +242,7 @@ class ToolExecutor:
 3. Privacy and Security: Strong data protection and user consent mechanisms are essential
 4. Human Oversight: Maintain meaningful human control over AI decisions
 5. Accountability: Clear responsibility chains for AI system outcomes"""
-        
+
         # LUKHAS AI specific knowledge
         elif "lukhas" in query_lower or "trinity framework" in query_lower:
             return """Retrieved knowledge about LUKHAS AI:
@@ -251,7 +251,7 @@ class ToolExecutor:
 - Advanced memory systems with fold-based architecture
 - Guardian System v1.0.0 for ethical oversight and drift detection
 - Multi-modal explanation capabilities with XIL"""
-        
+
         # Consciousness technology
         elif "consciousness" in query_lower and ("ai" in query_lower or "artificial" in query_lower):
             return """Retrieved knowledge about AI consciousness technology:
@@ -260,7 +260,7 @@ class ToolExecutor:
 - Trinity Framework integrates identity, awareness, and ethical governance
 - Memory persistence and causal reasoning are key components
 - Ethical considerations around consciousness claims are paramount"""
-        
+
         # Machine learning and AI development
         elif any(term in query_lower for term in ["machine learning", "neural networks", "deep learning"]):
             return """Retrieved knowledge about ML/AI development:
@@ -269,7 +269,7 @@ class ToolExecutor:
 - Training requires large datasets and computational resources
 - Key challenges: bias, interpretability, robustness, alignment
 - Best practices: version control, testing, monitoring, documentation"""
-        
+
         # Programming and development
         elif any(term in query_lower for term in ["python", "programming", "development", "coding"]):
             return """Retrieved knowledge about software development:
@@ -278,7 +278,7 @@ class ToolExecutor:
 - Key tools: pytest, black, mypy, pre-commit hooks
 - Architecture patterns: modular design, dependency injection, clean architecture
 - DevOps: CI/CD pipelines, containerization, monitoring"""
-        
+
         # OpenAI and industry updates
         elif "openai" in query_lower and "2024" in query:
             return """Retrieved knowledge about OpenAI 2024:
@@ -287,7 +287,7 @@ class ToolExecutor:
 - Assistant API v2 with improved function calling
 - DALL-E 3 integration with ChatGPT
 - Advanced voice capabilities released"""
-        
+
         else:
             # Enhanced generic response with suggestions
             suggestions = []
@@ -295,9 +295,9 @@ class ToolExecutor:
                 suggestions.append("Try more specific keywords related to your domain of interest")
             if len(query.split()) < 3:
                 suggestions.append("Consider using more detailed queries with context")
-            
+
             suggestion_text = ". Suggestions: " + "; ".join(suggestions) if suggestions else ""
-            
+
             return f"No specific knowledge found for query: '{query}'{suggestion_text}. Available topics include: AI ethics, LUKHAS AI, consciousness technology, machine learning, programming, and industry updates."
 
     async def _open_url(self, args: dict[str, Any]) -> str:
@@ -598,7 +598,7 @@ RUN chmod +x {filename}
         return {
             "allowed_domains": set(self.config.get("allowed_domains", [
                 "openai.com",
-                "anthropic.com", 
+                "anthropic.com",
                 "github.com",
                 "arxiv.org",
                 "wikipedia.org",
@@ -626,21 +626,21 @@ RUN chmod +x {filename}
         """Check if request is within rate limits"""
         key = f"{tool_name}:{user_id}"
         now = time.time()
-        
+
         if key not in self._request_timestamps:
             self._request_timestamps[key] = []
-            
+
         # Clean old timestamps
         window_start = now - self.security_config["rate_limit_window"]
         self._request_timestamps[key] = [
             ts for ts in self._request_timestamps[key] if ts > window_start
         ]
-        
+
         # Check rate limit
         if len(self._request_timestamps[key]) >= self.security_config["rate_limit_requests"]:
             self.metrics["rate_limited"] += 1
             return False
-            
+
         self._request_timestamps[key].append(now)
         return True
 
@@ -648,26 +648,26 @@ RUN chmod +x {filename}
         """Validate URL against security policies"""
         try:
             parsed = urlparse(url)
-            
+
             # Check scheme
             if parsed.scheme not in ["http", "https"]:
                 logger.warning(f"Blocked invalid scheme: {parsed.scheme}")
                 return False
-                
+
             # Check domain allowlist
             if self.security_config["allowed_domains"]:
                 if parsed.netloc not in self.security_config["allowed_domains"]:
                     logger.warning(f"Blocked non-allowlisted domain: {parsed.netloc}")
                     return False
-            
+
             # Check blocked patterns
             for pattern in self.security_config["blocked_patterns"]:
                 if re.search(pattern, url, re.IGNORECASE):
                     logger.warning(f"Blocked URL matching pattern {pattern}: {url}")
                     return False
-                    
+
             return True
-            
+
         except Exception as e:
             logger.error(f"URL validation error: {e}")
             return False
@@ -675,18 +675,18 @@ RUN chmod +x {filename}
     async def _safe_web_scraper(self, url: str) -> str:
         """Safe web scraping with comprehensive security"""
         start_time = time.time()
-        
+
         # Validate URL
         if not self._validate_url(url):
             self.metrics["security_violations"] += 1
             await self._audit_log("url_blocked", {"url": url, "reason": "security_validation_failed"})
             return f"URL blocked by security policy: {url}"
-            
+
         # Check rate limits
         if not await self._check_rate_limit("open_url"):
             await self._audit_log("rate_limited", {"tool": "open_url", "url": url})
             return "Rate limit exceeded. Please wait before making more requests."
-        
+
         try:
             # Create aiohttp session with security headers
             connector = aiohttp.TCPConnector(
@@ -694,12 +694,12 @@ RUN chmod +x {filename}
                 ttl_dns_cache=300,
                 use_dns_cache=True,
             )
-            
+
             timeout = aiohttp.ClientTimeout(
                 total=self.security_config["request_timeout"],
                 connect=10
             )
-            
+
             headers = {
                 "User-Agent": self.security_config["user_agent"],
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -708,26 +708,26 @@ RUN chmod +x {filename}
                 "Connection": "keep-alive",
                 "Upgrade-Insecure-Requests": "1"
             }
-            
+
             async with aiohttp.ClientSession(
                 connector=connector,
                 timeout=timeout,
                 headers=headers
             ) as session:
-                
+
                 async with session.get(url, allow_redirects=True, max_redirects=3) as response:
                     # Check content size
                     content_length = response.headers.get('content-length')
                     if content_length and int(content_length) > self.security_config["max_content_size"]:
                         await self._audit_log("content_too_large", {"url": url, "size": content_length})
                         return f"Content too large ({content_length} bytes). Maximum allowed: {self.security_config['max_content_size']}"
-                    
+
                     # Check content type
                     content_type = response.headers.get('content-type', '').lower()
                     if not any(ct in content_type for ct in ['text/', 'application/json', 'application/xml']):
                         await self._audit_log("unsupported_content_type", {"url": url, "content_type": content_type})
                         return f"Unsupported content type: {content_type}"
-                    
+
                     # Read content with size limit
                     content = b""
                     size = 0
@@ -737,11 +737,11 @@ RUN chmod +x {filename}
                             await self._audit_log("content_too_large_streaming", {"url": url, "size": size})
                             return f"Content too large during streaming. Maximum allowed: {self.security_config['max_content_size']}"
                         content += chunk
-                    
+
                     # Parse and extract content
                     text_content = content.decode('utf-8', errors='ignore')
                     extracted = await self._extract_safe_content(text_content, url)
-                    
+
                     elapsed = time.time() - start_time
                     await self._audit_log("web_scrape_success", {
                         "url": url,
@@ -750,9 +750,9 @@ RUN chmod +x {filename}
                         "elapsed_time": elapsed,
                         "status_code": response.status
                     })
-                    
+
                     return extracted
-                    
+
         except asyncio.TimeoutError:
             await self._audit_log("web_scrape_timeout", {"url": url})
             return f"Request timed out after {self.security_config['request_timeout']} seconds"
@@ -767,51 +767,51 @@ RUN chmod +x {filename}
         """Extract and sanitize content from HTML"""
         try:
             soup = BeautifulSoup(html_content, 'html.parser')
-            
+
             # Remove dangerous elements
             for element in soup(["script", "style", "meta", "link", "noscript"]):
                 element.decompose()
-            
+
             # Extract title
             title = soup.find('title')
             title_text = title.get_text(strip=True) if title else "No title"
-            
+
             # Extract main content
             main_content = ""
-            
+
             # Try to find main content areas
             content_selectors = [
                 'main', 'article', '[role="main"]',
                 '.content', '.main-content', '.post-content',
                 '.entry-content', '.article-content'
             ]
-            
+
             for selector in content_selectors:
                 elements = soup.select(selector)
                 if elements:
                     main_content = "\n".join(el.get_text(strip=True, separator=' ') for el in elements[:3])
                     break
-            
+
             # Fallback to paragraphs and headings
             if not main_content:
                 elements = soup.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'], limit=10)
                 main_content = "\n".join(el.get_text(strip=True) for el in elements if el.get_text(strip=True))
-            
+
             # Extract metadata
             description = soup.find('meta', attrs={'name': 'description'})
             description_text = description.get('content', '') if description else ""
-            
+
             # Format response
             response_parts = [f"Title: {title_text}"]
             if description_text:
                 response_parts.append(f"Description: {description_text}")
-            
+
             response_parts.append(f"URL: {url}")
             response_parts.append("Content:")
             response_parts.append(main_content[:2000] + "..." if len(main_content) > 2000 else main_content)
-            
+
             return "\n\n".join(response_parts)
-            
+
         except Exception as e:
             logger.error(f"Content extraction error: {e}")
             return f"Content extraction failed: {str(e)}"
@@ -834,10 +834,10 @@ RUN chmod +x {filename}
         """Execute code in a secure Docker sandbox"""
         if self._active_executions >= self._max_concurrent_executions:
             return f"Maximum concurrent executions ({self._max_concurrent_executions}) reached. Please wait."
-        
+
         self._active_executions += 1
         execution_id = hashlib.sha256(f"{time.time()}{source}".encode()).hexdigest()[:12]
-        
+
         try:
             await self._audit_log("code_execution_start", {
                 "execution_id": execution_id,
@@ -845,15 +845,15 @@ RUN chmod +x {filename}
                 "code_length": len(source),
                 "active_executions": self._active_executions
             })
-            
+
             # Enhanced security checks
             if not self._validate_code_security(source, language):
                 self.metrics["security_violations"] += 1
                 await self._audit_log("code_security_violation", {"execution_id": execution_id, "language": language})
                 return "Code contains security violations and cannot be executed."
-            
+
             docker_client = await self._get_docker_client()
-            
+
             # Language-specific container configurations
             container_configs = {
                 "python": {
@@ -863,7 +863,7 @@ RUN chmod +x {filename}
                     "user": "nobody"
                 },
                 "javascript": {
-                    "image": "node:18-alpine", 
+                    "image": "node:18-alpine",
                     "command": ["node", "-e"],
                     "working_dir": "/sandbox",
                     "user": "nobody"
@@ -871,36 +871,36 @@ RUN chmod +x {filename}
                 "bash": {
                     "image": "alpine:latest",
                     "command": ["sh", "-c"],
-                    "working_dir": "/sandbox", 
+                    "working_dir": "/sandbox",
                     "user": "nobody"
                 }
             }
-            
+
             if language not in container_configs:
                 return f"Language {language} not supported for sandboxed execution"
-            
+
             config = container_configs[language]
-            
+
             # Create temporary directory for execution
             with tempfile.TemporaryDirectory() as temp_dir:
                 # Write source code to file
                 source_file = Path(temp_dir) / f"code.{language}"
                 source_file.write_text(source)
-                
+
                 # Container resource limits
                 container_limits = {
                     "mem_limit": "128m",
-                    "memswap_limit": "128m", 
+                    "memswap_limit": "128m",
                     "cpu_period": 100000,
                     "cpu_quota": 50000,  # 50% of one CPU
                     "pids_limit": 100
                 }
-                
+
                 # Network and security restrictions
                 security_opts = [
                     "no-new-privileges:true"
                 ]
-                
+
                 try:
                     # Run container with timeout
                     container = docker_client.containers.run(
@@ -917,21 +917,21 @@ RUN chmod +x {filename}
                         security_opt=security_opts,
                         **container_limits
                     )
-                    
+
                     output = container.decode('utf-8') if isinstance(container, bytes) else str(container)
-                    
+
                     await self._audit_log("code_execution_success", {
                         "execution_id": execution_id,
                         "language": language,
                         "output_length": len(output)
                     })
-                    
+
                     # Truncate output if too long
                     if len(output) > 4000:
                         output = output[:4000] + "\n... (output truncated)"
-                        
+
                     return f"Execution completed successfully:\n\n{output}"
-                    
+
                 except docker.errors.ContainerError as e:
                     error_output = e.stderr.decode('utf-8') if e.stderr else "No error details"
                     await self._audit_log("code_execution_container_error", {
@@ -940,14 +940,14 @@ RUN chmod +x {filename}
                         "error": error_output
                     })
                     return f"Code execution failed with exit code {e.exit_status}:\n{error_output}"
-                    
+
                 except Exception as e:
                     await self._audit_log("code_execution_docker_error", {
                         "execution_id": execution_id,
                         "error": str(e)
                     })
                     return f"Docker execution error: {str(e)}"
-                    
+
         except RuntimeError as e:
             return str(e)
         except Exception as e:
@@ -1022,7 +1022,7 @@ RUN chmod +x {filename}
             ],
             "bash": [
                 r"curl\s",
-                r"wget\s", 
+                r"wget\s",
                 r"nc\s",
                 r"netcat\s",
                 r"ssh\s",
@@ -1047,20 +1047,20 @@ RUN chmod +x {filename}
                 r"crontab\s"
             ]
         }
-        
+
         # Check patterns for current language and all languages
         patterns_to_check = dangerous_patterns.get("all", []) + dangerous_patterns.get(language, [])
-        
+
         for pattern in patterns_to_check:
             if re.search(pattern, source, re.IGNORECASE | re.MULTILINE):
                 logger.warning(f"Blocked dangerous pattern in {language} code: {pattern}")
                 return False
-        
+
         # Additional checks
         if len(source) > 10000:  # Limit code size
             logger.warning("Code too large for execution")
             return False
-            
+
         return True
 
     async def _audit_log(self, event: str, data: Dict[str, Any]):
@@ -1071,11 +1071,11 @@ RUN chmod +x {filename}
                 "event": event,
                 "data": data
             }
-            
+
             # Append to audit log
             with open(self.audit_log, 'a') as f:
                 f.write(json.dumps(log_entry) + "\n")
-                
+
         except Exception as e:
             logger.error(f"Audit logging failed: {e}")
 

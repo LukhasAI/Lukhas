@@ -12,7 +12,7 @@ jobs:
         if: github.event.pull_request.user.login == 'dependabot[bot]'
         run: |
           echo "✅ Dependabot PR - skipping autofix check"
-          
+
       - name: Check for autofix-pending label
         if: github.event.pull_request.user.login != 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'autofix-pending')
         run: |
@@ -26,7 +26,7 @@ jobs:
         if: github.event.pull_request.user.login != 'dependabot[bot]' && !contains(github.event.pull_request.labels.*.name, 'autofix-pending')
         run: |
           echo "✅ No autofix-pending label - merge allowed"
-          
+
       - name: Success for Dependabot
         if: github.event.pull_request.user.login == 'dependabot[bot]'
         run: |

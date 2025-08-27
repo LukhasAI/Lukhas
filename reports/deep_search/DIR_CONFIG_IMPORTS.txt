@@ -13,4 +13,3 @@ import structlog
 from .settings_loader import (
 
 >>> config/settings.py
-

@@ -34,14 +34,14 @@ describe('StiggProvider Integration', () => {
     // Verify StiggProvider is rendered
     expect(screen.getByTestId('stigg-provider')).toBeInTheDocument()
     expect(screen.getByTestId('stigg-provider')).toHaveAttribute('data-api-key', 'test-stigg-api-key')
-    
+
     // Verify content is still rendered
     expect(screen.getByText('Test Content')).toBeInTheDocument()
   })
 
   it('should render fallback when API key is not available', () => {
     // No API key set
-    
+
     render(
       <Providers>
         <div>Test Content</div>
@@ -51,7 +51,7 @@ describe('StiggProvider Integration', () => {
     // Verify fallback is rendered instead of StiggProvider
     expect(screen.getByTestId('stigg-fallback')).toBeInTheDocument()
     expect(screen.queryByTestId('stigg-provider')).not.toBeInTheDocument()
-    
+
     // Verify content is still rendered
     expect(screen.getByText('Test Content')).toBeInTheDocument()
   })
@@ -85,7 +85,7 @@ describe('StiggProvider Integration', () => {
     // Verify both providers are present in the component tree
     expect(screen.getByTestId('stigg-provider')).toBeInTheDocument()
     expect(screen.getByText('Test Content')).toBeInTheDocument()
-    
+
     // Verify the DOM structure is correct
     expect(container.firstChild).toMatchSnapshot()
   })

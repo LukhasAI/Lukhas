@@ -17,9 +17,6 @@ Core Components:
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass
-from enum import Enum
-from typing import Any, Dict, Optional, Union
 
 # Feature flag for Guardian system
 GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
@@ -58,10 +55,10 @@ except ImportError:
     class GuardianSystem:
         def __init__(self, drift_threshold=0.15):
             self.drift_threshold = drift_threshold
-        
+
         async def check_drift(self, data):
             return 0.05  # Safe default
-        
+
         def get_status(self):
             return {"active": False, "fallback": True}
 

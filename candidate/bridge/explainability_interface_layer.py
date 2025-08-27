@@ -103,7 +103,7 @@ class ExplanationDepth(Enum):
 
 class ModalityType(Enum):
     """Supported explanation modalities"""
-    
+
     TEXT = "text"                    # Natural language explanations
     VISUAL = "visual"                # Charts, graphs, diagrams
     AUDIO = "audio"                  # Spoken explanations
@@ -115,7 +115,7 @@ class ModalityType(Enum):
 @dataclass
 class ModalityPreference:
     """Preference for specific explanation modality"""
-    
+
     modality: ModalityType
     priority: float = 1.0  # Higher priority = more important
     format_options: dict[str, Any] = field(default_factory=dict)
@@ -132,34 +132,34 @@ class ExplanationRequest:
     depth: ExplanationDepth
     context: dict[str, Any] = field(default_factory=dict)
     custom_template: Optional[str] = None
-    
+
     # Multi-modal support
     preferred_modalities: list[ModalityPreference] = field(default_factory=lambda: [
         ModalityPreference(ModalityType.TEXT)  # Default to text
     ])
     max_modalities: int = 3  # Maximum number of modalities to use
     accessibility_requirements: dict[str, Any] = field(default_factory=dict)
-    
-    # Content constraints  
+
+    # Content constraints
     max_text_length: Optional[int] = None
     include_visual_aids: bool = True
     include_examples: bool = True
     language_preference: str = "en"
-    
+
     # Interactive features
     allow_followup_questions: bool = False
     enable_drill_down: bool = False
-    
+
     def get_primary_modality(self) -> ModalityType:
         """Get the highest priority modality"""
         if not self.preferred_modalities:
             return ModalityType.TEXT
         return max(self.preferred_modalities, key=lambda x: x.priority).modality
-    
+
     def supports_modality(self, modality: ModalityType) -> bool:
         """Check if request supports specific modality"""
         return any(pref.modality == modality for pref in self.preferred_modalities)
-    
+
     # Legacy fields
     requires_proof: bool = False
     requires_signing: bool = True
@@ -183,7 +183,7 @@ class ExplanationProof:
 @dataclass
 class ModalityContent:
     """Content for specific explanation modality"""
-    
+
     modality: ModalityType
     content: Any  # Flexible content based on modality
     format_info: dict[str, Any] = field(default_factory=dict)
@@ -197,29 +197,29 @@ class ExplanationOutput:
     explanation_id: str
     request_id: str
     decision_id: str
-    
+
     # Multi-modal content
     modality_content: dict[ModalityType, ModalityContent] = field(default_factory=dict)
     primary_modality: ModalityType = ModalityType.TEXT
-    
+
     # Legacy single-modal content (maintained for compatibility)
     natural_language: str = ""
     formal_proof: Optional[ExplanationProof] = None
     causal_chain: list[dict[str, Any]] = field(default_factory=list)
-    
+
     # Quality metrics
     confidence_score: float = 0.0
     uncertainty_bounds: tuple[float, float] = (0.0, 1.0)
     evidence_sources: list[str] = field(default_factory=list)
     quality_metrics: dict[str, float] = field(default_factory=dict)
-    
+
     # Security and integrity
     srd_signature: Optional[str] = None
-    
+
     # Metadata
     metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    
+
     def add_modality_content(self, modality: ModalityType, content: Any, **kwargs) -> None:
         """Add content for specific modality"""
         self.modality_content[modality] = ModalityContent(
@@ -229,20 +229,20 @@ class ExplanationOutput:
             accessibility_metadata=kwargs.get('accessibility_metadata', {}),
             confidence_score=kwargs.get('confidence_score', 1.0)
         )
-        
+
         # Update legacy field if text content
         if modality == ModalityType.TEXT and isinstance(content, str):
             self.natural_language = content
-    
+
     def get_content_for_modality(self, modality: ModalityType) -> Optional[Any]:
         """Get content for specific modality"""
         modal_content = self.modality_content.get(modality)
         return modal_content.content if modal_content else None
-    
+
     def get_supported_modalities(self) -> list[ModalityType]:
         """Get list of modalities with content"""
         return list(self.modality_content.keys())
-    
+
     def has_accessibility_support(self, requirement: str) -> bool:
         """Check if explanation meets accessibility requirement"""
         for modal_content in self.modality_content.values():
@@ -262,47 +262,47 @@ class ExplanationGenerator(ABC):
 
 class MultiModalExplanationGenerator(ExplanationGenerator):
     """Multi-modal explanation generator supporting various content types"""
-    
+
     def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.modality_generators = {}
         self._initialize_modality_generators()
-    
+
     def _initialize_modality_generators(self):
         """Initialize generators for each modality type"""
         # Text generator (natural language)
         self.modality_generators[ModalityType.TEXT] = self._generate_text_content
-        
+
         # Visual generator (charts, diagrams)
         self.modality_generators[ModalityType.VISUAL] = self._generate_visual_content
-        
+
         # Code generator (pseudocode, snippets)
         self.modality_generators[ModalityType.CODE] = self._generate_code_content
-        
+
         # Mathematical generator (formal proofs)
         self.modality_generators[ModalityType.MATHEMATICAL] = self._generate_math_content
-        
+
         # Causal graph generator
         self.modality_generators[ModalityType.CAUSAL_GRAPH] = self._generate_causal_graph
-        
+
         # Audio generator (spoken explanations)
         self.modality_generators[ModalityType.AUDIO] = self._generate_audio_content
-        
+
         # Interactive generator (interactive visualizations)
         self.modality_generators[ModalityType.INTERACTIVE] = self._generate_interactive_content
-    
+
     async def generate_explanation(
         self, request: ExplanationRequest, decision_context: dict[str, Any]
     ) -> str:
         """Generate explanation - legacy compatibility"""
         output = await self.generate_multimodal_explanation(request, decision_context)
         return output.natural_language
-    
+
     async def generate_multimodal_explanation(
         self, request: ExplanationRequest, decision_context: dict[str, Any]
     ) -> ExplanationOutput:
         """Generate multi-modal explanation output"""
-        
+
         explanation_id = f"explanation_{uuid.uuid4().hex[:8]}"
         output = ExplanationOutput(
             explanation_id=explanation_id,
@@ -310,11 +310,11 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
             decision_id=request.decision_id,
             primary_modality=request.get_primary_modality()
         )
-        
+
         # Generate content for each requested modality
         for modality_pref in request.preferred_modalities[:request.max_modalities]:
             modality = modality_pref.modality
-            
+
             if modality in self.modality_generators:
                 try:
                     content = await self.modality_generators[modality](
@@ -329,22 +329,22 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
                     )
                 except Exception as e:
                     logger.warning(f"Failed to generate {modality.value} content: {e}")
-        
+
         # Calculate overall confidence based on successful modalities
         total_modalities = len(request.preferred_modalities)
         successful_modalities = len(output.modality_content)
         output.confidence_score = successful_modalities / total_modalities if total_modalities > 0 else 0.0
-        
+
         return output
-    
-    async def _generate_text_content(self, request: ExplanationRequest, 
-                                   context: dict[str, Any], 
+
+    async def _generate_text_content(self, request: ExplanationRequest,
+                                   context: dict[str, Any],
                                    modality_pref: ModalityPreference) -> str:
         """Generate natural language explanation"""
         decision = context.get('decision', 'Unknown decision')
         reasoning = context.get('reasoning', 'No reasoning provided')
         confidence = context.get('confidence', 0.0)
-        
+
         # Adapt to audience
         if request.audience == ExplanationAudience.TECHNICAL:
             return f"Technical Analysis: The system executed decision '{decision}' based on algorithmic reasoning: {reasoning}. Confidence level: {confidence:.2%}."
@@ -352,8 +352,8 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
             return f"The system decided to {decision} because {reasoning}. We're {confidence:.0%} confident in this decision."
         else:  # REGULATORY
             return f"Decision Record: {decision}. Justification: {reasoning}. Confidence Score: {confidence:.3f}. Timestamp: {datetime.now(timezone.utc).isoformat()}."
-    
-    async def _generate_visual_content(self, request: ExplanationRequest, 
+
+    async def _generate_visual_content(self, request: ExplanationRequest,
                                      context: dict[str, Any],
                                      modality_pref: ModalityPreference) -> dict[str, Any]:
         """Generate visual explanation content (chart/diagram specifications)"""
@@ -377,32 +377,32 @@ class MultiModalExplanationGenerator(ExplanationGenerator):
                 "screen_reader_compatible": True
             }
         }
-    
+
     async def _generate_code_content(self, request: ExplanationRequest,
                                    context: dict[str, Any],
                                    modality_pref: ModalityPreference) -> str:
         """Generate pseudocode explanation"""
         decision = context.get('decision', 'decision')
         reasoning = context.get('reasoning', 'reasoning_logic')
-        
+
         return f"""
 # Decision Algorithm Pseudocode
 def make_decision(input_data):
     # Step 1: Process input
     processed_data = process_input(input_data)
-    
+
     # Step 2: Apply reasoning logic
     reasoning_result = apply_reasoning({reasoning})
-    
+
     # Step 3: Make decision
     if reasoning_result.meets_criteria():
         return "{decision}"
     else:
         return "alternative_decision"
-        
+
 # Confidence: {context.get('confidence', 0.0):.2%}
 """
-    
+
     async def _generate_math_content(self, request: ExplanationRequest,
                                    context: dict[str, Any],
                                    modality_pref: ModalityPreference) -> str:
@@ -419,9 +419,9 @@ Prove: decision d ∈ D is optimal
 Confidence C(d) = {confidence:.3f}
 ∴ decision d = "{context.get('decision', 'optimal_decision')}" is justified
 """
-    
+
     async def _generate_causal_graph(self, request: ExplanationRequest,
-                                   context: dict[str, Any], 
+                                   context: dict[str, Any],
                                    modality_pref: ModalityPreference) -> dict[str, Any]:
         """Generate causal graph representation"""
         return {
@@ -440,7 +440,7 @@ Confidence C(d) = {confidence:.3f}
                 "counterfactual_analysis": "Available upon request"
             }
         }
-    
+
     async def _generate_audio_content(self, request: ExplanationRequest,
                                     context: dict[str, Any],
                                     modality_pref: ModalityPreference) -> dict[str, Any]:
@@ -459,7 +459,7 @@ Confidence C(d) = {confidence:.3f}
                 "transcript": text_content
             }
         }
-    
+
     async def _generate_interactive_content(self, request: ExplanationRequest,
                                           context: dict[str, Any],
                                           modality_pref: ModalityPreference) -> dict[str, Any]:

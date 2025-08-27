@@ -464,4 +464,3 @@ from ..core import AnalysisType, VisionProvider
 from dataclasses import dataclass
 from typing import Any
 from ..core import VoiceEmotion, VoiceProvider
-

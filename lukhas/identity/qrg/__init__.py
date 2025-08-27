@@ -6,7 +6,7 @@ Production integration for QRG advanced authentication components
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 # Import QRG components
 QRG_PATH = Path(__file__).parent.parent.parent / "lambda_products_pack" / "lambda_core" / "QRG"

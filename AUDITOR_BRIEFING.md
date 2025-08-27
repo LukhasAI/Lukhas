@@ -31,7 +31,7 @@
 
 ```bash
 make audit-nav    # Show comprehensive navigation
-make audit-scan   # Run health check and validation  
+make audit-scan   # Run health check and validation
 make api-serve    # Start API server for testing
 make test-cov     # Run tests with coverage report
 ```

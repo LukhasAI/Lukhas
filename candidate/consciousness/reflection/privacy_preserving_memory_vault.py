@@ -389,17 +389,17 @@ class AESGCMProvider(EncryptionProvider):
         # 2. Re-encrypt each memory with the new key
         for memory_id in old_memories:
             memory = self.encrypted_memories[memory_id]
-            
+
             # Decrypt with old key
             old_key = await self._get_key(old_key_id)
             cipher_suite_old = Fernet(old_key)
             decrypted_data = cipher_suite_old.decrypt(memory.encrypted_data.encode())
-            
+
             # Re-encrypt with new key
             new_key = await self._get_key(new_key_id)
             cipher_suite_new = Fernet(new_key)
             new_encrypted_data = cipher_suite_new.encrypt(decrypted_data).decode()
-            
+
             # Update memory record
             memory.encrypted_data = new_encrypted_data
             memory.encryption_key_id = new_key_id
@@ -407,8 +407,8 @@ class AESGCMProvider(EncryptionProvider):
 
         # 3. Securely delete old key
         await self._delete_key(old_key_id)
-        
-        logger.info("ΛPPMV: AES key rotated with re-encryption complete", 
+
+        logger.info("ΛPPMV: AES key rotated with re-encryption complete",
                    old_key=old_key_id, new_key=new_key_id, memories_reencrypted=len(old_memories))
 
         return new_key_id
@@ -502,14 +502,14 @@ class FernetProvider(EncryptionProvider):
             # 2. Use both keys during transition period
             # 3. Gradually migrate all data to new key
             # 4. Delete old key after all data migrated
-            
+
             # For now, immediate rotation (should be extended for production)
-            logger.info("ΛPPMV: Fernet key rotation initiated", 
+            logger.info("ΛPPMV: Fernet key rotation initiated",
                        old_key=old_key_id, new_key=new_key_id)
-            
+
             # In production: schedule background task to migrate data
             # await self._schedule_key_migration(old_key_id, new_key_id)
-            
+
         return new_key_id
 
 
@@ -1168,34 +1168,34 @@ class PrivacyPreservingMemoryVault:
 
         # Implement proper secure deletion following DoD 5220.22-M standard
         # Overwrite data with patterns multiple times before deletion
-        
+
         if memory.encrypted_data:
             # Get original data length for consistent overwriting
             data_length = len(memory.encrypted_data.encode('utf-8'))
-            
+
             # Pass 1: Overwrite with 0x00
             memory.encrypted_data = '\x00' * data_length
-            
-            # Pass 2: Overwrite with 0xFF  
+
+            # Pass 2: Overwrite with 0xFF
             memory.encrypted_data = '\xFF' * data_length
-            
+
             # Pass 3: Overwrite with random data
             import secrets
             random_bytes = secrets.token_bytes(data_length)
             memory.encrypted_data = random_bytes.hex()
-            
+
             # Pass 4: Final overwrite with 0x00
             memory.encrypted_data = '\x00' * data_length
 
         # Clear all metadata
         memory.privacy_metadata.clear()
         memory.access_history.clear()
-        
+
         # Mark as securely deleted
         memory.deletion_requested = True
         memory.last_access_time = datetime.now(timezone.utc)
 
-        logger.info("ΛPPMV: Secure deletion completed with 4-pass overwrite", 
+        logger.info("ΛPPMV: Secure deletion completed with 4-pass overwrite",
                    memory_id=memory.memory_id, passes=4)
 
     async def _save_memory_to_disk(self, memory: EncryptedMemory):
@@ -1254,10 +1254,10 @@ class PrivacyPreservingMemoryVault:
         import contextvars
         user_context = getattr(contextvars, 'user_context', None)
         request_context = getattr(contextvars, 'request_context', None)
-        
+
         actual_user = "system"
         actual_ip = "127.0.0.1"
-        
+
         # Try to get actual user and IP from context
         if user_context:
             try:
@@ -1265,14 +1265,14 @@ class PrivacyPreservingMemoryVault:
                 actual_user = ctx.get('user_id', 'system') if ctx else 'system'
             except LookupError:
                 pass
-                
+
         if request_context:
             try:
                 ctx = request_context.get()
                 actual_ip = ctx.get('remote_addr', '127.0.0.1') if ctx else '127.0.0.1'
             except LookupError:
                 pass
-        
+
         audit_entry = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "action": action,

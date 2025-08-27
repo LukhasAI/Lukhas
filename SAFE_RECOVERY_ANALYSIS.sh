@@ -54,7 +54,7 @@ key_files=(
 
 for file in "${key_files[@]}"; do
     echo "🔍 Checking history for: $file"
-    
+
     # Check last 10 commits
     for i in {1..10}; do
         if git show HEAD~$i:"$file" >/dev/null 2>&1; then
@@ -79,7 +79,7 @@ echo "Found $stash_count stashes to analyze..."
 for i in $(seq 0 $((stash_count-1))); do
     echo "🔍 Analyzing stash@{$i}:"
     git stash show "stash@{$i}" --name-only | head -5 | sed 's/^/  - /'
-    
+
     # Save stash contents list
     git stash show "stash@{$i}" --name-only > "$ANALYSIS_DIR/stash_${i}_files.txt"
 done

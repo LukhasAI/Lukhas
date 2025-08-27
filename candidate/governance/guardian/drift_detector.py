@@ -293,15 +293,15 @@ class AdvancedDriftDetector:
         asyncio.create_task(self._pattern_analysis_loop())
         asyncio.create_task(self._forecasting_loop())
         asyncio.create_task(self._cleanup_loop())
-    
+
     async def _establish_baselines(self):
         """Establish baseline measurements for drift detection"""
-        
+
         try:
             # Create default baselines for different drift types
             for drift_type in DriftType:
                 baseline_id = f"baseline_{drift_type.value}_{uuid.uuid4().hex[:8]}"
-                
+
                 baseline = {
                     "baseline_id": baseline_id,
                     "drift_type": drift_type.value,
@@ -324,22 +324,22 @@ class AdvancedDriftDetector:
                         }
                     }
                 }
-                
+
                 self.baselines[f"{drift_type.value}_default"] = baseline
-                
+
             logger.info(f"✅ Established {len(self.baselines)} baseline measurements")
-            
+
         except Exception as e:
             logger.error(f"❌ Failed to establish baselines: {e}")
-    
+
     async def _initialize_statistical_models(self):
         """Initialize statistical models for drift detection"""
-        
+
         try:
             # Initialize simple statistical models
             for drift_type in DriftType:
                 model_key = f"{drift_type.value}_model"
-                
+
                 # Simple statistical model placeholder
                 self.statistical_models[model_key] = {
                     "model_type": "statistical",
@@ -356,33 +356,33 @@ class AdvancedDriftDetector:
                         "recall": 0.75
                     }
                 }
-                
+
             logger.info(f"✅ Initialized {len(self.statistical_models)} statistical models")
-            
+
         except Exception as e:
             logger.error(f"❌ Failed to initialize statistical models: {e}")
-    
+
     async def _get_baseline(self, drift_type: DriftType, source_system: str) -> Optional[dict[str, Any]]:
         """Get baseline for drift comparison"""
-        
+
         # Look for specific baseline first
         baseline_key = f"{drift_type.value}_{source_system}"
         if baseline_key in self.baselines:
             return self.baselines[baseline_key]
-        
+
         # Fall back to default baseline for drift type
         default_key = f"{drift_type.value}_default"
         if default_key in self.baselines:
             return self.baselines[default_key]
-        
+
         # Return None if no baseline found
         return None
-    
+
     async def _create_baseline(self, drift_type: DriftType, source_system: str, current_data: dict[str, Any]) -> dict[str, Any]:
         """Create new baseline from current data"""
-        
+
         baseline_id = f"baseline_{drift_type.value}_{source_system}_{uuid.uuid4().hex[:8]}"
-        
+
         baseline = {
             "baseline_id": baseline_id,
             "drift_type": drift_type.value,
@@ -391,19 +391,19 @@ class AdvancedDriftDetector:
             "values": current_data.copy(),
             "statistical_profile": self._calculate_statistical_profile(current_data)
         }
-        
+
         # Store baseline
         baseline_key = f"{drift_type.value}_{source_system}"
         self.baselines[baseline_key] = baseline
-        
+
         logger.info(f"📊 Created new baseline: {baseline_id}")
         return baseline
-    
+
     def _calculate_statistical_profile(self, data: dict[str, Any]) -> dict[str, Any]:
         """Calculate statistical profile from data"""
-        
+
         profile = {}
-        
+
         for key, value in data.items():
             if isinstance(value, (int, float)):
                 profile[key] = {
@@ -416,74 +416,74 @@ class AdvancedDriftDetector:
                         95: float(value) * 1.1
                     }
                 }
-        
+
         return profile
-    
+
     async def _pattern_analysis_loop(self):
         """Background loop for pattern analysis"""
-        
+
         while self.monitoring_active:
             try:
                 await self._analyze_patterns()
                 await asyncio.sleep(30)  # Pattern analysis every 30 seconds
-                
+
             except Exception as e:
                 logger.error(f"❌ Pattern analysis loop error: {e}")
                 await asyncio.sleep(60)
-    
+
     async def _forecasting_loop(self):
         """Background loop for drift forecasting"""
-        
+
         while self.monitoring_active:
             try:
                 await self._update_forecasts()
                 await asyncio.sleep(60)  # Forecasting every minute
-                
+
             except Exception as e:
                 logger.error(f"❌ Forecasting loop error: {e}")
                 await asyncio.sleep(120)
-    
+
     async def _cleanup_loop(self):
         """Background loop for data cleanup"""
-        
+
         while self.monitoring_active:
             try:
                 await self._cleanup_old_data()
                 await asyncio.sleep(3600)  # Cleanup every hour
-                
+
             except Exception as e:
                 logger.error(f"❌ Cleanup loop error: {e}")
                 await asyncio.sleep(1800)
-    
+
     async def _analyze_patterns(self):
         """Analyze drift patterns"""
-        
+
         # Placeholder for pattern analysis
         # Would implement sophisticated pattern detection
         pass
-    
+
     async def _update_forecasts(self):
         """Update drift forecasts"""
-        
+
         # Placeholder for forecasting
         # Would implement predictive drift analysis
         pass
-    
+
     async def _cleanup_old_data(self):
         """Cleanup old drift data"""
-        
+
         # Remove old measurements beyond retention period
         cutoff_time = datetime.now() - timedelta(days=self.history_retention_days)
-        
+
         # Clean measurement history
         for drift_type in self.measurement_history:
             history = self.measurement_history[drift_type]
             while history and history[0]["timestamp"] < cutoff_time:
                 history.popleft()
-    
+
     async def _detect_drift_patterns(self):
         """Detect drift patterns in measurements"""
-        
+
         # Placeholder for pattern detection
         # Would analyze measurement history for patterns
         pass
@@ -767,15 +767,15 @@ class AdvancedDriftDetector:
                     drift_indicators.append(min(1.0, degradation))
 
         return min(1.0, statistics.mean(drift_indicators)) if drift_indicators else 0.0
-    
+
     async def _handle_threshold_breach(self, measurement):
         """Handle drift threshold breach"""
-        
+
         logger.warning(f"🚨 Drift threshold breach: {measurement.drift_type.value} = {measurement.drift_score:.4f} (threshold: {self.drift_threshold})")
-        
+
         # Update metrics
         self.metrics["threshold_breaches"] += 1
-        
+
         # Create alert/notification
         # In production, would trigger alerts, notifications, etc.
         pass

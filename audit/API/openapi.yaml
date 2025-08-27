@@ -2,9 +2,9 @@ openapi: 3.0.3
 info:
   title: LUKHAS AI Platform API
   description: |
-    LUKHAS AI consciousness technology platform APIs for identity, memory, 
+    LUKHAS AI consciousness technology platform APIs for identity, memory,
     MATRIZ processing, and consciousness interactions.
-    
+
     Built around Trinity Framework: ⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian
   version: 1.0.0
   contact:
@@ -18,7 +18,7 @@ info:
 servers:
   - url: https://api.lukhas.ai/v1
     description: Production API
-  - url: https://staging-api.lukhas.ai/v1  
+  - url: https://staging-api.lukhas.ai/v1
     description: Staging API
   - url: http://localhost:8080/v1
     description: Local development
@@ -197,7 +197,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      
+
     lambdaAuth:
       type: http
       scheme: bearer
@@ -316,7 +316,7 @@ components:
         processing_time_ms:
           type: integer
 
-    # Consciousness Schemas  
+    # Consciousness Schemas
     ConsciousnessChat:
       type: object
       required: [message]
@@ -439,7 +439,7 @@ tags:
     description: Authentication and identity management
   - name: MATRIZ
     description: Memory-Attention-Thought-Action-Decision-Awareness processing
-  - name: Consciousness  
+  - name: Consciousness
     description: Consciousness interaction and state management
   - name: Memory
     description: Fold-based memory system

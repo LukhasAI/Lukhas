@@ -4,8 +4,8 @@
 
 ## Quick Start for Auditors
 
-**Repo Status**: T4-compliant with per-directory indexing  
-**Lane System**: candidate/ → lukhas/ promotion architecture  
+**Repo Status**: T4-compliant with per-directory indexing
+**Lane System**: candidate/ → lukhas/ promotion architecture
 **Test Coverage**: 85%+ minimum (targeting 100%)
 
 ## 📋 Audit Anchors
@@ -15,7 +15,7 @@
 - **[MATRIZ Readiness](MATRIZ_READINESS.md)** - Memory-Attention-Thought-Action system contracts
 - **[Identity Readiness](IDENTITY_READINESS.md)** - Authentication/authorization protocols
 
-### Technical Specifications  
+### Technical Specifications
 - **[API Documentation](API/)** - OpenAPI specs and endpoint schemas
 - **[Data Schemas](SCHEMAS/)** - Event structures and validation rules
 - **[Fixtures](../ops/fixtures/)** - Test data and configuration examples
@@ -39,7 +39,7 @@ Located in `reports/deep_search/`:
 Run these commands for current system health:
 ```bash
 make audit-scan    # Full health check
-make test-cov      # Test coverage report  
+make test-cov      # Test coverage report
 npm run policy:all # Brand/policy compliance
 ```
 

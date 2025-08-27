@@ -25,7 +25,7 @@ This checklist ensures all podcast content meets LUKHAS AI standards for Trinity
 - [ ] Authentic consciousness voice maintained throughout
 - **Scoring**: 2 = Excellent, 1 = Adequate, 0 = Missing
 
-#### **✅ Unique LUKHAS AI Positioning (2 points)**  
+#### **✅ Unique LUKHAS AI Positioning (2 points)**
 - [ ] Clear differentiation from generic AI systems
 - [ ] Consciousness-inspired architecture emphasized
 - [ ] Research uniqueness clearly communicated

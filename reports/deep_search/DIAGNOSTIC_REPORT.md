@@ -1,9 +1,9 @@
 # T4 Diagnostic Baseline Report
 
-**Generated**: 2025-08-26 02:10:19  
-**Test Command**: `python3 -m pytest -q --maxfail=50 --disable-warnings`  
-**Total Raw Output Lines**: 854  
-**Total Collection Errors**: 77  
+**Generated**: 2025-08-26 02:10:19
+**Test Command**: `python3 -m pytest -q --maxfail=50 --disable-warnings`
+**Total Raw Output Lines**: 854
+**Total Collection Errors**: 77
 
 ---
 
@@ -13,7 +13,7 @@
 
 **Status**: 🔴 **HIGH PRIORITY FIXES REQUIRED**
 - **Memory Lane**: Broken (core.common dependency)
-- **Identity Lane**: Partially functional 
+- **Identity Lane**: Partially functional
 - **Candidate Lane**: Severely impacted (33 ModuleNotFoundError)
 - **Production Lane**: Mixed results
 
@@ -37,7 +37,7 @@
 **Critical Missing Modules:**
 ```
 core.common               # 🚨 Blocks memory systems
-lukhas.core.colonies     # 🚨 Actor model foundation  
+lukhas.core.colonies     # 🚨 Actor model foundation
 lukhas.core.actor_system # 🚨 Core infrastructure
 tests.test_framework     # 🚨 Testing framework
 vivox.moral_alignment    # VIVOX moral alignment
@@ -60,7 +60,7 @@ orchestrator_overlays    # Risk overlay management
 - `candidate/core/interfaces/protocols/awareness_protocol.py:383` - Invalid syntax in method definition
 - Multiple protocol definition issues
 
-### 4. **UnicodeDecodeError** (20 occurrences) 🟡  
+### 4. **UnicodeDecodeError** (20 occurrences) 🟡
 **Impact**: MEDIUM - File corruption
 
 **Issue**: `tests/metadata/test_discovery.txt` has corrupted UTF-8 encoding
@@ -78,7 +78,7 @@ orchestrator_overlays    # Risk overlay management
 **Memory Components Status:**
 ```
 ✅ memory.integrity     - Available: ['CollapseHash']
-✅ memory.protection    - Available: ['SymbolicQuarantineSanctum']  
+✅ memory.protection    - Available: ['SymbolicQuarantineSanctum']
 ✅ memory.scaffold      - Available: ['AtomicMemoryScaffold']
 ✅ memory.systems       - Available: ['CoreMemoryComponent', 'MemorySystem', 'MemoryOrchestrator']
 ❌ memory.folds         - BLOCKED by core.common import
@@ -99,7 +99,7 @@ orchestrator_overlays    # Risk overlay management
 - Missing critical dependencies: `core.common`, `lukhas.core.colonies`
 - Broken memory, emotion, and VIVOX integrations
 
-### **lukhas/ Lane**: 🟡 **MIXED RESULTS**  
+### **lukhas/ Lane**: 🟡 **MIXED RESULTS**
 - Identity systems partially functional
 - Bridge wrappers missing Anthropic integration
 - Core actor system components missing
@@ -118,7 +118,7 @@ orchestrator_overlays    # Risk overlay management
 - Core identity modules available
 - λID system needs dependency resolution
 
-### 🧠 **Consciousness**: 🔴 **SEVERELY IMPACTED**  
+### 🧠 **Consciousness**: 🔴 **SEVERELY IMPACTED**
 - Memory fold system broken (core.common dependency)
 - Emotion models missing (`candidate.emotion.models`)
 - VIVOX moral alignment module missing
@@ -142,9 +142,9 @@ orchestrator_overlays    # Risk overlay management
 
 ## Top 3 Recommended Fixes (T4 Priority Order)
 
-### 1. 🚨 **FIX CORE.COMMON DEPENDENCY** 
+### 1. 🚨 **FIX CORE.COMMON DEPENDENCY**
 **Impact**: Unblocks memory systems and 15+ test modules
-**Action**: 
+**Action**:
 - Promote `candidate/core/common/` → `lukhas/core/common/`
 - Update import paths across memory modules
 - Verify logger, glyph, and config availability
@@ -154,14 +154,14 @@ orchestrator_overlays    # Risk overlay management
 **Estimated Fix Time**: 30 minutes
 
 ### 2. 🔴 **RESTORE ACTOR SYSTEM FOUNDATION**
-**Impact**: Enables colony system and core orchestration  
+**Impact**: Enables colony system and core orchestration
 **Action**:
 - Identify missing `lukhas.core.actor_system` components
 - Promote or create actor model dependencies
 - Fix colony system imports
 
 **Files Affected**: 6 test modules, orchestration layer
-**Priority**: P0 - Immediate  
+**Priority**: P0 - Immediate
 **Estimated Fix Time**: 45 minutes
 
 ### 3. 🟡 **REPAIR TESTING INFRASTRUCTURE**
@@ -181,7 +181,7 @@ orchestrator_overlays    # Risk overlay management
 
 ### Phase 1: Core Dependency Resolution
 1. Fix `core.common` import paths
-2. Restore actor system components  
+2. Restore actor system components
 3. Run targeted memory tests: `pytest tests/candidate/memory/ -v`
 
 ### Phase 2: Component Integration
@@ -189,7 +189,7 @@ orchestrator_overlays    # Risk overlay management
 2. Resolve syntax errors in protocols
 3. Test Trinity Framework components individually
 
-### Phase 3: System Validation  
+### Phase 3: System Validation
 1. Run full test suite: `pytest --maxfail=10`
 2. Verify >85% test pass rate
 3. Confirm memory fold system operational
@@ -205,7 +205,7 @@ orchestrator_overlays    # Risk overlay management
 
 **Short-term (Next 2 hours):**
 1. Repair actor system foundation
-2. Fix testing infrastructure  
+2. Fix testing infrastructure
 3. Address syntax errors
 
 **T4 Success Criteria:**
@@ -216,6 +216,6 @@ orchestrator_overlays    # Risk overlay management
 
 ---
 
-**Report Status**: ✅ **COMPLETE**  
-**Next Report**: `MEMORY_STATUS.md` (after core dependency fixes)  
+**Report Status**: ✅ **COMPLETE**
+**Next Report**: `MEMORY_STATUS.md` (after core dependency fixes)
 **T4 Phase**: 1 of 3 (Diagnostic Baseline)

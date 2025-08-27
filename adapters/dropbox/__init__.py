@@ -13,9 +13,8 @@ ACK GUARDRAILS
 """
 
 import hashlib
-import json
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from consent.service import ConsentService
 

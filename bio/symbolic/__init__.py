@@ -2,6 +2,8 @@
 Compatibility shim for bio_symbolic
 DEPRECATED: This module will be removed on 2025-11-01
 Please update imports to: lukhas.accepted.bio.symbolic
+
+TODO[T4-AUDIT]:triage - Deep bio hierarchy with unclear integration path. Need architecture analysis.
 """
 
 import warnings

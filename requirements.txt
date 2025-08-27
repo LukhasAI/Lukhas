@@ -44,12 +44,14 @@ pytest-xdist>=3.3.0
 cryptography>=41.0.0
 pynacl>=1.5.0
 bcrypt>=4.0.1
+argon2-cffi>=23.1.0
 pyotp>=2.9.0
 passlib>=1.7.4
 PyJWT>=2.8.0
 
 # Database
 sqlalchemy>=2.0.0
+sqlmodel>=0.0.14
 redis>=5.0.0
 psycopg2-binary>=2.9.0
 alembic>=1.13.0
@@ -85,4 +87,3 @@ python-multipart>=0.0.6
 email-validator>=2.1.0
 Jinja2>=3.1.0
 # T4 Deep Search Tools (uses existing pyyaml for matriz.yaml parsing)
-

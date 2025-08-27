@@ -18,7 +18,7 @@ All connections are secured with OAuth2, circuit breakers, and comprehensive tel
 
 import logging
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 # Configure module logger
 logger = logging.getLogger(__name__)
