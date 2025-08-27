@@ -1,0 +1,30 @@
+[importlinter]
+root_package = lukhas
+
+[contract:prod_no_candidate]
+type = forbidden
+name = Production must not import candidate
+source_modules = lukhas
+forbidden_modules = candidate
+
+[contract:no_quarantine]
+type = forbidden
+name = Nothing may import quarantine
+source_modules = lukhas
+forbidden_modules = quarantine
+
+[contract:no_archive]
+type = forbidden
+name = Nothing may import archive
+source_modules = lukhas
+forbidden_modules = archive
+
+[contract:prod_layers]
+type = layers
+name = Production layering
+layers =
+    lukhas.core
+    lukhas.bridge
+    lukhas.orchestration
+    lukhas.consciousness
+    lukhas.governance

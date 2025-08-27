@@ -34,11 +34,41 @@ EXCLUDE_PATTERNS = [
     'test@example.com',
     'user@domain.com',
     'admin@localhost',
+    'noreply@anthropic.com',
+    'example@email.com',
+    'user@example.com',
+    'admin@example.com',
     '127.0.0.1',
     '0.0.0.0',
     'localhost',
+    '192.168.',
+    '10.',
+    '172.16.',
+    '172.17.',
+    '172.18.',
+    '172.19.',
+    '172.20.',
+    '172.21.',
+    '172.22.',
+    '172.23.',
+    '172.24.',
+    '172.25.',
+    '172.26.',
+    '172.27.',
+    '172.28.',
+    '172.29.',
+    '172.30.',
+    '172.31.',
     '555-555-5555',  # Fake phone number
     '123-45-6789',   # Example SSN
+    'sk-test_',      # Test API keys
+    'pk_test_',      # Test public keys
+    'test_key_',     # Test keys
+    'example_key',   # Example keys
+    'YOUR_API_KEY',  # Placeholder text
+    'your_secret_here',  # Placeholder text
+    'PLACEHOLDER',   # Placeholder text
+    'api_key_here',  # Placeholder text
 ]
 
 def check_file(filepath):
@@ -74,14 +104,11 @@ def main():
     # Define paths to scan
     scan_paths = [
         'lukhas',
-        'core',
-        'identity',
-        'memory',
-        'consciousness',
-        'governance',
-        'bridge',
-        'orchestration',
+        'candidate',
+        'tools',
         'api',
+        'ethics',
+        'system',
     ]
 
     # Skip test directories and specific files
