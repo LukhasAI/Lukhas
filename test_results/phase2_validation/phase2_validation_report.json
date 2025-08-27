@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-08-27T02:24:33.420431+00:00",
+  "mode": "comprehensive",
+  "test_suites": {},
+  "performance_metrics": {},
+  "coverage_analysis": {
+    "success": false,
+    "error": "Command '['coverage', 'run', '-m', 'pytest', 'tests/phase2/', '--tb=short', '-q']' returned non-zero exit status 2."
+  },
+  "quality_gates": {
+    "gates": {
+      "integration_tests_pass": false,
+      "security_compliance_pass": false,
+      "performance_targets_met": false,
+      "tool_safety_validated": false,
+      "coverage_target_met": false,
+      "no_critical_failures": true
+    },
+    "gates_passed": 1,
+    "total_gates": 6,
+    "pass_rate": 0.16666666666666666,
+    "promotion_ready": false
+  },
+  "promotion_readiness": false
+}
