@@ -65,6 +65,13 @@ app.include_router(openai_router)
 app.include_router(feedback_router)
 
 
+# Health check endpoint
+@app.get("/healthz")
+def healthz():
+    """Health check endpoint for monitoring."""
+    return {"status": "ok"}
+
+
 # Expose raw OpenAPI for artifacting
 @app.get("/openapi.json", include_in_schema=False)
 def openapi_export():
