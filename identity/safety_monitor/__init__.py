@@ -1,3 +1,0 @@
-"""
-Safety_Monitor Module
-"""

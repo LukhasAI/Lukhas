@@ -1,8 +1,0 @@
-{
-  "subject": "",
-  "preheader": "",
-  "plain_text": "LUKHAS Verify: {{verify_link_url}} (expires {{expires_at}}, single-use only)",
-  "html": "",
-  "language": "en",
-  "template_type": "sms_magic_link_signup"
-}
