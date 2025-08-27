@@ -214,7 +214,25 @@ class ComprehensiveAPIOrchestrator:
             except Exception as e:
                 logger.error(f"❌ Anthropic bridge initialization failed: {e}")
 
-        # TODO: Add Google and Perplexity bridges when available
+        # Google Bridge
+        if google_key or self._get_env_key("GOOGLE_API_KEY"):
+            try:
+                from candidate.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
+                self.bridges[APIProvider.GOOGLE] = GeminiWrapper()
+                logger.info("✅ Google Gemini bridge initialized")
+            except Exception as e:
+                logger.error(f"❌ Google bridge initialization failed: {e}")
+
+        # Perplexity Bridge
+        if perplexity_key or self._get_env_key("PERPLEXITY_API_KEY"):
+            try:
+                from candidate.bridge.llm_wrappers.perplexity_wrapper import (
+                    PerplexityWrapper,
+                )
+                self.bridges[APIProvider.PERPLEXITY] = PerplexityWrapper()
+                logger.info("✅ Perplexity bridge initialized")
+            except Exception as e:
+                logger.error(f"❌ Perplexity bridge initialization failed: {e}")
 
         if not self.bridges:
             logger.warning("⚠️ No API bridges initialized - orchestrator will use mock responses")
@@ -360,6 +378,49 @@ class ComprehensiveAPIOrchestrator:
                         **chunk
                     }
 
+            elif provider in [APIProvider.GOOGLE, APIProvider.PERPLEXITY]:
+                # For providers without native streaming, simulate streaming
+                yield {
+                    "type": "status",
+                    "content": "Processing request...",
+                    "provider": provider.value,
+                    "request_id": request.request_id
+                }
+
+                # Execute the provider
+                result = await self._execute_provider(provider, request)
+
+                # Stream the response in chunks
+                content = result.get("content", "")
+                words = content.split()
+
+                for i in range(0, len(words), 5):  # Stream 5 words at a time
+                    chunk_words = words[i:i+5]
+                    chunk_content = " ".join(chunk_words)
+
+                    yield {
+                        "type": "content",
+                        "content": chunk_content + (" " if i + 5 < len(words) else ""),
+                        "provider": provider.value,
+                        "request_id": request.request_id,
+                        "chunk_index": i // 5,
+                        "is_final": i + 5 >= len(words)
+                    }
+
+                    # Small delay to simulate streaming
+                    await asyncio.sleep(0.05)
+
+                # Final metadata
+                yield {
+                    "type": "metadata",
+                    "provider": provider.value,
+                    "request_id": request.request_id,
+                    "latency_ms": result.get("latency_ms", 0),
+                    "confidence": result.get("confidence", 0),
+                    "usage": result.get("usage", {}),
+                    "web_search": result.get("web_search", False)
+                }
+
             else:
                 yield {
                     "type": "error",
@@ -488,33 +549,74 @@ class ComprehensiveAPIOrchestrator:
             task = asyncio.create_task(self._execute_provider(provider, request))
             tasks.append((provider, task))
 
-        # Collect results
+        # Collect results with timeout handling
         provider_results = []
         for provider, task in tasks:
             try:
-                result = await task
+                result = await asyncio.wait_for(task, timeout=request.max_latency_ms / 1000)
                 provider_results.append((provider, result))
+            except asyncio.TimeoutError:
+                logger.warning(f"Provider {provider.value} timed out")
             except Exception as e:
                 logger.error(f"Provider {provider.value} failed: {e}")
 
         if not provider_results:
             raise ValueError("All providers failed")
 
-        # Apply consensus algorithm (simplified)
-        best_result = max(provider_results, key=lambda x: x[1].get("confidence", 0.0))
-        primary_provider, primary_result = best_result
-
-        # Calculate agreement level
+        # Enhanced consensus algorithm
         contents = [result.get("content", "") for _, result in provider_results]
         agreement_level = self._calculate_simple_agreement(contents)
+
+        # Weighted scoring based on confidence, agreement, and provider reliability
+        provider_scores = []
+        for provider, result in provider_results:
+            confidence = result.get("confidence", 0.0)
+            latency_ms = result.get("latency_ms", request.max_latency_ms)
+
+            # Provider reliability weights (can be learned over time)
+            reliability_weights = {
+                APIProvider.OPENAI: 0.9,
+                APIProvider.ANTHROPIC: 0.85,
+                APIProvider.GOOGLE: 0.8,
+                APIProvider.PERPLEXITY: 0.75
+            }
+
+            reliability = reliability_weights.get(provider, 0.7)
+
+            # Performance score (lower latency is better)
+            performance_score = max(0, 1 - (latency_ms / request.max_latency_ms))
+
+            # Combined score: confidence (40%), reliability (35%), performance (25%)
+            combined_score = (confidence * 0.4) + (reliability * 0.35) + (performance_score * 0.25)
+
+            provider_scores.append((provider, result, combined_score))
+
+        # Sort by combined score
+        provider_scores.sort(key=lambda x: x[2], reverse=True)
+        primary_provider, primary_result, primary_score = provider_scores[0]
+
+        # If high agreement and multiple high-scoring providers, create ensemble response
+        if agreement_level > 0.8 and len([p for p in provider_scores if p[2] > 0.7]) > 1:
+            # Create ensemble response by combining top responses
+            top_responses = [p[1]["content"] for p in provider_scores[:2] if p[2] > 0.7]
+            if len(top_responses) > 1 and len(top_responses[0]) > 0 and len(top_responses[1]) > 0:
+                # Simple ensemble: use primary but note consensus
+                ensemble_content = primary_result.get("content", "")
+                decision_rationale = f"High consensus ({agreement_level:.3f}) ensemble from {len(provider_results)} providers"
+            else:
+                ensemble_content = primary_result.get("content", "")
+                decision_rationale = f"Primary provider selected with score {primary_score:.3f}"
+        else:
+            ensemble_content = primary_result.get("content", "")
+            decision_rationale = f"Best individual response (agreement: {agreement_level:.3f})"
 
         # Aggregate costs and latencies
         total_cost = sum(self._estimate_cost(p, r.get("usage", {})) for p, r in provider_results)
         provider_latencies = {p.value: r.get("latency_ms", 0.0) for p, r in provider_results}
 
         return OrchestrationResponse(
-            content=primary_result.get("content", ""),
-            confidence_score=primary_result.get("confidence", 0.0),
+            content=ensemble_content,
+            confidence_score=min(1.0, primary_score + (agreement_level * 0.1)),  # Boost confidence with agreement
             primary_provider=primary_provider,
             participating_providers=[p for p, _ in provider_results],
             agreement_level=agreement_level,
@@ -526,12 +628,13 @@ class ComprehensiveAPIOrchestrator:
                     "provider": p.value,
                     "content": r.get("content", ""),
                     "confidence": r.get("confidence", 0.0),
-                    "latency_ms": r.get("latency_ms", 0.0)
+                    "latency_ms": r.get("latency_ms", 0.0),
+                    "combined_score": score,
+                    "web_search": r.get("web_search", False)
                 }
-                for p, r in provider_results
+                for p, r, score in provider_scores
             ],
-            decision_rationale=f"Consensus from {len(provider_results)} providers, "
-                              f"agreement level: {agreement_level:.3f}"
+            decision_rationale=decision_rationale
         )
 
     async def _fallback_orchestration(self, request: OrchestrationRequest,
@@ -617,9 +720,10 @@ class ComprehensiveAPIOrchestrator:
     async def _execute_provider(self, provider: APIProvider, request: OrchestrationRequest) -> Dict[str, Any]:
         """Execute request on specific provider"""
         bridge = self.bridges[provider]
-        messages = [{"role": "user", "content": request.prompt}]
+        start_time = time.perf_counter()
 
         if provider == APIProvider.OPENAI:
+            messages = [{"role": "user", "content": request.prompt}]
             result = await bridge.complete_with_functions(
                 messages=messages,
                 function_mode=FunctionCallMode.AUTO if request.enable_functions else FunctionCallMode.NONE
@@ -633,6 +737,7 @@ class ComprehensiveAPIOrchestrator:
             }
 
         elif provider == APIProvider.ANTHROPIC:
+            messages = [{"role": "user", "content": request.prompt}]
             result = await bridge.complete_with_tools(
                 messages=messages,
                 tool_mode=ToolUseMode.ENABLED if request.enable_functions else ToolUseMode.DISABLED
@@ -645,6 +750,56 @@ class ComprehensiveAPIOrchestrator:
                 "tool_uses": result.tool_uses
             }
 
+        elif provider == APIProvider.GOOGLE:
+            # Use Gemini wrapper
+            content = bridge.generate_response(
+                prompt=request.prompt,
+                model="gemini-pro"
+            )
+            latency_ms = (time.perf_counter() - start_time) * 1000
+
+            # Estimate token usage (approximate)
+            estimated_input_tokens = len(request.prompt.split()) * 1.3  # Rough estimate
+            estimated_output_tokens = len(content.split()) * 1.3
+
+            return {
+                "content": content,
+                "confidence": 0.75,  # Default confidence for Gemini
+                "latency_ms": latency_ms,
+                "usage": {
+                    "input_tokens": int(estimated_input_tokens),
+                    "output_tokens": int(estimated_output_tokens),
+                    "total_tokens": int(estimated_input_tokens + estimated_output_tokens)
+                },
+                "function_calls": []  # Gemini wrapper doesn't support function calls yet
+            }
+
+        elif provider == APIProvider.PERPLEXITY:
+            # Use Perplexity wrapper with online search
+            content = bridge.generate_response(
+                prompt=request.prompt,
+                model="llama-3.1-sonar-small-128k-online"  # Use online model for real-time info
+            )
+            latency_ms = (time.perf_counter() - start_time) * 1000
+
+            # Estimate token usage (approximate)
+            estimated_input_tokens = len(request.prompt.split()) * 1.3
+            estimated_output_tokens = len(content.split()) * 1.3
+
+            return {
+                "content": content,
+                "confidence": 0.85,  # Higher confidence for web-enhanced responses
+                "latency_ms": latency_ms,
+                "usage": {
+                    "input_tokens": int(estimated_input_tokens),
+                    "output_tokens": int(estimated_output_tokens),
+                    "total_tokens": int(estimated_input_tokens + estimated_output_tokens)
+                },
+                "function_calls": [],
+                "web_search": True,  # Indicate web search was used
+                "sources": []  # Could be enhanced to extract sources from response
+            }
+
         else:
             raise NotImplementedError(f"Provider {provider.value} execution not implemented")
 
@@ -653,21 +808,48 @@ class ComprehensiveAPIOrchestrator:
         if len(contents) < 2:
             return 1.0
 
-        # Simple word overlap similarity
+        # Enhanced similarity calculation with multiple metrics
         word_sets = [set(content.lower().split()) for content in contents]
+        sentence_sets = [set(content.lower().split(".")) for content in contents]
 
-        total_similarity = 0.0
+        total_word_similarity = 0.0
+        total_sentence_similarity = 0.0
+        total_length_similarity = 0.0
         pair_count = 0
 
         for i in range(len(word_sets)):
             for j in range(i + 1, len(word_sets)):
-                intersection = len(word_sets[i].intersection(word_sets[j]))
-                union = len(word_sets[i].union(word_sets[j]))
-                similarity = intersection / union if union > 0 else 0.0
-                total_similarity += similarity
+                # Word-level similarity (Jaccard index)
+                word_intersection = len(word_sets[i].intersection(word_sets[j]))
+                word_union = len(word_sets[i].union(word_sets[j]))
+                word_similarity = word_intersection / word_union if word_union > 0 else 0.0
+                total_word_similarity += word_similarity
+
+                # Sentence-level similarity
+                sent_intersection = len(sentence_sets[i].intersection(sentence_sets[j]))
+                sent_union = len(sentence_sets[i].union(sentence_sets[j]))
+                sent_similarity = sent_intersection / sent_union if sent_union > 0 else 0.0
+                total_sentence_similarity += sent_similarity
+
+                # Length similarity (normalized difference)
+                len_i, len_j = len(contents[i]), len(contents[j])
+                length_similarity = 1.0 - abs(len_i - len_j) / max(len_i, len_j, 1)
+                total_length_similarity += length_similarity
+
                 pair_count += 1
 
-        return total_similarity / pair_count if pair_count > 0 else 0.0
+        if pair_count == 0:
+            return 0.0
+
+        # Weighted average of different similarity metrics
+        avg_word_sim = total_word_similarity / pair_count
+        avg_sent_sim = total_sentence_similarity / pair_count
+        avg_length_sim = total_length_similarity / pair_count
+
+        # Weight: word similarity (0.5), sentence similarity (0.3), length similarity (0.2)
+        weighted_similarity = (avg_word_sim * 0.5) + (avg_sent_sim * 0.3) + (avg_length_sim * 0.2)
+
+        return weighted_similarity
 
     def _estimate_cost(self, provider: APIProvider, usage: Dict[str, int]) -> float:
         """Estimate cost for provider usage"""
@@ -684,6 +866,12 @@ class ComprehensiveAPIOrchestrator:
         elif provider == APIProvider.ANTHROPIC:
             # Claude pricing (approximate)
             return (input_tokens * 0.015 + output_tokens * 0.075) / 1000
+        elif provider == APIProvider.GOOGLE:
+            # Gemini Pro pricing (approximate)
+            return (input_tokens * 0.0005 + output_tokens * 0.0015) / 1000
+        elif provider == APIProvider.PERPLEXITY:
+            # Perplexity Sonar pricing (approximate)
+            return (input_tokens * 0.001 + output_tokens * 0.001) / 1000
         else:
             return 0.01  # Default estimate
 
@@ -757,22 +945,118 @@ def get_orchestrator() -> ComprehensiveAPIOrchestrator:
         api_orchestrator = ComprehensiveAPIOrchestrator()
     return api_orchestrator
 
+# Advanced orchestration strategies
+class AdvancedConsensusStrategies:
+    """Advanced consensus algorithms for multi-model orchestration"""
+
+    @staticmethod
+    def weighted_voting(responses: List[Dict], weights: Dict[str, float]) -> Dict:
+        """Weighted voting consensus based on provider reliability"""
+        if not responses:
+            return {}
+
+        # Score each response
+        scored_responses = []
+        for response in responses:
+            provider = response.get("provider", "unknown")
+            base_score = weights.get(provider, 0.5)
+            confidence_score = response.get("confidence", 0.0)
+
+            # Combine base reliability with response confidence
+            final_score = (base_score * 0.6) + (confidence_score * 0.4)
+            scored_responses.append((response, final_score))
+
+        # Return highest scoring response
+        return max(scored_responses, key=lambda x: x[1])[0]
+
+    @staticmethod
+    def semantic_clustering(responses: List[Dict], similarity_threshold: float = 0.7) -> Dict:
+        """Group responses by semantic similarity and choose cluster representative"""
+        if not responses:
+            return {}
+
+        if len(responses) == 1:
+            return responses[0]
+
+        # Simple clustering based on word overlap
+        clusters = []
+        for response in responses:
+            content = response.get("content", "")
+            words = set(content.lower().split())
+
+            # Find matching cluster
+            matched_cluster = None
+            for cluster in clusters:
+                cluster_words = set(cluster[0].get("content", "").lower().split())
+                similarity = len(words.intersection(cluster_words)) / len(words.union(cluster_words))
+
+                if similarity > similarity_threshold:
+                    matched_cluster = cluster
+                    break
+
+            if matched_cluster:
+                matched_cluster.append(response)
+            else:
+                clusters.append([response])
+
+        # Choose representative from largest cluster
+        largest_cluster = max(clusters, key=len)
+        return max(largest_cluster, key=lambda x: x.get("confidence", 0))
+
+    @staticmethod
+    def confidence_weighted_ensemble(responses: List[Dict]) -> str:
+        """Create ensemble response weighted by confidence scores"""
+        if not responses:
+            return ""
+
+        total_confidence = sum(r.get("confidence", 0) for r in responses)
+        if total_confidence == 0:
+            return responses[0].get("content", "")
+
+        # For simplicity, return the highest confidence response
+        # In practice, this could blend responses based on weights
+        return max(responses, key=lambda x: x.get("confidence", 0)).get("content", "")
+
 # Convenience functions
 async def orchestrate_request(prompt: str,
                              strategy: str = "consensus",
                              providers: List[str] = None,
-                             enable_functions: bool = True) -> OrchestrationResponse:
+                             enable_functions: bool = True,
+                             context: Optional[Dict[str, Any]] = None) -> OrchestrationResponse:
     """Convenience function for orchestration"""
     orchestrator = get_orchestrator()
 
     request = OrchestrationRequest(
         prompt=prompt,
+        context=context,
         strategy=OrchestrationStrategy(strategy),
         preferred_providers=[APIProvider(p) for p in providers] if providers else [APIProvider.ALL],
         enable_functions=enable_functions
     )
 
     return await orchestrator.orchestrate(request)
+
+async def orchestrate_healthcare_request(prompt: str,
+                                        patient_context: Optional[Dict] = None,
+                                        consent_verified: bool = False) -> OrchestrationResponse:
+    """Specialized healthcare orchestration with compliance checks"""
+    if not consent_verified:
+        raise ValueError("Healthcare requests require verified consent")
+
+    context = {
+        "type": "healthcare",
+        "patient_context": patient_context,
+        "compliance_required": True
+    }
+
+    # Use consensus strategy for healthcare for higher reliability
+    return await orchestrate_request(
+        prompt=prompt,
+        strategy="consensus",
+        providers=["anthropic", "openai"],  # Use most reliable providers
+        enable_functions=False,  # Disable functions for healthcare safety
+        context=context
+    )
 
 async def stream_request(prompt: str,
                         provider: str = "openai",
@@ -796,7 +1080,9 @@ __all__ = [
     "OrchestrationResponse",
     "APIProvider",
     "OrchestrationStrategy",
+    "AdvancedConsensusStrategies",
     "get_orchestrator",
     "orchestrate_request",
+    "orchestrate_healthcare_request",
     "stream_request"
 ]

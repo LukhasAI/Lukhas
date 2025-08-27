@@ -76,7 +76,7 @@ if agent_enabled:
         st.exception(e)
 
 # ─── GPT Assistant Prompt Area ────────────────────────────────────────────────
-st.markdown("#)  #  🤖 Ask LUKHAS (powered by GPT")
+st.markdown("# 🤖 Ask LUKHAS (powered by GPT)")
 prompt = st.text_input("💬 What would you like to ask?")
 if st.button("Ask GPT"):
     try:
@@ -116,7 +116,7 @@ with col3:
     st.warning("Symbolic trip suggestions will appear when enabled.")
 
 if agent_enabled:
-    st.markdown("##)  #  🛫 Active Travel Widget (Preview")
+    st.markdown("## 🛫 Active Travel Widget (Preview)")
     travel_widget = create_symbolic_widget("travel", user_tier=user_tier)
     if travel_widget["status"] != "locked":
         st.json(travel_widget)

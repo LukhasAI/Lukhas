@@ -670,7 +670,7 @@ class SymbolProgramSynthesizer:
 
     def _execute_line(self, line: str, env: dict[str, Any]):
         """Execute a single line of symbolic code"""
-        if not line or line.startswith(")  # ":
+        if not line or line.strip().startswith("#"):
             return
 
         # Parse operation

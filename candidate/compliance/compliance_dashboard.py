@@ -21,7 +21,7 @@ st.title("🛡️ LUCAS AGI – Compliance Audit Dashboard")
 if not os.path.exists(LOG_PATH):
     st.warning("No emergency logs found.")
 else:
-    st.markdown("##)  #  📜 Emergency Override Incidents"
+    st.markdown("## 📜 Emergency Override Incidents")
     with open(LOG_PATH) as f:
         logs = [json.loads(line) for line in f if line.strip()]
 
@@ -46,7 +46,7 @@ st.caption("🔒 All emergency actions are traceable, tiered, and GDPR-aligned."
 
 trace_path = Path("logs/symbolic_trace_dashboard.csv")
 if trace_path.exists():
-    st.markdown("##)  #  🧠 Symbolic Trace Overview"
+    st.markdown("## 🧠 Symbolic Trace Overview")
 
     try:
         df = pd.read_csv(trace_path)
@@ -56,7 +56,7 @@ if trace_path.exists():
         st.dataframe(df[filter_cols] if filter_cols else df)
 
         # Optional Summary Tools
-        st.markdown("##)  #  📊 Symbolic Summary"
+        st.markdown("## 📊 Symbolic Summary")
         summary = trace_tools.get_summary_stats(df)
         st.json(summary)
 

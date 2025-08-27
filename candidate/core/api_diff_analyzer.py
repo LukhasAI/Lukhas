@@ -371,7 +371,7 @@ class APIDiffAnalyzer:
         report_path = self.core_path / "API_MISMATCH_REPORT.md"
 
         with open(report_path, "w") as f:
-            f.write(")  #  🔍 API Mismatch Analysis Report\n\n"
+            f.write("# 🔍 API Mismatch Analysis Report\n\n")
             f.write(f"**Generated:** {self._get_timestamp()}\n")
             f.write(f"**Total Mismatches:** {len(self.mismatches)}\n\n")
 
@@ -380,9 +380,9 @@ class APIDiffAnalyzer:
             for mismatch in self.mismatches:
                 mismatches_by_class[mismatch.test_call.class_name].append(mismatch)
 
-            f.write("#)  #  Summary by Class\n\n"
+            f.write("## Summary by Class\n\n")
             for class_name, class_mismatches in sorted(mismatches_by_class.items()):
-                f.write(f"##")
+                f.write(f"### {class_name}\n\n")
 
                 for mismatch in class_mismatches:
                     f.write(f"- **{mismatch.expected_method}** → ")
@@ -397,11 +397,11 @@ class APIDiffAnalyzer:
                 f.write("\n")
 
             # Detailed section
-            f.write("#)  #  Detailed Mismatches\n\n"
+            f.write("## Detailed Mismatches\n\n")
 
             for i, mismatch in enumerate(self.mismatches, 1):
                 f.write(
-                    f"##"
+                    f"### Mismatch #{i}: `{mismatch.expected_method}`\n"
                 )
                 f.write(f"**Test File:** `{mismatch.test_call.file_path}`\n")
                 f.write(f"**Line:** {mismatch.test_call.line_number}\n")

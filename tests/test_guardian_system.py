@@ -25,6 +25,7 @@ import pytest
 # Guardian System components
 try:
     from candidate.governance.guardian_system_integration import (
+        GuardianAlertLevel,
         GuardianSystemIntegration,
         GuardianValidationRequest,
         ValidationResult,
@@ -76,6 +77,7 @@ except ImportError:
 try:
     from candidate.governance.security.audit_system import (
         AuditEventType,
+        AuditQuery,
         ComprehensiveAuditSystem,
     )
 
@@ -527,7 +529,7 @@ class TestAuditSystem:
             event_ids = []
             for i in range(3):
                 event_id = await audit_system.log_event(
-                    event_type=AuditEventType.DATA_ACCESS,
+                    event_type=AuditEventType.DATA_READ,
                     message=f"Test event {i}",
                     user_id="test_user",
                 )
@@ -559,7 +561,7 @@ class TestAuditSystem:
             )
 
             await audit_system.log_event(
-                event_type=AuditEventType.DATA_ACCESS,
+                event_type=AuditEventType.DATA_READ,
                 message="User data accessed",
                 user_id="test_user",
                 compliance_relevant=True,
@@ -584,7 +586,6 @@ class TestAuditSystem:
 
         with tempfile.TemporaryDirectory() as temp_dir:
             audit_system = ComprehensiveAuditSystem(temp_dir)
-            from candidate.governance.security.audit_system import AuditQuery
 
             # Log test events
             await audit_system.log_event(
@@ -652,6 +653,7 @@ class TestGuardianSystemIntegration:
             request_id=f"test_{uuid.uuid4().hex[:8]}",
             timestamp=datetime.now(),
             user_id="test_user",
+            session_id="test_session_123",
             action="analyze_document",
             resource="user_documents",
             context={
@@ -687,6 +689,7 @@ class TestGuardianSystemIntegration:
             request_id=f"trinity_{uuid.uuid4().hex[:8]}",
             timestamp=datetime.now(),
             user_id="trinity_test_user",
+            session_id="trinity_session_456",
             action="trinity_operation",
             resource="system",
             context={
@@ -724,6 +727,8 @@ class TestGuardianSystemIntegration:
             request = GuardianValidationRequest(
                 request_id=f"perf_{i}_{uuid.uuid4().hex[:8]}",
                 timestamp=datetime.now(),
+                user_id="perf_test_user",
+                session_id=f"perf_session_{i}",
                 action=f"performance_test_{i}",
                 resource="test_resource",
                 context={"performance_test": True},
@@ -762,6 +767,8 @@ class TestGuardianSystemIntegration:
         request = GuardianValidationRequest(
             request_id=f"emergency_{uuid.uuid4().hex[:8]}",
             timestamp=datetime.now(),
+            user_id="emergency_test_user",
+            session_id="emergency_session_789",
             action="generate_harmful_content",
             resource="content_generation",
             context={
@@ -797,14 +804,14 @@ class TestGuardianSystemIntegration:
         async def test_alert_handler(level, message):
             alerts_received.append({"level": level, "message": message})
 
-        from candidate.governance.guardian_system_integration import GuardianAlertLevel
-
         guardian.register_alert_handler(GuardianAlertLevel.CRITICAL, test_alert_handler)
 
         # Trigger alert through validation
         request = GuardianValidationRequest(
             request_id=f"alert_{uuid.uuid4().hex[:8]}",
             timestamp=datetime.now(),
+            user_id="alert_test_user",
+            session_id="alert_session_101",
             action="critical_system_failure",
             resource="system",
             context={"system_error": True, "critical": True},
@@ -924,7 +931,7 @@ class TestGuardianSystemCompliance:
 
             # Create audit event
             event_id = await audit_system.log_event(
-                event_type=AuditEventType.SYSTEM_EVENT,
+                event_type=AuditEventType.SYSTEM_START,
                 message="Immutability test event",
                 event_data={"test": "immutability"},
             )
@@ -982,6 +989,8 @@ class TestGuardianSystemIntegrationEndToEnd:
         request = GuardianValidationRequest(
             request_id="failure_test",
             timestamp=datetime.now(),
+            user_id="failure_test_user",
+            session_id="failure_session_202",
             action="test_with_failures",
             resource="test_resource",
             context={"test": "failure_handling"},
@@ -1022,6 +1031,7 @@ def sample_validation_request():
         request_id=f"sample_{uuid.uuid4().hex[:8]}",
         timestamp=datetime.now(),
         user_id="sample_user",
+        session_id="sample_session_303",
         action="sample_action",
         resource="sample_resource",
         context={"test": True},

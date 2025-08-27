@@ -786,7 +786,7 @@ class QIMeshVisualizer:
         entanglements = data["entanglement_matrix"]["entanglements"]
 
         markdown = []
-        markdown.append(")  #  Quantum Ethics Mesh Report"
+        markdown.append("#  Quantum Ethics Mesh Report")
         markdown.append(
             f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
         )
@@ -794,7 +794,7 @@ class QIMeshVisualizer:
         markdown.append("")
 
         # Summary
-        markdown.append("#)  #  Executive Summary"
+        markdown.append("## Executive Summary")
         markdown.append(
             f"- **Mesh Ethics Score:** {unified_field['mesh_ethics_score']:.3f}"
         )
@@ -806,7 +806,7 @@ class QIMeshVisualizer:
         markdown.append("")
 
         # Entanglement matrix
-        markdown.append("#)  #  Entanglement Matrix"
+        markdown.append("## Entanglement Matrix")
         markdown.append("| Pair | Strength | Phase Diff | Conflict Risk |")
         markdown.append("|------|----------|------------|---------------|")
 
@@ -831,7 +831,7 @@ class QIMeshVisualizer:
 
         # Conflicts
         if conflicts:
-            markdown.append("#)  #  Active Conflicts"
+            markdown.append("## Active Conflicts")
             for i, conflict in enumerate(conflicts, 1):
                 if conflict in entanglements:
                     metrics = entanglements[conflict]
@@ -840,12 +840,12 @@ class QIMeshVisualizer:
                     markdown.append(f"   - Entanglement: {metrics['strength']:.3f}")
                     markdown.append("")
         else:
-            markdown.append("#)  #  Active Conflicts"
+            markdown.append("## Active Conflicts")
             markdown.append("✅ No conflicts detected - mesh is stable")
             markdown.append("")
 
         # Recommendations
-        markdown.append("#)  #  Recommendations"
+        markdown.append("## Recommendations")
         if unified_field["risk_level"] in ["CRITICAL", "EMERGENCY"]:
             markdown.append("🚨 **IMMEDIATE ACTION REQUIRED**")
             markdown.append("- Implement emergency phase harmonization")

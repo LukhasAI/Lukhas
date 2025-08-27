@@ -17,6 +17,14 @@ from typing import Any, Optional
 
 import numpy as np
 
+# Import colony infrastructure
+from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
+from candidate.core.enhanced_swarm import AgentCapability, AgentMemory
+from candidate.core.swarm import AgentState, SwarmAgent
+
+# Import event bus for dream coordination
+from candidate.orchestration.symbolic_kernel_bus import DreamEventType
+
 # Import dream system components
 from governance.identity.core.auth.dream_auth import (
     DreamAuthenticationResult,
@@ -31,14 +39,6 @@ from governance.identity.core.events import (
     IdentityEventPublisher,
     IdentityEventType,
 )
-
-# Import colony infrastructure
-from candidate.core.colonies.base_colony import BaseColony, ConsensusResult
-from candidate.core.enhanced_swarm import AgentCapability, AgentMemory
-from candidate.core.swarm import AgentState, SwarmAgent
-
-# Import event bus for dream coordination
-from candidate.orchestration.symbolic_kernel_bus import DreamEventType
 
 logger = logging.getLogger("LUKHAS_DREAM_COLONY")
 
@@ -611,9 +611,8 @@ class DreamVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event systems
-        from governance.identity.core.events import get_identity_event_publisher
-
         from candidate.core.event_bus import get_global_event_bus
+        from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()
         self.event_bus = await get_global_event_bus()

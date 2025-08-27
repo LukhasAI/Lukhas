@@ -51,7 +51,7 @@ distortions, and emotional resonance cascades - all unified in a single pane of 
 - Memory fold compression to reduce drift accumulation
 
 LUKHAS_TAG: drift_dashboard, symbolic_monitoring, cascade_prevention
-TODO: Add predictive drift modeling with 15-minute lookahead
+IMPLEMENTED: Predictive drift modeling with 15-minute lookahead
 IDEA: Implement drift sonification for audio-based anomaly detection
 """
 import time
@@ -252,6 +252,17 @@ class DriftDashboard:
                 message=f"High cascade risk detected: {cascade_risk:.2%}",
             )
 
+        # Generate 15-minute lookahead prediction
+        lookahead_prediction = self.cascade_predictor.predict_15min_lookahead(self.drift_history, snapshot)
+
+        # Check for future intervention requirements
+        if lookahead_prediction.get("summary", {}).get("requires_immediate_action", False):
+            self._create_alert(
+                component="PREDICTIVE_MONITOR",
+                severity=DriftSeverity.CASCADE,
+                message=f"Predictive model indicates critical drift in {lookahead_prediction['summary'].get('time_to_critical', 'unknown')} minutes",
+            )
+
         logger.info(
             "ΛDASH updated",
             drift_score=total_drift,
@@ -294,6 +305,11 @@ class DriftDashboard:
         # Current state
         current = self.drift_history[-1] if self.drift_history else None
 
+        # Generate 15-minute prediction for dashboard
+        prediction_data = {}
+        if current and len(self.drift_history) >= 10:
+            prediction_data = self.cascade_predictor.predict_15min_lookahead(self.drift_history, current)
+
         return {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "current_state": current.to_dict() if current else None,
@@ -306,6 +322,7 @@ class DriftDashboard:
             "alerts": alert_summary,
             "remediation_log": [r.to_dict() for r in list(self.remediation_log)[-10:]],
             "system_health": self._calculate_system_health(),
+            "prediction": prediction_data,  # 15-minute lookahead data
         }
 
     def trigger_remediation(self, action_type: str, parameters: dict[str, Any]) -> str:
@@ -606,6 +623,11 @@ class LoopPatternDetector:
 class CascadePredictor:
     """Predicts cascade risk from drift patterns."""
 
+    def __init__(self):
+        """Initialize cascade predictor with 15-minute lookahead capability."""
+        self.prediction_window = 900  # 15 minutes in seconds
+        self.trend_memory = deque(maxlen=100)
+
     def predict(self, history: deque[DriftSnapshot], current: DriftSnapshot) -> float:
         """
         Predict cascade risk probability.
@@ -656,6 +678,176 @@ class CascadePredictor:
         cascade_risk = sum(f * w for f, w in zip(risk_factors, weights))
 
         return min(cascade_risk, 1.0)
+
+    def predict_15min_lookahead(self, history: deque[DriftSnapshot], current: DriftSnapshot) -> dict[str, Any]:
+        """
+        Predict drift trajectory over next 15 minutes using trend analysis.
+        
+        Args:
+            history: Historical snapshots
+            current: Current snapshot
+            
+        Returns:
+            Dict containing 15-minute drift predictions and risk assessments
+        """
+        if len(history) < 10:
+            return {"prediction_confidence": 0.0, "future_risk": 0.0, "trajectory": []}
+
+        # Extract time series for each component
+        time_points = []
+        drift_series = {
+            "total": [],
+            "entropy": [],
+            "ethical": [],
+            "temporal": [],
+            "symbol": [],
+            "emotional": []
+        }
+
+        for snapshot in list(history)[-50:]:  # Use last 50 points for trend
+            timestamp = datetime.fromisoformat(snapshot.timestamp.replace("Z", "+00:00"))
+            time_points.append(timestamp.timestamp())
+            drift_series["total"].append(snapshot.total_drift)
+            drift_series["entropy"].append(snapshot.entropy_drift)
+            drift_series["ethical"].append(snapshot.ethical_drift)
+            drift_series["temporal"].append(snapshot.temporal_drift)
+            drift_series["symbol"].append(snapshot.symbol_drift)
+            drift_series["emotional"].append(snapshot.emotional_drift)
+
+        # Add current point
+        current_timestamp = datetime.fromisoformat(current.timestamp.replace("Z", "+00:00"))
+        time_points.append(current_timestamp.timestamp())
+        drift_series["total"].append(current.total_drift)
+        drift_series["entropy"].append(current.entropy_drift)
+        drift_series["ethical"].append(current.ethical_drift)
+        drift_series["temporal"].append(current.temporal_drift)
+        drift_series["symbol"].append(current.symbol_drift)
+        drift_series["emotional"].append(current.emotional_drift)
+
+        # Calculate trends using linear regression on recent data
+        predictions = {}
+        confidence = 0.0
+
+        for component, values in drift_series.items():
+            if len(values) < 5:
+                continue
+
+            # Simple linear trend calculation
+            x = np.array(range(len(values)))
+            y = np.array(values)
+
+            # Calculate trend slope
+            n = len(x)
+            trend_slope = (n * np.sum(x * y) - np.sum(x) * np.sum(y)) / (n * np.sum(x**2) - (np.sum(x))**2)
+            trend_intercept = np.mean(y) - trend_slope * np.mean(x)
+
+            # Project 15 minutes into future (assuming 1-second intervals)
+            future_steps = 900  # 15 minutes
+            future_x = len(values) + future_steps
+            predicted_value = trend_slope * future_x + trend_intercept
+
+            # Calculate prediction confidence based on recent trend consistency
+            recent_values = values[-10:]
+            trend_consistency = 1.0 - (np.std(recent_values) / (np.mean(recent_values) + 0.001))
+            component_confidence = max(0.0, min(1.0, trend_consistency))
+
+            predictions[component] = {
+                "current": values[-1],
+                "predicted_15min": max(0.0, min(1.0, predicted_value)),  # Clamp to valid range
+                "trend_slope": trend_slope,
+                "confidence": component_confidence,
+                "trend_direction": "increasing" if trend_slope > 0.001 else ("decreasing" if trend_slope < -0.001 else "stable")
+            }
+
+            confidence += component_confidence
+
+        # Average confidence across components
+        confidence = confidence / len(predictions) if predictions else 0.0
+
+        # Calculate future risk based on predicted values
+        predicted_total_drift = predictions.get("total", {}).get("predicted_15min", current.total_drift)
+        future_risk = self._calculate_future_risk(predicted_total_drift, predictions)
+
+        # Generate risk trajectory over 15-minute window
+        trajectory = []
+        for minute in range(0, 16, 3):  # Every 3 minutes for 15 minutes
+            steps_ahead = minute * 60  # Convert to seconds
+            trajectory_drift = predictions["total"]["current"] + (predictions["total"]["trend_slope"] * steps_ahead)
+            trajectory_drift = max(0.0, min(1.0, trajectory_drift))
+            trajectory_risk = self._calculate_future_risk(trajectory_drift, predictions)
+
+            trajectory.append({
+                "minutes_ahead": minute,
+                "predicted_drift": trajectory_drift,
+                "risk_level": trajectory_risk,
+                "severity": self._drift_to_severity(trajectory_drift).value
+            })
+
+        # Identify critical intervention points
+        intervention_points = []
+        for point in trajectory:
+            if point["risk_level"] > 0.7:
+                intervention_points.append({
+                    "minutes_ahead": point["minutes_ahead"],
+                    "risk_level": point["risk_level"],
+                    "recommended_action": self._recommend_intervention(point["predicted_drift"])
+                })
+
+        return {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "prediction_confidence": confidence,
+            "future_risk": future_risk,
+            "trajectory": trajectory,
+            "component_predictions": predictions,
+            "intervention_points": intervention_points,
+            "summary": {
+                "predicted_peak_drift": max(point["predicted_drift"] for point in trajectory),
+                "time_to_critical": min([p["minutes_ahead"] for p in intervention_points], default=None),
+                "overall_trend": predictions["total"]["trend_direction"] if "total" in predictions else "unknown",
+                "requires_immediate_action": future_risk > 0.8
+            }
+        }
+
+    def _calculate_future_risk(self, predicted_drift: float, component_predictions: dict) -> float:
+        """Calculate risk level based on predicted drift values."""
+        base_risk = predicted_drift
+
+        # Add component imbalance risk
+        component_values = [pred.get("predicted_15min", 0.0) for pred in component_predictions.values()]
+        if len(component_values) > 1:
+            imbalance_risk = np.std(component_values) * 0.5
+            base_risk += imbalance_risk
+
+        # Add trend acceleration risk
+        trend_slopes = [pred.get("trend_slope", 0.0) for pred in component_predictions.values()]
+        acceleration_risk = max(0.0, max(trend_slopes) * 0.3) if trend_slopes else 0.0
+        base_risk += acceleration_risk
+
+        return min(1.0, base_risk)
+
+    def _drift_to_severity(self, drift_score: float) -> DriftSeverity:
+        """Convert drift score to severity level."""
+        if drift_score < 0.2:
+            return DriftSeverity.NOMINAL
+        elif drift_score < 0.4:
+            return DriftSeverity.CAUTION
+        elif drift_score < 0.6:
+            return DriftSeverity.WARNING
+        elif drift_score < 0.8:
+            return DriftSeverity.CASCADE
+        else:
+            return DriftSeverity.QUARANTINE
+
+    def _recommend_intervention(self, predicted_drift: float) -> str:
+        """Recommend intervention based on predicted drift level."""
+        if predicted_drift > 0.8:
+            return "immediate_quarantine"
+        elif predicted_drift > 0.6:
+            return "cascade_prevention"
+        elif predicted_drift > 0.4:
+            return "drift_reset"
+        else:
+            return "monitoring_increase"
 
 
 # CLAUDE CHANGELOG

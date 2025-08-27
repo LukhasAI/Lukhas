@@ -32,27 +32,43 @@ try:
 except ImportError:
     WALLET_AVAILABLE = False
 
-# Import real identity management implementations from candidate
-try:
-    from candidate.governance.identity.access_tier_manager import (
-        AccessTierManager,
-    )
-    from candidate.governance.identity.auth_backend.audit_logger import (
-        AuditLogger,
-    )
-    from candidate.governance.identity.auth_backend.authentication_server import (
-        AuthenticationServer,
-    )
-    from candidate.governance.identity.identity_validator import (
-        IdentityValidator,
-    )
-    from candidate.qi.engines.identity.qi_identity_manager import (
-        QIIdentityManager,
-    )
+# Import real identity management implementations from candidate (if available)
+# Note: These imports are conditionally loaded to maintain lane architecture
+REAL_IDENTITY_AVAILABLE = False
 
+def _try_import_candidate_components():
+    """Dynamically import candidate components if available"""
+    try:
+        import importlib
+
+        components = {}
+
+        # Try importing each component individually
+        module_map = {
+            "AccessTierManager": "candidate.governance.identity.access_tier_manager",
+            "AuditLogger": "candidate.governance.identity.auth_backend.audit_logger",
+            "AuthenticationServer": "candidate.governance.identity.auth_backend.authentication_server",
+            "IdentityValidator": "candidate.governance.identity.identity_validator",
+            "QIIdentityManager": "candidate.qi.engines.identity.qi_identity_manager"
+        }
+
+        for component_name, module_path in module_map.items():
+            try:
+                module = importlib.import_module(module_path)
+                components[component_name] = getattr(module, component_name)
+            except (ImportError, AttributeError):
+                continue
+
+        return components if components else None
+    except Exception:
+        return None
+
+# Try to load candidate components
+_candidate_components = _try_import_candidate_components()
+if _candidate_components:
     REAL_IDENTITY_AVAILABLE = True
-except ImportError:
-    REAL_IDENTITY_AVAILABLE = False
+    # Assign to module level for backward compatibility
+    locals().update(_candidate_components)
 
 # Maintain backward compatibility
 IDENTITY_MANAGER_AVAILABLE = REAL_IDENTITY_AVAILABLE

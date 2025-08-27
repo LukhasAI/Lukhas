@@ -495,13 +495,11 @@ class LLMSymbolAPI:
         }
 
 
-# Singleton instance
-_llm_api_instance = None
+# Singleton accessor (no global mutation)
+from functools import cache
 
 
+@cache
 def get_llm_symbol_api(provider: LLMProvider = LLMProvider.OPENAI) -> LLMSymbolAPI:
-    """Get or create singleton LLM Symbol API"""
-    global _llm_api_instance
-    if _llm_api_instance is None:
-        _llm_api_instance = LLMSymbolAPI(provider)
-    return _llm_api_instance
+    """Get or create memoized LLM Symbol API instance for a provider"""
+    return LLMSymbolAPI(provider)

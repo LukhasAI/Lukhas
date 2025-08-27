@@ -580,7 +580,7 @@ class SymbolicConflictResolver:
                     and abs(frag1.confidence - frag2.confidence) < 0.1
                 ):
                     # Check for semantic opposition (simplified)
-                    if ("not" in content1 and "not" not in content2) or " + "(
+                    if ("not" in content1 and "not" not in content2) or (
                         "not" not in content1 and "not" in content2
                     ):
                         conflicts.append(

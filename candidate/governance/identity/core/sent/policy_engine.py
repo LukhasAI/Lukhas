@@ -335,6 +335,9 @@ class ComprehensiveEthicsPolicyEngine:
             evaluation.policy_violations = policy_results["violations"]
             evaluation.required_safeguards = policy_results["safeguards"]
 
+            # Constitutional compliance check (needed for action determination)
+            evaluation.constitutional_compliance = await self._check_constitutional_compliance(evaluation)
+
             # Determine recommended action
             evaluation.recommended_action = await self._determine_action(evaluation)
 
@@ -349,9 +352,6 @@ class ComprehensiveEthicsPolicyEngine:
             evaluation.identity_ethical_impact = await self._analyze_identity_ethics_impact(action, context)
             evaluation.consciousness_ethical_impact = await self._analyze_consciousness_ethics_impact(action, context)
             evaluation.guardian_priority = await self._determine_guardian_priority(evaluation)
-
-            # Constitutional compliance check
-            evaluation.constitutional_compliance = await self._check_constitutional_compliance(evaluation)
 
             # Cache evaluation
             cache_key = self._generate_cache_key(action, context)
@@ -519,7 +519,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         # Additional constitutional checks
         if context.get("harmful_content", False):
-            score -= 0.5
+            score = min(score, 0.1)  # Force very low score for harmful content
 
         if context.get("discriminatory", False):
             score -= 0.4
@@ -529,23 +529,6 @@ class ComprehensiveEthicsPolicyEngine:
 
         if context.get("misinformation_risk", False):
             score -= 0.3
-
-        # Boost score for clearly positive scenarios
-        positive_indicators = 0
-        if context.get("helpful", False):
-            positive_indicators += 1
-        if context.get("respects_autonomy", False):
-            positive_indicators += 1
-        if not context.get("harmful_content", True):  # Default to harmful unless explicitly set False
-            positive_indicators += 1
-        if not context.get("privacy_violating", True):  # Default to privacy violating unless explicitly set False
-            positive_indicators += 1
-
-        # If we have multiple positive indicators and no negative ones, boost the score
-        if positive_indicators >= 3:
-            score += 0.15  # Boost for clearly positive scenarios
-        elif positive_indicators >= 2:
-            score += 0.1
 
         return max(0.0, min(1.0, score))
 
@@ -562,7 +545,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         elif principle == "harmlessness":
             harm_indicators = ["violence", "illegal", "dangerous", "harmful"]
-            if any(indicator in action.lower() for indicator in harm_indicators):
+            if any(indicator in action.lower() for indicator in harm_indicators) or context.get("harmful_content", False):
                 return 0.1  # Very low score for harmful content
             return base_score
 
@@ -1006,18 +989,18 @@ class ComprehensiveEthicsPolicyEngine:
             return PolicyAction.EMERGENCY_STOP
 
         # Deny conditions
-        if score < 0.4 or violations > 2:
+        if score < 0.3 or violations > 2:
             return PolicyAction.DENY
 
-        # Review required conditions - be more lenient for high scores
-        if score < 0.6 or (violations > 0 and score < 0.8):
+        # Review required conditions - only for significant concerns
+        if score < 0.4 or violations > 1:
             return PolicyAction.REQUIRE_REVIEW
 
-        # Warning conditions
-        if score < 0.8 or violations > 0:
+        # Warning conditions - for moderate ethical scores
+        if score < 0.7:
             return PolicyAction.WARN
 
-        # Allow
+        # Allow - for good ethical scores (≥ 0.7) with no major violations
         return PolicyAction.ALLOW
 
     async def _generate_justification(self, evaluation: EthicalEvaluation) -> str:
@@ -1243,7 +1226,3 @@ class ComprehensiveEthicsPolicyEngine:
             for policy_id, policy in self.active_policies.items()
             if policy.active
         }
-
-
-# Alias for consent policy management (for compatibility)
-ConsentPolicyEngine = ComprehensiveEthicsPolicyEngine

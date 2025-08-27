@@ -605,13 +605,10 @@ class NeuroSymbolicMemory:
         return f"TRACE_{int(time.time() * 1000000)}"
 
 
-# Singleton instance
-_neuromemory_instance = None
+from functools import lru_cache
 
 
+@lru_cache(maxsize=1)
 def get_neurosymbolic_memory() -> NeuroSymbolicMemory:
     """Get or create singleton NeuroSymbolic Memory"""
-    global _neuromemory_instance
-    if _neuromemory_instance is None:
-        _neuromemory_instance = NeuroSymbolicMemory()
-    return _neuromemory_instance
+    return NeuroSymbolicMemory()

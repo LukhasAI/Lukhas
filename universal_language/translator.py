@@ -542,13 +542,10 @@ class UniversalTranslator:
         }
 
 
-# Singleton instance
-_universal_translator_instance = None
+from functools import lru_cache
 
 
+@lru_cache(maxsize=1)
 def get_universal_translator() -> UniversalTranslator:
     """Get or create the singleton Universal Translator instance"""
-    global _universal_translator_instance
-    if _universal_translator_instance is None:
-        _universal_translator_instance = UniversalTranslator()
-    return _universal_translator_instance
+    return UniversalTranslator()

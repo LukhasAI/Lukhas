@@ -10,57 +10,8 @@
       "capabilities": []
     },
     "identity": {
-      "status": "functional",
-      "files_scanned": 48,
-      "functional_files": 15,
-      "capabilities": [
-        {
-          "capability": "validation",
-          "file": "identity/enhanced_registration.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "validation",
-          "file": "identity/identity_core.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "authentication",
-          "file": "identity/identity_core.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "validation",
-          "file": "identity/login.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "authentication",
-          "file": "identity/middleware.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "authentication",
-          "file": "identity/webauthn_bootstrap.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "profile",
-          "file": "identity/identity_emergence.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "validation",
-          "file": "identity/email_templates/magic_link_demo.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "validation",
-          "file": "identity/email_templates/examples.py",
-          "confidence": "medium"
-        }
-      ],
-      "functionality_ratio": 0.3125
+      "status": "missing",
+      "capabilities": []
     },
     "bio": {
       "status": "non_functional",
@@ -200,27 +151,15 @@
       "type": "main_executable",
       "functional": true
     },
-    "non_core_module_analysis.py": {
+    "t4_ollama_core_processor.py": {
       "type": "script_executable",
       "functional": true
     },
-    "public_api.py": {
+    "launch_llm_code_fixer.py": {
       "type": "script_executable",
       "functional": true
     },
-    "validate_auth_implementation.py": {
-      "type": "script_executable",
-      "functional": true
-    },
-    "qi_to_qi_migrator_fixed.py": {
-      "type": "script_executable",
-      "functional": true
-    },
-    "lukhas_paths.py": {
-      "type": "script_executable",
-      "functional": true
-    },
-    "test_non_core_modules.py": {
+    "t4_core_batch_processor.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -258,11 +197,11 @@
     },
     "candidate/tools/claude_integration/claude_memory_integration.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/tools/claude_integration/extract_claude6_tasks.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/tools/claude_integration/save_claude_context.py": {
       "type": "script_executable",
@@ -302,7 +241,7 @@
     },
     "candidate/core/api_diff_analyzer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/core/p2p_fabric.py": {
       "type": "script_executable",
@@ -330,7 +269,7 @@
     },
     "candidate/core/notion_sync.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/core/supervision.py": {
       "type": "script_executable",
@@ -458,11 +397,11 @@
     },
     "candidate/core/config/env_validator.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/core/security/migrate_xor_encryption.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/core/security/kms_manager.py": {
       "type": "script_executable",
@@ -614,7 +553,7 @@
     },
     "candidate/core/orchestration/brain/autonomous_github_manager.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/core/orchestration/brain/uk_awareness_engine.py": {
       "type": "script_executable",
@@ -642,7 +581,7 @@
     },
     "candidate/core/orchestration/brain/lambda_bot_batch_processor.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/core/orchestration/brain/lambdabot_autonomous_workflow_fixer.py": {
       "type": "script_executable",
@@ -698,7 +637,7 @@
     },
     "candidate/core/orchestration/brain/visualization/healix_visualizer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/core/orchestration/brain/core/azure_free_tier_strategy.py": {
       "type": "script_executable",
@@ -866,7 +805,7 @@
     },
     "candidate/core/symbolic/symbolic_theme_clusterer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/core/symbolic/symbolic_healer.py": {
       "type": "script_executable",
@@ -1102,11 +1041,11 @@
     },
     "candidate/memory/temporal/generate_dream.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/memory/temporal/journal_engine.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/memory/temporal/gen_audit_logger_check.py": {
       "type": "script_executable",
@@ -1114,7 +1053,7 @@
     },
     "candidate/memory/temporal/drift_dashboard_visual.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/memory/temporal/monitor.py": {
       "type": "script_executable",
@@ -1146,7 +1085,7 @@
     },
     "candidate/memory/temporal/generate_dream_data.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/memory/temporal/intent_language.py": {
       "type": "script_executable",
@@ -1162,7 +1101,7 @@
     },
     "candidate/memory/temporal/pattern_detector.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/memory/temporal/entropy_health_api.py": {
       "type": "script_executable",
@@ -1190,11 +1129,11 @@
     },
     "candidate/memory/tools/memory_drift_auditor.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/memory/tools/lambda_archive_inspector.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/memory/core/unified_memory_orchestrator.py": {
       "type": "script_executable",
@@ -1490,7 +1429,7 @@
     },
     "candidate/memory/consolidation/compliance_digest.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/memory/consolidation/consolidate_emotion_feeling_memory.py": {
       "type": "script_executable",
@@ -1654,7 +1593,7 @@
     },
     "candidate/bridge/api/module_generator.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/bridge/api/setup_api_keys.py": {
       "type": "script_executable",
@@ -1666,7 +1605,7 @@
     },
     "candidate/bridge/api/simple_troubleshooter.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/bridge/api/verify.py": {
       "type": "script_executable",
@@ -1686,7 +1625,7 @@
     },
     "candidate/bridge/external/TrueCoreAnalyzer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/bridge/protocols/connection_visualizer.py": {
       "type": "script_executable",
@@ -1714,7 +1653,7 @@
     },
     "candidate/consciousness/qi_consciousness_integration.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/consciousness/persona_similarity_engine.py": {
       "type": "script_executable",
@@ -1758,7 +1697,7 @@
     },
     "candidate/consciousness/creativity/healix_visualizer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/consciousness/creativity/creative_engine.py": {
       "type": "script_executable",
@@ -1818,7 +1757,7 @@
     },
     "candidate/consciousness/states/qi_mesh_visualizer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/consciousness/states/openai_consciousness_adapter.py": {
       "type": "script_executable",
@@ -1850,7 +1789,7 @@
     },
     "candidate/consciousness/systems/lambda_mirror.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/consciousness/systems/\u039bBot_consciousness_monitor.py": {
       "type": "script_executable",
@@ -1950,7 +1889,7 @@
     },
     "candidate/consciousness/qi_integration/qi_consciousness_integration.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/consciousness/interfaces/natural_language_interface.py": {
       "type": "script_executable",
@@ -2002,7 +1941,7 @@
     },
     "candidate/consciousness/reflection/symbolic_drift_analyzer.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "candidate/consciousness/reflection/abas_qi_specialist.py": {
       "type": "script_executable",
@@ -2022,7 +1961,7 @@
     },
     "candidate/consciousness/reflection/openai_core_service.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "candidate/consciousness/reflection/EthicalReasoningSystem.py": {
       "type": "script_executable",
@@ -2034,7 +1973,7 @@
     },
     "candidate/consciousness/reflection/lambda_mirror.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/consciousness/reflection/self_reflection_engine.py": {
       "type": "script_executable",
@@ -2062,7 +2001,7 @@
     },
     "candidate/consciousness/reflection/circuit_breaker.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "candidate/consciousness/reflection/openai_modulated_service.py": {
       "type": "script_executable",
@@ -2114,7 +2053,7 @@
     },
     "candidate/consciousness/reflection/symbolic_weaver.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "candidate/qi/validator.py": {
       "type": "script_executable",
@@ -2142,7 +2081,7 @@
     },
     "candidate/qi/metrics/calibration.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/qi/ui/visualizer_core.py": {
       "type": "script_executable",
@@ -2162,7 +2101,7 @@
     },
     "candidate/qi/bio/bio_qi_radar_integration.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/qi/bio/bio_multi_orchestrator.py": {
       "type": "script_executable",
@@ -2182,7 +2121,7 @@
     },
     "candidate/qi/trace/trace_graph.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/qi/memory/consent_guard.py": {
       "type": "script_executable",
@@ -2238,7 +2177,7 @@
     },
     "candidate/qi/safety/ci_report.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/qi/safety/policy_report.py": {
       "type": "script_executable",
@@ -2354,7 +2293,7 @@
     },
     "candidate/qi/ops/auto_safety_report.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/qi/ops/provenance.py": {
       "type": "script_executable",
@@ -2440,6 +2379,10 @@
       "type": "script_executable",
       "functional": true
     },
+    "candidate/orchestration/dream_orchestrator.py": {
+      "type": "script_executable",
+      "functional": true
+    },
     "candidate/orchestration/agent_orchestrator/intelligence_bridge.py": {
       "type": "script_executable",
       "functional": true
@@ -2494,7 +2437,7 @@
     },
     "candidate/governance/identity/deployment_package.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "candidate/governance/identity/lambda_id_auth.py": {
       "type": "script_executable",
@@ -2502,7 +2445,7 @@
     },
     "candidate/governance/identity/unified_login_interface.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/governance/identity/zkproof/multimodal_zk_engine.py": {
       "type": "script_executable",
@@ -2510,7 +2453,7 @@
     },
     "candidate/governance/identity/tools/onboarding_cli.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "candidate/governance/identity/core/lambd_id_service.py": {
       "type": "script_executable",
@@ -2526,7 +2469,7 @@
     },
     "candidate/governance/identity/core/unified_auth_manager.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/governance/identity/core/id_service/entropy_engine.py": {
       "type": "script_executable",
@@ -2550,7 +2493,7 @@
     },
     "candidate/governance/identity/auth/qrg_generators.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/governance/identity/biometric/iris_lock_finalizer.py": {
       "type": "script_executable",
@@ -2606,7 +2549,7 @@
     },
     "candidate/governance/security/security_compliance_check.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/governance/security/secret_manager.py": {
       "type": "script_executable",
@@ -2618,7 +2561,7 @@
     },
     "candidate/governance/security/security_audit_engine.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/governance/safety/constitutional_ai_safety.py": {
       "type": "script_executable",
@@ -2662,7 +2605,7 @@
     },
     "candidate/governance/ethics/ethical_sentinel_dashboard.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "candidate/governance/ethics/enhanced_pwm_guardian.py": {
       "type": "script_executable",
@@ -2806,7 +2749,7 @@
     },
     "branding/tone/tools/lukhas_tone_fixer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "branding/tone/tools/enhanced_consciousness_wordsmith.py": {
       "type": "script_executable",
@@ -2846,7 +2789,7 @@
     },
     "branding/analysis/voice_coherence_analyzer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "branding/analysis/branding_structure_analyzer.py": {
       "type": "script_executable",
@@ -2962,7 +2905,7 @@
     },
     "branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_customizer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_core_abot.py": {
       "type": "script_executable",
@@ -2978,7 +2921,7 @@
     },
     "branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_security_scanner.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py": {
       "type": "script_executable",
@@ -3018,7 +2961,7 @@
     },
     "branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_autonomous_healer.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_free_abot_direct.py": {
       "type": "script_executable",
@@ -3030,7 +2973,7 @@
     },
     "branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_notion_sync.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_lambda_bot.py": {
       "type": "script_executable",
@@ -3074,7 +3017,7 @@
     },
     "branding/automation/social_media_orchestrator.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "branding/automation/brand_automation_engine.py": {
       "type": "script_executable",
@@ -3108,6 +3051,18 @@
       "type": "script_executable",
       "functional": true
     },
+    "branding/enforcement/tone/enhanced_consciousness_wordsmith.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "branding/enforcement/tone/advanced_vocabulary_engine.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "branding/enforcement/tone/consciousness_wordsmith.py": {
+      "type": "script_executable",
+      "functional": false
+    },
     "branding/enforcement/tone/lukhas_tone_validator.py": {
       "type": "script_executable",
       "functional": true
@@ -3125,6 +3080,10 @@
       "functional": true
     },
     "lukhas_website/unified/consciousness_integration.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "lukhas_website/scripts/get_audit_log.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -3146,7 +3105,7 @@
     },
     "tools/AiDocumentationGenerator.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/speak.py": {
       "type": "script_executable",
@@ -3154,9 +3113,13 @@
     },
     "tools/ml_integration_analyzer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/comprehensive_core_auditor.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "tools/fix_syntax_errors.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -3167,6 +3130,10 @@
     "tools/manifesto.py": {
       "type": "script_executable",
       "functional": true
+    },
+    "tools/autodoc_headers.py": {
+      "type": "script_executable",
+      "functional": false
     },
     "tools/acceptance_gate.py": {
       "type": "script_executable",
@@ -3182,17 +3149,33 @@
     },
     "tools/CoreAnalyzer.py": {
       "type": "script_executable",
+      "functional": false
+    },
+    "tools/safe_cleanup_analysis.py": {
+      "type": "script_executable",
       "functional": true
     },
     "tools/migrate_module.py": {
       "type": "script_executable",
       "functional": true
     },
+    "tools/llm_code_fixer.py": {
+      "type": "script_executable",
+      "functional": true
+    },
     "tools/generate_lukhas_ecosystem_documentation.py": {
+      "type": "script_executable",
+      "functional": false
+    },
+    "tools/simple_llm_fixer.py": {
       "type": "script_executable",
       "functional": true
     },
     "tools/about.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "tools/t4_batch_processor.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -3210,6 +3193,10 @@
     },
     "tools/missing_component_hunter.py": {
       "type": "script_executable",
+      "functional": false
+    },
+    "tools/t4_lens_code_fixer.py": {
+      "type": "script_executable",
       "functional": true
     },
     "tools/CriticalConnectivityAnalyzer.py": {
@@ -3217,6 +3204,10 @@
       "functional": true
     },
     "tools/generate_code_index.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "tools/audit_orphaned_modules.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -3229,6 +3220,10 @@
       "functional": true
     },
     "tools/OrganizationScanner.py": {
+      "type": "script_executable",
+      "functional": false
+    },
+    "tools/cleanup_analysis.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -3249,6 +3244,10 @@
       "functional": true
     },
     "tools/collapse_replay.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "tools/t4_batch_processor_integrated.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -3278,7 +3277,7 @@
     },
     "tools/dev_tools_utils.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/memory_visualization.py": {
       "type": "script_executable",
@@ -3302,7 +3301,7 @@
     },
     "tools/journal/journal_cli.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/journal/learning_assistant.py": {
       "type": "script_executable",
@@ -3330,7 +3329,7 @@
     },
     "tools/analysis/ml_integration_analyzer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/analysis/import_success_summary.py": {
       "type": "script_executable",
@@ -3338,7 +3337,7 @@
     },
     "tools/analysis/generate_function_index.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/analysis/streamline_analyzer.py": {
       "type": "script_executable",
@@ -3362,7 +3361,7 @@
     },
     "tools/analysis/import_fixer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/analysis/module_communication_analyzer.py": {
       "type": "script_executable",
@@ -3382,7 +3381,7 @@
     },
     "tools/analysis/active_import_analysis.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/analysis/replay_drift.py": {
       "type": "script_executable",
@@ -3418,7 +3417,7 @@
     },
     "tools/analysis/generate_class_registry.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/analysis/comprehensive_import_fixer.py": {
       "type": "script_executable",
@@ -3450,7 +3449,7 @@
     },
     "tools/analysis/ecosystem_harmony_audit.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/analysis/circular_dependency_analysis.py": {
       "type": "script_executable",
@@ -3474,9 +3473,13 @@
     },
     "tools/security/hardcoded_secrets_fixer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/ci/mark_todos.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "tools/ci/find_import_cycles.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -3485,6 +3488,10 @@
       "functional": true
     },
     "tools/ci/auto_fix_safe.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "tools/ci/lane_guard_ast.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -3530,7 +3537,7 @@
     },
     "tools/headers/add_compliant_headers.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/headers/add_intelligent_descriptions.py": {
       "type": "script_executable",
@@ -3642,7 +3649,7 @@
     },
     "tools/scripts/fix_imports.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/scripts/streamline_implementation.py": {
       "type": "script_executable",
@@ -3650,7 +3657,7 @@
     },
     "tools/scripts/health_monitor.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/scripts/fix_eol_errors.py": {
       "type": "script_executable",
@@ -3738,7 +3745,7 @@
     },
     "tools/scripts/migrate_paths.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/scripts/execute_directory_reorganization.py": {
       "type": "script_executable",
@@ -3746,7 +3753,7 @@
     },
     "tools/scripts/quality_dashboard.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/scripts/fix_post_modularization_imports.py": {
       "type": "script_executable",
@@ -3762,7 +3769,7 @@
     },
     "tools/scripts/nuclear_fix.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "tools/scripts/aggressive_syntax_fixer.py": {
       "type": "script_executable",
@@ -3824,25 +3831,37 @@
       "type": "script_executable",
       "functional": true
     },
-    "identity/lukhas_id_resolver.py": {
+    "archive/scattered_root_files/non_core_module_analysis.py": {
       "type": "script_executable",
       "functional": true
     },
-    "identity/identity_emergence.py": {
+    "archive/scattered_root_files/public_api.py": {
       "type": "script_executable",
       "functional": true
     },
-    "identity/email_templates/examples.py": {
+    "archive/scattered_root_files/validate_auth_implementation.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "archive/scattered_root_files/qi_to_qi_migrator_fixed.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "archive/scattered_root_files/lukhas_paths.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "archive/scattered_root_files/test_non_core_modules.py": {
       "type": "script_executable",
       "functional": true
     },
     "archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/memory/proteome/symbolic_proteome.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/memory/hippocampal/pattern_separator.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "archive/lanes_experiment/lukhas_acceptance_scaffold/archive/memory_variants/memory/systems/tier_system.py": {
       "type": "script_executable",
@@ -5260,6 +5279,14 @@
       "type": "script_executable",
       "functional": true
     },
+    "tests/identity/test_signup_login.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "tests/security/test_authentication.py": {
+      "type": "script_executable",
+      "functional": true
+    },
     "tests/security/test_enhanced_authentication.py": {
       "type": "script_executable",
       "functional": true
@@ -5277,6 +5304,10 @@
       "functional": true
     },
     "tests/phase2/test_orchestration_integration.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "tests/matriz/test_trace_fetch.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -5386,7 +5417,7 @@
     },
     "adapters/cloud_consolidation.py": {
       "type": "script_executable",
-      "functional": false
+      "functional": true
     },
     "system/common/trinity_generator.py": {
       "type": "script_executable",
@@ -5446,7 +5477,7 @@
     },
     "examples/tag_registry_demo.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "examples/dna_helix_demo.py": {
       "type": "script_executable",
@@ -5476,7 +5507,15 @@
       "type": "script_executable",
       "functional": true
     },
+    ".venv/lib/python3.11/site-packages/test_autoflake.py": {
+      "type": "script_executable",
+      "functional": true
+    },
     ".venv/lib/python3.11/site-packages/isympy.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    ".venv/lib/python3.11/site-packages/autoflake.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -5577,6 +5616,10 @@
       "functional": true
     },
     ".venv/lib/python3.11/site-packages/pytest/__main__.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    ".venv/lib/python3.11/site-packages/argon2/__main__.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -6029,6 +6072,10 @@
       "functional": true
     },
     ".venv/lib/python3.11/site-packages/werkzeug/testapp.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    ".venv/lib/python3.11/site-packages/_argon2_cffi_bindings/_ffi_build.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -6588,6 +6635,10 @@
       "type": "script_executable",
       "functional": true
     },
+    ".venv/lib/python3.11/site-packages/jsonschema/tests/fuzz_validate.py": {
+      "type": "script_executable",
+      "functional": true
+    },
     ".venv/lib/python3.11/site-packages/jsonschema/benchmarks/validator_creation.py": {
       "type": "script_executable",
       "functional": true
@@ -6601,6 +6652,10 @@
       "functional": true
     },
     ".venv/lib/python3.11/site-packages/jsonschema/benchmarks/issue232.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    ".venv/lib/python3.11/site-packages/jsonschema/benchmarks/json_schema_test_suite.py": {
       "type": "script_executable",
       "functional": true
     },
@@ -7046,7 +7101,7 @@
     },
     "scripts/file-organizer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "scripts/fix_syntax_errors.py": {
       "type": "script_executable",
@@ -7054,7 +7109,7 @@
     },
     "scripts/consolidate_vocabularies_safely.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "scripts/transfer_candidate_scanner.py": {
       "type": "script_executable",
@@ -7070,7 +7125,7 @@
     },
     "scripts/ollama_security_analyzer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "scripts/kpi_badge.py": {
       "type": "script_executable",
@@ -7094,7 +7149,7 @@
     },
     "scripts/run_phase2_validation.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "scripts/colony_dna_smoke.py": {
       "type": "script_executable",
@@ -7110,7 +7165,7 @@
     },
     "scripts/security-update.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "scripts/report_kpi_backup.py": {
       "type": "script_executable",
@@ -7164,6 +7219,10 @@
       "type": "script_executable",
       "functional": true
     },
+    "scripts/testing/smoke_check.py": {
+      "type": "script_executable",
+      "functional": true
+    },
     ".github/scripts/lambda-bot-conflict-resolver.py": {
       "type": "script_executable",
       "functional": true
@@ -7202,7 +7261,7 @@
     },
     "symbolic/multi_modal_language.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "symbolic/vocabularies/usage_examples.py": {
       "type": "script_executable",
@@ -7274,7 +7333,7 @@
     },
     "lambda_products/lambda_products_pack/lambda_core/NIAS/dependency_container.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "lambda_products/lambda_products_pack/lambda_core/NIAS/breakpoint_detector.py": {
       "type": "script_executable",
@@ -7302,7 +7361,7 @@
     },
     "lambda_products/lambda_products_pack/lambda_core/NIAS/native_content_formatter.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "lambda_products/lambda_products_pack/lambda_core/NIAS/complete_implementation/generate_nias_docs.py": {
       "type": "script_executable",
@@ -7358,7 +7417,7 @@
     },
     "lambda_products/lambda_products_pack/lambda_core/POETICA/creativity_engines/healix_visualizer.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "lambda_products/lambda_products_pack/lambda_core/POETICA/creativity_engines/creative_engine.py": {
       "type": "script_executable",
@@ -7434,7 +7493,7 @@
     },
     "lambda_products/lambda_products_pack/lambda_core/HealthcareGuardian/lambda_healthcare_core.py": {
       "type": "script_executable",
-      "functional": true
+      "functional": false
     },
     "lambda_products/lambda_products_pack/lambda_core/ABAS/abas_core.py": {
       "type": "script_executable",
@@ -7520,6 +7579,18 @@
       "type": "script_executable",
       "functional": true
     },
+    "identity_legacy_backup/lukhas_id_resolver.py": {
+      "type": "script_executable",
+      "functional": false
+    },
+    "identity_legacy_backup/identity_emergence.py": {
+      "type": "script_executable",
+      "functional": true
+    },
+    "identity_legacy_backup/email_templates/examples.py": {
+      "type": "script_executable",
+      "functional": true
+    },
     "universal_language/service.py": {
       "type": "script_executable",
       "functional": true
@@ -7534,64 +7605,6 @@
     }
   },
   "critical_analysis": {
-    "identity": {
-      "status": "functional",
-      "files_scanned": 48,
-      "functional_files": 15,
-      "capabilities": [
-        {
-          "capability": "core",
-          "file": "identity/identity_core.py",
-          "confidence": "high"
-        },
-        {
-          "capability": "core",
-          "file": "identity/lukhas_id_resolver.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "engine",
-          "file": "identity/identity_emergence.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "engine",
-          "file": "identity/email_templates/alias.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "engine",
-          "file": "identity/email_templates/recovery.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "main",
-          "file": "identity/email_templates/magic_link_demo.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "engine",
-          "file": "identity/email_templates/magic_link_demo.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "engine",
-          "file": "identity/email_templates/engine.py",
-          "confidence": "high"
-        },
-        {
-          "capability": "engine",
-          "file": "identity/email_templates/guardian.py",
-          "confidence": "medium"
-        },
-        {
-          "capability": "engine",
-          "file": "identity/email_templates/examples.py",
-          "confidence": "medium"
-        }
-      ],
-      "functionality_ratio": 0.3125
-    },
     "bio": {
       "status": "non_functional",
       "files_scanned": 17,
@@ -7651,9 +7664,9 @@
     }
   },
   "summary": {
-    "functional_systems": 2,
+    "functional_systems": 1,
     "total_systems": 9,
-    "executable_entry_points": 1765,
-    "total_entry_points": 1851
+    "executable_entry_points": 1728,
+    "total_entry_points": 1881
   }
 }

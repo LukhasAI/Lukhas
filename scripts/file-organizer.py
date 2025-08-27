@@ -236,7 +236,7 @@ class FileOrganizer:
             report.append(f"- `{dest}`: {count} files")
 
         if self.moves_log:
-            report.append("\n#)  #  Recent Moves\n"
+            report.append("\n## Recent Moves\n")
             for move in self.moves_log[-20:]:  # Last 20 moves
                 report.append(f"- `{move['file']}` → `{move['to']}`")
 

@@ -362,7 +362,14 @@ class AuditStorage:
 
                 with open(filepath, "a", encoding="utf-8") as f:
                     for event in event_group:
-                        event_json = json.dumps(asdict(event), default=str)
+                        # Custom serialization to handle enums properly
+                        event_dict = asdict(event)
+                        # Convert enums to their values for proper JSON serialization
+                        for key, value in event_dict.items():
+                            if hasattr(value, "value"):  # Is an Enum
+                                event_dict[key] = value.value
+
+                        event_json = json.dumps(event_dict, default=str)
                         f.write(event_json + "\n")
                         stored_count += 1
 
@@ -784,6 +791,10 @@ class ComprehensiveAuditSystem:
 
         event_id = f"audit_{uuid.uuid4().hex}"
 
+        # Filter kwargs to only include valid AuditEvent fields
+        valid_fields = AuditEvent.__annotations__.keys()
+        filtered_kwargs = {k: v for k, v in kwargs.items() if k in valid_fields}
+
         # Create audit event
         event = AuditEvent(
             event_id=event_id,
@@ -796,7 +807,7 @@ class ComprehensiveAuditSystem:
             session_id=session_id,
             source_module=source_module,
             event_data=event_data or {},
-            **{k: v for k, v in kwargs.items() if hasattr(AuditEvent, k)}
+            **filtered_kwargs
         )
 
         # Set previous event hash for chain of custody
@@ -952,8 +963,21 @@ class ComprehensiveAuditSystem:
                     verification_result["corrupt_events"].append(event.event_id)
                     verification_result["overall_integrity"] = False
 
-            # In production, would also verify stored events
-            # and check chain of custody
+            # Also check recently stored events
+            recent_query = AuditQuery(
+                start_time=datetime.now() - timedelta(hours=24),
+                end_time=datetime.now(),
+                limit=1000
+            )
+            stored_events = await self.storage.query_events(recent_query)
+
+            for event in stored_events:
+                verification_result["total_events_checked"] += 1
+
+                if not event.verify_integrity():
+                    verification_result["integrity_violations"] += 1
+                    verification_result["corrupt_events"].append(event.event_id)
+                    verification_result["overall_integrity"] = False
 
             logger.info(f"✅ Audit integrity verification completed: {verification_result['total_events_checked']} events checked")
 

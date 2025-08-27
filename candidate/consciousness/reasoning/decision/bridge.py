@@ -45,25 +45,27 @@ TODO: Implement quantum decision superposition for parallel evaluation
 AIDEA: Add emotional intelligence integration for empathetic decisions
 """
 
-import numpy as np
-import structlog
-from typing import Dict, List, Any, Optional, Tuple, Union, Callable
-from dataclasses import dataclass, field
-from enum import Enum
-from datetime import datetime, timezone, timedelta
 import json
-import asyncio
 from abc import ABC, abstractmethod
-import uuid
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple
+
+import numpy as np
 
 # Import Lukhas core components
 try:
-    from candidate.core.integration.neuro_symbolic_fusion_layer import NeuroSymbolicFusionLayer
-    from candidate.core.utils.orchestration_energy_aware_execution_planner import EnergyAwareExecutionPlanner
+    from candidate.core.integration.neuro_symbolic_fusion_layer import (
+        NeuroSymbolicFusionLayer,
+    )
+    from candidate.core.utils.orchestration_energy_aware_execution_planner import (
+        EnergyAwareExecutionPlanner,
+    )
     from lukhas.memory.governance.ethical_drift_governor import EthicalDriftGovernor
     from reasoning.symbolic_reasoning import SymbolicEngine
-except ImportError as e:
-from from from from candidate.core.common import get_logger
+except ImportError:
+    pass
 
 
 class DecisionType(Enum):
@@ -162,14 +164,14 @@ class DecisionStrategy(ABC):
     """Abstract base class for decision-making strategie"""
 
     @abstractmethod
-    def evaluate_alternatives(:
+    def evaluate_alternatives(
             self,
             context: DecisionContext,
             alternatives: List[DecisionAlternative]) -> List[DecisionEvaluation]:
         """Evaluate decision alternatives according to this strategy"""
 
     @abstractmethod
-    def select_best_alternative(:
+    def select_best_alternative(
             self, evaluations: List[DecisionEvaluation]) -> Tuple[str, float]:
         """Select the best alternative from evaluation"""
 
@@ -186,7 +188,7 @@ class UtilityMaximizationStrategy(DecisionStrategy):
             DecisionCriteria.FEASIBILITY: 0.15
         }
 
-    def evaluate_alternatives(:
+    def evaluate_alternatives(
             self,
             context: DecisionContext,
             alternatives: List[DecisionAlternative]) -> List[DecisionEvaluation]:
@@ -208,7 +210,7 @@ class UtilityMaximizationStrategy(DecisionStrategy):
             # Calculate weighted overall score
             overall_score = sum(
                 score * self.weights.get(criterion, 0)
-                for criterion, score in criteria_scores.items():
+                for criterion, score in criteria_scores.items()
             )
 
             evaluation = DecisionEvaluation(
@@ -227,7 +229,7 @@ class UtilityMaximizationStrategy(DecisionStrategy):
 
         return evaluations
 
-    def select_best_alternative(:
+    def select_best_alternative(
             self, evaluations: List[DecisionEvaluation]) -> Tuple[str, float]:
         if not evaluations:
             raise ValueError("No evaluations provided")
@@ -640,7 +642,7 @@ class DecisionMakingBridge:
 
     # Internal helper methods
 
-    def _validate_decision_inputs(:
+    def _validate_decision_inputs(
             self,
             context: DecisionContext,
             alternatives: List[DecisionAlternative]) -> None:
@@ -660,7 +662,7 @@ class DecisionMakingBridge:
         if len(alt_ids) != len(set(alt_ids)):
             raise ValueError("Alternative IDs must be unique")
 
-    def _select_strategy(:
+    def _select_strategy(
             self,
             context: DecisionContext,
             strategy_name: Optional[str]) -> DecisionStrategy:
@@ -801,7 +803,7 @@ class DecisionMakingBridge:
             "resource_requirements": {}
         }
 
-    def _build_decision_rationale(:
+    def _build_decision_rationale(
             self,
             context: DecisionContext,
             selected: DecisionEvaluation,
@@ -841,7 +843,7 @@ class DecisionMakingBridge:
 
         return ". ".join(rationale_parts) + "."
 
-    def _create_evaluation_summary(:
+    def _create_evaluation_summary(
             self, evaluations: List[DecisionEvaluation]) -> Dict[str, Any]:
         """Create summary of all evaluation"""
         return {
@@ -853,11 +855,11 @@ class DecisionMakingBridge:
             },
             "confidence_distribution": {
                 level.name: sum(1 for e in evaluations if e.confidence == level)
-                for level in ConfidenceLevel:
+                for level in ConfidenceLevel
             }
         }
 
-    def _track_decision_for_learning(:
+    def _track_decision_for_learning(
             self,
             context: DecisionContext,
             outcome: DecisionOutcome,
@@ -887,7 +889,7 @@ class DecisionMakingBridge:
         slope = np.polyfit(x, confidences, 1)[0]
         return slope
 
-    def _analyze_decision_timing(:
+    def _analyze_decision_timing(
             self, decision_times: List[datetime]) -> Dict[str, Any]:
         """Analyze timing patterns in decision"""
         if len(decision_times) < 2:
@@ -921,7 +923,7 @@ def create_dmb_instance(config_path: Optional[str] = None) -> DecisionMakingBrid
     config = None
     if config_path:
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path) as f:
                 config = json.load(f)
         except Exception as e:
             logger.warning(f"Failed to load config from {config_path}: {e}")
@@ -931,17 +933,17 @@ def create_dmb_instance(config_path: Optional[str] = None) -> DecisionMakingBrid
 
 # Export main classes and functions
 __all__ = [
-    'DecisionMakingBridge',
-    'DecisionContext',
-    'DecisionAlternative',
-    'DecisionEvaluation',
-    'DecisionOutcome',
-    'DecisionType',
-    'DecisionCriteria',
-    'ConfidenceLevel',
-    'DecisionStrategy',
-    'UtilityMaximizationStrategy',
-    'create_dmb_instance'
+    "DecisionMakingBridge",
+    "DecisionContext",
+    "DecisionAlternative",
+    "DecisionEvaluation",
+    "DecisionOutcome",
+    "DecisionType",
+    "DecisionCriteria",
+    "ConfidenceLevel",
+    "DecisionStrategy",
+    "UtilityMaximizationStrategy",
+    "create_dmb_instance"
 ]
 
 

@@ -153,9 +153,12 @@ class ClassRegistryGenerator:
         largest_classes = []
         for module, classes in self.registry.items():
             for class_name, _info in classes.items():
-                # SYNTAX_ERROR_FIXED:                 method_count =
-                # len(info['methods']) + len(info['properties']) + " +
-                # "len(info['class_methods']) + len(info['static_methods'])
+                method_count = (
+                    len(info["methods"])
+                    + len(info["properties"])
+                    + len(info["class_methods"])
+                    + len(info["static_methods"])
+                )
                 largest_classes.append((class_name, module, method_count))
         largest_classes.sort(key=lambda x: x[2], reverse=True)
 
@@ -177,15 +180,15 @@ class ClassRegistryGenerator:
 
     def generate_markdown_docs(self, registry: dict[str, Any]) -> str:
         """Generate markdown documentation from registry"""
-        lines = ["# LUKHAS  Class Registry\n"]
+        lines = ["# LUKHAS Class Registry\n"]
         lines.append(f"Generated: {registry['timestamp']}\n")
         lines.append(f"Total Classes: {registry['summary']['total_classes']}\n")
 
         # Table of contents
-        lines.append("#)  #  Table of Contents\n"
+        lines.append("\n## Table of Contents\n")
         for module in sorted(registry["registry"].keys()):
             if registry["registry"][module]:
-                lines.append(f"- [{module}](")
+                lines.append(f"- [{module}](#{module.lower().replace('/', '')})")
         lines.append("")
 
         # Module sections
@@ -194,11 +197,11 @@ class ClassRegistryGenerator:
             if not classes:
                 continue
 
-            lines.append(f"#")
+            lines.append(f"\n## {module}\n")
 
             for class_name in sorted(classes.keys()):
                 info = classes[class_name]
-                lines.append(f"##")
+                lines.append(f"### {class_name}\n")
                 lines.append(f"- **File**: `{info['file']}`")
                 lines.append(f"- **Line**: {info['line']}")
 

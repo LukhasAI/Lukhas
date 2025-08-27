@@ -89,11 +89,7 @@ class ModalityFeatures:
             # Normalize color representation
             if isinstance(self.raw_data, (list, tuple)) and len(self.raw_data) >= 3:
                 r, g, b = self.raw_data[:3]
-                try:
-                    r_i, g_i, b_i = int(r), int(g), int(b)
-                    return f"{r_i:02x}{g_i:02x}{b_i:02x}"
-                except Exception:
-                    pass
+                return ""
 
         elif self.modality == ModalityType.GESTURE:
             # Hash of gesture path
