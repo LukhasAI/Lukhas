@@ -38,7 +38,7 @@ from serve.models.trace_models import (
 )
 
 # Import storage provider for test data setup
-from serve.storage.trace_provider import FileTraceStorageProvider
+from serve.storage.trace_provider import FileTraceStorageProvider, reset_default_trace_provider
 
 # Try to import TraceMemoryLogger, handle gracefully if not available
 try:
@@ -52,6 +52,9 @@ class TestTraceAPI(unittest.TestCase):
 
     def setUp(self):
         """Set up test client, temporary storage, and authentication credentials."""
+        # Reset the storage provider singleton to ensure clean state
+        reset_default_trace_provider()
+        
         # Initialize test client
         self.client = TestClient(app)
         
@@ -584,6 +587,9 @@ class TestTraceAPIWithoutAuth(unittest.TestCase):
 
     def setUp(self):
         """Set up test client without authentication requirements."""
+        # Reset the storage provider singleton to ensure clean state
+        reset_default_trace_provider()
+        
         self.client = TestClient(app)
         
         # Create temporary directory for test traces

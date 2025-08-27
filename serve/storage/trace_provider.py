@@ -254,3 +254,14 @@ def get_default_trace_provider() -> TraceStorageProvider:
             storage_location=storage_location
         )
     return _default_provider
+
+
+def reset_default_trace_provider():
+    """
+    Reset the default trace storage provider singleton.
+    
+    This is primarily intended for testing to ensure clean state
+    between test runs.
+    """
+    global _default_provider
+    _default_provider = None
