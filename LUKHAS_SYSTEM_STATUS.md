@@ -1,8 +1,8 @@
-# LUKHAS System Status — Reality (SHA: 121589b7)
-Generated: Wed Aug 27 16:03:16 BST 2025
-Artifacts: verification_artifacts/121589b7/
+# LUKHAS System Status — Reality (SHA: 51f73bb8)
+Generated: Wed Aug 27 16:07:48 BST 2025
+Artifacts: verification_artifacts/51f73bb8/
 
 ## Recent Changes
-- ✅ docs(audit): dead code triage (non-destructive)
+- ✅ chore: sync all pending changes from security and triage work
 
 ## System Status: OPERATIONAL
