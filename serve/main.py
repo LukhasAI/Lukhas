@@ -18,6 +18,9 @@ from .feedback_routes import router as feedback_router
 from .openai_routes import router as openai_router
 from .routes import router
 from .routes_traces import r as traces_router
+from .identity_api import router as identity_router
+from .consciousness_api import router as consciousness_router
+from .guardian_api import router as guardian_router
 
 logging.basicConfig(level=logging.INFO)
 
@@ -63,6 +66,9 @@ app.include_router(router)
 app.include_router(openai_router)
 app.include_router(feedback_router)
 app.include_router(traces_router)
+app.include_router(identity_router)
+app.include_router(consciousness_router)
+app.include_router(guardian_router)
 
 
 # Health check endpoint
@@ -77,3 +83,7 @@ def healthz():
 def openapi_export():
     """Export OpenAPI specification as JSON"""
     return app.openapi()
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
