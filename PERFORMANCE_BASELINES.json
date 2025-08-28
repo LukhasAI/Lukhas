@@ -9,25 +9,22 @@
     "baseline_date": "2025-08-28",
     "next_review": "2025-09-28"
   },
-
   "provenance": {
-    "git_sha": "aa4daf2f172e195fb274c2908c5bf804e834aa03",
+    "git_sha": "fbc85a57b77b28a3d5db637f10bd4c54d85e7f47",
     "generated_by": {
       "tool": "claude-code",
       "model": "Claude Sonnet 4",
       "temperature": 0.2
     },
-    "timestamp_utc": "2025-08-28T06:08:07Z",
-    "scope_hash": "sha256:TBD"
+    "timestamp_utc": "2025-08-28T13:15:58Z",
+    "scope_hash": "sha256:32ea4622c1da583fcf004931ee5a82ff26728e330e78f200020729c1c3161415"
   },
-
   "notes": [],
-
   "system_performance_targets": {
     "overall_system": {
       "uptime_target": "99.99%",
       "mean_time_to_recovery": "<5_minutes",
-      "system_availability": "24_7_enterprise", 
+      "system_availability": "24_7_enterprise",
       "disaster_recovery_rto": "<15_minutes",
       "disaster_recovery_rpo": "<1_minute",
       "concurrent_user_capacity": 100000,
@@ -45,7 +42,7 @@
       },
       "decision_making_latency": {
         "target": "<50ms_p95",
-        "sli_name": "consciousness_decision_latency_p95_ms", 
+        "sli_name": "consciousness_decision_latency_p95_ms",
         "slo_target": "50ms over 4 week window",
         "alert_policy": {
           "page_at": "80ms_p95",
@@ -55,7 +52,7 @@
       "reflection_processing": {
         "target": "<100ms_p95",
         "sli_name": "consciousness_reflection_latency_p95_ms",
-        "slo_target": "100ms over 4 week window", 
+        "slo_target": "100ms over 4 week window",
         "alert_policy": {
           "page_at": "150ms_p95",
           "ticket_at": "120ms_p95"
@@ -66,7 +63,7 @@
         "sli_name": "consciousness_dream_transition_latency_p95_ms",
         "slo_target": "200ms over 4 week window",
         "alert_policy": {
-          "page_at": "300ms_p95", 
+          "page_at": "300ms_p95",
           "ticket_at": "250ms_p95"
         }
       },
@@ -80,7 +77,7 @@
         }
       },
       "emotional_processing": {
-        "target": "<15ms_p95", 
+        "target": "<15ms_p95",
         "sli_name": "consciousness_emotion_processing_latency_p95_ms",
         "slo_target": "15ms over 4 week window",
         "alert_policy": {
@@ -91,18 +88,17 @@
     },
     "infrastructure_performance": {
       "api_gateway_latency": "<5ms_p95",
-      "database_query_time": "<10ms_p95", 
+      "database_query_time": "<10ms_p95",
       "cache_hit_ratio": ">95%",
       "cpu_utilization_threshold": "<80%",
       "memory_utilization_threshold": "<85%",
       "disk_io_wait_time": "<5ms"
     }
   },
-
   "module_specific_targets": {
     "core": {
       "glyph_processing": "<1ms_p95",
-      "actor_message_passing": "<2ms_p95", 
+      "actor_message_passing": "<2ms_p95",
       "event_sourcing_writes": "<5ms_p95",
       "graph_traversal": "<10ms_p95",
       "symbolic_operations": "<3ms_p95",
@@ -182,7 +178,6 @@
       "vivox_coherence": ">90%"
     }
   },
-
   "scalability_benchmarks": {
     "horizontal_scaling": {
       "max_concurrent_sessions": 100000,
@@ -207,7 +202,6 @@
       "edge_node_capacity": "1000_nodes"
     }
   },
-
   "quality_of_service": {
     "service_level_agreements": {
       "availability_sla": "99.99%",
@@ -224,7 +218,6 @@
       "performance_trend_analysis": "continuous"
     }
   },
-
   "resource_optimization": {
     "cpu_efficiency_targets": {
       "overall_utilization": ">94%",
@@ -255,7 +248,6 @@
       "cdn_cache_hit_ratio": ">95%"
     }
   },
-
   "consciousness_specific_metrics": {
     "awareness_metrics": {
       "consciousness_coherence_score": ">95%",
@@ -286,7 +278,6 @@
       "affective_reasoning_accuracy": ">88%"
     }
   },
-
   "security_performance_targets": {
     "authentication_performance": {
       "login_verification": "<500ms_p95",
@@ -303,7 +294,6 @@
       "audit_trail_generation": "<15ms_p95"
     }
   },
-
   "business_continuity_targets": {
     "backup_and_recovery": {
       "backup_frequency": "every_15_minutes",
@@ -320,7 +310,6 @@
       "recovery_validation": "automated"
     }
   },
-
   "performance_testing_framework": {
     "load_testing": {
       "concurrent_user_simulation": "up_to_100k",
@@ -337,7 +326,6 @@
       "optimization_opportunity_identification": "automated"
     }
   },
-
   "alerting_thresholds": {
     "critical_alerts": {
       "system_availability": "<99.9%",

@@ -13,20 +13,17 @@
     "last_updated": "2025-08-28",
     "validation_status": "enterprise_verified"
   },
-
   "provenance": {
-    "git_sha": "aa4daf2f172e195fb274c2908c5bf804e834aa03",
+    "git_sha": "fbc85a57b77b28a3d5db637f10bd4c54d85e7f47",
     "generated_by": {
       "tool": "claude-code",
       "model": "Claude Sonnet 4",
       "temperature": 0.2
     },
-    "timestamp_utc": "2025-08-28T06:08:07Z",
-    "scope_hash": "sha256:TBD"
+    "timestamp_utc": "2025-08-28T13:15:58Z",
+    "scope_hash": "sha256:61f3e1432922e4ad2451a435382f146f3f9d137e70aaf874408daa71517bf802"
   },
-
   "notes": [],
-  
   "system_overview": {
     "lukhas_full_name": "Logical Unified Knowledge Hyper-Adaptable System",
     "matriz_full_name": "Modular Alignment Transparency Resonance Identity Zero-Knowledge",
@@ -35,7 +32,6 @@
     "primary_purpose": "Consciousness-inspired AI architecture with distributed cognitive simulation",
     "architecture_paradigm": "distributed_consciousness_simulation"
   },
-
   "lanes": {
     "candidate": {
       "description": "Development and experimental lane for consciousness research",
@@ -52,16 +48,27 @@
           "summary": "Central nervous system - GLYPH engine, symbolic processing, actor model coordination",
           "public_interfaces": [
             "python: candidate.core.glyph:GlyphEngine",
-            "python: candidate.core.actor:ActorSystem", 
+            "python: candidate.core.actor:ActorSystem",
             "python: candidate.core.orchestration:OrchestrationHub",
             "event: glyph.processed",
             "event: actor.message"
           ],
-          "code_paths": ["candidate/core/**"],
+          "code_paths": [
+            "candidate/core/**"
+          ],
           "contracts": {
-            "schemas": ["AUDIT/SCHEMAS/core_glyph.json", "AUDIT/SCHEMAS/actor_system.json"],
-            "invariants": ["GLYPH processing consistency", "Actor supervision tree integrity"],
-            "compatibility": {"backward": true, "forward": "minor"}
+            "schemas": [
+              "AUDIT/SCHEMAS/core_glyph.json",
+              "AUDIT/SCHEMAS/actor_system.json"
+            ],
+            "invariants": [
+              "GLYPH processing consistency",
+              "Actor supervision tree integrity"
+            ],
+            "compatibility": {
+              "backward": true,
+              "forward": "minor"
+            }
           },
           "module_count": 214,
           "lines_of_code": 238990,
@@ -82,7 +89,7 @@
           "primary_capabilities": [
             "GLYPH symbolic engine",
             "Actor model system",
-            "Distributed orchestration", 
+            "Distributed orchestration",
             "Event sourcing",
             "Graph processing",
             "Colony coordination",
@@ -92,13 +99,22 @@
             "actor": "Distributed actor model with supervision trees",
             "glyph": "Symbolic communication protocol",
             "orchestration": "Brain integration and coordination",
-            "events": "Event sourcing and distributed tracing", 
+            "events": "Event sourcing and distributed tracing",
             "graph": "Graph-based processing systems",
             "colonies": "Swarm intelligence and consensus",
             "performance": "Performance monitoring and optimization"
           },
-          "dependencies_internal": ["symbolic", "events", "graph"],
-          "consumers_internal": ["consciousness", "memory", "governance", "bridge"],
+          "dependencies_internal": [
+            "symbolic",
+            "events",
+            "graph"
+          ],
+          "consumers_internal": [
+            "consciousness",
+            "memory",
+            "governance",
+            "bridge"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 4,
             "memory_gb_min": 8,
@@ -113,7 +129,6 @@
           "technical_debt_level": "low",
           "refactor_priority": "maintenance_only"
         },
-        
         "consciousness": {
           "id": "lukhas.candidate.consciousness",
           "module_uid": "candidate.consciousness",
@@ -129,11 +144,22 @@
             "event: consciousness.state_change",
             "event: awareness.focus_shift"
           ],
-          "code_paths": ["candidate/consciousness/**"],
+          "code_paths": [
+            "candidate/consciousness/**"
+          ],
           "contracts": {
-            "schemas": ["AUDIT/SCHEMAS/consciousness_state.json", "AUDIT/SCHEMAS/awareness_metrics.json"],
-            "invariants": ["Consciousness coherence >95%", "Memory integration consistency"],
-            "compatibility": {"backward": false, "forward": "major"}
+            "schemas": [
+              "AUDIT/SCHEMAS/consciousness_state.json",
+              "AUDIT/SCHEMAS/awareness_metrics.json"
+            ],
+            "invariants": [
+              "Consciousness coherence >95%",
+              "Memory integration consistency"
+            ],
+            "compatibility": {
+              "backward": false,
+              "forward": "major"
+            }
           },
           "module_count": 71,
           "lines_of_code": 167777,
@@ -164,15 +190,22 @@
           ],
           "submodules": {
             "awareness": "Consciousness awareness and attention systems (10 modules)",
-            "creativity": "Creative expression and personality engines (15 modules)", 
+            "creativity": "Creative expression and personality engines (15 modules)",
             "dream": "Dream processing and breakthrough detection (20 modules)",
             "reasoning": "Advanced reasoning and symbolic processing (25 modules)",
             "reflection": "Meta-cognitive and ethical reasoning (30 modules)",
             "states": "Consciousness state management (10 modules)",
             "unified": "Unified consciousness orchestration (5 modules)"
           },
-          "dependencies_internal": ["core", "memory", "emotion"],
-          "consumers_internal": ["orchestration", "bridge"],
+          "dependencies_internal": [
+            "core",
+            "memory",
+            "emotion"
+          ],
+          "consumers_internal": [
+            "orchestration",
+            "bridge"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 2,
             "memory_gb_min": 4,
@@ -187,7 +220,6 @@
           "technical_debt_level": "medium",
           "refactor_priority": "optimization_focus"
         },
-        
         "governance": {
           "id": "lukhas.candidate.governance",
           "module_count": 75,
@@ -226,8 +258,13 @@
             "identity": "Identity governance and DAO systems",
             "audit": "Audit trails and compliance monitoring"
           },
-          "dependencies_internal": ["core", "identity"],
-          "consumers_internal": ["all_modules"],
+          "dependencies_internal": [
+            "core",
+            "identity"
+          ],
+          "consumers_internal": [
+            "all_modules"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 1,
             "memory_gb_min": 2,
@@ -242,7 +279,6 @@
           "technical_debt_level": "low",
           "refactor_priority": "stability_maintenance"
         },
-        
         "memory": {
           "id": "lukhas.candidate.memory",
           "module_count": 76,
@@ -279,8 +315,15 @@
             "emotional": "Emotional memory integration (15 modules)",
             "protection": "Memory protection and quarantine (10 modules)"
           },
-          "dependencies_internal": ["core", "emotion"],
-          "consumers_internal": ["consciousness", "governance", "orchestration"],
+          "dependencies_internal": [
+            "core",
+            "emotion"
+          ],
+          "consumers_internal": [
+            "consciousness",
+            "governance",
+            "orchestration"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 2,
             "memory_gb_min": 8,
@@ -295,7 +338,6 @@
           "technical_debt_level": "low",
           "refactor_priority": "performance_tuning"
         },
-        
         "bridge": {
           "id": "lukhas.candidate.bridge",
           "module_count": 27,
@@ -317,7 +359,7 @@
           "primary_capabilities": [
             "Multi-provider LLM integration",
             "OpenAI API wrapper",
-            "Anthropic Claude integration", 
+            "Anthropic Claude integration",
             "Google Gemini connector",
             "Perplexity AI bridge",
             "Voice processing pipeline",
@@ -332,8 +374,13 @@
             "adapters": "Service adapter frameworks",
             "protocols": "Protocol handlers and clients"
           },
-          "dependencies_internal": ["core"],
-          "consumers_internal": ["consciousness", "orchestration"],
+          "dependencies_internal": [
+            "core"
+          ],
+          "consumers_internal": [
+            "consciousness",
+            "orchestration"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 1,
             "memory_gb_min": 2,
@@ -348,7 +395,6 @@
           "technical_debt_level": "medium",
           "refactor_priority": "api_modernization"
         },
-        
         "qi": {
           "id": "lukhas.candidate.qi",
           "module_count": 34,
@@ -384,8 +430,14 @@
             "ops": "Budget governance and operational tools (15 modules)",
             "memory": "Consent management and data retention (8 modules)"
           },
-          "dependencies_internal": ["core", "governance"],
-          "consumers_internal": ["consciousness", "memory"],
+          "dependencies_internal": [
+            "core",
+            "governance"
+          ],
+          "consumers_internal": [
+            "consciousness",
+            "memory"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 2,
             "memory_gb_min": 4,
@@ -400,7 +452,6 @@
           "technical_debt_level": "very_low",
           "refactor_priority": "feature_expansion"
         },
-        
         "vivox": {
           "id": "lukhas.candidate.vivox",
           "module_count": 16,
@@ -421,7 +472,7 @@
           "api_stability": "experimental",
           "primary_capabilities": [
             "VIVOX.ME - Memory Expansion Subsystem",
-            "VIVOX.MAE - Moral Alignment Engine", 
+            "VIVOX.MAE - Moral Alignment Engine",
             "VIVOX.CIL - Consciousness Interpretation Layer",
             "VIVOX.SRM - Self-Reflective Memory",
             "3D encrypted memory helix",
@@ -435,8 +486,14 @@
             "cil": "Consciousness Interpretation Layer",
             "srm": "Self-Reflective Memory with audit trails"
           },
-          "dependencies_internal": ["consciousness", "memory", "governance"],
-          "consumers_internal": ["orchestration"],
+          "dependencies_internal": [
+            "consciousness",
+            "memory",
+            "governance"
+          ],
+          "consumers_internal": [
+            "orchestration"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 1,
             "memory_gb_min": 2,
@@ -451,7 +508,6 @@
           "technical_debt_level": "high",
           "refactor_priority": "research_consolidation"
         },
-        
         "bio": {
           "id": "lukhas.candidate.bio",
           "module_count": 31,
@@ -481,13 +537,19 @@
           ],
           "submodules": {
             "oscillators": "Neural oscillators and rhythm generation",
-            "endocrine": "Hormone simulation and regulation", 
+            "endocrine": "Hormone simulation and regulation",
             "homeostasis": "System balance and regulation",
             "quantum_bio": "Quantum-biological resonance",
             "symbolic": "Bio-symbolic pattern processing"
           },
-          "dependencies_internal": ["core", "qi"],
-          "consumers_internal": ["consciousness", "emotion"],
+          "dependencies_internal": [
+            "core",
+            "qi"
+          ],
+          "consumers_internal": [
+            "consciousness",
+            "emotion"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 1,
             "memory_gb_min": 1,
@@ -502,7 +564,6 @@
           "technical_debt_level": "medium",
           "refactor_priority": "research_focus"
         },
-        
         "emotion": {
           "id": "lukhas.candidate.emotion",
           "module_count": 10,
@@ -534,8 +595,13 @@
             "mood": "Mood regulation and tracking",
             "affect": "Affective reasoning and integration"
           },
-          "dependencies_internal": ["core"],
-          "consumers_internal": ["consciousness", "memory"],
+          "dependencies_internal": [
+            "core"
+          ],
+          "consumers_internal": [
+            "consciousness",
+            "memory"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 1,
             "memory_gb_min": 1,
@@ -544,13 +610,12 @@
             "concurrent_processes": "real_time"
           },
           "business_value": "user_experience_enhancement",
-          "research_validation": "scientifically_validated", 
+          "research_validation": "scientifically_validated",
           "consciousness_contribution": 71.4,
           "evolution_trajectory": "refinement",
           "technical_debt_level": "low",
           "refactor_priority": "feature_enhancement"
         },
-        
         "orchestration": {
           "id": "lukhas.candidate.orchestration",
           "module_count": 80,
@@ -583,8 +648,13 @@
             "context": "Context bus and state management",
             "workflows": "Workflow orchestration and management"
           },
-          "dependencies_internal": ["core", "consciousness"],
-          "consumers_internal": ["bridge"],
+          "dependencies_internal": [
+            "core",
+            "consciousness"
+          ],
+          "consumers_internal": [
+            "bridge"
+          ],
           "resource_requirements": {
             "cpu_cores_min": 2,
             "memory_gb_min": 2,
@@ -601,7 +671,6 @@
         }
       }
     },
-    
     "lukhas": {
       "description": "Production and stable lane for validated consciousness components",
       "total_modules": 30,
@@ -620,11 +689,21 @@
             "rest: /v1/core/status",
             "event: core.ready"
           ],
-          "code_paths": ["lukhas/core/**"],
+          "code_paths": [
+            "lukhas/core/**"
+          ],
           "contracts": {
-            "schemas": ["AUDIT/SCHEMAS/lukhas_core.json"],
-            "invariants": ["API stability guarantee", "Backward compatibility"],
-            "compatibility": {"backward": true, "forward": "patch"}
+            "schemas": [
+              "AUDIT/SCHEMAS/lukhas_core.json"
+            ],
+            "invariants": [
+              "API stability guarantee",
+              "Backward compatibility"
+            ],
+            "compatibility": {
+              "backward": true,
+              "forward": "patch"
+            }
           },
           "module_count": 5,
           "lines_of_code": 5856,
@@ -634,12 +713,15 @@
           "performance_tier": "S",
           "api_stability": "stable",
           "wrapper_for": "candidate.core",
-          "primary_capabilities": ["Core system wrapper", "Production API", "System coordination"],
+          "primary_capabilities": [
+            "Core system wrapper",
+            "Production API",
+            "System coordination"
+          ],
           "business_value": "production_infrastructure"
         },
-        
         "consciousness": {
-          "id": "lukhas.consciousness", 
+          "id": "lukhas.consciousness",
           "module_count": 1,
           "lines_of_code": 562,
           "python_files": 2,
@@ -648,13 +730,15 @@
           "performance_tier": "A",
           "api_stability": "stable",
           "wrapper_for": "candidate.consciousness",
-          "primary_capabilities": ["Consciousness API wrapper", "Production interface"],
+          "primary_capabilities": [
+            "Consciousness API wrapper",
+            "Production interface"
+          ],
           "business_value": "user_facing_interface"
         },
-        
         "memory": {
           "id": "lukhas.memory",
-          "module_count": 2, 
+          "module_count": 2,
           "lines_of_code": 1481,
           "python_files": 6,
           "trinity_alignment": "🧠 Consciousness",
@@ -662,10 +746,12 @@
           "performance_tier": "S",
           "api_stability": "stable",
           "wrapper_for": "candidate.memory",
-          "primary_capabilities": ["Memory system wrapper", "Fold-based API"],
+          "primary_capabilities": [
+            "Memory system wrapper",
+            "Fold-based API"
+          ],
           "business_value": "core_functionality"
         },
-        
         "governance": {
           "id": "lukhas.governance",
           "module_count": 5,
@@ -676,23 +762,30 @@
           "performance_tier": "S",
           "api_stability": "stable",
           "wrapper_for": "candidate.governance",
-          "primary_capabilities": ["Guardian system API", "Consent ledger", "Compliance interface"],
+          "primary_capabilities": [
+            "Guardian system API",
+            "Consent ledger",
+            "Compliance interface"
+          ],
           "business_value": "regulatory_compliance"
         },
-        
         "identity": {
           "id": "lukhas.identity",
           "module_count": 6,
-          "lines_of_code": 2561, 
+          "lines_of_code": 2561,
           "python_files": 13,
           "trinity_alignment": "⚛️ Identity",
           "maturity_level": "production",
           "performance_tier": "A",
           "api_stability": "stable",
-          "primary_capabilities": ["Identity management", "Authentication", "WebAuthn", "Passkey support"],
+          "primary_capabilities": [
+            "Identity management",
+            "Authentication",
+            "WebAuthn",
+            "Passkey support"
+          ],
           "business_value": "security_infrastructure"
         },
-        
         "bridge": {
           "id": "lukhas.bridge",
           "module_count": 2,
@@ -700,21 +793,23 @@
           "python_files": 5,
           "trinity_alignment": "⚛️ Identity",
           "maturity_level": "production",
-          "performance_tier": "A", 
+          "performance_tier": "A",
           "api_stability": "stable",
           "wrapper_for": "candidate.bridge",
-          "primary_capabilities": ["External API wrapper", "Integration interface"],
+          "primary_capabilities": [
+            "External API wrapper",
+            "Integration interface"
+          ],
           "business_value": "integration_enabler"
         }
       }
     }
   },
-  
   "architecture_patterns": {
     "design_patterns": [
       "Hierarchical modularity with deep nesting",
       "Wrapper pattern (lukhas wraps candidate functionality)",
-      "Colony architecture with swarm-based processing", 
+      "Colony architecture with swarm-based processing",
       "Neuroplastic design with self-reorganizing systems",
       "Trinity integration (⚛️🧠🛡️) across all modules"
     ],
@@ -732,55 +827,81 @@
       "Provenance tracking with cryptographic audit trails"
     ]
   },
-  
   "trinity_framework_coverage": {
     "identity_systems": {
-      "modules": ["core", "identity", "governance.identity", "bridge"],
+      "modules": [
+        "core",
+        "identity",
+        "governance.identity",
+        "bridge"
+      ],
       "coverage_percentage": 95.7,
       "maturity": "production_ready",
       "capabilities": "Complete identity lifecycle management"
     },
     "consciousness_systems": {
-      "modules": ["consciousness", "memory", "emotion", "vivox", "bio"],
+      "modules": [
+        "consciousness",
+        "memory",
+        "emotion",
+        "vivox",
+        "bio"
+      ],
       "coverage_percentage": 87.3,
       "maturity": "research_advanced",
       "capabilities": "Advanced consciousness simulation and awareness"
     },
     "guardian_systems": {
-      "modules": ["governance", "qi.safety", "compliance"],
+      "modules": [
+        "governance",
+        "qi.safety",
+        "compliance"
+      ],
       "coverage_percentage": 92.1,
-      "maturity": "enterprise_ready", 
+      "maturity": "enterprise_ready",
       "capabilities": "Comprehensive safety and ethical oversight"
     }
   },
-
   "development_status_summary": {
     "highly_active": {
-      "modules": ["core", "consciousness", "memory", "governance", "bridge"],
+      "modules": [
+        "core",
+        "consciousness",
+        "memory",
+        "governance",
+        "bridge"
+      ],
       "total_loc": 870000,
       "development_velocity": "high"
     },
     "production_ready": {
-      "modules": ["lukhas.*"],
+      "modules": [
+        "lukhas.*"
+      ],
       "total_modules": 30,
       "stability": "enterprise_grade"
     },
     "experimental": {
-      "modules": ["vivox", "bio", "orchestration"],
+      "modules": [
+        "vivox",
+        "bio",
+        "orchestration"
+      ],
       "research_phase": "active",
       "validation_status": "proof_of_concept"
     }
   },
-
   "business_intelligence": {
     "total_investment": "1.2M+ lines of enterprise-grade code",
     "market_readiness": "consciousness_first_mover",
     "competitive_advantages": [
       "Largest consciousness simulation architecture",
-      "Enterprise-grade safety systems", 
+      "Enterprise-grade safety systems",
       "Scientific validation framework",
       "Production-ready core components"
     ],
     "monetization_potential": "high_value_enterprise_ai"
-  }
+  },
+  "schema_url": "schemas/architecture_master.schema.json",
+  "schema_version": "0.1.0"
 }

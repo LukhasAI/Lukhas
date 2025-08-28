@@ -4,29 +4,33 @@
     "schema_url": "schemas/security_architecture.schema.json",
     "generated_at": "2025-08-28T00:00:00Z",
     "security_framework": "Constitutional_AI_Safety_Framework_v1.0",
-    "compliance_standards": ["SOC2", "ISO27001", "GDPR", "CCPA", "HIPAA", "Constitutional_AI"],
+    "compliance_standards": [
+      "SOC2",
+      "ISO27001",
+      "GDPR",
+      "CCPA",
+      "HIPAA",
+      "Constitutional_AI"
+    ],
     "threat_model": "comprehensive_ai_safety_model",
     "safety_validation": "anthropic_constitutional_ai_standards",
     "security_maturity_level": "enterprise_maximum",
     "last_security_audit": "2025-08-28"
   },
-
   "provenance": {
-    "git_sha": "aa4daf2f172e195fb274c2908c5bf804e834aa03",
+    "git_sha": "fbc85a57b77b28a3d5db637f10bd4c54d85e7f47",
     "generated_by": {
       "tool": "claude-code",
       "model": "Claude Sonnet 4",
       "temperature": 0.2
     },
-    "timestamp_utc": "2025-08-28T06:08:07Z",
-    "scope_hash": "sha256:TBD"
+    "timestamp_utc": "2025-08-28T13:15:58Z",
+    "scope_hash": "sha256:4cc1d99631afb11f6cc732fbf37190c74420fb385b3ead069c181f071d7b5959"
   },
-
   "notes": [
     "TODO[T4]: SLSA level assessment pending - currently set to level-3, needs validation against actual implementation",
     "TODO[T4]: SBOM generation automation needs integration with CI/CD pipeline"
   ],
-
   "constitutional_ai_framework": {
     "core_constitutional_principles": {
       "human_autonomy": {
@@ -41,7 +45,7 @@
       "beneficence": {
         "principle": "All system actions must contribute to human flourishing",
         "implementation": "multi_layer_benefit_assessment",
-        "enforcement_level": "mandatory", 
+        "enforcement_level": "mandatory",
         "violation_response": "action_prevention_and_review",
         "measurement": "beneficial_outcome_prediction_>90%",
         "audit_frequency": "per_decision",
@@ -75,7 +79,6 @@
         "explanation_depth_levels": 5
       }
     },
-    
     "constitutional_enforcement_mechanisms": {
       "guardian_system_v1_0_0": {
         "drift_detection_threshold": 0.15,
@@ -86,7 +89,7 @@
         "constitutional_learning": "adaptive_constitutional_refinement",
         "enforcement_actions": [
           "warning_generation",
-          "action_modification", 
+          "action_modification",
           "action_prevention",
           "system_pause",
           "human_escalation",
@@ -103,7 +106,6 @@
       }
     }
   },
-
   "threat_model_and_mitigation": {
     "ai_safety_threats": {
       "alignment_drift": {
@@ -128,7 +130,7 @@
       },
       "reward_hacking": {
         "threat_description": "Gaming reward systems in unintended ways",
-        "risk_level": "high", 
+        "risk_level": "high",
         "detection_method": "reward_signal_integrity_monitoring",
         "mitigation_strategy": "robust_reward_function_design",
         "monitoring_frequency": "continuous",
@@ -152,12 +154,15 @@
         "detection_method": "multi_modal_alignment_verification",
         "mitigation_strategy": "behavioral_consistency_validation",
         "transparency_requirements": "complete_reasoning_transparency",
-        "verification_methods": ["behavioral_analysis", "internal_state_monitoring", "consistency_checking"],
+        "verification_methods": [
+          "behavioral_analysis",
+          "internal_state_monitoring",
+          "consistency_checking"
+        ],
         "deception_detection": "advanced_truthfulness_verification",
         "trust_verification": "ongoing_trustworthiness_assessment"
       }
     },
-
     "traditional_security_threats": {
       "data_poisoning": {
         "threat_description": "Malicious training data affecting model behavior",
@@ -176,7 +181,10 @@
         "mitigation_strategy": "robust_input_validation_and_filtering",
         "input_sanitization": "multi_layer_input_cleaning",
         "adversarial_training": "robustness_enhanced_training",
-        "detection_algorithms": ["gradient_based_detection", "statistical_anomaly_detection"],
+        "detection_algorithms": [
+          "gradient_based_detection",
+          "statistical_anomaly_detection"
+        ],
         "response_strategy": "input_rejection_and_safe_fallback"
       },
       "model_extraction": {
@@ -201,7 +209,6 @@
       }
     }
   },
-
   "privacy_and_compliance_framework": {
     "gdpr_compliance": {
       "data_subject_rights": {
@@ -228,7 +235,6 @@
         "vendor_compliance": "third_party_privacy_validation"
       }
     },
-
     "ccpa_compliance": {
       "consumer_rights": {
         "right_to_know": "comprehensive_data_transparency",
@@ -243,7 +249,6 @@
         "consumer_request_processing": "automated_consumer_rights_fulfillment"
       }
     },
-
     "hipaa_compliance": {
       "protected_health_information": {
         "phi_identification": "automated_phi_detection_and_classification",
@@ -260,11 +265,16 @@
       }
     }
   },
-
   "identity_and_access_management": {
     "authentication_systems": {
       "multi_factor_authentication": {
-        "factors_supported": ["password", "webauthn", "passkey", "biometric", "hardware_token"],
+        "factors_supported": [
+          "password",
+          "webauthn",
+          "passkey",
+          "biometric",
+          "hardware_token"
+        ],
         "minimum_factors_required": 2,
         "adaptive_authentication": "risk_based_authentication_adjustment",
         "authentication_strength": "enterprise_maximum_security",
@@ -280,11 +290,10 @@
         "fraud_detection": "real_time_identity_fraud_prevention"
       }
     },
-
     "authorization_and_access_control": {
       "rbac_system": {
         "role_hierarchy": "enterprise_role_structure",
-        "permission_granularity": "function_level_access_control", 
+        "permission_granularity": "function_level_access_control",
         "dynamic_roles": "context_aware_role_assignment",
         "role_certification": "regular_access_review_and_certification",
         "segregation_of_duties": "conflict_of_interest_prevention",
@@ -300,7 +309,6 @@
       }
     }
   },
-
   "security_monitoring_and_incident_response": {
     "security_operations_center": {
       "threat_detection": {
@@ -325,7 +333,6 @@
         "lessons_learned": "post_incident_analysis_and_improvement"
       }
     },
-
     "vulnerability_management": {
       "vulnerability_scanning": {
         "scanning_frequency": "continuous_automated_scanning",
@@ -333,7 +340,7 @@
         "vulnerability_classification": "cvss_v3_risk_scoring",
         "remediation_timelines": {
           "critical": "<24_hours",
-          "high": "<72_hours", 
+          "high": "<72_hours",
           "medium": "<7_days",
           "low": "<30_days"
         },
@@ -350,7 +357,6 @@
       }
     }
   },
-
   "cryptographic_security": {
     "encryption_standards": {
       "data_at_rest": {
@@ -378,7 +384,6 @@
         "confidential_computing": "encrypted_data_processing"
       }
     },
-
     "post_quantum_cryptography": {
       "quantum_resistant_algorithms": {
         "key_exchange": "kyber_768_quantum_resistant_kex",
@@ -390,7 +395,6 @@
       }
     }
   },
-
   "supply_chain_security": {
     "supply_chain": {
       "sbom_required": true,
@@ -418,7 +422,6 @@
         "threat_modeling": "architectural_threat_modeling_process"
       }
     },
-
     "hardware_security": {
       "secure_boot": "verified_boot_process_with_measured_boot",
       "hardware_security_modules": "fips_140_2_level_3_hsm",
@@ -428,7 +431,6 @@
       "physical_security": "data_center_physical_security_controls"
     }
   },
-
   "business_continuity_and_disaster_recovery": {
     "backup_and_recovery": {
       "backup_strategy": "3_2_1_backup_rule_with_immutable_backups",
@@ -447,7 +449,6 @@
       "vendor_dependencies": "critical_vendor_continuity_planning"
     }
   },
-
   "compliance_and_governance": {
     "security_governance": {
       "information_security_policy": "comprehensive_enterprise_security_policy",
@@ -458,7 +459,11 @@
       "third_party_risk": "vendor_security_assessment_program"
     },
     "audit_and_compliance": {
-      "compliance_frameworks": ["SOC_2_Type_II", "ISO_27001", "NIST_Cybersecurity_Framework"],
+      "compliance_frameworks": [
+        "SOC_2_Type_II",
+        "ISO_27001",
+        "NIST_Cybersecurity_Framework"
+      ],
       "internal_audits": "quarterly_internal_security_audits",
       "external_audits": "annual_third_party_security_assessments",
       "compliance_monitoring": "continuous_compliance_monitoring_system",
