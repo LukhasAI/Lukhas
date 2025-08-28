@@ -1,0 +1,42 @@
+blocked_terms:
+  - keats
+  - keatsian
+  - macbeth
+  - shakespeare
+  - freud
+  - einstein
+  - tao
+  - taoism
+  - zen
+  - rick rubin
+  - nachmanovitch
+  - julia cameron
+  - carroll
+  - lewis carroll
+  - alice
+  - homer
+  - iliad
+  - odyssey
+  - tolstoy
+  - dostoevsky
+  - brontë
+  - bronte
+  - orwell
+  - dickens
+  - dumbledore
+  - harry potter
+  - voldemort
+  - zeus
+  - agamemnon
+  - aeschylus
+  - sophocles
+  - euripides
+exceptions:
+  mode: academic
+  paths:
+    - "/docs/references/"
+    - "/thesis/appendix/"
+    - "/research/"
+    - "/citations/"
+allow_stance_terms:
+  - "negative capability stance"
