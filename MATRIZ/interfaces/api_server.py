@@ -35,24 +35,12 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field, validator
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 
-# Import MATRIZ components
-try:
-    from ..core.node_interface import CognitiveNode
-    from ..core.orchestrator import CognitiveOrchestrator, ExecutionTrace
-    from ..nodes.fact_node import FactNode
-    from ..nodes.math_node import MathNode
-    from ..nodes.validator_node import ValidatorNode
-except ImportError:
-    # For direct execution
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).parent.parent))
-    from nodes.fact_node import FactNode
-    from nodes.math_node import MathNode
-    from nodes.validator_node import ValidatorNode
-
-    from core.orchestrator import CognitiveOrchestrator
+# Import MATRIZ components (package-relative for reliability)
+from ..core.node_interface import CognitiveNode
+from ..core.orchestrator import CognitiveOrchestrator, ExecutionTrace
+from ..nodes.fact_node import FactNode
+from ..nodes.math_node import MathNode
+from ..nodes.validator_node import ValidatorNode
 
 
 # Configure logging
@@ -697,7 +685,7 @@ def run_server(
     logger.info(f"Starting MATRIZ-AGI FastAPI server on {host}:{port}")
 
     uvicorn.run(
-        "interfaces.api_server:app",
+        "matriz.interfaces.api_server:app",
         host=host,
         port=port,
         reload=reload,

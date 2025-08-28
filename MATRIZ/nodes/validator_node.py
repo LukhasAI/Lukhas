@@ -23,24 +23,12 @@ import re
 import time
 from typing import Any, Union
 
-try:
-    from ..core.node_interface import (
-        CognitiveNode,
-        NodeReflection,
-        NodeState,
-        NodeTrigger,
-    )
-except ImportError:
-    # For direct execution
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).parent.parent))
-    from core.node_interface import (
-        CognitiveNode,
-        NodeState,
-        NodeTrigger,
-    )
+from ..core.node_interface import (
+    CognitiveNode,
+    NodeReflection,
+    NodeState,
+    NodeTrigger,
+)
 
 
 class ValidatorNode(CognitiveNode):
