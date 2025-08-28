@@ -280,11 +280,11 @@ class SymbolicQuarantineSanctum:
         self._load_quarantine_entries()
 
         logger.info(
-            "ΛSANCTUM quarantine system initialized",
-            sanctum_directory=str(self.sanctum_directory),
-            manifest_path=str(self.manifest_path),
-            active_quarantines=len(self.quarantine_entries),
-            ΛTAG="ΛSANCTUM_INIT",
+            "ΛSANCTUM quarantine system initialized | sanctum_directory=%s manifest_path=%s active_quarantines=%d tag=%s",
+            str(self.sanctum_directory),
+            str(self.manifest_path),
+            len(self.quarantine_entries),
+            "ΛSANCTUM_INIT",
         )
 
     def _load_config(self, path: Path) -> None:
