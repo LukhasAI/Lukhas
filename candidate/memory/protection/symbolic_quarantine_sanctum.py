@@ -1019,17 +1019,11 @@ class SymbolicQuarantineSanctum:
                     )
 
         logger.info(
-            "Contamination scan completed",
-            entries_scanned=len(memory_entries),
-            contamination_found=len(findings),
-            auto_quarantined=len(
-                [
-                    f
-                    for f in findings
-                    if auto_quarantine and f["contamination_score"] > 0.7
-                ]
-            ),
-            ΛTAG="ΛCONTAMINATION_SCAN",
+            "Contamination scan completed | entries_scanned=%d contamination_found=%d auto_quarantined=%d tag=%s",
+            len(memory_entries),
+            len(findings),
+            len([f for f in findings if auto_quarantine and f["contamination_score"] > 0.7]),
+            "ΛCONTAMINATION_SCAN",
         )
 
         return findings
