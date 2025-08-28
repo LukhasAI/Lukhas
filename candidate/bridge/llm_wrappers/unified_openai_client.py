@@ -41,6 +41,8 @@ from typing import Any, Optional, Union
 
 from openai import AsyncOpenAI, OpenAI
 
+from .base import LLMWrapper
+
 logger = logging.getLogger("ΛTRACE.bridge.unified_openai")
 
 
@@ -71,7 +73,7 @@ class ConversationState:
     max_context_length: int = 8000  # Conservative limit for GPT-4
 
 
-class UnifiedOpenAIClient:
+class UnifiedOpenAIClient(LLMWrapper):
     """
     Unified OpenAI client for LUKHAS AGI system.
     Combines best features from all previous implementations.
@@ -422,6 +424,34 @@ class UnifiedOpenAIClient:
         """Clean up resources"""
         await self.async_client.close()
         logger.info("UnifiedOpenAIClient closed")
+
+    async def generate_response(self, prompt: str, model: Optional[str] = None, **kwargs) -> tuple[str, str]:
+        """
+        Generate a response from the LLM.
+        This is an adapter method to comply with the LLMWrapper interface.
+        """
+        task = kwargs.get("task")
+        temperature = kwargs.get("temperature")
+        max_tokens = kwargs.get("max_tokens")
+
+        if model is None:
+            model = self.TASK_MODELS.get(task, self.TASK_MODELS["general"])
+
+        response = await self.chat_completion(
+            messages=prompt,
+            model=model,
+            task=task,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+
+        return response["choices"][0]["message"]["content"], model
+
+    def is_available(self) -> bool:
+        """
+        Check if the OpenAI client is available.
+        """
+        return self.api_key is not None
 
 
 # Backward compatibility aliases
