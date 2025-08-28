@@ -81,11 +81,8 @@ async def lifespan(app: FastAPI):
             else:
                 logger.warning("⚠️ Some validation tests failed - check logs")
 
-            # Generate API documentation
-            logger.info("📚 Generating API documentation...")
-            generate_api_documentation(app)
-            export_openapi_spec(app, "lukhas_api_openapi.json")
-            logger.info("✅ API documentation generated")
+            # API documentation can be generated manually
+            logger.info("✅ Skipping API documentation generation at startup")
 
         logger.info("🎉 LUKHAS AI API Bridge startup complete!")
 

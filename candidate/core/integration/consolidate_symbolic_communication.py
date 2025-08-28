@@ -1,389 +1,133 @@
 #!/usr/bin/env python3
 """
 LUKHAS 2030 Symbolic Communication Consolidation
-Universal symbolic language system
+Universal symbolic language system for MΛTRIZ integration.
+
+This script provides a bridge function to convert the state of a
+SymbolicWorld object into a valid MΛTRIZ node.
 """
 
+import hashlib
+import json
+import uuid
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
+
+# Assuming execution from a context where 'candidate' is in the Python path.
+from candidate.core.symbolic.symbolic_core import SymbolicWorld, Symbol
+from candidate.core.symbolic.glyph_engine import generate_glyph
 
 
 def consolidate_symbolic_communication():
-    """Consolidate symbolic_communication into unified system"""
-
-    print("🔧 Consolidating symbolic_communication...")
-    print("   Vision: GLYPH-based universal communication")
-
-    # Target directory
-    target_dir = Path("symbolic/communication")
-    target_dir.mkdir(parents=True, exist_ok=True)
-
-    # Features to implement
-    features = [
-        "Symbolic token generation",
-        "Cross-module communication",
-        "Language translation",
-        "Concept preservation",
-        "Semantic compression",
-        "Symbolic reasoning",
-    ]
-
-    print("   Features to preserve:")
-    for feature in features:
-        print(f"      ✓ {feature}")
-
-    # Implementation of consolidation logic
-    print("   📊 Phase 1: Analyzing existing symbolic systems...")
-
-    # 1. Analyze existing symbolic systems
-    symbolic_systems = analyze_existing_symbolic_systems(target_dir)
-
-    # 2. Extract common patterns and create unified interfaces
-    print("   🔧 Phase 2: Creating unified interfaces...")
-    unified_interfaces = create_unified_interfaces(symbolic_systems)
-
-    # 3. Implement MΛTRIZ bridge integration
-    print("   🌉 Phase 3: Building MΛTRIZ bridge...")
-    matriz_bridge = implement_matriz_bridge(target_dir, unified_interfaces)
-
-    # 4. Create context bus integration
-    print("   🚌 Phase 4: Implementing context bus...")
-    context_bus = create_context_bus_integration(target_dir, matriz_bridge)
-
-    # 5. Generate consolidated module
-    print("   📦 Phase 5: Generating consolidated module...")
-    consolidation_result = generate_consolidated_module(
-        target_dir, symbolic_systems, unified_interfaces,
-        matriz_bridge, context_bus
-    )
-
-    print(f"✅ Symbolic communication consolidation complete!")
-    print(f"   📈 Systems consolidated: {len(symbolic_systems)}")
-    print(f"   🔗 Bridge connections: {matriz_bridge['connections']}")
-    print(f"   ⚡ Context handoff performance: <250ms target")
-
-    return consolidation_result
+    """
+    This function is a placeholder for a larger consolidation effort.
+    Currently, the main functionality is provided by the bridge function
+    `create_matriz_node_from_symbolic_world`.
+    """
+    print("Consolidation of symbolic communication systems is a work in progress.")
+    print("Use `create_matriz_node_from_symbolic_world` for MΛTRIZ integration.")
 
 
-def analyze_existing_symbolic_systems(target_dir: Path) -> dict:
-    """Analyze existing symbolic communication systems in LUKHAS"""
-    systems = {
-        "kernel_bus": {
-            "location": "candidate/orchestration/symbolic_kernel_bus.py",
-            "capabilities": [
-                "event_routing", "symbolic_effects", "priority_queues",
-                "causality_tracking", "effect_handling"
-            ],
-            "interfaces": ["emit", "subscribe", "dispatch"],
-            "performance": {"async": True, "pub_sub": True}
-        },
-        "context_bus": {
-            "location": "candidate/orchestration/context_bus.py",
-            "capabilities": [
-                "workflow_orchestration", "policy_integration", "handoff_tracking",
-                "rate_limiting", "performance_monitoring"
-            ],
-            "interfaces": ["execute_workflow", "handoff_context", "track_performance"],
-            "performance": {"target_ms": 250, "policy_enforcement": True}
-        },
-        "glyph_engine": {
-            "location": "core/",
-            "capabilities": [
-                "symbolic_tokens", "cross_module_comm", "semantic_compression"
-            ],
-            "interfaces": ["generate_glyph", "parse_glyph", "translate_glyph"]
-        }
+def create_matriz_node_from_symbolic_world(symbolic_world: SymbolicWorld) -> dict:
+    """
+    Creates a MΛTRIZ node from a SymbolicWorld instance.
+
+    This function acts as a bridge, converting the state and structure of a
+    SymbolicWorld into a valid MΛTRIZ node dictionary, compliant with the
+    `lukhas://schemas/matriz_node_v1.json` schema.
+
+    Args:
+        symbolic_world: An instance of SymbolicWorld containing symbols and relationships.
+
+    Returns:
+        A dictionary representing a MΛTRIZ node.
+    """
+    # Generate a glyph, a unique symbolic representation of the world's current state.
+    world_state_dict = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "user_id": "jules-integration-consolidator",
+        "tier_level": 5,  # System-level agent
+        "symbol_count": len(symbolic_world.symbols),
+        "relationship_count": len(symbolic_world.relationships),
     }
-    return systems
+    glyph = generate_glyph(world_state_dict)
 
-def create_unified_interfaces(systems: dict) -> dict:
-    """Create unified interfaces for symbolic communication"""
-    interfaces = {
-        "messaging": {
-            "async_emit": "Emit events with symbolic effects",
-            "subscribe": "Subscribe to event patterns",
-            "dispatch": "Route messages to handlers"
-        },
-        "orchestration": {
-            "execute_pipeline": "Execute multi-step workflows",
-            "handoff_context": "Transfer context between steps",
-            "track_performance": "Monitor handoff latencies"
-        },
-        "symbolic": {
-            "generate_token": "Create symbolic representation",
-            "compress_context": "Compress semantic meaning",
-            "preserve_causality": "Maintain causal relationships"
-        }
-    }
-    return interfaces
+    now_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+    trace_id = f"trace-{uuid.uuid4()}"
 
-def implement_matriz_bridge(target_dir: Path, interfaces: dict) -> dict:
-    """Implement MΛTRIZ integration bridge"""
-    bridge_config = {
-        "name": "MΛTRIZ_Symbolic_Bridge",
-        "connections": 3,
-        "capabilities": [
-            "matriz_event_translation",
-            "consciousness_event_routing",
-            "guardian_policy_enforcement"
+    # Construct the MΛTRIZ node dictionary according to the defined schema.
+    matriz_node = {
+        "version": 1,
+        "id": f"node-{uuid.uuid4()}",
+        "type": "CONTEXT",  # Represents the context of the symbolic world.
+        "labels": ["symbolic-world", "consolidation-bridge"],
+        "state": {
+            "confidence": 0.9,
+            "salience": 0.8,
+            "novelty": 0.5,
+            "utility": 0.7,
+        },
+        "timestamps": {
+            "created_ts": now_ms,
+            "updated_ts": now_ms,
+        },
+        # Provenance tracks the origin and capabilities of the node producer.
+        "provenance": {
+            "producer": "candidate.core.integration.consolidate_symbolic_communication",
+            "capabilities": ["symbolic-consolidation", "matriz-bridge", "glyph-generation"],
+            "tenant": "lukhas-internal",
+            "trace_id": trace_id,
+            "consent_scopes": ["internal-system-analysis"],
+            "policy_version": "v1.0.0",
+        },
+        "links": [],
+        # Evidence provides verifiable artifacts related to the node's creation.
+        "evidence": [
+            {
+                "kind": "artifact",
+                "uri": f"glyph:{glyph}",
+                "hash": hashlib.sha256(f"glyph:{glyph}".encode()).hexdigest()
+            }
         ],
-        "performance_targets": {
-            "handoff_latency_ms": 250,
-            "throughput_events_sec": 1000,
-            "reliability_percent": 99.9
-        },
-        "integration_points": {
-            "consciousness": "awareness_updates",
-            "guardian": "policy_enforcement",
-            "memory": "fold_integration"
-        }
-    }
-    return bridge_config
-
-def create_context_bus_integration(target_dir: Path, bridge: dict) -> dict:
-    """Create high-performance context bus with <250ms handoffs"""
-    bus_config = {
-        "name": "LUKHAS_Context_Bus",
-        "architecture": "async_pub_sub",
-        "performance": {
-            "target_handoff_ms": 250,
-            "max_queue_size": 10000,
-            "worker_pools": 4,
-            "priority_levels": 5
-        },
-        "features": [
-            "sub_250ms_handoffs",
-            "transparent_logging",
-            "workflow_orchestration",
-            "policy_enforcement",
-            "multi_model_coordination"
-        ],
-        "integrations": {
-            "matriz_bridge": bridge["name"],
-            "kernel_bus": "symbolic_kernel_bus",
-            "trinity_framework": "⚛️🧠🛡️"
-        }
-    }
-    return bus_config
-
-def generate_consolidated_module(target_dir: Path, systems: dict,
-                               interfaces: dict, bridge: dict, bus: dict) -> dict:
-    """Generate the consolidated symbolic communication module"""
-
-    # Create consolidated module structure
-    consolidated_module = target_dir / "symbolic_communication_consolidated.py"
-
-    module_content = f'"""'
-LUKHAS AI Consolidated Symbolic Communication System
-==================================================
-
-Unified symbolic language system implementing:
-- GLYPH-based universal communication
-- Context Bus with <250ms handoff performance
-- MΛTRIZ bridge integration
-- Multi-model orchestration capabilities
-- Transparent logging and interpretability
-
-Trinity Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)
-
-Generated: {datetime.now()}
-"""
-
-import asyncio
-import time
-import uuid
-from dataclasses import dataclass, field
-from typing import Any, Callable, Dict, List, Optional
-from enum import Enum
-
-class SymbolicMessageType(Enum):
-    """Types of symbolic messages in the unified system"""
-    GLYPH = "glyph"  # Pure symbolic tokens
-    CONTEXT = "context"  # Context handoff messages
-    WORKFLOW = "workflow"  # Workflow orchestration
-    MATRIX_EVENT = "matriz_event"  # MΛTRIZ bridge events
-    CONSCIOUSNESS = "consciousness"  # Consciousness updates
-    GUARDIAN = "guardian"  # Guardian policy events
-
-@dataclass
-class SymbolicMessage:
-    """Unified message format for all symbolic communication"""
-    message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    message_type: SymbolicMessageType = SymbolicMessageType.GLYPH
-    payload: Dict[str, Any] = field(default_factory=dict)
-    source: str = "unknown"
-    target: Optional[str] = None
-    timestamp: float = field(default_factory=time.time)
-
-    # Performance tracking
-    handoff_start: float = 0.0
-    handoff_complete: float = 0.0
-
-    # Trinity Framework compliance
-    identity_context: Dict[str, Any] = field(default_factory=dict)  # ⚛️
-    consciousness_state: Dict[str, Any] = field(default_factory=dict)  # 🧠
-    guardian_policy: Dict[str, Any] = field(default_factory=dict)  # 🛡️
-
-    @property
-    def handoff_latency_ms(self) -> float:
-        """Calculate handoff latency in milliseconds"""
-        if self.handoff_complete and self.handoff_start:
-            return (self.handoff_complete - self.handoff_start) * 1000
-        return 0.0
-
-    def meets_performance_target(self) -> bool:
-        """Check if message meets <250ms handoff target"""
-        return self.handoff_latency_ms < 250
-
-class ConsolidatedSymbolicCommunicator:
-    """Main class for consolidated symbolic communication"""
-
-    def __init__(self):
-        self.systems = {systems}
-        self.interfaces = {interfaces}
-        self.matriz_bridge = {bridge}
-        self.context_bus = {bus}
-
-        # Performance metrics
-        self.handoff_latencies = []
-        self.total_messages = 0
-        self.successful_handoffs = 0
-
-        # Integration components
-        self._initialize_integrations()
-
-    def _initialize_integrations(self):
-        """Initialize all integration components"""
-        print("🔧 Initializing symbolic communication integrations...")
-
-        # MΛTRIZ bridge initialization
-        print(f"   🌉 MΛTRIZ Bridge: {{self.matriz_bridge['name']}}")
-
-        # Context bus initialization
-        print(f"   🚌 Context Bus: {{self.context_bus['name']}}")
-
-        # Trinity Framework compliance
-        print("   ⚛️🧠🛡️ Trinity Framework: Active")
-
-    async def emit_symbolic_message(self,
-                                  message_type: SymbolicMessageType,
-                                  payload: Dict[str, Any],
-                                  source: str = "consolidated",
-                                  target: Optional[str] = None) -> str:
-        """Emit a symbolic message through the unified system"""
-
-        message = SymbolicMessage(
-            message_type=message_type,
-            payload=payload,
-            source=source,
-            target=target
-        )
-
-        # Start handoff timing
-        message.handoff_start = time.perf_counter()
-
-        # Route through appropriate system
-        if message_type == SymbolicMessageType.CONTEXT:
-            await self._route_context_message(message)
-        elif message_type == SymbolicMessageType.MATRIZ_EVENT:
-            await self._route_matriz_message(message)
-        elif message_type == SymbolicMessageType.WORKFLOW:
-            await self._route_workflow_message(message)
-        else:
-            await self._route_generic_message(message)
-
-        # Complete handoff timing
-        message.handoff_complete = time.perf_counter()
-
-        # Track performance
-        self._track_performance(message)
-
-        return message.message_id
-
-    async def _route_context_message(self, message: SymbolicMessage):
-        """Route context messages through context bus"""
-        # Implement context bus routing with <250ms target
-        pass
-
-    async def _route_matriz_message(self, message: SymbolicMessage):
-        """Route MΛTRIZ messages through bridge"""
-        # Implement MΛTRIZ bridge routing
-        pass
-
-    async def _route_workflow_message(self, message: SymbolicMessage):
-        """Route workflow messages through orchestration system"""
-        # Implement workflow orchestration routing
-        pass
-
-    async def _route_generic_message(self, message: SymbolicMessage):
-        """Route generic messages through kernel bus"""
-        # Implement kernel bus routing
-        pass
-
-    def _track_performance(self, message: SymbolicMessage):
-        """Track handoff performance metrics"""
-        latency = message.handoff_latency_ms
-        self.handoff_latencies.append(latency)
-        self.total_messages += 1
-
-        if message.meets_performance_target():
-            self.successful_handoffs += 1
-
-    def get_performance_metrics(self) -> Dict[str, Any]:
-        """Get comprehensive performance metrics"""
-        if not self.handoff_latencies:
-            return {{"status": "no_data"}}
-
-        avg_latency = sum(self.handoff_latencies) / len(self.handoff_latencies)
-        p95_latency = sorted(self.handoff_latencies)[int(len(self.handoff_latencies) * 0.95)]
-        success_rate = self.successful_handoffs / max(self.total_messages, 1)
-
-        return {{
-            "average_handoff_ms": avg_latency,
-            "p95_handoff_ms": p95_latency,
-            "meets_250ms_target": p95_latency < 250,
-            "success_rate": success_rate,
-            "total_messages": self.total_messages,
-            "integration_status": {{
-                "matriz_bridge": "active",
-                "context_bus": "active",
-                "trinity_framework": "compliant"
-            }}
-        }}
-
-# Global instance
-consolidated_communicator = ConsolidatedSymbolicCommunicator()
-
-# Export main components
-__all__ = [
-    "ConsolidatedSymbolicCommunicator",
-    "SymbolicMessage",
-    "SymbolicMessageType",
-    "consolidated_communicator"
-]
-'''
-
-    # Write the consolidated module
-    with open(consolidated_module, 'w') as f:
-        f.write(module_content)
-
-    result = {
-        "status": "success",
-        "module_path": str(consolidated_module),
-        "systems_integrated": len(systems),
-        "interfaces_unified": len(interfaces),
-        "bridge_connections": bridge["connections"],
-        "performance_targets": {
-            "handoff_ms": bus["performance"]["target_handoff_ms"],
-            "throughput_eps": bridge["performance_targets"]["throughput_events_sec"]
-        }
+        "schema_ref": "lukhas://schemas/matriz_node_v1.json"
     }
 
-    return result
+    # Convert relationships in the SymbolicWorld to MΛTRIZ links.
+    for symbol_name, relationships in symbolic_world.relationships.items():
+        for rel in relationships:
+            # Avoid duplicating links since they are stored for both symbols in the world.
+            if rel.symbol1.name == symbol_name:
+                matriz_node["links"].append({
+                    "target_node_id": f"symbol:{rel.symbol2.name}",  # Placeholder ID for the target symbol.
+                    "link_type": "semantic",  # Mapping can be refined based on rel.type.
+                    "direction": "bidirectional" if rel.is_bidirectional() else "unidirectional",
+                    "explanation": f"Relationship of type '{rel.type}'"
+                })
+
+    return matriz_node
+
 
 if __name__ == "__main__":
-    result = consolidate_symbolic_communication()
-    print(f"\n📊 Consolidation Results:")
-    print(f"   Status: {result.get('status', 'unknown')}")
-    print(f"   Systems: {result.get('systems_integrated', 0)}")
-    print(f"   Performance: <{result.get('performance_targets', {}).get('handoff_ms', 250)}ms")
+    # This block serves as a demonstration of how to use the bridge function.
+    print("--- Symbolic Communication to MΛTRIZ Node Bridge Demonstration ---")
+
+    # 1. Create an example SymbolicWorld instance
+    print("\n[1] Creating an example SymbolicWorld...")
+    world = SymbolicWorld()
+    s1 = world.create_symbol("concept:consciousness", {"type": "abstract", "domain": "philosophy"})
+    s2 = world.create_symbol("concept:machine", {"type": "concrete", "domain": "engineering"})
+    s3 = world.create_symbol("property:sentience", {"type": "attribute", "domain": "philosophy"})
+    world.link_symbols(s1, s2, "potential_host_of")
+    world.link_symbols(s1, s3, "has_property")
+    print(f"    - World created with {len(world.symbols)} symbols and {len(world.relationships)} relationships.")
+
+    # 2. Call the bridge function to generate a MΛTRIZ node
+    print("\n[2] Calling the bridge function...")
+    matriz_node = create_matriz_node_from_symbolic_world(world)
+    print("    - MΛTRIZ node created successfully.")
+
+    # 3. Print the resulting MΛTRIZ node
+    print("\n[3] Resulting MΛTRIZ Node (pretty-printed):")
+    print(json.dumps(matriz_node, indent=2))
+
+    print("\n--- Demonstration Complete ---")
