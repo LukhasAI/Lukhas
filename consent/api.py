@@ -27,6 +27,8 @@ from .service import (
     ConsentLedgerEntry,
     ConsentRevokeRequest,
     ConsentService,
+    Purpose,
+    DataCategory,
 )
 
 
@@ -36,7 +38,7 @@ class GrantConsentRequest(BaseModel):
     lid: str = Field(..., description="Canonical ΛID")
     service: str = Field(..., description="Service name")
     scopes: list[str] = Field(..., description="Requested scopes")
-    purpose: str = Field(..., description="Human-readable purpose")
+    purpose_id: str = Field(..., description="ID of the consent purpose")
     ttl_minutes: int = Field(60, ge=1, le=1440, description="Time-to-live (1-1440 minutes)")
     resource_pattern: Optional[str] = Field(None, description="Optional resource filter")
 
@@ -75,7 +77,7 @@ class EscalateRequest(BaseModel):
     lid: str = Field(..., description="Canonical ΛID")
     service: str = Field(..., description="Service name")
     resource_id: str = Field(..., description="Specific resource ID")
-    purpose: str = Field(..., description="Purpose for content access")
+    purpose_id: str = Field("content_escalation", description="Purpose for content access")
     ttl_minutes: int = Field(30, ge=1, le=30, description="TTL for content access (max 30 min)")
 
 
@@ -168,11 +170,12 @@ async def grant_consent(
     """
     try:
         # Convert to service request
-        service_request = ConsentGrantRequest(
+        from .service import ConsentGrantRequest as ServiceConsentGrantRequest
+        service_request = ServiceConsentGrantRequest(
             lid=request_data.lid,
             service=request_data.service,
             scopes=request_data.scopes,
-            purpose=request_data.purpose,
+            purpose_id=request_data.purpose_id,
             ttl_minutes=request_data.ttl_minutes,
             resource_pattern=request_data.resource_pattern
         )
@@ -293,7 +296,7 @@ async def escalate_to_content(
             lid=request_data.lid,
             service=request_data.service,
             resource_id=request_data.resource_id,
-            purpose=request_data.purpose,
+            purpose_id=request_data.purpose_id,
             ttl_minutes=request_data.ttl_minutes
         )
 
@@ -376,6 +379,20 @@ async def get_consent_statistics(
         raise HTTPException(status_code=500, detail=f"Stats retrieval failed: {str(e)}")
 
 
+@router.get("/purposes", response_model=list[Purpose])
+async def list_purposes(
+    service: ConsentService = Depends(get_consent_service)
+):
+    """List all available consent purposes."""
+    return await service.list_purposes()
+
+@router.get("/data_categories", response_model=list[DataCategory])
+async def list_data_categories(
+    service: ConsentService = Depends(get_consent_service)
+):
+    """List all available data categories."""
+    return await service.list_data_categories()
+
 @router.post("/cleanup")
 async def cleanup_expired_grants(
     service: ConsentService = Depends(get_consent_service)
@@ -442,24 +459,6 @@ async def system_info():
     }
 
 
-# Startup and shutdown event handlers
-@router.on_event("startup")
-async def startup_event():
-    """Initialize consent service on startup"""
-    global consent_service
-    if consent_service is None:
-        consent_service = ConsentService()
-        await consent_service.initialize()
-        print("🔐 LUKHAS Consent Fabric initialized")
-
-
-@router.on_event("shutdown")
-async def shutdown_event():
-    """Clean up resources on shutdown"""
-    global consent_service
-    if consent_service:
-        await consent_service.close()
-        print("🔐 LUKHAS Consent Fabric shutdown")
 
 
 # Example usage
