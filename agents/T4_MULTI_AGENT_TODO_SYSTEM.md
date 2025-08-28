@@ -12,6 +12,12 @@
 ### **Jules Agent #1: Performance Engineering Specialist**
 **Focus**: Sam Altman Standards - Scale & Performance Excellence
 
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/enterprise/performance/` (create if needed)
+- **Key Directories**: `/api/`, `/serve/`, `/monitoring/`, `/scripts/`, `/tests/performance/`
+- **Config**: `lukhas_config.yaml`, `.env`
+- **Docs**: `CLAUDE.md:87-95`, `README.md`
+
 **TODO Priority Queue**:
 - [ ] **HIGH**: Complete Trinity Framework load testing (10K+ users)
 - [ ] **HIGH**: Optimize API endpoints to achieve <25ms P95 latency 
@@ -35,6 +41,12 @@
 
 ### **Jules Agent #2: Security & Constitutional AI Specialist**  
 **Focus**: Dario Amodei Standards - Safety & Alignment Excellence
+
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/governance/`, `/enterprise/security/`
+- **Key Directories**: `/governance/safety/`, `/identity/`, `/candidate/governance/`
+- **Config**: `lukhas_config.yaml`, `integration_config.yaml`, `.env`
+- **Docs**: `EXECUTION_STANDARDS.md`, `governance/README.md`
 
 **TODO Priority Queue**:
 - [ ] **CRITICAL**: Conduct comprehensive security vulnerability scan
@@ -60,6 +72,12 @@
 ### **Jules Agent #3: Scientific Rigor & Testing Specialist**
 **Focus**: Demis Hassabis Standards - Research Excellence & Validation
 
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/tests/`, `/research/` (create if needed)
+- **Key Directories**: `/consciousness/`, `/memory/`, `/test_results/`
+- **Config**: `pytest.ini`, `pyproject.toml`, `test_metadata/`
+- **Docs**: `MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md`, `reality_check_phase_1_and_beyond.md`
+
 **TODO Priority Queue**:  
 - [ ] **CRITICAL**: Achieve 95%+ test coverage with statistical validation
 - [ ] **HIGH**: Create peer-reviewable consciousness methodology documentation
@@ -83,6 +101,12 @@
 
 ### **Jules Agent #4: Enterprise Observability Specialist**
 **Focus**: Enterprise Standards - Full Stack Monitoring & Ops Excellence  
+
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/enterprise/monitoring/`, `/monitoring/`
+- **Key Directories**: `/enterprise/observability/`, `/trace/`, `/tools/analysis/`
+- **Config**: `lukhas_config.yaml`, `monitoring/` configs
+- **Docs**: `tools/analysis/operational_summary.py`, Prometheus configs
 
 **TODO Priority Queue**:
 - [ ] **HIGH**: Complete Datadog observability stack (traces, logs, metrics)
@@ -108,6 +132,12 @@
 ### **Jules Agent #5: Identity & Authentication Security Specialist**
 **Focus**: ΛiD System Excellence - Enterprise Identity Management
 
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/identity/`, `/candidate/governance/identity/`
+- **Key Directories**: `/identity_legacy_backup/`, `/enterprise/identity/`
+- **Config**: `LUKHAS_ID_SECRET` in `.env`, identity configs
+- **Docs**: Identity system documentation, authentication flows
+
 **TODO Priority Queue**:
 - [ ] **CRITICAL**: Complete WebAuthn/FIDO2 implementation
 - [ ] **HIGH**: Implement tiered authentication (T1-T5) system  
@@ -131,6 +161,12 @@
 
 ### **Jules Agent #6: Memory & Consciousness Systems Specialist** 
 **Focus**: Trinity Framework Core - Memory Fold System Excellence
+
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/memory/`, `/consciousness/`
+- **Key Directories**: `/candidate/memory/`, `/reasoning/`, `/vivox/`
+- **Config**: `modulation_policy.yaml`, memory fold configs
+- **Docs**: `MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md`, Trinity Framework docs
 
 **TODO Priority Queue**:
 - [ ] **HIGH**: Validate and optimize 1000-fold memory system
@@ -156,6 +192,12 @@
 ### **Jules Agent #7: API & Integration Systems Specialist**
 **Focus**: Bridge Systems Excellence - Multi-AI Orchestration
 
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/api/`, `/bridge/`
+- **Key Directories**: `/candidate/bridge/`, `/serve/`, `/orchestration/`
+- **Config**: API configs in `config/`, OpenAPI specs in `out/`
+- **Docs**: `AGENTS.md`, API documentation, FastAPI endpoints
+
 **TODO Priority Queue**:
 - [ ] **HIGH**: Complete multi-AI orchestration system (OpenAI, Anthropic, Google)
 - [ ] **HIGH**: Implement robust API gateway with <100ms latency
@@ -179,6 +221,12 @@
 
 ### **Jules Agent #8: Healthcare & Governance Systems Specialist**
 **Focus**: GDPR/CCPA/HIPAA Compliance - Enterprise Governance
+
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/governance/`, `/candidate/governance/healthcare/`
+- **Key Directories**: `/consent/`, `/enterprise/compliance/`, privacy systems
+- **Config**: `ETHICS_ENFORCEMENT_LEVEL` in `.env`, governance policies
+- **Docs**: GDPR/CCPA compliance docs, healthcare regulations
 
 **TODO Priority Queue**:
 - [ ] **CRITICAL**: Complete GDPR/CCPA compliance automation
@@ -204,6 +252,12 @@
 ### **Jules Agent #9: DevOps & Infrastructure Specialist**
 **Focus**: Deployment Excellence - Enterprise Infrastructure
 
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/docker/`, `/.github/workflows/`
+- **Key Directories**: `/scripts/`, `/enterprise/infrastructure/`, deployment configs
+- **Config**: `azure-container-app.yaml`, Docker configs, CI/CD workflows
+- **Docs**: Azure deployment docs, Kubernetes configs, `Makefile`
+
 **TODO Priority Queue**:
 - [ ] **HIGH**: Complete Docker/Kubernetes deployment system
 - [ ] **HIGH**: Set up CI/CD pipeline with automated testing
@@ -228,6 +282,12 @@
 ### **Jules Agent #10: Documentation & UX Specialist**
 **Focus**: Enterprise Documentation & User Experience Excellence
 
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: `/docs/`, `/lukhas_website/`
+- **Key Directories**: `/branding/`, user-facing interfaces, documentation systems
+- **Config**: Website configs, documentation generators, branding policies
+- **Docs**: `README.md`, `CLAUDE.md`, comprehensive documentation hierarchy
+
 **TODO Priority Queue**:
 - [ ] **HIGH**: Create comprehensive enterprise API documentation
 - [ ] **HIGH**: Implement user onboarding automation
@@ -251,6 +311,12 @@
 
 ### **Codex Agent: Code Quality & Architecture Specialist**
 **Focus**: Codebase Excellence - Architecture & Code Quality
+
+**🗺️ REPO NAVIGATION**: 
+- **Primary Workspace**: All Python files across `/candidate/` and `/lukhas/`
+- **Key Directories**: Import systems, architecture patterns, code quality tools
+- **Config**: `pyproject.toml`, `.t4autofix.toml`, linting configurations
+- **Docs**: Code quality standards, architecture documentation, import guidelines
 
 **TODO Priority Queue**:
 - [ ] **CRITICAL**: Complete linting issue reduction (15,113 → <3,000)
