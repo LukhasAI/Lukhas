@@ -24,6 +24,9 @@ except ImportError:
     CONSCIOUSNESS_SYMBOL = "🧠"
     GUARDIAN_SYMBOL = "🛡️"
 
+# Core business platform
+from . import business
+
 __all__ = [
     # Trinity Framework integration
     "get_trinity_context",
@@ -32,4 +35,6 @@ __all__ = [
     "CONSCIOUSNESS_SYMBOL",
     "GUARDIAN_SYMBOL",
     "CORE_BRANDING_AVAILABLE",
+    # Business modules
+    "business",
 ]
