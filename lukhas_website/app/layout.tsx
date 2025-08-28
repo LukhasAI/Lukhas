@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic'
 import StateLayout from '@/components/state-layout'
 import CMP from '@/components/cmp'
 import type { Metadata } from 'next'
+import { Toaster } from 'sonner'
 import './globals.css'
 import '../styles/auth-accessibility.css'
 
@@ -26,6 +27,7 @@ export default function RootLayout({
         <StateLayout>
           {children}
         </StateLayout>
+        <Toaster richColors />
         <CMP />
       </body>
     </html>
