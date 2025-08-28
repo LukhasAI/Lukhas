@@ -19,6 +19,7 @@ import json
 import secrets
 import time
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import Any, Optional
 
 try:
@@ -71,14 +72,21 @@ class WebAuthnCredential:
 class WebAuthnManager:
     """⚛️🧠🛡️ Trinity-compliant WebAuthn/FIDO2 authentication manager"""
 
-    def __init__(self, config: Optional[dict] = None):
-        self.config = config or {}
+    def __init__(self, settings_path: Optional[Path] = None):
+        if settings_path and settings_path.exists():
+            with open(settings_path, 'r') as f:
+                settings = json.load(f)
+                self.config = settings.get("webauthn", {})
+        else:
+            self.config = {}
+
         self.rp_id = self.config.get("rp_id", "lukhas.ai")
         self.rp_name = self.config.get("rp_name", "LUKHAS AI Identity System")
         self.origin = self.config.get("origin", "https://lukhas.ai")
 
-        # Credential storage (in production, would use database)
-        self.credentials: dict[str, list[WebAuthnCredential]] = {}
+        # Credential storage
+        self.credentials_file = Path(__file__).resolve().parent.parent.parent / "identity" / "registry.jsonl"
+        self.credentials: dict[str, list[WebAuthnCredential]] = self._load_credentials()
         self.pending_registrations: dict[str, dict] = {}
         self.pending_authentications: dict[str, dict] = {}
 
@@ -232,37 +240,28 @@ class WebAuthnManager:
             ):
                 return {"success": False, "error": "Guardian validation failed"}
 
-            # Extract and validate response components
-            try:
-                attestation_response = response.get("response", {})
-                client_data_json = attestation_response.get("clientDataJSON", "")
-                attestation_object = attestation_response.get("attestationObject", "")
+            # Use the webauthn library to verify the registration
+            if not WEBAUTHN_AVAILABLE:
+                return {"success": False, "error": "WebAuthn library not available"}
 
-                # Decode client data
-                client_data = json.loads(
-                    base64.urlsafe_b64decode(client_data_json + "===")
+            try:
+                verified_credential = verify_registration_response(
+                    credential=response,
+                    expected_challenge=pending_reg["challenge"],
+                    expected_origin=self.origin,
+                    expected_rp_id=self.rp_id,
+                    require_user_verification=self.tier_requirements.get(pending_reg["user_tier"], {}).get("user_verification", False),
                 )
 
-                # Verify challenge
-                response_challenge = client_data.get("challenge", "")
-                if response_challenge != pending_reg["challenge_b64"]:
-                    return {"success": False, "error": "Challenge mismatch"}
-
-                # Verify origin
-                if client_data.get("origin") != self.origin:
-                    return {"success": False, "error": "Origin mismatch"}
-
-                # Create credential record
+                # Create credential record from verified data
                 credential = WebAuthnCredential(
                     {
-                        "credential_id": response.get("id", ""),
-                        "public_key": response.get("response", {}).get("publicKey", ""),
-                        "sign_count": 0,
+                        "credential_id": base64.urlsafe_b64encode(verified_credential.credential_id).decode('utf-8'),
+                        "public_key": base64.urlsafe_b64encode(verified_credential.public_key).decode('utf-8'),
+                        "sign_count": verified_credential.sign_count,
                         "user_id": pending_reg["user_id"],
                         "authenticator_data": {
-                            "attestation_object": attestation_object,
-                            "client_data_json": client_data_json,
-                            "transports": response.get("transports", []),
+                            "transports": response.get("response", {}).get("transports", []),
                         },
                         "tier_level": pending_reg["user_tier"],
                         "device_type": self._determine_device_type(response),
@@ -274,6 +273,7 @@ class WebAuthnManager:
                 if user_id not in self.credentials:
                     self.credentials[user_id] = []
                 self.credentials[user_id].append(credential)
+                self._save_credentials()
 
                 # Clean up pending registration
                 del self.pending_registrations[registration_id]
@@ -297,8 +297,8 @@ class WebAuthnManager:
                     "trinity_compliant": True,
                 }
 
-            except (json.JSONDecodeError, ValueError) as e:
-                return {"success": False, "error": f"Invalid response format: {str(e)}"}
+            except Exception as e:
+                return {"success": False, "error": f"WebAuthn verification failed: {str(e)}"}
 
         except Exception as e:
             return {
@@ -325,7 +325,7 @@ class WebAuthnManager:
             if user_id and user_id in self.credentials:
                 allowed_credentials = [
                     {
-                        "id": cred.credential_id,
+                        "id": base64.urlsafe_b64decode(cred.credential_id),
                         "type": "public-key",
                         "transports": cred.authenticator_data.get("transports", []),
                     }
@@ -442,30 +442,25 @@ class WebAuthnManager:
             ):
                 return {"success": False, "error": "Guardian validation failed"}
 
-            # Extract and validate response components
+            # Use the webauthn library to verify the authentication
+            if not WEBAUTHN_AVAILABLE:
+                return {"success": False, "error": "WebAuthn library not available"}
+
             try:
-                auth_response = response.get("response", {})
-                client_data_json = auth_response.get("clientDataJSON", "")
-                authenticator_data = auth_response.get("authenticatorData", "")
-                signature = auth_response.get("signature", "")
-
-                # Decode client data
-                client_data = json.loads(
-                    base64.urlsafe_b64decode(client_data_json + "===")
+                verified_credential = verify_authentication_response(
+                    credential=response,
+                    expected_challenge=pending_auth["challenge"],
+                    expected_origin=self.origin,
+                    expected_rp_id=self.rp_id,
+                    credential_public_key=base64.urlsafe_b64decode(credential.public_key),
+                    credential_current_sign_count=credential.sign_count,
+                    require_user_verification=self.tier_requirements.get(pending_auth["tier_level"], {}).get("user_verification", False),
                 )
-
-                # Verify challenge
-                response_challenge = client_data.get("challenge", "")
-                if response_challenge != pending_auth["challenge_b64"]:
-                    return {"success": False, "error": "Challenge mismatch"}
-
-                # Verify origin
-                if client_data.get("origin") != self.origin:
-                    return {"success": False, "error": "Origin mismatch"}
 
                 # Update credential usage
                 credential.last_used = datetime.utcnow().isoformat()
-                credential.sign_count += 1
+                credential.sign_count = verified_credential.new_sign_count
+                self._save_credentials()
 
                 # Clean up pending authentication
                 del self.pending_authentications[authentication_id]
@@ -491,8 +486,8 @@ class WebAuthnManager:
                     "authentication_method": "webauthn_fido2",
                 }
 
-            except (json.JSONDecodeError, ValueError) as e:
-                return {"success": False, "error": f"Invalid response format: {str(e)}"}
+            except Exception as e:
+                return {"success": False, "error": f"WebAuthn authentication failed: {str(e)}"}
 
         except Exception as e:
             return {
@@ -562,6 +557,8 @@ class WebAuthnManager:
             if not credential_found:
                 return {"success": False, "error": "Credential not found"}
 
+            self._save_credentials()
+
             # 🧠 Update consciousness patterns
             self._update_consciousness_patterns(user_id, "webauthn_credential_revoked")
 
@@ -577,6 +574,35 @@ class WebAuthnManager:
                 "success": False,
                 "error": f"Credential revocation failed: {str(e)}",
             }
+
+    # Persistence helpers
+
+    def _load_credentials(self) -> dict[str, list[WebAuthnCredential]]:
+        """Load credentials from the registry file."""
+        if not self.credentials_file.exists():
+            return {}
+
+        credentials = {}
+        with open(self.credentials_file, 'r') as f:
+            for line in f:
+                try:
+                    data = json.loads(line)
+                    user_id = data.get("user_id")
+                    if user_id:
+                        if user_id not in credentials:
+                            credentials[user_id] = []
+                        credentials[user_id].append(WebAuthnCredential(data))
+                except json.JSONDecodeError:
+                    # Ignore malformed lines
+                    continue
+        return credentials
+
+    def _save_credentials(self):
+        """Save all credentials to the registry file."""
+        with open(self.credentials_file, 'w') as f:
+            for user_creds in self.credentials.values():
+                for cred in user_creds:
+                    f.write(json.dumps(cred.to_dict()) + '\n')
 
     # Helper methods
 

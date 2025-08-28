@@ -9,6 +9,7 @@
 # ═══════════════════════════════════════════════════════════════════════════
 
 import json
+import logging
 from candidate.core.common import get_logger
 from datetime import datetime
 from typing import Dict, List, Any, Optional
@@ -24,10 +25,9 @@ try:
     from ...core.id_service.lambd_id_generator import LambdaIDGenerator
     from ...core.id_service.lambd_id_validator import LambdaIDValidator
     from ...core.id_service.lambd_id_entropy import EntropyCalculator
-    # Renamed for clarity if TierManager is generic
     from ...core.tier.tier_manager import LambdaTierManager
-    # Assuming this is the ΛTRACE compatible logger
     from ...core.trace.activity_logger import ActivityLogger
+    from ...core.auth.webauthn_manager import WebAuthnManager
     LUKHAS_SERVICES_AVAILABLE = True
     logger.info(
         "ΛTRACE: Core LUKHAS ID services imported successfully for LambdaIDController.")
@@ -85,6 +85,22 @@ except ImportError as e:
         def log_activity(self, **kwargs):
             pass
 
+    class WebAuthnManager:
+        def __init__(self, **kwargs):
+            logger.error("ΛTRACE: Using FALLBACK WebAuthnManager.")
+
+        def generate_registration_options(self, *args, **kwargs):
+            return {'success': False, 'error': 'WebAuthnManager not loaded'}
+
+        def verify_registration_response(self, *args, **kwargs):
+            return {'success': False, 'error': 'WebAuthnManager not loaded'}
+
+        def generate_authentication_options(self, *args, **kwargs):
+            return {'success': False, 'error': 'WebAuthnManager not loaded'}
+
+        def verify_authentication_response(self, *args, **kwargs):
+            return {'success': False, 'error': 'WebAuthnManager not loaded'}
+
 
 # Human-readable comment: Controller class for managing Lambda ID operations.
 class LambdaIDController:
@@ -115,12 +131,11 @@ class LambdaIDController:
             self.id_validator: LambdaIDValidator = LambdaIDValidator()
             self.entropy_calculator: EntropyCalculator = EntropyCalculator()
             self.tier_manager: LambdaTierManager = LambdaTierManager()
-            # This should be the ΛTRACE compatible one
             self.activity_logger: ActivityLogger = ActivityLogger()
+            self.webauthn_manager: WebAuthnManager = WebAuthnManager()
         else:
-            self._init_core_services()  # This method will log its own success/failure
-
-        self._load_configuration()  # This method will log its own success/failure
+            self._load_configuration()
+            self._init_core_services()
 
         self.logger.info("ΛTRACE: LambdaIDController instance initialized.")
 
@@ -133,8 +148,9 @@ class LambdaIDController:
             self.id_generator = LambdaIDGenerator()
             self.id_validator = LambdaIDValidator()
             self.entropy_calculator = EntropyCalculator()
-            self.tier_manager = LambdaTierManager()  # Using renamed class
-            self.activity_logger = ActivityLogger()  # This is the activity logger for ΛiD operations
+            self.tier_manager = LambdaTierManager()
+            self.activity_logger = ActivityLogger()
+            self.webauthn_manager = WebAuthnManager(settings_path=self.settings_path)
 
             self.logger.info(
                 "ΛTRACE: All core services for LambdaIDController initialized successfully.")
@@ -151,38 +167,28 @@ class LambdaIDController:
     # Human-readable comment: Private method to load tier permissions and
     # other configurations.
     def _load_configuration(self) -> None:
-        """Loads tier permissions and other necessary configurations from json_file or defaults."""
-        self.logger.debug("ΛTRACE: Attempting to load tier permissions configuration.")
+        """Loads settings and tier permissions from json_file or defaults."""
+        self.logger.debug("ΛTRACE: Attempting to load settings configuration.")
         try:
-            # Path relative to this file: controllers -> api -> lukhas-id -> core -> id_service -> tier_permissions.json
-            # Adjusting path: current file is in lukhas/identity/api/controllers/
-            # Need to go up 3 levels to lukhas-id, then down to core/id_service
-            config_path = Path(__file__).resolve(
-            ).parent.parent.parent / "core" / "id_service" / "tier_permissions.json"
+            self.settings_path = Path(__file__).resolve().parent.parent.parent / "config" / "lambd_id_settings.json"
             self.logger.debug(
-                f"ΛTRACE: Attempting to load tier config from: {config_path}")
+                f"ΛTRACE: Attempting to load settings from: {self.settings_path}")
 
-            if config_path.exists():
-                with open(config_path, 'r', encoding='utf-8') as f:
-                    self.tier_config = json.load(f)
+            if self.settings_path.exists():
+                with open(self.settings_path, 'r', encoding='utf-8') as f:
+                    settings = json.load(f)
+                    self.tier_config = settings.get("tier_mapping", {})
                 self.logger.info(
-                    f"ΛTRACE: Tier permissions configuration loaded successfully from {config_path}.")
+                    f"ΛTRACE: Configuration loaded successfully from {self.settings_path}.")
             else:
                 self.logger.warning(
-                    f"ΛTRACE: Tier permissions configuration file not found at {config_path}. Using default configuration.")
-                self.tier_config = {  # Default configuration
-                    "tier_permissions": {
-                        "0": {"max_entropy": 2.0, "symbols_allowed": 2, "description": "Basic Tier"},
-                        "1": {"max_entropy": 3.0, "symbols_allowed": 3, "description": "Standard Tier"},
-                        # ... (add other tiers as per original)
-                        "5": {"max_entropy": 7.0, "symbols_allowed": 8, "description": "Transcendent Tier"}
-                    }
-                }
+                    f"ΛTRACE: Settings file not found at {self.settings_path}. Using default configuration.")
+                self.tier_config = {}
         except Exception as e:
             self.logger.error(
-                f"ΛTRACE: Failed to load tier permissions configuration: {e}. Using minimal default.",
+                f"ΛTRACE: Failed to load configuration: {e}. Using minimal default.",
                 exc_info=True)
-            self.tier_config = {"tier_permissions": {}}  # Minimal default on error
+            self.tier_config = {}
 
     # Human-readable comment: Generates a new Lambda ID.
     def generate_id(self, user_tier: int, symbolic_preferences:
@@ -221,7 +227,7 @@ class LambdaIDController:
                     'error': f'Invalid tier: {user_tier}. Must be 0-5.',
                     'error_code': 'INVALID_TIER'}
 
-            tier_permissions = self._identity_core.resolve_access_tier(
+            tier_permissions = self._resolve_access_tier(
                 user_tier)  # Private helper, logs internally
 
             if sym_prefs:
@@ -355,7 +361,7 @@ class LambdaIDController:
                     f"ΛTRACE ({req_id}): ID entropy calculated for '{lambda_id}': {id_entropy_score}")
 
                 if extracted_tier_val is not None:
-                    tier_perms = self._identity_core.resolve_access_tier(
+                    tier_perms = self._resolve_access_tier(
                         extracted_tier_val)  # Logs internally
                     # Assuming max_entropy is a key in tier_perms from config
                     max_entropy_for_tier = tier_perms.get(
@@ -771,7 +777,7 @@ class LambdaIDController:
 
     # Human-readable comment: Retrieves permissions for a specific tier from
     # configuration.
-    def _identity_core.resolve_access_tier(self, tier_level: int) -> Dict[str, Any]:
+    def _resolve_access_tier(self, tier_level: int) -> Dict[str, Any]:
         """Retrieves permissions and limits for a specific tier from the loaded configuration."""
         self.logger.debug(f"ΛTRACE: Getting permissions for tier {tier_level}.")
         # Default permissions if specific tier not found or config missing parts
@@ -906,6 +912,45 @@ class LambdaIDController:
         self.logger.debug(
             f"ΛTRACE: Generated {len(recommendations_list)} entropy recommendations.")
         return recommendations_list
+
+    # --- WebAuthn Methods ---
+
+    def webauthn_generate_registration_options(self, user_id: str, user_name: str, user_display_name: str, user_tier: int) -> Dict[str, Any]:
+        """Generates WebAuthn registration options."""
+        self.logger.info(f"ΛTRACE: Generating WebAuthn registration options for user: {user_id}")
+        try:
+            return self.webauthn_manager.generate_registration_options(user_id, user_name, user_display_name, user_tier)
+        except Exception as e:
+            self.logger.error(f"ΛTRACE: WebAuthn registration options generation failed for user {user_id}: {e}", exc_info=True)
+            return {'success': False, 'error': 'Failed to generate WebAuthn registration options.'}
+
+    def webauthn_verify_registration_response(self, registration_id: str, response: Dict[str, Any]) -> Dict[str, Any]:
+        """Verifies a WebAuthn registration response."""
+        self.logger.info(f"ΛTRACE: Verifying WebAuthn registration for registration_id: {registration_id}")
+        try:
+            return self.webauthn_manager.verify_registration_response(registration_id, response)
+        except Exception as e:
+            self.logger.error(f"ΛTRACE: WebAuthn registration verification failed for registration_id {registration_id}: {e}", exc_info=True)
+            return {'success': False, 'error': 'Failed to verify WebAuthn registration.'}
+
+    def webauthn_generate_authentication_options(self, user_id: Optional[str] = None, tier_level: int = 0) -> Dict[str, Any]:
+        """Generates WebAuthn authentication options."""
+        self.logger.info(f"ΛTRACE: Generating WebAuthn authentication options for user: {user_id}")
+        try:
+            return self.webauthn_manager.generate_authentication_options(user_id, tier_level)
+        except Exception as e:
+            self.logger.error(f"ΛTRACE: WebAuthn authentication options generation failed for user {user_id}: {e}", exc_info=True)
+            return {'success': False, 'error': 'Failed to generate WebAuthn authentication options.'}
+
+    def webauthn_verify_authentication_response(self, authentication_id: str, response: Dict[str, Any]) -> Dict[str, Any]:
+        """Verifies a WebAuthn authentication response."""
+        self.logger.info(f"ΛTRACE: Verifying WebAuthn authentication for auth_id: {authentication_id}")
+        try:
+            return self.webauthn_manager.verify_authentication_response(authentication_id, response)
+        except Exception as e:
+            self.logger.error(f"ΛTRACE: WebAuthn authentication verification failed for auth_id {authentication_id}: {e}", exc_info=True)
+            return {'success': False, 'error': 'Failed to verify WebAuthn authentication.'}
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: lambd_id_controller.py

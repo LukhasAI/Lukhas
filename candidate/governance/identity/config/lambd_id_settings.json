@@ -26,5 +26,10 @@
     "trusted": 3,
     "inner_circle": 4,
     "root_dev": 5
+  },
+  "webauthn": {
+    "rp_id": "lukhas.ai",
+    "rp_name": "LUKHAS AI Identity System",
+    "origin": "https://lukhas.ai"
   }
 }
