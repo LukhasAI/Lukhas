@@ -1,0 +1,22 @@
+name: Logging Tag Guard
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Detect disallowed logging kwargs (ΛTAG)
+        run: |
+          set -e
+          # Allow LIST: patterns in non-logging contexts (manifests/audit dicts), flag logger calls only
+          if rg -n "logger\.(info|warning|error|debug)\(.*ΛTAG=" -S | tee /tmp/tag_hits.txt; then
+            echo "Disallowed logging kwarg 'ΛTAG=' found; use formatted string fields instead." >&2
+            exit 1
+          fi
+          echo "No disallowed logging kwargs detected."
+
