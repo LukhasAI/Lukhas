@@ -223,6 +223,8 @@ class SymbolicQuarantineSanctum:
         manifest_path: str = "memory/protection/sanctum_manifest.jsonl",
         max_quarantine_size: int = 10000,
         auto_repair_enabled: bool = True,
+        *,
+        config_path: Optional[str] = None,
     ):
         """
         Initialize the ΛSANCTUM quarantine system.
@@ -270,6 +272,10 @@ class SymbolicQuarantineSanctum:
             "permanent_locks": 0,
         }
 
+        # Optionally load configuration overrides
+        if config_path:
+            self._load_config(Path(config_path))
+
         # Load existing quarantine entries
         self._load_quarantine_entries()
 
@@ -280,6 +286,30 @@ class SymbolicQuarantineSanctum:
             active_quarantines=len(self.quarantine_entries),
             ΛTAG="ΛSANCTUM_INIT",
         )
+
+    def _load_config(self, path: Path) -> None:
+        """Load optional YAML configuration overrides (best-effort)."""
+        try:
+            import yaml  # type: ignore
+        except Exception:
+            logger.warning("YAML not available; skipping config load: %s", path)
+            return
+        try:
+            if not path.exists():
+                logger.warning("Config path not found: %s", path)
+                return
+            data = yaml.safe_load(path.read_text()) or {}
+            # Apply known overrides if present
+            capacity = (data.get("capacity") or {}).get("max_folds")
+            if isinstance(capacity, int) and capacity > 0:
+                self.max_quarantine_size = capacity
+            thresholds = (data.get("protection") or {}).get("safety_thresholds") or {}
+            if isinstance(thresholds, dict):
+                for k, v in thresholds.items():
+                    if isinstance(v, (int, float)):
+                        self.safety_thresholds[k] = float(v)
+        except Exception as e:
+            logger.warning("Failed to load config from %s: %s", path, e)
 
     async def quarantine_entry(
         self,
