@@ -925,11 +925,13 @@ if __name__ == "__main__":
 
         # Archive original files
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT DISTINCT file_path
             FROM duplicates
             WHERE module_type = 'memory'
-        """)
+        """
+        )
 
         archived = 0
         for row in cursor.fetchall():

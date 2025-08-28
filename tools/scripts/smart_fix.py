@@ -36,6 +36,8 @@ class SmartFixer:
         # Run flake8 with our config
         code, out, err = self.run_command(
             [
+                sys.executable,
+                "-m",
                 "flake8",
                 ".",
                 "--format",
@@ -99,6 +101,8 @@ class SmartFixer:
             # Use autoflake conservatively
             code, out, err = self.run_command(
                 [
+                    sys.executable,
+                    "-m",
                     "autoflake",
                     "--in-place",
                     "--remove-unused-variables",
@@ -129,6 +133,8 @@ class SmartFixer:
             # Use Black with safe settings
             code, out, err = self.run_command(
                 [
+                    sys.executable,
+                    "-m",
                     "black",
                     "--line-length",
                     "88",  # More reasonable than 79
@@ -164,6 +170,8 @@ class SmartFixer:
         for file_path in files_to_sort:
             code, out, err = self.run_command(
                 [
+                    sys.executable,
+                    "-m",
                     "isort",
                     "--profile",
                     "black",

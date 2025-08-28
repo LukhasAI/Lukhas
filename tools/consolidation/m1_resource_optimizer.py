@@ -187,7 +187,11 @@ class ModularServiceMaintainer:
         service_report = {}
 
         for service_name, config in self.core_services.items():
-            service_path = base_path / "/Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/platforms" / service_name
+            service_path = (
+                base_path
+                / "/Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/platforms"
+                / service_name
+            )
 
             service_report[service_name] = {
                 "exists": service_path.exists(),

@@ -127,9 +127,7 @@ def generate_verbose_description(analysis: dict[str, any]) -> str:
     # Build comprehensive context
     qi_concepts = analysis["qi_concepts"]
     concept_list = (
-        ", ".join(qi_concepts)
-        if qi_concepts
-        else "quantum-inspired processing"
+        ", ".join(qi_concepts) if qi_concepts else "quantum-inspired processing"
     )
 
     classes_info = ""
@@ -231,9 +229,7 @@ Generate a verbose, beautiful description that makes readers feel the magic of q
         concepts = analysis["qi_concepts"]
         qi_refs = []
         if "entanglement" in concepts:
-            qi_refs.append(
-                "entanglement-like correlation weaving non-local tapestries"
-            )
+            qi_refs.append("entanglement-like correlation weaving non-local tapestries")
         if "superposition" in concepts:
             qi_refs.append("superposition states dancing between possibilities")
         if "cryptography" in concepts:

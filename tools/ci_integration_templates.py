@@ -21,7 +21,7 @@ class CIAuditIntegration:
             "acceptance_gate_enabled": True,
             "import_linter_enabled": True,
             "safety_checks_enabled": True,
-            "audit_mode_enforced": True
+            "audit_mode_enforced": True,
         }
 
     def generate_github_workflow_template(self) -> str:
@@ -427,6 +427,7 @@ audit-validate: audit-gate audit-imports audit-test
 """
         return makefile_content
 
+
 def generate_ci_integration_package(output_dir: Path) -> Dict[str, Any]:
     """Generate complete CI integration package for audit preparation."""
     output_dir = Path(output_dir)
@@ -459,8 +460,8 @@ def generate_ci_integration_package(output_dir: Path) -> Dict[str, Any]:
             "components": [
                 "github_actions_workflow",
                 "pre_commit_hooks",
-                "makefile_targets"
-            ]
+                "makefile_targets",
+            ],
         },
         "workflow_stages": [
             "acceptance_gate_validation",
@@ -468,15 +469,15 @@ def generate_ci_integration_package(output_dir: Path) -> Dict[str, Any]:
             "safety_defaults_validation",
             "audit_safe_testing",
             "registry_pattern_validation",
-            "comprehensive_audit_reporting"
+            "comprehensive_audit_reporting",
         ],
         "safety_guarantees": {
             "dry_run_mode_enforced": True,
             "offline_mode_enforced": True,
             "no_external_api_calls": True,
             "audit_mode_active": True,
-            "comprehensive_logging": True
-        }
+            "comprehensive_logging": True,
+        },
     }
 
     (output_dir / "ci_integration_config.json").write_text(
@@ -487,8 +488,9 @@ def generate_ci_integration_package(output_dir: Path) -> Dict[str, Any]:
         "files_generated": 4,
         "output_directory": str(output_dir),
         "components": ci_config["components"],
-        "audit_ready": True
+        "audit_ready": True,
     }
+
 
 if __name__ == "__main__":
     # Generate CI integration package

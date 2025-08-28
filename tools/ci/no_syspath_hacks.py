@@ -19,13 +19,10 @@ from __future__ import annotations
 
 import re
 import sys
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable
 
-
-SYSPATH_PATTERNS = (
-    re.compile(r"\bsys\.path\.(insert|append|extend)\s*\(\s*"),
-)
+SYSPATH_PATTERNS = (re.compile(r"\bsys\.path\.(insert|append|extend)\s*\(\s*"),)
 STAR_IMPORT_PATTERN = re.compile(r"^\s*from\s+\S+\s+import\s+\*\s*(#.*)?$")
 
 
@@ -98,7 +95,9 @@ def main(argv: list[str]) -> int:
     if total:
         print()
         print("❌ Fragile import patterns detected.")
-        print("   - Replace sys.path hacks with proper package imports (run as module).")
+        print(
+            "   - Replace sys.path hacks with proper package imports (run as module)."
+        )
         print("   - Replace 'from X import *' with explicit imports.")
         return 1
 
@@ -108,4 +107,3 @@ def main(argv: list[str]) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv))
-

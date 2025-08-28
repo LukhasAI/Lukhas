@@ -236,9 +236,7 @@ class OrganizationScanner:
                 report += f"- `{md_file}`\n"
 
         if self.issues["large_files"]:
-            report += (
-                f'\n### 🐘 Large Files ({len(self.issues["large_files"])})\n'
-            )
+            report += f'\n### 🐘 Large Files ({len(self.issues["large_files"])})\n'
             for large_file in sorted(
                 self.issues["large_files"], key=lambda x: x["size_mb"], reverse=True
             )[:5]:

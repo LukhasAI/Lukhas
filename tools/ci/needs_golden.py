@@ -13,6 +13,7 @@ def changed_lines():
         files = list(data.get("files", {}).keys())
     return files
 
+
 def uncovered_files(coverage_json="reports/autofix/coverage.json"):
     p = Path(coverage_json)
     if not p.exists():
@@ -25,12 +26,14 @@ def uncovered_files(coverage_json="reports/autofix/coverage.json"):
             files.add(path)
     return files
 
+
 def main():
     changed = set(changed_lines())
     uncov = uncovered_files()
     need = sorted(changed & uncov)
     print(json.dumps({"needs_golden": need}, indent=2))
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -118,7 +118,11 @@ class RootDirectoryAuditor:
             analysis["suggested_location"] = "tools/"
             analysis["reason"] = "Utility/tool - consolidate into tools/"
 
-        elif directory in ["docs", "/Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/platforms", "config"]:
+        elif directory in [
+            "docs",
+            "/Users/agi_dev/LOCAL-REPOS/Lukhas/deployment/platforms",
+            "config",
+        ]:
             self.categories["documentation"].append(directory)
             analysis["suggested_action"] = "KEEP"
             analysis["reason"] = "Essential root directory"

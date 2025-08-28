@@ -24,14 +24,12 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import shutil
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
-
 
 REWRITE_IMPORT = re.compile(r"\bfrom\s+candidate\.(?P<rest>\S+)\s+import\s")
 REWRITE_IMPORT2 = re.compile(r"\bimport\s+candidate(?P<rest>(\.|\s).*)")
@@ -112,7 +110,9 @@ def rewrite_imports(dst_root: Path, files: Iterable[str], dry: bool) -> list[str
     return rewritten
 
 
-def create_shim(shim_direction: str | None, src: Path, dst: Path, dry: bool) -> str | None:
+def create_shim(
+    shim_direction: str | None, src: Path, dst: Path, dry: bool
+) -> str | None:
     if not shim_direction:
         return None
 
@@ -159,7 +159,10 @@ def main() -> int:
     dst = Path(args.dst).resolve()
 
     if "candidate" not in src.parts or "lukhas" not in dst.parts:
-        print("❌ Expected --src under candidate/ and --dst under lukhas/", file=sys.stderr)
+        print(
+            "❌ Expected --src under candidate/ and --dst under lukhas/",
+            file=sys.stderr,
+        )
         return 2
 
     if not src.exists():
@@ -170,7 +173,12 @@ def main() -> int:
     rewritten = rewrite_imports(dst, copied, args.dry_run)
     shim = create_shim(args.shim_direction, src, dst, args.dry_run)
 
-    result = PromotionResult(copied_files=copied, rewritten_files=rewritten, shim_file=shim, dry_run=args.dry_run)
+    result = PromotionResult(
+        copied_files=copied,
+        rewritten_files=rewritten,
+        shim_file=shim,
+        dry_run=args.dry_run,
+    )
 
     # Emit a report for auditors
     out_dir = Path(".lukhas_audit")
@@ -205,4 +213,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

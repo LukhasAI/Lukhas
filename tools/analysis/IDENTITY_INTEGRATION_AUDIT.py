@@ -182,9 +182,7 @@ class IdentityAudit:
                 continue
 
             # Check if file has identity protection
-            any(
-                re.search(pattern, content) for pattern in IDENTITY_PATTERNS
-            )
+            any(re.search(pattern, content) for pattern in IDENTITY_PATTERNS)
             has_enforcement = any(
                 re.search(pattern, content) for pattern in ENFORCEMENT_PATTERNS
             )

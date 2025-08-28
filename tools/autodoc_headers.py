@@ -23,8 +23,8 @@ class DocHeaderGenerator:
                 "total_files": 0,
                 "documented": 0,
                 "undocumented": 0,
-                "headers_added": 0
-            }
+                "headers_added": 0,
+            },
         }
 
     def scan_modules(self) -> list[Path]:
@@ -32,7 +32,9 @@ class DocHeaderGenerator:
         modules = []
         for py_file in self.base_path.rglob("*.py"):
             # Skip test files and __pycache__
-            if "__pycache__" not in str(py_file) and not py_file.name.startswith("test_"):
+            if "__pycache__" not in str(py_file) and not py_file.name.startswith(
+                "test_"
+            ):
                 modules.append(py_file)
         return sorted(modules)
 
@@ -70,7 +72,7 @@ class DocHeaderGenerator:
             "functions": [],
             "imports": [],
             "purpose": "Module implementation",  # Default
-            "trinity_component": self._get_trinity_component(file_path)
+            "trinity_component": self._get_trinity_component(file_path),
         }
 
         try:
@@ -87,8 +89,11 @@ class DocHeaderGenerator:
                 # Extract top-level functions
                 elif isinstance(node, ast.FunctionDef):
                     # Only top-level functions
-                    if not any(isinstance(p, ast.ClassDef) for p in ast.walk(tree)
-                              if hasattr(p, "body") and node in p.body):
+                    if not any(
+                        isinstance(p, ast.ClassDef)
+                        for p in ast.walk(tree)
+                        if hasattr(p, "body") and node in p.body
+                    ):
                         info["functions"].append(node.name)
 
                 # Extract imports to understand dependencies
@@ -115,9 +120,14 @@ class DocHeaderGenerator:
 
         if any(term in path_str for term in ["identity", "auth", "lid", "lambda"]):
             return "⚛️"
-        elif any(term in path_str for term in ["consent", "governance", "guardian", "ethics", "policy"]):
+        elif any(
+            term in path_str
+            for term in ["consent", "governance", "guardian", "ethics", "policy"]
+        ):
             return "🛡️"
-        elif any(term in path_str for term in ["consciousness", "brain", "memory", "context"]):
+        elif any(
+            term in path_str for term in ["consciousness", "brain", "memory", "context"]
+        ):
             return "🧠"
         else:
             # Default based on parent directory
@@ -242,11 +252,9 @@ class DocHeaderGenerator:
 
             # Add header (or simulate in dry-run)
             if dry_run:
-                self.report["processed"].append({
-                    "path": str(module_path),
-                    "header": header,
-                    "info": info
-                })
+                self.report["processed"].append(
+                    {"path": str(module_path), "header": header, "info": info}
+                )
             else:
                 if self.add_header_to_file(module_path, header):
                     self.report["processed"].append(str(module_path))
@@ -280,9 +288,13 @@ class DocHeaderGenerator:
                         f.write("```\n\n")
 
                         if item["info"]["classes"]:
-                            f.write(f"**Classes**: {', '.join(item['info']['classes'])}\n\n")
+                            f.write(
+                                f"**Classes**: {', '.join(item['info']['classes'])}\n\n"
+                            )
                         if item["info"]["functions"]:
-                            f.write(f"**Functions**: {', '.join(item['info']['functions'])}\n\n")
+                            f.write(
+                                f"**Functions**: {', '.join(item['info']['functions'])}\n\n"
+                            )
                 else:
                     for path in self.report["processed"]:
                         f.write(f"- `{path}`\n")
@@ -301,12 +313,13 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Auto-generate documentation headers")
-    parser.add_argument("--dry-run", action="store_true",
-                       help="Simulate without writing files")
-    parser.add_argument("--path", default="lukhas/accepted",
-                       help="Base path to scan")
-    parser.add_argument("--report", default="docs/AUDIT/DOCS_TODO.md",
-                       help="Report output path")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Simulate without writing files"
+    )
+    parser.add_argument("--path", default="lukhas/accepted", help="Base path to scan")
+    parser.add_argument(
+        "--report", default="docs/AUDIT/DOCS_TODO.md", help="Report output path"
+    )
 
     args = parser.parse_args()
 
@@ -315,9 +328,9 @@ def main():
     report_path = generator.generate_report(args.report)
 
     # Print summary
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📝 AUTO-DOCUMENTATION COMPLETE")
-    print("="*60)
+    print("=" * 60)
     print(f"Total modules: {report['stats']['total_files']}")
     print(f"Already documented: {report['stats']['documented']}")
     print(f"Need documentation: {report['stats']['undocumented']}")

@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class DashboardData:
     """Standard dashboard data structure"""
+
     title: str
     timestamp: float
     metrics: dict[str, Any]
@@ -43,11 +44,7 @@ class SimpleDashboard:
         self.title = title
         self.port = port
         self.data = DashboardData(
-            title=title,
-            timestamp=time.time(),
-            metrics={},
-            charts=[],
-            logs=[]
+            title=title, timestamp=time.time(), metrics={}, charts=[], logs=[]
         )
 
         # Server components
@@ -61,12 +58,14 @@ class SimpleDashboard:
 
         self.logger = logging.getLogger(f"dashboard.{title.lower().replace(' ', '_')}")
 
-    def add_metric(self, key: str, value: Union[int, float, str], unit: str = "") -> None:
+    def add_metric(
+        self, key: str, value: Union[int, float, str], unit: str = ""
+    ) -> None:
         """Add or update a metric"""
         self.data.metrics[key] = {
             "value": value,
             "unit": unit,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
         self._update_timestamp()
 
@@ -77,7 +76,7 @@ class SimpleDashboard:
         data: list[dict[str, Any]],
         title: str = "",
         x_axis: str = "x",
-        y_axis: str = "y"
+        y_axis: str = "y",
     ) -> None:
         """Add or update a chart"""
         chart = {
@@ -87,7 +86,7 @@ class SimpleDashboard:
             "data": data,
             "x_axis": x_axis,
             "y_axis": y_axis,
-            "timestamp": time.time()
+            "timestamp": time.time(),
         }
 
         # Update existing chart or add new one
@@ -107,7 +106,7 @@ class SimpleDashboard:
 
         # Limit log size
         if len(self.data.logs) > self.max_logs:
-            self.data.logs = self.data.logs[-self.max_logs:]
+            self.data.logs = self.data.logs[-self.max_logs :]
 
         self._update_timestamp()
 
@@ -133,13 +132,12 @@ class SimpleDashboard:
             self.running = True
 
             # Start server in background thread
-            self.server_thread = threading.Thread(
-                target=self._run_server,
-                daemon=True
-            )
+            self.server_thread = threading.Thread(target=self._run_server, daemon=True)
             self.server_thread.start()
 
-            self.logger.info(f"Dashboard server started at http://localhost:{self.port}")
+            self.logger.info(
+                f"Dashboard server started at http://localhost:{self.port}"
+            )
 
         except Exception as e:
             self.logger.error(f"Failed to start server: {e}")
@@ -525,23 +523,31 @@ class StreamlitFallback:
         """Write text (logged as info)"""
         self.dashboard.add_log(f"WRITE: {text}", "INFO")
 
-    def metric(self, label: str, value: Union[int, float, str], delta: str = None) -> None:
+    def metric(
+        self, label: str, value: Union[int, float, str], delta: str = None
+    ) -> None:
         """Add metric to dashboard"""
         self.dashboard.add_metric(label, value)
         if delta:
             self.dashboard.add_log(f"METRIC: {label} = {value} (Δ {delta})", "INFO")
 
-    def line_chart(self, data: list[dict[str, Any]], x: str = "x", y: str = "y") -> None:
+    def line_chart(
+        self, data: list[dict[str, Any]], x: str = "x", y: str = "y"
+    ) -> None:
         """Add line chart"""
         self._metric_counter += 1
         chart_id = f"line_chart_{self._metric_counter}"
-        self.dashboard.add_chart(chart_id, "line", data, f"Line Chart {self._metric_counter}", x, y)
+        self.dashboard.add_chart(
+            chart_id, "line", data, f"Line Chart {self._metric_counter}", x, y
+        )
 
     def bar_chart(self, data: list[dict[str, Any]], x: str = "x", y: str = "y") -> None:
         """Add bar chart"""
         self._metric_counter += 1
         chart_id = f"bar_chart_{self._metric_counter}"
-        self.dashboard.add_chart(chart_id, "bar", data, f"Bar Chart {self._metric_counter}", x, y)
+        self.dashboard.add_chart(
+            chart_id, "bar", data, f"Bar Chart {self._metric_counter}", x, y
+        )
 
     def success(self, text: str) -> None:
         """Success message"""
@@ -601,7 +607,7 @@ __all__ = [
     "StreamlitFallback",
     "DashboardData",
     "get_streamlit_fallback",
-    "create_streamlit_mock"
+    "create_streamlit_mock",
 ]
 
 
@@ -616,12 +622,19 @@ if __name__ == "__main__":
     dashboard.add_metric("Memory", "2.1GB", "GB")
     dashboard.add_metric("Active Users", 127, "users")
 
-    dashboard.add_chart("cpu_history", "line", [
-        {"time": "00:00", "cpu": 30},
-        {"time": "00:05", "cpu": 45},
-        {"time": "00:10", "cpu": 52},
-        {"time": "00:15", "cpu": 38}
-    ], "CPU Usage Over Time", "time", "cpu")
+    dashboard.add_chart(
+        "cpu_history",
+        "line",
+        [
+            {"time": "00:00", "cpu": 30},
+            {"time": "00:05", "cpu": 45},
+            {"time": "00:10", "cpu": 52},
+            {"time": "00:15", "cpu": 38},
+        ],
+        "CPU Usage Over Time",
+        "time",
+        "cpu",
+    )
 
     dashboard.add_log("System started successfully")
     dashboard.add_log("Loading consciousness modules")
@@ -635,8 +648,11 @@ if __name__ == "__main__":
             time.sleep(5)
             # Update some demo data
             import random
+
             dashboard.add_metric("CPU Usage", f"{random.randint(20, 80)}%", "%")
-            dashboard.add_log(f"Heartbeat - System healthy at {time.strftime('%H:%M:%S')}")
+            dashboard.add_log(
+                f"Heartbeat - System healthy at {time.strftime('%H:%M:%S')}"
+            )
 
     except KeyboardInterrupt:
         dashboard.stop_server()

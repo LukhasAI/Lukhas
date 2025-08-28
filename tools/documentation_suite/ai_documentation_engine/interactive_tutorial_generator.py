@@ -1110,8 +1110,7 @@ print(f"Result: {result}")
             "expected_output": f"{topic} processing completed successfully",
             "validation_code": "assert result is not None",
             "hints": [
-                f"Import the {topic} module from system"
-                f"Initialize {topic}() class",
+                f"Import the {topic} module from system" f"Initialize {topic}() class",
                 "Add basic configuration options",
                 "Call the process() method",
             ],

@@ -36,12 +36,10 @@ from pydantic import BaseModel, Field, validator
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 
 # Import MATRIZ components (package-relative for reliability)
-from ..core.node_interface import CognitiveNode
-from ..core.orchestrator import CognitiveOrchestrator, ExecutionTrace
+from ..core.orchestrator import CognitiveOrchestrator
 from ..nodes.fact_node import FactNode
 from ..nodes.math_node import MathNode
 from ..nodes.validator_node import ValidatorNode
-
 
 # Configure logging
 logging.basicConfig(

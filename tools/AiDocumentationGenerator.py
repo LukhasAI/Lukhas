@@ -430,9 +430,8 @@ class AIDocumentationGenerator:
                 # Write documentation file
                 doc_path = output_dir / f"{file_path.stem}_documentation.md"
                 with open(doc_path, "w", encoding="utf-8") as f:
-                    f.write(f"")
                     for section in sections:
-                        f.write(f"#")
+                        f.write(f"# {section.title}\n\n{section.content}\n\n")
 
                 results["documented_files"] += 1
                 results["sections_generated"] += len(sections)

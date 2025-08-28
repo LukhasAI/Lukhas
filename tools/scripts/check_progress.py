@@ -4,6 +4,7 @@ Check linting progress and provide summary
 """
 
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -12,6 +13,8 @@ def check_directory(directory: str) -> int:
     try:
         result = subprocess.run(
             [
+                sys.executable,
+                "-m",
                 "flake8",
                 directory,
                 "--max-line-length=88",
@@ -22,7 +25,7 @@ def check_directory(directory: str) -> int:
             ],
             capture_output=True,
             text=True,
-            timeout=10,
+            timeout=30,
         )
 
         # Parse the count from output

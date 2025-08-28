@@ -433,7 +433,10 @@ class ImportErrorFixer:
                 "from lukhas.memory.core.unified_memory_orchestrator import",
             ),
             # Consciousness imports
-            ("from lukhas.consciousness.unified import", "from lukhas.consciousness.unified import"),
+            (
+                "from lukhas.consciousness.unified import",
+                "from lukhas.consciousness.unified import",
+            ),
             (
                 "from lukhas.consciousness.unified.auto_consciousness import",
                 "from lukhas.consciousness.unified.auto_consciousness import",

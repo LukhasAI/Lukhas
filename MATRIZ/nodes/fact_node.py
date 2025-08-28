@@ -21,7 +21,6 @@ from typing import Any, Optional
 
 from ..core.node_interface import (
     CognitiveNode,
-    NodeReflection,
     NodeState,
     NodeTrigger,
 )

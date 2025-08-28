@@ -5,15 +5,12 @@ Your AI-powered technical mentor and companion
 """
 
 import re
-from datetime import datetime
-from datetime import timedelta
-from typing import Any
-from typing import Optional
+from datetime import datetime, timedelta
+from typing import Any, Optional
 
 from .decision_tracker import DecisionTracker
 from .insight_analyzer import InsightAnalyzer
-from .journal_engine import JournalEngine
-from .journal_engine import JournalEntry
+from .journal_engine import JournalEngine, JournalEntry
 from .pattern_detector import PatternDetector
 
 
@@ -349,11 +346,14 @@ class LearningAssistant:
         """Generate answer when no direct information is found"""
         self._extract_key_terms(question)
 
-        answer = "I don't have specific information about this in your journal yet, but let's explore it together.\n\n"
+        answer = (
+            "I don't have specific information about this in your journal yet, "
+            "but let's explore it together.\n\n"
+        )
 
-      # Check if it's about LUKHAS concepts
-      lukhas_concepts_mentioned = []
-       for concept in self.knowledge_base.get("lukhas_concepts", {}):
+        # Check if it's about LUKHAS concepts
+        lukhas_concepts_mentioned: list[str] = []
+        for concept in self.knowledge_base.get("lukhas_concepts", {}):
             if concept in question.lower():
                 lukhas_concepts_mentioned.append(concept)
 
@@ -372,7 +372,7 @@ class LearningAssistant:
 
         return answer
 
-    def _calculate_confidence(self):
+    def _calculate_confidence(
         self, entries: list[JournalEntry], kb_results: dict[str, Any]
     ) -> float:
         """Calculate confidence in the answer"""
@@ -392,7 +392,7 @@ class LearningAssistant:
 
         return min(confidence, 0.95)  # Cap at 95%
 
-    def _format_sources(self):
+    def _format_sources(
         self, entries: list[JournalEntry], kb_results: dict[str, Any]
     ) -> list[dict[str, str]]:
         """Format sources for the answer"""
@@ -415,17 +415,17 @@ class LearningAssistant:
         related = []
         question_lower = question.lower()
 
-        for concept, _definition in self.knowledge_base.get(:
+        for concept, _definition in self.knowledge_base.get(
             "lukhas_concepts", {}
         ).items():
-            if concept in question_lower or any(:
+            if concept in question_lower or any(
                 word in question_lower for word in concept.split("_")
             ):
                 related.append(concept)
 
         return related
 
-    def _generate_follow_up_questions(self):
+    def _generate_follow_up_questions(
         self, question: str, response: dict[str, Any]
     ) -> list[str]:
         """Generate follow-up questions to deepen understanding"""
@@ -455,7 +455,7 @@ class LearningAssistant:
 
         return follow_ups[:3]  # Return top 3
 
-    def _suggest_resources(self):
+    def _suggest_resources(
         self, question: str, response: dict[str, Any]
     ) -> list[dict[str, str]]:
         """Suggest learning resources based on the question"""
@@ -644,7 +644,7 @@ class LearningAssistant:
 
         return suggestions[:3]
 
-    def generate_learning_plan(self):
+    def generate_learning_plan(
         self, goals: list[str], timeframe_days: int = 30
     ) -> dict[str, Any]:
         """Generate a personalized learning plan"""
@@ -707,7 +707,7 @@ class LearningAssistant:
 
         return plan
 
-    def _generate_daily_tasks(self):
+    def _generate_daily_tasks(
         self, goals: list[str], current_skills: dict[str, int], day: int
     ) -> list[str]:
         """Generate tasks for a specific day"""

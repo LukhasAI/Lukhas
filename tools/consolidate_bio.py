@@ -30,12 +30,14 @@ class BioConsolidator:
         cursor = self.conn.cursor()
 
         # Get all bio variants
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT DISTINCT file_path
             FROM duplicates
             WHERE module_type = 'bio'
             ORDER BY variant_name, has_unique_logic DESC
-        """)
+        """
+        )
 
         bio_files = [Path(row[0]) for row in cursor.fetchall() if Path(row[0]).exists()]
 
@@ -48,7 +50,7 @@ class BioConsolidator:
             "voice": [],
             "awareness": [],
             "adapters": [],
-            "utils": []
+            "utils": [],
         }
 
         for file_path in bio_files:
@@ -85,17 +87,24 @@ class BioConsolidator:
 
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
-                    classes.append({
-                        "name": node.name,
-                        "bases": [base.id if isinstance(base, ast.Name) else str(base)
-                                 for base in node.bases],
-                        "methods": [n.name for n in node.body if isinstance(n, ast.FunctionDef)]
-                    })
+                    classes.append(
+                        {
+                            "name": node.name,
+                            "bases": [
+                                base.id if isinstance(base, ast.Name) else str(base)
+                                for base in node.bases
+                            ],
+                            "methods": [
+                                n.name
+                                for n in node.body
+                                if isinstance(n, ast.FunctionDef)
+                            ],
+                        }
+                    )
                 elif isinstance(node, ast.FunctionDef) and node.col_offset == 0:
-                    functions.append({
-                        "name": node.name,
-                        "args": [arg.arg for arg in node.args.args]
-                    })
+                    functions.append(
+                        {"name": node.name, "args": [arg.arg for arg in node.args.args]}
+                    )
                 elif isinstance(node, (ast.Import, ast.ImportFrom)):
                     imports.append(ast.unparse(node))
 
@@ -103,7 +112,7 @@ class BioConsolidator:
                 "classes": classes,
                 "functions": functions,
                 "imports": imports,
-                "content": content
+                "content": content,
             }
         except Exception as e:
             print(f"  ⚠️  Error parsing {file_path}: {e}")
@@ -150,22 +159,26 @@ class BioConsolidator:
                     all_classes.append(cls)
                 else:
                     # Handle duplicate class names
-                    self.conflicts.append({
-                        "type": "class",
-                        "name": cls["name"],
-                        "files": [str(file_path)]
-                    })
+                    self.conflicts.append(
+                        {
+                            "type": "class",
+                            "name": cls["name"],
+                            "files": [str(file_path)],
+                        }
+                    )
 
             # Collect unique functions
             for func in components["functions"]:
                 if not any(f["name"] == func["name"] for f in all_functions):
                     all_functions.append(func)
                 else:
-                    self.conflicts.append({
-                        "type": "function",
-                        "name": func["name"],
-                        "files": [str(file_path)]
-                    })
+                    self.conflicts.append(
+                        {
+                            "type": "function",
+                            "name": func["name"],
+                            "files": [str(file_path)],
+                        }
+                    )
 
         # Generate consolidated module
         content = f'''"""
@@ -211,7 +224,9 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
             args = ", ".join(func["args"]) if func["args"] else ""
             content += f"\ndef {func['name']}({args}):\n"
             content += f'    """Bio {category_name} function - {func["name"]}"""\n'
-            content += "    raise NotImplementedError('Bio consolidation in progress')\n\n"
+            content += (
+                "    raise NotImplementedError('Bio consolidation in progress')\n\n"
+            )
 
         # Write consolidated module
         target_file.write_text(content)

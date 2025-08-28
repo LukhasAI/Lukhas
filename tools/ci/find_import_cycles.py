@@ -7,14 +7,19 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(os.getcwd())
+
+
 def py_files():
     for p in ROOT.rglob("*.py"):
-        if ".git/" in str(p): continue
+        if ".git/" in str(p):
+            continue
         yield p
+
 
 def mod_name(p: Path) -> str:
     rel = p.relative_to(ROOT).with_suffix("")
     return ".".join(rel.parts)
+
 
 def imports_of(path: Path):
     try:
@@ -25,11 +30,13 @@ def imports_of(path: Path):
     out = set()
     for n in ast.walk(tree):
         if isinstance(n, ast.Import):
-            for a in n.names: out.add(a.name)
+            for a in n.names:
+                out.add(a.name)
         elif isinstance(n, ast.ImportFrom) and n.module:
             out.add(n.module)
     # normalize relative-ish to top-level
-    return {m.split(".")[0] for m in out if isinstance(m,str)}
+    return {m.split(".")[0] for m in out if isinstance(m, str)}
+
 
 def build_graph():
     g = defaultdict(set)
@@ -41,13 +48,16 @@ def build_graph():
             g[m].add(imp)
     return g, rev
 
+
 def find_cycles(g):
     visited, stack = set(), set()
     path = []
     cycles = []
 
     def dfs(u):
-        visited.add(u); stack.add(u); path.append(u)
+        visited.add(u)
+        stack.add(u)
+        path.append(u)
         for v in g.get(u, ()):
             if v not in visited:
                 dfs(v)
@@ -56,15 +66,18 @@ def find_cycles(g):
                 try:
                     i = path.index(v)
                     cyc = path[i:] + [v]
-                    if len(cyc) > 2: cycles.append(cyc)
+                    if len(cyc) > 2:
+                        cycles.append(cyc)
                 except ValueError:
                     pass
-        stack.remove(u); path.pop()
+        stack.remove(u)
+        path.pop()
 
     for n in list(g.keys()):
         if n not in visited:
             dfs(n)
     return cycles
+
 
 if __name__ == "__main__":
     g, rev = build_graph()

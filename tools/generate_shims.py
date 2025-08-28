@@ -28,6 +28,7 @@ warnings.warn(
 __all__ = dir()
 '''
 
+
 class ShimGenerator:
     """Generate compatibility shims for migration"""
 
@@ -41,11 +42,13 @@ class ShimGenerator:
         cursor = self.conn.cursor()
 
         # Get all migration mappings that need shims
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT old_import, new_import, deprecation_date
             FROM migrations
             WHERE shim_required = 1
-        """)
+        """
+        )
 
         for old_import, new_import, deprecation_date in cursor.fetchall():
             self.create_shim(old_import, new_import, deprecation_date)
@@ -70,7 +73,7 @@ class ShimGenerator:
         shim_content = SHIM_TEMPLATE.format(
             old_module=old_module,
             new_module=new_module,
-            deprecation_date=deprecation_date
+            deprecation_date=deprecation_date,
         )
 
         # Create parent directories
@@ -102,7 +105,7 @@ class ShimGenerator:
                 shim_content = SHIM_TEMPLATE.format(
                     old_module=old_path.replace("/__init__.py", "").replace("/", "."),
                     new_module=new_module,
-                    deprecation_date="2025-11-01"
+                    deprecation_date="2025-11-01",
                 )
                 path.write_text(shim_content)
                 self.shims_created.append(str(path))
@@ -168,7 +171,7 @@ warnings.warn(
                 shim_content = SHIM_TEMPLATE.format(
                     old_module=old_path.replace(".py", "").replace("/", "."),
                     new_module=new_module,
-                    deprecation_date="2025-11-01"
+                    deprecation_date="2025-11-01",
                 )
                 path.write_text(shim_content)
                 self.shims_created.append(str(path))
@@ -233,8 +236,11 @@ if os.getenv(flag_name, "false").lower() == "true":
 
         # Check for real code indicators
         real_code_indicators = [
-            "class ", "def ", "async def",
-            "import ", "from ",
+            "class ",
+            "def ",
+            "async def",
+            "import ",
+            "from ",
         ]
 
         for indicator in real_code_indicators:

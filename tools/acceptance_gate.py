@@ -15,6 +15,7 @@ ACCEPTED_ROOT = "lukhas"
 
 violations = []
 
+
 def is_facade(py_path, tree, src):
     total_lines = len(src.splitlines())
     if total_lines == 0:
@@ -26,6 +27,7 @@ def is_facade(py_path, tree, src):
             import_lines += 1
     # Facade heuristic: very small files dominated by imports
     return (total_lines < 40) and (import_lines / max(1, total_lines) > 0.6)
+
 
 def check_file(py_path):
     try:
@@ -62,14 +64,19 @@ def check_file(py_path):
                 if isinstance(arg0, ast.Constant) and isinstance(arg0.value, str):
                     root = arg0.value.split(".")[0]
                     if root in FORBIDDEN_ROOTS:
-                        violations.append((py_path, f"Illegal dynamic import of '{root}'"))
+                        violations.append(
+                            (py_path, f"Illegal dynamic import of '{root}'")
+                        )
 
     # Facade detection (warn-level; make it error to enforce)
     try:
         if is_facade(py_path, tree, src):
-            violations.append((py_path, "Facade wrapper detected (tiny & mostly imports)"))
+            violations.append(
+                (py_path, "Facade wrapper detected (tiny & mostly imports)")
+            )
     except Exception as e:
         violations.append((py_path, f"Facade check error: {e}"))
+
 
 def main():
     if not os.path.isdir(ACCEPTED_ROOT):
@@ -89,6 +96,7 @@ def main():
     else:
         print("✅ Acceptance gate passed (no illegal imports or facades detected).")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

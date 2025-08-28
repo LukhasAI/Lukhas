@@ -3,6 +3,7 @@
 T4 System Validation - Simple test file with TODO markers.
 """
 
+
 def example_function():
     """Example function with T4-AUTOFIX opportunities."""
 
@@ -14,6 +15,7 @@ def example_function():
 
     # TODO[T4-AUTOFIX]: Use pathlib.Path instead of os.path.join
     import os
+
     file_path = os.path.join("data", "output.txt")
 
     # TODO[T4-AUTOFIX]: Remove unused variable

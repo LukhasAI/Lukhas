@@ -45,7 +45,7 @@ COMMANDS = {
         "shortcut": "Ctrl+Shift+L",
         "script": "python3 dashboards/main.py",
         "description": "Starts the LUCAS public companion dashboard(voice, thoughts, "
-                       "visuals).",
+        "visuals).",
     },
     "Trigger Audit Log (CLI)": {
         "shortcut": "Ctrl+Alt+A",
@@ -67,6 +67,7 @@ def list_commands():
         print(f"    - Shortcut: {meta['shortcut']}")
         print(f"    - Script   : {meta['script']}")
         print(f"    - Info     : {meta['description']}\n")
+
 
 # ==============================================================================
 # 💻 CLI EXECUTION
