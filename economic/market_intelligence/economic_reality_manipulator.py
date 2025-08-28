@@ -13,8 +13,8 @@ from datetime import datetime
 from typing import Any
 
 from core.container.service_container import ServiceContainer
-from core.interfaces import CoreInterface
 from core.symbolic_engine import SymbolicEffect, SymbolicEvent
+from system.common.interfaces import BaseInterface as CoreInterface
 
 logger = logging.getLogger(__name__)
 

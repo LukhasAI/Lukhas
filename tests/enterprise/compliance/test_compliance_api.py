@@ -1,11 +1,15 @@
+from contextlib import asynccontextmanager
+from unittest.mock import AsyncMock, Mock
+
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-from enterprise.compliance.api import router as protection_router, user_router, get_data_protection_service
-from consent.api import get_consent_service, ConsentService
+
+from consent.api import ConsentService, get_consent_service
+from enterprise.compliance.api import get_data_protection_service, user_router
+from enterprise.compliance.api import router as protection_router
 from enterprise.compliance.data_protection_service import DataProtectionService
-from unittest.mock import AsyncMock, Mock
-from contextlib import asynccontextmanager
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -17,8 +21,9 @@ async def lifespan(app: FastAPI):
 def mock_dp_service():
     """Mock data protection service"""
     service = Mock(spec=DataProtectionService)
-    from enterprise.compliance.data_protection_service import ProtectionPolicy
     from datetime import datetime
+
+    from enterprise.compliance.data_protection_service import ProtectionPolicy
     mock_policy = ProtectionPolicy(
         policy_id="pii_protection", name="PII Protection", description="Test policy",
         data_types=["email"], protection_level="HIGH", encryption_required=True,
@@ -30,8 +35,9 @@ def mock_dp_service():
     service.protection_policies = {"pii_protection": mock_policy}
     service.protect_data = AsyncMock(return_value=({"encrypted": True}, {}))
     service.unprotect_data = AsyncMock(return_value="test")
-    from enterprise.compliance.data_protection_service import GDPRAssessment
     from datetime import timedelta
+
+    from enterprise.compliance.data_protection_service import GDPRAssessment
     mock_assessment = GDPRAssessment(
         activity_id="test", compliance_status="Fully Compliant", assessment_date=datetime.now(),
         lawfulness_score=1.0, privacy_rights_score=1.0, security_score=1.0,
@@ -87,7 +93,12 @@ def test_unprotect_data(client, mock_dp_service):
 
 def test_assessment(client, mock_dp_service):
     """Test the /assessment endpoint."""
-    from enterprise.compliance.data_protection_service import DataProcessingActivity, DataCategory, LawfulBasis, ProcessingPurpose
+    from enterprise.compliance.data_protection_service import (
+        DataCategory,
+        DataProcessingActivity,
+        LawfulBasis,
+        ProcessingPurpose,
+    )
 
     activity = DataProcessingActivity(
         activity_id="test",

@@ -1,6 +1,10 @@
-import json, hashlib, os, sys
+import hashlib
+import json
+import os
+import sys
 from pathlib import Path
-from jsonschema import validate, ValidationError
+
+from jsonschema import ValidationError, validate
 
 ROOT = Path(".")
 FILES = [
@@ -34,7 +38,7 @@ for lane, data in lanes.items():
 errors=[]
 for fn, schema_fn in FILES:
     p=Path(fn)
-    if not p.exists(): 
+    if not p.exists():
         continue
     data=json.loads(p.read_text())
     # ensure required top-level fields exist for minimal schemas

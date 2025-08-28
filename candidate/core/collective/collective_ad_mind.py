@@ -5,11 +5,11 @@ This module serves as the main entry point for the Collective Intelligence Layer
 integrating clustering, swarm recommendations, and altruistic routing.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from .clusters.consciousness_clusters import ConsciousnessClusteringEngine
-from .swarm.swarm_recommendations import SwarmRecommendationSystem
 from .routing.altruistic_router import AltruisticAdRouter
+from .swarm.swarm_recommendations import SwarmRecommendationSystem
 
 
 class CollectiveAdMind:

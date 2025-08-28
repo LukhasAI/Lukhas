@@ -9,7 +9,6 @@ Used as a safety net for content that needs to be cleaned of author attributions
 import re
 import sys
 
-
 REPLACEMENTS = {
     r"\bKeats(ian)?\b": "poetic yet grounded",
     r"\bMacbeth\b": "tragic grandeur",
@@ -21,9 +20,9 @@ REPLACEMENTS = {
     r"\bRick Rubin\b": "contemporary creative practice",
     r"\bNachmanovitch\b": "improvisational arts",
     r"\bJulia Cameron\b": "creative coaching",
-    
+
     # Additional patterns for common phrases
-    r"\bKeats['']?\s*(concept|notion|idea|principle)\s*of\s*Negative\s*Capability\b": 
+    r"\bKeats['']?\s*(concept|notion|idea|principle)\s*of\s*Negative\s*Capability\b":
         "concept of negative capability",
     r"\bFollowing\s*Keats\b": "Following the principle of",
     r"\bAs\s*Keats\s*(said|wrote|noted)\b": "As the saying goes",
@@ -49,33 +48,33 @@ def sanitize_file(file_path: str) -> tuple[str, int]:
     try:
         with open(file_path, encoding="utf-8") as f:
             original_content = f.read()
-        
+
         sanitized_content = sanitize(original_content)
-        
+
         # Count replacements by comparing original vs sanitized
         replacement_count = 0
         for pattern in REPLACEMENTS.keys():
             original_matches = len(re.findall(pattern, original_content, re.IGNORECASE))
             sanitized_matches = len(re.findall(pattern, sanitized_content, re.IGNORECASE))
             replacement_count += (original_matches - sanitized_matches)
-        
+
         return sanitized_content, replacement_count
-    
+
     except Exception as e:
         return f"Error reading file: {e}", 0
 
 
 def main():
     import argparse
-    
+
     parser = argparse.ArgumentParser(description="Sanitize content by removing author references")
     parser.add_argument("input_file", nargs="?", help="Input file to sanitize (default: stdin)")
     parser.add_argument("-o", "--output", help="Output file (default: stdout)")
     parser.add_argument("--in-place", action="store_true", help="Modify file in-place")
     parser.add_argument("--report", action="store_true", help="Show replacement report")
-    
+
     args = parser.parse_args()
-    
+
     # Read input
     if args.input_file:
         content, replacement_count = sanitize_file(args.input_file)
@@ -86,14 +85,14 @@ def main():
         # Read from stdin
         original_content = sys.stdin.read()
         content = sanitize(original_content)
-        
+
         # Count replacements
         replacement_count = 0
         for pattern in REPLACEMENTS.keys():
             original_matches = len(re.findall(pattern, original_content, re.IGNORECASE))
             sanitized_matches = len(re.findall(pattern, content, re.IGNORECASE))
             replacement_count += (original_matches - sanitized_matches)
-    
+
     # Write output
     if args.in_place and args.input_file:
         with open(args.input_file, "w", encoding="utf-8") as f:

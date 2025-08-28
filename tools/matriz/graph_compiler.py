@@ -16,11 +16,14 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
-from dataclasses import dataclass
+from collections.abc import Mapping, MutableMapping, Sequence
 from pathlib import Path
-from typing import Dict, Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
-
+from typing import (
+    Dict,
+    List,
+    Optional,
+    Tuple,
+)
 
 # Allowed node roles for v0.1
 ALLOWED_TYPES: set[str] = {

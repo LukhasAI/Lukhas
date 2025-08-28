@@ -2,13 +2,18 @@
 Tests for the Collective Intelligence Layer.
 """
 
-import pytest
-from typing import Dict, Any, List
 
-from candidate.core.collective.clusters.consciousness_clusters import ConsciousnessClusteringEngine
-from candidate.core.collective.swarm.swarm_recommendations import SwarmRecommendationSystem
-from candidate.core.collective.routing.altruistic_router import AltruisticAdRouter
+import pytest
+
+from candidate.core.collective.clusters.consciousness_clusters import (
+    ConsciousnessClusteringEngine,
+)
 from candidate.core.collective.collective_ad_mind import CollectiveAdMind
+from candidate.core.collective.routing.altruistic_router import AltruisticAdRouter
+from candidate.core.collective.swarm.swarm_recommendations import (
+    SwarmRecommendationSystem,
+)
+
 
 @pytest.mark.asyncio
 async def test_consciousness_clustering_engine():

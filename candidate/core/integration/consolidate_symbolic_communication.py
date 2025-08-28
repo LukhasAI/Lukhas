@@ -10,12 +10,12 @@ SymbolicWorld object into a valid MΛTRIZ node.
 import hashlib
 import json
 import uuid
-from pathlib import Path
 from datetime import datetime, timezone
 
-# Assuming execution from a context where 'candidate' is in the Python path.
-from candidate.core.symbolic.symbolic_core import SymbolicWorld, Symbol
 from candidate.core.symbolic.glyph_engine import generate_glyph
+
+# Assuming execution from a context where 'candidate' is in the Python path.
+from candidate.core.symbolic.symbolic_core import SymbolicWorld
 
 
 def consolidate_symbolic_communication():

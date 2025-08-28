@@ -1,14 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.818" timestamp="2025-08-28T18:01:45.968282+01:00" hostname="g.local"><testcase classname="" name="tests.test_guardian_integrated_platform" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/test_guardian_integrated_platform.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-tests/test_guardian_integrated_platform.py:12: in &lt;module&gt;
-    from candidate.core.business.guardian_integrated_platform import (
-candidate/__init__.py:40: in &lt;module&gt;
-    from . import core
-candidate/core/__init__.py:28: in &lt;module&gt;
-    from . import business
-candidate/core/business/__init__.py:9: in &lt;module&gt;
-    from .api_budget_manager import APIBudgetManager
-E   ModuleNotFoundError: No module named 'candidate.core.business.api_budget_manager'</error></testcase></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="0.541" timestamp="2025-08-28T18:17:11.972493+01:00" hostname="g.local"><testcase classname="tests.test_guardian_integrated_platform.TestGuardianSystemAdapter" name="test_clean_content_approval" time="0.001" /></testsuite></testsuites>

@@ -11,12 +11,12 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
 
+from creativity.core import CreativityEngine
 from dream.engine import DreamEngine  # Will be renamed to dream.synthesizer
 
 # These imports form an intentional cycle for meta-learning
 from learning.learning_gateway import LearningRequest, get_learning_gateway
 
-from creativity.core import CreativityEngine
 from lukhas.memory.core import MemoryCore
 
 

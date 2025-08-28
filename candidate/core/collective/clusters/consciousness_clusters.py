@@ -6,7 +6,8 @@ patterns, using privacy-preserving techniques.
 """
 
 import random
-from typing import Any, Dict, List, Set
+from typing import Dict, List
+
 
 class ConsciousnessClusteringEngine:
     """

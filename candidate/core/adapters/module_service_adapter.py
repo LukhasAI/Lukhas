@@ -37,11 +37,10 @@ class MemoryServiceAdapter(IMemoryService):
         if not self._initialized:
             try:
                 # Import existing memory components
-                from memory import AGIMemory, MemoryFoldManager
-
                 from lukhas.memory.fold_system.memory_fold import (
                     HybridMemoryFold as MemoryFoldSystem,
                 )
+                from memory import AGIMemory, MemoryFoldManager
 
                 self._fold_manager = MemoryFoldManager() if MemoryFoldManager else None
                 self._fold_system = (

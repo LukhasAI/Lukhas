@@ -26,7 +26,6 @@ EXPECTED PERFORMANCE:
 - Total improvement: 5-10x faster than standard implementation
 """
 
-import asyncio
 import logging
 import time
 import uuid
@@ -49,25 +48,23 @@ except ImportError:
     from fastapi.responses import JSONResponse
     print("⚠️ orjson not available - using standard JSON")
 
-from fastapi import FastAPI, Header, HTTPException, Request, Depends
+import redis.asyncio as redis
+from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-import redis.asyncio as redis
 
 # Import our extreme performance optimizations
 try:
-    from lukhas.governance.identity.extreme_performance_connector import (
-        get_extreme_identity_connector,
-        require_tier_extreme
-    )
+    from enterprise.performance.extreme_auth_optimization import get_extreme_optimizer
     from lukhas.governance.identity.auth_backend.extreme_performance_audit_logger import (
+        AuditEventType,
+        AuditSeverity,
         get_extreme_audit_logger,
         log_audit_event_extreme,
-        AuditEventType,
-        AuditSeverity
     )
-    from enterprise.performance.extreme_auth_optimization import (
-        get_extreme_optimizer
+    from lukhas.governance.identity.extreme_performance_connector import (
+        get_extreme_identity_connector,
+        require_tier_extreme,
     )
     EXTREME_OPTIMIZATIONS_AVAILABLE = True
     print("🚀 Extreme performance optimizations loaded!")
@@ -177,7 +174,7 @@ class ExtremePerformanceServer:
             # Extreme performance settings
             docs_url="/docs" if env_get("ENVIRONMENT") != "production" else None,
             redoc_url="/redoc" if env_get("ENVIRONMENT") != "production" else None,
-            default_response_class=JSONResponse if 'orjson' in globals() else None
+            default_response_class=JSONResponse if "orjson" in globals() else None
         )
 
         # Add performance middleware
@@ -291,7 +288,7 @@ class ExtremePerformanceServer:
 
                 try:
                     # Extract response body for caching
-                    if hasattr(response, 'body'):
+                    if hasattr(response, "body"):
                         cache_key = f"api_cache:{request.url}"
                         await self.redis_cache.setex(
                             cache_key,

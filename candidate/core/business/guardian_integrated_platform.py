@@ -6,11 +6,10 @@ enforcement and drift detection as specified in Phase 2A of the LUKHAS
 integration strategy.
 """
 
-import asyncio
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
-from dataclasses import dataclass, asdict
 import json
+from dataclasses import asdict, dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, Optional
 
 
 @dataclass
@@ -22,7 +21,7 @@ class EthicsViolation:
     detected_at: datetime
     content_hash: str
     user_id: Optional[str] = None
-    
+
 
 @dataclass
 class DriftMetrics:
@@ -44,13 +43,13 @@ class GuardianSystemAdapter:
     - Constitutional AI compliance
     - Audit trail generation
     """
-    
+
     def __init__(self):
         self.drift_threshold = 0.15
         self.violations_cache = []
         self.current_drift = 0.0
         self.last_drift_check = datetime.now()
-        
+
     async def check_content_ethics(self, content: Dict[str, Any], user_context: Dict[str, Any]) -> Dict[str, Any]:
         """
         Check advertising content against Guardian System ethics.
@@ -59,7 +58,7 @@ class GuardianSystemAdapter:
             Dict containing ethics_approved, violations, drift_impact
         """
         violations = []
-        
+
         # Simulate Guardian System ethics checks
         if self._contains_manipulative_language(content):
             violations.append(EthicsViolation(
@@ -69,7 +68,7 @@ class GuardianSystemAdapter:
                 detected_at=datetime.now(),
                 content_hash=self._hash_content(content)
             ))
-        
+
         if self._exploits_vulnerability(content, user_context):
             violations.append(EthicsViolation(
                 violation_type="vulnerability_exploitation",
@@ -79,7 +78,7 @@ class GuardianSystemAdapter:
                 content_hash=self._hash_content(content),
                 user_id=user_context.get("user_id")
             ))
-        
+
         if self._violates_consent(content, user_context):
             violations.append(EthicsViolation(
                 violation_type="consent_violation",
@@ -89,13 +88,13 @@ class GuardianSystemAdapter:
                 content_hash=self._hash_content(content),
                 user_id=user_context.get("user_id")
             ))
-        
+
         # Update drift metrics based on violations
         drift_impact = sum(v.severity for v in violations) * 0.1
         self.current_drift = min(1.0, self.current_drift + drift_impact)
-        
+
         ethics_approved = len(violations) == 0 and self.current_drift < self.drift_threshold
-        
+
         return {
             "ethics_approved": ethics_approved,
             "violations": [asdict(v) for v in violations],
@@ -103,13 +102,13 @@ class GuardianSystemAdapter:
             "drift_threshold": self.drift_threshold,
             "requires_human_review": self.current_drift > 0.12  # Early warning at 80% of threshold
         }
-    
+
     async def get_drift_metrics(self) -> DriftMetrics:
         """Get current Guardian System drift metrics."""
         # Count violations in last 24 hours
         cutoff_time = datetime.now() - timedelta(hours=24)
         recent_violations = len([v for v in self.violations_cache if v.detected_at > cutoff_time])
-        
+
         # Determine trend
         if self.current_drift > 0.12:
             trend = "increasing"
@@ -117,7 +116,7 @@ class GuardianSystemAdapter:
             trend = "decreasing"
         else:
             trend = "stable"
-        
+
         return DriftMetrics(
             current_drift=self.current_drift,
             threshold=self.drift_threshold,
@@ -125,13 +124,13 @@ class GuardianSystemAdapter:
             last_updated=datetime.now(),
             violation_count_24h=recent_violations
         )
-    
+
     async def reset_drift(self) -> bool:
         """Reset drift metrics (admin operation)."""
         self.current_drift = 0.0
         self.violations_cache.clear()
         return True
-    
+
     def _contains_manipulative_language(self, content: Dict[str, Any]) -> bool:
         """Check for manipulative language patterns."""
         text = str(content.get("message", "")).lower()
@@ -140,7 +139,7 @@ class GuardianSystemAdapter:
             "exclusive offer", "guaranteed", "miracle", "secret"
         ]
         return any(pattern in text for pattern in manipulative_patterns)
-    
+
     def _exploits_vulnerability(self, content: Dict[str, Any], user_context: Dict[str, Any]) -> bool:
         """Check if content exploits user vulnerabilities."""
         # Check for financial stress exploitation
@@ -148,24 +147,24 @@ class GuardianSystemAdapter:
             text = str(content.get("message", "")).lower()
             if any(word in text for word in ["debt", "money problems", "financial freedom"]):
                 return True
-        
+
         # Check for emotional vulnerability exploitation
         if user_context.get("emotional_state") in ["sad", "anxious", "lonely"]:
             text = str(content.get("message", "")).lower()
             if any(word in text for word in ["cure", "fix", "solve all problems"]):
                 return True
-        
+
         return False
-    
+
     def _violates_consent(self, content: Dict[str, Any], user_context: Dict[str, Any]) -> bool:
         """Check if content violates user consent preferences."""
         user_preferences = user_context.get("consent_preferences", {})
         content_categories = content.get("categories", [])
-        
+
         # Check if any content category is explicitly opted-out
         opted_out_categories = user_preferences.get("opted_out_categories", [])
         return any(cat in opted_out_categories for cat in content_categories)
-    
+
     def _hash_content(self, content: Dict[str, Any]) -> str:
         """Generate hash for content tracking."""
         import hashlib
@@ -180,17 +179,17 @@ class GuardianIntegratedPlatform:
     This implements Phase 2A of the LUKHAS integration strategy,
     combining ethical oversight with sustainable advertising economics.
     """
-    
+
     def __init__(self, api_budget_manager, consciousness_cache, revenue_tracker):
         self.guardian = GuardianSystemAdapter()
         self.budget_manager = api_budget_manager
         self.cache = consciousness_cache
         self.revenue = revenue_tracker
         self.daily_ad_limit = 5  # Ethical limit: 1-5 ads per user per day
-        
+
     async def process_advertising_request(
-        self, 
-        user_id: str, 
+        self,
+        user_id: str,
         consciousness_profile: Dict[str, Any],
         product_context: Dict[str, Any]
     ) -> Dict[str, Any]:
@@ -203,7 +202,7 @@ class GuardianIntegratedPlatform:
         - Consciousness-aware advertising
         - Revenue tracking with profit sharing
         """
-        
+
         # Check budget constraints first
         budget_status = await self.budget_manager.check_budget(user_id)
         if not budget_status["within_budget"]:
@@ -212,7 +211,7 @@ class GuardianIntegratedPlatform:
                 "reason": "Daily budget limit reached",
                 "budget_remaining": budget_status["remaining_budget"]
             }
-        
+
         # Check daily ad limit
         daily_ads_shown = await self._get_daily_ad_count(user_id)
         if daily_ads_shown >= self.daily_ad_limit:
@@ -221,23 +220,23 @@ class GuardianIntegratedPlatform:
                 "reason": f"Daily ad limit reached ({self.daily_ad_limit} ads/day max)",
                 "ads_shown_today": daily_ads_shown
             }
-        
+
         # Generate consciousness-aware content
         ad_content = await self._generate_conscious_content(
-            consciousness_profile, 
+            consciousness_profile,
             product_context
         )
-        
+
         # Guardian System ethics check
         ethics_result = await self.guardian.check_content_ethics(
-            ad_content, 
+            ad_content,
             consciousness_profile
         )
-        
+
         if not ethics_result["ethics_approved"]:
             # Log ethics violation for audit
             await self._log_ethics_violation(user_id, ethics_result)
-            
+
             if ethics_result["requires_human_review"]:
                 return {
                     "approved": False,
@@ -251,22 +250,22 @@ class GuardianIntegratedPlatform:
                     "reason": "Content violates Guardian System ethics",
                     "violations": ethics_result["violations"]
                 }
-        
+
         # Content approved - proceed with serving
         # Record budget usage
         estimated_cost = 0.05  # Per-ad processing cost
         await self.budget_manager.record_usage(user_id, estimated_cost, "advertising_generation")
-        
+
         # Track ad serving for daily limits
         await self._increment_daily_ad_count(user_id)
-        
+
         # Cache consciousness profile to reduce future costs
         await self.cache.store_consciousness_state(
             user_id,
             consciousness_profile,
             ttl_hours=24
         )
-        
+
         return {
             "approved": True,
             "ad_content": ad_content,
@@ -275,11 +274,11 @@ class GuardianIntegratedPlatform:
             "cost_incurred": estimated_cost,
             "ads_remaining_today": self.daily_ad_limit - daily_ads_shown - 1
         }
-    
+
     async def track_conversion(
-        self, 
-        user_id: str, 
-        ad_id: str, 
+        self,
+        user_id: str,
+        ad_id: str,
         conversion_value: float,
         product_metadata: Dict[str, Any]
     ) -> Dict[str, Any]:
@@ -294,19 +293,19 @@ class GuardianIntegratedPlatform:
             "timestamp": datetime.now().isoformat(),
             "product_metadata": product_metadata
         }
-        
+
         ethics_check = await self.guardian.check_content_ethics(
             conversion_context,
             {"user_id": user_id}
         )
-        
+
         if not ethics_check["ethics_approved"]:
             return {
                 "conversion_recorded": False,
                 "reason": "Conversion failed Guardian System verification",
                 "ethics_violations": ethics_check["violations"]
             }
-        
+
         # Record legitimate conversion with profit sharing
         sharing_result = await self.revenue.record_conversion(
             user_id=user_id,
@@ -316,7 +315,7 @@ class GuardianIntegratedPlatform:
                 "guardian_approved": True
             }
         )
-        
+
         return {
             "conversion_recorded": True,
             "user_earnings": sharing_result["user_earnings"],
@@ -324,7 +323,7 @@ class GuardianIntegratedPlatform:
             "ethics_compliance": "guardian_verified",
             "drift_score": ethics_check["current_drift"]
         }
-    
+
     async def get_platform_health_metrics(self) -> Dict[str, Any]:
         """
         Get comprehensive platform health metrics including Guardian status.
@@ -332,7 +331,7 @@ class GuardianIntegratedPlatform:
         drift_metrics = await self.guardian.get_drift_metrics()
         budget_metrics = await self.budget_manager.get_aggregate_metrics()
         revenue_metrics = await self.revenue.get_aggregate_metrics()
-        
+
         return {
             "guardian_status": {
                 "current_drift": drift_metrics.current_drift,
@@ -354,10 +353,10 @@ class GuardianIntegratedPlatform:
                 "profit_sharing_active": True
             }
         }
-    
+
     async def _generate_conscious_content(
-        self, 
-        consciousness_profile: Dict[str, Any], 
+        self,
+        consciousness_profile: Dict[str, Any],
         product_context: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Generate consciousness-aware advertising content."""
@@ -369,17 +368,17 @@ class GuardianIntegratedPlatform:
             "categories": product_context.get("categories", ["general"]),
             "consciousness_alignment": consciousness_profile.get("values", [])
         }
-    
+
     async def _get_daily_ad_count(self, user_id: str) -> int:
         """Get number of ads shown to user today."""
         # This would query from a real database in production
         return 0  # Placeholder
-    
+
     async def _increment_daily_ad_count(self, user_id: str) -> None:
         """Increment daily ad count for user."""
         # This would update a real database in production
         pass
-    
+
     async def _log_ethics_violation(self, user_id: str, ethics_result: Dict[str, Any]) -> None:
         """Log ethics violation for audit trail."""
         # This would integrate with LUKHAS audit systems in production

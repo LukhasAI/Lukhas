@@ -40,8 +40,6 @@
 """
 
 import asyncio
-import hashlib
-import json
 import logging
 import time
 from collections import OrderedDict
@@ -94,18 +92,18 @@ class ContextManager:
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """Initialize the context manager"""
         self.config = config or {}
-        
+
         # Configuration parameters
         self.max_context_entries = self.config.get("max_context_entries", 1000)
         self.max_context_age_hours = self.config.get("max_context_age_hours", 24)
         self.compression_threshold = self.config.get("compression_threshold", 50)
         self.relevance_decay_rate = self.config.get("relevance_decay_rate", 0.1)
         self.handoff_target_ms = self.config.get("handoff_target_ms", 250)
-        
+
         # In-memory storage with LRU eviction
         self.context_cache: OrderedDict[str, List[ContextEntry]] = OrderedDict()
         self.summary_cache: OrderedDict[str, List[ContextSummary]] = OrderedDict()
-        
+
         # Performance tracking
         self.handoff_times: List[float] = []
         self.compression_stats = {
@@ -113,11 +111,11 @@ class ContextManager:
             "total_entries_compressed": 0,
             "compression_ratio": 0.0
         }
-        
+
         # Background tasks
         self._cleanup_task = None
         self._start_background_tasks()
-        
+
         logger.info("Context Manager initialized with %d max entries, %dh max age",
                    self.max_context_entries, self.max_context_age_hours)
 
@@ -137,47 +135,47 @@ class ContextManager:
             Dictionary containing relevant context information
         """
         start_time = time.time()
-        
+
         if not context_id:
             return {"entries": [], "summaries": [], "total_entries": 0}
-        
+
         try:
             # Get active entries
             entries = self.context_cache.get(context_id, [])
             summaries = self.summary_cache.get(context_id, [])
-            
+
             # Apply relevance scoring and filtering
             relevant_entries = self._filter_relevant_entries(entries)
             relevant_summaries = self._filter_relevant_summaries(summaries)
-            
+
             # Update access time for LRU
             if context_id in self.context_cache:
                 self.context_cache.move_to_end(context_id)
             if context_id in self.summary_cache:
                 self.summary_cache.move_to_end(context_id)
-            
+
             context_data = {
                 "entries": [asdict(entry) for entry in relevant_entries[-10:]],  # Last 10 entries
                 "summaries": [asdict(summary) for summary in relevant_summaries[-5:]],  # Last 5 summaries
                 "total_entries": len(entries),
                 "total_summaries": len(summaries)
             }
-            
+
             # Track performance
             retrieval_time = (time.time() - start_time) * 1000
             logger.debug("Context retrieved in %.2fms for %s", retrieval_time, context_id)
-            
+
             return context_data
-            
+
         except Exception as e:
             logger.error("Context retrieval failed: %s", str(e))
             return {"entries": [], "summaries": [], "total_entries": 0}
 
     async def update_context(
-        self, 
-        context_id: str, 
-        prompt: str, 
-        response: str, 
+        self,
+        context_id: str,
+        prompt: str,
+        response: str,
         metadata: Optional[Dict[str, Any]] = None
     ) -> bool:
         """
@@ -193,7 +191,7 @@ class ContextManager:
             True if successful, False otherwise
         """
         start_time = time.time()
-        
+
         try:
             # Create new context entry
             entry = ContextEntry(
@@ -206,27 +204,27 @@ class ContextManager:
                 emotional_state=metadata.get("emotional_state") if metadata else None,
                 task_context=metadata.get("task_context") if metadata else None
             )
-            
+
             # Add to context cache
             if context_id not in self.context_cache:
                 self.context_cache[context_id] = []
-            
+
             self.context_cache[context_id].append(entry)
-            
+
             # Maintain cache size limits
             if len(self.context_cache[context_id]) > self.max_context_entries:
                 # Trigger compression for old entries
                 await self._compress_old_entries(context_id)
-            
+
             # Update LRU order
             self.context_cache.move_to_end(context_id)
-            
+
             # Track performance
             update_time = (time.time() - start_time) * 1000
             logger.debug("Context updated in %.2fms for %s", update_time, context_id)
-            
+
             return True
-            
+
         except Exception as e:
             logger.error("Context update failed: %s", str(e))
             return False
@@ -244,16 +242,16 @@ class ContextManager:
         """
         if not context_data or not context_data.get("entries") and not context_data.get("summaries"):
             return prompt
-        
+
         try:
             context_parts = []
-            
+
             # Add recent summaries
             summaries = context_data.get("summaries", [])
             if summaries:
                 recent_summary = summaries[-1]
                 context_parts.append(f"Context: {recent_summary['summary_text']}")
-            
+
             # Add recent entries for immediate context
             entries = context_data.get("entries", [])
             if entries:
@@ -263,15 +261,15 @@ class ContextManager:
                         context_parts.append(
                             f"Previous: {entry['prompt'][:200]}... → {entry['response'][:300]}..."
                         )
-            
+
             # Combine with original prompt
             if context_parts:
                 enhanced_prompt = "\n".join(context_parts) + "\n\nCurrent: " + prompt
                 logger.debug("Enhanced prompt with %d context parts", len(context_parts))
                 return enhanced_prompt
-            
+
             return prompt
-            
+
         except Exception as e:
             logger.warning("Prompt enhancement failed: %s", str(e))
             return prompt
@@ -282,33 +280,33 @@ class ContextManager:
             entries = self.context_cache.get(context_id, [])
             if len(entries) <= self.compression_threshold:
                 return False
-            
+
             # Find entries older than compression threshold
             cutoff_time = datetime.utcnow() - timedelta(hours=1)
             old_entries = [e for e in entries if e.timestamp < cutoff_time]
-            
+
             if len(old_entries) < 10:  # Need minimum entries for meaningful compression
                 return False
-            
+
             # Create summary
             summary = self._create_context_summary(old_entries)
-            
+
             # Store summary
             if context_id not in self.summary_cache:
                 self.summary_cache[context_id] = []
-            
+
             self.summary_cache[context_id].append(summary)
-            
+
             # Remove old entries from main cache
             self.context_cache[context_id] = [e for e in entries if e.timestamp >= cutoff_time]
-            
+
             # Update compression stats
             self.compression_stats["compressions_performed"] += 1
             self.compression_stats["total_entries_compressed"] += len(old_entries)
-            
+
             logger.info("Compressed %d entries into summary for %s", len(old_entries), context_id)
             return True
-            
+
         except Exception as e:
             logger.error("Context compression failed: %s", str(e))
             return False
@@ -317,11 +315,11 @@ class ContextManager:
         """Create a compressed summary from multiple context entries"""
         if not entries:
             raise ValueError("Cannot create summary from empty entries")
-        
+
         # Extract key information
         key_points = []
         emotional_scores = {"positive": 0.0, "negative": 0.0, "neutral": 0.0}
-        
+
         # Analyze entries
         for entry in entries:
             # Extract key phrases from responses (simplified)
@@ -331,27 +329,27 @@ class ContextManager:
                 key_phrase = " ".join(response_words[:10] + ["..."] + response_words[-10:])
             else:
                 key_phrase = entry.response
-            
+
             key_points.append(f"{entry.prompt[:50]}... → {key_phrase}")
-            
+
             # Aggregate emotional context
             if entry.emotional_state:
                 for emotion, score in entry.emotional_state.items():
                     if emotion in emotional_scores:
                         emotional_scores[emotion] = max(emotional_scores[emotion], score)
-        
+
         # Create summary text
         summary_text = f"Conversation involving {len(entries)} exchanges. "
         if len(key_points) > 5:
             summary_text += f"Key topics: {', '.join(key_points[:3])} and {len(key_points)-3} more."
         else:
             summary_text += f"Topics: {', '.join(key_points)}"
-        
+
         # Calculate relevance score
         avg_relevance = sum(e.relevance_score for e in entries) / len(entries)
         time_decay = self._calculate_time_decay(entries[-1].timestamp)
         relevance_score = avg_relevance * time_decay
-        
+
         return ContextSummary(
             id=str(uuid4()),
             summary_text=summary_text,
@@ -366,23 +364,23 @@ class ContextManager:
         """Filter entries based on relevance and age"""
         if not entries:
             return []
-        
+
         cutoff_time = datetime.utcnow() - timedelta(hours=self.max_context_age_hours)
-        
+
         relevant_entries = []
         for entry in entries:
             # Age filter
             if entry.timestamp < cutoff_time:
                 continue
-            
+
             # Update relevance with time decay
             time_decay = self._calculate_time_decay(entry.timestamp)
             entry.relevance_score *= time_decay
-            
+
             # Relevance threshold
             if entry.relevance_score > 0.1:
                 relevant_entries.append(entry)
-        
+
         # Sort by relevance and recency
         relevant_entries.sort(key=lambda e: (e.relevance_score, e.timestamp))
         return relevant_entries
@@ -391,23 +389,23 @@ class ContextManager:
         """Filter summaries based on relevance and age"""
         if not summaries:
             return []
-        
+
         cutoff_time = datetime.utcnow() - timedelta(hours=self.max_context_age_hours * 2)  # Keep summaries longer
-        
+
         relevant_summaries = []
         for summary in summaries:
             # Age filter
             if summary.time_range[1] < cutoff_time:
                 continue
-            
+
             # Update relevance with time decay
             time_decay = self._calculate_time_decay(summary.time_range[1])
             summary.relevance_score *= time_decay
-            
+
             # Relevance threshold
             if summary.relevance_score > 0.05:  # Lower threshold for summaries
                 relevant_summaries.append(summary)
-        
+
         return relevant_summaries
 
     def _calculate_time_decay(self, timestamp: datetime) -> float:
@@ -421,35 +419,35 @@ class ContextManager:
         while True:
             try:
                 await asyncio.sleep(300)  # Run every 5 minutes
-                
+
                 # Clean up old contexts
                 current_time = datetime.utcnow()
                 cutoff_time = current_time - timedelta(hours=self.max_context_age_hours * 2)
-                
+
                 # Clean context cache
                 contexts_to_remove = []
                 for context_id, entries in self.context_cache.items():
                     if entries and entries[-1].timestamp < cutoff_time:
                         contexts_to_remove.append(context_id)
-                
+
                 for context_id in contexts_to_remove:
                     del self.context_cache[context_id]
                     logger.debug("Cleaned up context: %s", context_id)
-                
+
                 # Clean summary cache
                 summaries_to_remove = []
                 for context_id, summaries in self.summary_cache.items():
                     if summaries and summaries[-1].time_range[1] < cutoff_time:
                         summaries_to_remove.append(context_id)
-                
+
                 for context_id in summaries_to_remove:
                     del self.summary_cache[context_id]
                     logger.debug("Cleaned up summaries: %s", context_id)
-                
+
                 if contexts_to_remove or summaries_to_remove:
                     logger.info("Cleanup: removed %d contexts, %d summary groups",
                               len(contexts_to_remove), len(summaries_to_remove))
-                
+
             except Exception as e:
                 logger.error("Cleanup task error: %s", str(e))
 
@@ -460,7 +458,7 @@ class ContextManager:
     async def get_performance_metrics(self) -> Dict[str, Any]:
         """Get context manager performance metrics"""
         avg_handoff_time = sum(self.handoff_times) / len(self.handoff_times) if self.handoff_times else 0
-        
+
         return {
             "active_contexts": len(self.context_cache),
             "active_summaries": len(self.summary_cache),
@@ -477,7 +475,7 @@ class ContextManager:
         total_contexts = len(self.context_cache)
         if total_contexts == 0:
             return 0.0
-        
+
         # Estimate based on cache utilization
         utilization = min(total_contexts / self.max_context_entries, 1.0)
         return 0.5 + (utilization * 0.4)  # Reasonable estimation
@@ -488,12 +486,12 @@ class ContextManager:
         for entries in self.context_cache.values():
             for entry in entries:
                 contexts_size += len(entry.prompt) + len(entry.response) + 500  # Rough estimate
-        
+
         summaries_size = 0
         for summaries in self.summary_cache.values():
             for summary in summaries:
                 summaries_size += len(summary.summary_text) + len(str(summary.key_points)) + 200
-        
+
         return {
             "contexts_bytes": contexts_size,
             "summaries_bytes": summaries_size,
@@ -503,16 +501,16 @@ class ContextManager:
     async def health_check(self) -> Dict[str, Any]:
         """Health check for the context manager"""
         performance_metrics = await self.get_performance_metrics()
-        
+
         # Determine health status
         avg_handoff_time = performance_metrics.get("average_handoff_time_ms", 0)
         status = "healthy"
-        
+
         if avg_handoff_time > self.handoff_target_ms * 1.5:
             status = "degraded"
         elif avg_handoff_time > self.handoff_target_ms * 2:
             status = "unhealthy"
-        
+
         return {
             "status": status,
             "version": MODULE_VERSION,

@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any
 
-from core.interfaces import CoreInterface
+from system.common.interfaces import BaseInterface as CoreInterface
 
 logger = logging.getLogger(__name__)
 

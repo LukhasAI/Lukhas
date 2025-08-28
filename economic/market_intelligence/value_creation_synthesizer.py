@@ -8,7 +8,7 @@ import logging
 from dataclasses import dataclass
 from typing import Any
 
-from core.interfaces import CoreInterface
+from system.common.interfaces import BaseInterface as CoreInterface
 
 logger = logging.getLogger(__name__)
 

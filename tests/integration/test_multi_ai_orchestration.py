@@ -10,20 +10,20 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 
 import asyncio
-import pytest
 import time
-from typing import Dict, Any
+
+import pytest
 
 # Test imports
 try:
+    from candidate.bridge.api_gateway import UnifiedAPIGateway
     from candidate.bridge.orchestration import (
+        AIProvider,
+        ConsensusResult,
         MultiAIOrchestrator,
         OrchestrationRequest,
         TaskType,
-        AIProvider,
-        ConsensusResult
     )
-    from candidate.bridge.api_gateway import UnifiedAPIGateway
     from candidate.bridge.workflow import WorkflowOrchestrator
     ORCHESTRATION_AVAILABLE = True
 except ImportError:
@@ -492,7 +492,7 @@ class TestPerformanceBenchmarks:
         max_latency = max(latencies)
         min_latency = min(latencies)
 
-        print(f"Latency benchmark:")
+        print("Latency benchmark:")
         print(f"  Average: {avg_latency:.2f}ms")
         print(f"  Min: {min_latency:.2f}ms")
         print(f"  Max: {max_latency:.2f}ms")
@@ -523,10 +523,10 @@ class TestPerformanceBenchmarks:
         avg_handoff_time = sum(handoff_times) / len(handoff_times)
         max_handoff_time = max(handoff_times)
 
-        print(f"Context handoff benchmark:")
+        print("Context handoff benchmark:")
         print(f"  Average: {avg_handoff_time:.2f}ms")
         print(f"  Max: {max_handoff_time:.2f}ms")
-        print(f"  Target: <250ms")
+        print("  Target: <250ms")
 
         # Validate performance target
         assert avg_handoff_time < 250  # Should meet <250ms target

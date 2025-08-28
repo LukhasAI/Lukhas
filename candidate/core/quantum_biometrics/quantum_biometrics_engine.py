@@ -8,6 +8,7 @@ a user's consciousness state from a biological perspective.
 import random
 from typing import Any, Dict
 
+
 # Placeholder classes for external biometric APIs
 class AppleHealthKitAPI:
     async def get_heart_rate_variability(self, user_id: str) -> float:

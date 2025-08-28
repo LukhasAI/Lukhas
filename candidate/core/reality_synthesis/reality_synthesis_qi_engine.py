@@ -8,6 +8,7 @@ reality layers, from the physical to the dream world.
 import random
 from typing import Any, Dict
 
+
 # Placeholder classes for external reality-layer APIs
 class ARConsciousnessSDK:
     async def create_consciousness_overlay(self, params: Dict[str, Any]) -> Dict[str, Any]:

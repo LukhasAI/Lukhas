@@ -55,11 +55,10 @@ import numpy as np
 
 # Import LUKHAS components
 try:
+    from candidate.core.symbolism.tags import TagScope
     from memory.persistence.orthogonal_persistence import (
         PersistenceMode,
     )
-
-    from candidate.core.symbolism.tags import TagScope
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:

@@ -8,6 +8,7 @@ measurably accelerate human consciousness evolution.
 import random
 from typing import Any, Dict, List
 
+
 # Placeholder classes for external consciousness research APIs
 class ConsciousnessScienceAPI:
     async def analyze_consciousness_blockers(self, profile: Dict[str, Any]) -> List[str]:

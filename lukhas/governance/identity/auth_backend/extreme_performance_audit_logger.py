@@ -22,8 +22,7 @@ TARGET: Support 100,000+ events/second with <1ms latency
 import asyncio
 import json
 import time
-import uuid
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path

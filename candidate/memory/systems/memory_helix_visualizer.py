@@ -11,6 +11,7 @@ from typing import Any, Optional
 import numpy as np
 import plotly.graph_objects as go
 from identity.vault.lukhas_id import AccessTier, LucasID
+
 from memory.memory_folds import MemoryPriority, MemoryType
 from memory.memory_manager import MemoryManager
 

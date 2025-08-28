@@ -18,14 +18,14 @@ EXPECTED IMPROVEMENT: 83-117ms → <5ms authentication flow (95%+ reduction)
 import asyncio
 import functools
 import time
-from typing import Any, Callable, Dict, Optional
 from datetime import datetime
+from typing import Any, Callable, Dict, Optional
 
 # Import our extreme performance optimizations
 try:
     from enterprise.performance.extreme_auth_optimization import (
-        get_extreme_optimizer,
         AuthPerformanceMetrics,
+        get_extreme_optimizer,
     )
 
     EXTREME_OPTIMIZATIONS_AVAILABLE = True

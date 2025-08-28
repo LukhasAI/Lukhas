@@ -83,7 +83,7 @@ class LambdaWalletIdentity:
     """Quantum-secured lambda identity for WΛLLET"""
 
     lambda_id: str
-    tier: QuantumTier
+    tier: QITier
     quantum_state: QIStateVector
     creation_time: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     last_verified: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
@@ -96,7 +96,7 @@ class LambdaWalletIdentity:
     def generate(
         cls,
         emoji_seed: str,
-        tier: QuantumTier = QuantumTier.USER,
+        tier: QITier = QITier.USER,
         biometric_data: Optional[bytes] = None,
     ) -> "LambdaWalletIdentity":
         """Generate a new lambda wallet identity"""
@@ -202,7 +202,7 @@ class QIWalletEngine:
     async def create_wallet_identity(
         self,
         emoji_seed: str,
-        tier: QuantumTier = QuantumTier.USER,
+        tier: QITier = QITier.USER,
         biometric_data: Optional[bytes] = None,
     ) -> LambdaWalletIdentity:
         """Create new WΛLLET identity with quantum security"""

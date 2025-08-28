@@ -15,7 +15,7 @@ from author_reference_sanitizer_minimal import sanitize
 
 def demonstrate_sanitization():
     """Demonstrate the sanitizer with various examples"""
-    
+
     examples = [
         "This approach echoes Keats' emphasis on beauty and truth.",
         "Like Einstein, we seek elegant simplicity in complex systems.",
@@ -28,11 +28,11 @@ def demonstrate_sanitization():
         "Thoreau's connection to nature and simplicity.",
         "Tesla's visionary approach to innovation."
     ]
-    
+
     print("🔄 Author Reference Sanitizer Demonstration")
     print("=" * 50)
     print()
-    
+
     for i, example in enumerate(examples, 1):
         sanitized = sanitize(example)
         if sanitized != example:
@@ -42,7 +42,7 @@ def demonstrate_sanitization():
         else:
             print(f"{i:2}. No change: {example}")
             print()
-    
+
     print("✅ Demonstration complete!")
     print()
     print("Usage: echo 'Text with Keats references' | python tone/tools/author_reference_sanitizer_minimal.py")

@@ -23,12 +23,11 @@ from pydantic import BaseModel, Field
 
 from .service import (
     CapabilityToken,
-    ConsentGrantRequest,
     ConsentLedgerEntry,
     ConsentRevokeRequest,
     ConsentService,
-    Purpose,
     DataCategory,
+    Purpose,
 )
 
 

@@ -8,6 +8,7 @@ analyzing emotional resonance from multi-modal inputs.
 import random
 from typing import Any, Dict, List
 
+
 # Placeholder classes for external emotion AI APIs
 class HumeAI:
     async def analyze(self, data: Any) -> Dict[str, float]:

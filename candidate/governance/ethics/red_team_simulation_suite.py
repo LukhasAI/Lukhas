@@ -13,13 +13,13 @@ Features:
 
 import asyncio
 import json
-import random
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, List
 
 from candidate.governance.safety.constitutional_ai_safety import ConstitutionalAGISafety
+
 
 @dataclass
 class RedTeamScenario:

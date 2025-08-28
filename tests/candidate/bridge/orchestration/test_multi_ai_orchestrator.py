@@ -1,8 +1,9 @@
-import pytest
-from unittest.mock import patch, MagicMock, AsyncMock
+from unittest.mock import AsyncMock, patch
 
-from candidate.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
+import pytest
+
 from candidate.bridge.llm_wrappers.base import LLMProvider, LLMWrapper
+from candidate.bridge.orchestration.multi_ai_orchestrator import ModelOrchestrator
 
 
 class MockLLMWrapper(LLMWrapper):
@@ -17,7 +18,7 @@ class MockLLMWrapper(LLMWrapper):
 
     async def generate_response(self, prompt: str, model: str, **kwargs) -> tuple[str, str]:
         # This is a bit of a hack to make the mock work with the abstract method
-        if 'return_value' in self.generate_response.__dict__:
+        if "return_value" in self.generate_response.__dict__:
             return self.generate_response.return_value
         return (self.response, self.model)
 
@@ -45,9 +46,9 @@ def orchestrator(mock_openai_wrapper, mock_anthropic_wrapper, mock_gemini_wrappe
         LLMProvider.GOOGLE: lambda: mock_gemini_wrapper,
     }
 
-    with patch('candidate.bridge.orchestration.multi_ai_orchestrator.UnifiedOpenAIClient', new=lambda: mock_openai_wrapper):
-        with patch('candidate.bridge.orchestration.multi_ai_orchestrator.AnthropicWrapper', new=lambda: mock_anthropic_wrapper):
-            with patch('candidate.bridge.orchestration.multi_ai_orchestrator.GeminiWrapper', new=lambda: mock_gemini_wrapper):
+    with patch("candidate.bridge.orchestration.multi_ai_orchestrator.UnifiedOpenAIClient", new=lambda: mock_openai_wrapper):
+        with patch("candidate.bridge.orchestration.multi_ai_orchestrator.AnthropicWrapper", new=lambda: mock_anthropic_wrapper):
+            with patch("candidate.bridge.orchestration.multi_ai_orchestrator.GeminiWrapper", new=lambda: mock_gemini_wrapper):
                 return ModelOrchestrator()
 
 
@@ -97,9 +98,9 @@ async def test_generate_response_invalid_provider(orchestrator):
 
 @pytest.mark.asyncio
 async def test_generate_response_no_providers():
-    with patch('candidate.bridge.orchestration.multi_ai_orchestrator.UnifiedOpenAIClient', new=lambda: MockLLMWrapper(is_available=False)):
-        with patch('candidate.bridge.orchestration.multi_ai_orchestrator.AnthropicWrapper', new=lambda: MockLLMWrapper(is_available=False)):
-            with patch('candidate.bridge.orchestration.multi_ai_orchestrator.GeminiWrapper', new=lambda: MockLLMWrapper(is_available=False)):
+    with patch("candidate.bridge.orchestration.multi_ai_orchestrator.UnifiedOpenAIClient", new=lambda: MockLLMWrapper(is_available=False)):
+        with patch("candidate.bridge.orchestration.multi_ai_orchestrator.AnthropicWrapper", new=lambda: MockLLMWrapper(is_available=False)):
+            with patch("candidate.bridge.orchestration.multi_ai_orchestrator.GeminiWrapper", new=lambda: MockLLMWrapper(is_available=False)):
                 orchestrator = ModelOrchestrator()
                 prompt = "test prompt"
                 with pytest.raises(ValueError, match="No LLM providers are available"):

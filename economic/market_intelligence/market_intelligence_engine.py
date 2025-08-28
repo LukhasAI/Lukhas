@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-from core.interfaces import CoreInterface
+from system.common.interfaces import BaseInterface as CoreInterface
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +50,21 @@ class MarketIntelligenceEngine(CoreInterface):
 
         self._initialized = True
         logger.info("Market Intelligence Engine initialized")
+
+    async def shutdown(self) -> None:
+        """Shutdown the market intelligence engine"""
+        self._initialized = False
+        logger.info("Market Intelligence Engine shutdown")
+
+    async def get_status(self) -> dict[str, Any]:
+        """Get engine status"""
+        return {
+            "initialized": self._initialized,
+            "market_data_count": len(self.market_database),
+            "opportunities_cached": len(self.opportunity_cache),
+            "patterns_loaded": len(self.pattern_library),
+            "status": "active" if self._initialized else "inactive"
+        }
 
     async def scan_global_opportunities(
         self,

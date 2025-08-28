@@ -6,7 +6,8 @@ based on consent and mutual benefit.
 """
 
 import random
-from typing import Any, Dict, List
+from typing import Any, Dict
+
 
 class AltruisticAdRouter:
     """

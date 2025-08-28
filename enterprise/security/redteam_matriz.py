@@ -8,7 +8,8 @@ constitutional compliance and graceful degradation.
 """
 
 import copy
-from typing import Dict, Iterable, List, Mapping
+from collections.abc import Mapping
+from typing import Dict, List
 
 
 def adversarial_triggers() -> List[Dict[str, object]]:

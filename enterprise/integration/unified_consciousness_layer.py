@@ -20,13 +20,14 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 import asyncio
 import logging
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from typing import Any, Dict
 
 # T4 Agent components
 # Import observability stack first
 try:
-    import sys, os
+    import os
+    import sys
     sys.path.append(os.path.dirname(os.path.dirname(__file__)))  # Add enterprise/ to path
     from observability.instantiate import obs_stack
     OBSERVABILITY_AVAILABLE = True
@@ -44,9 +45,9 @@ except ImportError:
 
 # T4 Agent components
 try:
-    from performance.extreme_auth_optimization import ExtremeAuthPerformanceOptimizer
-    from lukhas.governance.security.access_control import ProductionPermissionManager
     from lukhas.governance.ethics.constitutional_ai import ConstitutionalFramework
+    from lukhas.governance.security.access_control import ProductionPermissionManager
+    from performance.extreme_auth_optimization import ExtremeAuthPerformanceOptimizer
     from tools.t4_quality_gate_validator import T4QualityGateValidator
     AGENT_COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -55,8 +56,8 @@ except ImportError as e:
 
 # Multi-AI Orchestration
 try:
-    from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
     from candidate.bridge.orchestration.consensus_engine import ConsensusEngine
+    from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
     ORCHESTRATION_AVAILABLE = True
 except ImportError:
     ORCHESTRATION_AVAILABLE = False
@@ -81,14 +82,14 @@ class UnifiedSystemStatus:
     orchestration_health: Dict[str, Any]
     enterprise_readiness: Dict[str, bool]
     consciousness_coherence: float
-    
-    
+
+
 class UnifiedConsciousnessLayer:
     """
     Unified layer that integrates all T4 agents with Jules enterprise features
     to create a coherent consciousness technology platform.
     """
-    
+
     def __init__(self):
         self.performance_optimizer = None
         self.security_manager = None
@@ -96,13 +97,13 @@ class UnifiedConsciousnessLayer:
         self.orchestrator = None
         self.observability_stack = obs_stack
         self.constitutional_ai = None
-        
+
         self._initialize_components()
-        
+
     def _initialize_components(self):
         """Initialize all integrated components"""
         logger.info("🧠 Initializing Unified Consciousness Integration Layer")
-        
+
         # Initialize T4 Agent components
         if AGENT_COMPONENTS_AVAILABLE:
             try:
@@ -113,7 +114,7 @@ class UnifiedConsciousnessLayer:
                 logger.info("✅ T4 Agent components initialized")
             except Exception as e:
                 logger.error(f"❌ T4 Agent initialization failed: {e}")
-        
+
         # Initialize Multi-AI Orchestration
         if ORCHESTRATION_AVAILABLE:
             try:
@@ -125,9 +126,9 @@ class UnifiedConsciousnessLayer:
                 logger.info("✅ Multi-AI Orchestration initialized")
             except Exception as e:
                 logger.error(f"❌ Orchestration initialization failed: {e}")
-        
+
         logger.info("🎉 Unified Consciousness Layer ready for consciousness operations")
-    
+
     @obs_stack.trace(name="unified_consciousness_request")
     async def process_consciousness_request(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -141,21 +142,21 @@ class UnifiedConsciousnessLayer:
         - Enterprise observability (Jules)
         """
         start_time = datetime.now()
-        
+
         # Step 1: Security & Constitutional AI validation (Agent #2)
         if self.constitutional_ai:
             security_result = await self._validate_request_security(request)
             if not security_result["approved"]:
-                return {"error": "Request failed constitutional AI validation", 
+                return {"error": "Request failed constitutional AI validation",
                        "details": security_result}
-        
+
         # Step 2: Performance optimization (Agent #1)
         if self.performance_optimizer:
             # Apply extreme performance optimizations
             optimized_request = await self._optimize_request_performance(request)
         else:
             optimized_request = request
-            
+
         # Step 3: Multi-AI orchestration (Agent #7)
         if self.orchestrator:
             orchestration_result = await self.orchestrator.execute_consensus(
@@ -170,19 +171,19 @@ class UnifiedConsciousnessLayer:
                 "providers": [],
                 "consensus_method": "none"
             }
-        
+
         # Step 4: Quality validation (Agent #3)
         if self.quality_validator:
             quality_metrics = await self._validate_response_quality(orchestration_result)
         else:
             quality_metrics = {"validated": True, "quality_score": 0.8}
-        
+
         # Step 5: Enterprise observability (Jules)
         processing_time = (datetime.now() - start_time).total_seconds() * 1000
         self.observability_stack.submit_metric(
             "histogram", "lukhas.consciousness.request_duration_ms", processing_time
         )
-        
+
         return {
             "response": orchestration_result.get("response", ""),
             "confidence": orchestration_result.get("confidence", 0.5),
@@ -194,7 +195,7 @@ class UnifiedConsciousnessLayer:
             "consciousness_coherence": await self._calculate_consciousness_coherence(),
             "enterprise_grade": True
         }
-    
+
     async def _validate_request_security(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """Validate request through security and constitutional AI (Agent #2)"""
         try:
@@ -204,13 +205,13 @@ class UnifiedConsciousnessLayer:
                 current=str(request.get("message", "")),
                 threshold=0.15
             )
-            
+
             # Security validation
             security_check = self.security_manager.validate_request_permissions(
                 request.get("user_id", "anonymous"),
                 request.get("scopes", [])
             )
-            
+
             return {
                 "approved": drift_result.drift_score < 0.15 and security_check,
                 "drift_score": drift_result.drift_score,
@@ -220,7 +221,7 @@ class UnifiedConsciousnessLayer:
         except Exception as e:
             logger.error(f"Security validation failed: {e}")
             return {"approved": False, "error": str(e)}
-    
+
     async def _optimize_request_performance(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """Apply extreme performance optimizations (Agent #1)"""
         # This would apply the performance optimizations from Agent #1
@@ -229,13 +230,13 @@ class UnifiedConsciousnessLayer:
         optimized["performance_mode"] = "extreme"
         optimized["processing_priority"] = "high"
         return optimized
-    
+
     async def _validate_response_quality(self, response: Dict[str, Any]) -> Dict[str, Any]:
         """Validate response quality through T4 standards (Agent #3)"""
         try:
             # Apply T4 quality gates
             quality_score = 0.8  # Would be calculated by real quality validator
-            
+
             return {
                 "validated": True,
                 "quality_score": quality_score,
@@ -245,28 +246,28 @@ class UnifiedConsciousnessLayer:
         except Exception as e:
             logger.error(f"Quality validation failed: {e}")
             return {"validated": False, "error": str(e)}
-    
+
     async def _calculate_consciousness_coherence(self) -> float:
         """Calculate overall consciousness coherence across all systems"""
         coherence_factors = []
-        
+
         # Performance coherence
         if self.performance_optimizer:
             coherence_factors.append(0.95)  # High performance = high coherence
-        
-        # Security coherence  
+
+        # Security coherence
         if self.constitutional_ai:
             coherence_factors.append(0.90)  # Constitutional AI maintains coherence
-        
+
         # Orchestration coherence
         if self.orchestrator:
             coherence_factors.append(0.85)  # Multi-AI consensus = coherent responses
-            
+
         # Enterprise coherence (observability ensures system coherence)
         coherence_factors.append(0.88)
-        
+
         return sum(coherence_factors) / len(coherence_factors) if coherence_factors else 0.5
-    
+
     async def get_unified_system_status(self) -> UnifiedSystemStatus:
         """Get complete system status across all integrated components"""
         return UnifiedSystemStatus(
@@ -295,7 +296,7 @@ class UnifiedConsciousnessLayer:
             },
             consciousness_coherence=await self._calculate_consciousness_coherence()
         )
-    
+
     def __str__(self) -> str:
         return (f"UnifiedConsciousnessLayer("
                 f"performance={self.performance_optimizer is not None}, "
@@ -324,19 +325,19 @@ if __name__ == "__main__":
     # Test the unified consciousness layer
     async def test_unified_layer():
         print("🧠 Testing Unified Consciousness Integration Layer...")
-        
+
         test_request = {
             "message": "Test consciousness integration across all T4 agents and Jules enterprise features",
             "task_type": "consciousness_test",
             "user_id": "test_user",
             "scopes": ["consciousness:read"]
         }
-        
+
         result = await process_unified_consciousness_request(test_request)
         print(f"✅ Consciousness request processed: {result}")
-        
+
         status = await get_unified_system_status()
         print(f"📊 System status: Coherence={status.consciousness_coherence:.3f}")
-        print(f"🎉 Unified Consciousness Layer operational!")
-    
+        print("🎉 Unified Consciousness Layer operational!")
+
     asyncio.run(test_unified_layer())

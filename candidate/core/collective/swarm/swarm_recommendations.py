@@ -8,6 +8,7 @@ consciousness clusters, finding what has elevated similar users.
 import random
 from typing import Any, Dict, List
 
+
 class SwarmRecommendationSystem:
     """
     Generates recommendations from the collective wisdom of user swarms.

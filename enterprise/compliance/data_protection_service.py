@@ -4,16 +4,13 @@ LUKHAS Data Protection Service
 Implements persistent storage for data protection policies, keys, and history.
 """
 
-import asyncio
 import base64
-import hashlib
 import json
-import secrets
 from datetime import datetime, timedelta
 from typing import Any, Optional, Union
 
 import asyncpg
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 try:
     from cryptography.fernet import Fernet
@@ -50,6 +47,7 @@ class ProtectionPolicy(BaseModel):
     version: str
 
 from enum import Enum
+
 
 class LawfulBasis(str, Enum):
     CONSENT = "consent"
@@ -198,7 +196,7 @@ class DataProtectionService:
             return {"encrypted": True, "data": encoded_data}, {"method": "base64", "key_id": "fallback"}
 
         # For now, we will use a hardcoded key
-        key_material = b'12345678901234567890123456789012'
+        key_material = b"12345678901234567890123456789012"
         fernet = Fernet(base64.urlsafe_b64encode(key_material))
         data_str = json.dumps(data, default=str)
         encrypted_data = fernet.encrypt(data_str.encode())
@@ -234,7 +232,7 @@ class DataProtectionService:
             return protected_data
 
         if isinstance(protected_data, dict) and protected_data.get("encrypted"):
-            key_material = b'12345678901234567890123456789012'
+            key_material = b"12345678901234567890123456789012"
             fernet = Fernet(base64.urlsafe_b64encode(key_material))
             encrypted_data = base64.b64decode(protected_data["data"])
             decrypted_data = fernet.decrypt(encrypted_data)

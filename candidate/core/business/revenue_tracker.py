@@ -5,12 +5,10 @@ This module implements transparent 40/60 profit sharing with users,
 tracking conversions and managing ethical earnings distribution.
 """
 
-import asyncio
 import hashlib
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
-import json
 
 
 @dataclass
@@ -52,7 +50,7 @@ class RevenueTracker:
     - Ethical earnings verification
     - Payout management with minimum thresholds
     """
-    
+
     def __init__(self):
         self.profit_sharing_config = {
             "user_percentage": 40.0,
@@ -60,7 +58,7 @@ class RevenueTracker:
             "minimum_payout": 25.00,  # Minimum $25 for payout
             "payout_schedule": "monthly"  # monthly, weekly, or instant
         }
-        
+
         self.user_earnings: Dict[str, UserEarnings] = {}
         self.conversion_history: List[ConversionEvent] = []
         self.platform_revenue = {
@@ -69,7 +67,7 @@ class RevenueTracker:
             "total_platform_earnings": 0.0,
             "total_conversions": 0
         }
-        
+
         # Commission rates based on product categories
         self.commission_rates = {
             "books": 0.08,      # 8% for books
@@ -78,7 +76,7 @@ class RevenueTracker:
             "wellness": 0.10,   # 10% for wellness products
             "default": 0.06     # 6% default rate
         }
-    
+
     async def record_conversion(
         self,
         user_id: str,
@@ -102,24 +100,24 @@ class RevenueTracker:
         Returns:
             Dict with user_earnings, platform_earnings, and conversion details
         """
-        
+
         # Get commission rate for product category
         commission_rate = self.commission_rates.get(product_category, self.commission_rates["default"])
-        
+
         # Apply consciousness-based adjustments
         if consciousness_context:
             commission_rate = await self._adjust_commission_for_consciousness(
                 commission_rate, consciousness_context
             )
-        
+
         # Calculate earnings
         total_commission = conversion_value * commission_rate
         user_earnings = total_commission * (self.profit_sharing_config["user_percentage"] / 100.0)
         platform_earnings = total_commission * (self.profit_sharing_config["platform_percentage"] / 100.0)
-        
+
         # Generate conversion ID
         conversion_id = self._generate_conversion_id(user_id, ad_id, datetime.now())
-        
+
         # Create conversion event
         conversion_event = ConversionEvent(
             conversion_id=conversion_id,
@@ -134,19 +132,19 @@ class RevenueTracker:
             product_metadata=product_metadata or {},
             verified=True  # In production, this would require verification
         )
-        
+
         # Update user earnings
         await self._update_user_earnings(user_id, conversion_event)
-        
+
         # Update platform revenue
         self.platform_revenue["total_revenue"] += conversion_value
         self.platform_revenue["total_user_earnings"] += user_earnings
         self.platform_revenue["total_platform_earnings"] += platform_earnings
         self.platform_revenue["total_conversions"] += 1
-        
+
         # Store conversion history
         self.conversion_history.append(conversion_event)
-        
+
         return {
             "conversion_recorded": True,
             "conversion_id": conversion_id,
@@ -160,7 +158,7 @@ class RevenueTracker:
                 "platform_percentage": self.profit_sharing_config["platform_percentage"]
             }
         }
-    
+
     async def get_user_earnings_summary(self, user_id: str) -> Dict[str, any]:
         """Get comprehensive earnings summary for a user."""
         user_earnings = self.user_earnings.get(user_id)
@@ -173,26 +171,26 @@ class RevenueTracker:
                 "conversion_count": 0,
                 "eligible_for_payout": False
             }
-        
+
         # Check payout eligibility
         eligible_for_payout = user_earnings.pending_payout >= self.profit_sharing_config["minimum_payout"]
-        
+
         # Calculate recent performance (last 30 days)
         thirty_days_ago = datetime.now() - timedelta(days=30)
         recent_conversions = [
-            c for c in user_earnings.earnings_history 
+            c for c in user_earnings.earnings_history
             if c.timestamp > thirty_days_ago
         ]
         recent_earnings = sum(c.user_earnings for c in recent_conversions)
-        
+
         # Top performing product categories
         category_earnings = {}
         for conversion in user_earnings.earnings_history:
             category = conversion.product_metadata.get("category", "unknown")
             category_earnings[category] = category_earnings.get(category, 0) + conversion.user_earnings
-        
+
         top_categories = sorted(category_earnings.items(), key=lambda x: x[1], reverse=True)[:5]
-        
+
         return {
             "user_id": user_id,
             "total_earned": user_earnings.total_earned,
@@ -209,7 +207,7 @@ class RevenueTracker:
             },
             "top_performing_categories": top_categories
         }
-    
+
     async def process_payout(self, user_id: str, payout_method: Dict[str, any]) -> Dict[str, any]:
         """
         Process payout for user earnings.
@@ -224,22 +222,22 @@ class RevenueTracker:
         user_earnings = self.user_earnings.get(user_id)
         if not user_earnings:
             return {"success": False, "error": "User earnings not found"}
-        
+
         if user_earnings.pending_payout < self.profit_sharing_config["minimum_payout"]:
             return {
                 "success": False,
                 "error": f"Minimum payout amount is ${self.profit_sharing_config['minimum_payout']}",
                 "current_pending": user_earnings.pending_payout
             }
-        
+
         # In production, this would integrate with payment processors
         payout_amount = user_earnings.pending_payout
         payout_id = self._generate_payout_id(user_id, datetime.now())
-        
+
         # Update earnings record
         user_earnings.paid_out += payout_amount
         user_earnings.pending_payout = 0.0
-        
+
         return {
             "success": True,
             "payout_id": payout_id,
@@ -248,7 +246,7 @@ class RevenueTracker:
             "processed_at": datetime.now().isoformat(),
             "new_total_paid": user_earnings.paid_out
         }
-    
+
     async def get_aggregate_metrics(self) -> Dict[str, any]:
         """Get platform-wide revenue and earnings metrics."""
         if not self.conversion_history:
@@ -258,26 +256,26 @@ class RevenueTracker:
                 "avg_conversion_value": 0,
                 "roi_percentage": 0
             }
-        
+
         # Calculate platform metrics
         avg_conversion_value = self.platform_revenue["total_revenue"] / self.platform_revenue["total_conversions"]
-        
+
         # Calculate ROI (assuming $0.50 average cost per user per day)
         estimated_user_cost = len(self.user_earnings) * 0.50  # Daily cost
         roi_percentage = (self.platform_revenue["total_platform_earnings"] / estimated_user_cost * 100) if estimated_user_cost > 0 else 0
-        
+
         # Top performing categories
         category_revenue = {}
         for conversion in self.conversion_history:
             category = conversion.product_metadata.get("category", "unknown")
             category_revenue[category] = category_revenue.get(category, 0) + conversion.conversion_value
-        
+
         top_categories = sorted(category_revenue.items(), key=lambda x: x[1], reverse=True)[:5]
-        
+
         # User engagement metrics
         active_earners = len([u for u in self.user_earnings.values() if u.conversion_count > 0])
         avg_user_earnings = self.platform_revenue["total_user_earnings"] / active_earners if active_earners > 0 else 0
-        
+
         return {
             "total_revenue": self.platform_revenue["total_revenue"],
             "total_conversions": self.platform_revenue["total_conversions"],
@@ -291,15 +289,15 @@ class RevenueTracker:
                 "active_earners": active_earners,
                 "avg_user_earnings": avg_user_earnings,
                 "users_eligible_for_payout": len([
-                    u for u in self.user_earnings.values() 
+                    u for u in self.user_earnings.values()
                     if u.pending_payout >= self.profit_sharing_config["minimum_payout"]
                 ])
             }
         }
-    
+
     async def _adjust_commission_for_consciousness(
-        self, 
-        base_commission: float, 
+        self,
+        base_commission: float,
         consciousness_context: Dict[str, any]
     ) -> float:
         """
@@ -311,36 +309,36 @@ class RevenueTracker:
         # Get consciousness alignment factors
         ethics_score = consciousness_context.get("ethics_score", 0.5)
         resonance_score = consciousness_context.get("consciousness_resonance", 0.5)
-        
+
         # Calculate alignment bonus (up to 20% increase)
         alignment_factor = (ethics_score + resonance_score) / 2
         alignment_bonus = (alignment_factor - 0.5) * 0.4  # Max 20% bonus
-        
+
         # Ensure commission stays within reasonable bounds
         adjusted_commission = base_commission * (1 + alignment_bonus)
         return max(0.01, min(0.25, adjusted_commission))  # Between 1% and 25%
-    
+
     async def _update_user_earnings(self, user_id: str, conversion_event: ConversionEvent) -> None:
         """Update user earnings record with new conversion."""
         if user_id not in self.user_earnings:
             self.user_earnings[user_id] = UserEarnings(user_id=user_id)
-        
+
         user_earnings = self.user_earnings[user_id]
         user_earnings.total_earned += conversion_event.user_earnings
         user_earnings.pending_payout += conversion_event.user_earnings
         user_earnings.conversion_count += 1
         user_earnings.last_conversion = conversion_event.timestamp
         user_earnings.earnings_history.append(conversion_event)
-        
+
         # Keep history manageable (last 500 conversions)
         if len(user_earnings.earnings_history) > 500:
             user_earnings.earnings_history = user_earnings.earnings_history[-500:]
-    
+
     def _generate_conversion_id(self, user_id: str, ad_id: str, timestamp: datetime) -> str:
         """Generate unique conversion ID."""
         id_string = f"{user_id}:{ad_id}:{timestamp.isoformat()}"
         return "conv_" + hashlib.sha256(id_string.encode()).hexdigest()[:12]
-    
+
     def _generate_payout_id(self, user_id: str, timestamp: datetime) -> str:
         """Generate unique payout ID."""
         id_string = f"{user_id}:payout:{timestamp.isoformat()}"

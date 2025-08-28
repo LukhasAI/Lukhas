@@ -38,19 +38,22 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
 import logging
 import time
 from contextlib import asynccontextmanager
 from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from ..orchestration import MultiAIOrchestrator, OrchestrationRequest, TaskType, AIProvider
+from ..orchestration import (
+    AIProvider,
+    MultiAIOrchestrator,
+    OrchestrationRequest,
+    TaskType,
+)
 from .auth_middleware import AuthMiddleware
 from .rate_limiter import RateLimiter
 from .route_handlers import RouteHandlers
@@ -107,14 +110,14 @@ async def lifespan(app: FastAPI):
     """Application lifespan management"""
     # Startup
     logger.info("Starting Unified API Gateway v%s", MODULE_VERSION)
-    
+
     # Initialize core components
     app.state.orchestrator = MultiAIOrchestrator()
     app.state.start_time = time.time()
     app.state.request_count = 0
-    
+
     yield
-    
+
     # Shutdown
     logger.info("Shutting down Unified API Gateway")
 
@@ -128,18 +131,18 @@ class UnifiedAPIGateway:
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """Initialize the unified API gateway"""
         self.config = config or {}
-        
+
         # Core configuration
         self.host = self.config.get("host", "0.0.0.0")
         self.port = self.config.get("port", 8080)
         self.debug = self.config.get("debug", False)
         self.cors_origins = self.config.get("cors_origins", ["*"])
-        
+
         # Performance configuration
         self.target_latency_ms = self.config.get("target_latency_ms", 100)
         self.cache_ttl_seconds = self.config.get("cache_ttl_seconds", 300)
         self.compression_enabled = self.config.get("compression_enabled", True)
-        
+
         # Initialize FastAPI app
         self.app = FastAPI(
             title="LUKHAS AI Gateway",
@@ -147,16 +150,16 @@ class UnifiedAPIGateway:
             version=MODULE_VERSION,
             lifespan=lifespan
         )
-        
+
         # Initialize middleware and components
         self._init_middleware()
         self._init_routes()
-        
+
         logger.info("Unified API Gateway initialized on %s:%d", self.host, self.port)
 
     def _init_middleware(self):
         """Initialize middleware stack"""
-        
+
         # CORS middleware
         self.app.add_middleware(
             CORSMiddleware,
@@ -165,77 +168,77 @@ class UnifiedAPIGateway:
             allow_methods=["*"],
             allow_headers=["*"],
         )
-        
+
         # Compression middleware
         if self.compression_enabled:
             self.app.add_middleware(GZipMiddleware, minimum_size=1000)
-        
+
         # Authentication middleware
         self.auth_middleware = AuthMiddleware(self.config.get("auth", {}))
-        
+
         # Rate limiting middleware
         self.rate_limiter = RateLimiter(self.config.get("rate_limit", {}))
-        
+
         # Performance monitoring middleware
         @self.app.middleware("http")
         async def performance_monitoring(request: Request, call_next):
             start_time = time.time()
-            
+
             # Increment request counter
             self.app.state.request_count += 1
-            
+
             response = await call_next(request)
-            
+
             # Calculate latency
             latency_ms = (time.time() - start_time) * 1000
-            
+
             # Add performance headers
             response.headers["X-Response-Time"] = f"{latency_ms:.2f}ms"
             response.headers["X-Gateway-Version"] = MODULE_VERSION
-            
+
             # Log slow requests
             if latency_ms > self.target_latency_ms:
-                logger.warning("Slow request: %s %s - %.2fms", 
+                logger.warning("Slow request: %s %s - %.2fms",
                              request.method, request.url.path, latency_ms)
-            
+
             return response
 
     def _init_routes(self):
         """Initialize API routes"""
-        
+
         # Initialize route handlers
         self.route_handlers = RouteHandlers(self.config.get("handlers", {}))
-        
+
         # Chat endpoint - main AI interaction
         @self.app.post("/chat", response_model=ChatResponse)
         async def chat_endpoint(request: ChatRequest, http_request: Request):
             """Main chat endpoint for AI interactions"""
             return await self._handle_chat(request, http_request)
-        
+
         # Orchestration endpoint - full multi-AI orchestration
         @self.app.post("/orchestrate", response_model=OrchestrationResponse)
         async def orchestrate_endpoint(request: ChatRequest, http_request: Request):
             """Full orchestration endpoint with detailed response"""
             return await self._handle_orchestration(request, http_request)
-        
+
         # Health check endpoint
         @self.app.get("/health", response_model=HealthResponse)
         async def health_endpoint():
             """Health check endpoint"""
             return await self._handle_health_check()
-        
+
         # Status endpoint for monitoring
         @self.app.get("/status")
         async def status_endpoint():
             """Status endpoint for system monitoring"""
             return await self._handle_status()
-        
+
         # Metrics endpoint
         @self.app.get("/metrics")
         async def metrics_endpoint():
             """Metrics endpoint for performance monitoring"""
             return await self._handle_metrics()
-        
+
         # Provider-specific endpoints
         @self.app.post("/providers/{provider}/chat")
         async def provider_chat_endpoint(provider: str, request: ChatRequest, http_request: Request):
@@ -245,14 +248,14 @@ class UnifiedAPIGateway:
     async def _handle_chat(self, request: ChatRequest, http_request: Request) -> ChatResponse:
         """Handle chat requests with intelligent routing"""
         start_time = time.time()
-        
+
         try:
             # Authentication check
             user_context = await self.auth_middleware.authenticate(http_request)
-            
+
             # Rate limiting check
             await self.rate_limiter.check_rate_limit(user_context.get("user_id", "anonymous"), "chat")
-            
+
             # Build orchestration request
             orchestration_request = OrchestrationRequest(
                 prompt=request.message,
@@ -263,14 +266,14 @@ class UnifiedAPIGateway:
                 context_id=request.context_id,
                 metadata=request.metadata or {}
             )
-            
+
             # Execute orchestration
             orchestrator = http_request.app.state.orchestrator
             consensus_result = await orchestrator.orchestrate(orchestration_request)
-            
+
             # Build response
             latency_ms = (time.time() - start_time) * 1000
-            
+
             response = ChatResponse(
                 response=consensus_result.final_response,
                 confidence=consensus_result.confidence_score,
@@ -284,12 +287,12 @@ class UnifiedAPIGateway:
                     "quality_metrics": consensus_result.quality_metrics
                 }
             )
-            
-            logger.info("Chat completed in %.2fms with confidence %.3f", 
+
+            logger.info("Chat completed in %.2fms with confidence %.3f",
                        latency_ms, consensus_result.confidence_score)
-            
+
             return response
-            
+
         except HTTPException:
             raise
         except Exception as e:
@@ -299,12 +302,12 @@ class UnifiedAPIGateway:
     async def _handle_orchestration(self, request: ChatRequest, http_request: Request) -> OrchestrationResponse:
         """Handle full orchestration requests with detailed response"""
         start_time = time.time()
-        
+
         try:
             # Authentication and rate limiting
             user_context = await self.auth_middleware.authenticate(http_request)
             await self.rate_limiter.check_rate_limit(user_context.get("user_id", "anonymous"), "orchestrate")
-            
+
             # Execute orchestration
             orchestration_request = OrchestrationRequest(
                 prompt=request.message,
@@ -315,16 +318,16 @@ class UnifiedAPIGateway:
                 context_id=request.context_id,
                 metadata=request.metadata or {}
             )
-            
+
             orchestrator = http_request.app.state.orchestrator
             consensus_result = await orchestrator.orchestrate(orchestration_request)
-            
+
             # Get performance metrics
             performance_metrics = await orchestrator.performance_monitor.get_metrics()
-            
+
             # Build detailed response
             latency_ms = (time.time() - start_time) * 1000
-            
+
             chat_response = ChatResponse(
                 response=consensus_result.final_response,
                 confidence=consensus_result.confidence_score,
@@ -338,7 +341,7 @@ class UnifiedAPIGateway:
                     "quality_metrics": consensus_result.quality_metrics
                 }
             )
-            
+
             # Individual responses for debugging/analysis
             individual_responses = []
             for response in consensus_result.individual_responses:
@@ -348,13 +351,13 @@ class UnifiedAPIGateway:
                     "confidence": response.confidence,
                     "latency_ms": response.latency_ms
                 })
-            
+
             return OrchestrationResponse(
                 result=chat_response,
                 performance_metrics=performance_metrics,
                 individual_responses=individual_responses
             )
-            
+
         except HTTPException:
             raise
         except Exception as e:
@@ -364,18 +367,18 @@ class UnifiedAPIGateway:
     async def _handle_provider_chat(self, provider: str, request: ChatRequest, http_request: Request) -> ChatResponse:
         """Handle direct provider chat requests"""
         start_time = time.time()
-        
+
         try:
             # Validate provider
             try:
                 ai_provider = AIProvider(provider)
             except ValueError:
                 raise HTTPException(status_code=400, detail=f"Unknown provider: {provider}")
-            
+
             # Authentication and rate limiting
             user_context = await self.auth_middleware.authenticate(http_request)
             await self.rate_limiter.check_rate_limit(user_context.get("user_id", "anonymous"), f"provider_{provider}")
-            
+
             # Direct provider execution
             orchestration_request = OrchestrationRequest(
                 prompt=request.message,
@@ -386,13 +389,13 @@ class UnifiedAPIGateway:
                 context_id=request.context_id,
                 metadata=request.metadata or {}
             )
-            
+
             orchestrator = http_request.app.state.orchestrator
             consensus_result = await orchestrator.orchestrate(orchestration_request)
-            
+
             # Build response
             latency_ms = (time.time() - start_time) * 1000
-            
+
             return ChatResponse(
                 response=consensus_result.final_response,
                 confidence=consensus_result.confidence_score,
@@ -404,7 +407,7 @@ class UnifiedAPIGateway:
                     "processing_time_ms": consensus_result.processing_time_ms
                 }
             )
-            
+
         except HTTPException:
             raise
         except Exception as e:
@@ -415,14 +418,14 @@ class UnifiedAPIGateway:
         """Handle health check requests"""
         try:
             uptime_seconds = time.time() - self.app.state.start_time
-            
+
             # Check orchestrator health
             orchestrator = self.app.state.orchestrator
             orchestrator_status = await orchestrator.health_check()
-            
+
             # Get performance metrics
             performance_metrics = await orchestrator.performance_monitor.get_metrics()
-            
+
             return HealthResponse(
                 status="healthy",
                 version=MODULE_VERSION,
@@ -430,7 +433,7 @@ class UnifiedAPIGateway:
                 orchestrator_status=orchestrator_status,
                 performance_metrics=performance_metrics
             )
-            
+
         except Exception as e:
             logger.error("Health check failed: %s", str(e))
             return HealthResponse(
@@ -446,7 +449,7 @@ class UnifiedAPIGateway:
         try:
             orchestrator = self.app.state.orchestrator
             orchestrator_status = await orchestrator.get_status()
-            
+
             return {
                 "gateway": {
                     "status": "healthy",
@@ -457,7 +460,7 @@ class UnifiedAPIGateway:
                 },
                 "orchestrator": orchestrator_status
             }
-            
+
         except Exception as e:
             logger.error("Status check failed: %s", str(e))
             return {"error": str(e)}
@@ -467,7 +470,7 @@ class UnifiedAPIGateway:
         try:
             orchestrator = self.app.state.orchestrator
             performance_metrics = await orchestrator.performance_monitor.get_metrics()
-            
+
             # Gateway-specific metrics
             gateway_metrics = {
                 "requests_total": self.app.state.request_count,
@@ -475,12 +478,12 @@ class UnifiedAPIGateway:
                 "target_latency_ms": self.target_latency_ms,
                 "version": MODULE_VERSION
             }
-            
+
             return {
                 "gateway": gateway_metrics,
                 "orchestration": performance_metrics
             }
-            
+
         except Exception as e:
             logger.error("Metrics collection failed: %s", str(e))
             return {"error": str(e)}
@@ -488,7 +491,7 @@ class UnifiedAPIGateway:
     def run(self, **kwargs):
         """Run the API gateway server"""
         import uvicorn
-        
+
         # Merge configuration
         server_config = {
             "host": self.host,
@@ -496,7 +499,7 @@ class UnifiedAPIGateway:
             "log_level": "info" if not self.debug else "debug",
             **kwargs
         }
-        
+
         logger.info("Starting Unified API Gateway on %s:%d", self.host, self.port)
         uvicorn.run(self.app, **server_config)
 

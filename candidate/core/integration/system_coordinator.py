@@ -50,6 +50,7 @@ from typing import Any, Callable, Optional
 
 # Import core components
 try:
+    from creativity.emotion.brain_integration_emotion_engine import EmotionEngine
     from personas.persona_manager import PersonaManager
     from voice.processor import VoiceProcessor
 
@@ -59,7 +60,6 @@ try:
         NeuralIntegrator,
         NeuralMode,
     )
-    from creativity.emotion.brain_integration_emotion_engine import EmotionEngine
     from lukhas.consciousness.core_consciousness.consciousness_integrator import (
         ConsciousnessEvent,
         ConsciousnessIntegrator,

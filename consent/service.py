@@ -106,6 +106,7 @@ class ConsentLedgerEntry(BaseModel):
 
 from enum import Enum
 
+
 class EscalationLevel(Enum):
     """Escalation severity levels"""
     LOW = 1

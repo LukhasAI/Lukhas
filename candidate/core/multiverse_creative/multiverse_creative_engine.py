@@ -8,6 +8,7 @@ concept, leveraging a full stack of advanced AI content generation tools.
 import random
 from typing import Any, Dict, List
 
+
 # Placeholder classes for external creative AI APIs
 class SoraVideoAPI:
     async def generate(self, params: Dict[str, Any]) -> Dict[str, Any]:

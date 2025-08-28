@@ -67,8 +67,9 @@ async def unprotect_data(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unprotection failed: {str(e)}")
 
-from consent.service import ConsentService
 from consent.api import get_consent_service
+from consent.service import ConsentService
+
 
 @router.get("/policies", response_model=list[ProtectionPolicy])
 async def list_policies(
@@ -128,6 +129,7 @@ async def update_user_data(
         "updated_protected_data_entries": updated_data,
     }
 from .data_protection_service import DataProcessingActivity, GDPRAssessment
+
 
 @router.post("/assessment", response_model=GDPRAssessment)
 async def assess_processing_activity(
