@@ -40,11 +40,13 @@
 """
 
 import logging
+import asyncio
 
-from lukhas.branding.terminology import normalize_output
+from candidate.branding.terminology import normalize_output
 
 # Module imports
 from .env_loader import get_api_key
+from .base import LLMWrapper
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.anthropic")
@@ -54,40 +56,40 @@ MODULE_VERSION = "1.0.0"
 MODULE_NAME = "anthropic_wrapper"
 
 
-class AnthropicWrapper:
+class AnthropicWrapper(LLMWrapper):
 
     def __init__(self):
         """Initialize Anthropic wrapper with API key"""
-        self.client = None
+        self.async_client = None
         self.api_key = get_api_key("anthropic")
 
         if self.api_key:
             try:
                 import anthropic
 
-                self.client = anthropic.Anthropic(api_key=self.api_key)
+                self.async_client = anthropic.AsyncAnthropic(api_key=self.api_key)
                 print(f"✅ Anthropic initialized with key: {self.api_key[:20]}...")
             except ImportError:
                 print(
                     "Anthropic package not installed. Install with: pip install anthropic"
                 )
 
-    def generate_response(
+    async def generate_response(
         self, prompt: str, model: str = "claude-3-sonnet-20240229", **kwargs
-    ) -> str:
+    ) -> tuple[str, str]:
         """Generate response using Anthropic API"""
         guidance = (
             "When describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
             "Refer to the project as 'Lukhas AI'."
         )
 
-        if not self.client:
+        if not self.async_client:
             fb = "Anthropic client not initialized. Please check API key and installation."
-            return normalize_output(fb) or fb
+            return (normalize_output(fb) or fb), model
 
         try:
             # Anthropic expects messages with roles; insert system guidance
-            response = self.client.messages.create(
+            response = await self.async_client.messages.create(
                 model=model,
                 max_tokens=kwargs.get("max_tokens", 2000),
                 messages=[
@@ -98,14 +100,14 @@ class AnthropicWrapper:
             text = (
                 response.content[0].text if getattr(response, "content", None) else None
             )
-            return normalize_output(text) or text or ""
+            return (normalize_output(text) or text or ""), model
         except Exception as e:
             err = f"Anthropic API Error: {str(e)}"
-            return normalize_output(err) or err
+            return (normalize_output(err) or err), model
 
     def is_available(self) -> bool:
         """Check if Anthropic is available"""
-        return self.client is not None
+        return self.async_client is not None
 
 
 """

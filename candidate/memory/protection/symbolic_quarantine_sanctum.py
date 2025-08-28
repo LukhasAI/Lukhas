@@ -59,6 +59,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure structured logging
+logger = logging.getLogger(__name__)
 
 
 class QuarantineStatus(Enum):
@@ -222,6 +223,8 @@ class SymbolicQuarantineSanctum:
         manifest_path: str = "memory/protection/sanctum_manifest.jsonl",
         max_quarantine_size: int = 10000,
         auto_repair_enabled: bool = True,
+        *,
+        config_path: Optional[str] = None,
     ):
         """
         Initialize the ΛSANCTUM quarantine system.
@@ -269,16 +272,44 @@ class SymbolicQuarantineSanctum:
             "permanent_locks": 0,
         }
 
+        # Optionally load configuration overrides
+        if config_path:
+            self._load_config(Path(config_path))
+
         # Load existing quarantine entries
         self._load_quarantine_entries()
 
         logger.info(
-            "ΛSANCTUM quarantine system initialized",
-            sanctum_directory=str(self.sanctum_directory),
-            manifest_path=str(self.manifest_path),
-            active_quarantines=len(self.quarantine_entries),
-            ΛTAG="ΛSANCTUM_INIT",
+            "ΛSANCTUM quarantine system initialized | sanctum_directory=%s manifest_path=%s active_quarantines=%d tag=%s",
+            str(self.sanctum_directory),
+            str(self.manifest_path),
+            len(self.quarantine_entries),
+            "ΛSANCTUM_INIT",
         )
+
+    def _load_config(self, path: Path) -> None:
+        """Load optional YAML configuration overrides (best-effort)."""
+        try:
+            import yaml  # type: ignore
+        except Exception:
+            logger.warning("YAML not available; skipping config load: %s", path)
+            return
+        try:
+            if not path.exists():
+                logger.warning("Config path not found: %s", path)
+                return
+            data = yaml.safe_load(path.read_text()) or {}
+            # Apply known overrides if present
+            capacity = (data.get("capacity") or {}).get("max_folds")
+            if isinstance(capacity, int) and capacity > 0:
+                self.max_quarantine_size = capacity
+            thresholds = (data.get("protection") or {}).get("safety_thresholds") or {}
+            if isinstance(thresholds, dict):
+                for k, v in thresholds.items():
+                    if isinstance(v, (int, float)):
+                        self.safety_thresholds[k] = float(v)
+        except Exception as e:
+            logger.warning("Failed to load config from %s: %s", path, e)
 
     async def quarantine_entry(
         self,
@@ -379,21 +410,21 @@ class SymbolicQuarantineSanctum:
                 asyncio.create_task(self._schedule_auto_repair(entry_id))
 
             logger.warning(
-                "Entry quarantined successfully",
-                entry_id=entry_id,
-                threat_level=threat_level.value,
-                source_system=source_system,
-                ΛTAG="ΛQUARANTINE",
+                "Entry quarantined successfully | entry_id=%s threat_level=%s source_system=%s tag=%s",
+                entry_id,
+                threat_level.value,
+                source_system,
+                "ΛQUARANTINE",
             )
 
             return True
 
         except Exception as e:
             logger.error(
-                "Failed to quarantine entry",
-                entry_id=entry_id,
-                error=str(e),
-                ΛTAG="ΛQUARANTINE_FAILURE",
+                "Failed to quarantine entry | entry_id=%s error=%s tag=%s",
+                entry_id,
+                str(e),
+                "ΛQUARANTINE_FAILURE",
             )
             return False
 
@@ -938,7 +969,8 @@ class SymbolicQuarantineSanctum:
 
             # Check for violation history
             if self._has_violation_history(entry):
-                contamination_score += 0.25
+                # Increase weight to ensure clear quarantine for explicit violations
+                contamination_score += 0.45
                 contamination_reasons.append("ΛVIOLATION history detected")
 
             # Check contradiction metrics
@@ -988,17 +1020,11 @@ class SymbolicQuarantineSanctum:
                     )
 
         logger.info(
-            "Contamination scan completed",
-            entries_scanned=len(memory_entries),
-            contamination_found=len(findings),
-            auto_quarantined=len(
-                [
-                    f
-                    for f in findings
-                    if auto_quarantine and f["contamination_score"] > 0.7
-                ]
-            ),
-            ΛTAG="ΛCONTAMINATION_SCAN",
+            "Contamination scan completed | entries_scanned=%d contamination_found=%d auto_quarantined=%d tag=%s",
+            len(memory_entries),
+            len(findings),
+            len([f for f in findings if auto_quarantine and f["contamination_score"] > 0.7]),
+            "ΛCONTAMINATION_SCAN",
         )
 
         return findings
@@ -1318,16 +1344,16 @@ class SymbolicQuarantineSanctum:
 
             except Exception as e:
                 logger.warning(
-                    "Failed to load quarantine vault",
-                    vault_file=str(vault_file),
-                    error=str(e),
+                    "Failed to load quarantine vault | vault_file=%s error=%s",
+                    str(vault_file),
+                    str(e),
                 )
 
         if loaded_count > 0:
             logger.info(
-                "Loaded quarantine entries from vault",
-                loaded_count=loaded_count,
-                ΛTAG="ΛVAULT_RECOVERY",
+                "Loaded quarantine entries from vault | loaded_count=%d tag=%s",
+                loaded_count,
+                "ΛVAULT_RECOVERY",
             )
 
     def _extract_symbol_ids(self, content: dict[str, Any]) -> list[str]:

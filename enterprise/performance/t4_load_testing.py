@@ -11,6 +11,7 @@ Compatible with Jules Agent + Codex Agent collaboration
 import asyncio
 import json
 import logging
+import os
 import statistics
 import time
 from dataclasses import dataclass
@@ -24,7 +25,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class LoadTestConfig:
     """Configuration for enterprise load testing"""
-    base_url: str = "http://localhost:8080"
+    base_url: str = "http://localhost:8000"
     concurrent_users: int = 10000
     ramp_up_seconds: int = 60
     test_duration_seconds: int = 300  # 5 minutes sustained
@@ -272,7 +273,6 @@ class T4LoadTester:
 async def run_t4_load_test():
     """Run T4 leadership level load testing"""
     config = LoadTestConfig(
-        base_url="http://localhost:8080",
         concurrent_users=10000,  # Sam Altman scale
         ramp_up_seconds=60,
         test_duration_seconds=300,  # 5 minutes sustained
@@ -286,7 +286,9 @@ async def run_t4_load_test():
 
         # Save results for Jules Agents to analyze
         timestamp = int(time.time())
-        results_file = f"/Users/agi_dev/LOCAL-REPOS/Lukhas/enterprise/performance/load_test_results_{timestamp}.json"
+        output_dir = "/tmp/lukhas_performance_results/"
+        os.makedirs(output_dir, exist_ok=True)
+        results_file = os.path.join(output_dir, f"load_test_results_{timestamp}.json")
 
         with open(results_file, "w") as f:
             json.dump({

@@ -271,3 +271,9 @@ verification_artifacts/
 
 errors.md
 pending.yaml 
+# Ignore generated branding artifacts and sanctum vaults
+LUKHAS_BRANDING_COMPLETE.*
+LUKHAS_BRANDING_CONSOLIDATED.*
+lukhas_branding_consolidated.*
+consolidate_branding.py
+memory/protection/sanctum_vault/*.vault

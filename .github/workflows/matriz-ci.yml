@@ -1,0 +1,46 @@
+name: MATRIZ CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  matriz:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt', 'requirements-test.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-test.txt
+
+      - name: MATRIZ compile graphs
+        run: |
+          make matriz-compile || (echo 'MATRIZ compile failed'; exit 1)
+
+      - name: Audit validate JSON provenance
+        run: |
+          make audit-validate || (echo 'Audit validate failed'; exit 1)
+
+      - name: Run MATRIZ unit tests
+        run: |
+          pytest -q tests/matriz || (echo 'MATRIZ tests failed'; exit 1)
+
