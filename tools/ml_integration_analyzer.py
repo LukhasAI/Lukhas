@@ -161,7 +161,7 @@ def extract_module_view(py_path: Path) -> ModuleView:
                          code, flags=re.MULTILINE)
     import_names = [a or b for a, b in imports]
 
-    comments = [m.group(0) for m in re.finditer(r")  # .*$", code, re.MULTILINE]
+    comments = [m.group(0) for m in re.finditer(r"# .*$", code, re.MULTILINE]
 
     return ModuleView(path=py_path, code=code, ast=tree,
                       functions=funcs, imports=import_names, comments=comments)
@@ -539,7 +539,7 @@ class IntegrationAnalyzer:
         convention = detect_naming_convention(func.name)
         verb_pattern = ""
         if re.match(r"^(get|set|process|validate|compute|update|create)", func.name, re.IGNORECASE):
-            verb = re.match(r"^(get|set|process|validate|compute|update|create)", func.name, re.IGNORECASE).group(1)  # type: ignore
+            verb = re.match(r"^(get|set|process|validate|compute|update|create)", func.name, re.IGNORECASE).group(1# type: ignore
             verb_pattern = f"{verb.lower()} + noun"
         domain = self._infer_domain(func.name)
         preferred = func.name
@@ -605,7 +605,7 @@ class IntegrationAnalyzer:
             target_line = g.lineno if g else 1
             suggested_sig = self._suggest_signature(f)
             adaptations = self._required_adaptations(f)
-            conf = (best[0] if best else 0.4)  # type: ignore
+            conf = (best[0] if best else 0.4# type: ignore
 
             # Source context around function header
             s = f.lineno

@@ -240,7 +240,7 @@ class InsightAnalyzer:
             if concept in content_lower:
                 tags.append(f"lukhas_{concept}")
 
-        return list(set(tags))  # Remove duplicates
+        return list(set(tags)# Remove duplicates
 
     def _create_emotional_state(
         self, insight: Insight, from_failure: bool

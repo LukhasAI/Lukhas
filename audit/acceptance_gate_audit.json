@@ -1,0 +1,45 @@
+{
+  "audit_metadata": {
+    "tool": "lukhas_ast_acceptance_gate",
+    "version": "2.0.0-audit",
+    "purpose": "pre_post_matriz_workspace_validation",
+    "timestamp": "2025-08-28T06:28:37.121588"
+  },
+  "scan_statistics": {
+    "files_scanned": 87,
+    "total_imports": 465,
+    "banned_imports": 3,
+    "facade_files": 0,
+    "scan_timestamp": "2025-08-28T06:28:37.121588",
+    "scan_mode": "pre_matriz_audit"
+  },
+  "violations": [
+    {
+      "file": "lukhas/governance/identity/connector.py",
+      "type": "illegal_dynamic_import",
+      "details": "import_module('candidate.governance.security.access_control')",
+      "line": 157,
+      "severity": "critical"
+    },
+    {
+      "file": "lukhas/governance/identity/connector.py",
+      "type": "illegal_dynamic_import",
+      "details": "import_module('candidate.governance.security.access_control')",
+      "line": 185,
+      "severity": "critical"
+    },
+    {
+      "file": "lukhas/governance/identity/connector.py",
+      "type": "illegal_dynamic_import",
+      "details": "import_module('candidate.governance.security.access_control')",
+      "line": 213,
+      "severity": "critical"
+    }
+  ],
+  "facade_detections": [],
+  "compliance_status": {
+    "accepts_ready": false,
+    "critical_issues": 3,
+    "warnings": 0
+  }
+}

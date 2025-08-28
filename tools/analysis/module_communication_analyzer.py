@@ -24,7 +24,8 @@ class ModuleCommunicationAnalyzer:
     """Analyzes communication patterns between LUKHAS modules"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas"
+        # Analyze from repository root
+        self.root_path = Path.cwd()
         self.communication_graph = nx.DiGraph()
         self.glyph_usage = defaultdict(list)
         self.direct_imports = defaultdict(set)

@@ -208,8 +208,8 @@ class PythonSyntaxFixer:
 
         # Pattern for comments inside function calls or f-strings
         patterns = [
-            # hashlib.sha256(  )  #  comment text
-            (r"(\w+\.\w+\([^)]*)\s*#([^)]*)\)", r"\1)  # \2"),
+            # hashlib.sha256(  #  comment text
+            (r"(\w+\.\w+\([^)]*)\s*#([^)]*)\)", r"\1# \2"),
             # f-string with comment inside
             (r'(f["\'][^"\']*)\s*#([^"\']*["\'])', r'\1"'),
         ]

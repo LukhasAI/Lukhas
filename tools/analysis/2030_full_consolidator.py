@@ -232,7 +232,7 @@ class LUKHAS2030Consolidator:
 
         for root, _dirs, files in os.walk("."):
             # Skip archives
-            if any(:
+            if any(
                 skip in root for skip in ["._cleanup_archive", "__pycache__", ".git"]
             ):
                 continue
@@ -317,15 +317,14 @@ class LUKHAS2030Consolidator:
         )
         total_lines_saved = sum(
             r["potential_savings"]["lines_saved"]
-            for r in self.analysis_results.values():
+            for r in self.analysis_results.values()
         )
 
         report = {
             "timestamp": datetime.now().isoformat(),
             "vision": "LUKHAS 2030 - Symbolic General Intelligence",
             "summary": {
-                "total_systems": len(
-                    self.consolidation_map),
+                "total_systems": len(self.consolidation_map),
                 "current_files": total_current_files,
                 "current_lines": total_current_lines,
                 "potential_lines_saved": total_lines_saved,

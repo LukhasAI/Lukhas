@@ -208,7 +208,7 @@ def extract_existing_imports(content: str) -> tuple[str, str]:
                     break
             continue
 
-        if i < 50 and line.startswith(")  # ":
+        if i < 50 and line.startswith("# ":
             continue
 
         if (

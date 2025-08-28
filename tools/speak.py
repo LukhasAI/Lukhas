@@ -31,7 +31,7 @@ async def speak(text, voice=DEFAULT_VOICE, preview=False):
     if not preview:
         os.system(
             "afplay lucas_output.mp3"
-        )  # For macOS. Use another player for Linux/Win.
+        # For macOS. Use another player for Linux/Win.
 
 
 def log_output(text, tier, voice):

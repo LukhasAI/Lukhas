@@ -440,7 +440,7 @@ class MemoryConsolidator:
         task = ConsolidationTask(
             source_memories=memory_ids,
             consolidation_type=consolidation_type,
-            scheduled_at=datetime.now() + timedelta(hours=1)  # Delay for stability
+            scheduled_at=datetime.now() + timedelta(hours=1# Delay for stability
         )
 
         self.pending_tasks.append(task)

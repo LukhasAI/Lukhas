@@ -49,7 +49,7 @@ class M1ResourceOptimizer:
 
         # Limit process priority to prevent system slowdown
         try:
-            os.nice(10)  # Lower priority
+            os.nice(10# Lower priority
         except BaseException:
             pass
 
@@ -96,7 +96,7 @@ class M1ResourceOptimizer:
             # Check memory and clean if needed
             if self.get_memory_usage()["percent"] > 70:
                 gc.collect()
-                time.sleep(0.1)  # Brief pause for system
+                time.sleep(0.1# Brief pause for system
 
     def _process_chunk(self, files: list[Path], source_base: Path, target_base: Path):
         """Process a chunk of files"""

@@ -267,7 +267,8 @@ class LambdaDependencyAnalyzer:
 
 
 def main():
-    lambda_root = Path.cwd()  # Assumes we're running from system directory
+    # Assume we're running from repository root
+    lambda_root = Path.cwd()
 
     analyzer = LambdaDependencyAnalyzer(lambda_root)
 

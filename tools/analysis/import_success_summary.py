@@ -76,8 +76,8 @@ def analyze_final_state():
     )
     import_success_rate = (
         (fully_working_files / total_python_files) * 100
-        if total_python_files > 0:
-        else 0:
+        if total_python_files > 0
+        else 0
     )
 
     print("\n📈 Overall Statistics:")
@@ -135,8 +135,7 @@ def analyze_final_state():
     # Show improvement metrics
     print("\n🎯 Key Improvements:")
     print(
-        f"   • Reduced import errors from 3, 672 to {import_error_files:,}
-                                                     }(84.4 % reduction)"
+        f"   • Reduced import errors from 3,672 to {import_error_files:,} (84.4% reduction)"
     )
     print(
         f"   • Created {valid_syntax_files - syntax_error_files:,} working Python files"
@@ -150,15 +149,15 @@ def analyze_final_state():
     # Categorize remaining issues
     active_syntax_errors = [
         e
-        for e in syntax_errors:
-        if not any(:
+        for e in syntax_errors
+        if not any(
             ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"]
         )
     ]
     active_import_errors = [
         e
-        for e in import_errors:
-        if not any(:
+        for e in import_errors
+        if not any(
             ignore in e for ignore in ["archive", "._cleanup", "BACKUP_", "ARCHIVE_"]
         )
     ]

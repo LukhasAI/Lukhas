@@ -19,6 +19,7 @@ class SecurityError(Exception):
 # Import real production-ready implementations (dynamically loaded)
 # These provide full Constitutional AI compliance, tiered access control, and audit logging
 
+
 def _try_import_governance_components():
     """Dynamically import governance components to maintain lane architecture"""
     try:
@@ -26,12 +27,13 @@ def _try_import_governance_components():
 
         components = {}
 
-        # Map of components to their module paths
+        # SECURITY FIX: Map to production-ready lukhas modules only
+        # No more imports from unstable candidate/ modules in production code
         component_map = {
-            "ConstitutionalFramework": "candidate.governance.ethics.constitutional_ai",
-            "SafetyMonitor": "candidate.governance.ethics.constitutional_ai",
-            "AuditLogger": "candidate.governance.identity.auth_backend.audit_logger",
-            "AccessControlEngine": "candidate.governance.security.access_control"
+            "ConstitutionalFramework": "lukhas.governance.ethics.constitutional_ai",
+            "SafetyMonitor": "lukhas.governance.ethics.constitutional_ai",
+            "AuditLogger": "lukhas.governance.identity.auth_backend.audit_logger",
+            "AccessControlEngine": "lukhas.governance.security.access_control",
         }
 
         for component_name, module_path in component_map.items():
@@ -44,6 +46,7 @@ def _try_import_governance_components():
         return components if components else None
     except Exception:
         return None
+
 
 # Try to load governance components
 _governance_components = _try_import_governance_components()
@@ -154,14 +157,22 @@ class IdentityConnector:
                 # Import the real permission and role classes dynamically
                 try:
                     import importlib
-                    access_control_module = importlib.import_module("candidate.governance.security.access_control")
+
+                    # SECURITY FIX: Use production lukhas modules only
+                    access_control_module = importlib.import_module(
+                        "lukhas.governance.security.access_control"
+                    )
                     self.AccessTier = getattr(access_control_module, "AccessTier")
-                    PermissionManager = getattr(access_control_module, "PermissionManager")
+                    PermissionManager = getattr(
+                        access_control_module, "PermissionManager"
+                    )
                     self.permission_manager = PermissionManager()
                 except (ImportError, AttributeError):
-                    # Fallback if candidate module not available
+                    # Fallback if production module not available
                     class MockAccessTier:
                         T3_ADVANCED = 3
+                        T5_SYSTEM = 5
+
                     self.AccessTier = MockAccessTier
                     self.permission_manager = None
 
@@ -182,11 +193,15 @@ class IdentityConnector:
                 """Create system administrator user"""
                 try:
                     import importlib
-                    access_control_module = importlib.import_module("candidate.governance.security.access_control")
+
+                    # SECURITY FIX: Use production lukhas modules only
+                    access_control_module = importlib.import_module(
+                        "lukhas.governance.security.access_control"
+                    )
                     User = getattr(access_control_module, "User")
                     AccessTier = self.AccessTier  # Use the one we loaded in __init__
                 except (ImportError, AttributeError):
-                    # Fallback if candidate module not available
+                    # Fallback if production module not available
                     return  # Skip system admin creation if components not available
 
                 system_admin = User(
@@ -210,13 +225,18 @@ class IdentityConnector:
                 """Check access with real tier validation"""
                 try:
                     import importlib
-                    access_control_module = importlib.import_module("candidate.governance.security.access_control")
+
+                    # SECURITY FIX: Use production lukhas modules only
+                    access_control_module = importlib.import_module(
+                        "lukhas.governance.security.access_control"
+                    )
                     AccessDecision = getattr(access_control_module, "AccessDecision")
                 except (ImportError, AttributeError):
-                    # Fallback if candidate module not available
+                    # Fallback if production module not available
                     class MockAccessDecision:
                         ALLOW = type("MockAllow", (), {"value": "allow"})()
                         DENY = type("MockDeny", (), {"value": "deny"})()
+
                     AccessDecision = MockAccessDecision
 
                 # Simplified check - in full implementation would validate session

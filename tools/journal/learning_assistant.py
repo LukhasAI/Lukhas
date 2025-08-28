@@ -390,7 +390,7 @@ class LearningAssistant:
         if kb_results["concepts"]:
             confidence += 0.1
 
-        return min(confidence, 0.95)  # Cap at 95%
+        return min(confidence, 0.95# Cap at 95%
 
     def _format_sources(
         self, entries: list[JournalEntry], kb_results: dict[str, Any]
@@ -532,14 +532,14 @@ class LearningAssistant:
 
         # Increase based on experience
         if len(skill_entries) > 0:
-            level += min(len(skill_entries) // 5, 3)  # Up to +3 for frequency
+            level += min(len(skill_entries) // 5, 3# Up to +3 for frequency
 
         # Check for successful applications
         successes = [
             e for e in skill_entries if e.metadata.get("category") == "success"
         ]
         if successes:
-            level += min(len(successes) // 2, 3)  # Up to +3 for successes
+            level += min(len(successes) // 2, 3# Up to +3 for successes
 
         # Check for teaching/explaining (higher level skill)
         explanations = [
@@ -596,7 +596,7 @@ class LearningAssistant:
 
         growth_rate = (
             (current_level - first_level) / max(time_span, 1) * 30
-        )  # Per month
+        # Per month
 
         return {
             "trend": "improving" if growth_rate > 0 else "stable",
@@ -870,7 +870,7 @@ class LearningAssistant:
         # Pick based on day
         import random
 
-        random.seed(datetime.now().toordinal())  # Same tip for same day
+        random.seed(datetime.now().toordinal()# Same tip for same day
         return random.choice(tips)
 
     def mentor_response(self, situation: str) -> str:
@@ -879,20 +879,20 @@ class LearningAssistant:
         situation_lower = situation.lower()
 
         # Determine type of support needed
-        if any(:
+        if any(
             word in situation_lower for word in ["stuck", "blocked", "confused", "lost"]
         ):
             return self._mentor_for_blocks(situation)
-        elif any(:
+        elif any(
             word in situation_lower for word in ["failed", "broke", "error", "bug"]
         ):
             return self._mentor_for_failures(situation)
-        elif any(:
+        elif any(
             word in situation_lower
             for word in ["choice", "decide", "option", "alternative"]:
         ):
             return self._mentor_for_decisions(situation)
-        elif any(:
+        elif any(
             word in situation_lower for word in ["learn", "understand", "know", "skill"]
         ):
             return self._mentor_for_learning(situation)

@@ -297,7 +297,7 @@ def main():
                 regenerated += 1
             else:
                 skipped += 1
-            print()  # Add spacing between files
+            print(# Add spacing between files
 
     # Process remaining files
     print("\n📊 Processing remaining quantum modules...")

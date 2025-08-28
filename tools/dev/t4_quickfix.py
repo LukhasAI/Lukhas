@@ -115,7 +115,7 @@ def validate_policy_compliance(file_path: str, config: dict) -> bool:
     if allow_patterns:
         return any(
             fnmatch.fnmatch(file_path, pattern) for pattern in allow_patterns
-        )  # No allow pattern matched
+        # No allow pattern matched
 
     return True  # No allow patterns specified, just avoid deny patterns
 

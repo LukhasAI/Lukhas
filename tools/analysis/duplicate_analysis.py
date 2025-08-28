@@ -98,9 +98,9 @@ class DuplicateAnalyzer:
         """Check for common code patterns"""
         # Pattern 1: Logger initialization
         for n in ast.walk(node):
-            if isinstance(n, ast.Assign) and any(:
+            if isinstance(n, ast.Assign) and any(
                 isinstance(target, ast.Name) and target.id == "logger"
-                for target in n.targets:
+                for target in n.targets
             ):
                 self.common_patterns["logger_init"].append(f"{file_path}::{node.name}")
 
@@ -195,7 +195,7 @@ class DuplicateAnalyzer:
                     "affected_files": len(
                         {
                             f.split("::")[0]
-                            for f in self.common_patterns["config_loading"]:
+                            for f in self.common_patterns["config_loading"]
                         }
                     ),
                     "priority": "high",
@@ -376,8 +376,7 @@ def main():
         for opp in duplicates["consolidation_opportunities"]:
             print(f"   • {opp['type']}: {opp['description']}")
             print(
-                f"     Priority: {opp['priority']}, Affected: {opp.get('affected_files',}
-                                                                       'N/A')} files"
+                f"     Priority: {opp['priority']}, Affected: {opp.get('affected_files', 'N/A')} files"
             )
 
     # Generate consolidation plan

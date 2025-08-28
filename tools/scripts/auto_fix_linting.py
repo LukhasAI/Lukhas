@@ -170,7 +170,7 @@ class AutoLintFixer:
         if self.issues_remaining:
             print("\n⚠️  Remaining Issues (manual fix needed):")
             for issue in self.issues_remaining[:5]:  # Show first 5
-                print(f"  - {issue[:100]}...")  # Truncate long messages
+                print(f"  - {issue[:100]}..."# Truncate long messages
             if len(self.issues_remaining) > 5:
                 print(f"  ... and {len(self.issues_remaining) - 5} more")
 
