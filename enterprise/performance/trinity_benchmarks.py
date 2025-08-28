@@ -11,6 +11,7 @@ targeting enterprise-grade scalability and sub-25ms P95 latency.
 import asyncio
 import json
 import logging
+import os
 import statistics
 import time
 from dataclasses import asdict, dataclass
@@ -482,7 +483,9 @@ class TrinityFrameworkBenchmark:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"t4_benchmark_results_{timestamp}.json"
 
-        filepath = f"/Users/agi_dev/LOCAL-REPOS/Lukhas/enterprise/performance/{filename}"
+        output_dir = "/tmp/lukhas_performance_results/"
+        os.makedirs(output_dir, exist_ok=True)
+        filepath = os.path.join(output_dir, filename)
 
         with open(filepath, "w") as f:
             json.dump(asdict(results), f, indent=2)
