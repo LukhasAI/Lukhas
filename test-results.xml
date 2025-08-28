@@ -1,5 +1,142 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="53.475" timestamp="2025-08-28T15:54:29.210546+01:00" hostname="g.local"><testcase classname="tests.test_memory_fold_system.TestMemoryFoldSystem" name="test_1000_fold_capacity_and_performance" time="0.008" /><testcase classname="tests.test_memory_fold_system.TestMemoryFoldSystem" name="test_cascade_prevention_with_quarantine" time="0.005"><failure message="AssertionError: Contaminated entry should be in quarantine.&#10;assert 'contaminated_entry_0' in {}&#10; +  where {} = &lt;candidate.memory.protection.symbolic_quarantine_sanctum.SymbolicQuarantineSanctum object at 0x10cf89f50&gt;.quarantine_entries">self = &lt;test_memory_fold_system.TestMemoryFoldSystem object at 0x10cf6a790&gt;
-sanctum = &lt;candidate.memory.protection.symbolic_quarantine_sanctum.SymbolicQuarantineSanctum object at 0x10cf89f50&gt;
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="2" time="54.279" timestamp="2025-08-28T16:07:29.991696+01:00" hostname="g.local"><testcase classname="tests.test_memory_fold_system.TestMemoryFoldSystem" name="test_1000_fold_capacity_and_performance" time="0.007" /><testcase classname="tests.test_memory_fold_system.TestMemoryFoldSystem" name="test_cascade_prevention_with_quarantine" time="0.006"><failure message="TypeError: Logger._log() got an unexpected keyword argument 'entry_id'">self = &lt;candidate.memory.protection.symbolic_quarantine_sanctum.SymbolicQuarantineSanctum object at 0x108f6db10&gt;
+entry_id = 'contaminated_entry_0'
+content = {'content': 'This is a chaotic and unstable memory with high entropy and violations.', 'entropy': 0.9, 'entry_id': 'contaminated_entry_0', 'ΛVIOLATION': 'ethical_breach'}
+reason = 'Auto-quarantine: High entropy: 0.900, ΛVIOLATION history detected'
+source_system = 'ΛSANCTUM_SCANNER', threat_level = &lt;ThreatLevel.HIGH: 'HIGH'&gt;
+metadata = None
+
+    async def quarantine_entry(
+        self,
+        entry_id: str,
+        content: dict[str, Any],
+        reason: str,
+        source_system: str = "MANUAL",
+        threat_level: ThreatLevel = ThreatLevel.MEDIUM,
+        metadata: dict[str, Any] = None,
+    ) -&gt; bool:
+        """
+        Quarantine a contaminated memory entry.
+    
+        Args:
+            entry_id: Unique identifier for the entry
+            content: Memory content to quarantine
+            reason: Reason for quarantine
+            source_system: System that requested quarantine
+            threat_level: Assessed threat level
+            metadata: Additional metadata
+    
+        Returns:
+            Success status of quarantine operation
+        """
+        try:
+            # Check quarantine capacity
+            if len(self.quarantine_entries) &gt;= self.max_quarantine_size:
+                logger.error(
+                    "Quarantine capacity exceeded",
+                    current_count=len(self.quarantine_entries),
+                    max_capacity=self.max_quarantine_size,
+                    ΛTAG="ΛCAPACITY_ERROR",
+                )
+                return False
+    
+            # Create secure isolation vault
+            vault_path = await self._create_isolation_vault(entry_id, content)
+    
+            # Extract symbolic metadata
+            symbol_ids = self._extract_symbol_ids(content)
+            memory_ids = self._extract_memory_ids(content)
+            lambda_tags = self._extract_lambda_tags(content)
+            entropy_score = self._calculate_entropy_score(content)
+            contamination_vectors = self._identify_contamination_vectors(
+                content, metadata or {}
+            )
+    
+            # Create quarantine entry
+            quarantine_entry = QuarantineEntry(
+                entry_id=entry_id,
+                original_content=content,
+                quarantine_timestamp=datetime.now(timezone.utc).isoformat(),
+                quarantine_reason=reason,
+                threat_level=threat_level,
+                status=QuarantineStatus.ISOLATED,
+                source_system=source_system,
+                isolation_vault_path=str(vault_path),
+                symbol_ids=symbol_ids,
+                memory_ids=memory_ids,
+                lambda_tags=lambda_tags,
+                entropy_score=entropy_score,
+                contamination_vectors=contamination_vectors,
+            )
+    
+            quarantine_entry.add_audit_entry(
+                "QUARANTINE_INITIATED",
+                {
+                    "reason": reason,
+                    "source_system": source_system,
+                    "threat_level": threat_level.value,
+                    "entropy_score": entropy_score,
+                },
+            )
+    
+            # Store quarantine entry
+            self.quarantine_entries[entry_id] = quarantine_entry
+    
+            # Update statistics
+            self.stats["total_quarantines"] += 1
+    
+            # Log quarantine action
+            await self.log_sanctum_action(
+                entry_id,
+                "QUARANTINE",
+                f"Entry quarantined due to: {reason}",
+                {
+                    "source_system": source_system,
+                    "threat_level": threat_level.value,
+                    "vault_path": str(vault_path),
+                },
+            )
+    
+            # Write to manifest
+            await self._update_manifest()
+    
+            # Trigger automatic repair if enabled
+            if self.auto_repair_enabled and threat_level != ThreatLevel.CATASTROPHIC:
+                asyncio.create_task(self._schedule_auto_repair(entry_id))
+    
+&gt;           logger.warning(
+                "Entry quarantined successfully",
+                entry_id=entry_id,
+                threat_level=threat_level.value,
+                source_system=source_system,
+                ΛTAG="ΛQUARANTINE",
+            )
+
+candidate/memory/protection/symbolic_quarantine_sanctum.py:412: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;Logger candidate.memory.protection.symbolic_quarantine_sanctum (INFO)&gt;
+msg = 'Entry quarantined successfully', args = ()
+kwargs = {'entry_id': 'contaminated_entry_0', 'source_system': 'ΛSANCTUM_SCANNER', 'threat_level': 'HIGH', 'ΛTAG': 'ΛQUARANTINE'}
+
+    def warning(self, msg, *args, **kwargs):
+        """
+        Log 'msg % args' with severity 'WARNING'.
+    
+        To pass exception information, use the keyword argument exc_info with
+        a true value, e.g.
+    
+        logger.warning("Houston, we have a %s", "bit of a problem", exc_info=True)
+        """
+        if self.isEnabledFor(WARNING):
+&gt;           self._log(WARNING, msg, args, **kwargs)
+E           TypeError: Logger._log() got an unexpected keyword argument 'entry_id'
+
+/opt/homebrew/Cellar/python@3.11/3.11.13/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py:1501: TypeError
+
+During handling of the above exception, another exception occurred:
+
+self = &lt;test_memory_fold_system.TestMemoryFoldSystem object at 0x108f52bd0&gt;
+sanctum = &lt;candidate.memory.protection.symbolic_quarantine_sanctum.SymbolicQuarantineSanctum object at 0x108f6db10&gt;
 
     @pytest.mark.asyncio
     async def test_cascade_prevention_with_quarantine(self, sanctum):
@@ -29,14 +166,32 @@ sanctum = &lt;candidate.memory.protection.symbolic_quarantine_sanctum.SymbolicQu
                 is_contaminated = False
     
             # Scan the entry
-            findings = await sanctum.scan_for_contamination([content], auto_quarantine=True)
-    
-            if is_contaminated:
-                assert len(findings) == 1, "Contaminated entry should be flagged."
-                assert findings[0]['entry_id'] == entry_id
-&gt;               assert entry_id in sanctum.quarantine_entries, "Contaminated entry should be in quarantine."
-E               AssertionError: Contaminated entry should be in quarantine.
-E               assert 'contaminated_entry_0' in {}
-E                +  where {} = &lt;candidate.memory.protection.symbolic_quarantine_sanctum.SymbolicQuarantineSanctum object at 0x10cf89f50&gt;.quarantine_entries
+&gt;           findings = await sanctum.scan_for_contamination([content], auto_quarantine=True)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-tests/test_memory_fold_system.py:107: AssertionError</failure></testcase></testsuite></testsuites>
+tests/test_memory_fold_system.py:102: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+candidate/memory/protection/symbolic_quarantine_sanctum.py:1014: in scan_for_contamination
+    await self.quarantine_entry(
+candidate/memory/protection/symbolic_quarantine_sanctum.py:423: in quarantine_entry
+    logger.error(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;Logger candidate.memory.protection.symbolic_quarantine_sanctum (INFO)&gt;
+msg = 'Failed to quarantine entry', args = ()
+kwargs = {'entry_id': 'contaminated_entry_0', 'error': "Logger._log() got an unexpected keyword argument 'entry_id'", 'ΛTAG': 'ΛQUARANTINE_FAILURE'}
+
+    def error(self, msg, *args, **kwargs):
+        """
+        Log 'msg % args' with severity 'ERROR'.
+    
+        To pass exception information, use the keyword argument exc_info with
+        a true value, e.g.
+    
+        logger.error("Houston, we have a %s", "major problem", exc_info=True)
+        """
+        if self.isEnabledFor(ERROR):
+&gt;           self._log(ERROR, msg, args, **kwargs)
+E           TypeError: Logger._log() got an unexpected keyword argument 'entry_id'
+
+/opt/homebrew/Cellar/python@3.11/3.11.13/Frameworks/Python.framework/Versions/3.11/lib/python3.11/logging/__init__.py:1518: TypeError</failure></testcase></testsuite></testsuites>

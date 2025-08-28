@@ -410,21 +410,21 @@ class SymbolicQuarantineSanctum:
                 asyncio.create_task(self._schedule_auto_repair(entry_id))
 
             logger.warning(
-                "Entry quarantined successfully",
-                entry_id=entry_id,
-                threat_level=threat_level.value,
-                source_system=source_system,
-                ΛTAG="ΛQUARANTINE",
+                "Entry quarantined successfully | entry_id=%s threat_level=%s source_system=%s tag=%s",
+                entry_id,
+                threat_level.value,
+                source_system,
+                "ΛQUARANTINE",
             )
 
             return True
 
         except Exception as e:
             logger.error(
-                "Failed to quarantine entry",
-                entry_id=entry_id,
-                error=str(e),
-                ΛTAG="ΛQUARANTINE_FAILURE",
+                "Failed to quarantine entry | entry_id=%s error=%s tag=%s",
+                entry_id,
+                str(e),
+                "ΛQUARANTINE_FAILURE",
             )
             return False
 
