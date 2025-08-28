@@ -28,10 +28,10 @@ class EthicsViolation:
 class DriftMetrics:
     """Current drift metrics from Guardian System."""
     current_drift: float
-    threshold: float = 0.15
     trend: str  # "increasing", "decreasing", "stable"
     last_updated: datetime
     violation_count_24h: int
+    threshold: float = 0.15
 
 
 class GuardianSystemAdapter:
