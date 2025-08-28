@@ -37,6 +37,7 @@ pytest-benchmark>=4.0.0
 # Async Testing Support
 pytest-asyncio>=0.21.0
 aioresponses>=0.7.4
+asgi-lifespan>=2.1.0
 
 # Test Coverage and Reporting
 coverage>=7.3.0
