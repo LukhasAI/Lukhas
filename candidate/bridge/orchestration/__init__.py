@@ -9,14 +9,19 @@ OpenAI GPT, Anthropic Claude, Google Gemini, and Perplexity AI.
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 """
 
-from .multi_ai_orchestrator import MultiAIOrchestrator
+try:
+    from .multi_ai_orchestrator import MultiAIOrchestrator
+except Exception:
+    # Backward/forward compatibility: PR #76 exports ModelOrchestrator
+    from .multi_ai_orchestrator import ModelOrchestrator as MultiAIOrchestrator
+    ModelOrchestrator = MultiAIOrchestrator  # re-export
 from .consensus_engine import ConsensusEngine
 from .context_manager import ContextManager
 from .performance_monitor import PerformanceMonitor
 
 __all__ = [
     "MultiAIOrchestrator",
-    "ConsensusEngine", 
+    "ConsensusEngine",
     "ContextManager",
-    "PerformanceMonitor"
+    "PerformanceMonitor",
 ]
