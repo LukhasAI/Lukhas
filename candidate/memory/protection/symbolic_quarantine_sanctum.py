@@ -969,7 +969,8 @@ class SymbolicQuarantineSanctum:
 
             # Check for violation history
             if self._has_violation_history(entry):
-                contamination_score += 0.25
+                # Increase weight to ensure clear quarantine for explicit violations
+                contamination_score += 0.45
                 contamination_reasons.append("ΛVIOLATION history detected")
 
             # Check contradiction metrics
