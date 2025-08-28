@@ -24,6 +24,9 @@ except ImportError:
     logger = logging.getLogger(__name__)
     logger.warning("Authentication system not available, using development fallback")
 
+from consent.service import ConsentService
+from enterprise.compliance.data_protection_service import DataProtectionService
+
 logger = logging.getLogger(__name__)
 
 
@@ -40,22 +43,13 @@ class CaseManager(GlyphIntegrationMixin):
         """Initialize case manager with configuration"""
         super().__init__()
         self.config = config or {}
-        self._init_case_storage()
-        self._init_governance_integration()
         self._init_authentication()
+        self.consent_service = ConsentService()
+        self.data_protection_service = DataProtectionService()
+        asyncio.run(self.consent_service.initialize())
+        asyncio.run(self.data_protection_service.initialize())
+        self.cases = {} # This will be replaced by a proper database
         logger.info("🏥 Healthcare CaseManager initialized")
-
-    def _init_case_storage(self):
-        """Initialize case storage system with governance tracking"""
-        # TODO: Implement proper storage backend with governance audit trail
-        self.cases = {}
-        self.case_audit_trail = {}
-
-    def _init_governance_integration(self):
-        """Initialize governance and ethical oversight integration"""
-        self.governance_enabled = True
-        self.ethical_checks_enabled = True
-        self.consent_required = True
 
     def _init_authentication(self):
         """Initialize authentication and authorization system"""
@@ -90,32 +84,40 @@ class CaseManager(GlyphIntegrationMixin):
             Created case details with governance metadata
         """
         try:
-            # Validate consent if required
-            if self.consent_required and not consent_token:
-                raise ValueError("Patient consent required for case creation")
+            # Validate consent
+            consent_valid = await self.consent_service.verify_capability_token(consent_token, ["healthcare.case.create"])
+            if not consent_valid["valid"]:
+                raise ValueError("Patient consent is not valid for case creation")
 
             # Perform ethical validation
-            if self.ethical_checks_enabled:
-                ethical_result = await self._validate_case_ethics(
-                    user_id, symptoms, ai_assessment
-                )
-                if not ethical_result["approved"]:
-                    raise ValueError(f"Ethical validation failed: {ethical_result['reason']}")
+            ethical_result = await self._validate_case_ethics(
+                user_id, symptoms, ai_assessment
+            )
+            if not ethical_result["approved"]:
+                raise ValueError(f"Ethical validation failed: {ethical_result['reason']}")
 
             case_id = str(uuid.uuid4())
             timestamp = datetime.utcnow().isoformat()
 
+            case_data = {
+                "symptoms": symptoms,
+                "ai_assessment": ai_assessment,
+            }
+
+            encrypted_case_data, _ = await self.data_protection_service.protect_data(
+                case_data, "pii_protection"
+            )
+
             case = {
                 "case_id": case_id,
                 "user_id": user_id,
-                "symptoms": symptoms,
-                "ai_assessment": ai_assessment,
                 "priority": priority,
                 "status": "pending_review",
                 "created_at": timestamp,
                 "updates": [],
+                "encrypted_data": encrypted_case_data,
                 "governance": {
-                    "consent_token": consent_token,
+                    "consent_grant_id": consent_valid["claims"]["grant_id"],
                     "ethical_approval": True,
                     "compliance_status": "validated",
                     "audit_trail": [
@@ -170,8 +172,13 @@ class CaseManager(GlyphIntegrationMixin):
 
             for case in self.cases.values():
                 if self._case_matches_filters(case, provider_id, filters):
-                    # Add governance metadata
+                    # Decrypt case data
+                    decrypted_data = await self.data_protection_service.unprotect_data(case["encrypted_data"])
                     case_copy = case.copy()
+                    case_copy.update(decrypted_data)
+                    del case_copy["encrypted_data"]
+
+                    # Add governance metadata
                     case_copy["governance"]["access_granted_to"] = provider_id
                     cases.append(case_copy)
 
@@ -259,6 +266,11 @@ class CaseManager(GlyphIntegrationMixin):
                 raise ValueError("Provider not authorized to update this case")
 
             case = self.cases[case_id]
+
+            # Decrypt case data
+            decrypted_data = await self.data_protection_service.unprotect_data(case["encrypted_data"])
+            case.update(decrypted_data)
+
             timestamp = datetime.utcnow().isoformat()
 
             # Create update record with governance metadata
@@ -274,6 +286,8 @@ class CaseManager(GlyphIntegrationMixin):
             }
 
             # Add to case updates
+            if "updates" not in case:
+                case["updates"] = []
             case["updates"].append(update)
 
             # Update case status if provided
@@ -300,6 +314,18 @@ class CaseManager(GlyphIntegrationMixin):
 
             # Update symbolic pattern based on case status
             case["symbolic_pattern"] = self._get_case_symbolic_pattern(case)
+
+            # Encrypt the updated data
+            case_data = {
+                "symptoms": case["symptoms"],
+                "ai_assessment": case["ai_assessment"],
+            }
+            encrypted_case_data, _ = await self.data_protection_service.protect_data(
+                case_data, "pii_protection"
+            )
+            case["encrypted_data"] = encrypted_case_data
+            del case["symptoms"]
+            del case["ai_assessment"]
 
             await self._log_governance_action(
                 case_id, "case_updated",
@@ -399,6 +425,12 @@ class CaseManager(GlyphIntegrationMixin):
                 raise ValueError("Access denied to case")
 
             case = self.cases[case_id].copy()
+
+            # Decrypt case data
+            decrypted_data = await self.data_protection_service.unprotect_data(case["encrypted_data"])
+            case.update(decrypted_data)
+            del case["encrypted_data"]
+
 
             # Add access log to governance trail
             case["governance"]["audit_trail"].append({
@@ -669,3 +701,24 @@ class CaseManager(GlyphIntegrationMixin):
                 len(case.get("updates", [])) for case in self.cases.values()
             ) / len(self.cases)
         }
+
+    async def enforce_healthcare_data_retention(self):
+        """Enforce data retention policies for healthcare data."""
+        retention_period_days = self.config.get("healthcare_retention_days", 2555)
+        await self.data_protection_service.enforce_retention_policy(retention_period_days)
+        logger.info(f"Enforced healthcare data retention policy ({retention_period_days} days).")
+
+    async def share_case_with_third_party(self, case_id: str, third_party_name: str, requestor_id: str):
+        """Share a case with a third party after verifying BAA."""
+        # First, check if the requestor has access to the case
+        await self.get_case(case_id, requestor_id)
+
+        # Check for a valid BAA
+        baa = await self.data_protection_service.get_baa(third_party_name)
+        if not baa:
+            raise ValueError(f"No valid Business Associate Agreement found for {third_party_name}")
+
+        # Share the case data
+        logger.info(f"Sharing case {case_id} with {third_party_name} (BAA validated).")
+        # In a real implementation, this would trigger a secure data sharing process.
+        return {"status": "success", "message": f"Case {case_id} shared with {third_party_name}"}
