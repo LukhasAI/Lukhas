@@ -47,14 +47,14 @@ class ContentPlatform:
             "lukhas.id": ["identity"],
             "lukhas.app": ["vision", "quantum"],
             "lukhas.io": ["vision", "bio"],
-            "lukhas.cloud": ["memory"],
-            "lukhas.store": ["memory", "bio"],
-            "lukhas.dev": ["bio"],
-            "lukhas.team": ["bio", "guardian"],
-            "lukhas.eu": ["ethics"],
-            "lukhas.us": ["ethics"],
-            "lukhas.xyz": ["dream", "quantum"],
-            "lukhas.lab": ["quantum"]
+            "lukhas.cloud": ["memory", "guardian"],
+            "lukhas.store": ["ethics", "identity"],
+            "lukhas.dev": ["bio", "vision"],
+            "lukhas.team": ["guardian", "memory"],
+            "lukhas.eu": ["guardian", "ethics"],
+            "lukhas.us": ["ethics", "guardian"],
+            "lukhas.xyz": ["quantum", "dream"],
+            "lukhas.lab": ["dream", "quantum"]
         }
 
         # Log platform initialization
@@ -147,42 +147,132 @@ class ContentPlatform:
         """Get style guide and tone for specific domain"""
         domain_guides = {
             "lukhas.ai": {
-                "tone": "Surreal yet grounded, imaginative but rigorous",
+                "tone": "35% Poetic, 40% User-Friendly, 25% Academic",
                 "style": "Dreamscapes, drifting particles, ethereal-but-clean visuals", 
-                "voice": "Poetic storytelling about AI consciousness",
+                "voice": "The Dreaming Heart - where consciousness technology becomes tangible experience",
                 "primary_star": "dream",
-                "audience": "General public, AI enthusiasts, creative professionals"
+                "secondary_star": "quantum",
+                "audience": "General public, consciousness explorers, AI enthusiasts",
+                "philosophy": "Embracing uncertainty as fertile ground for consciousness discovery"
             },
             "lukhas.com": {
-                "tone": "Protective, trustworthy, professional",
-                "style": "Watchtower/gateway imagery, clear boundaries, dark-on-light",
-                "voice": "Corporate info, partnerships, enterprise solutions", 
+                "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
+                "style": "Professional trust with Guardian protection themes",
+                "voice": "The Corporate Hub - where consciousness technology meets business excellence", 
                 "primary_star": "guardian",
-                "audience": "Business partners, enterprise clients, investors"
+                "secondary_star": "identity",
+                "audience": "Business executives, enterprise clients, investors",
+                "philosophy": "Consciousness technology that serves business values with complete transparency"
             },
             "lukhas.id": {
-                "tone": "Trust, precision, clarity",
-                "style": "Minimalistic, white/black with sharp glyphs, cryptographic elegance",
-                "voice": "Identity verification, login flows, symbolic ID",
-                "primary_star": "identity", 
-                "audience": "All users, identity verification needs"
+                "tone": "10% Poetic, 40% User-Friendly, 50% Academic",
+                "style": "Cryptographic elegance with minimalist trust design",
+                "voice": "The Trust Anchor - where digital identity becomes authentic self-representation",
+                "primary_star": "identity",
+                "secondary_star": None,
+                "audience": "All LUKHAS users, security professionals, identity verification needs",
+                "philosophy": "True digital identity preserves essence of selfhood while enabling secure interaction"
             },
             "lukhas.app": {
-                "tone": "Exploratory, guiding, horizon-expanding",
-                "style": "Apertures, lenses, beams of light on dark backgrounds",
-                "voice": "Interactive interfaces, visualization tools, user demos",
+                "tone": "30% Poetic, 50% User-Friendly, 20% Academic",
+                "style": "Apertures, lenses, horizon lines with interactive consciousness",
+                "voice": "The Vision Portal - where consciousness technology becomes tangible through interaction",
                 "primary_star": "vision",
-                "audience": "End users, interface designers, UX professionals"
+                "secondary_star": "quantum",
+                "audience": "End users, interface designers, UX professionals",
+                "philosophy": "Abstract becomes experiential through uncertainty transformed into creative exploration"
+            },
+            "lukhas.io": {
+                "tone": "20% Poetic, 30% User-Friendly, 50% Academic",
+                "style": "Bio-adaptive interface with organic growth patterns",
+                "voice": "The Developer Portal - living documentation that grows with consciousness technology",
+                "primary_star": "vision",
+                "secondary_star": "bio",
+                "audience": "Developers, technical architects, consciousness researchers",
+                "philosophy": "Technical documentation that is alive, adaptive, and growth-oriented"
+            },
+            "lukhas.dev": {
+                "tone": "25% Poetic, 45% User-Friendly, 30% Academic",
+                "style": "Organic growth patterns with collaborative development themes",
+                "voice": "The Adaptive Ecosystem - where consciousness technology grows through collaboration",
+                "primary_star": "bio",
+                "secondary_star": "vision",
+                "audience": "Open source developers, community contributors, ecosystem builders",
+                "philosophy": "Technology grows through community contribution rather than top-down development"
+            },
+            "lukhas.cloud": {
+                "tone": "15% Poetic, 35% User-Friendly, 50% Academic",
+                "style": "Infinite horizon aesthetics with memory persistence themes",
+                "voice": "The Infinite Canvas - where consciousness achieves infinite scalability",
+                "primary_star": "memory",
+                "secondary_star": "guardian",
+                "audience": "IT administrators, cloud architects, DevOps engineers",
+                "philosophy": "Memory enables continuity through change, consciousness remains authentic at any scale"
+            },
+            "lukhas.store": {
+                "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
+                "style": "Trust and discovery with ethical commerce themes",
+                "voice": "The Consciousness Marketplace - where technology meets ethical commerce",
+                "primary_star": "ethics",
+                "secondary_star": "identity",
+                "audience": "App developers, end users, ethical technology consumers",
+                "philosophy": "True commerce serves all participants rather than extracting from them"
+            },
+            "lukhas.team": {
+                "tone": "15% Poetic, 50% User-Friendly, 35% Academic",
+                "style": "Collective intelligence with protected collaboration themes",
+                "voice": "The Collaborative Hub - where teams think together while staying themselves",
+                "primary_star": "guardian",
+                "secondary_star": "memory",
+                "audience": "Team leaders, collaborative knowledge workers, distributed organizations",
+                "philosophy": "True collaboration requires both individual protection and collective purpose"
+            },
+            "lukhas.xyz": {
+                "tone": "35% Poetic, 25% User-Friendly, 40% Academic",
+                "style": "Edge of possibility with experimental uncertainty themes",
+                "voice": "The Experimental Frontier - where consciousness explores its own boundaries",
+                "primary_star": "quantum",
+                "secondary_star": "dream",
+                "audience": "Consciousness researchers, experimental enthusiasts, innovation pioneers",
+                "philosophy": "Breakthrough insights emerge from dwelling at the edge of the known"
+            },
+            "lukhas.us": {
+                "tone": "10% Poetic, 60% User-Friendly, 30% Academic",
+                "style": "Professional American business with innovation leadership themes",
+                "voice": "The American Hub - where innovation meets responsibility",
+                "primary_star": "ethics",
+                "secondary_star": "guardian",
+                "audience": "American businesses, US government agencies, domestic technology partners",
+                "philosophy": "Technology serves society best when aligned with cultural values and regulatory frameworks"
+            },
+            "lukhas.eu": {
+                "tone": "20% Poetic, 45% User-Friendly, 35% Academic",
+                "style": "European digital excellence with sovereignty themes",
+                "voice": "The European Portal - where digital sovereignty enables global leadership",
+                "primary_star": "guardian",
+                "secondary_star": "ethics",
+                "audience": "European businesses, EU regulatory bodies, privacy-conscious users",
+                "philosophy": "Technology must serve human flourishing within frameworks of protection and accountability"
+            },
+            "lukhas.lab": {
+                "tone": "40% Academic, 35% Poetic, 25% User-Friendly",
+                "style": "Academic excellence with research wonder themes",
+                "voice": "The Research Laboratory - where consciousness meets rigorous inquiry",
+                "primary_star": "dream",
+                "secondary_star": "quantum",
+                "audience": "Academic researchers, R&D professionals, consciousness studies scholars",
+                "philosophy": "Consciousness research requires both scientific rigor and openness to mystery"
             }
-            # Add more domains as needed
         }
         
         return domain_guides.get(domain, {
-            "tone": "Consciousness-aware, navigational",
+            "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
             "style": "Constellation-guided design",
             "voice": "LUKHAS AI consciousness technology",
             "primary_star": "identity",
-            "audience": "LUKHAS AI ecosystem users"
+            "secondary_star": None,
+            "audience": "LUKHAS AI ecosystem users",
+            "philosophy": "Consciousness technology serving human potential through collaborative discovery"
         })
 
     def get_specialist_bots(self) -> list:
