@@ -36,6 +36,9 @@ __description__ = (
 # Trinity Framework symbols
 TRINITY_SYMBOLS = "⚛️🧠🛡️"
 
+# Core modules
+from . import core
+
 # Package metadata
 PACKAGE_INFO = {
     "name": "lukhas-candidate",
@@ -45,3 +48,5 @@ PACKAGE_INFO = {
     "consciousness_aware": True,
     "agent_army_compatible": True,
 }
+
+__all__ = ["core", "TRINITY_SYMBOLS", "PACKAGE_INFO"]

@@ -1,0 +1,20 @@
+"""
+NIAS Economic Platform - Business Logic Module.
+
+This module implements the core business logic for the Non-Intrusive
+Advertising System (NIAS) with ethical profit sharing and Guardian System integration.
+"""
+
+# Core business components
+from .api_budget_manager import APIBudgetManager
+from .consciousness_cache import ConsciousnessCacheManager
+from .revenue_tracker import RevenueTracker
+from .guardian_integrated_platform import GuardianIntegratedPlatform, GuardianSystemAdapter
+
+__all__ = [
+    "APIBudgetManager",
+    "ConsciousnessCacheManager", 
+    "RevenueTracker",
+    "GuardianIntegratedPlatform",
+    "GuardianSystemAdapter"
+]
