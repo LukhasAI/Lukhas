@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['localhost', 'lukhas.ai'],
+    domains: ['localhost', 'lukhas.ai', 'dalleproduse.blob.core.windows.net'],
     formats: ['image/avif', 'image/webp'],
   },
   experimental: {
@@ -38,7 +38,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; img-src 'self' data: blob:; media-src 'self' blob: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com; worker-src 'self' blob:; frame-src 'none';"
+            value: "default-src 'self'; img-src 'self' data: blob: https://dalleproduse.blob.core.windows.net; media-src 'self' blob: data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com; worker-src 'self' blob:; frame-src 'none';"
           },
         ],
       },

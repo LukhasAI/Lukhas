@@ -392,3 +392,150 @@ NODE_ENV=development
 **Status**: Production-ready UI implementation | **Framework**: Next.js 14 | **Design**: Glass Morphism | **Performance**: Optimized
 
 *Last updated: August 2024 - Complete UI Polish Implementation*
+
+---
+
+# DreamWeaver: Comprehensive Documentation
+
+This document provides a complete overview of the DreamWeaver feature, including its architecture, API, deployment guide, and test plan.
+
+---
+
+## 1. Architecture
+
+The DreamWeaver feature is designed for performance, scalability, and a world-class user experience, adhering to the principles of the MΛTRIZ cognitive architecture.
+
+### 1.1. Frontend Architecture (Next.js 15, React 19)
+
+-   **`app/dream-weaver/page.tsx` (Server Component):**
+    -   Renders the static layout for a fast initial page load.
+    -   Delegates all interactive functionality to the `DreamWeaverClient` component.
+
+-   **`app/dream-weaver/DreamWeaverClient.tsx` (Client Component):**
+    -   Handles all user interactions, state management, and API communication.
+    -   Uses `sonner` for non-blocking toast notifications.
+    -   Uses `framer-motion` for UI animations and "wow moments".
+
+-   **`components/dream/DreamScene.tsx` (Client Component):**
+    -   The core 3D visualization component, built with `@react-three/fiber`.
+    -   It is a fully data-driven component that generates a unique scene based on the `DreamManifest`.
+    -   Uses `react-error-boundary` for graceful error handling.
+
+### 1.2. Backend Architecture (Next.js API Routes + Python)
+
+-   **`app/api/dream-weaver/route.ts`:**
+    -   A secure bridge to the Python orchestrator.
+    -   Spawns the Python script and passes data via `stdin`/`stdout`.
+
+-   **`app/api/dream-weaver/transcribe/route.ts`:**
+    -   Handles audio transcription using the OpenAI Whisper API.
+
+-   **`candidate/orchestration/dream_orchestrator.py`:**
+    -   The brain of the dream generation process.
+    -   **Optimized for performance** with parallelized API calls (threading) and file-based caching.
+    -   Orchestrates calls to GPT-4 (manifest generation), DALL-E 3 (texture generation), and TTS (audio generation).
+
+---
+
+## 2. API Documentation
+
+### 2.1. `POST /api/dream-weaver`
+
+-   **Description:** Takes a dream seed and returns a full `DreamManifest`.
+-   **Request Body:** `application/json`
+    ```json
+    {
+      "text": "your dream seed here"
+    }
+    ```
+-   **Response Body:** `application/json` (A `DreamManifest` object)
+    ```json
+    {
+      "narrative": "A poetic sentence.",
+      "visuals": {
+        "geometry": "sphere",
+        "movement": "gentle rotation",
+        "colors": ["#ff0000", "#00ff00", "#0000ff"],
+        "particle_count": 500
+      },
+      "audio_url": "/audio/dream_12345.mp3",
+      "texture_url": "https://dalle.../img.png",
+      "dream_id": "dream_real_12345"
+    }
+    ```
+
+### 2.2. `POST /api/dream-weaver/transcribe`
+
+-   **Description:** Takes an audio blob and returns the transcribed text.
+-   **Request Body:** `multipart/form-data`
+    -   `audio`: The audio blob to be transcribed.
+-   **Response Body:** `application/json`
+    ```json
+    {
+      "transcription": "The transcribed text."
+    }
+    ```
+
+---
+
+## 3. Deployment Guide
+
+1.  **Environment Variables:**
+    -   Ensure the `OPENAI_API_KEY` environment variable is set in your deployment environment (e.g., Vercel, Docker).
+    -   The `PYTHONPATH` should be configured to include the root of the repository if running the Python script from a different context. The script currently defaults to `../..`, which should work in most cases.
+
+2.  **Dependencies:**
+    -   Run `npm install` in the `lukhas_website` directory to install all Node.js dependencies.
+    -   Run `pip install -r requirements.txt` in the root of the repository to install all Python dependencies. The `AGENTS.md` file recommends `make bootstrap`.
+
+3.  **Build and Start:**
+    -   Run `npm run build` in the `lukhas_website` directory to build the Next.js application.
+    -   Run `npm run start` to start the production server.
+
+4.  **File Permissions:**
+    -   The application requires write permissions for the `candidate/orchestration/.cache` directory for caching to work.
+    -   It also requires write permissions for the `lukhas_website/public/audio` directory to save the generated TTS audio files.
+
+---
+
+## 4. Test Plan & Scenarios
+
+Due to environmental constraints preventing the creation of test files, the following test scenarios have not been automated. They should be executed manually or automated once the environment is fixed.
+
+### 4.1. Unit & Integration Tests
+
+-   **`DreamWeaverClient.tsx`:**
+    -   [ ] **Test Case:** Should render the input form correctly.
+    -   [ ] **Test Case:** Should correctly update the `dreamSeed` state when the user types in the textarea.
+    -   [ ] **Test Case:** Should show a shake animation when the "Weave" button is clicked with an empty input.
+    -   [ ] **Test Case:** Should call the `/api/dream-weaver` endpoint when the "Weave" button is clicked with a valid input.
+    -   [ ] **Test Case:** Should correctly handle the voice input recording flow.
+-   **`DreamScene.tsx`:**
+    -   [ ] **Test Case:** Should render a canvas and the narrative text.
+    -   [ ] **Test Case:** Should render the correct geometry based on the manifest.
+    -   [ ] **Test Case:** Should not crash with an invalid manifest (should be caught by the error boundary).
+-   **`dream_orchestrator.py`:**
+    -   [ ] **Test Case:** Should return a cached result for a repeated dream seed.
+    -   [ ] **Test Case:** Should correctly parse the OpenAI API responses.
+    -   [ ] **Test Case:** Should handle errors from the OpenAI API gracefully.
+
+### 4.2. End-to-End (E2E) Tests (Playwright)
+
+-   **User Journey: Weave a Dream**
+    -   **Steps:**
+        1.  Navigate to `/dream-weaver`.
+        2.  Type "a futuristic city" into the textarea.
+        3.  Click the "Weave" button.
+    -   **Expected Result:**
+        -   A toast notification should appear indicating the dream is weaving.
+        -   After a few moments, the `DreamScene` component should appear with a 3D visualization.
+        -   The narrative text should be displayed below the scene.
+-   **User Journey: Voice Input**
+    -   **Steps:**
+        1.  Navigate to `/dream-weaver`.
+        2.  Click the microphone button.
+        3.  (Requires user interaction) Speak "a forest of glowing mushrooms".
+        4.  Click the microphone button again to stop recording.
+    -   **Expected Result:**
+        -   The textarea should be populated with the transcribed text.
+        -   The user can then click "Weave" to generate the dream.

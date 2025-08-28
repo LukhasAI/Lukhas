@@ -15,9 +15,9 @@ export async function POST(request: Request) {
       cwd: process.cwd(), // Ensure the script is run from the root directory
       env: {
         ...process.env,
-        PYTHONPATH: '/Users/agi_dev/LOCAL-REPOS/Lukhas',
+        PYTHONPATH: process.env.PYTHONPATH || '../..', // More robust path
         // Pass through API keys from the main LUKHAS .env
-        OPENAI_API_KEY: process.env.OPENAI_API_KEY || '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'
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY
       }
     });
 
