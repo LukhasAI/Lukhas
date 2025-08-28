@@ -59,6 +59,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Configure structured logging
+logger = logging.getLogger(__name__)
 
 
 class QuarantineStatus(Enum):

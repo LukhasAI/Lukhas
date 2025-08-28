@@ -1,0 +1,15 @@
+# Configuration for the LUKHAS Fold-Based Memory System
+# This file centralizes key parameters for memory capacity, protection, and performance.
+
+capacity:
+  max_folds: 1000 # Defines the 1000-fold memory system capacity
+
+protection:
+  # Safety thresholds for the SymbolicQuarantineSanctum
+  safety_thresholds:
+    entropy_quarantine: 0.85
+    contradiction_threshold: 0.7
+    emotional_volatility: 0.6
+    drift_cascade_threshold: 0.75
+    repair_confidence_minimum: 0.8
+    restoration_safety_threshold: 0.9
