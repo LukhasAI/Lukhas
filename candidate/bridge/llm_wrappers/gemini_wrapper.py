@@ -40,11 +40,13 @@
 """
 
 import logging
+import asyncio
 
-from lukhas.branding.terminology import normalize_output
+from candidate.branding.terminology import normalize_output
 
 # Module imports
 from .env_loader import get_api_key
+from .base import LLMWrapper
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.gemini")
@@ -54,11 +56,11 @@ MODULE_VERSION = "1.0.0"
 MODULE_NAME = "gemini_wrapper"
 
 
-class GeminiWrapper:
+class GeminiWrapper(LLMWrapper):
 
     def __init__(self):
         """Initialize Gemini wrapper with API key"""
-        self.client = None
+        self.model = None
         self.api_key = get_api_key("gemini")
 
         if self.api_key:
@@ -73,30 +75,30 @@ class GeminiWrapper:
                     "Google AI package not installed. Install with: pip install google-generativeai"
                 )
 
-    def generate_response(
+    async def generate_response(
         self, prompt: str, model: str = "gemini-pro", **kwargs
-    ) -> str:
+    ) -> tuple[str, str]:
         """Generate response using Gemini API"""
         guidance = (
             "When describing methods, prefer 'quantum-inspired' and 'bio-inspired'. "
             "Refer to the project as 'Lukhas AI'."
         )
 
-        if not hasattr(self, "model"):
+        if not hasattr(self, "model") or self.model is None:
             fb = "Gemini client not initialized. Please check API key and installation."
-            return normalize_output(fb) or fb
+            return (normalize_output(fb) or fb), model
 
         try:
-            response = self.model.generate_content(f"{guidance}\n\n{prompt}")
+            response = await self.model.generate_content_async(f"{guidance}\n\n{prompt}")
             text = getattr(response, "text", None)
-            return normalize_output(text) or text or ""
+            return (normalize_output(text) or text or ""), model
         except Exception as e:
             err = f"Gemini API Error: {str(e)}"
-            return normalize_output(err) or err
+            return (normalize_output(err) or err), model
 
     def is_available(self) -> bool:
         """Check if Gemini is available"""
-        return hasattr(self, "model")
+        return hasattr(self, "model") and self.model is not None
 
 
 """
