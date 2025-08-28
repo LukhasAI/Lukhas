@@ -6,7 +6,7 @@ Integrates tool execution with external service adapters (Gmail, Dropbox, etc.)
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Service Adapter Integration
 try:
@@ -35,7 +35,7 @@ class ExternalServiceIntegration:
     through secure, authenticated adapters with comprehensive monitoring.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.adapters = {}
         self.service_capabilities = {}
@@ -91,8 +91,8 @@ class ExternalServiceIntegration:
             else:
                 logger.debug(f"{display_name} adapter not available")
 
-    async def execute_service_operation(self, operation: str, arguments: Dict[str, Any],
-                                      user_context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def execute_service_operation(self, operation: str, arguments: dict[str, Any],
+                                      user_context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Execute operation on external service through appropriate adapter
 
@@ -152,7 +152,7 @@ class ExternalServiceIntegration:
             return self._create_error_result(str(e))
 
     async def _ensure_authentication(self, adapter: BaseServiceAdapter, lid: str,
-                                   credentials: Dict[str, Any]) -> Dict[str, Any]:
+                                   credentials: dict[str, Any]) -> dict[str, Any]:
         """Ensure adapter is authenticated for the user"""
         try:
             # Try identity-based authentication first
@@ -179,7 +179,7 @@ class ExternalServiceIntegration:
             }
 
     async def _check_operation_consent(self, adapter: BaseServiceAdapter, lid: str,
-                                     operation: str, arguments: Dict[str, Any]) -> bool:
+                                     operation: str, arguments: dict[str, Any]) -> bool:
         """Check if user has consented to the operation"""
         try:
             if hasattr(adapter, "check_consent"):
@@ -195,7 +195,7 @@ class ExternalServiceIntegration:
             return False  # Be conservative on consent check failure
 
     async def _route_service_operation(self, adapter: BaseServiceAdapter, operation: str,
-                                     arguments: Dict[str, Any], lid: str) -> Dict[str, Any]:
+                                     arguments: dict[str, Any], lid: str) -> dict[str, Any]:
         """Route operation to specific adapter method"""
 
         # Gmail operations
@@ -214,7 +214,7 @@ class ExternalServiceIntegration:
             return self._create_error_result(f"Unsupported operation: {operation}")
 
     async def _handle_gmail_operation(self, adapter, operation: str,
-                                    arguments: Dict[str, Any], lid: str) -> Dict[str, Any]:
+                                    arguments: dict[str, Any], lid: str) -> dict[str, Any]:
         """Handle Gmail-specific operations"""
         try:
             if operation == "gmail_send":
@@ -271,7 +271,7 @@ class ExternalServiceIntegration:
             return self._create_error_result(str(e))
 
     async def _handle_dropbox_operation(self, adapter, operation: str,
-                                      arguments: Dict[str, Any], lid: str) -> Dict[str, Any]:
+                                      arguments: dict[str, Any], lid: str) -> dict[str, Any]:
         """Handle Dropbox-specific operations"""
         try:
             if operation == "dropbox_upload":
@@ -324,7 +324,7 @@ class ExternalServiceIntegration:
             return self._create_error_result(str(e))
 
     async def _handle_drive_operation(self, adapter, operation: str,
-                                    arguments: Dict[str, Any], lid: str) -> Dict[str, Any]:
+                                    arguments: dict[str, Any], lid: str) -> dict[str, Any]:
         """Handle Google Drive-specific operations"""
         try:
             if operation == "drive_upload":
@@ -396,7 +396,7 @@ class ExternalServiceIntegration:
             logger.error(f"Drive operation failed: {operation}: {e}")
             return self._create_error_result(str(e))
 
-    def _create_capability_token(self, lid: str, service: str, scopes: List[str]) -> Optional[CapabilityToken]:
+    def _create_capability_token(self, lid: str, service: str, scopes: list[str]) -> Optional[CapabilityToken]:
         """Create capability token for service operation"""
         if not CapabilityToken:
             return None
@@ -417,7 +417,7 @@ class ExternalServiceIntegration:
             logger.warning(f"Failed to create capability token: {e}")
             return None
 
-    def _create_error_result(self, error_message: str, details: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def _create_error_result(self, error_message: str, details: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """Create standardized error result"""
         result = {
             "success": False,
@@ -430,7 +430,7 @@ class ExternalServiceIntegration:
 
         return result
 
-    async def get_service_health(self) -> Dict[str, Any]:
+    async def get_service_health(self) -> dict[str, Any]:
         """Get health status of all integrated services"""
         health_status = {
             "integration_active": True,
@@ -451,7 +451,7 @@ class ExternalServiceIntegration:
 
         return health_status
 
-    def get_available_operations(self) -> Dict[str, List[str]]:
+    def get_available_operations(self) -> dict[str, list[str]]:
         """Get list of available operations by service"""
         operations = {}
 
@@ -469,7 +469,7 @@ class ExternalServiceIntegration:
 
         return operations
 
-    def get_integration_metrics(self) -> Dict[str, Any]:
+    def get_integration_metrics(self) -> dict[str, Any]:
         """Get comprehensive integration metrics"""
         return {
             **self.integration_metrics,
@@ -491,7 +491,7 @@ class ExternalServiceIntegration:
 _integration: Optional[ExternalServiceIntegration] = None
 
 
-def get_external_service_integration(config: Optional[Dict[str, Any]] = None) -> ExternalServiceIntegration:
+def get_external_service_integration(config: Optional[dict[str, Any]] = None) -> ExternalServiceIntegration:
     """Get or create the global external service integration instance"""
     global _integration
     if _integration is None:

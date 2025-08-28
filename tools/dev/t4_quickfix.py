@@ -247,8 +247,8 @@ def main():
     patch = call_ollama(prompt, args.model)
 
     # Add LLM provenance header
-    model_used = args.model or os.environ.get("T4_LLM_MODEL","deepseek-coder")
-    timeout = int(os.environ.get("T4_LLM_TIMEOUT","30"))
+    args.model or os.environ.get("T4_LLM_MODEL","deepseek-coder")
+    int(os.environ.get("T4_LLM_TIMEOUT","30"))
     prov = ""
     if patch.startswith("--- a/"):
         patch = prov + patch

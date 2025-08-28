@@ -8,7 +8,7 @@ Copyright (c) 2025 LUKHAS AI. All rights reserved.
 import logging
 import os
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import yaml
 
@@ -25,9 +25,9 @@ class EnvironmentConfig:
         Args:
             yaml_path: Optional path to YAML configuration file
         """
-        self._yaml_config: Dict[str, Any] = {}
-        self._required_vars: List[str] = []
-        self._optional_vars: Dict[str, Any] = {}
+        self._yaml_config: dict[str, Any] = {}
+        self._required_vars: list[str] = []
+        self._optional_vars: dict[str, Any] = {}
 
         if yaml_path and Path(yaml_path).exists():
             self._load_yaml_config(yaml_path)
@@ -109,7 +109,7 @@ class EnvironmentConfig:
                 raise ValueError(f"Environment variable '{key}' must be a float, got: {value}")
             return default
 
-    def get_list(self, key: str, default: Optional[List] = None, separator: str = ",", required: bool = False) -> List[str]:
+    def get_list(self, key: str, default: Optional[list] = None, separator: str = ",", required: bool = False) -> list[str]:
         """Get list from comma-separated environment variable"""
         if default is None:
             default = []
@@ -130,7 +130,7 @@ class EnvironmentConfig:
         if missing:
             raise ValueError(f"Missing required environment variables: {', '.join(missing)}")
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get configuration status summary"""
         return {
             "required_vars": len(self._required_vars),

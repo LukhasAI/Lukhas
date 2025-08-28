@@ -2,12 +2,12 @@
 LUKHAS AI Performance Orchestrator - Trinity Framework Integration
 
 Advanced performance orchestration system for consciousness-aware AI architecture.
-Integrates quantum-inspired algorithms, bio-oscillator synchronization, and 
+Integrates quantum-inspired algorithms, bio-oscillator synchronization, and
 memory fold optimization for Superior General Intelligence (SGI) evolution.
 
 Trinity Framework Components:
 - ⚛️ Identity: Performance identity patterns and symbolic optimization
-- 🧠 Consciousness: Awareness-driven performance tuning and dream optimization  
+- 🧠 Consciousness: Awareness-driven performance tuning and dream optimization
 - 🛡️ Guardian: Ethical performance boundaries and safety monitoring
 
 Performance Targets:
@@ -24,7 +24,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -60,8 +60,8 @@ class PerformanceMetrics:
     bio_oscillator_frequency: float
     quantum_coherence: float
     cascade_prevention_rate: float
-    trinity_framework_alignment: Dict[str, float]
-    module_specific_metrics: Dict[str, Any]
+    trinity_framework_alignment: dict[str, float]
+    module_specific_metrics: dict[str, Any]
 
 # Performance Alert Dataclass
 @dataclass
@@ -81,7 +81,7 @@ class PerformanceAlert:
 class PerformanceOrchestrator:
     """
     Advanced performance orchestration system for LUKHAS consciousness architecture.
-    
+
     Provides comprehensive performance monitoring, optimization, and adaptive tuning
     with deep integration into the Trinity Framework (⚛️🧠🛡️) and consciousness systems.
     """
@@ -142,17 +142,17 @@ class PerformanceOrchestrator:
     async def start_performance_monitoring(
         self,
         user_id: str,
-        modules: Optional[List[str]] = None,
+        modules: Optional[list[str]] = None,
         monitoring_interval: float = 1.0
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Start comprehensive performance monitoring with consciousness awareness.
-        
+
         Args:
             user_id: User initiating monitoring
             modules: Specific modules to monitor (None for all)
             monitoring_interval: Monitoring frequency in seconds
-            
+
         Returns:
             Dict containing monitoring session details
         """
@@ -201,18 +201,18 @@ class PerformanceOrchestrator:
         self,
         user_id: str,
         strategy: str = "adaptive",
-        target_modules: Optional[List[str]] = None,
-        optimization_context: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+        target_modules: Optional[list[str]] = None,
+        optimization_context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
         """
         Execute comprehensive performance optimization with consciousness awareness.
-        
+
         Args:
             user_id: User requesting optimization
             strategy: Optimization strategy to use
             target_modules: Modules to optimize
             optimization_context: Additional context for optimization decisions
-            
+
         Returns:
             Dict containing optimization results and improvements
         """
@@ -228,7 +228,7 @@ class PerformanceOrchestrator:
             pre_metrics = await self._collect_performance_metrics(modules)
 
             # Execute optimization algorithm
-            optimization_result = await self.optimization_algorithms[strategy_enum](
+            await self.optimization_algorithms[strategy_enum](
                 modules, optimization_context or {}
             )
 
@@ -271,14 +271,14 @@ class PerformanceOrchestrator:
         self,
         user_id: str,
         include_detailed: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get comprehensive performance status with consciousness and Trinity Framework metrics.
-        
+
         Args:
             user_id: User requesting status
             include_detailed: Include detailed module-specific metrics
-            
+
         Returns:
             Dict containing current performance status
         """
@@ -355,14 +355,14 @@ class PerformanceOrchestrator:
     # Private Implementation Methods
     # ===========================================
 
-    def _get_default_modules(self) -> List[str]:
+    def _get_default_modules(self) -> list[str]:
         """Get default modules for monitoring and optimization."""
         return [
             "identity", "consciousness", "memory", "creativity", "reasoning",
             "quantum", "bio", "emotion", "learning", "governance", "guardian"
         ]
 
-    async def _enable_monitoring_systems(self, session: Dict[str, Any]) -> Dict[str, bool]:
+    async def _enable_monitoring_systems(self, session: dict[str, Any]) -> dict[str, bool]:
         """Enable various monitoring systems for the session."""
         systems = {
             "trinity_framework_monitoring": True,
@@ -379,7 +379,7 @@ class PerformanceOrchestrator:
 
         return systems
 
-    async def _monitoring_loop(self, session: Dict[str, Any]) -> None:
+    async def _monitoring_loop(self, session: dict[str, Any]) -> None:
         """Main monitoring loop for continuous performance tracking."""
         monitoring_id = session["monitoring_id"]
         interval = session["monitoring_interval"]
@@ -414,8 +414,8 @@ class PerformanceOrchestrator:
 
     async def _collect_performance_metrics(
         self,
-        modules: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        modules: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """Collect comprehensive performance metrics from all monitored systems."""
         try:
             modules = modules or self._get_default_modules()
@@ -494,7 +494,7 @@ class PerformanceOrchestrator:
         quantum_coherence: float,
         consciousness_level: float,
         cascade_prevention: float,
-        trinity_alignment: Dict[str, float]
+        trinity_alignment: dict[str, float]
     ) -> float:
         """Calculate overall performance score from component metrics."""
         # Latency score (lower is better, 50ms target)
@@ -527,7 +527,7 @@ class PerformanceOrchestrator:
 
         return max(0, min(100, overall_score))
 
-    def _assess_performance_status(self, metrics: Dict[str, Any]) -> PerformanceStatus:
+    def _assess_performance_status(self, metrics: dict[str, Any]) -> PerformanceStatus:
         """Assess overall performance status from metrics."""
         score = metrics.get("overall_score", 0)
 
@@ -542,7 +542,7 @@ class PerformanceOrchestrator:
         else:
             return PerformanceStatus.UNKNOWN
 
-    async def _check_performance_alerts(self, metrics: Dict[str, Any]) -> None:
+    async def _check_performance_alerts(self, metrics: dict[str, Any]) -> None:
         """Check for performance threshold violations and generate alerts."""
         alerts = []
 
@@ -604,7 +604,7 @@ class PerformanceOrchestrator:
         if len(self.active_alerts) > 50:
             self.active_alerts = self.active_alerts[-50:]
 
-    async def _trigger_adaptive_optimization(self, modules: List[str]) -> None:
+    async def _trigger_adaptive_optimization(self, modules: list[str]) -> None:
         """Trigger adaptive optimization when performance degrades."""
         self.logger.info("🔧 Triggering adaptive optimization due to performance degradation")
 
@@ -622,9 +622,9 @@ class PerformanceOrchestrator:
 
     async def _adaptive_optimization(
         self,
-        modules: List[str],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        modules: list[str],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Adaptive optimization algorithm with consciousness awareness."""
         self.logger.info("⚡ Executing adaptive optimization")
 
@@ -650,9 +650,9 @@ class PerformanceOrchestrator:
 
     async def _real_time_optimization(
         self,
-        modules: List[str],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        modules: list[str],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Real-time optimization for critical performance issues."""
         self.logger.info("⚡ Executing real-time optimization")
 
@@ -675,9 +675,9 @@ class PerformanceOrchestrator:
 
     async def _batch_optimization(
         self,
-        modules: List[str],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        modules: list[str],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Batch optimization for comprehensive system tuning."""
         self.logger.info("⚡ Executing batch optimization")
 
@@ -701,9 +701,9 @@ class PerformanceOrchestrator:
 
     async def _consciousness_aware_optimization(
         self,
-        modules: List[str],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        modules: list[str],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Consciousness-aware optimization preserving awareness patterns."""
         self.logger.info("⚡ Executing consciousness-aware optimization")
 
@@ -729,9 +729,9 @@ class PerformanceOrchestrator:
 
     async def _quantum_enhanced_optimization(
         self,
-        modules: List[str],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        modules: list[str],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Quantum-inspired optimization algorithms."""
         self.logger.info("⚡ Executing quantum-enhanced optimization")
 
@@ -757,9 +757,9 @@ class PerformanceOrchestrator:
 
     async def _bio_synchronized_optimization(
         self,
-        modules: List[str],
-        context: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        modules: list[str],
+        context: dict[str, Any]
+    ) -> dict[str, Any]:
         """Bio-inspired optimization with oscillator synchronization."""
         self.logger.info("⚡ Executing bio-synchronized optimization")
 
@@ -785,9 +785,9 @@ class PerformanceOrchestrator:
 
     def _calculate_improvements(
         self,
-        pre_metrics: Dict[str, Any],
-        post_metrics: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        pre_metrics: dict[str, Any],
+        post_metrics: dict[str, Any]
+    ) -> dict[str, Any]:
         """Calculate improvement metrics between pre and post optimization."""
         improvements = {}
 
@@ -829,7 +829,7 @@ class PerformanceOrchestrator:
 
         return improvements
 
-    def _validate_trinity_compliance(self, metrics: Dict[str, Any]) -> bool:
+    def _validate_trinity_compliance(self, metrics: dict[str, Any]) -> bool:
         """Validate that optimization maintains Trinity Framework compliance."""
         trinity_alignment = metrics.get("trinity_framework_alignment", {})
 
@@ -840,7 +840,7 @@ class PerformanceOrchestrator:
 
         return identity_ok and consciousness_ok and guardian_ok
 
-    def _analyze_thresholds(self, metrics: Dict[str, Any]) -> Dict[str, Any]:
+    def _analyze_thresholds(self, metrics: dict[str, Any]) -> dict[str, Any]:
         """Analyze current metrics against performance thresholds."""
         analysis = {}
 
@@ -858,7 +858,7 @@ class PerformanceOrchestrator:
 
         return analysis
 
-    def _generate_optimization_recommendations(self, metrics: Dict[str, Any]) -> List[str]:
+    def _generate_optimization_recommendations(self, metrics: dict[str, Any]) -> list[str]:
         """Generate optimization recommendations based on current metrics."""
         recommendations = []
 

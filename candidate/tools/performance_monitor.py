@@ -12,7 +12,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import psutil
 
@@ -27,7 +27,7 @@ class PerformanceMetric:
     value: float
     unit: str
     component: str
-    context: Dict[str, Any] = None
+    context: dict[str, Any] = None
 
 
 @dataclass
@@ -86,7 +86,7 @@ class PerformanceCollector:
 
     def get_recent_metrics(self, component: Optional[str] = None,
                           metric_name: Optional[str] = None,
-                          time_window: int = 300) -> List[PerformanceMetric]:
+                          time_window: int = 300) -> list[PerformanceMetric]:
         """Get recent metrics within time window"""
         current_time = time.time()
         cutoff_time = current_time - time_window
@@ -110,7 +110,7 @@ class PerformanceCollector:
 class SystemMetricsCollector:
     """Collects system-level performance metrics"""
 
-    async def collect(self) -> List[PerformanceMetric]:
+    async def collect(self) -> list[PerformanceMetric]:
         """Collect system metrics"""
         timestamp = time.time()
         metrics = []
@@ -202,7 +202,7 @@ class ToolExecutionMetricsCollector:
         self.error_counts = defaultdict(int)
 
     def record_execution(self, tool_name: str, execution_time: float,
-                        success: bool, context: Optional[Dict[str, Any]] = None):
+                        success: bool, context: Optional[dict[str, Any]] = None):
         """Record tool execution metrics"""
         self.execution_times[tool_name].append(execution_time)
         self.execution_counts[tool_name] += 1
@@ -210,7 +210,7 @@ class ToolExecutionMetricsCollector:
         if not success:
             self.error_counts[tool_name] += 1
 
-    async def collect(self) -> List[PerformanceMetric]:
+    async def collect(self) -> list[PerformanceMetric]:
         """Collect tool execution metrics"""
         timestamp = time.time()
         metrics = []
@@ -274,11 +274,11 @@ class ToolExecutionMetricsCollector:
 class PerformanceAnalyzer:
     """Analyzes performance metrics and identifies issues"""
 
-    def __init__(self, alert_thresholds: Optional[Dict[str, Dict[str, float]]] = None):
+    def __init__(self, alert_thresholds: Optional[dict[str, dict[str, float]]] = None):
         self.alert_thresholds = alert_thresholds or self._default_thresholds()
         self.active_alerts = {}
 
-    def _default_thresholds(self) -> Dict[str, Dict[str, float]]:
+    def _default_thresholds(self) -> dict[str, dict[str, float]]:
         """Default performance alert thresholds"""
         return {
             "system": {
@@ -294,7 +294,7 @@ class PerformanceAnalyzer:
             }
         }
 
-    def analyze_metrics(self, metrics: List[PerformanceMetric]) -> List[PerformanceAlert]:
+    def analyze_metrics(self, metrics: list[PerformanceMetric]) -> list[PerformanceAlert]:
         """Analyze metrics and generate alerts"""
         alerts = []
 
@@ -348,7 +348,7 @@ class PerformanceAnalyzer:
 
         return None
 
-    def get_performance_summary(self, metrics: List[PerformanceMetric]) -> Dict[str, Any]:
+    def get_performance_summary(self, metrics: list[PerformanceMetric]) -> dict[str, Any]:
         """Generate performance summary from metrics"""
         summary = {
             "timestamp": datetime.now().isoformat(),
@@ -401,7 +401,7 @@ class PerformanceOptimizer:
     def __init__(self):
         self.optimization_rules = self._load_optimization_rules()
 
-    def _load_optimization_rules(self) -> List[Dict[str, Any]]:
+    def _load_optimization_rules(self) -> list[dict[str, Any]]:
         """Load performance optimization rules"""
         return [
             {
@@ -451,7 +451,7 @@ class PerformanceOptimizer:
             }
         ]
 
-    def generate_recommendations(self, metrics: List[PerformanceMetric]) -> List[Dict[str, Any]]:
+    def generate_recommendations(self, metrics: list[PerformanceMetric]) -> list[dict[str, Any]]:
         """Generate optimization recommendations based on metrics"""
         recommendations = []
 
@@ -482,7 +482,7 @@ class PerformanceMonitor:
     for the LUKHAS AI tool execution system.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Components
@@ -580,8 +580,8 @@ class PerformanceMonitor:
                 logger.error(f"Performance analysis error: {e}")
                 await asyncio.sleep(10)
 
-    def _calculate_health_score(self, metrics: List[PerformanceMetric],
-                               alerts: List[PerformanceAlert]) -> float:
+    def _calculate_health_score(self, metrics: list[PerformanceMetric],
+                               alerts: list[PerformanceAlert]) -> float:
         """Calculate overall system health score (0.0 to 1.0)"""
         if not metrics:
             return 0.5  # Neutral score with no data
@@ -614,7 +614,7 @@ class PerformanceMonitor:
 
         return max(0.0, min(1.0, base_score))
 
-    def get_current_status(self) -> Dict[str, Any]:
+    def get_current_status(self) -> dict[str, Any]:
         """Get current monitoring status"""
         status = {
             "monitoring_active": self.monitoring,
@@ -673,7 +673,7 @@ class PerformanceMonitor:
 _monitor: Optional[PerformanceMonitor] = None
 
 
-def get_performance_monitor(config: Optional[Dict[str, Any]] = None) -> PerformanceMonitor:
+def get_performance_monitor(config: Optional[dict[str, Any]] = None) -> PerformanceMonitor:
     """Get or create the global performance monitor instance"""
     global _monitor
     if _monitor is None:
@@ -683,7 +683,7 @@ def get_performance_monitor(config: Optional[Dict[str, Any]] = None) -> Performa
 
 # Integration function for tool executors
 def record_tool_execution(tool_name: str, execution_time: float, success: bool,
-                         context: Optional[Dict[str, Any]] = None):
+                         context: Optional[dict[str, Any]] = None):
     """Record tool execution metrics (convenience function)"""
     monitor = get_performance_monitor()
     monitor.collector.tool_collector.record_execution(

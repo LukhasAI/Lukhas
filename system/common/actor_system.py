@@ -13,7 +13,7 @@ from abc import ABC, abstractmethod
 from collections import deque
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, Optional, Set
+from typing import Any, Optional
 
 from .event_bus import EventTypes, emit_event
 
@@ -37,7 +37,7 @@ class Message:
     sender: str
     recipient: str
     message_type: str
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
     timestamp: float
     reply_to: Optional[str] = None
     correlation_id: Optional[str] = None
@@ -65,7 +65,7 @@ class Actor(ABC):
 
         # Actor management
         self._parent: Optional[Actor] = None
-        self._children: Set[Actor] = set()
+        self._children: set[Actor] = set()
         self._supervisor: Optional[ActorSupervisor] = None
 
         # Performance metrics
@@ -183,7 +183,7 @@ class Actor(ABC):
         self,
         recipient: str,
         message_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         reply_to: Optional[str] = None
     ) -> str:
         """Send a message to another actor"""
@@ -246,7 +246,7 @@ class Actor(ABC):
         child._parent = None
         self._children.discard(child)
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get actor performance metrics"""
         metrics = self._metrics.copy()
         if self._start_time and self.state == ActorState.RUNNING:
@@ -259,7 +259,7 @@ class ActorSupervisor:
 
     def __init__(self, supervisor_id: str):
         self.supervisor_id = supervisor_id
-        self.actors: Dict[str, Actor] = {}
+        self.actors: dict[str, Actor] = {}
         self.logger = logging.getLogger(f"supervisor.{supervisor_id}")
 
         # Supervision policies
@@ -338,8 +338,8 @@ class ActorSystem:
 
     def __init__(self, system_id: str = "lukhas_actor_system"):
         self.system_id = system_id
-        self.actors: Dict[str, Actor] = {}
-        self.supervisors: Dict[str, ActorSupervisor] = {}
+        self.actors: dict[str, Actor] = {}
+        self.supervisors: dict[str, ActorSupervisor] = {}
         self.message_history: deque = deque(maxlen=1000)
         self.logger = logging.getLogger(f"actor_system.{system_id}")
 
@@ -397,7 +397,7 @@ class ActorSystem:
         self,
         sender: str,
         message_type: str,
-        payload: Dict[str, Any],
+        payload: dict[str, Any],
         actor_filter: Optional[callable] = None
     ) -> int:
         """Broadcast a message to all or filtered actors"""
@@ -431,7 +431,7 @@ class ActorSystem:
         """Get all actors of a specific type"""
         return [a for a in self.actors.values() if a.actor_type == actor_type]
 
-    def get_system_metrics(self) -> Dict[str, Any]:
+    def get_system_metrics(self) -> dict[str, Any]:
         """Get system-wide metrics"""
         running_actors = sum(1 for a in self.actors.values() if a.state == ActorState.RUNNING)
 
@@ -484,7 +484,7 @@ async def send_message(
     sender: str,
     recipient: str,
     message_type: str,
-    payload: Dict[str, Any]
+    payload: dict[str, Any]
 ) -> bool:
     """Send message through global system"""
     message = Message(

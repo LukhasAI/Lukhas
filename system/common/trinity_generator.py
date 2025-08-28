@@ -161,9 +161,8 @@ Imagine you're working on a complex project. Instead of manually figuring out ea
         if code_examples:
             technical_content += "\n## Implementation Examples\n\n"
             for i, example in enumerate(code_examples, 1):
-                language = "python"  # Default to Python
                 if example.startswith("```"):
-                    language = example.split("\n")[0].replace("```", "")
+                    example.split("\n")[0].replace("```", "")
                     example = "\n".join(example.split("\n")[1:-1])
 
                 technical_content += (

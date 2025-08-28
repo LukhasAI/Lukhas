@@ -12,7 +12,6 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Tuple
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -34,9 +33,9 @@ class SyntaxReport:
     total_files_scanned: int = 0
     files_with_errors: int = 0
     fixes_applied: int = 0
-    fixes_by_type: Dict[str, int] = field(default_factory=dict)
-    failed_files: List[str] = field(default_factory=list)
-    fixes: List[SyntaxFix] = field(default_factory=list)
+    fixes_by_type: dict[str, int] = field(default_factory=dict)
+    failed_files: list[str] = field(default_factory=list)
+    fixes: list[SyntaxFix] = field(default_factory=list)
 
 class PythonSyntaxFixer:
     """Main syntax fixer class"""
@@ -64,7 +63,7 @@ class PythonSyntaxFixer:
             (r"f'([^']*)\s*#[^']*'", r"f'\1'", "fstring_comment"),
         ]
 
-    def fix_file(self, file_path: Path) -> List[SyntaxFix]:
+    def fix_file(self, file_path: Path) -> list[SyntaxFix]:
         """Fix syntax errors in a single file"""
         fixes = []
 
@@ -73,7 +72,7 @@ class PythonSyntaxFixer:
             with open(file_path, encoding="utf-8") as f:
                 content = f.read()
                 original_content = content
-                lines = content.splitlines()
+                content.splitlines()
 
             # Track if file was modified
             modified = False
@@ -140,7 +139,6 @@ class PythonSyntaxFixer:
             "\u201D": '"',  # Right double quotation mark
             "\u2018": "'",  # Left single quotation mark
             "\u2019": "'",  # Right single quotation mark
-            '"': '"',      # Another left double quote variant
             '"': '"',      # Another right double quote variant
             """'""": "'",      # Another right single quote variant
         }
@@ -150,7 +148,7 @@ class PythonSyntaxFixer:
 
         return content
 
-    def fix_invalid_imports(self, content: str) -> Tuple[str, List[SyntaxFix]]:
+    def fix_invalid_imports(self, content: str) -> tuple[str, list[SyntaxFix]]:
         """Fix invalid module names in import statements"""
         fixes = []
         lines = content.splitlines()
@@ -186,7 +184,7 @@ class PythonSyntaxFixer:
 
         return "\n".join(lines), fixes
 
-    def fix_misplaced_comments(self, content: str, file_path: str) -> Tuple[str, List[SyntaxFix]]:
+    def fix_misplaced_comments(self, content: str, file_path: str) -> tuple[str, list[SyntaxFix]]:
         """Fix comments that break syntax (e.g., inside function calls)"""
         fixes = []
         lines = content.splitlines()
@@ -216,14 +214,12 @@ class PythonSyntaxFixer:
 
         return "\n".join(lines), fixes
 
-    def fix_docstrings(self, content: str, file_path: str) -> Tuple[str, List[SyntaxFix]]:
+    def fix_docstrings(self, content: str, file_path: str) -> tuple[str, list[SyntaxFix]]:
         """Fix malformed docstrings"""
         fixes = []
         lines = content.splitlines()
 
         in_docstring = False
-        docstring_start = -1
-        quote_type = None
 
         for i, line in enumerate(lines):
             # Check for docstring start/end
@@ -254,8 +250,6 @@ class PythonSyntaxFixer:
                 # Track docstring state
                 if not in_docstring and count % 2 == 1:
                     in_docstring = True
-                    docstring_start = i
-                    quote_type = quotes
                 elif in_docstring and count >= 1:
                     in_docstring = False
 
@@ -275,7 +269,7 @@ class PythonSyntaxFixer:
         return "\n".join(lines), fixes
 
     def fix_remaining_syntax_errors(self, content: str, syntax_error: SyntaxError,
-                                   file_path: str) -> Tuple[str, List[SyntaxFix]]:
+                                   file_path: str) -> tuple[str, list[SyntaxFix]]:
         """Attempt to fix remaining syntax errors based on the error message"""
         fixes = []
         lines = content.splitlines()

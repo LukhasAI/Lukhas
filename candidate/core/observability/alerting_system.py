@@ -36,7 +36,7 @@ from datetime import datetime, timedelta
 from email.mime.multipart import MimeMultipart
 from email.mime.text import MimeText
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +116,7 @@ class AlertRule:
     category: AlertCategory = AlertCategory.SYSTEM
 
     # Notification
-    notification_channels: List[NotificationChannel] = field(default_factory=list)
+    notification_channels: list[NotificationChannel] = field(default_factory=list)
     notification_cooldown: int = 300  # seconds
 
     # Escalation
@@ -125,7 +125,7 @@ class AlertRule:
 
     # Compliance
     compliance_relevant: bool = False
-    applicable_regulations: List[ComplianceRegulation] = field(default_factory=list)
+    applicable_regulations: list[ComplianceRegulation] = field(default_factory=list)
 
     # Trinity Framework
     trinity_component: Optional[str] = None  # identity, consciousness, guardian
@@ -161,9 +161,9 @@ class Alert:
     triggered_value: Optional[float] = None
 
     # Context
-    tags: Dict[str, str] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    affected_systems: List[str] = field(default_factory=list)
+    tags: dict[str, str] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    affected_systems: list[str] = field(default_factory=list)
 
     # Actions
     acknowledgment_user: Optional[str] = None
@@ -171,27 +171,27 @@ class Alert:
     resolution_notes: Optional[str] = None
 
     # Notifications
-    notification_history: List[Dict[str, Any]] = field(default_factory=list)
+    notification_history: list[dict[str, Any]] = field(default_factory=list)
     last_notification_sent: Optional[datetime] = None
     notification_count: int = 0
 
     # Escalation
     escalation_level: int = 0
     escalated_at: Optional[datetime] = None
-    escalation_history: List[Dict[str, Any]] = field(default_factory=list)
+    escalation_history: list[dict[str, Any]] = field(default_factory=list)
 
     # Compliance
     compliance_relevant: bool = False
-    applicable_regulations: List[ComplianceRegulation] = field(default_factory=list)
+    applicable_regulations: list[ComplianceRegulation] = field(default_factory=list)
     audit_trail_id: Optional[str] = None
 
     # Trinity Framework
-    trinity_impact: Dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
+    trinity_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
 
     # Correlation
     correlation_key: Optional[str] = None
     parent_alert_id: Optional[str] = None
-    child_alert_ids: List[str] = field(default_factory=list)
+    child_alert_ids: list[str] = field(default_factory=list)
 
     # Performance
     detection_latency: Optional[float] = None
@@ -217,7 +217,7 @@ class ComplianceAuditEntry:
 
     # Data subject information (for GDPR/CCPA)
     data_subject_id: Optional[str] = None
-    data_categories: List[str] = field(default_factory=list)
+    data_categories: list[str] = field(default_factory=list)
     processing_purpose: Optional[str] = None
 
     # System context
@@ -226,12 +226,12 @@ class ComplianceAuditEntry:
     ip_address: Optional[str] = None
 
     # Evidence
-    evidence: Dict[str, Any] = field(default_factory=dict)
-    supporting_data: List[str] = field(default_factory=list)
+    evidence: dict[str, Any] = field(default_factory=dict)
+    supporting_data: list[str] = field(default_factory=list)
 
     # Remediation
     remediation_required: bool = True
-    remediation_actions: List[str] = field(default_factory=list)
+    remediation_actions: list[str] = field(default_factory=list)
     remediation_deadline: Optional[datetime] = None
 
     # Status
@@ -253,9 +253,9 @@ class NotificationConfig:
     endpoint: str  # email address, webhook URL, etc.
 
     # Filter criteria
-    severity_filter: List[AlertSeverity] = field(default_factory=list)
-    category_filter: List[AlertCategory] = field(default_factory=list)
-    system_filter: List[str] = field(default_factory=list)
+    severity_filter: list[AlertSeverity] = field(default_factory=list)
+    category_filter: list[AlertCategory] = field(default_factory=list)
+    system_filter: list[str] = field(default_factory=list)
 
     # Rate limiting
     rate_limit: int = 10  # max notifications per hour
@@ -276,8 +276,8 @@ class AlertingMetrics:
 
     # Alert statistics
     total_alerts_created: int = 0
-    alerts_by_severity: Dict[str, int] = field(default_factory=dict)
-    alerts_by_category: Dict[str, int] = field(default_factory=dict)
+    alerts_by_severity: dict[str, int] = field(default_factory=dict)
+    alerts_by_category: dict[str, int] = field(default_factory=dict)
     active_alerts_count: int = 0
 
     # Performance metrics
@@ -288,7 +288,7 @@ class AlertingMetrics:
 
     # Notification metrics
     total_notifications_sent: int = 0
-    notifications_by_channel: Dict[str, int] = field(default_factory=dict)
+    notifications_by_channel: dict[str, int] = field(default_factory=dict)
     notification_success_rate: float = 100.0
 
     # Compliance metrics
@@ -305,13 +305,13 @@ class AlertingMetrics:
 class ComprehensiveAlertingSystem:
     """
     Comprehensive alerting system for LUKHAS AI
-    
+
     Provides advanced alerting capabilities with multi-channel notifications,
     compliance audit trails, alert correlation, and integrated monitoring
     for all LUKHAS AI system components.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Core configuration
@@ -321,18 +321,18 @@ class ComprehensiveAlertingSystem:
         self.evaluation_interval = 5.0  # seconds
 
         # Data storage
-        self.alert_rules: Dict[str, AlertRule] = {}
-        self.active_alerts: Dict[str, Alert] = {}
+        self.alert_rules: dict[str, AlertRule] = {}
+        self.active_alerts: dict[str, Alert] = {}
         self.alert_history: deque = deque(maxlen=50000)
         self.audit_trail: deque = deque(maxlen=100000)
 
         # Notification system
-        self.notification_configs: Dict[str, NotificationConfig] = {}
+        self.notification_configs: dict[str, NotificationConfig] = {}
         self.notification_queue: deque = deque()
 
         # Correlation engine
-        self.correlation_keys: Dict[str, List[str]] = defaultdict(list)
-        self.alert_correlations: Dict[str, str] = {}
+        self.correlation_keys: dict[str, list[str]] = defaultdict(list)
+        self.alert_correlations: dict[str, str] = {}
 
         # Performance tracking
         self.metrics = AlertingMetrics()
@@ -588,9 +588,9 @@ LUKHAS AI Monitoring System
         source_system: str = "unknown",
         source_metric: Optional[str] = None,
         triggered_value: Optional[float] = None,
-        tags: Optional[Dict[str, str]] = None,
-        metadata: Optional[Dict[str, Any]] = None,
-        affected_systems: Optional[List[str]] = None
+        tags: Optional[dict[str, str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+        affected_systems: Optional[list[str]] = None
     ) -> Alert:
         """Create a new alert"""
 
@@ -674,7 +674,7 @@ LUKHAS AI Monitoring System
         rule_id: str,
         source_system: str,
         source_metric: Optional[str],
-        tags: Dict[str, str]
+        tags: dict[str, str]
     ) -> str:
         """Generate correlation key for alert deduplication"""
 
@@ -695,7 +695,7 @@ LUKHAS AI Monitoring System
         # Generate hash
         return hashlib.md5(correlation_string.encode()).hexdigest()[:16]
 
-    async def _analyze_trinity_impact(self, alert: Alert) -> Dict[str, float]:
+    async def _analyze_trinity_impact(self, alert: Alert) -> dict[str, float]:
         """Analyze alert impact on Trinity Framework components"""
 
         impact = {"identity": 0.0, "consciousness": 0.0, "guardian": 0.0}
@@ -863,7 +863,7 @@ LUKHAS AI Monitoring System
                     notification["timestamp"] = datetime.now() + timedelta(seconds=60)
                     self.notification_queue.append(notification)
 
-    async def _send_notification(self, notification: Dict[str, Any]):
+    async def _send_notification(self, notification: dict[str, Any]):
         """Send individual notification"""
 
         alert_id = notification["alert_id"]
@@ -1257,7 +1257,7 @@ LUKHAS AI Monitoring System
         """Monitor for compliance violations"""
 
         # Check for unresolved compliance alerts
-        compliance_alerts = [
+        [
             alert for alert in self.active_alerts.values()
             if alert.compliance_relevant and alert.status == AlertStatus.ACTIVE
         ]
@@ -1342,7 +1342,7 @@ LUKHAS AI Monitoring System
             except ValueError:
                 pass
 
-    async def get_active_alerts(self) -> List[Alert]:
+    async def get_active_alerts(self) -> list[Alert]:
         """Get all active alerts"""
 
         return list(self.active_alerts.values())
@@ -1366,7 +1366,7 @@ LUKHAS AI Monitoring System
         regulation: Optional[ComplianceRegulation] = None,
         start_date: Optional[datetime] = None,
         end_date: Optional[datetime] = None
-    ) -> List[ComplianceAuditEntry]:
+    ) -> list[ComplianceAuditEntry]:
         """Get compliance audit trail entries"""
 
         entries = list(self.audit_trail)

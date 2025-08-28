@@ -585,7 +585,7 @@ class LambdaSSOEngine:
                 if len(parts) != 3:
                     raise ValueError("Invalid QR-G format")
 
-                version, encoded_data = parts[1], parts[2]
+                _version, encoded_data = parts[1], parts[2]
                 decoded_data = base64.b64decode(encoded_data).decode("utf-8")
                 glyph_payload = json.loads(decoded_data)
 

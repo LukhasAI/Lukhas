@@ -10,7 +10,7 @@ import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 
 class T4BatchProcessor:
@@ -30,7 +30,7 @@ class T4BatchProcessor:
         except Exception:
             return hashlib.md5(str(datetime.now()).encode()).hexdigest()[:8]
 
-    def get_ruff_issues(self) -> List[Dict[str, Any]]:
+    def get_ruff_issues(self) -> list[dict[str, Any]]:
         """Get detailed Ruff issues for batch processing"""
         try:
             result = subprocess.run(["ruff", "check", ".", "--output-format=json"],
@@ -42,7 +42,7 @@ class T4BatchProcessor:
             print(f"Error getting Ruff issues: {e}")
             return []
 
-    def get_ruff_stats(self) -> tuple[int, List[str]]:
+    def get_ruff_stats(self) -> tuple[int, list[str]]:
         """Get current Ruff statistics"""
         try:
             result = subprocess.run(["ruff", "check", ".", "--statistics"],
@@ -57,7 +57,7 @@ class T4BatchProcessor:
             print(f"Error getting Ruff stats: {e}")
             return None, []
 
-    def categorize_issues(self, issues: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
+    def categorize_issues(self, issues: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
         """EXPERIENCE DISCIPLINE: Categorize issues by T4 priority"""
         categories = {
             "CRITICAL_BLOCKERS": [],      # Syntax errors - highest priority
@@ -84,7 +84,7 @@ class T4BatchProcessor:
 
         return categories
 
-    def create_batch_artifact(self, batch_info: Dict[str, Any]) -> str:
+    def create_batch_artifact(self, batch_info: dict[str, Any]) -> str:
         """SCIENTIFIC RIGOR: Create SHA-bound batch verification"""
         sha = self.get_current_sha()
         timestamp = datetime.now().isoformat()
@@ -109,7 +109,7 @@ class T4BatchProcessor:
         return str(artifact_file)
 
     def validate_batch_through_t4(self, before_count: int, after_count: int,
-                                 category: str, issues_processed: int) -> Dict[str, Any]:
+                                 category: str, issues_processed: int) -> dict[str, Any]:
         """T4 LENS: Comprehensive validation of batch processing"""
 
         validation = {
@@ -157,7 +157,7 @@ class T4BatchProcessor:
 
         return validation
 
-    def process_batch(self, issues: List[Dict[str, Any]], category: str) -> Dict[str, Any]:
+    def process_batch(self, issues: list[dict[str, Any]], category: str) -> dict[str, Any]:
         """Process a batch of issues with T4 validation"""
 
         print(f"\n🔄 T4 BATCH {self.batch_number:03d}: Processing {category}")
@@ -221,7 +221,7 @@ class T4BatchProcessor:
         self.batch_number += 1
         return validation
 
-    def print_t4_validation(self, validation: Dict[str, Any]):
+    def print_t4_validation(self, validation: dict[str, Any]):
         """Print T4 Lens validation summary"""
         print("\n🎯 T4 LENS VALIDATION:")
 

@@ -392,7 +392,7 @@ def trace(data):
                     del segment_addr_to_name[name]
             elif e["action"] == "oom":
                 size = e["size"]
-                free = e["device_free"]
+                e["device_free"]
                 out.write(
                     "raise OutOfMemoryError "
                 )

@@ -22,7 +22,7 @@ Features:
 import json
 import logging
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 try:
     from fastapi import FastAPI
@@ -41,7 +41,7 @@ class APIDocumentationGenerator:
         self.custom_examples = {}
         self.endpoint_guides = {}
 
-    def generate_openapi_spec(self) -> Dict[str, Any]:
+    def generate_openapi_spec(self) -> dict[str, Any]:
         """Generate comprehensive OpenAPI 3.0 specification"""
         if not self.app or not FASTAPI_AVAILABLE:
             return self._generate_static_spec()
@@ -64,7 +64,7 @@ class APIDocumentationGenerator:
         return """
 # LUKHAS AI Multi-Model Orchestration API
 
-The LUKHAS AI API provides advanced multi-model orchestration capabilities with enterprise-grade security, 
+The LUKHAS AI API provides advanced multi-model orchestration capabilities with enterprise-grade security,
 healthcare compliance, and comprehensive validation.
 
 ## Key Features
@@ -115,7 +115,7 @@ All endpoints include cost estimation and tracking:
 - Detailed usage analytics
         """
 
-    def _enhance_openapi_spec(self, spec: Dict[str, Any]) -> Dict[str, Any]:
+    def _enhance_openapi_spec(self, spec: dict[str, Any]) -> dict[str, Any]:
         """Enhance OpenAPI spec with custom documentation"""
 
         # Add security schemes
@@ -185,7 +185,7 @@ All endpoints include cost estimation and tracking:
 
         return spec
 
-    def _add_custom_examples(self, spec: Dict[str, Any]):
+    def _add_custom_examples(self, spec: dict[str, Any]):
         """Add custom examples to endpoints"""
 
         examples = {
@@ -253,7 +253,7 @@ All endpoints include cost estimation and tracking:
 
         spec["components"]["examples"].update(examples)
 
-    def _add_error_schemas(self, spec: Dict[str, Any]):
+    def _add_error_schemas(self, spec: dict[str, Any]):
         """Add comprehensive error response schemas"""
 
         error_schemas = {
@@ -302,7 +302,7 @@ All endpoints include cost estimation and tracking:
 
         spec["components"]["schemas"].update(error_schemas)
 
-    def _generate_static_spec(self) -> Dict[str, Any]:
+    def _generate_static_spec(self) -> dict[str, Any]:
         """Generate static OpenAPI spec when FastAPI is not available"""
         return {
             "openapi": "3.0.2",
@@ -335,7 +335,7 @@ All endpoints include cost estimation and tracking:
             }
         }
 
-    def generate_sdk_info(self) -> Dict[str, Any]:
+    def generate_sdk_info(self) -> dict[str, Any]:
         """Generate SDK generation information"""
         return {
             "sdk_languages": [
@@ -388,7 +388,7 @@ curl -X POST https://api.lukhas.ai/v1/orchestrate \\
             ]
         }
 
-    def generate_comprehensive_guide(self) -> Dict[str, Any]:
+    def generate_comprehensive_guide(self) -> dict[str, Any]:
         """Generate comprehensive API usage guide"""
         return {
             "quick_start": {
@@ -499,7 +499,7 @@ def retry_with_backoff(func, max_retries=3):
 # If confidence is low, try adding more providers
 request = {
     "prompt": "your prompt",
-    "strategy": "consensus", 
+    "strategy": "consensus",
     "providers": ["openai", "anthropic", "google", "perplexity"],
     "min_confidence": 0.7  # Lower threshold if needed
 }
@@ -523,7 +523,7 @@ healthcare_request = {
             }
         }
 
-def generate_api_documentation(app: Optional[Any] = None) -> Dict[str, Any]:
+def generate_api_documentation(app: Optional[Any] = None) -> dict[str, Any]:
     """Generate comprehensive API documentation"""
     generator = APIDocumentationGenerator(app)
 

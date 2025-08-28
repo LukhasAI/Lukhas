@@ -33,7 +33,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -103,17 +103,17 @@ class AwarenessSnapshot:
     # Context information
     source_system: str
     triggering_event: Optional[str] = None
-    decision_context: Optional[Dict[str, Any]] = None
+    decision_context: Optional[dict[str, Any]] = None
 
     # Pattern indicators
-    focus_distribution: Dict[str, float] = field(default_factory=dict)
-    attention_targets: List[str] = field(default_factory=list)
+    focus_distribution: dict[str, float] = field(default_factory=dict)
+    attention_targets: list[str] = field(default_factory=list)
     processing_queue_size: int = 0
 
     # Health indicators
     is_healthy: bool = True
-    stress_indicators: List[str] = field(default_factory=list)
-    performance_metrics: Dict[str, float] = field(default_factory=dict)
+    stress_indicators: list[str] = field(default_factory=list)
+    performance_metrics: dict[str, float] = field(default_factory=dict)
 
     # Trinity Framework analysis
     identity_coherence: Optional[float] = None      # ⚛️
@@ -137,7 +137,7 @@ class AttentionPattern:
     intensity: float
 
     # Attention distribution
-    focus_areas: Dict[str, float] = field(default_factory=dict)
+    focus_areas: dict[str, float] = field(default_factory=dict)
     switching_rate: float = 0.0
     distraction_count: int = 0
 
@@ -149,7 +149,7 @@ class AttentionPattern:
     # Predictive indicators
     next_focus_prediction: Optional[str] = None
     pattern_confidence: float = 0.0
-    emerging_trends: List[str] = field(default_factory=list)
+    emerging_trends: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -169,18 +169,18 @@ class ConsciousnessInsight:
     actionability: float
 
     # Supporting evidence
-    evidence: List[Dict[str, Any]] = field(default_factory=list)
-    supporting_patterns: List[str] = field(default_factory=list)
+    evidence: list[dict[str, Any]] = field(default_factory=list)
+    supporting_patterns: list[str] = field(default_factory=list)
 
     # Implications
-    performance_implications: List[str] = field(default_factory=list)
-    optimization_suggestions: List[str] = field(default_factory=list)
-    risk_factors: List[str] = field(default_factory=list)
+    performance_implications: list[str] = field(default_factory=list)
+    optimization_suggestions: list[str] = field(default_factory=list)
+    risk_factors: list[str] = field(default_factory=list)
 
     # Trinity Framework implications
-    identity_implications: List[str] = field(default_factory=list)      # ⚛️
-    consciousness_implications: List[str] = field(default_factory=list) # 🧠
-    guardian_implications: List[str] = field(default_factory=list)      # 🛡️
+    identity_implications: list[str] = field(default_factory=list)      # ⚛️
+    consciousness_implications: list[str] = field(default_factory=list) # 🧠
+    guardian_implications: list[str] = field(default_factory=list)      # 🛡️
 
 
 @dataclass
@@ -189,7 +189,7 @@ class AwarenessReport:
 
     report_id: str
     generated_at: datetime
-    time_period: Tuple[datetime, datetime]
+    time_period: tuple[datetime, datetime]
 
     # Summary statistics
     total_snapshots: int
@@ -197,13 +197,13 @@ class AwarenessReport:
     peak_awareness_score: float
 
     # State distribution
-    awareness_distribution: Dict[AwarenessLevel, int] = field(default_factory=dict)
-    state_distribution: Dict[ConsciousnessState, int] = field(default_factory=dict)
-    cognitive_load_distribution: Dict[CognitiveLoadLevel, int] = field(default_factory=dict)
+    awareness_distribution: dict[AwarenessLevel, int] = field(default_factory=dict)
+    state_distribution: dict[ConsciousnessState, int] = field(default_factory=dict)
+    cognitive_load_distribution: dict[CognitiveLoadLevel, int] = field(default_factory=dict)
 
     # Pattern analysis
-    identified_patterns: List[AttentionPattern] = field(default_factory=list)
-    pattern_insights: List[ConsciousnessInsight] = field(default_factory=list)
+    identified_patterns: list[AttentionPattern] = field(default_factory=list)
+    pattern_insights: list[ConsciousnessInsight] = field(default_factory=list)
 
     # Performance metrics
     average_cognitive_load: float = 0.0
@@ -212,25 +212,25 @@ class AwarenessReport:
 
     # Health assessment
     overall_consciousness_health: float = 1.0
-    health_trends: Dict[str, str] = field(default_factory=dict)
-    concerning_indicators: List[str] = field(default_factory=list)
+    health_trends: dict[str, str] = field(default_factory=dict)
+    concerning_indicators: list[str] = field(default_factory=list)
 
     # Recommendations
-    optimization_recommendations: List[str] = field(default_factory=list)
-    calibration_suggestions: List[str] = field(default_factory=list)
-    monitoring_adjustments: List[str] = field(default_factory=list)
+    optimization_recommendations: list[str] = field(default_factory=list)
+    calibration_suggestions: list[str] = field(default_factory=list)
+    monitoring_adjustments: list[str] = field(default_factory=list)
 
 
 class AwarenessMonitoringSystem:
     """
     Advanced consciousness awareness monitoring system
-    
+
     Provides comprehensive real-time monitoring of consciousness awareness
     with pattern detection, cognitive load assessment, and performance
     optimization recommendations for the LUKHAS AI system.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Core configuration
@@ -255,7 +255,7 @@ class AwarenessMonitoringSystem:
 
         # Real-time tracking
         self.current_awareness: Optional[AwarenessSnapshot] = None
-        self.current_patterns: Dict[str, AttentionPattern] = {}
+        self.current_patterns: dict[str, AttentionPattern] = {}
         self.monitoring_active = True
 
         # Performance metrics
@@ -573,7 +573,7 @@ class AwarenessMonitoringSystem:
         # Simulate attention span measurement
         return 0.75
 
-    async def _analyze_focus_distribution(self) -> Dict[str, float]:
+    async def _analyze_focus_distribution(self) -> dict[str, float]:
         """Analyze focus distribution across different areas"""
 
         return {
@@ -583,7 +583,7 @@ class AwarenessMonitoringSystem:
             "environmental_awareness": 0.05
         }
 
-    async def _identify_attention_targets(self) -> List[str]:
+    async def _identify_attention_targets(self) -> list[str]:
         """Identify current attention targets"""
 
         return [
@@ -615,7 +615,7 @@ class AwarenessMonitoringSystem:
 
         return True
 
-    async def _detect_stress_indicators(self, snapshot: AwarenessSnapshot) -> List[str]:
+    async def _detect_stress_indicators(self, snapshot: AwarenessSnapshot) -> list[str]:
         """Detect stress indicators in awareness snapshot"""
 
         indicators = []
@@ -634,7 +634,7 @@ class AwarenessMonitoringSystem:
 
         return indicators
 
-    async def _calculate_performance_metrics(self, snapshot: AwarenessSnapshot) -> Dict[str, float]:
+    async def _calculate_performance_metrics(self, snapshot: AwarenessSnapshot) -> dict[str, float]:
         """Calculate performance metrics for snapshot"""
 
         return {
@@ -686,7 +686,7 @@ class AwarenessMonitoringSystem:
         except Exception as e:
             logger.error(f"❌ Pattern detection failed: {e}")
 
-    async def _detect_attention_cycling(self, snapshots: List[AwarenessSnapshot]):
+    async def _detect_attention_cycling(self, snapshots: list[AwarenessSnapshot]):
         """Detect attention cycling patterns"""
 
         # Simple pattern detection for cycling behavior
@@ -713,7 +713,7 @@ class AwarenessMonitoringSystem:
             self.attention_patterns.append(pattern)
             self.system_metrics["patterns_detected"] += 1
 
-    async def _detect_focus_drift(self, snapshots: List[AwarenessSnapshot]):
+    async def _detect_focus_drift(self, snapshots: list[AwarenessSnapshot]):
         """Detect focus drift patterns"""
 
         # Analyze awareness score trends
@@ -739,7 +739,7 @@ class AwarenessMonitoringSystem:
                 self.attention_patterns.append(pattern)
                 self.system_metrics["patterns_detected"] += 1
 
-    async def _detect_load_oscillation(self, snapshots: List[AwarenessSnapshot]):
+    async def _detect_load_oscillation(self, snapshots: list[AwarenessSnapshot]):
         """Detect cognitive load oscillation patterns"""
 
         loads = [s.cognitive_load_score for s in snapshots]
@@ -791,7 +791,7 @@ class AwarenessMonitoringSystem:
         except Exception as e:
             logger.error(f"❌ Insight generation failed: {e}")
 
-    async def _generate_performance_insights(self, snapshots: List[AwarenessSnapshot], patterns: List[AttentionPattern]):
+    async def _generate_performance_insights(self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]):
         """Generate performance optimization insights"""
 
         # Analyze performance trends
@@ -826,14 +826,14 @@ class AwarenessMonitoringSystem:
                 self.consciousness_insights.append(insight)
                 self.system_metrics["insights_generated"] += 1
 
-    async def _generate_attention_insights(self, snapshots: List[AwarenessSnapshot], patterns: List[AttentionPattern]):
+    async def _generate_attention_insights(self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]):
         """Generate attention improvement insights"""
 
         # Look for attention instability
         attention_spans = [s.attention_span for s in snapshots]
 
         if len(attention_spans) > 5:
-            avg_span = statistics.mean(attention_spans)
+            statistics.mean(attention_spans)
             span_variance = statistics.variance(attention_spans) if len(attention_spans) > 1 else 0
 
             if span_variance > 0.1:  # High variance in attention span
@@ -858,14 +858,14 @@ class AwarenessMonitoringSystem:
                 self.consciousness_insights.append(insight)
                 self.system_metrics["insights_generated"] += 1
 
-    async def _generate_load_insights(self, snapshots: List[AwarenessSnapshot], patterns: List[AttentionPattern]):
+    async def _generate_load_insights(self, snapshots: list[AwarenessSnapshot], patterns: list[AttentionPattern]):
         """Generate cognitive load management insights"""
 
         # Analyze cognitive load patterns
         load_scores = [s.cognitive_load_score for s in snapshots]
 
         if len(load_scores) > 5:
-            avg_load = statistics.mean(load_scores)
+            statistics.mean(load_scores)
             high_load_count = len([l for l in load_scores if l > 0.8])
 
             if high_load_count > len(load_scores) * 0.3:  # >30% high load
@@ -911,7 +911,7 @@ class AwarenessMonitoringSystem:
 
             # Calculate calibration metrics
             avg_awareness = statistics.mean([s.awareness_score for s in recent_snapshots])
-            avg_load = statistics.mean([s.cognitive_load_score for s in recent_snapshots])
+            statistics.mean([s.cognitive_load_score for s in recent_snapshots])
             avg_performance = statistics.mean([
                 s.performance_metrics.get("overall_performance", 0.0)
                 for s in recent_snapshots if s.performance_metrics
@@ -939,7 +939,7 @@ class AwarenessMonitoringSystem:
         except Exception as e:
             logger.error(f"❌ Auto-calibration failed: {e}")
 
-    async def _apply_calibration_adjustments(self, adjustments: Dict[str, float]):
+    async def _apply_calibration_adjustments(self, adjustments: dict[str, float]):
         """Apply calibration adjustments to system"""
 
         # In production, would apply actual system adjustments
@@ -966,7 +966,7 @@ class AwarenessMonitoringSystem:
         while self.consciousness_insights and self.consciousness_insights[0].generated_at < insight_cutoff:
             self.consciousness_insights.popleft()
 
-    async def get_current_awareness_status(self) -> Dict[str, Any]:
+    async def get_current_awareness_status(self) -> dict[str, Any]:
         """Get current awareness status"""
 
         if not self.current_awareness:
@@ -992,7 +992,7 @@ class AwarenessMonitoringSystem:
 
     async def get_awareness_report(
         self,
-        time_period: Optional[Tuple[datetime, datetime]] = None
+        time_period: Optional[tuple[datetime, datetime]] = None
     ) -> AwarenessReport:
         """Generate comprehensive awareness report"""
 
@@ -1091,7 +1091,7 @@ class AwarenessMonitoringSystem:
 
         return report
 
-    async def get_system_metrics(self) -> Dict[str, Any]:
+    async def get_system_metrics(self) -> dict[str, Any]:
         """Get awareness monitoring system metrics"""
 
         self.system_metrics["last_updated"] = datetime.now().isoformat()

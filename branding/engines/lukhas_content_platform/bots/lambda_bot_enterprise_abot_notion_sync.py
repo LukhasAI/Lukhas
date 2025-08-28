@@ -8,7 +8,7 @@ import logging
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -27,11 +27,11 @@ class NotionSyncConfig:
 class DailyReport:
     """Daily LUKHAS AI ΛBot report structure"""
     date: str
-    financial_data: Dict[str, Any]
-    ai_routing_data: Dict[str, Any]
-    system_health: Dict[str, Any]
-    recommendations: List[str]
-    alerts: List[str]
+    financial_data: dict[str, Any]
+    ai_routing_data: dict[str, Any]
+    system_health: dict[str, Any]
+    recommendations: list[str]
+    alerts: list[str]
 
 class ABotNotionSync:
     """Comprehensive LUKHAS AI ΛBot Notion sync system"""
@@ -69,7 +69,7 @@ class ABotNotionSync:
         except Exception as e:
             logger.error(f"Error saving config: {e}")
 
-    def get_financial_data(self) -> Dict[str, Any]:
+    def get_financial_data(self) -> dict[str, Any]:
         """Get financial intelligence data"""
         try:
             from lukhas_ai_lambda_bot.core.abot_financial_intelligence import (
@@ -103,7 +103,7 @@ class ABotNotionSync:
                 "status": "error"
             }
 
-    def get_ai_routing_data(self) -> Dict[str, Any]:
+    def get_ai_routing_data(self) -> dict[str, Any]:
         """Get AI routing system data"""
         try:
             from lukhas_ai_lambda_bot.core.abot_ai_router import ABotIntelligentAIRouter
@@ -129,7 +129,7 @@ class ABotNotionSync:
                 "status": "error"
             }
 
-    def get_system_health(self) -> Dict[str, Any]:
+    def get_system_health(self) -> dict[str, Any]:
         """Get overall system health data"""
         health_data = {
             "timestamp": datetime.now().isoformat(),
@@ -163,7 +163,7 @@ class ABotNotionSync:
 
         return health_data
 
-    def generate_recommendations(self, financial_data: Dict, ai_data: Dict, health_data: Dict) -> List[str]:
+    def generate_recommendations(self, financial_data: dict, ai_data: dict, health_data: dict) -> list[str]:
         """Generate intelligent recommendations based on system data"""
         recommendations = []
 
@@ -197,7 +197,7 @@ class ABotNotionSync:
 
         return recommendations
 
-    def generate_alerts(self, financial_data: Dict, ai_data: Dict, health_data: Dict) -> List[str]:
+    def generate_alerts(self, financial_data: dict, ai_data: dict, health_data: dict) -> list[str]:
         """Generate critical alerts"""
         alerts = []
 
@@ -306,7 +306,7 @@ class ABotNotionSync:
             logger.error(f"Error syncing to Notion: {e}")
             return False
 
-    def get_recent_reports(self, days: int = 7) -> List[DailyReport]:
+    def get_recent_reports(self, days: int = 7) -> list[DailyReport]:
         """Get recent daily reports"""
         reports = []
         try:

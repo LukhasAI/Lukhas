@@ -421,7 +421,7 @@ class OnboardingCLI:
         lambda_id = f"ΛUKH-DEMO-{timestamp[-6:]}"
 
         # Generate demo hash
-        hash_input = f"{personality_type}{len(symbolic_elements)}{timestamp}"
+        f"{personality_type}{len(symbolic_elements)}{timestamp}"
         public_hash = hashlib.sha256(  )  #  Changed from MD5 for securityhash_input.encode().hexdigest()[:16]
 
         # Calculate demo tier and entropy

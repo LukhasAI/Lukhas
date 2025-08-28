@@ -682,11 +682,11 @@ class CascadePredictor:
     def predict_15min_lookahead(self, history: deque[DriftSnapshot], current: DriftSnapshot) -> dict[str, Any]:
         """
         Predict drift trajectory over next 15 minutes using trend analysis.
-        
+
         Args:
             history: Historical snapshots
             current: Current snapshot
-            
+
         Returns:
             Dict containing 15-minute drift predictions and risk assessments
         """

@@ -49,7 +49,7 @@ async def debug_kwargs_issue():
         # Test 4: Test via log_event
         print("\n🔍 Testing via log_event method...")
 
-        event_id = await audit_system.log_event(
+        await audit_system.log_event(
             event_type=AuditEventType.DATA_READ,
             message="Test event via log_event",
             compliance_relevant=True,

@@ -9,7 +9,7 @@ import logging
 import os
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import TraceMemoryLogger from candidate lane with fallback
 try:
@@ -29,7 +29,7 @@ class TraceStorageProvider(ABC):
     """
 
     @abstractmethod
-    async def get_trace_by_id(self, trace_id: str) -> Optional[Dict[str, Any]]:
+    async def get_trace_by_id(self, trace_id: str) -> Optional[dict[str, Any]]:
         """
         Retrieve a trace by its unique identifier.
 
@@ -47,7 +47,7 @@ class TraceStorageProvider(ABC):
         limit: int = 10,
         level: Optional[int] = None,
         tag: Optional[str] = None,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Get recent traces with optional filtering.
 
@@ -62,7 +62,7 @@ class TraceStorageProvider(ABC):
         pass
 
     @abstractmethod
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """
         Perform health check on the storage provider.
 
@@ -127,7 +127,7 @@ class FileTraceStorageProvider(TraceStorageProvider):
 
         return self._trace_logger
 
-    async def get_trace_by_id(self, trace_id: str) -> Optional[Dict[str, Any]]:
+    async def get_trace_by_id(self, trace_id: str) -> Optional[dict[str, Any]]:
         """
         Retrieve a trace by its unique identifier.
 
@@ -149,7 +149,7 @@ class FileTraceStorageProvider(TraceStorageProvider):
         limit: int = 10,
         level: Optional[int] = None,
         tag: Optional[str] = None,
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         Get recent traces with optional filtering.
 
@@ -168,7 +168,7 @@ class FileTraceStorageProvider(TraceStorageProvider):
             logger.error(f"Error retrieving recent traces: {e}")
             raise
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """
         Perform health check on the storage provider.
 

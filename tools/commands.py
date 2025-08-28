@@ -9,7 +9,7 @@ import argparse
 import sys
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from .utils import get_git_status, get_logger, get_system_info
 
@@ -35,7 +35,7 @@ class BaseCommand(ABC):
         """Validate command arguments. Override in subclasses."""
         return True
 
-    def run(self, argv: Optional[List[str]] = None) -> int:
+    def run(self, argv: Optional[list[str]] = None) -> int:
         """Run the command with argument parsing"""
         parser = argparse.ArgumentParser(
             prog=self.name,
@@ -99,7 +99,7 @@ class GitCommand(BaseCommand):
         """Check if working directory is clean"""
         return self.git_status.get("clean", False) if self.git_status else False
 
-    def get_modified_files(self) -> List[str]:
+    def get_modified_files(self) -> list[str]:
         """Get list of modified files"""
         return self.git_status.get("modified", []) if self.git_status else []
 
@@ -147,7 +147,7 @@ class CommandRegistry:
     """Registry for managing development commands"""
 
     def __init__(self):
-        self.commands: Dict[str, BaseCommand] = {}
+        self.commands: dict[str, BaseCommand] = {}
         self.logger = get_logger("registry")
 
     def register(self, command: BaseCommand) -> None:
@@ -162,11 +162,11 @@ class CommandRegistry:
         """Get a command by name"""
         return self.commands.get(name)
 
-    def list_commands(self) -> List[str]:
+    def list_commands(self) -> list[str]:
         """Get list of registered command names"""
         return list(self.commands.keys())
 
-    def execute_command(self, name: str, argv: Optional[List[str]] = None) -> int:
+    def execute_command(self, name: str, argv: Optional[list[str]] = None) -> int:
         """Execute a command by name"""
         command = self.get_command(name)
         if not command:
@@ -190,12 +190,12 @@ def get_command(name: str) -> Optional[BaseCommand]:
     return _registry.get_command(name)
 
 
-def list_commands() -> List[str]:
+def list_commands() -> list[str]:
     """List all registered commands"""
     return _registry.list_commands()
 
 
-def execute_command(name: str, argv: Optional[List[str]] = None) -> int:
+def execute_command(name: str, argv: Optional[list[str]] = None) -> int:
     """Execute a command from the global registry"""
     return _registry.execute_command(name, argv)
 

@@ -180,7 +180,7 @@ class LambdaIdIntegration:
 
         # Generate checksum
         checksum_data = f"{tier_code}{hash_prefix}{sid_hash}"
-        checksum = hashlib.sha256(checksum_data.encode()).hexdigest()[:4]
+        hashlib.sha256(checksum_data.encode()).hexdigest()[:4]
 
         lambda_id = "ΛiD"
         return lambda_id

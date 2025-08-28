@@ -9,7 +9,7 @@ import json
 import logging
 import time
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from .tool_executor import ToolExecutor
 from .tool_executor_guardian import get_tool_executor_guardian
@@ -41,13 +41,13 @@ logger = logging.getLogger("ΛTRACE.tools.orchestrator")
 class MultiAIConsensus:
     """Multi-AI consensus mechanism for tool execution validation"""
 
-    def __init__(self, ai_clients: Dict[str, Any], consensus_threshold: float = 0.7):
+    def __init__(self, ai_clients: dict[str, Any], consensus_threshold: float = 0.7):
         self.ai_clients = ai_clients
         self.consensus_threshold = consensus_threshold
         self.consensus_cache = {}
 
-    async def get_consensus(self, tool_name: str, arguments: Dict[str, Any],
-                          execution_result: str) -> Dict[str, Any]:
+    async def get_consensus(self, tool_name: str, arguments: dict[str, Any],
+                          execution_result: str) -> dict[str, Any]:
         """Get consensus from multiple AI services on tool execution"""
         cache_key = f"{tool_name}_{hash(str(arguments))}_{hash(execution_result[:100])}"
 
@@ -89,7 +89,7 @@ class MultiAIConsensus:
 
         return consensus
 
-    async def _get_ai_evaluation(self, client: Any, service_name: str, prompt: str) -> Optional[Dict[str, Any]]:
+    async def _get_ai_evaluation(self, client: Any, service_name: str, prompt: str) -> Optional[dict[str, Any]]:
         """Get evaluation from a specific AI service"""
         try:
             if service_name == "openai" and hasattr(client, "chat_completion"):
@@ -127,7 +127,7 @@ class MultiAIConsensus:
 
         return None
 
-    def _calculate_consensus(self, evaluations: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+    def _calculate_consensus(self, evaluations: dict[str, dict[str, Any]]) -> dict[str, Any]:
         """Calculate consensus from multiple evaluations"""
         if not evaluations:
             return {
@@ -204,7 +204,7 @@ class ToolOrchestrator:
     and comprehensive monitoring across the LUKHAS AI ecosystem.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Core components
@@ -239,7 +239,7 @@ class ToolOrchestrator:
 
         logger.info("Tool Orchestrator initialized with multi-AI consensus")
 
-    def _initialize_ai_clients(self) -> Dict[str, Any]:
+    def _initialize_ai_clients(self) -> dict[str, Any]:
         """Initialize available AI service clients"""
         clients = {}
 
@@ -278,7 +278,7 @@ class ToolOrchestrator:
         return clients
 
     async def execute_with_orchestration(self, tool_name: str, arguments: str,
-                                       user_context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                                       user_context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Execute tool with full orchestration including Guardian validation,
         multi-AI consensus, and performance monitoring.
@@ -409,7 +409,7 @@ class ToolOrchestrator:
             logger.error(f"Tool orchestration failed: {e}", exc_info=True)
             return self._create_error_result(execution_id, str(e), execution_start)
 
-    def _create_error_result(self, execution_id: str, error: str, start_time: float) -> Dict[str, Any]:
+    def _create_error_result(self, execution_id: str, error: str, start_time: float) -> dict[str, Any]:
         """Create standardized error result"""
         self.execution_metrics["failed_executions"] += 1
 
@@ -421,8 +421,8 @@ class ToolOrchestrator:
             "timestamp": datetime.now().isoformat()
         }
 
-    def _create_guardian_blocked_result(self, execution_id: str, guardian_result: Dict[str, Any],
-                                      start_time: float) -> Dict[str, Any]:
+    def _create_guardian_blocked_result(self, execution_id: str, guardian_result: dict[str, Any],
+                                      start_time: float) -> dict[str, Any]:
         """Create result when Guardian blocks execution"""
         return {
             "execution_id": execution_id,
@@ -456,7 +456,7 @@ class ToolOrchestrator:
                 (current_consensus_avg * (total_executions - 1) + consensus_time) / total_executions
             )
 
-    def get_orchestration_metrics(self) -> Dict[str, Any]:
+    def get_orchestration_metrics(self) -> dict[str, Any]:
         """Get comprehensive orchestration metrics"""
         return {
             **self.execution_metrics,
@@ -483,7 +483,7 @@ class ToolOrchestrator:
         self.results_cache.clear()
         logger.info("Orchestration cache cleared")
 
-    async def health_check(self) -> Dict[str, Any]:
+    async def health_check(self) -> dict[str, Any]:
         """Perform comprehensive health check"""
         health = {
             "orchestrator": "healthy",
@@ -512,7 +512,7 @@ class ToolOrchestrator:
 _orchestrator: Optional[ToolOrchestrator] = None
 
 
-def get_tool_orchestrator(config: Optional[Dict[str, Any]] = None) -> ToolOrchestrator:
+def get_tool_orchestrator(config: Optional[dict[str, Any]] = None) -> ToolOrchestrator:
     """Get or create the global tool orchestrator instance"""
     global _orchestrator
     if _orchestrator is None:

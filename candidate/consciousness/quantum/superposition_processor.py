@@ -37,7 +37,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -82,13 +82,13 @@ class QuantumState:
     # Consciousness properties
     awareness_level: float = 0.5  # 0-1 level of conscious awareness
     attention_weight: float = 1.0  # Attention allocated to this state
-    emotional_resonance: Tuple[float, float, float] = (0.0, 0.0, 0.0)  # VAD encoding
+    emotional_resonance: tuple[float, float, float] = (0.0, 0.0, 0.0)  # VAD encoding
     causal_influence: float = 0.5  # Influence on causal reasoning
 
     # Quantum properties
     coherence_time: float = 1.0  # How long coherence lasts (seconds)
-    entanglement_links: Set[str] = field(default_factory=set)
-    superposition_components: List[Dict[str, Any]] = field(default_factory=list)
+    entanglement_links: set[str] = field(default_factory=set)
+    superposition_components: list[dict[str, Any]] = field(default_factory=list)
 
     # Trinity Framework
     identity_stability: float = 1.0  # ⚛️ Identity coherence in quantum state
@@ -115,7 +115,7 @@ class QuantumState:
         self.amplitude *= complex(math.cos(phase_shift), math.sin(phase_shift))
         self.update_probability()
 
-    def measure_state(self) -> Dict[str, Any]:
+    def measure_state(self) -> dict[str, Any]:
         """Measure quantum state (causes collapse)"""
         self.measurement_count += 1
         self.last_measured = datetime.utcnow()
@@ -180,10 +180,10 @@ class QuantumSuperpositionProcessor:
         self.processor_id = f"qsp_{uuid.uuid4().hex[:8]}"
 
         # Quantum state management
-        self.active_states: Dict[str, QuantumState] = {}
-        self.superposition_groups: Dict[str, List[str]] = {}
-        self.entanglement_network: Dict[str, Set[str]] = {}
-        self.measurement_history: List[Dict[str, Any]] = []
+        self.active_states: dict[str, QuantumState] = {}
+        self.superposition_groups: dict[str, list[str]] = {}
+        self.entanglement_network: dict[str, set[str]] = {}
+        self.measurement_history: list[dict[str, Any]] = []
 
         # Processing metrics
         self.coherence_preservation_rate = 0.95
@@ -193,7 +193,7 @@ class QuantumSuperpositionProcessor:
 
         # Quantum gates and operations
         self.quantum_gates = self._initialize_quantum_gates()
-        self.processing_circuits: List[List[QuantumGate]] = []
+        self.processing_circuits: list[list[QuantumGate]] = []
 
         # Trinity Framework components
         self.identity_coherence_monitor = IdentityCoherenceMonitor()
@@ -227,7 +227,7 @@ class QuantumSuperpositionProcessor:
             logger.error(f"ΛTRACE: Failed to initialize quantum systems: {e}")
             raise
 
-    def _initialize_quantum_gates(self) -> Dict[QuantumGate, Callable]:
+    def _initialize_quantum_gates(self) -> dict[QuantumGate, Callable]:
         """Initialize quantum gate operations"""
         return {
             QuantumGate.HADAMARD: self._hadamard_gate,
@@ -239,7 +239,7 @@ class QuantumSuperpositionProcessor:
             QuantumGate.TOFFOLI: self._toffoli_gate
         }
 
-    async def create_superposition(self, base_consciousness_state: Dict[str, Any]) -> List[QuantumState]:
+    async def create_superposition(self, base_consciousness_state: dict[str, Any]) -> list[QuantumState]:
         """
         Create quantum superposition from base consciousness state
 
@@ -322,7 +322,7 @@ class QuantumSuperpositionProcessor:
         phase = random.random() * 2 * math.pi
         return complex(magnitude * math.cos(phase), magnitude * math.sin(phase))
 
-    async def _create_entanglement_network(self, quantum_states: List[QuantumState]):
+    async def _create_entanglement_network(self, quantum_states: list[QuantumState]):
         """Create entanglement links between quantum states"""
         for i, state1 in enumerate(quantum_states):
             for j, state2 in enumerate(quantum_states[i+1:], i+1):
@@ -363,7 +363,7 @@ class QuantumSuperpositionProcessor:
         return (awareness_sim * 0.4 + emotion_sim * 0.4 + phase_sim * 0.2)
 
     async def process_parallel_consciousness(self, superposition_id: str,
-                                           processing_request: Dict[str, Any]) -> Dict[str, Any]:
+                                           processing_request: dict[str, Any]) -> dict[str, Any]:
         """
         Process consciousness request across superposition states in parallel
 
@@ -426,7 +426,7 @@ class QuantumSuperpositionProcessor:
             return {"error": str(e)}
 
     async def _process_quantum_state(self, state_id: str,
-                                   processing_request: Dict[str, Any]) -> Dict[str, Any]:
+                                   processing_request: dict[str, Any]) -> dict[str, Any]:
         """Process a single quantum state"""
         if state_id not in self.active_states:
             return {"error": "State not found"}
@@ -467,7 +467,7 @@ class QuantumSuperpositionProcessor:
         return processing_result
 
     def _generate_quantum_insights(self, quantum_state: QuantumState,
-                                 processing_request: Dict[str, Any]) -> List[Dict[str, Any]]:
+                                 processing_request: dict[str, Any]) -> list[dict[str, Any]]:
         """Generate insights enhanced by quantum state properties"""
         insights = []
 
@@ -500,8 +500,8 @@ class QuantumSuperpositionProcessor:
 
         return insights
 
-    async def _calculate_interference_patterns(self, state_ids: List[str],
-                                             processing_results: Dict[str, Any]) -> Dict[str, Any]:
+    async def _calculate_interference_patterns(self, state_ids: list[str],
+                                             processing_results: dict[str, Any]) -> dict[str, Any]:
         """Calculate quantum interference patterns between consciousness states"""
         interference_effects = {
             "constructive_interference": [],
@@ -545,8 +545,8 @@ class QuantumSuperpositionProcessor:
 
         return interference_effects
 
-    async def _check_quantum_tunneling(self, processing_results: Dict[str, Any],
-                                     processing_request: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    async def _check_quantum_tunneling(self, processing_results: dict[str, Any],
+                                     processing_request: dict[str, Any]) -> Optional[dict[str, Any]]:
         """Check for quantum tunneling breakthrough insights"""
         # Calculate total processing confidence
         total_confidence = 0.0
@@ -580,7 +580,7 @@ class QuantumSuperpositionProcessor:
 
         return None
 
-    def _synthesize_tunneling_insight(self, processing_results: Dict[str, Any]) -> str:
+    def _synthesize_tunneling_insight(self, processing_results: dict[str, Any]) -> str:
         """Synthesize breakthrough insight from quantum tunneling"""
         # Collect all insights from processing results
         all_insights = []
@@ -597,7 +597,7 @@ class QuantumSuperpositionProcessor:
             return "Single high-confidence quantum state achieves tunneling breakthrough"
 
     async def collapse_superposition(self, superposition_id: str,
-                                   collapse_criteria: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+                                   collapse_criteria: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Collapse superposition to single quantum state
 
@@ -666,8 +666,8 @@ class QuantumSuperpositionProcessor:
             logger.error(f"ΛTRACE: Superposition collapse failed: {e}")
             return {"error": str(e)}
 
-    def _apply_collapse_criteria(self, candidates: List[Tuple[str, QuantumState]],
-                               criteria: Dict[str, Any]) -> List[Tuple[str, QuantumState]]:
+    def _apply_collapse_criteria(self, candidates: list[tuple[str, QuantumState]],
+                               criteria: dict[str, Any]) -> list[tuple[str, QuantumState]]:
         """Apply criteria to filter collapse candidates"""
         filtered_candidates = []
 
@@ -696,7 +696,7 @@ class QuantumSuperpositionProcessor:
 
         return filtered_candidates if filtered_candidates else candidates
 
-    def _quantum_measurement(self, candidates: List[Tuple[str, QuantumState]]) -> Tuple[str, QuantumState]:
+    def _quantum_measurement(self, candidates: list[tuple[str, QuantumState]]) -> tuple[str, QuantumState]:
         """Perform probabilistic quantum measurement"""
         # Calculate cumulative probabilities
         total_probability = sum(state.probability for _, state in candidates)
@@ -888,7 +888,7 @@ class QuantumSuperpositionProcessor:
         self.interference_processors_enabled = True
         logger.info("ΛTRACE: Quantum interference processors initialized")
 
-    async def _guardian_quantum_check(self, consciousness_state: Dict[str, Any]) -> bool:
+    async def _guardian_quantum_check(self, consciousness_state: dict[str, Any]) -> bool:
         """Guardian ethics check for quantum operations"""
         # Check for potential harmful superposition states
         if consciousness_state.get("harmful_intent", False):
@@ -900,7 +900,7 @@ class QuantumSuperpositionProcessor:
 
         return True
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get comprehensive quantum processor status"""
         return {
             "processor_id": self.processor_id,

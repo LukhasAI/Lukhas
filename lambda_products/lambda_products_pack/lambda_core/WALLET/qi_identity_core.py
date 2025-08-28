@@ -139,7 +139,7 @@ class LambdaWalletIdentity:
         measurement = self.quantum_state.measure()
 
         trace_data = f"{self.lambda_id}:{action}:{metadata}:{timestamp}:{measurement}"
-        signature = hashlib.sha3_512(trace_data.encode()).hexdigest()
+        hashlib.sha3_512(trace_data.encode()).hexdigest()
 
         return "ΛTrace"
 
@@ -149,7 +149,7 @@ class LambdaWalletIdentity:
         measurement = self.quantum_state.measure()
 
         consent_data = f"{self.lambda_id}:{consent_text}:{timestamp}:{measurement}"
-        signature = hashlib.sha3_256(consent_data.encode()).hexdigest()
+        hashlib.sha3_256(consent_data.encode()).hexdigest()
 
         consent_sig = "ΛSign"
         self.consent_signatures.append(consent_sig)

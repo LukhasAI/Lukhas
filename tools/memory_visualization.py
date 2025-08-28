@@ -12,7 +12,7 @@ import random
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Try to import visualization libraries
 try:
@@ -51,8 +51,8 @@ class MemoryNode:
     size: float = 1.0
     color: str = "#4a90e2"
     label: str = ""
-    connections: List[str] = field(default_factory=list)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    connections: list[str] = field(default_factory=list)
+    metadata: dict[str, Any] = field(default_factory=dict)
     timestamp: float = field(default_factory=time.time)
 
 
@@ -60,12 +60,12 @@ class MemoryNode:
 class MemoryFold:
     """Represents a memory fold structure"""
     fold_id: str
-    nodes: List[MemoryNode]
+    nodes: list[MemoryNode]
     fold_type: str = "standard"
     emotional_valence: float = 0.0
     importance: float = 0.5
     created_at: float = field(default_factory=time.time)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 class MemoryVisualizer:
@@ -78,8 +78,8 @@ class MemoryVisualizer:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        self.folds: Dict[str, MemoryFold] = {}
-        self.visualization_history: List[Dict[str, Any]] = []
+        self.folds: dict[str, MemoryFold] = {}
+        self.visualization_history: list[dict[str, Any]] = []
 
         # Visualization settings
         self.default_colors = {

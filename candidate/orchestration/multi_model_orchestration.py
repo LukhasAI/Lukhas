@@ -27,7 +27,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 # Import LUKHAS components
 try:
@@ -107,8 +107,8 @@ class ModelResponse:
     response_text: str
     confidence_score: float
     processing_time_ms: float
-    token_usage: Dict[str, int] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    token_usage: dict[str, int] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     # Performance tracking
     request_timestamp: float = field(default_factory=time.perf_counter)
@@ -126,8 +126,8 @@ class ConsensusResult:
     """Result of multi-model consensus"""
     consensus_text: str
     confidence_score: float
-    participating_models: List[ModelProvider]
-    individual_responses: List[ModelResponse]
+    participating_models: list[ModelProvider]
+    individual_responses: list[ModelResponse]
     consensus_strategy: ConsensusStrategy
 
     # Consensus metrics
@@ -137,14 +137,14 @@ class ConsensusResult:
 
     # Transparency data
     decision_rationale: str = ""
-    model_weights: Dict[ModelProvider, float] = field(default_factory=dict)
+    model_weights: dict[ModelProvider, float] = field(default_factory=dict)
 
 @dataclass
 class OrchestrationPipeline:
     """Configuration for multi-model orchestration pipeline"""
     pipeline_id: str
     name: str
-    models: List[ModelProvider]
+    models: list[ModelProvider]
     consensus_strategy: ConsensusStrategy
     orchestration_mode: OrchestrationMode
 
@@ -247,7 +247,7 @@ class MultiModelOrchestrator:
             def __init__(self, model_name: str):
                 self.model_name = model_name
 
-            async def complete(self, prompt: str, **kwargs) -> Dict[str, Any]:
+            async def complete(self, prompt: str, **kwargs) -> dict[str, Any]:
                 await asyncio.sleep(0.1)  # Simulate latency
                 return {
                     "text": f"Mock response from {self.model_name}: {prompt[:50]}...",
@@ -304,7 +304,7 @@ class MultiModelOrchestrator:
     async def orchestrate(self,
                          prompt: str,
                          pipeline: Union[str, OrchestrationPipeline],
-                         context: Optional[Dict[str, Any]] = None) -> ConsensusResult:
+                         context: Optional[dict[str, Any]] = None) -> ConsensusResult:
         """
         Execute multi-model orchestration with consensus
 
@@ -414,7 +414,7 @@ class MultiModelOrchestrator:
             raise
 
     async def _execute_parallel(self, prompt: str, pipeline: OrchestrationPipeline,
-                               context: Optional[Dict]) -> List[ModelResponse]:
+                               context: Optional[dict]) -> list[ModelResponse]:
         """Execute models in parallel for maximum speed"""
         logger.info("⚡ Executing models in parallel")
 
@@ -447,7 +447,7 @@ class MultiModelOrchestrator:
             return completed_responses
 
     async def _execute_sequential(self, prompt: str, pipeline: OrchestrationPipeline,
-                                 context: Optional[Dict]) -> List[ModelResponse]:
+                                 context: Optional[dict]) -> list[ModelResponse]:
         """Execute models sequentially, each building on previous context"""
         logger.info("📝 Executing models sequentially")
 
@@ -471,7 +471,7 @@ class MultiModelOrchestrator:
         return responses
 
     async def _execute_cascade(self, prompt: str, pipeline: OrchestrationPipeline,
-                              context: Optional[Dict]) -> List[ModelResponse]:
+                              context: Optional[dict]) -> list[ModelResponse]:
         """Execute models in cascade, each refining the previous output"""
         logger.info("🌊 Executing models in cascade")
 
@@ -492,7 +492,7 @@ class MultiModelOrchestrator:
         return responses
 
     async def _execute_competitive(self, prompt: str, pipeline: OrchestrationPipeline,
-                                  context: Optional[Dict]) -> List[ModelResponse]:
+                                  context: Optional[dict]) -> list[ModelResponse]:
         """Execute models competitively and select the best"""
         logger.info("🏆 Executing models competitively")
 
@@ -509,7 +509,7 @@ class MultiModelOrchestrator:
         return responses
 
     async def _execute_single_model(self, model: ModelProvider, prompt: str,
-                                   context: Optional[Dict]) -> ModelResponse:
+                                   context: Optional[dict]) -> ModelResponse:
         """Execute a single model and return response"""
         request_start = time.perf_counter()
 
@@ -551,7 +551,7 @@ class MultiModelOrchestrator:
             )
 
     def _prepare_model_params(self, model: ModelProvider, prompt: str,
-                             context: Optional[Dict]) -> Dict[str, Any]:
+                             context: Optional[dict]) -> dict[str, Any]:
         """Prepare model-specific parameters"""
         base_params = {
             "prompt": prompt,
@@ -573,7 +573,7 @@ class MultiModelOrchestrator:
 
         return base_params
 
-    async def _apply_consensus(self, responses: List[ModelResponse],
+    async def _apply_consensus(self, responses: list[ModelResponse],
                               strategy: ConsensusStrategy) -> ConsensusResult:
         """Apply consensus algorithm to model responses"""
         if not responses:
@@ -585,7 +585,7 @@ class MultiModelOrchestrator:
         consensus_func = self.consensus_algorithms[strategy]
         return await consensus_func(responses)
 
-    async def _weighted_vote_consensus(self, responses: List[ModelResponse]) -> ConsensusResult:
+    async def _weighted_vote_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
         """Weighted voting based on model confidence scores"""
 
         # Calculate weights based on confidence scores
@@ -611,7 +611,7 @@ class MultiModelOrchestrator:
                               f"with highest confidence ({best_response.confidence_score:.3f})"
         )
 
-    async def _majority_vote_consensus(self, responses: List[ModelResponse]) -> ConsensusResult:
+    async def _majority_vote_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
         """Simple majority vote consensus"""
 
         # For demonstration, group responses by similarity
@@ -633,7 +633,7 @@ class MultiModelOrchestrator:
             decision_rationale=f"Majority consensus from {len(majority_group)}/{len(responses)} models"
         )
 
-    async def _unanimous_consensus(self, responses: List[ModelResponse]) -> ConsensusResult:
+    async def _unanimous_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
         """Unanimous consensus - all models must agree"""
 
         agreement_level = self._calculate_agreement(responses)
@@ -664,7 +664,7 @@ class MultiModelOrchestrator:
             decision_rationale="Unanimous consensus achieved across all models"
         )
 
-    async def _best_confidence_consensus(self, responses: List[ModelResponse]) -> ConsensusResult:
+    async def _best_confidence_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
         """Select response with highest confidence score"""
 
         best_response = max(responses, key=lambda r: r.confidence_score)
@@ -680,7 +680,7 @@ class MultiModelOrchestrator:
             decision_rationale=f"Selected highest confidence response from {best_response.model_provider.value}"
         )
 
-    async def _ensemble_consensus(self, responses: List[ModelResponse]) -> ConsensusResult:
+    async def _ensemble_consensus(self, responses: list[ModelResponse]) -> ConsensusResult:
         """Combine all responses into an ensemble result"""
 
         # For demonstration, concatenate responses with attribution
@@ -703,7 +703,7 @@ class MultiModelOrchestrator:
             decision_rationale=f"Ensemble of {len(responses)} model responses"
         )
 
-    def _calculate_agreement(self, responses: List[ModelResponse]) -> float:
+    def _calculate_agreement(self, responses: list[ModelResponse]) -> float:
         """Calculate agreement level between responses (0-1 scale)"""
         if len(responses) < 2:
             return 1.0
@@ -720,7 +720,7 @@ class MultiModelOrchestrator:
         # Agreement is inverse of normalized variance
         return 1.0 - normalized_variance
 
-    def _group_similar_responses(self, responses: List[ModelResponse]) -> List[List[ModelResponse]]:
+    def _group_similar_responses(self, responses: list[ModelResponse]) -> list[list[ModelResponse]]:
         """Group responses by similarity for majority voting"""
         # Simplified grouping by response length ranges
         # In a full implementation, this would use semantic clustering
@@ -770,7 +770,7 @@ class MultiModelOrchestrator:
             self.performance_metrics["agreement_rates"][strategy_key] = []
         self.performance_metrics["agreement_rates"][strategy_key].append(result.agreement_level)
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get comprehensive orchestration performance metrics"""
         total = self.performance_metrics["total_orchestrations"]
         successful = self.performance_metrics["successful_orchestrations"]
@@ -801,7 +801,7 @@ class MultiModelOrchestrator:
 
         return metrics
 
-    def get_execution_history(self, limit: int = 10) -> List[Dict]:
+    def get_execution_history(self, limit: int = 10) -> list[dict]:
         """Get recent execution history"""
         return self.execution_history[-limit:]
 
@@ -810,11 +810,11 @@ orchestrator = MultiModelOrchestrator()
 
 # Convenience functions
 async def orchestrate(prompt: str, pipeline: str = "analysis",
-                     context: Optional[Dict] = None) -> ConsensusResult:
+                     context: Optional[dict] = None) -> ConsensusResult:
     """Orchestrate multi-model consensus"""
     return await orchestrator.orchestrate(prompt, pipeline, context)
 
-async def get_consensus(prompt: str, models: List[str],
+async def get_consensus(prompt: str, models: list[str],
                        strategy: str = "weighted_vote") -> ConsensusResult:
     """Get consensus from specified models"""
     model_providers = [ModelProvider(model) for model in models]

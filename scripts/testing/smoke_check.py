@@ -15,7 +15,7 @@ import argparse
 import json
 import os
 import sys
-from typing import Any, Dict
+from typing import Any
 
 try:
     import requests
@@ -24,7 +24,7 @@ except Exception:
     sys.exit(2)
 
 
-def check_health(base_url: str, timeout: float = 2.0) -> Dict[str, Any]:
+def check_health(base_url: str, timeout: float = 2.0) -> dict[str, Any]:
     url = base_url.rstrip("/") + "/healthz"
     try:
         r = requests.get(url, timeout=timeout)

@@ -39,7 +39,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Optional
 
 # Configure bio-symbolic logging
 logger = logging.getLogger("ΛTRACE.bio.coherence.symbolic_validator")
@@ -95,7 +95,7 @@ class BioRhythm:
 
     # Coherence tracking
     coherence_score: float = 1.0         # Current coherence level
-    sync_partners: Set[str] = field(default_factory=set)  # Synchronized rhythms
+    sync_partners: set[str] = field(default_factory=set)  # Synchronized rhythms
     phase_history: deque = field(default_factory=lambda: deque(maxlen=100))
 
     # Trinity Framework
@@ -219,9 +219,9 @@ class CoherenceReport:
     trend_strength: float = 0.0
 
     # Issues and recommendations
-    coherence_issues: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
-    critical_alerts: List[str] = field(default_factory=list)
+    coherence_issues: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
+    critical_alerts: list[str] = field(default_factory=list)
 
 
 class BioSymbolicCoherenceValidator:
@@ -249,19 +249,19 @@ class BioSymbolicCoherenceValidator:
         self.version = "1.0.0"
 
         # Bio-rhythmic oscillators
-        self.bio_rhythms: Dict[str, BioRhythm] = {}
-        self.oscillator_networks: Dict[OscillatorType, List[str]] = {}
-        self.synchronization_matrix: Dict[Tuple[str, str], float] = {}
+        self.bio_rhythms: dict[str, BioRhythm] = {}
+        self.oscillator_networks: dict[OscillatorType, list[str]] = {}
+        self.synchronization_matrix: dict[tuple[str, str], float] = {}
 
         # Validation state
         self.current_coherence_state = CoherenceState.INCOHERENT
         self.coherence_history: deque = deque(maxlen=self.config.history_length)
-        self.validation_reports: List[CoherenceReport] = []
+        self.validation_reports: list[CoherenceReport] = []
 
         # Biological process monitoring
-        self.metabolic_monitors: Dict[str, float] = {}
-        self.plasticity_trackers: Dict[str, float] = {}
-        self.homeostatic_controllers: Dict[str, float] = {}
+        self.metabolic_monitors: dict[str, float] = {}
+        self.plasticity_trackers: dict[str, float] = {}
+        self.homeostatic_controllers: dict[str, float] = {}
 
         # Trinity Framework integration
         self.identity_coherence_tracker = IdentityCoherenceTracker()
@@ -591,7 +591,7 @@ class BioSymbolicCoherenceValidator:
 
         return normalized_efficiency
 
-    async def _validate_trinity_framework_coherence(self) -> Dict[str, float]:
+    async def _validate_trinity_framework_coherence(self) -> dict[str, float]:
         """Validate Trinity Framework component coherence"""
         # Identity coherence (⚛️)
         identity_score = 0.0
@@ -672,7 +672,7 @@ class BioSymbolicCoherenceValidator:
         else:
             return CoherenceState.CRITICAL
 
-    def _calculate_phase_coherence(self, phases: List[float]) -> float:
+    def _calculate_phase_coherence(self, phases: list[float]) -> float:
         """Calculate phase coherence using circular statistics"""
         if not phases:
             return 0.0
@@ -735,7 +735,7 @@ class BioSymbolicCoherenceValidator:
 
         return min(1.0, weighted_coupling)
 
-    def _calculate_synchronization_metrics(self) -> Dict[str, Any]:
+    def _calculate_synchronization_metrics(self) -> dict[str, Any]:
         """Calculate detailed synchronization metrics"""
         synchronized_pairs = 0
         total_pairs = 0
@@ -769,7 +769,7 @@ class BioSymbolicCoherenceValidator:
             "phase_variance": phase_variance
         }
 
-    def _calculate_biological_metrics(self) -> Dict[str, float]:
+    def _calculate_biological_metrics(self) -> dict[str, float]:
         """Calculate biological process metrics"""
         metabolic_loads = []
         plasticity_values = []
@@ -796,7 +796,7 @@ class BioSymbolicCoherenceValidator:
             "adaptation_capacity": statistics.mean(adaptation_values) if adaptation_values else 0.0
         }
 
-    def _analyze_coherence_trends(self) -> Dict[str, Any]:
+    def _analyze_coherence_trends(self) -> dict[str, Any]:
         """Analyze coherence trends over time"""
         if len(self.coherence_history) < self.config.trend_analysis_window:
             return {"trend": "stable", "strength": 0.0}
@@ -831,7 +831,7 @@ class BioSymbolicCoherenceValidator:
 
         return {"trend": trend, "strength": trend_strength}
 
-    def _identify_coherence_issues(self, report: CoherenceReport) -> List[str]:
+    def _identify_coherence_issues(self, report: CoherenceReport) -> list[str]:
         """Identify specific coherence issues"""
         issues = []
 
@@ -861,7 +861,7 @@ class BioSymbolicCoherenceValidator:
 
         return issues
 
-    def _generate_recommendations(self, report: CoherenceReport) -> List[str]:
+    def _generate_recommendations(self, report: CoherenceReport) -> list[str]:
         """Generate coherence improvement recommendations"""
         recommendations = []
 
@@ -885,7 +885,7 @@ class BioSymbolicCoherenceValidator:
 
         return recommendations
 
-    def _check_critical_conditions(self, report: CoherenceReport) -> List[str]:
+    def _check_critical_conditions(self, report: CoherenceReport) -> list[str]:
         """Check for critical conditions requiring immediate attention"""
         alerts = []
 
@@ -967,7 +967,7 @@ class BioSymbolicCoherenceValidator:
         }
         return frequency_map.get(osc_type, 1.0)
 
-    def get_real_time_status(self) -> Dict[str, Any]:
+    def get_real_time_status(self) -> dict[str, Any]:
         """Get real-time coherence status"""
         current_report = self.validation_reports[-1] if self.validation_reports else None
 

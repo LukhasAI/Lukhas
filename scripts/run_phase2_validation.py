@@ -30,7 +30,6 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -72,7 +71,7 @@ class Phase2ValidationRunner:
             os.environ[key] = value
             logger.debug(f"Set {key}={value}")
 
-    async def run_integration_tests(self) -> Dict:
+    async def run_integration_tests(self) -> dict:
         """Run Phase 2 integration tests"""
         logger.info("🔄 Running Phase 2 integration tests...")
 
@@ -118,7 +117,7 @@ class Phase2ValidationRunner:
             logger.error(f"❌ Integration tests error: {e}")
             return {"success": False, "error": str(e)}
 
-    async def run_security_compliance_tests(self) -> Dict:
+    async def run_security_compliance_tests(self) -> dict:
         """Run security and compliance tests"""
         logger.info("🔐 Running security & compliance tests...")
 
@@ -156,7 +155,7 @@ class Phase2ValidationRunner:
             logger.error(f"❌ Security tests error: {e}")
             return {"success": False, "error": str(e)}
 
-    async def run_performance_benchmarks(self) -> Dict:
+    async def run_performance_benchmarks(self) -> dict:
         """Run performance benchmarks"""
         logger.info("⚡ Running performance benchmarks...")
 
@@ -196,7 +195,7 @@ class Phase2ValidationRunner:
             logger.error(f"❌ Performance benchmarks error: {e}")
             return {"success": False, "error": str(e)}
 
-    async def run_tool_safety_tests(self) -> Dict:
+    async def run_tool_safety_tests(self) -> dict:
         """Run tool execution safety tests"""
         logger.info("🛡️ Running tool execution safety tests...")
 
@@ -234,7 +233,7 @@ class Phase2ValidationRunner:
             logger.error(f"❌ Tool safety tests error: {e}")
             return {"success": False, "error": str(e)}
 
-    async def run_coverage_analysis(self) -> Dict:
+    async def run_coverage_analysis(self) -> dict:
         """Run comprehensive coverage analysis"""
         logger.info("📊 Running coverage analysis...")
 
@@ -285,7 +284,7 @@ class Phase2ValidationRunner:
             logger.error(f"❌ Coverage analysis error: {e}")
             return {"success": False, "error": str(e)}
 
-    def evaluate_quality_gates(self) -> Dict:
+    def evaluate_quality_gates(self) -> dict:
         """Evaluate quality gates for lukhas/ promotion"""
         logger.info("🚪 Evaluating quality gates...")
 
@@ -390,12 +389,12 @@ class Phase2ValidationRunner:
         match = re.search(r"(\d+) failed", output)
         return int(match.group(1)) if match else 0
 
-    def _extract_compliance_metrics(self, output: str) -> Dict:
+    def _extract_compliance_metrics(self, output: str) -> dict:
         """Extract compliance metrics from test output"""
         # This would parse actual compliance test results
         return {"gdpr_compliant": True, "ccpa_compliant": True, "ethics_score": 0.995}
 
-    def _extract_performance_metrics(self, output: str) -> Dict:
+    def _extract_performance_metrics(self, output: str) -> dict:
         """Extract performance metrics from test output"""
         # This would parse actual performance test results
         return {
@@ -410,7 +409,7 @@ class Phase2ValidationRunner:
         # This would analyze actual performance test results
         return True
 
-    def _extract_safety_metrics(self, output: str) -> Dict:
+    def _extract_safety_metrics(self, output: str) -> dict:
         """Extract safety validation metrics"""
         return {"sandboxing_effective": True, "malicious_code_blocked": True}
 
@@ -424,7 +423,7 @@ class Phase2ValidationRunner:
                 return False
         return True
 
-    def _log_performance_summary(self, metrics: Dict):
+    def _log_performance_summary(self, metrics: dict):
         """Log performance metrics summary"""
         for metric, value in metrics.items():
             logger.info(f"  ⚡ {metric}: {value}")

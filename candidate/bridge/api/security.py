@@ -27,7 +27,7 @@ import time
 import uuid
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import jwt
 
@@ -65,7 +65,7 @@ class SecurityEvent:
 
     def __init__(self, event_type: SecurityEventType, user_id: Optional[str] = None,
                  ip_address: Optional[str] = None, threat_level: ThreatLevel = ThreatLevel.LOW,
-                 details: Optional[Dict[str, Any]] = None):
+                 details: Optional[dict[str, Any]] = None):
         self.event_id = str(uuid.uuid4())
         self.event_type = event_type
         self.user_id = user_id
@@ -74,7 +74,7 @@ class SecurityEvent:
         self.timestamp = datetime.now(timezone.utc)
         self.details = details or {}
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for logging/storage"""
         return {
             "event_id": self.event_id,
@@ -106,7 +106,7 @@ class RateLimiter:
         self.ip_limits = {"rpm": 5, "burst": 10, "daily": 100}
 
     def is_rate_limited(self, user_id: Optional[str], ip_address: str,
-                       user_tier: str = "LAMBDA_TIER_1") -> Tuple[bool, Dict[str, Any]]:
+                       user_tier: str = "LAMBDA_TIER_1") -> tuple[bool, dict[str, Any]]:
         """Check if request should be rate limited"""
         current_time = time.time()
 
@@ -215,7 +215,7 @@ class APIKeyManager:
                 "security_score": 1.0
             }
 
-    def validate_api_key(self, api_key: str, ip_address: str) -> Dict[str, Any]:
+    def validate_api_key(self, api_key: str, ip_address: str) -> dict[str, Any]:
         """Validate API key with security checks"""
 
         # Check if key is revoked
@@ -327,17 +327,17 @@ class SecurityAuditLogger:
         else:
             logger.info(f"Security event: {event.event_type.value} - {log_data}")
 
-    def get_recent_events(self, hours: int = 24) -> List[SecurityEvent]:
+    def get_recent_events(self, hours: int = 24) -> list[SecurityEvent]:
         """Get recent security events"""
         cutoff_time = datetime.now(timezone.utc) - timedelta(hours=hours)
         return [event for event in self.events if event.timestamp > cutoff_time]
 
-    def get_events_by_user(self, user_id: str, hours: int = 24) -> List[SecurityEvent]:
+    def get_events_by_user(self, user_id: str, hours: int = 24) -> list[SecurityEvent]:
         """Get security events for specific user"""
         recent_events = self.get_recent_events(hours)
         return [event for event in recent_events if event.user_id == user_id]
 
-    def get_threat_summary(self, hours: int = 24) -> Dict[str, Any]:
+    def get_threat_summary(self, hours: int = 24) -> dict[str, Any]:
         """Get threat activity summary"""
         recent_events = self.get_recent_events(hours)
 
@@ -359,7 +359,7 @@ class SecurityAuditLogger:
 class ComprehensiveAPISecurity:
     """Main API security orchestrator"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         config = config or {}
 
         self.jwt_secret = config.get("jwt_secret", "lukhas-jwt-secret-change-in-production")
@@ -381,7 +381,7 @@ class ComprehensiveAPISecurity:
         logger.info(f"   Healthcare compliance: {self.healthcare_ips_only}")
 
     async def authenticate_request(self, credentials: HTTPAuthorizationCredentials,
-                                 ip_address: str, request_path: str) -> Dict[str, Any]:
+                                 ip_address: str, request_path: str) -> dict[str, Any]:
         """Authenticate API request with comprehensive security checks"""
 
         auth_start_time = time.perf_counter()
@@ -483,7 +483,7 @@ class ComprehensiveAPISecurity:
                 detail="Authentication system error"
             )
 
-    def _validate_jwt_token(self, token: str) -> Dict[str, Any]:
+    def _validate_jwt_token(self, token: str) -> dict[str, Any]:
         """Validate JWT token"""
         try:
             payload = jwt.decode(token, self.jwt_secret, algorithms=["HS256"])
@@ -515,7 +515,7 @@ class ComprehensiveAPISecurity:
                 detail=f"Invalid token: {str(e)}"
             )
 
-    def _calculate_security_score(self, user_data: Dict[str, Any], ip_address: str) -> float:
+    def _calculate_security_score(self, user_data: dict[str, Any], ip_address: str) -> float:
         """Calculate security score for request (0.0-1.0)"""
         score = 1.0
 
@@ -539,8 +539,8 @@ class ComprehensiveAPISecurity:
 
         return max(0.0, score)
 
-    def check_permission(self, user_data: Dict[str, Any], required_permission: str,
-                        context: Optional[Dict[str, Any]] = None) -> bool:
+    def check_permission(self, user_data: dict[str, Any], required_permission: str,
+                        context: Optional[dict[str, Any]] = None) -> bool:
         """Check if user has required permission"""
         permissions = user_data.get("permissions", [])
 
@@ -562,7 +562,7 @@ class ComprehensiveAPISecurity:
 
         return True
 
-    def get_security_metrics(self) -> Dict[str, Any]:
+    def get_security_metrics(self) -> dict[str, Any]:
         """Get comprehensive security metrics"""
         threat_summary = self.audit_logger.get_threat_summary()
 
@@ -584,7 +584,7 @@ class ComprehensiveAPISecurity:
 # Global security instance
 _security_instance = None
 
-def get_security_manager(config: Optional[Dict[str, Any]] = None) -> ComprehensiveAPISecurity:
+def get_security_manager(config: Optional[dict[str, Any]] = None) -> ComprehensiveAPISecurity:
     """Get global security manager instance"""
     global _security_instance
     if _security_instance is None:

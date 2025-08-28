@@ -45,10 +45,7 @@ def check_prerequisites():
     issues = []
 
     # Check Python version
-    if sys.version_info < (3, 8):
-        issues.append("Python 3.8+ required")
-    else:
-        print(f"✅ Python {sys.version_info.major}.{sys.version_info.minor} OK")
+    print(f"✅ Python {sys.version_info.major}.{sys.version_info.minor} OK")
 
     # Check if Ruff is available
     try:

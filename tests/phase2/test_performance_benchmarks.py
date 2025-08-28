@@ -28,7 +28,6 @@ import json
 import statistics
 import time
 from dataclasses import dataclass
-from typing import Tuple
 from unittest.mock import AsyncMock, Mock
 
 import psutil
@@ -77,7 +76,7 @@ class PerformanceBenchmark:
 
     async def measure_single_operation(
         self, operation_func, *args, **kwargs
-    ) -> Tuple[float, bool, str]:
+    ) -> tuple[float, bool, str]:
         """Measure single operation performance"""
         start_memory = self.process.memory_info().rss / 1024 / 1024  # MB
         self.process.cpu_percent()

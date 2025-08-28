@@ -56,7 +56,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 # LUKHAS Core Imports with fallbacks
 try:
@@ -812,10 +812,10 @@ class SymbolicDeltaCompressionManager:
             "started_at": datetime.now(timezone.utc).isoformat()
         }
 
-    async def predict_compression_needs(self, fold_keys: List[str]) -> dict[str, Any]:
+    async def predict_compression_needs(self, fold_keys: list[str]) -> dict[str, Any]:
         """
         Predict compression needs based on memory access patterns and system load.
-        
+
         Uses machine learning to analyze historical access patterns and predict
         optimal compression timing for maximum efficiency.
         """
@@ -1074,7 +1074,7 @@ class SymbolicDeltaCompressionManager:
         else:
             return "defer_compression"
 
-    def _analyze_temporal_access_pattern(self, timestamps: List[datetime]) -> dict[str, Any]:
+    def _analyze_temporal_access_pattern(self, timestamps: list[datetime]) -> dict[str, Any]:
         """Analyze temporal patterns in access timestamps"""
 
         if len(timestamps) < 2:
@@ -1113,7 +1113,7 @@ class SymbolicDeltaCompressionManager:
             "total_intervals": len(intervals)
         }
 
-    def _calculate_access_decay_rate(self, timestamps: List[datetime]) -> float:
+    def _calculate_access_decay_rate(self, timestamps: list[datetime]) -> float:
         """Calculate how quickly access frequency is declining"""
 
         if len(timestamps) < 3:
@@ -1256,7 +1256,7 @@ class MemoryAccessPatternAnalyzer:
         self.pattern_history = defaultdict(list)
         self.ml_model_trained = False
 
-    def analyze_patterns(self, fold_keys: List[str]) -> dict[str, Any]:
+    def analyze_patterns(self, fold_keys: list[str]) -> dict[str, Any]:
         """Analyze access patterns using ML techniques"""
 
         analysis_results = {}
@@ -1327,7 +1327,7 @@ class CompressionScheduler:
         self.active_schedule = schedule
         return schedule
 
-    def get_next_compression_batch(self, batch_size: int = 10) -> List[dict]:
+    def get_next_compression_batch(self, batch_size: int = 10) -> list[dict]:
         """Get next batch of compressions to execute"""
         if not self.active_schedule:
             return []

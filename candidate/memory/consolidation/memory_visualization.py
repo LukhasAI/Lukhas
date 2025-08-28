@@ -30,7 +30,7 @@ import logging
 import time
 from collections import defaultdict, deque
 from datetime import datetime, timezone
-from typing import Any, List, Optional
+from typing import Any, Optional
 
 # Import core memory systems with fallbacks
 try:
@@ -223,7 +223,7 @@ class TraceAnimator:
             "timeline": datetime.now(timezone.utc).isoformat()
         }
 
-    def _generate_trace_points(self, memory_data: dict) -> List[dict]:
+    def _generate_trace_points(self, memory_data: dict) -> list[dict]:
         """Generate trace points for animation"""
         base_points = memory_data.get("trace_points", [])
         if not base_points:

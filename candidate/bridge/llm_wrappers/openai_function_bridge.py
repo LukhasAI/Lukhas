@@ -28,7 +28,7 @@ from collections.abc import AsyncGenerator
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 from openai import AsyncOpenAI
 
@@ -46,7 +46,7 @@ class FunctionDefinition:
     """Function definition for OpenAI API"""
     name: str
     description: str
-    parameters: Dict[str, Any]
+    parameters: dict[str, Any]
     handler: Optional[Callable] = None
 
     # Validation settings
@@ -55,7 +55,7 @@ class FunctionDefinition:
     max_retries: int = 3
     timeout_seconds: float = 30.0
 
-    def to_openai_format(self) -> Dict[str, Any]:
+    def to_openai_format(self) -> dict[str, Any]:
         """Convert to OpenAI function format"""
         return {
             "type": "function",
@@ -71,7 +71,7 @@ class FunctionCall:
     """Represents a function call request"""
     id: str
     name: str
-    arguments: Dict[str, Any]
+    arguments: dict[str, Any]
     timestamp: float = field(default_factory=time.perf_counter)
 
     # Execution tracking
@@ -84,9 +84,9 @@ class FunctionCall:
 class OpenAIResponse:
     """Structured response from OpenAI API"""
     content: str
-    function_calls: List[FunctionCall] = field(default_factory=list)
+    function_calls: list[FunctionCall] = field(default_factory=list)
     model: str = ""
-    usage: Dict[str, int] = field(default_factory=dict)
+    usage: dict[str, int] = field(default_factory=dict)
     latency_ms: float = 0.0
 
     # Metadata
@@ -115,7 +115,7 @@ class OpenAIFunctionBridge:
         self.default_model = default_model
 
         # Function registry
-        self.functions: Dict[str, FunctionDefinition] = {}
+        self.functions: dict[str, FunctionDefinition] = {}
 
         # Performance tracking
         self.metrics = {
@@ -147,7 +147,7 @@ class OpenAIFunctionBridge:
         logger.debug(f"   Description: {func_def.description}")
         logger.debug(f"   Security level: {func_def.security_level}")
 
-    def register_functions_from_dict(self, functions: Dict[str, Dict[str, Any]]):
+    def register_functions_from_dict(self, functions: dict[str, dict[str, Any]]):
         """Register multiple functions from dictionary"""
         for name, definition in functions.items():
             func_def = FunctionDefinition(
@@ -162,12 +162,12 @@ class OpenAIFunctionBridge:
 
         logger.info(f"📋 Registered {len(functions)} functions from dictionary")
 
-    def get_available_functions(self) -> List[Dict[str, Any]]:
+    def get_available_functions(self) -> list[dict[str, Any]]:
         """Get all available functions in OpenAI format"""
         return [func.to_openai_format() for func in self.functions.values()]
 
     async def complete_with_functions(self,
-                                    messages: List[Dict[str, str]],
+                                    messages: list[dict[str, str]],
                                     model: Optional[str] = None,
                                     function_mode: FunctionCallMode = FunctionCallMode.AUTO,
                                     specific_function: Optional[str] = None,
@@ -280,10 +280,10 @@ class OpenAIFunctionBridge:
             )
 
     async def stream_with_functions(self,
-                                  messages: List[Dict[str, str]],
+                                  messages: list[dict[str, str]],
                                   model: Optional[str] = None,
                                   function_mode: FunctionCallMode = FunctionCallMode.AUTO,
-                                  **kwargs) -> AsyncGenerator[Dict[str, Any], None]:
+                                  **kwargs) -> AsyncGenerator[dict[str, Any], None]:
         """
         Stream chat completion with function calling support.
 
@@ -446,7 +446,7 @@ class OpenAIFunctionBridge:
             if f"{key}_tokens" in response.usage:
                 self.metrics["token_usage"][key] += response.usage[f"{key}_tokens"]
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive performance metrics"""
         return {
             **self.metrics,

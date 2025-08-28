@@ -41,7 +41,7 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Configure Trinity Framework logging
 logger = logging.getLogger("ΛTRACE.consciousness.trinity.framework")
@@ -108,10 +108,10 @@ class TrinityViolation:
     component: TrinityComponent = TrinityComponent.GUARDIAN
     severity: str = "low"  # low, medium, high, critical
     description: str = ""
-    affected_systems: List[str] = field(default_factory=list)
+    affected_systems: list[str] = field(default_factory=list)
     detection_timestamp: datetime = field(default_factory=datetime.utcnow)
     resolution_status: str = "pending"  # pending, in_progress, resolved
-    resolution_actions: List[str] = field(default_factory=list)
+    resolution_actions: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -165,9 +165,9 @@ class TrinityComplianceReport:
     bio_system_compliance: float = 0.0
 
     # Violations and issues
-    active_violations: List[TrinityViolation] = field(default_factory=list)
-    compliance_issues: List[str] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    active_violations: list[TrinityViolation] = field(default_factory=list)
+    compliance_issues: list[str] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
     # Performance metrics
     processing_time_ms: float = 0.0
@@ -201,9 +201,9 @@ class TrinityFrameworkIntegration:
 
         # Integration state
         self.current_integration_state = IntegrationState.CRITICAL
-        self.trinity_metrics_history: List[TrinityMetrics] = []
-        self.compliance_reports: List[TrinityComplianceReport] = []
-        self.active_violations: Dict[str, TrinityViolation] = {}
+        self.trinity_metrics_history: list[TrinityMetrics] = []
+        self.compliance_reports: list[TrinityComplianceReport] = []
+        self.active_violations: dict[str, TrinityViolation] = {}
 
         # System references (would be injected in full implementation)
         self.memory_system = None
@@ -369,7 +369,7 @@ class TrinityFrameworkIntegration:
             report.overall_compliance_level = ComplianceLevel.CRITICAL_VIOLATION
             return report
 
-    async def _validate_identity_component(self) -> Dict[str, float]:
+    async def _validate_identity_component(self) -> dict[str, float]:
         """Validate Identity (⚛️) component compliance"""
         identity_metrics = {
             "authenticity": 0.0,
@@ -418,7 +418,7 @@ class TrinityFrameworkIntegration:
 
         return identity_metrics
 
-    async def _validate_consciousness_component(self) -> Dict[str, float]:
+    async def _validate_consciousness_component(self) -> dict[str, float]:
         """Validate Consciousness (🧠) component compliance"""
         consciousness_metrics = {
             "depth": 0.0,
@@ -458,7 +458,7 @@ class TrinityFrameworkIntegration:
 
         return consciousness_metrics
 
-    async def _validate_guardian_component(self) -> Dict[str, float]:
+    async def _validate_guardian_component(self) -> dict[str, float]:
         """Validate Guardian (🛡️) component compliance"""
         guardian_metrics = {
             "protection": 0.0,
@@ -498,7 +498,7 @@ class TrinityFrameworkIntegration:
 
         return guardian_metrics
 
-    async def _calculate_integration_metrics(self, trinity_metrics: TrinityMetrics) -> Dict[str, float]:
+    async def _calculate_integration_metrics(self, trinity_metrics: TrinityMetrics) -> dict[str, float]:
         """Calculate Trinity Framework integration metrics"""
         integration_metrics = {
             "balance": 0.0,
@@ -674,7 +674,7 @@ class TrinityFrameworkIntegration:
         else:
             return IntegrationState.CONFLICTED
 
-    async def _detect_trinity_violations(self, report: TrinityComplianceReport) -> List[TrinityViolation]:
+    async def _detect_trinity_violations(self, report: TrinityComplianceReport) -> list[TrinityViolation]:
         """Detect Trinity Framework violations"""
         violations = []
 
@@ -725,7 +725,7 @@ class TrinityFrameworkIntegration:
 
         return violations
 
-    def _identify_compliance_issues(self, report: TrinityComplianceReport) -> List[str]:
+    def _identify_compliance_issues(self, report: TrinityComplianceReport) -> list[str]:
         """Identify specific compliance issues"""
         issues = []
 
@@ -749,7 +749,7 @@ class TrinityFrameworkIntegration:
 
         return issues
 
-    def _generate_compliance_recommendations(self, report: TrinityComplianceReport) -> List[str]:
+    def _generate_compliance_recommendations(self, report: TrinityComplianceReport) -> list[str]:
         """Generate recommendations for improving Trinity compliance"""
         recommendations = []
 
@@ -773,7 +773,7 @@ class TrinityFrameworkIntegration:
 
         return recommendations
 
-    async def _handle_violations(self, violations: List[TrinityViolation]):
+    async def _handle_violations(self, violations: list[TrinityViolation]):
         """Handle detected Trinity violations"""
         for violation in violations:
             try:
@@ -851,7 +851,7 @@ class TrinityFrameworkIntegration:
         """Check Guardian protection in bio system"""
         return 0.8  # Placeholder - would check actual bio system
 
-    def _calculate_trend_stability(self, values: List[float]) -> float:
+    def _calculate_trend_stability(self, values: list[float]) -> float:
         """Calculate trend stability from historical values"""
         if len(values) < 3:
             return 0.5
@@ -869,7 +869,7 @@ class TrinityFrameworkIntegration:
         """Calculate emergence of novel patterns"""
         return 0.5  # Placeholder - would detect actual novel patterns
 
-    def get_trinity_status(self) -> Dict[str, Any]:
+    def get_trinity_status(self) -> dict[str, Any]:
         """Get comprehensive Trinity Framework status"""
         latest_report = self.compliance_reports[-1] if self.compliance_reports else None
 

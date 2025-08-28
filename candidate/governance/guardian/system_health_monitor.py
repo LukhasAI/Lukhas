@@ -22,7 +22,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import psutil
 
@@ -83,8 +83,8 @@ class HealthMetric:
     guardian_priority: str = "normal"   # 🛡️ Guardian system priority
 
     # Context and metadata
-    tags: Dict[str, str] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -98,7 +98,7 @@ class CascadeEvent:
 
     # Event details
     trigger_component: str
-    affected_components: List[str]
+    affected_components: list[str]
     cascade_depth: int
     propagation_speed: float
 
@@ -151,12 +151,12 @@ class SystemHealthReport:
     health_score: float  # 0.0 to 1.0
 
     # Component health
-    component_health: Dict[str, HealthStatus]
-    component_scores: Dict[str, float]
+    component_health: dict[str, HealthStatus]
+    component_scores: dict[str, float]
 
     # Memory cascade analysis
     cascade_prevention_rate: float  # Target: 99.7%
-    cascade_events: List[CascadeEvent]
+    cascade_events: list[CascadeEvent]
     memory_stability_score: float
 
     # API performance summary
@@ -171,22 +171,22 @@ class SystemHealthReport:
 
     # Alerts and recommendations
     active_alerts: int
-    critical_issues: List[str]
-    recommendations: List[str]
+    critical_issues: list[str]
+    recommendations: list[str]
 
 
 class SystemHealthMonitor:
     """
     Comprehensive system health monitoring for LUKHAS AI.
-    
+
     Monitors memory cascades, API performance, system resources,
     and Trinity Framework health with real-time alerting.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize system health monitor.
-        
+
         Args:
             config: Optional configuration dictionary
         """
@@ -201,11 +201,11 @@ class SystemHealthMonitor:
         self.health_metrics: deque = deque(maxlen=10000)
         self.cascade_events: deque = deque(maxlen=1000)
         self.api_snapshots: deque = deque(maxlen=5000)
-        self.active_alerts: Dict[str, Dict[str, Any]] = {}
+        self.active_alerts: dict[str, dict[str, Any]] = {}
 
         # Current state tracking
-        self.current_health: Dict[str, HealthMetric] = {}
-        self.component_states: Dict[str, Dict[str, Any]] = defaultdict(dict)
+        self.current_health: dict[str, HealthMetric] = {}
+        self.component_states: dict[str, dict[str, Any]] = defaultdict(dict)
 
         # Performance baselines
         self.performance_baselines = {
@@ -377,7 +377,7 @@ class SystemHealthMonitor:
 
         # Network and process metrics
         try:
-            network_io = psutil.net_io_counters()
+            psutil.net_io_counters()
             process_count = len(psutil.pids())
 
             await self._record_metric(
@@ -528,7 +528,7 @@ class SystemHealthMonitor:
         value: float,
         unit: str,
         timestamp: datetime,
-        tags: Optional[Dict[str, str]] = None
+        tags: Optional[dict[str, str]] = None
     ):
         """Record a health metric."""
 
@@ -610,7 +610,7 @@ class SystemHealthMonitor:
 
         return CascadeRisk.MINIMAL
 
-    async def get_health_dashboard_data(self) -> Dict[str, Any]:
+    async def get_health_dashboard_data(self) -> dict[str, Any]:
         """Get comprehensive health dashboard data."""
 
         current_time = datetime.now()
@@ -732,7 +732,7 @@ class SystemHealthMonitor:
         else:
             return HealthStatus.EMERGENCY
 
-    def _calculate_trend(self, values: List[float]) -> float:
+    def _calculate_trend(self, values: list[float]) -> float:
         """Calculate trend slope for a series of values."""
         if len(values) < 2:
             return 0.0
@@ -749,7 +749,7 @@ class SystemHealthMonitor:
         slope = (n * xy_sum - x_sum * y_sum) / (n * x2_sum - x_sum * x_sum)
         return slope
 
-    def _calculate_performance_trends(self, metrics: List[HealthMetric]) -> Dict[str, Any]:
+    def _calculate_performance_trends(self, metrics: list[HealthMetric]) -> dict[str, Any]:
         """Calculate performance trends from recent metrics."""
 
         trends = {}

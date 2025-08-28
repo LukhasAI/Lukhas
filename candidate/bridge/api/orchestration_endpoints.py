@@ -25,7 +25,7 @@ import logging
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     import jwt
@@ -70,15 +70,15 @@ class ChatMessage(BaseModel):
 class OrchestrationAPIRequest(BaseModel):
     """API request model for orchestration"""
     prompt: str = Field(..., description="User prompt", min_length=1, max_length=10000)
-    messages: Optional[List[ChatMessage]] = Field(None, description="Conversation messages")
+    messages: Optional[list[ChatMessage]] = Field(None, description="Conversation messages")
 
     # Orchestration settings
     strategy: str = Field("consensus", description="Orchestration strategy")
-    providers: Optional[List[str]] = Field(None, description="Preferred providers")
+    providers: Optional[list[str]] = Field(None, description="Preferred providers")
 
     # Function calling
     enable_functions: bool = Field(True, description="Enable function calling")
-    specific_functions: Optional[List[str]] = Field(None, description="Specific functions to allow")
+    specific_functions: Optional[list[str]] = Field(None, description="Specific functions to allow")
 
     # Performance constraints
     max_latency_ms: int = Field(5000, description="Maximum latency in milliseconds", ge=100, le=30000)
@@ -106,7 +106,7 @@ class StreamingRequest(BaseModel):
 
 class FunctionRegistrationRequest(BaseModel):
     """Function registration request"""
-    functions: Dict[str, Dict[str, Any]] = Field(..., description="Functions to register")
+    functions: dict[str, dict[str, Any]] = Field(..., description="Functions to register")
     global_scope: bool = Field(True, description="Register globally for all providers")
     security_validated: bool = Field(False, description="Whether functions have been security validated")
     healthcare_compliant: bool = Field(False, description="Whether functions are healthcare compliant")
@@ -119,12 +119,12 @@ class OrchestrationAPIResponse(BaseModel):
 
     # Provider information
     primary_provider: str = Field(..., description="Primary provider used")
-    participating_providers: List[str] = Field(..., description="All participating providers")
+    participating_providers: list[str] = Field(..., description="All participating providers")
 
     # Performance metrics
     latency_ms: float = Field(..., description="Total latency")
     cost: float = Field(..., description="Total cost")
-    token_usage: Dict[str, int] = Field(..., description="Token usage statistics")
+    token_usage: dict[str, int] = Field(..., description="Token usage statistics")
 
     # Quality metrics
     agreement_level: float = Field(..., description="Inter-model agreement level")
@@ -136,11 +136,11 @@ class OrchestrationAPIResponse(BaseModel):
     strategy_used: str = Field(..., description="Orchestration strategy used")
 
     # Function calling results
-    function_calls: List[Dict[str, Any]] = Field(default_factory=list, description="Function calls made")
-    tool_uses: List[Dict[str, Any]] = Field(default_factory=list, description="Tool uses made")
+    function_calls: list[dict[str, Any]] = Field(default_factory=list, description="Function calls made")
+    tool_uses: list[dict[str, Any]] = Field(default_factory=list, description="Tool uses made")
 
     # Transparency
-    individual_responses: List[Dict[str, Any]] = Field(default_factory=list, description="Individual model responses")
+    individual_responses: list[dict[str, Any]] = Field(default_factory=list, description="Individual model responses")
     decision_rationale: str = Field("", description="Decision-making rationale")
 
 # Authentication and Rate Limiting
@@ -170,7 +170,7 @@ class APIKeyManager:
         self.request_counts = {}
         self.daily_costs = {}
 
-    def validate_api_key(self, api_key: str) -> Dict[str, Any]:
+    def validate_api_key(self, api_key: str) -> dict[str, Any]:
         """Validate API key and return user information"""
         if api_key not in self.api_keys:
             raise HTTPException(
@@ -180,7 +180,7 @@ class APIKeyManager:
 
         return self.api_keys[api_key]
 
-    def check_rate_limit(self, api_key: str, user_info: Dict[str, Any]) -> bool:
+    def check_rate_limit(self, api_key: str, user_info: dict[str, Any]) -> bool:
         """Check if request is within rate limits"""
         current_time = time.time()
         user_id = user_info["user_id"]
@@ -204,7 +204,7 @@ class APIKeyManager:
         self.request_counts[user_id].append(current_time)
         return True
 
-    def check_cost_limit(self, api_key: str, user_info: Dict[str, Any], estimated_cost: float) -> bool:
+    def check_cost_limit(self, api_key: str, user_info: dict[str, Any], estimated_cost: float) -> bool:
         """Check if request would exceed cost limits"""
         user_id = user_info["user_id"]
         daily_limit = user_info["cost_limit"]["daily"]
@@ -212,7 +212,7 @@ class APIKeyManager:
         current_cost = self.daily_costs.get(user_id, 0.0)
         return current_cost + estimated_cost <= daily_limit
 
-    def record_cost(self, api_key: str, user_info: Dict[str, Any], cost: float):
+    def record_cost(self, api_key: str, user_info: dict[str, Any], cost: float):
         """Record cost for user"""
         user_id = user_info["user_id"]
         self.daily_costs[user_id] = self.daily_costs.get(user_id, 0.0) + cost
@@ -275,7 +275,7 @@ if FASTAPI_AVAILABLE:
     # Main orchestration endpoint
     @app.post("/api/v1/orchestrate", response_model=OrchestrationAPIResponse)
     async def orchestrate_request(request: OrchestrationAPIRequest,
-                                current_user: Dict = Depends(get_current_user)) -> OrchestrationAPIResponse:
+                                current_user: dict = Depends(get_current_user)) -> OrchestrationAPIResponse:
         """
         Orchestrate multi-model AI request with advanced consensus algorithms.
 
@@ -360,7 +360,7 @@ if FASTAPI_AVAILABLE:
     # Streaming endpoint with Server-Sent Events
     @app.post("/api/v1/stream")
     async def stream_orchestration(request: StreamingRequest,
-                                 current_user: Dict = Depends(get_current_user)):
+                                 current_user: dict = Depends(get_current_user)):
         """
         Stream AI responses in real-time using Server-Sent Events (SSE).
 
@@ -508,7 +508,7 @@ if FASTAPI_AVAILABLE:
     # Enhanced function registration endpoint with validation
     @app.post("/api/v1/functions/register")
     async def register_functions(request: FunctionRegistrationRequest,
-                               current_user: Dict = Depends(get_current_user)):
+                               current_user: dict = Depends(get_current_user)):
         """
         Register custom functions for use with AI models.
 
@@ -585,7 +585,7 @@ if FASTAPI_AVAILABLE:
 
     # Metrics endpoint
     @app.get("/api/v1/metrics")
-    async def get_metrics(current_user: Dict = Depends(get_current_user)):
+    async def get_metrics(current_user: dict = Depends(get_current_user)):
         """
         Get comprehensive orchestration metrics and performance data.
 
@@ -619,7 +619,7 @@ if FASTAPI_AVAILABLE:
 
     # Provider status endpoint
     @app.get("/api/v1/providers/status")
-    async def get_provider_status(current_user: Dict = Depends(get_current_user)):
+    async def get_provider_status(current_user: dict = Depends(get_current_user)):
         """
         Get status of all available AI providers.
 
@@ -674,12 +674,12 @@ if FASTAPI_AVAILABLE:
     # Batch orchestration endpoint for multiple requests
     @app.post("/api/v1/orchestrate/batch")
     async def batch_orchestration(
-        requests: List[OrchestrationAPIRequest],
-        current_user: Dict = Depends(get_current_user)
+        requests: list[OrchestrationAPIRequest],
+        current_user: dict = Depends(get_current_user)
     ):
         """
         Process multiple orchestration requests in batch for efficiency.
-        
+
         Useful for processing multiple prompts simultaneously with
         shared configuration and cost optimization.
         """
@@ -741,11 +741,11 @@ if FASTAPI_AVAILABLE:
     @app.post("/api/v1/compare-models")
     async def compare_models(
         request: OrchestrationAPIRequest,
-        current_user: Dict = Depends(get_current_user)
+        current_user: dict = Depends(get_current_user)
     ):
         """
         Compare responses from different AI models side-by-side.
-        
+
         Useful for evaluating model performance and choosing the best
         provider for specific use cases.
         """

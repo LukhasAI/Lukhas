@@ -5,7 +5,7 @@ import os
 import secrets
 import time
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 import bcrypt
 import jwt
@@ -46,9 +46,9 @@ MAX_LOGIN_ATTEMPTS = 5
 LOCKOUT_DURATION = timedelta(minutes=15)
 
 # In-memory storage for demo (use proper database in production)
-users_db: Dict[str, Dict[str, Any]] = {}
-user_sessions: Dict[str, Dict[str, Any]] = {}
-failed_login_attempts: Dict[str, list] = {}
+users_db: dict[str, dict[str, Any]] = {}
+user_sessions: dict[str, dict[str, Any]] = {}
+failed_login_attempts: dict[str, list] = {}
 blacklisted_tokens: set = set()
 
 # Initialize ΛTRACE logger for this module

@@ -971,7 +971,7 @@ try:
         payload_categories=target["test_config"]["payload_categories"],
         max_iterations=target["test_config"]["max_test_iterations"]
     )
-    
+
     # Analyze and display results
     print("\n📊 Security Test Results:")
     print(f"Total Tests Executed: {results.get('total_tests', 0)}")
@@ -980,7 +980,7 @@ try:
     print(f"High Risk Issues: {results.get('high_count', 0)}")
     print(f"Medium Risk Issues: {results.get('medium_count', 0)}")
     print(f"Low Risk Issues: {results.get('low_count', 0)}")
-    
+
     # Display detailed findings
     if results.get('vulnerabilities'):
         print("\n🚨 Vulnerability Details:")
@@ -991,16 +991,16 @@ try:
             print(f"    Impact: {vuln['description']}")
             print(f"    Recommendation: {vuln['mitigation']}")
             print()
-    
+
     # Generate security score
     security_score = results.get('security_score', 0)
     score_rating = "EXCELLENT" if security_score >= 90 else \
                   "GOOD" if security_score >= 75 else \
                   "FAIR" if security_score >= 60 else \
                   "POOR" if security_score >= 40 else "CRITICAL"
-    
+
     print(f"🛡️  Overall Security Score: {security_score}/100 ({score_rating})")
-    
+
     # Export results
     if results.get('export_path'):
         print(f"📄 Detailed report saved to: {results['export_path']}")

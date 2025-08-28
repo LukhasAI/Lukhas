@@ -21,7 +21,7 @@ import time
 import unittest
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List
+from typing import Any
 
 from starlette.testclient import TestClient
 
@@ -92,7 +92,7 @@ class TestTraceAPI(unittest.TestCase):
         if "LUKHAS_API_KEY" in os.environ:
             del os.environ["LUKHAS_API_KEY"]
 
-    def _create_test_traces(self) -> List[Dict[str, Any]]:
+    def _create_test_traces(self) -> list[dict[str, Any]]:
         """
         Create dummy trace data for testing.
 

@@ -52,7 +52,7 @@ class GuardianSystem:
     def __new__(cls, *args, **kwargs):
         # This makes it a singleton, which seems appropriate for a system-wide service.
         if cls._instance is None:
-            cls._instance = super(GuardianSystem, cls).__new__(cls)
+            cls._instance = super().__new__(cls)
         return cls._instance
 
     def __init__(self, drift_threshold: float = 0.15):

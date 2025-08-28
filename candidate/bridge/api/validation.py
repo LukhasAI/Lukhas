@@ -28,7 +28,7 @@ import time
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     import jwt
@@ -66,9 +66,9 @@ class ValidationSeverity(Enum):
 class ValidationResult(BaseModel):
     """Result of validation operation"""
     is_valid: bool = Field(..., description="Whether validation passed")
-    errors: List[Dict[str, Any]] = Field(default_factory=list, description="Validation errors")
-    warnings: List[Dict[str, Any]] = Field(default_factory=list, description="Validation warnings")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="Validation metadata")
+    errors: list[dict[str, Any]] = Field(default_factory=list, description="Validation errors")
+    warnings: list[dict[str, Any]] = Field(default_factory=list, description="Validation warnings")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Validation metadata")
     execution_time_ms: float = Field(0.0, description="Validation execution time")
     validator_version: str = Field("2.0.0", description="Validator version")
 
@@ -128,7 +128,7 @@ class SecurityValidator:
         self.compiled_patterns = [re.compile(pattern, re.IGNORECASE) for pattern in self.DANGEROUS_PATTERNS]
         self.phi_patterns = [re.compile(pattern, re.IGNORECASE) for pattern in self.PHI_PATTERNS] if enable_hipaa else []
 
-    def validate_content_security(self, content: str, context: str = "general") -> List[Dict[str, Any]]:
+    def validate_content_security(self, content: str, context: str = "general") -> list[dict[str, Any]]:
         """Validate content for security issues"""
         issues = []
 
@@ -159,12 +159,12 @@ class SecurityValidator:
 
         return issues
 
-    def validate_function_security(self, function_def: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def validate_function_security(self, function_def: dict[str, Any]) -> list[dict[str, Any]]:
         """Validate function definition for security"""
         issues = []
 
         function_name = function_def.get("name", "")
-        function_description = function_def.get("description", "")
+        function_def.get("description", "")
         function_code = function_def.get("implementation", "")
 
         # Check function name
@@ -201,8 +201,8 @@ class RequestValidator:
         self.max_function_count = max_function_count
         self.security_validator = SecurityValidator()
 
-    async def validate_orchestration_request(self, request_data: Dict[str, Any],
-                                           context: Optional[Dict[str, Any]] = None) -> ValidationResult:
+    async def validate_orchestration_request(self, request_data: dict[str, Any],
+                                           context: Optional[dict[str, Any]] = None) -> ValidationResult:
         """Validate orchestration API request"""
         start_time = time.perf_counter()
         result = ValidationResult(is_valid=True)
@@ -310,8 +310,8 @@ class RequestValidator:
 
         return result
 
-    async def validate_streaming_request(self, request_data: Dict[str, Any],
-                                       context: Optional[Dict[str, Any]] = None) -> ValidationResult:
+    async def validate_streaming_request(self, request_data: dict[str, Any],
+                                       context: Optional[dict[str, Any]] = None) -> ValidationResult:
         """Validate streaming API request"""
         start_time = time.perf_counter()
         result = ValidationResult(is_valid=True)
@@ -366,7 +366,7 @@ class RequestValidator:
         result.execution_time_ms = (time.perf_counter() - start_time) * 1000
         return result
 
-    async def validate_function_registration(self, request_data: Dict[str, Any]) -> ValidationResult:
+    async def validate_function_registration(self, request_data: dict[str, Any]) -> ValidationResult:
         """Validate function registration request"""
         start_time = time.perf_counter()
         result = ValidationResult(is_valid=True)
@@ -432,8 +432,8 @@ class ResponseValidator:
     def __init__(self):
         self.security_validator = SecurityValidator()
 
-    async def validate_orchestration_response(self, response: Dict[str, Any],
-                                            original_request: Optional[Dict[str, Any]] = None) -> ValidationResult:
+    async def validate_orchestration_response(self, response: dict[str, Any],
+                                            original_request: Optional[dict[str, Any]] = None) -> ValidationResult:
         """Validate orchestration response"""
         start_time = time.perf_counter()
         result = ValidationResult(is_valid=True)
@@ -515,8 +515,8 @@ class HealthcareValidator:
             "demographic", "financial", "clinical", "administrative"
         ]
 
-    async def validate_healthcare_request(self, request_data: Dict[str, Any],
-                                        patient_context: Optional[Dict[str, Any]] = None) -> ValidationResult:
+    async def validate_healthcare_request(self, request_data: dict[str, Any],
+                                        patient_context: Optional[dict[str, Any]] = None) -> ValidationResult:
         """Validate healthcare-specific API request"""
         start_time = time.perf_counter()
         result = ValidationResult(is_valid=True)
@@ -670,7 +670,7 @@ class AuthenticationValidator:
 
         return result
 
-    async def validate_api_key(self, api_key: str, required_permissions: List[str]) -> ValidationResult:
+    async def validate_api_key(self, api_key: str, required_permissions: list[str]) -> ValidationResult:
         """Validate API key and permissions"""
         result = ValidationResult(is_valid=True)
 
@@ -736,7 +736,7 @@ class AuthenticationValidator:
 class ComprehensiveAPIValidator:
     """Main validator class that orchestrates all validation types"""
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         config = config or {}
 
         self.request_validator = RequestValidator(
@@ -760,8 +760,8 @@ class ComprehensiveAPIValidator:
             "hipaa_violations": 0
         }
 
-    async def validate_request(self, request_type: str, request_data: Dict[str, Any],
-                             context: Optional[Dict[str, Any]] = None,
+    async def validate_request(self, request_type: str, request_data: dict[str, Any],
+                             context: Optional[dict[str, Any]] = None,
                              auth_token: Optional[str] = None) -> ValidationResult:
         """Comprehensive request validation"""
         start_time = time.perf_counter()
@@ -843,7 +843,7 @@ class ComprehensiveAPIValidator:
             logger.error(f"❌ Validation error: {validation_id} - {str(e)}")
             return error_result
 
-    def _get_required_permissions(self, request_type: str, context: Optional[Dict[str, Any]]) -> List[str]:
+    def _get_required_permissions(self, request_type: str, context: Optional[dict[str, Any]]) -> list[str]:
         """Get required permissions for request type"""
         permission_map = {
             "orchestration": ["orchestration"],
@@ -890,7 +890,7 @@ class ComprehensiveAPIValidator:
             elif error_type == "hipaa_violation":
                 self.validation_metrics["hipaa_violations"] += 1
 
-    def get_validation_metrics(self) -> Dict[str, Any]:
+    def get_validation_metrics(self) -> dict[str, Any]:
         """Get comprehensive validation metrics"""
         total = max(self.validation_metrics["total_validations"], 1)
 
@@ -928,7 +928,7 @@ class ComprehensiveAPIValidator:
 # Global validator instance
 _global_validator = None
 
-def get_validator(config: Optional[Dict[str, Any]] = None) -> ComprehensiveAPIValidator:
+def get_validator(config: Optional[dict[str, Any]] = None) -> ComprehensiveAPIValidator:
     """Get global validator instance"""
     global _global_validator
     if _global_validator is None:
@@ -936,30 +936,30 @@ def get_validator(config: Optional[Dict[str, Any]] = None) -> ComprehensiveAPIVa
     return _global_validator
 
 # Convenience functions for common validation scenarios
-async def validate_orchestration_request(request_data: Dict[str, Any],
-                                       context: Optional[Dict[str, Any]] = None,
+async def validate_orchestration_request(request_data: dict[str, Any],
+                                       context: Optional[dict[str, Any]] = None,
                                        auth_token: Optional[str] = None) -> ValidationResult:
     """Validate orchestration request"""
     validator = get_validator()
     return await validator.validate_request("orchestration", request_data, context, auth_token)
 
-async def validate_streaming_request(request_data: Dict[str, Any],
-                                   context: Optional[Dict[str, Any]] = None,
+async def validate_streaming_request(request_data: dict[str, Any],
+                                   context: Optional[dict[str, Any]] = None,
                                    auth_token: Optional[str] = None) -> ValidationResult:
     """Validate streaming request"""
     validator = get_validator()
     return await validator.validate_request("streaming", request_data, context, auth_token)
 
-async def validate_healthcare_request(request_data: Dict[str, Any],
-                                    patient_context: Optional[Dict[str, Any]] = None,
+async def validate_healthcare_request(request_data: dict[str, Any],
+                                    patient_context: Optional[dict[str, Any]] = None,
                                     auth_token: Optional[str] = None) -> ValidationResult:
     """Validate healthcare request"""
     context = {"type": "healthcare", "patient_context": patient_context}
     validator = get_validator()
     return await validator.validate_request("healthcare", request_data, context, auth_token)
 
-async def validate_api_response(response_data: Dict[str, Any],
-                              original_request: Optional[Dict[str, Any]] = None) -> ValidationResult:
+async def validate_api_response(response_data: dict[str, Any],
+                              original_request: Optional[dict[str, Any]] = None) -> ValidationResult:
     """Validate API response"""
     validator = get_validator()
     return await validator.response_validator.validate_orchestration_response(response_data, original_request)
@@ -1003,13 +1003,13 @@ def calculate_content_risk_score(content: str, context: str = "general") -> floa
     return min(1.0, total_risk)  # Cap at 1.0
 
 # Performance monitoring integration
-def get_validation_performance_metrics() -> Dict[str, Any]:
+def get_validation_performance_metrics() -> dict[str, Any]:
     """Get validation performance metrics"""
     validator = get_validator()
     return validator.get_validation_metrics()
 
 # Testing utilities for development
-async def run_validation_tests() -> Dict[str, Any]:
+async def run_validation_tests() -> dict[str, Any]:
     """Run comprehensive validation tests"""
     validator = get_validator()
 

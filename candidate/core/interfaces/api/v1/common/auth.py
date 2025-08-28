@@ -5,7 +5,7 @@ import hmac
 import os
 import secrets
 import time
-from typing import Dict, Optional
+from typing import Optional
 
 import structlog
 from fastapi import Header, HTTPException, Request
@@ -21,7 +21,7 @@ RATE_LIMIT_WINDOW = 3600  # 1 hour in seconds
 HMAC_SECRET = os.getenv("LUKHAS_ID_SECRET", "default-unsafe-secret-change-in-production")
 
 # Rate limiting storage (in production, use Redis)
-_rate_limit_store: Dict[str, list] = {}
+_rate_limit_store: dict[str, list] = {}
 
 
 class SecurityValidationError(Exception):

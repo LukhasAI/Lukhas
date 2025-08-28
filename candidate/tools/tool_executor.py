@@ -15,7 +15,7 @@ import tempfile
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 from urllib.parse import urlparse
 
 import aiohttp
@@ -594,7 +594,7 @@ RUN chmod +x {filename}
 
         return results
 
-    def _init_security_config(self) -> Dict[str, Any]:
+    def _init_security_config(self) -> dict[str, Any]:
         """Initialize security configuration"""
         return {
             "allowed_domains": set(self.config.get("allowed_domains", [
@@ -1064,7 +1064,7 @@ RUN chmod +x {filename}
 
         return True
 
-    async def _audit_log(self, event: str, data: Dict[str, Any]):
+    async def _audit_log(self, event: str, data: dict[str, Any]):
         """Log security and execution events"""
         try:
             log_entry = {

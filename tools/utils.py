@@ -11,7 +11,7 @@ import subprocess
 import sys
 from functools import wraps
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 
 def get_logger(name: str) -> logging.Logger:
@@ -29,7 +29,7 @@ def get_logger(name: str) -> logging.Logger:
 
 
 def run_command(
-    cmd: Union[str, List[str]],
+    cmd: Union[str, list[str]],
     cwd: Optional[Path] = None,
     capture_output: bool = True,
     timeout: int = 30
@@ -64,7 +64,7 @@ def run_command(
         raise
 
 
-def safe_json_load(file_path: Path) -> Optional[Dict[str, Any]]:
+def safe_json_load(file_path: Path) -> Optional[dict[str, Any]]:
     """Safely load JSON file with error handling"""
     logger = get_logger("json")
 
@@ -83,7 +83,7 @@ def safe_json_load(file_path: Path) -> Optional[Dict[str, Any]]:
         return None
 
 
-def safe_json_save(data: Dict[str, Any], file_path: Path) -> bool:
+def safe_json_save(data: dict[str, Any], file_path: Path) -> bool:
     """Safely save data to JSON file"""
     logger = get_logger("json")
 
@@ -100,8 +100,8 @@ def safe_json_save(data: Dict[str, Any], file_path: Path) -> bool:
 def find_files(
     directory: Path,
     pattern: str = "*.py",
-    exclude_patterns: Optional[List[str]] = None
-) -> List[Path]:
+    exclude_patterns: Optional[list[str]] = None
+) -> list[Path]:
     """Find files matching pattern, excluding specified patterns"""
     exclude_patterns = exclude_patterns or []
     exclude_patterns.extend([
@@ -140,7 +140,7 @@ def validate_python_syntax(file_path: Path) -> bool:
         return False
 
 
-def get_git_status() -> Optional[Dict[str, Any]]:
+def get_git_status() -> Optional[dict[str, Any]]:
     """Get current git repository status"""
     logger = get_logger("git")
 
@@ -192,7 +192,7 @@ def format_file_size(size_bytes: int) -> str:
     return f"{size_bytes:.1f} TB"
 
 
-def get_file_info(file_path: Path) -> Dict[str, Any]:
+def get_file_info(file_path: Path) -> dict[str, Any]:
     """Get comprehensive file information"""
     if not file_path.exists():
         return {"exists": False}
@@ -255,7 +255,7 @@ def check_dependency(package_name: str) -> bool:
         return False
 
 
-def get_system_info() -> Dict[str, Any]:
+def get_system_info() -> dict[str, Any]:
     """Get basic system information for debugging"""
     import platform
 

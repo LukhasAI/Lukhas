@@ -14,7 +14,7 @@ Trinity Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian
 
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import Any
 
 from lukhas.governance.guardian.guardian_wrapper import detect_drift
 
@@ -32,7 +32,7 @@ class GuardianSystem:
         self.drift_threshold = drift_threshold
         self._initialized = True
 
-    async def check_drift(self, data: Dict[str, Any]) -> float:
+    async def check_drift(self, data: dict[str, Any]) -> float:
         """
         Legacy method for drift checking.
 
@@ -70,7 +70,7 @@ class GuardianSystem:
         """Check if Guardian System is active"""
         return self._initialized
 
-    def get_status(self) -> Dict[str, Any]:
+    def get_status(self) -> dict[str, Any]:
         """Get system status for compatibility"""
         return {
             "active": True,

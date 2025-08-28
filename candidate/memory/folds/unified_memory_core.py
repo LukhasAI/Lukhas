@@ -142,7 +142,7 @@ from collections import defaultdict, deque
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Import core memory systems with comprehensive fallbacks
 try:
@@ -216,10 +216,10 @@ class MemoryOperation:
     fold_key: str
     timestamp: datetime
     priority: float = 0.5
-    causal_chain: List[str] = field(default_factory=list)
-    emotional_context: Dict[str, Any] = field(default_factory=dict)
-    consciousness_markers: Dict[str, Any] = field(default_factory=dict)
-    processing_metadata: Dict[str, Any] = field(default_factory=dict)
+    causal_chain: list[str] = field(default_factory=list)
+    emotional_context: dict[str, Any] = field(default_factory=dict)
+    consciousness_markers: dict[str, Any] = field(default_factory=dict)
+    processing_metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -589,7 +589,7 @@ class ConsolidatedUnifiedmemorycore:
                     key=lambda k: self.fold_cache[k]["cached_at"])
                 del self.fold_cache[oldest_key]
 
-    def _calculate_causal_integrity(self, causal_chain: List[str]) -> float:
+    def _calculate_causal_integrity(self, causal_chain: list[str]) -> float:
         """Calculate causal chain integrity score"""
         if not causal_chain:
             return 1.0
@@ -672,7 +672,7 @@ class ConsolidatedUnifiedmemorycore:
         })
         return await self.process_memory(updates)
 
-    async def consolidate_memories(self, memory_ids: List[str], consolidation_strategy: str = "semantic") -> dict:
+    async def consolidate_memories(self, memory_ids: list[str], consolidation_strategy: str = "semantic") -> dict:
         """Consolidate multiple memories"""
         consolidation_data = {
             "memory_ids": memory_ids,

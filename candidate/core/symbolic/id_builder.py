@@ -129,7 +129,7 @@ class LUKHASIDBuilder:
     def _generate_lid_number(self) -> str:
         """Generate unique ΛiD number"""
         # In production, ensure uniqueness across distributed system
-        number = len(self.identities) + 1001  # Start from 1001
+        len(self.identities) + 1001  # Start from 1001
         return "ΛiD"
 
     def _generate_symbolic_phrase(

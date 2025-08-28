@@ -25,7 +25,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -103,19 +103,19 @@ class SecurityEvent:
 
     # Security analysis
     anomaly_score: float = 0.0
-    risk_factors: List[str] = field(default_factory=list)
-    geolocation: Dict[str, str] = field(default_factory=dict)
+    risk_factors: list[str] = field(default_factory=list)
+    geolocation: dict[str, str] = field(default_factory=dict)
 
     # Trinity Framework context
-    identity_context: Dict[str, Any] = field(default_factory=dict)    # ⚛️
-    guardian_context: Dict[str, Any] = field(default_factory=dict)    # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)    # ⚛️
+    guardian_context: dict[str, Any] = field(default_factory=dict)    # 🛡️
 
     # Response actions
-    actions_taken: List[SecurityAction] = field(default_factory=list)
+    actions_taken: list[SecurityAction] = field(default_factory=list)
     alert_sent: bool = False
 
     # Additional metadata
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -127,13 +127,13 @@ class UserSecurityProfile:
     last_updated: datetime
 
     # Authentication patterns
-    typical_login_hours: Set[int] = field(default_factory=set)
-    typical_ip_ranges: List[str] = field(default_factory=list)
-    common_user_agents: Set[str] = field(default_factory=set)
-    preferred_auth_methods: Set[str] = field(default_factory=set)
+    typical_login_hours: set[int] = field(default_factory=set)
+    typical_ip_ranges: list[str] = field(default_factory=list)
+    common_user_agents: set[str] = field(default_factory=set)
+    preferred_auth_methods: set[str] = field(default_factory=set)
 
     # Access patterns
-    frequent_endpoints: Dict[str, int] = field(default_factory=dict)
+    frequent_endpoints: dict[str, int] = field(default_factory=dict)
     session_duration_avg: float = 0.0
     request_rate_avg: float = 0.0
 
@@ -148,8 +148,8 @@ class UserSecurityProfile:
     trust_level: str = "unknown"
 
     # Geographical patterns
-    login_countries: Set[str] = field(default_factory=set)
-    suspicious_locations: List[Dict[str, Any]] = field(default_factory=list)
+    login_countries: set[str] = field(default_factory=set)
+    suspicious_locations: list[dict[str, Any]] = field(default_factory=list)
 
 
 @dataclass
@@ -163,9 +163,9 @@ class ThreatDetection:
 
     # Threat details
     description: str
-    indicators: List[str]
-    affected_users: List[str]
-    source_ips: List[str]
+    indicators: list[str]
+    affected_users: list[str]
+    source_ips: list[str]
 
     # Severity assessment
     threat_level: ThreatLevel
@@ -176,7 +176,7 @@ class ThreatDetection:
     false_positive_probability: float
 
     # Response information
-    recommended_actions: List[SecurityAction]
+    recommended_actions: list[SecurityAction]
     auto_response_enabled: bool = False
 
 
@@ -192,7 +192,7 @@ class SecurityIncident:
     # Incident details
     title: str
     description: str
-    affected_components: List[str]
+    affected_components: list[str]
 
     # Timeline
     first_detected: datetime
@@ -200,32 +200,32 @@ class SecurityIncident:
     resolution_time: Optional[datetime] = None
 
     # Impact assessment
-    users_affected: List[str]
-    data_at_risk: List[str]
+    users_affected: list[str]
+    data_at_risk: list[str]
     service_impact: str
 
     # Response tracking
     response_team_notified: bool = False
-    containment_actions: List[str] = field(default_factory=list)
+    containment_actions: list[str] = field(default_factory=list)
     resolution_status: str = "open"
 
     # Related events
-    related_events: List[str] = field(default_factory=list)
-    related_detections: List[str] = field(default_factory=list)
+    related_events: list[str] = field(default_factory=list)
+    related_detections: list[str] = field(default_factory=list)
 
 
 class SecurityEventMonitor:
     """
     Comprehensive security event monitoring for LUKHAS AI.
-    
+
     Monitors authentication events, detects security threats,
     analyzes user behavior, and triggers appropriate responses.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize security event monitor.
-        
+
         Args:
             config: Optional configuration dictionary
         """
@@ -239,16 +239,16 @@ class SecurityEventMonitor:
         # Event storage
         self.security_events: deque = deque(maxlen=self.max_events)
         self.threat_detections: deque = deque(maxlen=1000)
-        self.security_incidents: Dict[str, SecurityIncident] = {}
+        self.security_incidents: dict[str, SecurityIncident] = {}
 
         # User tracking
-        self.user_profiles: Dict[str, UserSecurityProfile] = {}
-        self.active_sessions: Dict[str, Dict[str, Any]] = {}
+        self.user_profiles: dict[str, UserSecurityProfile] = {}
+        self.active_sessions: dict[str, dict[str, Any]] = {}
 
         # Threat detection
-        self.blocked_ips: Set[str] = set()
-        self.disabled_users: Set[str] = set()
-        self.threat_patterns: Dict[str, Dict[str, Any]] = {}
+        self.blocked_ips: set[str] = set()
+        self.disabled_users: set[str] = set()
+        self.threat_patterns: dict[str, dict[str, Any]] = {}
 
         # Anomaly detection thresholds
         self.anomaly_thresholds = {
@@ -311,7 +311,7 @@ class SecurityEventMonitor:
     ) -> str:
         """
         Log an authentication event.
-        
+
         Args:
             user_id: User identifier
             outcome: Authentication outcome
@@ -320,7 +320,7 @@ class SecurityEventMonitor:
             user_agent: Client user agent
             failure_reason: Reason for failure (if applicable)
             **metadata: Additional event metadata
-            
+
         Returns:
             str: Event ID
         """
@@ -387,7 +387,7 @@ class SecurityEventMonitor:
     ) -> str:
         """
         Log an access event.
-        
+
         Args:
             user_id: User identifier
             endpoint: Accessed endpoint
@@ -396,7 +396,7 @@ class SecurityEventMonitor:
             ip_address: Client IP address
             session_id: Session identifier
             **metadata: Additional event metadata
-            
+
         Returns:
             str: Event ID
         """
@@ -445,13 +445,13 @@ class SecurityEventMonitor:
 
         return event_id
 
-    async def detect_brute_force_attack(self, time_window_minutes: int = 60) -> List[ThreatDetection]:
+    async def detect_brute_force_attack(self, time_window_minutes: int = 60) -> list[ThreatDetection]:
         """
         Detect brute force attack patterns.
-        
+
         Args:
             time_window_minutes: Time window for analysis
-            
+
         Returns:
             List of detected threats
         """
@@ -511,13 +511,13 @@ class SecurityEventMonitor:
 
         return detections
 
-    async def detect_anomalous_behavior(self, user_id: str) -> List[ThreatDetection]:
+    async def detect_anomalous_behavior(self, user_id: str) -> list[ThreatDetection]:
         """
         Detect anomalous behavior for a specific user.
-        
+
         Args:
             user_id: User to analyze
-            
+
         Returns:
             List of detected anomalies
         """
@@ -608,13 +608,13 @@ class SecurityEventMonitor:
     async def get_security_dashboard_data(
         self,
         time_range_hours: int = 24
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get comprehensive security dashboard data.
-        
+
         Args:
             time_range_hours: Time range for analysis
-            
+
         Returns:
             Dict: Security dashboard data
         """
@@ -878,7 +878,7 @@ class SecurityEventMonitor:
 
     # Helper methods (implementation details)
 
-    def _initialize_security_rules(self) -> Dict[str, Any]:
+    def _initialize_security_rules(self) -> dict[str, Any]:
         """Initialize security rules and patterns."""
         return {
             "max_failed_logins": 5,
@@ -927,7 +927,7 @@ class SecurityEventMonitor:
 
         return min(1.0, score)
 
-    async def _identify_auth_risk_factors(self, event: SecurityEvent) -> List[str]:
+    async def _identify_auth_risk_factors(self, event: SecurityEvent) -> list[str]:
         """Identify risk factors for authentication event."""
 
         risk_factors = []
@@ -943,7 +943,7 @@ class SecurityEventMonitor:
 
         return risk_factors
 
-    async def _get_ip_geolocation(self, ip_address: str) -> Dict[str, str]:
+    async def _get_ip_geolocation(self, ip_address: str) -> dict[str, str]:
         """Get IP geolocation information (simplified)."""
 
         # In production, would use actual geolocation service
@@ -953,7 +953,7 @@ class SecurityEventMonitor:
             "city": "Unknown"
         }
 
-    async def _get_identity_context(self, user_id: str) -> Dict[str, Any]:
+    async def _get_identity_context(self, user_id: str) -> dict[str, Any]:
         """Get identity context for Trinity Framework (⚛️)."""
 
         return {
@@ -962,7 +962,7 @@ class SecurityEventMonitor:
             "context_timestamp": datetime.now().isoformat()
         }
 
-    async def _get_guardian_context(self) -> Dict[str, Any]:
+    async def _get_guardian_context(self) -> dict[str, Any]:
         """Get guardian context for Trinity Framework (🛡️)."""
 
         return {
@@ -975,7 +975,7 @@ class SecurityEventMonitor:
     async def _update_user_profile(self, event: SecurityEvent): pass
     async def _check_immediate_threats(self, event: SecurityEvent): pass
     async def _calculate_access_anomaly_score(self, event: SecurityEvent) -> float: return 0.0
-    async def _identify_access_risk_factors(self, event: SecurityEvent) -> List[str]: return []
+    async def _identify_access_risk_factors(self, event: SecurityEvent) -> list[str]: return []
     async def _check_access_patterns(self, event: SecurityEvent): pass
     async def _block_ip_address(self, ip_address: str, reason: str): pass
     async def _detect_privilege_escalation(self): pass

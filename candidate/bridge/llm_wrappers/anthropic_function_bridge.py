@@ -27,7 +27,7 @@ from collections.abc import AsyncGenerator
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 try:
     import anthropic
@@ -58,7 +58,7 @@ class ToolDefinition:
     """Tool definition for Claude API"""
     name: str
     description: str
-    input_schema: Dict[str, Any]
+    input_schema: dict[str, Any]
     handler: Optional[Callable] = None
 
     # Validation and security
@@ -69,9 +69,9 @@ class ToolDefinition:
 
     # Reasoning assistance
     reasoning_prompt: Optional[str] = None
-    examples: List[Dict[str, Any]] = field(default_factory=list)
+    examples: list[dict[str, Any]] = field(default_factory=list)
 
-    def to_anthropic_format(self) -> Dict[str, Any]:
+    def to_anthropic_format(self) -> dict[str, Any]:
         """Convert to Anthropic tool format"""
         return {
             "name": self.name,
@@ -84,7 +84,7 @@ class ToolUse:
     """Represents a tool use request from Claude"""
     id: str
     name: str
-    input_data: Dict[str, Any]
+    input_data: dict[str, Any]
     timestamp: float = field(default_factory=time.perf_counter)
 
     # Execution tracking
@@ -101,20 +101,20 @@ class ToolUse:
 class ClaudeResponse:
     """Structured response from Claude API"""
     content: str
-    tool_uses: List[ToolUse] = field(default_factory=list)
+    tool_uses: list[ToolUse] = field(default_factory=list)
     model: str = ""
-    usage: Dict[str, int] = field(default_factory=dict)
+    usage: dict[str, int] = field(default_factory=dict)
     latency_ms: float = 0.0
 
     # Metadata and reasoning
     request_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
     stop_reason: str = ""
-    reasoning_chain: List[str] = field(default_factory=list)
+    reasoning_chain: list[str] = field(default_factory=list)
 
     # Constitutional AI metrics
     constitutional_score: float = 1.0
-    ethical_considerations: List[str] = field(default_factory=list)
+    ethical_considerations: list[str] = field(default_factory=list)
 
 class AnthropicFunctionBridge:
     """
@@ -143,7 +143,7 @@ class AnthropicFunctionBridge:
         self.default_model = default_model
 
         # Tool registry
-        self.tools: Dict[str, ToolDefinition] = {}
+        self.tools: dict[str, ToolDefinition] = {}
 
         # Constitutional AI system prompt
         self.constitutional_principles = [
@@ -188,7 +188,7 @@ class AnthropicFunctionBridge:
         logger.debug(f"   Security level: {tool_def.security_level}")
         logger.debug(f"   Has handler: {tool_def.handler is not None}")
 
-    def register_tools_from_dict(self, tools: Dict[str, Dict[str, Any]]):
+    def register_tools_from_dict(self, tools: dict[str, dict[str, Any]]):
         """Register multiple tools from dictionary"""
         for name, definition in tools.items():
             tool_def = ToolDefinition(
@@ -205,12 +205,12 @@ class AnthropicFunctionBridge:
 
         logger.info(f"🛠️ Registered {len(tools)} tools from dictionary")
 
-    def get_available_tools(self) -> List[Dict[str, Any]]:
+    def get_available_tools(self) -> list[dict[str, Any]]:
         """Get all available tools in Anthropic format"""
         return [tool.to_anthropic_format() for tool in self.tools.values()]
 
     async def complete_with_tools(self,
-                                messages: List[Dict[str, str]],
+                                messages: list[dict[str, str]],
                                 model: Optional[ClaudeModel] = None,
                                 tool_mode: ToolUseMode = ToolUseMode.ENABLED,
                                 specific_tool: Optional[str] = None,
@@ -339,10 +339,10 @@ class AnthropicFunctionBridge:
             )
 
     async def stream_with_tools(self,
-                               messages: List[Dict[str, str]],
+                               messages: list[dict[str, str]],
                                model: Optional[ClaudeModel] = None,
                                tool_mode: ToolUseMode = ToolUseMode.ENABLED,
-                               **kwargs) -> AsyncGenerator[Dict[str, Any], None]:
+                               **kwargs) -> AsyncGenerator[dict[str, Any], None]:
         """
         Stream conversation with tool use support.
 
@@ -565,7 +565,7 @@ class AnthropicFunctionBridge:
             logger.error(f"❌ Reasoning generation error: {str(e)}")
             return "Reasoning generation failed"
 
-    async def _validate_constitutional_compliance(self, content: str, tool_uses: List[ToolUse]) -> tuple[float, List[str]]:
+    async def _validate_constitutional_compliance(self, content: str, tool_uses: list[ToolUse]) -> tuple[float, list[str]]:
         """Validate overall response against Constitutional AI principles"""
         try:
             score = 1.0
@@ -646,7 +646,7 @@ class AnthropicFunctionBridge:
         if response.constitutional_score < 0.8:
             self.metrics["constitutional_violations"] += 1
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive performance and quality metrics"""
         total_requests = self.metrics["total_requests"]
 

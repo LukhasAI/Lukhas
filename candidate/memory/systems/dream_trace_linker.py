@@ -1270,7 +1270,7 @@ class DreamTraceLinker:
     ) -> dict[str, Any]:
         """
         Detect quantum-level dream resonance across parallel memory streams.
-        
+
         This advanced feature analyzes quantum entanglement patterns between dreams
         and parallel memory streams, enabling multi-dimensional consciousness tracking.
         """

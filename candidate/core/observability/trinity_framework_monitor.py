@@ -33,7 +33,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -97,11 +97,11 @@ class TrinityInteraction:
     # Security context
     authentication_method: Optional[str] = None
     authorization_level: Optional[str] = None
-    security_context: Dict[str, Any] = field(default_factory=dict)
+    security_context: dict[str, Any] = field(default_factory=dict)
 
     # Metadata
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    tags: Dict[str, str] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
@@ -126,7 +126,7 @@ class AuthenticationEvent:
     # Security indicators
     risk_score: float = 0.0
     anomaly_detected: bool = False
-    geolocation: Optional[Dict[str, str]] = None
+    geolocation: Optional[dict[str, str]] = None
 
     # Performance
     processing_time: float = 0.0
@@ -226,45 +226,45 @@ class TrinityReport:
 
     report_id: str
     generated_at: datetime
-    time_period: Tuple[datetime, datetime]
+    time_period: tuple[datetime, datetime]
 
     # Executive summary
     overall_framework_health: float
     health_trend: str
 
     # Component analysis
-    component_performance: Dict[TrinityComponent, Dict[str, float]] = field(default_factory=dict)
-    component_interactions: Dict[str, int] = field(default_factory=dict)
+    component_performance: dict[TrinityComponent, dict[str, float]] = field(default_factory=dict)
+    component_interactions: dict[str, int] = field(default_factory=dict)
 
     # Authentication analysis
-    authentication_metrics: Dict[str, Any] = field(default_factory=dict)
-    security_incidents: List[Dict[str, Any]] = field(default_factory=list)
+    authentication_metrics: dict[str, Any] = field(default_factory=dict)
+    security_incidents: list[dict[str, Any]] = field(default_factory=list)
 
     # API performance analysis
-    api_performance_summary: Dict[str, Any] = field(default_factory=dict)
-    slowest_endpoints: List[Dict[str, Any]] = field(default_factory=list)
-    highest_error_endpoints: List[Dict[str, Any]] = field(default_factory=list)
+    api_performance_summary: dict[str, Any] = field(default_factory=dict)
+    slowest_endpoints: list[dict[str, Any]] = field(default_factory=list)
+    highest_error_endpoints: list[dict[str, Any]] = field(default_factory=list)
 
     # Cross-component insights
-    interaction_patterns: List[Dict[str, Any]] = field(default_factory=list)
-    performance_correlations: Dict[str, float] = field(default_factory=dict)
+    interaction_patterns: list[dict[str, Any]] = field(default_factory=list)
+    performance_correlations: dict[str, float] = field(default_factory=dict)
 
     # Recommendations
-    performance_recommendations: List[str] = field(default_factory=list)
-    security_recommendations: List[str] = field(default_factory=list)
-    optimization_opportunities: List[str] = field(default_factory=list)
+    performance_recommendations: list[str] = field(default_factory=list)
+    security_recommendations: list[str] = field(default_factory=list)
+    optimization_opportunities: list[str] = field(default_factory=list)
 
 
 class TrinityFrameworkMonitor:
     """
     Comprehensive Trinity Framework monitoring system
-    
+
     Monitors the interconnected Trinity Framework components (⚛️🧠🛡️)
     with authentication tracking, API performance monitoring, and
     cross-component health analysis for the LUKHAS AI system.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Core configuration
@@ -291,7 +291,7 @@ class TrinityFrameworkMonitor:
 
         # Current state
         self.current_health: Optional[TrinityHealthStatus] = None
-        self.component_states: Dict[TrinityComponent, Dict[str, Any]] = {}
+        self.component_states: dict[TrinityComponent, dict[str, Any]] = {}
         self.monitoring_active = True
 
         # Performance tracking
@@ -429,7 +429,7 @@ class TrinityFrameworkMonitor:
         user_id: Optional[str] = None,
         session_id: Optional[str] = None,
         error_message: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None
     ) -> TrinityInteraction:
         """Record a Trinity Framework component interaction"""
 
@@ -475,7 +475,7 @@ class TrinityFrameworkMonitor:
         processing_time: float = 0.0,
         failure_reason: Optional[str] = None,
         risk_score: float = 0.0,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None
     ) -> AuthenticationEvent:
         """Record an authentication event"""
 
@@ -525,7 +525,7 @@ class TrinityFrameworkMonitor:
         response_size: int = 0,
         requires_authentication: bool = False,
         error_message: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[dict[str, Any]] = None
     ) -> APIPerformanceMetric:
         """Record API performance metrics"""
 
@@ -730,7 +730,7 @@ class TrinityFrameworkMonitor:
 
         return min(1.0, max(0.0, sync_score))
 
-    async def _calculate_authentication_metrics(self) -> Dict[str, Any]:
+    async def _calculate_authentication_metrics(self) -> dict[str, Any]:
         """Calculate authentication system metrics"""
 
         # Analyze recent authentication events
@@ -763,7 +763,7 @@ class TrinityFrameworkMonitor:
             "incidents": incidents
         }
 
-    async def _calculate_api_metrics(self) -> Dict[str, Any]:
+    async def _calculate_api_metrics(self) -> dict[str, Any]:
         """Calculate API performance metrics"""
 
         # Analyze recent API metrics
@@ -985,7 +985,7 @@ class TrinityFrameworkMonitor:
                self.api_metrics[0].timestamp < cutoff_time):
             self.api_metrics.popleft()
 
-    async def get_trinity_health_status(self) -> Dict[str, Any]:
+    async def get_trinity_health_status(self) -> dict[str, Any]:
         """Get current Trinity Framework health status"""
 
         if not self.current_health:
@@ -1058,7 +1058,7 @@ class TrinityFrameworkMonitor:
 
     async def get_trinity_report(
         self,
-        time_period: Optional[Tuple[datetime, datetime]] = None
+        time_period: Optional[tuple[datetime, datetime]] = None
     ) -> TrinityReport:
         """Generate comprehensive Trinity Framework report"""
 
@@ -1185,7 +1185,7 @@ class TrinityFrameworkMonitor:
 
         return report
 
-    async def get_monitoring_metrics(self) -> Dict[str, Any]:
+    async def get_monitoring_metrics(self) -> dict[str, Any]:
         """Get Trinity monitoring system metrics"""
 
         self.framework_metrics["last_updated"] = datetime.now().isoformat()

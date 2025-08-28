@@ -37,7 +37,7 @@ class DriveFileMetadata(ResourceMetadata):
     download_url: Optional[str] = None
     thumbnail_url: Optional[str] = None
     is_folder: bool = False
-    permissions: List[Dict[str, str]] = []
+    permissions: list[dict[str, str]] = []
     last_viewed_at: Optional[datetime] = None
 
 
@@ -61,7 +61,7 @@ class DriveAdapter(ServiceAdapter):
         self.drive_service = None
         self.mock_mode = True
 
-    async def initialize(self, config: Dict[str, Any]) -> None:
+    async def initialize(self, config: dict[str, Any]) -> None:
         """Initialize Google Drive API client"""
         self.config = config
         self.mock_mode = config.get("mock_mode", True)
@@ -77,9 +77,9 @@ class DriveAdapter(ServiceAdapter):
     async def verify_capability_token(
         self,
         token: str,
-        required_scopes: List[str],
+        required_scopes: list[str],
         resource_id: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Verify capability token with consent service"""
         if self.consent_service:
             return await self.consent_service.verify_capability_token(
@@ -103,7 +103,7 @@ class DriveAdapter(ServiceAdapter):
         parent_id: Optional[str] = None,
         resource_type: Optional[str] = None,
         limit: int = 100
-    ) -> List[DriveFileMetadata]:
+    ) -> list[DriveFileMetadata]:
         """
         List Drive files/folders with metadata only.
 
@@ -295,7 +295,7 @@ class DriveAdapter(ServiceAdapter):
         self,
         capability_token: str,
         query: SearchQuery
-    ) -> List[DriveFileMetadata]:
+    ) -> list[DriveFileMetadata]:
         """
         Search Drive files by name, content, or metadata.
 
@@ -397,7 +397,7 @@ class DriveAdapter(ServiceAdapter):
         limit: int,
         parent_id: Optional[str],
         resource_type: Optional[str]
-    ) -> List[DriveFileMetadata]:
+    ) -> list[DriveFileMetadata]:
         """Generate mock Drive file listings"""
         mock_files = []
 
@@ -545,7 +545,7 @@ File size: {metadata.size} bytes
             message=f"File moved to folder {new_parent_id}"
         )
 
-    def _mock_search_files(self, query: SearchQuery) -> List[DriveFileMetadata]:
+    def _mock_search_files(self, query: SearchQuery) -> list[DriveFileMetadata]:
         """Mock file search"""
         all_files = self._generate_mock_drive_files(100, None, None)
 
@@ -559,7 +559,7 @@ File size: {metadata.size} bytes
 
 
 # Factory function
-async def create_drive_adapter(consent_service: ConsentService = None, config: Dict[str, Any] = None) -> DriveAdapter:
+async def create_drive_adapter(consent_service: ConsentService = None, config: dict[str, Any] = None) -> DriveAdapter:
     """Create and initialize Google Drive adapter"""
     adapter = DriveAdapter(consent_service)
     await adapter.initialize(config or {"mock_mode": True})

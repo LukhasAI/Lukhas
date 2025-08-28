@@ -28,7 +28,7 @@ from collections.abc import AsyncGenerator
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from candidate.bridge.llm_wrappers.anthropic_function_bridge import (
@@ -75,15 +75,15 @@ class OrchestrationStrategy(Enum):
 class OrchestrationRequest:
     """Request for API orchestration"""
     prompt: str
-    context: Optional[Dict[str, Any]] = None
+    context: Optional[dict[str, Any]] = None
 
     # Model selection
-    preferred_providers: List[APIProvider] = field(default_factory=lambda: [APIProvider.ALL])
+    preferred_providers: list[APIProvider] = field(default_factory=lambda: [APIProvider.ALL])
     strategy: OrchestrationStrategy = OrchestrationStrategy.CONSENSUS
 
     # Function calling
     enable_functions: bool = True
-    specific_functions: Optional[List[str]] = None
+    specific_functions: Optional[list[str]] = None
 
     # Performance constraints
     max_latency_ms: int = 5000
@@ -106,17 +106,17 @@ class OrchestrationResponse:
 
     # Provider information
     primary_provider: APIProvider
-    participating_providers: List[APIProvider]
+    participating_providers: list[APIProvider]
 
     # Function calling results
-    function_calls: List[Dict[str, Any]] = field(default_factory=list)
-    tool_uses: List[Dict[str, Any]] = field(default_factory=list)
+    function_calls: list[dict[str, Any]] = field(default_factory=list)
+    tool_uses: list[dict[str, Any]] = field(default_factory=list)
 
     # Performance metrics
     total_latency_ms: float = 0.0
-    provider_latencies: Dict[str, float] = field(default_factory=dict)
+    provider_latencies: dict[str, float] = field(default_factory=dict)
     total_cost: float = 0.0
-    token_usage: Dict[str, int] = field(default_factory=dict)
+    token_usage: dict[str, int] = field(default_factory=dict)
 
     # Quality metrics
     agreement_level: float = 0.0
@@ -128,7 +128,7 @@ class OrchestrationResponse:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     # Individual responses for transparency
-    individual_responses: List[Dict[str, Any]] = field(default_factory=list)
+    individual_responses: list[dict[str, Any]] = field(default_factory=list)
     decision_rationale: str = ""
 
 class ComprehensiveAPIOrchestrator:
@@ -242,7 +242,7 @@ class ComprehensiveAPIOrchestrator:
         import os
         return os.getenv(key_name)
 
-    def register_global_functions(self, functions: Dict[str, Dict[str, Any]]):
+    def register_global_functions(self, functions: dict[str, dict[str, Any]]):
         """Register functions that will be available to all providers"""
         self.global_functions.update(functions)
 
@@ -333,7 +333,7 @@ class ComprehensiveAPIOrchestrator:
             )
 
     async def stream_orchestration(self,
-                                 request: OrchestrationRequest) -> AsyncGenerator[Dict[str, Any], None]:
+                                 request: OrchestrationRequest) -> AsyncGenerator[dict[str, Any], None]:
         """Stream orchestration results in real-time"""
 
         logger.info(f"📡 Starting streaming orchestration: {request.request_id}")
@@ -448,7 +448,7 @@ class ComprehensiveAPIOrchestrator:
                 if current_cost + request.max_cost_threshold > daily_limit:
                     raise ValueError(f"Daily cost limit exceeded for {provider.value}")
 
-    def _select_providers(self, request: OrchestrationRequest, max_count: Optional[int] = None) -> List[APIProvider]:
+    def _select_providers(self, request: OrchestrationRequest, max_count: Optional[int] = None) -> list[APIProvider]:
         """Select providers based on request preferences and availability"""
         available_providers = list(self.bridges.keys())
 
@@ -466,7 +466,7 @@ class ComprehensiveAPIOrchestrator:
         return selected
 
     async def _single_best_orchestration(self, request: OrchestrationRequest,
-                                       providers: List[APIProvider]) -> OrchestrationResponse:
+                                       providers: list[APIProvider]) -> OrchestrationResponse:
         """Use single best provider based on capabilities"""
 
         # Select best provider (OpenAI > Anthropic > Others for general tasks)
@@ -537,7 +537,7 @@ class ComprehensiveAPIOrchestrator:
             )
 
     async def _consensus_orchestration(self, request: OrchestrationRequest,
-                                     providers: List[APIProvider]) -> OrchestrationResponse:
+                                     providers: list[APIProvider]) -> OrchestrationResponse:
         """Use multi-model consensus for enhanced accuracy"""
 
         if len(providers) < 2:
@@ -638,7 +638,7 @@ class ComprehensiveAPIOrchestrator:
         )
 
     async def _fallback_orchestration(self, request: OrchestrationRequest,
-                                    providers: List[APIProvider]) -> OrchestrationResponse:
+                                    providers: list[APIProvider]) -> OrchestrationResponse:
         """Try providers in order until one succeeds"""
 
         last_error = None
@@ -670,7 +670,7 @@ class ComprehensiveAPIOrchestrator:
         raise last_error or ValueError("All fallback providers failed")
 
     async def _parallel_orchestration(self, request: OrchestrationRequest,
-                                    providers: List[APIProvider]) -> OrchestrationResponse:
+                                    providers: list[APIProvider]) -> OrchestrationResponse:
         """Execute all providers in parallel, return fastest valid response"""
 
         tasks = []
@@ -708,16 +708,16 @@ class ComprehensiveAPIOrchestrator:
         raise ValueError("All parallel providers failed")
 
     async def _competitive_orchestration(self, request: OrchestrationRequest,
-                                       providers: List[APIProvider]) -> OrchestrationResponse:
+                                       providers: list[APIProvider]) -> OrchestrationResponse:
         """Run all providers, select best response based on quality metrics"""
         return await self._consensus_orchestration(request, providers)  # Similar to consensus
 
     async def _ensemble_orchestration(self, request: OrchestrationRequest,
-                                    providers: List[APIProvider]) -> OrchestrationResponse:
+                                    providers: list[APIProvider]) -> OrchestrationResponse:
         """Combine all provider responses into comprehensive ensemble"""
         return await self._consensus_orchestration(request, providers)  # Similar to consensus
 
-    async def _execute_provider(self, provider: APIProvider, request: OrchestrationRequest) -> Dict[str, Any]:
+    async def _execute_provider(self, provider: APIProvider, request: OrchestrationRequest) -> dict[str, Any]:
         """Execute request on specific provider"""
         bridge = self.bridges[provider]
         start_time = time.perf_counter()
@@ -803,7 +803,7 @@ class ComprehensiveAPIOrchestrator:
         else:
             raise NotImplementedError(f"Provider {provider.value} execution not implemented")
 
-    def _calculate_simple_agreement(self, contents: List[str]) -> float:
+    def _calculate_simple_agreement(self, contents: list[str]) -> float:
         """Calculate simple agreement level between responses"""
         if len(contents) < 2:
             return 1.0
@@ -851,7 +851,7 @@ class ComprehensiveAPIOrchestrator:
 
         return weighted_similarity
 
-    def _estimate_cost(self, provider: APIProvider, usage: Dict[str, int]) -> float:
+    def _estimate_cost(self, provider: APIProvider, usage: dict[str, int]) -> float:
         """Estimate cost for provider usage"""
         if not usage:
             return 0.0
@@ -910,7 +910,7 @@ class ComprehensiveAPIOrchestrator:
             current_rate = self.metrics["consensus_success_rate"]
             self.metrics["consensus_success_rate"] = ((current_rate * (total_requests - 1)) + 1.0) / total_requests
 
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -> dict[str, Any]:
         """Get comprehensive orchestration metrics"""
         total_requests = self.metrics["total_requests"]
 
@@ -950,7 +950,7 @@ class AdvancedConsensusStrategies:
     """Advanced consensus algorithms for multi-model orchestration"""
 
     @staticmethod
-    def weighted_voting(responses: List[Dict], weights: Dict[str, float]) -> Dict:
+    def weighted_voting(responses: list[dict], weights: dict[str, float]) -> dict:
         """Weighted voting consensus based on provider reliability"""
         if not responses:
             return {}
@@ -970,7 +970,7 @@ class AdvancedConsensusStrategies:
         return max(scored_responses, key=lambda x: x[1])[0]
 
     @staticmethod
-    def semantic_clustering(responses: List[Dict], similarity_threshold: float = 0.7) -> Dict:
+    def semantic_clustering(responses: list[dict], similarity_threshold: float = 0.7) -> dict:
         """Group responses by semantic similarity and choose cluster representative"""
         if not responses:
             return {}
@@ -1004,7 +1004,7 @@ class AdvancedConsensusStrategies:
         return max(largest_cluster, key=lambda x: x.get("confidence", 0))
 
     @staticmethod
-    def confidence_weighted_ensemble(responses: List[Dict]) -> str:
+    def confidence_weighted_ensemble(responses: list[dict]) -> str:
         """Create ensemble response weighted by confidence scores"""
         if not responses:
             return ""
@@ -1020,9 +1020,9 @@ class AdvancedConsensusStrategies:
 # Convenience functions
 async def orchestrate_request(prompt: str,
                              strategy: str = "consensus",
-                             providers: List[str] = None,
+                             providers: list[str] = None,
                              enable_functions: bool = True,
-                             context: Optional[Dict[str, Any]] = None) -> OrchestrationResponse:
+                             context: Optional[dict[str, Any]] = None) -> OrchestrationResponse:
     """Convenience function for orchestration"""
     orchestrator = get_orchestrator()
 
@@ -1037,7 +1037,7 @@ async def orchestrate_request(prompt: str,
     return await orchestrator.orchestrate(request)
 
 async def orchestrate_healthcare_request(prompt: str,
-                                        patient_context: Optional[Dict] = None,
+                                        patient_context: Optional[dict] = None,
                                         consent_verified: bool = False) -> OrchestrationResponse:
     """Specialized healthcare orchestration with compliance checks"""
     if not consent_verified:
@@ -1060,7 +1060,7 @@ async def orchestrate_healthcare_request(prompt: str,
 
 async def stream_request(prompt: str,
                         provider: str = "openai",
-                        enable_functions: bool = True) -> AsyncGenerator[Dict[str, Any], None]:
+                        enable_functions: bool = True) -> AsyncGenerator[dict[str, Any], None]:
     """Convenience function for streaming"""
     orchestrator = get_orchestrator()
 

@@ -133,7 +133,7 @@ def annotate_file(file_path: str, todos: list[dict], dry_run: bool = False) -> i
             continue  # Already annotated
 
         # Generate suggestion
-        suggestion = suggest_autofix_pattern(
+        suggest_autofix_pattern(
             todo["type"],
             todo["message"],
             todo["context"]

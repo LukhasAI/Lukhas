@@ -27,7 +27,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 from candidate.core.common import get_logger
 
@@ -116,7 +116,7 @@ class ComplianceAuditEvent:
     data_subject_type: str = "individual"  # individual, employee, customer, etc.
 
     # Data processing details
-    data_categories: List[DataCategory] = field(default_factory=list)
+    data_categories: list[DataCategory] = field(default_factory=list)
     processing_purpose: Optional[DataProcessingPurpose] = None
     lawful_basis: Optional[str] = None
 
@@ -135,7 +135,7 @@ class ComplianceAuditEvent:
     # Technical details
     data_volume_bytes: Optional[int] = None
     encryption_status: bool = False
-    access_controls_applied: List[str] = field(default_factory=list)
+    access_controls_applied: list[str] = field(default_factory=list)
 
     # Audit trail
     user_id: Optional[str] = None
@@ -149,7 +149,7 @@ class ComplianceAuditEvent:
     drift_score_at_time: Optional[float] = None
 
     # Additional metadata
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     # Compliance assessment
     compliance_status: ComplianceStatus = ComplianceStatus.COMPLIANT
@@ -165,8 +165,8 @@ class ConsentRecord:
     timestamp: datetime
 
     # Consent details
-    purposes: List[DataProcessingPurpose]
-    data_categories: List[DataCategory]
+    purposes: list[DataProcessingPurpose]
+    data_categories: list[DataCategory]
     consent_method: str  # explicit, implicit, opt_in, opt_out
 
     # Consent status
@@ -184,13 +184,13 @@ class ConsentRecord:
     privacy_policy_version: str = "1.0"
 
     # Audit trail
-    consent_evidence: Dict[str, Any] = field(default_factory=dict)
+    consent_evidence: dict[str, Any] = field(default_factory=dict)
     user_agent: Optional[str] = None
     ip_address: Optional[str] = None
 
     # CCPA specific
     ccpa_sale_opt_out: bool = False
-    ccpa_categories: List[str] = field(default_factory=list)
+    ccpa_categories: list[str] = field(default_factory=list)
 
     # Guardian System validation (🛡️)
     guardian_approved: bool = False
@@ -218,15 +218,15 @@ class DataSubjectRequest:
 
     # Request fulfillment
     data_provided: Optional[str] = None  # file path or reference
-    actions_taken: List[str] = field(default_factory=list)
-    systems_affected: List[str] = field(default_factory=list)
+    actions_taken: list[str] = field(default_factory=list)
+    systems_affected: list[str] = field(default_factory=list)
 
     # Legal assessment
     exemption_applied: Optional[str] = None
     legal_basis_for_rejection: Optional[str] = None
 
     # Communication trail
-    communications: List[Dict[str, Any]] = field(default_factory=list)
+    communications: list[dict[str, Any]] = field(default_factory=list)
 
     # Compliance tracking
     sla_met: bool = False
@@ -247,19 +247,19 @@ class PrivacyImpactAssessment:
     data_controller: str = "LUKHAS AI"
 
     # Data processing details
-    data_categories: List[DataCategory]
-    processing_purposes: List[DataProcessingPurpose]
-    data_subjects: List[str]
+    data_categories: list[DataCategory]
+    processing_purposes: list[DataProcessingPurpose]
+    data_subjects: list[str]
 
     # Risk assessment
-    privacy_risks: List[Dict[str, Any]] = field(default_factory=list)
-    risk_mitigation_measures: List[str] = field(default_factory=list)
+    privacy_risks: list[dict[str, Any]] = field(default_factory=list)
+    risk_mitigation_measures: list[str] = field(default_factory=list)
     residual_risk_level: str = "low"
 
     # Technical measures
-    security_measures: List[str] = field(default_factory=list)
+    security_measures: list[str] = field(default_factory=list)
     data_minimization_applied: bool = False
-    anonymization_techniques: List[str] = field(default_factory=list)
+    anonymization_techniques: list[str] = field(default_factory=list)
 
     # Review and approval
     reviewed_by: Optional[str] = None
@@ -276,15 +276,15 @@ class PrivacyImpactAssessment:
 class ComplianceAuditSystem:
     """
     Comprehensive compliance audit system for GDPR/CCPA and other regulations.
-    
+
     Provides audit trail management, consent tracking, data subject rights
     processing, and regulatory compliance monitoring.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize compliance audit system.
-        
+
         Args:
             config: Optional configuration dictionary
         """
@@ -297,9 +297,9 @@ class ComplianceAuditSystem:
 
         # Data storage
         self.audit_events: deque = deque(maxlen=self.max_audit_events)
-        self.consent_records: Dict[str, ConsentRecord] = {}
-        self.subject_requests: Dict[str, DataSubjectRequest] = {}
-        self.privacy_assessments: Dict[str, PrivacyImpactAssessment] = {}
+        self.consent_records: dict[str, ConsentRecord] = {}
+        self.subject_requests: dict[str, DataSubjectRequest] = {}
+        self.privacy_assessments: dict[str, PrivacyImpactAssessment] = {}
 
         # Regulatory configurations
         self.supported_regulations = {
@@ -320,12 +320,12 @@ class ComplianceAuditSystem:
         }
 
         # Data processing inventory
-        self.processing_activities: Dict[str, Dict[str, Any]] = {}
-        self.data_flows: List[Dict[str, Any]] = []
+        self.processing_activities: dict[str, dict[str, Any]] = {}
+        self.data_flows: list[dict[str, Any]] = []
 
         # Compliance monitoring
         self.compliance_violations: deque = deque(maxlen=1000)
-        self.remediation_actions: Dict[str, Dict[str, Any]] = {}
+        self.remediation_actions: dict[str, dict[str, Any]] = {}
 
         # Guardian System integration (🛡️)
         self.guardian_integration_enabled = True
@@ -358,14 +358,14 @@ class ComplianceAuditSystem:
         self,
         event_type: AuditEventType,
         regulation: ComplianceRegulation,
-        data_categories: List[DataCategory],
+        data_categories: list[DataCategory],
         processing_purpose: DataProcessingPurpose,
         data_subject_id: Optional[str] = None,
         **metadata
     ) -> str:
         """
         Log a data processing event for compliance audit.
-        
+
         Args:
             event_type: Type of processing event
             regulation: Applicable regulation
@@ -373,7 +373,7 @@ class ComplianceAuditSystem:
             processing_purpose: Purpose of processing
             data_subject_id: Data subject identifier
             **metadata: Additional event metadata
-            
+
         Returns:
             str: Audit event ID
         """
@@ -436,15 +436,15 @@ class ComplianceAuditSystem:
     async def record_consent(
         self,
         data_subject_id: str,
-        purposes: List[DataProcessingPurpose],
-        data_categories: List[DataCategory],
+        purposes: list[DataProcessingPurpose],
+        data_categories: list[DataCategory],
         consent_method: str = "explicit",
         lawful_basis: DataProcessingPurpose = DataProcessingPurpose.CONSENT,
         **metadata
     ) -> str:
         """
         Record consent for data processing.
-        
+
         Args:
             data_subject_id: Data subject identifier
             purposes: Processing purposes
@@ -452,7 +452,7 @@ class ComplianceAuditSystem:
             consent_method: Method of consent collection
             lawful_basis: Legal basis for processing
             **metadata: Additional consent metadata
-            
+
         Returns:
             str: Consent record ID
         """
@@ -511,12 +511,12 @@ class ComplianceAuditSystem:
     ) -> bool:
         """
         Withdraw consent and trigger data processing cessation.
-        
+
         Args:
             consent_id: Consent record ID to withdraw
             withdrawal_method: Method of consent withdrawal
             **metadata: Additional withdrawal metadata
-            
+
         Returns:
             bool: True if consent was successfully withdrawn
         """
@@ -564,14 +564,14 @@ class ComplianceAuditSystem:
     ) -> str:
         """
         Process a data subject rights request.
-        
+
         Args:
             data_subject_id: Data subject identifier
             right_type: Type of right being exercised
             request_description: Description of the request
             verification_method: Method used to verify the request
             **metadata: Additional request metadata
-            
+
         Returns:
             str: Request ID
         """
@@ -624,14 +624,14 @@ class ComplianceAuditSystem:
         self,
         project_name: str,
         description: str,
-        data_categories: List[DataCategory],
-        processing_purposes: List[DataProcessingPurpose],
-        data_subjects: List[str],
+        data_categories: list[DataCategory],
+        processing_purposes: list[DataProcessingPurpose],
+        data_subjects: list[str],
         **metadata
     ) -> str:
         """
         Create a Privacy Impact Assessment.
-        
+
         Args:
             project_name: Name of the project/system
             description: Description of the processing
@@ -639,7 +639,7 @@ class ComplianceAuditSystem:
             processing_purposes: Purposes of processing
             data_subjects: Types of data subjects
             **metadata: Additional PIA metadata
-            
+
         Returns:
             str: PIA ID
         """
@@ -678,15 +678,15 @@ class ComplianceAuditSystem:
         regulation: ComplianceRegulation,
         start_date: datetime,
         end_date: datetime
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Generate comprehensive compliance report.
-        
+
         Args:
             regulation: Regulation to report on
             start_date: Report start date
             end_date: Report end date
-            
+
         Returns:
             Dict: Compliance report data
         """
@@ -931,8 +931,8 @@ class ComplianceAuditSystem:
 
     def _generate_consent_string(
         self,
-        purposes: List[DataProcessingPurpose],
-        data_categories: List[DataCategory]
+        purposes: list[DataProcessingPurpose],
+        data_categories: list[DataCategory]
     ) -> str:
         """Generate IAB TCF-style consent string."""
 
@@ -992,14 +992,14 @@ class ComplianceAuditSystem:
     async def _enforce_retention_policies(self): pass
     async def _cleanup_expired_data(self): pass
 
-    def _analyze_consent_methods(self) -> Dict[str, int]: return {}
-    def _calculate_average_response_time(self, requests: List[DataSubjectRequest]) -> float: return 0.0
-    def _analyze_requests_by_type(self, requests: List[DataSubjectRequest]) -> Dict[str, int]: return {}
-    def _analyze_violation_types(self, violations: List[Dict[str, Any]]) -> Dict[str, int]: return {}
-    def _analyze_remediation_status(self, violations: List[Dict[str, Any]]) -> Dict[str, int]: return {}
-    def _analyze_data_categories(self, events: List[ComplianceAuditEvent]) -> Dict[str, int]: return {}
-    def _calculate_average_drift_score(self, events: List[ComplianceAuditEvent]) -> float: return 0.0
-    async def _generate_compliance_recommendations(self, regulation: ComplianceRegulation, events: List[ComplianceAuditEvent]) -> List[str]: return []
+    def _analyze_consent_methods(self) -> dict[str, int]: return {}
+    def _calculate_average_response_time(self, requests: list[DataSubjectRequest]) -> float: return 0.0
+    def _analyze_requests_by_type(self, requests: list[DataSubjectRequest]) -> dict[str, int]: return {}
+    def _analyze_violation_types(self, violations: list[dict[str, Any]]) -> dict[str, int]: return {}
+    def _analyze_remediation_status(self, violations: list[dict[str, Any]]) -> dict[str, int]: return {}
+    def _analyze_data_categories(self, events: list[ComplianceAuditEvent]) -> dict[str, int]: return {}
+    def _calculate_average_drift_score(self, events: list[ComplianceAuditEvent]) -> float: return 0.0
+    async def _generate_compliance_recommendations(self, regulation: ComplianceRegulation, events: list[ComplianceAuditEvent]) -> list[str]: return []
 
 
 # Export main classes

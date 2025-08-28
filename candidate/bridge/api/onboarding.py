@@ -24,7 +24,7 @@ import secrets
 import time
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 try:
     from candidate.bridge.api.validation import (
@@ -54,7 +54,7 @@ logger = logging.getLogger(__name__)
 # Pydantic models for request/response validation
 class OnboardingStartRequest(BaseModel):
     """Start onboarding request model"""
-    user_info: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Initial user information")
+    user_info: Optional[dict[str, Any]] = Field(default_factory=dict, description="Initial user information")
     referral_code: Optional[str] = Field(None, description="Referral code")
     marketing_source: Optional[str] = Field(None, description="Marketing source")
 
@@ -71,8 +71,8 @@ class TierSetupRequest(BaseModel):
     """Tier setup request model"""
     session_id: str = Field(..., description="Onboarding session ID")
     experience_level: str = Field("beginner", description="User experience level")
-    use_cases: List[str] = Field(default_factory=list, description="Intended use cases")
-    user_preferences: Optional[Dict[str, Any]] = Field(default_factory=dict, description="User preferences")
+    use_cases: list[str] = Field(default_factory=list, description="Intended use cases")
+    user_preferences: Optional[dict[str, Any]] = Field(default_factory=dict, description="User preferences")
     industry: Optional[str] = Field(None, description="User's industry")
     organization_size: Optional[str] = Field(None, description="Organization size")
 
@@ -86,15 +86,15 @@ class TierSetupRequest(BaseModel):
 class ConsentRequest(BaseModel):
     """Consent collection request model"""
     session_id: str = Field(..., description="Onboarding session ID")
-    consent_choices: Dict[str, bool] = Field(..., description="Consent choices")
+    consent_choices: dict[str, bool] = Field(..., description="Consent choices")
     ip_address: Optional[str] = Field(None, description="User IP address")
     user_agent: Optional[str] = Field(None, description="User agent string")
 
 class CompletionRequest(BaseModel):
     """Onboarding completion request model"""
     session_id: str = Field(..., description="Onboarding session ID")
-    completed_steps: List[str] = Field(..., description="List of completed steps")
-    final_user_data: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Final user data")
+    completed_steps: list[str] = Field(..., description="List of completed steps")
+    final_user_data: Optional[dict[str, Any]] = Field(default_factory=dict, description="Final user data")
     terms_accepted: bool = Field(True, description="Terms of service accepted")
     privacy_policy_accepted: bool = Field(True, description="Privacy policy accepted")
 
@@ -105,7 +105,7 @@ class OnboardingSession:
         self.sessions = {}  # In production, use Redis or database
         self.api_keys = {}  # In production, use secure key store
 
-    def create_session(self, user_info: Dict[str, Any], referral_code: Optional[str] = None) -> Dict[str, Any]:
+    def create_session(self, user_info: dict[str, Any], referral_code: Optional[str] = None) -> dict[str, Any]:
         """Create new onboarding session"""
         session_id = f"session_{int(time.time() * 1000)}_{uuid.uuid4().hex[:8]}"
 
@@ -126,7 +126,7 @@ class OnboardingSession:
         self.sessions[session_id] = session_data
         return session_data
 
-    def get_session(self, session_id: str) -> Optional[Dict[str, Any]]:
+    def get_session(self, session_id: str) -> Optional[dict[str, Any]]:
         """Get session data"""
         session = self.sessions.get(session_id)
         if session and session["expires_at"] > time.time():
@@ -136,7 +136,7 @@ class OnboardingSession:
             del self.sessions[session_id]
         return None
 
-    def update_session(self, session_id: str, updates: Dict[str, Any]) -> bool:
+    def update_session(self, session_id: str, updates: dict[str, Any]) -> bool:
         """Update session data"""
         session = self.get_session(session_id)
         if session:
@@ -172,7 +172,7 @@ class OnboardingSession:
 
         return api_key
 
-    def _get_tier_limits(self, tier: str) -> Dict[str, Any]:
+    def _get_tier_limits(self, tier: str) -> dict[str, Any]:
         """Get rate limits for tier"""
         tier_limits = {
             "LAMBDA_TIER_1": {"requests_per_minute": 10, "requests_per_day": 100, "max_cost_per_day": 5.0},
@@ -191,7 +191,7 @@ class OnboardingService:
     def __init__(self):
         self.validator = get_validator() if VALIDATION_AVAILABLE else None
 
-    async def validate_onboarding_request(self, request_data: Dict[str, Any], step: str) -> Optional[Dict[str, Any]]:
+    async def validate_onboarding_request(self, request_data: dict[str, Any], step: str) -> Optional[dict[str, Any]]:
         """Validate onboarding request data"""
         if not self.validator:
             return None
@@ -208,7 +208,7 @@ class OnboardingService:
 
         return {"valid": True, "warnings": result.warnings}
 
-    def assign_tier(self, experience_level: str, use_cases: List[str],
+    def assign_tier(self, experience_level: str, use_cases: list[str],
                    industry: Optional[str] = None, org_size: Optional[str] = None) -> str:
         """Intelligent tier assignment based on user profile"""
 
@@ -243,7 +243,7 @@ class OnboardingService:
 
         return tier_levels[current_index]
 
-    def get_tier_features(self, tier: str) -> Dict[str, Any]:
+    def get_tier_features(self, tier: str) -> dict[str, Any]:
         """Get features and benefits for a tier"""
         tier_features = {
             "LAMBDA_TIER_1": {
@@ -300,8 +300,8 @@ class OnboardingService:
 
         return tier_features.get(tier, tier_features["LAMBDA_TIER_1"])
 
-    def validate_consent(self, consent_choices: Dict[str, bool],
-                        healthcare_context: bool = False) -> Dict[str, Any]:
+    def validate_consent(self, consent_choices: dict[str, bool],
+                        healthcare_context: bool = False) -> dict[str, Any]:
         """Validate consent requirements"""
 
         # Required consents for all users
@@ -746,7 +746,7 @@ if FASTAPI_AVAILABLE:
                 detail=f"Error completing onboarding: {str(e)}"
             )
 
-    def _get_personalized_recommendations(self, use_cases: List[str]) -> List[str]:
+    def _get_personalized_recommendations(self, use_cases: list[str]) -> list[str]:
         """Get personalized recommendations based on use cases"""
         recommendations = []
 

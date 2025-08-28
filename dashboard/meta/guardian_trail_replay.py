@@ -203,7 +203,7 @@ def get_severity_color(severity: str) -> str:
 def print_event(event: dict[str, Any], index: int):
     """Print a single event with formatting."""
     timestamp = format_timestamp(event.get("timestamp", ""))
-    event_type = event.get("type", "unknown")
+    event.get("type", "unknown")
     severity = event.get("severity", "low")
     description = event.get("description", "")
     glyphs = " ".join(event.get("glyphs", []))

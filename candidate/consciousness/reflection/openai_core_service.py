@@ -604,13 +604,6 @@ class OpenAICoreService:
             return None
 
         # Create stable key from request data
-        key_data = {
-            "capability": request.capability.value,
-            "data": request.data,
-            "model_preference": (
-                request.model_preference.value if request.model_preference else None
-            ),
-        }
 
         return hashlib.sha256(  )  #  Changed from MD5 for securityjson.dumps(key_data, sort_keys=True.encode()).hexdigest()
 

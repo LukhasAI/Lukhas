@@ -480,10 +480,10 @@ class AwarenessProcessor:
     async def update_awareness_metrics(self, metrics_update: dict[str, Any]) -> bool:
         """
         Update awareness monitoring metrics.
-        
+
         Args:
             metrics_update: Dictionary of metric updates
-            
+
         Returns:
             bool: True if update successful
         """

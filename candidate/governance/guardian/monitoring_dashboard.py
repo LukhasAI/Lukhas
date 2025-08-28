@@ -1,8 +1,8 @@
 """
 Advanced Guardian System Monitoring Dashboard for LUKHAS AI
 
-This module provides a comprehensive real-time monitoring dashboard for the 
-Guardian System with drift detection, threat monitoring, and compliance 
+This module provides a comprehensive real-time monitoring dashboard for the
+Guardian System with drift detection, threat monitoring, and compliance
 oversight. Maintains the critical 0.15 threshold for system stability while
 providing extensive observability and alerting capabilities.
 
@@ -33,7 +33,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -89,8 +89,8 @@ class MonitoringMetric:
     severity: AlertSeverity = AlertSeverity.INFO
 
     # Context
-    tags: Dict[str, str] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     # Trinity Framework tracking
     identity_impact: Optional[float] = None      # ⚛️
@@ -115,15 +115,15 @@ class ThreatDetection:
     # Source information
     source_system: str
     detection_method: str
-    triggering_events: List[Dict[str, Any]] = field(default_factory=list)
+    triggering_events: list[dict[str, Any]] = field(default_factory=list)
 
     # Analysis
-    indicators: List[str] = field(default_factory=list)
-    attack_vectors: List[str] = field(default_factory=list)
-    potential_impact: Dict[str, float] = field(default_factory=dict)
+    indicators: list[str] = field(default_factory=list)
+    attack_vectors: list[str] = field(default_factory=list)
+    potential_impact: dict[str, float] = field(default_factory=dict)
 
     # Response
-    mitigation_actions: List[str] = field(default_factory=list)
+    mitigation_actions: list[str] = field(default_factory=list)
     containment_status: str = "pending"
     response_time: Optional[timedelta] = None
 
@@ -144,12 +144,12 @@ class ComplianceViolation:
     business_impact: float
 
     # Evidence
-    evidence: List[Dict[str, Any]] = field(default_factory=list)
-    audit_trail: List[str] = field(default_factory=list)
+    evidence: list[dict[str, Any]] = field(default_factory=list)
+    audit_trail: list[str] = field(default_factory=list)
 
     # Remediation
     remediation_required: bool = True
-    remediation_actions: List[str] = field(default_factory=list)
+    remediation_actions: list[str] = field(default_factory=list)
     compliance_deadline: Optional[datetime] = None
 
 
@@ -187,45 +187,45 @@ class MonitoringReport:
 
     report_id: str
     generated_at: datetime
-    time_period: Tuple[datetime, datetime]
+    time_period: tuple[datetime, datetime]
     scope: MonitoringScope
 
     # Summary statistics
     total_metrics: int
-    metrics_by_category: Dict[str, int] = field(default_factory=dict)
-    alert_summary: Dict[AlertSeverity, int] = field(default_factory=dict)
+    metrics_by_category: dict[str, int] = field(default_factory=dict)
+    alert_summary: dict[AlertSeverity, int] = field(default_factory=dict)
 
     # System health
     health_status: SystemHealthStatus
 
     # Security analysis
-    threats_detected: List[ThreatDetection] = field(default_factory=list)
+    threats_detected: list[ThreatDetection] = field(default_factory=list)
     security_incidents: int = 0
 
     # Compliance status
-    compliance_violations: List[ComplianceViolation] = field(default_factory=list)
+    compliance_violations: list[ComplianceViolation] = field(default_factory=list)
     compliance_score: float = 1.0
 
     # Performance insights
-    performance_trends: Dict[str, List[float]] = field(default_factory=dict)
-    anomalies_detected: List[str] = field(default_factory=list)
+    performance_trends: dict[str, list[float]] = field(default_factory=dict)
+    anomalies_detected: list[str] = field(default_factory=list)
 
     # Recommendations
-    immediate_actions: List[str] = field(default_factory=list)
-    preventive_measures: List[str] = field(default_factory=list)
-    optimization_suggestions: List[str] = field(default_factory=list)
+    immediate_actions: list[str] = field(default_factory=list)
+    preventive_measures: list[str] = field(default_factory=list)
+    optimization_suggestions: list[str] = field(default_factory=list)
 
 
 class GuardianMonitoringDashboard:
     """
     Advanced monitoring dashboard for Guardian System
-    
+
     Provides comprehensive real-time monitoring with threat detection,
     compliance oversight, performance tracking, and integrated alerting
     system for the LUKHAS AI Guardian System.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Core configuration
@@ -241,13 +241,13 @@ class GuardianMonitoringDashboard:
         self.compliance_violations: deque = deque(maxlen=500)
 
         # Real-time tracking
-        self.current_metrics: Dict[str, MonitoringMetric] = {}
-        self.active_alerts: Dict[str, Dict[str, Any]] = {}
+        self.current_metrics: dict[str, MonitoringMetric] = {}
+        self.active_alerts: dict[str, dict[str, Any]] = {}
         self.system_health: Optional[SystemHealthStatus] = None
 
         # Monitoring state
         self.monitoring_active = True
-        self.dashboard_sessions: Dict[str, Dict[str, Any]] = {}
+        self.dashboard_sessions: dict[str, dict[str, Any]] = {}
 
         # Performance tracking
         self.performance_metrics = {
@@ -397,8 +397,8 @@ class GuardianMonitoringDashboard:
         source: str,
         category: str = "general",
         scope: MonitoringScope = MonitoringScope.SYSTEM_WIDE,
-        tags: Optional[Dict[str, str]] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        tags: Optional[dict[str, str]] = None,
+        metadata: Optional[dict[str, Any]] = None
     ) -> MonitoringMetric:
         """Record a monitoring metric"""
 
@@ -457,8 +457,8 @@ class GuardianMonitoringDashboard:
         source_system: str,
         detection_method: str,
         confidence: float,
-        indicators: Optional[List[str]] = None,
-        attack_vectors: Optional[List[str]] = None
+        indicators: Optional[list[str]] = None,
+        attack_vectors: Optional[list[str]] = None
     ) -> ThreatDetection:
         """Record a security threat detection"""
 
@@ -512,7 +512,7 @@ class GuardianMonitoringDashboard:
         severity: AlertSeverity,
         legal_risk: float,
         business_impact: float,
-        evidence: Optional[List[Dict[str, Any]]] = None
+        evidence: Optional[list[dict[str, Any]]] = None
     ) -> ComplianceViolation:
         """Record a compliance violation"""
 
@@ -565,7 +565,7 @@ class GuardianMonitoringDashboard:
         self,
         scope: MonitoringScope = MonitoringScope.SYSTEM_WIDE,
         time_range_hours: int = 24
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get comprehensive dashboard data"""
 
         try:
@@ -833,7 +833,7 @@ class GuardianMonitoringDashboard:
         except Exception as e:
             logger.error(f"❌ System health update failed: {e}")
 
-    def _calculate_component_health(self, metrics: List[MonitoringMetric]) -> float:
+    def _calculate_component_health(self, metrics: list[MonitoringMetric]) -> float:
         """Calculate health score for component metrics"""
 
         if not metrics:
@@ -948,7 +948,7 @@ class GuardianMonitoringDashboard:
 
         logger.error(f"⚖️ Compliance alert: {alert['message']}")
 
-    def _count_alerts_by_severity(self, alerts: List[Dict[str, Any]]) -> Dict[str, int]:
+    def _count_alerts_by_severity(self, alerts: list[dict[str, Any]]) -> dict[str, int]:
         """Count alerts by severity level"""
 
         counts = defaultdict(int)
@@ -956,7 +956,7 @@ class GuardianMonitoringDashboard:
             counts[alert.get("severity", "info")] += 1
         return dict(counts)
 
-    def _get_active_protections(self) -> List[str]:
+    def _get_active_protections(self) -> list[str]:
         """Get list of currently active Guardian protections"""
 
         return [
@@ -1000,7 +1000,7 @@ class GuardianMonitoringDashboard:
 
         return "normal"
 
-    async def _analyze_threat_impact(self, threat: ThreatDetection) -> Dict[str, float]:
+    async def _analyze_threat_impact(self, threat: ThreatDetection) -> dict[str, float]:
         """Analyze potential threat impact"""
 
         return {
@@ -1010,7 +1010,7 @@ class GuardianMonitoringDashboard:
             "user_privacy": 0.9 if "privacy" in threat.threat_type.lower() else 0.2
         }
 
-    async def _generate_mitigation_actions(self, threat: ThreatDetection) -> List[str]:
+    async def _generate_mitigation_actions(self, threat: ThreatDetection) -> list[str]:
         """Generate mitigation actions for threat"""
 
         actions = ["Monitor threat indicators", "Review access logs"]
@@ -1024,7 +1024,7 @@ class GuardianMonitoringDashboard:
 
         return actions
 
-    async def _generate_remediation_actions(self, violation: ComplianceViolation) -> List[str]:
+    async def _generate_remediation_actions(self, violation: ComplianceViolation) -> list[str]:
         """Generate remediation actions for compliance violation"""
 
         actions = [
@@ -1058,7 +1058,7 @@ class GuardianMonitoringDashboard:
     async def get_monitoring_report(
         self,
         scope: MonitoringScope = MonitoringScope.SYSTEM_WIDE,
-        time_period: Optional[Tuple[datetime, datetime]] = None
+        time_period: Optional[tuple[datetime, datetime]] = None
     ) -> MonitoringReport:
         """Generate comprehensive monitoring report"""
 

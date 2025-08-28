@@ -284,10 +284,10 @@ else:
 
         try:
             # Phase 1: System Diagnostics
-            diagnostics = self.get_system_diagnostics()
+            self.get_system_diagnostics()
 
             # Phase 2: Self-Analysis
-            analysis = self.ask_abot_for_self_analysis()
+            self.ask_abot_for_self_analysis()
 
             # Phase 3: Autonomous Healing
             self.autonomous_healing_actions()

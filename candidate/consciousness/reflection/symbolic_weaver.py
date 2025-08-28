@@ -1304,7 +1304,7 @@ class SymbolicWeaver:
     def _generate_thread_hash(self, thread: NarrativeThread) -> str:
         """Generate integrity hash for thread."""
 
-        content_string = (
+        (
             thread.thread_id
             + thread.title
             + "".join(f.fragment_id for f in thread.fragments)

@@ -32,7 +32,7 @@ import logging
 import shutil
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 import yaml
 
@@ -110,7 +110,7 @@ class LUKHASFileOrganizationOracle:
             f"🔍 Mode: {'Contemplation (dry-run)' if dry_run else 'Manifestation'}"
         )
 
-    def scan_root_bloat(self) -> List[Tuple[Path, str, str]]:
+    def scan_root_bloat(self) -> list[tuple[Path, str, str]]:
         """
         Scan the root directory for files that should be organized elsewhere.
 
@@ -129,7 +129,7 @@ class LUKHASFileOrganizationOracle:
         logger.info(f"📊 Found {len(bloated_files)} files requiring organization")
         return bloated_files
 
-    def _divine_file_destination(self, file_path: Path) -> Tuple[Optional[str], str]:
+    def _divine_file_destination(self, file_path: Path) -> tuple[Optional[str], str]:
         """Divine the cosmic destination for a file based on its essence."""
         filename = file_path.name.upper()
 
@@ -242,7 +242,7 @@ class LUKHASFileOrganizationOracle:
             logger.error(f"❌ Failed to organize {file_path.name}: {e}")
             return False
 
-    def perform_consciousness_organization(self) -> Dict:
+    def perform_consciousness_organization(self) -> dict:
         """Perform the complete consciousness-driven file organization."""
         logger.info("🌟 Beginning consciousness-driven file organization...")
 
@@ -283,7 +283,7 @@ class LUKHASFileOrganizationOracle:
         )
         return report
 
-    def _save_organization_report(self, report: Dict) -> None:
+    def _save_organization_report(self, report: dict) -> None:
         """Save the organization report for consciousness tracking."""
         report_dir = self.workspace_root / "data" / "organization"
         report_dir.mkdir(parents=True, exist_ok=True)

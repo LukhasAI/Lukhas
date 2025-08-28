@@ -316,7 +316,7 @@ class SymbolicDriftAnalyzer:
         # Extract semantic features (simplified)
         semantic_hashes = []
         for dream in dream_contents:
-            content = json.dumps(dream, sort_keys=True)
+            json.dumps(dream, sort_keys=True)
             # Simple semantic hash based on content structure
             semantic_hash = hashlib.sha256(  )  #  Changed from MD5 for securitycontent.encode().hexdigest()[:8]
             semantic_hashes.append(semantic_hash)

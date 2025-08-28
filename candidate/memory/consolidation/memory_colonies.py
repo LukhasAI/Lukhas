@@ -21,7 +21,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 # Import core systems with fallbacks
 try:
@@ -64,7 +64,7 @@ class MemoryColony:
     health_score: float = 1.0
     last_activity: Optional[datetime] = None
     processing_queue: deque = field(default_factory=lambda: deque(maxlen=100))
-    processed_memories: Set[str] = field(default_factory=set)
+    processed_memories: set[str] = field(default_factory=set)
 
 
 class ConsolidatedMemorycolonies:
@@ -73,7 +73,7 @@ class ConsolidatedMemorycolonies:
     def __init__(self):
         self.active_memories = {}
         self.processing_queue = deque(maxlen=5000)
-        self.colonies: Dict[str, MemoryColony] = {}
+        self.colonies: dict[str, MemoryColony] = {}
         self.colony_network = defaultdict(list)  # Colony interconnections
         self.performance_metrics = {
             "total_colonies": 0,
@@ -229,7 +229,7 @@ class ConsolidatedMemorycolonies:
         complexity = (unique_words / max(word_count, 1)) * (word_count / 100)
         return min(complexity, 1.0)
 
-    def _identify_secondary_types(self, memory_data: dict, classification: dict) -> List[ColonyType]:
+    def _identify_secondary_types(self, memory_data: dict, classification: dict) -> list[ColonyType]:
         """Identify secondary memory types for cross-colony processing"""
         secondary_types = []
 
@@ -245,7 +245,7 @@ class ConsolidatedMemorycolonies:
 
         return secondary_types
 
-    async def _select_target_colonies(self, classification: dict, memory_data: dict) -> List[str]:
+    async def _select_target_colonies(self, classification: dict, memory_data: dict) -> list[str]:
         """Select target colonies for memory processing"""
         target_colonies = []
         primary_type = classification["primary_type"]
@@ -430,7 +430,7 @@ class ConsolidatedMemorycolonies:
             "narrative_coherence": 0.6
         }
 
-    async def _consolidate_colony_results(self, processing_results: List[dict], classification: dict) -> dict:
+    async def _consolidate_colony_results(self, processing_results: list[dict], classification: dict) -> dict:
         """Consolidate results from multiple colony processing"""
         if not processing_results:
             return {"status": "no_processing", "reason": "no_active_colonies"}
@@ -459,7 +459,7 @@ class ConsolidatedMemorycolonies:
         self.performance_metrics["consolidation_events"] += 1
         return consolidated
 
-    async def _manage_colony_lifecycle(self, target_colonies: List[str], memory_data: dict):
+    async def _manage_colony_lifecycle(self, target_colonies: list[str], memory_data: dict):
         """Manage colony lifecycle including replication and degradation"""
         for colony_id in target_colonies:
             if colony_id not in self.colonies:

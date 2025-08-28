@@ -14,7 +14,7 @@ import secrets
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 # Standard library fallback imports
 try:
@@ -83,7 +83,7 @@ class AuthResult:
     success: bool
     user_id: Optional[str] = None
     session_token: Optional[str] = None
-    permissions: List[str] = None
+    permissions: list[str] = None
     expires_at: Optional[float] = None
     error: Optional[str] = None
     auth_method: str = "unknown"
@@ -102,8 +102,8 @@ class UserProfile:
     email: Optional[str] = None
     created_at: float = None
     last_login: Optional[float] = None
-    permissions: List[str] = None
-    metadata: Dict[str, Any] = None
+    permissions: list[str] = None
+    metadata: dict[str, Any] = None
 
     def __post_init__(self):
         if self.permissions is None:
@@ -126,7 +126,7 @@ class AuthenticationService:
     - API key authentication for services
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.logger = logging.getLogger("auth.service")
 
@@ -144,7 +144,7 @@ class AuthenticationService:
         self._init_wallet_integration()
 
         # Session management
-        self.active_sessions: Dict[str, Dict[str, Any]] = {}
+        self.active_sessions: dict[str, dict[str, Any]] = {}
         self.session_timeout = self.config.get("session_timeout", 3600)  # 1 hour
 
         # Security settings
@@ -374,7 +374,7 @@ class AuthenticationService:
         username: str,
         password: str,
         email: Optional[str] = None,
-        permissions: Optional[List[str]] = None,
+        permissions: Optional[list[str]] = None,
     ) -> UserProfile:
         """
         Create a new user account
@@ -437,7 +437,7 @@ class AuthenticationService:
             metadata=user_data.get("metadata", {}),
         )
 
-    def update_user_permissions(self, user_id: str, permissions: List[str]) -> bool:
+    def update_user_permissions(self, user_id: str, permissions: list[str]) -> bool:
         """Update user permissions"""
         if user_id not in self.users:
             return False
@@ -809,7 +809,7 @@ class AuthenticationService:
         except Exception as e:
             self.logger.error(f"Error saving sessions: {e}")
 
-    def get_service_status(self) -> Dict[str, Any]:
+    def get_service_status(self) -> dict[str, Any]:
         """Get comprehensive service status including implementation details"""
         status = {
             "implementation_type": getattr(self, "_implementation_type", "unknown"),
@@ -900,7 +900,7 @@ class AuthenticationService:
 _auth_service = None
 
 
-def get_auth_service(config: Optional[Dict[str, Any]] = None) -> AuthenticationService:
+def get_auth_service(config: Optional[dict[str, Any]] = None) -> AuthenticationService:
     """Get the global authentication service instance"""
     global _auth_service
     if _auth_service is None:

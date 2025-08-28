@@ -33,7 +33,7 @@ from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional
 
 import psutil
 
@@ -100,7 +100,7 @@ class HealthMetric:
     # Threshold information
     threshold_min: Optional[float] = None
     threshold_max: Optional[float] = None
-    optimal_range: Optional[Tuple[float, float]] = None
+    optimal_range: Optional[tuple[float, float]] = None
 
     # Trend analysis
     trend_direction: str = "stable"  # increasing, decreasing, stable, volatile
@@ -109,8 +109,8 @@ class HealthMetric:
 
     # Context
     source: str = "system_monitor"
-    tags: Dict[str, str] = field(default_factory=dict)
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    tags: dict[str, str] = field(default_factory=dict)
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     # Trinity Framework impact
     identity_impact: Optional[float] = None      # ⚛️
@@ -145,15 +145,15 @@ class ComponentHealth:
     throughput: float = 0.0
 
     # Health indicators
-    active_issues: List[str] = field(default_factory=list)
-    warning_indicators: List[str] = field(default_factory=list)
-    critical_indicators: List[str] = field(default_factory=list)
+    active_issues: list[str] = field(default_factory=list)
+    warning_indicators: list[str] = field(default_factory=list)
+    critical_indicators: list[str] = field(default_factory=list)
 
     # Recent metrics
-    recent_metrics: List[HealthMetric] = field(default_factory=list)
+    recent_metrics: list[HealthMetric] = field(default_factory=list)
 
     # Predictions
-    predicted_issues: List[str] = field(default_factory=list)
+    predicted_issues: list[str] = field(default_factory=list)
     time_to_failure: Optional[timedelta] = None
     maintenance_recommendation: Optional[str] = None
 
@@ -171,7 +171,7 @@ class SystemHealthSnapshot:
     is_healthy: bool
 
     # Component health
-    component_health: Dict[ComponentType, ComponentHealth] = field(default_factory=dict)
+    component_health: dict[ComponentType, ComponentHealth] = field(default_factory=dict)
 
     # System-wide metrics
     total_cpu_usage: float = 0.0
@@ -208,7 +208,7 @@ class HealthReport:
 
     report_id: str
     generated_at: datetime
-    time_period: Tuple[datetime, datetime]
+    time_period: tuple[datetime, datetime]
 
     # Executive summary
     overall_system_health: float
@@ -216,41 +216,41 @@ class HealthReport:
     critical_issues_count: int
 
     # Component analysis
-    component_summary: Dict[ComponentType, Dict[str, Any]] = field(default_factory=dict)
-    worst_performing_components: List[ComponentType] = field(default_factory=list)
-    best_performing_components: List[ComponentType] = field(default_factory=list)
+    component_summary: dict[ComponentType, dict[str, Any]] = field(default_factory=dict)
+    worst_performing_components: list[ComponentType] = field(default_factory=list)
+    best_performing_components: list[ComponentType] = field(default_factory=list)
 
     # Performance analysis
-    performance_trends: Dict[str, List[float]] = field(default_factory=dict)
-    resource_utilization_trends: Dict[str, List[float]] = field(default_factory=dict)
-    cascade_prevention_analysis: Dict[str, Any] = field(default_factory=dict)
+    performance_trends: dict[str, list[float]] = field(default_factory=dict)
+    resource_utilization_trends: dict[str, list[float]] = field(default_factory=dict)
+    cascade_prevention_analysis: dict[str, Any] = field(default_factory=dict)
 
     # Issue analysis
-    recurring_issues: List[str] = field(default_factory=list)
-    emerging_problems: List[str] = field(default_factory=list)
-    resolved_issues: List[str] = field(default_factory=list)
+    recurring_issues: list[str] = field(default_factory=list)
+    emerging_problems: list[str] = field(default_factory=list)
+    resolved_issues: list[str] = field(default_factory=list)
 
     # Predictive analysis
-    predicted_failures: List[Dict[str, Any]] = field(default_factory=list)
-    maintenance_recommendations: List[str] = field(default_factory=list)
-    optimization_opportunities: List[str] = field(default_factory=list)
+    predicted_failures: list[dict[str, Any]] = field(default_factory=list)
+    maintenance_recommendations: list[str] = field(default_factory=list)
+    optimization_opportunities: list[str] = field(default_factory=list)
 
     # Recommendations
-    immediate_actions: List[str] = field(default_factory=list)
-    preventive_measures: List[str] = field(default_factory=list)
-    long_term_improvements: List[str] = field(default_factory=list)
+    immediate_actions: list[str] = field(default_factory=list)
+    preventive_measures: list[str] = field(default_factory=list)
+    long_term_improvements: list[str] = field(default_factory=list)
 
 
 class SystemHealthMonitor:
     """
     Comprehensive system health monitoring system
-    
+
     Provides advanced health monitoring with performance metrics,
     resource tracking, cascade prevention monitoring, and predictive
     health analytics for all LUKHAS AI system components.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Core configuration
@@ -274,14 +274,14 @@ class SystemHealthMonitor:
 
         # Data storage
         self.health_snapshots: deque = deque(maxlen=10000)
-        self.component_health_history: Dict[ComponentType, deque] = {
+        self.component_health_history: dict[ComponentType, deque] = {
             component: deque(maxlen=1000) for component in ComponentType
         }
         self.metrics_history: deque = deque(maxlen=50000)
 
         # Current state
         self.current_health: Optional[SystemHealthSnapshot] = None
-        self.component_states: Dict[ComponentType, ComponentHealth] = {}
+        self.component_states: dict[ComponentType, ComponentHealth] = {}
         self.monitoring_active = True
 
         # Performance tracking
@@ -308,7 +308,7 @@ class SystemHealthMonitor:
 
         logger.info("🏥 System Health Monitor initialized")
 
-    def _initialize_component_configs(self) -> Dict[ComponentType, Dict[str, Any]]:
+    def _initialize_component_configs(self) -> dict[ComponentType, dict[str, Any]]:
         """Initialize component-specific monitoring configurations"""
 
         return {
@@ -507,7 +507,7 @@ class SystemHealthMonitor:
         except Exception as e:
             logger.error(f"❌ Health snapshot capture failed: {e}")
 
-    async def _collect_system_metrics(self) -> Dict[str, float]:
+    async def _collect_system_metrics(self) -> dict[str, float]:
         """Collect system-wide metrics"""
 
         try:
@@ -597,7 +597,7 @@ class SystemHealthMonitor:
             return
 
         component = self.component_states[component_type]
-        config = self.component_configs.get(component_type, {})
+        self.component_configs.get(component_type, {})
 
         # Simulate component-specific health assessment
         # In production, would integrate with actual component monitoring
@@ -706,7 +706,7 @@ class SystemHealthMonitor:
 
         return max(0.0, min(1.0, base_risk + risk_variation))
 
-    async def _assess_cascade_prevention(self) -> Dict[str, float]:
+    async def _assess_cascade_prevention(self) -> dict[str, float]:
         """Assess cascade prevention metrics"""
 
         cascade_risk = await self._calculate_cascade_risk()
@@ -941,7 +941,7 @@ class SystemHealthMonitor:
         component: ComponentType,
         metric_type: MetricType,
         source: str = "external",
-        optimal_range: Optional[Tuple[float, float]] = None
+        optimal_range: Optional[tuple[float, float]] = None
     ) -> HealthMetric:
         """Record a custom health metric"""
 
@@ -997,7 +997,7 @@ class SystemHealthMonitor:
 
         return metric
 
-    async def get_current_health_status(self) -> Dict[str, Any]:
+    async def get_current_health_status(self) -> dict[str, Any]:
         """Get current system health status"""
 
         if not self.current_health:
@@ -1056,7 +1056,7 @@ class SystemHealthMonitor:
 
     async def get_health_report(
         self,
-        time_period: Optional[Tuple[datetime, datetime]] = None
+        time_period: Optional[tuple[datetime, datetime]] = None
     ) -> HealthReport:
         """Generate comprehensive health report"""
 
@@ -1151,7 +1151,7 @@ class SystemHealthMonitor:
 
         return report
 
-    async def get_monitoring_metrics(self) -> Dict[str, Any]:
+    async def get_monitoring_metrics(self) -> dict[str, Any]:
         """Get system monitoring metrics"""
 
         self.system_metrics["last_updated"] = datetime.now().isoformat()

@@ -12,7 +12,7 @@ import threading
 import time
 from dataclasses import asdict, dataclass
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 from urllib.parse import urlparse
 
 logger = logging.getLogger(__name__)
@@ -23,12 +23,12 @@ class DashboardData:
     """Standard dashboard data structure"""
     title: str
     timestamp: float
-    metrics: Dict[str, Any]
-    charts: List[Dict[str, Any]]
-    logs: List[str]
+    metrics: dict[str, Any]
+    charts: list[dict[str, Any]]
+    logs: list[str]
     status: str = "active"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization"""
         return asdict(self)
 
@@ -74,7 +74,7 @@ class SimpleDashboard:
         self,
         chart_id: str,
         chart_type: str,
-        data: List[Dict[str, Any]],
+        data: list[dict[str, Any]],
         title: str = "",
         x_axis: str = "x",
         y_axis: str = "y"
@@ -531,13 +531,13 @@ class StreamlitFallback:
         if delta:
             self.dashboard.add_log(f"METRIC: {label} = {value} (Δ {delta})", "INFO")
 
-    def line_chart(self, data: List[Dict[str, Any]], x: str = "x", y: str = "y") -> None:
+    def line_chart(self, data: list[dict[str, Any]], x: str = "x", y: str = "y") -> None:
         """Add line chart"""
         self._metric_counter += 1
         chart_id = f"line_chart_{self._metric_counter}"
         self.dashboard.add_chart(chart_id, "line", data, f"Line Chart {self._metric_counter}", x, y)
 
-    def bar_chart(self, data: List[Dict[str, Any]], x: str = "x", y: str = "y") -> None:
+    def bar_chart(self, data: list[dict[str, Any]], x: str = "x", y: str = "y") -> None:
         """Add bar chart"""
         self._metric_counter += 1
         chart_id = f"bar_chart_{self._metric_counter}"

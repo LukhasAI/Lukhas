@@ -13,7 +13,7 @@ Supports: Multi-model orchestration, healthcare compliance, enterprise security
 Features:
 - Complete API bridge implementation
 - Multi-model AI orchestration with consensus
-- Healthcare-compliant endpoints with HIPAA support  
+- Healthcare-compliant endpoints with HIPAA support
 - Comprehensive validation and security
 - User onboarding with intelligent tier assignment
 - Real-time streaming and WebSocket support
@@ -65,11 +65,11 @@ async def lifespan(app: FastAPI):
         # Initialize components
         if BRIDGE_MODULES_AVAILABLE:
             # Initialize validator
-            validator = get_validator()
+            get_validator()
             logger.info("✅ API validator initialized")
 
             # Initialize security manager
-            security = get_security_manager()
+            get_security_manager()
             logger.info("✅ Security manager initialized")
 
             # Run startup validation tests
@@ -83,7 +83,7 @@ async def lifespan(app: FastAPI):
 
             # Generate API documentation
             logger.info("📚 Generating API documentation...")
-            docs = generate_api_documentation(app)
+            generate_api_documentation(app)
             export_openapi_spec(app, "lukhas_api_openapi.json")
             logger.info("✅ API documentation generated")
 

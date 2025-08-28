@@ -27,7 +27,7 @@ import sys
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import aiohttp
 
@@ -75,7 +75,7 @@ class LocalLLMClient:
         if self.session:
             await self.session.close()
 
-    async def generate_fix(self, issue: CodeIssue, file_content: str, context_lines: int = 10) -> Dict[str, Any]:
+    async def generate_fix(self, issue: CodeIssue, file_content: str, context_lines: int = 10) -> dict[str, Any]:
         """Generate a fix for a code quality issue using local LLM"""
 
         if not self.session:
@@ -169,7 +169,7 @@ Focus on these common LUKHAS patterns:
 - Safe symbolic vocabulary and consciousness terminology
 """
 
-    async def _ollama_generate(self, prompt: str) -> Dict[str, Any]:
+    async def _ollama_generate(self, prompt: str) -> dict[str, Any]:
         """Generate fix using Ollama local LLM"""
 
         payload = {
@@ -207,7 +207,7 @@ Focus on these common LUKHAS patterns:
         except Exception as e:
             return {"error": f"Ollama request failed: {e}"}
 
-    async def _lmstudio_generate(self, prompt: str) -> Dict[str, Any]:
+    async def _lmstudio_generate(self, prompt: str) -> dict[str, Any]:
         """Generate fix using LM Studio local LLM"""
 
         payload = {
@@ -242,7 +242,7 @@ Focus on these common LUKHAS patterns:
         except Exception as e:
             return {"error": f"LM Studio request failed: {e}"}
 
-    def _parse_text_response(self, response_text: str) -> Dict[str, Any]:
+    def _parse_text_response(self, response_text: str) -> dict[str, Any]:
         """Parse LLM text response when JSON parsing fails"""
 
         # Extract code blocks
@@ -276,7 +276,7 @@ class CodeQualityAnalyzer:
         self.project_root = project_root
         self.issue_categories = self._load_issue_categories()
 
-    def _load_issue_categories(self) -> Dict[str, Dict[str, Any]]:
+    def _load_issue_categories(self) -> dict[str, dict[str, Any]]:
         """Load categorized issue types with priorities and fix strategies"""
         return {
             # Critical - Syntax errors that break execution
@@ -316,7 +316,7 @@ class CodeQualityAnalyzer:
             }
         }
 
-    async def analyze_codebase(self) -> List[CodeIssue]:
+    async def analyze_codebase(self) -> list[CodeIssue]:
         """Run Ruff analysis and parse results into structured issues"""
 
         print("🔍 Running Ruff analysis to identify code quality issues...")
@@ -381,7 +381,7 @@ class CodeQualityAnalyzer:
                 return category
         return "other"
 
-    def _print_category_summary(self, issues: List[CodeIssue]):
+    def _print_category_summary(self, issues: list[CodeIssue]):
         """Print summary of issues by category"""
         category_counts = {}
         for issue in issues:
@@ -413,7 +413,7 @@ class LLMCodeFixer:
         self.progress_file = self.project_root / ".code_fix_progress.json"
         self.progress = self._load_progress()
 
-    def _load_progress(self) -> Dict[str, Any]:
+    def _load_progress(self) -> dict[str, Any]:
         """Load progress from previous runs"""
         if self.progress_file.exists():
             try:
@@ -482,7 +482,7 @@ class LLMCodeFixer:
             print(f"❌ LLM availability check failed: {e}")
             return False
 
-    async def _process_issues_by_priority(self, issues: List[CodeIssue]):
+    async def _process_issues_by_priority(self, issues: list[CodeIssue]):
         """Process issues in priority order"""
 
         # Group issues by category and priority
@@ -523,7 +523,7 @@ class LLMCodeFixer:
                 # Brief pause between batches to avoid overloading LLM
                 await asyncio.sleep(1)
 
-    async def _process_issue_batch(self, issues: List[CodeIssue]):
+    async def _process_issue_batch(self, issues: list[CodeIssue]):
         """Process a batch of issues concurrently"""
 
         # Process up to 3 issues concurrently to avoid overwhelming LLM

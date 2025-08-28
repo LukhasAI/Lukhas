@@ -28,7 +28,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional, Set
+from typing import Any, Callable, Optional
 
 from candidate.core.common import get_logger
 
@@ -79,7 +79,7 @@ class DebugEvent:
 
     # Event details
     message: str
-    details: Dict[str, Any]
+    details: dict[str, Any]
     stack_trace: Optional[str] = None
 
     # Context information
@@ -88,9 +88,9 @@ class DebugEvent:
     request_id: Optional[str] = None
 
     # Trinity Framework context
-    identity_context: Dict[str, Any] = field(default_factory=dict)    # ⚛️
-    consciousness_context: Dict[str, Any] = field(default_factory=dict) # 🧠
-    guardian_context: Dict[str, Any] = field(default_factory=dict)    # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)    # ⚛️
+    consciousness_context: dict[str, Any] = field(default_factory=dict) # 🧠
+    guardian_context: dict[str, Any] = field(default_factory=dict)    # 🛡️
 
     # Performance metrics
     execution_time: Optional[float] = None
@@ -109,8 +109,8 @@ class ComponentSnapshot:
 
     # Component details
     version: str
-    configuration: Dict[str, Any]
-    runtime_stats: Dict[str, Any]
+    configuration: dict[str, Any]
+    runtime_stats: dict[str, Any]
 
     # Health information
     health_score: float
@@ -123,11 +123,11 @@ class ComponentSnapshot:
     thread_count: int
 
     # Dependencies
-    dependencies: List[str]
-    dependents: List[str]
+    dependencies: list[str]
+    dependents: list[str]
 
     # Recent events
-    recent_events: List[DebugEvent]
+    recent_events: list[DebugEvent]
 
 
 @dataclass
@@ -140,31 +140,31 @@ class DebugSession:
 
     # Session configuration
     debug_level: DebugLevel
-    categories: Set[DebugCategory]
-    components: Set[str]
+    categories: set[DebugCategory]
+    components: set[str]
 
     # Session state
     active: bool = True
     events_captured: int = 0
-    breakpoints: Dict[str, Any] = field(default_factory=dict)
+    breakpoints: dict[str, Any] = field(default_factory=dict)
 
     # Analysis tools
-    filters: List[Callable] = field(default_factory=list)
-    aggregators: List[Callable] = field(default_factory=list)
+    filters: list[Callable] = field(default_factory=list)
+    aggregators: list[Callable] = field(default_factory=list)
 
 
 class DebugInterface:
     """
     Comprehensive debugging interface for LUKHAS AI.
-    
+
     Provides real-time system diagnostics, component inspection,
     performance analysis, and interactive debugging capabilities.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         """
         Initialize debug interface.
-        
+
         Args:
             config: Optional configuration dictionary
         """
@@ -177,16 +177,16 @@ class DebugInterface:
 
         # Event storage
         self.debug_events: deque = deque(maxlen=self.max_events)
-        self.component_snapshots: Dict[str, ComponentSnapshot] = {}
-        self.active_sessions: Dict[str, DebugSession] = {}
+        self.component_snapshots: dict[str, ComponentSnapshot] = {}
+        self.active_sessions: dict[str, DebugSession] = {}
 
         # Component tracking
-        self.registered_components: Dict[str, Dict[str, Any]] = {}
-        self.component_states: Dict[str, ComponentState] = {}
+        self.registered_components: dict[str, dict[str, Any]] = {}
+        self.component_states: dict[str, ComponentState] = {}
 
         # Performance tracking
-        self.performance_metrics: Dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
-        self.profiling_sessions: Dict[str, Dict[str, Any]] = {}
+        self.performance_metrics: dict[str, deque] = defaultdict(lambda: deque(maxlen=1000))
+        self.profiling_sessions: dict[str, dict[str, Any]] = {}
 
         # Trinity Framework debugging
         self.trinity_debug_state = {
@@ -219,12 +219,12 @@ class DebugInterface:
         category: DebugCategory,
         component: str,
         message: str,
-        details: Optional[Dict[str, Any]] = None,
+        details: Optional[dict[str, Any]] = None,
         **context
     ) -> str:
         """
         Log a debug event.
-        
+
         Args:
             level: Debug level
             category: Debug category
@@ -232,7 +232,7 @@ class DebugInterface:
             message: Debug message
             details: Additional details
             **context: Additional context information
-            
+
         Returns:
             str: Event ID
         """
@@ -296,11 +296,11 @@ class DebugInterface:
         component_name: str,
         component_instance: Any,
         version: str = "unknown",
-        dependencies: Optional[List[str]] = None
+        dependencies: Optional[list[str]] = None
     ):
         """
         Register a component for debugging.
-        
+
         Args:
             component_name: Name of the component
             component_instance: Component instance
@@ -330,18 +330,18 @@ class DebugInterface:
         self,
         user_id: Optional[str] = None,
         debug_level: DebugLevel = DebugLevel.DEBUG,
-        categories: Optional[Set[DebugCategory]] = None,
-        components: Optional[Set[str]] = None
+        categories: Optional[set[DebugCategory]] = None,
+        components: Optional[set[str]] = None
     ) -> str:
         """
         Create a new debug session.
-        
+
         Args:
             user_id: User ID for the session
             debug_level: Minimum debug level to capture
             categories: Debug categories to include
             components: Components to monitor
-            
+
         Returns:
             str: Session ID
         """
@@ -372,10 +372,10 @@ class DebugInterface:
     async def get_component_snapshot(self, component_name: str) -> Optional[ComponentSnapshot]:
         """
         Get a debug snapshot of a component.
-        
+
         Args:
             component_name: Name of the component
-            
+
         Returns:
             ComponentSnapshot: Component debug information
         """
@@ -456,14 +456,14 @@ class DebugInterface:
         self,
         session_id: Optional[str] = None,
         time_range_hours: int = 1
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get comprehensive debug dashboard data.
-        
+
         Args:
             session_id: Optional session ID to filter for
             time_range_hours: Time range in hours for events
-            
+
         Returns:
             Dict: Debug dashboard data
         """
@@ -602,11 +602,11 @@ class DebugInterface:
     ) -> str:
         """
         Start a performance profiling session for a component.
-        
+
         Args:
             component_name: Component to profile
             session_name: Optional session name
-            
+
         Returns:
             str: Profiling session ID
         """
@@ -737,7 +737,7 @@ class DebugInterface:
 
                 session.events_captured += 1
 
-    def _serialize_config(self, config: Any) -> Dict[str, Any]:
+    def _serialize_config(self, config: Any) -> dict[str, Any]:
         """Serialize configuration for debug output."""
 
         try:
@@ -748,7 +748,7 @@ class DebugInterface:
         except:
             return {"error": "Failed to serialize configuration"}
 
-    def _serialize_event(self, event: DebugEvent) -> Dict[str, Any]:
+    def _serialize_event(self, event: DebugEvent) -> dict[str, Any]:
         """Serialize debug event for output."""
 
         return {
@@ -773,7 +773,7 @@ class DebugInterface:
         except:
             return 0.0
 
-    def _find_component_dependents(self, component_name: str) -> List[str]:
+    def _find_component_dependents(self, component_name: str) -> list[str]:
         """Find components that depend on the given component."""
 
         dependents = []
@@ -804,7 +804,7 @@ class DebugInterface:
 
         return total_health / len(related_components)
 
-    def _calculate_trend(self, values: List[float]) -> str:
+    def _calculate_trend(self, values: list[float]) -> str:
         """Calculate trend direction for a series of values."""
 
         if len(values) < 2:

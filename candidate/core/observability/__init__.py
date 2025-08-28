@@ -8,7 +8,7 @@ monitoring into a unified platform.
 
 Key Components:
 - Guardian System Monitoring Dashboard
-- Consciousness Awareness Monitoring System  
+- Consciousness Awareness Monitoring System
 - System Health Monitor
 - Comprehensive Alerting System
 - Trinity Framework Monitor
@@ -37,10 +37,10 @@ Usage:
 
     # Initialize unified monitoring
     dashboard = UnifiedMonitoringDashboard()
-    
+
     # Get real-time system status
     status = await dashboard.get_dashboard_data(session_id)
-    
+
     # Access individual monitoring systems
     guardian = dashboard.guardian_monitor
     consciousness = dashboard.consciousness_monitor
@@ -177,12 +177,12 @@ except ImportError as e:
 class ObservabilityManager:
     """
     Centralized observability manager for LUKHAS AI
-    
+
     Provides a single point of access to all monitoring systems
     with coordinated initialization, configuration, and lifecycle management.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
 
         # Monitoring systems
@@ -199,7 +199,7 @@ class ObservabilityManager:
 
         logger.info("🔍 Observability Manager initialized")
 
-    async def initialize_all_systems(self) -> Dict[str, bool]:
+    async def initialize_all_systems(self) -> dict[str, bool]:
         """Initialize all available monitoring systems"""
 
         initialization_results = {}
@@ -286,7 +286,7 @@ class ObservabilityManager:
             self.initialized = False
             return initialization_results
 
-    def get_system_status(self) -> Dict[str, Any]:
+    def get_system_status(self) -> dict[str, Any]:
         """Get current observability system status"""
 
         return {

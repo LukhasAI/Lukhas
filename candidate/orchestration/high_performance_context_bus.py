@@ -29,7 +29,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Optional
 
 # Performance optimization imports
 import uvloop  # High-performance event loop
@@ -57,7 +57,7 @@ class ContextMessage:
     """High-performance context message with performance tracking"""
     message_id: str = field(default_factory=lambda: str(uuid.uuid4()))
     message_type: str = ""
-    payload: Dict[str, Any] = field(default_factory=dict)
+    payload: dict[str, Any] = field(default_factory=dict)
     source: str = "unknown"
     target: Optional[str] = None
     priority: ContextPriority = ContextPriority.NORMAL
@@ -70,15 +70,15 @@ class ContextMessage:
     processing_complete: float = 0.0
 
     # Trinity Framework context
-    identity_context: Dict[str, Any] = field(default_factory=dict)  # ⚛️
-    consciousness_state: Dict[str, Any] = field(default_factory=dict)  # 🧠
-    guardian_policies: Dict[str, Any] = field(default_factory=dict)  # 🛡️
+    identity_context: dict[str, Any] = field(default_factory=dict)  # ⚛️
+    consciousness_state: dict[str, Any] = field(default_factory=dict)  # 🧠
+    guardian_policies: dict[str, Any] = field(default_factory=dict)  # 🛡️
 
     # Workflow tracking
     workflow_id: Optional[str] = None
     step_index: int = 0
     correlation_id: Optional[str] = None
-    causality_chain: List[str] = field(default_factory=list)
+    causality_chain: list[str] = field(default_factory=list)
 
     @property
     def handoff_latency_ms(self) -> float:
@@ -105,7 +105,7 @@ class ContextMessage:
         """Check if message meets <250ms handoff target"""
         return self.handoff_latency_ms < 250
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization"""
         return {
             "message_id": self.message_id,
@@ -138,7 +138,7 @@ class WorkflowStep:
     handler: Callable
     timeout_ms: int = 5000
     retry_on_failure: bool = True
-    required_context: List[str] = field(default_factory=list)
+    required_context: list[str] = field(default_factory=list)
 
     # Performance constraints
     max_latency_ms: int = 250
@@ -228,12 +228,12 @@ class HighPerformanceContextBus:
         self.worker_count = worker_count
 
         # Message routing (lock-free data structures)
-        self.subscribers: Dict[str, List[Callable]] = defaultdict(list)
-        self.pattern_subscribers: List[tuple] = []  # (pattern_fn, handler)
-        self.workflow_handlers: Dict[str, Callable] = {}
+        self.subscribers: dict[str, list[Callable]] = defaultdict(list)
+        self.pattern_subscribers: list[tuple] = []  # (pattern_fn, handler)
+        self.workflow_handlers: dict[str, Callable] = {}
 
         # High-performance queues (priority-based)
-        self.message_queues: Dict[ContextPriority, asyncio.Queue] = {}
+        self.message_queues: dict[ContextPriority, asyncio.Queue] = {}
         for priority in ContextPriority:
             self.message_queues[priority] = asyncio.Queue(maxsize=max_queue_size)
 
@@ -242,7 +242,7 @@ class HighPerformanceContextBus:
         self.message_history: deque = deque(maxlen=1000)
 
         # Worker management
-        self.workers: List[asyncio.Task] = []
+        self.workers: list[asyncio.Task] = []
         self.running = False
 
         # Thread pool for CPU-intensive operations
@@ -250,11 +250,11 @@ class HighPerformanceContextBus:
 
         # Interpretability logging
         self.transparency_log: deque = deque(maxlen=5000)
-        self.workflow_narratives: Dict[str, List[str]] = defaultdict(list)
+        self.workflow_narratives: dict[str, list[str]] = defaultdict(list)
 
         # MΛTRIZ bridge integration
         self.matriz_bridge_active = False
-        self.matriz_handlers: Dict[str, Callable] = {}
+        self.matriz_handlers: dict[str, Callable] = {}
 
         # Performance optimization
         self._setup_performance_optimizations()
@@ -321,7 +321,7 @@ class HighPerformanceContextBus:
 
     async def emit(self,
                   message_type: str,
-                  payload: Dict[str, Any],
+                  payload: dict[str, Any],
                   source: str = "context_bus",
                   target: Optional[str] = None,
                   priority: ContextPriority = ContextPriority.NORMAL,
@@ -390,8 +390,8 @@ class HighPerformanceContextBus:
 
     async def execute_workflow(self,
                              workflow_id: str,
-                             steps: List[WorkflowStep],
-                             initial_context: Optional[Dict] = None) -> Dict[str, Any]:
+                             steps: list[WorkflowStep],
+                             initial_context: Optional[dict] = None) -> dict[str, Any]:
         """
         Execute multi-step workflow with performance tracking
 
@@ -701,7 +701,7 @@ class HighPerformanceContextBus:
         narrative_entry = f"[{timestamp}] {entry}"
         self.workflow_narratives[workflow_id].append(narrative_entry)
 
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -> dict[str, Any]:
         """Get comprehensive performance metrics"""
         return {
             "messages": {
@@ -730,11 +730,11 @@ class HighPerformanceContextBus:
             }
         }
 
-    def get_transparency_log(self, limit: int = 100) -> List[Dict]:
+    def get_transparency_log(self, limit: int = 100) -> list[dict]:
         """Get recent transparency log entries"""
         return list(self.transparency_log)[-limit:]
 
-    def get_workflow_narrative(self, workflow_id: str) -> List[str]:
+    def get_workflow_narrative(self, workflow_id: str) -> list[str]:
         """Get narrative for specific workflow"""
         return self.workflow_narratives.get(workflow_id, [])
 
@@ -742,7 +742,7 @@ class HighPerformanceContextBus:
 context_bus = HighPerformanceContextBus()
 
 # Convenience functions
-async def emit(message_type: str, payload: Dict[str, Any], **kwargs) -> str:
+async def emit(message_type: str, payload: dict[str, Any], **kwargs) -> str:
     """Emit message to context bus"""
     return await context_bus.emit(message_type, payload, **kwargs)
 
@@ -750,8 +750,8 @@ def subscribe(message_type: str, handler: Callable):
     """Subscribe to message type"""
     context_bus.subscribe(message_type, handler)
 
-async def execute_workflow(workflow_id: str, steps: List[WorkflowStep],
-                          initial_context: Optional[Dict] = None) -> Dict[str, Any]:
+async def execute_workflow(workflow_id: str, steps: list[WorkflowStep],
+                          initial_context: Optional[dict] = None) -> dict[str, Any]:
     """Execute workflow through context bus"""
     return await context_bus.execute_workflow(workflow_id, steps, initial_context)
 

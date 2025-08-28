@@ -288,7 +288,7 @@ class QIWebAuthenticator:
             emoji_seed.encode() + (qi_challenge or b"") + (biometric_data or b"")
         ).digest()
 
-        measurement = int.from_bytes(qi_hash[:2], "big")
+        int.from_bytes(qi_hash[:2], "big")
         lambda_id = f"LUKHAS{emoji_seed}"
 
         # Create authentication result

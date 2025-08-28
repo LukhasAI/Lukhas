@@ -34,7 +34,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Optional
 
 # Import monitoring systems
 try:
@@ -140,16 +140,16 @@ class DashboardSession:
     # Session preferences
     current_mode: DashboardMode = DashboardMode.OVERVIEW
     current_view: ViewType = ViewType.REAL_TIME
-    selected_components: Set[str] = field(default_factory=set)
+    selected_components: set[str] = field(default_factory=set)
 
     # Customization
-    custom_filters: Dict[str, Any] = field(default_factory=dict)
-    favorite_views: List[str] = field(default_factory=list)
-    alert_preferences: Dict[str, Any] = field(default_factory=dict)
+    custom_filters: dict[str, Any] = field(default_factory=dict)
+    favorite_views: list[str] = field(default_factory=list)
+    alert_preferences: dict[str, Any] = field(default_factory=dict)
 
     # Security
     ip_address: Optional[str] = None
-    permissions: Set[str] = field(default_factory=set)
+    permissions: set[str] = field(default_factory=set)
 
 
 @dataclass
@@ -178,12 +178,12 @@ class UnifiedAlert:
     suppressed: bool = False
 
     # Context
-    source_data: Dict[str, Any] = field(default_factory=dict)
-    affected_systems: List[str] = field(default_factory=list)
-    recommended_actions: List[str] = field(default_factory=list)
+    source_data: dict[str, Any] = field(default_factory=dict)
+    affected_systems: list[str] = field(default_factory=list)
+    recommended_actions: list[str] = field(default_factory=list)
 
     # Trinity Framework context
-    trinity_impact: Dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
+    trinity_impact: dict[str, float] = field(default_factory=dict)  # ⚛️🧠🛡️
 
 
 @dataclass
@@ -200,44 +200,44 @@ class DashboardData:
     system_uptime: float
 
     # Guardian System data
-    guardian_data: Dict[str, Any] = field(default_factory=dict)
+    guardian_data: dict[str, Any] = field(default_factory=dict)
     drift_score: float = 0.0
     threat_level: str = "benign"
     compliance_score: float = 1.0
 
     # Consciousness data
-    consciousness_data: Dict[str, Any] = field(default_factory=dict)
+    consciousness_data: dict[str, Any] = field(default_factory=dict)
     awareness_level: str = "standard"
     cognitive_load: float = 0.5
     consciousness_health: float = 1.0
 
     # System health data
-    health_data: Dict[str, Any] = field(default_factory=dict)
-    component_health: Dict[str, float] = field(default_factory=dict)
-    resource_utilization: Dict[str, float] = field(default_factory=dict)
+    health_data: dict[str, Any] = field(default_factory=dict)
+    component_health: dict[str, float] = field(default_factory=dict)
+    resource_utilization: dict[str, float] = field(default_factory=dict)
 
     # Performance metrics
-    performance_data: Dict[str, Any] = field(default_factory=dict)
-    response_times: List[float] = field(default_factory=list)
+    performance_data: dict[str, Any] = field(default_factory=dict)
+    response_times: list[float] = field(default_factory=list)
     throughput: float = 0.0
     error_rate: float = 0.0
 
     # Alert summary
-    active_alerts: List[UnifiedAlert] = field(default_factory=list)
-    alert_counts_by_priority: Dict[str, int] = field(default_factory=dict)
+    active_alerts: list[UnifiedAlert] = field(default_factory=list)
+    alert_counts_by_priority: dict[str, int] = field(default_factory=dict)
 
     # Trinity Framework status
-    trinity_status: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    trinity_status: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     # Predictive insights
-    predictions: List[Dict[str, Any]] = field(default_factory=list)
-    recommendations: List[str] = field(default_factory=list)
+    predictions: list[dict[str, Any]] = field(default_factory=list)
+    recommendations: list[str] = field(default_factory=list)
 
 
 class UnifiedMonitoringDashboard:
     """
     Unified monitoring dashboard for LUKHAS AI
-    
+
     Provides comprehensive real-time monitoring with integrated views
     of Guardian System, consciousness awareness, system health, and
     performance metrics with interactive debug interfaces and
@@ -254,12 +254,12 @@ class UnifiedMonitoringDashboard:
 
         # Dashboard state
         self.dashboard_active = True
-        self.sessions: Dict[str, DashboardSession] = {}
+        self.sessions: dict[str, DashboardSession] = {}
         self.unified_alerts: deque = deque(maxlen=1000)
 
         # Data cache
-        self.cached_data: Dict[str, DashboardData] = {}
-        self.cache_timestamps: Dict[str, datetime] = {}
+        self.cached_data: dict[str, DashboardData] = {}
+        self.cache_timestamps: dict[str, datetime] = {}
 
         # Performance metrics
         self.dashboard_metrics = {
@@ -376,7 +376,7 @@ class UnifiedMonitoringDashboard:
         self,
         user_id: Optional[str] = None,
         ip_address: Optional[str] = None,
-        permissions: Optional[Set[str]] = None
+        permissions: Optional[set[str]] = None
     ) -> DashboardSession:
         """Create new dashboard session"""
 
@@ -648,7 +648,7 @@ class UnifiedMonitoringDashboard:
 
         return severity_map.get(severity.lower(), AlertPriority.INFO)
 
-    async def _generate_predictions(self, dashboard_data: DashboardData) -> List[Dict[str, Any]]:
+    async def _generate_predictions(self, dashboard_data: DashboardData) -> list[dict[str, Any]]:
         """Generate predictive insights"""
 
         predictions = []
@@ -685,7 +685,7 @@ class UnifiedMonitoringDashboard:
 
         return predictions
 
-    async def _generate_recommendations(self, dashboard_data: DashboardData) -> List[str]:
+    async def _generate_recommendations(self, dashboard_data: DashboardData) -> list[str]:
         """Generate optimization recommendations"""
 
         recommendations = []
@@ -822,7 +822,7 @@ class UnifiedMonitoringDashboard:
 
         return False
 
-    async def get_debug_interface_data(self, session_id: str) -> Dict[str, Any]:
+    async def get_debug_interface_data(self, session_id: str) -> dict[str, Any]:
         """Get debug interface data"""
 
         session = self.sessions.get(session_id)
@@ -860,7 +860,7 @@ class UnifiedMonitoringDashboard:
 
         return debug_data
 
-    async def get_admin_interface_data(self, session_id: str) -> Dict[str, Any]:
+    async def get_admin_interface_data(self, session_id: str) -> dict[str, Any]:
         """Get administrative interface data"""
 
         session = self.sessions.get(session_id)
@@ -918,7 +918,7 @@ class UnifiedMonitoringDashboard:
 
         return admin_data
 
-    async def get_dashboard_metrics(self) -> Dict[str, Any]:
+    async def get_dashboard_metrics(self) -> dict[str, Any]:
         """Get dashboard performance metrics"""
 
         return self.dashboard_metrics.copy()

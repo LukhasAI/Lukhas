@@ -6,7 +6,7 @@ Guardian System integration for ethical validation of tool executions.
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 # Guardian System Integration
 try:
@@ -30,7 +30,7 @@ class ToolExecutorGuardian:
     operations within the LUKHAS AI system.
     """
 
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
+    def __init__(self, config: Optional[dict[str, Any]] = None):
         self.config = config or {}
         self.guardian_system = None
         self.security_system = None
@@ -54,8 +54,8 @@ class ToolExecutorGuardian:
             except Exception as e:
                 logger.warning(f"Failed to initialize AGI Security System: {e}")
 
-    async def validate_tool_execution(self, tool_name: str, arguments: Dict[str, Any],
-                                    execution_context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    async def validate_tool_execution(self, tool_name: str, arguments: dict[str, Any],
+                                    execution_context: Optional[dict[str, Any]] = None) -> dict[str, Any]:
         """
         Validate a tool execution request through Guardian System.
 
@@ -170,7 +170,7 @@ class ToolExecutorGuardian:
 
         return validation_result
 
-    async def _validate_security(self, tool_name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_security(self, tool_name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         """Validate tool execution from security perspective"""
         security_result = {
             "approved": True,
@@ -201,7 +201,7 @@ class ToolExecutorGuardian:
 
         return security_result
 
-    async def _validate_tool_ethics(self, tool_name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
+    async def _validate_tool_ethics(self, tool_name: str, arguments: dict[str, Any]) -> dict[str, Any]:
         """Perform tool-specific ethical validation"""
         ethical_result = {
             "approved": True,
@@ -251,8 +251,8 @@ class ToolExecutorGuardian:
 
         return ethical_result
 
-    async def log_execution_decision(self, tool_name: str, arguments: Dict[str, Any],
-                                   validation_result: Dict[str, Any], execution_result: str):
+    async def log_execution_decision(self, tool_name: str, arguments: dict[str, Any],
+                                   validation_result: dict[str, Any], execution_result: str):
         """Log the complete execution decision for audit and learning"""
         audit_entry = {
             "timestamp": datetime.now().isoformat(),
@@ -276,7 +276,7 @@ class ToolExecutorGuardian:
             except Exception as e:
                 logger.warning(f"Failed to feed execution back to Guardian System: {e}")
 
-    def get_guardian_status(self) -> Dict[str, Any]:
+    def get_guardian_status(self) -> dict[str, Any]:
         """Get current Guardian System status"""
         status = {
             "guardian_available": self.guardian_system is not None,
@@ -294,7 +294,7 @@ class ToolExecutorGuardian:
 _guardian: Optional[ToolExecutorGuardian] = None
 
 
-def get_tool_executor_guardian(config: Optional[Dict[str, Any]] = None) -> ToolExecutorGuardian:
+def get_tool_executor_guardian(config: Optional[dict[str, Any]] = None) -> ToolExecutorGuardian:
     """Get or create the global tool executor guardian instance"""
     global _guardian
     if _guardian is None:
