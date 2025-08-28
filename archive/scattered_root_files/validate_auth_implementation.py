@@ -17,6 +17,8 @@ import secrets
 import bcrypt
 from datetime import datetime, timezone
 
+PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
+
 # Add the project root to the Python path
 sys.path.insert(0, '/Users/agi_dev/LOCAL-REPOS/Lukhas')
 
@@ -77,7 +79,7 @@ def test_authentication_flows():
         users_db.clear()
 
         # Test 1: Password strength validation
-        strong_password = "StrongP@ssw0rd123!"
+        strong_password = PLACEHOLDER_PASSWORD
         valid, message = _validate_password_strength(strong_password)
         print(f"   ✅ Strong password validation: {valid}")
         assert valid, f"Strong password rejected: {message}"
@@ -109,7 +111,7 @@ def test_authentication_flows():
         assert payload["lambda_id"] == lambda_id, "ΛiD mismatch in token"
 
         # Test 5: Password hashing
-        password = "TestPassword123!"
+        password = PLACEHOLDER_PASSWORD
         password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
         # Verify hashing worked

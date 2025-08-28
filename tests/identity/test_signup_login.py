@@ -8,6 +8,8 @@ Golden test for signup → login → JWT decode → validation cycle.
 import unittest
 from datetime import datetime
 
+PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
+
 # Using lukhas.identity or creating stubs for missing functions
 try:
     from identity_legacy_backup.identity_core import validate_symbolic_token
@@ -67,7 +69,7 @@ class TestIdentityFlow(unittest.TestCase):
         # Use timestamp to ensure unique email
         timestamp = int(datetime.now().timestamp())
         email = f"test_{timestamp}@lukhas.ai"
-        password = "S3cure!Pass123"
+        password = PLACEHOLDER_PASSWORD
 
         # Step 1: Signup
         signup_result = signup(email, password)

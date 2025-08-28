@@ -1178,7 +1178,7 @@ class ComprehensiveEthicsPolicyEngine:
 
         import hashlib
         cache_data = f"{action}:{json.dumps(cache_context, sort_keys=True)}"
-        return hashlib.md5(cache_data.encode()).hexdigest()
+        return hashlib.sha256(cache_data.encode()).hexdigest()
 
     async def _update_metrics(self, evaluation: EthicalEvaluation, start_time: datetime):
         """Update performance metrics"""

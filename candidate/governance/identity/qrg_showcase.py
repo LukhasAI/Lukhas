@@ -22,7 +22,6 @@ License: LUKHAS Commercial License
 
 import json
 import os
-import random
 import sys
 import time
 from datetime import datetime
@@ -38,14 +37,12 @@ def create_ascii_qr_pattern(
     size: int = 25, density: float = 0.5, style: str = "standard"
 ) -> str:
     """Create a simple ASCII QR pattern for visualization"""
-    random.seed(int(density * 1000))
-
     pattern = "┌" + "─" * (size + 2) + "┐\n"
 
     for _i in range(size // 2):  # Reduced height for readability
         row = "│"
         for _j in range(size):
-            if random.random() < density:
+            if secrets.randbelow(101) / 100 < density:
                 row += "██"
             else:
                 row += "  "

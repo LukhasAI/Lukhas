@@ -69,7 +69,7 @@ class AccessType(Enum):
 class AuthenticationMethod(Enum):
     """Authentication methods"""
 
-    PASSWORD = "password"
+    PASSWORD = "password"  # nosec B105
     MFA = "mfa"                    # Multi-factor authentication
     BIOMETRIC = "biometric"        # Biometric authentication
     TOKEN = "token"                # Token-based

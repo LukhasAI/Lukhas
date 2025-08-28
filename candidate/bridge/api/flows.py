@@ -87,22 +87,34 @@ logger.info(
 )
 
 # Security helper functions
-def _validate_password_strength(password: str) -> tuple[bool, str]:
-    """Validate password meets security requirements."""
-    if len(password) < PASSWORD_MIN_LENGTH:
-        return False, f"Password must be at least {PASSWORD_MIN_LENGTH} characters"
+def _validate_password_strength(password: str, policy: Optional[dict] = None) -> tuple[bool, str]:
+    """Validate password meets security requirements based on a given policy."""
+    if policy is None:
+        policy = {
+            "min_length": 8,
+            "require_uppercase": True,
+            "require_lowercase": True,
+            "require_digit": True,
+            "require_special_char": True,
+            "special_chars": "!@#$%^&*()_+-=[]{}|;:,.<>?"
+        }
 
-    if not any(c.isupper() for c in password):
+    if len(password) < policy.get("min_length", 8):
+        return False, f"Password must be at least {policy.get('min_length', 8)} characters"
+
+    if policy.get("require_uppercase") and not any(c.isupper() for c in password):
         return False, "Password must contain at least one uppercase letter"
 
-    if not any(c.islower() for c in password):
+    if policy.get("require_lowercase") and not any(c.islower() for c in password):
         return False, "Password must contain at least one lowercase letter"
 
-    if not any(c.isdigit() for c in password):
+    if policy.get("require_digit") and not any(c.isdigit() for c in password):
         return False, "Password must contain at least one digit"
 
-    if not any(c in "!@#$%^&*()_+-=[]{}|;:,.<>?" for c in password):
-        return False, "Password must contain at least one special character"
+    if policy.get("require_special_char"):
+        special_chars = policy.get("special_chars", "!@#$%^&*()_+-=[]{}|;:,.<>?")
+        if not any(c in special_chars for c in password):
+            return False, "Password must contain at least one special character"
 
     return True, "Password meets requirements"
 
