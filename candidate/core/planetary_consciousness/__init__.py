@@ -1,0 +1,1 @@
+# This file marks the planetary_consciousness directory as a Python package.
