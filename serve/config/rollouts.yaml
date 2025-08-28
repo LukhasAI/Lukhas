@@ -1,0 +1,15 @@
+version: 1
+graphs:
+  matriz:
+    enabled: false
+    shadow_percentage: 10
+    canary:
+      stages:
+        - roles: ["TXT", "CONTEXT"]
+          traffic_pct: 5
+        - roles: ["DECIDE"]
+          traffic_pct: 10
+    kill_switch:
+      enabled: true
+      reason: "default disabled until authenticity+SLO gates pass"
+

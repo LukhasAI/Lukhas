@@ -42,6 +42,7 @@ category: "architecture"
 8. [Performance & Scalability](#performance--scalability)
 9. [Development Guidelines](#development-guidelines)
 10. [API Reference](#api-reference)
+11. [MATRIZ Graph Spec & Runtime](./MATRIZ_GRAPH_SPEC_AND_RUNTIME.md)
 
 ## Executive Summary
 

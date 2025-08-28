@@ -1,0 +1,68 @@
+{ "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MATRIZ Graph Schema",
+  "type": "object",
+  "required": ["schema_version", "graph"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "provenance": {"type": "object"},
+    "graph": {
+      "type": "object",
+      "required": ["nodes"],
+      "properties": {
+        "nodes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {"type": "string"},
+              "state": {"type": "object"},
+              "reflections": {"type": "object"}
+            },
+            "additionalProperties": true
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to"],
+            "properties": {
+              "from": {"type": "string"},
+              "to": {"type": "string"},
+              "kind": {"type": "string"},
+              "p95_budget_ms": {"type": "number", "minimum": 0}
+            },
+            "additionalProperties": true
+          }
+        },
+        "triggers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "applies_to": {"type": "array", "items": {"type": "string"}},
+              "pre": {"type": "object"},
+              "post": {"type": "object"},
+              "constitution": {"type": "array", "items": {"type": "string"}},
+              "slo": {
+                "type": "object",
+                "properties": {
+                  "p95_ms": {"type": "number", "minimum": 0},
+                  "error_budget_pct": {"type": "number", "minimum": 0}
+                },
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "evolves_to": {"type": "object"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
+
