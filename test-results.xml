@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="20" failures="7" skipped="17" tests="189" time="214.043" timestamp="2025-08-28T06:10:27.113153+00:00" hostname="devbox"><testcase classname="" name="tests.phase2.test_orchestration_integration" time="0.000"><skipped message="collection skipped">('/app/tests/phase2/test_orchestration_integration.py', 43, "Skipped: Phase 2 modules not available: cannot import name 'WorkflowExecution' from 'candidate.orchestration.multi_model_orchestration' (/app/candidate/orchestration/multi_model_orchestration.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_performance_benchmarks" time="0.000"><skipped message="collection skipped">('/app/tests/phase2/test_performance_benchmarks.py', 47, "Skipped: Performance testing modules not available: No module named 'lukhas.identity.core'")</skipped></testcase><testcase classname="" name="tests.phase2.test_security_compliance" time="0.000"><skipped message="collection skipped">('/app/tests/phase2/test_security_compliance.py', 40, "Skipped: Security modules not available: cannot import name 'ComplianceEngine' from 'candidate.compliance.ai_compliance' (/app/candidate/compliance/ai_compliance.py)")</skipped></testcase><testcase classname="" name="tests.phase2.test_tool_execution_safety" time="0.000"><skipped message="collection skipped">('/app/tests/phase2/test_tool_execution_safety.py', 34, "Skipped: Tool execution modules not available: No module named 'candidate.tools.code_executor'")</skipped></testcase><testcase classname="tests.candidate.tools.test_tool_executor" name="test_open_url_success" time="0.129"><error message="failed on setup with &quot;pytest.PytestUnraisableExceptionWarning: Exception ignored in: &lt;_io.FileIO name='/app/lukhas_production.log' mode='ab' closefd=True&gt;&#10;Enable tracemalloc to get traceback where the object was allocated.&#10;See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.&quot;">#!/usr/bin/env python3
+    """
+    LUKHAS AI Production Main Entry Point
+    ====================================
+
+    Production-ready orchestrator for LUKHAS AI consciousness technology platform.
+    Integrates all core systems: consciousness, memory, quantum, identity, governance, and public API.
+
+    Trinity Framework Integration: ⚛️#x1F9E0#x1F6E1️
+    - ⚛️ Identity: User authentication, ΛiD system, secure access
+    - #x1F9E0 Consciousness: Natural language interface, dream generation, memory systems
+    - #x1F6E1️ Guardian: Ethics oversight, security, compliance validation
+    """
+
+    import asyncio
+    import logging
+    import os
+    import signal
+    import sys
+    import time
+    from datetime import datetime
+    from typing import Any, Optional
+
+    # Add project root to Python path
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+    # Import LUKHAS components
+    from lukhas.branding_bridge import (
+        get_system_signature,
+        get_trinity_context,
+        initialize_branding,
+    )
+
+    # Initialize NewRelic monitoring (GitHub Student Pack)
+    try:
+        from monitoring.newrelic_config import initialize_monitoring
+        newrelic_license_key = os.getenv("NEWRELIC_LICENSE_KEY")
+        if newrelic_license_key:
+            newrelic_monitor = initialize_monitoring(newrelic_license_key)
+            print("✅ NewRelic monitoring initialized (GitHub Student Pack - $300/month value)")
+        else:
+            print("⚠️ NewRelic license key not set - monitoring disabled")
+            newrelic_monitor = None
+    except ImportError:
+        print("⚠️ NewRelic monitoring not available - install newrelic package")
+        newrelic_monitor = None
+
+    # Configure logging
+&gt;   logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler("lukhas_production.log"),
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+E   ResourceWarning: unclosed file &lt;_io.TextIOWrapper name='/app/lukhas_production.log' mode='a' encoding='UTF-8'&gt;
+
+production_main.py:49: ResourceWarning
+
+The above exception was the direct cause of the following exception:
+
+cls = &lt;class '_pytest.runner.CallInfo'&gt;
+func = &lt;function call_and_report.&lt;locals&gt;.&lt;lambda&gt; at 0x7ff17c105b20&gt;
+when = 'setup'
+reraise = (&lt;class '_pytest.outcomes.Exit'&gt;, &lt;class 'KeyboardInterrupt'&gt;)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -&gt; CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+&gt;           result: TResult | None = func()
+                                     ^^^^^^
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/runner.py:344:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/runner.py:246: in &lt;lambda&gt;
+    lambda: runtest_hook(item=item, **kwds), when=when, reraise=reraise
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/logging.py:843: in pytest_runtest_setup
+    yield
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/capture.py:895: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/unraisableexception.py:153: in pytest_runtest_setup
+    collect_unraisable(item.config)
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/unraisableexception.py:79: in collect_unraisable
+    raise errors[0]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+config = &lt;_pytest.config.Config object at 0x7ff18f09ef00&gt;
+
+    def collect_unraisable(config: Config) -&gt; None:
+        pop_unraisable = config.stash[unraisable_exceptions].pop
+        errors: list[pytest.PytestUnraisableExceptionWarning | RuntimeError] = []
+        meta = None
+        hook_error = None
+        try:
+            while True:
+                try:
+                    meta = pop_unraisable()
+                except IndexError:
+                    break
+
+                if isinstance(meta, BaseException):
+                    hook_error = RuntimeError("Failed to process unraisable exception")
+                    hook_error.__cause__ = meta
+                    errors.append(hook_error)
+                    continue
+
+                msg = meta.msg
+                try:
+&gt;                   warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))
+E                   pytest.PytestUnraisableExceptionWarning: Exception ignored in: &lt;_io.FileIO name='/app/lukhas_production.log' mode='ab' closefd=True&gt;
+E                   Enable tracemalloc to get traceback where the object was allocated.
+E                   See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/_pytest/unraisableexception.py:67: PytestUnraisableExceptionWarning</error></testcase><testcase classname="tests.candidate.tools.test_tool_executor" name="test_open_url_rate_limiting" time="0.024" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_open_url_non_html" time="0.008" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_open_url_too_large" time="0.035" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_open_url_invalid_url" time="0.004" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_open_url_browser_disabled" time="0.004" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_exec_code_python_success" time="0.009" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_exec_code_javascript_success" time="0.008" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_exec_code_bash_success" time="0.008" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_exec_code_disabled" time="0.002" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_exec_code_unsupported_language" time="0.002" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_exec_code_build_error" time="0.005" /><testcase classname="tests.candidate.tools.test_tool_executor" name="test_exec_code_security_violation" time="0.002" /><testcase classname="tests.golden.test_memory_contract" name="test_memory_dump_contract" time="0.005" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_initialization" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_initialization_with_custom_threshold" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_calculate_drift_identical_strings" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_calculate_drift_completely_different_strings" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_calculate_drift_with_partial_overlap" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_calculate_drift_with_empty_string" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_evaluate_compliance_safe_action" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_evaluate_compliance_harmful_action" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_evaluate_compliance_risky_context" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_detect_safety_violations_safe_content" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_detect_safety_violations_harmful_content" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystemImplementation" name="test_detect_safety_violations_privacy_content" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_check_safety_safe_content" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_check_safety_unsafe_content" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_check_safety_with_constitutional_violation" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_detect_drift_no_drift" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_detect_drift_significant_drift" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_evaluate_compliance_harmful_action" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_evaluate_ethics_compliant_action" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_get_status" time="0.002" /><testcase classname="tests.governance.test_guardian.TestGuardianSystem" name="test_initialization" time="0.002" /><testcase classname="tests.identity.test_signup_login.TestIdentityFlow" name="test_password_validation" time="0.002" /><testcase classname="tests.identity.test_signup_login.TestIdentityFlow" name="test_signup_login_jwt_cycle" time="0.002" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_concurrent_trace_access" time="0.186" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_edge_cases_and_error_handling" time="0.052" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_fetch_existing_trace_success" time="0.015" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_fetch_invalid_uuid_400" time="0.011" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_fetch_nonexistent_trace_404" time="0.015" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_fetch_recent_traces_endpoint" time="0.033" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_fetch_trace_authentication_required" time="0.012" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_fetch_trace_health_check" time="0.015" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_fetch_trace_invalid_auth_401" time="0.012" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_storage_provider_integration" time="0.010" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPI" name="test_trace_response_model_validation" time="0.004" /><testcase classname="tests.matriz.test_trace_fetch.TestTraceAPIWithoutAuth" name="test_trace_access_without_required_auth" time="0.029" /><testcase classname="tests.security.test_authentication.TestAPIKeyValidation" name="test_api_key_format_validation" time="0.003" /><testcase classname="tests.security.test_authentication.TestAPIKeyValidation" name="test_api_key_generation" time="0.003" /><testcase classname="tests.security.test_authentication.TestAPIKeyValidation" name="test_api_key_signature_verification" time="0.002" /><testcase classname="tests.security.test_authentication.TestAPIKeyValidation" name="test_rate_limiting" time="0.005" /><testcase classname="tests.security.test_authentication.TestAuthenticationEndpoints" name="test_brute_force_protection" time="2.090" /><testcase classname="tests.security.test_authentication.TestAuthenticationEndpoints" name="test_token_refresh" time="0.705" /><testcase classname="tests.security.test_authentication.TestAuthenticationEndpoints" name="test_token_verification" time="0.703" /><testcase classname="tests.security.test_authentication.TestAuthenticationEndpoints" name="test_user_login_invalid_password" time="0.704" /><testcase classname="tests.security.test_authentication.TestAuthenticationEndpoints" name="test_user_login_valid" time="0.702" /><testcase classname="tests.security.test_authentication.TestAuthenticationEndpoints" name="test_user_logout" time="0.707" /><testcase classname="tests.security.test_authentication.TestAuthenticationEndpoints" name="test_user_registration_duplicate_username" time="0.359" /><testcase classname="tests.security.test_authentication.TestAuthenticationEndpoints" name="test_user_registration_invalid_password" time="0.014" /><testcase classname="tests.security.test_authentication.TestAuthenticationEndpoints" name="test_user_registration_valid" time="0.357" /><testcase classname="tests.security.test_authentication.TestPasswordStrengthValidation" name="test_invalid_passwords" time="0.002" /><testcase classname="tests.security.test_authentication.TestPasswordStrengthValidation" name="test_valid_passwords" time="0.002" /><testcase classname="tests.security.test_authentication.TestLambdaIDGeneration" name="test_lambda_id_format" time="0.002" /><testcase classname="tests.security.test_authentication.TestJWTTokenSecurity" name="test_blacklisted_token_validation" time="0.002" /><testcase classname="tests.security.test_authentication.TestJWTTokenSecurity" name="test_expired_token_validation" time="0.002" /><testcase classname="tests.security.test_authentication.TestJWTTokenSecurity" name="test_jwt_token_generation_and_validation" time="0.002" /><testcase classname="tests.security.test_authentication.TestSecurityCompliance" name="test_input_validation_security" time="0.002" /><testcase classname="tests.security.test_authentication.TestSecurityCompliance" name="test_password_hashing_security" time="1.030" /><testcase classname="tests.security.test_authentication.TestSecurityCompliance" name="test_session_security" time="0.002" /><testcase classname="tests.security.test_enhanced_authentication.TestEnhancedAuthenticationSystem" name="test_generate_api_key" time="0.002" /><testcase classname="tests.security.test_enhanced_authentication.TestEnhancedAuthenticationSystem" name="test_revoke_api_key" time="0.003" /><testcase classname="tests.security.test_enhanced_authentication.TestEnhancedAuthenticationSystem" name="test_verify_api_key_invalid_id" time="0.003" /><testcase classname="tests.security.test_enhanced_authentication.TestEnhancedAuthenticationSystem" name="test_verify_api_key_invalid_secret" time="0.003" /><testcase classname="tests.security.test_enhanced_authentication.TestEnhancedAuthenticationSystem" name="test_verify_api_key_valid" time="0.004" /><testcase classname="tests.smoke.test_health" name="test_repo_boots" time="0.002" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[accepted-lukhas]" time="0.002" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[candidate-candidate]" time="0.002" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[core-lukhas]" time="0.002" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[matriz-MATRIZ]" time="0.002" /><testcase classname="tests.smoke.test_imports_light" name="test_lane_imports_have_file[archive-archive]" time="0.004" /><testcase classname="tests.test_basic_functions" name="test_memory_wrapper_initializes" time="0.002" /><testcase classname="tests.test_basic_functions" name="test_logger_emits" time="0.002" /><testcase classname="tests.test_core_memory_validation.TestCoreMemoryValidation" name="test_unified_memory_core_performance" time="0.537" /><testcase classname="tests.test_core_memory_validation.TestCoreMemoryValidation" name="test_memory_cleaner_functionality" time="0.696" /><testcase classname="tests.test_core_memory_validation.TestCoreMemoryValidation" name="test_symbolic_delta_compression" time="0.101"><skipped type="pytest.skip" message="Symbolic delta compression not available: cannot import name 'SymbolicDeltaCompression' from 'candidate.memory.systems.symbolic_delta_compression' (/app/candidate/memory/systems/symbolic_delta_compression.py)">/app/tests/test_core_memory_validation.py:168: Symbolic delta compression not available: cannot import name 'SymbolicDeltaCompression' from 'candidate.memory.systems.symbolic_delta_compression' (/app/candidate/memory/systems/symbolic_delta_compression.py)</skipped></testcase><testcase classname="tests.test_core_memory_validation.TestCoreMemoryValidation" name="test_memory_system_working_modules" time="0.002" /><testcase classname="tests.test_core_memory_validation.TestCoreMemoryValidation" name="test_memory_system_trinity_integration" time="0.049" /><testcase classname="tests.test_core_memory_validation.TestCoreMemoryValidation" name="test_memory_performance_benchmarks" time="0.002" /><testcase classname="tests.test_guardian_system.TestConsentLedger" name="test_consent_ledger_initialization" time="0.037" /><testcase classname="tests.test_guardian_system.TestConsentLedger" name="test_consent_grant_gdpr_compliance" time="5.061" /><testcase classname="tests.test_guardian_system.TestConsentLedger" name="test_consent_revocation" time="10.097" /><testcase classname="tests.test_guardian_system.TestConsentLedger" name="test_consent_check_validation" time="10.102" /><testcase classname="tests.test_guardian_system.TestConsentLedger" name="test_lambda_trace_integrity" time="5.057" /><testcase classname="tests.test_guardian_system.TestDriftDetector" name="test_drift_detector_initialization" time="0.010" /><testcase classname="tests.test_guardian_system.TestDriftDetector" name="test_drift_measurement_basic" time="0.007" /><testcase classname="tests.test_guardian_system.TestDriftDetector" name="test_drift_threshold_breach_detection" time="0.011" /><testcase classname="tests.test_guardian_system.TestDriftDetector" name="test_multiple_drift_types" time="0.006" /><testcase classname="tests.test_guardian_system.TestDriftDetector" name="test_drift_report_generation" time="0.008" /><testcase classname="tests.test_guardian_system.TestEthicsPolicyEngine" name="test_ethics_engine_initialization" time="0.008" /><testcase classname="tests.test_guardian_system.TestEthicsPolicyEngine" name="test_constitutional_ai_evaluation" time="0.005" /><testcase classname="tests.test_guardian_system.TestEthicsPolicyEngine" name="test_harmful_content_detection" time="0.006" /><testcase classname="tests.test_guardian_system.TestEthicsPolicyEngine" name="test_multiple_ethical_frameworks" time="0.010" /><testcase classname="tests.test_guardian_system.TestEthicsPolicyEngine" name="test_policy_creation_and_compliance" time="0.005" /><testcase classname="tests.test_guardian_system.TestEthicsPolicyEngine" name="test_trinity_framework_integration" time="0.009" /><testcase classname="tests.test_guardian_system.TestAuditSystem" name="test_audit_system_initialization" time="0.005" /><testcase classname="tests.test_guardian_system.TestAuditSystem" name="test_audit_event_logging" time="0.007" /><testcase classname="tests.test_guardian_system.TestAuditSystem" name="test_audit_trail_integrity" time="0.014" /><testcase classname="tests.test_guardian_system.TestAuditSystem" name="test_compliance_reporting" time="0.007" /><testcase classname="tests.test_guardian_system.TestAuditSystem" name="test_audit_query_system" time="0.011" /><testcase classname="tests.test_guardian_system.TestGuardianSystemIntegration" name="test_guardian_system_initialization" time="3.006" /><testcase classname="tests.test_guardian_system.TestGuardianSystemIntegration" name="test_validation_request_processing" time="3.024" /><testcase classname="tests.test_guardian_system.TestGuardianSystemIntegration" name="test_trinity_framework_validation" time="3.018" /><testcase classname="tests.test_guardian_system.TestGuardianSystemIntegration" name="test_performance_requirements" time="3.025" /><testcase classname="tests.test_guardian_system.TestGuardianSystemIntegration" name="test_emergency_stop_scenarios" time="3.010" /><testcase classname="tests.test_guardian_system.TestGuardianSystemIntegration" name="test_alert_system" time="4.012" /><testcase classname="tests.test_guardian_system.TestGuardianSystemCompliance" name="test_gdpr_compliance" time="5.063" /><testcase classname="tests.test_guardian_system.TestGuardianSystemCompliance" name="test_constitutional_ai_compliance" time="0.009" /><testcase classname="tests.test_guardian_system.TestGuardianSystemCompliance" name="test_drift_threshold_compliance" time="0.005" /><testcase classname="tests.test_guardian_system.TestGuardianSystemCompliance" name="test_audit_trail_immutability" time="0.008" /><testcase classname="tests.test_guardian_system.TestGuardianSystemIntegrationEndToEnd" name="test_complete_validation_workflow" time="2.008" /><testcase classname="tests.test_guardian_system.TestGuardianSystemIntegrationEndToEnd" name="test_multi_component_failure_handling" time="3.008" /><testcase classname="tests.test_imports" name="test_imports_real[lukhas.core.common]" time="0.002" /><testcase classname="tests.test_imports" name="test_imports_real[lukhas.memory]" time="0.002" /><testcase classname="tests.test_imports" name="test_imports_real[lukhas.identity]" time="0.002" /><testcase classname="tests.test_imports" name="test_imports_real[lukhas.governance]" time="0.002" /><testcase classname="tests.test_imports" name="test_imports_real[lukhas.observability]" time="0.002" /><testcase classname="tests.test_integration" name="test_memory_flow_minimal" time="0.002" /><testcase classname="tests.test_memory_system_validation.TestMemorySystemValidation" name="test_unified_memory_core_cascade_prevention" time="0.014" /><testcase classname="tests.test_memory_system_validation.TestMemorySystemValidation" name="test_memory_operation_performance" time="0.005" /><testcase classname="tests.test_memory_system_validation.TestMemorySystemValidation" name="test_memory_colonies_neuroplastic_adaptation" time="0.004"><skipped type="pytest.skip" message="Memory colonies not available: No module named 'candidate.memory.consolidation.consolidation_orchestrator'">/app/tests/test_memory_system_validation.py:135: Memory colonies not available: No module named 'candidate.memory.consolidation.consolidation_orchestrator'</skipped></testcase><testcase classname="tests.test_memory_system_validation.TestMemorySystemValidation" name="test_dream_trace_quantum_resonance" time="0.011"><skipped type="pytest.skip" message="Dream trace linker not available: No module named 'candidate.memory.systems.emotional_memory'">/app/tests/test_memory_system_validation.py:171: Dream trace linker not available: No module named 'candidate.memory.systems.emotional_memory'</skipped></testcase><testcase classname="tests.test_memory_system_validation.TestMemorySystemValidation" name="test_memory_cleaner_comprehensive_health" time="0.633"><failure message="TypeError: object dict can't be used in 'await' expression">self = &lt;test_memory_system_validation.TestMemorySystemValidation object at 0x7ff17c331610&gt;
+
+    @pytest.mark.asyncio
+    async def test_memory_cleaner_comprehensive_health(self):
+        """Test comprehensive memory health assessment"""
+        try:
+            from candidate.memory.causal.memory_cleaner import MemoryCleaner
+
+            cleaner = MemoryCleaner(parent_id="test_parent", task_data={"test": True})
+
+            # Test comprehensive health assessment
+            if hasattr(cleaner, "comprehensive_memory_health_assessment"):
+&gt;               health_result = await cleaner.comprehensive_memory_health_assessment()
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               TypeError: object dict can't be used in 'await' expression
+
+tests/test_memory_system_validation.py:183: TypeError</failure></testcase><testcase classname="tests.test_memory_system_validation.TestMemorySystemValidation" name="test_trinity_framework_integration" time="0.004"><skipped type="pytest.skip" message="Memory visualization not available: No module named 'candidate.memory.consolidation.consolidation_orchestrator'">/app/tests/test_memory_system_validation.py:232: Memory visualization not available: No module named 'candidate.memory.consolidation.consolidation_orchestrator'</skipped></testcase><testcase classname="tests.test_memory_system_validation.TestMemorySystemValidation" name="test_predictive_compression_scheduling" time="0.003"><skipped type="pytest.skip" message="Symbolic delta compression not available: cannot import name 'SymbolicDeltaCompression' from 'candidate.memory.systems.symbolic_delta_compression' (/app/candidate/memory/systems/symbolic_delta_compression.py)">/app/tests/test_memory_system_validation.py:268: Symbolic delta compression not available: cannot import name 'SymbolicDeltaCompression' from 'candidate.memory.systems.symbolic_delta_compression' (/app/candidate/memory/systems/symbolic_delta_compression.py)</skipped></testcase><testcase classname="tests.test_memory_system_validation.TestMemorySystemValidation" name="test_memory_system_integration_smoke" time="0.005"><failure message="AssertionError: Import success rate 50.0% below minimum 70%&#10;assert 50.0 &gt;= 70">self = &lt;test_memory_system_validation.TestMemorySystemValidation object at 0x7ff17c311e20&gt;
+
+    def test_memory_system_integration_smoke(self):
+        """Smoke test for overall memory system integration"""
+        # Test that all main memory modules can be imported
+        modules_to_test = [
+            "candidate.memory.folds.unified_memory_core",
+            "candidate.memory.consolidation.memory_colonies",
+            "candidate.memory.consolidation.memory_visualization",
+            "candidate.memory.systems.dream_trace_linker",
+            "candidate.memory.causal.memory_cleaner",
+            "candidate.memory.systems.symbolic_delta_compression"
+        ]
+
+        import_results = {}
+        for module in modules_to_test:
+            try:
+                __import__(module)
+                import_results[module] = "SUCCESS"
+            except ImportError as e:
+                import_results[module] = f"FAILED: {e}"
+
+        print("\nMemory System Import Test Results:")
+        for module, result in import_results.items():
+            print(f"  {module}: {result}")
+
+        # At least 70% of modules should import successfully
+        success_count = sum(1 for result in import_results.values() if result == "SUCCESS")
+        success_rate = success_count / len(modules_to_test) * 100
+
+&gt;       assert success_rate &gt;= 70, f"Import success rate {success_rate}% below minimum 70%"
+E       AssertionError: Import success rate 50.0% below minimum 70%
+E       assert 50.0 &gt;= 70
+
+tests/test_memory_system_validation.py:298: AssertionError</failure></testcase><testcase classname="tests.test_production_main.TestProductionMain" name="test_initialization" time="0.003"><failure message="AttributeError: &lt;module 'production_main' from '/app/production_main.py'&gt; does not have the attribute 'uvicorn'">/home/jules/.pyenv/versions/3.12.11/lib/python3.12/unittest/mock.py:1393: in patched
+    with self.decoration_helper(patched,
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/unittest/mock.py:1375: in decoration_helper
+    arg = exit_stack.enter_context(patching)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/contextlib.py:526: in enter_context
+    result = _enter(cm)
+             ^^^^^^^^^^
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/unittest/mock.py:1467: in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;unittest.mock._patch object at 0x7ff17c36e2d0&gt;
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+
+        original = DEFAULT
+        local = False
+
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+
+        if not self.create and original is DEFAULT:
+&gt;           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: &lt;module 'production_main' from '/app/production_main.py'&gt; does not have the attribute 'uvicorn'
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/unittest/mock.py:1437: AttributeError</failure></testcase><testcase classname="tests.test_production_main.TestProductionMain" name="test_main_function" time="0.004"><failure message="RuntimeError: There is no current event loop in thread 'MainThread'.">self = &lt;test_production_main.TestProductionMain testMethod=test_main_function&gt;
+mock_stop_systems = &lt;AsyncMock name='stop_systems' id='140675134873216'&gt;
+mock_start_api_server = &lt;AsyncMock name='start_api_server' id='140675135013472'&gt;
+
+    @patch('production_main.LUKHASProduction.start_api_server')
+    @patch('production_main.LUKHASProduction.stop_systems')
+    def test_main_function(self, mock_stop_systems, mock_start_api_server):
+        """Test the main function runs without errors."""
+        # Arrange
+&gt;       mock_start_api_server.return_value = asyncio.Future()
+                                             ^^^^^^^^^^^^^^^^
+
+tests/test_production_main.py:46:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;uvloop.EventLoopPolicy object at 0x7ff18a82acc0&gt;
+
+    def get_event_loop(self):
+        """Get the event loop for the current context.
+
+        Returns an instance of EventLoop or raises an exception.
+        """
+        if (self._local._loop is None and
+                not self._local._set_called and
+                threading.current_thread() is threading.main_thread()):
+            stacklevel = 2
+            try:
+                f = sys._getframe(1)
+            except AttributeError:
+                pass
+            else:
+                # Move up the call stack so that the warning is attached
+                # to the line outside asyncio itself.
+                while f:
+                    module = f.f_globals.get('__name__')
+                    if not (module == 'asyncio' or module.startswith('asyncio.')):
+                        break
+                    f = f.f_back
+                    stacklevel += 1
+            import warnings
+            warnings.warn('There is no current event loop',
+                          DeprecationWarning, stacklevel=stacklevel)
+            self.set_event_loop(self.new_event_loop())
+
+        if self._local._loop is None:
+&gt;           raise RuntimeError('There is no current event loop in thread %r.'
+                               % threading.current_thread().name)
+E           RuntimeError: There is no current event loop in thread 'MainThread'.
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/events.py:702: RuntimeError</failure></testcase><testcase classname="tests.test_public_api.TestPublicAPI" name="test_chat_endpoint_invalid_auth" time="0.001"><skipped type="pytest.skip" message="public_api module not available">/app/tests/test_public_api.py:64: public_api module not available</skipped></testcase><testcase classname="tests.test_public_api.TestPublicAPI" name="test_chat_endpoint_no_auth" time="0.001"><skipped type="pytest.skip" message="public_api module not available">/app/tests/test_public_api.py:59: public_api module not available</skipped></testcase><testcase classname="tests.test_public_api.TestPublicAPI" name="test_chat_endpoint_valid_auth" time="0.001"><skipped type="pytest.skip" message="public_api module not available">/app/tests/test_public_api.py:71: public_api module not available</skipped></testcase><testcase classname="tests.test_public_api.TestPublicAPI" name="test_dreams_endpoint_no_auth" time="0.001"><skipped type="pytest.skip" message="public_api module not available">/app/tests/test_public_api.py:79: public_api module not available</skipped></testcase><testcase classname="tests.test_public_api.TestPublicAPI" name="test_dreams_endpoint_valid_auth" time="0.001"><skipped type="pytest.skip" message="public_api module not available">/app/tests/test_public_api.py:84: public_api module not available</skipped></testcase><testcase classname="tests.test_public_api.TestPublicAPI" name="test_health_check" time="0.000"><skipped type="pytest.skip" message="public_api module not available">/app/tests/test_public_api.py:47: public_api module not available</skipped></testcase><testcase classname="tests.test_public_api.TestPublicAPI" name="test_root_endpoint" time="0.001"><skipped type="pytest.skip" message="public_api module not available">/app/tests/test_public_api.py:53: public_api module not available</skipped></testcase><testcase classname="tests.test_public_api.TestPublicAPI" name="test_status_endpoint_optional_auth" time="0.001"><skipped type="pytest.skip" message="public_api module not available">/app/tests/test_public_api.py:92: public_api module not available</skipped></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_retrieve_knowledge_enabled" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_retrieve_knowledge_enabled' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_retrieve_knowledge_enabled&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_retrieve_knowledge_enabled' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_retrieve_knowledge_disabled" time="0.005" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_schedule_task_success" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_schedule_task_success' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_schedule_task_success&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_schedule_task_success' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_schedule_task_missing_note" time="0.003"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_schedule_task_missing_note' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_schedule_task_missing_note&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_schedule_task_missing_note' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_url_validation_success" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_url_validation_success' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_url_validation_success&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_url_validation_success' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_url_validation_blocked_scheme" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_url_validation_blocked_scheme' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_url_validation_blocked_scheme&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_url_validation_blocked_scheme' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_url_validation_blocked_domains" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_url_validation_blocked_domains' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_url_validation_blocked_domains&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_url_validation_blocked_domains' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_code_security_validation" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_code_security_validation' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_code_security_validation&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_code_security_validation' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_code_execution_disabled" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_code_execution_disabled' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_code_execution_disabled&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_code_execution_disabled' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_code_execution_invalid_language" time="0.005" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_code_execution_security_violation" time="0.004" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_sandboxed_execution_success" time="0.011"><failure message="AssertionError: assert 'Execution completed successfully' in 'An unexpected error occurred during execution: not enough values to unpack (expected 2, got 0)'">self = &lt;test_tool_executor_comprehensive.TestToolExecutor object at 0x7ff17c2c4c20&gt;
+mock_docker_client = &lt;MagicMock name='from_env()' id='140675146234624'&gt;
+
+    @pytest.mark.asyncio
+    async def test_sandboxed_execution_success(self, mock_docker_client):
+        """Test successful sandboxed code execution"""
+        with patch.dict(os.environ, {"LUKHAS_ENABLE_CODE_EXEC": "true"}):
+            executor = ToolExecutor()
+            result = await executor.execute(
+                "exec_code",
+                '{"language": "python", "source": "print(\\"Hello World\\")"}',
+            )
+
+&gt;           assert "Execution completed successfully" in result
+E           AssertionError: assert 'Execution completed successfully' in 'An unexpected error occurred during execution: not enough values to unpack (expected 2, got 0)'
+
+tests/tools/test_tool_executor_comprehensive.py:194: AssertionError</failure></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_rate_limiting" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_rate_limiting' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_rate_limiting&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_rate_limiting' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_audit_logging" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_audit_logging' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='tool_executor' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'tool_executor' for &lt;Coroutine test_audit_logging&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_audit_logging' requested an async fixture 'tool_executor', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutor" name="test_concurrent_execution_limit" time="0.043"><failure message="assert 'Maximum concurrent executions' in &quot;Docker not available: Error while fetching server API version: ('Connection aborted.', PermissionError(13, 'Permission denied'))&quot;">self = &lt;test_tool_executor_comprehensive.TestToolExecutor object at 0x7ff17c2c55b0&gt;
+
+    @pytest.mark.asyncio
+    async def test_concurrent_execution_limit(self):
+        """Test concurrent execution limits"""
+        with patch.dict(os.environ, {"LUKHAS_MAX_CONCURRENT_EXECUTIONS": "2"}):
+            executor = ToolExecutor()
+            executor._active_executions = 2
+
+            result = await executor._sandboxed_code_execution("python", "print('test')")
+&gt;           assert "Maximum concurrent executions" in result
+E           assert 'Maximum concurrent executions' in "Docker not available: Error while fetching server API version: ('Connection aborted.', PermissionError(13, 'Permission denied'))"
+
+tests/tools/test_tool_executor_comprehensive.py:231: AssertionError</failure></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutorGuardian" name="test_guardian_validation_approval" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_guardian_validation_approval' requested an async fixture 'guardian', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='guardian' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'guardian' for &lt;Coroutine test_guardian_validation_approval&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_guardian_validation_approval' requested an async fixture 'guardian', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutorGuardian" name="test_guardian_security_validation" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_guardian_security_validation' requested an async fixture 'guardian', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='guardian' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'guardian' for &lt;Coroutine test_guardian_security_validation&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_guardian_security_validation' requested an async fixture 'guardian', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutorGuardian" name="test_guardian_ethical_validation" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_guardian_ethical_validation' requested an async fixture 'guardian', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='guardian' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'guardian' for &lt;Coroutine test_guardian_ethical_validation&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_guardian_ethical_validation' requested an async fixture 'guardian', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolExecutorGuardian" name="test_guardian_execution_logging" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_guardian_execution_logging' requested an async fixture 'guardian', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='guardian' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'guardian' for &lt;Coroutine test_guardian_execution_logging&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_guardian_execution_logging' requested an async fixture 'guardian', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolOrchestrator" name="test_orchestration_success" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_orchestration_success' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='orchestrator' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'orchestrator' for &lt;Coroutine test_orchestration_success&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_orchestration_success' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolOrchestrator" name="test_orchestration_invalid_json" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_orchestration_invalid_json' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='orchestrator' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'orchestrator' for &lt;Coroutine test_orchestration_invalid_json&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_orchestration_invalid_json' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolOrchestrator" name="test_orchestration_caching" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_orchestration_caching' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='orchestrator' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'orchestrator' for &lt;Coroutine test_orchestration_caching&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_orchestration_caching' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolOrchestrator" name="test_orchestration_metrics" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_orchestration_metrics' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='orchestrator' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'orchestrator' for &lt;Coroutine test_orchestration_metrics&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_orchestration_metrics' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestToolOrchestrator" name="test_orchestration_health_check" time="0.002"><error message="failed on setup with &quot;pytest.PytestRemovedIn9Warning: 'test_orchestration_health_check' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.&#10;See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture&quot;">fixturedef = &lt;FixtureDef argname='orchestrator' scope='function' baseid='tests/tools/test_tool_executor_comprehensive.py'&gt;
+request = &lt;SubRequest 'orchestrator' for &lt;Coroutine test_orchestration_health_check&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+E               pytest.PytestRemovedIn9Warning: 'test_orchestration_health_check' requested an async fixture 'orchestrator', with no plugin or hook that handled it. This is usually an error, as pytest does not natively support it. This will turn into an error in pytest 9.
+E               See: https://docs.pytest.org/en/stable/deprecations.html#sync-test-depending-on-async-fixture
+
+/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/pytest_asyncio/plugin.py:681: PytestRemovedIn9Warning</error></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestMultiAIConsensus" name="test_consensus_calculation" time="0.004" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestMultiAIConsensus" name="test_consensus_no_evaluations" time="0.004" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestExternalServiceIntegration" name="test_integration_initialization" time="0.004" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestExternalServiceIntegration" name="test_unknown_operation" time="0.004" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestExternalServiceIntegration" name="test_service_not_available" time="0.004" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestExternalServiceIntegration" name="test_available_operations" time="0.004" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestExternalServiceIntegration" name="test_integration_metrics" time="0.004" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestIntegration" name="test_full_orchestration_flow" time="0.007" /><testcase classname="tests.tools.test_tool_executor_comprehensive.TestIntegration" name="test_error_handling_resilience" time="0.005"><failure message="assert not True">self = &lt;test_tool_executor_comprehensive.TestIntegration object at 0x7ff17c2e80b0&gt;
+
+    @pytest.mark.asyncio
+    async def test_error_handling_resilience(self):
+        """Test error handling and resilience"""
+        orchestrator = ToolOrchestrator()
+
+        # Test with invalid tool
+        result = await orchestrator.execute_with_orchestration(
+            "nonexistent_tool", '{"arg": "value"}', {"lid": "test_user"}
+        )
+
+&gt;       assert not result["success"]
+E       assert not True
+
+tests/tools/test_tool_executor_comprehensive.py:511: AssertionError</failure></testcase><testcase classname="tests.tools.test_tool_executor_comprehensive.TestIntegration" name="test_performance_monitoring" time="0.007" /><testcase classname="tests.universal_language.test_compositional" name="test_execute_line_ignores_comments" time="0.002" /><testcase classname="tests.universal_language.test_compositional" name="test_generate_and_execute_simple_program" time="0.003" /><testcase classname="tests.universal_language.test_multimodal" name="test_process_color_hex_parsing" time="0.002" /><testcase classname="tests.universal_language.test_multimodal" name="test_process_color_tuple_rgb" time="0.003" /></testsuite></testsuites>

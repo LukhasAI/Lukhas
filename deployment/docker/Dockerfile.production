@@ -1,0 +1,57 @@
+# Stage 1: Builder
+FROM python:3.11-slim as builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN pip install --no-cache-dir --upgrade pip
+
+# Copy requirements files
+COPY requirements.txt ./
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Stage 2: Final Image
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Create a non-root user for security
+RUN addgroup --system lukhas && adduser --system --ingroup lukhas lukhas
+USER lukhas
+
+# Copy installed dependencies from builder stage
+COPY --from=builder /usr/local/lib/python3.11/site-packages/ /usr/local/lib/python3.11/site-packages/
+COPY --from=builder /usr/local/bin/ /usr/local/bin/
+
+# Copy application code
+COPY --chown=lukhas:lukhas consciousness/ ./consciousness/
+COPY --chown=lukhas:lukhas memory/ ./memory/
+COPY --chown=lukhas:lukhas identity/ ./identity/
+COPY --chown=lukhas:lukhas universal_language/ ./universal_language/
+COPY --chown=lukhas:lukhas monitoring/ ./monitoring/
+COPY --chown=lukhas:lukhas modulation/ ./modulation/
+COPY --chown=lukhas:lukhas agents/configs/ ./agents/configs/
+COPY --chown=lukhas:lukhas ai_orchestration/ ./ai_orchestration/
+COPY --chown=lukhas:lukhas enterprise/ ./enterprise/
+COPY --chown=lukhas:lukhas production_main.py .
+COPY --chown=lukhas:lukhas lukhas.py .
+COPY --chown=lukhas:lukhas config/ ./config/
+COPY --chown=lukhas:lukhas deployment/docker/docker-compose.yml .
+
+# Expose the application port
+EXPOSE 8080
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV LUKHAS_PRODUCTION=true
+ENV LUKHAS_API_HOST=0.0.0.0
+ENV LUKHAS_API_PORT=8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD python -c "import http.client; conn = http.client.HTTPConnection('localhost', 8080); conn.request('GET', '/health'); exit(0) if conn.getresponse().status == 200 else exit(1)"
+
+# Run the application
+CMD ["python", "production_main.py"]

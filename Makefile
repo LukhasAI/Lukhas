@@ -218,12 +218,12 @@ fix-imports:
 
 # Run tests
 test:
-	pytest tests/ -v
+	pytest tests/ -v --junitxml=test-results.xml
 
 # Run tests with coverage
 test-cov:
 	@echo "🧪 Running tests with coverage..."
-	pytest tests/ --cov=lukhas --cov=bridge --cov=core --cov=serve --cov-report=html --cov-report=term
+	pytest tests/ --cov=lukhas --cov=candidate --cov=bridge --cov=core --cov=serve --cov-report=html --cov-report=xml --cov-report=term --junitxml=test-results.xml
 
 # Smoke test
 smoke:
