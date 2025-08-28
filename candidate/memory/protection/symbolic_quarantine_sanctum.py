@@ -1344,16 +1344,16 @@ class SymbolicQuarantineSanctum:
 
             except Exception as e:
                 logger.warning(
-                    "Failed to load quarantine vault",
-                    vault_file=str(vault_file),
-                    error=str(e),
+                    "Failed to load quarantine vault | vault_file=%s error=%s",
+                    str(vault_file),
+                    str(e),
                 )
 
         if loaded_count > 0:
             logger.info(
-                "Loaded quarantine entries from vault",
-                loaded_count=loaded_count,
-                ΛTAG="ΛVAULT_RECOVERY",
+                "Loaded quarantine entries from vault | loaded_count=%d tag=%s",
+                loaded_count,
+                "ΛVAULT_RECOVERY",
             )
 
     def _extract_symbol_ids(self, content: dict[str, Any]) -> list[str]:
