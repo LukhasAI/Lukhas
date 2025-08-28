@@ -43,4 +43,3 @@ jobs:
       - name: Run MATRIZ unit tests
         run: |
           pytest -q tests/matriz || (echo 'MATRIZ tests failed'; exit 1)
-
