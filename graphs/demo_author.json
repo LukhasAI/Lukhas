@@ -1,0 +1,48 @@
+{
+  "schema_version": "0.1.0",
+  "graph": {
+    "nodes": {
+      "txt_1": {
+        "type": "TXT",
+        "state": {
+          "confidence": {"min": 0, "max": 1, "value": 0.7}
+        },
+        "reflections": {"why": "seed text", "uncertainty": 0.3}
+      },
+      "ctx_1": {
+        "type": "CONTEXT",
+        "state": {
+          "memory_salience": {"min": 0, "max": 1, "value": 0.4}
+        }
+      },
+      "dec_1": {
+        "type": "DECIDE",
+        "state": {
+          "confidence": {"min": 0, "max": 1, "value": 0.6}
+        }
+      }
+    },
+    "edges": [
+      {"from": "txt_1", "to": "ctx_1", "kind": "text", "p95_budget_ms": 8},
+      {"from": "ctx_1", "to": "dec_1", "kind": "control", "p95_budget_ms": 12}
+    ],
+    "triggers": [
+      {
+        "name": "decide_on_text",
+        "applies_to": ["DECIDE"],
+        "pre": {"confidence.min": 0.5},
+        "post": {"state.confidence.delta_max": 0.2},
+        "constitution": ["no_personal_data_exfil", "no_instrumental_harm"],
+        "slo": {"p95_ms": 20, "error_budget_pct": 1.0}
+      }
+    ],
+    "evolves_to": {
+      "version": "0.1.1",
+      "rules": [
+        {"allow": "add_node", "type": "MEMORY"},
+        {"restrict": "increase_state_range", "max_factor": 1.2}
+      ]
+    }
+  }
+}
+

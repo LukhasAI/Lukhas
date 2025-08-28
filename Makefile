@@ -648,3 +648,21 @@ hook-install:
 .PHONY: pc-all
 pc-all:
 	pre-commit run --all-files || true
+
+.PHONY: matriz-compile matriz-ci audit-validate sbom
+
+# Compile all MATRIZ author graphs under graphs/ to reports/matriz/
+matriz-compile:
+	@python -m tools.matriz.compile_all graphs reports/matriz
+
+# MATRIZ CI gate: compile all graphs and fail on invariant violations
+matriz-ci: matriz-compile
+	@echo "✅ MATRIZ compile completed; see reports/matriz for plans and reports"
+
+# Audit validator for JSON provenance across repository master artifacts
+audit-validate:
+	@python tools/ci/update_and_validate_json.py
+
+# Software Bill of Materials (CycloneDX) if CLI available
+sbom:
+	@cyclonedx-bom -o reports/sbom/cyclonedx.json || echo "cyclonedx-bom not installed; skipped"
