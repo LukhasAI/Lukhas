@@ -57,7 +57,7 @@ class RedundancyAnalyzer:
     """Analyzes LUKHAS debase for redundancies"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas"
+        self.root_path = Path.cwd()
         self.functions_by_hash = defaultdict(list)
         self.classes_by_name = defaultdict(list)
         self.imports_by_statement = defaultdict(list)
@@ -155,7 +155,8 @@ class RedundancyAnalyzer:
         for line in lines:
             # Remove comments
             if "#" in line:
-                line = line[: line.index(")  # "]
+                idx = line.index("#")
+                line = line[:idx]
             # Strip whitespace
             line = line.strip()
             if line:

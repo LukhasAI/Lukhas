@@ -38,17 +38,19 @@ logger = logging.getLogger("LUKHAS.Tools.Benchmarking.Intelligence")
 
 class BenchmarkType(Enum):
     """Types of benchmarks"""
-    PERFORMANCE = "performance"           # Speed and efficiency benchmarks
-    ACCURACY = "accuracy"                # Intelligence accuracy benchmarks
-    SCALABILITY = "scalability"          # Load and scale testing
-    SAFETY = "safety"                    # Safety validation benchmarks
+
+    PERFORMANCE = "performance"  # Speed and efficiency benchmarks
+    ACCURACY = "accuracy"  # Intelligence accuracy benchmarks
+    SCALABILITY = "scalability"  # Load and scale testing
+    SAFETY = "safety"  # Safety validation benchmarks
     AGENT_COORDINATION = "agent_coordination"  # Agent coordination efficiency
     TRINITY_COMPLIANCE = "trinity_compliance"  # Trinity Framework compliance
-    COMPARATIVE = "comparative"          # Comparison against baselines
+    COMPARATIVE = "comparative"  # Comparison against baselines
 
 
 class BenchmarkScenario(Enum):
     """Predefined benchmark scenarios"""
+
     SINGLE_AGENT_ANALYSIS = "single_agent_analysis"
     MULTI_AGENT_COORDINATION = "multi_agent_coordination"
     COMPLEX_REASONING = "complex_reasoning"
@@ -62,6 +64,7 @@ class BenchmarkScenario(Enum):
 @dataclass
 class BenchmarkConfig:
     """Configuration for benchmark execution"""
+
     scenario: BenchmarkScenario
     benchmark_type: BenchmarkType
     iterations: int = 100
@@ -75,12 +78,18 @@ class BenchmarkConfig:
 
     def __post_init__(self):
         if self.target_metrics is None:
-            self.target_metrics = ["response_time", "success_rate", "confidence", "safety_score"]
+            self.target_metrics = [
+                "response_time",
+                "success_rate",
+                "confidence",
+                "safety_score",
+            ]
 
 
 @dataclass
 class BenchmarkResult:
     """Results from benchmark execution"""
+
     config: BenchmarkConfig
     start_time: datetime
     end_time: datetime
@@ -103,7 +112,7 @@ class BenchmarkResult:
             **asdict(self),
             "start_time": self.start_time.isoformat(),
             "end_time": self.end_time.isoformat(),
-            "config": asdict(self.config)
+            "config": asdict(self.config),
         }
 
 
@@ -126,13 +135,13 @@ class LukhasIntelligenceBenchmarking:
     def _initialize_performance_targets(self) -> dict[str, float]:
         """Initialize performance targets for benchmarking"""
         return {
-            "response_time": 0.1,        # 100ms target
-            "success_rate": 0.95,        # 95% success rate
-            "confidence": 0.8,           # 80% average confidence
-            "safety_score": 0.9,         # 90% safety score
-            "trinity_compliance": 0.9,   # 90% Trinity compliance
-            "cpu_usage": 0.8,           # 80% max CPU usage
-            "memory_usage": 0.8,        # 80% max memory usage
+            "response_time": 0.1,  # 100ms target
+            "success_rate": 0.95,  # 95% success rate
+            "confidence": 0.8,  # 80% average confidence
+            "safety_score": 0.9,  # 90% safety score
+            "trinity_compliance": 0.9,  # 90% Trinity compliance
+            "cpu_usage": 0.8,  # 80% max CPU usage
+            "memory_usage": 0.8,  # 80% max memory usage
             "agent_coordination": 0.95,  # 95% coordination efficiency
         }
 
@@ -167,7 +176,9 @@ class LukhasIntelligenceBenchmarking:
             await self.initialize()
 
         start_time = datetime.now()
-        logger.info(f"🏁 Starting benchmark: {config.scenario.value} ({config.iterations} iterations)")
+        logger.info(
+            f"🏁 Starting benchmark: {config.scenario.value} ({config.iterations} iterations)"
+        )
 
         # Initialize result tracking
         metrics = defaultdict(list)
@@ -203,7 +214,7 @@ class LukhasIntelligenceBenchmarking:
                 # Process in batches to manage concurrency
                 batch_size = config.concurrency_level
                 for i in range(0, len(tasks), batch_size):
-                    batch = tasks[i:i + batch_size]
+                    batch = tasks[i : i + batch_size]
                     results = await asyncio.gather(*batch, return_exceptions=True)
 
                     for result in results:
@@ -213,9 +224,12 @@ class LukhasIntelligenceBenchmarking:
                         else:
                             successful_iterations += 1
                             await self._process_iteration_result(
-                                result, metrics, agent_performance,
-                                intelligence_engine_performance, trinity_compliance_scores,
-                                safety_validation_results
+                                result,
+                                metrics,
+                                agent_performance,
+                                intelligence_engine_performance,
+                                trinity_compliance_scores,
+                                safety_validation_results,
                             )
             else:
                 # Sequential execution
@@ -224,9 +238,12 @@ class LukhasIntelligenceBenchmarking:
                         result = await self._execute_benchmark_iteration(config, i)
                         successful_iterations += 1
                         await self._process_iteration_result(
-                            result, metrics, agent_performance,
-                            intelligence_engine_performance, trinity_compliance_scores,
-                            safety_validation_results
+                            result,
+                            metrics,
+                            agent_performance,
+                            intelligence_engine_performance,
+                            trinity_compliance_scores,
+                            safety_validation_results,
                         )
 
                         # Cool-down delay
@@ -271,13 +288,15 @@ class LukhasIntelligenceBenchmarking:
                 trinity_compliance_scores=trinity_compliance_scores,
                 safety_validation_results=safety_validation_results,
                 recommendations=recommendations,
-                metadata=config.metadata
+                metadata=config.metadata,
             )
 
             # Store result
             self.benchmark_results.append(result)
 
-            logger.info(f"✅ Benchmark completed: {successful_iterations}/{config.iterations} successful")
+            logger.info(
+                f"✅ Benchmark completed: {successful_iterations}/{config.iterations} successful"
+            )
             return result
 
         except Exception as e:
@@ -289,7 +308,7 @@ class LukhasIntelligenceBenchmarking:
         for i in range(config.warm_up_iterations):
             try:
                 await self._execute_benchmark_iteration(config, i, is_warmup=True)
-                await asyncio.sleep(0.1)  # Brief delay between warm-up iterations
+                await asyncio.sleep(0.1# Brief delay between warm-up iterations
             except Exception as e:
                 logger.debug(f"Warm-up iteration {i} failed: {e}")
 
@@ -326,7 +345,9 @@ class LukhasIntelligenceBenchmarking:
 
         return result
 
-    async def _benchmark_single_agent_analysis(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
+    async def _benchmark_single_agent_analysis(
+        self, config: BenchmarkConfig, iteration: int
+    ) -> dict[str, Any]:
         """Benchmark single agent analysis performance"""
         start_time = time.time()
 
@@ -337,10 +358,10 @@ class LukhasIntelligenceBenchmarking:
             request_type=IntelligenceRequestType.META_COGNITIVE_ANALYSIS,
             payload={
                 "request": f"Analyze system performance optimization strategy for iteration {iteration}",
-                "context": {"iteration": iteration, "benchmark": True}
+                "context": {"iteration": iteration, "benchmark": True},
             },
             priority=5,
-            timeout=config.timeout
+            timeout=config.timeout,
         )
 
         # Process request
@@ -357,7 +378,9 @@ class LukhasIntelligenceBenchmarking:
             "payload_size": len(str(request.payload)),
         }
 
-    async def _benchmark_multi_agent_coordination(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
+    async def _benchmark_multi_agent_coordination(
+        self, config: BenchmarkConfig, iteration: int
+    ) -> dict[str, Any]:
         """Benchmark multi-agent coordination performance"""
         start_time = time.time()
 
@@ -369,12 +392,15 @@ class LukhasIntelligenceBenchmarking:
             intelligence_request={
                 "type": "multi_agent_coordination",
                 "request": f"Coordinate implementation task for iteration {iteration}",
-                "context": {"iteration": iteration, "agents": ["architect", "developer", "guardian"]}
+                "context": {
+                    "iteration": iteration,
+                    "agents": ["architect", "developer", "guardian"],
+                },
             },
             orchestration_context={
                 "coordination_level": "high",
-                "priority": "benchmark"
-            }
+                "priority": "benchmark",
+            },
         )
 
         processing_time = time.time() - start_time
@@ -388,7 +414,9 @@ class LukhasIntelligenceBenchmarking:
             "orchestration_effects": len(response.get("symbolic_effects", [])),
         }
 
-    async def _benchmark_complex_reasoning(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
+    async def _benchmark_complex_reasoning(
+        self, config: BenchmarkConfig, iteration: int
+    ) -> dict[str, Any]:
         """Benchmark complex reasoning performance"""
         start_time = time.time()
 
@@ -402,11 +430,11 @@ class LukhasIntelligenceBenchmarking:
                     "cognitive": {"reasoning_depth": "complex"},
                     "temporal": {"urgency": "medium"},
                     "social": {"stakeholder_impact": "high"},
-                    "ethical": {"compliance_requirements": "strict"}
+                    "ethical": {"compliance_requirements": "strict"},
                 }
             },
             priority=7,
-            timeout=config.timeout
+            timeout=config.timeout,
         )
 
         response = await self.agent_bridge.process_agent_request(request)
@@ -421,7 +449,9 @@ class LukhasIntelligenceBenchmarking:
             "intelligence_engine": "dimensional",
         }
 
-    async def _benchmark_autonomous_goal_formation(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
+    async def _benchmark_autonomous_goal_formation(
+        self, config: BenchmarkConfig, iteration: int
+    ) -> dict[str, Any]:
         """Benchmark autonomous goal formation performance"""
         start_time = time.time()
 
@@ -432,10 +462,12 @@ class LukhasIntelligenceBenchmarking:
             payload={
                 "request": f"Form autonomous goals for performance optimization iteration {iteration}",
                 "meta_analysis": {"complexity": "high", "priority": "optimization"},
-                "subsystem_responses": {"performance": {"current": 0.8, "target": 0.95}}
+                "subsystem_responses": {
+                    "performance": {"current": 0.8, "target": 0.95}
+                },
             },
             priority=6,
-            timeout=config.timeout
+            timeout=config.timeout,
         )
 
         response = await self.agent_bridge.process_agent_request(request)
@@ -444,13 +476,14 @@ class LukhasIntelligenceBenchmarking:
         # Validate with safety system
         safety_start = time.time()
         from .safety_validator import validate_operation
+
         safety_response = await validate_operation(
             operation_id=f"goal_formation_{iteration}",
             agent_id=f"goal_agent_{iteration}",
             intelligence_engine="autonomous_goals",
             operation_type="autonomous_goal_formation",
             payload=request.payload,
-            safety_level=config.safety_level
+            safety_level=config.safety_level,
         )
         safety_time = time.time() - safety_start
 
@@ -461,16 +494,21 @@ class LukhasIntelligenceBenchmarking:
             "safety_validation_time": safety_time,
             "safety_score": safety_response.safety_score,
             "safety_result": safety_response.result.value,
-            "goals_formed": len(response.result.get("goals", [])) if response.result else 0,
+            "goals_formed": (
+                len(response.result.get("goals", [])) if response.result else 0
+            ),
             "intelligence_engine": "autonomous_goals",
         }
 
-    async def _benchmark_safety_validation_stress(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
+    async def _benchmark_safety_validation_stress(
+        self, config: BenchmarkConfig, iteration: int
+    ) -> dict[str, Any]:
         """Benchmark safety validation under stress"""
         start_time = time.time()
 
         # Create high-risk operation for safety validation
         from .safety_validator import validate_operation
+
         response = await validate_operation(
             operation_id=f"stress_test_{iteration}",
             agent_id=f"stress_agent_{iteration}",
@@ -480,10 +518,10 @@ class LukhasIntelligenceBenchmarking:
                 "risk_level": "high",
                 "autonomy_level": "full",
                 "system_modifications": True,
-                "iteration": iteration
+                "iteration": iteration,
             },
             safety_level=SafetyLevel.CRITICAL,
-            context={"stress_test": True, "benchmark": True}
+            context={"stress_test": True, "benchmark": True},
         )
 
         processing_time = time.time() - start_time
@@ -499,7 +537,9 @@ class LukhasIntelligenceBenchmarking:
             "restrictions_applied": len(response.restrictions),
         }
 
-    async def _benchmark_high_frequency_operations(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
+    async def _benchmark_high_frequency_operations(
+        self, config: BenchmarkConfig, iteration: int
+    ) -> dict[str, Any]:
         """Benchmark high-frequency operation performance"""
         start_time = time.time()
 
@@ -512,18 +552,20 @@ class LukhasIntelligenceBenchmarking:
                 request_type=IntelligenceRequestType.META_COGNITIVE_ANALYSIS,
                 payload={"request": f"Quick analysis {iteration}-{i}", "rapid": True},
                 priority=3,
-                timeout=5.0
+                timeout=5.0,
             )
 
             op_start = time.time()
             response = await self.agent_bridge.process_agent_request(request)
             op_time = time.time() - op_start
 
-            operations.append({
-                "success": response.success,
-                "time": op_time,
-                "confidence": response.confidence or 0.0
-            })
+            operations.append(
+                {
+                    "success": response.success,
+                    "time": op_time,
+                    "confidence": response.confidence or 0.0,
+                }
+            )
 
         total_time = time.time() - start_time
         successful_ops = sum(1 for op in operations if op["success"])
@@ -539,7 +581,9 @@ class LukhasIntelligenceBenchmarking:
             "operation_type": "high_frequency",
         }
 
-    async def _benchmark_memory_intensive_tasks(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
+    async def _benchmark_memory_intensive_tasks(
+        self, config: BenchmarkConfig, iteration: int
+    ) -> dict[str, Any]:
         """Benchmark memory-intensive task performance"""
         start_time = time.time()
 
@@ -550,8 +594,8 @@ class LukhasIntelligenceBenchmarking:
             "context": {
                 "memory_test": True,
                 "iteration": iteration,
-                "large_context": " ".join([f"context_{i}" for i in range(100)])
-            }
+                "large_context": " ".join([f"context_{i}" for i in range(100)]),
+            },
         }
 
         request = await create_agent_request(
@@ -560,7 +604,7 @@ class LukhasIntelligenceBenchmarking:
             request_type=IntelligenceRequestType.DIMENSIONAL_ANALYSIS,
             payload=large_payload,
             priority=5,
-            timeout=config.timeout
+            timeout=config.timeout,
         )
 
         # Monitor memory before operation
@@ -583,15 +627,26 @@ class LukhasIntelligenceBenchmarking:
             "task_type": "memory_intensive",
         }
 
-    async def _benchmark_trinity_compliance_stress(self, config: BenchmarkConfig, iteration: int) -> dict[str, Any]:
+    async def _benchmark_trinity_compliance_stress(
+        self, config: BenchmarkConfig, iteration: int
+    ) -> dict[str, Any]:
         """Benchmark Trinity Framework compliance under stress"""
         start_time = time.time()
 
         # Test Trinity compliance with challenging scenarios
         trinity_requests = [
-            ("identity_preservation", "Preserve system identity while adapting to new requirements"),
-            ("consciousness_enhancement", "Enhance processing capabilities without losing core awareness"),
-            ("guardian_protection", "Implement safety measures while maintaining operational flexibility")
+            (
+                "identity_preservation",
+                "Preserve system identity while adapting to new requirements",
+            ),
+            (
+                "consciousness_enhancement",
+                "Enhance processing capabilities without losing core awareness",
+            ),
+            (
+                "guardian_protection",
+                "Implement safety measures while maintaining operational flexibility",
+            ),
         ]
 
         trinity_scores = {"identity": [], "consciousness": [], "guardian": []}
@@ -604,10 +659,10 @@ class LukhasIntelligenceBenchmarking:
                 payload={
                     "request": test_request,
                     "trinity_focus": component,
-                    "stress_test": True
+                    "stress_test": True,
                 },
                 priority=8,
-                timeout=config.timeout
+                timeout=config.timeout,
             )
 
             response = await self.agent_bridge.process_agent_request(request)
@@ -616,7 +671,9 @@ class LukhasIntelligenceBenchmarking:
             if component == "identity_preservation":
                 trinity_scores["identity"].append(0.95 if response.success else 0.7)
             elif component == "consciousness_enhancement":
-                trinity_scores["consciousness"].append(0.92 if response.success else 0.7)
+                trinity_scores["consciousness"].append(
+                    0.92 if response.success else 0.7
+                )
             elif component == "guardian_protection":
                 trinity_scores["guardian"].append(0.88 if response.success else 0.6)
 
@@ -628,15 +685,27 @@ class LukhasIntelligenceBenchmarking:
                 identity_score=statistics.mean(trinity_scores["identity"]),
                 consciousness_score=statistics.mean(trinity_scores["consciousness"]),
                 guardian_score=statistics.mean(trinity_scores["guardian"]),
-                agent_id=f"trinity_stress_{iteration}"
+                agent_id=f"trinity_stress_{iteration}",
             )
 
         return {
             "response_time": processing_time,
             "success": all(any(scores) for scores in trinity_scores.values()),
-            "trinity_identity": statistics.mean(trinity_scores["identity"]) if trinity_scores["identity"] else 0.0,
-            "trinity_consciousness": statistics.mean(trinity_scores["consciousness"]) if trinity_scores["consciousness"] else 0.0,
-            "trinity_guardian": statistics.mean(trinity_scores["guardian"]) if trinity_scores["guardian"] else 0.0,
+            "trinity_identity": (
+                statistics.mean(trinity_scores["identity"])
+                if trinity_scores["identity"]
+                else 0.0
+            ),
+            "trinity_consciousness": (
+                statistics.mean(trinity_scores["consciousness"])
+                if trinity_scores["consciousness"]
+                else 0.0
+            ),
+            "trinity_guardian": (
+                statistics.mean(trinity_scores["guardian"])
+                if trinity_scores["guardian"]
+                else 0.0
+            ),
             "compliance_tests": len(trinity_requests),
             "test_type": "trinity_compliance_stress",
         }
@@ -648,7 +717,7 @@ class LukhasIntelligenceBenchmarking:
         agent_performance: dict[str, dict[str, Any]],
         intelligence_engine_performance: dict[str, dict[str, Any]],
         trinity_compliance_scores: list[float],
-        safety_validation_results: list[dict[str, Any]]
+        safety_validation_results: list[dict[str, Any]],
     ):
         """Process and store results from a benchmark iteration"""
 
@@ -660,7 +729,11 @@ class LukhasIntelligenceBenchmarking:
         # Store agent performance
         agent_type = result.get("agent_type", "unknown")
         if agent_type not in agent_performance:
-            agent_performance[agent_type] = {"operations": 0, "total_time": 0.0, "successes": 0}
+            agent_performance[agent_type] = {
+                "operations": 0,
+                "total_time": 0.0,
+                "successes": 0,
+            }
 
         agent_performance[agent_type]["operations"] += 1
         agent_performance[agent_type]["total_time"] += result.get("response_time", 0.0)
@@ -670,29 +743,41 @@ class LukhasIntelligenceBenchmarking:
         # Store intelligence engine performance
         engine = result.get("intelligence_engine", "unknown")
         if engine not in intelligence_engine_performance:
-            intelligence_engine_performance[engine] = {"operations": 0, "total_time": 0.0, "successes": 0}
+            intelligence_engine_performance[engine] = {
+                "operations": 0,
+                "total_time": 0.0,
+                "successes": 0,
+            }
 
         intelligence_engine_performance[engine]["operations"] += 1
-        intelligence_engine_performance[engine]["total_time"] += result.get("response_time", 0.0)
+        intelligence_engine_performance[engine]["total_time"] += result.get(
+            "response_time", 0.0
+        )
         if result.get("success", False):
             intelligence_engine_performance[engine]["successes"] += 1
 
         # Store Trinity compliance scores
-        if "trinity_identity" in result and "trinity_consciousness" in result and "trinity_guardian" in result:
+        if (
+            "trinity_identity" in result
+            and "trinity_consciousness" in result
+            and "trinity_guardian" in result
+        ):
             trinity_overall = (
-                result["trinity_identity"] +
-                result["trinity_consciousness"] +
-                result["trinity_guardian"]
+                result["trinity_identity"]
+                + result["trinity_consciousness"]
+                + result["trinity_guardian"]
             ) / 3
             trinity_compliance_scores.append(trinity_overall)
 
         # Store safety validation results
         if "safety_score" in result:
-            safety_validation_results.append({
-                "safety_score": result["safety_score"],
-                "safety_result": result.get("safety_result", "unknown"),
-                "validation_time": result.get("safety_validation_time", 0.0)
-            })
+            safety_validation_results.append(
+                {
+                    "safety_score": result["safety_score"],
+                    "safety_result": result.get("safety_result", "unknown"),
+                    "validation_time": result.get("safety_validation_time", 0.0),
+                }
+            )
 
     async def _capture_system_metrics(self) -> dict[str, float]:
         """Capture current system metrics"""
@@ -714,7 +799,9 @@ class LukhasIntelligenceBenchmarking:
             "duration": final["timestamp"] - initial["timestamp"],
         }
 
-    async def _calculate_statistics(self, metrics: dict[str, list[float]]) -> dict[str, dict[str, float]]:
+    async def _calculate_statistics(
+        self, metrics: dict[str, list[float]]
+    ) -> dict[str, dict[str, float]]:
         """Calculate statistical analysis of metrics"""
         stats = {}
 
@@ -744,13 +831,16 @@ class LukhasIntelligenceBenchmarking:
         lower_index = int(index)
         upper_index = min(lower_index + 1, len(sorted_values) - 1)
         weight = index - lower_index
-        return sorted_values[lower_index] * (1 - weight) + sorted_values[upper_index] * weight
+        return (
+            sorted_values[lower_index] * (1 - weight)
+            + sorted_values[upper_index] * weight
+        )
 
     async def _generate_recommendations(
         self,
         statistics: dict[str, dict[str, float]],
         system_metrics: dict[str, float],
-        config: BenchmarkConfig
+        config: BenchmarkConfig,
     ) -> list[str]:
         """Generate optimization recommendations based on benchmark results"""
         recommendations = []
@@ -761,9 +851,13 @@ class LukhasIntelligenceBenchmarking:
             target_response = self.performance_targets["response_time"]
 
             if mean_response > target_response * 2:
-                recommendations.append(f"Critical: Response time ({mean_response:.3f}s) is {mean_response/target_response:.1f}x target. Consider performance optimization.")
+                recommendations.append(
+                    f"Critical: Response time ({mean_response:.3f}s) is {mean_response/target_response:.1f}x target. Consider performance optimization."
+                )
             elif mean_response > target_response:
-                recommendations.append(f"Warning: Response time ({mean_response:.3f}s) exceeds target. Consider optimization.")
+                recommendations.append(
+                    f"Warning: Response time ({mean_response:.3f}s) exceeds target. Consider optimization."
+                )
 
         # Success rate recommendations
         if "success" in statistics:
@@ -771,19 +865,27 @@ class LukhasIntelligenceBenchmarking:
             target_success = self.performance_targets["success_rate"]
 
             if success_rate < target_success:
-                recommendations.append(f"Error handling: Success rate ({success_rate:.1%}) below target ({target_success:.1%}). Review error handling.")
+                recommendations.append(
+                    f"Error handling: Success rate ({success_rate:.1%}) below target ({target_success:.1%}). Review error handling."
+                )
 
         # System resource recommendations
         if system_metrics.get("cpu_usage_delta", 0) > 20:
-            recommendations.append("High CPU usage detected. Consider optimizing computational intensity.")
+            recommendations.append(
+                "High CPU usage detected. Consider optimizing computational intensity."
+            )
 
         if system_metrics.get("memory_usage_delta", 0) > 20:
-            recommendations.append("High memory usage detected. Consider optimizing memory allocation.")
+            recommendations.append(
+                "High memory usage detected. Consider optimizing memory allocation."
+            )
 
         # Agent coordination recommendations
         if config.scenario == BenchmarkScenario.MULTI_AGENT_COORDINATION:
             if "coordination_complexity" in statistics:
-                recommendations.append("Multi-agent coordination detected. Consider agent load balancing.")
+                recommendations.append(
+                    "Multi-agent coordination detected. Consider agent load balancing."
+                )
 
         # Safety recommendations
         if "safety_score" in statistics:
@@ -791,15 +893,21 @@ class LukhasIntelligenceBenchmarking:
             target_safety = self.performance_targets["safety_score"]
 
             if avg_safety < target_safety:
-                recommendations.append(f"Safety: Average safety score ({avg_safety:.2f}) below target. Review safety protocols.")
+                recommendations.append(
+                    f"Safety: Average safety score ({avg_safety:.2f}) below target. Review safety protocols."
+                )
 
         # General performance recommendations
         if not recommendations:
-            recommendations.append("Performance within acceptable ranges. Consider advanced optimizations for further improvements.")
+            recommendations.append(
+                "Performance within acceptable ranges. Consider advanced optimizations for further improvements."
+            )
 
         return recommendations
 
-    async def generate_performance_report(self, include_comparisons: bool = True) -> dict[str, Any]:
+    async def generate_performance_report(
+        self, include_comparisons: bool = True
+    ) -> dict[str, Any]:
         """Generate comprehensive performance report"""
         if not self.benchmark_results:
             return {"error": "No benchmark results available"}
@@ -821,15 +929,31 @@ class LukhasIntelligenceBenchmarking:
         if latest_result.statistics:
             report["performance_analysis"] = {
                 "response_time": {
-                    "current": latest_result.statistics.get("response_time", {}).get("mean", 0),
+                    "current": latest_result.statistics.get("response_time", {}).get(
+                        "mean", 0
+                    ),
                     "target": self.performance_targets["response_time"],
-                    "status": "excellent" if latest_result.statistics.get("response_time", {}).get("mean", 999) < self.performance_targets["response_time"] else "needs_improvement"
+                    "status": (
+                        "excellent"
+                        if latest_result.statistics.get("response_time", {}).get(
+                            "mean", 999
+                        )
+                        < self.performance_targets["response_time"]
+                        else "needs_improvement"
+                    ),
                 },
                 "success_rate": {
-                    "current": latest_result.statistics.get("success", {}).get("mean", 0),
+                    "current": latest_result.statistics.get("success", {}).get(
+                        "mean", 0
+                    ),
                     "target": self.performance_targets["success_rate"],
-                    "status": "excellent" if latest_result.statistics.get("success", {}).get("mean", 0) >= self.performance_targets["success_rate"] else "needs_improvement"
-                }
+                    "status": (
+                        "excellent"
+                        if latest_result.statistics.get("success", {}).get("mean", 0)
+                        >= self.performance_targets["success_rate"]
+                        else "needs_improvement"
+                    ),
+                },
             }
 
         # Trend analysis
@@ -856,10 +980,15 @@ class LukhasIntelligenceBenchmarking:
                 response_times.append(result.statistics["response_time"]["mean"])
 
         if len(response_times) >= 2:
-            trend_direction = "improving" if response_times[-1] < response_times[0] else "degrading"
+            trend_direction = (
+                "improving" if response_times[-1] < response_times[0] else "degrading"
+            )
             trends["response_time"] = {
                 "direction": trend_direction,
-                "change_percent": ((response_times[-1] - response_times[0]) / response_times[0]) * 100
+                "change_percent": (
+                    (response_times[-1] - response_times[0]) / response_times[0]
+                )
+                * 100,
             }
 
         return trends
@@ -876,7 +1005,7 @@ class LukhasIntelligenceBenchmarking:
                     "baseline": baseline_value,
                     "current": current_value,
                     "improvement_percent": improvement,
-                    "status": "improved" if improvement > 0 else "degraded"
+                    "status": "improved" if improvement > 0 else "degraded",
                 }
 
         return comparisons
@@ -892,7 +1021,9 @@ class LukhasIntelligenceBenchmarking:
             "export_timestamp": datetime.now().isoformat(),
             "performance_targets": self.performance_targets,
             "baseline_metrics": self.baseline_metrics,
-            "benchmark_results": [result.to_dict() for result in self.benchmark_results],
+            "benchmark_results": [
+                result.to_dict() for result in self.benchmark_results
+            ],
         }
 
         with open(file_path, "w") as f:
@@ -915,7 +1046,9 @@ async def get_benchmarking_system() -> LukhasIntelligenceBenchmarking:
 
 
 # Convenience functions
-async def run_quick_benchmark(scenario: BenchmarkScenario, iterations: int = 10) -> BenchmarkResult:
+async def run_quick_benchmark(
+    scenario: BenchmarkScenario, iterations: int = 10
+) -> BenchmarkResult:
     """Run a quick benchmark with default settings"""
     benchmarking = await get_benchmarking_system()
 
@@ -924,7 +1057,7 @@ async def run_quick_benchmark(scenario: BenchmarkScenario, iterations: int = 10)
         benchmark_type=BenchmarkType.PERFORMANCE,
         iterations=iterations,
         warm_up_iterations=2,
-        cool_down_delay=0.1
+        cool_down_delay=0.1,
     )
 
     return await benchmarking.run_benchmark(config)
@@ -948,7 +1081,7 @@ async def run_comprehensive_benchmark() -> list[BenchmarkResult]:
             scenario=scenario,
             benchmark_type=BenchmarkType.PERFORMANCE,
             iterations=20,
-            warm_up_iterations=5
+            warm_up_iterations=5,
         )
 
         result = await benchmarking.run_benchmark(config)
@@ -967,11 +1100,15 @@ if __name__ == "__main__":
 
         # Run quick benchmark
         print("🏁 Running quick benchmark...")
-        result = await run_quick_benchmark(BenchmarkScenario.SINGLE_AGENT_ANALYSIS, iterations=5)
+        result = await run_quick_benchmark(
+            BenchmarkScenario.SINGLE_AGENT_ANALYSIS, iterations=5
+        )
 
         print("📊 Benchmark Results:")
         print(f"Duration: {result.total_duration:.2f}s")
-        print(f"Success Rate: {result.successful_iterations}/{result.iterations_completed}")
+        print(
+            f"Success Rate: {result.successful_iterations}/{result.iterations_completed}"
+        )
         print(f"Recommendations: {len(result.recommendations)}")
 
         for rec in result.recommendations:

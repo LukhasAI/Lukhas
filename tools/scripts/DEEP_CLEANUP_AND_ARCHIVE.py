@@ -179,7 +179,7 @@ class WorkspaceCleanup:
                     with open(req_file) as f:
                         for line in f:
                             line = line.strip()
-                            if line and not line.startswith(")  # ":
+                            if line and not line.startswith("# ":
                                 # Parse package name
                                 re.split(r"[<>=!]", line)[0]
                                 all_requirements.add(line)
@@ -433,7 +433,7 @@ setup(
                     zipf.write(file, rel_path)
 
         # Get zip size
-        zip_size = zip_path.stat().st_size / (1024 * 1024)  # MB
+        zip_size = zip_path.stat().st_size / (1024 * 1024# MB
 
         print(f"   ✅ Created {zip_name} ({zip_size:.2f} MB)")
         return zip_path

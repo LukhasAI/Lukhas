@@ -17,9 +17,11 @@ from pathlib import Path
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class SyntaxFix:
     """Represents a syntax fix operation"""
+
     file_path: str
     line_number: int
     original: str
@@ -27,15 +29,18 @@ class SyntaxFix:
     fix_type: str
     confidence: float = 1.0
 
+
 @dataclass
 class SyntaxReport:
     """Report of all syntax fixes performed"""
+
     total_files_scanned: int = 0
     files_with_errors: int = 0
     fixes_applied: int = 0
     fixes_by_type: dict[str, int] = field(default_factory=dict)
     failed_files: list[str] = field(default_factory=list)
     fixes: list[SyntaxFix] = field(default_factory=list)
+
 
 class PythonSyntaxFixer:
     """Main syntax fixer class"""
@@ -49,15 +54,13 @@ class PythonSyntaxFixer:
         self.fix_patterns = [
             # Curly quotes to straight quotes
             (r'[""]', '"', "curly_quotes"),
-            (r"[""]", "'", "curly_quotes"),
-
+            (r"[" "]", "'", "curly_quotes"),
             # Fix escaped quotes in docstrings
             (r'"""', '"""', "docstring_quotes"),
             (r'"""', '"""', "docstring_quotes"),
             (r'"""""', '"""', "docstring_quotes"),
             (r'""""', '"""', "docstring_quotes"),
             (r'""', '"""', "docstring_quotes_incomplete"),
-
             # Fix malformed f-strings with comments
             (r'f"([^"]*)\s*#[^"]*"', r'f"\1"', "fstring_comment"),
             (r"f'([^']*)\s*#[^']*'", r"f'\1'", "fstring_comment"),
@@ -81,14 +84,16 @@ class PythonSyntaxFixer:
             content = self.fix_curly_quotes(content)
             if content != original_content:
                 modified = True
-                fixes.append(SyntaxFix(
-                    file_path=str(file_path),
-                    line_number=0,
-                    original="<file>",
-                    fixed="<file>",
-                    fix_type="curly_quotes",
-                    confidence=1.0
-                ))
+                fixes.append(
+                    SyntaxFix(
+                        file_path=str(file_path),
+                        line_number=0,
+                        original="<file>",
+                        fixed="<file>",
+                        fix_type="curly_quotes",
+                        confidence=1.0,
+                    )
+                )
 
             # 2. Fix invalid module names in imports
             content, import_fixes = self.fix_invalid_imports(content)
@@ -97,7 +102,9 @@ class PythonSyntaxFixer:
                 fixes.extend(import_fixes)
 
             # 3. Fix misplaced comments in code
-            content, comment_fixes = self.fix_misplaced_comments(content, str(file_path))
+            content, comment_fixes = self.fix_misplaced_comments(
+                content, str(file_path)
+            )
             if comment_fixes:
                 modified = True
                 fixes.extend(comment_fixes)
@@ -113,7 +120,9 @@ class PythonSyntaxFixer:
                 ast.parse(content)
             except SyntaxError as e:
                 # Try additional fixes for remaining syntax errors
-                content, syntax_fixes = self.fix_remaining_syntax_errors(content, e, str(file_path))
+                content, syntax_fixes = self.fix_remaining_syntax_errors(
+                    content, e, str(file_path)
+                )
                 if syntax_fixes:
                     modified = True
                     fixes.extend(syntax_fixes)
@@ -135,12 +144,12 @@ class PythonSyntaxFixer:
         """Replace curly quotes with straight quotes"""
         # Unicode curly quotes
         replacements = {
-            "\u201C": '"',  # Left double quotation mark
-            "\u201D": '"',  # Right double quotation mark
+            "\u201c": '"',  # Left double quotation mark
+            "\u201d": '"',  # Right double quotation mark
             "\u2018": "'",  # Left single quotation mark
             "\u2019": "'",  # Right single quotation mark
-            '"': '"',      # Another right double quote variant
-            """'""": "'",      # Another right single quote variant
+            '"': '"',  # Another right double quote variant
+            """'""": "'",  # Another right single quote variant
         }
 
         for old, new in replacements.items():
@@ -154,7 +163,9 @@ class PythonSyntaxFixer:
         lines = content.splitlines()
 
         # Pattern for invalid imports with spaces
-        import_pattern = re.compile(r"(from|import)\s+([A-Z][A-Z\s]+(?:Λ|λ)?[A-Za-z\s]*?)(\.|import|\s|$)")
+        import_pattern = re.compile(
+            r"(from|import)\s+([A-Z][A-Z\s]+(?:Λ|λ)?[A-Za-z\s]*?)(\.|import|\s|$)"
+        )
 
         for i, line in enumerate(lines):
             match = import_pattern.search(line)
@@ -168,31 +179,37 @@ class PythonSyntaxFixer:
                     if "LUKHAS AI" in module_name:
                         valid_name = "lukhas_ai_lambda_bot"
                     elif "Λ" in module_name or "λ" in module_name:
-                        valid_name = valid_name.replace("λ", "lambda").replace("Λ", "lambda")
+                        valid_name = valid_name.replace("λ", "lambda").replace(
+                            "Λ", "lambda"
+                        )
 
                     new_line = line.replace(module_name, valid_name)
                     lines[i] = new_line
 
-                    fixes.append(SyntaxFix(
-                        file_path="",  # Will be filled by caller
-                        line_number=i + 1,
-                        original=line,
-                        fixed=new_line,
-                        fix_type="invalid_import",
-                        confidence=0.9
-                    ))
+                    fixes.append(
+                        SyntaxFix(
+                            file_path="",  # Will be filled by caller
+                            line_number=i + 1,
+                            original=line,
+                            fixed=new_line,
+                            fix_type="invalid_import",
+                            confidence=0.9,
+                        )
+                    )
 
         return "\n".join(lines), fixes
 
-    def fix_misplaced_comments(self, content: str, file_path: str) -> tuple[str, list[SyntaxFix]]:
+    def fix_misplaced_comments(
+        self, content: str, file_path: str
+    ) -> tuple[str, list[SyntaxFix]]:
         """Fix comments that break syntax (e.g., inside function calls)"""
         fixes = []
         lines = content.splitlines()
 
         # Pattern for comments inside function calls or f-strings
         patterns = [
-            # hashlib.sha256(  )  #  comment text
-            (r"(\w+\.\w+\([^)]*)\s*#([^)]*)\)", r"\1)  # \2"),
+            # hashlib.sha256(  #  comment text
+            (r"(\w+\.\w+\([^)]*)\s*#([^)]*)\)", r"\1# \2"),
             # f-string with comment inside
             (r'(f["\'][^"\']*)\s*#([^"\']*["\'])', r'\1"'),
         ]
@@ -203,18 +220,22 @@ class PythonSyntaxFixer:
                     new_line = re.sub(pattern, replacement, line)
                     if new_line != line:
                         lines[i] = new_line
-                        fixes.append(SyntaxFix(
-                            file_path=file_path,
-                            line_number=i + 1,
-                            original=line,
-                            fixed=new_line,
-                            fix_type="misplaced_comment",
-                            confidence=0.85
-                        ))
+                        fixes.append(
+                            SyntaxFix(
+                                file_path=file_path,
+                                line_number=i + 1,
+                                original=line,
+                                fixed=new_line,
+                                fix_type="misplaced_comment",
+                                confidence=0.85,
+                            )
+                        )
 
         return "\n".join(lines), fixes
 
-    def fix_docstrings(self, content: str, file_path: str) -> tuple[str, list[SyntaxFix]]:
+    def fix_docstrings(
+        self, content: str, file_path: str
+    ) -> tuple[str, list[SyntaxFix]]:
         """Fix malformed docstrings"""
         fixes = []
         lines = content.splitlines()
@@ -238,14 +259,16 @@ class PythonSyntaxFixer:
 
                     if new_line != line:
                         lines[i] = new_line
-                        fixes.append(SyntaxFix(
-                            file_path=file_path,
-                            line_number=i + 1,
-                            original=line,
-                            fixed=new_line,
-                            fix_type="docstring_quotes",
-                            confidence=0.95
-                        ))
+                        fixes.append(
+                            SyntaxFix(
+                                file_path=file_path,
+                                line_number=i + 1,
+                                original=line,
+                                fixed=new_line,
+                                fix_type="docstring_quotes",
+                                confidence=0.95,
+                            )
+                        )
 
                 # Track docstring state
                 if not in_docstring and count % 2 == 1:
@@ -257,19 +280,22 @@ class PythonSyntaxFixer:
             elif line.strip() == '""' and not in_docstring:
                 # This should probably be a docstring
                 lines[i] = line.replace('""', '"""')
-                fixes.append(SyntaxFix(
-                    file_path=file_path,
-                    line_number=i + 1,
-                    original=line,
-                    fixed=lines[i],
-                    fix_type="incomplete_docstring",
-                    confidence=0.7
-                ))
+                fixes.append(
+                    SyntaxFix(
+                        file_path=file_path,
+                        line_number=i + 1,
+                        original=line,
+                        fixed=lines[i],
+                        fix_type="incomplete_docstring",
+                        confidence=0.7,
+                    )
+                )
 
         return "\n".join(lines), fixes
 
-    def fix_remaining_syntax_errors(self, content: str, syntax_error: SyntaxError,
-                                   file_path: str) -> tuple[str, list[SyntaxFix]]:
+    def fix_remaining_syntax_errors(
+        self, content: str, syntax_error: SyntaxError, file_path: str
+    ) -> tuple[str, list[SyntaxFix]]:
         """Attempt to fix remaining syntax errors based on the error message"""
         fixes = []
         lines = content.splitlines()
@@ -294,14 +320,16 @@ class PythonSyntaxFixer:
 
             if fixed_line != error_line:
                 lines[syntax_error.lineno - 1] = fixed_line
-                fixes.append(SyntaxFix(
-                    file_path=file_path,
-                    line_number=syntax_error.lineno,
-                    original=error_line,
-                    fixed=fixed_line,
-                    fix_type="syntax_error_recovery",
-                    confidence=0.6
-                ))
+                fixes.append(
+                    SyntaxFix(
+                        file_path=file_path,
+                        line_number=syntax_error.lineno,
+                        original=error_line,
+                        fixed=fixed_line,
+                        fix_type="syntax_error_recovery",
+                        confidence=0.6,
+                    )
+                )
 
         return "\n".join(lines), fixes
 
@@ -312,7 +340,10 @@ class PythonSyntaxFixer:
 
         for file_path in python_files:
             # Skip certain directories
-            if any(skip in str(file_path) for skip in ["__pycache__", ".git", "venv", ".venv"]):
+            if any(
+                skip in str(file_path)
+                for skip in ["__pycache__", ".git", "venv", ".venv"]
+            ):
                 continue
 
             if self.verbose:
@@ -326,8 +357,9 @@ class PythonSyntaxFixer:
 
                 # Track fixes by type
                 for fix in fixes:
-                    self.report.fixes_by_type[fix.fix_type] = \
+                    self.report.fixes_by_type[fix.fix_type] = (
                         self.report.fixes_by_type.get(fix.fix_type, 0) + 1
+                    )
 
         return self.report
 
@@ -348,36 +380,51 @@ class PythonSyntaxFixer:
             report_lines.append(f"  {fix_type}: {count}")
 
         if self.report.failed_files:
-            report_lines.extend([
-                "",
-                "Failed files:",
-            ])
+            report_lines.extend(
+                [
+                    "",
+                    "Failed files:",
+                ]
+            )
             for file in self.report.failed_files:
                 report_lines.append(f"  - {file}")
 
         if self.verbose and self.report.fixes:
-            report_lines.extend([
-                "",
-                "Detailed fixes:",
-                "-" * 40,
-            ])
-            for fix in self.report.fixes[:20]:  # Show first 20 fixes
-                report_lines.extend([
-                    f"File: {fix.file_path}:{fix.line_number}",
-                    f"Type: {fix.fix_type} (confidence: {fix.confidence:.0%})",
-                    f"Original: {fix.original[:80]}...",
-                    f"Fixed: {fix.fixed[:80]}...",
+            report_lines.extend(
+                [
+                    "",
+                    "Detailed fixes:",
                     "-" * 40,
-                ])
+                ]
+            )
+            for fix in self.report.fixes[:20]:  # Show first 20 fixes
+                report_lines.extend(
+                    [
+                        f"File: {fix.file_path}:{fix.line_number}",
+                        f"Type: {fix.fix_type} (confidence: {fix.confidence:.0%})",
+                        f"Original: {fix.original[:80]}...",
+                        f"Fixed: {fix.fixed[:80]}...",
+                        "-" * 40,
+                    ]
+                )
 
         return "\n".join(report_lines)
+
 
 def main():
     parser = argparse.ArgumentParser(description="Fix Python syntax errors at scale")
     parser.add_argument("path", help="Path to file or directory to fix")
-    parser.add_argument("--dry-run", action="store_true", help="Show what would be fixed without making changes")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be fixed without making changes",
+    )
     parser.add_argument("--verbose", action="store_true", help="Show detailed output")
-    parser.add_argument("--pattern", default="**/*.py", help="Glob pattern for Python files (default: **/*.py)")
+    parser.add_argument(
+        "--pattern",
+        default="**/*.py",
+        help="Glob pattern for Python files (default: **/*.py)",
+    )
     parser.add_argument("--report", help="Save report to file")
     parser.add_argument("--json", action="store_true", help="Output report as JSON")
 
@@ -415,10 +462,10 @@ def main():
                     "file": fix.file_path,
                     "line": fix.line_number,
                     "type": fix.fix_type,
-                    "confidence": fix.confidence
+                    "confidence": fix.confidence,
                 }
                 for fix in fixer.report.fixes
-            ]
+            ],
         }
         print(json.dumps(report_dict, indent=2))
     else:
@@ -436,6 +483,7 @@ def main():
     # Exit with error code if fixes were needed and not in dry-run
     if fixer.report.files_with_errors > 0 and args.dry_run:
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

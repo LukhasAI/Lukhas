@@ -86,7 +86,7 @@ class UsageBasedLearning:
             if pattern_key not in self.patterns:
                 self.patterns[pattern_key] = InteractionPattern()
             self.patterns[pattern_key].sequence = sequence
-            self.patterns[pattern_key].update(True)  # Assuming success for now
+            self.patterns[pattern_key].update(True# Assuming success for now
 
     def update_user_preferences(self, user_id: str, preferences: dict):
         """Update stored preferences for a user."""

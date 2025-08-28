@@ -1,30 +1,50 @@
-# Core dependencies for running the LUKHAS API server for verification.
-# This file excludes heavy ML/data science packages to speed up installation.
+# LUKHAS Core Requirements - Minimal dependencies for server verification
+# Supports both Jules agent testing and Datadog observability verification
 
-# FastAPI stack
-fastapi
-uvicorn
-starlette
+# Core Dependencies (Essential)
+python-dateutil>=2.8.2
+pytz>=2023.3
+typing-extensions>=4.8.0
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
 
-# Monitoring
-prometheus-client
-structlog
-datadog
-opentelemetry-sdk
-opentelemetry-api
-opentelemetry-instrumentation-fastapi
+# Web Framework (Essential for server)
+fastapi>=0.110.0
+uvicorn[standard]>=0.23.0
+pydantic>=2.0.0
+starlette>=0.36.0
+httpx>=0.25.0
 
-# AI APIs
-openai
-anthropic
+# Async Support (Essential)
+aiohttp>=3.9.0
+aiofiles>=23.2.0
 
-# Async
-aiohttp
-aiofiles
+# Monitoring & Observability (For Datadog verification)
+prometheus-client>=0.19.0
+structlog>=23.2.0
+rich>=13.7.0
+datadog>=0.47.0
+opentelemetry-sdk>=1.20.0
+opentelemetry-api>=1.20.0
+opentelemetry-instrumentation-fastapi>=0.41.0
+psutil>=5.9.0
 
-# Essential utils
-pyyaml
-python-dotenv
-click
-psutil
-flask
+# AI Integration (Core only - no heavy ML packages)
+openai>=1.35.0
+anthropic>=0.18.0
+
+# Database (Core only)
+sqlalchemy>=2.0.0
+
+# Security (Essential)
+cryptography>=41.0.0
+PyJWT>=2.8.0
+
+# Utilities (Essential)
+click>=8.1.0
+tenacity>=8.2.0
+python-multipart>=0.0.6
+flask>=2.3.0
+
+# Note: This excludes heavy packages like torch, transformers, pandas, scipy
+# which are causing timeout issues. Add them back individually if needed.

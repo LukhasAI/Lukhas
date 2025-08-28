@@ -194,13 +194,9 @@ Generate a description that makes quantum physics feel like poetry:"""
         if "entanglement" in features:
             qi_ref = "entanglement-like correlation weaving non-local correlations"
         elif "cryptography" in features:
-            qi_ref = (
-                "lattice-based cryptography dancing in high-dimensional spaces"
-            )
+            qi_ref = "lattice-based cryptography dancing in high-dimensional spaces"
         elif "consciousness" in features:
-            qi_ref = (
-                "coherence-inspired processing birthing synthetic consciousness"
-            )
+            qi_ref = "coherence-inspired processing birthing synthetic consciousness"
         else:
             qi_ref = "quantum phenomena transcending classical boundaries"
 
@@ -301,7 +297,7 @@ def main():
                 regenerated += 1
             else:
                 skipped += 1
-            print()  # Add spacing between files
+            print(# Add spacing between files
 
     # Process remaining files
     print("\n📊 Processing remaining quantum modules...")

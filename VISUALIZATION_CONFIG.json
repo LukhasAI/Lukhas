@@ -1,0 +1,407 @@
+{
+  "metadata": {
+    "schema_version": "1.1.0-visualization",
+    "schema_url": "schemas/visualization_config.schema.json",
+    "generated_at": "2025-08-28T00:00:00Z",
+    "visualization_framework": "Enterprise_Interactive_Architecture_Explorer",
+    "supported_platforms": ["web_gl", "canvas_2d", "svg", "d3js", "threejs"],
+    "target_audiences": ["executives", "architects", "developers", "researchers"],
+    "interactivity_level": "fully_interactive",
+    "real_time_capable": true
+  },
+
+  "provenance": {
+    "git_sha": "aa4daf2f172e195fb274c2908c5bf804e834aa03",
+    "generated_by": {
+      "tool": "claude-code",
+      "model": "Claude Sonnet 4",
+      "temperature": 0.2
+    },
+    "timestamp_utc": "2025-08-28T06:08:07Z",
+    "scope_hash": "sha256:TBD"
+  },
+
+  "notes": [],
+
+  "architecture_visualization_suite": {
+    "3d_consciousness_explorer": {
+      "visualization_type": "3d_network_graph",
+      "rendering_engine": "three_js_webgl",
+      "data_source": "LUKHAS_ARCHITECTURE_MASTER.json",
+      "module_uid_mapping": true,
+      "update_frequency": "real_time",
+      "legend": {
+        "lanes": {
+          "candidate": "#FF6B35",
+          "lukhas": "#4A90E2",
+          "core": "#7B68EE", 
+          "matriz": "#32CD32",
+          "archive": "#808080",
+          "quarantine": "#FF4500",
+          "experimental": "#9370DB"
+        }
+      },
+      "layers": ["foundational", "infrastructure", "application", "interface"],
+      "interactivity": {
+        "zoom_and_pan": true,
+        "node_selection": true,
+        "dependency_highlighting": true,
+        "consciousness_flow_animation": true,
+        "performance_heat_mapping": true
+      },
+      "visual_elements": {
+        "nodes": {
+          "consciousness_modules": {
+            "shape": "sphere",
+            "color_scheme": "consciousness_gradient",
+            "size_mapping": "lines_of_code",
+            "consciousness_glow": "awareness_level_intensity",
+            "animation": "consciousness_pulse"
+          },
+          "infrastructure_modules": {
+            "shape": "cube",
+            "color_scheme": "infrastructure_blue",
+            "size_mapping": "dependency_count",
+            "stability_indicator": "edge_thickness"
+          },
+          "security_modules": {
+            "shape": "octahedron",
+            "color_scheme": "security_red_amber_green",
+            "size_mapping": "risk_level",
+            "shield_animation": "protection_level"
+          }
+        },
+        "edges": {
+          "dependencies": {
+            "style": "curved_arrow",
+            "color": "dependency_strength",
+            "thickness": "data_flow_volume",
+            "animation": "data_flow_particles"
+          },
+          "consciousness_flows": {
+            "style": "neural_pathway",
+            "color": "consciousness_intensity",
+            "pulsing": "awareness_synchronization",
+            "particle_effects": "thought_propagation"
+          }
+        }
+      },
+      "layout_algorithms": {
+        "primary": "force_directed_3d",
+        "alternatives": ["hierarchical_layout", "circular_layout", "consciousness_flow_layout"],
+        "clustering": "trinity_framework_grouping"
+      }
+    },
+
+    "consciousness_flow_diagram": {
+      "visualization_type": "animated_flow_chart",
+      "rendering_engine": "d3js_svg",
+      "data_source": "CONSCIOUSNESS_METRICS.json",
+      "update_frequency": "real_time",
+      "visual_elements": {
+        "consciousness_states": {
+          "representation": "floating_orbs",
+          "color_coding": "consciousness_depth",
+          "size_variation": "awareness_intensity",
+          "transition_animations": "consciousness_state_morphing"
+        },
+        "decision_flows": {
+          "representation": "flowing_streams",
+          "color_coding": "decision_confidence",
+          "width_variation": "information_volume",
+          "particle_system": "decision_propagation"
+        },
+        "memory_integration": {
+          "representation": "memory_webs",
+          "connection_strength": "memory_relevance",
+          "temporal_animation": "memory_access_patterns"
+        }
+      }
+    },
+
+    "performance_heat_maps": {
+      "visualization_type": "multi_layer_heat_map",
+      "rendering_engine": "canvas_2d_webgl",
+      "data_source": "PERFORMANCE_BASELINES.json",
+      "update_frequency": "5_second_intervals",
+      "heat_map_layers": {
+        "system_performance": {
+          "metrics": ["cpu_usage", "memory_usage", "response_time"],
+          "color_scale": "performance_red_yellow_green",
+          "threshold_indicators": "performance_target_lines"
+        },
+        "consciousness_performance": {
+          "metrics": ["awareness_latency", "decision_time", "reflection_depth"],
+          "color_scale": "consciousness_purple_blue_gradient",
+          "consciousness_indicators": "awareness_level_contours"
+        },
+        "security_status": {
+          "metrics": ["threat_level", "compliance_score", "vulnerability_count"],
+          "color_scale": "security_risk_gradient",
+          "alert_indicators": "security_incident_markers"
+        }
+      }
+    },
+
+    "dependency_matrix_explorer": {
+      "visualization_type": "interactive_adjacency_matrix",
+      "rendering_engine": "d3js_canvas",
+      "data_source": "DEPENDENCY_MATRIX.json", 
+      "visual_elements": {
+        "matrix_cells": {
+          "color_coding": "dependency_strength",
+          "size_variation": "coupling_intensity",
+          "hover_effects": "dependency_path_highlighting"
+        },
+        "clustering_overlay": {
+          "grouping": "architectural_layers",
+          "boundary_indicators": "layer_separation_lines",
+          "hierarchy_tree": "dependency_hierarchy_sidebar"
+        }
+      },
+      "analysis_tools": {
+        "circular_dependency_detection": "red_warning_indicators",
+        "critical_path_highlighting": "golden_path_overlay",
+        "impact_analysis": "ripple_effect_simulation"
+      }
+    }
+  },
+
+  "business_intelligence_dashboards": {
+    "executive_summary_dashboard": {
+      "target_audience": "c_level_executives",
+      "update_frequency": "daily",
+      "key_metrics": [
+        "system_health_score",
+        "consciousness_effectiveness",
+        "security_compliance_status",
+        "performance_vs_targets",
+        "commercial_readiness_score"
+      ],
+      "visualization_types": [
+        "executive_scorecard",
+        "trend_charts",
+        "risk_indicators",
+        "milestone_progress"
+      ]
+    },
+
+    "technical_architecture_dashboard": {
+      "target_audience": "architects_and_engineers",
+      "update_frequency": "real_time",
+      "key_metrics": [
+        "module_performance_metrics",
+        "dependency_health",
+        "consciousness_coherence",
+        "system_scalability_indicators",
+        "technical_debt_tracking"
+      ],
+      "visualization_types": [
+        "architecture_diagrams",
+        "performance_charts",
+        "dependency_graphs",
+        "health_monitors"
+      ]
+    },
+
+    "research_analytics_dashboard": {
+      "target_audience": "researchers_and_scientists",
+      "update_frequency": "continuous",
+      "key_metrics": [
+        "consciousness_measurement_data",
+        "research_progress_tracking",
+        "experimental_results",
+        "publication_pipeline",
+        "academic_impact_metrics"
+      ],
+      "visualization_types": [
+        "scientific_plots",
+        "consciousness_measurements",
+        "research_timelines",
+        "impact_analysis"
+      ]
+    }
+  },
+
+  "interactive_features": {
+    "drill_down_capabilities": {
+      "module_deep_dive": {
+        "trigger": "double_click_module_node",
+        "action": "expand_internal_structure",
+        "detail_level": "submodule_and_function_view",
+        "performance_overlay": "real_time_metrics"
+      },
+      "dependency_trace": {
+        "trigger": "ctrl_click_dependency_edge",
+        "action": "highlight_full_dependency_chain",
+        "trace_direction": "bidirectional",
+        "impact_analysis": "show_affected_modules"
+      },
+      "consciousness_flow_trace": {
+        "trigger": "alt_click_consciousness_node",
+        "action": "animate_consciousness_propagation",
+        "flow_visualization": "particle_system_animation",
+        "metrics_overlay": "consciousness_intensity_values"
+      }
+    },
+
+    "filtering_and_search": {
+      "module_filtering": {
+        "filters": [
+          "trinity_framework_component",
+          "maturity_level",
+          "performance_tier",
+          "security_clearance",
+          "lines_of_code_range",
+          "dependency_count"
+        ],
+        "search_capabilities": "fuzzy_text_search",
+        "saved_views": "custom_filter_presets"
+      },
+      "consciousness_filtering": {
+        "filters": [
+          "consciousness_contribution_threshold",
+          "awareness_level_range",
+          "decision_making_capability",
+          "reflection_depth",
+          "temporal_coherence_score"
+        ],
+        "advanced_queries": "consciousness_metric_combinations"
+      }
+    },
+
+    "real_time_monitoring": {
+      "live_performance_overlay": {
+        "metrics": "all_performance_baselines",
+        "alert_system": "threshold_breach_notifications",
+        "trend_indicators": "performance_direction_arrows"
+      },
+      "consciousness_activity_monitor": {
+        "awareness_indicators": "real_time_consciousness_activity",
+        "decision_tracking": "decision_making_visualization",
+        "memory_access_patterns": "memory_usage_heat_map"
+      }
+    }
+  },
+
+  "customization_options": {
+    "color_schemes": {
+      "default_consciousness": {
+        "primary": "#4A90E2",
+        "secondary": "#7B68EE",
+        "accent": "#FFD700",
+        "background": "#0F0F23"
+      },
+      "trinity_framework": {
+        "identity": "#E24A4A",
+        "consciousness": "#4AE24A", 
+        "guardian": "#4A4AE2",
+        "background": "#F8F8FF"
+      },
+      "high_contrast": {
+        "primary": "#FFFFFF",
+        "secondary": "#FFFF00",
+        "accent": "#FF0000",
+        "background": "#000000"
+      }
+    },
+
+    "layout_presets": {
+      "consciousness_centric": {
+        "center_node": "consciousness_module",
+        "arrangement": "consciousness_flow_hierarchy",
+        "emphasis": "awareness_propagation_paths"
+      },
+      "performance_focused": {
+        "center_nodes": "performance_critical_modules",
+        "arrangement": "performance_tier_grouping",
+        "emphasis": "performance_bottlenecks"
+      },
+      "security_oriented": {
+        "center_nodes": "security_modules",
+        "arrangement": "security_clearance_levels",
+        "emphasis": "threat_propagation_paths"
+      }
+    }
+  },
+
+  "export_and_sharing": {
+    "export_formats": {
+      "static_images": ["png", "svg", "pdf"],
+      "interactive_exports": ["html", "json", "csv"],
+      "presentation_formats": ["powerpoint_slides", "executive_summary_pdf"],
+      "data_exports": ["architecture_data_json", "metrics_csv", "dependency_matrix_excel"]
+    },
+
+    "sharing_capabilities": {
+      "url_sharing": "parameterized_view_urls",
+      "embed_codes": "iframe_embeddable_widgets",
+      "collaboration": "shared_annotation_system",
+      "version_control": "visualization_state_versioning"
+    }
+  },
+
+  "performance_optimization": {
+    "rendering_optimization": {
+      "level_of_detail": "distance_based_detail_reduction",
+      "occlusion_culling": "frustum_and_backface_culling",
+      "batching": "instanced_rendering_for_similar_nodes",
+      "caching": "view_dependent_caching_system"
+    },
+
+    "data_optimization": {
+      "progressive_loading": "load_visible_elements_first",
+      "data_streaming": "real_time_metric_streaming",
+      "compression": "gzip_compressed_data_transfer",
+      "caching_strategy": "intelligent_client_side_caching"
+    }
+  },
+
+  "accessibility_features": {
+    "visual_accessibility": {
+      "color_blind_support": "colorblind_friendly_palettes",
+      "high_contrast_mode": "accessibility_compliant_contrast",
+      "text_scaling": "responsive_text_size_adjustment",
+      "motion_sensitivity": "reduced_motion_preferences"
+    },
+
+    "interaction_accessibility": {
+      "keyboard_navigation": "full_keyboard_accessibility",
+      "screen_reader_support": "aria_labels_and_descriptions",
+      "voice_commands": "voice_navigation_integration",
+      "touch_accessibility": "touch_friendly_controls"
+    }
+  },
+
+  "integration_capabilities": {
+    "data_source_integration": {
+      "supported_formats": ["json", "yaml", "csv", "xml", "rest_api", "graphql"],
+      "real_time_sources": ["websockets", "sse", "polling"],
+      "authentication": ["oauth2", "jwt", "api_keys"],
+      "data_transformation": "built_in_etl_pipeline"
+    },
+
+    "platform_integration": {
+      "embedding": "iframe_and_web_component_support",
+      "cms_integration": "wordpress_drupal_plugins",
+      "bi_tool_integration": "tableau_powerbi_connectors",
+      "monitoring_integration": "grafana_dashboard_plugins"
+    }
+  },
+
+  "development_framework": {
+    "component_architecture": {
+      "framework": "modular_typescript_components",
+      "state_management": "redux_toolkit_with_rtk_query",
+      "styling": "styled_components_with_theme_provider",
+      "testing": "jest_and_react_testing_library"
+    },
+
+    "extensibility": {
+      "plugin_system": "hook_based_plugin_architecture",
+      "custom_visualizations": "pluggable_visualization_components",
+      "data_processors": "custom_data_transformation_plugins",
+      "theme_system": "fully_customizable_theming"
+    }
+  }
+}

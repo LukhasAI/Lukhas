@@ -23,7 +23,7 @@ class ModuleInternalAnalyzer:
             "bio",
             "quantum",
             "emotion",
-            "vivox"
+            "vivox",
         ]
         self.results = {}
 
@@ -60,11 +60,9 @@ class ModuleInternalAnalyzer:
             file_path = module_path / orphan
             if self.is_high_value(file_path):
                 size = os.path.getsize(file_path)
-                high_value_orphans.append({
-                    "file": orphan,
-                    "size": size,
-                    "lines": self.count_lines(file_path)
-                })
+                high_value_orphans.append(
+                    {"file": orphan, "size": size, "lines": self.count_lines(file_path)}
+                )
 
         # Sort by size
         high_value_orphans.sort(key=lambda x: x["size"], reverse=True)
@@ -76,7 +74,7 @@ class ModuleInternalAnalyzer:
             "connection_rate": f"{len(connected_files)/len(all_files)*100:.1f}%",
             "entry_points": list(entry_points),
             "high_value_orphans": high_value_orphans[:10],  # Top 10
-            "sample_orphans": list(orphaned_files)[:20]
+            "sample_orphans": list(orphaned_files)[:20],
         }
 
     def find_entry_points(self, module_path: Path) -> set[str]:
@@ -90,7 +88,7 @@ class ModuleInternalAnalyzer:
             "core.py",
             f"{module_path.name}.py",  # e.g., memory/memory.py
             "api.py",
-            "service.py"
+            "service.py",
         ]
 
         for entry in standard_entries:
@@ -132,7 +130,7 @@ class ModuleInternalAnalyzer:
                 # Convert module path to file path
                 possible_files = [
                     imp.replace(".", "/") + ".py",
-                    imp.replace(".", "/") + "/__init__.py"
+                    imp.replace(".", "/") + "/__init__.py",
                 ]
 
                 for pf in possible_files:
@@ -153,10 +151,10 @@ class ModuleInternalAnalyzer:
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         if alias.name.startswith(module_name):
-                            imports.append(alias.name[len(module_name)+1:])
+                            imports.append(alias.name[len(module_name) + 1 :])
                 elif isinstance(node, ast.ImportFrom) and node.module:
                     if node.module.startswith(module_name):
-                        imports.append(node.module[len(module_name)+1:])
+                        imports.append(node.module[len(module_name) + 1 :])
                     elif node.level > 0:  # Relative import
                         imports.append("." + (node.module or ""))
         except:
@@ -169,9 +167,20 @@ class ModuleInternalAnalyzer:
 
         # High value indicators
         high_value_words = [
-            "core", "engine", "manager", "system", "processor",
-            "orchestrator", "controller", "service", "api",
-            "model", "algorithm", "network", "quantum", "consciousness"
+            "core",
+            "engine",
+            "manager",
+            "system",
+            "processor",
+            "orchestrator",
+            "controller",
+            "service",
+            "api",
+            "model",
+            "algorithm",
+            "network",
+            "quantum",
+            "consciousness",
         ]
 
         # Check file size
@@ -232,6 +241,7 @@ class ModuleInternalAnalyzer:
         with open("module_internal_analysis.json", "w") as f:
             json.dump(self.results, f, indent=2)
         print("\n💾 Detailed report saved to: module_internal_analysis.json")
+
 
 if __name__ == "__main__":
     analyzer = ModuleInternalAnalyzer()

@@ -34,9 +34,11 @@ import aiohttp
 # Add LUKHAS modules to path
 sys.path.append(str(Path(__file__).parent.parent))
 
+
 @dataclass
 class CodeIssue:
     """Represents a code quality issue from Ruff analysis"""
+
     file_path: str
     line_number: int
     column: int
@@ -49,9 +51,11 @@ class CodeIssue:
     llm_fix: Optional[str] = None
     fix_confidence: float = 0.0
 
+
 @dataclass
 class FixResult:
     """Result of applying an LLM-generated fix"""
+
     issue: CodeIssue
     success: bool
     applied_fix: Optional[str] = None
@@ -59,10 +63,13 @@ class FixResult:
     validation_passed: bool = False
     trinity_compliant: bool = False
 
+
 class LocalLLMClient:
     """Client for local LLM services (Ollama, LM Studio, etc.)"""
 
-    def __init__(self, service: str = "ollama", base_url: str = "http://localhost:11434"):
+    def __init__(
+        self, service: str = "ollama", base_url: str = "http://localhost:11434"
+    ):
         self.service = service
         self.base_url = base_url.rstrip("/")
         self.session: Optional[aiohttp.ClientSession] = None
@@ -75,7 +82,9 @@ class LocalLLMClient:
         if self.session:
             await self.session.close()
 
-    async def generate_fix(self, issue: CodeIssue, file_content: str, context_lines: int = 10) -> dict[str, Any]:
+    async def generate_fix(
+        self, issue: CodeIssue, file_content: str, context_lines: int = 10
+    ) -> dict[str, Any]:
         """Generate a fix for a code quality issue using local LLM"""
 
         if not self.session:
@@ -100,10 +109,12 @@ class LocalLLMClient:
                 "error": str(e),
                 "fix_code": None,
                 "confidence": 0.0,
-                "explanation": f"LLM generation failed: {e}"
+                "explanation": f"LLM generation failed: {e}",
             }
 
-    def _extract_context(self, file_content: str, issue: CodeIssue, context_lines: int) -> str:
+    def _extract_context(
+        self, file_content: str, issue: CodeIssue, context_lines: int
+    ) -> str:
         """Extract context lines around the issue"""
         lines = file_content.split("\n")
         start_line = max(0, issue.line_number - context_lines - 1)
@@ -179,15 +190,13 @@ Focus on these common LUKHAS patterns:
             "options": {
                 "temperature": 0.1,  # Low temperature for precise code fixes
                 "top_p": 0.9,
-                "num_predict": 1000
-            }
+                "num_predict": 1000,
+            },
         }
 
         try:
             async with self.session.post(
-                f"{self.base_url}/api/generate",
-                json=payload,
-                timeout=30
+                f"{self.base_url}/api/generate", json=payload, timeout=30
             ) as response:
                 if response.status == 200:
                     result = await response.json()
@@ -200,7 +209,9 @@ Focus on these common LUKHAS patterns:
                         return self._parse_text_response(result["response"])
                 else:
                     error_text = await response.text()
-                    return {"error": f"Ollama API error {response.status}: {error_text}"}
+                    return {
+                        "error": f"Ollama API error {response.status}: {error_text}"
+                    }
 
         except asyncio.TimeoutError:
             return {"error": "Ollama request timed out"}
@@ -213,18 +224,19 @@ Focus on these common LUKHAS patterns:
         payload = {
             "model": "code-model",  # Adjust based on loaded model
             "messages": [
-                {"role": "system", "content": "You are a code fixing assistant for LUKHAS AI consciousness platform."},
-                {"role": "user", "content": prompt}
+                {
+                    "role": "system",
+                    "content": "You are a code fixing assistant for LUKHAS AI consciousness platform.",
+                },
+                {"role": "user", "content": prompt},
             ],
             "temperature": 0.1,
-            "max_tokens": 1000
+            "max_tokens": 1000,
         }
 
         try:
             async with self.session.post(
-                f"{self.base_url}/v1/chat/completions",
-                json=payload,
-                timeout=30
+                f"{self.base_url}/v1/chat/completions", json=payload, timeout=30
             ) as response:
                 if response.status == 200:
                     result = await response.json()
@@ -235,7 +247,9 @@ Focus on these common LUKHAS patterns:
                         return self._parse_text_response(content)
                 else:
                     error_text = await response.text()
-                    return {"error": f"LM Studio API error {response.status}: {error_text}"}
+                    return {
+                        "error": f"LM Studio API error {response.status}: {error_text}"
+                    }
 
         except asyncio.TimeoutError:
             return {"error": "LM Studio request timed out"}
@@ -247,7 +261,10 @@ Focus on these common LUKHAS patterns:
 
         # Extract code blocks
         import re
-        code_blocks = re.findall(r"```(?:python)?\n(.*?)\n```", response_text, re.DOTALL)
+
+        code_blocks = re.findall(
+            r"```(?:python)?\n(.*?)\n```", response_text, re.DOTALL
+        )
 
         if code_blocks:
             return {
@@ -257,17 +274,18 @@ Focus on these common LUKHAS patterns:
                 "trinity_compliance": {
                     "identity_authentic": True,
                     "consciousness_aware": True,
-                    "guardian_safe": True
+                    "guardian_safe": True,
                 },
                 "affects_lines": [],
                 "dependencies": [],
-                "test_required": False
+                "test_required": False,
             }
         else:
             return {
                 "error": "Could not parse LLM response",
-                "raw_response": response_text[:500]  # First 500 chars for debugging
+                "raw_response": response_text[:500],  # First 500 chars for debugging
             }
+
 
 class CodeQualityAnalyzer:
     """Analyzes and categorizes code quality issues from Ruff"""
@@ -285,35 +303,32 @@ class CodeQualityAnalyzer:
                 "rules": ["E901", "E902", "E999", "F999"],
                 "description": "Syntax errors preventing execution",
                 "fix_strategy": "immediate_fix",
-                "batch_size": 10
+                "batch_size": 10,
             },
-
             # High - Import and name resolution issues
             "import_issues": {
                 "priority": 2,
                 "rules": ["F401", "F811", "F821", "F822", "F823", "F831", "F841"],
                 "description": "Import and undefined name issues",
                 "fix_strategy": "careful_analysis",
-                "batch_size": 20
+                "batch_size": 20,
             },
-
             # Medium - Code style and quality
             "style_issues": {
                 "priority": 3,
                 "rules": ["E1", "E2", "E3", "E4", "E5", "W"],
                 "description": "Code style and formatting",
                 "fix_strategy": "safe_formatting",
-                "batch_size": 50
+                "batch_size": 50,
             },
-
             # Low - Suggestions and optimizations
             "suggestions": {
                 "priority": 4,
                 "rules": ["C", "N", "B", "UP", "PIE"],
                 "description": "Code suggestions and optimizations",
                 "fix_strategy": "optional_improvement",
-                "batch_size": 100
-            }
+                "batch_size": 100,
+            },
         }
 
     async def analyze_codebase(self) -> list[CodeIssue]:
@@ -323,11 +338,18 @@ class CodeQualityAnalyzer:
 
         try:
             # Run Ruff with JSON output
-            result = subprocess.run([
-                "ruff", "check", str(self.project_root),
-                "--output-format=json",
-                "--no-fix"
-            ], capture_output=True, text=True, cwd=self.project_root)
+            result = subprocess.run(
+                [
+                    "ruff",
+                    "check",
+                    str(self.project_root),
+                    "--output-format=json",
+                    "--no-fix",
+                ],
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
+            )
 
             if result.returncode not in [0, 1]:  # 0 = no issues, 1 = issues found
                 raise Exception(f"Ruff analysis failed: {result.stderr}")
@@ -347,10 +369,14 @@ class CodeQualityAnalyzer:
                     line_number=ruff_issue.get("location", {}).get("row", 0),
                     column=ruff_issue.get("location", {}).get("column", 0),
                     rule_code=ruff_issue.get("code", ""),
-                    rule_name=ruff_issue.get("message", "").split(":")[0] if ":" in ruff_issue.get("message", "") else "",
+                    rule_name=(
+                        ruff_issue.get("message", "").split(":")[0]
+                        if ":" in ruff_issue.get("message", "")
+                        else ""
+                    ),
                     message=ruff_issue.get("message", ""),
                     severity=self._determine_severity(ruff_issue.get("code", "")),
-                    category=self._categorize_issue(ruff_issue.get("code", ""))
+                    category=self._categorize_issue(ruff_issue.get("code", "")),
                 )
                 issues.append(issue)
 
@@ -377,7 +403,9 @@ class CodeQualityAnalyzer:
     def _categorize_issue(self, rule_code: str) -> str:
         """Categorize issue based on rule code"""
         for category, config in self.issue_categories.items():
-            if any(rule_code.startswith(rule_prefix) for rule_prefix in config["rules"]):
+            if any(
+                rule_code.startswith(rule_prefix) for rule_prefix in config["rules"]
+            ):
                 return category
         return "other"
 
@@ -388,12 +416,15 @@ class CodeQualityAnalyzer:
             category_counts[issue.category] = category_counts.get(issue.category, 0) + 1
 
         print("\n📋 Issues by Category:")
-        for category, count in sorted(category_counts.items(),
-                                    key=lambda x: self.issue_categories.get(x[0], {}).get("priority", 99)):
+        for category, count in sorted(
+            category_counts.items(),
+            key=lambda x: self.issue_categories.get(x[0], {}).get("priority", 99),
+        ):
             config = self.issue_categories.get(category, {})
             priority = config.get("priority", "?")
             description = config.get("description", "Other issues")
             print(f"   {priority}. {category}: {count} issues - {description}")
+
 
 class LLMCodeFixer:
     """Main class for LLM-powered code quality improvement"""
@@ -404,7 +435,11 @@ class LLMCodeFixer:
         self.llm_service = os.getenv("LOCAL_LLM_SERVICE", "ollama")
         self.llm_base_url = os.getenv("LOCAL_LLM_BASE_URL", "http://localhost:11434")
         self.dry_run = os.getenv("LUKHAS_CODE_FIX_DRY_RUN", "false").lower() == "true"
-        self.backup_dir = self.project_root / ".code_fix_backups" / datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.backup_dir = (
+            self.project_root
+            / ".code_fix_backups"
+            / datetime.now().strftime("%Y%m%d_%H%M%S")
+        )
 
         # Create backup directory
         self.backup_dir.mkdir(parents=True, exist_ok=True)
@@ -426,7 +461,7 @@ class LLMCodeFixer:
             "failed_files": [],
             "total_fixes_attempted": 0,
             "successful_fixes": 0,
-            "last_run": None
+            "last_run": None,
         }
 
     def _save_progress(self):
@@ -448,7 +483,9 @@ class LLMCodeFixer:
 
         # Check LLM availability
         if not await self._check_llm_availability():
-            print("❌ Local LLM service not available. Please start your LLM service and try again.")
+            print(
+                "❌ Local LLM service not available. Please start your LLM service and try again."
+            )
             return False
 
         # Analyze codebase
@@ -471,7 +508,11 @@ class LLMCodeFixer:
         try:
             async with LocalLLMClient(self.llm_service, self.llm_base_url) as client:
                 # Simple test request
-                test_result = await client._ollama_generate("Test connection") if client.service == "ollama" else None
+                test_result = (
+                    await client._ollama_generate("Test connection")
+                    if client.service == "ollama"
+                    else None
+                )
                 if test_result and "error" not in test_result:
                     print("✅ Local LLM service is available")
                     return True
@@ -495,24 +536,34 @@ class LLMCodeFixer:
         # Process each category in priority order
         total_categories = len(categorized_issues)
         for cat_idx, (category, category_issues) in enumerate(
-            sorted(categorized_issues.items(),
-                   key=lambda x: self.analyzer.issue_categories.get(x[0], {}).get("priority", 99))
+            sorted(
+                categorized_issues.items(),
+                key=lambda x: self.analyzer.issue_categories.get(x[0], {}).get(
+                    "priority", 99
+                ),
+            )
         ):
 
             config = self.analyzer.issue_categories.get(category, {})
             priority = config.get("priority", "?")
             batch_size = config.get("batch_size", 10)
 
-            print(f"\n🎯 Processing Category {cat_idx + 1}/{total_categories}: {category}")
-            print(f"   Priority: {priority}, Issues: {len(category_issues)}, Batch Size: {batch_size}")
+            print(
+                f"\n🎯 Processing Category {cat_idx + 1}/{total_categories}: {category}"
+            )
+            print(
+                f"   Priority: {priority}, Issues: {len(category_issues)}, Batch Size: {batch_size}"
+            )
 
             # Process in batches
             for i in range(0, len(category_issues), batch_size):
-                batch = category_issues[i:i + batch_size]
+                batch = category_issues[i : i + batch_size]
                 batch_num = (i // batch_size) + 1
                 total_batches = (len(category_issues) + batch_size - 1) // batch_size
 
-                print(f"\n   🔧 Batch {batch_num}/{total_batches} ({len(batch)} issues)")
+                print(
+                    f"\n   🔧 Batch {batch_num}/{total_batches} ({len(batch)} issues)"
+                )
 
                 # Process batch
                 await self._process_issue_batch(batch)
@@ -545,7 +596,9 @@ class LLMCodeFixer:
             # Print progress
             status = "✅" if result.success else "❌"
             file_short = Path(result.issue.file_path).name
-            print(f"      {status} {file_short}:{result.issue.line_number} - {result.issue.rule_code}")
+            print(
+                f"      {status} {file_short}:{result.issue.line_number} - {result.issue.rule_code}"
+            )
 
             if result.success:
                 self.progress["successful_fixes"] += 1
@@ -563,7 +616,7 @@ class LLMCodeFixer:
                 return FixResult(
                     issue=issue,
                     success=False,
-                    error_message=f"File not found: {file_path}"
+                    error_message=f"File not found: {file_path}",
                 )
 
             with open(file_path, encoding="utf-8") as f:
@@ -577,7 +630,7 @@ class LLMCodeFixer:
                 return FixResult(
                     issue=issue,
                     success=False,
-                    error_message=f"LLM error: {llm_result['error']}"
+                    error_message=f"LLM error: {llm_result['error']}",
                 )
 
             # Extract fix details
@@ -589,7 +642,7 @@ class LLMCodeFixer:
                 return FixResult(
                     issue=issue,
                     success=False,
-                    error_message=f"Low confidence fix: {confidence}"
+                    error_message=f"Low confidence fix: {confidence}",
                 )
 
             # Apply fix if not in dry run mode
@@ -604,9 +657,7 @@ class LLMCodeFixer:
                 success = self._apply_fix(file_path, issue, fix_code, file_content)
                 if not success:
                     return FixResult(
-                        issue=issue,
-                        success=False,
-                        error_message="Failed to apply fix"
+                        issue=issue, success=False, error_message="Failed to apply fix"
                     )
 
             return FixResult(
@@ -614,17 +665,19 @@ class LLMCodeFixer:
                 success=True,
                 applied_fix=fix_code,
                 validation_passed=confidence > 0.8,
-                trinity_compliant=all(trinity_compliance.values()) if trinity_compliance else False
+                trinity_compliant=(
+                    all(trinity_compliance.values()) if trinity_compliance else False
+                ),
             )
 
         except Exception as e:
             return FixResult(
-                issue=issue,
-                success=False,
-                error_message=f"Unexpected error: {e}"
+                issue=issue, success=False, error_message=f"Unexpected error: {e}"
             )
 
-    def _apply_fix(self, file_path: Path, issue: CodeIssue, fix_code: str, original_content: str) -> bool:
+    def _apply_fix(
+        self, file_path: Path, issue: CodeIssue, fix_code: str, original_content: str
+    ) -> bool:
         """Apply the LLM-generated fix to the file"""
 
         try:
@@ -640,7 +693,9 @@ class LLMCodeFixer:
 
                 return True
             else:
-                print(f"⚠️  Invalid line number {issue.line_number} for file {file_path}")
+                print(
+                    f"⚠️  Invalid line number {issue.line_number} for file {file_path}"
+                )
                 return False
 
         except Exception as e:
@@ -650,11 +705,16 @@ class LLMCodeFixer:
     def _generate_final_report(self):
         """Generate final improvement report"""
 
-        report_path = self.project_root / f"code_improvement_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+        report_path = (
+            self.project_root
+            / f"code_improvement_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+        )
 
         total_attempted = self.progress["total_fixes_attempted"]
         successful = self.progress["successful_fixes"]
-        success_rate = (successful / total_attempted * 100) if total_attempted > 0 else 0
+        success_rate = (
+            (successful / total_attempted * 100) if total_attempted > 0 else 0
+        )
 
         report_content = f"""# 🧠 LUKHAS Code Quality Improvement Report
 
@@ -700,7 +760,9 @@ All fixes applied follow LUKHAS Trinity Framework principles:
             f.write(report_content)
 
         print(f"\n📋 Final report generated: {report_path}")
-        print(f"🎯 Success Rate: {success_rate:.1f}% ({successful}/{total_attempted} fixes)")
+        print(
+            f"🎯 Success Rate: {success_rate:.1f}% ({successful}/{total_attempted} fixes)"
+        )
 
     def _generate_category_breakdown(self) -> str:
         """Generate breakdown of processing by category"""
@@ -711,6 +773,7 @@ All fixes applied follow LUKHAS Trinity Framework principles:
         """Generate list of files that were modified"""
         # This would list all modified files
         return "List of modified files would be implemented here..."
+
 
 async def main():
     """Main entry point for the code improvement system"""
@@ -723,23 +786,21 @@ async def main():
     parser.add_argument(
         "--project-root",
         default=os.getcwd(),
-        help="Root directory of the project to improve"
+        help="Root directory of the project to improve",
     )
     parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Run analysis without making changes"
+        "--dry-run", action="store_true", help="Run analysis without making changes"
     )
     parser.add_argument(
         "--llm-service",
         choices=["ollama", "lmstudio"],
         default=os.getenv("LOCAL_LLM_SERVICE", "ollama"),
-        help="Local LLM service to use"
+        help="Local LLM service to use",
     )
     parser.add_argument(
         "--llm-url",
         default=os.getenv("LOCAL_LLM_BASE_URL", "http://localhost:11434"),
-        help="Base URL for local LLM service"
+        help="Base URL for local LLM service",
     )
 
     args = parser.parse_args()
@@ -760,6 +821,7 @@ async def main():
     else:
         print("\n❌ Code quality improvement failed")
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(asyncio.run(main()))

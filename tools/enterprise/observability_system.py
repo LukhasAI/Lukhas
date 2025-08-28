@@ -429,7 +429,7 @@ class ObservabilitySystem:
         while True:
             try:
                 await self._collect_metrics()
-                await asyncio.sleep(30)  # Collect every 30 seconds
+                await asyncio.sleep(30# Collect every 30 seconds
             except Exception as e:
                 logger.error("metric_collection_error", error=str(e))
                 await asyncio.sleep(60)
@@ -466,7 +466,7 @@ class ObservabilitySystem:
         while True:
             try:
                 await self._detect_anomalies()
-                await asyncio.sleep(60)  # Check every minute
+                await asyncio.sleep(60# Check every minute
             except Exception as e:
                 logger.error("anomaly_detection_error", error=str(e))
                 await asyncio.sleep(120)
@@ -614,7 +614,7 @@ class ObservabilitySystem:
         while True:
             try:
                 await self._evaluate_alert_rules()
-                await asyncio.sleep(60)  # Evaluate every minute
+                await asyncio.sleep(60# Evaluate every minute
             except Exception as e:
                 logger.error("alert_evaluation_error", error=str(e))
                 await asyncio.sleep(120)

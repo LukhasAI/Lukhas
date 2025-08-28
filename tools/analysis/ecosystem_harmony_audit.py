@@ -143,7 +143,7 @@ class EcosystemHarmonyAuditor:
                 # Count comments
                 for line in lines:
                     stripped = line.strip()
-                    if stripped.startswith(")  # " or stripped.startswith('"""'):
+                    if stripped.startswith("#") or stripped.startswith('"""'):
                         metrics["comments"] += 1
 
                 # Analyze imports
@@ -155,8 +155,10 @@ class EcosystemHarmonyAuditor:
                                 m in alias.name for m in self.modules if m != module
                             ):
                                 metrics["imports_out"] += 1
-                    elif isinstance(node, ast.ImportFrom) and node.module and any(
-                        m in node.module for m in self.modules if m != module
+                    elif (
+                        isinstance(node, ast.ImportFrom)
+                        and node.module
+                        and any(m in node.module for m in self.modules if m != module)
                     ):
                         metrics["imports_out"] += 1
 
@@ -563,7 +565,7 @@ Generated: {audit_results['timestamp']}
             if metrics["health_score"] >= 0.7
             else "🟡" if metrics["health_score"] >= 0.5 else "🔴"
         )
-        report += f"\n##"health_score']:.1%}\n"
+        report += f"\n## {status} {module} — Health: {metrics['health_score']:.1%}\n"
         report += f"- Files: {metrics['file_count']}\n"
         report += f"- Test Coverage: {metrics['test_file_ratio']:.1%}\n"
         report += f"- Documentation: {metrics['documentation_score']}%\n"
@@ -583,7 +585,7 @@ Generated: {audit_results['timestamp']}
     if audit_results["underperformers"]:
         report += "\n## 📉 Underperforming Modules\n"
         for up in audit_results["underperformers"]:
-            report += f"\n##"module']} (Score: {up['health_score']:.1%})\n"
+            report += f"\n## {up['module']} (Score: {up['health_score']:.1%})\n"
             report += "Missing:\n"
             for missing in up["missing"]:
                 report += f"- {missing}\n"

@@ -17,8 +17,7 @@ import os
 import subprocess
 import sys
 import time
-from datetime import datetime
-from datetime import timezone
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Configure logging
@@ -551,7 +550,7 @@ class SystemHealthAnalyzer:
             "critical_systems_working": self.count_working_systems(),
             "api_status": (
                 "online"
-                if any(:
+                if any(
                     api.get("status") == "online"
                     for api in self.results["api_systems"].values():
                 )

@@ -54,7 +54,7 @@ class AutoLintFixer:
     def fix_imports_with_isort(self):
         """Sort imports with isort"""
         print("🔧 Sorting imports with isort...")
-        dirs = ["lukhas"bridge", "core", "serve", "tests"]
+        dirs = ["lukhas", "bridge", "core", "serve", "tests"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
                 code, out, err = self.run_command(
@@ -73,7 +73,7 @@ class AutoLintFixer:
     def remove_unused_imports(self):
         """Remove unused imports with autoflake"""
         print("🔧 Removing unused imports...")
-        dirs = ["lukhas"bridge", "core", "serve"]
+        dirs = ["lukhas", "bridge", "core", "serve"]
         for dir_name in dirs:
             if (self.project_root / dir_name).exists():
                 code, out, err = self.run_command(
@@ -170,7 +170,7 @@ class AutoLintFixer:
         if self.issues_remaining:
             print("\n⚠️  Remaining Issues (manual fix needed):")
             for issue in self.issues_remaining[:5]:  # Show first 5
-                print(f"  - {issue[:100]}...")  # Truncate long messages
+                print(f"  - {issue[:100]}..."# Truncate long messages
             if len(self.issues_remaining) > 5:
                 print(f"  ... and {len(self.issues_remaining) - 5} more")
 

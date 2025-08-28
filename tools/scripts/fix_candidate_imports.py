@@ -21,9 +21,15 @@ def fix_imports_in_file(file_path):
             # from bridge.module -> from candidate.bridge.module
             (r"from bridge\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from candidate.bridge.\1"),
             # from orchestration.module -> from candidate.orchestration.module
-            (r"from orchestration\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from candidate.orchestration.\1"),
+            (
+                r"from orchestration\.([a-zA-Z_][a-zA-Z0-9_.]*)",
+                r"from candidate.orchestration.\1",
+            ),
             # from core.module -> from candidate.core.module (but avoid lukhas.core)
-            (r"(?<!lukhas\.)from core\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from candidate.core.\1"),
+            (
+                r"(?<!lukhas\.)from core\.([a-zA-Z_][a-zA-Z0-9_.]*)",
+                r"from candidate.core.\1",
+            ),
             # from lukhas.module -> keep as is (these should stay)
         ]
 
@@ -38,6 +44,7 @@ def fix_imports_in_file(file_path):
     except Exception as e:
         print(f"Error processing {file_path}: {e}")
         return False
+
 
 def main():
     """Main migration function for candidate files"""
@@ -64,6 +71,7 @@ def main():
         print("\n📋 Modified files:")
         for file_path in sorted(fixed_files):
             print(f"  - {file_path}")
+
 
 if __name__ == "__main__":
     main()

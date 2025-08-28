@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 """
-MATADA-AGI API Server Launcher
-Simple script to start the FastAPI server with development settings
+MATRIZ-AGI API Server Launcher
+Start the FastAPI server with development-friendly settings without sys.path hacks.
 """
 
 import argparse
 import sys
-from pathlib import Path
 
-# Add the current directory to Python path for imports
-sys.path.insert(0, str(Path(__file__).parent))
-
-from interfaces.api_server import run_server
+import uvicorn
 
 
 def main():
@@ -34,15 +30,21 @@ def main():
 
     args = parser.parse_args()
 
-    print("🚀 Starting MATADA-AGI FastAPI Server...")
+    print("🚀 Starting MATRIZ-AGI FastAPI Server...")
     print(f"📍 Server will be available at: http://{args.host}:{args.port}")
     print(f"📖 API Documentation: http://{args.host}:{args.port}/docs")
     print(f"🔌 WebSocket endpoint: ws://{args.host}:{args.port}/ws")
     print("=" * 60)
 
     try:
-        run_server(
-            host=args.host, port=args.port, reload=args.reload, log_level=args.log_level
+        # Prefer fully-qualified module path to avoid path tricks
+        uvicorn.run(
+            "matriz.interfaces.api_server:app",
+            host=args.host,
+            port=args.port,
+            reload=args.reload,
+            log_level=args.log_level,
+            access_log=True,
         )
     except KeyboardInterrupt:
         print("\n🛑 Server stopped by user")

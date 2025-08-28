@@ -35,17 +35,19 @@ class SimpleLLMCodeFixer:
         """Get limited set of Ruff issues for processing"""
 
         try:
-            result = subprocess.run([
-                "ruff", "check", ".",
-                "--output-format=json",
-                "--no-fix"
-            ], capture_output=True, text=True, cwd=self.project_root)
+            result = subprocess.run(
+                ["ruff", "check", ".", "--output-format=json", "--no-fix"],
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
+            )
 
             if result.stdout:
                 issues = json.loads(result.stdout)
                 # Focus on syntax errors first (E9, F9 codes)
                 critical_issues = [
-                    issue for issue in issues
+                    issue
+                    for issue in issues
                     if issue.get("code", "").startswith(("E9", "F9"))
                 ][:limit]
 
@@ -98,9 +100,9 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
                     "model": self.model,
                     "prompt": prompt,
                     "stream": False,
-                    "options": {"temperature": 0.1, "num_predict": 200}
+                    "options": {"temperature": 0.1, "num_predict": 200},
                 },
-                timeout=30
+                timeout=30,
             )
 
             if response.status_code == 200:
@@ -112,7 +114,7 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
                     # Remove line numbers and common prefixes
                     fix_suggestion = fix_suggestion.replace(f"{line_num}:", "").strip()
                     if fix_suggestion.startswith(f"{line_num}"):
-                        fix_suggestion = fix_suggestion[len(str(line_num)):].strip()
+                        fix_suggestion = fix_suggestion[len(str(line_num)) :].strip()
 
                     return fix_suggestion
 
@@ -139,7 +141,7 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
         print(f"✅ Ollama available with model: {self.model}")
 
         # Get issues to fix
-        issues = self.get_ruff_issues(limit=10)  # Start small
+        issues = self.get_ruff_issues(limit=10# Start small
         print(f"📋 Found {len(issues)} issues to process")
 
         if not issues:
@@ -174,9 +176,12 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
         print("\n🔧 Running Ruff autofix for safe changes...")
 
         try:
-            result = subprocess.run([
-                "ruff", "check", ".", "--fix"
-            ], capture_output=True, text=True, cwd=self.project_root)
+            result = subprocess.run(
+                ["ruff", "check", ".", "--fix"],
+                capture_output=True,
+                text=True,
+                cwd=self.project_root,
+            )
 
             print("✅ Ruff autofix completed")
             if result.stdout:
@@ -188,11 +193,14 @@ Provide ONLY the corrected line {line_num}, nothing else:"""
         except Exception as e:
             print(f"❌ Ruff autofix failed: {e}")
 
+
 def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Simple LUKHAS Code Fixer")
-    parser.add_argument("--dry-run", action="store_true", help="Analyze without changes")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Analyze without changes"
+    )
     parser.add_argument("--autofix", action="store_true", help="Run Ruff autofix only")
 
     args = parser.parse_args()
@@ -203,6 +211,7 @@ def main():
         fixer.run_ruff_autofix()
     else:
         fixer.run_simple_fixes(dry_run=args.dry_run)
+
 
 if __name__ == "__main__":
     main()

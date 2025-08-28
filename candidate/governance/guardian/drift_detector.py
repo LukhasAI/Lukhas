@@ -280,7 +280,7 @@ class AdvancedDriftDetector:
         logger.info(f"🔍 Advanced Drift Detector initialized (threshold: {self.drift_threshold})")
 
     async def _initialize_drift_detection(self):
-        """Initialize drift detection system"""
+        """Initialize drift detection system with constitutional AI integration"""
 
         # Create baseline measurements
         await self._establish_baselines()
@@ -288,11 +288,15 @@ class AdvancedDriftDetector:
         # Initialize statistical models
         await self._initialize_statistical_models()
 
+        # Initialize constitutional AI integration
+        await self._initialize_constitutional_ai()
+
         # Start monitoring loops
         asyncio.create_task(self._drift_monitoring_loop())
         asyncio.create_task(self._pattern_analysis_loop())
         asyncio.create_task(self._forecasting_loop())
         asyncio.create_task(self._cleanup_loop())
+        asyncio.create_task(self._constitutional_monitoring_loop())
 
     async def _establish_baselines(self):
         """Establish baseline measurements for drift detection"""
@@ -361,6 +365,79 @@ class AdvancedDriftDetector:
 
         except Exception as e:
             logger.error(f"❌ Failed to initialize statistical models: {e}")
+
+    async def _initialize_constitutional_ai(self):
+        """Initialize constitutional AI integration for enhanced drift monitoring"""
+        try:
+            # Import constitutional AI framework dynamically
+            try:
+                from lukhas.governance.ethics.constitutional_ai import (
+                    ConstitutionalFramework,
+                )
+                from lukhas.governance.identity.auth_backend.audit_logger import (
+                    AuditEventType,
+                    AuditLogger,
+                )
+
+                self.constitutional_framework = ConstitutionalFramework()
+                self.audit_logger = AuditLogger()
+
+                logger.info("✅ Constitutional AI integration initialized")
+
+            except ImportError:
+                # Fallback if production modules not available
+                logger.warning("⚠️ Constitutional AI modules not available, using monitoring-only mode")
+                self.constitutional_framework = None
+                self.audit_logger = None
+
+        except Exception as e:
+            logger.error(f"❌ Failed to initialize constitutional AI: {e}")
+            self.constitutional_framework = None
+            self.audit_logger = None
+
+    async def _constitutional_monitoring_loop(self):
+        """Monitor constitutional compliance and log violations"""
+
+        while self.monitoring_active:
+            try:
+                if self.constitutional_framework and self.audit_logger:
+                    # Check if we have recent measurements that exceed threshold
+                    recent_high_drift = [
+                        m for m in list(self.drift_measurements)[-50:]  # Last 50 measurements
+                        if m.drift_score >= self.drift_threshold
+                    ]
+
+                    if recent_high_drift:
+                        # Log constitutional compliance event
+                        await self.audit_logger.log_constitutional_enforcement(
+                            action="drift_threshold_monitoring",
+                            enforcement_type="threshold_breach_detected",
+                            details={
+                                "breach_count": len(recent_high_drift),
+                                "max_drift_score": max(m.drift_score for m in recent_high_drift),
+                                "avg_drift_score": sum(m.drift_score for m in recent_high_drift) / len(recent_high_drift),
+                                "drift_types": list(set(m.drift_type.value for m in recent_high_drift))
+                            }
+                        )
+
+                    # Monitor system stability
+                    current_stability = self.metrics.get("system_stability_score", 1.0)
+                    if current_stability < 0.8:  # System instability threshold
+                        await self.audit_logger.log_policy_violation(
+                            policy_type="system_stability",
+                            violation_details={
+                                "stability_score": current_stability,
+                                "threshold_breaches": self.metrics.get("threshold_breaches", 0),
+                                "total_measurements": self.metrics.get("total_measurements", 0)
+                            },
+                            enforcement_action="stability_alert"
+                        )
+
+                await asyncio.sleep(60)  # Constitutional monitoring every minute
+
+            except Exception as e:
+                logger.error(f"❌ Constitutional monitoring loop error: {e}")
+                await asyncio.sleep(120)
 
     async def _get_baseline(self, drift_type: DriftType, source_system: str) -> Optional[dict[str, Any]]:
         """Get baseline for drift comparison"""

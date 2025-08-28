@@ -37,6 +37,18 @@ repos:
     language: system
     files: ^(lukhas/|serve/|tests/).*\\.py$
     pass_filenames: true
+  - id: no-syspath-hacks
+    name: Forbid sys.path hacks and star imports (stable lanes)
+    entry: bash -lc 'python3 tools/ci/no_syspath_hacks.py lukhas matriz'
+    language: system
+    files: ^(lukhas/|matriz/).*\\.py$
+    pass_filenames: false
+  - id: import-linter-optional
+    name: Import Linter (contracts)
+    entry: bash -lc 'command -v lint-imports >/dev/null 2>&1 || command -v importlinter >/dev/null 2>&1 || exit 0; (lint-imports || python -m importlinter)'
+    language: system
+    pass_filenames: false
+    stages: [commit]
   - id: lane-guard-staged
     name: lane-guard (staged)
     language: system

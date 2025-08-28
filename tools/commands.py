@@ -25,11 +25,9 @@ class BaseCommand(ABC):
     @abstractmethod
     def execute(self, args: argparse.Namespace) -> int:
         """Execute the command. Return 0 for success, non-zero for error."""
-        pass
 
     def setup_parser(self, parser: argparse.ArgumentParser) -> None:
         """Setup command-specific arguments. Override in subclasses."""
-        pass
 
     def validate_args(self, args: argparse.Namespace) -> bool:
         """Validate command arguments. Override in subclasses."""
@@ -37,21 +35,16 @@ class BaseCommand(ABC):
 
     def run(self, argv: Optional[list[str]] = None) -> int:
         """Run the command with argument parsing"""
-        parser = argparse.ArgumentParser(
-            prog=self.name,
-            description=self.description
-        )
+        parser = argparse.ArgumentParser(prog=self.name, description=self.description)
 
         # Common arguments
         parser.add_argument(
-            "--verbose", "-v",
-            action="store_true",
-            help="Enable verbose output"
+            "--verbose", "-v", action="store_true", help="Enable verbose output"
         )
         parser.add_argument(
             "--dry-run",
             action="store_true",
-            help="Show what would be done without executing"
+            help="Show what would be done without executing",
         )
 
         # Command-specific arguments
@@ -62,6 +55,7 @@ class BaseCommand(ABC):
 
             if args.verbose:
                 import logging
+
                 logging.getLogger("tools").setLevel(logging.DEBUG)
 
             if not self.validate_args(args):
@@ -76,6 +70,7 @@ class BaseCommand(ABC):
             self.logger.error(f"Command failed: {e}")
             if args.verbose if "args" in locals() else False:
                 import traceback
+
                 traceback.print_exc()
             return 1
 
@@ -109,21 +104,20 @@ class TestCommand(BaseCommand):
 
     def setup_parser(self, parser: argparse.ArgumentParser) -> None:
         parser.add_argument(
-            "--coverage",
-            action="store_true",
-            help="Include coverage reporting"
+            "--coverage", action="store_true", help="Include coverage reporting"
         )
         parser.add_argument(
-            "--pattern", "-p",
+            "--pattern",
+            "-p",
             type=str,
             default="test_*.py",
-            help="Test file pattern (default: test_*.py)"
+            help="Test file pattern (default: test_*.py)",
         )
         parser.add_argument(
             "--path",
             type=Path,
             default=Path("tests"),
-            help="Test directory path (default: tests)"
+            help="Test directory path (default: tests)",
         )
 
 
@@ -132,15 +126,9 @@ class LintCommand(BaseCommand):
 
     def setup_parser(self, parser: argparse.ArgumentParser) -> None:
         parser.add_argument(
-            "--fix",
-            action="store_true",
-            help="Automatically fix issues where possible"
+            "--fix", action="store_true", help="Automatically fix issues where possible"
         )
-        parser.add_argument(
-            "--config",
-            type=Path,
-            help="Path to configuration file"
-        )
+        parser.add_argument("--config", type=Path, help="Path to configuration file")
 
 
 class CommandRegistry:

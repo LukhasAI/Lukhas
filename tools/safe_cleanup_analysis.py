@@ -19,13 +19,22 @@ def load_reports():
 
     return usage_report, audit_report
 
-def categorize_safe_cleanup(usage_report: dict, audit_report: dict) -> dict[str, list[str]]:
+
+def categorize_safe_cleanup(
+    usage_report: dict, audit_report: dict
+) -> dict[str, list[str]]:
     """Categorize files for safe cleanup based on both usage and AI value"""
 
     # Build a value score index from audit report
     value_scores = {}
 
-    for category in ["high_value", "medium_value", "needs_review", "low_value", "safe_to_archive"]:
+    for category in [
+        "high_value",
+        "medium_value",
+        "needs_review",
+        "low_value",
+        "safe_to_archive",
+    ]:
         for file_info in audit_report.get(category, []):
             file_path = file_info.get("file_path", "")
             score = file_info.get("value_score", 0)
@@ -36,19 +45,33 @@ def categorize_safe_cleanup(usage_report: dict, audit_report: dict) -> dict[str,
 
     # Categorize with safety checks
     categories = {
-        "high_value_keep": [],      # Score > 100 - NEVER DELETE
-        "needs_manual_review": [],   # Score 50-100 or contains AI/AGI keywords
+        "high_value_keep": [],  # Score > 100 - NEVER DELETE
+        "needs_manual_review": [],  # Score 50-100 or contains AI/AGI keywords
         "test_workspace_files": [],  # Agent workspace test files (safe to archive)
         "duplicate_implementations": [],  # Old/duplicate implementations
-        "documentation_examples": [], # Examples and demos
-        "truly_safe_to_archive": []  # Low value, no AI content
+        "documentation_examples": [],  # Examples and demos
+        "truly_safe_to_archive": [],  # Low value, no AI content
     }
 
     # Critical patterns that should NEVER be auto-deleted
     critical_patterns = [
-        "orchestrat", "consciousness", "memory", "identity", "governance",
-        "quantum", "bio", "emotion", "reasoning", "symbolic", "trinity",
-        "guardian", "lukhas", "ai_", "agi", "neural", "cognitive"
+        "orchestrat",
+        "consciousness",
+        "memory",
+        "identity",
+        "governance",
+        "quantum",
+        "bio",
+        "emotion",
+        "reasoning",
+        "symbolic",
+        "trinity",
+        "guardian",
+        "lukhas",
+        "ai_",
+        "agi",
+        "neural",
+        "cognitive",
     ]
 
     for file in never_imported:
@@ -65,7 +88,9 @@ def categorize_safe_cleanup(usage_report: dict, audit_report: dict) -> dict[str,
             categories["needs_manual_review"].append(file)
         elif "CLAUDE_ARMY/workspaces" in file and "/test" in file:
             categories["test_workspace_files"].append(file)
-        elif any(x in file for x in ["_old", "_backup", "_copy", "deprecated", "legacy"]):
+        elif any(
+            x in file for x in ["_old", "_backup", "_copy", "deprecated", "legacy"]
+        ):
             categories["duplicate_implementations"].append(file)
         elif any(x in file for x in ["example", "demo", "sample", "tutorial"]):
             categories["documentation_examples"].append(file)
@@ -75,6 +100,7 @@ def categorize_safe_cleanup(usage_report: dict, audit_report: dict) -> dict[str,
             categories["needs_manual_review"].append(file)
 
     return categories
+
 
 def generate_safe_cleanup_script(categories: dict[str, list[str]]) -> str:
     """Generate a SAFE cleanup script that preserves AI/AGI value"""
@@ -105,7 +131,9 @@ echo "📦 Archiving workspace test files..."
 mkdir -p "$ARCHIVE_DIR/workspace_tests"
 """
         for file in categories["test_workspace_files"][:10]:
-            script += f'mv "{file}" "$ARCHIVE_DIR/workspace_tests/" 2>/dev/null || true\n'
+            script += (
+                f'mv "{file}" "$ARCHIVE_DIR/workspace_tests/" 2>/dev/null || true\n'
+            )
 
     if categories["documentation_examples"]:
         script += """
@@ -148,6 +176,7 @@ echo "📋 Check 'safe_cleanup_review.txt' for files needing manual review"
 
     return script
 
+
 def main():
     print("🔍 Performing SAFE cleanup analysis...")
     print("⚠️  This tool preserves all AI/AGI value")
@@ -173,7 +202,9 @@ def main():
     print("\n✅ SAFE TO ARCHIVE:")
     print(f"  - Test workspace files: {len(categories['test_workspace_files'])}")
     print(f"  - Documentation examples: {len(categories['documentation_examples'])}")
-    print(f"  - Duplicate implementations: {len(categories['duplicate_implementations'])}")
+    print(
+        f"  - Duplicate implementations: {len(categories['duplicate_implementations'])}"
+    )
     print(f"  - Low value files: {len(categories['truly_safe_to_archive'])}")
 
     # Generate safe cleanup script
@@ -194,8 +225,14 @@ def main():
         f.write("HIGH VALUE FILES - DO NOT DELETE\n")
         f.write("-" * 40 + "\n")
         for file in categories["high_value_keep"]:
-            score = next((item["value_score"] for item in audit_report.get("high_value", [])
-                         if item.get("file_path") == file), "N/A")
+            score = next(
+                (
+                    item["value_score"]
+                    for item in audit_report.get("high_value", [])
+                    if item.get("file_path") == file
+                ),
+                "N/A",
+            )
             f.write(f"{file} (Score: {score})\n")
 
         f.write("\n\nFILES NEEDING MANUAL REVIEW\n")
@@ -206,12 +243,17 @@ def main():
     print(f"📋 Review file created: {review_path}")
 
     # Calculate actual safe savings
-    safe_count = (len(categories["test_workspace_files"]) +
-                  len(categories["documentation_examples"]) +
-                  len(categories["truly_safe_to_archive"]))
+    safe_count = (
+        len(categories["test_workspace_files"])
+        + len(categories["documentation_examples"])
+        + len(categories["truly_safe_to_archive"])
+    )
 
     print(f"\n💾 Files safe to archive: {safe_count}")
-    print(f"🛡️ Files preserved: {len(categories['high_value_keep']) + len(categories['needs_manual_review'])}")
+    print(
+        f"🛡️ Files preserved: {len(categories['high_value_keep']) + len(categories['needs_manual_review'])}"
+    )
+
 
 if __name__ == "__main__":
     main()

@@ -23,12 +23,22 @@ class CodeIndexer:
 
         # Exclude paths (build artifacts, virtual envs, etc)
         self.exclude_dirs = {
-            ".venv", "venv", "env",
-            "build", "dist", "__pycache__",
-            ".git", ".pytest_cache", ".mypy_cache",
-            "node_modules", "*.egg-info",
-            ".tox", "htmlcov", "coverage",
-            "docs/_build", "site-packages"
+            ".venv",
+            "venv",
+            "env",
+            "build",
+            "dist",
+            "__pycache__",
+            ".git",
+            ".pytest_cache",
+            ".mypy_cache",
+            "node_modules",
+            "*.egg-info",
+            ".tox",
+            "htmlcov",
+            "coverage",
+            "docs/_build",
+            "site-packages",
         }
 
         # Track duplicate modules
@@ -47,7 +57,7 @@ class CodeIndexer:
             "has_tests": 0,
             "has_types": 0,
             "trinity_modules": 0,
-            "import_errors": []
+            "import_errors": [],
         }
 
     def setup_database(self):
@@ -55,7 +65,8 @@ class CodeIndexer:
         cursor = self.conn.cursor()
 
         # Main file index
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS files (
                 id INTEGER PRIMARY KEY,
                 path TEXT UNIQUE,
@@ -67,10 +78,12 @@ class CodeIndexer:
                 lane TEXT,  -- accepted/candidate/quarantine/archive
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        """)
+        """
+        )
 
         # Import relationships
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS imports (
                 id INTEGER PRIMARY KEY,
                 from_file TEXT,
@@ -79,10 +92,12 @@ class CodeIndexer:
                 line_number INTEGER,
                 FOREIGN KEY (from_file) REFERENCES files(path)
             )
-        """)
+        """
+        )
 
         # Duplicate tracking
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS duplicates (
                 id INTEGER PRIMARY KEY,
                 module_type TEXT,  -- bio/memory/other
@@ -91,10 +106,12 @@ class CodeIndexer:
                 line_count INTEGER,
                 has_unique_logic BOOLEAN
             )
-        """)
+        """
+        )
 
         # Migration mappings
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS migrations (
                 id INTEGER PRIMARY KEY,
                 old_import TEXT,
@@ -102,7 +119,8 @@ class CodeIndexer:
                 shim_required BOOLEAN,
                 deprecation_date TEXT
             )
-        """)
+        """
+        )
 
         self.conn.commit()
 
@@ -135,7 +153,7 @@ class CodeIndexer:
             parts = path.parts
             for i, part in enumerate(parts):
                 if "bio" in part.lower():
-                    variant = "_".join(parts[i:i+2]) if i+1 < len(parts) else part
+                    variant = "_".join(parts[i : i + 2]) if i + 1 < len(parts) else part
                     self.bio_variants[variant].append(path_str)
                     break
 
@@ -144,18 +162,25 @@ class CodeIndexer:
             parts = path.parts
             for i, part in enumerate(parts):
                 if "memory" in part.lower():
-                    variant = "_".join(parts[i:i+2]) if i+1 < len(parts) else part
+                    variant = "_".join(parts[i : i + 2]) if i + 1 < len(parts) else part
                     self.memory_variants[variant].append(path_str)
                     break
 
         # Determine lane assignment
         if any(test in path_str for test in ["test", "tests", "testing"]):
             return "tests"  # Special category for tests
-        elif any(core in path_str for core in ["core", "identity", "governance", "orchestration"]):
+        elif any(
+            core in path_str
+            for core in ["core", "identity", "governance", "orchestration"]
+        ):
             return "accepted"
-        elif any(exp in path_str for exp in ["quantum", "qim", "vivox", "universal_language"]):
+        elif any(
+            exp in path_str for exp in ["quantum", "qim", "vivox", "universal_language"]
+        ):
             return "candidate"
-        elif any(legacy in path_str for legacy in ["legacy", "old", "deprecated", "_old"]):
+        elif any(
+            legacy in path_str for legacy in ["legacy", "old", "deprecated", "_old"]
+        ):
             return "quarantine"
         elif "archive" in path_str:
             return "archive"
@@ -172,7 +197,9 @@ class CodeIndexer:
             has_docstrings = '"""' in content or "'''" in content
             has_types = ": " in content and "->" in content  # Basic type hint check
             has_tests = "test_" in str(path) or "import pytest" in content
-            has_trinity = any(marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"])
+            has_trinity = any(
+                marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"]
+            )
 
             # Score the module
             score = sum([has_docstrings, has_types, has_tests, has_trinity])
@@ -199,11 +226,13 @@ class CodeIndexer:
             for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
-                        imports.append({
-                            "module": alias.name,
-                            "type": "absolute",
-                            "line": node.lineno
-                        })
+                        imports.append(
+                            {
+                                "module": alias.name,
+                                "type": "absolute",
+                                "line": node.lineno,
+                            }
+                        )
                 elif isinstance(node, ast.ImportFrom):
                     module = node.module or ""
                     level = node.level
@@ -211,21 +240,22 @@ class CodeIndexer:
 
                     for alias in node.names:
                         full_import = f"{module}.{alias.name}" if module else alias.name
-                        imports.append({
-                            "module": full_import,
-                            "type": import_type,
-                            "line": node.lineno
-                        })
+                        imports.append(
+                            {
+                                "module": full_import,
+                                "type": import_type,
+                                "line": node.lineno,
+                            }
+                        )
 
                         # Track import relationships
                         self.import_graph[str(path)].add(full_import)
                         self.reverse_imports[full_import].add(str(path))
 
         except SyntaxError as e:
-            self.module_stats["import_errors"].append({
-                "file": str(path),
-                "error": str(e)
-            })
+            self.module_stats["import_errors"].append(
+                {"file": str(path), "error": str(e)}
+            )
         except Exception:
             pass  # Ignore other parsing errors
 
@@ -240,29 +270,47 @@ class CodeIndexer:
             # Extract metadata
             has_tests = "test_" in str(path) or "import pytest" in content
             has_types = bool(re.search(r":\s*\w+\s*[=,)]|->\s*\w+", content))
-            has_trinity = any(marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"])
+            has_trinity = any(
+                marker in content for marker in ["⚛️", "🧠", "🛡️", "Trinity"]
+            )
 
             # Classify module
             lane = self.classify_module(path)
 
             # Convert to module path
-            module_path = str(path.relative_to(self.root)).replace("/", ".").replace(".py", "")
+            module_path = (
+                str(path.relative_to(self.root)).replace("/", ".").replace(".py", "")
+            )
 
             # Store in database
             cursor = self.conn.cursor()
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT OR REPLACE INTO files
                 (path, module_path, lines, has_tests, has_types, trinity_framework, lane)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (str(path), module_path, lines, has_tests, has_types, has_trinity, lane))
+            """,
+                (
+                    str(path),
+                    module_path,
+                    lines,
+                    has_tests,
+                    has_types,
+                    has_trinity,
+                    lane,
+                ),
+            )
 
             # Extract and store imports
             imports = self.extract_imports(path)
             for imp in imports:
-                cursor.execute("""
+                cursor.execute(
+                    """
                     INSERT INTO imports (from_file, to_module, import_type, line_number)
                     VALUES (?, ?, ?, ?)
-                """, (str(path), imp["module"], imp["type"], imp["line"]))
+                """,
+                    (str(path), imp["module"], imp["type"], imp["line"]),
+                )
 
             self.conn.commit()
 
@@ -291,10 +339,13 @@ class CodeIndexer:
                     has_unique = self.check_unique_logic(path)
                     lines = len(Path(path).read_text(errors="ignore").splitlines())
 
-                    cursor.execute("""
+                    cursor.execute(
+                        """
                         INSERT INTO duplicates (module_type, variant_name, file_path, line_count, has_unique_logic)
                         VALUES (?, ?, ?, ?, ?)
-                    """, ("bio", variant, path, lines, has_unique))
+                    """,
+                        ("bio", variant, path, lines, has_unique),
+                    )
 
         # Process memory variants
         for variant, paths in self.memory_variants.items():
@@ -303,10 +354,13 @@ class CodeIndexer:
                     has_unique = self.check_unique_logic(path)
                     lines = len(Path(path).read_text(errors="ignore").splitlines())
 
-                    cursor.execute("""
+                    cursor.execute(
+                        """
                         INSERT INTO duplicates (module_type, variant_name, file_path, line_count, has_unique_logic)
                         VALUES (?, ?, ?, ?, ?)
-                    """, ("memory", variant, path, lines, has_unique))
+                    """,
+                        ("memory", variant, path, lines, has_unique),
+                    )
 
         self.conn.commit()
 
@@ -337,41 +391,49 @@ class CodeIndexer:
         cursor = self.conn.cursor()
 
         # Bio consolidation mappings
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
             VALUES
                 ('bio_core', 'lukhas.accepted.bio', true, '2025-11-01'),
                 ('bio_orchestrator', 'lukhas.accepted.bio.orchestrator', true, '2025-11-01'),
                 ('bio_symbolic', 'lukhas.accepted.bio.symbolic', true, '2025-11-01'),
                 ('bio_quantum_radar_integration', 'lukhas.candidate.bio.quantum', true, '2025-11-01')
-        """)
+        """
+        )
 
         # Memory consolidation mappings
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
             VALUES
                 ('memory.fold_manager', 'lukhas.accepted.memory.fold', true, '2025-11-01'),
                 ('memory.memory_consolidation', 'lukhas.accepted.memory.consolidation', true, '2025-11-01'),
                 ('memory.episodic', 'lukhas.accepted.memory.episodic', true, '2025-11-01')
-        """)
+        """
+        )
 
         # Core module mappings
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
             VALUES
                 ('core.glyph', 'lukhas.accepted.core.glyph', true, '2025-11-01'),
                 ('identity.core', 'lukhas.accepted.identity', true, '2025-11-01'),
                 ('governance.guardian', 'lukhas.accepted.governance.guardian', true, '2025-11-01')
-        """)
+        """
+        )
 
         # Candidate module mappings (feature-flagged)
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
             VALUES
                 ('universal_language', 'lukhas.candidate.ul', true, '2025-11-01'),
                 ('vivox', 'lukhas.candidate.vivox', true, '2025-11-01'),
                 ('qim', 'lukhas.candidate.qim', true, '2025-11-01')
-        """)
+        """
+        )
 
         self.conn.commit()
 
@@ -425,42 +487,52 @@ Generated: {}
             self.module_stats["total_lines"],
             self.module_stats["has_tests"],
             self.module_stats["has_types"],
-            self.module_stats["trinity_modules"]
+            self.module_stats["trinity_modules"],
         )
 
         # Add lane statistics
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT lane, COUNT(*) as count, SUM(lines) as total_lines
             FROM files
             GROUP BY lane
             ORDER BY count DESC
-        """)
+        """
+        )
 
         for row in cursor.fetchall():
             map_content += f"- **{row[0]}**: {row[1]} files ({row[2]:,} lines)\n"
 
         # Add duplicate analysis
         map_content += "\n## Duplicate Modules Found\n\n### Bio Variants\n"
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT variant_name, COUNT(*) as count, SUM(has_unique_logic) as unique_count
             FROM duplicates
             WHERE module_type = 'bio'
             GROUP BY variant_name
-        """)
+        """
+        )
 
         for row in cursor.fetchall():
-            map_content += f"- **{row[0]}**: {row[1]} variants ({row[2]} with unique logic)\n"
+            map_content += (
+                f"- **{row[0]}**: {row[1]} variants ({row[2]} with unique logic)\n"
+            )
 
         map_content += "\n### Memory Variants\n"
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT variant_name, COUNT(*) as count, SUM(has_unique_logic) as unique_count
             FROM duplicates
             WHERE module_type = 'memory'
             GROUP BY variant_name
-        """)
+        """
+        )
 
         for row in cursor.fetchall():
-            map_content += f"- **{row[0]}**: {row[1]} variants ({row[2]} with unique logic)\n"
+            map_content += (
+                f"- **{row[0]}**: {row[1]} variants ({row[2]} with unique logic)\n"
+            )
 
         # Add import graph analysis
         map_content += "\n## Import Complexity\n"
@@ -468,7 +540,9 @@ Generated: {}
         map_content += "- Modules with Most Dependencies: \n"
 
         # Find modules with most imports
-        sorted_imports = sorted(self.import_graph.items(), key=lambda x: len(x[1]), reverse=True)[:10]
+        sorted_imports = sorted(
+            self.import_graph.items(), key=lambda x: len(x[1]), reverse=True
+        )[:10]
         for module, imports in sorted_imports:
             module_name = Path(module).stem
             map_content += f"  - {module_name}: {len(imports)} imports\n"
@@ -489,24 +563,28 @@ Use these mappings to update your imports:
 ### Core Modules
 """
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT old_import, new_import, deprecation_date
             FROM migrations
             WHERE old_import not_like '%candidate%'
             ORDER BY old_import
-        """)
+        """
+        )
 
         for row in cursor.fetchall():
             migration_content += f"- `{row[0]}` → `{row[1]}` (deprecated: {row[2]})\n"
 
         migration_content += "\n### Candidate Modules (Feature-Flagged)\n"
 
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT old_import, new_import, deprecation_date
             FROM migrations
             WHERE new_import LIKE '%candidate%'
             ORDER BY old_import
-        """)
+        """
+        )
 
         for row in cursor.fetchall():
             migration_content += f"- `{row[0]}` → `{row[1]}` (deprecated: {row[2]})\n"

@@ -336,9 +336,9 @@ def checkin(ctx):
     # Display with formatting
     lines = message.split("\n")
     for line in lines:
-        if line.startswith(")  # ":
-            level = line.count(")  # "
-            text = line.strip(")  # ".strip()
+        if line.startswith("#"):
+            level = line.count("#")
+            text = line.lstrip("# ")
             if level == 1:
                 print_header(text)
             else:
@@ -369,9 +369,9 @@ def reflect(ctx):
     # Display with formatting
     lines = reflection.split("\n")
     for line in lines:
-        if line.startswith(")  # ":
-            level = line.count(")  # "
-            text = line.strip(")  # ".strip()
+        if line.startswith("#"):
+            level = line.count("#")
+            text = line.lstrip("# ")
             if level == 1:
                 print_header(text)
             elif level == 2:
@@ -526,9 +526,9 @@ def report(ctx):
     # Display report
     lines = report.split("\n")
     for line in lines:
-        if line.startswith(")  # ":
-            level = line.count(")  # "
-            text = line.strip(")  # ".strip()
+        if line.startswith("#"):
+            level = line.count("#")
+            text = line.lstrip("# ")
             if level == 1:
                 print_header(text)
             elif level == 2:
@@ -630,7 +630,7 @@ def import_file(ctx, file_path, type, parse_dates, split_by):
             # Split by markdown headings
             import re
 
-            sections = re.split(r"^)  # +\s+", content, flags=re.MULTILINE
+            sections = re.split(r"^# +\s+", content, flags=re.MULTILINE
 
             for section in sections[1:]:  # Skip first empty split
                 lines = section.strip().split("\n")
@@ -766,7 +766,7 @@ def _extract_tags_from_content(content: str) -> list:
     tags = []
 
     # Look for hashtags
-    hashtags = re.findall(r")  # (\w+", content)
+    hashtags = re.findall(r"# (\w+", content)
     tags.extend(hashtags)
 
     # Look for common technical terms
@@ -793,7 +793,7 @@ def _extract_tags_from_content(content: str) -> list:
         if term in content_lower:
             tags.append(term)
 
-    return list(set(tags))  # Remove duplicates
+    return list(set(tags)# Remove duplicates
 
 
 @cli.command()
@@ -1062,7 +1062,7 @@ def vision(ctx):
     print(f"  Total wins: {len(wins)}")
     if wins:
         for win in wins[:3]:
-            print(f"  ✓ {win.content[5:75]}...")  # Skip "WIN: " prefix
+            print(f"  ✓ {win.content[5:75]}..."# Skip "WIN: " prefix
 
     # Alignment check
     print(f"\n{Colors.BOLD}🎯 Alignment Assessment:{Colors.END}")

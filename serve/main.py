@@ -21,6 +21,7 @@ from .feedback_routes import router as feedback_router
 from .openai_routes import router as openai_router
 from .routes import router
 from .routes_traces import r as traces_router
+from .orchestration_routes import router as orchestration_router
 
 logging.basicConfig(level=logging.INFO)
 
@@ -66,6 +67,7 @@ app.include_router(router)
 app.include_router(openai_router)
 app.include_router(feedback_router)
 app.include_router(traces_router)
+app.include_router(orchestration_router)
 
 # Instrument FastAPI app with OpenTelemetry
 if obs_stack.opentelemetry_enabled:

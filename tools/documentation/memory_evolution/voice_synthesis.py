@@ -75,7 +75,7 @@ class VoiceSynthesisAdapter:
 
         # Validate new configuration
         if await self._validate_voice_config(new_config):
-            self.voice_cache.clear()  # Clear cache since voice parameters changed
+            self.voice_cache.clear(# Clear cache since voice parameters changed
             self.voice_config = new_config
             return True
         return False

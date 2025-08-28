@@ -57,7 +57,7 @@ PRODUCTION_IMPLEMENTATIONS = {
     else:
         final_coherence = base_coherence
 
-    return min(final_coherence, 1.5)  # Cap at 150% for safety''',
+    return min(final_coherence, 1.5# Cap at 150% for safety''',
     "memory_cascade_prevention": '''def prevent_memory_cascade(self, memory_fold: MemoryFold) -> bool:
     """Prevent memory cascades using causal chain analysis"""
     # Check causal dependencies

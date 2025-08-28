@@ -32,11 +32,7 @@ def load_t4_config() -> dict:
 def run(cmd: list[str], input: str = None, timeout: int = None) -> str:
     """Run subprocess command with optional input and timeout."""
     result = subprocess.run(
-        cmd,
-        input=input,
-        text=True,
-        capture_output=True,
-        timeout=timeout
+        cmd, input=input, text=True, capture_output=True, timeout=timeout
     )
     if result.returncode != 0:
         raise subprocess.CalledProcessError(result.returncode, cmd, result.stderr)
@@ -76,15 +72,11 @@ def extract_todo_at_line(file_path: str, line_num: int) -> Optional[dict]:
 
         # Extract TODO message
         todo_start = line.find("TODO[T4-AUTOFIX]")
-        todo_msg = line[todo_start + len("TODO[T4-AUTOFIX]:"):].strip()
+        todo_msg = line[todo_start + len("TODO[T4-AUTOFIX]:") :].strip()
         if todo_msg.startswith(":"):
             todo_msg = todo_msg[1:].strip()
 
-        return {
-            "line": line_num,
-            "message": todo_msg,
-            "full_line": line
-        }
+        return {"line": line_num, "message": todo_msg, "full_line": line}
     except Exception:
         return None
 
@@ -121,12 +113,16 @@ def validate_policy_compliance(file_path: str, config: dict) -> bool:
 
     # Check allow patterns if specified
     if allow_patterns:
-        return any(fnmatch.fnmatch(file_path, pattern) for pattern in allow_patterns)  # No allow pattern matched
+        return any(
+            fnmatch.fnmatch(file_path, pattern) for pattern in allow_patterns
+        # No allow pattern matched
 
     return True  # No allow patterns specified, just avoid deny patterns
 
 
-def generate_patch_prompt(file_path: str, todo: dict, context: str, config: dict) -> str:
+def generate_patch_prompt(
+    file_path: str, todo: dict, context: str, config: dict
+) -> str:
     """Generate LLM prompt for patch creation."""
     rules = config.get("rules", {})
     allowlist_codes = ", ".join(rules.get("allowlist", []))
@@ -204,11 +200,19 @@ def run_tests(file_path: str = None) -> bool:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="T4 QuickFix: Generate LLM-powered patches for TODO[T4-AUTOFIX] markers")
+    parser = argparse.ArgumentParser(
+        description="T4 QuickFix: Generate LLM-powered patches for TODO[T4-AUTOFIX] markers"
+    )
     parser.add_argument("--file", required=True, help="File containing TODO marker")
-    parser.add_argument("--line", type=int, required=True, help="Line number of TODO marker")
-    parser.add_argument("--apply", action="store_true", help="Apply the patch immediately")
-    parser.add_argument("--open", action="store_true", help="Open generated patch in VS Code")
+    parser.add_argument(
+        "--line", type=int, required=True, help="Line number of TODO marker"
+    )
+    parser.add_argument(
+        "--apply", action="store_true", help="Apply the patch immediately"
+    )
+    parser.add_argument(
+        "--open", action="store_true", help="Open generated patch in VS Code"
+    )
     parser.add_argument("--model", help="LLM model to use (default: deepseek-coder)")
 
     args = parser.parse_args()
@@ -247,8 +251,8 @@ def main():
     patch = call_ollama(prompt, args.model)
 
     # Add LLM provenance header
-    args.model or os.environ.get("T4_LLM_MODEL","deepseek-coder")
-    int(os.environ.get("T4_LLM_TIMEOUT","30"))
+    args.model or os.environ.get("T4_LLM_MODEL", "deepseek-coder")
+    int(os.environ.get("T4_LLM_TIMEOUT", "30"))
     prov = ""
     if patch.startswith("--- a/"):
         patch = prov + patch
@@ -269,7 +273,9 @@ def main():
             subprocess.check_call(["code", "-g", str(patch_path)])
             print(f"📂 Opened patch in VS Code: {patch_path}")
         except Exception:
-            print(f"📝 Patch ready at: {patch_path} (install 'code' command to open automatically)")
+            print(
+                f"📝 Patch ready at: {patch_path} (install 'code' command to open automatically)"
+            )
     else:
         print(f"📝 Patch written to: {patch_path}")
 

@@ -75,7 +75,7 @@ class QualityDashboard:
         by_type = {}
 
         for line in lines:
-            if line and not line.startswith(")  # ":
+            if line and not line.startswith("# ":
                 parts = line.split()
                 if len(parts) >= 2 and parts[0].isdigit():
                     count = int(parts[0])
@@ -167,7 +167,7 @@ class QualityDashboard:
                         stripped = line.strip()
                         if not stripped:
                             blank_lines += 1
-                        elif stripped.startswith(")  # ":
+                        elif stripped.startswith("# ":
                             comment_lines += 1
                         else:
                             code_lines += 1

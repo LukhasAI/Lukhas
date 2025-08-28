@@ -480,7 +480,9 @@ class SecurityScanner:
 
         return {"sbom": sbom}
 
-    def _generate_summary(self, results: dict[str, Any], duration: float) -> dict[str, Any]:
+    def _generate_summary(
+        self, results: dict[str, Any], duration: float
+    ) -> dict[str, Any]:
         """Generate scan summary with risk assessment"""
         critical_vulns = [
             v

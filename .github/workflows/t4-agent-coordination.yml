@@ -1,0 +1,291 @@
+name: T4 Agent Coordination Quality Gate
+on:
+  pull_request:
+    paths:
+      - 'tests/**'
+      - 'tools/**'
+      - 'candidate/**'
+      - 'lukhas/**'
+  push:
+    branches: [ main, local-main ]
+  workflow_dispatch:
+
+jobs:
+  security-validation:
+    name: Security Validation (Agent #3 - Demis Standard)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      security-events: write
+
+    env:
+      PYTHONVER: "3.11"
+      # Audit mode security settings
+      LUKHAS_DRY_RUN_MODE: "true"
+      LUKHAS_OFFLINE: "true"
+      LUKHAS_AUDIT_MODE: "true"
+      FEATURE_REAL_API_CALLS: "false"
+      FEATURE_MEMORY_PERSISTENCE: "false"
+      FEATURE_EXTERNAL_CONNECTIONS: "false"
+      MAX_API_CALLS_PER_TEST: "0"
+
+    steps:
+      - name: 🔒 Security Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit for security diff analysis
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHONVER }}
+
+      - name: 📦 Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: t4-security-${{ runner.os }}-${{ env.PYTHONVER }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            t4-security-${{ runner.os }}-${{ env.PYTHONVER }}-
+            t4-security-${{ runner.os }}-
+
+      - name: 🔧 Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-test.txt
+          pip install pytest-cov pytest-html pytest-json-report bandit safety
+
+      - name: 🛡️ Acceptance Gate Validation
+        run: |
+          echo "🔍 Running AST-based acceptance gate..."
+          python tools/acceptance_gate_ast.py
+
+          # Verify audit report was generated
+          test -f audit/acceptance_gate_audit.json || {
+            echo "❌ Acceptance gate audit report not generated"
+            exit 1
+          }
+
+          echo "✅ Acceptance gate validation passed"
+
+      - name: 🔒 Security Vulnerability Scan
+        run: |
+          echo "🔍 Running comprehensive security validation..."
+
+          # Run security-focused tests
+          pytest tests/test_comprehensive_security_validation.py -v \
+            --tb=short \
+            --json-report --json-report-file=out/security-report.json
+
+          # Run security tests in authentication module
+          pytest tests/security/ -v --tb=short \
+            -m "security" \
+            --cov=candidate --cov=lukhas \
+            --cov-report=xml:out/security-coverage.xml \
+            --cov-report=html:out/security-coverage-html
+
+          echo "✅ Security vulnerability scan completed"
+
+      - name: 🔐 Bandit Security Analysis
+        run: |
+          echo "🔍 Running Bandit security analysis..."
+          bandit -r candidate/ lukhas/ tools/ -f json -o out/bandit-report.json || {
+            echo "⚠️ Bandit found security issues"
+            bandit -r candidate/ lukhas/ tools/ -f txt
+          }
+
+      - name: 📊 Generate Security Metrics
+        run: |
+          echo "📊 Generating security metrics..."
+
+          # Count test results
+          SECURITY_TESTS=$(python -c "
+          import json
+          with open('out/security-report.json', 'r') as f:
+              data = json.load(f)
+              print(data['summary']['total'])
+          ")
+
+          SECURITY_PASSED=$(python -c "
+          import json
+          with open('out/security-report.json', 'r') as f:
+              data = json.load(f)
+              print(data['summary']['passed'])
+          ")
+
+          SECURITY_FAILED=$(python -c "
+          import json
+          with open('out/security-report.json', 'r') as f:
+              data = json.load(f)
+              print(data['summary']['failed'])
+          ")
+
+          echo "SECURITY_TESTS=${SECURITY_TESTS}" >> $GITHUB_ENV
+          echo "SECURITY_PASSED=${SECURITY_PASSED}" >> $GITHUB_ENV
+          echo "SECURITY_FAILED=${SECURITY_FAILED}" >> $GITHUB_ENV
+
+          # Calculate pass rate
+          PASS_RATE=$(python -c "print(f'{${SECURITY_PASSED}/${SECURITY_TESTS}*100:.1f}' if ${SECURITY_TESTS} > 0 else '0.0')")
+          echo "SECURITY_PASS_RATE=${PASS_RATE}" >> $GITHUB_ENV
+
+          echo "📊 Security Tests: ${SECURITY_TESTS}, Passed: ${SECURITY_PASSED}, Failed: ${SECURITY_FAILED}, Pass Rate: ${PASS_RATE}%"
+
+      - name: 🎯 T4 Quality Gate Validation
+        run: |
+          echo "🎯 Validating T4 Quality Gates..."
+
+          # T4 Quality Standards (Demis Hassabis Standard)
+          # - 95%+ test pass rate
+          # - Zero critical security vulnerabilities
+          # - Comprehensive audit trail
+          # - Statistical validation
+
+          # Check test pass rate
+          if (( $(echo "${SECURITY_PASS_RATE} < 95.0" | bc -l) )); then
+            echo "❌ T4 Quality Gate Failed: Security test pass rate ${SECURITY_PASS_RATE}% < 95%"
+            exit 1
+          fi
+
+          # Check for zero security failures
+          if [ "${SECURITY_FAILED}" -ne 0 ]; then
+            echo "❌ T4 Quality Gate Failed: ${SECURITY_FAILED} security test failures"
+            exit 1
+          fi
+
+          # Check minimum test coverage
+          if [ "${SECURITY_TESTS}" -lt 30 ]; then
+            echo "❌ T4 Quality Gate Failed: Only ${SECURITY_TESTS} security tests (minimum 30)"
+            exit 1
+          fi
+
+          # Verify audit artifacts exist
+          required_artifacts=(
+            "out/security-report.json"
+            "out/security-coverage.xml"
+            "audit/acceptance_gate_audit.json"
+          )
+
+          for artifact in "${required_artifacts[@]}"; do
+            if [ ! -f "$artifact" ]; then
+              echo "❌ T4 Quality Gate Failed: Missing required artifact: $artifact"
+              exit 1
+            fi
+          done
+
+          echo "✅ T4 Quality Gate Validation PASSED"
+          echo "  ✅ Security test pass rate: ${SECURITY_PASS_RATE}%"
+          echo "  ✅ Security test failures: ${SECURITY_FAILED}"
+          echo "  ✅ Total security tests: ${SECURITY_TESTS}"
+          echo "  ✅ All audit artifacts present"
+
+      - name: 📤 Upload Security Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: t4-security-artifacts-${{ github.run_number }}
+          path: |
+            out/security-report.json
+            out/security-coverage.xml
+            out/security-coverage-html/
+            out/bandit-report.json
+            audit/acceptance_gate_audit.json
+          retention-days: 30
+
+      - name: 📊 Security Summary Report
+        if: always()
+        run: |
+          echo "## 🔒 T4 Security Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Tests | ${SECURITY_TESTS} | $([ ${SECURITY_TESTS} -ge 30 ] && echo '✅' || echo '❌') |" >> $GITHUB_STEP_SUMMARY
+          echo "| Tests Passed | ${SECURITY_PASSED} | $([ ${SECURITY_FAILED} -eq 0 ] && echo '✅' || echo '❌') |" >> $GITHUB_STEP_SUMMARY
+          echo "| Tests Failed | ${SECURITY_FAILED} | $([ ${SECURITY_FAILED} -eq 0 ] && echo '✅' || echo '❌') |" >> $GITHUB_STEP_SUMMARY
+          echo "| Pass Rate | ${SECURITY_PASS_RATE}% | $(( $(echo "${SECURITY_PASS_RATE} >= 95.0" | bc -l) )) && echo '✅' || echo '❌' |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🎯 T4 Quality Standards" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target**: 95%+ pass rate ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- **Standard**: Demis Hassabis (Rigorous validation)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Coverage**: Comprehensive security validation" >> $GITHUB_STEP_SUMMARY
+          echo "- **Agent**: #3 Testing & DevOps Specialist" >> $GITHUB_STEP_SUMMARY
+
+      - name: 💬 PR Comment with Security Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            // Read security report
+            const securityReport = JSON.parse(fs.readFileSync('out/security-report.json', 'utf8'));
+
+            const passRate = parseFloat(process.env.SECURITY_PASS_RATE);
+            const statusEmoji = passRate >= 95 ? '✅' : '❌';
+
+            const body = `## 🔒 T4 Security Validation Results ${statusEmoji}
+
+            **Agent #3 - Testing & DevOps Specialist (Demis Hassabis Standard)**
+
+            | Metric | Value | Target | Status |
+            |--------|-------|--------|--------|
+            | Security Tests | ${process.env.SECURITY_TESTS} | ≥30 | ${parseInt(process.env.SECURITY_TESTS) >= 30 ? '✅' : '❌'} |
+            | Pass Rate | ${process.env.SECURITY_PASS_RATE}% | ≥95% | ${passRate >= 95 ? '✅' : '❌'} |
+            | Failed Tests | ${process.env.SECURITY_FAILED} | 0 | ${parseInt(process.env.SECURITY_FAILED) === 0 ? '✅' : '❌'} |
+
+            ### 🛡️ Security Validation Coverage
+            - ✅ Hardcoded credential detection
+            - ✅ Cryptographic security validation
+            - ✅ Input validation security
+            - ✅ SQL injection protection
+            - ✅ Path traversal protection
+            - ✅ T4 agent coordination security
+            - ✅ Audit compliance validation
+
+            ### 📊 Artifacts Generated
+            - Security test report (JSON)
+            - Security coverage report (XML/HTML)
+            - Bandit security analysis
+            - Acceptance gate audit trail
+
+            **T4 Quality Gate**: ${passRate >= 95 && parseInt(process.env.SECURITY_FAILED) === 0 ? '✅ PASSED' : '❌ FAILED'}
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+  integration-validation:
+    name: Integration Testing Validation
+    needs: security-validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-test.txt
+
+      - name: Run Integration Tests
+        run: |
+          echo "🔧 Running integration tests..."
+          pytest tests/ -m "integration" -v --tb=short
+
+      - name: Run E2E Audit Dry-Run
+        run: |
+          echo "🧪 Running E2E audit dry-run tests..."
+          pytest tests/test_e2e_audit_dryrun.py -v --tb=short
+
+      - name: Validate Tool Integration
+        run: |
+          echo "🔧 Validating tool integration..."
+          pytest tests/tools/ -v --tb=short

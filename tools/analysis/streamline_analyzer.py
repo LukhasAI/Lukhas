@@ -21,7 +21,7 @@ class StreamlineAnalyzer:
     """Analyzes specific modules for streamlining opportunities"""
 
     def __init__(self):
-        self.root_path = Path("/Users/agi_dev/Lukhas"
+        self.root_path = Path.cwd()
         self.key_modules = [
             "core",
             "consciousness",

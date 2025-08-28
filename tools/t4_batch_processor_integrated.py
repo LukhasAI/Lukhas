@@ -22,13 +22,19 @@ class T4BatchProcessor:
     def get_current_sha(self):
         """SCIENTIFIC RIGOR: SHA-bound verification"""
         try:
-            result = subprocess.run(["git", "rev-parse", "HEAD"],
-                                  capture_output=True, text=True, cwd=self.base_path)
+            result = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                capture_output=True,
+                text=True,
+                cwd=self.base_path,
+            )
             return result.stdout.strip()[:8]
         except Exception:
             return hashlib.md5(str(datetime.now()).encode()).hexdigest()[:8]
 
-    def create_verification_artifact(self, operation, before_count, after_count, method_used):
+    def create_verification_artifact(
+        self, operation, before_count, after_count, method_used
+    ):
         """SCIENTIFIC RIGOR: Evidence-based tracking"""
         sha = self.get_current_sha()
         artifact = {
@@ -40,7 +46,7 @@ class T4BatchProcessor:
             "after_count": after_count,
             "improvement": before_count - after_count,
             "success": after_count < before_count,
-            "t4_validation": "passed"
+            "t4_validation": "passed",
         }
 
         artifact_file = self.verification_path / f"{sha}_{operation}.json"
@@ -52,10 +58,16 @@ class T4BatchProcessor:
     def get_ruff_stats(self):
         """Get current Ruff statistics"""
         try:
-            result = subprocess.run(["ruff", "check", ".", "--statistics"],
-                                  capture_output=True, text=True, cwd=self.base_path)
+            result = subprocess.run(
+                ["ruff", "check", ".", "--statistics"],
+                capture_output=True,
+                text=True,
+                cwd=self.base_path,
+            )
             lines = result.stdout.strip().split("\n")
-            total_line = [line for line in lines if "Found" in line and "errors" in line]
+            total_line = [
+                line for line in lines if "Found" in line and "errors" in line
+            ]
             if total_line:
                 count = int(total_line[0].split()[1])
                 return count, lines
@@ -69,8 +81,13 @@ class T4BatchProcessor:
         print(f"🔧 T4: Running make {target}")
 
         try:
-            result = subprocess.run(["make", target],
-                                  capture_output=True, text=True, cwd=self.base_path, timeout=300)
+            result = subprocess.run(
+                ["make", target],
+                capture_output=True,
+                text=True,
+                cwd=self.base_path,
+                timeout=300,
+            )
 
             if result.returncode == 0:
                 print(f"   ✅ {target} completed successfully")
@@ -90,8 +107,13 @@ class T4BatchProcessor:
         print("🤖 T4: Running Ollama AI analysis")
 
         try:
-            result = subprocess.run(["./tools/local-llm-helper.sh", "analyze"],
-                                  capture_output=True, text=True, cwd=self.base_path, timeout=600)
+            result = subprocess.run(
+                ["./tools/local-llm-helper.sh", "analyze"],
+                capture_output=True,
+                text=True,
+                cwd=self.base_path,
+                timeout=600,
+            )
 
             if result.returncode == 0:
                 print("   ✅ Ollama analysis passed")
@@ -117,8 +139,12 @@ class T4BatchProcessor:
 
         # Safety Gate 2: Ensure git working directory is clean
         try:
-            result = subprocess.run(["git", "status", "--porcelain"],
-                                  capture_output=True, text=True, cwd=self.base_path)
+            result = subprocess.run(
+                ["git", "status", "--porcelain"],
+                capture_output=True,
+                text=True,
+                cwd=self.base_path,
+            )
             if result.stdout.strip():
                 print("   ⚠️ Working directory not clean - will track changes")
         except Exception:
@@ -161,12 +187,17 @@ class T4BatchProcessor:
             "phase1_smart_fix", before_count, phase1_count, "makefile_fix"
         )
 
-        print(f"   📈 Phase 1 Result: {before_count} → {phase1_count} (-{phase1_artifact['improvement']})")
+        print(
+            f"   📈 Phase 1 Result: {before_count} → {phase1_count} (-{phase1_artifact['improvement']})"
+        )
 
         # CONSTITUTIONAL SAFETY: Validate Phase 1 didn't break anything
         print("🛡️ T4: Validating Phase 1 changes")
-        syntax_check = subprocess.run(["python", "-m", "py_compile", "main.py"],
-                                    capture_output=True, cwd=self.base_path)
+        syntax_check = subprocess.run(
+            ["python", "-m", "py_compile", "main.py"],
+            capture_output=True,
+            cwd=self.base_path,
+        )
         if syntax_check.returncode != 0:
             print("   ❌ Phase 1 introduced syntax errors!")
             return False
@@ -185,14 +216,18 @@ class T4BatchProcessor:
             "phase3_imports", phase1_count, phase3_count, "makefile_fix_imports"
         )
 
-        print(f"   📈 Phase 3 Result: {phase1_count} → {phase3_count} (-{phase3_artifact['improvement']})")
+        print(
+            f"   📈 Phase 3 Result: {phase1_count} → {phase3_count} (-{phase3_artifact['improvement']})"
+        )
 
         # SCIENTIFIC RIGOR: Final validation and reporting
         print("\n🧪 T4: Final Validation & Reporting")
         final_count, final_stats = self.get_ruff_stats()
 
         total_improvement = before_count - final_count
-        success_rate = (total_improvement / before_count) * 100 if before_count > 0 else 0
+        success_rate = (
+            (total_improvement / before_count) * 100 if before_count > 0 else 0
+        )
 
         final_artifact = self.create_verification_artifact(
             "complete_t4_batch", before_count, final_count, "t4_lens_framework"
@@ -219,7 +254,9 @@ class T4BatchProcessor:
 
         print("\n💡 Next Steps:")
         if final_count > 5000:
-            print("   - Consider running batch processor again for additional improvements")
+            print(
+                "   - Consider running batch processor again for additional improvements"
+            )
             print("   - Focus on syntax errors first (manual review required)")
         elif final_count > 1000:
             print("   - Run targeted fixes for remaining issue categories")
@@ -230,6 +267,7 @@ class T4BatchProcessor:
 
         return success_rate > 5  # Success if we improved by at least 5%
 
+
 if __name__ == "__main__":
     processor = T4BatchProcessor()
     success = processor.t4_batch_processing()
@@ -239,4 +277,4 @@ if __name__ == "__main__":
         sys.exit(0)
     else:
         print("\n⚠️ T4 Batch Processing: PARTIAL SUCCESS")
-        sys.exit(0)  # Don't fail completely - partial improvement is still good
+        sys.exit(0# Don't fail completely - partial improvement is still good

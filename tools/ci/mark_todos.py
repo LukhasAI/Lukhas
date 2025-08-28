@@ -43,14 +43,16 @@ def find_todo_markers(file_path: str) -> list[dict]:
                 todo_type = match.group(1)
                 message = match.group(2).strip()
 
-                todos.append({
-                    "file": file_path,
-                    "line": line_num,
-                    "type": todo_type,
-                    "message": message,
-                    "full_line": line.strip(),
-                    "context": get_function_context(lines, line_num)
-                })
+                todos.append(
+                    {
+                        "file": file_path,
+                        "line": line_num,
+                        "type": todo_type,
+                        "message": message,
+                        "full_line": line.strip(),
+                        "context": get_function_context(lines, line_num),
+                    }
+                )
 
     except Exception as e:
         print(f"Warning: Failed to process {file_path}: {e}")
@@ -79,7 +81,7 @@ def suggest_autofix_pattern(todo_type: str, message: str, context: str) -> str:
         "f-string": 'Replace .format() with f"string"',
         "unused variable": "Remove or prefix with underscore",
         "type hint": "Add type annotations",
-        "async": "Convert to async/await pattern"
+        "async": "Convert to async/await pattern",
     }
 
     message_lower = message.lower()
@@ -133,11 +135,7 @@ def annotate_file(file_path: str, todos: list[dict], dry_run: bool = False) -> i
             continue  # Already annotated
 
         # Generate suggestion
-        suggest_autofix_pattern(
-            todo["type"],
-            todo["message"],
-            todo["context"]
-        )
+        suggest_autofix_pattern(todo["type"], todo["message"], todo["context"])
 
         # Create annotation comment
         indent = len(lines[line_idx]) - len(lines[line_idx].lstrip())
@@ -195,7 +193,9 @@ def generate_todo_report(all_todos: list[dict]) -> str:
         report_lines.append("")
 
         for todo in todos[:10]:  # Limit to first 10
-            report_lines.append(f"- `{todo['file']}:{todo['line']}` - {todo['message']}")
+            report_lines.append(
+                f"- `{todo['file']}:{todo['line']}` - {todo['message']}"
+            )
 
         if len(todos) > 10:
             report_lines.append(f"- ... and {len(todos) - 10} more")
@@ -206,10 +206,22 @@ def generate_todo_report(all_todos: list[dict]) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="T4 TODO Marker - Annotate TODO items with suggestions")
-    parser.add_argument("paths", nargs="*", default=["."], help="Paths to scan for TODOs")
-    parser.add_argument("--dry-run", action="store_true", help="Show what would be done without making changes")
-    parser.add_argument("--report-only", action="store_true", help="Generate report only, no annotations")
+    parser = argparse.ArgumentParser(
+        description="T4 TODO Marker - Annotate TODO items with suggestions"
+    )
+    parser.add_argument(
+        "paths", nargs="*", default=["."], help="Paths to scan for TODOs"
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be done without making changes",
+    )
+    parser.add_argument(
+        "--report-only",
+        action="store_true",
+        help="Generate report only, no annotations",
+    )
     parser.add_argument("--output", help="Write report to file")
 
     args = parser.parse_args()
@@ -236,7 +248,13 @@ def main():
             files_to_process = []
             for root, dirs, files in os.walk(path):
                 # Skip denied directories
-                dirs[:] = [d for d in dirs if not any(pattern in os.path.join(root, d) for pattern in deny_patterns)]
+                dirs[:] = [
+                    d
+                    for d in dirs
+                    if not any(
+                        pattern in os.path.join(root, d) for pattern in deny_patterns
+                    )
+                ]
 
                 for file in files:
                     if file.endswith(".py"):
@@ -246,7 +264,9 @@ def main():
                         # Check if file is allowed
                         allowed = False
                         if allow_patterns:
-                            allowed = any(pattern in rel_path for pattern in allow_patterns)
+                            allowed = any(
+                                pattern in rel_path for pattern in allow_patterns
+                            )
                         else:
                             allowed = True
 
@@ -275,7 +295,7 @@ def main():
             f.write(report)
         print(f"📊 Report written to {args.output}")
     else:
-        print("\n" + "="*50)
+        print("\n" + "=" * 50)
         print(report)
 
     # Summary

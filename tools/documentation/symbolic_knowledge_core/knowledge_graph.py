@@ -65,7 +65,7 @@ class SystemKnowledgeGraph:
         self._relationships: list[SKGRelationship] = []
         self._edges_from: dict[str, list[SKGRelationship]] = (
             {}
-        )  # Source -> relationships
+        # Source -> relationships
         self._edges_to: dict[str, list[SKGRelationship]] = {}  # Target -> relationships
         logger.info("SystemKnowledgeGraph initialized")
 

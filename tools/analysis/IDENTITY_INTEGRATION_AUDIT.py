@@ -182,9 +182,7 @@ class IdentityAudit:
                 continue
 
             # Check if file has identity protection
-            any(
-                re.search(pattern, content) for pattern in IDENTITY_PATTERNS
-            )
+            any(re.search(pattern, content) for pattern in IDENTITY_PATTERNS)
             has_enforcement = any(
                 re.search(pattern, content) for pattern in ENFORCEMENT_PATTERNS
             )
@@ -306,9 +304,9 @@ class IdentityAudit:
         if self.stats["unprotected_modules"] > 0:
             print("\n  2. Protect sensitive modules with tier checks:")
             print("     from identity import require_tier, require_permission")
-            print("     @require_tier('T3')  # For consciousness, dream, emotion")
-            print("     @require_tier('T4')  # For quantum")
-            print("     @require_tier('T5')  # For governance")
+            print("     @require_tier('T3'# For consciousness, dream, emotion")
+            print("     @require_tier('T4'# For quantum")
+            print("     @require_tier('T5'# For governance")
 
         print("\n  3. Link user IDs in all data operations:")
         print("     data['user_id'] = user.user_id")

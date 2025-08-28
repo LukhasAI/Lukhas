@@ -18,22 +18,40 @@ class OrphanedModuleAuditor:
 
         # Critical AI/AGI modules that should NEVER be auto-archived
         self.critical_modules = {
-            "consciousness", "memory", "identity", "governance",
-            "quantum", "bio", "emotion", "reasoning", "orchestration",
-            "symbolic", "universal_language", "vivox", "qim",
-            "NIAS_THEORY", "trinity", "guardian", "lukhas"
+            "consciousness",
+            "memory",
+            "identity",
+            "governance",
+            "quantum",
+            "bio",
+            "emotion",
+            "reasoning",
+            "orchestration",
+            "symbolic",
+            "universal_language",
+            "vivox",
+            "qim",
+            "NIAS_THEORY",
+            "trinity",
+            "guardian",
+            "lukhas",
         }
 
         # Value indicators in code
         self.value_indicators = {
             "trinity_framework": ["⚛️", "🧠", "🛡️", "Trinity"],
             "consciousness": ["consciousness", "awareness", "sentience"],
-            "agi_concepts": ["AGI", "artificial general", "meta-learning", "self-aware"],
+            "agi_concepts": [
+                "AGI",
+                "artificial general",
+                "meta-learning",
+                "self-aware",
+            ],
             "quantum": ["quantum", "superposition", "entanglement", "collapse"],
             "bio_inspired": ["bio-inspired", "neural", "synaptic", "neuroplastic"],
             "ethics": ["ethical", "guardian", "consent", "privacy"],
             "memory": ["fold", "episodic", "semantic", "memory"],
-            "advanced_ai": ["transformer", "attention", "reasoning", "symbolic"]
+            "advanced_ai": ["transformer", "attention", "reasoning", "symbolic"],
         }
 
     def analyze_file_value(self, file_path: str) -> dict:
@@ -53,7 +71,7 @@ class OrphanedModuleAuditor:
             "value_indicators": [],
             "complexity_score": 0,
             "has_tests": False,
-            "last_modified": full_path.stat().st_mtime
+            "last_modified": full_path.stat().st_mtime,
         }
 
         try:
@@ -89,7 +107,7 @@ class OrphanedModuleAuditor:
                 # Check if there's a corresponding test
                 test_patterns = [
                     f"tests/test_{Path(file_path).stem}.py",
-                    f"tests/{Path(file_path).parent}/test_{Path(file_path).stem}.py"
+                    f"tests/{Path(file_path).parent}/test_{Path(file_path).stem}.py",
                 ]
                 for pattern in test_patterns:
                     if Path(pattern).exists():
@@ -140,7 +158,7 @@ class OrphanedModuleAuditor:
             "medium_value": [],  # Score 50-100
             "low_value": [],  # Score < 50
             "safe_to_archive": [],  # No AI/AGI value
-            "needs_review": []  # Contains critical keywords but low score
+            "needs_review": [],  # Contains critical keywords but low score
         }
 
         for file_path in never_imported:
@@ -223,8 +241,10 @@ class OrphanedModuleAuditor:
         indicators = file_analysis.get("value_indicators", [])
 
         print(f"\n📄 {path}")
-        print(f"   Score: {score} | Lines: {file_analysis.get('line_count', 0)} | "
-              f"Size: {file_analysis.get('size_kb', 0):.1f}KB")
+        print(
+            f"   Score: {score} | Lines: {file_analysis.get('line_count', 0)} | "
+            f"Size: {file_analysis.get('size_kb', 0):.1f}KB"
+        )
 
         if indicators:
             print(f"   AI/AGI Indicators: {', '.join(indicators[:3])}")
@@ -235,6 +255,7 @@ class OrphanedModuleAuditor:
             print("   ✓ Has test coverage")
         if file_analysis.get("is_critical_module"):
             print("   ⚠️  CRITICAL MODULE - Manual review required")
+
 
 def main():
     auditor = OrphanedModuleAuditor()
@@ -267,6 +288,7 @@ def main():
     print(f"\n💾 Detailed audit saved to: {audit_path}")
     print("\n⚠️  REMEMBER: Manually review each file before archiving!")
     print("   These modules may contain valuable AI/AGI innovations")
+
 
 if __name__ == "__main__":
     main()

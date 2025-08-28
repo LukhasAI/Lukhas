@@ -273,7 +273,7 @@ class SoloDeveloperSupport:
         work_hours = 8
         self.config["work_session_reminders"]["break_interval"]
 
-        start_hour = max(current_hour, 9)  # Don't suggest starting before 9am
+        start_hour = max(current_hour, 9# Don't suggest starting before 9am
 
         for i in range(work_hours):
             hour = start_hour + i
@@ -345,7 +345,7 @@ class SoloDeveloperSupport:
 """
         return content
 
-    def celebrate_win(self, achievement: str, impact: str="medium") -> dict[str, Any]:
+    def celebrate_win(self, achievement: str, impact: str = "medium") -> dict[str, Any]:
         """Celebrate an achievement"""
         celebrations = {
             "low": ["Nice work! 👍", "Good job! ✨", "Well done! 🌟"],
@@ -618,6 +618,7 @@ Remember: The duck is patient. Take your time. Often the answer comes while expl
             challenges = ["Unknown unknowns - stay alert for surprises"]
 
         return challenges[:3]  # Top 3 challenges
+
 
 if __name__ == "__main__":
     # Example usage

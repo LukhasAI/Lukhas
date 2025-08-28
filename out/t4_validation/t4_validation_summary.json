@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-08-28T06:28:56.611712+00:00",
+  "status": "FAILED",
+  "quality_scores": {
+    "test_quality_score": 0.0,
+    "coverage_quality_score": 0.0,
+    "security_quality_score": 0.0,
+    "overall_quality_score": 0.0
+  },
+  "quality_gates": {
+    "test_pass_rate": "FAILED",
+    "test_coverage": "FAILED",
+    "security_compliance": "PASSED",
+    "minimum_test_count": "FAILED"
+  },
+  "test_summary": {},
+  "security_summary": {},
+  "coverage_summary": {}
+}

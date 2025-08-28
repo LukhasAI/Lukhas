@@ -20,13 +20,19 @@ class T4LensCodeFixer:
     def get_current_sha(self):
         """SCIENTIFIC RIGOR: SHA-bound verification"""
         try:
-            result = subprocess.run(["git", "rev-parse", "HEAD"],
-                                  capture_output=True, text=True, cwd=self.base_path)
+            result = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                capture_output=True,
+                text=True,
+                cwd=self.base_path,
+            )
             return result.stdout.strip()[:8]
         except Exception:
             return hashlib.md5(str(datetime.now()).encode()).hexdigest()[:8]
 
-    def create_verification_artifact(self, operation, before_count, after_count, files_affected):
+    def create_verification_artifact(
+        self, operation, before_count, after_count, files_affected
+    ):
         """SCIENTIFIC RIGOR: Evidence-based tracking"""
         sha = self.get_current_sha()
         artifact = {
@@ -37,7 +43,7 @@ class T4LensCodeFixer:
             "after_count": after_count,
             "improvement": before_count - after_count,
             "files_affected": files_affected,
-            "success": after_count < before_count
+            "success": after_count < before_count,
         }
 
         artifact_file = self.verification_path / f"{sha}_{operation}.json"
@@ -49,10 +55,16 @@ class T4LensCodeFixer:
     def get_ruff_stats(self):
         """Get current Ruff statistics"""
         try:
-            result = subprocess.run(["ruff", "check", ".", "--statistics"],
-                                  capture_output=True, text=True, cwd=self.base_path)
+            result = subprocess.run(
+                ["ruff", "check", ".", "--statistics"],
+                capture_output=True,
+                text=True,
+                cwd=self.base_path,
+            )
             lines = result.stdout.strip().split("\n")
-            total_line = [line for line in lines if "Found" in line and "errors" in line]
+            total_line = [
+                line for line in lines if "Found" in line and "errors" in line
+            ]
             if total_line:
                 count = int(total_line[0].split()[1])
                 return count, lines
@@ -68,15 +80,18 @@ class T4LensCodeFixer:
         before_count, _ = self.get_ruff_stats()
 
         # Run safe fixes only (fail-closed approach)
-        subprocess.run(["ruff", "check", ".", "--fix"],
-                      capture_output=True, text=True, cwd=self.base_path)
+        subprocess.run(
+            ["ruff", "check", ".", "--fix"],
+            capture_output=True,
+            text=True,
+            cwd=self.base_path,
+        )
 
         after_count, stats = self.get_ruff_stats()
 
         # Create verification artifact
         artifact = self.create_verification_artifact(
-            "safe_fixes", before_count, after_count,
-            ["automated_safe_fixes"]
+            "safe_fixes", before_count, after_count, ["automated_safe_fixes"]
         )
 
         print(f"   ✅ Before: {before_count} issues")
@@ -92,10 +107,10 @@ class T4LensCodeFixer:
 
         _, stats = self.get_ruff_stats()
         categories = {
-            "CRITICAL_BLOCKERS": [],      # Syntax errors, undefined names
-            "AUTOMATION_READY": [],       # Import fixes, unused imports
-            "SAFETY_REVIEW": [],          # Bare except, error handling
-            "POLISH_ITEMS": []           # Style, naming, minor issues
+            "CRITICAL_BLOCKERS": [],  # Syntax errors, undefined names
+            "AUTOMATION_READY": [],  # Import fixes, unused imports
+            "SAFETY_REVIEW": [],  # Bare except, error handling
+            "POLISH_ITEMS": [],  # Style, naming, minor issues
         }
 
         for line in stats:
@@ -148,6 +163,7 @@ class T4LensCodeFixer:
         print(f"   🤖 Priority 2: {automation_count} automation-ready fixes")
         print("   🛡️ Priority 3: Safety review items")
         print("   ✨ Priority 4: Polish items")
+
 
 if __name__ == "__main__":
     fixer = T4LensCodeFixer()

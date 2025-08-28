@@ -29,7 +29,9 @@ class ModuleMigrator:
                 with open(py_file, encoding="utf-8") as f:
                     for line_no, line in enumerate(f, 1):
                         if pattern.search(line):
-                            illegal.append(f"{py_file.relative_to(self.root)}:{line_no}: {line.strip()}")
+                            illegal.append(
+                                f"{py_file.relative_to(self.root)}:{line_no}: {line.strip()}"
+                            )
             except Exception as e:
                 print(f"Error reading {py_file}: {e}")
 
@@ -44,8 +46,16 @@ class ModuleMigrator:
             return circular
 
         # Check what this module imports
-        other_modules = ["core", "memory", "consciousness", "orchestration",
-                        "governance", "identity", "bridge", "emotion"]
+        other_modules = [
+            "core",
+            "memory",
+            "consciousness",
+            "orchestration",
+            "governance",
+            "identity",
+            "bridge",
+            "emotion",
+        ]
         other_modules.remove(module_name) if module_name in other_modules else None
 
         for other in other_modules:
@@ -73,7 +83,7 @@ class ModuleMigrator:
             r"MATRIZ",
             r"matriz_node",
             r"schema_ref.*matriz_node_v1",
-            r"validate_node"
+            r"validate_node",
         ]
 
         for py_file in module_path.rglob("*.py"):
@@ -178,13 +188,12 @@ class ModuleMigrator:
             "circular_deps": self.find_circular_dependencies(module_name),
             "matriz_compliant": self.check_matriz_compliance(module_path),
             "test_count": self.count_tests(module_name),
-            "ready": False
+            "ready": False,
         }
 
         # Determine if ready for migration
         report["ready"] = (
-            len(report["illegal_imports"]) == 0 and
-            report["test_count"] > 0
+            len(report["illegal_imports"]) == 0 and report["test_count"] > 0
         )
 
         return report

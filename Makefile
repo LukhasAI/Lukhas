@@ -43,6 +43,7 @@ help:
 	@echo "  ci-local     - Run full CI pipeline locally"
 	@echo "  monitor      - Generate code quality report"
 	@echo "  audit        - Run gold-standard audit suite"
+	@echo "  promote      - Promote a module candidate → lukhas"
 	@echo ""
 	@echo "Maintenance:"
 	@echo "  clean        - Clean cache and temp files"
@@ -144,6 +145,8 @@ lint:
 	-mypy . --ignore-missing-imports
 	@echo "\nRunning Bandit (security)..."
 	-bandit -r lukhas bridge core serve -ll
+	@echo "\nChecking for fragile import patterns (sys.path hacks, star imports)..."
+	-python3 tools/ci/no_syspath_hacks.py lukhas matriz || true
 
 # Format code
 format:
@@ -239,6 +242,14 @@ ci-local:
 monitor:
 	@echo "📊 Generating code quality report..."
 	@python tools/scripts/quality_dashboard.py
+
+# Promotion helper (candidate → lukhas)
+promote:
+	@if [ -z "$(SRC)" ] || [ -z "$(DST)" ]; then \
+		echo "Usage: make promote SRC=candidate/core/<mod> DST=lukhas/core/<mod> [SHIM=candidate->lukhas]"; \
+		exit 2; \
+	fi
+	@python3 tools/scripts/promote_module.py --src $(SRC) --dst $(DST) $(if $(SHIM),--shim-direction $(SHIM),)
 
 # Performance smoke (k6)
 perf:

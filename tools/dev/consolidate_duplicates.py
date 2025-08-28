@@ -55,7 +55,7 @@ class MassiveConsolidator:
             elif any(x in path for x in ["visual", "dashboard", "streamlit", "ui"]):
                 groups["visualization"].append(file)
             else:
-                groups["core_engine"].append(file)  # Default to core
+                groups["core_engine"].append(file# Default to core
 
         consolidation_count = 0
 
@@ -237,7 +237,7 @@ class Consolidated{group_name.replace('_', '').title()}:
             elif any(x in path for x in ["communication", "bridge", "message"]):
                 engine_groups["communication_engine"].append(file)
             else:
-                engine_groups["consciousness_engine"].append(file)  # Default
+                engine_groups["consciousness_engine"].append(file# Default
 
         consolidation_count = 0
         engines_dir = self.root_path / "engines"

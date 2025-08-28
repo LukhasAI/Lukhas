@@ -22,17 +22,17 @@ def analyze_cleanup_candidates():
     # Categorize files
     categories = {
         "agent_workspaces": [],  # CLAUDE_ARMY workspaces
-        "nias_theory": [],       # Theoretical/experimental NIAS code
-        "test_files": [],        # Test files not in tests/ directory
-        "examples": [],          # Example and demo files
-        "duplicate_apis": [],    # Duplicate API implementations
+        "nias_theory": [],  # Theoretical/experimental NIAS code
+        "test_files": [],  # Test files not in tests/ directory
+        "examples": [],  # Example and demo files
+        "duplicate_apis": [],  # Duplicate API implementations
         "archive_candidates": [],  # Old implementations to archive
-        "bio_variants": [],      # Bio module variants
-        "memory_variants": [],   # Memory module variants
-        "bridge_legacy": [],     # Legacy bridge implementations
-        "consciousness_old": [], # Old consciousness implementations
+        "bio_variants": [],  # Bio module variants
+        "memory_variants": [],  # Memory module variants
+        "bridge_legacy": [],  # Legacy bridge implementations
+        "consciousness_old": [],  # Old consciousness implementations
         "keep_for_reference": [],  # Keep for documentation/reference
-        "safe_to_delete": []     # Truly unused and safe to delete
+        "safe_to_delete": [],  # Truly unused and safe to delete
     }
 
     for file in never_imported:
@@ -49,26 +49,40 @@ def analyze_cleanup_candidates():
             categories["examples"].append(file)
         elif file.startswith("api/") and "_api.py" in file:
             categories["duplicate_apis"].append(file)
-        elif "bio/" in file and ("variant" in file or "legacy" in file or "old" in file):
+        elif "bio/" in file and (
+            "variant" in file or "legacy" in file or "old" in file
+        ):
             categories["bio_variants"].append(file)
-        elif "memory/" in file and ("variant" in file or "legacy" in file or "old" in file):
+        elif "memory/" in file and (
+            "variant" in file or "legacy" in file or "old" in file
+        ):
             categories["memory_variants"].append(file)
         elif "bridge/" in file and ("legacy" in file or "api_legacy" in file):
             categories["bridge_legacy"].append(file)
         elif "consciousness/" in file and ("old" in file or "legacy" in file):
             categories["consciousness_old"].append(file)
-        elif any(keep in file for keep in ["README", "INFO", "MANIFEST", "LICENSE", "__pycache__"]):
+        elif any(
+            keep in file
+            for keep in ["README", "INFO", "MANIFEST", "LICENSE", "__pycache__"]
+        ):
             continue  # Skip these
         elif file.endswith("__init__.py"):
             continue  # Keep __init__ files
         else:
             # Check if it's a variant or duplicate
-            if "_old" in file or "_backup" in file or "_copy" in file or "deprecated" in file or "obsolete" in file:
+            if (
+                "_old" in file
+                or "_backup" in file
+                or "_copy" in file
+                or "deprecated" in file
+                or "obsolete" in file
+            ):
                 categories["archive_candidates"].append(file)
             else:
                 categories["safe_to_delete"].append(file)
 
     return categories
+
 
 def generate_cleanup_script(categories: dict[str, list[str]]):
     """Generate shell script to perform cleanup"""
@@ -95,7 +109,9 @@ echo "📦 Archiving agent workspaces..."
 mkdir -p "$ARCHIVE_DIR/agent_workspaces"
 """
         for file in categories["agent_workspaces"][:20]:  # First 20
-            script += f'mv "{file}" "$ARCHIVE_DIR/agent_workspaces/" 2>/dev/null || true\n'
+            script += (
+                f'mv "{file}" "$ARCHIVE_DIR/agent_workspaces/" 2>/dev/null || true\n'
+            )
 
     # Archive NIAS theory files
     if categories["nias_theory"]:
@@ -115,7 +131,9 @@ echo "🔄 Archiving duplicate APIs..."
 mkdir -p "$ARCHIVE_DIR/duplicate_apis"
 """
         for file in categories["duplicate_apis"][:10]:
-            script += f'mv "{file}" "$ARCHIVE_DIR/duplicate_apis/" 2>/dev/null || true\n'
+            script += (
+                f'mv "{file}" "$ARCHIVE_DIR/duplicate_apis/" 2>/dev/null || true\n'
+            )
 
     # Archive old variants
     if categories["archive_candidates"]:
@@ -125,7 +143,9 @@ echo "📚 Archiving old implementations..."
 mkdir -p "$ARCHIVE_DIR/old_implementations"
 """
         for file in categories["archive_candidates"][:30]:
-            script += f'mv "{file}" "$ARCHIVE_DIR/old_implementations/" 2>/dev/null || true\n'
+            script += (
+                f'mv "{file}" "$ARCHIVE_DIR/old_implementations/" 2>/dev/null || true\n'
+            )
 
     script += """
 echo "✅ Cleanup complete!"
@@ -134,6 +154,7 @@ echo "💾 Run 'git status' to see changes"
 """
 
     return script
+
 
 def main():
     print("🔍 Analyzing cleanup candidates...")
@@ -173,6 +194,7 @@ def main():
                 total_size += Path(file).stat().st_size
 
     print(f"\n💾 Estimated space savings: {total_size / 1024 / 1024:.1f} MB")
+
 
 if __name__ == "__main__":
     main()

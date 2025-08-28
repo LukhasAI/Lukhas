@@ -335,14 +335,14 @@ async def admin_endpoint(
 
 
 @app.get("/protected/custom", tags=["Custom-Protection"])
-@require_tier("T3")  # Decorator approach
+@require_tier("T3"# Decorator approach
 async def custom_tier_endpoint(user: AuthContext = Depends(get_current_user)):
     """Example using @require_tier decorator."""
     return {"message": "Custom tier protection applied", "user_tier": user.tier}
 
 
 @app.get("/protected/permission", tags=["Permission-Protection"])
-@require_permission("can_use_consciousness")  # Permission-based protection
+@require_permission("can_use_consciousness"# Permission-based protection
 async def permission_based_endpoint(user: AuthContext = Depends(get_current_user)):
     """Example using @require_permission decorator."""
     return {

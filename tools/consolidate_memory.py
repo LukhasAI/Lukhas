@@ -440,7 +440,7 @@ class MemoryConsolidator:
         task = ConsolidationTask(
             source_memories=memory_ids,
             consolidation_type=consolidation_type,
-            scheduled_at=datetime.now() + timedelta(hours=1)  # Delay for stability
+            scheduled_at=datetime.now() + timedelta(hours=1# Delay for stability
         )
 
         self.pending_tasks.append(task)
@@ -925,11 +925,13 @@ if __name__ == "__main__":
 
         # Archive original files
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT DISTINCT file_path
             FROM duplicates
             WHERE module_type = 'memory'
-        """)
+        """
+        )
 
         archived = 0
         for row in cursor.fetchall():

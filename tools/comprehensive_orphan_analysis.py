@@ -470,9 +470,9 @@ class ComprehensiveOrphanAnalyzer:
         for file, importers in imported_by.items():
             import_counts[file] = len(importers)
 
-        most_imported = sorted(
-            import_counts.items(), key=lambda x: x[1], reverse=True
-        )[:20]
+        most_imported = sorted(import_counts.items(), key=lambda x: x[1], reverse=True)[
+            :20
+        ]
 
         # Calculate statistics
         total_files = len(self.all_python_files)
