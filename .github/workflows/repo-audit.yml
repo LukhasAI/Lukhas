@@ -1,0 +1,51 @@
+name: Repository Audit
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff mypy
+
+      - name: Syntax compile (compileall)
+        run: |
+          python - <<'PY'
+          import compileall
+          ok = compileall.compile_dir('.', maxlevels=20, quiet=1)
+          print('COMPILEALL_OK=', bool(ok))
+          PY
+
+      - name: Ruff lint (report)
+        run: |
+          mkdir -p reports/audit
+          ruff check . | tee reports/audit/ruff.txt || true
+
+      - name: MyPy (lenient)
+        run: |
+          mypy . --ignore-missing-imports --no-error-summary | tee reports/audit/mypy.txt || true
+
+      - name: Static import audit (local packages)
+        run: |
+          python tools/ci/static_import_audit.py --out reports/audit/static_imports.json || true
+
+      - name: Upload audit artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-audit
+          path: reports/audit
+
