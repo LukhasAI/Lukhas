@@ -5,6 +5,9 @@ from typing import Optional
 
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+from enterprise.observability.instantiate import obs_stack
 
 try:
     from config.env import get as env_get
@@ -63,6 +66,10 @@ app.include_router(router)
 app.include_router(openai_router)
 app.include_router(feedback_router)
 app.include_router(traces_router)
+
+# Instrument FastAPI app with OpenTelemetry
+if obs_stack.opentelemetry_enabled:
+    FastAPIInstrumentor.instrument_app(app)
 
 
 # Health check endpoint

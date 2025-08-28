@@ -5,6 +5,7 @@ import logging
 from fastapi import APIRouter, HTTPException
 
 from config.config import TIER_PERMISSIONS
+from enterprise.observability.instantiate import obs_stack
 
 from .schemas import (
     DreamRequest,
@@ -124,6 +125,7 @@ def compute_affect_delta(symbols: list[str]) -> float:
 
 
 @router.post("/generate-dream/", response_model=DreamResponse)
+@obs_stack.trace(name="generate_dream_endpoint")
 async def generate_dream(req: DreamRequest) -> DreamResponse:
     """Generate a symbolic dream"""
     drift_score = compute_drift_score(req.symbols)
@@ -177,6 +179,7 @@ async def generate_dream(req: DreamRequest) -> DreamResponse:
 
 
 @router.post("/glyph-feedback/", response_model=GlyphFeedbackResponse)
+@obs_stack.trace(name="glyph_feedback_endpoint")
 async def glyph_feedback(req: GlyphFeedbackRequest) -> GlyphFeedbackResponse:
     """Provide glyph adjustment suggestions"""
     # ΛTAG: driftScore

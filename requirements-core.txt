@@ -1,0 +1,30 @@
+# Core dependencies for running the LUKHAS API server for verification.
+# This file excludes heavy ML/data science packages to speed up installation.
+
+# FastAPI stack
+fastapi
+uvicorn
+starlette
+
+# Monitoring
+prometheus-client
+structlog
+datadog
+opentelemetry-sdk
+opentelemetry-api
+opentelemetry-instrumentation-fastapi
+
+# AI APIs
+openai
+anthropic
+
+# Async
+aiohttp
+aiofiles
+
+# Essential utils
+pyyaml
+python-dotenv
+click
+psutil
+flask
