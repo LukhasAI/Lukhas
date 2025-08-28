@@ -16,17 +16,27 @@ from pydantic import BaseModel
 
 # Import the orchestration components
 try:
-    from candidate.bridge.orchestration import (
-        MultiAIOrchestrator,
-        OrchestrationRequest,
-        TaskType,
-        AIProvider
-    )
-    from candidate.bridge.api_gateway import UnifiedAPIGateway
+    from candidate.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
+    from candidate.bridge.orchestration.consensus_engine import ConsensusEngine
+    from candidate.bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
     ORCHESTRATION_AVAILABLE = True
 except ImportError as e:
     logging.warning("Orchestration components not available: %s", e)
     ORCHESTRATION_AVAILABLE = False
+    
+    # Create stub classes for graceful degradation
+    class MultiAIOrchestrator:
+        def __init__(self, **kwargs):
+            self.providers = []
+        
+        async def execute_consensus(self, prompt: str, **kwargs):
+            return {
+                "response": "Multi-AI orchestration not configured",
+                "confidence": 0.5,
+                "providers": [],
+                "latency_ms": 0,
+                "consensus_method": "unavailable"
+            }
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/orchestration", tags=["Multi-AI Orchestration"])

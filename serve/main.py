@@ -5,7 +5,17 @@ from typing import Optional
 
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+try:
+    from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+    OPENTELEMETRY_AVAILABLE = True
+except ImportError:
+    OPENTELEMETRY_AVAILABLE = False
+    class MockInstrumentor:
+        @staticmethod
+        def instrument_app(app):
+            pass
+    FastAPIInstrumentor = MockInstrumentor
 
 from enterprise.observability.instantiate import obs_stack
 
@@ -70,7 +80,7 @@ app.include_router(traces_router)
 app.include_router(orchestration_router)
 
 # Instrument FastAPI app with OpenTelemetry
-if obs_stack.opentelemetry_enabled:
+if OPENTELEMETRY_AVAILABLE and obs_stack.opentelemetry_enabled:
     FastAPIInstrumentor.instrument_app(app)
 
 
