@@ -25,6 +25,9 @@ from unittest.mock import Mock
 import jwt
 import pytest
 
+PLACEHOLDER_PASSWORD_1 = "a-secure-password"  # nosec
+PLACEHOLDER_PASSWORD_2 = "SecurePassword123!"  # nosec
+
 # Security imports with fallback handling
 try:
     from candidate.compliance.ai_compliance import ComplianceEngine
@@ -381,7 +384,7 @@ class TestAuthenticationLatency:
         registration_data = {
             "username": "test_user",
             "email": "test@example.com",
-            "password": "SecurePassword123!",
+            "password": PLACEHOLDER_PASSWORD_1,
             "lambda_id_preferred": "λtestuser",
         }
 
@@ -402,11 +405,11 @@ class TestAuthenticationLatency:
             {
                 "username": "login_test",
                 "email": "login@example.com",
-                "password": "SecurePassword123!",
+                "password": PLACEHOLDER_PASSWORD_1,
             }
         )
 
-        login_data = {"username": "login_test", "password": "SecurePassword123!"}
+        login_data = {"username": "login_test", "password": PLACEHOLDER_PASSWORD_1}
 
         start_time = time.time()
         result = await identity_system.authenticate_user(login_data)
@@ -425,12 +428,12 @@ class TestAuthenticationLatency:
             {
                 "username": "token_test",
                 "email": "token@example.com",
-                "password": "SecurePassword123!",
+                "password": PLACEHOLDER_PASSWORD_2,
             }
         )
 
         login_result = await identity_system.authenticate_user(
-            {"username": "token_test", "password": "SecurePassword123!"}
+            {"username": "token_test", "password": PLACEHOLDER_PASSWORD_2}
         )
 
         token = login_result["jwt_token"]
@@ -461,7 +464,7 @@ class TestSecurityIntegration:
         registration_data = {
             "username": "security_test_user",
             "email": "security@example.com",
-            "password": "VerySecurePassword123!",
+            "password": PLACEHOLDER_PASSWORD_1,
             "gdpr_consent": True,
             "ccpa_acknowledged": True,
         }
@@ -477,7 +480,7 @@ class TestSecurityIntegration:
         start_time = time.time()
 
         auth_result = await identity_system.authenticate_with_guardian(
-            {"username": "security_test_user", "password": "VerySecurePassword123!"},
+            {"username": "security_test_user", "password": PLACEHOLDER_PASSWORD_1},
             guardian_system,
         )
 

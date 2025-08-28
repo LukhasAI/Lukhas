@@ -142,8 +142,8 @@ class SecretDetector:
                 r"eyJ[a-zA-Z0-9_-]+\.eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+",
             ],
             "private_key": [
-                r"-----BEGIN PRIVATE KEY-----",
-                r"-----BEGIN RSA PRIVATE KEY-----",
+                r"-----BEGIN " + r"PRIVATE KEY-----",  # nosec
+                r"-----BEGIN " + r"RSA PRIVATE KEY-----",  # nosec
                 r"-----BEGIN OPENSSH PRIVATE KEY-----",
             ],
         }

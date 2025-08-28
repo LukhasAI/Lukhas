@@ -55,7 +55,7 @@ class SecretType(str, Enum):
     """Types of secrets to detect"""
 
     API_KEY = "api_key"
-    PASSWORD = "password"
+    PASSWORD = "password"  # nosec B105
     TOKEN = "token"
     PRIVATE_KEY = "private_key"
     CONNECTION_STRING = "connection_string"

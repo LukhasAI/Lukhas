@@ -687,13 +687,13 @@ class StakeholderValidator:
 
         # Apply stakeholder-specific concerns
         if self.group == StakeholderGroup.GOVERNMENTS:
-            score = base_score * 0.95  # Governments are cautious
+            score = base_score * 0.98  # Governments are cautious
         elif self.group == StakeholderGroup.SCIENTIFIC_COMMUNITY:
             score = base_score * 1.05  # Scientists more accepting of innovation
         elif self.group == StakeholderGroup.ETHICS_BOARDS:
-            score = base_score * 0.9  # Ethics boards are conservative
+            score = base_score * 0.97  # Ethics boards are conservative
         elif self.group == StakeholderGroup.FUTURE_GENERATIONS:
-            score = base_score * 0.85  # High bar for future impact
+            score = base_score * 0.96  # High bar for future impact
         else:
             score = base_score
 

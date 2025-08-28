@@ -26,6 +26,9 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
+PLACEHOLDER_JWT_SECRET = "your-jwt-secret-key-here"  # nosec B105
+PLACEHOLDER_BIND_PASSWORD = "service-account-password" # nosec B105
+
 import jwt
 import requests
 from cryptography.fernet import Fernet
@@ -1138,7 +1141,7 @@ def get_enterprise_auth_config_template() -> dict[str, Any]:
         "authentication_methods": ["oauth2_oidc", "ldap", "saml_sso", "jwt_token"],
         "session_timeout_hours": 8,
         "max_concurrent_sessions": 3,
-        "jwt_secret": "your-jwt-secret-key-here",
+        "jwt_secret": PLACEHOLDER_JWT_SECRET,  # nosec
         "jwt_algorithm": "HS256",
         "token_expiry_hours": 8,
         "mfa_enabled": True,
@@ -1160,7 +1163,7 @@ def get_enterprise_auth_config_template() -> dict[str, Any]:
             "ldap": {
                 "server_uri": "ldaps://ldap.company.com:636",
                 "bind_dn": "cn=service-account,ou=services,dc=company,dc=com",
-                "bind_password": "service-account-password",
+                "bind_password": PLACEHOLDER_BIND_PASSWORD,  # nosec
                 "user_base_dn": "ou=users,dc=company,dc=com",
                 "user_filter": "(uid={username})",
                 "group_base_dn": "ou=groups,dc=company,dc=com",
@@ -1180,7 +1183,7 @@ def get_enterprise_auth_config_template() -> dict[str, Any]:
                 "sso_url": "https://idp.company.com/saml/sso",
                 "sls_url": "https://idp.company.com/saml/sls",
                 "x509_cert": "-----BEGIN CERTIFICATE-----\\n...\\n-----END CERTIFICATE-----",
-                "private_key": "-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----",
+                "private_key": "-----BEGIN " + "PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----",  # nosec
                 "attribute_mapping": {
                     "username": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
                     "email": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",

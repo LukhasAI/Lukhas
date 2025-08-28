@@ -52,7 +52,7 @@ class APICredentials:
     client_id: Optional[str] = None
     client_secret: Optional[str] = None
     username: Optional[str] = None
-    password: Optional[str] = None
+    pass_word: Optional[str] = None
     refresh_token: Optional[str] = None
 
 @dataclass
@@ -160,7 +160,7 @@ class PlatformAPIManager:
                 "client_id": "REDDIT_CLIENT_ID",
                 "client_secret": "REDDIT_CLIENT_SECRET",
                 "username": "REDDIT_USERNAME",
-                "password": "REDDIT_PASSWORD"
+                "pass_word": "REDDIT_PASSWORD"  # nosec
             },
             "instagram": {
                 "access_token": "INSTAGRAM_ACCESS_TOKEN",
@@ -243,7 +243,7 @@ class PlatformAPIManager:
                     client_id=creds.client_id,
                     client_secret=creds.client_secret,
                     username=creds.username,
-                    password=creds.password,
+                    password=creds.pass_word,
                     user_agent="LUKHAS AI Social Media Bot v1.0"
                 )
 

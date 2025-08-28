@@ -18,7 +18,7 @@ import os
 
 
 class ComplianceMonitor:
-    def __init__(self, drift_thresholds=None, log_dir="lucas_governance/logs"):
+    def __init__(self, drift_thresholds=None, log_dir="lucas_governance/logs", moving_average_window=20):
         self.drift_score = 0.0
         self.drift_thresholds = drift_thresholds or {
             "default": {"recalibrate": 0.3, "escalate": 0.6},
@@ -31,12 +31,23 @@ class ComplianceMonitor:
 
         self.csv_log = os.path.join(self.log_dir, "compliance_drift_logs.csv")
         self.json_log = os.path.join(self.log_dir, "compliance_drift_events.json")
+        self.compliance_history = []
+        self.moving_average_window = moving_average_window
 
     def evaluate_decision(
         self, decision_id, compliance_score, subsystem="default", lucas_id="LUCID-000"
     ):
-        drift_increment = max(0, 1.0 - compliance_score)
-        self.drift_score += drift_increment * 0.1  # Weighted accumulation
+        drift_increment = 0.0
+        if self.compliance_history:
+            moving_average = sum(self.compliance_history) / len(self.compliance_history)
+            deviation = moving_average - compliance_score
+            drift_increment = max(0, deviation)
+            self.drift_score += drift_increment * 0.5  # Weighted accumulation, increased weight
+
+        # Update compliance history
+        self.compliance_history.append(compliance_score)
+        if len(self.compliance_history) > self.moving_average_window:
+            self.compliance_history.pop(0)
 
         thresholds = self.drift_thresholds.get(
             subsystem, self.drift_thresholds["default"]

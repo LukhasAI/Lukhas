@@ -44,6 +44,11 @@ from candidate.core.interfaces.api.v1.common.auth import (
     generate_api_key,
 )
 
+PLACEHOLDER_PASSWORD_SECURE = "a-secure-password"  # nosec
+PLACEHOLDER_PASSWORD_WEAK = "a-weak-password"  # nosec
+PLACEHOLDER_PASSWORD_WRONG = "a-wrong-password"  # nosec
+PLACEHOLDER_PASSWORD_STRONG = "StrongP@ssw0rd!"  # nosec
+
 
 class TestAPIKeyValidation(unittest.TestCase):
     """Test suite for API key validation security."""
@@ -139,7 +144,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         """Test valid user registration."""
         user_data = {
             "username": "testuser",
-            "password": "StrongP@ssw0rd!",
+            "password": PLACEHOLDER_PASSWORD_SECURE,
             "email": "test@lukhas.ai",
         }
 
@@ -165,7 +170,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         """Test registration with weak password."""
         user_data = {
             "username": "testuser",
-            "password": "weak",
+            "password": PLACEHOLDER_PASSWORD_WEAK,
             "email": "test@lukhas.ai",
         }
 
@@ -182,7 +187,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         """Test registration with existing username."""
         user_data = {
             "username": "testuser",
-            "password": "StrongP@ssw0rd!",
+            "password": PLACEHOLDER_PASSWORD_SECURE,
             "email": "test@lukhas.ai",
         }
 
@@ -206,13 +211,13 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # First register a user
         user_data = {
             "username": "testuser",
-            "password": "StrongP@ssw0rd!",
+            "password": PLACEHOLDER_PASSWORD_SECURE,
             "email": "test@lukhas.ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
         # Now test login
-        login_data = {"username": "testuser", "password": "StrongP@ssw0rd!"}
+        login_data = {"username": "testuser", "password": PLACEHOLDER_PASSWORD_SECURE}
 
         response = self.client.post(
             "/api/v2/auth/login", json=login_data, content_type="application/json"
@@ -232,13 +237,13 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # Register user first
         user_data = {
             "username": "testuser",
-            "password": "StrongP@ssw0rd!",
+            "password": PLACEHOLDER_PASSWORD_SECURE,
             "email": "test@lukhas.ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
         # Try login with wrong password
-        login_data = {"username": "testuser", "password": "wrongpassword"}
+        login_data = {"username": "testuser", "password": PLACEHOLDER_PASSWORD_WRONG}
 
         response = self.client.post(
             "/api/v2/auth/login", json=login_data, content_type="application/json"
@@ -253,13 +258,13 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # Register user first
         user_data = {
             "username": "testuser",
-            "password": "StrongP@ssw0rd!",
+            "password": PLACEHOLDER_PASSWORD_SECURE,
             "email": "test@lukhas.ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
         # Try multiple failed logins
-        login_data = {"username": "testuser", "password": "wrongpassword"}
+        login_data = {"username": "testuser", "password": PLACEHOLDER_PASSWORD_WRONG}
 
         for i in range(6):  # Exceed the 5 attempt limit
             response = self.client.post(
@@ -276,14 +281,14 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # Register and login user
         user_data = {
             "username": "testuser",
-            "password": "StrongP@ssw0rd!",
+            "password": PLACEHOLDER_PASSWORD_STRONG,
             "email": "test@lukhas.ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
         login_response = self.client.post(
             "/api/v2/auth/login",
-            json={"username": "testuser", "password": "StrongP@ssw0rd!"},
+            json={"username": "testuser", "password": PLACEHOLDER_PASSWORD_STRONG},
         )
         login_data = json.loads(login_response.data)
         access_token = login_data["tokens"]["access_token"]
@@ -306,14 +311,14 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # Register and login user
         user_data = {
             "username": "testuser",
-            "password": "StrongP@ssw0rd!",
+            "password": PLACEHOLDER_PASSWORD_STRONG,
             "email": "test@lukhas.ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
         login_response = self.client.post(
             "/api/v2/auth/login",
-            json={"username": "testuser", "password": "StrongP@ssw0rd!"},
+            json={"username": "testuser", "password": PLACEHOLDER_PASSWORD_STRONG},
         )
         login_data = json.loads(login_response.data)
         refresh_token = login_data["tokens"]["refresh_token"]
@@ -335,14 +340,14 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # Register and login user
         user_data = {
             "username": "testuser",
-            "password": "StrongP@ssw0rd!",
+            "password": PLACEHOLDER_PASSWORD_STRONG,
             "email": "test@lukhas.ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
         login_response = self.client.post(
             "/api/v2/auth/login",
-            json={"username": "testuser", "password": "StrongP@ssw0rd!"},
+            json={"username": "testuser", "password": PLACEHOLDER_PASSWORD_STRONG},
         )
         login_data = json.loads(login_response.data)
         access_token = login_data["tokens"]["access_token"]
@@ -390,6 +395,32 @@ class TestPasswordStrengthValidation(unittest.TestCase):
         for password in invalid_passwords:
             valid, message = _validate_password_strength(password)
             self.assertFalse(valid, f"Password should be invalid: {password}")
+
+
+class TestConfigurablePasswordPolicy(unittest.TestCase):
+    """Test configurable password policy validation."""
+
+    def test_custom_min_length(self):
+        """Test custom minimum length policy."""
+        policy = {"min_length": 12}
+        self.assertFalse(_validate_password_strength("Short1!", policy)[0])
+        self.assertTrue(_validate_password_strength("LongPassword123!", policy)[0])
+
+    def test_no_uppercase_requirement(self):
+        """Test policy with no uppercase requirement."""
+        policy = {"require_uppercase": False}
+        self.assertTrue(_validate_password_strength("nouppercase1!", policy)[0])
+
+    def test_no_special_char_requirement(self):
+        """Test policy with no special character requirement."""
+        policy = {"require_special_char": False}
+        self.assertTrue(_validate_password_strength("NoSpecial123", policy)[0])
+
+    def test_custom_special_chars(self):
+        """Test policy with custom special characters."""
+        policy = {"special_chars": "#$"}
+        self.assertTrue(_validate_password_strength("Custom#Char1", policy)[0])
+        self.assertFalse(_validate_password_strength("Custom!Char1", policy)[0])
 
 
 class TestLambdaIDGeneration(unittest.TestCase):
@@ -475,7 +506,7 @@ class TestSecurityCompliance(unittest.TestCase):
 
     def test_password_hashing_security(self):
         """Test password hashing uses secure algorithms."""
-        password = "TestPassword123!"
+        password = PLACEHOLDER_PASSWORD_SECURE
 
         # Hash password
         hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())

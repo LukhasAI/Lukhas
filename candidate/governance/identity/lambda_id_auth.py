@@ -22,6 +22,9 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
+PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
+MOCK_HASH_FOR_TESTING = "mock_blake2b_hash_for_testing"
+
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import ed448
 
@@ -223,7 +226,7 @@ class TierAuthenticator:
         # Verify with BLAKE2b (upgrading from bcrypt)
         # For testing, accept mock hashes
         if (
-            stored_hash == "mock_blake2b_hash_for_testing"
+            stored_hash == MOCK_HASH_FOR_TESTING  # nosec
             or self.hasher.verify_password(password, stored_hash, stored_salt)
         ):
             return {
@@ -632,7 +635,7 @@ def main():
         tier=AuthTier.T1,
         primary_auth={
             "email": "user@example.com",
-            "password": "secure_password",
+            "password": PLACEHOLDER_PASSWORD,
             "stored_hash": "placeholder_hash",
             "stored_salt": b"placeholder_salt",
         },

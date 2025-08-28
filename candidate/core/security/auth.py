@@ -171,7 +171,7 @@ from collections import defaultdict
 class AuthMethod(Enum):
     """Authentication methods"""
 
-    PASSWORD = "password"
+    PASSWORD = "password"  # nosec B105
     TOTP = "totp"
     SMS = "sms"
     EMAIL = "email"

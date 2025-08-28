@@ -33,6 +33,8 @@ from unittest.mock import AsyncMock, Mock
 import psutil
 import pytest
 
+PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
+
 # Performance testing imports with fallback handling
 try:
     from candidate.governance.guardian_system import GuardianSystem
@@ -202,7 +204,7 @@ class TestAuthenticationPerformance:
     def identity_system(self, monkeypatch):
         """Create identity system for performance testing"""
         # Use monkeypatch to set test environment variables
-        test_jwt_secret = "test_secret_key_for_performance_testing"
+        test_jwt_secret = "not-a-real-secret"
         monkeypatch.setenv("JWT_SECRET", test_jwt_secret)
         monkeypatch.setenv("DATABASE_URL", "sqlite:///:memory:")
 
@@ -225,7 +227,7 @@ class TestAuthenticationPerformance:
                 {
                     "username": f"perftest_user_{user_id}",
                     "email": f"perftest_{user_id}@example.com",
-                    "password": "TestPassword123!",
+                    "password": PLACEHOLDER_PASSWORD,
                 }
             )
 
@@ -259,13 +261,13 @@ class TestAuthenticationPerformance:
             {
                 "username": "auth_perf_user",
                 "email": "authperf@example.com",
-                "password": "AuthPerfPassword123!",
+                "password": PLACEHOLDER_PASSWORD,
             }
         )
 
         async def authenticate_user():
             return await identity_system.authenticate_user(
-                {"username": "auth_perf_user", "password": "AuthPerfPassword123!"}
+                {"username": "auth_perf_user", "password": PLACEHOLDER_PASSWORD}
             )
 
         # Benchmark authentication performance
@@ -301,7 +303,7 @@ class TestAuthenticationPerformance:
                 {
                     "username": f"concurrent_user_{i}",
                     "email": f"concurrent_{i}@example.com",
-                    "password": "ConcurrentPassword123!",
+                    "password": PLACEHOLDER_PASSWORD,
                 }
             )
 
@@ -312,7 +314,7 @@ class TestAuthenticationPerformance:
             return await identity_system.authenticate_user(
                 {
                     "username": f"concurrent_user_{user_id}",
-                    "password": "ConcurrentPassword123!",
+                    "password": PLACEHOLDER_PASSWORD,
                 }
             )
 
@@ -809,7 +811,10 @@ class TestPerformanceReporting:
         }
 
         # Save performance report
-        report_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/test_results/performance_benchmark_report.json"
+        # Ensure the directory exists
+        report_dir = "test_results"
+        os.makedirs(report_dir, exist_ok=True)
+        report_path = os.path.join(report_dir, "performance_benchmark_report.json")
         with open(report_path, "w") as f:
             json.dump(performance_report, f, indent=2)
 

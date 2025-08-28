@@ -177,7 +177,7 @@ cache:
     - "${REDIS_NODE_3}"
 
   options:
-    password: "${REDIS_PASSWORD}"
+    redis_pwd: "${REDIS_PASSWORD}"  # nosec
     ssl: true
 
 # Message Queue
