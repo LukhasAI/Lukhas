@@ -11,6 +11,8 @@ CREATE EXTENSION IF NOT EXISTS "btree_gin"; -- For efficient JSON indexing
 DROP TABLE IF EXISTS consent.audit_log CASCADE;
 DROP TABLE IF EXISTS consent.capability_tokens CASCADE;
 DROP TABLE IF EXISTS consent.consent_grants CASCADE;
+DROP TABLE IF EXISTS consent.purposes CASCADE;
+DROP TABLE IF EXISTS consent.data_categories CASCADE;
 DROP TABLE IF EXISTS consent.resources CASCADE;
 DROP TABLE IF EXISTS consent.scopes CASCADE;
 DROP TABLE IF EXISTS consent.services CASCADE;
@@ -22,15 +24,11 @@ CREATE SCHEMA IF NOT EXISTS consent;
 -- Services table: external services that can receive capabilities
 CREATE TABLE consent.services (
     service_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    service_name VARCHAR(100) NOT NULL UNIQUE,  -- e.g. 'gmail', 'drive', 'dropbox'
+    service_name VARCHAR(100) NOT NULL UNIQUE,
     service_url VARCHAR(500),
     description TEXT,
-
-    -- Service capabilities and trust level
     max_scope_level VARCHAR(20) DEFAULT 'metadata' CHECK (max_scope_level IN ('metadata', 'content', 'admin')),
     trusted BOOLEAN DEFAULT FALSE,
-
-    -- System fields
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW(),
     created_by VARCHAR(100)
@@ -40,83 +38,82 @@ CREATE TABLE consent.services (
 CREATE TABLE consent.scopes (
     scope_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     service_id UUID NOT NULL REFERENCES consent.services(service_id) ON DELETE CASCADE,
-
-    -- Hierarchical scope definition
-    scope_name VARCHAR(100) NOT NULL,           -- e.g. 'email.read', 'files.list', 'files.move'
+    scope_name VARCHAR(100) NOT NULL,
     scope_level VARCHAR(20) NOT NULL DEFAULT 'metadata' CHECK (scope_level IN ('metadata', 'content', 'admin')),
     parent_scope_id UUID REFERENCES consent.scopes(scope_id),
-
-    -- Description and examples
     description TEXT,
-    example_resources TEXT[],                   -- Example resource patterns
-
-    -- Default behavior
-    default_ttl_minutes INTEGER DEFAULT 60,    -- Default capability TTL
-    requires_elevation BOOLEAN DEFAULT FALSE,  -- Requires explicit user consent
-
-    -- System fields
+    example_resources TEXT[],
+    default_ttl_minutes INTEGER DEFAULT 60,
+    requires_elevation BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT NOW(),
-
     CONSTRAINT scopes_service_name_unique UNIQUE (service_id, scope_name)
+);
+
+-- Data Categories table
+CREATE TABLE consent.data_categories (
+    category_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT
+);
+
+-- Purposes table
+CREATE TABLE consent.purposes (
+    purpose_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    data_categories_allowed UUID[],
+    retention_period_days INTEGER,
+    legal_basis VARCHAR(50),
+    required BOOLEAN DEFAULT FALSE,
+    protection_policy_id UUID
 );
 
 -- Resources table: specific resources that can be accessed
 CREATE TABLE consent.resources (
     resource_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     service_id UUID NOT NULL REFERENCES consent.services(service_id) ON DELETE CASCADE,
-
-    -- Resource identification
-    resource_type VARCHAR(50) NOT NULL,        -- e.g. 'email_thread', 'file', 'folder'
-    resource_identifier VARCHAR(500) NOT NULL, -- e.g. email thread ID, file path
-    resource_hash VARCHAR(64),                 -- Hash for privacy (optional)
-
-    -- Metadata (for metadata-only access)
-    metadata JSONB DEFAULT '{}'::jsonb,        -- Headers, size, modified date, etc.
-
-    -- Access patterns
-    owner_lid VARCHAR(100),                    -- Canonical ΛID of resource owner
+    resource_type VARCHAR(50) NOT NULL,
+    resource_identifier VARCHAR(500) NOT NULL,
+    resource_hash VARCHAR(64),
+    metadata JSONB DEFAULT '{}'::jsonb,
+    owner_lid VARCHAR(100),
     sensitivity VARCHAR(20) DEFAULT 'normal' CHECK (sensitivity IN ('public', 'normal', 'sensitive', 'restricted')),
-
-    -- System fields
     created_at TIMESTAMPTZ DEFAULT NOW(),
     last_accessed_at TIMESTAMPTZ,
-
     CONSTRAINT resources_service_identifier_unique UNIQUE (service_id, resource_identifier)
 );
 
 -- Consent grants: user consent records for service access
 CREATE TABLE consent.consent_grants (
     grant_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-
-    -- Who granted consent
-    user_lid VARCHAR(100) NOT NULL,            -- Canonical ΛID from identity.users
-
-    -- What was granted
+    user_lid VARCHAR(100) NOT NULL,
     service_id UUID NOT NULL REFERENCES consent.services(service_id) ON DELETE CASCADE,
-    scope_ids UUID[] NOT NULL,                 -- Array of scope IDs granted
-    resource_pattern VARCHAR(500),             -- Resource filter pattern (e.g. "emails/*", "files/Documents/*")
-
-    -- Purpose and context
-    purpose TEXT NOT NULL,                     -- Human-readable purpose (required)
-    client_context JSONB DEFAULT '{}'::jsonb, -- Client app, session, etc.
-
-    -- Timing and lifecycle
+    scope_ids UUID[] NOT NULL,
+    purpose_id UUID NOT NULL REFERENCES consent.purposes(purpose_id),
+    resource_pattern VARCHAR(500),
+    client_context JSONB DEFAULT '{}'::jsonb,
     granted_at TIMESTAMPTZ DEFAULT NOW(),
     expires_at TIMESTAMPTZ NOT NULL,
     last_used_at TIMESTAMPTZ,
     use_count INTEGER DEFAULT 0,
-
-    -- Status
     status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'revoked', 'expired', 'suspended')),
     revoked_at TIMESTAMPTZ,
     revoked_by VARCHAR(100),
     revoke_reason TEXT,
-
-    -- Security
     granted_from_ip INET,
     granted_user_agent TEXT,
-
-    -- Constraints
+    consent_type VARCHAR(50),
+    method VARCHAR(50),
+    freely_given BOOLEAN,
+    specific BOOLEAN,
+    informed BOOLEAN,
+    unambiguous BOOLEAN,
+    privacy_policy_version VARCHAR(50),
+    trust_score REAL,
+    escalation_level VARCHAR(50),
+    identity_context JSONB,
+    consciousness_context JSONB,
+    guardian_validations TEXT[],
     CONSTRAINT grants_valid_expiry CHECK (expires_at > granted_at),
     CONSTRAINT grants_scope_not_empty CHECK (array_length(scope_ids, 1) > 0)
 );
@@ -159,43 +156,25 @@ CREATE TABLE consent.capability_tokens (
 -- Audit log: comprehensive logging for consent operations
 CREATE TABLE consent.audit_log (
     log_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-
-    -- Event identification
-    event_type VARCHAR(50) NOT NULL,          -- 'grant', 'revoke', 'use', 'escalate', 'expire'
-    event_subtype VARCHAR(50),                -- 'metadata_access', 'content_escalation', etc.
-
-    -- Actors
-    user_lid VARCHAR(100) NOT NULL,           -- Who performed the action
-    service_name VARCHAR(100),                -- Which service
-
-    -- What was affected
+    event_type VARCHAR(50) NOT NULL,
+    event_subtype VARCHAR(50),
+    user_lid VARCHAR(100) NOT NULL,
+    service_name VARCHAR(100),
     grant_id UUID REFERENCES consent.consent_grants(grant_id),
     token_id UUID REFERENCES consent.capability_tokens(token_id),
-    resource_identifier VARCHAR(500),         -- Specific resource accessed
-
-    -- Context
-    scopes TEXT[],                            -- Scopes involved
-    purpose TEXT,                             -- Purpose of access
+    resource_identifier VARCHAR(500),
+    scopes TEXT[],
+    purpose_id UUID,
     client_context JSONB DEFAULT '{}'::jsonb,
-
-    -- Security context
     client_ip INET,
     user_agent TEXT,
     session_id VARCHAR(100),
-
-    -- Timing
     event_at TIMESTAMPTZ DEFAULT NOW(),
-    processing_time_ms NUMERIC(8,3),          -- Performance tracking
-
-    -- Result
+    processing_time_ms NUMERIC(8,3),
     success BOOLEAN NOT NULL,
     error_message TEXT,
-
-    -- Additional metadata
     metadata JSONB DEFAULT '{}'::jsonb,
-
-    -- Privacy: hash sensitive data
-    resource_hash VARCHAR(64)                 -- Hashed resource ID for privacy
+    resource_hash VARCHAR(64)
 );
 
 -- Indexes for performance
@@ -254,7 +233,7 @@ CREATE VIEW consent.active_grants_summary AS
 SELECT
     cg.user_lid,
     s.service_name,
-    cg.purpose,
+    p.name as purpose,
     cg.granted_at,
     cg.expires_at,
     cg.last_used_at,
@@ -266,20 +245,42 @@ SELECT
     cg.grant_id
 FROM consent.consent_grants cg
 JOIN consent.services s ON cg.service_id = s.service_id
+JOIN consent.purposes p ON cg.purpose_id = p.purpose_id
 LEFT JOIN consent.scopes sc ON sc.scope_id = ANY(cg.scope_ids)
 LEFT JOIN consent.capability_tokens ct ON ct.grant_id = cg.grant_id AND ct.status = 'active'
 WHERE cg.status = 'active'
-GROUP BY cg.grant_id, cg.user_lid, s.service_name, cg.purpose, cg.granted_at,
+GROUP BY cg.grant_id, cg.user_lid, s.service_name, p.name, cg.granted_at,
          cg.expires_at, cg.last_used_at, cg.use_count, cg.resource_pattern, cg.status;
 
 -- Seed data: core services and scopes
+-- Seed data
 INSERT INTO consent.services (service_name, description, max_scope_level, trusted) VALUES
     ('gmail', 'Gmail email service', 'content', TRUE),
     ('drive', 'Google Drive file storage', 'content', TRUE),
     ('dropbox', 'Dropbox file storage', 'content', TRUE),
     ('icloud', 'Apple iCloud storage', 'content', TRUE),
     ('github', 'GitHub code repository', 'content', TRUE),
-    ('studio', 'LUKHAS Studio interface', 'admin', TRUE);
+    ('studio', 'LUKHAS Studio interface', 'admin', TRUE),
+    ('healthcare_portal', 'Healthcare Provider Portal', 'content', TRUE);
+
+INSERT INTO consent.data_categories (name, description) VALUES
+    ('identity', 'Name, ID numbers, etc.'),
+    ('contact', 'Email, phone, address'),
+    ('demographic', 'Age, gender, location'),
+    ('behavioral', 'Usage patterns, preferences'),
+    ('biometric', 'Biometric identifiers'),
+    ('financial', 'Payment, financial data'),
+    ('health', 'Health-related information'),
+    ('sensitive', 'Special categories (GDPR Art. 9)');
+
+INSERT INTO consent.purposes (name, description, retention_period_days, legal_basis, required) VALUES
+    ('essential_functionality', 'Core system functionality and user authentication', 365, 'contract', TRUE),
+    ('service_improvement', 'Analytics and performance monitoring to improve services', 730, 'explicit', FALSE),
+    ('personalization', 'Customize content and recommendations based on preferences', 1095, 'explicit', FALSE),
+    ('marketing_communications', 'Send promotional emails and communications', 1095, 'explicit', FALSE),
+    ('research_development', 'Use aggregated data for research and AI development', 1825, 'legitimate_interest', FALSE),
+    ('healthcare_treatment', 'Provide healthcare services and manage clinical cases', 2555, 'vital_interests', TRUE),
+    ('content_escalation', 'Temporary access to content for specific user-initiated actions', 1, 'explicit', FALSE);
 
 -- Gmail scopes (metadata-first design)
 INSERT INTO consent.scopes (service_id, scope_name, scope_level, description, default_ttl_minutes, requires_elevation) VALUES
@@ -396,7 +397,7 @@ DECLARE
 BEGIN
     -- Find matching grants
     FOR grant_record IN
-        SELECT cg.grant_id, s.service_name
+        SELECT cg.grant_id, s.service_name, cg.purpose_id
         FROM consent.consent_grants cg
         JOIN consent.services s ON cg.service_id = s.service_id
         WHERE cg.user_lid = p_user_lid
@@ -423,10 +424,10 @@ BEGIN
         -- Log the revocation
         INSERT INTO consent.audit_log (
             event_type, user_lid, service_name, grant_id,
-            purpose, success
+            purpose_id, success
         ) VALUES (
             'revoke', p_user_lid, grant_record.service_name, grant_record.grant_id,
-            p_revoke_reason, TRUE
+            grant_record.purpose_id, TRUE
         );
 
         v_revoked_count := v_revoked_count + 1;
@@ -435,6 +436,21 @@ BEGIN
     RETURN v_revoked_count;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Trust Paths table
+CREATE TABLE consent.trust_paths (
+    path_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    source VARCHAR(100) NOT NULL,
+    target VARCHAR(100) NOT NULL,
+    trust_score REAL NOT NULL,
+    path_type VARCHAR(50) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    last_validated TIMESTAMPTZ,
+    validation_count INTEGER DEFAULT 0,
+    symbolic_signature TEXT[],
+    metadata JSONB,
+    governance_approved BOOLEAN DEFAULT TRUE
+);
 
 -- Function to cleanup expired grants and tokens
 CREATE OR REPLACE FUNCTION consent.cleanup_expired()

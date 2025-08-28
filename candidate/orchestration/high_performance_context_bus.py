@@ -269,7 +269,8 @@ class HighPerformanceContextBus:
         try:
             # Use uvloop for better async performance
             if hasattr(uvloop, "install"):
-                uvloop.install()
+                # uvloop.install() is deprecated in Python 3.12+
+                # Uvicorn will use it by default if installed.
                 logger.info("📈 uvloop performance optimization enabled")
         except ImportError:
             logger.warning("uvloop not available - using default event loop")

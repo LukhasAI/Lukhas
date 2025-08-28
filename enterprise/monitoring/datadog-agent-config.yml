@@ -1,0 +1,66 @@
+# Datadog Agent Configuration for Prometheus Integration
+# This file configures the Datadog Agent to scrape metrics from the
+# existing Prometheus endpoints in the LUKHAS AI application.
+#
+# Place this file in the Datadog Agent's configuration directory,
+# typically at /etc/datadog-agent/conf.d/prometheus.d/conf.yaml
+#
+# For more details on Datadog's Prometheus integration, see:
+# https://docs.datadoghq.com/integrations/prometheus/
+
+init_config:
+
+instances:
+  # Scrape the main lukhas-ai application metrics
+  - prometheus_url: http://lukhas-ai:8080/metrics
+    namespace: "lukhas"
+    metrics:
+      - "*" # Collect all metrics from this endpoint
+
+  # Scrape the Guardian System metrics
+  - prometheus_url: http://lukhas-ai:8080/api/guardian/metrics
+    namespace: "lukhas.guardian"
+    metrics:
+      - "*"
+
+  # Scrape the Tool Executor metrics
+  - prometheus_url: http://lukhas-ai:8080/api/tools/metrics
+    namespace: "lukhas.tools"
+    metrics:
+      - "*"
+
+  # Scrape the Consciousness System metrics
+  - prometheus_url: http://lukhas-ai:8080/api/consciousness/metrics
+    namespace: "lukhas.consciousness"
+    metrics:
+      - "*"
+
+  # Scrape the Memory System metrics
+  - prometheus_url: http://lukhas-ai:8080/api/memory/metrics
+    namespace: "lukhas.memory"
+    metrics:
+      - "*"
+
+  # Scrape node-exporter for system-level metrics
+  - prometheus_url: http://node-exporter:9100/metrics
+    namespace: "lukhas.system"
+    metrics:
+      - node_cpu_seconds_total
+      - node_memory_MemTotal_bytes
+      - node_memory_MemAvailable_bytes
+      - node_disk_read_bytes_total
+      - node_disk_written_bytes_total
+      - node_network_receive_bytes_total
+      - node_network_transmit_bytes_total
+    send_distribution_buckets: true
+
+  # Scrape postgres-exporter for database metrics
+  - prometheus_url: http://postgres-exporter:9187/metrics
+    namespace: "lukhas.postgres"
+    metrics:
+      - pg_stat_activity_count
+      - pg_stat_database_xact_commit
+      - pg_stat_database_xact_rollback
+      - pg_locks_count
+      - pg_up
+    send_distribution_buckets: true

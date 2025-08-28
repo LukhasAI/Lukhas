@@ -1,0 +1,1 @@
+# GDPR-specific compliance logic
