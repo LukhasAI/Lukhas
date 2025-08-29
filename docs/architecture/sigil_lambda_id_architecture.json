@@ -262,7 +262,30 @@
         "Secure wallet integration for earnings",
         "KYC/AML compliance for financial transactions",
         "Tier-based earning capabilities"
-      ]
+      ],
+      "receipt_examples": {
+        "consent_receipt": {
+          "consent_id": "consent_789abc123def456ghi",
+          "user_id": "LUKHAS3-A4B7-Λ-C9F2",
+          "scopes": ["opportunity.matching", "ads.personalized"],
+          "granted_at": "2024-01-15T14:30:00Z",
+          "expires_at": "2024-01-15T14:30:00Z",
+          "policy_version": "1.2.0",
+          "signature": "0x1a2b3c4d5e6f7890abcdef1234567890"
+        },
+        "payout_receipt": {
+          "payout_id": "payout_def456ghi789abc123",
+          "user_id": "LUKHAS3-A4B7-Λ-C9F2",
+          "opportunity_id": "opp_merchant_456_1234567890_abc123def",
+          "conversion_value_usd": 99.99,
+          "user_amount_usd": 59.99,
+          "platform_amount_usd": 40.00,
+          "split_tier": "gold",
+          "attribution_method": "affiliate_link",
+          "processed_at": "2024-01-15T15:45:00Z",
+          "signature": "0x9876543210fedcba0987654321"
+        }
+      }
     },
     "dast_integration": {
       "description": "Identity context for DAST widget personalization", 

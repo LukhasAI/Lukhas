@@ -105,7 +105,15 @@
         "/dast/widgets/{user_id}",
         "/dast/analytics/{user_id}",
         "/dast/rules/{user_id}"
-      ]
+      ],
+      "delivery_engine_integration": {
+        "description": "DAST contributes to unified delivery engine endpoints",
+        "endpoints": {
+          "/plan": "DAST provides context analysis to inform Opportunity[] selection",
+          "/deliver": "DAST handles widget delivery mode when mode='widget'"
+        },
+        "shared_contract": "Uses canonical Opportunity schema with NIAS for consistent commerce integration"
+      }
     }
   },
 
