@@ -1,0 +1,207 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.lukhas.ai/opportunity/1",
+  "title": "LUKHAS Opportunity Schema",
+  "description": "Standard opportunity object exchanged between DAST providers and NIAS delivery engine",
+  "type": "object",
+  "required": ["id", "domain", "title", "media", "window", "provenance"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique opportunity identifier",
+      "pattern": "^opp_[a-zA-Z0-9_]+$",
+      "examples": ["opp_123_dog_food_deal", "opp_456_flight_sfo_nyc"]
+    },
+    "domain": {
+      "type": "string",
+      "description": "Categorized domain classification",
+      "pattern": "^[a-z]+\\.[a-z_]+$",
+      "examples": ["retail.pet_food", "travel.flight", "saas.productivity", "content.streaming"]
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 90,
+      "description": "Human-readable opportunity title",
+      "examples": ["Premium Dog Food - 30% Off", "SFO → NYC Flights from $299"]
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "Detailed opportunity description"
+    },
+    "price_current": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Current price in user's currency"
+    },
+    "price_alt": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Alternative or comparison price"
+    },
+    "affiliate": {
+      "type": "object",
+      "description": "Affiliate/merchant information",
+      "properties": {
+        "merchant": {
+          "type": "string",
+          "description": "Merchant or service provider name"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Affiliate or direct purchase URL"
+        },
+        "est_commission_bps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000,
+          "description": "Estimated commission in basis points (1/100th of a percent)"
+        }
+      },
+      "required": ["merchant", "url"]
+    },
+    "window": {
+      "type": "object",
+      "required": ["start", "end"],
+      "description": "Time window for opportunity validity",
+      "properties": {
+        "start": {
+          "type": "integer",
+          "description": "Start time (epoch milliseconds)"
+        },
+        "end": {
+          "type": "integer",
+          "description": "End time (epoch milliseconds)"
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "description": "Risk and alignment assessment",
+      "properties": {
+        "alignment": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1,
+          "description": "User value alignment score (-1 to 1)"
+        },
+        "stress_block": {
+          "type": "boolean",
+          "description": "Whether this opportunity should be blocked during high-stress states"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional risk or alignment notes"
+        }
+      }
+    },
+    "economics": {
+      "type": "object",
+      "description": "Economic split and tier information",
+      "properties": {
+        "split_user_bps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000,
+          "description": "User share in basis points (e.g., 4000 for 40%)"
+        },
+        "split_platform_bps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000,
+          "description": "Platform share in basis points (e.g., 6000 for 60%)"
+        },
+        "tier": {
+          "type": "string",
+          "enum": ["guest", "visitor", "friend", "trusted", "inner_circle", "root_dev"],
+          "description": "User tier affecting economic splits"
+        }
+      }
+    },
+    "media": {
+      "type": "object",
+      "required": ["kind", "cdn_url", "alt"],
+      "description": "Media assets for rendering",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["image", "video"],
+          "description": "Type of media content"
+        },
+        "cdn_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "CDN URL for media asset"
+        },
+        "alt": {
+          "type": "string",
+          "description": "Accessibility alt text for media"
+        },
+        "thumbnail_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Thumbnail for previews and widget display"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["sources", "version", "hash"],
+      "description": "Data lineage and integrity information",
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Human-auditable data sources used to generate this opportunity",
+          "examples": [["user_browsing_history", "affiliate_feed", "price_tracker"]]
+        },
+        "version": {
+          "type": "string",
+          "description": "Schema or algorithm version used",
+          "examples": ["1.2.3", "2024.11.1"]
+        },
+        "hash": {
+          "type": "string",
+          "description": "Content integrity hash for verification",
+          "pattern": "^[a-z0-9]+:[a-fA-F0-9]+$",
+          "examples": ["sha256:abc123def456"]
+        },
+        "generated_at": {
+          "type": "integer",
+          "description": "Generation timestamp (epoch milliseconds)"
+        },
+        "expires_at": {
+          "type": "integer",
+          "description": "Expiration timestamp (epoch milliseconds)"
+        }
+      }
+    },
+    "delivery_context": {
+      "type": "object",
+      "description": "Delivery system routing and priority information",
+      "properties": {
+        "target_system": {
+          "type": "string",
+          "enum": ["NIAS", "DAST", "BOTH"],
+          "description": "Which delivery system should handle this opportunity"
+        },
+        "delivery_priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Delivery priority (1=lowest, 10=highest)"
+        },
+        "abas_gating": {
+          "type": "object",
+          "properties": {
+            "respect_flow_state": {"type": "boolean", "default": true},
+            "min_attention_level": {"type": "number", "minimum": 0, "maximum": 1},
+            "cognitive_cost": {"type": "number", "minimum": 0, "maximum": 1}
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

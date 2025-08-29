@@ -1,0 +1,406 @@
+openapi: 3.1.0
+info:
+  title: Lukhas Delivery Engine
+  version: 0.1.0
+  description: |
+    Unified delivery engine for LUKHAS attention economy platform.
+    Handles opportunity planning, ABAS-gated delivery, and receipt management.
+servers:
+  - url: https://api.lukhas.ai
+    description: Production API
+  - url: http://localhost:8080
+    description: Local development
+
+paths:
+  /plan:
+    post:
+      summary: Plan delivery opportunities from intent/context
+      description: |
+        Given user intent, context, and consent, returns ranked opportunities
+        that match the user's interests and consent boundaries.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [intent, context, consent]
+              properties:
+                intent: 
+                  type: object
+                  description: User's expressed or inferred intent
+                  example:
+                    type: "restock"
+                    item: "Acme Dog Food 10kg"
+                    urgency: "medium"
+                context: 
+                  type: object  
+                  description: Current user context and environmental factors
+                  example:
+                    days_since_last: 28
+                    price_observed: 39.90
+                    location: "home"
+                    time_of_day: "evening"
+                consent: 
+                  $ref: '#/components/schemas/ConsentReceipt'
+      responses:
+        "200":
+          description: List of ranked opportunities
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  opportunities:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/Opportunity'
+                  meta:
+                    type: object
+                    properties:
+                      total_considered: { type: integer }
+                      consent_filtered: { type: integer }
+                      alignment_threshold: { type: number }
+        "400":
+          description: Invalid request or insufficient consent
+        "429":
+          description: Rate limit exceeded
+
+  /deliver:
+    post:
+      summary: Attempt delivery in a given mode (ABAS-gated)
+      description: |
+        Attempts to deliver an opportunity in specified mode (cloud/widget).
+        All deliveries pass through ABAS attention gate first.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [opportunity, mode, user_state]
+              properties:
+                opportunity: 
+                  $ref: '#/components/schemas/Opportunity'
+                mode:
+                  type: string
+                  enum: [cloud, widget]
+                  description: |
+                    cloud: ephemeral overlay (NIAS)
+                    widget: persistent sidebar (DAST)
+                user_state:
+                  type: object
+                  description: Current user attention and context state
+                  properties:
+                    stress: { type: number, minimum: 0, maximum: 1 }
+                    driving: { type: boolean }
+                    hour: { type: integer, minimum: 0, maximum: 23 }
+                    focus_level: { type: number, minimum: 0, maximum: 1 }
+                    flow_state: { type: boolean }
+      responses:
+        "200":
+          description: Delivery result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [rendered, blocked, queued]
+                  reason: 
+                    type: string
+                    nullable: true
+                    description: Human-readable reason for block/queue
+                    enum: [null, "safety_block", "stress_block", "low_alignment", "quiet_hours", "flow_protection"]
+                  delivery_id: 
+                    type: string
+                    description: Unique ID for this delivery attempt
+                  render_data:
+                    type: object
+                    description: Data needed to render the opportunity (if status=rendered)
+
+  /receipts/consent:
+    post:
+      summary: Record/refresh a consent receipt
+      description: |
+        Stores or updates user consent with cryptographic signature.
+        Required for all data processing operations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/ConsentReceipt'
+      responses:
+        "200":
+          description: Consent receipt stored successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stored: { type: boolean }
+                  receipt_id: { type: string }
+                  expires_at: { type: integer }
+
+  /receipts/payout:
+    post:
+      summary: Settle a payout for an attributed purchase
+      description: |
+        Records payout settlement with transparent split disclosure.
+        Triggers wallet credit and audit trail.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/PayoutReceipt'
+      responses:
+        "200":
+          description: Payout settled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  settled: { type: boolean }
+                  tx_id: { type: string }
+                  wallet_balance: { type: number }
+
+  /abas/gate:
+    post:
+      summary: Check ABAS attention gate for delivery approval
+      description: |
+        Internal endpoint for ABAS gate checks. Used by /deliver but 
+        also available for external attention management.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [user_state, opportunity]
+              properties:
+                user_state: { type: object }
+                opportunity: { $ref: '#/components/schemas/Opportunity' }
+      responses:
+        "200":
+          description: Gate decision
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  approved: { type: boolean }
+                  reason: { type: string, nullable: true }
+                  confidence: { type: number }
+
+components:
+  schemas:
+    Opportunity:
+      type: object
+      required: [id, domain, title, media, window, provenance]
+      properties:
+        id: 
+          type: string
+          description: Unique opportunity identifier
+          example: "opp_123_dog_food_deal"
+        domain: 
+          type: string
+          description: Categorized domain for the opportunity
+          example: "retail.pet_food"
+          pattern: "^[a-z]+\\.[a-z_]+$"
+        title: 
+          type: string
+          maxLength: 90
+          description: Human-readable opportunity title
+          example: "Premium Dog Food - 30% Off"
+        description: 
+          type: string
+          maxLength: 300
+          description: Detailed opportunity description
+        price_current: 
+          type: number
+          minimum: 0
+          description: Current price in user's currency
+        price_alt: 
+          type: number  
+          minimum: 0
+          description: Alternative or comparison price
+        affiliate:
+          type: object
+          description: Affiliate/merchant information
+          properties:
+            merchant: 
+              type: string
+              description: Merchant or service provider name
+            url: 
+              type: string
+              format: uri
+              description: Affiliate or direct purchase URL
+            est_commission_bps: 
+              type: integer
+              minimum: 0
+              maximum: 10000
+              description: Estimated commission in basis points
+        window:
+          type: object
+          required: [start, end]
+          description: Time window for opportunity validity
+          properties:
+            start: 
+              type: integer
+              description: Start time (epoch milliseconds)
+            end: 
+              type: integer
+              description: End time (epoch milliseconds)
+        risk:
+          type: object
+          description: Risk and alignment assessment
+          properties:
+            alignment: 
+              type: number
+              minimum: -1
+              maximum: 1
+              description: User value alignment score
+            stress_block: 
+              type: boolean
+              description: Whether to block during high-stress states
+            notes: 
+              type: string
+              description: Additional risk notes
+        economics:
+          type: object
+          description: Economic split and tier information
+          properties:
+            split_user_bps: 
+              type: integer
+              minimum: 0
+              maximum: 10000
+              description: User share in basis points
+            split_platform_bps: 
+              type: integer
+              minimum: 0  
+              maximum: 10000
+              description: Platform share in basis points
+            tier: 
+              type: string
+              enum: [guest, visitor, friend, trusted, inner_circle, root_dev]
+              description: User tier affecting splits
+        media:
+          type: object
+          required: [kind, cdn_url, alt]
+          description: Media assets for rendering
+          properties:
+            kind: 
+              type: string
+              enum: [image, video]
+              description: Type of media content
+            cdn_url: 
+              type: string
+              format: uri
+              description: CDN URL for media asset
+            alt: 
+              type: string
+              description: Accessibility alt text
+            thumbnail_url:
+              type: string
+              format: uri
+              description: Thumbnail for previews
+        provenance:
+          type: object
+          required: [sources, version, hash]
+          description: Data lineage and integrity information
+          properties:
+            sources: 
+              type: array
+              items: { type: string }
+              description: Human-auditable data sources
+              example: ["user_browsing_history", "affiliate_feed", "price_tracker"]
+            version: 
+              type: string
+              description: Algorithm or schema version used
+              example: "1.2.3"
+            hash: 
+              type: string
+              description: Content integrity hash
+              example: "sha256:abc123def456"
+            generated_at:
+              type: integer
+              description: Generation timestamp (epoch milliseconds)
+
+    ConsentReceipt:
+      type: object
+      required: [user_id, scopes, ts, policy_version, signature]
+      description: Cryptographically signed consent record
+      properties:
+        user_id: 
+          type: string
+          description: User's Lambda ID
+          example: "LUKHAS3-A4B7-Λ-C9F2"
+        scopes: 
+          type: array
+          items: { type: string }
+          description: Specific data access permissions
+          example: ["amazon.orders.read", "price.compare", "profile.preferences"]
+        ts: 
+          type: integer
+          description: Consent timestamp (epoch milliseconds)
+        policy_version: 
+          type: string
+          description: Privacy policy version at time of consent
+          example: "1.2.0"
+        signature: 
+          type: string
+          description: Cryptographic signature for integrity
+        explanations:
+          type: array
+          items: { type: string }
+          description: Human-readable explanations of what each scope enables
+          example: ["Access your Amazon order history for restocking reminders"]
+        expires_at:
+          type: integer
+          description: When consent expires (epoch milliseconds)
+
+    PayoutReceipt:
+      type: object
+      required: [user_id, opportunity_id, amount_fiat, currency, split_user_bps, split_platform_bps, tx_ref]
+      description: Transparent payout settlement record
+      properties:
+        user_id: 
+          type: string
+          description: User's Lambda ID
+        opportunity_id: 
+          type: string
+          description: Opportunity that generated the payout
+        amount_fiat: 
+          type: number
+          minimum: 0
+          description: Total transaction amount in fiat
+        currency: 
+          type: string
+          default: "USD"
+          description: Fiat currency code
+        split_user_bps: 
+          type: integer
+          minimum: 0
+          maximum: 10000
+          description: User's share in basis points
+        split_platform_bps: 
+          type: integer
+          minimum: 0
+          maximum: 10000  
+          description: Platform's share in basis points
+        lkt_amount: 
+          type: integer
+          description: Amount in LKT tokens (minor units, 1e6 scale)
+        tx_ref: 
+          type: string
+          description: Transaction reference for audit
+        affiliate_meta:
+          type: object
+          description: Affiliate tracking metadata
+        settled_at:
+          type: integer
+          description: Settlement timestamp (epoch milliseconds)

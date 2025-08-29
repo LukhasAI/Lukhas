@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schema.lukhas.ai/payout-receipt/1",
+  "title": "LUKHAS Payout Receipt Schema",
+  "description": "Transparent payout settlement record with split disclosure",
+  "type": "object",
+  "required": ["user_id", "opportunity_id", "amount_fiat", "currency", "split_user_bps", "split_platform_bps", "tx_ref"],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User's Lambda ID",
+      "pattern": "^LUKHAS[0-5]-[A-F0-9]{4}-[\\w\\p{So}]-[A-F0-9]{4}$",
+      "examples": ["LUKHAS3-A4B7-Λ-C9F2"]
+    },
+    "opportunity_id": {
+      "type": "string",
+      "description": "Opportunity that generated this payout",
+      "pattern": "^opp_[a-zA-Z0-9_]+$",
+      "examples": ["opp_123_dog_food_deal"]
+    },
+    "amount_fiat": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Total transaction amount in fiat currency"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD",
+      "pattern": "^[A-Z]{3}$",
+      "description": "Fiat currency code (ISO 4217)",
+      "examples": ["USD", "EUR", "GBP", "CAD"]
+    },
+    "split_user_bps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000,
+      "description": "User's share in basis points (e.g., 4000 = 40%)"
+    },
+    "split_platform_bps": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000,
+      "description": "Platform's share in basis points (e.g., 6000 = 60%)"
+    },
+    "user_payout_fiat": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Calculated user payout in fiat (amount_fiat * split_user_bps / 10000)"
+    },
+    "platform_fee_fiat": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Calculated platform fee in fiat (amount_fiat * split_platform_bps / 10000)"
+    },
+    "lkt_amount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Amount in LKT tokens (minor units, 1e6 scale) if tokenized"
+    },
+    "tx_ref": {
+      "type": "string",
+      "description": "Transaction reference for audit trail",
+      "minLength": 8
+    },
+    "affiliate_meta": {
+      "type": "object",
+      "description": "Affiliate tracking and attribution metadata",
+      "properties": {
+        "click_id": {"type": "string"},
+        "order_id": {"type": "string"},
+        "merchant_ref": {"type": "string"},
+        "attribution_method": {
+          "type": "string",
+          "enum": ["affiliate_link", "s2s_postback", "receipt_match", "incrementality_model"]
+        },
+        "commission_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "merchant_fee_bps": {"type": "integer", "minimum": 0, "maximum": 10000}
+      }
+    },
+    "settled_at": {
+      "type": "integer",
+      "description": "Settlement timestamp (epoch milliseconds)",
+      "minimum": 1640995200000
+    },
+    "wallet_balance_after": {
+      "type": "number",
+      "minimum": 0,
+      "description": "User's wallet balance after this payout"
+    },
+    "escalator_tier": {
+      "type": "string",
+      "enum": ["40_60", "50_50", "60_40", "70_30", "80_20"],
+      "description": "Current profit split tier based on platform maturity"
+    },
+    "next_escalator_threshold": {
+      "type": "object",
+      "description": "Progress toward next split tier",
+      "properties": {
+        "metric": {
+          "type": "string",
+          "enum": ["cost_per_dau", "platform_efficiency", "user_retention"]
+        },
+        "current_value": {"type": "number"},
+        "threshold_value": {"type": "number"},
+        "progress_percent": {"type": "number", "minimum": 0, "maximum": 100}
+      }
+    },
+    "compliance_flags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Regulatory compliance flags for this payout",
+      "examples": [["GDPR_compliant", "CCPA_verified", "KYC_complete"]]
+    },
+    "audit_trail": {
+      "type": "object",
+      "description": "Complete audit trail for transparency",
+      "properties": {
+        "opportunity_created_at": {"type": "integer"},
+        "delivery_attempted_at": {"type": "integer"},
+        "user_clicked_at": {"type": "integer"},
+        "purchase_completed_at": {"type": "integer"},
+        "attribution_confirmed_at": {"type": "integer"},
+        "payout_calculated_at": {"type": "integer"}
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "user_id": "LUKHAS3-A4B7-Λ-C9F2",
+      "opportunity_id": "opp_123_dog_food_deal",
+      "amount_fiat": 45.99,
+      "currency": "USD",
+      "split_user_bps": 4000,
+      "split_platform_bps": 6000,
+      "user_payout_fiat": 18.40,
+      "platform_fee_fiat": 27.59,
+      "lkt_amount": 18400000,
+      "tx_ref": "tx_abc123def456",
+      "affiliate_meta": {
+        "click_id": "clk_789xyz",
+        "order_id": "amz_order_456",
+        "merchant_ref": "petco_ref_123",
+        "attribution_method": "affiliate_link",
+        "commission_rate": 0.08,
+        "merchant_fee_bps": 800
+      },
+      "settled_at": 1724880300000,
+      "wallet_balance_after": 156.78,
+      "escalator_tier": "40_60",
+      "next_escalator_threshold": {
+        "metric": "cost_per_dau",
+        "current_value": 2.45,
+        "threshold_value": 1.50,
+        "progress_percent": 63.3
+      },
+      "compliance_flags": ["CCPA_verified", "KYC_complete"],
+      "audit_trail": {
+        "opportunity_created_at": 1724880000000,
+        "delivery_attempted_at": 1724880060000,
+        "user_clicked_at": 1724880120000,
+        "purchase_completed_at": 1724880180000,
+        "attribution_confirmed_at": 1724880240000,
+        "payout_calculated_at": 1724880300000
+      }
+    }
+  ]
+}
