@@ -1,5 +1,0 @@
-config/__init__.py
-config/config.py
-config/fallback_settings.py
-config/read_settings.py
-config/settings.py

@@ -1,0 +1,10 @@
+candidate	2807
+tools	253
+lukhas	101
+enterprise	25
+core	20
+serve	19
+matriz	17
+MATRIZ	17
+api	6
+sdk	6

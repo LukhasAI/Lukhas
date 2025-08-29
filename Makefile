@@ -670,3 +670,15 @@ audit-validate:
 # Software Bill of Materials (CycloneDX) if CLI available
 sbom:
 	@cyclonedx-bom -o reports/sbom/cyclonedx.json || echo "cyclonedx-bom not installed; skipped"
+
+.PHONY: audit-nav
+audit-nav:
+	@echo "Commit: $(shell cat AUDIT/RUN_COMMIT.txt 2>/dev/null || git rev-parse HEAD)"
+	@echo "Started: $(shell cat AUDIT/RUN_STARTED_UTC.txt 2>/dev/null)"
+	@echo "Files: $(shell wc -l reports/deep_search/PY_INDEX.txt 2>/dev/null | awk '{print $$1}')"
+	@echo "Sample: AUDIT/CODE_SAMPLES.txt"
+
+.PHONY: audit-scan
+audit-scan:
+	@ls -1 reports/deep_search | sed 1,20p
+

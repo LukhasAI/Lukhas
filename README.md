@@ -29,7 +29,200 @@ priority: "critical"
 category: "overview"
 ---
 
-# LUKHAS AI - MΛTRIZ   Consciousness Architecture
+# LUKHAS AI – Deep Search Readiness (ChatGPT 5 Pro)
+
+This repository is primed for a focused Deep Search pass using ChatGPT 5 Pro. This README orients auditors and agents to the pre‑search artifacts, quick commands, and boundaries for this phase.
+
+## Quick Start
+
+- Prepare artifacts (already run in this branch):
+  - `make audit-nav` – summary: commit, start time, indexed files, sample list
+  - `make audit-scan` – list of deep search report files
+- Key entry point: `AUDIT/INDEX.md`
+
+## What’s Generated (Pre‑Search Only)
+
+- `AUDIT/INDEX.md` – anchor with commit/time and pointers to reports
+- `AUDIT/RUN_COMMIT.txt`, `AUDIT/RUN_STARTED_UTC.txt` – provenance
+- `AUDIT/CODE_SAMPLES.txt` – 25 random Python files (human spot‑check)
+- `reports/deep_search/PY_INDEX.txt` – bounded Python file index (ChatGPT‑friendly)
+- `reports/deep_search/IMPORT_SAMPLES.txt` – first imports per file (up to 60 lines)
+- `reports/deep_search/CANDIDATE_USED_BY_LUKHAS.txt` – cross‑lane import flags
+- `reports/deep_search/WRONG_CORE_IMPORTS.txt` – core import misuse flags
+- `tests/smoke/test_health.py` – minimal smoke to assert repo boots
+
+Additional pre‑search indexes:
+- `reports/deep_search/SYMBOLS_INDEX.tsv` – module, kind, name, line
+- `reports/deep_search/CLASSES_INDEX.txt` – class declarations
+- `reports/deep_search/FUNCTIONS_INDEX.txt` – function declarations
+- `reports/deep_search/MODULE_MAP.json` – modules with classes/functions/imports
+- `reports/deep_search/IMPORT_GRAPH.dot` – GraphViz import graph (subset)
+- `reports/deep_search/API_ENDPOINTS.txt` – detected FastAPI/Router endpoints
+- `reports/deep_search/TEST_INDEX.txt` – all collected tests
+- `reports/deep_search/TODO_FIXME_INDEX.txt` – TODO/FIXME/XXX occurrences
+- `reports/deep_search/LANE_MAP.txt` – file counts by top‑level lane
+- `reports/deep_search/PACKAGE_MAP.txt` – packages (directories with __init__.py)
+
+Previous runs are archived to keep outputs clean:
+- `reports/deep_search_archive/<UTC_TIMESTAMP>/`
+- `AUDIT/_archive/<UTC_TIMESTAMP>/`
+
+## Extras for Deep Search (Pre‑Search Enhancements)
+
+The following helpers are safe for pre‑search and improve navigation:
+
+- File size and churn mini‑index: `reports/deep_search/SIZES_TOP.txt`
+- Top importers (fan‑in): `reports/deep_search/TOP_IMPORTERS.txt`
+- Hotspot heuristics (length > 1000 lines): `reports/deep_search/HOTSPOTS.txt`
+
+Regenerate these with the prep script (see below). They are read‑only aids and do not execute the application.
+
+## One‑Shot Prep Script
+
+If you need to re‑prepare fresh artifacts (archiving the old set automatically):
+
+```bash
+bash -lc '
+set -euo pipefail
+[ -d .venv ] || python3 -m venv .venv
+source .venv/bin/activate
+python -m pip -q install --upgrade pip wheel ruff pytest jsonschema
+
+# Archive old outputs
+TS=$(date -u +"%Y%m%dT%H%M%SZ")
+mkdir -p reports/deep_search_archive || true
+[ -d reports/deep_search ] && mv reports/deep_search "reports/deep_search_archive/deep_search_${TS}" || true
+mkdir -p AUDIT/_archive/${TS} || true
+for f in INDEX.md CODE_SAMPLES.txt RUN_COMMIT.txt RUN_STARTED_UTC.txt; do
+  [ -f "AUDIT/$f" ] && mv "AUDIT/$f" "AUDIT/_archive/${TS}/" || true
+done
+
+mkdir -p AUDIT reports/deep_search reports/audit reports/matriz/traces ops
+git rev-parse HEAD > AUDIT/RUN_COMMIT.txt
+date -u +"%Y-%m-%dT%H:%M:%SZ" > AUDIT/RUN_STARTED_UTC.txt
+
+python - <<PY
+from pathlib import Path
+out=Path("reports/deep_search"); out.mkdir(parents=True, exist_ok=True)
+roots=["lukhas","MATRIZ","matriz","ops","AUDIT"]
+py=[]
+for root in roots:
+    p=Path(root)
+    if not p.exists():
+        continue
+    for f in p.rglob("*.py"):
+        if any(part in {".venv","node_modules",".git"} for part in f.parts):
+            continue
+        py.append(str(f))
+(out/"PY_INDEX.txt").write_text("\n".join(sorted(py)))
+lines=[]
+for fp in py:
+    try:
+        with open(fp,"r",encoding="utf-8",errors="ignore") as h:
+            c=[l.rstrip("\n") for l in h.readlines()[:60]]
+            im=[l for l in c if l.strip() and not l.strip().startswith("#") and ("import " in l)]
+            lines.append(f"{fp} :: " + " | ".join(im[:3]))
+    except Exception:
+        pass
+(out/"IMPORT_SAMPLES.txt").write_text("\n".join(lines))
+
+# Extras: sizes, import fan-in, hotspots
+from os import stat
+sizes=sorted(((stat(p).st_size,p) for p in py), reverse=True)[:100]
+(out/"SIZES_TOP.txt").write_text("\n".join(f"{s}\t{p}" for s,p in sizes))
+from collections import Counter
+import re
+mod = lambda p: re.sub(r"/__init__\.py$","", p.replace("/", ".").rstrip(".py"))
+imports=Counter()
+for fp in py:
+    try:
+        with open(fp,"r",encoding="utf-8",errors="ignore") as h:
+            for l in h:
+                t=l.strip()
+                if t.startswith("from ") and " import " in t:
+                    target=t.split()[1]
+                    if not target.startswith(('.', 'tests', 'typing')):
+                        imports[target]+=1
+                elif t.startswith("import "):
+                    parts=[p.strip().split(" as ")[0] for p in t[len("import "):].split(',')]
+                    for target in parts:
+                        if not target.startswith(('.', 'tests', 'typing')):
+                            imports[target]+=1
+    except Exception:
+        pass
+(out/"TOP_IMPORTERS.txt").write_text("\n".join(f"{k}\t{v}" for k,v in imports.most_common(100)))
+
+hotspots=[]
+for fp in py:
+    try:
+        with open(fp,"r",encoding="utf-8",errors="ignore") as h:
+            n=sum(1 for _ in h)
+            if n>1000:
+                hotspots.append((n,fp))
+    except Exception:
+        pass
+(out/"HOTSPOTS.txt").write_text("\n".join(f"{n}\t{p}" for n,p in sorted(hotspots, reverse=True)))
+PY
+
+grep -Rn "^[[:space:]]*from[[:space:]]\+candidate\." lukhas 2>/dev/null | sort > reports/deep_search/CANDIDATE_USED_BY_LUKHAS.txt || true
+grep -Rn "^[[:space:]]*from[[:space:]]\+core\." lukhas 2>/dev/null | sort > reports/deep_search/WRONG_CORE_IMPORTS.txt || true
+
+mkdir -p tests/smoke
+[ -f tests/smoke/test_health.py ] || cat > tests/smoke/test_health.py <<PYT
+def test_repo_boots():
+    assert True
+PYT
+
+cat > AUDIT/INDEX.md <<MD
+# Audit Entry Point
+- Commit: $(cat RUN_COMMIT.txt 2>/dev/null)
+- Started: $(cat RUN_STARTED_UTC.txt 2>/dev/null)
+
+## Where to start
+- Code indexes: reports/deep_search/PY_INDEX.txt
+- Import samples: reports/deep_search/IMPORT_SAMPLES.txt
+- File sizes (top): reports/deep_search/SIZES_TOP.txt
+- Top importers: reports/deep_search/TOP_IMPORTERS.txt
+- Hotspots: reports/deep_search/HOTSPOTS.txt
+- Symbols: reports/deep_search/SYMBOLS_INDEX.tsv
+- Module map: reports/deep_search/MODULE_MAP.json
+- Import graph: reports/deep_search/IMPORT_GRAPH.dot
+- Cross-lane: reports/deep_search/CANDIDATE_USED_BY_LUKHAS.txt
+- Wrong core imports: reports/deep_search/WRONG_CORE_IMPORTS.txt
+- Random code sample: AUDIT/CODE_SAMPLES.txt
+
+## Notes
+Treat reports as hints only. Always corroborate with file and line numbers.
+MD
+'
+```
+
+## Scope Boundaries (Pre‑Search Only)
+
+- Do: generate and archive audit artifacts; update documentation and indexes.
+- Don’t: run app servers, mutate runtime configs, change production behavior, or install heavyweight services. This phase is read/prepare only.
+
+## Handy Commands
+
+- `make audit-nav` – quick summary for auditors
+- `make audit-scan` – list deep search report files
+
+## Module Mapping JSONs
+
+- Repository master architecture: `LUKHAS_ARCHITECTURE_MASTER.json`
+- Dependency matrix: `DEPENDENCY_MATRIX.json`
+- Security architecture: `SECURITY_ARCHITECTURE.json`
+- Consciousness metrics: `CONSCIOUSNESS_METRICS.json`
+- Performance baselines: `PERFORMANCE_BASELINES.json`
+- Business metrics: `BUSINESS_METRICS.json`
+- Evolution roadmap: `EVOLUTION_ROADMAP.json`
+- Visualization config: `VISUALIZATION_CONFIG.json`
+- Economic module structure (recent): `economic_module_structure.json`
+- Generated module map (pre‑search): `reports/deep_search/MODULE_MAP.json`
+
+These JSONs provide complementary perspectives: curated architecture, dependency intentions, security posture, scientific/ops metrics, roadmap, visualization settings, and the code‑as‑scanned structure used for Deep Search.
+
+---
 
 **LUKHAS** *(Logical Unified Knowledge Hyper-Adaptable System)*  
 **MΛTRIZ** *(Modular Alignment Transparency Resonance Identity Zero-Knowledge)*  

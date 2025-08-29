@@ -1,7 +1,0 @@
->>> security/__init__.py
-
->>> security/scanning/__init__.py
-
->>> security/scanning/consciousness-security-rules.py
-
->>> security/scanning/consciousness_security_rules.py
