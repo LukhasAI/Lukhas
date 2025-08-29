@@ -8,7 +8,7 @@ This module provides bio-inspired utilities for creativity and supervision.
 
 import logging
 import math
-import random
+import secrets
 from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -86,22 +86,26 @@ class BioUtilities:
         Returns:
             Potentially mutated value
         """
-        if random.random() < mutation_rate:
+        if secrets.randbelow(10000) / 10000.0 < mutation_rate:
             if isinstance(value, (int, float)):
                 # Numerical mutation
-                mutation = random.gauss(0, 0.1)
+                # Use secure random for mutation with normal distribution approximation
+                mutation = (secrets.randbelow(2000) - 1000) / 10000.0 * 0.1
                 return value * (1 + mutation)
             elif isinstance(value, str):
                 # String mutation (flip random character)
-                if value and random.random() < 0.5:
-                    pos = random.randint(0, len(value) - 1)
+                if value and secrets.randbelow(2) == 0:
+                    pos = secrets.randbelow(len(value))
                     chars = list(value)
                     chars[pos] = chr((ord(chars[pos]) + 1) % 128)
                     return "".join(chars)
             elif isinstance(value, list):
                 # List mutation (swap two elements)
                 if len(value) > 1:
-                    i, j = random.sample(range(len(value)), 2)
+                    i = secrets.randbelow(len(value))
+                    j = secrets.randbelow(len(value))
+                    while j == i and len(value) > 1:
+                        j = secrets.randbelow(len(value))
                     value_copy = value.copy()
                     value_copy[i], value_copy[j] = value_copy[j], value_copy[i]
                     return value_copy

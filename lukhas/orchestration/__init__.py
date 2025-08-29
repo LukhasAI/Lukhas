@@ -31,10 +31,14 @@ from .kernel_bus import (
     subscribe,
 )
 
+# Alias for backward compatibility
+OrchestrationHub = KernelBus
+
 __all__ = [
     # Context bus
     "build_context",
     "KernelBus",
+    "OrchestrationHub",  # Alias
     "EventPriority",
     "get_kernel_bus",
     "emit",

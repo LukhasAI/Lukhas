@@ -6,7 +6,7 @@ Reusable decorators for LUKHAS modules.
 
 import asyncio
 import functools
-import random
+import secrets
 import time
 from datetime import datetime
 from typing import Callable, Optional, Union
@@ -61,8 +61,9 @@ def retry(
                             f"after {type(e).__name__}: {str(e)}"
                         )
 
-                        # Add jitter to prevent thundering herd
-                        jittered_delay = current_delay * (0.5 + random.random())
+                        # Add secure jitter to prevent thundering herd
+                        jitter = secrets.randbelow(1000) / 2000.0  # 0.0 to 0.5
+                        jittered_delay = current_delay * (0.5 + jitter)
                         await asyncio.sleep(jittered_delay)
                         current_delay *= backoff
                     else:
@@ -92,8 +93,9 @@ def retry(
                             f"after {type(e).__name__}: {str(e)}"
                         )
 
-                        # Add jitter
-                        jittered_delay = current_delay * (0.5 + random.random())
+                        # Add secure jitter
+                        jitter = secrets.randbelow(1000) / 2000.0  # 0.0 to 0.5
+                        jittered_delay = current_delay * (0.5 + jitter)
                         time.sleep(jittered_delay)
                         current_delay *= backoff
                     else:
@@ -131,10 +133,10 @@ def with_timeout(timeout: float, error_message: Optional[str] = None) -> Callabl
         async def wrapper(*args, **kwargs):
             try:
                 return await asyncio.wait_for(func(*args, **kwargs), timeout=timeout)
-            except asyncio.TimeoutError:
+            except asyncio.TimeoutError as err:
                 msg = error_message or f"{func.__name__} timed out after {timeout}s"
                 logger.error(msg)
-                raise ModuleTimeoutError(msg)
+                raise ModuleTimeoutError(msg) from err
 
         # Only works with async functions
         if not asyncio.iscoroutinefunction(func):

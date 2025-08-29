@@ -24,8 +24,12 @@ from .consciousness_wrapper import (
     SafetyMode,
 )
 
+# Alias for backward compatibility
+ConsciousnessKernel = ConsciousnessWrapper
+
 __all__ = [
     "ConsciousnessWrapper",
+    "ConsciousnessKernel",  # Alias
     "ConsciousnessConfig",
     "ConsciousnessState",
     "AwarenessLevel",

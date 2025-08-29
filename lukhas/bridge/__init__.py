@@ -37,7 +37,7 @@ _bridge_wrapper_instance = None
 
 def get_bridge_wrapper():
     """Get the Bridge wrapper instance (singleton)"""
-    global _bridge_wrapper_instance
+    global _bridge_wrapper_instance  # noqa: PLW0603
     if _bridge_wrapper_instance is None:
         try:
             from .bridge_wrapper import BridgeWrapper
@@ -65,10 +65,24 @@ def get_bridge_status() -> dict[str, Any]:
     }
 
 
+# Import core bridge classes
+try:
+    from .bridge_wrapper import BridgeWrapper, MultiModelOrchestrator
+    # Alias for backward compatibility
+    APIBridge = BridgeWrapper
+except ImportError as e:
+    logger.warning(f"Failed to import bridge classes: {e}")
+    BridgeWrapper = None
+    MultiModelOrchestrator = None
+    APIBridge = None
+
 # Export main interface
 __all__ = [
     "get_bridge_wrapper",
     "get_bridge_status",
+    "BridgeWrapper",
+    "APIBridge",  # Alias
+    "MultiModelOrchestrator",
     "BRIDGE_ACTIVE",
     "BRIDGE_DRY_RUN",
     "MODULE_VERSION",

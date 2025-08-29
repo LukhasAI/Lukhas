@@ -41,10 +41,25 @@ except Exception:
     # Graceful fallback if integration components not available
     AUTHENTICATION_AVAILABLE = False
 
+# Import authentication service
+try:
+    from .auth_service import AuthenticationService, AuthResult, UserProfile
+    # Alias for backward compatibility
+    IdentityService = AuthenticationService
+except ImportError:
+    AuthenticationService = None
+    AuthResult = None
+    UserProfile = None
+    IdentityService = None
+
 # Export components
 __all__ = [
     "lambda_id",
     "webauthn",
+    "AuthenticationService",
+    "IdentityService",  # Alias
+    "AuthResult",
+    "UserProfile",
     "AUTHENTICATION_AVAILABLE",
     "IDENTITY_CORE_AVAILABLE",
 ]

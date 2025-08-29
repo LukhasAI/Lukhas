@@ -24,10 +24,10 @@ except ImportError as e:
     ColonyMemoryValidator = None
 
 try:
-    from .hybrid_memory_fold import HybridMemoryFold, create_hybrid_memory_fold
+    from ..fold_system.hybrid_memory_fold import HybridMemoryFold, create_hybrid_memory_fold
 
     logger.debug(
-        "Imported HybridMemoryFold and create_hybrid_memory_fold from .hybrid_memory_fold"
+        "Imported HybridMemoryFold and create_hybrid_memory_fold from ..fold_system.hybrid_memory_fold"
     )
 except ImportError as e:
     logger.warning(
