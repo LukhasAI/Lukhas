@@ -1,12 +1,10 @@
-import dynamic from 'next/dynamic'
+import NeuralBackgroundWrapper from '@/components/neural-background-wrapper'
 import StateLayout from '@/components/state-layout'
 import CMP from '@/components/cmp'
 import type { Metadata } from 'next'
 import { Toaster } from 'sonner'
 import './globals.css'
 import '../styles/auth-accessibility.css'
-
-const NeuralBackground = dynamic(() => import('@/components/neural-background'), { ssr: false })
 
 export const metadata: Metadata = {
   title: 'LUKHΛS — AI Web Studio',
@@ -23,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="text-white antialiased">
-        {bgEnabled && <NeuralBackground mode="landing" />}
+        {bgEnabled && <NeuralBackgroundWrapper mode="landing" />}
         <StateLayout>
           {children}
         </StateLayout>

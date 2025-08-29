@@ -485,3 +485,42 @@ teams would deploy at scale.
 🤖 Generated with Claude Code
 
 Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
+{"timestamp":"2025-08-29T04:08:31Z","commit":"d080e3fe02b9877be4a4a0ad68820d20c0ba46e0","branch":"main","author":"LukhasAI","message":"🔧 T4-Lens Architecture Consistency + SDK Skeletons
+
+Applied T4-level consistency fixes to architecture files:
+
+🏗️ SIGIL/ΛID Architecture Updates:
+• Added ConsentReceipt and PayoutReceipt examples under NIAS integration
+• Demonstrates canonical schema usage with proper ΛID integration
+• Receipt examples show cryptographic signatures and audit trails
+
+📱 DAST Architecture Updates:
+• Added delivery engine integration documentation
+• Connected /plan and /deliver endpoints to DAST widget delivery
+• Clarified shared Opportunity contract with NIAS system
+
+🛠️ Drop-in SDK Skeletons:
+• TypeScript Merchant SDK (sdk/merchant/index.ts)
+  - Campaign creation and creative upload
+  - S2S attribution reporting
+  - Affiliate link management
+• TypeScript Publisher SDK (sdk/publisher/index.ts)
+  - Plan/deliver API integration
+  - NIAS cloud mounting utilities
+  - ABAS user state integration
+• OpenAI Creative Planner (server/creativePlanner.ts)
+  - Responses API integration for copy generation
+  - Images API for cached creative assets
+  - Content moderation and brand safety
+
+All SDKs assume the canonical Opportunity contract and unified
+/plan, /deliver, /receipts endpoints for weekend integration.
+
+🎯 Ready for Production:
+- Weekend-deployable SDK templates
+- Consistent architecture documentation
+- T4-level code organization and patterns
+
+🤖 Generated with Claude Code
+
+Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
