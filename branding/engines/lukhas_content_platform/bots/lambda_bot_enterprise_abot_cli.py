@@ -86,12 +86,12 @@ def ai():
 @click.option("--consciousness-level", type=click.Choice(["FOCUSED", "QUANTUM"]), default="FOCUSED")
 def review(pr_number: int, auto_merge: bool, consciousness_level: str):
     """Review a specific PR with LUKHAS AI ΛBot intelligence"""
-    click.echo(f"🤖 LUKHAS AI ΛBot reviewing PR ")
+    click.echo(f"🤖 LUKHAS AI ΛBot reviewing PR #{pr_number}")
 
     # Simulate PR data (in real implementation, fetch from GitHub API)
     pr_data = {
         "number": pr_number,
-        "title": f"Sample PR ",
+        "title": f"Sample PR #{pr_number}",
         "description": "Enhanced AI capabilities",
         "author": "developer",
         "files": ["brain/test.py", "LUKHAS AI ΛBot/core_abot.py"]
@@ -102,7 +102,7 @@ def review(pr_number: int, auto_merge: bool, consciousness_level: str):
             from lukhas_ai_lambda_bot.specialists.ABotDocumentationHub import (
                 ABotDocumentationHub,
             )
-            from lukhas_ai_lambda_bot.specialists.ABotPRReviewer import ABotPRReviewer
+            # from lukhas_ai_lambda_bot.specialists.ABotPRReviewer import ABotPRReviewer  # (unused)
 
             # Use documentation hub for comprehensive review
             hub = ABotDocumentationHub()
@@ -1127,7 +1127,7 @@ def create_user(lambda_id_hash: str, consent: str, tier: int):
         # Validate format first
         validation = validate_λid(lambda_id_hash)
         if not validation["valid"]:
-            click.echo(f"❌ Invalid ΛID"error']}")
+            click.echo(f"❌ Invalid ΛID format: {validation['error']}")
             click.echo("\n💡 Examples:")
             for example in validation.get("suggestions", [])[:3]:
                 click.echo(f"   {example}")
@@ -1138,23 +1138,23 @@ def create_user(lambda_id_hash: str, consent: str, tier: int):
         result = create_λid(lambda_id_hash, consent_level)
 
         if result.get("status") == "created":
-            click.echo("✅ ΛID)  #  created successfully!"
-            click.echo(f"🆔 ΛID"ΛID#']}")
+            click.echo("✅ ΛID# created successfully!")
+            click.echo(f"🆔 ΛID#: {result['ΛID#']}")
             click.echo(f"📝 ΛSIGN: {result['ΛSIGN']}")
             click.echo(f"📊 ΛTRACE: {result['ΛTRACE']}")
             click.echo(f"🌍 Country: {result['country']}")
             click.echo(f"🏷️ Type: {result['type']}")
         else:
-            click.echo(f"❌ Failed to create ΛID"error', 'Unknown error')}")
+            click.echo(f"❌ Failed to create ΛID: {result.get('error', 'Unknown error')}")
 
     except Exception as e:
-        click.echo(f"❌ Error creating ΛID")
+        click.echo(f"❌ Error creating ΛID: {e}")
 
 @lambda_id.command()
 @click.argument("lambda_id_hash")
 def get_info(lambda_id_hash: str):
     """Get complete ΛID# information"""
-    click.echo(f"🔍 Getting ΛID")
+    click.echo(f"🔍 Getting ΛID info for: {lambda_id_hash}")
 
     try:
         import sys
@@ -1164,8 +1164,8 @@ def get_info(lambda_id_hash: str):
         info = get_λid_info(lambda_id_hash)
 
         if info:
-            click.echo("✅ ΛID)  #  Information:"
-            click.echo(f"🆔 ΛID"ΛID#']}")
+            click.echo("✅ ΛID# Information:")
+            click.echo(f"🆔 ΛID#: {info['ΛID#']}")
             click.echo(f"📝 ΛSIGN: {info['ΛSIGN']}")
             click.echo(f"📊 ΛTRACE: {info['ΛTRACE']}")
             click.echo(f"🌍 Country: {info['country']}")
@@ -1176,10 +1176,10 @@ def get_info(lambda_id_hash: str):
             click.echo(f"⏰ Last Access: {info['last_access']}")
             click.echo(f"📅 Created: {info['creation_time']}")
         else:
-            click.echo(f"❌ ΛID")
+            click.echo(f"❌ ΛID not found: {lambda_id_hash}")
 
     except Exception as e:
-        click.echo(f"❌ Error getting ΛID")
+        click.echo(f"❌ Error getting ΛID info: {e}")
 
 @lambda_id.command()
 @click.argument("lambda_id_hash")
@@ -1215,7 +1215,7 @@ def verify_consent(lambda_id_hash: str, required_consent: str):
 @lambda_id.command()
 def validate_format():
     """Interactive ΛID# format validator and helper"""
-    click.echo("🔍 ΛID)  #  Format Validator"
+    click.echo("🔍 ΛID# Format Validator")
     click.echo("=" * 40)
 
     try:
@@ -1242,23 +1242,23 @@ def validate_format():
             click.echo(f"   {', '.join(org_list[i:i+8])}")
 
         # Interactive validation
-        click.echo("\n💡 ΛID)  #  Format: {country_code}-{identifier}"
+        click.echo("\n💡 ΛID# Format: {country_code}-{identifier}")
         click.echo("   - Country: 2-letter ISO code (e.g., US, UK, ES)")
         click.echo("   - Identifier: 4-16 characters (letters, numbers, -, _)")
         click.echo("   - Examples: US-1234567890, UK-TECH123456, ES-ID987654")
 
-        lambda_id = click.prompt("\n🆔 Enter ΛID)  #  to validate", default="US-1234567890"
+        lambda_id = click.prompt("\n🆔 Enter ΛID# to validate", default="US-1234567890")
 
         validation = validate_λid(lambda_id)
 
         if validation["valid"]:
-            click.echo("✅ Valid ΛID)  #  Format!"
+            click.echo("✅ Valid ΛID# Format!")
             click.echo(f"🌍 Country: {validation['country_code']} ({validation['country_name']})")
             click.echo(f"🏷️ Identifier: {validation['identifier']}")
             click.echo(f"📏 Length: {validation['length']} characters")
             click.echo(f"🎯 Type: {validation['type']}")
         else:
-            click.echo("❌ Invalid ΛID)  #  Format"
+            click.echo("❌ Invalid ΛID# Format")
             click.echo(f"Error: {validation['error']}")
             click.echo("\n💡 Suggestions:")
             for suggestion in validation.get("suggestions", [])[:5]:
@@ -1319,7 +1319,7 @@ def list_traces(user_ref: str, action: str, limit: int):
             if trace.get("metadata", {}).get("user_ref"):
                 click.echo(f"   👤 User: {trace['metadata']['user_ref']}")
             if trace.get("metadata", {}).get("lambda_id"):
-                click.echo(f"   🆔 ΛID"metadata']['lambda_id']}")
+                click.echo(f"   🆔 ΛID#: {trace['metadata']['lambda_id']}")
 
         if len(traces) > limit:
             click.echo(f"\n... and {len(traces) - limit} more traces")

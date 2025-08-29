@@ -253,7 +253,7 @@ class BotCustomizer:
         widget_data = {{
             "text": "{design.get('text', '🤖 LUKHAS AI ΛBot')}",
             "tooltip": "LUKHAS AI ΛBot Quality Monitor - Click for {action.get('name', 'actions')}",
-            "color": "{colors.get('success', ')  # 28a745'}",
+            "color": "{colors.get('success', '#28a745')}",
             "command": "{action.get('command', 'workbench.action.tasks.runTask')}",
             "arguments": {action.get('args', [])},
             "priority": 100,
