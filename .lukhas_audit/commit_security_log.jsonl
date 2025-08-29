@@ -653,3 +653,4 @@ LUKHAS AI is now enterprise-ready for real-world partnerships at scale.
 
 Co-Authored-By: Claude <noreply@anthropic.com>","security_scan":"pending"}
 {"timestamp":"2025-08-29T17:23:12Z","commit":"06b5e4b0db381e36cc1a581658e0d3766f69771d","branch":"main","author":"LukhasAI","message":"docs(deep-search): reference master JSON artifacts and extended indexes","security_scan":"pending"}
+{"timestamp":"2025-08-29T17:25:17Z","commit":"423823738912a68d20421117660df5b28ce28df4","branch":"main","author":"LukhasAI","message":"chore: finalize deep-search prep and commit MATRIZ schema/orchestrator updates","security_scan":"pending"}

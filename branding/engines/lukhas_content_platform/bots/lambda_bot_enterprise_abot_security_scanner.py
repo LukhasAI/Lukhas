@@ -122,7 +122,9 @@ class ABotSecurityScanner:
 
             for line in content.splitlines():
                 line = line.strip()
-                if line and not line.startswith(")  # ":
+                # Skip comment and empty lines in requirements
+                if not line or line.startswith("#"):
+                    continue
                     vulnerability = self._check_package_vulnerability(line, req_file)
                     if vulnerability:
                         vulnerabilities.append(vulnerability)

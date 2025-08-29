@@ -86,12 +86,12 @@ def ai():
 @click.option("--consciousness-level", type=click.Choice(["FOCUSED", "QUANTUM"]), default="FOCUSED")
 def review(pr_number: int, auto_merge: bool, consciousness_level: str):
     """Review a specific PR with LUKHAS AI ΛBot intelligence"""
-    click.echo(f"🤖 LUKHAS AI ΛBot reviewing PR ")
+    click.echo(f"🤖 LUKHAS AI ΛBot reviewing PR #{pr_number}")
 
     # Simulate PR data (in real implementation, fetch from GitHub API)
     pr_data = {
         "number": pr_number,
-        "title": f"Sample PR ",
+        "title": f"Sample PR #{pr_number}",
         "description": "Enhanced AI capabilities",
         "author": "developer",
         "files": ["brain/test.py", "LUKHAS AI ΛBot/core_abot.py"]
@@ -102,7 +102,7 @@ def review(pr_number: int, auto_merge: bool, consciousness_level: str):
             from lukhas_ai_lambda_bot.specialists.ABotDocumentationHub import (
                 ABotDocumentationHub,
             )
-            from lukhas_ai_lambda_bot.specialists.ABotPRReviewer import ABotPRReviewer
+            # from lukhas_ai_lambda_bot.specialists.ABotPRReviewer import ABotPRReviewer  # (unused)
 
             # Use documentation hub for comprehensive review
             hub = ABotDocumentationHub()
