@@ -1,0 +1,411 @@
+{
+  "pillar": "NIAS",
+  "full_name": "Non-Intrusive Advertising System",
+  "description": "NIAS delivers product images with quick 'Buy Now' buttons, using consciousness-aware timing and pre-stored user details for one-click purchases",
+  "version": "1.0.0",
+  "status": "implemented",
+  
+  "architecture": {
+    "core_concept": "Image-based commerce with consciousness-aware delivery timing",
+    "delivery_method": "Product images with embedded buy buttons",
+    "purchase_flow": "One-click purchase using pre-stored user payment/shipping details",
+    "non_intrusive_principle": "Respects user emotional state and attention boundaries"
+  },
+
+  "core_components": {
+    "nias_engine": {
+      "file": "lambda_products/lambda_products_pack/lambda_core/NIAS/core/nias_engine.py",
+      "class": "NIASEngine",
+      "description": "Core processing engine that orchestrates the entire message delivery pipeline",
+      "features": [
+        "Emotional state gating",
+        "Symbolic message processing", 
+        "Lambda Products integration",
+        "Tier-aware processing",
+        "Event bus coordination"
+      ],
+      "processing_phases": [
+        "consent_check",
+        "emotional_gating", 
+        "symbolic_processing",
+        "tier_filtering",
+        "widget_generation",
+        "delivery"
+      ]
+    },
+
+    "consent_filter": {
+      "file": "lambda_products/lambda_products_pack/lambda_core/NIAS/core/consent_filter.py",
+      "class": "ConsentFilter",
+      "description": "Handles user consent verification and privacy protection",
+      "consent_types": [
+        "message_delivery",
+        "dream_seed_planting",
+        "behavioral_analysis",
+        "data_collection",
+        "brand_targeting",
+        "emotional_state_analysis",
+        "cross_session_tracking"
+      ],
+      "features": [
+        "Granular consent types",
+        "GDPR compliance",
+        "Automatic expiration",
+        "Consent withdrawal tracking",
+        "Privacy-first design"
+      ]
+    },
+
+    "widget_engine": {
+      "file": "lambda_products/lambda_products_pack/lambda_core/NIAS/core/widget_engine.py", 
+      "class": "WidgetEngine",
+      "description": "Advanced widget engine for NIAS interactive experiences",
+      "widget_types": [
+        "basic_card",
+        "interactive_widget", 
+        "immersive_experience",
+        "seasonal_themed",
+        "brand_showcase",
+        "assistant_mode"
+      ],
+      "interaction_types": [
+        "tap",
+        "double_tap", 
+        "triple_tap",
+        "hold",
+        "swipe_left",
+        "swipe_right",
+        "swipe_up",
+        "swipe_down",
+        "pinch",
+        "rotate"
+      ]
+    },
+
+    "tier_manager": {
+      "file": "lambda_products/lambda_products_pack/lambda_core/NIAS/core/tier_manager.py",
+      "class": "TierManager", 
+      "description": "Manages user access tiers and processing configurations",
+      "tiers": {
+        "T3": {
+          "name": "Basic",
+          "features": ["simple widgets", "basic interactions"],
+          "cost": "free"
+        },
+        "T2": {
+          "name": "Enhanced", 
+          "features": ["interactive widgets", "assistant mode", "animations"],
+          "cost": "$97/month"
+        },
+        "T1": {
+          "name": "Premium",
+          "features": ["immersive experiences", "full customization", "AR support"],
+          "cost": "$497/month"  
+        }
+      }
+    },
+
+    "dream_recorder": {
+      "file": "lambda_products/lambda_products_pack/lambda_core/NIAS/core/dream_recorder.py",
+      "description": "Records dream seeds for dream system integration",
+      "features": [
+        "Brand-specific dream seed recording",
+        "User consent verification",
+        "Dream narrative generation",
+        "Sleep pattern analysis integration"
+      ]
+    }
+  },
+
+  "emotional_states": {
+    "description": "NIAS respects user emotional state for appropriate delivery timing",
+    "states": {
+      "receptive": {
+        "allow_delivery": true,
+        "priority_boost": 1.2,
+        "optimal_timing": true,
+        "widget_enhancement": true
+      },
+      "neutral": {
+        "allow_delivery": true, 
+        "priority_boost": 1.0,
+        "optimal_timing": false,
+        "widget_enhancement": false
+      },
+      "relaxed": {
+        "allow_delivery": true,
+        "priority_boost": 1.1, 
+        "optimal_timing": true,
+        "preferred_types": ["dream_seeds", "gentle_recommendations"]
+      },
+      "focused": {
+        "allow_delivery": false,
+        "defer_duration_hours": 2,
+        "exception_priority": 5,
+        "reason": "User is focused - avoid interruption"
+      },
+      "stressed": {
+        "allow_delivery": false,
+        "defer_duration_hours": 4,
+        "wellness_consideration": true,
+        "reason": "User appears stressed - deferring for wellness"
+      },
+      "overwhelmed": {
+        "allow_delivery": false,
+        "defer_duration_hours": 8,
+        "exception_priority": null,
+        "reason": "User appears overwhelmed - extended deferral"
+      }
+    }
+  },
+
+  "integrations": {
+    "abas_integration": {
+      "description": "ΛBAS (Lambda Boundary Attention System) integration for attention boundaries",
+      "features": [
+        "Real-time attention state monitoring",
+        "Flow state protection",
+        "Cognitive load balancing",
+        "Lambda decision audit trails"
+      ]
+    },
+    "dast_integration": {
+      "description": "DΛST (Dynamic Lambda Symbol Tracker) integration for symbolic processing", 
+      "features": [
+        "Symbolic context tracking",
+        "Multi-source data integration",
+        "Pattern recognition",
+        "Context coherence analysis"
+      ]
+    },
+    "market_intelligence": {
+      "description": "Market Intelligence integration for trillion-dollar opportunity detection",
+      "components": [
+        "market_intelligence_engine",
+        "economic_reality_manipulator", 
+        "value_creation_synthesizer",
+        "economic_causality_analyzer",
+        "competitive_landscape_controller"
+      ]
+    }
+  },
+
+  "image_delivery_system": {
+    "description": "Core NIAS concept: deliver product images with embedded buy buttons",
+    "image_types": [
+      "product_showcase",
+      "lifestyle_context",
+      "comparison_view",
+      "seasonal_themed",
+      "brand_story"
+    ],
+    "delivery_channels": [
+      "web_overlay",
+      "browser_extension", 
+      "mobile_app",
+      "email_integration",
+      "ar_environment"
+    ],
+    "buy_button_features": [
+      "one_click_purchase",
+      "pre_stored_payment_details",
+      "pre_stored_shipping_info",
+      "purchase_confirmation_modal",
+      "earnings_tracking"
+    ]
+  },
+
+  "purchase_flow": {
+    "description": "Streamlined purchase process using pre-stored user details",
+    "steps": [
+      {
+        "step": 1,
+        "action": "user_sees_product_image",
+        "description": "NIAS delivers consciousness-aware product image"
+      },
+      {
+        "step": 2, 
+        "action": "user_clicks_buy_button",
+        "description": "Simple buy button embedded in image"
+      },
+      {
+        "step": 3,
+        "action": "show_confirmation_modal", 
+        "description": "Display purchase confirmation with pre-stored details"
+      },
+      {
+        "step": 4,
+        "action": "user_confirms_purchase",
+        "description": "One-click confirmation to complete purchase"
+      },
+      {
+        "step": 5,
+        "action": "process_payment",
+        "description": "Process payment using stored payment method"
+      },
+      {
+        "step": 6,
+        "action": "update_earnings",
+        "description": "Credit user's ΛWALLET with profit share"
+      }
+    ]
+  },
+
+  "data_personalization": {
+    "description": "Data sources used for personalized image delivery",
+    "sources": {
+      "email_integration": {
+        "platforms": ["gmail", "outlook", "yahoo"],
+        "data_types": ["purchase_receipts", "order_confirmations", "newsletters"],
+        "privacy": "zero_knowledge_processing"
+      },
+      "shopping_history": {
+        "platforms": ["amazon", "ebay", "shopify"],
+        "data_types": ["past_purchases", "wishlist_items", "cart_abandonment"],
+        "privacy": "category_level_only"
+      },
+      "social_signals": {
+        "platforms": ["instagram", "pinterest", "tiktok"],
+        "data_types": ["liked_products", "saved_posts", "interest_graph"],
+        "privacy": "no_personal_posts"
+      },
+      "behavioral_patterns": {
+        "sources": ["device_usage", "app_interactions"],
+        "data_types": ["active_hours", "mood_indicators", "attention_patterns"],
+        "privacy": "on_device_processing"
+      }
+    }
+  },
+
+  "compliance_framework": {
+    "description": "Comprehensive compliance and privacy protection",
+    "standards": [
+      "GDPR",
+      "CCPA", 
+      "COPPA",
+      "PIPEDA",
+      "LGPD",
+      "POPIA"
+    ],
+    "privacy_features": [
+      "explicit_consent",
+      "data_minimization",
+      "purpose_limitation",
+      "storage_limitation",
+      "right_to_access",
+      "right_to_rectification", 
+      "right_to_erasure",
+      "right_to_portability"
+    ],
+    "guardian_protection": {
+      "description": "Guardian System v1.0.0 ethical oversight",
+      "features": [
+        "280+ validation rules",
+        "drift_threshold_0.15",
+        "real_time_monitoring",
+        "manipulation_prevention",
+        "ethical_alignment_enforcement"
+      ]
+    }
+  },
+
+  "earnings_model": {
+    "description": "User earnings from NIAS participation",
+    "profit_sharing": {
+      "base_percentage": "40-60%",
+      "calculation": "dynamic based on value creation",
+      "payout_methods": ["λwallet", "bank_transfer", "crypto", "gift_cards"]
+    },
+    "earning_tiers": {
+      "basic_sharing": "$500-1000/month",
+      "enhanced_sharing": "$1500-3000/month", 
+      "full_partnership": "$3000-5000/month"
+    },
+    "earning_triggers": [
+      "image_impression",
+      "buy_button_click",
+      "purchase_completion",
+      "data_contribution",
+      "feedback_provision"
+    ]
+  },
+
+  "technical_specifications": {
+    "languages": ["python", "javascript", "typescript"],
+    "frameworks": ["fastapi", "react", "nextjs"],
+    "databases": ["postgresql", "redis"],
+    "infrastructure": ["docker", "kubernetes", "aws"],
+    "apis": {
+      "internal": [
+        "nias_engine_api",
+        "consent_management_api",
+        "earnings_calculation_api"
+      ],
+      "external": [
+        "gmail_api",
+        "amazon_mws",
+        "instagram_basic_display",
+        "stripe_payments"
+      ]
+    }
+  },
+
+  "deployment_architecture": {
+    "environments": {
+      "development": {
+        "url": "http://localhost:8080",
+        "features": ["full_debug", "test_mode", "mock_payments"]
+      },
+      "staging": {
+        "url": "https://nias-staging.lukhas.ai", 
+        "features": ["performance_testing", "user_acceptance_testing"]
+      },
+      "production": {
+        "url": "https://nias.lukhas.ai",
+        "features": ["full_compliance", "real_payments", "guardian_oversight"]
+      }
+    },
+    "scaling": {
+      "image_delivery": "cdn_with_edge_caching",
+      "purchase_processing": "horizontal_scaling_with_load_balancer", 
+      "user_data": "encrypted_distributed_storage"
+    }
+  },
+
+  "future_enhancements": {
+    "planned_features": [
+      "ar_product_visualization",
+      "voice_purchase_commands",
+      "ai_powered_size_recommendations",
+      "social_commerce_integration",
+      "cryptocurrency_payments"
+    ],
+    "research_areas": [
+      "consciousness_commerce_correlation",
+      "predictive_purchase_intent",
+      "ethical_influence_boundaries",
+      "dream_commerce_integration"
+    ]
+  },
+
+  "success_metrics": {
+    "user_metrics": [
+      "monthly_active_users",
+      "average_earnings_per_user",
+      "user_satisfaction_score",
+      "consent_retention_rate"
+    ],
+    "business_metrics": [
+      "conversion_rate_improvement",
+      "merchant_satisfaction",
+      "platform_revenue_growth", 
+      "market_intelligence_accuracy"
+    ],
+    "ethical_metrics": [
+      "guardian_intervention_rate",
+      "user_control_exercise_frequency",
+      "privacy_violation_incidents",
+      "manipulation_prevention_success"
+    ]
+  }
+}
