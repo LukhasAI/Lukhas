@@ -204,7 +204,7 @@ def generated_solution():
 
 if __name__ == "__main__":
     result = generated_solution()
-    print(f"Result: {{result}}")
+    print(f"Result: {result}")
 '''
 
     def _generate_advanced_code(self, request: str) -> str:
@@ -230,9 +230,9 @@ class AdvancedSolution:
         try:
             # Advanced implementation logic
             result = await self._process_advanced_logic(params)
-            return {{"success": True, "result": result}}
+            return {"success": True, "result": result}
         except Exception as e:
-            return {{"success": False, "error": str(e)}}
+            return {"success": False, "error": str(e)}
 
     async def _process_advanced_logic(self, params: Dict[str, Any]) -> Any:
         """Process with advanced logic capabilities"""
@@ -242,8 +242,8 @@ class AdvancedSolution:
 # Usage
 if __name__ == "__main__":
     solution = AdvancedSolution()
-    result = asyncio.run(solution.execute({{}}))
-    print(f"Advanced Result: {{result}}")
+    result = asyncio.run(solution.execute({}))
+    print(f"Advanced Result: {result}")
 '''
 
 class CoreAPIAdapter:
@@ -484,26 +484,26 @@ class CoreABot:
         if "code" in user_input.lower() or "program" in user_input.lower():
             code_result, code_upgrade = await self.self_coding.generate_code(user_input, context)
             if code_result:
-                response_parts.append(f"I've generated some code for you:\n\n```python\n{code_result}\n```")'
+                response_parts.append(f"I've generated some code for you:\n\n```python\n{code_result}\n```")
             else:
-                response_parts.append("I'd love to help with coding, but this request requires advanced capabilities. ")'
+                response_parts.append("I'd love to help with coding, but this request requires advanced capabilities. ")
 
         elif "api" in user_input.lower() or "connect" in user_input.lower():
             api_success, api_upgrade = await self.api_adapter.connect_to_api("example.com")
             if api_success:
                 response_parts.append("I can help you connect to APIs. ")
             else:
-                response_parts.append("I've reached my API connection limits. ")'
+                response_parts.append("I've reached my API connection limits. ")
 
         else:
             # General conversation
-            response_parts.append(f"I understand you're asking about: {user_input[:100]}... ")'
+            response_parts.append(f"I understand you're asking about: {user_input[:100]}... ")
 
             # Add personality-based response
             if self.personality_traits["humor"] > 0.5:
                 response_parts.append("😊 ")
 
-            response_parts.append("I'm here to help! ")'
+            response_parts.append("I'm here to help! ")
 
             # Add subtle upgrade hints for free tier
             if self.subscription_tier == SubscriptionTier.FREE and complexity_score > 0.6:

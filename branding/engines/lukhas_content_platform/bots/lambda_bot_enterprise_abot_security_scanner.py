@@ -156,7 +156,7 @@ class ABotSecurityScanner:
                     "vulnerability": threat_info,
                     "file": str(req_file),
                     "fix_required": True,
-                    "recommended_fix": f"{package_name}>={threat_info['fixed_version']}"
+                    "recommended_fix": "{}>={}".format(package_name, threat_info['fixed_version'])
                 }
 
         return None
@@ -297,7 +297,7 @@ async def main():
     print(f"🧠 Consciousness: {results['consciousness_level']}")
     print(f"🔍 Vulnerabilities Found: {results['scan_summary']['total_vulnerabilities']}")
     print(f"🔥 Critical: {results['scan_summary']['critical_vulnerabilities']}")
-    print(f"⚠️  High: {results['scan_summary']['high_vulnerabilities']}")
+    print("⚠️  High: {}".format(results['scan_summary']['high_vulnerabilities']))
 
     print("\n🚀 LUKHAS AI ΛBot Advantages over Dependabot:")
     for advantage in results["scan_summary"]["abot_superiority"]["advantages"]:
