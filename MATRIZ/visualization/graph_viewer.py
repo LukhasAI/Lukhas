@@ -37,8 +37,6 @@ warnings.filterwarnings("ignore", category=UserWarning, module="plotly")
 try:
     import networkx as nx
     import numpy as np
-    import pandas as pd
-    import plotly.express as px
     import plotly.graph_objects as go
     from plotly.subplots import make_subplots
 except ImportError as e:
@@ -1474,11 +1472,6 @@ class MATRIZGraphViewer:
 
 # Example usage and testing
 if __name__ == "__main__":
-    import sys
-    from pathlib import Path
-
-    # Add parent directory to path for imports
-    sys.path.insert(0, str(Path(__file__).parent.parent))
 
     # Example MATRIZ nodes for testing
     example_nodes = [

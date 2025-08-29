@@ -72,7 +72,8 @@ def dump_state(output_path: str) -> dict[str, Any]:
         state = {
             "version": __version__,
             "folds": 0,
-            "checksum": hashlib.md5(b"empty_memory_state").hexdigest(),
+            # Non-security checksum: use SHA256 to satisfy security linters
+            "checksum": hashlib.sha256(b"empty_memory_state").hexdigest(),
             "timestamp": time.time(),
             "status": "memory_not_available",
         }
@@ -92,7 +93,8 @@ def dump_state(output_path: str) -> dict[str, Any]:
         state = {
             "version": __version__,
             "folds": fold_count,
-            "checksum": hashlib.md5(state_content.encode()).hexdigest(),
+            # Non-security checksum: use SHA256 to satisfy security linters
+            "checksum": hashlib.sha256(state_content.encode()).hexdigest(),
             "timestamp": time.time(),
             "status": "available" if MEMORY_AVAILABLE else "unavailable",
         }

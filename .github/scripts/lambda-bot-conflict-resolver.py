@@ -35,15 +35,23 @@ def resolve_documentation_conflicts(file_path):
                 in_conflict = False
 
                 # Intelligent merge logic
-                if any("ΛTAG" in l or "ΛORIGIN" in l for l in our_lines + their_lines):
+                if any(
+                    "ΛTAG" in line_item or "ΛORIGIN" in line_item
+                    for line_item in our_lines + their_lines
+                ):
                     # Keep symbolic tags from both
                     resolved_lines.extend(our_lines)
                     resolved_lines.extend(
-                        [l for l in their_lines if l not in our_lines]
+                        [
+                            line_item
+                            for line_item in their_lines
+                            if line_item not in our_lines
+                        ]
                     )
                 elif any(
-                    "security" in l.lower() or "vulnerability" in l.lower()
-                    for l in our_lines
+                    "security" in line_item.lower()
+                    or "vulnerability" in line_item.lower()
+                    for line_item in our_lines
                 ):
                     # Keep security-related content
                     resolved_lines.extend(our_lines)
@@ -95,17 +103,22 @@ def resolve_python_conflicts(file_path):
                 in_conflict = False
 
                 # Python-specific merge logic
-                if any("import" in l for l in our_lines + their_lines):
+                if any("import" in line_item for line_item in our_lines + their_lines):
                     # Merge imports uniquely
                     all_imports = set(our_lines + their_lines)
                     resolved_lines.extend(sorted(all_imports))
                 elif any(
-                    "# ΛTAG" in l or "# ΛORIGIN" in l for l in our_lines + their_lines
+                    "# ΛTAG" in line_item or "# ΛORIGIN" in line_item
+                    for line_item in our_lines + their_lines
                 ):
                     # Keep symbolic headers
                     resolved_lines.extend(our_lines)
                     resolved_lines.extend(
-                        [l for l in their_lines if l not in our_lines]
+                        [
+                            line_item
+                            for line_item in their_lines
+                            if line_item not in our_lines
+                        ]
                     )
                 else:
                     # Default: keep our version
@@ -172,7 +185,10 @@ def main():
 
     if not args.dry_run:
         print(
-            f"\n🎯 Resolution Summary: {success_count}/{total_files} files resolved successfully"
+            (
+                "\n🎯 Resolution Summary: "
+                f"{success_count}/{total_files} files resolved successfully"
+            )
         )
 
         if success_count == total_files:

@@ -430,7 +430,7 @@ _bridge_instance: Optional[LUKHASBrandingBridge] = None
 
 async def initialize_branding() -> bool:
     """Initialize the global branding bridge"""
-    global _bridge_instance
+    global _bridge_instance  # noqa: PLW0603
     if _bridge_instance is None:
         _bridge_instance = LUKHASBrandingBridge()
     return await _bridge_instance.initialize()
@@ -438,7 +438,7 @@ async def initialize_branding() -> bool:
 
 def get_bridge() -> LUKHASBrandingBridge:
     """Get the global branding bridge instance"""
-    global _bridge_instance
+    global _bridge_instance  # noqa: PLW0603
     if _bridge_instance is None:
         _bridge_instance = LUKHASBrandingBridge()
     return _bridge_instance

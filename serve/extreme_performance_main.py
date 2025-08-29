@@ -41,9 +41,8 @@ except ImportError:
     print("⚠️ Uvloop not available - using standard asyncio")
 
 try:
-    import orjson
     from fastapi.responses import ORJSONResponse as JSONResponse
-    print("⚡ orjson enabled for 2-3x faster JSON serialization")
+    print("⚡ Fast orjson-based JSON serialization enabled")
 except ImportError:
     from fastapi.responses import JSONResponse
     print("⚠️ orjson not available - using standard JSON")
@@ -60,11 +59,9 @@ try:
         AuditEventType,
         AuditSeverity,
         get_extreme_audit_logger,
-        log_audit_event_extreme,
     )
     from lukhas.governance.identity.extreme_performance_connector import (
         get_extreme_identity_connector,
-        require_tier_extreme,
     )
     EXTREME_OPTIMIZATIONS_AVAILABLE = True
     print("🚀 Extreme performance optimizations loaded!")
@@ -647,6 +644,7 @@ __all__ = ["app", "ExtremePerformanceServer"]
 
 if __name__ == "__main__":
     # For development/testing - run with uvicorn for production
+    import os
     import uvicorn
 
     print("🚀 Starting LUKHAS AI Extreme Performance Server")
@@ -655,10 +653,12 @@ if __name__ == "__main__":
     print("   Target throughput: 100,000+ RPS")
     print("")
 
+    host = os.getenv("LUKHAS_BIND_HOST", "127.0.0.1")
+    port = int(os.getenv("LUKHAS_BIND_PORT", "8001"))
     uvicorn.run(
         "extreme_performance_main:app",
-        host="0.0.0.0",
-        port=8001,  # Use different port to avoid conflicts
+        host=host,
+        port=port,  # Use different port to avoid conflicts
         reload=False,  # Disable reload for maximum performance
         workers=1,     # Single worker for development
         loop="uvloop",  # Use uvloop for performance

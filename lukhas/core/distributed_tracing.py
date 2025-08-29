@@ -511,7 +511,7 @@ _global_tracer = None
 
 def get_global_collector() -> TraceCollector:
     """Get the global trace collector"""
-    global _global_collector
+    global _global_collector  # noqa: PLW0603
     if _global_collector is None:
         _global_collector = TraceCollector()
     return _global_collector
@@ -519,7 +519,7 @@ def get_global_collector() -> TraceCollector:
 
 def get_global_tracer(service_name: str = "lukhas-ai") -> DistributedTracer:
     """Get the global tracer"""
-    global _global_tracer
+    global _global_tracer  # noqa: PLW0603
     if _global_tracer is None:
         _global_tracer = DistributedTracer(service_name, get_global_collector())
     return _global_tracer
@@ -551,11 +551,9 @@ def demo_distributed_tracing():
             time.sleep(0.1)  # Simulate work
 
         # Simulate collaboration with another agent
-        with agent1_tracer.trace_agent_collaboration(
-            "reasoning-001", "memory-001", "knowledge_sharing"
-        ):
-            # Memory agent operations (simulated)
-            with agent2_tracer.trace_memory_operation(
+            with agent1_tracer.trace_agent_collaboration(
+                "reasoning-001", "memory-001", "knowledge_sharing"
+            ), agent2_tracer.trace_memory_operation(
                 "memory-001", "retrieve", memory_size=500
             ) as mem_ctx:
                 agent2_tracer.add_tag(mem_ctx, "query.type", "semantic_search")
@@ -597,8 +595,13 @@ class AgentState:
 class StateSnapshotter:
     """Handles taking and restoring agent state snapshots."""
 
-    def __init__(self, storage_path: str = "/tmp/snapshots"):
-        self.storage_path = storage_path
+    def __init__(self, storage_path: str = None):
+        import tempfile
+
+        # Use a safe, platform temp dir by default
+        self.storage_path = storage_path or os.path.join(
+            tempfile.gettempdir(), "lukhas_snapshots"
+        )
         if not os.path.exists(self.storage_path):
             os.makedirs(self.storage_path)
 

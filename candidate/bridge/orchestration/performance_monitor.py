@@ -542,8 +542,7 @@ class PerformanceMonitor:
                             if cb["state"] != "closed")
 
         # Calculate system health score
-        provider_scores = [self.get_provider_score(p, "general")
-                          for p in self.provider_stats.keys()]
+        provider_scores = [self.get_provider_score(p, "general") for p in self.provider_stats]
         avg_provider_score = statistics.mean(provider_scores) if provider_scores else 0.5
 
         latency_score = 1.0

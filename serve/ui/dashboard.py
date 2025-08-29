@@ -5,7 +5,6 @@ Implements passkey login, workflow transparency, feedback collection
 """
 
 import os
-import sys
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
@@ -14,10 +13,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
-# Add paths for agent imports
-sys.path.append(os.path.join(os.path.dirname(__file__), "../../"))
-
-# Import other agents' components
+# Import other agents' components (absolute imports; no sys.path hacks)
 from core.identity.lambda_id_core import LukhasIdentityService
 from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyEngine
 from lukhas.orchestration.context_bus_enhanced import (
@@ -803,7 +799,9 @@ async def privacy_dashboard():
 if __name__ == "__main__":
     import uvicorn
 
+    host = os.getenv("LUKHAS_BIND_HOST", "127.0.0.1")
+    port = int(os.getenv("LUKHAS_BIND_PORT", "8000"))
     print("🎨 Starting LUKHAS UI Dashboard...")
-    print("📍 Access at: http://localhost:8000")
+    print(f"📍 Access at: http://{host}:{port}")
     print("⚡ Features: Passkey login, Workflow transparency, Feedback collection")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=host, port=port)

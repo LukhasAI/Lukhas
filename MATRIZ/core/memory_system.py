@@ -29,25 +29,11 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-try:
-    from .node_interface import (
-        CognitiveNode,
-        NodeLink,
-        NodeReflection,
-        NodeState,
-        NodeTrigger,
-    )
-except ImportError:
-    # For direct execution
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).parent.parent))
-    from core.node_interface import (
-        CognitiveNode,
-        NodeState,
-        NodeTrigger,
-    )
+from .node_interface import (
+    CognitiveNode,
+    NodeState,
+    NodeTrigger,
+)
 
 
 class MemoryType(Enum):
@@ -302,8 +288,8 @@ class MemorySystem(CognitiveNode):
         try:
             # Check required fields
             required_fields = ["result", "confidence", "matriz_node", "processing_time"]
-            for field in required_fields:
-                if field not in output:
+            for name in required_fields:
+                if name not in output:
                     return False
 
             # Validate types

@@ -12,7 +12,6 @@ This module provides a future-proof import system that handles:
 
 import importlib
 import logging
-from functools import lru_cache
 from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -93,9 +92,9 @@ class ModuleRouter:
 
     def __init__(self):
         self._import_cache = {}
+        self._resolve_cache: dict[str, Optional[str]] = {}
         self._deprecation_warnings = set()
 
-    @lru_cache(maxsize=128)
     def resolve_module_path(self, module_path: str) -> Optional[str]:
         """
         Resolve a module path to its actual location.
@@ -106,6 +105,10 @@ class ModuleRouter:
         Returns:
             The actual module path that exists, or None if not found
         """
+        # Serve from cache when available
+        if module_path in self._resolve_cache:
+            return self._resolve_cache[module_path]
+
         # Check if it's a canonical path
         if module_path in self.MODULE_REGISTRY:
             paths_to_try = [module_path] + self.MODULE_REGISTRY[module_path]
@@ -128,10 +131,12 @@ class ModuleRouter:
                 ):
                     self._deprecation_warnings.add(module_path)
                     logger.info(f"Module '{module_path}' resolved to '{path}'")
+                self._resolve_cache[module_path] = path
                 return path
             except ImportError:
                 continue
 
+        self._resolve_cache[module_path] = None
         return None
 
     def import_module(
@@ -163,18 +168,16 @@ class ModuleRouter:
                 if raise_on_error:
                     raise ImportError(
                         f"Failed to import '{module_path}' (resolved to '{actual_path}'): {e}"
-                    )
-                else:
-                    logger.warning(f"Failed to import '{module_path}': {e}")
-                    return None
-        else:
-            if raise_on_error:
-                raise ImportError(
-                    f"Module '{module_path}' not found in registry or filesystem"
-                )
-            else:
-                logger.warning(f"Module '{module_path}' not found")
+                    ) from e
+                logger.warning(f"Failed to import '{module_path}': {e}")
                 return None
+        elif raise_on_error:
+            raise ImportError(
+                f"Module '{module_path}' not found in registry or filesystem"
+            )
+        else:
+            logger.warning(f"Module '{module_path}' not found")
+            return None
 
     def import_class(
         self, class_name: str, module_hint: Optional[str] = None
@@ -233,7 +236,7 @@ class ModuleRouter:
             self.MODULE_REGISTRY[canonical_path] = alternative_paths
 
         # Clear cache to reflect new mapping
-        self.resolve_module_path.cache_clear()
+        self._resolve_cache.clear()
 
     def add_class_alias(
         self, class_name: str, module_path: str, actual_name: Optional[str] = None

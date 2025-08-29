@@ -9,7 +9,10 @@ import time
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:  # for type hints without import-time dependency
+    from .node_interface import CognitiveNode
 
 
 @dataclass

@@ -79,8 +79,8 @@ class ConfigLoader:
         env_file = self.root_path / ".env"
         if env_file.exists():
             with open(env_file) as f:
-                for line in f:
-                    line = line.strip()
+                for raw_line in f:
+                    line = raw_line.strip()
                     if line and not line.startswith("#") and "=" in line:
                         key, value = line.split("=", 1)
                         os.environ[key.strip()] = value.strip()
@@ -228,7 +228,7 @@ _config_loader: Optional[ConfigLoader] = None
 
 def get_config_loader() -> ConfigLoader:
     """Get global config loader instance"""
-    global _config_loader
+    global _config_loader  # noqa: PLW0603
     if _config_loader is None:
         _config_loader = ConfigLoader()
     return _config_loader

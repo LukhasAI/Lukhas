@@ -1044,12 +1044,12 @@ class ValidatorNode(CognitiveNode):
                         return 0.95
                     else:
                         return 0.2
-                except:
+                except Exception:
                     return 0.5
 
             return 0.7  # Default confidence for mathematical content
 
-        except:
+        except Exception:
             return 0.5
 
     def _verify_known_fact(self, question: str, answer: str) -> float:
@@ -1069,7 +1069,7 @@ class ValidatorNode(CognitiveNode):
 
             return 0.6  # Neutral confidence when fact is unknown
 
-        except:
+        except Exception:
             return 0.5
 
     def _questions_similar(self, q1: str, q2: str) -> bool:

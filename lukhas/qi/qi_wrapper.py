@@ -468,17 +468,11 @@ class QIIntegration:
             # Try to connect to candidate QI module
             if QI_ACTIVE:
                 try:
-                    # Import candidate module components
+                    # Import candidate module components without path hacks
                     import importlib
-                    import sys
 
-                    # Add candidate path if needed
-                    candidate_path = "/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate"
-                    if candidate_path not in sys.path:
-                        sys.path.insert(0, candidate_path)
-
-                    # Try to import key QI components
-                    importlib.import_module("qi")
+                    # Try to import key QI components (as packaged module)
+                    importlib.import_module("candidate.qi")
                     self._candidate_available = True
 
                     emit(

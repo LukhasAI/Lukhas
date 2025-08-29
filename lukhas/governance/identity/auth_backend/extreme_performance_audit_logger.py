@@ -49,8 +49,6 @@ try:
         return orjson.dumps(obj).decode()
 
 except ImportError:
-    import json
-
     def fast_json_dumps(obj):
         return json.dumps(obj, default=str)
 

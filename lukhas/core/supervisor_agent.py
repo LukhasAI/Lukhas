@@ -202,7 +202,7 @@ _supervisor_agent = None
 
 def get_supervisor_agent() -> SupervisorAgent:
     """Get or create the global supervisor agent."""
-    global _supervisor_agent
+    global _supervisor_agent  # noqa: PLW0603
     if _supervisor_agent is None:
         _supervisor_agent = SupervisorAgent()
     return _supervisor_agent

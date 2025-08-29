@@ -22,8 +22,6 @@ try:
     logger = get_logger(__name__, "BRIDGE")
 except ImportError:
     # Fallback to standard logging if lukhas.core.common not available
-    import logging
-
     logger = logging.getLogger(__name__)
 
     def retry(*args, **kwargs):

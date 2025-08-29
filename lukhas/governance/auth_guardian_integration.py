@@ -498,7 +498,7 @@ class AuthenticationGuardian:
                     tier_denials[tier]["denied"] += 1
 
             # Check for unusual denial patterns
-            for tier, stats in tier_denials.items():
+            for _tier, stats in tier_denials.items():
                 if stats["total"] >= 5:  # Sufficient data
                     denial_rate = stats["denied"] / stats["total"]
                     if denial_rate > 0.8:  # High denial rate
@@ -582,10 +582,7 @@ class AuthenticationGuardian:
             return True
 
         # Alert on security anomalies
-        if metrics.metadata.get("security_risk_score", 0) > 0.8:
-            return True
-
-        return False
+        return metrics.metadata.get("security_risk_score", 0) > 0.8
 
     async def _generate_recommendations(self, metrics: AuthDriftMetrics) -> list[str]:
         """Generate recommendations based on monitoring results"""

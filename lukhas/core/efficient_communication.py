@@ -566,7 +566,7 @@ _global_communication_fabric = None
 
 def get_global_communication_fabric() -> EfficientCommunicationFabric:
     """Get or create the global communication fabric instance."""
-    global _global_communication_fabric
+    global _global_communication_fabric  # noqa: PLW0603
     if _global_communication_fabric is None:
         _global_communication_fabric = EfficientCommunicationFabric("global-fabric")
     return _global_communication_fabric

@@ -123,17 +123,16 @@ class GLYPHToken:
         """Validate and normalize token"""
         # Convert string symbols to enum if possible
         if isinstance(self.symbol, str):
-            try:
+            from contextlib import suppress
+            with suppress(ValueError):
                 self.symbol = GLYPHSymbol(self.symbol)
-            except ValueError:
-                # Keep as string if not a standard symbol
-                pass
 
         # Convert string priority to enum
         if isinstance(self.priority, str):
-            try:
+            from contextlib import suppress
+            with suppress(ValueError):
                 self.priority = GLYPHPriority(self.priority)
-            except ValueError:
+            if isinstance(self.priority, str):
                 self.priority = GLYPHPriority.NORMAL
 
     def to_dict(self) -> dict[str, Any]:
@@ -261,7 +260,7 @@ def parse_glyph(data: Union[str, dict[str, Any]]) -> GLYPHToken:
         raise GLYPHError(
             message=f"Failed to parse GLYPH token: {str(e)}",
             details={"data_type": type(data).__name__},
-        )
+        ) from e
 
 
 def validate_glyph(token: GLYPHToken) -> bool:

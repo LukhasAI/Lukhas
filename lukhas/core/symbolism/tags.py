@@ -308,7 +308,7 @@ _tag_manager = None
 
 def get_tag_manager() -> TagManager:
     """Get or create the global tag manager."""
-    global _tag_manager
+    global _tag_manager  # noqa: PLW0603
     if _tag_manager is None:
         _tag_manager = TagManager()
     return _tag_manager

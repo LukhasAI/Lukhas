@@ -104,8 +104,6 @@ def configure_logging(
         log_file: Optional log file path
         json_output: Use JSON formatting
     """
-    global _logging_config
-
     _logging_config["level"] = getattr(logging, level.upper())
     _logging_config["format"] = format_type
     _logging_config["json_output"] = json_output

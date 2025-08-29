@@ -133,9 +133,14 @@ class IdentityConnector:
             # Create access control engine without background tasks
             self.access_control = self._create_sync_access_control()
 
-            # Real Constitutional AI Safety Monitor
-            constitutional_framework = ConstitutionalFramework()
-            self.safety_monitor = SafetyMonitor(constitutional_framework)
+            # Real Constitutional AI Safety Monitor via dynamically loaded components
+            cf_cls = _governance_components.get("ConstitutionalFramework")
+            sm_cls = _governance_components.get("SafetyMonitor")
+            if cf_cls and sm_cls:
+                constitutional_framework = cf_cls()
+                self.safety_monitor = sm_cls(constitutional_framework)
+            else:
+                raise RuntimeError("Required governance components not available")
 
             # Real Audit Logger with sync-compatible initialization
             self.audit_logger = self._create_sync_audit_logger()
@@ -162,10 +167,8 @@ class IdentityConnector:
                     access_control_module = importlib.import_module(
                         "lukhas.governance.security.access_control"
                     )
-                    self.AccessTier = getattr(access_control_module, "AccessTier")
-                    PermissionManager = getattr(
-                        access_control_module, "PermissionManager"
-                    )
+                    self.AccessTier = access_control_module.AccessTier
+                    PermissionManager = access_control_module.PermissionManager
                     self.permission_manager = PermissionManager()
                 except (ImportError, AttributeError):
                     # Fallback if production module not available
@@ -198,7 +201,7 @@ class IdentityConnector:
                     access_control_module = importlib.import_module(
                         "lukhas.governance.security.access_control"
                     )
-                    User = getattr(access_control_module, "User")
+                    User = access_control_module.User
                     AccessTier = self.AccessTier  # Use the one we loaded in __init__
                 except (ImportError, AttributeError):
                     # Fallback if production module not available
@@ -230,7 +233,7 @@ class IdentityConnector:
                     access_control_module = importlib.import_module(
                         "lukhas.governance.security.access_control"
                     )
-                    AccessDecision = getattr(access_control_module, "AccessDecision")
+                    AccessDecision = access_control_module.AccessDecision
                 except (ImportError, AttributeError):
                     # Fallback if production module not available
                     class MockAccessDecision:

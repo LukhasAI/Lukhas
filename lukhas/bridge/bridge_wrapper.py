@@ -428,7 +428,7 @@ _bridge_wrapper = None
 
 def get_bridge_wrapper() -> BridgeWrapper:
     """Get the global bridge wrapper instance"""
-    global _bridge_wrapper
+    global _bridge_wrapper  # noqa: PLW0603
     if _bridge_wrapper is None:
         _bridge_wrapper = BridgeWrapper()
     return _bridge_wrapper

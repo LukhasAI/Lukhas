@@ -20,14 +20,8 @@ Usage:
         client.log_activity("memory_access", user_id, {"operation": "read"})
 """
 
-import os
-import sys
 from datetime import datetime
 from typing import Any
-
-# Add lukhas-id to path for imports
-lukhas_id_path = os.path.join(os.path.dirname(__file__), "lukhas-id")
-sys.path.insert(0, lukhas_id_path)
 
 try:
     from governance.identity.core.id_service.lambd_id_validator import (

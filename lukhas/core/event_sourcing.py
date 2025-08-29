@@ -499,7 +499,7 @@ _global_event_store = None
 
 def get_global_event_store() -> EventStore:
     """Get the global event store instance"""
-    global _global_event_store
+    global _global_event_store  # noqa: PLW0603
     if _global_event_store is None:
         _global_event_store = EventStore()
     return _global_event_store

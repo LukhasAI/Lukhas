@@ -45,9 +45,6 @@ try:
     GUARDIAN_AVAILABLE = True
 except ImportError:
     # Fallback classes for development
-    from dataclasses import dataclass
-    from enum import Enum
-
     class EthicalSeverity(Enum):
         LOW = "low"
         MEDIUM = "medium"

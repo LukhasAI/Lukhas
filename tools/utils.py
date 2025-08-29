@@ -9,6 +9,7 @@ import json
 import logging
 import subprocess
 import sys
+import platform
 from functools import wraps
 from pathlib import Path
 from typing import Any, Optional, Union
@@ -263,8 +264,6 @@ def check_dependency(package_name: str) -> bool:
 
 def get_system_info() -> dict[str, Any]:
     """Get basic system information for debugging"""
-    import platform
-
     return {
         "python_version": sys.version,
         "platform": platform.platform(),

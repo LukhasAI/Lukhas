@@ -4,18 +4,7 @@ Production integration for WALLET identity management components
 """
 
 import logging
-import sys
-from pathlib import Path
 from typing import Any
-
-# Import WALLET components
-WALLET_PATH = (
-    Path(__file__).parent.parent.parent
-    / "lambda_products_pack"
-    / "lambda_core"
-    / "WALLET"
-)
-sys.path.insert(0, str(WALLET_PATH))
 
 
 class WalletAuthBridge:

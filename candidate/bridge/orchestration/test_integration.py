@@ -6,6 +6,7 @@ Basic validation script to ensure the orchestration components work together.
 """
 
 import asyncio
+import sys
 import time
 
 
@@ -28,6 +29,8 @@ def test_orchestration_components():
             TaskType,
         )
         from .performance_monitor import PerformanceMonitor
+        # Ensure imported names are referenced to satisfy linters
+        _ = (AIProvider, OrchestrationRequest, TaskType)
 
         print("✅ All orchestration components imported successfully")
 
@@ -290,4 +293,4 @@ def main():
 
 if __name__ == "__main__":
     success = main()
-    exit(0 if success else 1)
+    sys.exit(0 if success else 1)

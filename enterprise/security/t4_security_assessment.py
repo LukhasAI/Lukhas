@@ -19,33 +19,17 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
+import importlib.util
 
-# Security scanning imports
-try:
-    import bandit
-    BANDIT_AVAILABLE = True
-except ImportError:
-    BANDIT_AVAILABLE = False
+# Security scanning availability (avoid unused imports)
+BANDIT_AVAILABLE = importlib.util.find_spec("bandit") is not None
+SAFETY_AVAILABLE = importlib.util.find_spec("safety") is not None
 
-try:
-    import safety
-    SAFETY_AVAILABLE = True
-except ImportError:
-    SAFETY_AVAILABLE = False
-
-# LUKHAS security integrations
-try:
-    from lukhas.governance.constitutional_ai import ConstitutionalAI
-    from lukhas.governance.drift_detector import DriftDetector
-    from lukhas.governance.guardian_system import GuardianSystem
-    LUKHAS_SECURITY_AVAILABLE = True
-except ImportError:
-    try:
-        from candidate.governance.guardian.drift_detector import DriftDetector
-        from candidate.governance.healthcare.case_manager import GuardianSystem
-        LUKHAS_SECURITY_AVAILABLE = True
-    except ImportError:
-        LUKHAS_SECURITY_AVAILABLE = False
+# LUKHAS security integration availability (avoid unused imports)
+LUKHAS_SECURITY_AVAILABLE = (
+    importlib.util.find_spec("lukhas.governance.drift_detector") is not None
+    or importlib.util.find_spec("candidate.governance.guardian.drift_detector") is not None
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

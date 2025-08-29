@@ -11,15 +11,7 @@ import re
 import time
 from typing import Any
 
-try:
-    from .node_interface import CognitiveNode, NodeReflection, NodeState
-except ImportError:
-    # For direct execution
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-    from matriz.core.node_interface import CognitiveNode, NodeState
+from .node_interface import CognitiveNode, NodeState
 
 
 class MathReasoningNode(CognitiveNode):

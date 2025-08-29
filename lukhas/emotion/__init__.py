@@ -400,7 +400,7 @@ _emotion_wrapper = None
 
 def get_emotion_wrapper() -> EmotionWrapper:
     """Get the global emotion wrapper instance"""
-    global _emotion_wrapper
+    global _emotion_wrapper  # noqa: PLW0603
     if _emotion_wrapper is None:
         _emotion_wrapper = EmotionWrapper()
     return _emotion_wrapper

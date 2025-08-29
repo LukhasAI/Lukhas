@@ -14,15 +14,20 @@ import yaml
 
 BLOCK_CTX_FLAG = "context: academic"
 
+
 def load_blocklist(path=Path("tone/tools/author_blocklist.yaml")):
     with path.open(encoding="utf-8") as f:
         return yaml.safe_load(f)
 
+
 def is_academic(text: str, file_path: str, cfg) -> bool:
     if BLOCK_CTX_FLAG in text:
         return True
-    return any(str(file_path).replace("\\", "/").startswith(prefix.strip("/"))
-               for prefix in cfg["exceptions"]["paths"])
+    return any(
+        str(file_path).replace("\\", "/").startswith(prefix.strip("/"))
+        for prefix in cfg["exceptions"]["paths"]
+    )
+
 
 def scan_text(text: str, blocked: list[str]) -> list[str]:
     hits = []
@@ -32,6 +37,7 @@ def scan_text(text: str, blocked: list[str]) -> list[str]:
             hits.append(term)
     return sorted(set(hits))
 
+
 def validate_file(fp: Path, cfg) -> list[str]:
     try:
         text = fp.read_text(encoding="utf-8", errors="ignore")
@@ -39,8 +45,11 @@ def validate_file(fp: Path, cfg) -> list[str]:
         return []
 
     # Gate by extension and academic context
-    if (fp.suffix.lower() not in {".md", ".mdx", ".txt", ".py", ".tsx", ".ts", ".js"} or
-        is_academic(text, str(fp), cfg)):
+    if (
+        fp.suffix.lower()
+        not in {".md", ".mdx", ".txt", ".py", ".tsx", ".ts", ".js"}
+        or is_academic(text, str(fp), cfg)
+    ):
         return []
 
     # Process blocked terms, neutralizing allowed stance terms first
@@ -51,6 +60,7 @@ def validate_file(fp: Path, cfg) -> list[str]:
 
     hits = scan_text(processed_text, blocked)
     return [f"{fp}: blocked reference -> {h}" for h in hits]
+
 
 def validate_paths(paths):
     cfg = load_blocklist()
@@ -67,8 +77,8 @@ def validate_paths(paths):
                     violations.extend(validate_file(p, cfg))
     return violations
 
+
 if __name__ == "__main__":
-    import sys
     roots = sys.argv[1:] or ["branding", "tone", "vocabularies", "content"]
     v = validate_paths(roots)
     if v:

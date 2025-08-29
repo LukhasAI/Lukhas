@@ -427,7 +427,7 @@ _advanced_emotion_wrapper = None
 
 def get_advanced_emotion_wrapper() -> AdvancedEmotionWrapper:
     """Get the global advanced emotion wrapper instance"""
-    global _advanced_emotion_wrapper
+    global _advanced_emotion_wrapper  # noqa: PLW0603
     if _advanced_emotion_wrapper is None:
         _advanced_emotion_wrapper = AdvancedEmotionWrapper()
     return _advanced_emotion_wrapper

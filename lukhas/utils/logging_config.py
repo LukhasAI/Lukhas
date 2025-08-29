@@ -14,7 +14,6 @@ Author: LUKHAS AI T4 Team
 Version: 1.0.0
 """
 
-import json
 import logging
 import logging.config
 import os
@@ -22,7 +21,7 @@ import sys
 import traceback
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
 
 import structlog
 from pythonjsonlogger import jsonlogger

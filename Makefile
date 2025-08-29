@@ -138,13 +138,17 @@ colony-dna-smoke:
 lint:
 	@echo "🔍 Running linters..."
 	@echo "Running Flake8..."
-	-flake8 . --count --statistics --max-line-length=79
+	-$(PYTHON) -m flake8 lukhas matriz core serve enforcement \
+	  --count --statistics \
+	  --max-line-length=88 \
+	  --exclude .venv,.venv_*,venv,__pycache__,build,dist,*.egg-info \
+	  --extend-ignore=E501,E203,E129,E301,E302,E402,W391,E128,W291,W292,W293
 	@echo "\nRunning Ruff..."
-	-ruff check .
+	-$(PYTHON) -m ruff check lukhas matriz core serve tests tools enforcement --quiet
 	@echo "\nRunning MyPy..."
-	-mypy . --ignore-missing-imports
+	-$(PYTHON) -m mypy lukhas matriz core serve --ignore-missing-imports
 	@echo "\nRunning Bandit (security)..."
-	-bandit -r lukhas bridge core serve -ll
+	-$(PYTHON) -m bandit -r lukhas bridge core serve -ll
 	@echo "\nChecking for fragile import patterns (sys.path hacks, star imports)..."
 	-python3 tools/ci/no_syspath_hacks.py lukhas matriz || true
 

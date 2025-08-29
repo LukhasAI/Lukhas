@@ -95,7 +95,7 @@ class DataSubjectRights(Enum):
 
 
 @dataclass
-class ΛTrace:
+class ΛTrace:  # noqa: PLC2401 - allow non-ASCII class name per spec
     """
     Λ-trace audit record with Trinity Framework integration ⚛️🧠🛡️
 
@@ -968,13 +968,14 @@ class ConsentLedgerV1:
             scopes = json.loads(scopes_json)
 
             # Check expiration
-            if expires_at:
-                if datetime.fromisoformat(expires_at) < datetime.now(timezone.utc):
-                    return {
-                        "allowed": False,
-                        "require_step_up": True,
-                        "reason": "consent_expired",
-                    }
+            if expires_at and datetime.fromisoformat(expires_at) < datetime.now(
+                timezone.utc
+            ):
+                return {
+                    "allowed": False,
+                    "require_step_up": True,
+                    "reason": "consent_expired",
+                }
 
             # Check scope
             if action not in scopes:
@@ -1177,10 +1178,7 @@ class PolicyEngine:
 
         # Check for rapid deletion pattern
         recent_deletes = context.get("recent_delete_count", 0)
-        if recent_deletes > 5:  # More than 5 deletes in session
-            return True
-
-        return False
+        return recent_deletes > 5  # More than 5 deletes in session
 
     def _detect_jailbreak(self, input_text: str) -> bool:
         """Detect jailbreak attempts in user input"""

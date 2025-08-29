@@ -517,7 +517,7 @@ _core_instance = None
 
 def get_core() -> CoreWrapper:
     """Get the global Core wrapper instance"""
-    global _core_instance
+    global _core_instance  # noqa: PLW0603
     if _core_instance is None:
         _core_instance = CoreWrapper()
     return _core_instance

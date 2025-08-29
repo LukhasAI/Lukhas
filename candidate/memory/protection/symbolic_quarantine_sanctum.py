@@ -1,5 +1,3 @@
-import logging
-
 #!/usr/bin/env python3
 """
 ══════════════════════════════════════════════════════════════════════════════════
@@ -44,10 +42,10 @@ import logging
 ║ ΛTAG: ΛLUKHAS, ΛMEMORY, ΛADVANCED, ΛPYTHON
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-
 import argparse
 import asyncio
 import json
+import logging
 import time
 import uuid
 from collections import defaultdict

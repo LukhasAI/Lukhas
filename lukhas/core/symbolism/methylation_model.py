@@ -281,7 +281,7 @@ _methylation_model = None
 
 def get_methylation_model() -> MethylationModel:
     """Get or create the global methylation model."""
-    global _methylation_model
+    global _methylation_model  # noqa: PLW0603
     if _methylation_model is None:
         _methylation_model = MethylationModel()
     return _methylation_model

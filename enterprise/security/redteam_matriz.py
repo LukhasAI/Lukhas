@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Red-team harness skeleton for MATRIZ graphs.
 
 Provides adversarial trigger payloads and topology perturbations for testing
 constitutional compliance and graceful degradation.
 """
+
+from __future__ import annotations
 
 import copy
 from collections.abc import Mapping
@@ -37,4 +37,3 @@ def fuzz_topology(author_graph: Mapping[str, object], max_mutations: int = 2) ->
         e0["from"], e0["to"] = e0.get("to"), e0.get("from")
         graphs.append(g2)
     return graphs[:max_mutations]
-

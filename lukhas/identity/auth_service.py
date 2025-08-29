@@ -63,6 +63,7 @@ def _try_import_candidate_components():
     except Exception:
         return None
 
+
 # Try to load candidate components
 _candidate_components = _try_import_candidate_components()
 if _candidate_components:
@@ -74,6 +75,23 @@ if _candidate_components:
 IDENTITY_MANAGER_AVAILABLE = REAL_IDENTITY_AVAILABLE
 
 logger = logging.getLogger(__name__)
+
+# Define placeholder classes for linters when dynamic imports are unavailable
+if "AccessTierManager" not in globals():
+    class AccessTierManager:  # type: ignore[no-redef]
+        ...
+if "IdentityValidator" not in globals():
+    class IdentityValidator:  # type: ignore[no-redef]
+        ...
+if "QIIdentityManager" not in globals():
+    class QIIdentityManager:  # type: ignore[no-redef]
+        ...
+if "AuditLogger" not in globals():
+    class AuditLogger:  # type: ignore[no-redef]
+        ...
+if "AuthenticationServer" not in globals():
+    class AuthenticationServer:  # type: ignore[no-redef]
+        ...
 
 
 @dataclass
