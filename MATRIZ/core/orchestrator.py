@@ -1,18 +1,24 @@
 #!/usr/bin/env python3
 """
 MATRIZ Cognitive Orchestrator
-Routes queries through MATRIZ nodes with full traceability
-Implements the vision from March 24, 2025
+Routes queries through MATRIZ nodes with full traceability.
+
+Refactored to emit fully schema-compliant MATRIZ nodes using the
+standard node interface helpers (links, triggers, reflections, provenance).
 """
 
 import time
 import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Any, TYPE_CHECKING
+from typing import Any, TYPE_CHECKING, Optional
 
-if TYPE_CHECKING:  # for type hints without import-time dependency
-    from .node_interface import CognitiveNode
+from .node_interface import (
+    CognitiveNode,
+    NodeState,
+    NodeTrigger,
+    NodeReflection,
+)
 
 
 @dataclass
@@ -110,29 +116,40 @@ class CognitiveOrchestrator:
         }
 
     def _analyze_intent(self, user_input: str) -> dict:
-        """Create INTENT MATRIZ node from user input"""
-        intent_node = {
-            "id": str(uuid.uuid4()),
-            "type": "INTENT",
-            "state": {"confidence": 0.9, "salience": 1.0, "input_text": user_input},
-            "timestamp": datetime.now().isoformat(),
-            "links": [],
-            "evolves_to": [],
-            "triggers": [],
-            "reflections": [],
-        }
-
+        """Create INTENT MATRIZ node from user input (schema-compliant)."""
         # Simple intent detection
         if any(op in user_input for op in ["+", "-", "*", "/", "="]):
-            intent_node["state"]["intent"] = "mathematical"
+            detected_intent = "mathematical"
         elif "?" in user_input.lower():
-            intent_node["state"]["intent"] = "question"
+            detected_intent = "question"
         elif "dog" in user_input.lower() or "see" in user_input.lower():
-            intent_node["state"]["intent"] = "perception"
+            detected_intent = "perception"
         else:
-            intent_node["state"]["intent"] = "general"
+            detected_intent = "general"
 
-        return intent_node
+        state = NodeState(confidence=0.9, salience=1.0)
+        # Create a temporary lightweight node producer to leverage helper
+        class _IntentEmitter(CognitiveNode):  # type: ignore
+            def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+                raise NotImplementedError
+
+            def validate_output(self, output: dict[str, Any]) -> bool:
+                return True
+
+        emitter = _IntentEmitter(
+            node_name="matriz_orchestrator_intent",
+            capabilities=["intent_analysis"],
+        )
+
+        node = emitter.create_matriz_node(
+            node_type="INTENT",
+            state=state,
+            additional_data={
+                "input_text": user_input,
+                "intent": detected_intent,
+            },
+        )
+        return node
 
     def _select_node(self, intent_node: dict) -> str:
         """Select appropriate node based on intent"""
@@ -148,44 +165,79 @@ class CognitiveOrchestrator:
             return "facts"  # Default
 
     def _create_decision_node(self, decision: str, trigger_id: str) -> dict:
-        """Create DECISION MATRIZ node"""
-        return {
-            "id": str(uuid.uuid4()),
-            "type": "DECISION",
-            "state": {"confidence": 0.85, "salience": 0.9, "decision": decision},
-            "timestamp": datetime.now().isoformat(),
-            "links": [{"target": trigger_id, "type": "causal", "weight": 1.0}],
-            "evolves_to": [],
-            "triggers": [trigger_id],
-            "reflections": [],
-        }
+        """Create DECISION MATRIZ node (schema-compliant)."""
+        class _DecisionEmitter(CognitiveNode):  # type: ignore
+            def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+                raise NotImplementedError
+
+            def validate_output(self, output: dict[str, Any]) -> bool:
+                return True
+
+        emitter = _DecisionEmitter(
+            node_name="matriz_orchestrator_decision",
+            capabilities=["node_selection"],
+        )
+
+        trigger = NodeTrigger(
+            event_type="node_selection",
+            timestamp=int(time.time() * 1000),
+            trigger_node_id=trigger_id,
+            effect="selected_processing_node",
+        )
+
+        node = emitter.create_matriz_node(
+            node_type="DECISION",
+            state=NodeState(confidence=0.85, salience=0.9),
+            triggers=[trigger],
+            additional_data={"decision": decision},
+        )
+        return node
 
     def _create_reflection_node(self, result_node: dict, validation: bool) -> dict:
-        """Create REFLECTION MATRIZ node"""
+        """Create REFLECTION MATRIZ node (schema-compliant)."""
         reflection_type = "affirmation" if validation else "regret"
-        return {
-            "id": str(uuid.uuid4()),
-            "type": "REFLECTION",
-            "state": {
-                "confidence": 1.0 if validation else 0.3,
-                "valence": 0.8 if validation else -0.5,
+
+        class _ReflectionEmitter(CognitiveNode):  # type: ignore
+            def process(self, input_data: dict[str, Any]) -> dict[str, Any]:
+                raise NotImplementedError
+
+            def validate_output(self, output: dict[str, Any]) -> bool:
+                return True
+
+        emitter = _ReflectionEmitter(
+            node_name="matriz_orchestrator_reflection",
+            capabilities=["validation_reflection"],
+        )
+
+        reflection = NodeReflection(
+            reflection_type=reflection_type,
+            timestamp=int(time.time() * 1000),
+            cause="validation_check",
+        )
+
+        trigger = NodeTrigger(
+            event_type="validation_completed",
+            timestamp=int(time.time() * 1000),
+            trigger_node_id=result_node.get("id"),
+            effect="validation_reflection",
+        )
+
+        node = emitter.create_matriz_node(
+            node_type="REFLECTION",
+            state=NodeState(
+                confidence=1.0 if validation else 0.3,
+                salience=0.6 if validation else 0.4,
+                valence=0.8 if validation else -0.5,
+            ),
+            triggers=[trigger],
+            reflections=[reflection],
+            additional_data={
                 "reflection_type": reflection_type,
                 "validation_result": validation,
+                "reflected_node_id": result_node.get("id"),
             },
-            "timestamp": datetime.now().isoformat(),
-            "links": [
-                {"target": result_node["id"], "type": "reflection", "weight": 1.0}
-            ],
-            "evolves_to": [],
-            "triggers": [result_node["id"]],
-            "reflections": [
-                {
-                    "type": reflection_type,
-                    "cause": "validation_check",
-                    "timestamp": datetime.now().isoformat(),
-                }
-            ],
-        }
+        )
+        return node
 
     def _build_reasoning_chain(self) -> list[str]:
         """Build human-readable reasoning chain from MATRIZ nodes"""
@@ -221,9 +273,10 @@ class CognitiveOrchestrator:
             node = self.matriz_graph.get(current_id)
             if node:
                 chain.append(node)
-                # Follow triggers backward
-                for trigger_id in node.get("triggers", []):
-                    if trigger_id not in visited:
+                # Follow triggers backward (schema-compliant triggers list)
+                for trig in node.get("triggers", []) or []:
+                    trigger_id = trig.get("trigger_node_id") if isinstance(trig, dict) else None
+                    if trigger_id and trigger_id not in visited:
                         to_visit.append(trigger_id)
 
         return chain

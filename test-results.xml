@@ -1,1 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="2.850" timestamp="2025-08-29T13:18:08.199992+01:00" hostname="g.local"><testcase classname="" name="tests.candidate.tools.test_tool_executor" time="0.000"><error message="collection failure">E   urllib3.exceptions.NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020</error></testcase></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.040" timestamp="2025-08-29T17:56:38.292354+01:00" hostname="g.local"><testcase classname="" name="tests.matriz.test_orchestrator_schema" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/matriz/test_orchestrator_schema.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/matriz/test_orchestrator_schema.py:8: in &lt;module&gt;
+    from matriz.core.orchestrator import CognitiveOrchestrator
+E   ModuleNotFoundError: No module named 'matriz.core'</error></testcase></testsuite></testsuites>

@@ -19,7 +19,8 @@
       "enum": [
         "SENSORY_IMG", "SENSORY_AUD", "SENSORY_VID", "SENSORY_TOUCH",
         "EMOTION", "INTENT", "DECISION", "CONTEXT", "MEMORY", "REFLECTION",
-        "CAUSAL", "TEMPORAL", "AWARENESS", "HYPOTHESIS", "REPLAY", "DRM"
+        "CAUSAL", "TEMPORAL", "AWARENESS", "HYPOTHESIS", "REPLAY", "DRM",
+        "COMPUTATION", "VALIDATION"
       ]
     },
     "labels": {
