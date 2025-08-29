@@ -646,7 +646,7 @@ _extreme_audit_logger: Optional[ExtremePerformanceAuditLogger] = None
 
 async def get_extreme_audit_logger() -> ExtremePerformanceAuditLogger:
     """Get global extreme performance audit logger"""
-    global _extreme_audit_logger
+    global _extreme_audit_logger  # noqa: PLW0603
     if _extreme_audit_logger is None:
         _extreme_audit_logger = ExtremePerformanceAuditLogger()
         await _extreme_audit_logger.initialize()

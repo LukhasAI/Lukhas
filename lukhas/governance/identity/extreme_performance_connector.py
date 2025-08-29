@@ -587,7 +587,7 @@ _extreme_connector: Optional[ExtremePerformanceIdentityConnector] = None
 
 async def get_extreme_identity_connector() -> ExtremePerformanceIdentityConnector:
     """Get global extreme performance identity connector"""
-    global _extreme_connector
+    global _extreme_connector  # noqa: PLW0603
     if _extreme_connector is None:
         _extreme_connector = ExtremePerformanceIdentityConnector()
         await _extreme_connector.initialize()

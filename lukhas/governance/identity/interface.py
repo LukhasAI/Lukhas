@@ -279,7 +279,7 @@ _default_client = None
 
 def get_identity_client() -> IdentityClient:
     """Get the default identity client instance."""
-    global _default_client
+    global _default_client  # noqa: PLW0603
     if _default_client is None:
         _default_client = IdentityClient()
     return _default_client
